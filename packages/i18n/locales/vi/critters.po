@@ -51,6 +51,14 @@ msgstr "{name} có {count}"
 msgid "critters.hatch.hatched"
 msgstr "{name} đã nở"
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.skinSet"
+msgstr "{name} giờ là diện mạo hướng dẫn viên của bạn"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.shareAlt"
+msgstr "{name}, gặp ở {city}"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryTitle"
 msgstr "{placeLine}, {span}"
@@ -82,6 +90,14 @@ msgstr "Một lời nhắc huyền thoại"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterAll"
 msgstr "Tất cả"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.alsoHas"
+msgstr "Cũng có"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.classicLook"
+msgstr "Về lại diện mạo cũ"
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.remindOff"
@@ -115,9 +131,25 @@ msgstr "Khám phá ở quê nhà: tắt"
 msgid "critters.queued.homeOn"
 msgstr "Khám phá ở quê nhà: bật"
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.forms"
+msgstr "Các dạng · {found} trên {total}"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.found"
+msgstr "Gặp lúc"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterFound"
 msgstr "Đã gặp"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.guideNotes"
+msgstr "Trích sổ tay thực địa của {guideName}"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.fieldNotes"
+msgstr "Trích sổ tay thực địa"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.hatchIt"
@@ -142,6 +174,10 @@ msgstr "Trứng sẽ nở khi bạn hạ cánh ở {place}."
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryOnDates"
 msgstr "Huyền thoại trong ngày đi của bạn"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.makeGuide"
+msgstr "Chọn làm hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.meet"
@@ -191,6 +227,10 @@ msgstr "Tìm một nơi"
 msgid "critters.dex.emptySearchBody"
 msgstr "Tìm theo quốc gia hoặc thành phố, như Việt Nam hay Hội An."
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.share"
+msgstr "Chia sẻ"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.later"
 msgstr "Để sau dẫn tôi đi dạo"
@@ -199,6 +239,10 @@ msgstr "Để sau dẫn tôi đi dạo"
 msgid "critters.egg.unseenBody"
 msgstr "Có một bạn mới đang chờ chào bạn."
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.undo"
+msgstr "Hoàn tác"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.locked"
 msgstr "Một bạn nhỏ chưa biết ở {city}"
@@ -206,6 +250,10 @@ msgstr "Một bạn nhỏ chưa biết ở {city}"
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.welcome"
 msgstr "Chào mừng đến {place}"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.where"
+msgstr "Ở đâu"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.youMadeIt"
@@ -242,6 +290,10 @@ msgstr "Trứng đang lắc lư"
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.firstBody"
 msgstr "Bạn nhỏ đầu tiên của bạn ở {place}."
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.skinReverted"
+msgstr "Hướng dẫn viên đã về lại diện mạo cũ"
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.skin"

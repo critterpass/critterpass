@@ -52,6 +52,8 @@ export interface CritterSeedOptions {
   readonly mayaHidden?: boolean;
   /** No finds at all (a fresh account). */
   readonly fresh?: boolean;
+  /** Tokek's common and rare forms verified (instead of the pending rare). */
+  readonly tokekFound?: boolean;
 }
 
 export async function seedCritters(
@@ -71,8 +73,9 @@ export async function seedCritters(
   ]);
   await x("INSERT INTO crews (id, name) VALUES (?, 'The Bali Six')", [CREW]);
   await x(
-    `INSERT INTO critter_sets (id, code, name, country, rank, hero_critter_key)
-     VALUES (?, 'vn', 'Vietnam', 'VN', 12, 'cp-091'), (?, 'id', 'Indonesia', 'ID', 1, 'cp-112')`,
+    `INSERT INTO critter_sets (id, code, name, country, rank, hero_critter_key, guide_slug)
+     VALUES (?, 'vn', 'Vietnam', 'VN', 12, 'cp-091', NULL),
+            (?, 'id', 'Indonesia', 'ID', 1, 'cp-112', 'tokek')`,
     [SET_VN, SET_ID],
   );
   await x(
@@ -127,6 +130,17 @@ export async function seedCritters(
        VALUES ('ce-chep', ?, ?, ?, 'verified', 'Chép', 'Chép', '2026-09-20T03:42:00Z', 'encounter'),
               ('ce-tokek', ?, ?, ?, 'pending', NULL, NULL, '2026-09-30T03:42:00Z', 'encounter')`,
       [me, CHEP_COMMON, CHEP, me, TOKEK_RARE, TOKEK],
+    );
+  }
+  if (options.tokekFound === true) {
+    await x(
+      "UPDATE collection_entries SET verification = 'verified', critter_name = 'Tokek', form_name = 'Temple Tokek' WHERE id = 'ce-tokek'",
+    );
+    await x(
+      `INSERT INTO collection_entries (id, user_id, form_id, critter_id, verification, critter_name,
+         form_name, found_at, source)
+       VALUES ('ce-tokek-c', ?, ?, ?, 'verified', 'Tokek', 'Tokek', '2026-09-29T03:42:00Z', 'hatch')`,
+      [me, TOKEK_COMMON, TOKEK],
     );
   }
   if (options.mayaHidden !== true) {

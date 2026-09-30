@@ -51,6 +51,14 @@ msgstr ""
 msgid "critters.hatch.hatched"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.skinSet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.shareAlt"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryTitle"
 msgstr ""
@@ -81,6 +89,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.alsoHas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.classicLook"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
@@ -115,8 +131,24 @@ msgstr ""
 msgid "critters.queued.homeOn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.forms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.found"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterFound"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.guideNotes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.fieldNotes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
@@ -141,6 +173,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryOnDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.makeGuide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
@@ -191,6 +227,10 @@ msgstr ""
 msgid "critters.dex.emptySearchBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.share"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.later"
 msgstr ""
@@ -199,12 +239,20 @@ msgstr ""
 msgid "critters.egg.unseenBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.undo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.locked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.welcome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.where"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
@@ -241,6 +289,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.firstBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.skinReverted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts

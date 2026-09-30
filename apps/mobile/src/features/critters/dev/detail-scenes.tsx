@@ -1,0 +1,96 @@
+/**
+ * Lab scenes for critter detail (3l-3): Tokek with its common and rare forms found (the guide's
+ * own critter, so MAKE IT MY GUIDE shows), the same wearing its rare look, all four forms found,
+ * and a local (Chép) with no guide button. Handlers are no-ops except the form picker.
+ */
+/* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { useState, type ReactNode } from 'react';
+
+import type { EntryRow } from '../data/queries';
+import { buildDetail, type CritterDetailRow, type DetailFormRow } from '../detail/detail-model';
+import { DetailView } from '../detail/detail-view';
+import { LAB_ENTRIES, LAB_FORMS } from './dex-fixtures';
+
+const noop = () => undefined;
+
+const TOKEK: CritterDetailRow = {
+  id: 'cp-112',
+  key: 'cp-112',
+  no: 112,
+  city: 'Bali',
+  canonical_seed: 7,
+  note: "Lives in the spring pools at Tirta Empul. Only comes out when it's quiet.",
+  set_name: 'Indonesia',
+  hero_critter_key: 'cp-112',
+  guide_slug: 'tokek',
+  guide_id: 'guide-tokek',
+  guide_name: 'Tokek',
+};
+
+const CHEP: CritterDetailRow = {
+  ...TOKEK,
+  id: 'cp-005',
+  key: 'cp-005',
+  no: 5,
+  city: 'Hội An',
+  canonical_seed: 5,
+  note: 'Swims under the lanterns on the Thu Bồn after dark.',
+  set_name: 'Vietnam',
+  hero_critter_key: 'cp-001',
+  guide_slug: null,
+  guide_id: null,
+  guide_name: null,
+};
+
+const HABITAT: Readonly<Record<string, string>> = { rare: 'Water temples', epic: 'Batur' };
+
+function forms(critterId: string): DetailFormRow[] {
+  return LAB_FORMS.filter((f) => f.critter_id === critterId).map((f) => ({
+    ...f,
+    note: HABITAT[f.rarity] ?? null,
+  }));
+}
+
+function entries(critterId: string, all = false): EntryRow[] {
+  const mine = LAB_ENTRIES.filter((e) => e.critter_id === critterId).map((e) =>
+    e.form_id.endsWith('-rare') ? { ...e, form_name: 'Temple Tokek' } : e,
+  );
+  if (!all) return mine;
+  return forms(critterId).map((f) => ({
+    ...(mine[0] as EntryRow),
+    id: `entry-${f.id}`,
+    form_id: f.id,
+    form_name: f.rarity === 'common' ? 'Tokek' : `${HABITAT[f.rarity] ?? 'Golden'} Tokek`,
+  }));
+}
+
+function Detail({
+  critter = TOKEK,
+  all = false,
+  skin = null,
+}: {
+  readonly critter?: CritterDetailRow;
+  readonly all?: boolean;
+  readonly skin?: string | null;
+}) {
+  const [skinFormId, setSkin] = useState<string | null>(skin);
+  const model = buildDetail(critter, forms(critter.id), entries(critter.id, all));
+  return (
+    <DetailView
+      model={model}
+      me="Winston"
+      crew={critter.id === 'cp-112' ? ['Maya'] : []}
+      guideName={critter.guide_name ?? 'Tokek'}
+      skinFormId={skinFormId}
+      onSkin={setSkin}
+      onShare={noop}
+    />
+  );
+}
+
+export const DETAIL_SCENES: Readonly<Record<string, () => ReactNode>> = {
+  '3l-3-detail': () => <Detail />,
+  '3l-3-guide-look': () => <Detail skin="cp-112-rare" />,
+  '3l-3-all-forms': () => <Detail all />,
+  '3l-3-local': () => <Detail critter={CHEP} />,
+};

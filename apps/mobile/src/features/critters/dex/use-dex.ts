@@ -16,6 +16,7 @@ import { getLocationEngine } from '@/lib/location';
 import { toast } from '@/motion';
 
 import { crewFindToast } from '../critters-copy';
+import { recordSighting } from '../data/crew-sightings';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import {
   CREW_COUNTS_SQL,
@@ -100,6 +101,7 @@ export function useDexRows(): DexData {
       if (!hint.success || hint.data.user_id === uid) return;
       const first = envelope.type === CRITTERS_RT.firstSpotter;
       if (!first && envelope.type !== CRITTERS_RT.befriended) return;
+      recordSighting(hint.data.critter_id, names.get(hint.data.user_id) ?? '');
       toast.show({
         // eslint-disable-next-line lingui/no-unlocalized-strings -- a toast de-dupe key, never copy.
         id: `crew-find-${hint.data.entry_id}`,

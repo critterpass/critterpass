@@ -51,6 +51,14 @@ msgstr "{name} has {count}"
 msgid "critters.hatch.hatched"
 msgstr "{name} hatched"
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.skinSet"
+msgstr "{name} is your guide's look now"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.shareAlt"
+msgstr "{name}, found in {city}"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryTitle"
 msgstr "{placeLine}, {span}"
@@ -82,6 +90,14 @@ msgstr "A legendary reminder"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterAll"
 msgstr "All"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.alsoHas"
+msgstr "Also has it"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.classicLook"
+msgstr "Back to the classic look"
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.remindOff"
@@ -115,9 +131,25 @@ msgstr "Explore at home: off"
 msgid "critters.queued.homeOn"
 msgstr "Explore at home: on"
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.forms"
+msgstr "Forms · {found} of {total}"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.found"
+msgstr "Found"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterFound"
 msgstr "Found"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.guideNotes"
+msgstr "From {guideName}'s field notes"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.fieldNotes"
+msgstr "From the field notes"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.hatchIt"
@@ -142,6 +174,10 @@ msgstr "It hatches when you land in {place}."
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.legendaryOnDates"
 msgstr "Legendary on your dates"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.makeGuide"
+msgstr "Make it my guide"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.meet"
@@ -191,6 +227,10 @@ msgstr "Search a place"
 msgid "critters.dex.emptySearchBody"
 msgstr "Search by country or city, like Vietnam or Hội An."
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.share"
+msgstr "Share"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.later"
 msgstr "Show me around later"
@@ -199,6 +239,10 @@ msgstr "Show me around later"
 msgid "critters.egg.unseenBody"
 msgstr "Someone new is waiting to say hi."
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.undo"
+msgstr "Undo"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.locked"
 msgstr "Unknown local at {city}"
@@ -206,6 +250,10 @@ msgstr "Unknown local at {city}"
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.welcome"
 msgstr "Welcome to {place}"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.where"
+msgstr "Where"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.youMadeIt"
@@ -242,6 +290,10 @@ msgstr "Your egg is wobbling"
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.firstBody"
 msgstr "Your first critter in {place}."
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.skinReverted"
+msgstr "Your guide is back to the classic look"
 
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.skin"

@@ -7,7 +7,7 @@ import type { FormSpec } from '@cp/critter-art';
 import { upper } from '@cp/i18n';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
-import Animated, { FadeIn } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { deviceTier, impact, patterns } from '@/motion';
@@ -74,6 +74,11 @@ export function HatchView(props: HatchViewProps) {
   const { width, height } = useWindowDimensions();
   const [egg, setEgg] = useState<EggState>(reduced ? 'hatched' : 'wobbling');
   const [revealed, setRevealed] = useState(reduced);
+  const shown = useSharedValue(reduced ? 1 : 0);
+  useEffect(() => {
+    if (revealed) shown.value = withTiming(1, { duration: theme.motion.duration.fast });
+  }, [revealed, shown, theme.motion.duration.fast]);
+  const reveal = useAnimatedStyle(() => ({ opacity: shown.value }));
   const onRevealed = useRef(props.onRevealed);
   useLayoutEffect(() => {
     onRevealed.current = props.onRevealed;
@@ -139,7 +144,7 @@ export function HatchView(props: HatchViewProps) {
         </View>
         <View style={styles.footer}>
           {revealed ? (
-            <Animated.View entering={FadeIn.duration(theme.motion.duration.fast)}>
+            <Animated.View style={reveal}>
               <Stack gap="8" align="center">
                 <Text variant="h2" color={theme.semantic.action.primary} testID="critters-hatched">
                   {upper(hatchedTitle(props.name), locale)}
