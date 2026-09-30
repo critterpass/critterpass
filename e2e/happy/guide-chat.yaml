@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# Happy path: ask the guide a question on staging and get a streamed answer. The guide button
+# opens the sheet (3j-1) over Home, the question goes to the turn route, and the answer types in.
+#
+# Data: a fresh account onboards, then the staging demo seed gives it a confirmed Bali trip with
+# Tokek as its guide. Needs the staging api's guide model key (the turn route is not mounted
+# without one) and a free meter with answers left (a fresh account starts at 0 of 30).
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo
+- tapOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-sheet'
+    timeout: 15000
+- tapOn: 'Ask, or hold to talk'
+- inputText: 'What should we pack for rain in Ubud?'
+- tapOn: 'Send'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-live'
+    timeout: 15000
+# The answer streams in (the live answer, or its saved copy once it has synced).
+- extendedWaitUntil:
+    visible:
+      id: 'guide-answer-.*'
+    timeout: 90000
+- assertNotVisible:
+    id: 'guide-error'
+- takeScreenshot: happy-guide-chat
