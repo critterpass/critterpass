@@ -100,7 +100,8 @@ export function AddressPill({
   };
   return (
     <Row gap="8" align="center" style={styles.pill} testID="bookings-address">
-      <Text variant="monoData" style={styles.address} numberOfLines={1} selectable>
+      {/* Two lines: the staging mail domain is long, and the whole address must stay readable. */}
+      <Text variant="monoData" style={styles.address} numberOfLines={2} selectable>
         {address}
       </Text>
       <PillButton

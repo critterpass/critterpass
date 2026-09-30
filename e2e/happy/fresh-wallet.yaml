@@ -177,8 +177,9 @@ appId: app.critterpass.dev
     timeout: 30000
 - assertVisible: '.*@in\.staging\.critterpass\.app'
 - tapOn: 'COPY'
+# The copy confirms with COPIED on the button (2 s) and a toast.
 - extendedWaitUntil:
-    visible: '(?i)copied'
+    visible: '(?i)(copied|forward any confirmation to that address\.)'
     timeout: 5000
 - takeScreenshot: fresh-wallet-forward-address
 - openLink: critterpass-dev://wallet/bookings
