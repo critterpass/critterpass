@@ -15,12 +15,13 @@ import { promisify } from 'node:util';
 
 import { buildRelease, type ContentItem } from '@cp/content';
 import { withSystem } from '@cp/db';
-import { isBlurhash, type MediaVariant } from '@cp/domain';
+import { isBlurhash, MEDIA_INGEST_QUEUE, type MediaVariant } from '@cp/domain';
 import { AwsClient } from 'aws4fetch';
 import sharp from 'sharp';
 import { GenericContainer, Wait, type StartedTestContainer } from 'testcontainers';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
+import { ensureQueues, queueSpec } from '../../src/boss/queues';
 import { publishRelease } from '../../src/content/publish';
 import { createAvatarMediaStore, type AvatarMediaStore } from '../../src/jobs/avatar/media-store';
 import { ingestAsset } from '../../src/jobs/media/ingest';
@@ -57,8 +58,10 @@ beforeAll(async () => {
   });
   const created = await admin.fetch(`${endpoint}/${BUCKET}`, { method: 'PUT' });
   if (!created.ok) throw new Error(`bucket create failed: ${created.status}`);
-  // The publish transaction enqueues through the process's job producer.
-  await harness.startRuntime([]);
+  // The publish transaction enqueues through the process's job producer; the queue exists but
+  // nothing works it, so each test runs the ingest itself.
+  const boss = await harness.startRuntime([]);
+  await ensureQueues(boss, [[MEDIA_INGEST_QUEUE, queueSpec(MEDIA_INGEST_QUEUE)]]);
   store = createAvatarMediaStore({
     endpoint,
     bucket: BUCKET,
