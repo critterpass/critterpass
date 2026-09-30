@@ -34,6 +34,7 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
   {
     title: 'Labs',
     entries: [
+      { testId: 'dev-nav-accounts', href: '/(dev)/accounts', label: 'Test accounts (two people)' },
       { testId: 'dev-nav-motion-lab', href: '/(dev)/motion-lab', label: 'Motion lab' },
       { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
       { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
