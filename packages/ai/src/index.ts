@@ -288,3 +288,4 @@ export * from './routes/vendor-reply';
 export * from './routes/guide';
 export * from './routes/briefing';
 export * from './routes/explore';
+export * from './routes/proposal';

@@ -283,3 +283,4 @@ export * from './billing';
 export * from './paywall';
 export * from './trip-day';
 export * from './explore';
+export * from './proposal';

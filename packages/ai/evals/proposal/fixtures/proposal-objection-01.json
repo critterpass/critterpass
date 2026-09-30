@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "bcb5b5c3-c017-47f6-9a08-a2271beef5f6",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"line\":\"Money tight after a move is real, and no shame in it — the trip can bend, it won't break. Shoes off, phone down, eyes up.\", \"options\":[{\"option_id\":\"skip:kayak\",\"text\":\"Skip the kayak trip — saves $120\"},{\"option_id\":\"skip:nara\",\"text\":\"Skip the Nara day — saves $64\"},{\"option_id\":\"ask_crew\",\"text\":\"Ask the crew without saying who asked\"},{\"option_id\":\"follow_up\",\"text\":\"Still thinking, ask me later\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 194,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 512,
+        "output_tokens": 116,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

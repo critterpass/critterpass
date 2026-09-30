@@ -10,6 +10,7 @@
     "./canvas2d": "./src/backends/canvas2d/index.ts",
     "./skia": "./src/backends/skia/index.ts",
     "./share": "./src/share/index.ts",
+    "./share/node": "./src/share/backend-node.ts",
     "./share/templates": "./src/share/templates/index.ts",
     "./web": "./src/web/register.ts"
   },

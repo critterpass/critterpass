@@ -202,6 +202,11 @@ Epochs: every join/leave/remove increments `crews.membership_epoch` in the same 
 | `hype_aggregates` | proposal_id, hype_pct, reacted_count | uk | sys | T | trip | C1 | life |
 | `engagement_events` | proposal_id, user_id, kind (opened/viewed/trailer_watched), local_hour, at | (proposal_id, user_id) | sys | S (never readable by peers or organiser; C28) | — | C2 | 90 d |
 | `seat_waitlist_offers` | trip_id, user_id, invite_id?, offered_at, expires_at, status (offered/accepted/declined/expired) | (trip_id, status) | sys offer; self accept | T | trip | C1 | life |
+| `rsvp_suggestions` (doc delta) | proposal_id, trip_id, kind (resend/offer/nudge), target_uid?, payload jsonb, copy, status (open/executed/dismissed/expired), dedupe_key | uk (proposal_id, dedupe_key) | sys; organiser executes/dismisses | T (organisers only) | trip_draft | C1 | life |
+| `proposal_followups` (doc delta) | proposal_id, trip_id, user_id, kind (followup/resend), due_at, lead_item_id?, status (scheduled/delivered/cancelled), delivered_at | uk (proposal_id, user_id, kind) WHERE scheduled | sys | O (own `followup` rows) | — | C2 | life |
+| `trip_dropouts` (doc delta) | trip_id, user_id, ops jsonb, members jsonb (before/after per member), cost_delta_minor, resolved_at, resolved_by | uk (trip_id, user_id) | sys build; organiser resolves | T | trip | C1 | life |
+
+`proposals` adds `created_by, personal, options, status (building/sent/locked/superseded), reminded_at` (doc delta); `proposal_versions` adds `trip_id, status, shared, poster, postcard, savings, share_minor, currency, fallback_note, attempts`; `proposal_reactions`, `hype_aggregates` and `engagement_events` carry `trip_id` for policies and streams. `engagement_events` has no app_user grant: `app.record_engagement` writes the caller's own. An unattributed objection change set goes through `app.write_unattributed_changeset` (crew ≥ 4). Contracts: [api-contracts-proposal.md](./api-contracts-proposal.md).
 
 RSVP and waitlist live on `trip_participants` (rsvp, waitlist_position) and `invites` (status `waitlisted`). `seatCap(t)` counts `holds_seat`. A seat freed by `out` produces an offer, never an auto-join.
 
@@ -215,8 +220,8 @@ RSVP and waitlist live on `trip_participants` (rsvp, waitlist_position) and `inv
 | `guide_threads` | user_id, trip_id?, guide_id, mode (private/group; doc delta) | (user_id, trip_id) | self | O | guide_chat | C2 | acct |
 | `guide_messages` | thread_id, role (user/guide/tool), content, attachments jsonb (photo keys, OCR box ids), voice, meter_counted bool, trace_id | (thread_id, created_at) | self | O | guide_chat | C2 | 365 d then summarise-and-drop |
 | `guide_crew_turns` (doc delta) | trip_id, thread_id, turn_no, role (user/guide), participant_id, content, thread_mode (private/group), tool_calls int, metadata jsonb | (thread_id, turn_no) | sys | T (via trip crew chat) | trip | C4 | 30 d |
-| `private_guide_threads` | trip_id, owner_id, reason (objection/cost/other), body_enc, offered_options jsonb, chosen_option, follow_up_at | (trip_id, owner_id) | self; organiser excluded | X | — (API + `user:#uid` channel) | C3 | trip archived + 30 d |
-| `anonymous_suggestions` | trip_id, text ("Someone asked about cost"), source_thread_id (not exposed) | trip_id; only when crew ≥ 4 | sys | T (source column revoked) | trip | C1 | life |
+| `private_guide_threads` | trip_id, proposal_id, owner_id, reason (cost/dates/plan/other), body_enc, offered_options jsonb, chosen_option, follow_up_at, anonymous_suggestion_id (the only link to the crew-visible line; doc delta) | (trip_id, owner_id) | self; organiser excluded | X | — (API + `user:#uid` channel) | C3 | trip archived + 30 d |
+| `anonymous_suggestions` | trip_id, proposal_id, topic, text ("Someone asked about cost"); no source column (doc delta: the private thread holds the link) | trip_id; written only by `app.write_anonymous_suggestion` when crew ≥ 4 | sys | T | trip | C1 | life |
 | `queued_guide_questions` | user_id, thread_id, trip_id, text, queued_at, answer_after, status (queued/answered/cancelled), answer_message_id | (answer_after) WHERE queued | self | O | guide_chat | C2 | 30 d |
 | `custom_phrase_cards` (doc delta) | user_id?, trip_id, phrase_id?, audio_key, duration_ms, created_at | (trip_id, created_at) | mem (add/delete); self create personal | trip (personal rows owner-only) | C1 | trip archived + 1 y |
 | `phrase_cards` | destination_id, lang, text, gloss, audio_key, contexts text[] | content | adm | R | catalog | C0 | content |
