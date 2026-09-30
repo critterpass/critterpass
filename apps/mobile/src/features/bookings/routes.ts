@@ -22,6 +22,11 @@ export function editBookingRoute(id: string): Href {
   return { pathname: '/wallet/bookings/edit/[id]', params: { id } };
 }
 
+/** Adding by hand, optionally prefilled from a confirmation that could not be read. */
+export function addByHandRoute(prefill: { kind?: string; title?: string } = {}): Href {
+  return { pathname: '/wallet/bookings/edit/[id]', params: { id: 'new', ...prefill } };
+}
+
 export function boardingPassRoute(id: string): Href {
   return { pathname: '/wallet/bookings/pass/[id]', params: { id } };
 }

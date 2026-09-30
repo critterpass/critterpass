@@ -98,3 +98,18 @@ export const deleteInsuranceCommand = defineClientCommand<{ policy_id: string }>
   offline: true,
   summarize: () => msg({ id: 'bookings.queued.insuranceDelete', message: 'A deleted policy' }),
 });
+
+export const connectMailboxCommand = defineClientCommand<{
+  provider: 'gmail' | 'microsoft';
+  auth_code: string;
+  state: string;
+  surface_to_crew?: boolean;
+}>({
+  name: 'connect_mailbox',
+  offline: false,
+});
+
+export const disconnectMailboxCommand = defineClientCommand<{ connection_id: string }>({
+  name: 'disconnect_mailbox',
+  offline: false,
+});

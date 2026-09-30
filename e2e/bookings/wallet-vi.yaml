@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
-# The wallet screenshots in Vietnamese: the dev gallery switches the running app's language (not
-# persisted), then back through the developer tools into the bookings lab.
+# The wallet, insurance and add-a-booking screenshots in Vietnamese: the dev gallery switches the
+# running app's language (not persisted), then back through the developer tools into the lab.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -39,4 +39,7 @@ appId: app.critterpass.dev
     env: { PREFIX: vi }
 - runFlow:
     file: subflows/insurance-scenes.yaml
+    env: { PREFIX: vi }
+- runFlow:
+    file: subflows/add-scenes.yaml
     env: { PREFIX: vi }

@@ -16,6 +16,11 @@ msgstr "“{policy}”"
 msgid "bookings.archive.link"
 msgstr "{0, plural, other {# đặt chỗ đã qua}}"
 
+#. placeholder {0}: view.travellerIds.length
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.split"
+msgstr "{0, plural, other {Chia # phần}}"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.paidBy"
 msgstr "{amount} · {payer} trả"
@@ -44,6 +49,10 @@ msgstr "{count, plural, other {Tìm thấy # đặt chỗ trong hộp thư của
 msgid "bookings.card.nights"
 msgstr "{nights, plural, other {# đêm}}"
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.seats"
+msgstr "{seats, plural, other {# chỗ}}"
+
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.source"
 msgstr "{source} · {at}"
@@ -68,9 +77,17 @@ msgstr "2026-10-12"
 msgid "bookings.form.endExample"
 msgstr "2026-10-17"
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.untitled"
+msgstr "Một đặt chỗ"
+
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.edit"
 msgstr "Một chỉnh sửa đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.line"
+msgstr "Mã xác nhận, liên kết từ trang đặt chỗ, hoặc cả email."
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.delete"
@@ -96,9 +113,21 @@ msgstr "Liên kết hoặc mã"
 msgid "bookings.kind.activity"
 msgstr "Hoạt động"
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.add"
+msgstr "Thêm"
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.title"
+msgstr "Thêm đặt chỗ"
+
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.addCard"
 msgstr "Thêm đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.byHand"
+msgstr "Tự nhập"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.addTitle"
@@ -112,6 +141,10 @@ msgstr "Thêm bảo hiểm du lịch"
 msgid "bookings.form.flightProblem"
 msgstr "Mã hãng và số hiệu chuyến"
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.duplicate"
+msgstr "Đã có trong ví."
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.forwardCaption"
 msgstr "Email bất kỳ"
@@ -123,6 +156,10 @@ msgstr "Hỗ trợ"
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.phoneField"
 msgstr "Số điện thoại hỗ trợ"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.back"
+msgstr "Về đặt chỗ"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.back"
@@ -161,6 +198,7 @@ msgstr "Tàu"
 msgid "bookings.queued.add"
 msgstr "Đặt chỗ: {title}"
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
@@ -171,6 +209,10 @@ msgstr "Đặt chỗ"
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.title"
 msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.noTrip"
+msgstr "Đặt chỗ thuộc về một chuyến đi. Cùng nhóm tạo chuyến là chúng hiện ở đây."
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.call"
@@ -192,6 +234,11 @@ msgstr "Thuê xe"
 msgid "bookings.form.checkOut"
 msgstr "Ngày trả phòng"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.soon"
+msgstr "Sắp có — tạm thời hãy chuyển tiếp email xác nhận."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.ref"
 msgstr "Mã xác nhận"
@@ -199,6 +246,20 @@ msgstr "Mã xác nhận"
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.ref"
 msgstr "Mã xác nhận"
+
+#. placeholder {0}: providerName(provider)
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.connect"
+msgstr "Kết nối {0}"
+
+#. placeholder {0}: providerName(status.connection.provider)
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.connected"
+msgstr "Đã kết nối · {0}"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.connectingTitle"
+msgstr "Đang kết nối…"
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copied"
@@ -211,6 +272,10 @@ msgstr "Chép"
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.docFailed"
 msgstr "Không lưu được trang này. Quét lại khi có sóng nhé."
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.failed"
+msgstr "Mình đọc không ra cái này — hãy tự nhập nhé."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.shareFlight"
@@ -252,6 +317,14 @@ msgstr "Đã cất cánh"
 msgid "bookings.card.details"
 msgstr "Chi tiết"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.disconnect"
+msgstr "Ngắt kết nối"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.dismiss"
+msgstr "Bỏ qua"
+
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.diverted"
 msgstr "Chuyển hướng"
@@ -269,6 +342,12 @@ msgstr "Sửa"
 msgid "bookings.form.editTitle"
 msgstr "Sửa đặt chỗ"
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.title"
+msgstr "Tìm đặt chỗ trong email"
+
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.flight"
 msgstr "Chuyến bay"
@@ -285,9 +364,15 @@ msgstr "Chỉ số hiệu chuyến và giờ bay. Ghế và thẻ lên máy bay 
 msgid "bookings.add.forward"
 msgstr "Chuyển tiếp"
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copiedToast"
 msgstr "Chuyển tiếp mọi email xác nhận tới địa chỉ đó."
+
+#. placeholder {0}: pending.length
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.found"
+msgstr "Tìm thấy trong hộp thư của nhóm · {0}"
 
 #. placeholder {0}: dateTime(locale, deadline, tz)
 #: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
@@ -303,6 +388,10 @@ msgstr "Huỷ miễn phí đến {0}"
 msgid "bookings.form.from"
 msgstr "Từ"
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.from"
+msgstr "Từ email của {who}"
+
 #: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
 #: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
@@ -317,9 +406,39 @@ msgstr "Đổi cửa"
 msgid "bookings.form.titleProblem"
 msgstr "Đặt cho nó một cái tên"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.gmail"
+msgstr "Gmail"
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.sent"
+msgstr "Nhận rồi. Tokek đang đọc ở bên dưới."
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.mailboxOffer"
+msgstr "Mình cũng có thể kiểm tra hộp thư của bạn mỗi sáng để tìm xác nhận mới."
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.doneLine"
+msgstr "Mỗi sáng mình kiểm tra xác nhận mới. Bạn có thể tắt trong Cài đặt."
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.footnote"
+msgstr "Mỗi sáng mình kiểm tra xác nhận mới. Bạn có thể tắt trong Cài đặt."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.landed"
 msgstr "Mình đã hạ cánh"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.ignore"
+msgstr "Bỏ qua"
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+msgid "bookings.add.addedToast"
+msgstr "Đã vào ví."
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.provider"
@@ -345,10 +464,18 @@ msgstr "Ví dụ 09:05"
 msgid "bookings.form.dateProblem"
 msgstr "Ví dụ 2026-10-12"
 
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.field"
+msgstr "Liên kết hoặc mã"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.loading"
 msgstr "Đang tải đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.doneTitle"
+msgstr "Đã kết nối hộp thư"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.meet"
@@ -358,6 +485,10 @@ msgstr "Điểm hẹn"
 msgid "bookings.detail.docPending"
 msgstr "Cần có sóng"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.deniedLine"
+msgstr "Bạn chưa cho quyền truy cập. Chuyển tiếp email vẫn dùng được."
+
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
 msgid "bookings.flight.noPass"
 msgstr "Email này không có thẻ lên máy bay — quét nó lúc làm thủ tục."
@@ -365,6 +496,14 @@ msgstr "Email này không có thẻ lên máy bay — quét nó lúc làm thủ 
 #: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassView.tsx
 msgid "bookings.pass.missing"
 msgstr "Máy này chưa có thẻ lên máy bay. Quét nó lúc làm thủ tục là nó nằm ở đây."
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.deniedTitle"
+msgstr "Chưa kết nối"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailboxRow.off"
+msgstr "Chưa kết nối"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.title"
@@ -386,9 +525,21 @@ msgstr "Chưa có gì kết thúc."
 msgid "bookings.empty.line"
 msgstr "Ví còn trống. Chuyển tiếp, quét hoặc dán một xác nhận là mình cất vào đây."
 
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.nothing"
+msgstr "Trang đó không đọc được gì. Thử lại, đặt phẳng và đủ sáng."
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.empty"
+msgstr "Chưa có gì để dán. Hãy sao chép liên kết hoặc mã trước."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.shareBookingSub"
 msgstr "Tắt thì chỉ nằm trong ví của bạn."
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.surfaceSub"
+msgstr "Tắt thì chỉ bạn thấy cho tới khi bạn thêm vào."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.docs"
@@ -406,6 +557,15 @@ msgstr "Chỉ bạn thấy thông tin này. Phòng khám chỉ nhận được k
 msgid "bookings.kind.other"
 msgstr "Khác"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.outlook"
+msgstr "Outlook"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.paidByYou"
+msgstr "bạn trả"
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.scanCaption"
 msgstr "Giấy hoặc màn hình"
@@ -417,6 +577,14 @@ msgstr "Đặt chỗ đã qua"
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.paste"
 msgstr "Dán"
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.title"
+msgstr "Dán một đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.fromClipboard"
+msgstr "Dán từ bộ nhớ tạm"
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.policyNo"
@@ -433,6 +601,22 @@ msgstr "Đã lưu trang hợp đồng kèm theo."
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.price"
 msgstr "Giá"
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.read"
+msgstr "Đọc đi"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailboxRow.connected"
+msgstr "Chỉ đọc, chỉ xác nhận · {provider}"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.promise"
+msgstr "Chỉ đọc, chỉ xác nhận. Mình xem người gửi và tiêu đề quanh ngày đi và chỉ mở các email đặt chỗ."
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.reading"
+msgstr "Đang đọc trang…"
 
 #: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
 #: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
@@ -487,6 +671,18 @@ msgstr "Ghế"
 msgid "bookings.detail.shareBooking"
 msgstr "Chia sẻ với cả nhóm"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.surface"
+msgstr "Cho cả nhóm thấy những gì tìm được"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.check"
+msgstr "Email này có gì đó lạ. Kiểm tra lại trước khi thêm nhé."
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.splitA11y"
+msgstr "Chia tiền"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.flightExample"
 msgstr "SQ 938"
@@ -495,13 +691,37 @@ msgstr "SQ 938"
 msgid "bookings.kind.stay"
 msgstr "Chỗ ở"
 
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.failed"
+msgstr "Chưa gửi được. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.failed"
+msgstr "Chưa gửi được. Thử lại nhé."
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.failed"
 msgstr "Chưa lưu được. Thử lại nhé."
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.failedTitle"
+msgstr "Chưa được rồi"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.error"
+msgstr "Chưa được. Thử lại khi có sóng nhé."
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.denied"
+msgstr "CritterPass chưa được dùng máy ảnh. Bật trong Cài đặt, hoặc dán thay thế."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.line"
 msgstr "Đặt chỗ này đã bị xoá, hoặc không được chia sẻ với bạn."
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.unsupported"
+msgstr "Máy này không quét được ở đây. Hãy chuyển tiếp hoặc dán xác nhận."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.airportProblem"
@@ -514,6 +734,30 @@ msgstr "Giờ"
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.to"
 msgstr "Đến"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.lockedLine"
+msgstr "Với Pass+, Tokek kiểm tra hộp thư của bạn mỗi sáng để tìm xác nhận mới."
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.perk"
+msgstr "Tokek tìm đặt chỗ mới trong hộp thư của bạn mỗi sáng"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.parsing"
+msgstr "Tokek đang đọc…"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.connectingLine"
+msgstr "Tokek đang cài lịch kiểm tra buổi sáng."
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.offline"
+msgstr "Tokek cần có sóng để đọc."
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.offline"
+msgstr "Tokek cần có sóng để đọc."
 
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
 msgid "bookings.flight.ping"
@@ -547,6 +791,10 @@ msgstr "Bảo hiểm du lịch, {0}, thẻ hợp đồng"
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.who"
 msgstr "Người đi"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.failedLine"
+msgstr "Thử kết nối lại từ Thêm đặt chỗ."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.voucher"
@@ -591,6 +839,10 @@ msgstr "Ai thấy một chuyến bay"
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.sharing"
 msgstr "Ai thấy"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailboxRow.locked"
+msgstr "Với Pass+"
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.landed"

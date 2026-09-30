@@ -16,6 +16,11 @@ msgstr ""
 msgid "bookings.archive.link"
 msgstr ""
 
+#. placeholder {0}: view.travellerIds.length
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.split"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.paidBy"
 msgstr ""
@@ -44,6 +49,10 @@ msgstr ""
 msgid "bookings.card.nights"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.seats"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.source"
 msgstr ""
@@ -68,8 +77,16 @@ msgstr ""
 msgid "bookings.form.endExample"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.untitled"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
@@ -96,8 +113,20 @@ msgstr ""
 msgid "bookings.kind.activity"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.addCard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.byHand"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
@@ -112,6 +141,10 @@ msgstr ""
 msgid "bookings.form.flightProblem"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.duplicate"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.forwardCaption"
 msgstr ""
@@ -122,6 +155,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.phoneField"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
@@ -161,6 +198,7 @@ msgstr ""
 msgid "bookings.queued.add"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
@@ -170,6 +208,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.noTrip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
@@ -192,12 +234,31 @@ msgstr ""
 msgid "bookings.form.checkOut"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.soon"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.ref"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.ref"
+msgstr ""
+
+#. placeholder {0}: providerName(provider)
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.connect"
+msgstr ""
+
+#. placeholder {0}: providerName(status.connection.provider)
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.connected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.connectingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
@@ -210,6 +271,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.docFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
@@ -252,6 +317,14 @@ msgstr ""
 msgid "bookings.card.details"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.disconnect"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.dismiss"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.diverted"
 msgstr ""
@@ -267,6 +340,12 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.editTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
@@ -285,8 +364,14 @@ msgstr ""
 msgid "bookings.add.forward"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copiedToast"
+msgstr ""
+
+#. placeholder {0}: pending.length
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.found"
 msgstr ""
 
 #. placeholder {0}: dateTime(locale, deadline, tz)
@@ -303,6 +388,10 @@ msgstr ""
 msgid "bookings.form.from"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.from"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
 #: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
@@ -317,8 +406,38 @@ msgstr ""
 msgid "bookings.form.titleProblem"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.gmail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.mailboxOffer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.doneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.footnote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.landed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.ignore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
+msgid "bookings.add.addedToast"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
@@ -345,9 +464,17 @@ msgstr ""
 msgid "bookings.form.dateProblem"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.field"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.doneTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
@@ -358,12 +485,24 @@ msgstr ""
 msgid "bookings.detail.docPending"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.deniedLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
 msgid "bookings.flight.noPass"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassView.tsx
 msgid "bookings.pass.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.deniedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailboxRow.off"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
@@ -386,8 +525,20 @@ msgstr ""
 msgid "bookings.empty.line"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.nothing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.empty"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.shareBookingSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.surfaceSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
@@ -406,6 +557,15 @@ msgstr ""
 msgid "bookings.kind.other"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailbox.outlook"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.paidByYou"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.scanCaption"
 msgstr ""
@@ -416,6 +576,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.paste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.fromClipboard"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
@@ -432,6 +600,22 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.price"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.read"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailboxRow.connected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.promise"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.reading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
@@ -487,6 +671,18 @@ msgstr ""
 msgid "bookings.detail.shareBooking"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.surface"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.check"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.splitA11y"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.flightExample"
 msgstr ""
@@ -495,12 +691,36 @@ msgstr ""
 msgid "bookings.kind.stay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.failed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.failedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.error"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.denied"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.unsupported"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
@@ -513,6 +733,30 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.to"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.lockedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.perk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.parsing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.connectingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
@@ -546,6 +790,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.who"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.failedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
@@ -590,6 +838,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.sharing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
+msgid "bookings.mailboxRow.locked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
