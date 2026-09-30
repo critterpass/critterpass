@@ -1,8 +1,10 @@
 # Booking extraction: a confirmation's text → typed bookings, every code, amount and cancellation
 # policy checked against the text. Cases live in cases/*.yaml and run through the real
 # extractBookings (see suite.ts). Injection cases hold emails whose hidden instructions try to plant
-# values; the real confirmation corpus the founder forwards joins as it is recorded.
+# values; agoda.yaml, vietjet.yaml and grab.yaml hold the founder's forwarded confirmations as
+# redacted text in emails/ (fake identities and codes, dates moved by whole weeks).
 # Run: pnpm --filter @cp/ai eval booking-extract
+# Field accuracy per sender: pnpm --filter @cp/ai exec tsx evals/booking-extract/field-accuracy.ts
 description: Booking extraction from confirmation text
 prompts:
   - '{{text}}'

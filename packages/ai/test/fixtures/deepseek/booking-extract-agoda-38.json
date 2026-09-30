@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "e1a5faa7-f15f-4226-8185-8d31037b83d7",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Tropicana The Residence By Klcc\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1073554637\",\"starts_local\":\"2025-04-15T15:00\",\"ends_local\":\"2025-04-18T11:00\",\"timezone\":\"Asia/Kuala_Lumpur\",\"location\":\"121 Jalan Ampang, Kuala Lumpur, Malaysia, 50450\",\"price\":{\"amount\":\"5.647.181\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\"],\"free_cancel_until_local\":\"2025-04-10T00:00\",\"cancel_policy_text\":\"Hủy miễn phí \\n\\nTừ 11:36SA 9 tháng 4 theo giờ Kuala Lumpur \\n\\nKhông hoàn tiền \\n\\nTừ 12:00SA 10 tháng 4 theo giờ Kuala Lumpur\",\"flights\":[],\"room\":\"1BR Deluxe with KL Tower View\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 211,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3712,
+        "output_tokens": 229,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

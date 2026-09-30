@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "998506d9-03f2-448b-84a5-e13793e384de",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Bayview Beach Resort, Penang\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1187718033\",\"starts_local\":\"2025-04-22T15:00\",\"ends_local\":\"2025-04-24T12:00\",\"timezone\":\"Asia/Kuala_Lumpur\",\"location\":\"Batu Ferringhi Beach, Penang, Malaysia, 11100\",\"price\":{\"amount\":\"677.40\",\"currency\":\"MYR\"},\"travellers\":[\"Minh Duc Tran\"],\"free_cancel_until_local\":\"2025-04-20T00:00\",\"cancel_policy_text\":\"Hủy miễn phí \\n\\nTừ 10:12CH 15 tháng 3 theo giờ Penang \\n\\nKhông hoàn tiền \\n\\nTừ 12:00SA 20 tháng 4 theo giờ Penang\",\"flights\":[],\"room\":\"Superior King\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 210,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3712,
+        "output_tokens": 222,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

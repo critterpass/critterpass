@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "07f14763-7a55-44d8-ad61-b493b6755554",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Emirates Hotel Phu Quoc\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1577057575\",\"starts_local\":\"2024-10-03T14:00\",\"ends_local\":\"2024-10-06T12:00\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":\"An Thoi, A108 - Amalfi - Sunset Town, Đảo Phú Quốc, Việt Nam, 92513\",\"price\":{\"amount\":\"10.406.250\",\"currency\":\"VND\"},\"travellers\":[\"Minh Đức Trần\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"Không đến khách sạn hoặc chỗ nghỉ sẽ được giải quyết như là Vắng Mặt và sẽ phải trả một khoản tiền là 100% giá trị đặt phòng (Quy định của khách sạn).\",\"flights\":[],\"room\":\"Deluxe Double Room with Balcony and Sea View\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 219,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3456,
+        "output_tokens": 238,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

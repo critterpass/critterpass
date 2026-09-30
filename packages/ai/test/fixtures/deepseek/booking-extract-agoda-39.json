@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "fc9e7f82-9f33-451c-93a9-f4980bd40133",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"AirAsia AK 522 · KUL → SGN\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1192477756\",\"starts_local\":\"2025-01-03T14:40\",\"ends_local\":\"2025-01-03T15:40\",\"timezone\":null,\"location\":null,\"price\":{\"amount\":\"9.675.670\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\",\"Van Hieu Le\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"[Vé người lớn] Vé của quý khách không thể hủy để lấy lại tiền. Để biết chi tiết về chỗ ngồi, hành lý hoặc các hạn chế khác, vui lòng liên hệ trực tiếp với hãng hàng không.\\n\\n[Vé trẻ em] Vé của quý khách không thể hủy để lấy lại tiền. Để biết chi tiết về chỗ ngồi, hành lý hoặc các hạn chế khác, vui lòng liên hệ trực tiếp với hãng hàng không.\",\"flights\":[{\"carrier\":\"AK\",\"number\":\"522\",\"from\":\"KUL\",\"to\":\"SGN\",\"departs_local\":\"2025-01-03T14:40\",\"departs_timezone\":\"Asia/Kuala_Lumpur\",\"arrives_local\":\"2025-01-03T15:40\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":\"6B, 6A\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 178,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 4096,
+        "output_tokens": 369,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

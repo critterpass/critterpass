@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "c7e7e086-6cfa-42b4-ad61-2e8277b1ac47",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"Vietnam Airlines VN 1380 · SGN → DLI\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1974671914\",\"starts_local\":\"2025-08-14T05:50\",\"ends_local\":\"2025-08-14T06:45\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"1.731.857\",\"currency\":\"VND\"},\"travellers\":[\"Thi Kim Lien Pham\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"[Vé người lớn] Vé của quý khách không thể hủy để lấy lại tiền. Để biết chi tiết về chỗ ngồi, hành lý hoặc các hạn chế khác, vui lòng liên hệ trực tiếp với hãng hàng không.\",\"flights\":[{\"carrier\":\"VN\",\"number\":\"1380\",\"from\":\"SGN\",\"to\":\"DLI\",\"departs_local\":\"2025-08-14T05:50\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2025-08-14T06:45\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":null},{\"kind\":\"flight\",\"title\":\"VietJet Air VJ 363 · DLI → SGN\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1905912573\",\"starts_local\":\"2025-08-17T16:00\",\"ends_local\":\"2025-08-17T16:55\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"1.731.857\",\"currency\":\"VND\"},\"travellers\":[\"Thi Kim Lien Pham\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"[Vé người lớn] Vé của quý khách không thể hủy để lấy lại tiền. Để biết chi tiết về chỗ ngồi, hành lý hoặc các hạn chế khác, vui lòng liên hệ trực tiếp với hãng hàng không.\",\"flights\":[{\"carrier\":\"VJ\",\"number\":\"363\",\"from\":\"DLI\",\"to\":\"SGN\",\"departs_local\":\"2025-08-17T16:00\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2025-08-17T16:55\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 205,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3840,
+        "output_tokens": 591,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

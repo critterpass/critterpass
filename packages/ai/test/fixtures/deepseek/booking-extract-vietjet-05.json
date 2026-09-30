@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5ad7b20d-b6c9-4e6a-8e97-6cbbc1c81e89",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"Vietjet Air VJ1310 · SGN → HUI\",\"supplier_name\":\"Vietjet Air\",\"confirmation_code\":\"Q6DTX0\",\"starts_local\":\"2026-04-03T19:55\",\"ends_local\":\"2026-04-03T21:20\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"5.167.600\",\"currency\":\"VND\"},\"travellers\":[\"TRAN MINH DUC\",\"LE VAN HIEU\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":null,\"flights\":[{\"carrier\":\"VJ\",\"number\":\"1310\",\"from\":\"SGN\",\"to\":\"HUI\",\"departs_local\":\"2026-04-03T19:55\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2026-04-03T21:20\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"},{\"carrier\":\"VJ\",\"number\":\"1315\",\"from\":\"HUI\",\"to\":\"SGN\",\"departs_local\":\"2026-04-05T23:20\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2026-04-06T00:45\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":\"14E, 14F\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 137,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2816,
+        "output_tokens": 318,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
