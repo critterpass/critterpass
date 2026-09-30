@@ -16,20 +16,21 @@ streams:
       - |
         SELECT * FROM guide_offers
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
       - |
         SELECT * FROM guide_offer_claims
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
 
   # Every job on a trip the caller organises (agent_jobs SELECT policy: app.is_trip_organiser).
   trip_draft:
     with:
       organised_trips: |
-        SELECT trip_id FROM trip_participants WHERE user_id = auth.user_id() AND role = 'organiser'
+        SELECT trip_id FROM trip_participants
+        WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id() AND role = 'organiser'
     queries:
       - |
         SELECT * FROM agent_jobs
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)

@@ -18,6 +18,7 @@ import {
   customType,
   date,
   doublePrecision,
+  index,
   integer,
   jsonb,
   pgTable,
@@ -119,6 +120,10 @@ export const crowdForecasts = pgTable(
     poiId: uuid('poi_id')
       .notNull()
       .references(() => pois.id),
+    /** The POI's destination, copied by a trigger: the trip_pack stream selects by it. */
+    destinationId: uuid('destination_id')
+      .notNull()
+      .references(() => destinations.id),
     dow: smallint('dow').notNull(),
     hourly: smallint('hourly').array().notNull(),
     source: text('source').notNull(),
@@ -126,7 +131,10 @@ export const crowdForecasts = pgTable(
     createdAt: createdAt(),
     updatedAt: updatedAt(),
   },
-  (table) => [unique().on(table.poiId, table.dow)],
+  (table) => [
+    unique().on(table.poiId, table.dow),
+    index('crowd_forecasts_destination_idx').on(table.destinationId),
+  ],
 );
 
 export const seasonMonths = pgTable(
