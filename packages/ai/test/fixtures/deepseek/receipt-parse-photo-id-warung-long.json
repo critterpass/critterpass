@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "c26a341e-d059-4bb9-8ec1-472ce12d5482",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"ALAM WARUNG\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l3\",\"label\":\"Grill fish+veg+rice\",\"qty\":1,\"amount\":\"55,000.00\",\"kind\":\"item\"},{\"line_id\":\"l5\",\"label\":\"Grill chicken+veg+rice\",\"qty\":1,\"amount\":\"5,000.00\",\"kind\":\"item\"},{\"line_id\":\"l7\",\"label\":\"Fried fish+fried rice\",\"qty\":1,\"amount\":\"65,000.00\",\"kind\":\"item\"},{\"line_id\":\"l9\",\"label\":\"Noodles soup\",\"qty\":1,\"amount\":\"25,000.00\",\"kind\":\"item\"},{\"line_id\":\"l11\",\"label\":\"Vegetable\",\"qty\":1,\"amount\":\"20,00.00\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"Coke\",\"qty\":1,\"amount\":\"15,00.00\",\"kind\":\"item\"},{\"line_id\":\"l15\",\"label\":\"Ice lemon tea\",\"qty\":1,\"amount\":\"15,00.00\",\"kind\":\"item\"},{\"line_id\":\"l17\",\"label\":\"Ginger tea\",\"qty\":1,\"amount\":\"15,000.00\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l22\",\"amount\":\"RP265,000.00\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 194,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 287,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

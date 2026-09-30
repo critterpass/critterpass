@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "97556564-92db-4807-9aac-b809fde07216",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"KELINGKING BAR & RESTAURANT\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l7\",\"label\":\"BINTANG LARGE\",\"qty\":1,\"amount\":\"80,000\",\"kind\":\"item\"},{\"line_id\":\"l9\",\"label\":\"BINTANG LEMON\",\"qty\":3,\"amount\":\"165,000\",\"kind\":\"item\"},{\"line_id\":\"l11\",\"label\":\"SAN MIGUEL PALE\",\"qty\":1,\"amount\":\"60,000\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"CHICKEN PARMIGIANA\",\"qty\":1,\"amount\":\"85,000\",\"kind\":\"item\"},{\"line_id\":\"l15\",\"label\":\"TOM YAM GONG\",\"qty\":1,\"amount\":\"85,000\",\"kind\":\"item\"},{\"line_id\":\"l17\",\"label\":\"GRILLED CHICKEN SATAY\",\"qty\":1,\"amount\":\"₴0,000\",\"kind\":\"item\"},{\"line_id\":\"l19\",\"label\":\"GRILLED TUNA STEAK\",\"qty\":1,\"amount\":\"100,000\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"SFD FRIED NOODLE\",\"qty\":1,\"amount\":\"85,000\",\"kind\":\"item\"},{\"line_id\":\"l23\",\"label\":\"AQUA LARGE\",\"qty\":1,\"amount\":\"30,000\",\"kind\":\"item\"},{\"line_id\":\"l25\",\"label\":\"PUMPKIN SOUP\",\"qty\":1,\"amount\":\"40,000\",\"kind\":\"item\"},{\"line_id\":\"l29\",\"label\":\"Service\",\"qty\":null,\"amount\":\"40,500\",\"kind\":\"service\"},{\"line_id\":\"l31\",\"label\":\"Tax\",\"qty\":null,\"amount\":\"85,050\",\"kind\":\"tax\"}],\"total\":{\"line_id\":\"l33\",\"amount\":\"935,550\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 417,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

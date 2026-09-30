@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "fdfb4633-d513-4835-ac99-6b30c76f2231",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"Baw Resto Seatood\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l6\",\"label\":\"Spinach Udang\",\"qty\":1,\"amount\":\"Rp59.000\",\"kind\":\"item\"},{\"line_id\":\"l9\",\"label\":\"Nasi Goreng Singapore\",\"qty\":null,\"amount\":\"Rp45.000\",\"kind\":\"item\"},{\"line_id\":\"l11\",\"label\":\"Kangkung Tauco\",\"qty\":1,\"amount\":\"Rp35.000\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"Cumi Lada Hitam\",\"qty\":1,\"amount\":\"Rp85.000\",\"kind\":\"item\"},{\"line_id\":\"l15\",\"label\":\"Tahu Cabe Garan\",\"qty\":1,\"amount\":\"Rp30.000\",\"kind\":\"item\"},{\"line_id\":\"l17\",\"label\":\"Sop Tomyum\",\"qty\":1,\"amount\":\"Rp70.000\",\"kind\":\"item\"},{\"line_id\":\"l19\",\"label\":\"Udang Saus Thailand\",\"qty\":null,\"amount\":\"Rp99.000\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"Kepiting\",\"qty\":null,\"amount\":\"Rp180.000\",\"kind\":\"item\"},{\"line_id\":\"l23\",\"label\":\"Nasi Putih\",\"qty\":1,\"amount\":\"Rp8.000\",\"kind\":\"item\"},{\"line_id\":\"l25\",\"label\":\"Bintang Kecil 5\",\"qty\":1,\"amount\":\"Rp175.000\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"Aqua Kecil\",\"qty\":1,\"amount\":\"Rp10.000\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l32\",\"amount\":\"Rp798.000\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 180,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 379,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

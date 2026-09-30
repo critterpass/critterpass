@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "26cad444-9ffe-46b7-b929-ccabd6d631fd",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"AFиL PиIR\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l10\",\"label\":\"Tiket Masuk Mancanegara (Dewas)\",\"qty\":null,\"amount\":\"225.000\",\"kind\":\"item\"},{\"line_id\":\"l11\",\"label\":\"Tiket Masuk Mancanegara (Dewas)\",\"qty\":null,\"amount\":\"75.000\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l13\",\"amount\":\"225.000\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 191,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 114,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
