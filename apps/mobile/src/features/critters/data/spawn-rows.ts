@@ -9,6 +9,7 @@ import {
   spawnGeofenceSchema,
   type LatLng,
   type SpawnKind,
+  type SpawnRuleRow,
   type SolarCondition,
 } from '@cp/domain';
 
@@ -51,6 +52,28 @@ export interface SpawnPoiRow {
   readonly lat: number | null;
   readonly lng: number | null;
   readonly visit_radius_m: number | null;
+}
+
+/** A synced row as the domain's rule shape (the gates read its kind, n and solar condition). */
+export function ruleRow(rule: SpawnSqlRow): SpawnRuleRow {
+  return {
+    id: rule.id,
+    key: rule.key,
+    form_id: rule.form_id,
+    kind: rule.kind,
+    set_id: rule.set_id,
+    destination_id: rule.destination_id,
+    poi_ids: parseJson<string[]>(rule.poi_ids, []),
+    geofences: [],
+    n: rule.n,
+    dwell_s: rule.dwell_s,
+    hold_ms: rule.hold_ms,
+    window_id: rule.window_id,
+    solar: rule.solar,
+    min_members: rule.min_members,
+    foreground_only: rule.foreground_only === 1,
+    copy: rule.copy ?? '',
+  };
 }
 
 /** One place a rule can be met: one of its POIs or one of its own geofences. */

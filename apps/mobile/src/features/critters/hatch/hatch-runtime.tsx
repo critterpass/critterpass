@@ -9,12 +9,12 @@
  * `hatch_egg{trigger:'arrived'}`, once per egg per session.
  */
 import { router, usePathname } from 'expo-router';
-import { AppState } from 'react-native';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { countryOf, getLocationEngine } from '@/lib/location';
 
+import { useInFront } from '../data/app-front';
 import { hatchEggCommand } from '../data/commands';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { TRIPS_SQL, TRIPS_TABLES, type TripRow } from '../data/queries';
@@ -35,19 +35,6 @@ export function isCalmPath(pathname: string): boolean {
 }
 
 const arrivedAsked = new Set<string>();
-
-const inFront = (state: string | null | undefined) =>
-  state !== 'background' && state !== 'inactive';
-
-/** The app is in front (an unknown state at launch counts as in front). */
-function useInFront(): boolean {
-  const [front, setFront] = useState(inFront(AppState.currentState));
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', (state) => setFront(inFront(state)));
-    return () => subscription.remove();
-  }, []);
-  return front;
-}
 
 async function arrivedIn(trip: TripRow): Promise<boolean> {
   if (trip.destination_country === null) return false;
