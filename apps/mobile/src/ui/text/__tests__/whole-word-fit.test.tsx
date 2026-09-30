@@ -96,4 +96,24 @@ describe('whole-word fit', () => {
     }
     expect(sizeOf(title())).toBeCloseTo(nominal * AUTO_FIT_MIN_SCALE, 5);
   });
+
+  it('corrects a word split in the layout that came before the width, as Fabric orders them', async () => {
+    const screen = await renderWithI18n(
+      <ThemeProvider fontScale={1}>
+        <Text variant="h3" autoFit testID="t">
+          0 saved
+        </Text>
+      </ThemeProvider>,
+    );
+    const value = () => screen.getByTestId('t');
+    const start = sizeOf(value());
+    // The platform reports the split lines first, then the tile's width, at an unchanged size.
+    await fireEvent(value(), 'textLayout', lines('0 ', 'SAVE', 'D'));
+    await fireEvent(value(), 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 300, height: 0 } },
+    });
+    expect(sizeOf(value())).toBeLessThan(start);
+    await fireEvent(value(), 'textLayout', lines('0 SAVED'));
+    expect(reports).toEqual([]);
+  });
 });
