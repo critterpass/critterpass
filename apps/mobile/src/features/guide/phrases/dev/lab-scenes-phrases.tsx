@@ -1,6 +1,7 @@
 /**
  * Guide lab scenes for phrase cards (3h-3), as Getting around shows them: with recorded audio,
- * without it (shown only), audio still coming, audio out of reach offline, and SHOW mode.
+ * without it (the phone's voice), audio still coming, audio out of reach offline (the phone's
+ * voice), and SHOW mode.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
@@ -48,7 +49,8 @@ function Screen({
             gloss={GLOSS}
             eyebrow="Show this to Made"
             playerState={state}
-            {...(withAudio ? { onPlay: noop } : {})}
+            deviceVoice={!withAudio || state === 'unavailable'}
+            onPlay={noop}
           />
           <PhraseCard
             phrase="Tunggu sebentar, ya."
