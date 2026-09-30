@@ -26,6 +26,7 @@ import { registerApiToolExecutors } from '../ai/tool-executors';
 import { validationHook, type CommandDoorDeps } from '../commands/_framework/doors';
 import { enforceUidRateLimit, requireCommandSession } from '../commands/_framework/session';
 import { streamCrewMention } from '../commands/guide/mention';
+import { registerProposePlanChanges } from '../commands/guide/propose-plan-changes';
 import { streamThreadTurn, type GuideTurnDeps } from '../commands/guide/turn';
 import type { ApiEnv } from '../env';
 import { createKillSwitches } from '../ops/kill-switches';
@@ -132,6 +133,7 @@ export function registerGuideRoutes(
     logger: doors.logger,
   });
   registerGuideToolExecutors(registry, guideReaderRunner(doors.pool));
+  registerProposePlanChanges(registry, { pool: doors.pool, commands: doors.registry });
   const compliance = createApiCompliance({
     pool: doors.pool,
     typesafeApiKey: env.TYPESAFE_API_KEY,
