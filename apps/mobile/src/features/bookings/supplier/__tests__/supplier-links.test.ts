@@ -61,7 +61,7 @@ describe('partner links', () => {
     await expect(openPartnerLink(value, REQUEST)).resolves.toBe('opened');
     const subId = sent[0]?.sub_id ?? '';
     expect(subId).toMatch(SUB_ID_PATTERN);
-    expect(log).toEqual(['online', `open https://go.staging.critterpass.app/r/${subId}`]);
+    expect(log).toEqual(['online', `open https://go.staging.critterpass.app/out/${subId}`]);
     expect(sent[0]).toMatchObject({
       partner: 'klook',
       trip_id: REQUEST.tripId,
@@ -73,7 +73,7 @@ describe('partner links', () => {
     const { value, log } = deps({ kind: 'unavailable', opId: 'o', code: 'NETWORK' });
     await expect(openPartnerLink(value, REQUEST)).resolves.toBe('opened_offline');
     expect(log.slice(0, 3)).toEqual(['online', 'queued', 'wait']);
-    expect(log[3]).toMatch(/^open https:\/\/go\.staging\.critterpass\.app\/r\//u);
+    expect(log[3]).toMatch(/^open https:\/\/go\.staging\.critterpass\.app\/out\//u);
   });
 
   it('opens nothing when the partner is not set up or the api refuses the click', async () => {
@@ -87,9 +87,9 @@ describe('partner links', () => {
 
   it('builds each environment its own host', () => {
     const subId = subIdFrom(new Uint8Array(20));
-    expect(partnerBridgeUrl(subId, 'production')).toBe(`https://go.critterpass.app/r/${subId}`);
+    expect(partnerBridgeUrl(subId, 'production')).toBe(`https://go.critterpass.app/out/${subId}`);
     expect(partnerBridgeUrl(subId, 'development')).toBe(
-      `https://go.staging.critterpass.app/r/${subId}`,
+      `https://go.staging.critterpass.app/out/${subId}`,
     );
   });
 });

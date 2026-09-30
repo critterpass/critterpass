@@ -3,7 +3,7 @@ appId: app.critterpass.dev
 # Release gate: an activity's partner link. A fresh account takes the staging demo crew (a Bali
 # trip), opens an activity's supplier cards (Viator's in-app booking is switched off, so each card
 # is a plain partner link) and taps OPEN KLOOK. The app records the click with the api first, then
-# opens the attribution bridge on the staging go host, which redirects to Klook only once it knows
+# opens the attribution bridge on the staging go host (`/out/{sub_id}`), which redirects to Klook only once it knows
 # the click: landing on Klook's page (or the partner redirect on the way there) is the outcome.
 - runFlow:
     file: subflows/fresh-account.yaml

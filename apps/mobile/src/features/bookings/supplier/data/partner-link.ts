@@ -1,6 +1,6 @@
 /**
  * Partner links leave the app through the attribution bridge on this build's own `go.` host
- * (`go.staging.critterpass.app/r/{sub_id}` on staging builds): the click is recorded first with
+ * (`go.staging.critterpass.app/out/{sub_id}` on staging builds): the click is recorded first with
  * an opaque sub id the app chose, then the bridge redirects to the partner link the api built for
  * it. Offline, the click waits in the queue and the bridge link opens at once.
  */
