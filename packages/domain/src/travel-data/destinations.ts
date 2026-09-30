@@ -1,5 +1,5 @@
 /**
- * Travel-data reference points for the six live destinations (docs/product-decisions.md §6): the
+ * Travel-data reference points for the live guide destinations (docs/product-decisions.md §6): the
  * airports fares are priced into, the weather centroid and its elevation, a coastal point for marine
  * forecasts, summits whose temperatures are lapse-rate adjusted, and the hazard subjects each feed is
  * watched for. Keyed by `destinations.slug`; a destination absent here has no fares, weather or
@@ -93,6 +93,15 @@ export const TRAVEL_DESTINATIONS: Readonly<Record<string, TravelDestination>> = 
       { name: 'Machu Picchu', lat: -13.1631, lng: -72.545, elevation_m: 2430 },
       { name: 'Rainbow Mountain', lat: -13.8696, lng: -71.3031, elevation_m: 5036 },
     ],
+    hazards: [],
+  },
+  'da-nang': {
+    airports: ['DAD'],
+    centroid: { lat: 16.0544, lng: 108.2022, elevation_m: 10 },
+    // Off Mỹ Khê beach, where the sea state matters for swimming and stand-up paddling.
+    marine: { lat: 16.06, lng: 108.26 },
+    summits: [{ name: 'Đỉnh Bàn Cờ', lat: 16.1197, lng: 108.2868, elevation_m: 650 }],
+    // Typhoons have no fixed subject in these feeds; the forecast and its alerts cover storms.
     hazards: [],
   },
 };

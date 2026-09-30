@@ -1,5 +1,5 @@
 /**
- * The 6 guide destinations (product-decisions.md §6), each with a real Geofabrik regional extract
+ * The guide destinations (product-decisions.md §6), each with a real Geofabrik regional extract
  * to build a full-detail PMTiles region pack from and a bounding box tight enough to keep
  * planetiler's output inside the ≤80 MB per-destination budget (still an open question). Slugs
  * match the real `destinations.slug` rows already seeded on staging (verified via
@@ -7,7 +7,7 @@
  *
  * The other 55 (of 61) places are guest-guide, city-bbox packs built from the same pipeline
  * (`build-pmtiles.ts --destination <slug> --bbox <minLon,minLat,maxLon,maxLat> --geofabrik-region
- * <region>`); this file only carries the registry for the 6 that this task builds by name. Add a
+ * <region>`); this file only carries the registry for the guide destinations. Add a
  * guest place by reading its `destinations` row (slug, and a bbox from its seeded geofence/city
  * data) rather than hard-coding it here.
  */
@@ -55,6 +55,13 @@ export const GUIDE_DESTINATION_EXTRACTS: readonly DestinationExtract[] = [
     slug: 'cusco',
     geofabrikRegion: 'south-america/peru',
     bounds: '-72.30,-13.70,-71.70,-13.20',
+  },
+  {
+    slug: 'da-nang',
+    // Same box as the destination's geofence and POI ingest: Hải Vân pass and Sơn Trà to Hội An,
+    // Bà Nà hills in the west.
+    geofabrikRegion: 'asia/vietnam',
+    bounds: '107.95,15.84,108.36,16.21',
   },
 ];
 

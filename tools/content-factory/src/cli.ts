@@ -130,7 +130,7 @@ export async function main(argv: readonly string[], log = console.log): Promise<
       if (args.kind !== 'places' || pool === null)
         throw new Error('hours runs on places with DATABASE_URL set');
       const destinations = (
-        args.options['destinations'] ?? 'bali,kyoto,iceland,mexico-city,lisbon,cusco'
+        args.options['destinations'] ?? 'bali,kyoto,iceland,mexico-city,lisbon,cusco,da-nang'
       ).split(',');
       const now = new Date();
       const candidates = await poisWithoutHours(pool, destinations);
