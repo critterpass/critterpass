@@ -39,6 +39,10 @@ streams:
                reward_kind, reward_ref, created_at, updated_at
         FROM referrals
         WHERE referee_id = auth.user_id()
+      - SELECT * FROM eggs WHERE user_id = auth.user_id()
+      - SELECT * FROM encounters WHERE user_id = auth.user_id()
+      - SELECT * FROM collection_entries WHERE user_id = auth.user_id()
+      - SELECT * FROM guide_skins WHERE user_id = auth.user_id()
       - SELECT *, user_id AS id FROM user_entitlements WHERE user_id = auth.user_id()
       - SELECT * FROM usage_counters WHERE subject_kind = 'user' AND subject_id = auth.user_id()
       - SELECT * FROM saved_lists WHERE user_id = auth.user_id()
@@ -177,6 +181,11 @@ streams:
       - |-
         SELECT * FROM seat_waitlist_offers
         WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT id, trip_id, user_id, granted_at, hatched_at FROM eggs
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND user_id != auth.user_id()
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
       - |-
         SELECT *, trip_id AS id FROM trip_entitlements
@@ -503,6 +512,7 @@ streams:
       - |-
         SELECT * FROM users
         WHERE id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)
+      - SELECT * FROM crew_collection_counts WHERE crew_id IN my_crews
       - |-
         SELECT * FROM passes
         WHERE user_id IN (SELECT user_id FROM crew_members WHERE status = 'active' AND crew_id IN my_crews)

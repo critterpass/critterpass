@@ -1,5 +1,5 @@
 /**
- * The home set (C39): the set of the country of the traveller's home airport. Collecting there
+ * The home set: the set of the country of the traveller's home airport. Collecting there
  * needs the explicit, foreground-only "Explore at home" opt-in (`user_settings.explore_at_home`);
  * away from home every set collects normally.
  */

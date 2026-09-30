@@ -1,5 +1,5 @@
 /**
- * Encounter evidence (C25: never raw fixes) and its server-side plausibility score. The device
+ * Encounter evidence (never raw fixes) and its server-side plausibility score. The device
  * aggregates its dwell (sample count, mean accuracy, top speed, duration), hashes its per-sample
  * rows, records mock flags and its own clock, and signs `evidenceSigningPayload(bundle)` with its
  * attested device key at capture (App Attest `generateAssertion` on iOS; no network needed). The

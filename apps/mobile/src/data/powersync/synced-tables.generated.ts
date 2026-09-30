@@ -40,12 +40,15 @@ export const SYNCED_TABLE_COLUMNS = {
   client_config: 'key value updated_at',
   cmd_results: 'op_id uid cmd status code detail result_ref server_ts',
   code_redemptions: 'code_id user_id redeemed_at applied_as starts_at new_period_end created_at',
+  collection_entries:
+    'user_id form_id critter_id found_at poi_id trip_id source encounter_id verification critter_name form_name created_at updated_at',
   comment_plus_ones: 'comment_id trip_id user_id created_at',
   comments:
     'trip_id anchor_kind anchor_id author_id body edited_at deleted_at created_at updated_at',
   consents: 'user_id purpose scope granted_at revoked_at copy_version created_at updated_at',
   cost_components:
     'trip_id calc_version component_key kind unit is_shared:integer origin member_ids amount_minor:integer currency source quote_id label seen_at frozen_at created_at updated_at',
+  crew_collection_counts: 'crew_id user_id critters:integer forms:integer updated_at',
   crew_contact_cards: 'crew_id user_id phone_display created_at updated_at',
   crew_inbound_addresses: 'crew_id local_part status rotated_at created_at',
   crew_members:
@@ -72,8 +75,11 @@ export const SYNCED_TABLE_COLUMNS = {
     'slug name country coverage colour currency best_months tz geofence critter_set_id created_at updated_at',
   devices:
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
+  eggs: 'user_id trip_id form_id granted_at hatched_at trigger created_at updated_at',
   emergency_numbers:
     'country numbers source_url retrieved_on verified_at release_id created_at updated_at',
+  encounters:
+    'user_id trip_id spawn_rule_id form_id poi_id state dwell_s:integer offline:integer started_at ready_at resolved_at verification verified_at created_at updated_at',
   expense_edits: 'expense_id trip_id editor_id kind before after at',
   expense_shares:
     'expense_id trip_id user_id weight:integer fixed_minor:integer computed_minor:integer crew_computed_minor:integer excluded_reason created_at',
@@ -93,6 +99,7 @@ export const SYNCED_TABLE_COLUMNS = {
   guide_offer_claims: 'offer_id trip_id user_id created_at',
   guide_offers:
     'trip_id message_id kind slots_total:integer slots_taken:integer expires_at target_ref status created_at updated_at',
+  guide_skins: 'user_id guide_id form_id created_at updated_at',
   guide_threads: 'user_id trip_id crew_id guide_id mode last_message_at created_at updated_at',
   guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
   hazard_alerts:
@@ -250,7 +257,7 @@ export const SYNCED_TABLE_COLUMNS = {
   user_entitlements:
     'user_id pass_plus:integer sources expires_at guide_unlimited_global:integer icon_styles computed_at',
   user_settings:
-    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer active_crew_id muted_uids created_at updated_at',
+    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer explore_at_home:integer active_crew_id muted_uids created_at updated_at',
   users:
     'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at created_at updated_at',
   weather_snapshots:

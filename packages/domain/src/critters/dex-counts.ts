@@ -1,5 +1,5 @@
 /**
- * Critterdex counts (C22) and the PASS tab's section order, derived from the catalogue and the
+ * Critterdex counts and the PASS tab's section order, derived from the catalogue and the
  * viewer's own `collection_entries`: the dex counts distinct critters found ("9/150"), forms count
  * separately (four corner dots per critter, lit in their tier colour), a set's bar fills one
  * segment per critter found, and the avatar grid is every owned form. Only verified entries count;
@@ -89,7 +89,7 @@ export interface DexSection {
 
 /**
  * PASS tab order (3l-2): the set of the destination you are in, the legendary falling on your
- * dates, the home set (C39), then every other place set by `rank` (unranked last, by country).
+ * dates, the home set, then every other place set by `rank` (unranked last, by country).
  * A set appears once, in its first section.
  */
 export function dexSections(input: {

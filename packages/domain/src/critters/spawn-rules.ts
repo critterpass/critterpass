@@ -1,6 +1,6 @@
 /**
  * Spawn rules as devices and the worker read them (`spawn_rules`, synced in `trip_pack`; the
- * legendary window's `rule` from `legendary_windows`): the five kinds (C40), window arithmetic on a
+ * legendary window's `rule` from `legendary_windows`): the five spawn kinds, window arithmetic on a
  * place's calendar day, the solar gate, and the daily rotation that shows a whole crew the same
  * local at a spot. Content validation of the same shapes lives in `@cp/content`; this module only
  * reads published rows, so every new critter a release adds is picked up from the data.
