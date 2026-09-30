@@ -36,10 +36,11 @@ appId: app.critterpass.dev
       platform: iOS
     commands:
       - inputText: ${output.paste}
+# The field takes the keys one by one: wait for the end of the confirmation.
 - extendedWaitUntil:
     visible:
-      text: '.*K7Q2PX.*'
-    timeout: 30000
+      text: '.*arrives 11:55.*'
+    timeout: 300000
 - hideKeyboard
 - tapOn:
     id: 'bookings-paste-send'
