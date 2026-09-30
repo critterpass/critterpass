@@ -18,9 +18,9 @@ import { ListCard } from '@/ui/cards/ListCard';
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
 
-// A place on the plan, else the first place a search of the destination finds (the demo crew's
-// plan has none).
-const PLACE_SQL = `SELECT p.id, p.name, t.destination_id
+// A place on the plan, else the first place a catalogue search finds (the demo crew's plan has
+// none).
+const PLACE_SQL = `SELECT p.id, p.name
     FROM trips t LEFT JOIN plan_items pi ON pi.trip_id = t.id
     LEFT JOIN pois p ON p.id = pi.poi_id
    WHERE t.id = ? ORDER BY p.id IS NULL, pi.starts_at LIMIT 1`;
@@ -38,10 +38,8 @@ export default function SupplierLab() {
     name: string | null;
     destination_id: string | null;
   }>(PLACE_SQL, tripId === null ? null : [tripId], PLACE_TABLES).rows[0];
-  const search = usePlaceSearch({
-    ...(planned?.destination_id ? { destinationId: planned.destination_id } : {}),
-    limit: 1,
-  });
+  // Any catalogue place will do for a live check (the demo destination has none of its own).
+  const search = usePlaceSearch({ limit: 1 });
   const found = search.places[0];
   const place =
     planned?.id && planned.name
