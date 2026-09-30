@@ -41,10 +41,13 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'board-go-to-final'
-- extendedWaitUntil:
-    visible:
+# The final's card takes the board's place, under the trip's card.
+- scrollUntilVisible:
+    element:
       id: 'final-split-open'
     timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
 - tapOn:
     id: 'final-split-open'
 - extendedWaitUntil:
