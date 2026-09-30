@@ -7,12 +7,15 @@ import { critterJobsForEvent } from '@cp/domain';
 import type pg from 'pg';
 
 import type { AnyJobDefinition } from '../../boss';
+import { conditionalReminderJob } from '../reminders/conditional';
 import { rewardFanoutJob } from '../rewards';
+import { copresenceJob } from './copresence';
 import { crewCountsJob } from './crew-counts';
 import { grantEggsJob } from './grant-on-boarded';
 import { hatchJob } from './hatch-on-landed';
 import { registerCritterPushes } from './pushes';
 import { retentionJob } from './retention';
+import { seasonRescheduleJob } from './season-reschedule';
 import { verifyJob } from './verify';
 
 export async function critterEventHook(
@@ -36,7 +39,10 @@ export function critterJobs(): AnyJobDefinition[] {
     grantEggsJob(),
     hatchJob(),
     crewCountsJob(),
+    copresenceJob(),
     rewardFanoutJob(),
+    conditionalReminderJob(),
+    seasonRescheduleJob(),
     retentionJob(),
   ];
 }
