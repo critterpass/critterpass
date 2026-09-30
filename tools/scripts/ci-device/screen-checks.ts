@@ -115,25 +115,28 @@ function run(image: RgbaImage, y: number, x: number, dx: 1 | -1, limit: number):
 
 /**
  * The designed look of a screen under an open sheet: the frame is the presenter-scale inset, and
- * below its last row the sheet runs edge to edge (neither side shows the frame's colour) for the
- * rest of the judged rows. A frame that carries on down the sheet's sides is still a frame.
+ * below the last row whose edges show the frame's colour the sheet runs edge to edge for the rest
+ * of the judged rows (its own inset content, such as row separators, may look like a frame). A
+ * frame that carries on down the sheet's sides is still a frame.
  */
 function isPresenterUnderSheet(
   image: RgbaImage,
-  below: readonly number[],
+  rows: readonly number[],
   inset: number,
   frameColour: Rgb,
 ): boolean {
   const presenterInset = (image.width * (1 - LIMITS.presenterScale)) / 2;
   if (Math.abs(inset - presenterInset) > Math.max(2, image.width * 0.01)) return false;
+  const framed = (y: number) =>
+    colourDistance(pixel(image, 0, y), frameColour) <= LIMITS.sameColour ||
+    colourDistance(pixel(image, image.width - 1, y), frameColour) <= LIMITS.sameColour;
+  let last = -1;
+  for (const [index, y] of rows.entries()) if (framed(y)) last = index;
+  const below = rows.slice(last + 1);
   if (below.length === 0) return false;
   const span = ((below.at(-1) ?? 0) - (below[0] ?? 0)) / image.height;
   if (span < LIMITS.sheetRows) return false;
-  return below.every(
-    (y) =>
-      colourDistance(pixel(image, 0, y), frameColour) > LIMITS.sameColour &&
-      colourDistance(pixel(image, image.width - 1, y), frameColour) > LIMITS.sameColour,
-  );
+  return true;
 }
 
 export function findFrame(image: RgbaImage, options: ScreenCheckOptions): ScreenFinding | null {
@@ -145,8 +148,7 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   const rows = rowsBetween(image, 0.12, keyboard === null ? 0.88 : keyboard / image.height, 200);
   const insets: number[] = [];
   const edges: Rgb[] = [];
-  let lastFrameRow = -1;
-  for (const [index, y] of rows.entries()) {
+  for (const y of rows) {
     const left = pixel(image, 0, y);
     const right = pixel(image, width - 1, y);
     if (colourDistance(left, options.background) <= LIMITS.sameColour) continue;
@@ -157,14 +159,12 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
     if (Math.abs(l - r) > Math.max(2, width * 0.01)) continue;
     insets.push(l);
     edges.push(left);
-    lastFrameRow = index;
   }
   if (insets.length < rows.length * LIMITS.frameRows) return null;
   const inset = median(insets);
   const steady = insets.filter((value) => Math.abs(value - inset) <= Math.max(2, width * 0.005));
   if (steady.length < rows.length * LIMITS.frameRows * 0.8) return null;
-  if (isPresenterUnderSheet(image, rows.slice(lastFrameRow + 1), inset, dominant(edges)))
-    return null;
+  if (isPresenterUnderSheet(image, rows, inset, dominant(edges))) return null;
   return {
     code: 'SCREEN_FRAME',
     detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(options.background)}`,
