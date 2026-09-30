@@ -5,8 +5,7 @@ appId: app.critterpass.dev
 #
 # Data: the staging demo seed's `caught_up` scenario: a crew and an inbox with nothing needing
 # the user.
-- launchApp:
-    clearState: true
+- runFlow: subflows/fresh-install.yaml
 - runFlow: subflows/onboard.yaml
 - runFlow:
     file: ../_shared/seed-demo.yaml

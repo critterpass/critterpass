@@ -1,0 +1,11 @@
+appId: app.critterpass.dev
+---
+# A fresh install. The keychain outlives a cleared install on iOS: without clearing it the new
+# pass signs back in to the account an earlier flow on this simulator made (and gave a crew).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - clearKeychain
+- launchApp:
+    clearState: true
