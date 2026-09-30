@@ -33,6 +33,9 @@ export const SYNCED_TABLE_COLUMNS = {
   client_config: 'key value updated_at',
   cmd_results: 'op_id uid cmd status code detail result_ref server_ts',
   code_redemptions: 'code_id user_id redeemed_at applied_as starts_at new_period_end created_at',
+  comment_plus_ones: 'comment_id trip_id user_id created_at',
+  comments:
+    'trip_id anchor_kind anchor_id author_id body edited_at deleted_at created_at updated_at',
   consents: 'user_id purpose scope granted_at revoked_at copy_version created_at updated_at',
   cost_components:
     'trip_id calc_version component_key kind unit is_shared:integer origin member_ids amount_minor:integer currency source quote_id label seen_at frozen_at created_at updated_at',
@@ -123,6 +126,8 @@ export const SYNCED_TABLE_COLUMNS = {
   paywall_impressions:
     'user_id trip_id entry_point outcome channel governed:integer shown_at local_date suppressed_until created_at',
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
+  personal_plan_ops:
+    'trip_id user_id change_set_id base_version_id ops status created_at updated_at',
   phrase_cards:
     'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
   ping_ledger:

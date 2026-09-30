@@ -338,6 +338,25 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       authorId: member,
       ops: [],
     });
+    // Plan collaboration: the organiser's comment (with the member's +1), personal ops and feed token.
+    const { rows: commentRows } = await tx.query<{ id: string }>(
+      `INSERT INTO comments (trip_id, anchor_kind, anchor_id, author_id, body)
+       VALUES ($1, 'day', '1', $2, 'Matrix probe') RETURNING id`,
+      [tripId, organiser],
+    );
+    await tx.query('INSERT INTO comment_plus_ones (comment_id, user_id) VALUES ($1, $2)', [
+      commentRows[0]?.id,
+      member,
+    ]);
+    await tx.query(
+      `INSERT INTO personal_plan_ops (trip_id, user_id, base_version_id, ops) VALUES ($1, $2, $3, '[]')`,
+      [tripId, organiser, versionId],
+    );
+    await tx.query(
+      `INSERT INTO calendar_feed_tokens (trip_id, user_id, token_hash)
+       VALUES ($1, $2, sha256('matrix-probe'::bytea))`,
+      [tripId, organiser],
+    );
 
     await tx.query(
       `INSERT INTO activity_events (id, trip_id, crew_id, actor_kind, verb, object_kind, text)

@@ -1,0 +1,23 @@
+# Plan collaboration streams (docs/data-model-sync-and-privacy.md §4). Comments and their +1s ride
+# the trip stream to every active member of the trip's crew (app.is_trip_member), matching their
+# SELECT policies. A member's personal "just me" ops ride trip_me to that member alone
+# (personal_plan_ops_select_own); calendar feed tokens are server-only and never sync.
+
+streams:
+  trip:
+    queries:
+      - |
+        SELECT * FROM comments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM comment_plus_ones
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+
+  trip_me:
+    queries:
+      - |
+        SELECT * FROM personal_plan_ops
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND user_id = auth.user_id()

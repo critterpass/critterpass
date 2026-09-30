@@ -1226,6 +1226,58 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, true, true),
     },
   },
+  // Plan collaboration: the crew reads comments and +1s and writes its own; personal plan ops are
+  // their owner's alone; calendar feed tokens are the server's only.
+  comments: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM comments WHERE trip_id = $1 AND author_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, true),
+    },
+  },
+  comment_plus_ones: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM comment_plus_ones WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, false),
+    },
+  },
+  personal_plan_ops: {
+    selectProbe: ownRowProbe('personal_plan_ops'),
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, true),
+    },
+  },
+  calendar_feed_tokens: {
+    selectProbe: ownRowProbe('calendar_feed_tokens'),
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   // Money: the crew reads a trip's expenses and the crew's ledger and payments; the server writes.
   expenses: {
     selectProbe: {

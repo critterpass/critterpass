@@ -384,3 +384,25 @@ registerMergeRule({
   conflictColumns: ['code_id'],
 });
 registerMergeRule({ table: 'paywall_impressions', userColumn: 'user_id', strategy: 'reassign' });
+// Plan collaboration: comments and +1s follow their author (one +1 per comment, the existing one
+// wins); personal plan ops and calendar feed tokens are the user's alone and go with them.
+registerMergeRule({ table: 'comments', userColumn: 'author_id', strategy: 'reassign' });
+registerMergeRule({
+  table: 'comment_plus_ones',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['comment_id'],
+  personal: true,
+});
+registerMergeRule({
+  table: 'personal_plan_ops',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  personal: true,
+});
+registerMergeRule({
+  table: 'calendar_feed_tokens',
+  userColumn: 'user_id',
+  strategy: 'drop',
+  personal: true,
+});
