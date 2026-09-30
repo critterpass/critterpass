@@ -11,7 +11,7 @@ import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Composer } from '@/ui/chat/Composer';
 import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 
-import { labDay } from '../../day/dev/lab-scenes-day';
+import { closeScene, labDay } from '../../day/dev/lab-scenes-day';
 import { LAB_MEMBERS, WALK } from '../../day/dev/lab-fixtures';
 import { ItemDetailSheet } from '../../day/item-detail-sheet';
 import { CommentThread } from '../comment-thread';
@@ -202,7 +202,7 @@ export const COLLAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
           onSkipForMe: noop,
           onOpenPlace: noop,
           onOpenMaps: noop,
-          onClose: noop,
+          onClose: closeScene,
         }}
       />
     </>

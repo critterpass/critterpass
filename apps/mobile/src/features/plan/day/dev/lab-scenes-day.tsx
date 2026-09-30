@@ -4,6 +4,7 @@
  * (organiser and member), a booked item's warning, an item someone else removed, and add.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 
 import { AddItemSheet } from '../add-item-sheet';
@@ -50,6 +51,9 @@ export function labDay(overrides: Partial<DayViewProps> = {}): ReactNode {
   );
 }
 
+/** A lab sheet's dismiss (Android back, ✕, drag) leaves the scene, as a real close would. */
+export const closeScene = () => router.back();
+
 const actions = {
   onSave: noop,
   onMoveToDay: noop,
@@ -57,7 +61,7 @@ const actions = {
   onSkipForMe: noop,
   onOpenPlace: noop,
   onOpenMaps: noop,
-  onClose: noop,
+  onClose: closeScene,
 };
 
 function sheet(item: DayItem | null, canApply = true): ReactNode {
@@ -103,7 +107,7 @@ export const DAY_SCENES: Readonly<Record<string, () => ReactNode>> = {
         canApply
         warningText={() => ''}
         onAdd={noop}
-        onClose={noop}
+        onClose={closeScene}
       />
     </>
   ),

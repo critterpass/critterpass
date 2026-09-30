@@ -68,7 +68,10 @@ function HereLabel({ names }: { readonly names: readonly string[] }) {
       <Animated.View style={[styles.dot, blink]} />
       <Text variant="label" color={theme.color.pink}>
         {upper(
-          t({ id: 'plan.collab.here', message: `${format.list(locale, names)} here` }),
+          t({
+            id: 'plan.collab.here',
+            message: `${format.list(locale, names, { type: 'unit' })} here`,
+          }),
           locale,
         )}
       </Text>

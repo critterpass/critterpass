@@ -89,9 +89,11 @@ export function placeCursors(
 function Cursor({
   cursor,
   reduced,
+  fades,
 }: {
   readonly cursor: CursorPlacement;
   readonly reduced: boolean;
+  readonly fades: boolean;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -104,8 +106,8 @@ function Cursor({
     x.value = reduced ? cursor.x : withTiming(cursor.x, { duration: GLIDE_MS });
     y.value = reduced ? cursor.y : withTiming(cursor.y, { duration: GLIDE_MS });
     opacity.value = 1;
-    opacity.value = withDelay(IDLE_FADE_MS, withTiming(0, { duration: GLIDE_MS }));
-  }, [cursor.x, cursor.y, cursor.at, reduced, x, y, opacity]);
+    if (fades) opacity.value = withDelay(IDLE_FADE_MS, withTiming(0, { duration: GLIDE_MS }));
+  }, [cursor.x, cursor.y, cursor.at, reduced, fades, x, y, opacity]);
   const style = useAnimatedStyle(() => ({
     opacity: opacity.value,
     transform: [{ translateX: x.value }, { translateY: y.value }],
@@ -128,9 +130,12 @@ function Cursor({
 export function RemoteCursors({
   cursors,
   reduced,
+  fades = true,
 }: {
   readonly cursors: readonly CursorPlacement[];
   readonly reduced: boolean;
+  /** Fade after 3 s still (the lab's stills keep them). */
+  readonly fades?: boolean;
 }) {
   return (
     <View
@@ -139,7 +144,7 @@ export function RemoteCursors({
       style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
     >
       {cursors.map((cursor) => (
-        <Cursor key={cursor.uid} cursor={cursor} reduced={reduced} />
+        <Cursor key={cursor.uid} cursor={cursor} reduced={reduced} fades={fades} />
       ))}
     </View>
   );

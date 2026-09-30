@@ -73,7 +73,7 @@ export interface TimelineEditorProps {
 }
 
 const useStyles = makeStyles((th) => ({
-  warning: { position: 'absolute', zIndex: 20 },
+  warning: { position: 'absolute', zIndex: 20, alignItems: 'flex-end' },
   root: { marginTop: th.space['8'] },
 }));
 
@@ -243,7 +243,11 @@ export function TimelineEditor(props: TimelineEditorProps) {
                 key={`${warning.code}:${warning.stableId}:${warning.relatedId}`}
                 style={[
                   styles.warning,
-                  { top: frame.top - theme.space['12'], left: frame.left + theme.space['8'] },
+                  {
+                    top: frame.top - theme.space['14'],
+                    left: frame.left,
+                    width: frame.width - theme.space['8'],
+                  },
                 ]}
                 pointerEvents="none"
               >

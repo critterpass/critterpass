@@ -69,7 +69,6 @@ export const LUNCH = item({
   end: 12 * 60 + 45,
   category: 'food',
   status: 'voting',
-  place: { lat: -8.5069, lng: 115.2625 },
 });
 export const WALK = item({
   stableId: 'i-walk',

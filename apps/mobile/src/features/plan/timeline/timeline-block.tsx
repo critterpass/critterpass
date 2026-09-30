@@ -88,15 +88,6 @@ const useStyles = makeStyles((th) => ({
   },
   strike: { textDecorationLine: 'line-through' },
   handle: { position: 'absolute', start: 0, end: 0, height: HANDLE_HEIGHT },
-  grip: {
-    alignSelf: 'center',
-    width: th.space['24'],
-    height: th.space['4'],
-    borderRadius: th.space['2'],
-    backgroundColor: th.semantic.text.onAccent,
-    opacity: 0.35,
-    marginTop: th.space['4'],
-  },
 }));
 
 const ACCEPT_EASING = bezierEasing(GHOST_ACCEPT.bezier);
@@ -278,9 +269,7 @@ export function TimelineBlock({
               <View
                 style={[styles.handle, { bottom: 0 }]}
                 testID={`timeline-block-${block.id}-bottom`}
-              >
-                {frame.height >= META_MIN_HEIGHT ? <View style={styles.grip} /> : null}
-              </View>
+              ></View>
             </GestureDetector>
           </>
         ) : null}

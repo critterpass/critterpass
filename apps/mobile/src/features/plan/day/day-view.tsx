@@ -61,7 +61,7 @@ const useStyles = makeStyles((th) => ({
   header: { paddingTop: th.space['8'], gap: th.space['12'] },
   titleRow: { alignItems: 'flex-end', justifyContent: 'space-between' },
   pill: {
-    borderRadius: th.radius.pill,
+    borderRadius: th.radius.xl,
     paddingHorizontal: th.space['14'],
     paddingVertical: th.space['6'],
     borderWidth: th.space['2'],
@@ -82,23 +82,21 @@ function PlanningPill({ on, onPress }: { readonly on: boolean; readonly onPress:
   const { t } = useLingui();
   const label = t({ id: 'plan.day.planningMode', message: 'Planning mode' });
   return (
-    <PressScale
-      widthClass="narrow"
-      onPress={onPress}
-      accessibilityRole="switch"
-      accessibilityLabel={label}
-      accessibilityState={{ checked: on }}
-      style={[
-        styles.pill,
-        { transform: [{ rotate: degrees(-4) }] },
-        on ? { backgroundColor: theme.color.yellow } : null,
-      ]}
-      testID="plan-day-planning"
-    >
-      <Text variant="label" color={on ? theme.semantic.text.onAccent : theme.color.yellow}>
-        {upper(label, locale)}
-      </Text>
-    </PressScale>
+    <View style={{ transform: [{ rotate: degrees(-4) }] }}>
+      <PressScale
+        widthClass="narrow"
+        onPress={onPress}
+        accessibilityRole="switch"
+        accessibilityLabel={label}
+        accessibilityState={{ checked: on }}
+        style={[styles.pill, on ? { backgroundColor: theme.color.yellow } : null]}
+        testID="plan-day-planning"
+      >
+        <Text variant="label" color={on ? theme.semantic.text.onAccent : theme.color.yellow}>
+          {upper(label, locale)}
+        </Text>
+      </PressScale>
+    </View>
   );
 }
 
@@ -149,7 +147,7 @@ export function DayView(props: DayViewProps) {
               ) : null}
             </Row>
           </Row>
-          <Row style={styles.titleRow} gap="12">
+          <Row style={styles.titleRow} gap="12" align="flex-end">
             <Text variant="h1" accessibilityRole="header" style={{ flex: 1 }} numberOfLines={3}>
               {upper(title, locale)}
             </Text>
