@@ -56,18 +56,27 @@ appId: app.critterpass.dev
     visible:
       text: 'Cusco, 1 votes, your vote'
     timeout: 15000
-- scrollUntilVisible:
-    element:
-      id: 'board-go-to-final'
-    timeout: 20000
-    centerElement: true
-- waitForAnimationToEnd
-- tapOn:
-    id: 'board-go-to-final'
-- extendedWaitUntil:
-    visible:
-      id: 'final-split'
-    timeout: 20000
+# The board reflows as the vote lands; a tap that caught the pitch card instead is backed out of.
+- retry:
+    maxRetries: 2
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'pitch-sheet'
+          file: ../onboarding/subflows/back.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'board-go-to-final'
+          timeout: 20000
+          centerElement: true
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'board-go-to-final'
+      - extendedWaitUntil:
+          visible:
+            id: 'final-split'
+          timeout: 30000
 - tapOn:
     id: 'final-split-open'
 - extendedWaitUntil:

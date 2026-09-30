@@ -23,7 +23,7 @@ appId: app.critterpass.dev
 - evalScript: ${output.day = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
 - tapOn:
     id: 'bookings-paste-field'
-- inputText: 'Singapore Airlines booking confirmed. Booking reference K7Q2PX. Passenger WINSTON. Flight SQ 938 from Singapore (SIN) to Denpasar Bali (DPS) on ${output.day}, departs 09:10, arrives 11:55. Economy, seat 42A.'
+- inputText: 'Singapore Airlines SQ 938, booking ref K7Q2PX, SIN to DPS on ${output.day}, departs 09:10, arrives 11:55.'
 - runFlow:
     when:
       platform: Android
