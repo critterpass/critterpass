@@ -11,6 +11,8 @@ import { releaseActivityHoldCommand } from './release-activity-hold';
 import type { VendorDeps } from '../../suppliers/vendor-store';
 import { approveVendorMessageCommand } from './approve-vendor-message';
 import { createRequestVendorMessageCommand } from './request-vendor-message';
+import { requestConciergeCommand } from './request-concierge';
+import { setEntryReminderCommand } from './set-entry-reminder';
 
 export type SupplierCommandDeps = SupplierClickDeps &
   OrderCommandDeps & {
@@ -26,6 +28,8 @@ export function registerSupplierCommands(
 ): void {
   registry.register(createRequestVendorMessageCommand(deps.vendor ?? NO_DESK));
   registry.register(approveVendorMessageCommand);
+  registry.register(requestConciergeCommand);
+  registry.register(setEntryReminderCommand);
   registry.register(createRecordSupplierClickCommand(deps));
   registry.register(createHoldActivityCommand(deps));
   registry.register(createBookActivityCommand(deps));

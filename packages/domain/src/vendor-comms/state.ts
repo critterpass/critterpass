@@ -1,5 +1,5 @@
 /**
- * A vendor message's life (docs/product-decisions.md D10: WhatsApp only after the traveller approved
+ * A vendor message's life (docs/product-decisions.md: WhatsApp only after the traveller approved
  * the exact text). An outbound draft is approved by its requester, then sent by a person at the ops
  * desk; WhatsApp reports delivery and reading. A newer draft supersedes an unsent one. An inbound
  * message is a vendor's reply, always untrusted text.

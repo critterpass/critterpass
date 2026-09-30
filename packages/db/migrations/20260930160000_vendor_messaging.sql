@@ -1,4 +1,4 @@
--- Vendor messaging (docs/data-model.md §3.16, docs/product-decisions.md D10): the WhatsApp threads
+-- Vendor messaging (docs/data-model.md §3.16, docs/product-decisions.md): the WhatsApp threads
 -- the ops desk keeps with restaurants, drivers and clinics on a traveller's behalf, and every
 -- message in them. A message leaves only after its requester approved the exact text: the approval
 -- lives in ops.approvals, the message keeps the SHA-256 of that text, and the trigger below refuses

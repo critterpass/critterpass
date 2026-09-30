@@ -13,7 +13,7 @@ export function approvalMatches(approvedText: string, body: string): boolean {
   return approvedText === body;
 }
 
-/** The desk's staffed hours when `desk.hours` is not set (docs/product-decisions.md D10). */
+/** The desk's staffed hours when `desk.hours` is not set. */
 export const DEFAULT_DESK_HOURS: DeskHours = {
   open: '07:00',
   close: '23:00',
