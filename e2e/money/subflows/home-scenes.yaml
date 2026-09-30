@@ -15,6 +15,9 @@ appId: app.critterpass.dev
     env: { SCENE: balances-empty, READY: money-empty, SHOT: '${PREFIX}-money-balances-empty' }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: balances-solo, READY: money-solo, SHOT: '${PREFIX}-money-balances-solo' }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: balances-offline, READY: money-offline, SHOT: '${PREFIX}-money-balances-offline' }
 - runFlow:
     file: scene.yaml
