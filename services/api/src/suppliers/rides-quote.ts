@@ -3,7 +3,8 @@
  * "Open Grab" deep link where Grab runs and the Farefeed switch is on; always the market's plain app
  * links and the phrase card for the drop-off. Our own answer is cached 60 s per rider and route (the
  * estimate itself is Grab's), and each estimate is kept in `ride_quotes` for the offline card.
- * Nothing here books a car or claims one is coming.
+ * Without a Grab estimate, `fare_estimate` prices the routed trip with the destination's published
+ * tariffs (./ride-fare-estimate.ts). Nothing here books a car or claims one is coming.
  */
 import { withSystem, withUser } from '@cp/db';
 import {
@@ -14,6 +15,7 @@ import {
   rideQuoteQuerySchema,
   type RideQuoteQuery,
   type RideQuoteResult,
+  type RouteEtaProvider,
 } from '@cp/domain';
 import {
   createGrabTokenSource,
@@ -30,6 +32,7 @@ import type { AppEnv } from '../app';
 import { requireCommandSession, type SessionResolver } from '../commands/_framework/session';
 import type { SupplierEnv } from './link-config';
 import { toMinor } from './order-store';
+import { fareEstimate } from './ride-fare-estimate';
 
 export const RIDE_QUOTE_CACHE_MS = 60_000;
 export const GRAB_FAREFEED_PARTNER = 'grab_farefeed';
@@ -61,6 +64,8 @@ export interface RidePlace {
 export interface RideQuoterDeps {
   readonly pool: pg.Pool;
   readonly grab: GrabEstimator | undefined;
+  /** Routes the trip for the tariff estimate (Mapbox driving-traffic); absent = no estimate. */
+  readonly routing?: RouteEtaProvider | undefined;
   readonly now?: () => Date;
   readonly onError?: (error: unknown) => void;
 }
@@ -91,16 +96,29 @@ async function loadPoi(tx: pg.PoolClient, id: string): Promise<RidePlace> {
   };
 }
 
-/** The trip's country, as its destination names it; `NOT_FOUND` for anyone outside the trip. */
-export async function tripCountry(tx: pg.PoolClient, tripId: string): Promise<string | null> {
-  const { rows } = await tx.query<{ member: boolean; country: string | null }>(
-    `SELECT app.is_trip_member(t.id) AS member, d.country
-       FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = $1`,
+export interface TripPlace {
+  readonly country: string | null;
+  readonly destination: string | null;
+  readonly crewCurrency: string | null;
+}
+
+/** The trip's destination and crew currency; `NOT_FOUND` for anyone outside the trip. */
+export async function tripPlace(tx: pg.PoolClient, tripId: string): Promise<TripPlace> {
+  const { rows } = await tx.query<{
+    member: boolean;
+    country: string | null;
+    slug: string | null;
+    crew_currency: string | null;
+  }>(
+    `SELECT app.is_trip_member(t.id) AS member, d.country, d.slug,
+            c.settlement_currency AS crew_currency
+       FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
+       LEFT JOIN crews c ON c.id = t.crew_id WHERE t.id = $1`,
     [tripId],
   );
   const trip = rows[0];
   if (trip === undefined || !trip.member) throw new DomainError('NOT_FOUND', { reason: 'trip' });
-  return trip.country;
+  return { country: trip.country, destination: trip.slug, crewCurrency: trip.crew_currency };
 }
 
 export function createRideQuoter(deps: RideQuoterDeps) {
@@ -110,7 +128,7 @@ export function createRideQuoter(deps: RideQuoterDeps) {
   async function quotePlaces(
     uid: string,
     tripId: string,
-    country: string | null,
+    place: TripPlace,
     from: RidePlace,
     to: RidePlace,
   ): Promise<RideQuoteResult> {
@@ -121,7 +139,7 @@ export function createRideQuoter(deps: RideQuoterDeps) {
     const key = `${enabled}|${uid}|${tripId}|${from.lat.toFixed(4)},${from.lng.toFixed(4)}|${to.poiId ?? `${to.lat},${to.lng}`}`;
     const hit = cache.get(key);
     if (hit !== undefined && now().getTime() - hit.at < RIDE_QUOTE_CACHE_MS) return hit.result;
-    const apps = rideAppsFor(country);
+    const apps = rideAppsFor(place.country);
     const quote = await quoteRide(
       deps.grab,
       { apps, estimateEnabled: enabled, from, to },
@@ -170,6 +188,22 @@ export function createRideQuoter(deps: RideQuoterDeps) {
         deep_link: lead.deepLink,
       };
     }
+    const tariffEstimate =
+      estimate === null
+        ? await fareEstimate(
+            { pool: deps.pool, routing: deps.routing },
+            {
+              destination: place.destination,
+              crewCurrency: place.crewCurrency,
+              from,
+              to,
+              now: fetchedAt,
+            },
+          ).catch((error: unknown) => {
+            deps.onError?.(error);
+            return null;
+          })
+        : null;
     const result: RideQuoteResult = {
       copy_key:
         estimate !== null
@@ -178,6 +212,7 @@ export function createRideQuoter(deps: RideQuoterDeps) {
             ? RIDE_COPY_KEYS.links
             : RIDE_COPY_KEYS.phraseCard,
       estimate,
+      fare_estimate: tariffEstimate,
       links: quote.links,
       phrase_card: {
         poi_id: to.poiId ?? '',
@@ -198,16 +233,16 @@ export function createRideQuoter(deps: RideQuoterDeps) {
   return {
     /** A quote between two places of the trip (or the phone's position and a place). */
     async quote(uid: string, query: RideQuoteQuery): Promise<RideQuoteResult> {
-      const { country, from, to } = await withUser(deps.pool, uid, generateUuidV7(), async (tx) => {
-        const place = await tripCountry(tx, query.trip_id);
+      const { place, from, to } = await withUser(deps.pool, uid, generateUuidV7(), async (tx) => {
+        const trip = await tripPlace(tx, query.trip_id);
         const dropOff = await loadPoi(tx, query.to_poi);
         const pickUp =
           query.from_poi !== undefined
             ? await loadPoi(tx, query.from_poi)
             : { ...(query.from as { lat: number; lng: number }), name: '' };
-        return { country: place, from: pickUp, to: dropOff };
+        return { place: trip, from: pickUp, to: dropOff };
       });
-      return quotePlaces(uid, query.trip_id, country, from, to);
+      return quotePlaces(uid, query.trip_id, place, from, to);
     },
     /** A quote between two points, for the guide's `ride_quote` tool. */
     async quotePoints(
@@ -216,10 +251,8 @@ export function createRideQuoter(deps: RideQuoterDeps) {
       from: { lat: number; lng: number },
       to: { lat: number; lng: number },
     ): Promise<RideQuoteResult> {
-      const country = await withUser(deps.pool, uid, generateUuidV7(), (tx) =>
-        tripCountry(tx, tripId),
-      );
-      return quotePlaces(uid, tripId, country, { ...from, name: '' }, { ...to, name: '' });
+      const place = await withUser(deps.pool, uid, generateUuidV7(), (tx) => tripPlace(tx, tripId));
+      return quotePlaces(uid, tripId, place, { ...from, name: '' }, { ...to, name: '' });
     },
   };
 }

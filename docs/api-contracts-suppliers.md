@@ -24,6 +24,35 @@ Status: contract for suppliers (P35) and bookings (P34). Stack: Hono + Zod opena
 
 Ride quotes (Grab Farefeed) are GET reads; "Open Grab" is a deep link — no ride commands, no live driver. `request_vendor_message` answers `channel: self_send` with a `wa.me` share link while the desk's WhatsApp Business number (`whatsapp_business` partner switch) is off. Travellers read their threads at `GET /v1/trips/{trip_id}/vendor-threads`; WhatsApp replies for the desk number arrive at `/webhooks/whatsapp/vendor` (its own Meta app).
 
+### Ride quote tariff estimate (`fare_estimate`)
+
+`GET /v1/rides/quote?trip_id&to_poi&(from_poi|from=lat,lng)` answers `{copy_key, estimate, fare_estimate, links, phrase_card}`. `estimate` stays Grab's live Farefeed quote and comes first whenever the `grab_farefeed` switch is on and Grab answers. When it is `null` (switch off, Grab not configured or no quote), `fare_estimate` prices the routed trip with the destination's published tariffs; it is `null` when the destination has no tariffs, the api has no Mapbox token, or Mapbox could not route (a straight-line fallback is never priced).
+
+```jsonc
+"fare_estimate": {
+  "copy_key": "suppliers.rides.tariff_estimate", // the card always says "estimate"
+  "distance_m": 3546, "duration_min": 15, "traffic": true, // Mapbox driving-traffic
+  "options": [{
+    "ride_class": "metered_taxi",          // metered_taxi | ride_hail_car | ride_hail_bike
+    "operator": "MK Taxi Kyoto",
+    "low_minor": 1440, "high_minor": 2820, "currency": "JPY",
+    "basis": "meter_tariff",               // meter_tariff | regulated_band | operator_rates
+    "peak_factor": null,                   // 1.5 when the high end is the ride-hail peak allowance
+    "minimum_applied": false,
+    "extras": [{"kind": "dispatch", "amount_minor": 300}], // airport_pickup | dispatch; not in the range
+    "crew": {"low_minor": 1309, "high_minor": 2564, "currency": "SGD", "fx_as_of": "2026-10-14", "fx_stale": false}, // null without a rate or when the crew pays in the local currency
+    "sources": [{"url": "https://www.mk-group.co.jp/kyoto/taxi/", "covers": "…", "checked_on": "2026-09-30"}],
+    "checked_at": "2026-09-30",            // oldest check date behind the range
+    "reviewed": false                      // true once the owner has published the tariff batch
+  }]
+}
+```
+
+- **Low end:** the standard rates over the route: flag fall, distance beyond what it covers (with a later per-km rate where the tariff has one), and time where the tariff charges every minute.
+- **High end:** the upper rates where the tariff publishes them (a regulator's upper band, a meter's night rates). Ride-hail classes without them use the standard fare × 1.5 (`peak_factor`; operators publish no surge cap). Meters that charge time only in slow traffic add every minute in traffic on the high end.
+- Both ends respect the minimum fare. Low rounds down and high rounds up to the local unit (IDR 1,000, JPY 10, EUR 0.50, ISK 100). `crew` converts both ends with the latest stored FX snapshot.
+- **Tariff data:** the `ride_tariffs` content kind. It is built by the content factory (`pnpm content ride_tariffs run`) from hand-researched records, and reviewed and approved in the console like every batch. The api reads the live release (`reviewed: true`), or else the newest batch still in review (`reviewed: false`).
+
 ## Routes (supplier order flow and attribution)
 
 ### Affiliate attribution bridge
