@@ -12,9 +12,15 @@ import { registerScreens } from '@/lib/navigation/screen-registry';
 export const proposalRoutes = {
   build: (tripId: string): Href => ({ pathname: '/proposal/build', params: { tripId } }),
   open: (proposalId: string): Href => ({ pathname: '/proposal/[id]', params: { id: proposalId } }),
-  board: (proposalId: string): Href => ({
+  /** `options`: the savings the member took, carried to their RSVP. */
+  board: (proposalId: string, options: readonly string[] = []): Href => ({
     pathname: '/proposal/[id]/board',
-    params: { id: proposalId },
+    params:
+      options.length === 0 ? { id: proposalId } : { id: proposalId, options: options.join(',') },
+  }),
+  preview: (proposalId: string, uid: string): Href => ({
+    pathname: '/proposal/[id]',
+    params: { id: proposalId, as: uid },
   }),
   tracker: (proposalId: string): Href => ({
     pathname: '/proposal/[id]/tracker',

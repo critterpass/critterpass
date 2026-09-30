@@ -2,3 +2,4 @@
 import { registerProposalScreens } from './routes';
 
 registerProposalScreens();
+import './chat-card';

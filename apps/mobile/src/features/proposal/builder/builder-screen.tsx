@@ -187,7 +187,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         onReplyBy={() => setPicking(true)}
         onPreview={(uid) => {
           if (proposal !== null) {
-            router.push({ pathname: '/proposal/[id]', params: { id: proposal.id, as: uid } });
+            router.push(proposalRoutes.preview(proposal.id, uid));
           }
         }}
         onSend={() => void onSend()}

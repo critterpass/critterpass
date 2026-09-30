@@ -1,14 +1,30 @@
 /**
  * `send_proposal` (docs/api-contracts.md §4.7): the organiser sends the built proposal. The crew
- * can see it from now on, the trip moves to `proposed`, and each recipient gets their guide's
- * push (N-07). Sending twice changes nothing.
+ * can see it from now on, the trip moves to `proposed`, each recipient gets their guide's push
+ * (N-07) and the proposal's card is posted in crew chat. Sending twice changes nothing.
  */
-import { appendDomainEvent } from '@cp/db';
-import { DomainError, proposalIdPayloadSchema } from '@cp/domain';
+import { appendDomainEvent, outbox } from '@cp/db';
+import { channelName, DomainError, generateUuidV7, proposalIdPayloadSchema } from '@cp/domain';
+import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
-import { requireProposalOrganiser } from './shared';
+import { requireProposalOrganiser, type ProposalRow } from './shared';
+
+/** The proposal's card in crew chat, posted by the organiser who sent it. */
+async function postProposalCard(tx: pg.PoolClient, proposal: ProposalRow, uid: string) {
+  const messageId = generateUuidV7();
+  const { rows } = await tx.query<{ seq: string }>(
+    `INSERT INTO messages (id, crew_id, trip_id, sender_kind, sender_id, type, body, ref_kind, ref_id)
+     VALUES ($1, $2, $3, 'user', $4, 'proposal', '', 'proposal', $5) RETURNING seq`,
+    [messageId, proposal.crew_id, proposal.trip_id, uid, proposal.id],
+  );
+  await outbox(tx, channelName('crew_chat', proposal.crew_id), 'message.created', {
+    crew_id: proposal.crew_id,
+    message_id: messageId,
+    seq: Number(rows[0]?.seq),
+  });
+}
 
 export const sendProposalCommand = defineCommand({
   name: 'send_proposal',
@@ -62,6 +78,7 @@ export const sendProposalCommand = defineCommand({
         crewId: proposal.crew_id,
         tripId: proposal.trip_id,
       });
+      await postProposalCard(tx, proposal, ctx.uid);
       return { proposal_id: proposal.id, recipients };
     });
   },
