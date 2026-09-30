@@ -1,0 +1,53 @@
+appId: app.critterpass.dev
+---
+# Getting around (3h-3): every ride card state, the journey estimate and its two sheets, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: around-kyoto-estimate,
+        READY: getting-around-fare-estimate,
+        SHOT: '${PREFIX}-3h-3-kyoto-estimate',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: around-links, READY: getting-around-ride-links, SHOT: '${PREFIX}-3h-3-links' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: around-grab-estimate,
+        READY: getting-around-ride-estimate,
+        SHOT: '${PREFIX}-3h-3-grab-estimate',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: around-transfer, READY: getting-around-transfer, SHOT: '${PREFIX}-3h-3-transfer' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: around-journey, READY: getting-around-journey, SHOT: '${PREFIX}-3h-3-journey' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: around-arrived, READY: getting-around-arrived, SHOT: '${PREFIX}-3h-3-arrived' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: around-offline, READY: getting-around-ride-offline, SHOT: '${PREFIX}-3h-3-offline' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: around-no-apps, READY: getting-around-ride-none, SHOT: '${PREFIX}-3h-3-no-apps' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: around-loading, READY: getting-around-ride-loading, SHOT: '${PREFIX}-3h-3-loading' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: around-estimate-why,
+        READY: supplier-estimate-why,
+        SHOT: '${PREFIX}-supplier-estimate-why',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: around-log-ride, READY: supplier-log-ride, SHOT: '${PREFIX}-supplier-log-ride' }

@@ -1,0 +1,14 @@
+appId: app.critterpass.dev
+---
+# From the developer tools list to the supplier lab.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-supplier-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-supplier-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'supplier-lab-live-offer'
+    timeout: 15000

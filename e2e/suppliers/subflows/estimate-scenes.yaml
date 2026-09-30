@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# The Kyoto fare estimate (3h-3), its "why this estimate" sheet and the default 3h-3 scene, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: around-kyoto-estimate,
+        READY: getting-around-fare-estimate,
+        SHOT: '${PREFIX}-3h-3-kyoto-estimate',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: around-estimate-why,
+        READY: supplier-estimate-why,
+        SHOT: '${PREFIX}-supplier-estimate-why',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: around-links, READY: getting-around-ride-links, SHOT: '${PREFIX}-3h-3-links' }

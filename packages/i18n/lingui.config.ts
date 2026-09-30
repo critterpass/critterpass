@@ -115,6 +115,16 @@ const tripSubAreas = {
   ],
 } as const;
 
+// Supplier cards, the booking sheet, vendor messages and Getting around keep their own catalog
+// inside the bookings area (`suppliers/app`), so the supplier lane and the wallet never edit the
+// same file.
+const supplierSources = [
+  `${repoRootPrefix}/apps/mobile/src/features/bookings/supplier/**`,
+  `${repoRootPrefix}/apps/mobile/src/features/bookings/getting-around/**`,
+  `${repoRootPrefix}/apps/mobile/src/app/(modal)/supplier/**`,
+  `${repoRootPrefix}/apps/mobile/src/app/(trip)/getting-around.tsx`,
+];
+
 const notificationSources = [
   {
     name: 'common',
@@ -174,12 +184,20 @@ export default defineConfig({
               ? [...testFileExcludes, `${draftRoot}/**`, ...planSubAreas.flatMap(planSubSources)]
               : area === 'trip'
                 ? [...testFileExcludes, ...Object.values(tripSubAreas).flat()]
-                : testFileExcludes,
+                : area === 'bookings'
+                  ? [...testFileExcludes, ...supplierSources]
+                  : testFileExcludes,
     })),
     {
       name: 'chat/chat',
       path: 'locales/{locale}/chat/chat',
       include: chatSources,
+      exclude: testFileExcludes,
+    },
+    {
+      name: 'suppliers/app',
+      path: 'locales/{locale}/suppliers/app',
+      include: supplierSources,
       exclude: testFileExcludes,
     },
     {

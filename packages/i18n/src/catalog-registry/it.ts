@@ -41,6 +41,7 @@ export const catalogs: Record<string, () => Promise<Messages>> = {
   "setup/must-dos": () => import('../../locales/it/setup/must-dos').then((m) => m.messages),
   "setup/rooms": () => import('../../locales/it/setup/rooms').then((m) => m.messages),
   "setup/when": () => import('../../locales/it/setup/when').then((m) => m.messages),
+  "suppliers/app": () => import('../../locales/it/suppliers/app').then((m) => m.messages),
   "surfaces": () => import('../../locales/it/surfaces').then((m) => m.messages),
   "trip": () => import('../../locales/it/trip').then((m) => m.messages),
   "trip/alarm": () => import('../../locales/it/trip/alarm').then((m) => m.messages),

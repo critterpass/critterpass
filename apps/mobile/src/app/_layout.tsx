@@ -46,6 +46,7 @@ import { SetupNotificationActions } from '@/features/setup/notifications';
 import '@/features/setup/register';
 import '@/features/plan/overview/register';
 import { TripDayRuntime } from '@/features/trip/hub/register';
+import '@/features/bookings/supplier/register';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';

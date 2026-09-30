@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# Getting around on a real account: the staging demo crew's Bali trip, opened from the supplier
+# lab's live entry. Whatever the day holds, the screen answers with the leg (ride card and the
+# phrase card for the driver) or says there is nothing left to get to today; it never shows a
+# driver or a booked car.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- extendedWaitUntil:
+    visible:
+      text: 'Live getting around on this trip'
+    timeout: 60000
+- tapOn:
+    id: 'supplier-lab-live-around'
+- extendedWaitUntil:
+    visible:
+      id: 'getting-around.*'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'getting-around'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'getting-around-phrase'
+          timeout: 20000
+      - assertNotVisible:
+          text: '(?i).*(booked by|is \d+ min away).*'

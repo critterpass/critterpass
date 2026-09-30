@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# Screenshots of the Kyoto fare estimate on Getting around (3h-3) and its "why this estimate"
+# sheet, in English, for `pnpm screens:compare`.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/estimate-scenes.yaml
+    env: { PREFIX: en }
