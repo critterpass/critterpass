@@ -29,6 +29,7 @@ import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
 import { armTripBriefings } from './briefing-schedule';
+import { armDayBundles } from './daybundle-triggers';
 import { loadPlanItems, type PlanItemRow } from './plan-items';
 
 const MINUTE = 60_000;
@@ -298,9 +299,12 @@ export function leaveByRecomputeJob(router: RouteEtaProvider): JobDefinition<Lea
     handler: async (data, ctx) => {
       const now = new Date();
       const result = await recomputeLeaveBys(ctx.pool, data.trip_id, router, now);
-      // The same plan and trip changes move each member's next morning briefing.
-      const briefings = await withSystem(ctx.pool, (tx) => armTripBriefings(tx, data.trip_id, now));
-      return { ...result, briefings };
+      // The same plan and trip changes move each member's next morning and the day bundles.
+      const armed = await withSystem(ctx.pool, async (tx) => ({
+        briefings: await armTripBriefings(tx, data.trip_id, now),
+        bundles: await armDayBundles(tx, data.trip_id, now),
+      }));
+      return { ...result, ...armed };
     },
   });
 }

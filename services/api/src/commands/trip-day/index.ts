@@ -1,6 +1,7 @@
 /** Trip day commands, registered on the one command registry at boot. */
 import { onEventAppended } from '@cp/db';
 
+import { registerTripDayBundleSection } from '../../routes/offline-bundle';
 import type { CommandRegistry } from '../_framework/registry';
 import { enqueueLeaveByRecompute } from './hooks';
 import { actBriefingItemCommand } from './act-briefing-item';
@@ -28,10 +29,12 @@ export function registerTripDayCommands(registry: CommandRegistry): void {
 }
 
 /**
- * The trip day's api mount: its commands, and the recompute its leave-bys need after plan, flight
- * and trip events the api appends (the worker hooks the ones it appends itself).
+ * The trip day's api mount: its commands, the day bundles in `GET /v1/trips/{id}/offline-bundle`,
+ * and the recompute its leave-bys need after plan, flight and trip events the api appends (the
+ * worker hooks the ones it appends itself).
  */
 export function registerTripDay(doors: { readonly registry: CommandRegistry }): void {
   registerTripDayCommands(doors.registry);
+  registerTripDayBundleSection();
   onEventAppended(enqueueLeaveByRecompute);
 }

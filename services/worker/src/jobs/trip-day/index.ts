@@ -10,6 +10,7 @@ import type { RouteEtaProvider } from '@cp/domain';
 
 import type { AnyJobDefinition } from '../../boss';
 import { briefingJob, type BriefingWriter } from './briefing-build';
+import { dayBundleJob } from './daybundle-build';
 import { tripDayEventHook } from './hooks';
 import { leaveByRecomputeJob } from './leaveby-recompute';
 import { leaveByScheduleJob } from './leaveby-schedule';
@@ -66,5 +67,6 @@ export function tripDayJobs(
     leaveByRecomputeJob(router),
     leaveByScheduleJob(router),
     briefingJob(briefingWriter(env, assertRouteOn, telemetry)),
+    dayBundleJob(),
   ];
 }
