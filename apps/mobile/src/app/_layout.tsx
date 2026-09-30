@@ -93,6 +93,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
 import { Text, useTheme } from '@/ui';
 import { PrimerSheetHost, VisitConsentHost } from '@/ui/permission-primer';
+import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
 
 void SplashScreen.preventAutoHideAsync();
@@ -220,6 +221,7 @@ function RootNavigator() {
       .catch(() => setLaunchUrl(null));
   }, []);
   useNavigationPersistence({ navigationRef, build: BUILD, launchUrl });
+  useNoBackAffordanceGuard();
   useScreenTracking(useAnalytics());
   usePushNotifications(cpNotifications);
   return (
