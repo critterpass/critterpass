@@ -1,7 +1,7 @@
 ---
 phase: 36
 title: Trip hub, briefing, day-of, leave-by & alarm, offline
-status: pending
+status: in_progress
 depends_on: [11, 13, 14, 15, 18, 20, 25, 32, 34]
 wave: 17
 features: [F-012, F-110, F-111, F-112, F-113, F-114]
