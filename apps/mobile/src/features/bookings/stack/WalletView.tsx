@@ -2,7 +2,8 @@
  * Bookings (3h-1): the BOOKINGS title with the offline badge, the card stack with the soonest
  * relevant booking open at the front, the "found in an inbox" banner, then (undesigned, from the
  * same components) the insurance card, "Add a booking" and the archive link. An empty wallet
- * shows the three import tiles inline; loading shows skeleton cards.
+ * shows the three import tiles inline; loading shows skeleton cards. The BOOKINGS | MONEY switch
+ * above the title (undesigned) swaps to the Money half.
  */
 import { upper } from '@cp/i18n';
 import { plural } from '@lingui/core/macro';
@@ -28,6 +29,7 @@ import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 import { ImportTiles, type ImportChannel } from '../add/ImportTiles';
 import { BookingDeck, type DeckItem } from './BookingDeck';
 import { ImportBanner, OfflineBadge, type ImportBannerProps } from './WalletParts';
+import { WalletSwitch } from './WalletSwitch';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['8'] },
@@ -80,6 +82,7 @@ export function WalletView(props: WalletViewProps) {
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: inset + theme.space['32'] }]}
       >
+        <WalletSwitch current="bookings" />
         <Title offlineCount={props.offlineCount} />
         {props.state === 'loading' ? (
           <Stack gap="8" testID="bookings-loading">

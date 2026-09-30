@@ -210,6 +210,7 @@ msgstr "Đặt chỗ: {title}"
 msgid "bookings.back"
 msgstr "Đặt chỗ"
 
+#: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.title"
 msgstr "Đặt chỗ"
@@ -484,6 +485,10 @@ msgstr "Đã kết nối hộp thư"
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.meet"
 msgstr "Điểm hẹn"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
+msgid "bookings.switch.money"
+msgstr "Tiền"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.docPending"
@@ -807,6 +812,10 @@ msgstr "Mã phiếu"
 #: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
 msgid "bookings.card.voucherA11y"
 msgstr "Mã phiếu, mở toàn màn hình"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
+msgid "bookings.switch.label"
+msgstr "Ví"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.landedToast"

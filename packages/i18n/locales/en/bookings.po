@@ -210,6 +210,7 @@ msgstr "Booking: {title}"
 msgid "bookings.back"
 msgstr "Bookings"
 
+#: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.title"
 msgstr "Bookings"
@@ -484,6 +485,10 @@ msgstr "Mailbox connected"
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.meet"
 msgstr "Meeting point"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
+msgid "bookings.switch.money"
+msgstr "Money"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.docPending"
@@ -807,6 +812,10 @@ msgstr "Voucher code"
 #: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
 msgid "bookings.card.voucherA11y"
 msgstr "Voucher code, open full screen"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
+msgid "bookings.switch.label"
+msgstr "Wallet"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.landedToast"

@@ -210,6 +210,7 @@ msgstr ""
 msgid "bookings.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.title"
 msgstr ""
@@ -483,6 +484,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.meet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
+msgid "bookings.switch.money"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
@@ -806,6 +811,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
 msgid "bookings.card.voucherA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
+msgid "bookings.switch.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
