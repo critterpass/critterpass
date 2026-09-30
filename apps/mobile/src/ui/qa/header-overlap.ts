@@ -22,6 +22,27 @@ export interface QaRect {
 const TOUCH_PT = 1;
 /** Measure once the header's layout (and its fit-to-width text) has settled. */
 const SETTLE_MS = 400;
+/**
+ * A push slides the whole screen in with a transform, which fires no layout pass: the row is
+ * measured again until two samples agree, and a row still moving after this many is not judged.
+ */
+const MAX_SAMPLES = 10;
+
+function sameRects(a: ReadonlyMap<string, QaRect>, b: ReadonlyMap<string, QaRect>): boolean {
+  if (a.size !== b.size) return false;
+  for (const [id, rect] of a) {
+    const other = b.get(id);
+    if (
+      !other ||
+      Math.abs(rect.x - other.x) > TOUCH_PT ||
+      Math.abs(rect.y - other.y) > TOUCH_PT ||
+      Math.abs(rect.width - other.width) > TOUCH_PT ||
+      Math.abs(rect.height - other.height) > TOUCH_PT
+    )
+      return false;
+  }
+  return true;
+}
 
 function overlap(a: QaRect, b: QaRect): boolean {
   return (
@@ -70,18 +91,26 @@ export function useHeaderOverlapGuard(name: string): HeaderOverlapGuard {
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const measure = useCallback(() => {
-    const rects = new Map<string, QaRect>();
-    const pending = [...nodes.current];
-    let left = pending.length;
-    for (const [id, node] of pending) {
-      node.measureInWindow((x, y, width, height) => {
-        rects.set(id, { x, y, width, height });
-        left -= 1;
-        if (left > 0) return;
-        for (const problem of headerLayoutProblems(rects, Dimensions.get('window').width))
-          reportUiQa('HEADER_OVERLAP', `${name}: ${problem}`);
-      });
-    }
+    const sample = (previous: ReadonlyMap<string, QaRect> | null, samples: number) => {
+      const rects = new Map<string, QaRect>();
+      const pending = [...nodes.current];
+      let left = pending.length;
+      for (const [id, node] of pending) {
+        node.measureInWindow((x, y, width, height) => {
+          rects.set(id, { x, y, width, height });
+          left -= 1;
+          if (left > 0) return;
+          if (previous === null || !sameRects(previous, rects)) {
+            if (samples < MAX_SAMPLES)
+              timer.current = setTimeout(() => sample(rects, samples + 1), SETTLE_MS);
+            return;
+          }
+          for (const problem of headerLayoutProblems(rects, Dimensions.get('window').width))
+            reportUiQa('HEADER_OVERLAP', `${name}: ${problem}`);
+        });
+      }
+    };
+    sample(null, 1);
   }, [name]);
 
   const onLayout = useCallback(() => {
