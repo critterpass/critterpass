@@ -10,6 +10,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { upper } from '@cp/i18n';
 import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -70,6 +71,8 @@ export function OnboardingPage({
   scroll = true,
   testID,
 }: OnboardingPageProps) {
+  // The onboarding pages (3a-2…3a-5) show their progress dots, never a back control.
+  useNoBackByDesign();
   const styles = useStyles();
   const locale = useLocale();
   const theme = useTheme();
