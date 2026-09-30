@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+import { NavigationContext } from 'expo-router/react-navigation';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { BackHandler, Keyboard, Platform } from 'react-native';
 import type { KeyboardEvent } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
@@ -87,6 +88,7 @@ export function useModalPresentation({
   const [index, setIndex] = useState(initialIndex);
   const [keyboardInset, setKeyboardInset] = useState(0);
   const dismissing = useRef(false);
+  const navigation = useContext(NavigationContext);
 
   const ty = useSharedValue(reduced ? restFor(initialIndex) : maxHeight);
   const presence = useSharedValue(0);
@@ -154,6 +156,9 @@ export function useModalPresentation({
 
   useEffect(() => {
     const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
+      // A page pushed over this sheet's screen owns Android back: the sheet stays mounted under it
+      // and must not close (and pop that page with it) on the page's back.
+      if (navigation !== undefined && !navigation.isFocused()) return false;
       dismiss();
       return true;
     });
