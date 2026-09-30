@@ -1,0 +1,10 @@
+# Forecast watch list: the rules' statuses and numbers → a guide line and a title and detail per
+# changed row. Numbers only from the row's facts; no "closed" or "cancelled" without a cited source.
+# Cases live in cases.yaml and run through the real grounded-copy writer (suite.ts).
+# Run: pnpm --filter @cp/ai eval watch
+description: Forecast watch rows worded from the impact rules
+prompts:
+  - '{{rows}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

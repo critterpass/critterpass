@@ -99,7 +99,7 @@ CREATE TABLE watch_items (
   resolved_at timestamptz,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now(),
-  CONSTRAINT watch_items_trip_kind_target_key UNIQUE (trip_id, kind, target_ref)
+  CONSTRAINT watch_items_trip_target_key UNIQUE (trip_id, target_ref)
 );
 ALTER TABLE watch_items ADD CONSTRAINT watch_items_kind_check
   CHECK (kind IN ('weather', 'marine', 'volcano', 'crowds', 'traffic', 'closure'));

@@ -1,6 +1,6 @@
 /**
  * Disruption jobs, wired from the worker's environment: the flight disruption agent, the row
- * reactions and the vendor no-answer timer. Building them also hooks the events this process
+ * reactions, the vendor no-answer timer and the forecast watcher. Building them also hooks the events this process
  * appends and registers the disruption pushes, once per process. The guide's words need
  * `ANTHROPIC_API_KEY` (the DeepSeek key); without it every line is its template.
  */
@@ -14,6 +14,8 @@ import { flightDisruptionJob } from './flight-disruption';
 import { disruptionEventHook } from './hooks';
 import { registerDisruptionNotifications } from './notify';
 import { disruptionReactJob } from './react';
+import { registerWatchNotifications, watchWriter } from './watch-notify';
+import { weatherWatchJob } from './weather-watch';
 
 export { disruptionEventHook } from './hooks';
 
@@ -30,7 +32,13 @@ export function disruptionJobs(
     hooked = true;
     onEventAppended(disruptionEventHook);
     registerDisruptionNotifications();
+    registerWatchNotifications();
   }
   const gateway = gatewayFrom(env, switches.assertAiRoute, telemetry);
-  return [flightDisruptionJob(disruptionWriter(gateway)), disruptionReactJob(), noAnswerJob()];
+  return [
+    flightDisruptionJob(disruptionWriter(gateway)),
+    disruptionReactJob(),
+    noAnswerJob(),
+    weatherWatchJob(watchWriter(gateway)),
+  ];
 }
