@@ -133,6 +133,17 @@ export const FIRST_REDUCED_PLAN: HatchPlan = {
   fadeMs: 200,
 };
 
+/**
+ * Android hands its system splash over to the app when the app first draws after the splash hides,
+ * and a slow first few frames time that hand-off out (touches then wait on it for the rest of the
+ * run). So on Android the hatch holds its light first frame (navy and the egg, where the system
+ * splash left it) while the hand-off finishes, and only then mounts Tokek, the sparks, the
+ * wordmark and the glow and starts moving.
+ */
+export function settleMs(os: string): number {
+  return os === 'android' ? 500 : 0;
+}
+
 /** One track's transform at `ms` on the design clock (clamped to its first and last stops). */
 export function sampleTrack({ stops, eases }: HatchTrack, ms: number): LoopTransform {
   'worklet';

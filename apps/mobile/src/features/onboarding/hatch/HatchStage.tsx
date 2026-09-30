@@ -64,6 +64,8 @@ function StillImage({ source, size }: { readonly source: number; readonly size: 
       source={source}
       defaultSource={source}
       fadeDuration={0}
+      // Android decodes the bitmap at the view's size rather than the file's (the glow is 2208 px).
+      resizeMethod="resize"
       style={{ width: size, height: size }}
     />
   );
@@ -89,10 +91,12 @@ function Spark({ spec, clock }: { readonly spec: SparkSpec; readonly clock: Shar
 export interface HatchStageProps {
   /** Milliseconds on the design's hatch clock (./timeline). */
   readonly clock: SharedValue<number>;
+  /** False draws only navy and the egg: the light first frame (see `settleMs`). */
+  readonly full?: boolean;
   readonly testID?: string;
 }
 
-export function HatchStage({ clock, testID }: HatchStageProps) {
+export function HatchStage({ clock, full = true, testID }: HatchStageProps) {
   const theme = useTheme();
   const egg = useAnimatedStyle(() => transformStyle(sampleTrack(EGG, clock.value)));
   const glow = useAnimatedStyle(() => {
@@ -100,12 +104,7 @@ export function HatchStage({ clock, testID }: HatchStageProps) {
     // In as the egg bursts: its opacity falls from 1 to 0 over the same stretch.
     return { opacity: 1 - sampleTrack(EGG, clock.value).o };
   });
-  const tokek = useAnimatedStyle(() => transformStyle(sampleTrack(TOKEK, clock.value)));
-  const wave = useAnimatedStyle(() =>
-    transformStyle(sampleLoop(TOKEK_WIGGLE, TOKEK_WIGGLE_MS, clock.value)),
-  );
-  const wordmark = useAnimatedStyle(() => transformStyle(sampleTrack(WORDMARK, clock.value)));
-  const { glow: glowBox, tokek: tokekBox } = LAYOUT;
+  const { glow: glowBox } = LAYOUT;
 
   return (
     <View
@@ -116,32 +115,50 @@ export function HatchStage({ clock, testID }: HatchStageProps) {
       testID={testID}
     >
       <View style={styles.anchor}>
-        <Animated.View
-          style={[styles.at, { left: -glowBox.size / 2, top: -glowBox.size / 2 }, glow]}
-        >
-          <StillImage source={GLOW} size={glowBox.size} />
-        </Animated.View>
+        {full ? (
+          <Animated.View
+            style={[styles.at, { left: -glowBox.size / 2, top: -glowBox.size / 2 }, glow]}
+          >
+            <StillImage source={GLOW} size={glowBox.size} />
+          </Animated.View>
+        ) : null}
         <Animated.View style={[styles.at, { left: EGG_BOX.left, top: EGG_BOX.top }, egg]}>
           <StillImage source={EGG_IMAGE} size={EGG_BOX.size} />
         </Animated.View>
-        <Animated.View style={[styles.at, { left: tokekBox.left, top: tokekBox.top }, tokek]}>
-          <Animated.View style={wave}>
-            <Sticker kind="gecko" name="Tokek" pose="wave" seed={41} size={tokekBox.size} />
-          </Animated.View>
-        </Animated.View>
-        {SPARKS.map((spec) => (
-          <Spark key={`${spec.left}:${spec.top}`} spec={spec} clock={clock} />
-        ))}
-        <Animated.View style={[styles.wordmark, { top: LAYOUT.wordmarkTop }, wordmark]}>
-          <Text variant="displayHero" color={theme.color.yellow} style={styles.line}>
-            CRITTER
-          </Text>
-          <Text variant="displayHero" color={theme.color.yellow} style={styles.line}>
-            PASS
-          </Text>
-        </Animated.View>
+        {full ? <HatchCast clock={clock} /> : null}
       </View>
     </View>
+  );
+}
+
+/** Tokek, the sparks and the wordmark: everything that joins the egg once the hatch moves. */
+function HatchCast({ clock }: { readonly clock: SharedValue<number> }) {
+  const theme = useTheme();
+  const tokek = useAnimatedStyle(() => transformStyle(sampleTrack(TOKEK, clock.value)));
+  const wave = useAnimatedStyle(() =>
+    transformStyle(sampleLoop(TOKEK_WIGGLE, TOKEK_WIGGLE_MS, clock.value)),
+  );
+  const wordmark = useAnimatedStyle(() => transformStyle(sampleTrack(WORDMARK, clock.value)));
+  const { tokek: tokekBox } = LAYOUT;
+  return (
+    <>
+      <Animated.View style={[styles.at, { left: tokekBox.left, top: tokekBox.top }, tokek]}>
+        <Animated.View style={wave}>
+          <Sticker kind="gecko" name="Tokek" pose="wave" seed={41} size={tokekBox.size} />
+        </Animated.View>
+      </Animated.View>
+      {SPARKS.map((spec) => (
+        <Spark key={`${spec.left}:${spec.top}`} spec={spec} clock={clock} />
+      ))}
+      <Animated.View style={[styles.wordmark, { top: LAYOUT.wordmarkTop }, wordmark]}>
+        <Text variant="displayHero" color={theme.color.yellow} style={styles.line}>
+          CRITTER
+        </Text>
+        <Text variant="displayHero" color={theme.color.yellow} style={styles.line}>
+          PASS
+        </Text>
+      </Animated.View>
+    </>
   );
 }
 

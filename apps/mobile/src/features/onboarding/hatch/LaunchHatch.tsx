@@ -31,6 +31,7 @@ import {
   BURST_MS,
   FIRST_REDUCED_PLAN,
   firstHatchPlan,
+  settleMs,
   type HatchPlan,
 } from './timeline';
 
@@ -46,9 +47,16 @@ function HatchOverlay({ plan, onDone, crack = false, testID }: HatchOverlayProps
   const revealed = useSplashRevealed();
   const clock = useSharedValue(plan.from);
   const fade = useSharedValue(1);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
     if (!revealed) return undefined;
+    const settle = setTimeout(() => setStarted(true), settleMs(Platform.OS));
+    return () => clearTimeout(settle);
+  }, [revealed]);
+
+  useEffect(() => {
+    if (!started) return undefined;
     clock.value = withTiming(plan.to, { duration: plan.playMs, easing: linearEasing });
     fade.value = withDelay(plan.playMs + plan.holdMs, withTiming(0, { duration: plan.fadeMs }));
     // Unmounts on the JS clock once the fade is over; an overlay gone early cancels it.
@@ -60,13 +68,13 @@ function HatchOverlay({ plan, onDone, crack = false, testID }: HatchOverlayProps
       clearTimeout(end);
       if (crackTimer !== null) clearTimeout(crackTimer);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- one run per reveal; the plan is fixed.
-  }, [revealed]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- one run per start; the plan is fixed.
+  }, [started]);
 
   const style = useAnimatedStyle(() => ({ opacity: fade.value }));
   return (
     <Animated.View style={[StyleSheet.absoluteFill, style]} pointerEvents="none">
-      <HatchStage clock={clock} testID={testID} />
+      <HatchStage clock={clock} full={started || settleMs(Platform.OS) === 0} testID={testID} />
     </Animated.View>
   );
 }

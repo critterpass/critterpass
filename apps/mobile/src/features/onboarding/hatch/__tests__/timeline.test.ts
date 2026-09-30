@@ -16,6 +16,7 @@ import {
   WORDMARK,
   firstHatchPlan,
   sampleLoop,
+  settleMs,
   sampleTrack,
 } from '../timeline';
 
@@ -58,6 +59,11 @@ describe('hatch plans', () => {
     expect(BEAT_PLAN.playMs + BEAT_PLAN.holdMs + BEAT_PLAN.fadeMs).toBeLessThanOrEqual(700);
     expect(BEAT_PLAN.from).toBe(BURST_MS);
     expect(BEAT_PLAN.to).toBe(TOKEK_LANDED_MS);
+  });
+
+  it('lets Android finish its system splash hand-off on a light frame before moving', () => {
+    expect(settleMs('android')).toBeGreaterThan(0);
+    expect(settleMs('ios')).toBe(0);
   });
 
   it('plays the whole first hatch in real time on iOS, from the burst on Android', () => {
