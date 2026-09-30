@@ -1,0 +1,236 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-29 19:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#. placeholder {0}: part.nights
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stayNights"
+msgstr "{0, plural, other {# đêm {kind}}}"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.counted"
+msgstr "Đã có {set}/{of} mức tối đa."
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.waiting"
+msgstr "{set}/{of} đã đặt"
+
+#: ../../apps/mobile/src/features/setup/budget/fx-preview.ts
+msgid "setup.budget.member.approx"
+msgstr "≈ {amount} theo {to}"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.underCounted"
+msgstr "✓ Dưới {set}/{of} mức"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.underAll"
+msgstr "✓ Dưới cả {set} mức"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.shorter"
+msgstr "Đi ngắn ngày hơn"
+
+#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
+msgid "setup.budget.own.add"
+msgstr "Thêm của bạn"
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.apartment"
+msgstr "căn hộ"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.eyebrow"
+msgstr "Mức tối đa"
+
+#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.change"
+msgstr "đổi"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.dates"
+msgstr "Ngày rẻ hơn"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.captionWaiting"
+msgstr "chấm hiện khi có bốn mức"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.caption"
+msgstr "mỗi chấm là mức của một người"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.line"
+msgstr "Mỗi người đặt một mức tối đa riêng. Không ai thấy con số của người khác, kể cả {guide}."
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lineWaiting"
+msgstr "Mỗi người đặt một mức tối đa riêng. Khoảng giá hiện khi có bốn người đặt."
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.flights"
+msgstr "Vé bay"
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.missingLine"
+msgstr "Chưa có giá vé bay và chỗ ở cho những ngày này. Phần chia sẽ hiện khi có giá."
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.food"
+msgstr "Ăn uống"
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.fun"
+msgstr "Vui chơi"
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.guesthouse"
+msgstr "nhà nghỉ"
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.hostel"
+msgstr "hostel"
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.hotel"
+msgstr "khách sạn"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.loading"
+msgstr "Đang tải"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.offline"
+msgstr "Cần có mạng để chốt. Mức bạn chọn vẫn giữ ở đây."
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.cta"
+msgstr "Được đấy"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.hostels"
+msgstr "Xen hostel"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.never"
+msgstr "Không hiện cho ai, kể cả hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.fit.noTarget"
+msgstr "Nhóm chưa chốt mức chung."
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.missingTitle"
+msgstr "Chưa có giá"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.line"
+msgstr "Không nêu tên ai. Vài cách để chuyến đi vừa túi tiền mọi người:"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.infeasible.title"
+msgstr "Có một mức thấp hơn phương án rẻ nhất"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.over"
+msgstr "Vượt mức của một người"
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.loading"
+msgstr "Đang tính giá chuyến đi"
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.ryokan"
+msgstr "ryokan"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.save"
+msgstr "Lưu mức của tôi"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.queued"
+msgstr "Sẽ gửi khi bạn có mạng lại."
+
+#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.set"
+msgstr "Đã đặt ✓"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.skip"
+msgstr "Bỏ qua ngân sách"
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.stays"
+msgstr "Chỗ ở"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.a11y"
+msgstr "Mức vừa ý {amount} mỗi người"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.a11yStatus"
+msgstr "Mức vừa ý {amount} mỗi người, {status}"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.amountA11y"
+msgstr "Mức vừa ý mỗi người"
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.eyebrow"
+msgstr "Mức vừa ý, mỗi người"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.failed"
+msgstr "Chưa chốt được. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.overBand"
+msgstr "Mức này cao hơn mức của một người. Kéo xuống trong khoảng."
+
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.captionNoDots"
+msgstr "khoảng giá nằm dưới mọi mức"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.fit.fits"
+msgstr "Mức chung của nhóm nằm trong mức của bạn."
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.fit.over"
+msgstr "Mức chung của nhóm vượt mức của bạn. Bạn có thể báo nhóm nếu muốn."
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.line"
+msgstr "Số tiền nhiều nhất bạn sẽ chi cho chuyến này, tính hết. Chỉ mình bạn thấy."
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.rateLimited"
+msgstr "Thử nhiều lần quá rồi. Đợi một tiếng nhé."
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.everyTrip"
+msgstr "Dùng cho mọi chuyến"
+
+#: ../../apps/mobile/src/features/setup/budget/labels.ts
+msgid "setup.budget.stay.villa"
+msgstr "biệt thự"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.title"
+msgstr "Bao nhiêu thì thoải mái?"
+
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.title"
+msgstr "Mức tối đa của bạn?"
+
+#: ../../apps/mobile/src/features/setup/budget/own-max-row.tsx
+#: ../../apps/mobile/src/features/setup/budget/private-max-view.tsx
+msgid "setup.budget.member.yourMax"
+msgstr "Mức của bạn"

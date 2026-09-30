@@ -59,6 +59,13 @@ const liveMapSources = [
   `${repoRootPrefix}/apps/mobile/src/app/(trip)/map/**`,
 ];
 
+// Trip setup keeps one nested catalog per wizard step (and the calendar connection), so each step
+// and the rest of the setup area never edit the same file.
+const setupSubAreas = ['calendar', 'when', 'budget', 'rooms', 'must-dos'] as const;
+const setupSubSources = (sub: string) => [
+  `${repoRootPrefix}/apps/mobile/src/features/setup/${sub}/**`,
+];
+
 const notificationSources = [
   {
     name: 'common',
@@ -112,7 +119,9 @@ export default defineConfig({
       exclude:
         area === 'crew'
           ? [...testFileExcludes, ...chatSources, ...liveMapSources]
-          : testFileExcludes,
+          : area === 'setup'
+            ? [...testFileExcludes, ...setupSubAreas.flatMap(setupSubSources)]
+            : testFileExcludes,
     })),
     {
       name: 'chat/chat',
@@ -126,6 +135,12 @@ export default defineConfig({
       include: liveMapSources,
       exclude: testFileExcludes,
     },
+    ...setupSubAreas.map((sub) => ({
+      name: `setup/${sub}`,
+      path: `locales/{locale}/setup/${sub}`,
+      include: setupSubSources(sub),
+      exclude: testFileExcludes,
+    })),
     {
       name: 'web',
       path: 'locales/{locale}/web',

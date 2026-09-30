@@ -59,8 +59,11 @@ export interface GrowBarProps {
 /** One animated bar fill (`barGrow`); decorative, the owning chart carries the text summary. */
 export function GrowBar({ fraction, color, axis = 'x', index = 0, style, testID }: GrowBarProps) {
   const value = clamp01(fraction);
-  const horizontal = useBarGrow({ active: axis === 'x', toValue: value, index });
-  const vertical = useColumnGrow(axis === 'y' ? value : 0, index);
+  // The fill's width (or height) already is the fraction; the grow scales it from 0 to full, so
+  // scaling to the fraction as well would draw the fraction squared.
+  const full = value > 0 ? 1 : 0;
+  const horizontal = useBarGrow({ active: axis === 'x', toValue: full, index });
+  const vertical = useColumnGrow(axis === 'y' ? full : 0, index);
   const origin = axis === 'y' ? 'bottom' : I18nManager.isRTL ? 'right' : 'left';
   return (
     <Animated.View

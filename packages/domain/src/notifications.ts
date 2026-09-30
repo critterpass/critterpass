@@ -39,7 +39,8 @@ export type ClassVariant = (typeof CLASS_VARIANTS)[number];
 // prettier-ignore
 export const NOTIFICATION_CATEGORIES = [
   'cp.vote', 'cp.changeset', 'cp.disruption', 'cp.leaveby', 'cp.sos', 'cp.money', 'cp.chat',
-  'cp.rsvp', 'cp.invite', 'cp.import', 'cp.briefing', 'cp.help', 'cp.memory', 'cp.generic',
+  'cp.rsvp', 'cp.invite', 'cp.import', 'cp.briefing', 'cp.help', 'cp.memory', 'cp.setup_ask',
+  'cp.generic',
 ] as const;
 export type NotificationCategory = (typeof NOTIFICATION_CATEGORIES)[number];
 
@@ -132,7 +133,7 @@ const CATALOGUE = [
   spec('vote_closing', 'budgeted', 'cp.vote', 'cp_votes', 'guide', { collapse: 'vote:{poll_id}', relevance: 0.8 }),
   spec('winner_revealed', 'budgeted', 'cp.generic', 'cp_votes', 'guide', 'vote:{poll_id}'),
   spec('setup_task', 'budgeted', 'cp.generic', 'cp_trip', 'guide', 'setup:{trip_id}'),
-  spec('guide_availability_ask', 'budgeted', 'cp.generic', 'cp_guide', 'guide'),
+  spec('guide_availability_ask', 'budgeted', 'cp.setup_ask', 'cp_guide', 'guide'),
   spec('availability_reply', 'budgeted', 'cp.generic', 'cp_trip', 'member', { private: true }),
   spec('draft_ready', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { onlyIfBackgrounded: true, collapse: 'draft:{trip_id}' }),
   spec('proposal_version', 'budgeted', 'cp.rsvp', 'cp_trip', 'guide', { relevance: 0.9 }),

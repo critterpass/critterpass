@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# A subset of the trip setup scenes, for re-capturing the screens a review touched (`${PREFIX}`).
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: 3c-3-when }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: 3c-4-no-week-fits }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: when-lock-failed }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: when-offline }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: 3c-5-budget }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: budget-multi-currency }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: 3c-6-rooms }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: rooms-member }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: rooms-offline }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: 3c-7-must-dos }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: 3c-10-add-must-do }

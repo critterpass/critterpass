@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpCalendarModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.calendar.CpCalendarModule"]
+  }
+}

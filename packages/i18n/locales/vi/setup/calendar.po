@@ -1,0 +1,168 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-29 19:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.dayA11y"
+msgstr "{dayName}, {state}"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.back"
+msgstr "Về phần chuẩn bị"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.busy"
+msgstr "Bận"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.deniedTitle"
+msgstr "Lịch đang bị tắt quyền"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.doneTitle"
+msgstr "Đã kết nối lịch"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.connect"
+msgstr "Kết nối"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.connectingTitle"
+msgstr "Đang kết nối…"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.error"
+msgstr "Không đọc được lịch của bạn."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.title"
+msgstr "Tìm ngày bạn rảnh"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.free"
+msgstr "Rảnh"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.freeBusyOnly"
+msgstr "Chỉ rảnh và bận"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.google"
+msgstr "Google Calendar"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.byHandShort"
+msgstr "Tự đánh dấu"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.byHand"
+msgstr "Tự đánh dấu ngày"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.title"
+msgstr "Đánh dấu ngày của bạn"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.maybe"
+msgstr "Có thể"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.unavailable"
+msgstr "Cần bản cập nhật mới nhất. Tạm thời hãy tự đánh dấu ngày."
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.next"
+msgstr "Tháng sau"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.notConnected"
+msgstr "Chưa kết nối"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.deniedTitle"
+msgstr "Chưa kết nối"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.unmarked"
+msgstr "Chưa đánh dấu"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.promise"
+msgstr "Chỉ ngày rảnh và bận rời khỏi điện thoại. Tên sự kiện, địa điểm và người tham gia vẫn ở lại đây."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.microsoft"
+msgstr "Outlook Calendar"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.previous"
+msgstr "Tháng trước"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.connectingLine"
+msgstr "Chỉ đọc ngày rảnh và bận."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.syncing"
+msgstr "Đang đọc ngày rảnh của bạn…"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.save"
+msgstr "Lưu ngày của tôi"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.tentative"
+msgstr "Chia sẻ sự kiện chưa chắc là “có thể bận”"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.syncNow"
+msgstr "Đồng bộ ngay"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.synced"
+msgstr "Đã đồng bộ {age}"
+
+#: ../../apps/mobile/src/features/setup/calendar/manual-days-sheet.tsx
+msgid "setup.manual.line"
+msgstr "Chạm một ngày để đánh dấu rảnh, chạm lần nữa là bận, rồi có thể."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.oauthFailed"
+msgstr "Không mở được lịch đó. Kiểm tra kết nối rồi thử lại."
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.failedTitle"
+msgstr "Chưa được rồi"
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.failedLine"
+msgstr "Lịch chưa kết nối được. Lát nữa thử lại từ phần chuẩn bị nhé."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.device"
+msgstr "Lịch trên điện thoại này"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.deniedBody"
+msgstr "Bật lại trong Cài đặt, hoặc tự đánh dấu những ngày bạn đi được."
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.deniedLine"
+msgstr "Bạn đã từ chối kết nối lịch. Hãy kết nối lịch trên điện thoại hoặc tự đánh dấu ngày."
+
+#: ../../apps/mobile/src/features/setup/calendar/calendar-connect-sheet.tsx
+msgid "setup.calendar.tentativeHint"
+msgstr "Nhóm chỉ thấy “có thể bận”, không bao giờ thấy sự kiện."
+
+#: ../../apps/mobile/src/features/setup/calendar/connected-screen.tsx
+msgid "setup.connected.doneLine"
+msgstr "Ngày rảnh của bạn đã được tính. Chi tiết sự kiện không bao giờ rời khỏi lịch."

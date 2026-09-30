@@ -43,6 +43,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/live-map',
         label: 'Crew live map (3g-4 scenes)',
       },
+      {
+        testId: 'dev-nav-setup',
+        href: '/(dev)/setup',
+        label: 'Trip setup (3c-3…3c-10 scenes)',
+      },
     ],
   },
   {

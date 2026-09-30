@@ -139,8 +139,14 @@ describe('availability', () => {
       headers: { cookie: organiser?.cookie ?? '' },
     });
     expect(ok.status).toBe(200);
-    const body = (await ok.json()) as { options: { free_count: number }[]; member_count: number };
+    const body = (await ok.json()) as {
+      options: { free_count: number }[];
+      member_count: number;
+      unsynced_member_ids: string[];
+    };
     expect(body.member_count).toBe(4);
+    // Everyone has shared days here, so nobody is named as missing.
+    expect(body.unsynced_member_ids).toEqual([]);
     expect(JSON.stringify(body)).not.toContain('"state"');
     const stranger = await harness.signIn();
     const denied = await harness.request(`/v1/setup/${crew.tripId}/windows`, {

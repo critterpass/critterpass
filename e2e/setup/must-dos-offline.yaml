@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# A must-do added with no signal waits in the queue, shows at once as pending, and syncs with its
+# fit once the phone is back online.
+#
+# Needs before it can pass: the same seeded trip as must-dos.yaml. Airplane mode is Android-only
+# in Maestro (`setAirplaneMode` is a no-op on the iOS simulator), so this runs on the emulator.
+- launchApp
+- openLink: critterpass-dev://trip/${TRIP_ID}/setup/must-dos
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-screen'
+    timeout: 20000
+- setAirplaneMode: enabled
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- inputText: 'Night walk in Gion'
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      text: '(?i)sends when you’re back online'
+    timeout: 10000
+- takeScreenshot: must-dos-offline-queued
+- setAirplaneMode: disabled
+- extendedWaitUntil:
+    notVisible:
+      text: '(?i)sends when you’re back online'
+    timeout: 60000
+- assertVisible:
+    text: '(?i)night walk in gion'
