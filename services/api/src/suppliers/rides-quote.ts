@@ -114,12 +114,13 @@ export function createRideQuoter(deps: RideQuoterDeps) {
     from: RidePlace,
     to: RidePlace,
   ): Promise<RideQuoteResult> {
-    const key = `${uid}|${tripId}|${from.lat.toFixed(4)},${from.lng.toFixed(4)}|${to.poiId ?? `${to.lat},${to.lng}`}`;
-    const hit = cache.get(key);
-    if (hit !== undefined && now().getTime() - hit.at < RIDE_QUOTE_CACHE_MS) return hit.result;
     const enabled = await withSystem(deps.pool, (tx) =>
       isPartnerEnabled((sql, params) => tx.query(sql, [...params]), GRAB_FAREFEED_PARTNER),
     );
+    // Keyed by the switch too, so turning Farefeed on or off shows at once.
+    const key = `${enabled}|${uid}|${tripId}|${from.lat.toFixed(4)},${from.lng.toFixed(4)}|${to.poiId ?? `${to.lat},${to.lng}`}`;
+    const hit = cache.get(key);
+    if (hit !== undefined && now().getTime() - hit.at < RIDE_QUOTE_CACHE_MS) return hit.result;
     const apps = rideAppsFor(country);
     const quote = await quoteRide(
       deps.grab,
@@ -186,6 +187,11 @@ export function createRideQuoter(deps: RideQuoterDeps) {
       },
     };
     cache.set(key, { at: now().getTime(), result });
+    if (cache.size > 2000) {
+      for (const [stale, entry] of cache) {
+        if (now().getTime() - entry.at >= RIDE_QUOTE_CACHE_MS) cache.delete(stale);
+      }
+    }
     return result;
   }
 

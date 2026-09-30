@@ -9,3 +9,4 @@ export * from './ranking-guard';
 export * from './rides';
 export * from '../vendor-comms';
 export * from './concierge';
+export * from './compensation';
