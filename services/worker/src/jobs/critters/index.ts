@@ -1,6 +1,8 @@
 /**
  * Critter jobs, and (once per process) the hook that queues egg grants and landed hatches for the
- * events this process appends, the rewards fan-out and the critter pushes.
+ * events this process appends and the rewards fan-out. The critter pushes register from the entry
+ * (`./pushes`): this module is imported dynamically while the entry is still evaluating its top-level
+ * await, so it must not import anything the bundler places in the entry chunk.
  */
 import { onEventAppended, sendInTx } from '@cp/db';
 import { critterJobsForEvent } from '@cp/domain';
@@ -13,7 +15,6 @@ import { copresenceJob } from './copresence';
 import { crewCountsJob } from './crew-counts';
 import { grantEggsJob } from './grant-on-boarded';
 import { hatchJob } from './hatch-on-landed';
-import { registerCritterPushes } from './pushes';
 import { retentionJob } from './retention';
 import { seasonRescheduleJob } from './season-reschedule';
 import { verifyJob } from './verify';
@@ -46,5 +47,3 @@ export function critterJobs(): AnyJobDefinition[] {
     retentionJob(),
   ];
 }
-
-export { registerCritterPushes };
