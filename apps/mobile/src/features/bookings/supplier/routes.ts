@@ -1,12 +1,9 @@
 /**
- * Supplier and getting-around routes, and the design id the navigation registry knows Getting
- * around by. Offers, the booking and cancel sheets and vendor messages are modal; Getting around
- * sits in the trip stack.
+ * Supplier and getting-around routes. Offers, the booking and cancel sheets and vendor messages are
+ * modal; Getting around sits in the trip stack.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
 import type { Href } from 'expo-router';
-
-import { registerScreens } from '@/lib/navigation/screen-registry';
 
 export function offerRoute(params: {
   readonly tripId: string;
@@ -53,13 +50,4 @@ export function gettingAroundRoute(
   params: { readonly tripId?: string; readonly to?: string; readonly from?: string } = {},
 ): Href {
   return { pathname: '/getting-around', params: params };
-}
-
-let registered = false;
-
-/** Joins Getting around to the registry (once; the root layout calls this). */
-export function registerSupplierScreens(): void {
-  if (registered) return;
-  registered = true;
-  registerScreens({ '3h-3': '/getting-around' });
 }

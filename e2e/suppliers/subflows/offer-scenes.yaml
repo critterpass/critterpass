@@ -1,0 +1,121 @@
+appId: app.critterpass.dev
+---
+# Supplier offers (6f-1), the Viator booking sheet and the cancel sheet, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: offers-links, READY: supplier-offer-klook, SHOT: '${PREFIX}-6f-1-links' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: offers-live, READY: supplier-offer-viator-5510BATUR, SHOT: '${PREFIX}-6f-1-live' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: offers-loading, READY: supplier-offers-loading, SHOT: '${PREFIX}-6f-1-loading' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: offers-offline, READY: supplier-offers-notice, SHOT: '${PREFIX}-6f-1-offline' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: offers-partner-off, READY: supplier-offer-error, SHOT: '${PREFIX}-6f-1-partner-off' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: book-choose, READY: supplier-book-choose, SHOT: '${PREFIX}-supplier-book-choose' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: book-seats-held,
+        READY: supplier-hold-timer,
+        SHOT: '${PREFIX}-supplier-book-seats-held',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: book-price-held,
+        READY: supplier-hold-timer,
+        SHOT: '${PREFIX}-supplier-book-price-held',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: book-not-held,
+        READY: supplier-book-hold-line,
+        SHOT: '${PREFIX}-supplier-book-not-held',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: book-payment-failed,
+        READY: supplier-book-error,
+        SHOT: '${PREFIX}-supplier-book-payment-failed',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: book-pending,
+        READY: supplier-book-pending_operator,
+        SHOT: '${PREFIX}-supplier-book-pending',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: book-confirmed,
+        READY: supplier-book-confirmed,
+        SHOT: '${PREFIX}-supplier-book-confirmed',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: book-rejected,
+        READY: supplier-book-rejected,
+        SHOT: '${PREFIX}-supplier-book-rejected',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: book-expired,
+        READY: supplier-book-hold_expired,
+        SHOT: '${PREFIX}-supplier-book-expired',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: book-unavailable,
+        READY: supplier-book-unavailable,
+        SHOT: '${PREFIX}-supplier-book-unavailable',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: cancel-quote,
+        READY: supplier-cancel-refund,
+        SHOT: '${PREFIX}-supplier-cancel-quote',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: cancel-not-cancellable,
+        READY: supplier-cancel-quote,
+        SHOT: '${PREFIX}-supplier-cancel-not-cancellable',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: cancel-done, READY: supplier-cancel-done, SHOT: '${PREFIX}-supplier-cancel-done' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: cancel-offline,
+        READY: supplier-cancel-error,
+        SHOT: '${PREFIX}-supplier-cancel-offline',
+      }

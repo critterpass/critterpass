@@ -169,6 +169,7 @@ staging's AI, so those flows allow a few minutes for them.
 | `drafting`       | setup, then the draft ready → private review → change a day → keep               |
 | `money`          | add an expense → balances → settle up (request, then confirm it arrived)         |
 | `bookings`       | paste a confirmation → candidate → ADD → wallet stack → the flight's details     |
+| `suppliers`      | activity cards → OPEN KLOOK → click recorded → the partner redirect              |
 
 The `happy` preset records every flow on video (`screenrecord` in three-minute segments on Android,
 `simctl io recordVideo` on iOS; `tools/scripts/ci-device/screen-video.ts`) and the publish job builds

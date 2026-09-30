@@ -19,9 +19,18 @@ msgstr "{guide} tìm được {seats} {what}"
 msgid "suppliers.ticker.held"
 msgstr "{guide} đã giữ {seats} {what}"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+msgid "suppliers.around.hours"
+msgstr "{hours} giờ {rest} phút"
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.booked.memberOn"
 msgstr "{member} đã đặt trên {supplier}"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+msgid "suppliers.around.minutes"
+msgstr "{minutes} phút"
 
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.offer.seatsHeld"
@@ -47,6 +56,16 @@ msgstr "Một liên kết đối tác bạn đã mở"
 msgid "suppliers.queued.ride"
 msgstr "Một chuyến xe bạn đã ghi"
 
+#. placeholder {0}: price(locale, fare.low_minor, fare.currency)
+#. placeholder {1}: price(locale, fare.high_minor, fare.currency)
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.fareEstimate"
+msgstr "Khoảng {0}–{1} · ước tính"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.left"
+msgstr "Còn khoảng {left} phút · ước tính"
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.rides.transferBooked"
 msgstr "Xe đón sân bay đã đặt trên {supplier} (từ email của bạn) · thông tin tài xế lấy từ voucher"
@@ -58,6 +77,17 @@ msgstr "Nhờ {vendor} {ask}? Mình sẽ soạn tin WhatsApp."
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.loading"
 msgstr "Đang hỏi Viator bạn được hoàn bao nhiêu"
+
+#. placeholder {0}: '19:30'
+#. placeholder {0}: clock(locale, leg.to.startsAt, data.tz)
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+msgid "suppliers.later.at"
+msgstr "Lúc {0}"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.offlineLast"
+msgstr "Lúc {seen}, Grab ước tính {fares}. Thẻ bên dưới dùng được khi không có mạng."
 
 #: ../../apps/mobile/src/features/bookings/supplier/OffersView.tsx
 msgid "suppliers.offers.back"
@@ -103,6 +133,10 @@ msgstr "Đã đặt {rooms} phòng, hủy miễn phí đến {date}"
 msgid "suppliers.offers.lede"
 msgstr "Đặt và trả tiền với nhà cung cấp. Tên và giá là của họ, giữ nguyên từng chữ."
 
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.callCar"
+msgstr "Gọi xe"
+
 #. placeholder {0}: refund(state.quote) ?? ''
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.refund"
@@ -144,13 +178,30 @@ msgstr "Kiểm tra lại"
 msgid "suppliers.book.check"
 msgstr "Hỏi Viator"
 
+#. placeholder {0}: clock(locale, estimate.fetched_at, data.tz)
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.seen"
+msgstr "Kiểm tra lúc {0}"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.reviewed"
+msgstr "Đội ngũ của chúng tôi đã kiểm tra. Tài xế và đồng hồ có thể khác."
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.stay.checkedLive"
 msgstr "Đã xem phòng trực tiếp ở {count} {kind} tại {area}, hủy miễn phí"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/GrabEstimateCard.tsx
+msgid "suppliers.rides.loading"
+msgstr "Đang xem xe"
+
 #: ../../apps/mobile/src/features/bookings/supplier/OffersView.tsx
 msgid "suppliers.offers.loading"
 msgstr "Đang hỏi các nhà cung cấp"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.done"
+msgstr "Xong"
 
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
 msgid "suppliers.book.done"
@@ -171,6 +222,11 @@ msgstr "Email (không bắt buộc)"
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.lottery.entriesClose"
 msgstr "Hạn đăng ký {date}. Mỗi người tự đăng ký trên trang chính thức — mình sẽ nhắc."
+
+#. placeholder {0}: clock(locale, estimate.fetched_at, data.tz)
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.surge"
+msgstr "Giá đang tăng · kiểm tra lúc {0}"
 
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
 msgid "suppliers.book.first"
@@ -224,6 +280,10 @@ msgstr "HẾT GIỜ GIỮ CHỖ"
 msgid "suppliers.book.howMany"
 msgstr "Bao nhiêu người đi"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.start"
+msgstr "Mình đã lên xe"
+
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.keep"
 msgstr "Giữ lại"
@@ -232,25 +292,86 @@ msgstr "Giữ lại"
 msgid "suppliers.cancel.keepLink"
 msgstr "Giữ lại"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.checked"
+msgstr "Kiểm tra lần cuối {checked}."
+
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
 msgid "suppliers.book.last"
 msgstr "Họ"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.later.title"
+msgstr "Cuối ngày hôm nay"
 
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
 msgid "suppliers.book.lead"
 msgstr "NGƯỜI ĐẶT CHÍNH"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.soloNote"
+msgstr "Để trống nếu chỉ muốn ghi lại chuyến đi."
+
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
 msgid "suppliers.book.release"
 msgstr "Bỏ qua"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.loading"
+msgstr "Đang tải ngày của bạn"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.log"
+msgstr "Ghi lại"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LaterTodayRow.tsx
+msgid "suppliers.later.log"
+msgstr "Ghi lại"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.save"
+msgstr "Ghi lại"
+
+#: ../../apps/mobile/src/app/(modal)/supplier/log-ride.tsx
+msgid "suppliers.log.title"
+msgstr "Ghi lại chuyến xe"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.kept"
+msgstr "Đã ghi vào lịch trình"
+
+#. placeholder {0}: people > 0 ? people : 1
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.split"
+msgstr "Đã ghi, và chia cho {0} người"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/TransferCard.tsx
+msgid "suppliers.transfer.meeting"
+msgstr "Điểm hẹn: {meeting}"
 
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.noRefund"
 msgstr "Hủy bây giờ sẽ không được hoàn tiền"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.noApps"
+msgstr "Ở đây không có ứng dụng gọi xe"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.offlineTitle"
+msgstr "Hiện không có sóng"
+
 #: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
 msgid "suppliers.offers.offline"
 msgstr "Không có sóng. Liên kết vẫn mở, trang của nhà cung cấp sẽ tải khi có mạng lại."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.noTrip"
+msgstr "Chưa có chuyến đi nào đang diễn ra"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.noPlace"
+msgstr "Hôm nay không còn chỗ nào cần đến"
 
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.rides.openApp"
@@ -260,9 +381,25 @@ msgstr "Mở {app}"
 msgid "suppliers.offer.openLink"
 msgstr "Mở {supplier}"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/TransferCard.tsx
+msgid "suppliers.transfer.open"
+msgstr "Mở voucher"
+
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
 msgid "suppliers.book.openViator"
 msgstr "Mở Viator ↗"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.linksDetail"
+msgstr "Mở ứng dụng với điểm đến đã điền sẵn. Chúng tôi không đặt xe."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.showHint"
+msgstr "Mở thẻ toàn màn hình để đưa tài xế xem"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/TransferCard.tsx
+msgid "suppliers.transfer.operator"
+msgstr "Nhà xe trên voucher: {operator}"
 
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.concierge.clinic"
@@ -280,6 +417,13 @@ msgstr "Đã hủy thanh toán. Không bị trừ tiền."
 msgid "suppliers.book.phone"
 msgstr "Số điện thoại"
 
+#. placeholder {0}: 'Villa Kayu Manis, Jalan Raya Sayan, Ubud'
+#. placeholder {0}: phrase.placeForGloss
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+msgid "suppliers.around.gloss"
+msgstr "Cho chúng tôi đến {0}."
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.activity.priceHeld"
 msgstr "Giữ giá đến {time}"
@@ -296,6 +440,10 @@ msgstr "Trả lời trước {date}"
 msgid "suppliers.lottery.results"
 msgstr "kết quả {date} · đã đặt nhắc"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.emptyBody"
+msgstr "Xe cho các điểm trong lịch trình sẽ hiện ở đây."
+
 #: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
 msgid "suppliers.offers.seen"
 msgstr "xem lúc {time} trên Viator"
@@ -304,9 +452,21 @@ msgstr "xem lúc {time} trên Viator"
 msgid "suppliers.vendor.sentWaiting"
 msgstr "Đã gửi {time}, đang chờ"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.noAppsDetail"
+msgstr "Đưa thẻ bên dưới cho tài xế taxi xem."
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.rides.phraseCard"
 msgstr "Đưa cái này cho tài xế"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.sources"
+msgstr "NGUỒN"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.splitNote"
+msgstr "Chia đều cho {people} người đã đi. Để trống nếu chỉ muốn ghi lại chuyến đi."
 
 #: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
 msgid "suppliers.book.retry"
@@ -315,6 +475,18 @@ msgstr "Chưa được. Thử lại sau chút nhé."
 #: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
 msgid "suppliers.offers.failed"
 msgstr "Chưa mở được. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.failed"
+msgstr "Chưa lưu được. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.invalid"
+msgstr "Có vẻ đây không phải số tiền"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.offlineNone"
+msgstr "Thẻ bên dưới dùng được khi không có mạng: đưa cho tài xế nào cũng được."
 
 #: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
 msgid "suppliers.hold.ranOutA11y"
@@ -393,3 +565,24 @@ msgstr "Đang chờ nhà tổ chức"
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.disclosure.affiliate"
 msgstr "Chúng tôi có thể nhận hoa hồng. Điều đó không bao giờ thay đổi gợi ý của {guide}."
+
+#. placeholder {0}: params.currency
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.amount"
+msgstr "Chi phí ({0})"
+
+#: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
+msgid "suppliers.estimate.title"
+msgstr "Vì sao có ước tính này"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GrabEstimateCard.tsx
+msgid "suppliers.rides.whyEstimate"
+msgstr "Vì sao có ước tính này"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.computed"
+msgstr "Tính từ các nguồn này, chưa có người kiểm tra. Tài xế và đồng hồ có thể khác."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.there"
+msgstr "Chắc bạn sắp đến nơi · ước tính"

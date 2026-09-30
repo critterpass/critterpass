@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native';
 
 import { useWalletContext } from '@/features/bookings/data/use-wallet-context';
 import { SUPPLIER_LAB_SCENE_NAMES } from '@/features/bookings/supplier/dev/lab-scenes';
-import { offerRoute } from '@/features/bookings/supplier/routes';
+import { gettingAroundRoute, offerRoute } from '@/features/bookings/supplier/routes';
 import { Stack, Text } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
 
@@ -30,6 +30,18 @@ export default function SupplierLab() {
               router.push(offerRoute({ tripId, name: 'Mount Batur sunrise trek' }));
           }}
           testID="supplier-lab-live-offer"
+        />
+        <ListCard
+          title={
+            tripId === null
+              ? 'Live getting around (needs a trip)'
+              : 'Live getting around on this trip'
+          }
+          chevron
+          onPress={() => {
+            if (tripId !== null) router.push(gettingAroundRoute({ tripId }));
+          }}
+          testID="supplier-lab-live-around"
         />
         {SUPPLIER_LAB_SCENE_NAMES.map((name) => (
           <ListCard

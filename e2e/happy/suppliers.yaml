@@ -1,0 +1,48 @@
+appId: app.critterpass.dev
+---
+# Release gate: an activity's partner link. A fresh account takes the staging demo crew (a Bali
+# trip), opens an activity's supplier cards (Viator's in-app booking is switched off, so each card
+# is a plain partner link) and taps OPEN KLOOK. The app records the click with the api first, then
+# opens the attribution bridge on the staging go host, which redirects to Klook only once it knows
+# the click: landing on Klook's page (or the partner redirect on the way there) is the outcome.
+- runFlow:
+    file: subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: ../suppliers/subflows/open-lab.yaml
+- extendedWaitUntil:
+    visible:
+      text: 'Live offer on this trip'
+    timeout: 60000
+- tapOn:
+    id: 'supplier-lab-live-offer'
+- extendedWaitUntil:
+    visible:
+      id: 'supplier-offer-klook'
+    timeout: 20000
+- assertVisible:
+    id: 'supplier-disclosure'
+- tapOn:
+    id: 'supplier-open-klook'
+# The browser takes over once the click is on the server.
+- extendedWaitUntil:
+    notVisible:
+      id: 'supplier-offers'
+    timeout: 30000
+# A fresh emulator's Chrome asks its first-run questions before loading the page.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          text: '(?i)(accept & continue|use without an account|continue without an account)'
+          optional: true
+      - tapOn:
+          text: '(?i)(no thanks|no, thanks)'
+          optional: true
+- extendedWaitUntil:
+    visible:
+      text: '(?i).*(klook|tp\.media).*'
+    timeout: 60000

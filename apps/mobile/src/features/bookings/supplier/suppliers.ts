@@ -17,3 +17,14 @@ export const SUPPLIER_NAMES: Readonly<Record<AffiliatePartner, string>> = {
 
 /** Where an activity can be opened by link, in the fixed order cards show them. */
 export const ACTIVITY_LINK_PARTNERS: readonly AffiliatePartner[] = ['klook', 'viator'];
+
+/** Ride apps by provider key, as the apps write their names. */
+export function rideAppName(provider: string): string {
+  return provider === 'grab'
+    ? 'Grab'
+    : provider === 'gojek'
+      ? 'Gojek'
+      : provider === 'uber'
+        ? 'Uber'
+        : provider;
+}

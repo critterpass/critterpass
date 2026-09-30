@@ -4,9 +4,11 @@
  */
 import type { ReactNode } from 'react';
 
+import { AROUND_SCENES } from './lab-scenes-around';
 import { OFFER_SCENES } from './lab-scenes-offers';
 
 export const SUPPLIER_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
+  ...AROUND_SCENES,
   ...OFFER_SCENES,
 };
 

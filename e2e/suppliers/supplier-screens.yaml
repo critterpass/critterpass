@@ -1,0 +1,20 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:compare`: the supplier lab's scenes, named by design id (3h-3 for
+# Getting around, 6f-1 for supplier offers) and by state; the sheets without a design are named
+# `supplier-*`.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/around-scenes.yaml
+    env: { PREFIX: en }
+- runFlow:
+    file: subflows/offer-scenes.yaml
+    env: { PREFIX: en }
