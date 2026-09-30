@@ -6,3 +6,243 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.unknownName"
+msgstr "???"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.rankGroupCities"
+msgstr "{cities, plural, other {Hạng {from}–{to} · mỗi nơi # thành phố}}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.guideBody"
+msgstr "{days, plural, other {Hướng dẫn viên của bạn trong # ngày tới, và là bạn nhỏ {number} trong bộ {place}.}}"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.places"
+msgstr "{found} trên {total} nơi"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.homeCount"
+msgstr "{found}/{total} · Bộ quê nhà"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.setCount"
+msgstr "Đã gặp {found}/{total}"
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.crew.befriended"
+msgstr "{member} vừa kết bạn với một bạn nhỏ"
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.crew.firstSpotter"
+msgstr "{member} là người đầu tiên thấy một bạn nhỏ mới"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.formsOf"
+msgstr "{name} · {found} trên {total} dạng"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.comparison"
+msgstr "{name} có {count}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.hatched"
+msgstr "{name} đã nở"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.legendaryTitle"
+msgstr "{placeLine}, {span}"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.nextForm"
+msgstr "Dạng {tier} tiếp theo: {requirement}."
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.landed"
+msgstr "{time} · Bạn đã hạ cánh"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.encounter"
+msgstr "Một lần gặp bạn nhỏ"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.ended"
+msgstr "Một bạn nhỏ đã bỏ đi"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.befriend"
+msgstr "Một bạn nhỏ bạn vừa kết bạn"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.remindOn"
+msgstr "Một lời nhắc huyền thoại"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterAll"
+msgstr "Tất cả"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.remindOff"
+msgstr "Đã huỷ một lời nhắc huyền thoại"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.pending"
+msgstr "Đang kiểm tra"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.body"
+msgstr "Bạn nhỏ {number} trong bộ {place}."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.back"
+msgstr "Critterdex"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyFoundBody"
+msgstr "Bạn nhỏ chỉ xuất hiện ở nơi chúng sống. Bạn đầu tiên sẽ nở khi bạn hạ cánh."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.exploreAtHome"
+msgstr "Khám phá ở quê nhà"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.homeOff"
+msgstr "Khám phá ở quê nhà: tắt"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.homeOn"
+msgstr "Khám phá ở quê nhà: bật"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterFound"
+msgstr "Đã gặp"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.hatchIt"
+msgstr "Cho nở"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.hereNow"
+msgstr "Đang ở · {place}"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.homeEyebrow"
+msgstr "Bộ quê nhà"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.samples"
+msgstr "Thời gian bạn ở lại"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.waitingBody"
+msgstr "Trứng sẽ nở khi bạn hạ cánh ở {place}."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.legendaryOnDates"
+msgstr "Huyền thoại trong ngày đi của bạn"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.meet"
+msgstr "Gặp ngay"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.exploreAtHomeBody"
+msgstr "Gặp các bạn nhỏ của bộ quê nhà khi đang mở ứng dụng. Không bao giờ chạy ngầm."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterNear"
+msgstr "Gần tôi"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyNearBody"
+msgstr "Không có bạn nhỏ nào trong vòng 5 km quanh bạn hay chuyến đi. Chọn TẤT CẢ để xem mọi nơi."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptySearchTitle"
+msgstr "Không có nơi nào tên “{query}”"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.pending"
+msgstr "Không có sóng. Bạn nhỏ sẽ vào thẻ của bạn khi có mạng lại."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyNearTitle"
+msgstr "Quanh đây chưa có ai"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyFoundTitle"
+msgstr "Chưa kết bạn với ai"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.rankGroup"
+msgstr "Hạng {from}–{to}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.sayHi"
+msgstr "Chào một câu"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.search"
+msgstr "Tìm một nơi"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptySearchBody"
+msgstr "Tìm theo quốc gia hoặc thành phố, như Việt Nam hay Hội An."
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.later"
+msgstr "Để sau dẫn tôi đi dạo"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.unseenBody"
+msgstr "Có một bạn mới đang chờ chào bạn."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.locked"
+msgstr "Một bạn nhỏ chưa biết ở {city}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.welcome"
+msgstr "Chào mừng đến {place}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.youMadeIt"
+msgstr "Bạn đã đến nơi"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.readyBody"
+msgstr "Bạn đang ở {place}. Trứng sẵn sàng khi bạn muốn."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.title"
+msgstr "Critterdex của bạn"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.waitingTitle"
+msgstr "Quả trứng của bạn"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.unseenTitle"
+msgstr "Trứng của bạn đã nở"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.hatchedSomeone"
+msgstr "Trứng của bạn đã nở"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.hatch"
+msgstr "Trứng của bạn đã nở"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.readyTitle"
+msgstr "Trứng đang lắc lư"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.firstBody"
+msgstr "Bạn nhỏ đầu tiên của bạn ở {place}."
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.skin"
+msgstr "Diện mạo hướng dẫn viên của bạn"

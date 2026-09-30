@@ -6,3 +6,243 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.unknownName"
+msgstr "???"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.rankGroupCities"
+msgstr "{cities, plural, one {Rank {from}–{to} · # city each} other {Rank {from}–{to} · # cities each}}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.guideBody"
+msgstr "{days, plural, one {Your guide for the next # day, and critter {number} in the {place} set.} other {Your guide for the next # days, and critter {number} in the {place} set.}}"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.places"
+msgstr "{found} of {total} places"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.homeCount"
+msgstr "{found}/{total} · Home set"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.setCount"
+msgstr "{found}/{total} found"
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.crew.befriended"
+msgstr "{member} befriended a critter"
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.crew.firstSpotter"
+msgstr "{member} spotted a new critter first"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.formsOf"
+msgstr "{name} · {found} of {total} forms"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.comparison"
+msgstr "{name} has {count}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.hatched"
+msgstr "{name} hatched"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.legendaryTitle"
+msgstr "{placeLine}, {span}"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.nextForm"
+msgstr "{tier} next: {requirement}."
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.landed"
+msgstr "{time} · You landed"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.encounter"
+msgstr "A critter encounter"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.ended"
+msgstr "A critter wandered off"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.befriend"
+msgstr "A critter you befriended"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.remindOn"
+msgstr "A legendary reminder"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterAll"
+msgstr "All"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.remindOff"
+msgstr "Cancelled a legendary reminder"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.pending"
+msgstr "Checking"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.body"
+msgstr "Critter {number} in the {place} set."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.back"
+msgstr "Critterdex"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyFoundBody"
+msgstr "Critters only show up where they live. Your first one hatches when you land."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.exploreAtHome"
+msgstr "Explore at home"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.homeOff"
+msgstr "Explore at home: off"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.homeOn"
+msgstr "Explore at home: on"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterFound"
+msgstr "Found"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.hatchIt"
+msgstr "Hatch it"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.hereNow"
+msgstr "Here now · {place}"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.homeEyebrow"
+msgstr "Home set"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.samples"
+msgstr "How long you stayed"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.waitingBody"
+msgstr "It hatches when you land in {place}."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.legendaryOnDates"
+msgstr "Legendary on your dates"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.meet"
+msgstr "Meet them"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.exploreAtHomeBody"
+msgstr "Meet your home set’s critters while the app is open. Never in the background."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterNear"
+msgstr "Near me"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyNearBody"
+msgstr "No critters within 5 km of you or your trip. Try ALL to see every place."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptySearchTitle"
+msgstr "No place called “{query}”"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.pending"
+msgstr "No signal. It joins your pass once you’re back online."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyNearTitle"
+msgstr "Nobody lives nearby"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyFoundTitle"
+msgstr "Nothing befriended yet"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.rankGroup"
+msgstr "Rank {from}–{to}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.sayHi"
+msgstr "Say hi"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.search"
+msgstr "Search a place"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptySearchBody"
+msgstr "Search by country or city, like Vietnam or Hội An."
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.later"
+msgstr "Show me around later"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.unseenBody"
+msgstr "Someone new is waiting to say hi."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.locked"
+msgstr "Unknown local at {city}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.welcome"
+msgstr "Welcome to {place}"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.youMadeIt"
+msgstr "You made it"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.readyBody"
+msgstr "You're in {place}. It's ready when you are."
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.title"
+msgstr "Your Critterdex"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.waitingTitle"
+msgstr "Your egg"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.unseenTitle"
+msgstr "Your egg hatched"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.hatchedSomeone"
+msgstr "Your egg hatched"
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.hatch"
+msgstr "Your egg hatched"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.readyTitle"
+msgstr "Your egg is wobbling"
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.firstBody"
+msgstr "Your first critter in {place}."
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.skin"
+msgstr "Your guide's look"
