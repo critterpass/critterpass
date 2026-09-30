@@ -9,11 +9,10 @@
 import { withSystem } from '@cp/db';
 import {
   channelName,
+  checkRtPublication,
   parseRtChannel,
   RT_CREW_SCOPED_NAMESPACES,
   RT_TRIP_SCOPED_NAMESPACES,
-  rtUserPayloadSchema,
-  toRtEnvelope,
   type RtEnvelope,
 } from '@cp/domain';
 import type pg from 'pg';
@@ -78,17 +77,11 @@ export function revocationChannels(channel: string): readonly string[] {
 
 /** The wire envelope for a publish row, or `null` when the row can never be published. */
 export function envelopeFor(row: OutboxRow): RtEnvelope | null {
-  const checked = toRtEnvelope(row.payload, {
+  const checked = checkRtPublication(row.channel, row.payload, {
     id: row.idem_key,
     at: row.created_at.toISOString(),
   });
-  if (!checked.ok) return null;
-  const parsed = parseRtChannel(row.channel);
-  if (parsed?.namespace === 'user') {
-    const schema = rtUserPayloadSchema(checked.envelope.type);
-    if (schema !== undefined && !schema.safeParse(checked.envelope.data).success) return null;
-  }
-  return checked.envelope;
+  return checked.ok ? checked.envelope : null;
 }
 
 function outcomeOf(error: unknown): Outcome {

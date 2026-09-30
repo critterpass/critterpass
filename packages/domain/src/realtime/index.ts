@@ -1,3 +1,4 @@
+export { checkRtPublication, type RtPublicationCheck } from './publication';
 export {
   checkRtEnvelope,
   RT_ENVELOPE_MAX_BYTES,
