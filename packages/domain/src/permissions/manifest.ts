@@ -15,6 +15,7 @@ export const IOS_USAGE_KEYS = [
   'NSPhotoLibraryAddUsageDescription',
   'NSPhotoLibraryUsageDescription',
   'NSCalendarsFullAccessUsageDescription',
+  'NSCalendarsWriteOnlyAccessUsageDescription',
 ] as const;
 
 /** Purpose key for a temporary precise-location grant (a critter spot needs exact position). */

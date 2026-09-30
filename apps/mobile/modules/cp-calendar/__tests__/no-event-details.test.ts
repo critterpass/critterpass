@@ -19,12 +19,19 @@ function filesUnder(dir: string): string[] {
   });
 }
 
-const swift = filesUnder(join(moduleDir, 'ios'))
+// The writer sets an event's title and notes when adding a plan item; it is checked below for
+// never reading events instead.
+const isWriter = (path: string) => /CalendarWriter\.(swift|kt)$/u.test(path);
+const read = (path: string) => ({ path, source: readFileSync(path, 'utf8') });
+const swiftAll = filesUnder(join(moduleDir, 'ios'))
   .filter((path) => path.endsWith('.swift') && !path.includes(join('ios', 'Tests')))
-  .map((path) => ({ path, source: readFileSync(path, 'utf8') }));
-const kotlin = filesUnder(join(moduleDir, 'android', 'src', 'main'))
+  .map(read);
+const kotlinAll = filesUnder(join(moduleDir, 'android', 'src', 'main'))
   .filter((path) => path.endsWith('.kt'))
-  .map((path) => ({ path, source: readFileSync(path, 'utf8') }));
+  .map(read);
+const swift = swiftAll.filter(({ path }) => !isWriter(path));
+const kotlin = kotlinAll.filter(({ path }) => !isWriter(path));
+const writers = [...swiftAll, ...kotlinAll].filter(({ path }) => isWriter(path));
 
 describe('calendar reads carry no event details', () => {
   it('Swift reads no title, notes, place, URL or people', () => {
@@ -45,13 +52,29 @@ describe('calendar reads carry no event details', () => {
     }
   });
 
-  it('declares only the calendar read permission on Android', () => {
+  it('writes plan items without reading any event back', () => {
+    expect(writers.map(({ path }) => path.split('/').at(-1)).sort()).toEqual([
+      'CalendarWriter.kt',
+      'CalendarWriter.swift',
+    ]);
+    for (const { path, source } of writers) {
+      expect({
+        path,
+        hit: /events\(matching|predicateForEvents|Instances|Events\.CONTENT_URI[^)]*\)\s*\?\.use|query\(\s*Events/u.test(
+          source,
+        ),
+      }).toEqual({ path, hit: false });
+    }
+  });
+
+  it('declares only the calendar read and write permissions on Android', () => {
     const manifest = readFileSync(
       join(moduleDir, 'android', 'src', 'main', 'AndroidManifest.xml'),
       'utf8',
     );
     expect(manifest.match(/android:name="[^"]+"/gu)).toEqual([
       'android:name="android.permission.READ_CALENDAR"',
+      'android:name="android.permission.WRITE_CALENDAR"',
     ]);
   });
 

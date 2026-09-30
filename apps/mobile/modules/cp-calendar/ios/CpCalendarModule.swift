@@ -6,7 +6,8 @@ import Foundation
 /// read in-process and reduced to one free / maybe / busy per local date before anything returns:
 /// only each event's start, end, all-day flag, availability and status are read, never its title,
 /// notes, place, URL or people. Access is asked for by cp-permissions; without full access the
-/// read rejects with `ERR_CALENDAR_ACCESS`.
+/// read rejects with `ERR_CALENDAR_ACCESS`. Plan items are added with write-only access
+/// (./CalendarWriter.swift).
 public class CpCalendarModule: Module {
   public func definition() -> ModuleDefinition {
     Name("CpCalendar")
@@ -25,6 +26,15 @@ public class CpCalendarModule: Module {
       return BusyDayReducer.reduce(
         blocks, from: from, to: to, timeZone: zone, includeTentative: includeTentative
       ).map(\.dictionary)
+    }
+
+    // Adding plan items (./CalendarWriter.swift): write-only access, nothing read back.
+    AsyncFunction("requestWriteAccess") { () async -> Bool in
+      await CalendarWriter.requestAccess()
+    }
+
+    AsyncFunction("writeEvents") { (events: [PlanEventRecord]) throws -> Int in
+      try CalendarWriter.write(events)
     }
   }
 
