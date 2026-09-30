@@ -92,6 +92,8 @@ appId: app.critterpass.dev
     visible:
       id: 'money-add-keypad'
     timeout: 10000
+# The keypad takes taps once the screen has settled.
+- waitForAnimationToEnd
 - tapOn: '1'
 - tapOn: '2'
 - tapOn: '0'
