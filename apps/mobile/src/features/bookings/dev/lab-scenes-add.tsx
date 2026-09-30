@@ -3,7 +3,7 @@
  * couldn't read, already in the wallet, scan lines, the paste sheet and the mailbox sheet.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { AddBookingView } from '../add/AddBookingView';
 import { toCandidateView, type CandidateView } from '../candidates/candidate-model';
@@ -60,24 +60,39 @@ function add(
   );
 }
 
-function mailbox(status: MailboxStatus, paywall = true): ReactNode {
+/**
+ * The add screen with a sheet over it. Closing the sheet unmounts it (as the screen does), so
+ * the next Android back leaves the scene instead of reaching a hidden sheet.
+ */
+function WithSheet({ sheet }: { readonly sheet: (close: () => void) => ReactNode }) {
+  const [open, setOpen] = useState(true);
   return (
     <>
       {add(LAB_CANDIDATES)}
-      <MailboxSheet
-        status={status}
-        address={ADDRESS}
-        surfaceToCrew
-        busy={false}
-        error={false}
-        onPaywall={paywall ? noop : null}
-        onSurface={noop}
-        onConnect={noop}
-        onDisconnect={noop}
-        onCopy={copy}
-        onClose={noop}
-      />
+      {open ? sheet(() => setOpen(false)) : null}
     </>
+  );
+}
+
+function mailbox(status: MailboxStatus, paywall = true): ReactNode {
+  return (
+    <WithSheet
+      sheet={(close) => (
+        <MailboxSheet
+          status={status}
+          address={ADDRESS}
+          surfaceToCrew
+          busy={false}
+          error={false}
+          onPaywall={paywall ? noop : null}
+          onSurface={noop}
+          onConnect={noop}
+          onDisconnect={noop}
+          onCopy={copy}
+          onClose={close}
+        />
+      )}
+    />
   );
 }
 
@@ -117,28 +132,30 @@ export const ADD_SCENES: Readonly<Record<string, () => ReactNode>> = {
     ]),
   'add-scan-denied': () => add(LAB_CANDIDATES, { scan: 'denied' }),
   paste: () => (
-    <>
-      {add(LAB_CANDIDATES)}
-      <PasteSheet
-        sending={false}
-        error={null}
-        readClipboard={() => Promise.resolve('')}
-        onSend={noop}
-        onClose={noop}
-      />
-    </>
+    <WithSheet
+      sheet={(close) => (
+        <PasteSheet
+          sending={false}
+          error={null}
+          readClipboard={() => Promise.resolve('')}
+          onSend={noop}
+          onClose={close}
+        />
+      )}
+    />
   ),
   'paste-offline': () => (
-    <>
-      {add(LAB_CANDIDATES)}
-      <PasteSheet
-        sending={false}
-        error="offline"
-        readClipboard={() => Promise.resolve('')}
-        onSend={noop}
-        onClose={noop}
-      />
-    </>
+    <WithSheet
+      sheet={(close) => (
+        <PasteSheet
+          sending={false}
+          error="offline"
+          readClipboard={() => Promise.resolve('')}
+          onSend={noop}
+          onClose={close}
+        />
+      )}
+    />
   ),
   'mailbox-soon': () => mailbox({ kind: 'soon' }),
   'mailbox-locked': () => mailbox({ kind: 'locked' }),
