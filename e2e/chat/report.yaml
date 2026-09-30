@@ -20,11 +20,14 @@ appId: app.critterpass.dev
     text: 'Also mute Jordan.+'
     checked: true
 - takeScreenshot: chat-report-sheet
+# Don't wait for the timeline to settle after the tap: the muted sender's rows animate out for
+# longer than the thank-you toast stays up. Android folds the toast into one node.
 - tapOn:
     id: 'chat-report-send'
+    waitToSettleTimeoutMs: 500
 - extendedWaitUntil:
     visible:
-      text: 'Thanks. Our team will take a look.'
+      text: '.*Thanks\. Our team will take a look\..*'
     timeout: 10000
 - extendedWaitUntil:
     notVisible:
