@@ -1,7 +1,8 @@
 /**
- * The "Developer tools" link on Home, in every variant but production: Maestro flows reach the
- * `(dev)` screens by tapping it (never `openLink`). It floats small above the tab bar so it is
- * on screen in every Home mode without moving the designed layout.
+ * The "Developer tools" link on Home, in development builds only (the e2e-test build profile ships
+ * that variant): Maestro flows reach the `(dev)` screens by tapping it (never `openLink`). Staging
+ * testers and production never see it. It floats small above the tab bar so it is on screen in
+ * every Home mode without moving the designed layout.
  */
 import { Trans } from '@lingui/react/macro';
 import Constants from 'expo-constants';
@@ -15,9 +16,10 @@ import { makeStyles } from '@/ui/theme';
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a route path.
 const DEV_TOOLS_ROUTE = '/(dev)';
 
-export function isProductionVariant(): boolean {
+/** Staging and production builds hide the link; an unset variant is app.config's development. */
+export function showsDevTools(): boolean {
   const raw: unknown = Constants.expoConfig?.extra?.appVariant;
-  return raw === 'production';
+  return raw !== 'staging' && raw !== 'production';
 }
 
 const useStyles = makeStyles((t) => ({
@@ -27,8 +29,9 @@ const useStyles = makeStyles((t) => ({
 
 export function DevToolsEntry({ bottom }: { readonly bottom: number }) {
   const styles = useStyles();
-  // The (dev) route group is dropped from production exports; the link must not point at it there.
-  if (isProductionVariant()) return null;
+  // The (dev) route group is dropped from production exports; the link must not point at it there,
+  // and staging builds go to testers, over whose Home it would sit.
+  if (!showsDevTools()) return null;
   return (
     <View style={[styles.root, { bottom }]} pointerEvents="box-none">
       {/* Navigates by route string, never by importing from (dev): that would bundle it. */}
