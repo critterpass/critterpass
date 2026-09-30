@@ -7,7 +7,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- channel names, design ids, toast ids and states, never copy. */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useMemo, useState } from 'react';
 
 import { usePresence } from '@/data/realtime/use-presence';
 import { useSyncStatus } from '@/data/status/use-sync-status';
@@ -16,6 +16,7 @@ import { toast } from '@/motion/island-toast';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { ClashList } from '../overlay/clash-card';
+import { PlanCalendarTab, PlanMapTab } from '../views/plan-view-tabs';
 import { usePersonalPlan, useResolveClash } from '../overlay/data/use-personal-plan';
 import { useDayReorder } from './data/use-day-reorder';
 import { useGuideSweep } from './data/use-guide-sweep';
@@ -39,11 +40,9 @@ export function guideOf(data: PlanData): { id: GuideId; name: string } {
 
 export interface PlanOverviewScreenProps {
   readonly tripId: string;
-  readonly mapView?: (data: PlanData) => ReactNode;
-  readonly calendarView?: (data: PlanData, onOpenDay: (dayNo: number) => void) => ReactNode;
 }
 
-export function PlanOverviewScreen({ tripId, mapView, calendarView }: PlanOverviewScreenProps) {
+export function PlanOverviewScreen({ tripId }: PlanOverviewScreenProps) {
   const data = usePlanData(tripId);
   const groupCards = useDayCards(data);
   // My own plan: the crew's with my "just me" changes laid over it.
@@ -151,15 +150,17 @@ export function PlanOverviewScreen({ tripId, mapView, calendarView }: PlanOvervi
       share={<PlanShareSlot tripId={tripId} />}
       tab={tab}
       onTab={setTab}
-      {...(mapView ? { mapView: mapView(data) } : {})}
-      {...(calendarView
-        ? {
-            calendarView: calendarView(data, (dayNo) => {
-              const card = cards.find((c) => c.dayNo === dayNo);
-              if (card) openDay(card);
-            }),
-          }
-        : {})}
+      mapView={<PlanMapTab data={data} items={items} />}
+      calendarView={
+        <PlanCalendarTab
+          data={data}
+          items={items}
+          onOpenDay={(dayNo) => {
+            const card = cards.find((c) => c.dayNo === dayNo);
+            if (card) openDay(card);
+          }}
+        />
+      }
       cards={cards}
       canReorder={!data.readOnly && data.mode === 'group'}
       readOnly={data.readOnly}

@@ -9,6 +9,9 @@ export const planRoutes = {
   plan: (tripId: string) => `/${tripId}/plan` as Href,
   review: (tripId: string, changesetId: string) => `/${tripId}/review/${changesetId}` as Href,
   day: (tripId: string, dayNo: number) => `/${tripId}/day/${dayNo}` as Href,
+  /** One item on its day (the day view opens its detail). */
+  item: (tripId: string, dayNo: number, stableId: string) =>
+    `/${tripId}/day/${dayNo}?item=${encodeURIComponent(stableId)}` as Href,
   decide: (tripId: string, pollId: string) => `/${tripId}/decide/${pollId}` as Href,
   setup: (tripId: string) => `/${tripId}/setup` as Href,
   draft: (tripId: string) => `/${tripId}/draft` as Href,

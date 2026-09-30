@@ -15,6 +15,17 @@ jest.mock(
     jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
       .powersyncCommon,
 );
+jest.mock('@maplibre/maplibre-react-native', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
+  const { View } = require('react-native');
+  return {
+    Map: ({ children }: { children: unknown }) => <View testID="maplibre-map">{children}</View>,
+    Camera: () => null,
+    ViewAnnotation: ({ children }: { children: unknown }) => <View>{children}</View>,
+    GeoJSONSource: ({ children }: { children: unknown }) => <View>{children}</View>,
+    Layer: () => null,
+  };
+});
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
@@ -36,7 +47,16 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { PERSONAL_OPS_ID, PERSONAL_ROWS, SURF_LESSON } from '../../overlay/dev/personal-ops';
-import { BALI_DESTINATION, BALI_TRIP, BALI_VERSION, MAYA, WINSTON } from '../dev/bali-plan';
+import { router } from 'expo-router';
+
+import {
+  BALI_DESTINATION,
+  BALI_ITEMS,
+  BALI_TRIP,
+  BALI_VERSION,
+  MAYA,
+  WINSTON,
+} from '../dev/bali-plan';
 import { PlanOverviewScreen } from '../plan-overview-screen';
 import { seedBaliPlan } from '../test-support/seed-plan';
 
@@ -172,6 +192,19 @@ describe('plan overview', () => {
         [{ personal_ops_id: PERSONAL_OPS_ID, keep: true }],
       );
     });
+  });
+
+  it('opens an item from its map pin and a day from the calendar', async () => {
+    await renderPlan(WINSTON);
+    await screen.findByTestId('plan-day-7');
+    await fireEvent.press(screen.getByText('MAP'));
+    const pin = await screen.findByLabelText('Day 3, stop 2: Spa');
+    await fireEvent.press(pin);
+    const spa = BALI_ITEMS.find((item) => item.label === 'Spa')?.stableId ?? '';
+    expect(router.push).toHaveBeenLastCalledWith(`/${BALI_TRIP}/day/3?item=${spa}`);
+    await fireEvent.press(screen.getByText('CALENDAR'));
+    await fireEvent.press(await screen.findByTestId('plan-calendar-day-4'));
+    expect(router.push).toHaveBeenLastCalledWith(`/${BALI_TRIP}/day/4`);
   });
 
   it('tells a member without a plan to wait for the organiser', async () => {
