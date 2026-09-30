@@ -130,9 +130,8 @@ function AroundScene({
   const locale = useLocale();
   const hours = kyoto ? 0 : 1;
   const rest = kyoto ? '28' : '05';
-  const place = kyoto
-    ? 'Kinkaku-ji, 1 Kinkakujicho, Kita-ku'
-    : 'Villa Kayu Manis, Jalan Raya Sayan, Ubud';
+  // The same place as the local line: Kyoto's phrase names the temple alone.
+  const place = kyoto ? 'Kinkaku-ji' : 'Villa Kayu Manis, Jalan Raya Sayan, Ubud';
   const startedAt =
     journey === 'running'
       ? LAB_NOW - 20 * 60_000
