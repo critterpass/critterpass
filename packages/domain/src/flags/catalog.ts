@@ -30,6 +30,20 @@ export type FlagDefinition = BooleanFlagDefinition | VariantFlagDefinition;
 export type FlagCatalog = Readonly<Record<string, FlagDefinition>>;
 
 export const FLAG_CATALOG = {
+  'mailbox.gmail': {
+    kind: 'boolean',
+    default: false,
+    owner: 'trip',
+    description:
+      'Offer "Find bookings in my email" for Gmail (Pass+, read-only); off until Google verifies the restricted gmail.readonly scope (CASA). Forward, paste and scan work regardless.',
+  },
+  'mailbox.microsoft': {
+    kind: 'boolean',
+    default: false,
+    owner: 'trip',
+    description:
+      'Offer "Find bookings in my email" for Outlook (Pass+, Mail.Read); off until Microsoft publisher verification passes. Forward, paste and scan work regardless.',
+  },
   'analytics.replay': {
     kind: 'boolean',
     default: false,

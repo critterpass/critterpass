@@ -1,0 +1,62 @@
+# Bookings streams (docs/data-model-sync-and-privacy.md §4). A trip's crew bookings, their
+# document keys and crew-visible flight segments sync with the trip to every active member of its
+# crew (app.is_trip_member); personal ones sync to their owner only. The barcode envelope is never
+# selected: the owner's device fetches it decrypted into its local-only store. The crew's forward
+# address rides crews, as do import candidates shown to the crew; a member's own candidates ride
+# me. Inbound mail, linked senders, flight watches, mailbox connections and policies are never
+# published, so no stream can name them.
+
+streams:
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM import_candidates WHERE user_id = auth.user_id()
+
+  crews:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM crew_inbound_addresses WHERE crew_id IN my_crews AND status = 'active'
+      - SELECT * FROM import_candidates WHERE crew_id IN my_crews AND crew_visible = true
+
+  trip:
+    queries:
+      - |
+        SELECT id, trip_id, owner_id, type, title, starts_at, ends_at, tz, location, traveller_ids,
+               price_minor, currency, paid_by, source, supplier, supplier_ref, free_cancel_until,
+               cancel_policy_text, status, visibility, flight_crew_visible, details, barcode_format,
+               supplier_order_id, version, created_at, updated_at
+        FROM bookings
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND deleted_at IS NULL
+          AND visibility = 'crew'
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT id, trip_id, owner_id, type, title, starts_at, ends_at, tz, location, traveller_ids,
+               price_minor, currency, paid_by, source, supplier, supplier_ref, free_cancel_until,
+               cancel_policy_text, status, visibility, flight_crew_visible, details, barcode_format,
+               supplier_order_id, version, created_at, updated_at
+        FROM bookings
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND deleted_at IS NULL
+          AND visibility = 'personal'
+          AND owner_id = auth.user_id()
+      - |
+        SELECT * FROM booking_attachments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND crew_visible = true
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM booking_attachments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND crew_visible = false
+          AND owner_id = auth.user_id()
+      - |
+        SELECT * FROM flight_segments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND crew_visible = true
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM flight_segments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND crew_visible = false
+          AND owner_id = auth.user_id()

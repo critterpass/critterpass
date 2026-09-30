@@ -17,6 +17,7 @@ import { withGuideReader } from '@cp/db';
 import type pg from 'pg';
 import type { Logger } from 'pino';
 
+import { registerBookingToolExecutors } from '../bookings/tools';
 import { registerCostToolExecutors } from '../cost/tool-executors';
 import { registerMoneyToolExecutors } from '../money/tools';
 import { placeDetailsTool, placesSearchTool } from '../places/tool-executors';
@@ -91,4 +92,5 @@ export function registerApiToolExecutors(
   registerTravelDataToolExecutors(registry, pool);
   registerMoneyToolExecutors(registry, pool);
   registerCostToolExecutors(registry, pool);
+  registerBookingToolExecutors(registry, pool);
 }

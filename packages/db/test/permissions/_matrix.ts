@@ -1281,6 +1281,83 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: OWNER_READ,
   },
+  // Wallet: the crew reads a crew booking and its crew-visible documents and flight segments; the
+  // server writes. Personal rows are covered per actor in bookings.test.ts and friends.
+  bookings: {
+    selectProbe: {
+      sql: "SELECT 1 FROM bookings WHERE trip_id = $1 AND owner_id = $2 AND visibility = 'crew'",
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  booking_attachments: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM booking_attachments WHERE trip_id = $1 AND crew_visible',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  flight_segments: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM flight_segments WHERE trip_id = $1 AND owner_id = $2',
+      params: (f) => [f.tripId, f.actors.member],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  crew_inbound_addresses: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM crew_inbound_addresses WHERE crew_id = $1',
+      params: (f) => [f.crewId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  // A forward to the crew address is the crew's to resolve.
+  import_candidates: {
+    selectProbe: {
+      sql: "SELECT 1 FROM import_candidates WHERE user_id = $1 AND source = 'forward'",
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  mailbox_connections: {
+    selectProbe: ownRowProbe('mailbox_connections'),
+    expectations: OWNER_READ,
+  },
+  insurance_policies: { selectProbe: ownRowProbe('insurance_policies'), expectations: OWNER_READ },
+  // RLS class S: status watches, inbound mail and linked senders have no app_user grant at all.
+  flight_watches: {
+    selectProbe: { sql: 'SELECT 1 FROM flight_watches LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  inbound_emails: {
+    selectProbe: { sql: 'SELECT 1 FROM inbound_emails LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  inbound_sender_links: {
+    selectProbe: { sql: 'SELECT 1 FROM inbound_sender_links LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   // RLS class S (docs/data-model.md §3.15): any user inserts their own report, nobody reads one
   // back through app_user (packages/db/test/permissions/moderation-reports.test.ts).
   moderation_reports: {

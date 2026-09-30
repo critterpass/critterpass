@@ -9,6 +9,7 @@ streams:
     auto_subscribe: true
     queries:
       - SELECT * FROM agent_jobs WHERE user_id = auth.user_id()
+      - SELECT * FROM import_candidates WHERE user_id = auth.user_id()
       - SELECT * FROM users WHERE id = auth.user_id()
       - SELECT *, user_id AS id FROM user_settings WHERE user_id = auth.user_id()
       - SELECT * FROM consents WHERE user_id = auth.user_id()
@@ -68,6 +69,46 @@ streams:
         SELECT * FROM guide_offer_claims
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT id, trip_id, owner_id, type, title, starts_at, ends_at, tz, location, traveller_ids,
+               price_minor, currency, paid_by, source, supplier, supplier_ref, free_cancel_until,
+               cancel_policy_text, status, visibility, flight_crew_visible, details, barcode_format,
+               supplier_order_id, version, created_at, updated_at
+        FROM bookings
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND deleted_at IS NULL
+          AND visibility = 'crew'
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT id, trip_id, owner_id, type, title, starts_at, ends_at, tz, location, traveller_ids,
+               price_minor, currency, paid_by, source, supplier, supplier_ref, free_cancel_until,
+               cancel_policy_text, status, visibility, flight_crew_visible, details, barcode_format,
+               supplier_order_id, version, created_at, updated_at
+        FROM bookings
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND deleted_at IS NULL
+          AND visibility = 'personal'
+          AND owner_id = auth.user_id()
+      - |-
+        SELECT * FROM booking_attachments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND crew_visible = true
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM booking_attachments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND crew_visible = false
+          AND owner_id = auth.user_id()
+      - |-
+        SELECT * FROM flight_segments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND crew_visible = true
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM flight_segments
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND crew_visible = false
+          AND owner_id = auth.user_id()
       - |-
         SELECT * FROM trips
         WHERE id = subscription.parameter('trip_id')
@@ -243,6 +284,27 @@ streams:
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+  crews:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM crew_inbound_addresses WHERE crew_id IN my_crews AND status = 'active'
+      - SELECT * FROM import_candidates WHERE crew_id IN my_crews AND crew_visible = true
+      - SELECT * FROM crews WHERE id IN my_crews
+      - SELECT * FROM crew_members WHERE crew_id IN my_crews
+      - SELECT * FROM trips WHERE crew_id IN my_crews
+      - SELECT * FROM crew_contact_cards WHERE crew_id IN my_crews
+      - |-
+        SELECT * FROM crews
+        WHERE id IN (SELECT crew_id FROM invites
+                     WHERE invitee_user_id = auth.user_id() AND status = 'pending')
+      - |-
+        SELECT * FROM crews
+        WHERE id IN (SELECT crew_id FROM invites
+                     WHERE invitee_user_id = auth.user_id() AND status = 'later')
+      - SELECT * FROM home_tips WHERE crew_id IN my_crews AND status = 'active'
+      - SELECT * FROM ledger_entries WHERE crew_id IN my_crews
+      - SELECT * FROM payments WHERE crew_id IN my_crews
+      - SELECT * FROM stickers WHERE user_id IS NULL AND crew_id IN my_crews
   crew_chat:
     auto_subscribe: true
     with:
@@ -301,25 +363,6 @@ streams:
       SELECT id, slug, locale, category, title, summary, body_md, release_id, created_at, updated_at
       FROM help_articles
       WHERE locale = subscription.parameter('locale')
-  crews:
-    auto_subscribe: true
-    queries:
-      - SELECT * FROM crews WHERE id IN my_crews
-      - SELECT * FROM crew_members WHERE crew_id IN my_crews
-      - SELECT * FROM trips WHERE crew_id IN my_crews
-      - SELECT * FROM crew_contact_cards WHERE crew_id IN my_crews
-      - |-
-        SELECT * FROM crews
-        WHERE id IN (SELECT crew_id FROM invites
-                     WHERE invitee_user_id = auth.user_id() AND status = 'pending')
-      - |-
-        SELECT * FROM crews
-        WHERE id IN (SELECT crew_id FROM invites
-                     WHERE invitee_user_id = auth.user_id() AND status = 'later')
-      - SELECT * FROM home_tips WHERE crew_id IN my_crews AND status = 'active'
-      - SELECT * FROM ledger_entries WHERE crew_id IN my_crews
-      - SELECT * FROM payments WHERE crew_id IN my_crews
-      - SELECT * FROM stickers WHERE user_id IS NULL AND crew_id IN my_crews
   crew_people:
     auto_subscribe: true
     queries:

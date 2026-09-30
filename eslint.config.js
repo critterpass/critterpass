@@ -19,6 +19,7 @@ const defaultExportAllowed = [
   'apps/mobile/src/app/**',
   'apps/web/src/pages/**',
   'services/media-worker/src/index.ts',
+  'infra/cloudflare/*/src/index.ts',
   '**/*.config.{js,mjs,cjs,ts,mts}',
   '**/eslint.config.js',
   '**/*.d.ts',

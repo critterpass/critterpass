@@ -48,6 +48,18 @@ export {
   joinCodes,
 } from './links';
 export { consents, mediaObjects, userSettings, users } from './identity';
+export {
+  bookingAttachments,
+  bookings,
+  crewInboundAddresses,
+  flightSegments,
+  flightWatches,
+  importCandidates,
+  inboundEmails,
+  inboundSenderLinks,
+  insurancePolicies,
+  mailboxConnections,
+} from './bookings';
 export { locationFixes, locationShares, memberEtas, visits } from './location';
 export { meetups } from './meetups';
 export {

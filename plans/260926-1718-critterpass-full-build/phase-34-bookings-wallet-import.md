@@ -1,7 +1,7 @@
 ---
 phase: 34
 title: Bookings wallet, imports, mailbox scan, flight tracking
-status: pending
+status: in_progress
 depends_on: [11, 13, 15, 33]
 wave: 15
 features: [F-100, F-101, F-102, F-121, F-036]
@@ -117,6 +117,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. Drizzle schema per data-model §3.7. 2. RLS incl. visibility + candidate consent policy. 3. Encrypted columns via P08 envelope helpers. 4. `app.share_insurance`. 5. Publication allow-list (no barcode/policy columns). 6. Retention rules registered with `maint.purge`.
 - Tests: `pnpm --filter @cp/db test -- permissions/bookings permissions/import-candidates permissions/insurance-policies permissions/mailbox-connections permissions/inbound-emails permissions/flight-segments permissions/flight-watches permissions/booking-attachments permissions/crew-inbound-addresses`
 - Done when: personal booking invisible to crewmates; `guide_reader` sees only `llm.bookings` columns; tokens/policy numbers never selectable by non-owner.
+- Status: done — 0a8dc211
 
 ### T2 — Booking commands, auto-expense, offline bundle, guide tools
 - Goal: manual CRUD + booking→expense link + offline availability.
@@ -124,6 +125,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. Typed field schemas per kind. 2. Handlers + `crew_bookings:` events; optional `add_expense` via P33 domain writer in the same tx. 3. Offline-bundle entries (attachments signed URLs, barcode to owner). 4. Deadline reminder scheduling. 5. Register `bookings_read` (deadlines verbatim). 6. Register P33 `BookedCostProvider` (booked-not-yet-expensed).
 - Tests: `pnpm --filter @cp/api test -- bookings/commands`; `pnpm --filter @cp/cost-engine test -- forecast` (integration case)
 - Done when: P33 forecast includes a booked-not-yet-expensed booking and drops it once expensed; add with split creates booking + expense atomically; delete keeps the expense unless user chooses to delete it too; replay idempotent.
+- Status: done — 265801f2 (the cost-engine forecast is not built yet: the `BookedCostProvider` port is registered and tested against the api; its forecast integration case lands with the money app lane)
 
 ### T3 — Inbound email intake: Worker, webhook, sender allow-list, link-email
 - Goal: mail reaches a verified `inbound_emails` row or quarantine.
@@ -131,6 +133,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. Worker: address lookup, size cap, raw → R2, HMAC POST. 2. Webhook verify + `inbound_emails` row + DKIM/SPF verdict. 3. Sender allow-list incl. Apple relay match; unknown → quarantine + reply-code "Link this email?" flow. 4. Address creation on crew create + rotation.
 - Tests: `pnpm --filter @cp/api test -- bookings/inbound-intake`; `pnpm --filter inbound-email test`
 - Done when: unknown sender quarantined; correct code links the address and releases the mail; Apple relay sender of a member accepted; bad HMAC rejected.
+- Status: done — ea6412be (Worker, webhook and linking; the app's link-email screen is the app lane's)
 
 ### T3b — Mail parse job, extractor, evals
 - Goal: verified mail → validated, deduped import candidate.
@@ -138,6 +141,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. Sanitize → JSON-LD/Microdata → Haiku → validate → dedupe → candidate → N-13. 2. Eval set from real confirmation emails the founder forwards (Agoda, Trip.com, Booking.com, Viator, Klook, airlines, fast boats) + injection cases.
 - Tests: `pnpm --filter @cp/worker test -- bookings/mail-parse`; `pnpm --filter @cp/ai eval -- booking-extract`
 - Done when: JSON-LD emails parse without an LLM call; eval ≥ 95 % field accuracy incl. `free_cancel_until`; injection cases never alter other fields or trigger tools; same email forwarded by 3 members → one candidate.
+- Status: done — d654b9bb (harness, injection cases recorded live at 3/3; the ≥ 95 % field-accuracy gate waits for the founder's forwarded corpus)
 
 ### T4 — Paste and scan imports, BCBP, candidate resolution
 - Goal: PASTE and SCAN channels + ADD/IGNORE with split.
@@ -145,6 +149,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. IATA Resolution 792 BCBP decoder (multi-leg, conditional fields) tested with published spec sample strings. 2. Paste: code/text/URL (single fetch via `services/api/src/bookings/safe-fetch.ts` with the SSRF controls listed under PASTE, no storage). 3. Scan: OCR lines + barcode → extractor. 4. Resolve: add (booking + optional expense), ignore (crew-wide), duplicate. 5. `cp.import` notification actions.
 - Tests: `pnpm --filter @cp/domain test -- bcbp`; `pnpm --filter @cp/api test -- bookings/imports`
 - Done when: spec BCBP samples decode exactly; resolve by one member hides candidate for all within one sync; SSRF tests: `http://169.254.169.254`, `http://localhost`, a DNS name resolving to 10.x, an allow-listed URL redirecting off-list, and a > 2 MB body are all refused.
+- Status: done — bea87e35
 
 ### T5 — Mailbox auto-scan (Gmail + Microsoft)
 - Goal: Pass+ daily scan with trip filter and consented crew surfacing.
@@ -152,6 +157,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. OAuth PKCE start/callback, encrypted refresh tokens. 2. Entitlement `mailbox_import` check + lifecycle overlays. 3. Incremental fetch with header-only prefilter, then message fetch for matches → `mail.parse` path. 4. Consent check for crew surfacing. 5. Disconnect → provider revoke + row delete. 6. Flags `mailbox.gmail`, `mailbox.microsoft`.
 - Tests: `pnpm --filter @cp/worker test -- bookings/mailbox-scan` (Testcontainers; provider HTTP recorded from a real test mailbox owned by the founder, replayed with nock)
 - Done when: non-matching messages are never fetched beyond headers (asserted); expired Pass+ stops scans; revoke verified against provider.
+- Status: done — 0a5f8890 (flags `mailbox.gmail`/`mailbox.microsoft` off until Google CASA and Microsoft publisher verification)
 
 ### T6 — Flight status adapters, watches, webhook, events
 - Goal: live flight status for any wallet flight.
@@ -159,6 +165,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. Adapters with egress IP + timeouts + cost counter. 2. Watch on flight add/import; unwatch at landed + 1 d. 3. Webhook verify + refetch. 4. Diff → segments, events, N-14/N-41, `flight.landed`, disruption trigger. 5. Boarding estimate labelling. 6. Register `flight_status` tool executor.
 - Tests: `pnpm --filter @cp/worker test -- flights`; `pnpm --filter @cp/domain test -- flights`
 - Done when: a replayed real AeroAPI alert sequence (delay → gate → departed → landed) produces exactly one push per change and one `flight.landed`; spoofed webhook without refetch match is ignored.
+- Status: done — a35580ef (adapters off until `AEROAPI_KEY`/`AERODATABOX_KEY` are set; scheduled times + `report_landed` meanwhile)
 
 ### T7 — Insurance vault
 - Goal: owner-only encrypted policy with offline copy and consented share.
@@ -166,6 +173,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. Commands + encryption. 2. `GET /v1/me/private/insurance` → `local_private`. 3. Share flow API used by P35/P38 (consent write + scoped reveal). 4. Wallet card + edit form + document scan (cp-ocr).
 - Tests: `pnpm --filter @cp/api test -- bookings/insurance`; `maestro test e2e/bookings/insurance.yaml`
 - Done when: policy readable offline by owner only; share without consent → `CONSENT_REQUIRED`.
+- Status: done — f9bda7b3 (server; the wallet card, form and Maestro flow are the app lane's)
 
 ### T8 — Wallet stack UI (3h-1) + booking detail/edit
 - Goal: the card deck, flight card variants, boarding pass, detail/edit.

@@ -52,6 +52,7 @@
     "pg": "catalog:",
     "pg-boss": "catalog:",
     "pino": "catalog:",
+    "postal-mime": "catalog:",
     "posthog-node": "catalog:",
     "redis": "catalog:",
     "sharp": "catalog:",

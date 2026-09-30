@@ -53,6 +53,8 @@ import * as schema from './schema';
  * reach the crew over Centrifugo `trip_locations:`, gated per share reason, never through sync.
  * `app_open_hours` (packages/db/src/schema/home.ts) is RLS "X": per-hour app-open counts feed the
  * nudge send time on the server and are never replicated, not even to their owner.
+ * `flight_watches` (packages/db/src/schema/bookings.ts) is "S": provider alert subscriptions are
+ * the server's; travellers see their effect in `flight_segments`.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -62,6 +64,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'critter_names',
   'fair_use_counters',
   'fare_cells',
+  'flight_watches',
   'install_attributions',
   'media_objects',
   'member_etas',

@@ -348,3 +348,22 @@ registerMergeRule({
   strategy: 'keep_existing',
   personal: true,
 });
+
+// Bookings: a merged member keeps their bookings, import candidates, inbound mail and linked
+// senders; mailbox connections keep the surviving account's own; policies follow their owner.
+registerMergeRule({ table: 'bookings', userColumn: 'owner_id', strategy: 'reassign' });
+registerMergeRule({ table: 'import_candidates', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({ table: 'inbound_emails', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({ table: 'inbound_sender_links', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({
+  table: 'mailbox_connections',
+  userColumn: 'user_id',
+  strategy: 'keep_existing',
+  personal: true,
+});
+registerMergeRule({
+  table: 'insurance_policies',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  personal: true,
+});
