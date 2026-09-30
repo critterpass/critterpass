@@ -16,4 +16,4 @@ export {
 } from './locales';
 export type { LocaleMeta } from './meta';
 export { localeMeta } from './meta';
-export { upper } from './upper';
+export { upper, upperKeepingCurrency } from './upper';

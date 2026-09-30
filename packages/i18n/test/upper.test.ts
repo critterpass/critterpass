@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { upper } from '../src/upper';
+import { upper, upperKeepingCurrency } from '../src/upper';
 
 describe('upper', () => {
   it('uppercases Turkish "i" to the dotted İ, not the dotless I plain toUpperCase gives', () => {
@@ -29,5 +29,18 @@ describe('upper', () => {
 
   it('uppercases plain English', () => {
     expect(upper('cancel', 'en')).toBe('CANCEL');
+  });
+});
+
+describe('upperKeepingCurrency', () => {
+  it('keeps a currency symbol next to its number or on its own as written', () => {
+    expect(upperKeepingCurrency('Rp 450.000', 'en')).toBe('Rp 450.000');
+    expect(upperKeepingCurrency('Rp', 'en')).toBe('Rp');
+    expect(upperKeepingCurrency('total 1.080 kr', 'sv')).toBe('TOTAL 1.080 kr');
+  });
+
+  it('still uppercases the same letters inside words', () => {
+    expect(upperKeepingCurrency('Rpg krill', 'en')).toBe('RPG KRILL');
+    expect(upperKeepingCurrency('split it · maya paid', 'en')).toBe('SPLIT IT · MAYA PAID');
   });
 });

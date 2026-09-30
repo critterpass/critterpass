@@ -18,3 +18,23 @@ export function upper(text: string, locale: string): string {
   if (NO_CASE_LANGUAGES.has(primaryLanguage)) return text;
   return text.toLocaleUpperCase(locale);
 }
+
+/**
+ * Currency symbols written in mixed or lower case (Rp, kr, zł, Kč, Ft, lei, лв): they are part of
+ * an amount, not a word, so an all-caps display style leaves them as written ("Rp 450.000", never
+ * "RP 450.000"). A symbol only counts as one when it stands alone or sits next to the number.
+ */
+const CURRENCY_SYMBOL =
+  /(?<![\p{L}])(Rp|kr|zł|Kč|Ft|lei|лв)(?=$|[\s\u00a0\u202f]*[\d.,\-−]|[\s\u00a0\u202f]*$)/gu;
+
+/** `upper`, keeping mixed-case currency symbols of amounts as written. */
+export function upperKeepingCurrency(text: string, locale: string): string {
+  let out = '';
+  let last = 0;
+  for (const match of text.matchAll(CURRENCY_SYMBOL)) {
+    const at = match.index;
+    out += upper(text.slice(last, at), locale) + match[0];
+    last = at + match[0].length;
+  }
+  return out + upper(text.slice(last), locale);
+}

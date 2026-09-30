@@ -109,8 +109,8 @@ export function BudgetView(props: BudgetViewProps) {
             {upper(dayChip, locale)}
           </InfoPill>
         </Row>
-        <Row justify="space-between" align="flex-end">
-          <Stack gap="2">
+        <Row justify="space-between" align="flex-end" gap="12">
+          <Stack gap="2" style={{ flexShrink: 1 }}>
             <Text variant="eyebrow">
               {upper(t({ id: 'money.budget.spent', message: 'Spent' }), locale)}
             </Text>
@@ -118,16 +118,18 @@ export function BudgetView(props: BudgetViewProps) {
               variant="displayHero"
               color={over ? theme.semantic.state.urgent : undefined}
               testID="money-budget-spent"
+              numberOfLines={1}
+              autoFit
             >
               {spent}
             </Text>
           </Stack>
           {planned === null ? null : (
-            <Stack gap="2" align="flex-end">
+            <Stack gap="2" align="flex-end" style={{ flexShrink: 1 }}>
               <Text variant="eyebrow">
                 {upper(t({ id: 'money.budget.planned', message: 'Planned' }), locale)}
               </Text>
-              <Text variant="h1" color={theme.semantic.text.secondary}>
+              <Text variant="h1" color={theme.semantic.text.secondary} numberOfLines={1} autoFit>
                 {whole(planned)}
               </Text>
             </Stack>
