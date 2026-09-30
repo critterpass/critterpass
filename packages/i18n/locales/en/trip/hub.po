@@ -52,6 +52,10 @@ msgid "trip.hub.ticker.pitched"
 msgstr "{name} pitched a place"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.removed"
+msgstr "{name} removed someone from the crew"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.asked"
 msgstr "{name} started a vote"
 
@@ -66,6 +70,18 @@ msgstr "{name} suggested a change"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.tookSeat"
 msgstr "{name} took a seat"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.reverted"
+msgstr "{name} took back a change"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.rejected"
+msgstr "{name} turned down a change"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.undid"
+msgstr "{name} undid a guide's change"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.other"
@@ -227,7 +243,7 @@ msgstr "planning"
 msgid "trip.hub.tile.online"
 msgstr "saved in your wallet"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.plan"
 msgstr "See the plan"
 
@@ -243,7 +259,7 @@ msgstr "Set"
 msgid "trip.briefing.setDone"
 msgstr "Set ✓"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.setup"
 msgstr "Set up the trip"
 
@@ -263,6 +279,10 @@ msgstr "Switch trip"
 msgid "trip.hub.takeOff"
 msgstr "Take off in"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.moved"
+msgstr "The trip moved to its next step"
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.today"
 msgstr "today"
@@ -279,13 +299,17 @@ msgstr "Today's briefing didn't come through. The plan below is up to date."
 msgid "trip.list.voting"
 msgstr "voting"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.vote"
 msgstr "Voting"
 
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.wheelsUp"
 msgstr "Wheels up in"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.whereNext"
+msgstr "Where next?"
 
 #: ../../apps/mobile/src/features/trip/hub/screen.tsx
 msgid "trip.hub.openDay"

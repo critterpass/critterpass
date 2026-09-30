@@ -31,7 +31,8 @@ import {
 } from './queries';
 
 const DAYS_SQL = `SELECT count(*) AS n FROM plan_days WHERE version_id = ?`;
-const VOTES_SQL = `SELECT id FROM polls WHERE trip_id = ? AND status = 'open' ORDER BY created_at`;
+const VOTES_SQL = `SELECT id, stage FROM polls WHERE trip_id = ? AND status = 'open'
+  ORDER BY created_at`;
 const BOOKINGS_SQL = `SELECT count(*) AS n FROM bookings
   WHERE trip_id = ? AND deleted_at IS NULL AND status <> 'cancelled'`;
 const LEDGER_SQL = `SELECT debtor_id, creditor_id, amount_minor, currency FROM ledger_entries
@@ -64,13 +65,19 @@ export interface ActivityRow {
   readonly actor_name: string | null;
 }
 
+/** An open poll on the trip and its stage (`board` while pitching, `final` for the last two). */
+export interface OpenVote {
+  readonly id: string;
+  readonly stage: string | null;
+}
+
 export interface HubRows {
   readonly loaded: boolean;
   readonly trip: TripRow | null;
   readonly members: readonly MemberRow[];
   readonly going: number;
   readonly days: number;
-  readonly openVotes: readonly string[];
+  readonly openVotes: readonly OpenVote[];
   readonly bookings: number;
   readonly ledger: readonly LedgerRow[];
   readonly flights: readonly {
@@ -113,7 +120,7 @@ export function useHubRows(
   const days = useLiveRows<{ n: number }>(DAYS_SQL, version === null ? null : [version], [
     'plan_days',
   ]);
-  const votes = useLiveRows<{ id: string }>(VOTES_SQL, [tripId], ['polls']);
+  const votes = useLiveRows<OpenVote>(VOTES_SQL, [tripId], ['polls']);
   const bookings = useLiveRows<{ n: number }>(BOOKINGS_SQL, [tripId], ['bookings']);
   const ledger = useLiveRows<LedgerRow>(LEDGER_SQL, [tripId], ['ledger_entries']);
   const flights = useLiveRows<HubRows['flights'][number]>(
@@ -160,7 +167,7 @@ export function useHubRows(
       members: members.rows,
       going: going.rows.length,
       days: days.rows[0]?.n ?? 0,
-      openVotes: votes.rows.map((vote) => vote.id),
+      openVotes: votes.rows,
       bookings: bookings.rows[0]?.n ?? 0,
       ledger: ledger.rows,
       flights: flights.rows,

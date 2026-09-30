@@ -52,6 +52,10 @@ msgid "trip.hub.ticker.pitched"
 msgstr "{name} đã đề xuất một nơi"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.removed"
+msgstr "{name} đã mời một người rời nhóm"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.asked"
 msgstr "{name} đã mở một cuộc bình chọn"
 
@@ -66,6 +70,18 @@ msgstr "{name} đã đề xuất một thay đổi"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.tookSeat"
 msgstr "{name} đã nhận một chỗ"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.reverted"
+msgstr "{name} đã rút lại một thay đổi"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.rejected"
+msgstr "{name} đã từ chối một thay đổi"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.undid"
+msgstr "{name} đã hoàn tác một thay đổi của hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.other"
@@ -227,7 +243,7 @@ msgstr "đang lên lịch"
 msgid "trip.hub.tile.online"
 msgstr "đã lưu trong ví"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.plan"
 msgstr "Xem lịch trình"
 
@@ -243,7 +259,7 @@ msgstr "Đặt"
 msgid "trip.briefing.setDone"
 msgstr "Đã đặt ✓"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.setup"
 msgstr "Thiết lập chuyến đi"
 
@@ -263,6 +279,10 @@ msgstr "Đổi chuyến"
 msgid "trip.hub.takeOff"
 msgstr "Cất cánh sau"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.moved"
+msgstr "Chuyến đi đã sang bước tiếp theo"
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.today"
 msgstr "hôm nay"
@@ -279,13 +299,17 @@ msgstr "Bản tin hôm nay chưa đến được. Lịch trình bên dưới v�
 msgid "trip.list.voting"
 msgstr "đang bình chọn"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-links.ts
 msgid "trip.hub.cta.vote"
 msgstr "Đang bình chọn"
 
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.wheelsUp"
 msgstr "Cất cánh sau"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.whereNext"
+msgstr "Đi đâu tiếp?"
 
 #: ../../apps/mobile/src/features/trip/hub/screen.tsx
 msgid "trip.hub.openDay"

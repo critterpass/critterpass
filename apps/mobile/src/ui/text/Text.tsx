@@ -17,7 +17,7 @@ import type { SurfaceTone } from '../surface/Scaffold';
 import { useSurfaceTone } from '../surface/Scaffold';
 import type { Theme } from '../theme';
 import { useTheme } from '../theme';
-import { ADVANCE_RATIO, AUTO_FIT_MIN_SCALE, useAutoFit } from './auto-fit';
+import { ADVANCE_RATIO, AUTO_FIT_MIN_SCALE, horizontalInset, useAutoFit } from './auto-fit';
 import { glyphRoomStyle, lineBoxEm } from './glyph-room';
 
 const { type } = tokens;
@@ -184,6 +184,7 @@ export function Text({
   // A single-line variant keeps one line by fitting to it; with fitting off it wraps, never cut.
   const lineLimit = numberOfLines ?? (singleLine && fitting ? 1 : tokenMaxLines);
   const scaledSize = resolved.fontSize * font.sizeMultiplier * designScale(token, designSize);
+  const callerStyle = StyleSheet.flatten(style);
   const fit = useAutoFit({
     enabled: fitting,
     // A line count the caller set is kept; the variant's own single line wraps at the floor.
@@ -195,6 +196,8 @@ export function Text({
     // Past the default text size, a heading that still overflows at its floor keeps wrapping:
     // enlarged text is never cut.
     neverCut: fontScale > 1,
+    // A title kept clear of a sticker by its own padding fits the width left beside it.
+    inset: horizontalInset(callerStyle),
     text: text ?? '',
     maxSize: scaledSize,
     minSize: Math.min(
@@ -223,7 +226,7 @@ export function Text({
 
   // Tight display leading would otherwise clip cap tops and stacked marks (Ệ, Ữ) off the first
   // line, and ride high on iOS; a caller's own line height (a wrapped pill label) is what's laid out.
-  const callerLineHeight = StyleSheet.flatten(style)?.lineHeight;
+  const callerLineHeight = callerStyle?.lineHeight;
   const lineHeight =
     typeof callerLineHeight === 'number' ? callerLineHeight : fontSize * font.lineHeightMultiplier;
   // In whole device pixels (the room rounded up, so it still clears the tallest mark): Android

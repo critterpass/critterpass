@@ -1,0 +1,143 @@
+appId: app.critterpass.dev
+---
+# Release gate: a brand-new user's first trip, with no demo seed. A fresh account starts its own
+# crew under a long name, pitches Da Nang from Home's PITCH A PLACE, and so has one trip still
+# voting with one place. Home reads the crew name whole at a legible size and shows the vote as
+# the next thing; the TRIPS tab opens that trip's hub, which asks WHERE NEXT?, keeps its tiles'
+# words whole and reads every activity as copy; VOTING goes back to the vote on Home. The same
+# screens are captured again in Vietnamese.
+- runFlow: subflows/fresh-account.yaml
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'The head still didnt look so goo'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- assertVisible:
+    id: 'home-header-crew-name'
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-2-fresh-crew-no-trip
+# The crew's first pitch, through Home's own control.
+- tapOn:
+    id: 'home-pitch'
+# With no place picked yet the sheet opens on its search field, focused.
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+# The sheet usually closes onto Home by itself; back out only if it is still open (a back from
+# Home would leave the app).
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+# The vote is the next thing: no "YOUR NEXT TRIP" card repeats it.
+- assertNotVisible:
+    id: 'home-next-up'
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-6-fresh-vote
+# The trip hub for the trip still voting.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-planning'
+    timeout: 30000
+- assertVisible: 'WHERE NEXT\?'
+- assertVisible:
+    id: 'trip-hub-planning-cta'
+- assertNotVisible: '.*ACTIVITY\..*'
+- assertNotVisible: '.*_ADDED.*'
+- waitForAnimationToEnd
+- takeScreenshot: en-3k-1-fresh-voting
+# VOTING opens the vote where it lives, never a blank screen.
+- tapOn:
+    id: 'trip-hub-planning-cta'
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 20000
+# The same screens in Vietnamese: the dev gallery switches the running app's language.
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+# Back from the gallery lands on the developer tools list, one more back on Home.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-gallery'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: vi-3b-6-fresh-vote
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-planning'
+    timeout: 30000
+- assertVisible: 'ĐI ĐÂU TIẾP\?'
+- assertNotVisible: '.*ACTIVITY\..*'
+- waitForAnimationToEnd
+- takeScreenshot: vi-3k-1-fresh-voting
+- tapOn:
+    id: 'trip-hub-planning-cta'
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 20000
