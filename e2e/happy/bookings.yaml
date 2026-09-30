@@ -10,11 +10,16 @@ appId: app.critterpass.dev
     env:
       SEED: dev-seed-demo-caught-up
 # The Wallet tab opens on Money; Bookings opens by its link.
-- openLink: critterpass-dev://wallet/bookings/add?start=paste
+- openLink: critterpass-dev://wallet/bookings/add
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-add'
+    timeout: 20000
+- tapOn: 'PASTE'
 - extendedWaitUntil:
     visible:
       id: 'bookings-paste-field'
-    timeout: 20000
+    timeout: 10000
 - evalScript: ${output.day = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
 - tapOn:
     id: 'bookings-paste-field'

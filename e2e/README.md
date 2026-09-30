@@ -30,7 +30,7 @@ x86_64 Google APIs image). No local simulator is involved.
 | `build_url`  | EAS artifact URL(s) to install instead of the fingerprint-matched e2e-test build: `.tar.gz` for iOS, `.apk` for Android, space-separated for both.   |
 | `shards`     | Parallel shards per platform (default 3).                                                                                                            |
 | `appearance` | `light` or `dark`.                                                                                                                                    |
-| `preset`     | `sweep` runs the UI sweep (below) in `compare` mode; with `pr` empty the images go to the "Nightly UI sweep" issue.                                   |
+| `preset`     | `sweep` runs the UI sweep (below) in `compare` mode; with `pr` empty the images go to the "Nightly UI sweep" issue. `happy` runs the release gate (below). |
 
 Every shard uploads an artifact `device-<platform>-shard-<n>` with JUnit reports, Maestro's logs
 and failure screenshots, the flows' `takeScreenshot` images and `ui-qa.log`. As with
@@ -143,6 +143,61 @@ generated: after adding a scenario, run `pnpm tsx tools/scripts/ci-device/sweep-
 route is listed in its `ROUTE_SHOTS` table with the screenshots that show it, or why the sweep can't
 reach it. Gaps don't fail CI (other areas add screens at their own pace); they show in every sweep
 comment, so add the missing steps to the sweep when a new screen or route appears there.
+
+## Release gate (happy paths)
+
+`e2e/happy/` holds one flow per user journey, each run end to end against **staging** with real
+sessions and data: every flow starts from a fresh install, onboards its own account through the
+api (`subflows/fresh-account.yaml`), takes a staging demo seed scenario when it needs a crew
+(`e2e/_shared/seed-demo.yaml`) and drives the rest through the app's real commands, asserting the
+journey's outcomes (the message sent and answered, the vote closed, the expense settled), not just
+that screens render. Nothing is mocked: the draft, the redraft and reading a pasted booking run on
+staging's AI, so those flows allow a few minutes for them.
+
+| Flow             | Journey                                                                          |
+| ---------------- | -------------------------------------------------------------------------------- |
+| `onboarding`     | fresh account → pass issued → Home, and the session survives a relaunch          |
+| `home-inbox`     | Home's countdown, plan progress, tip and bell → inbox → answer a card → undo     |
+| `chat`           | crew chat: send a message, a crewmate replies                                    |
+| `vote`           | pitch a place → board → vote → go to the final → vote → reveal                   |
+| `setup`          | from the reveal: dates → budget → rooms → must-dos → DRAFT MY TRIP               |
+| `drafting`       | setup, then the draft ready → private review → change a day → keep               |
+| `money`          | add an expense → balances → settle up (request, then confirm it arrived)         |
+| `bookings`       | paste a confirmation → candidate → ADD → wallet stack → the flight's details     |
+
+The `happy` preset records every flow on video (`screenrecord` in three-minute segments on Android,
+`simctl io recordVideo` on iOS; `tools/scripts/ci-device/screen-video.ts`) and the publish job builds
+the report (`tools/scripts/ci-device/release-gate.ts`): per flow and platform, pass or fail, the time,
+an inline GIF preview, a link to the MP4 and, when it failed, Maestro's failing step with the screen
+at that moment, plus the app's `[ui-qa]` reports. The media goes to the private repository's
+`screenshots` branch (the newest 30 runs are kept) and the report to one comment on the open
+"Release gate" issue, and to the job summary. Android runs one flow per shard (flows are
+independent); iOS uses the `shards` input.
+
+It runs daily on main (Android) and on demand. **Before submitting a build to TestFlight**, run it
+on both platforms with the new builds:
+
+```sh
+# Android, with the new e2e-test APK:
+gh workflow run device.yml -f preset=happy -f platform=android -f build_url=<new .apk URL>
+# iOS, with the e2e-test build that matches the native fingerprint (found automatically):
+gh workflow run device.yml -f preset=happy -f platform=ios -f shards=3
+```
+
+Add `-f pr=<n>` to post the report to a pull request instead of the issue, and `-f flows=...` to run
+some of the flows.
+
+### Adding a flow
+
+1. Add `e2e/happy/<journey>.yaml`: start with `subflows/fresh-account.yaml` (with `SEED` set to a
+   `dev-seed-demo…` button when the journey needs the demo crew), reuse the area's own subflows,
+   and assert each step's outcome with `extendedWaitUntil` on what the api's answer puts on screen.
+   Name the file after the journey; the report shows that name.
+2. When the journey needs data no seed scenario makes (a trip mid-setup, a ready plan), add the
+   step to the demo seed (`services/api/src/dev/`, with its db test) and its button to the app's
+   Developer tools, or reach it through the app as `drafting.yaml` does.
+3. Run it: `gh workflow run device.yml -f preset=happy -f platform=android -f flows=e2e/happy/<journey>.yaml`.
+4. Add it to the table above.
 
 ## UI review gate
 
