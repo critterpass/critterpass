@@ -29,6 +29,7 @@
     "screens:compare": "tsx tools/scripts/compare-app-screens.ts",
     "renders:screens": "pnpm --filter @cp/design-renders run render:screens",
     "renders:pages": "pnpm --filter @cp/design-renders run render:pages",
+    "readme:progress": "tsx tools/scripts/readme/progress.ts",
     "content": "tsx tools/content-factory/src/cli.ts"
   },
   "devDependencies": {
