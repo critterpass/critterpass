@@ -50,6 +50,12 @@ appId: app.critterpass.dev
     commands:
       - runFlow: ../../home/subflows/open-dev-tools.yaml
       - runFlow: open-lab.yaml
+      # The reopened list starts at its top.
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-lab-${SCENE}'
+          direction: DOWN
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'bookings-lab-${SCENE}'
