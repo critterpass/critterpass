@@ -59,6 +59,8 @@ import * as schema from './schema';
  * the server (a hash lookup); a client sees its own `code_redemptions`, never a code row.
  * `affiliate_clicks` (packages/db/src/schema/suppliers.ts) is "S": clicks are written by the api
  * and read only by the conversions import and the ops console, never by a client.
+ * `journey_checks` (packages/db/src/schema/disruptions.ts) is C2: the latest running-late ETA per
+ * member and item, answered over HTTP and never synced.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -72,6 +74,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'fare_cells',
   'flight_watches',
   'install_attributions',
+  'journey_checks',
   'media_objects',
   'member_etas',
   'moderation_reports',

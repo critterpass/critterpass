@@ -11,6 +11,7 @@ import { SUPPLIER_EVENT_TYPES } from '../../src/suppliers/events';
 import { PLAN_EVENT_TYPES } from '../../src/plan/events';
 import { GUIDE_EVENT_TYPES } from '../../src/guide/events';
 import { TRIP_DAY_EVENT_TYPES } from '../../src/trip-day/events';
+import { DISRUPTION_EVENT_TYPES } from '../../src/disruptions/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -118,6 +119,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   // The guide speaks in its own threads and in crew chat, never through the ticker.
   ...GUIDE_EVENT_TYPES,
   ...TRIP_DAY_EVENT_TYPES,
+  // Disruptions speak through their own screens, the crew chat card and pushes.
+  ...DISRUPTION_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

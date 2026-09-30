@@ -178,6 +178,14 @@ streams:
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
       - |-
+        SELECT * FROM disruptions
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM watch_items
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
         SELECT *, trip_id AS id FROM trip_entitlements
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
