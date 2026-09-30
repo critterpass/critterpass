@@ -18,7 +18,7 @@ import Animated, {
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 
-import { bezierEasing, isPhysicalSpring, springConfig } from '@/motion';
+import { bezierEasing, isPhysicalSpring, springConfig, useIdleLoopRunning } from '@/motion';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Text } from '@/ui/text/Text';
 import { Halftone } from '@/ui/textures/halftone';
@@ -73,8 +73,9 @@ export function RainBand({
     top.value = reduced || SOFT === undefined ? y : withSpring(y, SOFT);
     height.value = reduced || SOFT === undefined ? h : withSpring(h, SOFT);
   }, [start, end, axis, reduced, top, height]);
+  const drifting = useIdleLoopRunning(!reduced);
   useEffect(() => {
-    if (reduced) {
+    if (!drifting) {
       drift.value = 0;
       return undefined;
     }
@@ -86,7 +87,7 @@ export function RainBand({
       -1,
     );
     return () => cancelAnimation(drift);
-  }, [reduced, drift]);
+  }, [drifting, drift]);
   const style = useAnimatedStyle(() => ({
     top: top.value,
     height: height.value,

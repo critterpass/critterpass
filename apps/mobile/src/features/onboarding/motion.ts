@@ -7,6 +7,7 @@ import { useIsFocused } from 'expo-router';
 import { useAnimatedStyle, type SharedValue } from 'react-native-reanimated';
 
 import { useSharedClock } from '@/motion/clock';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useMotionMode } from '@/motion/motion-mode';
 import { sampleLoopPreset, type LoopKeyframeStop, type LoopPresetDef } from '@/motion/presets';
 
@@ -62,9 +63,10 @@ export const STAMP_BREATHE: OnboardingLoop = {
  * mid-loop (the splash passport opening) begins from rest without a jump.
  */
 export function useOnboardingLoop(loop: OnboardingLoop, offset = 0, settle?: SharedValue<number>) {
-  const clock = useSharedClock();
   const focused = useIsFocused();
   const [mode] = useMotionMode();
+  const running = useIdleLoopRunning(mode === 'full' && focused);
+  const clock = useSharedClock(running);
   // `sampleLoopPreset` only reads the timing and stops; the id is the shared presets' key.
   const def: LoopPresetDef = {
     id: 'bob',
@@ -74,10 +76,7 @@ export function useOnboardingLoop(loop: OnboardingLoop, offset = 0, settle?: Sha
   };
   const rest = sampleLoopPreset(def, 0);
   return useAnimatedStyle(() => {
-    const t =
-      mode === 'full' && focused
-        ? sampleLoopPreset(def, clock.value / def.durationMs + offset)
-        : rest;
+    const t = running ? sampleLoopPreset(def, clock.value / def.durationMs + offset) : rest;
     const k = 1 - (settle?.value ?? 0);
     return {
       opacity: 1 - (1 - t.o) * k,

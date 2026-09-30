@@ -11,6 +11,7 @@ import {
 import { tokens } from '@cp/design-tokens';
 
 import { bezierEasing } from '../easing';
+import { useIdleLoopRunning } from '../idle-pause';
 import { staggerDelayMs } from './shared';
 
 const bounceEasing = bezierEasing(tokens.motion.easing.standard);
@@ -27,9 +28,10 @@ export const TYPING_DOT_STAGGER_MS = 160;
 export function useTypingDot(active: boolean, dotIndex: number) {
   const translateY = useSharedValue(0);
   const delayMs = staggerDelayMs(dotIndex, TYPING_DOT_STAGGER_MS);
+  const running = useIdleLoopRunning(active);
 
   useEffect(() => {
-    if (!active) {
+    if (!running) {
       translateY.value = 0;
       return;
     }
@@ -44,7 +46,7 @@ export function useTypingDot(active: boolean, dotIndex: number) {
       ),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps -- translateY is a stable shared value ref.
-  }, [active, delayMs]);
+  }, [running, delayMs]);
 
   return useAnimatedStyle(() => ({ transform: [{ translateY: translateY.value }] }));
 }
