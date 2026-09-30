@@ -11,8 +11,12 @@ appId: app.critterpass.dev
     visible:
       id: 'taste-card-left'
     timeout: 10000
+# Six picks show DONE; a tap the slow simulator drops just means one more pick.
 - repeat:
-    times: 6
+    while:
+      notVisible:
+        id: 'taste-done'
+    times: 9
     commands:
       - tapOn:
           id: 'taste-card-right'
