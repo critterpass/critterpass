@@ -7,8 +7,38 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-XA\n"
 
+#. placeholder {0}: props.passHolder.name
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.hintLabel"
+msgstr ""
+
+#. placeholder {0}: props.passHolder.name
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.hint"
+msgstr ""
+
+#. placeholder {0}: meter.used
+#. placeholder {1}: meter.limit
+#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+msgid "guide.meter.count"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.cost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.backAtMidnight"
+msgstr ""
+
+#. placeholder {0}: left.hours
+#. placeholder {1}: left.minutes
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.backIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.count"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
@@ -17,6 +47,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.anItem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.attach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.askAtMidnight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.queuePlaceholder"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
@@ -41,6 +83,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.getPass"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
@@ -127,6 +173,14 @@ msgstr ""
 msgid "guide.help.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.bodyTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.body"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.pharmacy"
 msgstr ""
@@ -151,6 +205,10 @@ msgstr ""
 msgid "guide.queued.rate"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.resets"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.review"
 msgstr ""
@@ -171,6 +229,14 @@ msgstr ""
 msgid "guide.plan.removed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.trailOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.trailOff30"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.refused"
 msgstr ""
@@ -185,6 +251,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+msgid "guide.meter.unlimited"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx

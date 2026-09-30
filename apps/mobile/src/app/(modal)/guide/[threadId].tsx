@@ -3,6 +3,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { GuideSheet } from '@/features/guide/chat/components/guide-sheet';
 import { GuideServicesProvider } from '@/features/guide/chat/data/guide-services';
 import { deviceGuideServices } from '@/features/guide/chat/data/guide-stream';
+import { useGuideMeterSlots } from '@/features/guide/meter/use-guide-meter-slots';
 import { isUuid, useThreadTarget } from '@/features/guide/chat/data/use-guide-thread';
 
 /**
@@ -22,6 +23,7 @@ export default function GuideSheetRoute() {
       <GuideSheet
         key={`${tripId ?? ''}:${mode ?? ''}`}
         tripId={tripId}
+        useMeter={useGuideMeterSlots}
         {...(mode === undefined ? {} : { initialMode: mode })}
       />
     </GuideServicesProvider>

@@ -7,9 +7,39 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: props.passHolder.name
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.hintLabel"
+msgstr "{0} có Pass+. Hỏi trong nhóm chat"
+
+#. placeholder {0}: props.passHolder.name
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.hint"
+msgstr "{0} có Pass+. Hỏi trong nhóm chat, {guideName} sẽ trả lời ở đó."
+
+#. placeholder {0}: meter.used
+#. placeholder {1}: meter.limit
+#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+msgid "guide.meter.count"
+msgstr "{0} trên {1} hôm nay"
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.cost"
 msgstr "{cost} cho cả chuyến"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.backAtMidnight"
+msgstr "{guideName} sẽ quay lại lúc nửa đêm"
+
+#. placeholder {0}: left.hours
+#. placeholder {1}: left.minutes
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.backIn"
+msgstr "{guideName} quay lại sau {0} giờ {1} phút"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.count"
+msgstr "{used} trên {limit} hôm nay"
 
 #: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
 msgid "guide.queued.phrase"
@@ -18,6 +48,18 @@ msgstr "Một thẻ câu nói mới"
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.anItem"
 msgstr "Một mục trong lịch trình"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.attach"
+msgstr "Thêm tệp đính kèm"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.askAtMidnight"
+msgstr "Hỏi lúc nửa đêm"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.queuePlaceholder"
+msgstr "Hỏi ngay, {guideName} trả lời lúc nửa đêm"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
 msgid "guide.composer.placeholder"
@@ -42,6 +84,10 @@ msgstr "Đã chép"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.copy"
 msgstr "Chép"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.getPass"
+msgstr "Mua Pass+"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.groupTab"
@@ -127,6 +173,14 @@ msgstr "Không hữu ích"
 msgid "guide.help.open"
 msgstr "Mở Trợ giúp"
 
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.bodyTrip"
+msgstr "Pass+ giúp {guideName} trò chuyện thoải mái: chữ, giọng nói và máy ảnh, bao nhiêu tuỳ thích. Lịch trình {place} và cuộc bình chọn không bị tính vào đây."
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.body"
+msgstr "Pass+ giúp {guideName} trò chuyện thoải mái: chữ, giọng nói và máy ảnh, bao nhiêu tuỳ thích. Lịch trình và cuộc bình chọn không bị tính vào đây."
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.pharmacy"
 msgstr "Nhà thuốc"
@@ -151,6 +205,10 @@ msgstr "Đề xuất cho nhóm"
 msgid "guide.queued.rate"
 msgstr "Đánh giá câu trả lời của hướng dẫn viên"
 
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.resets"
+msgstr "Làm mới lúc {clock}"
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.review"
 msgstr "Xem lại"
@@ -171,6 +229,14 @@ msgstr "Mình vẫn đang kiểm tra, chờ chút nhé…"
 msgid "guide.plan.removed"
 msgstr "Bỏ khỏi lịch trình"
 
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.trailOff"
+msgstr "Hết lượt trả lời miễn phí hôm nay rồi. {guideName} sẽ quay lại lúc nửa đêm, hoặc…"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.trailOff30"
+msgstr "Đó là câu trả lời thứ ba mươi của mình hôm nay, hết lượt miễn phí rồi. Mình sẽ quay lại lúc nửa đêm, hoặc…"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.refused"
 msgstr "Chuyện đó mình không giúp được. Hỏi mình về chuyến đi nhé?"
@@ -186,6 +252,10 @@ msgstr "Dịch thực đơn"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.retry"
 msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+msgid "guide.meter.unlimited"
+msgstr "{guideName} không giới hạn"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.offline.waiting"

@@ -108,6 +108,7 @@ export interface LabSheetOptions {
   readonly composer?: ReactNode;
   readonly quick?: boolean;
   readonly proposal?: PlanCardModel;
+  readonly trip?: GuideTripContext;
 }
 
 export function LabSheet(options: LabSheetOptions) {
@@ -116,7 +117,7 @@ export function LabSheet(options: LabSheetOptions) {
   const color = theme.guide[guide.slug as 'tokek'];
   const quick = useLabQuickActions();
   const mode = options.mode ?? 'group';
-  const modeLine = useModeLine(mode, LAB_TRIP);
+  const modeLine = useModeLine(mode, options.trip ?? LAB_TRIP);
   return (
     <GuideSheetView
       header={
