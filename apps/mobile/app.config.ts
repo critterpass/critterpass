@@ -257,6 +257,8 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
       },
     ],
     'expo-sharing',
+    // Muted hero loops only: no background playback, no picture in picture, no Now Playing entry.
+    ['expo-video', { supportsBackgroundPlayback: false, supportsPictureInPicture: false }],
     [
       'expo-media-library',
       {
