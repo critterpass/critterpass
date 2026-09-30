@@ -67,16 +67,15 @@ describe('runner actions', () => {
   it('types text into the focused field on Android', () => {
     const { root, calls, run, env } = setup();
     const ctx = { platform: 'android' as const, device: 'emulator-5554', root, env, run };
-    const text = encodeURIComponent("SQ 938 on 2026-10-21, Winston's seat");
-    expect(handleAction(`/type?text=${text}`, ctx).status).toBe(200);
+    expect(handleAction('/type', ctx, "SQ 938 on 2026-10-21, Winston's seat").status).toBe(200);
     expect(calls.at(-1)?.args).toEqual([
       '-s',
       'emulator-5554',
       'shell',
       `input text 'SQ%s938%son%s2026-10-21,%sWinston'\\''s%sseat'`,
     ]);
-    expect(handleAction('/type?text=', ctx).status).toBe(400);
-    expect(handleAction('/type?text=x', { ...ctx, platform: 'ios' }).status).toBe(501);
+    expect(handleAction('/type', ctx).status).toBe(400);
+    expect(handleAction('/type', { ...ctx, platform: 'ios' }, 'x').status).toBe(501);
   });
 
   it('answers what it cannot do', () => {
