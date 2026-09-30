@@ -100,9 +100,9 @@ export async function openThread(pool: pg.Pool, input: OpenThreadInput): Promise
     if (taken.rowCount !== 0) throw new DomainError('NOT_FOUND');
     const existing = await tx.query<{ id: string }>(
       input.mode === 'group'
-        ? "SELECT id FROM guide_threads WHERE mode = 'group' AND trip_id = $2"
+        ? "SELECT id FROM guide_threads WHERE mode = 'group' AND trip_id = $1"
         : "SELECT id FROM guide_threads WHERE mode = 'private' AND user_id = $1 AND trip_id IS NOT DISTINCT FROM $2",
-      input.mode === 'group' ? [null, visible.tripId] : [input.uid, visible.tripId],
+      input.mode === 'group' ? [visible.tripId] : [input.uid, visible.tripId],
     );
     if (existing.rows[0] !== undefined) {
       throw new DomainError('STATE_INVALID', {

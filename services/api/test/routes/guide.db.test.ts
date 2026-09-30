@@ -290,6 +290,29 @@ describe('POST /v1/guide/threads/{id}/turns', () => {
     });
   });
 
+  it("opens the trip's group thread once and points a second one at it", async () => {
+    const me = await harness.signInAnonymously();
+    const { tripId } = await seedGuideTrip(harness.pool, { organiser: me.uid, members: [] });
+    useFixtures(['flash-stream', 'flash-stream']);
+    const group = { context: { trip_id: tripId }, thread_mode: 'group' };
+    const first = randomUUID();
+    const opened = await ask(me.cookie, first, 'UTC', group);
+    expect(opened.status).toBe(200);
+    await opened.text();
+    const thread = await harness.pool.query(
+      'SELECT trip_id, mode FROM guide_threads WHERE id = $1',
+      [first],
+    );
+    expect(thread.rows).toEqual([{ trip_id: tripId, mode: 'group' }]);
+    const second = await ask(me.cookie, randomUUID(), 'UTC', group);
+    expect(second.status).toBe(409);
+    const body = (await second.json()) as { error: { code: string; detail: unknown } };
+    expect(body.error).toMatchObject({
+      code: 'STATE_INVALID',
+      detail: { state: 'thread_exists', thread_id: first },
+    });
+  });
+
   it('keeps a private thread from anyone else', async () => {
     const owner = await harness.signInAnonymously();
     const other = await harness.signInAnonymously();
