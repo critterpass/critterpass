@@ -1,0 +1,43 @@
+appId: app.critterpass.dev
+---
+# Crew quests in Vietnamese for a brand-new account on staging (the same steps as
+# quests-progress.yaml, after switching the fresh install to vi from the dev gallery): it takes the staging demo crew (a
+# confirmed Bali trip three weeks out), and the trip hub's QUESTS tile says the quests start on
+# day one with the crew at level 1. The tile opens crew quests (3l-7): the level and XP bar from
+# the server, and the guide saying the first quests come the morning the trip starts.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: vi
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-pre'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-quests'
+    direction: DOWN
+    timeout: 10000
+- assertVisible:
+    text: '(?i).*(crew level|level|cấp) 1.*'
+- takeScreenshot: quests-hub-tile-vi
+- tapOn:
+    id: 'trip-hub-tile-quests'
+- extendedWaitUntil:
+    visible:
+      id: 'quests-screen'
+    timeout: 20000
+- assertVisible:
+    id: 'quests-xp-bar'
+- assertVisible:
+    text: '(?i).*0 / 400 XP.*'
+- assertVisible:
+    id: 'quests-empty-before'
+- takeScreenshot: quests-before-day-one-vi

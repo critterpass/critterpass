@@ -1,0 +1,56 @@
+appId: app.critterpass.dev
+---
+# From the critters lab list: opens scene ${SCENE}, waits for ${WAIT_ID}, takes ${SHOT} and steps
+# back to the list (reopening the lab when the step back went further).
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-${SCENE}'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 60000
+- tapOn:
+    id: 'critters-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: '${WAIT_ID}'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow: ../../onboarding/subflows/back.yaml
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene needs a second step back (the first closes the sheet).
+- runFlow:
+    when:
+      visible:
+        id: '${WAIT_ID}'
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 3000
+# Going back lands on the lab list or, on some runs, on the developer tools list or the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-${SCENE}'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          visibilityPercentage: 100
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-lab-3l-2-pass'
+          timeout: 15000
