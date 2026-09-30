@@ -64,6 +64,20 @@ describe('runner actions', () => {
     expect(calls.at(-1)?.args).toEqual(['-s', 'emulator-5554', 'shell', 'svc', 'data', 'disable']);
   });
 
+  it('types text into the focused field on Android', () => {
+    const { root, calls, run, env } = setup();
+    const ctx = { platform: 'android' as const, device: 'emulator-5554', root, env, run };
+    expect(handleAction('/type', ctx, "SQ 938 on 2026-10-21, Winston's seat").status).toBe(200);
+    expect(calls.at(-1)?.args).toEqual([
+      '-s',
+      'emulator-5554',
+      'shell',
+      `input text 'SQ%s938%son%s2026-10-21,%sWinston'\\''s%sseat'`,
+    ]);
+    expect(handleAction('/type', ctx).status).toBe(400);
+    expect(handleAction('/type', { ...ctx, platform: 'ios' }, 'x').status).toBe(501);
+  });
+
   it('answers what it cannot do', () => {
     const { root, run, env } = setup();
     const ios = { platform: 'ios' as const, device: 'UDID', root, env, run };

@@ -98,11 +98,13 @@ its flows run (`tools/scripts/ci-device/runner-actions.ts`). At the step a flow'
 "Runner: …", call it from a script:
 
 ```yaml
-- evalScript: ${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json').status}
-- evalScript: ${http.post('http://127.0.0.1:7788/network?state=off').status}
+- evalScript: "${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json', { body: '{}' }).status}"
+- evalScript: "${http.post('http://127.0.0.1:7788/network?state=off', { body: '{}' }).status}"
 ```
 
-`/push` fills the fixture's `${CREW_ID}` and `${CREW_NAME}` from the repository variables
+Maestro's `http.post` needs a body, so pass one even when the action ignores it. `/type` types its
+body into the focused field (Android; iOS answers 501), for fields where Maestro's `inputText` would
+wait for the screen after every character (`e2e/happy/bookings.yaml`). `/push` fills the fixture's `${CREW_ID}` and `${CREW_NAME}` from the repository variables
 `E2E_CREW_ID` and `E2E_CREW_NAME` (also passed to every flow) and delivers it with
 `xcrun simctl push` on iOS or the FCM receive broadcast (as root) on Android. `/network` turns
 Wi-Fi and mobile data off or on (Android only; iOS answers 501). Each call answers 200 once done,
