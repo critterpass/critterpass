@@ -134,7 +134,7 @@ export function LimitCard(props: LimitCardProps) {
       <Animated.View style={dealt}>
         <Card tone="raised" style={styles.card} testID="guide-limit-card">
           <Stack gap="12">
-            <Row justify="space-between" align="center">
+            <Row justify="space-between" align="center" wrap gap="8">
               <Text variant="h3">
                 {upper(
                   t({ id: 'guide.limit.count', message: `${used} of ${limit} today` }),

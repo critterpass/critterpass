@@ -21,7 +21,7 @@ msgstr "{0} có Pass+. Hỏi trong nhóm chat, {guideName} sẽ trả lời ở 
 #. placeholder {1}: meter.limit
 #: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
 msgid "guide.meter.count"
-msgstr "{0} trên {1} hôm nay"
+msgstr "{0}/{1} hôm nay"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.cost"
@@ -43,7 +43,7 @@ msgstr "{guideName} quay lại sau {0} giờ {1} phút"
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.count"
-msgstr "{used} trên {limit} hôm nay"
+msgstr "{used}/{limit} hôm nay"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.anItem"
@@ -217,19 +217,19 @@ msgstr "Đã vào lịch trình"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.meTab"
-msgstr "Chỉ mình tôi"
+msgstr "Riêng tôi"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.justMe"
-msgstr "Chỉ mình tôi"
+msgstr "Riêng tôi"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.privateTrip"
-msgstr "Chỉ mình tôi · {place}"
+msgstr "Riêng tôi · {place}"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.private"
-msgstr "Chỉ mình tôi · chỉ bạn xem được"
+msgstr "Riêng tôi · chỉ bạn xem được"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
 msgid "guide.dietary.dietKosher"
@@ -309,7 +309,7 @@ msgstr "Thay đổi lịch trình đang tới…"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.propose"
-msgstr "Đề xuất cho nhóm"
+msgstr "Gửi cả nhóm"
 
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.avoid"
@@ -321,7 +321,7 @@ msgstr "Đánh giá câu trả lời của hướng dẫn viên"
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.resets"
-msgstr "Làm mới lúc {clock}"
+msgstr "Làm mới {clock}"
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.review"
