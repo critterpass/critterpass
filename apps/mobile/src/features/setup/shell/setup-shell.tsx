@@ -1,8 +1,9 @@
 /**
  * The frame every setup step sits in (3c-3…3c-7): "← {PLACE} SETUP" with the header tag, the four
- * step chips, the step's h1 and line, the step's content (scrolls) and its bottom actions above
- * the home indicator. Offline, a "No signal" pill and when the step's rows last synced sit under
- * the line; everything still renders from local rows. Pure view: the step screens pass it facts.
+ * step chips, the step's h1 and line, the step's content (scrolls, fading out under the footer) and
+ * its bottom actions above the home indicator. Offline, a "No signal" pill and when the step's rows
+ * last synced sit under the line; everything still renders from local rows. Pure view: the step
+ * screens pass it facts.
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
@@ -14,6 +15,7 @@ import { Row } from '@/ui/layout/Row';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { StaleCaption } from '@/ui/states/StaleCaption';
+import { FOOTER_FADE_PT, FooterFade } from '@/ui/surface/FooterFade';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -56,6 +58,8 @@ const useStyles = makeStyles((th) => ({
     paddingBottom: th.space['24'],
     gap: th.space['12'],
   },
+  // Ends clear of the footer's fade, so the last card scrolls fully into view.
+  contentAboveFooter: { paddingBottom: th.space['24'] + FOOTER_FADE_PT },
   body: { gap: th.space['12'] },
   offline: { gap: th.space['8'] },
   footer: {
@@ -112,7 +116,10 @@ export function SetupShell({
       </View>
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          styles.content,
+          footer === undefined ? null : styles.contentAboveFooter,
+        ]}
         keyboardShouldPersistTaps="handled"
         testID="setup-scroll"
       >
@@ -137,7 +144,12 @@ export function SetupShell({
           {children}
         </StepBody>
       </ScrollView>
-      {footer === undefined ? null : <View style={styles.footer}>{footer}</View>}
+      {footer === undefined ? null : (
+        <>
+          <FooterFade testID="setup-footer-fade" />
+          <View style={styles.footer}>{footer}</View>
+        </>
+      )}
     </Scaffold>
   );
 }
