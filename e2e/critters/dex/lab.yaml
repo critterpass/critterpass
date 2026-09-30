@@ -521,37 +521,6 @@ appId: app.critterpass.dev
     timeout: 10000
 - scrollUntilVisible:
     element:
-      id: 'critters-lab-3l-8-here-set'
-    direction: DOWN
-    centerElement: true
-    timeout: 20000
-- tapOn:
-    id: 'critters-lab-3l-8-here-set'
-- extendedWaitUntil:
-    visible:
-      id: 'critters-set'
-    timeout: 20000
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: en-3l-8-here-set
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- extendedWaitUntil:
-    visible:
-      id: 'critters-lab-3l-8-here-set'
-    timeout: 10000
-- scrollUntilVisible:
-    element:
       id: 'critters-lab-3l-8-fresh'
     direction: DOWN
     centerElement: true
@@ -1220,37 +1189,6 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-8-home-set'
-    timeout: 10000
-- scrollUntilVisible:
-    element:
-      id: 'critters-lab-3l-8-here-set'
-    direction: DOWN
-    centerElement: true
-    timeout: 20000
-- tapOn:
-    id: 'critters-lab-3l-8-here-set'
-- extendedWaitUntil:
-    visible:
-      id: 'critters-set'
-    timeout: 20000
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: vi-3l-8-here-set
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - back
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
-- extendedWaitUntil:
-    visible:
-      id: 'critters-lab-3l-8-here-set'
     timeout: 10000
 - scrollUntilVisible:
     element:

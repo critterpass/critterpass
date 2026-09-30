@@ -4,7 +4,7 @@
  * names). Handlers are no-ops except the filters and search, which work.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import { useEffect, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { buildDex, type DexFilter, type DexInput } from '../dex/dex-model';
 import { DexView } from '../dex/dex-view';
@@ -103,16 +103,6 @@ function SetScene({
   return <SetView set={set} onOpenCritter={noop} />;
 }
 
-/** The hatch loops in the lab (in the app it plays once): remounted every few seconds. */
-function HatchLoop(props: HatchViewProps) {
-  const [round, setRound] = useState(0);
-  useEffect(() => {
-    const timer = setInterval(() => setRound((n) => n + 1), 5000);
-    return () => clearInterval(timer);
-  }, []);
-  return <HatchView key={round} {...props} />;
-}
-
 const TOKEK_HATCH: HatchViewProps = {
   place: 'Bali',
   landedTime: '13:50',
@@ -173,12 +163,11 @@ export const DEX_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   '3l-8-home-set': () => <SetScene code="vn" />,
-  '3l-8-here-set': () => <SetScene code="id" />,
   '3l-8-fresh': () => <SetScene code="vn" input={FRESH} />,
-  '3l-1-hatch': () => <HatchLoop {...TOKEK_HATCH} />,
-  '3l-1-hatch-offline': () => <HatchLoop {...TOKEK_HATCH} pending />,
+  '3l-1-hatch': () => <HatchView {...TOKEK_HATCH} />,
+  '3l-1-hatch-offline': () => <HatchView {...TOKEK_HATCH} pending />,
   '3l-1-hatch-local': () => (
-    <HatchLoop
+    <HatchView
       {...TOKEK_HATCH}
       place="Đà Nẵng"
       critterKey="cp-001"

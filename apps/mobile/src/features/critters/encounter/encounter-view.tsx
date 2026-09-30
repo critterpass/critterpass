@@ -8,6 +8,7 @@ import { upper } from '@cp/i18n';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { EncounterCard } from '@/ui/critters/EncounterCard';
@@ -15,6 +16,7 @@ import { tierWord } from '@/ui/critters/tier';
 import { HoldRing } from '@/ui/inputs/HoldRing';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import { EmptyState } from '@/ui/states/EmptyState';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -90,10 +92,13 @@ export function EncounterView(props: EncounterViewProps) {
           />
         </View>
         <View style={styles.empty}>
-          <Text variant="h2">{copy.title}</Text>
-          <Text variant="body" color={theme.semantic.text.secondary}>
-            {copy.body}
-          </Text>
+          <EmptyState
+            guide="tokek"
+            guideName={GUIDE_STICKERS.tokek.name}
+            title={copy.title}
+            line={copy.body}
+            action={{ label: backToDay(), onPress: props.onBack }}
+          />
         </View>
       </Scaffold>
     );

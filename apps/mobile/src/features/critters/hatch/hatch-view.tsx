@@ -1,7 +1,6 @@
 /**
  * The hatch (3l-1): on landing the trip's egg wobbles, cracks and pops; confetti fires at the
- * crack and the critter lands with a squash and stretch. It plays once (the lab loops it by
- * remounting). Under Reduce Motion the egg cross-fades to the critter, keeping the haptic and SFX.
+ * crack and the critter lands with a squash and stretch. It plays once. Under Reduce Motion the egg cross-fades to the critter, keeping the haptic and SFX.
  */
 import type { FormSpec } from '@cp/critter-art';
 import { upper } from '@cp/i18n';
