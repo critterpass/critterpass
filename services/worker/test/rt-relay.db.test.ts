@@ -385,7 +385,11 @@ describe('rt_outbox relay', () => {
         channel,
         payload: envelope('badge.counts', { needs_you: 0, unread: 0 }),
       });
-      await enqueueRealtime(tx, { channel, payload: { no_type: true } });
+      // A row SQL wrote past the write-site check (app.enqueue_rt takes any jsonb).
+      await tx.query("SELECT app.enqueue_rt($1, $2, 'publish')", [
+        channel,
+        JSON.stringify({ no_type: true }),
+      ]);
     });
     const relay = await startRelay(countingApi('http://127.0.0.1:9'));
     await until(async () => {
