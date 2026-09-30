@@ -242,7 +242,7 @@ export function WhenView({
       line={syncedLine(model)}
       testID={`setup-when-${model.mode}`}
       footer={
-        model.isOrganiser && best !== null && range !== null ? (
+        !model.isOrganiser ? undefined : best !== null && range !== null ? (
           <>
             <PillButton
               label={t({ id: 'setup.when.cta.lock', message: `Lock ${range}` })}
@@ -257,7 +257,15 @@ export function WhenView({
               testID="when-pick-week"
             />
           </>
-        ) : undefined
+        ) : (
+          // Before anyone has shared a day, or while the windows are worked out, the organiser can
+          // still pick a week and move on.
+          <TextLink
+            label={t({ id: 'setup.when.pickAnyway', message: 'Pick a week anyway' })}
+            onPress={actions.onPickWeek}
+            testID="when-pick-week"
+          />
+        )
       }
     >
       {model.months.length > 0 ? (
