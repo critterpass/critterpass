@@ -24,6 +24,28 @@ export const LA_KINDS = [
 export const laKindSchema = z.enum(LA_KINDS);
 export type LaKind = z.infer<typeof laKindSchema>;
 
+/** The attributes field naming the object an activity shows (its `ref_id` on the server). */
+export const LA_REF_KEYS: Readonly<Record<LaKind, string>> = {
+  leave_by: 'leave_by_id',
+  meet_up: 'meetup_id',
+  flight: 'segment_id',
+  vote: 'poll_id',
+  critter_nearby: 'spawn_id',
+  storm: 'watch_id',
+  sos: 'sos_id',
+  alarm: 'leave_by_id',
+  ride: 'quote_id',
+};
+
+/** The object id in an activity's attributes, or null when the attributes lack it. */
+export function laRefId(
+  kind: LaKind,
+  attributes: Readonly<Record<string, unknown>>,
+): string | null {
+  const value = attributes[LA_REF_KEYS[kind]];
+  return typeof value === 'string' && value.length > 0 ? value : null;
+}
+
 /** A ContentState or attributes payload must fit an APNs push with room for `aps` around it. */
 export const LA_CONTENT_BUDGET_BYTES = 3072;
 
