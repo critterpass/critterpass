@@ -1597,6 +1597,51 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  // Explore: the crew reads a trip's swipe sessions, yes votes, matches and Q&A line; a vote
+  // (and so every "no") is its voter's alone; tips and live placements are open to every reader;
+  // saved lists are their owner's; sponsored counts are the server's.
+  swipe_sessions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM swipe_sessions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  swipe_votes: { selectProbe: ownRowProbe('swipe_votes'), expectations: OWNER_READ },
+  swipe_yes_votes: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM swipe_yes_votes WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  swipe_matches: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM swipe_matches WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  place_qna_summaries: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM place_qna_summaries WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  place_tips: {
+    selectProbe: { sql: 'SELECT 1 FROM place_tips LIMIT 1', params: () => [] },
+    expectations: READ_ONLY_ALL,
+  },
+  saved_lists: { selectProbe: ownRowProbe('saved_lists'), expectations: SELF_ONLY },
+  sponsored_placements: {
+    selectProbe: { sql: 'SELECT 1 FROM sponsored_placements LIMIT 1', params: () => [] },
+    expectations: READ_ONLY_ALL,
+  },
+  sponsored_event_counts: {
+    selectProbe: { sql: 'SELECT 1 FROM sponsored_event_counts LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
 };
 
 /**

@@ -154,6 +154,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id local_date sent_budgeted:integer sent_always:integer sent_local:integer paywall_sent:integer queued:integer created_at updated_at',
   pitches:
     'crew_id trip_id destination_id pitched_by month:integer sections quote_ids model prompt_version cache_key fare_snapshot_id status created_at updated_at',
+  place_tips: 'poi_id destination_id author_id text lang moderation_status created_at updated_at',
   plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at',
   plan_items:
     'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason',
@@ -191,6 +192,7 @@ export const SYNCED_TABLE_COLUMNS = {
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
   saved_items: 'user_id kind ref_id list_name note created_at updated_at',
+  saved_lists: 'user_id name position:integer created_at updated_at',
   scheduled_deliveries:
     'user_id kind target_ref send_at_local tz due_at payload status created_at updated_at',
   season_events:
@@ -212,6 +214,11 @@ export const SYNCED_TABLE_COLUMNS = {
     'order_id trip_id item_ref product_code product_option_code travel_date start_time traveller_count:integer price_minor:integer participant_ids supplier_booking_ref created_at',
   supplier_orders:
     'trip_id buyer_id supplier stable_id partner_cart_ref cart_ref status pricing_status availability_status hold_valid_until total_minor:integer currency payment_session_token supplier_booking_ref voucher_booking_id rejection_code cancel_quote last_polled_at next_poll_at version:integer created_at updated_at',
+  swipe_matches:
+    'session_id trip_id poi_id user_ids change_set_id day_no:integer created_at updated_at',
+  swipe_sessions:
+    'trip_id destination_id started_by status deck match_rule:integer ended_at created_at updated_at',
+  swipe_yes_votes: 'session_id trip_id user_id poi_id super:integer created_at updated_at',
   taste_profiles:
     'user_id answers tags tag_sources chronotype pace room_pref visibility created_at updated_at',
   trip_boosts:

@@ -32,6 +32,9 @@ const VENDOR_MSG = {
   message_id: crypto.randomUUID(),
 };
 
+const SWIPE = { trip_id: crypto.randomUUID(), session_id: crypto.randomUUID() };
+const SWIPE_CARD = { ...SWIPE, poi_id: crypto.randomUUID(), user_id: crypto.randomUUID() };
+
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
   'crew.member_left': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -456,6 +459,21 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     user_id: crypto.randomUUID(),
     checked: true,
   },
+  'swipe.started': {
+    ...SWIPE,
+    destination_id: crypto.randomUUID(),
+    started_by: crypto.randomUUID(),
+  },
+  'swipe.deck_ready': { ...SWIPE, cards: 30 },
+  'swipe.voted': SWIPE_CARD,
+  'swipe.undone': SWIPE_CARD,
+  'swipe.matched': {
+    ...SWIPE,
+    poi_id: crypto.randomUUID(),
+    match_id: crypto.randomUUID(),
+    change_set_id: null,
+  },
+  'swipe.ended': SWIPE,
   'briefing.built': {
     trip_id: crypto.randomUUID(),
     user_id: crypto.randomUUID(),

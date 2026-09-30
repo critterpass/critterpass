@@ -117,6 +117,7 @@ export {
 } from './ops-console';
 export { opsWorkClaims } from './ops-work';
 export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from './places';
+export * from './explore';
 export { ballots, pitches, pollOptions, pollReveals, polls } from './polls';
 export {
   availabilityAsks,
