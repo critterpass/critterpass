@@ -95,6 +95,26 @@ const planSubSources = (sub: string) => [
   `${repoRootPrefix}/apps/mobile/src/features/plan/${sub}/**`,
 ];
 
+// The trip day keeps one nested catalog per surface (the hub with the trip list and the briefing,
+// the day-of screen, the leave-by alarm, and the offline card with the day bundle), so the trip
+// day lanes and the rest of the trip area never edit the same file.
+const tripRoot = `${repoRootPrefix}/apps/mobile/src/features/trip`;
+const tripSubAreas = {
+  hub: [
+    `${tripRoot}/hub/**`,
+    `${tripRoot}/trip-list/**`,
+    `${tripRoot}/briefing/**`,
+    `${repoRootPrefix}/apps/mobile/src/app/(tabs)/trips/**`,
+  ],
+  'day-of': [`${tripRoot}/day-of/**`, `${tripRoot}/leave-by/**`],
+  alarm: [`${tripRoot}/alarm/**`],
+  offline: [
+    `${tripRoot}/offline/**`,
+    `${tripRoot}/bundle/**`,
+    `${repoRootPrefix}/apps/mobile/src/app/(trip)/hub/**`,
+  ],
+} as const;
+
 const notificationSources = [
   {
     name: 'common',
@@ -152,7 +172,9 @@ export default defineConfig({
             ? [...testFileExcludes, ...setupSubAreas.flatMap(setupSubSources)]
             : area === 'plan'
               ? [...testFileExcludes, `${draftRoot}/**`, ...planSubAreas.flatMap(planSubSources)]
-              : testFileExcludes,
+              : area === 'trip'
+                ? [...testFileExcludes, ...Object.values(tripSubAreas).flat()]
+                : testFileExcludes,
     })),
     {
       name: 'chat/chat',
@@ -182,6 +204,12 @@ export default defineConfig({
       name: `plan/${sub}`,
       path: `locales/{locale}/plan/${sub}`,
       include: planSubSources(sub),
+      exclude: testFileExcludes,
+    })),
+    ...Object.entries(tripSubAreas).map(([sub, include]) => ({
+      name: `trip/${sub}`,
+      path: `locales/{locale}/trip/${sub}`,
+      include: [...include],
       exclude: testFileExcludes,
     })),
     {

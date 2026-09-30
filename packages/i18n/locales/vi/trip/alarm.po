@@ -1,0 +1,122 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 16:07+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.snoozeNote"
+msgstr "({guideName} sẽ thở dài)"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.guideLine"
+msgstr "{guideName} bảo: dậy thôi! Ngày mới không chờ ai đâu."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.notificationTitle"
+msgstr "Là thông báo, không phải báo thức"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.deniedTitle"
+msgstr "Báo thức đang tắt"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.askAllow"
+msgstr "Cho phép báo thức"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.exactOpen"
+msgstr "Cho phép báo thức chính xác"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.exactBody"
+msgstr "Android chỉ đổ chuông đúng phút cho những ứng dụng bạn cho phép. Nếu không, báo thức giờ xuất phát có thể reo trễ vài phút."
+
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.crewPinged"
+msgstr "Đã nhắn cả nhóm"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.notificationOk"
+msgstr "Đã hiểu"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.imUp"
+msgstr "Mình dậy rồi"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.title"
+msgstr "Xuất phát lúc {time}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.titlePlace"
+msgstr "Xuất phát lúc {time} · {place}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.eyebrow"
+msgstr "Báo thức giờ xuất phát"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.eyebrowPlace"
+msgstr "Báo thức giờ xuất phát · {place}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.askTitle"
+msgstr "Cho báo thức giờ xuất phát đổ chuông?"
+
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.pingedLine"
+msgstr "Hết lượt báo lại. Cả nhóm đã được nhắn để gõ cửa bạn."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.notificationBody"
+msgstr "Ở phiên bản này, giờ xuất phát sẽ báo bằng thông báo có nút Mình dậy rồi và Báo lại. Thông báo không kêu khi máy để im lặng, nên tối nay nhớ bật chuông nhé."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.deniedOpen"
+msgstr "Mở Cài đặt"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.pickupPlace"
+msgstr "Đón ở {pickupPlace} · {pickupTime}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.pickup"
+msgstr "Đón lúc {pickupTime}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.exactTitle"
+msgstr "Reo đúng phút"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.slide"
+msgstr "Trượt, mình dậy rồi"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+#: ../../apps/mobile/src/features/trip/alarm/alarm-runtime.tsx
+#: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
+msgid "trip.alarm.snooze"
+msgstr "Báo lại sau 5 phút"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.askBody"
+msgstr "Báo thức reo cả khi máy để im lặng hay bật Tập trung, chỉ vào giờ xuất phát và chỉ khi bạn chưa dậy. {guideName} ngừng reo ngay khi bạn chạm Mình dậy rồi."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-permission-sheet.tsx
+msgid "trip.alarm.sheet.deniedBody"
+msgstr "Điện thoại này sẽ không reo giờ xuất phát. {guideName} chỉ reo trong ứng dụng khi ứng dụng đang mở, và cả nhóm sẽ được nhắn gõ cửa nếu bạn ngủ quên."
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.subtitle"
+msgstr "Đến giờ dậy và lên đường rồi."

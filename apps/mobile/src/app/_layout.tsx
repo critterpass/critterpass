@@ -14,6 +14,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { getAlarmPort } from '../../modules/cp-alarm';
 import { appGroupOutbox, writeEndpointsConfig, writeImage } from '../../modules/cp-app-group';
 import * as cpDeferredLink from '../../modules/cp-deferred-link';
 import { getLocationNative } from '../../modules/cp-location';
@@ -43,6 +44,7 @@ import '@/features/vote/register';
 import { SetupNotificationActions } from '@/features/setup/notifications';
 import '@/features/setup/register';
 import '@/features/plan/overview/register';
+import { TripDayRuntime } from '@/features/trip/hub/register';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
@@ -148,6 +150,7 @@ function SessionBridges() {
       <LocationBridge db={localFirst.db} />
       <SetupNotificationActions />
       <ChangesetNotificationActions />
+      <TripDayRuntime alarmPort={getAlarmPort()} />
     </>
   );
 }

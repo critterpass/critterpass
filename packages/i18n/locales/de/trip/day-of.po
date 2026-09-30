@@ -1,0 +1,199 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 16:07+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: de\n"
+
+#. placeholder {0}: chip.label
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.personal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.forecastTop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.ringing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.rings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.stillAsleep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.allUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.upCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.ringSpoken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.addLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.alarm.note.inApp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/leave-by/commands.ts
+msgid "trip.dayOf.queued.notUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.allUpDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.firstUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.placeholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.imUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.ringLate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.leaveBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.ringLateSpoken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.alarm.note.askAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.freeDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.onTheWay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.title"
+msgstr ""
+
+#. placeholder {0}: payload.label
+#: ../../apps/mobile/src/features/trip/leave-by/commands.ts
+msgid "trip.dayOf.queued.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.pickupAtPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.pickupAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.pickupEta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.dayOf.item"
+msgstr ""
+
+#. placeholder {0}: chip.label
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.alarm.note.exactAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/leave-by/commands.ts
+msgid "trip.dayOf.queued.snooze"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.knocked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.dayOf.ticketsInBookings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.ringToGo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.alarm.note.deniedAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.alarm.note.whyAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.noTraffic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.alarm.note.notification"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.notYours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/leave-by/commands.ts
+msgid "trip.dayOf.queued.up"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.alarm.note.set"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
+msgid "trip.alarm.note.inexact"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/leave-by/commands.ts
+msgid "trip.dayOf.queued.packed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/leave-by/commands.ts
+msgid "trip.dayOf.queued.removed"
+msgstr ""

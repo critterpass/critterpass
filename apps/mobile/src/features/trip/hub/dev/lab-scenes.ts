@@ -1,0 +1,10 @@
+/** Every trip day lab scene by name, for the (dev) trip day lab and its screenshot flows. */
+import type { ReactNode } from 'react';
+
+import { DAY_OF_SCENES } from '../../day-of/dev/day-of-scenes';
+
+export const TRIP_DAY_SCENES: Readonly<Record<string, () => ReactNode>> = {
+  ...DAY_OF_SCENES,
+};
+
+export const TRIP_DAY_SCENE_NAMES: readonly string[] = Object.keys(TRIP_DAY_SCENES);
