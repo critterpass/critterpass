@@ -38,6 +38,11 @@ appId: app.critterpass.dev
       text: 'sunset at 7?'
     timeout: 20000
 - assertVisible: 'edited.*'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
 - longPressOn: 'sunset at 7?'
 - tapOn: 'Delete for everyone'
 - tapOn:

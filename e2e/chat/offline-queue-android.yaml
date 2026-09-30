@@ -14,7 +14,7 @@ onFlowComplete:
     timeout: 20000
 - tapOn:
     text: 'Message.*'
-- inputText: 'we made it!!'
+- inputText: 'we made it'
 - tapOn: 'Send'
 - assertVisible: 'Sending'
 - takeScreenshot: chat-3k-4-offline-sending
@@ -23,5 +23,5 @@ onFlowComplete:
     notVisible:
       text: 'Sending'
     timeout: 60000
-- assertVisible: 'we made it!!'
+- assertVisible: 'we made it'
 - takeScreenshot: chat-offline-delivered
