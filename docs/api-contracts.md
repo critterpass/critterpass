@@ -266,7 +266,7 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `resolve_overlay_clash` (doc delta) | `{personal_ops_id, keep}` → `{personal_ops_id, status}`: keep re-bases the member's personal ops on the current version (a change to an item the crew removed becomes their own item); drop retires them | owner | – | – | A, O | 29 |
 | `create_calendar_feed` / `revoke_calendar_feed` (doc delta) | `{trip_id}` → `{trip_id, path}` (the feed path with a one-time-shown 256-bit token; only its SHA-256 is stored; a new feed revokes the caller's earlier ones on the trip) / `{trip_id}` → `{trip_id, revoked}` (every live feed of the caller on the trip; the feed then answers 404) | participant | – | – | A | 29 |
 | `start_swipe_session` | `{trip_id}` | participant | – | `swipe.started` → deck job | A | 30 |
-| `swipe_vote` | `{session_id, place_id, verdict: yes\|no\|super}` | participant | – | `swipe.voted`; `swipe.matched` (server-arbitrated) | A, O | 30 |
+| `swipe_vote` | `{session_id, place_id, verdict: yes\|no\|super}` | participant | – | `swipe.voted`; `swipe.matched` (server-arbitrated; doc delta: result, undo and end in [api-contracts-explore.md](./api-contracts-explore.md)) | A, O | 30 |
 
 ### 4.7 Proposal and RSVP (P31)
 
@@ -337,6 +337,8 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 ### 4.11 & 4.12 Suppliers & trip day — see companion docs
 
 **[api-contracts-suppliers.md](./api-contracts-suppliers.md):** section 4.11 commands for supplier clicks, activity holds/bookings, vendor messages, concierge; routes for affiliate bridge (`GET /v1/suppliers/r/{subId}`), payment sessions, offers, and cancel-quote; error codes for supplier operations.
+
+**[api-contracts-explore.md](./api-contracts-explore.md):** Explore commands (saved lists, `undo_swipe`, `end_swipe_session`, `record_sponsored_event`, the full `save_place` and `swipe_vote` contracts), the explore reads (`/v1/explore/destinations/{id}`, `/v1/places/{id}/context`, `/v1/explore/sponsored`), the `swipe:` channel and the explore jobs.
 
 **[api-contracts-trip.md](./api-contracts-trip.md):** section 4.12 commands for leave-by readiness, packing, briefing, disruptions, help, SOS, location sharing, meetups (with action key scope matrix); `trip_dayof:` realtime channel; offline bundle route and manifest structure.
 
