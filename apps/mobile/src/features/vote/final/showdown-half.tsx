@@ -208,10 +208,10 @@ export function ShowdownHalf({
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
   const nameFit = useNameMeasure(name, i18n.locale, nameCap);
-  const { designHeight, designWidth, designLine, designLines, height, lines } = nameFit.measure;
+  const { designHeight, designWidth, designLine, height, split } = nameFit.measure;
   useEffect(
-    () => onNameMeasure({ designHeight, designWidth, designLine, designLines, height, lines }),
-    [designHeight, designWidth, designLine, designLines, height, lines, onNameMeasure],
+    () => onNameMeasure({ designHeight, designWidth, designLine, height, split }),
+    [designHeight, designWidth, designLine, height, split, onNameMeasure],
   );
   const endPadding = alignEnd
     ? edgeInset

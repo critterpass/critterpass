@@ -16,13 +16,12 @@ const SEARCH_STEPS = 24;
 export interface NameMeasure {
   readonly designHeight: number;
   readonly designWidth: number;
-  /** Line height and line count at the designed size. */
+  /** Line height at the designed size. */
   readonly designLine: number;
-  readonly designLines: number;
   /** The name's height as it is set right now. */
   readonly height: number;
-  /** Lines the name is set on right now (more than designed: a word broke or the name reflowed). */
-  readonly lines: number;
+  /** A word of the name is split across lines right now (auto-fit hit the 44 pt floor). */
+  readonly split: boolean;
 }
 
 export interface HalfMeasure {
@@ -98,7 +97,7 @@ export const DESIGN_SEARCH: NameSearch = {
 };
 
 /** Search steps stop once the bracket is this narrow (points of line height). */
-const SEARCH_TOLERANCE = 2;
+const SEARCH_TOLERANCE = 4;
 
 /**
  * One step, after the layout at `search.line` settled and was measured. `fits`: both halves fit
@@ -118,6 +117,7 @@ export function nextNameSearch(
   if (search.done) return search;
   if (search.line === null) {
     if (fits) return { ...search, done: true };
+    // Start from the model's guess, which is usually close; the bracket is the whole range.
     return { line: Math.min(guess, top), low: 0, high: top, lowBroke: true, done: false };
   }
   const larger = fits || broke;
@@ -136,6 +136,18 @@ export function nameBox(name: NameMeasure, scale: number): number | null {
   return scale >= 0.995 ? null : name.designWidth * scale;
 }
 
+/** True when a laid-out line holds part of a word rather than whole words of the name. */
+export function splitsWord(name: string, locale: string, lines: readonly string[]): boolean {
+  const words = new Set(name.toLocaleUpperCase(locale).split(/\s+/u).filter(Boolean));
+  return lines.some((line) =>
+    line
+      .toLocaleUpperCase(locale)
+      .split(/\s+/u)
+      .filter(Boolean)
+      .some((word) => !words.has(word)),
+  );
+}
+
 /**
  * Measures one half's name: its designed size while it is set uncapped (`cap` null) and its
  * height as set. No line count is forced: Android reports an ellipsised line as the whole text,
@@ -143,30 +155,26 @@ export function nameBox(name: NameMeasure, scale: number): number | null {
  */
 export function useNameMeasure(name: string, locale: string, cap: number | null) {
   const key = `${name}|${locale}`;
-  const [now, setNow] = useState({ height: 0, width: 0, line: 0, lines: 0 });
-  const [design, setDesign] = useState({ key, height: 0, width: 0, line: 0, lines: 0 });
+  const [now, setNow] = useState({ height: 0, width: 0, line: 0, split: false });
+  const [design, setDesign] = useState({ key, height: 0, width: 0, line: 0 });
   // Adjusted while rendering (not in an effect) so a new name starts from its own design size.
   if (design.key !== key) {
-    setDesign({ key, height: 0, width: 0, line: 0, lines: 0 });
+    setDesign({ key, height: 0, width: 0, line: 0 });
   } else if (
     cap === null &&
     now.height > 0 &&
     now.width > 0 &&
     now.line > 0 &&
-    (design.height !== now.height ||
-      design.width !== now.width ||
-      design.line !== now.line ||
-      design.lines !== now.lines)
+    (design.height !== now.height || design.width !== now.width || design.line !== now.line)
   ) {
-    setDesign({ key, ...now });
+    setDesign({ key, height: now.height, width: now.width, line: now.line });
   }
   const measure: NameMeasure = {
     designHeight: design.height,
     designWidth: design.width,
     designLine: design.line,
-    designLines: design.lines,
     height: now.height,
-    lines: now.lines,
+    split: now.split,
   };
   return {
     measure,
@@ -178,10 +186,15 @@ export function useNameMeasure(name: string, locale: string, cap: number | null)
       const { lines } = event.nativeEvent;
       const width = Math.max(0, ...lines.map((line) => line.width));
       const line = lines[0]?.height ?? 0;
+      const split = splitsWord(
+        name,
+        locale,
+        lines.map((l) => l.text),
+      );
       setNow((m) =>
-        m.width === width && m.line === line && m.lines === lines.length
+        m.width === width && m.line === line && m.split === split
           ? m
-          : { ...m, width, line, lines: lines.length },
+          : { ...m, width, line, split },
       );
     },
   };
@@ -191,14 +204,13 @@ const NO_NAME: NameMeasure = {
   designHeight: 0,
   designWidth: 0,
   designLine: 0,
-  designLines: 0,
   height: 0,
-  lines: 0,
+  split: false,
 };
 const NO_HALF: HalfMeasure = { name: NO_NAME, natural: 0 };
 
 /** How long the layout must stay still before a search step reads it. */
-const SETTLE_MS = 120;
+const SETTLE_MS = 350;
 
 /**
  * Collects both halves' measures and the viewport and gives each half its name box. The names
@@ -229,7 +241,7 @@ export function useShowdownNames(key: string) {
     // Every new measurement restarts the wait, so a step reads a layout that has settled.
     const timer = setTimeout(() => {
       const fits = halves[0].natural + halves[1].natural <= viewport + 0.5;
-      const broke = halves.some((half) => half.name.lines > half.name.designLines);
+      const broke = halves.some((half) => half.name.split);
       const guess = guessNameLine(halves, viewport) ?? topLine(halves);
       setSearch((current) =>
         current.key === key && current.viewport === viewport

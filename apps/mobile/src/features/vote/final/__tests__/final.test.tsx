@@ -60,6 +60,7 @@ import {
   guessNameLine,
   nextNameSearch,
   scalesAt,
+  splitsWord,
   type HalfMeasure,
 } from '../showdown-name-fit';
 import { ShowdownView } from '../showdown-screen';
@@ -272,9 +273,8 @@ describe('destination final', () => {
         designHeight: designLine,
         designWidth: 300,
         designLine,
-        designLines: 1,
         height: designLine,
-        lines: 1,
+        split: false,
       },
       natural,
     });
@@ -315,7 +315,10 @@ describe('destination final', () => {
     const whole = run(crowded, 700, 60);
     expect(whole.done).toBe(true);
     expect(whole.line).toBeGreaterThanOrEqual(60);
-    expect(whole.line).toBeLessThanOrEqual(63);
+    expect(whole.line).toBeLessThanOrEqual(65);
+    // A split word is told apart from a many-word name wrapping at its spaces.
+    expect(splitsWord('Chefchaouen', 'en', ['CHEFCHA', 'OUEN'])).toBe(true);
+    expect(splitsWord('Thành phố Hồ Chí Minh', 'vi', ['THÀNH PHỐ', 'HỒ CHÍ MINH'])).toBe(false);
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {
