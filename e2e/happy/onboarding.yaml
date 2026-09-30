@@ -1,0 +1,96 @@
+appId: app.critterpass.dev
+---
+# Release gate: a fresh install makes a new account on staging. Name, guide avatar, six
+# this-or-thats and a home airport go to the api; the pass is issued with its stamp; Home opens
+# with no crew yet; and the session survives a relaunch (the app does not start over).
+- runFlow: subflows/fresh-install.yaml
+- runFlow: ../onboarding/subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-guides-ajo'
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'taste-done'
+- runFlow:
+    when:
+      visible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-row-SGN'
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-search'
+      - inputText: 'Sing'
+      - extendedWaitUntil:
+          visible:
+            id: 'home-row-SIN'
+          timeout: 10000
+      - tapOn:
+          id: 'home-row-SIN'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+# The pass is issued: the stamp lands on it with the name given above.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'issued-stamp'
+    timeout: 10000
+- assertVisible: '.*WINSTON.*'
+- tapOn:
+    id: 'onboarding-issued-save'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'save-not-now'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 10000
+- tapOn:
+    id: 'permissions-primer-later'
+# Home, with no crew yet: start one or join with a code.
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- assertVisible:
+    id: 'home-join-code'
+# The account is kept: a relaunch opens Home again, not the splash.
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- assertNotVisible:
+    id: 'onboarding-open'

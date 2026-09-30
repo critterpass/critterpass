@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# A new account on staging: a fresh install onboards through the real api (the shortest pass:
+# e2e/home/subflows/onboard.yaml) and lands on Home. ${SEED}, when set, then gives it the staging
+# demo world for that scenario (e2e/_shared/seed-demo.yaml: dev-seed-demo, dev-seed-demo-inbox,
+# dev-seed-demo-caught-up, dev-seed-demo-vote, dev-seed-demo-vote-final, …).
+- runFlow: fresh-install.yaml
+- runFlow: ../../home/subflows/onboard.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+- runFlow:
+    when:
+      true: ${SEED != undefined && SEED != ''}
+    file: ../../_shared/seed-demo.yaml
