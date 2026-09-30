@@ -125,6 +125,7 @@ Client contract: optimistic write to local SQLite; on `cmd_results.status = reje
 | `LOCATION_IMPLAUSIBLE` | 422 | no | encounter/visit failed plausibility |
 | `CONTENT_REJECTED` | 422 | no | moderation (avatar, tip, idea, note) |
 | `APPROVAL_REQUIRED` | 409 | no | an outbound ops action (vendor message, partner booking) has no `ops.approvals` row from the user for its subject → ask the user to approve the exact text first |
+| `CONSENT_REQUIRED` | 403 | no | the action needs a consent the user has not given (doc delta: sharing insurance with a clinic needs `insurance_to_clinic`) → ask for it, then retry |
 | `PAYLOAD_TOO_LARGE` | 413 | no | – |
 | `UPSTREAM_TIMEOUT` | 504 | yes | outbound call >120 s budget |
 | `INTERNAL` | 500 | yes | Sentry event id in `detail.event_id` |
@@ -312,14 +313,20 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
-| `add_booking` | `{trip_id, kind: stay\|flight\|activity\|transfer\|other, fields, attachments[], cancel_deadline?}` | participant | – | `booking.added` | A, O | 34 |
-| `edit_booking` / `delete_booking` | `{booking_id, base_version, patch}` | creator / organiser | – | `booking.edited/deleted` | A, O | 34 |
-| `import_paste` | `{trip_id, text\|url}` → parse job | participant | – | `import.requested` | A | 34 |
-| `import_scan` | `{trip_id, ocr_lines[], barcode?(BCBP), media_id?}` → parse job | participant | – | `import.requested` | A | 34 |
-| `resolve_import_candidate` | `{candidate_id, action: add\|ignore, trip_id?}` | crew member | – | `import.resolved`, `booking.added` | A, O, N | 34 |
-| `connect_mailbox` / `disconnect_mailbox` | `{provider: gmail\|microsoft, auth_code}` / `{connection_id}` | self | Pass+ (connect) | `mailbox.connected/disconnected` | A | 34 |
-| `watch_flight` | `{booking_id}` | participant | – (C37, free) | `flight.watch_started` (AeroAPI alert) | A, O, S | 34 |
-| `report_landed` | `{booking_id}` (manual fallback) | traveller | – | `flight.landed` (hatch) | A, O, N | 34 |
+| `add_booking` | `{booking_id (client UUIDv7), trip_id, kind: flight\|stay\|activity\|boat\|transfer\|rail\|car\|other, title, starts_at?, ends_at?, tz?, location?, traveller_ids?, price?{amount_minor, currency}, paid_by?, supplier?, supplier_ref?, free_cancel_until?, cancel_policy_text?, details?, barcode?{format, payload} (sealed), visibility?, segments[] (flights only), attachments[]{media_key (own booking_doc), kind}, split?{expense_id, fx_snapshot_id?, shares?}}` → `{booking_id, version, expense_id?}` (doc delta; the split expense is written in the same transaction; a flight is watched at once) | participant | – | `booking.added` (+ `booking.flight_added`) | A, O | 34 |
+| `edit_booking` / `delete_booking` | `{booking_id, base_version, patch{…fields, status?, segments?, attachments?, remove_attachments?, clear[]}}` / `{booking_id, base_version?, delete_expense?}` (doc delta: delete keeps the split expense unless `delete_expense`) | owner or organiser | – | `booking.edited/deleted` | A, O | 34 |
+| `set_booking_visibility` (doc delta) | `{booking_id, visibility: crew\|personal}` | owner | – | `booking.visibility_changed` | A, O | 34 |
+| `set_flight_crew_visibility` (doc delta) | `{booking_id, visible}` (a personal flight's number and times to the crew) | owner | – | `booking.edited` | A, O | 34 |
+| `import_paste` | `{candidate_id (client), trip_id?, text\|url}` → the candidate appears `parsing`; allow-listed links are fetched once by the worker | any | – | `import.requested` | A | 34 |
+| `import_scan` | `{candidate_id, trip_id?, ocr_lines[], barcode?{format, payload} (BCBP), media_id?}` | any | – | `import.requested` | A | 34 |
+| `resolve_import_candidate` | `{candidate_id, action: add\|ignore, trip_id?, booking_id?, traveller_ids?, visibility?, split?}` → `{candidate_id, status, booking_id, expense_id?}`; first resolution wins (`STATE_INVALID{already_resolved, booking_id}`); a candidate flagged by the injection screen is added from the app only | owner, or crew member when crew-visible | – | `import.resolved`, `booking.added` | A, O | 34 |
+| `rotate_inbound_address` (doc delta) | `{crew_id}` → `{crew_id, local_part}` | crew organiser | – | `crew.inbound_rotated` | A | 34 |
+| `verify_sender_email` (doc delta) | `{crew_id, code (6 digits)}` → `{crew_id, released}` (links the sender, releases its quarantined mail; 5 tries/h per member) | crew member | – | `import.sender_linked` | A | 34 |
+| `connect_mailbox` / `disconnect_mailbox` | `{provider: gmail\|microsoft, auth_code, state, surface_to_crew?}` / `{connection_id}` → `{connection_id, revoked}` | self | Pass+ (connect); flags `mailbox.gmail` / `mailbox.microsoft` | `mailbox.connected/disconnected` | A | 34 |
+| `watch_flight` | `{booking_id}` → `{booking_id, timers}` (re-arms T−72/24/6/3 h checks and the boarding ping) | anyone who sees the flight | – (C37, free) | `flight.watch_started` | A, O, S | 34 |
+| `report_landed` | `{booking_id}` (manual fallback; last leg) | traveller | – | `flight.status_changed{landed}`, `flight.landed` once | A, O, N | 34 |
+| `save_insurance_policy` / `delete_insurance_policy` (doc delta) | `{policy_id, trip_id?, provider, policy_no, assistance_phone?, doc_media_key?}` / `{policy_id}` (sealed at rest) | self | – | `insurance.saved/deleted` | A | 34 |
+| `share_insurance` (doc delta) | `{help_session_id, text_shown, grant_consent?}` → `CONSENT_REQUIRED` without `insurance_to_clinic`; records the approved text (`app.share_insurance`) | self | – | `insurance.shared` | A | 34 |
 
 ### 4.11 Suppliers, rides, vendor desk (P35)
 
@@ -537,7 +544,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/calendar/oauth/{provider}/callback?code&state` (doc delta) | P | the provider's redirect: 302 to `<app scheme>://setup/calendar/connected?provider&status=authorized&state&code` (or `status=denied\|failed`); exchanges nothing, the app completes with `connect_calendar` | no-store |
 | `GET /v1/trips/{id}/costs?version` (doc delta) | S | stored calc as the caller may see it: own `share_calcs` row (lines, personal option deltas), every member's `trip_share_totals`, `cost_components`, freshness; `version` ≠ current → `VERSION_CONFLICT` | none |
 | `POST /v1/trips/{id}/costs/preview` (doc delta) | S | `{ops}` (ChangeSet ops) → caller's own delta, crew-wide `each_minor` when uniform, bookings moved, must-dos touched; `@cp/planner` + `@cp/cost-engine` | none |
-| `GET /v1/trips/{id}/offline-bundle?date` | S | manifest + signed URLs (bookings, phrases audio, FX, POIs, PMTiles region) | versioned |
+| `GET /v1/trips/{id}/offline-bundle?date` | S | manifest + signed URLs (bookings, phrases audio, FX, POIs, PMTiles region). Doc delta: `{trip_id, generated_at, sections{bookings{items[{booking_id, version, attachments[{attachment_id, media_key, kind, url, url_expires_at}], barcode?{format, payload} (own bookings only)}]}}}`, `no-store` | versioned |
 | `GET /v1/help/context?lat&lng&trip_id` | S | curated emergency + facilities | offline bundle |
 | `GET /v1/entitlements?trip_id` | S | entitlement service; ETag | push-invalidated |
 | `GET /v1/catalogue` | A | products, perk lists, paywall copy, experiment arm | 1 h |
@@ -554,7 +561,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/me/deletion/preflight` | S | balances, organiser roles, subscription source | – |
 | `GET /v1/me/rating-eligibility?trip_id` | S | heuristic flag | – |
 | `GET /v1/me/export/{id}` | S | signed URL | – |
-| `GET /v1/me/private/{kind}` | S | owner-only C3 (insurance, dietary, budget max, emergency info) → client `local_private` table; never synced. Doc delta: `budget_max?trip_id` → `{trip_id, amount_minor, currency, source, updated_at}` through `app.my_budget_max` (the caller's own only; `NOT_FOUND` when not set) and `budget_default` → `{amount_minor, currency, updated_at}` | – |
+| `GET /v1/me/private/{kind}` | S | owner-only C3 (insurance, dietary, budget max, emergency info) → client `local_private` table; never synced. Doc delta: `budget_max?trip_id` → `{trip_id, amount_minor, currency, source, updated_at}` through `app.my_budget_max` (the caller's own only; `NOT_FOUND` when not set) and `budget_default` → `{amount_minor, currency, updated_at}`; `insurance` → `{policies[{policy_id, trip_id, provider, policy_no, assistance_phone, doc_media_key, updated_at}]}` (decrypted, owner only). Mailbox (doc delta): `GET /v1/mailbox/oauth/{provider}/start?device_id` → `{provider, state, authorize_url}`, `…/callback` → `{scheme}://wallet/mailbox/connected?status&state&code`, `GET /v1/mailbox/connections` → `{connections[{connection_id, provider, status, last_scan_at}]}` | – |
 | `GET /v1/payments/{id}/payout` (doc delta) | S | the payer of an open payment → the payee's methods with decrypted details, through `app.reveal_payout` (audited in `ops.reveal_audit`); anyone else `NOT_FOUND`; online only, `Cache-Control: no-store`, never persisted on the device | – |
 | `GET /v1/me/payout-methods` (doc delta) | S | the caller's own payout methods with details, for the editor; `no-store` | – |
 | `GET /v1/setup/{trip_id}/own-fit` (doc delta) | S | `{trip_id, state: no_max\|no_target\|fits\|over}`: the caller's own max (crew currency) against the organiser's locked target; setup members only; never about anyone else | none |
@@ -588,8 +595,8 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | Route | Provider | Verification | Handler → effect | Phase |
 |---|---|---|---|---|
 | `/webhooks/revenuecat` | RevenueCat | `Authorization` shared secret (constant-time compare) + refetch subscriber via REST before acting | `fulfil_purchase` / `revoke_purchase`; grace (server 7 d), pause intent, gifts, boosts via `intent_id` | 46 |
-| `/webhooks/inbound-email` | Cloudflare Email Routing Worker (crew address `trip-{slug}@in.critterpass.app`) | HMAC-SHA256 over raw body with shared secret, `X-CP-Timestamp` ±300 s; DKIM/SPF verdict passed through | store raw to R2 → `mail.parse` job | 34 |
-| `/webhooks/aeroapi` | FlightAware AeroAPI alerts | secret token in path + source allow-list; payload re-verified by fetching `/flights/{id}` before any ALWAYS push | `flight.status_changed` → N-14/N-41, disruption agent | 34 |
+| `/webhooks/inbound-email` | Cloudflare Email Routing Worker (crew address `{crew-slug}@in.critterpass.app`; doc delta) | HMAC-SHA256 over `{timestamp}.{body}` (`X-CP-Signature`, `X-CP-Timestamp` ±300 s); DKIM/SPF verdict passed through; raw already in R2 (7 d) | answers `accepted` → `mail.parse` / `quarantined{reply?}` (unknown sender gets a 6-digit link code) / `duplicate` / `rejected{reason}` | 34 |
+| `/webhooks/aeroapi/{secret}` (doc delta: path secret) | FlightAware AeroAPI alerts | secret token in path (constant-time); payload re-verified by fetching `/flights/{id}` before any ALWAYS push | `flight.status_changed` → N-14/N-41, disruption agent | 34 |
 | `/webhooks/viator` | Viator (booking status, if partner push enabled) | Viator signature header per partner agreement; otherwise disabled and `supplier.viator.poll` job uses modified-since | `activity.booked/cancelled` | 35 |
 | `/webhooks/whatsapp` | WhatsApp Business Cloud API | `GET` verify challenge (`hub.verify_token`); `POST` `X-Hub-Signature-256` HMAC with app secret | OTP delivery status; vendor replies → `vendor.reply_parse` job | 9, 35 |
 | `/webhooks/telegram-gateway` | Telegram Gateway (delivery reports to the `callback_url` each code is sent with) | `X-Request-Signature` = hex HMAC-SHA256 of `X-Request-Timestamp` + `\n` + raw body, keyed with SHA-256 of `TELEGRAM_GATEWAY_TOKEN`; reports older than 600 s are acknowledged and dropped | `expired` (refunded) or `revoked` for a tracked request → `otp.channel_failed` on `user:#uid` | 9 |

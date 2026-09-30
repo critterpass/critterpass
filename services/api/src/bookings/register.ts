@@ -29,6 +29,12 @@ import { mailboxOAuthConfigFromEnv } from './mailbox-client';
 import { registerBookedCosts } from './booked-costs';
 import { registerOfflineBundleRoute } from './offline-bundle';
 import { betterAuthAccountLookup } from './sender-allow-list';
+import { registerPrivateInsuranceRoute } from './private-insurance';
+import {
+  createSaveInsurancePolicyCommand,
+  deleteInsurancePolicyCommand,
+  shareInsuranceCommand,
+} from '../commands/bookings/insurance';
 
 export interface BookingsDoors {
   readonly pool: pg.Pool;
@@ -66,6 +72,13 @@ export function registerBookings(
   registerBookedCosts();
   registerOfflineBundleRoute(app, { ...doors, keyring, signing: signingFromEnv(env) });
   registerMailbox(app, doors, keyring, env);
+  // The insurance vault stores sealed values only: without the keyring it does not exist.
+  if (keyring !== undefined) {
+    doors.registry.register(createSaveInsurancePolicyCommand({ keyring }));
+    doors.registry.register(deleteInsurancePolicyCommand);
+    doors.registry.register(shareInsuranceCommand);
+    registerPrivateInsuranceRoute(app, { pool: doors.pool, sessions: doors.sessions, keyring });
+  }
   // AeroAPI alert deliveries: only with the path secret configured (the key lives in the worker).
   const aeroSecret = env['AEROAPI_WEBHOOK_SECRET'];
   if (aeroSecret !== undefined && aeroSecret.length >= 32) {

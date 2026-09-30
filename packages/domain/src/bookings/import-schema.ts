@@ -101,3 +101,34 @@ export function mergeBoardingPass(
   });
   return { bookings: merged, matched };
 }
+
+/** The travel-insurance vault (self; online only: the values are sealed on arrival). */
+export const saveInsurancePolicyPayloadSchema = z.object({
+  policy_id: z.uuid(),
+  trip_id: z.uuid().optional(),
+  provider: z.string().trim().min(1).max(80),
+  policy_no: z.string().trim().min(1).max(80),
+  assistance_phone: z.string().trim().min(3).max(40).optional(),
+  doc_media_key: z.string().min(1).max(300).optional(),
+});
+
+export const deleteInsurancePolicyPayloadSchema = z.object({ policy_id: z.uuid() });
+
+export const shareInsurancePayloadSchema = z.object({
+  help_session_id: z.uuid(),
+  /** The exact fields the user saw listed before approving ("Chubb Travel · policy no. · line"). */
+  text_shown: z.string().trim().min(1).max(4000),
+  /** Give the `insurance_to_clinic` consent now (the sheet's own checkbox). */
+  grant_consent: z.boolean().optional(),
+});
+
+/** `GET /v1/me/private/insurance`: the owner's policies, decrypted for the device's local store. */
+export interface PrivateInsuranceWire {
+  readonly policy_id: string;
+  readonly trip_id: string | null;
+  readonly provider: string;
+  readonly policy_no: string;
+  readonly assistance_phone: string | null;
+  readonly doc_media_key: string | null;
+  readonly updated_at: string;
+}

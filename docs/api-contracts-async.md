@@ -106,7 +106,10 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `money.rerate` (doc delta) | `set_crew_settlement_currency` | every live expense re-expressed in the new currency (its own FX run when it relates the pair, else the newest): old entries reversed, new ones derived from the stored shares; confirmed payments' entries moved the same way; open requests cancelled; marked-paid and disputed payments restated; idempotent | 3 / DLQ | crew id | 33 |
 | `money.autoconfirm` (doc delta) | cron `0 4 * * *` SGT | payments marked paid ≥ 7 d ago and not disputed → confirmed (`auto_confirmed`), ledger entry, Settled Tokek when it clears the trip (`app.grant_settled_if_square`) | 2 | – | 33 |
 | `mail.parse` | inbound email | sanitize → JSON-LD/Microdata → fast-tier extract (no tools) → validate → dedupe → candidate → N-13 | 3 / DLQ | message-id header hash | 34 |
-| `import.parse` | `import_paste`, `import_scan` | same parser path | 3 | op_id | 34 |
+| `import.parse` | `import_paste`, `import_scan` | same parser path; allow-listed links fetched once (private addresses, off-list redirects and bodies > 2 MB refused); BCBP barcodes decoded and joined to their flight (doc delta) | 3 | candidate id | 34 |
+| `flight.poll` (doc delta) | timers at T−72 h (registers the AeroAPI alert), T−24 h, T−6 h, T−3 h | AeroAPI (else AeroDataBox) reading → the same diff as `flight.event` | 3 | `(segment_id, slot)` | 34 |
+| `booking.deadline_reminder` (doc delta) | timer at `free_cancel_until − 24 h` | `booking.deadline_due` → `booking_deadline` (ALWAYS) to the owner | 3 | booking id | 34 |
+| `flight.watch_sweep` (doc delta) | hourly | ends watches a day after landing, deletes their AeroAPI alerts | 2 | – | 34 |
 | `flight.event` | AeroAPI webhook | status diff → N-14/N-41, LA, `ai.disruption`, landed → `hatch_egg` | 5 | `(flight_id, alert_id)` | 34 |
 | `ai.disruption` | flight event, watch escalation | AI-28 actions `{kind, reversible, needs_approval, cost_delta}`; progress on `disruption:` | 2 / DLQ | disruption id | 37 |
 | `guide_action.execute` (doc delta) | a guide action is planned | autonomy decider → auto (policy approval with decider audit, apply ChangeSet, undo window + timer, `guide.touched`) or needs a yes (`changeset_approval` poll draft) or forbidden | 3 / DLQ | action id | 13 |
@@ -173,7 +176,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `ftf.ending` | FTF end −3 d local | N-33 (governed) | 46 |
 | `billing.reconcile` | `0 5 * * *` | RevenueCat REST drift check, grace expiry (server 7 d) | 46 |
 | `pause.remind` | resume −N d | N-37 | 46 |
-| `mailbox.scan` | per Pass+ user daily local morning | Gmail/Graph incremental | 34 |
+| `mailbox.scan` | hourly, acting on connections whose owner's local hour is 07 (doc delta), and on connect | Gmail history / Graph delta; headers first, bodies only for the trip filter's picks; lapsed Pass+ pauses | 34 |
 | `calendar.stale_nudge` | `0 * * * *` UTC (doc delta: hourly, acting on members whose local time is 09:xx) | members of trips still choosing dates whose calendar is missing or older than 72 h: one `calendar.stale` (N `setup_task`) per stale period; queues the daily `calendar.sync` of OAuth calendars not synced for 24 h | 27 |
 | `availability_ask.timeout` (doc delta) | `scheduled_events` timer 48 h after `ask_availability` | an ask still open times out: its option shows `timed_out`, `availability_ask.timed_out` → N-46 to whoever asked | 27 |
 | `maint.purge` | `30 3 * * *` SGT | retention: fixes TTL, visits, encounter samples, receipts/menu images, face data, `cmd_log` 30 d, `cmd_results` 14 d, `rt_outbox` 7 d after send, `domain_events` 400 d, `notifications` 90 d, media orphans, invites + PII | 11 |
