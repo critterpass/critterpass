@@ -64,8 +64,11 @@ msgstr ""
 msgid "plan.timeline.rainA11y"
 msgstr ""
 
+#. placeholder {0}: '15:00'
 #. placeholder {0}: clock(locale, rain.end)
+#. placeholder {1}: 'Ridge walk'
 #. placeholder {1}: suggestion.item.title
+#: ../../apps/mobile/src/features/plan/timeline/dev/lab-scenes-timeline.tsx
 #: ../../apps/mobile/src/features/plan/timeline/use-guide-suggestion.tsx
 msgid "plan.timeline.bannerRain"
 msgstr ""

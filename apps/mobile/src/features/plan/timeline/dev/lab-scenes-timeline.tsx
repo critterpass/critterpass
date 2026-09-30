@@ -5,6 +5,7 @@
  * (the device flow drags one and reads the result).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { t } from '@lingui/core/macro';
 import { useEffect, useState, type ReactNode } from 'react';
 
 import { toast } from '@/motion/island-toast';
@@ -159,6 +160,7 @@ const cursors =
   (offset: number) => (ctx: { readonly frames: Parameters<typeof placeCursors>[1] }) => (
     <RemoteCursors
       reduced={false}
+      fades={false}
       cursors={placeCursors(
         [
           { uid: 'u-maya', anchor: `plan_item:${SPA.stableId}`, offset: 0, at: Date.now() },
@@ -171,10 +173,13 @@ const cursors =
       )}
     />
   );
-const banner = (
+const banner = () => (
   <GuideBanner
     guide={GUIDE_STICKERS.tokek}
-    line="Rain till 15:00. Move Ridge walk?"
+    line={t({
+      id: 'plan.timeline.bannerRain',
+      message: `Rain till ${'15:00'}. Move ${'Ridge walk'}?`,
+    })}
     onAccept={noop}
   />
 );
@@ -182,7 +187,7 @@ const banner = (
 /** The day as 3e-2 draws it: rain 13–15, Tokek's ghost for the ridge walk, Maya on the spa. */
 function drawn(
   overrides: Partial<TimelineEditorProps> = {},
-  footer: ReactNode = banner,
+  footer: ReactNode = banner(),
 ): ReactNode {
   return labDay({
     planning: true,

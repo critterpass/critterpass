@@ -87,7 +87,7 @@ export function ItemDetailSheet({
 
   if (item === null) {
     return (
-      <Sheet detents={['fit']} onDismiss={actions.onClose} testID="plan-item-gone">
+      <Sheet detents={['large']} onDismiss={actions.onClose} testID="plan-item-gone">
         <Stack style={styles.body}>
           <Text variant="h3" accessibilityRole="header">
             {t({ id: 'plan.day.item.goneTitle', message: 'This one’s off the plan' })}

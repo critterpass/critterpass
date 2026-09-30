@@ -104,7 +104,7 @@ function thread(
   );
 }
 
-const composer = (
+const composer = () => (
   <KeyboardFooter>
     <Composer
       value=""
@@ -141,7 +141,7 @@ function decide(
       onVote={noop}
       onApply={null}
       thread={thread()}
-      composer={composer}
+      composer={composer()}
       onBack={noop}
       {...overrides}
     />
