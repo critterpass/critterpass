@@ -5,6 +5,7 @@
  */
 import { z } from 'zod';
 
+import { boardingSoonPayloadSchema, flightLandedPayloadSchema } from '../flights/la-phase';
 import {
   bookingKindSchema,
   bookingSourceSchema,
@@ -33,6 +34,7 @@ export const BOOKING_EVENT_TYPES = [
   'flight.status_changed',
   'flight.boarding_open',
   'flight.landed',
+  'boarding.soon',
   'insurance.saved',
   'insurance.deleted',
   'insurance.shared',
@@ -100,10 +102,8 @@ export const BOOKING_EVENT_PAYLOADS = {
   }),
   // Boarding opened (or its estimate, dep − 40 min, passed): the traveller's boarding ping.
   'flight.boarding_open': segment.extend({ estimated: z.boolean() }),
-  'flight.landed': segment.extend({
-    user_ids: z.array(z.uuid()),
-    source: z.enum(['provider', 'manual']),
-  }),
+  'flight.landed': flightLandedPayloadSchema,
+  'boarding.soon': boardingSoonPayloadSchema,
   'insurance.saved': z.object({ user_id: z.uuid(), policy_id: z.uuid() }),
   'insurance.deleted': z.object({ user_id: z.uuid(), policy_id: z.uuid() }),
   'insurance.shared': z.object({

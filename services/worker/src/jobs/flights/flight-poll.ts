@@ -12,6 +12,7 @@ import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
 import { applyReading, readingMatches } from './apply';
+import { syncLaPhase } from './snapshot';
 
 export interface FlightProviders {
   readonly aero?: AeroApiClient | undefined;
@@ -96,6 +97,8 @@ export async function pollFlight(
   if (segment === undefined || ['cancelled', 'landed', 'diverted'].includes(segment.status)) {
     return { outcome: 'skipped', changes: 0 };
   }
+  // The T−3 h check opens the leg's Live Activity window even with no provider configured.
+  await withSystem(pool, (tx) => syncLaPhase(tx, segment.id, now));
   if (providers.aero !== undefined && timer.slot === 't72')
     await registerAlert(pool, providers.aero, segment);
   const reading = await readingFor(providers, segment);

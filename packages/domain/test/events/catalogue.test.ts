@@ -495,6 +495,13 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'flight.status_changed': { ...SEGMENT, change: 'delay', status: 'delayed' },
   'flight.boarding_open': { ...SEGMENT, estimated: true },
   'flight.landed': { ...SEGMENT, user_ids: [crypto.randomUUID()], source: 'provider' },
+  'boarding.soon': {
+    ...SEGMENT,
+    user_ids: [crypto.randomUUID()],
+    departs_at: '2026-10-12T01:05:00.000Z',
+    boarding_at: '2026-10-12T00:25:00.000Z',
+    boarding_estimated: true,
+  },
   'insurance.saved': { user_id: crypto.randomUUID(), policy_id: crypto.randomUUID() },
   'insurance.deleted': { user_id: crypto.randomUUID(), policy_id: crypto.randomUUID() },
   'insurance.shared': {
