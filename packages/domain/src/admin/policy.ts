@@ -76,6 +76,10 @@ export const ADMIN_COMMAND_ROLES: Readonly<Record<string, readonly AdminRole[]>>
   release_work_item: EVERY_ROLE,
   redrive_jobs: ['ops'],
   replay_webhook: ['ops'],
+  record_offer_code_batch: ['support'],
+  review_ftf_grant: ['support'],
+  grant_trip_boost: ['support'],
+  extend_store_renewal: ['support'],
 };
 
 function holdsAny(roles: readonly AdminRole[], allowed: readonly AdminRole[]): boolean {

@@ -12,6 +12,7 @@ import { onEventAppended, registerJobProducer, sendInTx } from '@cp/db';
 import {
   AVATAR_MODERATE_QUEUE,
   AVATAR_RENDER_QUEUE,
+  BILLING_QUEUES,
   CHAT_PHOTO_THUMBNAIL_QUEUE,
   CHAT_VOICE_TRANSCODE_QUEUE,
   COUNTDOWN_RECOMPUTE_QUEUE,
@@ -90,6 +91,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(DRAFT_QUEUES),
       ...Object.values(MONEY_QUEUES),
       ...Object.values(BOOKINGS_QUEUES),
+      ...Object.values(BILLING_QUEUES),
       'cost.recompute',
     ]) {
       if ((await boss.getQueue(queue)) === null) {

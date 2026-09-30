@@ -31,6 +31,7 @@ import { registerActionKeyRoutes } from './routes/action-keys';
 import { registerActionsRoute } from './routes/actions';
 import { registerNotificationRoutes } from './routes/notifications';
 import { registerInternalRtRoutes } from './routes/internal-rt';
+import { registerBilling } from './billing/register';
 
 /** The command doors as the api boots them: its own Redis client and logger. */
 export interface ApiCommandDoors extends CommandDoorDeps {
@@ -54,6 +55,7 @@ export interface FeatureRouteDeps {
 export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRouteDeps): void {
   const { env, doors, keyring } = deps;
   const { pool, redis, logger } = doors;
+  registerBilling({ app, commands: doors.registry, pool: doors.pool, logger: doors.logger });
   registerCommandRoute(app, doors);
   registerSyncUploadRoute(app, doors);
   registerCmdResultsRoute(app, doors);

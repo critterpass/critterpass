@@ -296,3 +296,5 @@ export * from './itinerary';
 export * from './money';
 export * from './payout';
 export * from './bookings';
+export * from './billing';
+export * from './paywall';

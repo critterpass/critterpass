@@ -175,6 +175,9 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `anniversary.scan` | `0 1 * * *` per tz bucket | N-35 | 43 |
 | `ftf.ending` | FTF end −3 d local | N-33 (governed) | 46 |
 | `billing.reconcile` | `0 5 * * *` | RevenueCat REST drift check, grace expiry (server 7 d) | 46 |
+| `billing.intent_expiry` (doc delta) | intent timer (15 min) | lapses an open boost intent, frees the trip lock | 46 |
+| `ftf.grant` (doc delta) | trip enters `setup` | first trip free check and grant | 46 |
+| `boost.trip_changed` (doc delta) | trip `cancelled` | moves its boost to the crew's next trip or a credit | 46 |
 | `pause.remind` | resume −N d | N-37 | 46 |
 | `mailbox.scan` | hourly, acting on connections whose owner's local hour is 07 (doc delta), and on connect | Gmail history / Graph delta; headers first, bodies only for the trip filter's picks; lapsed Pass+ pauses | 34 |
 | `calendar.stale_nudge` | `0 * * * *` UTC (doc delta: hourly, acting on members whose local time is 09:xx) | members of trips still choosing dates whose calendar is missing or older than 72 h: one `calendar.stale` (N `setup_task`) per stale period; queues the daily `calendar.sync` of OAuth calendars not synced for 24 h | 27 |

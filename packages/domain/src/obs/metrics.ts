@@ -90,6 +90,24 @@ export const METRICS = {
     description: 'OTP and fallback SMS sent by provider and destination country',
     labels: ['provider', 'country'],
   },
+  cp_billing_apply_total: {
+    kind: 'counter',
+    unit: '{event}',
+    description: 'RevenueCat events applied, by outcome',
+    labels: ['outcome'],
+  },
+  cp_billing_webhook_lag_ms: {
+    kind: 'histogram',
+    unit: 'ms',
+    description: 'RevenueCat event received to purchase state applied',
+    labels: [],
+  },
+  cp_billing_reconcile_customers: {
+    kind: 'gauge',
+    unit: '{customer}',
+    description: 'Last nightly reconcile: customers checked, repaired (drift) and failed',
+    labels: ['result'],
+  },
 } as const satisfies Record<string, MetricDefinition>;
 
 export type MetricName = keyof typeof METRICS;

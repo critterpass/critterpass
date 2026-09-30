@@ -59,6 +59,15 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   release_work_item: () => ({ queue: 'matrix_probe', item_id: nobody() }),
   redrive_jobs: () => ({ queue: 'matrix.probe' }),
   replay_webhook: () => ({ provider: 'matrix_probe', event_id: 'evt_matrix' }),
+  record_offer_code_batch: () => ({
+    name: `Matrix ${nobody()}`,
+    platform: 'app_store',
+    offer_ref: 'MATRIX',
+    size: 1,
+  }),
+  review_ftf_grant: () => ({ grant_id: nobody(), decision: 'allow', reason: 'matrix' }),
+  grant_trip_boost: () => ({ trip_id: nobody(), days: 1, reason: 'matrix' }),
+  extend_store_renewal: () => ({ uid: nobody(), days: 1, reason: 'matrix' }),
 };
 
 async function send(page: Page, cmd: string): Promise<number> {

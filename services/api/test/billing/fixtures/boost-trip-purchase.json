@@ -1,0 +1,57 @@
+{
+  "description": "A Trip Boost bought on the App Store under a boost intent (NON_RENEWING_PURCHASE), and the customer read that follows it",
+  "webhook": {
+    "api_version": "1.0",
+    "event": {
+      "id": "rc-evt-boost-$TXN",
+      "type": "NON_RENEWING_PURCHASE",
+      "app_id": "app_fixture",
+      "app_user_id": "$UID",
+      "original_app_user_id": "$UID",
+      "aliases": ["$UID"],
+      "product_id": "boost_trip",
+      "entitlement_ids": null,
+      "period_type": "NORMAL",
+      "purchased_at_ms": 1790985600000,
+      "expiration_at_ms": null,
+      "environment": "SANDBOX",
+      "store": "APP_STORE",
+      "transaction_id": "$TXN",
+      "original_transaction_id": "$TXN",
+      "is_family_share": false,
+      "country_code": "US",
+      "currency": "USD",
+      "price": 11.99,
+      "price_in_purchased_currency": 11.99,
+      "event_timestamp_ms": 1790985605000,
+      "subscriber_attributes": {
+        "boost_intent_id": { "value": "$INTENT", "updated_at_ms": 1790985500000 }
+      }
+    }
+  },
+  "subscriber": {
+    "request_date_ms": 1790985606000,
+    "subscriber": {
+      "original_app_user_id": "$UID",
+      "first_seen": "2026-10-01T00:00:00Z",
+      "management_url": null,
+      "entitlements": {},
+      "subscriptions": {},
+      "non_subscriptions": {
+        "boost_trip": [
+          {
+            "id": "a1b2c3d4e5",
+            "is_sandbox": true,
+            "original_purchase_date": "2026-10-03T00:00:00Z",
+            "purchase_date": "2026-10-03T00:00:00Z",
+            "store": "app_store",
+            "store_transaction_id": "$TXN"
+          }
+        ]
+      },
+      "subscriber_attributes": {
+        "boost_intent_id": { "value": "$INTENT", "updated_at_ms": 1790985500000 }
+      }
+    }
+  }
+}

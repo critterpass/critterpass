@@ -7,6 +7,7 @@ import type pg from 'pg';
 import type { AccountControl } from './accounts';
 import type { AdminAllowlist } from './allowlist';
 import { auditArea } from './audit-read';
+import { billingArea } from './billing';
 import { catalogueArea } from './catalogue';
 import { contentArea } from './content';
 import { costReviewArea } from './cost-review';
@@ -39,6 +40,7 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     moderationArea(deps),
     supportArea(deps),
     deskArea(deps.pool),
+    billingArea(deps.pool),
     auditArea(deps.pool),
     operatorsArea(deps),
   ];

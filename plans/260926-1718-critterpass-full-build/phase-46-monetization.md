@@ -1,7 +1,7 @@
 ---
 phase: 46
 title: "Monetization: billing, paywall, Boost, plan management"
-status: pending
+status: in_progress
 depends_on: [9, 11, 12, 24, 33, 39, 58]
 wave: 15
 features: [F-157, F-158, F-159, F-162, F-163, F-164, F-165, F-166, F-167, F-168, F-169]
@@ -175,6 +175,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Steps: 1. Drizzle tables per data-model §3.14 + `expenses.boost_id` expand. 2. RLS `ENABLE`+`FORCE`, policies, grants per role; S tables revoked from `app_user`/`guide_reader`/`powersync_repl`. 3. Publication allow-list entries. 4. zod state enums matching data-model §3.3/§3.6.
 - Tests: `pnpm --filter @cp/db test -- permissions/subscriptions permissions/trip-boosts permissions/codes` (then whole `permissions/`).
 - Done when: outsider/ex-member/member/organiser/self matrices pass for all 11 tables; publication CI diff passes; S tables unreadable by `app_user`.
+- Status: done — e76fc6ae
 
 ### T2 — RevenueCat webhook, billing.apply, fulfil/revoke, reconcile, entitlement loaders
 - Goal: server-side purchase truth.
@@ -182,6 +183,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Steps: 1. Auth header constant-time compare; insert `billing_events` (dupe → 200). 2. `billing.apply` refetches subscriber (RC REST v2, 120 s cap), maps to `subscriptions` state + `store_transactions`. 3. `fulfil_purchase` idempotent on (platform, transaction_id); `client_sync` path verifies via RC before granting. 4. Server grace 7 d: on BILLING_ISSUE set `grace_ends_at`. 5. Loaders → `recomputeUser`. 6. Reconcile cron diff + repair + metric.
 - Tests: `pnpm --filter @cp/api test -- billing`; `pnpm --filter @cp/worker test -- billing`.
 - Done when: fixture replay of INITIAL_PURCHASE, RENEWAL, CANCELLATION, UNCANCELLATION, BILLING_ISSUE, EXPIRATION, PRODUCT_CHANGE, SUBSCRIPTION_PAUSED, REFUND/revoke yields the expected `subscriptions.status` and `user_entitlements.pass_plus`; replaying any event twice changes nothing.
+- Status: done — 506e71b5
 
 ### T3a — Boost domain: intents, activation, IOUs
 - Goal: one locked intent per trip; activation + split IOUs in one txn.
@@ -189,6 +191,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Steps: 1. Intent lock (partial uk) + `BOOST_INTENT_LOCKED{by_uid, until}` + rt lock event; expiry job 15 min. 2. Activation in one txn: `trip_boosts`, P33 `expenses(source=boost)` + shares via P16 split, `domain_events boost.activated`, rt_outbox.
 - Tests: `pnpm --filter @cp/api test -- boost-intent boost-activate`; `pnpm --filter @cp/worker test -- intent-expiry`.
 - Done when: concurrent intents from two members → exactly one succeeds; split of $11.99 over 7 sums exactly with buyer absorbing remainder; activation replay is idempotent.
+- Status: done — 0f8627b1
 
 ### T3b — Boost lifecycle: expiry, move/credit, revoke, FTF, crew yearly
 - Goal: correct Boost/FTF/crew-year state across trip changes and refunds.
@@ -196,6 +199,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Steps: 1. `ends_at` recompute on `trip.dates_changed`. 2. `boost.expire` flips entitlements, emits LA-end event. 3. Cancel → move or credit. 4. Revoke → reversal via P33 API. 5. FTF grant on setup start with abuse hash (account + verified phone hash + device attestation); crew-year grant/rebind rules (IOUs on first purchase only).
 - Tests: `pnpm --filter @cp/api test -- ftf crew-year boost-revoke boost-move`; `pnpm --filter @cp/worker test -- boost-expire`.
 - Done when: refund reverses only unsettled IOUs; FTF second attempt by same user/crew/phone/device rejected; date change moves `ends_at`; crew-year renewal creates no IOUs.
+- Status: done — 249d4c69
 
 ### T4 — Paywall governor + entry registry + impressions
 - Goal: one rule set for every paywall and paywall push.
@@ -203,6 +207,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Steps: 1. Entry catalogue with offer + governed + suppress contexts. 2. Pure `canShowPaywall` over impressions, context tags (day-of, help, sos, disruption, error_at), device-tz date. 3. Client `usePaywall(entry, {tripId})` → presents route or returns `suppressed`. 4. Server hook for N-33/crew cards.
 - Tests: `pnpm --filter @cp/domain test -- paywall`; `pnpm --filter @cp/mobile test -- monetize/governor`.
 - Done when: fast-check properties hold (≤1 unsolicited per local date; suppressed contexts never show; quiet-no blocks entry for that trip; explicit exempt); push path uses the same fn.
+- Status: done — 21a99341 (server; usePaywall/PaywallGate ship with the app lane)
 
 ### T5 — Mobile billing client: RevenueCat, products, purchase state machine, restore
 - Goal: reliable purchase UX primitives on iOS + Android.
@@ -259,6 +264,7 @@ Build this phase's console panel to its render (`design/Ops - Billing.dc.html`, 
 - Steps: 1. User billing timeline (subscriptions, transactions, events, entitlements). 2. Grant/revoke promo time via command with audit; support-only App Store Extend Renewal Date / Play defer action (reason required). 3. Partner Offer Code batch registry. 4. FTF abuse review list. 5. Metrics: webhook lag, reconcile drift count, purchase funnel events (P19 taxonomy).
 - Tests: `pnpm --filter @cp/api test -- billing/admin`; `pnpm --filter @cp/admin test -- billing`.
 - Done when: support role can grant 30 d Pass+ with reason and it appears in `ops.admin_audit`; drift metric exported to Grafana.
+- Status: done — 0413a9d3
 
 ## Phase acceptance criteria
 - [ ] 11 permission test files pass; S tables unreadable by `app_user`, `guide_reader`, `powersync_repl`

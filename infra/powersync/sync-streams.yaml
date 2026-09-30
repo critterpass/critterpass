@@ -9,6 +9,11 @@ streams:
     auto_subscribe: true
     queries:
       - SELECT * FROM agent_jobs WHERE user_id = auth.user_id()
+      - SELECT * FROM subscriptions WHERE user_id = auth.user_id()
+      - SELECT * FROM code_redemptions WHERE user_id = auth.user_id()
+      - SELECT * FROM paywall_impressions WHERE user_id = auth.user_id()
+      - SELECT * FROM crew_year_grants WHERE buyer_id = auth.user_id()
+      - SELECT * FROM boost_credits WHERE user_id = auth.user_id()
       - SELECT * FROM import_candidates WHERE user_id = auth.user_id()
       - SELECT * FROM users WHERE id = auth.user_id()
       - SELECT *, user_id AS id FROM user_settings WHERE user_id = auth.user_id()
@@ -67,6 +72,14 @@ streams:
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
       - |-
         SELECT * FROM guide_offer_claims
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM boost_intents
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM trip_boosts
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
       - |-
@@ -287,6 +300,9 @@ streams:
   crews:
     auto_subscribe: true
     queries:
+      - SELECT * FROM boost_credits WHERE crew_id IN my_crews
+      - SELECT * FROM crew_year_grants WHERE crew_id IN my_crews
+      - SELECT * FROM ftf_grants WHERE crew_id IN my_crews
       - SELECT * FROM crew_inbound_addresses WHERE crew_id IN my_crews AND status = 'active'
       - SELECT * FROM import_candidates WHERE crew_id IN my_crews AND crew_visible = true
       - SELECT * FROM crews WHERE id IN my_crews
