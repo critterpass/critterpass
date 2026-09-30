@@ -140,20 +140,23 @@ describe('ops.admin_audit is append-only', () => {
 });
 
 describe('partner adapters and flag projection', () => {
-  it('seeds every adapter off on link copy except Viator, with matching public copy flags', async () => {
+  it('seeds every adapter off on link copy until its partner approves, with matching public copy flags', async () => {
     const { rows } = await db.pool.query<{ partner: string; enabled: boolean; copy_mode: string }>(
       'SELECT partner, enabled, copy_mode FROM ops.partner_adapters ORDER BY partner',
     );
     expect(rows.map((row) => row.partner)).toEqual([...PARTNER_KEYS].sort());
     for (const row of rows) {
-      const viator = row.partner === 'viator_booking';
-      expect(row.enabled).toBe(viator);
-      expect(row.copy_mode).toBe(viator ? 'booking' : 'link');
+      expect(row.enabled).toBe(false);
+      expect(row.copy_mode).toBe('link');
     }
     const projected = await db.pool.query<{ key: string; value: unknown }>(
       "SELECT key, value FROM client_config WHERE key LIKE 'supplier.%' ORDER BY key",
     );
-    expect(projected.rows).toContainEqual({ key: 'supplier.viator_booking.enabled', value: true });
+    expect(projected.rows).toContainEqual({ key: 'supplier.viator_booking.enabled', value: false });
+    expect(projected.rows).toContainEqual({
+      key: 'supplier.viator_booking.copy_mode',
+      value: 'link',
+    });
     expect(projected.rows).toContainEqual({
       key: 'supplier.klook_activity.copy_mode',
       value: 'link',

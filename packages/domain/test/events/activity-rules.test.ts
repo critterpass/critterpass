@@ -7,6 +7,7 @@ import { MONEY_EVENT_TYPES } from '../../src/money/events';
 import { DRAFT_EVENT_TYPES } from '../../src/itinerary/events';
 import { BOOKING_EVENT_TYPES } from '../../src/bookings/events';
 import { BILLING_EVENT_TYPES } from '../../src/billing/events';
+import { SUPPLIER_EVENT_TYPES } from '../../src/suppliers/events';
 import { PLAN_EVENT_TYPES } from '../../src/plan/events';
 import { GUIDE_EVENT_TYPES } from '../../src/guide/events';
 
@@ -108,6 +109,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   // Billing speaks through its own surfaces (the boost card, the BOOSTED pill, Your plan);
   // purchases, subscriptions and paywall events concern one account.
   ...BILLING_EVENT_TYPES,
+  // Supplier orders and link clicks speak through the offer card, the hold chip and the wallet.
+  ...SUPPLIER_EVENT_TYPES,
   // Change review shows on its own card and poll; comments live in their threads. A direct plan
   // edit reaches the ticker as `plan.ops_applied`.
   ...PLAN_EVENT_TYPES.filter((type) => type !== 'plan.ops_applied'),

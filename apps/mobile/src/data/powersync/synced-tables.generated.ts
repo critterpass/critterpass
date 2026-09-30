@@ -153,6 +153,8 @@ export const SYNCED_TABLE_COLUMNS = {
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
+  providers:
+    'trip_id kind name contact_enc vehicle policies added_by deleted_at version:integer created_at updated_at',
   queued_guide_questions:
     'user_id thread_id trip_id text tz queued_for queued_at answer_after status answer_message_id answered_at updated_at',
   receipts:
@@ -187,6 +189,10 @@ export const SYNCED_TABLE_COLUMNS = {
   stickers: 'user_id crew_id trip_id kind granted_at created_at',
   subscriptions:
     'user_id platform rc_customer_id original_transaction_id product_key status auto_renew:integer period_start period_end grace_ends_at paused_from resume_at storefront environment last_event_at created_at updated_at',
+  supplier_order_items:
+    'order_id trip_id item_ref product_code product_option_code travel_date start_time traveller_count:integer price_minor:integer participant_ids supplier_booking_ref created_at',
+  supplier_orders:
+    'trip_id buyer_id supplier stable_id partner_cart_ref cart_ref status pricing_status availability_status hold_valid_until total_minor:integer currency payment_session_token supplier_booking_ref voucher_booking_id rejection_code cancel_quote last_polled_at next_poll_at version:integer created_at updated_at',
   taste_profiles:
     'user_id answers tags tag_sources chronotype pace room_pref visibility created_at updated_at',
   trip_boosts:

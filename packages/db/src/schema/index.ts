@@ -75,6 +75,13 @@ export {
   insurancePolicies,
   mailboxConnections,
 } from './bookings';
+export {
+  affiliateClicks,
+  affiliateConversions,
+  providers,
+  supplierOrderItems,
+  supplierOrders,
+} from './suppliers';
 export { locationFixes, locationShares, memberEtas, visits } from './location';
 export { meetups } from './meetups';
 export {

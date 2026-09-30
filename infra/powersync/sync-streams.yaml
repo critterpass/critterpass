@@ -278,6 +278,25 @@ streams:
         SELECT * FROM participant_dietary_flags
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT id, trip_id, buyer_id, supplier, stable_id, status, pricing_status,
+               availability_status, hold_valid_until, total_minor, currency, voucher_booking_id,
+               version, created_at, updated_at
+        FROM supplier_orders
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT id, order_id, trip_id, product_code, product_option_code, travel_date, start_time,
+               traveller_count, price_minor, participant_ids, created_at
+        FROM supplier_order_items
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT id, trip_id, kind, name, vehicle, policies, added_by, version, created_at, updated_at
+        FROM providers
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND deleted_at IS NULL
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
   trip_draft:
     with:
       organised_trips: SELECT trip_id FROM trip_participants WHERE user_id = auth.user_id() AND role = 'organiser'

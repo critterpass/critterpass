@@ -1,3 +1,6 @@
+export * from './core/adapter';
+export { supplierRejected, supplierUnavailable, toSupplierDomainError } from './core/errors';
+export { isPartnerEnabled, requirePartnerEnabled, type FlagQuery } from './core/flags';
 export {
   createSqlSupplierCallAudit,
   noSupplierCallAudit,

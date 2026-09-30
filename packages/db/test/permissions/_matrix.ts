@@ -1387,6 +1387,50 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   },
   insurance_policies: { selectProbe: ownRowProbe('insurance_policies'), expectations: OWNER_READ },
   // RLS class S: status watches, inbound mail and linked senders have no app_user grant at all.
+  // Supplier orders, their items and the trip's providers are the crew's to read (status only).
+  supplier_orders: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM supplier_orders WHERE trip_id = $1 AND buyer_id = $2',
+      params: (f) => [f.tripId, f.actors.organiser],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  supplier_order_items: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM supplier_order_items WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  providers: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM providers WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  affiliate_clicks: {
+    selectProbe: { sql: 'SELECT 1 FROM affiliate_clicks LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  affiliate_conversions: {
+    selectProbe: { sql: 'SELECT 1 FROM affiliate_conversions LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   flight_watches: {
     selectProbe: { sql: 'SELECT 1 FROM flight_watches LIMIT 1', params: () => [] },
     expectations: {
