@@ -1,8 +1,11 @@
 appId: app.critterpass.dev
 ---
-# Home through its link, then the developer tools list: a way out of any dev screen that doesn't
-# depend on the iOS edge swipe, which a scene's own gestures or a sheet can swallow.
-- openLink: critterpass-dev://
+# Home through its link, then the developer tools list: a way out of any dev screen when the iOS
+# edge swipe doesn't pop it.
+# The simulator's openurl can time out while a dev screen is up; the wait below still decides.
+- openLink:
+    link: critterpass-dev://
+    optional: true
 - runFlow:
     when:
       visible: 'Open'
