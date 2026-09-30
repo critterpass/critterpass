@@ -36,13 +36,16 @@ describe('stickers', () => {
 
   it('shows crew-wide stickers to the crew only', async () => {
     const { crewId } = harness.fixture;
-    await withSystem(harness.db.pool, (tx) =>
-      tx.query(
-        "INSERT INTO stickers (crew_id, kind, granted_at) VALUES ($1, 'crew_level', now())",
+    const { rows } = await withSystem(harness.db.pool, (tx) =>
+      tx.query<{ id: string }>(
+        "INSERT INTO stickers (crew_id, kind, granted_at) VALUES ($1, 'special', now()) RETURNING id",
         [crewId],
       ),
     );
-    expect((await harness.rows('crews', 'member')).get('stickers')).toHaveLength(1);
+    const synced = (await harness.rows('crews', 'member')).get('stickers') ?? [];
+    // The fixture crew also holds its level-2 crew sticker.
+    expect(synced.map((row) => row['id'])).toContain(rows[0]?.id);
+    expect(synced.map((row) => row['kind']).sort()).toEqual(['crew_level', 'special']);
     expect((await harness.rows('crews', 'exMember')).get('stickers') ?? []).toHaveLength(0);
   });
 

@@ -119,7 +119,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `sos.orchestrate` | `trigger_sos` | deterministic fan-out (push ALWAYS + LA) first; AI-30 summary with hard timeout off the fan-out path; escalation timer | 10 fast | sos id | 38 |
 | `supplier.hold_expiry` | hold created | release/mark expired before lapse; close linked ChangeSet (C41) | 3 | hold id | 35 |
 | `vendor.reply_parse` | WhatsApp inbound | AI-31 reply intent → user card | 3 | wa message id | 35 |
-| `quest.evaluate` | expense/visit/phrase/copresence events | progress, completion → `grant_quest_reward` | 3 | `(quest_id, event_id)` | 41 |
+| `quest.evaluate` | the events any registered template or XP source reads (`visit.recorded`, `expense.added`, `critter.befriended`, `copresence.completed`, `trip.settled`; later features add theirs to `QUEST_INPUT_EVENTS`) | visit and settle XP, progress by distinct counted keys, completion → `app.grant_quest_reward`; `quest_progress.source_event_ids` makes a repeated event a no-op | 3 (DLQ) | event id | 41 |
 | `critter.verify` | `befriend_critter` | plausibility (speed, flight continuity, attestation, mock flags, skew) → verify/revoke | 3 | encounter id | 40 |
 | `reward.fanout` | reward events | stamps, icon unlocks, XP; same server ts | 3 | event id | 40 |
 | `media.process` | `register_photo`, avatar | thumbnails (sharp), hash dedupe, moderation, avatar PNG sizes for push/LA/widgets | 3 | media key | 44, 45 |
@@ -157,7 +157,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `weather.refresh` (doc delta) | `*/15 * * * *`; each point due at 3 h, 1 h within 48 h of an outdoor item, 15 min marine while under way | WeatherAPI.com forecast + marine → `weather_snapshots`; `forecast.changed` on material change | 15 |
 | `hazards.refresh` (doc delta) | `*/15 * * * *`; reads hourly, every tick while a trip is under way | MAGMA / IMO / JMA / CENAPRED / GDACS → `hazard_alerts`; `hazard.changed` on a level move | 15 |
 | `briefing.build` | per user local morning (`scheduled_events`) | AI-27 | 36 |
-| `quests.generate` | per trip ~04:00 local | AI-32 → validator → publish, N-31 | 41 |
+| `quests.sweep` (doc delta) | hourly (`2 * * * *` UTC) | queues `quests.generate` for every trip on its dates (not voting, cancelled or archived) whose clock is past 04:00 and that has no quests for its local date; expires quests past their deadline | 41 |
+| `quests.generate` | `quests.sweep` | `{trip_id, local_date}`: AI-32 → validator → deterministic fill to three → publish, N-31; once per trip day | 41 |
 | `roundup.build` | per tz bucket, user time −10 min (default 20:00) | AI-39 ≤5 items, template fallback, skip empty | 49 |
 | `leaveby.schedule` | per LeaveBy: start T−≤8 h (push-to-start), T−15 relevance, T0, end | LA + alarm re-sync background push; crew knock at 2nd snooze/T0+N | 36, 48 |
 | `poll.close` | `scheduled_events` timer at a non-board poll's `closes_at` | closes under the poll row lock with the tie rule (a moved deadline or an earlier close: no-op); destination → trip `won`, reveals, N-03 | 26 |

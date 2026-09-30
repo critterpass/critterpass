@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f8326e5a-2897-413c-bcc4-0b583b77c56b",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"befriend\",\"params\":{\"n\":3,\"set\":\"vn-danang\"},\"title\":\"SƠN TRÀ SPOTTERS\",\"desc\":\"From Sơn Trà trails, spot 3 local critters before My Khe Beach at 16:00.\",\"reward\":{\"xp\":150}},{\"template_id\":\"log_expenses\",\"params\":{\"n\":4,\"category\":\"food\"},\"title\":\"MÌ QUẢNG LEDGER\",\"desc\":\"Log 4 food expenses today, one per traveller, before My Khe Beach at 16:00.\",\"reward\":{\"xp\":90}},{\"template_id\":\"settle_by\",\"params\":{\"by_time\":\"16:00\"},\"title\":\"EVEN STEVENS\",\"desc\":\"Settle every crew balance by 16:00, then hit My Khe Beach together.\",\"reward\":{\"xp\":180}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 844,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 188,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

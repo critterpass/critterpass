@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "155d4515-576c-452f-a425-d84fe9e6175f",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"log_expenses\",\"params\":{\"n\":3,\"category\":\"food\"},\"title\":\"FOOD TAB TRIO\",\"desc\":\"Log 3 food expenses today, one per meal, crew of 4 on the honour system.\",\"reward\":{\"xp\":60}},{\"template_id\":\"befriend\",\"params\":{\"n\":2,\"set\":\"vn-danang\"},\"title\":\"TWO NEW FRIENDS\",\"desc\":\"Befriend 2 local critters today, gently, and let them go on their way.\",\"reward\":{\"xp\":110}},{\"template_id\":\"settle_by\",\"params\":{\"by_time\":\"21:00\"},\"title\":\"SETTLE BY NINE\",\"desc\":\"Settle every balance by 21:00 so nobody carries a tab into tomorrow.\",\"reward\":{\"xp\":170}},{\"template_id\":\"log_expenses\",\"params\":{\"n\":6},\"title\":\"SIX RECEIPTS DOWN\",\"desc\":\"Log 6 expenses today across the categories, no receipt left behind.\",\"reward\":{\"xp\":100}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 200,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 221,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

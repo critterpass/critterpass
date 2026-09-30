@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a8a38946-aaaf-4e36-8481-81d1045a8241",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-000000001011\",\"by_time\":\"06:30\"},\"title\":\"EARLY BANA CREW\",\"desc\":\"All 4 of us check in at Ba Na Hills by 06:30, before the 07:30 start.\",\"reward\":{\"xp\":90}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000d001\",\"0199a0f2-0000-7000-8000-00000000d0ff\",\"0199a0f2-0000-7000-8000-00000000d004\"],\"n\":3},\"title\":\"THREE-STOP SWEEP\",\"desc\":\"The crew checks in at all 3 plan places today: Ba Na Hills, lunch and Han Market.\",\"reward\":{\"xp\":140}},{\"template_id\":\"copresence\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000d004\",\"by_time\":\"19:30\"},\"title\":\"MARKET MEETUP\",\"desc\":\"All 4 of us check in at Han Market by 19:30 for snacks to share.\",\"reward\":{\"xp\":150}},{\"template_id\":\"log_expenses\",\"params\":{\"category\":\"food\",\"n\":3},\"title\":\"SNACK LEDGER\",\"desc\":\"The crew logs 3 food expenses today, from mì Quảng to market bites.\",\"reward\":{\"xp\":70}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1688,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1152,
+        "output_tokens": 352,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

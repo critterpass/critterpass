@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4ed4fdf6-077f-41df-a9e6-2773fdc15a29",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-000000001013\",\"by_time\":\"04:00\"},\"title\":\"SUNRISE SQUAD\",\"desc\":\"Someone check in at Mount Batur by 04:00, before the sun beats us to it.\",\"reward\":{\"xp\":90}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000b001\",\"0199a0f2-0000-7000-8000-00000000b002\",\"0199a0f2-0000-7000-8000-00000000b004\"],\"n\":3},\"title\":\"THREE STOP TOUR\",\"desc\":\"The crew checks in at all 3 plan places today, from Batur to the rice terraces to lunch.\",\"reward\":{\"xp\":140}},{\"template_id\":\"copresence\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000b004\",\"by_time\":\"13:30\"},\"title\":\"ALL SIX AT THE WARUNG\",\"desc\":\"All 6 of us check in at Warung Babi Guling Ibu Oka by 13:30, no stragglers.\",\"reward\":{\"xp\":170}},{\"template_id\":\"log_expenses\",\"params\":{\"category\":\"food\",\"n\":2},\"title\":\"FOOD FUND\",\"desc\":\"Log 2 food expenses today, so the warung bill does not haunt us later.\",\"reward\":{\"xp\":70}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 238,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2048,
+        "output_tokens": 358,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

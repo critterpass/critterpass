@@ -15,6 +15,7 @@ import { EXPLORE_QUEUE_DESCRIPTIONS, exploreQueueSpecs } from '../explore/queues
 import { PROPOSAL_QUEUE_DESCRIPTIONS, proposalQueueSpecs } from '../proposal/queues';
 import { CRITTER_QUEUE_DESCRIPTIONS, critterQueueSpecs } from '../critters/queues';
 import { MEDIA_QUEUE_DESCRIPTIONS, mediaQueueSpecs } from '../media/queues';
+import { QUEST_QUEUE_DESCRIPTIONS, questQueueSpecs } from '../quests/queues';
 
 export function featureQueueSpecs(defaults: QueueSpec) {
   return {
@@ -30,6 +31,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...proposalQueueSpecs(defaults),
     ...critterQueueSpecs(defaults),
     ...mediaQueueSpecs(defaults),
+    ...questQueueSpecs(defaults),
   } as const;
 }
 
@@ -46,4 +48,5 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...PROPOSAL_QUEUE_DESCRIPTIONS,
   ...CRITTER_QUEUE_DESCRIPTIONS,
   ...MEDIA_QUEUE_DESCRIPTIONS,
+  ...QUEST_QUEUE_DESCRIPTIONS,
 } as const;

@@ -289,3 +289,4 @@ export * from './routes/guide';
 export * from './routes/briefing';
 export * from './routes/explore';
 export * from './routes/proposal';
+export * from './routes/quests';

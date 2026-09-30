@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "543bfc52-8937-4d6a-8197-4730e69b48a3",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-000000001020\",\"by_time\":\"13:00\"},\"title\":\"ICONSIAM SCOUTS\",\"desc\":\"One of us reaches Iconsiam by 13:00 and checks in before the shopping begins.\",\"reward\":{\"xp\":70}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000e003\",\"0199a0f2-0000-7000-8000-00000000e004\"],\"n\":2},\"title\":\"TWO-STOP CREW\",\"desc\":\"All 4 of us check in at Iconsiam and Yaowarat Road today.\",\"reward\":{\"xp\":120}},{\"template_id\":\"copresence\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000e004\",\"by_time\":\"20:30\"},\"title\":\"YAOWARAT TOGETHER\",\"desc\":\"Every one of us checks in at Yaowarat Road by 20:30 for the food hunt.\",\"reward\":{\"xp\":160}},{\"template_id\":\"log_expenses\",\"params\":{\"category\":\"food\",\"n\":3},\"title\":\"STREET EATS LEDGER\",\"desc\":\"Log 3 food expenses from our Yaowarat Road grazing tonight.\",\"reward\":{\"xp\":90}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 187,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1920,
+        "output_tokens": 324,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

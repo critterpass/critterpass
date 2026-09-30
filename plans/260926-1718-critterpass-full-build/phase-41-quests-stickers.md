@@ -86,6 +86,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Template registry + zod schema per built-in template with bounds (not `photos`/`phrase_practice`). 2. `validateQuest(quest, dayContext)`. 3. Level curve + sticker thresholds. 4. Deterministic fallback quests from plan.
 - Tests: `pnpm --filter @cp/domain test -- quests`
 - Done when: invalid params (POI not in plan, target out of bounds) are rejected; fallback always yields ≥ 1 quest for a non-empty day.
+- Status: done — b6221dee4
 
 ### T2 — Schema + permission tests
 - Goal: quest and XP tables.
@@ -93,6 +94,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Tables incl. `crew_xp` table. 2. RLS + grants + publication (`crew_xp` in `crews` stream; no views published). 3. Append-only trigger on `xp_ledger`.
 - Tests: `pnpm --filter @cp/db test -- permissions/quests permissions/quest-signups permissions/quest-progress permissions/xp-ledger`
 - Done when: non-members read nothing; `app_user` cannot update/delete `xp_ledger` or write `crew_xp`; publication check lists no views.
+- Status: done — 8f92459a3
 
 ### T3 — Quest generation job + AI-32 + evals
 - Goal: daily quests from the plan.
@@ -100,6 +102,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Build context via LLM views (no C3). 2. Haiku structured output. 3. Validate + fallback + publish rows + `quest.published` + N-31. 4. Evals: validity rate, tone, no invented POIs.
 - Tests: `pnpm --filter @cp/worker test -- quests/generate`; `pnpm --filter @cp/ai eval -- quests`
 - Done when: eval ≥ 95 % valid quests on the case set; job idempotent per (trip, local date).
+- Status: done — 1083c4448
 
 ### T4 — Evaluation, rewards, stickers
 - Goal: progress and grants.
@@ -107,6 +110,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Event → registered-template matcher → progress upsert (dedupe). 2. Completion → `grant_quest_reward` → XP rows + `crew_xp` update + `reward{reveal_at}`. 3. XP from befriend/visit/settle (`settle-xp` on P33 `reward.granted{kind: settled}`; backfill XP for trips settled before this phase). 4. Level-up → `stickers(kind=crew_level)`.
 - Tests: `pnpm --filter @cp/worker test -- quests`; `pnpm --filter @cp/api test -- quests`
 - Done when: duplicate events never double-count; one level-up yields exactly one sticker per crew; settle fixture writes settle XP once and creates no second `settled` sticker (P33's grant stays the only one); tests use only events that exist by wave 16.
+- Status: done — 050492b87
 
 ### T5 — Crew quests screen + hub tile
 - Goal: 3l-7 UI.

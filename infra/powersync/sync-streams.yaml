@@ -69,6 +69,7 @@ streams:
       - SELECT * FROM taste_profiles WHERE user_id = auth.user_id()
       - SELECT * FROM avatars WHERE user_id = auth.user_id()
       - SELECT * FROM poll_reveals WHERE user_id = auth.user_id()
+      - SELECT * FROM xp_ledger WHERE user_id = auth.user_id()
       - SELECT * FROM room_prefs WHERE user_id = auth.user_id()
       - SELECT * FROM alarms WHERE user_id = auth.user_id()
   trip:
@@ -285,6 +286,18 @@ streams:
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
       - |-
+        SELECT * FROM quests
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM quest_signups
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM quest_progress
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
         SELECT * FROM price_quotes
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
@@ -449,6 +462,8 @@ streams:
       - SELECT * FROM ledger_entries WHERE crew_id IN my_crews
       - SELECT * FROM payments WHERE crew_id IN my_crews
       - SELECT * FROM stickers WHERE user_id IS NULL AND crew_id IN my_crews
+      - SELECT * FROM xp_ledger WHERE user_id IS NULL AND crew_id IN my_crews
+      - SELECT * FROM crew_xp WHERE crew_id IN my_crews
   crew_chat:
     auto_subscribe: true
     with:

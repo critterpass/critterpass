@@ -21,7 +21,8 @@
     "guide": 1,
     "briefing": 1,
     "place-qna": 1,
-    "proposal": 1
+    "proposal": 1,
+    "quests": 1
   },
   "live": {
     "chat": 0.9,
@@ -45,7 +46,8 @@
     "guide": 0.9,
     "briefing": 0.95,
     "place-qna": 0.9,
-    "proposal": 0.9
+    "proposal": 0.9,
+    "quests": 0.95
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

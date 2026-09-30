@@ -53,6 +53,7 @@ export const SYNCED_TABLE_COLUMNS = {
   crew_inbound_addresses: 'crew_id local_part status rotated_at created_at',
   crew_members:
     'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_seq:integer notify_level created_at updated_at',
+  crew_xp: 'crew_id xp:integer level:integer updated_at',
   crew_year_grants:
     'crew_id buyer_id subscription_id original_transaction_id intent_id split_expense_id valid_from valid_to rebound_for_period_end revoked_at created_at updated_at',
   crews:
@@ -184,6 +185,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id version_id created_by format show_cost:integer personal:integer options reply_by stay_free_cancel_until status sent_at reminded_at locked_at created_at updated_at',
   providers:
     'trip_id kind name contact_enc vehicle policies added_by deleted_at version:integer created_at updated_at',
+  quest_progress: 'quest_id trip_id value:integer counted source_event_ids updated_at',
+  quest_signups: 'quest_id trip_id user_id created_at',
+  quests:
+    'trip_id local_date slot:integer template params metric target:integer reward title body scope status source starts_at ends_at completed_at reveal_at created_at updated_at',
   queued_guide_questions:
     'user_id thread_id trip_id text tz queued_for queued_at answer_after status answer_message_id answered_at updated_at',
   readiness:
@@ -224,7 +229,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'key form_id kind set_id destination_id poi_ids geofences n:integer dwell_s:integer hold_ms:integer window_id solar min_members:integer foreground_only:integer copy release_id created_at updated_at',
   stamps:
     'pass_id user_id kind seq_no:integer destination_id trip_id dates iata country ink_colour status stamped_at created_at updated_at',
-  stickers: 'user_id crew_id trip_id kind granted_at created_at',
+  stickers: 'user_id crew_id trip_id kind level:integer granted_at created_at',
   subscriptions:
     'user_id platform rc_customer_id original_transaction_id product_key status auto_renew:integer period_start period_end grace_ends_at paused_from resume_at storefront environment last_event_at created_at updated_at',
   supplier_order_items:
@@ -262,4 +267,5 @@ export const SYNCED_TABLE_COLUMNS = {
     'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at created_at updated_at',
   weather_snapshots:
     'destination_id point_key lat:real lng:real elevation_m:integer date hourly marine marine_fetched_at source fetched_at checked_at created_at updated_at',
+  xp_ledger: 'user_id crew_id trip_id amount:integer source_kind source_id granted_at created_at',
 } as const;

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "11a662f2-8a42-4a3f-8502-093653d5e392",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-00000000101b\",\"by_time\":\"06:30\"},\"title\":\"BAMBOO BEFORE CROWDS\",\"desc\":\"All 3 of you reach Arashiyama Bamboo Grove by 06:30, before the grove fills up.\",\"reward\":{\"xp\":90}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000c003\",\"0199a0f2-0000-7000-8000-00000000c002\"],\"n\":2},\"title\":\"GROVE TO MARKET\",\"desc\":\"The crew checks in at both Arashiyama Bamboo Grove and Nishiki Market today.\",\"reward\":{\"xp\":120}},{\"template_id\":\"copresence\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000c002\",\"by_time\":\"13:30\"},\"title\":\"MARKET MEETUP\",\"desc\":\"All 3 of you check in at Nishiki Market by 13:30, together, no stragglers.\",\"reward\":{\"xp\":150}},{\"template_id\":\"log_expenses\",\"params\":{\"category\":\"food\",\"n\":3},\"title\":\"THREE BITES LOGGED\",\"desc\":\"Log 3 food expenses today, one for each of you, before the day ends.\",\"reward\":{\"xp\":60}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 190,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2048,
+        "output_tokens": 334,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

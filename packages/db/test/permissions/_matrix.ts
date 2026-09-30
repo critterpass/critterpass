@@ -1634,6 +1634,33 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: ownRowProbe('crew_collection_counts'),
     expectations: CREW_VISIBLE_READ,
   },
+  // Quests: the trip reads its quests, sign-ups and progress (a traveller signs themselves up);
+  // a member reads their own XP rows, the crew its crew rows and total; the server writes the rest.
+  quests: {
+    selectProbe: { sql: 'SELECT 1 FROM quests WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  quest_signups: {
+    selectProbe: ownRowProbe('quest_signups'),
+    expectations: {
+      ...CREW_VISIBLE_READ,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, false),
+    },
+  },
+  quest_progress: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM quest_progress WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  xp_ledger: { selectProbe: ownRowProbe('xp_ledger'), expectations: OWNER_READ },
+  crew_xp: {
+    selectProbe: { sql: 'SELECT 1 FROM crew_xp WHERE crew_id = $1', params: (f) => [f.crewId] },
+    expectations: CREW_VISIBLE_READ,
+  },
   offline_bundles: {
     selectProbe: {
       sql: 'SELECT 1 FROM offline_bundles WHERE trip_id = $1',
