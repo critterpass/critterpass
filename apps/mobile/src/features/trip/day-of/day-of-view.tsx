@@ -3,6 +3,7 @@
  * up, the in-app I'M UP, the pack chips and the day's timeline. A day with no early start shows
  * the day's first item instead of a leave-by. The lab scenes render it with fixed data.
  */
+import type { MediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
@@ -13,7 +14,9 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Card } from '@/ui/cards/Card';
+import { cardBackground } from '@/ui/cards/tone';
 import { Row } from '@/ui/layout/Row';
+import { MediaLayer } from '@/ui/media/MediaLayer';
 import { Stack } from '@/ui/layout/Stack';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { OfflinePill } from '@/ui/states/OfflinePill';
@@ -55,6 +58,9 @@ export interface DayOfViewProps {
   readonly onRemovePack: (id: string) => void;
   /** Overlays the ringing in-app alarm. */
   readonly overlay?: ReactNode;
+  /** A photo of the destination under the quiet hero; null keeps the flat pink. */
+  readonly heroMedia?: MediaAsset | null;
+  readonly mediaLowData?: boolean;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -73,9 +79,25 @@ function Hero(props: DayOfViewProps) {
   const locale = useLocale();
   const { t } = useLingui();
   const view = props.leaveBy;
+  const backdrop = (
+    <MediaLayer
+      media={props.heroMedia}
+      surface="accent"
+      accent={cardBackground(theme, 'pink')}
+      lowData={props.mediaLowData ?? false}
+      creditAt="top"
+      testID="trip-day-hero-media"
+    />
+  );
   if (view === null) {
     return (
-      <Card tone="pink" halftone style={styles.quiet} testID="trip-day-hero-quiet">
+      <Card
+        tone="pink"
+        halftone
+        style={styles.quiet}
+        testID="trip-day-hero-quiet"
+        backdrop={backdrop}
+      >
         <Stack gap="10">
           <Row justify="space-between">
             <Text variant="eyebrow">{upper(props.eyebrow, locale)}</Text>
@@ -109,6 +131,7 @@ function Hero(props: DayOfViewProps) {
   return (
     <LeaveByHero
       testID={`trip-day-hero-${view.phase}`}
+      backdrop={backdrop}
       eyebrow={upper(props.eyebrow, locale)}
       {...(props.forecast === null ? {} : { trailing: upper(props.forecast, locale) })}
       label={upper(copy.label, locale)}

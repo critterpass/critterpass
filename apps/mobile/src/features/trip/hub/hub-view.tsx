@@ -3,6 +3,7 @@
  * the guide's briefing, the tiles and the activity ticker. The lab scenes render it with fixed
  * data; the screen feeds it synced rows.
  */
+import type { MediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
@@ -47,6 +48,9 @@ export interface HubViewProps {
   readonly going: number;
   readonly destination: string;
   readonly colour: string;
+  /** The destination photo under the header; null keeps the plain dark header. */
+  readonly heroMedia?: MediaAsset | null;
+  readonly mediaLowData?: boolean;
   readonly guide: GuideId;
   readonly guideName: string;
   readonly guestGuide: boolean;
@@ -157,6 +161,8 @@ export function HubView(props: HubViewProps) {
               going={props.going}
               destination={props.destination}
               colour={props.colour}
+              media={props.heroMedia ?? null}
+              mediaLowData={props.mediaLowData ?? false}
               planning={props.planning}
               below={props.next === null ? null : <NextCard next={props.next} />}
             />

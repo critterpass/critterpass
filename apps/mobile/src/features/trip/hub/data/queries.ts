@@ -7,7 +7,7 @@
 
 export const TRIP_SQL = `SELECT t.id, t.crew_id, t.status, t.start_date, t.end_date,
     coalesce(t.tz, d.tz) AS tz, t.current_version_id, t.destination_id, t.local_currency,
-    t.is_guest_guide, d.name AS destination_name, g.slug AS guide_slug, g.name AS guide_name,
+    t.is_guest_guide, d.name AS destination_name, d.slug AS destination_slug, g.slug AS guide_slug, g.name AS guide_name,
     p.countdown_target_at, p.landed_at, p.role
   FROM trips t
   LEFT JOIN destinations d ON d.id = t.destination_id
@@ -28,6 +28,7 @@ export interface TripRow {
   readonly local_currency: string | null;
   readonly is_guest_guide: number | null;
   readonly destination_name: string | null;
+  readonly destination_slug: string | null;
   readonly guide_slug: string | null;
   readonly guide_name: string | null;
   readonly countdown_target_at: string | null;
