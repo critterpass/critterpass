@@ -81,7 +81,7 @@ appId: app.critterpass.dev
           visible:
             id: 'trip-hub'
           timeout: 15000
-      - evalScript: ${http.post('http://127.0.0.1:7788/network?state=off').status}
+      - evalScript: "${http.post('http://127.0.0.1:7788/network?state=off', { body: '' }).status}"
       - extendedWaitUntil:
           visible:
             id: 'trip-offline-card'
@@ -90,7 +90,7 @@ appId: app.critterpass.dev
           id: 'trip-offline-still-works'
       - assertNotVisible:
           id: 'trip-offline-sends'
-      - evalScript: ${http.post('http://127.0.0.1:7788/network?state=on').status}
+      - evalScript: "${http.post('http://127.0.0.1:7788/network?state=on', { body: '' }).status}"
       - extendedWaitUntil:
           notVisible:
             id: 'trip-offline-card'
