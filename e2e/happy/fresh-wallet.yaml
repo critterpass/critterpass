@@ -169,13 +169,8 @@ appId: app.critterpass.dev
       id: 'bookings-wallet-.*'
     timeout: 15000
 # Add a booking: the forward address is on the staging mail domain, and COPY copies it.
-- scrollUntilVisible:
-    element:
-      id: 'bookings-add'
-    direction: DOWN
-    timeout: 15000
-- tapOn:
-    id: 'bookings-add'
+# An empty wallet shows the ways in as tiles; Add a booking opens by its link.
+- openLink: critterpass-dev://wallet/bookings/add
 - extendedWaitUntil:
     visible:
       id: 'bookings-address'
