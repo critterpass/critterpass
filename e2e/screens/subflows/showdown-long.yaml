@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# From the gallery index: switches the running app to ${LOCALE} (not persisted), opens the long-name
+# showdown and takes `${LOCALE}-3c-1-showdown-long`.
+- scrollUntilVisible:
+    element:
+      id: 'gallery-locale-${LOCALE}'
+    direction: UP
+    timeout: 20000
+- tapOn:
+    id: 'gallery-locale-${LOCALE}'
+- scrollUntilVisible:
+    element:
+      id: 'gallery-showdown-long'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'gallery-showdown-long'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown-long'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${LOCALE}-3c-1-showdown-long

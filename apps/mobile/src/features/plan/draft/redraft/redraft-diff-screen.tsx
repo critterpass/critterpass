@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { impact, toast } from '@/motion';
 
@@ -16,7 +17,6 @@ import { redraftBoost } from '../boost-slot';
 import { keepRedraftCommand, revertRedraftCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
 import { changeCards, excludedIds, metricChips, redraftPhase } from '../data/redraft';
-import { useDraftStreams } from '../data/streams';
 import { useRedraft } from '../data/use-redraft';
 import { draftRoutes } from '../routes';
 import { RedraftDiffView } from './redraft-diff-view';
@@ -31,7 +31,7 @@ export interface RedraftDiffScreenProps {
 }
 
 export function RedraftDiffScreen({ tripId, redraftId, day }: RedraftDiffScreenProps) {
-  useDraftStreams(tripId);
+  useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
   const redraft = useRedraft(tripId, redraftId);
   const locale = useLocale();

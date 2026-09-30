@@ -31,7 +31,8 @@ export interface TileGridProps {
 
 const useStyles = makeStyles((t) => ({
   cell: { flex: 1, minWidth: 0 },
-  tile: { minHeight: sizeToken(t.size.primaryCta, 'height') * 2 },
+  // Every tile in a row is as tall as the tallest (a caption that wraps grows the whole row).
+  tile: { flex: 1, minHeight: sizeToken(t.size.primaryCta, 'height') * 2 },
   filler: { flex: 1 },
 }));
 
@@ -47,7 +48,7 @@ export function TileGrid({ tiles, columns = 2 }: TileGridProps) {
   return (
     <Stack gap="12">
       {chunk(tiles, columns).map((row) => (
-        <Row key={row.map((tile) => tile.key).join('|')} gap="12">
+        <Row key={row.map((tile) => tile.key).join('|')} gap="12" align="stretch">
           {row.map((tile) => {
             const label = [tile.value, tile.title, tile.caption].filter(Boolean).join(', ');
             return (

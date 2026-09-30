@@ -36,6 +36,7 @@ import type { PollOptionView, PollView } from '../data/poll-view';
 import { deadlineParts, guideOr, upper } from '../format';
 import { voteRoutes } from '../routes';
 import { ShowdownHalf } from './showdown-half';
+import { useShowdownNames } from './showdown-name-fit';
 import { useFinalLines } from './tie-line';
 
 /** How far the VS disc punches toward the chosen half. */
@@ -89,6 +90,16 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   const footerBottom = insets.bottom + theme.space['8'];
   const topInset = headerTop + headerHeight + theme.space['12'];
   const bottomInset = footerBottom + footerHeight + theme.space['16'];
+  // Each half reports its content's height and its name's size; when the two don't fit the screen,
+  // both names are set smaller at one shared size.
+  const names = useShowdownNames(
+    [
+      ...poll.options.map((o) =>
+        o.refId === null ? o.label : (places.get(o.refId)?.name ?? o.label),
+      ),
+      i18n.locale,
+    ].join('|'),
+  );
   useEffect(() => {
     if (poll.status === 'closed') router.replace(voteRoutes.reveal(poll.id));
   }, [poll.status, poll.id]);
@@ -147,13 +158,15 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           )}
         </Row>
       </View>
-      {/* The halves fill the screen; content too tall for it (long names, wrapped chips, larger
-          text) scrolls instead of sliding under the header or the tally card. */}
+      {/* The halves fill the screen, and a half too tall for its share sets its name smaller first;
+          what still does not fit (larger text) scrolls instead of sliding under the header or the
+          tally card. */}
       <ScrollView
         style={styles.body}
         contentContainerStyle={styles.bodyContent}
         bounces={false}
         showsVerticalScrollIndicator={false}
+        onLayout={(event) => names.onViewport(event.nativeEvent.layout.height)}
         testID="showdown-body"
       >
         <ShowdownHalf
@@ -165,6 +178,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           onVote={poll.canVote ? () => void vote(first, -1)() : undefined}
           squashKey={first.mine ? 1 : 0}
           edgeInset={topInset}
+          {...names.first}
         />
         <View style={styles.vsWrap} importantForAccessibility="no-hide-descendants">
           <Animated.View style={punchStyle}>
@@ -184,6 +198,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           onVote={poll.canVote ? () => void vote(second, 1)() : undefined}
           squashKey={second.mine ? 1 : 0}
           edgeInset={bottomInset}
+          {...names.second}
         />
       </ScrollView>
       <View

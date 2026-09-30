@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { ScrollView, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+import { WalletSwitch } from '@/features/bookings';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
@@ -131,6 +132,7 @@ export function BalancesView(props: BalancesViewProps) {
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: inset + theme.space['32'] }]}
       >
+        <WalletSwitch current="money" />
         <Row justify="space-between" align="center">
           <Text variant="eyebrow" numberOfLines={1} style={{ flexShrink: 1 }}>
             {upper(t({ id: 'money.header.spent', message: `Money · ${spent} spent` }), locale)}

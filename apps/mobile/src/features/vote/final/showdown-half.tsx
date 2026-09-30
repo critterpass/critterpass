@@ -28,6 +28,7 @@ import type { usePitchSections } from '../data/use-final';
 import { stackOf, type Person } from '../data/use-people';
 import type { PollOptionView } from '../data/poll-view';
 import { flightHours, guideOr, money, monthShort, upper } from '../format';
+import { NAME_FLOOR, useNameMeasure, type NameMeasure } from './showdown-name-fit';
 
 /** Widest a half's pitch card grows; the faded critter sits in the rest of its row. */
 const COLUMN = '62%';
@@ -174,6 +175,10 @@ export function ShowdownHalf({
   onVote,
   squashKey,
   edgeInset,
+  nameCap,
+  nameHidden,
+  onNaturalHeight,
+  onNameMeasure,
 }: {
   readonly option: PollOptionView;
   readonly place: BoardPlace | undefined;
@@ -184,6 +189,14 @@ export function ShowdownHalf({
   readonly squashKey: number;
   /** Room kept at the half's outer edge: the screen header above the top half, the tally card below the bottom one. */
   readonly edgeInset: number;
+  /** The box the city name is set in (both halves at one shared size), or null at its designed size. */
+  readonly nameCap: number | null;
+  /** The name is hidden while the screen searches for the size both names fit at. */
+  readonly nameHidden: boolean;
+  /** Reports the height the half's content needs, before it grows to share the screen. */
+  readonly onNaturalHeight: (height: number) => void;
+  /** Reports the name's designed and current size. */
+  readonly onNameMeasure: (measure: NameMeasure) => void;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -194,6 +207,15 @@ export function ShowdownHalf({
   const ink = theme.semantic.text.onAccent;
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
+  const nameFit = useNameMeasure(name, i18n.locale, nameCap);
+  const { designHeight, designWidth, designLine, height, split } = nameFit.measure;
+  useEffect(
+    () => onNameMeasure({ designHeight, designWidth, designLine, height, split }),
+    [designHeight, designWidth, designLine, height, split, onNameMeasure],
+  );
+  const endPadding = alignEnd
+    ? edgeInset
+    : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
   return (
     <Pressable
       accessibilityRole="button"
@@ -224,7 +246,24 @@ export function ShowdownHalf({
           squash,
         ]}
       >
-        <Text variant="displayMega" color={ink} autoFit>
+        <Text
+          variant="displayMega"
+          color={ink}
+          autoFit
+          {...(nameCap === null
+            ? {}
+            : {
+                autoFitMinSize: NAME_FLOOR,
+                style: {
+                  width: nameCap,
+                  textAlign: alignEnd ? 'right' : 'left',
+                  opacity: nameHidden ? 0 : 1,
+                },
+              })}
+          testID={`showdown-name-${alignEnd ? 1 : 0}`}
+          onLayout={nameFit.onLayout}
+          onTextLayout={nameFit.onTextLayout}
+        >
           {upper(name, i18n.locale)}
         </Text>
         <View style={[styles.pitchRow, { flexDirection: alignEnd ? 'row-reverse' : 'row' }]}>
@@ -247,7 +286,15 @@ export function ShowdownHalf({
           </View>
         </View>
         <Facts option={option} sectionsOf={sectionsOf} alignEnd={alignEnd} />
-        <Row gap="8" align="center">
+        <Row
+          gap="8"
+          align="center"
+          testID={`showdown-votes-${alignEnd ? 1 : 0}`}
+          onLayout={(event) => {
+            const { y, height } = event.nativeEvent.layout;
+            onNaturalHeight(y + height + endPadding);
+          }}
+        >
           {option.voterIds.length > 0 ? (
             <AvatarStack members={stackOf(people, option.voterIds)} size="md" max={MAX_AVATARS} />
           ) : null}

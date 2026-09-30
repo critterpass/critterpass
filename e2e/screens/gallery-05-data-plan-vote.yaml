@@ -31,3 +31,15 @@ appId: app.critterpass.dev
     env:
       COMPONENT: 'VoteBoard'
 - takeScreenshot: 20-vote-board
+# The showdown (3c-1) with long names (CHEFCHAOUEN against THÀNH PHỐ HỒ CHÍ MINH), in English then
+# Vietnamese: each half sets its name smaller before anything scrolls under the tally card.
+- runFlow: subflows/open-gallery.yaml
+- runFlow:
+    file: subflows/showdown-long.yaml
+    env:
+      LOCALE: en
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    file: subflows/showdown-long.yaml
+    env:
+      LOCALE: vi

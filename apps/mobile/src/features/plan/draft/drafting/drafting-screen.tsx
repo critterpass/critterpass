@@ -9,13 +9,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { impact } from '@/motion';
 
 import { cancelDraftCommand, startDraftCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
 import { draftPhase, emptySnapshot, isLive, type StartState } from '../data/job';
 import { useDraftServices } from '../data/services';
-import { useDraftStreams } from '../data/streams';
 import { tripDays } from '../data/trip-days';
 import { useDraftJob } from '../data/use-draft-job';
 import { draftRoutes } from '../routes';
@@ -37,7 +37,7 @@ function startFailure(detail: unknown): { reason: string | null; jobId: string |
 }
 
 export function DraftingScreen({ tripId }: { readonly tripId: string }) {
-  useDraftStreams(tripId);
+  useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
   const { network } = useLocalFirst();
   const { now } = useDraftServices();

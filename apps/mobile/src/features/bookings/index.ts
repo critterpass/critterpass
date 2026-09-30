@@ -1,5 +1,5 @@
 /**
- * The wallet's public surface for other features: its routes, the mailbox Settings row (3n-2),
+ * The wallet's public surface for other features: its routes, the BOOKINGS | MONEY switch, the mailbox Settings row (3n-2),
  * the paywall entry and sign-in return for the mailbox, and the member's own insurance
  * policy for the Help hub line ("Insurance: Chubb Travel · the policy card is in Bookings").
  */
@@ -9,3 +9,4 @@ export { registerMailboxPaywall, type MailboxPaywall } from './mailbox/mailbox-s
 export { useMailboxSettingsRow, type MailboxSettingsRow } from './mailbox/use-mailbox-row';
 export { MailboxConnectedScreen } from './mailbox/MailboxConnectedScreen';
 export { parseMailboxReturn } from './mailbox/oauth';
+export { WalletSwitch } from './stack/WalletSwitch';

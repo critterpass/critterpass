@@ -6,6 +6,7 @@ import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { useBackAffordance } from '../qa/back-affordance';
 import { SurfaceToneProvider } from '../surface/Scaffold';
 import { makeStyles } from '../theme';
 import { Text } from '../text/Text';
@@ -110,6 +111,8 @@ export function Sheet({
   accessibilityLabel,
   testID = 'sheet',
 }: SheetProps) {
+  // Every sheet goes back by a drag down, a scrim tap or Android back, with or without its ✕.
+  useBackAffordance();
   const styles = useStyles();
   const insets = useSafeAreaInsets();
   const { height: screenHeight } = useWindowDimensions();

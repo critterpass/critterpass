@@ -55,6 +55,14 @@ import {
   until,
 } from '../../test-support/vote-harness';
 import { FinalSplitCard } from '../final-split-card';
+import {
+  DESIGN_SEARCH,
+  guessNameLine,
+  nextNameSearch,
+  scalesAt,
+  splitsWord,
+  type HalfMeasure,
+} from '../showdown-name-fit';
 import { ShowdownView } from '../showdown-screen';
 import { WinnerRevealScreen, WinnerRevealView } from '../winner-reveal';
 
@@ -225,6 +233,92 @@ describe('destination final', () => {
     expect(padding('showdown-half-0').paddingTop).toBeGreaterThan(40);
     await fireEvent(screen.getByTestId('showdown-footer'), 'layout', layout(260));
     expect(padding('showdown-half-1').paddingBottom).toBeGreaterThan(260);
+  });
+
+  it('sets both names smaller at one size only when the halves overflow the screen', async () => {
+    const s = await open();
+    await seedFinal(s, [{ userId: MAYA, optionId: OPT_KYOTO }]);
+    await renderVote(<Final me={s.uid} view="showdown" />, s);
+    await until(() => screen.queryByText('LISBON') !== null);
+    const layout = (y: number, width: number, height: number) => ({
+      nativeEvent: { layout: { x: 0, y, width, height } },
+    });
+    const lines = (width: number, height: number) => ({
+      nativeEvent: { lines: [{ width, height, text: 'KYOTO' }] },
+    });
+    const nameWidth = (index: number) =>
+      StyleSheet.flatten(
+        screen.getByTestId(`showdown-name-${index}`).props.style as StyleProp<ViewStyle>,
+      )?.width;
+    await fireEvent(screen.getByTestId('showdown-body'), 'layout', layout(0, 360, 700));
+    await fireEvent(screen.getByTestId('showdown-name-0'), 'textLayout', lines(300, 150));
+    await fireEvent(screen.getByTestId('showdown-name-0'), 'layout', layout(0, 300, 150));
+    await fireEvent(screen.getByTestId('showdown-name-1'), 'textLayout', lines(280, 120));
+    await fireEvent(screen.getByTestId('showdown-name-1'), 'layout', layout(0, 280, 120));
+    // Both halves fit the screen: both names keep their designed size.
+    await fireEvent(screen.getByTestId('showdown-votes-0'), 'layout', layout(250, 300, 30));
+    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(250, 300, 30));
+    expect(nameWidth(0)).toBeUndefined();
+    expect(nameWidth(1)).toBeUndefined();
+    // The lower half's chips wrap taller: both names are set in narrower boxes.
+    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(420, 300, 30));
+    await until(() => nameWidth(0) !== undefined && nameWidth(1) !== undefined);
+    expect(nameWidth(0)).toBeLessThan(300);
+    expect(nameWidth(1)).toBeLessThan(280);
+  });
+
+  it('keeps the designed size when the halves fit, and shrinks both names equally when not', () => {
+    const half = (designLine: number, natural: number) => ({
+      name: {
+        designHeight: designLine,
+        designWidth: 300,
+        designLine,
+        height: designLine,
+        split: false,
+      },
+      natural,
+    });
+    // The layout as the device would measure it at a shared line height.
+    const totalAt = (halves: readonly [HalfMeasure, HalfMeasure], line: number | null) => {
+      const scales = scalesAt(halves, line);
+      return halves.reduce(
+        (sum, h, i) => sum + h.natural - h.name.height + h.name.designHeight * (scales[i] ?? 1),
+        0,
+      );
+    };
+    // A name set below `breakAt` line height splits a word.
+    const run = (halves: readonly [HalfMeasure, HalfMeasure], viewport: number, breakAt = 0) => {
+      let search = DESIGN_SEARCH;
+      for (let step = 0; step < 20 && !search.done; step += 1) {
+        const fits = totalAt(halves, search.line) <= viewport;
+        const broke = search.line !== null && search.line < breakAt;
+        search = nextNameSearch(search, fits, broke, guessNameLine(halves, viewport) ?? 150, 150);
+      }
+      return search;
+    };
+    // English: a big KYOTO and a smaller LISBON, 690 of 700 points in all. Nothing changes.
+    const en = [half(150, 380), half(120, 310)] as const;
+    expect(guessNameLine(en, 700)).toBeNull();
+    expect(run(en, 700)).toMatchObject({ line: null, done: true });
+    // Vietnamese chips wrap taller: 820 of 700. Both names end at one line height, the largest
+    // that fits.
+    const vi = [half(150, 430), half(120, 390)] as const;
+    const found = run(vi, 700);
+    expect(found.done).toBe(true);
+    const [a, b] = scalesAt(vi, found.line);
+    expect(150 * a).toBeCloseTo(120 * b, 3);
+    expect(totalAt(vi, found.line)).toBeLessThanOrEqual(700);
+    expect(totalAt(vi, (found.line ?? 0) + 3)).toBeGreaterThan(700);
+    // Nothing fits unless a word breaks: the names stop at the smallest size that keeps them
+    // whole, and the rest scrolls.
+    const crowded = [half(150, 900), half(120, 900)] as const;
+    const whole = run(crowded, 700, 60);
+    expect(whole.done).toBe(true);
+    expect(whole.line).toBeGreaterThanOrEqual(60);
+    expect(whole.line).toBeLessThanOrEqual(65);
+    // A split word is told apart from a many-word name wrapping at its spaces.
+    expect(splitsWord('Chefchaouen', 'en', ['CHEFCHA', 'OUEN'])).toBe(true);
+    expect(splitsWord('Thành phố Hồ Chí Minh', 'vi', ['THÀNH PHỐ', 'HỒ CHÍ MINH'])).toBe(false);
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {
