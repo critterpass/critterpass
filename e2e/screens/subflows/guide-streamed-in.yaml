@@ -17,7 +17,7 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'dev-tools-entry'
-- runFlow: ../../guide/subflows/open-lab.yaml
+- runFlow: guide-lab-in.yaml
 - scrollUntilVisible:
     element:
       id: 'guide-lab-chat-streamed-tool'
@@ -50,7 +50,7 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'dev-tools-entry'
-      - runFlow: ../../guide/subflows/open-lab.yaml
+      - runFlow: guide-lab-in.yaml
 - scrollUntilVisible:
     element:
       id: 'guide-lab-chat-streamed-list'
