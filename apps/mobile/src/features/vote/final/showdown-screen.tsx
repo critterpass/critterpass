@@ -36,6 +36,7 @@ import type { PollOptionView, PollView } from '../data/poll-view';
 import { deadlineParts, guideOr, upper } from '../format';
 import { voteRoutes } from '../routes';
 import { ShowdownHalf } from './showdown-half';
+import { sharedNameSize } from './showdown-name-fit';
 import { useFinalLines } from './tie-line';
 
 /** How far the VS disc punches toward the chosen half. */
@@ -102,6 +103,10 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   const [viewport, setViewport] = useState(0);
   const [firstHeight, setFirstHeight] = useState(0);
   const [secondHeight, setSecondHeight] = useState(0);
+  // Both names set at one size: the smaller of what each half needs.
+  const [firstName, setFirstName] = useState<number | null>(null);
+  const [secondName, setSecondName] = useState<number | null>(null);
+  const nameSize = sharedNameSize([firstName, secondName]);
   useEffect(() => {
     if (poll.status === 'closed') router.replace(voteRoutes.reveal(poll.id));
   }, [poll.status, poll.id]);
@@ -182,6 +187,8 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           edgeInset={topInset}
           excess={halfExcess(firstHeight, secondHeight, viewport)}
           onNaturalHeight={setFirstHeight}
+          sharedNameSize={nameSize}
+          onNameSize={setFirstName}
         />
         <View style={styles.vsWrap} importantForAccessibility="no-hide-descendants">
           <Animated.View style={punchStyle}>
@@ -203,6 +210,8 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           edgeInset={bottomInset}
           excess={halfExcess(secondHeight, firstHeight, viewport)}
           onNaturalHeight={setSecondHeight}
+          sharedNameSize={nameSize}
+          onNameSize={setSecondName}
         />
       </ScrollView>
       <View

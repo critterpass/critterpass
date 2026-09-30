@@ -55,7 +55,7 @@ import {
   until,
 } from '../../test-support/vote-harness';
 import { FinalSplitCard } from '../final-split-card';
-import { nameCap } from '../showdown-name-fit';
+import { nameCap, sharedNameCap, sharedNameSize } from '../showdown-name-fit';
 import { ShowdownView } from '../showdown-screen';
 import { WinnerRevealScreen, WinnerRevealView } from '../winner-reveal';
 
@@ -262,9 +262,26 @@ describe('destination final', () => {
     expect(nameWidth(1)).toBe(capped);
   });
 
+  it('sets both finalists at the smaller of the two sizes, keeping long words whole', () => {
+    // KYOTO fits as designed (line 150); LISBON's half needs it at line 100.
+    const kyoto = { key: 'k', need: null, height: 150, width: 330, line: 150 };
+    const lisbon = { key: 'l', need: 200, height: 150, width: 300, line: 150 };
+    expect(sharedNameSize([150, (150 * 200) / 300])).toBeCloseTo(100);
+    // Until both halves are measured, each keeps its own size.
+    expect(sharedNameSize([150, null])).toBeNull();
+    expect(sharedNameCap(kyoto, null, 5)).toBeNull();
+    // KYOTO gives up the same share LISBON needs.
+    expect(sharedNameCap(kyoto, 100, 5)).toBeCloseTo(220);
+    expect(sharedNameCap(lisbon, 100, 6)).toBeCloseTo(200);
+    // At the shared size a half that already fits there keeps its designed box.
+    expect(sharedNameCap({ ...kyoto, line: 100 }, 100, 5)).toBeNull();
+    // A long word never goes narrower than it needs whole at the floor.
+    expect(sharedNameCap(kyoto, 20, 11)).toBeCloseTo(11 * 44 * 0.55);
+  });
+
   it('scales a name from its designed size, never below the floor share', () => {
     // One line set at 150 pt (120 tall), 300 wide.
-    const fit = { key: 'k', cap: null, height: 120, width: 300 };
+    const fit = { height: 120, width: 300 };
     expect(nameCap(fit, 120, 0, 5)).toBeNull();
     expect(nameCap(fit, 120, 30, 5)).toBeCloseTo(225);
     // Already shed 30 of the 30 needed: the same box, not a narrower one.

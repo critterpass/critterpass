@@ -177,6 +177,8 @@ export function ShowdownHalf({
   edgeInset,
   excess,
   onNaturalHeight,
+  sharedNameSize,
+  onNameSize,
 }: {
   readonly option: PollOptionView;
   readonly place: BoardPlace | undefined;
@@ -191,6 +193,10 @@ export function ShowdownHalf({
   readonly excess: number;
   /** Reports the height the half's content needs, before it grows to share the screen. */
   readonly onNaturalHeight: (height: number) => void;
+  /** The line height both names are set at (the smaller half's), or null until both are measured. */
+  readonly sharedNameSize: number | null;
+  /** Reports the line height this half's name would set at on its own. */
+  readonly onNameSize: (size: number | null) => void;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -201,7 +207,9 @@ export function ShowdownHalf({
   const ink = theme.semantic.text.onAccent;
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
-  const nameFit = useNameFit(name, i18n.locale, excess);
+  const nameFit = useNameFit(name, i18n.locale, excess, sharedNameSize);
+  const nameTarget = nameFit.target;
+  useEffect(() => onNameSize(nameTarget), [nameTarget, onNameSize]);
   const endPadding = alignEnd
     ? edgeInset
     : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
