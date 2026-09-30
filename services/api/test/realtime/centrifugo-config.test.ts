@@ -1,5 +1,5 @@
 /**
- * infra/centrifugo/config.json must declare exactly the namespaces the api registers, with the
+ * infra/centrifugo/config.json must declare every namespace the api registers, with the
  * catalogue's history, presence and proxy settings: a namespace missing there is denied by
  * Centrifugo before the subscribe proxy is ever called.
  */
@@ -56,12 +56,12 @@ describe('infra/centrifugo/config.json', () => {
     expect(config.admin?.enabled ?? false).toBe(false);
   });
 
-  it('declares exactly the registered namespaces', () => {
-    expect(config.channel.namespaces.map((ns) => ns.name).sort()).toEqual(
-      listNamespaces()
-        .map((ns) => ns.name)
-        .sort(),
-    );
+  it('declares every registered namespace', () => {
+    // Centrifugo also declares domain namespaces whose subscribe ACL is not registered yet, so the
+    // worker can publish to them; their subscriptions stay denied (tools/scripts/centrifugo-namespaces.test.ts
+    // keeps the config equal to the domain list).
+    const declared = new Set(config.channel.namespaces.map((ns) => ns.name));
+    expect(listNamespaces().filter((ns) => !declared.has(ns.name))).toEqual([]);
   });
 
   it('matches the catalogue for every core namespace', () => {
