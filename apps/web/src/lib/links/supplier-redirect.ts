@@ -4,7 +4,7 @@
  * has the sub id shape is handed to the api's attribution bridge (`GET /v1/suppliers/r/{sub_id}`),
  * and its redirect to the partner goes back to the visitor untouched and uncached. `/out/` is not an
  * app link path, so the tap never reopens the app. Anything the bridge cannot redirect falls through
- * to the site's not-found page.
+ * to the not-found handoff page.
  */
 import { SUB_ID_PATTERN } from '@cp/domain';
 
