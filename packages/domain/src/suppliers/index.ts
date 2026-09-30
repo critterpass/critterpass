@@ -10,4 +10,6 @@ export * from './rides';
 export * from './ride-fare';
 export * from '../vendor-comms';
 export * from './concierge';
+export * from './copy-en';
+export * from './copy-rules';
 export * from './compensation';
