@@ -431,6 +431,10 @@ msgstr ""
 msgid "guide.error.refused"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.unavailable"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
 msgid "guide.dietary.shareCaption"
 msgstr ""

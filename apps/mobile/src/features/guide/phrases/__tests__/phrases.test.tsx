@@ -9,6 +9,20 @@ jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   router: { push: (href: unknown) => mockPush(href) },
 }));
+// The installed build's speech module: builds before on-device speech don't have it.
+let mockSpeechInstalled = true;
+jest.mock('expo', () => {
+  const actual = jest.requireActual<typeof ExpoModule>('expo');
+  return {
+    ...actual,
+    requireOptionalNativeModule: (name: string): unknown =>
+      name === 'ExpoSpeech'
+        ? mockSpeechInstalled
+          ? {}
+          : null
+        : actual.requireOptionalNativeModule(name),
+  };
+});
 const mockSpeak = jest.fn();
 jest.mock('expo-speech', () => ({
   speak: (text: unknown, options: unknown) => mockSpeak(text, options),
@@ -17,6 +31,7 @@ jest.mock('expo-speech', () => ({
 
 import { describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, renderHook, screen } from '@testing-library/react-native';
+import type * as ExpoModule from 'expo';
 import type { ReactNode } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -129,6 +144,17 @@ describe('the phrase card', () => {
         gloss: 'Please take us to Villa Kayu Manis, Sayan road, Ubud.',
       },
     });
+  });
+
+  it('has no play button without recorded audio in a build without on-device speech', async () => {
+    mockSpeechInstalled = false;
+    try {
+      await renderWithI18n(card(null));
+      expect(screen.queryByLabelText('Read aloud')).toBeNull();
+      expect(screen.queryByText("Read in your phone's voice")).toBeNull();
+    } finally {
+      mockSpeechInstalled = true;
+    }
   });
 
   it('plays recorded audio from its button', async () => {

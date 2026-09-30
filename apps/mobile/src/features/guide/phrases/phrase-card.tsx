@@ -1,8 +1,10 @@
 /**
  * A phrase card (3h-3), for any screen that needs one (Help, Getting around): the local phrase,
  * its gloss and a play button: the guide's recorded audio when it exists (offline once it is on
- * the phone), else the phone's own voice, labelled as such. Tapping the card opens SHOW mode: the phrase full
- * screen in large type for the driver or the person at the counter.
+ * the phone), else the phone's own voice, labelled as such. A build without on-device speech has
+ * no play button for a card without audio, and says so when the audio can't be reached. Tapping
+ * the card opens SHOW mode: the phrase full screen in large type for the driver or the person at
+ * the counter.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, never copy. */
 import { useLingui } from '@lingui/react/macro';
@@ -34,7 +36,8 @@ export function showModeHref(phrase: string, lang: string, gloss: string): Href 
 
 export interface PhraseCardViewProps extends Omit<PhraseCardProps, 'audioKey'> {
   readonly playerState: PhrasePlayerState;
-  readonly onPlay: () => void;
+  /** Absent when there is nothing to play (no audio and no on-device speech). */
+  readonly onPlay?: () => void;
   /** Read in the phone's own voice (no recorded audio, or none that can be reached). */
   readonly deviceVoice?: boolean;
 }
@@ -70,7 +73,7 @@ export function PhraseCardView({
           playing={playerState === 'playing'}
           testID={testID}
           {...(eyebrow === undefined ? {} : { eyebrow })}
-          onPlay={onPlay}
+          {...(onPlay === undefined ? {} : { onPlay })}
         />
       </Pressable>
       {playerState === 'loading' ? (
@@ -85,6 +88,17 @@ export function PhraseCardView({
         >
           {t({ id: 'guide.phrase.deviceVoice', message: "Read in your phone's voice" })}
         </Text>
+      ) : playerState === 'unavailable' ? (
+        <Text
+          variant="caption"
+          color={theme.semantic.text.secondary}
+          testID="guide-phrase-unavailable"
+        >
+          {t({
+            id: 'guide.phrase.unavailable',
+            message: "The audio isn't on this phone yet. Tap the card to show it instead.",
+          })}
+        </Text>
       ) : null}
     </Stack>
   );
@@ -94,13 +108,22 @@ export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
   const player = usePhrasePlayer(audioKey);
   const speech = usePhraseSpeech(props.phrase, props.lang);
   // No recorded audio, or none that can be reached: the phone reads it in its own voice.
-  const spoken = audioKey === null || player.state === 'unavailable';
+  const unplayable = audioKey === null || player.state === 'unavailable';
+  if (unplayable && speech.speak !== null) {
+    return (
+      <PhraseCardView
+        {...props}
+        playerState={speech.speaking ? 'playing' : 'idle'}
+        deviceVoice
+        onPlay={speech.speak}
+      />
+    );
+  }
   return (
     <PhraseCardView
       {...props}
-      playerState={spoken ? (speech.speaking ? 'playing' : 'idle') : player.state}
-      deviceVoice={spoken}
-      onPlay={spoken ? speech.toggle : () => void player.toggle()}
+      playerState={player.state}
+      {...(audioKey === null ? {} : { onPlay: () => void player.toggle() })}
     />
   );
 }
