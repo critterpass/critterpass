@@ -149,6 +149,39 @@ describe('destination board', () => {
     expect((posted[0]?.body as { payload: unknown }).payload).toEqual({ poll_id: POLL });
   });
 
+  it('lets the organiser lock in the only place on the board and reveals it', async () => {
+    const posted: { path: string; body: unknown }[] = [];
+    stack = await openTestLocalFirst({
+      holdUploads: true,
+      transport: {
+        postJson: (path, body) => {
+          posted.push({ path, body });
+          return Promise.resolve({ status: 200, body: { status: 'applied', result: {} } });
+        },
+      },
+    });
+    await seedCrew(stack);
+    await seedPoll(stack, {
+      kind: 'destination',
+      stage: 'board',
+      question: null,
+      createdBy: stack.uid,
+      options: [{ id: OPT_KYOTO, label: 'Kyoto', refId: KYOTO }],
+    });
+    await renderVote(<Board me={stack.uid} />, stack);
+    await until(() => screen.queryByTestId('board-lock-in') !== null);
+    expect(screen.getByText('LOCK IN KYOTO')).toBeTruthy();
+    expect(screen.queryByTestId('board-go-to-final')).toBeNull();
+    await fireEvent.press(screen.getByTestId('board-lock-in'));
+    await until(() => (router.push as jest.Mock).mock.calls.length > 0);
+    expect(posted[0]?.path).toBe('/v1/cmd/close_poll');
+    expect((posted[0]?.body as { payload: unknown }).payload).toEqual({ poll_id: POLL });
+    expect(router.push).toHaveBeenCalledWith({
+      pathname: '/vote/[pollId]/reveal',
+      params: { pollId: POLL },
+    });
+  });
+
   it('asks for the first pitch on an empty board', async () => {
     const s = await open();
     await seedPoll(s, { kind: 'destination', stage: 'board', question: null, options: [] });
