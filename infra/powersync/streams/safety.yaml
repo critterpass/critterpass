@@ -1,0 +1,17 @@
+# Safety streams (docs/data-model.md §3.12): Help sessions and SOS incidents sync with the trip so
+# every crewmate's app can take over the screen and show the thread; a stale SOS (never alerted)
+# syncs to its sender alone. Health notes (`help_session_private`, C3) never sync: the sender and
+# responders fetch them over HTTP. Every subquery is bound to the subscribed trip.
+
+streams:
+  trip:
+    queries:
+      - |
+        SELECT * FROM help_sessions
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND (status <> 'stale' OR user_id = auth.user_id())
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |
+        SELECT * FROM help_session_messages
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
