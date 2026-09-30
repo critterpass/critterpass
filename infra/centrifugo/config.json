@@ -159,7 +159,11 @@
       },
       {
         "name": "trip_copresence",
-        "subscribe_proxy_enabled": true
+        "subscribe_proxy_enabled": true,
+        "history_size": 10,
+        "history_ttl": "24h",
+        "force_positioning": true,
+        "force_recovery": true
       },
       {
         "name": "poll",
