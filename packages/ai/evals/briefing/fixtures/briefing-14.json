@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "986e4bf4-7602-447b-88a1-426a993e6e19",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"TP 1337 to OPO now leaves at 14:25, moved from 13:05.\",\"icon\":\"plane\"},{\"candidate_id\":\"c2\",\"text\":\"First up: Pastéis de Belém at 10:00.\",\"icon\":\"sun\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 697,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 71,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

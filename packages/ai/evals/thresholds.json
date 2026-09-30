@@ -17,7 +17,8 @@
     "draft": 1,
     "receipt-parse": 1,
     "booking-extract": 1,
-    "guide": 1
+    "guide": 1,
+    "briefing": 1
   },
   "live": {
     "chat": 0.9,
@@ -37,7 +38,8 @@
     "draft": 1,
     "receipt-parse": 0.95,
     "booking-extract": 0.95,
-    "guide": 0.9
+    "guide": 0.9,
+    "briefing": 0.95
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

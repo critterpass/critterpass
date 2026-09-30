@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "838de792-3a71-4f5a-ad20-e492f9bc0d18",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"Leave by 04:50 for Teotihuacan. Pickup is at Calle Durango 12.\",\"icon\":\"alarm\"},{\"candidate_id\":\"c2\",\"text\":\"Your vote is still open: Lucha libre on Friday?\",\"icon\":\"vote\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 342,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 384,
+        "output_tokens": 71,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "af3b3d27-af76-4f0d-88d2-d0ff3d4cf8d7",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"You owe €42 to the crew — settle it before the day gets away from you.\",\"icon\":\"wallet\"},{\"candidate_id\":\"c2\",\"text\":\"Your vote is still open: Sintra or Cascais on Friday?\",\"icon\":\"vote\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 277,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 384,
+        "output_tokens": 68,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

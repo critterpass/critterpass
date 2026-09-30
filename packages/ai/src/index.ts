@@ -285,3 +285,4 @@ export * from './prompts/draft/index';
 export * from './routes/receipt-parse';
 export * from './routes/booking-extract';
 export * from './routes/guide';
+export * from './routes/briefing';

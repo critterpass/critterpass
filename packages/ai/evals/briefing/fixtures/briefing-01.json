@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4e130c32-170f-47d0-b49f-90ad428c9058",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"Leave by 03:10 for Mount Batur, pickup at the villa gate. The sun won't wait.\",\"icon\":\"alarm\"},{\"candidate_id\":\"c2\",\"text\":\"Dev and Alex are not up yet for Mount Batur, so give them a nudge.\",\"icon\":\"chat\"},{\"candidate_id\":\"c3\",\"text\":\"First up today: Mount Batur at 04:30.\",\"icon\":\"sun\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 823,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 106,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

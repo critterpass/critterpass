@@ -170,7 +170,7 @@ const jobs: AnyJobDefinition[] = [
   ...planJobs(),
   ...guideJobs({ ...process.env, ...env }, pool, aiSwitches.assertAiRoute, llmObservability),
   ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger),
-  ...tripDayJobs(process.env, pool, aiSwitches.assertAiRoute, llmObservability),
+  ...tripDayJobs(process.env, aiSwitches.assertAiRoute, llmObservability),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&

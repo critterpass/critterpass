@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "30deeee3-29a4-4fd4-b0b3-9fb29f75816f",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"Morning, sunshine: Wat Arun at 08:00 is your first stop, so get those legs moving.\",\"icon\":\"alarm\"},{\"candidate_id\":\"c2\",\"text\":\"Free cancellation on your Floating market tour ends today 20:00, so decide before then.\",\"icon\":\"ticket\"},{\"candidate_id\":\"c3\",\"text\":\"Your question about tuk-tuk prices has an answer waiting for you.\",\"icon\":\"chat\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 787,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 107,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

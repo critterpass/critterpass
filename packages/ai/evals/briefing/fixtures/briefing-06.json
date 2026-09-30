@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "c978fbc1-3abe-4ce0-8914-baccb0415cc2",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"Leave by 05:25 for Fushimi Inari — the quiet is the whole point.\",\"icon\":\"alarm\"},{\"candidate_id\":\"c2\",\"text\":\"Your question about the best time for Kinkaku-ji has an answer waiting.\",\"icon\":\"chat\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 793,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 73,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

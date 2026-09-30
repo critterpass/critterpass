@@ -1,0 +1,11 @@
+# Morning briefing: the day's deterministic candidates → at most three lines in the guide's voice.
+# The model picks and words candidates only; every number must be one its candidate's facts hold,
+# and anything else falls back to the template lines. Cases live in cases.yaml and run through the
+# real writeBriefing (see suite.ts); seeded cases grade the validator on deliberate model slips.
+# Run: pnpm --filter @cp/ai eval briefing
+description: Morning briefing worded from the day's candidates
+prompts:
+  - '{{candidates}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

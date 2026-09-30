@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d13e5440-9d90-43c2-9be8-4228cad273ef",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"Leave by 06:15 for the Nusa Penida fast boat.\",\"icon\":\"alarm\"},{\"candidate_id\":\"c2\",\"text\":\"Alex is not up yet for the Nusa Penida fast boat.\",\"icon\":\"chat\"},{\"candidate_id\":\"c3\",\"text\":\"Free cancellation on Kelingking viewpoint jeep ends today 09:00.\",\"icon\":\"ticket\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 277,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 97,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

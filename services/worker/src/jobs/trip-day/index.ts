@@ -4,12 +4,12 @@
  * the leave-by recompute onto the events this process appends and registers the trip day pushes,
  * once per process.
  */
-import type { AssertRouteOn, Telemetry } from '@cp/ai';
+import { createGateway, type AssertRouteOn, type Telemetry } from '@cp/ai';
 import { onEventAppended } from '@cp/db';
 import type { RouteEtaProvider } from '@cp/domain';
-import type pg from 'pg';
 
 import type { AnyJobDefinition } from '../../boss';
+import { briefingJob, type BriefingWriter } from './briefing-build';
 import { tripDayEventHook } from './hooks';
 import { leaveByRecomputeJob } from './leaveby-recompute';
 import { leaveByScheduleJob } from './leaveby-schedule';
@@ -18,6 +18,7 @@ import { mapboxLeaveByRouter, straightLineLeaveByRouter } from './route-eta';
 
 export { tripDayEventHook } from './hooks';
 export { registerTripDayNotifications } from './notify';
+export { insertBriefingItem } from './briefing-insert-event';
 
 export interface TripDayJobsEnv {
   readonly MAPBOX_TOKEN?: string | undefined;
@@ -33,11 +34,27 @@ export function leaveByRouterFrom(env: TripDayJobsEnv): RouteEtaProvider {
 
 let registered = false;
 
+function briefingWriter(
+  env: TripDayJobsEnv,
+  assertRouteOn: AssertRouteOn,
+  telemetry: Telemetry | undefined,
+): BriefingWriter | undefined {
+  const apiKey = env.ANTHROPIC_API_KEY;
+  if (apiKey === undefined) return undefined;
+  return (onUsage) =>
+    createGateway({
+      apiKey,
+      ...(env.ANTHROPIC_BASE_URL === undefined ? {} : { baseURL: env.ANTHROPIC_BASE_URL }),
+      ...(telemetry === undefined ? {} : { telemetry }),
+      onUsage,
+      assertRouteOn,
+    });
+}
+
 export function tripDayJobs(
   env: TripDayJobsEnv,
-  _pool: pg.Pool,
-  _assertRouteOn: AssertRouteOn,
-  _telemetry?: Telemetry,
+  assertRouteOn: AssertRouteOn,
+  telemetry?: Telemetry,
 ): AnyJobDefinition[] {
   if (!registered) {
     registered = true;
@@ -45,5 +62,9 @@ export function tripDayJobs(
     registerTripDayNotifications();
   }
   const router = leaveByRouterFrom(env);
-  return [leaveByRecomputeJob(router), leaveByScheduleJob(router)];
+  return [
+    leaveByRecomputeJob(router),
+    leaveByScheduleJob(router),
+    briefingJob(briefingWriter(env, assertRouteOn, telemetry)),
+  ];
 }

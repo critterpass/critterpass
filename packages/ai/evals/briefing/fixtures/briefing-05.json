@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "7838cebc-d5da-4d73-ba32-4c6d76ef89b0",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c2\",\"text\":\"SQ 938 from SIN to DPS lifts off at 09:40, so rise and shine and get moving.\",\"icon\":\"plane\"},{\"candidate_id\":\"c1\",\"text\":\"Dev and Alex still need visa on arrival cash: IDR 500,000 each.\",\"icon\":\"wallet\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 146,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 78,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
