@@ -1,11 +1,17 @@
 /**
  * `set_consent {purpose, granted, copy_version}`: the one write path for the consent rows the app
- * asks for itself (onboarding, Settings privacy rows, the visit consent sheet). One row per user
- * and purpose; a revocation keeps the row with `revoked_at` set.
+ * asks for itself (onboarding, Settings privacy rows, the visit consent sheet, the dietary consent
+ * sheet "Share flags with your crew and guide?"). One row per user and purpose; a revocation keeps
+ * the row with `revoked_at` set.
  */
 import { z } from 'zod';
 
-export const SETTABLE_CONSENT_PURPOSES = ['visit_detection', 'analytics', 'marketing'] as const;
+export const SETTABLE_CONSENT_PURPOSES = [
+  'visit_detection',
+  'analytics',
+  'marketing',
+  'dietary_visibility',
+] as const;
 export const settableConsentPurposeSchema = z.enum(SETTABLE_CONSENT_PURPOSES);
 export type SettableConsentPurpose = z.infer<typeof settableConsentPurposeSchema>;
 

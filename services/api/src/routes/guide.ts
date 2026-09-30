@@ -26,6 +26,9 @@ import { registerApiToolExecutors } from '../ai/tool-executors';
 import { validationHook, type CommandDoorDeps } from '../commands/_framework/doors';
 import { enforceUidRateLimit, requireCommandSession } from '../commands/_framework/session';
 import { streamCrewMention } from '../commands/guide/mention';
+import { registerPrivateDietaryRoute } from '../commands/guide/private-dietary';
+import { createSetDietaryProfileCommand } from '../commands/guide/set-dietary-profile';
+import type { FieldKeyring } from '../commands/bookings/deps';
 import { registerProposePlanChanges } from '../commands/guide/propose-plan-changes';
 import { streamThreadTurn, type GuideTurnDeps } from '../commands/guide/turn';
 import type { ApiEnv } from '../env';
@@ -113,7 +116,15 @@ export function registerGuideRoutes(
   app: OpenAPIHono<AppEnv>,
   doors: CommandDoorDeps & { readonly logger: GuideTurnDeps['logger'] },
   env: Pick<ApiEnv, 'ANTHROPIC_API_KEY' | 'ANTHROPIC_BASE_URL' | 'TYPESAFE_API_KEY'>,
+  keyring?: FieldKeyring,
 ): void {
+  // The dietary profile's notes are sealed: without the keyring it cannot be stored or read back.
+  if (keyring !== undefined) {
+    doors.registry.register(createSetDietaryProfileCommand({ keyring }));
+    registerPrivateDietaryRoute(app, { pool: doors.pool, sessions: doors.sessions, keyring });
+  } else {
+    doors.logger.warn('Dietary profiles are disabled: FIELD_ENCRYPTION_KEYS is unset');
+  }
   if (env.ANTHROPIC_API_KEY === undefined) {
     doors.logger.warn('Guide turns are disabled: ANTHROPIC_API_KEY is unset');
     return;

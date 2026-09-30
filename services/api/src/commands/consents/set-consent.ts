@@ -3,6 +3,8 @@
  * (visit detection, analytics, marketing) on their single `consents` row. A grant stamps
  * `granted_at` and clears any revocation; a refusal or withdrawal stamps `revoked_at` and keeps
  * the original grant time as history. Onboarding, Settings and the visit consent sheet all call it.
+ * The dietary consent is mirrored onto the caller's dietary profile, whose trigger then shares or
+ * withdraws their derived flags on every open trip at once.
  */
 import { setConsentPayloadSchema, type SetConsentResult } from '@cp/domain';
 
@@ -25,6 +27,13 @@ export const setConsentCommand = defineCommand({
          copy_version = coalesce(EXCLUDED.copy_version, consents.copy_version)`,
       [ctx.uid, payload.purpose, payload.granted, payload.copy_version ?? null],
     );
+    if (payload.purpose === 'dietary_visibility') {
+      await tx.query(
+        `UPDATE dietary_profiles SET consent_at = CASE WHEN $2 THEN now() END
+          WHERE user_id = $1 AND (consent_at IS NULL) = $2`,
+        [ctx.uid, payload.granted],
+      );
+    }
     return { purpose: payload.purpose, granted: payload.granted };
   },
 });
