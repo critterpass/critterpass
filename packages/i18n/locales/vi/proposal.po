@@ -67,6 +67,11 @@ msgstr ""
 msgid "proposal.card.title"
 msgstr ""
 
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.egg"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr ""
@@ -107,6 +112,10 @@ msgstr ""
 msgid "proposal.queued.followup"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
+msgid "proposal.seat.bodyCap"
+msgstr ""
+
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.ask"
@@ -114,6 +123,26 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.asked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.action"
+msgstr ""
+
+#. placeholder {0}: ticket.group
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.group"
+msgstr ""
+
+#. placeholder {0}: ticket.passenger
+#. placeholder {1}: ticket.to
+#. placeholder {2}: ticket.dates
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.ticketA11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
@@ -136,6 +165,14 @@ msgstr ""
 msgid "proposal.hype.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.airline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.dates"
+msgstr ""
+
 #. placeholder {0}: pick.dayNo
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
@@ -147,6 +184,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.dismiss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
+msgid "proposal.seat.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
@@ -173,8 +214,16 @@ msgstr ""
 msgid "proposal.build.stayCancel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.gate"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
 msgid "proposal.reason.value"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
+msgid "proposal.seat.ok"
 msgstr ""
 
 #. placeholder {0}: instantDateTime(locale, props.fallback.toISOString())
@@ -184,6 +233,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.reaction.laugh"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+msgid "proposal.out.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.out"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
@@ -208,6 +265,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.inAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
+msgid "proposal.seat.offer"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
@@ -241,6 +302,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
 msgid "proposal.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.maybe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
@@ -277,6 +342,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.passenger"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
@@ -345,6 +414,10 @@ msgstr ""
 msgid "proposal.sent.stamped"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+msgid "proposal.out.resplit"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.showCost"
 msgstr ""
@@ -352,6 +425,10 @@ msgstr ""
 #. placeholder {0}: saving.label
 #: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
 msgid "proposal.share.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.slide"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
@@ -366,6 +443,10 @@ msgstr ""
 msgid "proposal.objection.later"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+msgid "proposal.out.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.cost"
 msgstr ""
@@ -378,12 +459,20 @@ msgstr ""
 msgid "proposal.card.locked"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+msgid "proposal.board.outDone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.dates"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
+msgid "proposal.seat.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
@@ -402,8 +491,16 @@ msgstr ""
 msgid "proposal.card.a11y"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+msgid "proposal.board.refusedSub"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.failedSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.pending"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
@@ -426,6 +523,10 @@ msgstr ""
 msgid "proposal.why.onlyHere"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+msgid "proposal.board.maybeDone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.out"
 msgstr ""
@@ -438,8 +539,16 @@ msgstr ""
 msgid "proposal.version.youreIn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
+msgid "proposal.seat.position"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
+msgid "proposal.seat.waiting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
@@ -454,8 +563,30 @@ msgstr ""
 msgid "proposal.queued.option"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+msgid "proposal.board.refused"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.rsvp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
+msgid "proposal.out.seat"
+msgstr ""
+
+#. placeholder {0}: props.name
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.saved"
+msgstr ""
+
+#. placeholder {0}: props.name
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/board/board-view.tsx
+msgid "proposal.board.share"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx

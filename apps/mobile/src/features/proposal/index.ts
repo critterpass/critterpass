@@ -2,3 +2,4 @@
 export { BuilderScreen } from './builder/builder-screen';
 export { proposalRoutes, registerProposalScreens } from './routes';
 export { YourVersionScreen } from './your-version/your-version-screen';
+export { BoardScreen } from './board/board-screen';
