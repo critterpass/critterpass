@@ -9,12 +9,12 @@ import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { TextLink } from '@/ui/buttons/TextLink';
 import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
+import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
 const useStyles = makeStyles((t) => ({
   badge: {
@@ -34,6 +34,9 @@ const useStyles = makeStyles((t) => ({
     padding: t.space['14'],
   },
   bannerLine: { flex: 1 },
+  // REVIEW is set bold and underlined (3h-1), with the full touch target around it.
+  review: { minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
+  reviewLabel: { textDecorationLine: 'underline' },
 }));
 
 export function OfflineBadge({ count }: { readonly count: number }) {
@@ -101,11 +104,17 @@ export function ImportBanner({ count, member, onReview }: ImportBannerProps) {
       <Text variant="voice" color={theme.color.yellow} style={styles.bannerLine}>
         {line}
       </Text>
-      <TextLink
-        label={upper(t({ id: 'bookings.banner.review', message: 'Review' }), locale)}
+      <PressScale
         onPress={onReview}
+        widthClass="narrow"
+        accessibilityLabel={t({ id: 'bookings.banner.review', message: 'Review' })}
+        style={styles.review}
         testID="bookings-banner-review"
-      />
+      >
+        <Text variant="label" color={theme.semantic.text.primary} style={styles.reviewLabel}>
+          {upper(t({ id: 'bookings.banner.review', message: 'Review' }), locale)}
+        </Text>
+      </PressScale>
     </Row>
   );
 }

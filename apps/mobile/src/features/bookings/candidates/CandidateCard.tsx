@@ -15,14 +15,13 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { useMotionMode } from '@/motion/motion-mode';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
-import { InfoPill } from '@/ui/chips/InfoPill';
 import { Icon } from '@/ui/icons/Icon';
 import { Toggle } from '@/ui/inputs/Toggle';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
 import { clock, dayDate, price as formatPrice, zoneOf } from '../format';
 import { candidateIcon, type CandidateView } from './candidate-model';
@@ -30,10 +29,19 @@ import { candidateIcon, type CandidateView } from './candidate-model';
 /** Per-field reveal as Tokek reads the confirmation. */
 export const ASSEMBLE_STAGGER_MS = 460;
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((t) => ({
   grow: { flex: 1, minWidth: 0 },
   half: { flex: 1 },
   split: { flexShrink: 1 },
+  // Whose inbox it came from, in a filled pill that reads on the raised card (3h-2).
+  from: {
+    flexShrink: 1,
+    justifyContent: 'center',
+    minHeight: sizeToken(t.size.chip, 'height'),
+    borderRadius: t.radius.sm,
+    paddingHorizontal: t.space['10'],
+    backgroundColor: t.semantic.bg.control,
+  },
 }));
 
 export interface CandidateCardProps {
@@ -178,12 +186,14 @@ export function CandidateCard(props: CandidateCardProps) {
           {who === null
             ? null
             : reveal(
-                <InfoPill variant="outline">
-                  {upper(
-                    t({ id: 'bookings.candidate.from', message: `From ${who}’s email` }),
-                    locale,
-                  )}
-                </InfoPill>,
+                <View style={styles.from} testID="bookings-candidate-from">
+                  <Text variant="label" numberOfLines={1}>
+                    {upper(
+                      t({ id: 'bookings.candidate.from', message: `From ${who}’s email` }),
+                      locale,
+                    )}
+                  </Text>
+                </View>,
                 'from',
                 1,
               )}
