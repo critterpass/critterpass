@@ -162,7 +162,7 @@ export function PackChips({ chips, onToggle, onAdd, onRemove }: PackChipsProps) 
               autoFocus
               value={label}
               onChangeText={setLabel}
-              onSubmitEditing={submit}
+              // Return blurs the field, so the add happens once, on blur.
               onBlur={submit}
               maxLength={80}
               returnKeyType="done"

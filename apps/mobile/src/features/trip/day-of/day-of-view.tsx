@@ -83,12 +83,20 @@ function Hero(props: DayOfViewProps) {
               <Text variant="eyebrow">{upper(props.forecast, locale)}</Text>
             )}
           </Row>
-          <Text variant="eyebrow">
-            {upper(t({ id: 'trip.dayOf.firstUp', message: 'First up' }), locale)}
-          </Text>
-          <Text variant="displayHero" autoFit>
-            {props.firstUp?.time ?? '—'}
-          </Text>
+          {props.firstUp === null ? (
+            <Text variant="displayHero" autoFit>
+              {upper(t({ id: 'trip.dayOf.freeDayTitle', message: 'Free day' }), locale)}
+            </Text>
+          ) : (
+            <>
+              <Text variant="eyebrow">
+                {upper(t({ id: 'trip.dayOf.firstUp', message: 'First up' }), locale)}
+              </Text>
+              <Text variant="displayHero" autoFit>
+                {props.firstUp.time}
+              </Text>
+            </>
+          )}
           <Text variant="bodyLg" color={theme.semantic.text.onAccent}>
             {props.firstUp?.title ??
               t({ id: 'trip.dayOf.freeDay', message: 'Nothing planned today. A free day.' })}

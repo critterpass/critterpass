@@ -67,6 +67,10 @@ msgstr "Mọi người dậy hết rồi. Gặp nhau ở cổng nhé."
 msgid "trip.dayOf.firstUp"
 msgstr "Việc đầu tiên"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.freeDayTitle"
+msgstr "Ngày tự do"
+
 #: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
 msgid "trip.dayOf.pack.placeholder"
 msgstr "Đèn đội đầu"
