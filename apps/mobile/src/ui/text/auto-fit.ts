@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { LayoutChangeEvent, TextLayoutEvent } from 'react-native';
+import type { LayoutChangeEvent, TextLayoutEvent, TextStyle } from 'react-native';
 
 import { hasWordBreak } from '../qa/text-layout-check';
 
@@ -21,6 +21,13 @@ export const AUTO_FIT_MIN_SCALE = 0.7;
  * lines) instead of being cut with an ellipsis.
  */
 export const AUTO_FIT_WRAP_LINES = 3;
+
+/**
+ * An auto-fit string never splits inside a word: when its longest word is wider than the box at
+ * the scale floor, the floor drops to the size that word fits at, down to this fraction of the
+ * variant's size ("YOUR NEXT TRIP" beside a card's sticker).
+ */
+export const WHOLE_WORD_MIN_SCALE = 0.3;
 
 const SIZE_SEARCH_STEP_PT = 0.5;
 
@@ -62,6 +69,33 @@ export function estimateLineCount({
     }
   }
   return lines;
+}
+
+/** Largest size at which the longest word of `text` still fits on one line `width` points wide. */
+export function wholeWordSize({
+  text,
+  width,
+  advanceRatio,
+  letterSpacingEm = 0,
+}: Omit<MeasureInput, 'fontSize'>): number {
+  const longest = Math.max(1, ...text.split(/\s+/).map((word) => [...word].length));
+  const em = advanceRatio + letterSpacingEm;
+  return em > 0 ? width / (longest * em) : Number.POSITIVE_INFINITY;
+}
+
+function points(...values: readonly unknown[]): number {
+  const value = values.find((candidate) => candidate !== undefined);
+  return typeof value === 'number' ? value : 0;
+}
+
+/** The horizontal padding a text style sets inside its own box, which its layout width includes. */
+export function horizontalInset(style: TextStyle | null | undefined): number {
+  if (!style) return 0;
+  const { padding, paddingHorizontal: across } = style;
+  return (
+    points(style.paddingStart, style.paddingLeft, across, padding) +
+    points(style.paddingEnd, style.paddingRight, across, padding)
+  );
 }
 
 export interface FitInput extends Omit<MeasureInput, 'fontSize'> {
@@ -112,6 +146,8 @@ export interface UseAutoFitOptions extends Omit<FitInput, 'width'> {
   readonly keepWordsWhole?: boolean | 'code';
   /** At the floor, keep wrapping past the line limit instead of cutting (enlarged text). */
   readonly neverCut?: boolean;
+  /** Horizontal padding inside the text's own box: the layout width includes it, the lines don't. */
+  readonly inset?: number;
 }
 
 export interface AutoFitResult {
@@ -151,6 +187,7 @@ export function useAutoFit({
   wrapAtFloor = false,
   keepWordsWhole = false,
   neverCut = false,
+  inset = 0,
   ...fit
 }: UseAutoFitOptions): AutoFitResult {
   const active = enabled || keepWordsWhole !== false;
@@ -162,8 +199,18 @@ export function useAutoFit({
   const { steps, wrapped, overflowed } = current;
   const maxLines = wrapped ? Math.max(fit.maxLines, AUTO_FIT_WRAP_LINES) : fit.maxLines;
 
-  const estimated = enabled && width !== null ? fitFontSize({ ...fit, width }) : fit.maxSize;
-  const fontSize = Math.max(fit.minSize, estimated * OVERFLOW_SHRINK_STEP ** steps);
+  const box = width === null ? null : Math.max(0, width - inset);
+  // A word wider than the box at the scale floor lowers the floor until it fits whole.
+  const floor =
+    enabled && box !== null
+      ? Math.min(
+          fit.minSize,
+          Math.max(fit.maxSize * WHOLE_WORD_MIN_SCALE, wholeWordSize({ ...fit, width: box })),
+        )
+      : fit.minSize;
+  const estimated =
+    enabled && box !== null ? fitFontSize({ ...fit, minSize: floor, width: box }) : fit.maxSize;
+  const fontSize = Math.max(floor, estimated * OVERFLOW_SHRINK_STEP ** steps);
 
   const onLayout = (event: LayoutChangeEvent) => {
     if (!enabled) return;
@@ -181,7 +228,7 @@ export function useAutoFit({
     const split =
       keepWordsWhole === 'code' ? hasUnspacedBreak(lines) : keepWordsWhole && hasWordBreak(lines);
     if (!overflowing && !split) return false;
-    if (fontSize > fit.minSize) {
+    if (fontSize > floor) {
       setCorrection({ ...current, steps: steps + 1 });
     } else if (overflowing && wrapAtFloor && !wrapped && maxLines < AUTO_FIT_WRAP_LINES) {
       setCorrection({ ...current, wrapped: true });
