@@ -44,6 +44,7 @@ const useStyles = makeStyles((t) => ({
     alignItems: 'center',
     gap: t.space['8'],
   },
+  check: { borderWidth: t.space['2'], borderColor: t.semantic.state.warning },
   label: { flex: 1 },
   chip: {
     borderRadius: t.space['12'],
@@ -55,6 +56,8 @@ const useStyles = makeStyles((t) => ({
 export interface ReviewRow {
   readonly lineId: string;
   readonly label: string;
+  /** The amount read, shown when the line is one to check against the paper. */
+  readonly check: string | null;
   /** Who had it; null = everyone. Non-item lines are shared by share. */
   readonly assignees: readonly MoneyMember[] | null;
   readonly chip: { readonly text: string; readonly tone: 'pink' | 'plain' };
@@ -68,6 +71,8 @@ export interface LineAssignSheetProps {
   readonly summary: readonly { readonly who: string; readonly amount: string }[];
   readonly payerName: string;
   readonly mismatch: { readonly text: string; readonly keep: boolean } | null;
+  /** Retype the lines from what was read, offered while the lines miss the total. */
+  readonly onFix?: () => void;
   readonly committing: boolean;
   readonly onLine: (lineId: string) => void;
   readonly onKeepTotal: (keep: boolean) => void;
@@ -113,13 +118,26 @@ export function LineAssignSheet(props: LineAssignSheetProps) {
           onPress={() => props.onLine(row.lineId)}
           disabled={row.byShare}
           accessibilityRole="button"
-          accessibilityLabel={`${row.label}, ${row.chip.text}`}
+          accessibilityLabel={[row.label, row.check, row.chip.text]
+            .filter((part) => part !== null)
+            .join(', ')}
           testID={`money-review-line-${row.lineId}`}
         >
-          <Row style={styles.row}>
-            <Text variant="rowTitle" numberOfLines={1} style={styles.label}>
-              {row.label}
-            </Text>
+          <Row style={[styles.row, row.check === null ? null : styles.check]}>
+            <Stack gap="2" style={styles.label}>
+              <Text variant="rowTitle" numberOfLines={1}>
+                {row.label}
+              </Text>
+              {row.check === null ? null : (
+                <Text
+                  variant="bodySm"
+                  color={theme.semantic.state.warning}
+                  testID={`money-review-check-${row.lineId}`}
+                >
+                  {row.check}
+                </Text>
+              )}
+            </Stack>
             {row.assignees === null || row.byShare ? null : (
               <Animated.View
                 {...(reduced
@@ -170,6 +188,13 @@ export function LineAssignSheet(props: LineAssignSheetProps) {
             testID="money-review-keep-total"
           />
         </Row>
+      )}
+      {props.mismatch === null || props.onFix === undefined ? null : (
+        <TextLink
+          label={t({ id: 'money.failure.type', message: 'Type the lines' })}
+          onPress={props.onFix}
+          testID="money-review-fix"
+        />
       )}
       <Row justify="space-between" style={{ flexWrap: 'wrap' }} testID="money-review-summary">
         {props.summary.map((part) => (

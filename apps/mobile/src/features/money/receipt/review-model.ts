@@ -28,6 +28,8 @@ export interface ParsedReceipt {
   readonly total_line_id: string | null;
   readonly lines_total_minor: number;
   readonly matches_total: boolean;
+  /** When the lines miss the total: the lines most likely read wrong (absent on older parses). */
+  readonly review_line_ids?: readonly string[];
   readonly status: 'parsed' | 'partial' | 'failed';
 }
 

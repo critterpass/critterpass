@@ -10,6 +10,7 @@ import {
   toCommitPayload,
   type ParsedReceipt,
 } from '../review-model';
+import { reviewRows } from '../review-rows';
 import { INITIAL_SCAN, scanReducer, uploadStatus } from '../scan-machine';
 import { prefillLines, typedPayload, typedShares } from '../type-lines-model';
 
@@ -197,5 +198,42 @@ describe('scan state machine', () => {
     expect(uploadStatus({ status: 'unsupported_script', lines: [], quality: null })).toBe(
       'unsupported_script',
     );
+  });
+});
+
+describe('lines to check when the receipt does not add up', () => {
+  const copy = {
+    everyone: 'EVERYONE',
+    byShare: 'BY SHARE',
+    not: (names: string) => `NOT ${names}`,
+    pays: (names: string) => `${names} pays`,
+    everyoneElse: 'Everyone else',
+    amount: (minor: bigint) => `Rp${String(minor / 100n)}`,
+  };
+  const members = crew.map((userId, joinIndex) => ({
+    userId,
+    name: userId,
+    joinIndex,
+    active: true,
+  }));
+  const missing: ParsedReceipt = {
+    ...ibuOka,
+    lines_total_minor: 107_000_000,
+    matches_total: false,
+    status: 'partial',
+    review_line_ids: ['l4'],
+  };
+
+  it('marks the doubtful lines with the amount read', () => {
+    const rows = reviewRows(missing, {}, members, copy);
+    expect(rows.map((row) => row.check)).toEqual([null, 'Rp130000', null]);
+  });
+
+  it('marks nothing once the lines add up, or on a parse that names no lines', () => {
+    expect(
+      reviewRows({ ...missing, matches_total: true }, {}, members, copy).map((row) => row.check),
+    ).toEqual([null, null, null]);
+    const { review_line_ids: _omitted, ...older } = missing;
+    expect(reviewRows(older, {}, members, copy).every((row) => row.check === null)).toBe(true);
   });
 });
