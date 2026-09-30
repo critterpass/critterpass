@@ -4,3 +4,4 @@ export { proposalRoutes, registerProposalScreens } from './routes';
 export { YourVersionScreen } from './your-version/your-version-screen';
 export { BoardScreen } from './board/board-screen';
 export { TrackerScreen } from './tracker/tracker-screen';
+export { TrailerScreen } from './trailer/trailer-screen';

@@ -57,6 +57,12 @@ msgstr "{0} người còn phân vân sẽ vào danh sách chờ, có chỗ trố
 msgid "proposal.tracker.noReply"
 msgstr "{0} chưa trả lời"
 
+#. placeholder {0}: index + 1
+#. placeholder {1}: version.slides.length
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.slide"
+msgstr ""
+
 #. placeholder {0}: props.organiserName
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.sub"
@@ -71,6 +77,11 @@ msgstr "{0} không đi"
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.back"
 msgstr "Kế hoạch {0}"
+
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.presents"
+msgstr ""
 
 #. placeholder {0}: trip.destination
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -349,6 +360,10 @@ msgstr "Mình chưa xem được kế hoạch lúc này. Thử lại sau chút n
 msgid "proposal.objection.laterDone"
 msgstr "Chủ nhật mình hỏi lại nhé"
 
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.in"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.in"
 msgstr "Mình đi"
@@ -442,6 +457,10 @@ msgstr "Đã chốt. Chuyến đi được xác nhận."
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.alone.done"
 msgstr "Đã chốt. Chuyến đi bắt đầu."
+
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.maybe"
+msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.maybe"
@@ -560,6 +579,10 @@ msgstr "Xem thử bản của {0}"
 msgid "proposal.version.back"
 msgstr "Đề xuất"
 
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.react"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.ready"
 msgstr "Sẵn sàng gửi"
@@ -651,6 +674,10 @@ msgstr "Chưa đặt chỗ ở"
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.later"
 msgstr "Đang nghĩ thêm. Chủ nhật hỏi lại mình"
+
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.hint"
+msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.out.title"
