@@ -1,6 +1,9 @@
 /**
- * One forwarded confirmation arriving at `{crew}@in.critterpass.app`: bounce it politely when
- * imports are switched off, the address is not ours or the message is too large; otherwise keep the
+ * One forwarded confirmation arriving at `{crew}@in.critterpass.app`. Email Routing's catch-all is
+ * zone-wide, so mail for the zone's other addresses (alerts, the founder's own) lands here too: it is
+ * forwarded unchanged to `FORWARD_OTHER_MAIL_TO`, the destination the catch-all used before, even
+ * while imports are paused. Crew mail is bounced politely when imports are switched off, the address
+ * is not ours or the message is too large; otherwise the Worker keeps the
  * raw message in R2 (the bucket's lifecycle deletes it after 7 days), read the sender verdicts
  * Cloudflare stamped on it, and post signed metadata (never the body) to the api. The api answers
  * whether the mail was accepted, quarantined (an unknown sender, who then gets the "Link this
@@ -20,6 +23,8 @@ export interface InboundEnv {
   readonly API_BASE_URL: string;
   readonly IMPORTS_MAIL_ENABLED?: string;
   readonly INBOUND_EMAIL_HMAC_SECRET: string;
+  /** Verified Email Routing destination for mail to the zone's other addresses; unset = bounce it. */
+  readonly FORWARD_OTHER_MAIL_TO?: string;
 }
 
 export type InboundMessage = Pick<
@@ -33,6 +38,8 @@ export interface InboundDeps {
   readonly newId: () => string;
   /** Sends a raw MIME reply to the message's sender (Cloudflare `message.reply`). */
   readonly reply: (raw: string) => Promise<void>;
+  /** Forwards the message unchanged (Cloudflare `message.forward`). */
+  readonly forward: (to: string) => Promise<void>;
 }
 
 export type InboundOutcome =
@@ -43,6 +50,7 @@ export type InboundOutcome =
   | 'paused'
   | 'too_large'
   | 'not_ours'
+  | 'forwarded'
   | 'unavailable';
 
 const REJECT_TEXT: Readonly<Record<string, string>> = {
@@ -148,11 +156,15 @@ export async function handleInbound(
     message.setReject(REJECT_TEXT[reason] ?? REJECT_TEXT['unavailable'] ?? reason);
     return outcome;
   };
-  if (env.IMPORTS_MAIL_ENABLED !== 'true') return reject('paused', 'paused');
   const [localPart, domain] = message.to.toLowerCase().split('@');
   if (localPart === undefined || domain !== env.INBOUND_DOMAIN.toLowerCase()) {
-    return reject('not_ours', 'not_ours');
+    if (env.FORWARD_OTHER_MAIL_TO === undefined || env.FORWARD_OTHER_MAIL_TO === '') {
+      return reject('not_ours', 'not_ours');
+    }
+    await deps.forward(env.FORWARD_OTHER_MAIL_TO);
+    return 'forwarded';
   }
+  if (env.IMPORTS_MAIL_ENABLED !== 'true') return reject('paused', 'paused');
   if (message.rawSize > MAX_RAW_BYTES) return reject('too_large', 'too_large');
 
   const now = deps.now();

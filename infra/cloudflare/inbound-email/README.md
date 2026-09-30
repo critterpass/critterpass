@@ -21,8 +21,15 @@ sender they linked with a code) is accepted and parsed; anything else is quarant
 | ------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------ |
 | R2 buckets `cp-inbound-mail-staging`, `cp-inbound-mail-prod`        | infra           | dashboard or `wrangler r2 bucket create`                                       |
 | Worker secret `INBOUND_EMAIL_HMAC_SECRET` (32+ random bytes)        | infra           | `wrangler secret put INBOUND_EMAIL_HMAC_SECRET --env <env>`                    |
+| Worker secret `FORWARD_OTHER_MAIL_TO`: the catch-all's old target   | infra           | copied from the zone's catch-all rule before it is switched                    |
 | Same secret + `INBOUND_SENDER_PEPPER` on the api                    | infra           | Railway variables (`api` service)                                              |
 | Deploy the Worker                                                   | infra           | `pnpm --filter @cp/inbound-email exec wrangler deploy --env <env>`             |
 | Email Routing DNS for `in.`, catch-all → Worker, 7-day R2 lifecycle | founder / infra | `scripts/configure-routing.ts --env <env>` prints the plan; `--apply` sends it |
 
 Until routing is on, imports still work through paste and scan in the app.
+
+The catch-all is one rule for the whole `critterpass.app` zone, so every address without its own
+rule reaches this Worker, `alert@` included. The Worker forwards anything outside `INBOUND_DOMAIN`
+to `FORWARD_OTHER_MAIL_TO` unchanged, so switching the catch-all never changes where that mail
+goes. The zone has one catch-all, so it can point at one Worker: before production routing is
+applied, that Worker has to serve both `in.` and `in.staging.`, or staging moves to its own zone.
