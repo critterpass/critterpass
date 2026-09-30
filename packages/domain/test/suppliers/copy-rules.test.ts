@@ -92,7 +92,7 @@ const ACTIONS: SupplierCopyAction[] = [
     time: '10:45',
     reply: 'yes',
   })),
-  ...(['transfer', 'estimate', 'links', 'phrase_card'] as const).map((state) => ({
+  ...(['transfer', 'estimate', 'tariff', 'links', 'phrase_card'] as const).map((state) => ({
     action: 'ride' as const,
     state,
     supplier: 'Klook',

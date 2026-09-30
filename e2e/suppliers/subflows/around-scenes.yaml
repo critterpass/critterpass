@@ -5,9 +5,9 @@ appId: app.critterpass.dev
     file: scene.yaml
     env:
       {
-        SCENE: around-links-estimate,
-        READY: getting-around-ride-links,
-        SHOT: '${PREFIX}-3h-3-links-estimate',
+        SCENE: around-kyoto-estimate,
+        READY: getting-around-fare-estimate,
+        SHOT: '${PREFIX}-3h-3-kyoto-estimate',
       }
 - runFlow:
     file: scene.yaml

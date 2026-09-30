@@ -3,10 +3,10 @@
 import { ALL_PARTNERS_OFF, supplierCopy, type RideQuoteResult } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { ScrollView } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { Scaffold } from '@/ui/surface/Scaffold';
+import { Sheet } from '@/ui/sheet/Sheet';
+import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 
 import { EstimateSheet } from '../../getting-around/EstimateSheet';
 import {
@@ -17,6 +17,7 @@ import { LogRideSheet } from '../../getting-around/LogRideSheet';
 import { rideCard } from '../../getting-around/ride-card';
 import type { QuoteState, SyncedQuote } from '../../getting-around/use-getting-around';
 import { useSupplierCopy } from '../copy';
+import { KYOTO_TAXI_ESTIMATE } from './fare-fixtures';
 
 const noop = () => undefined;
 /** The lab's clock, read once when the lab loads. */
@@ -31,6 +32,7 @@ const LINKS = [
 const BASE: RideQuoteResult = {
   copy_key: 'suppliers.rides.open_app',
   estimate: null,
+  fare_estimate: null,
   links: LINKS,
   phrase_card: {
     poi_id: 'p',
@@ -55,18 +57,48 @@ const GRAB: RideQuoteResult = {
     deep_link: 'grab://open?screenType=BOOKING',
   },
 };
-const FARE = {
-  fare_estimate: {
-    low_minor: 25_000_000,
-    high_minor: 35_000_000,
-    currency: 'IDR',
-    crew: { low_minor: 1600, high_minor: 2200, currency: 'USD' },
-    basis: 'Airport taxi counter tariff to Ubud, plus what crews paid on Grab last month.',
-    sources: ['Ngurah Rai airport taxi tariff board', 'Crew ride logs, September 2026'],
-    checked_at: '2026-09-28T00:00:00Z',
-    reviewed: true,
-  },
+const KYOTO: RideQuoteResult = {
+  copy_key: 'suppliers.rides.open_app',
+  estimate: null,
+  fare_estimate: KYOTO_TAXI_ESTIMATE,
+  links: [{ provider: 'uber', app_url: 'uber://', fallback_url: 'https://m.uber.com' }],
+  phrase_card: { poi_id: 'k', name: 'Kinkaku-ji', name_local: '金閣寺', address: null },
 };
+
+function EstimateScene() {
+  const { t, i18n } = useLingui();
+  const option = KYOTO_TAXI_ESTIMATE.options[0];
+  return option === undefined
+    ? null
+    : sheet(
+        <EstimateSheet
+          option={option}
+          date={(iso) =>
+            i18n.date(new Date(iso), { day: 'numeric', month: 'short', year: 'numeric' })
+          }
+        />,
+        t({ id: 'suppliers.estimate.title', message: 'Why this estimate' }),
+        'supplier-estimate-sheet',
+      );
+}
+
+function LogScene() {
+  const { t } = useLingui();
+  return sheet(
+    <LogRideSheet
+      params={{
+        tripId: '00000000-0000-7000-8000-000000000000',
+        legRef: 'l1',
+        provider: 'grab',
+        currency: 'IDR',
+        attendees: ['a', 'b', 'c', 'd', 'e', 'f'],
+      }}
+    />,
+    t({ id: 'suppliers.log.title', message: 'Log the ride' }),
+    'supplier-log-ride-sheet',
+  );
+}
+
 const SYNCED: SyncedQuote = {
   fare_low_minor: 28_000_000,
   fare_high_minor: 35_000_000,
@@ -81,7 +113,12 @@ interface SceneProps {
   readonly transfer?: boolean;
   readonly journey?: 'none' | 'ready' | 'running' | 'arrived';
   readonly status?: GettingAroundViewProps['status'];
+  /** Kyoto Station to Kinkaku-ji instead of the Bali airport run. */
+  readonly kyoto?: boolean;
 }
+
+const STATION = { lat: 34.9858, lng: 135.7588 };
+const KINKAKU = { lat: 35.0394, lng: 135.7292, label: 'Kinkaku-ji' };
 
 function AroundScene({
   quote,
@@ -89,12 +126,16 @@ function AroundScene({
   transfer = false,
   journey = 'ready',
   status = 'ready',
+  kyoto = false,
 }: SceneProps) {
   const { t, i18n } = useLingui();
   const render = useSupplierCopy();
   const locale = useLocale();
-  const hours = 1;
-  const rest = '05';
+  const hours = kyoto ? 0 : 1;
+  const rest = kyoto ? '28' : '05';
+  const place = kyoto
+    ? 'Kinkaku-ji, 1 Kinkakujicho, Kita-ku'
+    : 'Villa Kayu Manis, Jalan Raya Sayan, Ubud';
   const startedAt =
     journey === 'running'
       ? LAB_NOW - 20 * 60_000
@@ -105,10 +146,10 @@ function AroundScene({
     <GettingAroundView
       status={status}
       guide={{ id: 'tokek', name: 'Tokek' }}
-      header={`Airport → Villa Kayu Manis · ${t({ id: 'suppliers.around.hours', message: `${hours}h ${rest}m` })}`}
+      header={`${kyoto ? 'Kyoto Station → Kinkaku-ji' : 'Airport → Villa Kayu Manis'} · ${t({ id: 'suppliers.around.hours', message: `${hours}h ${rest}m` })}`}
       map={{
-        from: AIRPORT,
-        to: VILLA,
+        from: kyoto ? STATION : AIRPORT,
+        to: kyoto ? KINKAKU : VILLA,
         destinationSlug: null,
         carShare: journey === 'running' ? 0.3 : null,
       }}
@@ -144,43 +185,50 @@ function AroundScene({
       }
       journey={journey === 'none' ? null : { minutes: 65, startedAt, onStart: noop, onLog: noop }}
       phrase={{
-        phrase: 'Tolong antar kami ke Villa Kayu Manis, Jalan Raya Sayan, Ubud.',
-        lang: 'id',
+        phrase: kyoto
+          ? '金閣寺までお願いします。'
+          : 'Tolong antar kami ke Villa Kayu Manis, Jalan Raya Sayan, Ubud.',
+        lang: kyoto ? 'ja' : 'id',
         gloss: t({
           id: 'suppliers.around.gloss',
-          message: `Please take us to ${'Villa Kayu Manis, Jalan Raya Sayan, Ubud'}.`,
+          message: `Please take us to ${place}.`,
         }),
         eyebrow: render(supplierCopy({ action: 'ride', state: 'phrase_card' }, ALL_PARTNERS_OFF)),
       }}
-      later={[
-        {
-          key: 'l1',
-          from: 'Villa',
-          to: 'Warung Biah Biah',
-          detail: t({ id: 'suppliers.later.at', message: `At ${'19:30'}` }),
-          openLabel: render(
-            supplierCopy({ action: 'ride', state: 'links', app: 'Grab' }, ALL_PARTNERS_OFF),
-          ),
-          onOpen: noop,
-          onLog: noop,
-        },
-      ]}
+      later={
+        kyoto
+          ? []
+          : [
+              {
+                key: 'l1',
+                from: 'Villa',
+                to: 'Warung Biah Biah',
+                detail: t({ id: 'suppliers.later.at', message: `At ${'19:30'}` }),
+                openLabel: render(
+                  supplierCopy({ action: 'ride', state: 'links', app: 'Grab' }, ALL_PARTNERS_OFF),
+                ),
+                onOpen: noop,
+                onLog: noop,
+              },
+            ]
+      }
+      {...(kyoto ? { guide: { id: 'pon', name: 'Pon' } } : {})}
     />
   );
 }
 
-function sheet(children: ReactNode) {
+function sheet(children: ReactNode, title: string, testID: string) {
   return (
-    <Scaffold variant="dark">
-      <ScrollView contentContainerStyle={{ padding: 20, paddingTop: 24 }}>{children}</ScrollView>
-    </Scaffold>
+    <Sheet detents={['fit']} title={title} testID={testID}>
+      <SheetScrollView contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
+        {children}
+      </SheetScrollView>
+    </Sheet>
   );
 }
 
 export const AROUND_SCENES: Readonly<Record<string, () => ReactNode>> = {
-  'around-links-estimate': () => (
-    <AroundScene quote={{ kind: 'ready', quote: { ...BASE, ...FARE } }} />
-  ),
+  'around-kyoto-estimate': () => <AroundScene kyoto quote={{ kind: 'ready', quote: KYOTO }} />,
   'around-links': () => <AroundScene quote={{ kind: 'ready', quote: BASE }} />,
   'around-grab-estimate': () => <AroundScene quote={{ kind: 'ready', quote: GRAB }} />,
   'around-transfer': () => <AroundScene quote={{ kind: 'idle' }} transfer />,
@@ -194,25 +242,6 @@ export const AROUND_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ),
   'around-loading': () => <AroundScene quote={{ kind: 'loading' }} journey="none" />,
   'around-no-place': () => <AroundScene quote={{ kind: 'idle' }} status="no_place" />,
-  'around-estimate-why': () =>
-    sheet(
-      <EstimateSheet
-        basis={FARE.fare_estimate.basis}
-        sources={FARE.fare_estimate.sources.map((name) => ({ name }))}
-        checked="28 Sep 2026"
-        reviewed
-      />,
-    ),
-  'around-log-ride': () =>
-    sheet(
-      <LogRideSheet
-        params={{
-          tripId: '00000000-0000-7000-8000-000000000000',
-          legRef: 'l1',
-          provider: 'grab',
-          currency: 'IDR',
-          attendees: ['a', 'b', 'c', 'd', 'e', 'f'],
-        }}
-      />,
-    ),
+  'around-estimate-why': () => <EstimateScene />,
+  'around-log-ride': () => <LogScene />,
 };

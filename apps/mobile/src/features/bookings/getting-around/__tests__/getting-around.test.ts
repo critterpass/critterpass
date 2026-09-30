@@ -12,7 +12,7 @@ import type { RideQuoteResult, SupplierCopy } from '@cp/domain';
 import type { MessageDescriptor } from '@lingui/core';
 import { renderSupplierCopyEn } from '@cp/domain';
 
-import { readFareEstimate } from '../fare-estimate';
+import { KYOTO_TAXI_ESTIMATE } from '../../supplier/dev/fare-fixtures';
 import { toMinor } from '../LogRideSheet';
 import { chooseLeg, journeyProgress, nextTransfer, todaysStops, type PlanStop } from '../model';
 import { driverPhrase } from '../phrase';
@@ -122,9 +122,23 @@ const LINKS = [
 const base: RideQuoteResult = {
   copy_key: 'suppliers.rides.open_app',
   estimate: null,
+  fare_estimate: null,
   links: LINKS,
   phrase_card: { poi_id: 'p', name: 'Villa', name_local: null, address: null },
 };
+
+const GRAB = {
+  quote_id: 'q',
+  provider: 'grab',
+  service: 'GrabCar',
+  eta_min: 4,
+  fare_low_minor: 90000,
+  fare_high_minor: 120000,
+  currency: 'IDR',
+  surge: 'none',
+  fetched_at: '2026-10-16T03:00:00Z',
+  deep_link: 'grab://x',
+} as const;
 
 describe('the ride card', () => {
   it('shows Grab’s own estimate only when Grab gave one', () => {
@@ -153,23 +167,22 @@ describe('the ride card', () => {
       expect(JSON.stringify(c)).not.toMatch(/driver is|booked by|min away · booked/iu);
   });
 
-  it('adds our fare range as an estimate when the api has one', () => {
-    const quote = {
-      ...base,
-      fare_estimate: {
-        low_minor: 150000,
-        high_minor: 200000,
-        currency: 'IDR',
-        basis: 'Metered taxi tariff',
-        sources: ['Bluebird tariff 2026'],
-        checked_at: '2026-10-01T00:00:00Z',
-        reviewed: true,
-      },
-    };
-    expect(readFareEstimate(quote)?.sources).toEqual([{ name: 'Bluebird tariff 2026' }]);
-    expect(readFareEstimate(base)).toBeNull();
+  it('adds our tariff range as an estimate, with extras on their own lines, only without Grab’s', () => {
+    const quote = { ...base, fare_estimate: KYOTO_TAXI_ESTIMATE };
     const card = rideCard({ quote: { kind: 'ready', quote }, synced: null, tz: TZ }, deps);
-    expect(card?.fare?.line).toMatch(/^About .*150.*200.* · estimate$/u);
+    const fare = card?.fares?.[0];
+    expect(fare?.label).toBe('MK Taxi · Metered taxi');
+    expect(fare?.line).toMatch(/^About .*3,400.*4,300 · estimate$/u);
+    expect(fare?.line).not.toMatch(/420/u);
+    expect(fare?.crew).toMatch(/23.*29/u);
+    expect(fare?.extras).toEqual([
+      expect.stringMatching(/^\+ .*420 if you book by phone or app$/u),
+    ]);
+    const withGrab = rideCard(
+      { quote: { kind: 'ready', quote: { ...quote, estimate: GRAB } }, synced: null, tz: TZ },
+      deps,
+    );
+    expect(withGrab?.fares).toEqual([]);
   });
 
   it('falls back to the last synced quote without signal', () => {

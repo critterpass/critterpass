@@ -85,6 +85,7 @@ export function GettingAroundScreen({
     onWhy: (q) => router.push(estimateRoute(q)),
   });
   const phrase = to === null ? null : driverPhrase(to, data.country);
+  const place = phrase?.placeForGloss ?? '';
   const apps = rideAppsFor(data.country);
   const later = data.leg.later.map((leg: Leg) => ({
     key: leg.key,
@@ -186,7 +187,7 @@ export function GettingAroundScreen({
               lang: phrase.lang,
               gloss: t({
                 id: 'suppliers.around.gloss',
-                message: `Please take us to ${phrase.placeForGloss}.`,
+                message: `Please take us to ${place}.`,
               }),
               eyebrow: render(
                 supplierCopy({ action: 'ride', state: 'phrase_card' }, ALL_PARTNERS_OFF),

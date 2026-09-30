@@ -3,26 +3,21 @@
 import { ALL_PARTNERS_OFF, supplierCopy } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { ScrollView } from 'react-native';
 
 import { Stack } from '@/ui/layout/Stack';
-import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 
 import { useSupplierCopy } from '../copy';
 import { VendorDraftCard, type DraftOutcome } from '../VendorDraftCard';
+import { LabSheet, type LabSheetKind } from './lab-sheet';
 import { VendorThreadCard } from '../VendorThreadCard';
 
 const noop = () => undefined;
 const TEXT =
   'Hi Locavore, could you hold a table for 6 tonight at 19:30? We might run up to 21:00. Thanks, Rin';
 
-function sheet(children: ReactNode) {
-  return (
-    <Scaffold variant="dark">
-      <ScrollView contentContainerStyle={{ padding: 20, paddingTop: 24 }}>{children}</ScrollView>
-    </Scaffold>
-  );
+function sheet(children: ReactNode, kind: LabSheetKind) {
+  return <LabSheet kind={kind}>{children}</LabSheet>;
 }
 
 function DraftScene({ outcome }: { readonly outcome: DraftOutcome['kind'] }) {
@@ -50,6 +45,7 @@ function DraftScene({ outcome }: { readonly outcome: DraftOutcome['kind'] }) {
       onShare={noop}
       onDone={noop}
     />,
+    'draft',
   );
 }
 
@@ -127,6 +123,7 @@ function ThreadsScene() {
         body="Hi, can we move our 16:00 massage to 17:00?"
       />
     </Stack>,
+    'messages',
   );
 }
 
@@ -139,6 +136,7 @@ function ListEmptyScene() {
         message: 'No messages to places yet. When you ask a place something, it shows here.',
       })}
     </Text>,
+    'messages',
   );
 }
 

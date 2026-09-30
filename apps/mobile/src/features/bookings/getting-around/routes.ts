@@ -1,9 +1,7 @@
 /** Getting around's sheets: logging a ride and why a fare estimate says what it says. */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths, never copy. */
-import type { RideQuoteResult } from '@cp/domain';
+import type { RideFareEstimateOption } from '@cp/domain';
 import type { Href } from 'expo-router';
-
-import { readFareEstimate } from './fare-estimate';
 
 export function logRideRoute(params: {
   readonly tripId: string;
@@ -17,15 +15,18 @@ export function logRideRoute(params: {
   return { pathname: '/supplier/log-ride', params };
 }
 
-export function estimateRoute(quote: RideQuoteResult): Href {
-  const fare = readFareEstimate(quote);
-  return {
-    pathname: '/supplier/estimate',
-    params: {
-      basis: fare?.basis ?? '',
-      sources: JSON.stringify(fare?.sources ?? []),
-      checked: fare?.checked_at ?? '',
-      reviewed: fare?.reviewed ? '1' : '0',
-    },
-  };
+/** The sheet gets the option itself: it is small, and never stored. */
+export function estimateRoute(option: RideFareEstimateOption): Href {
+  return { pathname: '/supplier/estimate', params: { option: JSON.stringify(option) } };
+}
+
+export function parseEstimateOption(raw: string | undefined): RideFareEstimateOption | null {
+  try {
+    const value = JSON.parse(raw ?? 'null') as RideFareEstimateOption | null;
+    return value !== null && typeof value.low_minor === 'number' && Array.isArray(value.sources)
+      ? value
+      : null;
+  } catch {
+    return null;
+  }
 }

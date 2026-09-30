@@ -15,6 +15,8 @@ import { Skeleton } from '@/ui/states/Skeleton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import type { FareRow } from './fare-rows';
+
 export interface RideAppButton {
   readonly key: string;
   readonly label: string;
@@ -26,7 +28,8 @@ export interface GrabEstimateCardProps {
   /** "Grab estimates Rp 90.000–120.000, about 4 min away", or "Call a car" for links. */
   readonly title: string;
   readonly detail?: string | null;
-  readonly fare?: { readonly line: string; readonly onWhy: () => void } | null;
+  /** Our tariff estimate per ride class, when Grab gave none. */
+  readonly fares?: readonly FareRow[];
   readonly apps: readonly RideAppButton[];
   readonly testID?: string;
 }
@@ -48,7 +51,7 @@ export function GrabEstimateCard({
   state,
   title,
   detail,
-  fare,
+  fares = [],
   apps,
   testID,
 }: GrabEstimateCardProps) {
@@ -80,18 +83,31 @@ export function GrabEstimateCard({
           ) : null}
         </Stack>
       </Row>
-      {fare ? (
-        <Row gap="8" align="center" style={{ flexWrap: 'wrap' }}>
-          <Text variant="body" testID="getting-around-fare-estimate">
-            {fare.line}
+      {fares.map((fare) => (
+        <Stack key={fare.key} gap="2" testID="getting-around-fare-estimate">
+          <Text variant="label" color={theme.semantic.text.secondary}>
+            {fare.label}
           </Text>
-          <TextLink
-            label={t({ id: 'suppliers.rides.whyEstimate', message: 'Why this estimate' })}
-            onPress={fare.onWhy}
-            testID="getting-around-fare-why"
-          />
-        </Row>
-      ) : null}
+          <Row gap="8" align="center" style={{ flexWrap: 'wrap' }}>
+            <Text variant="body">{fare.line}</Text>
+            <TextLink
+              label={t({ id: 'suppliers.rides.whyEstimate', message: 'Why this estimate' })}
+              onPress={fare.onWhy}
+              testID="getting-around-fare-why"
+            />
+          </Row>
+          {fare.crew ? (
+            <Text variant="caption" color={theme.semantic.text.secondary}>
+              {fare.crew}
+            </Text>
+          ) : null}
+          {fare.extras.map((extra) => (
+            <Text key={extra} variant="caption" color={theme.semantic.text.secondary}>
+              {extra}
+            </Text>
+          ))}
+        </Stack>
+      ))}
       {apps.length > 0 ? (
         <Row gap="10">
           {apps.map((app) => (

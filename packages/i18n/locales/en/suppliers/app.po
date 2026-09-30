@@ -32,6 +32,14 @@ msgstr "{member} booked it on {supplier}"
 msgid "suppliers.around.minutes"
 msgstr "{minutes} min"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.operator"
+msgstr "{operator}'s own published rates, over the routed distance and time."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.meter"
+msgstr "{operator}'s published meter tariff, over the routed distance and time."
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.offer.seatsHeld"
 msgstr "{seats} seats held until {time}"
@@ -44,9 +52,23 @@ msgstr "{supplier} links aren't available right now."
 msgid "suppliers.vendor.replied"
 msgstr "{vendor} replied: {reply}"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.airport"
+msgstr "+ {fee} airport pickup fee"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.dispatch"
+msgstr "+ {fee} if you book by phone or app"
+
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.fares.recent"
 msgstr "~{price} from {origin} (recent searches, {time})"
+
+#. placeholder {0}: crew.low
+#. placeholder {1}: crew.high
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.crew"
+msgstr "≈ {0}–{1} in the crew’s currency"
 
 #: ../../apps/mobile/src/features/bookings/supplier/data/commands.ts
 msgid "suppliers.queued.click"
@@ -56,15 +78,13 @@ msgstr "A partner link you opened"
 msgid "suppliers.queued.ride"
 msgstr "A ride you logged"
 
-#. placeholder {0}: price(locale, fare.low_minor, fare.currency)
-#. placeholder {1}: price(locale, fare.high_minor, fare.currency)
-#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
-msgid "suppliers.rides.fareEstimate"
-msgstr "About {0}–{1} · estimate"
-
 #: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
 msgid "suppliers.journey.left"
 msgstr "About {left} min to go · estimate"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.tariffEstimate"
+msgstr "About {low}–{high} · estimate"
 
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.rides.transferBooked"
@@ -127,6 +147,7 @@ msgid "suppliers.offer.bookKlookLeft"
 msgstr "Book on Klook · {left} left"
 
 #: ../../apps/mobile/src/app/(modal)/supplier/book.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
 msgid "suppliers.book.title"
 msgstr "Book with Viator"
 
@@ -160,6 +181,7 @@ msgid "suppliers.cancel.confirm"
 msgstr "Cancel the booking"
 
 #: ../../apps/mobile/src/app/(modal)/supplier/cancel.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
 msgid "suppliers.cancel.title"
 msgstr "Cancel with Viator"
 
@@ -187,14 +209,14 @@ msgstr "Check again"
 msgid "suppliers.book.check"
 msgstr "Check with Viator"
 
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.sourceChecked"
+msgstr "Checked {on}"
+
 #. placeholder {0}: clock(locale, estimate.fetched_at, data.tz)
 #: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
 msgid "suppliers.rides.seen"
 msgstr "Checked at {0}"
-
-#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
-msgid "suppliers.estimate.reviewed"
-msgstr "Checked by our team. Drivers and meters can differ."
 
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.stay.checkedLive"
@@ -310,10 +332,6 @@ msgstr "Keep it"
 msgid "suppliers.cancel.keepLink"
 msgstr "Keep it"
 
-#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
-msgid "suppliers.estimate.checked"
-msgstr "Last checked {checked}."
-
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
 msgid "suppliers.book.last"
 msgstr "Last name"
@@ -355,6 +373,7 @@ msgid "suppliers.log.save"
 msgstr "Log it"
 
 #: ../../apps/mobile/src/app/(modal)/supplier/log-ride.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
 msgid "suppliers.log.title"
 msgstr "Log the ride"
 
@@ -376,6 +395,7 @@ msgid "suppliers.vendor.textLabel"
 msgstr "Message to {vendor}"
 
 #: ../../apps/mobile/src/app/(modal)/supplier/draft.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
 msgid "suppliers.vendor.draftTitle"
 msgstr "Message to a place"
 
@@ -384,12 +404,17 @@ msgid "suppliers.vendor.listError"
 msgstr "Messages didn’t load. Try again in a moment."
 
 #: ../../apps/mobile/src/app/(modal)/supplier/messages.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
 msgid "suppliers.vendor.listTitle"
 msgstr "Messages to places"
 
 #: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
 msgid "suppliers.vendor.listOffline"
 msgstr "Messages to places need signal to load."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.taxi"
+msgstr "Metered taxi"
 
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
@@ -415,6 +440,10 @@ msgstr "No signal. Links open, and the supplier's page loads once you're back."
 #: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
 msgid "suppliers.around.noTrip"
 msgstr "No trip under way"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.unreviewed"
+msgstr "Not reviewed by a person yet: figures taken from the sources on {checked}. Drivers and meters can differ."
 
 #: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
 msgid "suppliers.vendor.exactNote"
@@ -468,8 +497,6 @@ msgstr "Payment cancelled. Nothing was charged."
 msgid "suppliers.book.phone"
 msgstr "Phone"
 
-#. placeholder {0}: 'Villa Kayu Manis, Jalan Raya Sayan, Ubud'
-#. placeholder {0}: phrase.placeForGloss
 #: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
 msgid "suppliers.around.gloss"
@@ -490,6 +517,18 @@ msgstr "Reply by {date}"
 #: ../../apps/mobile/src/features/bookings/supplier/copy.ts
 msgid "suppliers.lottery.results"
 msgstr "results {date} · reminder set"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.reviewedOn"
+msgstr "Reviewed by our team, figures checked {checked}. Drivers and meters can differ."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.bike"
+msgstr "Ride-hail bike"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.car"
+msgstr "Ride-hail car"
 
 #: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
 msgid "suppliers.around.emptyBody"
@@ -566,6 +605,10 @@ msgstr "The card below works offline: show it to any driver."
 msgid "suppliers.vendor.deskHours"
 msgstr "The desk sends messages between {open} and {close} ({tz})."
 
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.band"
+msgstr "The fare band the local regulator publishes, over the routed distance and time."
+
 #: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
 msgid "suppliers.hold.ranOutA11y"
 msgstr "The hold ran out"
@@ -583,6 +626,10 @@ msgstr "The operator confirms most bookings within a day. I’ll tell you when t
 msgid "suppliers.book.payFailed"
 msgstr "The payment didn’t go through. Nothing was charged."
 
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.peak"
+msgstr "The top of the range allows for busy-time prices up to {peak}×; real surges can go higher."
+
 #: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
 msgid "suppliers.book.inWallet"
 msgstr "The voucher is in your wallet, and the cost is in the crew’s expenses."
@@ -590,6 +637,10 @@ msgstr "The voucher is in your wallet, and the cost is in the crew’s expenses.
 #: ../../apps/mobile/src/features/bookings/supplier/OfferCard.tsx
 msgid "suppliers.offer.theirWords"
 msgstr "Their words"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.minimum"
+msgstr "This trip is short enough that the minimum fare applies."
 
 #: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
 msgid "suppliers.offers.linkLine"
@@ -654,16 +705,13 @@ msgid "suppliers.vendor.selfBody"
 msgstr "WhatsApp opens with this text. Pick {vendor}’s chat and send it. Their reply comes to you."
 
 #: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
 msgid "suppliers.estimate.title"
 msgstr "Why this estimate"
 
 #: ../../apps/mobile/src/features/bookings/getting-around/GrabEstimateCard.tsx
 msgid "suppliers.rides.whyEstimate"
 msgstr "Why this estimate"
-
-#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
-msgid "suppliers.estimate.computed"
-msgstr "Worked out from these sources, not checked by a person yet. Drivers and meters can differ."
 
 #: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
 msgid "suppliers.journey.there"

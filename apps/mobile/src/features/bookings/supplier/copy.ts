@@ -146,6 +146,10 @@ export const SUPPLIER_COPY_MESSAGES: Readonly<Record<SupplierCopyKey, MessageDes
     id: 'suppliers.rides.grabEstimate',
     message: 'Grab estimates {low}–{high}, about {minutes} min away',
   }),
+  'suppliers.rides.tariff_estimate': msg({
+    id: 'suppliers.rides.tariffEstimate',
+    message: 'About {low}–{high} · estimate',
+  }),
   'suppliers.rides.open_app': msg({ id: 'suppliers.rides.openApp', message: 'Open {app}' }),
   'suppliers.rides.phrase_card': msg({
     id: 'suppliers.rides.phraseCard',

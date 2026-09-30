@@ -1,9 +1,6 @@
 /** Supplier lab scenes: offer cards (6f-1), the Viator booking sheet and the cancel sheet. */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
-import { ScrollView } from 'react-native';
-
-import { Scaffold } from '@/ui/surface/Scaffold';
 
 import { supplierCopy, type HoldAvailability } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
@@ -15,6 +12,7 @@ import type { WireOffer } from '../data/api';
 import type { PartnerLinkOutcome } from '../data/partner-link';
 import { OffersView } from '../OffersView';
 import { ACTIVITY_LINK_PARTNERS } from '../suppliers';
+import { LabSheet, type LabSheetKind } from './lab-sheet';
 import { useOfferCards } from '../use-offer-cards';
 
 const noop = () => undefined;
@@ -130,15 +128,12 @@ function BookScene(
       holdUntil={props.hold === 'HOLDING' || props.hold === 'PRICE_HELD' ? soon() : null}
       resultLine={resultLine}
     />,
+    'book',
   );
 }
 
-function sheet(children: ReactNode) {
-  return (
-    <Scaffold variant="dark">
-      <ScrollView contentContainerStyle={{ padding: 20, paddingTop: 24 }}>{children}</ScrollView>
-    </Scaffold>
-  );
+function sheet(children: ReactNode, kind: LabSheetKind) {
+  return <LabSheet kind={kind}>{children}</LabSheet>;
 }
 
 const BOOK: BookingSheetProps = {
@@ -193,6 +188,7 @@ const cancel = (state: CancelState) => () =>
       onKeep={noop}
       onRetry={noop}
     />,
+    'cancel',
   );
 
 export const OFFER_SCENES: Readonly<Record<string, () => ReactNode>> = {

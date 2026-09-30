@@ -3,9 +3,10 @@
  * for these ids must match it; `supplierCopy` picks the key.
  */
 import { AFFILIATE_DISCLOSURE_KEY } from './disclosure';
+import { RIDE_FARE_COPY_KEY } from './ride-fare';
 import { RIDE_COPY_KEYS } from './rides';
 
-import type { SupplierCopy } from './copy-rules';
+import type { SupplierCopy, SupplierCopyParams } from './copy-rules';
 
 export const SUPPLIER_COPY_EN = {
   'suppliers.stay.found': 'Found {count} free-cancel {kind} in {area}',
@@ -47,6 +48,7 @@ export const SUPPLIER_COPY_EN = {
   'suppliers.rides.transfer_booked':
     'Airport pickup booked on {supplier} (from your email) · driver details from your voucher',
   [RIDE_COPY_KEYS.estimate]: 'Grab estimates {low}–{high}, about {minutes} min away',
+  [RIDE_FARE_COPY_KEY]: 'About {low}–{high} · estimate',
   [RIDE_COPY_KEYS.links]: 'Open {app}',
   [RIDE_COPY_KEYS.phraseCard]: 'Show this to the driver',
   'suppliers.concierge.clinic':
@@ -64,4 +66,18 @@ export function renderSupplierCopyEn(value: SupplierCopy): string {
     const param = value.params[name];
     return param === undefined ? match : String(param);
   });
+}
+
+/** A copy value for a key. */
+export function copy(key: SupplierCopyKey, params: SupplierCopyParams = {}): SupplierCopy {
+  return { key, params };
+}
+
+/** Drops undefined values so params stay a plain record. */
+export function defined(
+  params: Readonly<Record<string, string | number | undefined>>,
+): SupplierCopyParams {
+  return Object.fromEntries(
+    Object.entries(params).filter(([, v]) => v !== undefined),
+  ) as SupplierCopyParams;
 }

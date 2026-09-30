@@ -3,7 +3,7 @@
  * app runs, or the last quote this phone synced when there's no signal. Our fare range rides along
  * labelled as an estimate whenever the api has one.
  */
-import { ALL_PARTNERS_OFF, supplierCopy, type RideQuoteResult } from '@cp/domain';
+import { ALL_PARTNERS_OFF, supplierCopy, type RideFareEstimateOption } from '@cp/domain';
 import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { Linking } from 'react-native';
@@ -11,7 +11,7 @@ import { Linking } from 'react-native';
 import { clock, price } from '../format';
 import type { useSupplierCopy } from '../supplier/copy';
 import { rideAppName } from '../supplier/suppliers';
-import { readFareEstimate } from './fare-estimate';
+import { fareRows } from './fare-rows';
 import type { GrabEstimateCardProps } from './GrabEstimateCard';
 import { openRideLink } from './ride-links';
 import type { GettingAround } from './use-getting-around';
@@ -21,7 +21,7 @@ interface RideCardDeps {
   readonly tr: (descriptor: MessageDescriptor) => string;
   readonly render: ReturnType<typeof useSupplierCopy>;
   readonly locale: string;
-  readonly onWhy: (quote: RideQuoteResult) => void;
+  readonly onWhy: (option: RideFareEstimateOption) => void;
 }
 
 /** The ride card from the quote state (Grab's estimate, links, none, or the last synced quote). */
@@ -62,18 +62,8 @@ export function rideCard(
   const quote = data.quote.quote;
   const estimate =
     quote.estimate?.provider === 'grab' && 'deep_link' in quote.estimate ? quote.estimate : null;
-  const fare = readFareEstimate(quote);
-  const fareLine = fare
-    ? tr(
-        msg({
-          id: 'suppliers.rides.fareEstimate',
-          message: `About ${price(locale, fare.low_minor, fare.currency)}–${price(locale, fare.high_minor, fare.currency)} · estimate`,
-        }),
-      ) +
-      (fare.crew
-        ? ` (≈ ${price(locale, fare.crew.low_minor, fare.crew.currency)}–${price(locale, fare.crew.high_minor, fare.crew.currency)})`
-        : '')
-    : null;
+  // Our tariff estimate stands in only when Grab gave none.
+  const fares = estimate ? [] : fareRows(quote.fare_estimate, deps);
   const apps = quote.links.map((link) => ({
     key: link.provider,
     label: render(
@@ -84,7 +74,6 @@ export function rideCard(
     ),
     onPress: () => openRideLink(link),
   }));
-  const fareProp = fareLine ? { line: fareLine, onWhy: () => deps.onWhy(quote) } : null;
   if (estimate) {
     return {
       state: 'estimate',
@@ -114,7 +103,7 @@ export function rideCard(
                 message: `Fares are up right now · checked at ${clock(locale, estimate.fetched_at, data.tz)}`,
               }),
             ),
-      fare: fareProp,
+      fares,
       apps: [
         {
           key: 'grab',
@@ -137,7 +126,7 @@ export function rideCard(
           message: 'Opens the app with the drop-off filled in. We don’t book the car.',
         }),
       ),
-      fare: fareProp,
+      fares,
       apps,
     };
   }
@@ -150,7 +139,7 @@ export function rideCard(
         message: 'Show a taxi driver the card below.',
       }),
     ),
-    fare: fareProp,
+    fares,
     apps: [],
   };
 }

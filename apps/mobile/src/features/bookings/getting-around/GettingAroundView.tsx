@@ -11,11 +11,13 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { BackButton } from '@/ui/shell/BackButton';
 import { EmptyState } from '@/ui/states/EmptyState';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { PhraseCard } from '@/ui/trip/PhraseCard';
@@ -86,6 +88,14 @@ export function GettingAroundView(props: GettingAroundViewProps) {
             }
             guide={props.guide.id}
             guideName={props.guide.name}
+            sticker={
+              <Sticker
+                kind={GUIDE_STICKERS[props.guide.id].kind}
+                name={GUIDE_STICKERS[props.guide.id].name}
+                pose="sleep"
+                size={120}
+              />
+            }
             line={t({
               id: 'suppliers.around.emptyBody',
               message: 'Rides show up here for the places on your plan.',

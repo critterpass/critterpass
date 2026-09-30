@@ -5,8 +5,9 @@
  * render the key through their catalogue; `SUPPLIER_COPY_EN` is the English source every catalogue
  * entry must match.
  */
-import type { SupplierCopyKey } from './copy-en';
+import { copy, defined, type SupplierCopyKey } from './copy-en';
 import { AFFILIATE_DISCLOSURE_KEY } from './disclosure';
+import { RIDE_FARE_COPY_KEY } from './ride-fare';
 import { RIDE_COPY_KEYS } from './rides';
 
 /** Partner switches that change copy (`ops.partner_adapters`, read server-side). */
@@ -103,7 +104,7 @@ export type SupplierCopyAction =
     }
   | {
       readonly action: 'ride';
-      readonly state: 'transfer' | 'estimate' | 'links' | 'phrase_card';
+      readonly state: 'transfer' | 'estimate' | 'tariff' | 'links' | 'phrase_card';
       readonly supplier?: string;
       readonly low?: string;
       readonly high?: string;
@@ -125,19 +126,6 @@ export type SupplierCopyAction =
       readonly time: string;
     }
   | { readonly action: 'disclosure'; readonly guide: string };
-
-function copy(key: SupplierCopyKey, params: SupplierCopyParams = {}): SupplierCopy {
-  return { key, params };
-}
-
-/** Drops undefined values so params stay a plain record. */
-function defined(
-  params: Readonly<Record<string, string | number | undefined>>,
-): SupplierCopyParams {
-  return Object.fromEntries(
-    Object.entries(params).filter(([, v]) => v !== undefined),
-  ) as SupplierCopyParams;
-}
 
 /** The copy for one action under the current partner switches (pure; the §5 table in code). */
 export function supplierCopy(input: SupplierCopyAction, flags: SupplierCopyFlags): SupplierCopy {
@@ -217,6 +205,9 @@ export function supplierCopy(input: SupplierCopyAction, flags: SupplierCopyFlags
           RIDE_COPY_KEYS.estimate,
           defined({ low: input.low, high: input.high, minutes: input.minutes }),
         );
+      }
+      if (input.state === 'tariff') {
+        return copy(RIDE_FARE_COPY_KEY, defined({ low: input.low, high: input.high }));
       }
       if (input.state === 'links') return copy(RIDE_COPY_KEYS.links, defined({ app: input.app }));
       return copy(RIDE_COPY_KEYS.phraseCard);
