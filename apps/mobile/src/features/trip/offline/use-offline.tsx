@@ -1,5 +1,5 @@
 /**
- * The offline state for one trip, live: sync phase (no signal, weak signal, back), the saved day
+ * The offline state for one trip, live: sync phase (no signal, slow to reconnect, back), the saved day
  * bundle for today, today's plan, the upload queue through the reconnect, and what was rejected.
  * Answers null while online with nothing to show; "Back online" stays a moment after the last
  * tick, then lifts.
@@ -104,11 +104,7 @@ export function useOffline(
   ).rows[0];
   const day = saved === undefined ? null : (JSON.parse(saved.data) as SavedDay);
 
-  const quiet =
-    lifted &&
-    state.phase !== 'offline' &&
-    state.phase !== 'reconnecting' &&
-    sync.phase !== 'connecting';
+  const quiet = lifted && state.phase !== 'offline' && state.phase !== 'reconnecting';
   if (quiet && options.always !== true) return null;
   const started = items.filter(
     (item) => item.starts_at !== null && Date.parse(item.starts_at) <= now.getTime(),
@@ -158,10 +154,12 @@ export function useOffline(
     sends: state.items.map((item) => ({
       opId: item.opId,
       summary: item.summary,
-      sent: item.sent,
+      // A write the server turned down leaves the queue too, but it is listed below, not ticked.
+      sent: item.sent && !rejected.some((r) => r.opId === item.opId),
       tickIndex: item.tickIndex,
     })),
-    conflicts: rejected,
+    // Only what this phone tried to send while it had no signal.
+    conflicts: rejected.filter((item) => state.items.some((line) => line.opId === item.opId)),
     lastSynced,
     onOpenPlan: () => router.push(tripDayRoute(tripId, today)),
     onOpenSend: (opId) => {

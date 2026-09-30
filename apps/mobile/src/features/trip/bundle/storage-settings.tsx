@@ -13,6 +13,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion';
 import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Stack } from '@/ui/layout/Stack';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
@@ -87,6 +88,7 @@ export function StorageSettingsView({
     <Scaffold variant="dark" edges={['top']} testID="trip-offline-storage">
       <ScrollView contentContainerStyle={{ padding: theme.size.gutter }}>
         <Stack gap="20">
+          <BackEyebrow label={t({ id: 'trip.offline.backToSettings', message: 'Settings' })} />
           <Text variant="h1" accessibilityRole="header">
             {t({ id: 'trip.offline.storageTitle', message: 'Offline' })}
           </Text>

@@ -158,6 +158,10 @@ msgstr ""
 msgid "trip.offline.sent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.backToSettings"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
 msgid "trip.offline.weakLine"
 msgstr ""
@@ -181,6 +185,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
 msgid "trip.offline.planFirst"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
+msgid "trip.offline.backToTrip"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx

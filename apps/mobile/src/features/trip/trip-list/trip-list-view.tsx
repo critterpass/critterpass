@@ -8,6 +8,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
@@ -22,6 +23,8 @@ export interface TripListViewProps {
 }
 
 export function TripListView({ state, trips, onOpen, onHome }: TripListViewProps) {
+  // The TRIPS tab's root: the tab bar is the way out.
+  useNoBackByDesign();
   const theme = useTheme();
   const { t } = useLingui();
   const inset = useTabBarInset();

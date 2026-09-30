@@ -158,6 +158,10 @@ msgstr "Sẽ gửi khi có sóng"
 msgid "trip.offline.sent"
 msgstr "Đã gửi"
 
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.backToSettings"
+msgstr "Cài đặt"
+
 #: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
 msgid "trip.offline.weakLine"
 msgstr "Sóng yếu. Đang gửi chậm."
@@ -182,6 +186,10 @@ msgstr "Lịch trình hôm nay"
 #: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
 msgid "trip.offline.planFirst"
 msgstr "Lịch trình hôm nay và {title} lúc {time}"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
+msgid "trip.offline.backToTrip"
+msgstr "Chuyến đi"
 
 #: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
 msgid "trip.offline.storageLink"

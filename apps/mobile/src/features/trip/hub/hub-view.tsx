@@ -17,6 +17,7 @@ import { Stack } from '@/ui/layout/Stack';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -102,6 +103,8 @@ function NextCard({ next }: { readonly next: HubNext }) {
 }
 
 export function HubView(props: HubViewProps) {
+  // The hub is the TRIPS tab's own screen (3k-1 draws no back); a pushed one has Switch trip.
+  useNoBackByDesign();
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();

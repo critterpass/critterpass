@@ -158,6 +158,10 @@ msgstr "Sends when you're back"
 msgid "trip.offline.sent"
 msgstr "Sent"
 
+#: ../../apps/mobile/src/features/trip/bundle/storage-settings.tsx
+msgid "trip.offline.backToSettings"
+msgstr "Settings"
+
 #: ../../apps/mobile/src/features/trip/offline/offline-view.tsx
 msgid "trip.offline.weakLine"
 msgstr "Signal is weak. Sending slowly."
@@ -182,6 +186,10 @@ msgstr "Today's plan"
 #: ../../apps/mobile/src/features/trip/offline/offline-copy.ts
 msgid "trip.offline.planFirst"
 msgstr "Today's plan and the {time} {title}"
+
+#: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
+msgid "trip.offline.backToTrip"
+msgstr "Trip"
 
 #: ../../apps/mobile/src/features/trip/offline/offline-screen.tsx
 msgid "trip.offline.storageLink"

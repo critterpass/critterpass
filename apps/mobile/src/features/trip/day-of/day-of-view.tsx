@@ -18,6 +18,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { LeaveByHero } from '@/ui/trip/LeaveByHero';
@@ -124,6 +125,8 @@ function Hero(props: DayOfViewProps) {
 }
 
 export function DayOfView(props: DayOfViewProps) {
+  // 3k-2 draws the hero edge to edge with no back; the tab bar and the system back lead out.
+  useNoBackByDesign();
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();

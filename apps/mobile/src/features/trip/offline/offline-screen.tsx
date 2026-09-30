@@ -9,6 +9,7 @@ import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TextLink } from '@/ui/buttons/TextLink';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { useTheme } from '@/ui/theme';
 
@@ -23,6 +24,8 @@ export function OfflinePage({
   readonly view: OfflineViewProps | null;
   readonly footer?: ReactNode;
 }) {
+  const { t } = useLingui();
+  const back = <BackEyebrow label={t({ id: 'trip.offline.backToTrip', message: 'Trip' })} />;
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   return (
@@ -33,6 +36,7 @@ export function OfflinePage({
           paddingBottom: insets.bottom + theme.space['24'],
         }}
       >
+        {back}
         {view === null ? null : <OfflineView {...view} />}
         {footer}
       </ScrollView>
