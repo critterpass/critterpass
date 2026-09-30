@@ -7,11 +7,13 @@ appId: app.critterpass.dev
 - takeScreenshot: chat-3g-1-open
 - tapOn:
     text: 'Message.*'
-- inputText: 'landing at six'
+# Short on purpose: on the Android emulator each typed character can take seconds, and one
+# inputText must finish inside the driver's two-minute call deadline.
+- inputText: 'at six'
 - tapOn: 'Send'
 - extendedWaitUntil:
     visible:
-      text: 'landing at six'
+      text: 'at six'
     timeout: 10000
 - extendedWaitUntil:
     notVisible:
@@ -34,5 +36,5 @@ appId: app.critterpass.dev
     visible:
       text: 'Got it, see you there.*'
     timeout: 30000
-- assertVisible: 'landing at six'
+- assertVisible: 'at six'
 - takeScreenshot: chat-3g-1-conversation
