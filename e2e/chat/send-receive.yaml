@@ -7,11 +7,11 @@ appId: app.critterpass.dev
 - takeScreenshot: chat-3g-1-open
 - tapOn:
     text: 'Message.*'
-- inputText: 'landing at 6, grab me?'
+- inputText: 'landing at six'
 - tapOn: 'Send'
 - extendedWaitUntil:
     visible:
-      text: 'landing at 6, grab me?'
+      text: 'landing at six'
     timeout: 10000
 - extendedWaitUntil:
     notVisible:
@@ -34,5 +34,5 @@ appId: app.critterpass.dev
     visible:
       text: 'Got it, see you there.*'
     timeout: 30000
-- assertVisible: 'landing at 6, grab me?'
+- assertVisible: 'landing at six'
 - takeScreenshot: chat-3g-1-conversation

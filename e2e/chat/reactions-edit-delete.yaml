@@ -11,6 +11,12 @@ appId: app.critterpass.dev
     notVisible:
       text: 'Sending'
     timeout: 30000
+# Android leaves the keyboard up after sending; a long press would land on its keys.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
 - longPressOn: 'sunset at 6?'
 - extendedWaitUntil:
     visible:
