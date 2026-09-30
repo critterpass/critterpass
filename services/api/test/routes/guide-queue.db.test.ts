@@ -1,13 +1,17 @@
 /**
  * Queued guide questions through the command door: ASK AT MIDNIGHT is accepted only while today's
- * free answers are spent, waits for that day's reset, once per day; cancelling frees the day; and
- * rating an answer is kept on the message.
+ * free answers are spent, waits for that day's reset, once per day; cancelling frees the day;
+ * rating an answer is kept on the message; and a custom phrase card is for trip members only and
+ * queues its text and audio job.
  */
 import { randomUUID } from 'node:crypto';
 
+import type { PgBoss } from 'pg-boss';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerGuideCommands } from '../../src/commands/guide';
+import { startJobProducer } from '../../src/jobs/producer';
+import { seedGuideTrip } from '../ai/guide-action-seed';
 import {
   envelope,
   startCommandDoors,
@@ -16,12 +20,18 @@ import {
 } from './command-doors-harness';
 
 let harness: CommandDoorsHarness;
+let producer: PgBoss;
 
 beforeAll(async () => {
   harness = await startCommandDoors(registerGuideCommands);
+  const { connectionString } = (
+    harness.pool as unknown as { options: { connectionString: string } }
+  ).options;
+  producer = await startJobProducer({ connectionString, logger: { error: () => undefined } });
 }, 240_000);
 
 afterAll(async () => {
+  await producer.stop({ graceful: false });
   await harness.stop();
 });
 
@@ -118,5 +128,38 @@ describe('rate_guide_answer', () => {
       rows[0]!.id,
     ]);
     expect(stored.rows).toEqual([{ rating: 'down' }]);
+  });
+});
+
+describe('request_phrase_card', () => {
+  it('writes a trip member’s card and queues its text and audio', async () => {
+    const me = await harness.signInAnonymously();
+    const outsider = await harness.signInAnonymously();
+    const { tripId } = await seedGuideTrip(harness.pool, { organiser: me.uid, members: [] });
+    const ask = {
+      trip_id: tripId,
+      purpose: 'Please take me to this address',
+      address: '12 Jalan Bisma, Ubud',
+      language: 'id',
+      register: 'polite',
+    };
+    expect((await send(outsider, 'request_phrase_card', ask)).body.error).toMatchObject({
+      code: 'NOT_FOUND',
+    });
+    const requested = await send(me, 'request_phrase_card', ask);
+    expect(requested.status).toBe(200);
+    const cardId = requested.body.result?.['card_id'];
+    const card = await harness.pool.query(
+      'SELECT user_id, address, text, audio_status FROM custom_phrase_cards WHERE id = $1',
+      [cardId],
+    );
+    expect(card.rows).toEqual([
+      { user_id: me.uid, address: '12 Jalan Bisma, Ubud', text: null, audio_status: 'pending' },
+    ]);
+    const jobs = await harness.pool.query(
+      "SELECT 1 FROM pgboss.job WHERE name = 'phrase.tts' AND singleton_key = $1",
+      [cardId],
+    );
+    expect(jobs.rowCount).toBe(1);
   });
 });
