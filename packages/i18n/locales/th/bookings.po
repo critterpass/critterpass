@@ -117,20 +117,20 @@ msgstr ""
 msgid "bookings.candidate.add"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
-msgid "bookings.add.title"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.addCard"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
-msgid "bookings.candidate.byHand"
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.addTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.byHand"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
@@ -192,6 +192,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.boat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.card.detailsA11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts

@@ -8,7 +8,7 @@ import { upper } from '@cp/i18n';
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
@@ -17,12 +17,13 @@ import { DashedAddCard } from '@/ui/cards/DashedAddCard';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
+import { PressScale } from '@/ui/press/PressScale';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
 import { ImportTiles, type ImportChannel } from '../add/ImportTiles';
 import { BookingDeck, type DeckItem } from './BookingDeck';
@@ -31,6 +32,7 @@ import { ImportBanner, OfflineBadge, type ImportBannerProps } from './WalletPart
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['8'] },
   title: { flexShrink: 1 },
+  details: { alignSelf: 'flex-end', minHeight: MIN_TOUCH_TARGET, justifyContent: 'center' },
 }));
 
 export interface WalletViewProps {
@@ -58,7 +60,7 @@ function Title({ offlineCount }: { readonly offlineCount: number }) {
   const { t } = useLingui();
   return (
     <Row justify="space-between" align="center" gap="12">
-      <Text variant="displayXl" accessibilityRole="header" style={styles.title}>
+      <Text variant="h1" designSize={52} accessibilityRole="header" style={styles.title}>
         {upper(t({ id: 'bookings.title', message: 'Bookings' }), locale)}
       </Text>
       {offlineCount > 0 ? <OfflineBadge count={offlineCount} /> : null}
@@ -112,13 +114,20 @@ export function WalletView(props: WalletViewProps) {
               testID="bookings-stack"
             >
               {props.openBody}
-              <View>
-                <TextLink
-                  label={upper(t({ id: 'bookings.card.details', message: 'Details' }), locale)}
-                  onPress={props.onOpenDetail}
-                  testID="bookings-open-details"
-                />
-              </View>
+              <PressScale
+                onPress={props.onOpenDetail}
+                widthClass="narrow"
+                accessibilityLabel={t({
+                  id: 'bookings.card.detailsA11y',
+                  message: 'Booking details',
+                })}
+                style={styles.details}
+                testID="bookings-open-details"
+              >
+                <Text variant="label" color={theme.semantic.text.onAccent}>
+                  {`${upper(t({ id: 'bookings.card.details', message: 'Details' }), locale)} ›`}
+                </Text>
+              </PressScale>
             </BookingDeck>
           </Stack>
         ) : null}

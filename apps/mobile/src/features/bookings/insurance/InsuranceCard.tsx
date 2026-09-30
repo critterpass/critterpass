@@ -7,7 +7,7 @@ import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { TextLink } from '@/ui/buttons/TextLink';
+import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { DashedAddCard } from '@/ui/cards/DashedAddCard';
 import { DocField } from '@/ui/documents/DocField';
@@ -66,9 +66,12 @@ export function InsuranceCard({ policy, onOpen, onCall }: InsuranceCardProps) {
           )}
         </Row>
         {phone === null ? null : (
-          <TextLink
-            label={upper(t({ id: 'bookings.insurance.call', message: 'Call assistance' }), locale)}
+          <PillButton
+            label={t({ id: 'bookings.insurance.call', message: 'Call assistance' })}
             onPress={() => onCall(phone)}
+            tone="ink"
+            size="sm"
+            block={false}
             testID="bookings-insurance-call"
           />
         )}

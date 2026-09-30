@@ -75,7 +75,7 @@ export function AddBookingView(props: AddBookingViewProps) {
           label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)}
           onPress={props.onBack}
         />
-        <Text variant="displayXl" accessibilityRole="header">
+        <Text variant="h1" designSize={52} accessibilityRole="header">
           {upper(t({ id: 'bookings.add.title', message: 'Add a booking' }), locale)}
         </Text>
         <ImportTiles onChannel={props.onChannel} />

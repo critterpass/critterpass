@@ -3,6 +3,8 @@
 import type { ReactNode } from 'react';
 import { ScrollView } from 'react-native';
 
+import { Scaffold } from '@/ui/surface/Scaffold';
+
 import { InsuranceCard } from '../insurance/InsuranceCard';
 import { InsuranceFormView } from '../insurance/InsuranceFormView';
 import { LAB_POLICY } from './lab-fixtures';
@@ -11,10 +13,12 @@ const noop = () => undefined;
 
 export const INSURANCE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'insurance-card': () => (
-    <ScrollView contentContainerStyle={{ padding: 20, paddingTop: 80, gap: 20 }}>
-      <InsuranceCard policy={LAB_POLICY} onOpen={noop} onCall={noop} />
-      <InsuranceCard policy={null} onOpen={noop} onCall={noop} />
-    </ScrollView>
+    <Scaffold variant="dark">
+      <ScrollView contentContainerStyle={{ padding: 20, paddingTop: 24, gap: 20 }}>
+        <InsuranceCard policy={LAB_POLICY} onOpen={noop} onCall={noop} />
+        <InsuranceCard policy={null} onOpen={noop} onCall={noop} />
+      </ScrollView>
+    </Scaffold>
   ),
   'insurance-form': () => (
     <InsuranceFormView

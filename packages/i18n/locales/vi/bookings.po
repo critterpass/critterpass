@@ -117,20 +117,20 @@ msgstr "Hoạt động"
 msgid "bookings.candidate.add"
 msgstr "Thêm"
 
-#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
-msgid "bookings.add.title"
-msgstr "Thêm đặt chỗ"
-
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.addCard"
 msgstr "Thêm đặt chỗ"
 
-#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
-msgid "bookings.candidate.byHand"
-msgstr "Tự nhập"
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.title"
+msgstr "Thêm đặt chỗ"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.addTitle"
+msgstr "Tự nhập"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.byHand"
 msgstr "Tự nhập"
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
@@ -188,11 +188,15 @@ msgstr "Thẻ lên máy bay, mở toàn màn hình"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
 msgid "bookings.flight.boards"
-msgstr "Lên máy bay"
+msgstr "Giờ lên"
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.boat"
 msgstr "Tàu"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.card.detailsA11y"
+msgstr "Chi tiết đặt chỗ"
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.add"

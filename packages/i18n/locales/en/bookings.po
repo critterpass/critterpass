@@ -117,20 +117,20 @@ msgstr "Activity"
 msgid "bookings.candidate.add"
 msgstr "Add"
 
-#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
-msgid "bookings.add.title"
-msgstr "Add a booking"
-
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.addCard"
 msgstr "Add a booking"
 
-#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
-msgid "bookings.candidate.byHand"
-msgstr "Add by hand"
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.title"
+msgstr "Add a booking"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.addTitle"
+msgstr "Add by hand"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.byHand"
 msgstr "Add by hand"
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
@@ -193,6 +193,10 @@ msgstr "Boards"
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.boat"
 msgstr "Boat"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.card.detailsA11y"
+msgstr "Booking details"
 
 #: ../../apps/mobile/src/features/bookings/data/commands.ts
 msgid "bookings.queued.add"

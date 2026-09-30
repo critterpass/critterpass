@@ -118,12 +118,12 @@ export function FlightCard({
       <Row justify="space-between" align="center" gap="8">
         <Stack style={styles.code}>
           <Text variant="displayHero">{view.from}</Text>
-          <Text variant="monoData">{clock(locale, view.departsAt, tz)}</Text>
+          <Text variant="body">{clock(locale, view.departsAt, tz)}</Text>
         </Stack>
         <Icon name="plane" size={40} color={ink} decorative />
         <Stack align="flex-end" style={styles.code}>
           <Text variant="displayHero">{view.to}</Text>
-          <Text variant="monoData">{clock(locale, view.arrivesAt, tz)}</Text>
+          <Text variant="body">{clock(locale, view.arrivesAt, tz)}</Text>
         </Stack>
       </Row>
       <Row gap="8">

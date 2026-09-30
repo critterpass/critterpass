@@ -116,11 +116,8 @@ export function BookingDetailView(props: BookingDetailViewProps) {
       key: fact.key,
       kind: 'custom' as const,
       title: fact.title,
-      trailing: (
-        <Text variant="body" color={secondary}>
-          {fact.sub}
-        </Text>
-      ),
+      subtitle: fact.sub,
+      trailing: null,
     }));
   return (
     <Scaffold variant="dark" testID="bookings-detail">

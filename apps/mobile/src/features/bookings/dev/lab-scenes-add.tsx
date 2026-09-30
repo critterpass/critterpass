@@ -3,6 +3,7 @@
  * couldn't read, already in the wallet, scan lines, the paste sheet and the mailbox sheet.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 
 import { AddBookingView } from '../add/AddBookingView';
@@ -16,6 +17,8 @@ import type { ScanState } from '../scan/use-booking-scan';
 import { LAB_CANDIDATES, LAB_MEMBERS, LAB_TZ, LAB_UID, labCandidate } from './lab-fixtures';
 
 const noop = () => undefined;
+/** A sheet's dismiss leaves the scene, as Android back does on a real sheet route. */
+const leave = () => router.back();
 const copy = () => Promise.resolve();
 const ADDRESS = 'bali-six@in.critterpass.app';
 
@@ -75,7 +78,7 @@ function mailbox(status: MailboxStatus, paywall = true): ReactNode {
         onConnect={noop}
         onDisconnect={noop}
         onCopy={copy}
-        onClose={noop}
+        onClose={leave}
       />
     </>
   );

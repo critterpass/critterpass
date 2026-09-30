@@ -112,7 +112,7 @@ function ClosedCard({
             <Text variant="title" style={styles.title} numberOfLines={1}>
               {item.title}
             </Text>
-            <Text variant="label">{item.meta}</Text>
+            <Text variant="rowTitle">{item.meta}</Text>
           </Row>
         </SurfaceToneProvider>
       </PressScale>

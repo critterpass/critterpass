@@ -11,10 +11,12 @@ import { useMemo } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { DocField } from '@/ui/documents/DocField';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { CloseButton } from '@/ui/sheet/CloseButton';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -36,6 +38,7 @@ const useStyles = makeStyles((t) => ({
     padding: t.space['12'],
   },
   cell: { flex: 1, minWidth: 0 },
+  missing: { textAlign: 'center' },
 }));
 
 export interface BoardingPassViewProps {
@@ -58,6 +61,7 @@ export function BoardingPassView(props: BoardingPassViewProps) {
   const { t } = useLingui();
   const { width } = useWindowDimensions();
   const size = Math.min(width - theme.size.gutter * 2 - theme.space['24'], 360);
+  const tokek = GUIDE_STICKERS.tokek;
   const qr = useMemo(
     () => (props.payload === null ? null : qrPath(props.payload)),
     [props.payload],
@@ -75,12 +79,16 @@ export function BoardingPassView(props: BoardingPassViewProps) {
           <Text variant="body">{props.subtitle}</Text>
         </Stack>
         {qr === null ? (
-          <Text variant="bodyLg" testID="bookings-pass-missing">
-            {t({
-              id: 'bookings.pass.missing',
-              message: 'No boarding pass on this phone yet. Scan it at check-in and it lands here.',
-            })}
-          </Text>
+          <Stack gap="16" align="center" testID="bookings-pass-missing">
+            <Sticker kind={tokek.kind} name={tokek.name} size={120} pose="think" />
+            <Text variant="bodyLg" style={styles.missing}>
+              {t({
+                id: 'bookings.pass.missing',
+                message:
+                  'No boarding pass on this phone yet. Scan it at check-in and it lands here.',
+              })}
+            </Text>
+          </Stack>
         ) : (
           <View
             style={styles.code}
