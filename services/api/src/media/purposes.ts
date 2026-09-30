@@ -16,6 +16,12 @@ export const MEDIA_PURPOSES = [
   'voice',
 ] as const;
 export const mediaPurposeSchema = z.enum(MEDIA_PURPOSES);
+
+/**
+ * Purposes only the worker writes (never presigned for an upload): the guide's recorded phrase
+ * audio. Their keys use the same layout and `media_objects` rows, so read URLs follow the same rules.
+ */
+export const SERVER_MEDIA_PURPOSES = ['phrase_audio'] as const;
 export type MediaPurpose = z.infer<typeof mediaPurposeSchema>;
 
 const MiB = 1024 * 1024;
@@ -82,7 +88,16 @@ export interface ParsedMediaKey {
 const UUID = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}';
 const MEDIA_KEY_PATTERN = new RegExp(`^u/(${UUID})/(${MEDIA_PURPOSES.join('|')})/(${UUID})$`);
 
-/** `undefined` for anything that is not a key this service minted. */
+const READABLE_KEY_PATTERN = new RegExp(
+  `^u/(${UUID})/(${[...MEDIA_PURPOSES, ...SERVER_MEDIA_PURPOSES].join('|')})/(${UUID})$`,
+);
+
+/** The owner of any key a read URL may be minted for (uploaded or worker-written); else `undefined`. */
+export function readableKeyOwner(key: string): string | undefined {
+  return READABLE_KEY_PATTERN.exec(key)?.[1];
+}
+
+/** `undefined` for anything that is not a key this service minted for an upload. */
 export function parseMediaKey(key: string): ParsedMediaKey | undefined {
   const match = MEDIA_KEY_PATTERN.exec(key);
   if (match === null) return undefined;
