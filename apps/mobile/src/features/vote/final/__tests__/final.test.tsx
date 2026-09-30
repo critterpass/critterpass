@@ -55,6 +55,7 @@ import {
   until,
 } from '../../test-support/vote-harness';
 import { FinalSplitCard } from '../final-split-card';
+import { nameCap } from '../showdown-half';
 import { ShowdownView } from '../showdown-screen';
 import { WinnerRevealScreen, WinnerRevealView } from '../winner-reveal';
 
@@ -238,10 +239,13 @@ describe('destination final', () => {
     const nameWidth = (index: number) =>
       StyleSheet.flatten(
         screen.getByTestId(`showdown-name-${index}`).props.style as StyleProp<ViewStyle>,
-      )?.maxWidth;
+      )?.width;
+    const lines = (width: number) => ({ nativeEvent: { lines: [{ width, text: 'KYOTO' }] } });
     await fireEvent(screen.getByTestId('showdown-body'), 'layout', layout(0, 360, 700));
-    await fireEvent(screen.getByTestId('showdown-name-0'), 'layout', layout(0, 300, 120));
-    await fireEvent(screen.getByTestId('showdown-name-1'), 'layout', layout(0, 300, 120));
+    for (const index of [0, 1]) {
+      await fireEvent(screen.getByTestId(`showdown-name-${index}`), 'layout', layout(0, 300, 120));
+      await fireEvent(screen.getByTestId(`showdown-name-${index}`), 'textLayout', lines(280));
+    }
     // Both halves fit their share: the names keep their designed size.
     await fireEvent(screen.getByTestId('showdown-votes-0'), 'layout', layout(200, 300, 30));
     await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(250, 300, 30));
@@ -249,8 +253,23 @@ describe('destination final', () => {
     expect(nameWidth(1)).toBeUndefined();
     // The lower half's chips wrap taller: its name gives up the difference, the other keeps its size.
     await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(400, 300, 30));
-    expect(nameWidth(1)).toBeLessThan(300);
+    const capped = nameWidth(1);
+    expect(capped).toBeLessThan(280);
     expect(nameWidth(0)).toBeUndefined();
+    // Set smaller, the name is shorter and the half fits: the box stays put instead of narrowing on.
+    await fireEvent(screen.getByTestId('showdown-name-1'), 'layout', layout(0, 200, 76));
+    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(356, 300, 30));
+    expect(nameWidth(1)).toBe(capped);
+  });
+
+  it('scales a name from its designed size, never below the floor share', () => {
+    const fit = { key: 'k', cap: null, height: 120, width: 300 };
+    expect(nameCap(fit, 120, 0)).toBeNull();
+    expect(nameCap(fit, 120, 30)).toBeCloseTo(225);
+    // Already shed 30 of the 30 needed: the same box, not a narrower one.
+    expect(nameCap(fit, 90, 0)).toBeCloseTo(225);
+    // A long name in a crowded half stops at the floor share of its designed width.
+    expect(nameCap(fit, 120, 500)).toBeCloseTo(135);
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {

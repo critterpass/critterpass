@@ -40,6 +40,11 @@ const SHELL_DEMOS = [
   { href: '/(dev)/gallery/sheet-demo', testID: 'gallery-shell-sheet', label: 'Shell: sheet' },
   { href: '/(dev)/gallery/rise-demo', testID: 'gallery-shell-rise', label: 'Shell: rise modal' },
   {
+    href: '/(dev)/gallery/showdown-long',
+    testID: 'gallery-showdown-long',
+    label: 'Vote: showdown with long names',
+  },
+  {
     href: '/(dev)/gallery/zoom-demo',
     testID: 'gallery-shell-zoom',
     label: 'Shell: zoom (shared grow)',

@@ -36,8 +36,31 @@ const GHOST_SIZE = 120;
 
 /** Smallest the city name shrinks to when its half runs out of height (Vietnamese chips wrap taller). */
 const NAME_FLOOR = 44;
-/** A half shrinks its name at most to this share of its fitted width in one step. */
-const MIN_NAME_STEP = 0.4;
+/** The name never shrinks below this share of its designed size. */
+const MIN_NAME_SCALE = 0.45;
+/** A many-word name keeps one word per line, up to this many lines. */
+const MAX_NAME_LINES = 3;
+
+interface NameFit {
+  readonly key: string;
+  /** The fixed width the name is set in, or null at its designed size. */
+  readonly cap: number | null;
+  /** The name's designed height and widest line. */
+  readonly height: number;
+  readonly width: number;
+}
+
+/**
+ * The box width that sheds `excess` more points of height from a name now `current` tall: the
+ * height it must lose in all, as a share of its designed height, scales its designed line width.
+ * Null when there is nothing to shed.
+ */
+export function nameCap(fit: NameFit, current: number, excess: number): number | null {
+  if (fit.height <= 0 || fit.width <= 0) return null;
+  const shed = excess + Math.max(0, fit.height - current);
+  if (shed <= 1) return null;
+  return fit.width * Math.max(MIN_NAME_SCALE, 1 - shed / fit.height);
+}
 
 /** Showdown stacks show this many voters before "+n" (boosted crews reach sixteen). */
 const MAX_AVATARS = 16;
@@ -205,23 +228,29 @@ export function ShowdownHalf({
   const ink = theme.semantic.text.onAccent;
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
-  // The name gives up height before anything scrolls: its width cap narrows, and auto-fit sets it
-  // smaller to match. Content that already fits keeps the name at its designed size.
-  const [nameBox, setNameBox] = useState<{ width: number; height: number } | null>(null);
-  // Set while rendering (not in an effect) so the smaller name lands in the same pass.
+  // The name gives up height before anything scrolls. Its designed size is measured once (the
+  // height and the widest line it sets); a half that runs past its share then gives the name a
+  // fixed box narrower by the height it must shed, and auto-fit sets it smaller to fit that box.
+  // The box is always scaled from the designed measure, never from the last capped one, so the
+  // name settles at one size. Content that already fits keeps the name as designed.
+  const [measure, setMeasure] = useState({ height: 0, lineWidth: 0 });
   const fitKey = `${name}|${i18n.locale}`;
-  const [fit, setFit] = useState<{ key: string; excess: number; cap: number | null }>({
-    key: fitKey,
-    excess: 0,
-    cap: null,
-  });
+  const [fit, setFit] = useState<NameFit>({ key: fitKey, cap: null, height: 0, width: 0 });
+  // Adjusted while rendering (not in an effect) so the smaller name lands in the same pass.
   if (fit.key !== fitKey) {
-    setFit({ key: fitKey, excess: 0, cap: null });
-  } else if (excess > 1 && excess !== fit.excess && nameBox !== null && nameBox.height > 0) {
-    const scale = Math.max(MIN_NAME_STEP, (nameBox.height - excess) / nameBox.height);
-    setFit({ key: fitKey, excess, cap: nameBox.width * scale });
+    setFit({ key: fitKey, cap: null, height: 0, width: 0 });
+  } else if (fit.cap === null && measure.height > 0 && measure.lineWidth > 0) {
+    if (fit.height !== measure.height || fit.width !== measure.lineWidth)
+      setFit({ ...fit, height: measure.height, width: measure.lineWidth });
+    else {
+      const cap = nameCap(fit, measure.height, excess);
+      if (cap !== null) setFit({ ...fit, cap });
+    }
+  } else if (fit.cap !== null) {
+    const cap = nameCap(fit, measure.height, excess);
+    if (cap !== null && Math.abs(cap - fit.cap) > 2) setFit({ ...fit, cap });
   }
-  const nameCap = fit.cap;
+  const words = name.trim().split(/\s+/u).length;
   const endPadding = alignEnd
     ? edgeInset
     : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
@@ -259,13 +288,21 @@ export function ShowdownHalf({
           variant="displayMega"
           color={ink}
           autoFit
-          {...(nameCap === null
+          {...(fit.cap === null
             ? {}
-            : { autoFitMinSize: NAME_FLOOR, style: { maxWidth: nameCap } })}
+            : {
+                autoFitMinSize: NAME_FLOOR,
+                numberOfLines: Math.min(MAX_NAME_LINES, words),
+                style: { width: fit.cap, textAlign: alignEnd ? 'right' : 'left' },
+              })}
           testID={`showdown-name-${alignEnd ? 1 : 0}`}
           onLayout={(event) => {
-            const { width, height } = event.nativeEvent.layout;
-            setNameBox({ width, height });
+            const { height } = event.nativeEvent.layout;
+            setMeasure((m) => (m.height === height ? m : { ...m, height }));
+          }}
+          onTextLayout={(event) => {
+            const lineWidth = Math.max(0, ...event.nativeEvent.lines.map((line) => line.width));
+            setMeasure((m) => (m.lineWidth === lineWidth ? m : { ...m, lineWidth }));
           }}
         >
           {upper(name, i18n.locale)}
