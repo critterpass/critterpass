@@ -286,3 +286,4 @@ export * from './trip-day';
 export * from './explore';
 export * from './proposal';
 export * from './critters';
+export * from './quests';

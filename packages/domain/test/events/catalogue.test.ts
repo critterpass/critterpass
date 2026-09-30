@@ -82,6 +82,41 @@ const CRITTER_PAYLOADS = {
   },
 };
 
+const QUEST = { trip_id: crypto.randomUUID(), quest_id: crypto.randomUUID() };
+const QUEST_PAYLOADS = {
+  'quest.published': {
+    trip_id: QUEST.trip_id,
+    local_date: '2026-10-03',
+    quest_ids: [QUEST.quest_id],
+    fallback_used: false,
+  },
+  'quest.signed_up': { ...QUEST, user_id: crypto.randomUUID() },
+  'quest.progress': { ...QUEST, value: 1, target: 3 },
+  'quest.completed': {
+    ...QUEST,
+    user_ids: [crypto.randomUUID()],
+    xp: 120,
+    reveal_at: '2026-10-03T01:00:01.500Z',
+  },
+  'xp.granted': {
+    crew_id: crypto.randomUUID(),
+    trip_id: QUEST.trip_id,
+    source_kind: 'quest',
+    source_id: QUEST.quest_id,
+    amount: 120,
+    user_ids: [],
+    level_before: 1,
+    level_after: 2,
+  },
+  'sticker.granted': {
+    sticker_id: crypto.randomUUID(),
+    crew_id: crypto.randomUUID(),
+    trip_id: null,
+    kind: 'crew_level',
+    level: 2,
+  },
+};
+
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
   'crew.member_left': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -559,6 +594,7 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     meetup_id: null,
   },
   ...CRITTER_PAYLOADS,
+  ...QUEST_PAYLOADS,
   'draft.requested': { trip_id: crypto.randomUUID(), job_id: crypto.randomUUID() },
   'draft.ready': {
     trip_id: crypto.randomUUID(),

@@ -322,6 +322,9 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'payment.confirmed': ['money_event'],
   'payment.disputed': ['money_event'],
   'trip.settled': ['settled_reward'],
+  // Quests: the day's quests in the evening roundup, and a finished quest's reward to its crew.
+  'quest.published': ['quests_ready'],
+  'quest.completed': ['settled_reward'],
   // Change review: an affected member's yes is needed, then how the vote came out.
   'change_set.proposed': ['changeset_needs_yes'],
   'change_set.applied': ['changeset_decided'],
