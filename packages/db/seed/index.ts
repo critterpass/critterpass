@@ -1,6 +1,6 @@
 /**
  * Realistic dev/staging fixtures (docs/code-standards.md §13: "content-factory data, not lorem"):
- * the six designed guides and destinations (docs/product-decisions.md §6), Winston's crew "The Bali
+ * the designed guides and the live destinations (docs/product-decisions.md §6), Winston's crew "The Bali
  * Six" and its confirmed Bali trip, and a standalone solo Kyoto trip. Idempotent: every insert here
  * is guarded so `pnpm --filter @cp/db seed` is safe to run more than once against the same database.
  */
@@ -11,6 +11,7 @@ import { withSystem } from '../src/tx';
 import { seedCatalogProductsPerks } from './catalog-products-perks';
 import { seedCostIndices } from './cost-indices/load';
 import { seedCrewBaliSix } from './crew-bali-six';
+import { seedDestinations } from './destinations';
 import { seedSeason } from './season/load';
 import { seedTripKyotoSolo } from './trip-kyoto-solo';
 
@@ -30,36 +31,6 @@ const GUIDES: readonly SeedGuide[] = [
   { slug: 'paco', name: 'Paco', colour: 'cream' },
 ];
 
-interface SeedDestination {
-  readonly slug: string;
-  readonly name: string;
-  readonly country: string;
-  readonly currency: string;
-  readonly tz: string;
-}
-
-/** The six live destinations each guide belongs to (docs/product-decisions.md §6). */
-const DESTINATIONS: readonly SeedDestination[] = [
-  { slug: 'bali', name: 'Bali', country: 'Indonesia', currency: 'IDR', tz: 'Asia/Makassar' },
-  { slug: 'kyoto', name: 'Kyoto', country: 'Japan', currency: 'JPY', tz: 'Asia/Tokyo' },
-  {
-    slug: 'iceland',
-    name: 'Iceland',
-    country: 'Iceland',
-    currency: 'ISK',
-    tz: 'Atlantic/Reykjavik',
-  },
-  {
-    slug: 'mexico-city',
-    name: 'Mexico City',
-    country: 'Mexico',
-    currency: 'MXN',
-    tz: 'America/Mexico_City',
-  },
-  { slug: 'lisbon', name: 'Lisbon', country: 'Portugal', currency: 'EUR', tz: 'Europe/Lisbon' },
-  { slug: 'cusco', name: 'Cusco', country: 'Peru', currency: 'PEN', tz: 'America/Lima' },
-];
-
 async function seedCatalogue(tx: pg.PoolClient): Promise<void> {
   for (const guide of GUIDES) {
     await tx.query(
@@ -67,19 +38,7 @@ async function seedCatalogue(tx: pg.PoolClient): Promise<void> {
       [guide.slug, guide.name, guide.colour],
     );
   }
-  for (const destination of DESTINATIONS) {
-    await tx.query(
-      `INSERT INTO destinations (slug, name, country, coverage, currency, tz)
-       VALUES ($1, $2, $3, 'live', $4, $5) ON CONFLICT (slug) DO NOTHING`,
-      [
-        destination.slug,
-        destination.name,
-        destination.country,
-        destination.currency,
-        destination.tz,
-      ],
-    );
-  }
+  await seedDestinations(tx);
 }
 
 export async function seed(pool: pg.Pool): Promise<void> {

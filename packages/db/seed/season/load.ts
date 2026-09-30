@@ -27,8 +27,11 @@ export function readSeasonSeedFiles(dir: string = import.meta.dirname): SeasonSe
     });
 }
 
-export async function seedSeason(pool: pg.Pool): Promise<void> {
-  const files = readSeasonSeedFiles();
+/** Seeds every season file, or only those of `slugs`. */
+export async function seedSeason(pool: pg.Pool, slugs?: readonly string[]): Promise<void> {
+  const files = readSeasonSeedFiles().filter(
+    (file) => slugs === undefined || slugs.includes(file.destination),
+  );
   await withSystem(pool, async (tx) => {
     for (const file of files) {
       const { rows } = await tx.query<{ id: string }>(
