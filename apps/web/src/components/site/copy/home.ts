@@ -150,7 +150,7 @@ export const homeCopy = {
   },
   insideLocalBody: /*i18n*/ {
     id: 'web.home.insideLocalBody',
-    message: 'Every city has a critter to hatch. 150 to collect, and you have to be there.',
+    message: 'Every city has a critter to hatch. {count} to collect, and you have to be there.',
   },
   insidePlanTitle: /*i18n*/ {
     id: 'web.home.insidePlanTitle',
@@ -218,7 +218,7 @@ export const homeCopy = {
   mockLocalEyebrow: /*i18n*/ { id: 'web.home.mockLocalEyebrow', message: 'New local · Hội An' },
   mockLocalName: /*i18n*/ { id: 'web.home.mockLocalName', message: 'Chép' },
   mockLocalSpecies: /*i18n*/ { id: 'web.home.mockLocalSpecies', message: 'Lantern carp · #005' },
-  mockLocalFound: /*i18n*/ { id: 'web.home.mockLocalFound', message: '10 / 150 found' },
+  mockLocalFound: /*i18n*/ { id: 'web.home.mockLocalFound', message: '10 / {count} found' },
   mockPlanEyebrow: /*i18n*/ { id: 'web.home.mockPlanEyebrow', message: 'Hội An · day 2 of 4' },
   mockPlanDay: /*i18n*/ { id: 'web.home.mockPlanDay', message: 'Thursday' },
   mockPlanItem1: /*i18n*/ { id: 'web.home.mockPlanItem1', message: 'Bánh mì Phượng' },
