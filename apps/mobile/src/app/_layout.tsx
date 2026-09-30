@@ -42,6 +42,7 @@ import '@/features/plan/draft/register';
 import '@/features/vote/register';
 import { SetupNotificationActions } from '@/features/setup/notifications';
 import '@/features/setup/register';
+import '@/features/plan/overview/register';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
