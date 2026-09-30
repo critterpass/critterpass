@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# Out of questions (4b-1), the 30th answer, ASK AT MIDNIGHT's composer and the meter chip,
+# prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: limit-refused, READY: guide-limit-hint, SHOT: '${PREFIX}-4b-1-refused' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: limit-thirtieth, READY: guide-limit-card, SHOT: '${PREFIX}-4b-1-thirtieth' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: limit-writing, READY: guide-limit-queue-composer, SHOT: '${PREFIX}-4b-1-writing' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: meter-free, READY: guide-meter-free, SHOT: '${PREFIX}-3j-1-meter-free' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: meter-boosted, READY: guide-meter-boosted, SHOT: '${PREFIX}-3j-1-meter-boosted' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: meter-unlimited, READY: guide-conversation, SHOT: '${PREFIX}-3j-1-meter-unlimited' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: limit-queued, READY: guide-queued, SHOT: '${PREFIX}-4b-1-queued' }

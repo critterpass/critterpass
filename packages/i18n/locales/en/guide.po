@@ -6,3 +6,537 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: props.passHolder.name
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.hintLabel"
+msgstr "{0} has Pass+. Ask in the crew chat"
+
+#. placeholder {0}: props.passHolder.name
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.hint"
+msgstr "{0} has Pass+. Ask in the crew chat and {guideName} answers there."
+
+#. placeholder {0}: meter.used
+#. placeholder {1}: meter.limit
+#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+msgid "guide.meter.count"
+msgstr "{0} of {1} today"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.cost"
+msgstr "{cost} each"
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.body"
+msgstr "{guideName} answers this at {clock} and lets you know quietly. It counts towards tomorrow."
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.backAtMidnight"
+msgstr "{guideName} is back at midnight"
+
+#. placeholder {0}: left.hours
+#. placeholder {1}: left.minutes
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.backIn"
+msgstr "{guideName} is back in {0}h {1}m"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.count"
+msgstr "{used} of {limit} today"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.anItem"
+msgstr "A plan item"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.attach"
+msgstr "Add attachment"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.allergies"
+msgstr "Allergies"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.askAtMidnight"
+msgstr "Ask at midnight"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.queuePlaceholder"
+msgstr "Ask now, {guideName} answers at midnight"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
+msgid "guide.composer.placeholder"
+msgstr "Ask, or hold to talk"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.callCar"
+msgstr "Call a car"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptSlow"
+msgstr "Can we make day 2 slower?"
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.cancelAction"
+msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.cancel"
+msgstr "Cancelling a question for midnight"
+
+#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
+msgid "guide.phrase.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.copied"
+msgstr "Copied"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.copy"
+msgstr "Copy"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.avoidLabel"
+msgstr "Coriander, offal, raw fish…"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.confirm"
+msgstr "Count me in"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dairy"
+msgstr "Dairy"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.diet"
+msgstr "Diet"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.eggs"
+msgstr "Eggs"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.full"
+msgstr "Every slot is taken"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.fish"
+msgstr "Fish"
+
+#: ../../apps/mobile/src/features/guide/dietary/dev/lab-scenes-dietary.tsx
+#: ../../apps/mobile/src/features/guide/dietary/dietary-screen.tsx
+msgid "guide.dietary.title"
+msgstr "Food and access needs"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.getPass"
+msgstr "Get Pass+"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.access"
+msgstr "Getting around"
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.loading"
+msgstr "Getting the audio…"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.gluten"
+msgstr "Gluten"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.groupTab"
+msgstr "Group"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.group"
+msgstr "Group mode · all {count} can see this"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
+msgid "guide.sheet.label"
+msgstr "Guide chat"
+
+#. placeholder {0}: message.body
+#: ../../apps/mobile/src/features/guide/chat/register.ts
+msgid "guide.offer.label"
+msgstr "Guide offer: {0}"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietHalal"
+msgstr "Halal"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.helpful"
+msgstr "Helpful"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.greeting"
+msgstr "Hi, I'm {guideName}. Ask me anything about the trip, big or small."
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceHot"
+msgstr "Hot"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptCrew"
+msgstr "How do I get my crew planning?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.moderation"
+msgstr "I can't answer that one. It didn't pass our safety check."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.cannotCheck"
+msgstr "I couldn't check that just now, so I won't guess."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.unavailable"
+msgstr "I lost my train of thought. That one didn’t count."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.offline.line"
+msgstr "I'll answer when you're back online."
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.inMany"
+msgstr "I'm in · {left} slots left"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.inOne"
+msgstr "I'm in · 1 slot left"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.busy"
+msgstr "I'm swamped right now. Give me a minute and ask again."
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.applied"
+msgstr "In the plan"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.meTab"
+msgstr "Just me"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.justMe"
+msgstr "Just me"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.privateTrip"
+msgstr "Just me · {place}"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.private"
+msgstr "Just me · only you can see this"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietKosher"
+msgstr "Kosher"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.body"
+msgstr "Local emergency numbers and your crew are one tap away in Help."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.actionsHint"
+msgstr "Long press for actions"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceMedium"
+msgstr "Medium"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceMild"
+msgstr "Mild"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.noCost"
+msgstr "No change to what each pays"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietNone"
+msgstr "No restrictions"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceNone"
+msgstr "None"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.notHelpful"
+msgstr "Not helpful"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.notNow"
+msgstr "Not now"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.notNow"
+msgstr "Not now"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.open"
+msgstr "Open Help"
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.showHint"
+msgstr "Opens the phrase full screen to show"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.bodyTrip"
+msgstr "Pass+ keeps {guideName} talking: text, voice and camera, as much as you like. Your {place} plan and the vote don't count towards this."
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.body"
+msgstr "Pass+ keeps {guideName} talking: text, voice and camera, as much as you like. Your plan and the vote don't count towards this."
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.peanuts"
+msgstr "Peanuts"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietPescatarian"
+msgstr "Pescatarian"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.pharmacy"
+msgstr "Pharmacy"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-plan-card.tsx
+msgid "guide.plan.pending"
+msgstr "Plan change on its way…"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.propose"
+msgstr "Propose to group"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.avoid"
+msgstr "Rather not eat"
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.rate"
+msgstr "Rating a guide answer"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.resets"
+msgstr "Resets {clock}"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.review"
+msgstr "Review"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.saved"
+msgstr "Saved. The guide plans around it."
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.sent"
+msgstr "Sent to the crew chat as a vote"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.sesame"
+msgstr "Sesame"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.share"
+msgstr "Share flags"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.shareToggle"
+msgstr "Share flags with my crew and guide"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.consentTitle"
+msgstr "Share flags with your crew and guide?"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
+msgid "guide.dietary.queuedConsent"
+msgstr "Sharing food flags"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.shellfish"
+msgstr "Shellfish"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemFull"
+msgstr "Someone got the last slot first."
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.ownAllergy"
+msgstr "Something else? Type it and tap done"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.newItem"
+msgstr "Something new"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.soy"
+msgstr "Soy"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.spice"
+msgstr "Spice"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.accessLabel"
+msgstr "Steps, long walks, hearing, anything the guide should plan around"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.filler"
+msgstr "Still checking, one moment…"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.confirmBody"
+msgstr "Take one of the slots? Nothing is booked or paid yet."
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.removed"
+msgstr "Taken out of the plan"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problem"
+msgstr "That didn't go through. Try again?"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemOffline"
+msgstr "That needs a connection."
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.offline"
+msgstr "That needs a connection. Try again when you're back online."
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.refused"
+msgstr "That question couldn't be saved for later."
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.trailOff"
+msgstr "That's all my free answers for today. {guideName} will be back at midnight, or…"
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.trailOff30"
+msgstr "That's my thirtieth answer today, and the free ones are used up. I'll be back at midnight, or…"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.refused"
+msgstr "That's not something I can help with. Ask me about the trip instead?"
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.unavailable"
+msgstr "The audio isn't on this phone yet. Tap the card to show it instead."
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.shareCaption"
+msgstr "They see \"vegetarian\" or \"no peanuts\", never your notes or your avoid list."
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.consentBody"
+msgstr "They see only your diet and \"no\" flags for allergies, so the guide can pick places that work for everyone. Your notes and your avoid list stay with you. You can stop sharing any time, and the flags are deleted."
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.closed"
+msgstr "This change is no longer open"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemExpired"
+msgstr "This offer has closed."
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.expired"
+msgstr "This one has gone"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.menu"
+msgstr "Translate a menu"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.treeNuts"
+msgstr "Tree nuts"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+msgid "guide.meter.unlimited"
+msgstr "Unlimited {guideName}"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietVegan"
+msgstr "Vegan"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietVegetarian"
+msgstr "Vegetarian"
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.waiting"
+msgstr "Waiting for {clock}"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.offline.waiting"
+msgstr "Waiting for a connection"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptRain"
+msgstr "What if it rains tomorrow?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptFood"
+msgstr "Where should we eat tonight?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptWhere"
+msgstr "Where should we go next?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptWhen"
+msgstr "Which month is best to go?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.modes"
+msgstr "Who sees this chat"
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.already"
+msgstr "You already have a question waiting for midnight."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.title"
+msgstr "You don’t have to handle this alone"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.ratedUp"
+msgstr "You found this helpful"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.ratedDown"
+msgstr "You found this unhelpful"
+
+#. placeholder {0}: props.taken
+#. placeholder {1}: props.total
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.mine"
+msgstr "You're in · {0} of {1} taken"
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+msgid "guide.crew.spentMidnight"
+msgstr "You've used today's free questions. {0} answers again at midnight."
+
+#. placeholder {0}: props.guideName
+#. placeholder {1}: left.hours
+#. placeholder {2}: left.minutes
+#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+msgid "guide.crew.spent"
+msgstr "You've used today's free questions. {0} is back in {1}h {2}m."
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
+msgid "guide.dietary.queued"
+msgstr "Your food and access needs"

@@ -5,3 +5,4 @@
 export { registerChatCard, type ChatCardProps, type ChatCardRenderer } from './chat/cards/registry';
 export { registerAttachEntry, type AttachEntry } from './chat/media/attach-menu';
 export type { ChatMessage } from './chat/data/rows';
+export { registerChatComposerHint } from './chat/slots';

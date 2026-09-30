@@ -7,7 +7,7 @@ import type { TextStyle } from 'react-native';
 import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '../../lib/i18n/testing';
-import { PillButton } from '../buttons/PillButton';
+import { LABEL_MIN_SCALE, LABEL_SHRINK_STEP, PillButton } from '../buttons/PillButton';
 import { setUiQaSink } from '../qa/ui-qa';
 import { renderUi } from '../test-support/render';
 import { ThemeProvider } from '../../lib/theme';
@@ -336,8 +336,42 @@ describe('text fit on larger screens and larger text', () => {
   });
 });
 
+/** Lays a pill label out on two lines until it stops shrinking (it has reached its floor). */
+async function wrapAtFloor(node: Parameters<typeof fireEvent>[0], event: object) {
+  for (let step = 0; step < 8; step += 1) await fireEvent(node, 'textLayout', event);
+}
+
 describe('pill labels', () => {
-  it('lets a large CTA wrap to its second line, and reports a small pill that wraps', async () => {
+  it('shrinks a long label to stay on one line before it ever wraps', async () => {
+    const screen = await renderUi(
+      <ThemeProvider fontScale={1}>
+        <PillButton label="Ask at midnight" onPress={() => {}} testID="cta" />
+      </ThemeProvider>,
+    );
+    const label = () => screen.getByText('ASK AT MIDNIGHT');
+    const sizeOf = () => (StyleSheet.flatten(label().props.style as TextStyle) ?? {}).fontSize ?? 0;
+    const full = sizeOf();
+    const twoLines = { nativeEvent: { lines: [{ text: 'ASK AT ' }, { text: 'MIDNIGHT' }] } };
+    await fireEvent(label(), 'textLayout', twoLines);
+    expect(sizeOf()).toBeLessThan(full);
+    // Fits on one line now: it stays at that size, unwrapped and unpadded.
+    await fireEvent(label(), 'textLayout', {
+      nativeEvent: { lines: [{ text: 'ASK AT MIDNIGHT' }] },
+    });
+    expect(sizeOf()).toBeCloseTo(full * LABEL_SHRINK_STEP, 5);
+    expect(
+      StyleSheet.flatten(screen.getByTestId('cta').props.style as TextStyle)?.paddingVertical ?? 0,
+    ).toBe(0);
+    // Its side padding comes down with it.
+    expect(
+      StyleSheet.flatten(screen.getByTestId('cta').props.style as TextStyle)?.paddingHorizontal,
+    ).toBeCloseTo(24 * LABEL_SHRINK_STEP, 5);
+    // Too long even at the floor: it stops shrinking there.
+    await wrapAtFloor(label(), twoLines);
+    expect(sizeOf()).toBeCloseTo(full * LABEL_MIN_SCALE, 5);
+  });
+
+  it('lets a large CTA wrap to its second line at its floor, and reports a small pill that wraps', async () => {
     const reports: string[] = [];
     setUiQaSink((line) => reports.push(line));
     try {
@@ -349,7 +383,7 @@ describe('pill labels', () => {
           <PillButton label="Book the ryokan for all six" onPress={() => {}} />
         </ThemeProvider>,
       );
-      await fireEvent(large.getByText('BOOK THE RYOKAN FOR ALL SIX'), 'textLayout', wrap);
+      await wrapAtFloor(large.getByText('BOOK THE RYOKAN FOR ALL SIX'), wrap);
       expect(reports).toEqual([]);
       await act(() => large.unmount());
 
@@ -358,8 +392,10 @@ describe('pill labels', () => {
           <PillButton size="sm" label="Book the ryokan for all six" onPress={() => {}} />
         </ThemeProvider>,
       );
-      await fireEvent(small.getByText('BOOK THE RYOKAN FOR ALL SIX'), 'textLayout', wrap);
-      expect(reports).toEqual(['[ui-qa] TEXT_WRAPPED "BOOK THE RYOKAN FOR ALL SIX" buttonSm']);
+      await wrapAtFloor(small.getByText('BOOK THE RYOKAN FOR ALL SIX'), wrap);
+      expect(new Set(reports)).toEqual(
+        new Set(['[ui-qa] TEXT_WRAPPED "BOOK THE RYOKAN FOR ALL SIX" buttonSm']),
+      );
     } finally {
       setUiQaSink(null);
     }
@@ -367,7 +403,7 @@ describe('pill labels', () => {
 });
 
 describe('two-line CTA', () => {
-  it('opens the leading and pads the pill once its label wraps', async () => {
+  it('opens the leading and pads the pill once its label wraps at its floor', async () => {
     const screen = await renderUi(
       <ThemeProvider fontScale={1}>
         <PillButton label="Book the ryokan for all six" onPress={() => {}} testID="cta" />
@@ -377,7 +413,7 @@ describe('two-line CTA', () => {
     const flatOf = (node: { props: { style?: unknown } }) =>
       StyleSheet.flatten(node.props.style as TextStyle) ?? {};
     const single = flatOf(label()).lineHeight ?? 0;
-    await fireEvent(label(), 'textLayout', {
+    await wrapAtFloor(label(), {
       nativeEvent: { lines: [{ text: 'BOOK THE RYOKAN ' }, { text: 'FOR ALL SIX' }] },
     });
     expect(flatOf(label()).lineHeight).toBeGreaterThan(single);
