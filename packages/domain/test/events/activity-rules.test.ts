@@ -13,6 +13,7 @@ import { GUIDE_EVENT_TYPES } from '../../src/guide/events';
 import { TRIP_DAY_EVENT_TYPES } from '../../src/trip-day/events';
 import { EXPLORE_EVENT_TYPES } from '../../src/explore/events';
 import { PROPOSAL_EVENT_TYPES } from '../../src/proposal/events';
+import { CRITTER_EVENT_TYPES } from '../../src/critters/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -125,6 +126,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   // A proposal speaks through its story, tracker and pushes; RSVPs reach the ticker as
   // `rsvp.changed`, and opens, objections and follow-ups are never crew-visible at all.
   ...PROPOSAL_EVENT_TYPES,
+  // Finds speak through the pass and the crew_collection hints; eggs and encounters are one member's.
+  ...CRITTER_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {
