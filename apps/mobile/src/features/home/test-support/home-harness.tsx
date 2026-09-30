@@ -112,6 +112,8 @@ export interface SeedTrip {
   readonly endDate?: string | null;
   readonly countdownTargetAt?: string | null;
   readonly planProgress?: number;
+  /** Bali unless given; null for a trip still voting on its place. */
+  readonly destinationId?: string | null;
 }
 
 export async function seedTrip(stack: TestLocalFirst, trip: SeedTrip): Promise<void> {
@@ -123,7 +125,7 @@ export async function seedTrip(stack: TestLocalFirst, trip: SeedTrip): Promise<v
       TRIP,
       CREW,
       trip.status,
-      BALI,
+      trip.destinationId === undefined ? BALI : trip.destinationId,
       TOKEK,
       trip.startDate ?? null,
       trip.endDate ?? null,

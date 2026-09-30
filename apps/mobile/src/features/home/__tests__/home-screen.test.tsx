@@ -184,6 +184,36 @@ describe('modes', () => {
     }
   });
 
+  it('lets the vote stand as next up while the trip is still choosing its place', async () => {
+    const s = await open();
+    await seedCrew(s);
+    await seedTrip(s, { status: 'voting', destinationId: null });
+    const unregister = registerHomeVoteSlot({
+      useVote: (crewId) =>
+        crewId === CREW
+          ? {
+              pollId: 'poll-1',
+              stage: 'board',
+              candidates: [],
+              votersIn: 1,
+              memberCount: 1,
+              closesAt: null,
+            }
+          : null,
+      Component: ({ vote }) => <Text testID="vote-slot">{vote.stage}</Text>,
+    });
+    try {
+      await renderHome(<HomeScreen />, s);
+      await until(() => screen.queryByTestId('vote-slot') !== null);
+      // The trip's rows land after the vote's: give them time to, and the card still stays away.
+      await expect(
+        until(() => screen.queryByTestId('home-next-up') !== null, 1500),
+      ).rejects.toThrow();
+    } finally {
+      unregister();
+    }
+  });
+
   it('renders no trip with the pitch control when nothing is planned', async () => {
     const s = await open();
     await seedCrew(s);
