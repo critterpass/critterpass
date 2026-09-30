@@ -118,6 +118,8 @@ export function BudgetView(props: BudgetViewProps) {
               variant="displayHero"
               color={over ? theme.semantic.state.urgent : undefined}
               testID="money-budget-spent"
+              numberOfLines={1}
+              autoFit
             >
               {spent}
             </Text>
@@ -127,7 +129,7 @@ export function BudgetView(props: BudgetViewProps) {
               <Text variant="eyebrow">
                 {upper(t({ id: 'money.budget.planned', message: 'Planned' }), locale)}
               </Text>
-              <Text variant="h1" color={theme.semantic.text.secondary}>
+              <Text variant="h1" color={theme.semantic.text.secondary} numberOfLines={1} autoFit>
                 {whole(planned)}
               </Text>
             </Stack>
