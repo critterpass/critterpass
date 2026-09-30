@@ -299,6 +299,19 @@ streams:
           AND deleted_at IS NULL
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
       - |-
+        SELECT id, trip_id, user_id, provider, from_poi_id, to_poi_id, service_name, fare_low_minor,
+               fare_high_minor, currency, eta_min, surge, fetched_at, created_at
+        FROM ride_quotes
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT id, trip_id, leg_ref, provider, mode, provider_id, booking_id, quote_id, eta_text,
+               status, price_minor, currency, expense_id, attendee_ids, logged_by, version,
+               created_at, updated_at
+        FROM rides
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
         SELECT * FROM leave_bys
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)

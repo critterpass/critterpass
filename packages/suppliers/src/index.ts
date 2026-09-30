@@ -72,3 +72,21 @@ export {
 } from './travelpayouts/fares/client';
 export { foundAtFromLink, mapFareMonth, type FareCellSummary } from './travelpayouts/fares/map';
 export * from './flight-status';
+export {
+  createGrabTokenSource,
+  GRAB_ESTIMATE_SCOPE,
+  GRAB_PRODUCTION_URL,
+  GRAB_STAGING_URL,
+  GRAB_SUPPLIER,
+  type GrabConfig,
+  type GrabTokenSource,
+} from './grab/oauth';
+export { fetchFarefeed, leadService, type FarefeedService } from './grab/farefeed';
+export { GOJEK_APP_URL, GOJEK_FALLBACK_URL } from './gojek/deeplink';
+export { GRAB_FALLBACK_URL, rideAppLink, type RideLinkTarget } from './rides/links';
+export {
+  quoteRide,
+  type GrabEstimator,
+  type RideQuote,
+  type RideQuoteRequest,
+} from './rides/quote';

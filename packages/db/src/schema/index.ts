@@ -79,6 +79,8 @@ export {
   affiliateClicks,
   affiliateConversions,
   providers,
+  rideQuotes,
+  rides,
   supplierOrderItems,
   supplierOrders,
 } from './suppliers';

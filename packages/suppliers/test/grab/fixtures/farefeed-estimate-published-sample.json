@@ -1,0 +1,24 @@
+{
+  "services": [
+    {
+      "serviceID": 227,
+      "serviceName": "GrabShare",
+      "eta": 4,
+      "fare": { "currency": "SGD", "maxFare": 68.4, "minFare": 51.3 },
+      "deepLink": "https://grab.onelink.me/2695613898?pid=partner&af_dp=grab%3A%2F%2Fopen%3FscreenType%3DBOOKING",
+      "directDeepLink": "grab://open?screenType=BOOKING",
+      "iconLink": "https://images.grab.com/taxi_type/227/icon.png",
+      "surgeNotice": "NONE"
+    },
+    {
+      "serviceID": 302,
+      "serviceName": "JustGrab",
+      "eta": 3,
+      "fare": { "currency": "SGD", "maxFare": 74.1, "minFare": 57.0 },
+      "deepLink": "https://grab.onelink.me/2695613898?pid=partner&af_dp=grab%3A%2F%2Fopen%3FscreenType%3DBOOKING",
+      "directDeepLink": "grab://open?screenType=BOOKING",
+      "iconLink": "https://images.grab.com/taxi_type/302/icon.png",
+      "surgeNotice": "LOW_SURGE"
+    }
+  ]
+}

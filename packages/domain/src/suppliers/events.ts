@@ -17,6 +17,7 @@ export const SUPPLIER_EVENT_TYPES = [
   'activity.pending',
   'activity.rejected',
   'activity.cancelled',
+  'ride.logged',
 ] as const;
 export type SupplierEventType = (typeof SUPPLIER_EVENT_TYPES)[number];
 
@@ -40,4 +41,9 @@ export const SUPPLIER_EVENT_PAYLOADS = {
   'activity.pending': order,
   'activity.rejected': order,
   'activity.cancelled': order.extend({ refunded: z.boolean() }),
+  'ride.logged': z.object({
+    trip_id: z.uuid(),
+    ride_id: z.uuid(),
+    expense_id: z.uuid().nullable(),
+  }),
 } as const satisfies Record<SupplierEventType, z.ZodType>;

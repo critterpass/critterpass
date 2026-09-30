@@ -688,6 +688,7 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'activity.pending': ORDER,
   'activity.rejected': ORDER,
   'activity.cancelled': { ...ORDER, refunded: true },
+  'ride.logged': { trip_id: crypto.randomUUID(), ride_id: crypto.randomUUID(), expense_id: null },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

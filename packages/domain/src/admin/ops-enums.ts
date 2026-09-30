@@ -30,6 +30,7 @@ export const PARTNER_KEYS = [
   'trip_com_at',
   'viator_booking',
   'gyg_api',
+  'grab_farefeed',
 ] as const;
 export const partnerKeySchema = z.enum(PARTNER_KEYS);
 export type PartnerKey = z.infer<typeof partnerKeySchema>;

@@ -3,7 +3,7 @@
  * supplier commands (with the audited supplier HTTP client, the link programmes this deployment is
  * configured for and the Viator port where a key exists), the attribution bridge, the order reads,
  * the settle door for the worker's status poll, and the supplier answers to the plan's hold-expiry
- * and booking-impact seams. Every Viator path also waits on the `viator_booking` partner switch.
+ * and booking-impact seams, and the ride quote (Grab's estimate behind its own switch). Every Viator path also waits on the `viator_booking` partner switch.
  */
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
@@ -18,6 +18,7 @@ import { createAuditedSupplierHttp } from './http';
 import { affiliateLinkConfigFromEnv, type SupplierEnv } from './link-config';
 import { viatorPortFromEnv } from './order-port';
 import { registerOrderRoutes } from './order-routes';
+import { createRideQuoter, grabEstimatorFromEnv, registerRideQuoteRoute } from './rides-quote';
 import { registerSupplierPlanProviders } from './plan-providers';
 import { registerSettleDoor } from './settle-door';
 
@@ -44,4 +45,10 @@ export function registerSupplierRoutes(
   const secret = env['SUPPLIERS_INTERNAL_SECRET'];
   if (port !== undefined && secret) registerSettleDoor(app, { pool: doors.pool, port, secret });
   registerSupplierPlanProviders();
+  const quoter = createRideQuoter({
+    pool: doors.pool,
+    grab: grabEstimatorFromEnv(env, http),
+    onError: (error) => doors.logger.warn({ err: error }, 'grab farefeed failed'),
+  });
+  registerRideQuoteRoute(app, { sessions: doors.sessions, quoter });
 }

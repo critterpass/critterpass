@@ -5,6 +5,7 @@ import type { CommandRegistry } from '../_framework/registry';
 import { createBookActivityCommand } from './book-activity';
 import { createCancelActivityBookingCommand } from './cancel-activity-booking';
 import { createHoldActivityCommand, type OrderCommandDeps } from './hold-activity';
+import { logRideCommand } from './log-ride';
 import { createRecordSupplierClickCommand, type SupplierClickDeps } from './record-supplier-click';
 import { releaseActivityHoldCommand } from './release-activity-hold';
 
@@ -19,4 +20,5 @@ export function registerSupplierCommands(
   registry.register(createBookActivityCommand(deps));
   registry.register(releaseActivityHoldCommand);
   registry.register(createCancelActivityBookingCommand(deps));
+  registry.register(logRideCommand);
 }

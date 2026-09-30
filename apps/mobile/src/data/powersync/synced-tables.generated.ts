@@ -179,6 +179,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'referrer_id referee_id code invite_id via status void_reason qualified_at reward_kind reward_ref referee_device_id created_at updated_at',
   reminders:
     'user_id target_kind target_id fire_at condition status fired_at created_at updated_at',
+  ride_quotes:
+    'trip_id user_id provider from_poi_id to_poi_id service_name fare_low_minor:integer fare_high_minor:integer currency eta_min:integer surge fetched_at created_at',
+  rides:
+    'trip_id leg_ref provider mode provider_id booking_id quote_id eta_text status price_minor:integer currency expense_id attendee_ids logged_by version:integer created_at updated_at',
   room_assignments: 'trip_id stay_key room_key user_id trait_label created_at updated_at',
   room_plans:
     'trip_id stay_option_id rooms currency nights:integer stay_booking_id free_cancel_until same_pairs_all_stays:integer is_stale:integer locked_at locked_by version:integer created_at updated_at',
