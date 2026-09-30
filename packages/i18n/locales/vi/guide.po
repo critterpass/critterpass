@@ -45,10 +45,6 @@ msgstr "{guideName} quay lại sau {0} giờ {1} phút"
 msgid "guide.limit.count"
 msgstr "{used} trên {limit} hôm nay"
 
-#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
-msgid "guide.queued.phrase"
-msgstr "Một thẻ câu nói mới"
-
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.anItem"
 msgstr "Một mục trong lịch trình"
@@ -85,6 +81,10 @@ msgstr "Huỷ"
 msgid "guide.queued.cancel"
 msgstr "Huỷ câu hỏi lúc nửa đêm"
 
+#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
+msgid "guide.phrase.close"
+msgstr "Đóng"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.copied"
 msgstr "Đã chép"
@@ -104,6 +104,10 @@ msgstr "Đã hết chỗ"
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.getPass"
 msgstr "Mua Pass+"
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.loading"
+msgstr "Đang tải âm thanh…"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.groupTab"
@@ -206,6 +210,10 @@ msgstr "Để sau"
 msgid "guide.help.open"
 msgstr "Mở Trợ giúp"
 
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.showHint"
+msgstr "Mở câu nói toàn màn hình để đưa người khác xem"
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.bodyTrip"
 msgstr "Pass+ giúp {guideName} trò chuyện thoải mái: chữ, giọng nói và máy ảnh, bao nhiêu tuỳ thích. Lịch trình {place} và cuộc bình chọn không bị tính vào đây."
@@ -297,6 +305,10 @@ msgstr "Đó là câu trả lời thứ ba mươi của mình hôm nay, hết l�
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.refused"
 msgstr "Chuyện đó mình không giúp được. Hỏi mình về chuyến đi nhé?"
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.unavailable"
+msgstr "Âm thanh chưa có trên điện thoại này. Chạm vào thẻ để đưa người khác xem."
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.closed"

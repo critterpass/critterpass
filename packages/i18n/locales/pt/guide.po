@@ -45,10 +45,6 @@ msgstr ""
 msgid "guide.limit.count"
 msgstr ""
 
-#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
-msgid "guide.queued.phrase"
-msgstr ""
-
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.anItem"
 msgstr ""
@@ -85,6 +81,10 @@ msgstr ""
 msgid "guide.queued.cancel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
+msgid "guide.phrase.close"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.copied"
 msgstr ""
@@ -103,6 +103,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.getPass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
@@ -206,6 +210,10 @@ msgstr ""
 msgid "guide.help.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.showHint"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.bodyTrip"
 msgstr ""
@@ -296,6 +304,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.unavailable"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx

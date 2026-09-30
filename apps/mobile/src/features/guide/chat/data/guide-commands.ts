@@ -1,11 +1,11 @@
 /**
  * Client specs for the guide's commands (docs/api-contracts.md §4.6, §4.8): rating an answer,
  * the plan card's PROPOSE TO GROUP (`send_changeset`) and JUST ME (`apply_changeset`, personal),
- * the 4b-1 queued question and its cancel, and a custom phrase card. Queuing a question needs the
- * server's meter, so it is online only; the rest may wait in the offline queue.
+ * and the 4b-1 queued question and its cancel. Queuing a question needs the server's meter, so it
+ * is online only; the rest may wait in the offline queue.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names and wire values, never copy. */
-import type { QueueGuideQuestionPayload, RequestPhraseCardPayload } from '@cp/domain';
+import type { QueueGuideQuestionPayload } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
 import { defineClientCommand } from '@/data/commands/summaries';
@@ -44,10 +44,4 @@ export const cancelQueuedQuestionCommand = defineClientCommand<{ readonly questi
   offline: true,
   summarize: () =>
     msg({ id: 'guide.queued.cancel', message: 'Cancelling a question for midnight' }),
-});
-
-export const requestPhraseCardCommand = defineClientCommand<RequestPhraseCardPayload>({
-  name: 'request_phrase_card',
-  offline: true,
-  summarize: () => msg({ id: 'guide.queued.phrase', message: 'A new phrase card' }),
 });

@@ -1,7 +1,7 @@
 /**
  * The guide area's registrations into other areas, imported once by the root layout: the guide
  * sheet (3j-1) in the navigation registry (the guide button opens it), the guide's offer card in
- * crew chat, and the guide's live line above the crew chat composer.
+ * crew chat, the guide's live line above the crew chat composer, and the device's phrase audio.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
 import { t } from '@lingui/core/macro';
@@ -13,6 +13,8 @@ import { registerScreens } from '@/lib/navigation/screen-registry';
 
 import { GuideChatHint } from '../crew-mention/guide-chat-hint';
 import { GuideOfferCard } from '../crew-mention/offer-card';
+import { devicePhraseAudio } from '../phrases/device-phrase-audio';
+import { providePhraseAudio } from '../phrases/phrase-audio';
 import { GuideServicesProvider } from './data/guide-services';
 import { deviceGuideServices } from './data/guide-stream';
 
@@ -48,3 +50,5 @@ registerChatComposerHint(({ crewId }) =>
     children: createElement(GuideChatHint, { crewId }),
   }),
 );
+
+providePhraseAudio(devicePhraseAudio);

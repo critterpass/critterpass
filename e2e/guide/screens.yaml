@@ -20,3 +20,6 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/crew-scenes.yaml
     env: { PREFIX: en }
+- runFlow:
+    file: subflows/phrase-scenes.yaml
+    env: { PREFIX: en }
