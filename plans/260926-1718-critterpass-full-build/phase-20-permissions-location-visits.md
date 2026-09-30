@@ -196,13 +196,13 @@ Done when: the 3a-9 primer and every just-in-time primer drive the correct OS pr
 
 ## Phase acceptance criteria
 
-- [ ] Every permission kind in the map has status, request, Settings path on iOS and Android
-- [ ] No OS prompt is shown without a preceding primer card or sheet (Maestro asserts)
-- [ ] Engine OFF outside trip mode; ON with session indicator on trip days; Always only after contextual upsell
-- [ ] Simulated fixes flagged; rejected with `LOCATION_IMPLAUSIBLE` for encounter/visit evidence only; share/SOS fixes accepted with flag (test)
-- [ ] `visits` rows contain no coordinates; readable only by owner; purged by TTL job
-- [ ] Permission tests green for 4 tables; publication check excludes fixes and visits
-- [ ] Battery during active encounter measured < 3 %/h (or phase-02 ADR target)
+- [x] Every permission kind in the map has status, request, Settings path on iOS and Android — `e2e/permissions/{jit-camera,denied-settings}.yaml` pass on the Android GitHub runner (https://github.com/critterpass/critterpass/actions/runs/36587470467) and on the iOS simulator (T11); status mapping unit-tested in cp-permissions (T4)
+- [x] No OS prompt is shown without a preceding primer card or sheet (Maestro asserts) — `e2e/permissions/primer.yaml` passed on the iOS simulator and the Android emulator (T11); on the Android GitHub runner it starts with notifications already blocked because the harness installs with `-g` before Maestro revokes it (a `tools/scripts/ci-device` fix queued with the QA lane), not an app change
+- [x] Engine OFF outside trip mode; ON with session indicator on trip days; Always only after contextual upsell — `e2e/location/{session-android,trip-day-session,always-upgrade,visit-consent}.yaml` pass on the Android GitHub runner (https://github.com/critterpass/critterpass/actions/runs/36587470467), and with session-ios on the iOS simulator (T11)
+- [x] Simulated fixes flagged; rejected with `LOCATION_IMPLAUSIBLE` for encounter/visit evidence only; share/SOS fixes accepted with flag (test) — `services/api/test/location/commands.db.test.ts`, `visit-e2e.db.test.ts`
+- [x] `visits` rows contain no coordinates; readable only by owner; purged by TTL job — `packages/db/test/permissions/visits.test.ts`, `services/worker/test/jobs/location/location-ttl.db.test.ts`
+- [x] Permission tests green for 4 tables; publication check excludes fixes and visits — `packages/db/test/permissions/{location_shares,location_fixes,visits}.test.ts` and `member_etas` in `_matrix.ts` / `crew-map-gate.test.ts`; the fixes and visits suites assert `powersync_repl` cannot read either table
+- [ ] Battery during active encounter measured < 3 %/h (or phase-02 ADR target) — open: the on-device %/h measurement is on the M8 device checklist (the emulator energy proxy from T11 is recorded)
 
 ## Risks & rollback
 
