@@ -12,23 +12,12 @@ appId: app.critterpass.dev
       id: 'chat-report'
     timeout: 5000
 - tapOn: 'Bullying or harassment'
-# The switch, not its title: only the switch flips the row. Title and switch share the label, so
-# try the second match (the switch) and fall back to the first when the row is a single node.
+# The switch, not its title: only the switch flips the row. The switch's accessibility text adds
+# its state to the title, which the plain title does not match.
 - tapOn:
-    text: 'Also mute Jordan'
-    index: 1
-    optional: true
-- runFlow:
-    when:
-      notVisible:
-        text: 'Also mute Jordan'
-        checked: true
-    commands:
-      - tapOn:
-          text: 'Also mute Jordan'
-          index: 0
+    text: 'Also mute Jordan.+'
 - assertVisible:
-    text: 'Also mute Jordan'
+    text: 'Also mute Jordan.+'
     checked: true
 - takeScreenshot: chat-report-sheet
 - tapOn:
