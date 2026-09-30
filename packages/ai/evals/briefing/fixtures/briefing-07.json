@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "633ad59b-da56-419b-8d93-29f92e8a0253",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"Free cancellation on Ryokan Yachiyo ends tomorrow 12:00, so decide before you sleep on it.\",\"icon\":\"alarm\"},{\"candidate_id\":\"c2\",\"text\":\"You owe ¥4,200 to the crew, and dry Tanuki eyes are on you.\",\"icon\":\"wallet\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 282,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 512,
+        "output_tokens": 80,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

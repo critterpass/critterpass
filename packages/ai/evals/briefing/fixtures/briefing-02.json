@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d94542ef-38f7-43e6-8bdc-51b98c8391fe",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c2\",\"text\":\"Leave by 07:10 for Ngurah Rai Airport. The sun won't wait, and neither will your ride.\",\"icon\":\"alarm\"},{\"candidate_id\":\"c1\",\"text\":\"SQ 939 to SIN leaves at 09:40, so rise and shine.\",\"icon\":\"plane\"},{\"candidate_id\":\"c3\",\"text\":\"Free cancellation on Uluwatu Kecak show ends today 18:00.\",\"icon\":\"ticket\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 318,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 512,
+        "output_tokens": 111,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

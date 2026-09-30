@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4821593a-ab2e-43c9-b2a0-d40c4ca35f17",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"Mai, your host, is asking for your arrival time — a quick reply keeps things friendly.\",\"icon\":\"chat\"},{\"candidate_id\":\"c2\",\"text\":\"First up: Lantern boat on the Thu Bon at 18:30.\",\"icon\":\"sun\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 670,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 71,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3fed4425-4467-4b67-96a7-cd57351e2e7e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"Leave by 05:40 for Hoi An Central Market, with pickup at the hotel lobby.\",\"icon\":\"alarm\"},{\"candidate_id\":\"c2\",\"text\":\"Rin is not up yet for Hoi An Central Market.\",\"icon\":\"chat\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 299,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 384,
+        "output_tokens": 69,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

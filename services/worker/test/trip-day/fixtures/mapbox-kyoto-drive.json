@@ -1,0 +1,15 @@
+{
+  "source": "Recorded Mapbox Directions response (driving-traffic, depart_at), copied from services/api/test/routing/fixtures/kyoto-leave-by-drive.json",
+  "request": "/directions/v5/mapbox/driving-traffic/135.758800,34.985800;135.785000,34.994900?alternatives=false&geometries=geojson&overview=simplified&steps=false&depart_at=2026-10-01T00%3A20%3A00Z",
+  "status": 200,
+  "body": {
+    "code": "Ok",
+    "routes": [
+      {
+        "duration": 1046.161,
+        "distance": 3914.778,
+        "duration_typical": 1126.975
+      }
+    ]
+  }
+}

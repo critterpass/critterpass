@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d1c362e3-1e0f-48e5-b09c-316f5c6d7dae",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c1\",\"text\":\"Leave by 19:15 for Krung Thep Aphiwat station, you lovely thing.\",\"icon\":\"alarm\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 315,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 384,
+        "output_tokens": 41,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

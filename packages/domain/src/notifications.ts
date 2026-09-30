@@ -158,6 +158,7 @@ const CATALOGUE = [
   spec('leave_by_la_start', 'silent', 'cp.leaveby', 'cp_trip', 'system', 'leave_by:{leave_by_id}'),
   spec('leave_by_alarm', 'local', 'cp.leaveby', 'cp_alarm', 'guide', { variant: 'local_or_always', collapse: 'leave_by:{leave_by_id}' }),
   spec('crew_knock', 'always', 'cp.leaveby', 'cp_always', 'member', 'leave_by:{leave_by_id}'),
+  spec('morning_briefing', 'budgeted', 'cp.briefing', 'cp_guide', 'guide', 'briefing:{trip_id}'),
   spec('meetup_la_update', 'silent', 'cp.generic', 'cp_trip', 'system'),
   spec('crew_ping', 'always', 'cp.generic', 'cp_always', 'member'),
   spec('meetup_changed', 'budgeted', 'cp.generic', 'cp_trip', 'member', 'meetup:{meetup_id}'),
@@ -333,6 +334,12 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'flight.status_changed': ['flight_changed'],
   'flight.boarding_open': ['boarding_open'],
   'booking.deadline_due': ['booking_deadline'],
+  // Trip day: the crew knock for a sleeper, the remote copy of an alarm no device confirmed, a
+  // member running late (the crew ping) and the morning briefing's one push.
+  'leave_by.knocked': ['crew_knock'],
+  'leave_by.alarm_due': ['leave_by_alarm'],
+  'member.running_late': ['crew_ping'],
+  'briefing.built': ['morning_briefing'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

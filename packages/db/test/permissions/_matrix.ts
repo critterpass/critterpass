@@ -1560,6 +1560,31 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: { sql: 'SELECT 1 FROM guide_crew_turns LIMIT 1', params: () => [] },
     expectations: SYSTEM_ONLY,
   },
+  briefings: { selectProbe: ownRowProbe('briefings'), expectations: OWNER_READ },
+  briefing_items: { selectProbe: ownRowProbe('briefing_items'), expectations: OWNER_READ },
+  alarms: { selectProbe: ownRowProbe('alarms'), expectations: OWNER_READ },
+  packing_items: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM packing_items WHERE trip_id = $1 AND owner_id IS NULL',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  leave_bys: {
+    selectProbe: { sql: 'SELECT 1 FROM leave_bys WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  readiness: {
+    selectProbe: { sql: 'SELECT 1 FROM readiness WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  offline_bundles: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM offline_bundles WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
 };
 
 /**

@@ -27,6 +27,7 @@ import {
   BOOKINGS_QUEUES,
   PLAN_QUEUES,
   SETUP_QUEUES,
+  TRIP_DAY_QUEUES,
   type NotifyRouteJob,
 } from '@cp/domain';
 import type pg from 'pg';
@@ -97,6 +98,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(BILLING_QUEUES),
       ...Object.values(PLAN_QUEUES),
       ...Object.values(GUIDE_QUEUES),
+      ...Object.values(TRIP_DAY_QUEUES),
       'cost.recompute',
     ]) {
       if ((await boss.getQueue(queue)) === null) {

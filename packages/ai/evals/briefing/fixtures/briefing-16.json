@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "95a247f7-fd31-4832-bb78-d6fe72f8aa58",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"candidate_id\":\"c2\",\"text\":\"Rise and shine. First up: Snorkel trip at 08:30.\",\"icon\":\"sun\"},{\"candidate_id\":\"c1\",\"text\":\"Free cancellation on your snorkel trip ends today 17:00.\",\"icon\":\"alarm\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 142,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 68,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
