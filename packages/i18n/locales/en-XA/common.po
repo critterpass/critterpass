@@ -79,11 +79,11 @@ msgstr ""
 msgid "common.critter.slotFound"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/sticker/a11y.ts
+#: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.formLabel"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/sticker/a11y.ts
+#: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.poseLabel"
 msgstr ""
 
@@ -208,10 +208,6 @@ msgstr ""
 msgid "common.status.boost"
 msgstr ""
 
-#: ../../apps/mobile/src/app/index.tsx
-msgid "common.devHome.buildVariantLabel"
-msgstr ""
-
 #: ../../apps/mobile/src/ui/chips/StatusChip.tsx
 msgid "common.status.building"
 msgstr ""
@@ -325,10 +321,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/app/(dev)/_probe.tsx
 msgid "common.devProbe.title"
-msgstr ""
-
-#: ../../apps/mobile/src/app/index.tsx
-msgid "common.devHome.devToolsEntry"
 msgstr ""
 
 #: ../../apps/mobile/src/motion/island-toast/IslandToast.tsx
@@ -872,7 +864,7 @@ msgstr ""
 msgid "map.cpMap.locationDenied"
 msgstr ""
 
-#: ../../apps/mobile/src/ui/sticker/a11y.ts
+#: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.lockedLabel"
 msgstr ""
 
