@@ -21,6 +21,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'inbox-tokek'
 - extendedWaitUntil:
-    visible: 'Nothing needs you yet. Back to sleep.'
+    # Android folds the island toast's lines into one node, so match within it.
+    visible: '.*Nothing needs you yet\. Back to sleep\..*'
     timeout: 5000
 - takeScreenshot: en-3b-5-all-caught-up
