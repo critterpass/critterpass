@@ -42,7 +42,22 @@ appId: app.critterpass.dev
     visible:
       text: '.*arrives 11:55.*'
     timeout: 300000
-- hideKeyboard
+# Android closes the keyboard with Back (Maestro's hideKeyboard swipes when Back is not enough, and
+# the swipe opened Gboard's clipboard panel over READ IT); iOS uses hideKeyboard.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - pressKey: back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-paste-send'
+    timeout: 10000
 - tapOn:
     id: 'bookings-paste-send'
 # The api queues the read; the candidate shows once the guide has read the confirmation.
