@@ -37,6 +37,7 @@ import '@/features/onboarding/routes';
 import '@/features/crew/chat/register';
 import '@/features/crew/live-map/register';
 import '@/features/crew/routes';
+import '@/features/plan/day/register';
 import '@/features/plan/draft/register';
 import '@/features/vote/register';
 import { SetupNotificationActions } from '@/features/setup/notifications';

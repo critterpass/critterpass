@@ -6,3 +6,327 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: money(locale, item.amountMinor, item.currency)
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.costEach"
+msgstr "{0} each"
+
+#. placeholder {0}: money(locale, item.amountMinor, item.currency)
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.costGroup"
+msgstr "{0} for the group"
+
+#. placeholder {0}: props.here.map((member) => member.name).join(', ')
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.hereA11y"
+msgstr "{0} here"
+
+#. placeholder {0}: warning.minutes ?? 0
+#. placeholder {1}: titleOf(warning.relatedId, all)
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.fit.travel"
+msgstr "{0} min short to get here from {1}"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.conflict"
+msgstr "{by} moved this too"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.plusOne"
+msgstr "A +1"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.proposal"
+msgstr "A change for the crew to okay"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.comment"
+msgstr "A comment"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.edit"
+msgstr "A plan edit"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.from"
+msgstr "Add from"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.addAction"
+msgstr "Add something"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.title"
+msgstr "Add to the day"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.confirm"
+msgstr "Add to the day"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.addCard"
+msgstr "Add to the day"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.reason.added"
+msgstr "Added to the day"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.anyTime"
+msgstr "Any time"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.apply"
+msgstr "Applying the winner"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.send"
+msgstr "Asking the crew"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.booked"
+msgstr "Booked"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.booking"
+msgstr "Booking"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.changeConfirm"
+msgstr "Change it anyway"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.cost"
+msgstr "Cost"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.untitled"
+msgstr "Day {dayNo}"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.dayChip"
+msgstr "Day {dayNo}"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.eyebrow"
+msgstr "Day {dayNo} / {dayCount}"
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.earlier"
+msgstr "Earlier by 15 minutes"
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.ends"
+msgstr "Ends"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.everyone"
+msgstr "Everyone"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.freeTitle"
+msgstr "Free day"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.placeDetail"
+msgstr "Hours, photos and how to get there"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.proposedLine"
+msgstr "It changes once they say yes."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.removeLine"
+msgstr "It comes off the day for everyone going."
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.later"
+msgstr "Later by 15 minutes"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.loading"
+msgstr "Loading the day"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.moveTo"
+msgstr "Move to"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.waitingShort"
+msgstr "Needs a yes"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.reason.moved"
+msgstr "New time"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.noSaved"
+msgstr "No saved places here yet."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.notes"
+msgstr "Notes"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.freeLine"
+msgstr "Nothing planned. Sleep in, or add something."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.maps"
+msgstr "Open in maps"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.lockedLine"
+msgstr "Open it to change it anyway."
+
+#. placeholder {0}: titleOf(warning.relatedId, all)
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.fit.overlap"
+msgstr "Overlaps {0}"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.planningMode"
+msgstr "Planning mode"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.queuedShort"
+msgstr "Queued"
+
+#. placeholder {0}: clockRange(locale, rain.start, rain.end)
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.rainWindow"
+msgstr "rain {0}"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.removeConfirm"
+msgstr "Remove"
+
+#. placeholder {0}: item.title
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.removeTitle"
+msgstr "Remove {0}?"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.remove"
+msgstr "Remove from the day"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.save"
+msgstr "Save"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.saved"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.search"
+msgstr "Search"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.queued"
+msgstr "Sends when you’re back"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.proposedToast"
+msgstr "Sent to the crew"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.skip"
+msgstr "Skip it, just me"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.skippedToast"
+msgstr "Skipped, just for you"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.lockedLine"
+msgstr "Someone asked for this one. They’ll see the change."
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.conflictSomeone"
+msgstr "Someone moved this too"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.goneLine"
+msgstr "Someone removed it while you had it open."
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.starts"
+msgstr "Starts"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.suggest"
+msgstr "Suggest to the crew"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.suggest"
+msgstr "Suggest to the crew"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.reason.removed"
+msgstr "Taken off the day"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.lockedToast"
+msgstr "That one is booked"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.bookedLine"
+msgstr "The booking stays as it is. Check the supplier can change it."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.memberLine"
+msgstr "The crew okays it before it changes."
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.conflictLine"
+msgstr "Their change stays. Try yours again."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.lockedTitle"
+msgstr "This one is a must-do"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.bookedTitle"
+msgstr "This one is booked"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.goneTitle"
+msgstr "This one’s off the plan"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.bookingLine"
+msgstr "Tickets and voucher are in Bookings."
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.undo"
+msgstr "Undo the guide change"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.waiting"
+msgstr "Waiting for the crew"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.ownLabel"
+msgstr "What’s the plan?"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.when"
+msgstr "When"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.who"
+msgstr "Who’s going"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.own"
+msgstr "Your own"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.vote"
+msgstr "Your vote"

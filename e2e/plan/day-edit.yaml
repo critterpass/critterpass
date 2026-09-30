@@ -1,0 +1,470 @@
+appId: app.critterpass.dev
+---
+# The day view (3e-2 outside planning mode) and its item and add sheets, from the plan editing lab
+# (apps/mobile/src/app/(dev)/plan-edit-lab.tsx) in English then Vietnamese: the day as drawn, a
+# queued offline edit with a member's change waiting for the crew, a free day, loading, read-only,
+# the item sheet for an organiser and a member, a booked item's warning, an item someone else
+# removed, and adding to the day. Screenshots are named <lang>-<design id>-<state> for compare mode.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-edit-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-edit-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-list
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day-pending'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day-pending'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-list-pending-offline
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day-pending'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day-free'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day-free'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-free'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-free-day
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day-free'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day-loading'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day-loading'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-loading
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day-loading'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day-read-only'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day-read-only'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-read-only
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day-read-only'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-item-sheet
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet-member'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet-member'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- tapOn:
+    id: 'plan-time-start-later'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-3e-2-item-sheet-member
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet-member'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet-booked'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet-booked'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-move-4'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'plan-item-move-4'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-confirm'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-3e-2-item-booked-warning
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet-booked'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-gone'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-item-gone'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-gone'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-item-gone
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-gone'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-add-item'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-add-item'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-add-item
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-add-item'
+    timeout: 10000
+# Vietnamese: switch the app language in the component gallery, then the same scenes.
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-gallery'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-edit-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-plan-edit-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-list
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day-pending'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day-pending'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-list-pending-offline
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day-pending'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day-free'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day-free'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-free'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-free-day
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day-free'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day-loading'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day-loading'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-loading
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day-loading'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day-read-only'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day-read-only'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-read-only
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day-read-only'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-item-sheet
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet-member'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet-member'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- tapOn:
+    id: 'plan-time-start-later'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: vi-3e-2-item-sheet-member
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet-member'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet-booked'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet-booked'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-move-4'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'plan-item-move-4'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-confirm'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: vi-3e-2-item-booked-warning
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-sheet-booked'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-gone'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-item-gone'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-gone'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-item-gone
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-item-gone'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-add-item'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-add-item'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-sheet'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-add-item
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-add-item'
+    timeout: 10000

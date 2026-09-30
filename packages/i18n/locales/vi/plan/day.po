@@ -6,3 +6,327 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: money(locale, item.amountMinor, item.currency)
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.costEach"
+msgstr "{0} mỗi người"
+
+#. placeholder {0}: money(locale, item.amountMinor, item.currency)
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.costGroup"
+msgstr "{0} cho cả nhóm"
+
+#. placeholder {0}: props.here.map((member) => member.name).join(', ')
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.hereA11y"
+msgstr "{0} đang ở đây"
+
+#. placeholder {0}: warning.minutes ?? 0
+#. placeholder {1}: titleOf(warning.relatedId, all)
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.fit.travel"
+msgstr "Thiếu {0} phút để đi từ {1} tới đây"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.conflict"
+msgstr "{by} cũng vừa dời mục này"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.plusOne"
+msgstr "Một lượt +1"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.proposal"
+msgstr "Một thay đổi chờ cả nhóm đồng ý"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.comment"
+msgstr "Một bình luận"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.edit"
+msgstr "Một chỉnh sửa lịch trình"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.from"
+msgstr "Thêm từ"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.addAction"
+msgstr "Thêm gì đó"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.title"
+msgstr "Thêm vào ngày"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.confirm"
+msgstr "Thêm vào ngày"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.addCard"
+msgstr "Thêm vào ngày"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.reason.added"
+msgstr "Thêm vào ngày"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.anyTime"
+msgstr "Lúc nào cũng được"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.apply"
+msgstr "Áp dụng lựa chọn thắng"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.send"
+msgstr "Đang hỏi cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.booked"
+msgstr "Đã đặt"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.booking"
+msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.changeConfirm"
+msgstr "Vẫn đổi"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.cost"
+msgstr "Chi phí"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.untitled"
+msgstr "Ngày {dayNo}"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.dayChip"
+msgstr "Ngày {dayNo}"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.eyebrow"
+msgstr "Ngày {dayNo} / {dayCount}"
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.earlier"
+msgstr "Sớm hơn 15 phút"
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.ends"
+msgstr "Kết thúc"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.everyone"
+msgstr "Cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.freeTitle"
+msgstr "Ngày tự do"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.placeDetail"
+msgstr "Giờ mở cửa, ảnh và cách đi tới"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.proposedLine"
+msgstr "Sẽ đổi khi mọi người đồng ý."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.removeLine"
+msgstr "Mục này sẽ bị bỏ khỏi ngày của mọi người đi cùng."
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.later"
+msgstr "Muộn hơn 15 phút"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.loading"
+msgstr "Đang tải ngày"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.moveTo"
+msgstr "Chuyển sang"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.waitingShort"
+msgstr "Cần đồng ý"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.reason.moved"
+msgstr "Giờ mới"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.noSaved"
+msgstr "Chưa có địa điểm đã lưu ở đây."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.notes"
+msgstr "Ghi chú"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.freeLine"
+msgstr "Chưa có kế hoạch. Ngủ nướng, hoặc thêm gì đó."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.maps"
+msgstr "Mở bản đồ"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.lockedLine"
+msgstr "Mở ra nếu vẫn muốn đổi."
+
+#. placeholder {0}: titleOf(warning.relatedId, all)
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.fit.overlap"
+msgstr "Trùng giờ với {0}"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.planningMode"
+msgstr "Chế độ lên lịch"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.queuedShort"
+msgstr "Chờ gửi"
+
+#. placeholder {0}: clockRange(locale, rain.start, rain.end)
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.rainWindow"
+msgstr "mưa {0}"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.removeConfirm"
+msgstr "Bỏ"
+
+#. placeholder {0}: item.title
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.removeTitle"
+msgstr "Bỏ {0}?"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.remove"
+msgstr "Bỏ khỏi ngày"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.save"
+msgstr "Lưu"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.saved"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.search"
+msgstr "Tìm"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.queued"
+msgstr "Sẽ gửi khi có mạng"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.proposedToast"
+msgstr "Đã gửi cho cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.skip"
+msgstr "Bỏ qua, chỉ mình tôi"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.skippedToast"
+msgstr "Đã bỏ qua, chỉ riêng bạn"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.lockedLine"
+msgstr "Có người đã muốn mục này. Họ sẽ thấy thay đổi."
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.conflictSomeone"
+msgstr "Có người cũng vừa dời mục này"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.goneLine"
+msgstr "Có người đã bỏ mục này khi bạn đang mở."
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.starts"
+msgstr "Bắt đầu"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.suggest"
+msgstr "Đề xuất với cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.suggest"
+msgstr "Đề xuất với cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.reason.removed"
+msgstr "Bỏ khỏi ngày"
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.lockedToast"
+msgstr "Mục đó đã được đặt"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.bookedLine"
+msgstr "Đặt chỗ vẫn giữ nguyên. Hãy hỏi nhà cung cấp xem có đổi được không."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.memberLine"
+msgstr "Cả nhóm đồng ý rồi mới đổi."
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.conflictLine"
+msgstr "Thay đổi của họ được giữ. Hãy thử lại của bạn."
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.lockedTitle"
+msgstr "Đây là mục bắt buộc"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.bookedTitle"
+msgstr "Mục này đã được đặt"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.goneTitle"
+msgstr "Mục này không còn trong lịch"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.bookingLine"
+msgstr "Vé và phiếu nằm trong mục Đặt chỗ."
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.undo"
+msgstr "Hoàn tác thay đổi của hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.waiting"
+msgstr "Chờ cả nhóm"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.ownLabel"
+msgstr "Kế hoạch là gì?"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.when"
+msgstr "Khi nào"
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.who"
+msgstr "Ai đi"
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.own"
+msgstr "Tự nhập"
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.vote"
+msgstr "Phiếu của bạn"
