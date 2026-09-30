@@ -1,7 +1,7 @@
 /**
  * Turns a flight impact into the disruption's rows (3k-5) under the autonomy policy:
  * - a retime of items only the delayed travellers attend, free and reversible, runs on its own;
- * - a retime touching anyone else, a booking or a must-do waits for a yes (C41 decider);
+ * - a retime touching anyone else, a booking or a must-do waits for a yes (the crew decider policy);
  * - anything reaching a vendor is a draft needing a yes, and the retime behind it runs only once
  *   the vendor confirms (never "Made rebooked" before Made says so);
  * - a cancelled flight or missed connection is the traveller's to rebook: a link, never an action;
@@ -51,9 +51,11 @@ function row(
     affected_user_ids: [],
     item_stable_id: null,
     provider_id: null,
+    starts_at: null,
     depends_on: null,
     facts: {},
     decider: null,
+    poll: null,
     guide_action_id: null,
     vendor_message_id: null,
     decided_by: null,
@@ -87,6 +89,7 @@ function itemRows(
   if (newStart !== null) facts['to'] = localTime(newStart, change.tz);
   const bookingImpact = item.bookingId !== null;
   const common = {
+    starts_at: newStart?.toISOString() ?? null,
     affected_user_ids: [...attendees],
     item_stable_id: item.stableId,
     provider_id: item.providerId,
@@ -108,7 +111,7 @@ function itemRows(
   );
 
   if (item.providerId !== null && item.providerName !== null) {
-    const vendorFacts: Facts = { ...facts, vendor: item.providerName };
+    const vendorFacts: Facts = { ...facts, vendor: item.providerName, role: item.role };
     const vendorLabel =
       newStart === null
         ? `Tell ${item.providerName} the flight won't land today?`

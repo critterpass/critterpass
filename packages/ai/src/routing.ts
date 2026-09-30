@@ -220,6 +220,7 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'redraft.day': pro('D', 4096, 'high', { ...PLANNING_CALL, temperature: 0.5 }),
   'proposal.personal': pro('D', 8192, 'low', { output: 'structured' }),
   'disruption.plan_b': pro('R', 8192, 'low', { output: 'structured' }),
+  'replan.weather': pro('R', 4096, 'low', { output: 'structured' }),
   'recap.narration': pro('B', 16_000, 'low', { output: 'structured' }),
   'notification.templates': pro(null, 16_000, 'low', {
     output: 'structured',
@@ -240,6 +241,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'draft.skeleton_fast': fast('D', 8192, { ...PLANNING_CALL, cacheLayers: JOB_LAYERS }),
   'draft.summary': fast(null, 256),
   'draft.closures': fast(null, 2048, { output: 'structured' }),
+  'watch.copy': fast('R', 1024, { output: 'structured', cacheLayers: JOB_LAYERS }),
+  'late.options': fast('R', 1024, { output: 'structured', cacheLayers: JOB_LAYERS }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {

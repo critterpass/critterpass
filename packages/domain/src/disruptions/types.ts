@@ -58,10 +58,16 @@ export const disruptionActionSchema = z.object({
   affected_user_ids: z.array(z.uuid()).max(64),
   item_stable_id: z.uuid().nullable(),
   provider_id: z.uuid().nullable(),
+  /** Where a plan row moves its item (an instant); null for other rows. */
+  starts_at: z.iso.datetime({ offset: true }).nullable(),
   /** The row this one waits on (a retime waiting on the vendor's confirmation). */
   depends_on: z.string().nullable(),
   facts: z.record(z.string(), factValue),
   decider: disruptionDeciderSchema.nullable(),
+  /** The decision poll a needs-a-yes row is answered on (`cast_ballot`, the crew decider policy). */
+  poll: z
+    .object({ id: z.uuid(), approve_option_id: z.uuid(), keep_option_id: z.uuid() })
+    .nullable(),
   guide_action_id: z.uuid().nullable(),
   vendor_message_id: z.uuid().nullable(),
   decided_by: z.uuid().nullable(),

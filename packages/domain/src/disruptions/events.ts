@@ -12,7 +12,7 @@ export const DISRUPTION_EVENT_TYPES = [
   'disruption.updated',
   'disruption.resolved',
   'disruption.action_decided',
-  'disruption.undone',
+  'disruption.action_undone',
   'disruption.announced',
   'running_late.detected',
   'late_option.chosen',
@@ -46,7 +46,8 @@ export const DISRUPTION_EVENT_PAYLOADS = {
     action_id: z.uuid(),
     decision: z.enum(['approve', 'keep']),
   }),
-  'disruption.undone': disruption.extend({
+  'disruption.action_undone': disruption.extend({
+    action_id: z.string().min(1).max(120),
     undone: z.number().int().min(0),
     compensations: z.number().int().min(0),
   }),

@@ -58,6 +58,8 @@ ALTER TABLE disruptions ADD CONSTRAINT disruptions_resolved_check
 CREATE UNIQUE INDEX disruptions_open_dedupe_key ON disruptions (trip_id, dedupe_key)
   WHERE status = 'open';
 CREATE INDEX disruptions_trip_status_idx ON disruptions (trip_id, status);
+-- Outcomes (an applied fix, a vote, a vendor's reply) find their row by the id it carries.
+CREATE INDEX disruptions_actions_idx ON disruptions USING gin (actions jsonb_path_ops);
 CREATE TRIGGER disruptions_touch_updated_at BEFORE UPDATE ON disruptions
   FOR EACH ROW EXECUTE FUNCTION app.touch_updated_at();
 ALTER TABLE disruptions ENABLE ROW LEVEL SECURITY;
@@ -193,7 +195,7 @@ BEGIN
   SELECT string_agg(DISTINCT quote_literal(t), ', ') INTO merged
     FROM unnest(current_values || ARRAY[
       'disruption.detected', 'disruption.needs_yes', 'disruption.updated',
-      'disruption.resolved', 'disruption.action_decided', 'disruption.undone',
+      'disruption.resolved', 'disruption.action_decided', 'disruption.action_undone',
       'disruption.announced', 'running_late.detected', 'late_option.chosen',
       'watch.escalated', 'weather.suggested', 'weather.suggestion_dismissed',
       'storm.decided'

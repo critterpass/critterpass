@@ -15,6 +15,7 @@ import { BILLING_QUEUE_DESCRIPTIONS, billingQueueSpecs } from '../billing/queues
 import { GUIDE_QUEUE_DESCRIPTIONS, guideQueueSpecs } from '../guide/queues';
 import { SUPPLIER_QUEUE_DESCRIPTIONS, supplierQueueSpecs } from '../suppliers/queues';
 import { TRIP_DAY_QUEUE_DESCRIPTIONS, tripDayQueueSpecs } from '../trip-day/queues';
+import { DISRUPTION_QUEUE_DESCRIPTIONS, disruptionQueueSpecs } from '../disruptions/queues';
 
 /** pg-boss queue policies (pg-boss `QueuePolicy`). */
 export type QueuePolicy =
@@ -285,6 +286,7 @@ export const QUEUES = {
   ...guideQueueSpecs(DEFAULT_QUEUE_SPEC),
   ...supplierQueueSpecs(DEFAULT_QUEUE_SPEC),
   ...tripDayQueueSpecs(DEFAULT_QUEUE_SPEC),
+  ...disruptionQueueSpecs(DEFAULT_QUEUE_SPEC),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;
@@ -351,6 +353,7 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   ...GUIDE_QUEUE_DESCRIPTIONS,
   ...SUPPLIER_QUEUE_DESCRIPTIONS,
   ...TRIP_DAY_QUEUE_DESCRIPTIONS,
+  ...DISRUPTION_QUEUE_DESCRIPTIONS,
 };
 
 export { redactJobPayload, type JobPayloadRedactor } from './redact';

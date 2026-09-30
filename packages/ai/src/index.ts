@@ -287,3 +287,4 @@ export * from './routes/booking-extract';
 export * from './routes/vendor-reply';
 export * from './routes/guide';
 export * from './routes/briefing';
+export * from './routes/disruption';

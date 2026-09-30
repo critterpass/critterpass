@@ -170,6 +170,7 @@ const jobs: AnyJobDefinition[] = [
   ...guideJobs({ ...process.env, ...env }, pool, aiSwitches.assertAiRoute, llmObservability),
   ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger, aiSwitches),
   ...(await import('./jobs/trip-day')).tripDayJobs(process.env, aiSwitches, llmObservability),
+  ...(await import('./jobs/disruptions')).disruptionJobs(process.env, aiSwitches, llmObservability),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&
@@ -248,9 +249,7 @@ if (env.POSTHOG_PROJECT_API_KEY && env.ANALYTICS_PID_SALT) {
     onError: (error) => analyticsLogger.warn({ err: error }, 'analytics export failed'),
   });
 } else {
-  logger.warn(
-    'analytics export is disabled: POSTHOG_PROJECT_API_KEY or ANALYTICS_PID_SALT is unset',
-  );
+  logger.warn('analytics export disabled: POSTHOG_PROJECT_API_KEY or ANALYTICS_PID_SALT unset');
 }
 
 const jobsLogger = logger.child({ component: 'jobs' });
