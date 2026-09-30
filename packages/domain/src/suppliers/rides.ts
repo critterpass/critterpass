@@ -8,6 +8,7 @@
 import { z } from 'zod';
 
 import { currencyCodeSchema, moneyMinorSchema } from '../money/expense-schema';
+import type { RideFareEstimate } from './ride-fare';
 
 export const RIDE_PROVIDERS = ['grab', 'gojek', 'uber', 'taxi', 'transfer', 'driver'] as const;
 export const rideProviderSchema = z.enum(RIDE_PROVIDERS);
@@ -136,6 +137,11 @@ export const RIDE_COPY_KEYS = {
 export interface RideQuoteResult {
   readonly copy_key: (typeof RIDE_COPY_KEYS)[keyof typeof RIDE_COPY_KEYS];
   readonly estimate: RideEstimate | null;
+  /**
+   * Fare ranges from published local tariffs over the routed trip, when Grab gave no estimate and
+   * the destination has tariffs; always shown as an estimate.
+   */
+  readonly fare_estimate: RideFareEstimate | null;
   readonly links: readonly RideLink[];
   /** The drop-off for the driver: its name and address in the local script where we have it. */
   readonly phrase_card: {
