@@ -175,3 +175,4 @@ export {
   packingItems,
   readiness,
 } from './trip-day';
+export { appIconUnlocks, dataExports, pastTrips } from './you';

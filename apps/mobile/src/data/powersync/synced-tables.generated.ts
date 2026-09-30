@@ -15,6 +15,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
   alarms:
     'user_id device_id leave_by_id trip_id fire_at os_alarm_id state sync_version:integer created_at updated_at',
+  app_icon_unlocks: 'user_id icon_key source unlocked_at seen_at created_at updated_at',
   availability_summaries:
     'trip_id date free_count:integer maybe_count:integer busy_count:integer unknown_count:integer member_count:integer computed_at created_at updated_at',
   avatars:
@@ -63,6 +64,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'poi_id destination_id dow:integer hourly source fetched_at created_at updated_at',
   custom_phrase_cards:
     'user_id trip_id guide_id purpose language register address text romanisation gloss audio_key audio_status created_at updated_at',
+  data_exports:
+    'user_id status r2_key bytes:integer progress:integer error_code requested_at ready_at expires_at created_at updated_at',
   date_window_options:
     'trip_id position:integer kind start_date end_date free_count:integer member_count:integer missing_member_ids missed_must_do_ids ask_user_id ask_status price_delta_minor:integer currency season_score:integer reason is_pick:integer computed_at created_at updated_at',
   destination_cost_indices:
@@ -139,6 +142,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id day owner_id label checked:integer checked_by checked_at suggested_by created_by version:integer deleted_at created_at updated_at',
   participant_dietary_flags: 'trip_id user_id flags created_at updated_at',
   passes: 'user_id status number issued_at cover created_at updated_at',
+  past_trips: 'user_id place_id country month source deleted_at created_at updated_at',
   payments:
     'crew_id trip_id from_id to_id amount_minor:integer currency method status requested_at last_nudged_at marked_at confirmed_at auto_confirmed:integer disputed_at dispute_note reissued_from_id created_by version:integer created_at updated_at',
   paywall_impressions:
@@ -231,9 +235,9 @@ export const SYNCED_TABLE_COLUMNS = {
   user_entitlements:
     'user_id pass_plus:integer sources expires_at guide_unlimited_global:integer icon_styles computed_at',
   user_settings:
-    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer active_crew_id muted_uids created_at updated_at',
+    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer active_crew_id muted_uids audio home_currency_override created_at updated_at',
   users:
-    'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at created_at updated_at',
+    'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at languages username_changed_at created_at updated_at',
   weather_snapshots:
     'destination_id point_key lat:real lng:real elevation_m:integer date hourly marine marine_fetched_at source fetched_at checked_at created_at updated_at',
 } as const;

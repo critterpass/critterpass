@@ -10,6 +10,7 @@
  */
 import { onEventAppended, registerJobProducer, sendInTx } from '@cp/db';
 import {
+  ACCOUNT_QUEUES,
   AVATAR_MODERATE_QUEUE,
   AVATAR_RENDER_QUEUE,
   BILLING_QUEUES,
@@ -100,6 +101,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(PLAN_QUEUES),
       ...Object.values(GUIDE_QUEUES),
       ...Object.values(TRIP_DAY_QUEUES),
+      ...Object.values(ACCOUNT_QUEUES),
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
     ]) {

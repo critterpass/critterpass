@@ -754,6 +754,31 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, true, true),
     },
   },
+  // Earned app icons: the unlock job writes, the owner only reads (docs/data-model.md §3.1).
+  app_icon_unlocks: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM app_icon_unlocks WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  // Self-reported past trips: RLS class O, written by their owner.
+  past_trips: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM past_trips WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: SELF_ONLY,
+  },
+  // Data exports: the api's system step and the worker write, the owner reads (docs/data-model.md
+  // §3.17).
+  data_exports: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM data_exports WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
   // RLS class X, self-only (docs/data-model.md §3.1: excluded from every derived view) — same
   // self-only shape as user_settings/consents/device_action_keys above.
   user_private: {

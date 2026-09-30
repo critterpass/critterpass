@@ -11,6 +11,8 @@ import { SUPPLIER_EVENT_TYPES } from '../../src/suppliers/events';
 import { PLAN_EVENT_TYPES } from '../../src/plan/events';
 import { GUIDE_EVENT_TYPES } from '../../src/guide/events';
 import { TRIP_DAY_EVENT_TYPES } from '../../src/trip-day/events';
+import { YOU_EVENT_TYPES } from '../../src/you/events';
+import { ACCOUNT_EVENT_TYPES } from '../../src/account/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -118,6 +120,10 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   // The guide speaks in its own threads and in crew chat, never through the ticker.
   ...GUIDE_EVENT_TYPES,
   ...TRIP_DAY_EVENT_TYPES,
+  // Settings, icons and past trips concern one account; exports, closing and purging an account
+  // are private to it, and an organiser hand-over reaches the crew as the trip's own rows.
+  ...YOU_EVENT_TYPES,
+  ...ACCOUNT_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

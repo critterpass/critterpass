@@ -28,6 +28,9 @@ import { PLAN_EVENT_PAYLOADS, PLAN_EVENT_TYPES } from '../plan/events';
 import { GUIDE_EVENT_PAYLOADS, GUIDE_EVENT_TYPES } from '../guide/events';
 import { SUPPLIER_EVENT_PAYLOADS, SUPPLIER_EVENT_TYPES } from '../suppliers/events';
 import { TRIP_DAY_EVENT_PAYLOADS, TRIP_DAY_EVENT_TYPES } from '../trip-day/events';
+import { YOU_EVENT_PAYLOADS, YOU_EVENT_TYPES } from '../you/events';
+import { ACCOUNT_EVENT_PAYLOADS, ACCOUNT_EVENT_TYPES } from '../account/events';
+import { PROFILE_FIELDS } from '../you/profile';
 
 export const DOMAIN_EVENT_TYPES = [
   'crew.member_joined',
@@ -71,6 +74,8 @@ export const DOMAIN_EVENT_TYPES = [
   ...GUIDE_EVENT_TYPES,
   ...SUPPLIER_EVENT_TYPES,
   ...TRIP_DAY_EVENT_TYPES,
+  ...YOU_EVENT_TYPES,
+  ...ACCOUNT_EVENT_TYPES,
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -156,7 +161,7 @@ const DOMAIN_EVENT_CATALOGUE = {
   // Aggregate is the user; names the fields that changed, never their values.
   'profile.updated': z.object({
     user_id: z.uuid(),
-    fields: z.array(z.enum(['display_name', 'home_airport'])).min(1),
+    fields: z.array(z.enum(PROFILE_FIELDS)).min(1),
   }),
   'profile.taste_changed': z.object({ user_id: z.uuid(), source: z.enum(['quiz', 'chips']) }),
   'profile.avatar_changed': z.object({
@@ -178,6 +183,8 @@ const DOMAIN_EVENT_CATALOGUE = {
   ...GUIDE_EVENT_PAYLOADS,
   ...SUPPLIER_EVENT_PAYLOADS,
   ...TRIP_DAY_EVENT_PAYLOADS,
+  ...YOU_EVENT_PAYLOADS,
+  ...ACCOUNT_EVENT_PAYLOADS,
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
 export function getDomainEventPayloadSchema(type: DomainEventType): z.ZodType {
