@@ -26,7 +26,7 @@ appId: app.critterpass.dev
     timeout: 5000
 - tapOn:
     id: 'critters-dex-search'
-- inputText: 'Hội An'
+- inputText: 'Vietnam'
 - extendedWaitUntil:
     visible:
       text: 'VIETNAM'

@@ -16,6 +16,7 @@ appId: app.critterpass.dev
     element:
       id: 'dev-nav-critters-lab'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'dev-nav-critters-lab'
@@ -50,6 +51,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-pass'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-pass'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-pass'
@@ -81,6 +109,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-legendary-on-dates'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-legendary-on-dates'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-legendary-on-dates'
@@ -112,6 +167,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-egg-waiting'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-egg-waiting'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-egg-waiting'
@@ -143,6 +225,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-egg-ready'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-egg-ready'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-egg-ready'
@@ -174,6 +283,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-egg-unseen'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-egg-unseen'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-egg-unseen'
@@ -205,6 +341,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-found'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-found'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-found'
@@ -236,6 +399,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-near'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-near'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-near'
@@ -267,6 +457,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-search'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-search'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-search'
@@ -298,6 +515,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-crew-hidden'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-crew-hidden'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-crew-hidden'
@@ -329,6 +573,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-explore-at-home'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-explore-at-home'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-explore-at-home'
@@ -360,6 +631,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-loading'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-loading'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-loading'
@@ -391,6 +689,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-fresh'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-fresh'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-fresh'
@@ -422,6 +747,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-fresh-found-empty'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-fresh-found-empty'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-fresh-found-empty'
@@ -453,6 +805,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-fresh-near-empty'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-fresh-near-empty'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-fresh-near-empty'
@@ -484,6 +863,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-fresh-long-names'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-fresh-long-names'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-fresh-long-names'
@@ -515,6 +921,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-8-home-set'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-8-home-set'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-8-home-set'
@@ -546,6 +979,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-8-fresh'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-8-fresh'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-8-fresh'
@@ -560,7 +1020,7 @@ appId: app.critterpass.dev
     id: 'critters-lab-3l-1-hatch'
 - extendedWaitUntil:
     visible:
-      id: 'critters-hatch'
+      id: 'critters-hatched'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
@@ -577,6 +1037,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-1-hatch'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-1-hatch'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-1-hatch'
@@ -591,7 +1078,7 @@ appId: app.critterpass.dev
     id: 'critters-lab-3l-1-hatch-offline'
 - extendedWaitUntil:
     visible:
-      id: 'critters-hatch'
+      id: 'critters-hatched'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
@@ -608,6 +1095,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-1-hatch-offline'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-1-hatch-offline'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-1-hatch-offline'
@@ -622,7 +1136,7 @@ appId: app.critterpass.dev
     id: 'critters-lab-3l-1-hatch-local'
 - extendedWaitUntil:
     visible:
-      id: 'critters-hatch'
+      id: 'critters-hatched'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
@@ -639,6 +1153,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-1-hatch-local'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-1-hatch-local'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-1-hatch-local'
@@ -687,6 +1228,7 @@ appId: app.critterpass.dev
     element:
       id: 'dev-nav-critters-lab'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'dev-nav-critters-lab'
@@ -721,6 +1263,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-pass'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-pass'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-pass'
@@ -752,6 +1321,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-legendary-on-dates'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-legendary-on-dates'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-legendary-on-dates'
@@ -783,6 +1379,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-egg-waiting'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-egg-waiting'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-egg-waiting'
@@ -814,6 +1437,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-egg-ready'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-egg-ready'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-egg-ready'
@@ -845,6 +1495,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-egg-unseen'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-egg-unseen'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-egg-unseen'
@@ -876,6 +1553,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-found'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-found'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-found'
@@ -907,6 +1611,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-near'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-near'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-near'
@@ -938,6 +1669,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-search'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-search'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-search'
@@ -969,6 +1727,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-crew-hidden'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-crew-hidden'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-crew-hidden'
@@ -1000,6 +1785,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-explore-at-home'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-explore-at-home'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-explore-at-home'
@@ -1031,6 +1843,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-loading'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-loading'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-loading'
@@ -1062,6 +1901,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-fresh'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-fresh'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-fresh'
@@ -1093,6 +1959,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-fresh-found-empty'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-fresh-found-empty'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-fresh-found-empty'
@@ -1124,6 +2017,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-fresh-near-empty'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-fresh-near-empty'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-fresh-near-empty'
@@ -1155,6 +2075,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-2-fresh-long-names'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-2-fresh-long-names'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-2-fresh-long-names'
@@ -1186,6 +2133,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-8-home-set'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-8-home-set'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-8-home-set'
@@ -1217,6 +2191,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-8-fresh'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-8-fresh'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-8-fresh'
@@ -1231,7 +2232,7 @@ appId: app.critterpass.dev
     id: 'critters-lab-3l-1-hatch'
 - extendedWaitUntil:
     visible:
-      id: 'critters-hatch'
+      id: 'critters-hatched'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
@@ -1248,6 +2249,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-1-hatch'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-1-hatch'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-1-hatch'
@@ -1262,7 +2290,7 @@ appId: app.critterpass.dev
     id: 'critters-lab-3l-1-hatch-offline'
 - extendedWaitUntil:
     visible:
-      id: 'critters-hatch'
+      id: 'critters-hatched'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
@@ -1279,6 +2307,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-1-hatch-offline'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-1-hatch-offline'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-1-hatch-offline'
@@ -1293,7 +2348,7 @@ appId: app.critterpass.dev
     id: 'critters-lab-3l-1-hatch-local'
 - extendedWaitUntil:
     visible:
-      id: 'critters-hatch'
+      id: 'critters-hatched'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
@@ -1310,6 +2365,33 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# The swipe back can overshoot to the developer tools list or the splash; step back into the lab.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-lab-3l-1-hatch-local'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-critters-lab'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-critters-lab'
+      - scrollUntilVisible:
+          element:
+            id: 'critters-lab-3l-1-hatch-local'
+          direction: DOWN
+          centerElement: true
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'critters-lab-3l-1-hatch-local'
