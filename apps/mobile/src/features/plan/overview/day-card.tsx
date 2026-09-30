@@ -70,6 +70,12 @@ const useStyles = makeStyles((th) => ({
     justifyContent: 'center',
   },
   body: { flex: 1, gap: th.space['2'] },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: th.space['6'] },
+  justYou: {
+    backgroundColor: th.semantic.state.info,
+    borderRadius: th.radius.xs,
+    paddingHorizontal: th.space['4'],
+  },
   sweep: {
     position: 'absolute',
     top: -20,
@@ -146,6 +152,9 @@ export function dayCardLabel(card: DayCardModel, locale: string): string {
     dayTitle(card),
     daySummary(card),
     dayChipLabel(card.chip),
+    card.personal > 0
+      ? t({ id: 'plan.overview.justYouLabel', message: 'has plans just for you' })
+      : '',
   ]
     .filter(Boolean)
     .join(', ');
@@ -177,9 +186,18 @@ export function DayCard({ card, sweep = false, onSwept, shake = 0 }: DayCardProp
           )}
         </View>
         <View style={styles.body}>
-          <Text variant="title" numberOfLines={1}>
-            {upper(dayTitle(card), locale)}
-          </Text>
+          <View style={styles.titleRow}>
+            <Text variant="title" numberOfLines={1} style={{ flexShrink: 1 }}>
+              {upper(dayTitle(card), locale)}
+            </Text>
+            {card.personal > 0 ? (
+              <View style={styles.justYou} testID={`plan-day-${dayNo}-just-you`}>
+                <Text variant="label" color={theme.semantic.text.onAccent}>
+                  {upper(t({ id: 'plan.overview.justYou', message: 'Just you' }), locale)}
+                </Text>
+              </View>
+            ) : null}
+          </View>
           <Text variant="bodySm" color={theme.semantic.text.secondary} numberOfLines={1}>
             {daySummary(card)}
           </Text>

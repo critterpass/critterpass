@@ -44,6 +44,8 @@ export interface PlanItem {
   readonly amountMinor: number | null;
   readonly currency: string | null;
   readonly costModel: string | null;
+  /** In my plan only ("just you"): my own addition or my change to a crew item. */
+  readonly justYou?: boolean;
 }
 
 export type WeatherIcon = 'rain' | 'sun' | 'wave';
@@ -63,6 +65,8 @@ export interface DayCard {
   /** Item labels in time order (with the start time of booked ones); empty on a free day. */
   readonly summary: readonly string[];
   readonly chip: DayChip;
+  /** How many of the day's items are mine only. */
+  readonly personal: number;
   /** Holds a booking: the day keeps its date and never moves in a reorder. */
   readonly fixed: boolean;
   readonly when: 'past' | 'today' | 'future';
@@ -111,6 +115,9 @@ export function toPlanState(days: readonly PlanDay[], items: readonly PlanItem[]
       ...optional('ends_at', item.endsAt),
       ...optional('tz', item.tz),
       ...optional('booking_id', item.bookingId),
+      ...optional('poi_id', item.poiId),
+      ...optional('must_do_id', item.mustDoId),
+      ...optional('category', item.category),
       attendee_ids: [...item.attendeeIds],
     })),
   };
@@ -213,6 +220,7 @@ export function buildDayCards(input: {
       theme: day.theme,
       summary,
       chip,
+      personal: items.filter((item) => item.justYou === true).length,
       fixed,
       when: dayWhen(day.date, input.today),
     };

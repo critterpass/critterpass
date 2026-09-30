@@ -35,7 +35,8 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { BALI_TRIP, BALI_VERSION, MAYA, WINSTON } from '../dev/bali-plan';
+import { PERSONAL_OPS_ID, PERSONAL_ROWS, SURF_LESSON } from '../../overlay/dev/personal-ops';
+import { BALI_DESTINATION, BALI_TRIP, BALI_VERSION, MAYA, WINSTON } from '../dev/bali-plan';
 import { PlanOverviewScreen } from '../plan-overview-screen';
 import { seedBaliPlan } from '../test-support/seed-plan';
 
@@ -126,6 +127,51 @@ describe('plan overview', () => {
     await new Promise((resolve) => setTimeout(resolve, 300));
     expect(await queuedOps(db)).toEqual([]);
     expect(screen.getByLabelText(/^Day 4, .*Batur sunrise/u)).toBeTruthy();
+  });
+
+  it('shows my own plan and keeps my version of a clashing change', async () => {
+    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
+    const { db } = stack;
+    await seedBaliPlan(db, WINSTON);
+    await db.execute(
+      `INSERT INTO personal_plan_ops (id, trip_id, user_id, base_version_id, ops, status, created_at)
+       VALUES (?, ?, ?, ?, ?, 'active', '2026-10-01T00:00:00Z')`,
+      [PERSONAL_OPS_ID, BALI_TRIP, WINSTON, BALI_VERSION, PERSONAL_ROWS[0]?.ops],
+    );
+    await db.execute('INSERT INTO pois (id, destination_id, name, category) VALUES (?, ?, ?, ?)', [
+      SURF_LESSON,
+      BALI_DESTINATION,
+      'Surf lesson',
+      'beach',
+    ]);
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+    await render(
+      <I18nProvider i18n={i18n}>
+        <SafeAreaProvider initialMetrics={METRICS}>
+          <GestureHandlerRootView>
+            <LocalFirstProvider value={stack.value}>
+              <ScreenJoltProvider>
+                <PlanOverviewScreen tripId={BALI_TRIP} />
+              </ScreenJoltProvider>
+            </LocalFirstProvider>
+          </GestureHandlerRootView>
+        </SafeAreaProvider>
+      </I18nProvider>,
+    );
+    await screen.findByTestId('plan-day-3-just-you');
+    expect(screen.getByLabelText(/^Day 3, .*Surf lesson/u)).toBeTruthy();
+    // The kecak dance I skip is gone from my week.
+    expect(screen.getByLabelText(/^Day 7, .*Beach clubs, Beach weather/u)).toBeTruthy();
+    expect(screen.queryByLabelText(/Kecak/u)).toBeNull();
+    await fireEvent.press(await screen.findByTestId(/^plan-clash-keep-/u));
+    await waitFor(async () => {
+      const rows = await db.getAll<{ envelope: string }>(
+        "SELECT envelope FROM commands WHERE cmd = 'resolve_overlay_clash'",
+      );
+      expect(rows.map((row) => (JSON.parse(row.envelope) as { payload: unknown }).payload)).toEqual(
+        [{ personal_ops_id: PERSONAL_OPS_ID, keep: true }],
+      );
+    });
   });
 
   it('tells a member without a plan to wait for the organiser', async () => {

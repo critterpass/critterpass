@@ -15,11 +15,13 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion/island-toast';
 import type { GuideId } from '@/ui/people/GuideLine';
 
+import { ClashList } from '../overlay/clash-card';
+import { usePersonalPlan, useResolveClash } from '../overlay/data/use-personal-plan';
 import { useDayReorder } from './data/use-day-reorder';
 import { useGuideSweep } from './data/use-guide-sweep';
 import { todayIn, useDayCards, usePlanData, type PlanData } from './data/use-plan-data';
 import type { DropResult } from './day-list';
-import { buildDayCards, toPlanState, type DayCard, type PlanItem } from './model/plan-model';
+import { buildDayCards, toPlanState, type DayCard } from './model/plan-model';
 import { moveInOrder, movedFixedDay, reorderedPlan } from './model/reorder';
 import { PlanOverviewView, type PlanTab } from './plan-overview-view';
 import { planRoutes } from './routes';
@@ -37,23 +39,17 @@ export function guideOf(data: PlanData): { id: GuideId; name: string } {
 
 export interface PlanOverviewScreenProps {
   readonly tripId: string;
-  /** The personal plan's items when the member has one (overlay-aware); the group's otherwise. */
-  readonly items?: readonly PlanItem[];
-  readonly footer?: ReactNode;
   readonly mapView?: (data: PlanData) => ReactNode;
   readonly calendarView?: (data: PlanData, onOpenDay: (dayNo: number) => void) => ReactNode;
 }
 
-export function PlanOverviewScreen({
-  tripId,
-  items: overlayItems,
-  footer,
-  mapView,
-  calendarView,
-}: PlanOverviewScreenProps) {
+export function PlanOverviewScreen({ tripId, mapView, calendarView }: PlanOverviewScreenProps) {
   const data = usePlanData(tripId);
   const groupCards = useDayCards(data);
-  const items = overlayItems ?? data.items;
+  // My own plan: the crew's with my "just me" changes laid over it.
+  const personal = usePersonalPlan(data);
+  const resolveClash = useResolveClash();
+  const items = personal.items;
   const state = useMemo(() => toPlanState(data.days, data.items), [data.days, data.items]);
   const sync = useSyncStatus();
   const presence = usePresence('trip_presence', tripId);
@@ -70,7 +66,7 @@ export function PlanOverviewScreen({
   const inTrip = data.trip?.phase === 'in';
   const cards = useMemo(() => {
     const order = reorder.pending;
-    if (order === null && overlayItems === undefined) return groupCards;
+    if (order === null && !personal.active) return groupCards;
     const plan =
       order === null ? { days: data.days, items } : reorderedPlan(data.days, items, order);
     return buildDayCards({
@@ -80,7 +76,7 @@ export function PlanOverviewScreen({
       weather: data.weather,
       today: inTrip ? todayIn(data.trip?.tz ?? null) : null,
     });
-  }, [reorder.pending, overlayItems, groupCards, data, items, inTrip]);
+  }, [reorder.pending, personal.active, groupCards, data, items, inTrip]);
 
   const memberIndex = new Map(data.members.map((m, index) => [m.user_id, index]));
   const here = presence
@@ -178,7 +174,12 @@ export function PlanOverviewScreen({
       onOpenDay={openDay}
       onReorder={onReorder}
       onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-      footer={footer}
+      footer={
+        <ClashList
+          clashes={personal.clashes}
+          onResolve={(clash, keep) => void resolveClash(clash.personalOpsId, keep)}
+        />
+      }
     />
   );
 }
