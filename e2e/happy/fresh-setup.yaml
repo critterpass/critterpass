@@ -48,20 +48,22 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
-# Days by hand, whatever this phone's calendar already shared on the way in.
+# Days by hand, whatever this phone's calendar already shared on the way in. The row sits under
+# the heatmap, behind the footer until it is scrolled to the middle.
 - scrollUntilVisible:
     element:
       id: 'own-calendar-action'
     timeout: 10000
+    centerElement: true
+- waitForAnimationToEnd
 - tapOn:
     id: 'own-calendar-action'
-- runFlow:
-    when:
-      visible:
-        id: 'calendar-by-hand'
-    commands:
-      - tapOn:
-          id: 'calendar-by-hand'
+- extendedWaitUntil:
+    visible:
+      id: 'calendar-by-hand'
+    timeout: 10000
+- tapOn:
+    id: 'calendar-by-hand'
 - extendedWaitUntil:
     visible:
       id: 'manual-days-month'
