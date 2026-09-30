@@ -27,9 +27,10 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'calendar-by-hand'
+      # The sheet's root id isn't in iOS's accessibility tree; its month title is.
       - extendedWaitUntil:
           visible:
-            id: 'manual-days'
+            id: 'manual-days-month'
           timeout: 10000
       # Next month: every day of it is ahead of today.
       - tapOn:
@@ -60,7 +61,7 @@ appId: app.critterpass.dev
           id: 'manual-days-save'
       - extendedWaitUntil:
           notVisible:
-            id: 'manual-days'
+            id: 'manual-days-month'
           timeout: 15000
 # The crew window: a lock button on the window card, or pick the week in the picker.
 - extendedWaitUntil:

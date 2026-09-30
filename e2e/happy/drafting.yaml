@@ -21,9 +21,10 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'draft-change-day'
+# The sheet's root id isn't in iOS's accessibility tree; its day chips are.
 - extendedWaitUntil:
     visible:
-      id: 'change-day'
+      id: 'change-day-1'
     timeout: 15000
 - tapOn:
     id: 'change-day-1'
