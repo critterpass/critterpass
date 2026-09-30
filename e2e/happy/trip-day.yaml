@@ -1,0 +1,96 @@
+appId: app.critterpass.dev
+---
+# Release gate: the trip day. A fresh account takes the staging demo crew (a confirmed Bali trip
+# three weeks out). The TRIPS tab opens the trip's hub, counting down to wheels up; the first
+# day's card opens the day-of screen, where the account adds "Sunscreen" to its pack list and
+# ticks it, both through the api. After a relaunch the tick is still there. On Android the phone
+# then loses its signal: the hub turns to the offline card with nothing left to send (the pack
+# list reached the server), and comes back when the signal does.
+- runFlow:
+    file: subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-pre'
+    timeout: 30000
+- assertVisible:
+    id: 'trip-hub-countdown'
+- assertVisible:
+    id: 'trip-hub-tile-plan'
+- tapOn:
+    id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-pack-add'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'trip-day-pack-add'
+- inputText: 'Sunscreen'
+- pressKey: Enter
+- extendedWaitUntil:
+    visible:
+      text: 'SUNSCREEN'
+    timeout: 10000
+- tapOn:
+    text: 'SUNSCREEN'
+- extendedWaitUntil:
+    visible:
+      text: 'SUNSCREEN'
+      checked: true
+    timeout: 10000
+# Give the upload queue a moment, then relaunch: the ticked row comes back from the database.
+- waitForAnimationToEnd:
+    timeout: 5000
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'tab-trips'
+    timeout: 60000
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-next'
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-next'
+- scrollUntilVisible:
+    element:
+      text: 'SUNSCREEN'
+    direction: DOWN
+    timeout: 20000
+- assertVisible:
+    text: 'SUNSCREEN'
+    checked: true
+# Runner: /network turns Wi-Fi and data off, then on (Android only).
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-hub'
+          timeout: 15000
+      - evalScript: ${http.post('http://127.0.0.1:7788/network?state=off').status}
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-offline-card'
+          timeout: 30000
+      - assertVisible:
+          id: 'trip-offline-still-works'
+      - assertNotVisible:
+          id: 'trip-offline-sends'
+      - evalScript: ${http.post('http://127.0.0.1:7788/network?state=on').status}
+      - extendedWaitUntil:
+          notVisible:
+            id: 'trip-offline-card'
+          timeout: 60000
