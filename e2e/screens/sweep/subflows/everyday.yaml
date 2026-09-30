@@ -71,18 +71,19 @@ appId: app.critterpass.dev
 - takeScreenshot: ${LANG}-3g-1-new-poll
 - tapOn:
     id: 'new-poll-question'
-# Fast injected typing can drop characters while the sheet settles: type again until the field
-# holds the whole question (matched as a regex, so the question mark is escaped).
-- inputText: 'Dinner tonight?'
+# Each injected key costs several seconds on the CI emulator, and a long string runs past the
+# driver's two-minute call limit or drops characters: a one-word question, retyped until the field
+# holds all of it.
+- inputText: 'Dinner'
 - repeat:
-    times: 3
+    times: 2
     while:
-      notVisible: 'Dinner tonight\?'
+      notVisible: 'Dinner'
     commands:
-      - eraseText: 20
-      - inputText: 'Dinner tonight?'
+      - eraseText: 10
+      - inputText: 'Dinner'
       - waitForAnimationToEnd
-- assertVisible: 'Dinner tonight\?'
+- assertVisible: 'Dinner'
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3g-1-new-poll-keyboard
 - hideKeyboard
