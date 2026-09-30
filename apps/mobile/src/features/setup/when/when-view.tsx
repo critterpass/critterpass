@@ -6,7 +6,7 @@
  * (or its empty state) with the way forward. Everyone sees their own calendar's row; only the
  * organiser gets the lock and ask actions. Only counts are ever shown, never anyone's days.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -86,7 +86,8 @@ export interface WhenActions {
 }
 
 function syncedLine(model: WhenModel): string {
-  const synced = countWord(model.synced);
+  const calendars = model.synced;
+  const synced = countWord(calendars);
   const missing = model.total - model.synced;
   if (model.synced === 0) {
     return t({
@@ -97,7 +98,10 @@ function syncedLine(model: WhenModel): string {
   if (missing <= 0) {
     return t({
       id: 'setup.when.line.all',
-      message: `From ${synced} synced calendars. Everyone’s in.`,
+      message: plural(calendars, {
+        one: `From ${synced} synced calendar. Everyone’s in.`,
+        other: `From ${synced} synced calendars. Everyone’s in.`,
+      }),
     });
   }
   const only =
@@ -105,23 +109,33 @@ function syncedLine(model: WhenModel): string {
   if (only !== undefined) {
     return t({
       id: 'setup.when.line.oneMissing',
-      message: `From ${synced} synced calendars. ${only} hasn’t connected yet.`,
+      message: plural(calendars, {
+        one: `From ${synced} synced calendar. ${only} hasn’t connected yet.`,
+        other: `From ${synced} synced calendars. ${only} hasn’t connected yet.`,
+      }),
     });
   }
   const left = sentenceStart(countWord(missing));
   return t({
     id: 'setup.when.line.some',
-    message: `From ${synced} synced calendars. ${left} still to come.`,
+    message: plural(calendars, {
+      one: `From ${synced} synced calendar. ${left} still to come.`,
+      other: `From ${synced} synced calendars. ${left} still to come.`,
+    }),
   });
 }
 
 function checkedLine(model: WhenModel, locale: string): string {
   const last = model.months.at(-1)?.days.at(-1)?.date;
-  const count = sentenceStart(countWord(model.synced));
+  const calendars = model.synced;
+  const count = sentenceStart(countWord(calendars));
   const until = last === undefined ? '' : monthName(locale, last);
   return t({
     id: 'setup.when.line.checked',
-    message: `${count} calendars, checked through ${until}. Nobody's week is perfect.`,
+    message: plural(calendars, {
+      one: `${count} calendar, checked through ${until}. Nobody's week is perfect.`,
+      other: `${count} calendars, checked through ${until}. Nobody's week is perfect.`,
+    }),
   });
 }
 

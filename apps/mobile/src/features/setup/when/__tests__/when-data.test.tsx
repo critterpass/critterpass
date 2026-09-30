@@ -70,7 +70,8 @@ describe('dates step data', () => {
     await waitFor(() => expect(result.current.options).toHaveLength(1));
     expect(result.current.summaries[0]?.free_count).toBe(5);
     expect(result.current.options[0]).toMatchObject({ kind: 'ask_first', askState: null });
-    expect(result.current.mustDoTitles.get('m1')).toBe('Inari');
+    // Each table is its own live query: the must-dos can land a render after the options.
+    await waitFor(() => expect(result.current.mustDoTitles.get('m1')).toBe('Inari'));
 
     const sent = await stack.value.commands.send(askAvailabilityCommand, {
       trip_id: TRIP_ID,
