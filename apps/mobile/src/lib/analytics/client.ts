@@ -8,6 +8,7 @@
  */
 import {
   guardAnalyticsEvent,
+  posthogFlagKey,
   type AnalyticsEventName,
   type AnalyticsEventProps,
   type CommonProps,
@@ -102,8 +103,18 @@ export function createAnalyticsClient(options: AnalyticsClientOptions): Analytic
           errorTracking: {
             autocapture: { uncaughtExceptions: false, unhandledRejections: false, console: [] },
           },
+          // The api bootstraps catalog keys; PostHog stores and refreshes them under its own keys.
           ...(options.bootstrapFlags
-            ? { bootstrap: { featureFlags: { ...options.bootstrapFlags } } }
+            ? {
+                bootstrap: {
+                  featureFlags: Object.fromEntries(
+                    Object.entries(options.bootstrapFlags).map(([key, value]) => [
+                      posthogFlagKey(key),
+                      value,
+                    ]),
+                  ),
+                },
+              }
             : {}),
           ...options.sdkOverrides,
         });
