@@ -278,7 +278,7 @@ if they were verified design values.
 | 3c-3…3c-7 Setup | Trip not on this phone yet / loading | `Skeleton` cards while loading; an `EmptyState` ("This trip isn't here yet") with Back home when the trip has not synced. |
 | 3c-3 When | "From five synced calendars. Dev hasn't connected his yet." | Rendered as "From five synced calendars. One still to come.": whether a given person has shared any days is not in the crew's synced data, only counts are. |
 | 3c-3 When | Your own calendar row under the heatmap (not in yet, syncing, synced n ago, stale after 3 days, access denied, sync failed) with Connect / Change / Mark by hand / Try again | Each member's part of the step; built from the list-row pattern and `InlineAction`. |
-| 3c-3 When | Nobody has shared a day; options still being worked out | Line "Nobody has shared their days yet…" with no heatmap; a list skeleton "Finding the best week" while counts exist but no option has arrived. |
+| 3c-3 When | Nobody has shared a day; options still being worked out | Line "Nobody has shared their days yet…" with no heatmap; a list skeleton "Finding the best week" while counts exist but no option has arrived. The organiser's footer is "Pick a week anyway", so setup never stalls here; its picker spans every month to the six-month horizon, counted or not. |
 | 3c-3 When | Several months of counts | Month paging with ‹ › around the month title; opens on the best week's month. |
 | 3c-3 When | Lock failed (no signal, too many tries) | One urgent line under the heatmap; the CTA stays. |
 | 3c-3 When | "Pick another week" / "Pick a week anyway" (week picker) | A sheet with the same heatmap: tap the first day, − / + for the length, "{n} of {N} can make every day of it", then Lock {range}. |

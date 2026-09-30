@@ -59,6 +59,13 @@ describe('dates step model', () => {
     expect(months.map((month) => month.key)).toEqual(['2027-04', '2027-05', '2027-06']);
   });
 
+  it('fills every month of a span, counted or not, across a year end', () => {
+    const months = heatMonths([day('2027-01-10', 1)], { from: '2026-11-20', to: '2027-02-03' });
+    expect(months.map((month) => month.key)).toEqual(['2026-11', '2026-12', '2027-01', '2027-02']);
+    expect(months[0]?.days.every((d) => d.free === 0)).toBe(true);
+    expect(months[2]?.days.find((d) => d.date === '2027-01-10')?.free).toBe(1);
+  });
+
   it('tints in six steps scaled to the crew, full only when everyone is free', () => {
     expect(heatStep(0, 6)).toBe(0.1);
     expect(heatStep(1, 6)).toBe(0.2);

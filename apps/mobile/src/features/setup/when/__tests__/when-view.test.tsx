@@ -88,6 +88,15 @@ describe('dates step view', () => {
     expect(handlers.onLock).toHaveBeenCalledWith('2027-04-16', '2027-04-23');
   });
 
+  it('lets the organiser pick a week before anyone has shared a day', async () => {
+    const handlers = await show(
+      whenModel({ mode: 'empty', best: null, options: [], months: [], synced: 0 }),
+    );
+    expect(screen.queryByTestId('when-cta')).toBeNull();
+    await fireEvent.press(screen.getByTestId('when-pick-week'));
+    expect(handlers.onPickWeek).toHaveBeenCalled();
+  });
+
   it('gives a member no lock or ask, only their own part', async () => {
     const handlers = await show(
       whenModel({ me: DEV, calendar: { status: 'needs_permission', lastSyncedAt: null } }),
@@ -95,6 +104,7 @@ describe('dates step view', () => {
       DEV,
     );
     expect(screen.queryByTestId('when-cta')).toBeNull();
+    expect(screen.queryByTestId('when-pick-week')).toBeNull();
     expect(screen.getByText('Your days aren’t in yet')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('own-calendar-action'));
     expect(handlers.onConnect).toHaveBeenCalled();

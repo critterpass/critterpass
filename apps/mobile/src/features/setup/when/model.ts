@@ -104,10 +104,39 @@ function mondayOffset(year: number, month: number): number {
   return (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7;
 }
 
-/** Every month that has a counted date, each filled day by day (missing dates count 0 free). */
-export function heatMonths(rows: readonly SummaryRow[]): HeatMonth[] {
+/** Every `YYYY-MM` from `from`'s month through `to`'s. */
+function monthKeys(from: string, to: string): string[] {
+  const keys: string[] = [];
+  let year = Number(from.slice(0, 4));
+  let month = Number(from.slice(5, 7));
+  const last = to.slice(0, 7);
+  for (;;) {
+    const key = `${year}-${String(month).padStart(2, '0')}`;
+    if (key > last) return keys;
+    keys.push(key);
+    month += 1;
+    if (month > 12) {
+      month = 1;
+      year += 1;
+    }
+  }
+}
+
+/**
+ * Every month that has a counted date, each filled day by day (missing dates count 0 free); with a
+ * `span`, every month of it too, so a week can be picked before anyone has shared a day.
+ */
+export function heatMonths(
+  rows: readonly SummaryRow[],
+  span?: { readonly from: string; readonly to: string },
+): HeatMonth[] {
   const byDate = new Map(rows.map((row) => [row.date, row]));
-  const keys = [...new Set(rows.map((row) => row.date.slice(0, 7)))].sort();
+  const keys = [
+    ...new Set([
+      ...rows.map((row) => row.date.slice(0, 7)),
+      ...(span === undefined ? [] : monthKeys(span.from, span.to)),
+    ]),
+  ].sort();
   return keys.map((key) => {
     const year = Number(key.slice(0, 4));
     const month = Number(key.slice(5, 7));
