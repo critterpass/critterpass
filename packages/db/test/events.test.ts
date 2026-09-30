@@ -113,7 +113,10 @@ describe('appendDomainEvent', () => {
             crewId: fx.crewId,
             tripId: fx.tripId,
           });
-          await enqueueRealtime(tx, { channel: `trip:${fx.tripId}`, payload: { hint: true } });
+          await enqueueRealtime(tx, {
+            channel: `trip:${fx.tripId}`,
+            payload: { type: 'test.hint', data: {} },
+          });
           throw new Error('boom: simulate a later step in the same command failing');
         }),
       ).rejects.toThrow('boom');
@@ -138,7 +141,10 @@ describe('appendDomainEvent', () => {
 describe('enqueueRealtime', () => {
   it('lets a caller publish to their own user channel', async () => {
     const { id } = await withUser(db.pool, fixture.memberId, anonymousActor().device, (tx) =>
-      enqueueRealtime(tx, { channel: `user:#${fixture.memberId}`, payload: { hint: 1 } }),
+      enqueueRealtime(tx, {
+        channel: `user:#${fixture.memberId}`,
+        payload: { type: 'test.hint', data: {} },
+      }),
     );
     expect(id).toBeDefined();
   });
@@ -146,7 +152,10 @@ describe('enqueueRealtime', () => {
   it('lets a crew member publish to their own crew channel', async () => {
     await expect(
       withUser(db.pool, fixture.memberId, anonymousActor().device, (tx) =>
-        enqueueRealtime(tx, { channel: `crew:${fixture.crewId}`, payload: { hint: 1 } }),
+        enqueueRealtime(tx, {
+          channel: `crew:${fixture.crewId}`,
+          payload: { type: 'test.hint', data: {} },
+        }),
       ),
     ).resolves.toBeDefined();
   });
@@ -154,9 +163,36 @@ describe('enqueueRealtime', () => {
   it('rejects publishing to a crew channel the caller does not belong to', async () => {
     await expect(
       withUser(db.pool, fixture.outsiderId, anonymousActor().device, (tx) =>
-        enqueueRealtime(tx, { channel: `crew:${fixture.crewId}`, payload: { hint: 1 } }),
+        enqueueRealtime(tx, {
+          channel: `crew:${fixture.crewId}`,
+          payload: { type: 'test.hint', data: {} },
+        }),
       ),
     ).rejects.toThrow(/not permitted to publish/i);
+  });
+
+  it('rejects a publication the relay could not deliver before writing it', async () => {
+    const channel = `user:#${fixture.memberId}`;
+    // A user-channel type whose data does not match its schema, and a payload with no type.
+    await expect(
+      withSystem(db.pool, (tx) =>
+        enqueueRealtime(tx, {
+          channel,
+          payload: { type: 'badge.counts', data: { counts: { inbox: 1 } } },
+        }),
+      ),
+    ).rejects.toThrow(/cannot be published: data_mismatch/);
+    await expect(
+      withSystem(db.pool, (tx) => enqueueRealtime(tx, { channel, payload: { hint: 1 } })),
+    ).rejects.toThrow(/cannot be published: invalid/);
+    await expect(
+      withSystem(db.pool, (tx) =>
+        enqueueRealtime(tx, {
+          channel,
+          payload: { type: 'badge.counts', data: { needs_you: 1, unread: 2 } },
+        }),
+      ),
+    ).resolves.toBeDefined();
   });
 
   it('rejects an app_user enqueueing an unsubscribe (system/trigger only)', async () => {

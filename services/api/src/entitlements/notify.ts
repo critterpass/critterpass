@@ -11,7 +11,7 @@ import type pg from 'pg';
 export async function notifyUserEntitlementChanged(tx: pg.PoolClient, uid: string): Promise<void> {
   await enqueueRealtime(tx, {
     channel: userChannel(uid),
-    payload: { type: 'entitlement.changed', scope: 'user' },
+    payload: { type: 'entitlement.changed', data: { subject_kind: 'user' } },
   });
 }
 
@@ -29,7 +29,10 @@ export async function notifyUsageChanged(
 ): Promise<void> {
   await enqueueRealtime(tx, {
     channel: userChannel(uid),
-    payload: { type: 'usage.changed', ...usage },
+    payload: {
+      type: 'usage.changed',
+      data: { metric: usage.metric, used: usage.used, limit: usage.limit, reset_at: usage.resetAt },
+    },
   });
 }
 
