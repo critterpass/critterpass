@@ -25,9 +25,10 @@ import { MeterChip } from '../meter-chip';
 const noop = () => undefined;
 const PON = { slug: 'pon', name: 'Pon' };
 const KYOTO = { ...LAB_TRIP, destination: 'Kyoto', startDate: '2027-04-02', endDate: '2027-04-09' };
-/** 7 h 12 min after the lab's clock. */
-const NOW = new Date('2027-04-04T07:48:00Z');
-const RESET = '2027-04-04T15:00:00Z';
+/** The meter resets at the device's own midnight; the lab's clock is 7 h 12 min before it. */
+const RESET_AT = new Date(2027, 3, 5, 0, 0);
+const RESET = RESET_AT.toISOString();
+const NOW = new Date(RESET_AT.getTime() - (7 * 60 + 12) * 60_000);
 
 function PonLimit({
   refused,

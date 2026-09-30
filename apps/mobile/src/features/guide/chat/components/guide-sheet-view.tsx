@@ -8,11 +8,9 @@ import { useLingui } from '@lingui/react/macro';
 import { useRef, type ReactNode } from 'react';
 import { ScrollView as HorizontalScroll } from 'react-native';
 
-import { upper } from '@cp/i18n';
-
-import { Stack, makeStyles } from '@/ui';
+import { Stack, Text, makeStyles, sizeToken } from '@/ui';
 import { Composer } from '@/ui/chat/Composer';
-import { QuickActionChip } from '@/ui/chips/QuickActionChip';
+import { PressScale } from '@/ui/press/PressScale';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 
@@ -38,12 +36,20 @@ export interface GuideSheetViewProps {
 const useStyles = makeStyles((t) => ({
   body: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['16'] },
   actions: { gap: t.space['8'], paddingHorizontal: t.size.gutter },
+  // 3j-1's quick actions: filled dark pills with bold caps (the small button type).
+  action: {
+    minHeight: sizeToken(t.size.chip, 'hitTarget'),
+    borderRadius: sizeToken(t.size.chip, 'hitTarget') / 2,
+    paddingHorizontal: t.space['14'],
+    backgroundColor: t.semantic.bg.control,
+    justifyContent: 'center',
+  },
   foot: { paddingHorizontal: t.size.gutter, paddingTop: t.space['8'], gap: t.space['12'] },
 }));
 
 export function GuideSheetView(props: GuideSheetViewProps) {
   const styles = useStyles();
-  const { t, i18n } = useLingui();
+  const { t } = useLingui();
   const scroll = useRef<{ scrollToEnd: (options?: { animated?: boolean }) => void }>(null);
   return (
     <Sheet
@@ -71,12 +77,16 @@ export function GuideSheetView(props: GuideSheetViewProps) {
             testID="guide-quick-actions"
           >
             {props.quickActions.map((action) => (
-              <QuickActionChip
+              <PressScale
                 key={action.id}
-                label={upper(action.label, i18n.locale)}
+                accessibilityLabel={action.label}
                 onPress={action.onPress}
+                widthClass="narrow"
+                style={styles.action}
                 testID={`guide-quick-${action.id}`}
-              />
+              >
+                <Text variant="buttonSm">{action.label}</Text>
+              </PressScale>
             ))}
           </HorizontalScroll>
         )}
