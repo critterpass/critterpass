@@ -96,6 +96,7 @@ import { ThemeProvider } from '@/lib/theme';
 import { feedback } from '@/motion/feedback';
 import { useMotionMode } from '@/motion/motion-mode';
 import { IslandToast } from '@/motion/island-toast';
+import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
@@ -307,6 +308,7 @@ export default function RootLayout() {
                 <PrimerSheetHost />
                 <SharedGrowHost />
                 <IslandToast Text={Text} />
+                <LaunchHatch revealed={prewarmed && linksReady} />
               </ScreenJoltProvider>
             </AppSessionRoot>
           </AnalyticsProvider>

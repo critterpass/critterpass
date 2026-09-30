@@ -1,7 +1,12 @@
-/** The five guides floating around the splash passport (3a-1), each on its own float loop. */
+/**
+ * The five guides floating around the splash passport (3a-1), each on its own float loop. On the
+ * first launch they wait behind the hatch and slap on, one after another, as it fades.
+ */
+import { useState, type ReactNode } from 'react';
 import type { ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 
+import { SLAP_STAGGER_MS, useSlap } from '@/motion/patterns/slap';
 import { useLoop } from '@/motion/use-loop';
 import { GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -26,7 +31,16 @@ export const FLOATERS: readonly {
   { guide: 'paco', x: 0.42, bottom: 0.01, size: 76, offset: 0.8 },
 ];
 
-export function Floater({ guide, x, y, bottom, size, offset }: (typeof FLOATERS)[number]) {
+export function Floater({
+  guide,
+  x,
+  y,
+  bottom,
+  size,
+  offset,
+  waiting = false,
+  index = 0,
+}: (typeof FLOATERS)[number] & { readonly waiting?: boolean; readonly index?: number }) {
   const float = useLoop('float', { offset });
   const info = GUIDE_STICKERS[guide];
   const vertical: ViewStyle =
@@ -36,7 +50,36 @@ export function Floater({ guide, x, y, bottom, size, offset }: (typeof FLOATERS)
       style={[{ position: 'absolute' }, { left: `${x * 100}%` }, vertical, float]}
       testID={`splash-floater-${guide}`}
     >
-      <Sticker kind={info.kind} name={info.name} size={size} />
+      <SlapIn waiting={waiting} index={index}>
+        <Sticker kind={info.kind} name={info.name} size={size} />
+      </SlapIn>
     </Animated.View>
   );
+}
+
+/** Slaps its sticker on when `waiting` clears; renders it plainly if it never waited. */
+function SlapIn({
+  waiting,
+  index,
+  children,
+}: {
+  readonly waiting: boolean;
+  readonly index: number;
+  readonly children: ReactNode;
+}) {
+  const [armed] = useState(waiting);
+  const slap = useSlap({
+    active: armed && !waiting,
+    direction: index % 2 === 0 ? 1 : -1,
+    delayMs: index * SLAP_STAGGER_MS,
+  });
+  if (!armed) return children;
+  return <Animated.View style={slap}>{children}</Animated.View>;
+}
+
+/** Every floater; `waiting` holds them back (hidden) until the launch hatch hands over. */
+export function FloaterField({ waiting }: { readonly waiting: boolean }) {
+  return FLOATERS.map((floater, index) => (
+    <Floater key={floater.guide} {...floater} waiting={waiting} index={index} />
+  ));
 }
