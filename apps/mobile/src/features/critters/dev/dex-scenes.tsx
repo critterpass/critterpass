@@ -106,6 +106,7 @@ function SetScene({
 const TOKEK_HATCH: HatchViewProps = {
   place: 'Bali',
   landedTime: '13:50',
+  landedAirport: 'DPS',
   colour: null,
   critterKey: 'cp-112',
   seed: 7,
@@ -177,6 +178,7 @@ export const DEX_SCENES: Readonly<Record<string, () => ReactNode>> = {
       no={1}
       setName="Vietnam"
       landedTime={null}
+      landedAirport={null}
       pending
       onSayHi={null}
     />

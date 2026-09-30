@@ -153,13 +153,22 @@ function XpChip({ xp }: { readonly xp: number }) {
     }, 16);
     return () => clearInterval(timer);
   }, [xp, reduced, theme.motion.duration.base]);
-  return <Tag label={xpChip(shown)} color={theme.color.yellow} />;
+  return (
+    <Tag
+      label={xpChip(shown)}
+      color={theme.color.yellow}
+      textColor={theme.semantic.text.onAccent}
+    />
+  );
 }
 
 export function BefriendedView(props: {
   readonly art: SpawnArt;
   readonly eyebrow: string;
-  readonly chips: readonly string[];
+  /** The found form's name, when the viewer may see it. */
+  readonly formChip: string | null;
+  /** "2 in the crew", when crewmates' finds of it were heard. */
+  readonly crewChip: string | null;
   readonly minutes: number;
   readonly onAdd: () => void;
   readonly onShare: (() => void) | null;
@@ -189,9 +198,20 @@ export function BefriendedView(props: {
           </Text>
           <Row gap="6" wrap justify="center">
             {art.xp > 0 ? <XpChip xp={art.xp} /> : null}
-            {props.chips.map((chip) => (
-              <Tag key={chip} label={upper(chip, locale)} color={theme.color.ink['700']} />
-            ))}
+            {props.formChip === null ? null : (
+              <Tag
+                label={upper(props.formChip, locale)}
+                color={theme.color.green.base}
+                textColor={theme.semantic.text.onAccent}
+              />
+            )}
+            {props.crewChip === null ? null : (
+              <Tag
+                label={upper(props.crewChip, locale)}
+                color={theme.color.ink['700']}
+                textColor={theme.semantic.text.primary}
+              />
+            )}
           </Row>
           <Text variant="body" color={theme.semantic.text.secondary}>
             {noticed(props.minutes)}

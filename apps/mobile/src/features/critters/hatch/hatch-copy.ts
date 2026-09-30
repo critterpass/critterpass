@@ -30,10 +30,11 @@ export function eggUnseen(): { title: string; body: string; cta: string } {
   };
 }
 
-export function landedEyebrow(time: string | null): string {
-  return time === null
-    ? t({ id: 'critters.hatch.youMadeIt', message: 'You made it' })
-    : t({ id: 'critters.hatch.landed', message: `${time} · You landed` });
+export function landedEyebrow(time: string | null, airport: string | null): string {
+  if (time === null) return t({ id: 'critters.hatch.youMadeIt', message: 'You made it' });
+  return airport === null
+    ? t({ id: 'critters.hatch.landed', message: `${time} · You landed` })
+    : t({ id: 'critters.hatch.landedAt', message: `${airport} · ${time} · You landed` });
 }
 
 export function welcome(place: string): string {

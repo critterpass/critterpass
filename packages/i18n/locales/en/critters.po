@@ -11,6 +11,10 @@ msgstr ""
 msgid "critters.unknownName"
 msgstr "???"
 
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.landedAt"
+msgstr "{airport} · {time} · You landed"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.rankGroupCities"
 msgstr "{cities, plural, one {Rank {from}–{to} · # city each} other {Rank {from}–{to} · # cities each}}"

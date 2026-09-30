@@ -172,7 +172,8 @@ export async function seedCritters(
       status,
       DEST,
       GUIDE,
-      isoDate(status === 'in_trip' ? 0 : 7),
+      // Under way since yesterday in Bali, so it has started on any test machine's own date too.
+      isoDate(status === 'in_trip' ? -1 : 7),
       isoDate(status === 'in_trip' ? 7 : 14),
       CRITTER_TZ,
     ],

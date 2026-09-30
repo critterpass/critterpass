@@ -11,6 +11,10 @@ msgstr ""
 msgid "critters.unknownName"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.landedAt"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.rankGroupCities"
 msgstr ""

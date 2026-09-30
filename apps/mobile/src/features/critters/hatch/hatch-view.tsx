@@ -41,6 +41,8 @@ export interface HatchViewProps {
   readonly place: string;
   /** Local landing time ("13:50"), or null when it hatched on arrival or by hand. */
   readonly landedTime: string | null;
+  /** The airport the landing leg arrived at ("DPS"), when there is a flight. */
+  readonly landedAirport: string | null;
   readonly colour: string | null;
   readonly critterKey: string | null;
   readonly seed: number;
@@ -125,7 +127,7 @@ export function HatchView(props: HatchViewProps) {
       <View style={styles.body}>
         <Stack gap="6" align="center" style={{ paddingTop: theme.space['16'] }}>
           <Text variant="eyebrow" color={theme.semantic.action.primary}>
-            {upper(landedEyebrow(props.landedTime), locale)}
+            {upper(landedEyebrow(props.landedTime, props.landedAirport), locale)}
           </Text>
           <Text variant="displayXl" style={{ textAlign: 'center' }} singleLine={false}>
             {upper(welcome(props.place), locale)}

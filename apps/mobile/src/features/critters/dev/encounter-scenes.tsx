@@ -89,7 +89,8 @@ export const ENCOUNTER_SCENES: Readonly<Record<string, () => ReactNode>> = {
       kind="befriended"
       art={TEMPLE}
       eyebrow="Rare form · 2 of 4"
-      chips={['Temple Tokek', '2 in the crew']}
+      formChip="Temple Tokek"
+      crewChip="2 in the crew"
       minutes={11}
       onAdd={noop}
       onShare={noop}

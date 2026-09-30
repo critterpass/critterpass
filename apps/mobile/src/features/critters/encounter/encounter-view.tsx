@@ -64,7 +64,8 @@ export type EncounterViewProps =
       readonly kind: 'befriended';
       readonly art: SpawnArt;
       readonly eyebrow: string;
-      readonly chips: readonly string[];
+      readonly formChip: string | null;
+      readonly crewChip: string | null;
       readonly minutes: number;
       readonly onAdd: () => void;
       readonly onShare: (() => void) | null;
@@ -108,7 +109,8 @@ export function EncounterView(props: EncounterViewProps) {
       <BefriendedView
         art={props.art}
         eyebrow={props.eyebrow}
-        chips={props.chips}
+        formChip={props.formChip}
+        crewChip={props.crewChip}
         minutes={props.minutes}
         onAdd={props.onAdd}
         onShare={props.onShare}

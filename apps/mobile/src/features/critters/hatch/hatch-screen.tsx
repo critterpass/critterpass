@@ -23,6 +23,12 @@ import { HatchView } from './hatch-view';
 const HATCH_SQL = `SELECT t.id, t.end_date, coalesce(t.tz, d.tz) AS tz, d.name AS place, d.colour,
     cs.name AS set_name, cs.hero_critter_key, g.slug AS guide_slug, g.name AS guide_name,
     p.landed_at, eg.id AS egg_id, eg.hatched_at,
+    (SELECT s.arr_airport FROM flight_segments s JOIN bookings b ON b.id = s.booking_id
+      WHERE s.trip_id = t.id AND p.landed_at IS NOT NULL AND s.arr_airport IS NOT NULL
+        AND b.deleted_at IS NULL
+        AND (b.owner_id = p.user_id OR b.traveller_ids LIKE '%' || p.user_id || '%')
+      ORDER BY abs(julianday(coalesce(s.act_arr_at, s.est_arr_at, s.sched_arr_at))
+        - julianday(p.landed_at)) LIMIT 1) AS landed_airport,
     coalesce(c.key, h.key) AS critter_key, coalesce(c.no, h.no) AS no,
     coalesce(c.canonical_seed, h.canonical_seed) AS seed,
     (SELECT count(*) FROM critters x JOIN critters y ON y.set_id = x.set_id
@@ -43,6 +49,8 @@ const HATCH_SQL = `SELECT t.id, t.end_date, coalesce(t.tz, d.tz) AS tz, d.name A
   WHERE t.id = ?`;
 const HATCH_TABLES = [
   'trips',
+  'flight_segments',
+  'bookings',
   'trip_participants',
   'destinations',
   'critter_sets',
@@ -64,6 +72,7 @@ interface HatchRow {
   readonly guide_slug: string | null;
   readonly guide_name: string | null;
   readonly landed_at: string | null;
+  readonly landed_airport: string | null;
   readonly egg_id: string | null;
   readonly hatched_at: string | null;
   readonly critter_key: string | null;
@@ -130,6 +139,7 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
               ...(row.tz === null ? {} : { timeZone: row.tz }),
             })
       }
+      landedAirport={row.landed_airport}
       colour={row.colour}
       critterKey={row.critter_key}
       seed={row.seed ?? row.no ?? 0}

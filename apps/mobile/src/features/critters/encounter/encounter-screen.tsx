@@ -78,17 +78,14 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
     format.date(locale, new Date(ms), { hour: '2-digit', minute: '2-digit', timeZone: tz });
 
   if (snapshot.phase === 'befriended') {
-    const chips = [
-      ...(art.name === null ? [] : [art.name]),
-      ...(crew.length === 0 ? [] : [crewChip(crew.length + 1)]),
-    ];
     const crewHref = hrefFor('3g-1', {});
     return (
       <EncounterView
         kind="befriended"
         art={art}
         eyebrow={formEyebrow(tierWord(art.rarity), art.formNo, art.formCount)}
-        chips={chips}
+        formChip={art.name}
+        crewChip={crew.length === 0 ? null : crewChip(crew.length + 1)}
         minutes={minutes}
         onAdd={() => {
           dismiss();
