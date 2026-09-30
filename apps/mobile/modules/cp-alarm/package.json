@@ -1,0 +1,9 @@
+{
+  "name": "cp-alarm",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The leave-by alarm on the device: AlarmKit on iOS, an exact alarm with a notification (and, behind a server flag, a full-screen alarm activity) on Android. A tap queues the readiness or snooze command in the shared outbox.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

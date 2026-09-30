@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["CpAlarmModule"]
+  },
+  "android": {
+    "modules": ["app.critterpass.alarm.CpAlarmModule"]
+  }
+}

@@ -269,6 +269,8 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     ],
     // Every permission string and Android permission, written last so it wins over the defaults above.
     './plugins/with-location-permissions',
+    // The leave-by alarm: AlarmKit usage string fallback and the CpAlarm pod's App Intents package.
+    './plugins/with-alarmkit',
     // Last: copies the bake pipeline's generated critter art into the app + every extension target
     // (iOS) and Android res/ once every other plugin's prebuild output exists.
     './plugins/with-critter-art',

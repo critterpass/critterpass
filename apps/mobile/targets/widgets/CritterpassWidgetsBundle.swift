@@ -1,4 +1,3 @@
-import AlarmKit
 import SwiftUI
 import WidgetKit
 
@@ -11,7 +10,7 @@ struct CritterpassWidgetsBundle: WidgetBundle {
     var body: some Widget {
         LeaveByStatusWidget()
         LeaveByLiveActivityWidget()
-        LeaveByAlarmWidget()
+        LeaveByAlarmCountdownWidget()
     }
 }
 
@@ -99,42 +98,6 @@ struct LeaveByLiveActivityWidget: Widget {
                 Text("\(context.state.upCount)/\(context.state.total)")
             } minimal: {
                 Image(systemName: "figure.walk")
-            }
-        }
-    }
-}
-
-// MARK: - AlarmKit presentation
-
-struct LeaveByAlarmWidget: Widget {
-    var body: some WidgetConfiguration {
-        ActivityConfiguration(for: AlarmAttributes<CPAlarmMetadata>.self) { context in
-            VStack {
-                Text(context.attributes.presentation.alert.title)
-                if case .countdown(let countdown) = context.state.mode {
-                    Text(countdown.fireDate, style: .timer)
-                        .bold()
-                }
-            }
-            .padding()
-        } dynamicIsland: { context in
-            DynamicIsland {
-                DynamicIslandExpandedRegion(.leading) {
-                    Text(context.attributes.presentation.alert.title)
-                }
-                DynamicIslandExpandedRegion(.trailing) {
-                    if case .countdown(let countdown) = context.state.mode {
-                        Text(countdown.fireDate, style: .timer)
-                    }
-                }
-            } compactLeading: {
-                Image(systemName: "alarm")
-            } compactTrailing: {
-                if case .countdown(let countdown) = context.state.mode {
-                    Text(countdown.fireDate, style: .timer)
-                }
-            } minimal: {
-                Image(systemName: "alarm")
             }
         }
     }
