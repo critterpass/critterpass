@@ -1415,6 +1415,9 @@ importers:
       '@cp/cost-engine':
         specifier: workspace:*
         version: link:../../packages/cost-engine
+      '@cp/critter-art':
+        specifier: workspace:*
+        version: link:../../packages/critter-art
       '@cp/db':
         specifier: workspace:*
         version: link:../../packages/db
@@ -1442,6 +1445,9 @@ importers:
       '@lingui/message-utils':
         specifier: 'catalog:'
         version: 6.8.0
+      '@napi-rs/canvas':
+        specifier: 'catalog:'
+        version: 1.0.9
       '@opentelemetry/api':
         specifier: 'catalog:'
         version: 1.9.1
