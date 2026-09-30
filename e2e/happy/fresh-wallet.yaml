@@ -139,9 +139,7 @@ appId: app.critterpass.dev
       id: 'solo-confirm'
     timeout: 20000
 # The Wallet tab opens on Money: the crew settles in the traveller's home currency.
-- openLink: critterpass-dev://
-- tapOn:
-    id: 'tab-wallet'
+- openLink: critterpass-dev://wallet/money
 - extendedWaitUntil:
     visible:
       id: 'money-balances'
