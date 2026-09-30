@@ -55,7 +55,7 @@ import {
   until,
 } from '../../test-support/vote-harness';
 import { FinalSplitCard } from '../final-split-card';
-import { nameCap } from '../showdown-half';
+import { nameCap } from '../showdown-name-fit';
 import { ShowdownView } from '../showdown-screen';
 import { WinnerRevealScreen, WinnerRevealView } from '../winner-reveal';
 
@@ -263,13 +263,17 @@ describe('destination final', () => {
   });
 
   it('scales a name from its designed size, never below the floor share', () => {
-    const fit = { key: 'k', cap: null, height: 120, width: 300 };
+    // One line set at 150 pt (120 tall), 300 wide.
+    const fit = { key: 'k', cap: null, height: 120, width: 300, lines: 1 };
     expect(nameCap(fit, 120, 0)).toBeNull();
     expect(nameCap(fit, 120, 30)).toBeCloseTo(225);
     // Already shed 30 of the 30 needed: the same box, not a narrower one.
     expect(nameCap(fit, 90, 0)).toBeCloseTo(225);
-    // A long name in a crowded half stops at the floor share of its designed width.
+    // A crowded half stops at the floor share of its designed width.
     expect(nameCap(fit, 120, 500)).toBeCloseTo(135);
+    // A long word set small already stops where it still fits whole at the floor size.
+    const long = { key: 'k', cap: null, height: 60, width: 340, lines: 1 };
+    expect(nameCap(long, 60, 500)).toBeCloseTo(340 * (44 / 75) * 1.15);
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {

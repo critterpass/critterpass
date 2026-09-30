@@ -5,7 +5,7 @@
  */
 import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -28,37 +28,12 @@ import type { usePitchSections } from '../data/use-final';
 import { stackOf, type Person } from '../data/use-people';
 import type { PollOptionView } from '../data/poll-view';
 import { flightHours, guideOr, money, monthShort, upper } from '../format';
+import { NAME_FLOOR, useNameFit } from './showdown-name-fit';
 
 /** Widest a half's pitch card grows; the faded critter sits in the rest of its row. */
 const COLUMN = '62%';
 /** The faded critter beside each pitch card. */
 const GHOST_SIZE = 120;
-
-/** Smallest the city name shrinks to when its half runs out of height (Vietnamese chips wrap taller). */
-const NAME_FLOOR = 44;
-/** The name never shrinks below this share of its designed size. */
-const MIN_NAME_SCALE = 0.45;
-
-interface NameFit {
-  readonly key: string;
-  /** The fixed width the name is set in, or null at its designed size. */
-  readonly cap: number | null;
-  /** The name's designed height and widest line. */
-  readonly height: number;
-  readonly width: number;
-}
-
-/**
- * The box width that sheds `excess` more points of height from a name now `current` tall: the
- * height it must lose in all, as a share of its designed height, scales its designed line width.
- * Null when there is nothing to shed.
- */
-export function nameCap(fit: NameFit, current: number, excess: number): number | null {
-  if (fit.height <= 0 || fit.width <= 0) return null;
-  const shed = excess + Math.max(0, fit.height - current);
-  if (shed <= 1) return null;
-  return fit.width * Math.max(MIN_NAME_SCALE, 1 - shed / fit.height);
-}
 
 /** Showdown stacks show this many voters before "+n" (boosted crews reach sixteen). */
 const MAX_AVATARS = 16;
@@ -226,30 +201,7 @@ export function ShowdownHalf({
   const ink = theme.semantic.text.onAccent;
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
-  // The name gives up height before anything scrolls. Its designed size is measured once (the
-  // height and the widest line it sets); a half that runs past its share then gives the name a
-  // fixed box narrower by the height it must shed, and auto-fit sets it smaller to fit that box.
-  // The box is always scaled from the designed measure, never from the last capped one, so the
-  // name settles at one size. No line count is forced: Android reports an ellipsised line as the
-  // whole text, so auto-fit would never see the cut. Content that already fits keeps the name as
-  // designed.
-  const [measure, setMeasure] = useState({ height: 0, lineWidth: 0 });
-  const fitKey = `${name}|${i18n.locale}`;
-  const [fit, setFit] = useState<NameFit>({ key: fitKey, cap: null, height: 0, width: 0 });
-  // Adjusted while rendering (not in an effect) so the smaller name lands in the same pass.
-  if (fit.key !== fitKey) {
-    setFit({ key: fitKey, cap: null, height: 0, width: 0 });
-  } else if (fit.cap === null && measure.height > 0 && measure.lineWidth > 0) {
-    if (fit.height !== measure.height || fit.width !== measure.lineWidth)
-      setFit({ ...fit, height: measure.height, width: measure.lineWidth });
-    else {
-      const cap = nameCap(fit, measure.height, excess);
-      if (cap !== null) setFit({ ...fit, cap });
-    }
-  } else if (fit.cap !== null) {
-    const cap = nameCap(fit, measure.height, excess);
-    if (cap !== null && Math.abs(cap - fit.cap) > 2) setFit({ ...fit, cap });
-  }
+  const nameFit = useNameFit(`${name}|${i18n.locale}`, excess);
   const endPadding = alignEnd
     ? edgeInset
     : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
@@ -287,21 +239,15 @@ export function ShowdownHalf({
           variant="displayMega"
           color={ink}
           autoFit
-          {...(fit.cap === null
+          {...(nameFit.cap === null
             ? {}
             : {
                 autoFitMinSize: NAME_FLOOR,
-                style: { width: fit.cap, textAlign: alignEnd ? 'right' : 'left' },
+                style: { width: nameFit.cap, textAlign: alignEnd ? 'right' : 'left' },
               })}
           testID={`showdown-name-${alignEnd ? 1 : 0}`}
-          onLayout={(event) => {
-            const { height } = event.nativeEvent.layout;
-            setMeasure((m) => (m.height === height ? m : { ...m, height }));
-          }}
-          onTextLayout={(event) => {
-            const lineWidth = Math.max(0, ...event.nativeEvent.lines.map((line) => line.width));
-            setMeasure((m) => (m.lineWidth === lineWidth ? m : { ...m, lineWidth }));
-          }}
+          onLayout={nameFit.onLayout}
+          onTextLayout={nameFit.onTextLayout}
         >
           {upper(name, i18n.locale)}
         </Text>
