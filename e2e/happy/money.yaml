@@ -31,7 +31,8 @@ appId: app.critterpass.dev
 - tapOn: '4'
 - tapOn: '5'
 - tapOn: '0'
-- tapOn: '000'
+# iOS reads the 000 key by its label.
+- tapOn: '000|Three zeros'
 - tapOn:
     id: 'money-add-split'
     optional: true
@@ -45,7 +46,7 @@ appId: app.critterpass.dev
 # The api accepted it: the balances now owe the account, and settling takes some taps.
 - extendedWaitUntil:
     visible:
-      text: '(?i)settle in [0-9]+ taps?'
+      text: '(?i).*settle in [0-9]+ taps?.*'
     timeout: 30000
 - tapOn:
     id: 'money-settle'
@@ -66,7 +67,7 @@ appId: app.critterpass.dev
 # the money arrived (the payee may confirm before the payer marks it paid).
 - extendedWaitUntil:
     visible:
-      text: '(?i)requested'
+      text: '(?i).*requested.*'
     timeout: 20000
 - tapOn:
     id: 'money-settle-row-.*'

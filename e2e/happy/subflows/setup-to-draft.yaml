@@ -79,9 +79,10 @@ appId: app.critterpass.dev
 - inputText: 'Fushimi Inari at sunrise'
 - tapOn:
     id: 'add-must-do-keep'
+# Case-blind: the must-do reads in capitals, and iOS exposes the capitalised text.
 - extendedWaitUntil:
     visible:
-      text: 'Fushimi Inari at sunrise'
+      text: '(?i)fushimi inari at sunrise'
     timeout: 15000
 # KEEP closes the sheet and its keyboard with it; hideKeyboard with no keyboard up is a back press on
 # Android, which would leave setup.
