@@ -1,7 +1,9 @@
 /**
- * Balances over the real local-first stack, for a crew that never picked a settlement currency:
- * the server writes that crew's ledger in USD, so Money must net the ledger in USD too, whatever
- * the viewer's home currency. Netting it in the viewer's currency left every balance at zero.
+ * Balances over the real local-first stack, for a crew whose settlement currency has not synced: a
+ * ledger already written (in USD, for a crew from before currencies defaulted) nets in the currency
+ * it is in, whatever the viewer's home currency; netting it in the viewer's currency left every
+ * balance at zero. A crew with no money yet shows the viewer's home currency, which is what the
+ * server settles a crew of one in.
  */
 jest.mock(
   '@powersync/common',
@@ -41,14 +43,17 @@ afterEach(async () => {
   stack = null;
 });
 
-async function seed(db: TestLocalFirst['db']): Promise<void> {
+async function seed(
+  db: TestLocalFirst['db'],
+  { home = 'SGD', ledger = true }: { home?: string; ledger?: boolean } = {},
+): Promise<void> {
   await db.execute('INSERT OR REPLACE INTO local_state (id, value) VALUES (?, ?)', [
     OWNER_UID_KEY,
     ME,
   ]);
   await db.execute(
-    `INSERT INTO users (id, display_name, home_currency, home_country) VALUES (?, 'Winston', 'SGD', 'SG')`,
-    [ME],
+    `INSERT INTO users (id, display_name, home_currency, home_country) VALUES (?, 'Winston', ?, 'SG')`,
+    [ME, home],
   );
   await db.execute(`INSERT INTO crews (id, name, settlement_currency) VALUES (?, 'Bali', NULL)`, [
     CREW,
@@ -76,7 +81,7 @@ async function seed(db: TestLocalFirst['db']): Promise<void> {
     [TRIP, CREW],
   );
   // Rp 450,000 paid by me, split three ways and re-expressed in the crew's currency.
-  for (const debtor of [MAYA, RIN]) {
+  for (const debtor of ledger ? [MAYA, RIN] : []) {
     await db.execute(
       `INSERT INTO ledger_entries (id, crew_id, trip_id, debtor_id, creditor_id, amount_minor, currency)
        VALUES (?, ?, ?, ?, ?, 835, 'USD')`,
@@ -85,25 +90,29 @@ async function seed(db: TestLocalFirst['db']): Promise<void> {
   }
 }
 
+async function renderMoney(seeding: Parameters<typeof seed>[1] = {}) {
+  stack = await openTestLocalFirst({ uid: ME });
+  await seed(stack.db, seeding);
+  i18n.loadAndActivate({ locale: 'en', messages: {} });
+  const Local = stack.wrapper;
+  const wrapper = ({ children }: { children: ReactNode }) => (
+    <I18nProvider i18n={i18n}>
+      <Local>{children}</Local>
+    </I18nProvider>
+  );
+  return renderHook(
+    () => {
+      const ctx = useMoneyContext();
+      const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
+      return { ctx, rows };
+    },
+    { wrapper },
+  );
+}
+
 describe('a crew without a settlement currency', () => {
   it('nets the ledger in the currency the server wrote it in', async () => {
-    stack = await openTestLocalFirst({ uid: ME });
-    await seed(stack.db);
-    i18n.loadAndActivate({ locale: 'en', messages: {} });
-    const Local = stack.wrapper;
-    const wrapper = ({ children }: { children: ReactNode }) => (
-      <I18nProvider i18n={i18n}>
-        <Local>{children}</Local>
-      </I18nProvider>
-    );
-    const { result } = await renderHook(
-      () => {
-        const ctx = useMoneyContext();
-        const rows = useTripMoney(ctx.crew?.id ?? null, ctx.trip?.id ?? null);
-        return { ctx, rows };
-      },
-      { wrapper },
-    );
+    const { result } = await renderMoney();
     await waitFor(() => expect(result.current.ctx.status).toBe('ready'));
     await waitFor(() => expect(result.current.rows.ledger).toHaveLength(2));
     const { ctx, rows } = result.current;
@@ -120,5 +129,11 @@ describe('a crew without a settlement currency', () => {
     });
     expect(model.lines.find((row) => row.userId === ME)?.netMinor).toBe(1670n);
     expect(model.lines.find((row) => row.userId === MAYA)?.netMinor).toBe(-835n);
+  });
+
+  it("shows the viewer's home currency while the crew has no money yet", async () => {
+    const { result } = await renderMoney({ home: 'VND', ledger: false });
+    await waitFor(() => expect(result.current.ctx.status).toBe('ready'));
+    expect(result.current.ctx.crew?.settlementCurrency).toBe('VND');
   });
 });

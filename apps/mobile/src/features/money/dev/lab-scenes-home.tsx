@@ -20,13 +20,13 @@ const noop = () => undefined;
 
 function balances(
   uid: string,
-  options: { empty?: boolean; offline?: boolean; latest?: typeof LAB_LATEST } = {},
+  options: { empty?: boolean; offline?: boolean; solo?: boolean; latest?: typeof LAB_LATEST } = {},
 ): ReactNode {
   const model = buildBalances({
     uid,
-    members: LAB_MEMBERS,
-    shown: LAB_MEMBERS,
-    ledger: options.empty === true ? [] : LAB_LEDGER,
+    members: options.solo === true ? LAB_MEMBERS.slice(0, 1) : LAB_MEMBERS,
+    shown: options.solo === true ? LAB_MEMBERS.slice(0, 1) : LAB_MEMBERS,
+    ledger: options.empty === true || options.solo === true ? [] : LAB_LEDGER,
     payments: [],
     expenses: [{ crew_amount_minor: 481_200, crew_currency: 'USD' }],
     currency: 'USD',
@@ -40,6 +40,7 @@ function balances(
       settleTaps={model.plan.length}
       latest={options.empty === true ? null : (options.latest ?? LAB_LATEST)}
       empty={options.empty === true}
+      solo={options.solo === true}
       offline={options.offline === true}
       onCurrency={noop}
       onSettle={noop}
@@ -101,6 +102,7 @@ export const HOME_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'balances-owes': () => balances('u-alex'),
   'balances-square': () => balances('u-dev'),
   'balances-empty': () => balances(LAB_UID, { empty: true }),
+  'balances-solo': () => balances(LAB_UID, { solo: true }),
   'balances-offline': () =>
     balances(LAB_UID, { offline: true, latest: LAB_HISTORY[0] ?? LAB_LATEST }),
   'balances-loading': () => <MoneyLoading />,

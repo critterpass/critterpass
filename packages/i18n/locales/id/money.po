@@ -470,6 +470,10 @@ msgstr ""
 msgid "money.pay.dispute"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.solo.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.review.keepTotal"
 msgstr ""
@@ -510,6 +514,7 @@ msgstr ""
 msgid "money.typeLines.name"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
 msgid "money.review.mismatch"
 msgstr ""
@@ -848,6 +853,10 @@ msgstr ""
 msgid "money.budget.spent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.hero.soloSpent"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.split"
 msgstr ""
@@ -1031,6 +1040,7 @@ msgid "money.scan.typeInstead"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+#: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.failure.type"
 msgstr ""
 

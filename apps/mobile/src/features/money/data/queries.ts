@@ -11,10 +11,13 @@ export const PROFILE_SQL = `SELECT u.display_name, u.home_currency, u.home_count
   FROM users u LEFT JOIN user_settings s ON s.user_id = u.id WHERE u.id = ?`;
 export const PROFILE_TABLES = ['users', 'user_settings'];
 
-export const CREWS_SQL = `SELECT c.id, c.name, c.settlement_currency, m.role
+/** `ledger_currency`: what the crew's newest ledger entry is in, for a crew with no currency. */
+export const CREWS_SQL = `SELECT c.id, c.name, c.settlement_currency, m.role,
+    (SELECT l.currency FROM ledger_entries l WHERE l.crew_id = c.id ORDER BY l.id DESC LIMIT 1)
+      AS ledger_currency
   FROM crew_members m JOIN crews c ON c.id = m.crew_id
   WHERE m.user_id = ? AND m.status = 'active' ORDER BY m.created_at, c.id`;
-export const CREWS_TABLES = ['crews', 'crew_members'];
+export const CREWS_TABLES = ['crews', 'crew_members', 'ledger_entries'];
 
 /** Every member the crew has had: ledger rows keep naming people who left. */
 export const MEMBERS_SQL = `SELECT m.user_id, m.colour, m.status, u.display_name
@@ -114,6 +117,7 @@ export interface CrewRow {
   readonly name: string | null;
   readonly settlement_currency: string | null;
   readonly role: string | null;
+  readonly ledger_currency?: string | null;
 }
 
 export interface MemberRow {

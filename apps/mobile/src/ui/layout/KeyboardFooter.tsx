@@ -1,3 +1,4 @@
+import { BottomTabBarHeightContext } from 'expo-router/js-tabs';
 import { useContext } from 'react';
 import type { ReactNode } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -5,6 +6,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
+import { TAB_BAR_CLEARANCE } from '../shell/tab-bar-metrics';
 import { FooterFade } from '../surface/FooterFade';
 import { useSurfaceBackground } from '../surface/Scaffold';
 import { makeStyles, useTheme } from '../theme';
@@ -46,22 +48,27 @@ const useStyles = makeStyles((th) => ({
  *
  * Place it as the last child of a `Scaffold` whose `edges` leave out `bottom`: the footer pads the
  * bottom inset itself, and the content above it (a flex: 1 scroll view) shrinks to make room.
+ * Inside a tab (a screen the floating tab bar draws over) it also clears the bar and its FAB.
  */
 export function KeyboardFooter({ children, inset = 'gutter', style, testID }: KeyboardFooterProps) {
   const styles = useStyles();
   const theme = useTheme();
   // Outside a safe-area provider (a gallery fixture under test) there is no inset to clear.
   const home = useContext(SafeAreaInsetsContext)?.bottom ?? 0;
+  // Only a tab navigator's scenes get a tab bar height; stacks over the tabs have none.
+  const inTab = useContext(BottomTabBarHeightContext) !== undefined;
+  const floor = home + (inTab ? TAB_BAR_CLEARANCE : 0);
   const background = useSurfaceBackground() ?? theme.semantic.bg.base;
   const keyboard = useAnimatedKeyboard();
   const gap = theme.space['8'];
 
   const lift = useAnimatedStyle(() => ({
-    // The keyboard's height counts from the bottom of the screen, home indicator included.
-    paddingBottom: Math.max(home, keyboard.height.value) + gap,
+    // The keyboard's height counts from the bottom of the screen, home indicator included; it
+    // covers the tab bar when it is up.
+    paddingBottom: Math.max(floor, keyboard.height.value) + gap,
   }));
   const edge = useAnimatedStyle(() => ({
-    opacity: Math.min(1, Math.max(0, (keyboard.height.value - home) / EDGE_FADE_PT)),
+    opacity: Math.min(1, Math.max(0, (keyboard.height.value - floor) / EDGE_FADE_PT)),
   }));
 
   return (

@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import type { MoneyMember } from '../../data/context';
 import type { LedgerRow, PaymentRow } from '../../data/queries';
-import { buildBalances } from '../model';
+import { buildBalances, isSolo } from '../model';
 
 const ids = ['you', 'maya', 'alex', 'jordan', 'rin', 'dev'] as const;
 const members: MoneyMember[] = ['You', 'Maya', 'Alex', 'Jordan', 'Rin', 'Dev'].map((name, i) => ({
@@ -116,5 +116,36 @@ describe('balances model', () => {
       ],
     });
     expect(model.totalSpentMinor).toBe(9662n);
+  });
+});
+
+describe('a crew of one', () => {
+  const [me] = members as [MoneyMember];
+  const solo = (ledgerRows: LedgerRow[], crew: MoneyMember[]) =>
+    buildBalances({
+      uid: 'you',
+      members: crew,
+      shown: [me],
+      ledger: ledgerRows,
+      payments: [],
+      expenses: [
+        { crew_amount_minor: 5_000, crew_currency: 'VND' },
+        { crew_amount_minor: 63_000, crew_currency: 'VND' },
+      ],
+      currency: 'VND',
+    });
+
+  it('has nobody to split with and still counts what was spent', () => {
+    const model = solo([], [me]);
+    expect(isSolo('you', [me], model.lines)).toBe(true);
+    expect(model.totalSpentMinor).toBe(68_000n);
+    expect(model.plan).toEqual([]);
+  });
+
+  it('is no longer solo once a crewmate is active or in the ledger', () => {
+    const maya = members[1] as MoneyMember;
+    expect(isSolo('you', [me, maya], solo([], [me, maya]).lines)).toBe(false);
+    const withLedger = solo([{ ...entry('maya', 'you', 500), currency: 'VND' }], [me]);
+    expect(isSolo('you', [me], withLedger.lines)).toBe(false);
   });
 });

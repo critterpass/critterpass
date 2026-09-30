@@ -1,0 +1,269 @@
+appId: app.critterpass.dev
+---
+# Release gate: the wallet for a real first-time traveller, with no demo seed. A fresh account
+# onboards from Ho Chi Minh City (home currency VND), starts a crew of one and a solo trip to Hội An
+# in it, and opens the Wallet tab. Money settles in VND and says there is nothing to
+# split yet; BOOKINGS | MONEY swaps in place; Add a booking shows the crew's forward address on the
+# staging mail domain and copies it; a typed expense lands in SPENT SO FAR and LATEST; and the
+# travel insurance form's SAVE sits above the tab bar where it can be tapped.
+- runFlow: subflows/fresh-install.yaml
+- runFlow: ../onboarding/subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-guides-ajo'
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+- repeat:
+    while:
+      notVisible:
+        id: 'taste-done'
+    times: 9
+    commands:
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'taste-done'
+# Home is Ho Chi Minh City, whatever the runner's region suggests.
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-search'
+      - inputText: 'Ho Chi'
+      - extendedWaitUntil:
+          visible:
+            id: 'home-row-SGN'
+          timeout: 30000
+- tapOn:
+    id: 'home-row-SGN'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 20000
+- tapOn:
+    id: 'onboarding-issued-save'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'save-not-now'
+          timeout: 10000
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'save-not-now'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 10000
+- tapOn:
+    id: 'permissions-primer-later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+# A crew of one, then a solo trip in it: the guest guide's page for Hội An starts a trip for one.
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 10000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Da Nang'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 20000
+- tapOn:
+    id: 'start-crew-done'
+- openLink: critterpass-dev://places/search
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- inputText: 'hoi an'
+- extendedWaitUntil:
+    visible:
+      id: 'place-result-.*'
+    timeout: 15000
+- tapOn:
+    id: 'place-result-.*'
+    index: 0
+- scrollUntilVisible:
+    element:
+      id: 'guest-solo'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'guest-solo'
+- extendedWaitUntil:
+    visible:
+      id: 'solo-confirm'
+    timeout: 10000
+# Until the new crew has synced the page may ask which crew the trip is for.
+- runFlow:
+    when:
+      visible:
+        id: 'crew-picker'
+    commands:
+      - tapOn:
+          id: 'crew-pick-.*'
+          index: 0
+- tapOn:
+    id: 'solo-start'
+- extendedWaitUntil:
+    notVisible:
+      id: 'solo-confirm'
+    timeout: 20000
+# The Wallet tab opens on Money: the crew settles in the traveller's home currency.
+- openLink: critterpass-dev://wallet/money
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      text: 'VND'
+      id: 'money-currency-chip'
+    timeout: 30000
+- takeScreenshot: fresh-wallet-money-empty
+# BOOKINGS | MONEY swaps the halves in place and back again.
+- tapOn: 'BOOKINGS'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-.*'
+    timeout: 15000
+- tapOn: 'MONEY'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 15000
+- tapOn: 'BOOKINGS'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-.*'
+    timeout: 15000
+# Add a booking: the forward address is on the staging mail domain, and COPY copies it.
+# An empty wallet shows the ways in as tiles; Add a booking opens by its link.
+- openLink: critterpass-dev://wallet/bookings/add
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-address'
+    timeout: 30000
+- assertVisible: '.*@in\.staging\.critterpass\.app'
+- tapOn: 'COPY'
+# The copy confirms with COPIED on the button (2 s) and a toast. Android shows its own clipboard
+# overlay over the app instead, which hides the app from the runner until it goes.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible: '(?i)(copied|forward any confirmation to that address\.)'
+          timeout: 5000
+- takeScreenshot: fresh-wallet-forward-address
+- openLink: critterpass-dev://wallet/bookings
+# Travel insurance: SAVE sits above the tab bar and can be tapped.
+- runFlow:
+    when:
+      notVisible:
+        id: 'bookings-wallet-.*'
+    commands:
+      - tapOn: 'BOOKINGS'
+- scrollUntilVisible:
+    element:
+      id: 'bookings-insurance-add'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'bookings-insurance-add'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-insurance-form'
+    timeout: 10000
+- tapOn:
+    id: 'bookings-insurance-provider'
+- inputText: 'Bao Viet'
+- tapOn:
+    id: 'bookings-insurance-number'
+- inputText: 'BV2026100201'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- takeScreenshot: fresh-wallet-insurance
+# The tap reaches SAVE (not the tab bar over it): the policy is saved and its card shows.
+- tapOn:
+    id: 'bookings-insurance-save'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-insurance-card'
+    timeout: 20000
+# A typed expense: 63.000 ₫ lands in LATEST and in what the crew of one has spent.
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-balances'
+    commands:
+      - tapOn: 'MONEY'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 15000
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add-keypad'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- tapOn: '6'
+- tapOn: '3'
+- tapOn: '0'
+- tapOn: '0'
+- tapOn: '0'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'money-hero-solo'
+    timeout: 30000
+- assertVisible:
+    id: 'money-solo'
+- assertNotVisible:
+    id: 'money-settle'
+- takeScreenshot: fresh-wallet-money-solo
