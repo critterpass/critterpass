@@ -1,25 +1,25 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
   "response": {
     "status": 200,
     "body": {
-      "id": "73c03f12-60ab-480c-a6bc-dbba247041a9",
+      "id": "06fad358-1527-4366-922a-2545aa374357",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Villa Tirta Ubud\",\"supplier_name\":\"Villa Tirta Ubud\",\"confirmation_code\":\"1482236907\",\"starts_local\":\"2026-10-12T14:00\",\"ends_local\":\"2026-10-19T12:00\",\"timezone\":\"Asia/Makassar\",\"location\":\"Jl. Raya Sayan No. 8, Ubud, Bali, Indonesia\",\"price\":{\"amount\":\"12.600.000\",\"currency\":\"IDR\"},\"travellers\":[\"Maya Tan\"],\"free_cancel_until_local\":\"2026-10-05T23:59\",\"cancel_policy_text\":\"Free cancellation until 5 October 2026 23:59 (property local time). After that, the first night is charged.\",\"flights\":[],\"room\":\"Deluxe Pool Villa\",\"meeting_point\":null,\"seat\":null}]}"
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Villa Tirta Ubud\",\"supplier_name\":null,\"confirmation_code\":\"1482236907\",\"starts_local\":\"2026-10-12T14:00\",\"ends_local\":\"2026-10-19T12:00\",\"timezone\":\"Asia/Makassar\",\"location\":\"Jl. Raya Sayan No. 8, Ubud, Bali, Indonesia\",\"price\":{\"amount\":\"12.600.000\",\"currency\":\"IDR\"},\"travellers\":[\"Maya Tan\"],\"free_cancel_until_local\":\"2026-10-05T23:59\",\"cancel_policy_text\":\"Free cancellation until 5 October 2026 23:59 (property local time). After that, the first night is charged.\",\"flights\":[],\"room\":\"Deluxe Pool Villa\",\"meeting_point\":null,\"seat\":null}]}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 1271,
+        "input_tokens": 215,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 0,
-        "output_tokens": 196,
+        "cache_read_input_tokens": 1152,
+        "output_tokens": 191,
         "service_tier": "standard"
       }
     }

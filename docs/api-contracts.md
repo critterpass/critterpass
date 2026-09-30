@@ -266,7 +266,7 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `resolve_overlay_clash` (doc delta) | `{personal_ops_id, keep}` → `{personal_ops_id, status}`: keep re-bases the member's personal ops on the current version (a change to an item the crew removed becomes their own item); drop retires them | owner | – | – | A, O | 29 |
 | `create_calendar_feed` / `revoke_calendar_feed` (doc delta) | `{trip_id}` → `{trip_id, path}` (the feed path with a one-time-shown 256-bit token; only its SHA-256 is stored; a new feed revokes the caller's earlier ones on the trip) / `{trip_id}` → `{trip_id, revoked}` (every live feed of the caller on the trip; the feed then answers 404) | participant | – | – | A | 29 |
 | `start_swipe_session` | `{trip_id}` | participant | – | `swipe.started` → deck job | A | 30 |
-| `swipe_vote` | `{session_id, place_id, verdict: yes\|no\|super}` | participant | – | `swipe.voted`; `swipe.matched` (server-arbitrated) | A, O | 30 |
+| `swipe_vote` | `{session_id, place_id, verdict: yes\|no\|super}` | participant | – | `swipe.voted`; `swipe.matched` (server-arbitrated; doc delta: result, undo and end in [api-contracts-explore.md](./api-contracts-explore.md)) | A, O | 30 |
 
 ### 4.7 Proposal and RSVP (P31)
 
@@ -338,6 +338,10 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 
 **[api-contracts-suppliers.md](./api-contracts-suppliers.md):** section 4.11 commands for supplier clicks, activity holds/bookings, vendor messages, concierge; routes for affiliate bridge (`GET /v1/suppliers/r/{subId}`), payment sessions, offers, and cancel-quote; error codes for supplier operations.
 
+**[api-contracts-explore.md](./api-contracts-explore.md):** Explore commands (saved lists, `undo_swipe`, `end_swipe_session`, `record_sponsored_event`, the full `save_place` and `swipe_vote` contracts), the explore reads (`/v1/explore/destinations/{id}`, `/v1/places/{id}/context`, `/v1/explore/sponsored`), the `swipe:` channel and the explore jobs.
+
+**[api-contracts-proposal.md](./api-contracts-proposal.md):** section 4.7 as built: reply-by bounds, the `SEAT_CAP_REACHED` waitlist result, `choose_private_option` and `resolve_dropout` (doc deltas), the private objection SSE route and the reply route, proposal realtime events, streams and jobs.
+
 **[api-contracts-trip.md](./api-contracts-trip.md):** section 4.12 commands for leave-by readiness, packing, briefing, disruptions, help, SOS, location sharing, meetups (with action key scope matrix); `trip_dayof:` realtime channel; offline bundle route and manifest structure.
 
 ### 4.13 Critters, quests, visits (P20, P40, P41)
@@ -346,11 +350,14 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 |---|---|---|---|---|---|---|
 | `record_visit` | `{visit_id, trip_id, poi_id, source: geofence\|expense\|manual, arrived_at, left_at?, evidence{dwell_s, acc, mock_flags, detection_version}}` (POI-level, TTL; never raw trail; client `visit_id` so a later call with `left_at` closes the same row; geofence needs `CONSENT(visit_detection)` and evidence: simulated/implausible flags, dwell < 60 s or acc > 50 m → `LOCATION_IMPLAUSIBLE`; accessory flag accepted; POI must be in the trip's destination) | participant (self) | – | `visit.recorded` `{visit_id, trip_id, source}` | O (bg) | 20 |
 | `delete_visit` | `{visit_id}` (owner only; already gone = `{deleted: false}`) | self | – | – | A, O | 20 |
-| `hatch_egg` | `{trip_id, trigger: landed\|arrived}` | S or self (device arrival) | – | `egg.hatched` (N-15) | S, A | 40 |
-| `start_encounter` | `{spawn_id, fix}` | participant | – | `encounter.started` | A, O | 40 |
+| `hatch_egg` | `{trip_id, trigger: arrived\|manual}` (landed is the worker's `critter.hatch`); critter commands in full: [api-contracts-critters.md](./api-contracts-critters.md) | S or self (device arrival, manual once under way) | – | `egg.hatched` (N-15) | S, A, O | 40 |
+| `start_encounter` | `{encounter_id, trip_id\|null, spawn_rule_id, poi_id\|null, started_at, offline}` (no coordinates; doc delta) | participant | – | `encounter.started` | A, O | 40 |
+| `end_encounter` (doc delta) | `{encounter_id, outcome: wandered_off\|abandoned, ended_at, dwell_s}` | owner | – | – | A, O | 40 |
 | `report_encounter_samples` | `{encounter_id, samples[], mock_flags}` | owner | – | – | O | 40 |
 | `befriend_critter` | `{encounter_id, evidence_bundle, attestation}` → entry pending→verified | owner | plausibility | `critter.befriended` (quest, icon unlock, N-49) | A, O | 40 |
-| `set_legendary_reminder` | `{window_id, on}` | self | – | `reminder.changed` (N-30) | A, O | 40 |
+| `set_legendary_reminder` | `{window_id, on}` | self | – | `legendary.reminder_set`; N-30 via `legendary.reminder_due` | A, O | 40 |
+| `set_guide_skin` (doc delta) | `{guide_id, form_id\|null}` (owned form; null reverts) | self | – | – | A, O | 40 |
+| `set_explore_at_home` (doc delta) | `{on}` | self | – | – | A, O | 40 |
 | `signup_quest` | `{quest_id}` | participant | – | `quest.signed_up` | A, O | 41 |
 | `grant_quest_reward` | `{quest_id, uids[]}` | S (evaluator) | – | `quest.completed`, `xp.granted` (N-17) | S | 41 |
 
@@ -477,7 +484,7 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 | `POST /v1/pitches` | S (crew member) | SSE | `{crew_id, place_id, month?}` → `sticker{place_id, name, country, coverage, guide}`, `chip{kind: price\|flight\|best_months\|event\|prices_pending, …}` (code-built from the pitch tools), then the model's validated `headline{text}`, `reason{text, tag, member_ids}`, `quote{text}`, then `alternative{place_id, name, kind: cheaper\|nearby, delta_minor, currency}` and `done{pitch_id, cached, ai_generated}`; route `pitch.place`; tools (code-run, never the model): fare calendar from the crew's home airports, travel time, season events, crew-visible taste tags, curated alternatives, never budgets or supplier content; a line with a number or month not in the tool output is dropped and asked for once more; cached per (crew, place, month) until its fares change (`pitches.fare_snapshot_id`); unmetered; switched off / no model → numbers-free template headline (`ai_generated: false`); 30/min/uid |
 | `POST /v1/places/{id}/guest-brief` (doc delta) | S | SSE | `{crew_id?}` → `place{place_id, name, country, currency, best_months[], fx{base, quote, rate, as_of}\|null, stops\|null, locals[{id, hint}]}` (code, at once), then `fact{icon, text ≤90, url, domain}` ×3–5 and `done{cached, ai_generated, hidden, sources[]}`; route `guest.guide`; the code searches (`web_search` provider) only the allow-list in `packages/ai/src/prompts/guest-brief/domains.ts` (tourism boards, government advisories, Wikivoyage/Wikipedia, weather sources; never supplier or OTA domains) and passes pages as untrusted data; each fact cites one fetched allow-listed page and keeps a number only if the page has it; cached per place × crew-size bucket (1, 2–4, 5–8, 9+) for 7 d; kill switch `vote.guest_brief.enabled` (or no model/search key) → `hidden: true`; 20/min/uid |
 | `POST /v1/camera/menu` | S | SSE | `{ocr_lines[{id, text, bbox}], crops[media_id], trip_id}` → `item{ocr_line_id, translation, price, flags[]}`; metered |
-| `POST /v1/receipts` | S | job | `{receipt_id (client UUIDv7), trip_id, media_key?, ocr_lines[{id l{n}, text, bbox?, conf?}], quality_issue?, ocr_status: ok\|unsupported_script\|no_text}` → 202 `{receipt_id, job_id, status}` (doc delta); `ai.receipt` writes `receipts.parsed` (validated lines, total, currency; no separate `receipt_lines` table) and `receipts.suggestions` (dietary exclusions with reasons, scanner as payer, adjustments by share), synced on `me`; silent fair-use cap (`vision_calls`, 40/day) → `failed{fair_use}`; behind flag `money.receipts` (`STATE_INVALID{receipts_off}`) |
+| `POST /v1/receipts` | S | job | `{receipt_id (client UUIDv7), trip_id, media_key?, ocr_lines[{id l{n}, text, bbox?, conf?}], quality_issue?, ocr_status: ok\|unsupported_script\|no_text}` → 202 `{receipt_id, job_id, status}` (doc delta); `ai.receipt` writes `receipts.parsed` (validated lines, total, currency, `matches_total`, and `review_line_ids`: when the lines still miss the printed total after reconciliation, the lines most likely read wrong, for the review screen to mark; no separate `receipt_lines` table) and `receipts.suggestions` (dietary exclusions with reasons, scanner as payer, adjustments by share), synced on `me`; silent fair-use cap (`vision_calls`, 40/day) → `failed{fair_use}`; behind flag `money.receipts` (`STATE_INVALID{receipts_off}`) |
 | `POST /v1/stt/token` | S | – | Android: short-lived Deepgram token (iOS uses SpeechAnalyzer on device) |
 | `GET /v1/jobs/{id}` | S | – | poll fallback for any AI job (`agent_jobs.steps`) |
 | `POST /v1/invites/tags` | S (crew member) | – | `{crew_id, trip_id?, note (≤140), invitee_name}` → `{tags (≤3 taste tags), line (≤70), guide, source: model\|template}`; route `micro.line` in the trip guide's voice; the note is screened (`guide_input`) beside the call and a flagged note, a switched-off route or a failed call answers the keyword template; 20/min/uid |

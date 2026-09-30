@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { readCostIndexSeed, seedCostIndices } from '../../seed/cost-indices/load';
+import { DESTINATIONS } from '../../seed/destinations';
 import { withSystem, withUser } from '../../src/tx';
 import { anonymousActor } from '../helpers/actors';
 import {
@@ -90,10 +91,10 @@ describe('destination_cost_indices in the catalogue stream', () => {
 });
 
 describe('editorial cost index seed', () => {
-  it('covers the six destinations and loads as unreviewed drafts, idempotently', async () => {
+  it('covers every live destination and loads as unreviewed drafts, idempotently', async () => {
     const rows = readCostIndexSeed();
     expect(new Set(rows.map((r) => r.destination))).toEqual(
-      new Set(['bali', 'cusco', 'iceland', 'kyoto', 'lisbon', 'mexico-city']),
+      new Set(DESTINATIONS.map((d) => d.slug)),
     );
     await withSystem(db.pool, (tx) =>
       tx.query("INSERT INTO destinations (slug, name) VALUES ('kyoto', 'Kyoto'), ('bali', 'Bali')"),

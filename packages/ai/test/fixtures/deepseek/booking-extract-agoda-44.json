@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "b0d5376d-f7ba-4c2b-818e-87172f464cd7",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"VietJet Air VJ 894 · DPS → SGN\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1147386012\",\"starts_local\":\"2025-06-28T14:35\",\"ends_local\":\"2025-06-28T17:25\",\"timezone\":\"Asia/Makassar\",\"location\":null,\"price\":{\"amount\":\"17.239.388\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\",\"Van Hieu Le\",\"Ngoc Bao Chau Vo\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"[Vé người lớn] Vé của quý khách không thể hủy để lấy lại tiền. Để biết chi tiết về chỗ ngồi, hành lý hoặc các hạn chế khác, vui lòng liên hệ trực tiếp với hãng hàng không.\",\"flights\":[{\"carrier\":\"VJ\",\"number\":\"894\",\"from\":\"DPS\",\"to\":\"SGN\",\"departs_local\":\"2025-06-28T14:35\",\"departs_timezone\":\"Asia/Makassar\",\"arrives_local\":\"2025-06-28T17:25\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 185,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3840,
+        "output_tokens": 302,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

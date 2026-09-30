@@ -35,18 +35,14 @@ appId: app.critterpass.dev
     id: 'trip-day-pack-add'
 - inputText: 'Sunscreen'
 - pressKey: Enter
+# Android shows the chip's text; iOS reads the chip whole, by its label.
 - extendedWaitUntil:
     visible:
-      text: 'SUNSCREEN'
+      text: 'SUNSCREEN|Sunscreen, just you'
     timeout: 10000
 - tapOn:
-    text: 'SUNSCREEN'
-# The chip (a checkbox read as "Sunscreen, just you") is the checked element, not its label.
-- extendedWaitUntil:
-    visible:
-      text: 'Sunscreen, just you'
-      checked: true
-    timeout: 10000
+    text: 'SUNSCREEN|Sunscreen, just you'
+- runFlow: subflows/sunscreen-packed.yaml
 # Give the upload queue a moment, then relaunch: the ticked row comes back from the database.
 - waitForAnimationToEnd:
     timeout: 5000
@@ -65,12 +61,10 @@ appId: app.critterpass.dev
     id: 'trip-hub-next'
 - scrollUntilVisible:
     element:
-      text: 'SUNSCREEN'
+      text: 'SUNSCREEN|Sunscreen, just you'
     direction: DOWN
     timeout: 20000
-- assertVisible:
-    text: 'Sunscreen, just you'
-    checked: true
+- runFlow: subflows/sunscreen-packed.yaml
 # Runner: /network turns Wi-Fi and data off, then on (Android only).
 - runFlow:
     when:

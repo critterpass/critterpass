@@ -79,9 +79,9 @@ describe('selectFareTargets', () => {
     expect(months[0]).toBe('2026-09');
     expect(months).toHaveLength(12);
     expect(new Set(targets.map((t) => t.destIata))).toEqual(
-      new Set(['DPS', 'KIX', 'KEF', 'MEX', 'LIS', 'CUZ']),
+      new Set(['DPS', 'KIX', 'KEF', 'MEX', 'LIS', 'CUZ', 'DAD']),
     );
-    expect(targets).toHaveLength(3 * 6 * 12);
+    expect(targets).toHaveLength(3 * 7 * 12);
   });
 });
 

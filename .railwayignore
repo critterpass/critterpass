@@ -13,6 +13,16 @@ certs
 design
 docs
 plans
-apps/mobile
+# The worker draws share cards with four of the app's fonts. Railway filters the upload the way git
+# does, so a file inside an excluded folder only comes back when each parent folder is re-included.
+apps/mobile/*
+!apps/mobile/assets
+apps/mobile/assets/*
+!apps/mobile/assets/fonts
+apps/mobile/assets/fonts/*
+!apps/mobile/assets/fonts/Archivo-W66-800.ttf
+!apps/mobile/assets/fonts/Geist-400.ttf
+!apps/mobile/assets/fonts/GeistMono-400.ttf
+!apps/mobile/assets/fonts/Borel-400.ttf
 e2e
 **/*.md

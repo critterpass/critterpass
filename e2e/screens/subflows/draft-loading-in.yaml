@@ -1,0 +1,65 @@
+appId: app.critterpass.dev
+---
+# The private draft's loading scenes in one language (`LOCALE`, a gallery locale code), from a fresh
+# launch: the gallery sets the running app's language, then back through the developer tools into
+# the drafting scenes. Each scene is shot on its first frame and again once its guide line shows,
+# named under the review's design id (3c-9) so compare sheets set each beside the review it becomes.
+- runFlow: open-gallery.yaml
+- tapOn:
+    id: 'gallery-locale-${LOCALE}'
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+# The back swipe lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-draft'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-scene-list'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-loading'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-loading'
+- takeScreenshot: ${LOCALE}-3c-9-draft-loading
+- extendedWaitUntil:
+    visible:
+      id: 'draft-loading-slow'
+    timeout: 10000
+- takeScreenshot: ${LOCALE}-3c-9-draft-loading-guide
+- tapOn:
+    id: 'draft-back'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-scene-list'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-loading-slow-data'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-loading-slow-data'
+- assertNotVisible:
+    id: 'draft-loading-slow'
+- takeScreenshot: ${LOCALE}-3c-9-draft-loading-slow-data
+- extendedWaitUntil:
+    visible:
+      id: 'draft-loading-slow'
+    timeout: 15000
+- takeScreenshot: ${LOCALE}-3c-9-draft-loading-slow-data-arrived

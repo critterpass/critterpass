@@ -74,6 +74,8 @@ const app = createApp({
   ...(env.MAPBOX_TOKEN !== undefined ? { mapboxToken: env.MAPBOX_TOKEN } : {}),
   ...(routing !== undefined ? { routing } : {}),
   tilesBaseUrl: env.TILES_BASE_URL,
+  // Resolved per request, so the auth module created below is in place by then.
+  sessions: (headers) => commandDoors.sessions(headers),
   readiness: {
     db: async () => {
       await pool.query('select 1');

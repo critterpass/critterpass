@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f92df9ba-b49f-49e9-a666-84eee0d0bb4d",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"SÓI T1\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l4\",\"label\":\"BIA CHANG THALAND (ChO)\",\"qty\":null,\"amount\":\"410.000\",\"kind\":\"item\"},{\"line_id\":\"l7\",\"label\":\"KHAN LỚT (GH)\",\"qty\":3,\"amount\":\"6:000\",\"kind\":\"item\"},{\"line_id\":\"l10\",\"label\":\"Coer Rhi San Aao La Mumg\",\"qty\":1,\"amount\":\"125.000\",\"kind\":\"item\"},{\"line_id\":\"l14\",\"label\":\"PHAU MUỜNG XAO 50T\",\"qty\":1,\"amount\":\"46:000\",\"kind\":\"item\"},{\"line_id\":\"l17\",\"label\":\"PAO THẢ: (SẢ (PHUN)\",\"qty\":null,\"amount\":\"85.000\",\"kind\":\"item\"},{\"line_id\":\"l19\",\"label\":\"SUON CAY THA1ON (PHIS6\",\"qty\":1,\"amount\":\"866 200\",\"kind\":\"item\"},{\"line_id\":\"l22\",\"label\":\"TÊA NUOEG NOQPING NHỘ\",\"qty\":1,\"amount\":\"12NJКO\",\"kind\":\"item\"},{\"line_id\":\"l24\",\"label\":\"CHEN HAU CU NAIGI\",\"qty\":1,\"amount\":\"16.000\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"GỔI CA TRE BAM XOV (PAS)\",\"qty\":1,\"amount\":\"85.000\",\"kind\":\"item\"},{\"line_id\":\"l29\",\"label\":\"GRES IISESU (POdA)\",\"qty\":null,\"amount\":\"H 000\",\"kind\":\"item\"},{\"line_id\":\"l31\",\"label\":\"GRES IISESU (POdA)\",\"qty\":2,\"amount\":\"18/00\",\"kind\":\"item\"},{\"line_id\":\"l34\",\"label\":\"RƯOU MO 2800ML (CHS)\",\"qty\":1,\"amount\":\"75.000\",\"kind\":\"item\"},{\"line_id\":\"l37\",\"label\":\"BIA NGER NAU ALOH)\",\"qty\":null,\"amount\":\"200,000\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l43\",\"amount\":\"1,570,000\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 160,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 510,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -15,21 +15,20 @@ appId: app.critterpass.dev
       SEED: dev-seed-demo
 - tapOn:
     id: 'guide-fab'
+# The sheet's root id isn't in iOS's accessibility tree; its composer is.
 - extendedWaitUntil:
     visible:
-      id: 'guide-sheet'
+      id: 'guide-composer'
     timeout: 15000
 - tapOn: 'Ask, or hold to talk'
 - inputText: 'What should we pack for rain in Ubud?'
 - tapOn: 'Send'
+# The answer streams in: the live answer once its first words arrive, or its saved copy once it has
+# synced. A short answer can finish streaming before the flow looks, so the live turn itself is not
+# awaited; either element holds answer text.
 - extendedWaitUntil:
     visible:
-      id: 'guide-live'
-    timeout: 15000
-# The answer streams in (the live answer, or its saved copy once it has synced).
-- extendedWaitUntil:
-    visible:
-      id: 'guide-answer-.*'
+      id: 'guide-answer-(live|[0-9a-f-]{36})'
     timeout: 90000
 - assertNotVisible:
     id: 'guide-error'

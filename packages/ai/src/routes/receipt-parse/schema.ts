@@ -3,10 +3,15 @@
  * is and the amount exactly as printed on it; code never takes its number. Each amount must appear
  * verbatim in the text of the line it cites and is re-parsed from there with the receipt's number
  * conventions ("850.000" is 850000 in rupiah, "13,34" is 13.34 in euro); a line whose amount is not
- * in its line is rejected. The lines are then checked against the printed total.
+ * in its line is rejected. The lines are then reconciled with the printed total (`reconcile.ts`).
  */
 import type Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
+
+import { amountOnLine, isPriceOnly, parsePrintedAmount, spacedAmount, squash } from './amounts';
+import { linesSum, reconcileWithTotal } from './reconcile';
+
+export { parsePrintedAmount } from './amounts';
 
 export const RECEIPT_LINE_KINDS = ['item', 'service', 'tax', 'discount', 'tip'] as const;
 export type ReceiptLineKind = (typeof RECEIPT_LINE_KINDS)[number];
@@ -60,7 +65,8 @@ export const receiptReplySchema = z.object({
       z.object({
         line_id: z.string(),
         label: z.string(),
-        qty: z.int().nullable(),
+        /** A weight ("0.5" kg) is not a count: validation keeps whole numbers only. */
+        qty: z.number().nullable(),
         amount: z.string(),
         kind: z.enum(RECEIPT_LINE_KINDS),
       }),
@@ -82,35 +88,6 @@ export const RECEIPT_TRANSCRIBE_FORMAT: Anthropic.Messages.JSONOutputFormat = {
 };
 export const transcribeReplySchema = z.object({ lines: z.array(z.string().max(200)).max(200) });
 
-/**
- * Parses an amount as printed into minor units: the last `.` or `,` followed by one or two digits
- * is the decimal point; any other separator (or one followed by three digits) groups thousands.
- * Returns `null` for anything that is not a plain amount.
- */
-export function parsePrintedAmount(printed: string, exponent: number): bigint | null {
-  const trimmed = printed.trim();
-  const negative = /^[-−(]/u.test(trimmed);
-  // A currency mark and a sign may surround the number; anything else (an OCR "?", a letter in
-  // the digits) means the amount was not read cleanly.
-  const bare = trimmed
-    .replace(/^[-−(]\s*/u, '')
-    .replace(/\)$/u, '')
-    .replace(/^(?:rp|rm|us\$|s\$|[$¥€£฿₫₩]|vnd|idr|thb|jpy|sgd|myr)\s*/iu, '')
-    .replace(/\s*(?:đ|₫|vnd|円|บาท)$/iu, '');
-  if (!/^\d[\d.,]*$/u.test(bare)) return null;
-  const decimal = /[.,](\d{1,2})$/u.exec(bare);
-  const whole = (decimal === null ? bare : bare.slice(0, decimal.index)).replace(/[.,]/gu, '');
-  if (whole.length > 13) return null;
-  const fraction = (decimal?.[1] ?? '').padEnd(exponent, '0');
-  if (fraction.length > exponent && /[1-9]/u.test(fraction.slice(exponent))) return null;
-  const kept = fraction.slice(0, exponent);
-  const minor =
-    BigInt(whole === '' ? '0' : whole) * 10n ** BigInt(exponent) + BigInt(kept === '' ? '0' : kept);
-  return negative ? -minor : minor;
-}
-
-const squash = (text: string) => text.replace(/\s+/gu, '');
-
 export interface ParsedReceiptLine {
   readonly line_id: string;
   readonly label: string;
@@ -131,6 +108,8 @@ export interface ParsedReceipt {
   readonly matches_total: boolean;
   /** Lines the model named whose amount was not on the cited line (or the line does not exist). */
   readonly rejected_line_ids: readonly string[];
+  /** When the lines still miss the total: the lines most likely wrong, for the reviewer. */
+  readonly review_line_ids: readonly string[];
   readonly status: 'parsed' | 'partial' | 'failed';
 }
 
@@ -140,11 +119,37 @@ export interface ValidateOptions {
   readonly exponentOf: (currency: string) => number | undefined;
 }
 
-/** The amount as printed on `line`, or `null` when the line does not carry it. */
-function amountOnLine(line: OcrLine | undefined, printed: string, exponent: number) {
-  if (line === undefined || printed.trim() === '') return null;
-  if (!squash(line.text).includes(squash(printed))) return null;
-  return parsePrintedAmount(printed, exponent);
+/**
+ * The widest gap cash rounding leaves between the lines and the total, by currency: ringgit bills
+ * round to the nearest 5 sen.
+ */
+const ROUNDING_TOLERANCE: Readonly<Record<string, number>> = { MYR: 2 };
+
+/** How far from the cited line a price printed on its own line may sit. */
+const PRICE_LINE_REACH = 3;
+
+/**
+ * The device recogniser often reads a price as its own line beside or under the item's name, and
+ * the model then cites the name's line. The amount is taken from the nearest line within reach
+ * that prints only that amount and that no other answer line claims; a total, a subtotal or an
+ * item line printing the same number never lends it.
+ */
+function priceLineNear(
+  ocrLines: readonly OcrLine[],
+  cited: string,
+  printed: string,
+  claimed: ReadonlySet<string>,
+): OcrLine | undefined {
+  const at = ocrLines.findIndex((line) => line.id === cited);
+  if (at === -1 || printed.trim() === '') return undefined;
+  for (let step = 1; step <= PRICE_LINE_REACH; step += 1) {
+    for (const index of [at + step, at - step]) {
+      const line = ocrLines[index];
+      if (line === undefined || claimed.has(line.id) || !isPriceOnly(line.text)) continue;
+      if (squash(line.text).includes(squash(printed))) return line;
+    }
+  }
+  return undefined;
 }
 
 /** Checks a model reply against the OCR lines; no number reaches the result unless it is printed. */
@@ -159,52 +164,97 @@ export function validateReceiptReply(
   const exponent = options.exponentOf(currency) ?? 2;
   const byId = new Map(ocrLines.map((line) => [line.id, line]));
   const lines: ParsedReceiptLine[] = [];
+  const absent: ParsedReceiptLine[] = [];
   const rejected: string[] = [];
+  // A line id answered without its prefix ("12" for "l12") names the same line.
+  const idOf = (id: string) => (byId.has(id) || !/^\d+$/u.test(id) ? id : `l${id}`);
+  const claimed = new Set([
+    ...reply.lines.map((line) => idOf(line.line_id)),
+    ...(reply.total === null ? [] : [idOf(reply.total.line_id)]),
+  ]);
   for (const line of reply.lines) {
-    const printed = amountOnLine(byId.get(line.line_id), line.amount, exponent);
+    let lineId = idOf(line.line_id);
+    let printed = amountOnLine(byId.get(lineId), line.amount, exponent);
+    if (printed === null) {
+      const near = priceLineNear(ocrLines, lineId, line.amount, claimed);
+      if (near !== undefined) {
+        claimed.add(near.id);
+        lineId = near.id;
+        printed = amountOnLine(near, line.amount, exponent);
+      }
+    }
     // A discount may be printed with its minus sign; every other charge is positive.
     const amount =
       printed !== null && line.kind === 'discount' && printed < 0n ? -printed : printed;
-    if (amount === null || amount <= 0n) {
-      rejected.push(line.line_id);
-      continue;
-    }
-    lines.push({
-      line_id: line.line_id,
+    const parsed = (amount_minor: number): ParsedReceiptLine => ({
+      line_id: lineId,
       label: line.label.trim().slice(0, 80),
-      qty: line.qty,
-      amount_minor: Number(amount),
+      qty: line.qty !== null && Number.isInteger(line.qty) ? line.qty : null,
+      amount_minor,
       kind: line.kind,
     });
+    if (amount === null || amount <= 0n) {
+      rejected.push(line.line_id);
+      const spaced = spacedAmount(byId.get(lineId), line.amount, exponent);
+      if (spaced !== null && line.kind !== 'discount') absent.push(parsed(spaced));
+      continue;
+    }
+    lines.push(parsed(Number(amount)));
   }
-  const totalAmount =
-    reply.total === null
+  let totalLineId = reply.total === null ? null : idOf(reply.total.line_id);
+  let totalAmount =
+    reply.total === null || totalLineId === null
       ? null
-      : amountOnLine(byId.get(reply.total.line_id), reply.total.amount, exponent);
+      : amountOnLine(byId.get(totalLineId), reply.total.amount, exponent);
+  if (reply.total !== null && totalLineId !== null && totalAmount === null) {
+    const near = priceLineNear(ocrLines, totalLineId, reply.total.amount, claimed);
+    if (near !== undefined) {
+      totalLineId = near.id;
+      totalAmount = amountOnLine(near, reply.total.amount, exponent);
+    }
+  }
   if (reply.total !== null && totalAmount === null) rejected.push(reply.total.line_id);
-  const linesTotal = lines.reduce(
-    (sum, line) => sum + (line.kind === 'discount' ? -line.amount_minor : line.amount_minor),
-    0,
-  );
   const total = totalAmount === null || totalAmount <= 0n ? null : Number(totalAmount);
-  const matches = total !== null && linesTotal === total;
-  const hasItems = lines.some((line) => line.kind === 'item');
+  const tolerance = ROUNDING_TOLERANCE[currency] ?? 0;
+  const reconciled = reconcileWithTotal({
+    lines,
+    absent,
+    ocrLines,
+    total,
+    claimed: new Set([...claimed, ...(totalLineId === null ? [] : [totalLineId])]),
+    priceOf: (line) => {
+      if (!isPriceOnly(line.text)) return null;
+      const amount = parsePrintedAmount(line.text.replace(/\s*x$/iu, ''), exponent);
+      return amount === null ? null : Number(amount);
+    },
+    amountsIn: (line) =>
+      (line.text.match(/\d{1,3}(?:[.,]\d{3})+(?:[.,]\d{1,2})?|\d+[.,]\d{1,2}(?!\d)/gu) ?? [])
+        .map((printed) => parsePrintedAmount(printed, exponent))
+        .filter((amount) => amount !== null)
+        .map(Number),
+    tolerance,
+  });
+  const linesTotal = linesSum(reconciled.lines);
+  const matches = total !== null && Math.abs(linesTotal - total) <= tolerance;
+  const hasItems = reconciled.lines.some((line) => line.kind === 'item');
+  const stillRejected = rejected.filter((id) => !reconciled.restored.includes(idOf(id)));
   const status =
     total === null && !hasItems
       ? 'failed'
-      : matches && rejected.length === 0
+      : matches && stillRejected.length === 0
         ? 'parsed'
         : 'partial';
   return {
     merchant: reply.merchant?.trim().slice(0, 120) || null,
     datetime: reply.datetime?.trim().slice(0, 40) || null,
     currency,
-    lines,
+    lines: reconciled.lines,
     total_minor: total,
-    total_line_id: total === null ? null : (reply.total?.line_id ?? null),
+    total_line_id: total === null ? null : totalLineId,
     lines_total_minor: linesTotal,
     matches_total: matches,
-    rejected_line_ids: rejected,
+    rejected_line_ids: stillRejected,
+    review_line_ids: matches ? [] : reconciled.review_line_ids,
     status,
   };
 }

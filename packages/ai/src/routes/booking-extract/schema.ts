@@ -135,7 +135,8 @@ export const bookingExtractReplySchema = z.object({
         flights: z.array(flightReply).max(8),
         room: z.string().max(200).nullable(),
         meeting_point: z.string().max(500).nullable(),
-        seat: z.string().max(20).nullable(),
+        /** Longer than a seat (a seat per traveller, say) is dropped below, not a failed read. */
+        seat: z.string().max(200).nullable(),
       }),
     )
     .max(8),
@@ -230,8 +231,13 @@ export function validateExtraction(
       booking.confirmation_code !== null && printed(haystack, booking.confirmation_code)
         ? booking.confirmation_code.trim().slice(0, 64)
         : null;
+    // A policy gathered from lines the email prints apart (a heading between them) is printed
+    // when each of its lines is.
+    const policyLines = (booking.cancel_policy_text ?? '').split(/\n+/u).filter((l) => l.trim());
     const policy =
-      booking.cancel_policy_text !== null && printed(haystack, booking.cancel_policy_text)
+      booking.cancel_policy_text !== null &&
+      policyLines.length > 0 &&
+      policyLines.every((line) => printed(haystack, line))
         ? booking.cancel_policy_text.trim().slice(0, 2000)
         : null;
     const currency = booking.price?.currency.trim().toUpperCase() ?? null;
@@ -247,7 +253,9 @@ export function validateExtraction(
       ...(booking.meeting_point === null
         ? {}
         : { meeting_point: booking.meeting_point.slice(0, 300) }),
-      ...(booking.seat === null ? {} : { seat: booking.seat.slice(0, 8) }),
+      ...(booking.seat === null || booking.seat.trim().length > 8
+        ? {}
+        : { seat: booking.seat.trim() }),
     };
     bookings.push({
       kind: booking.kind,

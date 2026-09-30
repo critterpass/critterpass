@@ -67,6 +67,12 @@ export const DECISION_THRESHOLDS: Readonly<Record<DecisionRoute, DecisionThresho
     jev: { yes: 0.7, no: 0.3, minConfidence: 0.7 },
     fast: TWIN_BAND,
   },
+  // A free-text reply to a proposal: below the floor nothing happens; an "out" at any confidence
+  // only shows the sender a confirm card, never the dropout itself.
+  'rsvp.reply_intent': {
+    jev: { yes: 0.7, no: 0.3, minConfidence: 0.6 },
+    fast: TWIN_BAND,
+  },
 };
 
 export function decisionBand(route: DecisionRoute, answeredBy: DecisionAnswerer): DecisionBand {

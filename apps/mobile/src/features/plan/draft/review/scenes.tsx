@@ -1,5 +1,7 @@
 /** The private draft (3c-9) and its states over the Kyoto fixture, for the developer scenes. */
 /* eslint-disable lingui/no-unlocalized-strings -- scene names and fixture ids, never copy. */
+import { useEffect, useState } from 'react';
+
 import type { ReviewModel } from '../data/version';
 import {
   REVIEW,
@@ -12,12 +14,25 @@ import {
 } from '../scenes/fixtures';
 import { exitScene, InLocale, type DraftScene } from '../scenes/types';
 import { dayRange } from '../data/format';
+import { DraftLoading, type DraftLoadingProps } from './draft-loading';
 import { DraftReviewView, type DraftReviewViewProps } from './draft-review-view';
 import { MemberPlanning } from './member-planning';
 import { NoDraft } from './no-draft';
 import { VersionHistorySheet } from './version-history-sheet';
 
 const noop = () => undefined;
+
+const LOADING_TRIP: NonNullable<DraftLoadingProps['trip']> = { destination: 'Kyoto', guide: 'pon' };
+
+/** The trip row still syncing when the draft opens, landing a few seconds later. */
+function SlowTripLoading() {
+  const [trip, setTrip] = useState<DraftLoadingProps['trip']>(null);
+  useEffect(() => {
+    const timer = setTimeout(() => setTrip(LOADING_TRIP), 4000);
+    return () => clearTimeout(timer);
+  }, []);
+  return <DraftLoading trip={trip} onBack={exitScene} />;
+}
 
 export function reviewProps(locale: string, model: ReviewModel = REVIEW): DraftReviewViewProps {
   return {
@@ -107,6 +122,8 @@ export const REVIEW_SCENES: readonly DraftScene[] = [
       />
     ),
   },
+  { name: 'draft-loading', render: () => <DraftLoading trip={LOADING_TRIP} onBack={exitScene} /> },
+  { name: 'draft-loading-slow-data', render: () => <SlowTripLoading /> },
   { name: 'draft-empty', render: () => <NoDraft guide="pon" failed={false} onDraft={noop} /> },
   { name: 'draft-failed', render: () => <NoDraft guide="pon" failed onDraft={noop} /> },
   {

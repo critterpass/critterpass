@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "73c3b3a9-1355-49bf-a1cf-bcf312833ca3",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Lisea Wonderland Ho Tram Novaworld - Spacious and Cosy Entire Villa by the beach\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1714127684\",\"starts_local\":\"2026-12-26T14:00\",\"ends_local\":\"2026-12-27T11:30\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":\"Wonderland Novaworld Ho Tram, Duong Ven Bien Loc An - Binh Chau, Phuoc Thuan, Xuyen Moc, Ba Ria - Vung Tau, Vung Tau, Vietnam, 78000\",\"price\":{\"amount\":\"7,440,000\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"Non-Refundable \\n\\nFrom December 23rd 12:49PM (Vung Tau time)\",\"flights\":[],\"room\":\"Superior Villa\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 205,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2560,
+        "output_tokens": 227,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

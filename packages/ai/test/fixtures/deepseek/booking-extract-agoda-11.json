@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d5157084-6297-43ec-844a-73c7221dafc4",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"VietJet Air · SGN → PQC\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1221494700\",\"starts_local\":\"2026-09-10T07:25\",\"ends_local\":\"2026-09-10T08:35\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"2.529.159\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\",\"Van Hieu Le\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":null,\"flights\":[{\"carrier\":\"VietJet Air\",\"number\":null,\"from\":\"SGN\",\"to\":\"PQC\",\"departs_local\":\"2026-09-10T07:25\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2026-09-10T08:35\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 252,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2688,
+        "output_tokens": 226,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

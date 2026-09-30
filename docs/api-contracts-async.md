@@ -98,6 +98,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `ai.rsvp_intent` | reply text | AI-18 intent; `out` → `trip.dropout` | 3 | message id | 31 |
 | `trip.dropout` | `participant.declined` | room re-optimise, Viator cancel if applicable, re-split, waitlist promote, ChangeSet | 3 / DLQ | `(trip_id, uid)` | 31 |
 | `ai.swipe_deck` | `start_swipe_session` | deck[30] + notes | 2 | session id | 30 |
+| `explore.place_qna_summary` (doc delta) | place context read after a newer crew-chat mention | the trip's Q&A line per place | 2 | trip id + poi id | 30 |
 | `chat.photo_thumbnail` (doc delta) | `send_message` with photos | 480 px JPEG per photo into R2 under the sender's photo prefix, registered in `media_objects`; `derived_key` and the photo's size written into the message's attachment | 3 | message id | 24 |
 | `chat.voice_transcode` (doc delta) | `send_message` with a voice note | ffmpeg: mono AAC 32 kbps M4A capped at 2 min, measured duration and 48 waveform peaks written into the attachment (`derived_key`, `duration_ms`, `peaks`) | 3 | message id | 24 |
 | `ai.guide_mention` | crew chat mention | AI-20 stream to `crew_chat` | 1 | message id | 32 |
@@ -164,6 +165,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `plan.changeset_expiry` (doc delta) | `scheduled_events` timer at a change set vote's `closes_at` (≤ earliest hold expiry) | an undecided vote closes as no and the change set ends `rejected` (`change_set.expired`, `changeset.expired`, result push): expiry keeps the current plan; a vote closed another way is settled by its winner | 29 |
 | `ai.pitch` (doc delta) | cron 05:00 Asia/Singapore | fresh pitches (≤20 per run) for places in crews' decks (queued, or back in the deck within 30 d) whose fares moved; no model key → nothing | 26 |
 | `proposal.reply_by` | reply_by −24 h, at reply_by | N-09, close | 31 |
+| `proposal.suggestions` (doc delta) | an open (debounced 10 min), a private "ask the crew" | organiser suggestion cards + `engagement.summary` | 31 |
 | `followup.deliver` | recipient local `at` | N-08 | 31 |
 | `nudge.dispatch` | `scheduled_events` timer at the target's engagement hour (modal open hour of 14 d, fallback 19:00, moved out of quiet hours) | marks sent, `nudge.received` → inbox item + N-12 | 25 |
 | `tips.generate` (doc delta) | `0 6 * * *` SGT + per crew on `fare.dropped` | detectors (fare drop ≥ `home.tips.min_fare_drop_pct` vs stored-night median, book-by, season peak, crowd dip) → `tips.phrase` line validated against facts, template fallback; ≤1 new tip/crew/day; `home.tips.enabled` kill switch | 25 |

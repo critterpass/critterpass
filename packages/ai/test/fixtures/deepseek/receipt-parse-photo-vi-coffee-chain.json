@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "bc9912cd-ea77-4f18-aa91-3a6ceffc4c43",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"TM\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l8\",\"label\":\"Mon Nuoc V COD Cold Brew\",\"qty\":1,\"amount\":\"89,000\",\"kind\":\"item\"},{\"line_id\":\"l12\",\"label\":\"Tax\",\"qty\":null,\"amount\":\"6,593\",\"kind\":\"tax\"}],\"total\":{\"line_id\":\"l14\",\"amount\":\"89,000\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 204,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 91,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

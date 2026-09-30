@@ -2,7 +2,8 @@
  * `create_crew` (docs/api-contracts.md §4.2): starts a crew with the caller as its organiser,
  * mints its join code (14 days) and makes it the caller's active crew. A person belongs to at most
  * `crews.max_active` crews (10 by default); starting another answers `STATE_INVALID` with
- * `crew_limit`, never a paywall.
+ * `crew_limit`, never a paywall. The crew settles in its creator's home currency (its only member's,
+ * so its most common) until the organiser picks another.
  */
 import { appendDomainEvent } from '@cp/db';
 import {
@@ -35,12 +36,11 @@ export const createCrewCommand = defineCommand({
     // A plain insert: ON CONFLICT would need the (not yet visible) crew to pass its read policy.
     await tx.query('SAVEPOINT create_crew');
     try {
-      await tx.query('INSERT INTO crews (id, name, art, created_by) VALUES ($1, $2, $3, $4)', [
-        payload.crew_id,
-        payload.name,
-        payload.art ?? null,
-        ctx.uid,
-      ]);
+      await tx.query(
+        `INSERT INTO crews (id, name, art, created_by, settlement_currency)
+         VALUES ($1, $2, $3, $4, (SELECT upper(home_currency) FROM users WHERE id = $4))`,
+        [payload.crew_id, payload.name, payload.art ?? null, ctx.uid],
+      );
       await tx.query('RELEASE SAVEPOINT create_crew');
     } catch (error) {
       await tx.query('ROLLBACK TO SAVEPOINT create_crew');

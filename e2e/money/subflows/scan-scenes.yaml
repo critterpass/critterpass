@@ -6,6 +6,14 @@ appId: app.critterpass.dev
     env: { SCENE: scan-review, READY: money-review, SHOT: '${PREFIX}-3i-3-scan' }
 - runFlow:
     file: scene.yaml
+    env:
+      {
+        SCENE: scan-check-lines,
+        READY: money-review-check-l4,
+        SHOT: '${PREFIX}-money-scan-check-lines',
+      }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: scan-failure, READY: money-failure, SHOT: '${PREFIX}-3i-4-cant-read' }
 - runFlow:
     file: scene.yaml

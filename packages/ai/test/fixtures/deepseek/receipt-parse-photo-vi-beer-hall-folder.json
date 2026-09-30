@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "e4ba0ec8-4c49-4ed6-b180-39ef7a1d1bfa",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"THE STREET\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l15\",\"label\":\"Buối\",\"qty\":null,\"amount\":\"22.600\",\"kind\":\"item\"},{\"line_id\":\"l16\",\"label\":\"Henik\",\"qty\":null,\"amount\":\"86,000\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"BIA THƠM (DƯA)\",\"qty\":null,\"amount\":\"155,000\",\"kind\":\"item\"},{\"line_id\":\"l28\",\"label\":\"RumI me 500ml\",\"qty\":null,\"amount\":\"165,000\",\"kind\":\"item\"},{\"line_id\":\"l29\",\"label\":\"Tiger\",\"qty\":null,\"amount\":\"32,000\",\"kind\":\"item\"},{\"line_id\":\"l30\",\"label\":\"Strong Bow lon\",\"qty\":null,\"amount\":\"30,000\",\"kind\":\"item\"},{\"line_id\":\"l31\",\"label\":\"Ghảm giá\",\"qty\":null,\"amount\":\"165000\",\"kind\":\"discount\"},{\"line_id\":\"l32\",\"label\":\"Khoai t\",\"qty\":null,\"amount\":\"465,000\",\"kind\":\"item\"},{\"line_id\":\"l33\",\"label\":\"Heniken bục\",\"qty\":null,\"amount\":\"720,500\",\"kind\":\"item\"},{\"line_id\":\"l34\",\"label\":\"Chá mi\",\"qty\":null,\"amount\":\"330,000\",\"kind\":\"item\"},{\"line_id\":\"l35\",\"label\":\"Khân lạnh\",\"qty\":null,\"amount\":\"192,000\",\"kind\":\"item\"},{\"line_id\":\"l38\",\"label\":\"Đậu ho\",\"qty\":null,\"amount\":\"32,000\",\"kind\":\"item\"},{\"line_id\":\"l39\",\"label\":\"Nước Lống\",\"qty\":null,\"amount\":\"256,000\",\"kind\":\"item\"},{\"line_id\":\"l43\",\"label\":\"Sụn gà\",\"qty\":null,\"amount\":\"4,000\",\"kind\":\"item\"},{\"line_id\":\"l44\",\"label\":\"Chả mực Hạ Long\",\"qty\":null,\"amount\":\"48,000\",\"kind\":\"item\"},{\"line_id\":\"l50\",\"label\":\"Tôm sốt\",\"qty\":null,\"amount\":\"195,000\",\"kind\":\"item\"},{\"line_id\":\"l51\",\"label\":\"Đâu hũ tảm hành\",\"qty\":null,\"amount\":\"390,000\",\"kind\":\"item\"},{\"line_id\":\"l55\",\"label\":\"Mà Heo Nướng Nước\",\"qty\":null,\"amount\":\"75,000\",\"kind\":\"item\"},{\"line_id\":\"l56\",\"label\":\"Má Heo\",\"qty\":null,\"amount\":\"150,000\",\"kind\":\"item\"},{\"line_id\":\"l58\",\"label\":\"LAU Bao\",\"qty\":null,\"amount\":\"145,000\",\"kind\":\"item\"},{\"line_id\":\"l59\",\"label\":\"Cơm chiên ghẹ kiếu\",\"qty\":null,\"amount\":\"290,000\",\"kind\":\"item\"},{\"line_id\":\"l63\",\"label\":\"Cơm chiế\",\"qty\":null,\"amount\":\"185,000\",\"kind\":\"item\"},{\"line_id\":\"l64\",\"label\":\"Khoui tây chiên\",\"qty\":null,\"amount\":\"370,000\",\"kind\":\"item\"},{\"line_id\":\"l68\",\"label\":\"Khách hàn\",\"qty\":null,\"amount\":\"75,000\",\"kind\":\"item\"},{\"line_id\":\"l69\",\"label\":\"Đậu bắp luộc châm\",\"qty\":null,\"amount\":\"150,000\",\"kind\":\"item\"},{\"line_id\":\"l72\",\"label\":\"THÔI\",\"qty\":null,\"amount\":\"05.000\",\"kind\":\"item\"},{\"line_id\":\"l73\",\"label\":\"chao\",\"qty\":null,\"amount\":\"05,000\",\"kind\":\"item\"},{\"line_id\":\"l77\",\"label\":\"LÂU Bao tử hầm tiêu\",\"qty\":null,\"amount\":\"285,000\",\"kind\":\"item\"},{\"line_id\":\"l78\",\"label\":\"Tên công ty:\",\"qty\":null,\"amount\":\"285,000\",\"kind\":\"item\"},{\"line_id\":\"l82\",\"label\":\"Tôm sốt Thái\",\"qty\":null,\"amount\":\"145,000\",\"kind\":\"item\"},{\"line_id\":\"l83\",\"label\":\"MST:\",\"qty\":null,\"amount\":\"145,000\",\"kind\":\"item\"},{\"line_id\":\"l86\",\"label\":\"Sụn gà & tóp mỡ chien 1\",\"qty\":null,\"amount\":\"135,000\",\"kind\":\"item\"},{\"line_id\":\"l87\",\"label\":\"Dịa chỉ\",\"qty\":null,\"amount\":\"135,000\",\"kind\":\"item\"},{\"line_id\":\"l91\",\"label\":\"Thức Ăn\",\"qty\":null,\"amount\":\"1,980,000\",\"kind\":\"item\"},{\"line_id\":\"l97\",\"label\":\"Chảm Món\",\"qty\":null,\"amount\":\"168,000\",\"kind\":\"discount\"},{\"line_id\":\"l101\",\"label\":\"VAT 89% (Thức đH)\",\"qty\":null,\"amount\":\"167,520\",\"kind\":\"tax\"},{\"line_id\":\"l103\",\"label\":\"VAT 10% (Thuốc lá, nưu, biu)\",\"qty\":null,\"amount\":\"179,500\",\"kind\":\"tax\"}],\"total\":{\"line_id\":\"l105\",\"amount\":\"4,236.020\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 248,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1536,
+        "output_tokens": 1187,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

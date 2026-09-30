@@ -336,10 +336,20 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'booking.deadline_due': ['booking_deadline'],
   // Trip day: the crew knock for a sleeper, the remote copy of an alarm no device confirmed, a
   // member running late (the crew ping) and the morning briefing's one push.
+  // Proposals: each recipient's version (N-07), a follow-up or resend that came due (N-08) and the
+  // day-before reply-by reminder (N-09).
+  'proposal.sent': ['proposal_version'],
+  'followup.due': ['scheduled_resend'],
+  'proposal.reply_by_soon': ['reply_by_expiring'],
   'leave_by.knocked': ['crew_knock'],
   'leave_by.alarm_due': ['leave_by_alarm'],
   'member.running_late': ['crew_ping'],
   'briefing.built': ['morning_briefing'],
+  // Critters: the egg hatching on arrival, a crewmate's find (roundup) and a legendary window a
+  // month away.
+  'egg.hatched': ['landed_egg_hatch'],
+  'critter.befriended': ['crewmate_befriended'],
+  'legendary.reminder_due': ['critter_window_reminder'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

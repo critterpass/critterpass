@@ -20,6 +20,7 @@ import { useDraftTrip } from '../data/draft-trip';
 import { dayRange } from '../data/format';
 import { useDraftVersion, type HistoryEntry } from '../data/use-draft-version';
 import { draftRoutes } from '../routes';
+import { DraftLoading } from './draft-loading';
 import { DraftReviewView } from './draft-review-view';
 import { MemberPlanning } from './member-planning';
 import { NoDraft } from './no-draft';
@@ -42,7 +43,20 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
     if (drafting) router.replace(draftRoutes.drafting(tripId));
   }, [drafting, tripId]);
 
-  if (trip === undefined || trip === null || !draft.loaded || drafting) return null;
+  const back = () =>
+    router.canGoBack() ? router.back() : router.replace(draftRoutes.setup(tripId) ?? '/');
+  if (trip === undefined || trip === null || !draft.loaded || drafting) {
+    return (
+      <DraftLoading
+        trip={
+          trip === undefined || trip === null
+            ? null
+            : { destination: trip.destinationName, guide: trip.guide }
+        }
+        onBack={back}
+      />
+    );
+  }
   if (!trip.isOrganiser)
     return (
       <MemberPlanning
@@ -94,9 +108,7 @@ export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
             : { dayNo: open.dayNo, ready: open.status !== 'queued' && open.status !== 'running' }
         }
         hasHistory={draft.history.length > 1}
-        onBack={() =>
-          router.canGoBack() ? router.back() : router.replace(draftRoutes.setup(tripId) ?? '/')
-        }
+        onBack={back}
         onPropose={propose === undefined ? undefined : () => router.push(propose)}
         onChangeDay={(free) => router.push(draftRoutes.changeDay(tripId, undefined, free))}
         onOpenDay={

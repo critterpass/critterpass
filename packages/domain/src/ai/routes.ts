@@ -43,12 +43,18 @@ export const AI_ROUTES = [
   'menu.parse',
   'email.parse_fallback',
   'guest.guide',
+  // Explore: the crew's Q&A line on a place page and the guide's notes on swipe cards.
+  'explore.place_qna',
+  'explore.swipe_notes',
   // The itinerary skeleton.
   'draft.skeleton',
   // Drafting on the fast tier: the skeleton when routed there, the summary line, closure extraction.
   'draft.skeleton_fast',
   'draft.summary',
   'draft.closures',
+  // Proposal lines on the fast tier: the private objection reply and the organiser's suggestions.
+  'proposal.objection',
+  'proposal.suggestion',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',
@@ -57,6 +63,7 @@ export const AI_ROUTES = [
   'compliance.check',
   'availability.reply_intent',
   'vendor.reply_intent',
+  'rsvp.reply_intent',
 ] as const;
 export const aiRouteSchema = z.enum(AI_ROUTES);
 export type AiRoute = z.infer<typeof aiRouteSchema>;
@@ -70,6 +77,7 @@ export const DECISION_ROUTES = [
   'compliance.check',
   'availability.reply_intent',
   'vendor.reply_intent',
+  'rsvp.reply_intent',
 ] as const satisfies readonly AiRoute[];
 export type DecisionRoute = (typeof DECISION_ROUTES)[number];
 

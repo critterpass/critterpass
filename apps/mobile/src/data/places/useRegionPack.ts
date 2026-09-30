@@ -21,6 +21,8 @@ import { useLingui } from '@lingui/react/macro';
 import * as FileSystem from 'expo-file-system/legacy';
 import { useCallback, useEffect, useState } from 'react';
 
+import { sessionHeaders } from '@/data/app-session/auth-client';
+
 import { resolveApiBaseUrl } from './apiBaseUrl';
 import {
   clearOfflinePlaces,
@@ -57,7 +59,7 @@ interface RegionManifest {
 
 async function fetchManifest(destinationId: string): Promise<RegionManifest> {
   const response = await fetch(`${resolveApiBaseUrl()}/v1/map/regions/${destinationId}`, {
-    credentials: 'include',
+    headers: { accept: 'application/json', ...(await sessionHeaders()) },
   });
   if (!response.ok) {
     const body = (await response.json().catch(() => null)) as {
@@ -85,7 +87,7 @@ async function fetchPoiSubset(
     limit: String(POI_SUBSET_LIMIT),
   });
   const response = await fetch(`${resolveApiBaseUrl()}/v1/places/search?${params.toString()}`, {
-    credentials: 'include',
+    headers: { accept: 'application/json', ...(await sessionHeaders()) },
   });
   if (!response.ok) throw new Error(`HTTP ${String(response.status)}`);
   const body = (await response.json()) as { results: RawSearchResult[] };

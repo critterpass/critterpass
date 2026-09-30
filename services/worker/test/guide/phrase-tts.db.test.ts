@@ -6,11 +6,13 @@
  */
 import { randomUUID } from 'node:crypto';
 
+import { packFor } from '@cp/ai';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { JobContext } from '../../src/boss';
 import { createElevenLabs } from '../../src/jobs/guide/elevenlabs';
 import { phraseTtsJob } from '../../src/jobs/guide/phrase-tts';
+import { guideReader } from '../../src/jobs/guide/runtime';
 import { insertUser, startNotifyDb, type NotifyDb } from '../notify-fixtures';
 import { crewTrip, fakeModel, testRuntime } from './guide-fixtures';
 
@@ -106,7 +108,9 @@ describe('phrase.tts', () => {
     expect(await job.handler({ card_id: icelandic }, ctx)).toEqual({ outcome: 'ready' });
 
     expect(calls.map((call) => call.body.model_id)).toEqual(['eleven_flash_v2_5', 'eleven_v3']);
-    expect(calls[0]?.url).toContain('/v1/text-to-speech/voice-default');
+    const guide = await packFor(guideReader(db.pool), uid, tripId, null);
+    expect(guide.voice_id).toEqual(expect.any(String));
+    expect(calls[0]?.url).toContain(`/v1/text-to-speech/${guide.voice_id ?? 'voice-default'}`);
     const card1 = await stored(indonesian);
     expect(card1?.audio_status).toBe('ready');
     const key = card1?.audio_key ?? '';

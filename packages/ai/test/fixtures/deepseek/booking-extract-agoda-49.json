@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5f7a2eff-4482-483a-95b3-8e53570f60c1",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"Sun PhuQuoc Airways 9G 956 · SGN → DAD\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1107854149\",\"starts_local\":\"2027-12-24T07:05\",\"ends_local\":\"2027-12-24T08:30\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"4.743.957\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\",\"Van Hieu Le\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"[Vé người lớn] Vé của quý khách không thể hủy để lấy lại tiền.\",\"flights\":[{\"carrier\":\"9G\",\"number\":\"956\",\"from\":\"SGN\",\"to\":\"DAD\",\"departs_local\":\"2027-12-24T07:05\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2027-12-24T08:30\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":null},{\"kind\":\"flight\",\"title\":\"VietJet Air VJ 643 · DAD → SGN\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1246576075\",\"starts_local\":\"2027-12-26T20:35\",\"ends_local\":\"2027-12-26T22:00\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"4.743.957\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\",\"Van Hieu Le\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"[Vé người lớn] Vé của quý khách không thể hủy để lấy lại tiền. [Vé trẻ em] Vé của quý khách không thể hủy để lấy lại tiền.\",\"flights\":[{\"carrier\":\"VJ\",\"number\":\"643\",\"from\":\"DAD\",\"to\":\"SGN\",\"departs_local\":\"2027-12-26T20:35\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2027-12-26T22:00\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 255,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 4096,
+        "output_tokens": 531,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

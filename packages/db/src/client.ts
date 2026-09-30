@@ -5,7 +5,6 @@
  */
 import { readdir, readFile } from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import pg from 'pg';
 
@@ -126,27 +125,4 @@ export async function runMigrations(
     client.release();
   }
   return { applied };
-}
-
-async function main(): Promise<void> {
-  const connectionString = process.env['DATABASE_URL'] ?? process.env['DATABASE_DIRECT_URL'];
-  if (!connectionString) {
-    throw new Error('DATABASE_URL or DATABASE_DIRECT_URL is required to run migrations');
-  }
-  const pool = createPool(connectionString);
-  try {
-    const { applied } = await runMigrations(pool);
-    console.log(applied.length > 0 ? `applied: ${applied.join(', ')}` : 'no pending migrations');
-  } finally {
-    await pool.end();
-  }
-}
-
-const invokedDirectly =
-  process.argv[1] !== undefined && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
-if (invokedDirectly) {
-  main().catch((error: unknown) => {
-    console.error(error);
-    process.exitCode = 1;
-  });
 }

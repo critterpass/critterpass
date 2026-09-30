@@ -5,6 +5,7 @@ import { Dimensions } from 'react-native';
 
 import {
   focusedBackAffordances,
+  isTabRoot,
   missingBackAffordance,
   useBackAffordance,
 } from '../back-affordance';
@@ -105,11 +106,47 @@ describe('HEADER_OVERLAP', () => {
 
 describe('NO_BACK_AFFORDANCE', () => {
   it('is missing only on a pushed, user-facing screen with no back or close control', () => {
-    const base = { canGoBack: true, developerTool: false, affordances: 0 };
+    const base = { canGoBack: true, developerTool: false, tabRoot: false, affordances: 0 };
     expect(missingBackAffordance(base)).toBe(true);
+    expect(missingBackAffordance({ ...base, tabRoot: true })).toBe(false);
     expect(missingBackAffordance({ ...base, affordances: 1 })).toBe(false);
     expect(missingBackAffordance({ ...base, canGoBack: false })).toBe(false);
     expect(missingBackAffordance({ ...base, developerTool: true })).toBe(false);
+  });
+
+  it('treats the first screen of a tab and a tab screen itself as tab roots', () => {
+    const tabs = (wallet: { index: number; routes: { name: string }[] }) => ({
+      type: 'stack',
+      index: 0,
+      routes: [
+        {
+          name: '(tabs)',
+          state: {
+            type: 'tab',
+            index: 1,
+            routes: [{ name: 'index' }, { name: 'wallet', state: { type: 'stack', ...wallet } }],
+          },
+        },
+      ],
+    });
+    expect(isTabRoot(tabs({ index: 0, routes: [{ name: 'money/index' }] }))).toBe(true);
+    expect(
+      isTabRoot(tabs({ index: 1, routes: [{ name: 'money/index' }, { name: 'money/index' }] })),
+    ).toBe(true);
+    expect(
+      isTabRoot(tabs({ index: 1, routes: [{ name: 'money/index' }, { name: 'money/budget' }] })),
+    ).toBe(false);
+    expect(
+      isTabRoot({
+        type: 'stack',
+        index: 0,
+        routes: [{ name: '(tabs)', state: { type: 'tab', index: 0, routes: [{ name: 'index' }] } }],
+      }),
+    ).toBe(true);
+    expect(
+      isTabRoot({ type: 'stack', index: 1, routes: [{ name: '(tabs)' }, { name: '(trip)' }] }),
+    ).toBe(false);
+    expect(isTabRoot(undefined)).toBe(false);
   });
 
   it('counts a mounted back control while its screen is focused', async () => {

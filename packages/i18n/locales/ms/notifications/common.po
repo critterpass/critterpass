@@ -7,30 +7,354 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ms\n"
 
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.needed.body"
+msgstr ""
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.needs_yes.title"
+msgstr ""
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.needs_yes.body"
+msgstr ""
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.late_title"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.title"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.found_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.title"
+msgstr ""
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.readiness"
+msgstr ""
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_nudge.title"
+msgstr ""
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.invite_open"
+msgstr ""
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.vote"
+msgstr ""
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.applied.body"
+msgstr ""
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.rsvp"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_title"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.boarding_title"
+msgstr ""
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.queued_answer.title"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.guide.title"
+msgstr ""
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.needed.title"
+msgstr ""
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.winner.title"
+msgstr ""
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.title"
+msgstr ""
+
+#: ../domain/src/itinerary/templates.ts
+msgid "notifications.draft.ready.title"
 msgstr ""
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.title"
 msgstr ""
 
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.briefing_body"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.body"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.not_movable"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.freed"
+msgstr ""
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.late_body"
+msgstr ""
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.knock_body"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.rooms.swap"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.calendar.missing"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.must_do.prompt"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.calendar.stale"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.requested"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.confirmed"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.disputed"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.nudged"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.expense_added"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.marked_paid"
+msgstr ""
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.knock_title"
+msgstr ""
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.briefing_title"
+msgstr ""
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.winner.body"
+msgstr ""
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.closing.hours"
+msgstr ""
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.closing.day"
+msgstr ""
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.moved"
+msgstr ""
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.created"
+msgstr ""
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.text"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.lottery.result"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.deadline_body"
+msgstr ""
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.title"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.settled.title"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.boarding_body"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.boarding_estimated"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_cancelled"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_delayed"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_diverted"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.lottery.deadline"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.settled.body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.crew_close"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.found_body"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.deadline_title"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_gate"
+msgstr ""
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.final.body"
 msgstr ""
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.body"
 msgstr ""
 
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_title"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "email.bookings.link_subject"
+msgstr ""
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.ping_meetup"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.timed_out"
+msgstr ""
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.kept.body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.on_my_way"
+msgstr ""
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.on_my_way_eta"
+msgstr ""
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.template"
+msgstr ""
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.photo"
+msgstr ""
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.voice"
+msgstr ""
+
 #: ../../services/worker/src/push/payload.ts
 msgid "notifications.push.privateBody"
+msgstr ""
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.reminded"
+msgstr ""
+
+#: ../domain/src/bookings/templates.ts
+msgid "email.bookings.link_body"
 msgstr ""
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_nudge.body"
 msgstr ""
 
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.applied.title"
+msgstr ""
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.kept.title"
+msgstr ""
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.queued_answer.body"
+msgstr ""
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.payment"
+msgstr ""
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.ping"
+msgstr ""
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.destination.body"
+msgstr ""
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.body"
+msgstr ""
+
+#: ../domain/src/itinerary/templates.ts
+msgid "notifications.draft.ready.body"
 msgstr ""

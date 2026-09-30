@@ -72,10 +72,11 @@ export async function chatAudience(tx: pg.PoolClient, event: RoutedEvent): Promi
 
 /** The body template; message text goes in as a variable so it is never parsed as a template. */
 function preview(type: MessageType): { id: string; message: string } {
-  if (type === 'photo') return { id: 'notifications.crew_chat.photo', message: 'Sent a photo' };
+  if (type === 'photo')
+    return /*i18n*/ { id: 'notifications.crew_chat.photo', message: 'Sent a photo' };
   if (type === 'voice')
-    return { id: 'notifications.crew_chat.voice', message: 'Sent a voice note' };
-  return { id: 'notifications.crew_chat.text', message: '{text}' };
+    return /*i18n*/ { id: 'notifications.crew_chat.voice', message: 'Sent a voice note' };
+  return /*i18n*/ { id: 'notifications.crew_chat.text', message: '{text}' };
 }
 
 export function previewText(body: string): string {
@@ -118,7 +119,7 @@ export function registerChatNotifications(): void {
       if (row === undefined || row.deleted || row.hidden) return null;
       const sender = row.sender?.trim().split(/\s+/)[0] ?? '';
       return {
-        title: { id: 'notifications.crew_chat.title', message: '{sender} · {crew}' },
+        title: /*i18n*/ { id: 'notifications.crew_chat.title', message: '{sender} · {crew}' },
         body: preview(message.type),
         vars: { sender, crew: row.crew, text: previewText(row.body) },
         sender: {

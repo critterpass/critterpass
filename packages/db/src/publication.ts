@@ -59,6 +59,11 @@ import * as schema from './schema';
  * the server (a hash lookup); a client sees its own `code_redemptions`, never a code row.
  * `affiliate_clicks` (packages/db/src/schema/suppliers.ts) is "S": clicks are written by the api
  * and read only by the conversions import and the ops console, never by a client.
+ * `swipe_votes` (packages/db/src/schema/explore.ts) is owner-read and holds every "no": the crew
+ * syncs `swipe_yes_votes`, the trigger-kept yes-only mirror, and replication never sees a verdict.
+ * `place_qna_summaries` is trip-visible (C1) but served by the place context route only.
+ * `sponsored_placements` is RLS "R" but read over HTTP only, gated per viewer by `sponsored(u,t)`,
+ * and `sponsored_event_counts` is "S": counts the ops console reads, no client ever does.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -68,6 +73,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'codes',
   'content_releases',
   'critter_names',
+  'engagement_events',
   'fair_use_counters',
   'fare_cells',
   'flight_watches',
@@ -76,11 +82,16 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'member_etas',
   'moderation_reports',
   'persona_packs',
+  'place_qna_summaries',
   'poi_embeddings',
   'poi_hours_proposals',
   'poi_live_checks',
+  'proposal_followups',
   'push_tokens',
   'scheduled_events',
+  'sponsored_event_counts',
+  'sponsored_placements',
+  'swipe_votes',
 ]);
 
 /** Every table this schema declares that the `powersync` publication should carry. */

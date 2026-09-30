@@ -9,6 +9,7 @@ import { createLangfuseTelemetry, type AssertRouteOn, type Telemetry } from '@cp
 import type { AnyJobDefinition } from '../boss';
 import { complianceCheckJob } from './compliance-job';
 import type { AgentJobDefinition } from './job-runner';
+import { exploreJobs } from '../jobs/explore';
 
 export { guideJobs } from '../jobs/guide';
 
@@ -51,7 +52,12 @@ export function aiJobs(
     telemetry,
     assertRouteOn,
   });
-  return [...AGENT_JOBS, compliance];
+  // Explore's swipe deck and crew Q&A line share this process's gateway settings.
+  return [
+    ...AGENT_JOBS,
+    compliance,
+    ...exploreJobs(env, { assertAiRoute: assertRouteOn }, telemetry),
+  ];
 }
 
 export { batchStep, type BatchDeps, type BatchProgress, type BatchStepInput } from './batch-step';

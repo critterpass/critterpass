@@ -22,6 +22,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { createApp } from '../../src/app';
 import { createAuthModule, type AuthModule } from '../../src/auth';
+import { betterAuthSessionResolver } from '../../src/commands/_framework/session';
 import { mountAuthHandler } from '../../src/auth/mount';
 import {
   buildAuthRateLimitCustomRules,
@@ -77,6 +78,8 @@ beforeAll(async () => {
     logger: pino({ level: 'silent' }),
     exposeDocs: false,
     readiness: {},
+    pool,
+    sessions: betterAuthSessionResolver(authModule.auth.api),
   });
   registerAuthExtraRoutes(app, { redis });
   registerMergeTicketPreviewRoute(app, { auth: authModule.auth, appPool: pool, secret: SECRET });
@@ -107,6 +110,23 @@ describe('Better Auth mounted through the real createApp()', () => {
       [body.user.id],
     );
     expect(rows).toEqual([{ status: 'anonymous' }]);
+  });
+
+  it('lets a signed-in session search places, and refuses a request without one', async () => {
+    const signIn = await app.request('/api/auth/sign-in/anonymous', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: '{}',
+    });
+    const cookie = signIn.headers
+      .getSetCookie()
+      .map((value) => value.split(';')[0])
+      .join('; ');
+    const signedIn = await app.request('/v1/places/search?q=Nishiki', { headers: { cookie } });
+    expect(signedIn.status).toBe(200);
+    expect(await signedIn.json()).toEqual({ results: [] });
+    const anonymous = await app.request('/v1/places/search?q=Nishiki');
+    expect(anonymous.status).toBe(401);
   });
 
   it('mints an rt-audience token carrying the anon claim over /api/auth/token?aud=rt', async () => {

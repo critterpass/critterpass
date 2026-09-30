@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { FLAG_CATALOG, FLAG_KEYS, coerceFlag, resolveFlags, type FlagCatalog } from './index';
+import {
+  FLAG_CATALOG,
+  FLAG_KEYS,
+  coerceFlag,
+  posthogFlagKey,
+  resolveFlags,
+  type FlagCatalog,
+} from './index';
 
 const TEST_CATALOG = {
   'guide.voice': { kind: 'boolean', default: false, owner: 'guide', description: 'x' },
@@ -39,8 +46,19 @@ describe('flag catalog', () => {
 
   it('passes valid values through', () => {
     expect(
-      resolveFlags({ 'guide.voice': true, 'invite.layout': 'prefill_first' }, TEST_CATALOG),
+      resolveFlags({ 'guide-voice': true, 'invite-layout': 'prefill_first' }, TEST_CATALOG),
     ).toEqual({ 'guide.voice': true, 'invite.layout': 'prefill_first' });
     expect(coerceFlag('invite.layout', 'prefill_first', TEST_CATALOG)).toBe('prefill_first');
+  });
+
+  it('stores every flag under a key PostHog accepts, one key per flag', () => {
+    const keys = Object.keys(FLAG_CATALOG).map(posthogFlagKey);
+    for (const key of keys) expect(key).toMatch(/^[A-Za-z0-9_-]+$/);
+    expect(new Set(keys).size).toBe(keys.length);
+  });
+
+  it('reads PostHog values under their PostHog keys', () => {
+    expect(resolveFlags({ 'money-receipts': true })['money.receipts']).toBe(true);
+    expect(resolveFlags({ 'money.receipts': true })['money.receipts']).toBe(false);
   });
 });

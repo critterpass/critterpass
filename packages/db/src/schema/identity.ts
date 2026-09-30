@@ -59,6 +59,7 @@ export const userSettings = pgTable('user_settings', {
   hideLockscreenDetails: boolean('hide_lockscreen_details').notNull().default(false),
   hideTasteTags: boolean('hide_taste_tags').notNull().default(false),
   hideCollection: boolean('hide_collection').notNull().default(false),
+  exploreAtHome: boolean('explore_at_home').notNull().default(false),
   /** The crew Home shows; FK to crews in SQL (not mirrored here to keep the import graph acyclic). */
   activeCrewId: uuid('active_crew_id'),
   /** Crewmates whose chat messages this user hides on their own devices (`mute_member`). */

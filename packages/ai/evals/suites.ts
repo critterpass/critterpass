@@ -23,6 +23,8 @@ export const SUITES = [
   'vendor-reply',
   'guide',
   'briefing',
+  'place-qna',
+  'proposal',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -46,6 +48,8 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/prompts|evals)\/draft\//u, ['draft']],
   [/^packages\/ai\/(src\/routes|evals)\/guide\//u, ['guide']],
   [/^packages\/ai\/(src\/routes|evals)\/briefing\//u, ['briefing']],
+  [/^packages\/ai\/(src\/routes|evals)\/explore\//u, ['place-qna']],
+  [/^packages\/ai\/(src\/routes|evals)\/proposal\//u, ['proposal']],
   [/^packages\/planner\/src\/draft\//u, ['draft']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
   [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch', 'guest-brief']],
@@ -63,6 +67,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/domain\/src\/(guide-actions|plan)\//u, ['autonomy']],
   [/^packages\/domain\/src\/pitches\//u, ['pitch']],
   [/^packages\/domain\/src\/trip-day\//u, ['briefing']],
+  [/^packages\/domain\/src\/proposal\//u, ['proposal']],
   [/^packages\/domain\/src\/ai\//u, ALL],
 ];
 

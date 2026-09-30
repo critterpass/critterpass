@@ -17,6 +17,7 @@ import {
   CHAT_VOICE_TRANSCODE_QUEUE,
   COUNTDOWN_RECOMPUTE_QUEUE,
   DRAFT_QUEUES,
+  EXPLORE_QUEUES,
   GUIDE_QUEUES,
   INBOX_FANOUT_QUEUE,
   notificationKeysForEvent,
@@ -29,7 +30,9 @@ import {
   SETUP_QUEUES,
   SUPPLIER_QUEUES,
   TRIP_DAY_QUEUES,
+  PROPOSAL_QUEUES,
   type NotifyRouteJob,
+  CRITTER_QUEUES,
 } from '@cp/domain';
 import type pg from 'pg';
 import { PgBoss } from 'pg-boss';
@@ -100,6 +103,9 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(PLAN_QUEUES),
       ...Object.values(GUIDE_QUEUES),
       ...Object.values(TRIP_DAY_QUEUES),
+      ...Object.values(EXPLORE_QUEUES),
+      ...Object.values(PROPOSAL_QUEUES),
+      ...Object.values(CRITTER_QUEUES),
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
     ]) {

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "08cb766b-9335-42ec-ba0c-243b0089fd1f",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"cards\":[{\"card_id\":\"resend:dev\",\"text\":\"Resend to Dev at 21:00 their time?\"},{\"card_id\":\"offer:cost\",\"text\":\"Someone asked about cost. Offer everyone the cheaper room option?\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 134,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 507,
+        "output_tokens": 50,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

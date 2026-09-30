@@ -20,6 +20,8 @@ import { isPromptSuite, runPromptSuiteCases } from './prompt-suites';
 import { DRAFT_SUITE, runDraftSuite } from '../draft/suite';
 import { GUIDE_SUITE, runGuideSuite } from '../guide/suite';
 import { BRIEFING_SUITE, runBriefingSuite } from '../briefing/suite';
+import { PLACE_QNA_SUITE, runPlaceQnaSuite } from '../explore/suite';
+import { PROPOSAL_SUITE, runProposalSuite } from '../proposal/suite';
 import { runCase, type EvalMode, type EvalOutput, type Pipeline } from './provider';
 import { EVALS_DIR, loadSuite, type Assertion, type CaseVars, type EvalCase } from './suite';
 
@@ -242,6 +244,8 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
   if (name === COMPLIANCE_SUITE) return runComplianceSuite(options, threshold);
   if (name === GUIDE_SUITE) return runGuideSuite(options, threshold);
   if (name === BRIEFING_SUITE) return runBriefingSuite(options, threshold);
+  if (name === PLACE_QNA_SUITE) return runPlaceQnaSuite(options, threshold);
+  if (name === PROPOSAL_SUITE) return runProposalSuite(options, threshold);
   if (name === DRAFT_SUITE) {
     return runDraftSuite(
       {

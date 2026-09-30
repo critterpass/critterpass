@@ -36,6 +36,9 @@ import { registerBilling } from './billing/register';
 import { registerGuideRoutes } from './routes/guide';
 import { registerSupplierRoutes } from './suppliers/register';
 import { registerTripDay } from './commands/trip-day';
+import { registerExplore } from './explore/register';
+import { registerProposals } from './routes/proposals';
+import { registerCritters } from './commands/critters';
 
 /** The command doors as the api boots them: its own Redis client and logger. */
 export interface ApiCommandDoors extends CommandDoorDeps {
@@ -69,11 +72,14 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerAiRoutes(app, doors, env, logger);
   registerGuideRoutes(app, doors, env, keyring);
   registerTripDay(doors);
+  registerProposals(app, doors, env, keyring);
+  registerCritters(doors);
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerTravelDataRoutes(app, doors);
   registerCostRoutes(app, doors);
   registerPlanRoutes(app, doors);
   registerSupplierRoutes(app, doors);
+  registerExplore(app, doors);
   registerSetupRoutes(app, { ...doors, store: redis, env: process.env });
   registerReceiptRoutesFromEnv(app, doors, process.env);
   registerGeoRoutesFromEnv(app, doors, env.GEOIP_CITY_MMDB, logger);

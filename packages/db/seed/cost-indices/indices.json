@@ -226,5 +226,41 @@
     "source": "CritterPass editorial estimate (2026 price level, USD per person; stays on a shared-room basis). Draft: a content reviewer checks it against current listings before approving",
     "source_url": null,
     "sourced_on": "2026-09-28"
+  },
+  {
+    "destination": "da-nang",
+    "stay_type": "resort",
+    "nightly_minor_low": 4000,
+    "nightly_minor_high": 12000,
+    "food_pp_day_minor": 2000,
+    "fun_pp_day_minor": 2000,
+    "currency": "USD",
+    "source": "CritterPass editorial estimate (2026 price level, USD per person; stays on a shared-room basis), checked against Origin Vietnam's Đà Nẵng travel costs. Draft: a content reviewer checks it against current listings before approving",
+    "source_url": "https://www.originvietnam.com/da-nang-travel-cost/",
+    "sourced_on": "2026-09-30"
+  },
+  {
+    "destination": "da-nang",
+    "stay_type": "hotel",
+    "nightly_minor_low": 1500,
+    "nightly_minor_high": 5000,
+    "food_pp_day_minor": 2000,
+    "fun_pp_day_minor": 2000,
+    "currency": "USD",
+    "source": "CritterPass editorial estimate (2026 price level, USD per person; stays on a shared-room basis), checked against Origin Vietnam's Đà Nẵng travel costs. Draft: a content reviewer checks it against current listings before approving",
+    "source_url": "https://www.originvietnam.com/da-nang-travel-cost/",
+    "sourced_on": "2026-09-30"
+  },
+  {
+    "destination": "da-nang",
+    "stay_type": "hostel",
+    "nightly_minor_low": 700,
+    "nightly_minor_high": 1800,
+    "food_pp_day_minor": 2000,
+    "fun_pp_day_minor": 2000,
+    "currency": "USD",
+    "source": "CritterPass editorial estimate (2026 price level, USD per person; stays on a shared-room basis), checked against Origin Vietnam's Đà Nẵng travel costs. Draft: a content reviewer checks it against current listings before approving",
+    "source_url": "https://www.originvietnam.com/da-nang-travel-cost/",
+    "sourced_on": "2026-09-30"
   }
 ]

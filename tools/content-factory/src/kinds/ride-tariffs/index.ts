@@ -12,7 +12,15 @@ import type { KindModule } from '../types';
 import { RIDE_TARIFF_RECORDS } from './records';
 
 /** The guide destinations a tariff can belong to. */
-export const GUIDE_DESTINATIONS = ['bali', 'cusco', 'iceland', 'kyoto', 'lisbon', 'mexico-city'];
+export const GUIDE_DESTINATIONS = [
+  'bali',
+  'cusco',
+  'da-nang',
+  'iceland',
+  'kyoto',
+  'lisbon',
+  'mexico-city',
+];
 
 const DAY_MS = 86_400_000;
 

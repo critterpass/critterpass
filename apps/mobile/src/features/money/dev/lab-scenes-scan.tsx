@@ -1,7 +1,8 @@
 /**
  * Money lab scenes for the receipt scan (3i-3, 3i-4) and the steps around it, over the drawn Ibu
  * Oka receipt: aiming, the camera refused, reading, saved offline, the itemised review with the
- * design's suggestions, the three ways forward, and typing the lines.
+ * design's suggestions, the review whose lines miss the total (one line to check), the three ways
+ * forward, and typing the lines.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -10,7 +11,7 @@ import type { ReactNode } from 'react';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { formatAmount } from '../format';
-import { initialAssignments, type Assignments } from '../receipt/review-model';
+import { initialAssignments, type Assignments, type ParsedReceipt } from '../receipt/review-model';
 import { resultParts, reviewRows, type ReviewCopy } from '../receipt/review-rows';
 import type { SweepLine } from '../receipt/ScanSweep';
 import { ScanView, type ScanScene } from '../receipt/ScanView';
@@ -37,8 +38,21 @@ function useCopy(): ReviewCopy {
     not: (names) => upper(t({ id: 'money.review.not', message: `Not ${names}` }), locale),
     pays: (names) => t({ id: 'money.review.pays', message: `${names} pays` }),
     everyoneElse: t({ id: 'money.review.everyoneElse', message: 'Everyone else' }),
+    amount: (minor) => formatAmount(minor, 'IDR', locale),
   };
 }
+
+/** The Ibu Oka bill with the coconuts misread (Rp180.000 for Rp130.000): the lines miss by Rp50.000. */
+const IBU_OKA_MISREAD: ParsedReceipt = {
+  ...IBU_OKA,
+  lines: IBU_OKA.lines.map((line) =>
+    line.line_id === 'l4' ? { ...line, amount_minor: 18_000_000 } : line,
+  ),
+  lines_total_minor: 113_000_000,
+  matches_total: false,
+  review_line_ids: ['l4'],
+  status: 'partial',
+};
 
 function lines(tone: (id: string) => SweepLine['tone']): SweepLine[] {
   return IBU_OKA_ROWS.filter((row) => row.kind !== 'head').map((row) => ({
@@ -75,12 +89,13 @@ function Scene({
   );
 }
 
-function Review() {
+function Review({ parsed = IBU_OKA }: { readonly parsed?: ParsedReceipt }) {
   const copy = useCopy();
   const locale = useLocale();
-  const assignments: Assignments = initialAssignments(IBU_OKA, IBU_OKA_SUGGESTIONS, ids);
+  const { t } = useLingui();
+  const assignments: Assignments = initialAssignments(parsed, IBU_OKA_SUGGESTIONS, ids);
   const result = resultParts({
-    parsed: IBU_OKA,
+    parsed,
     assignments,
     members: LAB_MEMBERS,
     payerId: 'u-maya',
@@ -89,19 +104,32 @@ function Review() {
     fx: LAB_FX,
     copy,
   });
+  const linesText = formatAmount(BigInt(parsed.lines_total_minor), parsed.currency, locale);
+  const printedText = formatAmount(BigInt(parsed.total_minor ?? 0), parsed.currency, locale);
+  const toCheck = new Set(parsed.review_line_ids ?? []);
   return (
     <Scene
+      sweep={lines((id) => (toCheck.has(id) ? 'locked' : 'read')).filter((l) => l.id !== 'l6')}
       scene={{
         kind: 'review',
         review: {
-          rows: reviewRows(IBU_OKA, assignments, LAB_MEMBERS, copy),
+          rows: reviewRows(parsed, assignments, LAB_MEMBERS, copy),
           members: LAB_MEMBERS,
           summary: result.parts.map((part) => ({
             who: part.who,
             amount: formatAmount(part.amountMinor, result.currency, locale),
           })),
           payerName: 'Maya',
-          mismatch: null,
+          mismatch: parsed.matches_total
+            ? null
+            : {
+                text: t({
+                  id: 'money.review.mismatch',
+                  message: `Lines add up to ${linesText}, the receipt says ${printedText}.`,
+                }),
+                keep: true,
+              },
+          onFix: noop,
           committing: false,
           onLine: noop,
           onKeepTotal: noop,
@@ -165,6 +193,7 @@ export const SCAN_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'scan-reading': () => <Scene scene={{ kind: 'reading', waiting: false }} />,
   'scan-offline': () => <Scene scene={{ kind: 'offline' }} />,
   'scan-review': () => <Review />,
+  'scan-check-lines': () => <Review parsed={IBU_OKA_MISREAD} />,
   'scan-failure': () => <Failure />,
   'scan-type-lines': () => <TypeLines />,
 };

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a4aca659-10e3-4dcb-a82d-9e471058a445",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"JOHNNY ROCKETS\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l12\",\"label\":\"BACON CHEDDAR PS\",\"qty\":1,\"amount\":\"125,000\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"SMOKE HOUSE DOUBLE\",\"qty\":1,\"amount\":\"185,000\",\"kind\":\"item\"},{\"line_id\":\"l17\",\"label\":\"TAKE AWAY\",\"qty\":1,\"amount\":\"2,500\",\"kind\":\"item\"},{\"line_id\":\"l18\",\"label\":\"THE SPICY HOUSTON\",\"qty\":1,\"amount\":\"122,000\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"THE ORIGINAL\",\"qty\":1,\"amount\":\"126,000\",\"kind\":\"item\"},{\"line_id\":\"l28\",\"label\":\"Tax\",\"qty\":null,\"amount\":\"58,353\",\"kind\":\"tax\"},{\"line_id\":\"l29\",\"label\":\"Service\",\"qty\":null,\"amount\":\"28,025\",\"kind\":\"service\"}],\"total\":{\"line_id\":\"l32\",\"amount\":\"647,378\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 155,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 242,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

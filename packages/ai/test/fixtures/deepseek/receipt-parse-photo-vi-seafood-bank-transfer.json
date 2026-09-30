@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "b11ca494-274a-4aa7-aac4-19ee1c2bc68c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"Tân Hỗ Quán\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l7\",\"label\":\"Khăn Lạnh\",\"qty\":null,\"amount\":\"3,000\",\"kind\":\"item\"},{\"line_id\":\"l10\",\"label\":\"Khăn Lạnh\",\"qty\":5,\"amount\":\"15,000\",\"kind\":\"item\"},{\"line_id\":\"l14\",\"label\":\"SUN GÀ(Chiên Mầm)\",\"qty\":2,\"amount\":\"220,000\",\"kind\":\"item\"},{\"line_id\":\"l18\",\"label\":\"Tiger Nhỏ\",\"qty\":22,\"amount\":\"352,000\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"MỰC TRỨNG(Hấp Gừng)\",\"qty\":null,\"amount\":\"140,000\",\"kind\":\"item\"},{\"line_id\":\"l24\",\"label\":\"Món(Giò Heo)\",\"qty\":null,\"amount\":\"230,000\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"ỐC HƯƠNG(Rang Muối)\",\"qty\":null,\"amount\":\"150,000\",\"kind\":\"item\"},{\"line_id\":\"l31\",\"label\":\"SO HUYÉT(Nướng)\",\"qty\":1,\"amount\":\"100,000\",\"kind\":\"item\"},{\"line_id\":\"l34\",\"label\":\"Cá Đuối (xào xả ớt)\",\"qty\":null,\"amount\":\"110,000\",\"kind\":\"item\"},{\"line_id\":\"l37\",\"label\":\"Cá Bóp Nướng\",\"qty\":null,\"amount\":\"130,000\",\"kind\":\"item\"},{\"line_id\":\"l40\",\"label\":\"CƠM(Hải sản)\",\"qty\":null,\"amount\":\"120,000\",\"kind\":\"item\"},{\"line_id\":\"l43\",\"label\":\"BÒ(Lúc Lắc)\",\"qty\":null,\"amount\":\"130,000\",\"kind\":\"item\"},{\"line_id\":\"l47\",\"label\":\"NGHÊU(Hấp Thái)\",\"qty\":1,\"amount\":\"90,000\",\"kind\":\"item\"},{\"line_id\":\"l50\",\"label\":\"SƯỜN HEO(Nướng muối ớt)\",\"qty\":null,\"amount\":\"110,000\",\"kind\":\"item\"},{\"line_id\":\"l53\",\"label\":\"Món(Đậu Hủ Giấy Bạc)\",\"qty\":null,\"amount\":\"120,000\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l58\",\"amount\":\"2,017,000đ\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 170,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 568,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

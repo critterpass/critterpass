@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "71a53e3d-5094-4a39-951b-2e37a6bb1123",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"GRA\",\"datetime\":null,\"currency\":\"MYR\",\"lines\":[{\"line_id\":\"l8\",\"label\":\"HH MOJITO MIXED BERRIES\",\"qty\":null,\"amount\":\"38.87\",\"kind\":\"item\"},{\"line_id\":\"l11\",\"label\":\"HH DAY OF THE DEAD\",\"qty\":null,\"amount\":\"38.67\",\"kind\":\"item\"},{\"line_id\":\"l12\",\"label\":\"HH DAY OF THE DEAD\",\"qty\":null,\"amount\":\"38.67\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"HH DAY OF THE DEAD\",\"qty\":null,\"amount\":\"36.87\",\"kind\":\"item\"},{\"line_id\":\"l14\",\"label\":\"HH DAY OF THE DEAD\",\"qty\":null,\"amount\":\"36.87\",\"kind\":\"item\"},{\"line_id\":\"l20\",\"label\":\"Service charge (10%)\",\"qty\":null,\"amount\":\"MYR11,00\",\"kind\":\"service\"},{\"line_id\":\"l19\",\"label\":\"SST\",\"qty\":null,\"amount\":\"MYR8.80\",\"kind\":\"tax\"},{\"line_id\":\"l21\",\"label\":\"Discount\",\"qty\":null,\"amount\":\"MYR-0.01\",\"kind\":\"discount\"}],\"total\":{\"line_id\":\"l22\",\"amount\":\"MYR129.80\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 221,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 286,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

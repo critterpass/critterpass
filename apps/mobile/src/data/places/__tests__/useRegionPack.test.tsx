@@ -30,6 +30,11 @@ jest.mock('../offlineSearch', () => ({
   clearOfflinePlaces: (...args: unknown[]) => mockClearOfflinePlaces(...args),
 }));
 
+// The Better Auth Expo client lives behind native secure storage; the hook only needs its cookie.
+jest.mock('@/data/app-session/auth-client', () => ({
+  sessionHeaders: () => Promise.resolve({ cookie: 'better-auth.session_token=signed-in' }),
+}));
+
 import { useRegionPack } from '../useRegionPack';
 
 let fetchMock: jest.Mock<(...args: unknown[]) => Promise<unknown>>;
@@ -96,6 +101,19 @@ describe('useRegionPack', () => {
     expect(result.current.bytes).toBe(25_245_351);
     expect(result.current.poiCount).toBe(2);
     expect(result.current.localPmtilesUri).toBe('file:///docs/cp-regions/kyoto-v1.pmtiles');
+    const signedIn = expect.objectContaining({
+      headers: expect.objectContaining({ cookie: 'better-auth.session_token=signed-in' }),
+    });
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('/v1/map/regions/kyoto-id'),
+      signedIn,
+    );
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('/v1/places/search?'),
+      signedIn,
+    );
     expect(mockIndexPlacesOffline).toHaveBeenCalledWith({}, 'kyoto-id', [
       expect.objectContaining({
         id: 'nishiki',

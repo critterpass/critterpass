@@ -8,13 +8,11 @@ export interface GuideCopy {
   readonly message: string;
 }
 
-const copy = (id: string, message: string): GuideCopy => ({ id, message });
-
-export const QUEUED_ANSWER_TITLE = copy(
-  'notifications.guide.queued_answer.title',
-  '{guide} answered your question',
-);
-export const QUEUED_ANSWER_BODY = copy(
-  'notifications.guide.queued_answer.body',
-  'The question you asked last night has its answer.',
-);
+export const QUEUED_ANSWER_TITLE = /*i18n*/ {
+  id: 'notifications.guide.queued_answer.title',
+  message: '{guide} answered your question',
+};
+export const QUEUED_ANSWER_BODY = /*i18n*/ {
+  id: 'notifications.guide.queued_answer.body',
+  message: 'The question you asked last night has its answer.',
+};

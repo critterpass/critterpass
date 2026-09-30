@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "394ae0b9-2484-4eb3-9e11-b2ba56c4452a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"BỜ KÈ MR. CRAB\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l11\",\"label\":\"Hau\",\"qty\":15,\"amount\":\"600,000\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"Ốc tỏi\",\"qty\":null,\"amount\":\"360,000\",\"kind\":\"item\"},{\"line_id\":\"l15\",\"label\":\"Mực lá\",\"qty\":null,\"amount\":\"455,000\",\"kind\":\"item\"},{\"line_id\":\"l17\",\"label\":\"Tôm lớn biến\",\"qty\":null,\"amount\":\"650.000\",\"kind\":\"item\"},{\"line_id\":\"l20\",\"label\":\"cơm chiên hải sản\",\"qty\":1,\"amount\":\"120,000\",\"kind\":\"item\"},{\"line_id\":\"l22\",\"label\":\"Chá giò hải san (Vietnamese Springrolls with seafood)\",\"qty\":1,\"amount\":\"120,000\",\"kind\":\"item\"},{\"line_id\":\"l26\",\"label\":\"Cà tim\",\"qty\":1,\"amount\":\"60,000\",\"kind\":\"item\"},{\"line_id\":\"l29\",\"label\":\"cá chim\",\"qty\":1,\"amount\":\"380,000\",\"kind\":\"item\"},{\"line_id\":\"l31\",\"label\":\"Nước ngọt\",\"qty\":9,\"amount\":\"135,000\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l36\",\"amount\":\"2,880,000\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 225,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1152,
+        "output_tokens": 320,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

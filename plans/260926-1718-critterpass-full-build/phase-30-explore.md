@@ -1,7 +1,7 @@
 ---
 phase: 30
 title: Explore: destination guides, place detail, map, swipe
-status: pending
+status: in_progress
 depends_on: [14, 15, 16, 26, 29, 35]
 wave: 17
 features: [F-063, F-064, F-065, F-066, F-067, F-068]
@@ -140,6 +140,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Tables + unique (session, card) match. 2. `swipe_yes_votes` mirror table + trigger; `swipe_votes` excluded from publication. 3. RLS, grants, streams. 4. zod contracts.
 - Tests: `pnpm --filter @cp/db test -- permissions/swipe-votes permissions/sponsored-placements permissions/place-tips`
 - Done when: "no" votes unreadable by other members and absent from rows replicated by `powersync_repl` (test inspects the replicated rows); `place_tips.author_id` unreadable; only admin can write sponsored rows.
+- Status: done — a9e1f980
 
 ### T2 — Destination & place read APIs
 - Goal: server reads for 3d-1/3d-3.
@@ -147,6 +148,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Destination: month stats + per-origin fares (P15) + FX + picks ranking + sponsored slot per `sponsored(u,t)`. 2. Place context: stay distance, crowd best window, crew savers, Q&A snippet, suggested slot via planner. 3. Cache headers per api-contracts §5.5.
 - Tests: `pnpm --filter @cp/api test -- explore`; `pnpm --filter @cp/ai eval -- explore/place-qna`
 - Done when: Pass+ user and boosted trip responses contain no sponsored slot; fares labelled with `seen_at`; no supplier text in any cached payload; crew B never receives crew A's Q&A snippet for the same POI; injection cases in chat ("ignore instructions…") do not alter output format or leak other text.
+- Status: done — 4fe38148
 
 ### T3 — Destination guide screen
 - Goal: 3d-1 + 3b-8 variants.
@@ -175,6 +177,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Commands with idempotency. 2. Saved hub with lists + `SavedPlansSlot` (empty state until P52). 3. Offline pack offer on destination save.
 - Tests: `pnpm --filter @cp/api test -- commands/explore/save`; `maestro test e2e/explore/saved.yaml`
 - Done when: save offline → synced after reconnect; SAVED filter count matches.
+- Status: server done — f5e61374 (save/list commands); screens pending
 
 ### T7 — Swipe server: deck job, votes, arbitrated matches
 - Goal: F-067 backend.
@@ -182,6 +185,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Deck ranking in code + Sonnet notes batch (ids only). 2. Vote tx with unique match insert; `swipe:` events via `rt_outbox`. 3. Match → planner auto-slot → ChangeSet (organiser approval). 4. Push on session start.
 - Tests: `pnpm --filter @cp/api test -- commands/explore/swipe`; `pnpm --filter @cp/worker test -- jobs/ai/swipe-deck`
 - Done when: 20 concurrent yes votes on one card yield exactly one match and one ChangeSet; 2-person crew matches at 2 yeses, solo at 1.
+- Status: done — 8472f0aa
 
 ### T8 — Swipe UI
 - Goal: 3d-2.
@@ -196,6 +200,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Slot rendering in picks, carousel, search with label. 2. Why-sheet + Pass+ link (P46). 3. Impression/click events (no personal targeting). 4. Store declarations checklist added to P54 inputs (**doc delta** note).
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/sponsored`; `maestro test e2e/explore/sponsored.yaml`
 - Done when: free user sees ≤ 1 labelled slot per list; Pass+ and boosted-trip users see none (Maestro with two accounts).
+- Status: server done — f8180380 (slot rules, `record_sponsored_event`); screens pending
 
 ### T10 — Explore entry points + offline pack integration
 - Goal: wire Explore under HOME and TRIPS (C30) and offline readiness.

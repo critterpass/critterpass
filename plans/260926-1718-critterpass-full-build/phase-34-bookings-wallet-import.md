@@ -141,7 +141,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - Steps: 1. Sanitize → JSON-LD/Microdata → Haiku → validate → dedupe → candidate → N-13. 2. Eval set from real confirmation emails the founder forwards (Agoda, Trip.com, Booking.com, Viator, Klook, airlines, fast boats) + injection cases.
 - Tests: `pnpm --filter @cp/worker test -- bookings/mail-parse`; `pnpm --filter @cp/ai eval -- booking-extract`
 - Done when: JSON-LD emails parse without an LLM call; eval ≥ 95 % field accuracy incl. `free_cancel_until`; injection cases never alter other fields or trigger tools; same email forwarded by 3 members → one candidate.
-- Status: done — d654b9bb (harness, injection cases recorded live at 3/3; the ≥ 95 % field-accuracy gate waits for the founder's forwarded corpus)
+- Status: done — d654b9bb, 8d995620 (≥ 95 % field-accuracy gate met live on the founder's 59 redacted Agoda, VietJet and Grab emails: 256/256 fields, 274/274 with the injection cases; none carried JSON-LD or microdata, so every one took the model path)
 
 ### T4 — Paste and scan imports, BCBP, candidate resolution
 - Goal: PASTE and SCAN channels + ADD/IGNORE with split.
@@ -206,7 +206,7 @@ Done when: forwarding a real confirmation to `trip-{slug}@in.critterpass.app` pr
 - [ ] Mailbox scan gated by Pass+ and flags; header-only prefilter asserted.
 - [ ] AeroAPI replay produces correct pushes and exactly one `flight.landed`; boarding estimate labelled.
 - [ ] Wallet usable offline (cards, attachments, barcode) on iOS 26 and Android API 36.
-- [ ] Extraction eval ≥ 95 % field accuracy; injection suite green.
+- [x] Extraction eval ≥ 95 % field accuracy; injection suite green.
 - [ ] Maestro `e2e/bookings/*.yaml` green.
 
 ## Risks & rollback
