@@ -4,7 +4,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useLingui } from '@lingui/react/macro';
-import type { ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 
 import { makeStyles } from '@/ui';
 import { Sheet } from '@/ui/sheet/Sheet';
@@ -39,13 +39,21 @@ function Scene({
 }) {
   const styles = useStyles();
   const { t } = useLingui();
+  const scroll = useRef<{ scrollToEnd: (options?: { animated?: boolean }) => void }>(null);
   return (
     <Sheet
       detents={['large']}
       title={t({ id: 'guide.dietary.title', message: 'Food and access needs' })}
       testID="guide-dietary-sheet"
     >
-      <SheetScrollView contentContainerStyle={styles.body}>
+      <SheetScrollView
+        contentContainerStyle={styles.body}
+        // The consent card and the saved line sit at the foot, where the person just tapped.
+        onContentSizeChange={() => {
+          if (asking || saved) scroll.current?.scrollToEnd({ animated: false });
+        }}
+        {...({ ref: scroll } as object)}
+      >
         <DietaryView
           profile={profile}
           onChange={noop}

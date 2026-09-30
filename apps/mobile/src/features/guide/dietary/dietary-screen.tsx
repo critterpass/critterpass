@@ -6,7 +6,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { makeStyles } from '@/ui';
@@ -36,6 +36,7 @@ export function DietaryScreen({ services }: { readonly services: DietaryServices
   const [draft, setDraft] = useState<DietaryProfile | null>(null);
   const [asking, setAsking] = useState(false);
   const [saved, setSaved] = useState(false);
+  const scroll = useRef<{ scrollToEnd: (options?: { animated?: boolean }) => void }>(null);
 
   useEffect(() => {
     void refreshDietary(db, services, new Date());
@@ -60,7 +61,16 @@ export function DietaryScreen({ services }: { readonly services: DietaryServices
       title={t({ id: 'guide.dietary.title', message: 'Food and access needs' })}
       testID="guide-dietary-sheet"
     >
-      <SheetScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.body}>
+      <SheetScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={styles.body}
+        // The consent card opens under the sharing toggle: bring it into view.
+        onContentSizeChange={() => {
+          if (asking) scroll.current?.scrollToEnd({ animated: true });
+        }}
+        // React 19 passes `ref` as a prop, through to the scroll view.
+        {...({ ref: scroll } as object)}
+      >
         <DietaryView
           profile={profile}
           onChange={edit}
