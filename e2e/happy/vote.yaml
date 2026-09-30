@@ -19,9 +19,10 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - tapOn:
     id: 'board-pitch'
+# The sheet's root id isn't in iOS's accessibility tree; its search field is.
 - extendedWaitUntil:
     visible:
-      id: 'pitch-sheet'
+      id: 'pitch-search'
     timeout: 10000
 - tapOn:
     id: 'pitch-search'
@@ -63,7 +64,7 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             visible:
-              id: 'pitch-sheet'
+              id: 'pitch-search'
           file: ../onboarding/subflows/back.yaml
       - scrollUntilVisible:
           element:
@@ -83,8 +84,9 @@ appId: app.critterpass.dev
     visible:
       id: 'showdown'
     timeout: 15000
-- assertVisible: 'KYOTO'
-- assertVisible: 'LISBON'
+# Each half reads as "Kyoto, 2 votes" on iOS and shows KYOTO on Android.
+- assertVisible: '(?i)kyoto.*'
+- assertVisible: '(?i)lisbon.*'
 - waitForAnimationToEnd
 - tapOn:
     id: 'showdown-half-0'
