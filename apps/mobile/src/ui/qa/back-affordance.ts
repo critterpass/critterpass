@@ -1,4 +1,4 @@
-import { router, usePathname, useSegments } from 'expo-router';
+import { router, useNavigationContainerRef, usePathname, useSegments } from 'expo-router';
 import { useIsRouteFocused } from 'expo-router/build/react-navigation/core/useIsFocused';
 import { useEffect } from 'react';
 
@@ -40,16 +40,45 @@ export function useNoBackByDesign(): void {
   useBackAffordance();
 }
 
+/** The part of a navigation state the tab-root check reads (full or partial state). */
+export interface NavState {
+  readonly type?: string;
+  readonly index?: number;
+  readonly routes: readonly { readonly name: string; readonly state?: NavState }[];
+}
+
+/**
+ * True when the focused screen is a tab's root: it sits directly in the tab navigator, or it is
+ * the first screen of the stack a tab holds. Back from there switches tabs (tab history), so the
+ * tab bar is its way around and the screen draws no back control.
+ */
+export function isTabRoot(state: NavState | undefined): boolean {
+  let parent: NavState | undefined;
+  let node = state;
+  while (node !== undefined) {
+    const route = node.routes[node.index ?? node.routes.length - 1];
+    if (route === undefined) return false;
+    if (route.state === undefined) {
+      if (node.type === 'tab') return true;
+      return parent?.type === 'tab' && route.name === node.routes[0]?.name;
+    }
+    parent = node;
+    node = route.state;
+  }
+  return false;
+}
+
 /**
  * True when a settled screen is missing its way back: navigation can go back, the screen is one a
- * user reaches (not a developer tool) and it shows no back or close control.
+ * user reaches (not a developer tool or a tab root) and it shows no back or close control.
  */
 export function missingBackAffordance(input: {
   readonly canGoBack: boolean;
   readonly developerTool: boolean;
+  readonly tabRoot: boolean;
   readonly affordances: number;
 }): boolean {
-  return input.canGoBack && !input.developerTool && input.affordances === 0;
+  return input.canGoBack && !input.developerTool && !input.tabRoot && input.affordances === 0;
 }
 
 /**
@@ -61,16 +90,18 @@ export function useNoBackAffordanceGuard(): void {
   const pathname = usePathname();
   const segments = useSegments();
   const developerTool = segments[0] === '(dev)';
+  const navigation = useNavigationContainerRef();
   useEffect(() => {
     if (!UI_QA_ENABLED) return undefined;
     const timer = setTimeout(() => {
       const missing = missingBackAffordance({
         canGoBack: router.canGoBack(),
         developerTool,
+        tabRoot: isTabRoot(navigation.isReady() ? navigation.getRootState() : undefined),
         affordances: focusedBackAffordances(),
       });
       if (missing) reportUiQa('NO_BACK_AFFORDANCE', pathname);
     }, BACK_SETTLE_MS);
     return () => clearTimeout(timer);
-  }, [pathname, developerTool]);
+  }, [pathname, developerTool, navigation]);
 }
