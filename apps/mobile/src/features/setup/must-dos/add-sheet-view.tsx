@@ -18,6 +18,7 @@ import { Row } from '@/ui/layout/Row';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { Avatar } from '@/ui/people/Avatar';
 import { PressScale } from '@/ui/press/PressScale';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -113,6 +114,8 @@ export function AddSheetView({
   onDismiss,
 }: AddSheetViewProps) {
   const styles = useStyles();
+  // 3c-10 draws no ✕: the grabber (and a swipe down) is the way back.
+  useNoBackByDesign();
   const theme = useTheme();
   const guide = GUIDE_STICKERS[trip.guide];
   const place = trip.destinationName;
