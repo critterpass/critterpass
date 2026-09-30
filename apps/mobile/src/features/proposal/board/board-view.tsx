@@ -182,7 +182,11 @@ export function BoardView(props: BoardViewProps) {
               label={t({ id: 'proposal.board.slide', message: 'Slide to board' })}
               actionLabel={t({ id: 'proposal.board.action', message: 'Board' })}
               onConfirm={props.onBoard}
-              knob={<Sticker kind={info.kind} name={info.name} size={44} />}
+              knob={
+                <View testID="board-knob">
+                  <Sticker kind={info.kind} name={info.name} size={44} />
+                </View>
+              }
               testID="board-slide"
             />
             <View style={styles.links}>

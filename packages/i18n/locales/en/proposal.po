@@ -264,14 +264,14 @@ msgstr "Every seat is taken."
 msgid "proposal.sent.done"
 msgstr "Every version is written and sent."
 
-#. placeholder {0}: instantDate(locale, deadline)
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.tracker.freeCancel"
-msgstr "Free cancel till {0}"
-
 #. placeholder {0}: instantDate(locale, proposal.freeCancelUntil)
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.freeCancel"
+msgstr "Free cancel till {0}"
+
+#. placeholder {0}: instantDate(locale, deadline)
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.tracker.freeCancel"
 msgstr "Free cancel till {0}"
 
 #. placeholder {0}: instantDate(locale, props.freeCancelUntil)
@@ -381,10 +381,6 @@ msgstr "Loading the proposal"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.cta"
-msgstr "Lock it in"
-
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.confirm"
 msgstr "Lock it in"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -513,13 +509,13 @@ msgid "proposal.replyBy.title"
 msgstr "Reply by"
 
 #. placeholder {0}: instantDate(locale, deadline)
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.tracker.replyBy"
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+msgid "proposal.version.replyBy"
 msgstr "Reply by {0}"
 
 #. placeholder {0}: instantDate(locale, deadline)
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
-msgid "proposal.version.replyBy"
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.tracker.replyBy"
 msgstr "Reply by {0}"
 
 #: ../../apps/mobile/src/features/proposal/tracker/suggestions.tsx
@@ -656,17 +652,21 @@ msgstr "Waitlist"
 msgid "proposal.objection.title"
 msgstr "What’s holding you back?"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
-msgid "proposal.tracker.title"
-msgstr "Who’s in?"
-
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.track"
+msgstr "Who’s in?"
+
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
+msgid "proposal.tracker.title"
 msgstr "Who’s in?"
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.tracker"
 msgstr "Who’s in?"
+
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.lock.confirm"
+msgstr "Lock it in"
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
 msgid "proposal.why.mustDo"

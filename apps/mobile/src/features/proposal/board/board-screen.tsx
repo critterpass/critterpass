@@ -13,13 +13,13 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 
 import { setRsvpCommand, setRsvpQueuedCommand } from '../data/commands';
 import { dayRange, wholeMoney } from '../data/format';
 import { useFindProposalTrip, useProposal, useVersions } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
+import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import { proposalRoutes } from '../routes';
 import { boardOutcome, placeCode, type BoardOutcome } from './model';
@@ -132,7 +132,7 @@ export function BoardScreen(props: {
         />
       ) : null}
       {confirmOut ? (
-        <ConfirmSheet
+        <ProposalConfirm
           title={t({ id: 'proposal.out.title', message: 'Tell the crew you can’t make it?' })}
           consequences={[
             t({ id: 'proposal.out.seat', message: 'Your seat goes to whoever is waiting.' }),

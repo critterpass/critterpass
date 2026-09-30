@@ -12,12 +12,12 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 
 import { lockProposalCommand } from '../data/commands';
 import { instantDate, instantDateTime } from '../data/format';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
 import { useProposalTrip, type CrewPerson } from '../data/trip';
+import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import { proposalRoutes } from '../routes';
 import { lockState, publicStatus, tally } from './model';
@@ -140,7 +140,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
         onLock={() => setAsking(true)}
       />
       {asking && state.kind === 'ready' ? (
-        <ConfirmSheet
+        <ProposalConfirm
           title={t({ id: 'proposal.lock.title', message: 'Lock the crew in?' })}
           consequences={[
             t({
@@ -164,7 +164,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
                 ]
               : []),
           ]}
-          confirmLabel={t({ id: 'proposal.lock.confirm', message: 'Lock it in' })}
+          confirmLabel={t({ id: 'proposal.lock.confirm', message: 'Yes, lock it in' })}
           mode="button"
           onConfirm={() => void onLock()}
           onCancel={() => setAsking(false)}
