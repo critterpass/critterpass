@@ -32,6 +32,7 @@ describe('parseShardArgs', () => {
       device: 'UDID',
       out: '/repo/out',
       env: ['JS_COMMIT'],
+      video: false,
       flows: ['/repo/e2e/a.yaml', '/repo/e2e/b.yaml', '/repo/e2e/c.yaml'],
     });
   });

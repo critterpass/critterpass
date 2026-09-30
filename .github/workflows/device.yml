@@ -9,13 +9,19 @@
 # The `sweep` preset (and the nightly schedule on main) runs e2e/screens/sweep: every user-facing
 # screen and sheet in English and Vietnamese, in compare mode, posted to a pull request or, without
 # one, to the "Nightly UI sweep" issue.
+#
+# The `happy` preset (and a daily schedule on main, Android) is the release gate: e2e/happy runs every
+# user flow end to end against staging with fresh accounts, records each flow on video and posts a
+# report (pass or fail, time, a GIF preview, the MP4, the failing step and its screen) to the
+# "Release gate" issue.
 name: device
 # Tells queued runs apart: mode, branch, pull request, platform and flows (GitHub cuts a long title).
 run-name: >-
   ${{ github.event_name == 'pull_request'
   && format('device flows · {0} · #{1} · android', github.head_ref, github.event.pull_request.number)
+  || github.event_name == 'schedule' && github.event.schedule == '0 22 * * *' && 'device release gate · main · android'
   || github.event_name == 'schedule' && 'device nightly sweep · main · android, ios'
-  || format('device {0} · {1}{2} · {3}{4}', inputs.preset == 'sweep' && 'sweep' || inputs.mode,
+  || format('device {0} · {1}{2} · {3}{4}', inputs.preset != 'none' && inputs.preset || inputs.mode,
   github.ref_name, inputs.pr && format(' · #{0}', inputs.pr) || '', inputs.platform,
   inputs.flows && format(' · {0}', inputs.flows) || '') }}
 
@@ -54,13 +60,16 @@ on:
         options: [light, dark]
         default: light
       preset:
-        description: sweep runs every screen (e2e/screens/sweep) in compare mode; pr empty posts to the nightly issue
+        description: sweep runs every screen (e2e/screens/sweep) in compare mode, pr empty posts to the nightly issue; happy is the release gate (e2e/happy, videos, the "Release gate" issue)
         type: choice
-        options: [none, sweep]
+        options: [none, sweep, happy]
         default: none
   schedule:
     # Nightly on main: the full UI sweep (02:30 in Vietnam).
     - cron: '30 19 * * *'
+    # Daily on main: the release gate on Android (05:00 in Vietnam). The Settings step and run-name
+    # tell the two schedules apart by this exact string.
+    - cron: '0 22 * * *'
   pull_request:
     types: [labeled, opened, synchronize, reopened]
 
@@ -100,6 +109,7 @@ jobs:
       pr: ${{ steps.settings.outputs.pr }}
       appearance: ${{ steps.settings.outputs.appearance }}
       preset: ${{ steps.settings.outputs.preset }}
+      video: ${{ steps.settings.outputs.video }}
       js_commit: ${{ steps.settings.outputs.js_commit }}
       ios_url: ${{ steps.ios_build.outputs.url }}
       android_url: ${{ steps.android_build.outputs.url }}
@@ -116,6 +126,7 @@ jobs:
         id: settings
         env:
           EVENT: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
           IN_PLATFORM: ${{ inputs.platform }}
           IN_FLOWS: ${{ inputs.flows }}
           IN_MODE: ${{ inputs.mode }}
@@ -132,6 +143,9 @@ jobs:
           if [ "$EVENT" = pull_request ]; then
             # A labelled pull request runs the full suite on Android, pass/fail only.
             platform=android flows='' mode=flows pr=$PR_NUMBER build_url='' shards=3 appearance=light preset=none
+          elif [ "$EVENT" = schedule ] && [ "$SCHEDULE" = '0 22 * * *' ]; then
+            # Daily release gate: every happy-path flow on Android.
+            platform=android flows='' mode=flows pr='' build_url='' shards=3 appearance=light preset=happy
           elif [ "$EVENT" = schedule ]; then
             # Nightly: the whole sweep on Android, and its English half on one iOS shard for what only
             # iOS shows (safe areas, the keyboard, modal presentation).
@@ -148,6 +162,16 @@ jobs:
             # Without a pull request the images go to the nightly issue.
             [ -z "$pr" ] && pr=nightly
           fi
+          video=false
+          if [ "$preset" = happy ]; then
+            # Flows are independent and each onboards its own account: one per Android shard (a
+            # shard boots in about three minutes, a flow takes longer), iOS keeps the shards input.
+            [ -z "$flows" ] && flows='e2e/happy/*.yaml'
+            mode=flows video=true
+            ios_shards=$shards shards=10
+            # Without a pull request the report goes to the "Release gate" issue.
+            [ -z "$pr" ] && pr=nightly
+          fi
           if [ "$mode" != flows ] && ! [[ "$pr" =~ ^([0-9]+|nightly)$ ]]; then
             echo "::error::mode $mode publishes to a pull request: set pr"; exit 1
           fi
@@ -159,7 +183,7 @@ jobs:
             echo "android=$([ "$platform" != ios ] && echo true || echo false)"
             echo "mode=$mode"; echo "pr=$pr"; echo "appearance=$appearance"; echo "shards=$shards"
             echo "ios_shards=$ios_shards"
-            echo "preset=$preset"
+            echo "preset=$preset"; echo "video=$video"
             echo "js_commit=$(git rev-parse --short=12 HEAD)"
             echo "flows<<EOF"; echo "$flows"; echo "EOF"
             echo "ios_flows<<EOF"; echo "$ios_flows"; echo "EOF"
@@ -261,6 +285,7 @@ jobs:
           CREW_ID: ${{ vars.E2E_CREW_ID }}
           CREW_NAME: ${{ vars.E2E_CREW_NAME }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
+          RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
         run: tools/scripts/ci-device/ios-device.sh "$BUILD_URL" "$RUNNER_TEMP/bundles/ios" "$RUNNER_TEMP/out" "$FLOWS"
       - uses: actions/upload-artifact@v7
         if: always()
@@ -313,6 +338,7 @@ jobs:
           CREW_ID: ${{ vars.E2E_CREW_ID }}
           CREW_NAME: ${{ vars.E2E_CREW_NAME }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
+          RECORD_VIDEO: ${{ needs.prepare.outputs.video }}
         with:
           api-level: 35
           target: google_apis
@@ -334,9 +360,11 @@ jobs:
           retention-days: 14
 
   publish:
-    name: publish images to the PR
+    name: publish images and reports
     needs: [prepare, ios, android]
-    if: always() && needs.prepare.result == 'success' && needs.prepare.outputs.mode != 'flows'
+    if: >-
+      always() && needs.prepare.result == 'success' &&
+      (needs.prepare.outputs.mode != 'flows' || needs.prepare.outputs.preset == 'happy')
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -364,6 +392,7 @@ jobs:
             mv "$RUNNER_TEMP/one" "$shards/device-$platform-shard-1"
           fi
       - name: Collect the screenshots
+        if: needs.prepare.outputs.preset != 'happy'
         env:
           MODE: ${{ needs.prepare.outputs.mode }}
         run: |
@@ -389,6 +418,7 @@ jobs:
             echo "::notice title=No screenshots::No shard captured a screenshot; the comment carries the check summary only."
           fi
       - name: Summarise the checks
+        if: needs.prepare.outputs.preset != 'happy'
         env:
           PRESET: ${{ needs.prepare.outputs.preset }}
         run: |
@@ -402,18 +432,24 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ needs.prepare.outputs.pr }}
+          PRESET: ${{ needs.prepare.outputs.preset }}
         run: |
           if [ "$PR" != nightly ]; then echo "number=$PR" >> "$GITHUB_OUTPUT"; exit 0; fi
           title='Nightly UI sweep'
+          about="Every night the device workflow sweeps every screen of main (e2e/screens/sweep) and comments here with the design | device sheets, the screen checks and the sweep coverage."
+          if [ "$PRESET" = happy ]; then
+            title='Release gate'
+            about="The device workflow's happy preset runs every user flow (e2e/happy) end to end against staging, daily on main and before each TestFlight build, and comments here with each flow's result, time, video and failing step."
+          fi
           number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "in:title \"$title\"" \
             --json number,title --jq "map(select(.title == \"$title\")) | .[0].number // empty")
           if [ -z "$number" ]; then
-            url=$(gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body \
-              "Every night the device workflow sweeps every screen of main (e2e/screens/sweep) and comments here with the design | device sheets, the screen checks and the sweep coverage.")
+            url=$(gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body "$about")
             number=${url##*/}
           fi
           echo "number=$number" >> "$GITHUB_OUTPUT"
       - name: Publish
+        if: needs.prepare.outputs.preset != 'happy'
         env:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ steps.target.outputs.number }}
@@ -425,3 +461,27 @@ jobs:
           heading="Device screenshots"
           [ "$MODE" = compare ] && [ "${SHEETLESS:-}" != true ] && heading="Design | device sheets"
           tools/scripts/ci-device/publish-screenshots.sh "$PR" "$RUNNER_TEMP/images" "$heading ($JS_COMMIT)"
+      - name: Build the release gate report
+        if: needs.prepare.outputs.preset == 'happy'
+        env:
+          ISSUE: ${{ steps.target.outputs.number }}
+          JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null; }
+          # Where publish-screenshots.sh puts this run's files on the screenshots branch.
+          dir="screenshots/$ISSUE/run-$GITHUB_RUN_ID"
+          pnpm exec tsx tools/scripts/ci-device/release-gate.ts "$RUNNER_TEMP/shards" \
+            --media "$RUNNER_TEMP/gate" --out "$RUNNER_TEMP/gate.md" --commit "$JS_COMMIT" --run-url "$RUN_URL" \
+            --raw-url "https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$dir" \
+            --blob-url "https://github.com/$GITHUB_REPOSITORY/blob/$dir"
+          cat "$RUNNER_TEMP/gate.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish the release gate
+        if: needs.prepare.outputs.preset == 'happy'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ steps.target.outputs.number }}
+          BODY_FILE: ${{ runner.temp }}/gate.md
+          # About a month of daily runs; older videos leave the branch's tree.
+          PRUNE_KEEP: '30'
+        run: tools/scripts/ci-device/publish-screenshots.sh "$PR" "$RUNNER_TEMP/gate" "Release gate"

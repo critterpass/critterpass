@@ -8,7 +8,10 @@
 # per run so raw.githubusercontent.com never serves a cached older image), then posts one PR comment
 # embedding them. Needs GH_TOKEN (contents: write, issues: write, pull-requests: write),
 # GITHUB_REPOSITORY and GITHUB_RUN_ID; set RUN_URL to link the run and SUMMARY_FILE to put a
-# markdown summary (the run's check findings) above the images.
+# markdown summary (the run's check findings) above the images. The release gate publishes videos
+# too (GIF and MP4 files go up with the PNGs), sets BODY_FILE to post its own report as the comment
+# instead of the image list, and PRUNE_KEEP to keep only that many of the newest runs under <pr>/
+# (the branch's tree, and so every clone of it, would otherwise grow with each daily video run).
 set -euo pipefail
 
 pr=$1
@@ -34,11 +37,17 @@ git config user.name 'github-actions[bot]'
 git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
 mkdir -p "$run_dir"
-(cd "$images" && find . -name '*.png' -print0 | xargs -0 -I{} rsync -R {} "$work/branch/$run_dir/")
-count=$(find "$run_dir" -name '*.png' | wc -l | tr -d ' ')
+(cd "$images" && find . \( -name '*.png' -o -name '*.gif' -o -name '*.mp4' \) -print0 |
+  xargs -0 -I{} rsync -R {} "$work/branch/$run_dir/")
+count=$(find "$run_dir" \( -name '*.png' -o -name '*.gif' -o -name '*.mp4' \) | wc -l | tr -d ' ')
+if [ -n "${PRUNE_KEEP:-}" ]; then
+  # Run ids grow, so the oldest runs sort first.
+  find "$pr" -mindepth 1 -maxdepth 1 -type d -name 'run-*' | sort -t- -k2 -n |
+    head -n "-$PRUNE_KEEP" | xargs -r git rm -rq --
+fi
 summary=${SUMMARY_FILE:-}
 [ -n "$summary" ] && [ ! -s "$summary" ] && summary=''
-if [ "$count" = 0 ] && [ -z "$summary" ]; then
+if [ "$count" = 0 ] && [ -z "$summary" ] && [ -z "${BODY_FILE:-}" ]; then
   echo "No images to publish"
   exit 0
 fi
@@ -53,6 +62,11 @@ if [ "$count" != 0 ]; then
 fi
 
 body="$work/comment.md"
+if [ -n "${BODY_FILE:-}" ]; then
+  gh issue comment "$pr" --repo "$repo" --body-file "$BODY_FILE"
+  echo "Published $count file(s) and the report to #$pr"
+  exit 0
+fi
 {
   echo "## $heading"
   echo
