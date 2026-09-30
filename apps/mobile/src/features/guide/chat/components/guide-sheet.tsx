@@ -54,8 +54,8 @@ interface NameRow {
 
 const NAMES_SQL = `SELECT cm.user_id, u.display_name,
     (SELECT count(*) FROM crew_members o WHERE o.crew_id = cm.crew_id AND o.created_at < cm.created_at) AS join_index,
-    cm.user_id = ?2 AS me
-  FROM crew_members cm LEFT JOIN users u ON u.id = cm.user_id WHERE cm.crew_id = ?1`;
+    cm.user_id = ? AS me
+  FROM crew_members cm LEFT JOIN users u ON u.id = cm.user_id WHERE cm.crew_id = ?`;
 
 const FLAGS_SQL = `SELECT key, value FROM client_config WHERE key LIKE 'guide.quick_actions.%'`;
 
@@ -126,7 +126,7 @@ export function GuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }
   const quickActions = useQuickActions(trip?.tripId ?? null);
   const nameRows = useLiveQuery<NameRow>(
     trip === null ? null : NAMES_SQL,
-    [trip?.crewId ?? null, context.uid],
+    [context.uid, trip?.crewId ?? null],
     ['crew_members', 'users'],
   );
   const names = useMemo(() => {

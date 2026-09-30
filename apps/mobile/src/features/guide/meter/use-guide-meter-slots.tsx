@@ -25,7 +25,7 @@ import { useGuideMeter, useMinute } from './use-guide-meter';
 const HOLDER_SQL = `SELECT u.display_name,
     (SELECT count(*) FROM crew_members o WHERE o.crew_id = cm.crew_id AND o.created_at < cm.created_at) AS join_index
   FROM crew_members cm JOIN users u ON u.id = cm.user_id
-  WHERE cm.crew_id = ?1 AND cm.user_id = ?2`;
+  WHERE cm.crew_id = ? AND cm.user_id = ?`;
 
 const DEST_SQL = `SELECT d.name FROM trips t JOIN destinations d ON d.id = t.destination_id WHERE t.id = ?`;
 

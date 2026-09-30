@@ -23,7 +23,7 @@ interface Row {
 const SQL = `WITH me AS (SELECT value AS uid FROM local_state WHERE id = '${OWNER_UID_KEY}')
 SELECT
   (SELECT ue.guide_unlimited_global FROM user_entitlements ue, me WHERE ue.user_id = me.uid) AS unlimited,
-  (SELECT count(*) FROM trip_boosts b WHERE b.trip_id = ?1 AND b.status = 'active') AS boosted,
+  (SELECT count(*) FROM trip_boosts b WHERE b.trip_id = ? AND b.status = 'active') AS boosted,
   c.count, c.limit_at_time, c.reset_at
 FROM (SELECT 1) one
 LEFT JOIN (

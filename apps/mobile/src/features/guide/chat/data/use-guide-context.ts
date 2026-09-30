@@ -43,7 +43,7 @@ interface Row {
 const TABLES = ['trips', 'destinations', 'guides', 'crew_members', 'local_state'];
 
 const RANKED = `SELECT t.* FROM trips t
-  WHERE t.status NOT IN ('archived', 'cancelled') AND (?1 IS NULL OR t.id = ?1)
+  WHERE t.status NOT IN ('archived', 'cancelled') AND (? IS NULL OR t.id = ?)
   ORDER BY
     CASE
       WHEN t.status = 'in_trip' OR (t.start_date <= date('now') AND t.end_date >= date('now')) THEN 0
@@ -67,7 +67,7 @@ const SQL = `SELECT (SELECT value FROM local_state WHERE id = '${OWNER_UID_KEY}'
 export const HOME_GUIDE = { slug: 'tokek', name: 'Tokek' } as const;
 
 export function useGuideContext(tripId: string | null): GuideContext {
-  const rows = useLiveQuery<Row>(SQL, [tripId], TABLES);
+  const rows = useLiveQuery<Row>(SQL, [tripId, tripId], TABLES);
   const row = rows?.[0];
   if (row === undefined) {
     return {

@@ -59,10 +59,10 @@ const BEFORE_SQL = `SELECT pi.stable_id AS id, coalesce(p.name, b.title, pi.note
   JOIN trips t ON t.id = pi.trip_id AND t.current_version_id = pi.version_id
   LEFT JOIN pois p ON p.id = pi.poi_id
   LEFT JOIN bookings b ON b.id = pi.booking_id
-  WHERE pi.trip_id = ?1 AND pi.stable_id IN (SELECT value FROM json_each(?2))`;
+  WHERE pi.trip_id = ? AND pi.stable_id IN (SELECT value FROM json_each(?))`;
 
 const POI_SQL = `SELECT id, name AS label, NULL AS starts_at FROM pois
-  WHERE id IN (SELECT value FROM json_each(?1))`;
+  WHERE id IN (SELECT value FROM json_each(?))`;
 
 export function parseOps(ops: string | null): RawOp[] {
   if (ops === null) return [];

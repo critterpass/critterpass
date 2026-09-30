@@ -72,7 +72,7 @@ export function toSavedMessage(row: MessageRow): SavedGuideMessage {
 }
 
 const THREAD_SQL = `SELECT id FROM guide_threads
-  WHERE mode = ?1 AND trip_id IS ?2 AND (?1 = 'group' OR user_id = ?3)
+  WHERE mode = ? AND trip_id IS ? AND (? = 'group' OR user_id = ?)
   ORDER BY created_at LIMIT 1`;
 
 const MESSAGES_SQL = `SELECT id, role, author_id, content, cards, sources, rating, created_at
@@ -93,7 +93,7 @@ export function useGuideThread(
 ): GuideThreadView {
   const threads = useLiveQuery<ThreadRow>(
     uid === null ? null : THREAD_SQL,
-    [mode, tripId, uid],
+    [mode, tripId, mode, uid],
     ['guide_threads'],
   );
   // A new id per mode and trip, kept while the sheet is open.
