@@ -140,6 +140,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `plan.stale_sweep` (doc delta) | a new group plan version (`apply_plan_ops`, an applied change set) | `services/worker/src/jobs/plan/stale-sweep.ts`: every pending group change set on an older base is rebased onto the current version when nothing it touches moved (`changeset.rebased`), else marked `stale` with its vote closed as no (`change_set.stale`, `changeset.stale`) | 3 exp. | `trip_id:version_id` | 29 |
 | `poi.embed` (doc delta) | POI created/updated | `services/worker/src/places/embed.ts`: embeds searchable text, upserts `poi_embeddings`; flag-gated no-op until an embedding vendor is chosen | 3 | poi id | 14 |
 | `poi.live_check` (doc delta) | place detail open, `last_live_check_at` > 24 h | `services/worker/src/places/live-check.ts`: Foursquare open/closed check, upserts `poi_live_checks`; degrades to `gated` (no retry backoff) on the account's own credits-exhausted response | 3 | poi id | 14 |
+| `la.orchestrate` | `leave_by.*`, `readiness.changed`, `meetup.*`, `eta.updated`, `flight.event`, `poll.*`, `boost.*` (event hook) and the lifecycle sweep | one object's Live Activities: kill switch `la.<kind>.enabled` (off → end what shows once, never start or update) → loader → start (push-to-start, first start creates the object's broadcast channel) / one broadcast or per-token update / end per device; two per phone by rank; dismissal final; unchanged frame sends nothing; LA off or no start token → counted fallback | 3 × 5 s | exclusive per `(kind, ref_id)` | 48 |
 
 ### 2.3 Cron and per-object schedules
 
@@ -198,6 +199,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `powersync.compact` | `0 19 * * *` UTC | bucket compact | 11 |
 | `ops.backup` | `0 20 * * *` UTC | off-provider `pg_dump` → R2 (monthly restore drill is ops runbook) | 11 |
 | `poi.ingest` (doc delta) | monthly per destination | `services/worker/src/places/ingest.ts` via `tools/maps/ingest-cli.ts` (no pg-boss schedule wired yet — run manually/via Railway cron until this queue exists): reads Overture (+ FSQ OS Places where a source is configured) for the destination bbox, conflates, upserts `pois`, writes an attribution NOTICE; idempotent (rerun creates no new ids) | 14 |
+| `la.lifecycle` | `* * * * *` (UTC) | due starts, time-driven frames and planned ends for live objects; 8 h restart (same content version, never for a switched-off kind); stale marking; ended rows purged after 7 d | 48 |
+| `la.channels` | `17 * * * *` (UTC) | Channel Management API delete of broadcast channels past `delete_after` (`broadcast_channels.gc`) | 48 |
 
 ## 3. Push contracts (P11, P48, P49)
 
