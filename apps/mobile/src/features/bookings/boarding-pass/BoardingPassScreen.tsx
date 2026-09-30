@@ -1,6 +1,7 @@
 /**
  * The owner's pass for one booking, from the local copy the offline bundle left in
- * `local_private` (never from the network), so it opens at the gate with no signal.
+ * `local_private` (never from the network), so it opens at the gate with no signal; the screen
+ * goes to full brightness while the code shows.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -12,6 +13,7 @@ import { useWalletContext } from '../data/use-wallet-context';
 import { currentLeg } from '../flight-card/flight-model';
 import { dayDate, zoneOf } from '../format';
 import { BoardingPassView } from './BoardingPassView';
+import { useFullBrightness } from './use-full-brightness';
 
 export function BoardingPassScreen({ bookingId }: { readonly bookingId: string }) {
   const context = useWalletContext();
@@ -43,11 +45,13 @@ export function BoardingPassScreen({ bookingId }: { readonly bookingId: string }
       ? []
       : [{ key: field.key, label: field.label, value: field.value }],
   );
+  const payload = entry?.barcode?.payload ?? null;
+  useFullBrightness(payload !== null);
   return (
     <BoardingPassView
       title={title}
       subtitle={dayDate(locale, leg?.sched_dep_at ?? booking?.startsAt, tz)}
-      payload={entry?.barcode?.payload ?? null}
+      payload={payload}
       fields={fields}
       onClose={() => router.back()}
     />
