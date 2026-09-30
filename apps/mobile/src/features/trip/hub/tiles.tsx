@@ -28,8 +28,9 @@ export interface HubTileData {
 }
 
 const useStyles = makeStyles((th) => ({
-  tile: { minHeight: th.space['32'] * 3 + th.space['16'] },
-  compact: { minHeight: th.space['32'] * 3 },
+  // A row's tiles share its height, whichever caption wraps furthest.
+  tile: { flexGrow: 1, minHeight: th.space['32'] * 3 + th.space['16'] },
+  compact: { flexGrow: 1, minHeight: th.space['32'] * 3 },
   cell: { flex: 1 },
 }));
 
@@ -93,7 +94,7 @@ export function HubTiles({
   return (
     <Stack gap="12" testID="trip-hub-tiles">
       {rows.map((row) => (
-        <Row key={row.map((tile) => tile.key).join('|')} gap="12">
+        <Row key={row.map((tile) => tile.key).join('|')} gap="12" align="stretch">
           {row.map((tile) => (
             <View key={tile.key} style={styles.cell}>
               {tile.node}
