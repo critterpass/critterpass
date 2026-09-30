@@ -5,6 +5,7 @@ export * from './schemas/forms';
 export * from './schemas/help';
 export * from './schemas/insurance';
 export * from './schemas/ride-tariffs';
+export * from './schemas/media';
 export * from './schemas/legendary-windows';
 export * from './schemas/personas';
 export * from './schemas/phrases';

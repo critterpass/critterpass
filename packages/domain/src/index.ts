@@ -13,6 +13,7 @@ export {
 } from './channel-names';
 export * from './realtime';
 export * from './travel-data';
+export * from './media';
 export * from './entitlements/capability-keys';
 export * from './entitlements/errors';
 export {

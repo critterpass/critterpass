@@ -15,6 +15,7 @@ export {
   poiHoursProposals,
   spawnRules,
 } from './content';
+export { mediaAssets, type MediaVariantRow } from './media-assets';
 export { crewChatCounters, messageReactions, messages } from './chat';
 export { appOpenHours, homeTips, nudges, reminders, savedItems } from './home';
 export {
