@@ -42,7 +42,7 @@ COPY --from=build --chown=node:node /out/package.json ./package.json
 COPY --from=build --chown=node:node /out/node_modules ./node_modules
 COPY --from=build --chown=node:node /repo/services/worker/dist ./dist
 # Fonts the share cards (proposal poster and postcard) are drawn with.
-COPY --from=build --chown=node:node /repo/apps/mobile/assets/fonts/Archivo-W66-800.ttf /repo/apps/mobile/assets/fonts/Geist-400.ttf /repo/apps/mobile/assets/fonts/GeistMono-400.ttf ./fonts/
+COPY --from=build --chown=node:node /repo/apps/mobile/assets/fonts/Archivo-W66-800.ttf /repo/apps/mobile/assets/fonts/Geist-400.ttf /repo/apps/mobile/assets/fonts/GeistMono-400.ttf /repo/apps/mobile/assets/fonts/Borel-400.ttf ./fonts/
 ENV SHARE_FONTS_DIR=/app/fonts
 USER node
 EXPOSE 8788

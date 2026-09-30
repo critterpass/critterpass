@@ -18,6 +18,7 @@ const FONTS = [
   ['Archivo', 'Archivo-W66-800.ttf'],
   ['Geist', 'Geist-400.ttf'],
   ['GeistMono', 'GeistMono-400.ttf'],
+  ['Borel', 'Borel-400.ttf'],
 ] as const;
 
 const REPO_FONTS = fileURLToPath(

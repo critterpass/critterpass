@@ -18,5 +18,6 @@ apps/mobile
 !apps/mobile/assets/fonts/Archivo-W66-800.ttf
 !apps/mobile/assets/fonts/Geist-400.ttf
 !apps/mobile/assets/fonts/GeistMono-400.ttf
+!apps/mobile/assets/fonts/Borel-400.ttf
 e2e
 **/*.md
