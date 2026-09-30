@@ -8,6 +8,7 @@ import { DRAFT_EVENT_TYPES } from '../../src/itinerary/events';
 import { BOOKING_EVENT_TYPES } from '../../src/bookings/events';
 import { BILLING_EVENT_TYPES } from '../../src/billing/events';
 import { PLAN_EVENT_TYPES } from '../../src/plan/events';
+import { GUIDE_EVENT_TYPES } from '../../src/guide/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -110,6 +111,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   // Change review shows on its own card and poll; comments live in their threads. A direct plan
   // edit reaches the ticker as `plan.ops_applied`.
   ...PLAN_EVENT_TYPES.filter((type) => type !== 'plan.ops_applied'),
+  // The guide speaks in its own threads and in crew chat, never through the ticker.
+  ...GUIDE_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

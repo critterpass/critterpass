@@ -54,6 +54,8 @@ export const SYNCED_TABLE_COLUMNS = {
   critters:
     'key set_id no:integer city species art_params canonical_seed:integer note release_id created_at updated_at',
   crowd_forecasts: 'poi_id dow:integer hourly source fetched_at created_at updated_at',
+  custom_phrase_cards:
+    'user_id trip_id guide_id purpose language register address text romanisation gloss audio_key audio_status created_at updated_at',
   date_window_options:
     'trip_id position:integer kind start_date end_date free_count:integer member_count:integer missing_member_ids missed_must_do_ids ask_user_id ask_status price_delta_minor:integer currency season_score:integer reason is_pick:integer computed_at created_at updated_at',
   destination_cost_indices:
@@ -78,9 +80,12 @@ export const SYNCED_TABLE_COLUMNS = {
   fx_snapshots: 'base quote rate as_of source created_at',
   guide_actions:
     'trip_id change_set_id kind target_provider_id channel status reversible:integer compensates_id cost_delta_minor:integer audit inverse undo_until disruption_id created_at updated_at',
+  guide_messages:
+    'thread_id trip_id role author_id content attachments cards sources voice:integer meter_counted:integer status rating trace_id created_at',
   guide_offer_claims: 'offer_id trip_id user_id created_at',
   guide_offers:
     'trip_id message_id kind slots_total:integer slots_taken:integer expires_at target_ref status created_at updated_at',
+  guide_threads: 'user_id trip_id crew_id guide_id mode last_message_at created_at updated_at',
   guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
   hazard_alerts:
     'destination_id kind subject level:integer level_label headline source source_url issued_at expires_at fetched_at created_at updated_at',
@@ -130,6 +135,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id change_set_id base_version_id ops status created_at updated_at',
   phrase_cards:
     'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
+  phrase_progress:
+    'user_id phrase_id attempts:integer score:integer practised_at created_at updated_at',
   ping_ledger:
     'user_id local_date sent_budgeted:integer sent_always:integer sent_local:integer paywall_sent:integer queued:integer created_at updated_at',
   pitches:
@@ -146,6 +153,8 @@ export const SYNCED_TABLE_COLUMNS = {
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
+  queued_guide_questions:
+    'user_id thread_id trip_id text tz queued_for queued_at answer_after status answer_message_id answered_at updated_at',
   receipts:
     'user_id trip_id crew_id expense_id media_key status quality_issue ocr_source ocr_lines parsed suggestions failure_reason parsed_at created_at updated_at',
   redraft_reservations:
