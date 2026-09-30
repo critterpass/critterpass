@@ -104,12 +104,24 @@ msgstr ""
 msgid "bookings.form.addTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.add"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.flightProblem"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.forwardCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.phone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.phoneField"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
@@ -151,12 +163,17 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.call"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
@@ -191,6 +208,10 @@ msgstr ""
 msgid "bookings.add.copy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.docFailed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.shareFlight"
 msgstr ""
@@ -213,6 +234,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.delete.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.delete"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
@@ -296,6 +321,10 @@ msgstr ""
 msgid "bookings.detail.landed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.provider"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.delete.wallets"
 msgstr ""
@@ -369,6 +398,10 @@ msgstr ""
 msgid "bookings.flight.onTime"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.privacy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.other"
 msgstr ""
@@ -383,6 +416,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.paste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.policyNo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.policyField"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.docAttached"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
@@ -404,11 +449,20 @@ msgid "bookings.detail.room"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.form.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.scan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.scan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
@@ -441,6 +495,10 @@ msgstr ""
 msgid "bookings.kind.stay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.line"
 msgstr ""
@@ -471,6 +529,19 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.transfer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.title"
+msgstr ""
+
+#. placeholder {0}: policy.provider
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.cardA11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx

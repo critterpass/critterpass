@@ -8,6 +8,7 @@
 import type { ExtractedBooking } from '@cp/domain';
 
 import type { BookingRow, CandidateRow, SegmentRow } from '../data/queries';
+import type { InsurancePolicy } from '../insurance/insurance-data';
 import type { WalletMember } from '../data/use-wallet-context';
 
 export const LAB_UID = 'u-winston';
@@ -195,3 +196,13 @@ export const LAB_CANDIDATES: readonly CandidateRow[] = [
     }),
   }),
 ];
+
+export const LAB_POLICY: InsurancePolicy = {
+  policy_id: 'p-chubb',
+  trip_id: 't-bali',
+  provider: 'Chubb Travel',
+  policy_no: 'CHB-2231-889',
+  assistance_phone: '+65 6812 3456',
+  doc_media_key: null,
+  updated_at: '2026-10-01T08:00:00Z',
+};

@@ -37,3 +37,6 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/wallet-scenes.yaml
     env: { PREFIX: vi }
+- runFlow:
+    file: subflows/insurance-scenes.yaml
+    env: { PREFIX: vi }

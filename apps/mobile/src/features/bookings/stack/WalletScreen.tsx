@@ -17,6 +17,8 @@ import { FlightCard } from '../flight-card/FlightCard';
 import { flightView } from '../flight-card/flight-model';
 import { gateChanged } from '../flight-card/gate-memory';
 import { zoneOf } from '../format';
+import { InsuranceCard } from '../insurance/InsuranceCard';
+import { pickPolicy, useInsurancePolicies } from '../insurance/insurance-data';
 import { bookingRoute, BOOKINGS_ROUTES, boardingPassRoute } from '../routes';
 import { bannerOf } from './banner';
 import { BookingBody } from './BookingBody';
@@ -69,6 +71,12 @@ export function OpenBody({
   );
 }
 
+/** A dialable `tel:` link from a printed number ("+65 6812 3456"). */
+export function telUrl(phone: string): string {
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a URL scheme, not copy
+  return `tel:${phone.replace(/[^\d+]/gu, '')}`;
+}
+
 export function WalletScreen() {
   const context = useWalletContext();
   const services = useBookingsServices();
@@ -79,6 +87,8 @@ export function WalletScreen() {
     context.uid === null ? null : [context.uid, context.crewId ?? '', context.trip?.id ?? ''],
     CANDIDATES_TABLES,
   );
+  const insurance = useInsurancePolicies();
+  const policy = pickPolicy(insurance.policies, context.trip?.id ?? null);
   const [picked, setPicked] = useState<string | null>(null);
   const names = useMemo(
     () => new Map(context.members.map((member) => [member.userId, member.name])),
@@ -106,6 +116,15 @@ export function WalletScreen() {
       }
       banner={bannerOf(candidates.rows, context.uid, names)}
       archiveCount={wallet.past.length}
+      insurance={
+        insurance.loaded ? (
+          <InsuranceCard
+            policy={policy}
+            onOpen={() => router.push(BOOKINGS_ROUTES.insurance)}
+            onCall={(phone) => void services.openUrl(telUrl(phone))}
+          />
+        ) : null
+      }
       onSelect={setPicked}
       onOpenDetail={() => {
         if (open !== null) router.push(bookingRoute(open.id));

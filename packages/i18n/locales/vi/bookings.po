@@ -104,6 +104,10 @@ msgstr "Thêm đặt chỗ"
 msgid "bookings.form.addTitle"
 msgstr "Tự nhập"
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.add"
+msgstr "Thêm bảo hiểm du lịch"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.flightProblem"
 msgstr "Mã hãng và số hiệu chuyến"
@@ -111,6 +115,14 @@ msgstr "Mã hãng và số hiệu chuyến"
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.forwardCaption"
 msgstr "Email bất kỳ"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.phone"
+msgstr "Hỗ trợ"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.phoneField"
+msgstr "Số điện thoại hỗ trợ"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.back"
@@ -151,6 +163,7 @@ msgstr "Đặt chỗ: {title}"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.back"
 msgstr "Đặt chỗ"
@@ -158,6 +171,10 @@ msgstr "Đặt chỗ"
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.title"
 msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.call"
+msgstr "Gọi hỗ trợ"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.cancelled"
@@ -191,6 +208,10 @@ msgstr "Đã chép"
 msgid "bookings.add.copy"
 msgstr "Chép"
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.docFailed"
+msgstr "Không lưu được trang này. Quét lại khi có sóng nhé."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.shareFlight"
 msgstr "Cả nhóm thấy chuyến bay này"
@@ -214,6 +235,10 @@ msgstr "Xoá"
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.delete.confirm"
 msgstr "Xoá đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.delete"
+msgstr "Xoá hợp đồng"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.delete.title"
@@ -296,6 +321,10 @@ msgstr "Đặt cho nó một cái tên"
 msgid "bookings.detail.landed"
 msgstr "Mình đã hạ cánh"
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.provider"
+msgstr "Hãng bảo hiểm"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.delete.wallets"
 msgstr "Nó sẽ biến khỏi ví của mọi người."
@@ -369,6 +398,10 @@ msgstr "Trên máy này"
 msgid "bookings.flight.onTime"
 msgstr "Đúng giờ"
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.privacy"
+msgstr "Chỉ bạn thấy thông tin này. Phòng khám chỉ nhận được khi bạn đồng ý, cho từng lần nhờ trợ giúp."
+
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.other"
 msgstr "Khác"
@@ -384,6 +417,18 @@ msgstr "Đặt chỗ đã qua"
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.paste"
 msgstr "Dán"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.policyNo"
+msgstr "Số hợp đồng"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.policyField"
+msgstr "Số hợp đồng"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.docAttached"
+msgstr "Đã lưu trang hợp đồng kèm theo."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.price"
@@ -404,12 +449,21 @@ msgid "bookings.detail.room"
 msgstr "Phòng"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.form.save"
 msgstr "Lưu"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.offline"
+msgstr "Cần có sóng để lưu."
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.scan"
 msgstr "Quét"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.scan"
+msgstr "Quét hợp đồng"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.scheduled"
@@ -440,6 +494,10 @@ msgstr "SQ 938"
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.stay"
 msgstr "Chỗ ở"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.failed"
+msgstr "Chưa lưu được. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.line"
@@ -472,6 +530,19 @@ msgstr "Tàu hoả"
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.transfer"
 msgstr "Đưa đón"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.eyebrow"
+msgstr "Bảo hiểm du lịch"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.title"
+msgstr "Bảo hiểm du lịch"
+
+#. placeholder {0}: policy.provider
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.cardA11y"
+msgstr "Bảo hiểm du lịch, {0}, thẻ hợp đồng"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.who"

@@ -104,6 +104,10 @@ msgstr "Add a booking"
 msgid "bookings.form.addTitle"
 msgstr "Add by hand"
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.add"
+msgstr "Add travel insurance"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.flightProblem"
 msgstr "Airline code and number"
@@ -111,6 +115,14 @@ msgstr "Airline code and number"
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.forwardCaption"
 msgstr "Any email"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.phone"
+msgstr "Assistance"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.phoneField"
+msgstr "Assistance phone"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.back"
@@ -151,6 +163,7 @@ msgstr "Booking: {title}"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 #: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
 msgid "bookings.back"
 msgstr "Bookings"
@@ -158,6 +171,10 @@ msgstr "Bookings"
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
 msgid "bookings.title"
 msgstr "Bookings"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.call"
+msgstr "Call assistance"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.cancelled"
@@ -191,6 +208,10 @@ msgstr "Copied"
 msgid "bookings.add.copy"
 msgstr "Copy"
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.docFailed"
+msgstr "Couldn't keep the page. Try the scan again with signal."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.shareFlight"
 msgstr "Crew sees this flight"
@@ -214,6 +235,10 @@ msgstr "Delete"
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.delete.confirm"
 msgstr "Delete booking"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.delete"
+msgstr "Delete policy"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.delete.title"
@@ -296,6 +321,10 @@ msgstr "Give it a name"
 msgid "bookings.detail.landed"
 msgstr "I landed"
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.provider"
+msgstr "Insurer"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.delete.wallets"
 msgstr "It leaves everyone’s wallet."
@@ -369,6 +398,10 @@ msgstr "On this phone"
 msgid "bookings.flight.onTime"
 msgstr "On time"
 
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.privacy"
+msgstr "Only you see this. A clinic gets it only when you say yes, one help request at a time."
+
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.other"
 msgstr "Other"
@@ -384,6 +417,18 @@ msgstr "Past bookings"
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.paste"
 msgstr "Paste"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.policyNo"
+msgstr "Policy no."
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.policyField"
+msgstr "Policy number"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.docAttached"
+msgstr "Policy page kept with it."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.price"
@@ -404,12 +449,21 @@ msgid "bookings.detail.room"
 msgstr "Room"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.form.save"
 msgstr "Save"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.offline"
+msgstr "Saving needs signal."
 
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.scan"
 msgstr "Scan"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.scan"
+msgstr "Scan the policy"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.scheduled"
@@ -440,6 +494,10 @@ msgstr "SQ 938"
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.stay"
 msgstr "Stay"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.failed"
+msgstr "That didn't save. Try again."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 msgid "bookings.missing.line"
@@ -472,6 +530,19 @@ msgstr "Train"
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.transfer"
 msgstr "Transfer"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.eyebrow"
+msgstr "Travel insurance"
+
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
+msgid "bookings.insurance.title"
+msgstr "Travel insurance"
+
+#. placeholder {0}: policy.provider
+#: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
+msgid "bookings.insurance.cardA11y"
+msgstr "Travel insurance, {0}, policy card"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.who"
