@@ -1,11 +1,15 @@
 appId: app.critterpass.dev
 ---
 # From the developer tools list to the guide lab.
+# Slow and centred: a fast swipe on iOS flings the list past the row before it is read.
 - scrollUntilVisible:
     element:
       id: 'dev-nav-guide-lab'
     direction: DOWN
     timeout: 20000
+    speed: 20
+    centerElement: true
+- waitForAnimationToEnd
 - tapOn:
     id: 'dev-nav-guide-lab'
 - extendedWaitUntil:

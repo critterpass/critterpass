@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BackHandler, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { sceneExit, SETUP_SCENES } from '@/features/setup/scenes';
 import { Text } from '@/ui';
@@ -10,6 +11,7 @@ export const __CP_DEV_ROUTE__ = true;
 
 /** A scene that throws shows its error here (dev only), so a device run's screenshot names it. */
 export function ErrorBoundary({ error, retry }: { error: Error; retry: () => Promise<void> }) {
+  const insets = useSafeAreaInsets();
   return (
     <View style={styles.fill}>
       <ScrollView contentContainerStyle={styles.list} testID="setup-scene-error">
@@ -19,7 +21,7 @@ export function ErrorBoundary({ error, retry }: { error: Error; retry: () => Pro
       <Pressable
         testID="setup-scene-back"
         accessibilityLabel="Back to scenes"
-        style={styles.back}
+        style={[styles.back, { top: insets.top }]}
         onPress={() => void retry()}
       />
     </View>
@@ -29,6 +31,8 @@ export function ErrorBoundary({ error, retry }: { error: Error; retry: () => Pro
 /** Trip setup scenes (3c-3…3c-10 and their states) over fixed data, for review and screenshots. */
 export default function SetupScenes() {
   const [scene, setScene] = useState<string | null>(null);
+  // Under the status bar: a tap on iOS's status bar goes to the system, not to this control.
+  const insets = useSafeAreaInsets();
   const shown = SETUP_SCENES.find((candidate) => candidate.name === scene);
   // Android's back returns to the list (screenshot flows press it between scenes).
   useEffect(() => {
@@ -47,7 +51,7 @@ export default function SetupScenes() {
         <Pressable
           testID="setup-scene-back"
           accessibilityLabel="Back to scenes"
-          style={styles.back}
+          style={[styles.back, { top: insets.top }]}
           onPress={() => setScene(null)}
         />
       </View>
