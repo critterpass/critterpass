@@ -9,3 +9,5 @@ export * from './plan-ops';
 export * from './events';
 export * from './rt';
 export * from './queues';
+export * from './changesets';
+export * from './templates';

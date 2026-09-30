@@ -168,6 +168,8 @@ const CATALOGUE = [
   spec('watch_escalation', 'roundup_only', 'cp.generic', 'cp_trip', 'guide', { variant: 'always_if_plan_changing' }),
   spec('disruption_update', 'always', 'cp.disruption', 'cp_always', 'guide', 'disruption:{disruption_id}',),
   spec('guide_acted', 'budgeted', 'cp.changeset', 'cp_guide', 'guide', 'guide_action:{action_id}'),
+  spec('changeset_needs_yes', 'budgeted', 'cp.changeset', 'cp_votes', 'guide', 'changeset:{change_set_id}'),
+  spec('changeset_decided', 'budgeted', 'cp.generic', 'cp_trip', 'guide', 'changeset:{change_set_id}'),
   // Money.
   spec('money_event', 'budgeted', 'cp.money', 'cp_money', 'member', { variant: 'small_to_roundup', pref: 'money', private: true }),
   spec('settled_reward', 'always', 'cp.generic', 'cp_critters', 'guide'),
@@ -318,6 +320,11 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'payment.confirmed': ['money_event'],
   'payment.disputed': ['money_event'],
   'trip.settled': ['settled_reward'],
+  // Change review: an affected member's yes is needed, then how the vote came out.
+  'change_set.proposed': ['changeset_needs_yes'],
+  'change_set.applied': ['changeset_decided'],
+  'change_set.rejected': ['changeset_decided'],
+  'change_set.expired': ['changeset_decided'],
   // Bookings: a new import candidate (the evening roundup's "found n bookings" line), a flight
   // delay, gate change, cancel or divert and boarding to the traveller, and the day-before reminder
   // of a free-cancellation deadline to the booking's owner.
