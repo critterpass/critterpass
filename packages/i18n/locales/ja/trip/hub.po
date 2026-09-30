@@ -6,3 +6,295 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ja\n"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.going"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.days"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+msgid "trip.hub.guestGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.generating"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.rsvped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.edited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.joined"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.left"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.pitched"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.asked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.created"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.proposed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.tookSeat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.votes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.applied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.drafted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.decided"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.noBookings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.allOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.allSettled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.bookings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.dayUnit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.dayOf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.earlyStart"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.settled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.fromDate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.emptyAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.home"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.homeSince"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.inProgress"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.landIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.lands"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.leaveByToday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.money"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.unnamed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.next"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.emptyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.noVotes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.nudge"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
+msgid "trip.briefing.nudged"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
+msgid "trip.briefing.nudgedSome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.owed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.emptyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.planning"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.online"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.cta.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.set"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.setDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.cta.setup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.settingUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.someone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+msgid "trip.hub.switch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.takeOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.today"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.today"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.voting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.cta.vote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.wheelsUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.openDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.youOwe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
+msgid "trip.briefing.queued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.flight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.title"
+msgstr ""

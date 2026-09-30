@@ -8,6 +8,9 @@ import type { Href } from 'expo-router';
 
 import { registerScreens } from '@/lib/navigation/screen-registry';
 
+/** The TRIPS tab's root (the trip switcher). */
+export const TRIPS_TAB: Href = '/(tabs)/trips';
+
 /** `today` resolves to the trip's own date when the screen opens. */
 export const TODAY = 'today';
 

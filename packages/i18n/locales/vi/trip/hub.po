@@ -6,3 +6,295 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.going"
+msgstr "{count} người đi"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.saved"
+msgstr "{count} đã lưu"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.days"
+msgstr "{days, plural, other {# ngày}}"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+msgid "trip.hub.guestGuide"
+msgstr "{guideName} là hướng dẫn viên khách mời ở đây"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.generating"
+msgstr "{guideName} đang viết bản tin sáng nay"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.title"
+msgstr "Bản tin của {guideName}"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.rsvped"
+msgstr "{name} đã trả lời lời mời"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.edited"
+msgstr "{name} đã sửa lịch trình"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.joined"
+msgstr "{name} đã vào nhóm"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.left"
+msgstr "{name} đã rời nhóm"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.pitched"
+msgstr "{name} đã đề xuất một nơi"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.asked"
+msgstr "{name} đã mở một cuộc bình chọn"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.created"
+msgstr "{name} đã tạo chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.proposed"
+msgstr "{name} đã đề xuất một thay đổi"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.tookSeat"
+msgstr "{name} đã nhận một chỗ"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.other"
+msgstr "{name} đã cập nhật chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.votes"
+msgstr "{votes, plural, other {# cuộc bình chọn đang mở}}"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.applied"
+msgstr "Một thay đổi đã vào lịch trình"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.drafted"
+msgstr "Lịch trình mới đã sẵn sàng"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.decided"
+msgstr "Một cuộc bình chọn đã kết thúc"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.noBookings"
+msgstr "Thêm đặt chỗ đầu tiên"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.allOffline"
+msgstr "đã lưu ngoại tuyến hết"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.allSettled"
+msgstr "đã thanh toán xong"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.bookings"
+msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.booked"
+msgstr "sắp tới"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.dayUnit"
+msgstr "N"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.dayOf"
+msgstr "Ngày {dayNo}/{days}"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.done"
+msgstr "Xong"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.earlyStart"
+msgstr "Khởi hành sớm"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.settled"
+msgstr "Hòa"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.fromDate"
+msgstr "từ {stale}"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.emptyAction"
+msgstr "Về Trang chủ"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.home"
+msgstr "đã về nhà"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.homeSince"
+msgstr "Về nhà từ"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.inProgress"
+msgstr "đang diễn ra"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.landIn"
+msgstr "Hạ cánh sau"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.lands"
+msgstr "Hạ cánh {time}"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.leaveByToday"
+msgstr "Xuất phát lúc"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.money"
+msgstr "Tiền"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.unnamed"
+msgstr "Chuyến tới"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.next"
+msgstr "Tiếp theo"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.emptyTitle"
+msgstr "Chưa có chuyến nào"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.empty"
+msgstr "Hôm nay không có gì cần bạn. Tận hưởng nhé."
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.noVotes"
+msgstr "Không có gì cần bình chọn"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.nudge"
+msgstr "Nhắc"
+
+#: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
+msgid "trip.briefing.nudged"
+msgstr "Đã nhắc {who}."
+
+#: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
+msgid "trip.briefing.nudgedSome"
+msgstr "Đã nhắc."
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.open"
+msgstr "Mở"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.owed"
+msgstr "người khác nợ bạn"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.emptyLine"
+msgstr "Đề xuất một nơi cho nhóm từ Trang chủ và chuyến đi bắt đầu ở đây."
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.plan"
+msgstr "Lịch trình"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.planning"
+msgstr "đang lên lịch"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.online"
+msgstr "đã lưu trong ví"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.cta.plan"
+msgstr "Xem lịch trình"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.sent"
+msgstr "Đã gửi"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.set"
+msgstr "Đặt"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.setDone"
+msgstr "Đã đặt ✓"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.cta.setup"
+msgstr "Thiết lập chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.settingUp"
+msgstr "đang thiết lập"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.someone"
+msgstr "Ai đó"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+msgid "trip.hub.switch"
+msgstr "Đổi chuyến"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.takeOff"
+msgstr "Cất cánh sau"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.today"
+msgstr "hôm nay"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.today"
+msgstr "Hôm nay"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.failed"
+msgstr "Bản tin hôm nay chưa đến được. Lịch trình bên dưới vẫn là mới nhất."
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.voting"
+msgstr "đang bình chọn"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.cta.vote"
+msgstr "Đang bình chọn"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.wheelsUp"
+msgstr "Cất cánh sau"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.openDay"
+msgstr "Ai đã dậy, và cần mang gì"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.youOwe"
+msgstr "bạn nợ"
+
+#: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
+msgid "trip.briefing.queued"
+msgstr "Bản tin của bạn"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.flight"
+msgstr "Chuyến bay của bạn"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.title"
+msgstr "Các chuyến đi"

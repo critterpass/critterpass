@@ -2,8 +2,10 @@
 import type { ReactNode } from 'react';
 
 import { DAY_OF_SCENES } from '../../day-of/dev/day-of-scenes';
+import { HUB_SCENES } from './hub-scenes';
 
 export const TRIP_DAY_SCENES: Readonly<Record<string, () => ReactNode>> = {
+  ...HUB_SCENES,
   ...DAY_OF_SCENES,
 };
 

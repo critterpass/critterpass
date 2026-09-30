@@ -7,11 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#. placeholder {0}: chip.label
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.personal"
-msgstr "{0}, chỉ mình bạn"
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.eyebrow"
 msgstr "{day} · Ngày {dayNo}"
@@ -27,6 +22,10 @@ msgstr "{guideName} đang gọi {who} dậy"
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.rings"
 msgstr "{guideName} sẽ gọi {who} dậy lúc {alarm}"
+
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.personal"
+msgstr "{label}, chỉ mình bạn"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.stillAsleep"
@@ -108,10 +107,9 @@ msgstr "Đang trên đường"
 msgid "trip.dayOf.pack.title"
 msgstr "Mang theo"
 
-#. placeholder {0}: payload.label
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.added"
-msgstr "Mang theo: {0}"
+msgstr "Mang theo: {label}"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.pickupAtPlace"
@@ -129,10 +127,9 @@ msgstr "Xe đón dự kiến {pickupTime}"
 msgid "trip.dayOf.item"
 msgstr "Lịch trình"
 
-#. placeholder {0}: chip.label
 #: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
 msgid "trip.dayOf.pack.remove"
-msgstr "Bỏ {0}"
+msgstr "Bỏ {label}"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.exactAction"

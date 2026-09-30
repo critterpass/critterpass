@@ -68,6 +68,7 @@ function Chip({
     was.current = chip.packed;
   }, [chip.packed, reduced, scale]);
   const pop = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
+  const { label } = chip;
   const ink = chip.packed ? theme.semantic.text.secondary : theme.semantic.action.primary;
   return (
     <Animated.View style={pop}>
@@ -75,8 +76,8 @@ function Chip({
         accessibilityRole="checkbox"
         accessibilityLabel={
           chip.personal
-            ? t({ id: 'trip.dayOf.pack.personal', message: `${chip.label}, just you` })
-            : chip.label
+            ? t({ id: 'trip.dayOf.pack.personal', message: `${label}, just you` })
+            : label
         }
         accessibilityState={{ checked: chip.packed }}
         onPress={() => onToggle(chip.id, !chip.packed)}
@@ -102,10 +103,7 @@ function Chip({
           {chip.personal && !chip.packed ? (
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={t({
-                id: 'trip.dayOf.pack.remove',
-                message: `Remove ${chip.label}`,
-              })}
+              accessibilityLabel={t({ id: 'trip.dayOf.pack.remove', message: `Remove ${label}` })}
               hitSlop={theme.space['12']}
               onPress={() => onRemove(chip.id)}
               testID={`trip-day-pack-remove-${chip.id}`}

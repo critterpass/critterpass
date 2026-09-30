@@ -6,3 +6,295 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.going"
+msgstr "{count} going"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.saved"
+msgstr "{count} saved"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.days"
+msgstr "{days, plural, one {# day} other {# days}}"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+msgid "trip.hub.guestGuide"
+msgstr "{guideName} is a guest here"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.generating"
+msgstr "{guideName} is writing today's briefing"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.title"
+msgstr "{guideName}'s briefing"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.rsvped"
+msgstr "{name} answered the invite"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.edited"
+msgstr "{name} edited the plan"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.joined"
+msgstr "{name} joined the crew"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.left"
+msgstr "{name} left the crew"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.pitched"
+msgstr "{name} pitched a place"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.asked"
+msgstr "{name} started a vote"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.created"
+msgstr "{name} started the trip"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.proposed"
+msgstr "{name} suggested a change"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.tookSeat"
+msgstr "{name} took a seat"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.other"
+msgstr "{name} updated the trip"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.votes"
+msgstr "{votes, plural, one {# vote open} other {# votes open}}"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.applied"
+msgstr "A change made it into the plan"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.drafted"
+msgstr "A new plan is ready"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.decided"
+msgstr "A vote closed"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.noBookings"
+msgstr "Add your first booking"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.allOffline"
+msgstr "all offline"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.allSettled"
+msgstr "all settled"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.bookings"
+msgstr "Bookings"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.booked"
+msgstr "coming up"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.dayUnit"
+msgstr "D"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.dayOf"
+msgstr "Day {dayNo} of {days}"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.earlyStart"
+msgstr "Early start"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.settled"
+msgstr "Even"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.fromDate"
+msgstr "from {stale}"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.emptyAction"
+msgstr "Go to Home"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.home"
+msgstr "home again"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.homeSince"
+msgstr "Home since"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.inProgress"
+msgstr "in progress"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.landIn"
+msgstr "Land in"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.lands"
+msgstr "Lands {time}"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.leaveByToday"
+msgstr "Leave by"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.money"
+msgstr "Money"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.unnamed"
+msgstr "Next trip"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.next"
+msgstr "Next up"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.emptyTitle"
+msgstr "No trips yet"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.empty"
+msgstr "Nothing needs you today. Enjoy it."
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.noVotes"
+msgstr "Nothing to vote on"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.nudge"
+msgstr "Nudge"
+
+#: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
+msgid "trip.briefing.nudged"
+msgstr "Nudged {who}."
+
+#: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
+msgid "trip.briefing.nudgedSome"
+msgstr "Nudged."
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.open"
+msgstr "Open"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.owed"
+msgstr "owed to you"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.emptyLine"
+msgstr "Pitch a place to your crew from Home and the trip starts here."
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.plan"
+msgstr "Plan"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.planning"
+msgstr "planning"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.online"
+msgstr "saved in your wallet"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.cta.plan"
+msgstr "See the plan"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.sent"
+msgstr "Sent"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.set"
+msgstr "Set"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
+msgid "trip.briefing.setDone"
+msgstr "Set ✓"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.cta.setup"
+msgstr "Set up the trip"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.settingUp"
+msgstr "setting up"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.someone"
+msgstr "Someone"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+msgid "trip.hub.switch"
+msgstr "Switch trip"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.takeOff"
+msgstr "Take off in"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.today"
+msgstr "today"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.today"
+msgstr "Today"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.failed"
+msgstr "Today's briefing didn't come through. The plan below is up to date."
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
+msgid "trip.list.voting"
+msgstr "voting"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.cta.vote"
+msgstr "Voting"
+
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
+msgid "trip.hub.wheelsUp"
+msgstr "Wheels up in"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.openDay"
+msgstr "Who's up, and what to pack"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tile.youOwe"
+msgstr "you owe"
+
+#: ../../apps/mobile/src/features/trip/briefing/chip-actions.ts
+msgid "trip.briefing.queued"
+msgstr "Your briefing"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.flight"
+msgstr "Your flight"
+
+#: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
+msgid "trip.list.title"
+msgstr "Your trips"

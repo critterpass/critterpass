@@ -45,7 +45,7 @@ export const checkPackingItemCommand = defineClientCommand<CheckPackingItemPaylo
 export const addPackingItemCommand = defineClientCommand<AddPackingItemPayload>({
   name: ADD_PACKING_ITEM,
   offline: true,
-  summarize: (payload) => msg({ id: 'trip.dayOf.queued.added', message: `Pack: ${payload.label}` }),
+  summarize: ({ label }) => msg({ id: 'trip.dayOf.queued.added', message: `Pack: ${label}` }),
 });
 
 export const removePackingItemCommand = defineClientCommand<RemovePackingItemPayload>({

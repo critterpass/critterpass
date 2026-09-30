@@ -7,11 +7,6 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: ja\n"
 
-#. placeholder {0}: chip.label
-#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
-msgid "trip.dayOf.pack.personal"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.eyebrow"
 msgstr ""
@@ -26,6 +21,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.rings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
+msgid "trip.dayOf.pack.personal"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
@@ -108,7 +107,6 @@ msgstr ""
 msgid "trip.dayOf.pack.title"
 msgstr ""
 
-#. placeholder {0}: payload.label
 #: ../../apps/mobile/src/features/trip/leave-by/commands.ts
 msgid "trip.dayOf.queued.added"
 msgstr ""
@@ -129,7 +127,6 @@ msgstr ""
 msgid "trip.dayOf.item"
 msgstr ""
 
-#. placeholder {0}: chip.label
 #: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
 msgid "trip.dayOf.pack.remove"
 msgstr ""
