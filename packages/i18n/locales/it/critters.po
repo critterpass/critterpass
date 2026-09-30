@@ -15,6 +15,10 @@ msgstr ""
 msgid "critters.dex.rankGroupCities"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindersSet"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.crewChip"
 msgstr ""
@@ -33,6 +37,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.setCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.hereCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
@@ -151,6 +159,10 @@ msgstr ""
 msgid "critters.detail.alsoHas"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.any"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
 msgstr ""
@@ -199,12 +211,24 @@ msgstr ""
 msgid "critters.dex.emptyFoundBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.early"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.mode"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.over"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.everyone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
@@ -219,8 +243,16 @@ msgstr ""
 msgid "critters.queued.homeOn"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.hardest"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.forms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.found"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
@@ -283,6 +315,14 @@ msgstr ""
 msgid "critters.encounter.shyBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.late"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.intro"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryMode"
 msgstr ""
@@ -307,6 +347,10 @@ msgstr ""
 msgid "critters.dex.exploreAtHomeBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.mid"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterNear"
 msgstr ""
@@ -317,6 +361,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.noForecast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
@@ -339,20 +387,44 @@ msgstr ""
 msgid "critters.encounter.nothingTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.inboxOnly"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderDenied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.onOneDay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.onPass"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.rankGroup"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindMe"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.remindAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.reminding"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindersOn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
@@ -395,8 +467,20 @@ msgstr ""
 msgid "critters.encounter.stayTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.missing"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.copresenceDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.emptyBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
@@ -445,6 +529,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.yourDates"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts

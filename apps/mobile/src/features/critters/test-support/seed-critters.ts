@@ -31,6 +31,7 @@ export const TOKEK_EPIC = '0192f000-0000-7000-8000-0000000f0012';
 export const TOKEK_LEGENDARY = '0192f000-0000-7000-8000-0000000f0013';
 export const CHEP_COMMON = '0192f000-0000-7000-8000-0000000f0002';
 export const WINDOW = '0192f000-0000-7000-8000-0000000a0001';
+export const COPRESENCE_RULE = '0192f000-0000-7000-8000-0000000a5c01';
 
 const PALETTE = JSON.stringify({
   f: [tokens.tier.common.color, tokens.tier.rare.color, tokens.tier.epic.color],
@@ -122,6 +123,12 @@ export async function seedCritters(
         end: isoDate(3).slice(5),
       }),
     ],
+  );
+  await x(
+    `INSERT INTO spawn_rules (id, key, form_id, kind, set_id, destination_id, poi_ids, geofences,
+       dwell_s, window_id, min_members, foreground_only, copy)
+     VALUES (?, 'golden-tokek', ?, 'co_presence', ?, ?, '[]', '[]', 600, ?, 6, 0, 'All six on Batur')`,
+    [COPRESENCE_RULE, TOKEK_LEGENDARY, SET_ID, DEST, WINDOW],
   );
   if (options.fresh !== true) {
     await x(

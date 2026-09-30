@@ -15,6 +15,10 @@ msgstr "???"
 msgid "critters.dex.rankGroupCities"
 msgstr "{cities, plural, one {Rank {from}–{to} · # city each} other {Rank {from}–{to} · # cities each}}"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindersSet"
+msgstr "{count, plural, one {We'll nudge you a month before # window} other {We'll nudge you a month before # windows}}"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.crewChip"
 msgstr "{count} in the crew"
@@ -34,6 +38,10 @@ msgstr "{found}/{total} · Home set"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.setCount"
 msgstr "{found}/{total} found"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.hereCount"
+msgstr "{here} of {needed} in"
 
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
 msgid "critters.crew.befriended"
@@ -151,6 +159,10 @@ msgstr "All"
 msgid "critters.detail.alsoHas"
 msgstr "Also has it"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.any"
+msgstr "Any"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
 msgstr "Back to the classic look"
@@ -199,6 +211,14 @@ msgstr "Critters come out at real places. Walk to a spot on your plan and stay a
 msgid "critters.dex.emptyFoundBody"
 msgstr "Critters only show up where they live. Your first one hatches when you land."
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.day"
+msgstr "Day"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.early"
+msgstr "Early"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.mode"
 msgstr "Encounter"
@@ -206,6 +226,10 @@ msgstr "Encounter"
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.over"
 msgstr "Encounter over"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.everyone"
+msgstr "Everyone is here. Hold on together."
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.exploreAtHome"
@@ -219,9 +243,17 @@ msgstr "Explore at home: off"
 msgid "critters.queued.homeOn"
 msgstr "Explore at home: on"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.hardest"
+msgstr "For the hardest thing"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.forms"
 msgstr "Forms · {found} of {total}"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.found"
+msgstr "Found"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterFound"
@@ -283,6 +315,14 @@ msgstr "It's settled next to you. Hold the ring and it's yours."
 msgid "critters.encounter.shyBody"
 msgstr "It's shy around crowds. Stay a few minutes and it'll come closer."
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.late"
+msgstr "Late"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.intro"
+msgstr "Legendaries only show up on one day a year, or for the hardest thing a place has. They can't be bought or traded."
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryMode"
 msgstr "Legendary"
@@ -307,6 +347,10 @@ msgstr "Meet them"
 msgid "critters.dex.exploreAtHomeBody"
 msgstr "Meet your home set’s critters while the app is open. Never in the background."
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.mid"
+msgstr "Mid"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterNear"
 msgstr "Near me"
@@ -318,6 +362,10 @@ msgstr "No critters within 5 km of you or your trip. Try ALL to see every place.
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.noForecast"
 msgstr "No crowd forecast here yet. Early mornings are usually the quietest."
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.emptyTitle"
+msgstr "No legendaries yet"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptySearchTitle"
@@ -339,21 +387,45 @@ msgstr "Nothing befriended yet"
 msgid "critters.encounter.nothingTitle"
 msgstr "Nothing stirring yet"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.inboxOnly"
+msgstr "Notifications are off, so reminders will wait in your inbox."
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderDenied"
 msgstr "Notifications are off, so we can’t nudge you. Turn them on in Settings."
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.onOneDay"
+msgstr "On one day"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.onPass"
 msgstr "On your pass. We’re checking it, then it’s yours for good."
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.title"
+msgstr "Once a year"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.rankGroup"
 msgstr "Rank {from}–{to}"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindMe"
+msgstr "Remind me"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.remindAt"
 msgstr "Remind me at {time}"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.reminding"
+msgstr "Reminder set"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindersOn"
+msgstr "Reminders on"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.sayHi"
@@ -395,9 +467,21 @@ msgstr "Something rustled near {place}"
 msgid "critters.encounter.stayTitle"
 msgstr "Stay close"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.missing"
+msgstr "Still to come: {names}"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderBody"
 msgstr "The shy one might come back now. Go softly."
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.copresenceDone"
+msgstr "The whole crew was there. It’s on everyone’s pass."
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.emptyBody"
+msgstr "They arrive with the places they live in. Check back after your next update."
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
@@ -446,6 +530,10 @@ msgstr "You've stepped away. It's watching from the edge, so come back slowly."
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.title"
 msgstr "Your Critterdex"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.yourDates"
+msgstr "Your dates"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.waitingTitle"

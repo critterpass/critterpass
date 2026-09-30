@@ -15,6 +15,10 @@ msgstr "???"
 msgid "critters.dex.rankGroupCities"
 msgstr "{cities, plural, other {Hạng {from}–{to} · mỗi nơi # thành phố}}"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindersSet"
+msgstr "{count, plural, other {Chúng tôi sẽ nhắc bạn một tháng trước # dịp}}"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.crewChip"
 msgstr "{count} người trong nhóm"
@@ -34,6 +38,10 @@ msgstr "{found}/{total} · Bộ quê nhà"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.setCount"
 msgstr "Đã gặp {found}/{total}"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.hereCount"
+msgstr "{here} trên {needed} đã đến"
 
 #: ../../apps/mobile/src/features/critters/critters-copy.ts
 msgid "critters.crew.befriended"
@@ -151,6 +159,10 @@ msgstr "Tất cả"
 msgid "critters.detail.alsoHas"
 msgstr "Cũng có"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.any"
+msgstr "Ngày"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.classicLook"
 msgstr "Về lại diện mạo cũ"
@@ -199,6 +211,14 @@ msgstr "Bạn nhỏ xuất hiện ở những nơi có thật. Hãy đến một
 msgid "critters.dex.emptyFoundBody"
 msgstr "Bạn nhỏ chỉ xuất hiện ở nơi chúng sống. Bạn đầu tiên sẽ nở khi bạn hạ cánh."
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.day"
+msgstr "Bất kỳ"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.early"
+msgstr "Đầu tháng"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.mode"
 msgstr "Gặp gỡ"
@@ -206,6 +226,10 @@ msgstr "Gặp gỡ"
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.over"
 msgstr "Đã kết thúc"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.everyone"
+msgstr "Cả nhóm đã có mặt. Cùng giữ nhé."
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.exploreAtHome"
@@ -219,9 +243,17 @@ msgstr "Khám phá ở quê nhà: tắt"
 msgid "critters.queued.homeOn"
 msgstr "Khám phá ở quê nhà: bật"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.hardest"
+msgstr "Cho thử thách khó nhất"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.forms"
 msgstr "Các dạng · {found} trên {total}"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.found"
+msgstr "Đã gặp"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterFound"
@@ -283,6 +315,14 @@ msgstr "Bạn ấy đã ngồi yên cạnh bạn. Giữ vòng tròn là thành b
 msgid "critters.encounter.shyBody"
 msgstr "Bạn ấy nhát chỗ đông người. Ở lại vài phút, bạn ấy sẽ lại gần hơn."
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.late"
+msgstr "Cuối tháng"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.intro"
+msgstr "Bạn nhỏ huyền thoại chỉ xuất hiện một ngày trong năm, hoặc cho thử thách khó nhất của một nơi. Không mua được, cũng không đổi được."
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryMode"
 msgstr "Huyền thoại"
@@ -307,6 +347,10 @@ msgstr "Gặp ngay"
 msgid "critters.dex.exploreAtHomeBody"
 msgstr "Gặp các bạn nhỏ của bộ quê nhà khi đang mở ứng dụng. Không bao giờ chạy ngầm."
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.mid"
+msgstr "Giữa tháng"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterNear"
 msgstr "Gần tôi"
@@ -318,6 +362,10 @@ msgstr "Không có bạn nhỏ nào trong vòng 5 km quanh bạn hay chuyến đ
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.noForecast"
 msgstr "Nơi này chưa có dự báo đông người. Sáng sớm thường là lúc yên nhất."
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.emptyTitle"
+msgstr "Chưa có huyền thoại nào"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptySearchTitle"
@@ -339,21 +387,45 @@ msgstr "Chưa kết bạn với ai"
 msgid "critters.encounter.nothingTitle"
 msgstr "Chưa có động tĩnh gì"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.inboxOnly"
+msgstr "Thông báo đang tắt, nên lời nhắc sẽ nằm trong hộp thư của bạn."
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderDenied"
 msgstr "Thông báo đang tắt nên chúng tôi không nhắc được. Hãy bật trong Cài đặt."
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.onOneDay"
+msgstr "Chỉ một ngày"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.onPass"
 msgstr "Đã vào thẻ của bạn. Chúng tôi đang kiểm tra, xong là của bạn luôn."
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.title"
+msgstr "Mỗi năm một lần"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.rankGroup"
 msgstr "Hạng {from}–{to}"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindMe"
+msgstr "Nhắc tôi"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.remindAt"
 msgstr "Nhắc tôi lúc {time}"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.reminding"
+msgstr "Đã đặt nhắc"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindersOn"
+msgstr "Đã bật nhắc"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.sayHi"
@@ -395,9 +467,21 @@ msgstr "Có gì đó xào xạc gần {place}"
 msgid "critters.encounter.stayTitle"
 msgstr "Ở gần thêm chút"
 
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.missing"
+msgstr "Còn chờ: {names}"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderBody"
 msgstr "Bạn nhỏ nhút nhát có thể đã quay lại. Đi nhẹ nhàng thôi."
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.copresenceDone"
+msgstr "Cả nhóm đã có mặt. Bạn ấy đã vào thẻ của mọi người."
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.emptyBody"
+msgstr "Chúng đến cùng những nơi chúng sống. Hãy xem lại sau lần cập nhật tới."
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
@@ -446,6 +530,10 @@ msgstr "Bạn vừa đi xa một chút. Bạn ấy đang nhìn từ mép, quay l
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.title"
 msgstr "Critterdex của bạn"
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.yourDates"
+msgstr "Ngày đi của bạn"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.waitingTitle"
