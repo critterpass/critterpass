@@ -34,14 +34,23 @@ function openInMaps(item: DayItem): void {
   void Linking.openURL(mapsUrl(item.title, item.place.lat, item.place.lng));
 }
 
-export function DayScreen({ tripId, dayNo }: { readonly tripId: string; readonly dayNo: number }) {
+export function DayScreen({
+  tripId,
+  dayNo,
+  item,
+}: {
+  readonly tripId: string;
+  readonly dayNo: number;
+  /** An item to open on arrival (a map pin links here with it). */
+  readonly item?: string | undefined;
+}) {
   const { t } = useLingui();
   const locale = useLocale();
   const plan = useTripPlan(tripId);
   const editor = useDayEditing(plan);
   const sync = useSyncStatus();
   const [planning, setPlanning] = useState(false);
-  const [openId, setOpenId] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(item ?? null);
   const [adding, setAdding] = useState(false);
   const day = plan.state.days.find((candidate) => candidate.day_no === dayNo) ?? null;
   const tz = plan.trip?.tz ?? 'UTC';
@@ -96,6 +105,20 @@ export function DayScreen({ tripId, dayNo }: { readonly tripId: string; readonly
     }
   };
   const open = items.find((item) => item.stableId === openId) ?? null;
+  // The open item went (someone else removed it, or a link named one that's gone): say so.
+  const gone = openId !== null && plan.loaded && open === null;
+  useEffect(() => {
+    if (!gone) return;
+    impact('warning');
+    toast.show({
+      id: 'plan-item-gone',
+      title: t({ id: 'plan.day.item.goneTitle', message: 'This one’s off the plan' }),
+      subtitle: t({
+        id: 'plan.day.item.goneLine',
+        message: 'Someone removed it while you had it open.',
+      }),
+    });
+  }, [gone, t]);
   const overlays = useDayOverlays(plan, slot, items);
   const presence = usePlanPresence(tripId, 'day', dayNo);
   const { setCursor } = presence;
@@ -148,7 +171,7 @@ export function DayScreen({ tripId, dayNo }: { readonly tripId: string; readonly
         }
         footer={planning ? overlays.banner : undefined}
       />
-      {openId === null ? null : (
+      {open === null ? null : (
         <ItemDetailSheet
           key={openId}
           item={open}

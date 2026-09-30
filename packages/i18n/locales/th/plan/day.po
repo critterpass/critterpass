@@ -97,10 +97,6 @@ msgid "plan.day.item.changeConfirm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.close"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.cost"
 msgstr ""
 
@@ -255,7 +251,8 @@ msgstr ""
 msgid "plan.day.conflictSomeone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneLine"
 msgstr ""
 
@@ -299,7 +296,8 @@ msgstr ""
 msgid "plan.day.item.bookedTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneTitle"
 msgstr ""
 

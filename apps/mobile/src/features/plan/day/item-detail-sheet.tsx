@@ -2,8 +2,7 @@
  * One plan item (design in code; logged in docs/undesigned-states.md): place, time in 15-minute
  * steps, who's going, cost, booking, notes and the item's comments, with move to another day,
  * remove, skip it just for me, and open in maps. Edits are held until SAVE (or SUGGEST for a
- * member, whose change goes to the crew); a booked or must-do item asks first. An item someone
- * else removed while the sheet was open says so instead of showing stale fields.
+ * member, whose change goes to the crew); a booked or must-do item asks first.
  */
 import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
@@ -17,7 +16,6 @@ import { TextLink } from '@/ui/buttons/TextLink';
 import { ListCard } from '@/ui/cards/ListCard';
 import { StatusChip } from '@/ui/chips/StatusChip';
 import { Row } from '@/ui/layout/Row';
-import { Stack } from '@/ui/layout/Stack';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { ActionPill } from '@/ui/plan/ActionPill';
 import { Sheet } from '@/ui/sheet/Sheet';
@@ -71,8 +69,7 @@ export function ItemDetailSheet({
   comments,
   actions,
 }: {
-  /** Null once someone else removed it. */
-  readonly item: DayItem | null;
+  readonly item: DayItem;
   readonly dayNos: readonly number[];
   readonly members: readonly PlanMember[];
   readonly canApply: boolean;
@@ -84,28 +81,6 @@ export function ItemDetailSheet({
   const { t } = useLingui();
   const [times, setTimes] = useState<{ start: number; end: number } | null>(null);
   const [confirming, setConfirming] = useState<Pending | null>(null);
-
-  if (item === null) {
-    return (
-      <Sheet detents={['large']} onDismiss={actions.onClose} testID="plan-item-gone">
-        <Stack style={styles.body}>
-          <Text variant="h3" accessibilityRole="header">
-            {t({ id: 'plan.day.item.goneTitle', message: 'This one’s off the plan' })}
-          </Text>
-          <Text variant="body">
-            {t({
-              id: 'plan.day.item.goneLine',
-              message: 'Someone removed it while you had it open.',
-            })}
-          </Text>
-          <PillButton
-            label={t({ id: 'plan.day.item.close', message: 'Close' })}
-            onPress={actions.onClose}
-          />
-        </Stack>
-      </Sheet>
-    );
-  }
 
   const start = times?.start ?? item.start;
   const end = times?.end ?? item.end;

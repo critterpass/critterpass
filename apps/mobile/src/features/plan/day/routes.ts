@@ -6,8 +6,11 @@
 import type { Href } from 'expo-router';
 import { Platform } from 'react-native';
 
-export function dayRoute(tripId: string, dayNo: number): Href {
-  return { pathname: '/[tripId]/day/[day]', params: { tripId, day: String(dayNo) } };
+export function dayRoute(tripId: string, dayNo: number, item?: string): Href {
+  return {
+    pathname: '/[tripId]/day/[day]',
+    params: { tripId, day: String(dayNo), ...(item === undefined ? {} : { item }) },
+  };
 }
 
 export function decideRoute(tripId: string, pollId: string): Href {

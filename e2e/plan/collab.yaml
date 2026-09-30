@@ -29,7 +29,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide'
 - extendedWaitUntil:
@@ -48,7 +51,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-vote-landed'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-vote-landed'
 - extendedWaitUntil:
@@ -67,7 +73,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-tie'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-tie'
 - extendedWaitUntil:
@@ -86,7 +95,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-closing'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-closing'
 - extendedWaitUntil:
@@ -105,7 +117,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-closed'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-closed'
 - extendedWaitUntil:
@@ -124,7 +139,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-stacked'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-stacked'
 - extendedWaitUntil:
@@ -143,7 +161,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-quiet'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-quiet'
 - extendedWaitUntil:
@@ -162,7 +183,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-loading'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-loading'
 - extendedWaitUntil:
@@ -181,7 +205,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-comments'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-comments'
 - extendedWaitUntil:
@@ -233,7 +260,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide'
 - extendedWaitUntil:
@@ -252,7 +282,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-vote-landed'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-vote-landed'
 - extendedWaitUntil:
@@ -271,7 +304,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-tie'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-tie'
 - extendedWaitUntil:
@@ -290,7 +326,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-closing'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-closing'
 - extendedWaitUntil:
@@ -309,7 +348,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-closed'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-closed'
 - extendedWaitUntil:
@@ -328,7 +370,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-stacked'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-stacked'
 - extendedWaitUntil:
@@ -347,7 +392,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-quiet'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-quiet'
 - extendedWaitUntil:
@@ -366,7 +414,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-decide-loading'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-decide-loading'
 - extendedWaitUntil:
@@ -385,7 +436,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-comments'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-comments'
 - extendedWaitUntil:

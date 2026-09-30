@@ -97,10 +97,6 @@ msgid "plan.day.item.changeConfirm"
 msgstr "Change it anyway"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.close"
-msgstr "Close"
-
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.cost"
 msgstr "Cost"
 
@@ -255,7 +251,8 @@ msgstr "Someone asked for this one. They’ll see the change."
 msgid "plan.day.conflictSomeone"
 msgstr "Someone moved this too"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneLine"
 msgstr "Someone removed it while you had it open."
 
@@ -299,7 +296,8 @@ msgstr "This one is a must-do"
 msgid "plan.day.item.bookedTitle"
 msgstr "This one is booked"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneTitle"
 msgstr "This one’s off the plan"
 

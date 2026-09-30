@@ -4,8 +4,11 @@
  * (organiser and member), a booked item's warning, an item someone else removed, and add.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
+
+import { toast } from '@/motion/island-toast';
 
 import { AddItemSheet } from '../add-item-sheet';
 import type { DayRowState } from '../day-list';
@@ -64,7 +67,22 @@ const actions = {
   onClose: closeScene,
 };
 
-function sheet(item: DayItem | null, canApply = true): ReactNode {
+/** The day after the open item was removed by someone else: the sheet closes with a toast. */
+function ItemGone() {
+  useEffect(() => {
+    toast.show({
+      id: 'plan-item-gone',
+      title: t({ id: 'plan.day.item.goneTitle', message: 'This one’s off the plan' }),
+      subtitle: t({
+        id: 'plan.day.item.goneLine',
+        message: 'Someone removed it while you had it open.',
+      }),
+    });
+  }, []);
+  return labDay();
+}
+
+function sheet(item: DayItem, canApply = true): ReactNode {
   return (
     <>
       {labDay()}
@@ -94,7 +112,7 @@ export const DAY_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'item-sheet': () => sheet(TERRACES),
   'item-sheet-member': () => sheet(WALK, false),
   'item-sheet-booked': () => sheet(DINNER),
-  'item-gone': () => sheet(null),
+  'item-gone': () => <ItemGone />,
   'add-item': () => (
     <>
       {labDay()}

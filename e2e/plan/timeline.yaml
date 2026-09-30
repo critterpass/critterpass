@@ -30,7 +30,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning'
 - extendedWaitUntil:
@@ -49,7 +52,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-lifted'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-lifted'
 - extendedWaitUntil:
@@ -68,7 +74,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-dragging'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-dragging'
 - extendedWaitUntil:
@@ -87,7 +96,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-dropped'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-dropped'
 - extendedWaitUntil:
@@ -106,7 +118,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-clash'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-clash'
 - extendedWaitUntil:
@@ -125,7 +140,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-read-only'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-read-only'
 - extendedWaitUntil:
@@ -144,7 +162,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-overnight'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-overnight'
 - extendedWaitUntil:
@@ -163,7 +184,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-sandbox'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-sandbox'
 - extendedWaitUntil:
@@ -193,7 +217,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-rain-ghost'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-rain-ghost'
 - extendedWaitUntil:
@@ -212,7 +239,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-ghost-accepted'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-ghost-accepted'
 - extendedWaitUntil:
@@ -231,7 +261,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-cursors'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-cursors'
 - extendedWaitUntil:
@@ -250,7 +283,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-no-forecast'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-no-forecast'
 - extendedWaitUntil:
@@ -269,7 +305,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-conflict'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-conflict'
 - extendedWaitUntil:
@@ -316,7 +355,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning'
 - extendedWaitUntil:
@@ -335,7 +377,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-lifted'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-lifted'
 - extendedWaitUntil:
@@ -354,7 +399,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-dragging'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-dragging'
 - extendedWaitUntil:
@@ -373,7 +421,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-dropped'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-dropped'
 - extendedWaitUntil:
@@ -392,7 +443,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-clash'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-clash'
 - extendedWaitUntil:
@@ -411,7 +465,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-read-only'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-read-only'
 - extendedWaitUntil:
@@ -430,7 +487,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-overnight'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-overnight'
 - extendedWaitUntil:
@@ -449,7 +509,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-rain-ghost'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-rain-ghost'
 - extendedWaitUntil:
@@ -468,7 +531,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-ghost-accepted'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-ghost-accepted'
 - extendedWaitUntil:
@@ -487,7 +553,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-cursors'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-cursors'
 - extendedWaitUntil:
@@ -506,7 +575,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-no-forecast'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-no-forecast'
 - extendedWaitUntil:
@@ -525,7 +597,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-planning-conflict'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-planning-conflict'
 - extendedWaitUntil:

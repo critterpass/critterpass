@@ -28,7 +28,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day'
 - extendedWaitUntil:
@@ -47,7 +50,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day-pending'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day-pending'
 - extendedWaitUntil:
@@ -66,7 +72,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day-free'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day-free'
 - extendedWaitUntil:
@@ -85,7 +94,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day-loading'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day-loading'
 - extendedWaitUntil:
@@ -104,7 +116,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day-read-only'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day-read-only'
 - extendedWaitUntil:
@@ -123,7 +138,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-sheet'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-sheet'
 - extendedWaitUntil:
@@ -142,7 +160,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-sheet-member'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-sheet-member'
 - extendedWaitUntil:
@@ -165,7 +186,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-sheet-booked'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-sheet-booked'
 - extendedWaitUntil:
@@ -197,16 +221,19 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-gone'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-gone'
 - extendedWaitUntil:
     visible:
-      id: 'plan-item-gone'
+      id: 'plan-day-list'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: en-3e-2-item-gone
+- takeScreenshot: en-3e-2-item-removed-by-someone
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
@@ -216,7 +243,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-add-item'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-add-item'
 - extendedWaitUntil:
@@ -263,7 +293,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day'
 - extendedWaitUntil:
@@ -282,7 +315,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day-pending'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day-pending'
 - extendedWaitUntil:
@@ -301,7 +337,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day-free'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day-free'
 - extendedWaitUntil:
@@ -320,7 +359,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day-loading'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day-loading'
 - extendedWaitUntil:
@@ -339,7 +381,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-day-read-only'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-day-read-only'
 - extendedWaitUntil:
@@ -358,7 +403,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-sheet'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-sheet'
 - extendedWaitUntil:
@@ -377,7 +425,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-sheet-member'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-sheet-member'
 - extendedWaitUntil:
@@ -400,7 +451,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-sheet-booked'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-sheet-booked'
 - extendedWaitUntil:
@@ -432,16 +486,19 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-item-gone'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-item-gone'
 - extendedWaitUntil:
     visible:
-      id: 'plan-item-gone'
+      id: 'plan-day-list'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
-- takeScreenshot: vi-3e-2-item-gone
+- takeScreenshot: vi-3e-2-item-removed-by-someone
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
@@ -451,7 +508,10 @@ appId: app.critterpass.dev
     element:
       id: 'plan-edit-lab-add-item'
     direction: DOWN
+    centerElement: true
     timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'plan-edit-lab-add-item'
 - extendedWaitUntil:

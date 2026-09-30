@@ -97,10 +97,6 @@ msgid "plan.day.item.changeConfirm"
 msgstr "Vẫn đổi"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
-msgid "plan.day.item.close"
-msgstr "Đóng"
-
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.cost"
 msgstr "Chi phí"
 
@@ -255,7 +251,8 @@ msgstr "Có người đã muốn mục này. Họ sẽ thấy thay đổi."
 msgid "plan.day.conflictSomeone"
 msgstr "Có người cũng vừa dời mục này"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneLine"
 msgstr "Có người đã bỏ mục này khi bạn đang mở."
 
@@ -299,7 +296,8 @@ msgstr "Đây là mục bắt buộc"
 msgid "plan.day.item.bookedTitle"
 msgstr "Mục này đã được đặt"
 
-#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneTitle"
 msgstr "Mục này không còn trong lịch"
 
