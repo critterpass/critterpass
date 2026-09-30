@@ -343,9 +343,9 @@ describe('winner reveal', () => {
       s.uid,
     );
     await renderVote(<Reveal me={s.uid} />, s);
-    await until(() => screen.queryByTestId('winner-reveal') !== null);
+    // Who organises loads after the result: the set-up button replaces the "organiser sets it up" line.
+    await until(() => screen.queryByTestId('reveal-set-up') !== null);
     expect(screen.getByText('WINS 2–1')).toBeTruthy();
-    expect(screen.getByTestId('reveal-set-up')).toBeTruthy();
     expect(screen.queryByTestId('reveal-lost')).toBeNull();
     await until(() => screen.queryByTestId('reveal-stamp') !== null);
     expect(await queued(s, 'mark_reveal_seen')).toEqual([{ poll_id: POLL }]);
@@ -363,7 +363,8 @@ describe('winner reveal', () => {
       MAYA,
     );
     await renderVote(<Reveal me={s.uid} />, s);
-    await until(() => screen.queryByTestId('reveal-setup-with') !== null);
+    // The organiser's name loads after the result, replacing the generic line.
+    await until(() => screen.queryByText('Setup is with Maya.') !== null);
     expect(screen.getByTestId('reveal-setup-with')).toHaveTextContent('Setup is with Maya.');
     expect(screen.getByTestId('reveal-lost')).toBeTruthy();
     expect(screen.queryByTestId('reveal-set-up')).toBeNull();
