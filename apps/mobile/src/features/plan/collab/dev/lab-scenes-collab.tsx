@@ -5,6 +5,7 @@
  * on the plan, three options stacked, a quiet thread, and the item sheet's comments.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
@@ -109,7 +110,10 @@ const composer = (
       value=""
       onChangeText={noop}
       onSend={noop}
-      placeholder="Say something about Nusa Penida"
+      placeholder={t({
+        id: 'plan.collab.composer',
+        message: `Say something about ${'Nusa Penida'}`,
+      })}
     />
   </KeyboardFooter>
 );

@@ -12,7 +12,7 @@ msgstr ""
 msgid "plan.collab.typingMany"
 msgstr "{0} đang nhập"
 
-#. placeholder {0}: format.list(locale, names)
+#. placeholder {0}: format.list(locale, names, { type: 'unit' })
 #: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
 msgid "plan.collab.here"
 msgstr "{0} đang ở đây"
@@ -69,7 +69,7 @@ msgstr "Đang hoà. Thêm một phiếu là xong."
 
 #: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
 msgid "plan.collab.keep"
-msgstr "Giữ"
+msgstr "Giữ nguyên"
 
 #: ../../apps/mobile/src/features/plan/collab/option-card.tsx
 msgid "plan.collab.leading"
@@ -109,8 +109,10 @@ msgstr "Lịch trình"
 msgid "plan.collab.apply"
 msgstr "Đưa vào lịch trình"
 
+#. placeholder {0}: 'Nusa Penida'
 #. placeholder {0}: focused.title
 #: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+#: ../../apps/mobile/src/features/plan/collab/dev/lab-scenes-collab.tsx
 msgid "plan.collab.composer"
 msgstr "Nói gì đó về {0}"
 

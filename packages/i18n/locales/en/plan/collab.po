@@ -12,7 +12,7 @@ msgstr ""
 msgid "plan.collab.typingMany"
 msgstr "{0} are typing"
 
-#. placeholder {0}: format.list(locale, names)
+#. placeholder {0}: format.list(locale, names, { type: 'unit' })
 #: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
 msgid "plan.collab.here"
 msgstr "{0} here"
@@ -109,8 +109,10 @@ msgstr "Plan"
 msgid "plan.collab.apply"
 msgstr "Put it on the plan"
 
+#. placeholder {0}: 'Nusa Penida'
 #. placeholder {0}: focused.title
 #: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+#: ../../apps/mobile/src/features/plan/collab/dev/lab-scenes-collab.tsx
 msgid "plan.collab.composer"
 msgstr "Say something about {0}"
 

@@ -189,7 +189,6 @@ appId: app.critterpass.dev
     timeout: 3000
 - takeScreenshot: en-3e-2-item-booked-warning
 - runFlow: ../onboarding/subflows/back.yaml
-- runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-item-sheet-booked'
@@ -424,7 +423,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: vi-3e-2-item-booked-warning
-- runFlow: ../onboarding/subflows/back.yaml
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
