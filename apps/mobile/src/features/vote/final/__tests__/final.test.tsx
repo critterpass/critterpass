@@ -264,16 +264,15 @@ describe('destination final', () => {
 
   it('scales a name from its designed size, never below the floor share', () => {
     // One line set at 150 pt (120 tall), 300 wide.
-    const fit = { key: 'k', cap: null, height: 120, width: 300, lines: 1 };
-    expect(nameCap(fit, 120, 0)).toBeNull();
-    expect(nameCap(fit, 120, 30)).toBeCloseTo(225);
+    const fit = { key: 'k', cap: null, height: 120, width: 300 };
+    expect(nameCap(fit, 120, 0, 5)).toBeNull();
+    expect(nameCap(fit, 120, 30, 5)).toBeCloseTo(225);
     // Already shed 30 of the 30 needed: the same box, not a narrower one.
-    expect(nameCap(fit, 90, 0)).toBeCloseTo(225);
+    expect(nameCap(fit, 90, 0, 5)).toBeCloseTo(225);
     // A crowded half stops at the floor share of its designed width.
-    expect(nameCap(fit, 120, 500)).toBeCloseTo(135);
-    // A long word set small already stops where it still fits whole at the floor size.
-    const long = { key: 'k', cap: null, height: 60, width: 340, lines: 1 };
-    expect(nameCap(long, 60, 500)).toBeCloseTo(340 * (44 / 75) * 1.15);
+    expect(nameCap(fit, 120, 500, 5)).toBeCloseTo(135);
+    // CHEFCHAOUEN (11 capitals) keeps the width it needs whole at the floor size.
+    expect(nameCap(fit, 120, 500, 11)).toBeCloseTo(11 * 44 * 0.45);
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {

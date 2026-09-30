@@ -201,7 +201,7 @@ export function ShowdownHalf({
   const ink = theme.semantic.text.onAccent;
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
-  const nameFit = useNameFit(`${name}|${i18n.locale}`, excess);
+  const nameFit = useNameFit(name, i18n.locale, excess);
   const endPadding = alignEnd
     ? edgeInset
     : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
