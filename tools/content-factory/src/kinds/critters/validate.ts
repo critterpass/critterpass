@@ -4,7 +4,7 @@
  * script and use that script, display names are Latin, notes never give the name away, and no name
  * trips the IP screen.
  */
-import { SET_GROUP_SIZES, type ContentItem } from '@cp/content';
+import type { ContentItem } from '@cp/content';
 import { critters as dex, places } from '@cp/critter-art';
 
 import { placeFacts, writesInLatin } from '../../data/place-facts';
@@ -122,7 +122,8 @@ export const critterValidators: Validators<'critters'> = {
         for (const item of items) byPlace.set(item.set_code, (byPlace.get(item.set_code) ?? 0) + 1);
         return [...byPlace].flatMap(([code, count]) => {
           const place = places.find((p) => p.code === code);
-          const expected = place === undefined ? 0 : SET_GROUP_SIZES[place.setGroup];
+          // The place data holds each set's size, which grows as critters roll out.
+          const expected = place?.critterIds.length ?? 0;
           return count === expected
             ? []
             : [{ ref: null, message: `${code} has ${count} critters, its set holds ${expected}` }];

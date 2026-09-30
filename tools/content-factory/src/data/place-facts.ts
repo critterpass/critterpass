@@ -11,14 +11,14 @@ export interface PlaceFacts {
   readonly script: string;
   readonly tz: string;
   readonly currency: string;
-  readonly guide: 'tokek' | 'pon' | 'lundi' | 'ajo' | 'sardi' | 'paco' | null;
+  readonly guide: 'tokek' | 'pon' | 'lundi' | 'ajo' | 'sardi' | 'paco' | 'chava' | null;
   /** `destinations.slug` of the live guide's destination. */
   readonly destination: string | null;
 }
 
 // prettier-ignore
 export const PLACE_FACTS: Readonly<Record<string, PlaceFacts>> = {
-  vn: { country: 'VN', languages: ['vi'], script: 'Latn', tz: 'Asia/Ho_Chi_Minh', currency: 'VND', guide: null, destination: 'da-nang' },
+  vn: { country: 'VN', languages: ['vi'], script: 'Latn', tz: 'Asia/Ho_Chi_Minh', currency: 'VND', guide: 'chava', destination: 'da-nang' },
   fr: { country: 'FR', languages: ['fr'], script: 'Latn', tz: 'Europe/Paris', currency: 'EUR', guide: null, destination: null },
   es: { country: 'ES', languages: ['es'], script: 'Latn', tz: 'Europe/Madrid', currency: 'EUR', guide: null, destination: null },
   us: { country: 'US', languages: ['en'], script: 'Latn', tz: 'America/New_York', currency: 'USD', guide: null, destination: null },
