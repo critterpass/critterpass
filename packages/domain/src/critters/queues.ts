@@ -32,7 +32,12 @@ export const CRITTER_QUEUE_SPECS = {
   'copresence.evaluate': { policy: 'exclusive', retryLimit: 5, notify: true },
   'reward.fanout': { policy: 'exclusive', retryLimit: 5, deadLetter: true },
   'reminders.conditional': { policy: 'exclusive', retryLimit: 3 },
-  'reminders.reschedule': { policy: 'singleton', retryLimit: 3, expireInSeconds: 10 * 60 },
+  'reminders.reschedule': {
+    policy: 'singleton',
+    retryLimit: 3,
+    expireInSeconds: 10 * 60,
+    cron: { expr: '10 5 * * *', tz: 'UTC' },
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function critterQueueSpecs(

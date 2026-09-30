@@ -272,6 +272,7 @@ CREATE TRIGGER crew_members_crew_counts AFTER INSERT OR UPDATE OF status ON crew
 CREATE FUNCTION app.grant_egg(p_user uuid, p_trip uuid)
   RETURNS TABLE (egg_id uuid, created boolean)
   LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+#variable_conflict use_column
 DECLARE
   starter uuid;
   inserted uuid;
@@ -321,6 +322,7 @@ GRANT EXECUTE ON FUNCTION app.grant_egg(uuid, uuid) TO app_system;
 CREATE FUNCTION app.hatch_egg(p_user uuid, p_trip uuid, p_trigger text)
   RETURNS TABLE (egg_id uuid, form_id uuid, entry_id uuid, hatched boolean)
   LANGUAGE plpgsql SECURITY DEFINER SET search_path = pg_catalog, public AS $$
+#variable_conflict use_column
 DECLARE
   egg uuid;
   form uuid;

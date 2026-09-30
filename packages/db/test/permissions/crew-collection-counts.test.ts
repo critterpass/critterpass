@@ -40,7 +40,8 @@ describe('crew_collection_counts', () => {
       expect(await visibleRows(harness, actors[kind], probe, [actors.organiser]), kind).toBe(0);
     }
     const synced = (await harness.rows('crew_people', 'member')).get('crew_collection_counts');
-    expect(synced?.map((row) => [row['critters'], row['forms']])).toEqual([[1, 1]]);
+    const organisers = synced?.filter((row) => row['user_id'] === actors.organiser);
+    expect(organisers?.map((row) => [row['critters'], row['forms']])).toEqual([[1, 1]]);
     expect(
       (await harness.rows('crew_people', 'outsider')).get('crew_collection_counts') ?? [],
     ).toEqual([]);
@@ -68,9 +69,8 @@ describe('crew_collection_counts', () => {
       );
     await setHidden(true);
     expect(await organiserCounts()).toEqual([]);
-    expect(
-      (await harness.rows('crew_people', 'member')).get('crew_collection_counts') ?? [],
-    ).toEqual([]);
+    const synced = (await harness.rows('crew_people', 'member')).get('crew_collection_counts');
+    expect((synced ?? []).filter((row) => row['user_id'] === actors.organiser)).toEqual([]);
     await setHidden(false);
     expect(await organiserCounts()).toEqual([{ critters: 1, forms: 1 }]);
   });

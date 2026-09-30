@@ -112,7 +112,7 @@ export async function seedCritterContent(
   const poiId = await one(
     tx,
     `INSERT INTO pois (destination_id, name, category, lat, lng)
-     VALUES ($1, 'Dragon Bridge', 'landmark', 16.0612, 108.2270) RETURNING id`,
+     VALUES ($1, 'Dragon Bridge', 'other', 16.0612, 108.2270) RETURNING id`,
     [destinationId],
   );
   const rule = await one(

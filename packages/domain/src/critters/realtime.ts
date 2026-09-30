@@ -26,16 +26,40 @@ export const copresenceProgressSchema = z
     /** Members with verified dwell at the spot inside the window. */
     here: z.number().int().min(0),
     needed: z.number().int().min(1),
+    /** Members on the trip who have not been there yet (participation, never location). */
+    missing: z.array(z.uuid()),
   })
   .strict();
 export type CopresenceProgress = z.infer<typeof copresenceProgressSchema>;
 
-/** Push copy (the guide's voice). `{critter}` is the found form's name, never an unfound one. */
+interface CritterCopy {
+  readonly id: string;
+  readonly message: string;
+}
+const copy = (id: string, message: string): CritterCopy => ({ id, message });
+
+/**
+ * Push copy (catalog id + source message; the worker renders it per recipient). A critter's name
+ * appears only to someone who has found it: crewmates hear "a new local", never an unfound name.
+ */
 export const CRITTER_PUSH = {
-  hatchedTitle: 'Your egg hatched!',
-  hatchedBody: 'Welcome to {place}. {critter} is on your pass.',
-  befriendedTitle: '{member} befriended {critter}',
-  befriendedBody: 'Found in {place}.',
-  legendaryTitle: '{critter} is out soon',
-  legendaryBody: 'Its window opens in a month. {place}.',
+  hatchedTitle: copy('notifications.critters.hatched.title', 'Your egg hatched!'),
+  hatchedBody: copy(
+    'notifications.critters.hatched.body',
+    'Welcome to {place}. {critter} is on your pass.',
+  ),
+  befriendedTitle: copy('notifications.critters.befriended.title', '{member} made a friend'),
+  befriendedNamed: copy(
+    'notifications.critters.befriended.named',
+    '{member} befriended {critter} in {place}.',
+  ),
+  befriendedUnnamed: copy(
+    'notifications.critters.befriended.unnamed',
+    '{member} befriended a new local in {place}.',
+  ),
+  legendaryTitle: copy('notifications.critters.legendary.title', 'A legendary is out soon'),
+  legendaryBody: copy(
+    'notifications.critters.legendary.body',
+    '{place} opens in a month. Want to plan around it?',
+  ),
 } as const;
