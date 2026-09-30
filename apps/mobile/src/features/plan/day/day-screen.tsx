@@ -22,7 +22,8 @@ import { ItemDetailSheet } from './item-detail-sheet';
 import { dayItems, type DayItem } from './plan-model';
 import { addOp, moveToDayOp, removeOp, resizeOp, type DaySlot } from './plan-ops';
 import { mapsUrl, placeRoute } from './routes';
-import { DayTimeline, useDayOverlays } from '../timeline/day-timeline';
+import { DayTimeline, guideOf, useDayOverlays } from '../timeline/day-timeline';
+import { ItemComments } from '../collab/item-comments';
 import { itemAnchor, usePlanPresence } from '../collab/use-presence';
 import { useDayEditing } from './use-day-editing';
 import type { EditOutcome } from './use-plan-editor';
@@ -154,6 +155,19 @@ export function DayScreen({ tripId, dayNo }: { readonly tripId: string; readonly
           dayNos={plan.state.days.map((candidate) => candidate.day_no)}
           members={plan.members}
           canApply={plan.canApply}
+          {...(open === null
+            ? {}
+            : {
+                comments: (
+                  <ItemComments
+                    tripId={tripId}
+                    uid={plan.uid}
+                    item={open}
+                    members={plan.members}
+                    guide={guideOf(plan.trip?.guide_slug ?? null)}
+                  />
+                ),
+              })}
           actions={{
             onClose: () => setOpenId(null),
             onSave: (start, end, confirmLocked) => {

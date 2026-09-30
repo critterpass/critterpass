@@ -6,3 +6,130 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: format.list(locale, typists)
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.typingMany"
+msgstr "{0} đang nhập"
+
+#. placeholder {0}: format.list(locale, names)
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.here"
+msgstr "{0} đang ở đây"
+
+#. placeholder {0}: typists[0] ?? ''
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.typingOne"
+msgstr "{0} đang nhập"
+
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.votes"
+msgstr "{count} phiếu"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.plusOneAction"
+msgstr "+1"
+
+#. placeholder {0}: format.list(locale, plusOned ? [t({ id: 'plan.collab.you', message: 'you' }), ...others] : others)
+#. placeholder {1}: ago(locale, comment.createdAt, now)
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.plusOnes"
+msgstr "+1 từ {0} · {1}"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.plusOne"
+msgstr "+1 cho bình luận này"
+
+#: ../../apps/mobile/src/features/plan/collab/item-comments.tsx
+msgid "plan.collab.itemComposer"
+msgstr "Thêm bình luận"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.closing"
+msgstr "Sắp đóng. Bỏ phiếu ngay."
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.deleted"
+msgstr "Bình luận đã xoá"
+
+#. placeholder {0}: day.day_no
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.eyebrowDay"
+msgstr "Ngày {0}"
+
+#. placeholder {0}: day.day_no
+#. placeholder {1}: dayDate(locale, day.date)
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.eyebrow"
+msgstr "Ngày {0} · {1}"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.tie"
+msgstr "Đang hoà. Thêm một phiếu là xong."
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.keep"
+msgstr "Giữ"
+
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.leading"
+msgstr "Dẫn đầu"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.loading"
+msgstr "Đang tải cuộc bình chọn"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.noComments"
+msgstr "Chưa có bình luận. Nói suy nghĩ của bạn."
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.on"
+msgstr "Về: {title}"
+
+#. placeholder {0}: option.title
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.photo"
+msgstr "ảnh · {0}"
+
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.picked"
+msgstr "Đã chọn"
+
+#. placeholder {0}: winner.title
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.closedPick"
+msgstr "Đã chọn: {0}"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.eyebrowNoDay"
+msgstr "Lịch trình"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.apply"
+msgstr "Đưa vào lịch trình"
+
+#. placeholder {0}: focused.title
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.composer"
+msgstr "Nói gì đó về {0}"
+
+#: ../../apps/mobile/src/features/plan/collab/item-comments.tsx
+msgid "plan.collab.send"
+msgstr "Gửi"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.unPlusOne"
+msgstr "Rút lại +1 của bạn"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.undo"
+msgstr "Hoàn tác"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.closedNoPick"
+msgstr "Bình chọn đã đóng mà chưa chọn được"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.you"
+msgstr "bạn"

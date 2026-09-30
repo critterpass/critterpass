@@ -14,6 +14,9 @@ import { createAnchorPublisher } from '@/data/realtime/use-anchored-presence';
 import { useChannel, useRealtimeClient } from '@/data/realtime/use-channel';
 import { usePresence, type PresenceMember } from '@/data/realtime/use-presence';
 
+/** Plan presence rides the trip's presence channel. */
+export const PRESENCE_NAMESPACE = 'trip_presence' as const;
+
 /** The anchor for a plan item (its stable id), as every plan surface names it. */
 export function itemAnchor(stableId: string): string {
   return planAnchor('plan_item', stableId);

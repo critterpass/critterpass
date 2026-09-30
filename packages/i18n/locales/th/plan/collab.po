@@ -6,3 +6,130 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
+
+#. placeholder {0}: format.list(locale, typists)
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.typingMany"
+msgstr ""
+
+#. placeholder {0}: format.list(locale, names)
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.here"
+msgstr ""
+
+#. placeholder {0}: typists[0] ?? ''
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.typingOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.votes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.plusOneAction"
+msgstr ""
+
+#. placeholder {0}: format.list(locale, plusOned ? [t({ id: 'plan.collab.you', message: 'you' }), ...others] : others)
+#. placeholder {1}: ago(locale, comment.createdAt, now)
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.plusOnes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.plusOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/item-comments.tsx
+msgid "plan.collab.itemComposer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.closing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.deleted"
+msgstr ""
+
+#. placeholder {0}: day.day_no
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.eyebrowDay"
+msgstr ""
+
+#. placeholder {0}: day.day_no
+#. placeholder {1}: dayDate(locale, day.date)
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.tie"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.leading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.noComments"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.on"
+msgstr ""
+
+#. placeholder {0}: option.title
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.photo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.picked"
+msgstr ""
+
+#. placeholder {0}: winner.title
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.closedPick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.eyebrowNoDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.apply"
+msgstr ""
+
+#. placeholder {0}: focused.title
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.composer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/item-comments.tsx
+msgid "plan.collab.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.unPlusOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.closedNoPick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.you"
+msgstr ""
