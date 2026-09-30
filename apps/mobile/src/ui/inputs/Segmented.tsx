@@ -92,7 +92,8 @@ export function Segmented<Value extends string>({
             accessibilityState={{ checked: selected }}
             style={[
               styles.segment,
-              selected ? { backgroundColor: theme.semantic.action.primary } : null,
+              // The selected segment is a cream pill with ink text (3b-4, 3e-1, 4e-1).
+              selected ? { backgroundColor: theme.semantic.text.primary } : null,
             ]}
           >
             <Text
