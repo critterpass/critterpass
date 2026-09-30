@@ -112,6 +112,10 @@ describe('bundled face metrics', () => {
     expect(face.glyphBottom).toBeLessThanOrEqual(face.descent + 0.0015);
     // Every weight and width of a family shares one cap height, give or take 3 units.
     expect(Math.abs((expected?.capHeight ?? 0) - face.capHeight)).toBeLessThanOrEqual(0.004);
+    // Laid out with ascent + descent centred on the line, the capitals sit within 0.03 em of the
+    // line's centre (half a point at 16 pt; tools/scripts/fonts/build-fonts.py centres Borel's and
+    // Noto Sans Thai's).
+    expect(Math.abs((face.ascent - face.descent - face.capHeight) / 2)).toBeLessThanOrEqual(0.03);
   });
 });
 

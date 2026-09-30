@@ -176,7 +176,8 @@
       ],
       "criticalRanges": ["vietnamese"],
       "keepFeatures": ["tnum", "case"],
-      "targets": ["mobile", "web"]
+      "targets": ["mobile", "web"],
+      "centreCapsOn": "HEIN"
     },
     "caveat": {
       "displayName": "Caveat",
@@ -262,7 +263,8 @@
       "unicodeRanges": ["thai", "thaiLatinDigitsPunct"],
       "criticalRanges": ["thai"],
       "keepFeatures": ["tnum"],
-      "targets": ["mobile", "web"]
+      "targets": ["mobile", "web"],
+      "centreCapsOn": "กดวน"
     }
   }
 }

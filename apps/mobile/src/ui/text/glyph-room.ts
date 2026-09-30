@@ -21,10 +21,10 @@ export const FACE_METRICS: Readonly<
   >
 > = {
   Archivo: { ascent: 0.878, descent: 0.21, glyphTop: 1.059, capHeight: 0.687 },
-  Borel: { ascent: 0.986, descent: 1.014, glyphTop: 1.203, capHeight: 0.729 },
+  Borel: { ascent: 1.364, descent: 0.636, glyphTop: 1.203, capHeight: 0.729 },
   Geist: { ascent: 1.005, descent: 0.295, glyphTop: 1.082, capHeight: 0.71 },
   GeistMono: { ascent: 1.005, descent: 0.295, glyphTop: 1.076, capHeight: 0.71 },
-  NotoSansThai: { ascent: 1.061, descent: 0.45, glyphTop: 0.865, capHeight: 0.56 },
+  NotoSansThai: { ascent: 1.034, descent: 0.477, glyphTop: 0.865, capHeight: 0.56 },
 };
 
 /** `Archivo-W70-900` → `Archivo`; the OS default face (`system`) has no bundled metrics. */

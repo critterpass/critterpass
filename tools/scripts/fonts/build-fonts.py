@@ -30,6 +30,7 @@ from typing import Any
 
 from fontTools import subset
 from fontTools.misc.timeTools import timestampSinceEpoch
+from fontTools.pens.boundsPen import BoundsPen
 from fontTools.ttLib import TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
 
@@ -203,6 +204,39 @@ def rename_static_instance(font: TTFont, family_name: str, weight: int) -> None:
         font["head"].modified = FIXED_TIMESTAMP
 
 
+def cap_height(font: TTFont, cap_letters: str) -> float:
+    """The top of the tallest of `cap_letters`, in font units."""
+    cmap = font.getBestCmap()
+    glyph_set = font.getGlyphSet()
+    top = 0.0
+    for letter in cap_letters:
+        pen = BoundsPen(glyph_set)
+        glyph_set[cmap[ord(letter)]].draw(pen)
+        if pen.bounds is not None:
+            top = max(top, pen.bounds[3])
+    return top
+
+
+def centre_caps_on_line(font: TTFont, cap: float) -> None:
+    """Moves the face's line metrics so its capitals, `cap` units tall, sit centred on every line.
+
+    iOS and Android lay a line out on the face's ascent and descent (hhea, and OS/2 typo with
+    USE_TYPO_METRICS), centring ascent + descent on the line box (the app's `Text` makes iOS do so
+    for lines shorter than the face too). The capitals then sit centred when ascent - descent equals
+    the cap height. This keeps ascent + descent, so a line's natural height doesn't change, and
+    moves the split between them.
+    """
+    hhea = font["hhea"]
+    os2 = font["OS/2"]
+    total = hhea.ascent - hhea.descent
+    ascent = round((total + cap) / 2)
+    descent = ascent - total
+    hhea.ascent = ascent
+    hhea.descent = descent
+    os2.sTypoAscender = ascent
+    os2.sTypoDescender = descent
+
+
 def subset_font(font: TTFont, codepoints: set[int], keep_features: list[str]) -> TTFont:
     options = subset.Options()
     options.layout_features = sorted(set(options.layout_features) | set(keep_features))
@@ -306,8 +340,12 @@ def build_one_instance(name: str, spec: dict[str, Any], sources: dict[str, Any],
 
     coverage = check_coverage(source_font, sources, spec["unicodeRanges"], spec.get("criticalRanges", []))
     subset_font(font, codepoints, keep_features)
-    ttf_bytes = save_ttf_bytes(font) if "mobile" in targets or "maps" in targets else b""
     woff2_bytes = save_woff2_bytes(font) if "web" in targets else None
+    # The app's files only; the web's keep the upstream metrics.
+    # Measured on the source's default instance, so every weight of a family shares one split.
+    if "centreCapsOn" in spec:
+        centre_caps_on_line(font, cap_height(source_font, spec["centreCapsOn"]))
+    ttf_bytes = save_ttf_bytes(font) if "mobile" in targets or "maps" in targets else b""
     return BuiltInstance(
         family_key=name,
         file_stem=instance.file_stem,
