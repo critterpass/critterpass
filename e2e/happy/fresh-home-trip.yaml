@@ -38,9 +38,10 @@ appId: app.critterpass.dev
 # The crew's first pitch, through Home's own control.
 - tapOn:
     id: 'home-pitch'
+# With no place picked yet the sheet opens on its search field, focused.
 - extendedWaitUntil:
     visible:
-      id: 'pitch-sheet'
+      id: 'pitch-search'
     timeout: 15000
 - tapOn:
     id: 'pitch-search'
