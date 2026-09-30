@@ -44,6 +44,7 @@ function world(answer: unknown, status = 200) {
   const stored: string[] = [];
   const posts: { url: string; headers: Headers; body: string }[] = [];
   const replies: string[] = [];
+  const forwards: string[] = [];
   const env: InboundEnv = {
     RAW_MAIL: {
       put: (key: string) => {
@@ -68,6 +69,10 @@ function world(answer: unknown, status = 200) {
       replies.push(raw);
       return Promise.resolve();
     },
+    forward: (to: string) => {
+      forwards.push(to);
+      return Promise.resolve();
+    },
   };
   return {
     env,
@@ -75,6 +80,7 @@ function world(answer: unknown, status = 200) {
     stored,
     posts,
     replies,
+    forwards,
   };
 }
 
@@ -130,6 +136,23 @@ describe('inbound email', () => {
     expect(await handleInbound(big.value, off.env, off.deps)).toBe('too_large');
     expect(off.stored).toEqual([]);
     expect(off.posts).toEqual([]);
+  });
+
+  it('forwards the zone’s other addresses unchanged, even while imports are paused', async () => {
+    const zone = world({ action: 'accepted' });
+    const env = { ...zone.env, FORWARD_OTHER_MAIL_TO: 'founder@example.com' };
+    const alert = message({ to: 'alert@critterpass.app' });
+    expect(await handleInbound(alert.value, env, zone.deps)).toBe('forwarded');
+    const paused = { ...env, IMPORTS_MAIL_ENABLED: 'false' };
+    const hello = message({ to: 'Hello@critterpass.app' });
+    expect(await handleInbound(hello.value, paused, zone.deps)).toBe('forwarded');
+    expect(zone.forwards).toEqual(['founder@example.com', 'founder@example.com']);
+    expect([...alert.rejected, ...hello.rejected]).toEqual([]);
+    const crew = message();
+    expect(await handleInbound(crew.value, paused, zone.deps)).toBe('paused');
+    expect(zone.forwards).toHaveLength(2);
+    expect(zone.stored).toEqual([]);
+    expect(zone.posts).toEqual([]);
   });
 
   it('bounces with the api’s reason, or a try-later when the api is down', async () => {

@@ -1,8 +1,9 @@
-# Email Worker for crew forward addresses (`{crew}@in.critterpass.app`). Cloudflare Email Routing
-# sends every address of the zone's `in.` subdomain here (a catch-all rule, see README.md); the
+# Email Worker for crew forward addresses (`{crew}@in.critterpass.app`). Cloudflare Email Routing's
+# zone-wide catch-all sends every unmatched address here (see README.md): mail for the zone's other
+# addresses is forwarded to the secret `FORWARD_OTHER_MAIL_TO` (the catch-all's old destination); the
 # Worker keeps the raw message in R2 for 7 days (bucket lifecycle rule) and posts signed metadata to
 # the api, which decides accept / quarantine / reject. Secrets are Wrangler secrets:
-# `INBOUND_EMAIL_HMAC_SECRET` (shared with the api).
+# `INBOUND_EMAIL_HMAC_SECRET` (shared with the api) and `FORWARD_OTHER_MAIL_TO`.
 name = "cp-inbound-email"
 main = "src/index.ts"
 compatibility_date = "2026-08-01"
@@ -19,7 +20,7 @@ bucket_name = "cp-inbound-mail-dev"
 
 [env.staging.vars]
 INBOUND_DOMAIN = "in.staging.critterpass.app"
-API_BASE_URL = "https://api.staging.critterpass.app"
+API_BASE_URL = "https://api-staging-de92.up.railway.app"
 IMPORTS_MAIL_ENABLED = "true"
 
 [[env.staging.r2_buckets]]
