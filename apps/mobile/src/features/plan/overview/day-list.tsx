@@ -5,7 +5,7 @@
  * arrives from someone else re-sorts with the same spring. Past days of a trip under way fold into
  * one row.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { AccessibilityActionEvent } from 'react-native';
 import { View } from 'react-native';
@@ -282,7 +282,10 @@ export function DayList(props: DayListProps) {
             label={
               showPast
                 ? t({ id: 'plan.overview.hidePast', message: 'Hide past days' })
-                : t({ id: 'plan.overview.showPast', message: `${pastCount} past days` })
+                : t({
+                    id: 'plan.overview.showPast',
+                    message: plural(pastCount, { one: '# past day', other: '# past days' }),
+                  })
             }
             onPress={() => setShowPast((shown) => !shown)}
             testID="plan-past-toggle"

@@ -6,3 +6,265 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
+
+#. placeholder {0}: props.vote.yes
+#. placeholder {1}: props.vote.needed
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.tally"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.memberDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.member"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
+msgid "plan.review.bookingsMoved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.title.dropout"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.title.delay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.title.weather"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.title.plan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.guideDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.guide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
+msgid "plan.review.mustDosTouched"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.tally"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.personal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/notification-actions.tsx
+msgid "plan.push.approve"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.approved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.applying"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.applying"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
+msgid "plan.review.queued.toggle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.backDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.backDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.delay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.approved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.dropout"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.dropped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
+msgid "plan.review.each"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.chat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.toggleHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.kept"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.rejected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-chips.tsx
+msgid "plan.review.noCost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.draft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.no"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/notification-actions.tsx
+msgid "plan.push.reject"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.no"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.noMustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.summary.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.stale"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.backPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.sendSelf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.applyNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.weather"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.expired"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.redraft"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/change-card.tsx
+msgid "plan.review.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.needsSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.tag.swap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.rejected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.stale"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.supplierRefused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-copy.ts
+msgid "plan.review.notice.expired"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.warn.booking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.warn.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.state.voting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/changeset-chat-card.tsx
+msgid "plan.card.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.votedNo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/review-view.tsx
+msgid "plan.review.votedYes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
+msgid "plan.review.queued.no"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
+msgid "plan.review.queued.yes"
+msgstr ""

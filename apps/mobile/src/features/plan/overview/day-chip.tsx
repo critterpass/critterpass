@@ -2,7 +2,7 @@
  * A day card's trailing chip on 3e-1: BOOKED, "{n} VOTE" (pulsing softly while the vote is open)
  * or the day's weather doodle.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import Animated from 'react-native-reanimated';
 
 import { upper } from '@cp/i18n';
@@ -36,7 +36,10 @@ export function dayChipLabel(chip: DayChipModel): string | undefined {
 
 function voteWord(ballots: number): string {
   return ballots > 0
-    ? t({ id: 'plan.overview.chip.votes', message: `${ballots} vote` })
+    ? t({
+        id: 'plan.overview.chip.votes',
+        message: plural(ballots, { one: '# vote', other: '# votes' }),
+      })
     : t({ id: 'plan.overview.chip.vote', message: 'Vote' });
 }
 
