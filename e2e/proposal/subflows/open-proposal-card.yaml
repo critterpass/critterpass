@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# Home → crew chat → the proposal's card → its button (the member's version, or the organiser's
+# tracker). The card waits for the trip's rows to sync.
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'proposal-card-open-.*'
+    direction: DOWN
+    timeout: 60000
+- tapOn:
+    id: 'proposal-card-open-.*'
+    index: 0

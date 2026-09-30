@@ -1,0 +1,145 @@
+appId: app.critterpass.dev
+---
+# From the dates step to DRAFT MY TRIP for a crew with no shared calendars: a week of next month
+# marked free by hand and the window locked (or a week picked), the budget locked, the rooms
+# (a stay picked and its rooms locked, or the even split), one must-do, and DRAFT MY TRIP.
+# Days by hand, whatever this phone's calendar already shared on the way in. The row sits under
+# the heatmap, behind the footer until it is scrolled to the middle.
+- scrollUntilVisible:
+    element:
+      id: 'own-calendar-action'
+    timeout: 10000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'own-calendar-action'
+- extendedWaitUntil:
+    visible:
+      id: 'calendar-by-hand'
+    timeout: 10000
+- tapOn:
+    id: 'calendar-by-hand'
+- extendedWaitUntil:
+    visible:
+      id: 'manual-days-month'
+    timeout: 10000
+# Next month: every day of it is ahead of today. Seven days in a row, each tapped once: free.
+- tapOn:
+    id: 'manual-days-next'
+- tapOn:
+    id: 'manual-day-.*'
+    index: 8
+- tapOn:
+    id: 'manual-day-.*'
+    index: 9
+- tapOn:
+    id: 'manual-day-.*'
+    index: 10
+- tapOn:
+    id: 'manual-day-.*'
+    index: 11
+- tapOn:
+    id: 'manual-day-.*'
+    index: 12
+- tapOn:
+    id: 'manual-day-.*'
+    index: 13
+- tapOn:
+    id: 'manual-day-.*'
+    index: 14
+- tapOn:
+    id: 'manual-days-save'
+- extendedWaitUntil:
+    notVisible:
+      id: 'manual-days-month'
+    timeout: 15000
+# The saved days reach the crew's counts, and the organiser has a way on.
+- extendedWaitUntil:
+    visible:
+      id: 'when-cta|when-pick-week'
+    timeout: 60000
+- assertNotVisible:
+    text: '(?i)nobody has shared their days yet.*'
+- runFlow:
+    when:
+      visible:
+        id: 'when-cta'
+    commands:
+      - tapOn:
+          id: 'when-cta'
+- runFlow:
+    when:
+      visible:
+        id: 'when-pick-week'
+    commands:
+      - tapOn:
+          id: 'when-pick-week'
+      - extendedWaitUntil:
+          visible:
+            id: 'picker-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'picker-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'budget-lock'
+    timeout: 30000
+- tapOn:
+    id: 'budget-lock'
+# Rooms: pick the first stay when the place has stay prices and wait for its rooms; with none,
+# LOOKS GOOD accepts the even split.
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-lock'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-stay-option-.*'
+    commands:
+      - tapOn:
+          id: 'setup-rooms-stay-option-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'setup-rooms-room-.*'
+          timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'setup-rooms-lock'
+    timeout: 10000
+- tapOn:
+    id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Tram 28 at sunrise'
+- tapOn:
+    id: 'add-must-do-keep'
+# Android shows the row's title in capitals; iOS reads the row whole ("Tram 28 at sunrise,
+# Winston").
+- extendedWaitUntil:
+    visible:
+      text: '(?i)tram 28 at sunrise.*'
+    timeout: 15000
+# KEEP closes the sheet and its keyboard with it; hideKeyboard with no keyboard up is a back press on
+# Android, which would leave setup.
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 10000
+- tapOn:
+    id: 'must-dos-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen'
+    timeout: 30000
