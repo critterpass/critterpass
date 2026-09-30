@@ -141,7 +141,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Table-driven state machine + transition trigger. 2. Hold → `supplier.hold_expiry` scheduled before `validUntil`; emits `hold.expiring`; registers the Viator implementations of P29's `HoldExpiryProvider` (poll `closes_at` clamp) and `BookingImpactProvider` (fee/cancel window, supplier refusal → blocked). Holds are placed only at booking time (after RSVP/vote), never at proposal time; if `validUntil` is shorter than the minimum vote window (`ops_config supplier.min_vote_window_min`, default 60), no hold is taken and copy is "book when agreed". 3. Book → pending poll → confirmed → P34 `add_booking(source=viator)` + P33 expense in one tx. 4. Cancel with quote. 5. `trip.dropout` handler. 6. Register GuideAction inverses + `bookable_activity`, `propose_hold` executors.
 - Tests: `pnpm --filter @cp/api test -- suppliers/viator-flow` (Testcontainers + recorded sandbox)
 - Done when: every state transition covered; hold expiry releases and closes linked vote; duplicate `book_activity` op_id never double-books; P29 clamp test: poll `closes_at` ≤ hold `validUntil`; booking-impact and supplier-refusal tests pass; a 20-min hold fixture yields no hold + "book when agreed".
-- Status: done — 41a0c583 (Viator behind the `ActivityBookingPort`; GuideAction inverses and the `bookable_activity`/`propose_hold` executors need `packages/ai` and the worker's guide-action registry, outside this lane; the dropout cancel waits on the `trip.dropout` queue; the Viator webhook stays unregistered, poll-only)
+- Status: done — 41a0c583 (Viator behind the `ActivityBookingPort`; GuideAction inverses and the `bookable_activity`/`propose_hold` executors need `packages/ai` and the worker's guide-action registry, outside this lane; the dropout cancel waits on the `trip.dropout` queue; the Viator webhook stays unregistered, poll-only); the `bookable_activity`/`propose_hold` executors and the supplier undo steps followed in 1d89e897 (supplier actions are forbidden guide kinds, so their undo is the person's compensating command in `packages/domain/src/suppliers/compensation.ts`, not a ChangeSet inverse)
 
 ### T5 — Truthful copy rules + supplier card + booking sheet UI
 - Goal: in-app offer cards and Viator booking/payment on both platforms.
@@ -180,6 +180,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Partner OAuth client-credentials (`ride.estimate`). 2. Quote route (60 s cache of our quote only, per api-contracts) → `ride_quotes`. 3. Market availability table (Grab SEA cities; Gojek ID; else taxi/Uber link). 4. `log_ride` → `rides` + P33 expense split by attendees. 5. `ride_quote` tool executor ("never claim a car is booked").
 - Tests: `pnpm --filter @cp/api test -- suppliers/rides`; `GRAB_SANDBOX=1 pnpm --filter @cp/suppliers test:live -- grab`
 - Done when: Denpasar airport → Ubud quote returns fare range + deep link on replayed Farefeed fixtures; ride log creates a split expense. Live Grab run on staging → P54 launch checks.
+- Status: done — 4b8c62d8 (Farefeed behind the `grab_farefeed` switch, off until Grab approves the partner account; plain Grab/Gojek/Uber links and the phrase card meanwhile; fixtures follow Grab's published samples until a staging recording exists; `ride_quotes` and `rides` land in a second `*_rides_providers.sql`)
 
 ### T9 — Getting around screen (3h-3)
 - Goal: truthful redesign of 3h-3 in the app.
@@ -194,6 +195,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Cloud API client (templates, session messages, delivery status). 2. Draft → approval (hash of exact text) → ops task; send guard in DB + handler. 3. Webhook signature + routing to thread. 4. `propose_vendor_message` executor + GuideAction inverse.
 - Tests: `pnpm --filter @cp/api test -- suppliers/vendor-comms`
 - Done when: sending an unapproved or edited-after-approval text is rejected at handler and DB; bad webhook signature rejected.
+- Status: done — 75e45c16 (the desk number sits behind the `whatsapp_business` switch; until the WhatsApp Business account and the `traveller_request` template exist, drafts return to the traveller as a `wa.me` share; the desk webhook is `/webhooks/whatsapp/vendor`, its own Meta app)
 
 ### T10b — Vendor reply parsing + eval
 - Goal: inbound vendor replies → structured intent, treated as untrusted.
@@ -201,6 +203,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. AI-31 reply intent (Jev decision route, Haiku twin, no tools, reply inside delimited untrusted block; confidence below the route threshold → ops desk). 2. Eval incl. multilingual and injection cases.
 - Tests: `pnpm --filter @cp/ai eval -- vendor-reply`; `pnpm --filter @cp/worker test -- suppliers/vendor-reply`
 - Done when: reply "ok 13:50 bisa" parses to yes + time; injection replies never change intent schema or trigger actions.
+- Status: done — 77673295 (route `vendor.reply_intent`, Jev with its DeepSeek twin; times and prices are taken from the reply text in code, never from the model; eval 13/13 live and replay)
 
 ### T10c — Concierge hand-off + lottery reminders
 - Goal: human clinic/other concierge requests and lottery entry reminders.
@@ -208,6 +211,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Concierge request (clinic/other) → ops task + insurance share hook (P34). 2. Lottery `set_entry_reminder` via `scheduled_events` per participant + official link (3c-7, 3c-9).
 - Tests: `pnpm --filter @cp/api test -- suppliers/concierge`
 - Done when: concierge creates one ops task (idempotent); reminder fires per participant at `closes_at` − lead; no entry is ever submitted by us.
+- Status: done — fb3e7bab
 
 ### T11 — Ops vendor desk (admin) + in-app vendor cards
 - Goal: human desk UI and user-facing status cards.
@@ -215,6 +219,7 @@ Build this phase's console panel to its render (`design/Ops - Desk.dc.html`, `do
 - Steps: 1. Admin queue (P17 shell, audited), SLA timers, send with approved text read-only. 2. Thread view + reply status. 3. Mobile cards: "Draft ready — send?" → "Sent {time}, waiting" → "{vendor} replied: …"; desk-hours state; not-on-WhatsApp fallback (`tel:` + phrase card). 4. Notification action approve (N category registered with P11).
 - Tests: `pnpm --filter @cp/admin test:e2e -- vendor-desk` (Playwright); `maestro test e2e/suppliers/vendor-message.yaml`
 - Done when: end-to-end on local stack with replayed WhatsApp webhook fixtures: user approves → ops sends → reply card appears on device. Live WhatsApp test-number run → P54 launch checks.
+- Status: in progress — aa829956 (server and ops console done: `/v1/admin/vendor-desk`, `send_vendor_message`, `set_vendor_contact`, `propose_vendor_reply`, Playwright `apps/admin/playwright/vendor-desk.spec.ts`; the in-app vendor cards, the approve notification action and `e2e/suppliers/vendor-message.yaml` are the app lane's; the live send waits on the WhatsApp Business account)
 
 ## Phase acceptance criteria
 - [ ] Permission suites for all phase tables pass; `ops.*` unreadable by app roles.
