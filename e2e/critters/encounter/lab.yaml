@@ -21,7 +21,7 @@ appId: app.critterpass.dev
     id: 'dev-nav-critters-lab'
 - extendedWaitUntil:
     visible:
-      id: 'critters-lab-3l-4-filling'
+      id: 'critters-lab-3l-2-pass'
     timeout: 15000
 - scrollUntilVisible:
     element:
@@ -351,7 +351,7 @@ appId: app.critterpass.dev
     id: 'dev-nav-critters-lab'
 - extendedWaitUntil:
     visible:
-      id: 'critters-lab-3l-4-filling'
+      id: 'critters-lab-3l-2-pass'
     timeout: 15000
 - scrollUntilVisible:
     element:
