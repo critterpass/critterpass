@@ -366,6 +366,10 @@ msgstr "Chỉ mình bạn, {placeName}"
 msgid "vote.poll.loading"
 msgstr "Đang tải bình chọn"
 
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.lockIn"
+msgstr "Chốt {only}"
+
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.title"
 msgstr "Bình chọn mới"
@@ -511,6 +515,10 @@ msgstr "Đang gỡ một nơi khỏi bảng"
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.retract"
 msgstr "Đang rút phiếu của bạn"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.lockInFailed"
+msgstr "Chưa chốt được. Thử lại sau chút nhé."
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.emptyLine"

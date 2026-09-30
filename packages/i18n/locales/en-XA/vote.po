@@ -366,6 +366,10 @@ msgstr ""
 msgid "vote.poll.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.lockIn"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.title"
 msgstr ""
@@ -510,6 +514,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.retract"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.lockInFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
