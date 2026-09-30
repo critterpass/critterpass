@@ -176,3 +176,4 @@ export {
   packingItems,
   readiness,
 } from './trip-day';
+export * from './proposals';

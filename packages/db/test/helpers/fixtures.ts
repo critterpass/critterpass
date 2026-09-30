@@ -29,6 +29,7 @@ import { seedPollRows } from './poll-fixture';
 import { seedGuideChat } from './guide-fixture';
 import { seedTripDayRows } from './trip-day-fixture';
 import { seedExploreRows } from './explore-fixture';
+import { seedProposalRows } from './proposal-fixture';
 import { seedSetupRows } from './setup-fixture';
 import {
   insertChangeSet,
@@ -430,6 +431,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       organiser,
       member,
     });
+    await seedProposalRows(tx, { tripId, organiser, coOrganiser, member, exMember });
 
     const opId = crypto.randomUUID();
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });
