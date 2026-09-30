@@ -62,10 +62,12 @@ describe('quests.generate', () => {
     });
     expect(again.outcome).toBe('already_published');
     expect(await questsOn(world.today)).toHaveLength(3);
-    const events = await world.q<{ n: number }>(
-      "SELECT count(*)::int AS n FROM domain_events WHERE type = 'quest.published' AND trip_id = $1",
-      [world.tripId],
-    );
+    const events = (
+      await world.harness.pool.query<{ n: number }>(
+        "SELECT count(*)::int AS n FROM domain_events WHERE type = 'quest.published' AND trip_id = $1",
+        [world.tripId],
+      )
+    ).rows;
     expect(events[0]?.n).toBe(1);
   });
 

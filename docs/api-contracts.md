@@ -358,8 +358,9 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | `set_legendary_reminder` | `{window_id, on}` | self | – | `legendary.reminder_set`; N-30 via `legendary.reminder_due` | A, O | 40 |
 | `set_guide_skin` (doc delta) | `{guide_id, form_id\|null}` (owned form; null reverts) | self | – | – | A, O | 40 |
 | `set_explore_at_home` (doc delta) | `{on}` | self | – | – | A, O | 40 |
-| `signup_quest` | `{quest_id}` | participant | – | `quest.signed_up` | A, O | 41 |
-| `grant_quest_reward` | `{quest_id, uids[]}` | S (evaluator) | – | `quest.completed`, `xp.granted` (N-17) | S | 41 |
+| `signup_quest` | `{quest_id}` → `{quest_id, signed_up}` (optional quests; a closed quest → `STATE_INVALID{quest_closed}`, a traveller out of the trip → `NOT_ELIGIBLE{not_on_trip}`) | participant | – | `quest.signed_up` | A, O | 41 |
+| `grant_quest_reward` | `{quest_id, uids[]}` → `{completed, reveal_at?}`: once per quest (`app.grant_quest_reward`), XP to the crew and the given travellers still on the trip, reward revealed at `reveal_at` = server now + 1.5 s (doc delta: the evaluator calls the same SQL function directly) | S (evaluator) | – | `quest.completed`, `xp.granted`, `sticker.granted` (N-17) | S | 41 |
+| `generate_quests` (S, doc delta: a job, not a command) | job `quests.generate {trip_id, local_date}`, queued by `quests.sweep` from 04:00 on the trip's clock | system | – | `quest.published` (N-31) | S | 41 |
 
 ### 4.14 Recap, album, postcards (P43, P44)
 

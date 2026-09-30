@@ -226,7 +226,7 @@ Phase owns the migration that creates the table (later phases may add columns vi
 | 38 Help & SOS | `help_sessions`, `help_session_private` |
 | 39 Crew live map | `meetups` |
 | 40 Critters | `eggs`, `encounters`, `encounter_samples`, `collection_entries` (and new `stickers` kinds) |
-| 41 Quests, XP | `quests`, `quest_signups`, `quest_progress`, `xp_ledger` |
+| 41 Quests, XP | `quests`, `quest_signups`, `quest_progress` (trip), `xp_ledger` (own rows on me, crew rows on crews), `crew_xp` (crews; doc delta: a table) — `infra/powersync/streams/quests.yaml` |
 | 43 Recap, stamps | `recaps`, `recap_awards`, `recap_views`, `stamp_signatures`, `anniversaries` |
 | 44 Album, postcards | `photos`, `album_picks`, `memories`, `memory_reactions`, `postcards`, `postcard_mailings`, `mailing_addresses` |
 | 45 You: profile, export, deletion | `app_icon_unlocks`, `guide_skins`, `past_trips`, `data_exports` (+ purge jobs) |
