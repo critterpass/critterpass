@@ -1,0 +1,181 @@
+# Seeded replies that miss the printed total the way models slip on photographed receipts. Code
+# corrects them only when one smallest correction makes the lines add up exactly, with every amount
+# read from a printed line; otherwise the lines stay and the doubtful ones are named for review.
+- description: seeded, a unit price listed beside its line total is left out
+  currency_hint: VND
+  lines:
+    - { id: l0, text: Tra da }
+    - { id: l1, text: '3,000' }
+    - { id: l2, text: '5' }
+    - { id: l3, text: '15,000' }
+    - { id: l4, text: Com rang }
+    - { id: l5, text: '120,000' }
+    - { id: l6, text: 'Tong 135,000' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: VND
+    lines:
+      - { line_id: l1, label: Tra da, qty: null, amount: '3,000', kind: item }
+      - { line_id: l3, label: Tra da, qty: 5, amount: '15,000', kind: item }
+      - { line_id: l5, label: Com rang, qty: null, amount: '120,000', kind: item }
+    total: { line_id: l6, amount: '135,000' }
+  expect:
+    currency: VND
+    total_minor: 135000
+    matches_total: true
+    lines:
+      - { line_id: l3, kind: item, amount_minor: 15000 }
+      - { line_id: l5, kind: item, amount_minor: 120000 }
+    review: []
+- description: seeded, a unit price taken for a counted item becomes its printed line total
+  currency_hint: VND
+  lines:
+    - { id: l0, text: Tra sen }
+    - { id: l1, text: '2' }
+    - { id: l2, text: '120,000' }
+    - { id: l3, text: '60,000' }
+    - { id: l4, text: Banh deo }
+    - { id: l5, text: '25,000' }
+    - { id: l6, text: 'Tong thanh toan 145,000' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: VND
+    lines:
+      - { line_id: l3, label: Tra sen, qty: 2, amount: '60,000', kind: item }
+      - { line_id: l5, label: Banh deo, qty: null, amount: '25,000', kind: item }
+    total: { line_id: l6, amount: '145,000' }
+  expect:
+    currency: VND
+    total_minor: 145000
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 120000 }
+      - { line_id: l5, kind: item, amount_minor: 25000 }
+- description: seeded, tax already inside the price is left out rather than the subtotal taken
+  currency_hint: VND
+  lines:
+    - { id: l0, text: 1 Cold Brew }
+    - { id: l1, text: '89,000' }
+    - { id: l2, text: Sub Total }
+    - { id: l3, text: '82,407' }
+    - { id: l4, text: Tax }
+    - { id: l5, text: '6,593' }
+    - { id: l6, text: Total }
+    - { id: l7, text: '89,000' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: VND
+    lines:
+      - { line_id: l1, label: Cold Brew, qty: 1, amount: '89,000', kind: item }
+      - { line_id: l5, label: Tax, qty: null, amount: '6,593', kind: tax }
+    total: { line_id: l7, amount: '89,000' }
+  expect:
+    currency: VND
+    total_minor: 89000
+    matches_total: true
+    lines:
+      - { line_id: l1, kind: item, amount_minor: 89000 }
+- description: seeded, a discount summary becomes the line discounts printed above it
+  currency_hint: SGD
+  lines:
+    - { id: l0, text: Jerky box 2 }
+    - { id: l1, text: '-16.34' }
+    - { id: l2, text: '86.24' }
+    - { id: l3, text: Gift basket }
+    - { id: l4, text: '-19.80' }
+    - { id: l5, text: '19.80' }
+    - { id: l6, text: Total }
+    - { id: l7, text: '69.90' }
+    - { id: l8, text: Summary of discounts }
+    - { id: l9, text: '-36.14' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: SGD
+    lines:
+      - { line_id: l2, label: Jerky box, qty: 2, amount: '86.24', kind: item }
+      - { line_id: l5, label: Gift basket, qty: null, amount: '19.80', kind: item }
+      - { line_id: l9, label: Discounts, qty: null, amount: '36.14', kind: discount }
+    total: { line_id: l7, amount: '69.90' }
+  expect:
+    currency: SGD
+    total_minor: 6990
+    matches_total: true
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 8624 }
+      - { line_id: l5, kind: item, amount_minor: 1980 }
+      - { line_id: l1, kind: discount, amount_minor: 1634 }
+      - { line_id: l4, kind: discount, amount_minor: 1980 }
+- description: seeded, a price whose decimal point read as a space still counts
+  currency_hint: SGD
+  lines:
+    - { id: l0, text: Pork floss 300g }
+    - { id: l1, text: '24 22' }
+    - { id: l2, text: 'Total 24.22' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: SGD
+    lines:
+      - { line_id: l1, label: Pork floss 300g, qty: null, amount: '24 22', kind: item }
+    total: { line_id: l2, amount: '24.22' }
+  expect:
+    currency: SGD
+    total_minor: 2422
+    matches_total: true
+    lines:
+      - { line_id: l1, kind: item, amount_minor: 2422 }
+- description: seeded, a ringgit bill off its total by cash rounding still adds up
+  currency_hint: MYR
+  lines:
+    - { id: l0, text: Mojito 36.67 }
+    - { id: l1, text: Service charge 3.67 }
+    - { id: l2, text: TOTAL MYR40.35 }
+  reply:
+    merchant: null
+    datetime: null
+    currency: MYR
+    lines:
+      - { line_id: l0, label: Mojito, qty: null, amount: '36.67', kind: item }
+      - { line_id: l1, label: Service charge, qty: null, amount: '3.67', kind: service }
+    total: { line_id: l2, amount: 'MYR40.35' }
+  expect:
+    currency: MYR
+    total_minor: 4035
+    matches_total: true
+    lines:
+      - { line_id: l0, kind: item, amount_minor: 3667 }
+      - { line_id: l1, kind: service, amount_minor: 367 }
+- description: seeded, lines that miss the total two ways are kept and named for review
+  currency_hint: VND
+  lines:
+    - { id: l0, text: Tom song }
+    - { id: l1, text: '139,000' }
+    - { id: l2, text: '138,000' }
+    - { id: l3, text: Muc nuong }
+    - { id: l4, text: '149,000' }
+    - { id: l5, text: '148,000' }
+    - { id: l6, text: Nem cua }
+    - { id: l7, text: '129,000' }
+    - { id: l8, text: 'Tong cong 416,000' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: VND
+    lines:
+      - { line_id: l2, label: Tom song, qty: null, amount: '138,000', kind: item }
+      - { line_id: l5, label: Muc nuong, qty: null, amount: '148,000', kind: item }
+      - { line_id: l7, label: Nem cua, qty: null, amount: '129,000', kind: item }
+    total: { line_id: l8, amount: '416,000' }
+  expect:
+    currency: VND
+    total_minor: 416000
+    matches_total: false
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 138000 }
+      - { line_id: l5, kind: item, amount_minor: 148000 }
+      - { line_id: l7, kind: item, amount_minor: 129000 }
+    review: [l2, l5]

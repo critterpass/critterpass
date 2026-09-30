@@ -3,10 +3,12 @@
  * is and the amount exactly as printed on it; code never takes its number. Each amount must appear
  * verbatim in the text of the line it cites and is re-parsed from there with the receipt's number
  * conventions ("850.000" is 850000 in rupiah, "13,34" is 13.34 in euro); a line whose amount is not
- * in its line is rejected. The lines are then checked against the printed total.
+ * in its line is rejected. The lines are then reconciled with the printed total (`reconcile.ts`).
  */
 import type Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
+
+import { linesSum, reconcileWithTotal } from './reconcile';
 
 export const RECEIPT_LINE_KINDS = ['item', 'service', 'tax', 'discount', 'tip'] as const;
 export type ReceiptLineKind = (typeof RECEIPT_LINE_KINDS)[number];
@@ -86,6 +88,7 @@ export const transcribeReplySchema = z.object({ lines: z.array(z.string().max(20
 /**
  * Parses an amount as printed into minor units: the last `.` or `,` followed by one or two digits
  * is the decimal point; any other separator (or one followed by three digits) groups thousands.
+ * In a currency printed with cents, a space before the last two digits is the decimal point.
  * Returns `null` for anything that is not a plain amount.
  */
 export function parsePrintedAmount(printed: string, exponent: number): bigint | null {
@@ -102,6 +105,9 @@ export function parsePrintedAmount(printed: string, exponent: number): bigint | 
     .replace(/^\d{1,3}(?:[ \u00A0\u202F]\d{3})+(?=(?:[.,]\d{1,2})?$)/u, (grouped) =>
       grouped.replace(/[ \u00A0\u202F]/gu, ''),
     );
+  // A decimal point the recogniser read as a space ("24 22"), in a currency printed with cents.
+  const spaced = exponent === 2 ? /^(\d{1,3}) (\d{2})$/u.exec(bare) : null;
+  if (spaced !== null) return parsePrintedAmount(`${spaced[1]}.${spaced[2]}`, exponent);
   if (!/^\d[\d.,]*$/u.test(bare)) return null;
   const decimal = /[.,](\d{1,2})$/u.exec(bare);
   const whole = (decimal === null ? bare : bare.slice(0, decimal.index)).replace(/[.,]/gu, '');
@@ -136,6 +142,8 @@ export interface ParsedReceipt {
   readonly matches_total: boolean;
   /** Lines the model named whose amount was not on the cited line (or the line does not exist). */
   readonly rejected_line_ids: readonly string[];
+  /** When the lines still miss the total: the lines most likely wrong, for the reviewer. */
+  readonly review_line_ids: readonly string[];
   readonly status: 'parsed' | 'partial' | 'failed';
 }
 
@@ -151,6 +159,12 @@ function amountOnLine(line: OcrLine | undefined, printed: string, exponent: numb
   if (!squash(line.text).includes(squash(printed))) return null;
   return parsePrintedAmount(printed, exponent);
 }
+
+/**
+ * The widest gap cash rounding leaves between the lines and the total, by currency: ringgit bills
+ * round to the nearest 5 sen.
+ */
+const ROUNDING_TOLERANCE: Readonly<Record<string, number>> = { MYR: 2 };
 
 /** How far from the cited line a price printed on its own line may sit. */
 const PRICE_LINE_REACH = 3;
@@ -243,13 +257,23 @@ export function validateReceiptReply(
     }
   }
   if (reply.total !== null && totalAmount === null) rejected.push(reply.total.line_id);
-  const linesTotal = lines.reduce(
-    (sum, line) => sum + (line.kind === 'discount' ? -line.amount_minor : line.amount_minor),
-    0,
-  );
   const total = totalAmount === null || totalAmount <= 0n ? null : Number(totalAmount);
-  const matches = total !== null && linesTotal === total;
-  const hasItems = lines.some((line) => line.kind === 'item');
+  const tolerance = ROUNDING_TOLERANCE[currency] ?? 0;
+  const reconciled = reconcileWithTotal({
+    lines,
+    ocrLines,
+    total,
+    claimed: new Set([...claimed, ...(totalLineId === null ? [] : [totalLineId])]),
+    priceOf: (line) => {
+      if (!isPriceOnly(line.text)) return null;
+      const amount = parsePrintedAmount(line.text.replace(/\s*x$/iu, ''), exponent);
+      return amount === null ? null : Number(amount);
+    },
+    tolerance,
+  });
+  const linesTotal = linesSum(reconciled.lines);
+  const matches = total !== null && Math.abs(linesTotal - total) <= tolerance;
+  const hasItems = reconciled.lines.some((line) => line.kind === 'item');
   const status =
     total === null && !hasItems
       ? 'failed'
@@ -260,12 +284,13 @@ export function validateReceiptReply(
     merchant: reply.merchant?.trim().slice(0, 120) || null,
     datetime: reply.datetime?.trim().slice(0, 40) || null,
     currency,
-    lines,
+    lines: reconciled.lines,
     total_minor: total,
     total_line_id: total === null ? null : totalLineId,
     lines_total_minor: linesTotal,
     matches_total: matches,
     rejected_line_ids: rejected,
+    review_line_ids: matches ? [] : reconciled.review_line_ids,
     status,
   };
 }
