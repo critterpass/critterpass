@@ -1,0 +1,14 @@
+appId: app.critterpass.dev
+---
+# From the developer tools list to the bookings lab.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-bookings-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-bookings-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-lab-wallet'
+    timeout: 15000

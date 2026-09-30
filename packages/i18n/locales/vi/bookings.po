@@ -6,3 +6,521 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.policy"
+msgstr "“{policy}”"
+
+#. placeholder {0}: props.archiveCount
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.archive.link"
+msgstr "{0, plural, other {# đặt chỗ đã qua}}"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.detail.paidBy"
+msgstr "{amount} · {payer} trả"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.boardsEst"
+msgstr "{boards} dự kiến"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.offline.a11y"
+msgstr "{count, plural, other {# đặt chỗ dùng được khi không có sóng}}"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.offline.count"
+msgstr "{count, plural, other {# ngoại tuyến}}"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.banner.member"
+msgstr "{count, plural, other {Tìm thấy # đặt chỗ trong hộp thư của {member} mà ví chưa có.}}"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.banner.mine"
+msgstr "{count, plural, other {Tìm thấy # đặt chỗ trong hộp thư của bạn mà ví chưa có.}}"
+
+#: ../../apps/mobile/src/features/bookings/stack/deck-meta.ts
+msgid "bookings.card.nights"
+msgstr "{nights, plural, other {# đêm}}"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.source"
+msgstr "{source} · {at}"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.crewMany"
+msgstr "{who} cũng đi chuyến này."
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.crewOne"
+msgstr "{who} cũng đi chuyến này."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.timeExample"
+msgstr "09:05"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.dateExample"
+msgstr "2026-10-12"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.endExample"
+msgstr "2026-10-17"
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.edit"
+msgstr "Một chỉnh sửa đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.delete"
+msgstr "Một đặt chỗ đã xoá"
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.insuranceDelete"
+msgstr "Một hợp đồng bảo hiểm đã xoá"
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.candidateAdd"
+msgstr "Một đặt chỗ tìm thấy, đã thêm"
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.candidateIgnore"
+msgstr "Một đặt chỗ tìm thấy, đã bỏ qua"
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.pasteCaption"
+msgstr "Liên kết hoặc mã"
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.activity"
+msgstr "Hoạt động"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.addCard"
+msgstr "Thêm đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.addTitle"
+msgstr "Tự nhập"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.flightProblem"
+msgstr "Mã hãng và số hiệu chuyến"
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.forwardCaption"
+msgstr "Email bất kỳ"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
+msgid "bookings.missing.back"
+msgstr "Về đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.bag"
+msgstr "Hành lý"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.boarding"
+msgstr "Đang lên máy bay"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.pass"
+msgstr "Thẻ lên máy bay"
+
+#. placeholder {0}: props.title
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassView.tsx
+msgid "bookings.pass.codeA11y"
+msgstr "Mã thẻ lên máy bay của {0}, đưa vào máy quét ở cửa"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.passA11y"
+msgstr "Thẻ lên máy bay, mở toàn màn hình"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.boards"
+msgstr "Lên máy bay"
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.boat"
+msgstr "Tàu"
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.add"
+msgstr "Đặt chỗ: {title}"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+#: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
+msgid "bookings.back"
+msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.title"
+msgstr "Đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.cancelled"
+msgstr "Đã huỷ"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.cancelled"
+msgstr "Đã huỷ"
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.car"
+msgstr "Thuê xe"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.checkOut"
+msgstr "Ngày trả phòng"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.ref"
+msgstr "Mã xác nhận"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.ref"
+msgstr "Mã xác nhận"
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copied"
+msgstr "Đã chép"
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copy"
+msgstr "Chép"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.shareFlight"
+msgstr "Cả nhóm thấy chuyến bay này"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.date"
+msgstr "Ngày (YYYY-MM-DD)"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.delayed"
+msgstr "Trễ"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.delayedBy"
+msgstr "Trễ {delayMin} phút"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.delete"
+msgstr "Xoá"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.delete.confirm"
+msgstr "Xoá đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.delete.title"
+msgstr "Xoá đặt chỗ này?"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.departed"
+msgstr "Đã cất cánh"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.card.details"
+msgstr "Chi tiết"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.diverted"
+msgstr "Chuyển hướng"
+
+#. placeholder {0}: index + 1
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.detail.doc"
+msgstr "Tài liệu {0}"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.edit"
+msgstr "Sửa"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.editTitle"
+msgstr "Sửa đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.flight"
+msgstr "Chuyến bay"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.flight"
+msgstr "Số hiệu chuyến bay"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.shareFlightSub"
+msgstr "Chỉ số hiệu chuyến và giờ bay. Ghế và thẻ lên máy bay vẫn là của riêng bạn."
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.forward"
+msgstr "Chuyển tiếp"
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copiedToast"
+msgstr "Chuyển tiếp mọi email xác nhận tới địa chỉ đó."
+
+#. placeholder {0}: dateTime(locale, deadline, tz)
+#: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
+msgid "bookings.card.freeCancel"
+msgstr "Huỷ miễn phí đến {0}"
+
+#. placeholder {0}: dateTime(locale, booking.freeCancelUntil, props.tz)
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.freeCancel"
+msgstr "Huỷ miễn phí đến {0}"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.from"
+msgstr "Từ"
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
+#: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.gate"
+msgstr "Cửa"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.gateChange"
+msgstr "Đổi cửa"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.titleProblem"
+msgstr "Đặt cho nó một cái tên"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.landed"
+msgstr "Mình đã hạ cánh"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.delete.wallets"
+msgstr "Nó sẽ biến khỏi ví của mọi người."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.delete.expense"
+msgstr "Khoản chi của nó vẫn ở mục Tiền."
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.landed"
+msgstr "Đã hạ cánh"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.timeProblem"
+msgstr "Ví dụ 09:05"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.dateProblem"
+msgstr "Ví dụ 2026-10-12"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.loading"
+msgstr "Đang tải đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.meet"
+msgstr "Điểm hẹn"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.docPending"
+msgstr "Cần có sóng"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.noPass"
+msgstr "Email này không có thẻ lên máy bay — quét nó lúc làm thủ tục."
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassView.tsx
+msgid "bookings.pass.missing"
+msgstr "Máy này chưa có thẻ lên máy bay. Quét nó lúc làm thủ tục là nó nằm ở đây."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
+msgid "bookings.missing.title"
+msgstr "Không có trong ví"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.notes"
+msgstr "Ghi chú"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.notes"
+msgstr "Ghi chú"
+
+#: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
+msgid "bookings.archive.empty"
+msgstr "Chưa có gì kết thúc."
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
+msgid "bookings.empty.line"
+msgstr "Ví còn trống. Chuyển tiếp, quét hoặc dán một xác nhận là mình cất vào đây."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.shareBookingSub"
+msgstr "Tắt thì chỉ nằm trong ví của bạn."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.docs"
+msgstr "Trên máy này"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.onTime"
+msgstr "Đúng giờ"
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.other"
+msgstr "Khác"
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.scanCaption"
+msgstr "Giấy hoặc màn hình"
+
+#: ../../apps/mobile/src/features/bookings/stack/ArchiveView.tsx
+msgid "bookings.archive.title"
+msgstr "Đặt chỗ đã qua"
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.paste"
+msgstr "Dán"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.price"
+msgstr "Giá"
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
+#: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
+#: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
+msgid "bookings.card.ref"
+msgstr "Mã"
+
+#: ../../apps/mobile/src/features/bookings/stack/WalletParts.tsx
+msgid "bookings.banner.review"
+msgstr "Xem"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.room"
+msgstr "Phòng"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.save"
+msgstr "Lưu"
+
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.scan"
+msgstr "Quét"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
+msgid "bookings.flight.scheduled"
+msgstr "Theo lịch"
+
+#: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
+#: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.seat"
+msgstr "Ghế"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.seat"
+msgstr "Ghế"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.seat"
+msgstr "Ghế"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.shareBooking"
+msgstr "Chia sẻ với cả nhóm"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.flightExample"
+msgstr "SQ 938"
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.stay"
+msgstr "Chỗ ở"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
+msgid "bookings.missing.line"
+msgstr "Đặt chỗ này đã bị xoá, hoặc không được chia sẻ với bạn."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.airportProblem"
+msgstr "Mã sân bay ba chữ"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.time"
+msgstr "Giờ"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.to"
+msgstr "Đến"
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.ping"
+msgstr "Tokek báo bạn khi bắt đầu lên máy bay."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.reminder"
+msgstr "Tokek nhắc bạn một ngày trước khi hết hạn."
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.rail"
+msgstr "Tàu hoả"
+
+#: ../../apps/mobile/src/features/bookings/detail/labels.ts
+msgid "bookings.kind.transfer"
+msgstr "Đưa đón"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.who"
+msgstr "Người đi"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.voucher"
+msgstr "Mã phiếu"
+
+#: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
+msgid "bookings.card.voucherA11y"
+msgstr "Mã phiếu, mở toàn màn hình"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
+msgid "bookings.detail.landedToast"
+msgstr "Chào mừng đã tới. Tokek báo cả nhóm."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.what"
+msgstr "Đó là gì"
+
+#: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
+msgid "bookings.card.when"
+msgstr "Khi nào"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.when"
+msgstr "Khi nào"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.where"
+msgstr "Ở đâu"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.where"
+msgstr "Ở đâu"
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.visibility"
+msgstr "Ai thấy một đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.flightVisibility"
+msgstr "Ai thấy một chuyến bay"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.sharing"
+msgstr "Ai thấy"
+
+#: ../../apps/mobile/src/features/bookings/data/commands.ts
+msgid "bookings.queued.landed"
+msgstr "Lần hạ cánh của bạn"

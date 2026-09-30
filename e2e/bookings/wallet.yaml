@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# Screenshots of the wallet for `pnpm screens:compare`: the bookings lab's scenes over the Bali Six
+# fixtures, named by design id (3h-1) and by state.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/wallet-scenes.yaml
+    env: { PREFIX: en }
