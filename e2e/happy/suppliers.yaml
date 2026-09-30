@@ -42,6 +42,20 @@ appId: app.critterpass.dev
       - tapOn:
           text: '(?i)(no thanks|no, thanks)'
           optional: true
+# A fresh simulator's Safari opens with a tip over the page that hides everything else, the
+# address bar included.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'xmark.circle.fill'
+          timeout: 15000
+          optional: true
+      - tapOn:
+          id: 'xmark.circle.fill'
+          optional: true
 - extendedWaitUntil:
     visible:
       text: '(?i).*(klook|tp\.media).*'
