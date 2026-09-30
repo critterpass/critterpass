@@ -72,16 +72,17 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'new-poll-question'
 # Fast injected typing can drop characters while the sheet settles: type again until the field
-# holds the whole question.
+# holds the whole question (matched as a regex, so the question mark is escaped).
+- inputText: 'Dinner tonight?'
 - repeat:
     times: 3
     while:
-      notVisible: 'Dinner tonight?'
+      notVisible: 'Dinner tonight\?'
     commands:
-      - eraseText: 30
+      - eraseText: 20
       - inputText: 'Dinner tonight?'
       - waitForAnimationToEnd
-- assertVisible: 'Dinner tonight?'
+- assertVisible: 'Dinner tonight\?'
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3g-1-new-poll-keyboard
 - hideKeyboard
