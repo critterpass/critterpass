@@ -3,7 +3,8 @@
  * and the phase's right-hand line: a 1 Hz countdown before the trip ("Wheels up in 17D 05:26:29")
  * or on a travel day ("Land in"), "Day 4 of 8" during it, "Home since Oct 19" after, or the
  * planning CTA while the trip is still being planned. Behind the wordmark and countdown, the
- * destination's photo as a duotone in the guide's colour, fading into the dark scaffold.
+ * destination's photo as a duotone in the guide's colour under the dark halftone, fading into the
+ * dark scaffold.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 import type { MediaAsset } from '@cp/domain';
@@ -18,6 +19,7 @@ import { MediaLayer } from '@/ui/media/MediaLayer';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
+import { Halftone } from '@/ui/textures/halftone';
 import { makeStyles } from '@/ui/theme';
 
 import { tripDates } from './hub-copy';
@@ -95,6 +97,7 @@ export function PhaseHeader(props: PhaseHeaderProps) {
             creditAt="top"
             testID="trip-hub-hero-media"
           />
+          {props.media ? <Halftone variant="dark" /> : null}
         </View>
         <Text variant="eyebrow">{upper(meta, locale)}</Text>
         <Row justify="space-between" align="flex-end" gap="12">
