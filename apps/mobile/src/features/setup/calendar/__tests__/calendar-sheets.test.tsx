@@ -31,6 +31,7 @@ import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 import { SetupServicesProvider, type SetupServices } from '../../data/services';
 import { CalendarConnectSheet } from '../calendar-connect-sheet';
 import { ManualDaysSheet } from '../manual-days-sheet';
+import { posthogFlagKey } from '@cp/domain';
 
 const TRIP = '0199a6f0-0000-7000-8000-00000000c001';
 const NOW = Date.parse('2026-10-02T00:41:00Z');
@@ -60,7 +61,8 @@ const services: SetupServices = {
 function analytics(flags: Record<string, boolean>): AnalyticsClient {
   const client = {
     posthog: {
-      getFeatureFlag: (key: string) => flags[key],
+      getFeatureFlag: (key: string) =>
+        Object.entries(flags).find(([flag]) => posthogFlagKey(flag) === key)?.[1],
       onFeatureFlags: () => () => undefined,
     },
     exposure: () => undefined,
