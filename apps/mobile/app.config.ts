@@ -214,7 +214,7 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
           './assets/fonts/GeistMono-400.ttf',
           './assets/fonts/GeistMono-500.ttf',
           './assets/fonts/GeistMono-700.ttf',
-          './assets/fonts/Mynerve-400.ttf',
+          './assets/fonts/Borel-400.ttf',
           './assets/fonts/NotoSansThai-400.ttf',
           './assets/fonts/NotoSansThai-900.ttf',
         ],

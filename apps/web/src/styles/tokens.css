@@ -211,16 +211,16 @@
   --type-title-font-size: 16px;
   --type-title-font-weight: 900;
   --type-title-line-height: 1;
-  --type-voice-base-font-family: Mynerve;
-  --type-voice-base-font-size: 20px;
+  --type-voice-base-font-family: Borel;
+  --type-voice-base-font-size: 16px;
   --type-voice-base-font-weight: 400;
-  --type-voice-base-line-height: 1.1;
-  --type-voice-postcard-font-family: Mynerve;
-  --type-voice-postcard-font-size: 26px;
+  --type-voice-base-line-height: 1.5;
+  --type-voice-postcard-font-family: Borel;
+  --type-voice-postcard-font-size: 21px;
   --type-voice-postcard-font-weight: 400;
-  --type-voice-postcard-line-height: 1.1;
-  --type-voice-signature-font-family: Mynerve;
-  --type-voice-signature-font-size: 22px;
+  --type-voice-postcard-line-height: 1.5;
+  --type-voice-signature-font-family: Borel;
+  --type-voice-signature-font-size: 18px;
   --type-voice-signature-font-weight: 400;
-  --type-voice-signature-line-height: 1.1;
+  --type-voice-signature-line-height: 1.5;
 }

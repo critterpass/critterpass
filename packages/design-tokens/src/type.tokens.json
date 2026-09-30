@@ -307,8 +307,8 @@
         "$value": {
           "fontFamily": "voice",
           "fontWeight": 400,
-          "fontSize": 20,
-          "lineHeight": 1.1,
+          "fontSize": 16,
+          "lineHeight": 1.5,
           "condensed": false,
           "textTransform": "none",
           "dynamicType": { "scaleFactor": 1 },
@@ -321,8 +321,8 @@
         "$value": {
           "fontFamily": "voice",
           "fontWeight": 400,
-          "fontSize": 26,
-          "lineHeight": 1.1,
+          "fontSize": 21,
+          "lineHeight": 1.5,
           "condensed": false,
           "textTransform": "none",
           "dynamicType": { "scaleFactor": 1 },
@@ -334,8 +334,8 @@
         "$value": {
           "fontFamily": "voice",
           "fontWeight": 400,
-          "fontSize": 22,
-          "lineHeight": 1.1,
+          "fontSize": 18,
+          "lineHeight": 1.5,
           "condensed": false,
           "textTransform": "none",
           "dynamicType": { "scaleFactor": 1 },

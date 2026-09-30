@@ -39,7 +39,7 @@
 }
 .cs-ticker__who {
   font:
-    400 26px Mynerve,
+    400 21px Borel,
     cursive;
   color: var(--color-rust-darkened);
 }
@@ -119,7 +119,7 @@
 }
 .cs-stats__quip {
   font:
-    400 26px/1 Mynerve,
+    400 21px/1.5 Borel,
     cursive;
   color: var(--color-pink);
   transform: rotate(-3deg);
@@ -141,7 +141,7 @@
 }
 .cs-egg-hint {
   font:
-    400 30px/1 Mynerve,
+    400 24px/1.5 Borel,
     cursive;
   color: var(--color-pink);
   transform: rotate(-4deg);
@@ -288,7 +288,7 @@
 }
 .cs-features__quip {
   font:
-    400 28px/1 Mynerve,
+    400 22px/1.5 Borel,
     cursive;
   color: var(--color-rust-base);
   transform: rotate(-2deg);
@@ -432,7 +432,7 @@
 }
 .cs-final__quip {
   font:
-    400 26px/1 Mynerve,
+    400 21px/1.5 Borel,
     cursive;
   color: var(--color-rust-base);
   transform: rotate(-2deg);
@@ -505,7 +505,7 @@
 }
 .cs-footer__quip {
   font:
-    400 22px/1 Mynerve,
+    400 18px/1.5 Borel,
     cursive;
   color: var(--color-pink);
 }

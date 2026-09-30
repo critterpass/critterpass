@@ -13,7 +13,7 @@ writes:
 Usage:
   python3 build-fonts.py            build everything
   python3 build-fonts.py --check    build, then verify the rebuild is byte-identical and that
-                                     Vietnamese (Archivo, Mynerve) and Thai (Noto Sans Thai) coverage holds
+                                     Vietnamese (Archivo, Borel) and Thai (Noto Sans Thai) coverage holds
 """
 
 from __future__ import annotations
@@ -161,8 +161,8 @@ def check_coverage(
 ) -> dict[str, Any]:
     """Per-range coverage breakdown (e.g. `vietnamese` reported separately from `currencyExtra`),
     since only some ranges are a hard pass/fail gate for a given family (see `criticalRanges`).
-    A critical range need not be one the family subsets to (Mynerve's `vietnameseLetters` is
-    `vietnamese` without the dong sign), so every critical range gets its own entry too."""
+    A critical range need not be one the family subsets to, so every critical range gets its own
+    entry too."""
     definitions = sources["unicodeRangeDefinitions"]
     by_range = {
         name: check_coverage_for_range(font, parse_unicode_ranges(definitions[name]))
@@ -412,10 +412,10 @@ def run_build() -> dict[str, Any]:
 
 
 def verify_coverage(manifest: dict[str, Any]) -> list[str]:
-    """Hard-fails only on each family's `criticalRanges` (Vietnamese for Archivo, Thai for Noto Sans
-    Thai, per the Thai coverage requirement, Vietnamese letters for Mynerve); other gaps (e.g. Mynerve's
-    missing dong sign, or a handful of rarely-used Latin Extended-A letters in Geist) are recorded in the
-    manifest for review but don't block the build."""
+    """Hard-fails only on each family's `criticalRanges` (Vietnamese for Archivo and Borel, Thai for
+    Noto Sans Thai, per the Thai coverage requirement); other gaps (e.g. a handful of rarely-used
+    Latin Extended-A letters in Geist) are recorded in the manifest for review but don't block the
+    build."""
     problems: list[str] = []
     for family_key, family in manifest["families"].items():
         for range_name in family["criticalRanges"]:

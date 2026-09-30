@@ -1,7 +1,7 @@
 # Guide voice font: Mynerve replaces Caveat
 
 Date: 2026-09-30
-Status: decided (founder).
+Status: superseded by [Guide voice font: Borel](20260930-guide-voice-borel.md) (founder, same day).
 
 ## Context
 

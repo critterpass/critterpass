@@ -39,10 +39,10 @@ export const MONO_STYLE: TextRunStyle = {
   fontSize: 26,
 };
 export const SCRIPT_STYLE: TextRunStyle = {
-  fontFamily: 'Mynerve',
+  fontFamily: 'Borel',
   fontWeight: 400,
   color: INK,
-  fontSize: 40,
+  fontSize: 32,
 };
 
 const WATERMARK_STYLE: TextRunStyle = {

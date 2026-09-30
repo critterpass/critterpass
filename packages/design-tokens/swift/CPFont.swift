@@ -15,7 +15,7 @@ private let cpBundledFontFileNames: [String] = [
     "Archivo-W100-700", "Archivo-W100-800", "Archivo-W100-900",
     "Geist-400", "Geist-500", "Geist-600", "Geist-700", "Geist-800",
     "GeistMono-400", "GeistMono-500", "GeistMono-700",
-    "Mynerve-400",
+    "Borel-400",
     "NotoSansThai-400", "NotoSansThai-900",
 ]
 
