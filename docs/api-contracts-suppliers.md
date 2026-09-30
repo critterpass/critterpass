@@ -14,11 +14,15 @@ Status: contract for suppliers (P35) and bookings (P34). Stack: Hono + Zod opena
 | `cancel_activity_booking` | `{booking_id, reason_code}` (quote shown first via GET) | booker / organiser | flag | `activity.cancelled` | A | 35 |
 | `release_activity_hold` | `{hold_id}` | holder / S at expiry | – | `activity.hold_released` | A, S | 35 |
 | `request_vendor_message` | `{trip_id, vendor_ref, intent, draft_text}` → ops desk queue | participant | – | `vendor_msg.drafted` | A | 35 |
-| `approve_vendor_message` | `{draft_id}` (user approval; ops desk sends via WhatsApp Business) | requester | – | `vendor_msg.approved` | A, N | 35 |
-| `send_vendor_message` | `{draft_id}` | ops | approved only | `vendor_msg.sent` | X | 35 |
-| `request_concierge` | `{trip_id, kind: clinic\|vendor\|other, text}` (human hand-off) | participant | – | `concierge.requested` | A | 35 |
+| `approve_vendor_message` | `{draft_id, text}` (user approval of the exact text shown; `STATE_INVALID text_changed` otherwise; ops desk sends via WhatsApp Business) | requester | – | `vendor_msg.approved` | A, N | 35 |
+| `send_vendor_message` | `{draft_id}` | ops | approved only (handler + `ops.vendor_messages` trigger: approval text and `approved_text_sha256` equal the body) | `vendor_msg.sent` | X | 35 |
+| `set_vendor_contact` (doc delta) | `{thread_id, phone_e164}` (sealed + peppered hash for reply routing) | ops | – | – | X | 35 |
+| `propose_vendor_reply` (doc delta) | `{thread_id, draft_id, draft_text}`: a desk follow-up the requester approves like any draft; voids earlier unsent drafts | ops | – | `vendor_msg.drafted` | X | 35 |
+| `request_concierge` | `{task_id, trip_id, kind: clinic\|vendor\|other, text}` (human hand-off; one task per `task_id`) | participant | – | `concierge.requested` | A | 35 |
+| `log_ride` (doc delta) | `{ride_id, trip_id, leg_ref, provider, amount_minor?, currency?, attendee_ids?, expense_id?, quote_id?}` → `rides` + optional split expense (`source=ride`) | participant | – | `ride.logged` | A, O | 35 |
+| `set_entry_reminder` (doc delta) | `{trip_id, must_do_id, closes_at, results_at?, url}` → a reminder per participant a day before close and at results (`setup.lottery_remind` timers); never enters anyone | participant | – | `lottery.reminders_set` | A, O | 35 |
 
-Ride quotes (Grab Farefeed) are GET reads; "Open Grab" is a deep link — no ride commands, no live driver.
+Ride quotes (Grab Farefeed) are GET reads; "Open Grab" is a deep link — no ride commands, no live driver. `request_vendor_message` answers `channel: self_send` with a `wa.me` share link while the desk's WhatsApp Business number (`whatsapp_business` partner switch) is off. Travellers read their threads at `GET /v1/trips/{trip_id}/vendor-threads`; WhatsApp replies for the desk number arrive at `/webhooks/whatsapp/vendor` (its own Meta app).
 
 ## Routes (supplier order flow and attribution)
 

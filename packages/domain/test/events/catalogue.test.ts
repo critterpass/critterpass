@@ -26,6 +26,11 @@ const BOOST = {
 const CHANGE_SET = { trip_id: crypto.randomUUID(), change_set_id: crypto.randomUUID() };
 const COMMENT = { trip_id: crypto.randomUUID(), comment_id: crypto.randomUUID() };
 const ORDER = { trip_id: crypto.randomUUID(), order_id: crypto.randomUUID() };
+const VENDOR_MSG = {
+  trip_id: crypto.randomUUID(),
+  thread_id: crypto.randomUUID(),
+  message_id: crypto.randomUUID(),
+};
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -688,6 +693,23 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'activity.pending': ORDER,
   'activity.rejected': ORDER,
   'activity.cancelled': { ...ORDER, refunded: true },
+  'ride.logged': { trip_id: crypto.randomUUID(), ride_id: crypto.randomUUID(), expense_id: null },
+  'vendor_msg.drafted': { ...VENDOR_MSG, channel: 'self_send' },
+  'vendor_msg.approved': { ...VENDOR_MSG, task_id: crypto.randomUUID() },
+  'vendor_msg.sent': VENDOR_MSG,
+  'vendor_msg.failed': VENDOR_MSG,
+  'vendor_msg.replied': VENDOR_MSG,
+  'vendor_msg.reply_parsed': { ...VENDOR_MSG, intent: 'yes', needs_person: false },
+  'concierge.requested': {
+    trip_id: crypto.randomUUID(),
+    task_id: crypto.randomUUID(),
+    kind: 'clinic',
+  },
+  'lottery.reminders_set': {
+    trip_id: crypto.randomUUID(),
+    must_do_id: crypto.randomUUID(),
+    participants: 3,
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

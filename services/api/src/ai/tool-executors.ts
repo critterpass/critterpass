@@ -21,6 +21,7 @@ import { registerBookingToolExecutors } from '../bookings/tools';
 import { registerCostToolExecutors } from '../cost/tool-executors';
 import { registerMoneyToolExecutors } from '../money/tools';
 import { placeDetailsTool, placesSearchTool } from '../places/tool-executors';
+import { registerSupplierToolExecutors } from '../suppliers/tool-executors';
 import { registerTravelDataToolExecutors } from '../travel-data/tool-executors';
 
 /** The places tools are trip-scoped reads: `app.trip` comes from the turn, never from the model. */
@@ -93,4 +94,5 @@ export function registerApiToolExecutors(
   registerMoneyToolExecutors(registry, pool);
   registerCostToolExecutors(registry, pool);
   registerBookingToolExecutors(registry, pool);
+  registerSupplierToolExecutors(registry, pool);
 }

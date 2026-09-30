@@ -12,6 +12,7 @@ import { catalogueArea } from './catalogue';
 import { contentArea } from './content';
 import { costReviewArea } from './cost-review';
 import { deskArea } from './desk';
+import { vendorDeskArea } from './vendor-desk/routes';
 import { flagsArea } from './flags';
 import { moderationArea } from './moderation';
 import type { MediaUrlSigner } from './moderation-intake';
@@ -40,6 +41,7 @@ export function adminAreas(deps: AdminAreaDeps): readonly AdminAreaDefinition[] 
     moderationArea(deps),
     supportArea(deps),
     deskArea(deps.pool),
+    vendorDeskArea(deps.pool),
     billingArea(deps.pool),
     auditArea(deps.pool),
     operatorsArea(deps),

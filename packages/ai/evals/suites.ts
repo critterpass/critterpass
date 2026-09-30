@@ -20,6 +20,7 @@ export const SUITES = [
   'draft',
   'receipt-parse',
   'booking-extract',
+  'vendor-reply',
   'guide',
   'briefing',
 ] as const;
@@ -40,6 +41,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/src\/prompts\/fit-note\//u, ['fit-note']],
   [/^packages\/ai\/(src\/routes|evals)\/receipt-parse\//u, ['receipt-parse']],
   [/^packages\/ai\/(src\/routes|evals)\/booking-extract\//u, ['booking-extract']],
+  [/^packages\/ai\/(src\/routes|evals)\/vendor-reply\//u, ['vendor-reply']],
   [/^packages\/ai\/evals\/lib\/setup-suites\.ts$/u, ['availability-ask', 'ask-reply', 'fit-note']],
   [/^packages\/ai\/(src\/prompts|evals)\/draft\//u, ['draft']],
   [/^packages\/ai\/(src\/routes|evals)\/guide\//u, ['guide']],

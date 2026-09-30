@@ -3,7 +3,7 @@
  * supplier commands (with the audited supplier HTTP client, the link programmes this deployment is
  * configured for and the Viator port where a key exists), the attribution bridge, the order reads,
  * the settle door for the worker's status poll, and the supplier answers to the plan's hold-expiry
- * and booking-impact seams. Every Viator path also waits on the `viator_booking` partner switch.
+ * and booking-impact seams, and the ride quote (Grab's estimate behind its own switch). Every Viator path also waits on the `viator_booking` partner switch.
  */
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
@@ -18,8 +18,12 @@ import { createAuditedSupplierHttp } from './http';
 import { affiliateLinkConfigFromEnv, type SupplierEnv } from './link-config';
 import { viatorPortFromEnv } from './order-port';
 import { registerOrderRoutes } from './order-routes';
+import { createRideQuoter, grabEstimatorFromEnv, registerRideQuoteRoute } from './rides-quote';
 import { registerSupplierPlanProviders } from './plan-providers';
 import { registerSettleDoor } from './settle-door';
+import { registerVendorWebhookRoutes } from '../routes/webhooks/whatsapp-vendor';
+import { vendorDepsFromEnv } from './vendor-store';
+import { registerVendorThreadsRoute } from './vendor-threads-route';
 
 export interface SupplierDoors {
   readonly pool: pg.Pool;
@@ -37,11 +41,34 @@ export function registerSupplierRoutes(
     doors.logger.warn({ err: error }, 'supplier call audit write failed'),
   );
   const port = viatorPortFromEnv(env, http);
-  registerSupplierCommands(doors.registry, { http, links: affiliateLinkConfigFromEnv(env), port });
+  const vendor = vendorDepsFromEnv(env, http);
+  registerSupplierCommands(doors.registry, {
+    http,
+    links: affiliateLinkConfigFromEnv(env),
+    port,
+    vendor,
+  });
+  registerVendorThreadsRoute(app, doors);
+  const appSecret = env['WHATSAPP_VENDOR_APP_SECRET'];
+  const verifyToken = env['WHATSAPP_VENDOR_VERIFY_TOKEN'];
+  if (appSecret && verifyToken && vendor.pepper !== undefined) {
+    registerVendorWebhookRoutes(app, {
+      pool: doors.pool,
+      appSecret,
+      verifyToken,
+      pepper: vendor.pepper,
+    });
+  }
   registerSupplierBridgeRoute(app, doors.pool);
   registerOrderRoutes(app, { ...doors, port });
   registerCancelQuoteRoute(app, { ...doors, port });
   const secret = env['SUPPLIERS_INTERNAL_SECRET'];
   if (port !== undefined && secret) registerSettleDoor(app, { pool: doors.pool, port, secret });
   registerSupplierPlanProviders();
+  const quoter = createRideQuoter({
+    pool: doors.pool,
+    grab: grabEstimatorFromEnv(env, http),
+    onError: (error) => doors.logger.warn({ err: error }, 'grab farefeed failed'),
+  });
+  registerRideQuoteRoute(app, { sessions: doors.sessions, quoter });
 }
