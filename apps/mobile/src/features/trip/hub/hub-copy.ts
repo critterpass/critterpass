@@ -92,6 +92,16 @@ export function activityLine(row: ActivityRow): string {
   }
 }
 
+/** "Oct 12" for a trip date. */
+export function shortDay(locale: string, date: string): string {
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a date literal and Intl options.
+  return format.date(locale, new Date(`${date}T12:00:00Z`), {
+    timeZone: 'UTC',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
 /** "$186", "Rp 450.000": whole units in the currency's own style. */
 export function wholeMoney(locale: string, amountMinor: number, currency: string): string {
   const exponent =

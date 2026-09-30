@@ -127,6 +127,10 @@ msgstr "Early start"
 msgid "trip.hub.tile.settled"
 msgstr "Even"
 
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.firstDay"
+msgstr "First day"
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.fromDate"
 msgstr "from {stale}"
@@ -202,6 +206,10 @@ msgstr "Open"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.owed"
 msgstr "owed to you"
+
+#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+msgid "trip.hub.packTitle"
+msgstr "Pack list"
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.emptyLine"

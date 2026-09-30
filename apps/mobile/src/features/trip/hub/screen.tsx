@@ -25,6 +25,7 @@ import {
   activityLine,
   bookingsTile,
   landsAt,
+  shortDay,
   moneyTile,
   planTile,
   tileTitles,
@@ -150,6 +151,16 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
           : landsAt(clockIn(header.flight.arrivesAt, tz, locale)),
       tone: 'raised',
       onPress: () => router.push('/(tabs)/wallet/bookings'),
+    };
+  } else if (header.phase === 'pre' && trip?.start_date != null) {
+    const firstDay = trip.start_date;
+    next = {
+      eyebrow: t({ id: 'trip.hub.firstDay', message: 'First day' }),
+      time: shortDay(locale, firstDay),
+      title: t({ id: 'trip.hub.packTitle', message: 'Pack list' }),
+      detail: t({ id: 'trip.hub.openDay', message: "Who's up, and what to pack" }),
+      tone: 'raised',
+      onPress: () => router.push(tripDayRoute(tripId, firstDay)),
     };
   } else if (header.phase === 'in' && rows.leaveBy !== null) {
     const place = rows.leaveBy.place_name;
