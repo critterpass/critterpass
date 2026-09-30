@@ -27,6 +27,7 @@ import { BILLING_EVENT_PAYLOADS, BILLING_EVENT_TYPES } from '../billing/events';
 import { PLAN_EVENT_PAYLOADS, PLAN_EVENT_TYPES } from '../plan/events';
 import { GUIDE_EVENT_PAYLOADS, GUIDE_EVENT_TYPES } from '../guide/events';
 import { SUPPLIER_EVENT_PAYLOADS, SUPPLIER_EVENT_TYPES } from '../suppliers/events';
+import { TRIP_DAY_EVENT_PAYLOADS, TRIP_DAY_EVENT_TYPES } from '../trip-day/events';
 
 export const DOMAIN_EVENT_TYPES = [
   'crew.member_joined',
@@ -69,6 +70,7 @@ export const DOMAIN_EVENT_TYPES = [
   ...PLAN_EVENT_TYPES,
   ...GUIDE_EVENT_TYPES,
   ...SUPPLIER_EVENT_TYPES,
+  ...TRIP_DAY_EVENT_TYPES,
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -175,6 +177,7 @@ const DOMAIN_EVENT_CATALOGUE = {
   ...PLAN_EVENT_PAYLOADS,
   ...GUIDE_EVENT_PAYLOADS,
   ...SUPPLIER_EVENT_PAYLOADS,
+  ...TRIP_DAY_EVENT_PAYLOADS,
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
 export function getDomainEventPayloadSchema(type: DomainEventType): z.ZodType {

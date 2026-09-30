@@ -240,13 +240,7 @@ export {
   type PrivacyClass,
   type TablePrivacy,
 } from './privacy';
-export {
-  TRAVEL_MODES,
-  type RouteEtaInput,
-  type RouteEtaProvider,
-  type RouteEtaResult,
-  type TravelMode,
-} from './routing/eta-provider';
+export * from './routing/eta-provider';
 export { estimateStraightLineEta, straightLineEtaProvider } from './routing/straight-line-eta';
 export {
   assertApprovedByKindAllowed,
@@ -287,3 +281,4 @@ export * from './bookings';
 export * from './suppliers';
 export * from './billing';
 export * from './paywall';
+export * from './trip-day';

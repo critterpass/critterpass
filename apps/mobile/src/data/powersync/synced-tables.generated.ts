@@ -13,6 +13,8 @@ export const SYNCED_TABLE_COLUMNS = {
   activity_events: 'trip_id crew_id actor_kind actor_id verb object_kind object_id text at',
   agent_jobs:
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
+  alarms:
+    'user_id device_id leave_by_id trip_id fire_at os_alarm_id state sync_version:integer created_at updated_at',
   availability_summaries:
     'trip_id date free_count:integer maybe_count:integer busy_count:integer unknown_count:integer member_count:integer computed_at created_at updated_at',
   avatars:
@@ -26,6 +28,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'crew_id user_id reason from_boost_id store_transaction_id expires_at consumed_by_boost_id consumed_at revoked_at created_at',
   boost_intents:
     'trip_id crew_id buyer_id product_key split_mode split_member_ids status expires_at created_at updated_at',
+  briefing_items:
+    'briefing_id trip_id user_id position:integer icon text action target_user_ids deep_link facts status source source_event_id dedupe_key acted_at created_at updated_at',
+  briefings:
+    'trip_id user_id local_date tz agent_job_id status fallback_used:integer built_at created_at updated_at',
   budget_plans:
     'trip_id target_minor:integer currency band_low_minor:integer band_high_minor:integer breakdown stay_mix planned_by_day quote_version is_stale:integer locked_at locked_by version:integer created_at updated_at',
   change_sets:
@@ -105,6 +111,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id parent_id visibility status cost_pp_minor:integer currency created_by_job_id created_at updated_at metrics coverage',
   join_codes:
     'code target_kind target_id crew_id created_by expires_at max_uses:integer uses:integer status created_at updated_at',
+  leave_bys:
+    'trip_id plan_item_id plan_item_stable_id title place_name local_date starts_at leave_at pickup_at tz legs progress_mode alarm_policy pickup buffer_min:integer guide_note participant_ids state version:integer computed_at created_at updated_at',
   ledger_entries:
     'crew_id trip_id debtor_id creditor_id amount_minor:integer currency source_kind source_id reverses_id created_at',
   legendary_windows:
@@ -124,6 +132,10 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id crew_id trip_id event_id key category class sender template_id title body items ctx deep_link collapse_key thread_id dedupe_key is_private:integer needs_you:integer llm_generated:integer local_date not_before expires_at state drop_reason sent_at created_at updated_at',
   nudges:
     'sender_id target_id crew_id trip_id reason context channel scheduled_delivery_id send_at sent_at created_at updated_at',
+  offline_bundles:
+    'trip_id local_date version:integer content_hash manifest built_at created_at updated_at',
+  packing_items:
+    'trip_id day owner_id label checked:integer checked_by checked_at suggested_by created_by version:integer deleted_at created_at updated_at',
   participant_dietary_flags: 'trip_id user_id flags created_at updated_at',
   passes: 'user_id status number issued_at cover created_at updated_at',
   payments:
@@ -157,6 +169,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id kind name contact_enc vehicle policies added_by deleted_at version:integer created_at updated_at',
   queued_guide_questions:
     'user_id thread_id trip_id text tz queued_for queued_at answer_after status answer_message_id answered_at updated_at',
+  readiness:
+    'leave_by_id trip_id user_id state source snooze_count:integer knock_sent_at changed_at created_at updated_at',
   receipts:
     'user_id trip_id crew_id expense_id media_key status quality_issue ocr_source ocr_lines parsed suggestions failure_reason parsed_at created_at updated_at',
   redraft_reservations:
