@@ -2,9 +2,9 @@ appId: app.critterpass.dev
 ---
 # From a fresh account to DRAFT MY TRIP: the staging demo world's `vote_final` scenario (Kyoto
 # against Lisbon, 2–2, the account's ballot the last one), a vote for Kyoto, SET UP on the reveal
-# as organiser, then every setup step: free days marked by hand and the dates locked, the budget
-# locked, a stay picked and the rooms locked, one must-do added, and DRAFT MY TRIP, which starts
-# the guide's draft on the drafting screen (3c-8).
+# as organiser, then every setup step: the dates locked (subflows/setup-when.yaml), the budget
+# locked, the rooms (a stay picked and its rooms locked, or the even split accepted), one must-do
+# added, and DRAFT MY TRIP, which starts the guide's draft on the drafting screen (3c-8).
 - runFlow:
     file: fresh-account.yaml
     env:
@@ -40,13 +40,24 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'budget-lock'
+# Rooms: pick the first stay when the place has stay prices and wait for its rooms; with none,
+# LOOKS GOOD accepts the even split.
 - extendedWaitUntil:
     visible:
-      id: 'setup-rooms-stay-option-.*'
+      id: 'setup-rooms-lock'
     timeout: 30000
-- tapOn:
-    id: 'setup-rooms-stay-option-.*'
-    index: 0
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-stay-option-.*'
+    commands:
+      - tapOn:
+          id: 'setup-rooms-stay-option-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'setup-rooms-room-.*'
+          timeout: 30000
 - scrollUntilVisible:
     element:
       id: 'setup-rooms-lock'

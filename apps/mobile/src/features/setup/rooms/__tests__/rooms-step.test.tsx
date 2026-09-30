@@ -227,6 +227,39 @@ describe('member view', () => {
   });
 });
 
+describe('no stay prices', () => {
+  it('lets LOOKS GOOD accept the even split and move on to must-dos', async () => {
+    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
+    const trip = { ...kyotoTrip({ step: 'rooms', dates: true }), isSolo: true };
+    const onSelectStep = jest.fn();
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+    await render(
+      <I18nProvider i18n={i18n}>
+        <SafeAreaProvider initialMetrics={METRICS}>
+          <GestureHandlerRootView>
+            <LocalFirstProvider value={stack.value}>
+              <ScreenJoltProvider>
+                <RoomsStep trip={trip} shell={{ ...sceneFrame(trip, 'rooms'), onSelectStep }} />
+              </ScreenJoltProvider>
+            </LocalFirstProvider>
+          </GestureHandlerRootView>
+        </SafeAreaProvider>
+      </I18nProvider>,
+    );
+    expect(await screen.findByTestId('setup-rooms-even')).toBeTruthy();
+    expect(screen.queryByTestId('setup-rooms-skip')).toBeNull();
+
+    await fireEvent.press(screen.getByTestId('setup-rooms-lock'));
+    await waitFor(async () =>
+      expect(await queued(stack!.db, 'set_setup_step')).toEqual([
+        { trip_id: TRIP_ID, step: 'must_dos' },
+      ]),
+    );
+    expect(onSelectStep).toHaveBeenCalledWith('must_dos');
+    expect(await queued(stack.db, 'lock_rooms')).toHaveLength(0);
+  });
+});
+
 describe('rooms rules', () => {
   it('keeps "don’t care" on its own', () => {
     expect(toggleChip(['early_bird'], 'dont_care')).toEqual(['dont_care']);
