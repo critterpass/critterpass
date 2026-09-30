@@ -12,7 +12,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-na
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';

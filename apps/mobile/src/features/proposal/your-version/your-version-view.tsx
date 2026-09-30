@@ -10,7 +10,7 @@ import { ScrollView, View } from 'react-native';
 
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Skeleton } from '@/ui/states/Skeleton';

@@ -25,7 +25,7 @@ import { SplitFlap } from '@/ui/data/SplitFlap';
 import { Ticket } from '@/ui/documents/Ticket';
 import { SlideToConfirm } from '@/ui/inputs/SlideToConfirm';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';

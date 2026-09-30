@@ -4,10 +4,8 @@
  * status and role. Everything here works offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
-import { tokens } from '@cp/design-tokens';
-
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
-import type { GuideId } from '@/ui/people/GuideLine';
+import { isGuideStickerId, type GuideStickerId as GuideId } from '@/ui/avatar/guides';
 
 import { firstName } from './format';
 import { useLiveRows } from './rows';
@@ -84,7 +82,6 @@ const SHARE_TABLES = ['trip_share_totals'];
 const ME_SQL = 'SELECT value FROM local_state WHERE id = ?';
 const ME_TABLES = ['local_state'];
 
-const GUIDES: readonly string[] = tokens.guide.order;
 const STATUSES: readonly string[] = ['unopened', 'opened', 'maybe', 'in', 'out', 'waitlisted'];
 
 export function toPerson(row: PersonRow, joinIndex: number): CrewPerson {
@@ -127,7 +124,7 @@ export function useProposalTrip(tripId: string | null): ProposalTrip | null | un
     crewId: row.crew_id,
     status: row.status,
     destination: row.destination_name ?? '',
-    guide: (GUIDES.includes(row.guide_slug ?? '') ? row.guide_slug : 'tokek') as GuideId,
+    guide: isGuideStickerId(row.guide_slug) ? row.guide_slug : 'tokek',
     startDate: row.start_date,
     endDate: row.end_date,
     me,
