@@ -57,6 +57,8 @@ beforeAll(async () => {
   });
   const created = await admin.fetch(`${endpoint}/${BUCKET}`, { method: 'PUT' });
   if (!created.ok) throw new Error(`bucket create failed: ${created.status}`);
+  // The publish transaction enqueues through the process's job producer.
+  await harness.startRuntime([]);
   store = createAvatarMediaStore({
     endpoint,
     bucket: BUCKET,
@@ -111,6 +113,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   server.close();
+  await harness.stopAll();
   await harness.close();
   await s3.stop();
 });
