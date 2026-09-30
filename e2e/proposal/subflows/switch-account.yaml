@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# Developer tools → Test accounts: ${TARGET} keeps the signed-in account and either starts a new
+# one (dev-accounts-new) or signs a kept one back in (dev-accounts-switch-<n>, in the order they
+# were kept). The app clears its local data and restarts on the new session.
+- runFlow: ../../home/subflows/open-dev-tools.yaml
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-accounts'
+    timeout: 15000
+- tapOn:
+    id: 'dev-nav-accounts'
+- extendedWaitUntil:
+    visible:
+      id: ${TARGET}
+    timeout: 20000
+- tapOn:
+    id: ${TARGET}
