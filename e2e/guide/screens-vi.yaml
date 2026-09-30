@@ -40,3 +40,6 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/meter-scenes.yaml
     env: { PREFIX: vi }
+- runFlow:
+    file: subflows/crew-scenes.yaml
+    env: { PREFIX: vi }

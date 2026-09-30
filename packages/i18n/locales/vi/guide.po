@@ -93,6 +93,14 @@ msgstr "Đã chép"
 msgid "guide.chat.copy"
 msgstr "Chép"
 
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.confirm"
+msgstr "Cho mình tham gia"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.full"
+msgstr "Đã hết chỗ"
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.getPass"
 msgstr "Mua Pass+"
@@ -108,6 +116,11 @@ msgstr "Chế độ nhóm · cả {count} người đều xem được"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
 msgid "guide.sheet.label"
 msgstr "Trò chuyện với hướng dẫn viên"
+
+#. placeholder {0}: message.body
+#: ../../apps/mobile/src/features/guide/chat/register.ts
+msgid "guide.offer.label"
+msgstr "Đề xuất của hướng dẫn viên: {0}"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.helpful"
@@ -136,6 +149,14 @@ msgstr "Mình lạc mất mạch suy nghĩ rồi. Câu đó không bị tính l�
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.offline.line"
 msgstr "Mình sẽ trả lời khi bạn có mạng lại."
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.inMany"
+msgstr "Mình tham gia · còn {left} chỗ"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.inOne"
+msgstr "Mình tham gia · còn 1 chỗ"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.busy"
@@ -176,6 +197,10 @@ msgstr "Chi phí không đổi"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.notHelpful"
 msgstr "Không hữu ích"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.notNow"
+msgstr "Để sau"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.open"
@@ -225,6 +250,10 @@ msgstr "Xem lại"
 msgid "guide.plan.sent"
 msgstr "Đã gửi vào nhóm chat để bình chọn"
 
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemFull"
+msgstr "Có người đã lấy chỗ cuối cùng trước bạn."
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.newItem"
 msgstr "Một điều mới"
@@ -233,9 +262,21 @@ msgstr "Một điều mới"
 msgid "guide.chat.filler"
 msgstr "Mình vẫn đang kiểm tra, chờ chút nhé…"
 
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.confirmBody"
+msgstr "Giữ một chỗ nhé? Chưa có gì được đặt hay thanh toán."
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.removed"
 msgstr "Bỏ khỏi lịch trình"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problem"
+msgstr "Chưa gửi được. Thử lại nhé?"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemOffline"
+msgstr "Cần có mạng mới làm được."
 
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.offline"
@@ -260,6 +301,14 @@ msgstr "Chuyện đó mình không giúp được. Hỏi mình về chuyến đi
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.closed"
 msgstr "Thay đổi này không còn mở nữa"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemExpired"
+msgstr "Đề xuất này đã đóng."
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.expired"
+msgstr "Đề xuất này đã hết"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.menu"
@@ -316,3 +365,21 @@ msgstr "Bạn thấy câu này hữu ích"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.ratedDown"
 msgstr "Bạn thấy câu này chưa hữu ích"
+
+#. placeholder {0}: props.taken
+#. placeholder {1}: props.total
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.mine"
+msgstr "Bạn đã tham gia · {0} trên {1} chỗ đã có người"
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+msgid "guide.crew.spentMidnight"
+msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {0} sẽ trả lời lại lúc nửa đêm."
+
+#. placeholder {0}: props.guideName
+#. placeholder {1}: left.hours
+#. placeholder {2}: left.minutes
+#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+msgid "guide.crew.spent"
+msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {0} quay lại sau {1} giờ {2} phút."

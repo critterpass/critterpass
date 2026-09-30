@@ -93,6 +93,14 @@ msgstr "Copied"
 msgid "guide.chat.copy"
 msgstr "Copy"
 
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.confirm"
+msgstr "Count me in"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.full"
+msgstr "Every slot is taken"
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.getPass"
 msgstr "Get Pass+"
@@ -108,6 +116,11 @@ msgstr "Group mode · all {count} can see this"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
 msgid "guide.sheet.label"
 msgstr "Guide chat"
+
+#. placeholder {0}: message.body
+#: ../../apps/mobile/src/features/guide/chat/register.ts
+msgid "guide.offer.label"
+msgstr "Guide offer: {0}"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.helpful"
@@ -136,6 +149,14 @@ msgstr "I lost my train of thought. That one didn’t count."
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.offline.line"
 msgstr "I'll answer when you're back online."
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.inMany"
+msgstr "I'm in · {left} slots left"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.inOne"
+msgstr "I'm in · 1 slot left"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.busy"
@@ -176,6 +197,10 @@ msgstr "No change to the cost"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.notHelpful"
 msgstr "Not helpful"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.notNow"
+msgstr "Not now"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.open"
@@ -225,6 +250,10 @@ msgstr "Review"
 msgid "guide.plan.sent"
 msgstr "Sent to the crew chat as a vote"
 
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemFull"
+msgstr "Someone got the last slot first."
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.newItem"
 msgstr "Something new"
@@ -233,9 +262,21 @@ msgstr "Something new"
 msgid "guide.chat.filler"
 msgstr "Still checking, one moment…"
 
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.confirmBody"
+msgstr "Take one of the slots? Nothing is booked or paid yet."
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.removed"
 msgstr "Taken out of the plan"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problem"
+msgstr "That didn't go through. Try again?"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemOffline"
+msgstr "That needs a connection."
 
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.offline"
@@ -260,6 +301,14 @@ msgstr "That's not something I can help with. Ask me about the trip instead?"
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.closed"
 msgstr "This change is no longer open"
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemExpired"
+msgstr "This offer has closed."
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.expired"
+msgstr "This one has gone"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.menu"
@@ -316,3 +365,21 @@ msgstr "You found this helpful"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.ratedDown"
 msgstr "You found this unhelpful"
+
+#. placeholder {0}: props.taken
+#. placeholder {1}: props.total
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.mine"
+msgstr "You're in · {0} of {1} taken"
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+msgid "guide.crew.spentMidnight"
+msgstr "You've used today's free questions. {0} answers again at midnight."
+
+#. placeholder {0}: props.guideName
+#. placeholder {1}: left.hours
+#. placeholder {2}: left.minutes
+#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+msgid "guide.crew.spent"
+msgstr "You've used today's free questions. {0} is back in {1}h {2}m."

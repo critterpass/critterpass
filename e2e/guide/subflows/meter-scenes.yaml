@@ -19,7 +19,8 @@ appId: app.critterpass.dev
     env: { SCENE: meter-boosted, READY: guide-meter-boosted, SHOT: '${PREFIX}-3j-1-meter-boosted' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: meter-unlimited, READY: guide-conversation, SHOT: '${PREFIX}-3j-1-meter-unlimited' }
+    env:
+      { SCENE: meter-unlimited, READY: guide-conversation, SHOT: '${PREFIX}-3j-1-meter-unlimited' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: limit-queued, READY: guide-queued, SHOT: '${PREFIX}-4b-1-queued' }
