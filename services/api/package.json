@@ -67,6 +67,7 @@
     "@testcontainers/postgresql": "catalog:",
     "@testcontainers/redis": "catalog:",
     "@types/pg": "catalog:",
+    "ical.js": "2.2.1",
     "reflect-metadata": "0.2.2",
     "testcontainers": "catalog:",
     "tsdown": "catalog:"

@@ -11,3 +11,4 @@ export * from './rt';
 export * from './queues';
 export * from './changesets';
 export * from './templates';
+export * from './calendar-feed';
