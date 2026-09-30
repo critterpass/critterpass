@@ -1,6 +1,6 @@
 {
   "kind": "sets",
-  "version": 1,
+  "version": 2,
   "items": [
     {
       "code": "vn",
@@ -4328,8 +4328,8 @@
     "batch_key": "2026-09-30-sets-01",
     "route": "content.factory",
     "model": "deepseek-v4-pro",
-    "generated_at": "2026-09-30T21:33:59.951Z"
+    "generated_at": "2026-09-30T21:53:14.223Z"
   },
   "approved_by": null,
-  "checksum": "f8b3e869d2f730c16c763cb5f63e4028074fdc1428ee115ede3402a15cfc6182"
+  "checksum": "b4ff47523b9f83c186b0d01c1f89dd26e3f25a4d9b3d254bb1dc70789f7264ec"
 }
