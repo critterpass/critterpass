@@ -48,7 +48,6 @@ import { moneyJobs, registerMoneyPushes } from './jobs/money';
 import { bookingsJobs } from './jobs/bookings';
 import { billingJobs } from './jobs/billing';
 import { planJobs } from './jobs/plan';
-import { tripDayJobs } from './jobs/trip-day';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
@@ -170,7 +169,7 @@ const jobs: AnyJobDefinition[] = [
   ...planJobs(),
   ...guideJobs({ ...process.env, ...env }, pool, aiSwitches.assertAiRoute, llmObservability),
   ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger),
-  ...tripDayJobs(process.env, aiSwitches.assertAiRoute, llmObservability),
+  ...(await import('./jobs/trip-day')).tripDayJobs(process.env, aiSwitches, llmObservability),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&

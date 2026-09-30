@@ -54,7 +54,7 @@ function briefingWriter(
 
 export function tripDayJobs(
   env: TripDayJobsEnv,
-  assertRouteOn: AssertRouteOn,
+  switches: { readonly assertAiRoute: AssertRouteOn },
   telemetry?: Telemetry,
 ): AnyJobDefinition[] {
   if (!registered) {
@@ -66,7 +66,7 @@ export function tripDayJobs(
   return [
     leaveByRecomputeJob(router),
     leaveByScheduleJob(router),
-    briefingJob(briefingWriter(env, assertRouteOn, telemetry)),
+    briefingJob(briefingWriter(env, switches.assertAiRoute, telemetry)),
     dayBundleJob(),
   ];
 }
