@@ -1,0 +1,3286 @@
+{
+  "kind": "critters",
+  "version": 1,
+  "items": [
+    {
+      "id": "cp-001",
+      "no": 1,
+      "set_code": "vn",
+      "city": "Hà Nội",
+      "species": "Hoàn Kiếm turtle",
+      "name": "Cụ Rùa",
+      "name_native": null,
+      "art_params": {
+        "b": "turtle",
+        "c": [
+          "#b5d68f",
+          "#5f9a55",
+          "#eef5d6"
+        ],
+        "acc": "sword"
+      },
+      "canonical_seed": 1,
+      "note": "It surfaces rarely in the lake, a living reminder of the city's old stories."
+    },
+    {
+      "id": "cp-002",
+      "no": 2,
+      "set_code": "vn",
+      "city": "Hạ Long",
+      "species": "Bay dragon",
+      "name": "Rồng",
+      "name_native": null,
+      "art_params": {
+        "b": "lizard",
+        "c": [
+          "#54d6a4",
+          "#2e9a74",
+          "#dff7ea"
+        ],
+        "v": "dragon"
+      },
+      "canonical_seed": 2,
+      "note": "It glides between the limestone islands that rise from the emerald water."
+    },
+    {
+      "id": "cp-003",
+      "no": 3,
+      "set_code": "vn",
+      "city": "Sa Pa",
+      "species": "Water buffalo",
+      "name": "Trâu",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#948eb0",
+          "#57517a",
+          "#cfcae0"
+        ],
+        "v": "buffalo",
+        "ears": "side2",
+        "acc": "scarf",
+        "horns": "bull",
+        "sc": "#4f86ff"
+      },
+      "canonical_seed": 3,
+      "note": "It wallows in the cool mud between the terraced rice fields."
+    },
+    {
+      "id": "cp-004",
+      "no": 4,
+      "set_code": "vn",
+      "city": "Huế",
+      "species": "Saola",
+      "name": "Sao La",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#b8744d",
+          "#5a3424",
+          "#fff1dc"
+        ],
+        "ears": "deer",
+        "mask": "saola",
+        "horns": "straight"
+      },
+      "canonical_seed": 4,
+      "note": "It moves quietly through the dense forest, rarely seen by people."
+    },
+    {
+      "id": "cp-005",
+      "no": 5,
+      "set_code": "vn",
+      "city": "Hội An",
+      "species": "Lantern carp",
+      "name": "Chép",
+      "name_native": null,
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#ff8a4d",
+          "#e0502e",
+          "#fff1dc"
+        ],
+        "v": "carp",
+        "acc": "lantern",
+        "pat": "scales"
+      },
+      "canonical_seed": 5,
+      "note": "It swims slowly in the river, reflecting the glow of the town's lanterns."
+    },
+    {
+      "id": "cp-006",
+      "no": 6,
+      "set_code": "vn",
+      "city": "Đà Lạt",
+      "species": "Flower pony",
+      "name": "Ngựa",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#fff1d6",
+          "#ff8fbf",
+          "#fffaf0"
+        ],
+        "v": "horse",
+        "acc": "flowers"
+      },
+      "canonical_seed": 6,
+      "note": "It grazes on the hillsides among the flower fields."
+    },
+    {
+      "id": "cp-007",
+      "no": 7,
+      "set_code": "vn",
+      "city": "Sài Gòn",
+      "species": "Red-whiskered bulbul",
+      "name": "Chào Mào",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#c9a882",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "v": "bulbul"
+      },
+      "canonical_seed": 7,
+      "note": "It sings from a branch above the busy streets."
+    },
+    {
+      "id": "cp-008",
+      "no": 8,
+      "set_code": "vn",
+      "city": "Mekong",
+      "species": "Egret",
+      "name": "Cò",
+      "name_native": null,
+      "art_params": {
+        "b": "wader",
+        "c": [
+          "#fffaf0",
+          "#e6dfcf",
+          "#fffaf0"
+        ],
+        "acc": "nonla",
+        "beak": "long",
+        "bc": "#ffd84a",
+        "lc": "#3a3466"
+      },
+      "canonical_seed": 8,
+      "note": "It wades in the shallow water, watching for small fish."
+    },
+    {
+      "id": "cp-009",
+      "no": 9,
+      "set_code": "vn",
+      "city": "Phú Quốc",
+      "species": "Phú Quốc ridgeback",
+      "name": "Xoáy",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#dba06a",
+          "#a3683a",
+          "#f6dcb4"
+        ],
+        "ears": "cat",
+        "tail": "thin",
+        "muz": "dog",
+        "pat": "ridge"
+      },
+      "canonical_seed": 9,
+      "note": "It runs along the beach with its distinctive ridge of hair standing up."
+    },
+    {
+      "id": "cp-010",
+      "no": 10,
+      "set_code": "vn",
+      "city": "Phong Nha",
+      "species": "Cave bat",
+      "name": "Dơi",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#a497dc",
+          "#5d509e",
+          "#ddd6f6"
+        ],
+        "v": "bat",
+        "ears": "bat",
+        "tail": "none",
+        "ic": "#ffc2d6"
+      },
+      "canonical_seed": 10,
+      "note": "It hangs from the cave ceiling and flies out at dusk to hunt insects."
+    },
+    {
+      "id": "cp-011",
+      "no": 11,
+      "set_code": "fr",
+      "city": "Paris",
+      "species": "Pigeon",
+      "name": "Roucou",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#bcc2da",
+          "#7c84a8",
+          "#dfe2ee"
+        ],
+        "v": "pigeon",
+        "acc": "beret"
+      },
+      "canonical_seed": 11,
+      "note": "It coos from stone ledges and waits near café terraces for a fallen crumb."
+    },
+    {
+      "id": "cp-012",
+      "no": 12,
+      "set_code": "fr",
+      "city": "Nice",
+      "species": "Cicada",
+      "name": "Cigalou",
+      "name_native": null,
+      "art_params": {
+        "b": "bug",
+        "c": [
+          "#ffd84a",
+          "#c99a2a",
+          "#fff3c4"
+        ],
+        "v": "cicada"
+      },
+      "canonical_seed": 12,
+      "note": "It sings through hot afternoons from the tops of pine and olive trees."
+    },
+    {
+      "id": "cp-013",
+      "no": 13,
+      "set_code": "fr",
+      "city": "Lyon",
+      "species": "Lion",
+      "name": "Léon",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#ffc46b",
+          "#d0703a",
+          "#fff1dc"
+        ],
+        "ears": "round",
+        "tail": "tuft",
+        "muz": "cat",
+        "mane": 1
+      },
+      "canonical_seed": 13,
+      "note": "It lounges in the shade of an old park enclosure and lets out a low rumble at dusk."
+    },
+    {
+      "id": "cp-014",
+      "no": 14,
+      "set_code": "fr",
+      "city": "Marseille",
+      "species": "Scorpionfish",
+      "name": "Rascasse",
+      "name_native": null,
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#ff6f5c",
+          "#c63f3f",
+          "#ffd9cc"
+        ],
+        "v": "tall",
+        "pat": "dots",
+        "fins": "spiky"
+      },
+      "canonical_seed": 14,
+      "note": "It hides among sea grass and rocks in the calanques, its spiny fins blending with the seafloor."
+    },
+    {
+      "id": "cp-015",
+      "no": 15,
+      "set_code": "fr",
+      "city": "Strasbourg",
+      "species": "White stork",
+      "name": "Stori",
+      "name_native": null,
+      "art_params": {
+        "b": "wader",
+        "c": [
+          "#fffaf0",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "beak": "long",
+        "bc": "#ff5a3d",
+        "lc": "#ff5a3d"
+      },
+      "canonical_seed": 15,
+      "note": "It nests on rooftops and chimney tops, clattering its bill above the canals."
+    },
+    {
+      "id": "cp-016",
+      "no": 16,
+      "set_code": "es",
+      "city": "Barcelona",
+      "species": "Mosaic salamander",
+      "name": "Drac",
+      "name_native": null,
+      "art_params": {
+        "b": "lizard",
+        "c": [
+          "#7fb8ff",
+          "#3d6fe0",
+          "#eef4ff"
+        ],
+        "pat": "mosaic"
+      },
+      "canonical_seed": 16,
+      "note": "It hides under logs and damp leaves in shady woodland, emerging at night to hunt small insects."
+    },
+    {
+      "id": "cp-017",
+      "no": 17,
+      "set_code": "es",
+      "city": "Madrid",
+      "species": "Brown bear",
+      "name": "Osito",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#bf7c52",
+          "#6b3a24",
+          "#f4d9b0"
+        ],
+        "ears": "round",
+        "tail": "stub",
+        "muz": "dog",
+        "acc": "berries"
+      },
+      "canonical_seed": 17,
+      "note": "In the mountain forests north of Madrid, it forages for berries, roots, and insects before winter sleep."
+    },
+    {
+      "id": "cp-018",
+      "no": 18,
+      "set_code": "es",
+      "city": "Seville",
+      "species": "Iberian lynx",
+      "name": "Lince",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#e8b87a",
+          "#8f5a3a",
+          "#fff1dc"
+        ],
+        "ears": "tuft",
+        "tail": "stub",
+        "muz": "cat",
+        "pat": "spots",
+        "mask": "beard"
+      },
+      "canonical_seed": 18,
+      "note": "In the scrubland and marshes near Seville, it stalks rabbits with silent, padded paws."
+    },
+    {
+      "id": "cp-019",
+      "no": 19,
+      "set_code": "es",
+      "city": "Mallorca",
+      "species": "Midwife toad",
+      "name": "Ferreret",
+      "name_native": null,
+      "art_params": {
+        "b": "frog",
+        "c": [
+          "#e3cc6c",
+          "#6b5a24",
+          "#fff6d0"
+        ],
+        "pat": "spots"
+      },
+      "canonical_seed": 19,
+      "note": "It carries its eggs on its back legs until they are ready to hatch in a cool mountain pool."
+    },
+    {
+      "id": "cp-020",
+      "no": 20,
+      "set_code": "es",
+      "city": "Tenerife",
+      "species": "Canary",
+      "name": "Canario",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#ffd84a",
+          "#e0a92a",
+          "#fff6cc"
+        ],
+        "beak": "cone"
+      },
+      "canonical_seed": 20,
+      "note": "In the pine forests and ravines of Tenerife, it sings from low branches while feeding on seeds."
+    },
+    {
+      "id": "cp-021",
+      "no": 21,
+      "set_code": "us",
+      "city": "New York",
+      "species": "Subway rat",
+      "name": "Pizza",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#bab4ca",
+          "#7c75a0",
+          "#e6e2f2"
+        ],
+        "ears": "mouse",
+        "tail": "rat",
+        "muz": "rat",
+        "acc": "pizza",
+        "ic": "#ffc2d6",
+        "hy": 33,
+        "hw": 0.9
+      },
+      "canonical_seed": 21,
+      "note": "Scavenges for food in the subway tunnels of New York."
+    },
+    {
+      "id": "cp-022",
+      "no": 22,
+      "set_code": "us",
+      "city": "Los Angeles",
+      "species": "Coyote",
+      "name": "Coyo",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#dba06a",
+          "#8f5a3a",
+          "#fff1dc"
+        ],
+        "ears": "fox",
+        "tail": "bushy",
+        "muz": "long",
+        "acc": "shades"
+      },
+      "canonical_seed": 22,
+      "note": "Roams the scrubby hills and canyons around Los Angeles."
+    },
+    {
+      "id": "cp-023",
+      "no": 23,
+      "set_code": "us",
+      "city": "Las Vegas",
+      "species": "Jackrabbit",
+      "name": "Lucky",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#e3c49c",
+          "#9c7a5a",
+          "#fffaf0"
+        ],
+        "ears": "long",
+        "tail": "puff",
+        "muz": "bunny",
+        "acc": "dice",
+        "ic": "#ffb8c8",
+        "hy": 40,
+        "hh": 0.9
+      },
+      "canonical_seed": 23,
+      "note": "Dashes through desert scrub at dawn and dusk near Las Vegas."
+    },
+    {
+      "id": "cp-024",
+      "no": 24,
+      "set_code": "us",
+      "city": "Orlando",
+      "species": "Alligator",
+      "name": "Gator",
+      "name_native": null,
+      "art_params": {
+        "b": "lizard",
+        "c": [
+          "#78b35e",
+          "#3f7a3a",
+          "#e2f2b8"
+        ],
+        "v": "croc"
+      },
+      "canonical_seed": 24,
+      "note": "Lurks in the freshwater lakes and marshes around Orlando."
+    },
+    {
+      "id": "cp-025",
+      "no": 25,
+      "set_code": "us",
+      "city": "Honolulu",
+      "species": "Reef triggerfish",
+      "name": "Humu",
+      "name_native": null,
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#ffd84a",
+          "#3a3466",
+          "#fff6cc"
+        ],
+        "v": "tall",
+        "pat": "humu"
+      },
+      "canonical_seed": 25,
+      "note": "Nibbles at coral and invertebrates on the reefs of Honolulu."
+    },
+    {
+      "id": "cp-026",
+      "no": 26,
+      "set_code": "cn",
+      "city": "Beijing",
+      "species": "Pekingese",
+      "name": "Jingba",
+      "name_native": "京巴",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#f2c98a",
+          "#9c6a3f",
+          "#fff1dc"
+        ],
+        "ears": "flop",
+        "tail": "plume",
+        "muz": "flat",
+        "acc": "knot",
+        "ec": "#c98a52"
+      },
+      "canonical_seed": 26,
+      "note": "A small lion-like dog with a rolling gait, bred for centuries to keep quiet company in Beijing's old palace courtyards."
+    },
+    {
+      "id": "cp-027",
+      "no": 27,
+      "set_code": "cn",
+      "city": "Shanghai",
+      "species": "Hairy crab",
+      "name": "Xiexie",
+      "name_native": "蟹蟹",
+      "art_params": {
+        "b": "crab",
+        "c": [
+          "#b0925e",
+          "#5a4a2a",
+          "#eadcb4"
+        ]
+      },
+      "canonical_seed": 27,
+      "note": "These freshwater crabs scuttle along muddy riverbanks near Shanghai and are celebrated each autumn for their rich roe."
+    },
+    {
+      "id": "cp-028",
+      "no": 28,
+      "set_code": "cn",
+      "city": "Xi'an",
+      "species": "Golden snub-nosed monkey",
+      "name": "Jinsi",
+      "name_native": "金丝",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#ffc46b",
+          "#d9703a",
+          "#fff1dc"
+        ],
+        "v": "monkey",
+        "ears": "side",
+        "tail": "long",
+        "muz": "snub",
+        "fcol": "#a8d4ff",
+        "arms": "long"
+      },
+      "canonical_seed": 28,
+      "note": "In the Qinling mountains near Xi'an, this blue-faced monkey huddles through snowy winters and eats lichen."
+    },
+    {
+      "id": "cp-029",
+      "no": 29,
+      "set_code": "cn",
+      "city": "Chengdu",
+      "species": "Giant panda",
+      "name": "Huahua",
+      "name_native": "花花",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#fffaf0",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "ears": "round",
+        "acc": "bamboo",
+        "mask": "panda",
+        "ec": "#3a3466",
+        "arms": "dark",
+        "belly": 0
+      },
+      "canonical_seed": 29,
+      "note": "A solitary bamboo eater that roams the cool, misty hillsides outside Chengdu and rests often between meals."
+    },
+    {
+      "id": "cp-030",
+      "no": 30,
+      "set_code": "cn",
+      "city": "Guilin",
+      "species": "Cormorant",
+      "name": "Luci",
+      "name_native": "露西",
+      "art_params": {
+        "b": "wader",
+        "c": [
+          "#5d5780",
+          "#3a3466",
+          "#8d87a8"
+        ],
+        "v": "float",
+        "beak": "hook",
+        "bc": "#ffd84a"
+      },
+      "canonical_seed": 30,
+      "note": "This sleek black bird dives for fish in the Li River and perches with wings spread to dry beneath Guilin's karst peaks."
+    },
+    {
+      "id": "cp-031",
+      "no": 31,
+      "set_code": "tr",
+      "city": "Istanbul",
+      "species": "Street cat",
+      "name": "Tombili",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#c9cde0",
+          "#8d93b0",
+          "#fffaf0"
+        ],
+        "ears": "cat",
+        "tail": "thin",
+        "muz": "cat",
+        "pat": "tabby",
+        "ic": "#ffb8c8",
+        "bw": 24
+      },
+      "canonical_seed": 31,
+      "note": "Often found dozing on warm cobblestones near the Bosphorus."
+    },
+    {
+      "id": "cp-032",
+      "no": 32,
+      "set_code": "tr",
+      "city": "Antalya",
+      "species": "Loggerhead turtle",
+      "name": "Caretta",
+      "name_native": null,
+      "art_params": {
+        "b": "turtle",
+        "c": [
+          "#e8c29a",
+          "#c4623e",
+          "#fff1dc"
+        ],
+        "v": "sea"
+      },
+      "canonical_seed": 32,
+      "note": "Nests on quiet sandy stretches of the Mediterranean coast."
+    },
+    {
+      "id": "cp-033",
+      "no": 33,
+      "set_code": "tr",
+      "city": "Cappadocia",
+      "species": "Horse",
+      "name": "Peri",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#c98a5a",
+          "#5a3424",
+          "#f4d9b0"
+        ],
+        "v": "horse",
+        "acc": "balloon"
+      },
+      "canonical_seed": 33,
+      "note": "Grazes on the sparse grasses of Cappadocia's fairy chimney valleys."
+    },
+    {
+      "id": "cp-034",
+      "no": 34,
+      "set_code": "tr",
+      "city": "Bodrum",
+      "species": "Bottlenose dolphin",
+      "name": "Yunus",
+      "name_native": null,
+      "art_params": {
+        "b": "whale",
+        "c": [
+          "#86bdfb",
+          "#3d6fe0",
+          "#e6f2ff"
+        ],
+        "v": "dolphin"
+      },
+      "canonical_seed": 34,
+      "note": "Surfaces in the clear Aegean waters off Bodrum's coast."
+    },
+    {
+      "id": "cp-035",
+      "no": 35,
+      "set_code": "tr",
+      "city": "Izmir",
+      "species": "Flamingo",
+      "name": "Pembe",
+      "name_native": null,
+      "art_params": {
+        "b": "wader",
+        "c": [
+          "#ff9cc8",
+          "#ff5fa8",
+          "#ffd9e8"
+        ],
+        "v": "flamingo",
+        "beak": "flamingo",
+        "bc": "#fff1dc",
+        "lc": "#ff5fa8"
+      },
+      "canonical_seed": 35,
+      "note": "Feeds in the shallow saline waters of the Gediz Delta near Izmir."
+    },
+    {
+      "id": "cp-036",
+      "no": 36,
+      "set_code": "it",
+      "city": "Rome",
+      "species": "She-wolf",
+      "name": "Lupa",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#c9a27a",
+          "#7a5a3f",
+          "#f4e3c8"
+        ],
+        "ears": "fox",
+        "tail": "bushy",
+        "muz": "long",
+        "acc": "laurel"
+      },
+      "canonical_seed": 36,
+      "note": "This wolf roams the ancient hills that overlook the Tiber, where its kind once hunted freely."
+    },
+    {
+      "id": "cp-037",
+      "no": 37,
+      "set_code": "it",
+      "city": "Venice",
+      "species": "Cuttlefish",
+      "name": "Seppia",
+      "name_native": null,
+      "art_params": {
+        "b": "octo",
+        "c": [
+          "#c9a6f0",
+          "#7f5ac9",
+          "#f0e6ff"
+        ],
+        "acc": "boater"
+      },
+      "canonical_seed": 37,
+      "note": "In the shallow lagoon waters, this cuttlefish drifts among seagrass and shifts its skin to match the shifting light."
+    },
+    {
+      "id": "cp-038",
+      "no": 38,
+      "set_code": "it",
+      "city": "Florence",
+      "species": "Bronze boar",
+      "name": "Porcellino",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#8f9a6a",
+          "#5a6440",
+          "#c9cc9a"
+        ],
+        "ears": "pig",
+        "tail": "curl",
+        "muz": "snout",
+        "pat": "bristle",
+        "tusks": 1,
+        "snc": "#ffd84a"
+      },
+      "canonical_seed": 38,
+      "note": "This boar roots through the oak forests of the nearby hills, where wild pigs often forage at dusk."
+    },
+    {
+      "id": "cp-039",
+      "no": 39,
+      "set_code": "it",
+      "city": "Milan",
+      "species": "Crowned serpent",
+      "name": "Biscio",
+      "name_native": null,
+      "art_params": {
+        "b": "snake",
+        "c": [
+          "#54d6a4",
+          "#2e9a74",
+          "#dff7ea"
+        ],
+        "acc": "crown"
+      },
+      "canonical_seed": 39,
+      "note": "In the grassy embankments along the city's canals, this serpent basks in the sun and hunts for small prey."
+    },
+    {
+      "id": "cp-040",
+      "no": 40,
+      "set_code": "it",
+      "city": "Capri",
+      "species": "Blue lizard",
+      "name": "Azzurra",
+      "name_native": null,
+      "art_params": {
+        "b": "lizard",
+        "c": [
+          "#5b8fff",
+          "#2f5fc9",
+          "#dbe8ff"
+        ],
+        "v": "slim",
+        "pat": "dots"
+      },
+      "canonical_seed": 40,
+      "note": "This lizard clings to the sun-warmed limestone of the sea stacks, its blue scales blending with the Mediterranean sky."
+    },
+    {
+      "id": "cp-041",
+      "no": 41,
+      "set_code": "mx",
+      "city": "Mexico City",
+      "species": "Axolotl",
+      "name": "Ajo",
+      "name_native": null,
+      "art_params": {
+        "k": "axolotl"
+      },
+      "canonical_seed": 7,
+      "note": "It drifts among the canals of Xochimilco, where marigolds float on the dark water."
+    },
+    {
+      "id": "cp-042",
+      "no": 42,
+      "set_code": "mx",
+      "city": "Cancún",
+      "species": "Whale shark",
+      "name": "Tibu",
+      "name_native": null,
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#7494d4",
+          "#3d5fa8",
+          "#e6eeff"
+        ],
+        "v": "shark",
+        "pat": "wspots"
+      },
+      "canonical_seed": 42,
+      "note": "It glides over the reefs near Cancún, filtering tiny plankton from the warm water."
+    },
+    {
+      "id": "cp-043",
+      "no": 43,
+      "set_code": "mx",
+      "city": "Oaxaca",
+      "species": "Grasshopper",
+      "name": "Chapulín",
+      "name_native": null,
+      "art_params": {
+        "b": "bug",
+        "c": [
+          "#9cd66a",
+          "#5a9a3a",
+          "#e8f6c8"
+        ],
+        "v": "hopper"
+      },
+      "canonical_seed": 43,
+      "note": "It hops between marigold stems in a field outside Oaxaca."
+    },
+    {
+      "id": "cp-044",
+      "no": 44,
+      "set_code": "mx",
+      "city": "Tulum",
+      "species": "White-nosed coati",
+      "name": "Coati",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#c98a5a",
+          "#6b3a24",
+          "#f4d9b0"
+        ],
+        "ears": "tiny",
+        "tail": "ring",
+        "muz": "longnose"
+      },
+      "canonical_seed": 44,
+      "note": "It forages along the forest floor near Tulum, sometimes drinking from cool cenotes."
+    },
+    {
+      "id": "cp-045",
+      "no": 45,
+      "set_code": "mx",
+      "city": "Guadalajara",
+      "species": "Xoloitzcuintli",
+      "name": "Xolo",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#8a83ad",
+          "#4a4466",
+          "#b3acd0"
+        ],
+        "ears": "bat",
+        "tail": "thin",
+        "muz": "dog",
+        "acc": "marigold",
+        "ic": "#ffc2d6",
+        "belly": 0
+      },
+      "canonical_seed": 45,
+      "note": "This hairless dog moves with quiet loyalty through the streets of Guadalajara."
+    },
+    {
+      "id": "cp-046",
+      "no": 46,
+      "set_code": "hk",
+      "city": "Victoria Peak",
+      "species": "Black kite",
+      "name": "Maying",
+      "name_native": "馬英",
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#a8764f",
+          "#6b3a24",
+          "#dcbc9c"
+        ],
+        "v": "raptor",
+        "tail": "fork"
+      },
+      "canonical_seed": 46,
+      "note": "Over Victoria Peak, a black kite circles on thermal currents above the city."
+    },
+    {
+      "id": "cp-047",
+      "no": 47,
+      "set_code": "hk",
+      "city": "Kowloon",
+      "species": "Rhesus macaque",
+      "name": "Malau",
+      "name_native": "瑪勞",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#c9a27a",
+          "#8f6a4d",
+          "#f4e3c8"
+        ],
+        "v": "monkey",
+        "ears": "side",
+        "tail": "stub",
+        "muz": "monkey",
+        "fcol": "#ffb8a8"
+      },
+      "canonical_seed": 47,
+      "note": "In the green hills behind Kowloon, a rhesus macaque forages for fruit among the trees."
+    },
+    {
+      "id": "cp-048",
+      "no": 48,
+      "set_code": "hk",
+      "city": "Mong Kok",
+      "species": "Goldfish",
+      "name": "Gamyu",
+      "name_native": "加妙",
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#ff9a4d",
+          "#ff5a3d",
+          "#fff1dc"
+        ],
+        "v": "gold",
+        "acc": "bag"
+      },
+      "canonical_seed": 48,
+      "note": "In the bustling goldfish market of Mong Kok, a goldfish swims in a small tank among many others."
+    },
+    {
+      "id": "cp-049",
+      "no": 49,
+      "set_code": "hk",
+      "city": "Lantau",
+      "species": "Pink dolphin",
+      "name": "Hoitun",
+      "name_native": "凱屯",
+      "art_params": {
+        "b": "whale",
+        "c": [
+          "#ffb3cf",
+          "#ff7fae",
+          "#ffe6f0"
+        ],
+        "v": "dolphin"
+      },
+      "canonical_seed": 49,
+      "note": "Off the coast of Lantau, a pink dolphin surfaces near a fishing boat, its back breaking the grey water."
+    },
+    {
+      "id": "cp-050",
+      "no": 50,
+      "set_code": "hk",
+      "city": "Lamma",
+      "species": "Romer's tree frog",
+      "name": "Romer",
+      "name_native": "羅默",
+      "art_params": {
+        "b": "frog",
+        "c": [
+          "#cfa66e",
+          "#8f6a3a",
+          "#f4e3c8"
+        ],
+        "v": "tree"
+      },
+      "canonical_seed": 50,
+      "note": "On Lamma Island, a small tree frog clings to a leaf after an evening rain shower."
+    },
+    {
+      "id": "cp-051",
+      "no": 51,
+      "set_code": "gb",
+      "city": "London",
+      "species": "Tower raven",
+      "name": "Merlina",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#5d5780",
+          "#2c2750",
+          "#7a7399"
+        ],
+        "v": "raven",
+        "acc": "crown",
+        "beak": "raven",
+        "bc": "#3a3466"
+      },
+      "canonical_seed": 51,
+      "note": "This raven watches over the Tower walls and calls out across the Thames at dusk."
+    },
+    {
+      "id": "cp-052",
+      "no": 52,
+      "set_code": "gb",
+      "city": "Edinburgh",
+      "species": "Skye terrier",
+      "name": "Bobby",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#bcc2da",
+          "#7c84a8",
+          "#e2e5f0"
+        ],
+        "ears": "flop",
+        "tail": "plume",
+        "muz": "dog",
+        "acc": "tartan",
+        "mask": "fringe",
+        "ec": "#9aa0bd"
+      },
+      "canonical_seed": 52,
+      "note": "A sturdy terrier with a long coat, it trots along Edinburgh's cobbled closes and grassy hills."
+    },
+    {
+      "id": "cp-053",
+      "no": 53,
+      "set_code": "gb",
+      "city": "Loch Ness",
+      "species": "Loch Ness monster",
+      "name": "Nessie",
+      "name_native": null,
+      "art_params": {
+        "b": "nessie",
+        "c": [
+          "#54d6a4",
+          "#2e9a74",
+          "#dff7ea"
+        ]
+      },
+      "canonical_seed": 53,
+      "note": "It glides through the deep, dark waters of Loch Ness, surfacing only when the mist rolls in."
+    },
+    {
+      "id": "cp-054",
+      "no": 54,
+      "set_code": "gb",
+      "city": "Manchester",
+      "species": "Worker bee",
+      "name": "Buzz",
+      "name_native": null,
+      "art_params": {
+        "b": "bug",
+        "c": [
+          "#ffd84a",
+          "#3a3466",
+          "#fff6cc"
+        ],
+        "v": "bee"
+      },
+      "canonical_seed": 54,
+      "note": "It gathers pollen from rooftop gardens and canal-side wildflowers, returning to a hive tucked away."
+    },
+    {
+      "id": "cp-055",
+      "no": 55,
+      "set_code": "gb",
+      "city": "Lake District",
+      "species": "Herdwick lamb",
+      "name": "Herdy",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#aaa4c2",
+          "#6f698c",
+          "#fffaf0"
+        ],
+        "v": "sheep",
+        "ears": "sheep",
+        "ec": "#fffaf0",
+        "hc": "#fffaf0"
+      },
+      "canonical_seed": 55,
+      "note": "A hardy lamb grazes on the high fells, its thick fleece keeping it warm in the Lake District's changing weather."
+    },
+    {
+      "id": "cp-056",
+      "no": 56,
+      "set_code": "de",
+      "city": "Berlin",
+      "species": "Buddy bear",
+      "name": "Buddy",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#ff8fbf",
+          "#c94f86",
+          "#ffd9e8"
+        ],
+        "ears": "round",
+        "pat": "stars",
+        "pose": "cheer"
+      },
+      "canonical_seed": 56,
+      "note": "This bear ambles through Berlin's green spaces, always curious about a dropped crumb."
+    },
+    {
+      "id": "cp-057",
+      "no": 57,
+      "set_code": "de",
+      "city": "Munich",
+      "species": "Dachshund",
+      "name": "Waldi",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#86bdfb",
+          "#3d6fe0",
+          "#fffaf0"
+        ],
+        "v": "dachshund",
+        "ears": "flop",
+        "tail": "dog",
+        "pat": "waldi",
+        "ec": "#3d6fe0"
+      },
+      "canonical_seed": 57,
+      "note": "This dachshund trots along Munich's Isar river paths, nose low to catch every scent."
+    },
+    {
+      "id": "cp-058",
+      "no": 58,
+      "set_code": "de",
+      "city": "Hamburg",
+      "species": "Harbour seal",
+      "name": "Hein",
+      "name_native": null,
+      "art_params": {
+        "b": "seal",
+        "c": [
+          "#bcc2da",
+          "#7c84a8",
+          "#e2e5f0"
+        ],
+        "acc": "sailor",
+        "pat": "speckle"
+      },
+      "canonical_seed": 58,
+      "note": "This harbour seal rests on a sandbank in the Elbe, watching ships glide past Hamburg's docks."
+    },
+    {
+      "id": "cp-059",
+      "no": 59,
+      "set_code": "de",
+      "city": "Black Forest",
+      "species": "Cuckoo",
+      "name": "Kucki",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#aaa4c2",
+          "#6f698c",
+          "#fffaf0"
+        ],
+        "acc": "bollen",
+        "pat": "barred"
+      },
+      "canonical_seed": 59,
+      "note": "This cuckoo calls from a tall fir in the Black Forest, its two-note song echoing over the hills."
+    },
+    {
+      "id": "cp-060",
+      "no": 60,
+      "set_code": "de",
+      "city": "Neuschwanstein",
+      "species": "Mute swan",
+      "name": "Ludwig",
+      "name_native": null,
+      "art_params": {
+        "b": "wader",
+        "c": [
+          "#fffaf0",
+          "#e6dfcf",
+          "#fffaf0"
+        ],
+        "v": "swan",
+        "acc": "crown",
+        "beak": "swan",
+        "bc": "#ff9a4d"
+      },
+      "canonical_seed": 60,
+      "note": "This mute swan glides across a mirror-calm Alpine lake beneath the castle towers."
+    },
+    {
+      "id": "cp-061",
+      "no": 61,
+      "set_code": "jp",
+      "city": "Kyoto",
+      "species": "Tanuki",
+      "name": "Pon",
+      "name_native": "ポン",
+      "art_params": {
+        "k": "tanuki"
+      },
+      "canonical_seed": 7,
+      "note": "In Kyoto's temple gardens, it forages quietly under the moonlight, leaving soft paw prints in the moss."
+    },
+    {
+      "id": "cp-062",
+      "no": 62,
+      "set_code": "jp",
+      "city": "Tokyo",
+      "species": "Akita",
+      "name": "Hachi",
+      "name_native": "ハチ",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#ffb46b",
+          "#c97a3a",
+          "#fffaf0"
+        ],
+        "ears": "cat",
+        "tail": "curlup",
+        "muz": "dog",
+        "mask": "akita"
+      },
+      "canonical_seed": 62,
+      "note": "With a thick double coat, it stays warm through Tokyo's winter as it calmly watches the neon-lit streets."
+    },
+    {
+      "id": "cp-063",
+      "no": 63,
+      "set_code": "jp",
+      "city": "Osaka",
+      "species": "Pufferfish",
+      "name": "Fugu",
+      "name_native": "フグ",
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#ffe08a",
+          "#c99a2a",
+          "#fffaf0"
+        ],
+        "v": "puffer",
+        "pat": "dots"
+      },
+      "canonical_seed": 63,
+      "note": "This fish expands its body to deter predators in the shallow waters off Osaka's coast."
+    },
+    {
+      "id": "cp-064",
+      "no": 64,
+      "set_code": "gr",
+      "city": "Athens",
+      "species": "Little owl",
+      "name": "Koukou",
+      "name_native": "Κούκου",
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#c9a27a",
+          "#8f6a4d",
+          "#f4e3c8"
+        ],
+        "v": "owl"
+      },
+      "canonical_seed": 64,
+      "note": "It hunts insects at dusk from a favorite perch among the ancient stones of Athens."
+    },
+    {
+      "id": "cp-065",
+      "no": 65,
+      "set_code": "gr",
+      "city": "Crete",
+      "species": "Cretan wild goat",
+      "name": "Kri-kri",
+      "name_native": "Κρι-κρι",
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#dba06a",
+          "#8f5a3a",
+          "#f4e3c8"
+        ],
+        "ears": "deer",
+        "horns": "back",
+        "beard": 1
+      },
+      "canonical_seed": 65,
+      "note": "It leaps between rocky ledges in the high gorges of Crete, always alert for the slightest sound."
+    },
+    {
+      "id": "cp-066",
+      "no": 66,
+      "set_code": "gr",
+      "city": "Mykonos",
+      "species": "Pelican",
+      "name": "Petros",
+      "name_native": "Πέτρος",
+      "art_params": {
+        "b": "wader",
+        "c": [
+          "#fff1e6",
+          "#e6d6c6",
+          "#fffaf0"
+        ],
+        "v": "pelican",
+        "beak": "pouch",
+        "bc": "#ff9a4d",
+        "lc": "#ff9a4d"
+      },
+      "canonical_seed": 66,
+      "note": "It dips its large bill into the harbour water to scoop up fish, unbothered by passing boats."
+    },
+    {
+      "id": "cp-067",
+      "no": 67,
+      "set_code": "th",
+      "city": "Bangkok",
+      "species": "Siamese fighting fish",
+      "name": "Plakad",
+      "name_native": "ปลากัด",
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#ff5fa8",
+          "#c42f7a",
+          "#ffd9e8"
+        ],
+        "v": "betta"
+      },
+      "canonical_seed": 67,
+      "note": "It builds bubble nests among the slow-moving canals and rice paddies around the city."
+    },
+    {
+      "id": "cp-068",
+      "no": 68,
+      "set_code": "th",
+      "city": "Chiang Mai",
+      "species": "Asian elephant",
+      "name": "Chang",
+      "name_native": "ช้าง",
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#bab4ca",
+          "#7c75a0",
+          "#e6e2f2"
+        ],
+        "v": "elephant"
+      },
+      "canonical_seed": 68,
+      "note": "It spends its days foraging through the forested hills outside the city, using its trunk to strip leaves and bark."
+    },
+    {
+      "id": "cp-069",
+      "no": 69,
+      "set_code": "th",
+      "city": "Phuket",
+      "species": "White-handed gibbon",
+      "name": "Chanee",
+      "name_native": "ชะนี",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#e8d9b0",
+          "#8f7a4d",
+          "#fffaf0"
+        ],
+        "v": "monkey",
+        "tail": "none",
+        "muz": "monkey",
+        "fcol": "#4a4466",
+        "ring": 1,
+        "arms": "long"
+      },
+      "canonical_seed": 69,
+      "note": "It swings through the rainforest canopy near the coast, its morning calls echoing across the treetops."
+    },
+    {
+      "id": "cp-070",
+      "no": 70,
+      "set_code": "at",
+      "city": "Vienna",
+      "species": "Lipizzaner",
+      "name": "Lipi",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#f4efe4",
+          "#bcc2da",
+          "#fffaf0"
+        ],
+        "v": "horse",
+        "acc": "bridle"
+      },
+      "canonical_seed": 70,
+      "note": "It practices the high school steps passed down for centuries in the stables of Vienna."
+    },
+    {
+      "id": "cp-071",
+      "no": 71,
+      "set_code": "at",
+      "city": "Salzburg",
+      "species": "Alpine marmot",
+      "name": "Murmeli",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#c98a5a",
+          "#6b3a24",
+          "#f4d9b0"
+        ],
+        "ears": "tiny",
+        "tail": "stub",
+        "muz": "teeth",
+        "acc": "edelweiss",
+        "bw": 23
+      },
+      "canonical_seed": 71,
+      "note": "An Alpine marmot from Salzburg watches over its alpine meadow, ready to whistle at any sign of danger."
+    },
+    {
+      "id": "cp-072",
+      "no": 72,
+      "set_code": "at",
+      "city": "Innsbruck",
+      "species": "Chamois",
+      "name": "Gamsi",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#a8764f",
+          "#3a3466",
+          "#f4e3c8"
+        ],
+        "ears": "horse",
+        "mask": "chamois",
+        "horns": "hook"
+      },
+      "canonical_seed": 72,
+      "note": "A chamois near Innsbruck moves surefootedly across steep rock faces above the tree line."
+    },
+    {
+      "id": "cp-073",
+      "no": 73,
+      "set_code": "sa",
+      "city": "Riyadh",
+      "species": "Dromedary",
+      "name": "Jamal",
+      "name_native": "جمال",
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#e8c290",
+          "#b8905a",
+          "#fff1dc"
+        ],
+        "v": "camel",
+        "ears": "tiny",
+        "acc": "tassel"
+      },
+      "canonical_seed": 73,
+      "note": "These one-humped camels wander Riyadh's desert fringes where they feed on acacia leaves and dry grasses."
+    },
+    {
+      "id": "cp-074",
+      "no": 74,
+      "set_code": "sa",
+      "city": "AlUla",
+      "species": "Hoopoe",
+      "name": "Hudhud",
+      "name_native": "هدهد",
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#ffb07a",
+          "#3a3466",
+          "#fff1dc"
+        ],
+        "v": "hoopoe",
+        "beak": "long"
+      },
+      "canonical_seed": 74,
+      "note": "A crested bird often found probing AlUla's sandy ground for insects between ancient sandstone outcrops."
+    },
+    {
+      "id": "cp-075",
+      "no": 75,
+      "set_code": "sa",
+      "city": "Jeddah",
+      "species": "Clownfish",
+      "name": "Marjan",
+      "name_native": "مرجان",
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#ff9a4d",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "v": "tall",
+        "pat": "bands"
+      },
+      "canonical_seed": 75,
+      "note": "Bright orange fish hide among sea anemones on Jeddah's coral reefs where the Red Sea stays warm."
+    },
+    {
+      "id": "cp-076",
+      "no": 76,
+      "set_code": "pt",
+      "city": "Lisbon",
+      "species": "Sardine",
+      "name": "Sardi",
+      "name_native": null,
+      "art_params": {
+        "k": "sardine"
+      },
+      "canonical_seed": 7,
+      "note": "In Lisbon, sardines shimmer in tight schools along the Atlantic coast and turn up on June grills."
+    },
+    {
+      "id": "cp-077",
+      "no": 77,
+      "set_code": "pt",
+      "city": "Porto",
+      "species": "Barcelos rooster",
+      "name": "Galo",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#5d5780",
+          "#2c2750",
+          "#7a7399"
+        ],
+        "v": "rooster",
+        "pat": "hearts"
+      },
+      "canonical_seed": 77,
+      "note": "Roosters strut through Porto's riverside lanes, their combs as bright as the city's painted tiles."
+    },
+    {
+      "id": "cp-078",
+      "no": 78,
+      "set_code": "pt",
+      "city": "Algarve",
+      "species": "Portuguese water dog",
+      "name": "Faro",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#a07c5c",
+          "#5a4030",
+          "#fff1dc"
+        ],
+        "ears": "flop",
+        "tail": "plume",
+        "muz": "dog",
+        "coat": "curly"
+      },
+      "canonical_seed": 78,
+      "note": "In the Algarve's warm shallows, this dog dives to herd fish toward waiting nets."
+    },
+    {
+      "id": "cp-079",
+      "no": 79,
+      "set_code": "my",
+      "city": "Kuala Lumpur",
+      "species": "Malayan tiger",
+      "name": "Rimau",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#ff9a4d",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "ears": "round",
+        "tail": "ringthin",
+        "muz": "cat",
+        "pat": "stripes"
+      },
+      "canonical_seed": 79,
+      "note": "Hunts deer and wild boar in the rainforest fringes that touch Kuala Lumpur."
+    },
+    {
+      "id": "cp-080",
+      "no": 80,
+      "set_code": "my",
+      "city": "Langkawi",
+      "species": "Brahminy kite",
+      "name": "Helang",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#d9703a",
+          "#8f4a2a",
+          "#fffaf0"
+        ],
+        "v": "raptor",
+        "pat": "whitehead"
+      },
+      "canonical_seed": 80,
+      "note": "Soars over Langkawi's mangrove shores, scanning for fish and crabs with sharp eyes."
+    },
+    {
+      "id": "cp-081",
+      "no": 81,
+      "set_code": "my",
+      "city": "Borneo",
+      "species": "Orangutan",
+      "name": "Utan",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#e0703a",
+          "#a0482a",
+          "#ffb88a"
+        ],
+        "v": "monkey",
+        "tail": "none",
+        "muz": "monkey",
+        "fcol": "#f4c9a0",
+        "hair": 1,
+        "arms": "long"
+      },
+      "canonical_seed": 81,
+      "note": "Swings through Borneo's lowland rainforest canopy, building a new leafy nest each evening."
+    },
+    {
+      "id": "cp-082",
+      "no": 82,
+      "set_code": "nl",
+      "city": "Amsterdam",
+      "species": "Grey heron",
+      "name": "Reiger",
+      "name_native": null,
+      "art_params": {
+        "b": "wader",
+        "c": [
+          "#bcc2da",
+          "#6f698c",
+          "#fffaf0"
+        ],
+        "beak": "long",
+        "bc": "#ffd84a",
+        "lc": "#c9a02a",
+        "crest": 1
+      },
+      "canonical_seed": 82,
+      "note": "Stands motionless along the city canals, waiting for a fish to pass."
+    },
+    {
+      "id": "cp-083",
+      "no": 83,
+      "set_code": "nl",
+      "city": "Keukenhof",
+      "species": "Ladybird",
+      "name": "Lieve",
+      "name_native": null,
+      "art_params": {
+        "b": "bug",
+        "c": [
+          "#ff5a4d",
+          "#3a3466",
+          "#ffd9cc"
+        ],
+        "v": "ladybug",
+        "acc": "tulip"
+      },
+      "canonical_seed": 83,
+      "note": "Crawls over tulip leaves in search of aphids."
+    },
+    {
+      "id": "cp-084",
+      "no": 84,
+      "set_code": "nl",
+      "city": "Giethoorn",
+      "species": "Mallard",
+      "name": "Eendje",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#d9c9b0",
+          "#8f7a5a",
+          "#fff1dc"
+        ],
+        "v": "duck",
+        "pat": "mallard",
+        "beak": "duck"
+      },
+      "canonical_seed": 84,
+      "note": "Glides under the little wooden bridges of the village."
+    },
+    {
+      "id": "cp-085",
+      "no": 85,
+      "set_code": "ca",
+      "city": "Toronto",
+      "species": "Raccoon",
+      "name": "Bandit",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#aaa4c2",
+          "#3a3466",
+          "#e6e2f2"
+        ],
+        "ears": "round",
+        "tail": "ring",
+        "mask": "raccoon"
+      },
+      "canonical_seed": 85,
+      "note": "This city dweller turns over bins and washes snacks in puddles before eating."
+    },
+    {
+      "id": "cp-086",
+      "no": 86,
+      "set_code": "ca",
+      "city": "Vancouver",
+      "species": "Orca",
+      "name": "Skaana",
+      "name_native": null,
+      "art_params": {
+        "b": "whale",
+        "c": [
+          "#4a4466",
+          "#2c2750",
+          "#fffaf0"
+        ],
+        "v": "orca"
+      },
+      "canonical_seed": 86,
+      "note": "Its black dorsal fin slices through the harbour as it hunts salmon in a close-knit pod."
+    },
+    {
+      "id": "cp-087",
+      "no": 87,
+      "set_code": "ca",
+      "city": "Banff",
+      "species": "Elk",
+      "name": "Wapiti",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#c98a5a",
+          "#5a3424",
+          "#f4e3c8"
+        ],
+        "ears": "deer",
+        "horns": "antler",
+        "mane": "ruff"
+      },
+      "canonical_seed": 87,
+      "note": "This large grazer moves between aspen groves and open meadows, alert to passing wolves."
+    },
+    {
+      "id": "cp-088",
+      "no": 88,
+      "set_code": "pl",
+      "city": "Kraków",
+      "species": "Wawel dragon",
+      "name": "Smok",
+      "name_native": null,
+      "art_params": {
+        "b": "lizard",
+        "c": [
+          "#8fd06a",
+          "#4f9a3a",
+          "#e8f6c8"
+        ],
+        "v": "smok"
+      },
+      "canonical_seed": 88,
+      "note": "It slumbers beneath Wawel Hill, its warm breath mixing with the river mist."
+    },
+    {
+      "id": "cp-089",
+      "no": 89,
+      "set_code": "pl",
+      "city": "Warsaw",
+      "species": "Red squirrel",
+      "name": "Wiewi",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#e0703a",
+          "#a0482a",
+          "#fff1dc"
+        ],
+        "ears": "tuft",
+        "tail": "big",
+        "muz": "bunny",
+        "acc": "acorn"
+      },
+      "canonical_seed": 89,
+      "note": "It dashes along a branch in Łazienki Park, tucking an acorn into a hollow for the coming cold."
+    },
+    {
+      "id": "cp-090",
+      "no": 90,
+      "set_code": "pl",
+      "city": "Gdańsk",
+      "species": "Grey seal",
+      "name": "Foka",
+      "name_native": null,
+      "art_params": {
+        "b": "seal",
+        "c": [
+          "#aaa4c2",
+          "#6f698c",
+          "#e6e2f2"
+        ],
+        "acc": "amber",
+        "pat": "blotch"
+      },
+      "canonical_seed": 90,
+      "note": "It slips through grey Baltic swells near the Gdańsk shore, resting on a sandbar between fishing trips."
+    },
+    {
+      "id": "cp-091",
+      "no": 91,
+      "set_code": "hr",
+      "city": "Dubrovnik",
+      "species": "Peacock",
+      "name": "Paun",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#4f86ff",
+          "#2f5fc9",
+          "#dbe8ff"
+        ],
+        "v": "peacock"
+      },
+      "canonical_seed": 91,
+      "note": "It struts along the ancient stone walls, fanning iridescent tail feathers in the morning light."
+    },
+    {
+      "id": "cp-092",
+      "no": 92,
+      "set_code": "hr",
+      "city": "Split",
+      "species": "Dalmatian",
+      "name": "Pjega",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#fffaf0",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "ears": "flop",
+        "tail": "thin",
+        "muz": "dog",
+        "pat": "dalmatian",
+        "ec": "#3a3466"
+      },
+      "canonical_seed": 92,
+      "note": "It trots beside the palm-lined promenade, its spotted coat gleaming under the Adriatic sun."
+    },
+    {
+      "id": "cp-093",
+      "no": 93,
+      "set_code": "hr",
+      "city": "Plitvice",
+      "species": "Dragonfly",
+      "name": "Vilin",
+      "name_native": null,
+      "art_params": {
+        "b": "bug",
+        "c": [
+          "#54d6a4",
+          "#2e9a74",
+          "#dff7ea"
+        ],
+        "v": "dragonfly"
+      },
+      "canonical_seed": 93,
+      "note": "It hovers over the turquoise pools, darting between waterfalls and reeds."
+    },
+    {
+      "id": "cp-094",
+      "no": 94,
+      "set_code": "ae",
+      "city": "Dubai",
+      "species": "Falcon",
+      "name": "Saqr",
+      "name_native": "صقر",
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#c9b8a0",
+          "#6b5a4a",
+          "#fffaf0"
+        ],
+        "v": "raptor",
+        "acc": "hood"
+      },
+      "canonical_seed": 94,
+      "note": "This falcon perches on high ledges and scans the city below for small birds."
+    },
+    {
+      "id": "cp-095",
+      "no": 95,
+      "set_code": "ae",
+      "city": "Abu Dhabi",
+      "species": "Dugong",
+      "name": "Arus",
+      "name_native": "عروس",
+      "art_params": {
+        "b": "seal",
+        "c": [
+          "#c9b3c9",
+          "#8f7a9a",
+          "#efe4f0"
+        ],
+        "v": "dugong"
+      },
+      "canonical_seed": 95,
+      "note": "This dugong grazes on seagrass in the warm shallow waters along the coast."
+    },
+    {
+      "id": "cp-096",
+      "no": 96,
+      "set_code": "ae",
+      "city": "Sharjah",
+      "species": "Sand cat",
+      "name": "Ramli",
+      "name_native": "رملي",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#ecd09a",
+          "#b8905a",
+          "#fffaf0"
+        ],
+        "ears": "big",
+        "tail": "ringthin",
+        "muz": "cat",
+        "ic": "#ffc9b0",
+        "hw": 1.05,
+        "bw": 19
+      },
+      "canonical_seed": 96,
+      "note": "This sand cat rests in a burrow by day to escape the desert heat."
+    },
+    {
+      "id": "cp-097",
+      "no": 97,
+      "set_code": "ma",
+      "city": "Marrakech",
+      "species": "White stork",
+      "name": "Belarj",
+      "name_native": "بلارج",
+      "art_params": {
+        "b": "wader",
+        "c": [
+          "#fffaf0",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "acc": "fez",
+        "beak": "long",
+        "bc": "#ff5a3d",
+        "lc": "#ff5a3d"
+      },
+      "canonical_seed": 97,
+      "note": "These storks build large stick nests on the rooftops and minarets of Marrakech."
+    },
+    {
+      "id": "cp-098",
+      "no": 98,
+      "set_code": "ma",
+      "city": "Chefchaouen",
+      "species": "Barbary macaque",
+      "name": "Magot",
+      "name_native": "ماغو",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#d9b48a",
+          "#9c7a5a",
+          "#f4e3c8"
+        ],
+        "v": "monkey",
+        "ears": "side",
+        "tail": "none",
+        "muz": "monkey",
+        "fcol": "#ffc9b8"
+      },
+      "canonical_seed": 98,
+      "note": "This macaque forages for fruit and leaves in the cedar and oak forests around Chefchaouen."
+    },
+    {
+      "id": "cp-099",
+      "no": 99,
+      "set_code": "ma",
+      "city": "Merzouga",
+      "species": "Fennec fox",
+      "name": "Fanak",
+      "name_native": "فنك",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#ffe0b0",
+          "#d9a066",
+          "#fffaf0"
+        ],
+        "ears": "fen",
+        "tail": "bushy",
+        "muz": "long",
+        "ic": "#ffc2a8",
+        "bw": 19,
+        "tt": "#3a3466"
+      },
+      "canonical_seed": 99,
+      "note": "A fennec fox digs deep burrows in the sand dunes near Merzouga to escape the daytime heat."
+    },
+    {
+      "id": "cp-100",
+      "no": 100,
+      "set_code": "hu",
+      "city": "Budapest",
+      "species": "Puli",
+      "name": "Puli",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#fff1d6",
+          "#d6c498",
+          "#fffaf0"
+        ],
+        "v": "puli"
+      },
+      "canonical_seed": 100,
+      "note": "A herding dog with a corded coat watches over the city parks and quiet streets of Budapest."
+    },
+    {
+      "id": "cp-101",
+      "no": 101,
+      "set_code": "hu",
+      "city": "Balaton",
+      "species": "Zander",
+      "name": "Fogas",
+      "name_native": null,
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#acd0a4",
+          "#5a7a5a",
+          "#eef6e8"
+        ],
+        "v": "long",
+        "pat": "bars",
+        "teeth": 1
+      },
+      "canonical_seed": 101,
+      "note": "A sharp-toothed fish glides through the reed beds of Lake Balaton as dusk settles over the water."
+    },
+    {
+      "id": "cp-102",
+      "no": 102,
+      "set_code": "hu",
+      "city": "Hortobágy",
+      "species": "Woolly pig",
+      "name": "Mangalica",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#f4d9a0",
+          "#c9a06a",
+          "#fff1dc"
+        ],
+        "ears": "pig",
+        "tail": "curl",
+        "muz": "snout",
+        "coat": "curly"
+      },
+      "canonical_seed": 102,
+      "note": "A woolly pig roots through the wide Hortobágy grasslands, snuffling for roots and acorns."
+    },
+    {
+      "id": "cp-103",
+      "no": 103,
+      "set_code": "sg",
+      "city": "Marina Bay",
+      "species": "Smooth-coated otter",
+      "name": "Merang",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#b8744d",
+          "#6b3a24",
+          "#f4d9b0"
+        ],
+        "ears": "tiny",
+        "tail": "otter",
+        "muz": "otter",
+        "mask": "face",
+        "fcol": "#f4d9b0",
+        "hw": 0.95
+      },
+      "canonical_seed": 103,
+      "note": "It patrols the waterfront at dusk, calling to its family with soft chirps."
+    },
+    {
+      "id": "cp-104",
+      "no": 104,
+      "set_code": "sg",
+      "city": "Sentosa",
+      "species": "Oriental pied hornbill",
+      "name": "Enggang",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#5d5780",
+          "#2c2750",
+          "#fffaf0"
+        ],
+        "v": "hornbill"
+      },
+      "canonical_seed": 104,
+      "note": "It perches on tall trees and tosses figs into the air before swallowing them."
+    },
+    {
+      "id": "cp-105",
+      "no": 105,
+      "set_code": "sg",
+      "city": "Sungei Buloh",
+      "species": "Mudskipper",
+      "name": "Belacak",
+      "name_native": null,
+      "art_params": {
+        "b": "fish",
+        "c": [
+          "#bdb48c",
+          "#7a704a",
+          "#eee8d0"
+        ],
+        "v": "mud",
+        "pat": "bluedots"
+      },
+      "canonical_seed": 105,
+      "note": "It skips across the mudflats at low tide, pausing to defend its burrow."
+    },
+    {
+      "id": "cp-106",
+      "no": 106,
+      "set_code": "kr",
+      "city": "Seoul",
+      "species": "Magpie",
+      "name": "Kkachi",
+      "name_native": "까치",
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#4a4466",
+          "#2c2750",
+          "#fffaf0"
+        ],
+        "v": "magpie"
+      },
+      "canonical_seed": 106,
+      "note": "It hops across tiled rooftops in Seoul, watching the streets below with quick, bright eyes."
+    },
+    {
+      "id": "cp-107",
+      "no": 107,
+      "set_code": "kr",
+      "city": "Busan",
+      "species": "Black-tailed gull",
+      "name": "Galmaegi",
+      "name_native": "갈매기",
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#fffaf0",
+          "#aaa4c2",
+          "#fffaf0"
+        ],
+        "v": "gull",
+        "beak": "gull"
+      },
+      "canonical_seed": 107,
+      "note": "It wheels over Busan harbor, crying out above the fishing boats that ride the morning tide."
+    },
+    {
+      "id": "cp-108",
+      "no": 108,
+      "set_code": "kr",
+      "city": "Jeju",
+      "species": "Jeju black pig",
+      "name": "Dwaeji",
+      "name_native": "돼지",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#6a6490",
+          "#3a3466",
+          "#8d87a8"
+        ],
+        "ears": "pig",
+        "tail": "curl",
+        "muz": "snout",
+        "belly": 0,
+        "snc": "#ffb8c8"
+      },
+      "canonical_seed": 108,
+      "note": "It roots through Jeju's volcanic soil under low stone walls, snuffling for fallen acorns."
+    },
+    {
+      "id": "cp-109",
+      "no": 109,
+      "set_code": "eg",
+      "city": "Cairo",
+      "species": "Egyptian Mau",
+      "name": "Bastet",
+      "name_native": "باستت",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#e8c290",
+          "#8f6a4d",
+          "#fff1dc"
+        ],
+        "ears": "fox",
+        "tail": "thin",
+        "muz": "cat",
+        "acc": "collar",
+        "pat": "spots",
+        "ic": "#ffc2a8",
+        "hw": 0.92,
+        "bw": 18
+      },
+      "canonical_seed": 109,
+      "note": "This spotted cat often naps on sun-warmed stone ledges near Cairo's old mosques."
+    },
+    {
+      "id": "cp-110",
+      "no": 110,
+      "set_code": "eg",
+      "city": "Luxor",
+      "species": "Scarab",
+      "name": "Khepri",
+      "name_native": "خبري",
+      "art_params": {
+        "b": "bug",
+        "c": [
+          "#4f86ff",
+          "#2f5fc9",
+          "#dbe8ff"
+        ],
+        "v": "scarab"
+      },
+      "canonical_seed": 110,
+      "note": "This beetle rolls a ball of dung across the desert floor near Luxor's temples."
+    },
+    {
+      "id": "cp-111",
+      "no": 111,
+      "set_code": "eg",
+      "city": "Aswan",
+      "species": "Nile crocodile",
+      "name": "Sobek",
+      "name_native": "سوبك",
+      "art_params": {
+        "b": "lizard",
+        "c": [
+          "#a9b06a",
+          "#6a7a3a",
+          "#eef0c8"
+        ],
+        "v": "croc",
+        "acc": "collar"
+      },
+      "canonical_seed": 111,
+      "note": "This crocodile basks on the muddy banks of the Nile where the current slows near Aswan."
+    },
+    {
+      "id": "cp-112",
+      "no": 112,
+      "set_code": "id",
+      "city": "Bali",
+      "species": "Tokay gecko",
+      "name": "Tokek",
+      "name_native": null,
+      "art_params": {
+        "k": "gecko"
+      },
+      "canonical_seed": 7,
+      "note": "A large gecko with blue-grey spots that calls 'to-kay' from temple walls after dark."
+    },
+    {
+      "id": "cp-113",
+      "no": 113,
+      "set_code": "id",
+      "city": "Labuan Bajo",
+      "species": "Komodo dragon",
+      "name": "Ora",
+      "name_native": null,
+      "art_params": {
+        "b": "lizard",
+        "c": [
+          "#aea78f",
+          "#6f6a5a",
+          "#e8e4d4"
+        ],
+        "v": "komodo"
+      },
+      "canonical_seed": 113,
+      "note": "The world's largest lizard waits motionless by trails to ambush prey on Rinca and Komodo islands."
+    },
+    {
+      "id": "cp-114",
+      "no": 114,
+      "set_code": "id",
+      "city": "Yogyakarta",
+      "species": "Slow loris",
+      "name": "Kukang",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#ead3b3",
+          "#8f6a4d",
+          "#fffaf0"
+        ],
+        "v": "loris",
+        "ears": "tiny",
+        "tail": "none",
+        "mask": "loris",
+        "er": 7
+      },
+      "canonical_seed": 114,
+      "note": "This nocturnal primate moves with deliberate slowness through Yogyakarta's forest edges, licking tree gum."
+    },
+    {
+      "id": "cp-115",
+      "no": 115,
+      "set_code": "ch",
+      "city": "Lucerne",
+      "species": "Alpine cow",
+      "name": "Chüeli",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#fffaf0",
+          "#b8744d",
+          "#ffd9e0"
+        ],
+        "v": "cow",
+        "ears": "side2",
+        "acc": "bell",
+        "pat": "cow",
+        "horns": "nub"
+      },
+      "canonical_seed": 115,
+      "note": "Contented mountain cows graze the high pastures above Lake Lucerne, their bells ringing through thin air."
+    },
+    {
+      "id": "cp-116",
+      "no": 116,
+      "set_code": "ch",
+      "city": "Zermatt",
+      "species": "Valais blacknose sheep",
+      "name": "Näsli",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#fffaf0",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "v": "sheep",
+        "ears": "sheep",
+        "horns": "curl",
+        "ec": "#5d5780",
+        "hc": "#5d5780"
+      },
+      "canonical_seed": 116,
+      "note": "Fluffy white sheep with black faces graze the steep slopes beneath the Matterhorn, hardy in cold alpine air."
+    },
+    {
+      "id": "cp-117",
+      "no": 117,
+      "set_code": "ch",
+      "city": "Interlaken",
+      "species": "St. Bernard",
+      "name": "Barry",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#fffaf0",
+          "#c4623e",
+          "#fffaf0"
+        ],
+        "ears": "flop",
+        "tail": "plume",
+        "muz": "dog",
+        "acc": "barrel",
+        "mask": "stb",
+        "ec": "#c4623e"
+      },
+      "canonical_seed": 117,
+      "note": "A large, gentle mountain dog keeps watch near the lakes between Thun and Brienz, a legacy of alpine rescues."
+    },
+    {
+      "id": "cp-118",
+      "no": 118,
+      "set_code": "cz",
+      "city": "Prague",
+      "species": "Two-tailed lion",
+      "name": "Lev",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#fffaf0",
+          "#c9cde0",
+          "#fffaf0"
+        ],
+        "ears": "round",
+        "tail": "twin",
+        "muz": "cat",
+        "acc": "crown",
+        "mane": 1,
+        "mc": "#dfe2ee"
+      },
+      "canonical_seed": 118,
+      "note": "It rests by the Vltava River, watching the swans drift past the old bridges."
+    },
+    {
+      "id": "cp-119",
+      "no": 119,
+      "set_code": "cz",
+      "city": "Český Krumlov",
+      "species": "Brown bear",
+      "name": "Méďa",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#dba06a",
+          "#8f5a3a",
+          "#f4e3c8"
+        ],
+        "ears": "round",
+        "tail": "stub",
+        "muz": "dog",
+        "acc": "rose"
+      },
+      "canonical_seed": 119,
+      "note": "It ambles around the castle moat, sniffing at the stone walls that hold the old water."
+    },
+    {
+      "id": "cp-120",
+      "no": 120,
+      "set_code": "cz",
+      "city": "Karlovy Vary",
+      "species": "Red deer stag",
+      "name": "Jelen",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#c9a27a",
+          "#7a5a3f",
+          "#f4e3c8"
+        ],
+        "ears": "deer",
+        "horns": "antler"
+      },
+      "canonical_seed": 120,
+      "note": "It browses on forest edges above the spa town, where warm springs feed the river."
+    },
+    {
+      "id": "cp-121",
+      "no": 121,
+      "set_code": "al",
+      "city": "Tirana",
+      "species": "Golden eagle",
+      "name": "Shqipe",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#8f6a4d",
+          "#5a4030",
+          "#d9b89a"
+        ],
+        "v": "raptor",
+        "acc": "redscarf"
+      },
+      "canonical_seed": 121,
+      "note": "Golden eagles ride thermals above the mountain ridges that frame Tirana."
+    },
+    {
+      "id": "cp-122",
+      "no": 122,
+      "set_code": "tn",
+      "city": "Sidi Bou Said",
+      "species": "Goldfinch",
+      "name": "Maknine",
+      "name_native": "مقنين",
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#e8d0b0",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "v": "goldfinch",
+        "beak": "cone"
+      },
+      "canonical_seed": 122,
+      "note": "It perches on whitewashed walls and sings among the bougainvillea of Sidi Bou Said."
+    },
+    {
+      "id": "cp-123",
+      "no": 123,
+      "set_code": "in",
+      "city": "Jaipur",
+      "species": "Painted elephant",
+      "name": "Hathi",
+      "name_native": "हाथी",
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#aaa4c2",
+          "#6f698c",
+          "#e6e2f2"
+        ],
+        "v": "elephant",
+        "pat": "painted"
+      },
+      "canonical_seed": 123,
+      "note": "A painted elephant stands in Jaipur, often decorated for ceremonial processions."
+    },
+    {
+      "id": "cp-124",
+      "no": 124,
+      "set_code": "be",
+      "city": "Bruges",
+      "species": "Mute swan",
+      "name": "Lanchals",
+      "name_native": null,
+      "art_params": {
+        "b": "wader",
+        "c": [
+          "#fffaf0",
+          "#e6dfcf",
+          "#fffaf0"
+        ],
+        "v": "swan",
+        "beak": "swan",
+        "bc": "#ff9a4d"
+      },
+      "canonical_seed": 124,
+      "note": "Mute swans glide along the canals of Bruges, often nesting near the Minnewater."
+    },
+    {
+      "id": "cp-125",
+      "no": 125,
+      "set_code": "za",
+      "city": "Cape Town",
+      "species": "African penguin",
+      "name": "Pikkie",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#4a4466",
+          "#2c2750",
+          "#fffaf0"
+        ],
+        "v": "penguin",
+        "beak": "pen",
+        "bc": "#2c2750"
+      },
+      "canonical_seed": 125,
+      "note": "This small penguin nests in burrows among the coastal bushes of Boulders Beach."
+    },
+    {
+      "id": "cp-126",
+      "no": 126,
+      "set_code": "do",
+      "city": "Samaná",
+      "species": "Humpback whale",
+      "name": "Yubarta",
+      "name_native": null,
+      "art_params": {
+        "b": "whale",
+        "c": [
+          "#7494d4",
+          "#3d5fa8",
+          "#e6eeff"
+        ],
+        "v": "humpback"
+      },
+      "canonical_seed": 126,
+      "note": "In the sheltered waters of Samaná Bay, this humpback whale breaches and sings to attract a mate each winter."
+    },
+    {
+      "id": "cp-127",
+      "no": 127,
+      "set_code": "uz",
+      "city": "Samarkand",
+      "species": "Tile tiger",
+      "name": "Sher",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#ffc46b",
+          "#2f8fa8",
+          "#fff1dc"
+        ],
+        "ears": "round",
+        "tail": "ringthin",
+        "muz": "cat",
+        "pat": "stripes"
+      },
+      "canonical_seed": 127,
+      "note": "A tiger keeps to the shaded courtyards of Samarkand, where blue tile patterns ripple like water."
+    },
+    {
+      "id": "cp-128",
+      "no": 128,
+      "set_code": "tw",
+      "city": "Taipei",
+      "species": "Formosan pangolin",
+      "name": "Chuan",
+      "name_native": "川",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#c98a5a",
+          "#8f5a3a",
+          "#f4d9b0"
+        ],
+        "v": "pangolin",
+        "tail": "pango"
+      },
+      "canonical_seed": 128,
+      "note": "At dusk it shuffles through leaf litter in forested hills near Taipei, lapping up ants with its long sticky tongue."
+    },
+    {
+      "id": "cp-129",
+      "no": 129,
+      "set_code": "au",
+      "city": "Sydney",
+      "species": "Koala",
+      "name": "Gula",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#bab4ca",
+          "#7c75a0",
+          "#fffaf0"
+        ],
+        "ears": "koala",
+        "muz": "big",
+        "acc": "gumleaf"
+      },
+      "canonical_seed": 129,
+      "note": "Koalas sleep up to twenty hours a day in the eucalyptus trees of Sydney's bushland."
+    },
+    {
+      "id": "cp-130",
+      "no": 130,
+      "set_code": "ie",
+      "city": "Dublin",
+      "species": "Fallow deer",
+      "name": "Fia",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#dba06a",
+          "#8f5a3a",
+          "#fff1dc"
+        ],
+        "ears": "deer",
+        "pat": "spots",
+        "horns": "palm"
+      },
+      "canonical_seed": 130,
+      "note": "Fallow deer graze the open grasslands of Phoenix Park, where a wild herd has lived for centuries."
+    },
+    {
+      "id": "cp-131",
+      "no": 131,
+      "set_code": "se",
+      "city": "Stockholm",
+      "species": "Moose",
+      "name": "Älgis",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#8f6a4d",
+          "#5a4030",
+          "#c9a27a"
+        ],
+        "v": "moose",
+        "ears": "deer",
+        "horns": "moose"
+      },
+      "canonical_seed": 131,
+      "note": "They swim between the islands of the Stockholm archipelago when moving between grazing spots."
+    },
+    {
+      "id": "cp-132",
+      "no": 132,
+      "set_code": "kh",
+      "city": "Siem Reap",
+      "species": "Naga",
+      "name": "Neak",
+      "name_native": "នាគ",
+      "art_params": {
+        "b": "snake",
+        "c": [
+          "#ffd84a",
+          "#c99a2a",
+          "#fff6cc"
+        ],
+        "v": "naga"
+      },
+      "canonical_seed": 132,
+      "note": "This naga rests by Angkor Wat's moat, guarding the temple's stone causeway and still waters."
+    },
+    {
+      "id": "cp-133",
+      "no": 133,
+      "set_code": "br",
+      "city": "Rio de Janeiro",
+      "species": "Capybara",
+      "name": "Capivara",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#c9a27a",
+          "#8f6a4d",
+          "#e8d0b0"
+        ],
+        "v": "capy",
+        "ears": "tiny",
+        "tail": "none",
+        "muz": "capy",
+        "acc": "orange"
+      },
+      "canonical_seed": 133,
+      "note": "Grazes on grasses near the city's lagoons and rests in muddy shallows."
+    },
+    {
+      "id": "cp-134",
+      "no": 134,
+      "set_code": "ar",
+      "city": "Buenos Aires",
+      "species": "Rufous hornero",
+      "name": "Hornero",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#dba06a",
+          "#a0703a",
+          "#fff1dc"
+        ]
+      },
+      "canonical_seed": 134,
+      "note": "Builds a round mud nest on posts and trees, a familiar sight in Buenos Aires neighborhoods."
+    },
+    {
+      "id": "cp-135",
+      "no": 135,
+      "set_code": "co",
+      "city": "Cartagena",
+      "species": "Brown-throated sloth",
+      "name": "Perezoso",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#c9b08a",
+          "#6b5a3a",
+          "#f4e8d0"
+        ],
+        "v": "sloth",
+        "tail": "none",
+        "mask": "sloth",
+        "arms": "claws"
+      },
+      "canonical_seed": 135,
+      "note": "Spends most of its time hanging upside down in the branches of coastal trees."
+    },
+    {
+      "id": "cp-136",
+      "no": 136,
+      "set_code": "ph",
+      "city": "Bohol",
+      "species": "Philippine tarsier",
+      "name": "Mamag",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#c9a27a",
+          "#8f6a4d",
+          "#f4e3c8"
+        ],
+        "v": "tarsier",
+        "ears": "mouse",
+        "tail": "rat",
+        "ic": "#ffc2a8",
+        "er": 8.5,
+        "eg": 11.5,
+        "tc": "#c9a27a"
+      },
+      "canonical_seed": 136,
+      "note": "By dusk it grips a slim branch in the Bohol forest, its large eyes scanning for insects."
+    },
+    {
+      "id": "cp-137",
+      "no": 137,
+      "set_code": "jo",
+      "city": "Petra",
+      "species": "Sinai rosefinch",
+      "name": "Wardi",
+      "name_native": "وردي",
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#ff9cc8",
+          "#c94f86",
+          "#ffe0ee"
+        ],
+        "beak": "cone"
+      },
+      "canonical_seed": 137,
+      "note": "This small finch blends into the pink sandstone cliffs of Petra."
+    },
+    {
+      "id": "cp-138",
+      "no": 138,
+      "set_code": "cl",
+      "city": "Torres del Paine",
+      "species": "Guanaco",
+      "name": "Chulengo",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#dba06a",
+          "#8f5a3a",
+          "#fffaf0"
+        ],
+        "v": "guanaco",
+        "ears": "llama"
+      },
+      "canonical_seed": 138,
+      "note": "Grazes on tough Patagonian grasses while keeping watch over the open steppe."
+    },
+    {
+      "id": "cp-139",
+      "no": 139,
+      "set_code": "qa",
+      "city": "Doha",
+      "species": "Arabian oryx",
+      "name": "Orry",
+      "name_native": "أوري",
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#fffaf0",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "ears": "deer",
+        "mask": "oryx",
+        "horns": "straight",
+        "hc2": "#3a3466"
+      },
+      "canonical_seed": 139,
+      "note": "In the desert outskirts of Doha, the Arabian oryx browses on tough grasses and can go long stretches without water."
+    },
+    {
+      "id": "cp-140",
+      "no": 140,
+      "set_code": "ge",
+      "city": "Tbilisi",
+      "species": "Common pheasant",
+      "name": "Khokhobi",
+      "name_native": "ხოხობი",
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#e0703a",
+          "#8f4a2a",
+          "#ffd0a0"
+        ],
+        "v": "pheasant"
+      },
+      "canonical_seed": 140,
+      "note": "Forages in riverside thickets and gardens, where its glossy neck feathers catch the low evening light."
+    },
+    {
+      "id": "cp-141",
+      "no": 141,
+      "set_code": "no",
+      "city": "Tromsø",
+      "species": "Arctic fox",
+      "name": "Fjellrev",
+      "name_native": null,
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#fffaf0",
+          "#c9cde0",
+          "#fffaf0"
+        ],
+        "ears": "round",
+        "tail": "bushy",
+        "muz": "long",
+        "coat": "fluffy"
+      },
+      "canonical_seed": 141,
+      "note": "It turns white in winter and hunts lemmings on the snowy slopes above Tromsø."
+    },
+    {
+      "id": "cp-142",
+      "no": 142,
+      "set_code": "la",
+      "city": "Luang Prabang",
+      "species": "Moon bear",
+      "name": "Mee",
+      "name_native": "ມີ",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#5d5780",
+          "#2c2750",
+          "#7a7399"
+        ],
+        "ears": "round",
+        "tail": "stub",
+        "muz": "dog",
+        "pat": "moon",
+        "belly": 0
+      },
+      "canonical_seed": 142,
+      "note": "This moon bear roams the forested slopes around Luang Prabang in search of fruit and insects."
+    },
+    {
+      "id": "cp-143",
+      "no": 143,
+      "set_code": "om",
+      "city": "Muscat",
+      "species": "Arabian leopard",
+      "name": "Nimr",
+      "name_native": "نمر",
+      "art_params": {
+        "b": "sit",
+        "c": [
+          "#f4d9a0",
+          "#8f6a4d",
+          "#fffaf0"
+        ],
+        "ears": "round",
+        "tail": "thin",
+        "muz": "cat",
+        "pat": "rosettes"
+      },
+      "canonical_seed": 143,
+      "note": "This leopard pads silently through the rocky wadis and mountain cliffs that rise behind Muscat's coastal sprawl."
+    },
+    {
+      "id": "cp-144",
+      "no": 144,
+      "set_code": "nz",
+      "city": "Queenstown",
+      "species": "Kiwi",
+      "name": "Kiwi",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#b8905a",
+          "#6b5a3a",
+          "#d9b89a"
+        ],
+        "v": "kiwi",
+        "beak": "kiwi",
+        "bc": "#c9a06a"
+      },
+      "canonical_seed": 144,
+      "note": "Kiwi probe the forest floor at night with their long beaks, searching for insects and worms among the roots."
+    },
+    {
+      "id": "cp-145",
+      "no": 145,
+      "set_code": "pe",
+      "city": "Cusco",
+      "species": "Alpaca",
+      "name": "Paco",
+      "name_native": null,
+      "art_params": {
+        "k": "alpaca"
+      },
+      "canonical_seed": 7,
+      "note": "This alpaca grazes the high terraces around Cusco, its fleece carrying the colours of woven Andean textiles."
+    },
+    {
+      "id": "cp-146",
+      "no": 146,
+      "set_code": "cr",
+      "city": "La Fortuna",
+      "species": "Red-eyed tree frog",
+      "name": "Ranita",
+      "name_native": null,
+      "art_params": {
+        "b": "frog",
+        "c": [
+          "#6fd66a",
+          "#2e9a4a",
+          "#fff6cc"
+        ],
+        "v": "tree",
+        "red": 1
+      },
+      "canonical_seed": 146,
+      "note": "This tiny frog sleeps on green leaves by day and hunts insects in the rainforest at night."
+    },
+    {
+      "id": "cp-147",
+      "no": 147,
+      "set_code": "ke",
+      "city": "Nairobi",
+      "species": "Giraffe",
+      "name": "Twiga",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#ffd08a",
+          "#c97a3a",
+          "#fff1dc"
+        ],
+        "v": "giraffe",
+        "ears": "deer",
+        "pat": "giraffe",
+        "horns": "ossi"
+      },
+      "canonical_seed": 147,
+      "note": "A giraffe steps through Nairobi National Park, nibbling leaves from thorny acacia trees."
+    },
+    {
+      "id": "cp-148",
+      "no": 148,
+      "set_code": "is",
+      "city": "Reykjavík",
+      "species": "Atlantic puffin",
+      "name": "Lundi",
+      "name_native": null,
+      "art_params": {
+        "k": "puffin"
+      },
+      "canonical_seed": 7,
+      "note": "Puffins gather on offshore islands near Reykjavík from late spring to raise their single chick."
+    },
+    {
+      "id": "cp-149",
+      "no": 149,
+      "set_code": "cu",
+      "city": "Havana",
+      "species": "Bee hummingbird",
+      "name": "Zunzún",
+      "name_native": null,
+      "art_params": {
+        "b": "bird",
+        "c": [
+          "#54d6a4",
+          "#2e9a74",
+          "#dff7ea"
+        ],
+        "v": "humming",
+        "beak": "needle",
+        "bc": "#3a3466"
+      },
+      "canonical_seed": 149,
+      "note": "This tiny hummingbird hovers at tropical flowers, sipping nectar with wings beating too fast to see."
+    },
+    {
+      "id": "cp-150",
+      "no": 150,
+      "set_code": "tz",
+      "city": "Serengeti",
+      "species": "Plains zebra",
+      "name": "Milia",
+      "name_native": null,
+      "art_params": {
+        "b": "stand",
+        "c": [
+          "#fffaf0",
+          "#3a3466",
+          "#fffaf0"
+        ],
+        "v": "horse",
+        "pat": "zebra",
+        "mc": "#3a3466"
+      },
+      "canonical_seed": 150,
+      "note": "It grazes alongside the herd where the Serengeti grasses stay short after the rains."
+    },
+    {
+      "id": "cp-151",
+      "no": 151,
+      "set_code": "vn",
+      "city": "Đà Nẵng",
+      "species": "Red-shanked douc langur",
+      "name": "Chà Vá",
+      "name_native": null,
+      "art_params": {
+        "k": "langur"
+      },
+      "canonical_seed": 7,
+      "note": "A red-shanked douc langur moves through the forest canopy near Da Nang, feeding on young leaves."
+    }
+  ],
+  "generated_by": {
+    "batch_key": "2026-09-30-critters-01",
+    "route": "content.factory",
+    "model": "deepseek-v4-pro",
+    "generated_at": "2026-09-30T21:34:41.032Z"
+  },
+  "approved_by": null,
+  "checksum": "be5a2fb1a0bb830b7ee34c3eaa347c1f4f19858e3914f16bf5c013eb6ecc30e7"
+}
