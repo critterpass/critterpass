@@ -52,6 +52,16 @@ async function run(who: SignedIn, cmd: string, payload: unknown, opId = generate
   return { status: response.status, body: (await response.json()) as CommandBody };
 }
 
+/** `domain_events` is read as the pool's owner: the system role has no read grant on it. */
+const confirmedEvents = async () =>
+  (
+    await harness.pool.query<{ n: number }>(
+      `SELECT count(*)::int AS n FROM domain_events WHERE type = 'trip.status_changed'
+          AND aggregate_id = $1 AND payload->>'to' = 'confirmed'`,
+      [fx.tripId],
+    )
+  ).rows[0]!.n;
+
 beforeAll(async () => {
   harness = await startCommandDoors(registerProposalCommands, (app, deps) =>
     registerProposalRoutes(app, deps),
@@ -154,23 +164,13 @@ describe('lock_proposal', () => {
       [proposalId],
     );
     expect(state).toEqual({ trip: 'confirmed', proposal: 'locked', locked: true });
-    const moved = await q<{ n: number }>(
-      `SELECT count(*)::int AS n FROM domain_events WHERE type = 'trip.status_changed'
-          AND aggregate_id = $1 AND payload->>'to' = 'confirmed'`,
-      [fx.tripId],
-    );
-    expect(moved[0]!.n).toBe(1);
+    expect(await confirmedEvents()).toBe(1);
   });
 
   it('changes nothing when locked again', async () => {
     const again = await run(organiser, 'lock_proposal', { proposal_id: proposalId });
     expect(again.status).toBe(200);
     expect(again.body.result).toMatchObject({ trip_status: 'confirmed', in: 1 });
-    const moved = await q<{ n: number }>(
-      `SELECT count(*)::int AS n FROM domain_events WHERE type = 'trip.status_changed'
-          AND aggregate_id = $1 AND payload->>'to' = 'confirmed'`,
-      [fx.tripId],
-    );
-    expect(moved[0]!.n).toBe(1);
+    expect(await confirmedEvents()).toBe(1);
   });
 });
