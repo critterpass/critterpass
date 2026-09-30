@@ -25,6 +25,8 @@ export type Rgb = readonly [number, number, number];
 export interface ScreenCheckOptions {
   /** The app's screen background (`semantic.bg.base`). */
   readonly background: Rgb;
+  /** The screen is sparse on purpose (./sparse-by-design): no EMPTY_SCREEN check. */
+  readonly sparseByDesign?: boolean;
 }
 
 /** Tuning, as fractions of the screen unless named otherwise. */
@@ -232,7 +234,8 @@ export function findEmptyScreen(image: RgbaImage): ScreenFinding | null {
 }
 
 export function checkScreen(image: RgbaImage, options: ScreenCheckOptions): ScreenFinding[] {
-  return [findFrame(image, options), findKeyboardBand(image), findEmptyScreen(image)].filter(
+  const empty = options.sparseByDesign === true ? null : findEmptyScreen(image);
+  return [findFrame(image, options), findKeyboardBand(image), empty].filter(
     (finding): finding is ScreenFinding => finding !== null,
   );
 }
