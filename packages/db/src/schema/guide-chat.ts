@@ -17,6 +17,7 @@ import {
   uuid,
 } from 'drizzle-orm/pg-core';
 
+import { registerMergeRule } from '../merge-rules';
 import { crews } from './crews';
 import { users } from './identity';
 import { guides, trips } from './trips';
@@ -156,3 +157,23 @@ registerTablePrivacy('queued_guide_questions', { class: 'C2' });
 registerTablePrivacy('phrase_progress', { class: 'C2' });
 registerTablePrivacy('custom_phrase_cards', { class: 'C2' });
 registerTablePrivacy('guide_crew_turns', { class: 'C4' });
+
+// Guide chat: threads, questions, phrase cards and practice follow their owner. A merged user may
+// end up with two private threads for one trip; both stay readable. A queued question for a day
+// the existing account already queued one for is dropped (the existing one is answered).
+registerMergeRule({ table: 'guide_threads', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({ table: 'guide_messages', userColumn: 'author_id', strategy: 'reassign' });
+registerMergeRule({
+  table: 'queued_guide_questions',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['queued_for'],
+});
+registerMergeRule({
+  table: 'phrase_progress',
+  userColumn: 'user_id',
+  strategy: 'reassign',
+  conflictColumns: ['phrase_id'],
+});
+registerMergeRule({ table: 'custom_phrase_cards', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({ table: 'guide_crew_turns', userColumn: 'asker_id', strategy: 'reassign' });

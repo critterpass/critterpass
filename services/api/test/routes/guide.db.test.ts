@@ -276,6 +276,20 @@ describe('POST /v1/guide/threads/{id}/turns', () => {
     expect((await used(me.uid)).map((row) => row.count)).toEqual([30]);
   });
 
+  it('opens one private thread per trip and points a second one at it', async () => {
+    const me = await harness.signInAnonymously();
+    useFixtures(['flash-stream']);
+    const first = randomUUID();
+    await (await ask(me.cookie, first, 'UTC')).text();
+    const second = await ask(me.cookie, randomUUID(), 'UTC');
+    expect(second.status).toBe(409);
+    const body = (await second.json()) as { error: { code: string; detail: unknown } };
+    expect(body.error).toMatchObject({
+      code: 'STATE_INVALID',
+      detail: { state: 'thread_exists', thread_id: first },
+    });
+  });
+
   it('keeps a private thread from anyone else', async () => {
     const owner = await harness.signInAnonymously();
     const other = await harness.signInAnonymously();

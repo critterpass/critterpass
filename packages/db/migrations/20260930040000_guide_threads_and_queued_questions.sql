@@ -5,8 +5,9 @@
 -- data-model lists private only).
 
 -- ---------------------------------------------------------------------------------------------
--- guide_threads: RLS class O (private) / T (group), C2. One private thread per user and trip (and
--- one with no trip, the home guide); one group thread per trip.
+-- guide_threads: RLS class O (private) / T (group), C2. The guide sheet opens one private thread per
+-- user and trip (and one with no trip, the home guide); an account merge may leave two, so that is
+-- not a constraint. One group thread per trip.
 CREATE TABLE guide_threads (
   id uuid PRIMARY KEY DEFAULT uuidv7(),
   user_id uuid NOT NULL REFERENCES users (id),
@@ -22,8 +23,7 @@ ALTER TABLE guide_threads ADD CONSTRAINT guide_threads_mode_check
   CHECK (mode IN ('private', 'group'));
 ALTER TABLE guide_threads ADD CONSTRAINT guide_threads_group_has_trip_check
   CHECK (mode = 'private' OR (trip_id IS NOT NULL AND crew_id IS NOT NULL));
-CREATE UNIQUE INDEX guide_threads_private_key ON guide_threads (user_id, trip_id) NULLS NOT DISTINCT
-  WHERE mode = 'private';
+CREATE INDEX guide_threads_private_idx ON guide_threads (user_id, trip_id) WHERE mode = 'private';
 CREATE UNIQUE INDEX guide_threads_group_key ON guide_threads (trip_id) WHERE mode = 'group';
 CREATE INDEX guide_threads_trip_idx ON guide_threads (trip_id) WHERE trip_id IS NOT NULL;
 CREATE TRIGGER guide_threads_touch_updated_at BEFORE UPDATE ON guide_threads
@@ -119,7 +119,8 @@ CREATE POLICY queued_guide_questions_select ON queued_guide_questions FOR SELECT
 CREATE POLICY queued_guide_questions_system ON queued_guide_questions FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT ON queued_guide_questions TO app_user;
-GRANT SELECT, INSERT, UPDATE ON queued_guide_questions TO app_system;
+-- DELETE: an account merge drops the anon user's question for a day the account already queued.
+GRANT SELECT, INSERT, UPDATE, DELETE ON queued_guide_questions TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- phrase_progress: C2, self. The owner records practice on a curated or custom phrase card (no FK:
@@ -145,7 +146,8 @@ CREATE POLICY phrase_progress_owner ON phrase_progress FOR ALL TO app_user
 CREATE POLICY phrase_progress_system ON phrase_progress FOR ALL TO app_system
   USING (true) WITH CHECK (true);
 GRANT SELECT, INSERT, UPDATE ON phrase_progress TO app_user;
-GRANT SELECT, INSERT, UPDATE ON phrase_progress TO app_system;
+-- DELETE: an account merge drops the anon user's practice on a phrase the account also practised.
+GRANT SELECT, INSERT, UPDATE, DELETE ON phrase_progress TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- custom_phrase_cards: C2, owner only. `request_phrase_card` writes the request; the phrase job fills

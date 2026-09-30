@@ -1,8 +1,8 @@
 /**
  * `guide_threads` (C2): a private thread is its owner's alone, directly and on the guide_chat
  * stream; a trip's group thread is read by the trip's crew and rides the trip stream. Nobody writes
- * a thread as `app_user` (the guide turn route creates them as app_system), and a user has one
- * private thread per trip and a trip one group thread.
+ * a thread as `app_user` (the guide turn route creates them as app_system), and a trip has one
+ * group thread.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -73,16 +73,8 @@ describe('guide_threads', () => {
     ).rejects.toThrow(/permission denied/i);
   });
 
-  it('keeps one private thread per user and trip, and one group thread per trip', async () => {
+  it('keeps one group thread per trip', async () => {
     const { actors, tripId, crewId } = harness.fixture;
-    await expect(
-      withSystem(harness.db.pool, (tx) =>
-        tx.query("INSERT INTO guide_threads (user_id, trip_id, mode) VALUES ($1, $2, 'private')", [
-          actors.organiser,
-          tripId,
-        ]),
-      ),
-    ).rejects.toThrow(/guide_threads_private_key/);
     await expect(
       withSystem(harness.db.pool, (tx) =>
         tx.query(
@@ -91,11 +83,5 @@ describe('guide_threads', () => {
         ),
       ),
     ).rejects.toThrow(/guide_threads_group_key/);
-    // The home guide (no trip) is one more private thread, and only one.
-    const home = "INSERT INTO guide_threads (user_id, mode) VALUES ($1, 'private')";
-    await withSystem(harness.db.pool, (tx) => tx.query(home, [actors.organiser]));
-    await expect(
-      withSystem(harness.db.pool, (tx) => tx.query(home, [actors.organiser])),
-    ).rejects.toThrow(/guide_threads_private_key/);
   });
 });

@@ -6,6 +6,8 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { getMergeRule, MERGE_STRATEGIES } from '../src/merge-rules';
+// Later areas register their rules where they define their tables.
+import '../src/schema';
 import {
   startDbTestContainer,
   type DbTestContainer,
