@@ -138,8 +138,7 @@ appId: app.critterpass.dev
 # A voice note: record about three seconds, send it, play it.
 - tapOn: ${ATTACH}
 - extendedWaitUntil:
-    visible:
-      id: 'chat-attach'
+    visible: ${VOICE_NOTE}
     timeout: 5000
 - tapOn: ${VOICE_NOTE}
 # The microphone prompt on a device that has not granted it yet.
