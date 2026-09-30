@@ -92,6 +92,17 @@ export function activityLine(row: ActivityRow): string {
   }
 }
 
+/**
+ * "Oct 12 – Oct 19" for a trip's dates. Hermes has no `Intl.DateTimeFormat#formatRange`, so the two
+ * ends are formatted on their own.
+ */
+export function tripDates(locale: string, start: string, end: string | null): string {
+  const last = end ?? start;
+  return last === start
+    ? shortDay(locale, start)
+    : `${shortDay(locale, start)} – ${shortDay(locale, last)}`;
+}
+
 /** "Oct 12" for a trip date. */
 export function shortDay(locale: string, date: string): string {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a date literal and Intl options.

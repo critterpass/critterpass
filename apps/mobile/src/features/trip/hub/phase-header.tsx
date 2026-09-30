@@ -16,6 +16,7 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 
+import { tripDates } from './hub-copy';
 import { countdownClock, type HubHeader } from './hub-model';
 
 export interface PhaseHeaderProps {
@@ -39,15 +40,7 @@ export function PhaseHeader(props: PhaseHeaderProps) {
   const locale = useLocale();
   const { t } = useLingui();
   const { header } = props;
-  const dates =
-    props.startDate === null
-      ? null
-      : format.dateInterval(
-          locale,
-          new Date(`${props.startDate}T12:00:00Z`),
-          new Date(`${props.endDate ?? props.startDate}T12:00:00Z`),
-          { timeZone: 'UTC', month: 'short', day: 'numeric' },
-        );
+  const dates = props.startDate === null ? null : tripDates(locale, props.startDate, props.endDate);
   const count = props.going;
   const going = t({ id: 'trip.hub.going', message: `${count} going` });
   const meta = [dates, going].filter(Boolean).join(' · ');

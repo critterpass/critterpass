@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { t } from '@lingui/core/macro';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import type { RejectedCommand } from '@/data/status/use-rejected-commands';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -166,6 +166,27 @@ function Offline({
   return <OfflinePage view={view} />;
 }
 
+/** The sheet closes for real (back, the grabber), so a second back leaves the scene. */
+function QueuedScene() {
+  const [open, setOpen] = useState(true);
+  return (
+    <Offline
+      sheet={
+        open ? (
+          <QueuedItemSheet
+            summary={CHAT}
+            since="06:12"
+            body="we made it!!"
+            onCancel={done}
+            onEdit={done}
+            onClose={() => setOpen(false)}
+          />
+        ) : null
+      }
+    />
+  );
+}
+
 export const OFFLINE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3k-4-offline': () => <Offline />,
   '3k-4-reconnecting': () => (
@@ -184,20 +205,7 @@ export const OFFLINE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3k-4-not-saved': () => <Offline line="none" stillWorks={null} />,
   '3k-4-weak-signal': () => <Offline chip="weak" />,
   '3k-4-conflict': () => <Offline chip="back" sends={[]} conflicts={[CONFLICT]} />,
-  '3k-4-queued-item': () => (
-    <Offline
-      sheet={
-        <QueuedItemSheet
-          summary={CHAT}
-          since="06:12"
-          body="we made it!!"
-          onCancel={done}
-          onEdit={done}
-          onClose={noop}
-        />
-      }
-    />
-  ),
+  '3k-4-queued-item': () => <QueuedScene />,
   '3n-2-offline-storage': () => (
     <StorageSettingsView
       trips={[

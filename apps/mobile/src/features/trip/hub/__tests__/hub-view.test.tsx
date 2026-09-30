@@ -48,7 +48,7 @@ describe('trip hub', () => {
     expect(screen.getByTestId('trip-hub-header-pre')).toBeTruthy();
     expect(screen.getByText('WHEELS UP IN')).toBeTruthy();
     expect(screen.getByText('17D 05:26:29')).toBeTruthy();
-    expect(screen.getByText('OCT 12 – 19 · 6 GOING')).toBeTruthy();
+    expect(screen.getByText('OCT 12 – OCT 19 · 6 GOING')).toBeTruthy();
     expect(screen.getByText('BALI')).toBeTruthy();
     expect(screen.getByText('NUDGE')).toBeTruthy();
     expect(screen.getByText('+$186')).toBeTruthy();
@@ -104,7 +104,7 @@ describe('trip hub', () => {
   it('lists two trips in the switcher', async () => {
     await scene('trips-switcher');
     expect(screen.getByText('BALI')).toBeTruthy();
-    expect(screen.getByText('in progress · Oct 12 – 19')).toBeTruthy();
+    expect(screen.getByText('in progress · Oct 12 – Oct 19')).toBeTruthy();
     expect(screen.getByText('KYOTO')).toBeTruthy();
     expect(screen.getByText('voting')).toBeTruthy();
   });

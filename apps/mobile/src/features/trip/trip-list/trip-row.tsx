@@ -2,8 +2,7 @@
  * One trip in the switcher: the destination in the guide's colour, where the trip is ("in
  * progress", "voting", "Oct 12–19"), and a chevron into its hub.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- trip statuses and Intl option values, never copy. */
-import { format, upper } from '@cp/i18n';
+import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -15,6 +14,7 @@ import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
 import { guideColour, guideOr } from '../hub/guide';
+import { tripDates } from '../hub/hub-copy';
 
 export interface TripListRow {
   readonly id: string;
@@ -57,15 +57,7 @@ export function TripRow({
   const locale = useLocale();
   const name = trip.destination_name ?? t({ id: 'trip.list.unnamed', message: 'Next trip' });
   const status = statusLabel(trip.status);
-  const dates =
-    trip.start_date === null
-      ? null
-      : format.dateInterval(
-          locale,
-          new Date(`${trip.start_date}T12:00:00Z`),
-          new Date(`${trip.end_date ?? trip.start_date}T12:00:00Z`),
-          { timeZone: 'UTC', month: 'short', day: 'numeric' },
-        );
+  const dates = trip.start_date === null ? null : tripDates(locale, trip.start_date, trip.end_date);
   return (
     <Card
       onPress={onPress}

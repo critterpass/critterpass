@@ -3,7 +3,7 @@
  * permission sheets, over the Batur morning, with every handler a no-op.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 
@@ -109,17 +109,28 @@ function Alarm({ snoozeAllowed }: { readonly snoozeAllowed: boolean }) {
   );
 }
 
-function sheet(kind: AlarmSheetKind): ReactNode {
+/** The sheet closes for real (back, the grabber), so a second back leaves the scene. */
+function SheetScene({ kind }: { readonly kind: AlarmSheetKind }) {
+  const [open, setOpen] = useState(true);
   return (
     <Day
       overrides={{
         leaveBy: baturLeaveBy({ up: [MAYA, JORDAN, RIN] }),
-        overlay: (
-          <AlarmPermissionSheet kind={kind} guideName="Tokek" onPrimary={noop} onClose={noop} />
-        ),
+        overlay: open ? (
+          <AlarmPermissionSheet
+            kind={kind}
+            guideName="Tokek"
+            onPrimary={noop}
+            onClose={() => setOpen(false)}
+          />
+        ) : null,
       }}
     />
   );
+}
+
+function sheet(kind: AlarmSheetKind): ReactNode {
+  return <SheetScene kind={kind} />;
 }
 
 const BEFORE = new Date('2026-10-14T17:05:00Z');
