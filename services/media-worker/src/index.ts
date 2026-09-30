@@ -1,6 +1,7 @@
 import { verifyMediaSignature } from '@cp/domain';
 
 import { withObservability, type ObservabilityEnv } from './obs';
+import { isPublicKey, servePublic } from './public-content';
 
 export interface Env extends ObservabilityEnv {
   readonly MEDIA_HMAC_KEYS: string;
@@ -66,6 +67,8 @@ export default withObservability({
     if (objectKey === undefined) {
       return new Response('Forbidden', { status: 403 });
     }
+
+    if (isPublicKey(objectKey)) return servePublic(request, env.MEDIA, objectKey);
 
     const exp = Number(url.searchParams.get('exp'));
     const now = Math.floor(Date.now() / 1000);
