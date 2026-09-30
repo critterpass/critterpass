@@ -66,12 +66,16 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'pitch-add'
-- openLink: critterpass-dev://
-- runFlow:
-    when:
-      visible: 'Open'
+# Back to Home through the stack (a link to Home would push a second Home with no way back).
+- waitForAnimationToEnd
+- repeat:
+    while:
+      notVisible:
+        id: 'tab-wallet'
+    times: 4
     commands:
-      - tapOn: 'Open'
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd
 - extendedWaitUntil:
     visible:
       id: 'tab-wallet'
