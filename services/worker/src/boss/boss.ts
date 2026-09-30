@@ -9,6 +9,7 @@ import { registerJobProducer } from '@cp/db';
 import { PgBoss } from 'pg-boss';
 
 import {
+  scheduledJobData,
   workJob,
   type AnyJobDefinition,
   type JobFailureReport,
@@ -72,7 +73,7 @@ export async function startJobRuntime(options: StartJobRuntimeOptions): Promise<
     await workJob(boss, job, deps, options.report);
     const cron = job.spec.cron;
     if (options.crons !== false && cron !== undefined) {
-      await boss.schedule(job.queue, cron.expr, null, { tz: cron.tz });
+      await boss.schedule(job.queue, cron.expr, scheduledJobData(), { tz: cron.tz });
     }
   }
   return boss;

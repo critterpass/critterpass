@@ -153,6 +153,14 @@ function errorOutput(error: unknown): Record<string, unknown> {
   return { message: String(error) };
 }
 
+/**
+ * The payload a cron-fed job carries. pg-boss schedules store `null` data unless given some, so the
+ * runtime registers every cron with this and reads a job stored without data as it too.
+ */
+export function scheduledJobData(): Record<string, never> {
+  return {};
+}
+
 /** Runs one attempt of `job` through `def`, never throwing: the outcome is the settle instruction. */
 export async function runAttempt<Data>(
   def: JobDefinition<Data>,
@@ -160,7 +168,7 @@ export async function runAttempt<Data>(
   deps: WorkerDeps,
   report: JobFailureReport,
 ): Promise<AttemptResult> {
-  const parsed = def.schema.safeParse(job.data ?? undefined);
+  const parsed = def.schema.safeParse(job.data ?? scheduledJobData());
   if (!parsed.success) {
     report({
       queue: def.queue,
