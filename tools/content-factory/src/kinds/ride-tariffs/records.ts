@@ -1,5 +1,5 @@
 /**
- * Published ride tariffs for the six guide destinations, researched by hand from regulators' and
+ * Published ride tariffs for the guide destinations, researched by hand from regulators' and
  * operators' own pages; every figure carries the page it came from and the day it was checked.
  * Where no page publishes a figure, the class is left out rather than guessed:
  *
@@ -12,6 +12,8 @@
  * - Cusco's taxis are unmetered and negotiated; Uber publishes no fare table there.
  */
 import type { RideTariffItem } from '@cp/content';
+
+import { DA_NANG_RIDE_TARIFFS } from './records-da-nang';
 
 const CHECKED = '2026-09-30';
 
@@ -191,4 +193,5 @@ export const RIDE_TARIFF_RECORDS: readonly RideTariffItem[] = [
       },
     ],
   },
+  ...DA_NANG_RIDE_TARIFFS,
 ];
