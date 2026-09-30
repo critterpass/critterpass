@@ -21,6 +21,15 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+      # A sheet scene takes the first back itself (the sheet closes); the second leaves the scene.
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - runFlow:
+          when:
+            notVisible:
+              id: 'bookings-lab-${SCENE}'
+          commands:
+            - back
 - runFlow:
     when:
       platform: iOS
