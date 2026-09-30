@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # Opens one money lab scene (apps/mobile/src/app/(dev)/money-lab.tsx), waits for `${READY}`, takes
-# `${SHOT}` and goes back to the list (Android back; iOS reopens the lab from Home).
+# `${SHOT}` and goes back to the list (Android back; iOS drags back from the edge or reopens the lab).
 - scrollUntilVisible:
     element:
       id: 'money-lab-${SCENE}'
@@ -21,14 +21,32 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
-# iOS reopens the lab from Home rather than swiping back from the edge: a scene's gestures or
-# sheet can take the swipe, and the list never comes back.
+# iOS: a slow drag from the very edge pops the scene; when a scene's gestures or sheet take it
+# and the list isn't back, the lab is reopened from Home.
 - runFlow:
     when:
       platform: iOS
     commands:
+      - swipe:
+          start: 0%, 50%
+          end: 85%, 50%
+          duration: 800
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'money-lab-${SCENE}'
+    commands:
       - runFlow: ../../home/subflows/open-dev-tools.yaml
       - runFlow: open-lab.yaml
+      # The reopened list starts at its top.
+      - scrollUntilVisible:
+          element:
+            id: 'money-lab-${SCENE}'
+          direction: DOWN
+          timeout: 20000
 - extendedWaitUntil:
     visible:
       id: 'money-lab-${SCENE}'
