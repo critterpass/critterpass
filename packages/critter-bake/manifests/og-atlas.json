@@ -12,7 +12,7 @@
       "out": "packages/critter-bake/out/og-atlas/sprites"
     },
     {
-      "kind": ["gecko", "tanuki", "puffin", "axolotl", "sardine", "alpaca"],
+      "kind": ["gecko", "tanuki", "puffin", "axolotl", "sardine", "alpaca", "langur"],
       "forms": ["common"],
       "poses": ["wave", "cheer", "think", "point", "sleep", "crack", "tilt", "hop"],
       "variants": ["color"],

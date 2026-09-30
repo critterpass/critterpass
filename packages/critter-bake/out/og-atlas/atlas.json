@@ -1217,198 +1217,261 @@
     "w": 96,
     "h": 96
   },
-  "puffin-common-cheer": {
+  "langur-common-cheer": {
     "sheet": 0,
     "x": 1372,
     "y": 784,
     "w": 96,
     "h": 96
   },
-  "puffin-common-crack": {
+  "langur-common-crack": {
     "sheet": 0,
     "x": 1470,
     "y": 784,
     "w": 96,
     "h": 96
   },
-  "puffin-common-hop": {
+  "langur-common-hop": {
     "sheet": 0,
     "x": 1568,
     "y": 784,
     "w": 96,
     "h": 96
   },
-  "puffin-common-idle": {
+  "langur-common-idle": {
     "sheet": 0,
     "x": 1666,
     "y": 784,
     "w": 96,
     "h": 96
   },
-  "puffin-common-point": {
+  "langur-common-point": {
     "sheet": 0,
     "x": 1764,
     "y": 784,
     "w": 96,
     "h": 96
   },
-  "puffin-common-sleep": {
+  "langur-common-sleep": {
     "sheet": 0,
     "x": 1862,
     "y": 784,
     "w": 96,
     "h": 96
   },
-  "puffin-common-think": {
+  "langur-common-think": {
     "sheet": 0,
     "x": 0,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "puffin-common-tilt": {
+  "langur-common-tilt": {
     "sheet": 0,
     "x": 98,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "puffin-common-wave": {
+  "langur-common-wave": {
     "sheet": 0,
     "x": 196,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "sardine-common-cheer": {
+  "puffin-common-cheer": {
     "sheet": 0,
     "x": 294,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "sardine-common-crack": {
+  "puffin-common-crack": {
     "sheet": 0,
     "x": 392,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "sardine-common-hop": {
+  "puffin-common-hop": {
     "sheet": 0,
     "x": 490,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "sardine-common-idle": {
+  "puffin-common-idle": {
     "sheet": 0,
     "x": 588,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "sardine-common-point": {
+  "puffin-common-point": {
     "sheet": 0,
     "x": 686,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "sardine-common-sleep": {
+  "puffin-common-sleep": {
     "sheet": 0,
     "x": 784,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "sardine-common-think": {
+  "puffin-common-think": {
     "sheet": 0,
     "x": 882,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "sardine-common-tilt": {
+  "puffin-common-tilt": {
     "sheet": 0,
     "x": 980,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "sardine-common-wave": {
+  "puffin-common-wave": {
     "sheet": 0,
     "x": 1078,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "tanuki-common-cheer": {
+  "sardine-common-cheer": {
     "sheet": 0,
     "x": 1176,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "tanuki-common-crack": {
+  "sardine-common-crack": {
     "sheet": 0,
     "x": 1274,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "tanuki-common-hop": {
+  "sardine-common-hop": {
     "sheet": 0,
     "x": 1372,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "tanuki-common-idle": {
+  "sardine-common-idle": {
     "sheet": 0,
     "x": 1470,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "tanuki-common-point": {
+  "sardine-common-point": {
     "sheet": 0,
     "x": 1568,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "tanuki-common-sleep": {
+  "sardine-common-sleep": {
     "sheet": 0,
     "x": 1666,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "tanuki-common-think": {
+  "sardine-common-think": {
     "sheet": 0,
     "x": 1764,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "tanuki-common-tilt": {
+  "sardine-common-tilt": {
     "sheet": 0,
     "x": 1862,
     "y": 882,
     "w": 96,
     "h": 96
   },
-  "tanuki-common-wave": {
+  "sardine-common-wave": {
     "sheet": 0,
     "x": 0,
     "y": 980,
     "w": 96,
     "h": 96
   },
-  "tanuki-legendary-idle": {
+  "tanuki-common-cheer": {
     "sheet": 0,
     "x": 98,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-crack": {
+    "sheet": 0,
+    "x": 196,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-hop": {
+    "sheet": 0,
+    "x": 294,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-idle": {
+    "sheet": 0,
+    "x": 392,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-point": {
+    "sheet": 0,
+    "x": 490,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-sleep": {
+    "sheet": 0,
+    "x": 588,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-think": {
+    "sheet": 0,
+    "x": 686,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-tilt": {
+    "sheet": 0,
+    "x": 784,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-common-wave": {
+    "sheet": 0,
+    "x": 882,
+    "y": 980,
+    "w": 96,
+    "h": 96
+  },
+  "tanuki-legendary-idle": {
+    "sheet": 0,
+    "x": 980,
     "y": 980,
     "w": 96,
     "h": 96

@@ -53,7 +53,7 @@ describe('expandManifest', () => {
 
   it("expands kind: 'all' to every registered critter", () => {
     const jobs = expandManifest([target({ kind: 'all', sizesPt: [60] })]);
-    expect(jobs.length).toBe(150);
+    expect(jobs.length).toBe(151);
   });
 });
 
