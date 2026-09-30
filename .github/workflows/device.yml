@@ -5,12 +5,17 @@
 # with the commit inlined as EXPO_PUBLIC_JS_COMMIT), and each shard swaps it into its own copy of the
 # reused EAS e2e-test build with expo-updates turned off, so no run ever loads JS another run
 # published to the shared e2e-test update channel.
+#
+# The `sweep` preset (and the nightly schedule on main) runs e2e/screens/sweep: every user-facing
+# screen and sheet in English and Vietnamese, in compare mode, posted to a pull request or, without
+# one, to the "Nightly UI sweep" issue.
 name: device
 # Tells queued runs apart: mode, branch, pull request, platform and flows (GitHub cuts a long title).
 run-name: >-
   ${{ github.event_name == 'pull_request'
-  && format('device flows · {0} · #{1}', github.head_ref, github.event.pull_request.number)
-  || format('device {0} · {1}{2} · {3}{4}', inputs.mode,
+  && format('device flows · {0} · #{1} · android', github.head_ref, github.event.pull_request.number)
+  || github.event_name == 'schedule' && 'device nightly sweep · main · android, ios'
+  || format('device {0} · {1}{2} · {3}{4}', inputs.preset == 'sweep' && 'sweep' || inputs.mode,
   github.ref_name, inputs.pr && format(' · #{0}', inputs.pr) || '', inputs.platform,
   inputs.flows && format(' · {0}', inputs.flows) || '') }}
 
@@ -48,6 +53,14 @@ on:
         type: choice
         options: [light, dark]
         default: light
+      preset:
+        description: sweep runs every screen (e2e/screens/sweep) in compare mode; pr empty posts to the nightly issue
+        type: choice
+        options: [none, sweep]
+        default: none
+  schedule:
+    # Nightly on main: the full UI sweep (02:30 in Vietnam).
+    - cron: '30 19 * * *'
   pull_request:
     types: [labeled, opened, synchronize, reopened]
 
@@ -55,7 +68,7 @@ on:
 concurrency:
   group: >-
     ${{ github.event_name == 'workflow_dispatch'
-    && format('device-{0}-{1}-{2}-{3}', github.ref_name, inputs.mode, inputs.platform, inputs.flows)
+    && format('device-{0}-{1}-{2}-{3}-{4}', github.ref_name, inputs.mode, inputs.platform, inputs.preset, inputs.flows)
     || format('device-{0}', github.event.pull_request.number || github.run_id) }}
   cancel-in-progress: true
 
@@ -74,7 +87,7 @@ jobs:
     name: prepare (builds, bundles, shards)
     # Manual runs, or same-repo pull requests labelled `device-run` (never forks).
     if: >-
-      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' ||
       (github.event.pull_request.head.repo.full_name == github.repository &&
        contains(github.event.pull_request.labels.*.name, 'device-run') &&
        (github.event.action != 'labeled' || github.event.label.name == 'device-run'))
@@ -86,6 +99,7 @@ jobs:
       mode: ${{ steps.settings.outputs.mode }}
       pr: ${{ steps.settings.outputs.pr }}
       appearance: ${{ steps.settings.outputs.appearance }}
+      preset: ${{ steps.settings.outputs.preset }}
       js_commit: ${{ steps.settings.outputs.js_commit }}
       ios_url: ${{ steps.ios_build.outputs.url }}
       android_url: ${{ steps.android_build.outputs.url }}
@@ -109,26 +123,46 @@ jobs:
           IN_BUILD_URL: ${{ inputs.build_url }}
           IN_SHARDS: ${{ inputs.shards }}
           IN_APPEARANCE: ${{ inputs.appearance }}
+          IN_PRESET: ${{ inputs.preset }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
+          # iOS shards share a handful of macOS runners; Android shards run on Linux (KVM) runners,
+          # so everything that isn't iOS-specific runs on Android.
+          ios_flows='' ios_shards=''
           if [ "$EVENT" = pull_request ]; then
-            # A labelled pull request runs the full suite on iOS, pass/fail only. Android runs are opt-in
-            # (workflow_dispatch with platform android or both) until they are proven stable.
-            platform=ios flows='' mode=flows pr=$PR_NUMBER build_url='' shards=3 appearance=light
+            # A labelled pull request runs the full suite on Android, pass/fail only.
+            platform=android flows='' mode=flows pr=$PR_NUMBER build_url='' shards=3 appearance=light preset=none
+          elif [ "$EVENT" = schedule ]; then
+            # Nightly: the whole sweep on Android, and its English half on one iOS shard for what only
+            # iOS shows (safe areas, the keyboard, modal presentation).
+            platform=both flows='' mode=compare pr='' build_url='' shards=7 appearance=light preset=sweep
+            ios_flows='e2e/screens/sweep/*-en.yaml' ios_shards=1
           else
             platform=$IN_PLATFORM flows=$IN_FLOWS mode=$IN_MODE pr=$IN_PR build_url=$IN_BUILD_URL
-            shards=$IN_SHARDS appearance=$IN_APPEARANCE
+            shards=$IN_SHARDS appearance=$IN_APPEARANCE preset=$IN_PRESET
           fi
-          if [ "$mode" != flows ] && ! [[ "$pr" =~ ^[0-9]+$ ]]; then
+          if [ "$preset" = sweep ]; then
+            # Every screen in both languages; sheets unless screenshots alone were asked for.
+            [ -z "$flows" ] && flows='e2e/screens/sweep/*.yaml'
+            [ "$mode" = flows ] && mode=compare
+            # Without a pull request the images go to the nightly issue.
+            [ -z "$pr" ] && pr=nightly
+          fi
+          if [ "$mode" != flows ] && ! [[ "$pr" =~ ^([0-9]+|nightly)$ ]]; then
             echo "::error::mode $mode publishes to a pull request: set pr"; exit 1
           fi
           [[ "$shards" =~ ^[1-9][0-9]*$ ]] || { echo "::error::shards must be a positive number"; exit 1; }
+          [ -z "$ios_flows" ] && ios_flows=$flows
+          [ -z "$ios_shards" ] && ios_shards=$shards
           {
             echo "ios=$([ "$platform" != android ] && echo true || echo false)"
             echo "android=$([ "$platform" != ios ] && echo true || echo false)"
             echo "mode=$mode"; echo "pr=$pr"; echo "appearance=$appearance"; echo "shards=$shards"
+            echo "ios_shards=$ios_shards"
+            echo "preset=$preset"
             echo "js_commit=$(git rev-parse --short=12 HEAD)"
             echo "flows<<EOF"; echo "$flows"; echo "EOF"
+            echo "ios_flows<<EOF"; echo "$ios_flows"; echo "EOF"
             echo "build_url<<EOF"; echo "$build_url"; echo "EOF"
           } >> "$GITHUB_OUTPUT"
       - name: Resolve the iOS build
@@ -149,8 +183,8 @@ jobs:
         id: ios_shards
         if: steps.settings.outputs.ios == 'true'
         env:
-          FLOWS: ${{ steps.settings.outputs.flows }}
-          SHARDS: ${{ steps.settings.outputs.shards }}
+          FLOWS: ${{ steps.settings.outputs.ios_flows }}
+          SHARDS: ${{ steps.settings.outputs.ios_shards }}
         run: pnpm exec tsx tools/scripts/ci-device/plan-shards.ts --platform ios --shards "$SHARDS" --flows "$FLOWS"
       - name: Plan Android shards
         id: android_shards
@@ -223,6 +257,9 @@ jobs:
           FLOWS: tools/scripts/ci-device/js-commit.yaml ${{ matrix.flows }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
+          # The crew the push fixtures and chat flows address (repository variables).
+          CREW_ID: ${{ vars.E2E_CREW_ID }}
+          CREW_NAME: ${{ vars.E2E_CREW_NAME }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
         run: tools/scripts/ci-device/ios-device.sh "$BUILD_URL" "$RUNNER_TEMP/bundles/ios" "$RUNNER_TEMP/out" "$FLOWS"
       - uses: actions/upload-artifact@v7
@@ -272,6 +309,9 @@ jobs:
           FLOWS: tools/scripts/ci-device/js-commit.yaml ${{ matrix.flows }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           OTP_TEST_CODE: ${{ secrets.OTP_TEST_CODE }}
+          # The crew the push fixtures and chat flows address (repository variables).
+          CREW_ID: ${{ vars.E2E_CREW_ID }}
+          CREW_NAME: ${{ vars.E2E_CREW_NAME }}
           APPEARANCE: ${{ needs.prepare.outputs.appearance }}
         with:
           api-level: 35
@@ -301,6 +341,7 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: write
+      issues: write
       pull-requests: write
     steps:
       - uses: actions/checkout@v7
@@ -334,15 +375,41 @@ jobs:
             fi
           done
           if ! find "$images" -name '*.png' | grep -q .; then
-            echo "::notice title=No screenshots::No shard captured a screenshot, so nothing is published."
+            echo "::notice title=No screenshots::No shard captured a screenshot; the comment carries the check summary only."
           fi
-      - name: Publish
+      - name: Summarise the checks
+        env:
+          PRESET: ${{ needs.prepare.outputs.preset }}
+        run: |
+          args=()
+          [ "$PRESET" = sweep ] && args+=(--coverage)
+          pnpm exec tsx tools/scripts/ci-device/run-summary.ts "$RUNNER_TEMP/shards" "${args[@]}" \
+            --out "$RUNNER_TEMP/summary.md"
+          cat "$RUNNER_TEMP/summary.md" >> "$GITHUB_STEP_SUMMARY"
+      - name: Find the nightly issue
+        id: target
         env:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ needs.prepare.outputs.pr }}
+        run: |
+          if [ "$PR" != nightly ]; then echo "number=$PR" >> "$GITHUB_OUTPUT"; exit 0; fi
+          title='Nightly UI sweep'
+          number=$(gh issue list --repo "$GITHUB_REPOSITORY" --state open --search "in:title \"$title\"" \
+            --json number,title --jq "map(select(.title == \"$title\")) | .[0].number // empty")
+          if [ -z "$number" ]; then
+            url=$(gh issue create --repo "$GITHUB_REPOSITORY" --title "$title" --body \
+              "Every night the device workflow sweeps every screen of main (e2e/screens/sweep) and comments here with the design | device sheets, the screen checks and the sweep coverage.")
+            number=${url##*/}
+          fi
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ steps.target.outputs.number }}
           MODE: ${{ needs.prepare.outputs.mode }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SUMMARY_FILE: ${{ runner.temp }}/summary.md
         run: |
           heading="Device screenshots"
           [ "$MODE" = compare ] && [ "${SHEETLESS:-}" != true ] && heading="Design | device sheets"

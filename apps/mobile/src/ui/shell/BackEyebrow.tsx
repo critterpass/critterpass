@@ -2,6 +2,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { I18nManager, Pressable, View } from 'react-native';
 
+import { useBackAffordance } from '../qa/back-affordance';
 import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';
 import { degrees, makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
@@ -65,6 +66,7 @@ export function BackEyebrow({ label, onPress, color, testID = 'back-eyebrow' }: 
   const styles = useStyles();
   const theme = useTheme();
   const tone = useSurfaceTone();
+  useBackAffordance();
   const ink =
     color ??
     (tone === 'accent'

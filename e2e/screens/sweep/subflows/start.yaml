@@ -1,0 +1,49 @@
+appId: app.critterpass.dev
+---
+# A fresh install on the splash, in ${LANG} (en or vi). Vietnamese is switched from the dev
+# gallery's language row (kept in memory only: it survives links, not a relaunch), then two back
+# swipes return to the splash.
+# The keychain outlives a cleared install on iOS: without this the new pass signs back in to the
+# account an earlier flow on this simulator made (and seeded).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - clearKeychain
+- launchApp:
+    clearState: true
+# A link dialog an earlier flow left open covers the first screen.
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- runFlow:
+    when:
+      true: ${LANG == 'vi'}
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-nav-gallery'
+          timeout: 10000
+      - tapOn:
+          id: 'dev-nav-gallery'
+      - extendedWaitUntil:
+          visible:
+            id: 'gallery-locale-vi'
+          timeout: 15000
+      - tapOn:
+          id: 'gallery-locale-vi'
+      - runFlow: back.yaml
+      - waitForAnimationToEnd
+      - runFlow: back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'onboarding-open'
+          timeout: 15000

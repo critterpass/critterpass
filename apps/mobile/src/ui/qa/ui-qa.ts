@@ -4,9 +4,11 @@ import Constants from 'expo-constants';
 /**
  * Runtime UI checks for development and e2e builds: shared components report layout problems the
  * design never allows (a headline cut with an ellipsis, a word split across lines, a one-line
- * label that wrapped, a critter without its sticker edge). Each report is a `[ui-qa]` console warning plus a line in
- * `<documents>/ui-qa.log`, which `pnpm screens:capture` reads back after every Maestro flow and
- * fails on. Store builds (staging, production) never report: the gate is read once at load.
+ * label that wrapped, a critter without its sticker edge or still without its image, header
+ * controls running into each other, a pushed screen with no way back, an icon that draws nothing).
+ * Each report is a `[ui-qa]` console warning plus a line in `<documents>/ui-qa.log`, which
+ * `pnpm screens:capture` and the device shards read back after every Maestro flow and fail on.
+ * Store builds (staging, production) never report: the gate is read once at load.
  */
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a log file name, never shown to a user
 export const UI_QA_LOG_FILE = 'ui-qa.log';
@@ -14,7 +16,14 @@ export const UI_QA_LOG_FILE = 'ui-qa.log';
 export const UI_QA_TAG = '[ui-qa]';
 
 export type UiQaCode =
-  'TEXT_TRUNCATED' | 'TEXT_WORD_BROKEN' | 'TEXT_WRAPPED' | 'STICKER_NO_OUTLINE';
+  | 'TEXT_TRUNCATED'
+  | 'TEXT_WORD_BROKEN'
+  | 'TEXT_WRAPPED'
+  | 'STICKER_NO_OUTLINE'
+  | 'STICKER_EMPTY'
+  | 'HEADER_OVERLAP'
+  | 'NO_BACK_AFFORDANCE'
+  | 'ICON_EMPTY';
 
 function readVariant(): unknown {
   return Constants.expoConfig?.extra?.appVariant;

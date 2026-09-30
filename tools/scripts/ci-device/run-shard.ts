@@ -6,11 +6,13 @@
  *
  * Writes to --out: `junit/*.xml` and `maestro/<flow>/` (Maestro's run directory and logs) per flow,
  * `failures/` (the screen and the app's log after each failed flow), `screenshots/*.png` (every
- * `takeScreenshot`, named as `pnpm screens:capture` names them) and `ui-qa.log`. Like the local capture tool, a failed flow or any `[ui-qa]` report fails the shard;
+ * `takeScreenshot`, named as `pnpm screens:capture` names them), `ui-qa.log` and `screen-checks.log`
+ * (the pixel checks of ./screen-checks on every screenshot). Like the local capture tool, a failed
+ * flow or any `[ui-qa]` report fails the shard, and so does any screen-check finding;
  * on GitHub Actions each also becomes an error annotation and a line in the job summary.
  * `--env NAME` forwards that environment variable to every flow as `-e NAME=value` when it is set.
  */
-import { spawnSync } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import {
   appendFileSync,
   copyFileSync,
@@ -26,6 +28,7 @@ import { parseArgs } from 'node:util';
 import { flowScreenshotNames, planCopies, type FlowScreens } from '../capture-flow-shots';
 import { failOnUiQa, pullUiQaLog, recordFlowUiQa, scanUiQa, type UiQaReport } from '../ui-qa-scan';
 import type { DevicePlatform } from './plan-shards';
+import { appBackground, scanScreenshots, SCREEN_CHECKS_LOG, writeFindings } from './screen-scan';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 const MAESTRO = process.env.MAESTRO_BIN ?? path.join(homedir(), '.maestro/bin/maestro');
@@ -204,10 +207,34 @@ function summary(line: string): void {
   if (file) appendFileSync(file, `${line}\n`);
 }
 
+/** Serves ./runner-actions (push fixtures, network off/on) to the flows while they run. */
+function startRunnerActions(options: ShardOptions): () => void {
+  const child = spawn(
+    process.execPath,
+    [
+      ...process.execArgv,
+      path.join(import.meta.dirname, 'runner-actions.ts'),
+      '--platform',
+      options.platform,
+      '--device',
+      options.device,
+    ],
+    { stdio: 'inherit', env: process.env },
+  );
+  return () => child.kill();
+}
+
 function main(): void {
   const options = parseShardArgs(process.argv.slice(2), process.cwd());
   summary(`### ${options.platform} shard\n\n| result | flow | time |\n| --- | --- | --- |`);
-  const { failed, uiQa } = runShard(options);
+  const stopActions = startRunnerActions(options);
+  let shard: ReturnType<typeof runShard>;
+  try {
+    shard = runShard(options);
+  } finally {
+    stopActions();
+  }
+  const { failed, uiQa } = shard;
   for (const [flow, reports] of uiQa) {
     for (const report of reports)
       console.log(annotation('error', `ui-qa ${report.code}`, `${flow}: ${report.line}`));
@@ -220,6 +247,21 @@ function main(): void {
       `\n\`[ui-qa]\` reports:\n\n\`\`\`\n${readFileSync(path.join(options.out, 'ui-qa.log'), 'utf8')}\`\`\``,
     );
     process.exitCode = 1;
+  }
+  const shots = scanScreenshots(path.join(options.out, 'screenshots'), appBackground());
+  for (const [shot, findings] of shots) {
+    for (const finding of findings)
+      console.log(
+        annotation('error', `screen check ${finding.code}`, `${shot}: ${finding.detail}`),
+      );
+  }
+  const findings = writeFindings(shots, options.out);
+  if (findings) {
+    console.error(`Screen checks failed:\n${findings}`);
+    summary(`\nScreen checks (\`${SCREEN_CHECKS_LOG}\`):\n\n\`\`\`\n${findings}\n\`\`\``);
+    process.exitCode = 1;
+  } else {
+    console.log('screen checks: no findings');
   }
   if (failed.length > 0) {
     console.error(`Maestro flow(s) failed: ${failed.join(', ')}`);

@@ -1,0 +1,91 @@
+appId: app.critterpass.dev
+---
+# The demo crew with a confirmed trip (the `everyday` seed): Home counting down (3b-2), the inbox
+# with cards that need you (3b-4), the crews sheet (3g-3), the crew chat (3g-1) with the keyboard,
+# the @-mention picker, the attach menu and the poll sheet, and the live map (3g-4).
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-2-everyday
+- tapOn:
+    id: 'home-header-inbox'
+- extendedWaitUntil:
+    visible:
+      id: 'inbox-screen'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3b-4-inbox
+- runFlow: home.yaml
+- tapOn:
+    id: 'home-header-crew'
+- extendedWaitUntil:
+    visible:
+      id: 'crews-start'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-3-crews
+- runFlow:
+    file: dismiss.yaml
+    env:
+      ID: crews-sheet
+      MARK: crews-start
+- runFlow: home.yaml
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-1-chat
+- tapOn:
+    id: 'chat-composer'
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-1-chat-keyboard
+- inputText: '@'
+- runFlow:
+    when:
+      visible:
+        id: 'chat-mentions'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: ${LANG}-3g-1-mentions-keyboard
+- eraseText: 1
+- hideKeyboard
+- tapOn: 'Add attachment|Thêm tệp đính kèm'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-attach'
+    timeout: 5000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-1-attach
+# The attach menu's rows carry no test id: English, or Vietnamese where it is translated.
+- tapOn: 'Poll|Bình chọn'
+- extendedWaitUntil:
+    visible:
+      id: 'new-poll'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-1-new-poll
+- tapOn:
+    id: 'new-poll-question'
+- inputText: 'Dinner tonight?'
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-1-new-poll-keyboard
+- hideKeyboard
+- runFlow:
+    file: dismiss.yaml
+    env:
+      ID: new-poll
+      MARK: new-poll-question
+- tapOn:
+    id: 'chat-map'
+- extendedWaitUntil:
+    visible:
+      id: 'live-map-screen'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3g-4-live-map
+- runFlow: home.yaml

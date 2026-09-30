@@ -50,7 +50,13 @@ export function DashedAddCard({
       <Text variant="h3" style={styles.plus} accessibilityElementsHidden>
         +
       </Text>
-      <Text variant="label" color={theme.semantic.text.secondary} style={styles.label}>
+      <Text
+        variant="label"
+        color={theme.semantic.text.secondary}
+        // Inside the circle the label is set on two lines ("PITCH A / PLACE"); the card keeps one.
+        singleLine={shape === 'card'}
+        style={styles.label}
+      >
         {label}
       </Text>
     </PressScale>

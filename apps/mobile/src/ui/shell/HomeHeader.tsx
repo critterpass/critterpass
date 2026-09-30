@@ -14,6 +14,7 @@ import { useFontScale } from '@/lib/a11y/use-font-scale';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
 import { Row } from '../layout/Row';
+import { useHeaderOverlapGuard } from '../qa/header-overlap';
 import { Stack } from '../layout/Stack';
 import { Sticker } from '../sticker/Sticker';
 import { Text } from '../text/Text';
@@ -145,9 +146,10 @@ export function HomeHeader(props: HomeHeaderProps) {
   const chat = props.unreadChat ?? 0;
   const inbox = props.unreadInbox ?? 0;
   const faces = props.members.slice(0, MAX_FACES);
+  const qa = useHeaderOverlapGuard('home-header');
 
   return (
-    <Stack style={styles.root}>
+    <Stack style={styles.root} onLayout={qa.onLayout}>
       <Pressable
         testID="home-header-profile"
         accessibilityRole="button"
@@ -194,11 +196,12 @@ export function HomeHeader(props: HomeHeaderProps) {
             >
               {crewName}
             </Text>
-            <View style={styles.caret} />
+            <View style={styles.caret} ref={qa.ref('crew-caret')} />
           </Row>
         </Pressable>
         <Row gap="8">
           <Pressable
+            ref={qa.ref('chat')}
             testID="home-header-chat"
             accessibilityRole="button"
             accessibilityLabel={
@@ -231,6 +234,7 @@ export function HomeHeader(props: HomeHeaderProps) {
             ) : null}
           </Pressable>
           <Pressable
+            ref={qa.ref('inbox')}
             testID="home-header-inbox"
             accessibilityRole="button"
             accessibilityLabel={

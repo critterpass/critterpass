@@ -43,4 +43,4 @@ xcrun simctl install "$udid" "$app"
 
 # shellcheck disable=SC2086 # the flow list is intentionally word-split
 npx --yes "$tsx" "$here/run-shard.ts" --platform ios --device "$udid" --out "$out_dir" \
-  --env JS_COMMIT --env OTP_TEST_CODE $flows
+  --env JS_COMMIT --env OTP_TEST_CODE --env CREW_ID --env CREW_NAME $flows

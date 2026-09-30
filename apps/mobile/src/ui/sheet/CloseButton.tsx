@@ -4,6 +4,7 @@ import type { StyleProp, ViewStyle } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
+import { useBackAffordance } from '../qa/back-affordance';
 import { degrees, makeStyles, MIN_TOUCH_TARGET, sizeToken } from '../theme';
 
 /** 40 pt disc, the header-pill height (docs/design-system.md §2.1 `CloseButton`). */
@@ -50,6 +51,7 @@ export function CloseButton({
 }: CloseButtonProps) {
   const { t } = useLingui();
   const styles = useStyles();
+  useBackAffordance();
   return (
     <Pressable
       testID={testID}
