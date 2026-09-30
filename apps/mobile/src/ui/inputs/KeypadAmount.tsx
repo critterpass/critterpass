@@ -174,7 +174,10 @@ export function KeypadAmount({ value, currency, approx, label }: KeypadAmountPro
           {currency}
         </Text>
         {metrics === null ? null : (
-          <Row>
+          // The rolling strips hold every numeral, off screen too: iOS would expose each one as
+          // its own element (and a tap by text could land on one). The amount reads as a whole
+          // from the label above.
+          <Row accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
             {digitColumns.map((column, index) => {
               const fromRight = digitColumns.length - index;
               const grouped = fromRight % 3 === 0 && index > 0;
