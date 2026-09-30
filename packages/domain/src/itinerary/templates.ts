@@ -8,13 +8,11 @@ export interface DraftCopy {
   readonly message: string;
 }
 
-const copy = (id: string, message: string): DraftCopy => ({ id, message });
-
-export const DRAFT_READY_TITLE = copy(
-  'notifications.draft.ready.title',
-  "{guide}'s draft is ready",
-);
-export const DRAFT_READY_BODY = copy(
-  'notifications.draft.ready.body',
-  'Your {place} draft is in. Only you can see it for now.',
-);
+export const DRAFT_READY_TITLE = /*i18n*/ {
+  id: 'notifications.draft.ready.title',
+  message: "{guide}'s draft is ready",
+};
+export const DRAFT_READY_BODY = /*i18n*/ {
+  id: 'notifications.draft.ready.body',
+  message: 'Your {place} draft is in. Only you can see it for now.',
+};
