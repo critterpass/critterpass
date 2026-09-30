@@ -18,6 +18,7 @@ import { createAuditedSupplierHttp } from './http';
 import { affiliateLinkConfigFromEnv, type SupplierEnv } from './link-config';
 import { viatorPortFromEnv } from './order-port';
 import { registerOrderRoutes } from './order-routes';
+import { rideRoutingFromEnv } from './ride-fare-estimate';
 import { createRideQuoter, grabEstimatorFromEnv, registerRideQuoteRoute } from './rides-quote';
 import { registerSupplierPlanProviders } from './plan-providers';
 import { registerSettleDoor } from './settle-door';
@@ -68,7 +69,10 @@ export function registerSupplierRoutes(
   const quoter = createRideQuoter({
     pool: doors.pool,
     grab: grabEstimatorFromEnv(env, http),
-    onError: (error) => doors.logger.warn({ err: error }, 'grab farefeed failed'),
+    routing: rideRoutingFromEnv(env, (error) =>
+      doors.logger.warn({ err: error }, 'ride routing unavailable'),
+    ),
+    onError: (error) => doors.logger.warn({ err: error }, 'ride quote failed'),
   });
   registerRideQuoteRoute(app, { sessions: doors.sessions, quoter });
 }

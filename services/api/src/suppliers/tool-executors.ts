@@ -23,6 +23,7 @@ import { createAuditedSupplierHttp } from './http';
 import type { SupplierEnv } from './link-config';
 import { viatorPortFromEnv, type ActivityBookingPort } from './order-port';
 import { toMinor } from './order-store';
+import { rideRoutingFromEnv } from './ride-fare-estimate';
 import { createRideQuoter, grabEstimatorFromEnv, type RideQuoter } from './rides-quote';
 
 function turnTrip(context: ToolContext): string {
@@ -41,7 +42,11 @@ export function supplierToolDepsFromEnv(
 ): SupplierToolDeps {
   const http = createAuditedSupplierHttp(pool);
   return {
-    quoter: createRideQuoter({ pool, grab: grabEstimatorFromEnv(env, http) }),
+    quoter: createRideQuoter({
+      pool,
+      grab: grabEstimatorFromEnv(env, http),
+      routing: rideRoutingFromEnv(env),
+    }),
     port: viatorPortFromEnv(env, http),
   };
 }
