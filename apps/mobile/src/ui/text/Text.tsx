@@ -1,6 +1,6 @@
 import { Children, isValidElement, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Text as RNText } from 'react-native';
+import { Text as RNText, StyleSheet } from 'react-native';
 import type { StyleProp, TextProps as RNTextProps, TextStyle } from 'react-native';
 
 import type { TypographyValue } from '@cp/design-tokens';
@@ -18,7 +18,7 @@ import { useSurfaceTone } from '../surface/Scaffold';
 import type { Theme } from '../theme';
 import { useTheme } from '../theme';
 import { ADVANCE_RATIO, AUTO_FIT_MIN_SCALE, useAutoFit } from './auto-fit';
-import { glyphRoomStyle, topGlyphRoomEm } from './glyph-room';
+import { glyphRoomStyle, lineBoxEm } from './glyph-room';
 
 const { type } = tokens;
 
@@ -55,6 +55,13 @@ export type TextVariant = keyof typeof TEXT_VARIANTS;
  * line rather than truncate (docs/design-system.md, expansion).
  */
 const ONE_LINE_VARIANTS: ReadonlySet<TextVariant> = new Set(['buttonSm', 'label']);
+
+/**
+ * Variants set inside a control (pill, chip, badge) that centres them, with room above the line:
+ * their glyph room is always pulled up, since keeping it inside the text's slot would push the
+ * label below the control's centre.
+ */
+const CONTROL_LABEL_VARIANTS: ReadonlySet<TextVariant> = new Set(['buttonLg', 'buttonSm', 'label']);
 
 export interface TextProps extends Omit<RNTextProps, 'style' | 'children' | 'allowFontScaling'> {
   readonly variant?: TextVariant | undefined;
@@ -214,9 +221,15 @@ export function Text({
     ...(uppercase && transformed.hasElements ? { textTransform: 'uppercase' } : {}),
   };
 
-  // Tight display leading would otherwise clip cap tops and stacked marks (Ệ, Ữ) off the first line.
-  const roomPt = topGlyphRoomEm(font.fontFamily, font.lineHeightMultiplier) * fontSize;
-  const room = glyphRoomStyle(roomPt, style, flush);
+  // Tight display leading would otherwise clip cap tops and stacked marks (Ệ, Ữ) off the first
+  // line, and ride high on iOS; a caller's own line height (a wrapped pill label) is what's laid out.
+  const callerLineHeight = StyleSheet.flatten(style)?.lineHeight;
+  const lineHeight =
+    typeof callerLineHeight === 'number' ? callerLineHeight : fontSize * font.lineHeightMultiplier;
+  const box = lineBoxEm(font.fontFamily, lineHeight / fontSize);
+  const roomPt = box.room * fontSize;
+  const pulledPt = (box.room - box.shift) * fontSize;
+  const room = glyphRoomStyle({ room: roomPt, shift: box.shift * fontSize }, style, flush);
 
   return (
     <RNText
@@ -227,7 +240,14 @@ export function Text({
       onLayout={(event) => {
         // Pulled up above its parent's top edge (the first line of a scroll view's content, which
         // clips there), the room would be cut off with the glyphs it makes room for: keep it inside.
-        if (!flush && roomPt > 0 && event.nativeEvent.layout.y < -0.5) setFlush(true);
+        if (
+          !flush &&
+          pulledPt > 0 &&
+          !CONTROL_LABEL_VARIANTS.has(variant) &&
+          event.nativeEvent.layout.y < -0.5
+        ) {
+          setFlush(true);
+        }
         fit.onLayout(event);
         onLayout?.(event);
       }}

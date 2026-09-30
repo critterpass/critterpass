@@ -7,7 +7,7 @@ import type { TextStyle } from 'react-native';
 
 import { renderWithI18n } from '../../lib/i18n/testing';
 import { ThemeProvider } from '../../lib/theme';
-import { FACE_METRICS, glyphRoomStyle, topGlyphRoomEm } from '../text/glyph-room';
+import { FACE_METRICS, glyphRoomStyle, lineBoxEm } from '../text/glyph-room';
 import { Text, TEXT_VARIANTS } from '../text/Text';
 import type { TextVariant } from '../text/Text';
 
@@ -119,9 +119,10 @@ describe('glyph room', () => {
   const variants = Object.keys(TEXT_VARIANTS) as TextVariant[];
   const STACKED = 'VIỆT NAM · ĐẶT CHỖ · CHUYẾN ĐI';
 
-  // Every variant, in a Latin, a Vietnamese and a Thai locale, at 1x and 2x text size: the first
-  // line's tallest glyph must fit inside the text box, and the box must sit exactly where the
-  // designed leading puts it (the room is padded in and pulled back out).
+  // Every variant, in a Latin, a Vietnamese and a Thai locale, at 1x and 2x text size (laid out as
+  // on iOS, which gives up a short line's top): the first line's tallest glyph must fit inside the
+  // text box, the face must sit centred on the line, and the text's slot must keep the designed
+  // leading (the room is padded in and pulled back out, the centring shift given back below).
   it.each(['en', 'vi', 'th'])('fits every glyph of every variant in %s', async (locale) => {
     for (const fontScale of [1, 2]) {
       const { getAllByTestId } = await renderWithI18n(
@@ -142,34 +143,62 @@ describe('glyph room', () => {
         if (!metrics) continue;
         const faceHeight = metrics.ascent + metrics.descent;
         const multiplier = lineHeight / fontSize;
-        const baselineFromTop =
+        const iosBaseline =
           multiplier >= faceHeight
             ? (multiplier - faceHeight) / 2 + metrics.ascent
             : multiplier - metrics.descent;
+        const centredBaseline = (multiplier - faceHeight) / 2 + metrics.ascent;
         const paddingTop = (style.paddingTop as number | undefined) ?? 0;
         const marginTop = (style.marginTop as number | undefined) ?? 0;
-        expect(paddingTop + baselineFromTop * fontSize).toBeGreaterThanOrEqual(
+        const marginBottom = (style.marginBottom as number | undefined) ?? 0;
+        expect(paddingTop + iosBaseline * fontSize).toBeGreaterThanOrEqual(
           metrics.glyphTop * fontSize - 0.001,
         );
-        expect(paddingTop + marginTop).toBeCloseTo(0, 6);
+        // The content's top moves down by the shift that centres the face on the line...
+        expect(paddingTop + marginTop + iosBaseline * fontSize).toBeCloseTo(
+          centredBaseline * fontSize,
+          6,
+        );
+        // ...and the slot below the text keeps the designed leading.
+        expect(paddingTop + marginTop + marginBottom).toBeCloseTo(0, 6);
       }
     }
   });
 
-  it('gives the tight display leading room for stacked marks', () => {
-    // Archivo at the display leading: caps and marks reach 1.059 em, the baseline sits 0.65 em down.
-    expect(topGlyphRoomEm('Archivo-W70-900', 0.86)).toBeCloseTo(0.409, 3);
-    expect(topGlyphRoomEm('Archivo-W70-900', 1.0)).toBeCloseTo(0.269, 3);
-    expect(topGlyphRoomEm('system', 0.86)).toBe(0);
+  it('centres the face on a short line on iOS as Android does', () => {
+    // Archivo at the display leading: caps and marks reach 1.059 em. iOS puts the baseline 0.65 em
+    // down (descent above the bottom), Android 0.764 em (the face centred on the line).
+    const ios = lineBoxEm('Archivo-W70-900', 0.86, 'ios');
+    expect(ios.room).toBeCloseTo(0.409, 3);
+    expect(ios.shift).toBeCloseTo(0.114, 3);
+    const android = lineBoxEm('Archivo-W70-900', 0.86, 'centred');
+    expect(android.room).toBeCloseTo(0.295, 3);
+    expect(android.shift).toBe(0);
+    // Both end with the tallest mark the same distance above the line.
+    expect(ios.room - ios.shift).toBeCloseTo(android.room, 6);
+    // A line taller than the face is centred on both.
+    expect(lineBoxEm('Geist-800', 1.4, 'ios')).toEqual(lineBoxEm('Geist-800', 1.4, 'centred'));
+    expect(lineBoxEm('system', 0.86, 'ios')).toEqual({ room: 0, shift: 0 });
   });
 
-  it('adds to the caller’s own top spacing and leaves non-numeric spacing alone', () => {
-    expect(glyphRoomStyle(10, { paddingTop: 4, marginVertical: 6 })).toEqual({
+  it('adds to the caller’s own spacing and leaves non-numeric spacing alone', () => {
+    expect(glyphRoomStyle({ room: 10, shift: 0 }, { paddingTop: 4, marginVertical: 6 })).toEqual({
       paddingTop: 14,
       marginTop: -4,
     });
-    expect(glyphRoomStyle(10, { marginTop: 'auto' })).toBeNull();
-    expect(glyphRoomStyle(0, undefined)).toBeNull();
+    expect(glyphRoomStyle({ room: 10, shift: 2 }, { marginBottom: 3 })).toEqual({
+      paddingTop: 10,
+      marginTop: -8,
+      marginBottom: 1,
+    });
+    // Kept inside its slot, the box never starts above it.
+    expect(glyphRoomStyle({ room: 10, shift: 2 }, undefined, true)).toEqual({
+      paddingTop: 10,
+      marginTop: 0,
+      marginBottom: -2,
+    });
+    expect(glyphRoomStyle({ room: 10, shift: 0 }, { marginTop: 'auto' })).toBeNull();
+    expect(glyphRoomStyle({ room: 0, shift: 0 }, undefined)).toBeNull();
   });
 });
 
@@ -214,5 +243,22 @@ describe('glyph room at the top of a scroll view', () => {
     const pulledUp = marginTopOf(title);
     await fireEvent(title, 'layout', layoutAt(24 + pulledUp));
     expect(marginTopOf(screen.getByTestId('title'))).toBe(pulledUp);
+  });
+
+  it('keeps a control label centred where a wrapper puts its box above the wrapper’s top', async () => {
+    // A pill's label sits in a wrapper with no padding (a flap, a row with an icon): the room
+    // reaches above the wrapper but stays inside the pill, so the label is never pushed down.
+    await renderWithI18n(
+      <ThemeProvider fontScale={1}>
+        <Text variant="buttonSm" testID="label">
+          Next
+        </Text>
+      </ThemeProvider>,
+    );
+    const label = screen.getByTestId('label');
+    const pulledUp = marginTopOf(label);
+    expect(pulledUp).toBeLessThan(0);
+    await fireEvent(label, 'layout', layoutAt(pulledUp));
+    expect(marginTopOf(screen.getByTestId('label'))).toBe(pulledUp);
   });
 });
