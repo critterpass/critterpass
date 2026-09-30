@@ -55,6 +55,8 @@ const useStyles = makeStyles((th) => ({
     borderWidth: 2,
     borderColor: th.semantic.bg.base,
   },
+  // A fixed box: the native annotation measures its child once, before the pin lays out.
+  pinBox: { width: PIN + 4, height: PIN + 4, alignItems: 'center', justifyContent: 'center' },
   empty: {
     position: 'absolute',
     top: 0,
@@ -174,8 +176,10 @@ export function PlanMap(props: PlanMapProps) {
               />
             ))}
             {model.pins.map((pin) => (
-              <ViewAnnotation key={pin.key} lngLat={[pin.lng, pin.lat]}>
-                <NumberPin pin={pin} onPress={() => props.onOpenItem(pin)} />
+              <ViewAnnotation key={pin.key} lngLat={[pin.lng, pin.lat]} anchor="center">
+                <View style={styles.pinBox} collapsable={false}>
+                  <NumberPin pin={pin} onPress={() => props.onOpenItem(pin)} />
+                </View>
               </ViewAnnotation>
             ))}
           </MapLibreMap>
