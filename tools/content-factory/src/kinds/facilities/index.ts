@@ -1,12 +1,13 @@
 /**
- * Facilities for the six guide destinations: at least one hospital with an emergency department
+ * Facilities for the guide destinations: at least one hospital with an emergency department
  * and one pharmacy each (plus clinics where the sources name them). Names and phone numbers must
  * appear in the cited source; coordinates are checked against the destination's country and, like
  * every safety record, verified by a person before anything publishes.
  */
-import { FACILITY_KINDS, facilityItemSchema, type ContentItem } from '@cp/content';
+import { FACILITY_KINDS, facilityItemSchema, loadRelease, type ContentItem } from '@cp/content';
 import { z } from 'zod';
 
+import { liveArtifact, openPool } from '../../db';
 import { insidePlace } from '../../data/country-bounds';
 import { PLACE_FACTS } from '../../data/place-facts';
 import { research, searchFromEnv, type ResearchHit } from '../../search';
@@ -18,29 +19,9 @@ import {
   todayIso,
 } from '../emergency/sources';
 import { registerKind } from '../registry';
+import { CITY, LOCAL_QUERIES } from './queries';
 import type { Brief, GenerationUnit, KindModule, Prompt } from '../types';
 
-const CITY: Readonly<Record<string, string>> = {
-  bali: 'Bali Denpasar Kuta Ubud',
-  kyoto: 'Kyoto',
-  iceland: 'Reykjavik Iceland',
-  'mexico-city': 'Mexico City',
-  lisbon: 'Lisbon',
-  cusco: 'Cusco Peru',
-};
-
-/** Local-language searches that find hospitals and pharmacies English queries miss. */
-const LOCAL_QUERIES: Readonly<Record<string, readonly string[]>> = {
-  bali: ['rumah sakit IGD 24 jam Denpasar Bali', 'apotek 24 jam Denpasar Kuta'],
-  kyoto: ['京都市 救急病院 夜間', '京都市 薬局 営業時間'],
-  iceland: ['Landspítali bráðamóttaka Fossvogi', 'apótek Reykjavík opið'],
-  'mexico-city': [
-    'hospital urgencias 24 horas Ciudad de México',
-    'farmacia 24 horas Ciudad de México',
-  ],
-  lisbon: ['Hospital de Santa Maria Lisboa urgência contactos', 'farmácia de serviço Lisboa'],
-  cusco: ['clínica emergencias 24 horas Cusco', 'farmacia Cusco centro histórico'],
-};
 const GENERIC_WORDS = new Set([
   'hospital',
   'pharmacy',
@@ -64,11 +45,33 @@ interface CityInput {
   readonly hits: readonly ResearchHit[];
 }
 
-async function facilitiesBrief(): Promise<Brief> {
+/** The live release's facilities outside `researched`, kept as they are (and as verified). */
+async function carriedFacilities(researched: readonly string[]): Promise<unknown[]> {
+  const pool = openPool();
+  if (pool === null)
+    throw new Error('a partial facilities batch reads the live release: set DATABASE_URL');
+  try {
+    const artifact = await liveArtifact(pool, 'facilities');
+    if (artifact === undefined) return [];
+    return loadRelease(artifact, 'facilities').items.filter(
+      (item) => !researched.includes(item.destination),
+    );
+  } finally {
+    await pool.end();
+  }
+}
+
+/**
+ * Researches every guide destination, or only `--opt destinations=a,b` and carries the rest over
+ * from the live release.
+ */
+async function facilitiesBrief(options: Readonly<Record<string, string>>): Promise<Brief> {
+  const wanted = options['destinations']?.split(',');
   const provider = searchFromEnv();
   const units: GenerationUnit[] = [];
   for (const [code, facts] of Object.entries(PLACE_FACTS)) {
     if (facts.destination === null) continue;
+    if (wanted !== undefined && !wanted.includes(facts.destination)) continue;
     const city = CITY[facts.destination] ?? facts.destination;
     const hits = [
       ...(await research(
@@ -86,7 +89,7 @@ async function facilitiesBrief(): Promise<Brief> {
       input: { destination: facts.destination, code, hits } satisfies CityInput,
     });
   }
-  return { units };
+  return wanted === undefined ? { units } : { units, carried: await carriedFacilities(wanted) };
 }
 
 const outputSchema = z.object({
@@ -108,7 +111,7 @@ type FacilityOutput = z.infer<typeof outputSchema>['facilities'][number];
 function facilitiesPrompt(unit: GenerationUnit): Prompt {
   const input = unit.input as CityInput;
   return {
-    system: `You list medical facilities a traveller could need, copied from sources. From the search results pick at least one hospital with an emergency department and one pharmacy (clinics too if the results name them). For each: kind (${FACILITY_KINDS.join(', ')}), name and address as the source gives them, phone only if the source states it (else null), open_24h if the source says so (else null), the latitude and longitude of that address (5 decimals), and source_url copied exactly from the result you used. Never list a facility no result names. Reply with JSON only.`,
+    system: `You list medical facilities a traveller could need, copied from sources. From the search results list every hospital with an emergency department they name (up to five, international hospitals first) and at least one pharmacy (clinics too if the results name them). For each: kind (${FACILITY_KINDS.join(', ')}), name and address as the source gives them, phone only if the source states it (else null), open_24h if the source says so (else null), the latitude and longitude of that address (5 decimals), and source_url copied exactly from the result you used. Never list a facility no result names. Reply with JSON only.`,
     user: `Destination: ${input.destination}.\nSearch results:\n${sourcesBlock(input.hits)}\n\nReturn {"facilities": [...]}.`,
     schema: outputSchema,
     jsonSchema: {
@@ -187,13 +190,14 @@ export function toFacility(
 
 export const facilitiesKind: KindModule<'facilities'> = {
   kind: 'facilities',
-  title: () => 'Facilities · six guide cities',
+  title: () => 'Facilities · guide destinations',
   gate: 'record_verification',
-  brief: () => facilitiesBrief(),
+  brief: (ctx) => facilitiesBrief(ctx.options),
   prompt: facilitiesPrompt,
   assemble: (ctx, brief, outputs) =>
-    Promise.resolve(
-      brief.units.flatMap((unit) => {
+    Promise.resolve([
+      ...(brief.carried ?? []).map((item) => facilityItemSchema.parse(item)),
+      ...brief.units.flatMap((unit) => {
         const output = outputs.get(unit.id) as z.infer<typeof outputSchema> | undefined;
         const seen = new Set<string>();
         return (output?.facilities ?? []).flatMap((f) => {
@@ -203,7 +207,7 @@ export const facilitiesKind: KindModule<'facilities'> = {
           return [item];
         });
       }),
-    ),
+    ]),
   validators: {
     items: [
       {
