@@ -36,8 +36,7 @@ export function guideCritter(guideId: GuideId): Critter {
 }
 
 export const FAB_SIZE = sizeToken(tokens.size.fab, 'size');
-/** Negative: how far the FAB rises above the tab bar's top edge. */
-export const FAB_RAISE = sizeToken(tokens.size.fab, 'raisedOffset');
+export { FAB_RAISE } from './tab-bar-metrics';
 export const FAB_RING = sizeToken(tokens.size.fab, 'ringWidth');
 const STICKER_SIZE = FAB_SIZE - tokens.space['10'];
 

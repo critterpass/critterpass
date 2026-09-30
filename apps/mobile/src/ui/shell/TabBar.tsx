@@ -4,8 +4,6 @@ import { Platform, Pressable, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { tokens } from '@cp/design-tokens';
-
 import { useThemeSettings } from '@/lib/theme';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
@@ -15,6 +13,7 @@ import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
 import { FAB_RAISE, FAB_RING, FAB_SIZE, GuideFab } from './GuideFab';
 import type { TabIconKind } from './TabIcon';
 import { TabIcon } from './TabIcon';
+import { TAB_BAR_CONTENT_HEIGHT } from './tab-bar-metrics';
 
 /** Tab route names (files under `app/(tabs)/`, created by the home/trips/wallet/pass areas). */
 export type TabRouteName = 'index' | 'trips' | 'wallet' | 'pass';
@@ -39,13 +38,7 @@ export const TAB_ROUTES: readonly TabRouteName[] = [...LEFT_SLOTS, ...RIGHT_SLOT
   (slot) => slot.route,
 );
 
-/**
- * `size.tabbar` (88) is measured on the 390 × 844 reference frame and includes its 34 pt home
- * indicator; the bar keeps the remaining design height above whatever inset the device reports
- * (gesture or 3-button navigation on Android, home indicator on iOS).
- */
-const REFERENCE_BOTTOM_INSET = 34;
-export const TAB_BAR_CONTENT_HEIGHT = tokens.size.tabbar - REFERENCE_BOTTOM_INSET;
+export { TAB_BAR_CONTENT_HEIGHT };
 
 /** Labels hide from AX1 up (iOS large-content viewer pattern); below that they shrink to 9 pt. */
 export const LABEL_HIDE_FONT_SCALE = 1.6;
