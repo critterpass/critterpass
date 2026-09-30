@@ -26,6 +26,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-just-you'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-just-you'
@@ -56,6 +57,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-clash'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-clash'
@@ -137,6 +139,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-just-you'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-just-you'
@@ -167,6 +170,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-clash'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-clash'

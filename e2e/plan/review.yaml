@@ -26,6 +26,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review'
@@ -56,6 +57,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-all-dropped'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-all-dropped'
@@ -86,6 +88,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-must-do'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-must-do'
@@ -116,6 +119,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-voting'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-voting'
@@ -146,6 +150,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-voted'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-voted'
@@ -176,6 +181,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-stale'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-stale'
@@ -206,6 +212,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-expired'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-expired'
@@ -236,6 +243,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-approved'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-approved'
@@ -266,6 +274,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-failed'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-failed'
@@ -296,6 +305,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-loading'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-loading'
@@ -326,6 +336,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-chat-cards'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-chat-cards'
@@ -407,6 +418,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review'
@@ -437,6 +449,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-all-dropped'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-all-dropped'
@@ -467,6 +480,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-must-do'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-must-do'
@@ -497,6 +511,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-voting'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-voting'
@@ -527,6 +542,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-voted'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-voted'
@@ -557,6 +573,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-stale'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-stale'
@@ -587,6 +604,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-expired'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-expired'
@@ -617,6 +635,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-approved'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-approved'
@@ -647,6 +666,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-failed'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-failed'
@@ -677,6 +697,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-loading'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-loading'
@@ -707,6 +728,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-review-chat-cards'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-review-chat-cards'

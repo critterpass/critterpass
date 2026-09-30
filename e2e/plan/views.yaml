@@ -26,6 +26,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-views-map'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-views-map'
@@ -56,6 +57,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-views-map-offline'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-views-map-offline'
@@ -86,6 +88,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-views-calendar'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-views-calendar'
@@ -116,6 +119,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-views-calendar-no-dates'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-views-calendar-no-dates'
@@ -146,6 +150,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-subscribe'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-subscribe'
@@ -176,6 +181,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-write'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-write'
@@ -206,6 +212,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-written'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-written'
@@ -236,6 +243,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-denied'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-denied'
@@ -266,6 +274,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-revoked'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-revoked'
@@ -347,6 +356,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-views-map'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-views-map'
@@ -377,6 +387,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-views-map-offline'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-views-map-offline'
@@ -407,6 +418,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-views-calendar'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-views-calendar'
@@ -437,6 +449,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-views-calendar-no-dates'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-views-calendar-no-dates'
@@ -467,6 +480,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-subscribe'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-subscribe'
@@ -497,6 +511,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-write'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-write'
@@ -527,6 +542,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-written'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-written'
@@ -557,6 +573,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-denied'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-denied'
@@ -587,6 +604,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-export-revoked'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-export-revoked'

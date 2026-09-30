@@ -26,6 +26,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview'
@@ -56,6 +57,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-sweep'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-sweep'
@@ -86,6 +88,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-loading'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-loading'
@@ -116,6 +119,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-empty'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-empty'
@@ -146,6 +150,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-empty-member'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-empty-member'
@@ -176,6 +181,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-offline'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-offline'
@@ -206,6 +212,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-conflict'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-conflict'
@@ -236,6 +243,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-read-only'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-read-only'
@@ -266,6 +274,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-in-trip'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-in-trip'
@@ -296,6 +305,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-draft'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-draft'
@@ -377,6 +387,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview'
@@ -407,6 +418,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-sweep'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-sweep'
@@ -437,6 +449,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-loading'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-loading'
@@ -467,6 +480,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-empty'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-empty'
@@ -497,6 +511,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-empty-member'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-empty-member'
@@ -527,6 +542,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-offline'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-offline'
@@ -557,6 +573,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-conflict'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-conflict'
@@ -587,6 +604,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-read-only'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-read-only'
@@ -617,6 +635,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-in-trip'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-in-trip'
@@ -647,6 +666,7 @@ appId: app.critterpass.dev
     element:
       id: 'plan-views-lab-overview-draft'
     direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'plan-views-lab-overview-draft'
