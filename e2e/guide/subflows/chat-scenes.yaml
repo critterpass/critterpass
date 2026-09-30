@@ -1,0 +1,39 @@
+appId: app.critterpass.dev
+---
+# The guide sheet (3j-1) and its states, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-group, READY: guide-plan-propose, SHOT: '${PREFIX}-3j-1-group' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-empty, READY: guide-empty, SHOT: '${PREFIX}-3j-1-empty' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-thinking, READY: guide-thinking, SHOT: '${PREFIX}-3j-1-thinking' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-streaming, READY: guide-answer-live, SHOT: '${PREFIX}-3j-1-streaming' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-sources, READY: guide-sources, SHOT: '${PREFIX}-3j-1-sources' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-rated, READY: guide-conversation, SHOT: '${PREFIX}-3j-1-rated' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-error, READY: guide-retry, SHOT: '${PREFIX}-3j-1-error' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-refused, READY: guide-error, SHOT: '${PREFIX}-3j-1-refused' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-help, READY: guide-help-card, SHOT: '${PREFIX}-3j-1-help' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-offline, READY: guide-offline-queue, SHOT: '${PREFIX}-3j-1-offline' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-sent, READY: guide-plan-outcome, SHOT: '${PREFIX}-3j-1-sent' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-checking, READY: guide-filler, SHOT: '${PREFIX}-3j-1-checking' }

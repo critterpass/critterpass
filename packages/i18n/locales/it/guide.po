@@ -6,3 +6,219 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.cost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.phrase"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.anItem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
+msgid "guide.composer.placeholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.callCar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptSlow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.copied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.groupTab"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.group"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
+msgid "guide.sheet.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.helpful"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.greeting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.moderation"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.cannotCheck"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.offline.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.busy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.applied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.meTab"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.justMe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.privateTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.private"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.actionsHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.noCost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.notHelpful"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.pharmacy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.applyMine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-plan-card.tsx
+msgid "guide.plan.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.propose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.propose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.rate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.review"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.newItem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.filler"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.menu"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.offline.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptRain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptFood"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptWhere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptWhen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.modes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.ratedUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.ratedDown"
+msgstr ""

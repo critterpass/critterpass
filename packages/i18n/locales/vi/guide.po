@@ -6,3 +6,219 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.cost"
+msgstr "{cost} cho cả chuyến"
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.phrase"
+msgstr "Một thẻ câu nói mới"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.anItem"
+msgstr "Một mục trong lịch trình"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
+msgid "guide.composer.placeholder"
+msgstr "Hỏi, hoặc giữ để nói"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.callCar"
+msgstr "Gọi xe"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptSlow"
+msgstr "Mình làm ngày 2 thong thả hơn được không?"
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.cancel"
+msgstr "Huỷ câu hỏi lúc nửa đêm"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.copied"
+msgstr "Đã chép"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.copy"
+msgstr "Chép"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.groupTab"
+msgstr "Cả nhóm"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.group"
+msgstr "Chế độ nhóm · cả {count} người đều xem được"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
+msgid "guide.sheet.label"
+msgstr "Trò chuyện với hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.helpful"
+msgstr "Hữu ích"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.greeting"
+msgstr "Chào, mình là {guideName}. Cứ hỏi mình bất cứ điều gì về chuyến đi, lớn hay nhỏ."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptCrew"
+msgstr "Làm sao để cả nhóm bắt đầu lên kế hoạch?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.moderation"
+msgstr "Câu này mình không trả lời được. Nó không qua được kiểm tra an toàn."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.cannotCheck"
+msgstr "Mình chưa kiểm tra được chuyện đó lúc này, nên mình sẽ không đoán bừa."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.unavailable"
+msgstr "Mình lạc mất mạch suy nghĩ rồi. Câu đó không bị tính lượt."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.offline.line"
+msgstr "Mình sẽ trả lời khi bạn có mạng lại."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.busy"
+msgstr "Giờ mình đang bận quá. Chờ một phút rồi hỏi lại nhé."
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.applied"
+msgstr "Đã vào lịch trình"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.meTab"
+msgstr "Chỉ mình tôi"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.justMe"
+msgstr "Chỉ mình tôi"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.privateTrip"
+msgstr "Chỉ mình tôi · {place}"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.private"
+msgstr "Chỉ mình tôi · chỉ bạn xem được"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.body"
+msgstr "Số khẩn cấp ở địa phương và cả nhóm của bạn chỉ cách một chạm trong mục Trợ giúp."
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.actionsHint"
+msgstr "Nhấn giữ để xem thao tác"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.noCost"
+msgstr "Chi phí không đổi"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.notHelpful"
+msgstr "Không hữu ích"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.open"
+msgstr "Mở Trợ giúp"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.pharmacy"
+msgstr "Nhà thuốc"
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.applyMine"
+msgstr "Thay đổi lịch trình cho riêng ngày của bạn"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-plan-card.tsx
+msgid "guide.plan.pending"
+msgstr "Thay đổi lịch trình đang tới…"
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.propose"
+msgstr "Đã gửi thay đổi lịch trình cho cả nhóm"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.propose"
+msgstr "Đề xuất cho nhóm"
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.rate"
+msgstr "Đánh giá câu trả lời của hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.review"
+msgstr "Xem lại"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.sent"
+msgstr "Đã gửi vào nhóm chat để bình chọn"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.newItem"
+msgstr "Một điều mới"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.filler"
+msgstr "Mình vẫn đang kiểm tra, chờ chút nhé…"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.removed"
+msgstr "Bỏ khỏi lịch trình"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.refused"
+msgstr "Chuyện đó mình không giúp được. Hỏi mình về chuyến đi nhé?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.closed"
+msgstr "Thay đổi này không còn mở nữa"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.menu"
+msgstr "Dịch thực đơn"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.offline.waiting"
+msgstr "Đang chờ có mạng"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptRain"
+msgstr "Nếu mai trời mưa thì sao?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptFood"
+msgstr "Tối nay mình ăn ở đâu?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptWhere"
+msgstr "Chuyến tới mình nên đi đâu?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptWhen"
+msgstr "Tháng nào đi là đẹp nhất?"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.modes"
+msgstr "Ai xem được cuộc trò chuyện này"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.title"
+msgstr "Bạn không phải tự lo chuyện này một mình"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.ratedUp"
+msgstr "Bạn thấy câu này hữu ích"
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.ratedDown"
+msgstr "Bạn thấy câu này chưa hữu ích"
