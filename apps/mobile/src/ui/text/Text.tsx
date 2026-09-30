@@ -262,6 +262,7 @@ export function Text({
             text,
             truncationIsBug: numberOfLines === undefined,
             cutByFit: fit.overflowed,
+            lineLimited: fit.numberOfLines !== undefined,
             // Larger text sizes wrap labels by design (docs/design-system.md, Dynamic Type).
             singleLine: (oneLineIntent ?? ONE_LINE_VARIANTS.has(variant)) && fontScale <= 1,
           });
