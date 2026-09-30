@@ -65,7 +65,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerLocationRouteFromEnv(app, doors, env);
   registerLiveMapRoutes(app, doors);
   registerAiRoutes(app, doors, env, logger);
-  registerGuideRoutes(app, doors, env);
+  registerGuideRoutes(app, doors, env, keyring);
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerTravelDataRoutes(app, doors);
   registerCostRoutes(app, doors);
