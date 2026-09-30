@@ -63,15 +63,17 @@ async function seedOptions(s: TestLocalFirst): Promise<void> {
 
 describe('dates step data', () => {
   it('reads counts and options, and shows an ask queued on this phone as asked', async () => {
-    stack = await openTestLocalFirst();
+    stack = await openTestLocalFirst({ holdUploads: true });
     await seedKyoto(stack);
     await seedOptions(stack);
     const { result } = await renderHook(() => useWhenData(TRIP_ID), { wrapper: stack.wrapper });
-    await waitFor(() => expect(result.current.options).toHaveLength(1));
-    expect(result.current.summaries[0]?.free_count).toBe(5);
+    // Each table is its own live query, so wait until every one of them has landed.
+    await waitFor(() => {
+      expect(result.current.options).toHaveLength(1);
+      expect(result.current.summaries[0]?.free_count).toBe(5);
+      expect(result.current.mustDoTitles.get('m1')).toBe('Inari');
+    });
     expect(result.current.options[0]).toMatchObject({ kind: 'ask_first', askState: null });
-    // Each table is its own live query: the must-dos can land a render after the options.
-    await waitFor(() => expect(result.current.mustDoTitles.get('m1')).toBe('Inari'));
 
     const sent = await stack.value.commands.send(askAvailabilityCommand, {
       trip_id: TRIP_ID,
@@ -86,7 +88,7 @@ describe('dates step data', () => {
 
 describe('answering the guide’s ask', () => {
   it('queues “Freed it” offline and says what the organiser will learn', async () => {
-    stack = await openTestLocalFirst();
+    stack = await openTestLocalFirst({ holdUploads: true });
     await renderSetup(<AskSheet trip={kyotoTrip({ me: DEV })} askId="ask-1" />, { stack });
     expect(
       screen.getByText('Winston only hears whether the week works. Never what the block is.'),
@@ -107,7 +109,7 @@ describe('answering the guide’s ask', () => {
   });
 
   it('sends a reply in words for the guide to read', async () => {
-    stack = await openTestLocalFirst();
+    stack = await openTestLocalFirst({ holdUploads: true });
     await renderSetup(<AskSheet trip={kyotoTrip({ me: DEV })} askId="ask-2" />, { stack });
     await fireEvent.changeText(screen.getByTestId('ask-words'), 'I can move it to the 12th');
     await fireEvent.press(screen.getByTestId('ask-send'));

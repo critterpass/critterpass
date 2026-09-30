@@ -127,7 +127,8 @@ describe('ask push quick replies', () => {
   });
 
   it('queues the answer from a reply that cold-started the app and opens the ask sheet', async () => {
-    stack = await openTestLocalFirst();
+    // Uploads held: the reply only has to reach the queue, never the network.
+    stack = await openTestLocalFirst({ holdUploads: true });
     jest
       .mocked(Notifications.getLastNotificationResponseAsync)
       .mockResolvedValueOnce(response('not_movable', IOS));
@@ -144,10 +145,13 @@ describe('ask push quick replies', () => {
         answer: 'not_movable',
       });
     });
-    expect(router.push).toHaveBeenCalledWith({
-      pathname: '/[tripId]/setup/ask/[askId]',
-      params: { tripId: TRIP_ID, askId: ASK_ID, answered: 'not_movable' },
-    });
+    // The sheet opens once the answer is queued, a tick after the row lands.
+    await waitFor(() =>
+      expect(router.push).toHaveBeenCalledWith({
+        pathname: '/[tripId]/setup/ask/[askId]',
+        params: { tripId: TRIP_ID, askId: ASK_ID, answered: 'not_movable' },
+      }),
+    );
     expect(Notifications.setNotificationCategoryAsync).toHaveBeenCalledWith(
       'cp.setup_ask',
       expect.any(Array),
