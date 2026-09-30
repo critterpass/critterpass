@@ -20,8 +20,10 @@ const INTENTS_MARKER = '// cp-alarm: App Intents package';
 
 export const APP_INTENTS_PACKAGE_SWIFT = `
 ${INTENTS_MARKER}
-import AppIntents
-import CpAlarm
+// \`internal\`, like Expo's generated module provider imports the pod: Swift 6 rejects one module
+// imported at two access levels.
+internal import AppIntents
+internal import CpAlarm
 
 /// Lists the CpAlarm pod's App Intents (the leave-by alarm's "I'm up" and snooze buttons).
 struct CritterPassAppIntents: AppIntentsPackage {

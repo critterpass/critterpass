@@ -39,7 +39,7 @@ describe('with-alarmkit config plugin', () => {
     const once = applyAppIntentsPackage(APP_DELEGATE, 'swift');
     expect(once.startsWith(APP_DELEGATE.trimEnd())).toBe(true);
     expect(once).toContain('[CpAlarmIntents.self]');
-    expect(once).toContain('import CpAlarm');
+    expect(once).toContain('internal import CpAlarm');
     expect(applyAppIntentsPackage(once, 'swift')).toBe(once);
     expect(once.split(APP_INTENTS_PACKAGE_SWIFT.trim()).length).toBe(2);
   });
