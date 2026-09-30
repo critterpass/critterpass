@@ -48,14 +48,15 @@ async function trip(status: string, startOffsetDays: number): Promise<string> {
 const status = async (tripId: string) =>
   (await q<{ status: string }>('SELECT status FROM trips WHERE id = $1', [tripId]))[0]?.status;
 
+// The event log is not app_system's to read; the owner connection reads it.
 const moves = async (tripId: string) =>
   (
-    await q<{ move: string }>(
+    await harness.pool.query<{ move: string }>(
       `SELECT (payload->>'from') || '->' || (payload->>'to') AS move FROM domain_events
         WHERE type = 'trip.status_changed' AND aggregate_id = $1 ORDER BY occurred_at, id`,
       [tripId],
     )
-  ).map((row) => row.move);
+  ).rows.map((row) => row.move);
 
 beforeAll(async () => {
   harness = await startCommandDoors(registerTripLifecycleCommands);

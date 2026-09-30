@@ -118,7 +118,8 @@ export async function startTripsWorld(): Promise<TripsWorld> {
       ).status;
     },
     async moves(tripId) {
-      const rows = await q<{ move: string }>(
+      // The event log is not app_system's to read; the owner connection reads it.
+      const { rows } = await harness.pool.query<{ move: string }>(
         `SELECT (payload->>'from') || '->' || (payload->>'to') AS move FROM domain_events
           WHERE type = 'trip.status_changed' AND aggregate_id = $1 ORDER BY occurred_at, id`,
         [tripId],
