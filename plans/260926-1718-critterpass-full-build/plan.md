@@ -11,7 +11,7 @@ critical_path_tasks: 253
 
 | Field | Value |
 |---|---|
-| Status | in_progress: 15 of 59 phases done, 15 in progress; 283 of 594 tasks done (2026-09-30 01:45). See **Progress** below |
+| Status | in_progress: 18 of 59 phases done, 24 in progress; 364 of 594 tasks done (2026-09-30 20:30). See **Progress** below |
 | Date | 2026-09-26 (Asia/Saigon) |
 | Build model | Solo founder + Claude Opus 5.5 coding agents; tasks are verifiable checkpoints — one agent pass may run many tasks or several phases; no time or session estimates |
 | Scope | Full: all 192 master-analysis features plus the driver finder (F-193–F-196, added 2026-09-27, [research](../reports/research-260927-2018-local-guide-driver-finder-feasibility-report.md)), the designed ops console (phases 58–59, added 2026-09-28), iOS + Android parity, one public launch. Master R0–R6 slicing and §12 stubs are void |
@@ -21,63 +21,124 @@ critical_path_tasks: 253
 | Stack | Own backend, never Supabase (D4): Hono on Railway SG, PlanetScale Postgres 18 HA, Better Auth, Centrifugo, self-hosted PowerSync, pg-boss, R2; Expo SDK 58 + SwiftUI/Kotlin surfaces; Claude for generation + Jev for typed decisions (D5 amended) |
 | Design | `design/` read-only; renders in `docs/design-renders/screens/*.png` + `screens.json` |
 
-## Progress (updated 2026-09-30 01:45)
+## Progress (updated 2026-09-30 20:30)
 
-**283 of 594 tasks done (48%).**
-- **Phases done (15):** 1, 3, 4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 23, 58.
-- **In progress:** 15.
-- **Not started:** 29.
+**364 of 594 tasks done (61%).**
+- **Phases done (18):** 1, 3, 4, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 23, 32, 33, 34, 58.
+- **In progress:** 20, plus 4 lanes started tonight (30, 31, 37, 38).
+- **Not started:** 17.
 
-Last night went mostly to fixing what the founder found on build 10, and to making reviews and CI faster. Those fixes don't tick plan tasks, which is why the count moved little.
+**30 Sep:**
+- **Shipped:**
+  - Build 12 went to TestFlight with the Borel guide font.
+  - Published as updates to build 12:
+    - drafting;
+    - the trip plan: overview, day timeline, review changes, personal overlay, map and calendar;
+    - guide chat;
+    - the bookings wallet;
+    - trip hub and day-of;
+    - setup and money on real data;
+    - the showdown fit;
+    - the device-sweep fixes.
+- **Merged, server:**
+  - bookings wallet (#203);
+  - billing (#205);
+  - plan ops and collaboration (#221);
+  - guide chat (#235) and dietary claims (#241);
+  - supplier core (#240);
+  - rides, vendor desk and concierge (#250);
+  - trip day (#248);
+  - tariff ride estimates (#258).
+- **Merged, app:**
+  - money (#209);
+  - drafting (#214);
+  - plan views (#232, #234);
+  - bookings wallet (#224);
+  - guide chat (#244);
+  - trip hub and day-of (#257).
+- **Fixes:**
+  - Opening a trip no longer stops sync: stream subqueries are bounded (#256).
+  - Final confirms no longer deadlock (#215).
+  - Happy-path fixes: dates lock, even room split, balances in the crew's currency (#261).
+  - Label text centred on its line (#243).
+  - Partner links on `go.` hosts (`/out/`, #247, #249).
+  - Device-sweep findings (#217, #231, #238, #236).
+- **Tooling:**
+  - The staging happy-path release gate, with videos and a report on the "Release gate" issue, runs before every TestFlight build (#242, #252).
+  - The required `ui-reviewed` check: no UI merges without reviewed design|device sheets (#218).
+  - Idle loops rest in e2e builds, so flows run faster (#254).
+  - The README front page (#237).
+  - Contract companions (#251, #253).
 
-**Critical path:** 27 trip setup (app screens in review, #163) → 28 drafting agent → 29 plan views. Wave 14 has started: the server halves of 28 (drafting agent) and 33 (money: ledger, receipts, settle up) are being built. Their app screens start when the UI fix lanes free up.
-
-**Night of 29–30 Sep:**
-- **Fixes live on staging:**
-  - Final votes land now: closing a poll no longer rejects the deciding ballot (#180).
-  - Phone sign-in: Prelude's API host, failure logging, the code sent in the right field, and resends counted as sent (#165, #174, #182). SMS works once Prelude enables custom codes on the account (founder has asked their support).
-  - Volcano levels come from GDACS and Mexico's CENAPRED, since the Smithsonian feed blocks cloud servers (#184).
-  - Phones sync only curated places. The open-data import holds 100k–500k per city, and search reaches the rest over HTTP (#189).
-- **Merged:**
-  - Android sender notifications and tap routing (#192, phase 11 done).
-  - The shared sheet header, icons and back buttons (#175).
-  - The places catalogue at city scale (#188).
-  - Phase 14 closed, with its region download screen moved to Explore (#191).
-- **Faster work:**
-  - GitHub Team plan (60 parallel jobs).
-  - Device checks run on Android unless a change is iPhone-specific (#187).
-  - CI runs once instead of twice.
-  - A lean test policy: only tests that protect behaviour (#185), with about 200 low-value tests removed (#186).
-- **Being fixed after review against the designs:** chat (#166), onboarding (#167), keyboard footer (#168), home and crews (#170), modal sheets (#172), vote (#173), stickers (#177), heading clipping (#178), Android text fit (#179), critter detail (#181), ticket (#183), trip setup (#163). None merges until its device sheets pass review.
-- **In progress:**
-  - The guide's handwriting font changes from Caveat to Mynerve, which has Vietnamese (founder's choice).
-  - The curated places batch (400 per guide city) is publishing on staging.
+**Running now (6 lanes):**
+- **The build 13 native batch:**
+  - boarding-pass brightness (#225);
+  - calendar write (#233);
+  - phrase speech (#245);
+  - font metrics (#246);
+  - the leave-by alarm (#255).
+  - Then one EAS build set → release gate → TestFlight.
+- **Supplier cards and getting around (#259):** in review.
+- **Server halves:** 31 proposal and RSVP, 30 Explore, 37 disruptions.
+- **38 help hub and crew SOS:** server, then app.
 
 | In progress | Tasks | What's left |
 |---|---|---|
-| 2 Platform spikes | 15/15 | The Android and Apple/Google sign-in rows of the device tables |
-| 5 Sticker renderer | 10/10 | Close-out |
-| 6 Motion and feedback | 8/10 | Android check of the island toast and timeline tap; haptics tests |
-| 7 App shell and components | 17/18 | Android check of the text-fit fixes (#179) |
-| 18 Content factory | 12/13 | The places batch is publishing (DeepSeek topped up 30 Sep) |
-| 19 Analytics and observability | 10/10 | Consent check on device (the PostHog key is now in the app's staging environment) |
+| 2 Platform spikes | 15/15 | Android and Apple/Google sign-in rows of the device tables |
+| 5 Sticker renderer | 10/10 | 55 fps draw-on check on a physical mid-range Android (founder) |
+| 6 Motion and feedback | 9/10 | cp-haptics test pin rides the next native change |
+| 7 App shell and components | 17/18 | Android sweep close-out |
+| 18 Content factory | 13/13 | Places batch after the FSQ OS Places / Overture licence acceptance (founder) |
+| 19 Analytics and observability | 10/10 | Consent check on device |
 | 20 Permissions, location, visits | 11/11 | Close-out |
 | 21 Links and deep links | 8/9 | Funnel verification with live analytics |
-| 22 Onboarding | 10/11 | End-to-end first-run flow after #167 |
-| 24 Crew chat | 7/8 | Chat flows on Android after #166 |
-| 25 Home, inbox, nudges | 8/9 | Home flows after #170 |
-| 26 Polls and destination vote | 11/12 | Vote flows and sheets after #173 |
-| 27 Trip setup | 7/12 | App screens in review (#163); the calendar module needs the next native build |
-| 33 Money | 12/12 | Server and app done: ledger, expenses, settle up, payout methods, budget and forecast, receipt scan and `cp-ocr` (behind `money.receipts`; its eval gate waits on the founder's receipt photos) |
-| 46 Monetization | 6/13 | Server done (billing sync, boosts, first trip free, crew yearly, paywall governor, billing console); app tasks and store accounts (App Store, Play, RevenueCat) open |
-| 39 Crew live map | 5/6 | Device data flows (share, pause, gate, window end) |
-| 51 Website | 7/11 | Web previews and web account deletion, which wait on later phases |
+| 22 Onboarding | 10/11 | iOS first-run flows; photo cut-out on a real iPhone (founder) |
+| 24 Crew chat | 7/8 | Two-device chat flows |
+| 25 Home, inbox, nudges | 8/9 | iOS Home and Inbox flows |
+| 26 Polls and destination vote | 11/12 | iOS vote-loop flows |
+| 27 Trip setup | 12/12 | Close-out after the calendar write ships in build 13 |
+| 28 Drafting agent | 10/11 | Draft supplier touches in the app (stay links, Viator availability) |
+| 29 Plan views | 12/12 | Close-out |
+| 35 Suppliers, rides, ops desk | 7/14 | App cards and getting around (#259); Viator, Agoda, GetYourGuide, Klook and Trip.com adapters wait on partner approvals |
+| 36 Trip hub and day-of | 8/11 | Leave-by alarm native module (build 13); end-to-end flows |
+| 39 Crew live map | 5/6 | Moving-crewmate flows with the simulator script |
+| 46 Monetization | 6/13 | App tasks (RevenueCat SDK goes in a native build); store accounts (founder) |
+| 51 Website | 7/11 | Previews and web account deletion wait on 31, 43, 45 and 52 |
 
-**Upcoming waves:** 14: 28 drafting agent, 33 money · 15: 29 plan views, 34 bookings wallet, 46 monetization · 16: 32 guide chat, 35 suppliers and ops desk · 17: 30 Explore, 31 proposal/RSVP, 36 trip hub, 38 help and SOS · 18–20: disruptions, critters, find a driver, quests, recap, Live Activities, voice, album, help centre, widgets · 21–23: profile, Android parity, community, store kit, drivers, launch hardening, ops console.
+**Next waves:**
+- **18–20:**
+  - 40 critters;
+  - 41 quests;
+  - 43 recap;
+  - 55 find a driver;
+  - 48 Live Activities;
+  - 42 voice;
+  - 44 album;
+  - 47 help centre;
+  - 49 widgets.
+- **21–23:**
+  - 45 profile;
+  - 50 Android parity;
+  - 52 community;
+  - 53 store kit;
+  - 56 drivers directory;
+  - 57 share with driver;
+  - 54 launch hardening;
+  - 59 ops console.
 
-**Next native build** (EAS, batched to save cost): the trip setup calendar module and Android messaging. It brings iOS build 11 on TestFlight and fresh e2e test builds.
+**Native builds:**
+- **Build 13:** the five PRs above.
+- **Build 14:** the RevenueCat SDK (monetization app), the share extension (find a driver), and the cp-haptics test pin.
 
-**Founder items:** `plans/reports/founder-actions-260927-1745-open-items-for-founder-report.md` (local). Open now: Prelude custom-code approval.
+**Founder items:** `plans/reports/founder-actions-260927-1745-open-items-for-founder-report.md` (local). Open now:
+- Viator PID and MCID;
+- Travelpayouts stays brands (Agoda, Trip.com, Hotellook, Booking.com, Expedia) plus GetYourGuide;
+- ride tariffs review in the console;
+- Prelude custom codes;
+- booking emails and receipt photos;
+- WhatsApp;
+- billing stores;
+- the photo cut-out check on build 12.
 
 ## 1. How to execute
 
@@ -106,7 +167,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 3 | [Design tokens, fonts, i18n](./phase-03-design-tokens-fonts-i18n.md) | 8 | 1 | 2 | done |
 | 4 | [Critter art core](./phase-04-critter-art-core.md) | 8 | 1 | 2 | done |
 | 5 | [Sticker renderer, bake pipeline, share images](./phase-05-critter-renderer-asset-pipeline.md) | 10 | 2, 3, 4 | 3 | in_progress (10/10) |
-| 6 | [Motion, feedback bus, gestures](./phase-06-motion-feedback-gestures.md) | 10 | 3, 4 | 3 | in_progress (8/10) |
+| 6 | [Motion, feedback bus, gestures](./phase-06-motion-feedback-gestures.md) | 10 | 3, 4 | 3 | in_progress (9/10) |
 | 7 | [App shell, components, a11y](./phase-07-app-shell-component-library.md) | 18 | 5, 6 | 4 | in_progress (17/18) |
 | 8 | [Core schema, authz + RLS, domain events](./phase-08-core-schema-authz.md) | 9 | 1 | 2 | done |
 | 9 | [Auth, anonymous-first, anti-abuse](./phase-09-auth-anonymous-antiabuse.md) | 10 | 2, 8 | 3 | done |
@@ -118,7 +179,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 15 | [Fares, weather, season & crowds](./phase-15-flights-weather-season-data.md) | 8 | 8, 11, 13 | 7 | done |
 | 16 | [Cost & constraint engine](./phase-16-cost-constraint-engine.md) | 7 | 12, 13, 14, 15 | 8 | done |
 | 17 | [Back-office & ops console](./phase-17-back-office-admin.md) | 8 | 8, 9, 10, 12, 14 | 5 | done |
-| 18 | [Content factory](./phase-18-content-factory.md) | 13 | 4, 5, 13, 14, 17 | 7 | in_progress (12/13) |
+| 18 | [Content factory](./phase-18-content-factory.md) | 13 | 4, 5, 13, 14, 17 | 7 | in_progress (13/13) |
 | 19 | [Analytics, experiments, observability](./phase-19-analytics-observability.md) | 10 | 1, 7, 8, 10, 11, 17 | 6 | in_progress (10/10) |
 | 20 | [Permissions, location, POI visits](./phase-20-permissions-location-visits.md) | 11 | 2, 7, 10, 11, 14 | 6 | in_progress (11/11) |
 | 21 | [Links & deferred deep links](./phase-21-links-deferred-deeplinks.md) | 9 | 1, 10 | 5 | in_progress (8/9) |
@@ -127,16 +188,16 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 24 | [Crew chat](./phase-24-crew-chat.md) | 8 | 10, 23 | 10 | in_progress (7/8) |
 | 25 | [Home, inbox, nudges, tips](./phase-25-home-inbox-nudges.md) | 9 | 11, 13, 15, 23, 24 | 11 | in_progress (8/9) |
 | 26 | [Polls & destination vote](./phase-26-polls-destination-vote.md) | 12 | 10, 13, 16, 18, 24, 25 | 12 | in_progress (11/12) |
-| 27 | [Trip setup](./phase-27-trip-setup.md) | 12 | 10, 16, 20, 24, 25, 26 | 13 | pending |
-| 28 | [Drafting agent & redraft](./phase-28-draft-redraft-agent.md) | 11 | 13, 16, 18, 27 | 14 | in_progress (server T1–T5 done) |
-| 29 | [Plan views, editing, collab](./phase-29-plan-views-editing-collab.md) | 12 | 24, 26, 28 | 15 | pending |
+| 27 | [Trip setup](./phase-27-trip-setup.md) | 12 | 10, 16, 20, 24, 25, 26 | 13 | in_progress (12/12) |
+| 28 | [Drafting agent & redraft](./phase-28-draft-redraft-agent.md) | 11 | 13, 16, 18, 27 | 14 | in_progress (10/11) |
+| 29 | [Plan views, editing, collab](./phase-29-plan-views-editing-collab.md) | 12 | 24, 26, 28 | 15 | in_progress (12/12) |
 | 30 | [Explore](./phase-30-explore.md) | 10 | 14, 15, 16, 26, 29, 35 | 17 | pending |
 | 31 | [Proposal, RSVP, dropout re-split](./phase-31-proposal-rsvp.md) | 10 | 11, 16, 28, 29, 34, 35, 46 | 17 | pending |
 | 32 | [Guide chat, metering, phrase cards](./phase-32-guide-chat-metering.md) | 10 | 12, 13, 24, 29 | 16 | done |
 | 33 | [Money: ledger, receipts, settle up](./phase-33-money.md) | 12 | 10, 12, 13, 27 | 14 | done |
 | 34 | [Bookings wallet, imports, flights](./phase-34-bookings-wallet-import.md) | 11 | 11, 13, 15, 33 | 15 | done |
-| 35 | [Supplier layer, rides, ops desk](./phase-35-supplier-layer-agency.md) | 14 | 13, 14, 17, 29, 33, 34, 58 | 16 | pending |
-| 36 | [Trip hub, day-of, leave-by, offline](./phase-36-trip-day-offline.md) | 11 | 11, 13, 14, 15, 18, 20, 25, 32, 34 | 17 | pending |
+| 35 | [Supplier layer, rides, ops desk](./phase-35-supplier-layer-agency.md) | 14 | 13, 14, 17, 29, 33, 34, 58 | 16 | in_progress (7/14) |
+| 36 | [Trip hub, day-of, leave-by, offline](./phase-36-trip-day-offline.md) | 11 | 11, 13, 14, 15, 18, 20, 25, 32, 34 | 17 | in_progress (8/11) |
 | 37 | [Disruptions](./phase-37-disruptions.md) | 11 | 15, 29, 35, 36 | 18 | pending |
 | 38 | [Help hub & crew SOS](./phase-38-safety-help-sos.md) | 7 | 11, 14, 18, 20, 32, 34, 35, 39 | 17 | pending |
 | 39 | [Crew live map](./phase-39-crew-live-map.md) | 6 | 12, 14, 20 | 7 | in_progress (5/6) |
@@ -146,7 +207,7 @@ Generated from phase frontmatter `depends_on` (wave = 1 + max wave of deps; task
 | 43 | [Recap, story, awards, stamps](./phase-43-recap-stamps-memory.md) | 9 | 26, 31, 33, 40 | 19 | pending |
 | 44 | [Album, postcards, print](./phase-44-album-postcards.md) | 9 | 10, 12, 13, 43 | 20 | pending |
 | 45 | [You: profile, settings, export, deletion](./phase-45-you-profile-settings.md) | 12 | 5, 12, 22, 33, 43, 47, 49 | 21 | pending |
-| 46 | [Monetization](./phase-46-monetization.md) | 13 | 9, 11, 12, 24, 33, 39, 58 | 15 | in_progress |
+| 46 | [Monetization](./phase-46-monetization.md) | 13 | 9, 11, 12, 24, 33, 39, 58 | 15 | in_progress (6/13) |
 | 47 | [Help centre, feedback, rating](./phase-47-help-feedback.md) | 8 | 17, 25, 43, 46, 58 | 20 | pending |
 | 48 | [Live Activities & Dynamic Island](./phase-48-live-activities.md) | 10 | 2, 5, 11, 34, 36, 39, 40 | 19 | pending |
 | 49 | [Actionable notifs, widgets](./phase-49-notification-surfaces-widgets.md) | 10 | 5, 11, 12, 26, 48 | 20 | pending |

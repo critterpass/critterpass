@@ -241,9 +241,9 @@ Local infra ports: Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync
 
 <!-- progress:start -->
 
-<p align="center"><img src="docs/assets/readme/progress.svg" width="760" alt="330 of 594 tasks and 17 of 59 phases done"></p>
+<p align="center"><img src="docs/assets/readme/progress.svg" width="760" alt="364 of 594 tasks and 18 of 59 phases done"></p>
 
-**330 of 594 tasks** (56%) and **17 of 59 phases** done, 18 in progress. Last updated 2026-09-30; regenerate with `pnpm readme:progress`. Narrative and next steps: [plan.md](plans/260926-1718-critterpass-full-build/plan.md).
+**364 of 594 tasks** (61%) and **18 of 59 phases** done, 20 in progress. Last updated 2026-09-30; regenerate with `pnpm readme:progress`. Narrative and next steps: [plan.md](plans/260926-1718-critterpass-full-build/plan.md).
 
 <details open>
 <summary>Phases by wave</summary>
@@ -282,14 +282,14 @@ Local infra ports: Postgres `54320`, Redis `63790`, Centrifugo `8000`, PowerSync
 | **13** | [27 · Trip setup](plans/260926-1718-critterpass-full-build/phase-27-trip-setup.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▰ | 12/12 |
 | **14** | [28 · Drafting agent & redraft](plans/260926-1718-critterpass-full-build/phase-28-draft-redraft-agent.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▱ | 10/11 |
 |  | [33 · Money: ledger, receipts, settle up](plans/260926-1718-critterpass-full-build/phase-33-money.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 12/12 |
-| **15** | [29 · Plan views, editing, collab](plans/260926-1718-critterpass-full-build/phase-29-plan-views-editing-collab.md) | ◐ in progress | ▰▰▰▱▱▱▱▱▱▱ | 3/12 |
+| **15** | [29 · Plan views, editing, collab](plans/260926-1718-critterpass-full-build/phase-29-plan-views-editing-collab.md) | ◐ in progress | ▰▰▰▰▰▰▰▰▰▰ | 12/12 |
 |  | [34 · Bookings wallet, imports, flights](plans/260926-1718-critterpass-full-build/phase-34-bookings-wallet-import.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 11/11 |
 |  | [46 · Monetization](plans/260926-1718-critterpass-full-build/phase-46-monetization.md) | ◐ in progress | ▰▰▰▰▰▱▱▱▱▱ | 6/13 |
-| **16** | [32 · Guide chat, metering, phrase cards](plans/260926-1718-critterpass-full-build/phase-32-guide-chat-metering.md) | ○ pending | ▱▱▱▱▱▱▱▱▱▱ | 0/10 |
-|  | [35 · Supplier layer, rides, ops desk](plans/260926-1718-critterpass-full-build/phase-35-supplier-layer-agency.md) | ○ pending | ▱▱▱▱▱▱▱▱▱▱ | 0/14 |
+| **16** | [32 · Guide chat, metering, phrase cards](plans/260926-1718-critterpass-full-build/phase-32-guide-chat-metering.md) | ● done | ▰▰▰▰▰▰▰▰▰▰ | 10/10 |
+|  | [35 · Supplier layer, rides, ops desk](plans/260926-1718-critterpass-full-build/phase-35-supplier-layer-agency.md) | ◐ in progress | ▰▰▰▰▰▱▱▱▱▱ | 7/14 |
 | **17** | [30 · Explore](plans/260926-1718-critterpass-full-build/phase-30-explore.md) | ○ pending | ▱▱▱▱▱▱▱▱▱▱ | 0/10 |
 |  | [31 · Proposal, RSVP, dropout re-split](plans/260926-1718-critterpass-full-build/phase-31-proposal-rsvp.md) | ○ pending | ▱▱▱▱▱▱▱▱▱▱ | 0/10 |
-|  | [36 · Trip hub, day-of, leave-by, offline](plans/260926-1718-critterpass-full-build/phase-36-trip-day-offline.md) | ○ pending | ▱▱▱▱▱▱▱▱▱▱ | 0/11 |
+|  | [36 · Trip hub, day-of, leave-by, offline](plans/260926-1718-critterpass-full-build/phase-36-trip-day-offline.md) | ◐ in progress | ▰▰▰▰▰▰▰▱▱▱ | 8/11 |
 |  | [38 · Help hub & crew SOS](plans/260926-1718-critterpass-full-build/phase-38-safety-help-sos.md) | ○ pending | ▱▱▱▱▱▱▱▱▱▱ | 0/7 |
 | **18** | [37 · Disruptions](plans/260926-1718-critterpass-full-build/phase-37-disruptions.md) | ○ pending | ▱▱▱▱▱▱▱▱▱▱ | 0/11 |
 |  | [40 · Critters: hatch, Critterdex, legendaries](plans/260926-1718-critterpass-full-build/phase-40-critters-collect.md) | ○ pending | ▱▱▱▱▱▱▱▱▱▱ | 0/11 |
