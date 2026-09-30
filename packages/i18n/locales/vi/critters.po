@@ -63,6 +63,10 @@ msgstr "{name}, gặp ở {city}"
 msgid "critters.dex.legendaryTitle"
 msgstr "{placeLine}, {span}"
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.shareLine"
+msgstr "{tier} · gặp ở {city}"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.nextForm"
 msgstr "Dạng {tier} tiếp theo: {requirement}."
@@ -135,13 +139,13 @@ msgstr "Khám phá ở quê nhà: bật"
 msgid "critters.detail.forms"
 msgstr "Các dạng · {found} trên {total}"
 
-#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.found"
-msgstr "Gặp lúc"
-
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterFound"
 msgstr "Đã gặp"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.found"
+msgstr "Gặp lúc"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.guideNotes"

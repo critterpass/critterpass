@@ -63,6 +63,10 @@ msgstr ""
 msgid "critters.dex.legendaryTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.shareLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.nextForm"
 msgstr ""
@@ -135,12 +139,12 @@ msgstr ""
 msgid "critters.detail.forms"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.found"
-msgstr ""
-
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterFound"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.found"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts

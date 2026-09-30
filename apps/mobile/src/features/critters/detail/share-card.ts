@@ -1,17 +1,13 @@
 /**
- * The critter's share card (the post and 9:16 story from `@cp/critter-art`'s `critter-card`
- * template), rendered on the phone with the app's bundled fonts from the system font manager, and
- * the phone's share hand-offs (system share sheet, save to Photos). Only found forms are shared,
- * so a name on the card is always the viewer's own.
+ * The critter's share card, drawn on the phone with Skia: the post (1080×1350) or 9:16 story
+ * (1080×1920) on paper, the found form's sticker, its name and "{tier} · found in {city}", in the
+ * app's bundled faces from the system font manager. Only found forms are shared, so a name on the
+ * card is always the viewer's own. Also the phone's share hand-offs (share sheet, save to Photos).
  */
 /* eslint-disable @typescript-eslint/no-require-imports -- native modules load lazily, so importing this never forces them under Jest. */
-/* eslint-disable lingui/no-unlocalized-strings -- font names, file extensions and URLs, never copy. */
-import {
-  buildCritterCard,
-  buildCritterCardStory,
-  type CritterCardProps,
-} from '@cp/critter-art/share/templates';
-import type { SkTypeface } from '@shopify/react-native-skia';
+/* eslint-disable lingui/no-unlocalized-strings -- font names and file extensions, never copy. */
+import type { FormSpec } from '@cp/critter-art';
+import { tokens } from '@cp/design-tokens';
 import type * as RNSkiaModule from '@shopify/react-native-skia';
 import type * as ExpoFileSystemModule from 'expo-file-system';
 import type * as MediaLibraryModule from 'expo-media-library';
@@ -20,40 +16,62 @@ import { Linking } from 'react-native';
 
 import type { ShareFormat } from '@/ui/share-image/ShareImageSheet';
 import type { ShareActionsDeps } from '@/ui/share-image/share-actions';
-import { renderShareImage } from '@/ui/share-image/render';
+import { renderStickerImage } from '@/ui/sticker/export-png';
+import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
 
-/** The template's families and the bundled faces that draw them. */
-const FACES: Readonly<Record<string, { readonly face: string; readonly weight: number }>> = {
-  Archivo: { face: 'Archivo-W100-800', weight: 800 },
-  Geist: { face: 'Geist-500', weight: 500 },
-};
-
-let fonts: Map<string, SkTypeface> | null = null;
-
-function shareFonts(): ReadonlyMap<string, SkTypeface> {
-  if (fonts !== null) return fonts;
-  const { Skia } = require('@shopify/react-native-skia') as typeof RNSkiaModule;
-  const manager = Skia.FontMgr.System();
-  fonts = new Map();
-  for (const [family, { face, weight }] of Object.entries(FACES)) {
-    try {
-      fonts.set(family, manager.matchFamilyStyle(face, { weight }));
-    } catch {
-      // The renderer falls back to the default face for a family it has no typeface for.
-    }
-  }
-  return fonts;
+export interface CritterCard {
+  readonly kind: string;
+  readonly seed: number;
+  readonly form: FormSpec | null;
+  readonly name: string;
+  readonly line: string;
 }
 
-export async function renderCritterCard(
-  props: CritterCardProps,
-  format: ShareFormat,
-): Promise<Uint8Array> {
-  const layout = format === 'story' ? buildCritterCardStory(props) : buildCritterCard(props);
-  const image = await renderShareImage(layout, shareFonts());
-  const bytes = image.encodeToBytes();
-  if (bytes === null) throw new Error('critter card: the image did not encode');
-  return bytes;
+const SIZE: Readonly<Record<ShareFormat, { readonly w: number; readonly h: number }>> = {
+  post: { w: 1080, h: 1350 },
+  story: { w: 1080, h: 1920 },
+};
+
+export function renderCritterCard(card: CritterCard, format: ShareFormat): Promise<Uint8Array> {
+  const { Skia } = require('@shopify/react-native-skia') as typeof RNSkiaModule;
+  const { w, h } = SIZE[format];
+  const surface = Skia.Surface.MakeOffscreen(w, h) ?? Skia.Surface.Make(w, h);
+  if (surface === null) return Promise.reject(new Error('critter card: no surface'));
+  const canvas = surface.getCanvas();
+  const paint = Skia.Paint();
+  paint.setColor(Skia.Color(tokens.color.paper.base));
+  canvas.drawRect(Skia.XYWHRect(0, 0, w, h), paint);
+
+  const stickerPt = format === 'story' ? 560 : 520;
+  const sticker = renderStickerImage(
+    { kind: card.kind, seed: card.seed, ...(card.form === null ? {} : { form: card.form }) },
+    stickerPt,
+    1,
+    getDefaultSkiaEngine(),
+  );
+  const top = format === 'story' ? 520 : 260;
+  canvas.drawImageRect(
+    sticker,
+    Skia.XYWHRect(0, 0, sticker.width(), sticker.height()),
+    Skia.XYWHRect((w - stickerPt) / 2, top, stickerPt, stickerPt),
+    Skia.Paint(),
+  );
+
+  const fonts = Skia.FontMgr.System();
+  const title = Skia.Font(fonts.matchFamilyStyle('Archivo-W100-900', { weight: 900 }), 88);
+  const line = Skia.Font(fonts.matchFamilyStyle('Geist-600', { weight: 600 }), 40);
+  const ink = Skia.Paint();
+  ink.setColor(Skia.Color(tokens.color.paper.ink));
+  const name = card.name.toLocaleUpperCase();
+  const nameY = top + stickerPt + 140;
+  canvas.drawText(name, (w - title.measureText(name).width) / 2, nameY, ink, title);
+  canvas.drawText(card.line, (w - line.measureText(card.line).width) / 2, nameY + 80, ink, line);
+
+  surface.flush();
+  const bytes = surface.makeImageSnapshot().encodeToBytes();
+  return bytes === null
+    ? Promise.reject(new Error('critter card: the image did not encode'))
+    : Promise.resolve(bytes);
 }
 
 let deps: ShareActionsDeps | null = null;

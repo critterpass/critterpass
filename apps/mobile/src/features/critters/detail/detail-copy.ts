@@ -60,3 +60,7 @@ export function undo(): string {
 export function shareAlt(name: string, city: string): string {
   return t({ id: 'critters.detail.shareAlt', message: `${name}, found in ${city}` });
 }
+
+export function shareLine(tier: string, city: string): string {
+  return t({ id: 'critters.detail.shareLine', message: `${tier} · found in ${city}` });
+}

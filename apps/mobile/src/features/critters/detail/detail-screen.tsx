@@ -14,7 +14,7 @@ import { unknownName } from '../critters-copy';
 import { useCrewSightings } from '../data/crew-sightings';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import type { EntryRow } from '../data/queries';
-import { shareAlt, skinReverted, skinToast, undo } from './detail-copy';
+import { shareAlt, shareLine, skinReverted, skinToast, undo } from './detail-copy';
 import {
   buildDetail,
   CRITTER_SQL,
@@ -87,11 +87,11 @@ export function DetailScreen({ critterId }: { readonly critterId: string }) {
           render={(format) =>
             renderCritterCard(
               {
-                name: nameOf(sharing),
-                formName: tierWord(sharing.rarity),
-                city: model.city,
                 kind: artKind(model.key),
                 seed: model.seed,
+                form: sharing.spec,
+                name: nameOf(sharing),
+                line: shareLine(tierWord(sharing.rarity), model.city),
               },
               format,
             )

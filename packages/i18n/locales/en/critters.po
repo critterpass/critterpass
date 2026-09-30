@@ -63,6 +63,10 @@ msgstr "{name}, found in {city}"
 msgid "critters.dex.legendaryTitle"
 msgstr "{placeLine}, {span}"
 
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.shareLine"
+msgstr "{tier} · found in {city}"
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.nextForm"
 msgstr "{tier} next: {requirement}."
@@ -135,12 +139,12 @@ msgstr "Explore at home: on"
 msgid "critters.detail.forms"
 msgstr "Forms · {found} of {total}"
 
-#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.found"
-msgstr "Found"
-
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterFound"
+msgstr "Found"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.found"
 msgstr "Found"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
