@@ -83,8 +83,15 @@ describe('release gate report', { timeout: 60_000 }, () => {
           },
         },
       ],
-      { rawUrl: 'https://raw/run', blobUrl: 'https://blob/run', commit: 'abc123' },
+      {
+        rawUrl: 'https://raw/run',
+        blobUrl: 'https://blob/run',
+        commit: 'abc123',
+        uiReports: ['android-shard-1: [ui-qa] NO_BACK_AFFORDANCE "/inbox"'],
+      },
     );
+    expect(text).toContain('**UI reports** (1)');
+    expect(text).toContain('android-shard-1: [ui-qa] NO_BACK_AFFORDANCE "/inbox"');
     expect(text).toContain('**Fail**: 1 of 1 flow runs failed. From commit `abc123`.');
     expect(text).toContain(
       '| `money` | android | **FAIL** | 2m 5s | <img src="https://raw/run/android/money.gif" width="120"> | [MP4](https://blob/run/android/money.mp4) | `Element not found: Id matching regex: settle \\| confirm`<br><img src="https://raw/run/android/money-failure.png" width="120"> |',

@@ -25,6 +25,7 @@ import {
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
+import { readShards } from './run-summary';
 import { segmentFiles } from './screen-video';
 
 /** The shard's first flow, which only proves the app runs this run's JS. */
@@ -129,7 +130,7 @@ export function buildMedia(flow: GateFlow, mediaDir: string): GateMedia {
   media.mp4 = mp4;
   const gif = `${flow.platform}/${flow.name}.gif`;
   const speed = previewSpeed(flow.seconds);
-  const filter = `setpts=PTS/${String(speed)},fps=4,scale=180:-2:flags=lanczos,split[a][b];[a]palettegen=max_colors=64[p];[b][p]paletteuse=dither=bayer`;
+  const filter = `setpts=PTS/${String(speed)},fps=4,scale=240:-2:flags=lanczos,split[a][b];[a]palettegen=max_colors=64[p];[b][p]paletteuse=dither=bayer`;
   if (
     ffmpeg(['-i', path.join(mediaDir, mp4), '-vf', filter, '-loop', '0', path.join(mediaDir, gif)])
   )
@@ -152,6 +153,8 @@ export interface GateReportOptions {
   readonly blobUrl: string;
   readonly runUrl?: string;
   readonly commit?: string;
+  /** The app's `[ui-qa]` reports and the screen-check findings of the run's shards. */
+  readonly uiReports?: readonly string[];
 }
 
 export function formatGateReport(
@@ -189,6 +192,17 @@ export function formatGateReport(
     );
   }
   out.push('');
+  const reports = options.uiReports ?? [];
+  if (reports.length > 0) {
+    out.push(
+      `**UI reports** (${String(reports.length)}): the app's \`[ui-qa]\` checks and the screen checks fail their shard too.`,
+      '',
+      '```',
+      ...reports,
+      '```',
+      '',
+    );
+  }
   return out.join('\n');
 }
 
@@ -221,6 +235,9 @@ function main(): void {
     blobUrl,
     ...(values['run-url'] ? { runUrl: values['run-url'] } : {}),
     ...(values.commit ? { commit: values.commit } : {}),
+    uiReports: readShards(path.resolve(root)).flatMap((shard) =>
+      [...shard.uiQa, ...shard.screenChecks].map((line) => `${shard.shard}: ${line}`),
+    ),
   });
   if (values.out) writeFileSync(values.out, text);
   else console.log(text);
