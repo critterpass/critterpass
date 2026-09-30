@@ -20,6 +20,8 @@ export interface QuestRow {
   readonly params: Readonly<Record<string, unknown>>;
   readonly target: number;
   readonly starts_at: Date;
+  /** 00:00 of the quest day on the trip's clock. */
+  readonly day_start: Date;
   /** The template's deadline on the quest day, or the end of that day. */
   readonly ends_at: Date;
 }
@@ -68,6 +70,10 @@ export function registeredQuestTemplates(): QuestTemplateMap {
 
 export function questMatcher(templateId: string): QuestMatcher | undefined {
   return registry.get(templateId)?.match;
+}
+
+export function questConsumes(templateId: string, eventType: string): boolean {
+  return registry.get(templateId)?.consumes.includes(eventType) ?? false;
 }
 
 /** Every event type some registered template consumes. */

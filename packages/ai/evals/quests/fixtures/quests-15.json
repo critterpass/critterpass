@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d17e481b-3c94-47cd-9b67-aa09d148498e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-000000001022\",\"by_time\":\"08:30\"},\"title\":\"PALACE EARLY BIRDS\",\"desc\":\"Someone reach Gyeongbokgung Palace by 08:30 and check in before the gates fill up.\",\"reward\":{\"xp\":90}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000a001\",\"0199a0f2-0000-7000-8000-00000000a002\",\"0199a0f2-0000-7000-8000-00000000a003\"],\"n\":2},\"title\":\"TWO STOP TOUR\",\"desc\":\"The crew checks in at 2 of today's places, from palace to market to tower.\",\"reward\":{\"xp\":120}},{\"template_id\":\"copresence\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000a003\",\"by_time\":\"19:30\"},\"title\":\"TOWER TOGETHER\",\"desc\":\"All 4 of us check in at N Seoul Tower by 19:30, no stragglers allowed.\",\"reward\":{\"xp\":160}},{\"template_id\":\"befriend\",\"params\":{\"n\":2,\"set\":\"kr-seoul\"},\"title\":\"SEOUL CRITTER CREW\",\"desc\":\"The crew befriends 2 local critters around Gwangjang Market today.\",\"reward\":{\"xp\":100}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 137,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2048,
+        "output_tokens": 353,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

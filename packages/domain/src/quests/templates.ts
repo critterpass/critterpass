@@ -48,6 +48,8 @@ export interface QuestRewardExtras {
 
 export interface QuestTemplateDef<P = Record<string, unknown>> {
   readonly id: string;
+  /** One line telling the guide what the quest asks for and how its params read. */
+  readonly summary: string;
   readonly params: z.ZodType<P>;
   /** Domain event types that can move this quest. */
   readonly consumes: readonly string[];
@@ -81,9 +83,18 @@ const minutes = (time: string): number => {
   return (h ?? 0) * 60 + (m ?? 0);
 };
 
-/** Deadlines before 05:00 or after 23:30 are out of bounds for a day quest. */
+/** Deadlines before 03:00 (sunrise climbs start early) or after 23:30 are out of bounds. */
 function deadlineInDay(time: string): boolean {
-  return minutes(time) >= 5 * 60 && minutes(time) <= 23 * 60 + 30;
+  return minutes(time) >= 3 * 60 && minutes(time) <= 23 * 60 + 30;
+}
+
+/** The names and plan times of the places a quest names: its copy may quote either. */
+function placeFacts(day: QuestDay, poiIds: readonly string[]): Record<string, string> {
+  const items = poiIds.map((id) => itemAtPoi(day, id));
+  return {
+    places: items.map((item) => item?.name ?? '').join(', '),
+    starts: items.map((item) => item?.start ?? '').join(', '),
+  };
 }
 
 function define<P>(def: QuestTemplateDef<P>): QuestTemplateDef<P> {
@@ -92,6 +103,7 @@ function define<P>(def: QuestTemplateDef<P>): QuestTemplateDef<P> {
 
 export const visitPoiTemplate = define({
   id: 'visit_poi',
+  summary: "Someone on the crew checks in at one place on today's plan (poi_id from the plan).",
   params: z.object({ poi_id: z.uuid() }).strict(),
   consumes: ['visit.recorded'],
   metric: 'visits',
@@ -100,13 +112,14 @@ export const visitPoiTemplate = define({
   minTravellers: 1,
   target: () => 1,
   resolve: (p, day) => (itemAtPoi(day, p.poi_id) ? null : 'poi_not_in_plan'),
-  facts: (p, day) => ({ place: itemAtPoi(day, p.poi_id)?.name ?? '' }),
+  facts: (p, day) => placeFacts(day, [p.poi_id]),
   deadline: () => null,
   extras: () => NO_EXTRAS,
 });
 
 export const visitAnyOfTemplate = define({
   id: 'visit_any_of',
+  summary: "The crew checks in at n different places from a list of today's plan places.",
   params: z
     .object({ poi_ids: z.array(z.uuid()).min(2).max(6), n: z.number().int().min(2).max(6) })
     .strict(),
@@ -121,16 +134,14 @@ export const visitAnyOfTemplate = define({
     if (p.n > p.poi_ids.length) return 'target_out_of_bounds';
     return p.poi_ids.every((id) => itemAtPoi(day, id)) ? null : 'poi_not_in_plan';
   },
-  facts: (p, day) => ({
-    n: p.n,
-    places: p.poi_ids.map((id) => itemAtPoi(day, id)?.name ?? '').join(', '),
-  }),
+  facts: (p, day) => ({ n: p.n, ...placeFacts(day, p.poi_ids) }),
   deadline: () => null,
   extras: () => NO_EXTRAS,
 });
 
 export const logExpensesTemplate = define({
   id: 'log_expenses',
+  summary: 'The crew logs n expenses today, optionally in one category.',
   params: z
     .object({ category: z.string().min(1).max(40).optional(), n: z.number().int().min(1).max(8) })
     .strict(),
@@ -151,6 +162,7 @@ export const logExpensesTemplate = define({
 
 export const befriendTemplate = define({
   id: 'befriend',
+  summary: 'The crew befriends n local critters today, optionally from one set.',
   params: z
     .object({ n: z.number().int().min(1).max(3), set: z.string().min(1).max(40).optional() })
     .strict(),
@@ -171,6 +183,8 @@ export const befriendTemplate = define({
 
 export const copresenceTemplate = define({
   id: 'copresence',
+  summary:
+    'Every traveller checks in at one plan place by a local time (HH:MM, not before its plan time).',
   params: z.object({ poi_id: z.uuid(), by_time: localTimeSchema }).strict(),
   consumes: ['visit.recorded', 'copresence.completed'],
   metric: 'travellers_there',
@@ -185,17 +199,14 @@ export const copresenceTemplate = define({
     if (item.start !== null && minutes(p.by_time) < minutes(item.start)) return 'before_the_plan';
     return null;
   },
-  facts: (p, day) => ({
-    place: itemAtPoi(day, p.poi_id)?.name ?? '',
-    time: p.by_time,
-    travellers: day.travellers,
-  }),
+  facts: (p, day) => ({ time: p.by_time, ...placeFacts(day, [p.poi_id]) }),
   deadline: (p) => p.by_time,
   extras: (p, day) => ({ sticker: null, form_id: day.copresenceForms[p.poi_id] ?? null }),
 });
 
 export const settleByTemplate = define({
   id: 'settle_by',
+  summary: 'The crew settles every balance by a local time (HH:MM) today.',
   params: z.object({ by_time: localTimeSchema }).strict(),
   consumes: ['trip.settled'],
   metric: 'settled',
@@ -214,6 +225,8 @@ export const settleByTemplate = define({
 
 export const earlyStartTemplate = define({
   id: 'early_start',
+  summary:
+    "Someone checks in at a timed plan item's place by a local time up to two hours before it starts.",
   params: z.object({ plan_item_id: z.uuid(), by_time: localTimeSchema }).strict(),
   consumes: ['visit.recorded'],
   metric: 'early_visit',
@@ -230,10 +243,10 @@ export const earlyStartTemplate = define({
     // "Be there before it starts": at most two hours early, never after it has begun.
     return gap >= 0 && gap <= 120 ? null : 'time_out_of_bounds';
   },
-  facts: (p, day) => ({
-    place: day.items.find((item) => item.id === p.plan_item_id)?.name ?? '',
-    time: p.by_time,
-  }),
+  facts: (p, day) => {
+    const item = day.items.find((candidate) => candidate.id === p.plan_item_id);
+    return { time: p.by_time, place: item?.name ?? '', starts: item?.start ?? '' };
+  },
   deadline: (p) => p.by_time,
   extras: () => NO_EXTRAS,
 });

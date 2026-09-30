@@ -105,6 +105,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...(await import('./jobs/trip-day')).tripDayJobs(processEnv, aiSwitches, llmObservability),
     ...(await import('./jobs/proposal')).proposalJobs(env, pool, aiSwitches, llmObservability),
     ...(await import('./jobs/critters')).critterJobs(),
+    ...(await import('./jobs/quests')).questJobs(processEnv, aiSwitches, llmObservability),
   ];
 
   const backupStore =

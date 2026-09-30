@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "34b23738-fa26-43c0-9f39-96756a07ab47",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-00000000101d\",\"by_time\":\"07:00\"},\"title\":\"TEMPLE EARLY BIRDS\",\"desc\":\"Someone be at Wat Pho by 07:00, before the 08:30 start, and check in.\",\"reward\":{\"xp\":70}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000e001\",\"0199a0f2-0000-7000-8000-00000000e002\",\"0199a0f2-0000-7000-8000-00000000e004\"],\"n\":2},\"title\":\"TWO-STOP TROT\",\"desc\":\"The crew checks in at 2 of today's places: Wat Pho, Chatuchak or Yaowarat Road.\",\"reward\":{\"xp\":100}},{\"template_id\":\"copresence\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000e004\",\"by_time\":\"20:00\"},\"title\":\"ALL IN YAOWARAT\",\"desc\":\"All 4 of us check in at Yaowarat Road by 20:00, after the 19:00 start.\",\"reward\":{\"xp\":150}},{\"template_id\":\"log_expenses\",\"params\":{\"category\":\"food\",\"n\":3},\"title\":\"SNACK LEDGER\",\"desc\":\"Log 3 food expenses today, one for each tasty stop we make.\",\"reward\":{\"xp\":60}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 136,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2048,
+        "output_tokens": 360,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

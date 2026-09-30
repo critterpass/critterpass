@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "392f3567-6cd6-4ff4-93d6-1988b536e087",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-00000000100f\",\"by_time\":\"06:30\"},\"title\":\"SUNRISE SQUAD\",\"desc\":\"Reach Son Tra Peninsula by 06:30 and check in before the doucs wake up.\",\"reward\":{\"xp\":80}},{\"template_id\":\"visit_poi\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000d008\"},\"title\":\"CRACKER CRUNCH\",\"desc\":\"Check in at Banh Xeo Ba Duong at 12:00 and fold one roll the proper way.\",\"reward\":{\"xp\":60}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000d006\",\"0199a0f2-0000-7000-8000-00000000d008\"],\"n\":2},\"title\":\"TWO STOP TOUR\",\"desc\":\"The whole crew checks in at both Son Tra Peninsula and Banh Xeo Ba Duong today.\",\"reward\":{\"xp\":120}},{\"template_id\":\"log_expenses\",\"params\":{\"category\":\"food\",\"n\":2},\"title\":\"FULL TALLY\",\"desc\":\"Log 2 food expenses today, from sunrise snacks to the noon feast.\",\"reward\":{\"xp\":50}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1392,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 318,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,223 @@
+# Seeded slips: the validator must drop each planted mistake, and the day still gets three
+# valid quests.
+- id: quests-17
+  description: An invented place is dropped
+  guide: chava
+  place: Da Nang
+  day:
+    localDate: 2026-10-03
+    tz: Asia/Ho_Chi_Minh
+    travellers: 4
+    visitConsent: true
+    items:
+      - id: 0199a0f2-0000-7000-8000-000000001027
+        poi_id: 0199a0f2-0000-7000-8000-00000000d002
+        name: Marble Mountains
+        start: 08:00
+        category: sight
+      - id: 0199a0f2-0000-7000-8000-000000001028
+        poi_id: 0199a0f2-0000-7000-8000-00000000d003
+        name: My Khe Beach
+        start: 16:00
+        category: beach
+      - id: 0199a0f2-0000-7000-8000-000000001029
+        poi_id: 0199a0f2-0000-7000-8000-00000000d004
+        name: Han Market
+        start: 19:00
+        category: market
+    expenseCategories:
+      - stays
+      - food
+      - transit
+      - fun
+      - other
+    critterSets:
+      - vn-danang
+    copresenceForms: {}
+    openBalance: true
+    lastDay: false
+  seeded: true
+  expect_rejected:
+    - poi_not_in_plan:visit_poi
+  reply:
+    quests:
+      - template_id: visit_poi
+        params:
+          poi_id: 0199a0f2-0000-7000-8000-00000000deaf
+        title: SECRET SPOT
+        desc: Find the hidden cave.
+        reward:
+          xp: 60
+      - template_id: log_expenses
+        params:
+          n: 3
+        title: RECEIPT RUN
+        desc: Log 3 expenses today.
+        reward:
+          xp: 60
+      - template_id: befriend
+        params:
+          n: 1
+        title: NEW FRIEND
+        desc: Befriend 1 local critter.
+        reward:
+          xp: 80
+- id: quests-18
+  description: XP beyond the template table is dropped
+  guide: chava
+  place: Da Nang
+  day:
+    localDate: 2026-10-03
+    tz: Asia/Ho_Chi_Minh
+    travellers: 4
+    visitConsent: true
+    items:
+      - id: 0199a0f2-0000-7000-8000-000000001027
+        poi_id: 0199a0f2-0000-7000-8000-00000000d002
+        name: Marble Mountains
+        start: 08:00
+        category: sight
+      - id: 0199a0f2-0000-7000-8000-000000001028
+        poi_id: 0199a0f2-0000-7000-8000-00000000d003
+        name: My Khe Beach
+        start: 16:00
+        category: beach
+      - id: 0199a0f2-0000-7000-8000-000000001029
+        poi_id: 0199a0f2-0000-7000-8000-00000000d004
+        name: Han Market
+        start: 19:00
+        category: market
+    expenseCategories:
+      - stays
+      - food
+      - transit
+      - fun
+      - other
+    critterSets:
+      - vn-danang
+    copresenceForms: {}
+    openBalance: true
+    lastDay: false
+  seeded: true
+  expect_rejected:
+    - xp_out_of_table:log_expenses
+  reply:
+    quests:
+      - template_id: log_expenses
+        params:
+          n: 2
+        title: BIG SPENDERS
+        desc: Log 2 expenses today.
+        reward:
+          xp: 5000
+      - template_id: visit_poi
+        params:
+          poi_id: 0199a0f2-0000-7000-8000-00000000d003
+        title: BEACH BUMS
+        desc: Get to My Khe Beach today.
+        reward:
+          xp: 60
+- id: quests-19
+  description: A number the quest does not hold is dropped
+  guide: chava
+  place: Da Nang
+  day:
+    localDate: 2026-10-03
+    tz: Asia/Ho_Chi_Minh
+    travellers: 4
+    visitConsent: true
+    items:
+      - id: 0199a0f2-0000-7000-8000-000000001027
+        poi_id: 0199a0f2-0000-7000-8000-00000000d002
+        name: Marble Mountains
+        start: 08:00
+        category: sight
+      - id: 0199a0f2-0000-7000-8000-000000001028
+        poi_id: 0199a0f2-0000-7000-8000-00000000d003
+        name: My Khe Beach
+        start: 16:00
+        category: beach
+      - id: 0199a0f2-0000-7000-8000-000000001029
+        poi_id: 0199a0f2-0000-7000-8000-00000000d004
+        name: Han Market
+        start: 19:00
+        category: market
+    expenseCategories:
+      - stays
+      - food
+      - transit
+      - fun
+      - other
+    critterSets:
+      - vn-danang
+    copresenceForms: {}
+    openBalance: true
+    lastDay: false
+  seeded: true
+  expect_rejected:
+    - ungrounded:06:00
+  reply:
+    quests:
+      - template_id: visit_poi
+        params:
+          poi_id: 0199a0f2-0000-7000-8000-00000000d002
+        title: EARLY CLIMB
+        desc: Be at Marble Mountains by 06:00.
+        reward:
+          xp: 60
+- id: quests-20
+  description: An unregistered template and a count past its bounds are dropped
+  guide: chava
+  place: Da Nang
+  day:
+    localDate: 2026-10-03
+    tz: Asia/Ho_Chi_Minh
+    travellers: 4
+    visitConsent: true
+    items:
+      - id: 0199a0f2-0000-7000-8000-000000001027
+        poi_id: 0199a0f2-0000-7000-8000-00000000d002
+        name: Marble Mountains
+        start: 08:00
+        category: sight
+      - id: 0199a0f2-0000-7000-8000-000000001028
+        poi_id: 0199a0f2-0000-7000-8000-00000000d003
+        name: My Khe Beach
+        start: 16:00
+        category: beach
+      - id: 0199a0f2-0000-7000-8000-000000001029
+        poi_id: 0199a0f2-0000-7000-8000-00000000d004
+        name: Han Market
+        start: 19:00
+        category: market
+    expenseCategories:
+      - stays
+      - food
+      - transit
+      - fun
+      - other
+    critterSets:
+      - vn-danang
+    copresenceForms: {}
+    openBalance: true
+    lastDay: false
+  seeded: true
+  expect_rejected:
+    - unknown_template:photos
+    - bad_params:befriend
+  reply:
+    quests:
+      - template_id: photos
+        params:
+          n: 10
+        title: SNAP HAPPY
+        desc: Take 10 photos.
+        reward:
+          xp: 60
+      - template_id: befriend
+        params:
+          n: 40
+        title: CRITTER CRAZE
+        desc: Befriend 40 critters.
+        reward:
+          xp: 100

@@ -96,7 +96,12 @@ export function validateQuest(
   const desc = tidy(candidate.desc);
   if (title.length === 0 || title.length > QUEST_TITLE_MAX) return { ok: false, reason: 'title' };
   if (desc.length === 0 || desc.length > QUEST_DESC_MAX) return { ok: false, reason: 'desc' };
-  const allowed = allowedQuestNumbers(def.facts(params, day));
+  // Every quest may also name the crew's size ("all 4 of us") and any time on today's plan.
+  const allowed = allowedQuestNumbers({
+    ...def.facts(params, day),
+    travellers: day.travellers,
+    plan_times: day.items.map((item) => item.start ?? '').join(', '),
+  });
   const loose = [...ungrounded(title, allowed), ...ungrounded(desc, allowed)];
   if (loose.length > 0) return { ok: false, reason: `ungrounded:${loose.join(',')}` };
   const target = def.target(params, day);

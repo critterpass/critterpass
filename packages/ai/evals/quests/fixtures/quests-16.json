@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "c3daeb9f-894b-4a7c-8890-37782a8b0b5c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-000000001026\",\"by_time\":\"18:30\"},\"title\":\"BAY BEFORE DARK\",\"desc\":\"Someone reach Gardens by the Bay by 18:30 and check in.\",\"reward\":{\"xp\":70}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-000000005001\",\"0199a0f2-0000-7000-8000-000000005002\"],\"n\":2},\"title\":\"TWO STOP CREW\",\"desc\":\"The whole crew checks in at both Maxwell Food Centre and Gardens by the Bay.\",\"reward\":{\"xp\":120}},{\"template_id\":\"log_expenses\",\"params\":{\"category\":\"food\",\"n\":4},\"title\":\"FOUR FORKS LOGGED\",\"desc\":\"Log 4 food expenses today, one for each hungry traveller.\",\"reward\":{\"xp\":60}},{\"template_id\":\"befriend\",\"params\":{\"n\":2,\"set\":\"sg-singapore\"},\"title\":\"LOCAL FRIENDS\",\"desc\":\"Befriend 2 Singapore critters together before the day is done.\",\"reward\":{\"xp\":90}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 137,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2048,
+        "output_tokens": 281,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

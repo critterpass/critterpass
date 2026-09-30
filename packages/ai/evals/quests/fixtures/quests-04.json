@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "70b7536a-e2d4-4c39-a46c-9e9e6e49be5c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-00000000100b\",\"by_time\":\"08:00\"},\"title\":\"SUNRISE SQUAD\",\"desc\":\"Someone check in at An Bang Beach by 08:00, before the 09:00 start.\",\"reward\":{\"xp\":70}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000d00a\",\"0199a0f2-0000-7000-8000-00000000d009\"],\"n\":2},\"title\":\"TWO-SPOT SWEEP\",\"desc\":\"The crew checks in at An Bang Beach and Hoi An Ancient Town today.\",\"reward\":{\"xp\":110}},{\"template_id\":\"copresence\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000d009\",\"by_time\":\"16:00\"},\"title\":\"ALL SIX IN HOI AN\",\"desc\":\"Every traveller checks in at Hoi An Ancient Town by 16:00.\",\"reward\":{\"xp\":150}},{\"template_id\":\"log_expenses\",\"params\":{\"category\":\"food\",\"n\":3},\"title\":\"SNACK LEDGER\",\"desc\":\"Log 3 food expenses today, then say cảm ơn (thank you) to the cook.\",\"reward\":{\"xp\":60}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1617,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1152,
+        "output_tokens": 325,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
