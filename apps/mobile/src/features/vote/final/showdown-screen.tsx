@@ -10,7 +10,7 @@ import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -23,7 +23,6 @@ import { impact, toast, useLoop } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
-import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
@@ -44,6 +43,8 @@ const PUNCH = 34;
 
 const useStyles = makeStyles((th) => ({
   screen: { flex: 1, backgroundColor: th.semantic.bg.base },
+  body: { flex: 1 },
+  bodyContent: { flexGrow: 1 },
   vsWrap: { height: 0, alignItems: 'center', justifyContent: 'center', zIndex: 2 },
   vs: {
     width: sizeToken(th.size.fab, 'size'),
@@ -146,7 +147,15 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           )}
         </Row>
       </View>
-      <Stack style={{ flex: 1 }}>
+      {/* The halves fill the screen; content too tall for it (long names, wrapped chips, larger
+          text) scrolls instead of sliding under the header or the tally card. */}
+      <ScrollView
+        style={styles.body}
+        contentContainerStyle={styles.bodyContent}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        testID="showdown-body"
+      >
         <ShowdownHalf
           option={first}
           place={placeOf(first)}
@@ -176,7 +185,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
           squashKey={second.mine ? 1 : 0}
           edgeInset={bottomInset}
         />
-      </Stack>
+      </ScrollView>
       <View
         style={[styles.footer, { bottom: footerBottom }]}
         onLayout={(event) => setFooterHeight(event.nativeEvent.layout.height)}

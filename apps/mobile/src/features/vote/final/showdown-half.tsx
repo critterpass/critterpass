@@ -29,10 +29,10 @@ import { stackOf, type Person } from '../data/use-people';
 import type { PollOptionView } from '../data/poll-view';
 import { flightHours, guideOr, money, monthShort, upper } from '../format';
 
-/** Width of a half's pitch card and chips; the faded critter keeps to the rest. */
+/** Widest a half's pitch card grows; the faded critter sits in the rest of its row. */
 const COLUMN = '62%';
-/** The faded critter behind each half. */
-const GHOST_SIZE = 150;
+/** The faded critter beside each pitch card. */
+const GHOST_SIZE = 120;
 
 /** Showdown stacks show this many voters before "+n" (boosted crews reach sixteen). */
 const MAX_AVATARS = 16;
@@ -72,7 +72,7 @@ function useChosenSquash(chosen: boolean) {
 const useStyles = makeStyles((th) => ({
   // Each half is at least as tall as its content and shares what is left of the screen with the
   // other, so neither is ever clipped under the header or the tally card.
-  press: { flexGrow: 1, flexShrink: 1, flexBasis: 'auto' },
+  press: { flexGrow: 1, flexShrink: 0, flexBasis: 'auto' },
   half: {
     flexGrow: 1,
     paddingHorizontal: th.space['20'],
@@ -80,13 +80,21 @@ const useStyles = makeStyles((th) => ({
     overflow: 'hidden',
     gap: th.space['10'],
   },
-  // Content starts right under each half's top edge: under the screen header for the top half,
-  // clear of the VS disc for the bottom one.
+  // Content starts right under each half's top edge: under the screen header for the top half, and
+  // for the bottom one under the VS disc, which the display name's own leading already clears.
   top: { paddingBottom: sizeToken(th.size.fab, 'size') / 2 + th.space['16'] },
-  bottom: { paddingTop: sizeToken(th.size.fab, 'size') / 2 + th.space['16'] },
-  ghost: { position: 'absolute', opacity: 0.35 },
-  column: { maxWidth: COLUMN },
+  bottom: { paddingTop: th.space['8'] },
+  // Under the name (drawn before it) and beside the pitch card, clear of the chips below.
+  pitchRow: { alignSelf: 'stretch', zIndex: -1 },
+  ghostSlot: { flex: 1, alignSelf: 'stretch' },
+  ghost: {
+    position: 'absolute',
+    top: '50%',
+    marginTop: -GHOST_SIZE / 2,
+    opacity: 0.35,
+  },
   quote: {
+    flexShrink: 1,
     maxWidth: COLUMN,
     backgroundColor: th.semantic.bg.raised,
     borderRadius: th.radius.lg,
@@ -108,7 +116,6 @@ function Facts({
   readonly sectionsOf: ReturnType<typeof usePitchSections>;
   readonly alignEnd: boolean;
 }) {
-  const styles = useStyles();
   const { t, i18n } = useLingui();
   const sections = option.pitchId === null ? undefined : sectionsOf.get(option.pitchId);
   const locale = i18n.locale;
@@ -148,7 +155,7 @@ function Facts({
   });
   if (chips.length === 0) return null;
   return (
-    <Row gap="6" wrap justify={alignEnd ? 'flex-end' : 'flex-start'} style={styles.column}>
+    <Row gap="6" wrap justify={alignEnd ? 'flex-end' : 'flex-start'}>
       {chips.map((chip) => (
         <InfoPill key={chip} variant="outline">
           {chip}
@@ -217,28 +224,28 @@ export function ShowdownHalf({
           squash,
         ]}
       >
-        <View
-          style={[
-            styles.ghost,
-            // Beside the pitch card and chips, never over them: they keep to the other side.
-            alignEnd
-              ? { left: -theme.space['16'], bottom: edgeInset }
-              : { right: -theme.space['16'], bottom: sizeToken(theme.size.fab, 'size') / 2 },
-          ]}
-          pointerEvents="none"
-        >
-          <LiveSticker kind={guide.kind} name={guide.name} size={GHOST_SIZE} drawOn={false} />
-        </View>
         <Text variant="displayMega" color={ink} autoFit>
           {upper(name, i18n.locale)}
         </Text>
-        {quote === null ? null : (
-          <View style={styles.quote} accessible accessibilityLabel={`${guide.name}: ${quote}`}>
-            <Text variant="voice" color={tokens.guide[guideId]}>
-              {quote}
-            </Text>
+        <View style={[styles.pitchRow, { flexDirection: alignEnd ? 'row-reverse' : 'row' }]}>
+          {quote === null ? null : (
+            <View style={styles.quote} accessible accessibilityLabel={`${guide.name}: ${quote}`}>
+              <Text variant="voice" color={tokens.guide[guideId]}>
+                {quote}
+              </Text>
+            </View>
+          )}
+          <View style={styles.ghostSlot} pointerEvents="none">
+            <View
+              style={[
+                styles.ghost,
+                alignEnd ? { left: -theme.space['16'] } : { right: -theme.space['16'] },
+              ]}
+            >
+              <LiveSticker kind={guide.kind} name={guide.name} size={GHOST_SIZE} drawOn={false} />
+            </View>
           </View>
-        )}
+        </View>
         <Facts option={option} sectionsOf={sectionsOf} alignEnd={alignEnd} />
         <Row gap="8" align="center">
           {option.voterIds.length > 0 ? (
