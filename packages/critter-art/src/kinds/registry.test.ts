@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { hasKind, resolveKind } from './registry';
 
-const GUIDES = ['gecko', 'tanuki', 'puffin', 'axolotl', 'sardine', 'alpaca'];
+const GUIDES = ['gecko', 'tanuki', 'puffin', 'axolotl', 'sardine', 'alpaca', 'langur'];
 const ANNOTATION_ICONS: Record<string, readonly [number, number]> = {
   underline: [100, 14],
   circle: [100, 50],
@@ -41,7 +41,7 @@ describe('resolveKind', () => {
     vi.unstubAllEnvs();
   });
 
-  it('registers all 6 guides that animate (blink support)', () => {
+  it('registers all 7 guides that animate (blink support)', () => {
     for (const name of GUIDES) {
       expect(hasKind(name)).toBe(true);
       expect(resolveKind(name).animates).toBe(true);
@@ -58,7 +58,7 @@ describe('resolveKind', () => {
       expect(resolveKind(name).animates).toBe(false);
       expect(resolveKind(name).viewBox).toEqual(viewBox);
     }
-    expect(GUIDES.length + PLAIN_ICONS.length + Object.keys(ANNOTATION_ICONS).length).toBe(34);
+    expect(GUIDES.length + PLAIN_ICONS.length + Object.keys(ANNOTATION_ICONS).length).toBe(35);
   });
 
   it('throws outside production for an unknown kind', () => {
