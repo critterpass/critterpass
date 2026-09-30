@@ -686,6 +686,9 @@ importers:
       expo-audio:
         specifier: 58.0.2
         version: 58.0.2(expo-asset@58.0.8(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0)(typescript@6.0.3))(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)
+      expo-brightness:
+        specifier: 58.0.0
+        version: 58.0.0(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))
       expo-build-properties:
         specifier: 58.0.8
         version: 58.0.8(expo@58.0.0-preview.7)
@@ -7490,6 +7493,12 @@ packages:
       expo: '*'
       expo-asset: '*'
       react: '*'
+      react-native: '*'
+
+  expo-brightness@58.0.0:
+    resolution: {integrity: sha512-SXr8ZyXJ5Pws44fPlsUsQngZsCgt/DbEU7JGTsQe3hb0GLZGfkvU9k3szfwFww7wQqc6k1XHP0gotI0MbRQwuw==}
+    peerDependencies:
+      expo: '*'
       react-native: '*'
 
   expo-build-properties@58.0.8:
@@ -18792,6 +18801,11 @@ snapshots:
       expo: 58.0.0-preview.7(@babel/core@7.29.7(supports-color@7.2.0))(@expo/dom-webview@58.0.1)(@expo/metro-runtime@58.0.8)(expo-router@58.0.9)(react-dom@19.3.0(react@19.3.0))(react-native-worklets@0.13.0(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0)(typescript@6.0.3)
       expo-asset: 58.0.8(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0)(typescript@6.0.3)
       react: 19.3.0
+      react-native: 0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0)
+
+  expo-brightness@58.0.0(expo@58.0.0-preview.7)(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0)):
+    dependencies:
+      expo: 58.0.0-preview.7(@babel/core@7.29.7(supports-color@7.2.0))(@expo/dom-webview@58.0.1)(@expo/metro-runtime@58.0.8)(expo-router@58.0.9)(react-dom@19.3.0(react@19.3.0))(react-native-worklets@0.13.0(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0))(react-native@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0))(react@19.3.0)(supports-color@7.2.0)(typescript@6.0.3)
       react-native: 0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(@react-native/metro-config@0.88.0-rc.1(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(@types/react@19.3.0)(react@19.3.0)(supports-color@7.2.0)
 
   expo-build-properties@58.0.8(expo@58.0.0-preview.7):

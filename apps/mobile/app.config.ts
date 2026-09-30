@@ -174,6 +174,9 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
       monochromeImage: './assets/android-icon-monochrome.png',
       backgroundColor: '#FFFFFF',
     },
+    // expo-brightness's prebuild step asks for WRITE_SETTINGS, which only the system-wide setting
+    // needs; the boarding pass raises the app's own window brightness, which needs no permission.
+    blockedPermissions: ['android.permission.WRITE_SETTINGS'],
   },
   plugins: [
     'expo-router',
