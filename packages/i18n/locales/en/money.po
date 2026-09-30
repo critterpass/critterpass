@@ -470,6 +470,10 @@ msgstr "Is owed"
 msgid "money.pay.dispute"
 msgstr "It didn't arrive"
 
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.solo.line"
+msgstr "It's just you in this crew for now, so there's nothing to split. Once crewmates join, the expenses you share are split and I keep who-owes-who straight."
+
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.review.keepTotal"
 msgstr "Keep total"
@@ -510,6 +514,7 @@ msgstr "Line items: too blurry to read"
 msgid "money.typeLines.name"
 msgstr "Line name"
 
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
 msgid "money.review.mismatch"
 msgstr "Lines add up to {linesText}, the receipt says {printedText}."
@@ -848,6 +853,10 @@ msgstr "Spend in any currency. Balances and settling up use this one, at the rat
 msgid "money.budget.spent"
 msgstr "Spent"
 
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.hero.soloSpent"
+msgstr "Spent so far"
+
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.split"
 msgstr "Split"
@@ -1031,6 +1040,7 @@ msgid "money.scan.typeInstead"
 msgstr "Type it in instead"
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+#: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.failure.type"
 msgstr "Type the lines"
 

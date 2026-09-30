@@ -470,6 +470,10 @@ msgstr "Được nợ"
 msgid "money.pay.dispute"
 msgstr "Chưa nhận được"
 
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.solo.line"
+msgstr "Nhóm hiện mới có mình bạn nên chưa có gì để chia. Khi bạn đồng hành tham gia, các khoản chi chung sẽ được chia và mình sẽ ghi rõ ai nợ ai."
+
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.review.keepTotal"
 msgstr "Giữ tổng"
@@ -510,6 +514,7 @@ msgstr "Các món: mờ quá không đọc được"
 msgid "money.typeLines.name"
 msgstr "Tên dòng"
 
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/use-review-scene.ts
 msgid "money.review.mismatch"
 msgstr "Các dòng cộng lại {linesText}, hoá đơn ghi {printedText}."
@@ -848,6 +853,10 @@ msgstr "Chi bằng tiền gì cũng được. Số dư và thanh toán dùng đ�
 msgid "money.budget.spent"
 msgstr "Đã chi"
 
+#: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
+msgid "money.hero.soloSpent"
+msgstr "Đã chi đến giờ"
+
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.split"
 msgstr "Chia"
@@ -1031,6 +1040,7 @@ msgid "money.scan.typeInstead"
 msgstr "Tự gõ vào"
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+#: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.failure.type"
 msgstr "Gõ từng dòng"
 

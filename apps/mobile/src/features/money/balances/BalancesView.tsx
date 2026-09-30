@@ -52,6 +52,8 @@ export interface BalancesViewProps {
   readonly offline: boolean;
   /** No expense and no ledger entry yet: the first-expense invitation replaces the hero. */
   readonly empty: boolean;
+  /** Nobody else in the crew or its ledger yet: what was spent replaces who owes whom. */
+  readonly solo?: boolean;
   /** Another trip of the crew is available: shows the trip name as a switch. */
   readonly tripLabel?: string | null;
   readonly onTrip?: (() => void) | undefined;
@@ -64,28 +66,32 @@ export interface BalancesViewProps {
   readonly onExpense: (id: string) => void;
 }
 
-function Hero({ kind, amountMinor, currency }: BalancesViewProps['hero'] & { currency: string }) {
+type HeroProps = BalancesViewProps['hero'] & { readonly currency: string; readonly solo?: boolean };
+
+function Hero({ kind, amountMinor, currency, solo = false }: HeroProps) {
   const { t } = useLingui();
   const locale = useLocale();
   const theme = useTheme();
   const styles = useStyles();
   const bob = useLoop('bob');
   const tokek = GUIDE_STICKERS.tokek;
-  const eyebrow =
-    kind === 'owed'
+  const eyebrow = solo
+    ? t({ id: 'money.hero.soloSpent', message: 'Spent so far' })
+    : kind === 'owed'
       ? t({ id: 'money.hero.owed', message: "You're owed" })
       : kind === 'owes'
         ? t({ id: 'money.hero.owes', message: 'You owe' })
         : t({ id: 'money.hero.square', message: 'All square' });
-  const color =
-    kind === 'owed'
+  const color = solo
+    ? theme.semantic.text.primary
+    : kind === 'owed'
       ? theme.semantic.action.primary
       : kind === 'owes'
         ? theme.semantic.state.urgent
         : theme.semantic.text.primary;
   const parts = heroParts(amountMinor, currency, locale);
   return (
-    <Stack gap="4" testID={`money-hero-${kind}`}>
+    <Stack gap="4" testID={solo ? 'money-hero-solo' : `money-hero-${kind}`}>
       <Text variant="eyebrow">{upper(eyebrow, locale)}</Text>
       <Row style={styles.heroRow}>
         <Odometer
@@ -165,6 +171,24 @@ export function BalancesView(props: BalancesViewProps) {
             }}
             testID="money-empty"
           />
+        ) : props.solo === true ? (
+          <>
+            <Hero
+              kind="square"
+              amountMinor={props.totalSpentMinor}
+              currency={props.currency}
+              solo
+            />
+            <Card testID="money-solo">
+              <Text variant="body" color={theme.semantic.text.secondary}>
+                {t({
+                  id: 'money.solo.line',
+                  message:
+                    "It's just you in this crew for now, so there's nothing to split. Once crewmates join, the expenses you share are split and I keep who-owes-who straight.",
+                })}
+              </Text>
+            </Card>
+          </>
         ) : (
           <>
             <Hero {...props.hero} currency={props.currency} />

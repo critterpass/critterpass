@@ -64,6 +64,19 @@ export function openPaymentsOf(payments: readonly PaymentRow[]): OpenPayment[] {
     }));
 }
 
+/**
+ * Nobody to split with: the crew has no other active member and nobody else is in the ledger. The
+ * balances would only ever read "all square", so the screen shows what was spent instead.
+ */
+export function isSolo(
+  uid: string,
+  members: readonly MoneyMember[],
+  lines: readonly BalanceLine[],
+): boolean {
+  const others = members.filter((member) => member.active && member.userId !== uid);
+  return others.length === 0 && lines.every((line) => line.me);
+}
+
 export function buildBalances(input: BalancesInput): BalancesModel {
   const nets = balances(
     input.ledger.map((row) => ({
