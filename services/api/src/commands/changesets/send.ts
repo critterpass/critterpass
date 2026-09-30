@@ -31,26 +31,11 @@ import {
   requireVisibleChangeSet,
   type ChangeSetRow,
 } from '../../plan/changeset-store';
+import { tripVoters } from '../../plan/access';
 import { chooseDeciderPolicy } from '../../plan/decider-policy';
 import { loadPlanState, lockTripPlan, replay } from '../../plan/versioning';
 import { queryIn } from '../../plan/providers';
 import { defineCommand } from '../_framework/define-command';
-
-async function activeMembers(tx: pg.PoolClient, crewId: string): Promise<string[]> {
-  const { rows } = await tx.query<{ user_id: string }>(
-    "SELECT user_id FROM crew_members WHERE crew_id = $1 AND status = 'active'",
-    [crewId],
-  );
-  return rows.map((r) => r.user_id);
-}
-
-async function seatHolders(tx: pg.PoolClient, tripId: string): Promise<string[]> {
-  const { rows } = await tx.query<{ user_id: string }>(
-    'SELECT user_id FROM trip_participants WHERE trip_id = $1 AND holds_seat',
-    [tripId],
-  );
-  return rows.map((r) => r.user_id);
-}
 
 /** Everyone the accepted ops touch: their own list, plus who attends the item before and after. */
 function affectedBy(row: ChangeSetRow, state: PlanState, everyone: readonly string[]): string[] {
@@ -148,9 +133,7 @@ export const sendChangesetCommand = defineCommand({
     row = { ...row, base_version_id: base };
     const state = await loadPlanState(tx, base);
     replay(state, changeSetOpsToEdits(accepted));
-    const everyone = await activeMembers(tx, row.crew_id);
-    const seats = (await seatHolders(tx, row.trip_id)).filter((uid) => everyone.includes(uid));
-    const voters = seats.length > 1 ? seats : everyone;
+    const voters = await tripVoters(tx, row.trip_id, row.crew_id);
     const affected = affectedBy(row, state, voters);
     const touched = state.items.filter((item) =>
       accepted.some((op) => op.target === item.stable_id),

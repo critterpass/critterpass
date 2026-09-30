@@ -39,3 +39,24 @@ export async function tripOrganiserIds(tx: pg.PoolClient, tripId: string): Promi
   );
   return rows.map((row) => row.user_id);
 }
+
+/**
+ * Who a plan change can touch: the trip's seat holders once more than the organiser holds one,
+ * otherwise every active member of the crew (before RSVPs, the whole crew is planning).
+ */
+export async function tripVoters(
+  tx: pg.PoolClient,
+  tripId: string,
+  crewId: string,
+): Promise<string[]> {
+  const { rows } = await tx.query<{ user_id: string; seat: boolean }>(
+    `SELECT m.user_id, coalesce(p.holds_seat, false) AS seat
+       FROM crew_members m
+       LEFT JOIN trip_participants p ON p.trip_id = $1 AND p.user_id = m.user_id
+      WHERE m.crew_id = $2 AND m.status = 'active'
+      ORDER BY m.user_id`,
+    [tripId, crewId],
+  );
+  const seats = rows.filter((row) => row.seat).map((row) => row.user_id);
+  return seats.length > 1 ? seats : rows.map((row) => row.user_id);
+}

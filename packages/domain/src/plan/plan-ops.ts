@@ -72,10 +72,10 @@ export interface PlanStateDay {
 export type PlanStateItem = Omit<PlanItemSnapshot, 'lane'> & {
   readonly stable_id: string;
   /** Parallel lane in the timeline; null = the day's main lane. */
-  readonly lane?: string | null;
+  readonly lane?: string | null | undefined;
   readonly day_no: number;
-  readonly locked_reason?: LockedReason | null;
-  readonly created_by_kind?: 'user' | 'guide';
+  readonly locked_reason?: LockedReason | null | undefined;
+  readonly created_by_kind?: 'user' | 'guide' | undefined;
 };
 
 export interface PlanState {
