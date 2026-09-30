@@ -82,7 +82,8 @@ CREATE POLICY comment_plus_ones_system ON comment_plus_ones FOR ALL TO app_syste
   USING (true) WITH CHECK (true);
 GRANT SELECT ON comment_plus_ones TO app_user;
 GRANT INSERT (id, comment_id, trip_id, user_id) ON comment_plus_ones TO app_user;
-GRANT SELECT, INSERT, DELETE ON comment_plus_ones TO app_system;
+-- UPDATE and DELETE for the account merge (a +1 follows its user; a duplicate is dropped).
+GRANT SELECT, INSERT, UPDATE, DELETE ON comment_plus_ones TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- personal_plan_ops: RLS class O. A member's accepted ops applied to their own plan only
@@ -158,7 +159,8 @@ ALTER TABLE calendar_feed_tokens ENABLE ROW LEVEL SECURITY;
 ALTER TABLE calendar_feed_tokens FORCE ROW LEVEL SECURITY;
 CREATE POLICY calendar_feed_tokens_system ON calendar_feed_tokens FOR ALL TO app_system
   USING (true) WITH CHECK (true);
-GRANT SELECT, INSERT, UPDATE ON calendar_feed_tokens TO app_system;
+-- DELETE for the account merge, which drops an anonymous uid's feeds.
+GRANT SELECT, INSERT, UPDATE, DELETE ON calendar_feed_tokens TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- A plan edit against a superseded version answers PLAN_VERSION_CONFLICT with the latest version,
