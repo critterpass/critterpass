@@ -1,0 +1,62 @@
+appId: app.critterpass.dev
+---
+# Release gate: the guide's draft, end to end on staging's AI. A fresh account sets up the demo
+# crew's Kyoto trip (subflows/setup-to-draft.yaml) and DRAFT MY TRIP runs the real draft job. The
+# draft opens as a private review (only the organiser sees it) with its days; CHANGE A DAY asks the
+# guide to redraft day 1 for a reason, the redraft's changes come back as a diff, and KEEP IT puts
+# them in the draft.
+- runFlow: subflows/setup-to-draft.yaml
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- assertVisible:
+    id: 'draft-private'
+- assertVisible:
+    id: 'draft-day-1'
+- scrollUntilVisible:
+    element:
+      id: 'draft-change-day'
+    timeout: 15000
+- tapOn:
+    id: 'draft-change-day'
+- extendedWaitUntil:
+    visible:
+      id: 'change-day'
+    timeout: 15000
+- tapOn:
+    id: 'change-day-1'
+- tapOn:
+    id: 'redraft-reason-.*'
+    index: 0
+- tapOn:
+    id: 'change-day-submit'
+# The last free redraft asks first.
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-thinking|redraft-diff|last-redraft-use'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'last-redraft-use'
+    commands:
+      - tapOn:
+          id: 'last-redraft-use'
+- extendedWaitUntil:
+    visible:
+      id: 'redraft-diff'
+    timeout: 600000
+- scrollUntilVisible:
+    element:
+      id: 'redraft-keep'
+    timeout: 15000
+- tapOn:
+    id: 'redraft-keep'
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 30000
+- assertVisible:
+    id: 'draft-day-1'

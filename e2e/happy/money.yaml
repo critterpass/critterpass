@@ -1,0 +1,83 @@
+appId: app.critterpass.dev
+---
+# Release gate: crew money. A fresh account takes the staging demo crew (a Bali trip with four
+# crewmates, no expenses yet), adds Rp 450.000 it paid, split evenly, on the keypad: the expense
+# lands in LATEST and Balances has the crew owing the account. Settle up lists who pays whom;
+# the account asks one crewmate for their share and confirms it arrived, and that payment is
+# settled.
+- runFlow:
+    file: subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add-keypad'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- tapOn: '4'
+- tapOn: '5'
+- tapOn: '0'
+- tapOn: '000'
+- tapOn:
+    id: 'money-add-split'
+    optional: true
+- tapOn: 'EVENLY'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 20000
+# The api accepted it: the balances now owe the account, and settling takes some taps.
+- extendedWaitUntil:
+    visible:
+      text: '(?i)settle in [0-9]+ taps?'
+    timeout: 30000
+- tapOn:
+    id: 'money-settle'
+- extendedWaitUntil:
+    visible:
+      id: 'money-settle-row-.*'
+    timeout: 15000
+- tapOn:
+    id: 'money-settle-row-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'money-pay-request'
+    timeout: 15000
+- tapOn:
+    id: 'money-pay-request'
+- extendedWaitUntil:
+    visible:
+      id: 'money-pay-confirm'
+    timeout: 20000
+- tapOn:
+    id: 'money-pay-confirm'
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-pay-confirm'
+    timeout: 20000
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-settled-progress'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'money-settled-progress'
+    timeout: 20000

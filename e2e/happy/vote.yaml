@@ -1,0 +1,93 @@
+appId: app.critterpass.dev
+---
+# Release gate: the crew's destination vote, from a pitch to the reveal. A fresh account takes the
+# staging demo world's `vote` scenario (Bali Demo Crew's open vote, organised by the account: Kyoto
+# and Lisbon two ballots each from the crewmates, Iceland and Mexico City none). It pitches Cusco
+# (the guide's pitch streams in), the board gains it, the account votes for it, GO TO THE FINAL takes
+# the top two (the account's ballot on Cusco is dropped, so it votes again), and its ballot in the
+# 2–2 final is the last one: the vote closes and the winner is revealed with SET UP for the
+# organiser.
+- runFlow:
+    file: subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-vote
+- scrollUntilVisible:
+    element:
+      id: 'board-pitch'
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-sheet'
+    timeout: 10000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'cusco'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-result-0'
+# The guide's pitch streams in; its quote is the last section.
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- tapOn:
+    id: 'pitch-add'
+- runFlow:
+    when:
+      notVisible:
+        id: 'destination-board'
+    file: ../onboarding/subflows/back.yaml
+# Cusco is on the board with no votes; a tap votes for it.
+- scrollUntilVisible:
+    element:
+      text: 'Cusco, 0 votes'
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn: 'Cusco, 0 votes'
+- extendedWaitUntil:
+    visible:
+      text: 'Cusco, 1 votes, your vote'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'board-go-to-final'
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-go-to-final'
+- extendedWaitUntil:
+    visible:
+      id: 'final-split'
+    timeout: 20000
+- tapOn:
+    id: 'final-split-open'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown'
+    timeout: 15000
+- assertVisible: 'KYOTO'
+- assertVisible: 'LISBON'
+- waitForAnimationToEnd
+- tapOn:
+    id: 'showdown-half-0'
+- extendedWaitUntil:
+    visible:
+      id: 'winner-reveal'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-stamp'
+    timeout: 15000
+- assertVisible:
+    id: 'reveal-tally'
+- assertVisible:
+    id: 'reveal-set-up'

@@ -1,0 +1,8 @@
+appId: app.critterpass.dev
+---
+# Release gate: trip setup from the reveal. A fresh account wins the demo crew's final for Kyoto,
+# taps SET UP, goes through dates, budget, rooms and must-dos (subflows/setup-to-draft.yaml) and
+# DRAFT MY TRIP starts the draft: the drafting screen shows the guide's steps.
+- runFlow: subflows/setup-to-draft.yaml
+- assertVisible:
+    id: 'drafting-title'
