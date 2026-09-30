@@ -52,4 +52,14 @@ describe('label centring', () => {
   it('reports a label that sits low as a positive offset', () => {
     expect(measureLabelOffsets(page(163)).rows[0]?.offsetPt).toBe(1.5);
   });
+
+  it('reads a half-covered bottom row as half a pixel of baseline', () => {
+    const image = page(160);
+    // Anti-aliasing: a row under the letters at halfway between their ink (10) and the fill (120).
+    for (const x0 of [110, 140, 170, 200]) {
+      for (let x = x0; x < x0 + 20; x += 1)
+        image.data.set([65, 65, 65], (160 * image.width + x) * 4);
+    }
+    expect(measureLabelOffsets(image).rows[0]?.baseline).toBe(160.5);
+  });
 });
