@@ -48,13 +48,26 @@ const auditRow = (targetId: string) =>
     return rows;
   });
 
+/** Draft bands the seed leaves for review; every seeded destination adds its own. */
+const pendingCount = () =>
+  withDb(async (client) => {
+    const { rows } = await client.query<{ n: number }>(
+      'SELECT count(*)::int AS n FROM destination_cost_indices WHERE reviewed_at IS NULL',
+    );
+    return rows[0]?.n ?? 0;
+  });
+
 test('content approves a draft band as it is, and edits then approves another', async ({
   page,
 }) => {
+  const pending = await pendingCount();
+  expect(pending).toBeGreaterThan(2);
   await signInAs(page, 'content');
-  await expect(page.getByRole('link', { name: /Cost indices to review/ })).toContainText('22');
+  await expect(page.getByRole('link', { name: /Cost indices to review/ })).toContainText(
+    String(pending),
+  );
   await nav(page).getByRole('link', { name: 'Cost indices' }).click();
-  await expect(page.getByRole('tab', { name: 'pending · 22' })).toBeVisible();
+  await expect(page.getByRole('tab', { name: `pending · ${pending}` })).toBeVisible();
 
   const kyotoId = await page
     .getByLabel('Destination')
@@ -107,5 +120,5 @@ test('content approves a draft band as it is, and edits then approves another', 
   const served = page.getByRole('article', { name: 'Kyoto cost indices' });
   await expect(served.getByRole('listitem', { name: 'ryokan' })).toContainText('$135 – $250');
   await expect(served.getByRole('listitem', { name: 'ryokan' })).toContainText('$42.50');
-  await expect(page.getByRole('tab', { name: 'pending · 20' })).toBeVisible();
+  await expect(page.getByRole('tab', { name: `pending · ${pending - 2}` })).toBeVisible();
 });
