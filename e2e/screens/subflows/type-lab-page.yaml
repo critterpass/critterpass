@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# Opens one type lab page (apps/mobile/src/app/(dev)/type-lab.tsx), takes `${PAGE}` and goes back
+# to the list (Android back, iOS edge swipe).
+- scrollUntilVisible:
+    element:
+      id: 'type-lab-${PAGE}'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'type-lab-${PAGE}'
+- extendedWaitUntil:
+    visible:
+      id: 'type-scene-ready'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${PAGE}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'type-lab-${PAGE}'
+    timeout: 10000

@@ -5,17 +5,26 @@ import type { StyleProp, TextStyle } from 'react-native';
  * Vertical extents of each bundled face, in em, over its whole weight/width family: `ascent` and
  * `descent` are the hhea line metrics the platforms lay lines out with, and `glyphTop` the highest
  * outline of any Latin or Vietnamese glyph the face covers, stacked marks
- * such as Ệ and Ữ included (Thai for Noto Sans Thai). Measured from apps/mobile/assets/fonts; the
- * glyph-room test re-measures the files and fails when a face changes.
+ * such as Ệ and Ữ included (Thai for Noto Sans Thai), and `capHeight` the top of the flat capitals
+ * (the Thai consonants' body for Noto Sans Thai), the box a label is centred on. Measured from
+ * apps/mobile/assets/fonts; the glyph-room test re-measures the files and fails when a face changes.
  */
 export const FACE_METRICS: Readonly<
-  Record<string, { readonly ascent: number; readonly descent: number; readonly glyphTop: number }>
+  Record<
+    string,
+    {
+      readonly ascent: number;
+      readonly descent: number;
+      readonly glyphTop: number;
+      readonly capHeight: number;
+    }
+  >
 > = {
-  Archivo: { ascent: 0.878, descent: 0.21, glyphTop: 1.059 },
-  Borel: { ascent: 0.986, descent: 1.014, glyphTop: 1.203 },
-  Geist: { ascent: 1.005, descent: 0.295, glyphTop: 1.082 },
-  GeistMono: { ascent: 1.005, descent: 0.295, glyphTop: 1.076 },
-  NotoSansThai: { ascent: 1.061, descent: 0.45, glyphTop: 0.865 },
+  Archivo: { ascent: 0.878, descent: 0.21, glyphTop: 1.059, capHeight: 0.687 },
+  Borel: { ascent: 0.986, descent: 1.014, glyphTop: 1.203, capHeight: 0.729 },
+  Geist: { ascent: 1.005, descent: 0.295, glyphTop: 1.082, capHeight: 0.71 },
+  GeistMono: { ascent: 1.005, descent: 0.295, glyphTop: 1.076, capHeight: 0.71 },
+  NotoSansThai: { ascent: 1.061, descent: 0.45, glyphTop: 0.865, capHeight: 0.56 },
 };
 
 /** `Archivo-W70-900` → `Archivo`; the OS default face (`system`) has no bundled metrics. */

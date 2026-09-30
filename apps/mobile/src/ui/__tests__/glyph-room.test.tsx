@@ -13,8 +13,11 @@ import type { TextVariant } from '../text/Text';
 
 const FONTS_DIR = join(__dirname, '../../../assets/fonts');
 
-/** Minimal TrueType reader: hhea line metrics and the outline bounds of the glyphs for `chars`. */
-function measureFace(file: string, chars: string) {
+/**
+ * Minimal TrueType reader: hhea line metrics, the outline bounds of the glyphs for `chars` and the
+ * top of `capChars` (the flat letters a label is centred on).
+ */
+function measureFace(file: string, chars: string, capChars: string) {
   const data = readFileSync(join(FONTS_DIR, file));
   const view = new DataView(data.buffer, data.byteOffset, data.byteLength);
   const tables = new Map<string, number>();
@@ -64,20 +67,25 @@ function measureFace(file: string, chars: string) {
   const glyf = table('glyf');
   const locaAt = (id: number) =>
     longLoca ? view.getUint32(loca + id * 4) : view.getUint16(loca + id * 2) * 2;
-  let top = -Infinity;
-  let bottom = Infinity;
-  for (const char of chars) {
-    const id = glyphFor(char.codePointAt(0) ?? 0);
-    if (id === 0 || locaAt(id) === locaAt(id + 1)) continue;
-    const glyph = glyf + locaAt(id);
-    bottom = Math.min(bottom, view.getInt16(glyph + 4));
-    top = Math.max(top, view.getInt16(glyph + 8));
-  }
+  const bounds = (text: string) => {
+    let top = -Infinity;
+    let bottom = Infinity;
+    for (const char of text) {
+      const id = glyphFor(char.codePointAt(0) ?? 0);
+      if (id === 0 || locaAt(id) === locaAt(id + 1)) continue;
+      const glyph = glyf + locaAt(id);
+      bottom = Math.min(bottom, view.getInt16(glyph + 4));
+      top = Math.max(top, view.getInt16(glyph + 8));
+    }
+    return { top: top / unitsPerEm, bottom: -bottom / unitsPerEm };
+  };
+  const glyphs = bounds(chars);
   return {
     ascent: view.getInt16(hhea + 4) / unitsPerEm,
     descent: -view.getInt16(hhea + 6) / unitsPerEm,
-    glyphTop: top / unitsPerEm,
-    glyphBottom: -bottom / unitsPerEm,
+    glyphTop: glyphs.top,
+    glyphBottom: glyphs.bottom,
+    capHeight: bounds(capChars).top,
   };
 }
 
@@ -94,13 +102,16 @@ describe('bundled face metrics', () => {
     const family = file.split('-', 1)[0] ?? '';
     const expected = FACE_METRICS[family];
     expect(expected).toBeDefined();
-    const face = measureFace(file, family === 'NotoSansThai' ? THAI : LATIN + VIETNAMESE);
+    const thai = family === 'NotoSansThai';
+    const face = measureFace(file, thai ? THAI : LATIN + VIETNAMESE, thai ? 'กดวน' : 'HEIN');
     expect(expected?.ascent).toBeCloseTo(face.ascent, 3);
     expect(expected?.descent).toBeCloseTo(face.descent, 3);
     // No glyph reaches higher than the recorded top or lower than the descender (give or take one
     // font unit, 0.001 em: Archivo's heaviest ogoneks overshoot by exactly that).
     expect(expected?.glyphTop).toBeGreaterThanOrEqual(face.glyphTop - 0.0005);
     expect(face.glyphBottom).toBeLessThanOrEqual(face.descent + 0.0015);
+    // Every weight and width of a family shares one cap height, give or take 3 units.
+    expect(Math.abs((expected?.capHeight ?? 0) - face.capHeight)).toBeLessThanOrEqual(0.004);
   });
 });
 

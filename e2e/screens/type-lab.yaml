@@ -1,0 +1,91 @@
+appId: app.critterpass.dev
+---
+# Label centring sheets: every label component and text face in English, Vietnamese and Thai, each
+# page once clean (read by tools/scripts/fonts/label-centring.ts) and once with its guide lines.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-type-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-type-lab'
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: buttons-en }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: buttons-en-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: actions-en }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: actions-en-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: chips-en }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: chips-en-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: faces-en }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: faces-en-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: buttons-vi }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: buttons-vi-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: actions-vi }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: actions-vi-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: chips-vi }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: chips-vi-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: faces-vi }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: faces-vi-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: buttons-th }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: buttons-th-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: actions-th }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: actions-th-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: chips-th }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: chips-th-guides }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: faces-th }
+- runFlow:
+    file: subflows/type-lab-page.yaml
+    env: { PAGE: faces-th-guides }
