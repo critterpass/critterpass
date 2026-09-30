@@ -272,6 +272,22 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: docker build -f services/${{ matrix.service }}/Dockerfile -t cp-${{ matrix.service }}-check .
+      - name: worker boots to its health server
+        if: matrix.service == 'worker'
+        # Railway marks a deployment successful once the container starts, so a worker that hangs
+        # before serving its health port looks deployed while no job runs. Boot the image with
+        # unreachable dependencies and require the health server within a minute.
+        run: |
+          docker run -d --name worker-boot \
+            -e DATABASE_DIRECT_URL=postgres://ci:ci@127.0.0.1:1/ci -e DATABASE_URL=postgres://ci:ci@127.0.0.1:1/ci \
+            -e REDIS_URL=redis://127.0.0.1:1 -e APP_ENV=staging -e COMMIT_SHA=ci cp-worker-check
+          for i in $(seq 1 60); do
+            if docker logs worker-boot 2>&1 | grep -q 'worker health listening'; then echo "worker booted"; exit 0; fi
+            sleep 1
+          done
+          docker logs worker-boot 2>&1 | tail -30
+          echo "::error::the worker image never reached its health server"
+          exit 1
 
   secrets:
     name: secret scan
