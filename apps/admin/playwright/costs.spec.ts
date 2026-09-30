@@ -52,9 +52,9 @@ test('content approves a draft band as it is, and edits then approves another', 
   page,
 }) => {
   await signInAs(page, 'content');
-  await expect(page.getByRole('link', { name: /Cost indices to review/ })).toContainText('19');
+  await expect(page.getByRole('link', { name: /Cost indices to review/ })).toContainText('22');
   await nav(page).getByRole('link', { name: 'Cost indices' }).click();
-  await expect(page.getByRole('tab', { name: 'pending · 19' })).toBeVisible();
+  await expect(page.getByRole('tab', { name: 'pending · 22' })).toBeVisible();
 
   const kyotoId = await page
     .getByLabel('Destination')
@@ -107,5 +107,5 @@ test('content approves a draft band as it is, and edits then approves another', 
   const served = page.getByRole('article', { name: 'Kyoto cost indices' });
   await expect(served.getByRole('listitem', { name: 'ryokan' })).toContainText('$135 – $250');
   await expect(served.getByRole('listitem', { name: 'ryokan' })).toContainText('$42.50');
-  await expect(page.getByRole('tab', { name: 'pending · 17' })).toBeVisible();
+  await expect(page.getByRole('tab', { name: 'pending · 20' })).toBeVisible();
 });
