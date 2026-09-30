@@ -1,10 +1,10 @@
 appId: app.critterpass.dev
 ---
 # Release gate: trip setup for a brand-new crew, with no demo world. A fresh account starts its own
-# crew (just itself), pitches two places, takes them to the final and votes: the vote closes and
-# SET UP opens the dates step. The account marks a week of next month free by hand and saves
-# (set_availability): the step shows those days counted and a way on, the crew's window to lock or
-# a week to pick, and locking it moves setup to the budget.
+# crew (just itself), pitches one place and locks it in: the place wins and SET UP opens the dates
+# step. The account marks a week of next month free by hand and saves (set_availability): the step
+# shows those days counted and a way on, the crew's window to lock or a week to pick, and locking
+# it moves setup to the budget.
 - runFlow: subflows/fresh-account.yaml
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -27,37 +27,16 @@ appId: app.critterpass.dev
     file: subflows/pitch-place.yaml
     env:
       QUERY: 'lisbon'
-- runFlow:
-    file: subflows/pitch-place.yaml
-    env:
-      QUERY: 'marrakech'
-# The board on Home: the organiser takes both places to the final.
+# One place on the board: the organiser locks it in, and it wins.
 - openLink: critterpass-dev://
 - scrollUntilVisible:
     element:
-      id: 'board-go-to-final'
+      id: 'board-lock-in'
     timeout: 30000
     centerElement: true
 - waitForAnimationToEnd
 - tapOn:
-    id: 'board-go-to-final'
-# The final's card takes the board's place, under the trip's card.
-- scrollUntilVisible:
-    element:
-      id: 'final-split-open'
-    timeout: 30000
-    centerElement: true
-- waitForAnimationToEnd
-- tapOn:
-    id: 'final-split-open'
-- extendedWaitUntil:
-    visible:
-      id: 'showdown'
-    timeout: 15000
-- waitForAnimationToEnd
-- tapOn:
-    id: 'showdown-half-0'
-# The only member has voted: the vote closes and the winner is revealed.
+    id: 'board-lock-in'
 - extendedWaitUntil:
     visible:
       id: 'reveal-set-up'
