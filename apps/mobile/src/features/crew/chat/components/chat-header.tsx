@@ -8,6 +8,7 @@ import { router } from 'expo-router';
 import { Pressable, View } from 'react-native';
 
 import { Icon } from '@/ui/icons/Icon';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { Row, Stack, Text, useTheme } from '@/ui';
@@ -58,6 +59,7 @@ export function ChatHeader({
   const styles = useStyles();
   const theme = useTheme();
   const map = chatMapTarget();
+  useBackAffordance();
   const title = crewName ?? t({ id: 'chat.header.fallbackTitle', message: 'Crew chat' });
   return (
     <Row style={styles.bar} testID="chat-header">

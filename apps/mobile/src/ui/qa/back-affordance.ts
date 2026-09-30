@@ -32,6 +32,15 @@ export function useBackAffordance(): void {
 }
 
 /**
+ * For a pushed screen the design draws without a back or close control on purpose, such as the
+ * issued pass (3a-6): onboarding is finished and is not re-entered. It counts like a control, so the
+ * guard stays quiet for that screen only.
+ */
+export function useNoBackByDesign(): void {
+  useBackAffordance();
+}
+
+/**
  * True when a settled screen is missing its way back: navigation can go back, the screen is one a
  * user reaches (not a developer tool) and it shows no back or close control.
  */

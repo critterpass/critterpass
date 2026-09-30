@@ -29,6 +29,7 @@ import { useLoop } from '@/motion/use-loop';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Stamp } from '@/ui/documents/Stamp';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -219,6 +220,7 @@ function uuidV7Ms(id: string): number {
 /** The page itself (first arrival plays the choreography; a relaunch shows it settled). */
 export function IssuedScreen() {
   useTrackStep('issued');
+  useNoBackByDesign();
   const analytics = useAnalytics();
   const first = useRef(true);
   const draft = usePassDraft();
