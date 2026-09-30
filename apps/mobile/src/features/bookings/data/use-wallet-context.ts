@@ -7,9 +7,11 @@
 /* eslint-disable lingui/no-unlocalized-strings -- stream names and status values, never copy. */
 import { useEffect, useMemo } from 'react';
 
+import { currentAppEnvironment } from '@/data/app-session/endpoints';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
+import { inboundAddress } from './inbound-domain';
 import { useLiveRows } from './live-rows';
 import {
   CREWS_SQL,
@@ -33,8 +35,6 @@ import {
   type TripRow,
 } from './queries';
 
-export const INBOUND_DOMAIN = 'in.critterpass.app';
-
 export interface WalletMember {
   readonly userId: string;
   readonly name: string;
@@ -49,7 +49,7 @@ export interface WalletContext {
   readonly members: readonly WalletMember[];
   /** Trip travellers holding a seat, in join order. */
   readonly travellerIds: readonly string[];
-  /** `{crew-slug}@in.critterpass.app`, once the crew's address has synced. */
+  /** `{crew-slug}@{inbound domain}` (staging builds use the staging domain), once the crew's address has synced. */
   readonly inboundAddress: string | null;
   readonly passPlus: boolean;
 }
@@ -134,7 +134,8 @@ export function useWalletContext(): WalletContext {
         name: firstName(row.display_name),
       })),
       travellerIds: participants.rows.map((row) => row.user_id),
-      inboundAddress: localPart === null ? null : `${localPart}@${INBOUND_DOMAIN}`,
+      inboundAddress:
+        localPart === null ? null : inboundAddress(localPart, currentAppEnvironment()),
       passPlus: (passPlus.rows[0]?.pass_plus ?? 0) === 1,
     };
   }, [
