@@ -22,6 +22,7 @@ import { GUIDE_SUITE, runGuideSuite } from '../guide/suite';
 import { BRIEFING_SUITE, runBriefingSuite } from '../briefing/suite';
 import { DISRUPTION_SUITE, runDisruptionSuite } from '../disruption/suite';
 import { runWatchSuite, WATCH_SUITE } from '../watch/suite';
+import { REPLAN_SUITE, runReplanSuite } from '../replan/suite';
 import { runCase, type EvalMode, type EvalOutput, type Pipeline } from './provider';
 import { EVALS_DIR, loadSuite, type Assertion, type CaseVars, type EvalCase } from './suite';
 
@@ -246,6 +247,7 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
   if (name === BRIEFING_SUITE) return runBriefingSuite(options, threshold);
   if (name === DISRUPTION_SUITE) return runDisruptionSuite(options, threshold);
   if (name === WATCH_SUITE) return runWatchSuite(options, threshold);
+  if (name === REPLAN_SUITE) return runReplanSuite(options, threshold);
   if (name === DRAFT_SUITE) {
     return runDraftSuite(
       {

@@ -4,7 +4,7 @@
  * appends and registers the disruption pushes, once per process. The guide's words need
  * `ANTHROPIC_API_KEY` (the DeepSeek key); without it every line is its template.
  */
-import type { AssertRouteOn, Telemetry } from '@cp/ai';
+import { personaIdSchema, writeReplanCopy, type AssertRouteOn, type Telemetry } from '@cp/ai';
 import { onEventAppended } from '@cp/db';
 
 import type { AnyJobDefinition } from '../../boss';
@@ -18,10 +18,18 @@ import { registerWatchNotifications, watchWriter } from './watch-notify';
 import { weatherWatchJob } from './weather-watch';
 import { stormCommitJob } from './storm-commit';
 import { stormHandoff } from './storm-decision';
+import { replanJob, type ReplanWriter } from './weather-replan';
 
 export { disruptionEventHook } from './hooks';
 
 export type DisruptionJobsEnv = GatewayEnv;
+
+function replanWriter(gateway: ReturnType<typeof gatewayFrom>): ReplanWriter {
+  return (guide, facts, tripId) => {
+    const persona = personaIdSchema.safeParse(guide);
+    return writeReplanCopy(gateway, persona.success ? persona.data : 'tokek', facts, { tripId });
+  };
+}
 
 let hooked = false;
 
@@ -43,5 +51,6 @@ export function disruptionJobs(
     noAnswerJob(),
     weatherWatchJob(watchWriter(gateway), stormHandoff),
     stormCommitJob(),
+    replanJob(replanWriter(gateway)),
   ];
 }

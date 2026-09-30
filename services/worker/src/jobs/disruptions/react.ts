@@ -22,6 +22,7 @@ import { applyApprovedGuideAction, executeGuideAction } from '../../guide-action
 import { reactToUndo, reactToVendorMessage } from './apply-vendor-reply';
 import { seatsNotConfirmed } from './storm-supplier';
 import { advancePlan } from './execute-rows';
+import { settleSuggestions } from './weather-replan';
 import { disruptionsWhere, moveRow, type DisruptionRow } from './rows';
 import { approveVendorDraft, withdrawVendorDraft } from './vendor-drafts';
 
@@ -242,7 +243,10 @@ export async function reactToEvent(
       case 'change_set.proposed':
         return onProposed(tx, event);
       case 'change_set.applied':
-        return onApplied(tx, event);
+        return (
+          (await onApplied(tx, event)) +
+          (await settleSuggestions(tx, str(event, 'trip_id') ?? '', str(event, 'change_set_id')))
+        );
       case 'guide_action.undone':
         return onUndone(tx, event);
       case 'poll.closed':

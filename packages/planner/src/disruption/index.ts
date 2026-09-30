@@ -4,3 +4,4 @@ export * from './flight-impact';
 export * from './watch-rules';
 export * from './storm-options';
 export * from './swap-days';
+export * from './weather-replan';

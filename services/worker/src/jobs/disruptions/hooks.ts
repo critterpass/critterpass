@@ -22,6 +22,25 @@ async function concernsDisruption(
   return rows[0]?.open === true;
 }
 
+/** Rain newly over an outdoor item: look for a dry slot (the replan job decides if it is one). */
+async function queueReplans(tx: pg.PoolClient, eventId: string, tripId: string): Promise<void> {
+  const { rows } = await tx.query<{ changes: { item_stable_id: string; reason: string }[] }>(
+    `SELECT payload -> 'changes' AS changes FROM app.domain_event_for_routing($1)`,
+    [eventId],
+  );
+  const items = new Set(
+    (rows[0]?.changes ?? []).filter((c) => c.reason === 'rain').map((c) => c.item_stable_id),
+  );
+  for (const stableId of items) {
+    await sendInTx(
+      tx,
+      DISRUPTION_QUEUES.replan,
+      { trip_id: tripId, item_stable_id: stableId },
+      { singletonKey: `${tripId}:${stableId}` },
+    );
+  }
+}
+
 const FLIGHT_CHANGES: ReadonlySet<string> = new Set([
   'delay',
   'cancelled',
@@ -40,6 +59,10 @@ export async function disruptionEventHook(
       event_id: event.id,
       event_type: event.type as DisruptionReactJob['event_type'],
     });
+    return;
+  }
+  if (event.type === 'forecast.changed' && event.tripId !== null) {
+    await queueReplans(tx, event.id, event.tripId);
     return;
   }
   if (event.type !== 'flight.status_changed' || event.tripId === null) return;

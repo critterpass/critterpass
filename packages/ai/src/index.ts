@@ -289,3 +289,4 @@ export * from './routes/guide';
 export * from './routes/briefing';
 export * from './routes/disruption';
 export * from './routes/watch';
+export * from './routes/replan';

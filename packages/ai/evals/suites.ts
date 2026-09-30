@@ -25,6 +25,7 @@ export const SUITES = [
   'briefing',
   'disruption',
   'watch',
+  'replan',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -48,8 +49,9 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/prompts|evals)\/draft\//u, ['draft']],
   [/^packages\/ai\/(src\/routes|evals)\/guide\//u, ['guide']],
   [/^packages\/ai\/(src\/routes|evals)\/briefing\//u, ['briefing']],
-  [/^packages\/ai\/(src\/routes|evals)\/disruption\//u, ['disruption', 'watch']],
+  [/^packages\/ai\/(src\/routes|evals)\/disruption\//u, ['disruption', 'watch', 'replan']],
   [/^packages\/ai\/(src\/routes|evals)\/watch\//u, ['watch']],
+  [/^packages\/ai\/(src\/routes|evals)\/replan\//u, ['replan']],
   [/^packages\/planner\/src\/draft\//u, ['draft']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
   [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch', 'guest-brief']],

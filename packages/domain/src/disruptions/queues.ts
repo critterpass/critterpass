@@ -106,3 +106,6 @@ export type NoAnswerJob = z.infer<typeof noAnswerJobSchema>;
 
 /** How long a sent message waits for the vendor before the row offers a call. */
 export const VENDOR_NO_ANSWER_MIN = 30;
+
+export const replanJobSchema = z.object({ trip_id: z.uuid(), item_stable_id: z.uuid() });
+export type ReplanJob = z.infer<typeof replanJobSchema>;

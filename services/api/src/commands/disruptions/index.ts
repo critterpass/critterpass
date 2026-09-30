@@ -11,6 +11,7 @@ import type { CommandRegistry } from '../_framework/registry';
 import type { OrderCommandDeps } from '../suppliers/hold-activity';
 import { announceDisruptionCommand } from './announce-disruption';
 import { decideDisruptionActionCommand } from './decide-disruption-action';
+import { dismissWeatherSuggestionCommand } from './dismiss-weather-suggestion';
 import { disruptionReactHook } from './hooks';
 import { createHoldStormSeatsCommand, stormBookedHook } from './storm-seats';
 import { undoDisruptionActionCommand } from './undo-disruption-action';
@@ -22,6 +23,7 @@ export function registerDisruptionCommands(
   registry.register(decideDisruptionActionCommand);
   registry.register(undoDisruptionActionCommand);
   registry.register(announceDisruptionCommand);
+  registry.register(dismissWeatherSuggestionCommand);
   registry.register(createHoldStormSeatsCommand(orders));
   onEventAppended(stormBookedHook(orders));
 }
