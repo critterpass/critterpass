@@ -11,7 +11,7 @@ import { ScrollView, View } from 'react-native';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import type { StackMember } from '@/ui/people/AvatarStack';
@@ -249,14 +249,14 @@ export function ReviewView(props: ReviewViewProps) {
             />
           ) : null}
           {props.organiserApply ? (
-            <InlineAction
+            <TextLink
               label={t({ id: 'plan.review.applyNow', message: 'Put it in now' })}
               onPress={props.organiserApply}
               testID="plan-review-apply-now"
             />
           ) : null}
           {props.personal ? (
-            <InlineAction
+            <TextLink
               label={t({ id: 'plan.review.personal', message: 'Apply to my plan only' })}
               onPress={props.personal.onPress}
               disabled={props.personal.busy}

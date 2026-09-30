@@ -20,7 +20,7 @@ const useStyles = makeStyles((th) => ({
     padding: th.space['14'],
     gap: th.space['8'],
   },
-  actions: { flexDirection: 'row', gap: th.space['8'] },
+  actions: { gap: th.space['8'] },
 }));
 
 export function ClashCard({
@@ -53,25 +53,21 @@ export function ClashCard({
             })}
       </Text>
       <View style={styles.actions}>
-        <View style={{ flex: 1 }}>
-          <PillButton
-            size="sm"
-            variant="secondary"
-            block
-            label={t({ id: 'plan.overlay.clash.drop', message: 'Go with the crew' })}
-            onPress={onDrop}
-            testID={`plan-clash-drop-${clash.stableId}`}
-          />
-        </View>
-        <View style={{ flex: 1 }}>
-          <PillButton
-            size="sm"
-            block
-            label={t({ id: 'plan.overlay.clash.keep', message: 'Keep mine' })}
-            onPress={onKeep}
-            testID={`plan-clash-keep-${clash.stableId}`}
-          />
-        </View>
+        <PillButton
+          size="sm"
+          block
+          label={t({ id: 'plan.overlay.clash.keep', message: 'Keep mine' })}
+          onPress={onKeep}
+          testID={`plan-clash-keep-${clash.stableId}`}
+        />
+        <PillButton
+          size="sm"
+          variant="secondary"
+          block
+          label={t({ id: 'plan.overlay.clash.drop', message: 'Go with the crew' })}
+          onPress={onDrop}
+          testID={`plan-clash-drop-${clash.stableId}`}
+        />
       </View>
     </View>
   );

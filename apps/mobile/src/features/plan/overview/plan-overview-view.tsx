@@ -11,7 +11,7 @@ import { ScrollView, View } from 'react-native';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
 import type { GuideId } from '@/ui/people/GuideLine';
@@ -95,7 +95,7 @@ function Notice({
   return (
     <View style={styles.notice} testID={testID}>
       <Text variant="bodySm">{text}</Text>
-      {action ? <InlineAction label={action.label} onPress={action.onPress} /> : null}
+      {action ? <TextLink label={action.label} onPress={action.onPress} /> : null}
     </View>
   );
 }

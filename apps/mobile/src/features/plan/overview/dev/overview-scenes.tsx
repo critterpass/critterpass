@@ -5,6 +5,9 @@
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
 
+import { calendarMonths } from '../../views/model/views-model';
+import { PlanCalendar } from '../../views/plan-calendar';
+import { PlanMap } from '../../views/plan-map';
 import { buildDayCards, type DayCard } from '../model/plan-model';
 import { PlanOverviewView, type PlanOverviewViewProps } from '../plan-overview-view';
 import { ALEX, BALI_DAYS, BALI_ITEMS, BALI_POLLS, BALI_WEATHER, MAYA } from './bali-plan';
@@ -36,6 +39,20 @@ export function overviewProps(
     here: LAB_HERE,
     tab: 'list',
     onTab: noop,
+    mapView: (
+      <PlanMap
+        days={BALI_DAYS}
+        items={BALI_ITEMS}
+        destinationSlug="bali"
+        localRegionUri={null}
+        offlineUnavailable={false}
+        onDownload={null}
+        onOpenItem={noop}
+      />
+    ),
+    calendarView: (
+      <PlanCalendar months={calendarMonths(BALI_DAYS, BALI_ITEMS, null)} onOpenDay={noop} />
+    ),
     cards: baliCards(),
     canReorder: true,
     readOnly: false,

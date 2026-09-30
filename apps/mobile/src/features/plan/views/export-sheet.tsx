@@ -16,7 +16,7 @@ import type { CalendarFeedIssued } from '@cp/domain';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { toast } from '@/motion/island-toast';
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
@@ -137,12 +137,12 @@ export function ExportSheetView(props: ExportSheetViewProps) {
           />
         ) : null}
         {subscribe}
-        <InlineAction
+        <TextLink
           label={t({ id: 'plan.export.copy', message: 'Copy the link' })}
           onPress={props.onCopy}
           testID="plan-export-copy"
         />
-        <InlineAction
+        <TextLink
           label={t({ id: 'plan.export.revoke', message: 'Turn the link off' })}
           onPress={props.onRevoke}
           testID="plan-export-revoke"

@@ -16,7 +16,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
 
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { FilterChip } from '@/ui/chips/FilterChip';
 import { RouteLine } from '@/ui/map/RouteLine';
 import { Text } from '@/ui/text/Text';
@@ -174,7 +174,7 @@ export function PlanMap(props: PlanMapProps) {
               />
             ))}
             {model.pins.map((pin) => (
-              <ViewAnnotation key={pin.key} id={pin.key} lngLat={[pin.lng, pin.lat]}>
+              <ViewAnnotation key={pin.key} lngLat={[pin.lng, pin.lat]}>
                 <NumberPin pin={pin} onPress={() => props.onOpenItem(pin)} />
               </ViewAnnotation>
             ))}
@@ -193,7 +193,7 @@ export function PlanMap(props: PlanMapProps) {
         ) : null}
       </View>
       {props.onDownload ? (
-        <InlineAction
+        <TextLink
           label={t({ id: 'plan.map.download', message: 'Keep the map for offline' })}
           onPress={props.onDownload}
           testID="plan-map-download"

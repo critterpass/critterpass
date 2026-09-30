@@ -10,7 +10,7 @@ import { View } from 'react-native';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -120,7 +120,7 @@ export function ChangesetChatCardView(props: ChangesetChatCardViewProps) {
           </View>
         </View>
       ) : null}
-      <InlineAction
+      <TextLink
         label={t({ id: 'plan.card.open', message: 'See the changes' })}
         onPress={props.onOpen}
       />

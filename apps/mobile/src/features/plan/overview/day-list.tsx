@@ -24,7 +24,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { isPhysicalSpring, springConfig } from '@/motion/easing';
 import { impact } from '@/motion/feedback';
 import { usePress } from '@/motion/gestures/press';
-import { InlineAction } from '@/ui/buttons/InlineAction';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { makeStyles } from '@/ui/theme';
 
 import { DAY_CARD_GAP, DAY_CARD_HEIGHT, DayCard, dayCardLabel } from './day-card';
@@ -278,7 +278,7 @@ export function DayList(props: DayListProps) {
     <View style={styles.list} testID="plan-day-list">
       {pastCount > 0 ? (
         <View style={styles.past}>
-          <InlineAction
+          <TextLink
             label={
               showPast
                 ? t({ id: 'plan.overview.hidePast', message: 'Hide past days' })

@@ -18,7 +18,7 @@ import type { ReviewNumbers } from './model/review-numbers';
 const useStyles = makeStyles((th) => ({
   row: { flexDirection: 'row', flexWrap: 'wrap', gap: th.space['8'] },
   chip: {
-    borderRadius: th.radius.pill,
+    borderRadius: th.radius.md,
     paddingHorizontal: th.space['10'],
     paddingVertical: th.space['4'],
     backgroundColor: th.semantic.bg.control,

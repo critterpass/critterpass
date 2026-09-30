@@ -4,6 +4,7 @@
  */
 
 import { t } from '@lingui/core/macro';
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -81,7 +82,7 @@ function exportScene(canWrite: boolean, status: ExportStatus): () => ReactNode {
           onSubscribe={noop}
           onCopy={noop}
           onRevoke={noop}
-          onClose={noop}
+          onClose={() => router.back()}
         />
       </>
     );
