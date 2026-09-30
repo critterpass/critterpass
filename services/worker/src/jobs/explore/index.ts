@@ -1,6 +1,6 @@
 /**
- * Explore jobs, wired from the worker's environment: the crew's Q&A line on a place page. Without
- * a model key the job stores nothing and the place page shows no line.
+ * Explore jobs, wired from the worker's environment: the crew's Q&A line on a place page and the
+ * swipe deck. Without a model key the Q&A job stores nothing and deck cards carry no notes.
  */
 import {
   createGateway,
@@ -11,6 +11,7 @@ import {
 } from '@cp/ai';
 
 import type { AnyJobDefinition } from '../../boss';
+import { swipeDeckJob } from '../ai/swipe-deck';
 import { placeQnaJob } from './place-qna-summary';
 
 export interface ExploreJobsEnv {
@@ -45,5 +46,5 @@ export function exploreJobs(
   telemetry?: Telemetry,
 ): AnyJobDefinition[] {
   const gateway = exploreGateway(env, switches.assertAiRoute, telemetry);
-  return [placeQnaJob(gateway)];
+  return [placeQnaJob(gateway), swipeDeckJob(gateway)];
 }

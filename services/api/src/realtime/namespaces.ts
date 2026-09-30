@@ -88,3 +88,17 @@ registerNamespace({
   },
   presence: false,
 });
+
+// `swipe:{session_id}`: live votes (who, never how), matches and presence for the session's
+// trip participants (an active member who has not answered "out", or an organiser).
+registerNamespace({
+  name: 'swipe',
+  acl: aclForSql(`SELECT EXISTS (
+      SELECT 1 FROM swipe_sessions s
+       WHERE s.id = $1::uuid AND app.is_trip_member(s.trip_id)
+         AND (app.is_trip_organiser(s.trip_id) OR EXISTS (
+           SELECT 1 FROM trip_participants p
+            WHERE p.trip_id = s.trip_id AND p.user_id = app.uid() AND p.rsvp <> 'out'))
+    ) AS allowed`),
+  presence: true,
+});
