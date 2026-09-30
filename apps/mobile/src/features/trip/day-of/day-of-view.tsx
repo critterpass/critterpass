@@ -18,7 +18,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Skeleton } from '@/ui/states/Skeleton';
-import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { LeaveByHero } from '@/ui/trip/LeaveByHero';
@@ -133,8 +133,6 @@ function Hero(props: DayOfViewProps) {
 }
 
 export function DayOfView(props: DayOfViewProps) {
-  // 3k-2 draws the hero edge to edge with no back; the tab bar and the system back lead out.
-  useNoBackByDesign();
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
@@ -158,7 +156,19 @@ export function DayOfView(props: DayOfViewProps) {
   return (
     <Scaffold variant="dark" edges={[]} testID="trip-day">
       <ScrollView contentContainerStyle={{ paddingBottom: inset + theme.space['32'] }}>
-        <View style={{ height: insets.top, backgroundColor: theme.color.pink }} />
+        <View
+          style={{
+            paddingTop: insets.top + theme.space['8'],
+            paddingHorizontal: theme.size.gutter,
+            backgroundColor: theme.color.pink,
+          }}
+        >
+          <BackEyebrow
+            label={t({ id: 'trip.dayOf.back', message: 'Trip' })}
+            color={theme.semantic.text.onAccent}
+            testID="trip-day-back"
+          />
+        </View>
         <Hero {...props} />
         <View style={styles.body}>
           {props.offline ? <OfflinePill testID="trip-day-offline" /> : null}

@@ -63,10 +63,11 @@ function Run({
   return (
     <Row
       align="center"
+      style={{ flexShrink: 0 }}
       onLayout={(event: LayoutChangeEvent) => onWidth?.(event.nativeEvent.layout.width)}
     >
       {events.map((event) => (
-        <Row key={event.id} align="center">
+        <Row key={event.id} align="center" style={{ flexShrink: 0 }}>
           <Pressable
             accessibilityRole={event.onPress === undefined ? 'text' : 'link'}
             onPress={event.onPress}
@@ -123,7 +124,8 @@ export function Ticker({ events }: { readonly events: readonly TickerEvent[] }) 
       accessibilityLabel={list.map((event) => event.text).join('. ')}
       testID="trip-hub-ticker"
     >
-      <Animated.View style={[{ flexDirection: 'row' }, style]}>
+      {/* Wider than the strip on purpose: the run scrolls past its clipped edge, never shrinks. */}
+      <Animated.View style={[{ flexDirection: 'row', alignSelf: 'flex-start' }, style]}>
         <Run events={list} onWidth={setWidth} />
         {reduced ? null : <Run events={list} />}
       </Animated.View>

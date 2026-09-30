@@ -155,6 +155,10 @@ msgstr ""
 msgid "trip.dayOf.ringToGo"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.deniedAction"
 msgstr ""
