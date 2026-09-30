@@ -14,7 +14,8 @@ import type { GuideId } from '@/ui/people/GuideLine';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
-import { degrees, makeStyles, useTheme } from '@/ui/theme';
+import { PressScale } from '@/ui/press/PressScale';
+import { degrees, makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
 const STICKER = 84;
 const PIP_HEIGHT = 6;
@@ -32,6 +33,15 @@ const useStyles = makeStyles((th) => ({
   },
   actions: { gap: th.space['10'], alignItems: 'stretch' },
   centred: { textAlign: 'center' },
+  // The boost's own colour in outline (4f-3), where the shared pill's outline is neutral.
+  boost: {
+    minHeight: sizeToken(th.size.primaryCta, 'height'),
+    borderRadius: sizeToken(th.size.primaryCta, 'radius'),
+    borderWidth: 2,
+    paddingHorizontal: th.space['24'],
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 export interface LastRedraftViewProps {
@@ -55,6 +65,7 @@ export function LastRedraftView(props: LastRedraftViewProps) {
   const destination = props.destination;
   const n = props.n;
   const limit = props.limit;
+  const boostLabel = t({ id: 'planDraft.last.boost', message: 'Boost · unlimited redrafts' });
   return (
     <Sheet
       detents={['fit']}
@@ -138,12 +149,16 @@ export function LastRedraftView(props: LastRedraftViewProps) {
             testID="last-redraft-use"
           />
           {props.onBoost === undefined ? null : (
-            <PillButton
-              variant="secondary"
-              label={t({ id: 'planDraft.last.boost', message: 'Boost · unlimited redrafts' })}
+            <PressScale
               onPress={props.onBoost}
+              accessibilityLabel={boostLabel}
+              style={[styles.boost, { borderColor: theme.semantic.brand.boost }]}
               testID="last-redraft-boost"
-            />
+            >
+              <Text variant="buttonLg" color={theme.semantic.brand.boost} style={styles.centred}>
+                {boostLabel}
+              </Text>
+            </PressScale>
           )}
           <Text variant="caption" color={theme.semantic.text.tertiary} style={styles.centred}>
             {t({ id: 'planDraft.spent.reset', message: 'Redrafts reset every trip.' })}

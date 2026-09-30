@@ -18,6 +18,7 @@ import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { HeaderPill } from '@/ui/shell/HeaderPills';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Sticker } from '@/ui/sticker/Sticker';
+import { FooterFade, FOOTER_FADE_PT } from '@/ui/surface/FooterFade';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -45,7 +46,7 @@ const useStyles = makeStyles((th) => ({
   scroll: { flex: 1 },
   content: {
     paddingHorizontal: th.space['20'],
-    paddingBottom: th.space['16'],
+    paddingBottom: th.space['16'] + FOOTER_FADE_PT,
     gap: th.space['12'],
   },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: th.space['8'] },
@@ -191,6 +192,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
           />
         ) : null}
       </ScrollView>
+      <FooterFade />
       <View style={styles.footer}>
         <PillButton
           label={t({ id: 'planDraft.review.propose', message: 'Build the proposal' })}

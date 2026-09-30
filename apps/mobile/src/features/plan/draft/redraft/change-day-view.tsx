@@ -5,8 +5,9 @@
  * waits for a chip or a note. With no free redrafts left the button gives way to the boost offer.
  */
 import type { RedraftReason } from '@cp/domain';
+import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -28,6 +29,9 @@ import type { ReviewDay } from '../data/version';
 import { ReasonChips } from './reason-chips';
 
 const FLIP_MS = 260;
+const TILE_GAP = 6;
+/** Below this the day tiles stop sharing the width and the row scrolls instead. */
+const MIN_TILE = 36;
 const STICKER = 72;
 
 const useStyles = makeStyles((th) => ({
@@ -44,11 +48,11 @@ const useStyles = makeStyles((th) => ({
   },
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: th.space['12'] },
   grow: { flex: 1 },
-  chips: { gap: th.space['8'] },
+  chips: { flexDirection: 'row', gap: TILE_GAP },
   dayChip: {
-    minWidth: MIN_TOUCH_TARGET,
+    minHeight: MIN_TOUCH_TARGET,
     paddingVertical: th.space['8'],
-    paddingHorizontal: th.space['8'],
+    paddingHorizontal: th.space['2'],
     borderRadius: th.radius.md,
     alignItems: 'center',
     backgroundColor: th.semantic.bg.control,
@@ -161,6 +165,10 @@ export function ChangeDayView(props: ChangeDayViewProps) {
   const destination = props.destination;
   const picked = days.find((d) => d.dayNo === day);
   const ready = props.reasons.size > 0 || props.note.trim() !== '';
+  const [rowWidth, setRowWidth] = useState(0);
+  const shared = (rowWidth - TILE_GAP * (days.length - 1)) / Math.max(1, days.length);
+  const fits = rowWidth > 0 && shared >= MIN_TILE;
+  const tileWidth = fits ? shared : MIN_TOUCH_TARGET;
   return (
     <Sheet
       header={
@@ -193,44 +201,48 @@ export function ChangeDayView(props: ChangeDayViewProps) {
           </View>
         </View>
         <Text variant="eyebrow">{t({ id: 'planDraft.change.which', message: 'Which day?' })}</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.chips}
-        >
-          {days.map((d) => {
-            const selected = d.dayNo === day;
-            const n = d.dayNo;
-            const wd = weekday(locale, d.date);
-            return (
-              <Pressable
-                key={d.dayNo}
-                onPress={() => props.onDay(d.dayNo)}
-                accessibilityRole="radio"
-                accessibilityState={{ selected }}
-                accessibilityLabel={t({
-                  id: 'planDraft.change.dayChip',
-                  message: `Day ${n}, ${wd}`,
-                })}
-                style={[
-                  styles.dayChip,
-                  selected ? { backgroundColor: theme.semantic.action.primary } : null,
-                ]}
-                testID={`change-day-${n}`}
-              >
-                <Text variant="h3" color={selected ? theme.semantic.text.onAccent : undefined}>
-                  {String(n)}
-                </Text>
-                <Text
-                  variant="label"
-                  color={selected ? theme.semantic.text.onAccent : theme.semantic.text.secondary}
+        <View onLayout={(event) => setRowWidth(event.nativeEvent.layout.width)}>
+          <ScrollView
+            horizontal
+            scrollEnabled={!fits}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.chips}
+          >
+            {days.map((d) => {
+              const selected = d.dayNo === day;
+              const n = d.dayNo;
+              const wd = upper(weekday(locale, d.date), locale);
+              return (
+                <Pressable
+                  key={d.dayNo}
+                  onPress={() => props.onDay(d.dayNo)}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected }}
+                  accessibilityLabel={t({
+                    id: 'planDraft.change.dayChip',
+                    message: `Day ${n}, ${wd}`,
+                  })}
+                  style={[
+                    styles.dayChip,
+                    { width: tileWidth },
+                    selected ? { backgroundColor: theme.semantic.action.primary } : null,
+                  ]}
+                  testID={`change-day-${n}`}
                 >
-                  {wd}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
+                  <Text variant="h3" color={selected ? theme.semantic.text.onAccent : undefined}>
+                    {String(n)}
+                  </Text>
+                  <Text
+                    variant="label"
+                    color={selected ? theme.semantic.text.onAccent : theme.semantic.text.secondary}
+                  >
+                    {wd}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        </View>
         {picked === undefined ? null : (
           <DaySummary key={picked.dayNo} day={picked} locale={locale} />
         )}

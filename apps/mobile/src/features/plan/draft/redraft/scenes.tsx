@@ -2,6 +2,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- scene names and fixture text, never copy. */
 import type { RedraftReason } from '@cp/domain';
 
+import { counterLine } from '../data/quota-copy';
 import { changeCards, metricChips } from '../data/redraft';
 import { DAYS, TZ } from '../scenes/fixtures';
 import { CHANGES, METRICS, PLACES, SHIFT_CHANGES } from '../scenes/redraft-fixtures';
@@ -35,7 +36,7 @@ function changeDay(props: Partial<ChangeDayViewProps>) {
             note={NOTE}
             onNote={noop}
             problem={null}
-            counter="1 of 3 redrafts used"
+            counter={counterLine({ used: 1, limit: 3 })}
             sending={false}
             spent={null}
             onSubmit={noop}
@@ -83,7 +84,10 @@ export const REDRAFT_SCENES: readonly DraftScene[] = [
   { name: 'change-day-no-reason', render: changeDay({ reasons: new Set(), note: '' }) },
   {
     name: 'change-day-spent',
-    render: changeDay({ counter: '3 of 3 redrafts used', spent: <BoostOffer onBoost={noop} /> }),
+    render: changeDay({
+      counter: counterLine({ used: 3, limit: 3 }),
+      spent: <BoostOffer onBoost={noop} />,
+    }),
   },
   {
     name: 'change-day-conflict',

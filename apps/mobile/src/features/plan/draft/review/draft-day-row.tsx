@@ -6,6 +6,7 @@
  * flaps its title in place.
  */
 import { tokens } from '@cp/design-tokens';
+import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { useEffect } from 'react';
 import { View } from 'react-native';
@@ -92,7 +93,7 @@ function useAvatarStamp(index: number) {
 
 /** "FRI · Nishiki Market at 11:20, Gion" and its variants, in the viewer's language. */
 export function dayDetail(locale: string, day: ReviewDay): string {
-  const wd = weekday(locale, day.date);
+  const wd = upper(weekday(locale, day.date), locale);
   if (day.lottery !== null) {
     const date = shortDate(locale, day.lottery.date);
     const first = day.stops[0]?.name ?? '';
