@@ -1,13 +1,12 @@
 /**
- * The guide area's tool executors (docs/api-contracts.md §6): `crew_profiles`, `plan_read` and
+ * The guide area's tool executors, shared by the api and the worker (docs/api-contracts.md §6): `crew_profiles`, `plan_read` and
  * `phrase_card`. Each reads only `llm.*` views as `guide_reader`, scoped to the asking user and the
  * turn's trip (the trip comes from the turn, never from the model's input), so budgets, calendars,
  * private threads and dietary detail never reach the model; dietary flags appear only for members
  * who consented to share them.
  */
-import type { ToolContext, ToolRegistry } from '@cp/ai';
-import { withGuideReader } from '@cp/db';
-import type pg from 'pg';
+import type { RunAsGuideReader } from '../../context/build';
+import type { ToolContext, ToolRegistry } from '../../tools/registry';
 
 function tripOf(context: ToolContext): string {
   if (context.tripId === null) throw new Error('this tool needs a trip in context');
@@ -48,8 +47,8 @@ type PlanDay = {
   }[];
 };
 
-export async function readCrewProfiles(pool: pg.Pool, context: ToolContext) {
-  return withGuideReader(pool, context.uid, tripOf(context), async (tx) => {
+export async function readCrewProfiles(read: RunAsGuideReader, context: ToolContext) {
+  return read(context.uid, tripOf(context), async (tx) => {
     const { rows } = await tx.query<ProfileRow>(
       `SELECT user_id, first_name, taste_tags, dietary_flags, pace, chronotype
          FROM llm.crew_profiles ORDER BY first_name, user_id`,
@@ -65,8 +64,12 @@ export async function readCrewProfiles(pool: pg.Pool, context: ToolContext) {
   });
 }
 
-export async function readPlan(pool: pg.Pool, context: ToolContext, day: number | undefined) {
-  return withGuideReader(pool, context.uid, tripOf(context), async (tx) => {
+export async function readPlan(
+  read: RunAsGuideReader,
+  context: ToolContext,
+  day: number | undefined,
+) {
+  return read(context.uid, tripOf(context), async (tx) => {
     const { rows } = await tx.query<PlanRow>(
       `SELECT version_id, day_no, date::text AS date, stable_id,
               coalesce(poi_name, notes, category, 'Plan item') AS title,
@@ -97,11 +100,11 @@ export async function readPlan(pool: pg.Pool, context: ToolContext, day: number 
 
 /** A curated card by purpose (its context or key) and language; an address rides under it. */
 export async function readPhraseCard(
-  pool: pg.Pool,
+  read: RunAsGuideReader,
   context: ToolContext,
   input: { purpose: string; language: string; address?: string | undefined },
 ) {
-  return withGuideReader(pool, context.uid, context.tripId ?? '', async (tx) => {
+  return read(context.uid, context.tripId, async (tx) => {
     const { rows } = await tx.query<{ key: string; text: string; gloss: string }>(
       `SELECT key, text, gloss FROM llm.phrase_cards
         WHERE language = $1 AND (context = $2 OR key = $2)
@@ -120,14 +123,14 @@ export async function readPhraseCard(
   });
 }
 
-export function registerGuideToolExecutors(registry: ToolRegistry, pool: pg.Pool): void {
+export function registerGuideToolExecutors(registry: ToolRegistry, read: RunAsGuideReader): void {
   registry.registerToolExecutor('crew_profiles', (_input, context) =>
-    readCrewProfiles(pool, context),
+    readCrewProfiles(read, context),
   );
   registry.registerToolExecutor('plan_read', (input, context) =>
-    readPlan(pool, context, input.day),
+    readPlan(read, context, input.day),
   );
   registry.registerToolExecutor('phrase_card', (input, context) =>
-    readPhraseCard(pool, context, input),
+    readPhraseCard(read, context, input),
   );
 }

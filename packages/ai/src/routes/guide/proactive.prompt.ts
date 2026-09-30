@@ -1,11 +1,14 @@
 /**
- * The guide's proactive offer in crew chat (AI-20, e.g. "Karsa Spa has three slots at 14:00. Tap in
+ * The guide's proactive offer in crew chat (e.g. "Karsa Spa has three slots at 14:00. Tap in
  * and I'll book it and split it"). The facts (slots, time, price) are filled by a deterministic
  * template from the bookable slot's numbers; the model writes one short invitation from our own
  * place name and nothing else, so supplier text never enters the prompt and no number comes from
  * the model. Route `micro.line`; no tools, no web search.
  */
+import { decisionBand, isConfident, yesNoVerdict } from '@cp/domain';
+
 import type { GatewayInput, Gateway } from '../../client';
+import type { DecisionClient } from '../../decide';
 import { renderPersonaBlock } from '../../persona/layering';
 import type { PersonaPack } from '../../persona/schema';
 import { isDeclined, textOf } from '../../structured';
@@ -101,5 +104,43 @@ export async function writeGuideOffer(
       : { text: `${line} ${template}`, source: 'model' };
   } catch {
     return { text: template, source: 'template' };
+  }
+}
+
+export const CHIME_IN_ROUTE = 'guide.chime_in_classifier' as const;
+
+export const CHIME_IN_QUESTION =
+  'A travel guide could post this bookable slot into the crew chat of a group on this trip, unasked. Would the crew likely welcome it right now (it fits a trip day, it is soon enough to act on, and it is not spam)?';
+
+/**
+ * The chime-in classifier's go-ahead: only a confident yes posts; an unsure answer, a no or an
+ * unavailable classifier keeps the guide quiet.
+ */
+export async function shouldChimeIn(
+  decisions: Pick<DecisionClient, 'decide'>,
+  facts: OfferFacts,
+  usage: UsageContext = {},
+): Promise<boolean> {
+  try {
+    const decision = await decisions.decide(
+      CHIME_IN_ROUTE,
+      {
+        state: {
+          offer: {
+            place: facts.placeName,
+            slots: facts.slots,
+            local_time: localTime(facts.startsAt, facts.tz),
+            starts_in_hours: Math.round((Date.parse(facts.startsAt) - Date.now()) / 3_600_000),
+          },
+        },
+        questions: { chime_in: { type: 'noul', instructions: CHIME_IN_QUESTION } },
+      },
+      usage,
+    );
+    const answer = decision.answers.chime_in;
+    const band = decisionBand(CHIME_IN_ROUTE, decision.answered_by);
+    return yesNoVerdict(answer.noul, band) === 'yes' && isConfident(answer.confidence, band);
+  } catch {
+    return false;
   }
 }

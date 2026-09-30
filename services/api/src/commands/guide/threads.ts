@@ -1,5 +1,5 @@
 /**
- * Guide threads for the sheet (docs/product-decisions.md C27): a turn names its thread by a client
+ * Guide threads for the sheet (docs/product-decisions.md, context guide): a turn names its thread by a client
  * id; an unknown id opens the thread on first use, private (JUST ME) or the trip's group thread
  * (GROUP). Without a trip in the request the context guide is picked: the trip the user is on now,
  * else the next confirmed one, else the latest proposal or draft; none at all is the home guide.
@@ -43,7 +43,7 @@ const THREAD_SQL = `SELECT t.id, t.user_id, t.mode, t.trip_id, coalesce(t.crew_i
   LEFT JOIN guides g ON g.id = coalesce(t.guide_id, tr.guide_id)
  WHERE t.id = $1`;
 
-/** The context guide's trip for `uid` (C27), as the user sees trips through RLS. */
+/** The context guide's trip for the caller, as they see trips through RLS. */
 export async function contextTrip(tx: pg.PoolClient): Promise<string | null> {
   const { rows } = await tx.query<{ id: string }>(
     `SELECT t.id FROM trips t

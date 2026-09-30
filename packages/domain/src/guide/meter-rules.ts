@@ -1,8 +1,9 @@
 /**
- * Guide metering rules (docs/product-decisions.md D8, C12, C47): the free daily limit, which asks
+ * Guide metering rules (docs/product-decisions.md §3): the free daily limit, which asks
  * are exempt, the queued question's guard and the proactive posting allowance. The atomic count is
  * `app.consume_quota`; these are the pure decisions around it.
  */
+import { localSchedule, toLocalWallTime } from '../time/local-schedule';
 
 /** Free guide answers per device-local day (`ops_config guide.free_daily_limit` default). */
 export const GUIDE_FREE_DAILY_LIMIT = 30;
@@ -18,7 +19,7 @@ export const GUIDE_PROACTIVE_DEFAULT_CAP = 3;
 export const GUIDE_PROACTIVE_SWITCH = 'guide.proactive.enabled';
 export const GUIDE_PROACTIVE_CAP_KEY = 'guide.proactive.daily_cap';
 
-/** Guide work that never spends a user's meter (C12). */
+/** Guide work that never spends a user's meter. */
 export const GUIDE_UNMETERED_WORK = [
   'planning_job',
   'vote',
@@ -55,4 +56,22 @@ export function proactiveAllowed(input: ProactiveAllowanceInput): boolean {
   if (!input.enabled || input.cap <= 0) return false;
   if (input.postedToday >= input.cap) return false;
   return input.members > 0 && input.quietMembers * 2 <= input.members;
+}
+
+export interface GuidePeriod {
+  /** The device-local date (`YYYY-MM-DD`) the answer counts toward. */
+  readonly key: string;
+  /** The next local midnight: when the free answers come back. */
+  readonly resetAt: Date;
+}
+
+/** The meter day `at` falls in for a device in `tz`, and when it resets. */
+export function guidePeriod(at: Date, tz: string): GuidePeriod {
+  const { date } = toLocalWallTime(at, tz);
+  const next = new Date(`${date}T00:00:00Z`);
+  next.setUTCDate(next.getUTCDate() + 1);
+  return {
+    key: date,
+    resetAt: localSchedule({ date: next.toISOString().slice(0, 10), time: '00:00', tz }),
+  };
 }

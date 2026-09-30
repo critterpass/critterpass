@@ -3,22 +3,29 @@
  * sheet turn (SSE) on the free meter, and the `guide_thread:{id}` realtime namespace carries a
  * group thread's tokens to the trip's crew. The guide's tools are the api's executors plus the
  * guide area's own (crew profiles, plan, phrase cards); web search runs where the route enables it.
- * Crew-chat mentions are answered by the worker's `ai.guide_mention` job, streamed on
- * `crew_chat:{crew_id}`.
+ * `POST /v1/guide/crew/{crew_id}/mentions` streams the guide's reply to the caller's own mention,
+ * which the crew sees on `crew_chat:{crew_id}`.
  */
-import { createGateway, createToolRegistry, recordUsage, searchProviderFromEnv } from '@cp/ai';
+import {
+  createGateway,
+  createToolRegistry,
+  recordUsage,
+  registerGuideToolExecutors,
+  searchProviderFromEnv,
+} from '@cp/ai';
 import { withSystem } from '@cp/db';
-import { DomainError, guideTurnBodySchema } from '@cp/domain';
+import { DomainError, guideMentionBodySchema, guideTurnBodySchema } from '@cp/domain';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import { z } from 'zod';
 
 import type { AppEnv } from '../app';
 import { createApiCompliance } from '../ai/compliance';
+import { guideReaderRunner } from '../ai/context';
 import { deviceTzFrom } from '../ai/sse-route-helper';
 import { registerApiToolExecutors } from '../ai/tool-executors';
 import { validationHook, type CommandDoorDeps } from '../commands/_framework/doors';
 import { enforceUidRateLimit, requireCommandSession } from '../commands/_framework/session';
-import { registerGuideToolExecutors } from '../commands/guide/tools';
+import { streamCrewMention } from '../commands/guide/mention';
 import { streamThreadTurn, type GuideTurnDeps } from '../commands/guide/turn';
 import type { ApiEnv } from '../env';
 import { createKillSwitches } from '../ops/kill-switches';
@@ -61,12 +68,10 @@ export interface GuideRouteDeps extends Pick<CommandDoorDeps, 'pool' | 'sessions
 }
 
 export function registerGuideTurnRoute(app: OpenAPIHono<AppEnv>, deps: GuideRouteDeps): void {
+  const rule = { ...TURNS_PER_UID_RULE, max: deps.turnsPerMinute ?? TURNS_PER_UID_RULE.max };
   app.post('/v1/guide/threads/:id/turns', async (c) => {
     const { uid } = await requireCommandSession(deps.sessions, c.req.raw.headers);
-    await enforceUidRateLimit(deps.redis, 'guide_turns', uid, {
-      ...TURNS_PER_UID_RULE,
-      max: deps.turnsPerMinute ?? TURNS_PER_UID_RULE.max,
-    });
+    await enforceUidRateLimit(deps.redis, 'guide_turns', uid, rule);
     const threadId = parse(z.uuid(), c.req.param('id'));
     const body = parse(guideTurnBodySchema, await readJson(c.req.raw));
     return streamThreadTurn(
@@ -77,6 +82,23 @@ export function registerGuideTurnRoute(app: OpenAPIHono<AppEnv>, deps: GuideRout
         deviceTz: deviceTzFrom(c.req.raw.headers),
         threadId,
         body,
+      },
+    );
+  });
+
+  app.post('/v1/guide/crew/:crew_id/mentions', async (c) => {
+    const { uid } = await requireCommandSession(deps.sessions, c.req.raw.headers);
+    await enforceUidRateLimit(deps.redis, 'guide_turns', uid, rule);
+    const crewId = parse(z.uuid(), c.req.param('crew_id'));
+    const body = parse(guideMentionBodySchema, await readJson(c.req.raw));
+    return streamCrewMention(
+      { ...deps.turn, pool: deps.pool },
+      {
+        uid,
+        device: c.req.header('x-cp-device') ?? 'unknown',
+        deviceTz: deviceTzFrom(c.req.raw.headers),
+        crewId,
+        messageId: body.message_id,
       },
     );
   });
@@ -109,7 +131,7 @@ export function registerGuideRoutes(
     search: searchProviderFromEnv(),
     logger: doors.logger,
   });
-  registerGuideToolExecutors(registry, doors.pool);
+  registerGuideToolExecutors(registry, guideReaderRunner(doors.pool));
   const compliance = createApiCompliance({
     pool: doors.pool,
     typesafeApiKey: env.TYPESAFE_API_KEY,

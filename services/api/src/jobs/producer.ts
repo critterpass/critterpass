@@ -17,6 +17,7 @@ import {
   CHAT_VOICE_TRANSCODE_QUEUE,
   COUNTDOWN_RECOMPUTE_QUEUE,
   DRAFT_QUEUES,
+  GUIDE_QUEUES,
   INBOX_FANOUT_QUEUE,
   notificationKeysForEvent,
   notifyRouteSingletonKey,
@@ -34,6 +35,7 @@ import type { Logger } from 'pino';
 
 import { CONTENT_PUBLISH_QUEUE } from '../admin/content/commands';
 import { enqueueCountdownRecompute } from '../commands/home';
+import { enqueueGuideMention } from '../commands/guide/mention';
 import { enqueueInboxFanout } from '../commands/inbox';
 import { queueSetupRecomputes } from '../commands/setup/membership-hook';
 
@@ -94,6 +96,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(BOOKINGS_QUEUES),
       ...Object.values(BILLING_QUEUES),
       ...Object.values(PLAN_QUEUES),
+      ...Object.values(GUIDE_QUEUES),
       'cost.recompute',
     ]) {
       if ((await boss.getQueue(queue)) === null) {
@@ -122,4 +125,5 @@ export function routeNotificationsFromApiEvents(): void {
   onEventAppended(enqueueInboxFanout);
   onEventAppended(enqueueCountdownRecompute);
   onEventAppended(queueSetupRecomputes);
+  onEventAppended(enqueueGuideMention);
 }

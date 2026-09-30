@@ -56,7 +56,8 @@ export const GUIDE_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof GUIDE_QUEUE_
   'phrase.tts': 'Writes a custom phrase card and records its audio when a voice is configured',
 };
 
-export const guideMentionJobSchema = z.object({ message_id: z.uuid() });
+/** The `chat.guide_mentioned` event; the worker reads the mention's id from it. */
+export const guideMentionJobSchema = z.object({ event_id: z.uuid() });
 export type GuideMentionJob = z.infer<typeof guideMentionJobSchema>;
 
 export const queuedAnswerJobSchema = z.object({}).loose();

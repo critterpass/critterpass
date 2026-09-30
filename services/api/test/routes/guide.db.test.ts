@@ -7,14 +7,21 @@
  */
 import { randomUUID } from 'node:crypto';
 
-import { createGateway, createToolRegistry, recordUsage, type Gateway } from '@cp/ai';
+import {
+  createGateway,
+  createToolRegistry,
+  readCrewProfiles,
+  recordUsage,
+  registerGuideToolExecutors,
+  type Gateway,
+} from '@cp/ai';
 import { fixtureTransport, type FixtureTransport } from '@cp/ai/testing';
 import { withSystem } from '@cp/db';
 import { pino } from 'pino';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { createApiCompliance } from '../../src/ai/compliance';
-import { readCrewProfiles, registerGuideToolExecutors } from '../../src/commands/guide/tools';
+import { guideReaderRunner } from '../../src/ai/context';
 import { createKillSwitches } from '../../src/ops/kill-switches';
 import { registerGuideTurnRoute } from '../../src/routes/guide';
 import { seedGuideTrip } from '../ai/guide-action-seed';
@@ -49,7 +56,7 @@ beforeAll(async () => {
     (app, deps) => {
       const switches = createKillSwitches(deps.pool);
       const registry = createToolRegistry();
-      registerGuideToolExecutors(registry, deps.pool);
+      registerGuideToolExecutors(registry, guideReaderRunner(deps.pool));
       const logger = pino({ level: 'silent' });
       registerGuideTurnRoute(app, {
         pool: deps.pool,
@@ -262,7 +269,7 @@ describe('guide tools', () => {
        ON CONFLICT (user_id) DO UPDATE SET hide_taste_tags = true`,
       [organiser.uid],
     );
-    const profiles = await readCrewProfiles(harness.pool, {
+    const profiles = await readCrewProfiles(guideReaderRunner(harness.pool), {
       uid: organiser.uid,
       tripId,
       caller: 'C',
@@ -271,5 +278,45 @@ describe('guide tools', () => {
     const byUid = new Map(profiles.map((p) => [p.uid, p]));
     expect(byUid.get(member.uid)?.dietary_flags).toEqual(['vegetarian', 'no_peanuts']);
     expect(byUid.get(organiser.uid)).toMatchObject({ dietary_flags: [], taste_tags: [] });
+  });
+});
+
+describe('POST /v1/guide/crew/{crew_id}/mentions', () => {
+  it('streams the reply to the asker, posts it to the crew once, and only for the asker', async () => {
+    const asker = await harness.signInAnonymously();
+    const mate = await harness.signInAnonymously();
+    const { tripId } = await seedGuideTrip(harness.pool, {
+      organiser: asker.uid,
+      members: [mate.uid],
+    });
+    const { rows } = await harness.pool.query<{ crew_id: string }>(
+      'SELECT crew_id FROM trips WHERE id = $1',
+      [tripId],
+    );
+    const crewId = rows[0]!.crew_id;
+    const { rows: sent } = await harness.pool.query<{ id: string }>(
+      `INSERT INTO messages (crew_id, trip_id, sender_kind, sender_id, type, body, mentions_guide)
+       VALUES ($1, $2, 'user', $3, 'text', '@Tokek hi!', true) RETURNING id`,
+      [crewId, tripId, asker.uid],
+    );
+    const messageId = sent[0]!.id;
+    const post = (cookie: string) =>
+      harness.request(`/v1/guide/crew/${crewId}/mentions`, {
+        method: 'POST',
+        headers: { cookie, 'x-cp-tz': 'Asia/Makassar' },
+        body: JSON.stringify({ message_id: messageId }),
+      });
+
+    expect((await post(mate.cookie)).status).toBe(404);
+    useFixtures(['flash-stream']);
+    const frames = parseFrames(await (await post(asker.cookie)).text());
+    expect(frames.at(-1)?.event).toBe('done');
+    const reply = await harness.pool.query<{ body: string }>(
+      "SELECT body FROM messages WHERE reply_to_id = $1 AND sender_kind = 'guide'",
+      [messageId],
+    );
+    expect(reply.rows[0]?.body).toMatch(/^Hi! Tokek here/u);
+    const again = await post(asker.cookie);
+    expect(again.status).toBe(409);
   });
 });
