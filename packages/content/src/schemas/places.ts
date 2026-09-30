@@ -21,7 +21,16 @@ import { PERSONA_KEYS } from './personas';
 import { tasteTagSchema } from './taste-quiz';
 import { poiRefSchema } from './spawn-rules';
 
-export const SET_GROUP_SIZES: Readonly<Record<0 | 1 | 2 | 3, number>> = { 0: 10, 1: 5, 2: 3, 3: 1 };
+/**
+ * The fewest critters each set group launches with. A place's set may grow past it as new critters
+ * roll out (Vietnam's gained Chà Vá, its guide), so the index data, not this table, holds the size.
+ */
+export const SET_GROUP_MIN_SIZES: Readonly<Record<0 | 1 | 2 | 3, number>> = {
+  0: 10,
+  1: 5,
+  2: 3,
+  3: 1,
+};
 
 export const monthHintSchema = z
   .object({
@@ -52,11 +61,14 @@ export const placeIndexItemSchema = z
   })
   .strict()
   .superRefine((place, ctx) => {
-    if (place.critter_ids.length !== SET_GROUP_SIZES[place.set_group]) {
+    if (place.critter_ids.length < SET_GROUP_MIN_SIZES[place.set_group]) {
       ctx.addIssue({
         code: 'custom',
-        message: `set group ${place.set_group} holds ${SET_GROUP_SIZES[place.set_group]} critters`,
+        message: `set group ${place.set_group} holds at least ${SET_GROUP_MIN_SIZES[place.set_group]} critters`,
       });
+    }
+    if (new Set(place.critter_ids).size !== place.critter_ids.length) {
+      ctx.addIssue({ code: 'custom', message: 'a critter appears in the set once' });
     }
     if (!place.critter_ids.includes(place.hero_critter_id)) {
       ctx.addIssue({ code: 'custom', message: 'the hero critter lives in the set' });

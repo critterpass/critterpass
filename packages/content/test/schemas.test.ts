@@ -158,8 +158,13 @@ describe('places, phrases, safety and help', () => {
 
   it('checks set sizes, currencies and zones', () => {
     expect(placeIndexItemSchema.safeParse(place).success).toBe(true);
+    // A set grows past its group's launch size as critters roll out, never below it.
     expect(
       placeIndexItemSchema.safeParse({ ...place, critter_ids: ['cp-145', 'cp-146'] }).success,
+    ).toBe(true);
+    expect(placeIndexItemSchema.safeParse({ ...place, set_group: 2 }).success).toBe(false);
+    expect(
+      placeIndexItemSchema.safeParse({ ...place, critter_ids: ['cp-145', 'cp-145'] }).success,
     ).toBe(false);
     expect(placeIndexItemSchema.safeParse({ ...place, currency: 'XYZ' }).success).toBe(false);
     expect(placeIndexItemSchema.safeParse({ ...place, tz: 'Mars/Olympus' }).success).toBe(false);
