@@ -1,7 +1,7 @@
 /**
- * `eggs` (C1): a traveller reads their own egg whole (`me`); crewmates on the trip read its hatch
- * status (`trip`, id/user/granted/hatched columns only); outsiders and ex-members see none; only
- * the server grants and hatches, one egg per traveller per trip.
+ * `eggs` (C1): a traveller syncs their own egg on `me`; everyone on the trip syncs the trip's eggs
+ * on `trip` (the hatch status on the hub); outsiders and ex-members see none; only the server
+ * grants and hatches, one egg per traveller per trip.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -33,16 +33,13 @@ describe('eggs', () => {
     }
   });
 
-  it('syncs the own egg whole on me and crewmates only their hatch status on trip', async () => {
+  it('syncs the own egg on me and the trip eggs on trip, to the trip only', async () => {
     const { tripId } = harness.fixture;
     const own = (await harness.rows('me', 'organiser')).get('eggs') ?? [];
     expect(own).toHaveLength(1);
     expect(own[0]).toHaveProperty('form_id');
-    const trip = (await harness.rows('trip', 'organiser', { trip_id: tripId })).get('eggs') ?? [];
-    expect(trip).toHaveLength(1);
-    expect(Object.keys(trip[0]!).sort()).toEqual(
-      ['granted_at', 'hatched_at', 'id', 'trip_id', 'user_id'].sort(),
-    );
+    const trip = (await harness.rows('trip', 'member', { trip_id: tripId })).get('eggs') ?? [];
+    expect(trip).toHaveLength(2);
     expect((await harness.rows('trip', 'outsider', { trip_id: tripId })).get('eggs') ?? []).toEqual(
       [],
     );

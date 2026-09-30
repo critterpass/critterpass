@@ -64,7 +64,7 @@ attestation =
 |---|---|
 | `me` | own `eggs`, `encounters` (no evidence columns exist), `collection_entries`, `guide_skins`, `reminders`, `user_settings.explore_at_home` |
 | `crew_people` | `crew_collection_counts {crew_id, user_id, critters, forms}` of the caller's crews |
-| `trip` (`trip_id`) | crewmates' `eggs` with `id, trip_id, user_id, granted_at, hatched_at` only (the caller's own egg comes whole through `me`) |
+| `trip` (`trip_id`) | every traveller's `eggs` on the trip (hatch status for the hub; all columns are C1) |
 | `trip_pack` | `spawn_rules` of the trip's destination |
 | `catalog` | `critter_sets`, `critters`, `critter_forms`, `legendary_windows` (all name-free) |
 
