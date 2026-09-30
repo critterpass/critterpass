@@ -188,6 +188,8 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Day list + item detail sheet. 2. Time picker (15-min), attendees, move/remove. 3. Add from search/saved/freeform with fit check. 4. Member edits → auto ChangeSet.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/day`; `maestro test e2e/plan/day-edit.yaml`
 - Done when: member add produces a ChangeSet card in chat; organiser add applies directly.
+- Status: done — 91c4d443
+
 
 ### T7 — Timeline core (grid, drag, snap, lanes, reflow, a11y)
 - Goal: F-079 editing mechanics.
@@ -195,6 +197,8 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Lane layout algorithm (pure, tested). 2. Gesture Handler 3 + Reanimated worklets drag/resize with snap + haptics. 3. Collision reflow spring. 4. Accessibility actions.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/timeline`
 - Done when: CI perf budget on the drag Maestro run (dropped-frame count ≤ budget) passes; a11y actions change times by 15 min. Real-device 60 fps check → P54 launch checks.
+- Status: done — da0d9acc
+
 
 ### T8 — Timeline overlays: rain band, guide ghost, remote cursors
 - Goal: F-079 multiplayer + weather layer.
@@ -202,6 +206,8 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Rain band from hourly forecast + drift. 2. Ghost from pending weather ChangeSet (seeded fixture in tests); accept animation → review. 3. Presence publish (throttled) + interpolated cursors.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/timeline/overlays`; `maestro test e2e/plan/timeline.yaml`
 - Done when: two simulators show each other's cursor; ghost accept routes to 3e-3 with the ChangeSet.
+- Status: done — 91f73a37
+
 
 ### T9 — Review changes screen + chat approval card
 - Goal: F-080 UI reused across flows.
@@ -216,7 +222,7 @@ Done when: two devices edit the same plan concurrently with ops, cursors and com
 - Steps: 1. Option cards, vote stickers, LEADING hop, tie/closed states. 2. Comment composer, +1, typing. 3. Guide accommodation card with KEEP/UNDO (`undo_guide_action`). 4. Closed poll → apply via ChangeSet.
 - Tests: `pnpm --filter @cp/api test -- commands/comments`; `pnpm --filter @cp/mobile test -- features/plan/collab`; `maestro test e2e/plan/collab.yaml`
 - Done when: comment + +1 + vote visible on second device < 1 s; UNDO reverts the guide change.
-- Status: server part done — 350ea31a (comment commands); decision view, composer and e2e with the app lane
+- Status: done — 350ea31a (comment commands), 569ac437 (decision view, comments, +1, typing)
 
 ### T11 — Map & Calendar views
 - Goal: F-083 views.
