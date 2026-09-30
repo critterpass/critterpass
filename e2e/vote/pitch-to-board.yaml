@@ -40,12 +40,6 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'place-result-.*'
     index: 0
-# Android keeps the search keyboard up over the guest page; its actions sit under it.
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - hideKeyboard
 # The pitch action sits below the guest guide's brief.
 - scrollUntilVisible:
     element:
