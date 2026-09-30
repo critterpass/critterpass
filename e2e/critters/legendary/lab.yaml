@@ -15,7 +15,7 @@ appId: app.critterpass.dev
     element:
       id: 'dev-nav-critters-lab'
     direction: DOWN
-    centerElement: true
+    visibilityPercentage: 100
     timeout: 20000
 - tapOn:
     id: 'dev-nav-critters-lab'
@@ -67,7 +67,7 @@ appId: app.critterpass.dev
           element:
             id: 'dev-nav-critters-lab'
           direction: DOWN
-          centerElement: true
+          visibilityPercentage: 100
           timeout: 20000
       - tapOn:
           id: 'dev-nav-critters-lab'
@@ -125,7 +125,7 @@ appId: app.critterpass.dev
           element:
             id: 'dev-nav-critters-lab'
           direction: DOWN
-          centerElement: true
+          visibilityPercentage: 100
           timeout: 20000
       - tapOn:
           id: 'dev-nav-critters-lab'
@@ -183,7 +183,7 @@ appId: app.critterpass.dev
           element:
             id: 'dev-nav-critters-lab'
           direction: DOWN
-          centerElement: true
+          visibilityPercentage: 100
           timeout: 20000
       - tapOn:
           id: 'dev-nav-critters-lab'
@@ -241,7 +241,7 @@ appId: app.critterpass.dev
           element:
             id: 'dev-nav-critters-lab'
           direction: DOWN
-          centerElement: true
+          visibilityPercentage: 100
           timeout: 20000
       - tapOn:
           id: 'dev-nav-critters-lab'
@@ -299,7 +299,7 @@ appId: app.critterpass.dev
     element:
       id: 'dev-nav-critters-lab'
     direction: DOWN
-    centerElement: true
+    visibilityPercentage: 100
     timeout: 20000
 - tapOn:
     id: 'dev-nav-critters-lab'
@@ -351,7 +351,7 @@ appId: app.critterpass.dev
           element:
             id: 'dev-nav-critters-lab'
           direction: DOWN
-          centerElement: true
+          visibilityPercentage: 100
           timeout: 20000
       - tapOn:
           id: 'dev-nav-critters-lab'
@@ -409,7 +409,7 @@ appId: app.critterpass.dev
           element:
             id: 'dev-nav-critters-lab'
           direction: DOWN
-          centerElement: true
+          visibilityPercentage: 100
           timeout: 20000
       - tapOn:
           id: 'dev-nav-critters-lab'
@@ -467,7 +467,7 @@ appId: app.critterpass.dev
           element:
             id: 'dev-nav-critters-lab'
           direction: DOWN
-          centerElement: true
+          visibilityPercentage: 100
           timeout: 20000
       - tapOn:
           id: 'dev-nav-critters-lab'
@@ -525,7 +525,7 @@ appId: app.critterpass.dev
           element:
             id: 'dev-nav-critters-lab'
           direction: DOWN
-          centerElement: true
+          visibilityPercentage: 100
           timeout: 20000
       - tapOn:
           id: 'dev-nav-critters-lab'
