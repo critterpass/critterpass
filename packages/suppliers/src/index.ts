@@ -8,6 +8,19 @@ export type { LinkTarget } from './links/link-spec';
 export { bookingCjLink, bookingPage, type CjBookingConfig } from './booking-cj/links';
 export { viatorAffiliateLink, type ViatorAffiliateConfig } from './viator/links';
 export {
+  createViatorAdapter,
+  VIATOR_MAX_CART_ITEMS,
+  VIATOR_PARTNER_KEY,
+  type ViatorAdapter,
+} from './viator/adapter';
+export {
+  VIATOR_PRODUCTION_URL,
+  VIATOR_SANDBOX_URL,
+  VIATOR_SUPPLIER,
+  type ViatorConfig,
+} from './viator/client';
+export { createRollingLimiter, type RollingLimiter } from './viator/rate-limit';
+export {
   createPartnerLinks,
   type PartnerLinkRequest,
   type PartnerLinkResult,

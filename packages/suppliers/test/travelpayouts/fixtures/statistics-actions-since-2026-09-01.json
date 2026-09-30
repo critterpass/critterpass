@@ -1,1 +1,22 @@
-{"results":[],"fields":["action_id","campaign_id","sub_id","price_usd","paid_profit_usd","processing_profit_usd","state","date","updated_at"],"filters":[{"field":"type","op":"eq","value":"action"},{"field":"date","op":"ge","value":"2026-09-01"}],"sort":[{"field":"date","order":"asc"}],"total_rows":0,"offset":0,"limit":1000}
+{
+  "results": [],
+  "fields": [
+    "action_id",
+    "campaign_id",
+    "sub_id",
+    "price_usd",
+    "paid_profit_usd",
+    "processing_profit_usd",
+    "state",
+    "date",
+    "updated_at"
+  ],
+  "filters": [
+    { "field": "type", "op": "eq", "value": "action" },
+    { "field": "date", "op": "ge", "value": "2026-09-01" }
+  ],
+  "sort": [{ "field": "date", "order": "asc" }],
+  "total_rows": 0,
+  "offset": 0,
+  "limit": 1000
+}

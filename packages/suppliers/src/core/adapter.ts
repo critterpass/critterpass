@@ -94,8 +94,6 @@ export interface HoldRequest {
   readonly cartRef: string;
   readonly currency: string;
   readonly items: readonly HoldItemRequest[];
-  /** Origin the supplier's payment form is hosted on. */
-  readonly hostingUrl: string;
 }
 
 export type HoldStatus = 'HOLDING' | 'HOLD_NOT_PROVIDED';

@@ -1,0 +1,52 @@
+{
+  "cartRef": "CR-cb9c9d63017a63c96454e4a5b0b153eb",
+  "partnerCartRef": "lW83mqyU",
+  "currency": "AUD",
+  "items": [
+    {
+      "partnerBookingRef": "irk5vCJ7",
+      "bookingRef": "BR-593038025",
+      "status": "BOOKABLE",
+      "lineItems": [
+        {
+          "ageBand": "ADULT",
+          "numberOfTravelers": 2,
+          "subtotalPrice": {
+            "price": {
+              "recommendedRetailPrice": 13.6,
+              "partnerNetPrice": 12.52
+            }
+          }
+        }
+      ],
+      "itemTotalPrice": {
+        "price": {
+          "recommendedRetailPrice": 13.6,
+          "partnerNetPrice": 12.52,
+          "bookingFee": 0,
+          "commission": 1.08,
+          "partnerTotalPrice": 12.52
+        }
+      },
+      "bookingHoldInfo": {
+        "availability": {
+          "status": "HOLD_NOT_PROVIDED"
+        },
+        "pricing": {
+          "status": "HOLDING",
+          "validUntil": "2023-07-21T03:17:37.494535Z"
+        }
+      }
+    }
+  ],
+  "totalHeldPrice": {
+    "price": {
+      "recommendedRetailPrice": 13.6,
+      "partnerNetPrice": 12.52,
+      "bookingFee": 0,
+      "commission": 1.08,
+      "partnerTotalPrice": 12.52
+    }
+  },
+  "paymentSessionToken": "sample-payment-session-token"
+}
