@@ -27,6 +27,7 @@
     "@duckdb/node-api": "catalog:",
     "@hono/node-server": "catalog:",
     "@lingui/core": "catalog:",
+    "@lingui/message-utils": "catalog:",
     "@opentelemetry/api": "catalog:",
     "@opentelemetry/api-logs": "catalog:",
     "@opentelemetry/exporter-logs-otlp-http": "catalog:",

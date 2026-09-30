@@ -1,8 +1,9 @@
 /**
  * Flight status jobs: AeroAPI alert events, the schedule checks, the boarding ping and the watch
  * sweep, over whichever providers the environment configures (`AEROAPI_KEY`, `AERODATABOX_KEY`;
- * names only in services/worker/.env.example). With neither, flights keep their scheduled times and
- * the traveller's own "landed".
+ * names only in services/worker/.env.example; `AERODATABOX_MONTHLY_CALLS` caps AeroDataBox calls per
+ * UTC month, default 380). With neither, flights keep their scheduled times and the traveller's own
+ * "landed".
  */
 import { withSystem } from '@cp/db';
 import {
@@ -14,6 +15,7 @@ import {
 import type pg from 'pg';
 
 import type { AnyJobDefinition } from '../../boss';
+import { adbMonthlyCallsFromEnv, createAdbGate } from './adb-budget';
 import { boardingScheduleJob } from './boarding-schedule';
 import { flightEventJob } from './flight-event';
 import { flightPollJob, type FlightProviders } from './flight-poll';
@@ -35,6 +37,9 @@ export function flightProvidersFromEnv(
   return {
     aero: aeroKey ? createAeroApiClient(http, { apiKey: aeroKey }) : undefined,
     adb: adbKey ? createAeroDataBoxClient(http, { apiKey: adbKey }) : undefined,
+    adbGate: adbKey
+      ? createAdbGate(pool, { monthlyCalls: adbMonthlyCallsFromEnv(source) })
+      : undefined,
   };
 }
 

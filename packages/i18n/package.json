@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@lingui/core": "catalog:",
+    "@lingui/message-utils": "catalog:",
     "@messageformat/parser": "catalog:"
   },
   "devDependencies": {

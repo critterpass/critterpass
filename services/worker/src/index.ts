@@ -6,65 +6,30 @@ import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
 
-import { aiJobs, guideJobs } from './ai';
-import { contentJobs } from './content';
 import { createPostHogSink, startExportLoop, type ExportLoop } from './analytics-export';
 import { loadWorkerEnv } from './env';
-import {
-  createBoss,
-  createFailureReporter,
-  startJobRuntime,
-  stopJobRuntime,
-  type AnyJobDefinition,
-} from './boss';
-import { guideActionExecuteJob, guideActionUndoExpireJob } from './guide-actions';
+import { createBoss, createFailureReporter, startJobRuntime, stopJobRuntime } from './boss';
 import { createHealthApp } from './health';
+import { buildJobRegistry } from './job-registry';
 import { createWorkerLlmObservability } from './obs/langfuse';
 import { createLogger } from './obs/logger';
 import { createMetricsRecorder } from './obs/metrics';
 import { initWorkerSentry } from './obs/sentry';
-import { avatarJobs } from './jobs/avatar';
-import { chatJobs, registerChatNotifications } from './jobs/chat';
-import { liveMapJobs, registerLiveMapNotifications } from './jobs/live-map';
-import {
-  inboxEventHook,
-  inboxFanoutJob,
-  registerHomeInboxFanouts,
-  registerHomeRetention,
-} from './jobs/inbox';
-import { nudgeDispatchJob, registerNudgeNotifications } from './jobs/nudges';
-import { countdownEventHook, countdownRecomputeJob } from './jobs/countdown';
-import {
-  pollBoardAdvanceJob,
-  pollCloseJob,
-  pollRemindJob,
-  registerPollFanouts,
-} from './jobs/polls';
-import { tipsEventHook, tipsJobs } from './jobs/tips';
-import { pitchJobs, registerPitchTipCandidates } from './jobs/pitches';
-import { registerSetupPushes, setupJobs } from './jobs/setup';
-import { draftJobs } from './jobs/ai/draft';
-import { moneyJobs, registerMoneyPushes } from './jobs/money';
-import { bookingsJobs } from './jobs/bookings';
-import { billingJobs } from './jobs/billing';
-import { planJobs } from './jobs/plan';
-import { anonGcJob } from './jobs/maint/anon-gc';
-import { purgeJob } from './jobs/maint/purge';
-import { fixesTtlJob } from './jobs/location/fixes-ttl';
-import { visitsTtlJob } from './jobs/location/visits-ttl';
+import { registerChatNotifications } from './jobs/chat';
+import { registerLiveMapNotifications } from './jobs/live-map';
+import { inboxEventHook, registerHomeInboxFanouts, registerHomeRetention } from './jobs/inbox';
+import { registerNudgeNotifications } from './jobs/nudges';
+import { countdownEventHook } from './jobs/countdown';
+import { registerPollFanouts } from './jobs/polls';
+import { tipsEventHook } from './jobs/tips';
+import { registerPitchTipCandidates } from './jobs/pitches';
+import { registerSetupPushes } from './jobs/setup';
+import { registerMoneyPushes } from './jobs/money';
 import { startWorkerHeartbeat } from './boss/heartbeat';
-import { aiCostGuardJob } from './jobs/ops/ai-cost-guard';
-import { inviteJobs, registerInviteNotifications } from './jobs/invites';
-import { backupJob } from './jobs/ops/backup';
-import { createObjectStore } from './jobs/ops/object-store';
-import { enqueueDueJob } from './jobs/sched/enqueue-due';
-import { notifyRouteJob, routeEventHook } from './jobs/notify';
-import { pushSendJob } from './jobs/push/send';
-import { roundupBuildJob, roundupScanJob } from './jobs/roundup/build';
-import { createCopyRenderer, createPushProviders, defaultBundleId } from './push';
-import { createCentrifugoApi, rtRelayJob, startRtRelayWake, type RtRelay } from './rt-relay';
-import { travelDataJobs } from './travel-data';
-import { costRecomputeJob } from './cost/recompute';
+import { registerInviteNotifications } from './jobs/invites';
+import { routeEventHook } from './jobs/notify';
+import { createCopyRenderer, createPushProviders } from './push';
+import { startRtRelayWake, type RtRelay } from './rt-relay';
 
 const env = loadWorkerEnv();
 const logger = createLogger({ level: env.LOG_LEVEL, service: 'worker', commit: env.COMMIT_SHA });
@@ -126,101 +91,25 @@ const llmObservability = createWorkerLlmObservability({
 // One kill-switch reader per process: every AI call checks its route, tier and the cost guard's pause.
 const aiSwitches = createKillSwitchReader(pool, { tierOf: (route) => resolveRoute(route).tier });
 
-const jobs: AnyJobDefinition[] = [
-  enqueueDueJob(),
-  purgeJob(),
-  aiCostGuardJob(),
-  anonGcJob(),
-  fixesTtlJob(),
-  visitsTtlJob(),
-  ...inviteJobs(env),
-  guideActionExecuteJob(),
-  guideActionUndoExpireJob(),
-  ...aiJobs(
-    env,
-    (error) => logger.warn({ err: error }, 'langfuse export failed'),
-    llmObservability,
-    aiSwitches.assertAiRoute,
-  ),
-  ...travelDataJobs(
-    env,
-    pool,
-    logger.child({ component: 'travel-data' }),
-    aiSwitches.assertAiRoute,
-  ),
-  ...contentJobs(),
-  costRecomputeJob,
-  ...avatarJobs(env, aiSwitches.assertAiRoute, llmObservability),
-  ...chatJobs(env),
-  ...liveMapJobs(env, (error) => logger.warn({ err: error }, 'valhalla matrix failed')),
-  inboxFanoutJob(),
-  nudgeDispatchJob(),
-  countdownRecomputeJob(),
-  pollCloseJob(),
-  pollBoardAdvanceJob(),
-  pollRemindJob(),
-  ...tipsJobs(env, aiSwitches.assertAiRoute, llmObservability),
-  ...pitchJobs(env, aiSwitches.assertAiRoute, llmObservability),
-  ...setupJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
-  ...draftJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
-  ...moneyJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
-  ...bookingsJobs(env, pool, aiSwitches.assertAiRoute, llmObservability),
-  ...billingJobs(process.env, logger, metrics),
-  ...planJobs(),
-  ...guideJobs({ ...process.env, ...env }, pool, aiSwitches.assertAiRoute, llmObservability),
-  ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger, aiSwitches),
-  ...(await import('./jobs/trip-day')).tripDayJobs(process.env, aiSwitches, llmObservability),
-];
-const backupStore =
-  env.BACKUP_S3_ENDPOINT &&
-  env.BACKUP_S3_BUCKET &&
-  env.BACKUP_S3_ACCESS_KEY_ID &&
-  env.BACKUP_S3_SECRET_ACCESS_KEY
-    ? createObjectStore({
-        endpoint: env.BACKUP_S3_ENDPOINT,
-        bucket: env.BACKUP_S3_BUCKET,
-        accessKeyId: env.BACKUP_S3_ACCESS_KEY_ID,
-        secretAccessKey: env.BACKUP_S3_SECRET_ACCESS_KEY,
-        region: env.BACKUP_S3_REGION,
-      })
-    : undefined;
-if (env.APP_ENV !== 'local' || (backupStore && env.BACKUP_DATABASE_URL)) {
-  jobs.push(
-    backupJob({
-      databaseUrl: env.BACKUP_DATABASE_URL,
-      store: backupStore,
-      pgDump: [env.BACKUP_PG_DUMP_PATH],
-    }),
-  );
-}
-const relayEnabled = Boolean(env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY);
-if (env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY) {
-  jobs.push(
-    rtRelayJob(
-      createCentrifugoApi({ baseUrl: env.CENTRIFUGO_API_URL, apiKey: env.CENTRIFUGO_HTTP_API_KEY }),
-    ),
-  );
-} else {
-  logger.warn(
-    'rt_outbox relay is disabled: CENTRIFUGO_API_URL or CENTRIFUGO_HTTP_API_KEY is unset',
-  );
-}
-
-// Notifications (docs/api-contracts-async.md §2.2): routing, the evening roundup and delivery.
-// Domain events appended in this process enqueue their routing jobs in the same transaction.
 const renderer = createCopyRenderer();
 const pushProviders = createPushProviders(env);
 if (!pushProviders.apns)
   logger.warn('APNs is not configured: iOS pushes will be recorded as failed');
 if (!pushProviders.fcm)
   logger.warn('FCM is not configured: Android pushes will be recorded as failed');
-const roundupBuild = roundupBuildJob({ renderer });
-jobs.push(
-  notifyRouteJob({ renderer }),
-  pushSendJob({ ...pushProviders, renderer, defaultBundleId: defaultBundleId(env.APP_ENV) }),
-  roundupBuild,
-  roundupScanJob(roundupBuild),
-);
+const relayEnabled = Boolean(env.CENTRIFUGO_API_URL && env.CENTRIFUGO_HTTP_API_KEY);
+const jobs = await buildJobRegistry({
+  env,
+  processEnv: process.env,
+  pool,
+  logger,
+  aiSwitches,
+  llmObservability,
+  metrics,
+  renderer,
+  pushProviders,
+});
+// Domain events appended in this process enqueue their routing jobs in the same transaction.
 for (const hook of [routeEventHook, inboxEventHook, countdownEventHook, tipsEventHook])
   onEventAppended(hook);
 registerHomeInboxFanouts();

@@ -197,6 +197,9 @@ catalogs:
     '@lingui/format-po':
       specifier: 6.8.0
       version: 6.8.0
+    '@lingui/message-utils':
+      specifier: 6.8.0
+      version: 6.8.0
     '@lingui/react':
       specifier: 6.8.0
       version: 6.8.0
@@ -1146,6 +1149,9 @@ importers:
       '@lingui/core':
         specifier: 'catalog:'
         version: 6.8.0(@babel/core@7.29.7(supports-color@10.2.2))
+      '@lingui/message-utils':
+        specifier: 'catalog:'
+        version: 6.8.0
       '@messageformat/parser':
         specifier: 'catalog:'
         version: 5.1.1
@@ -1433,6 +1439,9 @@ importers:
       '@lingui/core':
         specifier: 'catalog:'
         version: 6.8.0(@babel/core@7.29.7(supports-color@10.2.2))
+      '@lingui/message-utils':
+        specifier: 'catalog:'
+        version: 6.8.0
       '@opentelemetry/api':
         specifier: 'catalog:'
         version: 1.9.1

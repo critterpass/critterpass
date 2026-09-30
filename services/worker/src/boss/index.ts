@@ -5,6 +5,7 @@ export {
   enqueueInTx,
   JobAttemptError,
   runAttempt,
+  scheduledJobData,
   workJob,
   type AnyJobDefinition,
   type JobAttempt,
