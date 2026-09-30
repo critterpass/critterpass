@@ -7,7 +7,7 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 
 import type { ChatCardProps } from '@/features/crew';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
@@ -45,6 +45,12 @@ interface ChatExpenseRow {
   readonly payer_name: string | null;
 }
 
+/**
+ * The card's share of the screen: the chat's text bubbles cap at the same fraction. Its wrappers in
+ * the timeline are content-sized, so a percentage would squeeze the lines word by word.
+ */
+const CARD_SHARE = 0.82;
+
 const useStyles = makeStyles((th) => ({
   card: {
     flexDirection: 'row',
@@ -65,6 +71,7 @@ export function ExpenseChatCard({ message }: ChatCardProps) {
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
+  const width = Math.round(useWindowDimensions().width * CARD_SHARE);
   const params = message.refId === null ? null : [message.refId];
   const expense = useLiveRows<ChatExpenseRow>(CHAT_EXPENSE_SQL, params, TABLES);
   const shares = useLiveRows<{ computed_minor: number | string | null }>(
@@ -84,7 +91,7 @@ export function ExpenseChatCard({ message }: ChatCardProps) {
   }
   if (row.deleted_at !== null) {
     return (
-      <View style={styles.card} testID={`chat-expense-${row.id}`}>
+      <View style={[styles.card, { width }]} testID={`chat-expense-${row.id}`}>
         <Text variant="bodySm" color={theme.semantic.text.secondary}>
           {t({ id: 'money.chat.deleted', message: 'This expense was deleted' })}
         </Text>
@@ -105,14 +112,15 @@ export function ExpenseChatCard({ message }: ChatCardProps) {
         : t({ id: 'money.chat.paidFor', message: `${payer} paid ${amount} for ${what}` });
   const ways = shares.rows.filter((share) => minor(share.computed_minor) > 0n).length;
   const each = ways > 0 ? formatShort(amountMinor / BigInt(ways), row.currency, locale) : '';
+  // A split needs two people; one person's own expense has no split to show.
   const split =
-    ways === 0
+    ways < 2
       ? null
       : row.split_mode === 'equal'
         ? t({ id: 'money.chat.splitEach', message: `Split ${ways} ways · ${each} each` })
         : t({ id: 'money.chat.split', message: `Split ${ways} ways` });
   return (
-    <View style={styles.card} testID={`chat-expense-${row.id}`}>
+    <View style={[styles.card, { width }]} testID={`chat-expense-${row.id}`}>
       <Icon name={CATEGORY_ICON[categoryOf(row.category)]} size={28} decorative />
       <View style={styles.body}>
         <Text variant="rowTitle">{paid}</Text>

@@ -97,7 +97,13 @@ function message(refId: string): ChatMessage {
 
 async function seedExpense(
   s: TestLocalFirst,
-  input: { payer: string; description: string; splitMode: string; deleted?: boolean },
+  input: {
+    payer: string;
+    description: string;
+    splitMode: string;
+    deleted?: boolean;
+    sharers?: number;
+  },
 ) {
   await s.db.execute(
     `INSERT INTO expenses (id, crew_id, trip_id, payer_id, amount_minor, currency, split_mode,
@@ -112,7 +118,7 @@ async function seedExpense(
       input.deleted === true ? '2026-09-30T11:00:00Z' : null,
     ],
   );
-  for (const [index, member] of [MAYA, s.uid, LEO].entries()) {
+  for (const [index, member] of [MAYA, s.uid, LEO].slice(0, input.sharers ?? 3).entries()) {
     await s.db.execute(
       `INSERT INTO expense_shares (id, expense_id, trip_id, user_id, computed_minor)
        VALUES (?, ?, 't-1', ?, 30000)`,
@@ -143,6 +149,15 @@ describe('expense card in crew chat', () => {
     await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine />, stack);
     expect(await screen.findByText(/^You paid .*900[^ ]*$/u)).toBeTruthy();
     expect(screen.getByText('Split 3 ways')).toBeTruthy();
+  });
+
+  it('shows no split for an expense only its payer shares', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedCrew(stack);
+    await seedExpense(stack, { payer: MAYA, description: 'taxi', splitMode: 'equal', sharers: 1 });
+    await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
+    expect(await screen.findByText(/^Maya Tran paid .*900.* for taxi$/u)).toBeTruthy();
+    expect(screen.queryByText(/^Split/u)).toBeNull();
   });
 
   it('says so when the expense was deleted', async () => {
