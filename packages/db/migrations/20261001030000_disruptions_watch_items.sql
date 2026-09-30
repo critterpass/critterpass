@@ -4,7 +4,7 @@
 -- threatened plan item; the running-late check keeps the latest ETA per member and item in
 -- `journey_checks` and never a coordinate. Every table is written by the server (app_system: the
 -- worker, or a command after its own authorisation), so app_user only ever reads. Doc deltas:
--- `disruptions.cause/version/dedupe_key/ref_*/title/summary/facts/options/decision_poll_id/
+-- `disruptions.cause/version/dedupe_key/ref_*/title/summary/facts/actions/options/decision_poll_id/
 -- chosen_option_id`, `watch_items.day/title/detail/sources/checked_at/resolved_at/…`,
 -- `journey_checks`, and the `guide_actions.disruption_id` foreign key.
 
@@ -12,7 +12,9 @@
 -- disruptions: RLS class T, C1. `dedupe_key` names the thing disrupted (`flight:<segment>`,
 -- `storm:<watch item>`, `weather:<plan item>`, `late:<plan item>:<user>`) so a re-trigger bumps
 -- `version` on the open row instead of opening a second one. `facts` holds the only numbers the
--- copy may carry; `options` are the planner's choices (storm, running late); `source_snapshot` is
+-- copy may carry; `actions` are the classified rows (done by the guide, needing a yes, a vendor
+-- draft, a rebook link) with their live state; `options` are the planner's choices (storm, running
+-- late); `source_snapshot` is
 -- the raw signal (flight status, forecast cell, ETA) and stays out of the guide's view.
 CREATE TABLE disruptions (
   id uuid PRIMARY KEY DEFAULT uuidv7(),
@@ -29,6 +31,7 @@ CREATE TABLE disruptions (
   affected jsonb NOT NULL DEFAULT '{}'::jsonb CHECK (jsonb_typeof(affected) = 'object'),
   facts jsonb NOT NULL DEFAULT '{}'::jsonb CHECK (jsonb_typeof(facts) = 'object'),
   options jsonb NOT NULL DEFAULT '[]'::jsonb CHECK (jsonb_typeof(options) = 'array'),
+  actions jsonb NOT NULL DEFAULT '[]'::jsonb CHECK (jsonb_typeof(actions) = 'array'),
   source_snapshot jsonb NOT NULL DEFAULT '{}'::jsonb
     CHECK (jsonb_typeof(source_snapshot) = 'object'),
   change_set_id uuid REFERENCES change_sets (id),

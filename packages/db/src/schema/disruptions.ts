@@ -54,6 +54,8 @@ export const disruptions = pgTable('disruptions', {
   summary: text('summary').notNull().default(''),
   affected: jsonb('affected').notNull().default({}),
   facts: jsonb('facts').notNull().default({}),
+  /** Classified rows (`disruptionActionSchema`) with their live state. */
+  actions: jsonb('actions').notNull().default([]),
   options: jsonb('options').notNull().default([]),
   sourceSnapshot: jsonb('source_snapshot').notNull().default({}),
   changeSetId: uuid('change_set_id').references(() => changeSets.id),
