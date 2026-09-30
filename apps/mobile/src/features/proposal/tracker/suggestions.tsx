@@ -11,7 +11,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import type { GuideId } from '@/ui/people/GuideLine';
+import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -35,16 +35,22 @@ const useStyles = makeStyles((th) => ({
   divider: { height: 1, backgroundColor: th.semantic.text.onAccent, opacity: 0.2 },
 }));
 
-export function Suggestions({ proposalId, guide }: { proposalId: string; guide: GuideId }) {
+export interface SuggestionRow {
+  readonly id: string;
+  readonly kind: string;
+  readonly copy: string;
+}
+
+/** The suggestions card as a pure view (the lab draws it with fixed rows). */
+export function SuggestionsView(props: {
+  readonly rows: readonly SuggestionRow[];
+  readonly guide: GuideId;
+  readonly onAct: (id: string) => void;
+  readonly onDismiss: (id: string) => void;
+}) {
   const styles = useStyles();
   const theme = useTheme();
-  const { rows } = useLiveRows<{ id: string; kind: string; copy: string }>(
-    SQL,
-    [proposalId],
-    ['rsvp_suggestions'],
-  );
-  const execute = useCommand(executeSuggestionCommand);
-  const dismiss = useCommand(dismissSuggestionCommand);
+  const { rows, guide } = props;
   if (rows.length === 0) return null;
   const info = GUIDE_STICKERS[guide];
   const ink = theme.semantic.text.onAccent;
@@ -66,7 +72,7 @@ export function Suggestions({ proposalId, guide }: { proposalId: string; guide: 
               </Text>
               <TextLink
                 label={t({ id: 'proposal.suggest.dismiss', message: 'Not now' })}
-                onPress={() => void dismiss.send({ suggestion_id: row.id })}
+                onPress={() => props.onDismiss(row.id)}
                 testID={`suggestion-dismiss-${index}`}
               />
             </View>
@@ -80,12 +86,26 @@ export function Suggestions({ proposalId, guide }: { proposalId: string; guide: 
                     ? t({ id: 'proposal.suggest.resend', message: 'Resend' })
                     : t({ id: 'proposal.suggest.nudge', message: 'Nudge' })
               }
-              onPress={() => void execute.send({ suggestion_id: row.id })}
+              onPress={() => props.onAct(row.id)}
               testID={`suggestion-act-${index}`}
             />
           </View>
         </View>
       ))}
     </View>
+  );
+}
+
+export function Suggestions({ proposalId, guide }: { proposalId: string; guide: GuideId }) {
+  const { rows } = useLiveRows<SuggestionRow>(SQL, [proposalId], ['rsvp_suggestions']);
+  const execute = useCommand(executeSuggestionCommand);
+  const dismiss = useCommand(dismissSuggestionCommand);
+  return (
+    <SuggestionsView
+      rows={rows}
+      guide={guide}
+      onAct={(id) => void execute.send({ suggestion_id: id })}
+      onDismiss={(id) => void dismiss.send({ suggestion_id: id })}
+    />
   );
 }

@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# The proposal lab's scenes, named `${PREFIX}-<design id>-<state>` for `pnpm screens:compare`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: build, READY: build-send, SHOT: '${PREFIX}-3f-1-build' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: build-no-recipients, READY: build-blocked, SHOT: '${PREFIX}-3f-1-no-recipients' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: build-reply-by, READY: reply-by-options, SHOT: '${PREFIX}-3f-1-reply-by' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: sent, READY: sent-tracker, SHOT: '${PREFIX}-3f-1-sent' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: version, READY: version-in, SHOT: '${PREFIX}-3f-3-your-version' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: not-sure, READY: objection-board, SHOT: '${PREFIX}-3f-4-not-sure' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: board, READY: board-knob, SHOT: '${PREFIX}-3f-5-slide' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: board-boarded, READY: board-egg, SHOT: '${PREFIX}-3f-5-boarded' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: board-full, READY: board-seat-ok, SHOT: '${PREFIX}-3f-5-full' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: tracker, READY: tracker-lock, SHOT: '${PREFIX}-3f-6-who-s-in' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: tracker-locked, READY: tracker-lock-note, SHOT: '${PREFIX}-3f-6-locked' }

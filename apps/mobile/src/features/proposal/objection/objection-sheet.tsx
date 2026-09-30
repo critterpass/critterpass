@@ -50,27 +50,28 @@ export interface ObjectionSheetProps {
   readonly onClose: () => void;
 }
 
-export function ObjectionSheet(props: ObjectionSheetProps) {
+export interface ObjectionAnswer {
+  readonly threadId: string;
+  readonly options: readonly PrivateOption[];
+}
+
+export interface ObjectionSheetViewProps extends Omit<ObjectionSheetProps, 'proposalId'> {
+  readonly reason: PrivateReason | null;
+  readonly answer: ObjectionAnswer | null;
+  readonly chosen: readonly string[];
+  readonly pending: boolean;
+  readonly failed: boolean;
+  readonly onReason: (reason: PrivateReason) => void;
+  readonly onToggle: (optionId: string, on: boolean) => void;
+  readonly onAskCrew: (threadId: string, optionId: string) => void;
+  readonly onLater: () => void;
+}
+
+/** The sheet as a pure view (the lab draws it with fixed answers). */
+export function ObjectionSheetView(props: ObjectionSheetViewProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const submit = useCommand(submitPrivateReasonCommand);
-  const choose = useCommand(choosePrivateOptionCommand);
-  const followup = useCommand(scheduleFollowupCommand);
-  const [reason, setReason] = useState<PrivateReason | null>(null);
-  const [answer, setAnswer] = useState<{ threadId: string; options: PrivateOption[] } | null>(null);
-  const [chosen, setChosen] = useState<readonly string[]>([]);
-  const [failed, setFailed] = useState(false);
-
-  const pick = async (next: PrivateReason) => {
-    setReason(next);
-    setAnswer(null);
-    setChosen([]);
-    setFailed(false);
-    const result = await submit.send({ proposal_id: props.proposalId, reason: next });
-    if (result.kind === 'applied') setAnswer(parseOptions(result.result));
-    else setFailed(true);
-  };
-
+  const { reason, answer, chosen } = props;
   const skips: Saving[] = (answer?.options ?? []).flatMap((o) =>
     o.kind === 'skip_item' && o.deltaMinor !== null && o.currency !== null
       ? [
@@ -129,12 +130,12 @@ export function ObjectionSheet(props: ObjectionSheetProps) {
                 key={r.id}
                 label={r.label}
                 selected={reason === r.id}
-                onPress={() => void pick(r.id)}
+                onPress={() => props.onReason(r.id)}
                 testID={`objection-reason-${r.id}`}
               />
             ))}
           </View>
-          {submit.pending ? (
+          {props.pending ? (
             <Text variant="bodySm" color={theme.semantic.text.secondary}>
               {t({
                 id: 'proposal.objection.thinking',
@@ -142,7 +143,7 @@ export function ObjectionSheet(props: ObjectionSheetProps) {
               })}
             </Text>
           ) : null}
-          {failed ? (
+          {props.failed ? (
             <Text variant="bodySm" color={theme.semantic.state.urgent} testID="objection-failed">
               {t({
                 id: 'proposal.objection.failed',
@@ -165,21 +166,13 @@ export function ObjectionSheet(props: ObjectionSheetProps) {
               currency={currency}
               savings={skips}
               chosen={chosen}
-              onToggle={(id, on) =>
-                setChosen(on ? [...chosen, id] : chosen.filter((c) => c !== id))
-              }
+              onToggle={props.onToggle}
             />
           ) : null}
           {askCrew !== null && answer !== null ? (
             <TextLink
               label={askCrew.label}
-              onPress={() => {
-                void choose.send({ thread_id: answer.threadId, option_id: askCrew.id });
-                toast.show({
-                  id: 'proposal-asked-crew',
-                  title: t({ id: 'proposal.objection.asked', message: 'Asked without your name' }),
-                });
-              }}
+              onPress={() => props.onAskCrew(answer.threadId, askCrew.id)}
               testID="objection-ask-crew"
             />
           ) : null}
@@ -203,26 +196,65 @@ export function ObjectionSheet(props: ObjectionSheetProps) {
                 id: 'proposal.objection.later',
                 message: 'Still thinking. Ask me on Sunday',
               })}
-              onPress={() => {
-                void followup.send({
-                  proposal_id: props.proposalId,
-                  at_local: nextSundayEvening(new Date()),
-                  tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                });
-                toast.show({
-                  id: 'proposal-followup',
-                  title: t({
-                    id: 'proposal.objection.laterDone',
-                    message: 'I’ll ask you on Sunday',
-                  }),
-                });
-                props.onClose();
-              }}
+              onPress={props.onLater}
               testID="objection-later"
             />
           </View>
         </View>
       </SheetScrollView>
     </Sheet>
+  );
+}
+
+/** The sheet wired to the phone: the private reason goes to the server and comes back as options. */
+export function ObjectionSheet(props: ObjectionSheetProps) {
+  const submit = useCommand(submitPrivateReasonCommand);
+  const choose = useCommand(choosePrivateOptionCommand);
+  const followup = useCommand(scheduleFollowupCommand);
+  const [reason, setReason] = useState<PrivateReason | null>(null);
+  const [answer, setAnswer] = useState<ObjectionAnswer | null>(null);
+  const [chosen, setChosen] = useState<readonly string[]>([]);
+  const [failed, setFailed] = useState(false);
+
+  const pick = async (next: PrivateReason) => {
+    setReason(next);
+    setAnswer(null);
+    setChosen([]);
+    setFailed(false);
+    const result = await submit.send({ proposal_id: props.proposalId, reason: next });
+    if (result.kind === 'applied') setAnswer(parseOptions(result.result));
+    else setFailed(true);
+  };
+
+  return (
+    <ObjectionSheetView
+      {...props}
+      reason={reason}
+      answer={answer}
+      chosen={chosen}
+      pending={submit.pending}
+      failed={failed}
+      onReason={(next) => void pick(next)}
+      onToggle={(id, on) => setChosen(on ? [...chosen, id] : chosen.filter((c) => c !== id))}
+      onAskCrew={(threadId, optionId) => {
+        void choose.send({ thread_id: threadId, option_id: optionId });
+        toast.show({
+          id: 'proposal-asked-crew',
+          title: t({ id: 'proposal.objection.asked', message: 'Asked without your name' }),
+        });
+      }}
+      onLater={() => {
+        void followup.send({
+          proposal_id: props.proposalId,
+          at_local: nextSundayEvening(new Date()),
+          tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        });
+        toast.show({
+          id: 'proposal-followup',
+          title: t({ id: 'proposal.objection.laterDone', message: 'I’ll ask you on Sunday' }),
+        });
+        props.onClose();
+      }}
+    />
   );
 }
