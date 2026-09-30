@@ -64,6 +64,8 @@ import * as schema from './schema';
  * `place_qna_summaries` is trip-visible (C1) but served by the place context route only.
  * `sponsored_placements` is RLS "R" but read over HTTP only, gated per viewer by `sponsored(u,t)`,
  * and `sponsored_event_counts` is "S": counts the ops console reads, no client ever does.
+ * `media_assets` is RLS "R" but read over HTTP only (`/v1/media`): the app fetches a subject's
+ * hero when it shows it and prefetches a trip's files to disk itself.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -78,6 +80,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'fare_cells',
   'flight_watches',
   'install_attributions',
+  'media_assets',
   'media_objects',
   'member_etas',
   'moderation_reports',

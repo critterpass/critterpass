@@ -71,7 +71,7 @@ describe('designed release fixtures', () => {
   });
 
   it('covers every kind with an item schema', () => {
-    expect(CONTENT_KINDS).toHaveLength(14);
+    expect(CONTENT_KINDS).toHaveLength(15);
   });
 });
 

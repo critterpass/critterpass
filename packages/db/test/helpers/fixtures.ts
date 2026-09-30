@@ -164,6 +164,13 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await tx.query(
       "INSERT INTO cities (name, country, lat, lng) VALUES ('Matrix Probe City', 'XX', 0, 0)",
     );
+    await tx.query(
+      `INSERT INTO media_assets (kind, source, source_id, source_url, download_url, subject_keys, author,
+         licence, licence_url, attribution_required, credit, blurhash, variants, status)
+       VALUES ('photo', 'pexels', 'matrix-probe', 'https://www.pexels.com/photo/1/', 'https://images.pexels.com/1.jpeg',
+         '{destination:matrix-probe}', 'Probe', 'pexels', 'https://www.pexels.com/license/', false,
+         'Photo: Probe · Pexels', 'LEHV6nWB2yk8', '[{"key":"c/media/probe/828.webp","format":"webp","w":828,"h":552,"bytes":1}]', 'ready')`,
+    );
 
     // Content catalogue (RLS R while the row's release is the published one).
     const { rows: releaseRows } = await tx.query<{ id: string }>(

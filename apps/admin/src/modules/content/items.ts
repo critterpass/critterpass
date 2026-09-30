@@ -17,6 +17,9 @@ export interface ItemFace {
   /** Critter to draw, when the kind has one. */
   readonly critterId?: string;
   readonly form?: FormSpec;
+  /** A still to show (a media candidate's preview), and the page it links to. */
+  readonly imageUrl?: string;
+  readonly linkUrl?: string;
 }
 
 export function itemFace(kind: string, ref: string, item: Item): ItemFace {
@@ -67,6 +70,17 @@ export function itemFace(kind: string, ref: string, item: Item): ItemFace {
       return { title: ref, subtitle: text(item['source_url']) };
     case 'facilities':
       return { title: text(item['name']), subtitle: text(item['kind']) };
+    case 'media':
+      return {
+        title:
+          `${item['kind'] === 'video' ? 'Video' : 'Photo'} · ${text(item['title']) || ref}`.slice(
+            0,
+            80,
+          ),
+        subtitle: `${text(item['credit'])} · #${String(item['rank'])} · ${(item['subjects'] as string[] | undefined)?.join(', ') ?? ''}`,
+        imageUrl: text(item['preview_url']),
+        linkUrl: text(item['source_url']),
+      };
     case 'taste_quiz':
       return { title: text(item['chip']), subtitle: ref };
     default:

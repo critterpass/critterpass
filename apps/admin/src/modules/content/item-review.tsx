@@ -35,6 +35,10 @@ function Side({
     <figure className="cb-side" data-tone={tone} aria-label={label}>
       {face === null ? (
         <div className="muted cb-side-empty">Not in the live release</div>
+      ) : face.imageUrl !== undefined ? (
+        <a href={face.linkUrl} target="_blank" rel="noreferrer">
+          <img className="cb-side-image" src={face.imageUrl} alt={face.title} />
+        </a>
       ) : face.critterId !== undefined ? (
         <CritterPreview critterId={face.critterId} form={face.form} size={72} label={face.title} />
       ) : (

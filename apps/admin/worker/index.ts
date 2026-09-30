@@ -18,12 +18,15 @@ const CLIENT_IP = 'x-cp-client-ip';
 const OSM_TILES = 'https://tile.openstreetmap.org';
 /** The media Worker's signed read URLs (moderation image previews). */
 const MEDIA_HOSTS = 'https://media.critterpass.app https://media.staging.critterpass.app';
+/** Stock sources' previews, shown while a media batch is reviewed (never the served files). */
+const STOCK_PREVIEWS =
+  'https://images.pexels.com https://cdn.pixabay.com https://upload.wikimedia.org';
 
 export const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "script-src 'self'",
   "style-src 'self'",
-  `img-src 'self' data: blob: ${OSM_TILES} ${MEDIA_HOSTS}`,
+  `img-src 'self' data: blob: ${OSM_TILES} ${MEDIA_HOSTS} ${STOCK_PREVIEWS}`,
   `connect-src 'self' ${OSM_TILES}`,
   "worker-src 'self' blob:",
   "font-src 'self'",

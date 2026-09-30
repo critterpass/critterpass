@@ -18,6 +18,7 @@ import { avatarJobs } from './jobs/avatar';
 import { billingJobs } from './jobs/billing';
 import { bookingsJobs } from './jobs/bookings';
 import { chatJobs } from './jobs/chat';
+import { mediaJobs } from './jobs/media';
 import { countdownRecomputeJob } from './jobs/countdown';
 import { inboxFanoutJob } from './jobs/inbox';
 import { inviteJobs } from './jobs/invites';
@@ -83,6 +84,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     costRecomputeJob,
     ...avatarJobs(env, assertRouteOn, llmObservability),
     ...chatJobs(env),
+    ...mediaJobs(env),
     ...liveMapJobs(env, (error) => logger.warn({ err: error }, 'valhalla matrix failed')),
     inboxFanoutJob(),
     nudgeDispatchJob(),

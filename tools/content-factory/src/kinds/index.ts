@@ -13,3 +13,4 @@ import './emergency';
 import './facilities';
 import './insurance';
 import './ride-tariffs';
+import './media';

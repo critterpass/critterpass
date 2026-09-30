@@ -14,6 +14,7 @@ import { TRIP_DAY_QUEUE_DESCRIPTIONS, tripDayQueueSpecs } from '../trip-day/queu
 import { EXPLORE_QUEUE_DESCRIPTIONS, exploreQueueSpecs } from '../explore/queues';
 import { PROPOSAL_QUEUE_DESCRIPTIONS, proposalQueueSpecs } from '../proposal/queues';
 import { CRITTER_QUEUE_DESCRIPTIONS, critterQueueSpecs } from '../critters/queues';
+import { MEDIA_QUEUE_DESCRIPTIONS, mediaQueueSpecs } from '../media/queues';
 
 export function featureQueueSpecs(defaults: QueueSpec) {
   return {
@@ -28,6 +29,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...exploreQueueSpecs(defaults),
     ...proposalQueueSpecs(defaults),
     ...critterQueueSpecs(defaults),
+    ...mediaQueueSpecs(defaults),
   } as const;
 }
 
@@ -43,4 +45,5 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...EXPLORE_QUEUE_DESCRIPTIONS,
   ...PROPOSAL_QUEUE_DESCRIPTIONS,
   ...CRITTER_QUEUE_DESCRIPTIONS,
+  ...MEDIA_QUEUE_DESCRIPTIONS,
 } as const;

@@ -620,6 +620,18 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // A ready asset; the ready-only policy is proven in media-assets.test.ts.
+  media_assets: {
+    selectProbe: { sql: 'SELECT 1 FROM media_assets LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   // llm.pois is a view, not a public-schema table (the coverage scan below never requires an entry
   // for it), added anyway: guide_reader is the only role granted it, so every app_user actor here
   // must see the same "no access" shape as poi_embeddings/media_objects.
