@@ -1,8 +1,8 @@
 /**
  * The must-dos step wired to the phone: synced must-dos plus this phone's queued list, crewmates
  * typing on `trip_presence`, removing your own (queued, works offline), lottery reminders, and
- * the organiser's "Draft my trip", which finishes setup and opens the draft once that screen is
- * registered.
+ * the organiser's "Draft my trip", which finishes setup and opens the drafting screen, which
+ * starts the draft.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command values, route ids and date options, never copy. */
 import { MUST_DOS_PER_MEMBER } from '@cp/domain';
@@ -38,7 +38,7 @@ export function MustDosStep({ trip, shell }: StepProps) {
     void setStep
       .send({ trip_id: trip.tripId, step: 'done' })
       .then(() => {
-        const href = hrefFor('3c-9', { tripId: trip.tripId });
+        const href = hrefFor('3c-8', { tripId: trip.tripId });
         if (href !== undefined) router.push(href);
       })
       .finally(() => setDrafting(false));
