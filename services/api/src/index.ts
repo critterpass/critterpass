@@ -24,37 +24,17 @@ import {
   registerReturningPhoneSignInRoute,
 } from './routes/auth-extra';
 import { fixedCodeNumbersFromEnv } from './auth/otp/fixed-codes';
-import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerOtpWebhookRoutes } from './routes/otp-webhooks';
 import { betterAuthSessionResolver } from './commands/_framework/session';
-import { registerCmdResultsRoute } from './routes/cmd-results';
-import { createAppCommandRegistry, registerSetupRoutes } from './commands/catalogue';
-import { registerCommandRoute } from './routes/cmd';
-import { registerLocationRouteFromEnv } from './routes/loc';
-import { registerLiveMapRoutes } from './routes/live-map';
-import { registerSyncUploadRoute } from './routes/sync-upload';
-import { registerAiRoutes } from './ai/routes';
-import { registerVoteRoutesFromEnv } from './routes/vote-routes';
-import { registerTravelDataRoutes } from './travel-data/routes';
-import { registerCostRoutes } from './cost/routes';
-import { createR2Client } from './media/r2';
-import { mediaSigningConfigFromEnv } from './media/sign';
-import { registerDevRoutesFromEnv } from './dev/routes';
-import { registerGeoRoutesFromEnv } from './routes/geo';
-import { registerMediaRoutes } from './routes/media';
-import { registerMoneyRoutes, registerReceiptRoutesFromEnv } from './money/routes';
-import { registerBookings } from './bookings/register';
+import { createAppCommandRegistry } from './commands/catalogue';
+import { registerFeatureRoutes } from './feature-routes';
 import { createMapboxRoutingProvider } from './routing/eta';
 import { MapboxRoutingClient } from './routing/mapbox';
 import { createClaimAttributionCommand } from './commands/attribution/claim-attribution';
 import { registerInvites } from './commands/invites';
 import { registerNudgeCommands } from './commands/nudges';
 import { createLinkProviderRegistry } from './links/registry';
-import { registerLinkRoutes } from './routes/links';
 import { seatTokenKeyringFromJson, type LinkEnvironment } from '@cp/domain';
-import { registerActionKeyRoutes } from './routes/action-keys';
-import { registerActionsRoute } from './routes/actions';
-import { registerNotificationRoutes } from './routes/notifications';
 import { routeNotificationsFromApiEvents, startJobProducer } from './jobs/producer';
 import { buildAdminConsole } from './admin/bootstrap';
 import { registerSupportGrantSource } from './admin/entitlement-grants';
@@ -228,69 +208,14 @@ const commandDoors = {
   redis,
   logger,
 };
-registerCommandRoute(app, commandDoors);
-registerSyncUploadRoute(app, commandDoors);
-registerCmdResultsRoute(app, commandDoors);
-registerBookings(app, commandDoors, fieldEncryptionKeyring, authModule.auth);
-registerLocationRouteFromEnv(app, commandDoors, env);
-registerLiveMapRoutes(app, commandDoors);
-registerAiRoutes(app, commandDoors, env, logger);
-registerVoteRoutesFromEnv(app, { ...commandDoors, cache: redis }, env);
-registerTravelDataRoutes(app, commandDoors);
-registerCostRoutes(app, commandDoors);
-registerSetupRoutes(app, { ...commandDoors, store: redis, env: process.env });
-registerReceiptRoutesFromEnv(app, commandDoors, process.env);
-registerGeoRoutesFromEnv(app, commandDoors, env.GEOIP_CITY_MMDB, logger);
-registerDevRoutesFromEnv(app, { ...commandDoors, logger }, env);
-registerLinkRoutes(app, {
-  ...commandDoors,
+registerFeatureRoutes(app, {
+  env,
+  doors: commandDoors,
+  auth: authModule.auth,
+  keyring: fieldEncryptionKeyring,
   links: linkProviders,
-  webProxySecret: env.LINKS_WEB_PROXY_SECRET,
   analytics: serverAnalytics,
 });
-// Device action keys and the doors they open (docs/api-contracts-async.md §5): keys are stored
-// envelope-encrypted, so every route here needs the field-encryption keyring.
-if (fieldEncryptionKeyring) {
-  const actionDeps = { ...commandDoors, keyring: fieldEncryptionKeyring };
-  registerActionKeyRoutes(app, actionDeps);
-  registerActionsRoute(app, { ...actionDeps, analytics: serverAnalytics });
-  registerNotificationRoutes(app, actionDeps);
-  registerMoneyRoutes(app, actionDeps);
-} else {
-  logger.warn('Device action keys and /v1/actions are disabled: FIELD_ENCRYPTION_KEYS is unset');
-}
-if (env.RT_PROXY_SECRET) {
-  registerInternalRtRoutes(app, { pool, redis, proxySecret: env.RT_PROXY_SECRET });
-} else {
-  logger.warn('Centrifugo proxies are disabled: RT_PROXY_SECRET is unset');
-}
-
-if (
-  env.R2_S3_ENDPOINT &&
-  env.R2_BUCKET &&
-  env.R2_ACCESS_KEY_ID &&
-  env.R2_SECRET_ACCESS_KEY &&
-  env.MEDIA_PUBLIC_BASE_URL &&
-  env.MEDIA_HMAC_KEYS &&
-  env.MEDIA_HMAC_ACTIVE_KID
-) {
-  registerMediaRoutes(app, {
-    ...commandDoors,
-    r2: createR2Client({
-      endpoint: env.R2_S3_ENDPOINT,
-      bucket: env.R2_BUCKET,
-      accessKeyId: env.R2_ACCESS_KEY_ID,
-      secretAccessKey: env.R2_SECRET_ACCESS_KEY,
-    }),
-    signing: mediaSigningConfigFromEnv({
-      baseUrl: env.MEDIA_PUBLIC_BASE_URL,
-      keysJson: env.MEDIA_HMAC_KEYS,
-      activeKeyId: env.MEDIA_HMAC_ACTIVE_KID,
-    }),
-  });
-} else {
-  logger.info('Media routes are disabled: R2_* or MEDIA_* is unset');
-}
 
 // Ops console (/v1/admin/*): its own Better Auth instance, guard and audited command pipeline.
 const adminConsole = buildAdminConsole(env, {
