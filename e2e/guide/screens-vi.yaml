@@ -46,3 +46,6 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/phrase-scenes.yaml
     env: { PREFIX: vi }
+- runFlow:
+    file: subflows/dietary-scenes.yaml
+    env: { PREFIX: vi }

@@ -1,10 +1,11 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { GuideSheet } from '@/features/guide/chat/components/guide-sheet';
 import { GuideServicesProvider } from '@/features/guide/chat/data/guide-services';
 import { deviceGuideServices } from '@/features/guide/chat/data/guide-stream';
 import { useGuideMeterSlots } from '@/features/guide/meter/use-guide-meter-slots';
 import { isUuid, useThreadTarget } from '@/features/guide/chat/data/use-guide-thread';
+import { guideRoutes } from '@/features/guide/chat/register';
 
 /**
  * The guide sheet (3j-1). `threadId` names a saved thread (a push, the inbox) or is `new` for the
@@ -24,6 +25,7 @@ export default function GuideSheetRoute() {
         key={`${tripId ?? ''}:${mode ?? ''}`}
         tripId={tripId}
         useMeter={useGuideMeterSlots}
+        onAttach={() => router.push(guideRoutes.dietary())}
         {...(mode === undefined ? {} : { initialMode: mode })}
       />
     </GuideServicesProvider>

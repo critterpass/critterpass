@@ -53,6 +53,10 @@ msgstr "Một mục trong lịch trình"
 msgid "guide.limit.attach"
 msgstr "Thêm tệp đính kèm"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.allergies"
+msgstr "Dị ứng"
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.askAtMidnight"
 msgstr "Hỏi lúc nửa đêm"
@@ -93,21 +97,54 @@ msgstr "Đã chép"
 msgid "guide.chat.copy"
 msgstr "Chép"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.avoidLabel"
+msgstr "Rau mùi, nội tạng, cá sống…"
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.confirm"
 msgstr "Cho mình tham gia"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dairy"
+msgstr "Sữa"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.diet"
+msgstr "Chế độ ăn"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.eggs"
+msgstr "Trứng"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.full"
 msgstr "Đã hết chỗ"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.fish"
+msgstr "Cá"
+
+#: ../../apps/mobile/src/features/guide/dietary/dev/lab-scenes-dietary.tsx
+#: ../../apps/mobile/src/features/guide/dietary/dietary-screen.tsx
+msgid "guide.dietary.title"
+msgstr "Nhu cầu ăn uống và đi lại"
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.getPass"
 msgstr "Mua Pass+"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.access"
+msgstr "Đi lại"
+
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 msgid "guide.phrase.loading"
 msgstr "Đang tải âm thanh…"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.gluten"
+msgstr "Gluten"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.groupTab"
@@ -126,6 +163,10 @@ msgstr "Trò chuyện với hướng dẫn viên"
 msgid "guide.offer.label"
 msgstr "Đề xuất của hướng dẫn viên: {0}"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietHalal"
+msgstr "Halal"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.helpful"
 msgstr "Hữu ích"
@@ -133,6 +174,10 @@ msgstr "Hữu ích"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.empty.greeting"
 msgstr "Chào, mình là {guideName}. Cứ hỏi mình bất cứ điều gì về chuyến đi, lớn hay nhỏ."
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceHot"
+msgstr "Cay nhiều"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.empty.promptCrew"
@@ -186,6 +231,10 @@ msgstr "Chỉ mình tôi · {place}"
 msgid "guide.header.private"
 msgstr "Chỉ mình tôi · chỉ bạn xem được"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietKosher"
+msgstr "Kosher"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.body"
 msgstr "Số khẩn cấp ở địa phương và cả nhóm của bạn chỉ cách một chạm trong mục Trợ giúp."
@@ -194,13 +243,33 @@ msgstr "Số khẩn cấp ở địa phương và cả nhóm của bạn chỉ c
 msgid "guide.chat.actionsHint"
 msgstr "Nhấn giữ để xem thao tác"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceMedium"
+msgstr "Vừa"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceMild"
+msgstr "Ít cay"
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.noCost"
 msgstr "Mỗi người trả không đổi"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietNone"
+msgstr "Không kiêng"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceNone"
+msgstr "Không cay"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.notHelpful"
 msgstr "Không hữu ích"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.notNow"
+msgstr "Để sau"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.notNow"
@@ -222,6 +291,14 @@ msgstr "Pass+ giúp {guideName} trò chuyện thoải mái: chữ, giọng nói 
 msgid "guide.limit.body"
 msgstr "Pass+ giúp {guideName} trò chuyện thoải mái: chữ, giọng nói và máy ảnh, bao nhiêu tuỳ thích. Lịch trình và cuộc bình chọn không bị tính vào đây."
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.peanuts"
+msgstr "Đậu phộng"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietPescatarian"
+msgstr "Ăn cá, không ăn thịt"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.pharmacy"
 msgstr "Nhà thuốc"
@@ -233,6 +310,10 @@ msgstr "Thay đổi lịch trình đang tới…"
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.propose"
 msgstr "Đề xuất cho nhóm"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.avoid"
+msgstr "Không muốn ăn"
 
 #: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
 msgid "guide.queued.rate"
@@ -246,17 +327,65 @@ msgstr "Làm mới lúc {clock}"
 msgid "guide.plan.review"
 msgstr "Xem lại"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.save"
+msgstr "Lưu"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.saved"
+msgstr "Đã lưu. Hướng dẫn viên sẽ lên kế hoạch theo đó."
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.sent"
 msgstr "Đã gửi vào nhóm chat để bình chọn"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.sesame"
+msgstr "Mè"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.share"
+msgstr "Chia sẻ nhãn"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.shareToggle"
+msgstr "Chia sẻ nhãn với nhóm và hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.consentTitle"
+msgstr "Chia sẻ nhãn với nhóm và hướng dẫn viên?"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
+msgid "guide.dietary.queuedConsent"
+msgstr "Chia sẻ nhãn ăn uống"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.shellfish"
+msgstr "Hải sản có vỏ"
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.problemFull"
 msgstr "Có người đã lấy chỗ cuối cùng trước bạn."
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.ownAllergy"
+msgstr "Thứ khác"
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.newItem"
 msgstr "Một điều mới"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.soy"
+msgstr "Đậu nành"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.spice"
+msgstr "Độ cay"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.accessLabel"
+msgstr "Cầu thang, đi bộ xa, thính giác, bất cứ điều gì hướng dẫn viên nên tính đến"
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.filler"
@@ -302,6 +431,14 @@ msgstr "Chuyện đó mình không giúp được. Hỏi mình về chuyến đi
 msgid "guide.phrase.unavailable"
 msgstr "Âm thanh chưa có trên điện thoại này. Chạm vào thẻ để đưa người khác xem."
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.shareCaption"
+msgstr "Họ chỉ thấy \"ăn chay\" hay \"không đậu phộng\", không bao giờ thấy ghi chú hay danh sách bạn không muốn ăn."
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.consentBody"
+msgstr "Họ chỉ thấy chế độ ăn của bạn và nhãn \"không\" cho các món dị ứng, để hướng dẫn viên chọn chỗ hợp với cả nhóm. Ghi chú và danh sách bạn không muốn ăn chỉ mình bạn giữ. Bạn có thể ngừng chia sẻ bất cứ lúc nào, và các nhãn sẽ bị xoá."
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.closed"
 msgstr "Thay đổi này không còn mở nữa"
@@ -318,6 +455,10 @@ msgstr "Đề xuất này đã hết"
 msgid "guide.quick.menu"
 msgstr "Dịch thực đơn"
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.treeNuts"
+msgstr "Các loại hạt"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.retry"
 msgstr "Thử lại"
@@ -325,6 +466,14 @@ msgstr "Thử lại"
 #: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
 msgid "guide.meter.unlimited"
 msgstr "{guideName} không giới hạn"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietVegan"
+msgstr "Thuần chay"
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietVegetarian"
+msgstr "Ăn chay"
 
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
 msgid "guide.queued.waiting"
@@ -387,3 +536,7 @@ msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {0} sẽ tr�
 #: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
 msgid "guide.crew.spent"
 msgstr "Bạn đã dùng hết lượt hỏi miễn phí hôm nay. {0} quay lại sau {1} giờ {2} phút."
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
+msgid "guide.dietary.queued"
+msgstr "Nhu cầu ăn uống và đi lại của bạn"

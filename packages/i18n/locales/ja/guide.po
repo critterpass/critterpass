@@ -53,6 +53,10 @@ msgstr ""
 msgid "guide.limit.attach"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.allergies"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.askAtMidnight"
 msgstr ""
@@ -93,20 +97,53 @@ msgstr ""
 msgid "guide.chat.copy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.avoidLabel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dairy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.diet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.eggs"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.full"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.fish"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dev/lab-scenes-dietary.tsx
+#: ../../apps/mobile/src/features/guide/dietary/dietary-screen.tsx
+msgid "guide.dietary.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.getPass"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.access"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
 msgid "guide.phrase.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.gluten"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
@@ -126,12 +163,20 @@ msgstr ""
 msgid "guide.offer.label"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietHalal"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.helpful"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.empty.greeting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceHot"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
@@ -186,6 +231,10 @@ msgstr ""
 msgid "guide.header.private"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietKosher"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.body"
 msgstr ""
@@ -194,12 +243,32 @@ msgstr ""
 msgid "guide.chat.actionsHint"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceMedium"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceMild"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.noCost"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceNone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
 msgid "guide.chat.notHelpful"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.notNow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
@@ -222,6 +291,14 @@ msgstr ""
 msgid "guide.limit.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.peanuts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietPescatarian"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
 msgid "guide.quick.pharmacy"
 msgstr ""
@@ -232,6 +309,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.propose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.avoid"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
@@ -246,16 +327,64 @@ msgstr ""
 msgid "guide.plan.review"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.saved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.sesame"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.shareToggle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.consentTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
+msgid "guide.dietary.queuedConsent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.shellfish"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
 msgid "guide.offer.problemFull"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.ownAllergy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.newItem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.soy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.spice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.accessLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
@@ -302,6 +431,14 @@ msgstr ""
 msgid "guide.phrase.unavailable"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.shareCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.consentBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
 msgid "guide.plan.closed"
 msgstr ""
@@ -318,12 +455,24 @@ msgstr ""
 msgid "guide.quick.menu"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.treeNuts"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.error.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
 msgid "guide.meter.unlimited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietVegan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietVegetarian"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
@@ -386,4 +535,8 @@ msgstr ""
 #. placeholder {2}: left.minutes
 #: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
 msgid "guide.crew.spent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
+msgid "guide.dietary.queued"
 msgstr ""

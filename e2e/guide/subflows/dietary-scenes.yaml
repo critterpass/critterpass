@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# Food and access needs (designed in code): empty, filled, the consent question and saved while
+# sharing, prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: dietary-empty, READY: guide-dietary, SHOT: '${PREFIX}-guide-dietary-empty' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: dietary-filled, READY: guide-dietary, SHOT: '${PREFIX}-guide-dietary-filled' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: dietary-consent,
+        READY: guide-dietary-consent,
+        SHOT: '${PREFIX}-guide-dietary-consent',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: dietary-saved, READY: guide-dietary-saved, SHOT: '${PREFIX}-guide-dietary-saved' }

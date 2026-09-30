@@ -19,6 +19,8 @@ import { GuideServicesProvider } from './data/guide-services';
 import { deviceGuideServices } from './data/guide-stream';
 
 export const guideRoutes = {
+  /** Food and access needs (from the guide sheet's "+", trip setup and You settings). */
+  dietary: (): Href => '/guide/dietary',
   sheet: (params: { threadId?: string; tripId?: string; mode?: string } = {}): Href => ({
     pathname: '/guide/[threadId]',
     params: {
