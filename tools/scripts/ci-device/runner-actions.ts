@@ -13,7 +13,11 @@
  * on (Android; iOS simulators share the Mac's network, so it answers 501). `/type` types its body into the
  * focused field with `input text` (Android; iOS answers 501): Maestro's own inputText waits for the
  * screen to settle after every character, which a field that re-renders on each key turns into
- * minutes. Answers 200 when done.
+ * minutes. It types in short chunks with a pause after each: a field that handles every key slowly
+ * falls behind one long `input text`, and Android drops the key events still queued past its input
+ * dispatch timeout, which cut the text off mid-word. `/type` answers 202 at once and types in the
+ * background (the whole text takes longer than a flow script's request may wait); the flow then
+ * waits for the text's end to show. The other actions answer 200 when done.
  *
  *   tsx tools/scripts/ci-device/runner-actions.ts --platform android --device <serial> [--port 7788]
  */
@@ -76,6 +80,9 @@ export interface ActionContext {
   readonly root: string;
   readonly env: NodeJS.ProcessEnv;
   readonly run: Run;
+  /** Waits between typed chunks; defaults to a real timer. */
+  readonly sleep?: (ms: number) => Promise<void>;
+  readonly log?: (line: string) => void;
 }
 
 export interface ActionResult {
@@ -120,13 +127,43 @@ export function inputTextArg(text: string): string {
   return quote(text.replace(/%/g, '\\%').replace(/ /g, '%s'));
 }
 
+/** Characters per `input text` call, and the pause that lets the field catch up after each. */
+export const TYPE_CHUNK_LENGTH = 8;
+export const TYPE_CHUNK_PAUSE_MS = 1500;
+
+export function typeChunks(text: string, size = TYPE_CHUNK_LENGTH): string[] {
+  const chunks: string[] = [];
+  for (let start = 0; start < text.length; start += size)
+    chunks.push(text.slice(start, start + size));
+  return chunks;
+}
+
+const timerSleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+/** Types `text` chunk by chunk into the focused field; resolves with the outcome. */
+export async function typeText(text: string, ctx: ActionContext): Promise<ActionResult> {
+  const sleep = ctx.sleep ?? timerSleep;
+  const chunks = typeChunks(text);
+  for (const chunk of chunks) {
+    const result = ctx.run('adb', ['-s', ctx.device, 'shell', `input text ${inputTextArg(chunk)}`]);
+    if (result.status !== 0) return { status: 500, message: result.output };
+    await sleep(TYPE_CHUNK_PAUSE_MS);
+  }
+  return { status: 200, message: `typed ${String(text.length)} characters` };
+}
+
 function type(text: string, ctx: ActionContext): ActionResult {
   if (text === '') return { status: 400, message: 'text is required' };
   if (ctx.platform === 'ios') return { status: 501, message: 'type with inputText on iOS' };
-  const result = ctx.run('adb', ['-s', ctx.device, 'shell', `input text ${inputTextArg(text)}`]);
-  return result.status === 0
-    ? { status: 200, message: `typed ${String(text.length)} characters` }
-    : { status: 500, message: result.output };
+  const log = ctx.log ?? console.log;
+  void typeText(text, ctx).then(
+    (result) => log(`runner action /type: ${String(result.status)} ${result.message}`),
+    (error: unknown) => log(`runner action /type failed: ${String(error)}`),
+  );
+  return {
+    status: 202,
+    message: `typing ${String(text.length)} characters in ${String(typeChunks(text).length)} chunks`,
+  };
 }
 
 /** Routes one request (`/push?fixture=…`, `/network?state=…`, `/type` with a body) to its action. */

@@ -4,7 +4,15 @@ import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { fcmBroadcastArgs, fillPlaceholders, handleAction, type Run } from './runner-actions';
+import {
+  fcmBroadcastArgs,
+  fillPlaceholders,
+  handleAction,
+  TYPE_CHUNK_PAUSE_MS,
+  typeChunks,
+  typeText,
+  type Run,
+} from './runner-actions';
 
 function setup() {
   const root = mkdtempSync(path.join(tmpdir(), 'runner-actions-'));
@@ -64,16 +72,32 @@ describe('runner actions', () => {
     expect(calls.at(-1)?.args).toEqual(['-s', 'emulator-5554', 'shell', 'svc', 'data', 'disable']);
   });
 
-  it('types text into the focused field on Android', () => {
+  it('types text into the focused field on Android in short chunks with pauses', async () => {
     const { root, calls, run, env } = setup();
-    const ctx = { platform: 'android' as const, device: 'emulator-5554', root, env, run };
-    expect(handleAction('/type', ctx, "SQ 938 on 2026-10-21, Winston's seat").status).toBe(200);
-    expect(calls.at(-1)?.args).toEqual([
-      '-s',
-      'emulator-5554',
-      'shell',
-      `input text 'SQ%s938%son%s2026-10-21,%sWinston'\\''s%sseat'`,
+    const pauses: number[] = [];
+    const ctx = {
+      platform: 'android' as const,
+      device: 'emulator-5554',
+      root,
+      env,
+      run,
+      sleep: (ms: number) => {
+        pauses.push(ms);
+        return Promise.resolve();
+      },
+    };
+    const text = "SQ 938 on 2026-10-21, Winston's seat";
+    expect(await typeText(text, ctx)).toMatchObject({ status: 200 });
+    expect(calls.map((call) => call.args.at(-1))).toEqual([
+      `input text 'SQ%s938%so'`,
+      `input text 'n%s2026-1'`,
+      `input text '0-21,%sWi'`,
+      `input text 'nston'\\''s%s'`,
+      `input text 'seat'`,
     ]);
+    expect(pauses).toEqual(Array(5).fill(TYPE_CHUNK_PAUSE_MS));
+    expect(typeChunks(text).join('')).toBe(text);
+    expect(handleAction('/type', { ...ctx, log: () => undefined }, text).status).toBe(202);
     expect(handleAction('/type', ctx).status).toBe(400);
     expect(handleAction('/type', { ...ctx, platform: 'ios' }, 'x').status).toBe(501);
   });
