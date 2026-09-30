@@ -6,10 +6,22 @@
 import { useContext, type ReactNode } from 'react';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { Scaffold } from '@/ui/surface/Scaffold';
 
 export function LocalFirstGate({ children }: { readonly children: ReactNode }) {
   const localFirst = useContext(LocalFirstContext);
   if (localFirst === null) return <Scaffold variant="dark" testID="trip-waiting" />;
   return children;
+}
+
+function Hold({ tripId }: { readonly tripId: string }) {
+  useTripStreams(tripId);
+  return null;
+}
+
+/** Holds the trip's sync streams once the local database is open (a layout can mount before). */
+export function TripStreams({ tripId }: { readonly tripId: string | null }) {
+  const localFirst = useContext(LocalFirstContext);
+  return localFirst === null || tripId === null ? null : <Hold tripId={tripId} />;
 }
