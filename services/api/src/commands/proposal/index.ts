@@ -6,6 +6,7 @@ import { createProposalCommand } from './create-proposal';
 import { declineTripCommand } from './decline-trip';
 import { publishOfferCommand } from './publish-offer';
 import { reactProposalCommand } from './react-proposal';
+import { resolveDropoutCommand } from './resolve-dropout';
 import { recordProposalOpenCommand } from './record-proposal-open';
 import { dismissRsvpSuggestionCommand, executeRsvpSuggestionCommand } from './rsvp-suggestions';
 import { scheduleProposalFollowupCommand } from './schedule-proposal-followup';
@@ -31,4 +32,5 @@ export function registerProposalCommands(
   registry.register(publishOfferCommand);
   registry.register(declineTripCommand);
   registry.register(setKeepInChatCommand);
+  registry.register(resolveDropoutCommand);
 }

@@ -383,13 +383,19 @@ GRANT SELECT ON proposal_followups TO app_user;
 GRANT SELECT, INSERT, UPDATE ON proposal_followups TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
--- Dropout re-split jobs run once per (trip, member): a repeat decline finds the change set made.
+-- trip_dropouts: RLS class T, C1. The re-split a member's decline proposes (3f-7): the
+-- cost engine's before/after per member and the changes to make (rooms, shared costs, supplier
+-- seats, third-party stays), built once per (trip, member). The organiser works through it and
+-- marks it resolved (`resolve_dropout`); nothing moves before that.
 CREATE TABLE trip_dropouts (
   id uuid PRIMARY KEY DEFAULT uuidv7(),
   trip_id uuid NOT NULL REFERENCES trips (id),
   user_id uuid NOT NULL REFERENCES users (id),
-  change_set_id uuid REFERENCES change_sets (id),
+  ops jsonb NOT NULL DEFAULT '[]'::jsonb CHECK (jsonb_typeof(ops) = 'array'),
   members jsonb NOT NULL DEFAULT '[]'::jsonb CHECK (jsonb_typeof(members) = 'array'),
+  cost_delta_minor bigint,
+  resolved_at timestamptz,
+  resolved_by uuid REFERENCES users (id),
   created_at timestamptz NOT NULL DEFAULT now(),
   CONSTRAINT trip_dropouts_trip_user_key UNIQUE (trip_id, user_id)
 );

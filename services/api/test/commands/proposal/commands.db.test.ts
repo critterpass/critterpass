@@ -242,3 +242,20 @@ describe('send and reply', () => {
     expect(jobs.map((job) => job.data)).toEqual([{ trip_id: fx.tripId, user_id: m(3).uid }]);
   });
 });
+
+describe('resolve_dropout', () => {
+  it('lets an organiser resolve a dropout once and re-prices the trip', async () => {
+    await q('INSERT INTO trip_dropouts (trip_id, user_id) VALUES ($1, $2)', [fx.tripId, m(3).uid]);
+    const denied = await run(m(1), 'resolve_dropout', { trip_id: fx.tripId, uid: m(3).uid });
+    expect(denied.status).toBe(403);
+    const done = await run(organiser, 'resolve_dropout', { trip_id: fx.tripId, uid: m(3).uid });
+    expect(done.status).toBe(200);
+    const [row] = await q<{ resolved_by: string }>(
+      'SELECT resolved_by FROM trip_dropouts WHERE trip_id = $1 AND user_id = $2',
+      [fx.tripId, m(3).uid],
+    );
+    expect(row!.resolved_by).toBe(organiser.uid);
+    const jobs = await q("SELECT 1 FROM pgboss.job WHERE name = 'cost.recompute'");
+    expect(jobs.length).toBeGreaterThan(0);
+  });
+});

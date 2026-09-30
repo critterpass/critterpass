@@ -189,8 +189,11 @@ export const tripDropouts = pgTable('trip_dropouts', {
   id: id(),
   tripId: tripId(),
   userId: userRef('user_id'),
-  changeSetId: uuid('change_set_id'),
+  ops: jsonb('ops').notNull().default([]),
   members: jsonb('members').notNull().default([]),
+  costDeltaMinor: bigint('cost_delta_minor', { mode: 'bigint' }),
+  resolvedAt: at('resolved_at'),
+  resolvedBy: uuid('resolved_by').references(() => users.id),
   createdAt: createdAt(),
 });
 

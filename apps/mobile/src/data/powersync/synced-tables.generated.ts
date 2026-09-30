@@ -74,7 +74,6 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
   emergency_numbers:
     'country numbers source_url retrieved_on verified_at release_id created_at updated_at',
-  engagement_events: 'proposal_id trip_id user_id kind local_hour:integer at',
   expense_edits: 'expense_id trip_id editor_id kind before after at',
   expense_shares:
     'expense_id trip_id user_id weight:integer fixed_minor:integer computed_minor:integer crew_computed_minor:integer excluded_reason created_at',
@@ -171,8 +170,6 @@ export const SYNCED_TABLE_COLUMNS = {
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
-  proposal_followups:
-    'proposal_id trip_id user_id kind due_at lead_item_id status delivered_at created_at updated_at',
   proposal_reactions: 'proposal_id trip_id user_id kind created_at',
   proposal_versions:
     'proposal_id trip_id recipient_id status shared:integer slides poster postcard poster_key postcard_key highlights savings savings_minor:integer share_minor:integer currency lead_item_id fallback_note agent_job_id attempts:integer created_at updated_at',
@@ -238,7 +235,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id crew_id buyer_id source store_transaction_id intent_id crew_year_grant_id split_mode split_member_ids starts_at ends_at status moved_from_trip_id moved_from_boost_id expense_id thanked_by revoked_at revoke_reason created_at updated_at',
   trip_budget_aggregates:
     'trip_id currency maxes_count:integer member_count:integer band_low_minor:integer band_high_minor:integer step_minor:integer track_high_minor:integer bucketed_dots under_all_ok:integer infeasible:integer computed_at created_at updated_at',
-  trip_dropouts: 'trip_id user_id change_set_id members created_at',
+  trip_dropouts:
+    'trip_id user_id ops members cost_delta_minor:integer resolved_at resolved_by created_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:

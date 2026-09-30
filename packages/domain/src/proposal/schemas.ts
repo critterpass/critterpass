@@ -152,3 +152,6 @@ export const ANONYMOUS_SUGGESTION_TEXT: Readonly<Record<PrivateReason, string>> 
   plan: 'Someone asked about the plan',
   other: 'Someone has a question about the trip',
 };
+
+/** The organiser has worked through a dropout's change list (3f-7 APPLY CHANGES). */
+export const resolveDropoutPayloadSchema = z.object({ trip_id: z.uuid(), uid: z.uuid() });
