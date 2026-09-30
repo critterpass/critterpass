@@ -442,6 +442,11 @@ appId: app.critterpass.dev
     visible:
       id: 'critters-befriended'
     timeout: 20000
+# The XP chip counts up; capture once it shows the whole award.
+- extendedWaitUntil:
+    visible:
+      text: '\+150 XP'
+    timeout: 10000
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3l-6-befriended
@@ -1016,6 +1021,11 @@ appId: app.critterpass.dev
     visible:
       id: 'critters-befriended'
     timeout: 20000
+# The XP chip counts up; capture once it shows the whole award.
+- extendedWaitUntil:
+    visible:
+      text: '\+150 XP'
+    timeout: 10000
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3l-6-befriended
