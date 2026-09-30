@@ -179,3 +179,73 @@
       - { line_id: l5, kind: item, amount_minor: 148000 }
       - { line_id: l7, kind: item, amount_minor: 129000 }
     review: [l2, l5]
+- description: seeded, an amount whose digit groups do not come in threes is rejected
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: 1* Vegetable }
+    - { id: l1, text: '20,00.00' }
+    - { id: l2, text: 1* Noodle soup }
+    - { id: l3, text: '25,000.00' }
+    - { id: l4, text: 'GRAND TOTAL: RP45,000.00' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: IDR
+    lines:
+      - { line_id: l1, label: Vegetable, qty: 1, amount: '20,00.00', kind: item }
+      - { line_id: l3, label: Noodle soup, qty: 1, amount: '25,000.00', kind: item }
+    total: { line_id: l4, amount: 'RP45,000.00' }
+  expect:
+    currency: IDR
+    total_minor: 4500000
+    matches_total: false
+    lines:
+      - { line_id: l3, kind: item, amount_minor: 2500000 }
+    rejected: [l1]
+- description: seeded, a price the recogniser split with a space is restored when it closes the total
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: Nasi goreng }
+    - { id: l1, text: 'Rp50,000' }
+    - { id: l2, text: Es teh }
+    - { id: l3, text: 'Rp3 5,000' }
+    - { id: l4, text: 'Total Rp85,000' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: IDR
+    lines:
+      - { line_id: l1, label: Nasi goreng, qty: null, amount: 'Rp50,000', kind: item }
+      - { line_id: l3, label: Es teh, qty: null, amount: 'Rp3 5,000', kind: item }
+    total: { line_id: l4, amount: 'Rp85,000' }
+  expect:
+    currency: IDR
+    total_minor: 8500000
+    matches_total: true
+    lines:
+      - { line_id: l1, kind: item, amount_minor: 5000000 }
+      - { line_id: l3, kind: item, amount_minor: 3500000 }
+    rejected: []
+- description: seeded, the line total printed beside a unit price on the same line is taken
+  currency_hint: VND
+  lines:
+    - { id: l0, text: Bia 1L }
+    - { id: l1, text: '14 69,000 966,000' }
+    - { id: l2, text: Nem cua }
+    - { id: l3, text: '129,000' }
+    - { id: l4, text: 'Tong cong: 1,095,000' }
+  reply:
+    merchant: null
+    datetime: null
+    currency: VND
+    lines:
+      - { line_id: l1, label: Bia 1L, qty: 14, amount: '69,000', kind: item }
+      - { line_id: l3, label: Nem cua, qty: null, amount: '129,000', kind: item }
+    total: { line_id: l4, amount: '1,095,000' }
+  expect:
+    currency: VND
+    total_minor: 1095000
+    matches_total: true
+    lines:
+      - { line_id: l1, kind: item, amount_minor: 966000 }
+      - { line_id: l3, kind: item, amount_minor: 129000 }

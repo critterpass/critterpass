@@ -20,12 +20,20 @@ export interface ReconcileLine {
 
 export interface ReconcileInput<Line extends ReconcileLine> {
   readonly lines: readonly Line[];
+  /**
+   * Charges the model named whose amount did not parse as printed but reads cleanly once the
+   * spaces the recogniser put between its digits are closed ("Rp3 5,000"): restored only when
+   * that makes the lines add up.
+   */
+  readonly absent: readonly Line[];
   readonly ocrLines: readonly OcrLine[];
   readonly total: number | null;
   /** OCR lines an answer (a charge, the total or a rejected charge) already cites. */
   readonly claimed: ReadonlySet<string>;
   /** Parses a whole OCR line that prints only an amount, or `null`. */
   readonly priceOf: (line: OcrLine) => number | null;
+  /** Every grouped or decimal amount a line prints ("69,000 966,000" prints two). */
+  readonly amountsIn: (line: OcrLine) => number[];
   /** The largest gap (minor units) cash rounding leaves between the lines and the total. */
   readonly tolerance: number;
 }
@@ -34,6 +42,8 @@ export interface Reconciled<Line extends ReconcileLine> {
   readonly lines: Line[];
   /** Lines to check by hand: the ones a correction could apply to, when none adds up alone. */
   readonly review_line_ids: string[];
+  /** The absent charges restored. */
+  readonly restored: string[];
 }
 
 /** How far (in OCR lines) a correction may look from the line it corrects. */
@@ -50,7 +60,8 @@ interface Edit {
   readonly delta: number;
   /** The OCR line the new amount is read from, when the edit reads one. */
   readonly takes: string | null;
-  /** The new amount, or `null` to drop the line. */
+  readonly op: 'drop' | 'read' | 'add';
+  /** The amount read (`read`) or restored (`add`). */
   readonly amount: number | null;
   /** The line beside it prints a different amount for the same charge. */
   readonly adjacent: boolean;
@@ -116,7 +127,14 @@ function candidateEdits<Line extends ReconcileLine>(
     Math.abs((at.get(a) ?? -Infinity) - (at.get(b) ?? Infinity)) <= REACH;
   const edits: Edit[] = [];
   lines.forEach((line, index) => {
-    const drop = { index, delta: -signed(line), takes: null, amount: null, adjacent: false };
+    const drop = {
+      index,
+      delta: -signed(line),
+      takes: null,
+      op: 'drop',
+      amount: null,
+      adjacent: false,
+    } as const;
     if (line.kind === 'item') {
       // A unit price listed beside its line total, or a free dish echoed by its promotion.
       const echoed = lines.some(
@@ -132,23 +150,26 @@ function candidateEdits<Line extends ReconcileLine>(
       // Tax or service already inside the prices, or a discount summary over line discounts.
       edits.push(drop);
     }
-    // The amount another column prints for the same line: the line total over a unit price, or
-    // the column the recogniser read cleanly.
+    // The amount another column prints for the same charge, on its own line or beside it on the
+    // same line: the line total over a unit price, or the column the recogniser read cleanly.
     const from = at.get(line.line_id);
     if (from === undefined) return;
+    const sign = line.kind === 'discount' ? -1 : 1;
     for (let step = -REACH; step <= REACH; step += 1) {
       const other = input.ocrLines[from + step];
-      if (step === 0 || other === undefined || claimed.has(other.id)) continue;
-      const amount = input.priceOf(other);
-      if (amount === null || amount <= 0 || amount === line.amount_minor) continue;
-      const sign = line.kind === 'discount' ? -1 : 1;
-      edits.push({
-        index,
-        delta: sign * (amount - line.amount_minor),
-        takes: other.id,
-        amount,
-        adjacent: Math.abs(step) === 1,
-      });
+      if (other === undefined || (step !== 0 && claimed.has(other.id))) continue;
+      const printed = step === 0 ? input.amountsIn(other) : [input.priceOf(other)];
+      for (const amount of new Set(printed)) {
+        if (amount === null || amount <= 0 || amount === line.amount_minor) continue;
+        edits.push({
+          index,
+          delta: sign * (amount - line.amount_minor),
+          takes: other.id,
+          op: 'read',
+          amount,
+          adjacent: Math.abs(step) <= 1,
+        });
+      }
     }
   });
   return edits;
@@ -181,12 +202,18 @@ function smallestFits(edits: readonly Edit[], gap: number, tolerance: number): E
   return [];
 }
 
-function applyEdits<Line extends ReconcileLine>(lines: readonly Line[], edits: readonly Edit[]) {
+/** The lines after the edits; `pool` holds the lines, then the absent charges. */
+function applyEdits<Line extends ReconcileLine>(
+  pool: readonly Line[],
+  present: number,
+  edits: readonly Edit[],
+) {
   const byIndex = new Map(edits.map((edit) => [edit.index, edit]));
-  return lines.flatMap((line, index) => {
+  return pool.flatMap((line, index) => {
     const edit = byIndex.get(index);
-    if (edit === undefined) return [line];
-    if (edit.amount === null || edit.takes === null) return [];
+    if (edit === undefined) return index < present ? [line] : [];
+    if (edit.op === 'drop' || edit.amount === null) return [];
+    if (edit.op === 'add' || edit.takes === null) return [line];
     return [{ ...line, line_id: edit.takes, amount_minor: edit.amount }];
   });
 }
@@ -202,21 +229,39 @@ export function reconcileWithTotal<Line extends ReconcileLine>(
 ): Reconciled<Line> {
   const claimed = new Set([...input.claimed, ...input.lines.map((line) => line.line_id)]);
   const lines = splitDiscountSummaries(input, [...input.lines], claimed);
-  if (input.total === null) return { lines, review_line_ids: [] };
+  const unchanged = { lines, review_line_ids: [], restored: [] };
+  if (input.total === null) return unchanged;
   const gap = linesSum(lines) - input.total;
-  if (Math.abs(gap) <= input.tolerance) return { lines, review_line_ids: [] };
+  if (Math.abs(gap) <= input.tolerance) return unchanged;
+  const pool = [...lines, ...input.absent];
+  const adds: Edit[] = input.absent.map((line, k) => ({
+    index: lines.length + k,
+    delta: signed(line),
+    takes: null,
+    op: 'add',
+    amount: line.amount_minor,
+    adjacent: false,
+  }));
   const edits = candidateEdits(input, lines, claimed);
-  // Leaving out a line the model should not have listed is tried before reading another column:
-  // a subtotal printed near an item must not stand in for it when the tax line is the slip.
-  const drops = edits.filter((edit) => edit.amount === null);
-  const dropFits = smallestFits(drops, gap, input.tolerance);
-  const fits = dropFits.length > 0 ? dropFits : smallestFits(edits, gap, input.tolerance);
-  const results = fits.map((fit) => applyEdits(lines, fit));
+  // Leaving out a line the model should not have listed (or restoring one it named) is tried
+  // before reading another column: a subtotal printed near an item must not stand in for it
+  // when the tax line is the slip.
+  const structural = [...edits.filter((edit) => edit.op === 'drop'), ...adds];
+  const firstFits = smallestFits(structural, gap, input.tolerance);
+  const fits =
+    firstFits.length > 0 ? firstFits : smallestFits([...edits, ...adds], gap, input.tolerance);
+  const results = fits.map((fit) => applyEdits(pool, lines.length, fit));
   // Fits that differ only in which of two equal lines they touch are one answer; the later line
   // is the likelier echo (a promotion row prints under the dish it frees).
   const last = results.at(-1);
+  const fit = fits.at(-1) ?? [];
   if (last !== undefined && results.every((r) => signature(r) === signature(last))) {
-    return { lines: last, review_line_ids: [] };
+    const restored = fit.filter((edit) => edit.op === 'add').map((edit) => pool[edit.index]);
+    return {
+      lines: last,
+      review_line_ids: [],
+      restored: restored.flatMap((line) => (line === undefined ? [] : [line.line_id])),
+    };
   }
   // Several fits: the lines they touch. None: the lines whose neighbour prints another amount.
   const doubtful = new Set(
@@ -224,5 +269,6 @@ export function reconcileWithTotal<Line extends ReconcileLine>(
       (edit) => lines[edit.index]?.line_id,
     ),
   );
-  return { lines, review_line_ids: lines.map((l) => l.line_id).filter((id) => doubtful.has(id)) };
+  const review_line_ids = lines.map((line) => line.line_id).filter((id) => doubtful.has(id));
+  return { lines, review_line_ids, restored: [] };
 }
