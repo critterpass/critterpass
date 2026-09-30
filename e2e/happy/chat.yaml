@@ -16,7 +16,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - extendedWaitUntil:
     visible:
-      text: 'Rin still has to say if they are in.*'
+      text: '.*Rin still has to say if they are in.*'
     timeout: 30000
 - tapOn:
     text: 'Message.*'
@@ -24,7 +24,7 @@ appId: app.critterpass.dev
 - tapOn: 'Send'
 - extendedWaitUntil:
     visible:
-      text: 'landing at six'
+      text: '.*landing at six.*'
     timeout: 10000
 - extendedWaitUntil:
     notVisible:
@@ -45,6 +45,6 @@ appId: app.critterpass.dev
     id: 'home-header-chat'
 - extendedWaitUntil:
     visible:
-      text: 'Got it, see you there.*'
+      text: '.*Got it, see you there.*'
     timeout: 30000
-- assertVisible: 'landing at six'
+- assertVisible: '.*landing at six.*'
