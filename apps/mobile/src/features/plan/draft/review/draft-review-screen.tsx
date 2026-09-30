@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
@@ -17,7 +18,6 @@ import { toast } from '@/motion';
 import { restoreDraftVersionCommand } from '../data/commands';
 import { useDraftTrip } from '../data/draft-trip';
 import { dayRange } from '../data/format';
-import { useDraftStreams } from '../data/streams';
 import { useDraftVersion, type HistoryEntry } from '../data/use-draft-version';
 import { draftRoutes } from '../routes';
 import { DraftReviewView } from './draft-review-view';
@@ -26,7 +26,7 @@ import { NoDraft } from './no-draft';
 import { VersionHistorySheet } from './version-history-sheet';
 
 export function DraftReviewScreen({ tripId }: { readonly tripId: string }) {
-  useDraftStreams(tripId);
+  useTripStreams(tripId);
   const trip = useDraftTrip(tripId);
   const draft = useDraftVersion(trip);
   const locale = useLocale();
