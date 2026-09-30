@@ -139,6 +139,34 @@ function isPresenterUnderSheet(
   return true;
 }
 
+/**
+ * A sheet's own surface around a content card set in by the gutter (the pitch sheet): the "frame"
+ * starts partway down, under a band where both edges show the dimmed screen behind the sheet, and
+ * then runs to the bottom. A frame drawn around the whole screen starts at the top instead.
+ */
+function isSheetAroundInsetCard(
+  image: RgbaImage,
+  rows: readonly number[],
+  frameColour: Rgb,
+): boolean {
+  const onFrame = (y: number) =>
+    colourDistance(pixel(image, 0, y), frameColour) <= LIMITS.sameColour &&
+    colourDistance(pixel(image, image.width - 1, y), frameColour) <= LIMITS.sameColour;
+  const first = rows.findIndex(onFrame);
+  if (first < 0) return false;
+  const topRows = rowsBetween(image, LIMITS.top, (rows[first] ?? 0) / image.height, 40);
+  const behind = topRows.filter((y) => {
+    const left = pixel(image, 0, y);
+    return (
+      colourDistance(left, frameColour) > LIMITS.sameColour &&
+      colourDistance(left, pixel(image, image.width - 1, y)) <= LIMITS.sameColour
+    );
+  });
+  if (behind.length < 3 || behind.length < topRows.length * 0.8) return false;
+  const below = rows.slice(first);
+  return below.filter(onFrame).length >= below.length * 0.9;
+}
+
 export function findFrame(image: RgbaImage, options: ScreenCheckOptions): ScreenFinding | null {
   const { width } = image;
   const min = Math.max(2, width * LIMITS.frameMin);
@@ -164,7 +192,9 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   const inset = median(insets);
   const steady = insets.filter((value) => Math.abs(value - inset) <= Math.max(2, width * 0.005));
   if (steady.length < rows.length * LIMITS.frameRows * 0.8) return null;
-  if (isPresenterUnderSheet(image, rows, inset, dominant(edges))) return null;
+  const frameColour = dominant(edges);
+  if (isPresenterUnderSheet(image, rows, inset, frameColour)) return null;
+  if (isSheetAroundInsetCard(image, rows, frameColour)) return null;
   return {
     code: 'SCREEN_FRAME',
     detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(options.background)}`,

@@ -91,6 +91,18 @@ describe('screen checks', { timeout: 60_000 }, () => {
       expect(findFrame(thick, { background: BG })?.code).toBe('SCREEN_FRAME');
     });
 
+    it('allows a sheet surface around a gutter-inset card, and not a frame from the top', () => {
+      const sheet = busyScreen();
+      paint(sheet, 0, 0, 400, 120, [9, 9, 16]);
+      paint(sheet, 0, 120, 20, 860, [31, 27, 56]);
+      paint(sheet, 380, 120, 400, 860, [31, 27, 56]);
+      expect(findFrame(sheet, { background: BG })).toBeNull();
+      const framed = busyScreen();
+      paint(framed, 0, 0, 20, 860, [31, 27, 56]);
+      paint(framed, 380, 0, 400, 860, [31, 27, 56]);
+      expect(findFrame(framed, { background: BG })?.code).toBe('SCREEN_FRAME');
+    });
+
     it('ignores full-bleed colour that fills the width', () => {
       const bleed = busyScreen();
       paint(bleed, 0, 0, 400, 430, [255, 150, 70]);
