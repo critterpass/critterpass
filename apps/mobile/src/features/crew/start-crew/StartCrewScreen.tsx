@@ -31,7 +31,6 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { CREATE_CREW } from '../crews-sheet/crew-commands';
 import { useCrewCode } from '../crews-sheet/crew-data';
 import { useCrewServices } from '../crews-sheet/crew-services';
-import { CREW_ROUTES } from '../crews-sheet/routes';
 
 const useStyles = makeStyles((th) => ({
   scroll: { flex: 1 },
@@ -71,6 +70,18 @@ type Step =
 
 function isCreated(value: unknown): value is CreateCrewResult {
   return typeof (value as Partial<CreateCrewResult> | null)?.code === 'string';
+}
+
+// A route path, never copy.
+// eslint-disable-next-line lingui/no-unlocalized-strings -- a route path.
+const HOME_TAB = '/(tabs)';
+
+/**
+ * Done goes back to the Home already under this screen rather than stacking another Home on top
+ * (a Home that could go "back" into the finished form); opened cold, it replaces this screen.
+ */
+export function returnHome(): void {
+  router.dismissTo(HOME_TAB);
 }
 
 export function StartCrewScreen() {
@@ -171,7 +182,7 @@ export function StartCrewScreen() {
           <View style={styles.done}>
             <InlineAction
               label={t({ id: 'crew.start.done', message: 'Done' })}
-              onPress={() => router.replace(CREW_ROUTES.home)}
+              onPress={returnHome}
               testID="start-crew-done"
             />
           </View>
