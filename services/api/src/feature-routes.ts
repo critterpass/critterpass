@@ -18,6 +18,7 @@ import { registerSyncUploadRoute } from './routes/sync-upload';
 import { registerAiRoutes } from './ai/routes';
 import { registerVoteRoutesFromEnv } from './routes/vote-routes';
 import { registerTravelDataRoutes } from './travel-data/routes';
+import { registerEditorialMediaRoute } from './editorial-media/route';
 import { registerCostRoutes } from './cost/routes';
 import { registerPlanRoutes } from './plan/routes';
 import { createR2Client } from './media/r2';
@@ -76,6 +77,9 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerCritters(doors);
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerTravelDataRoutes(app, doors);
+  if (env.MEDIA_PUBLIC_BASE_URL) {
+    registerEditorialMediaRoute(app, { ...doors, publicBaseUrl: env.MEDIA_PUBLIC_BASE_URL });
+  }
   registerCostRoutes(app, doors);
   registerPlanRoutes(app, doors);
   registerSupplierRoutes(app, doors);
