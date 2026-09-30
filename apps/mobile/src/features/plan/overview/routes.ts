@@ -20,3 +20,26 @@ export const PLAN_SCREENS = {
   '3e-3': (params: Readonly<Record<string, string>>) =>
     planRoutes.review(params['tripId'] ?? '', params['changesetId'] ?? ''),
 } as const;
+
+/**
+ * Where a `/trip/{id}/<rest>` link (pushes, inbox items) lands: the trip's own `/{id}/<rest>`,
+ * each segment re-encoded and the query kept.
+ */
+export function tripLinkTarget(
+  tripId: string,
+  rest: string | readonly string[] | undefined,
+  query: Readonly<Record<string, string | readonly string[] | undefined>>,
+): string {
+  const list = (value: string | readonly string[] | undefined): readonly string[] =>
+    value === undefined ? [] : typeof value === 'string' ? [value] : value;
+  const segments = list(rest);
+  const tail = segments.map(encodeURIComponent).join('/');
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(query)) {
+    for (const one of list(value)) {
+      search.append(key, one);
+    }
+  }
+  const qs = search.toString();
+  return `/${encodeURIComponent(tripId)}${tail === '' ? '' : `/${tail}`}${qs === '' ? '' : `?${qs}`}`;
+}
