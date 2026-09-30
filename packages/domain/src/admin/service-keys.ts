@@ -96,6 +96,12 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
     'widgets.push.enabled': killSwitch('Widget refresh pushes'),
     'home.tips.enabled': killSwitch("Proactive tips on crews' Home"),
     'vote.guest_brief.enabled': killSwitch("The guest guide's brief on place pages"),
+    'guide.proactive.enabled': killSwitch("The guide's offers in crew chat"),
+    'guide.proactive.daily_cap': opsSetting(
+      z.number().int().min(0).max(10),
+      'Guide offers a crew may get in crew chat per day',
+      'Default 3',
+    ),
     'ai.draft.skeleton_model': opsSetting(
       z.enum(['pro', 'fast']),
       'Tier that outlines a trip draft (the day plans always run on the pro tier)',

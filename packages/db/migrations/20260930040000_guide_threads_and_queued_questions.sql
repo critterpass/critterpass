@@ -249,6 +249,26 @@ WHERE t.id = nullif(current_setting('app.thread', true), '')::uuid
   );
 GRANT SELECT ON llm.guide_history TO guide_reader;
 
+-- llm.crew_profiles: the `crew_profiles` tool's rows for the trip in context. First names, the
+-- crew-visible taste tags, pace and chronotype, and dietary flags only where the member consented
+-- (participant_dietary_flags exists only while consent stands). No budgets, no profile detail.
+CREATE OR REPLACE VIEW llm.crew_profiles AS
+SELECT
+  tp.trip_id,
+  tp.user_id,
+  split_part(coalesce(u.display_name, ''), ' ', 1) AS first_name,
+  CASE WHEN tst.visibility = 'crew' THEN tst.tags ELSE '{}'::text[] END AS taste_tags,
+  coalesce(f.flags, '{}'::text[]) AS dietary_flags,
+  CASE WHEN tst.visibility = 'crew' THEN tst.pace END AS pace,
+  CASE WHEN tst.visibility = 'crew' THEN tst.chronotype END AS chronotype
+FROM trip_participants tp
+JOIN users u ON u.id = tp.user_id
+LEFT JOIN taste_profiles tst ON tst.user_id = tp.user_id
+LEFT JOIN participant_dietary_flags f ON f.trip_id = tp.trip_id AND f.user_id = tp.user_id
+WHERE tp.trip_id = nullif(current_setting('app.trip', true), '')::uuid
+  AND app.is_trip_member(tp.trip_id);
+GRANT SELECT ON llm.crew_profiles TO guide_reader;
+
 -- ---------------------------------------------------------------------------------------------
 -- The free meter never moves back a day: a period key older than the subject's latest one (a
 -- device tz moved west after the reset) counts toward the latest period instead. Together with the
