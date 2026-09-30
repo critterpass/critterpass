@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # The private draft's loading scenes in one language (`LOCALE`, a gallery locale code), from a fresh
 # launch: the gallery sets the running app's language, then back through the developer tools into
-# the drafting scenes. Each scene is shot on its first frame and again once its guide line shows.
+# the drafting scenes. Each scene is shot on its first frame and again once its guide line shows,
+# named under the review's design id (3c-9) so compare sheets set each beside the review it becomes.
 - runFlow: open-gallery.yaml
 - tapOn:
     id: 'gallery-locale-${LOCALE}'
@@ -35,12 +36,12 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'draft-scene-draft-loading'
-- takeScreenshot: ${LOCALE}-draft-loading
+- takeScreenshot: ${LOCALE}-3c-9-draft-loading
 - extendedWaitUntil:
     visible:
       id: 'draft-loading-slow'
     timeout: 10000
-- takeScreenshot: ${LOCALE}-draft-loading-guide
+- takeScreenshot: ${LOCALE}-3c-9-draft-loading-guide
 - tapOn:
     id: 'draft-back'
 - extendedWaitUntil:
@@ -56,9 +57,9 @@ appId: app.critterpass.dev
     id: 'draft-scene-draft-loading-slow-data'
 - assertNotVisible:
     id: 'draft-loading-slow'
-- takeScreenshot: ${LOCALE}-draft-loading-slow-data
+- takeScreenshot: ${LOCALE}-3c-9-draft-loading-slow-data
 - extendedWaitUntil:
     visible:
       id: 'draft-loading-slow'
     timeout: 15000
-- takeScreenshot: ${LOCALE}-draft-loading-slow-data-arrived
+- takeScreenshot: ${LOCALE}-3c-9-draft-loading-slow-data-arrived
