@@ -81,6 +81,19 @@ export function toMembers(rows: readonly MemberRow[]): MoneyMember[] {
   }));
 }
 
+/**
+ * The currency a crew's money is in. The server writes it when the crew starts (its creator's home
+ * currency) or when its money first needs one (its members' most common home currency, else USD).
+ * Until the written value syncs: the currency its ledger is already in, else the viewer's home
+ * currency, which is what a crew of one settles in.
+ */
+export function crewCurrencyOf(
+  crew: Pick<CrewRow, 'settlement_currency' | 'ledger_currency'> | null,
+  homeCurrency: string | null | undefined,
+): string {
+  return crew?.settlement_currency ?? crew?.ledger_currency ?? homeCurrency?.toUpperCase() ?? 'USD';
+}
+
 export function toTrip(row: TripRow, crew: CrewRow | null): MoneyTrip {
   return {
     id: row.id,
