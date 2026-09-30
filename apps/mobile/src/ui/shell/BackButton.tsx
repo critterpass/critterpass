@@ -3,6 +3,7 @@ import { router } from 'expo-router';
 import { Pressable } from 'react-native';
 
 import { StraightArrow } from '../icons/StraightArrow';
+import { useBackAffordance } from '../qa/back-affordance';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
 
 /** True when there is a screen to go back to; false outside a navigator (tests, the gallery). */
@@ -29,8 +30,12 @@ export interface BackButtonProps {
   readonly testID?: string | undefined;
 }
 
-/** The icon-only back control of a pushed screen's header: a straight arrow on a 44 pt target. */
+/**
+ * The icon-only back control of a pushed screen's header: a straight arrow on a 44 pt target. It
+ * counts as its screen's way back for the no-back-affordance check.
+ */
 export function BackButton({ onPress, testID = 'header-back' }: BackButtonProps) {
+  useBackAffordance();
   const { t } = useLingui();
   const styles = useStyles();
   const theme = useTheme();
