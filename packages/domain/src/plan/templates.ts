@@ -8,32 +8,32 @@ export interface PlanCopy {
   readonly message: string;
 }
 
-export const CHANGESET_NEEDS_YES_TITLE: PlanCopy = {
+export const CHANGESET_NEEDS_YES_TITLE: PlanCopy = /*i18n*/ {
   id: 'notifications.changeset.needs_yes.title',
   message: '{asker} wants to change the plan',
 };
 
-export const CHANGESET_NEEDS_YES_BODY: PlanCopy = {
+export const CHANGESET_NEEDS_YES_BODY: PlanCopy = /*i18n*/ {
   id: 'notifications.changeset.needs_yes.body',
   message: '{count, plural, one {# change} other {# changes}} for {crew}. Approve or reject?',
 };
 
-export const CHANGESET_APPLIED_TITLE: PlanCopy = {
+export const CHANGESET_APPLIED_TITLE: PlanCopy = /*i18n*/ {
   id: 'notifications.changeset.applied.title',
   message: 'The plan changed',
 };
 
-export const CHANGESET_APPLIED_BODY: PlanCopy = {
+export const CHANGESET_APPLIED_BODY: PlanCopy = /*i18n*/ {
   id: 'notifications.changeset.applied.body',
   message: '{crew} said yes, so I updated the plan.',
 };
 
-export const CHANGESET_KEPT_TITLE: PlanCopy = {
+export const CHANGESET_KEPT_TITLE: PlanCopy = /*i18n*/ {
   id: 'notifications.changeset.kept.title',
   message: 'The plan stays as it was',
 };
 
-export const CHANGESET_KEPT_BODY: PlanCopy = {
+export const CHANGESET_KEPT_BODY: PlanCopy = /*i18n*/ {
   id: 'notifications.changeset.kept.body',
   message: 'Not enough yeses from {crew}, so nothing changed.',
 };

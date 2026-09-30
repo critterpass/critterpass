@@ -112,16 +112,22 @@ export function registerLiveMapNotifications(): void {
       const eta = event.payload['eta_min'];
       const body = onMyWay
         ? typeof eta === 'number'
-          ? {
+          ? /*i18n*/ {
               id: 'notifications.crew_ping.on_my_way_eta',
               message: 'On my way. {minutes} min out.',
             }
-          : { id: 'notifications.crew_ping.on_my_way', message: 'On my way.' }
+          : /*i18n*/ { id: 'notifications.crew_ping.on_my_way', message: 'On my way.' }
         : facts.place === ''
-          ? { id: 'notifications.crew_ping.ping', message: 'Where is everyone? Check the map.' }
-          : { id: 'notifications.crew_ping.ping_meetup', message: 'Meet at {place}, {time}.' };
+          ? /*i18n*/ {
+              id: 'notifications.crew_ping.ping',
+              message: 'Where is everyone? Check the map.',
+            }
+          : /*i18n*/ {
+              id: 'notifications.crew_ping.ping_meetup',
+              message: 'Meet at {place}, {time}.',
+            };
       return {
-        title: { id: 'notifications.crew_ping.title', message: '{sender} · {crew}' },
+        title: /*i18n*/ { id: 'notifications.crew_ping.title', message: '{sender} · {crew}' },
         body,
         vars: {
           sender: facts.sender,
@@ -158,21 +164,21 @@ export function registerLiveMapNotifications(): void {
         if (facts === null || facts.place === '') return null;
         const body =
           event === 'meetup.crew_close'
-            ? {
+            ? /*i18n*/ {
                 id: 'notifications.meetup_changed.crew_close',
                 message: "Everyone's nearly at {place}.",
               }
             : event === 'meetup.created'
-              ? {
+              ? /*i18n*/ {
                   id: 'notifications.meetup_changed.created',
                   message: '{sender} set a meet-up: {place}, {time}.',
                 }
-              : {
+              : /*i18n*/ {
                   id: 'notifications.meetup_changed.moved',
                   message: '{sender} moved the meet-up: {place}, {time}.',
                 };
         return {
-          title: { id: 'notifications.meetup_changed.title', message: '{crew}' },
+          title: /*i18n*/ { id: 'notifications.meetup_changed.title', message: '{crew}' },
           body,
           vars: { sender: facts.sender, crew: facts.crew, place: facts.place, time: facts.time },
           sender:

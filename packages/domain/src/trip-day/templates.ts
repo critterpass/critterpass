@@ -7,17 +7,33 @@ export interface TripDayCopy {
   readonly message: string;
 }
 
-const copy = (id: string, message: string): TripDayCopy => ({ id, message });
-
 export const TRIP_DAY_PUSH = {
-  alarmTitle: copy('notifications.trip_day.alarm_title', 'Leave by {time} · {place}'),
-  alarmBody: copy('notifications.trip_day.alarm_body', 'Time to get up. Tap when you are up.'),
-  knockTitle: copy('notifications.trip_day.knock_title', '{place} · leave by {time}'),
-  knockBody: copy('notifications.trip_day.knock_body', '{name} might need a knock.'),
-  lateTitle: copy('notifications.trip_day.late_title', '{crew}'),
-  lateBody: copy('notifications.trip_day.late_body', '{name} is running {minutes} min late.'),
-  briefingTitle: copy('notifications.trip_day.briefing_title', '{place} · today'),
-  briefingBody: copy('notifications.trip_day.briefing_body', '{line}'),
+  alarmTitle: /*i18n*/ {
+    id: 'notifications.trip_day.alarm_title',
+    message: 'Leave by {time} · {place}',
+  },
+  alarmBody: /*i18n*/ {
+    id: 'notifications.trip_day.alarm_body',
+    message: 'Time to get up. Tap when you are up.',
+  },
+  knockTitle: /*i18n*/ {
+    id: 'notifications.trip_day.knock_title',
+    message: '{place} · leave by {time}',
+  },
+  knockBody: /*i18n*/ {
+    id: 'notifications.trip_day.knock_body',
+    message: '{name} might need a knock.',
+  },
+  lateTitle: /*i18n*/ { id: 'notifications.trip_day.late_title', message: '{crew}' },
+  lateBody: /*i18n*/ {
+    id: 'notifications.trip_day.late_body',
+    message: '{name} is running {minutes} min late.',
+  },
+  briefingTitle: /*i18n*/ {
+    id: 'notifications.trip_day.briefing_title',
+    message: '{place} · today',
+  },
+  briefingBody: /*i18n*/ { id: 'notifications.trip_day.briefing_body', message: '{line}' },
 } as const;
 
 /** The chat line a running-late report posts (the sender's own words, in the crew's chat). */
