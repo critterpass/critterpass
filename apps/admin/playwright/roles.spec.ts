@@ -52,6 +52,9 @@ const PAYLOADS: Readonly<Record<string, () => unknown>> = {
   revoke_device_key: () => ({ uid: nobody(), device_id: nobody(), reason: 'matrix' }),
   create_concierge_task: () => ({ kind: 'review', note: 'Role matrix probe' }),
   update_concierge_task: () => ({ id: nobody(), version: 1, note: 'matrix' }),
+  send_vendor_message: () => ({ draft_id: nobody() }),
+  set_vendor_contact: () => ({ thread_id: nobody(), phone_e164: '+6281234567890' }),
+  propose_vendor_reply: () => ({ thread_id: nobody(), draft_id: nobody(), draft_text: 'matrix' }),
   set_admin_role: () => ({ uid: nobody(), roles: ['support'], reason: 'matrix' }),
   revoke_admin_sessions: () => ({ uid: nobody(), reason: 'matrix' }),
   // Unknown queues and providers: an allowed call is refused by the handler, never by the policy.

@@ -22,6 +22,7 @@ import type { EvalMode } from './provider';
 import { runGuestBriefCase } from './guest-brief-suite';
 import { loadReceiptCases, runReceiptCase } from '../receipt-parse/suite';
 import { loadBookingExtractCases, runBookingExtractCase } from '../booking-extract/suite';
+import { loadVendorReplyCases, runVendorReplyCase } from '../vendor-reply/suite';
 import { runAskCase, runFitCase, runReplyCase, type SetupSuiteDeps } from './setup-suites';
 import { runPitchCase } from './stream-suites';
 import type { CaseReport } from './runner';
@@ -38,6 +39,7 @@ export const PROMPT_SUITES = [
   'fit-note',
   'receipt-parse',
   'booking-extract',
+  'vendor-reply',
 ] as const;
 export type PromptSuite = (typeof PROMPT_SUITES)[number];
 
@@ -132,6 +134,7 @@ function gatewayFor(fixture: string, options: PromptRunOptions) {
 function loadCases(suite: PromptSuite): unknown[] {
   if (suite === 'receipt-parse') return loadReceiptCases();
   if (suite === 'booking-extract') return loadBookingExtractCases();
+  if (suite === 'vendor-reply') return loadVendorReplyCases();
   const text = readFileSync(resolve(PROMPTS_DIR, suite, 'evals.yaml'), 'utf8');
   const cases = parse(text) as unknown;
   if (!Array.isArray(cases) || cases.length === 0) throw new Error(`${suite}: no cases`);
@@ -228,6 +231,7 @@ const RUNNERS: Readonly<
   'fit-note': (raw, options) => runFitCase(raw, setupDeps(options)),
   'receipt-parse': (raw, options) => runReceiptCase(raw, setupDeps(options)),
   'booking-extract': (raw, options) => runBookingExtractCase(raw, setupDeps(options)),
+  'vendor-reply': (raw, options) => runVendorReplyCase(raw, setupDeps(options)),
 };
 
 export async function runPromptSuiteCases(

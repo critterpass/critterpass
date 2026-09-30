@@ -17,6 +17,7 @@
     "draft": 1,
     "receipt-parse": 1,
     "booking-extract": 1,
+    "vendor-reply": 1,
     "guide": 1,
     "briefing": 1
   },
@@ -38,6 +39,7 @@
     "draft": 1,
     "receipt-parse": 0.95,
     "booking-extract": 0.95,
+    "vendor-reply": 0.9,
     "guide": 0.9,
     "briefing": 0.95
   },

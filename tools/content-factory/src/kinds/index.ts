@@ -12,3 +12,4 @@ import './taste-quiz';
 import './emergency';
 import './facilities';
 import './insurance';
+import './ride-tariffs';

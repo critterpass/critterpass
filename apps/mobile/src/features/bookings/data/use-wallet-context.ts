@@ -126,7 +126,8 @@ export function useWalletContext(): WalletContext {
       status: !loaded ? 'loading' : crew === null ? 'no_crew' : trip === null ? 'no_trip' : 'ready',
       uid,
       crewId: crew?.id ?? null,
-      crewCurrency: crew?.settlement_currency ?? me?.home_currency ?? 'USD',
+      // The server's crew currency until the crew picks one (coalesce(settlement_currency, 'USD')).
+      crewCurrency: crew?.settlement_currency ?? 'USD',
       trip,
       members: members.rows.map((row) => ({
         userId: row.user_id,
@@ -142,7 +143,6 @@ export function useWalletContext(): WalletContext {
     crew,
     trips.loaded,
     trip,
-    me,
     members.rows,
     participants.rows,
     inbound.rows,

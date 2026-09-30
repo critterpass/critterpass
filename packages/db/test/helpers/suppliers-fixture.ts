@@ -2,7 +2,7 @@
  * Supplier rows for the shared permission fixture: the organiser's held Viator order with one item
  * (supplier references and a payment session set, which no app role may read), a link click of the
  * member's with its imported conversion, and a driver the organiser added (sealed contact) next to
- * one they removed.
+ * one they removed, a Grab quote the member fetched and a ride the organiser logged.
  */
 import type pg from 'pg';
 
@@ -56,5 +56,17 @@ export async function seedSupplierRows(
      VALUES ($1, 'driver', $2, 'v1:matrix-contact', '{"plate": "DK 1234 AB"}', $3, NULL),
             ($1, 'driver', $4, 'v1:matrix-contact', NULL, $3, now())`,
     [tripId, FIXTURE_PROVIDER_NAME, organiser, FIXTURE_REMOVED_PROVIDER_NAME],
+  );
+  await tx.query(
+    `INSERT INTO ride_quotes (trip_id, user_id, provider, to_poi_id, service_name, fare_low_minor,
+       fare_high_minor, currency, eta_min, fetched_at)
+     SELECT $1, $2, 'grab', id, 'JustGrab', 5000000, 6000000, 'IDR', 4, now()
+       FROM pois ORDER BY created_at LIMIT 1`,
+    [tripId, member],
+  );
+  await tx.query(
+    `INSERT INTO rides (trip_id, leg_ref, provider, mode, attendee_ids, logged_by)
+     VALUES ($1, 'matrix-leg', 'grab', 'app_link', $2, $3)`,
+    [tripId, [organiser, member], organiser],
   );
 }

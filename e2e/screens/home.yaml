@@ -3,13 +3,21 @@ appId: app.critterpass.dev
 # Screenshots for `pnpm screens:capture`: the home screen, then the Developer tools list reached by
 # tapping its entry (never `openLink`, which is non-deterministic for `(dev)` routes). The reused
 # e2e-test build loads the freshly published JS before its first render, so the wait budgets for it.
-# A cleared launch: otherwise the app restores the screen an earlier flow left open.
+# A cleared launch: otherwise the app restores the screen an earlier flow left open. The first
+# screen's own controls are in the hierarchy while the launch splash still covers it, so the shot
+# waits on Home itself, past onboarding.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
     visible:
-      id: 'dev-tools-entry'
-    timeout: 25000
+      id: 'onboarding-open'
+    timeout: 60000
+- runFlow: ../home/subflows/onboard.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 30000
+- waitForAnimationToEnd
 - takeScreenshot: home
 - tapOn:
     id: 'dev-tools-entry'

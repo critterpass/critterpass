@@ -20,6 +20,7 @@ export const CONTENT_RELEASE_KINDS = [
   'emergency',
   'facilities',
   'insurance',
+  'ride_tariffs',
 ] as const;
 export const contentReleaseKindSchema = z.enum(CONTENT_RELEASE_KINDS);
 export type ContentReleaseKind = z.infer<typeof contentReleaseKindSchema>;

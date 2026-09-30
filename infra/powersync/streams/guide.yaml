@@ -28,9 +28,9 @@ streams:
         SELECT * FROM guide_threads
         WHERE trip_id = subscription.parameter('trip_id')
           AND mode = 'group'
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
       - |
         SELECT * FROM guide_messages
         WHERE trip_id = subscription.parameter('trip_id')
-          AND thread_id IN (SELECT id FROM guide_threads WHERE mode = 'group')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND thread_id IN (SELECT id FROM guide_threads WHERE trip_id = subscription.parameter('trip_id') AND mode = 'group')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)

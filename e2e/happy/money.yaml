@@ -62,6 +62,15 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'money-pay-request'
+# The request goes out and Settle up lists that payment as requested; open it again and confirm
+# the money arrived (the payee may confirm before the payer marks it paid).
+- extendedWaitUntil:
+    visible:
+      text: '(?i)requested'
+    timeout: 20000
+- tapOn:
+    id: 'money-settle-row-.*'
+    index: 0
 - extendedWaitUntil:
     visible:
       id: 'money-pay-confirm'

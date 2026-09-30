@@ -8,10 +8,11 @@ streams:
   trip_draft:
     with:
       organised_trips: |
-        SELECT trip_id FROM trip_participants WHERE user_id = auth.user_id() AND role = 'organiser'
+        SELECT trip_id FROM trip_participants
+        WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id() AND role = 'organiser'
     queries:
       - |
         SELECT * FROM redraft_reservations
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)

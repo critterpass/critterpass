@@ -15,6 +15,18 @@ msgstr ""
 msgid "setup.when.line.checked"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.some"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.oneMissing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.line.all"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.fareRise"
 msgstr ""
@@ -133,18 +145,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/ask-sheet.tsx
 msgid "setup.ask.freed"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.line.some"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.line.oneMissing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
-msgid "setup.when.line.all"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx

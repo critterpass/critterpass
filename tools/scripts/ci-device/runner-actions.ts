@@ -3,13 +3,17 @@
  * or cut the network. A flow can't run a shell command, but its scripts can make HTTP requests, so
  * each device shard serves these on localhost while its flows run:
  *
- *   - evalScript: ${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json').status}
- *   - evalScript: ${http.post('http://127.0.0.1:7788/network?state=off').status}
+ *   - evalScript: "${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json', { body: '{}' }).status}"
+ *   - evalScript: "${http.post('http://127.0.0.1:7788/network?state=off', { body: '{}' }).status}"
+ *   - evalScript: "${http.post('http://127.0.0.1:7788/type', { body: 'SQ 938' }).status}"
  *
  * `/push` reads the fixture (repo-root-relative JSON), fills its `${NAME}` placeholders from the
  * runner's environment (CREW_ID, CREW_NAME) and delivers it: `xcrun simctl push` on iOS, the FCM
  * receive broadcast (as root) on an Android emulator. `/network` turns Wi-Fi and mobile data off or
- * on (Android; iOS simulators share the Mac's network, so it answers 501). Answers 200 when done.
+ * on (Android; iOS simulators share the Mac's network, so it answers 501). `/type` types its body into the
+ * focused field with `input text` (Android; iOS answers 501): Maestro's own inputText waits for the
+ * screen to settle after every character, which a field that re-renders on each key turns into
+ * minutes. Answers 200 when done.
  *
  *   tsx tools/scripts/ci-device/runner-actions.ts --platform android --device <serial> [--port 7788]
  */
@@ -111,12 +115,27 @@ function network(state: string, ctx: ActionContext): ActionResult {
   return { status: 200, message: `network ${state}` };
 }
 
-/** Routes one request (`/push?fixture=…`, `/network?state=…`) to its action. */
-export function handleAction(url: string, ctx: ActionContext): ActionResult {
+/** `input text` argument: spaces as `%s`, the rest quoted for the device's shell. */
+export function inputTextArg(text: string): string {
+  return quote(text.replace(/%/g, '\\%').replace(/ /g, '%s'));
+}
+
+function type(text: string, ctx: ActionContext): ActionResult {
+  if (text === '') return { status: 400, message: 'text is required' };
+  if (ctx.platform === 'ios') return { status: 501, message: 'type with inputText on iOS' };
+  const result = ctx.run('adb', ['-s', ctx.device, 'shell', `input text ${inputTextArg(text)}`]);
+  return result.status === 0
+    ? { status: 200, message: `typed ${String(text.length)} characters` }
+    : { status: 500, message: result.output };
+}
+
+/** Routes one request (`/push?fixture=…`, `/network?state=…`, `/type` with a body) to its action. */
+export function handleAction(url: string, ctx: ActionContext, body = ''): ActionResult {
   const { pathname, searchParams } = new URL(url, 'http://127.0.0.1');
   try {
     if (pathname === '/push') return push(searchParams.get('fixture') ?? '', ctx);
     if (pathname === '/network') return network(searchParams.get('state') ?? '', ctx);
+    if (pathname === '/type') return type(body, ctx);
     return { status: 404, message: `no action ${pathname}` };
   } catch (error) {
     return { status: 500, message: error instanceof Error ? error.message : String(error) };
@@ -137,9 +156,14 @@ function main(): void {
   if (!device) throw new Error('--device is required');
   const ctx: ActionContext = { platform, device, root: REPO_ROOT, env: process.env, run };
   createServer((request, response) => {
-    const result = handleAction(request.url ?? '/', ctx);
-    console.log(`runner action ${request.url ?? ''}: ${String(result.status)} ${result.message}`);
-    response.writeHead(result.status, { 'content-type': 'text/plain' }).end(result.message);
+    const chunks: Buffer[] = [];
+    request.on('data', (chunk: Buffer) => chunks.push(chunk));
+    request.on('end', () => {
+      const body = Buffer.concat(chunks).toString('utf8');
+      const result = handleAction(request.url ?? '/', ctx, body);
+      console.log(`runner action ${request.url ?? ''}: ${String(result.status)} ${result.message}`);
+      response.writeHead(result.status, { 'content-type': 'text/plain' }).end(result.message);
+    });
   }).listen(Number(values.port), '127.0.0.1', () => {
     console.log(`Runner actions on 127.0.0.1:${values.port}`);
   });

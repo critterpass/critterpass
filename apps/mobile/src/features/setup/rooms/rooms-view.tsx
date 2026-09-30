@@ -134,18 +134,21 @@ export function RoomsView({
     );
   }
   const notice = noticeText(model.notice);
+  // With no rooms to lock and a step that may be skipped, the even split is the plan: LOOKS GOOD
+  // accepts it (the same move as Skip rooms, which it then stands in for).
+  const acceptsEvenSplit = plan === null && model.skippable;
 
   const footer = editable ? (
     <>
       <PillButton
         label={t({ id: 'setup.rooms.lock', message: 'Looks good' })}
-        onPress={actions.onLock}
-        disabled={plan === null || model.stayUnavailable}
+        onPress={acceptsEvenSplit ? actions.onSkip : actions.onLock}
+        disabled={!acceptsEvenSplit && (plan === null || model.stayUnavailable)}
         loading={model.locking}
         block
         testID="setup-rooms-lock"
       />
-      {model.skippable ? (
+      {model.skippable && !acceptsEvenSplit ? (
         <TextLink
           label={t({ id: 'setup.rooms.skip', message: 'Skip rooms' })}
           onPress={actions.onSkip}

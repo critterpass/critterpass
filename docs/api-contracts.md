@@ -144,7 +144,7 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 |---|---|---|---|---|---|---|
 | `register_device` | `{platform, push_token?, apns_env, tz, locale, app_version, capabilities{la, alarmkit, widget_push, live_updates}}` | self | – | `device.registered` | A | 11 |
 | `update_device_permissions` | `{perms{notifications, alarms, location, calendar, camera, microphone, speech, photos_add, photos_read, live_activities: not_determined\|denied\|restricted\|limited\|provisional\|granted; location_level: none\|wiu\|always, location_precise, notifications_time_sensitive, exact_alarm, full_screen_intent, la_enabled, la_frequent}}` (all optional; stored on `devices.permission_state`; unchanged = no-op; contacts need no prompt) | self | – | `device.permissions_changed` (derived capability only: push alert/quiet/inbox, can_ring, live_activities, encounters) | A, O | 20 |
-| `set_consent` | `{purpose: visit_detection\|analytics\|marketing, granted, copy_version?}` (one `consents` row per purpose; withdrawal keeps `granted_at`, stamps `revoked_at`) | self | – | – | A, O | 20 |
+| `set_consent` | `{purpose: visit_detection\|analytics\|marketing\|dietary_visibility, granted, copy_version?}` (one `consents` row per purpose; withdrawal keeps `granted_at`, stamps `revoked_at`; doc delta: `dietary_visibility`) | self | – | – | A, O | 20 |
 | `register_la_token` | `{activity_type, activity_id?, kind: push_to_start\|update, token}` | self | – | `la.token_registered` | A, L | 48 |
 | `end_la` | `{activity_id}` | self | – | `la.ended` | A, L | 48 |
 | `register_widget_token` | `{kind, token}` / `sync_installed_widgets {kinds[]}` | self | – | `widget.registered` | A | 49 |
@@ -158,7 +158,7 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 | `set_notification_prefs` | `{budget 1–10, roundup_time, quiet{from,to}, per_category{}, chattiness, voice_readout}` | self | voice_readout: Pass+ | `prefs.changed` | A, O | 49 |
 | `set_app_icon` | `{icon_id}` | self | icon unlocked (earned/free) or Pass+ | `profile.icon_changed` | A | 45 |
 | `set_guide_skin` | `{guide_id, form_id}` | self | form owned | `profile.guide_skin_changed` | A, O | 40 |
-| `set_dietary_profile` (C3) | `{restrictions[], allergies[], notes?}` | self | – | `profile.dietary_changed` (no payload in event) | A, O | 22 |
+| `set_dietary_profile` (C3) (doc delta) | `{diet: none\|vegetarian\|vegan\|pescatarian\|halal\|kosher, allergies[], avoid[], spice?, accessibility_notes?}` → `CONSENT_REQUIRED` without `dietary_visibility` consent for crew-visible flags; stores notes encrypted, mirrors `consent_at` and visibility onto the profile | self | – | `profile.dietary_changed` (no payload in event) | A, O | 22 |
 | `set_mailing_address` (C3, encrypted) | `{address fields}` | self | – | `profile.address_set` | A | 44 |
 | `set_payout_method` (C3, encrypted) | `{kind: bank\|paynow\|promptpay\|vietqr\|duitnow\|wise_link\|cash, country?, details (per-kind schema in `packages/domain/src/payout/catalogue.ts`), remove?}` → `{method_id, kind, removed}` (doc delta); details AES-GCM encrypted, one live method per kind; a validation reject names field paths only | self | – | `profile.payout_set` | A | 33 |
 | `request_data_export` | `{}` | self | – | `account.export_requested` → job | A | 45 |
@@ -291,7 +291,9 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
 | `queue_guide_question` | `{thread_id, text}` (answered at 00:00 reset) | owner | only when `QUOTA_EXHAUSTED` | `guide.question_queued` | A, O | 32 |
+| `cancel_queued_question` (doc delta) | `{question_id}` | owner | – | `guide.question_cancelled` | A, O | 32 |
 | `rate_guide_answer` | `{message_id, verdict, note?}` | owner | – | `guide.answer_rated` (Langfuse score) | A, O | 32 |
+| `claim_guide_offer` (doc delta) | `{offer_id}` → `{offer_id, status}` (takes the offer's row lock, fails if full or expired, idempotent per member, publishes on crew_chat) | member | – | `guide_offer.taken` | A, O | 32 |
 | `request_phrase_card` | `{trip_id, purpose, address?, language, register}` | participant | – | `phrase.requested` → TTS job | A | 32 |
 | `record_phrase_practice` | `{phrase_id, recognised, ok}` | self | – | `phrase.practised` (quest input) | A, O | 42 |
 
@@ -332,45 +334,11 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | `save_insurance_policy` / `delete_insurance_policy` (doc delta) | `{policy_id, trip_id?, provider, policy_no, assistance_phone?, doc_media_key?}` / `{policy_id}` (sealed at rest) | self | – | `insurance.saved/deleted` | A | 34 |
 | `share_insurance` (doc delta) | `{help_session_id, text_shown, grant_consent?}` → `CONSENT_REQUIRED` without `insurance_to_clinic`; records the approved text (`app.share_insurance`) | self | – | `insurance.shared` | A | 34 |
 
-### 4.11 Suppliers, rides, vendor desk (P35)
+### 4.11 & 4.12 Suppliers & trip day — see companion docs
 
-| Command | Payload | Authz | Ent | Events | Surfaces | Phase |
-|---|---|---|---|---|---|---|
-| `record_supplier_click` | `{offer_ref, supplier, context}` → affiliate URL | self | – | `supplier.link_opened` | A, O | 35 |
-| `hold_activity` | `{trip_id, offer_ref, date, time?, pax[], option_code}` → `{hold_id, price_held_until?, seats_held_until?, hold_provided}` | participant | flag `supplier.viator.booking` | `activity.held` | A | 35 |
-| `book_activity` | `{hold_id, traveller_details, payment_session_ref}` (payment in Viator iframe; we never see card data) | participant | flag | `activity.booked` / `activity.pending` → voucher into wallet | A | 35 |
-| `cancel_activity_booking` | `{booking_id, reason_code}` (quote shown first via GET) | booker / organiser | flag | `activity.cancelled` | A | 35 |
-| `release_activity_hold` | `{hold_id}` | holder / S at expiry | – | `activity.hold_released` | A, S | 35 |
-| `request_vendor_message` | `{trip_id, vendor_ref, intent, draft_text}` → ops desk queue | participant | – | `vendor_msg.drafted` | A | 35 |
-| `approve_vendor_message` | `{draft_id}` (user approval; ops desk sends via WhatsApp Business) | requester | – | `vendor_msg.approved` | A, N | 35 |
-| `send_vendor_message` | `{draft_id}` | ops | approved only | `vendor_msg.sent` | X | 35 |
-| `request_concierge` | `{trip_id, kind: clinic\|vendor\|other, text}` (human hand-off) | participant | – | `concierge.requested` | A | 35 |
+**[api-contracts-suppliers.md](./api-contracts-suppliers.md):** section 4.11 commands for supplier clicks, activity holds/bookings, vendor messages, concierge; routes for affiliate bridge (`GET /v1/suppliers/r/{subId}`), payment sessions, offers, and cancel-quote; error codes for supplier operations.
 
-Ride quotes (Grab Farefeed) are GET reads; "Open Grab" is a deep link — no ride commands, no live driver.
-
-### 4.12 Trip day, disruptions, help, map (P36–P39)
-
-| Command | Payload | Authz | Ent | Events | Surfaces | Phase |
-|---|---|---|---|---|---|---|
-| `set_readiness` | `{leave_by_id, state: up\|not_up, source}` | participant on item | – | `readiness.changed` (LA broadcast, `trip_dayof`) | A, O, L, N, W, I | 36 |
-| `snooze_leave_by` | `{leave_by_id, count}` (server decides crew knock at 2nd) | participant | – | `leave_by.snoozed` (N-21) | L, A | 36 |
-| `check_packing_item` | `{item_id, checked}` | participant | – | `packing.checked` | A, O | 36 |
-| `act_briefing_item` | `{item_id, action: done\|nudge\|set\|open}` | self | – | `briefing.item_acted` | A, O, N | 36 |
-| `report_running_late` | `{trip_id, item_id\|meetup_id, minutes}` | participant | – | `member.running_late` (N-23) + chat msg | A, O, L, N, I | 36 |
-| `ping_all` | `{trip_id, kind: on_my_way\|ping}` | participant | `boostActive(t)` | `crew.pinged` (N-23) | A, L, I | 39 |
-| `decide_disruption_action` | `{disruption_id, action_id, decision}` | affected member (money/others → needs yes) | – | `disruption.action_decided` | A, N | 37 |
-| `undo_disruption_action` | `{disruption_id, action_id}` | approver | reversible only | `disruption.action_undone` | A, N | 37 |
-| `announce_disruption` | `{disruption_id}` | organiser | – | `disruption.announced` | A | 37 |
-| `start_help_share` | `{trip_id, reason, ttl_min}` | participant | – (helpMap) | `help_share.started` (N-25) | A | 38 |
-| `stop_help_share` / `extend_help_share` | `{share_id, ttl_min?}` | owner | – | `help_share.stopped/extended` | A, N | 38 |
-| `trigger_sos` | `{trip_id, text?, fix?}` (confirm step on surfaces) | participant | – | `sos.triggered` (N-24, deterministic fan-out first) | A, L, I | 38 |
-| `respond_sos` | `{sos_id, state: coming\|seen\|calling}` | crew | – | `sos.responded` | A, N | 38 |
-| `send_sos_message` | `{sos_id, body}` | crew | – | `sos.message` | A, O | 38 |
-| `resolve_sos` | `{sos_id, note?}` | sender / responder | – | `sos.resolved` (N-48) | A, N | 38 |
-| `set_location_share` | `{trip_id, status: on\|off}` (window ends last-day midnight; a `location.expire` timer announces the end and unsubscribes when the map closes; `off` always allowed) | participant | `boostActive(t)` except Help/SOS | `location_share.changed` | A, O | 39 |
-| `pause_location_share` (doc delta) | `{share_id, paused}` | share owner | resume: `boostActive(t)` + trip days; pause always | `location_share.changed` + `share.paused`/`share.resumed` on `trip_locations` | A, O | 39 |
-| `report_location_fixes` | `{trip_id, fixes[{lat, lng, acc, at, mode?}]}` via `POST /v1/trips/{id}/fixes` (TTL rows, not synced) | sharing participant | same | `trip_locations` publish | A (bg) | 39 |
-| `create_meetup` / `move_meetup` | `{trip_id, meetup_id?, poi_id\|point{lat, lng, name}, at}` / `{meetup_id, poi_id?\|point?, at?}`; one active meet-up per trip (`STATE_INVALID meetup_exists`) | participant | `boostActive(t)` + trip days (`NOT_ELIGIBLE outside_trip_days`) | `meetup.created/moved` (N-47) | A | 39 |
+**[api-contracts-trip.md](./api-contracts-trip.md):** section 4.12 commands for leave-by readiness, packing, briefing, disruptions, help, SOS, location sharing, meetups (with action key scope matrix); `trip_dayof:` realtime channel; offline bundle route and manifest structure.
 
 ### 4.13 Critters, quests, visits (P20, P40, P41)
 

@@ -1,4 +1,5 @@
-import { readFileSync } from 'node:fs';
+import { copyFileSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 
 import { describe, expect, it } from 'vitest';
@@ -12,7 +13,7 @@ import {
   keyboardTop,
   type Rgb,
 } from './screen-checks';
-import { appBackground } from './screen-scan';
+import { appBackground, scanScreenshots } from './screen-scan';
 
 // Founder device screenshots and one CI simulator capture (downscaled; reviewer marks painted out
 // where they crossed an edge).
@@ -127,6 +128,29 @@ describe('screen checks', { timeout: 60_000 }, () => {
       const empty = blank(400, 860, BG);
       paint(empty, 30, 100, 200, 130, [240, 235, 220]);
       expect(findEmptyScreen(empty)?.code).toBe('EMPTY_SCREEN');
+    });
+
+    it('skips only the shots listed as sparse by design, and still runs the other checks on them', () => {
+      const dir = mkdtempSync(path.join(tmpdir(), 'screen-scan-'));
+      try {
+        const shoot = (fixture: string, shot: string) =>
+          copyFileSync(path.join(FIXTURES, `${fixture}.png`), path.join(dir, `${shot}.png`));
+        shoot('empty-vote-showdown', 'en-join-code-from-crews');
+        shoot('empty-vote-showdown', 'vi-join-code-from-crews');
+        shoot('empty-vote-showdown', 'en-join-code-from-crews-typed');
+        shoot('empty-vote-showdown', 'en-vote-showdown');
+        shoot('frame-sheet-over-chat', 'en-gallery-rise');
+        const found = scanScreenshots(dir, BG);
+        const codesOf = (shot: string) => found.get(shot)?.map((f) => f.code);
+        expect(codesOf('en-join-code-from-crews')).toBeUndefined();
+        expect(codesOf('vi-join-code-from-crews')).toBeUndefined();
+        expect(codesOf('en-join-code-from-crews-typed')).toEqual(['EMPTY_SCREEN']);
+        expect(codesOf('en-vote-showdown')).toEqual(['EMPTY_SCREEN']);
+        expect(codesOf('en-gallery-rise')).toContain('SCREEN_FRAME');
+        expect(codesOf('en-gallery-rise')).not.toContain('EMPTY_SCREEN');
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
+      }
     });
   });
 });

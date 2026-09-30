@@ -20,7 +20,7 @@ interface TaskRow {
   requester_name: string | null;
   assignee_admin_id: string | null;
   due_at: Date | null;
-  notes: { at: string; admin_id: string; text: string }[];
+  notes: { at: string; admin_id: string | null; text: string }[];
   version: number;
   created_at: Date;
   approval_id: string | null;
@@ -62,7 +62,7 @@ export async function loadDeskTasks(
     ...new Set(
       rows.flatMap((row) => [
         ...(row.assignee_admin_id ? [row.assignee_admin_id] : []),
-        ...row.notes.map((note) => note.admin_id),
+        ...row.notes.flatMap((note) => (note.admin_id ? [note.admin_id] : [])),
       ]),
     ),
   ]);
@@ -81,7 +81,8 @@ export async function loadDeskTasks(
       sla: deskSla(row.due_at, row.status, now),
       notes: row.notes.map((note) => ({
         at: note.at,
-        admin: name(note.admin_id),
+        // Notes the system writes (a traveller approved, a vendor replied) have no operator.
+        admin: note.admin_id ? name(note.admin_id) : 'system',
         text: note.text,
       })),
       version: row.version,

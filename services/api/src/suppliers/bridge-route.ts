@@ -1,5 +1,5 @@
 /**
- * `GET /v1/suppliers/r/{sub_id}`: the attribution bridge behind `go.critterpass.app/r/{sub_id}`.
+ * `GET /v1/suppliers/r/{sub_id}`: the attribution bridge behind `go.<domain>/out/{sub_id}`.
  * An offline tap opens the bridge at once with the app's own sub id; once the click has synced the
  * bridge redirects to the partner link built for it. Public (the partner's page is public too) and
  * never cached; an unknown sub id is `NOT_FOUND`, never an unattributed partner link.

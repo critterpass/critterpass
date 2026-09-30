@@ -1,8 +1,9 @@
 /**
  * The supplier layer (docs/data-model.md §3.7), a typed mirror of the supplier migrations: orders
  * placed with a supplier that is the merchant of record and their items, affiliate clicks and
- * conversions, and the trip's providers. No table holds supplier content: ids, prices at the time
- * of display, status and references only.
+ * conversions, the trip's providers, Grab ride quotes and logged rides, and the ops desk's vendor
+ * threads and messages. No table holds supplier content: ids, prices at the time of display, status
+ * and references only.
  */
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
@@ -12,6 +13,7 @@ import {
   date,
   integer,
   jsonb,
+  pgSchema,
   pgTable,
   text,
   timestamp,
@@ -21,7 +23,11 @@ import {
 import { registerMergeRule } from '../merge-rules';
 import { bookings } from './bookings';
 import { users } from './identity';
+import { opsApprovals, opsConciergeTasks } from './ops-console';
+import { pois } from './places';
 import { trips } from './trips';
+
+const ops = pgSchema('ops');
 
 const id = () =>
   uuid('id')
@@ -128,6 +134,99 @@ export const providers = pgTable('providers', {
   updatedAt: updatedAt(),
 });
 
+export const rideQuotes = pgTable('ride_quotes', {
+  id: id(),
+  tripId: tripRef().notNull(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id),
+  provider: text('provider').notNull(),
+  fromPoiId: uuid('from_poi_id'),
+  toPoiId: uuid('to_poi_id').notNull(),
+  serviceName: text('service_name').notNull(),
+  fareLowMinor: bigint('fare_low_minor', { mode: 'bigint' }).notNull(),
+  fareHighMinor: bigint('fare_high_minor', { mode: 'bigint' }).notNull(),
+  currency: char('currency', { length: 3 }).notNull(),
+  etaMin: integer('eta_min').notNull(),
+  surge: text('surge').notNull().default('none'),
+  fetchedAt: at('fetched_at').notNull(),
+  createdAt: createdAt(),
+});
+
+export const rides = pgTable('rides', {
+  id: id(),
+  tripId: tripRef().notNull(),
+  legRef: text('leg_ref').notNull(),
+  provider: text('provider').notNull(),
+  mode: text('mode').notNull(),
+  providerId: uuid('provider_id').references(() => providers.id),
+  bookingId: uuid('booking_id').references(() => bookings.id),
+  quoteId: uuid('quote_id').references(() => rideQuotes.id, { onDelete: 'set null' }),
+  etaText: text('eta_text'),
+  status: text('status').notNull().default('logged'),
+  priceMinor: bigint('price_minor', { mode: 'bigint' }),
+  currency: char('currency', { length: 3 }),
+  expenseId: uuid('expense_id'),
+  attendeeIds: uuid('attendee_ids')
+    .array()
+    .notNull()
+    .default(sql`'{}'::uuid[]`),
+  loggedBy: uuid('logged_by')
+    .notNull()
+    .references(() => users.id),
+  version: integer('version').notNull().default(1),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+/** RLS class S, C2: the desk's WhatsApp threads; the vendor's number is sealed and hashed. */
+export const opsVendorThreads = ops.table('vendor_threads', {
+  id: id(),
+  tripId: tripRef().notNull(),
+  requestedBy: uuid('requested_by')
+    .notNull()
+    .references(() => users.id),
+  providerId: uuid('provider_id').references(() => providers.id),
+  poiId: uuid('poi_id').references(() => pois.id),
+  vendorName: text('vendor_name').notNull(),
+  channel: text('channel').notNull(),
+  waContactEnc: text('wa_contact_enc'),
+  waContactHash: text('wa_contact_hash'),
+  status: text('status').notNull().default('open'),
+  taskId: uuid('task_id').references(() => opsConciergeTasks.id),
+  lastInboundAt: at('last_inbound_at'),
+  version: integer('version').notNull().default(1),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
+/** Outbound drafts and sends (only ever with a matching approval) and verbatim inbound replies. */
+export const opsVendorMessages = ops.table('vendor_messages', {
+  id: id(),
+  threadId: uuid('thread_id')
+    .notNull()
+    .references(() => opsVendorThreads.id),
+  tripId: tripRef().notNull(),
+  direction: text('direction').notNull(),
+  proposedBy: text('proposed_by').notNull().default('user'),
+  intent: text('intent'),
+  body: text('body').notNull(),
+  status: text('status').notNull(),
+  approvedByUserId: uuid('approved_by_user_id').references(() => users.id),
+  approvedAt: at('approved_at'),
+  approvalId: uuid('approval_id').references(() => opsApprovals.id),
+  approvedTextSha256: char('approved_text_sha256', { length: 64 }),
+  templateName: text('template_name'),
+  waMessageId: text('wa_message_id').unique(),
+  sentByAdminId: uuid('sent_by_admin_id'),
+  sentAt: at('sent_at'),
+  failureReason: text('failure_reason'),
+  reply: jsonb('reply'),
+  version: integer('version').notNull().default(1),
+  createdAt: createdAt(),
+  updatedAt: updatedAt(),
+});
+
 // An order is the trip's (C1); its supplier references and payment session are the server's.
 registerTablePrivacy('supplier_orders', {
   class: 'C1',
@@ -147,7 +246,12 @@ registerTablePrivacy('affiliate_clicks', { class: 'C2' });
 registerTablePrivacy('affiliate_conversions', { class: 'C5' });
 // A provider's contact is a business number, sealed at rest and read through the api.
 registerTablePrivacy('providers', { class: 'C1', columns: { contact_enc: 'C2' } });
+// A quote is Grab's estimate between two places; a ride is a logged leg with its amount.
+registerTablePrivacy('ride_quotes', { class: 'C1' });
+registerTablePrivacy('rides', { class: 'C1' });
 
 // A merged member keeps the orders they placed and the providers they added.
 registerMergeRule({ table: 'supplier_orders', userColumn: 'buyer_id', strategy: 'reassign' });
 registerMergeRule({ table: 'providers', userColumn: 'added_by', strategy: 'reassign' });
+registerMergeRule({ table: 'ride_quotes', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({ table: 'rides', userColumn: 'logged_by', strategy: 'reassign' });

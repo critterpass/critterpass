@@ -3,6 +3,11 @@
 # union of their queries. Filters mirror the tables' RLS SELECT policies: PowerSync replicates with a
 # role that bypasses RLS, so these WHERE clauses are the only thing standing between a row and a client.
 # Every synced row needs an `id` column; tables keyed by something else alias their key to `id`.
+# Every subquery is a PowerSync parameter query, and one connection may hold at most 1,000 parameter
+# results across all its subscriptions; past that the whole sync request fails. So each subquery is
+# bounded by the caller (auth.user_id()) or, in the trip streams, by the subscribed trip, never by a
+# catalogue-wide filter such as `visibility = 'crew'` or `mode = 'group'` alone
+# (packages/db/test/permissions/sync-streams-parameter-bounds.test.ts).
 
 with:
   # Crews the caller is an active member of (app.is_crew_member). Ex-members ('left', 'removed',
@@ -52,67 +57,68 @@ streams:
       - |
         SELECT * FROM trip_participants
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
       - |
         SELECT * FROM itinerary_versions
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
           AND visibility = 'crew'
       - |
         SELECT * FROM plan_days
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
-          AND version_id IN (SELECT id FROM itinerary_versions WHERE visibility = 'crew')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
       - |
         SELECT * FROM plan_items
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
-          AND version_id IN (SELECT id FROM itinerary_versions WHERE visibility = 'crew')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
       - |
         SELECT * FROM change_sets
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
-          AND base_version_id IN (SELECT id FROM itinerary_versions WHERE visibility = 'crew')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND base_version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
       - |
         SELECT * FROM guide_actions
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
       - |
         SELECT * FROM activity_events
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
 
   # Organiser-only drafts of one trip ({trip_id}): an organiser seat (app.is_trip_organiser) while still
   # an active crew member (app.is_trip_member), matching the itinerary_versions SELECT policy.
   trip_draft:
     with:
       organised_trips: |
-        SELECT trip_id FROM trip_participants WHERE user_id = auth.user_id() AND role = 'organiser'
+        SELECT trip_id FROM trip_participants
+        WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id() AND role = 'organiser'
     queries:
       - |
         SELECT * FROM itinerary_versions
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
           AND visibility = 'organiser'
       - |
         SELECT * FROM plan_days
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
-          AND version_id IN (SELECT id FROM itinerary_versions WHERE visibility = 'organiser')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser')
       - |
         SELECT * FROM plan_items
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
-          AND version_id IN (SELECT id FROM itinerary_versions WHERE visibility = 'organiser')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser')
       - |
         SELECT * FROM change_sets
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
-          AND base_version_id IN (SELECT id FROM itinerary_versions WHERE visibility = 'organiser')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND base_version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser')
 
   # Global reference data every signed-in client keeps offline.
   catalog:

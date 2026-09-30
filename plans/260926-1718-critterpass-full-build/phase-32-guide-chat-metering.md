@@ -1,7 +1,7 @@
 ---
 phase: 32
 title: Guide chat, guide in crew chat, metering, phrase cards
-status: in_progress
+status: done
 depends_on: [12, 13, 24, 29]
 wave: 16
 features: [F-093, F-094, F-097, F-098, F-099, F-160]
@@ -126,6 +126,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. SSE client + token renderer. 2. Plan card with dealt swaps, PROPOSE TO GROUP / JUST ME + UNDO. 3. Quick actions behind supplier/feature flags. 4. States list above.
 - Tests: `pnpm --filter @cp/mobile test -- features/guide/chat`; `maestro test e2e/guide/chat-propose-to-group.yaml`
 - Done when: PROPOSE TO GROUP produces a poll visible in crew chat on second device; offline question queues and sends on reconnect.
+- Status: done — 17dcb2af, d938fd84, 37540e13 (plan cards reuse the plan area's review and actions); happy path 2abf8ce4; the two-device PROPOSE TO GROUP Maestro flow is not written
 
 ### T4 — Guide in crew chat (mentions + proactive)
 - Goal: @mention replies and offer cards.
@@ -133,7 +134,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Mention job streaming fan-out. 2. Metering rule (any Pass+/boost → unmetered). 3. Proactive trigger + rate limit + chat mode respect. 4. Offer card explicit confirm per member.
 - Tests: `pnpm --filter @cp/worker test -- guide`; `maestro test e2e/guide/crew-mention.yaml`
 - Done when: mention by free user with Pass+ crewmate does not increment usage; proactive cap enforced; offer never books without confirm; mention turn tool list is propose-only (test); prompt-assembly test shows no supplier text and availability numbers come from the template.
-- Status: server done — 73a42078 (mention stream route, `ai.guide_mention`, `guide.proactive`); app part (`features/guide/crew-mention`, Maestro) pending
+- Status: done — server 73a42078; app 619c604f (the asker's app streams its mention, crewmates see `guide.token`; offer cards claim through `claim_guide_offer` after an explicit confirm)
 
 ### T5 — Meter chip + 4b-1 limit card
 - Goal: limit UX exactly as designed.
@@ -141,6 +142,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Segmented meter from synced `usage_counters`. 2. 30th segment flick + trail-off + card slide. 3. Crewmate hint list, countdown from `reset_at`, GET PASS+ entry.
 - Tests: `pnpm --filter @cp/mobile test -- features/guide/meter`
 - Done when: RNTL snapshot covers free/at-limit/unlimited/boosted; countdown derived from `reset_at` only.
+- Status: done — 42aa0e3a
 
 ### T6 — Queued question at reset (F-099)
 - Goal: queue, answer at reset, passive push.
@@ -148,7 +150,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Commands with guard. 2. Cron per tz bucket. 3. AI-40 answer counted to new day. 4. N-36 passive; status for briefing.
 - Tests: `pnpm --filter @cp/worker test -- guide/queued-answer`
 - Done when: fake-clock test answers at 00:00 in Asia/Saigon and not at 00:00 UTC; second queue same day rejected.
-- Status: server done — 7985fc0a (also `rate_guide_answer`); app part (`features/guide/queued`) pending
+- Status: done — server 7985fc0a (also `rate_guide_answer`); app 01dd7f09
 
 ### T7 — Phrase cards + TTS pipeline
 - Goal: playable, showable, offline phrase cards.
@@ -156,7 +158,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. `<PhraseCard>` with play/show mode. 2. TTS job (ElevenLabs Flash/v3 by language, per-guide voice) → R2. 3. Offline bundle inclusion + on-device TTS fallback.
 - Tests: `pnpm --filter @cp/worker test -- guide/phrase-tts`; `maestro test e2e/guide/phrase-offline.yaml`
 - Done when: airplane-mode Maestro flow plays cached audio; custom address card produced within job.
-- Status: server done — b83eb562 (ElevenLabs adapter behind `ELEVENLABS_API_KEY` + `ELEVENLABS_VOICE_ID`, else on-device speech); app part (`features/guide/phrases`, Maestro) pending
+- Status: done — server b83eb562 (ElevenLabs adapter behind `ELEVENLABS_API_KEY` + `ELEVENLABS_VOICE_ID`, else on-device speech); app bbff29ce (recorded audio offline, SHOW mode; on-device speech in its own native PR; phrase audio read path still missing server-side)
 
 ### T8 — Dietary & accessibility capture + consent
 - Goal: undesigned capture flow built with design system.
@@ -164,6 +166,7 @@ Done when: on a local stack a free user asks 30 questions (31st shows 4b-1, queu
 - Steps: 1. Form + chips + free text. 2. Consent sheet + revoke. 3. Local-private storage; flags derivation check.
 - Tests: `pnpm --filter @cp/mobile test -- features/guide/dietary`; `pnpm --filter @cp/db test -- permissions/dietary` (reuse P27 tests, add consent revoke case)
 - Done when: without consent `crew_profiles` tool returns no flags; revoke removes flags row.
+- Status: done — c2af0e67 (server contracts in #241)
 
 ### T9 — Guide chat evals + cost dashboard wiring
 - Goal: regression gate for chat/mention/queued prompts.

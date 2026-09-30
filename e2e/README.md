@@ -57,7 +57,10 @@ split text, one-line labels that wrapped, stickers without their edge or image, 
 that overlap or leave the screen, pushed screens with no back or close control, and icons that
 draw nothing. A label the design does set on two lines says so on its `Text` with
 `singleLine={false}`, the one exemption from the wrap check; `git grep 'singleLine={false}'` lists
-every one for review.
+every one for review. A screen that is sparse on purpose opts out of `EMPTY_SCREEN` (and only that
+check) in `tools/scripts/ci-device/sparse-by-design.ts`, the pixel checks' counterpart: its shot
+name's ending, with the render or undesigned-state row that makes it sparse. A screen that is bare
+because content never drew is a bug to fix, never an entry there.
 
 Each run is titled after its mode, branch, pull request, platform and flows, and dispatching the
 same flows on the same branch again cancels the older run. When no e2e-test build matches the
@@ -98,11 +101,13 @@ its flows run (`tools/scripts/ci-device/runner-actions.ts`). At the step a flow'
 "Runner: …", call it from a script:
 
 ```yaml
-- evalScript: ${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json').status}
-- evalScript: ${http.post('http://127.0.0.1:7788/network?state=off').status}
+- evalScript: "${http.post('http://127.0.0.1:7788/push?fixture=e2e/notifications/fixtures/android-crew-chat.json', { body: '{}' }).status}"
+- evalScript: "${http.post('http://127.0.0.1:7788/network?state=off', { body: '{}' }).status}"
 ```
 
-`/push` fills the fixture's `${CREW_ID}` and `${CREW_NAME}` from the repository variables
+Maestro's `http.post` needs a body, so pass one even when the action ignores it. `/type` types its
+body into the focused field (Android; iOS answers 501), for fields where Maestro's `inputText` would
+wait for the screen after every character (`e2e/happy/bookings.yaml`). `/push` fills the fixture's `${CREW_ID}` and `${CREW_NAME}` from the repository variables
 `E2E_CREW_ID` and `E2E_CREW_NAME` (also passed to every flow) and delivers it with
 `xcrun simctl push` on iOS or the FCM receive broadcast (as root) on Android. `/network` turns
 Wi-Fi and mobile data off or on (Android only; iOS answers 501). Each call answers 200 once done,

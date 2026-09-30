@@ -1,52 +1,67 @@
 appId: app.critterpass.dev
 ---
-# The setup's When step as organiser with nobody's days marked: mark a week of next month free by
-# hand, save (set_availability), wait for the crew window the worker recomputes, and lock the dates
-# (lock_trip_dates), from the window card or the week picker.
-- tapOn:
-    id: 'own-calendar-action'
-- runFlow:
-    when:
-      visible:
-        id: 'calendar-by-hand'
-    commands:
-      - tapOn:
-          id: 'calendar-by-hand'
+# The setup's When step as organiser: lock the dates (lock_trip_dates) from the crew window card or
+# the week picker. The window is often up already (this phone's calendar synced its free days on
+# the way in); when it isn't, mark a week of next month free by hand, save (set_availability) and
+# wait for the window the worker recomputes.
 - extendedWaitUntil:
     visible:
-      id: 'manual-days'
-    timeout: 10000
-# Next month: every day of it is ahead of today.
-- tapOn:
-    id: 'manual-days-next'
-# Seven days in a row, each tapped once: free.
-- tapOn:
-    id: 'manual-day-.*'
-    index: 8
-- tapOn:
-    id: 'manual-day-.*'
-    index: 9
-- tapOn:
-    id: 'manual-day-.*'
-    index: 10
-- tapOn:
-    id: 'manual-day-.*'
-    index: 11
-- tapOn:
-    id: 'manual-day-.*'
-    index: 12
-- tapOn:
-    id: 'manual-day-.*'
-    index: 13
-- tapOn:
-    id: 'manual-day-.*'
-    index: 14
-- tapOn:
-    id: 'manual-days-save'
-- extendedWaitUntil:
-    notVisible:
-      id: 'manual-days'
-    timeout: 15000
+      id: 'when-cta|when-pick-week'
+    timeout: 20000
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'when-cta|when-pick-week'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'own-calendar-action'
+          timeout: 10000
+      - tapOn:
+          id: 'own-calendar-action'
+      - runFlow:
+          when:
+            visible:
+              id: 'calendar-by-hand'
+          commands:
+            - tapOn:
+                id: 'calendar-by-hand'
+      - extendedWaitUntil:
+          visible:
+            id: 'manual-days'
+          timeout: 10000
+      # Next month: every day of it is ahead of today.
+      - tapOn:
+          id: 'manual-days-next'
+      # Seven days in a row, each tapped once: free.
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 8
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 9
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 10
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 11
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 12
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 13
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 14
+      - tapOn:
+          id: 'manual-days-save'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'manual-days'
+          timeout: 15000
 # The crew window: a lock button on the window card, or pick the week in the picker.
 - extendedWaitUntil:
     visible:

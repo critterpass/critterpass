@@ -8,17 +8,20 @@ import {
   type SharedValue,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 
 /**
- * A 0→1 progress that loops every `periodMs` while mounted. Reduced motion holds the final frame
- * (1), so every demo still shows what the permission does, just without movement.
+ * A 0→1 progress that loops every `periodMs` while mounted. Reduced motion (and a spent idle-loop
+ * budget) holds the final frame (1), so every demo still shows what the permission does, just
+ * without movement.
  */
 export function useDemoLoop(periodMs: number): SharedValue<number> {
   const reduced = useReducedImpactMotion();
   const progress = useSharedValue(reduced ? 1 : 0);
+  const running = useIdleLoopRunning(!reduced);
   useEffect(() => {
-    if (reduced) {
+    if (!running) {
       progress.value = 1;
       return undefined;
     }
@@ -30,7 +33,7 @@ export function useDemoLoop(periodMs: number): SharedValue<number> {
     );
     return () => cancelAnimation(progress);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- shared values are stable refs.
-  }, [periodMs, reduced]);
+  }, [periodMs, running]);
   return progress;
 }
 

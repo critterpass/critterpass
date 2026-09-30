@@ -20,15 +20,18 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { useIdleLoopRunning } from '@/motion/idle-pause';
+
 const PING_DURATION_MS = 2000;
 
 export function YouDot() {
   const { t } = useLingui();
   const reduceMotion = useReducedMotion();
   const ping = useSharedValue(0);
+  const running = useIdleLoopRunning(!reduceMotion);
 
   useEffect(() => {
-    if (reduceMotion) {
+    if (!running) {
       ping.value = 0;
       return;
     }
@@ -38,10 +41,10 @@ export function YouDot() {
       false,
     );
     return () => cancelAnimation(ping);
-  }, [reduceMotion, ping]);
+  }, [running, ping]);
 
   const ringStyle = useAnimatedStyle(() => {
-    if (reduceMotion) return { opacity: 0.35, transform: [{ scale: 1.2 }] };
+    if (!running) return { opacity: 0.35, transform: [{ scale: 1.2 }] };
     return {
       opacity: 0.8 * (1 - ping.value),
       transform: [{ scale: 0.6 + ping.value * 0.9 }],

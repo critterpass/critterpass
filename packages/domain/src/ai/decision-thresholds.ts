@@ -61,6 +61,12 @@ export const DECISION_THRESHOLDS: Readonly<Record<DecisionRoute, DecisionThresho
     jev: { yes: 0.7, no: 0.3, minConfidence: 0.6 },
     fast: TWIN_BAND,
   },
+  // A place's WhatsApp reply to the desk: below the floor a person at the desk reads it, and the
+  // traveller's card shows the reply verbatim without a yes or no.
+  'vendor.reply_intent': {
+    jev: { yes: 0.7, no: 0.3, minConfidence: 0.7 },
+    fast: TWIN_BAND,
+  },
 };
 
 export function decisionBand(route: DecisionRoute, answeredBy: DecisionAnswerer): DecisionBand {

@@ -18,6 +18,7 @@ import { upper } from '@cp/i18n';
 import { CODE_ENTRY_ROUTE } from '@/lib/links/route-map';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback } from '@/motion/feedback';
+import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useMotionMode } from '@/motion/motion-mode';
 import { sheenCycle } from '@/motion/patterns/sheen';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
@@ -120,11 +121,12 @@ export function SplashScreen() {
   const bob = useOnboardingLoop(PASSPORT_BOB, 0, passport.settle);
   const pop = useOnboardingLoop(TOKEK_POP);
   const sheen = useSharedValue(0);
+  const sheenRunning = useIdleLoopRunning(mode === 'full');
   useEffect(() => {
-    // Parked hidden under reduced motion, like every idle loop.
-    sheen.value = mode === 'full' ? sheenCycle() : -1;
+    // Parked hidden under reduced motion, like every idle loop; parked at rest once it stops.
+    sheen.value = mode !== 'full' ? -1 : sheenRunning ? sheenCycle() : 0;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  }, [mode, sheenRunning]);
   // One opening per visit: a second tap mid-swing does nothing; the splash coming back re-arms it.
   const opening = useRef(false);
   const [printed, setPrinted] = useState<PassDraft | null>(null);

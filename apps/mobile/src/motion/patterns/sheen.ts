@@ -11,6 +11,7 @@ import {
 import { tokens } from '@cp/design-tokens';
 
 import { bezierEasing } from '../easing';
+import { useIdleLoopRunning } from '../idle-pause';
 import { useReducedImpactMotion } from './shared';
 
 const sweepEasing = bezierEasing(tokens.motion.easing.standard);
@@ -46,6 +47,7 @@ export function useSheen() {
   // 0 at rest (parked before the sweep starts); -1 while reduced/off (hidden, no loop runs).
   const progress = useSharedValue(0);
   const reduced = useReducedImpactMotion();
+  const running = useIdleLoopRunning(!reduced);
 
   useEffect(() => {
     if (reduced) {
@@ -53,9 +55,9 @@ export function useSheen() {
       return;
     }
     progress.value = 0;
-    progress.value = sheenCycle();
+    if (running) progress.value = sheenCycle();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- progress is a stable shared value ref.
-  }, [reduced]);
+  }, [reduced, running]);
 
   return useAnimatedStyle(() => ({
     opacity: progress.value < 0 ? 0 : 1,

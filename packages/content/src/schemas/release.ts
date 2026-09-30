@@ -16,6 +16,7 @@ import { personaItemSchema } from './personas';
 import { phraseCardItemSchema } from './phrases';
 import { placeIndexItemSchema, poiItemSchema } from './places';
 import { spawnRuleItemSchema } from './spawn-rules';
+import { rideTariffItemSchema } from './ride-tariffs';
 import { quizQuestionItemSchema } from './taste-quiz';
 
 /** Every content kind; the list lives in `@cp/domain` so the ops console shares it. */
@@ -37,6 +38,7 @@ export const CONTENT_ITEM_SCHEMAS = {
   emergency: emergencyNumberItemSchema,
   facilities: facilityItemSchema,
   insurance: insuranceItemSchema,
+  ride_tariffs: rideTariffItemSchema,
 } as const satisfies Record<ContentKind, z.ZodType>;
 
 export type ContentItem<K extends ContentKind> = z.infer<(typeof CONTENT_ITEM_SCHEMAS)[K]>;

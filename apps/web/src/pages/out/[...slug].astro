@@ -1,0 +1,26 @@
+---
+import { env } from 'cloudflare:workers';
+
+import LinkLanding from '../../components/previews/LinkLanding.astro';
+import { loadHandoff } from '../../lib/links/load-handoff';
+import { forwardSupplierRedirect, supplierSubId } from '../../lib/links/supplier-redirect';
+import { linkRequestContext, type LinksWebEnv } from '../../lib/links/web-env';
+
+// Partner links (`go.<domain>/out/{sub_id}`) go through the api's attribution bridge; one the
+// bridge cannot redirect renders the not-found handoff.
+export const prerender = false;
+
+const linkContext = linkRequestContext(Astro.url, env as unknown as LinksWebEnv);
+const subId = supplierSubId(Astro.url.pathname, linkContext);
+const redirect =
+  subId === null
+    ? null
+    : await forwardSupplierRedirect({ apiBaseUrl: linkContext.apiBaseUrl, subId });
+if (redirect !== null) return redirect;
+
+const loaded = await loadHandoff(Astro.request, Astro.url);
+Astro.response.status = 404;
+Astro.response.headers.set('Cache-Control', 'private, no-store');
+---
+
+{loaded.kind === 'page' && <LinkLanding loaded={loaded} />}

@@ -90,11 +90,17 @@ const useStyles = makeStyles((t) => ({
   twoLines: { paddingVertical: t.space['10'] },
 }));
 
+/** A label too long for one line shrinks by this step, down to {@link LABEL_MIN_SCALE}. */
+export const LABEL_SHRINK_STEP = 0.92;
+/** The smallest a label shrinks to (of its size) before it wraps to a second line instead. */
+export const LABEL_MIN_SCALE = 0.75;
+
 /**
  * The pill CTA family: primary (six fills), secondary outline, tertiary link and destructive, with
- * sheen, label flap, loading and disabled states. Labels wrap to two lines rather than truncate; a
- * small (40 pt) pill's label is designed for one line, so at the default text size its wrap is
- * reported to UI QA.
+ * sheen, label flap, loading and disabled states. A label too long for one line first shrinks (to
+ * {@link LABEL_MIN_SCALE} of its size) and only then wraps to two lines, never truncating; a small
+ * (40 pt) pill's label is designed for one line, so at the default text size its wrap is reported
+ * to UI QA.
  */
 export function PillButton({
   label,
@@ -130,9 +136,18 @@ export function PillButton({
   const inactive = disabled || loading;
   const { fontScale } = useThemeSettings();
   const [wrapped, setWrapped] = useState(false);
+  // How far the label has shrunk to stay on one line, for the label it was measured on.
+  const [fit, setFit] = useState<{ label: string; scale: number }>({ label: shown, scale: 1 });
+  const scale = fit.label === shown ? fit.scale : 1;
   const labelVariant = casing === 'sentence' ? 'rowTitle' : size === 'lg' ? 'buttonLg' : 'buttonSm';
   const labelToken = TEXT_VARIANTS[labelVariant];
-  const labelSize = (labelToken.fontSize ?? labelToken.fontSizeMax ?? 14) * fontScale;
+  const labelSize = (labelToken.fontSize ?? labelToken.fontSizeMax ?? 14) * fontScale * scale;
+  const shrunk =
+    scale < 1
+      ? { fontSize: labelSize, letterSpacing: (labelToken.letterSpacing ?? 0) * labelSize }
+      : null;
+  // A shrunk label takes its side padding down with it, so the pill gives the label the room.
+  const padding = scale < 1 ? { paddingHorizontal: styles[size].paddingHorizontal * scale } : null;
   return (
     <PressScale
       testID={testID}
@@ -145,6 +160,7 @@ export function PillButton({
       style={[
         styles.base,
         styles[size],
+        padding,
         fill ? { backgroundColor: fill } : null,
         variant === 'secondary' ? styles.outline : null,
         (block ?? size === 'lg') ? { alignSelf: 'stretch' } : { alignSelf: 'flex-start' },
@@ -162,10 +178,23 @@ export function PillButton({
             variant={labelVariant}
             color={textColor}
             numberOfLines={2}
-            singleLine={size === 'sm'}
-            style={[styles.label, wrapped ? { lineHeight: labelSize * TWO_LINE_LEADING } : null]}
+            singleLine={size === 'sm' && scale <= LABEL_MIN_SCALE}
+            style={[
+              styles.label,
+              shrunk,
+              wrapped ? { lineHeight: labelSize * TWO_LINE_LEADING } : null,
+            ]}
             onTextLayout={(event) => {
-              const next = event.nativeEvent.lines.length > 1;
+              const lines = event.nativeEvent.lines.length;
+              // Shrink first; wrap only once the label is at its floor.
+              if (lines > 1 && scale > LABEL_MIN_SCALE) {
+                setFit({
+                  label: shown,
+                  scale: Math.max(LABEL_MIN_SCALE, scale * LABEL_SHRINK_STEP),
+                });
+                return;
+              }
+              const next = lines > 1;
               if (next !== wrapped) setWrapped(next);
             }}
           >

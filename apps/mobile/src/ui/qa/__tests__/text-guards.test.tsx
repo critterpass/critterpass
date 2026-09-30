@@ -225,14 +225,19 @@ describe('one-line label guard', () => {
     expect(reports).toEqual(['[ui-qa] TEXT_WRAPPED "PING ALL" label']);
   });
 
-  it('reports a pill button label that wrapped, though the pill allows a second line', async () => {
+  it('reports a pill button label still wrapped at its smallest size, not while it shrinks', async () => {
     const screen = await renderUi(
       <ThemeProvider fontScale={1}>
         <PillButton label="Ping all" size="sm" onPress={() => {}} />
       </ThemeProvider>,
     );
     await fireEvent(screen.getByText('PING ALL'), 'textLayout', lines('PING ', 'ALL'));
-    expect(reports).toEqual(['[ui-qa] TEXT_WRAPPED "PING ALL" buttonSm']);
+    expect(reports).toEqual([]);
+    // Each wrap shrinks the label a step; at its floor the wrap is real.
+    for (let step = 0; step < 8; step += 1) {
+      await fireEvent(screen.getByText('PING ALL'), 'textLayout', lines('PING ', 'ALL'));
+    }
+    expect(new Set(reports)).toEqual(new Set(['[ui-qa] TEXT_WRAPPED "PING ALL" buttonSm']));
   });
 
   it('stays quiet for wrapping body copy, an opted-out label and larger text sizes', async () => {

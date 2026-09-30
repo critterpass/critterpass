@@ -6,3 +6,537 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ja\n"
+
+#. placeholder {0}: props.passHolder.name
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.hintLabel"
+msgstr ""
+
+#. placeholder {0}: props.passHolder.name
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.hint"
+msgstr ""
+
+#. placeholder {0}: meter.used
+#. placeholder {1}: meter.limit
+#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+msgid "guide.meter.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.cost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.backAtMidnight"
+msgstr ""
+
+#. placeholder {0}: left.hours
+#. placeholder {1}: left.minutes
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.backIn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.count"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.anItem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.attach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.allergies"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.askAtMidnight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.queuePlaceholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
+msgid "guide.composer.placeholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.callCar"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptSlow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.cancelAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/phrases/show-mode.tsx
+msgid "guide.phrase.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.copied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.avoidLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dairy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.diet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.eggs"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.full"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.fish"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dev/lab-scenes-dietary.tsx
+#: ../../apps/mobile/src/features/guide/dietary/dietary-screen.tsx
+msgid "guide.dietary.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.getPass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.access"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.gluten"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.groupTab"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.group"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet-view.tsx
+msgid "guide.sheet.label"
+msgstr ""
+
+#. placeholder {0}: message.body
+#: ../../apps/mobile/src/features/guide/chat/register.ts
+msgid "guide.offer.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietHalal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.helpful"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.greeting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceHot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.moderation"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.cannotCheck"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.offline.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.inMany"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.inOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.busy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.applied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.meTab"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.justMe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.privateTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.private"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietKosher"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.actionsHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceMedium"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceMild"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.noCost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.spiceNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.notHelpful"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.notNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.notNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.showHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.bodyTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.peanuts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietPescatarian"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.pharmacy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-plan-card.tsx
+msgid "guide.plan.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.propose"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.avoid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
+msgid "guide.queued.rate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.resets"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.review"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.sesame"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.shareToggle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.consentTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
+msgid "guide.dietary.queuedConsent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.shellfish"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemFull"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.ownAllergy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.newItem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.soy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.spice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.accessLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.filler"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.confirmBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.trailOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
+msgid "guide.limit.trailOff30"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.shareCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-view.tsx
+msgid "guide.dietary.consentBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/plan-card.tsx
+msgid "guide.plan.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.problemExpired"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.expired"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-sheet.tsx
+msgid "guide.quick.menu"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.treeNuts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.error.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/meter/meter-chip.tsx
+msgid "guide.meter.unlimited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietVegan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-labels.ts
+msgid "guide.dietary.dietVegetarian"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.offline.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptRain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptFood"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptWhere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.empty.promptWhen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
+msgid "guide.header.modes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.already"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
+msgid "guide.help.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.ratedUp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/chat/components/guide-answer.tsx
+msgid "guide.chat.ratedDown"
+msgstr ""
+
+#. placeholder {0}: props.taken
+#. placeholder {1}: props.total
+#: ../../apps/mobile/src/features/guide/crew-mention/offer-card.tsx
+msgid "guide.offer.mine"
+msgstr ""
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+msgid "guide.crew.spentMidnight"
+msgstr ""
+
+#. placeholder {0}: props.guideName
+#. placeholder {1}: left.hours
+#. placeholder {2}: left.minutes
+#: ../../apps/mobile/src/features/guide/crew-mention/guide-chat-hint.tsx
+msgid "guide.crew.spent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/dietary/dietary-data.ts
+msgid "guide.dietary.queued"
+msgstr ""

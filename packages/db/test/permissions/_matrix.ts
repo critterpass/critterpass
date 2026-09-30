@@ -1409,6 +1409,18 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  // Grab quotes and logged rides are the crew's to read; only the api writes them.
+  ride_quotes: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM ride_quotes WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  rides: {
+    selectProbe: { sql: 'SELECT 1 FROM rides WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
   affiliate_clicks: {
     selectProbe: { sql: 'SELECT 1 FROM affiliate_clicks LIMIT 1', params: () => [] },
     expectations: {
