@@ -4,7 +4,9 @@
  *
  * - SCREEN_FRAME: the screen sits in a frame (an inset card, a dark border): both side edges are
  *   one colour that isn't the app background, and it gives way to the screen at the same inset on
- *   both sides, down most of the screen.
+ *   both sides, down most of the screen. The designed presenter scale under an open sheet (.93,
+ *   docs/design-system.md) is allowed: an inset of that size that stops where a full-width sheet
+ *   starts, rather than running on down the sheet's sides.
  * - KEYBOARD_BAND: with the keyboard up, a full-width band of one colour that isn't the screen's
  *   background sits right above it (the keyboard pushed a footer up and left a black gap).
  * - EMPTY_SCREEN: almost every row of the screen is bare background (content that never drew).
@@ -39,6 +41,10 @@ export const LIMITS = {
   frameMax: 0.12,
   /** Share of the sampled rows that must show the frame. */
   frameRows: 0.6,
+  /** The screen behind an open sheet scales to this, leaving (1 − .93) / 2 of the width per side. */
+  presenterScale: 0.93,
+  /** A sheet under a presenter-scale frame spans at least this much of the judged rows. */
+  sheetRows: 0.08,
   /** The keyboard covers this much of the screen (a taller grey panel is a system sheet). */
   keyboardMin: 0.2,
   keyboardMax: 0.45,
@@ -107,6 +113,29 @@ function run(image: RgbaImage, y: number, x: number, dx: 1 | -1, limit: number):
   return length;
 }
 
+/**
+ * The designed look of a screen under an open sheet: the frame is the presenter-scale inset, and
+ * below its last row the sheet runs edge to edge (neither side shows the frame's colour) for the
+ * rest of the judged rows. A frame that carries on down the sheet's sides is still a frame.
+ */
+function isPresenterUnderSheet(
+  image: RgbaImage,
+  below: readonly number[],
+  inset: number,
+  frameColour: Rgb,
+): boolean {
+  const presenterInset = (image.width * (1 - LIMITS.presenterScale)) / 2;
+  if (Math.abs(inset - presenterInset) > Math.max(2, image.width * 0.01)) return false;
+  if (below.length === 0) return false;
+  const span = ((below.at(-1) ?? 0) - (below[0] ?? 0)) / image.height;
+  if (span < LIMITS.sheetRows) return false;
+  return below.every(
+    (y) =>
+      colourDistance(pixel(image, 0, y), frameColour) > LIMITS.sameColour &&
+      colourDistance(pixel(image, image.width - 1, y), frameColour) > LIMITS.sameColour,
+  );
+}
+
 export function findFrame(image: RgbaImage, options: ScreenCheckOptions): ScreenFinding | null {
   const { width } = image;
   const min = Math.max(2, width * LIMITS.frameMin);
@@ -116,7 +145,8 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
   const rows = rowsBetween(image, 0.12, keyboard === null ? 0.88 : keyboard / image.height, 200);
   const insets: number[] = [];
   const edges: Rgb[] = [];
-  for (const y of rows) {
+  let lastFrameRow = -1;
+  for (const [index, y] of rows.entries()) {
     const left = pixel(image, 0, y);
     const right = pixel(image, width - 1, y);
     if (colourDistance(left, options.background) <= LIMITS.sameColour) continue;
@@ -127,11 +157,14 @@ export function findFrame(image: RgbaImage, options: ScreenCheckOptions): Screen
     if (Math.abs(l - r) > Math.max(2, width * 0.01)) continue;
     insets.push(l);
     edges.push(left);
+    lastFrameRow = index;
   }
   if (insets.length < rows.length * LIMITS.frameRows) return null;
   const inset = median(insets);
   const steady = insets.filter((value) => Math.abs(value - inset) <= Math.max(2, width * 0.005));
   if (steady.length < rows.length * LIMITS.frameRows * 0.8) return null;
+  if (isPresenterUnderSheet(image, rows.slice(lastFrameRow + 1), inset, dominant(edges)))
+    return null;
   return {
     code: 'SCREEN_FRAME',
     detail: `a ${hex(dominant(edges))} frame ${String(Math.round(inset))}px wide runs down both sides (${String(Math.round((insets.length / rows.length) * 100))}% of the screen); the screen background is ${hex(options.background)}`,

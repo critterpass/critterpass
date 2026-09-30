@@ -74,6 +74,23 @@ describe('screen checks', { timeout: 60_000 }, () => {
       expect(findFrame(plain, { background: BG })).toBeNull();
     });
 
+    it('allows the presenter scale above an open sheet, and not a frame down the sheet', () => {
+      const presenter = busyScreen();
+      paint(presenter, 0, 0, 14, 600, [0, 0, 0]);
+      paint(presenter, 386, 0, 400, 600, [0, 0, 0]);
+      paint(presenter, 0, 600, 400, 860, [0x22, 0x1f, 0x3a]);
+      expect(findFrame(presenter, { background: BG })).toBeNull();
+      const insetSheet = copy(presenter);
+      paint(insetSheet, 0, 600, 14, 860, [0, 0, 0]);
+      paint(insetSheet, 386, 600, 400, 860, [0, 0, 0]);
+      expect(findFrame(insetSheet, { background: BG })?.code).toBe('SCREEN_FRAME');
+      const thick = busyScreen();
+      paint(thick, 0, 0, 30, 600, [0, 0, 0]);
+      paint(thick, 370, 0, 400, 600, [0, 0, 0]);
+      paint(thick, 0, 600, 400, 860, [0x22, 0x1f, 0x3a]);
+      expect(findFrame(thick, { background: BG })?.code).toBe('SCREEN_FRAME');
+    });
+
     it('ignores full-bleed colour that fills the width', () => {
       const bleed = busyScreen();
       paint(bleed, 0, 0, 400, 430, [255, 150, 70]);
