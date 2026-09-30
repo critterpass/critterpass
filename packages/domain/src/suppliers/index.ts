@@ -1,6 +1,7 @@
 export * from './click-schema';
 export * from './disclosure';
 export * from './events';
+export * from './order-schemas';
 export * from './order-state';
 export * from './partners';
 export * from './queues';
