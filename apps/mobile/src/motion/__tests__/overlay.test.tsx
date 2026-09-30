@@ -14,7 +14,7 @@ jest.mock('@shopify/react-native-skia', () => {
 jest.mock('../feedback', () => ({ impact: jest.fn() }));
 jest.mock('expo-router', () => ({ useIsFocused: jest.fn(() => true) }));
 
-import { act, render, renderHook, waitFor } from '@testing-library/react-native';
+import { act, render, renderHook, screen, waitFor } from '@testing-library/react-native';
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { ComponentRef, RefObject } from 'react';
 import { Text, type View } from 'react-native';
@@ -23,7 +23,12 @@ import { impact } from '../feedback';
 import { useMotionMode } from '../motion-mode';
 import { OverlayHost } from '../overlay/OverlayHost';
 import { flyTo, flyToOverlay } from '../overlay/fly-to';
-import { confettiParticleCount, useConfetti } from '../patterns/confetti';
+import {
+  confettiOverlay,
+  confettiParticleCount,
+  triggerConfetti,
+  useConfetti,
+} from '../patterns/confetti';
 import { drawGate, useDraw, useDrawGate } from '../patterns/draw';
 import { usePageTurn } from '../patterns/page-turn';
 import { useRays } from '../patterns/rays';
@@ -150,5 +155,23 @@ describe('flyTo + OverlayHost', () => {
       expect(mockedImpact).toHaveBeenCalledWith('thud.soft');
     });
     expect(flyToOverlay.requests).toHaveLength(0);
+  });
+});
+
+describe('confetti in OverlayHost', () => {
+  it('draws its canvas only while a burst plays', async () => {
+    await render(<OverlayHost />);
+    expect(screen.queryByTestId('overlay-confetti-canvas')).toBeNull();
+
+    await act(() => {
+      triggerConfetti(100, 200, 'small', 'high');
+    });
+    expect(screen.getByTestId('overlay-confetti-canvas')).toBeTruthy();
+
+    const [burst] = confettiOverlay.requests;
+    await act(() => {
+      confettiOverlay.dismiss(burst?.id ?? -1);
+    });
+    expect(screen.queryByTestId('overlay-confetti-canvas')).toBeNull();
   });
 });

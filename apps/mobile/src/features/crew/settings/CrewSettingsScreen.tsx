@@ -42,7 +42,8 @@ import {
 import { useCrews } from '../crews-sheet/crew-data';
 import { useCrewServices } from '../crews-sheet/crew-services';
 import { useSessionUid } from '../crews-sheet/CrewsSheet';
-import { CREW_ROUTES, crewInviteRoute } from '../crews-sheet/routes';
+import { crewInviteRoute } from '../crews-sheet/routes';
+import { returnHome } from '../start-crew/StartCrewScreen';
 import { JoinQr } from '../invite-composer/JoinQr';
 import { qrChannelLink } from '../invite-composer/qr-path';
 import { MembersList } from '../members/MembersList';
@@ -229,7 +230,7 @@ export function CrewSettingsScreen() {
               .send(LEAVE_CREW, { crew_id: crewId, keep_in_chat: keepChat })
               .then((sent) => {
                 setLeaving(false);
-                if (sent.kind === 'applied') router.replace(CREW_ROUTES.home);
+                if (sent.kind === 'applied') returnHome();
                 else failed();
               })
           }

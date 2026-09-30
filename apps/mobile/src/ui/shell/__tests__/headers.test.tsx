@@ -8,6 +8,8 @@ import type { StyleProp, TextStyle } from 'react-native';
 import { tokens } from '@cp/design-tokens';
 
 import { renderWithI18n } from '../../../lib/i18n/testing';
+import { focusedBackAffordances } from '../../qa/back-affordance';
+import { UI_QA_ENABLED } from '../../qa/ui-qa';
 import { fixturesFor } from '../../gallery/registry';
 import { BackEyebrow } from '../BackEyebrow';
 import { SurfaceToneProvider } from '../../surface/Scaffold';
@@ -116,9 +118,12 @@ describe('LargeTitle', () => {
     const back = jest.spyOn(router, 'back').mockImplementation(() => undefined);
     const canGoBack = jest.spyOn(router, 'canGoBack').mockReturnValue(true);
     const pushed = await renderWithI18n(<LargeTitle title="Inbox" />);
+    // The arrow counts as the screen's way back for the no-back-affordance check.
+    expect(focusedBackAffordances()).toBe(UI_QA_ENABLED ? 1 : 0);
     await fireEvent.press(pushed.getByRole('button', { name: 'Back' }));
     expect(back).toHaveBeenCalledTimes(1);
     await act(() => pushed.unmount());
+    expect(focusedBackAffordances()).toBe(0);
 
     canGoBack.mockReturnValue(false);
     const root = await renderWithI18n(<LargeTitle title="Inbox" />);

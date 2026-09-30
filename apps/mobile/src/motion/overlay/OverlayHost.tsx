@@ -91,7 +91,7 @@ function ConfettiOverlayBurst({ request }: { readonly request: ConfettiRequest }
 /**
  * Mounted once near the app root. Renders `flyTo()` clones (docs/design-system.md §3.4 `flyTo`) as
  * plain views (arbitrary React content cannot render inside a Skia canvas) above a single Skia
- * `<Canvas>` hosting every active `triggerConfetti()` burst.
+ * `<Canvas>` hosting every active `triggerConfetti()` burst, mounted only while one is active.
  */
 export function OverlayHost() {
   const [flyToRequests, setFlyToRequests] = useState<readonly FlyToRequest[]>(
@@ -106,11 +106,16 @@ export function OverlayHost() {
 
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="none">
-      <Canvas style={StyleSheet.absoluteFill}>
-        {confettiRequests.map((request) => (
-          <ConfettiOverlayBurst key={request.id} request={request} />
-        ))}
-      </Canvas>
+      {/* Only while a burst plays: an idle full-screen canvas is still a GPU surface composited
+          over every frame, and on Android it makes the first frame slow enough to miss the system
+          splash hand-off (the window's reveal animation then never ends). */}
+      {confettiRequests.length === 0 ? null : (
+        <Canvas style={StyleSheet.absoluteFill} testID="overlay-confetti-canvas">
+          {confettiRequests.map((request) => (
+            <ConfettiOverlayBurst key={request.id} request={request} />
+          ))}
+        </Canvas>
+      )}
       {flyToRequests.map((request) => (
         <FlyToClone key={request.id} request={request} />
       ))}

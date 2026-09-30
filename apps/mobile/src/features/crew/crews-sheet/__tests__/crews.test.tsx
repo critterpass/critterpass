@@ -17,7 +17,7 @@ jest.mock(
 );
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
+  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), dismissTo: jest.fn() },
   useLocalSearchParams: jest.fn(() => ({})),
 }));
 
@@ -306,7 +306,8 @@ describe('crew settings', () => {
     await fireEvent(await screen.findByTestId('crew-leave-keep-chat'), 'valueChange', true);
     await fireEvent.press(screen.getByText('Leave the crew'));
     await activate(await screen.findByText(/^leave$/iu));
-    await waitFor(() => expect(router.replace).toHaveBeenCalledWith('/'));
+    // Back to the Home already underneath, not a second one on top.
+    await waitFor(() => expect(router.dismissTo).toHaveBeenCalledWith('/(tabs)'));
     expect(api.sent.find((s) => s.path.endsWith('leave_crew'))?.body).toMatchObject({
       payload: { crew_id: BALI },
     });
