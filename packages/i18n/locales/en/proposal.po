@@ -6,3 +6,199 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: wholeMoney(locale, trip.shareMinor, trip.currency)
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.each"
+msgstr "{0} each"
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.writing"
+msgstr "{0} is finishing each version. The crew can open it already."
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.pending"
+msgstr "{0} is writing theirs"
+
+#. placeholder {0}: props.destination
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.back"
+msgstr "{0} plan"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.sub"
+msgstr "{guideName} wrote a version for each person. Pick how it arrives."
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.subShared"
+msgstr "{guideName} wrote one version for everyone. Pick how it arrives."
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.suggestion"
+msgstr "A guide suggestion"
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.react"
+msgstr "A reaction to the proposal"
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.followup"
+msgstr "A reminder to decide"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.noStaySub"
+msgstr "Book once the crew agrees. Nothing is held for you."
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.stayNoCancel"
+msgstr "Booked · no free cancellation"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.failed"
+msgstr "Couldn’t build the proposal"
+
+#: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+msgid "proposal.build.dearCrew"
+msgstr "Dear crew,"
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.dismiss"
+msgstr "Dismissing a suggestion"
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.done"
+msgstr "Every version is written and sent."
+
+#. placeholder {0}: instantDate(locale, props.freeCancelUntil)
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.whyCancel"
+msgstr "Free cancellation on your stay ends {0}, so the crew answers before then."
+
+#. placeholder {0}: stay.freeCancelUntil
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.stayCancel"
+msgstr "Free cancellation until {0}"
+
+#. placeholder {0}: instantDateTime(locale, props.fallback.toISOString())
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.autoAt"
+msgstr "Guide’s pick · {0}"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.noRecipients"
+msgstr "Invite someone to the crew first. There’s nobody to send it to yet."
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.title"
+msgstr "It’s on its way"
+
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.auto"
+msgstr "Let the guide pick"
+
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.loading"
+msgstr "Loading the proposal"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.personalOn"
+msgstr "One for each of the {n}, written by {guideName}"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.personalOff"
+msgstr "One version for the whole crew"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.personal"
+msgstr "Personal versions"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.title"
+msgstr "Pitch it to the crew"
+
+#: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+msgid "proposal.build.postcard"
+msgstr "Postcard"
+
+#: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+msgid "proposal.build.poster"
+msgstr "Poster"
+
+#. placeholder {0}: p.name
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.previewAs"
+msgstr "Preview as {0}"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.ready"
+msgstr "Ready to send"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.replyBy"
+msgstr "Reply by"
+
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.title"
+msgstr "Reply by"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.send"
+msgstr "Send to {n} friends"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.sendOne"
+msgstr "Send to 1 friend"
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.send"
+msgstr "Sending the proposal"
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.stamped"
+msgstr "Sent"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.showCost"
+msgstr "Show cost per person"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.noStay"
+msgstr "Stays not booked yet"
+
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.whyStart"
+msgstr "The crew answers before the trip starts."
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.ready"
+msgstr "Their version is ready"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.alreadySent"
+msgstr "This proposal is already out."
+
+#: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+msgid "proposal.build.trailer"
+msgstr "Trailer"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.failedSub"
+msgstr "Try again in a moment."
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.tracker"
+msgstr "Who’s in?"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.offline"
+msgstr "You’re offline. The guide needs a connection to rewrite the versions."
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.option"
+msgstr "Your private choice"
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.rsvp"
+msgstr "Your reply to the proposal"

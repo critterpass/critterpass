@@ -6,3 +6,199 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ko\n"
+
+#. placeholder {0}: wholeMoney(locale, trip.shareMinor, trip.currency)
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.each"
+msgstr ""
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.writing"
+msgstr ""
+
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.pending"
+msgstr ""
+
+#. placeholder {0}: props.destination
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.sub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.subShared"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.suggestion"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.react"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.followup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.noStaySub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.stayNoCancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+msgid "proposal.build.dearCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.dismiss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.done"
+msgstr ""
+
+#. placeholder {0}: instantDate(locale, props.freeCancelUntil)
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.whyCancel"
+msgstr ""
+
+#. placeholder {0}: stay.freeCancelUntil
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.stayCancel"
+msgstr ""
+
+#. placeholder {0}: instantDateTime(locale, props.fallback.toISOString())
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.autoAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.noRecipients"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.auto"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/proposal-loading.tsx
+msgid "proposal.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.personalOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.personalOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.personal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+msgid "proposal.build.postcard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+msgid "proposal.build.poster"
+msgstr ""
+
+#. placeholder {0}: p.name
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.previewAs"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.ready"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.replyBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.sendOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.stamped"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.showCost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.noStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
+msgid "proposal.replyBy.whyStart"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.ready"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.alreadySent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
+msgid "proposal.build.trailer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.failedSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
+msgid "proposal.sent.tracker"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.option"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.rsvp"
+msgstr ""
