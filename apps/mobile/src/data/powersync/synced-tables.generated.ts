@@ -59,7 +59,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'code name country rank:integer set_group:integer tz currency languages coverage guide_slug destination_id hero_critter_key month_hints release_id created_at updated_at',
   critters:
     'key set_id no:integer city species art_params canonical_seed:integer note release_id created_at updated_at',
-  crowd_forecasts: 'poi_id dow:integer hourly source fetched_at created_at updated_at',
+  crowd_forecasts:
+    'poi_id destination_id dow:integer hourly source fetched_at created_at updated_at',
   custom_phrase_cards:
     'user_id trip_id guide_id purpose language register address text romanisation gloss audio_key audio_status created_at updated_at',
   date_window_options:

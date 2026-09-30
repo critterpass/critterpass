@@ -18,7 +18,7 @@ streams:
       - |
         SELECT * FROM price_quotes
         WHERE trip_id = subscription.parameter('trip_id')
-          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
 
   trip_pack:
     with:
@@ -29,6 +29,6 @@ streams:
     queries:
       - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
       - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
-      - |
-        SELECT * FROM crowd_forecasts
-        WHERE poi_id IN (SELECT id FROM pois WHERE destination_id IN trip_destination)
+      # By the copied destination, never through the destination's POI ids: one parameter result
+      # per POI would pass PowerSync's per-connection limit and fail the whole sync request.
+      - SELECT * FROM crowd_forecasts WHERE destination_id IN trip_destination
