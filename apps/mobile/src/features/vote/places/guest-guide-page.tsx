@@ -20,6 +20,7 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { GuideLine } from '@/ui/people/GuideLine';
 import { LiveSticker } from '@/ui/people/LiveSticker';
 import { Text } from '@/ui/text/Text';
@@ -131,6 +132,8 @@ export function GuestGuidePage({
   const crews = useMyCrews(useMyUid());
   const hop = useLoop('hop');
   const [mode, setMode] = useState<'actions' | 'crews' | 'solo'>('actions');
+  // The "← COUNTRY" eyebrow is always drawn, so the page always has its way back.
+  useBackAffordance();
   const place = state.place;
   const pitchTo = (crew: string) => router.push(voteRoutes.pitch(crew, placeId));
   const pitch = () => {
