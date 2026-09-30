@@ -13,6 +13,7 @@ import { ChatMessage } from '@/ui/chat/ChatMessage';
 import { LabSheet, LAB_TRIP, RAIN_ANSWER, RAIN_QUESTION } from '../../chat/dev/lab-scenes-chat';
 import type { SavedGuideMessage } from '../../chat/data/use-guide-thread';
 import { LimitCard, LimitComposer, QueueComposer } from '../limit-card';
+import { QueuedQuestionRow } from '../../queued/queued-question-row';
 import { MeterChip } from '../meter-chip';
 
 const noop = () => undefined;
@@ -25,9 +26,11 @@ const RESET = '2027-04-04T15:00:00Z';
 function PonLimit({
   refused,
   composer,
+  queued = false,
 }: {
   readonly refused: boolean;
   readonly composer?: ReactNode;
+  readonly queued?: boolean;
 }) {
   const theme = useTheme();
   const saved: SavedGuideMessage[] = refused
@@ -62,10 +65,17 @@ function PonLimit({
             resetAt={RESET}
             destination="Kyoto"
             onGetPass={noop}
-            onAskAtMidnight={noop}
+            {...(queued ? {} : { onAskAtMidnight: noop })}
             passHolder={refused ? { name: 'Maya', joinIndex: 1 } : null}
             onCrewChat={noop}
           />
+          {queued ? (
+            <QueuedQuestionRow
+              question={{ id: 'q', text: 'Can we swap Nara for Uji on day 3?', answerAfter: RESET }}
+              guideName="Pon"
+              onCancel={noop}
+            />
+          ) : null}
         </Stack>
       }
       composer={composer ?? <LimitComposer guideName="Pon" resetAt={RESET} now={NOW} />}
@@ -99,6 +109,7 @@ const rain: SavedGuideMessage[] = [
 export const METER_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'limit-refused': () => <PonLimit refused />,
   'limit-thirtieth': () => <PonLimit refused={false} />,
+  'limit-queued': () => <PonLimit refused queued />,
   'limit-writing': () => (
     <PonLimit
       refused={false}

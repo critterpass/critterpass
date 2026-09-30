@@ -27,6 +27,10 @@ msgstr "{0} trên {1} hôm nay"
 msgid "guide.plan.cost"
 msgstr "{cost} cho cả chuyến"
 
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.body"
+msgstr "{guideName} sẽ trả lời câu này lúc {clock} và báo bạn nhẹ nhàng. Câu này tính vào lượt của ngày mai."
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.backAtMidnight"
 msgstr "{guideName} sẽ quay lại lúc nửa đêm"
@@ -72,6 +76,10 @@ msgstr "Gọi xe"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.empty.promptSlow"
 msgstr "Mình làm ngày 2 thong thả hơn được không?"
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.cancelAction"
+msgstr "Huỷ"
 
 #: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
 msgid "guide.queued.cancel"
@@ -229,6 +237,14 @@ msgstr "Mình vẫn đang kiểm tra, chờ chút nhé…"
 msgid "guide.plan.removed"
 msgstr "Bỏ khỏi lịch trình"
 
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.offline"
+msgstr "Cần có mạng mới làm được. Thử lại khi bạn có mạng nhé."
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.refused"
+msgstr "Không lưu được câu hỏi này để hỏi sau."
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.trailOff"
 msgstr "Hết lượt trả lời miễn phí hôm nay rồi. {guideName} sẽ quay lại lúc nửa đêm, hoặc…"
@@ -257,6 +273,10 @@ msgstr "Thử lại"
 msgid "guide.meter.unlimited"
 msgstr "{guideName} không giới hạn"
 
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.waiting"
+msgstr "Chờ tới {clock}"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.offline.waiting"
 msgstr "Đang chờ có mạng"
@@ -280,6 +300,10 @@ msgstr "Tháng nào đi là đẹp nhất?"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.modes"
 msgstr "Ai xem được cuộc trò chuyện này"
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.already"
+msgstr "Bạn đã có một câu hỏi đang chờ tới nửa đêm."
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.title"

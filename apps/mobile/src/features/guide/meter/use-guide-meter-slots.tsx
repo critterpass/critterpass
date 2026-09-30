@@ -9,14 +9,14 @@
 import { router, type Href } from 'expo-router';
 import { useState } from 'react';
 
-import { useCommand } from '@/data/commands/use-command';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { Stack } from '@/ui';
 import { ChatMessage } from '@/ui/chat/ChatMessage';
 
 import type { GuideMeterHook } from '../chat/components/guide-sheet';
-import { queueGuideQuestionCommand } from '../chat/data/guide-commands';
 import { useLiveQuery } from '../chat/data/live-rows';
+import { QueuedQuestionRow, QueueProblemLine } from '../queued/queued-question-row';
+import { useQueuedQuestion } from '../queued/use-queued-question';
 import { LimitCard, LimitComposer, QueueComposer } from './limit-card';
 import { MeterChip } from './meter-chip';
 import { isSpent } from './meter-model';
@@ -35,7 +35,7 @@ export const useGuideMeterSlots: GuideMeterHook = (input) => {
     live: input.liveUsage,
     spent: input.spent?.spent ?? null,
   });
-  const queue = useCommand(queueGuideQuestionCommand);
+  const queue = useQueuedQuestion(input.threadId);
   const [writing, setWriting] = useState(false);
   const [draft, setDraft] = useState('');
   const holderId = input.spent?.spent.crewPassHolders[0] ?? null;
@@ -55,7 +55,8 @@ export const useGuideMeterSlots: GuideMeterHook = (input) => {
   const paywall = hrefFor('4a-1', { entry: 'guide_limit' });
   const refused = input.spent?.question ?? null;
   const ask = (text: string) =>
-    void queue.send({ thread_id: input.threadId, text }).then(() => {
+    void queue.ask(text).then((queued) => {
+      if (!queued) return;
       setWriting(false);
       setDraft('');
     });
@@ -72,8 +73,10 @@ export const useGuideMeterSlots: GuideMeterHook = (input) => {
           resetAt={meter.resetAt}
           destination={destination?.[0]?.name ?? null}
           {...(paywall === undefined ? {} : { onGetPass: () => router.push(paywall) })}
-          onAskAtMidnight={() => (refused === null ? setWriting(true) : ask(refused))}
-          asking={queue.pending}
+          {...(queue.queued === null
+            ? { onAskAtMidnight: () => (refused === null ? setWriting(true) : ask(refused)) }
+            : {})}
+          asking={queue.asking}
           passHolder={
             holder === undefined
               ? null
@@ -83,17 +86,26 @@ export const useGuideMeterSlots: GuideMeterHook = (input) => {
             ? {}
             : { onCrewChat: () => router.push(`/crew/${input.crewId}/chat` as Href) })}
         />
+        {queue.queued === null ? null : (
+          <QueuedQuestionRow
+            question={queue.queued}
+            guideName={input.guideName}
+            onCancel={queue.cancel}
+          />
+        )}
+        <QueueProblemLine problem={queue.problem} />
       </Stack>
     ),
-    composer: writing ? (
-      <QueueComposer
-        guideName={input.guideName}
-        value={draft}
-        onChangeText={setDraft}
-        onSend={() => ask(draft.trim())}
-      />
-    ) : (
-      <LimitComposer guideName={input.guideName} resetAt={meter.resetAt} now={now} />
-    ),
+    composer:
+      writing && queue.queued === null ? (
+        <QueueComposer
+          guideName={input.guideName}
+          value={draft}
+          onChangeText={setDraft}
+          onSend={() => ask(draft.trim())}
+        />
+      ) : (
+        <LimitComposer guideName={input.guideName} resetAt={meter.resetAt} now={now} />
+      ),
   };
 };

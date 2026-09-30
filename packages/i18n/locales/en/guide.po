@@ -27,6 +27,10 @@ msgstr "{0} of {1} today"
 msgid "guide.plan.cost"
 msgstr "{cost} for the trip"
 
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.body"
+msgstr "{guideName} answers this at {clock} and lets you know quietly. It counts towards tomorrow."
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.backAtMidnight"
 msgstr "{guideName} is back at midnight"
@@ -72,6 +76,10 @@ msgstr "Call a car"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.empty.promptSlow"
 msgstr "Can we make day 2 slower?"
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.cancelAction"
+msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
 msgid "guide.queued.cancel"
@@ -229,6 +237,14 @@ msgstr "Still checking, one moment…"
 msgid "guide.plan.removed"
 msgstr "Taken out of the plan"
 
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.offline"
+msgstr "That needs a connection. Try again when you're back online."
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.refused"
+msgstr "That question couldn't be saved for later."
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.trailOff"
 msgstr "That's all my free answers for today. {guideName} will be back at midnight, or…"
@@ -257,6 +273,10 @@ msgstr "Try again"
 msgid "guide.meter.unlimited"
 msgstr "Unlimited {guideName}"
 
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.waiting"
+msgstr "Waiting for {clock}"
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.offline.waiting"
 msgstr "Waiting for a connection"
@@ -280,6 +300,10 @@ msgstr "Which month is best to go?"
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.modes"
 msgstr "Who sees this chat"
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.already"
+msgstr "You already have a question waiting for midnight."
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.help.title"

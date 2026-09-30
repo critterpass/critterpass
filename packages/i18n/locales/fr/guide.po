@@ -27,6 +27,10 @@ msgstr ""
 msgid "guide.plan.cost"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.body"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.backAtMidnight"
 msgstr ""
@@ -71,6 +75,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.empty.promptSlow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.cancelAction"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/data/guide-commands.ts
@@ -229,6 +237,14 @@ msgstr ""
 msgid "guide.plan.removed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.refused"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.trailOff"
 msgstr ""
@@ -257,6 +273,10 @@ msgstr ""
 msgid "guide.meter.unlimited"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.waiting"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
 msgid "guide.offline.waiting"
 msgstr ""
@@ -279,6 +299,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-header.tsx
 msgid "guide.header.modes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/guide/queued/queued-question-row.tsx
+msgid "guide.queued.already"
 msgstr ""
 
 #: ../../apps/mobile/src/features/guide/chat/components/guide-states.tsx
