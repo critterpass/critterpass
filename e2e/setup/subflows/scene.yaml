@@ -22,6 +22,8 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'setup-scene-${SCENE}'
+          # The first tap may still open the scene while this one looks for the row.
+          optional: true
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: ${PREFIX}-${SCENE}
