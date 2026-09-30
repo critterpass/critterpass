@@ -13,7 +13,7 @@ export interface SuggestionCardProps {
   readonly title: string;
   /** Why it is suggested, in the guide's voice. */
   readonly reason?: string;
-  /** Guide colour for the reason line (Mynerve voice); defaults to the surface's secondary. */
+  /** Guide colour for the reason line (Borel voice); defaults to the surface's secondary. */
   readonly voiceColor?: string;
   readonly art?: ReactNode;
   /** Add / accept / dismiss controls. */

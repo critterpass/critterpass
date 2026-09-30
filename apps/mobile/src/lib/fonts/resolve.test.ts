@@ -46,7 +46,7 @@ const bodyBase: BaseTypeStyle = {
 const voiceBase: BaseTypeStyle = {
   fontFamily: 'voice',
   fontWeight: 400,
-  lineHeightMultiplier: 1.1,
+  lineHeightMultiplier: 1.5,
   condensed: false,
 };
 
@@ -140,19 +140,19 @@ describe('fontFor — body-class Geist variant', () => {
 });
 
 describe('fontFor: guide voice', () => {
-  it('renders Latin in Mynerve at the token line height', () => {
+  it('renders Latin in Borel at the token line height', () => {
     expect(fontFor(voiceBase, 'en')).toEqual({
-      fontFamily: 'Mynerve-400',
+      fontFamily: 'Borel-400',
       fontStyle: 'normal',
       sizeMultiplier: 1,
-      lineHeightMultiplier: 1.1,
+      lineHeightMultiplier: 1.5,
       condensedUpper: false,
     });
   });
 
-  it('keeps Vietnamese in Mynerve, which covers every Vietnamese letter', () => {
+  it('keeps Vietnamese in Borel, which covers every Vietnamese letter', () => {
     expect(fontFor(voiceBase, 'vi')).toEqual(fontFor(voiceBase, 'en'));
-    expect(fontFor(voiceBase, 'vi-VN').fontFamily).toBe('Mynerve-400');
+    expect(fontFor(voiceBase, 'vi-VN').fontFamily).toBe('Borel-400');
   });
 
   it('follows the token when its line height changes', () => {
@@ -161,7 +161,7 @@ describe('fontFor: guide voice', () => {
     );
   });
 
-  it('falls back to Noto Sans Thai in italic for Thai, which Mynerve lacks', () => {
+  it('falls back to Noto Sans Thai in italic for Thai, which Borel lacks', () => {
     const resolved = fontFor(voiceBase, 'th');
     expect(resolved.fontFamily).toBe('NotoSansThai-400');
     expect(resolved.fontStyle).toBe('italic');

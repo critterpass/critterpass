@@ -32,7 +32,7 @@ const CSS_FAMILY_NAME: Record<string, string> = {
   archivo: 'Archivo',
   geist: 'Geist',
   geistMono: 'Geist Mono',
-  mynerve: 'Mynerve',
+  borel: 'Borel',
   instrumentSerif: 'Instrument Serif',
   notoSansThai: 'Noto Sans Thai',
 };

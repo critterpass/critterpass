@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# Screenshots for `pnpm screens:capture` and `screens:compare`: the guide's voice line (Mynerve,
+# Screenshots for `pnpm screens:capture` and `screens:compare`: the guide's voice line (Borel,
 # with Noto Sans Thai italic for Thai) on the GuideLine gallery page, onboarding's name page (3a-2) and
 # quiz (3a-4), and Home's tip strip (3b-2), in English, Vietnamese and Thai.
 - runFlow:

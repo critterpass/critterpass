@@ -83,7 +83,7 @@ function geistFamilyFileName(base: LogicalFontFamily, weight: number): string {
 }
 
 /**
- * The guide voice is Mynerve, one weight, covering Latin and Vietnamese in full (tools/scripts/fonts/
+ * The guide voice is Borel, one weight, covering Latin and Vietnamese in full (tools/scripts/fonts/
  * build-fonts.py fails the build on a missing Vietnamese letter). It has no Thai or CJK, so those
  * scripts get the body face their text would use anyway, in italic to keep the voice apart
  * (design-system.md §6): Noto Sans Thai for Thai, the OS face for CJK.
@@ -91,7 +91,7 @@ function geistFamilyFileName(base: LogicalFontFamily, weight: number): string {
 function resolveVoice(base: BaseTypeStyle, script: Script): ResolvedFont {
   if (script === 'latin' || script === 'vietnamese') {
     return {
-      fontFamily: 'Mynerve-400',
+      fontFamily: 'Borel-400',
       fontStyle: 'normal',
       sizeMultiplier: 1,
       lineHeightMultiplier: base.lineHeightMultiplier,

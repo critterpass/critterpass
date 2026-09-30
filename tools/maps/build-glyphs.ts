@@ -3,7 +3,7 @@
  * fontstacks `build-style.ts` references: Archivo Bold (road/POI labels) and Caveat SemiBold (the
  * hand-drawn place-name accent). Wraps `@kartore/glyphore`, a real SDF-PBF generator, against the
  * actual shipped TTFs: Archivo from `apps/mobile/assets/fonts`, and Caveat from `tools/maps/fonts`,
- * since the app no longer bundles it (the guide voice moved to Mynerve; map labels keep Caveat
+ * since the app no longer bundles it (the guide voice moved to Borel; map labels keep Caveat
  * until their glyphs are regenerated and uploaded). Generalises
  * `tools/spikes/tiles/generate-fonts.ts` from a spike-local output path to this package's, no
  * behaviour change.

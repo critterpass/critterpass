@@ -205,7 +205,7 @@
   align-items: baseline;
   gap: 10px;
   font:
-    400 clamp(24px, 2.4vw, 30px) / 1.1 Mynerve,
+    400 clamp(19px, 1.9vw, 24px) / 1.5 Borel,
     cursive;
   color: var(--color-pink);
   transform: rotate(-2deg);
@@ -444,7 +444,7 @@
 }
 .cs-joined__line {
   font:
-    400 26px/1.05 Mynerve,
+    400 21px/1.5 Borel,
     cursive;
   color: var(--color-rust-base);
   transform: rotate(-2deg);
@@ -723,7 +723,7 @@
 }
 .cs-pass__guide-name-script {
   font:
-    400 22px/1 Mynerve,
+    400 18px/1.5 Borel,
     cursive;
 }
 .cs-pass__guide-name-value {

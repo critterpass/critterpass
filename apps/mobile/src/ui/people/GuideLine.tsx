@@ -42,7 +42,7 @@ function voiceColour(guide: GuideId, onPaper: boolean): string {
 }
 
 /**
- * A guide speaking: sticker + a Mynerve voice line in the guide's colour (Geist italic under the
+ * A guide speaking: sticker + a Borel voice line in the guide's colour (Geist italic under the
  * "plain text for guide" setting, which `<Text variant="voice">` applies). Read as one element.
  */
 export function GuideLine({ guide, name, line, sticker, bubble = false, testID }: GuideLineProps) {

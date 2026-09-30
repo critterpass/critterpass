@@ -75,10 +75,10 @@
   margin: 0;
 }
 .site-voice {
-  font-family: Mynerve, cursive;
+  font-family: Borel, cursive;
   font-weight: 400;
-  font-size: 24px;
-  line-height: 1.1;
+  font-size: 19px;
+  line-height: 1.5;
 }
 .site-mono {
   font-family: 'Geist Mono', monospace;

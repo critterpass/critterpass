@@ -223,8 +223,8 @@
 }
 
 @font-face {
-  font-family: 'Mynerve';
-  src: url('/fonts/Mynerve-400.woff2') format('woff2');
+  font-family: 'Borel';
+  src: url('/fonts/Borel-400.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
