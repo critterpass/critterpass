@@ -1,5 +1,5 @@
 /**
- * Persona packs: the six live guides and the guest guide. Each pack starts from the AI package's
+ * Persona packs: the live guides and the guest guide. Each pack starts from the AI package's
  * repo pack (voice register, chattiness budgets, colour) and the lines the design gives the guide;
  * the model adds catchphrases, local words (unvetted until a native speaker checks them), taboos,
  * the AI disclosure line and prompt fixtures for the persona eval. The pack must parse against the
@@ -24,6 +24,7 @@ const CANONICAL_COLOUR: Readonly<Record<PersonaId, string>> = {
   ajo: 'pink',
   sardi: 'green',
   paco: 'cream',
+  chava: 'red',
   guest: 'yellow',
 };
 

@@ -1,12 +1,12 @@
 /**
- * Persona pack shape (6 live guides + the guest guide). Packs live in `packages/ai/personas/*.json`
+ * Persona pack shape (the live guides + the guest guide). Packs live in `packages/ai/personas/*.json`
  * as the repo fallback and, once approved through the content pipeline, in `persona_packs`
  * (style / lexicon / voice_settings jsonb). Keys are snake_case in both places.
  */
 import { guideColourSchema, personaPackStatusSchema } from '@cp/domain';
 import { z } from 'zod';
 
-export const GUIDE_SLUGS = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco'] as const;
+export const GUIDE_SLUGS = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'] as const;
 export const PERSONA_IDS = [...GUIDE_SLUGS, 'guest'] as const;
 export const personaIdSchema = z.enum(PERSONA_IDS);
 export type PersonaId = z.infer<typeof personaIdSchema>;

@@ -4,6 +4,7 @@
  * reaches a prompt: the repo pack is used and the rejection is reported to the caller.
  */
 import ajo from '../../personas/ajo.json' with { type: 'json' };
+import chava from '../../personas/chava.json' with { type: 'json' };
 import guest from '../../personas/guest.json' with { type: 'json' };
 import lundi from '../../personas/lundi.json' with { type: 'json' };
 import paco from '../../personas/paco.json' with { type: 'json' };
@@ -20,6 +21,7 @@ const RAW_REPO_PACKS: Readonly<Record<PersonaId, unknown>> = {
   ajo,
   sardi,
   paco,
+  chava,
   guest,
 };
 
