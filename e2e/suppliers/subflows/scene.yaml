@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # Opens one supplier lab scene (apps/mobile/src/app/(dev)/supplier-lab.tsx), waits for `${READY}`, takes
-# `${SHOT}` and goes back to the list (Android back, iOS edge swipe).
+# `${SHOT}` and goes back to the list (Android back; iOS reopens the lab from Home).
 - scrollUntilVisible:
     element:
       id: 'supplier-lab-${SCENE}'
@@ -30,13 +30,14 @@ appId: app.critterpass.dev
               id: 'supplier-lab-${SCENE}'
           commands:
             - back
+# iOS reopens the lab from Home rather than swiping back from the edge: a scene's gestures or
+# sheet can take the swipe, and the list never comes back.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - runFlow: ../../home/subflows/open-dev-tools.yaml
+      - runFlow: open-lab.yaml
 - extendedWaitUntil:
     visible:
       id: 'supplier-lab-${SCENE}'
