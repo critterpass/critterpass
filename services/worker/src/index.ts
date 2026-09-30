@@ -47,6 +47,7 @@ import { draftJobs } from './jobs/ai/draft';
 import { moneyJobs, registerMoneyPushes } from './jobs/money';
 import { bookingsJobs } from './jobs/bookings';
 import { billingJobs } from './jobs/billing';
+import { planJobs } from './jobs/plan';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
@@ -165,6 +166,7 @@ const jobs: AnyJobDefinition[] = [
   ...moneyJobs(env, { pool, assertRouteOn: aiSwitches.assertAiRoute, telemetry: llmObservability }),
   ...bookingsJobs(env, pool, aiSwitches.assertAiRoute, llmObservability),
   ...billingJobs(process.env, logger, metrics),
+  ...planJobs(),
 ];
 const backupStore =
   env.BACKUP_S3_ENDPOINT &&

@@ -205,7 +205,7 @@ export {
   type ChangeSetOpKind,
   type ChangeSetOps,
 } from './plan/change-set-ops';
-export { generateStableId, planItemSnapshotSchema, type PlanItemSnapshot } from './plan/plan-item';
+export * from './plan/index';
 export {
   ALLOW,
   can,

@@ -23,6 +23,8 @@ export const changeSetOpSchema = z.object({
   affected_user_ids: z.array(z.uuid()),
   booking_impact: z.boolean(),
   source_ids: z.array(z.string().min(1)).optional(),
+  /** The reviewer's toggle on the review screen; absent means accepted. Rejected ops never apply. */
+  accepted: z.boolean().optional(),
 });
 export type ChangeSetOp = z.infer<typeof changeSetOpSchema>;
 

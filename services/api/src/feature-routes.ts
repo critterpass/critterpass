@@ -19,6 +19,7 @@ import { registerAiRoutes } from './ai/routes';
 import { registerVoteRoutesFromEnv } from './routes/vote-routes';
 import { registerTravelDataRoutes } from './travel-data/routes';
 import { registerCostRoutes } from './cost/routes';
+import { registerPlanRoutes } from './plan/routes';
 import { createR2Client } from './media/r2';
 import { mediaSigningConfigFromEnv } from './media/sign';
 import { registerDevRoutesFromEnv } from './dev/routes';
@@ -66,6 +67,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerTravelDataRoutes(app, doors);
   registerCostRoutes(app, doors);
+  registerPlanRoutes(app, doors);
   registerSetupRoutes(app, { ...doors, store: redis, env: process.env });
   registerReceiptRoutesFromEnv(app, doors, process.env);
   registerGeoRoutesFromEnv(app, doors, env.GEOIP_CITY_MMDB, logger);
