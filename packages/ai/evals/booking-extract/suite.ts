@@ -94,7 +94,9 @@ export async function runBookingExtractCase(
     if (booking === undefined) continue;
     const check = (field: string, value: unknown, expected: unknown) => {
       if (expected !== undefined && value !== expected) {
-        failures.push(`#${index} ${field} ${JSON.stringify(value)}, want ${JSON.stringify(expected)}`);
+        failures.push(
+          `#${index} ${field} ${JSON.stringify(value)}, want ${JSON.stringify(expected)}`,
+        );
       }
     };
     check('kind', booking.kind, want.kind);
