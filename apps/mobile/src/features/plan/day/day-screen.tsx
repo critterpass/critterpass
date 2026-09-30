@@ -5,7 +5,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Linking } from 'react-native';
 
 import { useSyncStatus } from '@/data/status/use-sync-status';
@@ -21,53 +21,16 @@ import { clockRange } from './format';
 import { ItemDetailSheet } from './item-detail-sheet';
 import { dayItems, type DayItem } from './plan-model';
 import { addOp, moveToDayOp, removeOp, resizeOp, type DaySlot } from './plan-ops';
-import { TimelineEditor } from '../timeline/timeline-editor';
 import { mapsUrl, placeRoute } from './routes';
-import { usePlanEditor, type EditOutcome } from './use-plan-editor';
-import { useTripPlan, type TripPlan } from './use-trip-plan';
+import { DayTimeline, useDayOverlays } from '../timeline/day-timeline';
+import { itemAnchor, usePlanPresence } from '../collab/use-presence';
+import { useDayEditing } from './use-day-editing';
+import type { EditOutcome } from './use-plan-editor';
+import { useTripPlan } from './use-trip-plan';
 
 function openInMaps(item: DayItem): void {
   if (item.place === null) return;
   void Linking.openURL(mapsUrl(item.title, item.place.lat, item.place.lng));
-}
-
-export function useDayEditing(plan: TripPlan) {
-  const { t } = useLingui();
-  return usePlanEditor(
-    plan,
-    {
-      moved: t({ id: 'plan.day.reason.moved', message: 'New time' }),
-      added: t({ id: 'plan.day.reason.added', message: 'Added to the day' }),
-      removed: t({ id: 'plan.day.reason.removed', message: 'Taken off the day' }),
-    },
-    {
-      onConflict: (ids, by) => {
-        impact('warning');
-        toast.show({
-          id: 'plan-conflict',
-          title:
-            by === null
-              ? t({ id: 'plan.day.conflictSomeone', message: 'Someone moved this too' })
-              : t({ id: 'plan.day.conflict', message: `${by} moved this too` }),
-          subtitle: t({
-            id: 'plan.day.conflictLine',
-            message: 'Their change stays. Try yours again.',
-          }),
-        });
-      },
-      onLocked: () => {
-        impact('error');
-        toast.show({
-          id: 'plan-locked',
-          title: t({ id: 'plan.day.lockedToast', message: 'That one is booked' }),
-          subtitle: t({
-            id: 'plan.day.lockedLine',
-            message: 'Open it to change it anyway.',
-          }),
-        });
-      },
-    },
-  );
 }
 
 export function DayScreen({ tripId, dayNo }: { readonly tripId: string; readonly dayNo: number }) {
@@ -132,6 +95,14 @@ export function DayScreen({ tripId, dayNo }: { readonly tripId: string; readonly
     }
   };
   const open = items.find((item) => item.stableId === openId) ?? null;
+  const overlays = useDayOverlays(plan, slot, items);
+  const presence = usePlanPresence(tripId, 'day', dayNo);
+  const { setCursor } = presence;
+  useEffect(() => {
+    setCursor(openId === null ? null : itemAnchor(openId));
+    // The cursor follows the open item; `setCursor` is stable in effect (latest wins).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openId]);
 
   return (
     <>
@@ -140,8 +111,13 @@ export function DayScreen({ tripId, dayNo }: { readonly tripId: string; readonly
         dayCount={plan.state.days.length}
         date={day?.date ?? null}
         theme={day?.theme ?? null}
-        here={[]}
-        rain={null}
+        here={presence.here.map((member) => ({
+          key: member.uid,
+          name: member.name ?? '',
+          joinIndex: plan.members.find((m) => m.uid === member.uid)?.joinIndex ?? 0,
+        }))}
+        rain={overlays.rain.kind === 'rain' ? overlays.rain : null}
+        forecastMissing={overlays.rain.kind === 'unavailable'}
         planning={planning}
         onTogglePlanning={() => {
           impact('snap');
@@ -156,17 +132,20 @@ export function DayScreen({ tripId, dayNo }: { readonly tripId: string; readonly
         onOpen={(item) => setOpenId(item.stableId)}
         onAdd={() => setAdding(true)}
         timeline={
-          <TimelineEditor
-            items={items}
+          <DayTimeline
+            plan={plan}
             day={slot}
-            members={members}
+            items={items}
             meta={meta}
-            pending={(id) => plan.queued.has(id) || plan.proposed.has(id)}
             editable={editable}
+            rain={overlays.rain}
+            ghost={overlays.ghost}
+            presence={presence}
             onOpen={(item) => setOpenId(item.stableId)}
             onCommit={(ops) => void editor.submit(ops).then(announce)}
           />
         }
+        footer={planning ? overlays.banner : undefined}
       />
       {openId === null ? null : (
         <ItemDetailSheet

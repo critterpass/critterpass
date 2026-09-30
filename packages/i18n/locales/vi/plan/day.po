@@ -28,7 +28,7 @@ msgstr "{0} đang ở đây"
 msgid "plan.day.fit.travel"
 msgstr "Thiếu {0} phút để đi từ {1} tới đây"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflict"
 msgstr "{by} cũng vừa dời mục này"
 
@@ -68,7 +68,7 @@ msgstr "Thêm vào ngày"
 msgid "plan.day.addCard"
 msgstr "Thêm vào ngày"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.added"
 msgstr "Thêm vào ngày"
 
@@ -160,9 +160,13 @@ msgstr "Chuyển sang"
 msgid "plan.day.waitingShort"
 msgstr "Cần đồng ý"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.moved"
 msgstr "Giờ mới"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.noForecast"
+msgstr "chưa có dự báo"
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.noSaved"
@@ -180,7 +184,7 @@ msgstr "Chưa có kế hoạch. Ngủ nướng, hoặc thêm gì đó."
 msgid "plan.day.item.maps"
 msgstr "Mở bản đồ"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.lockedLine"
 msgstr "Mở ra nếu vẫn muốn đổi."
 
@@ -247,7 +251,7 @@ msgstr "Đã bỏ qua, chỉ riêng bạn"
 msgid "plan.day.item.lockedLine"
 msgstr "Có người đã muốn mục này. Họ sẽ thấy thay đổi."
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflictSomeone"
 msgstr "Có người cũng vừa dời mục này"
 
@@ -267,11 +271,11 @@ msgstr "Đề xuất với cả nhóm"
 msgid "plan.day.item.suggest"
 msgstr "Đề xuất với cả nhóm"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.removed"
 msgstr "Bỏ khỏi ngày"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.lockedToast"
 msgstr "Mục đó đã được đặt"
 
@@ -283,7 +287,7 @@ msgstr "Đặt chỗ vẫn giữ nguyên. Hãy hỏi nhà cung cấp xem có đ�
 msgid "plan.day.item.memberLine"
 msgstr "Cả nhóm đồng ý rồi mới đổi."
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflictLine"
 msgstr "Thay đổi của họ được giữ. Hãy thử lại của bạn."
 

@@ -28,7 +28,7 @@ msgstr "{0} here"
 msgid "plan.day.fit.travel"
 msgstr "{0} min short to get here from {1}"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflict"
 msgstr "{by} moved this too"
 
@@ -68,7 +68,7 @@ msgstr "Add to the day"
 msgid "plan.day.addCard"
 msgstr "Add to the day"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.added"
 msgstr "Added to the day"
 
@@ -160,9 +160,13 @@ msgstr "Move to"
 msgid "plan.day.waitingShort"
 msgstr "Needs a yes"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.moved"
 msgstr "New time"
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.noForecast"
+msgstr "no forecast yet"
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.noSaved"
@@ -180,7 +184,7 @@ msgstr "Nothing planned. Sleep in, or add something."
 msgid "plan.day.item.maps"
 msgstr "Open in maps"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.lockedLine"
 msgstr "Open it to change it anyway."
 
@@ -247,7 +251,7 @@ msgstr "Skipped, just for you"
 msgid "plan.day.item.lockedLine"
 msgstr "Someone asked for this one. They’ll see the change."
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflictSomeone"
 msgstr "Someone moved this too"
 
@@ -267,11 +271,11 @@ msgstr "Suggest to the crew"
 msgid "plan.day.item.suggest"
 msgstr "Suggest to the crew"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.removed"
 msgstr "Taken off the day"
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.lockedToast"
 msgstr "That one is booked"
 
@@ -283,7 +287,7 @@ msgstr "The booking stays as it is. Check the supplier can change it."
 msgid "plan.day.item.memberLine"
 msgstr "The crew okays it before it changes."
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflictLine"
 msgstr "Their change stays. Try yours again."
 

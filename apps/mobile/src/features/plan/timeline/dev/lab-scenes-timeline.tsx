@@ -5,8 +5,10 @@
  * (the device flow drags one and reads the result).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
+import { toast } from '@/motion/island-toast';
+import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Text } from '@/ui/text/Text';
 
 import { labDay } from '../../day/dev/lab-scenes-day';
@@ -17,9 +19,14 @@ import {
   LAB_META,
   LAB_TZ,
   LUNCH,
+  SPA,
   TERRACES,
+  WALK,
 } from '../../day/dev/lab-fixtures';
 import { minutesOnDay, type DayItem } from '../../day/plan-model';
+import { GuideBanner } from '../guide-banner';
+import { RainBand } from '../rain-band';
+import { placeCursors, RemoteCursors } from '../remote-cursors';
 import { TimelineEditor, type TimelineEditorProps } from '../timeline-editor';
 import type { Preview } from '../timeline-model';
 
@@ -122,7 +129,8 @@ function Sandbox() {
                 op.new.ends_at === undefined
                   ? item.end
                   : minutesOnDay(op.new.ends_at, LAB_TZ, LAB_DATE);
-              if (ops[0]?.op !== 'reorder_days' && op.item === ops[0]?.item) setLast(`${item.title} ${start}-${end}`);
+              if (ops[0]?.op !== 'reorder_days' && op.item === ops[0]?.item)
+                setLast(`${item.title} ${start}-${end}`);
               return { ...item, start, end };
             }),
           );
@@ -136,6 +144,64 @@ function Sandbox() {
   );
 }
 
+const rain = ({ axis }: { readonly axis: Parameters<typeof RainBand>[0]['axis'] }) => (
+  <RainBand start={13 * 60} end={15 * 60} axis={axis} reduced={false} />
+);
+const ghost = (accepted = false) => ({
+  itemId: WALK.stableId,
+  start: 17 * 60,
+  end: 18 * 60,
+  detail: '17:00 · golden hour',
+  accepted,
+  onAccept: noop,
+});
+const cursors =
+  (offset: number) => (ctx: { readonly frames: Parameters<typeof placeCursors>[1] }) => (
+    <RemoteCursors
+      reduced={false}
+      cursors={placeCursors(
+        [
+          { uid: 'u-maya', anchor: `plan_item:${SPA.stableId}`, offset: 0, at: Date.now() },
+          ...(offset === 0
+            ? []
+            : [{ uid: 'u-alex', anchor: `plan_item:${LUNCH.stableId}`, offset, at: Date.now() }]),
+        ],
+        ctx.frames,
+        LAB_MEMBERS,
+      )}
+    />
+  );
+const banner = (
+  <GuideBanner
+    guide={GUIDE_STICKERS.tokek}
+    line="Rain till 15:00. Move Ridge walk?"
+    onAccept={noop}
+  />
+);
+
+/** The day as 3e-2 draws it: rain 13–15, Tokek's ghost for the ridge walk, Maya on the spa. */
+function drawn(
+  overrides: Partial<TimelineEditorProps> = {},
+  footer: ReactNode = banner,
+): ReactNode {
+  return labDay({
+    planning: true,
+    footer,
+    timeline: labTimeline({ under: rain, over: cursors(0), ghost: ghost(), ...overrides }),
+  });
+}
+
+function ConflictToast() {
+  useEffect(() => {
+    toast.show({
+      id: 'plan-conflict',
+      title: 'Maya moved this too',
+      subtitle: 'Their change stays. Try yours again.',
+    });
+  }, []);
+  return planning(labTimeline());
+}
+
 export const TIMELINE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   planning: () => planning(labTimeline()),
   'planning-lifted': () =>
@@ -147,4 +213,10 @@ export const TIMELINE_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'planning-read-only': () => planning(labTimeline({ editable: false }), LAB_ITEMS, false),
   'planning-overnight': () => planning(labTimeline({ items: overnight }), overnight),
   'planning-sandbox': () => <Sandbox />,
+  'planning-rain-ghost': () => drawn(),
+  'planning-ghost-accepted': () => drawn({ ghost: ghost(true) }, null),
+  'planning-cursors': () => drawn({ over: cursors(90) }),
+  'planning-no-forecast': () =>
+    labDay({ planning: true, rain: null, forecastMissing: true, timeline: labTimeline() }),
+  'planning-conflict': () => <ConflictToast />,
 };

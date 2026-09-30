@@ -43,11 +43,19 @@ export function timedItems(items: readonly DayItem[]): DayItem[] {
   return items.filter((item) => item.start !== null && item.end !== null);
 }
 
+/** A block that takes a lane without being an item (the guide's ghost). */
+export interface ExtraBlock {
+  readonly id: string;
+  readonly start: number;
+  readonly end: number;
+}
+
 export function buildTimeline(
   items: readonly DayItem[],
   overrides: ReadonlyMap<string, Placed>,
   preview: Preview | null,
   width: number,
+  extra: ExtraBlock | null = null,
 ): TimelineModel {
   const timed = timedItems(items);
   const base = new Map<string, Placed>(
@@ -60,7 +68,7 @@ export function buildTimeline(
       },
     ]),
   );
-  const axis = axisFor([...base.values()]);
+  const axis = axisFor(extra === null ? [...base.values()] : [...base.values(), extra]);
   const lanes: (string | null)[] = [null];
   for (const placed of base.values()) if (!lanes.includes(placed.lane)) lanes.push(placed.lane);
 
@@ -106,10 +114,12 @@ export function buildTimeline(
     }
   }
 
-  const layout = layoutLanes([...placed].map(([id, at]) => ({ id, ...at })));
+  const everything =
+    extra === null ? placed : new Map(placed).set(extra.id, { ...extra, lane: extra.id });
+  const layout = layoutLanes([...everything].map(([id, at]) => ({ id, ...at })));
   const area = Math.max(0, width - AXIS_GUTTER);
   const frames = new Map<string, BlockFrame>();
-  for (const [id, at] of placed) {
+  for (const [id, at] of everything) {
     const lane = layout.get(id) ?? { column: 0, columns: 1 };
     const columnWidth = area / lane.columns;
     frames.set(id, {

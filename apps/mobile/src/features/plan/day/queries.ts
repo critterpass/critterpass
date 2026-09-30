@@ -6,10 +6,11 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 
 export const TRIP_SQL = `SELECT t.id, t.crew_id, t.tz, t.current_version_id, t.destination_id,
-    t.start_date, t.status, p.role
+    t.start_date, t.status, p.role, g.slug AS guide_slug
   FROM trips t LEFT JOIN trip_participants p ON p.trip_id = t.id AND p.user_id = ?
+  LEFT JOIN guides g ON g.id = t.guide_id
   WHERE t.id = ?`;
-export const TRIP_TABLES = ['trips', 'trip_participants'];
+export const TRIP_TABLES = ['trips', 'trip_participants', 'guides'];
 
 export interface TripRow {
   readonly id: string;
@@ -20,6 +21,7 @@ export interface TripRow {
   readonly start_date: string | null;
   readonly status: string | null;
   readonly role: string | null;
+  readonly guide_slug: string | null;
 }
 
 /** Active crew members in join order (their join index picks their colour), with names. */

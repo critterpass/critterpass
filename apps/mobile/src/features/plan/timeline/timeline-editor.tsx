@@ -22,6 +22,7 @@ import { dayFit } from '../day/fit-check';
 import type { DayItem } from '../day/plan-model';
 import type { DaySlot } from '../day/plan-ops';
 import type { Axis } from './geometry';
+import { GuideGhost } from './guide-ghost';
 import { TimelineBlock, type BlockFrame } from './timeline-block';
 import { TimelineGrid } from './timeline-grid';
 import { buildTimeline, opsFor, type Placed, type Preview } from './timeline-model';
@@ -29,6 +30,18 @@ import { buildTimeline, opsFor, type Placed, type Preview } from './timeline-mod
 /** Committed positions wait this long for the synced plan before letting go. */
 const OVERRIDE_TTL_MS = 4000;
 const NO_OVERRIDES: ReadonlyMap<string, Placed> = new Map();
+
+export interface TimelineGhost {
+  readonly itemId: string;
+  readonly start: number;
+  readonly end: number;
+  readonly detail: string;
+  /** Accepted: the item glides into the ghost's place and the ghost fades. */
+  readonly accepted: boolean;
+  readonly onAccept: () => void;
+}
+
+const GHOST_ID = 'guide-ghost';
 
 export interface TimelineOverlayContext {
   readonly axis: Axis;
@@ -54,6 +67,8 @@ export interface TimelineEditorProps {
   readonly initialPreview?: Preview | null;
   /** The block shown lifted in that preview. */
   readonly liftedId?: string;
+  /** The guide's suggested slot for one of the day's items. */
+  readonly ghost?: TimelineGhost | null;
   readonly testID?: string;
 }
 
@@ -86,8 +101,11 @@ export function TimelineEditor(props: TimelineEditorProps) {
     const timer = setTimeout(() => setOverrides(NO_OVERRIDES), settled ? 0 : OVERRIDE_TTL_MS);
     return () => clearTimeout(timer);
   }, [overrides, settled]);
-  const model = buildTimeline(items, shown, preview, width);
-  const resting = buildTimeline(items, shown, null, width);
+  const ghost = props.ghost ?? null;
+  const extra = ghost === null ? null : { id: GHOST_ID, start: ghost.start, end: ghost.end };
+  const model = buildTimeline(items, shown, preview, width, extra);
+  const resting = buildTimeline(items, shown, null, width, extra);
+  const ghostFrame = model.frames.get(GHOST_ID);
 
   const byId = new Map(items.map((item) => [item.stableId, item]));
   const lanes = model.lanes;
@@ -99,7 +117,7 @@ export function TimelineEditor(props: TimelineEditorProps) {
   }
 
   function land(next: Preview) {
-    const landed = buildTimeline(items, shown, next, width);
+    const landed = buildTimeline(items, shown, next, width, extra);
     setPreview(null);
     props.onPreview?.(null, 0);
     if (landed.blocked) {
@@ -136,8 +154,10 @@ export function TimelineEditor(props: TimelineEditorProps) {
       <TimelineGrid axis={model.axis} />
       {width > 0 ? props.under?.(ctx) : null}
       {width > 0
-        ? [...model.frames].map(([id, frame]) => {
+        ? [...model.frames].map(([id, placedFrame]) => {
             const item = byId.get(id);
+            const accepting = ghost?.accepted === true && ghost.itemId === id;
+            const frame = accepting && ghostFrame !== undefined ? ghostFrame : placedFrame;
             const at = model.placed.get(id);
             if (item === undefined || at === undefined) return null;
             const original = resting.placed.get(id) ?? at;
@@ -159,6 +179,8 @@ export function TimelineEditor(props: TimelineEditorProps) {
                 editable={editable}
                 shakeToken={shakes.get(id) ?? 0}
                 lifted={props.liftedId === id}
+                struck={ghost !== null && !ghost.accepted && ghost.itemId === id}
+                accepting={accepting}
                 drag={{
                   min: model.axis.start,
                   max: model.axis.end,
@@ -237,6 +259,16 @@ export function TimelineEditor(props: TimelineEditorProps) {
             );
           })
         : null}
+      {width > 0 && ghost !== null && ghostFrame !== undefined ? (
+        <GuideGhost
+          frame={ghostFrame}
+          title={byId.get(ghost.itemId)?.title ?? ''}
+          start={ghost.start}
+          detail={ghost.detail}
+          accepted={ghost.accepted}
+          onAccept={ghost.onAccept}
+        />
+      ) : null}
       {width > 0 ? props.over?.(ctx) : null}
     </View>
   );

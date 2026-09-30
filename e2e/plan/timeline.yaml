@@ -1,11 +1,12 @@
 appId: app.critterpass.dev
 ---
 # Planning mode's timeline (3e-2) from the plan editing lab (apps/mobile/src/app/(dev)/plan-edit-lab.tsx)
-# in English then Vietnamese: the day as drawn, a block lifted, mid-drag with the next block pushed
-# along, dropped, a clash, read-only and an overnight axis. A drag is hard to catch in a still, so the
-# lifted, dragging and dropped states are fixed scenes. The sandbox scene then proves a real drag on
-# device: a swipe on a block's bottom edge resizes it in 15-minute steps and the commit is read back.
-# Screenshots are named <lang>-<design id>-<state> for compare mode.
+# in English then Vietnamese: the day as drawn (rain band, the guide's ghost and banner, Maya's cursor),
+# the ghost accepted, a friend dragging, no forecast yet, a concurrent-edit toast, and the editing states
+# (lifted, mid-drag with the next block pushed along, dropped, a clash, read-only, an overnight axis).
+# A drag is hard to catch in a still, so lifted, dragging and dropped are fixed scenes; the sandbox scene
+# then proves a real drag on device: a swipe on a block's bottom edge resizes it in 15-minute steps and
+# the commit is read back. Screenshots are named <lang>-<design id>-<state> for compare mode.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -25,6 +26,101 @@ appId: app.critterpass.dev
     visible:
       id: 'plan-edit-lab-day'
     timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-rain-ghost'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-rain-ghost'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-guide-ghost'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-as-drawn
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-rain-ghost'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-ghost-accepted'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-ghost-accepted'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-timeline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-ghost-accepted
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-ghost-accepted'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-cursors'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-cursors'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-timeline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-remote-cursors
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-cursors'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-no-forecast'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-no-forecast'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-timeline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-no-forecast
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-no-forecast'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-conflict'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-conflict'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-timeline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-concurrent-conflict
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-conflict'
+    timeout: 10000
 - scrollUntilVisible:
     element:
       id: 'plan-edit-lab-planning'
@@ -216,6 +312,101 @@ appId: app.critterpass.dev
     visible:
       id: 'plan-edit-lab-day'
     timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-rain-ghost'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-rain-ghost'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-guide-ghost'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-as-drawn
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-rain-ghost'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-ghost-accepted'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-ghost-accepted'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-timeline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-ghost-accepted
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-ghost-accepted'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-cursors'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-cursors'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-timeline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-remote-cursors
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-cursors'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-no-forecast'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-no-forecast'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-timeline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-no-forecast
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-no-forecast'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-planning-conflict'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-planning-conflict'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-timeline'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3e-2-concurrent-conflict
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-planning-conflict'
+    timeout: 10000
 - scrollUntilVisible:
     element:
       id: 'plan-edit-lab-planning'

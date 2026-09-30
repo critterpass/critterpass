@@ -9,17 +9,23 @@ import { useEffect, useRef } from 'react';
 import type { AccessibilityActionEvent } from 'react-native';
 import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 
-import { isPhysicalSpring, springConfig } from '@/motion';
+import { bezierEasing, isPhysicalSpring, springConfig } from '@/motion';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { clockRange } from '../day/format';
+import { GHOST_ACCEPT } from './guide-ghost';
 import { useTimelineDrag, type TimelineDragOptions } from './use-timeline-drag';
 
 const SOFT = isPhysicalSpring(tokens.motion.spring.soft)
@@ -75,6 +81,12 @@ const useStyles = makeStyles((th) => ({
     borderStyle: 'dashed',
     borderColor: th.semantic.text.onAccent,
   },
+  struck: {
+    borderWidth: th.space['2'],
+    borderStyle: 'dashed',
+    borderColor: th.semantic.border.decorative,
+  },
+  strike: { textDecorationLine: 'line-through' },
   handle: { position: 'absolute', start: 0, end: 0, height: HANDLE_HEIGHT },
   grip: {
     alignSelf: 'center',
@@ -87,11 +99,20 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-function useSpringTo(value: number, reduced: boolean) {
+const ACCEPT_EASING = bezierEasing(GHOST_ACCEPT.bezier);
+
+/** Glides to each new place: the soft spring, or the ghost-accept curve while accepting. */
+function useSpringTo(value: number, reduced: boolean, accepting: boolean) {
   const shared = useSharedValue(value);
   useEffect(() => {
-    shared.value = reduced || SOFT === undefined ? value : withSpring(value, SOFT);
-  }, [shared, value, reduced]);
+    if (reduced || SOFT === undefined) shared.value = value;
+    else if (accepting) {
+      shared.value = withTiming(value, {
+        duration: GHOST_ACCEPT.durationMs,
+        easing: ACCEPT_EASING,
+      });
+    } else shared.value = withSpring(value, SOFT);
+  }, [shared, value, reduced, accepting]);
   return shared;
 }
 
@@ -103,6 +124,8 @@ export function TimelineBlock({
   editable,
   shakeToken,
   lifted = false,
+  struck = false,
+  accepting = false,
 }: {
   readonly block: TimelineBlockModel;
   readonly frame: BlockFrame;
@@ -111,6 +134,10 @@ export function TimelineBlock({
     keyof BlockHandlers | 'start' | 'end' | 'movable' | 'resizable' | 'lifted'
   >;
   readonly lifted?: boolean;
+  /** The guide suggests moving it: dashed and struck through where it is now. */
+  readonly struck?: boolean;
+  /** Gliding into the accepted ghost's place. */
+  readonly accepting?: boolean;
   readonly handlers: BlockHandlers;
   readonly editable: boolean;
   /** Changes when a drop of this block is refused: it shakes once. */
@@ -119,10 +146,10 @@ export function TimelineBlock({
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
-  const top = useSpringTo(frame.top, drag.reduced);
-  const left = useSpringTo(frame.left, drag.reduced);
-  const width = useSpringTo(frame.width, drag.reduced);
-  const height = useSpringTo(frame.height, drag.reduced);
+  const top = useSpringTo(frame.top, drag.reduced, accepting);
+  const left = useSpringTo(frame.left, drag.reduced, accepting);
+  const width = useSpringTo(frame.width, drag.reduced, accepting);
+  const height = useSpringTo(frame.height, drag.reduced, accepting);
   const gestures = useTimelineDrag({
     ...drag,
     ...handlers,
@@ -218,15 +245,25 @@ export function TimelineBlock({
           <View
             style={[
               styles.face,
-              { backgroundColor: block.color },
-              block.pending ? styles.pending : null,
+              struck ? styles.struck : { backgroundColor: block.color },
+              block.pending && !struck ? styles.pending : null,
             ]}
           >
-            <Text variant="title" color={theme.semantic.text.onAccent} numberOfLines={1}>
+            <Text
+              variant="title"
+              color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
+              style={struck ? styles.strike : null}
+              numberOfLines={1}
+            >
               {upper(block.title, locale)}
             </Text>
             {showMeta ? (
-              <Text variant="bodySm" color={theme.semantic.text.onAccent} numberOfLines={1}>
+              <Text
+                variant="bodySm"
+                color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
+                style={struck ? styles.strike : null}
+                numberOfLines={1}
+              >
                 {block.meta}
               </Text>
             ) : null}

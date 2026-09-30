@@ -36,6 +36,8 @@ export interface DayViewProps {
   readonly theme: string | null;
   readonly here: readonly StackMember[];
   readonly rain: { readonly start: number; readonly end: number } | null;
+  /** No forecast for the day yet (too far out, or never synced). */
+  readonly forecastMissing?: boolean;
   readonly planning: boolean;
   readonly onTogglePlanning: () => void;
   readonly items: readonly DayItem[];
@@ -110,7 +112,9 @@ export function DayView(props: DayViewProps) {
   const when = [
     date === null ? null : dayDate(locale, date),
     rain === null
-      ? null
+      ? props.forecastMissing === true && props.planning
+        ? t({ id: 'plan.day.noForecast', message: 'no forecast yet' })
+        : null
       : t({
           id: 'plan.day.rainWindow',
           message: `rain ${clockRange(locale, rain.start, rain.end)}`,

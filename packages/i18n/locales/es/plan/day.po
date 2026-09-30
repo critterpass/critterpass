@@ -28,7 +28,7 @@ msgstr ""
 msgid "plan.day.fit.travel"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflict"
 msgstr ""
 
@@ -68,7 +68,7 @@ msgstr ""
 msgid "plan.day.addCard"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.added"
 msgstr ""
 
@@ -160,8 +160,12 @@ msgstr ""
 msgid "plan.day.waitingShort"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.moved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.noForecast"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
@@ -180,7 +184,7 @@ msgstr ""
 msgid "plan.day.item.maps"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.lockedLine"
 msgstr ""
 
@@ -247,7 +251,7 @@ msgstr ""
 msgid "plan.day.item.lockedLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflictSomeone"
 msgstr ""
 
@@ -267,11 +271,11 @@ msgstr ""
 msgid "plan.day.item.suggest"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.reason.removed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.lockedToast"
 msgstr ""
 
@@ -283,7 +287,7 @@ msgstr ""
 msgid "plan.day.item.memberLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
 msgid "plan.day.conflictLine"
 msgstr ""
 
