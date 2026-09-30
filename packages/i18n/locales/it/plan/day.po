@@ -6,3 +6,329 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: it\n"
+
+#. placeholder {0}: money(locale, item.amountMinor, item.currency)
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.costEach"
+msgstr ""
+
+#. placeholder {0}: money(locale, item.amountMinor, item.currency)
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.costGroup"
+msgstr ""
+
+#. placeholder {0}: props.here.map((member) => member.name).join(', ')
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.hereA11y"
+msgstr ""
+
+#. placeholder {0}: warning.minutes ?? 0
+#. placeholder {1}: titleOf(warning.relatedId, all)
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.fit.travel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.conflict"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.plusOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.proposal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.comment"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.from"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.addAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.addCard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.reason.added"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.anyTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.apply"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.booked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.booking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.changeConfirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.cost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.untitled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.dayChip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.earlier"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.ends"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.everyone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.freeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.placeDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.proposedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.removeLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.moveTo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.waitingShort"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.reason.moved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.noForecast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.noSaved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.notes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.freeLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.maps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.lockedLine"
+msgstr ""
+
+#. placeholder {0}: titleOf(warning.relatedId, all)
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.fit.overlap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.planningMode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.queuedShort"
+msgstr ""
+
+#. placeholder {0}: clockRange(locale, rain.start, rain.end)
+#: ../../apps/mobile/src/features/plan/day/day-view.tsx
+msgid "plan.day.rainWindow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.removeConfirm"
+msgstr ""
+
+#. placeholder {0}: item.title
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.removeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.queued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.proposedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+msgid "plan.day.skippedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.lockedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.conflictSomeone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
+msgid "plan.day.item.goneLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/time-range-field.tsx
+msgid "plan.day.time.starts"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.reason.removed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.lockedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.bookedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.memberLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/use-day-editing.ts
+msgid "plan.day.conflictLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.lockedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.bookedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-screen.tsx
+#: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
+msgid "plan.day.item.goneTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.bookingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/day-list.tsx
+msgid "plan.day.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.ownLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.when"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.who"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
+msgid "plan.day.add.own"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/commands.ts
+msgid "plan.day.queued.vote"
+msgstr ""

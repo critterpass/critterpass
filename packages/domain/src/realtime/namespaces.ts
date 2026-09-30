@@ -93,6 +93,7 @@ export const rtCursorPublishSchema = z.strictObject({
       .string()
       .regex(/^[a-z][a-z_]{0,31}:[A-Za-z0-9_-]{1,64}$/)
       .nullable(),
+    offset: z.number().int().min(-1440).max(1440).optional(),
   }),
 });
 

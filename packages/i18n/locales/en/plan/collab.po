@@ -6,3 +6,132 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: format.list(locale, typists)
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.typingMany"
+msgstr "{0} are typing"
+
+#. placeholder {0}: format.list(locale, names, { type: 'unit' })
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.here"
+msgstr "{0} here"
+
+#. placeholder {0}: typists[0] ?? ''
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.typingOne"
+msgstr "{0} is typing"
+
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.votes"
+msgstr "{count} votes"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.plusOneAction"
+msgstr "+1"
+
+#. placeholder {0}: format.list(locale, plusOned ? [t({ id: 'plan.collab.you', message: 'you' }), ...others] : others)
+#. placeholder {1}: ago(locale, comment.createdAt, now)
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.plusOnes"
+msgstr "+1 from {0} · {1}"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.plusOne"
+msgstr "+1 this"
+
+#: ../../apps/mobile/src/features/plan/collab/item-comments.tsx
+msgid "plan.collab.itemComposer"
+msgstr "Add a comment"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.closing"
+msgstr "Closing soon. Get your vote in."
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.deleted"
+msgstr "Comment deleted"
+
+#. placeholder {0}: day.day_no
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.eyebrowDay"
+msgstr "Day {0}"
+
+#. placeholder {0}: day.day_no
+#. placeholder {1}: dayDate(locale, day.date)
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.eyebrow"
+msgstr "Day {0} · {1}"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.tie"
+msgstr "It’s a tie. One more vote settles it."
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.keep"
+msgstr "Keep it"
+
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.leading"
+msgstr "Leading"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.loading"
+msgstr "Loading the vote"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.noComments"
+msgstr "No comments yet. Say what you think."
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.on"
+msgstr "On: {title}"
+
+#. placeholder {0}: option.title
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.photo"
+msgstr "photo · {0}"
+
+#: ../../apps/mobile/src/features/plan/collab/option-card.tsx
+msgid "plan.collab.picked"
+msgstr "Picked"
+
+#. placeholder {0}: winner.title
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.closedPick"
+msgstr "Picked: {0}"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+msgid "plan.collab.eyebrowNoDay"
+msgstr "Plan"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.apply"
+msgstr "Put it on the plan"
+
+#. placeholder {0}: 'Nusa Penida'
+#. placeholder {0}: focused.title
+#: ../../apps/mobile/src/features/plan/collab/decide-screen.tsx
+#: ../../apps/mobile/src/features/plan/collab/dev/lab-scenes-collab.tsx
+msgid "plan.collab.composer"
+msgstr "Say something about {0}"
+
+#: ../../apps/mobile/src/features/plan/collab/item-comments.tsx
+msgid "plan.collab.send"
+msgstr "Send"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.unPlusOne"
+msgstr "Take back your +1"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.undo"
+msgstr "Undo"
+
+#: ../../apps/mobile/src/features/plan/collab/decide-view.tsx
+msgid "plan.collab.closedNoPick"
+msgstr "Vote closed without a pick"
+
+#: ../../apps/mobile/src/features/plan/collab/comment-thread.tsx
+msgid "plan.collab.you"
+msgstr "you"

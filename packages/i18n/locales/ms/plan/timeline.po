@@ -6,3 +6,78 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ms\n"
+
+#. placeholder {0}: warning.minutes ?? 0
+#: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
+msgid "plan.timeline.travelShort"
+msgstr ""
+
+#. placeholder {0}: suggestion.item.title
+#. placeholder {1}: clock(locale, suggestion.start)
+#: ../../apps/mobile/src/features/plan/timeline/use-guide-suggestion.tsx
+msgid "plan.timeline.acceptedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/use-guide-suggestion.tsx
+msgid "plan.timeline.acceptedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/guide-banner.tsx
+msgid "plan.timeline.bannerHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.extend"
+msgstr ""
+
+#. placeholder {0}: suggestion.item.title
+#: ../../apps/mobile/src/features/plan/timeline/use-guide-suggestion.tsx
+msgid "plan.timeline.bannerMove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.earlier"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/guide-banner.tsx
+msgid "plan.timeline.moveIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.lane"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
+msgid "plan.timeline.overlap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/rain-band.tsx
+msgid "plan.timeline.rain"
+msgstr ""
+
+#. placeholder {0}: clockRange(locale, start, end)
+#: ../../apps/mobile/src/features/plan/timeline/rain-band.tsx
+msgid "plan.timeline.rainA11y"
+msgstr ""
+
+#. placeholder {0}: '15:00'
+#. placeholder {0}: clock(locale, rain.end)
+#. placeholder {1}: 'Ridge walk'
+#. placeholder {1}: suggestion.item.title
+#: ../../apps/mobile/src/features/plan/timeline/dev/lab-scenes-timeline.tsx
+#: ../../apps/mobile/src/features/plan/timeline/use-guide-suggestion.tsx
+msgid "plan.timeline.bannerRain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/timeline-block.tsx
+msgid "plan.timeline.a11y.shorten"
+msgstr ""
+
+#. placeholder {0}: clock(locale, start)
+#: ../../apps/mobile/src/features/plan/timeline/guide-ghost.tsx
+msgid "plan.timeline.ghostA11y"
+msgstr ""
