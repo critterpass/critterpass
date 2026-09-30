@@ -32,6 +32,7 @@ const useStyles = makeStyles((th) => ({
   tile: { flexGrow: 1, minHeight: th.space['32'] * 3 + th.space['16'] },
   compact: { flexGrow: 1, minHeight: th.space['32'] * 3 },
   cell: { flex: 1 },
+  title: { flexShrink: 1 },
 }));
 
 export function HubTile({
@@ -55,8 +56,9 @@ export function HubTile({
       testID={`trip-hub-tile-${tile.key}`}
     >
       <Stack flex={1} justify="space-between" gap="12">
-        <Row justify="space-between" align="center">
-          <Text variant="eyebrow" color={ink}>
+        <Row justify="space-between" align="center" gap="6">
+          {/* A longer title ("LỊCH TRÌNH") wraps beside the icon rather than running under it. */}
+          <Text variant="eyebrow" color={ink} style={styles.title}>
             {upper(tile.title, locale)}
           </Text>
           <Icon name={tile.icon} size={24} decorative color={ink} />
