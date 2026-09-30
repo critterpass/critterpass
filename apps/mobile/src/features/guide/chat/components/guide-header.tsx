@@ -79,31 +79,33 @@ export function GuideHeader({
   const { t, i18n } = useLingui();
   const sticker = GUIDE_STICKERS[guideAvatarId(guideSlug)];
   return (
-    <Row style={styles.root} testID="guide-header">
-      <Sticker kind={sticker.kind} name={sticker.name} size={56} />
-      <Stack gap="2" flex={1}>
-        <Text variant="h2" accessibilityRole="header">
-          {upper(guideName, i18n.locale)}
-        </Text>
-        <Text variant="bodySm" color={theme.semantic.text.secondary} singleLine={false}>
-          {modeLine}
-        </Text>
-        {meter}
-      </Stack>
-      {onMode === undefined ? null : (
-        <View style={styles.modes}>
-          <Segmented
-            label={t({ id: 'guide.header.modes', message: 'Who sees this chat' })}
-            value={mode}
-            onChange={onMode}
-            segments={[
-              { value: 'group', label: t({ id: 'guide.header.groupTab', message: 'Group' }) },
-              { value: 'private', label: t({ id: 'guide.header.meTab', message: 'Just me' }) },
-            ]}
-            testID="guide-modes"
-          />
-        </View>
-      )}
-    </Row>
+    <Stack gap="8" testID="guide-header">
+      <Row style={styles.root}>
+        <Sticker kind={sticker.kind} name={sticker.name} size={56} />
+        <Stack gap="2" flex={1}>
+          <Text variant="h2" accessibilityRole="header">
+            {upper(guideName, i18n.locale)}
+          </Text>
+          <Text variant="bodySm" color={theme.semantic.text.secondary} singleLine={false}>
+            {modeLine}
+          </Text>
+        </Stack>
+        {onMode === undefined ? null : (
+          <View style={styles.modes}>
+            <Segmented
+              label={t({ id: 'guide.header.modes', message: 'Who sees this chat' })}
+              value={mode}
+              onChange={onMode}
+              segments={[
+                { value: 'group', label: t({ id: 'guide.header.groupTab', message: 'Group' }) },
+                { value: 'private', label: t({ id: 'guide.header.meTab', message: 'Just me' }) },
+              ]}
+              testID="guide-modes"
+            />
+          </View>
+        )}
+      </Row>
+      {meter}
+    </Stack>
   );
 }

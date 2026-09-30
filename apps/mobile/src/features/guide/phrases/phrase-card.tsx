@@ -12,7 +12,7 @@ import { Pressable } from 'react-native';
 import { Stack, Text, useTheme } from '@/ui';
 import { PhraseCard as PhraseCardSurface } from '@/ui/trip/PhraseCard';
 
-import { usePhrasePlayer } from './use-phrase-player';
+import { usePhrasePlayer, type PhrasePlayerState } from './use-phrase-player';
 
 export interface PhraseCardProps {
   readonly phrase: string;
@@ -31,18 +31,24 @@ export function showModeHref(phrase: string, lang: string, gloss: string): Href 
   return { pathname: '/guide/phrase', params: { phrase, lang, gloss } };
 }
 
-export function PhraseCard({
+export interface PhraseCardViewProps extends Omit<PhraseCardProps, 'audioKey'> {
+  readonly playerState: PhrasePlayerState;
+  /** Present when the card has recorded audio to play. */
+  readonly onPlay?: () => void;
+}
+
+export function PhraseCardView({
   phrase,
   lang,
   gloss,
   eyebrow,
-  audioKey = null,
   tone = 'paper',
   testID = 'guide-phrase-card',
-}: PhraseCardProps) {
+  playerState,
+  onPlay,
+}: PhraseCardViewProps) {
   const { t } = useLingui();
   const theme = useTheme();
-  const player = usePhrasePlayer(audioKey);
   return (
     <Stack gap="6">
       <Pressable
@@ -58,17 +64,17 @@ export function PhraseCard({
           lang={lang}
           translation={`“${gloss}”`}
           tone={tone}
-          playing={player.state === 'playing'}
+          playing={playerState === 'playing'}
           testID={testID}
           {...(eyebrow === undefined ? {} : { eyebrow })}
-          {...(audioKey === null ? {} : { onPlay: () => void player.toggle() })}
+          {...(onPlay === undefined ? {} : { onPlay })}
         />
       </Pressable>
-      {player.state === 'loading' ? (
+      {playerState === 'loading' ? (
         <Text variant="caption" color={theme.semantic.text.secondary} testID="guide-phrase-loading">
           {t({ id: 'guide.phrase.loading', message: 'Getting the audio…' })}
         </Text>
-      ) : player.state === 'unavailable' ? (
+      ) : playerState === 'unavailable' ? (
         <Text
           variant="caption"
           color={theme.semantic.text.secondary}
@@ -81,5 +87,16 @@ export function PhraseCard({
         </Text>
       ) : null}
     </Stack>
+  );
+}
+
+export function PhraseCard({ audioKey = null, ...props }: PhraseCardProps) {
+  const player = usePhrasePlayer(audioKey);
+  return (
+    <PhraseCardView
+      {...props}
+      playerState={player.state}
+      {...(audioKey === null ? {} : { onPlay: () => void player.toggle() })}
+    />
   );
 }

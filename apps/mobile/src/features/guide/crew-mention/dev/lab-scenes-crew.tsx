@@ -47,6 +47,17 @@ function CrewChat({
           text="who's up for the spa on day 3?"
           avatar={<Avatar name="Maya" joinIndex={0} size="sm" decorative />}
         />
+        <ChatMessage
+          kind="theirs"
+          text="me, my legs are done after that ridge walk"
+          avatar={<Avatar name="Alex" joinIndex={2} size="sm" decorative />}
+        />
+        <ChatMessage kind="mine" text="same, book me in" />
+        <ChatMessage
+          kind="theirs"
+          text="warung lunch was 1.08M for six btw"
+          avatar={<Avatar name="Winston" joinIndex={3} size="sm" decorative />}
+        />
         {offer === null ? null : (
           <OfferCardView
             text={OFFER}

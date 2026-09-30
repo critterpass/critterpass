@@ -1,85 +1,81 @@
 /**
- * Guide lab scenes for phrase cards (3h-3): with recorded audio (on the phone, playing), without
- * it (shown only), audio still coming, audio out of reach offline, and SHOW mode.
+ * Guide lab scenes for phrase cards (3h-3), as Getting around shows them: with recorded audio,
+ * without it (shown only), audio still coming, audio out of reach offline, and SHOW mode.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
-import { useEffect } from 'react';
+import { ScrollView } from 'react-native';
 
-import { Scaffold, Stack, makeStyles } from '@/ui';
+import { Scaffold, Text, makeStyles } from '@/ui';
 
 import { PhraseAudioContext, type PhraseAudioServices } from '../phrase-audio';
-import { PhraseCard } from '../phrase-card';
+import { PhraseCard, PhraseCardView } from '../phrase-card';
 import { ShowMode } from '../show-mode';
-import { usePhrasePlayer } from '../use-phrase-player';
+import type { PhrasePlayerState } from '../use-phrase-player';
 
+const noop = () => undefined;
 const PHRASE = 'Tolong ke Villa Kayu Manis, Jalan Raya Sayan, Ubud.';
 const GLOSS = 'Please take us to Villa Kayu Manis, Sayan road, Ubud.';
 const KEY = 'phrase_audio/lab/villa.mp3';
 
 const useStyles = makeStyles((t) => ({
-  body: { padding: t.size.gutter, paddingTop: t.space['32'] },
+  body: { padding: t.size.gutter, paddingTop: t.space['32'], gap: t.space['16'] },
 }));
 
-function services(options: { stored: boolean; fetch: 'never' | 'hang' }): PhraseAudioServices {
-  return {
-    local: () => (options.stored ? 'file:///lab/villa.mp3' : null),
-    fetch: () => (options.fetch === 'hang' ? new Promise(() => undefined) : Promise.resolve(null)),
-    play: () => ({ stop: () => undefined }),
-  };
-}
+const onPhone: PhraseAudioServices = {
+  local: () => 'file:///lab/villa.mp3',
+  fetch: () => Promise.resolve(null),
+  play: () => ({ stop: () => undefined }),
+};
 
-/** Presses play once on mount, so the scene shows the state after the tap. */
-function Pressed({ audioKey }: { readonly audioKey: string }) {
-  const player = usePhrasePlayer(audioKey);
-  useEffect(() => {
-    void player.toggle();
-    // Once, on mount.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  return null;
-}
-
+/** The address card in the given state, then two more of the trip's cards. */
 function Screen({
-  audio,
-  audioKey,
-  press = false,
+  state,
+  withAudio,
 }: {
-  readonly audio: PhraseAudioServices;
-  readonly audioKey: string | null;
-  readonly press?: boolean;
+  readonly state: PhrasePlayerState;
+  readonly withAudio: boolean;
 }) {
   const styles = useStyles();
   return (
-    <PhraseAudioContext.Provider value={audio}>
+    <PhraseAudioContext.Provider value={onPhone}>
       <Scaffold edges={['top', 'bottom']}>
-        <Stack style={styles.body} gap="12">
-          <PhraseCard
+        <ScrollView contentContainerStyle={styles.body}>
+          <Text variant="eyebrow">AIRPORT → VILLA · 1H 05M</Text>
+          <PhraseCardView
             phrase={PHRASE}
             lang="id"
             gloss={GLOSS}
             eyebrow="Show this to Made"
-            audioKey={audioKey}
+            playerState={state}
+            {...(withAudio ? { onPlay: noop } : {})}
           />
-          {press && audioKey !== null ? <Pressed audioKey={audioKey} /> : null}
-        </Stack>
+          <PhraseCard
+            phrase="Tunggu sebentar, ya."
+            lang="id"
+            gloss="Please wait a moment."
+            tone="raised"
+            audioKey={KEY}
+            testID="guide-phrase-wait"
+          />
+          <PhraseCard
+            phrase="Berapa harganya?"
+            lang="id"
+            gloss="How much is it?"
+            tone="raised"
+            audioKey={null}
+            testID="guide-phrase-price"
+          />
+        </ScrollView>
       </Scaffold>
     </PhraseAudioContext.Provider>
   );
 }
 
 export const PHRASE_SCENES: Readonly<Record<string, () => ReactNode>> = {
-  'phrase-audio': () => (
-    <Screen audio={services({ stored: true, fetch: 'never' })} audioKey={KEY} />
-  ),
-  'phrase-show-only': () => (
-    <Screen audio={services({ stored: false, fetch: 'never' })} audioKey={null} />
-  ),
-  'phrase-loading': () => (
-    <Screen audio={services({ stored: false, fetch: 'hang' })} audioKey={KEY} press />
-  ),
-  'phrase-unavailable': () => (
-    <Screen audio={services({ stored: false, fetch: 'never' })} audioKey={KEY} press />
-  ),
+  'phrase-audio': () => <Screen state="idle" withAudio />,
+  'phrase-show-only': () => <Screen state="idle" withAudio={false} />,
+  'phrase-loading': () => <Screen state="loading" withAudio />,
+  'phrase-unavailable': () => <Screen state="unavailable" withAudio />,
   'phrase-show-mode': () => <ShowMode phrase={PHRASE} lang="id" gloss={GLOSS} />,
 };
