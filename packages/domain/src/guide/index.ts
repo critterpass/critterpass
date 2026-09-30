@@ -3,3 +3,4 @@ export * from './events';
 export * from './meter-rules';
 export * from './queues';
 export * from './schemas';
+export * from './templates';

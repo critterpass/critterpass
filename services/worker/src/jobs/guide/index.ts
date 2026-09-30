@@ -6,10 +6,11 @@
 import type { AnyJobDefinition } from '../../boss';
 import { guideMentionJob } from './mention';
 import { guideProactiveJob } from './proactive';
+import { queuedAnswerJob } from './queued-answer';
 import { guideRuntime, type GuideJobsDeps, type GuideJobsEnv } from './runtime';
 
 export function guideJobs(env: GuideJobsEnv, deps: GuideJobsDeps): AnyJobDefinition[] {
   const runtime = guideRuntime(env, deps);
   if (runtime === undefined) return [];
-  return [guideMentionJob(runtime), guideProactiveJob(runtime)];
+  return [guideMentionJob(runtime), guideProactiveJob(runtime), queuedAnswerJob(runtime)];
 }
