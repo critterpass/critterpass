@@ -193,7 +193,8 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `report_message` | `{message_id, reason, note?}` → `moderation_reports` kind `message` (`report_content` rules) | active member, not the sender | – | – | A, O | 24 |
 | `mute_member` | `{crew_id, uid, muted}` → `user_settings.muted_uids` (own devices only) | active member | – | – | A, O | 24 |
 | `take_guide_offer` | `{action_id}` | member | – | `guide_action.taken` | A, O | 24 |
-| `add_comment` / `plusone_comment` | `{target{kind,id}, body}` / `{comment_id}` | participant | – | `comment.added` / `comment.plusoned` | A, O | 29 |
+| `add_comment` / `plusone_comment` | `{comment_id?, trip_id, target{kind: item\|option\|day\|poi_in_option, id}, body ≤1000}` / `{comment_id}` (doc delta: `trip_id`; the anchor must exist on the trip, else `NOT_FOUND{anchor}`; +1 once per member, idempotent, never on one's own (`STATE_INVALID{own_comment}`) or a deleted comment; each change hints `trip_plan:` `comment.changed`) | participant | – | `comment.added` / `comment.plusoned` | A, O | 29 |
+| `edit_comment` / `delete_comment` / `unplusone_comment` (doc delta) | `{comment_id, body}` / `{comment_id}` / `{comment_id}`: edit stamps `edited_at` (a deleted comment stays deleted); delete leaves a tombstone (body cleared, idempotent); un-+1 removes the caller's own +1 (idempotent) | author / author / participant | – | `comment.edited` / `comment.deleted` / `comment.unplusoned` | A, O | 29 |
 
 ### 4.3 Home, inbox, nudges, places (P25, P30)
 
