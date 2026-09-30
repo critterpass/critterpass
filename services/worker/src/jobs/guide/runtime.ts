@@ -8,6 +8,7 @@ import {
   createGateway,
   createToolRegistry,
   createWebSearchExecutor,
+  crewNameTerms,
   recordUsage,
   registerGuideToolExecutors,
   searchProviderFromEnv,
@@ -73,8 +74,11 @@ export function guideRuntime(env: GuideJobsEnv, deps: GuideJobsDeps): GuideRunti
   const registry = createToolRegistry();
   registerGuideToolExecutors(registry, guideReader(deps.pool));
   const search = searchProviderFromEnv({ TAVILY_API_KEY: env.TAVILY_API_KEY });
-  if (search !== undefined)
-    registry.registerToolExecutor('web_search', createWebSearchExecutor(search));
+  if (search !== undefined) {
+    // Crew names never leave in a query.
+    const privateTerms = crewNameTerms(guideReader(deps.pool));
+    registry.registerToolExecutor('web_search', createWebSearchExecutor(search, { privateTerms }));
+  }
   return { pool: deps.pool, gateway, decisions, registry, assertRouteOn: deps.assertRouteOn };
 }
 

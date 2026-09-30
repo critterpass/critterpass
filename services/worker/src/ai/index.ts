@@ -10,6 +10,8 @@ import type { AnyJobDefinition } from '../boss';
 import { complianceCheckJob } from './compliance-job';
 import type { AgentJobDefinition } from './job-runner';
 
+export { guideJobs } from '../jobs/guide';
+
 export const AGENT_JOBS: readonly AgentJobDefinition[] = [];
 
 export interface AiJobsEnv {

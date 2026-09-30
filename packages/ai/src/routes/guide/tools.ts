@@ -134,3 +134,26 @@ export function registerGuideToolExecutors(registry: ToolRegistry, read: RunAsGu
     readPhraseCard(read, context, input),
   );
 }
+
+/**
+ * The trip's crew names, cut from every web search query the guide writes: whole display names,
+ * and each name part of three letters or more that is not also part of the destination's name.
+ */
+export function crewNameTerms(read: RunAsGuideReader) {
+  return async (context: ToolContext): Promise<string[]> => {
+    if (context.tripId === null) return [];
+    return read(context.uid, context.tripId, async (tx) => {
+      const { rows } = await tx.query<{
+        participants: { display_name: string | null }[] | null;
+        destination_name: string | null;
+      }>('SELECT participants, destination_name FROM llm.trip_context');
+      const row = rows[0];
+      const place = new Set((row?.destination_name ?? '').toLowerCase().split(/\s+/u));
+      return (row?.participants ?? []).flatMap(({ display_name: name }) => {
+        if (name === null || name.trim() === '') return [];
+        const parts = name.split(/\s+/u).filter((part) => part.length >= 3);
+        return [name, ...parts.filter((part) => !place.has(part.toLowerCase()))];
+      });
+    });
+  };
+}

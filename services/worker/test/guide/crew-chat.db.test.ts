@@ -3,7 +3,8 @@
  * boundary: a mention is answered once, streamed to the crew and posted as the guide, on the
  * asker's meter unless a crewmate has Pass+ (then only the silent fair-use counter moves). A
  * proactive offer carries the trigger's numbers from the template, sends the model no supplier
- * text, books nothing, respects the crew's daily cap and stays quiet when the classifier is unsure.
+ * text, never searches the web, books nothing, respects the crew's daily cap and stays quiet when
+ * the classifier is unsure.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -83,9 +84,10 @@ describe('ai.guide_mention', () => {
       'guide.token',
       'message.created',
     ]);
-    // The chat reached the model only as data, and the offered tools read or propose only.
-    const request = model.requests[0] as { tools: { name: string }[] };
-    expect(request.tools.map((tool) => tool.name)).not.toContain('web_search');
+    // An @mention may search the web; the offered tools read or propose only.
+    const request = model.requests[0] as { tools: { name: string }[]; tool_choice?: unknown };
+    expect(request.tools.map((tool) => tool.name)).toContain('web_search');
+    expect(request.tool_choice).toBeUndefined();
 
     const again = await answerMention(() => 'twice?', eventId);
     expect(again.result).toEqual({ outcome: 'already_answered' });
@@ -176,6 +178,8 @@ describe('guide.proactive', () => {
       /^Fancy a slow spa afternoon\? Karsa Spa has 3 slots at \d{2}:\d{2}, from Rp\s350,000 each\./u,
     );
     expect(JSON.stringify(model.requests)).not.toContain('SUPPLIER-XYZ');
+    // Unasked, the guide never searches the web: no request offers a tool.
+    expect(model.requests.every((request) => request['tools'] === undefined)).toBe(true);
     const offer = await db.pool.query<{ slots_taken: number; status: string }>(
       'SELECT slots_taken, status FROM guide_offers WHERE trip_id = $1',
       [tripId],

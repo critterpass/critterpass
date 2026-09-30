@@ -9,7 +9,9 @@ import { randomUUID } from 'node:crypto';
 
 import {
   createGateway,
+  createTavilySearch,
   createToolRegistry,
+  createWebSearchExecutor,
   readCrewProfiles,
   recordUsage,
   registerGuideToolExecutors,
@@ -57,6 +59,14 @@ beforeAll(async () => {
       const switches = createKillSwitches(deps.pool);
       const registry = createToolRegistry();
       registerGuideToolExecutors(registry, guideReaderRunner(deps.pool));
+      // Recorded Tavily answers for the one question below that searches.
+      const search = fixtureTransport(['guide-hoi-an-lantern-1', 'guide-hoi-an-lantern-2'], {
+        dir: 'tavily',
+      });
+      registry.registerToolExecutor(
+        'web_search',
+        createWebSearchExecutor(createTavilySearch({ apiKey: 'fixture', fetch: search.fetch })),
+      );
       const logger = pino({ level: 'silent' });
       registerGuideTurnRoute(app, {
         pool: deps.pool,
@@ -168,6 +178,37 @@ describe('POST /v1/guide/threads/{id}/turns', () => {
       ['guide', true],
     ]);
     expect(messages.rows[1]?.content).toMatch(/^Hi! Tokek here/u);
+  });
+
+  it('searches the web only when the question needs it, as one question with its sources', async () => {
+    const me = await harness.signInAnonymously();
+    useFixtures(['flash-guide-search-1', 'flash-guide-search-2']);
+    const threadId = randomUUID();
+    const frames = parseFrames(
+      await (
+        await ask(me.cookie, threadId, 'Asia/Ho_Chi_Minh', {
+          text: 'Is anything special on in Hoi An old town this week, like a lantern night?',
+        })
+      ).text(),
+    );
+    const first = transport.requests[0] as { tools: { name: string }[]; tool_choice?: unknown };
+    expect(first.tools.map((tool) => tool.name)).toContain('web_search');
+    // Guide chat is not the guest guide: the model decides to search, nothing forces it.
+    expect(first.tool_choice).toBeUndefined();
+    expect(frames.filter((f) => f.event === 'tool_start').map((f) => f.data['tool'])).toEqual([
+      'web_search',
+      'web_search',
+    ]);
+    const done = frames.at(-1);
+    expect(done?.event).toBe('done');
+    expect((done?.data['sources'] as string[]).length).toBeGreaterThan(0);
+    expect(frames.find((f) => f.event === 'usage')?.data).toMatchObject({ used: 1 });
+    expect((await used(me.uid)).map((row) => row.count)).toEqual([1]);
+    const saved = await harness.pool.query<{ sources: { url: string }[] }>(
+      "SELECT sources FROM guide_messages WHERE thread_id = $1 AND role = 'guide'",
+      [threadId],
+    );
+    expect(saved.rows[0]?.sources.length).toBeGreaterThan(0);
   });
 
   it(

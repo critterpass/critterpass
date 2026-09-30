@@ -41,7 +41,7 @@ const CONTRACT: Readonly<Record<string, string>> = {
   propose_hold: 'CG',
   propose_vendor_message: 'CR',
   schedule_nudge: 'GB',
-  web_search: 'CR',
+  web_search: 'CGR',
 };
 
 const STRICT_KEYWORDS = new Set([
@@ -139,7 +139,9 @@ describe('allow-lists', () => {
     const names = (route: Parameters<typeof resolveRoute>[0]) =>
       routeTools(resolveRoute(route)).map((tool) => tool.name);
     expect(names('guest.guide')).toContain('web_search');
-    expect(names('guide.chat')).not.toContain('web_search');
+    expect(names('guide.chat')).toContain('web_search');
+    expect(names('guide.crew_mention')).toContain('web_search');
+    expect(names('guide.voice')).not.toContain('web_search');
     expect(names('disruption.plan_b')).not.toContain('web_search');
   });
 });
@@ -162,7 +164,8 @@ describe('tool registry', () => {
     );
     expect(result).toMatchObject({ ok: false, failure: 'TOOL_UNAVAILABLE' });
     expect(result.block).toMatchObject({ tool_use_id: 'toolu_1', is_error: true });
-    expect(result.block.content as string).toContain('cannot check');
+    // Guide chat can search, so an unavailable check points the guide to the web.
+    expect(result.block.content as string).toContain('Search the web for it instead');
   });
 
   it('refuses tools outside the surface allow-list and unknown names', async () => {

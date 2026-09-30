@@ -242,7 +242,7 @@ describe('web search executor', () => {
     );
     const result = await registry.execute(
       { id: 'toolu_1', name: 'web_search', input: { query: 'Hoi An' } },
-      { ...CONTEXT, route: 'guide.chat' },
+      { ...CONTEXT, route: 'guide.voice' },
     );
     expect(result).toMatchObject({ ok: false, failure: 'TOOL_NOT_ALLOWED' });
   });

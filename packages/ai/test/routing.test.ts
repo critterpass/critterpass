@@ -131,9 +131,19 @@ describe('routing table', () => {
     }
   });
 
-  it('enables web search only on the guest guide', () => {
+  it('enables web search on the guide chat routes and the guest guide', () => {
     const withSearch = AI_ROUTES.filter((route) => resolveRoute(route).webSearch);
-    expect(withSearch).toEqual(['guest.guide']);
+    expect(withSearch).toEqual([
+      'guide.chat',
+      'guide.crew_mention',
+      'guide.chat_escalation',
+      'guest.guide',
+    ]);
+  });
+
+  it('opens every turn with a search on the guest guide only', () => {
+    const searchFirst = AI_ROUTES.filter((route) => resolveRoute(route).searchFirst);
+    expect(searchFirst).toEqual(['guest.guide']);
   });
 });
 

@@ -6,7 +6,7 @@ import { createClient } from 'redis';
 
 import packageJson from '../package.json' with { type: 'json' };
 
-import { aiJobs } from './ai';
+import { aiJobs, guideJobs } from './ai';
 import { contentJobs } from './content';
 import { createPostHogSink, startExportLoop, type ExportLoop } from './analytics-export';
 import { loadWorkerEnv } from './env';
@@ -48,7 +48,6 @@ import { moneyJobs, registerMoneyPushes } from './jobs/money';
 import { bookingsJobs } from './jobs/bookings';
 import { billingJobs } from './jobs/billing';
 import { planJobs } from './jobs/plan';
-import { guideJobs } from './jobs/guide';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';

@@ -74,6 +74,8 @@ export interface RouteConfig {
   readonly vision: boolean;
   /** Our own `web_search` tool (./tools/web-search.ts) is offered on this route. */
   readonly webSearch: boolean;
+  /** Every turn opens with a web search (the guest guide); elsewhere the model searches when it needs to. */
+  readonly searchFirst: boolean;
   readonly cacheLayers: readonly CacheLayer[];
   /** Decision routes: the fast-tier twin run when Jev cannot answer. */
   readonly fallback: RouteConfig | undefined;
@@ -102,13 +104,21 @@ interface RouteSpec {
   readonly delivery: Delivery;
   readonly vision?: boolean;
   readonly webSearch?: boolean;
+  readonly searchFirst?: boolean;
   readonly cacheLayers: readonly CacheLayer[];
 }
 
 type SpecOptions = Partial<
   Pick<
     RouteSpec,
-    'output' | 'delivery' | 'cacheLayers' | 'vision' | 'webSearch' | 'temperature' | 'thinking'
+    | 'output'
+    | 'delivery'
+    | 'cacheLayers'
+    | 'vision'
+    | 'webSearch'
+    | 'searchFirst'
+    | 'temperature'
+    | 'thinking'
   >
 >;
 
@@ -128,6 +138,7 @@ const fast = (caller: AiCaller | null, maxTokens: number, rest: SpecOptions = {}
   delivery: rest.delivery ?? 'call',
   vision: rest.vision ?? false,
   webSearch: rest.webSearch ?? false,
+  searchFirst: rest.searchFirst ?? false,
   cacheLayers: rest.cacheLayers ?? PLAIN_LAYERS,
   ...(rest.temperature === undefined ? {} : { temperature: rest.temperature }),
 });
@@ -153,6 +164,7 @@ const pro = (
     output: rest.output ?? 'text',
     delivery,
     webSearch: rest.webSearch ?? false,
+    searchFirst: rest.searchFirst ?? false,
     cacheLayers: rest.cacheLayers ?? JOB_LAYERS,
     ...(thinking === 'disabled' && rest.temperature !== undefined
       ? { temperature: rest.temperature }
@@ -181,9 +193,10 @@ const GUIDE_STREAM: SpecOptions = {
 const twin = (): RouteSpec => fast(null, 512, { output: 'structured' });
 
 const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSpec>> = {
-  'guide.chat': fast('C', 1024, GUIDE_STREAM),
+  // The guide searches the web when a question needs fresh facts (holiday hours, strikes, events).
+  'guide.chat': fast('C', 1024, { ...GUIDE_STREAM, webSearch: true }),
   'guide.voice': fast('C', 512, GUIDE_STREAM),
-  'guide.crew_mention': fast('G', 1024, GUIDE_STREAM),
+  'guide.crew_mention': fast('G', 1024, { ...GUIDE_STREAM, webSearch: true }),
   'quests.generate': fast('B', 4096, {
     output: 'structured',
     delivery: 'batch',
@@ -201,7 +214,7 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'avatar.moderate': fast(null, 256, { output: 'structured', vision: true }),
   'receipt.parse': fast('M', 4096, { output: 'structured', vision: true }),
   'menu.parse': fast('M', 4096, { output: 'structured', delivery: 'stream', vision: true }),
-  'guide.chat_escalation': pro('C', 2048, 'low', GUIDE_STREAM),
+  'guide.chat_escalation': pro('C', 2048, 'low', { ...GUIDE_STREAM, webSearch: true }),
   'draft.day': pro('D', 4096, 'low', PLANNING_CALL),
   'draft.repair': pro('D', 4096, 'low', PLANNING_CALL),
   'redraft.day': pro('D', 4096, 'high', { ...PLANNING_CALL, temperature: 0.5 }),
@@ -222,7 +235,7 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
     output: 'structured',
     cacheLayers: PLAIN_LAYERS,
   }),
-  'guest.guide': pro('C', 2048, 'low', { ...GUIDE_STREAM, webSearch: true }),
+  'guest.guide': pro('C', 2048, 'low', { ...GUIDE_STREAM, webSearch: true, searchFirst: true }),
   'draft.skeleton': pro('D', 8192, 'high', PLANNING_CALL),
   'draft.skeleton_fast': fast('D', 8192, { ...PLANNING_CALL, cacheLayers: JOB_LAYERS }),
   'draft.summary': fast(null, 256),
@@ -253,6 +266,7 @@ function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {
     delivery: spec.delivery,
     vision: spec.vision ?? false,
     webSearch: spec.webSearch ?? false,
+    searchFirst: spec.searchFirst ?? false,
     cacheLayers: spec.cacheLayers,
     fallback: undefined,
     thresholds: undefined,
