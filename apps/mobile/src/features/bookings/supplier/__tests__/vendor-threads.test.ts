@@ -6,7 +6,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import type { VendorThreadView } from '@cp/domain';
 
-import { threadPhase } from '../VendorThreadCard';
+import { threadPhase } from '../thread-phase';
 
 type Message = VendorThreadView['messages'][number];
 

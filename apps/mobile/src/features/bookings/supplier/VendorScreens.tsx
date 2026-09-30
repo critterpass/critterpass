@@ -31,7 +31,9 @@ import { useSupplierCopy } from './copy';
 import { deviceSupplierApi, type SupplierApi } from './data/api';
 import { approveVendorMessageCommand, requestVendorMessageCommand } from './data/commands';
 import { VendorDraftCard, type DraftOutcome } from './VendorDraftCard';
-import { threadPhase, VendorThreadCard } from './VendorThreadCard';
+import { threadPhase } from './thread-phase';
+import { VendorThreadCard, VendorThreadsEmpty } from './VendorThreadCard';
+import { useTripGuide } from './data/use-trip-guide';
 
 export interface DraftParams {
   readonly tripId: string;
@@ -142,6 +144,7 @@ export function VendorMessagesScreen({
   const theme = useTheme();
   const { t } = useLingui();
   const [load, setLoad] = useState<Load>({ kind: 'loading' });
+  const guide = useTripGuide(tripId);
   useFocusEffect(
     useCallback(() => {
       let live = true;
@@ -185,16 +188,7 @@ export function VendorMessagesScreen({
       </Text>
     );
   }
-  if (load.threads.length === 0) {
-    return (
-      <Text variant="body" color={theme.semantic.text.secondary} testID="vendor-threads-empty">
-        {t({
-          id: 'suppliers.vendor.empty',
-          message: 'No messages to places yet. When you ask a place something, it shows here.',
-        })}
-      </Text>
-    );
-  }
+  if (load.threads.length === 0) return <VendorThreadsEmpty guide={guide} />;
   return (
     <Stack gap="12" testID="vendor-threads">
       {load.threads.map((thread) => (

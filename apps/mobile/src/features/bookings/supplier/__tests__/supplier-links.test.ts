@@ -37,6 +37,10 @@ function deps(online: SendResult, queued: SendResult = { kind: 'queued', opId: '
       log.push('queued');
       return Promise.resolve(queued);
     },
+    waitForUpload: () => {
+      log.push('wait');
+      return Promise.resolve();
+    },
     openUrl: (url) => {
       log.push(`open ${url}`);
       return Promise.resolve();
@@ -68,8 +72,8 @@ describe('partner links', () => {
   it('queues the click and still opens the bridge without signal', async () => {
     const { value, log } = deps({ kind: 'unavailable', opId: 'o', code: 'NETWORK' });
     await expect(openPartnerLink(value, REQUEST)).resolves.toBe('opened_offline');
-    expect(log.slice(0, 2)).toEqual(['online', 'queued']);
-    expect(log[2]).toMatch(/^open https:\/\/go\.staging\.critterpass\.app\/r\//u);
+    expect(log.slice(0, 3)).toEqual(['online', 'queued', 'wait']);
+    expect(log[3]).toMatch(/^open https:\/\/go\.staging\.critterpass\.app\/r\//u);
   });
 
   it('opens nothing when the partner is not set up or the api refuses the click', async () => {

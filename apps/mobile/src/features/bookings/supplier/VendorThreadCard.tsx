@@ -3,38 +3,20 @@
  * — send?"), then "Sent {time}, waiting", then the place's reply verbatim ("{vendor} replied: …").
  * Nothing says a table is held or a pickup moved until the place itself says so.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- message statuses and channels, wire values. */
-import type { VendorThreadView } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
+import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import type { GuideId } from '@/ui/people/GuideLine';
+import { EmptyState } from '@/ui/states/EmptyState';
+import { Sticker } from '@/ui/sticker/Sticker';
+
+import type { ThreadPhase } from './thread-phase';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
-
-export type ThreadPhase = 'draft' | 'self_send' | 'approved' | 'waiting' | 'replied' | 'failed';
-
-type Message = VendorThreadView['messages'][number];
-
-/** Where a thread stands, from its newest outbound message and any reply after it. */
-export function threadPhase(thread: VendorThreadView): {
-  readonly phase: ThreadPhase;
-  readonly outbound: Message | null;
-  readonly reply: Message | null;
-} {
-  const outbound = [...thread.messages].reverse().find((m) => m.direction === 'outbound') ?? null;
-  const reply = [...thread.messages].reverse().find((m) => m.direction === 'inbound') ?? null;
-  if (reply !== null && (outbound === null || reply.at >= outbound.at))
-    return { phase: 'replied', outbound, reply };
-  if (outbound === null) return { phase: 'waiting', outbound, reply };
-  if (outbound.status === 'draft')
-    return { phase: thread.channel === 'self_send' ? 'self_send' : 'draft', outbound, reply };
-  if (outbound.status === 'approved') return { phase: 'approved', outbound, reply };
-  if (outbound.status === 'failed') return { phase: 'failed', outbound, reply };
-  return { phase: 'waiting', outbound, reply };
-}
 
 export interface VendorThreadCardProps {
   readonly vendor: string;
@@ -112,5 +94,29 @@ export function VendorThreadCard(props: VendorThreadCardProps) {
         </Text>
       ) : null}
     </Stack>
+  );
+}
+
+/** No messages to places yet: the guide's empty state. */
+export function VendorThreadsEmpty({
+  guide,
+}: {
+  readonly guide: { readonly id: GuideId; readonly name: string };
+}) {
+  const { t } = useLingui();
+  const sticker = GUIDE_STICKERS[guide.id];
+  return (
+    <View testID="vendor-threads-empty">
+      <EmptyState
+        guide={guide.id}
+        guideName={guide.name}
+        sticker={<Sticker kind={sticker.kind} name={sticker.name} pose="sleep" size={120} />}
+        title={t({ id: 'suppliers.vendor.emptyTitle', message: 'No messages to places yet' })}
+        line={t({
+          id: 'suppliers.vendor.empty',
+          message: 'When you ask a place something, the text and their reply show here.',
+        })}
+      />
+    </View>
   );
 }

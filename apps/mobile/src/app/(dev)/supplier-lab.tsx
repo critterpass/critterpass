@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { ScrollView } from 'react-native';
 
+import { usePlaceSearch } from '@/data/places/usePlaceSearch';
 import { useLiveRows } from '@/features/bookings/data/live-rows';
 import { useWalletContext } from '@/features/bookings/data/use-wallet-context';
 import { SUPPLIER_LAB_SCENE_NAMES } from '@/features/bookings/supplier/dev/lab-scenes';
@@ -17,14 +18,12 @@ import { ListCard } from '@/ui/cards/ListCard';
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
 
-// A place on the plan, else any place in the destination (the demo crew's plan has none).
-const PLACE_SQL = `SELECT id, name FROM (
-    SELECT p.id, p.name, 0 AS rank, pi.starts_at AS at
-      FROM plan_items pi JOIN pois p ON p.id = pi.poi_id WHERE pi.trip_id = ?
-    UNION ALL
-    SELECT p.id, p.name, 1 AS rank, NULL AS at
-      FROM pois p JOIN trips t ON t.destination_id = p.destination_id WHERE t.id = ?
-  ) ORDER BY rank, at LIMIT 1`;
+// A place on the plan, else the first place a search of the destination finds (the demo crew's
+// plan has none).
+const PLACE_SQL = `SELECT p.id, p.name, t.destination_id
+    FROM trips t LEFT JOIN plan_items pi ON pi.trip_id = t.id
+    LEFT JOIN pois p ON p.id = pi.poi_id
+   WHERE t.id = ? ORDER BY p.id IS NULL, pi.starts_at LIMIT 1`;
 const PLACE_TABLES = ['plan_items', 'pois', 'trips'];
 
 /**
@@ -34,11 +33,22 @@ const PLACE_TABLES = ['plan_items', 'pois', 'trips'];
 export default function SupplierLab() {
   const { trip } = useWalletContext();
   const tripId = trip?.id ?? null;
-  const place = useLiveRows<{ id: string; name: string }>(
-    PLACE_SQL,
-    tripId === null ? null : [tripId, tripId],
-    PLACE_TABLES,
-  ).rows[0];
+  const planned = useLiveRows<{
+    id: string | null;
+    name: string | null;
+    destination_id: string | null;
+  }>(PLACE_SQL, tripId === null ? null : [tripId], PLACE_TABLES).rows[0];
+  const search = usePlaceSearch({
+    ...(planned?.destination_id ? { destinationId: planned.destination_id } : {}),
+    limit: 1,
+  });
+  const found = search.places[0];
+  const place =
+    planned?.id && planned.name
+      ? { id: planned.id, name: planned.name }
+      : found
+        ? { id: found.id, name: found.name }
+        : undefined;
   return (
     <ScrollView contentContainerStyle={{ padding: 16, paddingTop: 64 }}>
       <Stack gap="8">

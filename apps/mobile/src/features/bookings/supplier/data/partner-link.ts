@@ -35,6 +35,8 @@ export interface PartnerLinkDeps {
   readonly sendOnline: (payload: RecordSupplierClickPayload) => Promise<SendResult>;
   readonly sendQueued: (payload: RecordSupplierClickPayload) => Promise<SendResult>;
   readonly openUrl: (url: string) => Promise<void>;
+  /** Resolves once a queued op has reached the server, or after a short wait. */
+  readonly waitForUpload: (opId: string) => Promise<void>;
 }
 
 export interface PartnerLinkRequest {
@@ -65,6 +67,8 @@ export async function openPartnerLink(
   if (online.kind === 'unavailable') {
     const queued = await deps.sendQueued(payload);
     if (queued.kind === 'rejected') return 'failed';
+    // The bridge only redirects once it knows the click: give the queue a moment to upload it.
+    await deps.waitForUpload(queued.opId);
     outcome = 'opened_offline';
   }
   await deps.openUrl(partnerBridgeUrl(subId, deps.env));

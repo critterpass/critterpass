@@ -42,9 +42,6 @@ appId: app.critterpass.dev
       { SCENE: around-loading, READY: getting-around-ride-loading, SHOT: '${PREFIX}-3h-3-loading' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: around-no-place, READY: getting-around-no_place, SHOT: '${PREFIX}-3h-3-no-place' }
-- runFlow:
-    file: scene.yaml
     env:
       {
         SCENE: around-estimate-why,

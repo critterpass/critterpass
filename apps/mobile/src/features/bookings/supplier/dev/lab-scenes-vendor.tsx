@@ -5,12 +5,11 @@ import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
 
 import { Stack } from '@/ui/layout/Stack';
-import { Text } from '@/ui/text/Text';
 
 import { useSupplierCopy } from '../copy';
 import { VendorDraftCard, type DraftOutcome } from '../VendorDraftCard';
 import { LabSheet, type LabSheetKind } from './lab-sheet';
-import { VendorThreadCard } from '../VendorThreadCard';
+import { VendorThreadCard, VendorThreadsEmpty } from '../VendorThreadCard';
 
 const noop = () => undefined;
 const TEXT =
@@ -128,16 +127,7 @@ function ThreadsScene() {
 }
 
 function ListEmptyScene() {
-  const { t } = useLingui();
-  return sheet(
-    <Text variant="body" testID="vendor-threads-empty">
-      {t({
-        id: 'suppliers.vendor.empty',
-        message: 'No messages to places yet. When you ask a place something, it shows here.',
-      })}
-    </Text>,
-    'messages',
-  );
+  return sheet(<VendorThreadsEmpty guide={{ id: 'tokek', name: 'Tokek' }} />, 'messages');
 }
 
 export const VENDOR_SCENES: Readonly<Record<string, () => ReactNode>> = {

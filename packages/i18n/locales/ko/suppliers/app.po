@@ -416,9 +416,8 @@ msgstr ""
 msgid "suppliers.fare.taxi"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
-msgid "suppliers.vendor.empty"
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
@@ -702,6 +701,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
 msgid "suppliers.vendor.selfBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.empty"
 msgstr ""
 
 #: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx

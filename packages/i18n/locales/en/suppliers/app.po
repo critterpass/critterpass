@@ -416,10 +416,9 @@ msgstr "Messages to places need signal to load."
 msgid "suppliers.fare.taxi"
 msgstr "Metered taxi"
 
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
-msgid "suppliers.vendor.empty"
-msgstr "No messages to places yet. When you ask a place something, it shows here."
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.emptyTitle"
+msgstr "No messages to places yet"
 
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.noRefund"
@@ -703,6 +702,10 @@ msgstr "What it cost ({0})"
 #: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
 msgid "suppliers.vendor.selfBody"
 msgstr "WhatsApp opens with this text. Pick {vendor}’s chat and send it. Their reply comes to you."
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.empty"
+msgstr "No messages to places yet. When you ask a place something, it shows here."
 
 #: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx

@@ -416,10 +416,9 @@ msgstr "Cần có sóng để tải tin nhắn với các địa điểm."
 msgid "suppliers.fare.taxi"
 msgstr "Taxi đồng hồ"
 
-#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
-#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
-msgid "suppliers.vendor.empty"
-msgstr "Chưa có tin nhắn nào. Khi bạn hỏi một địa điểm, tin nhắn sẽ hiện ở đây."
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.emptyTitle"
+msgstr "Chưa có tin nhắn nào với các địa điểm"
 
 #: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
 msgid "suppliers.cancel.noRefund"
@@ -703,6 +702,10 @@ msgstr "Chi phí ({0})"
 #: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
 msgid "suppliers.vendor.selfBody"
 msgstr "WhatsApp sẽ mở với nội dung này. Chọn cuộc trò chuyện với {vendor} rồi gửi. Họ sẽ trả lời bạn trực tiếp."
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.empty"
+msgstr "Khi bạn hỏi một địa điểm, nội dung và câu trả lời của họ sẽ hiện ở đây."
 
 #: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
 #: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx

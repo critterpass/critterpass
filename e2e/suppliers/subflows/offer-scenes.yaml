@@ -49,7 +49,7 @@ appId: app.critterpass.dev
     env:
       {
         SCENE: book-payment-failed,
-        READY: supplier-book-error,
+        READY: supplier-book-hold-line,
         SHOT: '${PREFIX}-supplier-book-payment-failed',
       }
 - runFlow:
