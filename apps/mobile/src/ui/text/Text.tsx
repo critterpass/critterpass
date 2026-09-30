@@ -1,6 +1,6 @@
 import { Children, isValidElement, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Text as RNText, StyleSheet } from 'react-native';
+import { PixelRatio, Text as RNText, StyleSheet } from 'react-native';
 import type { StyleProp, TextProps as RNTextProps, TextStyle } from 'react-native';
 
 import type { TypographyValue } from '@cp/design-tokens';
@@ -226,10 +226,13 @@ export function Text({
   const callerLineHeight = StyleSheet.flatten(style)?.lineHeight;
   const lineHeight =
     typeof callerLineHeight === 'number' ? callerLineHeight : fontSize * font.lineHeightMultiplier;
+  // In whole device pixels (the room rounded up, so it still clears the tallest mark): Android
+  // rounds a fractional padding away, moving the glyphs up by up to a pixel inside their slot.
   const box = lineBoxEm(font.fontFamily, lineHeight / fontSize);
-  const roomPt = box.room * fontSize;
-  const pulledPt = (box.room - box.shift) * fontSize;
-  const room = glyphRoomStyle({ room: roomPt, shift: box.shift * fontSize }, style, flush);
+  const pixels = PixelRatio.get();
+  const roomPt = Math.ceil(box.room * fontSize * pixels - 1e-6) / pixels;
+  const shiftPt = PixelRatio.roundToNearestPixel(box.shift * fontSize);
+  const room = glyphRoomStyle({ room: roomPt, shift: shiftPt }, style, flush);
 
   return (
     <RNText
@@ -242,7 +245,7 @@ export function Text({
         // clips there), the room would be cut off with the glyphs it makes room for: keep it inside.
         if (
           !flush &&
-          pulledPt > 0 &&
+          roomPt > shiftPt &&
           !CONTROL_LABEL_VARIANTS.has(variant) &&
           event.nativeEvent.layout.y < -0.5
         ) {

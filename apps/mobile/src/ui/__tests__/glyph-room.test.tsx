@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
-import { ScrollView, StyleSheet } from 'react-native';
+import { PixelRatio, ScrollView, StyleSheet } from 'react-native';
 import type { TextStyle } from 'react-native';
 
 import { renderWithI18n } from '../../lib/i18n/testing';
@@ -154,11 +154,15 @@ describe('glyph room', () => {
         expect(paddingTop + iosBaseline * fontSize).toBeGreaterThanOrEqual(
           metrics.glyphTop * fontSize - 0.001,
         );
-        // The content's top moves down by the shift that centres the face on the line...
-        expect(paddingTop + marginTop + iosBaseline * fontSize).toBeCloseTo(
-          centredBaseline * fontSize,
-          6,
-        );
+        // The content's top moves down by the shift that centres the face on the line (to the
+        // nearest device pixel)...
+        expect(
+          Math.abs(paddingTop + marginTop + (iosBaseline - centredBaseline) * fontSize),
+        ).toBeLessThanOrEqual(0.5 / PixelRatio.get() + 1e-9);
+        // ...all in whole device pixels...
+        for (const value of [paddingTop, marginTop, marginBottom]) {
+          expect(value * PixelRatio.get()).toBeCloseTo(Math.round(value * PixelRatio.get()), 6);
+        }
         // ...and the slot below the text keeps the designed leading.
         expect(paddingTop + marginTop + marginBottom).toBeCloseTo(0, 6);
       }
