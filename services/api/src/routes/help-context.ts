@@ -6,10 +6,12 @@
  *   guide in the caller's language within 3 s, or with `text: null` for the app's own template;
  * - `GET /v1/help/shares/{id}/fixes`: the latest fixes of a Help or SOS share the caller may see
  *   (`app.shared_location_fixes`), so the session map works on trips without the crew map.
- * All three answer a participant of the trip only.
+ * - `GET /v1/sos/{id}/private`: the SOS sender's health notes, unsealed for the sender and the
+ *   crewmates coming to help only (RLS on `help_session_private`); anyone else reads `null`.
+ * The Help reads answer a participant of the trip only.
  */
 import { personaIdSchema, writeHelpChecklist, type Gateway } from '@cp/ai';
-import { withUser } from '@cp/db';
+import { crypto as dbCrypto, withUser } from '@cp/db';
 import { checklistStepSchema, helpContextSchema, helpProblemSchema } from '@cp/domain';
 import { createRoute, z, type OpenAPIHono } from '@hono/zod-openapi';
 
@@ -27,12 +29,15 @@ import {
   type Position,
 } from '../commands/safety/help-reads';
 import { requireTripParticipant } from '../commands/safety/shared';
+import type { FieldKeyring } from '../commands/bookings/deps';
 import type { RoutingProvider } from '../routing/provider';
 
 export interface HelpRouteDeps extends CommandDoorDeps {
   readonly routing: RoutingProvider;
   /** Undefined (no model key) = checklist steps in the app's own wording. */
   readonly gateway: Pick<Gateway, 'callModel'> | undefined;
+  /** Without it no health notes were stored, so none are read. */
+  readonly keyring?: FieldKeyring | undefined;
 }
 
 const errorResponse = (description: string) => ({
@@ -100,6 +105,23 @@ const fixesRoute = createRoute({
     200: {
       description: 'Newest first; empty when the share ended or is not visible',
       content: { 'application/json': { schema: z.object({ fixes: z.array(fixSchema) }) } },
+    },
+    401: errorResponse('AUTH_REQUIRED'),
+  },
+});
+
+const privateRoute = createRoute({
+  method: 'get',
+  path: '/v1/sos/{id}/private',
+  tags: ['safety'],
+  summary: "The SOS sender's health notes, for the sender and responders only",
+  request: { params: z.object({ id: z.uuid() }) },
+  responses: {
+    200: {
+      description: '`null` when there are none or the caller may not read them',
+      content: {
+        'application/json': { schema: z.object({ health_notes: z.string().nullable() }) },
+      },
     },
     401: errorResponse('AUTH_REQUIRED'),
   },
@@ -192,6 +214,27 @@ export function registerHelpContextRoutes(app: OpenAPIHono<AppEnv>, deps: HelpRo
       });
       c.header('Cache-Control', 'private, no-store');
       return c.json({ fixes }, 200);
+    },
+    validationHook,
+  );
+
+  app.openapi(
+    privateRoute,
+    async (c) => {
+      const session = await requireCommandSession(deps.sessions, c.req.raw.headers);
+      const sosId = c.req.valid('param').id;
+      const sealed = await withUser(deps.pool, session.uid, '', async (tx) => {
+        const { rows } = await tx.query<{ health_notes_enc: string }>(
+          'SELECT health_notes_enc FROM help_session_private WHERE help_session_id = $1',
+          [sosId],
+        );
+        return rows[0]?.health_notes_enc ?? null;
+      });
+      const keyring = deps.keyring;
+      const notes =
+        sealed === null || keyring === undefined ? null : dbCrypto.decryptField(sealed, keyring);
+      c.header('Cache-Control', 'private, no-store');
+      return c.json({ health_notes: notes }, 200);
     },
     validationHook,
   );

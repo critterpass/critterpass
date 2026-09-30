@@ -4,7 +4,7 @@
  * app_system after the app-layer check: app_user holds no UPDATE on sessions), the realtime hints
  * on `sos:{id}` and the Help share's end-of-window timer.
  */
-import { appendDomainEvent, outbox, sendInTx } from '@cp/db';
+import { appendDomainEvent, outbox, sendInTx, type AppendedDomainEvent } from '@cp/db';
 import {
   DomainError,
   SAFETY_QUEUES,
@@ -107,7 +107,7 @@ export function publishSos(
   return outbox(tx, sosChannel(sosId), type, data);
 }
 
-export function emit(tx: pg.PoolClient, event: DomainEventInput): Promise<unknown> {
+export function emit(tx: pg.PoolClient, event: DomainEventInput): Promise<AppendedDomainEvent> {
   return appendDomainEvent(tx, event);
 }
 

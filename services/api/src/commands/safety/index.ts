@@ -15,16 +15,25 @@ import { createMapboxRoutingProvider, straightLineRoutingProvider } from '../../
 import { MapboxRoutingClient } from '../../routing/mapbox';
 import type { CommandDoorDeps } from '../_framework/doors';
 import type { CommandRegistry } from '../_framework/registry';
+import type { FieldKeyring } from '../bookings/deps';
 import { extendHelpShareCommand } from './extend-help-share';
 import { requestOpsClinicCallCommand } from './request-ops-clinic-call';
+import { resolveSosCommand } from './resolve-sos';
+import { respondSosCommand } from './respond-sos';
+import { sendSosMessageCommand } from './send-sos-message';
 import { startHelpShareCommand } from './start-help-share';
 import { stopHelpShareCommand } from './stop-help-share';
+import { createTriggerSosCommand } from './trigger-sos';
 
-export function registerSafetyCommands(registry: CommandRegistry): void {
+export function registerSafetyCommands(registry: CommandRegistry, keyring?: FieldKeyring): void {
   registry.register(startHelpShareCommand);
   registry.register(stopHelpShareCommand);
   registry.register(extendHelpShareCommand);
   registry.register(requestOpsClinicCallCommand);
+  registry.register(createTriggerSosCommand({ keyring }));
+  registry.register(respondSosCommand);
+  registry.register(sendSosMessageCommand);
+  registry.register(resolveSosCommand);
 }
 
 export type SafetyMountDeps = CommandDoorDeps & {
@@ -35,8 +44,9 @@ export function registerSafety(
   app: OpenAPIHono<AppEnv>,
   doors: SafetyMountDeps,
   env: Pick<ApiEnv, 'ANTHROPIC_API_KEY' | 'ANTHROPIC_BASE_URL' | 'MAPBOX_TOKEN'>,
+  keyring?: FieldKeyring,
 ): void {
-  registerSafetyCommands(doors.registry);
+  registerSafetyCommands(doors.registry, keyring);
   const switches = createKillSwitches(doors.pool);
   const gateway =
     env.ANTHROPIC_API_KEY === undefined
@@ -54,5 +64,5 @@ export function registerSafety(
           client: new MapboxRoutingClient({ accessToken: env.MAPBOX_TOKEN }),
           onProviderError: (error) => doors.logger.warn({ err: error }, 'help routing unavailable'),
         });
-  registerHelpContextRoutes(app, { ...doors, routing, gateway });
+  registerHelpContextRoutes(app, { ...doors, routing, gateway, keyring });
 }

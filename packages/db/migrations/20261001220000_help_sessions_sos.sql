@@ -177,6 +177,16 @@ BEGIN
          WHERE p.id = split_part(channel, ':', 2)::uuid
            AND app.can_read_poll_scope(p.crew_id, p.trip_id)
       ))
+      OR (channel LIKE 'swipe:%' AND EXISTS (
+        SELECT 1 FROM swipe_sessions s
+         WHERE s.id = split_part(channel, ':', 2)::uuid AND app.is_trip_member(s.trip_id)
+      ))
+      OR (channel LIKE 'proposal:%' AND EXISTS (
+        SELECT 1 FROM proposals p
+         WHERE p.id = split_part(channel, ':', 2)::uuid
+           AND app.is_trip_member(p.trip_id)
+           AND (p.sent_at IS NOT NULL OR app.is_trip_organiser(p.trip_id))
+      ))
       OR (channel LIKE 'sos:%' AND EXISTS (
         SELECT 1 FROM help_sessions s
          WHERE s.id = split_part(channel, ':', 2)::uuid AND app.is_trip_member(s.trip_id)

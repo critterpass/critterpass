@@ -5,7 +5,7 @@
  * the trip, and Olly is an outsider. The doors run the safety commands and routes with a started
  * job producer; routing is the straight-line estimate and the model gateway is set per suite.
  */
-import { randomUUID } from 'node:crypto';
+import { randomBytes, randomUUID } from 'node:crypto';
 
 import type { Gateway } from '@cp/ai';
 import { withSystem } from '@cp/db';
@@ -23,6 +23,7 @@ import {
 } from '../routes/command-doors-harness';
 
 export const UBUD = { lat: -8.5069, lng: 115.2625 };
+export const keyring = { activeKeyId: 'k1', keys: { k1: randomBytes(32) } };
 
 export interface SafetyHarness {
   readonly doors: CommandDoorsHarness;
@@ -38,13 +39,14 @@ export async function startSafetyHarness(
   const box: { gateway: Pick<Gateway, 'callModel'> | undefined } = { gateway: undefined };
   const doors = await startCommandDoors(
     (registry) => {
-      registerSafetyCommands(registry);
+      registerSafetyCommands(registry, keyring);
       registerMore(registry);
     },
     (app, deps) =>
       registerHelpContextRoutes(app, {
         ...deps,
         routing: straightLineRoutingProvider,
+        keyring,
         get gateway() {
           return box.gateway;
         },

@@ -545,7 +545,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/trips/{id}/costs?version` (doc delta) | S | stored calc as the caller may see it: own `share_calcs` row (lines, personal option deltas), every member's `trip_share_totals`, `cost_components`, freshness; `version` ≠ current → `VERSION_CONFLICT` | none |
 | `POST /v1/trips/{id}/costs/preview` (doc delta) | S | `{ops}` (ChangeSet ops) → caller's own delta, crew-wide `each_minor` when uniform, bookings moved, must-dos touched; `@cp/planner` + `@cp/cost-engine` | none |
 | `GET /v1/trips/{id}/offline-bundle?date` | S | manifest + signed URLs (bookings, phrases audio, FX, POIs, PMTiles region). Doc delta: `{trip_id, generated_at, sections{bookings{items[{booking_id, version, attachments[{attachment_id, media_key, kind, url, url_expires_at}], barcode?{format, payload} (own bookings only)}]}}}`, `no-store` | versioned |
-| `GET /v1/help/context?lat&lng&trip_id` | S | curated emergency + facilities | offline bundle |
+| `GET /v1/help/context?lat&lng&trip_id` | S | curated emergency + facilities (doc delta: shape, `/v1/help/checklist`, `/v1/help/shares/{id}/fixes`, `/v1/sos/{id}/private` in [api-contracts-safety.md](./api-contracts-safety.md) §1) | offline bundle |
 | `GET /v1/entitlements?trip_id` | S | entitlement service; ETag | push-invalidated |
 | `GET /v1/catalogue` | A | products, perk lists, paywall copy, experiment arm | 1 h |
 | `GET /v1/paywall/eligibility?entry&trip_id` | S | governor | none |

@@ -56,7 +56,11 @@ export const SAFETY_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof SAFETY_QUEU
     'safety.retention': 'Deletes SOS health notes and threads after 90 days, sessions after a year',
   };
 
-export const sosJobSchema = z.object({ sos_id: z.uuid() });
+export const sosJobSchema = z.object({
+  sos_id: z.uuid(),
+  /** The `sos.triggered` event the pushes route from (the orchestrator's fan-out). */
+  event_id: z.uuid().optional(),
+});
 export type SosJob = z.infer<typeof sosJobSchema>;
 
 export const helpShareExpireJobSchema = z.object({ share_id: z.uuid() });

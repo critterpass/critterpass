@@ -79,6 +79,52 @@ const memberSender = (facts: SenderFacts) => ({
   ...(facts.avatar === null ? {} : { avatar: facts.avatar }),
 });
 
+const num = (event: RoutedEvent, key: string): boolean => event.payload[key] === true;
+
+interface SosFacts extends SenderFacts {
+  readonly tripId: string;
+  readonly preset: string | null;
+  readonly body: string | null;
+  readonly place: string | null;
+}
+
+async function sosFacts(tx: pg.PoolClient, sosId: string): Promise<SosFacts | null> {
+  const facts = await senderFacts(tx, sosId);
+  if (facts === null) return null;
+  const { rows } = await tx.query<{
+    preset: string | null;
+    body: string | null;
+    place: string | null;
+  }>('SELECT preset, body, place_label AS place FROM help_sessions WHERE id = $1', [sosId]);
+  return {
+    ...facts,
+    preset: rows[0]?.preset ?? null,
+    body: rows[0]?.body ?? null,
+    place: rows[0]?.place ?? null,
+  };
+}
+
+function sosBody(facts: SosFacts, escalated: boolean) {
+  if (escalated) {
+    return {
+      id: 'notifications.sos.escalated',
+      message: "Nobody's answered yet. {sender} still needs help.",
+    };
+  }
+  if (facts.body !== null) return { id: 'notifications.sos.text', message: '"{text}"' };
+  switch (facts.preset) {
+    case 'fell':
+      return { id: 'notifications.sos.fell', message: '{sender} fell and needs a hand.' };
+    case 'lost':
+      return { id: 'notifications.sos.lost', message: '{sender} is lost and needs a hand.' };
+    case 'need_ride':
+      return { id: 'notifications.sos.need_ride', message: '{sender} needs a ride.' };
+    case null:
+    default:
+      return { id: 'notifications.sos.plain', message: '{sender} sent an SOS to the crew.' };
+  }
+}
+
 let registered = false;
 
 export function registerSafetyNotifications(): void {
@@ -106,6 +152,96 @@ export function registerSafetyNotifications(): void {
         tripId: facts.tripId,
         deepLink: `/help/${facts.tripId}/session/${sessionId}`,
         ctx: { trip_id: facts.tripId, session_id: sessionId, share_id: str(event, 'share_id') },
+      };
+    },
+  });
+
+  const sos = (event: 'sos.triggered' | 'sos.escalated') =>
+    registerNotification({
+      key: 'sos',
+      event,
+      async audience(tx, routed) {
+        const sosId = str(routed, 'sos_id');
+        if (routed.tripId === null || sosId === null) return [];
+        const sender = await tx.query<{ user_id: string }>(
+          'SELECT user_id FROM help_sessions WHERE id = $1',
+          [sosId],
+        );
+        return crewBut(tx, routed.tripId, sender.rows[0]?.user_id ?? routed.actorId);
+      },
+      async compose(tx, routed) {
+        const sosId = str(routed, 'sos_id');
+        if (sosId === null) return null;
+        const facts = await sosFacts(tx, sosId);
+        if (facts === null) return null;
+        const open = await tx.query(
+          "SELECT 1 FROM help_sessions WHERE id = $1 AND status IN ('open', 'responding')",
+          [sosId],
+        );
+        if ((open.rowCount ?? 0) === 0) return null;
+        return {
+          title: { id: 'notifications.sos.title', message: '{sender} needs help' },
+          body: sosBody(facts, event === 'sos.escalated'),
+          vars: {
+            sender: facts.name,
+            crew: facts.crew,
+            text: facts.body ?? '',
+            place: facts.place ?? '',
+          },
+          sender: memberSender(facts),
+          tripId: facts.tripId,
+          deepLink: `/sos/${sosId}`,
+          threadId: `sos:${sosId}`,
+          ctx: { trip_id: facts.tripId, sos_id: sosId, sender_id: facts.senderId },
+          needsYou: true,
+          collapseVars: { sos_id: sosId },
+        };
+      },
+    });
+  sos('sos.triggered');
+  sos('sos.escalated');
+
+  registerNotification({
+    key: 'sos_resolved',
+    event: 'sos.resolved',
+    audience: (tx, event) =>
+      event.tripId === null || !num(event, 'alerted')
+        ? Promise.resolve([])
+        : crewBut(tx, event.tripId, event.actorId).then(async (uids) => {
+            const sosId = str(event, 'sos_id');
+            if (sosId === null) return uids;
+            const sender = await tx.query<{ user_id: string }>(
+              'SELECT user_id FROM help_sessions WHERE id = $1',
+              [sosId],
+            );
+            const senderId = sender.rows[0]?.user_id;
+            return senderId === undefined || senderId === event.actorId || uids.includes(senderId)
+              ? uids
+              : [...uids, senderId];
+          }),
+    async compose(tx, event) {
+      const sosId = str(event, 'sos_id');
+      if (sosId === null) return null;
+      const facts = await sosFacts(tx, sosId);
+      if (facts === null) return null;
+      return {
+        title: { id: 'notifications.sos_resolved.title', message: '{crew}' },
+        body: num(event, 'false_alarm')
+          ? {
+              id: 'notifications.sos_resolved.false_alarm',
+              message: 'False alarm: {sender} is OK.',
+            }
+          : {
+              id: 'notifications.sos_resolved.safe',
+              message: '{sender} is safe. Thanks for being there.',
+            },
+        vars: { sender: facts.name, crew: facts.crew },
+        sender: memberSender(facts),
+        tripId: facts.tripId,
+        deepLink: `/sos/${sosId}`,
+        threadId: `sos:${sosId}`,
+        ctx: { trip_id: facts.tripId, sos_id: sosId },
+        collapseVars: { sos_id: sosId },
       };
     },
   });

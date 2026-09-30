@@ -83,7 +83,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerQuests(doors);
   registerTripLifecycle(doors);
   registerLiveActivities(doors);
-  registerSafety(app, doors, env);
+  registerSafety(app, doors, env, keyring);
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerTravelDataRoutes(app, doors);
   if (env.MEDIA_PUBLIC_BASE_URL) {
