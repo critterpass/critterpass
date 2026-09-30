@@ -177,10 +177,15 @@ appId: app.critterpass.dev
     timeout: 30000
 - assertVisible: '.*@in\.staging\.critterpass\.app'
 - tapOn: 'COPY'
-# The copy confirms with COPIED on the button (2 s) and a toast.
-- extendedWaitUntil:
-    visible: '(?i)(copied|forward any confirmation to that address\.)'
-    timeout: 5000
+# The copy confirms with COPIED on the button (2 s) and a toast. Android shows its own clipboard
+# overlay over the app instead, which hides the app from the runner until it goes.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible: '(?i)(copied|forward any confirmation to that address\.)'
+          timeout: 5000
 - takeScreenshot: fresh-wallet-forward-address
 - openLink: critterpass-dev://wallet/bookings
 # Travel insurance: SAVE sits above the tab bar and can be tapped.
