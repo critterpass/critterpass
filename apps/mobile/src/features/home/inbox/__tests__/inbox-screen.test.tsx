@@ -33,6 +33,8 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { toastQueue } from '@/motion/island-toast';
+import { focusedBackAffordances } from '@/ui/qa/back-affordance';
+import { UI_QA_ENABLED } from '@/ui/qa/ui-qa';
 
 import {
   JORDAN,
@@ -109,6 +111,8 @@ describe('inbox', () => {
   it('goes back to Home, or opens Home when the inbox was opened cold', async () => {
     const s = await open();
     await renderHome(<InboxScreen />, s);
+    // The back arrow counts as the screen's way back for the no-back-affordance check.
+    expect(focusedBackAffordances()).toBe(UI_QA_ENABLED ? 1 : 0);
     await fireEvent.press(screen.getByRole('button', { name: 'Back' }));
     expect(router.back).toHaveBeenCalledTimes(1);
     jest.mocked(router.canGoBack).mockReturnValueOnce(false);

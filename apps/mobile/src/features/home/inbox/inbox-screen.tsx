@@ -13,6 +13,7 @@ import { Pressable, ScrollView, View } from 'react-native';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { InlineAction } from '@/ui/buttons/InlineAction';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { BackButton } from '@/ui/shell/BackButton';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -83,6 +84,8 @@ export function InboxScreen() {
 }
 
 function InboxContent() {
+  // The back arrow is a plain BackButton, so the screen counts it as its way back.
+  useBackAffordance();
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
