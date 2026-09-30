@@ -15,7 +15,13 @@ jest.mock(
 );
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
+  router: {
+    push: jest.fn(),
+    navigate: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    canGoBack: () => false,
+  },
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
@@ -112,7 +118,7 @@ describe('trip hub for a trip still choosing its place', () => {
     expect(screen.getAllByText(/KHANH STARTED THE TRIP/u).length).toBeGreaterThan(0);
     expect(screen.queryAllByText(/activity\./iu)).toEqual([]);
     await fireEvent.press(screen.getByTestId('trip-hub-planning-cta'));
-    const { router } = jest.requireMock<{ router: { push: jest.Mock } }>('expo-router');
-    expect(router.push).toHaveBeenLastCalledWith('/');
+    const { router } = jest.requireMock<{ router: { navigate: jest.Mock } }>('expo-router');
+    expect(router.navigate).toHaveBeenLastCalledWith('/');
   });
 });

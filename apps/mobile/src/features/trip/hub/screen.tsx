@@ -31,7 +31,7 @@ import {
   tileTitles,
   wholeMoney,
 } from './hub-copy';
-import { activityHref, planningLink } from './hub-links';
+import { activityHref, HOME, planningLink } from './hub-links';
 import { hubHeader, viewerNet, type HubFlight } from './hub-model';
 import { HubView, type HubNext } from './hub-view';
 import { tripDayRoute } from './routes';
@@ -59,8 +59,10 @@ function useNow(everyMs: number): Date {
   return now;
 }
 
+/** Opens `href`; Home is another tab, switched to rather than pushed onto this tab's stack. */
 function go(href: Href | undefined): (() => void) | undefined {
-  return href === undefined ? undefined : () => router.push(href);
+  if (href === undefined) return undefined;
+  return href === HOME ? () => router.navigate(href) : () => router.push(href);
 }
 
 export interface TripHubScreenProps {

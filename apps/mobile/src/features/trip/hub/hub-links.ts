@@ -12,7 +12,7 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import type { ActivityRow, OpenVote } from './data/use-hub';
 
 /** Home, where the crew's open destination vote is drawn. */
-const HOME: Href = '/';
+export const HOME: Href = '/';
 
 export function voteHref(vote: OpenVote): Href | undefined {
   return vote.stage === 'final' ? hrefFor('3c-1', { pollId: vote.id }) : HOME;
