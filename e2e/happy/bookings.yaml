@@ -15,7 +15,8 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-add'
     timeout: 20000
-- tapOn: 'PASTE'
+# Android shows the tile's title; iOS reads the tile whole ("PASTE, A link or code").
+- tapOn: 'PASTE.*'
 - extendedWaitUntil:
     visible:
       id: 'bookings-paste-field'

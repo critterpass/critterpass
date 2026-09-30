@@ -15,9 +15,10 @@ appId: app.critterpass.dev
       SEED: dev-seed-demo
 - tapOn:
     id: 'guide-fab'
+# The sheet's root id isn't in iOS's accessibility tree; its composer is.
 - extendedWaitUntil:
     visible:
-      id: 'guide-sheet'
+      id: 'guide-composer'
     timeout: 15000
 - tapOn: 'Ask, or hold to talk'
 - inputText: 'What should we pack for rain in Ubud?'
