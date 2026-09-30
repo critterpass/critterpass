@@ -1,5 +1,5 @@
 /**
- * When a change set's approval vote must close (docs/product-decisions.md C41, C43): no later than
+ * When a change set's approval vote must close: no later than
  * the earliest supplier hold on anything it touches, so the crew never votes a held seat into
  * expiry. Holds belong to the supplier layer, which registers its provider at boot; until one is
  * registered there are no holds and the decider policy's default window stands.

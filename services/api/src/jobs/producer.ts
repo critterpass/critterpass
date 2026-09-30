@@ -24,6 +24,7 @@ import {
   OG_RENDER_QUEUE,
   MONEY_QUEUES,
   BOOKINGS_QUEUES,
+  PLAN_QUEUES,
   SETUP_QUEUES,
   type NotifyRouteJob,
 } from '@cp/domain';
@@ -92,6 +93,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(MONEY_QUEUES),
       ...Object.values(BOOKINGS_QUEUES),
       ...Object.values(BILLING_QUEUES),
+      ...Object.values(PLAN_QUEUES),
       'cost.recompute',
     ]) {
       if ((await boss.getQueue(queue)) === null) {

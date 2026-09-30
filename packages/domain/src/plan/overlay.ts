@@ -1,5 +1,5 @@
 /**
- * The personal "just me" overlay (docs/product-decisions.md Q-35, Q-44): a member applies the ops
+ * The personal "just me" overlay: a member applies the ops
  * they accepted to their own plan only. The rows (`personal_plan_ops`) are owner-only; the group
  * plan never changes except that a skipped item drops the member from its attendees, which is all
  * the crew ever learns. `planner/overlay` merges the group version with these rows on the device.

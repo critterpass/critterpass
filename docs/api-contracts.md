@@ -102,6 +102,7 @@ Client contract: optimistic write to local SQLite; on `cmd_results.status = reje
 | `VALIDATION` | 422 | no | zod issues in `detail.issues` |
 | `STATE_INVALID` | 409 | no | aggregate state forbids cmd (`detail.state`) |
 | `VERSION_CONFLICT` | 409 | no | `base_version` stale; `detail.current_version`, `detail.rebased?` |
+| `PLAN_VERSION_CONFLICT` (doc delta) | 409 | no | a group plan edit (`apply_plan_ops`) made against a superseded version; `detail.latest` = the trip's current version → client rebases (`planner` rebase) and retries once, else surfaces |
 | `IDEMPOTENCY_MISMATCH` | 409 | no | same `op_id`, different payload (client bug) |
 | `RATE_LIMITED` | 429 | yes | `retry_after_s` |
 | `NUDGE_TOO_SOON` | 429 | no | 1 nudge/pair/24 h; `detail.next_at` |
@@ -255,7 +256,7 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `keep_redraft` / `revert_redraft` | `{redraft_id, excluded_stable_ids?[]}` (keep only; doc delta: `redraft_id` = the redraft's `agent_jobs.id`; toggled-off changes stay as in the base day) → `{version_id}` | organiser | reservation committed either way (a delivered change counts); released by the worker on failure or an unchanged day | `redraft.kept/reverted`; `trip:` `redraft.counter` | A, O | 28 |
 | `restore_draft_version` (doc delta) | `{trip_id, version_id}` → `{version_id}`: an earlier private draft copied into a new version parented on the current one | organiser | – | `draft.version_restored` | A, O | 28 |
 | `import_shared_plan` | `{trip_id, plan_id, days[]\|best\|all}` → job | organiser | redraft rule (reuses redraft pipeline) | `draft.import_requested` | A | 52 |
-| `apply_plan_ops` | `{trip_id, base_version, ops[{op: move\|resize\|add\|remove\|reorder_days, item, new}]}` (planner validates) | participant (lock rules) | – | `plan.ops_applied {version}` | A, O | 29 |
+| `apply_plan_ops` | `{trip_id, base_version, ops[{op: move\|resize\|add\|remove\|reorder_days, item, new}] (1..50), confirm_locked?}` → `{version_id}` (planner validates; doc delta: one new current version per call under the trip row lock; member → `FORBIDDEN{reason: use_changeset}` (client wraps the edit in a change set); stale base → `PLAN_VERSION_CONFLICT{latest}`; a booked/must-do/pinned item without `confirm_locked` → `STATE_INVALID{reason: locked_item, items[]}`; a day holding a booking never moves → `STATE_INVALID{reason: booked_day_fixed, day_no}`; queues `cost.recompute` and `plan.stale_sweep`) | organiser / co-organiser | – | `plan.ops_applied {version}` | A, O | 29 |
 | `create_changeset` | `{trip_id, base_version, ops[], source: user\|guide_suggestion}` | participant | – | `changeset.created` | A, O | 29 |
 | `set_changeset_item` | `{changeset_id, change_id, accepted}` | author | – | `changeset.item_toggled` | A, O | 29 |
 | `send_changeset` | `{changeset_id, threshold}` → approval poll + chat card | author | – | `changeset.sent`, `poll.created` | A | 29 |

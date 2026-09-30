@@ -23,6 +23,8 @@ const BOOST = {
   crew_id: crypto.randomUUID(),
   boost_id: crypto.randomUUID(),
 };
+const CHANGE_SET = { trip_id: crypto.randomUUID(), change_set_id: crypto.randomUUID() };
+const COMMENT = { trip_id: crypto.randomUUID(), comment_id: crypto.randomUUID() };
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -559,6 +561,23 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     entry_point: 'guide_limit',
     outcome: 'quiet_no',
   },
+  'plan.ops_applied': {
+    trip_id: crypto.randomUUID(),
+    version_id: crypto.randomUUID(),
+    base_version_id: crypto.randomUUID(),
+    op_count: 2,
+    source: 'ops',
+  },
+  'change_set.created': { ...CHANGE_SET, source: 'user' },
+  'change_set.item_toggled': { ...CHANGE_SET, target: crypto.randomUUID(), accepted: false },
+  'change_set.decided': { ...CHANGE_SET, user_id: crypto.randomUUID(), decision: 'yes' },
+  'change_set.stale': CHANGE_SET,
+  'change_set.expired': CHANGE_SET,
+  'comment.added': { ...COMMENT, anchor_kind: 'item' },
+  'comment.edited': COMMENT,
+  'comment.deleted': COMMENT,
+  'comment.plusoned': { ...COMMENT, user_id: crypto.randomUUID() },
+  'comment.unplusoned': { ...COMMENT, user_id: crypto.randomUUID() },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

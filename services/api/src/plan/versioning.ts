@@ -1,0 +1,251 @@
+/**
+ * Group plan versions (docs/system-architecture.md §7.b). Every group edit, whether an organiser's
+ * direct ops or an approved change set, runs through `commitPlanVersion`: under the trip row lock
+ * (so edits on one trip are serialised) it checks the edit was made against the trip's current
+ * version, replays the edits on that version, writes the result as a new current version (the old
+ * one superseded) and tells the crew. A stale base answers `PLAN_VERSION_CONFLICT{latest}`; the
+ * client rebases (packages/planner rebase) and retries once. Writes run as `app_system`: plan rows
+ * have no `app_user` write path at all.
+ */
+import { appendDomainEvent, outbox, sendInTx } from '@cp/db';
+import {
+  applyPlanEdits,
+  channelName,
+  DomainError,
+  PLAN_QUEUES,
+  PLAN_RT,
+  PlanEditError,
+  type PlanEdit,
+  type PlanOp,
+  type PlanOpsHint,
+  type PlanState,
+  type PlanStateItem,
+} from '@cp/domain';
+import type pg from 'pg';
+
+import { asSystemRole } from '../admin/command';
+
+const COST_RECOMPUTE_QUEUE = 'cost.recompute';
+
+/** Plan hints stay well under the 8 KB envelope; larger batches arrive through sync alone. */
+const MAX_HINT_OPS_BYTES = 6 * 1024;
+
+interface ItemRow {
+  stable_id: string;
+  day_no: number;
+  starts_at: Date | null;
+  ends_at: Date | null;
+  tz: string | null;
+  lane: string | null;
+  attendee_ids: string[] | null;
+  poi_id: string | null;
+  provider_id: string | null;
+  booking_id: string | null;
+  must_do_id: string | null;
+  category: string | null;
+  cost_model: NonNullable<PlanStateItem['cost_model']> | null;
+  amount_minor: string | null;
+  currency: string | null;
+  status: NonNullable<PlanStateItem['status']>;
+  flexibility: string | null;
+  is_outdoor: boolean;
+  created_by_kind: 'user' | 'guide';
+  notes: string | null;
+  locked_reason: NonNullable<PlanStateItem['locked_reason']> | null;
+}
+
+function toStateItem(row: ItemRow): PlanStateItem {
+  const optional = {
+    starts_at: row.starts_at?.toISOString(),
+    ends_at: row.ends_at?.toISOString(),
+    tz: row.tz ?? undefined,
+    attendee_ids: row.attendee_ids ?? undefined,
+    category: row.category ?? undefined,
+    cost_model: row.cost_model ?? undefined,
+    amount_minor: row.amount_minor === null ? undefined : Number(row.amount_minor),
+    currency: row.currency ?? undefined,
+  };
+  return {
+    ...(Object.fromEntries(
+      Object.entries(optional).filter(([, v]) => v !== undefined),
+    ) as Partial<PlanStateItem>),
+    stable_id: row.stable_id,
+    day_no: row.day_no,
+    lane: row.lane,
+    poi_id: row.poi_id,
+    provider_id: row.provider_id,
+    booking_id: row.booking_id,
+    must_do_id: row.must_do_id,
+    status: row.status,
+    flexibility: row.flexibility,
+    is_outdoor: row.is_outdoor,
+    created_by_kind: row.created_by_kind,
+    notes: row.notes,
+    locked_reason: row.locked_reason,
+  };
+}
+
+/** A version's days and items as the pure plan state (read as the system: callers checked access). */
+export async function loadPlanState(tx: pg.PoolClient, versionId: string): Promise<PlanState> {
+  return asSystemRole(tx, async () => {
+    const days = await tx.query<{ day_no: number; date: string | null; theme: string | null }>(
+      `SELECT day_no, to_char(date, 'YYYY-MM-DD') AS date, theme FROM plan_days
+        WHERE version_id = $1 ORDER BY day_no`,
+      [versionId],
+    );
+    const items = await tx.query<ItemRow>(
+      `SELECT i.stable_id, d.day_no, i.starts_at, i.ends_at, i.tz, i.lane, i.attendee_ids, i.poi_id,
+              i.provider_id, i.booking_id, i.must_do_id, i.category, i.cost_model, i.amount_minor,
+              i.currency, i.status, i.flexibility, i.is_outdoor, i.created_by_kind, i.notes,
+              i.locked_reason
+         FROM plan_items i JOIN plan_days d ON d.id = i.day_id
+        WHERE i.version_id = $1
+        ORDER BY d.day_no, i.starts_at NULLS LAST, i.stable_id`,
+      [versionId],
+    );
+    return { days: days.rows, items: items.rows.map(toStateItem) };
+  });
+}
+
+export interface TripPlanHead {
+  readonly tripId: string;
+  readonly crewId: string;
+  readonly currentVersionId: string | null;
+}
+
+/** Locks the trip row (serialising plan edits on it) and reads its current version. */
+export async function lockTripPlan(tx: pg.PoolClient, tripId: string): Promise<TripPlanHead> {
+  return asSystemRole(tx, async () => {
+    const { rows } = await tx.query<{ crew_id: string; current_version_id: string | null }>(
+      'SELECT crew_id, current_version_id FROM trips WHERE id = $1 FOR UPDATE',
+      [tripId],
+    );
+    const row = rows[0];
+    if (row === undefined) throw new DomainError('NOT_FOUND', { reason: 'trip' });
+    return { tripId, crewId: row.crew_id, currentVersionId: row.current_version_id };
+  });
+}
+
+/** Throws `PLAN_VERSION_CONFLICT{latest}` unless `baseVersionId` is the trip's current version. */
+export function assertCurrentBase(head: TripPlanHead, baseVersionId: string): string {
+  if (head.currentVersionId === null) {
+    throw new DomainError('STATE_INVALID', { reason: 'no_plan' });
+  }
+  if (head.currentVersionId !== baseVersionId) {
+    throw new DomainError('PLAN_VERSION_CONFLICT', { latest: head.currentVersionId });
+  }
+  return head.currentVersionId;
+}
+
+/** Replays edits, mapping a rejected edit to `VALIDATION` with its reason and target. */
+export function replay(state: PlanState, edits: readonly PlanEdit[]): PlanState {
+  try {
+    return applyPlanEdits(state, edits);
+  } catch (error) {
+    if (error instanceof PlanEditError) {
+      throw new DomainError('VALIDATION', { reason: error.reason, target: error.target });
+    }
+    throw error;
+  }
+}
+
+export interface CommitInput {
+  readonly head: TripPlanHead;
+  readonly baseVersionId: string;
+  readonly next: PlanState;
+  readonly actor: { readonly kind: 'user' | 'system'; readonly id: string | null };
+  readonly source: PlanOpsHint['source'];
+  readonly opCount: number;
+  /** The plan ops for the realtime hint (null: the crew waits for sync). */
+  readonly ops: readonly PlanOp[] | null;
+  readonly changeSetId?: string;
+}
+
+function hintOps(ops: readonly PlanOp[] | null): readonly PlanOp[] | null {
+  if (ops === null) return null;
+  return new TextEncoder().encode(JSON.stringify(ops)).byteLength <= MAX_HINT_OPS_BYTES
+    ? ops
+    : null;
+}
+
+/**
+ * Writes `next` as the trip's new current version on top of `baseVersionId` (the caller holds the
+ * trip lock and checked the base), then queues the re-price and the stale sweep and tells the crew.
+ */
+export async function commitPlanVersion(tx: pg.PoolClient, input: CommitInput): Promise<string> {
+  const { head, baseVersionId, next } = input;
+  const versionId = await asSystemRole(tx, async () => {
+    const { rows } = await tx.query<{ id: string }>(
+      `INSERT INTO itinerary_versions (trip_id, parent_id, visibility, status, cost_pp_minor, currency)
+       SELECT trip_id, id, visibility, 'current', cost_pp_minor, currency
+         FROM itinerary_versions WHERE id = $1
+       RETURNING id`,
+      [baseVersionId],
+    );
+    const id = rows[0]?.id;
+    if (id === undefined) throw new DomainError('NOT_FOUND', { reason: 'version' });
+    await tx.query("UPDATE itinerary_versions SET status = 'superseded' WHERE id = $1", [
+      baseVersionId,
+    ]);
+    await tx.query(
+      `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref)
+       SELECT $1, $2, d.day_no, d.date::date, d.theme, old.weather_ref
+         FROM jsonb_to_recordset($3::jsonb) AS d(day_no int, date text, theme text)
+         LEFT JOIN plan_days old ON old.version_id = $4 AND old.day_no = d.day_no`,
+      [id, head.tripId, JSON.stringify(next.days), baseVersionId],
+    );
+    await tx.query(
+      `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, lane,
+         attendee_ids, poi_id, provider_id, booking_id, must_do_id, category, cost_model,
+         amount_minor, currency, status, flexibility, is_outdoor, created_by_kind, notes,
+         locked_reason)
+       SELECT $1, d.id, $2, r.stable_id, r.starts_at, r.ends_at, r.tz, r.lane, r.attendee_ids,
+              r.poi_id, r.provider_id, r.booking_id, r.must_do_id, r.category, r.cost_model,
+              r.amount_minor, r.currency, coalesce(r.status, 'proposed'), r.flexibility,
+              coalesce(r.is_outdoor, false), coalesce(r.created_by_kind, 'user'), r.notes,
+              r.locked_reason
+         FROM jsonb_to_recordset($3::jsonb) AS r(stable_id uuid, day_no int, starts_at timestamptz,
+                ends_at timestamptz, tz text, lane text, attendee_ids uuid[], poi_id uuid,
+                provider_id uuid, booking_id uuid, must_do_id uuid, category text,
+                cost_model text, amount_minor bigint, currency text, status text,
+                flexibility text, is_outdoor boolean, created_by_kind text, notes text,
+                locked_reason text)
+         JOIN plan_days d ON d.version_id = $1 AND d.day_no = r.day_no`,
+      [id, head.tripId, JSON.stringify(next.items)],
+    );
+    await tx.query('UPDATE trips SET current_version_id = $2 WHERE id = $1', [head.tripId, id]);
+    return id;
+  });
+  await appendDomainEvent(tx, {
+    type: 'plan.ops_applied',
+    aggregateKind: 'trip',
+    aggregateId: head.tripId,
+    actorKind: input.actor.kind,
+    actorId: input.actor.id,
+    payload: {
+      trip_id: head.tripId,
+      version_id: versionId,
+      base_version_id: baseVersionId,
+      op_count: input.opCount,
+      source: input.source,
+    },
+    crewId: head.crewId,
+    tripId: head.tripId,
+  });
+  const hint: PlanOpsHint = {
+    version: versionId,
+    base_version: baseVersionId,
+    ops: hintOps(input.ops),
+    source: input.source,
+    change_set_id: input.changeSetId ?? null,
+  };
+  await outbox(tx, channelName('trip_plan', head.tripId), PLAN_RT.ops, hint);
+  await sendInTx(tx, COST_RECOMPUTE_QUEUE, { trip_id: head.tripId }, { singletonKey: head.tripId });
+  await sendInTx(
+    tx,
+    PLAN_QUEUES.staleSweep,
+    { trip_id: head.tripId, version_id: versionId },
+    { singletonKey: `${head.tripId}:${versionId}` },
+  );
+  return versionId;
+}

@@ -5,3 +5,7 @@ export * from './overlay';
 export * from './presence';
 export * from './hold-expiry';
 export * from './booking-impact';
+export * from './plan-ops';
+export * from './events';
+export * from './rt';
+export * from './queues';

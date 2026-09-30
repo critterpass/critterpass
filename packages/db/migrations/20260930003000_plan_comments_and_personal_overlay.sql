@@ -1,7 +1,7 @@
 -- Plan collaboration (docs/data-model.md §3.3): anchored comments and their +1s (crew-visible, C1),
 -- a member's personal "just me" plan ops (owner-only, C2), per-user calendar feed tokens
--- (server-only, C3), the guide's owner-filtered view of personal ops, and the command outcome code
--- a stale plan edit answers with.
+-- (server-only, C3), the guide's owner-filtered view of personal ops, the command outcome code a
+-- stale plan edit answers with, and the plan events.
 
 -- ---------------------------------------------------------------------------------------------
 -- comments: RLS class T. Every member of the trip's crew reads the trip's comments; a member writes
@@ -86,7 +86,7 @@ GRANT SELECT, INSERT, DELETE ON comment_plus_ones TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
 -- personal_plan_ops: RLS class O. A member's accepted ops applied to their own plan only
--- (docs/product-decisions.md Q-35). Nobody else reads them, not even the organiser; the guide
+-- (docs/product-decisions.md). Nobody else reads them, not even the organiser; the guide
 -- reads its asker's own rows through llm.my_personal_plan_ops only.
 CREATE TABLE personal_plan_ops (
   id uuid PRIMARY KEY DEFAULT uuidv7(),
@@ -161,20 +161,45 @@ CREATE POLICY calendar_feed_tokens_system ON calendar_feed_tokens FOR ALL TO app
 GRANT SELECT, INSERT, UPDATE ON calendar_feed_tokens TO app_system;
 
 -- ---------------------------------------------------------------------------------------------
--- A plan edit against a superseded version answers PLAN_VERSION_CONFLICT with the latest version.
--- Keep in sync with packages/domain/src/errors.ts#ERROR_CODES (packages/db/test/idempotency.test.ts).
-ALTER TABLE cmd_results DROP CONSTRAINT cmd_results_code_check;
-ALTER TABLE cmd_results ADD CONSTRAINT cmd_results_code_check CHECK (code IS NULL OR code IN (
-  'AUTH_REQUIRED', 'SESSION_REVOKED', 'MERGE_REQUIRED', 'ACCOUNT_CLOSED', 'ATTESTATION_FAILED',
-  'FORBIDDEN', 'ACTION_KEY_SCOPE', 'NOT_FOUND', 'VALIDATION', 'STATE_INVALID', 'VERSION_CONFLICT',
-  'PLAN_VERSION_CONFLICT', 'IDEMPOTENCY_MISMATCH', 'RATE_LIMITED', 'NUDGE_TOO_SOON',
-  'QUOTA_EXHAUSTED', 'REDRAFT_LIMIT', 'SEAT_LIMIT', 'WAITLISTED', 'ENTITLEMENT_REQUIRED',
-  'BOOST_INTENT_LOCKED', 'VOTE_CLOSED', 'NOT_ELIGIBLE', 'INVITE_EXPIRED', 'INVITE_REVOKED',
-  'CODE_INVALID', 'CODE_REDEEMED', 'CODE_EXPIRED', 'OWNED_BY_OTHER_ACCOUNT', 'K_ANON_UNAVAILABLE',
-  'HOLD_EXPIRED', 'HOLD_NOT_PROVIDED', 'SUPPLIER_UNAVAILABLE', 'SUPPLIER_REJECTED',
-  'PAYMENT_PENDING', 'LOCATION_IMPLAUSIBLE', 'CONTENT_REJECTED', 'APPROVAL_REQUIRED',
-  'PAYLOAD_TOO_LARGE', 'UPSTREAM_TIMEOUT', 'INTERNAL'
-));
+-- A plan edit against a superseded version answers PLAN_VERSION_CONFLICT with the latest version,
+-- and the plan editing, change review and comment events join the catalogue
+-- (packages/domain/src/plan/events.ts). Both are added to whatever the constraints list now, so a
+-- sibling migration's codes and types are kept (packages/db/test/idempotency.test.ts and
+-- events.test.ts cross-check them against packages/domain).
+DO $$
+DECLARE
+  current_values text[];
+  merged text;
+BEGIN
+  SELECT array_agg(m[1] ORDER BY m[1]) INTO current_values
+    FROM pg_constraint c,
+         regexp_matches(pg_get_constraintdef(c.oid), '''([^'']+)''::text', 'g') AS m
+   WHERE c.conname = 'cmd_results_code_check' AND c.conrelid = 'cmd_results'::regclass;
+  SELECT string_agg(DISTINCT quote_literal(t), ', ') INTO merged
+    FROM unnest(current_values || ARRAY['PLAN_VERSION_CONFLICT']) AS t;
+  ALTER TABLE cmd_results DROP CONSTRAINT cmd_results_code_check;
+  EXECUTE format(
+    'ALTER TABLE cmd_results ADD CONSTRAINT cmd_results_code_check CHECK (code IS NULL OR code IN (%s))',
+    merged
+  );
+
+  SELECT array_agg(m[1] ORDER BY m[1]) INTO current_values
+    FROM pg_constraint c,
+         regexp_matches(pg_get_constraintdef(c.oid), '''([^'']+)''::text', 'g') AS m
+   WHERE c.conname = 'domain_events_type_check' AND c.conrelid = 'domain_events'::regclass;
+  SELECT string_agg(DISTINCT quote_literal(t), ', ') INTO merged
+    FROM unnest(current_values || ARRAY[
+      'plan.ops_applied', 'change_set.created', 'change_set.item_toggled', 'change_set.decided',
+      'change_set.stale', 'change_set.expired', 'comment.added', 'comment.edited',
+      'comment.deleted', 'comment.plusoned', 'comment.unplusoned'
+    ]) AS t;
+  ALTER TABLE domain_events DROP CONSTRAINT domain_events_type_check;
+  EXECUTE format(
+    'ALTER TABLE domain_events ADD CONSTRAINT domain_events_type_check CHECK (type IN (%s))',
+    merged
+  );
+END
+$$;
 
 -- ---------------------------------------------------------------------------------------------
 -- PowerSync publication (docs/code-standards.md §13), hand-copied from
