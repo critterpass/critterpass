@@ -41,6 +41,7 @@ function failed(input: ParseReceiptInput): ParsedReceipt {
     lines_total_minor: 0,
     matches_total: false,
     rejected_line_ids: [],
+    review_line_ids: [],
     status: 'failed',
   };
 }

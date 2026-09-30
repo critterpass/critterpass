@@ -66,6 +66,8 @@ const expectSchema = z.object({
    */
   amounts: z.array(amountSchema).nullable().optional(),
   rejected: z.array(z.string()).default([]),
+  /** The lines named for review when the lines still miss the total. */
+  review: z.array(z.string()).optional(),
 });
 const caseSchema = z.object({
   description: z.string(),
@@ -177,6 +179,12 @@ function grade(result: ParsedReceipt, expected: z.infer<typeof expectSchema>): G
         ? gradeLines(result, expected)
         : gradeAmounts(result, expected.amounts);
   failures.push(...lines.failures);
+  if (expected.review !== undefined) {
+    const review = result.review_line_ids.join(', ');
+    if (review !== expected.review.join(', ')) {
+      failures.push(`review [${review}], want [${expected.review.join(', ')}]`);
+    }
+  }
   for (const id of expected.rejected) {
     if (!result.rejected_line_ids.includes(id)) failures.push(`${id} not rejected`);
   }
