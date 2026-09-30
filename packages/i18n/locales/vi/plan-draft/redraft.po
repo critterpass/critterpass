@@ -77,12 +77,12 @@ msgstr "Về bản nháp"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/last-redraft-interstitial.tsx
 msgid "planDraft.last.boost"
-msgstr "Boost · soạn lại không giới hạn"
+msgstr "Boost · soạn lại vô hạn"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/boost-offer.tsx
 #: ../../apps/mobile/src/features/plan/draft/redraft/redraft-diff-view.tsx
 msgid "planDraft.spent.boost"
-msgstr "Boost để soạn lại không giới hạn"
+msgstr "Boost để soạn lại vô hạn"
 
 #: ../../apps/mobile/src/features/plan/draft/redraft/change-day-view.tsx
 msgid "planDraft.change.title"
