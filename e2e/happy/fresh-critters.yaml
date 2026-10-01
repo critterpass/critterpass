@@ -41,54 +41,65 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-07-pass-after-lock
-# The trip goes under way (the worker's sweep, every ten minutes): the egg card follows the trip.
+# The egg card follows the trip: it shows once the worker's sweep (every ten minutes) has moved
+# the trip towards its start.
 - extendedWaitUntil:
     visible:
       id: 'critters-egg-waiting|critters-egg-ready|critters-egg-unseen'
     timeout: 780000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-08-pass-egg
-- tapOn:
-    id: 'tab-home'
-- extendedWaitUntil:
-    visible:
-      id: 'home-in-trip'
-    timeout: 780000
-- waitForAnimationToEnd
-- takeScreenshot: fresh-critters-09-home-in-trip
 # Arriving: the phone is at Đà Nẵng airport. A traveller who allowed location expects the egg to
-# hatch without touching anything.
+# hatch without touching anything: the ceremony opens by itself on a tab.
 - setLocation:
     latitude: 16.0439
     longitude: 108.1994
-- tapOn:
-    id: 'tab-pass'
 - extendedWaitUntil:
     visible:
-      id: 'critters-egg-ready|critters-egg-unseen|critters-hatch'
-    timeout: 60000
+      id: 'critters-hatch|visit-consent-accept'
+    timeout: 240000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-09-visit-consent
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
 - extendedWaitUntil:
     visible:
       id: 'critters-hatch'
-    timeout: 150000
+    timeout: 120000
     optional: true
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-10-after-arriving
-# If arriving did not hatch it, the traveller's own way: HATCH IT.
+# If arriving did not hatch it, the traveller's own way: HATCH IT (it needs the trip under way).
 - runFlow:
     when:
-      visible:
-        id: 'critters-egg-hatch'
+      notVisible:
+        id: 'critters-hatch'
     commands:
-      - tapOn:
-          id: 'critters-egg-hatch'
-- runFlow:
-    when:
-      visible:
-        id: 'critters-egg-meet'
-    commands:
-      - tapOn:
-          id: 'critters-egg-meet'
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-egg-hatch|critters-egg-meet'
+          timeout: 780000
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-hatch'
+          commands:
+            - tapOn:
+                id: 'critters-egg-hatch'
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-meet'
+          commands:
+            - tapOn:
+                id: 'critters-egg-meet'
 - extendedWaitUntil:
     visible:
       id: 'critters-hatch'
@@ -105,6 +116,16 @@ appId: app.critterpass.dev
     visible:
       id: 'critters-dex-header'
     timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-12a-visit-consent
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-12-pass-after-hatch
 # The hatched critter's own page, from the here-now card when there is one.
@@ -145,10 +166,22 @@ appId: app.critterpass.dev
     file: ../screens/sweep/subflows/open-link.yaml
     env:
       URL: critterpass-dev://
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-15a-visit-consent
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
 - extendedWaitUntil:
     visible:
       id: 'home-in-trip'
-    timeout: 30000
+    timeout: 780000
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-15b-home-in-trip
 - tapOn:
     id: 'home-in-trip'
 - waitForAnimationToEnd
