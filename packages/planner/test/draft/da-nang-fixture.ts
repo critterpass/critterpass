@@ -68,6 +68,7 @@ export const D = {
   cauVang: place(116, 'Cầu Vàng', 'museum', 15.9969, 107.9973),
   buddhaBaNa: place(117, 'Thích Ca Phật Đài - Bà Nà', 'temple_shrine', 15.9975, 107.994),
   myKhe: place(118, 'Bãi biển Mỹ Khê', 'beach', 16.0605, 108.2468),
+  myKheEn: place(122, 'My Khe Beach', 'beach', 16.0607, 108.2466),
   hanMarket: place(119, 'Chợ Hàn (Han Market)', 'market', 16.0683, 108.2241),
   conMarket: place(120, 'Chợ Cồn (Con Market)', 'market', 16.0678, 108.2143),
   chamMuseum: place(121, 'Bảo tàng Điêu khắc Chăm', 'museum', 16.0604, 108.2234),

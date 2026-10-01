@@ -10,6 +10,11 @@
  * lists some places several times), then the places listed most often, then a spread across
  * kinds of place and across the city (one market street cannot fill the list), and last the row
  * id, so the same input always gives the same lists.
+ *
+ * The head of the activities list is kept for the places everybody goes to: those the curated set
+ * lists twice or more, most-listed first, up to a third of the list. A crew's taste tags lift
+ * other places a point or two, and without this the sights a city is known for would lose their
+ * seats to them unless somebody typed their names.
  */
 import { collapseSamePlaces } from './same-place';
 import { closedOn, suitsDiet } from './validate-itinerary';
@@ -98,11 +103,14 @@ interface Ranking {
   readonly mentions: ReadonlyMap<string, number>;
   /** Places taken before any ranking. */
   readonly include: ReadonlySet<string>;
+  /** Seats kept for the places listed twice or more, most-listed first (0 = none kept). */
+  readonly wellKnown: number;
 }
 
 /**
  * The best `limit` places, picked one at a time: the highest score, then the place listed most
- * often, then the kind of place and the part of the city picked least so far, then the id.
+ * often, then the kind of place and the part of the city picked least so far, then the id. The
+ * first `wellKnown` seats go to places listed twice or more, by how often before the score.
  */
 function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): DraftPoi[] {
   const score = new Map(
@@ -126,13 +134,21 @@ function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): Draft
       rest.delete(poi.id);
     }
   }
+  let kept = 0;
   while (picked.length < limit && rest.size > 0) {
+    // While seats are kept and a place listed twice or more is left, only those compete.
+    const known =
+      kept < ranking.wellKnown
+        ? [...rest.values()].filter((poi) => (ranking.mentions.get(poi.id) ?? 1) >= 2)
+        : [];
+    const field = known.length > 0 ? known : [...rest.values()];
     let best: DraftPoi | null = null;
     let bestKey: readonly number[] = [];
-    for (const poi of rest.values()) {
+    for (const poi of field) {
+      const listed = -(ranking.mentions.get(poi.id) ?? 1);
+      const points = -(score.get(poi.id) ?? 0);
       const key = [
-        -(score.get(poi.id) ?? 0),
-        -(ranking.mentions.get(poi.id) ?? 1),
+        ...(known.length > 0 ? [listed, points] : [points, listed]),
         kinds.get(poi.category) ?? 0,
         cells.get(cellOf(poi)) ?? 0,
       ];
@@ -143,6 +159,7 @@ function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): Draft
       }
     }
     if (best === null) break;
+    if (known.length > 0) kept += 1;
     take(best);
     rest.delete(best.id);
   }
@@ -200,13 +217,15 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
         return kept === undefined ? [] : [kept];
       }),
     ),
+    wellKnown: 0,
   };
+  const activityLimit = Math.min(48, Math.max(24, days * 6));
   const activities = pick(
     open.filter(
       (poi) => poi.category !== 'food' && poi.category !== 'stay' && poi.category !== 'transit',
     ),
-    Math.min(48, Math.max(24, days * 6)),
-    ranking,
+    activityLimit,
+    { ...ranking, wellKnown: Math.floor(activityLimit / 3) },
   );
   const meals = pick(
     open.filter(

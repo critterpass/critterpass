@@ -174,12 +174,16 @@ describe('the guide’s lists', () => {
 
   it('are not the alphabet: the famous places are on them', () => {
     expect(pools.activities).toHaveLength(24);
-    for (const famous of [D.marble, D.dragon, D.myKhe, D.chamMuseum, D.goldenBridge]) {
-      expect(
-        pools.activities.some((poi) => poi.id === famous.id) ||
-          // … or the row that stands for the same place.
-          (famous === D.marble && offered.includes(D.nguHanhSon.name)),
-      ).toBe(true);
+    const listed = new Set(pools.activities.map((poi) => poi.id));
+    // Each sight by any of the rows that name it.
+    for (const rows of [
+      [D.marble, D.nguHanhSon],
+      [D.dragon],
+      [D.myKhe, D.myKheEn],
+      [D.chamMuseum],
+      [D.goldenBridge],
+    ]) {
+      expect(rows.some((poi) => listed.has(poi.id))).toBe(true);
     }
   });
 
@@ -202,6 +206,56 @@ describe('the guide’s lists', () => {
     const street = pools.activities.filter((poi) => AN_THUONG.includes(poi));
     expect(street.length).toBeLessThanOrEqual(12);
     expect(new Set(pools.activities.map((poi) => poi.category)).size).toBeGreaterThanOrEqual(6);
+  });
+
+  it('keep seats for the places everybody goes to, whatever the crew’s tastes lift', () => {
+    // Every bar and gallery on the street scores above the sights for this crew.
+    const tastes = { nightlife: 1, museums: 1 };
+    const lifted = candidatePools({
+      pois: [...CURATED],
+      frame: FRAME,
+      tastes,
+      ignoreNames: IGNORE,
+    });
+    const listed = new Set(lifted.activities.map((poi) => poi.id));
+    // Marble Mountains (three rows), the Hải Vân pass (three) and Linh Ứng (two) head the list.
+    const head = lifted.activities.slice(0, 4).map((poi) => poi.id);
+    expect(head.some((x) => [D.marble.id, D.nguHanhSon.id].includes(x))).toBe(true);
+    expect(head.some((x) => [D.haiVan1.id, D.haiVan2.id].includes(x))).toBe(true);
+    expect(head.some((x) => [D.linhUng.id, D.linhUngEn.id].includes(x))).toBe(true);
+    expect([D.myKhe.id, D.myKheEn.id].some((x) => listed.has(x))).toBe(true);
+    // Only four places are listed twice or more here: the other seats go by score, spread out.
+    expect(lifted.activities).toHaveLength(24);
+    expect(new Set(lifted.activities.map((poi) => poi.category)).size).toBeGreaterThanOrEqual(3);
+    expect(listed.has(D.chamMuseum.id)).toBe(true);
+    const again = candidatePools({
+      pois: [...CURATED].reverse(),
+      frame: FRAME,
+      tastes,
+      ignoreNames: IGNORE,
+    });
+    expect(again.activities.map((poi) => poi.id)).toEqual(lifted.activities.map((poi) => poi.id));
+  });
+
+  it('keep at most a third of the list for them', () => {
+    // Twelve sights, each listed twice, and a crew whose taste lifts every bar above them.
+    const twice = Array.from({ length: 12 }, (_, n) =>
+      [0, 1].map((copy) => ({
+        ...D.myKhe,
+        id: id(600 + n * 2 + copy),
+        name: `Sight ${String.fromCharCode(65 + n)}${String.fromCharCode(75 + n)} Beach`,
+        lat: 16.2 + n / 50,
+      })),
+    ).flat();
+    const lifted = candidatePools({
+      pois: [...AN_THUONG, ...twice],
+      frame: FRAME,
+      tastes: { nightlife: 1, museums: 1 },
+      ignoreNames: IGNORE,
+    });
+    const sights = lifted.activities.filter((poi) => poi.category === 'beach');
+    expect(sights).toHaveLength(8);
+    expect(lifted.activities.slice(0, 8).every((poi) => poi.category === 'beach')).toBe(true);
   });
 
   it('always carry the places a wish may mean, and a wish’s own place as its must-do', () => {
