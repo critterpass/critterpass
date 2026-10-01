@@ -11,7 +11,7 @@ import type { ScaffoldVariant } from '../surface/Scaffold';
 import { Scaffold } from '../surface/Scaffold';
 import { makeStyles } from '../theme';
 import { CloseButton } from './CloseButton';
-import { PresentedSurfaceContext } from './presenter';
+import { PresentedSurfaceContext, useFocusedPresentation } from './presenter';
 import { SheetScrollContext } from './SheetScrollView';
 import { useModalPresentation } from './use-modal-presentation';
 
@@ -45,6 +45,7 @@ export function RiseModal({
   testID = 'rise',
 }: RiseModalProps) {
   const styles = useStyles();
+  useFocusedPresentation();
   const insets = useSafeAreaInsets();
   const { height } = useWindowDimensions();
   const presentation = useModalPresentation({

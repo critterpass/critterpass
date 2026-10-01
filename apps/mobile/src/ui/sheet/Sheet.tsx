@@ -12,7 +12,7 @@ import { makeStyles } from '../theme';
 import { Text } from '../text/Text';
 import { CloseButton } from './CloseButton';
 import { Grabber, GRABBER_ZONE_HEIGHT } from './Grabber';
-import { PresentedSurfaceContext } from './presenter';
+import { PresentedSurfaceContext, useFocusedPresentation } from './presenter';
 import { SheetScrollContext } from './SheetScrollView';
 import { useModalPresentation } from './use-modal-presentation';
 
@@ -128,6 +128,7 @@ export function Sheet({
 }: SheetProps) {
   // Every sheet goes back by a drag down, a scrim tap or Android back, with or without its ✕.
   useBackAffordance();
+  useFocusedPresentation();
   const styles = useStyles();
   const insets = useSafeAreaInsets();
   const { height: screenHeight } = useWindowDimensions();
