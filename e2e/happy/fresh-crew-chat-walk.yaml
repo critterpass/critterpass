@@ -1,0 +1,283 @@
+appId: app.critterpass.dev
+---
+# A crew's first day in its chat, two brand-new accounts on one phone and no demo world. The
+# organiser (English) starts a crew, finds the empty chat, types the first message the moment the
+# field takes focus, and pitches a place so the crew's vote posts its card. A friend (Vietnamese)
+# joins with the crew code and reads the chat: the join line, a reply, a reaction, a mention, a long
+# message, one with Vietnamese diacritics (typed on iOS: the Android driver types ASCII only), the
+# keyboard opening and closing under the newest message, scrolling back and jumping to the latest,
+# and the attach menu. The organiser then logs an expense and opens its card from the chat.
+- runFlow:
+    file: subflows/crew-with-code.yaml
+    env:
+      CREW: 'Chat Walk Crew'
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 30000
+
+# The organiser's empty chat.
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-empty'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-walk-chat-empty
+# The first message, typed with no pause after the field takes focus: every character arrives.
+- tapOn:
+    id: 'chat-composer'
+- inputText: 'Fushimi Inari at sunrise'
+- takeScreenshot: en-walk-first-draft-keyboard
+- assertVisible: 'Fushimi Inari at sunrise'
+- tapOn: 'Send'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-list'
+    timeout: 10000
+- extendedWaitUntil:
+    notVisible:
+      text: 'Sending'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-walk-first-message-keyboard
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: en-walk-first-message
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'dev-tools-entry'
+    file: ../onboarding/subflows/back.yaml
+
+# A place pitched into the crew's vote posts its card in the chat.
+- runFlow:
+    file: subflows/pitch-place.yaml
+    env:
+      QUERY: 'lisbon'
+
+# The friend, in Vietnamese: joins with the code and opens the crew chat.
+- runFlow:
+    file: subflows/join-by-code.yaml
+    env:
+      PREFIX: vi
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      text: 'Fushimi Inari at sunrise'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-joined
+
+# A reply: long press, "Trả lời", the quoted strip over the composer.
+- longPressOn: 'Fushimi Inari at sunrise'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-actions'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-message-actions
+- tapOn: 'Trả lời'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-replying'
+    timeout: 10000
+- tapOn:
+    id: 'chat-composer'
+- inputText: 'count me in'
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-reply-draft-keyboard
+- tapOn: 'Gửi'
+- extendedWaitUntil:
+    visible:
+      text: 'count me in'
+    timeout: 10000
+- extendedWaitUntil:
+    notVisible:
+      id: 'chat-replying'
+    timeout: 10000
+# A reaction on the organiser's message.
+- hideKeyboard
+- waitForAnimationToEnd
+- longPressOn: 'Fushimi Inari at sunrise'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-reaction-bar'
+    timeout: 10000
+- tapOn: '.*🔥.*'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-reaction-chips'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-reply-and-reaction
+
+# A mention: "@" lists the crew, a pick completes the name.
+- tapOn:
+    id: 'chat-composer'
+- inputText: '@'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-mentions'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-mention-picker-keyboard
+- tapOn:
+    id: 'chat-mention-.*'
+    index: 0
+- inputText: 'dinner at 7?'
+- tapOn: 'Gửi'
+- extendedWaitUntil:
+    visible:
+      text: '.*dinner at 7\?'
+    timeout: 10000
+
+# A long message: the composer grows, then the bubble wraps.
+- inputText: 'Landing 09:40 on VN123, taxi to the old '
+- inputText: 'town takes about forty minutes so lets '
+- inputText: 'meet at the fountain by eleven and walk'
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-long-draft-keyboard
+- tapOn: 'Gửi'
+- extendedWaitUntil:
+    visible:
+      text: 'Landing 09:40.*'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-long-sent-keyboard
+
+# Vietnamese with diacritics (iOS: Android's driver cannot type them).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - inputText: 'Tối nay ăn phở ở đường Nguyễn Huệ nhé, mình đặt bàn lúc bảy giờ rưỡi'
+      - waitForAnimationToEnd
+      - takeScreenshot: vi-walk-vietnamese-draft-keyboard
+      - tapOn: 'Gửi'
+      - extendedWaitUntil:
+          visible:
+            text: 'Tối nay ăn phở.*'
+          timeout: 10000
+      - waitForAnimationToEnd
+      - takeScreenshot: vi-walk-vietnamese-sent-keyboard
+
+# The keyboard goes down and comes back: the newest message stays above the composer.
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-keyboard-closed
+- tapOn:
+    id: 'chat-composer'
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-keyboard-reopened
+- hideKeyboard
+- waitForAnimationToEnd
+
+# Back through the history and down again.
+- swipe:
+    start: 50%, 35%
+    end: 50%, 75%
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-scrolled-back
+- tapOn:
+    id: 'chat-jump-latest'
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-back-at-latest
+
+# The attach menu (a photo itself needs the system picker, which no flow drives).
+- tapOn: 'Thêm tệp đính kèm'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-attach'
+    timeout: 5000
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-attach-menu
+
+# The organiser again (kept first), in English: an expense posts its card in the chat.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+      PREFIX: en
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 60000
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn: 'ADD AN EXPENSE'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+# ADD stays disabled until an amount lands, so the entry is typed again until the expense is added.
+- retry:
+    maxRetries: 3
+    commands:
+      - waitForAnimationToEnd
+      - tapOn: '1'
+      - tapOn: '2'
+      - tapOn: '5'
+      - tapOn:
+          id: 'money-add-submit'
+      - extendedWaitUntil:
+          visible:
+            id: 'money-latest-row'
+          timeout: 15000
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 15000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-expense-view-.*'
+    timeout: 30000
+- assertNotVisible:
+    id: 'chat-unknown-.*'
+- waitForAnimationToEnd
+- takeScreenshot: en-walk-expense-card
+# VIEW opens the expense.
+- tapOn:
+    id: 'chat-expense-view-.*'
+- extendedWaitUntil:
+    visible:
+      id: 'money-detail-shares'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-walk-expense-opened
