@@ -1,0 +1,109 @@
+appId: app.critterpass.dev
+---
+# Home right after a fresh account's crew of one locks a trip to Đà Nẵng, no demo world: the next-up
+# card sets ĐÀ NẴNG with its stacked mark clear of the line above, carries no plan pill while the
+# plan has no progress, the guide button shows the trip's guide (Chà Vá) and the Explore row sits
+# at the foot. Shot in English, then in Vietnamese.
+- runFlow: ../happy/subflows/fresh-account.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Just Me'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 20000
+- tapOn:
+    id: 'start-crew-done'
+- runFlow:
+    file: ../happy/subflows/pitch-place.yaml
+    env:
+      QUERY: 'da nang'
+- openLink: critterpass-dev://
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+- runFlow: ../proposal/subflows/setup-to-draft.yaml
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- tapOn:
+    id: 'draft-propose'
+# Nobody to pitch it to: lock it in, or invite friends first.
+- extendedWaitUntil:
+    visible:
+      id: 'build-lock-alone'
+    timeout: 30000
+- assertVisible:
+    id: 'build-invite'
+- tapOn:
+    id: 'build-lock-alone'
+# The trip is confirmed: Home shows it as the next trip.
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 60000
+- assertNotVisible:
+    id: 'home-plan-progress'
+- assertVisible:
+    id: 'home-explore'
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-2-home-da-nang-locked
+# The same Home in Vietnamese: the dev gallery switches the running app's language.
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+# Back from the gallery lands on the developer tools list, one more back on Home.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-gallery'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: vi-3b-2-home-da-nang-locked

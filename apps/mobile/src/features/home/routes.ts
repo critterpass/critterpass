@@ -45,4 +45,6 @@ export const homeRoutes = {
   recap: (tripId: string): Href | undefined => hrefFor('3m-1', { tripId }),
   profile: (): Href | undefined => hrefFor('3n-1'),
   pitch: (crewId: string): Href | undefined => hrefFor('3b-3', { crewId }),
+  /** The Explore front page (undesigned, so it is known by name). */
+  explore: (): Href | undefined => hrefFor('explore-home'),
 };
