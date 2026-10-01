@@ -97,6 +97,50 @@ export function baturLeaveBy(
   });
 }
 
+/** 04:40 on Fri 2 Oct in Vietnam (UTC+7). */
+export const AT_0440 = new Date('2026-10-01T21:40:00Z');
+
+/**
+ * The first morning of a Đà Nẵng trip: flight 9G 956 leaves Ho Chi Minh City at 07:05, and with
+ * no place to leave from there is no travel leg, so the leave-by is stored as 04:55 (check-in two
+ * hours before, less the buffer) and reads "Be at the airport by 05:05".
+ */
+export function airportLeaveBy(): LeaveByView {
+  return buildLeaveBy({
+    row: {
+      id: LEAVE_BY,
+      trip_id: LAB_TRIP,
+      plan_item_id: null,
+      title: '9G 956 SGN → DAD',
+      place_name: 'Tan Son Nhat',
+      local_date: '2026-10-02',
+      starts_at: '2026-10-02T00:05:00Z',
+      leave_at: '2026-10-01T21:55:00Z',
+      pickup_at: null,
+      tz: 'Asia/Ho_Chi_Minh',
+      legs: JSON.stringify([{ kind: 'none', minutes: 0 }]),
+      alarm_policy: JSON.stringify({ lead_min: 10, only_if_not_up: true, snooze_limit: 1 }),
+      pickup: null,
+      buffer_min: 10,
+      guide_note: null,
+      participant_ids: JSON.stringify([WINSTON]),
+      state: 'window',
+    },
+    readiness: [
+      {
+        leave_by_id: LEAVE_BY,
+        user_id: WINSTON,
+        state: 'not_up',
+        snooze_count: 0,
+        knock_sent_at: null,
+      },
+    ],
+    members: BALI_CREW.slice(0, 1),
+    me: WINSTON,
+    now: AT_0440,
+  });
+}
+
 export const BALI_PACK: readonly PackChip[] = [
   { id: 'p1', label: 'Headlamp', packed: true, personal: false, suggested: true, pending: false },
   { id: 'p2', label: 'Warm layer', packed: true, personal: false, suggested: true, pending: false },

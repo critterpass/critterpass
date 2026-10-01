@@ -1,8 +1,11 @@
 import { t } from '@lingui/core/macro';
 import { StyleSheet, View } from 'react-native';
 
+import { useVisitConsentEntry } from '@/lib/location';
+
 import { InlineAction } from '../buttons/InlineAction';
 import { PillButton } from '../buttons/PillButton';
+import { Icon } from '../icons/Icon';
 import { SettingsGroup } from '../inputs/SettingsGroup';
 import { Sheet } from '../sheet/Sheet';
 import { Text } from '../text/Text';
@@ -115,6 +118,39 @@ export function VisitDetectionSettings({
   );
 }
 
+/** The row itself: what is not happening, and the one action that brings the sheet back. */
+export function VisitConsentRowView({ onPress }: { readonly onPress: () => void }) {
+  const theme = useTheme();
+  return (
+    <View style={styles.row} testID="visit-consent-row">
+      <Icon name="pin" size={18} decorative />
+      <Text variant="caption" color={theme.semantic.text.secondary} style={styles.rowLine}>
+        {t({
+          id: 'permissions.visits.row',
+          message: 'Places you visit on this trip are not remembered yet.',
+        })}
+      </Text>
+      <InlineAction
+        label={t({ id: 'permissions.visits.accept', message: 'Turn on' })}
+        onPress={onPress}
+        testID="visit-consent-row-action"
+      />
+    </View>
+  );
+}
+
+/**
+ * For a trip screen, after "Not now": one quiet line that brings the consent sheet back. Renders
+ * nothing unless it is a trip day and the traveller has not decided.
+ */
+export function VisitConsentRow() {
+  const { offered, open } = useVisitConsentEntry();
+  return offered ? <VisitConsentRowView onPress={open} /> : null;
+}
+
 const styles = StyleSheet.create({
+  row: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 10 },
+  rowLine: { flex: 1 },
+
   content: { paddingHorizontal: 20, paddingBottom: 12, gap: 14, alignItems: 'center' },
 });

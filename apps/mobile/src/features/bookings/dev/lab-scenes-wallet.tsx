@@ -254,6 +254,7 @@ export const WALLET_SCENES: Readonly<Record<string, () => ReactNode>> = {
         problems={[]}
         showProblems={false}
         saving={false}
+        zone={{ city: 'Makassar', offset: 'GMT+8' }}
         onChange={noop}
         onSave={noop}
       />
@@ -268,6 +269,7 @@ export const WALLET_SCENES: Readonly<Record<string, () => ReactNode>> = {
         problems={problemsOf(draft, LAB_TZ)}
         showProblems
         saving={false}
+        zone={{ city: 'Makassar', offset: 'GMT+8' }}
         onChange={noop}
         onSave={noop}
       />

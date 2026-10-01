@@ -9,6 +9,8 @@ import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
 
+import { UpdatesSection } from './updates';
+
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
@@ -35,11 +37,7 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
     title: 'Labs',
     entries: [
       { testId: 'dev-nav-accounts', href: '/(dev)/accounts', label: 'Test accounts (two people)' },
-      {
-        testId: 'dev-nav-start-fresh',
-        href: '/(dev)/start-fresh',
-        label: 'Start fresh (new user on this phone)',
-      },
+      { testId: 'dev-nav-start-fresh', href: '/(dev)/start-fresh', label: 'Start as a new user' },
       {
         testId: 'dev-nav-proposal-lab',
         href: '/(dev)/proposal-lab',
@@ -315,6 +313,9 @@ export default function DevToolsIndexScreen() {
             {buildMarkerLabel()}
           </SecondaryText>
         </Stack>
+        <Section title="Updates">
+          <UpdatesSection />
+        </Section>
         <Section title="Demo data">
           <SeedDemoData />
         </Section>

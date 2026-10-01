@@ -4,13 +4,14 @@
  * alarm, a widget, another phone) cancels it, and a moved leave-by moves it. Pure, so the sync and
  * its tests agree on the rules.
  */
-import type { LeaveByView } from '../leave-by/model';
+import type { LeaveByDeadline, LeaveByView } from '../leave-by/model';
 
 export interface DesiredAlarm {
   readonly leaveById: string;
   readonly tripId: string;
   readonly fireAt: Date;
   readonly leaveAt: Date;
+  readonly deadline: LeaveByDeadline;
   readonly placeName: string | null;
   readonly tz: string;
   readonly pickup: LeaveByView['pickup'];
@@ -47,6 +48,7 @@ export function desiredAlarms(
       tripId: view.tripId,
       fireAt,
       leaveAt: view.leaveAt,
+      deadline: view.deadline,
       placeName: view.placeName,
       tz: view.tz,
       pickup: view.pickup,

@@ -23,6 +23,8 @@ export interface CandidateView {
   /** Whose inbox it came from, when it was not the member's own. */
   readonly fromMember: string | null;
   readonly mine: boolean;
+  /** The member pasted or scanned it just now, so it was not found in anyone's inbox. */
+  readonly broughtIn: boolean;
   readonly travellerIds: readonly string[];
   readonly canSplit: boolean;
   readonly failureReason: string | null;
@@ -82,6 +84,7 @@ export function toCandidateView(
       ? null
       : (members.find((member) => member.userId === row.user_id)?.name ?? null),
     mine,
+    broughtIn: mine && (row.source === 'paste' || row.source === 'scan'),
     travellerIds,
     canSplit: booking?.price != null && booking.price.amount_minor > 0 && travellerIds.length >= 2,
     failureReason: row.failure_reason,

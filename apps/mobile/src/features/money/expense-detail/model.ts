@@ -18,6 +18,14 @@ interface Snapshot {
   readonly shares?: readonly { readonly user_id: string; readonly computed_minor: number }[];
 }
 
+/**
+ * The history rows the detail lists under CHANGES: edits and the delete. The row written when the
+ * expense was added records its first state, not a change.
+ */
+export function changesOf<Row extends Pick<EditRow, 'kind'>>(edits: readonly Row[]): Row[] {
+  return edits.filter((edit) => edit.kind !== 'created');
+}
+
 /** The fields an `edited` history row changed, in reading order. */
 export function changedFields(edit: Pick<EditRow, 'before' | 'after'>): EditField[] {
   const before = json<Snapshot>(edit.before, {});

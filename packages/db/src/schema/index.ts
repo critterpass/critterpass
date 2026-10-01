@@ -92,6 +92,7 @@ export {
   supplierOrders,
 } from './suppliers';
 export { locationFixes, locationShares, memberEtas, visits } from './location';
+export { helpSessionMessages, helpSessionPrivate, helpSessions } from './safety';
 export { meetups } from './meetups';
 export {
   expenseEdits,

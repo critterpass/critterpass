@@ -20,7 +20,7 @@ import { useMotionMode } from '../../../motion/motion-mode';
 import { Scaffold } from '../../surface/Scaffold';
 import { presenterProgress, resetPresenterForTests } from '../presenter';
 import { RiseModal } from '../RiseModal';
-import { detentHeights, Sheet } from '../Sheet';
+import { detentHeights, Sheet, sheetFootClearance } from '../Sheet';
 import { SheetScrollView } from '../SheetScrollView';
 import { resolveRelease } from '../use-modal-presentation';
 
@@ -447,5 +447,21 @@ describe('RiseModal', () => {
     );
     await drag('story-drag', 150, 200);
     expect(onDismiss).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('the room a sheet keeps at its foot', () => {
+  it('is the home indicator while the keyboard is down', () => {
+    expect(sheetFootClearance('ios', 34, 0)).toBe(34);
+    expect(sheetFootClearance('android', 24, 0)).toBe(24);
+  });
+
+  it('is the keyboard on iPhone, whose height counts from the bottom of the screen', () => {
+    expect(sheetFootClearance('ios', 34, 336)).toBe(336);
+  });
+
+  it('adds the navigation bar on Android, whose keyboard height counts from the top of the bar', () => {
+    expect(sheetFootClearance('android', 24, 290)).toBe(314);
+    expect(sheetFootClearance('android', 0, 290)).toBe(290);
   });
 });

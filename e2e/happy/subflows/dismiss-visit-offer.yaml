@@ -1,0 +1,10 @@
+appId: app.critterpass.dev
+---
+# About ten minutes after a trip starts, the visit history offer rises over whatever is open:
+# NOT NOW puts it away when it is up.
+- runFlow:
+    when:
+      visible: 'NOT NOW'
+    commands:
+      - tapOn: 'NOT NOW'
+      - waitForAnimationToEnd
