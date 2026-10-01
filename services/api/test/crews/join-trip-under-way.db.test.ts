@@ -1,7 +1,8 @@
 /**
  * Getting on a trip that is already locked in, through the real `/v1/cmd` door against a migrated
  * Postgres. A friend who joins with the crew's code while the trip is under way is on the trip:
- * IN, one more seat taken, the plan readable as them, and the reply announced like an RSVP. The
+ * IN, one more seat taken, the plan readable as them, the reply announced like an RSVP and the
+ * trip day (leave-bys, their morning briefing) queued to take them in. The
  * seventh person on an unboosted trip waits. A trip that is over, or not locked in yet, leaves the
  * joiner in the crew alone, and once it is confirmed they join it themselves; nobody outside the
  * crew can.
@@ -116,6 +117,16 @@ const replies = async (tripId: string, uid: string) =>
     )
   ).rows.map((row) => row.rsvp);
 
+/** How many trip-day recomputes are queued for the trip (leave-bys and morning briefings). */
+const tripDayJobs = async (tripId: string) =>
+  (
+    await harness.pool.query<{ n: number }>(
+      `SELECT count(*)::int AS n FROM pgboss.job
+        WHERE name = 'leaveby.recompute' AND data->>'trip_id' = $1`,
+      [tripId],
+    )
+  ).rows[0]?.n;
+
 describe('joining a crew whose trip is locked in', () => {
   it('puts a friend who joins with the crew code mid-trip on the trip', async () => {
     const crewId = await startCrew(harness, organiser);
@@ -150,6 +161,8 @@ describe('joining a crew whose trip is locked in', () => {
     });
     expect(await seatsHeld(tripId)).toBe(3);
     expect(await replies(tripId, friend.uid)).toEqual(['in']);
+    // The trip day takes them in: its leave-bys and their morning briefing are recomputed.
+    expect(await tripDayJobs(tripId)).toBe(1);
 
     // As the friend, under RLS: the trip, who is on it and the plan's day.
     const seen = await withUser(harness.pool, friend.uid, randomUUID(), async (tx) => ({
@@ -188,6 +201,8 @@ describe('joining a crew whose trip is locked in', () => {
     });
     expect(await seatsHeld(tripId)).toBe(6);
     expect(await replies(tripId, seventh.uid)).toEqual(['waitlisted']);
+    // No seat, so the trip day stays as it is.
+    expect(await tripDayJobs(tripId)).toBe(0);
   });
 
   it('seats a joiner on every trip of the crew that is locked in, the one under way first', async () => {
