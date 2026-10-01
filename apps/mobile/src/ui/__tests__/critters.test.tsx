@@ -54,7 +54,7 @@ describe('critter dex', () => {
     expect(onFilter).toHaveBeenCalledWith('found');
   });
 
-  it('pairs every tier with its glyph and word, and labels missing forms', async () => {
+  it('names every tier in words, and labels missing forms', async () => {
     await renderUi(
       <HereNowForms
         title="Here now · Bali"
@@ -66,9 +66,8 @@ describe('critter dex', () => {
     );
     expect(screen.getByRole('image', { name: 'Rare form, found' })).toBeTruthy();
     expect(screen.getByRole('image', { name: 'Epic form, not found yet' })).toBeTruthy();
-    expect(
-      screen.getByText(`${tokens.tier.epic.glyph} EPIC`, { includeHiddenElements: true }),
-    ).toBeTruthy();
+    // The cells set the tier word alone, as the 3l-2 render does: never colour-only.
+    expect(screen.getByText('EPIC', { includeHiddenElements: true })).toBeTruthy();
   });
 
   it('labels locked set slots by city, never by critter', async () => {

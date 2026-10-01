@@ -171,6 +171,7 @@ staging's AI, so those flows allow a few minutes for them.
 | `bookings`       | paste a confirmation → candidate → ADD → wallet stack → the flight's details     |
 | `suppliers`      | activity cards → OPEN KLOOK → click recorded → the partner redirect              |
 | `fresh-wallet`   | no seed: crew of one → Money in VND → BOOKINGS/MONEY → forward address → SAVE    |
+| `critters`       | fresh account → PASS Critterdex synced → FOUND empty → a set page → Explore at home kept after a relaunch |
 
 The `happy` preset records every flow on video (`screenrecord` in three-minute segments on Android,
 `simctl io recordVideo` on iOS; `tools/scripts/ci-device/screen-video.ts`) and the publish job builds

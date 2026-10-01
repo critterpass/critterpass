@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# The accessible path (3l-4): while the ring fills there is no way to befriend; once ready the
+# "Befriend without holding" link is there alongside the hold ring.
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3l-4-filling'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-hold'
+    timeout: 15000
+- assertNotVisible:
+    id: 'critters-encounter-tap'
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3l-4-ready'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-tap'
+    timeout: 15000
+- assertVisible:
+    id: 'critters-encounter-hold'

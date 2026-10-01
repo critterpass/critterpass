@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# Once a year (3l-9): REMIND ME turns every reminder on and reads REMINDERS ON; again turns them off.
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3l-9-once-a-year'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-legendaries-remind'
+    timeout: 15000
+- tapOn:
+    id: 'critters-legendaries-remind'
+- extendedWaitUntil:
+    visible:
+      text: 'REMINDERS ON'
+    timeout: 5000
+- tapOn:
+    id: 'critters-legendaries-remind'
+- extendedWaitUntil:
+    visible:
+      text: 'REMIND ME'
+    timeout: 5000

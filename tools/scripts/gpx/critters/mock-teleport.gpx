@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="critterpass" xmlns="http://www.topografix.com/GPX/1/1" xmlns:cp="https://critterpass.app/gpx">
+  <metadata><name>mock-teleport</name><desc>A mock-location app parks the phone on the pools for six minutes; every fix carries the simulated flag.</desc></metadata>
+  <trk><trkseg>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:00:00Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:00:10Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:00:20Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:00:30Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:00:40Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:00:50Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:01:00Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:01:10Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:01:20Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:01:30Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:01:40Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:01:50Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:02:00Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:02:10Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:02:20Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:02:30Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:02:40Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:02:50Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:03:00Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:03:10Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:03:20Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:03:30Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:03:40Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:03:50Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:04:00Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:04:10Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:04:20Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:04:30Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:04:40Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:04:50Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:05:00Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:05:10Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:05:20Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:05:30Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:05:40Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:05:50Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+    <trkpt lat="-8.4152731" lon="115.3153182"><time>2026-10-03T02:06:00Z</time><extensions><cp:accuracy>5</cp:accuracy><cp:mock>1</cp:mock></extensions></trkpt>
+  </trkseg></trk>
+</gpx>

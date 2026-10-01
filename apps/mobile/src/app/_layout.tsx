@@ -15,7 +15,12 @@ import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { getAlarmPort } from '../../modules/cp-alarm';
-import { appGroupOutbox, writeEndpointsConfig, writeImage } from '../../modules/cp-app-group';
+import {
+  appGroupOutbox,
+  writeEndpointsConfig,
+  writeImage,
+  writeSnapshot,
+} from '../../modules/cp-app-group';
 import * as cpDeferredLink from '../../modules/cp-deferred-link';
 import { getLocationNative } from '../../modules/cp-location';
 import { cpNotifications } from '../../modules/cp-notifications/src';
@@ -48,6 +53,7 @@ import { SetupNotificationActions } from '@/features/setup/notifications';
 import '@/features/setup/register';
 import '@/features/plan/overview/register';
 import { TripDayRuntime } from '@/features/trip/hub/register';
+import { CritterRuntime } from '@/features/critters/register';
 import '@/features/bookings/supplier/register';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
@@ -156,6 +162,7 @@ function SessionBridges() {
       <SetupNotificationActions />
       <ChangesetNotificationActions />
       <TripDayRuntime alarmPort={getAlarmPort()} />
+      <CritterRuntime writeSnapshot={writeSnapshot} />
     </>
   );
 }

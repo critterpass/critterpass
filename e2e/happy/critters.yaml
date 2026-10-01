@@ -1,0 +1,73 @@
+appId: app.critterpass.dev
+---
+# Release gate: the Critterdex for a brand-new traveller. A fresh account (onboarded through the
+# app, no crew, no trip) opens the PASS tab: the catalogue has synced from staging, nothing is
+# found yet, FOUND says so, and a ranked place opens its set page with every critter still a
+# silhouette. With a home set, Explore at home is turned on through the api and is still on after
+# a relaunch.
+- runFlow:
+    file: subflows/fresh-account.yaml
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 60000
+- assertVisible:
+    text: 'YOUR CRITTERDEX'
+- assertNotVisible:
+    id: 'critters-here-now'
+- tapOn:
+    text: 'FOUND'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-empty'
+    timeout: 10000
+- tapOn:
+    text: 'ALL'
+- scrollUntilVisible:
+    element:
+      id: 'critters-set-1'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'critters-set-1'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-set'
+    timeout: 10000
+- assertVisible:
+    id: 'critters-set-back'
+- tapOn:
+    id: 'critters-set-back'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 10000
+- runFlow:
+    when:
+      visible:
+        id: 'critters-home-set'
+    commands:
+      - tapOn:
+          text: 'Explore at home'
+      - extendedWaitUntil:
+          visible:
+            text: 'Explore at home'
+            checked: true
+          timeout: 10000
+      # Give the upload queue a moment, then relaunch: the opt-in is still on.
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - launchApp
+      - extendedWaitUntil:
+          visible:
+            id: 'tab-pass'
+          timeout: 60000
+      - tapOn:
+          id: 'tab-pass'
+      - extendedWaitUntil:
+          visible:
+            text: 'Explore at home'
+            checked: true
+          timeout: 20000

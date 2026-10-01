@@ -1,0 +1,35 @@
+appId: app.critterpass.dev
+---
+# The Critterdex filters (3l-2): FOUND keeps only befriended critters, NEAR ME the ones around the
+# trip, and a place search narrows to that place; ALL brings everything back.
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3l-2-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-here-now'
+    timeout: 15000
+- tapOn:
+    text: 'FOUND'
+- extendedWaitUntil:
+    notVisible:
+      id: 'critters-here-now'
+    timeout: 5000
+- assertVisible:
+    text: 'VIETNAM'
+- tapOn:
+    text: 'ALL'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-here-now'
+    timeout: 5000
+- tapOn:
+    id: 'critters-dex-search'
+- inputText: 'Vietnam'
+- extendedWaitUntil:
+    visible:
+      text: 'VIETNAM'
+    timeout: 5000
+- assertNotVisible:
+    id: 'critters-here-now'
