@@ -5,14 +5,14 @@
  * listens on.
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { act, render, screen, waitFor } from '@testing-library/react-native';
+import { act, render, screen } from '@testing-library/react-native';
 import { Text } from 'react-native';
 
 import { resetOnSignOutHooksForTests } from '../../auth/sign-out-hooks';
 import { useLocalFirst } from '../../powersync/local-first-context';
 import { useRealtimeClient } from '../../realtime/use-channel';
 import { AppSessionRoot } from '../AppSessionRoot';
-import { startAppSession } from '../start-app-session';
+import { startAppSession, type AppSession } from '../start-app-session';
 import { memoryLastUid, sessionHarness, type SessionHarness } from '../test-support/session-deps';
 
 jest.mock(
@@ -80,26 +80,53 @@ function LocalFirstProbe() {
   return <Text>{db.closed ? 'closed' : 'db-open'}</Text>;
 }
 
+/**
+ * Every start the root makes. A start opens a real encrypted database, which takes as long as the
+ * runner lets it, so the tests wait for the start itself rather than poll the screen against a
+ * clock.
+ */
+function recordStarts(start: () => Promise<AppSession>) {
+  const attempts: Promise<AppSession>[] = [];
+  return {
+    attempts,
+    start: () => {
+      const attempt = start();
+      attempts.push(attempt);
+      return attempt;
+    },
+  };
+}
+
+/** Waits for a start to succeed or fail, and for the root to render what it did with it. */
+async function settled(attempt: Promise<unknown> | undefined): Promise<void> {
+  expect(attempt).toBeDefined();
+  await act(async () => {
+    await attempt?.catch(() => undefined);
+  });
+}
+
 describe('AppSessionRoot', () => {
   it('provides the started database and realtime client to the screens', async () => {
     const { start, appState } = harness({ online: true });
+    const root = recordStarts(start);
 
     await render(
-      <AppSessionRoot start={start} appState={appState} onError={() => undefined}>
+      <AppSessionRoot start={root.start} appState={appState} onError={() => undefined}>
         <Probe />
       </AppSessionRoot>,
     );
     expect(screen.getByText('starting')).toBeTruthy();
-    await waitFor(() => expect(screen.getByText('ready:uid-online')).toBeTruthy(), {
-      timeout: 10_000,
-    });
+    expect(root.attempts).toHaveLength(1);
+    await settled(root.attempts[0]);
+    expect(screen.getByText('ready:uid-online')).toBeTruthy();
 
     await screen.rerender(
-      <AppSessionRoot start={start} appState={appState} onError={() => undefined}>
+      <AppSessionRoot start={root.start} appState={appState} onError={() => undefined}>
         <LocalFirstProbe />
       </AppSessionRoot>,
     );
     expect(screen.getByText('db-open')).toBeTruthy();
+    expect(root.attempts).toHaveLength(1);
   });
 
   it('retries a failed start when the app returns to the foreground', async () => {
@@ -107,21 +134,30 @@ describe('AppSessionRoot', () => {
     const errors: unknown[] = [];
     const session = harness({ online: true });
     const { appState } = session;
-    const start = () =>
-      online ? session.start() : Promise.reject(new Error('Network request failed'));
+    const root = recordStarts(() =>
+      online ? session.start() : Promise.reject(new Error('Network request failed')),
+    );
 
     await render(
-      <AppSessionRoot start={start} appState={appState} onError={(error) => errors.push(error)}>
+      <AppSessionRoot
+        start={root.start}
+        appState={appState}
+        onError={(error) => errors.push(error)}
+      >
         <Probe />
       </AppSessionRoot>,
     );
-    await waitFor(() => expect(errors).toHaveLength(1));
+    await settled(root.attempts[0]);
+    expect(errors).toHaveLength(1);
+    expect(screen.getByText('starting')).toBeTruthy();
 
+    // A slow runner may also reach the first backoff retry while offline; the foreground return
+    // is still what starts the session.
     online = true;
+    const before = root.attempts.length;
     await act(() => appState.emit('active'));
-
-    await waitFor(() => expect(screen.getByText('ready:uid-online')).toBeTruthy(), {
-      timeout: 10_000,
-    });
+    expect(root.attempts).toHaveLength(before + 1);
+    await settled(root.attempts.at(-1));
+    expect(screen.getByText('ready:uid-online')).toBeTruthy();
   });
 });
