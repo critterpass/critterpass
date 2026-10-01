@@ -2,7 +2,7 @@
  * Client specs for the wallet's commands. Adding, editing, deleting and sharing a booking, ADD /
  * IGNORE on a candidate, reporting a landing and deleting a policy may wait in the offline queue
  * (the cards update when their rows sync). Paste and scan imports need the server to read them,
- * and a policy is sealed on arrival, so those go online.
+ * a link code is checked there, and a policy is sealed on arrival, so those go online.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type {
@@ -97,6 +97,12 @@ export const deleteInsuranceCommand = defineClientCommand<{ policy_id: string }>
   name: 'delete_insurance_policy',
   offline: true,
   summarize: () => msg({ id: 'bookings.queued.insuranceDelete', message: 'A deleted policy' }),
+});
+
+/** Links an address the crew's forwards came from, with the code that address was emailed. */
+export const verifySenderEmailCommand = defineClientCommand<{ crew_id: string; code: string }>({
+  name: 'verify_sender_email',
+  offline: false,
 });
 
 export const connectMailboxCommand = defineClientCommand<{
