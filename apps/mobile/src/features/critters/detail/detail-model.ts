@@ -57,8 +57,8 @@ export interface DetailForm {
   readonly spec: FormSpec | null;
   /** The form's own name ("Temple Tokek"), from my verified find only. */
   readonly name: string | null;
-  /** Where it lives ("Water temples"), shown beside the tier. */
-  readonly habitat: string | null;
+  /** The form's own field note (a sentence), read out under the card in place of the critter's. */
+  readonly note: string | null;
   readonly foundAt: string | null;
   readonly place: string | null;
 }
@@ -96,7 +96,7 @@ export function buildDetail(
         requirement: form.requirement_copy ?? '',
         spec: formSpec(form),
         name: entry?.form_name ?? entry?.critter_name ?? null,
-        habitat: form.note,
+        note: form.note,
         foundAt: entry?.found_at ?? null,
         place: entry?.poi_name ?? null,
       };

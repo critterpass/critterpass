@@ -294,3 +294,4 @@ export * from './locale/app-locale';
 export * from './locale/guide-text';
 export * from './you';
 export * from './safety';
+export * from './account';

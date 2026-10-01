@@ -1,10 +1,10 @@
 /**
  * The encounter engine in the session: `EncounterRuntime` keeps its spawn candidates and constants
- * fresh from local rows, hands it the command queue, and feeds it the location engine's fixes only
- * while there is something to meet (it never asks for permission and never starts a location
- * session itself). While an encounter runs it ticks each second (the drain) and mirrors a nearby
- * snapshot (distance band and silhouette stage, no position) to the App Group for the Live
- * Activity and widgets. `useEncounter` is the screens' view of it.
+ * fresh from local rows, holds the trip's sync pack, hands it the command queue, and feeds it the
+ * location engine's fixes only while there is something to meet (it never asks for permission and
+ * never starts a location session itself). While an encounter runs it ticks each second (the
+ * drain) and mirrors a nearby snapshot (distance band and silhouette stage, no position) to the
+ * App Group for the Live Activity and widgets. `useEncounter` is the screens' view of it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and file keys, never copy. */
 import { resolveEncounterConfig, type WindowRule } from '@cp/domain';
@@ -12,6 +12,7 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { getLocationEngine, useExploreAtHome } from '@/lib/location';
 import { toast } from '@/motion';
 
@@ -90,6 +91,11 @@ export function EncounterRuntime() {
   const exploreAtHome = useExploreAtHome();
   const foreground = useInFront();
   const [minute, setMinute] = useState(() => Math.floor(Date.now() / 60_000));
+
+  // The trip's pack (its destination's spawn rules and places) only syncs while something holds
+  // it, and trip screens let go a day after they close. Critters hold it for the trip under way,
+  // or the next one coming up, so the rules are on the phone before it lands with no signal.
+  useTripStreams(rows.trips[0]?.id ?? null);
 
   const candidates = useMemo(() => {
     const trip = rows.trips.find((t) => t.status === 'in_trip') ?? null;

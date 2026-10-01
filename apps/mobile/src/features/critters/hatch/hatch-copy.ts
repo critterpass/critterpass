@@ -11,13 +11,22 @@ export function eggWaiting(place: string): { title: string; body: string } {
   };
 }
 
-export function eggReady(place: string): { title: string; body: string; cta: string } {
+/** `there`: the phone is known to be at the place; otherwise only the trip has started. */
+export function eggReady(
+  place: string,
+  there: boolean,
+): { title: string; body: string; cta: string } {
   return {
     title: t({ id: 'critters.egg.readyTitle', message: 'Your egg is wobbling' }),
-    body: t({
-      id: 'critters.egg.readyBody',
-      message: `You're in ${place}. It's ready when you are.`,
-    }),
+    body: there
+      ? t({
+          id: 'critters.egg.readyBody',
+          message: `You're in ${place}. It's ready when you are.`,
+        })
+      : t({
+          id: 'critters.egg.startedBody',
+          message: `Your ${place} trip has started. It's ready when you are.`,
+        }),
     cta: t({ id: 'critters.egg.hatchIt', message: 'Hatch it' }),
   };
 }

@@ -874,6 +874,20 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     task_id: crypto.randomUUID(),
     details_consent: true,
   },
+  'account.closed': {
+    user_id: crypto.randomUUID(),
+    deletion_id: crypto.randomUUID(),
+    instant: false,
+    source: 'app',
+  },
+  'account.restored': { user_id: crypto.randomUUID(), deletion_id: crypto.randomUUID() },
+  'account.purged': { deletion_id: crypto.randomUUID(), forced: false },
+  'trip.organiser_transferred': {
+    trip_id: crypto.randomUUID(),
+    from_id: crypto.randomUUID(),
+    to_id: null,
+    reason: 'account_closed',
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

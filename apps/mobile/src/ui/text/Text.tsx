@@ -19,6 +19,7 @@ import type { Theme } from '../theme';
 import { useTheme } from '../theme';
 import { ADVANCE_RATIO, AUTO_FIT_MIN_SCALE, horizontalInset, useAutoFit } from './auto-fit';
 import { glyphRoomStyle, lineBoxEm } from './glyph-room';
+import { useWrappedLeading } from './line-box';
 
 const { type } = tokens;
 
@@ -210,9 +211,16 @@ export function Text({
   });
 
   const fontSize = fit.fontSize;
+  // Wrapped display text opens its leading for marks stacked under another line (Ẵ under ĐÀ); a
+  // caller's own line height (a wrapped pill label) is what's laid out.
+  const callerLineHeight = callerStyle?.lineHeight;
+  const leading = useWrappedLeading(
+    text !== null && font.fontFamily.startsWith('Archivo') && typeof callerLineHeight !== 'number',
+    font.lineHeightMultiplier,
+  );
   const variantStyle: TextStyle = {
     fontSize,
-    lineHeight: fontSize * font.lineHeightMultiplier,
+    lineHeight: fontSize * leading.multiplier,
     letterSpacing: (token.letterSpacing ?? 0) * fontSize,
     fontStyle: fallback?.fontStyle ?? font.fontStyle,
     color: color ?? defaultColor(theme, tone, variant === 'eyebrow'),
@@ -225,10 +233,9 @@ export function Text({
   };
 
   // Tight display leading would otherwise clip cap tops and stacked marks (Ệ, Ữ) off the first
-  // line, and ride high on iOS; a caller's own line height (a wrapped pill label) is what's laid out.
-  const callerLineHeight = callerStyle?.lineHeight;
+  // line, and ride high on iOS.
   const lineHeight =
-    typeof callerLineHeight === 'number' ? callerLineHeight : fontSize * font.lineHeightMultiplier;
+    typeof callerLineHeight === 'number' ? callerLineHeight : fontSize * leading.multiplier;
   // In whole device pixels (the room rounded up, so it still clears the tallest mark): Android
   // rounds a fractional padding away, moving the glyphs up by up to a pixel inside their slot.
   const box = lineBoxEm(font.fontFamily, lineHeight / fontSize);
@@ -258,7 +265,8 @@ export function Text({
         onLayout?.(event);
       }}
       onTextLayout={(event) => {
-        const adjusting = fit.onTextLayout(event);
+        const opened = leading.onLines(event.nativeEvent.lines);
+        const adjusting = fit.onTextLayout(event) || opened;
         if (UI_QA_ENABLED && !adjusting && text !== null) {
           const problems = textLayoutProblems({
             lines: event.nativeEvent.lines,

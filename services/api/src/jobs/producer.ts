@@ -20,6 +20,7 @@ import {
   EXPLORE_QUEUES,
   GUIDE_QUEUES,
   INBOX_FANOUT_QUEUE,
+  ACCOUNT_QUEUES,
   LA_QUEUES,
   notificationKeysForEvent,
   notifyRouteSingletonKey,
@@ -112,6 +113,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(QUEST_QUEUES),
       LA_QUEUES.orchestrate,
       ...Object.values(SAFETY_QUEUES),
+      ACCOUNT_QUEUES.purge,
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
     ]) {

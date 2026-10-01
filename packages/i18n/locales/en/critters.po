@@ -531,6 +531,10 @@ msgstr "You're in {place}. It's ready when you are."
 msgid "critters.encounter.drainingBody"
 msgstr "You've stepped away. It's watching from the edge, so come back slowly."
 
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.startedBody"
+msgstr "Your {place} trip has started. It's ready when you are."
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.title"
 msgstr "Your Critterdex"

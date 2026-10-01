@@ -83,19 +83,23 @@ export function budgetBreakdown(input: BreakdownInput): Breakdown {
   };
 }
 
-/** The cheapest workable trip each: flights + cheapest stay's low rate + food + fun floor. */
+/**
+ * The cheapest workable trip each: flights + cheapest stay's low rate + food + fun floor. With no
+ * fare known (dates too near or too far for a cached fare) it is the ground part alone: still a
+ * true floor, since no trip costs less than its stay, food and fun. `null` without an index.
+ */
 export function feasibleLow(input: Omit<BreakdownInput, 'target'>): Money | null {
   const { flights, nights, days, index } = input;
-  if (!flights || !index || index.stays.length === 0) return null;
+  if (!index || index.stays.length === 0) return null;
   const cheapestNight = index.stays.reduce(
     (min, s) => (s.nightlyLowMinor < min ? s.nightlyLowMinor : min),
     index.stays[0]?.nightlyLowMinor ?? 0n,
   );
   return of(
-    flights.amountMinor +
+    (flights?.amountMinor ?? 0n) +
       cheapestNight * BigInt(nights) +
       (index.foodPpDayMinor + index.funPpDayMinor) * BigInt(days),
-    flights.currency,
+    index.currency,
   );
 }
 

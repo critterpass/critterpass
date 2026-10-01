@@ -83,7 +83,7 @@ export function HereNowForms({ title, subtitle, forms, hint, testID }: HereNowFo
             accessibilityLabel={formLabel(form.tier, form.found)}
           >
             {form.sticker}
-            <TierWord tier={form.tier} glyph={false} />
+            <TierWord tier={form.tier} glyph={false} fit />
           </Stack>
         ))}
       </Row>
