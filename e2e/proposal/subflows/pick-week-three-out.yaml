@@ -1,0 +1,57 @@
+appId: app.critterpass.dev
+---
+# The dates step's "Pick a week" sheet, as organiser: a week starting three weeks from today
+# (Vietnam time), far enough out that a proposal can still be answered. The sheet opens on the
+# month of the suggested week, which can be another one: its own month is paged to the day's month
+# (the dates step under the sheet has its own month and arrows), then the day is tapped by its id.
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-shorter'
+    timeout: 10000
+- waitForAnimationToEnd
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000 + 21 * 86400000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.pickMonth = '(?i)' + months[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); output.pickId = 'heat-pick-' + d.toISOString().slice(0, 10)}
+- repeat:
+    while:
+      notVisible:
+        text: ${output.pickMonth}
+        childOf:
+          id: 'week-picker-panel'
+    times: 6
+    commands:
+      - tapOn:
+          id: 'heatmap-prev'
+          childOf:
+            id: 'week-picker-panel'
+      - waitForAnimationToEnd
+- repeat:
+    while:
+      notVisible:
+        text: ${output.pickMonth}
+        childOf:
+          id: 'week-picker-panel'
+    times: 6
+    commands:
+      - tapOn:
+          id: 'heatmap-next'
+          childOf:
+            id: 'week-picker-panel'
+      - waitForAnimationToEnd
+- assertVisible:
+    text: ${output.pickMonth}
+    childOf:
+      id: 'week-picker-panel'
+- tapOn:
+    id: ${output.pickId}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- tapOn:
+    id: 'picker-lock'
