@@ -4,7 +4,7 @@
  * to board (3f-5) and who's in (3f-6), each drawn from the pure views with fixed data.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import { useState, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import { AloneView } from '../builder/alone-view';
 import { BuilderView, type BuilderViewProps } from '../builder/builder-view';
@@ -21,6 +21,7 @@ import { TrackerView } from '../tracker/tracker-view';
 import { HypeBar } from '../your-version/hype-bar';
 import { ShareCard } from '../your-version/share-card';
 import { YourVersionView } from '../your-version/your-version-view';
+import { Dismissable } from './dismissable';
 import { DROPOUT_SCENES } from './lab-scenes-dropout';
 import {
   LAB_OPTIONS,
@@ -35,11 +36,6 @@ import {
 
 const noop = () => undefined;
 
-/** A sheet scene that really closes, so back on the scene closes the sheet first. */
-function Dismissable({ children }: { readonly children: (close: () => void) => ReactNode }) {
-  const [open, setOpen] = useState(true);
-  return open ? children(() => setOpen(false)) : null;
-}
 const LOCALE = 'en';
 
 const builder = (over: Partial<BuilderViewProps> = {}) => (

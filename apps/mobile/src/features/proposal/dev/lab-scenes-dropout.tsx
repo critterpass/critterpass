@@ -6,6 +6,7 @@ import { CrowdSheet } from '../crowd/crowd-sheet';
 import type { RsvpStatus } from '../data/trip';
 import { DropoutView } from '../dropout/dropout-view';
 import { LAB_PEOPLE } from './lab-fixtures';
+import { Dismissable } from './dismissable';
 
 const noop = () => undefined;
 
@@ -43,13 +44,17 @@ export const DROPOUT_SCENES: Readonly<Record<string, () => ReactNode>> = {
   dropout: () => dropout(false),
   'dropout-applied': () => dropout(true),
   crowd: () => (
-    <CrowdSheet
-      destination="Đà Nẵng"
-      cap={4}
-      seated={LAB_PEOPLE}
-      waiting={[waiting]}
-      onBoost={null}
-      onClose={noop}
-    />
+    <Dismissable>
+      {(close) => (
+        <CrowdSheet
+          destination="Đà Nẵng"
+          cap={4}
+          seated={LAB_PEOPLE}
+          waiting={[waiting]}
+          onBoost={null}
+          onClose={close}
+        />
+      )}
+    </Dismissable>
   ),
 };
