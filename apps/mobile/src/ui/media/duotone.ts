@@ -19,6 +19,28 @@ export interface DuotoneTreatment {
   readonly opacity: number;
   /** The flood under the photo. */
   readonly base: string;
+  /**
+   * On the dark header: the ink over the photo behind the text, so the photo can stay bright
+   * elsewhere. `title` sits behind the wordmark and countdown row, `eyebrow` behind the dates line.
+   */
+  readonly scrim: { readonly title: number; readonly eyebrow: number } | null;
+}
+
+/** How deep towards ink the dark header's brightest photo tone goes (0 = the accent itself). */
+export const DARK_HIGHLIGHT_DEPTH = 0.2;
+
+/** The least ink over `tone` that keeps every `text` colour at `ratio` against it. */
+export function scrimFor(
+  tone: string,
+  ink: string,
+  text: readonly { readonly colour: string; readonly ratio: number }[],
+): number {
+  for (let step = 0; step <= 20; step += 1) {
+    const alpha = step / 20;
+    const under = mixColour(tone, ink, alpha);
+    if (text.every(({ colour, ratio }) => contrastRatio(colour, under) >= ratio)) return alpha;
+  }
+  return 1;
 }
 
 const WHITE = tokens.color.paper.bright;
@@ -55,18 +77,26 @@ export function treatmentFor(surface: MediaSurface, accent: string, ink: string)
       highlight: mixColour(accent, WHITE, 0.45),
       opacity,
       base: accent,
+      scrim: null,
     };
   }
-  const opacity = 1;
+  // A bright photo; the text keeps its contrast through a scrim behind it, not a darker photo.
   const cream = tokens.color.paper.base;
-  // As bright a highlight as the accent wordmark (3:1) and cream text (4.5:1) allow over it.
-  let depth = 0.3;
-  const readable = (highlight: string) => {
-    const under = composite(highlight, ink, opacity);
-    return contrastRatio(accent, under) >= 3 && contrastRatio(cream, under) >= 4.5;
+  const highlight = mixColour(accent, ink, DARK_HIGHLIGHT_DEPTH);
+  return {
+    shadow: ink,
+    highlight,
+    opacity: 1,
+    base: ink,
+    scrim: {
+      // The wordmark is display type in the accent (3:1); the countdown is cream (4.5:1).
+      title: scrimFor(highlight, ink, [
+        { colour: accent, ratio: 3 },
+        { colour: cream, ratio: 4.5 },
+      ]),
+      eyebrow: scrimFor(highlight, ink, [{ colour: cream, ratio: 4.5 }]),
+    },
   };
-  while (depth < 0.9 && !readable(mixColour(accent, ink, depth))) depth += 0.05;
-  return { shadow: ink, highlight: mixColour(accent, ink, depth), opacity, base: ink };
 }
 
 /** The colour a pixel of the photo lands on screen: `tone` over `base` at `opacity`. */

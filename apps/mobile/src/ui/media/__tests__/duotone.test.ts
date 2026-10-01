@@ -28,11 +28,23 @@ describe('duotone treatment', () => {
 
   it.each(ACCENTS)('keeps the %s title and cream text readable on the dark header', (accent) => {
     const t = treatmentFor('dark', accent, INK);
+    const scrim = t.scrim!;
     for (const tone of [t.shadow, t.highlight]) {
-      const under = composite(tone, t.base, t.opacity);
-      expect(contrastRatio(accent, under)).toBeGreaterThanOrEqual(3);
-      expect(contrastRatio(CREAM, under)).toBeGreaterThanOrEqual(4.5);
+      const photo = composite(tone, t.base, t.opacity);
+      const title = mixColour(photo, INK, scrim.title);
+      expect(contrastRatio(accent, title)).toBeGreaterThanOrEqual(3);
+      expect(contrastRatio(CREAM, title)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(CREAM, mixColour(photo, INK, scrim.eyebrow))).toBeGreaterThanOrEqual(
+        4.5,
+      );
     }
+  });
+
+  it.each(ACCENTS)('shows the photo on the %s header brighter than its text scrim', (accent) => {
+    const t = treatmentFor('dark', accent, INK);
+    expect(t.opacity).toBe(1);
+    expect(t.scrim!.eyebrow).toBeLessThanOrEqual(t.scrim!.title);
+    expect(t.scrim!.title).toBeLessThan(1);
   });
 
   it('maps black to the shadow and white to the highlight', () => {

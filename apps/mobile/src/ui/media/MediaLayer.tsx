@@ -31,7 +31,7 @@ import { dotGridPath } from '../textures/geometry';
 import { TEXTURE } from '../textures/texture-tokens';
 import { makeStyles, useTheme } from '../theme';
 import { blurhashImage } from './blurhash-image';
-import { duotoneMatrix, treatmentFor, type MediaSurface } from './duotone';
+import { duotoneMatrix, treatmentFor, type DuotoneTreatment, type MediaSurface } from './duotone';
 import { LoopVideo, loopPlayerAvailable } from './loop-video';
 
 export interface MediaLayerProps {
@@ -48,6 +48,13 @@ export interface MediaLayerProps {
 }
 
 const FADE_MS = 200;
+
+/** `#rrggbb` with an alpha channel. */
+function withAlpha(hex: string, alpha: number): string {
+  return `${hex}${Math.round(alpha * 255)
+    .toString(16)
+    .padStart(2, '0')}`;
+}
 /** The dark halftone's dot (textures/halftone.tsx). */
 const DARK_DOT_RADIUS = 1.3;
 /** The halftone over a photo is half its strength on the flat colour, so the photo reads. */
@@ -73,6 +80,7 @@ function Still({
   opacity,
   animate,
   fadeTo,
+  scrim,
 }: {
   readonly media: MediaView;
   readonly uri: string;
@@ -83,6 +91,7 @@ function Still({
   readonly animate: boolean;
   /** On the dark scaffold the band, with its dark halftone, fades into it at both edges. */
   readonly fadeTo: string | null;
+  readonly scrim: DuotoneTreatment['scrim'];
 }) {
   const image = useImage(uri);
   const placeholder = useMemo(() => blurhashImage(media.blurhash), [media.blurhash]);
@@ -124,13 +133,22 @@ function Still({
           ))
         )}
       </Group>
-      {fadeTo === null ? null : (
+      {fadeTo === null || scrim === null ? null : (
         <Rect {...frame}>
           <LinearGradient
             start={vec(0, 0)}
             end={vec(0, height)}
-            colors={[fadeTo, `${fadeTo}00`, `${fadeTo}00`, fadeTo]}
-            positions={[0, 0.2, 0.55, 1]}
+            // Solid at both edges (no hard line into the scaffold); behind the dates line and the
+            // wordmark row only as much ink as their contrast needs, so the photo stays bright.
+            colors={[
+              fadeTo,
+              withAlpha(fadeTo, scrim.eyebrow),
+              withAlpha(fadeTo, scrim.eyebrow),
+              withAlpha(fadeTo, scrim.title),
+              withAlpha(fadeTo, scrim.title),
+              fadeTo,
+            ]}
+            positions={[0, 0.06, 0.22, 0.32, 0.9, 1]}
           />
         </Rect>
       )}
@@ -195,6 +213,7 @@ export function MediaLayer({
             opacity={treatment.opacity}
             animate={!reduced}
             fadeTo={surface === 'dark' ? treatment.base : null}
+            scrim={treatment.scrim}
           />
         ) : null}
         {loop === undefined ? null : (
