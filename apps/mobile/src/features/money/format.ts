@@ -4,6 +4,7 @@
  * into arithmetic). Full amounts go through the app-wide formatter so symbols match everywhere.
  */
 import {
+  compactNumber,
   currencyExponent,
   currencySymbol,
   displayDecimals,
@@ -50,29 +51,6 @@ export function formatSigned(amountMinor: bigint, currency: string, locale: stri
 
 export function symbolOf(currency: string): string {
   return known(currency) ? currencySymbol(currency) : currency;
-}
-
-const COMPACT_STEPS: readonly (readonly [number, string])[] = [
-  [1e9, 'B'],
-  [1e6, 'M'],
-  [1e3, 'K'],
-];
-
-/**
- * "450K", "1.08M": the locale's own compact form where the runtime has one. Hermes on iOS ignores
- * `notation: 'compact'` and writes the number out in full; there the amount is scaled here, with
- * the locale's digits and decimal mark.
- */
-export function compactNumber(locale: string, value: number): string {
-  const native = format.number(locale, value, {
-    notation: 'compact',
-    maximumSignificantDigits: 3,
-  });
-  const full = format.number(locale, value, { maximumSignificantDigits: 3 });
-  if (native !== full) return native;
-  const step = COMPACT_STEPS.find(([size]) => value >= size);
-  if (step === undefined) return full;
-  return `${format.number(locale, value / step[0], { maximumSignificantDigits: 3 })}${step[1]}`;
 }
 
 /** Short amount for chips, rows and buttons: "Rp 1.08M", "Rp 450K", "US$68". */

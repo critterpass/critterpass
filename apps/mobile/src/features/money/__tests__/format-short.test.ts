@@ -4,7 +4,9 @@
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 
-import { compactNumber, formatShort } from '../format';
+import { compactNumber } from '@cp/cost-engine';
+
+import { formatShort } from '../format';
 
 afterEach(() => {
   jest.restoreAllMocks();
