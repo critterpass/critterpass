@@ -17,10 +17,12 @@ import { useCommand } from '@/data/commands/use-command';
 import { patterns, useLoop } from '@/motion';
 import { deviceTier } from '@/motion/device-tier';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
+import { heroAt, useDestinationsMedia } from '@/data/media/use-subject-media';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Stack } from '@/ui/layout/Stack';
+import { MediaLayer } from '@/ui/media/MediaLayer';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { LiveSticker } from '@/ui/people/LiveSticker';
 import { Text } from '@/ui/text/Text';
@@ -111,6 +113,7 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
     if (!reduced) triggerConfettiOnce();
   }, [poll.id, reduced, send]);
 
+  const media = useDestinationsMedia([...places.values()].flatMap((p) => (p.slug ? [p.slug] : [])));
   const winner = poll.options.find((option) => option.winner);
   const loser = poll.options.find((option) => !option.winner);
   if (winner === undefined) return null;
@@ -149,6 +152,13 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
   }));
   return (
     <View style={[styles.screen, { backgroundColor: colour }]} testID="winner-reveal">
+      <MediaLayer
+        media={winnerPlace?.slug === undefined ? null : heroAt(media.get(winnerPlace.slug) ?? [])}
+        surface="accent"
+        accent={colour}
+        dots={false}
+        testID="winner-reveal-photo"
+      />
       <Rays ink={ink} />
       <Stack
         style={[styles.body, { paddingTop: insets.top + theme.space['16'] }]}

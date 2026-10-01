@@ -17,8 +17,10 @@ import { patterns, useLoop } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
+import { MediaLayer } from '@/ui/media/MediaLayer';
 import { Stack } from '@/ui/layout/Stack';
 import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { GuideLine } from '@/ui/people/GuideLine';
@@ -26,6 +28,7 @@ import { LiveSticker } from '@/ui/people/LiveSticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { useDestinationSlug } from '../data/use-destination-slug';
 import { useMyUid } from '../data/use-my-uid';
 import { useMyCrews, usePlaceSave } from '../data/use-place-save';
 import { monthShort, upper } from '../format';
@@ -46,6 +49,7 @@ const useStyles = makeStyles((th) => ({
   hero: {
     backgroundColor: th.color.yellow,
     borderRadius: th.radius.cardBig,
+    overflow: 'hidden',
     padding: th.space['20'],
     gap: th.space['8'],
   },
@@ -129,6 +133,7 @@ export function GuestGuidePage({
   const insets = useSafeAreaInsets();
   const { t, i18n } = useLingui();
   const { state, retry } = useGuestBrief(placeId, crewId);
+  const photo = heroAt(useDestinationMedia(useDestinationSlug(placeId)).items);
   const crews = useMyCrews(useMyUid());
   const hop = useLoop('hop');
   const [mode, setMode] = useState<'actions' | 'crews' | 'solo'>('actions');
@@ -191,6 +196,14 @@ export function GuestGuidePage({
         ) : (
           <>
             <View style={styles.hero}>
+              <MediaLayer
+                media={photo}
+                surface="accent"
+                accent={theme.color.yellow}
+                creditAt="top"
+                dots={false}
+                testID="guest-photo"
+              />
               <Animated.View style={[{ alignSelf: 'flex-end' }, hop]}>
                 <LiveSticker kind={GUEST.kind} name={GUEST.name} size={88} drawOn={false} />
               </Animated.View>

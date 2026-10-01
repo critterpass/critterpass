@@ -1,13 +1,17 @@
 appId: app.critterpass.dev
 ---
-# A fresh account with the staging demo crew (a confirmed Bali trip three weeks out): the trip
-# hub's header (3k-1) and the first day's hero (3k-2) with Bali's photo under them. Run after
+# A fresh account with the staging demo crew (a confirmed Bali trip three weeks out): Home's
+# next-up card (3b-2), the trip hub's header (3k-1) and the first day's hero (3k-2) with Bali's
+# photo under them. Run after
 # ../sweep/subflows/start.yaml in ${LANG}. The photo fades in once loaded, so each shot waits.
 - runFlow: ../../home/subflows/onboard.yaml
 - runFlow:
     file: ../../_shared/seed-demo.yaml
     env:
       SEED: dev-seed-demo-caught-up
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${LANG}-3b-2-next-up-photo
 - tapOn:
     id: 'tab-trips'
 - extendedWaitUntil:
