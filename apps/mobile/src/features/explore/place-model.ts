@@ -63,6 +63,17 @@ export function crowdColumns(hourly: readonly number[] | null | undefined): Crow
   return columns;
 }
 
+/** The whole hours a quiet window covers (`06:00`–`07:30` is 6 and 7). */
+export function windowHours(
+  window: { readonly start: string; readonly end: string } | null,
+): number[] {
+  if (window === null) return [];
+  const from = Number(window.start.slice(0, 2));
+  const [endHour, endMinute] = window.end.split(':').map(Number);
+  const to = (endHour ?? from) + ((endMinute ?? 0) > 0 ? 1 : 0);
+  return Array.from({ length: Math.max(0, to - from) }, (_, index) => from + index);
+}
+
 export type GoAdvice =
   | { readonly kind: 'before'; readonly time: string }
   | { readonly kind: 'after'; readonly time: string }

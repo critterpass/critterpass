@@ -43,8 +43,7 @@ const useStyles = makeStyles((t) => ({
     paddingTop: t.space['12'],
     gap: t.space['10'],
   },
-  who: { flex: 1, gap: t.space['2'] },
-  price: { alignItems: 'flex-end', gap: t.space['2'], maxWidth: '55%' },
+  fare: { gap: t.space['2'] },
 }));
 
 function useWho(): (row: PriceRow) => string {
@@ -125,11 +124,11 @@ export function MonthPanel(props: MonthPanelProps) {
             const amount =
               row.price === null ? null : moneyText(locale, row.price.minor, row.price.currency);
             return (
-              <Row key={row.origin} justify="space-between" align="flex-start" gap="12">
-                <View style={styles.who}>
-                  <Text variant="rowTitle">{who(row)}</Text>
-                </View>
-                <View style={styles.price}>
+              <View key={row.origin} style={styles.fare}>
+                <Text variant="rowTitle">{who(row)}</Text>
+                {/* The amount gets a line of its own under who flies: a long amount in đồng and a
+                    long name never squeeze each other into a ragged wrap. */}
+                <Row justify="space-between" align="baseline" gap="12" wrap>
                   <Text variant="monoData" testID={`explore-month-price-${row.origin}`}>
                     {amount === null
                       ? t({ id: 'explore.panel.noFare', message: 'No fare seen' })
@@ -140,8 +139,8 @@ export function MonthPanel(props: MonthPanelProps) {
                       {t({ id: 'explore.panel.seen', message: `seen ${seen}` })}
                     </Text>
                   )}
-                </View>
-              </Row>
+                </Row>
+              </View>
             );
           })}
           <Text variant="caption" color={theme.semantic.text.secondary}>

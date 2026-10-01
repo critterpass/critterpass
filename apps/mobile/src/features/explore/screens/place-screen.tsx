@@ -29,7 +29,7 @@ import { guideFor, poiSubject } from '../format';
 import { useAddToDay } from '../hooks/use-add-to-day';
 import { useSavedPlace } from '../hooks/use-saved-place';
 import { placeMeta, placeTags } from '../place-copy';
-import { addState, closedOn, crowdColumns, goAdvice, openState } from '../place-model';
+import { addState, closedOn, crowdColumns, goAdvice, openState, windowHours } from '../place-model';
 import { usePlaceTip, usePoi, useTripCrew, useTripFacts } from '../place-queries';
 import { exploreRoutes } from '../routes';
 
@@ -131,6 +131,7 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
           date,
           columns,
           advice: goAdvice(window),
+          quietHours: windowHours(window),
           markedHour:
             date === today.date
               ? Number(today.time.slice(0, 2))

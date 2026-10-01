@@ -9,6 +9,7 @@ import {
   crowdColumns,
   goAdvice,
   openState,
+  windowHours,
 } from '../place-model';
 
 const span = (start: string, end: string) => [{ start, end }];
@@ -68,6 +69,12 @@ describe('the quiet window as advice', () => {
     expect(goAdvice({ start: '19:00', end: '21:00' })).toEqual({ kind: 'after', time: '19:00' });
     expect(goAdvice({ start: '13:00', end: '15:00' })).toEqual({ kind: 'around', time: '13:00' });
     expect(goAdvice(null)).toBeNull();
+  });
+
+  it('covers every hour the window touches', () => {
+    expect(windowHours({ start: '06:00', end: '07:30' })).toEqual([6, 7]);
+    expect(windowHours({ start: '15:00', end: '17:00' })).toEqual([15, 16]);
+    expect(windowHours(null)).toEqual([]);
   });
 });
 

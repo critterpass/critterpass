@@ -24,6 +24,7 @@ const CHART: CrowdChartProps = {
   columns: crowdColumns(HOURLY),
   advice: goAdvice({ start: '06:00', end: '07:30' }),
   markedHour: 6,
+  quietHours: [6, 7],
 };
 const CREW = [
   { key: 'm', name: 'Maya', joinIndex: 0 },
@@ -126,7 +127,12 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     guidePick: true,
     mustDoOwner: 'Nguyễn Thị Thanh Hương',
     meta: { priceLevel: null, open: 'open', stayMinutes: 25 },
-    crowd: { ...CHART, advice: goAdvice({ start: '15:00', end: '17:00' }), markedHour: 15 },
+    crowd: {
+      ...CHART,
+      advice: goAdvice({ start: '15:00', end: '17:00' }),
+      markedHour: 15,
+      quietHours: [15, 16],
+    },
     tip: 'Đi thang máy lên, đi bộ xuống. Động Huyền Không đẹp nhất lúc gần trưa, khi nắng rọi qua giếng trời.',
     keen: 2,
     add: { kind: 'add', dayNo: 3, time: '15:00', mode: 'changeset' },
