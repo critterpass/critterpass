@@ -118,7 +118,7 @@ export function Wordmark({
   const [words, setWords] = useState<WordWidths>(NO_WORDS);
   const [set, setSet] = useState({ key, width: 0, height: 0, y: 0 });
   // The name's own lines, as the platform broke them.
-  const [lines, setLines] = useState({ key, count: 0, line: 0 });
+  const [lines, setLines] = useState({ key, count: 0, line: 0, tallest: 0 });
   const [design, setDesign] = useState({ key, box, height: 0 });
   const [seen, setSeen] = useState<string | null>(null);
   const widths = words.key === key ? words.widths : [];
@@ -176,7 +176,9 @@ export function Wordmark({
   const visible = trimmed ? seen === key || settled : measured;
   // On the designed line the box's height at any size follows from the words' widths: the lines
   // they take in the room that size leaves, on the name's own line height.
-  const lineGap = lines.key === key ? lines.line : 0;
+  // The text opens its leading when a wrapped line carries marks, so the tallest line seen is the
+  // one counted on: a size is never judged to fit on the tighter line and then not on the looser.
+  const lineGap = lines.key === key ? lines.tallest : 0;
   const space =
     parts.length > 1 && words.key === key && words.whole > 0
       ? Math.max(
@@ -276,7 +278,7 @@ export function Wordmark({
             setLines((now) =>
               now.key === key && now.count === count && now.line === line
                 ? now
-                : { key, count, line },
+                : { key, count, line, tallest: Math.max(now.key === key ? now.tallest : 0, line) },
             );
           }}
           onLayout={(event) => {

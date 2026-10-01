@@ -88,12 +88,11 @@ describe('wordmark box', () => {
     const daNang = markRoom('ĐÀ NẴNG', LEADING);
     expect(daNang.top * SIZE).toBeCloseTo(FACE.glyphTop * SIZE - BASELINE, 5);
     expect(daNang.bottom).toBe(0);
-    // Ộ has a mark above and a dot below.
+    // Ộ has one mark above (less room than a stack) and a dot below.
     const hoiAn = markRoom('HỘI AN', LEADING);
     expect(hoiAn.top).toBeGreaterThan(0);
-    expect(hoiAn.bottom * SIZE).toBeCloseTo(FACE.descent * SIZE - (LEADING * SIZE - BASELINE), 5);
-    expect(markRoom('QUITO', LEADING)).toMatchObject({ top: 0 });
-    expect(markRoom('QUITO', LEADING).bottom).toBeGreaterThan(0);
+    expect(hoiAn.top).toBeLessThan(daNang.top);
+    expect(hoiAn.bottom).toBeGreaterThan(0);
   });
 
   it("sets a plain name on the render's line whatever leading the text was laid out with", () => {

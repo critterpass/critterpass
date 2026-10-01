@@ -8,18 +8,14 @@
  */
 import { scriptForLocale } from '@/lib/fonts';
 import { FACE_METRICS, lineBoxEm } from '@/ui/text/glyph-room';
+import { inkExtent } from '@/ui/text/line-box';
 
 /** The display face every wordmark is set in. */
 const FACE_NAME = 'Archivo';
 const FACE = FACE_METRICS[FACE_NAME] ?? { ascent: 0, descent: 0, glyphTop: 0, capHeight: 0 };
 
-/** Combining marks drawn under a letter (dot below, cedilla, ogonek, comma below). */
-const BELOW_MARK = /[̖-̙̜-̠̣-̳̹-̼͇ͅ-͉]/u;
-const ANY_MARK = /[̀-ͯ]/u;
-/** Capitals and punctuation that hang under the baseline. */
-const HANGING = /[Q,;]/u;
 /** What the display face covers: Latin with its extensions (Vietnamese included) and punctuation. */
-const DISPLAY_FACE_TEXT = /^[ -ɏḀ-ỿ‐-‧]*$/u;
+const DISPLAY_FACE_TEXT = /^[\u0020-\u024F\u1E00-\u1EFF\u2010-\u2027]*$/u;
 
 /** Kept free beside the longest word, so rounding never pushes its last letter to the next line. */
 const SLACK = 2;
@@ -41,22 +37,16 @@ function baselineIn(leading: number): number {
 }
 
 /**
- * The room a name's own marks need outside a line `leading` em tall: above, when a letter carries a
- * mark over its capital (À, Ẵ, Ư: up to the face's tallest stack); below, when one hangs under the
- * baseline (Ộ, Ç, Q). A plain name (KYOTO) needs none.
+ * The room a name's own marks need outside a line `leading` em tall: above, as far as its tallest
+ * mark rises over the line (one mark for À or Ư, a stack for Ẵ); below, as far as a mark hangs
+ * under it (Ộ, Ç). A plain name (KYOTO) needs none.
  */
 export function markRoom(name: string, leading: number): MarkRoom {
-  let above = false;
-  let below = HANGING.test(name);
-  for (const char of name.normalize('NFD')) {
-    if (!ANY_MARK.test(char)) continue;
-    if (BELOW_MARK.test(char)) below = true;
-    else above = true;
-  }
+  const ink = inkExtent(name);
   const baseline = baselineIn(leading);
   return {
-    top: above ? Math.max(0, FACE.glyphTop - baseline) : 0,
-    bottom: below ? Math.max(0, FACE.descent - (leading - baseline)) : 0,
+    top: Math.max(0, ink.top - baseline),
+    bottom: Math.max(0, ink.bottom - (leading - baseline)),
   };
 }
 
