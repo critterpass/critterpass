@@ -10,6 +10,7 @@ import { useLoop } from '@/motion/use-loop';
 
 import { useSurfaceTone } from '../surface/Scaffold';
 import { Text } from '../text/Text';
+import { formerMemberLabel, isFormerMember } from './member-name';
 import type { TextVariant } from '../text/Text';
 import { makeStyles, sizeToken, useTheme } from '../theme';
 
@@ -79,13 +80,18 @@ export function Avatar({
           borderStyle: member.pattern === 'double' ? ('solid' as const) : ('dashed' as const),
           borderColor: member.color,
         };
-  const label = pending ? t({ id: 'common.avatar.pending', message: `${name}, invited` }) : name;
+  const former = isFormerMember(name);
+  const label = former
+    ? formerMemberLabel()
+    : pending
+      ? t({ id: 'common.avatar.pending', message: `${name}, invited` })
+      : name;
   return (
     <Animated.View
       testID={testID}
       style={[
         { padding: patternRing ? 2 : 0, borderRadius: diameter },
-        patternRing,
+        former ? null : patternRing,
         pending ? bob : null,
       ]}
       {...(decorative
@@ -104,12 +110,13 @@ export function Avatar({
             borderRadius: diameter,
             borderWidth: ringWidth,
             borderColor: cut,
-            backgroundColor: member.color,
+            // Someone who left for good: a plain circle, no colour and no initial.
+            backgroundColor: former ? theme.semantic.bg.control : member.color,
             opacity: pending ? 0.7 : 1,
           },
         ]}
       >
-        {photo ? (
+        {former ? null : photo ? (
           <Image source={photo} style={styles.fill} accessibilityIgnoresInvertColors />
         ) : critter ? (
           critter

@@ -12,6 +12,7 @@ import type { GuideId } from '@/ui/people/GuideLine';
 import { redraftQuota, type RedraftQuota } from './quota';
 import { useLiveRows } from './rows';
 import type { Person, SetupNow } from './version';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface DraftTrip {
   readonly tripId: string;
@@ -106,7 +107,7 @@ export function toDraftTrip(
 ): DraftTrip {
   const people = members.map((row, joinIndex) => ({
     uid: row.user_id,
-    name: firstName(row.display_name),
+    name: memberFirstName(row.display_name),
     joinIndex,
   }));
   const organiserIds = new Set(
