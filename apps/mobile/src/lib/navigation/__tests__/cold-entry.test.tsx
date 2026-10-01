@@ -2,10 +2,18 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { act } from '@testing-library/react-native';
 import { router, useNavigationContainerRef } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
+import { useState, useSyncExternalStore } from 'react';
 import { Text } from 'react-native';
 
 import {
+  LocalFirstContext,
+  type LocalFirstContextValue,
+} from '@/data/powersync/local-first-context';
+
+import { provideSessionGate, type SessionGateState } from '../gates';
+import {
   clearSavedNavigation,
+  decideRestore,
   isDeepLinkLaunch,
   readSavedNavigation,
   RESTORE_WINDOW_MS,
@@ -24,10 +32,40 @@ const BUILD = '1.0.0:embedded';
 let launchUrl: string | null = null;
 let clock = 1_000_000;
 
-function Root() {
+// The session: its local database opens some time after launch, and its gate opens at sign-in.
+const SESSION = {} as LocalFirstContextValue;
+let sessionReadyAtLaunch = true;
+let openSession: () => void = () => {};
+let gate: SessionGateState = { status: 'ready' };
+const gateListeners = new Set<() => void>();
+function setGate(status: SessionGateState['status']) {
+  gate = { status };
+  gateListeners.forEach((listener) => listener());
+}
+provideSessionGate(() =>
+  useSyncExternalStore(
+    (listener) => {
+      gateListeners.add(listener);
+      return () => gateListeners.delete(listener);
+    },
+    () => gate,
+  ),
+);
+
+function Navigator() {
   const navigationRef = useNavigationContainerRef();
   useNavigationPersistence({ navigationRef, build: BUILD, launchUrl, now: () => clock });
   return <Stack screenOptions={{ headerShown: false }} />;
+}
+
+function Root() {
+  const [ready, setReady] = useState(sessionReadyAtLaunch);
+  openSession = () => setReady(true);
+  return (
+    <LocalFirstContext.Provider value={ready ? SESSION : null}>
+      <Navigator />
+    </LocalFirstContext.Provider>
+  );
 }
 
 const named = (name: string) =>
@@ -65,6 +103,8 @@ let unregister: () => void = () => {};
 beforeEach(() => {
   launchUrl = null;
   clock = 1_000_000;
+  sessionReadyAtLaunch = true;
+  gate = { status: 'ready' };
   clearSavedNavigation();
   unregister = registerScreens({
     '3b-2': '/',
@@ -132,6 +172,66 @@ describe('navigation restore', () => {
     const second = await renderApp();
     expect(second.getPathname()).toBe('/');
   });
+
+  it('waits for the session database to open, then restores', async () => {
+    const first = await renderApp();
+    await navigate(() => openWithBackStack('3c-9'));
+    await act(() => first.unmount());
+
+    sessionReadyAtLaunch = false;
+    const second = await renderApp();
+    expect(second.getPathname()).toBe('/');
+    await act(() => {
+      openSession();
+    });
+    await act(() => {
+      jest.runOnlyPendingTimers();
+    });
+    expect(second.getPathname()).toBe('/draft');
+    await navigate(() => router.back());
+    expect(second.getPathname()).toBe('/budget');
+  });
+
+  it('leaves a person who moved on before the database opened where they went', async () => {
+    const first = await renderApp();
+    await navigate(() => openWithBackStack('3c-9'));
+    await act(() => first.unmount());
+
+    sessionReadyAtLaunch = false;
+    const second = await renderApp();
+    await navigate(() => router.push('/when'));
+    await act(() => {
+      openSession();
+    });
+    await act(() => {
+      jest.runOnlyPendingTimers();
+    });
+    expect(second.getPathname()).toBe('/when');
+    expect(screen.getByText('when')).toBeTruthy();
+  });
+
+  it('never restores into a signed-out launch and saves nothing until sign-in', async () => {
+    const first = await renderApp();
+    await navigate(() => openWithBackStack('3c-9'));
+    await act(() => first.unmount());
+
+    gate = { status: 'onboarding' };
+    const second = await renderApp();
+    expect(second.getPathname()).toBe('/');
+    expect(readSavedNavigation()).toBeUndefined();
+    await navigate(() => router.push('/when'));
+    expect(readSavedNavigation()).toBeUndefined();
+
+    await act(() => {
+      setGate('ready');
+    });
+    await navigate(() => router.push('/budget'));
+    expect(readSavedNavigation()?.build).toBe(BUILD);
+    await act(() => second.unmount());
+
+    const third = await renderApp();
+    expect(third.getPathname()).toBe('/budget');
+  });
 });
 
 describe('restore rules', () => {
@@ -143,6 +243,26 @@ describe('restore rules', () => {
     expect(shouldRestore(saved, 10, '2.0.0:embedded', null)).toBe(false);
     expect(shouldRestore(undefined, 10, BUILD, null)).toBe(false);
     expect(shouldRestore(saved, -1, BUILD, null)).toBe(false);
+  });
+
+  it('waits for the gate and the database, and gives way to a person who moved', () => {
+    const moment = {
+      gate: 'ready' as const,
+      sessionReady: true,
+      navigated: false,
+      saved,
+      now: 10,
+      build: BUILD,
+      launchUrl: null,
+    };
+    expect(decideRestore(moment)).toBe('restore');
+    expect(decideRestore({ ...moment, sessionReady: false })).toBe('wait');
+    expect(decideRestore({ ...moment, gate: 'loading' })).toBe('wait');
+    expect(decideRestore({ ...moment, navigated: true, sessionReady: false })).toBe('skip');
+    expect(decideRestore({ ...moment, gate: 'signedOut' })).toBe('skip');
+    expect(decideRestore({ ...moment, gate: 'onboarding' })).toBe('skip');
+    // Nothing worth restoring is decided at once, without waiting for the database.
+    expect(decideRestore({ ...moment, sessionReady: false, saved: undefined })).toBe('skip');
   });
 
   it('tells deep links from plain launches', () => {
