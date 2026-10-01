@@ -10,7 +10,6 @@ import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
-
 import { useLocale } from '@/lib/i18n/use-locale';
 import { patterns } from '@/motion';
 import { Stack } from '@/ui/layout/Stack';
