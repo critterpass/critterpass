@@ -83,10 +83,36 @@ describe('organiser, below four maxes', () => {
     await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
     expect(await screen.findByText(/^3 of 3 set$/iu)).toBeTruthy();
     expect(screen.queryByText(/Under all/iu)).toBeNull();
+    expect(screen.queryByTestId('budget-infeasible')).toBeNull();
+  });
+
+  it('promises a crew of three no band or dots: three can never be four', async () => {
+    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
+    await seedBudget(stack, {
+      people: SIX.slice(3),
+      aggregate: { currency: 'USD', maxes_count: 1, member_count: 3 },
+    });
+    await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
+    expect(await screen.findByText(/^1 of 3 set$/iu)).toBeTruthy();
+    expect(screen.queryByText(/four/iu, { includeHiddenElements: true })).toBeNull();
+    expect(
+      screen.getByText(/^every max stays private$/iu, { includeHiddenElements: true }),
+    ).toBeTruthy();
+    expect(screen.getByText(/^Pick what feels comfy for the crew\./u)).toBeTruthy();
+  });
+
+  it('tells a crew of six the band and dots come with the fourth max', async () => {
+    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
+    await seedBudget(stack, {
+      people: SIX,
+      aggregate: { currency: 'USD', maxes_count: 3, member_count: 6 },
+    });
+    await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
+    expect(await screen.findByText(/^3 of 6 set$/iu)).toBeTruthy();
     expect(
       screen.getByText(/^dots appear from four maxes$/iu, { includeHiddenElements: true }),
     ).toBeTruthy();
-    expect(screen.queryByTestId('budget-infeasible')).toBeNull();
+    expect(screen.getByText(/The band shows once four are in\.$/u)).toBeTruthy();
   });
 });
 

@@ -4,6 +4,7 @@
  * screen reader) in the crew's $50 steps, ticking on every step and warning as it crosses the top of
  * the band. Dots are bucketed positions from the server; nothing here knows whose, or any max.
  */
+import { BUDGET_K_MIN } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';
 import { View, type AccessibilityActionEvent, type LayoutChangeEvent } from 'react-native';
@@ -19,6 +20,7 @@ import { Row } from '@/ui/layout/Row';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { useAmountFace } from './amount-fit';
 import { currencySymbol, fractionDigits, money, snap, type BandView, type Track } from './model';
 
 const KNOB = 32;
@@ -27,6 +29,7 @@ const useStyles = makeStyles((th) => ({
   card: { padding: th.space['16'], gap: th.space['10'] },
   head: { gap: th.space['8'] },
   eyebrow: { flexShrink: 1 },
+  caption: { textAlign: 'center' },
 }));
 
 export interface SweetSpotCardProps {
@@ -35,17 +38,6 @@ export interface SweetSpotCardProps {
   readonly currency: string;
   readonly target: number;
   readonly onTarget: (targetMinor: number) => void;
-}
-
-/**
- * The amount's face. The hero face holds about eight glyphs across the card ("$12,350"); amounts
- * in đồng or rupiah run to eleven and more, so they step down a size and every digit shows. Sized
- * by the far end of the track, so it does not change as the knob moves.
- */
-function amountVariant(longest: string): 'displayHero' | 'displayXl' | 'h1' {
-  const glyphs = [...longest].length;
-  if (glyphs <= 8) return 'displayHero';
-  return glyphs <= 12 ? 'displayXl' : 'h1';
 }
 
 export function isOverBand(band: BandView, target: number): boolean {
@@ -73,6 +65,15 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
   const span = Math.max(1, track.maxMinor - track.minMinor);
   const whole = Math.round(target / 10 ** fractionDigits(currency));
   const amount = money(locale, target, currency);
+  const symbol = currencySymbol(locale, currency);
+  const fit = useAmountFace(
+    locale,
+    symbol,
+    Math.round(track.maxMinor / 10 ** fractionDigits(currency)),
+  );
+  // End labels long enough to push the amount off the hero face leave the caption no room
+  // between them: it then sits on its own line under the track.
+  const captionBelow = fit.face !== 'displayHero';
 
   const set = (raw: number) => {
     const next = snap(raw, track);
@@ -106,7 +107,10 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
   const ink = theme.semantic.text.onAccent;
   const caption =
     band.kind === 'waiting'
-      ? t({ id: 'setup.budget.card.captionWaiting', message: 'dots appear from four maxes' })
+      ? band.of < BUDGET_K_MIN
+        ? // A crew under four never reaches a band or dots: say what does hold.
+          t({ id: 'setup.budget.card.captionSmallCrew', message: 'every max stays private' })
+        : t({ id: 'setup.budget.card.captionWaiting', message: 'dots appear from four maxes' })
       : band.dots === null
         ? t({ id: 'setup.budget.card.captionNoDots', message: 'the band sits under every max' })
         : t({ id: 'setup.budget.card.caption', message: 'each dot is someone’s max' });
@@ -131,14 +135,23 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
           </Text>
         )}
       </Row>
-      <Odometer
-        value={whole}
-        prefix={currencySymbol(locale, currency)}
-        variant={amountVariant(money(locale, track.maxMinor, currency))}
-        color={ink}
-        accessibilityLabel={t({ id: 'setup.budget.card.amountA11y', message: 'Sweet spot each' })}
-        testID="budget-target"
-      />
+      <View
+        onLayout={fit.onAvailable}
+        style={{ opacity: fit.settled ? 1 : 0 }}
+        testID="budget-amount-box"
+      >
+        {fit.measurer}
+        {/* Remounted per face: the odometer measures its line once, in the face it starts in. */}
+        <Odometer
+          key={fit.face}
+          value={whole}
+          prefix={symbol}
+          variant={fit.face}
+          color={ink}
+          accessibilityLabel={t({ id: 'setup.budget.card.amountA11y', message: 'Sweet spot each' })}
+          testID="budget-target"
+        />
+      </View>
       <GestureDetector gesture={pan}>
         <View
           onLayout={(event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width)}
@@ -159,12 +172,17 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
               sweetSpot={target}
               minLabel={money(locale, track.minMinor, currency)}
               maxLabel={money(locale, track.maxMinor, currency)}
-              caption={caption}
+              {...(captionBelow ? {} : { caption })}
               summary={summary}
             />
           </View>
         </View>
       </GestureDetector>
+      {captionBelow ? (
+        <Text variant="monoData" color={ink} style={styles.caption} testID="budget-caption">
+          {caption}
+        </Text>
+      ) : null}
     </Card>
   );
 }

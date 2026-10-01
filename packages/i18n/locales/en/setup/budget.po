@@ -65,6 +65,10 @@ msgstr "dots appear from four maxes"
 msgid "setup.budget.card.caption"
 msgstr "each dot is someone’s max"
 
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.captionSmallCrew"
+msgstr "every max stays private"
+
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.line"
 msgstr "Everyone set a private max. Nobody sees anyone else’s number, including {guide}."
@@ -140,6 +144,10 @@ msgstr "One budget is below the cheapest plan"
 #: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
 msgid "setup.budget.card.over"
 msgstr "Over someone’s max"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lineSmallCrew"
+msgstr "Pick what feels comfy for the crew. Each max stays private, and everyone sees if your pick fits theirs."
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.loading"

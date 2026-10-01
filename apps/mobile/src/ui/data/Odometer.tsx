@@ -96,9 +96,12 @@ export function Odometer({
       accessibilityLabel={[accessibilityLabel, text].filter(Boolean).join(', ')}
     >
       {lineHeight === 0 ? (
+        // An amount is one line: the digit row never wraps, so a measured second line here means
+        // the row will run past its box. Reported, so a screen that sets it too large is caught.
         <Text
           variant={variant}
           color={color}
+          singleLine
           onLayout={(event) => setLineHeight(event.nativeEvent.layout.height)}
         >
           {text}

@@ -6,6 +6,7 @@
  * anonymous notice offers ways out instead.
  */
 import type { BudgetEstimates } from '@cp/cost-engine';
+import { BUDGET_K_MIN } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { useMemo, useState, type ReactNode } from 'react';
 import Animated from 'react-native-reanimated';
@@ -104,10 +105,17 @@ export function BudgetView(props: BudgetViewProps) {
   const guide = GUIDE_STICKERS[trip.guide].name;
   const line =
     band.kind === 'waiting'
-      ? t({
-          id: 'setup.budget.lineWaiting',
-          message: 'Everyone sets a private max. The band shows once four are in.',
-        })
+      ? band.of < BUDGET_K_MIN
+        ? // A crew under four never gets a band: the organiser picks, and each max stays private.
+          t({
+            id: 'setup.budget.lineSmallCrew',
+            message:
+              'Pick what feels comfy for the crew. Each max stays private, and everyone sees if your pick fits theirs.',
+          })
+        : t({
+            id: 'setup.budget.lineWaiting',
+            message: 'Everyone sets a private max. The band shows once four are in.',
+          })
       : t({
           id: 'setup.budget.line',
           message: `Everyone set a private max. Nobody sees anyone else’s number, including ${guide}.`,
