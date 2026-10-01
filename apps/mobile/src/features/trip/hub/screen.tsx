@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
+import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
@@ -19,6 +20,7 @@ import { useOffline } from '../offline/use-offline';
 import { useBriefingActions } from '../briefing/chip-actions';
 import { clockIn } from '../leave-by/model';
 import { useLiveRows, useOwnerUid } from './data/live-rows';
+import { useMediaLowData } from '../media/use-media-low-data';
 import { useHubRows } from './data/use-hub';
 import { guideColour, guideName as nameOf, guideOr } from './guide';
 import {
@@ -101,6 +103,10 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   );
   const onAct = useBriefingActions(names);
   const trip = rows.trip;
+  const mediaLowData = useMediaLowData();
+  const heroMedia = useDestinationMedia(trip?.destination_slug ?? null, {
+    prefetch: !mediaLowData,
+  });
   const guide = guideOr(trip?.guide_slug);
   const name = nameOf(guide, trip?.guide_name);
 
@@ -255,6 +261,8 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
         trip?.destination_name ?? t({ id: 'trip.hub.whereNext', message: 'Where next?' })
       }
       colour={guideColour(guide)}
+      heroMedia={heroAt(heroMedia.items)}
+      mediaLowData={mediaLowData}
       guide={guide}
       guideName={name}
       guestGuide={trip?.is_guest_guide === 1}

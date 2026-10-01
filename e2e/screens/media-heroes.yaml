@@ -1,0 +1,11 @@
+appId: app.critterpass.dev
+---
+# The colour heroes with the destination's photo, in en: a fresh account's trip hub and day-of.
+- runFlow:
+    file: sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: subflows/media-heroes.yaml
+    env:
+      LANG: en

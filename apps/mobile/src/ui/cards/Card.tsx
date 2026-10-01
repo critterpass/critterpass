@@ -14,6 +14,8 @@ export interface CardProps {
   readonly tone?: CardTone;
   /** Adds `tex.halftone` (every colour hero, ticket and accent card). */
   readonly halftone?: boolean;
+  /** Drawn on the fill, under the halftone and the content (a hero's photo). */
+  readonly backdrop?: ReactNode;
   /** `lg` 20 for cards, `cardBig` 22 for heroes. @default 'lg' */
   readonly radius?: 'lg' | 'cardBig' | 'md';
   readonly onPress?: () => void;
@@ -32,6 +34,7 @@ const useStyles = makeStyles((t) => ({
 export function Card({
   tone = 'raised',
   halftone = false,
+  backdrop,
   radius = 'lg',
   onPress,
   accessibilityLabel,
@@ -48,6 +51,7 @@ export function Card({
   ];
   const body = (
     <SurfaceToneProvider value={surfaceToneOf(tone)}>
+      {backdrop}
       {halftone ? <Halftone /> : null}
       {children}
     </SurfaceToneProvider>

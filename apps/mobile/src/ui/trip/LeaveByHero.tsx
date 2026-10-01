@@ -33,6 +33,10 @@ export interface LeaveByHeroProps {
   readonly crewLabel?: string;
   readonly crewDetail?: string;
   readonly testID?: string;
+  /** Drawn on the fill under the content (the destination's photo). */
+  readonly backdrop?: ReactNode;
+  /** `tex.halftone` on the flood; off where the backdrop draws its own. @default true */
+  readonly halftone?: boolean;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -57,11 +61,19 @@ export function LeaveByHero({
   crewLabel,
   crewDetail,
   testID,
+  backdrop,
+  halftone = true,
 }: LeaveByHeroProps) {
   const styles = useStyles();
   const theme = useTheme();
   return (
-    <Card tone="pink" halftone style={styles.hero} {...(testID ? { testID } : {})}>
+    <Card
+      tone="pink"
+      halftone={halftone}
+      backdrop={backdrop}
+      style={styles.hero}
+      {...(testID ? { testID } : {})}
+    >
       <Stack gap="12">
         <Row justify="space-between">
           <Text variant="eyebrow">{eyebrow}</Text>
