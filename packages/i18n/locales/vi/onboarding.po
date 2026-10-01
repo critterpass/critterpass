@@ -1202,7 +1202,7 @@ msgstr "Pass {number} của bạn: {0}, nhà {homeValue}, ngày cấp {issuedVal
 
 #: ../../apps/mobile/src/features/onboarding/splash/SplashScreen.tsx
 msgid "onboarding.splash.tagline"
-msgstr "Tấm pass tới mọi nơi, và những người dân sống ở đó."
+msgstr "Tấm pass tới mọi nơi, và các thổ địa ở đó."
 
 #: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
 msgid "onboarding.invite.pass.title"

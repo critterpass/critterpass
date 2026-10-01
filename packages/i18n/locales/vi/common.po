@@ -866,7 +866,7 @@ msgstr "Bật vị trí để xem bạn đang ở đâu."
 
 #: ../../apps/mobile/src/lib/a11y/labels.ts
 msgid "sticker.a11y.lockedLabel"
-msgstr "Bạn bản địa chưa gặp, tới {city} mới tìm thấy"
+msgstr "Thổ địa chưa gặp, tới {city} mới tìm thấy"
 
 #: ../../apps/mobile/src/ui/chips/StatusChip.tsx
 msgid "common.status.unopened"
