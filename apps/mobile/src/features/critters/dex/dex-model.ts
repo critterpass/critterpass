@@ -128,9 +128,15 @@ export function windowRule(row: WindowRow): WindowRule | null {
 
 function cellsFor(input: DexInput): Map<string, CritterCell> {
   const formsById = new Map(input.forms.map((form) => [form.id, form]));
+  // Gold marks a critter met only in a legendary window: every one of its forms is a window's.
+  // A guide with everyday forms and one legendary look stays an ordinary silhouette.
   const legendaryForms = new Set(input.windows.map((w) => w.form_id));
+  const formsOf = new Map<string, string[]>();
+  for (const form of input.forms) {
+    formsOf.set(form.critter_id, [...(formsOf.get(form.critter_id) ?? []), form.id]);
+  }
   const goldCritters = new Set(
-    input.forms.filter((f) => legendaryForms.has(f.id)).map((f) => f.critter_id),
+    [...formsOf].filter(([, ids]) => ids.every((id) => legendaryForms.has(id))).map(([id]) => id),
   );
   const counts = dexCounts({
     critters: input.critters,
