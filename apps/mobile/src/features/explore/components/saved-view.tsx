@@ -11,11 +11,9 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { InlineAction } from '@/ui/buttons/InlineAction';
-import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { ListCard } from '@/ui/cards/ListCard';
 import { FilterChip } from '@/ui/chips/FilterChip';
-import { TextField } from '@/ui/inputs/TextField';
 import { Row } from '@/ui/layout/Row';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { EmptyState } from '@/ui/states/EmptyState';
@@ -25,16 +23,13 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryLabel } from '../category';
 import { guideFor } from '../format';
-import type { ListSummary, SavedGroups, SavedRow } from '../saved-model';
+import { ALL_LISTS, type ListSummary, type SavedGroups, type SavedRow } from '../saved-model';
+import { SavedListEditor, type ListEditor } from './saved-list-editor';
 
-/** Which list is shown: every list, the default one (null) or a named one. */
-export type ListChoice = 'all' | string | null;
+export type { ListEditor } from './saved-list-editor';
 
-export type ListEditor = {
-  readonly kind: 'new' | 'rename';
-  readonly name: string;
-  readonly taken: boolean;
-} | null;
+/** Which list is shown: every list (`ALL_LISTS`), the default one (null) or a named one. */
+export type ListChoice = string | null;
 
 export interface SavedViewProps {
   readonly lists: readonly ListSummary[];
@@ -85,7 +80,7 @@ export function SavedView(props: SavedViewProps) {
   const defaultName = t({ id: 'explore.saved.defaultList', message: 'Saved' });
   const listLabel = (name: string | null) => name ?? defaultName;
   const { groups, editor, choice } = props;
-  const named = typeof choice === 'string' && choice !== 'all';
+  const named = choice !== null && choice !== ALL_LISTS;
   const empty = groups.groups.length === 0 && groups.unknown === 0;
 
   const rowActions = (row: SavedRow) =>
@@ -161,8 +156,8 @@ export function SavedView(props: SavedViewProps) {
             <FilterChip
               label={t({ id: 'explore.saved.all', message: 'All' })}
               count={props.total}
-              selected={choice === 'all'}
-              onPress={() => props.onChoose('all')}
+              selected={choice === ALL_LISTS}
+              onPress={() => props.onChoose(ALL_LISTS)}
               testID="explore-saved-list-all"
             />
             {props.lists.map((list) => (
@@ -184,46 +179,12 @@ export function SavedView(props: SavedViewProps) {
           </View>
         </ScrollView>
         {editor === null ? null : (
-          <View style={{ gap: theme.space['8'] }} testID="explore-saved-editor">
-            <TextField
-              label={
-                editor.kind === 'new'
-                  ? t({ id: 'explore.saved.newName', message: 'Name the new list' })
-                  : t({ id: 'explore.saved.renameName', message: 'Rename this list' })
-              }
-              value={editor.name}
-              onChangeText={props.onEditorChange}
-              {...(editor.taken
-                ? {
-                    status: 'error' as const,
-                    message: t({
-                      id: 'explore.saved.nameTaken',
-                      message: 'You already have a list with that name.',
-                    }),
-                  }
-                : {})}
-              testID="explore-saved-editor-name"
-            />
-            <Row gap="12" align="center">
-              <PillButton
-                label={
-                  editor.kind === 'new'
-                    ? t({ id: 'explore.saved.create', message: 'Create list' })
-                    : t({ id: 'explore.saved.rename', message: 'Rename' })
-                }
-                size="sm"
-                block={false}
-                disabled={editor.name.trim() === ''}
-                onPress={props.onEditorSubmit}
-                testID="explore-saved-editor-submit"
-              />
-              <TextLink
-                label={t({ id: 'explore.saved.cancel', message: 'Cancel' })}
-                onPress={props.onEditorCancel}
-                testID="explore-saved-editor-cancel"
-              />
-            </Row>
-          </View>
+          <SavedListEditor
+            editor={editor}
+            onChange={props.onEditorChange}
+            onSubmit={props.onEditorSubmit}
+            onCancel={props.onEditorCancel}
+          />
         )}
         {props.editing && named && editor === null ? (
           <Row gap="16" testID="explore-saved-list-actions">

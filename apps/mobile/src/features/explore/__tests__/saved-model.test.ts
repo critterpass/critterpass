@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import {
+  ALL_LISTS,
   applyQueue,
   groupByDestination,
   listSummaries,
@@ -112,7 +113,7 @@ describe('grouping by destination', () => {
   ];
 
   it('puts the saved destination with its places, in name order, and counts unknown places', () => {
-    const { groups, unknown } = groupByDestination(rows, 'all');
+    const { groups, unknown } = groupByDestination(rows, ALL_LISTS);
     expect(unknown).toBe(1);
     expect(groups).toHaveLength(1);
     expect(groups[0]?.destination?.id).toBe('k');

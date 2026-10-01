@@ -23,8 +23,11 @@ export interface DestinationCard {
 }
 
 /** The destination slug a region file on disk belongs to (`kyoto-2026.10.1.pmtiles` → `kyoto`). */
+// eslint-disable-next-line lingui/no-unlocalized-strings -- a file extension, never copy.
+const PACK_EXTENSION = '.pmtiles';
+
 export function packSlug(fileName: string, slugs: readonly string[]): string | null {
-  if (!fileName.endsWith('.pmtiles')) return null;
+  if (!fileName.endsWith(PACK_EXTENSION)) return null;
   // The longest slug wins, so `da-nang-…` is never read as a pack for `da`.
   const matches = slugs.filter((slug) => fileName.startsWith(`${slug}-`));
   return matches.sort((a, b) => b.length - a.length)[0] ?? null;

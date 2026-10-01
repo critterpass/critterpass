@@ -102,12 +102,12 @@ export interface SavedGroups {
   readonly unknown: number;
 }
 
-/** One list's rows (or every row for `'all'`) grouped by destination, in name order. */
-export function groupByDestination(
-  rows: readonly SavedRow[],
-  list: string | null | 'all',
-): SavedGroups {
-  const shown = rows.filter((row) => list === 'all' || row.listName === list);
+/** Stands for "every list" where a list name is chosen: no list can be named this. */
+export const ALL_LISTS = '\u0000';
+
+/** One list's rows (or every row for `ALL_LISTS`) grouped by destination, in name order. */
+export function groupByDestination(rows: readonly SavedRow[], list: string | null): SavedGroups {
+  const shown = rows.filter((row) => list === ALL_LISTS || row.listName === list);
   const groups = new Map<string, { -readonly [K in keyof SavedGroup]: SavedGroup[K] }>();
   let unknown = 0;
   for (const row of shown) {

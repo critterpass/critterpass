@@ -19,13 +19,13 @@ import {
 import { RegionPackCard } from '../components/region-pack-card';
 import { SavedView, type ListChoice, type ListEditor } from '../components/saved-view';
 import { exploreRoutes } from '../routes';
-import { groupByDestination, listSummaries, type SavedRow } from '../saved-model';
+import { ALL_LISTS, groupByDestination, listSummaries, type SavedRow } from '../saved-model';
 import { SavedPlansSlot } from '../saved-plans-slot';
 import { useSaved } from '../saved-queries';
 
 export function SavedScreen() {
   const { rows, lists } = useSaved();
-  const [choice, setChoice] = useState<ListChoice>('all');
+  const [choice, setChoice] = useState<ListChoice>(ALL_LISTS);
   const [editing, setEditing] = useState(false);
   const [movingId, setMovingId] = useState<string | null>(null);
   const [editor, setEditor] = useState<ListEditor>(null);
@@ -41,7 +41,7 @@ export function SavedScreen() {
   );
   // A list that was renamed or deleted elsewhere falls back to everything.
   const shown: ListChoice =
-    choice === 'all' || summaries.some((list) => list.name === choice) ? choice : 'all';
+    choice === ALL_LISTS || summaries.some((list) => list.name === choice) ? choice : ALL_LISTS;
   const chosenList = lists.find((list) => list.name === shown);
   const taken = (name: string) =>
     summaries.some(
@@ -112,13 +112,11 @@ export function SavedScreen() {
       onOpen={open}
       editor={editor}
       onNewList={() => setEditor({ kind: 'new', name: '', taken: false })}
-      onRenameList={() =>
-        setEditor({ kind: 'rename', name: typeof shown === 'string' ? shown : '', taken: false })
-      }
+      onRenameList={() => setEditor({ kind: 'rename', name: shown ?? '', taken: false })}
       onDeleteList={() => {
         if (chosenList === undefined) return;
         void remove.send({ list_id: chosenList.id });
-        setChoice('all');
+        setChoice(ALL_LISTS);
       }}
       onEditorChange={(name) =>
         setEditor((current) => (current === null ? null : { ...current, name, taken: false }))

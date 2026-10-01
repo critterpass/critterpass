@@ -16,6 +16,7 @@ import { SavedView, type ListChoice, type ListEditor } from '../components/saved
 import type { OfflinePackStatus } from '../data/use-offline-pack';
 import { destinationCards } from '../home-model';
 import {
+  ALL_LISTS,
   groupByDestination,
   listSummaries,
   type SavedRow,
@@ -95,7 +96,7 @@ interface SavedSpec {
 function SavedScene({ spec }: { readonly spec: SavedSpec }) {
   useLocale();
   const rows = spec.rows ?? ROWS;
-  const [choice, setChoice] = useState<ListChoice>(spec.choice ?? 'all');
+  const [choice, setChoice] = useState<ListChoice>(spec.choice ?? ALL_LISTS);
   const [editing, setEditing] = useState(spec.editing ?? false);
   const [movingId, setMovingId] = useState<string | null>(spec.movingId ?? null);
   const [editor, setEditor] = useState<ListEditor>(spec.editor ?? null);
@@ -116,8 +117,8 @@ function SavedScene({ spec }: { readonly spec: SavedSpec }) {
       onOpen={() => undefined}
       editor={editor}
       onNewList={() => setEditor({ kind: 'new', name: '', taken: false })}
-      onRenameList={() => setEditor({ kind: 'rename', name: String(choice), taken: false })}
-      onDeleteList={() => setChoice('all')}
+      onRenameList={() => setEditor({ kind: 'rename', name: choice ?? '', taken: false })}
+      onDeleteList={() => setChoice(ALL_LISTS)}
       onEditorChange={(name) =>
         setEditor((current) => (current === null ? null : { ...current, name, taken: false }))
       }
