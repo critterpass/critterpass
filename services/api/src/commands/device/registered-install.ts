@@ -25,6 +25,8 @@ export const INSTALL_KEYED_COMMANDS: ReadonlySet<string> = new Set([
   'update_device_permissions',
   'register_la_token',
   'report_la_state',
+  'register_widget_token',
+  'sync_installed_widgets',
 ]);
 
 export interface InstallStandIn {

@@ -259,6 +259,7 @@ export {
 } from './state/machine';
 export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } from './state/trip';
 export * from './surfaces/entitlements';
+export * from './surfaces/widget-snapshot';
 export * from './live-activities';
 export * from './time/local-schedule';
 export * from './links';
