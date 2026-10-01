@@ -91,7 +91,7 @@ appId: app.critterpass.dev
 - runFlow:
     file: pick-dates-from-today.yaml
     env:
-      START_OFFSET_DAYS: ${typeof START_OFFSET_DAYS === 'undefined' ? '' : START_OFFSET_DAYS}
+      START_OFFSET_DAYS: ${typeof START_OFFSET_DAYS === 'undefined' ? '' :START_OFFSET_DAYS}
 # The budget, in đồng, locked as the guide suggests it.
 - extendedWaitUntil:
     visible:
