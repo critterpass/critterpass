@@ -153,8 +153,8 @@ export const lockProposalCommand = defineCommand({
       for (const uid of unanswered) await move(tx, proposal, ctx.uid, uid, 'out');
       await releaseHolds(tx, proposal, ctx.uid, [...maybe, ...unanswered]);
       await tx.query(
-        `UPDATE proposals SET status = 'locked', locked_at = $2 WHERE id = $1 AND status = 'sent'`,
-        [proposal.id, ctx.clock.serverNow],
+        `UPDATE proposals SET status = 'locked', locked_at = $2 WHERE id = $1 AND status = $3`,
+        [proposal.id, ctx.clock.serverNow, 'sent'],
       );
       await appendDomainEvent(tx, {
         type: 'proposal.locked',
