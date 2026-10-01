@@ -5,11 +5,13 @@
  * bottom of the timeline.
  */
 import { useLocalSearchParams } from 'expo-router';
-import { createElement, useCallback, useMemo, useRef, useState } from 'react';
+import { createElement, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { View } from 'react-native';
 
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { KeyboardFooter, useTheme } from '@/ui';
+import { SessionWaiting } from '@/ui/states/SessionWaiting';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
 
@@ -48,6 +50,9 @@ function viewerZone(): string {
 
 export function ChatScreen() {
   const { crewId = '' } = useLocalSearchParams<{ crewId?: string }>();
+  // A cold start can restore the chat before the session's local database is open.
+  const localFirst = useContext(LocalFirstContext);
+  if (localFirst === null) return <SessionWaiting testID="chat-waiting" />;
   return <CrewChat crewId={crewId} />;
 }
 
