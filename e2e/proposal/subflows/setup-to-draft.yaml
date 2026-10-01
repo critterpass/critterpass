@@ -150,10 +150,23 @@ appId: app.critterpass.dev
     visible:
       id: 'budget-lock'
     timeout: 30000
-# The budget is skipped here: nobody else has set a max yet, and skipping is a real path for the
-# organiser. Locking it has its own gate flow (e2e/happy/fresh-setup-vnd.yaml).
-- tapOn:
-    id: 'budget-skip'
+# A crew of one may skip the budget; a crew with others is offered only LOOKS GOOD, which locks the
+# sweet spot the step suggests. Setting a max has its own gate flow (e2e/happy/fresh-setup-vnd.yaml).
+# The lock is checked first, so whichever applies runs once.
+- runFlow:
+    when:
+      notVisible:
+        id: 'budget-skip'
+    commands:
+      - tapOn:
+          id: 'budget-lock'
+- runFlow:
+    when:
+      visible:
+        id: 'budget-skip'
+    commands:
+      - tapOn:
+          id: 'budget-skip'
 # Rooms. A crew that shares rooms picks the first stay and waits for the rooms the guide splits.
 # A crew of one, or a place with no stay prices, has no rooms to split: the step says the stay
 # splits evenly and LOOKS GOOD accepts that, with no stay picked. If the rooms never show for a
