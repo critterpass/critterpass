@@ -163,7 +163,7 @@ describe('Critterdex model', () => {
     expect(dex.places.map((s) => s.id)).toEqual(['fr']);
   });
 
-  it('finds a legendary whose window falls on the trip dates, gold while unfound', () => {
+  it('finds a legendary whose window falls on the trip dates', () => {
     const dex = buildDex(
       input({
         trips: [baliTrip],
@@ -182,7 +182,29 @@ describe('Critterdex model', () => {
       }),
     );
     expect(dex.legendary).toMatchObject({ start: '2026-10-03', end: '2026-10-05' });
-    expect(dex.hereNow?.critter.gold).toBe(true);
+    // A guide with everyday forms keeps an ordinary silhouette; only its legendary form is gold.
+    expect(dex.hereNow?.critter.gold).toBe(false);
+  });
+
+  it('draws a critter gold only when a legendary window is the one way to meet it', () => {
+    const window = {
+      id: 'w',
+      key: 'coq-only',
+      form_id: 'coq-l',
+      place_line: 'Paris · one night',
+      rule: JSON.stringify({ type: 'annual_range', start: '07-14', end: '07-14' }),
+      months: null,
+      solar: null,
+      challenge: null,
+    };
+    const base = input();
+    const dex = buildDex(
+      input({ forms: [...base.forms, form('coq-l', 'coq', 'legendary')], windows: [window] }),
+    );
+    const cell = (id: string) =>
+      [dex.home, ...dex.places].flatMap((s) => s?.cells ?? []).find((c) => c.id === id);
+    expect(cell('coq')?.gold).toBe(true);
+    expect(cell('rua')?.gold).toBe(false);
   });
 
   it('ignores a legendary on the trip dates that lives somewhere else', () => {
