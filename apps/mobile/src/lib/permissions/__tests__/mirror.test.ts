@@ -47,7 +47,7 @@ describe('permission mirror', () => {
     expect(mirror).not.toHaveProperty('la_enabled');
   });
 
-  it('sends exactly one command per change, persisted across restarts', async () => {
+  it('sends once per change within a launch, and once more on every launch', async () => {
     const storage = memoryStorage();
     const sent: DevicePermissionState[] = [];
     const send = (perms: DevicePermissionState) => {
@@ -62,9 +62,12 @@ describe('permission mirror', () => {
     expect(await mirror.update(stateWith({ camera: { status: 'denied' } }))).toBe(true);
     expect(sent.map((perms) => perms.camera)).toEqual(['granted', 'denied']);
 
+    // A queued mirror may have been refused by the server since: the next launch sends the same
+    // picture again, once.
     const relaunched = createMirror({ send, storage });
+    expect(await relaunched.update(stateWith({ camera: { status: 'denied' } }))).toBe(true);
     expect(await relaunched.update(stateWith({ camera: { status: 'denied' } }))).toBe(false);
-    expect(sent).toHaveLength(2);
+    expect(sent.map((perms) => perms.camera)).toEqual(['granted', 'denied', 'denied']);
   });
 
   it('waits until every kind was read, and retries a failed send next time', async () => {

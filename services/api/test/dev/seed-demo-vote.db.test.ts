@@ -36,8 +36,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await producer.stop({ graceful: false });
-  await harness.stop();
+  await producer?.stop({ graceful: false });
+  await harness?.stop();
 });
 
 async function seed(scenario: string): Promise<{ poll_id: string }> {

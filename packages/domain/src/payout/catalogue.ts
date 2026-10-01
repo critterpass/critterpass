@@ -6,6 +6,8 @@
  */
 import { z } from 'zod';
 
+import { toCountryCode } from '../countries/country-code';
+
 export const PAYOUT_KINDS = [
   'bank',
   'paynow',
@@ -28,10 +30,8 @@ export const PAYOUT_CATALOGUE: Readonly<Record<string, readonly PayoutKind[]>> =
 export const DEFAULT_PAYOUT_KINDS: readonly PayoutKind[] = ['bank', 'cash', 'wise_link'];
 
 export function payoutKindsFor(country: string | null | undefined): readonly PayoutKind[] {
-  return (
-    (country === null || country === undefined ? undefined : PAYOUT_CATALOGUE[country]) ??
-    DEFAULT_PAYOUT_KINDS
-  );
+  const code = toCountryCode(country);
+  return (code === null ? undefined : PAYOUT_CATALOGUE[code]) ?? DEFAULT_PAYOUT_KINDS;
 }
 
 /** The QR scheme a kind renders, when it has one. */

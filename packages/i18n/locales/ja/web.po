@@ -157,19 +157,19 @@ msgstr "サプライズはまだあります"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.ngua"
-msgstr "花かざりのポニー。Đà Lạtであなたを待っています。"
+msgstr "花かざりのポニー。{place}であなたを待っています。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.cuRua"
-msgstr "ホアンキエム湖のカメ。Hà Nộiであなたを待っています。"
+msgstr "ホアンキエム湖のカメ。{place}であなたを待っています。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lucky"
-msgstr "ジャックウサギ。Las Vegasであなたを待っています。"
+msgstr "ジャックウサギ。{place}であなたを待っています。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.chep"
-msgstr "ランタンの鯉。Hội Anであなたを待っています。"
+msgstr "ランタンの鯉。{place}であなたを待っています。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.eyebrow"
@@ -181,11 +181,11 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.drac"
-msgstr "モザイクのサンショウウオ。Barcelonaであなたを待っています。"
+msgstr "モザイクのサンショウウオ。{place}であなたを待っています。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.roucou"
-msgstr "ベレー帽のハト。Parisであなたを待っています。"
+msgstr "ベレー帽のハト。{place}であなたを待っています。"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -197,7 +197,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
-msgstr "地下鉄のネズミ。New Yorkであなたを待っています。"
+msgstr "地下鉄のネズミ。{place}であなたを待っています。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -229,7 +229,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
-msgstr "イベリアオオヤマネコ。Sevilleであなたを待っています。"
+msgstr "イベリアオオヤマネコ。{place}であなたを待っています。"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
@@ -254,6 +254,10 @@ msgstr "地元の仲間に聞く"
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "スタートに戻る"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
@@ -911,6 +915,10 @@ msgstr ""
 msgid "web.shell.noCookies"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "その名前の場所は見つかりません。別の書き方で試してください。"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -955,6 +963,10 @@ msgstr ""
 msgid "web.home.guidePaco"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "ページが見つかりません"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
 msgstr ""
@@ -970,6 +982,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.coverLabel"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "リストから場所を選ぶか、検索欄を空にしてください。"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "場所"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
@@ -1028,6 +1048,10 @@ msgid "web.referral.finePrintTerms"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "{city}を取り消す"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.saveSeat"
 msgstr "席を確保する →"
 
@@ -1054,6 +1078,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "都市を検索"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.seat"
@@ -1102,6 +1130,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat1"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "ほかの場所は？"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
@@ -1227,6 +1259,10 @@ msgstr ""
 msgid "web.shell.thePass"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "場所のリストを読み込めませんでした。少ししてからもう一度お試しください。"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr ""
@@ -1242,6 +1278,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Body"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "このページはルート上にありません。地元の仲間が路地の隅々まで探しました。"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
@@ -1450,6 +1490,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "あなたの仲間"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"

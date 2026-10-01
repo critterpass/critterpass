@@ -61,7 +61,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 beforeEach(async () => {

@@ -55,10 +55,10 @@ beforeAll(async () => {
 }, 180_000);
 
 afterAll(async () => {
-  await authModule.close();
-  redis.destroy();
-  await pool.end();
-  await Promise.all([postgres.stop(), redisContainer.stop()]);
+  await authModule?.close();
+  redis?.destroy();
+  await pool?.end();
+  await Promise.all([postgres?.stop(), redisContainer?.stop()]);
 });
 
 async function signInAnonymously(): Promise<{ cookie: string; uid: string }> {

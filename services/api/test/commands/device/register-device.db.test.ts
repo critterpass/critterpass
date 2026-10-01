@@ -24,7 +24,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 function register(
@@ -119,6 +119,31 @@ describe('register_device', () => {
     expect(await tokenRows(newToken)).toEqual([
       { device_id: deviceId, kind: 'fcm', env: 'prod', invalid_at: null },
     ]);
+  });
+
+  it('moves the caller’s own token to the id the same phone registers under next, never leaving two or none', async () => {
+    const session = await harness.signInAnonymously();
+    const firstId = randomUUID();
+    const nextId = randomUUID();
+    const token = `apns-${randomUUID()}`;
+    await register(session, firstId, { push_token: token });
+    // A stale token of the first row must not come back to life, or block the move.
+    await register(session, firstId, { push_token: `apns-${randomUUID()}` });
+    await register(session, firstId, { push_token: token });
+
+    const moved = await register(session, nextId, { push_token: token });
+    expect(moved.status).toBe(200);
+    expect(await tokenRows(token)).toEqual([
+      { device_id: nextId, kind: 'apns_alert', env: 'prod', invalid_at: null },
+    ]);
+    const { rows } = await withSystem(harness.pool, (tx) =>
+      tx.query<{ device_id: string }>(
+        `SELECT t.device_id FROM push_tokens t JOIN devices d ON d.id = t.device_id
+         WHERE d.user_id = $1 AND t.invalid_at IS NULL`,
+        [session.uid],
+      ),
+    );
+    expect(rows).toEqual([{ device_id: nextId }]);
   });
 
   it('moves a token registered by another uid to the caller, detaching it from the old uid', async () => {

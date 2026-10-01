@@ -10,6 +10,7 @@ import { ScrollView, View } from 'react-native';
 
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { TextLink } from '@/ui/buttons/TextLink';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -58,6 +59,12 @@ const useStyles = makeStyles((th) => ({
 
 export interface YourVersionViewProps {
   readonly name: string;
+  /** The crew's shared version: the plan's own highlights, with no claim about the reader. */
+  readonly group: boolean;
+  /** "Lisbon · Nov 5–11". */
+  readonly tripLine: string;
+  /** Opens the whole plan, read-only for a member; absent until the plan area offers it. */
+  readonly onPlan: (() => void) | undefined;
   /** The organiser reading someone else's version. */
   readonly preview: boolean;
   readonly guide: GuideId;
@@ -98,16 +105,28 @@ export function YourVersionView(props: YourVersionViewProps) {
         )}
       </View>
       <ScrollView style={styles.scroll} contentContainerStyle={styles.content}>
+        {props.tripLine === '' ? null : (
+          <Text variant="eyebrow" testID="version-trip">
+            {props.tripLine}
+          </Text>
+        )}
         <Text variant="h1" accessibilityRole="header" testID="version-title">
           {props.preview
             ? t({ id: 'proposal.version.titlePreview', message: `${name}’s version` })
-            : t({ id: 'proposal.version.title', message: `${name}, here’s your version` })}
+            : props.group
+              ? t({ id: 'proposal.version.titleGroup', message: `${name}, here’s the plan` })
+              : t({ id: 'proposal.version.title', message: `${name}, here’s your version` })}
         </Text>
         <Text variant="body" color={theme.semantic.text.secondary}>
-          {t({
-            id: 'proposal.version.sub',
-            message: `${info.name} rebuilt the plan around what you picked. Tap anything to see why it’s there.`,
-          })}
+          {props.group
+            ? t({
+                id: 'proposal.version.subGroup',
+                message: `${info.name} wrote one plan for the whole crew. Tap a stop to open it.`,
+              })
+            : t({
+                id: 'proposal.version.sub',
+                message: `${info.name} rebuilt the plan around what you picked. Tap anything to see why it’s there.`,
+              })}
         </Text>
         {props.fallbackNote === null ? null : (
           <View style={styles.note}>
@@ -129,6 +148,13 @@ export function YourVersionView(props: YourVersionViewProps) {
           </>
         ) : (
           <PicksList picks={props.picks} when={props.when} onOpen={props.onPick} />
+        )}
+        {props.onPlan === undefined || props.pending ? null : (
+          <TextLink
+            label={t({ id: 'proposal.version.wholePlan', message: 'See the whole plan' })}
+            onPress={props.onPlan}
+            testID="version-whole-plan"
+          />
         )}
         {props.share}
         {props.hype}

@@ -52,8 +52,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await producer.stop({ graceful: false });
-  await harness.stop();
+  await producer?.stop({ graceful: false });
+  await harness?.stop();
 });
 
 function send(session: SignedIn, cmd: string, op: ReturnType<typeof envelope>) {

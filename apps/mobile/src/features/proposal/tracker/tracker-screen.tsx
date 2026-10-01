@@ -11,15 +11,17 @@ import { useEffect, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { hrefFor } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 
 import { lockProposalCommand } from '../data/commands';
-import { instantDate, instantDateTime } from '../data/format';
+import { dayRange, instantDate, instantDateTime } from '../data/format';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
 import { useProposalTrip, type CrewPerson } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import { proposalRoutes } from '../routes';
+import { ConfirmedCard } from './confirmed-card';
 import { lockState, publicStatus, tally } from './model';
 import { Suggestions } from './suggestions';
 import { TrackerView } from './tracker-view';
@@ -33,6 +35,8 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   const locale = useLocale();
   const lock = useCommand(lockProposalCommand);
   const [asking, setAsking] = useState(false);
+  // The server's answer to LOCK shows at once; the synced proposal row follows.
+  const [lockedNow, setLockedNow] = useState(false);
   const member = trip != null && !trip.isOrganiser;
 
   useEffect(() => {
@@ -63,13 +67,17 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
     }
   };
   const recipients = trip.people.filter((p) => !p.organiser);
-  const state = lockState(proposal.status, recipients);
+  const status = lockedNow ? 'locked' : proposal.status;
+  const state = lockState(status, recipients);
   const counts = tally(trip.people);
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
+  const planHref = hrefFor('3e-1', { tripId: trip.tripId });
   const deadline = proposal.freeCancelUntil ?? proposal.replyBy;
   const onLock = async () => {
     setAsking(false);
     const result = await lock.send({ proposal_id: proposal.id });
     if (result.kind === 'applied') {
+      setLockedNow(true);
       feedback.emit('success');
       toast.show({
         id: 'proposal-locked',
@@ -92,7 +100,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
       <TrackerView
         back={t({ id: 'proposal.tracker.back', message: `${trip.destination} proposal` })}
         chip={
-          proposal.status === 'locked'
+          status === 'locked'
             ? t({ id: 'proposal.tracker.confirmed', message: 'Confirmed' })
             : deadline === null
               ? null
@@ -117,10 +125,25 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
           line: line(p),
         }))}
         tally={counts}
-        suggestions={
-          proposal.status === 'sent' ? (
-            <Suggestions proposalId={proposal.id} guide={trip.guide} />
+        confirmed={
+          state.kind === 'locked' ? (
+            <ConfirmedCard
+              guide={trip.guide}
+              going={counts.in}
+              tripLine={[
+                trip.destination,
+                trip.startDate && trip.endDate
+                  ? dayRange(locale, trip.startDate, trip.endDate)
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+              onPlan={planHref === undefined ? undefined : () => router.push(planHref)}
+            />
           ) : null
+        }
+        suggestions={
+          status === 'sent' ? <Suggestions proposalId={proposal.id} guide={trip.guide} /> : null
         }
         lockLabel={
           state.kind === 'ready' ? t({ id: 'proposal.lock.cta', message: 'Lock it in' }) : null

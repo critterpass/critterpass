@@ -2,7 +2,10 @@
  * `accept_invite` (docs/api-contracts.md §4.2): joins the caller through a crew or trip code, a
  * personal link (code + seat token) or an in-app invite. Anonymous callers may accept. Crew
  * membership is always granted up to the crew's ceiling; a trip seat is allocated under the trip's
- * row lock and a full trip waitlists the joiner (`result.waitlisted`, never an error). A personal
+ * row lock and a full trip waitlists the joiner (`result.waitlisted`, never an error). Joining a
+ * crew whose trip is confirmed or under way seats the joiner on that trip too, whatever brought
+ * them in (./join-trip.ts): no proposal will reach them, and a friend who joins mid-trip is there
+ * for the plan and the money, not the chat alone. A personal
  * link opened by someone other than its invitee joins them through a generic seat and never
  * reveals or consumes the named one. Every failure that could confirm a code exists answers the
  * same `CODE_INVALID`; a verified personal link may say it expired or was revoked.
@@ -29,6 +32,7 @@ import { defineCommand } from '../_framework/define-command';
 import { attributeReferral } from '../referrals/attribute';
 import type { InviteCommandDeps } from './deps';
 import { seatTokenHash } from './deps';
+import { seatOnOpenTrips } from './join-trip';
 import { claimTripSeat, joinCrew, type SeatClaim } from './seat-claim';
 
 interface JoinTarget {
@@ -223,7 +227,14 @@ export function createAcceptInviteCommand(deps: InviteCommandDeps) {
       const now = ctx.clock.serverNow;
       const target = await resolveTarget(tx, deps, payload, ctx.uid, now);
       const joined = await joinCrew(tx, target.crewId, ctx.uid);
+      // A new member gets on every trip of the crew that is locked in; someone already in the
+      // crew only on the trip their invite names (the others they chose for themselves).
+      const open =
+        joined || target.tripId !== null
+          ? await seatOnOpenTrips(tx, target.crewId, ctx.uid, joined ? null : target.tripId)
+          : [];
       const seat = target.tripId === null ? null : await claimTripSeat(tx, target.tripId, ctx.uid);
+      const crewTrip = target.tripId === null ? (open[0] ?? null) : null;
 
       // Someone already in the crew (the inviter opening their own link, say) claims nothing.
       const claimsInvite = target.inviteId !== null && (joined || target.inviterId !== ctx.uid);
@@ -274,12 +285,12 @@ export function createAcceptInviteCommand(deps: InviteCommandDeps) {
 
       return {
         crew_id: target.crewId,
-        trip_id: target.tripId,
+        trip_id: target.tripId ?? crewTrip?.trip_id ?? null,
         invite_id: claimsInvite ? target.inviteId : null,
         joined,
-        seated: seat?.outcome === 'seated',
-        waitlisted: seat?.outcome === 'waitlisted',
-        waitlist_position: seat?.waitlistPosition ?? null,
+        seated: seat?.outcome === 'seated' || crewTrip?.seated === true,
+        waitlisted: seat?.outcome === 'waitlisted' || crewTrip?.waitlisted === true,
+        waitlist_position: seat?.waitlistPosition ?? crewTrip?.waitlist_position ?? null,
         forwarded: target.forwarded,
       };
     },

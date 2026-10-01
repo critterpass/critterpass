@@ -1,7 +1,8 @@
 /**
  * Guide job queues (docs/api-contracts-async.md §2.2): the crew-chat mention reply (one try, keyed
  * by the mention), the queued answers at each zone's midnight (a cron every 15 minutes), the
- * proactive offer and the phrase card's text and audio.
+ * proactive offer, the phrase card's text and audio, and the translation of guide-written text
+ * into its readers' languages (payload in ../locale/guide-text.ts).
  */
 import { z } from 'zod';
 
@@ -12,6 +13,7 @@ export const GUIDE_QUEUES = {
   queuedAnswer: 'ai.queued_answer',
   proactive: 'guide.proactive',
   phrase: 'phrase.tts',
+  translate: 'guide_text.translate',
 } as const;
 
 export const GUIDE_QUEUE_SPECS = {
@@ -36,6 +38,14 @@ export const GUIDE_QUEUE_SPECS = {
     deadLetter: true,
     notify: true,
   },
+  // Keyed by trip or crew: one sweep running and at most one waiting, so a change that lands
+  // while a sweep is under way is picked up by the next one and sends in between fold into it.
+  'guide_text.translate': {
+    policy: 'stately',
+    retryLimit: 2,
+    expireInSeconds: 10 * 60,
+    notify: true,
+  },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
 export function guideQueueSpecs(
@@ -54,6 +64,8 @@ export const GUIDE_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof GUIDE_QUEUE_
   'ai.queued_answer': 'Answers the questions queued for the meter reset, at each zone’s midnight',
   'guide.proactive': 'Posts a guide offer to crew chat when a trigger fits, within the daily cap',
   'phrase.tts': 'Writes a custom phrase card and records its audio when a voice is configured',
+  'guide_text.translate':
+    'Translates guide-written plan, briefing, quest and pitch text into the languages its readers use',
 };
 
 /** The `chat.guide_mentioned` event; the worker reads the mention's id from it. */

@@ -18,6 +18,9 @@ appId: app.critterpass.dev
     env: { SCENE: version, READY: version-in, SHOT: '${PREFIX}-3f-3-your-version' }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: version-group, READY: version-whole-plan, SHOT: '${PREFIX}-3f-3-group-version' }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: not-sure, READY: objection-board, SHOT: '${PREFIX}-3f-4-not-sure' }
 - runFlow:
     file: scene.yaml

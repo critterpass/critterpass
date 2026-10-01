@@ -1,0 +1,13 @@
+# Guide text in a reader's language: lines the guide wrote in English (plan notes, day themes,
+# briefing lines, quest titles, pitch lines) → the same lines in one reader language, in the
+# guide's voice. Every returned line is checked in code before it is kept (numbers digit for
+# digit, within length, no added aside); a line that fails keeps its source. Cases live in
+# cases.yaml and run through the real translateGuideLines (see suite.ts); seeded cases grade the
+# validator on deliberate model slips.
+# Run: pnpm --filter @cp/ai eval translate
+description: Guide-written lines translated for a reader
+prompts:
+  - '{{lines}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

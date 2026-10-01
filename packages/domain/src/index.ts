@@ -36,6 +36,7 @@ export {
   type ProductType,
 } from './entitlements/product-keys';
 export * from './commands';
+export * from './countries';
 export {
   DESTINATION_COVERAGES,
   GUIDE_COLOURS,
@@ -290,3 +291,4 @@ export * from './critters';
 export * from './trips/lifecycle';
 export * from './quests';
 export * from './locale/app-locale';
+export * from './locale/guide-text';

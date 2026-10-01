@@ -4,7 +4,7 @@
  * windows and share windows end on the clock, not on a row change). The route layer supplies the
  * native session, the upload and the row watcher.
  */
-import type { LocationLevel } from '@cp/domain';
+import { toCountryCode, type LocationLevel } from '@cp/domain';
 import { useEffect, useMemo, useState } from 'react';
 
 import {
@@ -121,7 +121,7 @@ export function useLocationEngineBridge(deps: EngineBridgeDeps): {
   useEffect(() => {
     void engine.update({
       trip: toTripModeTrip(tripRow),
-      homeCountry: homeRows[0]?.home_country ?? null,
+      homeCountry: toCountryCode(homeRows[0]?.home_country),
       exploreAtHome: deps.exploreAtHome,
       deviceTz: deps.deviceTz,
       level: deps.level,

@@ -30,7 +30,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 const past = () => new Date(Date.now() - 60_000);

@@ -1,7 +1,7 @@
 import { readFileSync, statSync } from 'node:fs';
 import path from 'node:path';
 
-import { hitIata, homeBaseFor, searchAirports } from '@cp/domain';
+import { COUNTRY_NAMES, hitIata, homeBaseFor, searchAirports, toCountryCode } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
 import { airportDataset } from './index';
@@ -17,6 +17,13 @@ describe('bundled airports', () => {
     expect(statSync(path.resolve(import.meta.dirname, 'airports.json')).size).toBeLessThan(
       AIRPORTS_FILE_BUDGET_BYTES,
     );
+  });
+
+  it('names every country the way the shared country reader knows it', () => {
+    const { countries } = airportDataset();
+    const names = Object.fromEntries(Object.entries(countries).map(([code, c]) => [code, c.name]));
+    expect(names).toEqual(COUNTRY_NAMES);
+    for (const [code, name] of Object.entries(names)) expect(toCountryCode(name)).toBe(code);
   });
 
   it('finds SIN first for Sing and sin, and derives the home', () => {

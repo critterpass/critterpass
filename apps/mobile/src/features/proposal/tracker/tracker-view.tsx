@@ -69,6 +69,8 @@ export interface TrackerViewProps {
   readonly rows: readonly TrackerRow[];
   readonly tally: Tally;
   readonly suggestions: ReactNode;
+  /** The locked-in card, once the trip is confirmed. */
+  readonly confirmed?: ReactNode;
   /** The lock button's label, or null when locking isn't offered. */
   readonly lockLabel: string | null;
   readonly lockNote: string | null;
@@ -95,7 +97,7 @@ export function TrackerView(props: TrackerViewProps) {
         <BackEyebrow label={props.back} onPress={props.onBack} testID="tracker-back" />
         {props.chip === null ? null : (
           <View style={styles.chip}>
-            <Text variant="label" color={theme.semantic.text.onAccent}>
+            <Text variant="label" color={theme.semantic.text.onAccent} testID="tracker-chip">
               {props.chip}
             </Text>
           </View>
@@ -143,6 +145,7 @@ export function TrackerView(props: TrackerViewProps) {
             </View>
           ))}
         </View>
+        {props.confirmed}
         {props.suggestions}
       </ScrollView>
       <FooterFade />

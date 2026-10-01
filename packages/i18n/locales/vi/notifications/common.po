@@ -220,6 +220,10 @@ msgid "notifications.la.meet_up_late_title"
 msgstr "{place} · {time}"
 
 #: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.knock_title_be_there"
+msgstr "{place} · có mặt trước {time}"
+
+#: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_title"
 msgstr "{place} · đi trước {time}"
 
@@ -299,6 +303,10 @@ msgstr "Vừa có một chỗ trống"
 msgid "notifications.money.settled.title"
 msgstr "Sòng phẳng rồi"
 
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_title_be_there"
+msgstr "Có mặt ở {place} trước {time}"
+
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.boarding_body"
 msgstr "Lên máy bay ở cổng {gate}. Thẻ lên máy bay có trong ví."
@@ -354,6 +362,10 @@ msgstr "Ngày mai hết hạn hủy miễn phí"
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.flight_gate"
 msgstr "Đổi cổng: giờ là cổng {gate}."
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_body_be_there"
+msgstr "Chưa tính thời gian đi tới đó. Dậy rồi thì chạm nhé."
 
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.final.body"
