@@ -244,9 +244,22 @@ describe('suggestions', () => {
 
 describe('reply-by and follow-ups', () => {
   it('reminds once a day before, and locks once at reply-by with the unanswered on maybe', async () => {
-    await world.q("UPDATE proposals SET reply_by = now() + interval '12 hours' WHERE id = $1", [
-      world.proposalId,
-    ]);
+    // Sent an hour ago with half a day to answer: its own push just went, so no reminder follows.
+    await world.q(
+      `UPDATE proposals SET sent_at = now() - interval '1 hour',
+              reply_by = now() + interval '12 hours' WHERE id = $1`,
+      [world.proposalId],
+    );
+    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 0 });
+    const early = await world.q(
+      "SELECT 1 FROM domain_events WHERE type = 'proposal.reply_by_soon'",
+    );
+    expect(early).toEqual([]);
+    // Sent three days ago, now half a day from reply-by: one reminder.
+    await world.q(
+      `UPDATE proposals SET sent_at = now() - interval '3 days', reminded_at = NULL WHERE id = $1`,
+      [world.proposalId],
+    );
     expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 1, locked: 0 });
     expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 0 });
     const [soon] = await world.q<{ payload: { user_ids: string[] } }>(

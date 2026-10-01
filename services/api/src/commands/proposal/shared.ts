@@ -20,6 +20,8 @@ export interface ProposalRow {
   readonly id: string;
   readonly trip_id: string;
   readonly crew_id: string;
+  /** The plan version the proposal was built from (the one SEND publishes to the crew). */
+  readonly version_id: string | null;
   readonly status: string;
   readonly sent_at: Date | null;
   readonly reply_by: Date;
@@ -31,7 +33,7 @@ export interface ProposalRow {
 /** The proposal as the caller sees it; `NOT_FOUND` when RLS hides it (never leak existence). */
 export async function loadProposal(tx: pg.PoolClient, proposalId: string): Promise<ProposalRow> {
   const { rows } = await tx.query<ProposalRow>(
-    `SELECT p.id, p.trip_id, t.crew_id, p.status, p.sent_at, p.reply_by, p.show_cost, p.personal,
+    `SELECT p.id, p.trip_id, t.crew_id, p.version_id, p.status, p.sent_at, p.reply_by, p.show_cost, p.personal,
             app.is_trip_organiser(p.trip_id) AS organiser
        FROM proposals p JOIN trips t ON t.id = p.trip_id WHERE p.id = $1`,
     [proposalId],

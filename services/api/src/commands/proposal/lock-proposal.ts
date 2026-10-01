@@ -3,8 +3,8 @@
  * one recipient is IN, before reply-by. Under the trip's seat lock: every MAYBE becomes a waitlist
  * place (first in line for a freed seat), every recipient who never answered is out, the open
  * activity holds of the people now off the trip are released (the IN members' holds stay for the
- * booking flow to convert), the proposal locks and the trip moves `proposed → confirmed` through
- * the one trip-status path. Locking a locked proposal changes nothing.
+ * booking flow to convert), the proposed plan version becomes `current`, the proposal locks and the
+ * trip moves `proposed → confirmed` through the one trip-status path. Locking a locked proposal changes nothing.
  */
 import { appendDomainEvent, cancelScheduledEvent, confirmTrip } from '@cp/db';
 import {
@@ -170,6 +170,12 @@ export const lockProposalCommand = defineCommand({
         crewId: proposal.crew_id,
         tripId: proposal.trip_id,
       });
+      // The plan the crew agreed to is the trip's plan from here on.
+      await tx.query(
+        `UPDATE itinerary_versions SET status = 'current'
+          WHERE status = 'proposed' AND id = (SELECT current_version_id FROM trips WHERE id = $1)`,
+        [proposal.trip_id],
+      );
       const moved = await confirmTrip(tx, proposal.trip_id, { kind: 'user', id: ctx.uid });
       if (!moved) {
         const trip = await tx.query<{ status: string }>('SELECT status FROM trips WHERE id = $1', [

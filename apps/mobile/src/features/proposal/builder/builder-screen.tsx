@@ -107,7 +107,11 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
   };
   const fallback = defaultReply(facts);
   const plan = sendPlan({ proposal, config, recipients: trip.recipients.length, offline });
-  const earliest = facts.freeCancelDeadlines.sort()[0] ?? null;
+  // Only a free cancellation still ahead is worth naming as the bound.
+  const earliest =
+    facts.freeCancelDeadlines
+      .filter((d) => new Date(d).getTime() > facts.now.getTime() + 2 * 3_600_000)
+      .sort()[0] ?? null;
   const shared = versions.find((v) => v.slides.length > 0);
 
   const onSend = async () => {

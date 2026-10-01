@@ -100,6 +100,18 @@ export async function loadVersionContext(
               guide_slug FROM llm.trip_context WHERE trip_id = $1`,
       [target.trip_id],
     );
+    const crew = await tx.query<{ user_id: string; first_name: string; taste_tags: string[] }>(
+      'SELECT user_id, first_name, taste_tags FROM llm.crew_profiles',
+    );
+    return { trip: trip.rows[0], crew: crew.rows };
+  });
+  const own = await withSystem(pool, async (tx) => {
+    const mustDos = await tx.query<{ id: string }>(
+      'SELECT id FROM must_dos WHERE trip_id = $1 AND owner_id = $2',
+      [target.trip_id, target.recipient_id],
+    );
+    // The proposal's own plan version, read as the system: it is the plan being sent to this
+    // recipient, still the organiser's draft until SEND, so the member's reader view can't see it.
     const items = await tx.query<{
       stable_id: string;
       poi_name: string | null;
@@ -107,25 +119,23 @@ export async function loadVersionContext(
       category: string | null;
       must_do_id: string | null;
     }>(
-      `SELECT stable_id, poi_name, day_no, category, must_do_id FROM llm.plan_items
-        WHERE version_id = $1 ORDER BY day_no NULLS LAST, stable_id`,
-      [target.plan_version_id],
+      `SELECT i.stable_id, p.name AS poi_name, d.day_no, i.category, i.must_do_id
+         FROM plan_items i
+         JOIN plan_days d ON d.id = i.day_id
+         LEFT JOIN pois p ON p.id = i.poi_id
+        WHERE i.version_id = $1 AND i.trip_id = $2
+        ORDER BY d.day_no NULLS LAST, i.starts_at NULLS LAST, i.stable_id`,
+      [target.plan_version_id, target.trip_id],
     );
-    const crew = await tx.query<{ user_id: string; first_name: string; taste_tags: string[] }>(
-      'SELECT user_id, first_name, taste_tags FROM llm.crew_profiles',
-    );
-    return { trip: trip.rows[0], items: items.rows, crew: crew.rows };
-  });
-  const own = await withSystem(pool, async (tx) => {
-    const mustDos = await tx.query<{ id: string }>(
-      'SELECT id FROM must_dos WHERE trip_id = $1 AND owner_id = $2',
-      [target.trip_id, target.recipient_id],
-    );
-    return { mustDos: new Set(mustDos.rows.map((r) => r.id)), cost: await costFacts(tx, target) };
+    return {
+      mustDos: new Set(mustDos.rows.map((r) => r.id)),
+      items: items.rows,
+      cost: await costFacts(tx, target),
+    };
   });
   const me = read.crew.find((member) => member.user_id === target.recipient_id);
   const guide = personaIdSchema.safeParse(read.trip?.guide_slug);
-  const items: VersionItem[] = read.items.map((item) => ({
+  const items: VersionItem[] = own.items.map((item) => ({
     id: item.stable_id,
     title: item.poi_name ?? item.category ?? 'Plan item',
     day: item.day_no,

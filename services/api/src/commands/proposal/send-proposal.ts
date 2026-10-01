@@ -1,13 +1,15 @@
 /**
  * `send_proposal` (docs/api-contracts.md §4.7): the organiser sends the built proposal. The crew
- * can see it from now on, the trip moves to `proposed`, each recipient gets their guide's push
- * (N-07) and the proposal's card is posted in crew chat. Sending twice changes nothing.
+ * can see it from now on, with the plan it was built from (published as the trip's crew-visible
+ * `proposed` version), the trip moves to `proposed`, each recipient gets their guide's push (N-07)
+ * and the proposal's card is posted in crew chat. Sending twice changes nothing.
  */
 import { appendDomainEvent, outbox } from '@cp/db';
 import { channelName, DomainError, generateUuidV7, proposalIdPayloadSchema } from '@cp/domain';
 import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
+import { lockTripPlan } from '../../plan/versioning';
 import { defineCommand } from '../_framework/define-command';
 import { requireProposalOrganiser, type ProposalRow } from './shared';
 
@@ -24,6 +26,32 @@ async function postProposalCard(tx: pg.PoolClient, proposal: ProposalRow, uid: s
     message_id: messageId,
     seq: Number(rows[0]?.seq),
   });
+}
+
+/**
+ * Publishes the proposal's plan version to the crew: it becomes crew-visible and `proposed`, and
+ * the trip's current version, so members read the plan they are asked about (their plan screens,
+ * the guide's reader views, trip-day jobs). Only this one version is published: other organiser
+ * drafts stay organiser-only. A version sent before it (a re-send after edits) is superseded.
+ */
+async function publishProposedPlan(tx: pg.PoolClient, proposal: ProposalRow): Promise<void> {
+  if (proposal.version_id === null) return;
+  const head = await lockTripPlan(tx, proposal.trip_id);
+  if (head.currentVersionId !== null && head.currentVersionId !== proposal.version_id) {
+    await tx.query(
+      `UPDATE itinerary_versions SET status = 'superseded' WHERE id = $1 AND trip_id = $2`,
+      [head.currentVersionId, proposal.trip_id],
+    );
+  }
+  await tx.query(
+    `UPDATE itinerary_versions SET visibility = 'crew', status = 'proposed'
+      WHERE id = $1 AND trip_id = $2 AND status <> 'current'`,
+    [proposal.version_id, proposal.trip_id],
+  );
+  await tx.query('UPDATE trips SET current_version_id = $2 WHERE id = $1', [
+    proposal.trip_id,
+    proposal.version_id,
+  ]);
 }
 
 export const sendProposalCommand = defineCommand({
@@ -52,6 +80,7 @@ export const sendProposalCommand = defineCommand({
         `UPDATE proposals SET status = $3, sent_at = $2 WHERE id = $1 AND status = 'building'`,
         [proposal.id, ctx.clock.serverNow, 'sent'],
       );
+      await publishProposedPlan(tx, proposal);
       const moved = await tx.query(
         `UPDATE trips SET status = 'proposed' WHERE id = $1 AND status = 'draft_review'`,
         [proposal.trip_id],

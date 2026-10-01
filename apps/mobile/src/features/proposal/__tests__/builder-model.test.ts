@@ -72,7 +72,13 @@ describe('replyByChoices', () => {
     }
   });
 
-  it('offers nothing once the trip has started', () => {
-    expect(replyByChoices({ freeCancelDeadlines: [], tripStart: '2026-09-19', now })).toEqual([]);
+  it('is not bounded by a trip already under way or a free cancellation that passed', () => {
+    const choices = replyByChoices({
+      freeCancelDeadlines: ['2026-09-10T00:00:00.000Z'],
+      tripStart: '2026-09-19',
+      now,
+    });
+    expect(choices.length).toBe(10);
+    expect(choices[0]!.getTime()).toBeGreaterThanOrEqual(now.getTime() + 3_600_000);
   });
 });

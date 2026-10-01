@@ -5,7 +5,12 @@
  * SEND does from here.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
-import { defaultReplyBy, MIN_REPLY_WINDOW_MS, type ProposalFormat } from '@cp/domain';
+import {
+  defaultReplyBy,
+  liveFreeCancels,
+  MIN_REPLY_WINDOW_MS,
+  type ProposalFormat,
+} from '@cp/domain';
 
 import type { Proposal } from '../data/proposal';
 
@@ -75,15 +80,19 @@ export interface ReplyByFacts {
 
 function inputs(facts: ReplyByFacts) {
   return {
-    freeCancelDeadlines: facts.freeCancelDeadlines.map((d) => new Date(d)),
+    // A free cancellation that has passed bounds nothing.
+    freeCancelDeadlines: liveFreeCancels(
+      facts.freeCancelDeadlines.map((d) => new Date(d)),
+      facts.now,
+    ),
     tripStart:
       facts.tripStart === null ? null : new Date(`${facts.tripStart.slice(0, 10)}T00:00:00Z`),
     now: facts.now,
   };
 }
 
-/** The deadline the server picks when the organiser leaves it (null: none is left). */
-export function defaultReply(facts: ReplyByFacts): Date | null {
+/** The deadline the server picks when the organiser leaves it. */
+export function defaultReply(facts: ReplyByFacts): Date {
   return defaultReplyBy(inputs(facts));
 }
 
@@ -93,9 +102,11 @@ export function defaultReply(facts: ReplyByFacts): Date | null {
  */
 export function replyByChoices(facts: ReplyByFacts, count = 10): Date[] {
   const bound = inputs(facts);
+  // A trip already under way (or starting within the hour) bounds nothing either.
+  const start = bound.tripStart?.getTime() ?? null;
   const limits = [
     ...bound.freeCancelDeadlines.map((d) => d.getTime()),
-    ...(bound.tripStart === null ? [] : [bound.tripStart.getTime()]),
+    ...(start === null || start < facts.now.getTime() + 2 * MIN_REPLY_WINDOW_MS ? [] : [start]),
   ];
   const latest = limits.length === 0 ? Number.POSITIVE_INFINITY : Math.min(...limits);
   const choices: Date[] = [];
