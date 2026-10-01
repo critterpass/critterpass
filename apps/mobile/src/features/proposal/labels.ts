@@ -39,7 +39,6 @@ export function tripLine(
   start: string | null,
   end: string | null,
 ): string {
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a separator, never copy.
   return [destination, tripDates(locale, start, end)].filter(Boolean).join(' · ');
 }
 
@@ -144,7 +143,7 @@ export function lockCopy(state: LockState): {
         label: null,
         note: t({ id: 'proposal.lock.locked', message: 'Locked in. The trip is confirmed.' }),
       };
-    default:
+    case 'not_sent':
       return { label: null, note: null };
   }
 }
