@@ -21,7 +21,6 @@ import {
   type CommandDoorsHarness,
   type SignedIn,
 } from '../../routes/command-doors-harness';
-import { seedProposalTrip } from './fixture';
 
 interface Body {
   readonly result: Record<string, unknown>;
@@ -46,9 +45,48 @@ async function run(who: SignedIn, cmd: string, payload: unknown) {
   return { status: response.status, body: (await response.json()) as Body };
 }
 
+/** A crew and its trip in draft review (starting in two months), the members on the trip. */
+async function seedCrewTrip(organiser: SignedIn, members: readonly SignedIn[]) {
+  const [crew] = await q<{ id: string }>(
+    "INSERT INTO crews (name, created_by) VALUES ('Lock Crew', $1) RETURNING id",
+    [organiser.uid],
+  );
+  const crewId = crew!.id;
+  await q("INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'organiser')", [
+    crewId,
+    organiser.uid,
+  ]);
+  const [trip] = await q<{ id: string }>(
+    "INSERT INTO trips (crew_id, status) VALUES ($1, 'voting') RETURNING id",
+    [crewId],
+  );
+  const tripId = trip!.id;
+  for (const status of ['won', 'setup', 'drafting', 'draft_review']) {
+    await q('UPDATE trips SET status = $2 WHERE id = $1', [tripId, status]);
+  }
+  await q("UPDATE trips SET start_date = (now() + interval '60 days')::date WHERE id = $1", [
+    tripId,
+  ]);
+  await q(
+    "INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, 'organiser', 'in')",
+    [tripId, organiser.uid],
+  );
+  for (const member of members) {
+    await q("INSERT INTO crew_members (crew_id, user_id, role) VALUES ($1, $2, 'member')", [
+      crewId,
+      member.uid,
+    ]);
+    await q('INSERT INTO trip_participants (trip_id, user_id) VALUES ($1, $2)', [
+      tripId,
+      member.uid,
+    ]);
+  }
+  return { crewId, tripId };
+}
+
 /** A trip in draft review whose organiser's draft has one day and two stops. */
 async function seedTrip(organiser: SignedIn, members: readonly SignedIn[]) {
-  const fx = await seedProposalTrip(harness.pool, organiser, members);
+  const fx = await seedCrewTrip(organiser, members);
   const [version] = await q<{ id: string }>(
     `INSERT INTO itinerary_versions (trip_id, visibility, status) VALUES ($1, 'organiser', 'draft')
      RETURNING id`,
