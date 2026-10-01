@@ -6,3 +6,154 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.past"
+msgstr "{0}, {when}"
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.upcomingLabel"
+msgstr "{0}, chưa đóng dấu. {1}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.inDays"
+msgstr "{days, plural, other {{place} sau # ngày nữa}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.inDays"
+msgstr "{days, plural, other {# ngày nữa}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.today"
+msgstr "{place} hôm nay"
+
+#. placeholder {0}: model.stampTotal
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.allStamps"
+msgstr "Tất cả {0} ›"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.app"
+msgstr "Ứng dụng"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTripsLine"
+msgstr "Đặt chỗ, bản đồ và câu giao tiếp trên máy này"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stat.countries"
+msgstr "Quốc gia"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stat.critters"
+msgstr "Critter"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.edit"
+msgstr "Sửa"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.haptics"
+msgstr "Rung phản hồi"
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.home"
+msgstr "Nhà"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.back"
+msgstr "Trang chủ"
+
+#. placeholder {0}: stamp.title
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.homeLabel"
+msgstr "Con dấu nhà, {0}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.howYouTravel"
+msgstr "Phong cách đi của bạn"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.none"
+msgstr "Chưa có chuyến nào"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offline"
+msgstr "Ngoại tuyến"
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planningPlace"
+msgstr "Đang lên kế hoạch {0}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planning"
+msgstr "Đang lên kế hoạch"
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.back"
+msgstr "Hồ sơ"
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.title"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.settings"
+msgstr "Cài đặt"
+
+#. placeholder {0}: model.sinceYear
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.since"
+msgstr "TỪ {0}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.soon"
+msgstr "Sắp tới"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffects"
+msgstr "Hiệu ứng âm thanh"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stamps"
+msgstr "Con dấu"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrew"
+msgstr "Lập một nhóm"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffectsLine"
+msgstr "Tiếng dán sticker, đóng dấu, bật nảy"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.hapticsLine"
+msgstr "Những cú chạm và rung bạn cảm nhận được"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.today"
+msgstr "Hôm nay"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stat.trips"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrewLine"
+msgstr "Đi cùng hội của mình mới vui."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTrips"
+msgstr "Chuyến đi đã lưu ngoại tuyến"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.yourCrews"
+msgstr "Nhóm của bạn"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.noTrips"
+msgstr "Chuyến đầu tiên sẽ tự đóng dấu ở đây khi bạn hạ cánh."

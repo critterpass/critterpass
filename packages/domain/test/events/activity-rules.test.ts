@@ -18,6 +18,7 @@ import { CRITTER_EVENT_TYPES } from '../../src/critters/events';
 import { QUEST_EVENT_TYPES } from '../../src/quests/events';
 import { LA_EVENT_TYPES } from '../../src/surfaces/la-events';
 import { YOU_EVENT_TYPES } from '../../src/you/events';
+import { ACCOUNT_EVENT_TYPES } from '../../src/account/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -139,6 +140,9 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   ...LA_EVENT_TYPES,
   // Settings, icons and past trips concern one account only.
   ...YOU_EVENT_TYPES,
+  // Closing, restoring and purging an account are private to it; an organiser hand-over reaches
+  // the crew as the trip's own rows.
+  ...ACCOUNT_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

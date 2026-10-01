@@ -92,6 +92,10 @@ msgid "setup.voteOpen.title"
 msgstr "The vote isn’t over yet"
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.status.stepRefused"
+msgstr "This step isn’t finished for the whole crew yet, so setup is still here."
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.title"
 msgstr "This trip isn’t here yet"
 

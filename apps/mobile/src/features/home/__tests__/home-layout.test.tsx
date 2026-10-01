@@ -74,6 +74,16 @@ describe('next-up card', () => {
     expect(screen.getByText('DAY 3')).toBeTruthy();
   });
 
+  it('shows the plan pill once the trip has progress, and not at 0%', async () => {
+    await show(<NextUpCard trip={BALI} now={() => NOW} />);
+    expect(screen.getByText('PLAN 80%')).toBeTruthy();
+    expect(screen.getByLabelText(/plan 80 percent done/)).toBeTruthy();
+    await show(<NextUpCard trip={{ ...BALI, planProgress: 0 }} now={() => NOW} />);
+    expect(screen.queryByTestId('home-plan-progress')).toBeNull();
+    expect(screen.queryByLabelText(/percent done/)).toBeNull();
+    expect(screen.getByText('17D 05:26:47')).toBeTruthy();
+  });
+
   it('reads "Your next trip" with no countdown before a place and dates are set', async () => {
     await show(
       <NextUpCard

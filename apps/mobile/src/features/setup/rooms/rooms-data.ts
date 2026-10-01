@@ -27,7 +27,7 @@ const PENDING_SQL = `SELECT cmd, envelope FROM commands
 const PREFS_SQL = 'SELECT chips FROM room_prefs WHERE trip_id = ? AND user_id = ?';
 const STAYS_SQL = `SELECT c.stay_type, c.nightly_minor_low, c.nightly_minor_high, c.currency
   FROM destination_cost_indices c JOIN trips t ON t.destination_id = c.destination_id
-  WHERE t.id = ? ORDER BY c.nightly_minor_low, c.stay_type`;
+  WHERE t.id = ? AND c.reviewed_at IS NOT NULL ORDER BY c.nightly_minor_low, c.stay_type`;
 const REJECTED_SQL = `SELECT id, rejected_at FROM rejected_commands
   WHERE cmd = 'set_room_assignment' AND code = 'VERSION_CONFLICT'
   ORDER BY rejected_at DESC LIMIT 1`;

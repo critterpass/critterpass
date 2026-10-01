@@ -4,7 +4,7 @@ import { i18n } from '@lingui/core';
 import { DOMAIN_EVENT_TYPES, projectActivity } from '@cp/domain';
 import { loadCatalog, shippedLocaleCodes, sourceLocale } from '@cp/i18n';
 
-import { activityLine } from '../hub-copy';
+import { activityLine, tickerLines } from '../hub-copy';
 
 /** Every verb the server projects into a trip's activity ticker. */
 const VERBS = [
@@ -46,5 +46,28 @@ describe('activity ticker copy', () => {
       expect({ locale, untranslated }).toEqual({ locale, untranslated: [] });
     }
     expect(checked).toBeGreaterThan(0);
+  });
+});
+
+describe('activity ticker lines', () => {
+  it("tells the trip's steps once, as the step it is on, and never repeats a line", async () => {
+    i18n.loadAndActivate({
+      locale: sourceLocale,
+      messages: await loadCatalog(sourceLocale, 'trip/hub'),
+    });
+    const rows = [
+      { id: 'a5', verb: 'moved', actor_name: null },
+      { id: 'a4', verb: 'edited', actor_name: 'Mai' },
+      { id: 'a3', verb: 'moved', actor_name: null },
+      { id: 'a2', verb: 'edited', actor_name: 'Mai' },
+      { id: 'a1', verb: 'moved', actor_name: null },
+    ];
+    expect(tickerLines(rows, 'pre_trip').map(({ row, text }) => [row.id, text])).toEqual([
+      ['a5', 'The plan is locked in'],
+      ['a4', 'Mai edited the plan'],
+    ]);
+    expect(tickerLines(rows, 'in_trip')[0]?.text).toBe('The trip has started');
+    i18n.loadAndActivate({ locale: 'vi', messages: await loadCatalog('vi', 'trip/hub') });
+    expect(tickerLines(rows, 'pre_trip')[0]?.text).toBe('Lịch trình đã chốt');
   });
 });

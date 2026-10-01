@@ -3,8 +3,9 @@ appId: app.critterpass.dev
 # Release gate: a real proposal between two brand-new accounts on one phone, no demo world. The
 # organiser starts a crew and keeps its code; a second new account (Developer tools → Test
 # accounts) joins with that code. Back as the organiser: one place locked in, setup, the guide's
-# draft, BUILD THE PROPOSAL and SEND. The friend opens it from crew chat, reads their version and
-# slides to board. The organiser locks the crew in from the tracker and the trip is confirmed.
+# draft, BUILD THE PROPOSAL and SEND. The friend opens it from crew chat, watches the trailer and
+# replies, reads their version and slides to board. The organiser locks the crew in from the
+# tracker and the trip is confirmed.
 - runFlow: subflows/fresh-account.yaml
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -158,6 +159,24 @@ appId: app.critterpass.dev
     env:
       TARGET: 'dev-accounts-switch-1'
 - runFlow: ../proposal/subflows/open-proposal-card.yaml
+# A trailer proposal opens on its story: a quick reply, then MAYBE goes to the friend's version.
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-trailer|proposal-version'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'proposal-trailer'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: en-3f-2-trailer
+      - tapOn:
+          id: 'trailer-quick'
+      - tapOn:
+          id: 'trailer-react-okay_wow'
+      - tapOn:
+          id: 'trailer-maybe'
 - extendedWaitUntil:
     visible:
       id: 'proposal-version'

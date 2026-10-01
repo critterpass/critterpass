@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# The display title fixtures of the Text gallery page in ${LOCALE}, one screenshot each.
+- runFlow:
+    file: open-gallery-component-in.yaml
+    env:
+      COMPONENT: 'Text'
+      LOCALE: ${LOCALE}
+      SCALE: '1'
+- scrollUntilVisible:
+    element:
+      id: 'gallery-fixture-display title on the next trip hero'
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: ${LOCALE}-display-titles-hero
+- scrollUntilVisible:
+    element:
+      id: 'gallery-fixture-display title at each title size'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: ${LOCALE}-display-titles-sizes
+- scrollUntilVisible:
+    element:
+      id: 'gallery-fixture-display titles wrapped'
+    direction: DOWN
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: ${LOCALE}-display-titles-wrapped

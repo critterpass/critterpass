@@ -16,6 +16,7 @@ export function watchQuery<Row>(
   params: readonly unknown[],
   tables: readonly string[],
   onRows: (rows: Row[]) => void,
+  onError?: () => void,
 ): () => void {
   const controller = new AbortController();
   const load = () =>
@@ -23,7 +24,9 @@ export function watchQuery<Row>(
       (rows) => {
         if (!controller.signal.aborted) onRows(rows);
       },
-      () => undefined,
+      () => {
+        if (!controller.signal.aborted) onError?.();
+      },
     );
   void load();
   db.onChange(
@@ -36,6 +39,8 @@ export function watchQuery<Row>(
 export interface LiveRows<Row> {
   readonly rows: readonly Row[];
   readonly loaded: boolean;
+  /** The read threw (and no later one has answered): there is nothing to wait for. */
+  readonly failed: boolean;
 }
 
 export function useLiveRows<Row>(
@@ -45,16 +50,27 @@ export function useLiveRows<Row>(
 ): LiveRows<Row> {
   const { db } = useLocalFirst();
   const key = params === null ? null : `${sql}\u0000${JSON.stringify(params)}`;
-  const [state, setState] = useState<{ key: string; rows: readonly Row[] } | null>(null);
+  const [state, setState] = useState<{
+    key: string;
+    rows: readonly Row[];
+    failed: boolean;
+  } | null>(null);
   useEffect(() => {
     if (key === null || params === null) return undefined;
-    return watchQuery<Row>(db, sql, [...params], tables, (rows) => setState({ key, rows }));
+    return watchQuery<Row>(
+      db,
+      sql,
+      [...params],
+      tables,
+      (rows) => setState({ key, rows, failed: false }),
+      // A failed first read is an answer too; rows already shown stay until the next one lands.
+      () => setState((was) => (was?.key === key ? was : { key, rows: [], failed: true })),
+    );
     // `tables` is a module constant at every call site and `params` is folded into `key`.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [db, key]);
-  return state !== null && state.key === key
-    ? { rows: state.rows, loaded: true }
-    : { rows: [], loaded: false };
+  if (state === null || state.key !== key) return { rows: [], loaded: false, failed: false };
+  return { rows: state.rows, loaded: !state.failed, failed: state.failed };
 }
 
 const UID_SQL = 'SELECT value FROM local_state WHERE id = ?';

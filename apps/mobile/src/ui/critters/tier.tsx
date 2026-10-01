@@ -34,6 +34,7 @@ export function TierWord({
   variant = 'label',
   color,
   glyph = true,
+  fit = false,
 }: {
   readonly tier: Tier;
   /** Appended after a middle dot ("Water temples"). */
@@ -42,10 +43,17 @@ export function TierWord({
   readonly color?: string;
   /** Off where the word sits alone in a narrow cell, as the form selector (3l-3) sets it. */
   readonly glyph?: boolean;
+  /** Keeps the word on one line in a narrow cell, shrinking a long one ("HUYỀN THOẠI"). */
+  readonly fit?: boolean;
 }) {
   const word = tierWord(tier);
   return (
-    <Text variant={variant} color={color ?? tierColor(tier)}>
+    <Text
+      variant={variant}
+      color={color ?? tierColor(tier)}
+      // Measured by the platform, so only a word that is really too wide shrinks.
+      {...(fit ? { numberOfLines: 1, adjustsFontSizeToFit: true, minimumFontScale: 0.7 } : {})}
+    >
       {`${glyph ? `${tokens.tier[tier].glyph}${GLUE}` : ''}${word}${suffix ? ` · ${suffix}` : ''}`}
     </Text>
   );

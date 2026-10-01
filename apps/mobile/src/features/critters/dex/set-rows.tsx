@@ -46,6 +46,7 @@ function Art({ cell, size }: { readonly cell: CritterCell; readonly size: number
       form={cell.form}
       found={cell.found}
       gold={cell.gold}
+      glyph={false}
       testID={`critters-cell-${cell.no}`}
     />
   );

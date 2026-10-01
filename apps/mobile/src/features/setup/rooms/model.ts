@@ -9,6 +9,9 @@
 import { splitStays, type PricedStay } from '@cp/cost-engine';
 import type { PlanRoomWire } from '@cp/domain';
 
+import { money } from '../budget/model';
+import { estimateMinor, type CrewAmount } from '../data/crew-money';
+
 export type TraitLabel = 'light_sleepers' | 'early_risers' | 'night_owls' | 'couple';
 
 export interface PlanRoom {
@@ -185,7 +188,10 @@ export interface PerPerson {
   readonly mine: number | null;
 }
 
-/** Per-person price across every stay, in whole units of the plan's currency. */
+/**
+ * Per-person price across every stay, in whole units of the plan's currency. The plan is priced
+ * from the cost index, so each figure is an estimate and is rounded as one.
+ */
 export function perPersonPrice(
   plan: RoomsPlan,
   me: string,
@@ -204,13 +210,15 @@ export function perPersonPrice(
   if (stays.length === 0) return null;
   const split = splitStays(stays);
   const scale = 10 ** fractionDigits;
-  const shares = [...split.perGuest.values()].map((money) => Number(money.amountMinor) / scale);
+  const whole = (amountMinor: bigint) =>
+    Math.round(estimateMinor(Number(amountMinor), plan.currency) / scale);
+  const shares = [...split.perGuest.values()].map((share) => whole(share.amountMinor));
   if (shares.length === 0) return null;
   const mine = split.perGuest.get(me);
   return {
-    low: Math.round(Math.min(...shares)),
-    high: Math.round(Math.max(...shares)),
-    mine: mine === undefined ? null : Math.round(Number(mine.amountMinor) / scale),
+    low: Math.min(...shares),
+    high: Math.max(...shares),
+    mine: mine === undefined ? null : whole(mine.amountMinor),
   };
 }
 
@@ -236,4 +244,31 @@ export function stayDates(
   const day = (n: number) =>
     new Date(Date.parse(`${tripStart}T00:00:00Z`) + n * 86_400_000).toISOString().slice(0, 10);
   return { from: day(offset), to: day(offset + stay.nights) };
+}
+
+/**
+ * A stay's nightly range in the crew's currency, set like the budget's ("₫180,000–₫470,000").
+ * `quotedIn` names the index's own currency when the device has no rate to convert it with yet,
+ * so the caption can say which money the figures are in.
+ */
+export function estimateOf(
+  locale: string,
+  row: {
+    readonly nightly_minor_low: number;
+    readonly nightly_minor_high: number;
+    readonly currency: string;
+  },
+  crew: {
+    readonly currency: string | null;
+    readonly convert: (amountMinor: number, from: string) => CrewAmount;
+  },
+): { readonly text: string; readonly quotedIn: string | null } {
+  const low = crew.convert(row.nightly_minor_low, row.currency);
+  const high = crew.convert(row.nightly_minor_high, row.currency);
+  const from = money(locale, low.amountMinor, low.currency);
+  const to = money(locale, high.amountMinor, high.currency);
+  return {
+    text: from === to ? from : `${from}–${to}`,
+    quotedIn: crew.currency !== null && low.currency !== crew.currency ? low.currency : null,
+  };
 }

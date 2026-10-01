@@ -12,7 +12,7 @@ import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { wholeMoney } from '../data/format';
+import { estimateMoney } from '../data/format';
 import type { HistoryEntry } from '../data/use-draft-version';
 
 const useStyles = makeStyles((th) => ({
@@ -70,7 +70,7 @@ export function VersionHistorySheet({
           const cost =
             entry.costPpMinor === null || entry.currency === null
               ? null
-              : wholeMoney(locale, entry.costPpMinor, entry.currency);
+              : estimateMoney(locale, entry.costPpMinor, entry.currency);
           return (
             <View key={entry.id} style={styles.row} testID={`draft-history-${entry.id}`}>
               <View style={styles.grow}>

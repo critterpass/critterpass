@@ -1,7 +1,9 @@
 /**
  * Where the sweet spot goes (3c-5): FLIGHTS, STAYS (with the stay mix), FOOD and FUN, each bar a
  * share of the target that re-flows as the knob moves and always sums to it. When nothing is
- * priced yet it says so instead of showing zeros; while the synced prices load, a skeleton.
+ * priced yet it says so instead of showing zeros, and when only the flights are not (dates too
+ * near for a cached fare) it says that and splits the rest; while the synced prices load, a
+ * skeleton.
  */
 import { t } from '@lingui/core/macro';
 
@@ -92,24 +94,39 @@ export function BreakdownBars({
   const mix = bars.stayMix === null ? '' : stayMixLine(bars.stayMix);
   return (
     <Card style={styles.card} testID="budget-bars">
-      {rows.map((row, index) => (
-        <Stack key={row.key} gap="4">
-          <LinearBar
-            label={row.label}
-            value={row.value}
-            max={Math.max(1, target)}
-            color={row.color}
-            valueLabel={money(locale, row.value, currency)}
-            index={index}
-            testID={`budget-bar-${row.key}`}
-          />
-          {row.key === 'stays' && mix !== '' ? (
-            <Text variant="bodySm" color={theme.semantic.text.secondary}>
-              {mix}
-            </Text>
-          ) : null}
-        </Stack>
-      ))}
+      {bars.flightsPriced ? null : (
+        <Text
+          variant="bodySm"
+          color={theme.semantic.text.secondary}
+          testID="budget-bars-no-flights"
+        >
+          {t({
+            id: 'setup.budget.bars.noFlights',
+            message:
+              'Flights for these dates aren’t priced yet. This covers the stay, food and fun.',
+          })}
+        </Text>
+      )}
+      {rows
+        .filter((row) => row.key !== 'flights' || bars.flightsPriced)
+        .map((row, index) => (
+          <Stack key={row.key} gap="4">
+            <LinearBar
+              label={row.label}
+              value={row.value}
+              max={Math.max(1, target)}
+              color={row.color}
+              valueLabel={money(locale, row.value, currency)}
+              index={index}
+              testID={`budget-bar-${row.key}`}
+            />
+            {row.key === 'stays' && mix !== '' ? (
+              <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                {mix}
+              </Text>
+            ) : null}
+          </Stack>
+        ))}
     </Card>
   );
 }
