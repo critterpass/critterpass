@@ -86,9 +86,13 @@ appId: app.critterpass.dev
 - assertNotVisible: '.*Winston.*'
 - takeScreenshot: shell-start-fresh-5-empty-name
 
-# A cold start is still a first launch: nothing of the old account comes back from storage.
+# A cold start is still a first launch: nothing of the old account comes back from storage. The
+# app is launched by a link, which never restores the saved screen (the name page): an account
+# that has not finished the pass flow lands on its splash.
 - stopApp
-- launchApp
+- openLink:
+    link: critterpass-dev://trips
+    optional: true
 - runFlow:
     when:
       visible: 'Open'
