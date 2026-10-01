@@ -2,13 +2,28 @@ appId: app.critterpass.dev
 ---
 # Opens one trip setup scene from the dev list (apps/mobile/src/app/(dev)/setup.tsx), lets its
 # motion settle, takes `${PREFIX}-${SCENE}` and goes back to the list.
+# Slow: a fast swipe on iOS flings the list past the row before it is read.
 - scrollUntilVisible:
     element:
       id: 'setup-scene-${SCENE}'
     direction: DOWN
-    timeout: 30000
+    timeout: 60000
+    speed: 20
+- waitForAnimationToEnd
 - tapOn:
     id: 'setup-scene-${SCENE}'
+# A tap while the list is still settling only stops it: tap again when the row is still there.
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-scene-${SCENE}'
+    commands:
+      - tapOn:
+          id: 'setup-scene-${SCENE}'
+          # The first tap may still open the scene while this one looks for the row.
+          optional: true
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: ${PREFIX}-${SCENE}

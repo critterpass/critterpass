@@ -75,12 +75,20 @@ msgstr ""
 msgid "setup.stepper.rooms"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.voteOpen.line"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.a11y"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/stepper.tsx
 msgid "setup.stepper.a11yDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.voteOpen.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx

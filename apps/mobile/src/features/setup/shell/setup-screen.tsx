@@ -26,6 +26,7 @@ import { RoomsStep } from '../rooms';
 import { setupRoutes } from '../routes';
 import { WhenStep } from '../when';
 import type { ShellFrame, StepProps } from './frame';
+import { guideName } from './guide-note';
 import { doneSteps, landingStep, openableSteps, type WizardStep } from './steps';
 
 const STEP_VIEWS: Readonly<Record<WizardStep, (props: StepProps) => ReactNode>> = {
@@ -113,6 +114,27 @@ export function SetupScreen({
           line={t({
             id: 'setup.missing.line',
             message: 'It shows up once your phone has synced. Try again in a moment.',
+          })}
+          action={{
+            label: t({ id: 'setup.missing.home', message: 'Back home' }),
+            onPress: () => router.replace('/'),
+          }}
+        />
+      </Scaffold>
+    );
+  }
+  // Setup starts once the vote has a winner: before that the api refuses every setup change, so
+  // the steps would take days and budgets that never land.
+  if (trip.status === 'voting') {
+    return (
+      <Scaffold variant="dark" edges={['top', 'bottom']} testID="setup-vote-open">
+        <EmptyState
+          guide={trip.guide}
+          guideName={guideName(trip.guide)}
+          title={t({ id: 'setup.voteOpen.title', message: 'The vote isn’t over yet' })}
+          line={t({
+            id: 'setup.voteOpen.line',
+            message: 'Setup opens once the crew has picked a place. Finish the vote from Home.',
           })}
           action={{
             label: t({ id: 'setup.missing.home', message: 'Back home' }),
