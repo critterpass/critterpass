@@ -38,7 +38,14 @@ const useStyles = makeStyles((th) => ({
   // The composer's fade covers the list's last FOOTER_FADE_PT: the newest message ends clear of it.
   content: { paddingHorizontal: th.space['12'], paddingBottom: FOOTER_FADE_PT + th.space['8'] },
   row: { paddingVertical: th.space['2'] },
-  jump: { position: 'absolute', alignSelf: 'center', bottom: FOOTER_FADE_PT + th.space['8'] },
+  // Filled: the pill floats over the bubbles, and an outline alone lets a bubble show through it.
+  jump: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: FOOTER_FADE_PT + th.space['8'],
+    borderRadius: th.radius.pill,
+    backgroundColor: th.semantic.bg.raised,
+  },
 }));
 
 export function lastSeq(messages: readonly ChatMessage[]): number {
