@@ -333,6 +333,31 @@ appId: app.critterpass.dev
     visible:
       text: '(?i)locked in\. the trip is confirmed\.'
     timeout: 30000
+# The trip's first day is today, so the trip day starts for the organiser at once and the app asks
+# whether to remember the places they visit. It is answered here, on the trips tab, so the sheet
+# is not met later in the middle of an account switch (the answer holds for the phone).
+- openLink:
+    link: critterpass-dev://trips
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-decline'
+    timeout: 90000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 
 # From here on someone on the trip can be asked, once the trip day has started, whether to remember
 # the places they visit. The sheet covers the screen under it, so wherever it is up it is answered
