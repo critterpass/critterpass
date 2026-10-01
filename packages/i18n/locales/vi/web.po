@@ -249,7 +249,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.askTitle"
-msgstr "HỎI BẠN BẢN ĐỊA"
+msgstr "HỎI THỔ ĐỊA"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
@@ -401,7 +401,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pageTitle"
-msgstr "CritterPass — Đi chơi cả nhóm, lên kế hoạch cùng các bạn bản địa"
+msgstr "CritterPass — Đi chơi cả nhóm, lên kế hoạch cùng thổ địa"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.head"
@@ -417,7 +417,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pageDescription"
-msgstr "CritterPass là ứng dụng lên kế hoạch đi chơi cho cả nhóm, sắp có trên iOS và Android. Có điều, các bạn bản địa ở đây lại là thú. Vào danh sách chờ ngay nhé."
+msgstr "CritterPass là ứng dụng lên kế hoạch đi chơi cho cả nhóm, sắp có trên iOS và Android. Có điều, thổ địa ở đây lại là thú. Vào danh sách chờ ngay nhé."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
@@ -521,7 +521,7 @@ msgstr "Cứ mỗi người bạn rủ đăng ký qua link, bạn tiến lên 10
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.title"
-msgstr "Bạn bản địa nào cũng nở ra từ một quả trứng"
+msgstr "Thổ địa nào cũng nở ra từ một quả trứng"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsTitle"
@@ -589,7 +589,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.footer.follow"
-msgstr "theo chân các bạn bản địa →"
+msgstr "theo chân thổ địa →"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
@@ -661,7 +661,7 @@ msgstr "LÊN KẾ HOẠCH ĐI CHƠI NHÓM"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.lede"
-msgstr "Đi chơi cả nhóm, lên kế hoạch cùng các bạn bản địa. Có điều, bạn bản địa ở đây lại là thú."
+msgstr "Đi chơi cả nhóm, lên kế hoạch cùng thổ địa. Có điều, thổ địa ở đây lại là thú."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroLede"
@@ -841,7 +841,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.statLocals"
-msgstr "BẠN BẢN ĐỊA"
+msgstr "THỔ ĐỊA"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampTop"
@@ -1217,7 +1217,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.hero.typedLine"
-msgstr "Các bạn bản địa còn đang xếp vali."
+msgstr "Thổ địa còn đang xếp vali."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
@@ -1365,7 +1365,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.features.collectBody"
-msgstr "Bạn hạ cánh ở đâu, bạn bản địa ở đó sẽ vào pass của bạn. Ở lại lâu một chút, sẽ còn nhiều bạn khác ló mặt."
+msgstr "Bạn hạ cánh ở đâu, thổ địa ở đó sẽ vào pass của bạn. Ở lại lâu một chút, sẽ còn nhiều bạn khác ló mặt."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchBody"
