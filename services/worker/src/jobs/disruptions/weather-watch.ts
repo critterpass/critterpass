@@ -19,7 +19,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import { defineJob, type JobDefinition } from '../../boss';
-import { enqueueGuideTextTranslation } from '../i18n/enqueue';
+import { translateDisruptionWords } from './guide-words';
 import { withdrawStorm } from './storm-decision';
 import { loadWatchInputs, type WatchedTrip } from './watch-score';
 
@@ -186,7 +186,7 @@ export async function watchTrip(
     if (planChanging && onPlanB !== undefined) await onPlanB(tx, trip, change.id, now);
   }
   // Changed rows have new words: each reader gets them in their language.
-  if (changes.length > 0) await enqueueGuideTextTranslation(tx, { tripId: trip.id });
+  if (changes.length > 0) await translateDisruptionWords(tx, trip.id);
   return { changed: changes.length, escalated };
 }
 
