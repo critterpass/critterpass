@@ -1,0 +1,11 @@
+# Profile rows synced to their owner (docs/data-model-sync-and-privacy.md §4): earned app icons,
+# self-reported past trips and data export status. Queries join the core `me` stream; a removed past
+# trip drops out of the stream (soft delete).
+
+streams:
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM app_icon_unlocks WHERE user_id = auth.user_id()
+      - SELECT * FROM past_trips WHERE user_id = auth.user_id() AND deleted_at IS NULL
+      - SELECT * FROM data_exports WHERE user_id = auth.user_id()
