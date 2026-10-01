@@ -9,6 +9,8 @@ import type { SettingsSection } from './settings-view';
 export interface SettingsValues {
   readonly soundEffects: boolean;
   readonly haptics: boolean;
+  /** The app's language, in its own script ("Tiếng Việt"). */
+  readonly language: string;
   /** The server answered for this account: only then are the account rows offered. */
   readonly account: boolean;
 }
@@ -17,6 +19,7 @@ export interface SettingsHandlers {
   readonly onOfflineTrips: () => void;
   readonly onSoundEffects: (next: boolean) => void;
   readonly onHaptics: (next: boolean) => void;
+  readonly onLanguage: () => void;
   readonly onSignOut: () => void;
   readonly onDeleteAccount: () => void;
 }
@@ -66,6 +69,13 @@ export function useSettingsSections(
           subtitle: t({ id: 'you.settings.hapticsLine', message: 'Taps and thuds you can feel' }),
           value: values.haptics,
           onChange: handlers.onHaptics,
+        },
+        {
+          key: 'language',
+          kind: 'value',
+          title: t({ id: 'you.settings.language', message: 'Language' }),
+          value: values.language,
+          onPress: handlers.onLanguage,
         },
       ],
     },
