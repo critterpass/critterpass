@@ -16,11 +16,12 @@ appId: app.critterpass.dev
             id: 'picker-shorter'
           timeout: 10000
       - waitForAnimationToEnd
-      # The first day, three weeks out. The screen under the sheet has the same heatmap, so the
-      # sheet's own cell is the second match when both are in the tree.
-      - evalScript: ${output.pickDay = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
+      # The first day, three weeks out, by its spoken label ("October 22, 1 of 2 free"). The
+      # screen under the sheet has the same heatmap first in the tree, so the sheet's own cell is
+      # the second match.
+      - evalScript: ${var d = new Date(Date.now() + 21 * 86400000); output.pickLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'}
       - tapOn:
-          id: 'heat-${output.pickDay}'
+          text: ${output.pickLabel}
           index: 1
           optional: true
       - runFlow:
@@ -29,7 +30,7 @@ appId: app.critterpass.dev
               id: 'picker-lock'
           commands:
             - tapOn:
-                id: 'heat-${output.pickDay}'
+                text: ${output.pickLabel}
       - extendedWaitUntil:
           visible:
             id: 'picker-lock'
