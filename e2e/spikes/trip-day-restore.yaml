@@ -1,0 +1,46 @@
+appId: app.critterpass.dev
+---
+# Spike: what a cold start restores when the app was left on a trip's day-of screen, and what a
+# tap on the TRIPS tab does next. Screenshots only; not part of any suite.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-next'
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: restore-0-before
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'tab-trips'
+    timeout: 60000
+- takeScreenshot: restore-1-tab-bar-up
+- waitForAnimationToEnd:
+    timeout: 15000
+- takeScreenshot: restore-2-settled
+- tapOn:
+    id: 'tab-trips'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: restore-3-after-tab-tap
+- tapOn:
+    id: 'tab-home'
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn:
+    id: 'tab-trips'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: restore-4-after-home-and-back
