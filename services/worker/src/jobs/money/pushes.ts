@@ -31,8 +31,21 @@ async function payment(tx: pg.PoolClient, id: string | null): Promise<PaymentFac
   return rows[0];
 }
 
-const amountOf = (minor: string, currency: string) =>
-  formatMoney(money(BigInt(minor), currency), { locale: 'en', mode: 'local' });
+/**
+ * Amounts as one recipient reads them: punctuated the way their app's language writes money
+ * (`app.user_locale`), like the rest of the push, which the router renders from their catalog.
+ */
+async function amountsFor(
+  tx: pg.PoolClient,
+  uid: string,
+): Promise<(minor: string, currency: string) => string> {
+  const { rows } = await tx.query<{ locale: string }>('SELECT app.user_locale($1) AS locale', [
+    uid,
+  ]);
+  const locale = rows[0]?.locale ?? 'en';
+  return (minor, currency) =>
+    formatMoney(money(BigInt(minor), currency), { locale, mode: 'local' });
+}
 
 type PaymentBody = keyof typeof MONEY_PUSH_BODY;
 
@@ -54,10 +67,11 @@ function paymentPush(
       const uid = str(routed, to === 'payer' ? 'from_id' : 'to_id');
       return Promise.resolve(uid === null ? [] : [uid]);
     },
-    async compose(tx, routed) {
+    async compose(tx, routed, uid) {
       const paymentId = str(routed, 'payment_id');
       const facts = await payment(tx, paymentId);
       if (facts === undefined) return null;
+      const amountOf = await amountsFor(tx, uid);
       // A request that was paid or confirmed meanwhile has nothing left to ask.
       if (body === 'requested' || body === 'nudged') {
         if (facts.status !== 'requested' && facts.status !== 'pending') return null;
@@ -117,6 +131,7 @@ export function registerMoneyPushes(): void {
       );
       const row = rows[0];
       if (row?.share === null || row === undefined) return null;
+      const amountOf = await amountsFor(tx, uid);
       return {
         title: MONEY_PUSH_TITLE,
         body: MONEY_PUSH_BODY.expense_added,
@@ -165,6 +180,7 @@ export function registerMoneyPushes(): void {
       );
       const facts = rows[0];
       if (facts === undefined) return null;
+      const amountOf = await amountsFor(tx, uid);
       return {
         title: MONEY_PUSH_TITLE,
         body: MONEY_PUSH_BODY.reminded,
