@@ -1,0 +1,52 @@
+appId: app.critterpass.dev
+---
+# The pitch card with Đà Nẵng's photo, in English, for a fresh account with no demo seed: a new
+# crew pitches Đà Nẵng from Home. The final, showdown and reveal are shot by vote-final.yaml
+# (Kyoto vs Lisbon). The shot waits for the photo to fade in.
+- runFlow: ../happy/subflows/fresh-account.yaml
+- runFlow:
+    file: sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Company trip'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-3b-3-pitch-photo

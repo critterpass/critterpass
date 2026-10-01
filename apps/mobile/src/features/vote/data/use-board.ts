@@ -18,6 +18,8 @@ import { usePoll } from './use-poll';
 
 export interface BoardPlace {
   readonly id: string;
+  /** The destination's slug, its editorial media's subject (absent in hand-built gallery scenes). */
+  readonly slug?: string;
   readonly name: string;
   readonly guide: GuideId;
   readonly colour: string;
@@ -41,6 +43,7 @@ export function useOpenDestinationPoll(crewId: string | null): string | null {
 export function usePlaces(pollId: string | null): ReadonlyMap<string, BoardPlace> {
   const { rows } = useLiveRows<{
     id: string;
+    slug: string;
     name: string;
     coverage: string | null;
     colour: string | null;
@@ -56,6 +59,7 @@ export function usePlaces(pollId: string | null): ReadonlyMap<string, BoardPlace
             row.id,
             {
               id: row.id,
+              slug: row.slug,
               name: row.name,
               guide,
               colour: row.colour ?? guideColour(guide),

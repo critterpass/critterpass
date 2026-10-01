@@ -2,7 +2,8 @@
  * 3b-2's next-up card: "NEXT UP · OCT 12", the destination in the mega face, the live countdown
  * chip and PLAN n%, with the trip's guide bobbing over the corner (2800 ms). Tapping it grows into
  * the trip hub once that screen is registered. A trip still choosing its place reads "Your next
- * trip" and shows no countdown until it has dates.
+ * trip" and shows no countdown until it has dates. The destination's photo sits under it as a
+ * duotone of the card's colour when one exists.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -10,12 +11,16 @@ import Animated from 'react-native-reanimated';
 
 import type { HomeTripInput } from '@cp/domain';
 
+import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { CountdownCard } from '@/ui/cards/CountdownCard';
+import { cardBackground } from '@/ui/cards/tone';
 import { InfoPill } from '@/ui/chips/InfoPill';
+import { MediaLayer } from '@/ui/media/MediaLayer';
 import { Sticker } from '@/ui/sticker/Sticker';
+import { useTheme } from '@/ui/theme';
 import { zoomTo } from '@/ui/transitions/use-shared-source';
 
 import { CountdownChip } from './countdown-chip';
@@ -53,11 +58,23 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
   const target = trip.countdownTargetAt === null ? null : new Date(trip.countdownTargetAt);
   const progress = trip.planProgress;
   const hub = homeRoutes.tripHub(trip.id);
+  const theme = useTheme();
+  const photo = heroAt(useDestinationMedia(trip.destinationSlug ?? null).items);
 
   return (
     <CountdownCard
       testID={testID}
       tone={guideTone(guide)}
+      halftone={photo === null}
+      backdrop={
+        <MediaLayer
+          media={photo}
+          surface="accent"
+          accent={cardBackground(theme, guideTone(guide))}
+          creditAt="top"
+          testID={`${testID}-photo`}
+        />
+      }
       eyebrow={upper(eyebrow, locale)}
       title={upper(place, locale)}
       metaLabel={t({ id: 'home.nextUp.planSpoken', message: `plan ${progress} percent done` })}

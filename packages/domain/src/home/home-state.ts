@@ -26,6 +26,8 @@ export interface HomeTripInput {
   readonly tz: string | null;
   readonly destinationId: string | null;
   readonly destinationName: string | null;
+  /** The destination's slug (its editorial media's subject); absent where nothing reads media. */
+  readonly destinationSlug?: string | null;
   readonly guideId: string | null;
   /** 0–100 (`trips.plan_progress`). */
   readonly planProgress: number;

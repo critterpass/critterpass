@@ -28,6 +28,10 @@ export interface CountdownCardProps {
   readonly metaLabel?: string;
   readonly onPress?: () => void;
   readonly testID?: string;
+  /** Drawn on the fill under the content (a destination photo). */
+  readonly backdrop?: ReactNode;
+  /** `tex.halftone`; off where the backdrop draws its own. @default true */
+  readonly halftone?: boolean;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -46,13 +50,16 @@ export function CountdownCard({
   metaLabel,
   onPress,
   testID,
+  backdrop,
+  halftone = true,
 }: CountdownCardProps) {
   const styles = useStyles();
   const label = [eyebrow, title, metaLabel].filter(Boolean).join(', ');
   return (
     <Card
       tone={tone}
-      halftone
+      halftone={halftone}
+      backdrop={backdrop}
       radius="cardBig"
       accessibilityLabel={label}
       {...(onPress ? { onPress } : {})}
