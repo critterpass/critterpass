@@ -36,6 +36,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
     entries: [
       { testId: 'dev-nav-accounts', href: '/(dev)/accounts', label: 'Test accounts (two people)' },
       {
+        testId: 'dev-nav-start-fresh',
+        href: '/(dev)/start-fresh',
+        label: 'Start fresh (new user on this phone)',
+      },
+      {
         testId: 'dev-nav-proposal-lab',
         href: '/(dev)/proposal-lab',
         label: 'Proposal (3f scenes)',

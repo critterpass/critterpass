@@ -13,7 +13,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'start-crew-name'
 - inputText: 'Crew Of One'
-- hideKeyboard
+# START THE CREW rides on top of the keyboard.
 - tapOn:
     id: 'start-crew-create'
 - extendedWaitUntil:
