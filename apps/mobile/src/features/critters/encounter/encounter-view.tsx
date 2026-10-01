@@ -5,6 +5,7 @@
  * completes it without holding. Wandered off (3l-5) and befriended (3l-6) are their own views.
  */
 import { upper } from '@cp/i18n';
+import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -59,6 +60,8 @@ export type EncounterViewProps =
       readonly onTap: () => void;
       readonly onRemind: () => void;
       readonly onBack: () => void;
+      /** The live camera behind the scene (the illustration shows when it can't run). */
+      readonly camera?: ReactNode;
     }
   | {
       readonly kind: 'befriended';
@@ -136,6 +139,7 @@ export function EncounterView(props: EncounterViewProps) {
           progress={props.progress}
           legendary={props.legendary}
           state={wandered ? 'wandered' : ready ? 'ready' : 'live'}
+          camera={props.camera}
         />
       </View>
       <View style={styles.card}>

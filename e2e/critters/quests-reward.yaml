@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# XP reaching a brand-new crew on staging: the account takes the demo crew and settles its trip
+# (the settled-sticker steps), which pays the crew the settle XP on the server; crew quests then
+# shows the bar moved to 150 / 400 XP from synced rows, the same bar every crewmate sees. (A
+# quest's own reward spin needs a trip under way; the worker's quest-day test covers it with the
+# recorded guide.)
+- runFlow: settled-sticker.yaml
+# Close the sticker sheet (it ends the settle flow open on the PASS tab).
+- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-tile-quests'
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-tile-quests'
+- extendedWaitUntil:
+    visible:
+      id: 'quests-screen'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      text: '(?i).*150 / 400 XP.*'
+    timeout: 60000
+- takeScreenshot: quests-xp-after-settling

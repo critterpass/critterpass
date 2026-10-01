@@ -26,7 +26,7 @@ import {
 import type pg from 'pg';
 
 import { defineJob, type AnyJobDefinition } from '../../boss';
-import { dayBounds, loadQuestDay, questTrip, type QuestTrip } from './day-context';
+import { dayBounds, firstDayArrival, loadQuestDay, questTrip, type QuestTrip } from './day-context';
 import { registeredQuestTemplates } from './templates/registry';
 
 export type QuestWriter = (
@@ -60,6 +60,7 @@ async function publish(
   localDate: string,
   result: QuestsResult,
   now: Date,
+  arrival: Date | null,
 ): Promise<string[] | null> {
   const existing = await tx.query(
     'SELECT 1 FROM quests WHERE trip_id = $1 AND local_date = $2 LIMIT 1 FOR UPDATE',
@@ -70,8 +71,9 @@ async function publish(
   const ids: string[] = [];
   for (const [slot, quest] of result.quests.entries()) {
     const ends = endsAt(quest, trip, localDate, end);
-    // A deadline already behind us (a late first run) cannot be met today.
-    if (ends.getTime() <= now.getTime()) continue;
+    // A deadline already behind us (a late first run), or before the crew lands on the first
+    // day, cannot be met today.
+    if (ends.getTime() <= Math.max(now.getTime(), arrival?.getTime() ?? 0)) continue;
     const source = slot < result.fromGuide ? 'guide' : 'fallback';
     const { rows } = await tx.query<{ id: string }>(
       `INSERT INTO quests (trip_id, local_date, slot, template, params, metric, target, reward,
@@ -132,15 +134,16 @@ export async function generateQuests(
       trip.id,
       job.local_date,
     ]);
-    return { trip, done: (done.rowCount ?? 0) > 0 };
+    const arrival = await firstDayArrival(tx, trip, job.local_date);
+    return { trip, arrival, done: (done.rowCount ?? 0) > 0 };
   });
   if (setup === null) return { outcome: 'not_travelling' };
   if (setup.done) return { outcome: 'already_published' };
-  const { trip } = setup;
+  const { trip, arrival } = setup;
   const input: QuestsPromptInput = {
     guide: persona(trip.guide_slug),
     place: trip.place,
-    day: await loadQuestDay(pool, trip, job.local_date),
+    day: await loadQuestDay(pool, trip, job.local_date, arrival),
     templates: registeredQuestTemplates(),
   };
   const gateway = options.writer?.((record) => recordUsage((fn) => withSystem(pool, fn), record));
@@ -148,7 +151,9 @@ export async function generateQuests(
     gateway === undefined
       ? fallbackQuests(input, ['not_configured'])
       : await writeQuests(gateway, input, { tripId: trip.id });
-  const ids = await withSystem(pool, (tx) => publish(tx, trip, job.local_date, result, now));
+  const ids = await withSystem(pool, (tx) =>
+    publish(tx, trip, job.local_date, result, now, arrival),
+  );
   if (ids === null) return { outcome: 'already_published' };
   return { outcome: 'published', quests: ids.length, fromGuide: result.fromGuide };
 }

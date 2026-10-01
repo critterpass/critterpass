@@ -16,6 +16,7 @@ import { critterRoute, encounterRoute, hatchRoute, LEGENDARIES_ROUTE, setRoute }
 import type { DexFilter } from './dex-model';
 import { DexView } from './dex-view';
 import { useDexRows } from './use-dex';
+import { StickerShelf } from '../stickers';
 
 const LIVE = new Set(['accruing', 'ready', 'draining']);
 
@@ -40,6 +41,7 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
 
   return (
     <DexView
+      shelf={<StickerShelf />}
       state={data.loaded ? 'ready' : 'loading'}
       model={data.model}
       near={data.near}

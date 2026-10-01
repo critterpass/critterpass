@@ -11,10 +11,8 @@ import { createElement } from 'react';
 
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { registerChatCard, type ChatCardProps } from '@/features/crew';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ActionCard } from '@/ui/cards/ActionCard';
-import { Sticker } from '@/ui/sticker/Sticker';
 import { Skeleton } from '@/ui/states/Skeleton';
 
 import { useProposal } from './data/proposal';
@@ -37,7 +35,6 @@ function ProposalMessageCard({ message }: ChatCardProps) {
       label: t({ id: 'proposal.card.loading', message: 'Loading the proposal' }),
     });
   }
-  const guide = GUIDE_STICKERS[trip.guide];
   const locked = proposal.status === 'locked';
   return createElement(ActionCard, {
     tone: 'yellow',
@@ -46,11 +43,7 @@ function ProposalMessageCard({ message }: ChatCardProps) {
       ? t({ id: 'proposal.card.locked', message: 'The crew is locked in.' })
       : trip.isOrganiser
         ? t({ id: 'proposal.card.organiser', message: 'See who’s in so far.' })
-        : t({
-            id: 'proposal.card.member',
-            message: `${guide.name} wrote you your own version. Are you in?`,
-          }),
-    leading: createElement(Sticker, { kind: guide.kind, name: guide.name, size: 48 }),
+        : t({ id: 'proposal.card.memberReady', message: 'Your version is ready. Are you in?' }),
     actions: createElement(PillButton, {
       size: 'sm',
       tone: 'ink',

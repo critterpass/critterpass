@@ -41,6 +41,7 @@ const leaveBy = (over: Partial<LeaveByLaInput> = {}): LeaveByLaInput => ({
   participants: crew.map((id, i) => ({ uid: id, readiness: i < 4 ? 'up' : 'not_up' })),
   guideLine: 'Rise and shine. Headlamp is by the door.',
   labels: { stay: 'Villa', pickup: 'Pickup' },
+  guide: 'chava',
   ...over,
 });
 

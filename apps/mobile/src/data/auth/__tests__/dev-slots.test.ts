@@ -49,6 +49,9 @@ describe('dev test accounts', () => {
     expect(store.map.get('better-auth_session_data')).toBeUndefined();
     expect(cleanups).toBe(3);
     expect((await slots.list()).map((s) => s.uid)).toEqual(['uid-organiser', 'uid-friend']);
+    // Keeping an account again leaves the order alone.
+    await slots.keep('uid-organiser', 'Pat');
+    expect((await slots.list()).map((s) => s.uid)).toEqual(['uid-organiser', 'uid-friend']);
   });
 
   it('refuses an unknown account before touching anything, and clears its slots', async () => {

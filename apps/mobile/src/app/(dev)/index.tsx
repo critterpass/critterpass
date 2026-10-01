@@ -111,6 +111,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/permissions-primer',
         label: 'Permissions primer (3a-9)',
       },
+      {
+        testId: 'dev-nav-live-activities',
+        href: '/(dev)/live-activities',
+        label: 'Live Activities (5a-1, 5a-3, 5a-5)',
+      },
     ],
   },
   {

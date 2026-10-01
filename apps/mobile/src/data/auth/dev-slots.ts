@@ -66,8 +66,12 @@ export function createDevSlots(store: KeyStore, cleanup: () => Promise<void> = r
       (key) => key,
       (key) => slotKey(uid, key),
     );
-    const slots = (await list()).filter((slot) => slot.uid !== uid);
-    slots.push({ uid, label, savedAt: now.toISOString() });
+    // A kept account keeps its place in the list, so its switch button stays where it was.
+    const entry = { uid, label, savedAt: now.toISOString() };
+    const current = await list();
+    const slots = current.some((slot) => slot.uid === uid)
+      ? current.map((slot) => (slot.uid === uid ? entry : slot))
+      : [...current, entry];
     await store.setItemAsync(INDEX_KEY, JSON.stringify(slots));
   }
 

@@ -7,7 +7,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer; route paths and wire values. */
 import { destinationSubject, mediaListResponseSchema, type MediaAsset } from '@cp/domain';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { saveMediaFile } from '@/lib/media/media-files';
 import { pickBySize } from '@/lib/media/variants';
@@ -96,6 +96,27 @@ export function useSubjectMedia(
 }
 
 const NONE: readonly MediaAsset[] = [];
+
+/**
+ * Several destinations' media in one read, by slug (each slug's assets hero first). An empty list
+ * reads nothing.
+ */
+export function useDestinationsMedia(
+  slugs: readonly string[],
+): ReadonlyMap<string, readonly MediaAsset[]> {
+  const subjects = [...new Set(slugs)].sort().map(destinationSubject);
+  const { items } = useSubjectMedia(subjects.length === 0 ? null : subjects.join(','));
+  return useMemo(() => {
+    const bySlug = new Map<string, MediaAsset[]>();
+    for (const item of items) {
+      for (const subject of item.subjects) {
+        const slug = subject.slice('destination:'.length);
+        bySlug.set(slug, [...(bySlug.get(slug) ?? []), item]);
+      }
+    }
+    return bySlug;
+  }, [items]);
+}
 
 /** A destination's media by slug; null slug reads nothing. */
 export function useDestinationMedia(

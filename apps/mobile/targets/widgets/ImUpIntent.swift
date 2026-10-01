@@ -22,14 +22,7 @@ struct ImUpIntent: LiveActivityIntent {
     }
 
     func perform() async throws -> some IntentResult {
-        let action = PendingAction(
-            opId: UUID().uuidString,
-            createdAt: Date(),
-            command: "set_readiness",
-            scope: "readiness",
-            payload: ["leave_by_id": leaveById, "up": "true", "source": "la"]
-        )
-        try PendingActionsOutbox.append(action)
+        try PendingActionsOutbox.append(.imUp(leaveById: leaveById), root: AppGroupContainer.url)
         return .result()
     }
 }

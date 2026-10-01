@@ -86,7 +86,7 @@ export function SetGrid({
   return (
     <Stack style={styles.card} testID={testID}>
       <Row justify="space-between" align="baseline" accessible accessibilityRole="header">
-        <Text variant="h3">{title}</Text>
+        <Text variant="title">{title}</Text>
         {countLabel ? (
           <Text variant="label" color={theme.semantic.text.secondary}>
             {countLabel}

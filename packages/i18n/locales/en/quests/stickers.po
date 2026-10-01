@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-01 06:03+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#. placeholder {0}: item.place
+#: ../../apps/mobile/src/features/critters/stickers/StickerDetailSheet.tsx
+msgid "stickers.detail.when"
+msgstr "{0} · {date}"
+
+#. placeholder {0}: String(item.level ?? '')
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.how.crewLevel"
+msgstr "{crew} reached crew level {0} with quests, finds and visits."
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.how.special"
+msgstr "A one-off, for something only your crew did."
+
+#. placeholder {0}: String(item.level ?? '')
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.name.crewLevel"
+msgstr "Crew level {0}"
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.how.settled"
+msgstr "Everyone settled up on {place}, to the last payment."
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.how.settledNoPlace"
+msgstr "Everyone settled up, to the last payment."
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
+msgid "stickers.shelf.empty"
+msgstr "Settle a trip to the last payment or level up your crew to earn one."
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.name.settled"
+msgstr "Settled Tokek"
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.name.special"
+msgstr "Special sticker"
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
+msgid "stickers.shelf.title"
+msgstr "Stickers"

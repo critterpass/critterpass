@@ -37,6 +37,8 @@ const useStyles = makeStyles((th) => ({
     gap: th.space['12'],
   },
   cell: { flex: 1, alignItems: 'center', gap: th.space['6'] },
+  header: { columnGap: th.space['12'], rowGap: th.space['4'] },
+  title: { flexShrink: 1 },
 }));
 
 export function formLabel(tier: Tier, found: boolean): string {
@@ -52,11 +54,24 @@ export function HereNowForms({ title, subtitle, forms, hint, testID }: HereNowFo
   const theme = useTheme();
   return (
     <Stack style={styles.card} testID={testID}>
-      <Row justify="space-between" align="baseline" accessible accessibilityRole="header">
-        <Text variant="h3" color={theme.semantic.action.primary}>
+      {/* The place and the count share a line when both fit; a long place name sends the count
+          to its own line, and the place itself may wrap, so the two never overlap. */}
+      <Row
+        justify="space-between"
+        align="baseline"
+        wrap
+        style={styles.header}
+        accessible
+        accessibilityRole="header"
+      >
+        <Text variant="title" color={theme.semantic.action.primary} style={styles.title}>
           {title}
         </Text>
-        {subtitle ? <Text variant="label">{subtitle}</Text> : null}
+        {subtitle ? (
+          <Text variant="label" singleLine={false}>
+            {subtitle}
+          </Text>
+        ) : null}
       </Row>
       <Row gap="8">
         {forms.map((form) => (

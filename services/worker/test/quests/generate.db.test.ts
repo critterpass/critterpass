@@ -1,14 +1,15 @@
 /**
  * Daily quest generation against a migrated Postgres: the guide's recorded quests for a Da Nang day
  * publish through the validator with code-set counts, once per trip day; without the guide the day
- * still gets deterministic quests; the hourly sweep queues each trip day once its morning comes.
+ * still gets deterministic quests; the hourly sweep queues each trip day once its morning comes;
+ * on the trip's first date nothing asks the crew to be somewhere before their flight lands.
  */
 import { QUEST_QUEUES } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { generateQuests } from '../../src/jobs/quests/generate';
 import { sweepQuestDays } from '../../src/jobs/quests/sweep';
-import { PLACES, startQuestWorld, type QuestWorld } from './quests-world';
+import { ITEMS, PLACES, startQuestWorld, type QuestWorld } from './quests-world';
 import { recordedWriter } from './recorded-writer';
 
 let world: QuestWorld;
@@ -106,5 +107,41 @@ describe('quests.generate', () => {
     expect(morning.queued).toBe(1);
     const queued = await world.jobs(QUEST_QUEUES.generate);
     expect(queued).toContainEqual({ trip_id: world.tripId, local_date: world.today });
+  });
+
+  it("leaves out stops and deadlines before the crew's flight lands on the first day", async () => {
+    await world.harness.pool.query('DELETE FROM quest_progress WHERE trip_id = $1', [world.tripId]);
+    await world.harness.pool.query('DELETE FROM quests WHERE trip_id = $1', [world.tripId]);
+    await world.q('UPDATE trips SET start_date = $2 WHERE id = $1', [world.tripId, world.today]);
+    const [booking] = await world.q<{ id: string }>(
+      `INSERT INTO bookings (trip_id, owner_id, type, title, visibility, supplier, traveller_ids)
+       VALUES ($1, $2, 'flight', 'Flight', 'crew', 'airline', $3::uuid[]) RETURNING id`,
+      [world.tripId, world.members[0], world.members],
+    );
+    await world.q(
+      `INSERT INTO flight_segments (booking_id, trip_id, owner_id, crew_visible, carrier, flight_no,
+         dep_airport, arr_airport, sched_dep_at, sched_arr_at)
+       VALUES ($1, $2, $3, true, 'VN', '117', 'SGN', 'DAD', $4, $5)`,
+      [booking?.id, world.tripId, world.members[0], world.at('10:30'), world.at('12:00')],
+    );
+    // The recorded guide proposes Ba Na Hills by 06:30 and a sweep of all three stops.
+    const result = await generateQuests(
+      world.harness.pool,
+      { trip_id: world.tripId, local_date: world.today },
+      { writer: recordedWriter('quests-01'), now: world.at('04:00') },
+    );
+    expect(result.outcome).toBe('published');
+    const quests = await world.q<QuestRow & { ends_at: Date }>(
+      `SELECT template, target, source, reward, params, ends_at FROM quests
+        WHERE trip_id = $1 AND local_date = $2 ORDER BY slot`,
+      [world.tripId, world.today],
+    );
+    expect(quests.length).toBeGreaterThanOrEqual(3);
+    const named = JSON.stringify(quests.map((q) => q.params));
+    expect(named).not.toContain(PLACES.bana);
+    expect(named).not.toContain(ITEMS.bana);
+    expect(quests.map((q) => q.template)).not.toContain('early_start');
+    const landed = world.at('12:00').getTime();
+    expect(quests.every((q) => q.ends_at.getTime() > landed)).toBe(true);
   });
 });

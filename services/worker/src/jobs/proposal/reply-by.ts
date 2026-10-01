@@ -1,6 +1,7 @@
 /**
  * `proposal.reply_by` (every five minutes): a day before reply-by, the members who have not
- * answered and the organisers get N-09 (once per proposal, `reminded_at`); at reply-by the proposal
+ * answered and the organisers get N-09 (once per proposal, `reminded_at`; never for a proposal
+ * sent with under a day to answer, whose own push just went out); at reply-by the proposal
  * locks, everyone unanswered stays MAYBE and the organisers are told. Idempotent per proposal: each
  * step is guarded by its own column and taken under a row lock that skips a proposal in flight.
  */
@@ -11,11 +12,14 @@ import { z } from 'zod';
 
 import { defineJob, type AnyJobDefinition } from '../../boss/define-job';
 
+const REMINDER_LEAD_MS = REPLY_BY_REMINDER_LEAD_H * 3_600_000;
+
 interface DueProposal {
   readonly id: string;
   readonly trip_id: string;
   readonly crew_id: string;
   readonly reply_by: Date;
+  readonly sent_at: Date | null;
   readonly reminded_at: Date | null;
 }
 
@@ -29,7 +33,7 @@ export async function runReplyBy(
 ): Promise<{ reminded: number; locked: number }> {
   return withSystem(pool, async (tx) => {
     const { rows } = await tx.query<DueProposal>(
-      `SELECT p.id, p.trip_id, t.crew_id, p.reply_by, p.reminded_at FROM proposals p
+      `SELECT p.id, p.trip_id, t.crew_id, p.reply_by, p.sent_at, p.reminded_at FROM proposals p
          JOIN trips t ON t.id = p.trip_id
         WHERE p.status = 'sent' AND p.reply_by - make_interval(hours => $2) <= $1
         FOR UPDATE OF p SKIP LOCKED`,
@@ -64,6 +68,14 @@ export async function runReplyBy(
           payload: { ...base, unanswered: unanswered.rows.length },
         });
         locked += 1;
+      } else if (
+        proposal.reminded_at === null &&
+        proposal.sent_at !== null &&
+        proposal.reply_by.getTime() - proposal.sent_at.getTime() < REMINDER_LEAD_MS
+      ) {
+        // A last-minute proposal (under a day to answer) was just pushed to everyone: no second
+        // push on its heels. The reminder is marked done so the proposal is not looked at again.
+        await tx.query('UPDATE proposals SET reminded_at = $2 WHERE id = $1', [proposal.id, now]);
       } else if (proposal.reminded_at === null) {
         const unanswered = await tx.query<{ user_id: string }>(UNANSWERED, [proposal.id]);
         const organisers = await tx.query<{ user_id: string }>(

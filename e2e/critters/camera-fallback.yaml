@@ -1,0 +1,19 @@
+appId: app.critterpass.dev
+---
+# The live camera's fallback: on a device with no camera (the iOS simulator) an encounter shows the
+# illustrated scene and the hold ring, and never the error screen.
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3l-4-filling'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-scene'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- assertVisible:
+    id: 'critters-encounter-hold'
+- assertNotVisible:
+    text: 'THAT DIDN’T LOAD'
+- takeScreenshot: en-3l-4-camera-fallback

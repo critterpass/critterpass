@@ -31,4 +31,13 @@ appId: app.critterpass.dev
       id: 'winner-reveal'
     timeout: 60000
 - waitForAnimationToEnd
+# The photo, the rays and the halftone are canvases that paint a moment after the screen is up,
+# with nothing moving meanwhile for the wait above to see. This wait never finds its id: it only
+# gives them three seconds.
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-canvases-painted'
+    timeout: 3000
+    optional: true
+- waitForAnimationToEnd
 - takeScreenshot: ${PREFIX}-3c-2-reveal

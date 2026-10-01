@@ -1,0 +1,31 @@
+# The squash commit on main takes a pull request's title and description as its message, so both
+# are held to the commit rules (CLAUDE.md): no session links and no tool attribution lines.
+name: pr description
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: pr-description-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  description:
+    name: description has no session links
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: No session links or attribution lines
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if printf '%s\n%s\n' "$TITLE" "$BODY" |
+            grep -inE 'claude\.ai/|Claude-Session:|Co-Authored-By: *Claude|Generated with \[?Claude'; then
+            echo "::error::Remove the session link or attribution line from the pull request title and description: the squash commit on main carries them."
+            exit 1
+          fi

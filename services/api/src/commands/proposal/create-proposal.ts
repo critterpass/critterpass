@@ -1,8 +1,9 @@
 /**
  * `create_proposal` (docs/api-contracts.md §4.7): an organiser builds the crew's proposal from the
- * approved plan. Reply-by defaults to a day before the earliest free cancellation of a booked stay
- * or two weeks before the trip, whichever is first, and is refused after that deadline or in the
- * past; a Viator hold is never an input. One pending version per recipient is queued for the
+ * approved plan. Reply-by defaults to a day before the earliest live free cancellation of a booked
+ * stay or two weeks before the trip, whichever is first (a day from now on a last-minute trip with
+ * neither left), and is refused after a live free cancellation or in the past; a Viator hold is
+ * never an input. One pending version per recipient is queued for the
  * guide to write; a rebuild supersedes the last proposal.
  */
 import { appendDomainEvent, sendInTx } from '@cp/db';
@@ -11,6 +12,7 @@ import {
   defaultReplyBy,
   DomainError,
   earliestFreeCancel,
+  liveFreeCancels,
   generateUuidV7,
   PROPOSAL_QUEUES,
   validateReplyBy,
@@ -81,22 +83,24 @@ export const createProposalCommand = defineCommand({
   handle: async (tx, payload, ctx) => {
     const facts = await replyByFacts(tx, payload.trip_id);
     const now = ctx.clock.serverNow;
-    let replyBy: Date | null;
+    let replyBy: Date;
     if (payload.config.reply_by !== undefined) {
       replyBy = new Date(payload.config.reply_by);
       const verdict = validateReplyBy(replyBy, { ...facts, now });
       if (!verdict.ok) throw new DomainError('VALIDATION', { field: 'reply_by', ...verdict });
     } else {
       replyBy = defaultReplyBy({ ...facts, now });
-      if (replyBy === null) {
-        throw new DomainError('STATE_INVALID', { reason: 'free_cancel_passed' });
-      }
     }
     const people = await recipients(tx, payload.trip_id, ctx.uid);
     const proposalId = payload.proposal_id ?? generateUuidV7();
     return asSystemRole(tx, async () => {
       const trip = await tx.query<{ crew_id: string; version_id: string | null }>(
-        `SELECT crew_id, coalesce(current_version_id, draft_version_id) AS version_id
+        // In draft review the organiser's working draft is what gets proposed (a rebuild after a
+        // redraft must not pick the version already sent); otherwise the trip's current plan.
+        `SELECT crew_id,
+                CASE WHEN status = 'draft_review'
+                     THEN coalesce(draft_version_id, current_version_id)
+                     ELSE coalesce(current_version_id, draft_version_id) END AS version_id
            FROM trips WHERE id = $1`,
         [payload.trip_id],
       );
@@ -118,7 +122,7 @@ export const createProposalCommand = defineCommand({
           payload.config.personal,
           JSON.stringify(payload.config.options),
           replyBy,
-          earliestFreeCancel(facts.freeCancelDeadlines),
+          earliestFreeCancel(liveFreeCancels(facts.freeCancelDeadlines, now)),
         ],
       );
       for (const recipient of people) {

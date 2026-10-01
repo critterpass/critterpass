@@ -275,7 +275,8 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
 | `create_proposal` | `{trip_id, config{reply_by, options[]}}` | organiser | – | `proposal.created` → versions fan-out | A | 31 |
-| `send_proposal` | `{proposal_id}` | organiser | – | `proposal.sent` (N-07) | A | 31 |
+| `send_proposal` | `{proposal_id}` | organiser | – | `proposal.sent` (N-07); publishes the proposal's plan version to the crew (`visibility='crew'`, `status='proposed'`, the trip's `current_version_id`) and posts the proposal card in crew chat | A | 31 |
+| `lock_proposal` | `{proposal_id}` | organiser, ≥ 1 recipient IN | – | `proposal.locked`, `trip.status_changed` (`proposed → confirmed`); the proposed plan version becomes `current` | A | 31 |
 | `set_rsvp` | `{proposal_id, status: in\|maybe\|out, option_ids[]}` | recipient | seatCap on `in` | `rsvp.changed` (out → dropout job) | A, O, N | 31 |
 | `react_proposal` | `{proposal_id, reaction}` | recipient | – | `proposal.reacted` | A, O | 31 |
 | `record_proposal_open` | `{proposal_id, kind: open\|view_slide}` (aggregates only, C28) | recipient | – | `proposal.engagement_counted` | A, O | 31 |

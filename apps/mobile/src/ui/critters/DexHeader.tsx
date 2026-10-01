@@ -25,6 +25,9 @@ export interface DexHeaderProps<Value extends string> {
   readonly testID?: string;
 }
 
+/** The design's size for the found/total count. */
+const COUNT_SIZE = 48;
+
 const useStyles = makeStyles((th) => ({
   track: {
     backgroundColor: th.semantic.bg.raised,
@@ -58,9 +61,18 @@ export function DexHeader<Value extends string>({
           <Text variant="eyebrow">
             {t({ id: 'common.critter.yourDex', message: 'Your Critterdex' })}
           </Text>
+          {/* One number, as the design sets it: the found count, then the total dimmed, at the
+              same size (each fitted on its own would shrink the total). */}
           <Row align="baseline">
-            <Text variant="displayHero">{String(found)}</Text>
-            <Text variant="displayHero" color={theme.semantic.text.secondary}>
+            <Text variant="h1" designSize={COUNT_SIZE} autoFit={false}>
+              {String(found)}
+            </Text>
+            <Text
+              variant="h1"
+              designSize={COUNT_SIZE}
+              autoFit={false}
+              color={theme.semantic.text.secondary}
+            >
               {`/${total}`}
             </Text>
           </Row>

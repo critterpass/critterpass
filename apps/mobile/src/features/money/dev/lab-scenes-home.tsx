@@ -6,7 +6,13 @@
 import type { ReactNode } from 'react';
 
 import { AddExpenseView } from '../add-expense/AddExpenseView';
-import { draftReducer, newDraft, type DraftAction, type ExpenseDraft } from '../add-expense/draft';
+import {
+  draftReducer,
+  newDraft,
+  sharesByMember,
+  type DraftAction,
+  type ExpenseDraft,
+} from '../add-expense/draft';
 import { useAddLabels } from '../add-expense/labels';
 import { previewDraft } from '../add-expense/preview';
 import { MoneyLoading } from '../balances/BalancesScreen';
@@ -78,7 +84,7 @@ function AddScene({ extra }: { readonly extra: readonly DraftAction[] }) {
       draft={draft}
       members={LAB_MEMBERS}
       approx={labels.approx}
-      perMember={preview?.perMember ?? null}
+      perMember={sharesByMember(draft)}
       ctaLabel={labels.ctaLabel}
       ctaDisabled={false}
       shake={0}
@@ -141,6 +147,7 @@ export const HOME_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   add: () => <AddScene extra={[]} />,
+  'add-paid-by-alex': () => <AddScene extra={[{ type: 'payer', userId: 'u-alex' }]} />,
   'add-by-share': () => (
     <AddScene
       extra={[

@@ -103,6 +103,18 @@ const CONNECTION = {
   last_scan_at: '2026-10-09T23:00:00Z',
 };
 
+/** A whole confirmation email, as an airline sends it: far more than the field shows at once. */
+const LONG_CONFIRMATION = [
+  'Your booking is confirmed. Booking reference K7Q2PX.',
+  'Passenger: WINSTON TAN. Frequent flyer 8812 334 901.',
+  'Flight SQ 938, Singapore (SIN) Terminal 3 to Denpasar Bali (DPS), 22 October 2026.',
+  'Departs 09:10, arrives 11:55. Economy Lite, seat 42A. Baggage: 25 kg checked, 7 kg cabin.',
+  'Flight SQ 943, Denpasar Bali (DPS) to Singapore (SIN), 29 October 2026.',
+  'Departs 12:55, arrives 15:35. Economy Lite, seat 41C.',
+  'Check in online from 48 hours before departure. Fare rules: changes from SGD 75, no refund.',
+  'Total paid: SGD 412.60, charged to the card ending 4471.',
+].join('\n');
+
 export const ADD_SCENES: Readonly<Record<string, () => ReactNode>> = {
   add: () => add(LAB_CANDIDATES),
   'add-assemble': () => add(LAB_CANDIDATES.slice(0, 1), { assemble: true }),
@@ -140,6 +152,20 @@ export const ADD_SCENES: Readonly<Record<string, () => ReactNode>> = {
           readClipboard={() => Promise.resolve('')}
           onSend={noop}
           onClose={close}
+        />
+      )}
+    />
+  ),
+  'paste-long': () => (
+    <WithSheet
+      sheet={(close) => (
+        <PasteSheet
+          sending={false}
+          error={null}
+          readClipboard={() => Promise.resolve('')}
+          onSend={noop}
+          onClose={close}
+          initialText={LONG_CONFIRMATION}
         />
       )}
     />

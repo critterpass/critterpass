@@ -1,0 +1,1 @@
+export { StickerShelf } from './StickerShelf';
