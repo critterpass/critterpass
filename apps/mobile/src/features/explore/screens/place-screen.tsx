@@ -29,7 +29,15 @@ import { guideFor, poiSubject } from '../format';
 import { useAddToDay } from '../hooks/use-add-to-day';
 import { useSavedPlace } from '../hooks/use-saved-place';
 import { placeMeta, placeTags } from '../place-copy';
-import { addState, closedOn, crowdColumns, goAdvice, openState, windowHours } from '../place-model';
+import {
+  addState,
+  closedOn,
+  crowdColumns,
+  goAdvice,
+  openState,
+  pageDate,
+  windowHours,
+} from '../place-model';
 import { usePlaceTip, usePoi, useTripCrew, useTripFacts } from '../place-queries';
 import { exploreRoutes } from '../routes';
 
@@ -122,8 +130,9 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
 
   const columns = crowdColumns(crowds?.hourly);
   // The quiet window of the day shown: the trip context's when it is for that day.
+  const tripCrowd = context?.crowd ?? null;
   const window =
-    (context?.crowd?.date === date ? context.crowd.best_window : null) ??
+    (tripCrowd !== null && tripCrowd.date === date ? tripCrowd.best_window : null) ??
     crowds?.best_window ??
     null;
   const crowd: CrowdChartProps = closedOn(hours, date)

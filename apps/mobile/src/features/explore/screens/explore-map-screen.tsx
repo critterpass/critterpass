@@ -85,9 +85,12 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
     }),
     [saved.rows, crewPicks, tz, now],
   );
-  const where = presence(position.kind === 'at' ? position.point : null, places);
-  const from = where.kind === 'here' ? where.at : null;
-  const ordered = useMemo(() => orderPlaces(places, from), [places, from]);
+  const fix = position.kind === 'at' ? position.point : null;
+  const where = useMemo(() => presence(fix, places), [fix, places]);
+  const ordered = useMemo(
+    () => orderPlaces(places, where.kind === 'here' ? where.at : null),
+    [places, where],
+  );
   const shown = useMemo(
     () => filterPlaces(ordered, filters, query, context),
     [ordered, filters, query, context],

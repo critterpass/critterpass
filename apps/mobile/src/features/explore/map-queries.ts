@@ -45,15 +45,20 @@ export function useDestinationPois(destinationId: string | null): {
   );
   const places = useMemo(
     () =>
-      live.rows.map((row): MapPoi => ({
-        id: row.id,
-        name: row.name,
-        nameLocal: row.name_local,
-        category: row.category,
-        lat: row.lat,
-        lng: row.lng,
-        hours: parse(row.hours),
-      })),
+      live.rows.map((row): MapPoi => {
+        const editorial = parse(row.editorial) as { must_see?: unknown; why_go?: unknown } | null;
+        return {
+          id: row.id,
+          name: row.name,
+          nameLocal: row.name_local,
+          category: row.category,
+          lat: row.lat,
+          lng: row.lng,
+          hours: parse(row.hours),
+          mustSee: editorial?.must_see === true,
+          written: typeof editorial?.why_go === 'string' && editorial.why_go !== '',
+        };
+      }),
     [live.rows],
   );
   return { places, loaded: live.loaded };
