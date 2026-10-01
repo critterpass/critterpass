@@ -26,16 +26,25 @@ appId: app.critterpass.dev
     when:
       true: ${LANG == 'vi'}
     commands:
-      - tapOn:
-          id: 'dev-tools-entry'
-      # The gallery entry sits below the fold on an iPhone (the list grew): iOS reports it present
-      # off screen, and a tap there lands on nothing. Scroll it into view first.
-      - scrollUntilVisible:
-          element:
-            id: 'dev-nav-gallery'
-          direction: DOWN
-          timeout: 20000
-          speed: 20
+      # A busy simulator can drop the tap on the splash's entry: tapped again while the splash stays.
+      # The gallery entry sits below the fold on an iPhone: iOS reports it present off screen, and
+      # a tap there lands on nothing, so it is scrolled into view first.
+      - retry:
+          maxRetries: 2
+          commands:
+            - runFlow:
+                when:
+                  visible:
+                    id: 'onboarding-open'
+                commands:
+                  - tapOn:
+                      id: 'dev-tools-entry'
+            - scrollUntilVisible:
+                element:
+                  id: 'dev-nav-gallery'
+                direction: DOWN
+                timeout: 20000
+                speed: 20
       - tapOn:
           id: 'dev-nav-gallery'
       - extendedWaitUntil:
