@@ -167,6 +167,10 @@ msgstr "Ask {inviter} about the next one."
 msgid "onboarding.invite.problem.expiredLine"
 msgstr "Ask {inviter} for a fresh link. It takes them two taps."
 
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.back"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 msgid "onboarding.invite.code.back"
 msgstr "Back"

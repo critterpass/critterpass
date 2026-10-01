@@ -167,6 +167,10 @@ msgstr ""
 msgid "onboarding.invite.problem.expiredLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
 msgid "onboarding.invite.code.back"
 msgstr ""
