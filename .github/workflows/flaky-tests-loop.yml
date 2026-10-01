@@ -1,6 +1,8 @@
-# Twenty runs in a row of each test file this pull request fixes, on a runner kept busy the way the
-# lint/typecheck/test job kept it busy (every core taken by other work beside Jest), then five runs
-# of main's version of the same file under the same load for comparison. Removed before merging.
+# Twenty runs in a row of each test file this pull request fixes. The app's files run on a runner
+# kept busy the way the lint/typecheck/test job kept it busy (every core taken by other work beside
+# Jest), then main's version of each runs five times under the same load for comparison. The relay
+# file runs without the extra load: one of its tests holds the NOTIFY wake-up to a second on
+# purpose. Removed before merging.
 name: flaky tests loop
 
 on:
@@ -83,3 +85,39 @@ jobs:
           done
           rm "$main"
           echo "main's version: $passed of 5 runs green under the same load" >> "$GITHUB_STEP_SUMMARY"
+
+  relay:
+    name: rt-relay database test × 20
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
+        with:
+          cache-prefix: turbo-node26_
+      - name: Build what the worker's tests import
+        run: pnpm turbo run build --filter=@cp/worker^...
+      - name: Build the test Postgres image
+        env:
+          TESTCONTAINERS_RYUK_DISABLED: 'true'
+        run: pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
+      - name: Twenty runs in a row
+        working-directory: services/worker
+        run: |
+          passed=0
+          for run in $(seq 1 20); do
+            started=$(date +%s)
+            if pnpm exec vitest run --config vitest.db.config.ts test/rt-relay.db.test.ts > "$RUNNER_TEMP/run-$run.log" 2>&1; then
+              passed=$((passed + 1))
+              echo "run $run: pass ($(( $(date +%s) - started )) s)"
+            else
+              echo "::error::run $run failed"
+              grep -E '×|FAIL|AssertionError|Error:' "$RUNNER_TEMP/run-$run.log" | head -20
+            fi
+          done
+          echo "### test/rt-relay.db.test.ts: $passed of 20 runs green, in a row" >> "$GITHUB_STEP_SUMMARY"
+          [ "$passed" = 20 ]
