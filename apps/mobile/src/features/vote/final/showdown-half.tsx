@@ -218,26 +218,28 @@ export function ShowdownHalf({
             onNaturalHeight(y + height + endPadding);
           }}
         >
-          <Animated.View
+          {/* The opacity sits outside the wiggle, whose own frame sets one. */}
+          <View
             style={[
               styles.ghost,
               alignEnd ? { left: -theme.space['8'] } : { right: -theme.space['8'] },
-              wiggle,
             ]}
             pointerEvents="none"
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
             testID={`showdown-guide-${index}`}
           >
-            <Sticker
-              kind={guide.kind}
-              name={guide.name}
-              variant="mask"
-              maskColor={theme.color.paper.base}
-              sticker={null}
-              size={GHOST_SIZE}
-            />
-          </Animated.View>
+            <Animated.View style={wiggle}>
+              <Sticker
+                kind={guide.kind}
+                name={guide.name}
+                variant="mask"
+                maskColor={theme.color.paper.base}
+                sticker={null}
+                size={GHOST_SIZE}
+              />
+            </Animated.View>
+          </View>
           {quote === null ? null : (
             <View
               style={styles.quote}

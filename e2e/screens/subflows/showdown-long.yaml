@@ -20,6 +20,10 @@ appId: app.critterpass.dev
     visible:
       id: 'showdown-long'
     timeout: 10000
+# The names are hidden (and not read out) while the halves settle on the size both fit at.
+- extendedWaitUntil:
+    visible: 'CHEFCHAOUEN'
+    timeout: 15000
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: ${LOCALE}-3c-1-showdown-long

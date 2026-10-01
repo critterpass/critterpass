@@ -30,11 +30,16 @@ import { useRevealTimeline } from './reveal-timeline';
 import { Wordmark } from './wordmark';
 
 /** The size the render sets the winner's name at. */
-const NAME_SIZE = 160;
-/** The winning guide's sticker: as large as the room above the name allows, inside these. */
-const STICKER = { min: 96, max: 176, fallback: 160, share: 0.92 } as const;
+const NAME_SIZE = 138;
+/** The size the render sets the score at. */
+const SCORE_SIZE = 32;
+/**
+ * The winning guide's sticker: as large as the room above the name allows, inside these. The art
+ * sits inside its box with room to spare, so the box may run a little past that room.
+ */
+const STICKER = { min: 96, max: 232, fallback: 200, share: 1.1 } as const;
 /** The rays reach this many sticker sizes across. */
-const RAYS_SPAN = 2.6;
+const RAYS_SPAN = 2.2;
 const SLEEPER_SIZE = 48;
 /** How strongly the winner's colour is washed back in behind the name and score, over a photo. */
 const WASH_ALPHA = 'd9';
@@ -73,7 +78,8 @@ export interface RevealStageProps {
 const useStyles = makeStyles((th) => ({
   screen: { flex: 1, overflow: 'hidden' },
   fill: { flex: 1 },
-  header: { paddingHorizontal: th.space['20'] },
+  // Above the rays, which reach up behind it.
+  header: { paddingHorizontal: th.space['20'], zIndex: 1 },
   hero: { flex: 1, paddingHorizontal: th.space['20'] },
   stickerSlot: { flex: 1, minHeight: STICKER.min, alignItems: 'center', justifyContent: 'center' },
   title: { alignSelf: 'stretch', gap: th.space['4'], paddingBottom: th.space['16'] },
@@ -193,7 +199,13 @@ export function RevealStage({
                 />
               </Animated.View>
               <Animated.View style={timeline.score}>
-                <Text variant="h2" color={ink} style={styles.centred} testID="reveal-score">
+                <Text
+                  variant="h2"
+                  designSize={SCORE_SIZE}
+                  color={ink}
+                  style={styles.centred}
+                  testID="reveal-score"
+                >
                   {score}
                 </Text>
               </Animated.View>

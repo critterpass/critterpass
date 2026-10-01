@@ -8,6 +8,7 @@
 import { useEffect, useRef } from 'react';
 import {
   useAnimatedStyle,
+  useReducedMotion,
   useSharedValue,
   withSequence,
   withTiming,
@@ -67,7 +68,9 @@ export interface RevealTimelineOptions {
 }
 
 export function useRevealTimeline({ holdAt, onLand }: RevealTimelineOptions) {
-  const reduced = useReducedImpactMotion();
+  // The system's setting is known on the first frame; the app's own mode resolves a moment later.
+  const systemReduced = useReducedMotion();
+  const reduced = useReducedImpactMotion() || systemReduced;
   const clock = useSharedValue(reduced ? REVEAL_MS.end : 0);
   const { triggerScreenJolt } = useScreenJolt();
   const landed = useRef(false);

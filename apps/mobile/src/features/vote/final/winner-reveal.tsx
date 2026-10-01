@@ -3,8 +3,8 @@
  * guide hops in front of the turning rays and confetti fires once; the tally card follows, the
  * losing guide takes it well, and the organiser gets "SET UP KYOTO" while everyone else learns who
  * has the setup. Opening it files `mark_reveal_seen`, so each person sees it once on any device.
- * Viewers who missed the vote or whose pick lost get their own line; reduced motion drops the rays
- * and confetti and fades the finished screen in.
+ * Viewers who missed the vote or whose pick lost get their own line; reduced motion stills the rays,
+ * drops the confetti and fades the finished screen in.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';

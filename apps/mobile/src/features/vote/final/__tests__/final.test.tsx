@@ -341,11 +341,19 @@ describe('destination final', () => {
     };
     const run = (halves: readonly [HalfMeasure, HalfMeasure], viewport: number) => {
       let search = DESIGN_SEARCH;
+      let steps = 0;
       for (let step = 0; step < 20 && !search.done; step += 1) {
-        const fits = totalAt(halves, search.line) <= viewport;
-        search = nextNameSearch(search, fits, guessNameLine(halves, viewport) ?? 150, 150);
+        const spare = viewport - totalAt(halves, search.line);
+        search = nextNameSearch(
+          search,
+          spare >= 0,
+          guessNameLine(halves, viewport) ?? 150,
+          150,
+          spare,
+        );
+        steps += 1;
       }
-      return search;
+      return { ...search, steps };
     };
     // English: a big KYOTO and a smaller LISBON, 690 of 700 points in all. Nothing changes.
     const en = [half(150, 380), half(120, 310)] as const;
@@ -360,6 +368,9 @@ describe('destination final', () => {
     expect(150 * a).toBeCloseTo(120 * b, 3);
     expect(totalAt(vi, found.line)).toBeLessThanOrEqual(700);
     expect(totalAt(vi, (found.line ?? 0) + 5)).toBeGreaterThan(700);
+    // Names that keep their line count scale as the model says: the first guess is checked once
+    // and kept, so the names are hidden for two layouts, not a whole bisection.
+    expect(found.steps).toBe(2);
     // Nothing fits at any size: the names stop at the 44-point floor, and the rest scrolls.
     const crowded = [half(150, 900), half(120, 900)] as const;
     expect(run(crowded, 700)).toMatchObject({ line: 44, done: true });
@@ -451,13 +462,13 @@ describe('winner reveal', () => {
     expect(screen.getByTestId('reveal-rays')).toBeTruthy();
   });
 
-  it('shows the finished result without rays under reduced motion', async () => {
+  it('shows the finished result, with no burst flash, under reduced motion', async () => {
     const s = await open();
     await seedClosed(s, [{ userId: MAYA, optionId: OPT_KYOTO }], MAYA);
     await setReducedMotion();
     await renderVote(<Reveal me={s.uid} />, s);
     await until(() => screen.queryByTestId('reveal-missed') !== null);
-    expect(screen.queryByTestId('reveal-rays')).toBeNull();
+    expect(screen.getByTestId('reveal-rays')).toBeTruthy();
     expect(screen.getByTestId('reveal-name')).toHaveTextContent('KYOTO');
     expect(screen.getByTestId('reveal-score')).toHaveTextContent('WINS 1–0');
     expect(screen.queryByTestId('reveal-burst-flash')).toBeNull();

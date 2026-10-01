@@ -92,7 +92,7 @@ const SEARCH_TOLERANCE = 4;
 
 /**
  * One step, after the layout at `search.line` settled and was measured; `fits`: both halves fit
- * the viewport. At the designed size a fit ends the search with nothing changed; otherwise it
+ * the viewport, with `spare` points of it left over. At the designed size a fit ends the search with nothing changed; otherwise it
  * bisects between the floor and the designed size, starting from the model's guess: a fit goes
  * larger, an overflow smaller. It ends on the largest size that fitted or, when none did, on the
  * floor (what still does not fit scrolls).
@@ -102,6 +102,7 @@ export function nextNameSearch(
   fits: boolean,
   guess: number,
   top: number,
+  spare = Number.POSITIVE_INFINITY,
 ): NameSearch {
   if (search.done) return search;
   if (search.line === null) {
@@ -113,7 +114,9 @@ export function nextNameSearch(
   }
   const low = fits ? search.line : search.low;
   const high = fits ? search.high : search.line;
-  if (high - low <= SEARCH_TOLERANCE) return { line: low, low, high, done: true };
+  // A size that fits with next to nothing to spare is the largest that fits: stop there.
+  const close = fits && spare <= SEARCH_TOLERANCE * 2;
+  if (close || high - low <= SEARCH_TOLERANCE) return { line: low, low, high, done: true };
   return { line: (low + high) / 2, low, high, done: false };
 }
 
@@ -121,7 +124,7 @@ const NO_NAME: NameMeasure = { designHeight: 0, designLine: 0, height: 0 };
 const NO_HALF: HalfMeasure = { name: NO_NAME, natural: 0 };
 
 /** How long the layout must stay still before a search step reads it. */
-const SETTLE_MS = 350;
+const SETTLE_MS = 200;
 
 /**
  * Collects both halves' measures and the viewport and gives each half its name's scale. The names
@@ -165,6 +168,7 @@ export function useShowdownNames(key: string) {
                 fits,
                 guess,
                 topLine(halves),
+                viewport - halves[0].natural - halves[1].natural,
               ),
             }
           : current,

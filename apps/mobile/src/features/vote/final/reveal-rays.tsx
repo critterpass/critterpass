@@ -1,7 +1,7 @@
 /**
  * The sunburst behind the winning guide (3c-2): cream rays from the sticker's centre, strongest
  * there and fading outwards in three rings, turning once every 30 seconds on the app's idle clock.
- * Reduced motion leaves them out, like every other ray backdrop.
+ * Reduced motion keeps them, still.
  */
 import { Path } from '@shopify/react-native-skia';
 import { useIsFocused } from 'expo-router';
@@ -42,7 +42,6 @@ export function RevealRays({ size }: { readonly size: number }) {
   const turn = useAnimatedStyle(() => ({
     transform: [{ rotate: `${((clock.value % TURN_MS) / TURN_MS) * 360}deg` }],
   }));
-  if (reduced) return null;
   const { color, opacity, step } = TEXTURE.rays;
   return (
     <View

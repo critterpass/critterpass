@@ -138,6 +138,8 @@ export function Wordmark({
             : { left: 0, opacity: 0 },
           hidden ? { opacity: 0 } : null,
         ]}
+        accessibilityElementsHidden={hidden}
+        importantForAccessibility={hidden ? 'no-hide-descendants' : 'auto'}
         testID={`${testID}-set`}
       >
         <Text
