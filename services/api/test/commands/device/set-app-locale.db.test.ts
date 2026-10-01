@@ -114,8 +114,11 @@ async function addDevice(uid: string, locale: string, seenMinutesAgo: number): P
 }
 
 /** The reply-language instruction of the turn the model received. */
-async function replyLanguageOfTurn(session: SignedIn): Promise<string | undefined> {
-  const response = await harness.request(`/v1/guide/threads/${randomUUID()}/turns`, {
+async function replyLanguageOfTurn(
+  session: SignedIn,
+  threadId: string = randomUUID(),
+): Promise<string | undefined> {
+  const response = await harness.request(`/v1/guide/threads/${threadId}/turns`, {
     method: 'POST',
     headers: { cookie: session.cookie, 'x-cp-tz': 'Asia/Ho_Chi_Minh' },
     body: JSON.stringify({ text: 'Where should we eat tonight?' }),
@@ -214,10 +217,12 @@ describe('app.user_locale', () => {
 describe('the guide replies in the language the app is in', () => {
   it('asks for English until the app reports Vietnamese, then for Vietnamese', async () => {
     const session = await harness.signInAnonymously();
-    expect(await replyLanguageOfTurn(session)).toBe('English (en)');
+    // One private thread per person outside a trip: both turns are asked in it.
+    const threadId = randomUUID();
+    expect(await replyLanguageOfTurn(session, threadId)).toBe('English (en)');
 
     expect((await setLocale(session, 'vi')).status).toBe(200);
-    expect(await replyLanguageOfTurn(session)).toBe('Vietnamese (vi)');
+    expect(await replyLanguageOfTurn(session, threadId)).toBe('Vietnamese (vi)');
   });
 
   it('follows the phone before the app has reported anything', async () => {
