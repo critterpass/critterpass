@@ -61,8 +61,18 @@ export function formatShort(amountMinor: bigint, currency: string, locale: strin
       ? compactNumber(locale, major)
       : format.number(locale, major, { maximumFractionDigits: major >= 100 ? 0 : 2 });
   const symbol = symbolOf(currency);
+  const sign = amountMinor < 0n ? MINUS : '';
+  if (symbolTrails(currency, locale)) return `${sign}${body}\u00a0${symbol}`;
   const spaced = /[A-Za-z]$/u.test(symbol) ? `${symbol} ` : symbol;
-  return `${amountMinor < 0n ? MINUS : ''}${spaced}${body}`;
+  return `${sign}${spaced}${body}`;
+}
+
+/**
+ * True where the locale writes this currency's symbol after the number ("1.250.000 ₫" in
+ * Vietnamese), so the keypad's amount, the short form and the rows all place it the same way.
+ */
+export function symbolTrails(currency: string, locale: string): boolean {
+  return formatAmount(0n, currency, locale).search(/\d/u) === 0;
 }
 
 /** Whole major units and the text around them, for the rolling hero number. */

@@ -16,8 +16,10 @@ import { makeStyles } from '../theme';
 export interface KeypadAmountProps {
   /** Whole amount in the currency's display unit (the keypad's digit string as a number). */
   readonly value: number;
-  /** Currency symbol or code before the number ("Rp", "$"). */
+  /** Currency symbol or code beside the number ("Rp", "$"). */
   readonly currency: string;
+  /** The symbol follows the number, as the locale writes it ("1.250.000 ₫"). @default false */
+  readonly currencyAfter?: boolean;
   /** The "≈ $28.42 · $4.74 each" line under the amount. */
   readonly approx?: string;
   /** Formatted amount for screen readers ("Rp 450,000"). */
@@ -144,7 +146,13 @@ function groupSeparator(locale: string): string {
 }
 
 /** The keypad's rolling amount (odometer digits, locale grouping) with the ≈ conversion line. */
-export function KeypadAmount({ value, currency, approx, label }: KeypadAmountProps) {
+export function KeypadAmount({
+  value,
+  currency,
+  currencyAfter = false,
+  approx,
+  label,
+}: KeypadAmountProps) {
   const styles = useStyles();
   const locale = useLocale();
   const { columns } = useOdometer(value);
@@ -160,6 +168,11 @@ export function KeypadAmount({ value, currency, approx, label }: KeypadAmountPro
   );
   const separator = groupSeparator(locale);
   const digitColumns = columns.filter((column) => !column.isSign);
+  const symbol = (
+    <Text variant="h3" color={undefined} style={styles.currency}>
+      {currency}
+    </Text>
+  );
   return (
     <Stack
       gap="4"
@@ -170,9 +183,7 @@ export function KeypadAmount({ value, currency, approx, label }: KeypadAmountPro
     >
       <Row gap="6" align="flex-end">
         <DigitProbe onMeasure={onMeasure} />
-        <Text variant="h3" color={undefined} style={styles.currency}>
-          {currency}
-        </Text>
+        {currencyAfter ? null : symbol}
         {metrics === null ? null : (
           // The rolling strips hold every numeral, off screen too: iOS would expose each one as
           // its own element (and a tap by text could land on one). The amount reads as a whole
@@ -190,6 +201,7 @@ export function KeypadAmount({ value, currency, approx, label }: KeypadAmountPro
             })}
           </Row>
         )}
+        {currencyAfter ? symbol : null}
       </Row>
       {approx ? <SecondaryText>{approx}</SecondaryText> : null}
     </Stack>

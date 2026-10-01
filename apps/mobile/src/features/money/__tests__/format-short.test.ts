@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 
 import { compactNumber } from '@cp/cost-engine';
 
-import { formatShort } from '../format';
+import { formatShort, symbolTrails } from '../format';
 
 afterEach(() => {
   jest.restoreAllMocks();
@@ -36,6 +36,14 @@ describe('short money amounts', () => {
     expect(compactNumber('en', 1_080_000)).toBe('1.08M');
     expect(compactNumber('en', 2_500_000_000)).toBe('2.5B');
     expect(formatShort(45_000_000n, 'IDR', 'en')).toBe('Rp 450K');
+  });
+
+  it('puts the symbol where the locale does: after the number in Vietnamese', () => {
+    expect(formatShort(1_250_000n, 'VND', 'en')).toBe('₫1.25M');
+    expect(formatShort(1_250_000n, 'VND', 'vi').replace(/\u00a0/gu, ' ')).toMatch(/^1,25 \S+ ₫$/u);
+    expect(symbolTrails('VND', 'vi')).toBe(true);
+    expect(symbolTrails('VND', 'en')).toBe(false);
+    expect(symbolTrails('IDR', 'en')).toBe(false);
   });
 
   it('leaves small amounts whole', () => {
