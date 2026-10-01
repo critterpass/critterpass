@@ -1,6 +1,7 @@
 appId: app.critterpass.dev
 ---
-# From the disruptions lab's list: opens ${SCENE}, takes the screenshot ${SHOT} and goes back.
+# From the disruptions lab's list: opens ${SCENE}, waits for the screen ${SCREEN}, takes the
+# screenshot ${SHOT} and goes back.
 - scrollUntilVisible:
     element:
       id: 'disruption-lab-${SCENE}'
@@ -11,7 +12,7 @@ appId: app.critterpass.dev
     id: 'disruption-lab-${SCENE}'
 - extendedWaitUntil:
     visible:
-      id: 'disruption-screen'
+      id: '${SCREEN}'
     timeout: 20000
 - waitForAnimationToEnd:
     timeout: 6000
