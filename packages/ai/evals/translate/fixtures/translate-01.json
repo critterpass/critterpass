@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "468ac21c-e637-4ec0-ac6a-cca9227be6fb",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Đáp xuống, ăn, thở\"},{\"id\":\"t2\",\"text\":\"Sơn Trà và biển\"},{\"id\":\"t3\",\"text\":\"Bắt đầu chậm rãi với cà phê bên biển khi thành phố còn đang thức giấc.\"},{\"id\":\"t4\",\"text\":\"Lũ khỉ trên Sơn Trà rất gan lì, nên nhớ cất kỹ đồ ăn vặt.\"},{\"id\":\"t5\",\"text\":\"Bánh xèo ở Ba Duong: tự cuốn lấy, nhân viên sẽ chỉ bạn một lần.\"},{\"id\":\"t6\",\"text\":\"Đi thang bộ lên Ngũ Hành Sơn và đi thang máy xuống. Đầu gối của bạn sẽ cảm ơn bạn.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 209,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1408,
+        "output_tokens": 199,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

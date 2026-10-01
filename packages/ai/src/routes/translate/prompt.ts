@@ -65,7 +65,7 @@ export function buildTranslateRequest(input: TranslatePromptInput): GatewayInput
     ],
     messages: [
       userTurnWithData(
-        `Translate these lines. Add nothing a line does not say: no gloss and no brackets after a local word, even one from your list. [Reply language: ${language}.]`,
+        `Translate these lines. Copy every number, time and amount exactly, separators and currency code included (320,000 VND stays 320,000 VND). Add nothing a line does not say: no gloss and no brackets after a local word, even one from your list. [Reply language: ${language}.]`,
         [
           wrapUntrusted({
             kind: 'place_tip',
