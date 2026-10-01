@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import type { ReviewModel } from '../data/version';
 import {
   REVIEW,
+  REVIEW_BOOKED,
   REVIEW_DETAILS,
   REVIEW_MISSING,
   LOCALE_DATES,
@@ -71,6 +72,7 @@ function scene(
 
 export const REVIEW_SCENES: readonly DraftScene[] = [
   scene('3c-9-draft', {}),
+  scene('draft-booked', {}, REVIEW_BOOKED),
   scene('draft-must-do-missing', {}, REVIEW_MISSING),
   scene('draft-over-budget', {}, REVIEW_OVER),
   scene('draft-stale', {}, REVIEW_STALE),
