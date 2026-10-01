@@ -80,10 +80,12 @@
     "react-native": "0.88.0-rc.1",
     "react-native-gesture-handler": "3.2.1",
     "react-native-mmkv": "catalog:",
+    "react-native-nitro-image": "catalog:",
     "react-native-nitro-modules": "catalog:",
     "react-native-reanimated": "4.7.0",
     "react-native-safe-area-context": "5.9.1",
     "react-native-screens": "4.28.0",
+    "react-native-vision-camera": "catalog:",
     "react-native-worklets": "0.13.0",
     "uqr": "catalog:"
   },
