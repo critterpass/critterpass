@@ -24,8 +24,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  redis.destroy();
-  await stop();
+  redis?.destroy();
+  await stop?.();
 });
 
 describe('worker heartbeat', () => {

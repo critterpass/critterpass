@@ -167,8 +167,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await boss.stop({ graceful: false });
-  await harness.stop();
+  await boss?.stop({ graceful: false });
+  await harness?.stop();
 });
 
 describe('set_readiness', () => {

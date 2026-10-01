@@ -44,7 +44,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 /** Walks the trip through legal transitions (shortest path) to `target`. */

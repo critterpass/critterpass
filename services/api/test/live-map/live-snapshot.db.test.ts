@@ -75,7 +75,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 describe('GET /v1/trips/{id}/live-snapshot', () => {

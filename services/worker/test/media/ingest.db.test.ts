@@ -115,10 +115,10 @@ beforeAll(async () => {
 }, 300_000);
 
 afterAll(async () => {
-  server.close();
-  await harness.stopAll();
-  await harness.close();
-  await s3.stop();
+  server?.close();
+  await harness?.stopAll();
+  await harness?.close();
+  await s3?.stop();
 });
 
 /** The stock source, reached over plain HTTP in the test: rewrite the https URL to the server. */

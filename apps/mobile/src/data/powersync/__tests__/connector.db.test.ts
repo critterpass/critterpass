@@ -52,7 +52,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await api.stop();
+  await api?.stop();
 });
 
 beforeEach(async () => {

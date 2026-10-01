@@ -24,8 +24,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await pool.end();
-  await container.stop();
+  await pool?.end();
+  await container?.stop();
 });
 
 /** Any of the query's meaningful words, the way a help search box matches. */

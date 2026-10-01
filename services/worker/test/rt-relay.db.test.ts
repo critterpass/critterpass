@@ -87,9 +87,9 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await pool.end();
+  await pool?.end();
   await new Promise((resolve) => proxy.close(resolve));
-  await Promise.all([postgres.stop(), centrifugo.stop()]);
+  await Promise.all([postgres?.stop(), centrifugo?.stop()]);
 });
 
 function base64url(value: string | Buffer): string {
