@@ -69,6 +69,8 @@ export interface TrackerViewProps {
   readonly rows: readonly TrackerRow[];
   readonly tally: Tally;
   readonly suggestions: ReactNode;
+  /** The locked-in card, once the trip is confirmed. */
+  readonly confirmed?: ReactNode;
   /** The lock button's label, or null when locking isn't offered. */
   readonly lockLabel: string | null;
   readonly lockNote: string | null;
@@ -143,6 +145,7 @@ export function TrackerView(props: TrackerViewProps) {
             </View>
           ))}
         </View>
+        {props.confirmed}
         {props.suggestions}
       </ScrollView>
       <FooterFade />

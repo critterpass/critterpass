@@ -11,15 +11,17 @@ import { useEffect, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { hrefFor } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 
 import { lockProposalCommand } from '../data/commands';
-import { instantDate, instantDateTime } from '../data/format';
+import { dayRange, instantDate, instantDateTime } from '../data/format';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
 import { useProposalTrip, type CrewPerson } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import { proposalRoutes } from '../routes';
+import { ConfirmedCard } from './confirmed-card';
 import { lockState, publicStatus, tally } from './model';
 import { Suggestions } from './suggestions';
 import { TrackerView } from './tracker-view';
@@ -68,6 +70,8 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   const status = lockedNow ? 'locked' : proposal.status;
   const state = lockState(status, recipients);
   const counts = tally(trip.people);
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
+  const planHref = hrefFor('3e-1', { tripId: trip.tripId });
   const deadline = proposal.freeCancelUntil ?? proposal.replyBy;
   const onLock = async () => {
     setAsking(false);
@@ -121,6 +125,23 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
           line: line(p),
         }))}
         tally={counts}
+        confirmed={
+          state.kind === 'locked' ? (
+            <ConfirmedCard
+              guide={trip.guide}
+              going={counts.in}
+              tripLine={[
+                trip.destination,
+                trip.startDate && trip.endDate
+                  ? dayRange(locale, trip.startDate, trip.endDate)
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+              onPlan={planHref === undefined ? undefined : () => router.push(planHref)}
+            />
+          ) : null
+        }
         suggestions={
           status === 'sent' ? <Suggestions proposalId={proposal.id} guide={trip.guide} /> : null
         }

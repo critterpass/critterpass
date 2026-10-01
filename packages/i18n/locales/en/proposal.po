@@ -125,6 +125,10 @@ msgstr "{amount} each"
 msgid "proposal.alone.back"
 msgstr "{destination} plan"
 
+#: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
+msgid "proposal.confirmed.going"
+msgstr "{going} going"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr "{guideName} wrote a version for each person. Pick how it arrives."
@@ -515,6 +519,10 @@ msgstr "Only here"
 msgid "proposal.card.open"
 msgstr "Open it"
 
+#: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
+msgid "proposal.confirmed.plan"
+msgstr "Open the plan"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.organiser"
 msgstr "Organiser"
@@ -675,6 +683,10 @@ msgstr "The plan"
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.title"
 msgstr "The trip is full"
+
+#: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
+msgid "proposal.confirmed.title"
+msgstr "The trip is on"
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.ready"

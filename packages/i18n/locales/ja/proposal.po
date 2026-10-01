@@ -125,6 +125,10 @@ msgstr ""
 msgid "proposal.alone.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
+msgid "proposal.confirmed.going"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr ""
@@ -515,6 +519,10 @@ msgstr ""
 msgid "proposal.card.open"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
+msgid "proposal.confirmed.plan"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.organiser"
 msgstr ""
@@ -674,6 +682,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
+msgid "proposal.confirmed.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx

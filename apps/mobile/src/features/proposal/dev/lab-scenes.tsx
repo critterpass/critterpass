@@ -14,6 +14,7 @@ import { SendProgress } from '../builder/send-progress';
 import { BoardView, type BoardViewProps } from '../board/board-view';
 import { SeatSheet } from '../board/seat-sheet';
 import { ObjectionSheetView } from '../objection/objection-sheet';
+import { ConfirmedCard } from '../tracker/confirmed-card';
 import { publicStatus, tally } from '../tracker/model';
 import { SuggestionsView } from '../tracker/suggestions';
 import { TrackerView } from '../tracker/tracker-view';
@@ -151,6 +152,11 @@ const tracker = (locked: boolean) => (
       line: p.rsvp === 'in' ? 'Boarded Oct 1, 09:20' : 'Sent Oct 1',
     }))}
     tally={tally(LAB_PEOPLE)}
+    confirmed={
+      locked ? (
+        <ConfirmedCard guide="chava" going={2} tripLine="Đà Nẵng · Oct 2–4" onPlan={noop} />
+      ) : null
+    }
     suggestions={
       locked ? null : (
         <SuggestionsView rows={LAB_SUGGESTIONS} guide="chava" onAct={noop} onDismiss={noop} />
