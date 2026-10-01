@@ -1476,6 +1476,15 @@ appId: app.critterpass.dev
     id: 'gallery-next'
 - extendedWaitUntil:
     visible:
+      id: 'gallery-detail-VisitConsentRow'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-en-VisitConsentRow
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
       id: 'gallery-detail-VisitDetectionSettings'
     timeout: 15000
 - waitForAnimationToEnd:
@@ -3004,6 +3013,15 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 2000
 - takeScreenshot: sweep-vi-VisaPaywall
+- tapOn:
+    id: 'gallery-next'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-detail-VisitConsentRow'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 2000
+- takeScreenshot: sweep-vi-VisitConsentRow
 - tapOn:
     id: 'gallery-next'
 - extendedWaitUntil:

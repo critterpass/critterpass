@@ -178,6 +178,10 @@ msgstr "Những nơi bạn đã check-in, không bao giờ lưu dấu vết tọ
 msgid "permissions.visits.body"
 msgstr "Những nơi bạn đã check-in, không bao giờ lưu dấu vết tọa độ. Chúng dùng cho nhiệm vụ, giải thưởng và đánh giá chuyến đi, và bị xóa 30 ngày sau khi chuyến đi kết thúc."
 
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.row"
+msgstr "Những nơi bạn ghé trong chuyến này chưa được ghi nhớ."
+
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.value.quiet"
 msgstr "Im lặng"
