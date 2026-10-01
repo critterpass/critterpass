@@ -1,0 +1,78 @@
+appId: app.critterpass.dev
+---
+# Release gate: a crew of one confirms its trip, no demo world. A fresh account starts its own
+# crew, pitches one place and locks it in, sets the trip up, and the guide drafts it. With nobody
+# to send it to, BUILD THE PROPOSAL offers LOCK IT IN (or INVITE FRIENDS FIRST); locking confirms
+# the trip, and Home shows it counting down.
+- runFlow: subflows/fresh-account.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Crew Of One'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 20000
+- tapOn:
+    id: 'start-crew-done'
+- runFlow:
+    file: subflows/pitch-place.yaml
+    env:
+      QUERY: 'lisbon'
+- openLink: critterpass-dev://
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+- runFlow: ../proposal/subflows/setup-to-draft.yaml
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- tapOn:
+    id: 'draft-propose'
+# Nobody to pitch it to: lock it in, or invite friends first.
+- extendedWaitUntil:
+    visible:
+      id: 'build-lock-alone'
+    timeout: 30000
+- assertVisible:
+    id: 'build-invite'
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-1-alone
+- tapOn:
+    id: 'build-lock-alone'
+# The trip is confirmed: Home shows it as the next trip, counting down.
+- extendedWaitUntil:
+    visible:
+      id: 'home-countdown'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-2-home-confirmed

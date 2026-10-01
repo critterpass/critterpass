@@ -34,7 +34,10 @@ async function postProposalCard(tx: pg.PoolClient, proposal: ProposalRow, uid: s
  * the guide's reader views, trip-day jobs). Only this one version is published: other organiser
  * drafts stay organiser-only. A version sent before it (a re-send after edits) is superseded.
  */
-async function publishProposedPlan(tx: pg.PoolClient, proposal: ProposalRow): Promise<void> {
+export async function publishProposedPlan(
+  tx: pg.PoolClient,
+  proposal: Pick<ProposalRow, 'trip_id' | 'version_id'>,
+): Promise<void> {
   if (proposal.version_id === null) return;
   const head = await lockTripPlan(tx, proposal.trip_id);
   if (head.currentVersionId !== null && head.currentVersionId !== proposal.version_id) {

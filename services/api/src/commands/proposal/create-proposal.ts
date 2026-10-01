@@ -50,7 +50,11 @@ export async function replyByFacts(tx: pg.PoolClient, tripId: string): Promise<R
 }
 
 /** Active crew members other than the sender who have not left the trip. */
-async function recipients(tx: pg.PoolClient, tripId: string, sender: string): Promise<string[]> {
+export async function proposalRecipients(
+  tx: pg.PoolClient,
+  tripId: string,
+  sender: string,
+): Promise<string[]> {
   const { rows } = await tx.query<{ user_id: string }>(
     `SELECT cm.user_id FROM trips t
        JOIN crew_members cm ON cm.crew_id = t.crew_id AND cm.status = 'active'
@@ -60,6 +64,26 @@ async function recipients(tx: pg.PoolClient, tripId: string, sender: string): Pr
     [tripId, sender],
   );
   return rows.map((row) => row.user_id);
+}
+
+/**
+ * The plan version a proposal is built from. In draft review it is the organiser's working draft
+ * (a rebuild after a redraft must not pick the version already sent); otherwise the trip's
+ * current plan.
+ */
+export async function proposalPlanVersion(
+  tx: pg.PoolClient,
+  tripId: string,
+): Promise<{ crew_id: string; version_id: string | null } | undefined> {
+  const { rows } = await tx.query<{ crew_id: string; version_id: string | null }>(
+    `SELECT crew_id,
+            CASE WHEN status = 'draft_review'
+                 THEN coalesce(draft_version_id, current_version_id)
+                 ELSE coalesce(current_version_id, draft_version_id) END AS version_id
+       FROM trips WHERE id = $1`,
+    [tripId],
+  );
+  return rows[0];
 }
 
 export const createProposalCommand = defineCommand({
@@ -91,19 +115,10 @@ export const createProposalCommand = defineCommand({
     } else {
       replyBy = defaultReplyBy({ ...facts, now });
     }
-    const people = await recipients(tx, payload.trip_id, ctx.uid);
+    const people = await proposalRecipients(tx, payload.trip_id, ctx.uid);
     const proposalId = payload.proposal_id ?? generateUuidV7();
     return asSystemRole(tx, async () => {
-      const trip = await tx.query<{ crew_id: string; version_id: string | null }>(
-        // In draft review the organiser's working draft is what gets proposed (a rebuild after a
-        // redraft must not pick the version already sent); otherwise the trip's current plan.
-        `SELECT crew_id,
-                CASE WHEN status = 'draft_review'
-                     THEN coalesce(draft_version_id, current_version_id)
-                     ELSE coalesce(current_version_id, draft_version_id) END AS version_id
-           FROM trips WHERE id = $1`,
-        [payload.trip_id],
-      );
+      const trip = await proposalPlanVersion(tx, payload.trip_id);
       await tx.query(
         `UPDATE proposals SET status = 'superseded' WHERE trip_id = $1 AND status <> 'superseded'`,
         [payload.trip_id],
@@ -115,7 +130,7 @@ export const createProposalCommand = defineCommand({
         [
           proposalId,
           payload.trip_id,
-          trip.rows[0]?.version_id ?? null,
+          trip?.version_id ?? null,
           ctx.uid,
           payload.config.format,
           payload.config.show_cost,
@@ -155,7 +170,7 @@ export const createProposalCommand = defineCommand({
           format: payload.config.format,
           recipients: people.length,
         },
-        crewId: trip.rows[0]?.crew_id ?? null,
+        crewId: trip?.crew_id ?? null,
         tripId: payload.trip_id,
       });
       return {

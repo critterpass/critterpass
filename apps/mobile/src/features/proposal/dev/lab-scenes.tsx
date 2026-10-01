@@ -6,6 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
 
+import { AloneView } from '../builder/alone-view';
 import { BuilderView, type BuilderViewProps } from '../builder/builder-view';
 import { DEFAULT_CONFIG } from '../builder/model';
 import { ReplyBySheet } from '../builder/reply-by-sheet';
@@ -160,12 +161,18 @@ const tracker = (locked: boolean) => (
 
 export const PROPOSAL_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   build: () => builder(),
-  'build-no-recipients': () =>
-    builder({
-      recipients: 0,
-      previews: [],
-      blocked: 'Invite someone to the crew first. There’s nobody to send it to yet.',
-    }),
+  'build-alone': () => (
+    <AloneView
+      guide="chava"
+      destination="Đà Nẵng"
+      dates="Oct 2–4"
+      offline={false}
+      locking={false}
+      onBack={noop}
+      onLock={noop}
+      onInvite={noop}
+    />
+  ),
   'build-reply-by': () => (
     <>
       {builder()}

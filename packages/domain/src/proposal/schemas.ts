@@ -78,6 +78,9 @@ export type CreateProposalPayload = z.infer<typeof createProposalPayloadSchema>;
 
 export const proposalIdPayloadSchema = z.object({ proposal_id: z.uuid() });
 
+/** `lock_in_plan`: the organiser locks the plan in with nobody to send it to. */
+export const lockInPlanPayloadSchema = z.object({ trip_id: z.uuid() });
+
 export const setRsvpPayloadSchema = z.object({
   proposal_id: z.uuid(),
   status: rsvpReplySchema,
