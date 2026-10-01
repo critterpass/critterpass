@@ -23,7 +23,7 @@ jest.mock('expo-router', () => ({
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { act, renderHook, screen } from '@testing-library/react-native';
+import { act, renderHook, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
 import { useMotionMode } from '@/motion';
@@ -99,7 +99,11 @@ describe('winner reveal', () => {
     expect(screen.getByText('WINS 2–1')).toBeTruthy();
     expect(screen.queryByTestId('reveal-lost')).toBeNull();
     await until(() => screen.queryByTestId('reveal-stamp') !== null);
-    expect(await queued(s, 'mark_reveal_seen')).toEqual([{ poll_id: POLL }]);
+    // The reveal files the command from a mount effect and the queue write is asynchronous: the
+    // stamp can draw before the row is written.
+    await waitFor(async () =>
+      expect(await queued(s, 'mark_reveal_seen')).toEqual([{ poll_id: POLL }]),
+    );
   });
 
   it('tells a crewmate whose pick lost who has the setup', async () => {
