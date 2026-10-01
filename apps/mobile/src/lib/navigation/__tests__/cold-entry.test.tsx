@@ -14,7 +14,9 @@ import { provideSessionGate, type SessionGateState } from '../gates';
 import {
   clearSavedNavigation,
   decideRestore,
+  focusedPath,
   isDeepLinkLaunch,
+  leftLaunchScreen,
   readSavedNavigation,
   RESTORE_WINDOW_MS,
   shouldRestore,
@@ -81,8 +83,21 @@ const ROUTES = {
   draft: named('draft'),
 };
 
-async function renderApp() {
-  const pending = renderRouter(ROUTES, { initialUrl: '/' });
+// The same app with Home inside a group, as the tabs are: the group's navigator mounts inside the
+// root's and fills in its own first screen while the launch settles.
+const GROUPED_ROUTES = {
+  _layout: Root,
+  '(tabs)/_layout': function Tabs() {
+    return <Stack screenOptions={{ headerShown: false }} />;
+  },
+  '(tabs)/index': named('home'),
+  when: named('when'),
+  budget: named('budget'),
+  draft: named('draft'),
+};
+
+async function renderApp(routes: typeof ROUTES | typeof GROUPED_ROUTES = ROUTES) {
+  const pending = renderRouter(routes, { initialUrl: '/' });
   const rendered = await pending;
   // Restore waits one frame for the navigator to mount; renderRouter runs on fake timers.
   await act(() => {
@@ -192,6 +207,24 @@ describe('navigation restore', () => {
     expect(second.getPathname()).toBe('/budget');
   });
 
+  it('restores when the launch itself settles on its first screen before the database opens', async () => {
+    const first = await renderApp(GROUPED_ROUTES);
+    await navigate(() => openWithBackStack('3c-9'));
+    await act(() => first.unmount());
+
+    sessionReadyAtLaunch = false;
+    const second = await renderApp(GROUPED_ROUTES);
+    expect(second.getPathname()).toBe('/');
+    expect(screen.getByText('home')).toBeTruthy();
+    await act(() => {
+      openSession();
+    });
+    await act(() => {
+      jest.runOnlyPendingTimers();
+    });
+    expect(second.getPathname()).toBe('/draft');
+  });
+
   it('leaves a person who moved on before the database opened where they went', async () => {
     const first = await renderApp();
     await navigate(() => openWithBackStack('3c-9'));
@@ -263,6 +296,27 @@ describe('restore rules', () => {
     expect(decideRestore({ ...moment, gate: 'onboarding' })).toBe('skip');
     // Nothing worth restoring is decided at once, without waiting for the database.
     expect(decideRestore({ ...moment, sessionReady: false, saved: undefined })).toBe('skip');
+  });
+
+  it('reads the focused screens from a state, mounted or not', () => {
+    const tabs = { index: 1, routes: [{ name: 'index' }, { name: 'wallet' }] };
+    expect(focusedPath({ index: 0, routes: [{ name: '(tabs)', state: tabs }] })).toEqual([
+      '(tabs)',
+      'wallet',
+    ]);
+    // Not yet taken up by its navigator: no index, the last route is the focused one.
+    expect(focusedPath({ routes: [{ name: '(tabs)' }, { name: 'crew' }] })).toEqual(['crew']);
+    expect(focusedPath(undefined)).toEqual([]);
+  });
+
+  it('tells a launch settling from a person moving', () => {
+    // Navigators mount one inside the other and fill in their own first screen.
+    expect(leftLaunchScreen(['(tabs)'], ['(tabs)', 'index'])).toBe(false);
+    expect(leftLaunchScreen(['(tabs)', 'index'], ['(tabs)', 'index'])).toBe(false);
+    expect(leftLaunchScreen([], ['(tabs)', 'index'])).toBe(false);
+    // Another tab, or a screen pushed over the tabs.
+    expect(leftLaunchScreen(['(tabs)', 'index'], ['(tabs)', 'wallet'])).toBe(true);
+    expect(leftLaunchScreen(['(tabs)', 'index'], ['crew'])).toBe(true);
   });
 
   it('tells deep links from plain launches', () => {

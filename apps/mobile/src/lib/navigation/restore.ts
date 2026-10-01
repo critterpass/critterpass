@@ -91,6 +91,38 @@ export function decideRestore(moment: RestoreMoment): 'wait' | 'restore' | 'skip
   return moment.sessionReady ? 'restore' : 'wait';
 }
 
+interface NavigationStateLike {
+  readonly index?: number;
+  readonly routes?: readonly { readonly name?: string; readonly state?: NavigationStateLike }[];
+}
+
+/** The names of the focused screens, outermost navigator first. */
+export function focusedPath(state: NavigationStateLike | undefined): string[] {
+  const path: string[] = [];
+  let current = state;
+  while (current?.routes !== undefined && current.routes.length > 0) {
+    // A state not yet taken up by its navigator has no index: its last route is the focused one.
+    const route = current.routes[current.index ?? current.routes.length - 1];
+    if (route?.name === undefined) break;
+    path.push(route.name);
+    current = route.state;
+  }
+  return path;
+}
+
+/**
+ * Whether the person has left the screen the app opened on. During a launch the navigators mount
+ * one inside the other, and each fills in its own first screen under the same names: that is the
+ * launch settling, not a move. A different screen at any level is one.
+ */
+export function leftLaunchScreen(launch: readonly string[], current: readonly string[]): boolean {
+  const shared = Math.min(launch.length, current.length);
+  for (let depth = 0; depth < shared; depth += 1) {
+    if (launch[depth] !== current[depth]) return true;
+  }
+  return false;
+}
+
 type RootRef = NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
 
 export interface NavigationPersistenceOptions {
@@ -119,16 +151,20 @@ export function useNavigationPersistence({
   // Nothing is saved until the restore decision is made, so the launch's own first state can't
   // overwrite the state being restored.
   const decided = useRef(false);
-  // The screen the launch opened on, and whether the person has left it since.
-  const launchRoute = useRef<string | undefined>(undefined);
+  // The screens the launch opened on, and whether the person has left them since.
+  const launchPath = useRef<readonly string[] | undefined>(undefined);
   const navigated = useRef(false);
 
   useEffect(() => {
     const decide = () => {
       if (decided.current || launchUrl === undefined || !navigationRef.isReady()) return;
-      const route = navigationRef.getCurrentRoute()?.key;
-      launchRoute.current ??= route;
-      if (route !== launchRoute.current) navigated.current = true;
+      const path = focusedPath(navigationRef.getRootState());
+      // The longest path seen so far is the launch screen: navigators add to it as they mount.
+      if (launchPath.current === undefined || !leftLaunchScreen(launchPath.current, path)) {
+        if (path.length >= (launchPath.current?.length ?? 0)) launchPath.current = path;
+      } else {
+        navigated.current = true;
+      }
       const saved = readSavedNavigation();
       const decision = decideRestore({
         gate,
