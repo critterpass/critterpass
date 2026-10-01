@@ -75,7 +75,13 @@ export {
   type CostMember,
   type ResolvedMember,
 } from './shares/per-origin';
-export { displayDelta, roundEach, roundedMean } from './display/round';
+export {
+  displayDelta,
+  ESTIMATE_CASH_STEP_MAJOR,
+  roundEach,
+  roundEstimate,
+  roundedMean,
+} from './display/round';
 export { inViewerCurrency } from './shares/fx';
 export {
   applyCostOps,
