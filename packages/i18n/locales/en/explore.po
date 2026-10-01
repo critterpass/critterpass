@@ -7,6 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: groups.unknown
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.unknown"
+msgstr "{0, plural, one {# more saved place shows once its destination has been opened on this phone.} other {# more saved places show once their destinations have been opened on this phone.}}"
+
+#. placeholder {0}: card.name
+#. placeholder {1}: card.guide.name
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.card"
+msgstr "{0}, with {1}"
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.picks.title"
@@ -17,6 +28,10 @@ msgstr "{0}'s first-timer picks"
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.unavailable"
 msgstr "{0}'s notes on {1} didn't load. They'll show up once this phone is back online."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedCount"
+msgstr "{count} saved"
 
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.body"
@@ -74,9 +89,21 @@ msgstr "{names} is keen on this."
 msgid "explore.panel.crewCount"
 msgstr "{others} of the crew"
 
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.ready"
+msgstr "{place} works offline"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readySize"
+msgstr "{place} works offline · {size} MB"
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.stopsFrom"
 msgstr "{transfers, plural, one {# stop from {origin}} other {# stops from {origin}}}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.newList"
+msgstr "+ New list"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.moreCount"
@@ -97,6 +124,10 @@ msgstr "♥ Saved"
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.steady"
 msgstr "A middling month for crowds."
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.listNew"
+msgstr "A new list"
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.planAdd"
@@ -126,6 +157,10 @@ msgstr "Added {name} from Explore"
 msgid "explore.add.offline"
 msgstr "Adding needs a connection"
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.all"
+msgstr "All"
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.chat"
@@ -142,6 +177,10 @@ msgstr "Beach"
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.best"
 msgstr "Best: {months}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.cancel"
+msgstr "Cancel"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.footnote"
@@ -163,6 +202,10 @@ msgstr "Closed on {day}. Pick another day for this one."
 msgid "explore.guide.sardiLine"
 msgstr "Come for the grilled sardines. Stay for the grilled sardines."
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.create"
+msgstr "Create list"
+
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.picks.crewPlans"
 msgstr "Crew plans ›"
@@ -175,10 +218,47 @@ msgstr "Crowds by month"
 msgid "explore.crowd.title"
 msgstr "Crowds on {day}"
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.deleteList"
+msgstr "Delete list"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.listDelete"
+msgstr "Deleting a list"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.destination"
+msgstr "Destination guide"
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.directFrom"
 msgstr "Direct from {origin}"
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.download"
+msgstr "Download for offline"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.downloading"
+msgstr "Downloading {place}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.edit"
+msgstr "Edit"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.title"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.explore"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 #: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 #: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
@@ -218,6 +298,10 @@ msgstr "Guest guide: {0}"
 msgid "explore.category.health"
 msgstr "Health"
 
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.back"
+msgstr "Home"
+
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.offlineLine"
 msgstr "I need a connection the first time. After that I'm here offline."
@@ -234,6 +318,10 @@ msgstr "In day {day}"
 msgid "explore.solo.title"
 msgstr "Just you, {placeName}"
 
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.loading"
+msgstr "Loading destinations"
+
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.loading"
 msgstr "Loading the guide"
@@ -242,6 +330,14 @@ msgstr "Loading the guide"
 msgid "explore.category.market"
 msgstr "Market"
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.move"
+msgstr "Move"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.move"
+msgstr "Moving a saved place"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.museum"
 msgstr "Museum"
@@ -249,6 +345,10 @@ msgstr "Museum"
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.mustDo"
 msgstr "Must-do · {mustDoOwner}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.newName"
+msgstr "Name the new list"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.nature"
@@ -296,9 +396,25 @@ msgstr "Not my island, but I've done my homework."
 msgid "explore.solo.cancel"
 msgstr "Not now"
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyList"
+msgstr "Nothing in this list yet"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedNone"
+msgstr "Nothing saved yet"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyTitle"
+msgstr "Nothing saved yet"
+
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.offline"
 msgstr "Offers need a connection."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.offlineBadge"
+msgstr "Offline ready"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.busy"
@@ -328,13 +444,33 @@ msgstr "Pitching needs a crew. Start one from Home, or take this one solo."
 msgid "explore.category.other"
 msgstr "Place"
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.remove"
+msgstr "Remove"
+
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.unsave"
 msgstr "Remove from saved"
 
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.remove"
+msgstr "Remove from this phone"
+
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.unsave"
 msgstr "Removing a saved place"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.rename"
+msgstr "Rename"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.renameList"
+msgstr "Rename list"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.renameName"
+msgstr "Rename this list"
 
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.save"
@@ -344,9 +480,33 @@ msgstr "Save for a trip"
 msgid "explore.place.save"
 msgstr "Save this place"
 
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedBadge"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.defaultList"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.title"
+msgstr "Saved"
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.saved"
 msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.saved"
+msgstr "Saved places"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.offer"
+msgstr "Search and the map work offline once {place} is on this phone."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.search"
+msgstr "Search any city or country"
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.open"
@@ -400,6 +560,10 @@ msgstr "Suggest for day {day} · {time}"
 msgid "explore.add.suggested"
 msgstr "Suggested for day {day}"
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyLine"
+msgstr "Tap the heart on a place or a destination and it lands here."
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
 msgstr "Temple"
@@ -419,6 +583,18 @@ msgstr "That place isn't in the guide"
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.proposedBody"
 msgstr "The crew gets to okay it."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.empty"
+msgstr "The destinations haven't reached this phone yet. They load once it's online."
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.failed"
+msgstr "The download didn't finish. Check your connection and try again."
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readyBody"
+msgstr "The map and search are on this phone."
 
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.refusedBody"
@@ -440,6 +616,10 @@ msgstr "Tickets and tours"
 msgid "explore.category.transit"
 msgstr "Transit"
 
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.retry"
+msgstr "Try again"
+
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.line"
 msgstr "Try the search. I cover most places."
@@ -457,6 +637,10 @@ msgstr "What {0} knows so far"
 msgid "explore.months.title"
 msgstr "When to go"
 
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.guides"
+msgstr "Where the guides live"
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.pitch.whichCrew"
 msgstr "Which crew gets the pitch?"
@@ -464,6 +648,10 @@ msgstr "Which crew gets the pitch?"
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.you"
 msgstr "You"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.nameTaken"
+msgstr "You already have a list with that name."
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.offline"

@@ -160,3 +160,22 @@ export function useOpOutcome(opId: string | null): OpOutcome | null {
   if (row.code !== null) return { kind: 'rejected', code: row.code };
   return row.queued > 0 ? { kind: 'pending' } : { kind: 'applied' };
 }
+
+export interface GuideDestination {
+  readonly id: string;
+  readonly slug: string;
+  readonly name: string;
+  readonly guide_slug: string | null;
+}
+
+const GUIDE_DESTINATIONS_SQL = `SELECT d.id, d.slug, d.name, s.guide_slug FROM critter_sets s
+    JOIN destinations d ON d.id = s.destination_id WHERE s.guide_slug IS NOT NULL`;
+const GUIDE_DESTINATIONS_TABLES = ['critter_sets', 'destinations'];
+
+/** Every destination with a guide of its own, from the synced catalogue. */
+export function useGuideDestinations(): {
+  readonly rows: readonly GuideDestination[];
+  readonly loaded: boolean;
+} {
+  return useLiveRows<GuideDestination>(GUIDE_DESTINATIONS_SQL, [], GUIDE_DESTINATIONS_TABLES);
+}

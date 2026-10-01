@@ -24,6 +24,9 @@ function defined(params: Readonly<Record<string, string | undefined>>): Record<s
 }
 
 export const exploreRoutes = {
+  /** Explore's front page: every destination, search and the way to saved places. */
+  home: (): Href => '/explore',
+  saved: (): Href => '/explore/saved',
   /** A destination's guide page, by id or slug. */
   destination: (destination: string, params: DestinationParams = {}): Href => ({
     pathname: '/explore/[destination]',
@@ -43,6 +46,8 @@ export const exploreRoutes = {
   tripSetup: (tripId: string): Href | undefined => hrefFor('3c-3', { tripId }),
   crewPlans: (placeId: string): Href | undefined => hrefFor('3o-1', { placeId }),
   profile: (): Href | undefined => hrefFor('3n-1'),
+  /** The search for any place (the vote area's sheet). */
+  search: (): Href | undefined => hrefFor('3b-7'),
   plan: (tripId: string): Href | undefined => hrefFor('3e-1', { tripId }),
   /** Partner offers for an activity, in the partners' own words (the suppliers area's screen). */
   offers: (params: {
@@ -61,6 +66,9 @@ export const exploreRoutes = {
 };
 
 registerScreens({
+  // Explore's front page and the saved hub have no design render: other areas open them by name.
+  'explore-home': () => exploreRoutes.home(),
+  'explore-saved': () => exploreRoutes.saved(),
   '3d-1': (params) =>
     exploreRoutes.destination(params['placeId'] ?? '', {
       tripId: params['tripId'],

@@ -1,0 +1,70 @@
+appId: app.critterpass.dev
+---
+# Explore's front page (a traveller with saves and offline packs, a fresh account, loading) and the
+# saved hub (lists, empty, edit mode, a taken list name, each offline pack state), prefixed
+# `${PREFIX}`. Neither screen has a design render, so the shots carry no design id.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: explore-home, READY: explore-home-saved, SHOT: '${PREFIX}-explore-home' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: explore-home-fresh,
+        READY: explore-home-saved,
+        SHOT: '${PREFIX}-explore-home-fresh-account',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: explore-home-loading,
+        READY: explore-home-loading,
+        SHOT: '${PREFIX}-explore-home-loading',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: saved, READY: explore-saved-group, SHOT: '${PREFIX}-explore-saved' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: saved-empty, READY: explore-saved-empty, SHOT: '${PREFIX}-explore-saved-empty' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: saved-editing,
+        READY: explore-saved-move-to,
+        SHOT: '${PREFIX}-explore-saved-editing',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: saved-list,
+        READY: explore-saved-editor,
+        SHOT: '${PREFIX}-explore-saved-rename-taken',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: saved-pack-downloading,
+        READY: explore-pack-downloading,
+        SHOT: '${PREFIX}-explore-saved-pack-downloading',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: saved-pack-downloaded,
+        READY: explore-pack-downloaded,
+        SHOT: '${PREFIX}-explore-saved-pack-downloaded',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: saved-pack-failed,
+        READY: explore-pack-failed,
+        SHOT: '${PREFIX}-explore-saved-pack-failed',
+      }

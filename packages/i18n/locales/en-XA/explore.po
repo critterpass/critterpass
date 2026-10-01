@@ -7,6 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-XA\n"
 
+#. placeholder {0}: groups.unknown
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.unknown"
+msgstr ""
+
+#. placeholder {0}: card.name
+#. placeholder {1}: card.guide.name
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.card"
+msgstr ""
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.picks.title"
@@ -16,6 +27,10 @@ msgstr ""
 #. placeholder {1}: hero.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
@@ -74,8 +89,20 @@ msgstr ""
 msgid "explore.panel.crewCount"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.ready"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readySize"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.stopsFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.newList"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
@@ -96,6 +123,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.steady"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.listNew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/commands.ts
@@ -126,6 +157,10 @@ msgstr ""
 msgid "explore.add.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.all"
+msgstr ""
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.chat"
@@ -141,6 +176,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.best"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.cancel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
@@ -163,6 +202,10 @@ msgstr ""
 msgid "explore.guide.sardiLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.create"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.picks.crewPlans"
 msgstr ""
@@ -175,10 +218,47 @@ msgstr ""
 msgid "explore.crowd.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.deleteList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.listDelete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.destination"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.directFrom"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.download"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.downloading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.explore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 #: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 #: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
@@ -218,6 +298,10 @@ msgstr ""
 msgid "explore.category.health"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.offlineLine"
 msgstr ""
@@ -234,6 +318,10 @@ msgstr ""
 msgid "explore.solo.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.loading"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.dest.loading"
 msgstr ""
@@ -242,12 +330,24 @@ msgstr ""
 msgid "explore.category.market"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.move"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.museum"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.newName"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -296,8 +396,24 @@ msgstr ""
 msgid "explore.solo.cancel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.offlineBadge"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
@@ -328,12 +444,32 @@ msgstr ""
 msgid "explore.category.other"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.remove"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.unsave"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.remove"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.unsave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.rename"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.renameList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.renameName"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
@@ -344,8 +480,32 @@ msgstr ""
 msgid "explore.place.save"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedBadge"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.defaultList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.offer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.search"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
@@ -400,6 +560,10 @@ msgstr ""
 msgid "explore.add.suggested"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
 msgstr ""
@@ -418,6 +582,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.proposedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readyBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
@@ -440,6 +616,10 @@ msgstr ""
 msgid "explore.category.transit"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.retry"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.line"
 msgstr ""
@@ -457,12 +637,20 @@ msgstr ""
 msgid "explore.months.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.guides"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.pitch.whichCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.nameTaken"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx

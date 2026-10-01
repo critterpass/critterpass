@@ -47,3 +47,30 @@ export const sendChangesetCommand = defineClientCommand<{ changeset_id: string }
   name: 'send_changeset',
   offline: true,
 });
+
+export const createSavedListCommand = defineClientCommand<{ list_id: string; name: string }>({
+  name: 'create_saved_list',
+  offline: true,
+  summarize: () => msg({ id: 'explore.queued.listNew', message: 'A new list' }),
+});
+
+/** Online only: a name the viewer already uses is refused, and the screen says so. */
+export const renameSavedListCommand = defineClientCommand<{ list_id: string; name: string }>({
+  name: 'rename_saved_list',
+  offline: false,
+});
+
+export const deleteSavedListCommand = defineClientCommand<{ list_id: string }>({
+  name: 'delete_saved_list',
+  offline: true,
+  summarize: () => msg({ id: 'explore.queued.listDelete', message: 'Deleting a list' }),
+});
+
+export const moveSavedItemCommand = defineClientCommand<{
+  item_id: string;
+  list_name: string | null;
+}>({
+  name: 'move_saved_item',
+  offline: true,
+  summarize: () => msg({ id: 'explore.queued.move', message: 'Moving a saved place' }),
+});

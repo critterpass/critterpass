@@ -5,8 +5,8 @@ appId: app.critterpass.dev
 # Home's first-run grid and lands on that guide's destination page, read from staging. The page
 # shows the guide's picks and, where the destination has a month curve, a tapped month answers
 # with prices, a "no fares" line or the ask for a home airport (never a blank panel), SAVE flips
-# to saved, PITCH says a pitch needs a crew, and SOLO
-# TRIP asks before it starts anything.
+# to saved, PITCH says a pitch needs a crew, SOLO TRIP asks before it starts anything, a pick opens
+# its place page, and Explore's front page and the saved hub show what was saved.
 - runFlow:
     file: ../screens/sweep/subflows/start.yaml
     env:
@@ -124,4 +124,32 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'home-guide-pon'
+    timeout: 15000
+# Explore's front page lists the guides' destinations (Kyoto now marked saved), and the saved hub
+# holds the destination and the place saved above.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://explore
+- extendedWaitUntil:
+    visible:
+      id: 'explore-home-kyoto'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: vi-explore-home-fresh-account-real
+- tapOn:
+    id: 'explore-home-saved'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-saved-group'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: vi-explore-saved-fresh-account-real
+- tapOn:
+    id: 'explore-back'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-home-kyoto'
     timeout: 15000
