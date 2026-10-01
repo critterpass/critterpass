@@ -2,7 +2,6 @@
  * The version's picks (3f-3): colour cards that slide in one by one, each with its stop, its day
  * and time, and the reason tag stamped on the right. Tapping one opens why it's there.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- item categories and icon names, never copy. */
 import { t } from '@lingui/core/macro';
 import { Pressable, View } from 'react-native';
 import Animated, { FadeInRight } from 'react-native-reanimated';
@@ -59,6 +58,7 @@ export function kindIcon(category: string | null): DoodleName {
     case 'activity':
     case 'tour':
       return 'ticket';
+    case null:
     default:
       return 'pin';
   }
