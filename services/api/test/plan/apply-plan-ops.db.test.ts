@@ -4,6 +4,8 @@
  * booked day never moves; and two edits racing on one base version end with exactly one version
  * and one `PLAN_VERSION_CONFLICT` naming it.
  */
+import { withSystem } from '@cp/db';
+import { guideText, guideTextSourceHash } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerPlanCommands } from '../../src/commands/plan';
@@ -137,5 +139,51 @@ describe('apply_plan_ops', () => {
       latest: winner.version_id,
     });
     expect(await current()).toBe(winner.version_id);
+  });
+
+  it("keeps the guide's translations with their text through an organiser's edit", async () => {
+    const base = await current();
+    const note = 'Quiet rooms first: the crowds come at 11:00.';
+    const noteVi = 'Vào các phòng yên tĩnh trước: 11:00 mới đông.';
+    await withSystem(harness.pool, async (tx) => {
+      await tx.query(
+        `UPDATE plan_items SET notes = $3, created_by_kind = 'guide', i18n = $4
+          WHERE version_id = $1 AND stable_id = $2`,
+        [
+          base,
+          plan.museum,
+          note,
+          { _src: guideTextSourceHash('plan_item', { notes: note }), vi: { notes: noteVi } },
+        ],
+      );
+      await tx.query('UPDATE plan_days SET i18n = $2 WHERE version_id = $1 AND day_no = 3', [
+        base,
+        { _src: guideTextSourceHash('plan_day', { theme: 'Day 3' }), vi: { theme: 'Ngày 3' } },
+      ]);
+    });
+
+    // Days 1 and 3 swap (day 2 holds the booking): each theme takes its translations along.
+    const reordered = await harness.run(crew.organiser, 'apply_plan_ops', {
+      trip_id: crew.tripId,
+      base_version: base,
+      ops: [{ op: 'reorder_days', new: { order: [3, 2, 1] } }],
+    });
+    expect(reordered.status).toBe(200);
+    const next = await current();
+    expect(next).not.toBe(base);
+    const days = await harness.pool.query<{ theme: string; i18n: unknown }>(
+      'SELECT theme, i18n FROM plan_days WHERE version_id = $1 ORDER BY day_no',
+      [next],
+    );
+    expect(
+      days.rows.map((row) => guideText('plan_day', { theme: row.theme }, row.i18n, 'theme', 'vi')),
+    ).toEqual(['Ngày 3', 'Day 2', 'Day 1']);
+    const item = await harness.pool.query<{ notes: string; i18n: unknown }>(
+      'SELECT notes, i18n FROM plan_items WHERE version_id = $1 AND stable_id = $2',
+      [next, plan.museum],
+    );
+    expect(
+      item.rows.map((row) => guideText('plan_item', { notes: row.notes }, row.i18n, 'notes', 'vi')),
+    ).toEqual([noteVi]);
   });
 });

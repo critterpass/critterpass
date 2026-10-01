@@ -188,8 +188,11 @@ export async function commitPlanVersion(tx: pg.PoolClient, input: CommitInput): 
       baseVersionId,
     ]);
     await tx.query(
-      `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref)
-       SELECT $1, $2, d.day_no, d.date::date, d.theme, old.weather_ref
+      // A day's translations follow its theme (a reorder moves themes between day numbers).
+      `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref, i18n)
+       SELECT $1, $2, d.day_no, d.date::date, d.theme, old.weather_ref,
+              (SELECT t.i18n FROM plan_days t
+                WHERE t.version_id = $4 AND t.theme = d.theme AND t.i18n IS NOT NULL LIMIT 1)
          FROM jsonb_to_recordset($3::jsonb) AS d(day_no int, date text, theme text)
          LEFT JOIN plan_days old ON old.version_id = $4 AND old.day_no = d.day_no`,
       [id, head.tripId, JSON.stringify(next.days), baseVersionId],
@@ -198,12 +201,14 @@ export async function commitPlanVersion(tx: pg.PoolClient, input: CommitInput): 
       `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, lane,
          attendee_ids, poi_id, provider_id, booking_id, must_do_id, category, cost_model,
          amount_minor, currency, status, flexibility, is_outdoor, created_by_kind, notes,
-         locked_reason)
+         locked_reason, i18n)
        SELECT $1, d.id, $2, r.stable_id, r.starts_at, r.ends_at, r.tz, r.lane, r.attendee_ids,
               r.poi_id, r.provider_id, r.booking_id, r.must_do_id, r.category, r.cost_model,
               r.amount_minor, r.currency, coalesce(r.status, 'proposed'), r.flexibility,
               coalesce(r.is_outdoor, false), coalesce(r.created_by_kind, 'user'), r.notes,
-              r.locked_reason
+              r.locked_reason,
+              (SELECT old.i18n FROM plan_items old
+                WHERE old.version_id = $4 AND old.stable_id = r.stable_id LIMIT 1)
          FROM jsonb_to_recordset($3::jsonb) AS r(stable_id uuid, day_no int, starts_at timestamptz,
                 ends_at timestamptz, tz text, lane text, attendee_ids uuid[], poi_id uuid,
                 provider_id uuid, booking_id uuid, must_do_id uuid, category text,
@@ -211,7 +216,7 @@ export async function commitPlanVersion(tx: pg.PoolClient, input: CommitInput): 
                 flexibility text, is_outdoor boolean, created_by_kind text, notes text,
                 locked_reason text)
          JOIN plan_days d ON d.version_id = $1 AND d.day_no = r.day_no`,
-      [id, head.tripId, JSON.stringify(next.items)],
+      [id, head.tripId, JSON.stringify(next.items), baseVersionId],
     );
     await tx.query('UPDATE trips SET current_version_id = $2 WHERE id = $1', [head.tripId, id]);
     return id;
