@@ -11,6 +11,7 @@ import {
   type LeaveByPickup,
   type ReadinessState,
 } from '@cp/domain';
+import { FLIGHT_ARRIVE_EARLY_MIN } from '@cp/planner';
 
 /** The leave-by window: the ring drains over the last half hour. */
 export const LEAVE_BY_WINDOW_MS = 30 * 60 * 1000;
@@ -49,6 +50,16 @@ export interface CrewMember {
   readonly joinIndex: number;
 }
 
+/**
+ * What the leave-by asks of the traveller. With travel worked out it is when to leave. With no
+ * travel leg (no known place to leave from, as on the trip's first morning) the stored time only
+ * takes the buffer off, so it is a deadline to be there: at the pickup, at the item's start, or at
+ * the airport two hours before a flight. Every surface that prints the time reads this field.
+ */
+export type LeaveByDeadline =
+  | { readonly kind: 'leave_by'; readonly at: Date }
+  | { readonly kind: 'be_there_by'; readonly at: Date; readonly airport: boolean };
+
 export type LeaveByPhase = 'before' | 'window' | 'transit' | 'overdue';
 
 export interface ReadinessPerson extends CrewMember {
@@ -65,6 +76,8 @@ export interface LeaveByView {
   readonly tz: string;
   readonly startsAt: Date;
   readonly leaveAt: Date;
+  /** What to print as the deadline: "Leave by 03:10", or "Be at the airport by 05:05". */
+  readonly deadline: LeaveByDeadline;
   /** When the alarm rings for anyone still asleep (leave-by minus the lead). */
   readonly alarmAt: Date;
   readonly pickup: { readonly at: Date; readonly place: string | null } | null;
@@ -137,6 +150,32 @@ function withoutTraffic(row: LeaveByRow): boolean {
   );
 }
 
+/** The first leg says no travel was worked out (`kind: 'none'`). */
+function withoutTravel(row: LeaveByRow): boolean {
+  const legs = parseJson<unknown>(row.legs, []);
+  const first: unknown = Array.isArray(legs) ? legs[0] : undefined;
+  return (
+    typeof first === 'object' && first !== null && (first as { kind?: unknown }).kind === 'none'
+  );
+}
+
+const MINUTE_MS = 60_000;
+
+export function deadlineOf(row: LeaveByRow): LeaveByDeadline {
+  const leaveAt = new Date(row.leave_at);
+  if (!withoutTravel(row)) return { kind: 'leave_by', at: leaveAt };
+  const startsAt = new Date(row.starts_at);
+  const pickup = pickupOf(row);
+  if (pickup !== null) return { kind: 'be_there_by', at: pickup.at, airport: false };
+  // The stored time is the target less the buffer, floored to five minutes: a target two hours or
+  // more before the start is a flight's check-in.
+  const target = leaveAt.getTime() + (row.buffer_min ?? 0) * MINUTE_MS;
+  const checkIn = startsAt.getTime() - FLIGHT_ARRIVE_EARLY_MIN * MINUTE_MS;
+  return target <= checkIn
+    ? { kind: 'be_there_by', at: new Date(checkIn), airport: true }
+    : { kind: 'be_there_by', at: startsAt, airport: false };
+}
+
 function pickupOf(row: LeaveByRow): LeaveByView['pickup'] {
   const pickup = parseJson<Partial<LeaveByPickup> | null>(row.pickup, null);
   const at = pickup?.at ?? row.pickup_at;
@@ -203,6 +242,7 @@ export function buildLeaveBy(input: LeaveByInput): LeaveByView {
     tz: row.tz,
     startsAt: new Date(row.starts_at),
     leaveAt,
+    deadline: deadlineOf(row),
     alarmAt,
     pickup: pickupOf(row),
     guideNote: row.guide_note,

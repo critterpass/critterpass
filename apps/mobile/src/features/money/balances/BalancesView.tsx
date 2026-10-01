@@ -32,7 +32,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { ExpenseListRow } from '../components/ExpenseListRow';
 import type { ExpenseItem } from '../data/expense-items';
-import { formatSigned, formatWhole, heroParts } from '../format';
+import { formatSigned, formatWhole, heroParts, heroVariant } from '../format';
 import type { BalanceLine, HeroKind } from './model';
 
 const useStyles = makeStyles((t) => ({
@@ -95,7 +95,10 @@ function Hero({ kind, amountMinor, currency, solo = false }: HeroProps) {
       <Text variant="eyebrow">{upper(eyebrow, locale)}</Text>
       <Row style={styles.heroRow}>
         <Odometer
+          // The odometer measures its line once: a new size starts a new one.
+          key={heroVariant(parts)}
           value={parts.whole}
+          variant={heroVariant(parts)}
           prefix={parts.prefix}
           suffix={parts.suffix}
           color={color}
