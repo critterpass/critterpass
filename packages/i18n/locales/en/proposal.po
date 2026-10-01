@@ -210,12 +210,12 @@ msgstr "Booked · no free cancellation"
 msgid "proposal.tracker.cantMake"
 msgstr "Can’t make it"
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.alone.failedSub"
-msgstr "Check your connection and try again."
-
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failedSub"
+msgstr "Check your connection and try again."
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failedSub"
 msgstr "Check your connection and try again."
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -226,12 +226,12 @@ msgstr "Confirmed"
 msgid "proposal.build.failed"
 msgstr "Couldn’t build the proposal"
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.alone.failed"
-msgstr "Couldn’t lock it in"
-
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failed"
+msgstr "Couldn’t lock it in"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failed"
 msgstr "Couldn’t lock it in"
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
@@ -399,12 +399,12 @@ msgstr "Loading the proposal"
 msgid "proposal.loading"
 msgstr "Loading the proposal"
 
-#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-msgid "proposal.alone.lock"
-msgstr "Lock it in"
-
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.cta"
+msgstr "Lock it in"
+
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.lock"
 msgstr "Lock it in"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx

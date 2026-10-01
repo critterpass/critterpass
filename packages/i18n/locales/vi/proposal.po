@@ -210,13 +210,13 @@ msgstr "Đã đặt · không hủy miễn phí"
 msgid "proposal.tracker.cantMake"
 msgstr "Không đi được"
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.alone.failedSub"
-msgstr "Kiểm tra kết nối rồi thử lại."
-
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failedSub"
 msgstr "Kiểm tra kết nối rồi thử lại nhé."
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failedSub"
+msgstr "Kiểm tra kết nối rồi thử lại."
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.confirmed"
@@ -226,12 +226,12 @@ msgstr "Đã xác nhận"
 msgid "proposal.build.failed"
 msgstr "Chưa lập được đề xuất"
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.alone.failed"
-msgstr "Chưa chốt được"
-
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failed"
+msgstr "Chưa chốt được"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failed"
 msgstr "Chưa chốt được"
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
@@ -399,13 +399,13 @@ msgstr "Đang tải đề xuất"
 msgid "proposal.loading"
 msgstr "Đang tải đề xuất"
 
-#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-msgid "proposal.alone.lock"
-msgstr "Chốt kế hoạch"
-
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.cta"
 msgstr "Chốt luôn"
+
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.lock"
+msgstr "Chốt kế hoạch"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.title"

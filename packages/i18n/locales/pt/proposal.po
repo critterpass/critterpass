@@ -210,12 +210,12 @@ msgstr ""
 msgid "proposal.tracker.cantMake"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.alone.failedSub"
-msgstr ""
-
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failedSub"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failedSub"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -226,12 +226,12 @@ msgstr ""
 msgid "proposal.build.failed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.alone.failed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
@@ -399,12 +399,12 @@ msgstr ""
 msgid "proposal.loading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
-msgid "proposal.alone.lock"
-msgstr ""
-
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.cta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.lock"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
