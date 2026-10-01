@@ -1,0 +1,46 @@
+appId: app.critterpass.dev
+---
+# A friend who has just installed the app taps the invite link, with the app not running: the app
+# starts on the invite ticket (3a-10), not on the splash. The organiser (a new account, no demo
+# world) starts a crew and keeps its code; then the phone becomes a fresh install, the app is
+# stopped, and the link opens it. A second look opens the same link over the running splash.
+- runFlow:
+    file: ../happy/subflows/crew-with-code.yaml
+    env:
+      CREW: 'Link Crew'
+# The friend's phone: nothing of the organiser's account left on it.
+- runFlow: ../happy/subflows/fresh-install.yaml
+- retry:
+    maxRetries: 2
+    commands:
+      - stopApp
+      - openLink: critterpass-dev://i/${output.crewCode}
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-take-seat'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: invites-3a-10-ticket-cold-start
+# The same link over the running app, from the splash.
+- runFlow: ../happy/subflows/fresh-install.yaml
+# The simulator's openurl can time out before the app is involved: the link is opened again then.
+- retry:
+    maxRetries: 2
+    commands:
+      - openLink: critterpass-dev://i/${output.crewCode}
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-take-seat'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: invites-3a-10-ticket-over-splash
