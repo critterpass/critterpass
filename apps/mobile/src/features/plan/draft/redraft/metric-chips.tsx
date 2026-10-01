@@ -8,7 +8,7 @@ import { View } from 'react-native';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme, type Theme } from '@/ui/theme';
 
-import { wholeMoney } from '../data/format';
+import { estimateMoney } from '../data/format';
 import type { MetricChip } from '../data/redraft';
 
 const useStyles = makeStyles((th) => ({
@@ -49,7 +49,9 @@ function words(chip: MetricChip, locale: string): string {
         : t({ id: 'planDraft.metric.someKept', message: `${kept} of ${total} must-dos kept` });
     }
     case 'cost': {
-      const amount = wholeMoney(locale, Math.abs(chip.deltaMinor), chip.currency);
+      // The change is all the server sends (no before and after), so it is rounded as an estimate
+      // itself rather than taken between two rounded figures.
+      const amount = estimateMoney(locale, Math.abs(chip.deltaMinor), chip.currency);
       return chip.deltaMinor < 0
         ? t({ id: 'planDraft.metric.cheaper', message: `${amount} less each` })
         : t({ id: 'planDraft.metric.dearer', message: `${amount} more each` });
