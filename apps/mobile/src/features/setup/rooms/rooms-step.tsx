@@ -98,6 +98,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
     isSolo: trip.isSolo,
     datesLocked: trip.startDate !== null,
     roomCount: plan?.stays[0]?.rooms.length ?? 0,
+    stayCount: data.stays.length,
     mustDoCount: 0,
   };
   const model: RoomsModel = {

@@ -92,9 +92,10 @@ export function BudgetView(props: BudgetViewProps) {
   const { shell, trip, band, track, currency, lock } = props;
   const styles = useStyles();
   const theme = useTheme();
-  const [picked, setTarget] = useState(props.initialTarget);
-  // The knob always sits on the track it is shown on, also when the track's step changes under it.
-  const target = track === null ? 0 : snap(picked, track);
+  // Until the organiser moves the knob it follows the suggested start, which moves as prices and
+  // the step arrive; after that it is theirs. Either way it sits on the track it is shown on.
+  const [picked, setTarget] = useState<number | null>(null);
+  const target = track === null ? 0 : snap(picked ?? props.initialTarget, track);
   const shake = useShake(lock.kind === 'over_band' ? lock.attempt : 0);
   const over = isOverBand(band, target);
   const barsState: BarsState = useMemo(() => {

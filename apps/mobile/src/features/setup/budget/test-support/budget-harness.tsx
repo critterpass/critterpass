@@ -91,6 +91,10 @@ export async function seedBudget(
       'USD',
     ]);
     await db.execute(
+      "INSERT INTO crew_members (id, crew_id, user_id, status) VALUES (?, 'crew-1', ?, 'active')",
+      [`cm-${uid}`, uid],
+    );
+    await db.execute(
       `INSERT INTO trip_participants (id, trip_id, user_id, role, rsvp) VALUES (?, ?, ?, 'member', 'in')`,
       [`tp-${uid}`, TRIP_ID, uid],
     );

@@ -29,7 +29,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { SyncTransport } from '@/data/powersync/transport';
 
-import { ALEX, DEV, JORDAN, MAYA, RIN, WINSTON } from '../../scenes/fixtures';
+import { ALEX, DEV, JORDAN, MAYA, RIN, TRIP_ID, WINSTON } from '../../scenes/fixtures';
 import { apiReads, K_ANON, renderBudget, seedBudget } from '../test-support/budget-harness';
 
 let stack: TestLocalFirst | null = null;
@@ -239,6 +239,37 @@ describe('organiser of a crew settling in dong', () => {
     const line = await screen.findByTestId('budget-lock-line');
     expect(line.props.children).toBe('That didn’t lock. Try again.');
     expect(targets).toHaveLength(2);
+  });
+});
+
+describe('the knob before the organiser touches it', () => {
+  it('follows the suggested start when prices arrive after the step is on screen', async () => {
+    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
+    await seedBudget(stack, {
+      people: SIX.slice(4),
+      aggregate: { currency: 'USD', maxes_count: 0, member_count: 2 },
+    });
+    await stack.db.execute(
+      "UPDATE trips SET start_date = '2027-04-02', end_date = '2027-04-04' WHERE id = ?",
+      [TRIP_ID],
+    );
+    await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
+    // Nothing priced yet: a third along the sixty-step track.
+    const track = await screen.findByTestId('budget-track');
+    expect(track.props.accessibilityValue).toEqual({ text: '$1,000' });
+    // The destination's cost index syncs: 2 nights at $40 + 3 days at $45 = $215 at the least,
+    // so the track runs $200 to $500 and the start is a third along it, not pinned to its end.
+    await stack.db.execute("UPDATE trips SET destination_id = 'dest-1' WHERE id = ?", [TRIP_ID]);
+    await stack.db.execute(
+      `INSERT INTO destination_cost_indices (id, destination_id, stay_type, nightly_minor_low,
+         nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, reviewed_at)
+       VALUES ('ci-1', 'dest-1', 'hotel', 4000, 6000, 3000, 1500, 'USD', '2027-01-01')`,
+    );
+    await waitFor(() =>
+      expect(screen.getByTestId('budget-track').props.accessibilityValue).toEqual({
+        text: '$300',
+      }),
+    );
   });
 });
 
