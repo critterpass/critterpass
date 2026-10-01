@@ -1,6 +1,7 @@
 /**
  * The live camera is only ever a preview, and anything short of a working camera leaves the
- * illustration: no native module, a refused permission, or a camera error. The camera module is
+ * illustration: a build without the camera's native side (where the package is never loaded), a
+ * refused permission, or a camera error. The camera module is
  * a native boundary Jest can't run, so it is stood in for per case.
  */
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
@@ -9,7 +10,14 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { act, render, screen } from '@testing-library/react-native';
 import { View } from 'react-native';
 
-import { LiveCamera, resetVisionCameraForTests } from '../live-camera';
+import { CAMERA_HYBRID_OBJECTS, LiveCamera, resetVisionCameraForTests } from '../live-camera';
+
+/** The native registry as a build reports it: the given hybrid objects are registered. */
+function nativeRegistry(names: readonly string[]) {
+  jest.doMock('react-native-nitro-modules', () => ({
+    NitroModules: { hasHybridObject: (name: string) => names.includes(name) },
+  }));
+}
 
 interface CameraProps {
   readonly isActive: boolean;
@@ -40,18 +48,25 @@ beforeEach(() => {
 
 afterEach(() => {
   jest.dontMock('react-native-vision-camera');
+  jest.dontMock('react-native-nitro-modules');
 });
 
 describe('live camera', () => {
-  it('shows nothing in a build without the camera module', async () => {
+  it('never loads the camera package in a build without its native side', async () => {
+    // Loading it there throws while the module loads, which Metro reports as fatal.
+    const loaded = jest.fn();
     jest.doMock('react-native-vision-camera', () => {
-      throw new Error('native module missing');
+      loaded();
+      return standIn({ hasPermission: true, canRequestPermission: false });
     });
+    nativeRegistry(['MMKVFactory', 'ImageFactory']);
     await render(<LiveCamera />);
     expect(screen.toJSON()).toBeNull();
+    expect(loaded).not.toHaveBeenCalled();
   });
 
   it('asks in context, and shows nothing while the permission is refused', async () => {
+    nativeRegistry(CAMERA_HYBRID_OBJECTS);
     jest.doMock('react-native-vision-camera', () =>
       standIn({ hasPermission: false, canRequestPermission: true }),
     );
@@ -61,6 +76,7 @@ describe('live camera', () => {
   });
 
   it('runs a preview with no outputs, and falls back on a camera error', async () => {
+    nativeRegistry(CAMERA_HYBRID_OBJECTS);
     jest.doMock('react-native-vision-camera', () =>
       standIn({ hasPermission: true, canRequestPermission: false }),
     );

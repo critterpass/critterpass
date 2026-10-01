@@ -10,6 +10,7 @@
 import { useIsFocused } from 'expo-router';
 import { Component, useCallback, useEffect, useState, type ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
+import type * as NitroModulesModule from 'react-native-nitro-modules';
 import type * as VisionCameraModule from 'react-native-vision-camera';
 
 import { useInFront } from '../data/app-front';
@@ -18,9 +19,35 @@ type VisionCamera = typeof VisionCameraModule;
 
 let loaded: VisionCamera | null | undefined;
 
+/**
+ * Native objects the camera package creates as it loads (its own and NitroImage's). Metro reports
+ * an error thrown while a module loads as fatal, around any try/catch, so the package is only
+ * required once the native side says every one of them is registered.
+ */
+export const CAMERA_HYBRID_OBJECTS = [
+  'CameraFactory',
+  'FrameConverter',
+  'ImageFactory',
+  'ImageLoaderFactory',
+  'ImageUtils',
+] as const;
+
+function nativeCameraPresent(): boolean {
+  try {
+    const { NitroModules } = require('react-native-nitro-modules') as typeof NitroModulesModule;
+    return CAMERA_HYBRID_OBJECTS.every((name) => NitroModules.hasHybridObject(name));
+  } catch {
+    return false;
+  }
+}
+
 /** The camera module, or null when this build has no camera (or it fails to start). */
 export function visionCamera(): VisionCamera | null {
   if (loaded !== undefined) return loaded;
+  if (!nativeCameraPresent()) {
+    loaded = null;
+    return loaded;
+  }
   try {
     loaded = require('react-native-vision-camera') as VisionCamera;
   } catch {
