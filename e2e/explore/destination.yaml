@@ -2,15 +2,7 @@ appId: app.critterpass.dev
 ---
 # The destination guide's screenshots in English, from the Explore lab's scenes (fixtures; the
 # fresh-account flow beside this one covers the real page on staging).
-- launchApp:
-    clearState: true
-- extendedWaitUntil:
-    visible:
-      id: 'dev-tools-entry'
-    timeout: 60000
-- tapOn:
-    id: 'dev-tools-entry'
-- runFlow: subflows/open-lab.yaml
+- runFlow: subflows/lab-en.yaml
 - runFlow:
     file: subflows/destination-scenes.yaml
     env: { PREFIX: en }

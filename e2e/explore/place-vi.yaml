@@ -1,0 +1,7 @@
+appId: app.critterpass.dev
+---
+# The place page's screenshots in Vietnamese, from the Explore lab's scenes.
+- runFlow: subflows/lab-vi.yaml
+- runFlow:
+    file: subflows/place-scenes.yaml
+    env: { PREFIX: vi }

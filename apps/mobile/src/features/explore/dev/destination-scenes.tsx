@@ -47,16 +47,16 @@ const pick = (id: string, name: string, category: string): PickCard => ({
   photo: null,
 });
 const KYOTO_PICKS = [
-  pick('p1', 'Fushimi Inari', 'temple_shrine'),
-  pick('p2', 'Nishiki Market', 'market'),
-  pick('p3', 'Arashiyama', 'nature'),
-  pick('p4', 'Kiyomizu-dera', 'temple_shrine'),
+  pick('kyoto-1', 'Fushimi Inari', 'temple_shrine'),
+  pick('kyoto-2', 'Nishiki Market', 'market'),
+  pick('kyoto-3', 'Arashiyama', 'nature'),
+  pick('kyoto-4', 'Kiyomizu-dera', 'temple_shrine'),
 ];
 const DA_NANG_PICKS = [
-  pick('d1', 'Bán đảo Sơn Trà', 'nature'),
-  pick('d2', 'Ngũ Hành Sơn (Marble Mountains)', 'nature'),
-  pick('d3', 'Chợ Cồn', 'market'),
-  pick('d4', 'Bãi biển Mỹ Khê', 'beach'),
+  pick('da-nang-1', 'Bán đảo Sơn Trà', 'nature'),
+  pick('da-nang-2', 'Ngũ Hành Sơn (Marble Mountains)', 'nature'),
+  pick('da-nang-3', 'Chợ Cồn', 'market'),
+  pick('da-nang-4', 'Bãi biển Mỹ Khê', 'beach'),
 ];
 
 const row = (over: Partial<PriceRow> & Pick<PriceRow, 'origin'>): PriceRow => ({
@@ -89,7 +89,7 @@ interface SceneSpec {
   readonly facts: HeroFacts;
   readonly curve: ReturnType<typeof curve> | null;
   readonly picks: readonly PickCard[];
-  readonly month?: number;
+  readonly month?: number | undefined;
   readonly prices?: MonthPrices;
   readonly saved?: boolean;
   readonly offline?: boolean;
@@ -112,7 +112,7 @@ const KYOTO: SceneSpec = {
   },
   curve: KYOTO_CURVE,
   picks: KYOTO_PICKS,
-  crews: [{ id: 'c1', name: 'Bali Six' }],
+  crews: [{ id: 'crew-bali', name: 'Bali Six' }],
 };
 
 const DA_NANG: SceneSpec = {
@@ -138,7 +138,7 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     prices: { kind: 'rows', rows: USD_ROWS, offline: false },
   },
   'destination-month-loading': { ...KYOTO, month: 4, prices: { kind: 'loading' } },
-  'destination-no-airport': { ...KYOTO, month: 4, prices: { kind: 'no_home_airport' } },
+  'destination-no-airport': { ...KYOTO, month: 4, prices: { kind: 'noAirport' } },
   'destination-prices-unavailable': { ...KYOTO, month: 4, prices: { kind: 'unavailable' } },
   'destination-saved-offline': {
     ...KYOTO,
@@ -173,16 +173,16 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     picks: [],
     notice: 'limited',
     crews: [
-      { id: 'c1', name: 'Bali Six' },
-      { id: 'c2', name: 'Hội bạn thân Sài Gòn' },
+      { id: 'crew-bali', name: 'Bali Six' },
+      { id: 'crew-saigon', name: 'Hội bạn thân Sài Gòn' },
     ],
   },
   'destination-pick-crew': {
     ...KYOTO,
     mode: 'crews',
     crews: [
-      { id: 'c1', name: 'Bali Six' },
-      { id: 'c2', name: 'Hội bạn thân Sài Gòn' },
+      { id: 'crew-bali', name: 'Bali Six' },
+      { id: 'crew-saigon', name: 'Hội bạn thân Sài Gòn' },
     ],
   },
   'destination-no-crew': { ...KYOTO, mode: 'crews', crews: [] },

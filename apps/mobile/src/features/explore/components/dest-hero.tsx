@@ -50,6 +50,14 @@ const useStyles = makeStyles((t) => ({
   chips: { gap: t.space['6'], marginTop: t.space['4'], alignItems: 'flex-start' },
 }));
 
+/** Names up to this many characters are set on one line. */
+const ONE_LINE_NAME = 10;
+
+function nameLines(name: string): number {
+  const trimmed = name.trim();
+  return trimmed.length <= ONE_LINE_NAME ? 1 : Math.min(3, trimmed.split(/\s+/u).length);
+}
+
 export interface DestHeroProps {
   readonly name: string;
   readonly guide: GuideFacts;
@@ -118,13 +126,14 @@ export function DestHero(props: DestHeroProps) {
           <BackEyebrow label={props.backLabel} onPress={props.onBack} testID="explore-back" />
           <SaveButton saved={props.saved} onToggle={props.onToggleSave} />
         </Row>
-        {/* One line per word, and a floor low enough that a long single-word city shrinks to fit
-            instead of breaking mid-word or cutting off. */}
+        {/* A short name stays on one line at the size that fits ("ĐÀ NẴNG" as wide as "KYOTO"); a
+            longer one takes a line per word, with a floor low enough that a long single word
+            shrinks to fit instead of breaking mid-word or cutting off. */}
         <Text
           variant="displayMega"
           autoFit
           autoFitMinSize={NAME_FLOOR}
-          numberOfLines={Math.min(3, props.name.trim().split(/\s+/u).length)}
+          numberOfLines={nameLines(props.name)}
           testID="explore-hero-name"
         >
           {upper(props.name, i18n.locale)}

@@ -3,7 +3,6 @@
  * approved guide tips. The subscription outlives the screen by a day, so a destination someone
  * browsed keeps its places for the place page, the map and offline search.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- stream names, never copy. */
 import { useEffect } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';

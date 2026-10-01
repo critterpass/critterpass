@@ -29,7 +29,7 @@ import {
   parseBestMonths,
   priceRows,
 } from '../destination-model';
-import { guideFor } from '../format';
+import { guideFor, poiSubject } from '../format';
 import { guideTagline, heroChips } from '../guide-copy';
 import { useSavedPlace } from '../hooks/use-saved-place';
 import { useSoloTrip } from '../hooks/use-solo-trip';
@@ -81,8 +81,7 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
     [data?.picks],
   );
   const pickMedia = useSubjectMedia(
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- a media subject key, never copy.
-    organic.length === 0 ? null : organic.map((pick) => `poi:${pick.poi_id}`).join(','),
+    organic.length === 0 ? null : organic.map((pick) => poiSubject(pick.poi_id)).join(','),
   ).items;
   const pricedData = dataOf(priced);
   const names = useNames(
@@ -114,7 +113,7 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
       : pricedData === undefined
         ? { kind: 'unavailable' }
         : pricedData.home_airport_missing && pricedData.origins.length === 0
-          ? { kind: 'no_home_airport' }
+          ? { kind: 'noAirport' }
           : pricedData.fares.length === 0 && pricedData.origins.length === 0
             ? { kind: 'unavailable' }
             : {
@@ -217,9 +216,11 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
         id: pick.poi_id,
         name: pick.name,
         category: pick.category,
-        // eslint-disable-next-line lingui/no-unlocalized-strings -- a media subject key.
-        photo: pickMedia.find((item) => item.subjects.includes(`poi:${pick.poi_id}`)) ?? null,
+        photo: pickMedia.find((item) => item.subjects.includes(poiSubject(pick.poi_id))) ?? null,
       }))}
+      onOpenPick={(poiId) =>
+        router.push(exploreRoutes.place(poiId, { destinationId: id ?? undefined, tripId }))
+      }
       onCrewPlans={crewPlans === undefined ? undefined : () => router.push(crewPlans)}
       actions={{
         mode,

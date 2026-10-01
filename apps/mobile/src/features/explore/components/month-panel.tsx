@@ -21,7 +21,7 @@ import { monthName, moneyText } from '../format';
 
 export type MonthPrices =
   | { readonly kind: 'loading' }
-  | { readonly kind: 'no_home_airport' }
+  | { readonly kind: 'noAirport' }
   | { readonly kind: 'unavailable' }
   | { readonly kind: 'rows'; readonly rows: readonly PriceRow[]; readonly offline: boolean };
 
@@ -95,7 +95,7 @@ export function MonthPanel(props: MonthPanelProps) {
           label={t({ id: 'explore.panel.loading', message: 'Checking fares' })}
           testID="explore-month-loading"
         />
-      ) : prices.kind === 'no_home_airport' ? (
+      ) : prices.kind === 'noAirport' ? (
         <View style={{ gap: theme.space['4'] }} testID="explore-month-no-airport">
           <Text variant="bodySm">
             {t({

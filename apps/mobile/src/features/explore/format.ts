@@ -2,7 +2,6 @@
  * Explore's small formatters: month names in the reader's language, money through the shared
  * formatter (never a bare `Intl` call), and the guide each destination belongs to.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- Intl option values and token names, never copy. */
 import { formatMoney, money } from '@cp/cost-engine';
 import { tokens } from '@cp/design-tokens';
 import { format } from '@cp/i18n';
@@ -49,4 +48,16 @@ export function guideFor(slug: string | null | undefined): GuideFacts {
     colour: tokens.guide[id],
     guest: id !== slug,
   };
+}
+
+/** Noon UTC on a `YYYY-MM-DD` calendar date: the same day in every zone a reader formats it in. */
+export function noonUtc(date: string): Date {
+  const [year, month, day] = date.split('-').map(Number);
+  return new Date(Date.UTC(year ?? 1970, (month ?? 1) - 1, day ?? 1, 12));
+}
+
+/** The media subject key of a place's licensed photos. */
+export function poiSubject(poiId: string): string {
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a media subject key, never copy.
+  return `poi:${poiId}`;
 }

@@ -14,17 +14,16 @@ export function guideTagline(guide: GuideFacts, place: string): string {
       message: "Not my island, but I've done my homework.",
     });
   }
-  switch (guide.id) {
-    case 'pon':
-      return t({ id: 'explore.guide.ponLine', message: 'Shoes off, phone down, eyes up.' });
-    case 'sardi':
-      return t({
-        id: 'explore.guide.sardiLine',
-        message: 'Come for the grilled sardines. Stay for the grilled sardines.',
-      });
-    default:
-      return t({ id: 'explore.guide.homeLine', message: `Your guide in ${place}.` });
+  if (guide.id === 'pon') {
+    return t({ id: 'explore.guide.ponLine', message: 'Shoes off, phone down, eyes up.' });
   }
+  if (guide.id === 'sardi') {
+    return t({
+      id: 'explore.guide.sardiLine',
+      message: 'Come for the grilled sardines. Stay for the grilled sardines.',
+    });
+  }
+  return t({ id: 'explore.guide.homeLine', message: `Your guide in ${place}.` });
 }
 
 export interface HeroFacts {
