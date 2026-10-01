@@ -364,6 +364,10 @@ msgid "web.comingSoon.features.askReply"
 msgstr "Lớp nấu ăn lúc 2 giờ chiều. Đi biển dời sang thứ Sáu."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copiedCode"
+msgstr "Đã chép"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
 msgstr ""
 
@@ -374,6 +378,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.copied"
 msgstr "ĐÃ SAO CHÉP ✓"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copyCode"
+msgstr "Sao chép"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
@@ -426,6 +434,14 @@ msgstr "CritterPass là ứng dụng lên kế hoạch đi chơi cho cả nhóm,
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTesting"
+msgstr "CritterPass đang trong giai đoạn thử nghiệm. Hãy xin {inviter} lời mời TestFlight, rồi tham gia bằng mã này:"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTestingNoName"
+msgstr "CritterPass đang trong giai đoạn thử nghiệm. Hãy xin người mời bạn lời mời TestFlight, rồi tham gia bằng mã này:"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
@@ -626,6 +642,10 @@ msgstr "CỬA ✦ MỌI NƠI"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.gateOpensIn"
 msgstr "CỬA MỞ SAU"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.testFlight"
+msgstr "Tải CritterPass trên TestFlight"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"

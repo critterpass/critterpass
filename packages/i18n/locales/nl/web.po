@@ -364,6 +364,10 @@ msgid "web.comingSoon.features.askReply"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copiedCode"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
 msgstr ""
 
@@ -373,6 +377,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.copied"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copyCode"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/invite.ts
@@ -425,6 +433,14 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTesting"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTestingNoName"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/tips.ts
@@ -625,6 +641,10 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.gateOpensIn"
+msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.testFlight"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/shell.ts
