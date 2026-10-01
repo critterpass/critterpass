@@ -56,12 +56,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'invite-code-boxes'
 - inputText: ${output.crewCode}
-# The crew card shows once the code is found; JOIN sits under it with the keyboard down.
+# The crew card shows once the code is found, and JOIN comes up on top of the keyboard: it is
+# pressed there, the way a person does it.
 - extendedWaitUntil:
     visible:
       text: '(?i)found it.*'
     timeout: 20000
-- hideKeyboard
 - extendedWaitUntil:
     visible:
       id: 'invite-code-join'
