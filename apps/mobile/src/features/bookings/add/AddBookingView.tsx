@@ -110,10 +110,12 @@ export function AddBookingView(props: AddBookingViewProps) {
             {pending.length === 0 ? null : (
               <Text variant="eyebrow">
                 {upper(
-                  t({
-                    id: 'bookings.add.found',
-                    message: `Found in your crew’s inboxes · ${pending.length}`,
-                  }),
+                  pending.every((view) => view.broughtIn)
+                    ? t({ id: 'bookings.add.read', message: `Ready to add · ${pending.length}` })
+                    : t({
+                        id: 'bookings.add.found',
+                        message: `Found in your crew’s inboxes · ${pending.length}`,
+                      }),
                   locale,
                 )}
               </Text>

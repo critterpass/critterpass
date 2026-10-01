@@ -31,6 +31,15 @@ describe('found bookings', () => {
     expect(transfer?.travellerIds).toEqual([LAB_UID]);
   });
 
+  it('knows a confirmation the member pasted or scanned from one found in an inbox', () => {
+    const view = (extra: Parameters<typeof labCandidate>[1]) =>
+      toCandidateView(labCandidate('c-new', extra), LAB_MEMBERS, TRIP, LAB_UID)?.broughtIn;
+    expect(view({ user_id: LAB_UID, source: 'paste' })).toBe(true);
+    expect(view({ user_id: LAB_UID, source: 'scan' })).toBe(true);
+    expect(view({ user_id: LAB_UID, source: 'forward' })).toBe(false);
+    expect(view({ user_id: 'u-alex', source: 'paste' })).toBe(false);
+  });
+
   it('matches printed names to the crew, else takes the trip travellers, else the member', () => {
     const base = JSON.parse(boatRow!.extracted!) as Parameters<typeof travellersFor>[0];
     const named = { ...base!, travellers: ['MAYA LIM', 'alex'] };

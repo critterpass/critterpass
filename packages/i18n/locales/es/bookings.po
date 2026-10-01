@@ -643,6 +643,11 @@ msgstr ""
 msgid "bookings.scan.reading"
 msgstr ""
 
+#. placeholder {0}: pending.length
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.read"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
 #: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
 #: ../../apps/mobile/src/features/bookings/stack/BookingBody.tsx
