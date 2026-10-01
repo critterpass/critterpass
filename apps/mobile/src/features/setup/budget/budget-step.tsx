@@ -96,13 +96,16 @@ export function BudgetStep({ trip, shell }: StepProps) {
   const band = bandView(row, trip.members.length);
   const estimates = useMemo(() => estimatesOf(inputs.source), [inputs.source]);
   const currency = row?.currency ?? grid?.currency ?? inputs.source?.currency ?? 'USD';
-  const stepMinor = stepOf({
-    adopted,
-    server: fresh?.step_minor ?? grid?.stepMinor ?? inputs.aggregate?.step_minor ?? null,
-    currency,
-    estimates,
-    bandAnswered,
-  });
+  // Until the synced rows are read the crew currency itself is not known: no knob yet.
+  const stepMinor = !inputs.loaded
+    ? null
+    : stepOf({
+        adopted,
+        server: fresh?.step_minor ?? grid?.stepMinor ?? inputs.aggregate?.step_minor ?? null,
+        currency,
+        estimates,
+        bandAnswered,
+      });
   const track = stepMinor === null ? null : trackOf(band, estimates, stepMinor);
   const dates = datesLabel(locale, trip.startDate, trip.endDate);
   const counts = { set: band.set, of: band.of };
@@ -155,7 +158,7 @@ export function BudgetStep({ trip, shell }: StepProps) {
 
   return (
     <BudgetView
-      key={inputs.loaded && track !== null ? 'ready' : 'loading'}
+      key={track !== null ? 'ready' : 'loading'}
       shell={shell}
       trip={trip}
       dates={dates}

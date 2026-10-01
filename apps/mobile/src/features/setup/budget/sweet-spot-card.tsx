@@ -37,6 +37,17 @@ export interface SweetSpotCardProps {
   readonly onTarget: (targetMinor: number) => void;
 }
 
+/**
+ * The amount's face. The hero face holds about eight glyphs across the card ("$12,350"); amounts
+ * in đồng or rupiah run to eleven and more, so they step down a size and every digit shows. Sized
+ * by the far end of the track, so it does not change as the knob moves.
+ */
+function amountVariant(longest: string): 'displayHero' | 'displayXl' | 'h1' {
+  const glyphs = [...longest].length;
+  if (glyphs <= 8) return 'displayHero';
+  return glyphs <= 12 ? 'displayXl' : 'h1';
+}
+
 export function isOverBand(band: BandView, target: number): boolean {
   return band.kind === 'band' && target > band.highMinor;
 }
@@ -123,6 +134,7 @@ export function SweetSpotCard({ band, track, currency, target, onTarget }: Sweet
       <Odometer
         value={whole}
         prefix={currencySymbol(locale, currency)}
+        variant={amountVariant(money(locale, track.maxMinor, currency))}
         color={ink}
         accessibilityLabel={t({ id: 'setup.budget.card.amountA11y', message: 'Sweet spot each' })}
         testID="budget-target"

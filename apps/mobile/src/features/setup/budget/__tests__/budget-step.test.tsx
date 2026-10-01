@@ -20,7 +20,7 @@ jest.mock('expo-router', () => ({
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 
 import {
   openTestLocalFirst,
@@ -156,6 +156,10 @@ describe('organiser of a crew settling in dong', () => {
     );
     expect(await screen.findByTestId('budget-bars-loading')).toBeTruthy();
     expect(screen.queryByTestId('budget-track')).toBeNull();
+    // Still none once the synced rows have had time to be read: only the server's answer brings it.
+    await act(() => new Promise((resolve) => setTimeout(resolve, 750)));
+    expect(screen.queryByTestId('budget-track')).toBeNull();
+    expect(screen.getByTestId('budget-bars-loading')).toBeTruthy();
     expect(screen.getByTestId('budget-lock').props.accessibilityState).toMatchObject({
       disabled: true,
     });
