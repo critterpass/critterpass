@@ -150,6 +150,7 @@ async function routeRecipient(
     class: cls,
     paywall: spec.paywall,
     onlyIfBackgrounded: spec.onlyIfBackgrounded,
+    capped: spec.capped,
     prefEnabled,
     expired: expiresAt.getTime() <= now.getTime(),
     inForeground: recipient.inForeground,
@@ -202,7 +203,7 @@ async function routeRecipient(
   });
   if (notificationId === undefined) return { outcome: 'duplicate' };
 
-  await bookLedger(tx, uid, clock.date, cls, spec.paywall, decision);
+  await bookLedger(tx, uid, clock.date, cls, spec, decision);
   for (const deviceId of devices) {
     await enqueuePushSend(tx, { notification_id: notificationId, device_id: deviceId });
   }

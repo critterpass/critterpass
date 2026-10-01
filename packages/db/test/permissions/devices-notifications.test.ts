@@ -200,6 +200,18 @@ describe('writes', () => {
     expect(foreign.rowCount).toBe(0);
   });
 
+  it('starts a person on a daily budget of 10', async () => {
+    const { actors } = harness.fixture;
+    const { rows } = await withSystem(harness.db.pool, (tx) =>
+      tx.query<{ budget_per_day: number }>(
+        `INSERT INTO notification_prefs (user_id) VALUES ($1)
+         ON CONFLICT (user_id) DO UPDATE SET budget_per_day = DEFAULT RETURNING budget_per_day`,
+        [actors.outsider],
+      ),
+    );
+    expect(rows).toEqual([{ budget_per_day: 10 }]);
+  });
+
   it('keeps the daily budget within 1–10', async () => {
     const { actors } = harness.fixture;
     await expect(

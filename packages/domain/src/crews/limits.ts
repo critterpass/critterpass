@@ -16,8 +16,16 @@ export function isCrewNotifyLevel(value: string): value is CrewNotifyLevel {
   return (CREW_NOTIFY_LEVELS as readonly string[]).includes(value);
 }
 
-/** A member who never chose reads as `mentions`. */
+/** A member who never chose reads as `mentions` in a crew too large to hear everything. */
 export const DEFAULT_CREW_NOTIFY_LEVEL: CrewNotifyLevel = 'mentions';
+
+/** Up to this many active members, a member who never chose hears every message. */
+export const SMALL_CREW_MAX_MEMBERS = 6;
+
+/** The chat level of a member who never chose one, by the size of their crew. */
+export function defaultCrewNotifyLevel(activeMembers: number): CrewNotifyLevel {
+  return activeMembers <= SMALL_CREW_MAX_MEMBERS ? 'all' : DEFAULT_CREW_NOTIFY_LEVEL;
+}
 
 /** Collapses inner whitespace and trims, so "  Bali   crew " and "Bali crew" are one name. */
 export function normaliseCrewName(input: string): string {
