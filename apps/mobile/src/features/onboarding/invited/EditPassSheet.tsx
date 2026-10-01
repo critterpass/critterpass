@@ -6,7 +6,7 @@
  * Undesigned; built from the sheet, text field and search field (docs/undesigned-states.md).
  */
 import { t } from '@lingui/core/macro';
-import { useMemo, useState } from 'react';
+import { useDeferredValue, useMemo, useState } from 'react';
 import { Keyboard, Pressable, View } from 'react-native';
 
 import { givenNameProblem, homeBaseFor } from '@cp/domain';
@@ -64,7 +64,12 @@ export function EditPassSheet({ name, homeIata, onDone, onClose }: EditPassSheet
   const [draftName, setDraftName] = useState(name);
   const [home, setHome] = useState(homeIata);
   const [query, setQuery] = useState('');
-  const rows = useMemo(() => homeResults(airportDataset(), query, null, MAX_ROWS).rows, [query]);
+  // The search runs on the deferred query, so a keystroke's render never lags the typed text.
+  const searched = useDeferredValue(query);
+  const rows = useMemo(
+    () => homeResults(airportDataset(), searched, null, MAX_ROWS).rows,
+    [searched],
+  );
   const problem = givenNameProblem(draftName, BLOCKED_NAME_WORDS);
   const missing = missingPassPart({ given_name: draftName, home_iata: home });
   const picked = home === null ? null : homeBaseFor(airportDataset(), home);

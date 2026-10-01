@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# The home step's search keeps typed letters in order at Maestro's speed: a whole city name, twice
+# (each from a fresh install), must find its airport. Letters reordered by a late render ("Sngi")
+# find nothing and the flow fails.
+- runFlow: ../happy/subflows/fresh-install.yaml
+- runFlow:
+    file: ../home/subflows/onboard.yaml
+    env:
+      HOME_QUERY: 'Singapore'
+      HOME_IATA: 'SIN'
+- runFlow: ../happy/subflows/fresh-install.yaml
+- runFlow:
+    file: ../home/subflows/onboard.yaml
+    env:
+      HOME_QUERY: 'Ho Chi Minh'
+      HOME_IATA: 'SGN'

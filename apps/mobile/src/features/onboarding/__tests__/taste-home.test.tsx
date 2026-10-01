@@ -112,6 +112,15 @@ describe('3a-5 home base', () => {
     expect(router.push).toHaveBeenCalledWith('/onboarding/issued');
   });
 
+  it('never writes the typed text back into the search field', async () => {
+    // A value set from state can land after the next keystroke on a busy JS thread and reorder
+    // the letters on an iPhone ("Sngi" for "Sing"): the native field keeps what was typed.
+    await renderOnboarding(<HomeScreen />);
+    await fireEvent.changeText(screen.getByTestId('home-search'), 'Sing');
+    expect(screen.getByTestId('home-search').props.value).toBeUndefined();
+    expect(screen.getAllByTestId(/^home-row-/u)[0]?.props.testID).toBe('home-row-SIN');
+  });
+
   it('shows the hint’s nearest airports with a drive time from another country', async () => {
     const services = fakeServices({ geoHint: () => Promise.resolve(SINGAPORE) });
     await renderOnboarding(<HomeScreen />, { services });
