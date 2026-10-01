@@ -74,7 +74,7 @@ export function registerBudgetRoutes(app: OpenAPIHono<AppEnv>, deps: BudgetRoute
           maxes_count: row?.maxes_count ?? 0,
           member_count: row?.member_count ?? 0,
           currency: grid.currency,
-          step_minor: Number(grid.stepMinor),
+          ...(grid.stepMinor === null ? {} : { step_minor: Number(grid.stepMinor) }),
         };
         throw new DomainError('K_ANON_UNAVAILABLE', { ...detail });
       }
