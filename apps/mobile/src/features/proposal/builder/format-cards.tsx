@@ -4,7 +4,7 @@
  * note on paper). The picked card grows and takes the yellow ring; the others settle back, so
  * switching reads as the preview morphing from one to the next.
  */
-import type { ProposalFormat } from '@cp/domain';
+import { PROPOSAL_FORMATS, type ProposalFormat } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { useEffect, type ReactNode } from 'react';
 import { Pressable, View } from 'react-native';
@@ -18,6 +18,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 const CARD_HEIGHT = 150;
+const THUMB_WIDTH = 132;
 
 const useStyles = makeStyles((th) => ({
   row: { flexDirection: 'row', gap: th.space['8'] },
@@ -39,6 +40,8 @@ const useStyles = makeStyles((th) => ({
     marginTop: th.space['4'],
   },
   lines: { gap: th.space['8'], marginTop: th.space['12'] },
+  grow: { flex: 1 },
+  thumb: { width: THUMB_WIDTH, borderColor: 'transparent' },
   line: { height: 1, backgroundColor: th.color.paper.muted },
 }));
 
@@ -102,34 +105,29 @@ function Card(props: {
   );
 }
 
-export function FormatCards(props: FormatCardsProps) {
+type FaceProps = Pick<FormatCardsProps, 'guide' | 'destination' | 'headline' | 'price'>;
+
+/** What a format's card shows, whichever card frames it. */
+function Face({ format, ...props }: FaceProps & { readonly format: ProposalFormat }) {
   const styles = useStyles();
   const theme = useTheme();
   const info = GUIDE_STICKERS[props.guide];
   const ink = theme.semantic.text.onAccent;
-  return (
-    <View style={styles.row} accessibilityRole="radiogroup">
-      <Card
-        selected={props.value === 'trailer'}
-        label={t({ id: 'proposal.build.trailer', message: 'Trailer' })}
-        testID="build-format-trailer"
-        background={theme.color.rust.base}
-        onPress={() => props.onChange('trailer')}
-      >
+  if (format === 'trailer') {
+    return (
+      <>
         <View style={styles.sticker}>
           <Sticker kind={info.kind} name={info.name} size={40} />
         </View>
         <Text variant="title" numberOfLines={3}>
           {props.headline}
         </Text>
-      </Card>
-      <Card
-        selected={props.value === 'poster'}
-        label={t({ id: 'proposal.build.poster', message: 'Poster' })}
-        testID="build-format-poster"
-        background={theme.color.pink}
-        onPress={() => props.onChange('poster')}
-      >
+      </>
+    );
+  }
+  if (format === 'poster') {
+    return (
+      <>
         <Text variant="h2" color={ink} numberOfLines={3}>
           {props.destination.toUpperCase()}
         </Text>
@@ -140,25 +138,74 @@ export function FormatCards(props: FormatCardsProps) {
             </Text>
           </View>
         )}
-      </Card>
-      <Card
-        selected={props.value === 'postcard'}
-        label={t({ id: 'proposal.build.postcard', message: 'Postcard' })}
-        testID="build-format-postcard"
-        background={theme.color.paper.bright}
-        onPress={() => props.onChange('postcard')}
-      >
-        <View style={{ flex: 1 }}>
-          <Text variant="voicePostcard" color={theme.color.paper.ink}>
-            {t({ id: 'proposal.build.dearCrew', message: 'Dear crew,' })}
-          </Text>
-          <View style={styles.lines}>
-            <View style={styles.line} />
-            <View style={styles.line} />
-            <View style={styles.line} />
-          </View>
-        </View>
-      </Card>
+      </>
+    );
+  }
+  return (
+    <View style={styles.grow}>
+      <Text variant="voicePostcard" color={theme.color.paper.ink}>
+        {t({ id: 'proposal.build.dearCrew', message: 'Dear crew,' })}
+      </Text>
+      <View style={styles.lines}>
+        <View style={styles.line} />
+        <View style={styles.line} />
+        <View style={styles.line} />
+      </View>
+    </View>
+  );
+}
+
+function useFormatMeta(): Record<ProposalFormat, { label: string; background: string }> {
+  const theme = useTheme();
+  return {
+    trailer: {
+      label: t({ id: 'proposal.build.trailer', message: 'Trailer' }),
+      background: theme.color.rust.base,
+    },
+    poster: {
+      label: t({ id: 'proposal.build.poster', message: 'Poster' }),
+      background: theme.color.pink,
+    },
+    postcard: {
+      label: t({ id: 'proposal.build.postcard', message: 'Postcard' }),
+      background: theme.color.paper.bright,
+    },
+  };
+}
+
+/** The one format that was sent, as its card (the sent screen). */
+export function FormatThumb(props: FaceProps & { readonly format: ProposalFormat }) {
+  const styles = useStyles();
+  const meta = useFormatMeta()[props.format];
+  return (
+    <View
+      style={[styles.card, styles.thumb, { backgroundColor: meta.background }]}
+      accessible
+      accessibilityLabel={meta.label}
+      testID={`format-thumb-${props.format}`}
+    >
+      <Face {...props} />
+    </View>
+  );
+}
+
+export function FormatCards(props: FormatCardsProps) {
+  const styles = useStyles();
+  const meta = useFormatMeta();
+  return (
+    <View style={styles.row} accessibilityRole="radiogroup">
+      {PROPOSAL_FORMATS.map((format) => (
+        <Card
+          key={format}
+          selected={props.value === format}
+          label={meta[format].label}
+          testID={`build-format-${format}`}
+          background={meta[format].background}
+          onPress={() => props.onChange(format)}
+        >
+          <Face format={format} {...props} />
+        </Card>
+      ))}
     </View>
   );
 }

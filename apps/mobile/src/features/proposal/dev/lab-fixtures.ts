@@ -61,6 +61,12 @@ export const LAB_PICKS: readonly Pick[] = [
   },
 ];
 
+/** The group version's cards: the plan's own stops, tagged for what they are. */
+export const LAB_GROUP_PICKS: readonly Pick[] = LAB_PICKS.map((pick, index) => ({
+  ...pick,
+  reasonTag: index === 0 ? 'group_must_do' : 'group_day',
+}));
+
 export const LAB_SAVINGS: readonly Saving[] = [
   {
     id: 'skip:ba-na',

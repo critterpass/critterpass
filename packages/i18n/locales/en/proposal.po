@@ -12,11 +12,6 @@ msgstr ""
 msgid "proposal.tracker.you"
 msgstr "{0} (you)"
 
-#. placeholder {0}: wholeMoney(locale, trip.shareMinor, trip.currency)
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.build.each"
-msgstr "{0} each"
-
 #. placeholder {0}: state.going + 1
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.going"
@@ -102,6 +97,11 @@ msgstr "{0} suggests"
 msgid "proposal.lock.silent"
 msgstr "{0} who haven’t answered are out."
 
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.subGroup"
+msgstr "{0} wrote one plan for the whole crew. Tap a stop to open it."
+
 #. placeholder {0}: pick.title
 #: ../../apps/mobile/src/features/proposal/your-version/picks-list.tsx
 msgid "proposal.version.pickA11y"
@@ -117,9 +117,17 @@ msgstr "{0}: the proposal"
 msgid "proposal.board.egg"
 msgstr "{0}’s egg hatches when you land"
 
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.eachAmount"
+msgstr "{amount} each"
+
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
 msgid "proposal.alone.back"
 msgstr "{destination} plan"
+
+#: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
+msgid "proposal.confirmed.going"
+msgstr "{going} going"
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
@@ -128,6 +136,10 @@ msgstr "{guideName} wrote a version for each person. Pick how it arrives."
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.subShared"
 msgstr "{guideName} wrote one version for everyone. Pick how it arrives."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.titleGroup"
+msgstr "{name}, here’s the plan"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.title"
@@ -254,6 +266,10 @@ msgstr "Dates"
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
 msgstr "Day {0}"
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.day"
+msgstr "Day {dayNo}"
 
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
 msgid "proposal.build.dearCrew"
@@ -435,6 +451,10 @@ msgstr "Maybe"
 msgid "proposal.why.crew"
 msgstr "Most of the crew wanted this one."
 
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.groupMustDo"
+msgstr "Must-do"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
 msgstr "No reply yet"
@@ -471,6 +491,10 @@ msgstr "OKAY WOW"
 msgid "proposal.reaction.fire"
 msgstr "On fire"
 
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.onThePlan"
+msgstr "On the plan"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.waitlisted"
 msgstr "On the waitlist"
@@ -478,6 +502,10 @@ msgstr "On the waitlist"
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.personalOn"
 msgstr "One for each of the {n}, written by {guideName}"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.personalOne"
+msgstr "One for your friend, written by {guideName}"
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.personalOff"
@@ -490,6 +518,10 @@ msgstr "Only here"
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.open"
 msgstr "Open it"
+
+#: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
+msgid "proposal.confirmed.plan"
+msgstr "Open the plan"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.organiser"
@@ -561,6 +593,10 @@ msgstr "Said maybe"
 #: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
 msgid "proposal.share.saved"
 msgstr "Saved"
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.wholePlan"
+msgstr "See the whole plan"
 
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.organiser"
@@ -647,6 +683,10 @@ msgstr "The plan"
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.title"
 msgstr "The trip is full"
+
+#: ../../apps/mobile/src/features/proposal/tracker/confirmed-card.tsx
+msgid "proposal.confirmed.title"
+msgstr "The trip is on"
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.ready"
