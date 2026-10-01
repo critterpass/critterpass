@@ -79,3 +79,10 @@ export * from './pitches';
 export * from './trips/status';
 export * from './proposals/lock';
 export * from './proposals/booked-plan-items';
+export {
+  AccountPurgeError,
+  dueAccountPurges,
+  purgeAccount,
+  type PurgeAccountOptions,
+  type PurgedAccount,
+} from './account/purge';

@@ -29,6 +29,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { LeaveByView } from '../leave-by/model';
 import { heroCopy } from './day-of-copy';
+import type { DayLead } from './day-of-data';
 import { PackChips } from './pack-chips';
 import type { PackChip } from './packing-model';
 import { ReadinessFaces } from './readiness-row';
@@ -46,8 +47,13 @@ export interface DayOfViewProps {
   readonly leaveBy: LeaveByView | null;
   readonly now: Date;
   readonly guideName: string;
-  /** The first item when there is no leave-by ("First up 09:30 · Hot springs"). */
-  readonly firstUp: { readonly time: string; readonly title: string } | null;
+  /**
+   * What leads the day when there is no leave-by: its first stop ("First up 09:30 · Hot
+   * springs"), today's next stop, or that today is done. Null on a free day.
+   */
+  readonly firstUp: DayLead | null;
+  /** Another day is shown while the trip is on: the way back to today. */
+  readonly onToday?: (() => void) | undefined;
   readonly pack: readonly PackChip[];
   readonly timeline: readonly DayTimelineEntry[];
   readonly offline: boolean;
@@ -79,6 +85,7 @@ function Hero(props: DayOfViewProps) {
   const locale = useLocale();
   const { t } = useLingui();
   const view = props.leaveBy;
+  const lead = props.firstUp;
   const backdrop = (
     <MediaLayer
       media={props.heroMedia}
@@ -105,23 +112,35 @@ function Hero(props: DayOfViewProps) {
               <Text variant="eyebrow">{upper(props.forecast, locale)}</Text>
             )}
           </Row>
-          {props.firstUp === null ? (
+          {lead === null ? (
             <Text variant="displayHero" autoFit>
               {upper(t({ id: 'trip.dayOf.freeDayTitle', message: 'Free day' }), locale)}
+            </Text>
+          ) : lead.kind === 'done' ? (
+            <Text variant="displayHero" autoFit>
+              {upper(t({ id: 'trip.dayOf.doneTitle', message: 'Day done' }), locale)}
             </Text>
           ) : (
             <>
               <Text variant="eyebrow">
-                {upper(t({ id: 'trip.dayOf.firstUp', message: 'First up' }), locale)}
+                {upper(
+                  lead.kind === 'next'
+                    ? t({ id: 'trip.dayOf.nextUp', message: 'Next up' })
+                    : t({ id: 'trip.dayOf.firstUp', message: 'First up' }),
+                  locale,
+                )}
               </Text>
               <Text variant="displayHero" autoFit>
-                {props.firstUp.time}
+                {lead.time}
               </Text>
             </>
           )}
           <Text variant="bodyLg" color={theme.semantic.text.onAccent}>
-            {props.firstUp?.title ??
-              t({ id: 'trip.dayOf.freeDay', message: 'Nothing planned today. A free day.' })}
+            {lead === null
+              ? t({ id: 'trip.dayOf.freeDay', message: 'Nothing planned today. A free day.' })
+              : lead.kind === 'done'
+                ? t({ id: 'trip.dayOf.done', message: "That's everything on today's plan." })
+                : lead.title}
           </Text>
         </Stack>
       </Card>
@@ -196,6 +215,13 @@ export function DayOfView(props: DayOfViewProps) {
         <Hero {...props} />
         <View style={styles.body}>
           {props.offline ? <OfflinePill testID="trip-day-offline" /> : null}
+          {props.onToday === undefined ? null : (
+            <TextLink
+              label={t({ id: 'trip.dayOf.toToday', message: 'Back to today' })}
+              onPress={props.onToday}
+              testID="trip-day-to-today"
+            />
+          )}
           {view !== null && !view.viewerIn ? (
             <Text variant="bodySm" color={theme.semantic.text.secondary}>
               {t({ id: 'trip.dayOf.notYours', message: "You're not on this one. Sleep in." })}

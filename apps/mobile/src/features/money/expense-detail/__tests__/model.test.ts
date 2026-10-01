@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { canChangeExpense, changedFields, fxLine } from '../model';
+import { canChangeExpense, changedFields, changesOf, fxLine } from '../model';
 
 const snap = (fields: object) => JSON.stringify(fields);
 
@@ -12,6 +12,12 @@ describe('expense detail rules', () => {
     expect(canChangeExpense({ ...base, uid: 'dev' })).toBe(false);
     expect(canChangeExpense({ ...base, uid: 'dev', organiser: true })).toBe(true);
     expect(canChangeExpense({ ...base, uid: null, organiser: true })).toBe(false);
+  });
+
+  it('lists edits and the delete as changes, never the row written when it was added', () => {
+    const rows = [{ kind: 'deleted' }, { kind: 'edited' }, { kind: 'created' }];
+    expect(changesOf(rows)).toEqual([{ kind: 'deleted' }, { kind: 'edited' }]);
+    expect(changesOf([{ kind: 'created' }])).toEqual([]);
   });
 
   it('names what an edit changed', () => {

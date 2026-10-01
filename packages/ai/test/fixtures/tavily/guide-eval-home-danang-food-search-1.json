@@ -1,0 +1,61 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Da Nang what to eat one evening local dishes best area",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.originvietnam.com/da-nang-food-guide",
+          "title": "Da Nang Food Guide: Best Dishes & Where To Eat Like A Local | ORIGIN VIETNAM",
+          "content": "Beaches Area – Fresh seafood restaurants, beach bars, and casual eateries. Best for lunch and dinner with sea views. Price range is slightly higher than in the rest of the city, but it’s still relatively affordable.\n\nHan Market & downtown – The best spot to eat various local street foods. Best for breakfast and lunch.\n\nRiverside Area – Evening dining & drinking with the Han River atmosphere. More cafes & international food options. [...] This is one of the strangest foods locals enjoy in Da Nang. They cook rice paper cracker over coal with eggs, spring onions, shrimp, and chili sauce, fold the paper and serve hot. This Vietnamese street food tastes delicious while the smoky smell makes Banh Trang even more delicious. This street food is eaten by standing in front of the stall at night.\n\nPopular near the beaches and student dormitory areas.\n\n### Nem Lui – Skewered Meats [...] If you eat only one dish in Da Nang, make it Mi Quang. You’ll find thick turmeric noodles in a bowl with savory broth (just enough to coat the noodles) and garnished with your protein choice, crispy rice crackers, roasted peanuts, banana blossom, fresh herbs, and boiled egg. There are numerous flavors in this dish that come from various types of food: crunchy crackers, soft noodles, creamy peanuts, and savory broth.",
+          "score": 0.8319231,
+          "raw_content": null,
+          "published_date": "Sun, 14 Jun 2026 02:27:26 GMT",
+          "id": "afb9f3-00"
+        },
+        {
+          "url": "https://mikazuki.com.vn/cn/what-to-eat-in-da-nang-10-must-try-local-dishes-you-must-try.html",
+          "title": "What to Eat in Da Nang: 10 Must-Try Local Dishes You Must Try",
+          "content": "The best dishes in Da Nang are simple, local, and easy to enjoy on a short trip. Start with noodles, rice paper rolls, seafood, and street snacks. These foods show Central Vietnam cuisine without making first-time visitors feel lost.\n\n### 1. Mi Quang - The Iconic Da Nang Noodle Dish [...] Seafood is one of the easiest reasons to eat out in Da Nang. The city sits on the coast, so many restaurants serve fish, squid, crab, shrimp, clams, snails, and oysters. Most places cook seafood simply. Grilling, steaming, stir-frying, and tamarind sauce are common choices. This is not the meal to rush. Pick a lively seafood restaurant, choose a few dishes, and share everything. Ask for prices before ordering live seafood. Some items are priced by weight. [...] Gỏi cá Nam Ô is one of Da Nang’s most distinctive coastal dishes. It comes from Nam Ô, a fishing village in the city. The dish often uses fresh small fish, herbs, roasted rice powder, green banana, cucumber, and rice paper. The flavour is fresh, tangy, nutty, and herbal. Some versions are dry. Others come with a dipping sauce. It is more adventurous than mì Quảng or bún chả cá. Still, it gives visitors a real taste of Da Nang’s fishing culture.",
+          "score": 0.8127637,
+          "raw_content": null,
+          "published_date": "Tue, 26 May 2026 00:00:00 GMT",
+          "id": "cab497-01"
+        },
+        {
+          "url": "https://mikazuki.com.vn/en/what-to-eat-in-da-nang.html",
+          "title": "What to Eat in Da Nang: 10 Must-Try Local Dishes You Must Try",
+          "content": "The best dishes in Da Nang are simple, local, and easy to enjoy on a short trip. Start with noodles, rice paper rolls, seafood, and street snacks. These foods show Central Vietnam cuisine without making first-time visitors feel lost.\n\n### 1. Mi Quang - The Iconic Da Nang Noodle Dish [...] Seafood is one of the easiest reasons to eat out in Da Nang. The city sits on the coast, so many restaurants serve fish, squid, crab, shrimp, clams, snails, and oysters. Most places cook seafood simply. Grilling, steaming, stir-frying, and tamarind sauce are common choices. This is not the meal to rush. Pick a lively seafood restaurant, choose a few dishes, and share everything. Ask for prices before ordering live seafood. Some items are priced by weight. [...] Gỏi cá Nam Ô is one of Da Nang’s most distinctive coastal dishes. It comes from Nam Ô, a fishing village in the city. The dish often uses fresh small fish, herbs, roasted rice powder, green banana, cucumber, and rice paper. The flavour is fresh, tangy, nutty, and herbal. Some versions are dry. Others come with a dipping sauce. It is more adventurous than mì Quảng or bún chả cá. Still, it gives visitors a real taste of Da Nang’s fishing culture.",
+          "score": 0.8127637,
+          "raw_content": null,
+          "published_date": null,
+          "id": "d8ca61-02"
+        },
+        {
+          "url": "https://truongsatour.com/en/what-to-eat-in-da-nang-10-must-try-local-dishes-you-cant-miss",
+          "title": "What to Eat in Da Nang: 10 Must-Try Local Dishes You Can’t Miss",
+          "content": "One of the most beloved Da Nang specialties is Banh Xeo. The crispy pancake filled with shrimp, pork, bean sprouts, and herbs, dipped in signature sauce or sweet-and-sour fish sauce, delivers a perfect balance of crunchy texture and natural sweetness. Enjoying it on the streets of Da Nang, you’ll feel the local vibe where residents and visitors come together to savor delicious, simple street food. This is an ideal dish to experience true Da Nang street cuisine. [...] When talking about Da Nang specialties, Mi Quang is always at the top of the list. The golden noodles, rich broth, fresh shrimp, chicken or frog, combined with herbs and roasted peanuts, create an unforgettable flavor. Sitting at Ba Mua Mi Quang - one of Da Nang’s most famous food spots - you can feel the rhythm of local life through the vendor’s smiles, the subtle aroma rising from the steaming pot, and the warmth of the kitchen. Every spoonful immerses you in a truly authentic Central [...] Da Nang chicken rice features fragrant rice, golden chicken, crispy fried shallots, herbs, and signature fish sauce. It’s the perfect lunch after a morning of exploring. Every spoonful of chicken rice tells a story about Da Nang family culture, the care put into every dish, and the refined touch of local cuisine.\n\nDa Nang is not only a destination of blue seas, mountains, and modern bridges, but also a culinary paradise of Central Vietnam with its unique local specialties.",
+          "score": 0.76512027,
+          "raw_content": null,
+          "published_date": null,
+          "id": "3cacee-03"
+        },
+        {
+          "url": "https://amthuchiendai.vn/en/local-food-in-da-nang-must-try-dishes-and-where-to-eat-them",
+          "title": "Street Food in Da Nang: Must-Try Dishes and Where to Eat Them",
+          "content": "Cao Lầu – Mỳ Quảng An Mỹ 8 – Noodles\n\n📍Address: 23 An Mỹ 08, An Hải Trung, Sơn Trà, Đà Nẵng  \n 🗺Map: \n\n### 2.10. Cháo Vịt\n\nDuck porridge is another popular street food and late-night dish in Da Nang. Several spots have been listed in the Michelin Guide, including two centrally located eateries directly across from each other: Quán Nhn and Cô Chủ Nhỏ.\n\nCháo vịt - Quán Nhn\n\nCháo vịt – Quán Nhn [...] ##### The good :\n\n Convenient location –  within walking distance  if you’re staying near Mỹ Khê Beach.\n Fresh, well-prepared, and flavorful seafood\n Open 24/7 : rice dishes at lunch, seafood in the evening. Since many local spots in Da Nang close early, this round-the-clock service is a definitive plus.\n\nBé Ni 2\n\nBé Ni 2 – Mực cơm chiên mắm (120k)\n\n##### The not-so-good : [...] We went to Bún Bò Bà Thủy on Đống Đa Street (since 1988), a spot recommended by many locals. The place is open from 2 PM to 9:30 PM, but when we arrived around 7:30, they were nearly sold out and getting ready to close.\n\nAt that point, special cuts like oxtail, tongue, and tendon were already gone—only brisket, bone, and ribs were left. Possibly because it was late in the day, the broth—though rich and flavorful—felt a bit too oily, and the bones and ribs were quite fatty.",
+          "score": 0.7213709,
+          "raw_content": null,
+          "published_date": "Sun, 13 Apr 2025 08:57:26 GMT",
+          "id": "fcfaa2-04"
+        }
+      ],
+      "response_time": 3.48,
+      "request_id": "69af5b30-eb37-4164-b75f-c1deb5307766"
+    }
+  }
+}

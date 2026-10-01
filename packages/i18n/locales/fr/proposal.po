@@ -12,6 +12,11 @@ msgstr ""
 msgid "proposal.tracker.you"
 msgstr ""
 
+#. placeholder {0}: props.share.each
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.each"
+msgstr ""
+
 #. placeholder {0}: state.going + 1
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.going"
@@ -72,6 +77,11 @@ msgstr ""
 msgid "proposal.build.back"
 msgstr ""
 
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.presents"
+msgstr ""
+
 #. placeholder {0}: trip.destination
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.back"
@@ -90,6 +100,11 @@ msgstr ""
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/tracker/suggestions.tsx
 msgid "proposal.suggest.title"
+msgstr ""
+
+#. placeholder {0}: waiting.length
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.tracker.waiting"
 msgstr ""
 
 #. placeholder {0}: state.silent
@@ -117,8 +132,20 @@ msgstr ""
 msgid "proposal.board.egg"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.seatsAfter"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.eachAmount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.seatsBefore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
@@ -135,6 +162,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.subShared"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.chip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-screen.tsx
+msgid "proposal.dropout.reply"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
@@ -157,12 +196,32 @@ msgstr ""
 msgid "proposal.hype.count"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.offItem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.withdrawn"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.reaction.sixAm"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.suggestion"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.planItem"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
@@ -175,6 +234,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.bodyCap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.applied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.apply"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.resolve"
 msgstr ""
 
 #. placeholder {0}: info.name
@@ -218,8 +289,24 @@ msgstr ""
 msgid "proposal.build.stayNoCancel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.activity"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.boost"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.cantMake"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.tracker.seeChanges"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.changeStay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -263,6 +350,8 @@ msgid "proposal.board.dates"
 msgstr ""
 
 #. placeholder {0}: pick.dayNo
+#. placeholder {0}: stop.dayNo
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
 msgstr ""
@@ -285,6 +374,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.share"
 msgstr ""
 
 #. placeholder {0}: instantDate(locale, proposal.freeCancelUntil)
@@ -310,6 +403,14 @@ msgstr ""
 #. placeholder {0}: stay.freeCancelUntil
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.stayCancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.bodyNoBoost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
@@ -351,6 +452,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.in"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.in"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
@@ -403,6 +508,14 @@ msgstr ""
 msgid "proposal.objection.private"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.keep"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
 msgid "proposal.replyBy.auto"
 msgstr ""
@@ -443,6 +556,10 @@ msgstr ""
 msgid "proposal.alone.done"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.maybe"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.maybe"
 msgstr ""
@@ -473,6 +590,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.nothing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.noChanges"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/suggestions.tsx
@@ -560,8 +681,16 @@ msgstr ""
 msgid "proposal.version.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.react"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.ready"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.released"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
@@ -584,6 +713,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/suggestions.tsx
 msgid "proposal.suggest.resend"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.room"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.moveTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -623,6 +760,10 @@ msgstr ""
 msgid "proposal.tracker.sent"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.titleSeven"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.out.resplit"
 msgstr ""
@@ -644,12 +785,24 @@ msgstr ""
 msgid "proposal.objection.other"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.waysAfter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.waysBefore"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.noStay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.hint"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
@@ -692,6 +845,10 @@ msgstr ""
 msgid "proposal.sent.ready"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.keepSub"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.alreadySent"
 msgstr ""
@@ -720,8 +877,21 @@ msgstr ""
 msgid "proposal.tracker.waitChip"
 msgstr ""
 
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.changes"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.keepInChat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
@@ -824,6 +994,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.stay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx

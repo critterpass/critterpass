@@ -86,6 +86,14 @@ export async function crewPassHolders(
   });
 }
 
+/**
+ * Whether the conversation has a local guide of its own. Without one (no trip, or a trip whose
+ * destination has no guide) the default guide stands in and answers for any destination.
+ */
+export function hasOwnGuide(slug: string | null): boolean {
+  return personaIdSchema.safeParse(slug).success;
+}
+
 /** The trip guide's pack as the asker may read it (latest approved release, else the repo's). */
 export async function packFor(
   read: RunAsGuideReader,

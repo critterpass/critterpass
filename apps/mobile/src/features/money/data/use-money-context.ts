@@ -5,6 +5,7 @@
  * crew stream, which is always on).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- stream names and status values, never copy. */
+import { toCountryCode } from '@cp/domain';
 import { useMemo } from 'react';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
@@ -47,6 +48,7 @@ export interface MoneyContext {
   readonly uid: string | null;
   readonly locale: string;
   readonly homeCurrency: string | null;
+  /** The member's home country as its ISO code (profiles store a name or a code). */
   readonly homeCountry: string | null;
   readonly crew: MoneyCrew | null;
   readonly trips: readonly MoneyTrip[];
@@ -110,7 +112,7 @@ export function useMoneyContext(requestedTripId: string | null = null): MoneyCon
       uid,
       locale,
       homeCurrency: me?.home_currency ?? null,
-      homeCountry: me?.home_country ?? null,
+      homeCountry: toCountryCode(me?.home_country),
       crew,
       trips: tripList,
       trip,

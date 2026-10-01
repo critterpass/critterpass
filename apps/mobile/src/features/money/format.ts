@@ -96,6 +96,22 @@ export function heroParts(
   };
 }
 
+/**
+ * The type size a hero amount fits its row at, by how many characters it prints (symbol,
+ * digits and group marks): "$4,812" at the full hero size, "₫10,600,000" a step down, and
+ * anything longer at the heading size, so the amount is never cut off at the screen edge.
+ */
+export function heroVariant(parts: {
+  readonly whole: number;
+  readonly prefix: string;
+  readonly suffix: string;
+}): 'displayHero' | 'displayXl' | 'h1' {
+  const digits = String(Math.abs(Math.trunc(parts.whole))).length;
+  const length = parts.prefix.length + parts.suffix.length + digits + Math.floor((digits - 1) / 3);
+  if (length <= 8) return 'displayHero';
+  return length <= 11 ? 'displayXl' : 'h1';
+}
+
 /** A calendar date (`YYYY-MM-DD`) at noon UTC, so formatting it in UTC never shifts the day. */
 export function calendarDate(localDate: string): Date {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO time suffix, never copy.

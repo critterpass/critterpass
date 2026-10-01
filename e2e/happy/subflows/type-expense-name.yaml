@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# On the keypad: opens "What was it?", replaces the name (the guide suggests the plan's place of
+# the hour) with ${NAME} and closes the sheet.
+- tapOn:
+    id: 'money-add-details-row'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-name'
+    timeout: 10000
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible: 'Clear'
+    commands:
+      - tapOn: 'Clear'
+- tapOn:
+    id: 'money-add-name'
+- inputText: ${NAME}
+- waitForAnimationToEnd
+- tapOn:
+    id: 'money-add-details-done'
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-add-name'
+    timeout: 10000
+- waitForAnimationToEnd
