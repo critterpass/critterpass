@@ -1,7 +1,8 @@
 /**
  * 3b-2's next-up card: "NEXT UP · OCT 12", the destination in the mega face, the live countdown
- * chip and PLAN n%, with the trip's guide bobbing over the corner (2800 ms). Tapping it grows into
- * the trip hub once that screen is registered. A trip still choosing its place reads "Your next
+ * chip and PLAN n%, with the trip's guide bobbing over the corner (2800 ms). The plan pill shows
+ * once the trip has progress to report: a plan at 0% says nothing true about a trip just locked.
+ * Tapping it grows into the trip hub once that screen is registered. A trip still choosing its place reads "Your next
  * trip" and shows no countdown until it has dates. The destination's photo sits under it as a
  * duotone of the card's colour when one exists.
  */
@@ -77,7 +78,14 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
       }
       eyebrow={upper(eyebrow, locale)}
       title={upper(place, locale)}
-      metaLabel={t({ id: 'home.nextUp.planSpoken', message: `plan ${progress} percent done` })}
+      {...(progress > 0
+        ? {
+            metaLabel: t({
+              id: 'home.nextUp.planSpoken',
+              message: `plan ${progress} percent done`,
+            }),
+          }
+        : {})}
       stickerSize={NEXT_UP_STICKER}
       sticker={
         <Animated.View style={bob}>
@@ -94,9 +102,11 @@ export function NextUpCard({ trip, now, testID = 'home-next-up' }: NextUpCardPro
               {...(now === undefined ? {} : { now })}
             />
           )}
-          <InfoPill variant="outline" testID="home-plan-progress">
-            {upper(t({ id: 'home.nextUp.plan', message: `Plan ${progress}%` }), locale)}
-          </InfoPill>
+          {progress > 0 ? (
+            <InfoPill variant="outline" testID="home-plan-progress">
+              {upper(t({ id: 'home.nextUp.plan', message: `Plan ${progress}%` }), locale)}
+            </InfoPill>
+          ) : null}
         </>
       }
       {...(hub === undefined ? {} : { onPress: () => void zoomTo(tripCardId(trip.id), hub) })}
