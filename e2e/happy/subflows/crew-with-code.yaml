@@ -11,7 +11,9 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'start-crew-name'
 - inputText: ${CREW}
-- hideKeyboard
+# START THE CREW rides on top of the keyboard.
+- waitForAnimationToEnd
+- takeScreenshot: crew-new-name-typed
 - tapOn:
     id: 'start-crew-create'
 - extendedWaitUntil:

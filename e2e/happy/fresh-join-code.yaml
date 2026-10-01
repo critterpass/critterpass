@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # Release gate: a friend on a new phone joins a crew with its code, no demo world. The organiser (a
 # new account) starts a crew and keeps its code. A second new account opens the app, taps "Got a
-# code?" on the splash, types the code and presses JOIN where it comes up, on top of the keyboard.
+# code?" on the splash, types the code and joins the crew it finds.
 # Then the three-tap pass: the page asks for a name and a home, ISSUE MY PASS, "Not now" on the save
 # sheet, and the crew manifest with the newcomer on it.
 - runFlow:

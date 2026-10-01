@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
 # A friend on a new phone joins the crew whose code is in ${output.crewCode}: a second new account
-# on this phone, from the splash. "Got a code?", the code, JOIN where it comes up on top of the
-# keyboard, then the three-tap pass. A code carries no name or home, so the sheet that asks for
+# on this phone, from the splash. "Got a code?", the code (the keyboard makes way for the crew card
+# and JOIN), then the three-tap pass. A code carries no name or home, so the sheet that asks for
 # them opens by itself; picking a home puts the keyboard away and brings the button back in reach.
 # ISSUE MY PASS, "Not now" on the save sheet, and the crew manifest with the newcomer on it.
 # ${PREFIX} is the language (en or vi) and names the screenshots.

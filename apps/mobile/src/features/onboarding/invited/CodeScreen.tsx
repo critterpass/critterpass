@@ -8,7 +8,7 @@ import { t } from '@lingui/core/macro';
 import * as Clipboard from 'expo-clipboard';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { Keyboard, View } from 'react-native';
 
 import { normalizeJoinCode } from '@cp/domain';
 import { upper } from '@cp/i18n';
@@ -92,6 +92,11 @@ export function CodeScreen() {
   }, []);
 
   const found = code !== null && (model.status === 'active' || model.status === 'full');
+
+  useEffect(() => {
+    // The code is in: the keyboard makes way so the whole crew card shows above JOIN.
+    if (found) Keyboard.dismiss();
+  }, [found]);
   const wrong = typed.length === CODE_LENGTH && (code === null || model.status === 'not_found');
   const status: CodeStatus = found ? 'valid' : wrong ? 'invalid' : 'idle';
 
