@@ -46,7 +46,7 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
-- runFlow: ../proposal/subflows/setup-to-draft.yaml
+- runFlow: subflows/solo-setup-to-draft.yaml
 # The draft job (outline, every day, checks) takes a few minutes on staging.
 - extendedWaitUntil:
     visible:
