@@ -8,6 +8,8 @@ appId: app.critterpass.dev
       id: 'bookings-add-by-hand'
     direction: DOWN
     timeout: 15000
+    # Clear of the tab bar's guide button, which sits over the foot of the page.
+    centerElement: true
 - tapOn:
     id: 'bookings-add-by-hand'
 - extendedWaitUntil:
