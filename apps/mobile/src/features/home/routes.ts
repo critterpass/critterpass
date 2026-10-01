@@ -24,6 +24,9 @@ export const HOME_SCREENS: Readonly<Record<string, string>> = {
   '3b-5': HOME_ROUTES.inbox,
 };
 
+/** The Explore front page: undesigned, so the registry knows it by name. */
+export const EXPLORE_SCREEN = 'explore-home';
+
 let registered = false;
 
 /** Joins Home's screens to the registry (once; the Home route imports this). */
@@ -45,6 +48,4 @@ export const homeRoutes = {
   recap: (tripId: string): Href | undefined => hrefFor('3m-1', { tripId }),
   profile: (): Href | undefined => hrefFor('3n-1'),
   pitch: (crewId: string): Href | undefined => hrefFor('3b-3', { crewId }),
-  /** The Explore front page (undesigned, so it is known by name). */
-  explore: (): Href | undefined => hrefFor('explore-home'),
 };

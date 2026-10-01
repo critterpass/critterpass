@@ -2,8 +2,8 @@ appId: app.critterpass.dev
 ---
 # Home right after a fresh account's crew of one locks a trip to Đà Nẵng, no demo world: the next-up
 # card sets ĐÀ NẴNG with its stacked mark clear of the line above, carries no plan pill while the
-# plan has no progress, the guide button shows the trip's guide (Chà Vá) and the Explore row sits
-# at the foot. Shot in English, then in Vietnamese.
+# plan has no progress, and the guide button shows the trip's guide (Chà Vá). Shot in English, then
+# in Vietnamese.
 - runFlow: ../happy/subflows/fresh-account.yaml
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -74,8 +74,6 @@ appId: app.critterpass.dev
     timeout: 60000
 - assertNotVisible:
     id: 'home-plan-progress'
-- assertVisible:
-    id: 'home-explore'
 - waitForAnimationToEnd
 - takeScreenshot: en-3b-2-home-da-nang-locked
 # The same Home in Vietnamese: the dev gallery switches the running app's language.

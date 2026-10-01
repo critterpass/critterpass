@@ -133,16 +133,16 @@ describe('modes', () => {
     expect(push).toHaveBeenCalledWith('/place-search');
     expect(screen.getByTestId('dev-tools-entry')).toBeTruthy();
   });
-  it('opens Explore from the first run and from a crew Home once Explore is registered', async () => {
+  it('shows the Explore row on the first run and a crew Home once Explore is registered', async () => {
     const s = await open();
     await seedMe(s);
     await renderHome(<HomeScreen />, s);
     await until(() => screen.queryByTestId('home-first-run') !== null);
-    expect(screen.getByText('EXPLORE')).toBeTruthy();
-    // Not registered yet: the row stays put rather than opening a placeholder.
-    await fireEvent.press(screen.getByTestId('home-explore'));
-    expect(push).not.toHaveBeenCalled();
+    // Not registered yet: no row, rather than one that opens nothing.
+    expect(screen.queryByTestId('home-explore')).toBeNull();
     const unregister = registerScreens({ 'explore-home': '/explore' });
+    await until(() => screen.queryByTestId('home-explore') !== null);
+    expect(screen.getByText('EXPLORE')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('home-explore'));
     expect(push).toHaveBeenCalledWith('/explore');
     await screen.unmount();
