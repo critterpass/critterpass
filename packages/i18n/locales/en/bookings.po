@@ -70,6 +70,10 @@ msgid "bookings.form.timeExample"
 msgstr "09:05"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.arriveExample"
+msgstr "11:55"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.dateExample"
 msgstr "2026-10-12"
 
@@ -462,6 +466,10 @@ msgid "bookings.flight.landed"
 msgstr "Landed"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.arrive"
+msgstr "Lands at"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.timeProblem"
 msgstr "Like 09:05"
 
@@ -561,6 +569,10 @@ msgstr "On time"
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.privacy"
 msgstr "Only you see this. A clinic gets it only when you say yes, one help request at a time."
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.byHand"
+msgstr "Or type it in by hand"
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.other"
@@ -804,6 +816,10 @@ msgstr "Travellers"
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.failedLine"
 msgstr "Try connecting again from Add a booking."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.zone"
+msgstr "Type both times as {zoneCity} time ({zoneOffset})."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.voucher"

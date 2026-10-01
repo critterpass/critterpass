@@ -70,6 +70,10 @@ msgid "bookings.form.timeExample"
 msgstr "09:05"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.arriveExample"
+msgstr "11:55"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.dateExample"
 msgstr "2026-10-12"
 
@@ -462,6 +466,10 @@ msgid "bookings.flight.landed"
 msgstr "Đã hạ cánh"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.arrive"
+msgstr "Hạ cánh lúc"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.timeProblem"
 msgstr "Ví dụ 09:05"
 
@@ -561,6 +569,10 @@ msgstr "Đúng giờ"
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.privacy"
 msgstr "Chỉ bạn thấy thông tin này. Phòng khám chỉ nhận được khi bạn đồng ý, cho từng lần nhờ trợ giúp."
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.byHand"
+msgstr "Hoặc tự nhập"
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.other"
@@ -804,6 +816,10 @@ msgstr "Người đi"
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.failedLine"
 msgstr "Thử kết nối lại từ Thêm đặt chỗ."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.zone"
+msgstr "Nhập cả hai giờ theo giờ {zoneCity} ({zoneOffset})."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.voucher"

@@ -16,6 +16,7 @@ import {
   parseIdList,
   soonestRelevant,
   splitWallet,
+  withoutDeleted,
   stackOrder,
   toWalletBooking,
 } from '../data/model';
@@ -69,6 +70,16 @@ describe('wallet stack', () => {
     expect(parseIdList('["a","b"]')).toEqual(['a', 'b']);
     expect(parseIdList('{a,"b"}')).toEqual(['a', 'b']);
     expect(parseIdList(null)).toEqual([]);
+  });
+});
+
+describe('a deleted booking', () => {
+  it('leaves the wallet while its delete is still queued, so it cannot be deleted twice', () => {
+    const rows = [{ id: 'b-flight' }, { id: 'b-trek' }];
+    expect(withoutDeleted(rows, [])).toBe(rows);
+    expect(withoutDeleted(rows, [{ booking_id: 'b-trek' }, { booking_id: null }])).toEqual([
+      { id: 'b-flight' },
+    ]);
   });
 });
 

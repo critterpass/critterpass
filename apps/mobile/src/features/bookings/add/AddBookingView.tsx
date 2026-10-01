@@ -2,7 +2,8 @@
  * Add a booking (3h-2): ← BOOKINGS, ADD A BOOKING, the FORWARD / SCAN / PASTE tiles, the crew's
  * forward address with COPY, the bookings found in the crew's inboxes (the first open, the rest
  * compact; ADD slides a card up into the wallet, IGNORE slides it off), and Tokek's footnote about
- * the morning inbox check, or the way to switch it on.
+ * the morning inbox check, or the way to switch it on. Under the address a link opens the by-hand
+ * form (undesigned), for a booking with no confirmation to forward, scan or paste.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -50,6 +51,8 @@ export interface AddBookingViewProps {
   readonly onAdd: (id: string) => void;
   readonly onIgnore: (id: string) => void;
   readonly onByHand: (id: string) => void;
+  /** Adding by hand with nothing read first. */
+  readonly onTypeIn: () => void;
   readonly onMailbox: () => void;
 }
 
@@ -86,6 +89,13 @@ export function AddBookingView(props: AddBookingViewProps) {
         )}
         {props.address === null ? null : (
           <AddressPill address={props.address} onCopy={props.onCopy} />
+        )}
+        {props.noTrip ? null : (
+          <TextLink
+            label={t({ id: 'bookings.add.byHand', message: 'Or type it in by hand' })}
+            onPress={props.onTypeIn}
+            testID="bookings-add-by-hand"
+          />
         )}
         {props.noTrip ? (
           <Text variant="body" color={theme.semantic.text.secondary} testID="bookings-add-no-trip">
