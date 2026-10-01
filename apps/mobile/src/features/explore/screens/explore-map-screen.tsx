@@ -62,7 +62,7 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
   const position = useMyPosition();
   const location = usePermission('location');
   const pack = useOfflinePack(id ?? '', row?.slug ?? '');
-  const flyTo = useFlyTo();
+  const { cameraRef, flyToPlace, fitToBounds } = useFlyTo();
   const guide = guideFor(row?.guide_slug);
 
   const [mode, setMode] = useState<'map' | 'list'>('map');
@@ -122,7 +122,6 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
   }, [shown, planned, crewPicks, crew, tz, now, slot, row?.name, i18n.locale]);
 
   const selected = shown.find((poi) => poi.id === selectedId) ?? null;
-  const { flyToPlace } = flyTo;
   useEffect(() => {
     if (selected !== null) flyToPlace([selected.lng, selected.lat]);
   }, [flyToPlace, selected]);
@@ -175,7 +174,8 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
             localRegionUri={pack.uri}
             you={where.kind === 'here' ? where.at : null}
             guide={guide}
-            flyTo={flyTo}
+            cameraRef={cameraRef}
+            onFit={fitToBounds}
           />
         ) : null
       }

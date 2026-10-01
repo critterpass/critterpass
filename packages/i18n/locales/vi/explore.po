@@ -7,10 +7,25 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: props.matchCount
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.matches"
+msgstr "{0, plural, other {# lượt trùng}}"
+
 #. placeholder {0}: groups.unknown
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.unknown"
 msgstr "{0, plural, other {# địa điểm đã lưu nữa sẽ hiện ra khi điểm đến của chúng được mở trên điện thoại này.}}"
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whySaved"
+msgstr "{0, plural, other {# người trong nhóm đã lưu nơi này.}}"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
+msgstr "{0} đang chọn thẻ"
 
 #. placeholder {0}: card.name
 #. placeholder {1}: card.guide.name
@@ -37,6 +52,22 @@ msgstr "{count} địa điểm ở đây. Chạm để tách ra."
 msgid "explore.home.savedCount"
 msgstr "{count} mục đã lưu"
 
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.progress"
+msgstr "{done}/{total} · {matches}"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesMore"
+msgstr "{first} + {second} + {more} đã đồng ý"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesTwo"
+msgstr "{first} + {second} đã đồng ý"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesOne"
+msgstr "{first} đã đồng ý"
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.body"
 msgstr "{guideName} sẽ lên kế hoạch cùng bạn. Không bỏ phiếu, không cần xác nhận tham gia. Chuyến đi một mình không dùng chuyến miễn phí đầu tiên của nhóm."
@@ -48,6 +79,10 @@ msgstr "{guideName} chọn"
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.hoursFrom"
 msgstr "{hours} giờ bay từ {origin}"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.fromStay"
+msgstr "{minutes} phút từ chỗ ở"
 
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.fromStay"
@@ -97,6 +132,14 @@ msgstr "{others} người trong nhóm"
 msgid "explore.sponsored.paid"
 msgstr "{partner} đã trả tiền cho vị trí này trong danh sách. Nó được ghi rõ ĐƯỢC TÀI TRỢ để bạn phân biệt với gợi ý của chính hướng dẫn viên."
 
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastMatch"
+msgstr "{place} đã trùng"
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastSuggested"
+msgstr "Đã đề xuất {place} cho Ngày {day}"
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.ready"
 msgstr "{place} dùng được khi không có mạng"
@@ -105,9 +148,21 @@ msgstr "{place} dùng được khi không có mạng"
 msgid "explore.pack.readySize"
 msgstr "{place} dùng được khi không có mạng · {size} MB"
 
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchUnslotted"
+msgstr "{placeName} đã trùng. Kế hoạch chưa có chỗ trống cho nơi này."
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchSuggested"
+msgstr "{placeName} được đề xuất cho Ngày {dayNo}. Trưởng nhóm sẽ duyệt."
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.stopsFrom"
 msgstr "{transfers, plural, other {# điểm dừng từ {origin}}}"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneCount"
+msgstr "{yesCount, plural, other {Bạn đã đồng ý với # địa điểm.}}"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.newList"
@@ -120,6 +175,10 @@ msgstr "+{others}"
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.each"
 msgstr "~{amount} mỗi người"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.live"
+msgstr "● {liveCount} đang quẹt"
 
 #: ../../apps/mobile/src/features/explore/components/save-button.tsx
 msgid "explore.save.save"
@@ -148,6 +207,10 @@ msgstr "Một địa điểm chờ nhóm đồng ý"
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.save"
 msgstr "Một địa điểm đã lưu"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipe"
+msgstr "Một lượt quẹt"
 
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.toDay"
@@ -178,6 +241,10 @@ msgstr "Hỏi {0} về nơi này"
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.back"
 msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.backToPlan"
+msgstr "Về kế hoạch"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.beach"
@@ -291,15 +358,16 @@ msgstr "Khám phá"
 msgid "explore.map.loading"
 msgstr "Đang lấy các địa điểm ở {place}"
 
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.food"
-msgstr "Ăn uống"
-
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
 msgstr "Ăn uống"
 
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.food"
+msgstr "Ăn uống"
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
 msgid "explore.place.free"
 msgstr "miễn phí"
 
@@ -318,6 +386,10 @@ msgstr "Đi khoảng {time}"
 #: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
 msgid "explore.crowd.before"
 msgstr "Đi trước {time}"
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyClose"
+msgstr "Đã hiểu"
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
@@ -344,9 +416,29 @@ msgstr "Lần đầu mình cần có mạng. Sau đó nơi này có sẵn cả k
 msgid "explore.add.inDay"
 msgstr "Trong ngày {day}"
 
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTaste"
+msgstr "Hợp với sở thích của nhóm: {tag}."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNear"
+msgstr "Cách chỗ ở khoảng {minutes} phút đi bộ."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyMustSee"
+msgstr "Đây là một trong những nơi phải đến của {guideName}."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNone"
+msgstr "Đây là một trong những nơi {guideName} giữ cho điểm đến này."
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.title"
 msgstr "Chỉ mình bạn, {placeName}"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchDismiss"
+msgstr "Quẹt tiếp"
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.loading"
@@ -367,6 +459,18 @@ msgstr "Bản đồ ›"
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
 msgstr "Chợ"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.match"
+msgstr "Trùng"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowUnslotted"
+msgstr "Trùng · chưa có chỗ trống"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRow"
+msgstr "Trùng · đề xuất cho Ngày {day}"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.move"
@@ -418,9 +522,17 @@ msgstr "Kế hoạch hết chỗ trống"
 msgid "explore.limited.body"
 msgstr "Chưa có hướng dẫn viên nào sống ở {0}, nên độ đông theo tháng và các gợi ý chưa được viết. Chuyến bay, tiền tệ và những tháng đẹp nhất thì đã có, và {1} vẫn lên kế hoạch cho chuyến đi."
 
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.noMatches"
+msgstr "Chưa có lượt trùng nào. Chúng sẽ hiện ở đây khi cả nhóm quẹt xong."
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.noPlan"
 msgstr "Chưa có kế hoạch để thêm"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.no"
+msgstr "Không chọn nơi này"
 
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
 msgid "explore.solo.refusedBody"
@@ -533,16 +645,16 @@ msgstr "Lưu cho chuyến đi"
 msgid "explore.place.save"
 msgstr "Lưu nơi này"
 
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.saved"
-msgstr "Đã lưu"
-
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.saved"
 msgstr "Đã lưu"
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedBadge"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.saved"
 msgstr "Đã lưu"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
@@ -639,6 +751,10 @@ msgstr "Được tài trợ: {0}, {1}"
 msgid "explore.solo.start"
 msgstr "Bắt đầu chuyến đi một mình"
 
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipeStart"
+msgstr "Bắt đầu một phiên quẹt"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.stay"
 msgstr "Chỗ ở"
@@ -651,9 +767,21 @@ msgstr "Đề xuất cho ngày {day} · {time}"
 msgid "explore.add.suggested"
 msgstr "Đã đề xuất cho ngày {day}"
 
+#: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
+msgid "explore.swipe.cardActions"
+msgstr "Quẹt phải để đồng ý, quẹt trái để bỏ qua"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.title"
+msgstr "Quẹt cùng nhau"
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.emptyLine"
 msgstr "Chạm vào trái tim ở một địa điểm hay điểm đến, nó sẽ nằm ở đây."
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchTap"
+msgstr "Chạm để quẹt tiếp"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
@@ -670,6 +798,10 @@ msgstr "Chưa thực hiện được"
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.title"
 msgstr "Nơi này chưa có trong cẩm nang"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneTitle"
+msgstr "Hết bộ thẻ rồi"
 
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.proposedBody"
@@ -703,6 +835,10 @@ msgstr "Cẩm nang này chưa tải xong"
 msgid "explore.place.missingTitle"
 msgstr "Nơi này chưa tải xong"
 
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.endedTitle"
+msgstr "Phiên này đã kết thúc"
+
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.title"
 msgstr "Vé và tour"
@@ -711,6 +847,10 @@ msgstr "Vé và tour"
 msgid "explore.category.transit"
 msgstr "Di chuyển"
 
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.trip"
+msgstr "Chuyến đi"
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.retry"
 msgstr "Thử lại"
@@ -718,6 +858,10 @@ msgstr "Thử lại"
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.line"
 msgstr "Thử tìm kiếm xem. Mình biết hầu hết mọi nơi."
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.undo"
+msgstr "Hoàn tác lượt quẹt vừa rồi"
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.disclosure"
@@ -740,6 +884,10 @@ msgstr "Nơi các hướng dẫn viên sống"
 msgid "explore.pitch.whichCrew"
 msgstr "Giới thiệu cho nhóm nào?"
 
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTitle"
+msgstr "Vì sao là {placeName}?"
+
 #: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
 msgid "explore.sponsored.why"
 msgstr "Vì sao tôi thấy mục này?"
@@ -747,6 +895,14 @@ msgstr "Vì sao tôi thấy mục này?"
 #: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
 msgid "explore.sponsored.sheetTitle"
 msgstr "Vì sao tôi thấy mục này?"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.why"
+msgstr "Vì sao?"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.yes"
+msgstr "Chọn nơi này"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.you"
@@ -780,3 +936,7 @@ msgstr "Hướng dẫn viên: {0}"
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.trip"
 msgstr "Chuyến đi mới của bạn"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.offline"
+msgstr "Các lượt quẹt được giữ lại và gửi đi khi bạn có mạng. Lúc đó lượt trùng sẽ hiện ra."

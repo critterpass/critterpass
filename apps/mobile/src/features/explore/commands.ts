@@ -8,6 +8,8 @@ import type {
   CreateChangesetPayload,
   CreateTripPayload,
   RecordSponsoredEventPayload,
+  StartSwipeSessionPayload,
+  SwipeVotePayload,
 } from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
@@ -84,4 +86,27 @@ export const moveSavedItemCommand = defineClientCommand<{
 export const recordSponsoredEventCommand = defineClientCommand<RecordSponsoredEventPayload>({
   name: 'record_sponsored_event',
   offline: true,
+});
+
+export const startSwipeSessionCommand = defineClientCommand<StartSwipeSessionPayload>({
+  name: 'start_swipe_session',
+  offline: true,
+  summarize: () => msg({ id: 'explore.queued.swipeStart', message: 'Starting a swipe session' }),
+});
+
+/** A swipe may wait in the queue: a match it makes resolves once the phone is back online. */
+export const swipeVoteCommand = defineClientCommand<SwipeVotePayload>({
+  name: 'swipe_vote',
+  offline: true,
+  summarize: () => msg({ id: 'explore.queued.swipe', message: 'A swipe' }),
+});
+
+export const undoSwipeCommand = defineClientCommand<{ session_id: string; place_id: string }>({
+  name: 'undo_swipe',
+  offline: true,
+});
+
+export const endSwipeSessionCommand = defineClientCommand<{ session_id: string }>({
+  name: 'end_swipe_session',
+  offline: false,
 });

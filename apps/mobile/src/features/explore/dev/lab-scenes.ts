@@ -8,12 +8,14 @@ import { DESTINATION_SCENES } from './destination-scenes';
 import { MAP_SCENES } from './map-scenes';
 import { PLACE_SCENES } from './place-scenes';
 import { SAVED_SCENES } from './saved-scenes';
+import { SWIPE_SCENES } from './swipe-scenes';
 
 export const EXPLORE_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...DESTINATION_SCENES,
   ...PLACE_SCENES,
   ...SAVED_SCENES,
   ...MAP_SCENES,
+  ...SWIPE_SCENES,
 };
 
 export const EXPLORE_LAB_SCENE_NAMES: readonly string[] = Object.keys(EXPLORE_LAB_SCENES);

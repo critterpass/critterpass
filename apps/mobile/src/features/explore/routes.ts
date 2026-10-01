@@ -50,6 +50,11 @@ export const exploreRoutes = {
     pathname: '/explore/map',
     params: { destination, ...defined({ tripId: params.tripId, placeId: params.placeId }) },
   }),
+  /** Swipe together for a trip: a session by id, or `new` to join the open one or start one. */
+  swipe: (tripId: string, sessionId = 'new'): Href => ({
+    pathname: '/[tripId]/swipe/[sessionId]',
+    params: { tripId, sessionId },
+  }),
   /** "Why am I seeing this?" for a sponsored pick, as a sheet. */
   whySponsored: (partner: string, place: string): Href => ({
     pathname: '/explore/why-sponsored',
@@ -96,6 +101,7 @@ registerScreens({
       destinationId: params['destinationId'],
       tripId: params['tripId'],
     }),
+  '3d-2': (params) => exploreRoutes.swipe(params['tripId'] ?? '', params['sessionId'] ?? 'new'),
   '3d-4': (params) =>
     exploreRoutes.map(params['destinationId'] ?? '', {
       tripId: params['tripId'],

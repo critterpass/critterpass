@@ -126,7 +126,7 @@ const SPECS: Readonly<Record<string, MapSpec>> = {
 
 function MapScene({ spec }: { readonly spec: MapSpec }) {
   const locale = useLocale();
-  const flyTo = useFlyTo();
+  const { cameraRef, flyToPlace, fitToBounds } = useFlyTo();
   const [mode, setMode] = useState(spec.mode ?? 'map');
   const [query, setQuery] = useState(spec.query ?? '');
   const [filters, setFilters] = useState<ReadonlySet<MapFilter>>(new Set(spec.filters ?? []));
@@ -179,7 +179,7 @@ function MapScene({ spec }: { readonly spec: MapSpec }) {
       onSettle={(id) => {
         setSelectedId(id);
         const place = spec.places.find((candidate) => candidate.id === id);
-        if (place !== undefined) flyTo.flyToPlace([place.lng, place.lat]);
+        if (place !== undefined) flyToPlace([place.lng, place.lat]);
       }}
       onOpen={() => undefined}
       onBack={() => undefined}
@@ -197,7 +197,8 @@ function MapScene({ spec }: { readonly spec: MapSpec }) {
             localRegionUri={null}
             you={spec.you ?? null}
             guide={guideFor(spec.guide)}
-            flyTo={flyTo}
+            cameraRef={cameraRef}
+            onFit={fitToBounds}
           />
         )
       }

@@ -7,9 +7,24 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: pl\n"
 
+#. placeholder {0}: props.matchCount
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.matches"
+msgstr ""
+
 #. placeholder {0}: groups.unknown
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.unknown"
+msgstr ""
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whySaved"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
 msgstr ""
 
 #. placeholder {0}: card.name
@@ -37,6 +52,22 @@ msgstr ""
 msgid "explore.home.savedCount"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.progress"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesTwo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesOne"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.body"
 msgstr ""
@@ -47,6 +78,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.hoursFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.fromStay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/place-copy.ts
@@ -97,6 +132,14 @@ msgstr ""
 msgid "explore.sponsored.paid"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastMatch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastSuggested"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.ready"
 msgstr ""
@@ -105,8 +148,20 @@ msgstr ""
 msgid "explore.pack.readySize"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchUnslotted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchSuggested"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.stopsFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneCount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
@@ -119,6 +174,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.each"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.live"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/save-button.tsx
@@ -149,6 +208,10 @@ msgstr ""
 msgid "explore.queued.save"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipe"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.toDay"
 msgstr ""
@@ -177,6 +240,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.backToPlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -291,15 +358,16 @@ msgstr ""
 msgid "explore.map.loading"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.food"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.food"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
 msgid "explore.place.free"
 msgstr ""
 
@@ -317,6 +385,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
 msgid "explore.crowd.before"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyClose"
 msgstr ""
 
 #. placeholder {0}: guide.name
@@ -344,8 +416,28 @@ msgstr ""
 msgid "explore.add.inDay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTaste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyMustSee"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchDismiss"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
@@ -366,6 +458,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.match"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowUnslotted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
@@ -418,8 +522,16 @@ msgstr ""
 msgid "explore.limited.body"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.noMatches"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.noPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.no"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
@@ -533,16 +645,16 @@ msgstr ""
 msgid "explore.place.save"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.saved"
-msgstr ""
-
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedBadge"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
@@ -639,6 +751,10 @@ msgstr ""
 msgid "explore.solo.start"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipeStart"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.stay"
 msgstr ""
@@ -651,8 +767,20 @@ msgstr ""
 msgid "explore.add.suggested"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
+msgid "explore.swipe.cardActions"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.emptyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchTap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -669,6 +797,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
@@ -703,6 +835,10 @@ msgstr ""
 msgid "explore.place.missingTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.endedTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.title"
 msgstr ""
@@ -711,12 +847,20 @@ msgstr ""
 msgid "explore.category.transit"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.trip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.retry"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.undo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
@@ -740,12 +884,24 @@ msgstr ""
 msgid "explore.pitch.whichCrew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
 msgid "explore.sponsored.why"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
 msgid "explore.sponsored.sheetTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.why"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.yes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
@@ -779,4 +935,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.offline"
 msgstr ""

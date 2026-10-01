@@ -7,10 +7,25 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: props.matchCount
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.matches"
+msgstr "{0, plural, one {# match} other {# matches}}"
+
 #. placeholder {0}: groups.unknown
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.unknown"
 msgstr "{0, plural, one {# more saved place shows once its destination has been opened on this phone.} other {# more saved places show once their destinations have been opened on this phone.}}"
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whySaved"
+msgstr "{0, plural, one {# of the crew saved it.} other {# of the crew saved it.}}"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
+msgstr "{0} is picking the cards"
 
 #. placeholder {0}: card.name
 #. placeholder {1}: card.guide.name
@@ -37,6 +52,22 @@ msgstr "{count} places here. Tap to spread them out."
 msgid "explore.home.savedCount"
 msgstr "{count} saved"
 
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.progress"
+msgstr "{done}/{total} · {matches}"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesMore"
+msgstr "{first} + {second} + {more} said yes"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesTwo"
+msgstr "{first} + {second} said yes"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesOne"
+msgstr "{first} said yes"
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.body"
 msgstr "{guideName} plans it with you. No vote, no RSVP. A solo trip doesn't use a crew's free first trip."
@@ -48,6 +79,10 @@ msgstr "{guideName}'s pick"
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.hoursFrom"
 msgstr "{hours}h from {origin}"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.fromStay"
+msgstr "{minutes} min from the stay"
 
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.fromStay"
@@ -97,6 +132,14 @@ msgstr "{others} of the crew"
 msgid "explore.sponsored.paid"
 msgstr "{partner} paid for this spot in the list. It is marked SPONSORED so you can tell it from the guide's own picks."
 
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastMatch"
+msgstr "{place} is a match"
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastSuggested"
+msgstr "{place} suggested for Day {day}"
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.ready"
 msgstr "{place} works offline"
@@ -105,9 +148,21 @@ msgstr "{place} works offline"
 msgid "explore.pack.readySize"
 msgstr "{place} works offline · {size} MB"
 
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchUnslotted"
+msgstr "{placeName} is a match. The plan has no free slot for it yet."
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchSuggested"
+msgstr "{placeName} is suggested for Day {dayNo}. The organiser okays it."
+
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.hero.stopsFrom"
 msgstr "{transfers, plural, one {# stop from {origin}} other {# stops from {origin}}}"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneCount"
+msgstr "{yesCount, plural, one {You said yes to # place.} other {You said yes to # places.}}"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.newList"
@@ -120,6 +175,10 @@ msgstr "+{others}"
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.each"
 msgstr "~{amount} each"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.live"
+msgstr "● {liveCount} live"
 
 #: ../../apps/mobile/src/features/explore/components/save-button.tsx
 msgid "explore.save.save"
@@ -148,6 +207,10 @@ msgstr "A place for the crew to okay"
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.save"
 msgstr "A saved place"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipe"
+msgstr "A swipe"
 
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.toDay"
@@ -178,6 +241,10 @@ msgstr "Ask {0} about this place"
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.back"
 msgstr "Back"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.backToPlan"
+msgstr "Back to the plan"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.beach"
@@ -291,15 +358,16 @@ msgstr "Explore"
 msgid "explore.map.loading"
 msgstr "Fetching {place}'s places"
 
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.food"
-msgstr "Food"
-
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
 msgstr "Food"
 
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.food"
+msgstr "Food"
+
 #: ../../apps/mobile/src/features/explore/place-copy.ts
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
 msgid "explore.place.free"
 msgstr "free"
 
@@ -318,6 +386,10 @@ msgstr "Go around {time}"
 #: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
 msgid "explore.crowd.before"
 msgstr "Go before {time}"
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyClose"
+msgstr "Got it"
 
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
@@ -344,9 +416,29 @@ msgstr "I need a connection the first time. After that it's here offline."
 msgid "explore.add.inDay"
 msgstr "In day {day}"
 
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTaste"
+msgstr "It fits what the crew likes: {tag}."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNear"
+msgstr "It's about {minutes} min on foot from the stay."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyMustSee"
+msgstr "It's one of {guideName}'s must-sees."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNone"
+msgstr "It's one of the places {guideName} keeps for this destination."
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.title"
 msgstr "Just you, {placeName}"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchDismiss"
+msgstr "Keep swiping"
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.loading"
@@ -367,6 +459,18 @@ msgstr "Map ›"
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
 msgstr "Market"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.match"
+msgstr "Match"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowUnslotted"
+msgstr "Match · no free slot yet"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRow"
+msgstr "Match · suggested for Day {day}"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.move"
@@ -418,9 +522,17 @@ msgstr "No free slot in the plan"
 msgid "explore.limited.body"
 msgstr "No guide lives in {0} yet, so the month-by-month crowds and the picks aren't written. Flights, money and the best months are covered, and {1} plans the trip all the same."
 
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.noMatches"
+msgstr "No matches yet. They land here as the rest of the crew swipes."
+
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.noPlan"
 msgstr "No plan to add to yet"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.no"
+msgstr "No to this one"
 
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
 msgid "explore.solo.refusedBody"
@@ -533,16 +645,16 @@ msgstr "Save for a trip"
 msgid "explore.place.save"
 msgstr "Save this place"
 
-#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
-msgid "explore.map.saved"
-msgstr "Saved"
-
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.saved"
 msgstr "Saved"
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedBadge"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.saved"
 msgstr "Saved"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
@@ -639,6 +751,10 @@ msgstr "Sponsored: {0}, {1}"
 msgid "explore.solo.start"
 msgstr "Start solo trip"
 
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipeStart"
+msgstr "Starting a swipe session"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.stay"
 msgstr "Stay"
@@ -651,9 +767,21 @@ msgstr "Suggest for day {day} · {time}"
 msgid "explore.add.suggested"
 msgstr "Suggested for day {day}"
 
+#: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
+msgid "explore.swipe.cardActions"
+msgstr "Swipe right for yes, left for no"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.title"
+msgstr "Swipe together"
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.emptyLine"
 msgstr "Tap the heart on a place or a destination and it lands here."
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchTap"
+msgstr "Tap to keep swiping"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.temple"
@@ -670,6 +798,10 @@ msgstr "That didn't go through"
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.title"
 msgstr "That place isn't in the guide"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneTitle"
+msgstr "That's the deck"
 
 #: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
 msgid "explore.add.proposedBody"
@@ -703,6 +835,10 @@ msgstr "This guide hasn't loaded yet"
 msgid "explore.place.missingTitle"
 msgstr "This place hasn't loaded yet"
 
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.endedTitle"
+msgstr "This session is over"
+
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.title"
 msgstr "Tickets and tours"
@@ -711,6 +847,10 @@ msgstr "Tickets and tours"
 msgid "explore.category.transit"
 msgstr "Transit"
 
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.trip"
+msgstr "Trip"
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.retry"
 msgstr "Try again"
@@ -718,6 +858,10 @@ msgstr "Try again"
 #: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
 msgid "explore.missing.line"
 msgstr "Try the search. I cover most places."
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.undo"
+msgstr "Undo last swipe"
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.disclosure"
@@ -740,6 +884,10 @@ msgstr "Where the guides live"
 msgid "explore.pitch.whichCrew"
 msgstr "Which crew gets the pitch?"
 
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTitle"
+msgstr "Why {placeName}?"
+
 #: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
 msgid "explore.sponsored.why"
 msgstr "Why am I seeing this?"
@@ -747,6 +895,14 @@ msgstr "Why am I seeing this?"
 #: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
 msgid "explore.sponsored.sheetTitle"
 msgstr "Why am I seeing this?"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.why"
+msgstr "Why this?"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.yes"
+msgstr "Yes to this one"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.you"
@@ -780,3 +936,7 @@ msgstr "Your guide: {0}"
 #: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.trip"
 msgstr "Your new trip"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.offline"
+msgstr "Your swipes are kept and sent when you are back online. Matches show then."

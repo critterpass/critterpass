@@ -9,14 +9,15 @@ import {
   Camera,
   Map as MapLibreMap,
   ViewAnnotation,
+  type CameraRef,
+  type LngLatBounds,
   type StyleSpecification,
 } from '@maplibre/maplibre-react-native';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type RefObject } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { clusterBounds, clusterPlaces, type MapPlace } from '@/ui/map/clusterPlaces';
 import { RouteLine } from '@/ui/map/RouteLine';
-import type { UseFlyToResult } from '@/ui/map/useFlyTo';
 import { YouDot } from '@/ui/map/YouDot';
 import { useTheme } from '@/ui/theme';
 
@@ -58,12 +59,15 @@ export interface ExploreMapCanvasProps {
   /** Where the viewer stands, when they are in the destination. */
   readonly you: Point | null;
   readonly guide: GuideFacts;
-  readonly flyTo: UseFlyToResult;
+  /** The camera the screen flies (`useFlyTo`). */
+  readonly cameraRef: RefObject<CameraRef | null>;
+  /** Zooms to fit a gathering that was tapped open. */
+  readonly onFit: (bounds: LngLatBounds) => void;
 }
 
 const styles = StyleSheet.create({ you: { flexDirection: 'row', alignItems: 'center' } });
 
-export function ExploreMapCanvas(props: ExploreMapCanvasProps) {
+export function ExploreMapCanvas({ cameraRef, onFit, ...props }: ExploreMapCanvasProps) {
   const theme = useTheme();
   const [zoom, setZoom] = useState(OPENING_ZOOM);
   const [opened, setOpened] = useState<ReadonlySet<string>>(new Set());
@@ -114,7 +118,7 @@ export function ExploreMapCanvas(props: ExploreMapCanvasProps) {
       onRegionDidChange={(event) => setZoom(event.nativeEvent.zoom)}
     >
       <Camera
-        ref={props.flyTo.cameraRef}
+        ref={cameraRef}
         initialViewState={
           props.centre === null
             ? { center: [0, 0], zoom: 1 }
@@ -145,7 +149,7 @@ export function ExploreMapCanvas(props: ExploreMapCanvasProps) {
                 count={cluster.places.length}
                 onPress={() => {
                   setOpened((current) => new Set(current).add(cluster.id));
-                  props.flyTo.fitToBounds(clusterBounds(cluster));
+                  onFit(clusterBounds(cluster));
                 }}
               />
             </ViewAnnotation>
