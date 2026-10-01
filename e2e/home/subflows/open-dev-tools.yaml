@@ -1,8 +1,12 @@
 appId: app.critterpass.dev
 ---
-# Home through its link, then the developer tools list: a way out of any dev screen when the iOS
-# edge swipe doesn't pop it.
-# The simulator's openurl can time out while a dev screen is up; the wait below still decides.
+# The developer tools list from a cold start: a way out of any dev screen when the iOS edge swipe
+# doesn't pop it. The app is stopped first, so the link opens a fresh navigator (a link launch is
+# never restored to the saved screen). Opened over a running app, the link would put Home, or the
+# pass flow for an account that hasn't finished it, on top of the dev screens, with a back that
+# leads into them.
+- stopApp
+# The simulator's openurl can time out; the wait below still decides.
 - openLink:
     link: critterpass-dev://
     optional: true
@@ -14,6 +18,6 @@ appId: app.critterpass.dev
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
-    timeout: 20000
+    timeout: 30000
 - tapOn:
     id: 'dev-tools-entry'
