@@ -6,10 +6,13 @@ appId: app.critterpass.dev
 # them opens by itself; picking a home puts the keyboard away and brings the button back in reach.
 # ISSUE MY PASS, "Not now" on the save sheet, and the crew manifest with the newcomer on it.
 # ${PREFIX} is the language (en or vi) and names the screenshots.
+# The switch restarts the app in its saved language whatever the dev tools showed on the way, so
+# it runs as an English flow; the language is picked on the new account's splash below.
 - runFlow:
     file: ../../proposal/subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-new'
+      PREFIX: en
 # The dev gallery switches the running app's language (not persisted); two steps back to the splash.
 - runFlow:
     when:
