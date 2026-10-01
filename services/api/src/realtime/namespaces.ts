@@ -7,6 +7,8 @@
 import {
   CREW_MAP_CHANNEL_ACL_SQL,
   CREW_MAP_CHANNEL_NAMESPACE,
+  SOS_CHANNEL_ACL_SQL,
+  SOS_CHANNEL_NAMESPACE,
   RT_ACL_RULE_SQL,
   RT_CORE_NAMESPACES,
   type ChannelNamespace,
@@ -101,4 +103,13 @@ registerNamespace({
             WHERE p.trip_id = s.trip_id AND p.user_id = app.uid() AND p.rsvp <> 'out'))
     ) AS allowed`),
   presence: true,
+});
+
+// `sos:{id}`: an SOS incident's live steps, responders, thread and fixes, for anyone who can read
+// the incident (its trip's crew; a stale one its sender only). History so a takeover opened late
+// replays what happened.
+registerNamespace({
+  name: SOS_CHANNEL_NAMESPACE,
+  acl: aclForSql(SOS_CHANNEL_ACL_SQL),
+  presence: false,
 });

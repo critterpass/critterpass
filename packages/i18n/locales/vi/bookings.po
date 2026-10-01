@@ -21,6 +21,10 @@ msgstr "{0, plural, other {# đặt chỗ đã qua}}"
 msgid "bookings.candidate.split"
 msgstr "{0, plural, other {Chia # phần}}"
 
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copyAddressA11y"
+msgstr "{address}, chép địa chỉ"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.paidBy"
 msgstr "{amount} · {payer} trả"
@@ -68,6 +72,10 @@ msgstr "{who} cũng đi chuyến này."
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.timeExample"
 msgstr "09:05"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.arriveExample"
+msgstr "11:55"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.dateExample"
@@ -462,6 +470,10 @@ msgid "bookings.flight.landed"
 msgstr "Đã hạ cánh"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.arrive"
+msgstr "Hạ cánh lúc"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.timeProblem"
 msgstr "Ví dụ 09:05"
 
@@ -562,6 +574,10 @@ msgstr "Đúng giờ"
 msgid "bookings.insurance.privacy"
 msgstr "Chỉ bạn thấy thông tin này. Phòng khám chỉ nhận được khi bạn đồng ý, cho từng lần nhờ trợ giúp."
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.byHand"
+msgstr "Hoặc tự nhập"
+
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.other"
 msgstr "Khác"
@@ -626,6 +642,11 @@ msgstr "Chỉ đọc, chỉ xác nhận. Mình xem người gửi và tiêu đ�
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.reading"
 msgstr "Đang đọc trang…"
+
+#. placeholder {0}: pending.length
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.read"
+msgstr "Sẵn sàng thêm · {0}"
 
 #: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
 #: ../../apps/mobile/src/features/bookings/dev/lab-scenes-wallet.tsx
@@ -804,6 +825,10 @@ msgstr "Người đi"
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.failedLine"
 msgstr "Thử kết nối lại từ Thêm đặt chỗ."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.zone"
+msgstr "Nhập cả hai giờ theo giờ {zoneCity} ({zoneOffset})."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.voucher"

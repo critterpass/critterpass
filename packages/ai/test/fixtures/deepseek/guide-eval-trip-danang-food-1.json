@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "e19c639d-e706-4ed4-be84-92697f79e39c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "One evening in Da Nang means one proper sit-down feast, and I'd point you to bánh tráng cuốn thịt heo (boiled pork rolled in rice paper with fresh herbs) — you wrap it yourself at the table, so dinner becomes an activity. Want me to check what's near wherever you're staying?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 212,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9856,
+        "output_tokens": 70,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

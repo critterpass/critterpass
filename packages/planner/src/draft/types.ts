@@ -25,6 +25,8 @@ export interface DraftPoi {
   /** Curated by our editors (synced to phones); open-data places stay server-side. */
   readonly editorial: boolean;
   readonly mustSee: boolean;
+  /** How much the row says about the place (filled editorial fields, known hours); 0 = bare. */
+  readonly detail?: number;
 }
 
 export interface DraftMustDo {

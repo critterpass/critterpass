@@ -1,0 +1,63 @@
+appId: app.critterpass.dev
+---
+# From Add a booking: "Or type it in by hand", the flight ${FLIGHT} from ${FROM} to ${TO} on ${DAY}
+# (YYYY-MM-DD), leaving ${DEPARTS} and landing ${LANDS}, saved. The form names the one zone both
+# times are read in. It ends on the wallet. ${SHOT}, when set, names a screenshot of the filled form.
+- scrollUntilVisible:
+    element:
+      id: 'bookings-add-by-hand'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'bookings-add-by-hand'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-form-add'
+    timeout: 15000
+- tapOn:
+    id: 'bookings-form-kind-flight'
+- tapOn:
+    id: 'bookings-form-flight'
+- inputText: ${FLIGHT}
+- tapOn:
+    id: 'bookings-form-from'
+- inputText: ${FROM}
+- tapOn:
+    id: 'bookings-form-to'
+- inputText: ${TO}
+- scrollUntilVisible:
+    element:
+      id: 'bookings-form-date'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
+- tapOn:
+    id: 'bookings-form-date'
+- inputText: ${DAY}
+- tapOn:
+    id: 'bookings-form-time'
+- inputText: ${DEPARTS}
+- scrollUntilVisible:
+    element:
+      id: 'bookings-form-arrive'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
+- tapOn:
+    id: 'bookings-form-arrive'
+- inputText: ${LANDS}
+- assertVisible:
+    id: 'bookings-form-zone'
+- assertVisible: '(?i).*ho chi minh time \(GMT\+7\).*'
+- runFlow:
+    when:
+      true: ${typeof SHOT !== 'undefined' && SHOT !== ''}
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOT}
+- tapOn:
+    id: 'bookings-form-save'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-.*'
+    timeout: 30000

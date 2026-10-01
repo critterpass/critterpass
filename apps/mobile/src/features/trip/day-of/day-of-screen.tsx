@@ -32,7 +32,7 @@ import {
   type MemberRow,
   type TripRow,
 } from '../hub/data/queries';
-import { TODAY } from '../hub/routes';
+import { TODAY, tripDayRoute } from '../hub/routes';
 import {
   addPackingItemCommand,
   checkPackingItemCommand,
@@ -41,7 +41,14 @@ import {
 } from '../leave-by/commands';
 import { useDayLeaveBys } from '../leave-by/use-leave-by';
 import { useMediaLowData } from '../media/use-media-low-data';
-import { alarmNoteFor, dayTimeline, forecastFor, pickLeaveBy } from './day-of-data';
+import {
+  alarmNoteFor,
+  dayLead,
+  dayRelation,
+  dayTimeline,
+  forecastFor,
+  pickLeaveBy,
+} from './day-of-data';
 import { dayEyebrow, forecastLabel } from './day-of-copy';
 import { DayOfView } from './day-of-view';
 import {
@@ -80,10 +87,14 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   });
   const tz = tripRow?.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
   const minute = Math.floor(now.getTime() / 60_000);
-  const localDate = useMemo(
-    () => (date === TODAY ? toLocalWallTime(new Date(minute * 60_000), tz).date : date),
-    [date, minute, tz],
-  );
+  const today = useMemo(() => toLocalWallTime(new Date(minute * 60_000), tz).date, [minute, tz]);
+  const localDate = date === TODAY ? today : date;
+  const relation = dayRelation(localDate, today);
+  // Another day opened while the trip is on (the hub's next stop may be tomorrow's first).
+  const tripOnToday =
+    tripRow?.start_date != null &&
+    today >= tripRow.start_date &&
+    today <= (tripRow.end_date ?? tripRow.start_date);
   const memberRows = useLiveRows<MemberRow>(
     MEMBERS_SQL,
     tripRow === null ? null : [tripRow.crew_id],
@@ -152,12 +163,17 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
           ? 'ready'
           : 'loading'
       }
-      eyebrow={dayEyebrow(localDate, dayNo, locale)}
+      eyebrow={dayEyebrow(localDate, dayNo, locale, relation === 'tomorrow')}
+      onToday={
+        relation !== 'today' && tripOnToday
+          ? () => router.replace(tripDayRoute(tripId, null))
+          : undefined
+      }
       forecast={forecast === null ? null : forecastLabel(forecast.tempC, forecast.atTheTop, locale)}
       leaveBy={leaveBy}
       now={now}
       guideName={guideName}
-      firstUp={timeline[0] ?? null}
+      firstUp={dayLead(timeline, relation === 'today', now)}
       pack={buildPackChips(packing.rows, pending.rows, tripId, localDate)}
       timeline={timeline.map((entry) => ({
         ...entry,

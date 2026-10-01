@@ -154,4 +154,25 @@ describe('POST /v1/crews/{crew_id}/welcome', () => {
     const outsider = await harness.signInAnonymously();
     expect((await post(outsider, `/v1/crews/${crewId}/welcome`, {})).status).toBe(404);
   });
+  it("writes it in the language the joiner's app is in", async () => {
+    await withSystem(harness.pool, (tx) =>
+      tx.query(
+        `INSERT INTO user_settings (user_id, app_locale) VALUES ($1, 'vi')
+         ON CONFLICT (user_id) DO UPDATE SET app_locale = 'vi'`,
+        [owner.uid],
+      ),
+    );
+    deepseek = fixtureTransport(['crew-welcome-13']);
+    const answer = await post(owner, `/v1/crews/${crewId}/welcome`, {});
+    expect(answer.body).toEqual({
+      line: 'Chào Mai, chào mừng đến với Da Nang Crew nhé!',
+      source: 'model',
+    });
+    expect(JSON.stringify(deepseek.requests[0])).toContain(
+      'Write the welcome line. [Reply language: Vietnamese (vi).]',
+    );
+    await withSystem(harness.pool, (tx) =>
+      tx.query('UPDATE user_settings SET app_locale = NULL WHERE user_id = $1', [owner.uid]),
+    );
+  });
 });

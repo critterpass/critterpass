@@ -12,10 +12,11 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
+- scrollUntilVisible:
+    element:
       id: 'dev-nav-gallery'
-    timeout: 10000
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'dev-nav-gallery'
 - extendedWaitUntil:

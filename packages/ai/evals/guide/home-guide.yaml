@@ -1,0 +1,137 @@
+# The default guide with nobody local to hand over to: a person with no trip (or a trip whose
+# destination has no guide of its own) talks to Tokek, who then answers for any destination and
+# never sends them to a guide they cannot reach. Inside a trip that has its own guide nothing
+# changes: the last case is the same food question in a Đà Nẵng trip, answered by Chà Vá.
+- description: 'No trip: the suggested starter "Where should we go next?" gets places, not a deflection'
+  vars:
+    route: guide.chat
+    persona: tokek
+    no_trip: true
+    question: Where should we go next?
+    replay:
+      fixtures: [guide-eval-home-where-en-1]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:persona_layered
+    - type: javascript
+      value: file://../graders.ts:home_guide_helps
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: llm-rubric
+      value: Suggests at least two specific destinations, each with a reason, in Tokek's sunny voice; does not ask the person to come back with a destination and dates first.
+
+- description: 'No trip, Vietnamese app: the starter "Chuyến tới mình nên đi đâu?" is answered in Vietnamese with places'
+  vars:
+    route: guide.chat
+    persona: tokek
+    no_trip: true
+    locale: vi
+    question: Chuyến tới mình nên đi đâu?
+    replay:
+      fixtures: [guide-eval-home-where-vi-1]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:home_guide_helps
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: regex
+      value: '[ăâđêôơưàáảãạèéẻẽẹìíỉĩịòóỏõọùúủũụỳýỷỹỵ]'
+    - type: llm-rubric
+      value: Written in Vietnamese; suggests at least two specific destinations with a reason each; does not deflect.
+
+- description: 'No trip: "Which month is best to go?" gets months to go on before the question back'
+  vars:
+    route: guide.chat
+    persona: tokek
+    no_trip: true
+    question: Which month is best to go?
+    replay:
+      fixtures: [guide-eval-home-when-en-1]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:home_guide_helps
+    # Something to go on before the question back: a month or a season is named.
+    - type: regex
+      value: '\b([Jj]anuary|[Ff]ebruary|[Mm]arch|[Aa]pril|[Mm]ay|[Jj]une|[Jj]uly|[Aa]ugust|[Ss]eptember|[Oo]ctober|[Nn]ovember|[Dd]ecember|[Ss]pring|[Ss]ummer|[Aa]utumn|[Ww]inter|dry season|shoulder)\b'
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+
+- description: 'No trip: a food question about Đà Nẵng, a city with its own guide, is answered by Tokek himself'
+  vars:
+    route: guide.chat
+    persona: tokek
+    no_trip: true
+    question: What should I eat in Da Nang? I have one evening there.
+    replay:
+      fixtures: [guide-eval-home-danang-food-1, guide-eval-home-danang-food-2]
+    search_fixtures: [guide-eval-home-danang-food-search-1, guide-eval-home-danang-food-search-2]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:home_guide_helps
+    - type: icontains-any
+      value:
+        [
+          'mì quảng',
+          'mi quang',
+          'bánh xèo',
+          'banh xeo',
+          'bún chả cá',
+          'bun cha ca',
+          'seafood',
+          'bánh tráng',
+          'banh trang',
+        ]
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: llm-rubric
+      value: Names at least one specific Da Nang dish or kind of place to eat; does not tell the person to ask another guide.
+
+- description: 'No trip, Vietnamese app: the same Đà Nẵng food question is answered in Vietnamese'
+  vars:
+    route: guide.chat
+    persona: tokek
+    no_trip: true
+    locale: vi
+    question: Ở Đà Nẵng nên ăn gì? Mình chỉ có một buổi tối ở đó.
+    replay:
+      fixtures: [guide-eval-home-danang-food-vi-1]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:home_guide_helps
+    - type: icontains-any
+      value: ['mì quảng', 'bánh xèo', 'bún chả cá', 'hải sản', 'bánh tráng']
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+
+- description: "Inside a Đà Nẵng trip the same food question is still Chà Vá's to answer"
+  vars:
+    route: guide.chat
+    persona: chava
+    question: What should I eat in Da Nang? I have one evening there.
+    trip_context: >-
+      destination_name: Da Nang, start_date: 2026-10-02, end_date: 2026-10-04, day 1 of 3. Crew:
+      Khanh (organiser), Mai, Linh.
+    replay:
+      fixtures: [guide-eval-trip-danang-food-1]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:persona_layered
+    - type: javascript
+      value: file://../graders.ts:local_guide_unchanged
+    - type: icontains-any
+      value:
+        [
+          'mì quảng',
+          'mi quang',
+          'bánh xèo',
+          'banh xeo',
+          'bún chả cá',
+          'bun cha ca',
+          'seafood',
+          'bánh tráng',
+          'banh trang',
+        ]
+    - type: javascript
+      value: file://../graders.ts:within_chattiness
+    - type: llm-rubric
+      value: Sounds like Chà Vá, Da Nang's own guide, speaking of Da Nang as home; never mentions Tokek or guiding anywhere in the world.

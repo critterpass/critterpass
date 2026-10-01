@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "67e369cf-3049-47ee-b672-c32baa2fadfe",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"step_id\":\"lost_stolen.freeze_cards\",\"text\":\"First, freeze your cards in your bank's app. Calm hands, quick taps.\"},{\"step_id\":\"lost_stolen.police_report\",\"text\":\"Then report it to the police (110) and ask for a written report for your insurer.\"},{\"step_id\":\"lost_stolen.phrase\",\"text\":\"Show them: \\\"警察を呼んでください\\\" (Call the police). Keep it open on your screen.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 671,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 104,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

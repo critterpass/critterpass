@@ -3,23 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "20075b9e-bc70-4ee4-bb3e-593e490db03c",
+      "id": "43762a0b-d9e0-476c-911d-78a2a708f216",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Đà Nẵng: ngày biển vắng người\"},{\"id\":\"t2\",\"text\":\"Mùa khô bắt đầu, biển lặng đủ để bơi.\"},{\"id\":\"t3\",\"text\":\"Hội An gần đủ cho một tối đèn lồng.\"},{\"id\":\"t4\",\"text\":\"Phần lớn các bạn chọn đồ ăn đường phố. Đây đúng là thành phố của món đó.\"}]}"
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Đà Nẵng: biển vắng cho ngày dài\"},{\"id\":\"t2\",\"text\":\"Mùa khô bắt đầu, biển lặng đủ để bơi.\"},{\"id\":\"t3\",\"text\":\"Hội An gần đủ cho một tối đèn lồng.\"},{\"id\":\"t4\",\"text\":\"Phần lớn các bạn chọn đồ ăn đường phố. Đây đúng là thành phố của món đó.\"}]}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 149,
+        "input_tokens": 361,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 1408,
-        "output_tokens": 121,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 122,
         "service_tier": "standard"
       }
     }

@@ -4,6 +4,7 @@ import type { SharedValue } from 'react-native-reanimated';
 
 import { tokens } from '@cp/design-tokens';
 
+import { provideSheetsOpen } from '@/lib/interaction/busy';
 import { bezierEasing } from '@/motion/easing';
 
 /** docs/design-system.md §3.3: the screen under a sheet or rise scales to .93. */
@@ -15,6 +16,7 @@ export const presenterProgress = makeMutable(0);
 let presentedCount = 0;
 /** How many sheets and rises are up right now; a screen mounted over them is not their presenter. */
 export const presentedDepth = makeMutable(0);
+provideSheetsOpen(() => presentedCount > 0);
 const standard = bezierEasing(tokens.motion.easing.standard);
 
 /** A sheet or rise started presenting (reduced motion keeps the presenter still). */

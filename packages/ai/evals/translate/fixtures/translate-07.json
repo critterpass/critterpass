@@ -3,7 +3,7 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "c9a9ed37-5fde-430f-931f-8de0ba08e078",
+      "id": "05aa54e7-30cb-4cfd-b3bf-2b76e5ed257a",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
@@ -16,9 +16,9 @@
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 224,
+        "input_tokens": 762,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 1280,
+        "cache_read_input_tokens": 768,
         "output_tokens": 58,
         "service_tier": "standard"
       }

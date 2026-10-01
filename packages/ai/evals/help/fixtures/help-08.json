@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "1597145c-a130-4cd6-a20b-b386c91967f2",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"step_id\":\"hurt.nearest_facility\",\"text\":\"Đi đến Emergency Room of Médica Sur.\"},{\"step_id\":\"hurt.phrase\",\"text\":\"Đưa họ xem: \\\"Necesito un médico\\\" (I need a doctor).\"},{\"step_id\":\"hurt.call_number\",\"text\":\"Nếu nghiêm trọng, gọi 911.\"},{\"step_id\":\"hurt.insurance_line\",\"text\":\"Gọi đường dây hỗ trợ của hãng bảo hiểm; số nằm trên thẻ bảo hiểm của bạn.\"},{\"step_id\":\"hurt.ops_clinic\",\"text\":\"Bàn ops có thể cùng bạn gọi cho phòng khám.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 678,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 156,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

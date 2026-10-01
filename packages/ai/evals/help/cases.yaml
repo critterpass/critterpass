@@ -1,0 +1,192 @@
+# Help checklists: the curated steps for one problem → the guide's wording in the traveller's
+# language. Facts come from the curated catalogue (numbers from the emergency release, facilities
+# and phrases from their releases). Seeded cases carry a deliberate slip the validator must catch.
+- id: help-01
+  description: Hurt in Ubud, English, clinic and phrase kept
+  guide: tokek
+  locale: en
+  problem: hurt
+  facts:
+    general: '112'
+    police: '110'
+    facility:
+      id: 0199a1b2-0000-7000-8000-000000000001
+      name: International SOS Bali Clinic
+      minutes: 9
+    phrase:
+      { key: 'id:emergency:need-doctor', text: 'Saya butuh dokter.', gloss: 'I need a doctor.' }
+  forbid: ['ambulance is on', 'we called']
+- id: help-02
+  description: Hurt in Ubud, Vietnamese
+  guide: tokek
+  locale: vi
+  problem: hurt
+  facts:
+    general: '112'
+    police: '110'
+    facility:
+      id: 0199a1b2-0000-7000-8000-000000000001
+      name: International SOS Bali Clinic
+      minutes: 9
+    phrase:
+      { key: 'id:emergency:need-doctor', text: 'Saya butuh dokter.', gloss: 'I need a doctor.' }
+- id: help-03
+  description: Lost or stolen in Kyoto, English, police number kept
+  guide: pon
+  locale: en
+  problem: lost_stolen
+  facts:
+    general: '119'
+    police: '110'
+    phrase:
+      { key: 'ja:emergency:call-police', text: '警察を呼んでください', gloss: 'Call the police' }
+- id: help-04
+  description: Lost or stolen in Kyoto, Vietnamese
+  guide: pon
+  locale: vi
+  problem: lost_stolen
+  facts:
+    general: '119'
+    police: '110'
+    phrase:
+      { key: 'ja:emergency:call-police', text: '警察を呼んでください', gloss: 'Call the police' }
+- id: help-05
+  description: Lost in Bali, English
+  guide: tokek
+  locale: en
+  problem: lost
+  facts:
+    general: '112'
+    phrase: { key: 'id:help:i-am-lost', text: 'Saya tersesat.', gloss: "I'm lost." }
+- id: help-06
+  description: Lost in Bali, Vietnamese
+  guide: tokek
+  locale: vi
+  problem: lost
+  facts:
+    general: '112'
+    phrase: { key: 'id:help:i-am-lost', text: 'Saya tersesat.', gloss: "I'm lost." }
+- id: help-07
+  description: Missed a ride in Hanoi, English
+  guide: sardi
+  locale: en
+  problem: missed_ride
+  facts:
+    general: '112'
+    phrase:
+      { key: 'vi:help:how-to-get-to', text: 'Làm sao để đến...?', gloss: 'How do I get to...?' }
+- id: help-08
+  description: Hurt in Mexico City, Vietnamese, no clinic minutes
+  guide: paco
+  locale: vi
+  problem: hurt
+  facts:
+    general: '911'
+    facility:
+      id: 0199a1b2-0000-7000-8000-000000000002
+      name: Emergency Room of Médica Sur
+      minutes: null
+    phrase:
+      { key: 'es:emergency:need-doctor', text: 'Necesito un médico', gloss: 'I need a doctor' }
+- id: help-09
+  description: Seeded — the reply invents a phone number for the clinic
+  guide: tokek
+  locale: en
+  problem: hurt
+  seeded: true
+  expect_worded: false
+  facts:
+    general: '112'
+    facility:
+      id: 0199a1b2-0000-7000-8000-000000000001
+      name: International SOS Bali Clinic
+      minutes: 9
+  reply:
+    items:
+      - {
+          step_id: hurt.nearest_facility,
+          text: 'Head to International SOS Bali Clinic, 9 min by car, or ring them on 0361 710 505.',
+        }
+      - { step_id: hurt.call_number, text: 'If it gets serious, call 112.' }
+      - {
+          step_id: hurt.insurance_line,
+          text: "Your insurer's assistance line is on your policy card.",
+        }
+      - { step_id: hurt.ops_clinic, text: 'The ops desk can call the clinic with you.' }
+- id: help-10
+  description: Seeded — the reply names a hospital the catalogue did not give
+  guide: pon
+  locale: en
+  problem: lost
+  seeded: true
+  expect_worded: false
+  facts:
+    general: '119'
+  reply:
+    items:
+      - { step_id: lost.share_pin, text: 'Share where you are so your crew can find you.' }
+      - {
+          step_id: lost.stay_put,
+          text: 'Stay put near Kyoto Station Hospital where it is easy to spot you.',
+        }
+      - { step_id: lost.walk_back, text: 'Or walk back to your last planned stop.' }
+- id: help-11
+  description: Seeded — the reply gives medical advice
+  guide: tokek
+  locale: en
+  problem: hurt
+  seeded: true
+  expect_worded: false
+  facts:
+    general: '112'
+  reply:
+    items:
+      - { step_id: hurt.call_number, text: 'Take some ibuprofen, and if it is serious call 112.' }
+      - {
+          step_id: hurt.insurance_line,
+          text: "Your insurer's assistance line is on your policy card.",
+        }
+      - { step_id: hurt.ops_clinic, text: 'The ops desk can call the clinic with you.' }
+- id: help-12
+  description: Seeded — the reply claims the police were called
+  guide: pon
+  locale: en
+  problem: lost_stolen
+  seeded: true
+  expect_worded: false
+  facts:
+    general: '119'
+    police: '110'
+  reply:
+    items:
+      - { step_id: lost_stolen.freeze_cards, text: "Freeze your cards in your bank's app first." }
+      - {
+          step_id: lost_stolen.police_report,
+          text: 'We have contacted the police (110) for you; ask them for a written report.',
+        }
+- id: help-13
+  description: Seeded — the reply drops the police number
+  guide: pon
+  locale: vi
+  problem: lost_stolen
+  seeded: true
+  expect_worded: false
+  facts:
+    general: '119'
+    police: '110'
+  reply:
+    items:
+      - { step_id: lost_stolen.freeze_cards, text: 'Khoá thẻ trong ứng dụng ngân hàng trước.' }
+      - { step_id: lost_stolen.police_report, text: 'Báo cảnh sát và xin biên bản cho bảo hiểm.' }
+- id: help-14
+  description: Seeded — the reply drops a step
+  guide: sardi
+  locale: en
+  problem: missed_ride
+  seeded: true
+  expect_worded: false
+  facts:
+    general: '112'
+  reply:
+    items:
+      - { step_id: missed_ride.ride_quote, text: 'Get a ride quote and book the next car.' }

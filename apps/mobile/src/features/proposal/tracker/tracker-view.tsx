@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Pressable, ScrollView, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { StatusChip } from '@/ui/chips/StatusChip';
@@ -61,6 +61,8 @@ export interface TrackerRow {
   readonly joinIndex: number;
   readonly status: PublicStatus;
   readonly line: string;
+  /** Opens the row's follow-up (a dropout's change list). */
+  readonly onPress?: () => void;
 }
 
 export interface TrackerViewProps {
@@ -69,6 +71,8 @@ export interface TrackerViewProps {
   readonly rows: readonly TrackerRow[];
   readonly tally: Tally;
   readonly suggestions: ReactNode;
+  /** The crowd link when someone waits for a seat (4f-1). */
+  readonly waiting?: ReactNode;
   /** The locked-in card, once the trip is confirmed. */
   readonly confirmed?: ReactNode;
   /** The lock button's label, or null when locking isn't offered. */
@@ -132,7 +136,13 @@ export function TrackerView(props: TrackerViewProps) {
           {props.rows.map((row, index) => (
             <View key={row.uid}>
               {index > 0 ? <View style={styles.divider} /> : null}
-              <View style={styles.row} testID={`tracker-row-${row.uid}`}>
+              <Pressable
+                style={styles.row}
+                disabled={row.onPress === undefined}
+                onPress={row.onPress}
+                {...(row.onPress === undefined ? {} : { accessibilityRole: 'button' as const })}
+                testID={`tracker-row-${row.uid}`}
+              >
                 <Avatar name={row.name} joinIndex={row.joinIndex} size="md" decorative />
                 <View style={styles.grow}>
                   <Text variant="rowTitle">{row.name}</Text>
@@ -141,11 +151,12 @@ export function TrackerView(props: TrackerViewProps) {
                   </Text>
                 </View>
                 <StatusChipFor status={row.status} testID={`tracker-status-${row.uid}`} />
-              </View>
+              </Pressable>
             </View>
           ))}
         </View>
         {props.confirmed}
+        {props.waiting}
         {props.suggestions}
       </ScrollView>
       <FooterFade />

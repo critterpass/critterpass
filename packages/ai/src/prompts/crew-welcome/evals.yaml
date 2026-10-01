@@ -62,3 +62,22 @@
     place: Kyoto,
   }
 - { fixture: crew-welcome-12, guide: ajo, newcomer: Hao, crew: Family, members: 16 }
+- {
+    fixture: crew-welcome-13,
+    guide: chava,
+    newcomer: Mai,
+    crew: Da Nang Crew,
+    members: 4,
+    place: Da Nang,
+    locale: vi,
+    forbid: [welcome, aboard],
+  }
+- {
+    fixture: crew-welcome-14,
+    guide: tokek,
+    newcomer: Khoa Nguyen,
+    crew: Hội Bạn Thân,
+    members: 3,
+    locale: vi,
+    forbid: [welcome],
+  }

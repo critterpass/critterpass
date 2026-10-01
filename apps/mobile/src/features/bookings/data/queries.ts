@@ -41,6 +41,11 @@ export const BOOKINGS_SQL = `SELECT id, trip_id, owner_id, type, title, starts_a
   ORDER BY coalesce(starts_at, created_at), id`;
 export const BOOKINGS_TABLES = ['bookings'];
 
+/** Bookings whose delete is still in the upload queue (or accepted and not yet synced back). */
+export const PENDING_DELETES_SQL = `SELECT json_extract(envelope, '$.payload.booking_id') AS booking_id
+  FROM commands WHERE cmd = 'delete_booking'`;
+export const PENDING_DELETES_TABLES = ['commands'];
+
 export const SEGMENTS_SQL = `SELECT id, booking_id, owner_id, crew_visible, segment_no, carrier,
     flight_no, dep_airport, arr_airport, sched_dep_at, sched_arr_at, est_dep_at, est_arr_at,
     act_dep_at, act_arr_at, boarding_at, boarding_estimated, gate, terminal, status, delay_min,
