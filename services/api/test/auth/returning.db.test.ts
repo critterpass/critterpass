@@ -129,18 +129,22 @@ async function anonymousSession(): Promise<{ cookie: string; uid: string }> {
   return { cookie, uid: user.id };
 }
 
-/** "I already have a pass" on a phone whose app has made a new anonymous pass after sign-out. */
-async function returningFrom(cookie: string, phoneNumber: string): Promise<Response> {
-  await authRequest('/api/auth/phone-number/send-otp', {
+/**
+ * "I already have a pass" on a phone whose app has made a new anonymous pass after sign-out, from
+ * its own address (the lockout case below locks the shared test address out).
+ */
+async function returningFrom(cookie: string, phoneNumber: string, ip: string): Promise<Response> {
+  capturedCodes.delete(phoneNumber);
+  const sent = await authRequest('/api/auth/phone-number/send-otp', {
     method: 'POST',
-    headers: { cookie },
+    headers: { cookie, 'x-real-ip': ip },
     body: JSON.stringify({ phoneNumber }),
   });
   const code = capturedCodes.get(phoneNumber);
-  if (!code) throw new Error(`no code captured for ${phoneNumber}`);
+  if (!code) throw new Error(`no code sent to ${phoneNumber}: ${sent.status}`);
   return authRequest('/api/auth/sign-in/phone-number', {
     method: 'POST',
-    headers: { cookie },
+    headers: { cookie, 'x-real-ip': ip },
     body: JSON.stringify({ phoneNumber, code }),
   });
 }
@@ -241,7 +245,7 @@ describe('returning sign-in after signing out', () => {
     // Signed out: the app starts again on a new anonymous pass, then "I already have a pass".
     const fresh = await anonymousSession();
 
-    const response = await returningFrom(fresh.cookie, phone);
+    const response = await returningFrom(fresh.cookie, phone, '203.0.113.101');
 
     expect(response.status).toBe(200);
     const body = (await response.json()) as { user: { id: string }; linked?: boolean };
@@ -265,7 +269,7 @@ describe('returning sign-in after signing out', () => {
     const phone = '+6592000102';
     const fresh = await anonymousSession();
 
-    const response = await returningFrom(fresh.cookie, phone);
+    const response = await returningFrom(fresh.cookie, phone, '203.0.113.102');
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ linked: true, user: { id: fresh.uid } });
