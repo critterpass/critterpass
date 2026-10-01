@@ -49,6 +49,10 @@ msgstr "{count, plural, one {Found # booking in {member}'s inbox that wasn't her
 msgid "bookings.banner.mine"
 msgstr "{count, plural, one {Found # booking in your inbox that wasn't here yet.} other {Found # bookings in your inbox that weren't here yet.}}"
 
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.title"
+msgstr "{count, plural, one {Mail is waiting} other {# emails are waiting}}"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 msgid "bookings.mailbox.lockedLine"
 msgstr "{guideName} checks your inbox for new confirmations every morning with Pass+."
@@ -386,6 +390,10 @@ msgstr "Edit"
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.editTitle"
 msgstr "Edit booking"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.enter"
+msgstr "Enter the code"
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
@@ -901,6 +909,10 @@ msgstr "Voucher code, open full screen"
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 msgid "bookings.switch.label"
 msgstr "Wallet"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.line"
+msgstr "We emailed the address it came from a 6-digit code. Enter it to link that address and read the mail."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.landedToast"

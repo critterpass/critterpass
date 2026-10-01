@@ -49,6 +49,10 @@ msgstr ""
 msgid "bookings.banner.mine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 msgid "bookings.mailbox.lockedLine"
 msgstr ""
@@ -385,6 +389,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.editTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.enter"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
@@ -900,6 +908,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 msgid "bookings.switch.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx

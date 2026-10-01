@@ -49,6 +49,10 @@ msgstr "{count, plural, other {Tìm thấy # đặt chỗ trong hộp thư của
 msgid "bookings.banner.mine"
 msgstr "{count, plural, other {Tìm thấy # đặt chỗ trong hộp thư của bạn mà ví chưa có.}}"
 
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.title"
+msgstr "{count, plural, other {Có # email đang chờ}}"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 msgid "bookings.mailbox.lockedLine"
 msgstr "Với Pass+, {guideName} kiểm tra hộp thư của bạn mỗi sáng để tìm xác nhận mới."
@@ -386,6 +390,10 @@ msgstr "Sửa"
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.editTitle"
 msgstr "Sửa đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.enter"
+msgstr "Nhập mã"
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
@@ -901,6 +909,10 @@ msgstr "Mã phiếu, mở toàn màn hình"
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 msgid "bookings.switch.label"
 msgstr "Ví"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.line"
+msgstr "Chúng tôi đã gửi tới địa chỉ gửi thư một mã 6 số. Nhập mã để liên kết địa chỉ đó và đọc thư."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.landedToast"

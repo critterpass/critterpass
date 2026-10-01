@@ -28,6 +28,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import type { AppEnv } from '../../app';
+import { refreshHeldMail } from '../../bookings/held-mail';
 import {
   normalizeSender,
   resolveSender,
@@ -201,6 +202,7 @@ export async function receiveInboundEmail(
       reason: 'unknown_sender',
     });
     if (id === null) return { action: 'duplicate' };
+    await refreshHeldMail(tx, target.crew_id);
     await emitEvent(tx, {
       type: 'import.quarantined',
       aggregateKind: 'inbound_email',

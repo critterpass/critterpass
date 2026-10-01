@@ -68,7 +68,7 @@ function views(rows: readonly CandidateRow[]): CandidateView[] {
 
 function add(
   rows: readonly CandidateRow[],
-  options: { scan?: ScanState; connected?: boolean; assemble?: boolean } = {},
+  options: { scan?: ScanState; connected?: boolean; assemble?: boolean; held?: number } = {},
 ): ReactNode {
   const list = views(rows);
   return (
@@ -92,6 +92,7 @@ function add(
       onTypeIn={noop}
       onMailbox={noop}
       onLinkCode={noop}
+      heldMail={options.held ?? 0}
     />
   );
 }
@@ -196,6 +197,7 @@ export const ADD_SCENES: Readonly<Record<string, () => ReactNode>> = {
       }),
     ]),
   'add-scan-denied': () => add(LAB_CANDIDATES, { scan: 'denied' }),
+  'add-held-mail': () => add([], { held: 1 }),
   // A flight number pasted on its own: found in the schedule, and not found.
   'add-flight-found': () => add([labCandidate('c-9g956', PASTED_FLIGHT)]),
   'add-flight-not-found': () =>

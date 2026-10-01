@@ -186,6 +186,7 @@ export function AddBookingScreen({ start }: { readonly start?: string | undefine
           onTypeIn={() => router.push(addByHandRoute())}
           onMailbox={() => setSheet('mailbox')}
           onLinkCode={() => setSheet('link')}
+          heldMail={context.heldMail}
         />
         {sheet === 'paste' ? <PasteFlow tripId={tripId} onDone={() => setSheet(null)} /> : null}
         {sheet === 'link' ? (
