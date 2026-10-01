@@ -22,6 +22,7 @@ import { createApnsChannelManager, type ApnsChannelManager } from '../../push/la
 import { laChannelsJob } from './channels';
 import { flightLoader } from './flight';
 import { leaveByLoader } from './leave-by';
+import { meetUpLoader } from './meet-up';
 import { laLifecycleJob } from './lifecycle';
 import { laOrchestrateJob, type LaDeps } from './orchestrate';
 import type { LaLoaders } from './snapshot';
@@ -31,6 +32,7 @@ export { runLifecycle } from './lifecycle';
 
 export const LA_LOADERS: LaLoaders = {
   leave_by: leaveByLoader,
+  meet_up: meetUpLoader,
   flight: flightLoader,
 };
 

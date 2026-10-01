@@ -7,7 +7,7 @@
 import { randomBytes, randomUUID } from 'node:crypto';
 
 import { createKillSwitchReader } from '@cp/db';
-import { LA_QUEUES, type AppBundleId } from '@cp/domain';
+import { LA_QUEUES, type AppBundleId, type LaKind } from '@cp/domain';
 
 import { LA_LOADERS, orchestrateObject, runLifecycle } from '../../src/jobs/la';
 import type { LaDeps } from '../../src/jobs/la/orchestrate';
@@ -53,6 +53,7 @@ export interface LaWorld {
   now: Date;
   q<T>(sql: string, params?: unknown[]): Promise<T[]>;
   run(): ReturnType<typeof orchestrateObject>;
+  orchestrate(kind: LaKind, refId: string): ReturnType<typeof orchestrateObject>;
   lifecycle(): ReturnType<typeof runLifecycle>;
   /** Requests the fake APNs saw since the last call. */
   drain(): ApnsRequest[];
@@ -147,6 +148,7 @@ export async function startLaWorld(): Promise<LaWorld> {
     },
     q: (sql, params) => trip.q(sql, params),
     run: async () => orchestrateObject(pool, deps(), 'leave_by', leaveById),
+    orchestrate: async (kind, refId) => orchestrateObject(pool, deps(), kind, refId),
     lifecycle: async () => runLifecycle(pool, deps(), world.now),
     drain() {
       const fresh = apns.requests.slice(seen);
