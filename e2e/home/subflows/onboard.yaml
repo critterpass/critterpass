@@ -2,6 +2,10 @@ appId: app.critterpass.dev
 ---
 # The shortest pass flow from the splash to Home (iOS primer; Android taps "Allow" instead):
 # a name, a guide avatar, six this-or-thats, Singapore as home, no save, no permissions yet.
+# ${HOME_IATA} with ${HOME_QUERY} (e.g. SGN, 'Ho Chi') names the home to search for instead when
+# the nearest airports don't offer Ho Chi Minh City; a crew started from SGN settles in VND.
+- evalScript: "${output.homeIata = typeof HOME_IATA === 'undefined' || HOME_IATA === '' ? 'SIN' : HOME_IATA}"
+- evalScript: "${output.homeQuery = typeof HOME_QUERY === 'undefined' || HOME_QUERY === '' ? 'Sing' : HOME_QUERY}"
 - runFlow: ../../onboarding/subflows/through-name.yaml
 - tapOn:
     id: 'onboarding-photo-guides-ajo'
@@ -52,13 +56,13 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'home-search'
-      - inputText: 'Sing'
+      - inputText: ${output.homeQuery}
       - extendedWaitUntil:
           visible:
-            id: 'home-row-SIN'
+            id: 'home-row-${output.homeIata}'
           timeout: 10000
       - tapOn:
-          id: 'home-row-SIN'
+          id: 'home-row-${output.homeIata}'
 # The page footer rides the keyboard, so NEXT is reachable with it up. On Android hideKeyboard is a
 # BACK press when no keyboard is open, which leaves this page for the taste result.
 - runFlow:
