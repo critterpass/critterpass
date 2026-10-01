@@ -8,12 +8,19 @@
  * 5. the realtime connection with its background policy;
  * 6. the link router's state checks (the resolver) and local membership lookups.
  *
+ * A returning install (a stored last uid) does 3–6 for that uid at once and asks the server whose
+ * session this is alongside, so what is on the phone shows without waiting on the network. When
+ * the answer names someone else, or no one (revoked, signed out elsewhere, merged), the phone
+ * stops being that uid the way a sign-out does (the hooks wipe its local data) and the app
+ * restarts. A failed or unanswered check changes nothing: the server still refuses a revoked
+ * session at the upload door and the sync token. A first launch keeps the order above.
+ *
  * Every native and network dependency is passed in (./device-session.ts wires the real ones), so
  * the whole sequence runs under Jest on a real database.
  */
 import type { CommandDevice } from '@cp/domain';
 
-import { registerOnSignOut } from '../auth/sign-out-hooks';
+import { registerOnSignOut, runOnSignOutHooks } from '../auth/sign-out-hooks';
 import {
   registerExtensionOutboxReset,
   startExtensionOutboxDrain,
@@ -37,6 +44,11 @@ export interface AppSessionAuth extends LocalFirstAuth {
   ensureAnonymous(): Promise<{ readonly userId: string }>;
   /** `aud=rt` token for Centrifugo. */
   getRealtimeToken(): Promise<string>;
+  /**
+   * Whose session the server says this phone holds, or `null` when it holds none any more. Never
+   * creates one. Rejects when the server could not be asked or did not answer properly.
+   */
+  currentSession(): Promise<{ readonly userId: string } | null>;
 }
 
 /** The uid the app last started for, so an offline launch still opens its local data. */
@@ -65,6 +77,8 @@ export interface AppSessionDeps {
   };
   /** Background failures (a drain, a write) are reported, never thrown into the UI. */
   readonly onError: (error: unknown) => void;
+  /** Restarts the app's JavaScript, so it starts again on the session now in storage. */
+  readonly restart: () => void;
 }
 
 export interface AppSession {
@@ -89,6 +103,35 @@ async function resolveUid(auth: AppSessionAuth, lastUid: LastUidStore): Promise<
   }
 }
 
+/**
+ * Asks the server whose session a returning install holds. Still `uid`: nothing changes. Someone
+ * else, or no one: this phone stops being `uid` (the sign-out hooks wipe its data, queue and
+ * outbox, as for `SESSION_REVOKED`) and the app restarts on the session in storage; with no
+ * session left, the restart is a first launch and creates the anonymous one. The check itself
+ * never creates a session, so nothing is ever sent for a new uid from the old uid's database.
+ */
+async function confirmStillUid(
+  deps: AppSessionDeps,
+  uid: string,
+  stopped: () => boolean,
+): Promise<void> {
+  let holder: { readonly userId: string } | null;
+  try {
+    holder = await deps.auth.currentSession();
+  } catch {
+    // Offline or the api is down: the phone keeps working on its local data, as before.
+    return;
+  }
+  if (stopped() || holder?.userId === uid) return;
+  try {
+    await runOnSignOutHooks();
+    if (holder !== null) deps.lastUid.write(holder.userId);
+  } catch (error) {
+    deps.onError(error);
+  }
+  deps.restart();
+}
+
 export async function startAppSession(deps: AppSessionDeps): Promise<AppSession> {
   try {
     deps.writeEndpoints();
@@ -97,7 +140,8 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
   }
 
   const { auth } = deps;
-  const uid = await resolveUid(auth, deps.lastUid);
+  const returning = deps.lastUid.read();
+  const uid = returning ?? (await resolveUid(auth, deps.lastUid));
   const localFirst = await deps.startLocalFirst(
     { getSyncToken: () => auth.getSyncToken(), sessionHeaders: () => auth.sessionHeaders() },
     uid,
@@ -129,11 +173,17 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
   configureLinkRouter({ resolver: createLinkResolverClient(deps.linksHttp) });
   const stopMembership = watchLinkMembership(localFirst.db, uid, deps.onError);
 
+  let stopped = false;
+  if (returning !== null) {
+    void confirmStillUid(deps, returning, () => stopped);
+  }
+
   return {
     uid,
     localFirst,
     realtime,
     stop() {
+      stopped = true;
       stopDrain();
       detachPolicy();
       realtime.disconnect();
