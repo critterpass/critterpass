@@ -51,6 +51,25 @@ export const comingSoonCopy = {
     id: 'web.comingSoon.form.chooseDestination',
     message: 'Choose your first destination',
   },
+  searchLabel: /*i18n*/ { id: 'web.comingSoon.search.label', message: 'Somewhere else?' },
+  searchPlaceholder: /*i18n*/ {
+    id: 'web.comingSoon.search.placeholder',
+    message: 'Search any city',
+  },
+  searchResults: /*i18n*/ { id: 'web.comingSoon.search.results', message: 'Places' },
+  searchEmpty: /*i18n*/ {
+    id: 'web.comingSoon.search.empty',
+    message: 'No place by that name. Try another spelling.',
+  },
+  searchFailed: /*i18n*/ {
+    id: 'web.comingSoon.search.failed',
+    message: "The places didn't load. Try again in a moment.",
+  },
+  pickPlace: /*i18n*/ {
+    id: 'web.comingSoon.search.pickPlace',
+    message: 'Pick a place from the list, or clear the search.',
+  },
+  removePlace: /*i18n*/ { id: 'web.comingSoon.search.remove', message: 'Remove {city}' },
   emailLabel: /*i18n*/ { id: 'web.comingSoon.form.emailLabel', message: 'Your email' },
   emailPlaceholder: /*i18n*/ {
     id: 'web.comingSoon.form.emailPlaceholder',
@@ -125,10 +144,18 @@ export const comingSoonCopy = {
     message: '{days}D {hours}H {minutes}M {seconds}S',
   },
   yourGuide: /*i18n*/ { id: 'web.comingSoon.pass.yourGuide', message: 'your guide' },
+  yourLocal: /*i18n*/ { id: 'web.comingSoon.pass.yourLocal', message: 'your local' },
   stampTitle: /*i18n*/ { id: 'web.comingSoon.pass.stampTitle', message: 'COMING SOON' },
   stampSub: /*i18n*/ { id: 'web.comingSoon.pass.stampSub', message: 'EST. 2026' },
   guideWaving: /*i18n*/ { id: 'web.comingSoon.pass.guideWaving', message: '{name} waving' },
   eggLabel: /*i18n*/ { id: 'web.comingSoon.pass.eggLabel', message: 'A wiggling egg' },
+
+  notFoundTitle: /*i18n*/ { id: 'web.comingSoon.notFound.title', message: 'Page not found' },
+  notFoundLine: /*i18n*/ {
+    id: 'web.comingSoon.notFound.line',
+    message: "This page isn't on the route. The locals checked every alley.",
+  },
+  notFoundHome: /*i18n*/ { id: 'web.comingSoon.notFound.home', message: 'BACK TO THE START' },
 
   followLocals: /*i18n*/ { id: 'web.comingSoon.footer.follow', message: 'follow the locals →' },
   privacy: /*i18n*/ { id: 'web.comingSoon.footer.privacy', message: 'Privacy' },

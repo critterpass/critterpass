@@ -8,16 +8,15 @@
 import {
   breakdownBars,
   budgetEstimates,
+  type BudgetEstimates,
+  type BudgetEstimateSource,
   crewFeasibleLow,
-  currencySymbol as symbolOf,
-  isKnownCurrency,
+  formatNarrowCurrency,
+  narrowCurrencySymbol,
   planBreakdown,
   roundEstimate,
-  type BudgetEstimateSource,
-  type BudgetEstimates,
 } from '@cp/cost-engine';
 import { BUDGET_K_MIN } from '@cp/domain';
-import { format } from '@cp/i18n';
 
 /** The synced crew-level row, as the local database holds it. */
 export interface AggregateRow {
@@ -205,30 +204,17 @@ export function fractionDigits(currency: string): number {
   }
 }
 
-/** The currency's own short symbol ("$", "₫", "Rp") from the bundled table; else its code. */
-function narrowSymbol(currency: string): string {
-  return isKnownCurrency(currency) ? symbolOf(currency, 'narrow') : currency;
-}
-
-/**
- * "$1,350": whole units in the currency's own symbol. Hermes on iOS has no `narrowSymbol` and
- * writes the code instead ("USD1,350"); the code is swapped for the symbol there.
- */
+/** "$1,350": whole units in the currency's own short symbol, as the locale places it. */
 export function money(locale: string, amountMinor: number, currency: string): string {
-  const text = format.number(locale, Math.round(amountMinor / 10 ** fractionDigits(currency)), {
-    style: 'currency',
+  return formatNarrowCurrency(
+    locale,
+    Math.round(amountMinor / 10 ** fractionDigits(currency)),
     currency,
-    currencyDisplay: 'narrowSymbol',
-    maximumFractionDigits: 0,
-  });
-  const symbol = narrowSymbol(currency);
-  if (symbol === currency || !text.includes(currency)) return text;
-  // A symbol hugs the number where a code would stand off from it.
-  const hugs = !/[A-Za-z]$/u.test(symbol);
-  return text.replace(new RegExp(`${currency}${hugs ? '[\\s\\u00a0]?' : ''}`, 'u'), symbol);
+    { maximumFractionDigits: 0 },
+  );
 }
 
 /** The currency's symbol ("$", "₫"). */
 export function currencySymbol(_locale: string, currency: string): string {
-  return narrowSymbol(currency);
+  return narrowCurrencySymbol(currency);
 }

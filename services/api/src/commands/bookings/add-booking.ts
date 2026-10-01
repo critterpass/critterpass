@@ -8,6 +8,7 @@ import { addBookingPayloadSchema, defaultBookingVisibility, type BookingResult }
 
 import { splitBookingExpense } from '../../bookings/booking-expense';
 import { insertBooking } from '../../bookings/booking-writer';
+import { syncBookedPlanItems } from '../../bookings/plan-sync';
 import { defineCommand } from '../_framework/define-command';
 import { sealBarcode, type BookingCommandDeps } from './deps';
 import { requireInTrip, requireTripParticipant } from './shared';
@@ -60,6 +61,7 @@ export function createAddBookingCommand(deps: BookingCommandDeps) {
         attachments: payload.attachments ?? [],
       };
       await insertBooking(tx, booking, ctx.uid, now);
+      await syncBookedPlanItems(tx, trip.id, ctx.uid);
       if (payload.split === undefined || booking.priceMinor === null || booking.currency === null) {
         return { booking_id: booking.id, version: 1 };
       }

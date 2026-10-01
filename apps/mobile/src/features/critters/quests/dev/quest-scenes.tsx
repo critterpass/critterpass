@@ -4,9 +4,11 @@
  * finished and its reward revealed, the guide still writing, and offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { guideTextSourceHash } from '@cp/domain';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
+import { useGuideText } from '@/lib/i18n/guide-text';
 import { Scaffold } from '@/ui/surface/Scaffold';
 
 import { StickerDetailSheet } from '../../stickers/StickerDetailSheet';
@@ -33,8 +35,27 @@ function quest(slot: number, changes: Partial<QuestRow>): QuestRow {
     status: 'active',
     ends_at: '2026-10-03T17:00:00Z',
     reveal_at: null,
+    i18n: null,
     ...changes,
   };
+}
+
+/** The translations a published quest carries once the translate job has run. */
+const VI: Readonly<Record<string, { title: string; body: string }>> = {
+  q0: {
+    title: 'Biệt đội bình minh',
+    body: 'Cả sáu người có mặt ở đài quan sát Sơn Trà trước 06:10.',
+  },
+  q1: { title: 'Săn mì Quảng', body: 'Ghi năm điểm ăn uống hôm nay, mì trước tiên.' },
+  q2: { title: 'Hết nợ', body: 'Thanh toán hết mọi khoản trước 21:00 tối nay.' },
+  q3: { title: 'Bạn địa phương', body: 'Kết bạn với hai critter quanh Cầu Rồng.' },
+};
+
+function translated(row: QuestRow): QuestRow {
+  const vi = VI[row.id];
+  if (vi === undefined) return row;
+  const src = guideTextSourceHash('quest', { title: row.title, body: row.body });
+  return { ...row, i18n: JSON.stringify({ vi, _src: src }) };
 }
 
 const DAY: readonly QuestRow[] = [
@@ -70,7 +91,7 @@ const DAY: readonly QuestRow[] = [
     title: 'Local friends',
     body: 'Befriend two locals around the Dragon Bridge.',
   }),
-];
+].map(translated);
 
 const MEMBERS = ['Wren', 'Maya', 'Alex', 'Jordan', 'Dev', 'Rin'].map((name, index) => ({
   userId: `u${index}`,
@@ -107,11 +128,14 @@ function Quests({
   readonly offline?: boolean;
   readonly revealed?: readonly string[];
 }) {
+  const guideText = useGuideText();
+  const text: QuestsInput['text'] = (row, field) =>
+    guideText('quest', { title: row.title, body: row.body, i18n: row.i18n }, field);
   return (
     <QuestsView
       crewName="Da Nang Six"
       guide="chava"
-      model={buildQuestsModel(input(changes))}
+      model={buildQuestsModel({ ...input(changes), text })}
       offline={offline}
       reveals={new Map(revealed.map((id) => [id, 'static' as const]))}
       onSignUp={noop}

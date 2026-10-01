@@ -64,11 +64,14 @@ appId: app.critterpass.dev
       - retry:
           maxRetries: 3
           commands:
+            # Centred when the step can scroll that far. A row at the end of the step cannot be
+            # centred: it is already clear of the footer there, so the scroll may give up.
             - scrollUntilVisible:
                 element:
                   id: 'own-calendar-action'
                 timeout: 10000
                 centerElement: true
+                optional: true
             - waitForAnimationToEnd
             - tapOn:
                 id: 'own-calendar-action'

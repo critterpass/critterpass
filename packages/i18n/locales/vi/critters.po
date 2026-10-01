@@ -501,7 +501,7 @@ msgstr "Hoàn tác"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.locked"
-msgstr "Một bạn nhỏ chưa biết ở {city}"
+msgstr "Một thổ địa chưa gặp ở {city}"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderSet"

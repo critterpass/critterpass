@@ -157,19 +157,19 @@ msgstr "MASIH ADA KEJUTAN LAIN"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.ngua"
-msgstr "Kuda poni berhias bunga, menunggumu di Đà Lạt."
+msgstr "Kuda poni berhias bunga, menunggumu di {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.cuRua"
-msgstr "Kura-kura Danau Hoàn Kiếm, menunggumu di Hà Nội."
+msgstr "Kura-kura Danau Hoàn Kiếm, menunggumu di {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lucky"
-msgstr "Kelinci gurun, menunggumu di Las Vegas."
+msgstr "Kelinci gurun, menunggumu di {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.chep"
-msgstr "Ikan mas lampion, menunggumu di Hội An."
+msgstr "Ikan mas lampion, menunggumu di {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.eyebrow"
@@ -181,11 +181,11 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.drac"
-msgstr "Salamander mosaik, menunggumu di Barcelona."
+msgstr "Salamander mosaik, menunggumu di {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.roucou"
-msgstr "Merpati berbaret, menunggumu di Paris."
+msgstr "Merpati berbaret, menunggumu di {place}."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -197,7 +197,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
-msgstr "Tikus kereta bawah tanah, menunggumu di New York."
+msgstr "Tikus kereta bawah tanah, menunggumu di {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -229,7 +229,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
-msgstr "Lynx Iberia, menunggumu di Seville."
+msgstr "Lynx Iberia, menunggumu di {place}."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
@@ -254,6 +254,10 @@ msgstr "TANYA WARGA LOKAL"
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "KEMBALI KE AWAL"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
@@ -911,6 +915,10 @@ msgstr ""
 msgid "web.shell.noCookies"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "Tidak ada tempat dengan nama itu. Coba ejaan lain."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -955,6 +963,10 @@ msgstr ""
 msgid "web.home.guidePaco"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "Halaman tidak ditemukan"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
 msgstr ""
@@ -970,6 +982,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.coverLabel"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "Pilih tempat dari daftar, atau kosongkan pencarian."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "Tempat"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
@@ -1028,6 +1048,10 @@ msgid "web.referral.finePrintTerms"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "Hapus {city}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.saveSeat"
 msgstr "AMANKAN KURSIKU →"
 
@@ -1054,6 +1078,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "Cari kota mana saja"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.seat"
@@ -1102,6 +1130,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat1"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "Ke tempat lain?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
@@ -1227,6 +1259,10 @@ msgstr ""
 msgid "web.shell.thePass"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "Daftar tempat gagal dimuat. Coba lagi sebentar lagi."
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr ""
@@ -1242,6 +1278,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Body"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "Halaman ini tidak ada di rute. Warga lokal sudah mencari di setiap gang."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
@@ -1450,6 +1490,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "warga lokalmu"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"

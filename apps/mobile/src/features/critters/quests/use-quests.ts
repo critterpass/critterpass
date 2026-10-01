@@ -6,6 +6,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useEffect, useMemo, useState } from 'react';
 
+import { useGuideText } from '@/lib/i18n/guide-text';
+
 import { useLiveRows, useOwnerUid } from './live-rows';
 import {
   buildQuestsModel,
@@ -35,7 +37,7 @@ const TRIP_SQL = `
    WHERE t.id = ?`;
 const XP_SQL = 'SELECT xp FROM crew_xp WHERE crew_id = ?';
 const QUESTS_SQL = `
-  SELECT id, local_date, slot, template, params, target, reward, title, body, scope, status,
+  SELECT id, local_date, slot, template, params, target, reward, title, body, i18n, scope, status,
          ends_at, reveal_at
     FROM quests WHERE trip_id = ? ORDER BY local_date DESC, slot`;
 const PROGRESS_SQL = 'SELECT quest_id, value, counted FROM quest_progress WHERE trip_id = ?';
@@ -101,6 +103,7 @@ export function useQuests(tripId: string | null): QuestsData {
     tripId === null ? null : [tripId, tripId],
     ['ledger_entries'],
   );
+  const guideText = useGuideText();
   const model = useMemo(
     () =>
       buildQuestsModel({
@@ -125,6 +128,9 @@ export function useQuests(tripId: string | null): QuestsData {
         unsettled: unsettled.rows.map((row) => row.member),
         viewerId,
         now,
+        // The helper checks the translation against both of the row's text columns.
+        text: (row, field) =>
+          guideText('quest', { title: row.title, body: row.body, i18n: row.i18n }, field),
       }),
     [
       trip.loaded,
@@ -138,6 +144,7 @@ export function useQuests(tripId: string | null): QuestsData {
       unsettled.rows,
       viewerId,
       now,
+      guideText,
     ],
   );
   return {

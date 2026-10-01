@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "87ccf009-776d-4cdf-b174-292760fd2cf5",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"海滩日，慢慢开始\"},{\"id\":\"t2\",\"text\":\"趁太阳还没毒，先去美溪游个泳，轻松进入状态。\"},{\"id\":\"t3\",\"text\":\"坐缆车上巴拿山。票价每人 900,000 VND，记得带上预订码。\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 145,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1408,
+        "output_tokens": 72,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

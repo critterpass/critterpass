@@ -23,6 +23,7 @@ const DESTINATION_CITY: Readonly<Record<string, string>> = {
   'mexico-city': 'Mexico City',
   lisbon: 'Lisbon',
   cusco: 'Cusco',
+  'da-nang': 'Đà Nẵng',
 };
 const HOME_SET = 'vn';
 

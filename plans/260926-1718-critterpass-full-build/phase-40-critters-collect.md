@@ -1,7 +1,7 @@
 ---
 phase: 40
 title: Critters: hatch, Critterdex, encounters, legendaries
-status: pending
+status: in_progress
 depends_on: [5, 6, 9, 14, 15, 18, 20, 25, 31, 34]
 wave: 18
 features: [F-122, F-123, F-124, F-125, F-126, F-127, F-128]

@@ -18,7 +18,7 @@ const EGG_TRANSFORM_BY_TAPS = [
 
 export function startEggHatch(
   root: ParentNode,
-  strings: Pick<PageStrings, 'eggHints' | 'hatchedNumber' | 'hatchLines'>,
+  strings: Pick<PageStrings, 'eggHints' | 'hatchedNumber' | 'hatchLines' | 'hatchCities'>,
 ): void {
   let eggTaps = 0;
   let eggSeed = 12;
@@ -48,7 +48,10 @@ export function startEggHatch(
     csEl(root, 'egg-hatched')?.removeAttribute('hidden');
     setText(
       csEl(root, 'hatched-number'),
-      fill(strings.hatchedNumber, { num: local.num, city: local.city }),
+      fill(strings.hatchedNumber, {
+        num: local.num,
+        city: strings.hatchCities[local.id] ?? local.city,
+      }),
     );
     setText(csEl(root, 'hatched-name'), local.name);
     setText(csEl(root, 'hatched-species'), strings.hatchLines[local.id] ?? '');

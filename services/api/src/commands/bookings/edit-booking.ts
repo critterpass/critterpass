@@ -22,6 +22,7 @@ import {
   writeSegments,
 } from '../../bookings/booking-writer';
 import { armFlightWatch, segmentsOf } from '../../bookings/flight-watch';
+import { syncBookedPlanItems } from '../../bookings/plan-sync';
 import { defineCommand } from '../_framework/define-command';
 import { sealBarcode, type BookingCommandDeps } from './deps';
 import {
@@ -156,6 +157,7 @@ export function createEditBookingCommand(deps: BookingCommandDeps) {
         },
         ctx.clock.serverNow,
       );
+      await syncBookedPlanItems(tx, booking.trip_id, ctx.uid);
       await emitEvent(tx, {
         type: 'booking.edited',
         aggregateKind: 'booking',

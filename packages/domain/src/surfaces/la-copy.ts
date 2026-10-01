@@ -9,31 +9,68 @@ export interface LaCopy {
   readonly message: string;
 }
 
-const copy = (id: string, message: string): LaCopy => ({ id, message });
-
 export const LA_COPY = {
-  stay: copy('notifications.la.stay', 'Stay'),
-  pickup: copy('notifications.la.pickup', 'Pickup'),
-  leaveByStartTitle: copy('notifications.la.leave_by_start_title', 'Leave by {time} · {place}'),
-  leaveByStartBody: copy('notifications.la.leave_by_start_body', '{up} of {total} up so far.'),
-  leaveByGoTitle: copy('notifications.la.leave_by_go_title', 'Time to go · {place}'),
-  leaveByGoBody: copy('notifications.la.leave_by_go_body', 'Leave now. {up} of {total} up.'),
-  leaveByLateTitle: copy('notifications.la.leave_by_late_title', '{place} · running late'),
-  leaveByLateBody: copy('notifications.la.leave_by_late_body', '{missing} still not up.'),
-  flightStartTitle: copy('notifications.la.flight_start_title', '{flight} · {route}'),
-  flightStartBody: copy(
-    'notifications.la.flight_start_body',
-    'Departs {time}. Your flight is on the lock screen.',
-  ),
-  meetUpStartTitle: copy('notifications.la.meet_up_start_title', '{place} · {time}'),
-  meetUpStartBody: copy(
-    'notifications.la.meet_up_start_body',
-    'The whole crew, on your lock screen.',
-  ),
-  meetUpArrivedTitle: copy('notifications.la.meet_up_arrived_title', 'Everyone is at {place}'),
-  meetUpArrivedBody: copy('notifications.la.meet_up_arrived_body', 'The crew is all here.'),
-  meetUpLateTitle: copy('notifications.la.meet_up_late_title', '{place} · {time}'),
-  meetUpLateBody: copy('notifications.la.meet_up_late_body', 'Not everyone is there yet.'),
-  voteStartTitle: copy('notifications.la.vote_start_title', 'Vote closes {time}'),
-  voteStartBody: copy('notifications.la.vote_start_body', '{question}'),
-} as const;
+  stay: /*i18n*/ { id: 'notifications.la.stay', message: 'Stay' },
+  pickup: /*i18n*/ { id: 'notifications.la.pickup', message: 'Pickup' },
+  leaveByStartTitle: /*i18n*/ {
+    id: 'notifications.la.leave_by_start_title',
+    message: 'Leave by {time} · {place}',
+  },
+  leaveByStartBody: /*i18n*/ {
+    id: 'notifications.la.leave_by_start_body',
+    message: '{up} of {total} up so far.',
+  },
+  leaveByGoTitle: /*i18n*/ {
+    id: 'notifications.la.leave_by_go_title',
+    message: 'Time to go · {place}',
+  },
+  leaveByGoBody: /*i18n*/ {
+    id: 'notifications.la.leave_by_go_body',
+    message: 'Leave now. {up} of {total} up.',
+  },
+  leaveByLateTitle: /*i18n*/ {
+    id: 'notifications.la.leave_by_late_title',
+    message: '{place} · running late',
+  },
+  leaveByLateBody: /*i18n*/ {
+    id: 'notifications.la.leave_by_late_body',
+    message: '{missing} still not up.',
+  },
+  flightStartTitle: /*i18n*/ {
+    id: 'notifications.la.flight_start_title',
+    message: '{flight} · {route}',
+  },
+  flightStartBody: /*i18n*/ {
+    id: 'notifications.la.flight_start_body',
+    message: 'Departs {time}. Your flight is on the lock screen.',
+  },
+  meetUpStartTitle: /*i18n*/ {
+    id: 'notifications.la.meet_up_start_title',
+    message: '{place} · {time}',
+  },
+  meetUpStartBody: /*i18n*/ {
+    id: 'notifications.la.meet_up_start_body',
+    message: 'The whole crew, on your lock screen.',
+  },
+  meetUpArrivedTitle: /*i18n*/ {
+    id: 'notifications.la.meet_up_arrived_title',
+    message: 'Everyone is at {place}',
+  },
+  meetUpArrivedBody: /*i18n*/ {
+    id: 'notifications.la.meet_up_arrived_body',
+    message: 'The crew is all here.',
+  },
+  meetUpLateTitle: /*i18n*/ {
+    id: 'notifications.la.meet_up_late_title',
+    message: '{place} · {time}',
+  },
+  meetUpLateBody: /*i18n*/ {
+    id: 'notifications.la.meet_up_late_body',
+    message: 'Not everyone is there yet.',
+  },
+  voteStartTitle: /*i18n*/ {
+    id: 'notifications.la.vote_start_title',
+    message: 'Vote closes {time}',
+  },
+  voteStartBody: /*i18n*/ { id: 'notifications.la.vote_start_body', message: '{question}' },
+} as const satisfies Record<string, LaCopy>;

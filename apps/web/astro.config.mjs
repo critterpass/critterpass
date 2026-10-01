@@ -1,3 +1,5 @@
+import { readdir, rm } from 'node:fs/promises';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import cloudflare from '@astrojs/cloudflare';
@@ -24,26 +26,40 @@ const workerVars = unstable_readConfig(
 const comingSoon = (process.env['SITE_MODE'] ?? workerVars['SITE_MODE']) === 'coming-soon';
 const onSurface = (pathname) => isComingSoonPath(pathname, shippedLocaleCodes);
 
+/** The address a prerendered file answers at: `tips/pack-light.html` -> `/tips/pack-light`. */
+function addressOf(file) {
+  const path = `/${file}`.replace(/\.html$/u, '').replace(/\/index$/u, '');
+  return path === '' ? '/' : path;
+}
+
 /**
  * A coming-soon build ships the coming-soon surface only. Prerendered pages are served as files
- * without running the Worker, so the Worker could not refuse them: in a coming-soon build the pages
- * outside the surface (tips, legal documents, the feed) are rendered on demand instead, which
- * puts them behind the Worker's gate (src/middleware.ts) with every other route. The 404 page
- * and the surface's own files stay prerendered.
+ * without running the Worker, so the Worker could not refuse them: the ones outside the surface
+ * (tips, legal documents, the feed) are taken out of the build's output, and their addresses then
+ * reach the Worker, which answers 404 like every other route it gates (src/middleware.ts). The
+ * 404 page renders on demand in such a build, so it can answer in the visitor's language.
  */
 function comingSoonSurface() {
   return {
     name: 'coming-soon-surface',
     hooks: {
       'astro:route:setup': ({ route }) => {
-        if (!comingSoon || !route.prerender) return;
-        // `src/pages/tips/[slug].astro` -> `/tips/[slug]`
-        const address = route.component
-          .replace(/^.*src\/pages/u, '')
-          .replace(/\.(astro|ts|md|mdx)$/u, '')
-          .replace(/\/index$/u, '');
-        if (address === '/404' || onSurface(address === '' ? '/' : address)) return;
-        route.prerender = false;
+        if (comingSoon && /src\/pages\/404\.astro$/u.test(route.component)) route.prerender = false;
+      },
+      'astro:build:done': async ({ dir, assets, logger }) => {
+        if (!comingSoon) return;
+        const client = fileURLToPath(dir);
+        const pages = (await readdir(client, { recursive: true })).filter(
+          (file) => file.endsWith('.html') && !onSurface(addressOf(file)),
+        );
+        // Prerendered endpoints (the feed) are not pages: the build reports them per route.
+        const endpoints = [...assets]
+          .filter(([route]) => !onSurface(route))
+          .flatMap(([, files]) => files.map((file) => fileURLToPath(file)))
+          .filter((file) => !file.endsWith('.html'));
+        for (const file of pages) await rm(join(client, file), { force: true });
+        for (const file of endpoints) await rm(file, { force: true });
+        logger.info(`coming-soon build: left out ${pages.length + endpoints.length} files`);
       },
     },
   };
@@ -79,6 +95,9 @@ export default defineConfig({
   trailingSlash: 'never',
   vite: {
     // Draft tips and draft legal versions show everywhere except a production bundle.
-    define: { __SHOW_DRAFTS__: JSON.stringify(process.env['CLOUDFLARE_ENV'] !== 'production') },
+    define: {
+      __SHOW_DRAFTS__: JSON.stringify(process.env['CLOUDFLARE_ENV'] !== 'production'),
+      __COMING_SOON_BUILD__: JSON.stringify(comingSoon),
+    },
   },
 });

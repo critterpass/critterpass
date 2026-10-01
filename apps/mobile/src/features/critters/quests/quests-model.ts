@@ -20,7 +20,12 @@ export interface QuestRow {
   readonly status: string;
   readonly ends_at: string;
   readonly reveal_at: string | null;
+  /** The guide's title and line in other languages, as synced (JSON text). */
+  readonly i18n: string | null;
 }
+
+/** A quest's title or line as this reader reads it (their language, or as the guide wrote it). */
+export type QuestText = (row: QuestRow, field: 'title' | 'body') => string | null;
 
 export interface ProgressRow {
   readonly quest_id: string;
@@ -133,6 +138,8 @@ export interface QuestsInput {
   readonly unsettled: readonly string[];
   readonly viewerId: string | null;
   readonly now: Date;
+  /** Defaults to the text as stored. */
+  readonly text?: QuestText;
 }
 
 export function buildQuestsModel(input: QuestsInput): QuestsModel {
@@ -155,6 +162,7 @@ export function buildQuestsModel(input: QuestsInput): QuestsModel {
     return empty('writing');
   }
   const progress = new Map(input.progress.map((row) => [row.quest_id, row]));
+  const text: QuestText = input.text ?? ((row, field) => row[field]);
   const cards = [...today]
     .sort((a, b) => a.slot - b.slot)
     .map((row, index): QuestCardModel => {
@@ -172,8 +180,8 @@ export function buildQuestsModel(input: QuestsInput): QuestsModel {
       );
       return {
         id: row.id,
-        title: row.title,
-        body: row.body,
+        title: text(row, 'title') ?? row.title,
+        body: text(row, 'body') ?? row.body,
         colour: COLOURS[index % COLOURS.length] ?? 'yellow',
         icon: iconOf(row, reward),
         state,
