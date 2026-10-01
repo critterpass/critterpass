@@ -67,6 +67,23 @@ export function registerTestCommands(registry: CommandRegistry): void {
   );
   registry.register(
     defineCommand({
+      name: 'broken_test_op',
+      v: 1,
+      schema: z.object({ sqlstate: z.enum(['check_violation', 'division_by_zero']) }),
+      offline: true,
+      allowAnonymous: true,
+      authorize: () => Promise.resolve(),
+      // A real Postgres error with that SQLSTATE (23514 or 22012), as a broken update raises.
+      handle: async (tx, payload) => {
+        await tx.query(
+          `DO $$ BEGIN RAISE EXCEPTION 'broken' USING ERRCODE = '${payload.sqlstate}'; END $$`,
+        );
+        return null;
+      },
+    }),
+  );
+  registry.register(
+    defineCommand({
       name: 'internal_test_op',
       v: 1,
       schema: z.object({}),
