@@ -15,11 +15,13 @@ import {
 import { useMemo } from 'react';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { useLocale } from '@/lib/i18n/use-locale';
 
 import { APPLY_PLAN_OPS } from './commands';
 import { useLiveRows } from './live-rows';
 import {
   displayOf,
+  themesAsRead,
   toPlanState,
   type ItemDisplay,
   type PlanDayRow,
@@ -68,6 +70,8 @@ export interface TripPlan {
   /** The synced plan with my queued edits replayed. */
   readonly state: PlanState;
   readonly display: ReadonlyMap<string, ItemDisplay>;
+  /** Day themes in the app's language, keyed by the theme as written. */
+  readonly themes: ReadonlyMap<string, string>;
   /** Stable ids a queued edit of mine touches. */
   readonly queued: ReadonlySet<string>;
   /** Stable ids an open or queued proposal touches, with who proposed it. */
@@ -140,6 +144,7 @@ export function useTripPlan(tripId: string | null): TripPlan {
     ITEMS_TABLES,
   );
   const queued = useLiveRows<QueuedRow>(QUEUED_PLAN_SQL, [], QUEUED_PLAN_TABLES);
+  const locale = useLocale();
   const changesets = useLiveRows<ChangesetRow>(
     OPEN_CHANGESETS_SQL,
     tripId === null ? null : [tripId],
@@ -170,7 +175,8 @@ export function useTripPlan(tripId: string | null): TripPlan {
       })),
       synced,
       state: replay?.state ?? synced,
-      display: displayOf(items.rows),
+      display: displayOf(items.rows, locale),
+      themes: themesAsRead(days.rows, locale),
       queued: replay?.touched ?? new Set<string>(),
       proposed,
       openChangesets: changesets.rows,
@@ -188,5 +194,6 @@ export function useTripPlan(tripId: string | null): TripPlan {
     items.loaded,
     queued.rows,
     changesets.rows,
+    locale,
   ]);
 }

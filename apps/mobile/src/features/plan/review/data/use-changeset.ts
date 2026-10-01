@@ -13,6 +13,7 @@ import { changeSetOpsSchema, type ChangeSetOp } from '@cp/domain';
 import type { SendResult } from '@/data/commands/client';
 import type { ClientCommandSpec } from '@/data/commands/summaries';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { useLocale } from '@/lib/i18n/use-locale';
 
 import { useLiveRows } from '../../overview/data/live-rows';
 import {
@@ -163,10 +164,14 @@ export function useChangeset(tripId: string | null, changesetId: string | null):
   );
   const pois = useLiveRows<{ id: string; name: string }>(POIS_SQL, [poiIds], ['pois']);
 
-  const baseItems = useMemo(() => toPlanItems(baseItemRows.rows), [baseItemRows.rows]);
+  const locale = useLocale();
+  const baseItems = useMemo(
+    () => toPlanItems(baseItemRows.rows, locale),
+    [baseItemRows.rows, locale],
+  );
   const days = useMemo(
-    () => (baseDays.rows.length > 0 ? toPlanDays(baseDays.rows) : plan.days),
-    [baseDays.rows, plan.days],
+    () => (baseDays.rows.length > 0 ? toPlanDays(baseDays.rows, locale) : plan.days),
+    [baseDays.rows, plan.days, locale],
   );
   const poll = pollRows.rows[0] ?? null;
   const crew = plan.members.map((m) => m.user_id);
