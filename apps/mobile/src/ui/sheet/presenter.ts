@@ -52,7 +52,6 @@ function useScreenFocused(): boolean {
   const [focused, setFocused] = useState(() => navigation?.isFocused() ?? true);
   useEffect(() => {
     if (navigation === undefined) return undefined;
-    setFocused(navigation.isFocused());
     const offFocus = navigation.addListener('focus', () => setFocused(true));
     const offBlur = navigation.addListener('blur', () => setFocused(false));
     return () => {
