@@ -28,10 +28,14 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'dev-tools-entry'
-      - extendedWaitUntil:
-          visible:
+      # The gallery entry sits below the fold on an iPhone (the list grew): iOS reports it present
+      # off screen, and a tap there lands on nothing. Scroll it into view first.
+      - scrollUntilVisible:
+          element:
             id: 'dev-nav-gallery'
-          timeout: 10000
+          direction: DOWN
+          timeout: 20000
+          speed: 20
       - tapOn:
           id: 'dev-nav-gallery'
       - extendedWaitUntil:

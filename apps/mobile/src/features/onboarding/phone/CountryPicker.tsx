@@ -1,5 +1,5 @@
 import { t } from '@lingui/core/macro';
-import { useMemo, useState } from 'react';
+import { useDeferredValue, useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -39,7 +39,8 @@ export function CountryPicker({
   const locale = useLocale();
   const [query, setQuery] = useState('');
   const all = useMemo(() => countryList(locale, (code) => regionName(code, locale)), [locale]);
-  const q = query.trim().toLowerCase();
+  // The filter runs on the deferred query, so a keystroke's render never lags the typed text.
+  const q = useDeferredValue(query).trim().toLowerCase();
   const rows =
     q.length === 0
       ? all
