@@ -10,18 +10,13 @@ appId: app.critterpass.dev
     element:
       id: 'when-pick-week'
     timeout: 30000
-# The step re-lays itself when the crew's window arrives, which can move the link from under a
-# tap: tap again until the picker is up.
-- retry:
-    maxRetries: 3
-    commands:
-      - waitForAnimationToEnd
-      - tapOn:
-          id: 'when-pick-week'
-      - extendedWaitUntil:
-          visible:
-            id: 'picker-shorter'
-          timeout: 10000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-shorter'
+    timeout: 10000
 - waitForAnimationToEnd
 # iOS finds the day's cell by its spoken label: the sheet's own when the step under it shows the
 # same day (the second match), else the only one.

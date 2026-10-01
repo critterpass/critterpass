@@ -12,7 +12,6 @@ appId: app.critterpass.dev
     file: subflows/trip-under-way.yaml
     env:
       SHOTS: money
-- runFlow: subflows/wait-for-trip-start.yaml
 - extendedWaitUntil:
     visible:
       id: 'tab-wallet'
@@ -158,6 +157,23 @@ appId: app.critterpass.dev
 - takeScreenshot: money-expense-detail
 - assertNotVisible:
     id: 'money-detail-history'
+# DELETE asks first, in a sheet over the page; CANCEL leaves the expense as it was.
+- scrollUntilVisible:
+    element:
+      id: 'money-detail-delete'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'money-detail-delete'
+- extendedWaitUntil:
+    visible: '(?i)delete this expense\?'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: money-delete-confirm
+- tapOn: '(?i)cancel'
+- extendedWaitUntil:
+    notVisible: '(?i)delete this expense\?'
+    timeout: 10000
 - assertNotVisible: '.*\$.*'
 - runFlow: ../onboarding/subflows/back.yaml
 - runFlow: ../onboarding/subflows/back.yaml
