@@ -72,6 +72,7 @@ export function clearSavedNavigation(): void {
 export function carryNavigationTo(build: string): void {
   const saved = readSavedNavigation();
   if (saved !== undefined) writeSavedNavigation({ ...saved, build });
+}
 
 export interface RestoreMoment {
   /** The session gate: a signed-out or first-run launch (`signedOut`, `onboarding`) never restores. */
