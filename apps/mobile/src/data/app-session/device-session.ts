@@ -109,7 +109,11 @@ export const deviceLinkClaims = {
 async function currentSession(): Promise<{ readonly userId: string } | null> {
   const { data, error } = await authClient().getSession();
   if (error) throw new Error(`session check failed: ${error.status ?? 'unknown'}`);
-  return data ? { userId: data.user.id } : null;
+  if (data === null) return null;
+  // Anything but a session or a clear "none" (a captive portal's page) is no answer at all.
+  const userId: unknown = (data as { user?: { id?: unknown } }).user?.id;
+  if (typeof userId !== 'string') throw new Error('session check failed: unreadable answer');
+  return { userId };
 }
 
 /** Restarts the JS so the app boots on the session now in storage. */
