@@ -57,20 +57,6 @@ export function VisitConsentHost({ decided, onAnswer, now = Date.now }: VisitCon
     busy: covered || isTyping(),
   });
   const offered = shouldOfferVisitConsent({ tripDaySessionRunning, decided, dismissed });
-  const gate = JSON.stringify({
-    running: status.running,
-    tripMode: status.tripMode,
-    decided,
-    dismissed,
-    restedOnTripSurface,
-    covered,
-    keyboard: Keyboard.isVisible(),
-    focus: TextInput.State.currentlyFocusedInput() !== null,
-  });
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.warn(`[visit-consent] gate ${gate}`);
-  }, [gate]);
 
   // Once up, the sheet stays until it is answered: the moment passing must not pull it away.
   // An answer given here holds even before its consent row has synced back.
