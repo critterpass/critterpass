@@ -88,8 +88,11 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
     }));
   const deleteIt = async () => {
     setConfirming(false);
-    await del.send({ booking_id: booking.id, base_version: booking.version });
+    // The queued delete takes the booking out of the wallet's rows at once: leave for the wallet
+    // first, so this screen never draws "not in the wallet" on the way out.
+    const sent = del.send({ booking_id: booking.id, base_version: booking.version });
     router.replace(BOOKINGS_ROUTES.wallet);
+    await sent;
   };
   return (
     <>

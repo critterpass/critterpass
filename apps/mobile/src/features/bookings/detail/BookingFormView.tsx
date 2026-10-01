@@ -1,7 +1,8 @@
 /**
  * Adding a booking by hand or correcting one (undesigned; settings type scale and text fields):
  * the kind (when adding), what it is, the day and time as the confirmation prints them, where,
- * the confirmation code, a flight's number, airports and seat, and notes. SAVE stays off until
+ * the confirmation code, a flight's number, airports, landing time and seat (with the one zone
+ * both of its times are read in), and notes. SAVE stays off until
  * the required fields read.
  */
 import type { BookingKind } from '@cp/domain';
@@ -19,7 +20,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { makeStyles } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { BookingDraft, DraftProblem } from './form-model';
 import { useKindLabel } from './labels';
@@ -46,12 +47,15 @@ export interface BookingFormViewProps {
   /** Problems show once the traveller tried to save. */
   readonly showProblems: boolean;
   readonly saving: boolean;
+  /** The one zone a flight's two times are read in ("Ho Chi Minh", "GMT+7"). */
+  readonly zone: { readonly city: string; readonly offset: string };
   readonly onChange: (patch: Partial<BookingDraft>) => void;
   readonly onSave: () => void;
 }
 
 export function BookingFormView(props: BookingFormViewProps) {
   const styles = useStyles();
+  const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
   const kindLabel = useKindLabel();
@@ -61,6 +65,7 @@ export function BookingFormView(props: BookingFormViewProps) {
       ? ({ status: 'error', message } as const)
       : {};
   const flight = draft.kind === 'flight';
+  const { city: zoneCity, offset: zoneOffset } = props.zone;
   return (
     <Scaffold variant="dark" testID={`bookings-form-${props.mode}`}>
       <KeyboardScrollView contentContainerStyle={styles.content}>
@@ -167,6 +172,25 @@ export function BookingFormView(props: BookingFormViewProps) {
             onChangeText={(endDate) => props.onChange({ endDate })}
             testID="bookings-form-end"
           />
+        ) : null}
+        {flight ? (
+          <TextField
+            label={t({ id: 'bookings.form.arrive', message: 'Lands at' })}
+            placeholder={t({ id: 'bookings.form.arriveExample', message: '11:55' })}
+            keyboardType="numbers-and-punctuation"
+            value={draft.arrive}
+            onChangeText={(arrive) => props.onChange({ arrive })}
+            {...problem('arrive', t({ id: 'bookings.form.timeProblem', message: 'Like 09:05' }))}
+            testID="bookings-form-arrive"
+          />
+        ) : null}
+        {flight ? (
+          <Text variant="bodySm" color={theme.semantic.text.secondary} testID="bookings-form-zone">
+            {t({
+              id: 'bookings.form.zone',
+              message: `Type both times as ${zoneCity} time (${zoneOffset}).`,
+            })}
+          </Text>
         ) : null}
         {flight ? (
           <TextField

@@ -115,6 +115,19 @@ export function toWalletBooking(
   };
 }
 
+/**
+ * The synced rows without the bookings the traveller has already deleted on this phone: a queued
+ * delete takes its card out of the wallet at once, so it cannot be opened and deleted again.
+ */
+export function withoutDeleted<Row extends { readonly id: string }>(
+  rows: readonly Row[],
+  deleting: readonly { readonly booking_id: string | null }[],
+): readonly Row[] {
+  if (deleting.length === 0) return rows;
+  const gone = new Set(deleting.map((row) => row.booking_id));
+  return rows.filter((row) => !gone.has(row.id));
+}
+
 /** When a booking stops being relevant: its end, its last leg's arrival, else its start. */
 export function endsOf(booking: WalletBooking): number | null {
   const lastLeg = booking.segments[booking.segments.length - 1];
