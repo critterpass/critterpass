@@ -185,6 +185,28 @@ describe('Critterdex model', () => {
     expect(dex.hereNow?.critter.gold).toBe(true);
   });
 
+  it('ignores a legendary on the trip dates that lives somewhere else', () => {
+    const elsewhere = {
+      id: 'w-fr',
+      key: 'paris-night',
+      form_id: 'coq-l',
+      place_line: 'Paris · one night',
+      rule: JSON.stringify({ type: 'annual_range', start: '10-02', end: '10-04' }),
+      months: null,
+      solar: null,
+      challenge: null,
+    };
+    const base = input();
+    const dex = buildDex(
+      input({
+        trips: [baliTrip],
+        forms: [...base.forms, form('coq-l', 'coq', 'legendary')],
+        windows: [elsewhere],
+      }),
+    );
+    expect(dex.legendary).toBeNull();
+  });
+
   it('leaves the comparison out when crewmates hide their collection', () => {
     expect(buildDex(input({ crewCounts: [] })).comparison).toBeNull();
   });

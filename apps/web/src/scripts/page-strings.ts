@@ -29,6 +29,17 @@ export interface PageStrings {
   readonly eggHints: readonly [string, string, string];
   /** `{num}`, `{city}` */
   readonly hatchedNumber: string;
+  readonly yourGuide: string;
+  readonly yourLocal: string;
+  readonly pickPlace: string;
+  readonly searchEmpty: string;
+  readonly searchFailed: string;
+  /** `{city}` */
+  readonly removePlace: string;
+  /** What the page's language calls the six chips' places, by destination key. */
+  readonly chipPlaces: Readonly<Record<string, string>>;
+  /** The hatch pool's cities in the page's language, by critter id. */
+  readonly hatchCities: Readonly<Record<string, string>>;
   /** Who hatched, one sentence per critter id. */
   readonly hatchLines: Readonly<Record<string, string>>;
 }

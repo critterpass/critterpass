@@ -5,7 +5,8 @@
  *
  * Proves, in order: nobody reading another language means no model call; the route's switch off
  * means source text only; one sweep translates the organiser's draft, Linh's briefing and the
- * day's quest into Vietnamese with every number intact and nothing a person typed touched; a
+ * day's quest into Vietnamese (places by the names a Vietnamese reader knows them by, a business
+ * name as written, every number intact) with nothing a person typed touched; a
  * second sweep asks for nothing; the organiser-only draft's translations stay organiser-only; and
  * a guide action that copies the plan (`app.apply_change_set`) keeps the Vietnamese with each row,
  * except the note it rewrote, which reads as written for everyone and is not asked for again.
@@ -227,7 +228,7 @@ describe('guide_text.translate', () => {
     expect(request).not.toContain('250,000');
 
     expect(await read(draft, stable[2]!)).toEqual({
-      vi: 'Dragon Bridge phun lửa lúc 21:00 cuối tuần, nên có mặt ở bờ đông trước 20:45.',
+      vi: 'Cầu Rồng phun lửa lúc 21:00 cuối tuần, nên có mặt ở bờ đông trước 20:45.',
       en: NOTES[2],
     });
     // Every stored line keeps the numbers of the line it translates, digit for digit.
@@ -243,7 +244,7 @@ describe('guide_text.translate', () => {
     );
     expect(
       days.rows.map((row) => guideText('plan_day', { theme: row.theme }, row.i18n, 'theme', 'vi')),
-    ).toEqual(['Ngày biển, khởi động chậm thôi', 'Lên Ba Na Hills, sớm']);
+    ).toEqual(['Ngày biển, khởi động chậm', 'Lên Bà Nà Hills sớm']);
 
     // What a person typed is never translated; the organiser's own briefing stays English.
     const typed = await db.pool.query<Stored>('SELECT i18n FROM plan_items WHERE notes = $1', [
@@ -256,7 +257,7 @@ describe('guide_text.translate', () => {
     );
     const mine = briefings.rows.find((row) => row.user_id === linh)!;
     expect(guideText('briefing_item', { text: mine.text }, mine.i18n, 'text', 'vi')).toBe(
-      'Đi từ 7:10 để kịp cáp treo Ba Na Hills.',
+      'Đi từ 7:10 để kịp cáp treo Bà Nà Hills.',
     );
     expect(briefings.rows.find((row) => row.user_id === organiser)?.i18n).toBeNull();
     const quest = await db.pool.query<Stored & typeof QUEST>(
@@ -267,7 +268,7 @@ describe('guide_text.translate', () => {
       _src: guideTextSourceHash('quest', QUEST),
       vi: {
         title: 'Ngắm cầu',
-        body: 'Đưa cả nhóm tới Dragon Bridge trước màn phun lửa lúc 21:00.',
+        body: 'Đưa cả nhóm tới Cầu Rồng trước màn phun lửa lúc 21:00.',
       },
     });
   });
@@ -356,7 +357,7 @@ describe('guide_text.translate', () => {
 
     // Moved, same words: the Vietnamese came along. Untouched rows too, and the day themes.
     expect((await read(next, stable[0]!)).vi).toBe(
-      'Khởi động nhẹ bằng một vòng bơi ở My Khe trước khi nắng gắt.',
+      'Khởi động nhẹ bằng một vòng bơi ở Mỹ Khê trước khi nắng gắt.',
     );
     expect((await read(next, stable[3]!)).vi).toContain('900,000 VND');
     const days = await db.pool.query<Stored & { theme: string }>(
@@ -365,7 +366,7 @@ describe('guide_text.translate', () => {
     );
     const second = days.rows[1]!;
     expect(guideText('plan_day', { theme: second.theme }, second.i18n, 'theme', 'vi')).toBe(
-      'Lên Ba Na Hills, sớm',
+      'Lên Bà Nà Hills sớm',
     );
     // Rewritten: the old Vietnamese no longer matches, so everyone reads the new words as written.
     expect(await read(next, stable[2]!)).toEqual({ vi: rewritten, en: rewritten });
