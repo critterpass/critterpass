@@ -312,6 +312,7 @@ describe('Sheet', () => {
       isFocused: () => false,
       getState: () => ({ type: 'stack' }),
       getParent: () => undefined,
+      addListener: () => () => undefined,
     } as unknown as ContextType<typeof NavigationContext>;
     await renderModal(
       <NavigationContext.Provider value={covered}>
