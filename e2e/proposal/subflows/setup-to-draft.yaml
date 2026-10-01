@@ -200,14 +200,14 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'add-must-do-field'
-- inputText: 'Tram 28 at sunrise'
+- inputText: 'Fushimi Inari at sunrise'
 - tapOn:
     id: 'add-must-do-keep'
-# Android shows the row's title in capitals; iOS reads the row whole ("Tram 28 at sunrise,
+# Android shows the row's title in capitals; iOS reads the row whole ("Fushimi Inari at sunrise,
 # Winston").
 - extendedWaitUntil:
     visible:
-      text: '(?i)tram 28 at sunrise.*'
+      text: '(?i)fushimi inari at sunrise.*'
     timeout: 15000
 # KEEP closes the sheet and its keyboard with it; hideKeyboard with no keyboard up is a back press on
 # Android, which would leave setup.
