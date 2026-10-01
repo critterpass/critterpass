@@ -9,10 +9,9 @@ appId: app.critterpass.dev
 # once the trip has started. The newcomer is on the trip: the plan opens and the expense is theirs
 # to share. A fourth account joins earlier, while the proposal is out, and never answers it: after
 # the lock their Home has the JOIN THE TRIP card, and the tap puts them on the trip.
-# Today on the trip's clock (Da Nang, UTC+7): the lock button that names it, where its cell sits in
-# the week picker's month (Monday-first columns 11.93% of the screen apart from 14.6%, rows 5.69%
-# apart from 45%, in whole percents) and its spoken label.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); var blanks = (first.getUTCDay() + 6) % 7; var col = (d.getUTCDay() + 6) % 7; var row = Math.floor((blanks + d.getUTCDate() - 1) / 7); output.todayPoint = Math.round(14.6 + 11.93 * col) + '%, ' + Math.round(45 + 5.69 * row) + '%'; output.todayLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
+# Today on the trip's clock (Da Nang, UTC+7): the id of its cell in the week picker and the lock
+# button that names it.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); output.pickId = 'heat-pick-' + d.toISOString().slice(0, 10); output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
 - runFlow: subflows/fresh-account.yaml
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -123,9 +122,9 @@ appId: app.critterpass.dev
       id: 'setup-step-when'
     timeout: 20000
 # The dates: a week that starts today, picked by hand (the crew's best window aims at the place's
-# season, weeks away). The picker opens on the month of that window, which is this month here. On
-# Android the sheet's cells carry no id or label of their own, so today's cell is tapped where the
-# sheet draws it; iOS finds it by its label. The lock button names the week, which proves the tap.
+# season, weeks away). The sheet opens on the month of that window, which can be a later one: it
+# is paged back until today's cell is there, and the cell is tapped by its date. The lock button
+# names the week, which proves the tap.
 - extendedWaitUntil:
     visible:
       id: 'when-pick-week'
@@ -137,27 +136,20 @@ appId: app.critterpass.dev
       id: 'picker-shorter'
     timeout: 10000
 - waitForAnimationToEnd
-- runFlow:
-    when:
-      platform: Android
+# The dates step under the sheet has its own month arrows, so the sheet's are looked up inside it.
+- repeat:
+    while:
+      notVisible:
+        id: ${output.pickId}
+    times: 6
     commands:
       - tapOn:
-          point: ${output.todayPoint}
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - tapOn:
-          text: ${output.todayLabel}
-          index: 1
-          optional: true
-      - runFlow:
-          when:
-            notVisible:
-              id: 'picker-lock'
-          commands:
-            - tapOn:
-                text: ${output.todayLabel}
+          id: 'heatmap-prev'
+          childOf:
+            id: 'week-picker-panel'
+      - waitForAnimationToEnd
+- tapOn:
+    id: ${output.pickId}
 - extendedWaitUntil:
     visible:
       id: 'picker-lock'
