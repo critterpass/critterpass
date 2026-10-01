@@ -139,6 +139,18 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-not-found
+# The id of a trip this account cannot read: not-found once the server has answered, with its way
+# home, never a trip screen with nothing behind it.
+- tapOn:
+    id: 'not-found-home'
+- runFlow:
+    file: open-link.yaml
+    env:
+      URL: critterpass-dev://0192e1a2-0000-7000-8000-00000000dead/plan
+- extendedWaitUntil:
+    visible:
+      id: 'not-found'
+    timeout: 30000
 - runFlow:
     file: start.yaml
     env:
@@ -155,6 +167,31 @@ appId: app.critterpass.dev
 - takeScreenshot: ${LANG}-3a-10-ticket
 - tapOn:
     id: 'invite-take-seat'
+# A crew code carries no name or home: the pass page asks for both before it can be issued.
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-name'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-3a-12-ask-name
+- tapOn:
+    id: 'invite-edit-name'
+- inputText: 'Mai'
+- tapOn:
+    id: 'invite-edit-home'
+- inputText: 'Sing'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-home-SIN'
+    timeout: 10000
+- tapOn:
+    id: 'invite-edit-home-SIN'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-edit-home-picked'
+    timeout: 10000
+- tapOn:
+    id: 'invite-edit-done'
 - extendedWaitUntil:
     visible:
       id: 'invite-pass-issue'

@@ -1,0 +1,39 @@
+appId: app.critterpass.dev
+---
+# A cold start with the app left on a trip's day-of screen: the app comes back on that screen, with
+# no tap. While the session starts the screen shows the loading state (never an empty page), then
+# the day itself. The screenshots are checked for drawn content (EMPTY_SCREEN).
+- runFlow:
+    file: ../../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-next'
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: en-3k-2-day-before-restart
+- stopApp
+- launchApp:
+    stopApp: false
+- extendedWaitUntil:
+    visible:
+      id: 'trip-waiting|trip-day'
+    timeout: 60000
+- takeScreenshot: en-3k-2-day-restored-first-look
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-pack'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: en-3k-2-day-restored
