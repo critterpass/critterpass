@@ -74,6 +74,16 @@ appId: app.critterpass.dev
       id: 'critters-hatch'
     timeout: 120000
     optional: true
+# When the ceremony opened by itself, let it play to the reveal: mid-pop the stage is empty.
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-hatched'
+          timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-10-after-arriving
 # If arriving did not hatch it, the traveller's own way: HATCH IT (it needs the trip under way).
