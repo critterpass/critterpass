@@ -5,6 +5,12 @@
  * a native boundary Jest can't run, so it is stood in for per case.
  */
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
+jest.mock(
+  '@powersync/common',
+  () =>
+    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
+      .powersyncCommon,
+);
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, render, screen } from '@testing-library/react-native';
@@ -60,7 +66,7 @@ describe('live camera', () => {
       return standIn({ hasPermission: true, canRequestPermission: false });
     });
     nativeRegistry(['MMKVFactory', 'ImageFactory']);
-    await render(<LiveCamera />);
+    await render(<LiveCamera enabled />);
     expect(screen.toJSON()).toBeNull();
     expect(loaded).not.toHaveBeenCalled();
   });
@@ -70,7 +76,7 @@ describe('live camera', () => {
     jest.doMock('react-native-vision-camera', () =>
       standIn({ hasPermission: false, canRequestPermission: true }),
     );
-    await render(<LiveCamera />);
+    await render(<LiveCamera enabled />);
     expect(requestPermission).toHaveBeenCalledTimes(1);
     expect(screen.queryByTestId('camera-preview')).toBeNull();
   });
@@ -80,11 +86,23 @@ describe('live camera', () => {
     jest.doMock('react-native-vision-camera', () =>
       standIn({ hasPermission: true, canRequestPermission: false }),
     );
-    await render(<LiveCamera />);
+    await render(<LiveCamera enabled />);
     expect(screen.getByTestId('camera-preview')).toBeTruthy();
     expect(cameraProps?.outputs).toEqual([]);
     expect(cameraProps?.isActive).toBe(true);
     await act(() => cameraProps?.onError(new Error('camera in use')));
     expect(screen.queryByTestId('camera-preview')).toBeNull();
+  });
+
+  it('stays off, without loading the camera, until it is switched on', async () => {
+    const loaded = jest.fn();
+    nativeRegistry(CAMERA_HYBRID_OBJECTS);
+    jest.doMock('react-native-vision-camera', () => {
+      loaded();
+      return standIn({ hasPermission: true, canRequestPermission: false });
+    });
+    await render(<LiveCamera />);
+    expect(screen.toJSON()).toBeNull();
+    expect(loaded).not.toHaveBeenCalled();
   });
 });

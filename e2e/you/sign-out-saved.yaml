@@ -1,0 +1,121 @@
+appId: app.critterpass.dev
+---
+# A saved pass signs out and signs back in, and its crew is still there. Nothing is seeded:
+# 1. the staging test number is freed, but only from an account these flows made (its crew is the
+#    marker "CP Test Sign-out"); any other holder stops the flow before anything is erased;
+# 2. a brand-new account onboards, starts a crew and saves its pass with the test number;
+# 3. Settings › Account › Sign out: no warning (the pass is saved), the phone is cleared and the
+#    app restarts at the splash;
+# 4. "I already have a pass" with the same number lands on Home with the crew back;
+# 5. the account is erased again, leaving the number free.
+# Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- runFlow: ../happy/subflows/fresh-install.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-sign-in'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-sign-in'
+- runFlow: subflows/phone-sign-in.yaml
+# The number had an account (Home) or now has a new one without a pass (the name page).
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen|onboarding-name-field'
+    timeout: 60000
+- runFlow: subflows/guard-test-number.yaml
+- runFlow: subflows/start-fresh.yaml
+
+# A brand-new person: a pass, a crew, then the pass saved with the phone number.
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'CP Test Sign-out'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://onboarding/save
+- extendedWaitUntil:
+    visible:
+      id: 'save-phone'
+    timeout: 15000
+- tapOn:
+    id: 'save-phone'
+- runFlow: subflows/phone-sign-in.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer'
+    timeout: 30000
+
+# Home → profile → Settings → Sign out.
+- runFlow: ../screens/sweep/subflows/home.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-profile'
+    timeout: 30000
+- tapOn:
+    id: 'home-header-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings-account'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3n-6-account-rows
+- tapOn: 'Sign out'
+# Saved: the plain confirm, never the unsaved warning.
+- extendedWaitUntil:
+    visible:
+      id: 'you-sign-out-confirm'
+    timeout: 20000
+- assertNotVisible:
+    id: 'you-sign-out-warning'
+- waitForAnimationToEnd
+- takeScreenshot: en-sign-out-saved-account
+- tapOn:
+    id: 'you-sign-out-confirm'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 90000
+- waitForAnimationToEnd
+- takeScreenshot: en-sign-out-splash
+
+# Sign back in: the same account, with its crew.
+- tapOn:
+    id: 'onboarding-sign-in'
+- runFlow: subflows/phone-sign-in.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-crew-name'
+    timeout: 90000
+- extendedWaitUntil:
+    visible: '(?i).*cp test sign-out.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-sign-in-crew-back
+
+# Leave the test number free for the next run: still our own account, checked again.
+- runFlow: subflows/guard-test-number.yaml
+- runFlow: subflows/start-fresh.yaml

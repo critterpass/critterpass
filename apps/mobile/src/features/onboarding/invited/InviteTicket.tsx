@@ -4,7 +4,7 @@
  * (first names and colours) and how many named seats still wait. It slides up and settles crooked
  * (about 720 ms) on arrival.
  */
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { StyleSheet, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -37,12 +37,16 @@ function placeCode(place: string | null, locale: string): string {
 
 export function membersLine(model: TicketModel, locale: string): string {
   const names = model.members.map((m) => m.name);
+  const listed = format.list(locale, names);
   const inLine =
     names.length === 0
       ? ''
       : t({
           id: 'onboarding.invite.ticket.membersIn',
-          message: `${format.list(locale, names)} are in.`,
+          message: plural(names.length, {
+            one: `${listed} is in.`,
+            other: `${listed} are in.`,
+          }),
         });
   if (model.waiting === 0) return inLine;
   const waiting = model.waiting;
@@ -105,17 +109,17 @@ export function InviteTicket({ model, arrive }: InviteTicketProps) {
         fields={[
           {
             key: 'dates',
-            label: t({ id: 'onboarding.invite.ticket.dates', message: 'Dates' }),
+            label: upper(t({ id: 'onboarding.invite.ticket.dates', message: 'Dates' }), locale),
             value: dates,
           },
           {
             key: 'seat',
-            label: t({ id: 'onboarding.invite.ticket.seat', message: 'Seat' }),
+            label: upper(t({ id: 'onboarding.invite.ticket.seat', message: 'Seat' }), locale),
             value: seat,
           },
           {
             key: 'each',
-            label: t({ id: 'onboarding.invite.ticket.each', message: 'Each' }),
+            label: upper(t({ id: 'onboarding.invite.ticket.each', message: 'Each' }), locale),
             value: each,
           },
         ]}

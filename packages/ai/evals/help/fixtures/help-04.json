@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "945fe65d-3bd7-4503-8d58-d1f84f25761e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"step_id\":\"lost_stolen.freeze_cards\",\"text\":\"Trước tiên, hãy khóa thẻ của bạn trong ứng dụng ngân hàng.\"},{\"step_id\":\"lost_stolen.police_report\",\"text\":\"Báo cho cảnh sát (110) và xin một bản tường trình bằng giấy cho công ty bảo hiểm.\"},{\"step_id\":\"lost_stolen.phrase\",\"text\":\"Đưa họ xem: \\\"警察を呼んでください\\\" (Call the police).\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 159,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 119,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

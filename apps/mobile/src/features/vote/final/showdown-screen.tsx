@@ -1,7 +1,8 @@
 /**
- * The showdown (3c-1): the final full screen, one place per half with its guide's line, the tool
- * chips (flight hours, price each, best months) and who voted for it; the VS disc pulses where the
- * halves meet. Tapping a half casts or changes the vote: the half squashes from the VS edge, the
+ * The showdown (3c-1): the final full screen, one place per half with its guide's line and the tool
+ * chips (flight hours, price each, best months); the top side's voters sit under its chips and the
+ * bottom side's in the tally card, with who is still to vote; the VS disc pulses where the halves
+ * meet. Tapping a half casts or changes the vote: the half squashes from the VS edge, the
  * disc punches toward it, a medium haptic lands, and a crewmate changing their mind slides their
  * avatar across. The viewer's side is marked; until they vote a hint says so; voting against the
  * way the crew leans gets a word from the guide. Once the poll closes the reveal takes over.
@@ -22,6 +23,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { impact, toast, useLoop } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
+import { AvatarStack } from '@/ui/people/AvatarStack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
@@ -32,7 +34,7 @@ import { usePlaces } from '../data/use-board';
 import { useCastBallot } from '../data/use-cast-ballot';
 import { usePitchSections } from '../data/use-final';
 import { useMyUid } from '../data/use-my-uid';
-import { usePeople } from '../data/use-people';
+import { stackOf, usePeople } from '../data/use-people';
 import { usePoll } from '../data/use-poll';
 import type { PollOptionView, PollView } from '../data/poll-view';
 import { deadlineParts, guideOr, upper } from '../format';
@@ -67,9 +69,15 @@ const useStyles = makeStyles((th) => ({
     backgroundColor: th.semantic.bg.base,
     borderRadius: th.radius.lg,
     padding: th.space['14'],
-    gap: th.space['4'],
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: th.space['12'],
   },
+  footerLines: { flex: 1, gap: th.space['4'] },
 }));
+
+/** The tally card lists this many of the bottom side's voters before "+n". */
+const FOOTER_AVATARS = 4;
 
 export function ShowdownView({ poll }: { readonly poll: PollView }) {
   const styles = useStyles();
@@ -93,10 +101,10 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   const [footerHeight, setFooterHeight] = useState(0);
   const headerTop = insets.top + theme.space['8'];
   const footerBottom = insets.bottom + theme.space['8'];
-  const topInset = headerTop + headerHeight + theme.space['12'];
+  const topInset = headerTop + headerHeight + theme.space['4'];
   const bottomInset = footerBottom + footerHeight + theme.space['16'];
-  // Each half reports its content's height and its name's size; when the two don't fit the screen,
-  // both names are set smaller at one shared size.
+  // Each half reports the height it needs beside its name, and its name's size; when the two halves
+  // don't fit the screen, both names are set smaller at one shared size.
   const names = useShowdownNames(
     [
       ...poll.options.map((o) =>
@@ -134,9 +142,11 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   };
   const deadline =
     poll.closesAt === null ? null : deadlineParts(i18n.locale, poll.closesAt, new Date());
+  // The tally card speaks for the bottom side, whose voters it shows (the top side's are under its
+  // chips), and says who is still to vote.
   const votesLine = t({
     id: 'vote.showdown.tally',
-    message: `${poll.votedCount} votes · ${lines.toGo ?? ''}`,
+    message: `${second.votes} votes · ${lines.toGo ?? ''}`,
   });
   return (
     <View style={styles.screen} testID="showdown">
@@ -213,19 +223,30 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
         onLayout={(event) => setFooterHeight(event.nativeEvent.layout.height)}
         testID="showdown-footer"
       >
-        <Text variant="label" color={theme.semantic.action.primary} numberOfLines={2}>
-          {upper(votesLine, i18n.locale)}
-        </Text>
-        {poll.myOptionId === null ? (
-          <Text variant="bodySm" testID="showdown-hint">
-            {t({ id: 'vote.showdown.hint', message: "You haven't voted yet. Tap a side." })}
-          </Text>
+        {second.voterIds.length > 0 ? (
+          <View testID="showdown-votes-1">
+            <AvatarStack
+              members={stackOf(people, second.voterIds)}
+              size="md"
+              max={FOOTER_AVATARS}
+            />
+          </View>
         ) : null}
-        {lines.tieFull === null ? null : (
-          <Text variant="bodySm" testID="showdown-tie">
-            {lines.tieFull}
+        <View style={styles.footerLines}>
+          <Text variant="label" color={theme.semantic.action.primary} numberOfLines={2}>
+            {upper(votesLine, i18n.locale)}
           </Text>
-        )}
+          {poll.myOptionId === null ? (
+            <Text variant="bodySm" testID="showdown-hint">
+              {t({ id: 'vote.showdown.hint', message: "You haven't voted yet. Tap a side." })}
+            </Text>
+          ) : null}
+          {lines.tieFull === null ? null : (
+            <Text variant="bodySm" testID="showdown-tie">
+              {lines.tieFull}
+            </Text>
+          )}
+        </View>
       </View>
     </View>
   );

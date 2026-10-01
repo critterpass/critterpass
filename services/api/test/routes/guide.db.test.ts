@@ -180,6 +180,31 @@ describe('POST /v1/guide/threads/{id}/turns', () => {
     expect(messages.rows[1]?.content).toMatch(/^Hi! Tokek here/u);
   });
 
+  it('lets the default guide answer for anywhere without a trip, and leaves a trip’s own guide alone', async () => {
+    const me = await harness.signInAnonymously();
+    useFixtures(['flash-stream']);
+    await (await ask(me.cookie, randomUUID(), 'Asia/Ho_Chi_Minh')).text();
+    const home = JSON.stringify(transport.requests[0]?.['system']);
+    expect(home).toContain('You are Tokek');
+    expect(home).toContain('their travel guide for anywhere in the world');
+    expect(home).not.toContain('You are the live guide for');
+
+    // The same person inside a Đà Nẵng trip: Chà Vá, guiding Đà Nẵng, with no home-guide scope.
+    const { tripId } = await seedGuideTrip(harness.pool, { organiser: me.uid, members: [] });
+    await harness.pool.query(
+      "UPDATE trips SET guide_id = (SELECT id FROM guides WHERE slug = 'chava') WHERE id = $1",
+      [tripId],
+    );
+    useFixtures(['flash-stream']);
+    await (
+      await ask(me.cookie, randomUUID(), 'Asia/Ho_Chi_Minh', { context: { trip_id: tripId } })
+    ).text();
+    const local = JSON.stringify(transport.requests[0]?.['system']);
+    expect(local).toContain('You are Chà Vá');
+    expect(local).toContain('You are the live guide for');
+    expect(local).not.toContain('anywhere in the world');
+  });
+
   it('searches the web only when the question needs it, as one question with its sources', async () => {
     const me = await harness.signInAnonymously();
     useFixtures(['flash-guide-search-1', 'flash-guide-search-2']);

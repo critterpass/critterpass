@@ -6,3 +6,948 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
+
+#. placeholder {0}: props.matchCount
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.matches"
+msgstr ""
+
+#. placeholder {0}: groups.unknown
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.unknown"
+msgstr ""
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whySaved"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.writing"
+msgstr ""
+
+#. placeholder {0}: card.name
+#. placeholder {1}: card.guide.name
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.card"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.picks.title"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/pin-cluster.tsx
+msgid "explore.map.cluster"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.progress"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesTwo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.guidePick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.hoursFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.fromStay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-bars.tsx
+msgid "explore.months.cheapest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-bars.tsx
+msgid "explore.months.barCheapest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
+msgid "explore.save.toast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.proposed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.shareText"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keenMore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keenOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.crewCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.paid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastMatch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastSuggested"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.ready"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readySize"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchUnslotted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchSuggested"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.stopsFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.newList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.moreCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.each"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.live"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.steady"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.listNew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.planAdd"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.proposal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.toDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.noAirport"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.reason"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.all"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.chat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.backToPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.beach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.best"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.footnote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.closedNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.sardiLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.create"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.crew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.picks.crewPlans"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.months.subtitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDayTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.deleteList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.listDelete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.destination"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.directFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.download"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.downloading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.hero.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.explore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.place.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.after"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.around"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.before"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyClose"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
+msgid "explore.hero.guestGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.health"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.offlineLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.inDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTaste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyMustSee"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchDismiss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationOff"
+msgstr ""
+
+#. placeholder {0}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.market"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.match"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowUnslotted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.move"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.museum"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.newName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.nature"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.nightlife"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.noFare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.full"
+msgstr ""
+
+#. placeholder {0}: hero.name
+#. placeholder {1}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.limited.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.noMatches"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.noPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.no"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
+msgid "explore.solo.refusedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.guestLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+#: ../../apps/mobile/src/features/explore/screens/explore-list-screen.tsx
+msgid "explore.map.noResults"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.offlineBadge"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.busy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.open24"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.openNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.passPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.cta.pitch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.noCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.mapBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.unsave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.remove"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.unsave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.rename"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.renameList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.renameName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedBadge"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.defaultList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.offer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.seePassPlus"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.seen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.setAirport"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationSettings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.ponLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.shopping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.cta.solo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
+msgid "explore.solo.started"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.tag"
+msgstr ""
+
+#. placeholder {0}: pick.name
+#. placeholder {1}: categoryLabel(pick.category)
+#: ../../apps/mobile/src/features/explore/components/picks-row.tsx
+msgid "explore.sponsored.cardLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.start"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipeStart"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.stay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.suggested"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
+msgid "explore.swipe.cardActions"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchTap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.temple"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
+msgid "explore.solo.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.proposedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.neutral"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readyBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.refusedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.offlineTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.endedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.transit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.disclosure"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.limited.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.months.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.guides"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.whichCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.why"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.sheetTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.why"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.nameTaken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.contextual"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.away"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.homeLine"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
+msgid "explore.hero.yourGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.trip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.offline"
+msgstr ""

@@ -6,3 +6,426 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.past"
+msgstr "{0}, {when}"
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.upcomingLabel"
+msgstr "{0}, chưa đóng dấu. {1}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stat.countries"
+msgstr "{count, plural, other {Quốc gia}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stat.critters"
+msgstr "{count, plural, other {Critter}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stat.trips"
+msgstr "{count, plural, other {Chuyến đi}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.inDays"
+msgstr "{days, plural, other {{place} sau # ngày nữa}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.inDays"
+msgstr "{days, plural, other {# ngày nữa}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.today"
+msgstr "{place} hôm nay"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.account"
+msgstr "Tài khoản"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.erasedTitle"
+msgstr "Tài khoản đã đóng"
+
+#. placeholder {0}: model.stampTotal
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.allStamps"
+msgstr "Tất cả {0} ›"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.stays.all"
+msgstr "Tất cả. Đăng nhập lại là mọi thứ trở về."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.app"
+msgstr "Ứng dụng"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.appLanguage"
+msgstr "Ngôn ngữ ứng dụng"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTripsLine"
+msgstr "Đặt chỗ, bản đồ và câu giao tiếp trên máy này"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.close"
+msgstr "Đóng"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.title"
+msgstr "Đóng trong 30 ngày"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.keepHint"
+msgstr "Việc đóng tài khoản đã đăng xuất bạn ở mọi nơi, nên muốn giữ lại thì cần đăng nhập lại."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.closing"
+msgstr "Đang đóng tài khoản…"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.continue"
+msgstr "Tiếp tục"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.moved"
+msgstr "Nhóm chuyển app khác"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.deleteAccount"
+msgstr "Xoá tài khoản"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.holdAction"
+msgstr "Xoá tài khoản của tôi"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.title"
+msgstr "Xoá tài khoản của bạn?"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.departures"
+msgstr "DEPARTURES · DÉPARTS"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.edit"
+msgstr "Sửa"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.entry"
+msgstr "ENTRY · ENTRÉE"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.exit"
+msgstr "EXIT · SORTIE"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keeps.expenses"
+msgstr "Các khoản chi bạn đã thêm, để Số dư vẫn khớp"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes"
+msgstr "Sẽ mất"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.haptics"
+msgstr "Rung phản hồi"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.stampBack"
+msgstr "Chào lại nhé"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.lede"
+msgstr "Đây là những gì đi cùng bạn, và những gì nhóm giữ lại."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.hold"
+msgstr "Giữ"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.holdFor"
+msgstr "Giữ trong 3 giây"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.holdTitle"
+msgstr "Giữ để xoá"
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.home"
+msgstr "Nhà"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.back"
+msgstr "Trang chủ"
+
+#. placeholder {0}: stamp.title
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.homeLabel"
+msgstr "Con dấu nhà, {0}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.howYouTravel"
+msgstr "Phong cách đi của bạn"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keep"
+msgstr "Giữ tài khoản"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.language"
+msgstr "Ngôn ngữ"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.title"
+msgstr "Ngôn ngữ"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.lastCheck"
+msgstr "Kiểm tra lần cuối"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.lastPage"
+msgstr "TRANG CUỐI"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.leave"
+msgstr "Cứ để đóng"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.leaves"
+msgstr "Rời khỏi điện thoại này"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.none"
+msgstr "Chưa có chuyến nào"
+
+#. placeholder {0}: until ?? ''
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.body"
+msgstr "Chưa có gì bị xoá cho đến {0}. Đăng nhập trước ngày đó thì pass, critter và các nhóm của bạn trở lại như cũ."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offline"
+msgstr "Ngoại tuyến"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.passPlus"
+msgstr "Pass+ được tính tiền qua cửa hàng nơi bạn mua. Xoá tài khoản không huỷ gói, nên hãy huỷ ở đó nữa."
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planningPlace"
+msgstr "Đang lên kế hoạch {0}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planning"
+msgstr "Đang lên kế hoạch"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keeps.plans"
+msgstr "Kế hoạch bạn góp phần lập, hiện là “thành viên cũ”"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.privacy"
+msgstr "Quyền riêng tư"
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.back"
+msgstr "Hồ sơ"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.restore"
+msgstr "Khôi phục tài khoản"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.savePass"
+msgstr "Lưu pass trước đã"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.stamp"
+msgstr "Hẹn gặp lại"
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.title"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.settings"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.back"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.back"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.back"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.signOut"
+msgstr "Đăng xuất"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.confirm"
+msgstr "Đăng xuất"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.eraseAnyway"
+msgstr "Đăng xuất và mất pass này"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.title"
+msgstr "Đăng xuất?"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.unsavedLine"
+msgstr "Đăng xuất sẽ xoá pass khỏi điện thoại này và không có cách nào đăng nhập lại. Hãy lưu bằng số điện thoại trước thì không mất gì cả."
+
+#. placeholder {0}: model.sinceYear
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.since"
+msgstr "TỪ {0}"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.account.incomplete"
+msgstr "Một phần dữ liệu trên điện thoại chưa xoá được. Hãy thử lại."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.else"
+msgstr "Lý do khác"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.soon"
+msgstr "Sắp tới"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffects"
+msgstr "Hiệu ứng âm thanh"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stamps"
+msgstr "Con dấu"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrew"
+msgstr "Lập một nhóm"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.stays"
+msgstr "Vẫn còn trong tài khoản"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffectsLine"
+msgstr "Tiếng dán sticker, đóng dấu, bật nảy"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.hapticsLine"
+msgstr "Những cú chạm và rung bạn cảm nhận được"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.note"
+msgstr "Ứng dụng, câu trả lời của hướng dẫn viên và thông báo đổi cùng lúc. Tên địa điểm vẫn giữ tên địa phương."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keeps"
+msgstr "Nhóm giữ lại"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.unsavedTitle"
+msgstr "Pass này chưa được lưu"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.erasedBody"
+msgstr "Pass này chưa được lưu nên không có gì để đăng nhập lại. Nó đang được xoá."
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.account.restartFailed"
+msgstr "Điện thoại đã được xoá sạch. Hãy đóng ứng dụng rồi mở lại."
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.today"
+msgstr "Hôm nay"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.pings"
+msgstr "Quá nhiều thông báo"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.tripsOver"
+msgstr "Đi xong rồi"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrewLine"
+msgstr "Đi cùng hội của mình mới vui."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTrips"
+msgstr "Chuyến đi đã lưu ngoại tuyến"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.leaves.offline"
+msgstr "Chuyến đi đã lưu ngoại tuyến, lời nhắc và báo thức"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.keep"
+msgstr "Hoàn tác, giữ tài khoản"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.notClosed"
+msgstr "Chưa đóng được tài khoản nên điện thoại này chưa bị thay đổi gì. Hãy thử lại sau giây lát."
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.notRestored"
+msgstr "Chưa khôi phục được tài khoản. Kiểm tra kết nối rồi thử lại."
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.restoreTitle"
+msgstr "Mừng bạn trở lại"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.why"
+msgstr "Vì sao bạn rời đi? Không bắt buộc"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.offline"
+msgstr "Bạn đang ngoại tuyến. Xoá tài khoản cần có kết nối."
+
+#. placeholder {0}: until ?? ''
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.restoreBody"
+msgstr "Tài khoản của bạn đang đóng và sẽ bị xoá vào {0}. Khôi phục thì pass, critter và các nhóm của bạn trở lại như cũ."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.closesLine"
+msgstr "Tài khoản được đóng ngay và bị xoá sau 30 ngày. Đăng nhập trước lúc đó thì mọi thứ trở lại."
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.yourCrews"
+msgstr "Nhóm của bạn"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.noTrips"
+msgstr "Chuyến đầu tiên sẽ tự đóng dấu ở đây khi bạn hạ cánh."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes.pass"
+msgstr "Pass, critter và các con dấu của bạn"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes.profile"
+msgstr "Hồ sơ, tệp đã tải lên và tin nhắn của bạn"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.leaves.trips"
+msgstr "Các chuyến đi, nhóm và tin nhắn của bạn"

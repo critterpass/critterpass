@@ -12,6 +12,7 @@ import Site from '../../layouts/Site.astro';
 import InAppBrowserEscape from '../link-handoff/InAppBrowserEscape.astro';
 import { inviteCopy as copy } from '../site/copy/invite';
 import { siteTranslator } from '../site/i18n';
+import { resolveRequestLocale } from '../../lib/locale-request';
 import Countdown from './Countdown.astro';
 import InviteCard from './InviteCard.astro';
 import JoinForm from './JoinForm.astro';
@@ -24,8 +25,13 @@ export interface Props {
 const { loaded } = Astro.props;
 const { model, copy: words, qrSvg } = loaded;
 const t = await siteTranslator();
+const { install } = loaded;
+// The test-app way in is translated in every site language; it follows the visitor's language.
+const testingLocale = install.kind === 'stores' ? null : resolveRequestLocale(Astro).locale;
+const tt = testingLocale === null ? t : await siteTranslator(testingLocale);
 const preview = model?.preview ?? null;
 const code = model?.code ?? null;
+const inviter = preview?.inviter_first_name ?? null;
 // Android goes through the intent URL and the install referrer; everywhere else the link is copied.
 const copyLink = model !== null && model.platform !== 'android' ? model.canonicalLink : undefined;
 const ogImage = code === null ? undefined : `/og/invite/${code}.png`;
@@ -77,18 +83,45 @@ const ogImage = code === null ? undefined : `/og/invite/${code}.png`;
                 </a>
               )
             }
-            <div class="pv-actions__stores">
-              {
-                loaded.appStoreHref !== null && (
-                  <a class="pv-store" href={loaded.appStoreHref} data-copy-link={copyLink} data-testid="app-store">
-                    {t(copy.appStore)}
+            {
+              install.kind === 'stores' && (
+                <div class="pv-actions__stores">
+                  {install.appStoreHref !== null && (
+                    <a class="pv-store" href={install.appStoreHref} data-copy-link={copyLink} data-testid="app-store">
+                      {t(copy.appStore)}
+                    </a>
+                  )}
+                  <a class="pv-store" href={install.playStoreHref} data-testid="google-play">
+                    {t(copy.googlePlay)}
                   </a>
-                )
-              }
-              <a class="pv-store" href={loaded.playStoreHref} data-testid="google-play">
-                {t(copy.googlePlay)}
-              </a>
-            </div>
+                </div>
+              )
+            }
+            {
+              install.kind === 'testflight' && (
+                <a class="pv-store" href={install.href} data-copy-link={copyLink} data-testid="testflight" lang={testingLocale}>
+                  {tt(copy.testFlight)}
+                </a>
+              )
+            }
+            {
+              install.kind === 'ask-inviter' && code !== null && model !== null && (
+                <div class="pv-testing" lang={testingLocale} data-testid="in-testing">
+                  <p class="pv-testing__line">
+                    {inviter === null ? tt(copy.inTestingNoName) : tt(copy.inTesting, { inviter })}
+                  </p>
+                  <div class="pv-testing__row">
+                    <span class="pv-testing__code" data-testid="testing-code">
+                      {code}
+                    </span>
+                    <button type="button" class="site-button pv-testing__copy" data-copy-only={model.canonicalLink}>
+                      <span class="pv-testing__idle">{tt(copy.copyCode)}</span>
+                      <span class="pv-testing__done">{tt(copy.copiedCode)}</span>
+                    </button>
+                  </div>
+                </div>
+              )
+            }
           </div>
         </section>
         <JoinForm alternative={model !== null} />

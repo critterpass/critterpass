@@ -30,15 +30,17 @@ import { RevealTally, type RevealTallyRow } from './reveal-tally';
 import { useRevealTimeline } from './reveal-timeline';
 import { Wordmark } from './wordmark';
 
-/** The size the render sets the winner's name at. */
-const NAME_SIZE = 138;
+/** The size and the line the render sets the winner's name on. */
+const NAME_SIZE = 124;
+const NAME_LEADING = 0.8;
 /** The size the render sets the score at. */
-const SCORE_SIZE = 32;
+const SCORE_SIZE = 30;
 /**
- * The winning guide's sticker: as large as the room above the name allows, inside these. The art
- * sits inside its box with room to spare, so the box may run a little past that room.
+ * The winning guide's sticker: the render's 206 pt when the room above the name allows, and no
+ * smaller than 96. The art sits inside its box with room to spare, so the box may run a little past
+ * that room.
  */
-const STICKER = { min: 96, max: 232, fallback: 200, share: 1.1 } as const;
+const STICKER = { min: 96, max: 206, fallback: 206, share: 1.1 } as const;
 /** The rays reach this many sticker sizes across. */
 const RAYS_SPAN = 2.2;
 const SLEEPER_SIZE = 48;
@@ -83,7 +85,7 @@ const useStyles = makeStyles((th) => ({
   header: { paddingHorizontal: th.space['20'], zIndex: 1 },
   hero: { flex: 1, paddingHorizontal: th.space['20'] },
   stickerSlot: { flex: 1, minHeight: STICKER.min, alignItems: 'center', justifyContent: 'center' },
-  title: { alignSelf: 'stretch', gap: th.space['4'], paddingBottom: th.space['16'] },
+  title: { alignSelf: 'stretch', gap: th.space['8'], paddingBottom: th.space['16'] },
   wash: { top: -th.space['24'], bottom: 0, left: -th.space['20'], right: -th.space['20'] },
   centred: { textAlign: 'center' },
   foot: { paddingHorizontal: th.space['20'], gap: th.space['16'] },
@@ -224,6 +226,7 @@ export function RevealStage({
                 <Wordmark
                   name={name}
                   designSize={NAME_SIZE}
+                  leading={NAME_LEADING}
                   color={ink}
                   align="center"
                   accessibilityRole="header"

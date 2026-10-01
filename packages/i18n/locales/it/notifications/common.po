@@ -15,12 +15,20 @@ msgstr ""
 msgid "notifications.changeset.needs_yes.title"
 msgstr ""
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_body_waiting"
+msgstr ""
+
 #: ../domain/src/plan/templates.ts
 msgid "notifications.changeset.needs_yes.body"
 msgstr ""
 
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.ready.body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.title"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
@@ -63,6 +71,14 @@ msgstr ""
 msgid "notifications.nudge.rsvp"
 msgstr ""
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.done_body"
+msgstr ""
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.watch_body"
+msgstr ""
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.flight_start_title"
 msgstr ""
@@ -103,8 +119,20 @@ msgstr ""
 msgid "notifications.draft.ready.title"
 msgstr ""
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_title"
+msgstr ""
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.done_title"
+msgstr ""
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.title"
+msgstr ""
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_body"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
@@ -219,6 +247,10 @@ msgstr ""
 msgid "notifications.la.meet_up_late_title"
 msgstr ""
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_title"
+msgstr ""
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_title_be_there"
 msgstr ""
@@ -255,6 +287,10 @@ msgstr ""
 msgid "notifications.vote.closing.day"
 msgstr ""
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.title"
+msgstr ""
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.title"
 msgstr ""
@@ -263,8 +299,36 @@ msgstr ""
 msgid "notifications.crew_chat.title"
 msgstr ""
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.fell"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.lost"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.safe"
+msgstr ""
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.moved"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.need_ride"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.started"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.plain"
 msgstr ""
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
@@ -273,6 +337,10 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.text"
+msgstr ""
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.watch_title"
 msgstr ""
 
 #: ../domain/src/setup/templates.ts
@@ -311,12 +379,12 @@ msgstr ""
 msgid "notifications.la.leave_by_be_at"
 msgstr ""
 
-#: ../domain/src/surfaces/la-copy.ts
-msgid "notifications.la.leave_by_be_there_start_title"
-msgstr ""
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title_be_there"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
 msgstr ""
 
 #: ../domain/src/bookings/templates.ts
@@ -361,6 +429,10 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.crew_close"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.false_alarm"
 msgstr ""
 
 #: ../domain/src/bookings/templates.ts
@@ -417,6 +489,10 @@ msgstr ""
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.timed_out"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.escalated"
 msgstr ""
 
 #: ../domain/src/plan/templates.ts
@@ -557,6 +633,10 @@ msgstr ""
 
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.destination.body"
+msgstr ""
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_body_you"
 msgstr ""
 
 #: ../../services/worker/src/jobs/proposal/notify.ts

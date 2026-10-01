@@ -19,13 +19,16 @@ import { LinearBar } from '@/ui/data/LinearBar';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+import { useWalletGuide } from '@/features/bookings';
 
 import { useCategoryLabel } from '../components/category';
+import { estimateMinor, finishDeltaShown, otherSpentMinor } from './estimates';
 import { toMajor } from '../format';
 
 const CATEGORY_COLOUR = (theme: ReturnType<typeof useTheme>) => ({
@@ -66,10 +69,14 @@ export function BudgetView(props: BudgetViewProps) {
   const inset = useTabBarInset();
   const locale = useLocale();
   const { t } = useLingui();
+  const guide = useWalletGuide();
   const categoryLabel = useCategoryLabel();
   const whole = useWhole(props.currency);
   const f = props.forecast;
-  const planned = f.plannedMinor;
+  // Planned figures are estimates and print rounded; spend stays exact.
+  const planned = f.plannedMinor === null ? null : estimateMinor(f.plannedMinor, props.currency);
+  const plan = (minor: bigint) => estimateMinor(minor, props.currency);
+  const other = otherSpentMinor(f);
   const over = planned !== null && f.spentMinor > planned;
   const day = props.today;
   const days = props.days;
@@ -80,7 +87,7 @@ export function BudgetView(props: BudgetViewProps) {
         ? t({ id: 'money.budget.after', message: 'Trip over' })
         : t({ id: 'money.budget.day', message: `Day ${day} of ${days}` });
   const spent = whole(f.spentMinor);
-  const delta = f.finishDeltaMinor;
+  const delta = finishDeltaShown(f, props.currency);
   const deltaText = delta === null ? '' : whole(delta < 0n ? -delta : delta);
   const biggest = f.biggest?.label ?? null;
   const pace =
@@ -103,6 +110,7 @@ export function BudgetView(props: BudgetViewProps) {
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: inset + theme.space['32'] }]}
       >
+        <BackEyebrow label={upper(t({ id: 'money.back', message: 'Money' }), locale)} />
         <Row justify="space-between" align="center">
           <Text variant="eyebrow">{upper(props.title, locale)}</Text>
           <InfoPill variant="outline" testID="money-budget-day">
@@ -177,7 +185,8 @@ export function BudgetView(props: BudgetViewProps) {
             })}
           />
         )}
-        {f.categories.some((line) => line.plannedMinor > 0n || line.spentMinor > 0n) ? (
+        {f.categories.some((line) => line.plannedMinor > 0n || line.spentMinor > 0n) ||
+        other > 0n ? (
           <Card testID="money-budget-categories">
             <Stack gap="16">
               {f.categories.map((line, index) => (
@@ -187,18 +196,30 @@ export function BudgetView(props: BudgetViewProps) {
                   color={CATEGORY_COLOUR(theme)[line.category]}
                   label={upper(categoryLabel(line.category), locale)}
                   value={Number(line.spentMinor)}
-                  max={Number(line.plannedMinor > 0n ? line.plannedMinor : line.spentMinor || 1n)}
+                  max={Number(
+                    line.plannedMinor > 0n ? plan(line.plannedMinor) : line.spentMinor || 1n,
+                  )}
                   valueLabel={
                     line.plannedMinor > 0n
-                      ? `${whole(line.spentMinor)} / ${whole(line.plannedMinor)}`
+                      ? `${whole(line.spentMinor)} / ${whole(plan(line.plannedMinor))}`
                       : whole(line.spentMinor)
                   }
                   overLabel={t({
                     id: 'money.budget.overBy',
-                    message: `Over by ${whole(line.spentMinor - line.plannedMinor)}`,
+                    message: `Over by ${whole(line.spentMinor - plan(line.plannedMinor))}`,
                   })}
                 />
               ))}
+              {other === 0n ? null : (
+                <LinearBar
+                  index={f.categories.length}
+                  color={theme.semantic.text.secondary}
+                  label={upper(categoryLabel('other'), locale)}
+                  value={Number(other)}
+                  max={Number(other)}
+                  valueLabel={whole(other)}
+                />
+              )}
             </Stack>
           </Card>
         ) : null}
@@ -208,11 +229,11 @@ export function BudgetView(props: BudgetViewProps) {
             legend={upper(t({ id: 'money.budget.legend', message: 'Dashes = plan' }), locale)}
             days={f.days.map((line) => ({
               label: `D${String(line.day)}`,
-              plan: Number(line.plannedMinor) / Number(top),
+              plan: Number(plan(line.plannedMinor)) / Number(top),
               ...(line.day <= day ? { actual: Number(line.spentMinor) / Number(top) } : {}),
               amountLabel: t({
                 id: 'money.budget.dayA11y',
-                message: `${whole(line.spentMinor)} of ${whole(line.plannedMinor)} planned`,
+                message: `${whole(line.spentMinor)} of ${whole(plan(line.plannedMinor))} planned`,
               }),
               today: line.day === day,
             }))}
@@ -221,12 +242,12 @@ export function BudgetView(props: BudgetViewProps) {
         )}
         {pace === null ? null : (
           <GuideLine
-            guide="tokek"
-            name={GUIDE_STICKERS.tokek.name}
+            guide={guide.id}
+            name={guide.name}
             sticker={
               <Sticker
-                kind={GUIDE_STICKERS.tokek.kind}
-                name={GUIDE_STICKERS.tokek.name}
+                kind={GUIDE_STICKERS[guide.id].kind}
+                name={guide.name}
                 size={44}
                 pose="point"
               />

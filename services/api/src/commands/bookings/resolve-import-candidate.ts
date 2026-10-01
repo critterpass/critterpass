@@ -38,6 +38,7 @@ interface CandidateRow {
   readonly needs_confirm: boolean;
   readonly booking_id: string | null;
   readonly crew_visible: boolean;
+  readonly resolved_at: Date | null;
 }
 
 /** The candidate the caller may resolve (RLS decides), locked. */
@@ -47,7 +48,7 @@ async function loadCandidate(tx: pg.PoolClient, id: string): Promise<CandidateRo
   const row = await asSystemRole(tx, async () => {
     const { rows } = await tx.query<CandidateRow>(
       `SELECT id, user_id, crew_id, trip_id, source, extracted, status, needs_confirm, booking_id,
-              crew_visible
+              crew_visible, resolved_at
          FROM import_candidates WHERE id = $1 FOR UPDATE`,
       [id],
     );
@@ -61,7 +62,7 @@ async function settle(
   tx: pg.PoolClient,
   candidate: CandidateRow,
   ctx: CommandContext,
-  outcome: { status: 'accepted' | 'rejected'; bookingId: string | null },
+  outcome: { status: 'accepted' | 'rejected' | 'failed'; bookingId: string | null },
 ): Promise<void> {
   await asSystemRole(tx, () =>
     tx.query(
@@ -146,6 +147,17 @@ export function createResolveImportCandidateCommand(deps: BookingCommandDeps) {
           status: candidate.status,
           booking_id: candidate.booking_id,
         });
+      }
+      if (candidate.status === 'failed') {
+        // Nothing was read from it: it can only be dismissed. It stays `failed` (its reason with it)
+        // and is marked resolved; a second dismissal changes nothing.
+        if (payload.action !== 'ignore') {
+          throw new DomainError('STATE_INVALID', { reason: 'failed' });
+        }
+        if (candidate.resolved_at === null) {
+          await settle(tx, candidate, ctx, { status: 'failed', bookingId: null });
+        }
+        return { candidate_id: candidate.id, status: 'rejected' as const, booking_id: null };
       }
       if (payload.action === 'ignore') {
         await settle(tx, candidate, ctx, { status: 'rejected', bookingId: null });

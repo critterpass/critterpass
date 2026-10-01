@@ -97,6 +97,27 @@ function withBefore(op: ChangeSetOp, current: ReadonlyMap<string, Snapshot>): Ch
   };
 }
 
+/**
+ * The members an action planned for a disruption acts for: the travellers the server's impact
+ * analysis recorded on the open disruption row. Never an input: nothing a client, a command
+ * payload or a model writes can widen what runs on its own.
+ */
+async function disruptionOwners(
+  tx: pg.PoolClient,
+  tripId: string,
+  disruptionId: string | null,
+): Promise<string[] | null> {
+  if (disruptionId === null) return null;
+  const { rows } = await tx.query<{ owners: unknown }>(
+    `SELECT affected -> 'traveller_ids' AS owners FROM disruptions
+      WHERE id = $1 AND trip_id = $2 AND status = 'open'`,
+    [disruptionId, tripId],
+  );
+  if (rows[0] === undefined) throw new DomainError('NOT_FOUND', { reason: 'disruption' });
+  const owners = rows[0].owners;
+  return Array.isArray(owners) ? owners.filter((id): id is string => typeof id === 'string') : [];
+}
+
 export async function planGuideAction(
   tx: pg.PoolClient,
   input: PlanGuideActionInput,
@@ -126,6 +147,7 @@ export async function planGuideAction(
   const inverse = inverseFor(kind, filled);
   const affected = [...new Set(filled.flatMap((op) => op.affected_user_ids))];
   const cost = input.costDeltaMinor ?? 0;
+  const ownerIds = await disruptionOwners(tx, input.tripId, input.disruptionId ?? null);
 
   const { rows: sets } = await tx.query<{ id: string }>(
     `INSERT INTO change_sets (trip_id, base_version_id, trigger, scope, author_kind, author_id, status, ops, cost_delta_minor)
@@ -147,6 +169,7 @@ export async function planGuideAction(
   const audit = {
     inputs: {
       requester_id: input.requesterId,
+      ...(ownerIds === null ? {} : { owner_ids: ownerIds }),
       scope: input.scope ?? 'group',
       trigger: input.trigger ?? 'chat',
       time_critical: input.timeCritical ?? false,

@@ -582,7 +582,7 @@ msgstr "Còn hai nơi"
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.status"
-msgstr "Đang bình chọn · {count}/{total} đã bầu"
+msgstr "Đang bầu · {count}/{total}"
 
 #: ../../apps/mobile/src/features/vote/final/final-split-card.tsx
 #: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx

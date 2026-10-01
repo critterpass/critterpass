@@ -44,6 +44,11 @@ export interface GuideChatPromptInput {
   readonly directives: TurnDirectives;
   /** The question waited for the meter reset (queued answer). */
   readonly queued?: boolean;
+  /**
+   * The thread has no local guide of its own (no trip, or a trip whose destination has none): the
+   * default guide answers for any destination.
+   */
+  readonly anywhere?: boolean;
 }
 
 /** Alternating user/assistant turns that start with the user, as the Messages API requires. */
@@ -66,10 +71,12 @@ export function guideSystemBlocks(
   pack: PersonaPack,
   tripContext: string | undefined,
   rules: string,
+  anywhere = false,
 ): Anthropic.Messages.TextBlockParam[] {
   const blocks = buildSystemBlocks({
     pack,
     ...(tripContext === undefined ? {} : { tripContext }),
+    ...(anywhere ? { anywhere } : {}),
   });
   // Static rules sit right after the persona, so the trip layer stays last in the cache order.
   blocks.splice(2, 0, { type: 'text', text: rules, cache_control: { type: 'ephemeral' } });
@@ -88,7 +95,12 @@ export function buildGuideChatRequest(input: GuideChatPromptInput): Required<
     userTurnWithData(question, input.documents ?? []),
   ];
   return {
-    system: guideSystemBlocks(input.pack, input.tripContext, GUIDE_CHAT_RULES),
+    system: guideSystemBlocks(
+      input.pack,
+      input.tripContext,
+      GUIDE_CHAT_RULES,
+      input.anywhere === true,
+    ),
     messages: applyTurnDirectives(messages, input.pack, input.directives),
   };
 }

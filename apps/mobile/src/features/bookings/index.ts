@@ -10,3 +10,4 @@ export { useMailboxSettingsRow, type MailboxSettingsRow } from './mailbox/use-ma
 export { MailboxConnectedScreen } from './mailbox/MailboxConnectedScreen';
 export { parseMailboxReturn } from './mailbox/oauth';
 export { WalletSwitch } from './stack/WalletSwitch';
+export { useWalletGuide, WalletGuideProvider } from './data/wallet-guide';

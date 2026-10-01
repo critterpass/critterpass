@@ -105,11 +105,15 @@ Help and SOS are "tell your crew" features; copy never says we contact emergency
 - Tests: `pnpm --filter @cp/db test -- permissions/help-sessions permissions/help-session-private permissions/help-session-messages`
 - Done when: only sender + responders read private health notes; nothing private in publication.
 
+- Status: done — 70e1cfb9
+
 ### T2 — Help context API, help share commands, AI-30 checklist wording
 - Files: `services/api/src/routes/help-context.ts`, `services/api/src/commands/safety/{start-help-share,stop-help-share,extend-help-share,request-ops-clinic-call}.ts`, `packages/domain/src/safety/{checklists,help-context,share-policy}.ts`, `packages/ai/src/routes/help/**`, `packages/ai/evals/help/**`, `services/api/test/safety/help.test.ts`.
 - Steps: 1. Context from curated tables + geocode + Valhalla; insurance match. 2. Share commands (override pause, TTL 60, extend +60). 3. Checklist template resolver + Haiku wording with fallback. 4. Ops ticket with consent flag.
 - Tests: `pnpm --filter @cp/api test -- safety/help`; `pnpm --filter @cp/ai eval -- help`
 - Done when: share auto-expires in test clock; eval proves no invented numbers/facilities.
+
+- Status: done — d9853a05 (routes `/v1/help/context`, `/v1/help/checklist`, `/v1/help/shares/{id}/fixes`; the Help share expiry runs as `help.share_expire`)
 
 ### T3 — Help hub, checklists, phrase show mode
 - Files: `apps/mobile/src/app/(trip)/help/{index,[problem]}.tsx`, `apps/mobile/src/features/safety/help/{screen,share-indicator,call-tiles,problem-tiles,facility-row,phrase-card,show-it-mode,insurance-footer,checklist,consent-sheet,states/*}.tsx`, `apps/mobile/src/features/safety/use-help-context.ts`, `packages/i18n/locales/en/safety/help.po`.
@@ -122,6 +126,8 @@ Help and SOS are "tell your crew" features; copy never says we contact emergency
 - Steps: 1. Incident + share(sos) + outbox in one tx. 2. Fan-out push (ALWAYS, bypass budget/quiet hours) + channel events before any AI. 3. Summary with 3 s timeout, fallback. 4. Escalation timer, responder ETAs, arrival. 5. Resolve → N-48, share end.
 - Tests: `pnpm --filter @cp/api test -- safety/sos`; `pnpm --filter @cp/worker test -- safety/sos-latency` (LLM stubbed to hang; asserts pushes enqueued < 500 ms)
 - Done when: fan-out timing test passes with LLM unavailable; replayed trigger creates one incident; a `trigger_sos` op aged > 10 min on upload produces no fan-out/takeover and a `cmd_results` `stale` row that drives the sender confirm prompt.
+
+- Status: done — 4aef230f (contract detail in `docs/api-contracts-safety.md`; the `sos` Centrifugo namespace is declared in `infra/centrifugo/config.json`)
 
 ### T5 — SOS sender flow (undesigned)
 - Files: `apps/mobile/src/app/(trip)/sos/{send,[id]}.tsx`, `apps/mobile/src/features/safety/sos/sender/{slide-to-send,cancel-countdown,quick-text,sender-status,im-ok,sms-fallback}.tsx`, `packages/i18n/locales/en/safety/sos.po`.

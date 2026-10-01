@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "bbc8f5ff-3e8e-4953-8813-2bb6a18e2873",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"step_id\":\"hurt.nearest_facility\",\"text\":\"Bạn hãy đến International SOS Bali Clinic, khoảng 9 phút đi xe.\"},{\"step_id\":\"hurt.phrase\",\"text\":\"Bạn có thể đưa họ xem câu: \\\"Saya butuh dokter.\\\" (I need a doctor.).\"},{\"step_id\":\"hurt.call_number\",\"text\":\"Nếu tình hình nghiêm trọng, bạn hãy gọi 112.\"},{\"step_id\":\"hurt.insurance_line\",\"text\":\"Bạn hãy gọi đường dây hỗ trợ của công ty bảo hiểm; số nằm trên thẻ bảo hiểm của bạn.\"},{\"step_id\":\"hurt.ops_clinic\",\"text\":\"Bạn có thể nhờ quầy điều hành gọi cho phòng khám cùng bạn.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 229,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 192,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

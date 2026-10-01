@@ -48,12 +48,17 @@ describe('trip hub', () => {
     expect(screen.getByTestId('trip-hub-header-pre')).toBeTruthy();
     expect(screen.getByText('WHEELS UP IN')).toBeTruthy();
     expect(screen.getByText('17D 05:26:29')).toBeTruthy();
-    expect(screen.getByText('OCT 12 – OCT 19 · 6 GOING')).toBeTruthy();
+    expect(screen.getByText(/^OCT\s12\s?–\s?19\s· 6\sGOING$/u)).toBeTruthy();
     expect(screen.getByText('BALI')).toBeTruthy();
     expect(screen.getByText('NUDGE')).toBeTruthy();
     expect(screen.getByText('+$186')).toBeTruthy();
     expect(screen.getByText('owed to you')).toBeTruthy();
     expect(screen.getByTestId('trip-hub-tile-quests')).toBeTruthy();
+    // The first day's entry, and no switch for an account with this one trip.
+    expect(screen.getByText('FIRST DAY · OCT 12')).toBeTruthy();
+    expect(screen.queryByTestId('trip-hub-switch')).toBeNull();
+    await scene('3k-1-pre-trip-switch');
+    expect(screen.getByText('SWITCH TRIP')).toBeTruthy();
   });
 
   it('shows the vote CTA and no countdown while planning', async () => {
@@ -68,9 +73,17 @@ describe('trip hub', () => {
     expect(screen.getByText('LAND IN')).toBeTruthy();
     expect(screen.getByTestId('trip-hub-next')).toBeTruthy();
     await scene('3k-1-in-trip');
-    expect(screen.getByText('DAY 4 OF 8')).toBeTruthy();
-    expect(screen.getByText('03:10')).toBeTruthy();
+    expect(screen.getByText('DAY 2 OF 3')).toBeTruthy();
+    expect(screen.getByText('LEAVE BY · 03:10')).toBeTruthy();
+    expect(screen.getByText("CHÀ VÁ'S BRIEFING")).toBeTruthy();
     expect(screen.getByText('you owe')).toBeTruthy();
+    await scene('3k-1-next-tomorrow');
+    expect(screen.getByText('TOMORROW · 10:00')).toBeTruthy();
+    expect(screen.getByText('NOTHING MORE TODAY')).toBeTruthy();
+    expect(screen.getByText('EXPLORE ĐÀ NẴNG')).toBeTruthy();
+    expect(screen.getByTestId('trip-hub-swipe')).toBeTruthy();
+    await scene('3k-1-visit-consent');
+    expect(screen.getByTestId('visit-consent-row')).toBeTruthy();
   });
 
   it('says home since the last day, with the money settled', async () => {
@@ -80,11 +93,17 @@ describe('trip hub', () => {
     expect(screen.getByText('all settled')).toBeTruthy();
   });
 
-  it('shows the briefing being written, empty, failed and from yesterday', async () => {
-    await scene('3k-1-briefing-generating');
-    expect(screen.getByTestId('trip-briefing-generating')).toBeTruthy();
-    await scene('3k-1-briefing-empty');
-    expect(screen.getByText('Nothing needs you today. Enjoy it.')).toBeTruthy();
+  it('shows the briefing loading, with nothing today, failed and from yesterday', async () => {
+    await scene('3k-1-briefing-loading');
+    expect(screen.getByTestId('trip-briefing-loading')).toBeTruthy();
+    await scene('3k-1-briefing-none');
+    expect(
+      screen.getByText("Nothing needs you today. I'll check again tomorrow morning."),
+    ).toBeTruthy();
+    await scene('3k-1-briefing-starts');
+    expect(
+      screen.getByText('Nothing needs you today. My morning briefings start Sep 12.'),
+    ).toBeTruthy();
     await scene('3k-1-briefing-failed');
     expect(screen.getByTestId('trip-briefing-failed')).toBeTruthy();
     await scene('3k-1-briefing-stale');
@@ -104,7 +123,7 @@ describe('trip hub', () => {
   it('lists two trips in the switcher', async () => {
     await scene('trips-switcher');
     expect(screen.getByText('BALI')).toBeTruthy();
-    expect(screen.getByText('in progress · Oct 12 – Oct 19')).toBeTruthy();
+    expect(screen.getByText(/^in progress · Oct 12\s?–\s?19$/u)).toBeTruthy();
     expect(screen.getByText('KYOTO')).toBeTruthy();
     expect(screen.getByText('voting')).toBeTruthy();
   });

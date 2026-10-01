@@ -59,6 +59,22 @@ msgstr ""
 msgid "trip.dayOf.queued.notUp"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.toToday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.beAtAirportBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.beThereBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.doneTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.allUpDetail"
 msgstr ""
@@ -93,6 +109,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.askAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.nextUp"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
@@ -143,8 +163,16 @@ msgstr ""
 msgid "trip.dayOf.queued.snooze"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.done"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.knocked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.ringBeThereLateSpoken"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
@@ -153,6 +181,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.ringToGo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.tomorrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.noTravel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.noTravelAirport"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx

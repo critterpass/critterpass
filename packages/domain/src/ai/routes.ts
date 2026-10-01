@@ -34,6 +34,7 @@ export const AI_ROUTES = [
   'proposal.personal',
   'briefing.daily',
   'disruption.plan_b',
+  'replan.weather',
   'recap.narration',
   'photo.picks',
   'avatar.moderate',
@@ -52,11 +53,17 @@ export const AI_ROUTES = [
   'draft.skeleton_fast',
   'draft.summary',
   'draft.closures',
+  // Disruption copy on the fast tier: the forecast watch list and running-late options.
+  'watch.copy',
+  'late.options',
   // Proposal lines on the fast tier: the private objection reply and the organiser's suggestions.
   'proposal.objection',
   'proposal.suggestion',
   // Guide-written shared text (plan notes, briefings, quests, pitches) into a reader's language.
   'guide_text.translate',
+  // Help checklist wording and the crew SOS summary: words only, every fact from curated data.
+  'help.checklist',
+  'sos.summary',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',

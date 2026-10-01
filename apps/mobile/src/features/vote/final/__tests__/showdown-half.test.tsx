@@ -95,7 +95,7 @@ function Half({
       edgeInset={0}
       nameScale={1}
       nameHidden={false}
-      onNaturalHeight={() => undefined}
+      onRest={() => undefined}
       onNameMeasure={() => undefined}
     />
   );

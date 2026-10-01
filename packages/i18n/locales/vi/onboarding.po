@@ -7,15 +7,15 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: names.length
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.membersIn"
+msgstr "{0, plural, other {{listed} đã vào.}}"
+
 #. placeholder {0}: movingCrews.length
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.movingCount"
 msgstr "{0, plural, other {# nhóm trên điện thoại này sẽ đi cùng bạn.}}"
-
-#. placeholder {0}: format.list(locale, names)
-#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
-msgid "onboarding.invite.ticket.membersIn"
-msgstr "{0} đã vào."
 
 #: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx
 msgid "onboarding.invite.code.alreadyIn"
@@ -522,7 +522,7 @@ msgstr "Ngủ nướng"
 
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.localLife"
-msgstr "Sống như dân địa phương"
+msgstr "Sống như thổ địa"
 
 #: ../../apps/mobile/src/features/onboarding/invited/TicketScreen.tsx
 msgid "onboarding.invite.ticket.loading"
@@ -1115,7 +1115,7 @@ msgstr "Chào mừng {name}. Mừng là bạn tới."
 
 #: ../../apps/mobile/src/features/onboarding/name/NameScreen.tsx
 msgid "onboarding.name.title"
-msgstr "Các hướng dẫn viên nên gọi bạn là gì?"
+msgstr "Hướng dẫn viên gọi bạn là gì?"
 
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.title"

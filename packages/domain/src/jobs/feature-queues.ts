@@ -11,6 +11,7 @@ import { BILLING_QUEUE_DESCRIPTIONS, billingQueueSpecs } from '../billing/queues
 import { GUIDE_QUEUE_DESCRIPTIONS, guideQueueSpecs } from '../guide/queues';
 import { SUPPLIER_QUEUE_DESCRIPTIONS, supplierQueueSpecs } from '../suppliers/queues';
 import { TRIP_DAY_QUEUE_DESCRIPTIONS, tripDayQueueSpecs } from '../trip-day/queues';
+import { DISRUPTION_QUEUE_DESCRIPTIONS, disruptionQueueSpecs } from '../disruptions/queues';
 import { ACCOUNT_QUEUE_DESCRIPTIONS, accountQueueSpecs } from '../account/queues';
 import { EXPLORE_QUEUE_DESCRIPTIONS, exploreQueueSpecs } from '../explore/queues';
 import { PROPOSAL_QUEUE_DESCRIPTIONS, proposalQueueSpecs } from '../proposal/queues';
@@ -19,6 +20,7 @@ import { MEDIA_QUEUE_DESCRIPTIONS, mediaQueueSpecs } from '../media/queues';
 import { QUEST_QUEUE_DESCRIPTIONS, questQueueSpecs } from '../quests/queues';
 import { TRIP_LIFECYCLE_QUEUE_DESCRIPTIONS, tripLifecycleQueueSpecs } from '../trips/lifecycle';
 import { LA_QUEUE_DESCRIPTIONS, laQueueSpecs } from '../surfaces/la-queues';
+import { SAFETY_QUEUE_DESCRIPTIONS, safetyQueueSpecs } from '../safety/queues';
 
 export function featureQueueSpecs(defaults: QueueSpec) {
   return {
@@ -30,6 +32,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...guideQueueSpecs(defaults),
     ...supplierQueueSpecs(defaults),
     ...tripDayQueueSpecs(defaults),
+    ...disruptionQueueSpecs(defaults),
     ...accountQueueSpecs(defaults),
     ...exploreQueueSpecs(defaults),
     ...proposalQueueSpecs(defaults),
@@ -38,6 +41,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...questQueueSpecs(defaults),
     ...tripLifecycleQueueSpecs(defaults),
     ...laQueueSpecs(defaults),
+    ...safetyQueueSpecs(defaults),
   } as const;
 }
 
@@ -50,6 +54,7 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...GUIDE_QUEUE_DESCRIPTIONS,
   ...SUPPLIER_QUEUE_DESCRIPTIONS,
   ...TRIP_DAY_QUEUE_DESCRIPTIONS,
+  ...DISRUPTION_QUEUE_DESCRIPTIONS,
   ...ACCOUNT_QUEUE_DESCRIPTIONS,
   ...EXPLORE_QUEUE_DESCRIPTIONS,
   ...PROPOSAL_QUEUE_DESCRIPTIONS,
@@ -58,4 +63,5 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...QUEST_QUEUE_DESCRIPTIONS,
   ...TRIP_LIFECYCLE_QUEUE_DESCRIPTIONS,
   ...LA_QUEUE_DESCRIPTIONS,
+  ...SAFETY_QUEUE_DESCRIPTIONS,
 } as const;

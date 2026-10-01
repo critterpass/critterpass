@@ -25,6 +25,7 @@ import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
 import { clock, dayDate, price as formatPrice, zoneOf } from '../format';
 import { candidateIcon, type CandidateView } from './candidate-model';
+import { useWalletGuide } from '../data/wallet-guide';
 
 /** Per-field reveal as Tokek reads the confirmation. */
 export const ASSEMBLE_STAGGER_MS = 460;
@@ -64,10 +65,17 @@ function useLine(view: CandidateView, tz: string | undefined): string {
   if (booking === null) return '';
   const zone = zoneOf(booking.tz, tz);
   const start = booking.segments[0]?.sched_dep_at ?? booking.starts_at;
+  // A flight reads "07:05 → 08:30" when the confirmation printed when it lands.
+  const lands = booking.segments[booking.segments.length - 1]?.sched_arr_at;
+  const leaves = clock(locale, start, zone);
   const seats = view.travellerIds.length;
   return [
     dayDate(locale, start, zone),
-    booking.kind === 'stay' ? '' : clock(locale, start, zone),
+    booking.kind === 'stay'
+      ? ''
+      : lands === undefined || leaves === ''
+        ? leaves
+        : `${leaves} → ${clock(locale, lands, zone)}`,
     booking.location ?? '',
     seats >= 2
       ? t({
@@ -91,6 +99,7 @@ export function CandidateCard(props: CandidateCardProps) {
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
+  const { name: guideName } = useWalletGuide();
   const [motionMode] = useMotionMode();
   const { view } = props;
   const line = useLine(view, props.tz);
@@ -109,7 +118,7 @@ export function CandidateCard(props: CandidateCardProps) {
       <Card testID={`${testID}-parsing`}>
         <Stack gap="8">
           <Text variant="bodySm" color={theme.semantic.text.secondary}>
-            {t({ id: 'bookings.candidate.parsing', message: 'Tokek is reading it…' })}
+            {t({ id: 'bookings.candidate.parsing', message: `${guideName} is reading it…` })}
           </Text>
           <Skeleton preset="lines" />
         </Stack>

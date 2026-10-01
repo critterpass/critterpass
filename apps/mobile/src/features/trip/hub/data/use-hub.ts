@@ -14,9 +14,11 @@ import {
   BRIEFING_SQL,
   PENDING_ACTS_SQL,
   type BriefingItemRow,
+  type BriefingRead,
   type BriefingRow,
   type PendingAct,
 } from '../../briefing/briefing-model';
+import type { LeaveByRow } from '../../leave-by/model';
 import type { LedgerRow } from '../hub-model';
 import { useLiveRows } from './live-rows';
 import {
@@ -46,7 +48,9 @@ const NEXT_ITEM_SQL = `SELECT i.stable_id, i.starts_at, i.tz, i.notes, i.categor
   FROM plan_items i JOIN plan_days d ON d.id = i.day_id LEFT JOIN pois p ON p.id = i.poi_id
   WHERE i.version_id = ? AND julianday(i.starts_at) > julianday(?)
   ORDER BY i.starts_at LIMIT 1`;
-const TODAY_LEAVE_BY_SQL = `SELECT id, leave_at, tz, place_name FROM leave_bys
+const TODAY_LEAVE_BY_SQL = `SELECT id, trip_id, plan_item_id, title, place_name, local_date,
+    starts_at, leave_at, pickup_at, tz, legs, alarm_policy, pickup, buffer_min, guide_note,
+    participant_ids, state FROM leave_bys
   WHERE trip_id = ? AND local_date = ? AND state NOT IN ('cancelled', 'departed')
   ORDER BY leave_at LIMIT 1`;
 const ACTIVITY_SQL = `SELECT a.id, a.actor_id, a.verb, a.object_kind, a.object_id, a.text, a.at,
@@ -95,7 +99,9 @@ export interface HubRows {
     poi_name: string | null;
     day_date: string;
   } | null;
-  readonly leaveBy: { id: string; leave_at: string; tz: string; place_name: string | null } | null;
+  readonly leaveBy: LeaveByRow | null;
+  /** The briefing's first local read (the row, then its lines). */
+  readonly briefingRead: BriefingRead;
   readonly briefing: BriefingRow | null;
   readonly briefingItems: readonly BriefingItemRow[];
   readonly pendingActs: readonly PendingAct[];
@@ -147,6 +153,13 @@ export function useHubRows(
     briefingRow === null ? null : [briefingRow.id],
     ['briefing_items'],
   );
+  const linesRead = briefingRow === null || items.loaded;
+  const briefingRead: BriefingRead =
+    briefing.failed || items.failed
+      ? 'failed'
+      : briefing.loaded && linesRead
+        ? 'settled'
+        : 'pending';
   const pending = useLiveRows<PendingAct>(PENDING_ACTS_SQL, [], ['commands']);
   const [bump, setBump] = useState(0);
   const activity = useLiveRows<ActivityRow>(
@@ -173,6 +186,7 @@ export function useHubRows(
       flights: flights.rows,
       next: next.rows[0] ?? null,
       leaveBy: leaveBy.rows[0] ?? null,
+      briefingRead,
       briefing: briefingRow,
       briefingItems: items.rows,
       pendingActs: pending.rows,
@@ -190,6 +204,7 @@ export function useHubRows(
       flights.rows,
       next.rows,
       leaveBy.rows,
+      briefingRead,
       briefingRow,
       items.rows,
       pending.rows,
