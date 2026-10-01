@@ -95,7 +95,7 @@ function FormCell({
         ]}
       >
         {form.sticker}
-        <TierWord tier={form.tier} glyph={false} />
+        <TierWord tier={form.tier} glyph={false} fit />
         <SecondaryText variant="caption" style={{ textAlign: 'center' }}>
           {form.requirement}
         </SecondaryText>

@@ -56,6 +56,10 @@ msgstr "{rooms} rooms. Same pairs as the {first}."
 msgid "setup.rooms.estimate"
 msgstr "About {estimate} a room a night, estimate"
 
+#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
+msgid "setup.rooms.estimateQuoted"
+msgstr "About {estimate} a room a night, estimate in {code}"
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.stay.apartment"
 msgstr "Apartment"
@@ -207,6 +211,10 @@ msgstr "That room is full. Move someone out of it first."
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.notice.stayFailed"
 msgstr "That stay didn’t go through. Check the dates are locked and try again."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.stayUnavailable"
+msgstr "That stay has no price for this trip right now, so it wasn’t picked. Try another."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.stayGone"

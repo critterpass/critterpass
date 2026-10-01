@@ -1,11 +1,13 @@
 /**
  * The dates step's synced inputs: per-date counts, the window options (with any ask this phone
- * has queued shown as asked straight away), and the titles of must-dos a partial week would miss.
+ * has queued shown as asked straight away, and a fare difference read in the crew's currency),
+ * and the titles of must-dos a partial week would miss.
  * All local rows, so the step renders offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useMemo } from 'react';
 
+import { useCrewMoney } from '../data/crew-money';
 import { useLiveRows } from '../data/rows';
 import { toOption, type OptionRow, type SummaryRow, type WindowOption } from './model';
 
@@ -40,18 +42,28 @@ export function useWhenData(tripId: string): WhenData {
     ['commands'],
   );
   const mustDos = useLiveRows<{ id: string; title: string }>(MUST_DOS_SQL, [tripId], ['must_dos']);
+  const crewMoney = useCrewMoney(tripId);
   return useMemo(() => {
     const asked = new Set(pending.rows.map((row) => row.option_id));
     return {
       loaded: summaries.loaded && options.loaded,
       summaries: summaries.rows,
       options: options.rows.map((row) => {
-        const option = toOption(row);
+        // The stored fare difference is in the fare index's own currency (USD).
+        const quoted = toOption(row);
+        const delta =
+          quoted.priceDeltaMinor === null || quoted.currency === null
+            ? null
+            : crewMoney.convert(quoted.priceDeltaMinor, quoted.currency);
+        const option =
+          delta === null
+            ? quoted
+            : { ...quoted, priceDeltaMinor: delta.amountMinor, currency: delta.currency };
         return option.askState === null && asked.has(option.id)
           ? { ...option, askState: 'asked' as const }
           : option;
       }),
       mustDoTitles: new Map(mustDos.rows.map((row) => [row.id, row.title])),
     };
-  }, [summaries, options, pending, mustDos]);
+  }, [summaries, options, pending, mustDos, crewMoney]);
 }

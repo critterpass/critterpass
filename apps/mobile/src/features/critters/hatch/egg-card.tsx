@@ -28,7 +28,7 @@ export function EggCard({ egg, onHatch, onOpen, busy = false }: EggCardProps) {
     egg.kind === 'waiting'
       ? { ...eggWaiting(egg.place), cta: null }
       : egg.kind === 'ready'
-        ? eggReady(egg.place)
+        ? eggReady(egg.place, egg.trigger === 'arrived')
         : eggUnseen();
   const colour = egg.colour ?? theme.semantic.action.primary;
   return (

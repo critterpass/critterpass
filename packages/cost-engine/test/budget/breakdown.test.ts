@@ -45,7 +45,23 @@ describe('budget breakdown golden', () => {
     expect(budgetBreakdown({ ...base, flights: null, target: dollars(1_350) }).missing).toEqual([
       'flights',
     ]);
-    expect(feasibleLow({ ...base, flights: null })).toBeNull();
+    expect(feasibleLow({ ...base, index: null })).toBeNull();
+  });
+
+  it('with no fare, the low end and the breakdown are the ground part alone', () => {
+    const withFlight = feasibleLow(base);
+    const ground = feasibleLow({ ...base, flights: null });
+    expect(ground).toEqual(dollars(Number((withFlight?.amountMinor ?? 0n) / 100n) - 520));
+    const result = budgetBreakdown({ ...base, flights: null, target: dollars(830) });
+    expect(result.flights).toBeNull();
+    expect(result.missing).toEqual(['flights']);
+    expect(result.fits).toBe(true);
+    // Nothing is set aside for a flight nobody priced: the whole target is stay, food and fun.
+    expect(
+      (result.stays?.amountMinor ?? 0n) +
+        (result.food?.amountMinor ?? 0n) +
+        (result.fun?.amountMinor ?? 0n),
+    ).toBe(83_000n);
   });
 
   it('stay mix ties go to the first type key, and empty inputs give no mix', () => {
