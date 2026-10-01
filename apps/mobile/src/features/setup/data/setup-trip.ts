@@ -6,8 +6,8 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { TRIP_SETUP_STEPS, type TripSetupStep } from '@cp/domain';
-import { tokens } from '@cp/design-tokens';
 
+import { isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { useLiveRows } from './rows';
@@ -93,8 +93,6 @@ export const TALLY_SQL = `SELECT count(b.id) AS votes
   GROUP BY b.option_id ORDER BY votes DESC LIMIT 2`;
 const TALLY_TABLES = ['polls', 'ballots'];
 
-const GUIDES: readonly string[] = tokens.guide.order;
-
 function stepOf(value: string | null): TripSetupStep {
   return (TRIP_SETUP_STEPS as readonly string[]).includes(value ?? '')
     ? (value as TripSetupStep)
@@ -125,7 +123,7 @@ export function toSetupTrip(
     status: trip.status,
     step: stepOf(trip.setup_step),
     destinationName: trip.destination_name ?? '',
-    guide: (GUIDES.includes(trip.guide_slug ?? '') ? trip.guide_slug : 'tokek') as GuideId,
+    guide: isGuideStickerId(trip.guide_slug) ? trip.guide_slug : 'tokek',
     startDate: trip.start_date,
     endDate: trip.end_date,
     tz: trip.tz,
