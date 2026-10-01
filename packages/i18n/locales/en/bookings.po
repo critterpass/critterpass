@@ -347,6 +347,10 @@ msgstr "Diverted"
 msgid "bookings.detail.doc"
 msgstr "Document {0}"
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.done"
+msgstr "Done"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.edit"
 msgstr "Edit"
@@ -381,6 +385,10 @@ msgstr "Forward"
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copiedToast"
 msgstr "Forward any confirmation to that address."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.line"
+msgstr "Forwarded from an address we don’t know yet? We emailed it a 6-digit code. Enter it to link that address and read the mail."
 
 #. placeholder {0}: pending.length
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
@@ -423,6 +431,10 @@ msgstr "Give it a name"
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailbox.gmail"
 msgstr "Gmail"
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.linkCode"
+msgstr "Got a code? Link your email"
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.sent"
@@ -481,9 +493,33 @@ msgstr "Like 09:05"
 msgid "bookings.form.dateProblem"
 msgstr "Like 2026-10-12"
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.link"
+msgstr "Link"
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.label"
+msgstr "Link code"
+
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.field"
 msgstr "Link or code"
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.title"
+msgstr "Link your email"
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.linkedNothingHeld"
+msgstr "Linked. Mail you forward from that address is read from now on."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.linked"
+msgstr "Linked. The mail we were holding is being read now."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.offline"
+msgstr "Linking needs signal. Try again."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
@@ -721,6 +757,14 @@ msgstr "SQ 938"
 msgid "bookings.kind.stay"
 msgstr "Stay"
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.wrong"
+msgstr "That code doesn’t match, or it has expired. Codes last a day; use the newest one."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.failed"
+msgstr "That didn't go through. Try again."
+
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.failed"
 msgstr "That didn't go through. Try again."
@@ -796,6 +840,10 @@ msgstr "Tokek pings you when boarding opens."
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.reminder"
 msgstr "Tokek reminds you the day before it runs out."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.wait"
+msgstr "Too many tries. Try again in {minutes} min."
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.rail"
