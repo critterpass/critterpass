@@ -59,15 +59,25 @@ describe('hub entry rows', () => {
     ]);
   });
 
-  it("puts today's leave-by first, with its time on the leave-by's clock", () => {
-    const rows = entries('2026-10-03', {
-      leaveBy: { id: 'l', leave_at: '2026-10-02T21:55:00Z', tz: 'Asia/Saigon', place_name: null },
-    });
+  it("puts today's leave-by first, worded by its deadline on the leave-by's clock", () => {
+    const leaveBy = {
+      ...LEAVE_BY,
+      place_name: null,
+      leave_at: '2026-10-02T21:55:00Z',
+      starts_at: '2026-10-03T00:05:00Z',
+      tz: 'Asia/Saigon',
+    };
+    const rows = entries('2026-10-03', { leaveBy });
     expect(rows).toHaveLength(1);
     expect(rows[0]).toMatchObject({
       label: 'Leave by · 04:55',
       title: 'Early start',
       tone: 'pink',
     });
+    // No travel leg before a 07:05 flight: be at the airport two hours before it.
+    const noTravel = { ...leaveBy, legs: JSON.stringify([{ kind: 'none' }]) };
+    expect(entries('2026-10-03', { leaveBy: noTravel })[0]?.label).toBe(
+      'Be at the airport by · 05:05',
+    );
   });
 });
