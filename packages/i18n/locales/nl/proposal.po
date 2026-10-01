@@ -102,11 +102,6 @@ msgstr ""
 msgid "proposal.lock.silent"
 msgstr ""
 
-#. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
-msgid "proposal.card.member"
-msgstr ""
-
 #. placeholder {0}: pick.title
 #: ../../apps/mobile/src/features/proposal/your-version/picks-list.tsx
 msgid "proposal.version.pickA11y"
@@ -665,7 +660,7 @@ msgid "proposal.sent.tracker"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.confirm"
+msgid "proposal.lock.confirmYes"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
@@ -714,6 +709,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
 msgid "proposal.reason.mustDo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.memberLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
