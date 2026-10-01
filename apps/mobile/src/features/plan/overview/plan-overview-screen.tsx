@@ -13,6 +13,7 @@ import { usePresence } from '@/data/realtime/use-presence';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { toast } from '@/motion/island-toast';
+import { isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { ClashList } from '../overlay/clash-card';
@@ -28,12 +29,10 @@ import { PlanOverviewView, type PlanTab } from './plan-overview-view';
 import { planRoutes } from './routes';
 import { PlanShareSlot } from './share-slot';
 
-const GUIDE_IDS: readonly string[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'];
-
 export function guideOf(data: PlanData): { id: GuideId; name: string } {
   const slug = data.trip?.guide_slug ?? 'tokek';
   return {
-    id: (GUIDE_IDS.includes(slug) ? slug : 'tokek') as GuideId,
+    id: isGuideStickerId(slug) ? slug : 'tokek',
     name: data.trip?.guide_name ?? 'Tokek',
   };
 }

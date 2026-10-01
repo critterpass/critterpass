@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# Opens the Chà Vá draft scenes from the draft scene list and shoots each, prefixed `${PREFIX}`.
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-chava'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-chava'
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible: '(?i).*chà vá.*'
+- takeScreenshot: ${PREFIX}-3c-9-draft-chava
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-loading-chava'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-loading-chava'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${PREFIX}-draft-loading-chava
