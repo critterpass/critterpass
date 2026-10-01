@@ -1,13 +1,14 @@
 /**
- * One side of the showdown: the place's name over its colour, the guide's line from the pitch, the
- * tool chips (flight hours, price each, best months) and who voted for it, with the guide's pale
- * silhouette wiggling beside them. The viewer's side wears a ring; choosing it squashes the half
- * from the VS edge.
+ * One side of the showdown: the place's name over its colour, the guide's line from the pitch and
+ * the tool chips (flight hours, price each, best months), with the guide's pale silhouette wiggling
+ * beside them. The top side lists who voted for it under its chips; the bottom side's voters sit in
+ * the tally card under it, as the render draws them. The viewer's side wears a ring; choosing it
+ * squashes the half from the VS edge.
  */
 import { tokens } from '@cp/design-tokens';
 import type { MediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -34,8 +35,9 @@ import { ShowdownFacts } from './showdown-facts';
 import type { NameMeasure } from './showdown-name-fit';
 import { Wordmark } from './wordmark';
 
-/** The size the render sets a finalist's name at. */
-const NAME_SIZE = 138;
+/** The size and the line the render sets a finalist's name on. */
+const NAME_SIZE = 120;
+const NAME_LEADING = 0.8;
 /** Widest the guide's line grows; the guide's silhouette sits in the rest of the half. */
 const COLUMN = '62%';
 /** The guide's silhouette beside its line and chips. */
@@ -86,12 +88,9 @@ const useStyles = makeStyles((th) => ({
     paddingHorizontal: th.space['20'],
     justifyContent: 'flex-start',
     overflow: 'hidden',
-    gap: th.space['10'],
+    // Between a name's box and the guide's line under it.
+    gap: th.space['12'],
   },
-  // Content starts right under each half's top edge: under the screen header for the top half, and
-  // for the bottom one under the VS disc, which the display name's own leading already clears.
-  top: { paddingBottom: sizeToken(th.size.fab, 'size') / 2 + th.space['16'] },
-  bottom: { paddingTop: th.space['8'] },
   // The guide's line, the chips and the voters, with the guide's silhouette behind them.
   pitch: { alignSelf: 'stretch', gap: th.space['10'] },
   ghost: {
@@ -125,7 +124,7 @@ export function ShowdownHalf({
   edgeInset,
   nameScale,
   nameHidden,
-  onNaturalHeight,
+  onRest,
   onNameMeasure,
 }: {
   readonly option: PollOptionView;
@@ -141,11 +140,11 @@ export function ShowdownHalf({
   readonly edgeInset: number;
   /** How much smaller than its own best fit the name is set (both halves share one size); 1 = not at all. */
   readonly nameScale: number;
-  /** The name is hidden while the screen searches for the size both names fit at. */
+  /** The name is hidden (its room kept) until both halves are measured and its size is known. */
   readonly nameHidden: boolean;
-  /** Reports the height the half's content needs, before it grows to share the screen. */
-  readonly onNaturalHeight: (height: number) => void;
-  /** Reports the name's size at its best fit and now. */
+  /** Reports the height the half needs for everything but its name. */
+  readonly onRest: (height: number) => void;
+  /** Reports the name's size at its best fit. */
   readonly onNameMeasure: (measure: NameMeasure) => void;
 }) {
   const styles = useStyles();
@@ -159,9 +158,17 @@ export function ShowdownHalf({
   const name = place?.name ?? option.label;
   const wiggle = useLoop('wiggle', { offset: alignEnd ? 0.5 : 0 });
   const index = alignEnd ? 1 : 0;
-  const endPadding = alignEnd
-    ? edgeInset
-    : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
+  // Each half keeps the VS disc clear on the edge they share and `edgeInset` on its outer edge.
+  const discInset = sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
+  const paddingTop = alignEnd ? discInset : edgeInset;
+  const paddingBottom = alignEnd ? edgeInset : discInset;
+  const ring = option.mine ? sizeToken(theme.size.fab, 'ringWidth') * 2 : 0;
+  const [pitchHeight, setPitchHeight] = useState(0);
+  const rest =
+    pitchHeight > 0 ? paddingTop + theme.space['12'] + pitchHeight + paddingBottom + ring : 0;
+  useEffect(() => {
+    if (rest > 0) onRest(rest);
+  }, [rest, onRest]);
   return (
     <Pressable
       accessibilityRole="button"
@@ -180,9 +187,9 @@ export function ShowdownHalf({
       <Animated.View
         style={[
           styles.half,
-          alignEnd ? styles.bottom : styles.top,
-          alignEnd ? { paddingBottom: edgeInset } : { paddingTop: edgeInset },
           {
+            paddingTop,
+            paddingBottom,
             backgroundColor: place?.colour ?? theme.color.yellow,
             alignItems: alignEnd ? 'flex-end' : 'flex-start',
             // The squash grows from the edge that meets the VS disc.
@@ -203,6 +210,7 @@ export function ShowdownHalf({
         <Wordmark
           name={upper(name, i18n.locale)}
           designSize={NAME_SIZE}
+          leading={NAME_LEADING}
           color={ink}
           align={alignEnd ? 'end' : 'start'}
           scale={nameScale}
@@ -213,10 +221,7 @@ export function ShowdownHalf({
         <View
           style={[styles.pitch, { alignItems: alignEnd ? 'flex-end' : 'flex-start' }]}
           testID={`showdown-pitch-${index}`}
-          onLayout={(event) => {
-            const { y, height } = event.nativeEvent.layout;
-            onNaturalHeight(y + height + endPadding);
-          }}
+          onLayout={(event) => setPitchHeight(event.nativeEvent.layout.height)}
         >
           {/* The opacity sits outside the wiggle, whose own frame sets one. */}
           <View
@@ -253,17 +258,24 @@ export function ShowdownHalf({
             </View>
           )}
           <ShowdownFacts option={option} sectionsOf={sectionsOf} alignEnd={alignEnd} />
-          <Row gap="8" align="center" testID={`showdown-votes-${index}`}>
-            {option.voterIds.length > 0 ? (
-              <AvatarStack members={stackOf(people, option.voterIds)} size="md" max={MAX_AVATARS} />
-            ) : null}
-            <Text variant="title" color={ink}>
-              {upper(
-                t({ id: 'vote.showdown.count', message: `${option.votes} votes` }),
-                i18n.locale,
-              )}
-            </Text>
-          </Row>
+          {/* The bottom side's voters are in the tally card under it (3c-1). */}
+          {alignEnd ? null : (
+            <Row gap="8" align="center" testID={`showdown-votes-${index}`}>
+              {option.voterIds.length > 0 ? (
+                <AvatarStack
+                  members={stackOf(people, option.voterIds)}
+                  size="md"
+                  max={MAX_AVATARS}
+                />
+              ) : null}
+              <Text variant="title" color={ink}>
+                {upper(
+                  t({ id: 'vote.showdown.count', message: `${option.votes} votes` }),
+                  i18n.locale,
+                )}
+              </Text>
+            </Row>
+          )}
         </View>
       </Animated.View>
     </Pressable>
