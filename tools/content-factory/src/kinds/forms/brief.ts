@@ -9,7 +9,7 @@ import type { Brief, GenerationUnit } from '../types';
 import type { ThreeSlot } from './palette-gen';
 import { supportedEpicPoses } from './poses';
 
-/** Design palettes of the six hand-drawn guides (their kinds' own default colours). */
+/** Design palettes of the hand-drawn guides (their kinds' own default colours). */
 const GUIDE_COMMON: Readonly<Record<string, ThreeSlot>> = {
   gecko: { f: '#a9d08c', dk: '#6f9f5a', bl: '#a9d08c' },
   tanuki: { f: '#ff9a4d', dk: '#6b3a24', bl: '#fff1dc' },
@@ -17,6 +17,7 @@ const GUIDE_COMMON: Readonly<Record<string, ThreeSlot>> = {
   sardine: { f: '#9fe0ee', dk: '#3d6fe0', bl: '#f2fbff' },
   alpaca: { f: '#fff1d6', dk: '#ff5fa8', bl: '#fffaf0' },
   puffin: { f: '#3d6fe0', dk: '#ff9a4d', bl: '#fff6e6' },
+  langur: { f: '#aea8c2', dk: '#3a3466', bl: '#fffaf0' },
 };
 
 export function commonPalette(critter: Critter): ThreeSlot {

@@ -63,12 +63,30 @@ describe('spawn rules', { timeout: 60_000 }, () => {
     expect(insidePlace('us', 21.3069, -157.8583)).toBe(true);
   });
 
-  it('reach every committed form, and every committed batch validates', () => {
+  it('reach every committed form, and the latest committed batch validates', () => {
     const forms = committedItems('forms');
     const ruled = new Set(committedItems('spawns').map((rule) => rule.form_id));
     expect(forms.filter((form) => !ruled.has(form.id))).toEqual([]);
-    for (const { batchKey, report } of validateCommitted('spawns')) {
-      expect(report.severity, batchKey).not.toBe('fail');
+    // Each spawns batch is the whole kind (publishing replaces it), so only the latest one can
+    // ship; an earlier one predates forms added since (it has no rule for them).
+    const latest = validateCommitted('spawns').at(-1);
+    expect(latest?.report.severity, latest?.batchKey).not.toBe('fail');
+  });
+
+  it('give a Đà Nẵng trip critters to meet: its guide on Sơn Trà and locals around the city', () => {
+    const daNang = committedItems('spawns').filter((rule) => rule.destination === 'da-nang');
+    expect(new Set(daNang.map((rule) => rule.form_id.slice(0, 6)))).toEqual(
+      new Set(['cp-151', 'cp-005', 'cp-002', 'cp-006', 'cp-007', 'cp-009', 'cp-010']),
+    );
+    // The city and Sơn Trà spots sit inside the destination's own area
+    // (packages/db/seed/destinations.ts); Hội An's coconut village is a kilometre past its edge.
+    for (const rule of daNang.filter((r) => !r.form_id.startsWith('cp-005'))) {
+      for (const g of rule.geofences) {
+        expect(g.lng, g.label).toBeGreaterThanOrEqual(107.95);
+        expect(g.lng, g.label).toBeLessThanOrEqual(108.36);
+        expect(g.lat, g.label).toBeGreaterThanOrEqual(15.84);
+        expect(g.lat, g.label).toBeLessThanOrEqual(16.21);
+      }
     }
   });
 });
