@@ -8,8 +8,10 @@ appId: app.critterpass.dev
 # adds an expense split between everyone on the trip, and the newcomer's Home is captured again
 # once the trip has started. The newcomer is on the trip: the plan opens and the expense is theirs
 # to share.
-# Today on the trip's clock (Da Nang, UTC+7), the week from it, and the lock button that names it.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); output.tripDays = [0, 1, 2, 3, 4, 5, 6].map(function (n) { return new Date(d.getTime() + n * 86400000).toISOString().slice(0, 10); }); output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
+# Today on the trip's clock (Da Nang, UTC+7): the lock button that names it, where its cell sits in
+# the week picker's month (Monday-first columns of 49 pt from 34 pt in, rows of 44 pt, on the
+# 411 x 914 pt emulator) and its spoken label.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); var blanks = (first.getUTCDay() + 6) % 7; var col = (d.getUTCDay() + 6) % 7; var row = Math.floor((blanks + d.getUTCDate() - 1) / 7); output.todayPoint = ((34 + 49 * (col + 0.5)) / 4.114).toFixed(1) + '%, ' + (45.4 + 4.8 * row).toFixed(1) + '%'; output.todayLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
 - runFlow: subflows/fresh-account.yaml
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -111,69 +113,51 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
-# The dates: a week that starts today. The crew window usually offers it already (this phone's
-# calendar shared its free days on the way in); otherwise the week from today is marked free by
-# hand and the window follows.
+# The dates: a week that starts today, picked by hand (the crew's best window aims at the place's
+# season, weeks away). The picker opens on the month of that window, which is this month here. On
+# Android the sheet's cells carry no id or label of their own, so today's cell is tapped where the
+# sheet draws it; iOS finds it by its label. The lock button names the week, which proves the tap.
 - extendedWaitUntil:
-    visible: ${output.lockToday}
+    visible:
+      id: 'when-pick-week'
     timeout: 30000
-    optional: true
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-shorter'
+    timeout: 10000
+- waitForAnimationToEnd
 - runFlow:
     when:
-      notVisible: ${output.lockToday}
+      platform: Android
     commands:
-      - retry:
-          maxRetries: 3
+      - tapOn:
+          point: ${output.todayPoint}
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          text: ${output.todayLabel}
+          index: 1
+          optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: 'picker-lock'
           commands:
-            - scrollUntilVisible:
-                element:
-                  id: 'own-calendar-action'
-                timeout: 10000
-                centerElement: true
-            - waitForAnimationToEnd
             - tapOn:
-                id: 'own-calendar-action'
-            - extendedWaitUntil:
-                visible:
-                  id: 'calendar-by-hand'
-                timeout: 10000
-      - tapOn:
-          id: 'calendar-by-hand'
-      - extendedWaitUntil:
-          visible:
-            id: 'manual-days-month'
-          timeout: 10000
-      - tapOn:
-          id: ${'manual-day-' + output.tripDays[0]}
-      - tapOn:
-          id: ${'manual-day-' + output.tripDays[1]}
-      - tapOn:
-          id: ${'manual-day-' + output.tripDays[2]}
-      - tapOn:
-          id: ${'manual-day-' + output.tripDays[3]}
-          optional: true
-      - tapOn:
-          id: ${'manual-day-' + output.tripDays[4]}
-          optional: true
-      - tapOn:
-          id: ${'manual-day-' + output.tripDays[5]}
-          optional: true
-      - tapOn:
-          id: ${'manual-day-' + output.tripDays[6]}
-          optional: true
-      - tapOn:
-          id: 'manual-days-save'
-      - extendedWaitUntil:
-          notVisible:
-            id: 'manual-days-month'
-          timeout: 15000
+                text: ${output.todayLabel}
 - extendedWaitUntil:
-    visible: ${output.lockToday}
-    timeout: 90000
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: en-join-under-way-dates-from-today
+- assertVisible: ${output.lockToday}
 - tapOn:
-    id: 'when-cta'
+    id: 'picker-lock'
 - extendedWaitUntil:
     visible:
       id: 'budget-lock'
