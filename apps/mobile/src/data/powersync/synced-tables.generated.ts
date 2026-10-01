@@ -112,6 +112,9 @@ export const SYNCED_TABLE_COLUMNS = {
     'destination_id kind subject level:integer level_label headline source source_url issued_at expires_at fetched_at created_at updated_at',
   help_articles:
     'slug locale category title summary body_md embedding fts release_id created_at updated_at',
+  help_session_messages: 'help_session_id trip_id sender_id body at created_at',
+  help_sessions:
+    'trip_id user_id kind status preset body place_label summary summary_source responder_ids responses steps share_id alerted_count:integer escalated_at false_alarm:integer clinic_requested_at opened_at resolved_at resolved_by created_at updated_at',
   home_tips:
     'crew_id guide_id kind text facts place_id dedupe_key valid_until status dismissed_by dismissed_at created_at updated_at',
   hype_aggregates:

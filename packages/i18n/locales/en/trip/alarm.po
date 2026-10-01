@@ -36,6 +36,14 @@ msgstr "Allow exact alarms"
 msgid "trip.alarm.sheet.exactBody"
 msgstr "Android rings alarms on the minute only for apps you allow. Without it, a leave-by alarm can ring a few minutes late."
 
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.titleAirport"
+msgstr "Be at the airport by {time}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.titleBeThere"
+msgstr "Be there by {time}"
+
 #: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
 msgid "trip.alarm.close"
 msgstr "Close"
@@ -57,10 +65,6 @@ msgstr "I'm up"
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.title"
 msgstr "Leave by {time}"
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
-msgid "trip.alarm.titlePlace"
-msgstr "Leave by {time} · {place}"
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.eyebrow"

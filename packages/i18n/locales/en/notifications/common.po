@@ -27,6 +27,10 @@ msgstr "{count, plural, one {# change} other {# changes}} for {crew}. Approve or
 msgid "notifications.quests.ready.body"
 msgstr "{count} quests are up for {place}."
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.title"
+msgstr "{crew}"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
 msgstr "{crew}"
@@ -283,6 +287,10 @@ msgstr "{question} closes in two hours. One tap and you are in."
 msgid "notifications.vote.closing.day"
 msgstr "{question} closes tomorrow and you have not voted yet."
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.title"
+msgstr "{sender} · {crew}"
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.title"
 msgstr "{sender} · {crew}"
@@ -291,9 +299,37 @@ msgstr "{sender} · {crew}"
 msgid "notifications.crew_chat.title"
 msgstr "{sender} · {crew}"
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.fell"
+msgstr "{sender} fell and needs a hand."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.lost"
+msgstr "{sender} is lost and needs a hand."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.safe"
+msgstr "{sender} is safe. Thanks for being there."
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.moved"
 msgstr "{sender} moved the meet-up: {place}, {time}."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.need_ride"
+msgstr "{sender} needs a ride."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.title"
+msgstr "{sender} needs help"
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.started"
+msgstr "{sender} opened Help and is sharing where they are for an hour."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.plain"
+msgstr "{sender} sent an SOS to the crew."
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.created"
@@ -395,6 +431,10 @@ msgstr "Everyone is at {place}"
 msgid "notifications.meetup_changed.crew_close"
 msgstr "Everyone's nearly at {place}."
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.false_alarm"
+msgstr "False alarm: {sender} is OK."
+
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.found_body"
 msgstr "Found a booking in {member}’s email: {title}. Add it to the wallet?"
@@ -450,6 +490,10 @@ msgstr "Meet at {place}, {time}."
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.timed_out"
 msgstr "No answer from {name} in two days, so {dates} is back to the best partial week."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.escalated"
+msgstr "Nobody's answered yet. {sender} still needs help."
 
 #: ../domain/src/plan/templates.ts
 msgid "notifications.changeset.kept.body"

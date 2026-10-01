@@ -59,6 +59,38 @@ export function forecastFor(
 
 export interface TimelineEntryData extends DayTimelineEntry {
   readonly bookingId: string | null;
+  readonly startsAt: Date;
+}
+
+/** What leads a day with no leave-by: its first stop, today's next stop, or nothing left today. */
+export type DayLead =
+  | { readonly kind: 'first' | 'next'; readonly time: string; readonly title: string }
+  | { readonly kind: 'done' };
+
+/**
+ * The stop the quiet hero shows. Another day leads with its first stop. Today leads with the next
+ * stop still ahead, and says the day is done once the last one has started; a day with no stops is
+ * a free day (null).
+ */
+export function dayLead(
+  timeline: readonly TimelineEntryData[],
+  isToday: boolean,
+  now: Date,
+): DayLead | null {
+  const first = timeline[0];
+  if (first === undefined) return null;
+  if (!isToday) return { kind: 'first', time: first.time, title: first.title };
+  const next = timeline.find((entry) => entry.startsAt.getTime() > now.getTime());
+  if (next === undefined) return { kind: 'done' };
+  return { kind: next === first ? 'first' : 'next', time: next.time, title: next.title };
+}
+
+/** How the day shown sits against the trip's own today. */
+export function dayRelation(localDate: string, today: string): 'today' | 'tomorrow' | 'other' {
+  if (localDate === today) return 'today';
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO time suffix, never copy.
+  const next = new Date(Date.parse(`${today}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
+  return localDate === next ? 'tomorrow' : 'other';
 }
 
 function titleOf(row: DayItemRow): string {
@@ -96,6 +128,7 @@ export function dayTimeline(
         detail: detail === '' ? null : detail,
         dimmed: !mine,
         bookingId: mine ? row.booking_id : null,
+        startsAt: new Date(row.starts_at ?? ''),
       };
     });
 }

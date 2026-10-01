@@ -36,6 +36,14 @@ msgstr ""
 msgid "trip.alarm.sheet.exactBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.titleAirport"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.titleBeThere"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
 msgid "trip.alarm.close"
 msgstr ""
@@ -56,10 +64,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
-msgid "trip.alarm.titlePlace"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts

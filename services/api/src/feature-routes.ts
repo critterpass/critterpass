@@ -46,6 +46,7 @@ import { registerTripLifecycle } from './commands/trips/lifecycle';
 import { registerLiveActivities } from './commands/live-activities';
 import { guardClosedAccounts } from './account/closed-guard';
 import { registerAccount } from './account/register';
+import { registerSafety } from './commands/safety';
 
 /** The command doors as the api boots them: its own Redis client and logger. */
 export interface ApiCommandDoors extends CommandDoorDeps {
@@ -87,6 +88,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerQuests(doors);
   registerTripLifecycle(doors);
   registerLiveActivities(doors);
+  registerSafety(app, doors, env, keyring);
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerTravelDataRoutes(app, doors);
   if (env.MEDIA_PUBLIC_BASE_URL) {

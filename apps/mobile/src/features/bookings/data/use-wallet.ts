@@ -1,18 +1,27 @@
 /**
  * `useWallet(tripId, uid)`: the trip's bookings as wallet cards with their flight legs, split into
- * the stack and the archive, plus which of them are ready offline and their cached barcodes and
+ * the stack and the archive (less the ones whose delete is still on its way to the server), plus
+ * which of them are ready offline and their cached barcodes and
  * documents. Everything is read from local rows, so it renders in airplane mode.
  */
 import { useMemo } from 'react';
 
 import { useLiveRows } from './live-rows';
-import { splitWallet, toWalletBooking, type WalletBooking, type WalletSplit } from './model';
+import {
+  splitWallet,
+  toWalletBooking,
+  withoutDeleted,
+  type WalletBooking,
+  type WalletSplit,
+} from './model';
 import { offlineBookingIds, useOfflineEntries, type OfflineEntry } from './offline';
 import {
   ATTACHMENTS_SQL,
   ATTACHMENTS_TABLES,
   BOOKINGS_SQL,
   BOOKINGS_TABLES,
+  PENDING_DELETES_SQL,
+  PENDING_DELETES_TABLES,
   SEGMENTS_SQL,
   SEGMENTS_TABLES,
   type AttachmentRow,
@@ -34,7 +43,16 @@ export interface Wallet extends WalletSplit {
 export function useWallet(tripId: string | null, uid: string | null): Wallet {
   const services = useBookingsServices();
   const params = tripId === null ? null : [tripId];
-  const bookings = useLiveRows<BookingRow>(BOOKINGS_SQL, params, BOOKINGS_TABLES);
+  const synced = useLiveRows<BookingRow>(BOOKINGS_SQL, params, BOOKINGS_TABLES);
+  const deleting = useLiveRows<{ booking_id: string | null }>(
+    PENDING_DELETES_SQL,
+    [],
+    PENDING_DELETES_TABLES,
+  );
+  const bookings = useMemo(
+    () => ({ loaded: synced.loaded, rows: withoutDeleted(synced.rows, deleting.rows) }),
+    [synced.loaded, synced.rows, deleting.rows],
+  );
   const segments = useLiveRows<SegmentRow>(SEGMENTS_SQL, params, SEGMENTS_TABLES);
   const attachments = useLiveRows<AttachmentRow>(ATTACHMENTS_SQL, params, ATTACHMENTS_TABLES);
   const versions = bookings.rows.map((row) => `${row.id}:${String(row.version)}`).join(',');

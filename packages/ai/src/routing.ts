@@ -252,6 +252,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
     output: 'structured',
     cacheLayers: ['global_rules', 'persona'],
   }),
+  'help.checklist': fast(null, 1024, { output: 'structured', temperature: 0.3 }),
+  'sos.summary': fast(null, 256, { output: 'structured', temperature: 0.2 }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {

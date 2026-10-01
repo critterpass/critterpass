@@ -36,6 +36,14 @@ msgstr "Cho phép báo thức chính xác"
 msgid "trip.alarm.sheet.exactBody"
 msgstr "Android chỉ đổ chuông đúng phút cho những ứng dụng bạn cho phép. Nếu không, báo thức giờ xuất phát có thể reo trễ vài phút."
 
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.titleAirport"
+msgstr "Có mặt ở sân bay trước {time}"
+
+#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
+msgid "trip.alarm.titleBeThere"
+msgstr "Có mặt trước {time}"
+
 #: ../../apps/mobile/src/features/trip/alarm/in-app-alarm.tsx
 msgid "trip.alarm.close"
 msgstr "Đóng"
@@ -57,10 +65,6 @@ msgstr "Mình dậy rồi"
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.title"
 msgstr "Xuất phát lúc {time}"
-
-#: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
-msgid "trip.alarm.titlePlace"
-msgstr "Xuất phát lúc {time} · {place}"
 
 #: ../../apps/mobile/src/features/trip/alarm/alarm-copy.ts
 msgid "trip.alarm.eyebrow"

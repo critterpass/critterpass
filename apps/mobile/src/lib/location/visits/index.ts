@@ -18,9 +18,17 @@ export {
 } from './use-current-visit';
 export { recordVisit, useVisitBridge, type VisitBridgeDeps } from './use-visit-bridge';
 export {
+  clearVisitConsentRequest,
+  isTripSurfacePath,
   markVisitConsentDismissed,
+  requestVisitConsent,
+  setVisitConsentOffered,
   shouldAskVisitConsent,
-  VISIT_CONSENT_REASK_MS,
+  shouldOfferVisitConsent,
+  useVisitConsentEntry,
+  useVisitConsentRequested,
+  VISIT_CONSENT_CALM_MS,
   visitConsentDismissedAt,
   type VisitConsentAskInput,
 } from './consent-prompt';
+export { useRestedOnTripSurface, type RestedOptions } from './use-rested-on-trip-surface';

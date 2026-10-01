@@ -61,6 +61,9 @@ export const AI_ROUTES = [
   'proposal.suggestion',
   // Guide-written shared text (plan notes, briefings, quests, pitches) into a reader's language.
   'guide_text.translate',
+  // Help checklist wording and the crew SOS summary: words only, every fact from curated data.
+  'help.checklist',
+  'sos.summary',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',

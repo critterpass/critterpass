@@ -69,6 +69,8 @@ export {
   buildSystemBlocks,
   globalRulesText,
   renderPersonaBlock,
+  writtenGloss,
+  type PersonaBlockOptions,
   type PromptLayers,
 } from './persona/layering';
 export {
@@ -295,3 +297,5 @@ export * from './routes/translate';
 export * from './routes/explore';
 export * from './routes/proposal';
 export * from './routes/quests';
+export * from './routes/help';
+export * from './routes/sos';

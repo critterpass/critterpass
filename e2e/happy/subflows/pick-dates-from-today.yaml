@@ -1,0 +1,74 @@
+appId: app.critterpass.dev
+---
+# The setup's When step as organiser, picked by hand: today in Vietnam as the first day (or
+# ${START_OFFSET_DAYS} days from today), three days long, so the trip is under way the moment it is
+# confirmed (or starts tomorrow). The
+# lock's own label is checked before it is tapped, so a tap that landed on another day fails here
+# instead of locking the wrong dates.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000 + (typeof START_OFFSET_DAYS === 'undefined' || START_OFFSET_DAYS === '' ? 0 :Number(START_OFFSET_DAYS)) * 86400000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); output.pickLabel = months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickColumn = (d.getUTCDay() + 6) % 7; output.pickRow = Math.floor((((first.getUTCDay() + 6) % 7) + d.getUTCDate() - 1) / 7); output.pickTry = 0}
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-shorter'
+    timeout: 10000
+- waitForAnimationToEnd
+# iOS finds the day's cell by its spoken label: the sheet's own when the step under it shows the
+# same day (the second match), else the only one.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          text: ${output.pickLabel}
+          index: 1
+          optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: 'picker-lock'
+          commands:
+            - tapOn:
+                text: ${output.pickLabel}
+# On Android the sheet's cells carry no id or label of their own (only the step under it does), so
+# the cell is tapped where the sheet draws it on the runner's Pixel 7: its weekday column, and a
+# few heights around its week's row until the lock names the day.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - repeat:
+          while:
+            notVisible:
+              id: 'picker-lock'
+              text: ${output.lockLabel}
+          times: 9
+          commands:
+            - tapOn:
+                point: ${Math.round(8.26 + (output.pickColumn + 0.5) * 11.925) + '%, ' + Math.round(40 + output.pickRow * 5.25 + output.pickTry * 2) + '%'}
+            - evalScript: ${output.pickTry = output.pickTry + 1}
+            - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- repeat:
+    while:
+      notVisible: '3 days'
+    times: 30
+    commands:
+      - tapOn:
+          id: 'picker-shorter'
+- assertVisible: '3 days'
+- assertVisible:
+    id: 'picker-lock'
+    text: ${output.lockLabel}
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-dates-today
+- tapOn:
+    id: 'picker-lock'

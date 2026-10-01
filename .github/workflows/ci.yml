@@ -23,8 +23,11 @@ jobs:
     name: lint · typecheck · test · build
     runs-on: ubuntu-latest
     steps:
+      # Every branch's history for turbo's --affected, without the files of that history (the
+      # screenshots branch alone holds every device run's images and videos): the commits and trees
+      # are a few megabytes and arrive in seconds, where the full fetch took a minute or more.
       - uses: actions/checkout@v7
-        with: { fetch-depth: 0 }
+        with: { fetch-depth: 0, filter: 'blob:none' }
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with: { node-version: 26, cache: pnpm }
@@ -35,9 +38,13 @@ jobs:
           cache-prefix: turbo-node26_
       - name: Format
         run: pnpm format:check
-      # @cp/db and the content factory start Testcontainers Postgres from their `test` scripts, so
-      # those suites run in this job: when either is affected, build their image before turbo
-      # starts everything else on this runner (the database job explains why).
+      # Reads every package's source, so it runs on every change: turbo runs the tools/scripts suite
+      # only when that package is affected, which let an id in the app's tests reach main.
+      - name: No plan ids in source
+        run: pnpm --filter @cp/scripts exec vitest run no-plan-ids.test.ts
+      # The content factory starts Testcontainers Postgres from its `test` script, so that suite
+      # runs in this job: when it is affected, build its image before turbo starts everything else
+      # on this runner (the database job explains why).
       - name: Build the test Postgres image
         timeout-minutes: 10
         env:
@@ -45,60 +52,167 @@ jobs:
           TESTCONTAINERS_RYUK_DISABLED: 'true' # the build starts no container to reap
         run: |
           if pnpm turbo run test --affected --dry-run=json |
-            jq -e 'any(.tasks[]; .taskId == "@cp/db#test" or .taskId == "@cp/content-factory#test")' > /dev/null; then
+            jq -e 'any(.tasks[]; .taskId == "@cp/content-factory#test")' > /dev/null; then
             pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
           fi
+      # Every affected package's lint, typecheck, build and tests, in one run, except two suites
+      # that were this job's long poles and now have runners of their own: the app's Jest suite
+      # (the app tests job) and @cp/db's container suite (a database leg). Turbo has no flag to
+      # leave one package's task out, so the tests are named one by one.
       - name: Affected packages
-        run: pnpm turbo run lint typecheck test build --affected --continue
+        run: |
+          set -o pipefail
+          tests=$(pnpm turbo run test --affected --filter='!@cp/mobile' --filter='!@cp/db' --dry-run=json |
+            jq -r '[.tasks[] | select(.task == "test" and .command != "<NONEXISTENT>") | .taskId] | join(" ")')
+          pnpm turbo run lint typecheck build $tests --affected --continue
+
+  app-tests:
+    # The app's Jest suite, split across runners: on one it took 12 to 16 minutes. Turbo still
+    # decides whether the app is affected; the `app` filter of the changes job only spares the
+    # runners when the change cannot reach it.
+    name: app tests (${{ matrix.shard }}/${{ strategy.job-total }})
+    needs: changes
+    if: needs.changes.outputs.app_tests == 'true'
+    runs-on: ubuntu-latest
+    # A shard takes about five minutes; a runner that hangs is not worth six hours.
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v7
+        with: { fetch-depth: 0, filter: 'blob:none' }
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
+        with:
+          cache-prefix: turbo-node26_
+      # The arguments after `--` reach Jest and are part of turbo's task hash, so each shard is
+      # cached on its own.
+      - run: >-
+          pnpm turbo run test --affected --filter=@cp/mobile --
+          --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 
   database:
     # One runner per suite: every database test file starts its own Postgres (often Redis too), and
     # the api, worker and app suites sharing a runner starved each other's container starts.
     name: database suites (${{ matrix.suite }})
+    needs: changes
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
           - suite: api
+            task: test:db
             filter: '--filter=@cp/api'
+            server: true
           - suite: worker
+            task: test:db
             filter: '--filter=@cp/worker'
+            server: true
+          # @cp/db's own suite is its `test` script: every file starts a Postgres, one file at a
+          # time, 20 minutes on a runner of its own (in the lint/typecheck/test job it took that
+          # job from 12 minutes to 30). Three runners take a third of the files each.
+          - suite: db 1/3
+            task: test
+            filter: '--filter=@cp/db'
+            shard: '-- --shard=1/3'
+            server: true
+          - suite: db 2/3
+            task: test
+            filter: '--filter=@cp/db'
+            shard: '-- --shard=2/3'
+            server: true
+          - suite: db 3/3
+            task: test
+            filter: '--filter=@cp/db'
+            shard: '-- --shard=3/3'
+            server: true
           # Every other package with a test:db script (the app's suites today), so a package that
           # gains the script runs here without a new leg.
           - suite: other packages
+            task: test:db
             filter: '--filter=!@cp/api --filter=!@cp/worker'
+    env:
+      # Turbo counts the api and worker suites as affected by any change in a package they depend
+      # on, message catalogs included: the worker depends on @cp/i18n, and nearly every app change
+      # touches packages/i18n/locales. No database test reads a catalog (the unit tests cover the
+      # server's strings), so the server legs run only when the change reaches past the catalogs:
+      # the `server` filter of the changes job. Turbo's --affected still decides after that.
+      RUN_SUITE: ${{ !matrix.server || needs.changes.outputs.server_suites == 'true' }}
     steps:
+      - if: env.RUN_SUITE != 'true'
+        run: echo 'Skipped. Nothing this suite runs has changed (message catalogs do not count).'
       - uses: actions/checkout@v7
-        with: { fetch-depth: 0 }
+        if: env.RUN_SUITE == 'true'
+        with: { fetch-depth: 0, filter: 'blob:none' }
       - uses: pnpm/action-setup@v6
+        if: env.RUN_SUITE == 'true'
       - uses: actions/setup-node@v7
+        if: env.RUN_SUITE == 'true'
         with: { node-version: 26, cache: pnpm }
-      - run: pnpm install --frozen-lockfile
-      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does.
-      - if: matrix.suite == 'worker'
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
-      # Only the builds the suites depend on come from cache; turbo.json never caches test:db.
+      - if: env.RUN_SUITE == 'true'
+        run: pnpm install --frozen-lockfile
+      # Only the builds the suites depend on come from cache: turbo.json never caches test:db
+      # (@cp/db's `test` is cached like any other package's).
       - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
+        if: env.RUN_SUITE == 'true'
         with:
           cache-prefix: turbo-node26_
+      - name: Suites to run
+        id: suites
+        if: env.RUN_SUITE == 'true'
+        env:
+          TASK: ${{ matrix.task }}
+          FILTER: ${{ matrix.filter }}
+          # The app's database suites start the api's own test harness by its path, which turbo
+          # does not see, so they also run for every change that reaches the server suites.
+          WITH_APP: ${{ matrix.suite == 'other packages' && needs.changes.outputs.server_suites == 'true' }}
+        run: |
+          set -o pipefail
+          tasks=$(pnpm turbo run "$TASK" --affected $FILTER --dry-run=json |
+            jq -r --arg task "$TASK" '[.tasks[] | select(.task == $task and .command != "<NONEXISTENT>") | .taskId] | join(" ")')
+          if [ "$WITH_APP" = true ] && [[ " $tasks " != *' @cp/mobile#test:db '* ]]; then
+            tasks="$tasks @cp/mobile#test:db"
+          fi
+          tasks=$(echo $tasks)
+          echo "tasks=$tasks" >> "$GITHUB_OUTPUT"
+          echo "Suites: ${tasks:-none here is affected by this change}"
+      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does. The
+      # package mirrors sometimes stall for ten minutes and more: each try at fetching gets three,
+      # and the install itself then runs from what was fetched.
+      - name: Install ffmpeg
+        if: steps.suites.outputs.tasks != '' && matrix.suite == 'worker'
+        timeout-minutes: 12
+        run: |
+          apt='apt-get -qq -o Acquire::Retries=3 -o Acquire::http::Timeout=30'
+          for attempt in 1 2 3; do
+            if sudo timeout 180 $apt update &&
+              sudo timeout 180 $apt install -y --no-install-recommends --download-only ffmpeg; then
+              sudo $apt install -y --no-install-recommends ffmpeg
+              exit 0
+            fi
+            echo "::warning::Fetching ffmpeg failed or stalled (try $attempt of 3)"
+          done
+          exit 1
       # Each test file's worker builds the Postgres image; all but the first build come from
       # Docker's layer cache. Left to the suites, the first workers run that first build all at
       # once inside their beforeAll hooks and run out of hook time. Build it once here instead,
       # with the suites' own helper so their builds find every layer cached.
       - name: Build the test Postgres image
+        if: steps.suites.outputs.tasks != ''
         timeout-minutes: 10
         env:
           DEBUG: testcontainers:build # the build log, which Testcontainers otherwise drops
           TESTCONTAINERS_RYUK_DISABLED: 'true' # the build starts no container to reap
-        run: |
-          if pnpm turbo run test:db --affected ${{ matrix.filter }} --dry-run=json |
-            jq -e 'any(.tasks[]; .task == "test:db" and .command != "<NONEXISTENT>")' > /dev/null; then
-            pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
-          else
-            echo 'No database suite here is affected by this change.'
-          fi
-      - run: pnpm turbo run test:db --affected ${{ matrix.filter }} --continue
+        run: pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
+      # A shard's arguments reach the test runner and are part of turbo's task hash.
+      - if: steps.suites.outputs.tasks != ''
+        run: pnpm turbo run ${{ steps.suites.outputs.tasks }} --continue ${{ matrix.shard }}
 
   changes:
     runs-on: ubuntu-latest
@@ -117,6 +231,8 @@ jobs:
       ios_native: ${{ steps.filter.outputs.ios_native }}
       android_native: ${{ steps.filter.outputs.android_native }}
       admin_e2e: ${{ steps.filter.outputs.admin_e2e }}
+      app_tests: ${{ steps.suites.outputs.app }}
+      server_suites: ${{ steps.suites.outputs.server }}
     steps:
       - uses: actions/checkout@v7
       - uses: dorny/paths-filter@v4
@@ -208,6 +324,36 @@ jobs:
               - 'infra/docker/postgres/**'
               - 'pnpm-lock.yaml'
               - '.github/workflows/ci.yml'
+      # Which suites a change can reach. Turbo's --affected still decides inside each job; these
+      # only keep runners from starting for a change that cannot matter to them. A step of its own
+      # because an exclusion (`!`) needs this quantifier, which applies to every filter of a step.
+      - uses: dorny/paths-filter@v4
+        id: suites
+        with:
+          predicate-quantifier: some-with-excludes
+          filters: |
+            # What turbo counts as a change to every package: its own defaults and turbo.json's
+            # globalDependencies.
+            every_package: &every_package
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'turbo.json'
+              - 'tsconfig.base.json'
+              - 'eslint.config.js'
+              - '.github/workflows/ci.yml'
+            app:
+              - *every_package
+              - 'apps/mobile/**'
+              - 'packages/**'
+            # The api and worker database suites: server code, and every package but its message
+            # catalogs, which no database test reads.
+            server:
+              - *every_package
+              - 'services/**'
+              - 'infra/**'
+              - 'packages/**'
+              - '!packages/i18n/locales/**'
 
   critter-art-golden:
     name: critter art golden (Chromium + Node parity)
@@ -506,6 +652,7 @@ jobs:
     if: always()
     needs:
       - checks
+      - app-tests
       - database
       - changes
       - critter-art-golden
