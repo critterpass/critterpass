@@ -178,6 +178,10 @@ msgstr "Places you checked in at, never a trail of coordinates."
 msgid "permissions.visits.body"
 msgstr "Places you checked in at, never a trail of coordinates. They power quests, awards and your trip rating, and are deleted 30 days after the trip ends."
 
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.row"
+msgstr "Places you visit on this trip are not remembered yet."
+
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsSection.tsx
 msgid "permissions.value.quiet"
 msgstr "Quiet"

@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# The visit consent sheet at its calm moment. It rises by itself once: on a trip day, while
+# nothing is decided, after the traveller has rested a few seconds on one of the trip's own
+# screens with nothing over it. Run this on such a screen: when the sheet comes up it is captured
+# as ${SHOT} and answered NOT NOW, which this phone remembers, so it never covers a later step.
+# On a day with no trip (or once answered) nothing rises and the flow just moves on.
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-accept'
+    timeout: 12000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: ${SHOT}
+      - tapOn:
+          id: 'visit-consent-decline'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'visit-consent-accept'
+          timeout: 10000
