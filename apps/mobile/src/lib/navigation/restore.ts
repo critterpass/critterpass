@@ -64,6 +64,15 @@ export function clearSavedNavigation(): void {
   storage.remove(STORAGE_KEY);
 }
 
+/**
+ * Hands the saved navigation to the build the app is about to restart into (an update applied
+ * in place): the same screens, so the restore after the restart may take it. Its age is kept, so
+ * the 30-minute window and every other restore rule still decide.
+ */
+export function carryNavigationTo(build: string): void {
+  const saved = readSavedNavigation();
+  if (saved !== undefined) writeSavedNavigation({ ...saved, build });
+
 export interface RestoreMoment {
   /** The session gate: a signed-out or first-run launch (`signedOut`, `onboarding`) never restores. */
   readonly gate: SessionGateState['status'];
