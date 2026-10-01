@@ -30,17 +30,6 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 15000
 - takeScreenshot: restore-2-settled
-- tapOn:
-    id: 'tab-trips'
-- waitForAnimationToEnd:
-    timeout: 8000
-- takeScreenshot: restore-3-after-tab-tap
-- tapOn:
-    id: 'tab-home'
-- waitForAnimationToEnd:
-    timeout: 5000
-- tapOn:
-    id: 'tab-trips'
-- waitForAnimationToEnd:
-    timeout: 8000
-- takeScreenshot: restore-4-after-home-and-back
+# Fails on purpose: the failure records the whole hierarchy of the restored screen.
+- assertVisible:
+    id: 'spike-dump-hierarchy'

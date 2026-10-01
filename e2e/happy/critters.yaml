@@ -49,11 +49,13 @@ appId: app.critterpass.dev
       visible:
         id: 'critters-home-set'
     commands:
+      # The switch, read as "Explore at home, Meet your home set's critters…"; the row's title
+      # beside it is plain text and takes no tap.
       - tapOn:
-          text: 'Explore at home'
+          text: 'Explore at home, .*'
       - extendedWaitUntil:
           visible:
-            text: 'Explore at home'
+            text: 'Explore at home, .*'
             checked: true
           timeout: 10000
       # Give the upload queue a moment, then relaunch: the opt-in is still on.
@@ -68,6 +70,6 @@ appId: app.critterpass.dev
           id: 'tab-pass'
       - extendedWaitUntil:
           visible:
-            text: 'Explore at home'
+            text: 'Explore at home, .*'
             checked: true
           timeout: 20000
