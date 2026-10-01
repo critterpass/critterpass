@@ -5,9 +5,13 @@
 /* eslint-disable lingui/no-unlocalized-strings -- fixture names, places and ids, never shipped copy. */
 import type { ReactNode } from 'react';
 
+import { useLocale } from '@/lib/i18n/use-locale';
+
 import { ClosedView, type ClosedMode } from '../account/closed-view';
 import { DeleteView, type DeleteStep } from '../account/delete-view';
 import { SignOutView } from '../account/sign-out-view';
+import { languageChoices } from '../language/language-names';
+import { LanguageView } from '../language/language-view';
 import type { ProfileModel } from '../profile/profile-model';
 import { ProfileView } from '../profile/profile-view';
 import { useSettingsSections } from '../settings/settings-sections';
@@ -85,11 +89,12 @@ function Profile({ model }: { readonly model: ProfileModel | null }) {
 
 function Settings() {
   const sections = useSettingsSections(
-    { soundEffects: true, haptics: true, account: true },
+    { soundEffects: true, haptics: true, account: true, language: 'English' },
     {
       onOfflineTrips: noop,
       onSoundEffects: noop,
       onHaptics: noop,
+      onLanguage: noop,
       onSignOut: noop,
       onDeleteAccount: noop,
     },
@@ -142,11 +147,26 @@ function SignOut({ saved }: { readonly saved: boolean }) {
   );
 }
 
+/** In the language the lab runs in, as the real screen is: current first, names in that language. */
+function Language() {
+  const locale = useLocale();
+  return (
+    <LanguageView
+      choices={languageChoices(locale)}
+      current={locale}
+      switching={null}
+      onPick={noop}
+      onBack={noop}
+    />
+  );
+}
+
 export const YOU_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3n-1-profile': () => <Profile model={SEASONED} />,
   '3n-1-fresh': () => <Profile model={FRESH} />,
   '3n-1-loading': () => <Profile model={null} />,
   '3n-2-settings': () => <Settings />,
+  '3n-8-language': () => <Language />,
   'sign-out-saved': () => <SignOut saved />,
   'sign-out-unsaved': () => <SignOut saved={false} />,
   '3n-9-delete': () => <Delete step="review" />,
