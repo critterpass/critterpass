@@ -1,8 +1,8 @@
 /**
  * The timed trip lifecycle against a migrated Postgres: every move happens at its boundary on the
  * destination's own clock (a UTC+7 trip and a UTC−7 one), a rerun changes nothing, a trip that fell
- * behind catches up in one run, a proposal whose reply-by passed confirms only with someone IN, and
- * voting, setup-stage, cancelled and archived trips are never touched.
+ * behind catches up in one run, a proposed trip is left to the reply-by job and the organiser's lock,
+ * and voting, setup-stage, cancelled and archived trips are never touched.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -93,33 +93,21 @@ describe('trips.lifecycle', { timeout: 60_000 }, () => {
     expect(await world.moves(tripId)).toEqual(['confirmed->pre_trip', 'pre_trip->in_trip']);
   });
 
-  it('confirms a proposal once its reply-by has passed with at least one member IN', async () => {
-    const proposal = async (tripId: string, replyBy: string) =>
-      world.q(
-        `INSERT INTO proposals (trip_id, created_by, reply_by, status, sent_at)
-         VALUES ($1, $2, $3, 'sent', $3::timestamptz - interval '3 days')`,
-        [tripId, world.members[0], replyBy],
-      );
+  it('leaves a proposed trip to the reply-by job and the organiser’s lock', async () => {
     const dates = { start: '2026-12-10', end: '2026-12-12' };
     const due = await world.trip({
       status: 'proposed',
       ...dates,
-      rsvps: ['in', 'maybe', 'unopened'],
+      rsvps: ['in', 'in', 'unopened'],
     });
-    const nobodyIn = await world.trip({
-      status: 'proposed',
-      ...dates,
-      rsvps: ['maybe', 'unopened', 'out'],
-    });
-    const waiting = await world.trip({ status: 'proposed', ...dates });
-    await proposal(due, '2026-10-01T00:00:00Z');
-    await proposal(nobodyIn, '2026-10-01T00:00:00Z');
-    await proposal(waiting, '2026-10-05T00:00:00Z');
+    await world.q(
+      `INSERT INTO proposals (trip_id, created_by, reply_by, status, sent_at)
+       VALUES ($1, $2, $3, 'sent', $3::timestamptz - interval '3 days')`,
+      [due, world.members[0], '2026-10-01T00:00:00Z'],
+    );
     await runTripLifecycle(world.harness.pool, at('2026-10-01T00:00:00Z'));
-    expect(await world.status(due)).toBe('confirmed');
-    expect(await world.status(nobodyIn)).toBe('proposed');
-    expect(await world.status(waiting)).toBe('proposed');
-    expect(await world.moves(due)).toEqual(['proposed->confirmed']);
+    expect(await world.status(due)).toBe('proposed');
+    expect(await world.moves(due)).toEqual([]);
   });
 
   it('never touches voting, setup-stage, cancelled or archived trips', async () => {
