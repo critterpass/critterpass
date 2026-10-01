@@ -100,15 +100,18 @@ export function ItemDetailSheet({
   const cost =
     item.amountMinor === null || item.currency === null
       ? null
-      : item.costModel === 'per_person'
-        ? t({
-            id: 'plan.day.item.costEach',
-            message: `${money(locale, item.amountMinor, item.currency)} each`,
-          })
-        : t({
-            id: 'plan.day.item.costGroup',
-            message: `${money(locale, item.amountMinor, item.currency)} for the group`,
-          });
+      : item.amountMinor === 0
+        ? // A stop with nothing to pay (a temple, a beach, a walk) says so, never "SGD 0 each".
+          t({ id: 'plan.day.item.costFree', message: 'Free' })
+        : item.costModel === 'per_person'
+          ? t({
+              id: 'plan.day.item.costEach',
+              message: `${money(locale, item.amountMinor, item.currency)} each`,
+            })
+          : t({
+              id: 'plan.day.item.costGroup',
+              message: `${money(locale, item.amountMinor, item.currency)} for the group`,
+            });
   const saveLabel = canApply
     ? t({ id: 'plan.day.item.save', message: 'Save' })
     : t({ id: 'plan.day.item.suggest', message: 'Suggest to the crew' });
