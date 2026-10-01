@@ -8,6 +8,7 @@ import { BOOKINGS_RT, DomainError, setBookingVisibilityPayloadSchema } from '@cp
 
 import { asSystemRole } from '../../admin/command';
 import { syncCopiedVisibility } from '../../bookings/booking-writer';
+import { syncBookedPlanItems } from '../../bookings/plan-sync';
 import { defineCommand } from '../_framework/define-command';
 import { loadBooking, publishBooking } from './shared';
 
@@ -41,6 +42,7 @@ export const setBookingVisibilityCommand = defineCommand({
       visibility: payload.visibility,
       flightCrewVisible: booking.flight_crew_visible,
     });
+    await syncBookedPlanItems(tx, booking.trip_id, ctx.uid);
     await emitEvent(tx, {
       type: 'booking.visibility_changed',
       aggregateKind: 'booking',
