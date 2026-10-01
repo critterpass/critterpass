@@ -180,13 +180,17 @@ function legendaryOnDates(input: DexInput, cells: Map<string, CritterCell>) {
       if (rule === null || rule.type === 'any_day') continue;
       const span = nextWindowSpan(rule, trip.start_date);
       if (span === null || span.start > trip.end_date) continue;
+      // Only a legendary of the place the trip goes to: a window somewhere else in the world is
+      // not "on your dates".
       const critterId = formCritter.get(row.form_id);
-      if (critterId !== undefined && cells.get(critterId)?.found === true) continue;
+      const cell = critterId === undefined ? undefined : cells.get(critterId);
+      if (cell === undefined || trip.critter_set_id === null) continue;
+      if (cell.setId !== trip.critter_set_id || cell.found) continue;
       return {
         windowId: row.id,
         formId: row.form_id,
-        critterKey: critterId === undefined ? null : (cells.get(critterId)?.key ?? null),
-        critterSeed: critterId === undefined ? 0 : (cells.get(critterId)?.seed ?? 0),
+        critterKey: cell.key,
+        critterSeed: cell.seed,
         placeLine: row.place_line ?? '',
         start: span.start,
         end: span.end,
