@@ -4,7 +4,8 @@
  * present — unlike `format.ts`'s "≈", which marks a currency *conversion* rather than a magnitude
  * approximation.
  */
-import { currencyExponent, currencySymbol, type CurrencyCode } from './currencies';
+import { compactFromMinor } from './intl-fallbacks';
+import { currencyExponent, currencySymbol } from './currencies';
 import { type Money } from './money';
 
 export interface FormatCompactMoneyOptions {
@@ -33,16 +34,18 @@ export function formatCompactMoney(amount: Money, options: FormatCompactMoneyOpt
   const exponent = currencyExponent(amount.currency);
   const decimalString = toMajorUnitDecimalString(amount.amountMinor, exponent);
   const symbol = currencySymbol(amount.currency);
-  const body = formatCompactBody(decimalString, amount.currency, options.locale, symbol);
+  const body = formatCompactBody(decimalString, amount, exponent, options.locale, symbol);
   return `~${body}`;
 }
 
 function formatCompactBody(
   decimalString: string,
-  currency: CurrencyCode,
+  amount: Money,
+  exponent: number,
   locale: string,
   symbol: string,
 ): string {
+  const { currency, amountMinor } = amount;
   try {
     const formatter = new Intl.NumberFormat(locale, {
       style: 'currency',
@@ -50,10 +53,16 @@ function formatCompactBody(
       notation: 'compact',
       compactDisplay: 'short',
     });
-    return formatter
-      .formatToParts(asNumericLiteral(decimalString))
-      .map((part) => (part.type === 'currency' ? symbol : part.value))
-      .join('');
+    if (typeof formatter.formatToParts === 'function') {
+      return formatter
+        .formatToParts(asNumericLiteral(decimalString))
+        .map((part) => (part.type === 'currency' ? symbol : part.value))
+        .join('');
+    }
+    // No `formatToParts` (Hermes on iPhone, which has no compact notation either): the symbol in
+    // front of the scaled number, standing off from it when it ends in a letter ("Rp 75M").
+    const body = compactFromMinor(locale, amountMinor, exponent);
+    return /[A-Za-z]$/u.test(symbol) ? `${symbol}\u00a0${body}` : `${symbol}${body}`;
   } catch {
     return `${symbol}${decimalString}`;
   }

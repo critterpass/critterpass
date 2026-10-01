@@ -5,11 +5,10 @@
  * wears the pick tag; the selected card is outlined in yellow. Cards deal in one after another.
  * An ask shows its progress on its card: asked and waiting, freed, can't move it, no answer.
  */
+import { formatNarrowCurrency } from '@cp/cost-engine';
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
-
-import { format } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { patterns } from '@/motion';
@@ -59,12 +58,12 @@ function minorToMajor(amountMinor: number, currency: string): number {
 
 /** "−$90" / "+$90" (the sign is added here: Hermes's NumberFormat has no `signDisplay`). */
 export function deltaLabel(locale: string, amountMinor: number, currency: string): string {
-  const amount = format.number(locale, minorToMajor(Math.abs(amountMinor), currency), {
-    style: 'currency',
+  const amount = formatNarrowCurrency(
+    locale,
+    minorToMajor(Math.abs(amountMinor), currency),
     currency,
-    currencyDisplay: 'narrowSymbol',
-    maximumFractionDigits: 0,
-  });
+    { maximumFractionDigits: 0 },
+  );
   if (amountMinor === 0) return amount;
   return `${amountMinor < 0 ? '−' : '+'}${amount}`;
 }

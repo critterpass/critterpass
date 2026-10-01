@@ -17,7 +17,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 import { MIN_TOUCH_TARGET } from '@/ui/theme';
 
-import { formatAmount, symbolOf } from '../format';
+import { formatAmount, symbolOf, symbolTrails } from '../format';
 import { unitsToMinor } from './draft';
 
 export interface AmountEntryProps {
@@ -35,6 +35,7 @@ export function AmountEntry({ digits, currency, approx, onCurrency, testID }: Am
   const units = Number(digits === '' ? '0' : digits);
   const label = formatAmount(unitsToMinor(digits, currency), currency, locale);
   const symbol = symbolOf(currency);
+  const trails = symbolTrails(currency, locale);
   const separator = format.number(locale, 1.5).replace(/\d/gu, '') || '.';
   return (
     <Stack gap="4" align="center" testID={testID}>
@@ -49,15 +50,16 @@ export function AmountEntry({ digits, currency, approx, onCurrency, testID }: Am
         testID="money-add-currency"
       >
         {decimals === 0 ? (
-          <KeypadAmount value={units} currency={symbol} label={label} />
+          <KeypadAmount value={units} currency={symbol} currencyAfter={trails} label={label} />
         ) : (
           <Row gap="6" align="flex-end">
-            <Text variant="h3">{symbol}</Text>
+            {trails ? null : <Text variant="h3">{symbol}</Text>}
             <Odometer
               value={Math.trunc(units / 10 ** decimals)}
               suffix={`${separator}${String(units % 10 ** decimals).padStart(decimals, '0')}`}
               accessibilityLabel={label}
             />
+            {trails ? <Text variant="h3">{symbol}</Text> : null}
           </Row>
         )}
       </Pressable>
