@@ -33,6 +33,15 @@ appId: app.critterpass.dev
     env:
       TARGET: 'dev-accounts-new'
 - runFlow: ../home/subflows/onboard.yaml
+# Onboarding may finish on another tab; Home has JOIN WITH A CODE.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
       id: 'home-join-code'
