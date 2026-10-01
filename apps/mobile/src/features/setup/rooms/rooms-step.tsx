@@ -5,7 +5,6 @@
  * signal), and a member's wishes and swap request.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- chip keys, step names and notice keys, never copy. */
-import { formatNarrowCurrency } from '@cp/cost-engine';
 import { useEffect, useRef, useState } from 'react';
 
 import { isSkippable } from '@cp/domain';
@@ -21,24 +20,15 @@ import {
   setSetupStepCommand,
   setStayChoiceCommand,
 } from '../data/commands';
+import { useCrewMoney } from '../data/crew-money';
+import { useRefusedCommand } from '../data/use-refused-command';
 import type { StepProps } from '../shell/frame';
 import type { RoomChipKey } from './copy';
-import { moveGuest, perPersonPrice, roomsPayload, type PlanStay } from './model';
+import { estimateOf, moveGuest, perPersonPrice, roomsPayload, type PlanStay } from './model';
 import { fractionDigits } from './price-line';
-import { useRoomsData, type StayRateRow } from './rooms-data';
+import { useRoomsData } from './rooms-data';
 import { RoomsView, type RoomsModel, type RoomsNotice } from './rooms-view';
 import type { StayOption } from './stay-picker';
-
-function estimateOf(locale: string, row: StayRateRow): string {
-  const scale = 10 ** fractionDigits(row.currency);
-  const money = (minor: number) =>
-    formatNarrowCurrency(locale, Math.round(minor / scale), row.currency, {
-      maximumFractionDigits: 0,
-    });
-  const low = money(row.nightly_minor_low);
-  const high = money(row.nightly_minor_high);
-  return low === high ? low : `${low}–${high}`;
-}
 
 /** Room chips after a tap: "don't care" stands alone, at most four. */
 export function toggleChip(chips: readonly RoomChipKey[], chip: RoomChipKey): RoomChipKey[] {
@@ -50,6 +40,9 @@ export function toggleChip(chips: readonly RoomChipKey[], chip: RoomChipKey): Ro
 export function RoomsStep({ trip, shell }: StepProps) {
   const locale = useLocale();
   const data = useRoomsData(trip.tripId, trip.me);
+  const crewMoney = useCrewMoney(trip.tripId);
+  // A stay picked while the answer was still on its way, and then refused by the server.
+  const stayRefusal = useRefusedCommand('set_stay_choice');
   const assign = useCommand(setRoomAssignmentCommand);
   const lock = useCommand(lockRoomsCommand);
   const step = useCommand(setSetupStepCommand);
@@ -99,7 +92,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
 
   const stays: StayOption[] = data.stays.map((row) => ({
     type: row.stay_type,
-    estimate: estimateOf(locale, row),
+    ...estimateOf(locale, row, crewMoney),
   }));
   const currency = plan?.currency ?? null;
   const facts = {
@@ -108,6 +101,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
     isSolo: trip.isSolo,
     datesLocked: trip.startDate !== null,
     roomCount: plan?.stays[0]?.rooms.length ?? 0,
+    stayCount: data.stays.length,
     mustDoCount: 0,
   };
   const model: RoomsModel = {
@@ -123,7 +117,13 @@ export function RoomsStep({ trip, shell }: StepProps) {
         : perPersonPrice(plan, trip.me, fractionDigits(currency)),
     currency,
     skippable: isSkippable('rooms', facts),
-    notice,
+    notice:
+      notice ??
+      (stayRefusal.refused
+        ? stayRefusal.reason === 'stay_unavailable'
+          ? 'stay_unavailable'
+          : 'stay_failed'
+        : null),
     myChips: data.myChips,
     swapAsked: swapAsked || data.swapQueued,
     locking: lock.pending,
@@ -146,6 +146,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
         },
         onPickStay: (type) => {
           setNotice(null);
+          stayRefusal.acknowledge();
           void stay.send({ trip_id: trip.tripId, stay_option_id: type }).then((result) => {
             if (result.kind === 'rejected') setNotice('stay_failed');
           });

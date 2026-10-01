@@ -110,33 +110,50 @@ export interface MeRow {
 
 /**
  * My trips that are travelling or about to, newest start first, with the destination's set and
- * my egg. Trips I dropped out of are left out (no egg for an RSVP out).
+ * my egg; and, from the moment I have an egg (boarded, or the plan locked in), the proposed or
+ * confirmed trip it waits on, so the PASS tab shows the egg as soon as there is one. Trips I
+ * dropped out of are left out (no egg for an RSVP out).
  */
 export const TRIPS_SQL = `SELECT t.id, t.crew_id, t.status, t.start_date, t.end_date,
     coalesce(t.tz, d.tz) AS tz, t.destination_id, d.name AS destination_name, d.country AS destination_country,
-    d.colour,
+    d.colour, d.geofence AS destination_geofence, cs.country AS set_country,
     d.critter_set_id, g.slug AS guide_slug, g.name AS guide_name, g.id AS guide_id,
     p.landed_at, p.rsvp, eg.id AS egg_id, eg.form_id AS egg_form_id,
     eg.hatched_at AS egg_hatched_at, eg.trigger AS egg_trigger
   FROM trips t
   JOIN trip_participants p ON p.trip_id = t.id AND p.user_id = ?
   LEFT JOIN destinations d ON d.id = t.destination_id
+  LEFT JOIN critter_sets cs ON cs.id = d.critter_set_id
   LEFT JOIN guides g ON g.id = t.guide_id
   LEFT JOIN eggs eg ON eg.trip_id = t.id AND eg.user_id = p.user_id
-  WHERE t.status IN ('pre_trip', 'in_trip') AND coalesce(p.rsvp, 'in') <> 'out'
+  WHERE (t.status IN ('pre_trip', 'in_trip')
+      OR (t.status IN ('proposed', 'confirmed') AND eg.id IS NOT NULL))
+    AND coalesce(p.rsvp, 'in') <> 'out'
   ORDER BY t.status = 'in_trip' DESC, t.start_date`;
-export const TRIPS_TABLES = ['trips', 'trip_participants', 'destinations', 'guides', 'eggs'];
+export const TRIPS_TABLES = [
+  'trips',
+  'trip_participants',
+  'destinations',
+  'critter_sets',
+  'guides',
+  'eggs',
+];
 
 export interface TripRow {
   readonly id: string;
   readonly crew_id: string;
-  readonly status: 'pre_trip' | 'in_trip';
+  readonly status: 'proposed' | 'confirmed' | 'pre_trip' | 'in_trip';
   readonly start_date: string | null;
   readonly end_date: string | null;
   readonly tz: string | null;
   readonly destination_id: string | null;
   readonly destination_name: string | null;
+  /** The destination's country as its row spells it (a name, "Vietnam"), for display only. */
   readonly destination_country: string | null;
+  /** The destination's area (a PostGIS geography as synced), for the arrival check. */
+  readonly destination_geofence?: string | null;
+  /** The destination set's ISO country code ("VN"). */
+  readonly set_country?: string | null;
   readonly colour: string | null;
   readonly critter_set_id: string | null;
   readonly guide_slug: string | null;

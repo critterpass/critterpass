@@ -14,6 +14,7 @@ import {
   formatNarrowCurrency,
   narrowCurrencySymbol,
   planBreakdown,
+  roundEstimate,
 } from '@cp/cost-engine';
 import { BUDGET_K_MIN } from '@cp/domain';
 
@@ -164,6 +165,8 @@ export interface Bars {
   readonly food: number;
   readonly fun: number;
   readonly stayMix: readonly { readonly type: string; readonly nights: number }[] | null;
+  /** False when nobody's flight is priced: the target then covers the stay, food and fun. */
+  readonly flightsPriced: boolean;
 }
 
 /** The four bars for `targetMinor` (summing to it exactly), or null when nothing is priced. */
@@ -173,13 +176,21 @@ export function barsFor(targetMinor: number, estimates: BudgetEstimates | null):
   const plan = planBreakdown(target, estimates);
   const bars = breakdownBars(target, plan);
   if (bars === null) return null;
-  return {
+  const exact = {
     flights: Number(bars.flights.amountMinor),
     stays: Number(bars.stays.amountMinor),
     food: Number(bars.food.amountMinor),
     fun: Number(bars.fun.amountMinor),
     stayMix: plan.stayMix,
+    flightsPriced: !plan.missing.includes('flights'),
   };
+  // Flights, stays and food read as estimates (rounded like every estimate); fun is what is left
+  // of the target, so the four still add up to it exactly.
+  const flights = Number(roundEstimate(bars.flights).amountMinor);
+  const stays = Number(roundEstimate(bars.stays).amountMinor);
+  const food = Number(roundEstimate(bars.food).amountMinor);
+  const fun = targetMinor - flights - stays - food;
+  return fun < 0 ? exact : { ...exact, flights, stays, food, fun };
 }
 
 export function fractionDigits(currency: string): number {

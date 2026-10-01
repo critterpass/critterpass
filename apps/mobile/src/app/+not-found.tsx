@@ -4,6 +4,7 @@ import { Pressable, View } from 'react-native';
 
 import { useActiveGuide } from '@/lib/navigation/active-guide';
 import { makeStyles, Scaffold, sizeToken, Stack, Text, useTheme } from '@/ui';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { guideCritter } from '@/ui/shell/GuideFab';
 import { Sticker } from '@/ui/sticker/Sticker';
 
@@ -29,6 +30,8 @@ const GUIDE_ART_SIZE = 160;
  * one line in its voice and a single way home. Never a dead end, never a raw path.
  */
 export default function NotFoundScreen() {
+  // "Go home" is this page's way out; there is nothing behind it worth going back to.
+  useNoBackByDesign();
   const { t } = useLingui();
   const styles = useStyles();
   const theme = useTheme();

@@ -1,0 +1,251 @@
+appId: app.critterpass.dev
+---
+# Critters and quests as a brand-new traveller meets them, no demo world: a fresh account (home
+# Ho Chi Minh City) allows location on the way in, starts a crew of one, locks a Đà Nẵng trip in
+# for today → today+2, and then walks everything the app says about critters and quests, in the
+# order a traveller meets it. Every state is captured; the few assertions are the ones the journey
+# cannot go on without.
+#
+# Data: staging with the Đà Nẵng destination and its critter set. The trip goes under way at the
+# first lifecycle sweep after noon in Vietnam, so a run before noon there stops at the wait.
+- runFlow: subflows/fresh-install.yaml
+- runFlow:
+    file: subflows/fresh-critters-onboard.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+# Before any trip: what the PASS tab shows a traveller with nothing yet.
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-05-pass-no-trip
+- tapOn:
+    id: 'tab-home'
+- runFlow: subflows/fresh-critters-trip.yaml
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-06-home-locked
+# Right after locking in: is there an egg anywhere yet?
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-07-pass-after-lock
+# The egg card follows the trip: it shows once the worker's sweep (every ten minutes) has moved
+# the trip towards its start.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-egg-waiting|critters-egg-ready|critters-egg-unseen'
+    timeout: 780000
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-08-pass-egg
+# Arriving: the phone is at Đà Nẵng airport. A traveller who allowed location expects the egg to
+# hatch without touching anything: the ceremony opens by itself on a tab.
+- setLocation:
+    latitude: 16.0439
+    longitude: 108.1994
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch|visit-consent-accept'
+    timeout: 240000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-09-visit-consent
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch'
+    timeout: 120000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-10-after-arriving
+# If arriving did not hatch it, the traveller's own way: HATCH IT (it needs the trip under way).
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-hatch'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-egg-hatch|critters-egg-meet'
+          timeout: 780000
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-hatch'
+          commands:
+            - tapOn:
+                id: 'critters-egg-hatch'
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-meet'
+          commands:
+            - tapOn:
+                id: 'critters-egg-meet'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatched'
+    timeout: 30000
+# The critter's sticker is drawn the first time here; give it a moment before the capture.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch-settled'
+    timeout: 4000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-11-hatched
+- tapOn:
+    id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-12a-visit-consent
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-12-pass-after-hatch
+# The hatched critter's own page, from the here-now card when there is one.
+- runFlow:
+    when:
+      visible:
+        id: 'critters-here-now'
+    commands:
+      - tapOn:
+          id: 'critters-here-now'
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-detail'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-13-critter-detail
+      - tapOn:
+          id: 'critters-detail-back'
+# An encounter near a place: the phone is on the Dragon Bridge for a while.
+- setLocation:
+    latitude: 16.0611
+    longitude: 108.2277
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-banner'
+    timeout: 120000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-14-pass-at-dragon-bridge
+# The way in a traveller has: the PASS card for the encounter under way.
+- runFlow:
+    when:
+      visible:
+        id: 'critters-encounter-banner'
+    commands:
+      - tapOn:
+          id: 'critters-encounter-banner'
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-encounter-scene'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-15-encounter
+# The trip's quests: Home → the trip → QUESTS.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-15a-visit-consent
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'home-in-trip'
+    timeout: 780000
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-15b-home-in-trip
+- tapOn:
+    id: 'home-in-trip'
+- waitForAnimationToEnd
+# The Home card's tap has not always opened the trip; the TRIPS tab is the other way there.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-hub'
+    commands:
+      - takeScreenshot: fresh-critters-15c-home-tap-did-nothing
+      - tapOn:
+          id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-16-trip-hub
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-quests'
+    direction: DOWN
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-17-trip-hub-tiles
+- tapOn:
+    id: 'trip-hub-tile-quests'
+- extendedWaitUntil:
+    visible:
+      id: 'quests-screen'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-18-quests
+# Join the first quest when there is one, and see what it asks for.
+- runFlow:
+    when:
+      visible:
+        id: 'quest-join-.*'
+    commands:
+      - tapOn:
+          id: 'quest-join-.*'
+          index: 0
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-19-quest-joined
+- scrollUntilVisible:
+    element:
+      id: 'quest-card-.*'
+      index: 1
+    direction: DOWN
+    timeout: 8000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-20-quests-more

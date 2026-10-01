@@ -35,6 +35,8 @@ export type LockState =
   | { readonly kind: 'over_band'; readonly attempt: number }
   | { readonly kind: 'rate_limited' }
   | { readonly kind: 'offline' }
+  /** The crew currency has no rate today, so there is no step to lock a target on. */
+  | { readonly kind: 'no_rates' }
   | { readonly kind: 'failed' };
 
 export interface BudgetViewProps {
@@ -80,6 +82,12 @@ function lockLine(lock: LockState): string | null {
         id: 'setup.budget.lock.offline',
         message: 'Locking needs signal. Your pick stays here.',
       });
+    case 'no_rates':
+      return t({
+        id: 'setup.budget.lock.noRates',
+        message:
+          'Today’s rate for your crew’s currency isn’t in yet, so this can’t lock. Try again in a bit.',
+      });
     case 'failed':
       return t({ id: 'setup.budget.lock.failed', message: 'That didn’t lock. Try again.' });
     case 'idle':
@@ -92,9 +100,10 @@ export function BudgetView(props: BudgetViewProps) {
   const { shell, trip, band, track, currency, lock } = props;
   const styles = useStyles();
   const theme = useTheme();
-  const [picked, setTarget] = useState(props.initialTarget);
-  // The knob always sits on the track it is shown on, also when the track's step changes under it.
-  const target = track === null ? 0 : snap(picked, track);
+  // Until the organiser moves the knob it follows the suggested start, which moves as prices and
+  // the step arrive; after that it is theirs. Either way it sits on the track it is shown on.
+  const [picked, setTarget] = useState<number | null>(null);
+  const target = track === null ? 0 : snap(picked ?? props.initialTarget, track);
   const shake = useShake(lock.kind === 'over_band' ? lock.attempt : 0);
   const over = isOverBand(band, target);
   const barsState: BarsState = useMemo(() => {

@@ -531,6 +531,10 @@ msgstr ""
 msgid "critters.encounter.drainingBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.startedBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.title"
 msgstr ""

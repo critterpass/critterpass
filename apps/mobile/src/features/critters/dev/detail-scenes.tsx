@@ -42,12 +42,16 @@ const CHEP: CritterDetailRow = {
   guide_name: null,
 };
 
-const HABITAT: Readonly<Record<string, string>> = { rare: 'Water temples', epic: 'Batur' };
+const HABITAT: Readonly<Record<string, string>> = { rare: 'Temple', epic: 'Batur' };
+/** A form's own field note, as the catalogue writes them: a sentence. */
+const FORM_NOTE: Readonly<Record<string, string>> = {
+  rare: "Lives in the spring pools at Tirta Empul. Only comes out when it's quiet.",
+};
 
 function forms(critterId: string): DetailFormRow[] {
   return LAB_FORMS.filter((f) => f.critter_id === critterId).map((f) => ({
     ...f,
-    note: HABITAT[f.rarity] ?? null,
+    note: FORM_NOTE[f.rarity] ?? null,
   }));
 }
 
