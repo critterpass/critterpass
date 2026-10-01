@@ -132,6 +132,7 @@ export function statusLine(status: string | null): string {
       return t({ id: 'trip.hub.ticker.status.over', message: 'The trip is over' });
     case 'cancelled':
       return t({ id: 'trip.hub.ticker.status.cancelled', message: 'The trip was called off' });
+    case null:
     default:
       return t({ id: 'trip.hub.ticker.moved', message: 'The trip moved to its next step' });
   }
@@ -163,6 +164,7 @@ export function tickerLines<Row extends Pick<ActivityRow, 'verb' | 'actor_name'>
 
 /** "First day · Oct 21", "Your flight · 17:00": what the hub's entry is, then its day or time. */
 export function entryLabel(what: string, when: string): string {
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a separator between two phrases.
   return `${what} · ${when}`;
 }
 

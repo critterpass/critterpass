@@ -8,7 +8,7 @@ import { tokens } from '@cp/design-tokens';
 import type { MediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { useRef, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Animated, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -85,7 +85,7 @@ export function HubView(props: HubViewProps) {
   const inset = useTabBarInset();
   const insets = useSafeAreaInsets();
   const locale = useLocale();
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const [scrollY] = useState(() => new Animated.Value(0));
   const { guideName } = props;
   if (props.state === 'loading') {
     return (
