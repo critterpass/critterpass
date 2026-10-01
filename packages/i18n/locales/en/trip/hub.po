@@ -199,6 +199,10 @@ msgstr "No trips yet"
 msgid "trip.briefing.noneYet"
 msgstr "Nothing from me yet. Today's briefing comes this morning."
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.todayDone"
+msgstr "Nothing more today"
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.empty"
 msgstr "Nothing needs you today. Enjoy it."
@@ -293,13 +297,54 @@ msgid "trip.hub.takeOff"
 msgstr "Take off in"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.review"
+msgstr "The draft is ready to review"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.won"
+msgstr "The place is picked"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.drafting"
+msgstr "The plan is being drafted"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.confirmed"
+msgstr "The plan is locked in"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.proposed"
+msgstr "The plan is out to the crew"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.inTrip"
+msgstr "The trip has started"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.setup"
+msgstr "The trip is being set up"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.over"
+msgstr "The trip is over"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.moved"
 msgstr "The trip moved to its next step"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.cancelled"
+msgstr "The trip was called off"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.voting"
+msgstr "The vote is open"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.today"
 msgstr "today"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.today"
 msgstr "Today"

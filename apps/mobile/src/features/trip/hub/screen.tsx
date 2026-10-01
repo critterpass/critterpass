@@ -23,17 +23,10 @@ import { useMediaLowData } from '../media/use-media-low-data';
 import { MY_TRIP_COUNT_SQL, MY_TRIP_COUNT_TABLES } from './data/queries';
 import { useHubRows } from './data/use-hub';
 import { guideColour, guideName as nameOf, guideOr } from './guide';
-import {
-  activityLine,
-  bookingsTile,
-  moneyTile,
-  planTile,
-  tileTitles,
-  wholeMoney,
-} from './hub-copy';
+import { bookingsTile, moneyTile, planTile, tickerLines, tileTitles, wholeMoney } from './hub-copy';
 import { activityHref, HOME, planningLink } from './hub-links';
 import { hubHeader, viewerNet, type HubFlight } from './hub-model';
-import { hubNext } from './hub-next';
+import { hubEntries } from './hub-next';
 import { HubView } from './hub-view';
 import { HubTile, useRegisteredHubTiles } from './tiles';
 
@@ -134,7 +127,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
           now,
         );
 
-  const next = hubNext({
+  const entries = hubEntries({
     header,
     tripId,
     startDate: trip?.start_date ?? null,
@@ -238,17 +231,13 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
           ? null
           : { label: planning.label, onPress: planningAction }
       }
-      next={next}
+      entries={entries}
       briefing={briefing}
       onAct={onAct}
       tiles={tiles}
-      ticker={rows.activity.map((row) => {
+      ticker={tickerLines(rows.activity, trip?.status ?? null).map(({ row, text }) => {
         const open = go(activityHref(row, tripId));
-        return {
-          id: row.id,
-          text: activityLine(row),
-          ...(open === undefined ? {} : { onPress: open }),
-        };
+        return { id: row.id, text, ...(open === undefined ? {} : { onPress: open }) };
       })}
       onSwitch={switchTrip}
       {...(offlineCard === null ? {} : { offlineCard })}

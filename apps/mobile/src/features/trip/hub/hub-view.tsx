@@ -48,7 +48,8 @@ export interface HubViewProps {
   readonly guideName: string;
   readonly guestGuide: boolean;
   readonly planning: { readonly label: string; readonly onPress: () => void } | null;
-  readonly next: HubNext | null;
+  /** What comes next in this phase, one compact row each. */
+  readonly entries: readonly HubNext[];
   readonly briefing: BriefingState;
   readonly onAct: (line: BriefingLine) => void;
   readonly tiles: readonly { key: string; node: ReactNode }[];
@@ -137,9 +138,9 @@ export function HubView(props: HubViewProps) {
             </Row>
           )}
           {props.offlineCard}
-          {props.offlineCard !== undefined || props.next === null ? null : (
-            <NextRow next={props.next} />
-          )}
+          {props.offlineCard !== undefined
+            ? null
+            : props.entries.map((entry) => <NextRow key={entry.testID} next={entry} />)}
           <BriefingCard
             state={props.briefing}
             guide={props.guide}

@@ -106,6 +106,61 @@ export function activityLine(row: Pick<ActivityRow, 'verb' | 'actor_name'>): str
   }
 }
 
+/** The trip's latest step in the traveller's words, from the status it moved to. */
+export function statusLine(status: string | null): string {
+  switch (status) {
+    case 'voting':
+      return t({ id: 'trip.hub.ticker.status.voting', message: 'The vote is open' });
+    case 'won':
+      return t({ id: 'trip.hub.ticker.status.won', message: 'The place is picked' });
+    case 'setup':
+      return t({ id: 'trip.hub.ticker.status.setup', message: 'The trip is being set up' });
+    case 'drafting':
+    case 'redrafting':
+      return t({ id: 'trip.hub.ticker.status.drafting', message: 'The plan is being drafted' });
+    case 'draft_review':
+      return t({ id: 'trip.hub.ticker.status.review', message: 'The draft is ready to review' });
+    case 'proposed':
+      return t({ id: 'trip.hub.ticker.status.proposed', message: 'The plan is out to the crew' });
+    case 'confirmed':
+    case 'pre_trip':
+      return t({ id: 'trip.hub.ticker.status.confirmed', message: 'The plan is locked in' });
+    case 'in_trip':
+      return t({ id: 'trip.hub.ticker.status.inTrip', message: 'The trip has started' });
+    case 'post_trip':
+    case 'archived':
+      return t({ id: 'trip.hub.ticker.status.over', message: 'The trip is over' });
+    case 'cancelled':
+      return t({ id: 'trip.hub.ticker.status.cancelled', message: 'The trip was called off' });
+    default:
+      return t({ id: 'trip.hub.ticker.moved', message: 'The trip moved to its next step' });
+  }
+}
+
+/**
+ * The ticker's lines, newest first: each activity in words, with the trip's steps told once, as
+ * the step it is on now (the events don't say which step each was), and no line said twice.
+ */
+export function tickerLines<Row extends Pick<ActivityRow, 'verb' | 'actor_name'>>(
+  rows: readonly Row[],
+  status: string | null,
+): { readonly row: Row; readonly text: string }[] {
+  const said = new Set<string>();
+  const lines: { row: Row; text: string }[] = [];
+  let step = false;
+  for (const row of rows) {
+    if (row.verb === 'moved') {
+      if (step) continue;
+      step = true;
+    }
+    const text = row.verb === 'moved' ? statusLine(status) : activityLine(row);
+    if (said.has(text)) continue;
+    said.add(text);
+    lines.push({ row, text });
+  }
+  return lines;
+}
+
 /** "First day · Oct 21", "Your flight · 17:00": what the hub's entry is, then its day or time. */
 export function entryLabel(what: string, when: string): string {
   return `${what} · ${when}`;

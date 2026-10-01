@@ -23,6 +23,7 @@ export interface HubNext {
   readonly title: string;
   readonly detail: string | null;
   readonly tone: 'raised' | 'pink';
+  readonly testID: string;
   readonly onPress: () => void;
 }
 
@@ -45,12 +46,12 @@ export function NextRow({ next }: { readonly next: HubNext }) {
       onPress={next.onPress}
       accessibilityLabel={[next.label, next.title, next.detail].filter(Boolean).join(', ')}
       style={styles.card}
-      testID="trip-hub-next"
+      testID={next.testID}
     >
       <Row gap="12" align="center">
         <Icon name={next.icon} size={24} decorative color={ink} />
         <Stack gap="2" style={styles.body}>
-          <Text variant="eyebrow" color={quiet} testID="trip-hub-next-label">
+          <Text variant="eyebrow" color={quiet}>
             {upper(next.label, locale)}
           </Text>
           <Text variant="title" color={ink}>

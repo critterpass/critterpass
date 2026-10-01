@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# A fresh account with the staging demo crew (a confirmed Bali trip three weeks out): the trip
+# hub's header (3k-1) over Bali's real photo, with the entry row and the briefing card under it.
+# Run after ../../../screens/sweep/subflows/start.yaml in ${LANG}. The photo fades in once
+# loaded, so the shot waits.
+- runFlow: ../../../home/subflows/onboard.yaml
+- runFlow:
+    file: ../../../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-pre'
+    timeout: 30000
+# The briefing card settles: lines, or the guide saying nothing needs you, never a skeleton.
+- extendedWaitUntil:
+    notVisible:
+      id: 'trip-briefing-loading'
+    timeout: 15000
+- assertVisible:
+    id: 'trip-hub-next'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${LANG}-3k-1-photo

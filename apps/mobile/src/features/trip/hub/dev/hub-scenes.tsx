@@ -21,7 +21,7 @@ import {
   wholeMoney,
 } from '../hub-copy';
 import type { HubHeader } from '../hub-model';
-import { hubNext } from '../hub-next';
+import { hubEntries } from '../hub-next';
 import { FLIGHT, LEAVE_BY, LINES, NOW, STOP, TICKER, TODAY, TZ, WHEELS_UP } from './hub-fixtures';
 import { HubView, type HubViewProps } from '../hub-view';
 import { HubTile, type HubTileData } from '../tiles';
@@ -79,7 +79,7 @@ function Hub({
   ];
   const startDate = overrides.startDate === undefined ? '2026-10-12' : overrides.startDate;
   // The entry row through the screen's own derivation, so its labels come from the catalog.
-  const next = hubNext({
+  const entries = hubEntries({
     header,
     tripId: 't1',
     startDate,
@@ -102,7 +102,7 @@ function Hub({
     guideName: 'Tokek',
     guestGuide: false,
     planning: null,
-    next: next === null ? null : { ...next, onPress: noop },
+    entries: entries.map((entry) => ({ ...entry, onPress: noop })),
     briefing,
     onAct: noop,
     tiles: tiles.map((tile) => ({
@@ -193,6 +193,15 @@ export const HUB_SCENES: Readonly<Record<string, () => ReactNode>> = {
       briefing={{ kind: 'none', next: { on: 'tomorrow' } }}
       today="2026-10-12"
       stop={{ ...STOP, poi_name: 'Chợ Cồn', starts_at: '2026-10-13T03:00:00Z', tz: 'Asia/Saigon' }}
+      overrides={DA_NANG}
+    />
+  ),
+  // The last day's evening: nothing ahead, today's page still one tap away.
+  '3k-1-day-done': () => (
+    <Hub
+      header={{ phase: 'in', day: 3, days: 3 }}
+      briefing={{ kind: 'none', next: null }}
+      today="2026-10-04"
       overrides={DA_NANG}
     />
   ),
