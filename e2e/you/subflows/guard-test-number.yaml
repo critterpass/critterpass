@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# Runs right before a Start fresh on an account signed in with the staging test number. Erasing is
+# allowed only for an account these flows made: a brand-new account on the number (the name page)
+# or one whose crew is the marker "CP Test Sign-out". Any other holder stops the run here, before
+# anything is erased.
+- runFlow:
+    when:
+      notVisible:
+        id: 'onboarding-name-field'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'home-header-crew-name'
+          timeout: 30000
+          optional: true
+      - runFlow:
+          when:
+            notVisible: '(?i).*cp test sign-out.*'
+          commands:
+            - assertTrue:
+                condition: ${false}
+                label: 'the test number is held by an account the flows did not create'
