@@ -8,7 +8,7 @@ import { generateUuidV7, SOS_DAILY_CONFIRM_AFTER, type SosPreset } from '@cp/dom
 import { useLingui } from '@lingui/react/macro';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Linking, Platform, ScrollView } from 'react-native';
+import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useCommand } from '@/data/commands/use-command';
@@ -17,6 +17,7 @@ import { coarsePosition } from '@/lib/location/geocode';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
+import { Icon } from '@/ui/icons/Icon';
 import { SlideToConfirm } from '@/ui/inputs/SlideToConfirm';
 import { TextField } from '@/ui/inputs/TextField';
 import { Row } from '@/ui/layout/Row';
@@ -146,6 +147,11 @@ export function SosSendScreen() {
             label={t({ id: 'safety.send.slide', message: 'Slide to send SOS' })}
             actionLabel={t({ id: 'safety.send.action', message: 'Send SOS' })}
             disabled={tripId === null || trigger.pending}
+            knob={
+              <View testID="sos-knob" style={styles.knob}>
+                <Icon name="bell" size={28} color={theme.color.ink['950']} decorative />
+              </View>
+            }
             onConfirm={() =>
               today >= SOS_DAILY_CONFIRM_AFTER ? setConfirming(true) : countdown.start()
             }
@@ -188,3 +194,7 @@ export function SosSendScreen() {
     </Scaffold>
   );
 }
+
+const styles = StyleSheet.create({
+  knob: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+});

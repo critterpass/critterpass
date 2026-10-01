@@ -1,0 +1,159 @@
+appId: app.critterpass.dev
+---
+# Help and SOS as a brand-new traveller, no demo world: a fresh account from Ho Chi Minh City locks
+# in a Đà Nẵng trip that starts today (../happy/subflows/trip-under-way.yaml). A long-press on the
+# guide button opens Help (3k-6): the share consent asks first with the toggle off; turned on, the
+# crew can see them for an hour and CALL 115 leads with Vietnam's police on the side. Hurt or sick
+# opens its checklist. SOS to the crew: a preset, the slide, the five-second cancel (cancelled, then
+# sent), the sender's own SOS screen (3k-10) and I'M OK. Then the same hub and checklist in
+# Vietnamese.
+- runFlow:
+    file: ../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: help
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../happy/subflows/dismiss-visit-offer.yaml
+- longPressOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'help-consent-sheet'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-help-consent
+- tapOn:
+    id: 'help-consent-toggle'
+- tapOn:
+    id: 'help-consent-done'
+- extendedWaitUntil:
+    visible: '(?i)call 115'
+    timeout: 30000
+- assertVisible: '(?i).*113.*'
+- extendedWaitUntil:
+    visible:
+      id: 'help-share-indicator'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-3k-6-help
+- scrollUntilVisible:
+    element:
+      id: 'help-sos'
+    direction: DOWN
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: en-help-share-sos
+# Hurt or sick: the curated steps over synced facts.
+- scrollUntilVisible:
+    element: '(?i)hurt or sick'
+    direction: UP
+    timeout: 10000
+- tapOn: '(?i)hurt or sick'
+- extendedWaitUntil:
+    visible:
+      id: 'help-checklist-hurt'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-help-checklist-hurt
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'help-screen'
+    timeout: 10000
+# SOS: slide, cancel within five seconds (nothing sent), slide again and let it go.
+- scrollUntilVisible:
+    element:
+      id: 'help-sos'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'help-sos'
+- extendedWaitUntil:
+    visible:
+      id: 'sos-send-screen'
+    timeout: 15000
+- tapOn:
+    id: 'sos-preset-fell'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: en-sos-send
+- runFlow: subflows/slide-sos.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'sos-countdown'
+    timeout: 5000
+- takeScreenshot: en-sos-countdown
+- tapOn:
+    id: 'sos-cancel'
+- assertVisible:
+    id: 'sos-slide'
+- assertNotVisible:
+    id: 'sos-screen'
+- runFlow: subflows/slide-sos.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'sos-screen'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'sos-ok'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3k-10-sos-sender
+- tapOn:
+    id: 'sos-ok'
+- extendedWaitUntil:
+    visible:
+      id: 'sos-resolved'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-sos-resolved
+- tapOn:
+    id: 'sos-close'
+# Vietnamese: the dev gallery switches the running app's language.
+- extendedWaitUntil:
+    visible:
+      id: 'help-screen'
+    timeout: 10000
+- back
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'guide-fab'
+    timeout: 30000
+- longPressOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible: '(?i)gọi 115'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: vi-3k-6-help
+- tapOn: '(?i)bị thương hoặc ốm'
+- extendedWaitUntil:
+    visible:
+      id: 'help-checklist-hurt'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: vi-help-checklist-hurt

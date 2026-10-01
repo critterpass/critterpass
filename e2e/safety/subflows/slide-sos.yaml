@@ -1,0 +1,22 @@
+appId: app.critterpass.dev
+---
+# Slides the SOS knob to the end of its track. Android finds the knob by id; iOS reads the track as
+# one element, so the drag starts where the knob rests.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          from:
+            id: 'sos-knob'
+          direction: RIGHT
+          duration: 1200
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          from:
+            id: 'sos-slide'
+          direction: RIGHT
+          duration: 1200
