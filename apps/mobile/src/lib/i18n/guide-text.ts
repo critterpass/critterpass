@@ -23,7 +23,7 @@ import {
 } from '@cp/domain';
 import { useCallback } from 'react';
 
-import { useLocale } from './use-locale';
+import { useActiveLocale } from './use-locale';
 
 /**
  * A synced row holding guide text: its text columns (or a pitch's `sections`) and `i18n`. Typed by
@@ -73,6 +73,6 @@ export function useGuideText(): <K extends GuideTextKind, R extends GuideTextRow
   row: R,
   field: GuideTextField<K>,
 ) => string | null {
-  const locale = useLocale();
+  const locale = useActiveLocale();
   return useCallback((kind, row, field) => guideText(kind, row, field, locale), [locale]);
 }

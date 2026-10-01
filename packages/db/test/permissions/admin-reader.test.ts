@@ -145,11 +145,11 @@ describe('admin_reader: the privacy boundary', () => {
   });
 
   it('reads rows of granted tables through its own RLS policy', async () => {
-    const uid = await withSystem(db.pool, (tx) => insertUser(tx, { username: 'reader-probe' }));
+    const uid = await withSystem(db.pool, (tx) => insertUser(tx, { username: 'reader.probe' }));
     const { rows } = await asAdminReader((tx) =>
       tx.query<{ username: string }>('SELECT username FROM users WHERE id = $1', [uid]),
     );
-    expect(rows).toEqual([{ username: 'reader-probe' }]);
+    expect(rows).toEqual([{ username: 'reader.probe' }]);
   });
 
   it('reads every ops table', async () => {

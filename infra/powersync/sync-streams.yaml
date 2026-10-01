@@ -72,6 +72,9 @@ streams:
       - SELECT * FROM xp_ledger WHERE user_id = auth.user_id()
       - SELECT * FROM room_prefs WHERE user_id = auth.user_id()
       - SELECT * FROM alarms WHERE user_id = auth.user_id()
+      - SELECT * FROM app_icon_unlocks WHERE user_id = auth.user_id()
+      - SELECT * FROM past_trips WHERE user_id = auth.user_id() AND deleted_at IS NULL
+      - SELECT * FROM data_exports WHERE user_id = auth.user_id()
   trip:
     queries:
       - |-

@@ -140,6 +140,15 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       `INSERT INTO account_deletions (user_id, purge_at, source) VALUES ($1, now() + interval '30 days', 'app')`,
       [organiser],
     );
+    await tx.query(
+      "INSERT INTO app_icon_unlocks (user_id, icon_key, source) VALUES ($1, 'pon', 'form_found')",
+      [organiser],
+    );
+    await tx.query(
+      "INSERT INTO past_trips (id, user_id, country, month) VALUES (uuidv7(), $1, 'JP', '2024-04-01')",
+      [organiser],
+    );
+    await tx.query('INSERT INTO data_exports (user_id) VALUES ($1)', [organiser]);
 
     // Catalogue content (RLS class R, read-all authenticated): the table must not be empty or a
     // probe cannot tell "denied" apart from "table has nothing in it yet".

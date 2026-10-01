@@ -69,8 +69,10 @@ export async function pushTargets(tx: pg.PoolClient, uid: string): Promise<strin
   return rows.map((row) => row.id);
 }
 
+// A held notification stays `queued` with `not_before` set; nothing sends it until its release.
 const STATE_FOR: Record<Decision['action'], string> = {
   send: 'queued',
+  hold: 'queued',
   roundup: 'rolled_into_roundup',
   drop: 'dropped',
 };
@@ -89,6 +91,8 @@ export interface NotificationWrite {
   readonly localDate: string;
   readonly expiresAt: Date;
   readonly decision: Decision;
+  /** When a held notification may go out (the end of the recipient's quiet hours). */
+  readonly notBefore?: Date | undefined;
   readonly collapseKey: string | undefined;
 }
 
@@ -101,9 +105,9 @@ export async function writeNotification(
   const { rows } = await tx.query<{ id: string }>(
     `INSERT INTO notifications (user_id, crew_id, trip_id, event_id, key, category, class, sender,
        template_id, title, body, ctx, deep_link, collapse_key, thread_id, dedupe_key, is_private,
-       needs_you, local_date, expires_at, state, drop_reason)
+       needs_you, local_date, expires_at, state, drop_reason, not_before)
      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19,
-       $20, $21, $22)
+       $20, $21, $22, $23)
      ON CONFLICT (user_id, dedupe_key) DO NOTHING
      RETURNING id`,
     [
@@ -129,6 +133,7 @@ export async function writeNotification(
       write.expiresAt,
       STATE_FOR[decision.action],
       decision.action === 'drop' ? decision.reason : null,
+      decision.action === 'hold' ? (write.notBefore ?? null) : null,
     ],
   );
   return rows[0]?.id;

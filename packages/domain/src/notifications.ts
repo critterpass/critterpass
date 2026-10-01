@@ -150,6 +150,7 @@ const CATALOGUE = [
   spec('reply_by_expiring', 'always', 'cp.rsvp', 'cp_always', 'guide', 'reply_by:{trip_id}'),
   spec('hold_expiring', 'always', 'cp.generic', 'cp_always', 'guide', 'hold:{hold_id}'),
   spec('rsvp_changed', 'budgeted', 'cp.generic', 'cp_trip', 'member', 'rsvp:{trip_id}'),
+  spec('trip_confirmed', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { collapse: 'trip_confirmed:{trip_id}', relevance: 0.9 }),
   // Chat collapses to one banner per crew, so it cannot pile up: it does not spend the budget.
   spec('crew_chat', 'budgeted', 'cp.chat', 'cp_crew_chat', 'member', { pref: 'crew_chat', private: true, capped: false, collapse: 'chat:{crew_id}' }),
   spec('nudge', 'budgeted', 'cp.generic', 'cp_guide', 'guide', { pref: 'guide_tips' }),
@@ -295,6 +296,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'trip.seat_opened': ['seat_opened'],
   'invite.created': ['crew_invite_received'],
   'invite.nudged': ['nudge'],
+  // Someone new in the crew, to the members already there.
+  'crew.member_joined': ['member_joined'],
   // A crewmate's nudge, delivered by the guide at the target's engagement hour.
   'nudge.received': ['nudge'],
   // Crew chat: a new message, to members by their per-crew level.
@@ -352,6 +355,10 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   // Proposals: each recipient's version (N-07), a follow-up or resend that came due (N-08) and the
   // day-before reply-by reminder (N-09).
   'proposal.sent': ['proposal_version'],
+  // A member's own answer to the trip (in, maybe, out, waitlisted), to its organisers.
+  'rsvp.changed': ['rsvp_changed'],
+  // The trip is on (the organiser locked it, or enough were in at reply-by), to everyone on it.
+  'trip.status_changed': ['trip_confirmed'],
   'followup.due': ['scheduled_resend'],
   'proposal.reply_by_soon': ['reply_by_expiring'],
   'leave_by.knocked': ['crew_knock'],

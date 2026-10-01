@@ -847,6 +847,11 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     must_do_id: crypto.randomUUID(),
     participants: 3,
   },
+  'settings.changed': { user_id: crypto.randomUUID(), keys: ['chattiness', 'audio'] },
+  'profile.icon_changed': { user_id: crypto.randomUUID(), icon_id: 'stamp' },
+  'profile.icon_unlocked': { user_id: crypto.randomUUID(), icon_id: 'pon', source: 'form_found' },
+  'past_trip.added': { user_id: crypto.randomUUID(), past_trip_id: crypto.randomUUID() },
+  'past_trip.removed': { user_id: crypto.randomUUID(), past_trip_id: crypto.randomUUID() },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

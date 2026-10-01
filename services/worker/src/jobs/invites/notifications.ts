@@ -1,12 +1,14 @@
 /**
  * Crew growth pushes: a freed seat offered to someone waiting (from the trip's guide), an in-app
- * crew invite to someone already on CritterPass (from the inviter), and the single nudge an
- * installed invitee gets after a day (from the guide). Copy is templated here, marked for extraction
+ * crew invite to someone already on CritterPass (from the inviter), the single nudge an
+ * installed invitee gets after a day (from the guide), and a new member to the crew they joined
+ * (from that member). Copy is templated here, marked for extraction
  * into the `notifications/common` catalog, and rendered in each recipient's locale by the router; the guide-voice rewrite may restyle guide-sent copy. Deep
  * links are in-app routes; the app resolves them against its own scheme.
  */
 import type pg from 'pg';
 
+import { crewAudience } from '../notify/audience';
 import {
   registerNotification,
   type NotificationSender,
@@ -123,6 +125,44 @@ export function registerInviteNotifications(): void {
         sender: await tripGuide(tx, payloadId(event, 'trip_id')),
         crewId: event.crewId,
         deepLink: '/crew',
+      };
+    },
+  });
+
+  registerNotification({
+    key: 'member_joined',
+    event: 'crew.member_joined',
+    audience: (tx, event) => {
+      const joiner = payloadId(event, 'user_id');
+      if (event.crewId === null || joiner === null) return Promise.resolve([]);
+      return crewAudience(tx, event.crewId, [joiner]);
+    },
+    async compose(tx, event) {
+      const joiner = payloadId(event, 'user_id');
+      if (joiner === null) return null;
+      // Gone again before the push went out: nothing to announce.
+      const { rows } = await tx.query<{ name: string | null }>(
+        `SELECT split_part(trim(u.display_name), ' ', 1) AS name
+           FROM crew_members cm JOIN users u ON u.id = cm.user_id
+          WHERE cm.crew_id = $1 AND cm.user_id = $2 AND cm.status = 'active'`,
+        [event.crewId, joiner],
+      );
+      const member = rows[0];
+      if (member === undefined) return null;
+      const name = member.name ?? '';
+      return {
+        title: /*i18n*/ {
+          id: 'notifications.member_joined.title',
+          message: '{name} joined {crew}',
+        },
+        body: /*i18n*/ {
+          id: 'notifications.member_joined.body',
+          message: 'Say hi in the crew chat.',
+        },
+        vars: { name, crew: await crewName(tx, event.crewId) },
+        sender: { kind: 'member', id: joiner, name },
+        crewId: event.crewId,
+        deepLink: `/crew/${event.crewId ?? ''}/chat`,
       };
     },
   });

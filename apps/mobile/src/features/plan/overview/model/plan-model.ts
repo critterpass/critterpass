@@ -7,6 +7,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- wire values and keys, never copy. */
 import { weatherSnapshotBodySchema, type PlanState, type PlanStateItem } from '@cp/domain';
 
+import { guideText } from '@/lib/i18n/guide-text';
+
 import {
   idArray,
   jsonArray,
@@ -72,18 +74,26 @@ export interface DayCard {
   readonly when: 'past' | 'today' | 'future';
 }
 
-export function toPlanDays(rows: readonly PlanDayRow[]): PlanDay[] {
-  return rows.map((row) => ({ dayNo: row.day_no, date: row.date, theme: row.theme }));
+/** The days as `locale` reads them: a theme the guide wrote shows in the app's language. */
+export function toPlanDays(rows: readonly PlanDayRow[], locale = 'en'): PlanDay[] {
+  return rows.map((row) => ({
+    dayNo: row.day_no,
+    date: row.date,
+    theme: guideText('plan_day', row, 'theme', locale),
+  }));
 }
 
-export function toPlanItems(rows: readonly PlanItemRow[]): PlanItem[] {
+export function toPlanItems(rows: readonly PlanItemRow[], locale = 'en'): PlanItem[] {
   return rows.map((row) => ({
     stableId: row.stable_id,
     dayNo: row.day_no,
     startsAt: row.starts_at,
     endsAt: row.ends_at,
     tz: row.tz,
-    label: row.poi_name ?? row.booking_title ?? (row.notes?.trim() || null),
+    label:
+      row.poi_name ??
+      row.booking_title ??
+      (guideText('plan_item', row, 'notes', locale)?.trim() || null),
     category: row.category,
     poiId: row.poi_id,
     bookingId: row.booking_id,

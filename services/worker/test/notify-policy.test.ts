@@ -22,6 +22,7 @@ import {
   localClock,
   type DecideInput,
 } from '../src/jobs/notify/policy';
+import { quietWindowAt, travelMorningEnd } from '../src/jobs/notify/quiet';
 
 const RUNS = { numRuns: 1000 };
 const minute = fc.integer({ min: 0, max: 24 * 60 - 1 });
@@ -44,6 +45,7 @@ const input = fc.record<DecideInput>({
   inForeground: fc.boolean(),
   localMinutes: minute,
   quiet,
+  quietLifted: fc.boolean(),
   budgetPerDay: fc.integer({ min: 1, max: 10 }),
   sentBudgeted: fc.integer({ min: 0, max: 12 }),
   paywallSent: fc.integer({ min: 0, max: 3 }),
@@ -89,12 +91,27 @@ describe('decide', () => {
     );
   });
 
-  it('holds every BUDGET push inside quiet hours', () => {
+  it('never sends a BUDGET push inside quiet hours, unless they were lifted for the day', () => {
     fc.assert(
       fc.property(input, (item) => {
         fc.pre(inQuietHours(item.localMinutes, item.quiet));
-        const decision = decide({ ...item, class: 'budgeted' });
+        const decision = decide({ ...item, class: 'budgeted', quietLifted: false });
         expect(decision.action).not.toBe('send');
+      }),
+      RUNS,
+    );
+  });
+
+  it('decides a lifted quiet hour exactly as the same push outside quiet hours', () => {
+    fc.assert(
+      fc.property(input, (item) => {
+        const lifted = decide({ ...item, quietLifted: true });
+        const neverQuiet = decide({
+          ...item,
+          quietLifted: false,
+          quiet: { fromMinutes: 0, toMinutes: 0 },
+        });
+        expect(lifted).toEqual(neverQuiet);
       }),
       RUNS,
     );
@@ -113,7 +130,7 @@ describe('decide', () => {
   it('sends a BUDGET push that is not capped whatever the day has spent, outside quiet hours', () => {
     fc.assert(
       fc.property(input, (item) => {
-        fc.pre(!inQuietHours(item.localMinutes, item.quiet));
+        fc.pre(item.quietLifted || !inQuietHours(item.localMinutes, item.quiet));
         const decision = decide({
           ...item,
           class: 'budgeted',
@@ -129,7 +146,7 @@ describe('decide', () => {
     );
   });
 
-  it('rolls over-budget and quiet-hour BUDGET items into the roundup instead of dropping them', () => {
+  it('rolls over-budget BUDGET items into the roundup and holds quiet-hour ones, never dropping either', () => {
     const base: DecideInput = {
       class: 'budgeted',
       paywall: false,
@@ -140,6 +157,7 @@ describe('decide', () => {
       inForeground: false,
       localMinutes: 12 * 60,
       quiet: { fromMinutes: 22 * 60, toMinutes: 7 * 60 },
+      quietLifted: false,
       budgetPerDay: 5,
       sentBudgeted: 0,
       paywallSent: 0,
@@ -149,9 +167,9 @@ describe('decide', () => {
       action: 'roundup',
       reason: 'budget_exhausted',
     });
-    expect(decide({ ...base, localMinutes: 23 * 60 })).toEqual({
-      action: 'roundup',
-      reason: 'quiet_hours',
+    expect(decide({ ...base, localMinutes: 23 * 60 })).toEqual({ action: 'hold' });
+    expect(decide({ ...base, localMinutes: 5 * 60, quietLifted: true })).toEqual({
+      action: 'send',
     });
     expect(decide({ ...base, class: 'roundup_only' })).toEqual({
       action: 'roundup',
@@ -230,5 +248,33 @@ describe('notification catalogue', () => {
     expect(renderCollapseKey('vote:{poll_id}', { poll_id: 'p1' })).toBe('vote:p1');
     expect(renderCollapseKey('vote:{poll_id}', {})).toBeUndefined();
     expect(renderCollapseKey(undefined, { poll_id: 'p1' })).toBeUndefined();
+  });
+});
+
+describe('quiet window', () => {
+  const quietHours = { fromMinutes: 22 * 60, toMinutes: 7 * 60 };
+  /** 05:00:40 in Ho Chi Minh City (UTC+7) on 2 October. */
+  const fiveAm = new Date('2026-10-01T22:00:40Z');
+  const window = quietWindowAt(fiveAm, 5 * 60, quietHours);
+
+  it('spans the night the clock is in, to the minute', () => {
+    expect(window).toEqual({
+      start: new Date('2026-10-01T15:00:00Z'),
+      end: new Date('2026-10-02T00:00:00Z'),
+    });
+    expect(quietWindowAt(new Date('2026-10-01T16:30:00Z'), 23 * 60 + 30, quietHours)).toEqual(
+      window,
+    );
+    expect(quietWindowAt(new Date('2026-10-02T05:00:00Z'), 12 * 60, quietHours)).toBeNull();
+  });
+
+  it('ends 90 minutes before the earliest leave-by inside it, never before it began', () => {
+    expect(travelMorningEnd(window!, null)).toEqual(window!.end);
+    // Leave by 04:55 → quiet ends 03:25.
+    expect(travelMorningEnd(window!, new Date('2026-10-01T21:55:00Z'))).toEqual(
+      new Date('2026-10-01T20:25:00Z'),
+    );
+    // Leave by 22:30, half an hour into the night: quiet never starts.
+    expect(travelMorningEnd(window!, new Date('2026-10-01T15:30:00Z'))).toEqual(window!.start);
   });
 });

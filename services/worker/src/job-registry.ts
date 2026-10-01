@@ -28,7 +28,7 @@ import { visitsTtlJob } from './jobs/location/visits-ttl';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { moneyJobs } from './jobs/money';
-import { notifyRouteJob } from './jobs/notify';
+import { notifyReleaseJob, notifyRouteJob } from './jobs/notify';
 import { nudgeDispatchJob } from './jobs/nudges';
 import { aiCostGuardJob } from './jobs/ops/ai-cost-guard';
 import { backupJob } from './jobs/ops/backup';
@@ -151,10 +151,12 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     );
   }
 
-  // Notifications (docs/api-contracts-async.md §2.2): routing, the evening roundup and delivery.
+  // Notifications (docs/api-contracts-async.md §2.2): routing, the release of what quiet hours
+  // held, the evening roundup and delivery.
   const roundupBuild = roundupBuildJob({ renderer });
   jobs.push(
     notifyRouteJob({ renderer }),
+    notifyReleaseJob(),
     pushSendJob({
       ...deps.pushProviders,
       renderer,

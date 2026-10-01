@@ -292,3 +292,4 @@ export * from './trips/lifecycle';
 export * from './quests';
 export * from './locale/app-locale';
 export * from './locale/guide-text';
+export * from './you';
