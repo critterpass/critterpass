@@ -6,3 +6,154 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.past"
+msgstr ""
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.upcomingLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.inDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.inDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.today"
+msgstr ""
+
+#. placeholder {0}: model.stampTotal
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.allStamps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.app"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTripsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stat.countries"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stat.critters"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.haptics"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.home"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.back"
+msgstr ""
+
+#. placeholder {0}: stamp.title
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.homeLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.howYouTravel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offline"
+msgstr ""
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planningPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planning"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.settings"
+msgstr ""
+
+#. placeholder {0}: model.sinceYear
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.since"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.soon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffects"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stamps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffectsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.hapticsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.today"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stat.trips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrewLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTrips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.yourCrews"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.noTrips"
+msgstr ""

@@ -1,0 +1,77 @@
+appId: app.critterpass.dev
+---
+# A brand-new account (en) starts a crew and opens its profile from Home's "HEY {NAME} ›": the
+# real profile shows the name, the home, the home stamp and the crew, with nothing seeded; SETTINGS opens
+# Settings and back returns to the profile, then Home.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow: ../home/subflows/onboard.yaml
+# Home shows its header ("HEY {NAME} ›") once the account has a crew: start one, nothing else.
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'The Bali Six'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- runFlow: ../screens/sweep/subflows/home.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-profile'
+    timeout: 30000
+- tapOn:
+    id: 'home-header-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-name'
+    timeout: 20000
+- assertVisible: 'WINSTON'
+- assertNotVisible:
+    id: 'you-profile-start-crew'
+- assertNotVisible:
+    id: 'you-profile-edit'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-1-fresh-account
+# The passport footer sits under the crews.
+- scrollUntilVisible:
+    element:
+      id: 'you-profile-mrz'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-2-fresh-account
+- tapOn:
+    id: 'you-settings-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-name'
+    timeout: 15000
+- tapOn:
+    id: 'you-profile-back'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-profile'
+    timeout: 15000
