@@ -1,10 +1,9 @@
 /**
- * The envelope's `device` block (docs/api-contracts.md §2.1): a per-install id kept in secure
- * storage, the platform, the app version and the device's IANA time zone. Also makes Web Crypto's
+ * The envelope's `device` block (docs/api-contracts.md §2.1): the install's one id (the same id
+ * `register_device` creates the `devices` row under, ../push/register.ts), the platform, the app
+ * version and the device's IANA time zone. Also makes Web Crypto's
  * `getRandomValues` available on React Native (from expo-crypto) for UUIDv7 op ids.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer (docs/system-architecture.md
-   §3); every literal is a storage key or wire value, never copy. */
 import { canonicalTz, generateUuidV7, isIanaTimeZone, type CommandDevice } from '@cp/domain';
 import Constants from 'expo-constants';
 import { getRandomValues } from 'expo-crypto';
@@ -12,23 +11,13 @@ import { getCalendars } from 'expo-localization';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
-export const DEVICE_ID_ITEM = 'cp.device.id';
+import { getOrCreateInstallId, type InstallIdStorage } from '../push/register';
 
-export interface DeviceIdStore {
-  getItemAsync(key: string): Promise<string | null>;
-  setItemAsync(key: string, value: string): Promise<void>;
-}
+export type DeviceIdStore = InstallIdStorage;
 
-/** The install's device id, created on first use. */
-export async function loadOrCreateDeviceId(
-  store: DeviceIdStore,
-  newId: () => string,
-): Promise<string> {
-  const existing = await store.getItemAsync(DEVICE_ID_ITEM);
-  if (existing !== null && existing.length > 0) return existing;
-  const id = newId();
-  await store.setItemAsync(DEVICE_ID_ITEM, id);
-  return id;
+/** The install's id, created on first use: one id for the envelope and for `register_device`. */
+export function loadOrCreateDeviceId(store: DeviceIdStore, newId: () => string): Promise<string> {
+  return getOrCreateInstallId(store, newId);
 }
 
 /** Hermes has no Web Crypto; `generateUuidV7` needs `crypto.getRandomValues`. */

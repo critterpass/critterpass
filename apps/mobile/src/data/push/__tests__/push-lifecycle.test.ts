@@ -10,6 +10,7 @@ import {
 } from '../register';
 import { readPushToken, toApnsEnv, type NativeDevicePushToken, type PushNative } from '../tokens';
 import { createPushLifecycle, type AppStateStatus } from '../use-push-lifecycle';
+import { loadOrCreateDeviceId } from '../../commands/device';
 
 const INSTALL = '0192f0c1-7a2b-7c3d-8e4f-a1b2c3d4e5f6';
 const UID = '0192f0c1-0000-7000-8000-000000000001';
@@ -94,6 +95,18 @@ describe('install id', () => {
     expect(first).toBe(INSTALL);
     expect(second).toBe(INSTALL);
   });
+
+  it('keeps the id the install registered under when an earlier build left a second one', async () => {
+    const storage = memoryStorage({ 'cp.install_id': INSTALL, 'cp.device.id': 'envelope-only' });
+    expect(await getOrCreateInstallId(storage, () => 'other')).toBe(INSTALL);
+    expect(await loadOrCreateDeviceId(storage, () => 'other')).toBe(INSTALL);
+  });
+
+  it('adopts the envelope id of an install that never registered, instead of minting a second', async () => {
+    const storage = memoryStorage({ 'cp.device.id': 'envelope-only' });
+    expect(await loadOrCreateDeviceId(storage, () => 'other')).toBe('envelope-only');
+    expect(await getOrCreateInstallId(storage, () => 'other')).toBe('envelope-only');
+  });
 });
 
 describe('buildRegisterDeviceEnvelope', () => {
@@ -154,12 +167,25 @@ describe('shouldRegister', () => {
 });
 
 describe('createPushLifecycle', () => {
-  function setup() {
+  function setup(options: { registerStatus?: () => number; keyFails?: () => boolean } = {}) {
     let clock = 1_000;
     let appStateListener: ((state: AppStateStatus) => void) | undefined;
     const { native, rotate } = fakeNative();
-    const { sent, transport } = recordingTransport();
+    const sent: RegisterDeviceEnvelope[] = [];
+    const transport: CommandTransport = (_cmd, envelope) => {
+      sent.push(envelope);
+      return Promise.resolve({ status: options.registerStatus?.() ?? 200 });
+    };
+    const keyRequests: { deviceId: string; userId: string }[] = [];
+    const errors: unknown[] = [];
     const lifecycle = createPushLifecycle({
+      ensureActionKey: (owner) => {
+        keyRequests.push(owner);
+        return options.keyFails?.() === true
+          ? Promise.reject(new Error('action key refused'))
+          : Promise.resolve();
+      },
+      onError: (error) => errors.push(error),
       native,
       transport,
       storage: memoryStorage({ 'cp.install_id': INSTALL }),
@@ -179,6 +205,8 @@ describe('createPushLifecycle', () => {
     return {
       lifecycle,
       sent,
+      keyRequests,
+      errors,
       rotate,
       setAppState: (state: AppStateStatus) => appStateListener?.(state),
       advance: (ms: number) => {
@@ -212,6 +240,47 @@ describe('createPushLifecycle', () => {
     setAppState('active');
     advance(HEARTBEAT_INTERVAL_MS);
     expect(sent).toHaveLength(3);
+  });
+
+  it('asks for the action key once the install is registered, and again on every foreground', async () => {
+    const { lifecycle, sent, keyRequests, advance } = setup();
+    await lifecycle.start();
+    expect(keyRequests).toEqual([{ deviceId: INSTALL, userId: UID }]);
+
+    // A throttled foreground sends no heartbeat but still checks the key (rotation, or a retry).
+    advance(60_000);
+    await lifecycle.trigger('foreground');
+    expect(sent).toHaveLength(1);
+    expect(keyRequests).toHaveLength(2);
+
+    await lifecycle.trigger('background');
+    expect(keyRequests).toHaveLength(2);
+  });
+
+  it('never asks for the key while the server has not accepted the registration', async () => {
+    let status = 500;
+    const { lifecycle, keyRequests, errors, advance } = setup({ registerStatus: () => status });
+    await lifecycle.start();
+    expect(keyRequests).toEqual([]);
+    expect(errors).toHaveLength(1);
+
+    status = 200;
+    advance(1_000);
+    await lifecycle.trigger('foreground');
+    expect(keyRequests).toEqual([{ deviceId: INSTALL, userId: UID }]);
+  });
+
+  it('reports a refused key and asks again on the next foreground', async () => {
+    let fails = true;
+    const { lifecycle, keyRequests, errors } = setup({ keyFails: () => fails });
+    await lifecycle.start();
+    expect(keyRequests).toHaveLength(1);
+    expect(errors).toHaveLength(1);
+
+    fails = false;
+    await lifecycle.trigger('foreground');
+    expect(keyRequests).toHaveLength(2);
+    expect(errors).toHaveLength(1);
   });
 
   it('never registers in a loop when every token read also fires the rotation listener (iOS)', async () => {

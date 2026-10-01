@@ -25,7 +25,12 @@ import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
 import { startLocalFirst } from '../powersync/db';
 import { createFetchTransport } from '../powersync/transport';
-import { expoPushNative, secureInstallIdStorage } from '../push/expo-native';
+import { ensureActionKey, type ActionKeyHttp } from '../push/action-key';
+import {
+  expoPushNative,
+  secureActionKeyStorage,
+  secureInstallIdStorage,
+} from '../push/expo-native';
 import type { PushLifecycleDeps } from '../push/use-push-lifecycle';
 import type { AppStateSource } from '../realtime/client';
 import { createDeviceRecoveryStore } from '../realtime/device-recovery-store';
@@ -164,10 +169,25 @@ function devicePushDeps(): PushLifecycleDeps | undefined {
   if (platform === null) return undefined;
   const transport = createFetchTransport({ baseUrl: resolveApiBaseUrl(), sessionHeaders });
   const bundleId = Application.applicationId;
+  // Issuing and rotating are both POSTs; the lifecycle never revokes.
+  const actionKeyHttp: ActionKeyHttp = async (path, init) => {
+    const response = await transport.postJson(
+      path,
+      init.body === undefined ? {} : (JSON.parse(init.body) as unknown),
+    );
+    return { status: response.status, json: () => Promise.resolve(response.body) };
+  };
   return {
     native: expoPushNative,
     transport: (cmd, envelope) => transport.postJson(`/v1/cmd/${cmd}`, envelope),
     storage: secureInstallIdStorage,
+    // Only the iOS extensions (notification service, widgets, Live Activity intents) read the key.
+    ...(platform === 'ios'
+      ? {
+          ensureActionKey: (owner) =>
+            ensureActionKey({ storage: secureActionKeyStorage, http: actionKeyHttp, ...owner }),
+        }
+      : {}),
     // Registration waits for the session; before one exists (offline first launch) it skips and
     // the next foreground tries again.
     currentUid: () =>

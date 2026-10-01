@@ -11,22 +11,34 @@ import { generateUuidV7 } from '@cp/domain';
 import type { ApnsEnv, PushPlatform } from './tokens';
 
 export const HEARTBEAT_INTERVAL_MS = 10 * 60 * 1000;
-const INSTALL_ID_KEY = 'cp.install_id';
+/** The Keychain/Keystore item the install's one id lives in. */
+export const INSTALL_ID_ITEM = 'cp.install_id';
+/**
+ * Where earlier builds kept a second id, sent in every command envelope except `register_device`.
+ * Read only when the install never registered: an install the server knows keeps the id it
+ * registered under, so its `devices` row, push token and everything keyed by them stay put.
+ */
+export const LEGACY_ENVELOPE_ID_ITEM = 'cp.device.id';
 
 export interface InstallIdStorage {
   getItemAsync(key: string): Promise<string | null>;
   setItemAsync(key: string, value: string): Promise<void>;
 }
 
-/** The install id `devices.id` is keyed by: created once, kept until the app is deleted. */
+/**
+ * The one id of this install: `devices.id` on the server and `device.id` in every command
+ * envelope. Created once, kept until the app is deleted.
+ */
 export async function getOrCreateInstallId(
   storage: InstallIdStorage,
   create: () => string = generateUuidV7,
 ): Promise<string> {
-  const existing = await storage.getItemAsync(INSTALL_ID_KEY);
-  if (existing !== null && existing.length > 0) return existing;
+  for (const item of [INSTALL_ID_ITEM, LEGACY_ENVELOPE_ID_ITEM]) {
+    const existing = await storage.getItemAsync(item);
+    if (existing !== null && existing.length > 0) return existing;
+  }
   const id = create();
-  await storage.setItemAsync(INSTALL_ID_KEY, id);
+  await storage.setItemAsync(INSTALL_ID_ITEM, id);
   return id;
 }
 
