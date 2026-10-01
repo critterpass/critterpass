@@ -1,7 +1,7 @@
 /**
  * The web app end to end: the production Worker bundle served by `wrangler dev`, talking to a
  * fixture-backed stand-in for the api (./fake-api.ts). Runs the link-page suite (../links) and the
- * site suite (this folder) against one build. A second Worker serves the same build the way
+ * site suite (this folder) against one build. A second Worker serves a coming-soon build the way
  * production does until launch (`SITE_MODE=coming-soon`), with its own local waitlist database.
  *
  *   pnpm --filter @cp/web test:e2e              # everything
@@ -22,6 +22,7 @@ export const TEST_FINGERPRINT =
 export const TEST_OG_SECRET = 'site-e2e-og-cache-key';
 
 const webRoot = fileURLToPath(new URL('../..', import.meta.url));
+const skipBuild = process.env['SITE_E2E_SKIP_BUILD'] === '1';
 const fingerprints = JSON.stringify({
   'app.critterpass': [TEST_FINGERPRINT],
   'app.critterpass.staging': [TEST_FINGERPRINT],
@@ -34,13 +35,17 @@ const serve = [
   `--var 'ANDROID_CERT_FINGERPRINTS:${fingerprints}'`,
   `--var OG_CACHE_SECRET:${TEST_OG_SECRET}`,
 ].join(' ');
-// Its own state folder and inspector port, so the two Workers never share a local
-// database file.
-const comingSoonState = '--persist-to .wrangler/coming-soon-e2e';
+// The coming-soon Worker runs its own build (a coming-soon build leaves the rest of the site out),
+// with its own state folder and inspector port, so the two Workers never share a local database
+// file.
+const comingSoonBuild = '.wrangler/coming-soon-e2e/site';
+const comingSoonConfig = `-c ${comingSoonBuild}/server/wrangler.json`;
+const comingSoonState = '--persist-to .wrangler/coming-soon-e2e/state';
 const serveComingSoon = [
-  `pnpm exec wrangler d1 migrations apply DB --local -c dist/server/wrangler.json ${comingSoonState}`,
+  ...(skipBuild ? [] : [`SITE_MODE=coming-soon pnpm exec astro build --outDir ${comingSoonBuild}`]),
+  `pnpm exec wrangler d1 migrations apply DB --local ${comingSoonConfig} ${comingSoonState}`,
   [
-    'exec pnpm exec wrangler dev -c dist/server/wrangler.json',
+    `exec pnpm exec wrangler dev ${comingSoonConfig}`,
     `--port ${COMING_SOON_PORT} --ip 127.0.0.1 --inspector-port 0`,
     '--var SITE_MODE:coming-soon',
     comingSoonState,
@@ -63,19 +68,19 @@ export default defineConfig({
       gracefulShutdown: { signal: 'SIGINT', timeout: 5_000 },
     },
     {
-      command: `${process.env['SITE_E2E_SKIP_BUILD'] === '1' ? '' : 'pnpm exec astro build && '}exec pnpm exec ${serve}`,
+      command: `${skipBuild ? '' : 'pnpm exec astro build && '}exec pnpm exec ${serve}`,
       cwd: webRoot,
       url: `http://127.0.0.1:${WEB_PORT}/`,
       timeout: 240_000,
       reuseExistingServer: false,
       gracefulShutdown: { signal: 'SIGINT', timeout: 5_000 },
     },
-    // Started once the server above is up, so the build it serves already exists.
+    // Started once the server above is up, so the two builds never run at the same time.
     {
       command: serveComingSoon,
       cwd: webRoot,
       url: `${COMING_SOON_URL}/`,
-      timeout: 120_000,
+      timeout: 300_000,
       reuseExistingServer: false,
       gracefulShutdown: { signal: 'SIGINT', timeout: 5_000 },
     },
