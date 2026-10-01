@@ -36,6 +36,13 @@ export interface TripRow {
   readonly role: string | null;
 }
 
+/** How many trips the switcher lists for me (every one not archived or cancelled). */
+export const MY_TRIP_COUNT_SQL = `SELECT count(*) AS n FROM trips t
+  WHERE t.status NOT IN ('archived', 'cancelled')
+    AND (t.id IN (SELECT trip_id FROM trip_participants WHERE user_id = ?1)
+      OR t.crew_id IN (SELECT crew_id FROM crew_members WHERE user_id = ?1 AND status = 'active'))`;
+export const MY_TRIP_COUNT_TABLES = ['trips', 'trip_participants', 'crew_members'];
+
 /** Active crew members in join order (their join index picks their colour), with names. */
 export const MEMBERS_SQL = `SELECT m.user_id, u.display_name
   FROM crew_members m LEFT JOIN users u ON u.id = m.user_id
