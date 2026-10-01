@@ -305,6 +305,7 @@ export function QueueComposer({
         id: 'guide.limit.queuePlaceholder',
         message: `Ask now, ${guideName} answers at midnight`,
       })}
+      onRaised
       testID="guide-limit-queue-composer"
     />
   );
