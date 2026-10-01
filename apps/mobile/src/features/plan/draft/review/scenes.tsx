@@ -124,6 +124,14 @@ export const REVIEW_SCENES: readonly DraftScene[] = [
   },
   { name: 'draft-loading', render: () => <DraftLoading trip={LOADING_TRIP} onBack={exitScene} /> },
   { name: 'draft-loading-slow-data', render: () => <SlowTripLoading /> },
+  // A guide outside the six-tile first-run grid: Chà Vá drafts Đà Nẵng.
+  scene('draft-chava', { guide: 'chava', destination: 'Đà Nẵng' }),
+  {
+    name: 'draft-loading-chava',
+    render: () => (
+      <DraftLoading trip={{ destination: 'Đà Nẵng', guide: 'chava' }} onBack={exitScene} />
+    ),
+  },
   { name: 'draft-empty', render: () => <NoDraft guide="pon" failed={false} onDraft={noop} /> },
   { name: 'draft-failed', render: () => <NoDraft guide="pon" failed onDraft={noop} /> },
   {
