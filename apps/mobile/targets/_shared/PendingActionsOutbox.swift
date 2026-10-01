@@ -23,7 +23,7 @@ struct PendingAction: Hashable, Sendable {
     let scope: String
     /// When the user acted.
     let clientTs: Date
-    let payload: [String: String]
+    let payload: [String: PendingActionValue]
 
     /// The JSON object written into the file's `actions` array.
     var entry: [String: Any] {
@@ -34,7 +34,7 @@ struct PendingAction: Hashable, Sendable {
             "via": via.rawValue,
             "scope": scope,
             "client_ts": PendingActionsOutbox.timestamp(clientTs),
-            "payload": payload,
+            "payload": payload.mapValues(\.json),
         ]
     }
 
@@ -48,7 +48,60 @@ struct PendingAction: Hashable, Sendable {
             via: .laIntent,
             scope: "readiness",
             clientTs: now,
-            payload: ["leave_by_id": leaveById, "state": "up", "source": "la"]
+            payload: ["leave_by_id": .text(leaveById), "state": "up", "source": "la"]
+        )
+    }
+
+    /// RUNNING LATE on the crew-live activity: `report_running_late{trip_id, meetup_id, minutes}`.
+    static func runningLate(
+        tripId: String, meetupId: String, minutes: Int = 10,
+        opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "report_running_late", via: .laIntent, scope: "trip_day",
+            clientTs: now,
+            payload: ["trip_id": .text(tripId), "meetup_id": .text(meetupId), "minutes": .number(minutes)]
+        )
+    }
+
+    /// PING ALL and ON MY WAY on the crew-live activity: `ping_all{trip_id, kind}`.
+    static func pingAll(
+        tripId: String, onMyWay: Bool, opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "ping_all", via: .laIntent, scope: "trip_day", clientTs: now,
+            payload: ["trip_id": .text(tripId), "kind": onMyWay ? "on_my_way" : "ping"]
+        )
+    }
+
+    /// SOS from the lock screen, after its confirmation: `trigger_sos{trip_id}`.
+    static func sos(
+        tripId: String, opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "trigger_sos", via: .laIntent, scope: "sos", clientTs: now,
+            payload: ["trip_id": .text(tripId)]
+        )
+    }
+
+    /// I'M GOING on a crewmate's SOS: `respond_sos{sos_id, state: coming}`.
+    static func coming(
+        sosId: String, opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "respond_sos", via: .laIntent, scope: "sos", clientTs: now,
+            payload: ["sos_id": .text(sosId), "state": "coming"]
+        )
+    }
+
+    /// A vote from the vote activity or the vote widget: `cast_ballot{poll_id, option_id}`.
+    static func ballot(
+        pollId: String, optionId: String, via: Via,
+        opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "cast_ballot", via: via, scope: "ballot", clientTs: now,
+            payload: ["poll_id": .text(pollId), "option_id": .text(optionId)]
         )
     }
 
@@ -69,6 +122,22 @@ struct PendingAction: Hashable, Sendable {
             String(hex.dropFirst(start).prefix(length))
         }
         return groups.joined(separator: "-")
+    }
+}
+
+/// One payload value. The commands these surfaces queue carry text and whole numbers only; the
+/// file itself may hold any JSON (entries written by other builds are kept exactly as they are).
+enum PendingActionValue: Hashable, Sendable, ExpressibleByStringLiteral {
+    case text(String)
+    case number(Int)
+
+    init(stringLiteral value: String) { self = .text(value) }
+
+    var json: Any {
+        switch self {
+        case .text(let value): return value
+        case .number(let value): return value
+        }
     }
 }
 

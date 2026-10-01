@@ -10,6 +10,12 @@ struct CPWidgetBundle: WidgetBundle {
         LeaveByLiveActivityWidget()
         FlightLiveActivityWidget()
         LeaveByAlarmCountdownWidget()
+        MeetUpLiveActivityWidget()
+        CritterNearbyLiveActivityWidget()
+        VoteLiveActivityWidget()
+        StormLiveActivityWidget()
+        SOSLiveActivityWidget()
+        RideLiveActivityWidget()
     }
 }
 
