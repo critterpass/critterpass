@@ -15,8 +15,10 @@ import { alarmNoteFor } from '../day-of-data';
 import { dayEyebrow, forecastLabel } from '../day-of-copy';
 import { DayOfView, type DayOfViewProps } from '../day-of-view';
 import {
+  airportLeaveBy,
   ALEX,
   AT_0248,
+  AT_0440,
   BALI_PACK,
   BALI_TIMELINE,
   baturLeaveBy,
@@ -51,6 +53,13 @@ function props(overrides: Partial<DayOfViewProps> = {}): DayOfViewProps {
   };
 }
 
+/** Day 1 of a Đà Nẵng trip: the flight in, then the afternoon. */
+const DA_NANG_FIRST_DAY: DayOfViewProps['timeline'] = [
+  { id: 'f1', time: '07:05', title: '9G 956 SGN → DAD', detail: null, dimmed: false },
+  { id: 'd1', time: '14:00', title: 'Chợ Hàn (Han Market)', detail: null, dimmed: false },
+  { id: 'd2', time: '18:00', title: 'Cầu Rồng (Dragon Bridge)', detail: null, dimmed: false },
+];
+
 const NOTIFY: AlarmStatus = { mode: 'notification', engine: null, denied: false, next: null };
 const NATIVE: AlarmStatus = { mode: 'native', engine: 'alarmkit', denied: false, next: null };
 
@@ -59,10 +68,12 @@ function Day({
   overrides = {},
   status = null,
   day = { date: '2026-10-15', no: 4 },
+  tomorrow = false,
 }: {
   readonly overrides?: Partial<DayOfViewProps>;
   readonly status?: AlarmStatus | null;
   readonly day?: { readonly date: string; readonly no: number };
+  readonly tomorrow?: boolean;
 }) {
   const locale = useLocale();
   const base = props(overrides);
@@ -70,7 +81,7 @@ function Day({
   return (
     <DayOfView
       {...base}
-      eyebrow={dayEyebrow(day.date, day.no, locale)}
+      eyebrow={dayEyebrow(day.date, day.no, locale, tomorrow)}
       forecast={base.forecast ?? forecastLabel(9, true, locale)}
       alarmNote={
         note === null
@@ -163,13 +174,46 @@ export const DAY_OF_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3k-2-not-mine': () => (
     <Day overrides={{ leaveBy: baturLeaveBy({ participants: [MAYA, JORDAN, RIN, ALEX, DEV] }) }} />
   ),
+  '3k-2-be-at-airport': () => (
+    <Day
+      day={{ date: '2026-10-02', no: 1 }}
+      overrides={{
+        now: AT_0440,
+        leaveBy: airportLeaveBy(),
+        forecast: '26°',
+        pack: [],
+        timeline: DA_NANG_FIRST_DAY,
+      }}
+      status={NATIVE}
+    />
+  ),
+  '3k-2-day-done': () => (
+    <Day
+      day={{ date: '2026-10-16', no: 5 }}
+      overrides={{ forecast: '31°', leaveBy: null, firstUp: { kind: 'done' }, pack: [] }}
+    />
+  ),
+  '3k-2-tomorrow': () => (
+    <Day
+      day={{ date: '2026-10-16', no: 5 }}
+      tomorrow
+      overrides={{
+        forecast: '31°',
+        leaveBy: null,
+        firstUp: { kind: 'first', time: '09:30', title: 'Toya Devasya hot springs' },
+        pack: [],
+        timeline: BALI_TIMELINE.slice(1),
+        onToday: noop,
+      }}
+    />
+  ),
   '3k-2-quiet-day': () => (
     <Day
       day={{ date: '2026-10-16', no: 5 }}
       overrides={{
         forecast: '31°',
         leaveBy: null,
-        firstUp: { time: '09:30', title: 'Toya Devasya hot springs' },
+        firstUp: { kind: 'first', time: '09:30', title: 'Toya Devasya hot springs' },
         pack: [],
         timeline: BALI_TIMELINE.slice(1),
       }}

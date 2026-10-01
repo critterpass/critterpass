@@ -22,16 +22,19 @@ export interface AlarmText {
 
 export type AlarmTextInput = Pick<
   DesiredAlarm,
-  'leaveAt' | 'tz' | 'placeName' | 'pickup' | 'guideNote'
+  'deadline' | 'tz' | 'placeName' | 'pickup' | 'guideNote'
 >;
 
 export function alarmText(alarm: AlarmTextInput, guideName: string, locale: string): AlarmText {
-  const time = clockIn(alarm.leaveAt, alarm.tz, locale);
+  const time = clockIn(alarm.deadline.at, alarm.tz, locale);
   const place = alarm.placeName;
-  const title =
-    place === null
+  const deadline =
+    alarm.deadline.kind === 'leave_by'
       ? t({ id: 'trip.alarm.title', message: `Leave by ${time}` })
-      : t({ id: 'trip.alarm.titlePlace', message: `Leave by ${time} · ${place}` });
+      : alarm.deadline.airport
+        ? t({ id: 'trip.alarm.titleAirport', message: `Be at the airport by ${time}` })
+        : t({ id: 'trip.alarm.titleBeThere', message: `Be there by ${time}` });
+  const title = place === null ? deadline : `${deadline} · ${place}`;
   const pickupTime = alarm.pickup === null ? null : clockIn(alarm.pickup.at, alarm.tz, locale);
   const pickupPlace = alarm.pickup?.place ?? null;
   const subtitle =
