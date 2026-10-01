@@ -23,7 +23,13 @@ export interface HeroCopy {
   readonly readinessDetail: string | null;
 }
 
-export function dayEyebrow(localDate: string, dayNo: number | null, locale: string): string {
+/** "Fri, Oct 2 · Day 2", led by "Tomorrow" when the day shown is the day after the trip's today. */
+export function dayEyebrow(
+  localDate: string,
+  dayNo: number | null,
+  locale: string,
+  tomorrow = false,
+): string {
   const date = new Date(`${localDate}T12:00:00Z`);
   const day = format.date(locale, date, {
     timeZone: 'UTC',
@@ -31,7 +37,9 @@ export function dayEyebrow(localDate: string, dayNo: number | null, locale: stri
     month: 'short',
     day: 'numeric',
   });
-  return dayNo === null ? day : t({ id: 'trip.dayOf.eyebrow', message: `${day} · Day ${dayNo}` });
+  const line =
+    dayNo === null ? day : t({ id: 'trip.dayOf.eyebrow', message: `${day} · Day ${dayNo}` });
+  return tomorrow ? t({ id: 'trip.dayOf.tomorrow', message: `Tomorrow · ${line}` }) : line;
 }
 
 export function forecastLabel(tempC: number, atTheTop: boolean, locale: string): string {
@@ -54,7 +62,9 @@ export function heroCopy(
   guideName: string,
   locale: string,
 ): HeroCopy {
-  const leave = clockIn(view.leaveAt, view.tz, locale);
+  const leave = clockIn(view.deadline.at, view.tz, locale);
+  const beThere = view.deadline.kind === 'be_there_by';
+  const airport = view.deadline.kind === 'be_there_by' && view.deadline.airport;
   const alarm = clockIn(view.alarmAt, view.tz, locale);
   const pickupTime = view.pickup === null ? null : clockIn(view.pickup.at, view.tz, locale);
   const pickupPlace = view.pickup?.place ?? view.placeName;
@@ -67,9 +77,17 @@ export function heroCopy(
             id: 'trip.dayOf.pickupAtPlace',
             message: `Pickup at ${pickupPlace}, ${pickupTime}.`,
           });
-  const traffic = view.withoutTraffic
-    ? t({ id: 'trip.dayOf.noTraffic', message: 'Worked out without live traffic.' })
-    : null;
+  // A deadline to be there counts no travel at all, so it says that instead of the traffic note.
+  const traffic = beThere
+    ? airport
+      ? t({
+          id: 'trip.dayOf.noTravelAirport',
+          message: "Travel time to the airport isn't included.",
+        })
+      : t({ id: 'trip.dayOf.noTravel', message: "Travel time isn't included." })
+    : view.withoutTraffic
+      ? t({ id: 'trip.dayOf.noTraffic', message: 'Worked out without live traffic.' })
+      : null;
   const instructions = [pickupLine, view.guideNote, traffic].filter(Boolean).join(' ') || null;
   const total = view.crew.length;
   const up = view.upCount;
@@ -107,7 +125,9 @@ export function heroCopy(
       message: `${guideName} rings ${who} at ${alarm}`,
     });
   }
-  const left = view.leaveAt.getTime() - now.getTime();
+  const left = view.deadline.at.getTime() - now.getTime();
+  // A leave-by is late once someone is still asleep at it; a deadline to be there, once it passes.
+  const late = beThere ? left <= 0 : view.phase === 'overdue';
   if (view.phase === 'transit') {
     return {
       label: t({ id: 'trip.dayOf.onTheWay', message: 'On the way' }),
@@ -124,20 +144,27 @@ export function heroCopy(
   }
   const value = countdownText(left);
   return {
-    label: t({ id: 'trip.dayOf.leaveBy', message: 'Leave by' }),
+    label: !beThere
+      ? t({ id: 'trip.dayOf.leaveBy', message: 'Leave by' })
+      : airport
+        ? t({ id: 'trip.dayOf.beAtAirportBy', message: 'Be at the airport by' })
+        : t({ id: 'trip.dayOf.beThereBy', message: 'Be there by' }),
     time: leave,
     spokenTime: leave,
     instructions,
     ring: {
       value,
-      caption:
-        view.phase === 'overdue'
-          ? t({ id: 'trip.dayOf.ringLate', message: 'late' })
-          : t({ id: 'trip.dayOf.ringToGo', message: 'to go' }),
-      spoken:
-        view.phase === 'overdue'
-          ? t({ id: 'trip.dayOf.ringLateSpoken', message: 'Leave-by time has passed' })
-          : t({ id: 'trip.dayOf.ringSpoken', message: `${value} to go` }),
+      caption: late
+        ? t({ id: 'trip.dayOf.ringLate', message: 'late' })
+        : t({ id: 'trip.dayOf.ringToGo', message: 'to go' }),
+      spoken: late
+        ? beThere
+          ? t({
+              id: 'trip.dayOf.ringBeThereLateSpoken',
+              message: 'The time to be there has passed',
+            })
+          : t({ id: 'trip.dayOf.ringLateSpoken', message: 'Leave-by time has passed' })
+        : t({ id: 'trip.dayOf.ringSpoken', message: `${value} to go` }),
     },
     readinessLabel,
     readinessDetail,
