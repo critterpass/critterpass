@@ -42,7 +42,8 @@ afterAll(async () => {
 async function person(name: string, locale = 'en'): Promise<string> {
   const uid = await insertUser(db.pool, { locale });
   await db.pool.query('UPDATE users SET display_name = $2 WHERE id = $1', [uid, `${name} Test`]);
-  await insertDevice(db.pool, uid, { tz: 'Asia/Ho_Chi_Minh' });
+  // The phone's language is what the app reads in until it reports its own.
+  await insertDevice(db.pool, uid, { tz: 'Asia/Ho_Chi_Minh', locale });
   return uid;
 }
 
