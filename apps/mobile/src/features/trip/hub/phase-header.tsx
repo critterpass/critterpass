@@ -131,7 +131,15 @@ export function PhaseHeader(props: PhaseHeaderProps) {
   const dates = props.startDate === null ? null : tripDates(locale, props.startDate, props.endDate);
   const count = props.going;
   const going = t({ id: 'trip.hub.going', message: `${count} going` });
-  const meta = upper([dates, going].filter(Boolean).join(' · '), locale);
+  // Each part keeps its words together, so a line too long for the row breaks after the dot.
+  const meta = upper(
+    [dates, going]
+      .filter((part) => part !== null)
+      .map((part) => part.replaceAll(' ', '\u00a0'))
+      .join(' · ')
+      .replace(' · ', '\u00a0· '),
+    locale,
+  );
   const title = upper(props.destination, locale);
   const line = usePhaseLine(header, props.now);
   const label = line === null ? null : upper(line.label, locale);

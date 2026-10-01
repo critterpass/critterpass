@@ -180,8 +180,13 @@ export const HUB_SCENES: Readonly<Record<string, () => ReactNode>> = {
     <Hub
       header={{ phase: 'in', day: 2, days: 3 }}
       money={{ minor: 4_200, sign: -1 }}
-      today="2026-10-13"
-      leaveBy={LEAVE_BY}
+      today="2026-10-03"
+      leaveBy={{
+        ...LEAVE_BY,
+        leave_at: '2026-10-02T20:10:00Z',
+        tz: 'Asia/Saigon',
+        place_name: 'Bà Nà',
+      }}
       overrides={{ ...DA_NANG, briefing: { kind: 'ready', lines: LINES, staleDate: null } }}
     />
   ),
@@ -193,8 +198,14 @@ export const HUB_SCENES: Readonly<Record<string, () => ReactNode>> = {
     <Hub
       header={{ phase: 'in', day: 1, days: 3 }}
       briefing={{ kind: 'none', next: { on: 'tomorrow' } }}
-      today="2026-10-12"
-      stop={{ ...STOP, poi_name: 'Chợ Cồn', starts_at: '2026-10-13T03:00:00Z', tz: 'Asia/Saigon' }}
+      today="2026-10-02"
+      stop={{
+        ...STOP,
+        poi_name: 'Chợ Cồn',
+        starts_at: '2026-10-03T03:00:00Z',
+        tz: 'Asia/Saigon',
+        day_date: '2026-10-03',
+      }}
       overrides={DA_NANG}
     />
   ),
