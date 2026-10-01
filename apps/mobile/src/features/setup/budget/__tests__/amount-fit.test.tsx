@@ -109,10 +109,10 @@ describe('the sweet-spot amount on a 375 pt phone', () => {
     expect(shown('$', '12,350').widest).toBeLessThanOrEqual(CARD_ROOM);
   });
 
-  it.each([
+  it.each<[string, string, string, number, string, number]>([
     ['en', 'VND', '₫', 90_000_000, '90,000,000', 1_300_000],
     ['id', 'IDR', 'Rp', 1_500_000_000, '15.000.000', 79_000_000],
-  ] as const)(
+  ])(
     'sets %s %s down just far enough that every digit is inside the card',
     async (locale, currency, prefix, maxMinor, grouped, stepMinor) => {
       i18n.loadAndActivate({ locale, messages: {} });
