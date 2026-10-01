@@ -1,5 +1,3 @@
-import { readdirSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
 import { describe, expect, it } from '@jest/globals';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { PixelRatio, ScrollView, StyleSheet } from 'react-native';
@@ -9,94 +7,43 @@ import { renderWithI18n } from '../../lib/i18n/testing';
 import { ThemeProvider } from '../../lib/theme';
 import { FACE_METRICS, glyphRoomStyle, lineBoxEm } from '../text/glyph-room';
 import { Text, TEXT_VARIANTS } from '../text/Text';
+import {
+  fontFiles,
+  LATIN_LETTERS,
+  readFontFile,
+  VIETNAMESE_LETTERS,
+} from '../text/test-support/font-file';
 import type { TextVariant } from '../text/Text';
 
-const FONTS_DIR = join(__dirname, '../../../assets/fonts');
-
-/**
- * Minimal TrueType reader: hhea line metrics, the outline bounds of the glyphs for `chars` and the
- * top of `capChars` (the flat letters a label is centred on).
- */
+/** hhea line metrics, the outline bounds of `chars` and the top of `capChars` (the flat letters). */
 function measureFace(file: string, chars: string, capChars: string) {
-  const data = readFileSync(join(FONTS_DIR, file));
-  const view = new DataView(data.buffer, data.byteOffset, data.byteLength);
-  const tables = new Map<string, number>();
-  for (let i = 0; i < view.getUint16(4); i += 1) {
-    const record = 12 + i * 16;
-    tables.set(data.toString('latin1', record, record + 4), view.getUint32(record + 8));
-  }
-  const table = (tag: string) => {
-    const offset = tables.get(tag);
-    if (offset === undefined) throw new Error(`${file} has no ${tag} table`);
-    return offset;
-  };
-  const head = table('head');
-  const unitsPerEm = view.getUint16(head + 18);
-  const longLoca = view.getInt16(head + 50) === 1;
-  const hhea = table('hhea');
-
-  // cmap format 4 (the Unicode BMP subtable): code point → glyph id.
-  const cmap = table('cmap');
-  let format4 = -1;
-  for (let i = 0; i < view.getUint16(cmap + 2); i += 1) {
-    const sub = cmap + view.getUint32(cmap + 4 + i * 8 + 4);
-    if (view.getUint16(sub) === 4) format4 = sub;
-  }
-  if (format4 < 0) throw new Error(`${file} has no format 4 cmap`);
-  const segments = view.getUint16(format4 + 6) / 2;
-  const ends = format4 + 14;
-  const starts = ends + segments * 2 + 2;
-  const deltas = starts + segments * 2;
-  const rangeOffsets = deltas + segments * 2;
-  const glyphFor = (code: number): number => {
-    for (let s = 0; s < segments; s += 1) {
-      if (code > view.getUint16(ends + s * 2)) continue;
-      const start = view.getUint16(starts + s * 2);
-      if (code < start) return 0;
-      const delta = view.getInt16(deltas + s * 2);
-      const rangeAt = rangeOffsets + s * 2;
-      const range = view.getUint16(rangeAt);
-      if (range === 0) return (code + delta) & 0xffff;
-      const glyph = view.getUint16(rangeAt + range + (code - start) * 2);
-      return glyph === 0 ? 0 : (glyph + delta) & 0xffff;
-    }
-    return 0;
-  };
-
-  const loca = table('loca');
-  const glyf = table('glyf');
-  const locaAt = (id: number) =>
-    longLoca ? view.getUint32(loca + id * 4) : view.getUint16(loca + id * 2) * 2;
+  const face = readFontFile(file);
   const bounds = (text: string) => {
     let top = -Infinity;
-    let bottom = Infinity;
+    let bottom = -Infinity;
     for (const char of text) {
-      const id = glyphFor(char.codePointAt(0) ?? 0);
-      if (id === 0 || locaAt(id) === locaAt(id + 1)) continue;
-      const glyph = glyf + locaAt(id);
-      bottom = Math.min(bottom, view.getInt16(glyph + 4));
-      top = Math.max(top, view.getInt16(glyph + 8));
+      const extent = face.extent(char);
+      top = Math.max(top, extent.top);
+      bottom = Math.max(bottom, extent.bottom);
     }
-    return { top: top / unitsPerEm, bottom: -bottom / unitsPerEm };
+    return { top, bottom };
   };
   const glyphs = bounds(chars);
   return {
-    ascent: view.getInt16(hhea + 4) / unitsPerEm,
-    descent: -view.getInt16(hhea + 6) / unitsPerEm,
+    ascent: face.ascent,
+    descent: face.descent,
     glyphTop: glyphs.top,
     glyphBottom: glyphs.bottom,
     capHeight: bounds(capChars).top,
   };
 }
 
-const LATIN =
-  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝŸİŞĞ';
-const VIETNAMESE =
-  'ĐđẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ';
+const LATIN = LATIN_LETTERS;
+const VIETNAMESE = VIETNAMESE_LETTERS;
 const THAI = Array.from({ length: 0x5b }, (_, i) => String.fromCodePoint(0x0e01 + i)).join('');
 
 describe('bundled face metrics', () => {
-  const files = readdirSync(FONTS_DIR).filter((name) => name.endsWith('.ttf'));
+  const files = fontFiles();
 
   it.each(files)('%s stays inside the metrics its text is laid out with', (file) => {
     const family = file.split('-', 1)[0] ?? '';

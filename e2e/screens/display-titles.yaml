@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# Display titles with stacked Vietnamese marks, in English and Vietnamese: Home's next-trip hero for
+# Đà Nẵng with Chà Vá, the same name at the trip hub, set page and sheet title sizes, and wrapped
+# names whose marks sit under another line.
+- runFlow:
+    file: subflows/display-titles-page.yaml
+    env:
+      LOCALE: en
+- runFlow:
+    file: subflows/display-titles-page.yaml
+    env:
+      LOCALE: vi

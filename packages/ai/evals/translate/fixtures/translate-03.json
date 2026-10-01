@@ -3,23 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "eb8501b1-4233-43d9-967d-b63825038c8f",
+      "id": "1a77d565-5096-48c8-98d0-aa7f03db2cdd",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Thám tử mì Quảng\"},{\"id\":\"t2\",\"text\":\"Thử mì ở hai quán rồi phân định xem quán nào thắng.\"},{\"id\":\"t3\",\"text\":\"Đội giờ vàng\"},{\"id\":\"t4\",\"text\":\"Cả 4 người vào chung một tấm ảnh hoàng hôn trên Mỹ Khê.\"}]}"
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Thám tử mì Quảng\"},{\"id\":\"t2\",\"text\":\"Thử mì ở hai quán rồi phân định xem quán nào thắng.\"},{\"id\":\"t3\",\"text\":\"Đội giờ vàng\"},{\"id\":\"t4\",\"text\":\"Chụp một tấm hoàng hôn đủ cả 4 người trên Mỹ Khê.\"}]}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 137,
+        "input_tokens": 349,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 1408,
-        "output_tokens": 101,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 99,
         "service_tier": "standard"
       }
     }
