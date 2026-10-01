@@ -4,7 +4,6 @@
  * position is inside this box: in the destination itself, not merely in its country, so a
  * traveller on a trip in their own country doesn't arrive before leaving home.
  */
-/* eslint-disable lingui/no-unlocalized-strings -- geometry formats, never copy. */
 
 export interface Box {
   readonly west: number;
