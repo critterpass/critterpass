@@ -1,6 +1,6 @@
 {
   "kind": "critters",
-  "version": 1,
+  "version": 2,
   "items": [
     {
       "id": "cp-001",
@@ -3279,8 +3279,8 @@
     "batch_key": "2026-09-30-critters-01",
     "route": "content.factory",
     "model": "deepseek-v4-pro",
-    "generated_at": "2026-09-30T21:34:41.032Z"
+    "generated_at": "2026-09-30T21:53:24.232Z"
   },
   "approved_by": null,
-  "checksum": "be5a2fb1a0bb830b7ee34c3eaa347c1f4f19858e3914f16bf5c013eb6ecc30e7"
+  "checksum": "078d2468a6ea3d2d9c494c8ced43aabbe308d481d738e3228536b4a85c8e367f"
 }
