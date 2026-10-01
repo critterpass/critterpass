@@ -11,10 +11,14 @@ appId: app.critterpass.dev
 - runFlow: subflows/fresh-account.yaml
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
+# The gallery sits below the first screenful on a phone; slow, or iOS flings past it.
+- scrollUntilVisible:
+    element:
       id: 'dev-nav-gallery'
-    timeout: 10000
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
 - tapOn:
     id: 'dev-nav-gallery'
 - extendedWaitUntil:
