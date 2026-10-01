@@ -58,12 +58,19 @@ export interface Position {
   readonly lng: number;
 }
 
+/**
+ * Names written in Latin letters (Vietnamese and other diacritics included). The open-data long tail
+ * holds one landmark under several names ("Cầu Rồng", "Dragon Bridge", "ドラゴンブリッジ"); the one
+ * the traveller can read leads, and another script is used only when nothing nearby has one.
+ */
+const LATIN_NAME = String.raw`name ~ '^[\u0020-\u024F\u1E00-\u1EFF\u2000-\u206F]+$'`;
+
 async function placeLabel(tx: pg.PoolClient, at: Position | null): Promise<string | null> {
   if (at === null) return null;
   const point = 'ST_SetSRID(ST_MakePoint($1, $2), 4326)::geography';
   const poi = await tx.query<{ name: string }>(
     `SELECT name FROM pois WHERE status = 'active' AND ST_DWithin(location, ${point}, $3)
-      ORDER BY location <-> ${point} LIMIT 1`,
+      ORDER BY (${LATIN_NAME}) DESC, location <-> ${point} LIMIT 1`,
     [at.lng, at.lat, PLACE_RADIUS_M],
   );
   const city = await tx.query<{ name: string }>(
