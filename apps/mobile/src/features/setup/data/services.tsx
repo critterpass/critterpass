@@ -9,7 +9,13 @@ import { createContext, useContext, type ReactNode } from 'react';
 /** An api read: the parsed body, a wire error code, or no answer at all (offline, timeout). */
 export type ApiRead =
   | { readonly kind: 'ok'; readonly body: unknown }
-  | { readonly kind: 'error'; readonly status: number; readonly code: string }
+  | {
+      readonly kind: 'error';
+      readonly status: number;
+      readonly code: string;
+      /** The error envelope's `detail`, when the server sent one. */
+      readonly detail?: unknown;
+    }
   | { readonly kind: 'offline' };
 
 export interface SetupServices {

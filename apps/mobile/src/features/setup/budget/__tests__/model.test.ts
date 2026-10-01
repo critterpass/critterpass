@@ -1,6 +1,7 @@
 /** The budget model: nothing crew-level below four maxes, and bars that always sum to the target. */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 
+import { stepOf } from '../lock-step';
 import {
   bandView,
   barsFor,
@@ -83,8 +84,16 @@ describe('barsFor', () => {
 
 describe('the knob', () => {
   it('snaps to the crew step inside the track', () => {
-    const track = trackOf(bandView(null, 3), estimatesOf(SOURCE), null);
-    expect(track.stepMinor).toBe(5_000);
+    const estimates = estimatesOf(SOURCE);
+    const stepMinor = stepOf({
+      adopted: null,
+      server: null,
+      currency: 'USD',
+      estimates,
+      bandAnswered: false,
+    });
+    expect(stepMinor).toBe(5_000);
+    const track = trackOf(bandView(null, 3), estimates, stepMinor ?? 0);
     expect(snap(track.maxMinor + 99_999, track)).toBe(track.maxMinor);
     expect(snap(101_234, track) % 5_000).toBe(0);
   });

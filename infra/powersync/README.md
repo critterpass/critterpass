@@ -25,7 +25,7 @@ bypasses RLS, so a stream's WHERE clause is the only thing that keeps a row off 
 | `trip_pack` | client, `{trip_id}` | destination of a member trip | `pois` (editorial, not hidden, not merged), `map_regions` |
 | `explore` | client, `{destination_id}` | public | `pois` (editorial, not hidden, not merged) |
 | `catalog` | auto | none | `guides`, `destinations`, `client_config`, `products`, `perks` |
-| `fx` | auto | home, settlement and trip currencies | `fx_snapshots` |
+| `fx` | auto | USD plus home, settlement and trip (own or destination) currencies | `fx_snapshots` |
 
 Rules for a new area (a phase that publishes new tables):
 

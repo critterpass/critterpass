@@ -5,27 +5,22 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 
-function currencyFormat(locale: string, currency: string, digits?: number): Intl.NumberFormat {
-  const base = {
-    style: 'currency',
-    currency,
-    ...(digits === undefined ? {} : { maximumFractionDigits: digits, minimumFractionDigits: 0 }),
-  } as const;
-  try {
-    return new Intl.NumberFormat(locale, { ...base, currencyDisplay: 'narrowSymbol' });
-  } catch {
-    return new Intl.NumberFormat(locale, base);
-  }
-}
+import { formatNarrowCurrency } from '@cp/cost-engine';
 
-function minorDigits(locale: string, currency: string): number {
-  return currencyFormat(locale, currency).resolvedOptions().maximumFractionDigits ?? 2;
+/** The currency's minor-unit digits (2 for USD, 0 for VND). */
+function minorDigitsOf(currency: string): number {
+  return (
+    new Intl.NumberFormat('en', { style: 'currency', currency }).resolvedOptions()
+      .maximumFractionDigits ?? 2
+  );
 }
 
 /** A minor-unit amount as whole currency units ("$1,310"). */
 export function wholeMoney(locale: string, minor: number, currency: string): string {
-  const digits = minorDigits(locale, currency);
-  return currencyFormat(locale, currency, 0).format(Math.round(minor / 10 ** digits));
+  return formatNarrowCurrency(locale, Math.round(minor / 10 ** minorDigitsOf(currency)), currency, {
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  });
 }
 
 /** A signed change as whole units: "−$64", "+$24". */

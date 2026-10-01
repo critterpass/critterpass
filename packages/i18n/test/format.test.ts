@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { format } from '../src/format/index';
 
@@ -84,5 +84,53 @@ describe('format.distance', () => {
 
   it('formats imperial distances in miles', () => {
     expect(format.distance('en', 1609.344, 'imperial')).toBe('1 mi');
+  });
+});
+
+describe('on a runtime without formatRange or compact notation (Hermes)', () => {
+  const RealDateTimeFormat = Intl.DateTimeFormat;
+  const RealNumberFormat = Intl.NumberFormat;
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  function hermes(): void {
+    function DateTimeFormat(locale?: string | string[], options?: Intl.DateTimeFormatOptions) {
+      const formatter = new RealDateTimeFormat(locale, options);
+      return {
+        format: (value?: Date | number) => formatter.format(value),
+        formatToParts: (value?: Date | number) => formatter.formatToParts(value),
+        resolvedOptions: () => formatter.resolvedOptions(),
+      };
+    }
+    function NumberFormat(locale?: string | string[], options: Intl.NumberFormatOptions = {}) {
+      const { notation: _notation, ...rest } = options;
+      const formatter = new RealNumberFormat(locale, rest);
+      return { format: (value: number) => formatter.format(value) };
+    }
+    vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(
+      DateTimeFormat as unknown as typeof Intl.DateTimeFormat,
+    );
+    vi.spyOn(Intl, 'NumberFormat').mockImplementation(
+      NumberFormat as unknown as typeof Intl.NumberFormat,
+    );
+  }
+
+  const day = (month: number, date: number) => new Date(Date.UTC(2026, month, date, 12));
+  const options = { month: 'short', day: 'numeric', timeZone: 'UTC' } as const;
+
+  it('writes a date interval instead of throwing', () => {
+    hermes();
+    expect(format.dateInterval('en', day(9, 2), day(9, 4), options)).toBe('Oct 2–4');
+    expect(format.dateInterval('en', day(8, 27), day(9, 3), options)).toBe('Sep 27 – Oct 3');
+    expect(format.dateInterval('en', day(9, 2), day(9, 2), options)).toBe('Oct 2');
+  });
+
+  it('scales a compact number itself', () => {
+    hermes();
+    expect(format.compactNumber('en', 1200)).toBe('1.2K');
+    expect(format.compactNumber('en', 3_000_000)).toBe('3M');
+    expect(format.compactNumber('en', 950)).toBe('950');
   });
 });

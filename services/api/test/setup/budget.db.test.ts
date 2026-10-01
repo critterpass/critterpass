@@ -164,11 +164,14 @@ describe('a crew of five', () => {
       target_minor: 150_001,
     });
     expect(errorOf(offStep).code).toBe('VALIDATION');
-    const ok = await run(big.organiser, 'lock_budget_target', {
-      trip_id: big.tripId,
-      target_minor: 160_000,
-    });
-    expect(resultOf(ok)).toMatchObject({ checked_against_band: true });
+    // The off-step target was never held against the band, so three counted tries remain two.
+    for (const target of [160_000, 155_000]) {
+      const ok = await run(big.organiser, 'lock_budget_target', {
+        trip_id: big.tripId,
+        target_minor: target,
+      });
+      expect(resultOf(ok)).toMatchObject({ checked_against_band: true, target_minor: target });
+    }
     const fourth = await run(big.organiser, 'lock_budget_target', {
       trip_id: big.tripId,
       target_minor: 150_000,

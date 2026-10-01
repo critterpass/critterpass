@@ -143,8 +143,12 @@ const notificationSources = [
       `${repoRootPrefix}/services/worker/src/jobs/invites/notifications.ts`,
       `${repoRootPrefix}/services/worker/src/jobs/chat/notify.ts`,
       `${repoRootPrefix}/services/worker/src/jobs/live-map/notify.ts`,
+      `${repoRootPrefix}/services/worker/src/jobs/proposal/notify.ts`,
       // Push and email copy the domain packages carry as `{id, message}` templates.
       `${repoRootPrefix}/packages/domain/src/*/templates.ts`,
+      `${repoRootPrefix}/packages/domain/src/quests/realtime.ts`,
+      `${repoRootPrefix}/packages/domain/src/critters/realtime.ts`,
+      `${repoRootPrefix}/packages/domain/src/surfaces/la-copy.ts`,
     ],
   },
   { name: 'roundup', include: [`${repoRootPrefix}/services/worker/src/jobs/roundup/**`] },

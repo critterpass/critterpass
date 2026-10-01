@@ -39,6 +39,21 @@ export function budgetStep(estimates: BudgetEstimates): bigint {
   }
 }
 
+/**
+ * The currency and step every target is held to: the published row's, else the estimates'. Both
+ * are public price facts (the crew currency and $50 in it), so the band read may hand them to the
+ * app at any crew size.
+ */
+export function lockGrid(
+  published: Pick<PublishedBudget, 'currency' | 'stepMinor'> | null,
+  estimates: BudgetEstimates,
+): { readonly currency: string; readonly stepMinor: bigint } {
+  return {
+    currency: published?.currency ?? estimates.currency,
+    stepMinor: published?.stepMinor ?? budgetStep(estimates),
+  };
+}
+
 export interface PublishedBudget {
   readonly currency: string;
   readonly maxesCount: number;

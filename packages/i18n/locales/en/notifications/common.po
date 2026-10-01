@@ -19,6 +19,10 @@ msgstr "{asker} wants to change the plan"
 msgid "notifications.changeset.needs_yes.body"
 msgstr "{count, plural, one {# change} other {# changes}} for {crew}. Approve or reject?"
 
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.ready.body"
+msgstr "{count} quests are up for {place}."
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
 msgstr "{crew}"
@@ -59,6 +63,10 @@ msgstr "{crew} said yes, so I updated the plan."
 msgid "notifications.nudge.rsvp"
 msgstr "{crew} wants to know if you're in. Yes, no or maybe all help."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.flight_start_title"
+msgstr "{flight} · {route}"
+
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.flight_title"
 msgstr "{flight} · {route}"
@@ -70,6 +78,10 @@ msgstr "{flight} is boarding"
 #: ../domain/src/guide/templates.ts
 msgid "notifications.guide.queued_answer.title"
 msgstr "{guide} answered your question"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.version_title"
+msgstr "{guide} wrote your version of {place}"
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.guide.title"
@@ -102,6 +114,22 @@ msgstr "{line}"
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.body"
 msgstr "{line}"
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.befriended.named"
+msgstr "{member} befriended {critter} in {place}."
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.befriended.unnamed"
+msgstr "{member} befriended a new local in {place}."
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.befriended.title"
+msgstr "{member} made a friend"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_late_body"
+msgstr "{missing} still not up."
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.not_movable"
@@ -159,17 +187,37 @@ msgstr "{payer} paid {amount} for {what}. Your share is {share}."
 msgid "notifications.money.marked_paid"
 msgstr "{payer} says they paid you {amount}. Got it?"
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_start_title"
+msgstr "{place} · {time}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_late_title"
+msgstr "{place} · {time}"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_title"
 msgstr "{place} · leave by {time}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_late_title"
+msgstr "{place} · running late"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_title"
 msgstr "{place} · today"
 
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.legendary.body"
+msgstr "{place} opens in a month. Want to plan around it?"
+
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.winner.body"
 msgstr "{place} won {score}. Come see the reveal."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.vote_start_body"
+msgstr "{question}"
 
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.closing.hours"
@@ -207,6 +255,18 @@ msgstr "{title} results are out {date}. Check the official site to see if you go
 msgid "notifications.bookings.deadline_body"
 msgstr "{title}: cancel for free until {deadline}. After that the booking’s own terms apply."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_body"
+msgstr "{up} of {total} up so far."
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.done.body"
+msgstr "+{xp} XP for the crew."
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.legendary.title"
+msgstr "A legendary is out soon"
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.title"
 msgstr "A seat just opened"
@@ -231,6 +291,10 @@ msgstr "Cancelled by the airline. Open the card to see your options."
 msgid "notifications.bookings.flight_delayed"
 msgstr "Delayed {minutes} min. New departure {time}."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.flight_start_body"
+msgstr "Departs {time}. Your flight is on the lock screen."
+
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.flight_diverted"
 msgstr "Diverted. I’ll keep you posted."
@@ -242,6 +306,10 @@ msgstr "Entries for {title} close {date}. Each of you enters on the official sit
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.settled.body"
 msgstr "Everyone gets the Settled Tokek."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_arrived_title"
+msgstr "Everyone is at {place}"
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.crew_close"
@@ -267,9 +335,17 @@ msgstr "It's {first} or {second} now. Your vote decides it."
 msgid "notifications.crew_invite.body"
 msgstr "Join now, or save it for later."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_title"
+msgstr "Leave by {time} · {place}"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title"
 msgstr "Leave by {time} · {place}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_go_body"
+msgstr "Leave now. {up} of {total} up."
 
 #: ../domain/src/bookings/templates.ts
 msgid "email.bookings.link_subject"
@@ -287,6 +363,10 @@ msgstr "No answer from {name} in two days, so {dates} is back to the best partia
 msgid "notifications.changeset.kept.body"
 msgstr "Not enough yeses from {crew}, so nothing changed."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_late_body"
+msgstr "Not everyone is there yet."
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.on_my_way"
 msgstr "On my way."
@@ -295,9 +375,21 @@ msgstr "On my way."
 msgid "notifications.crew_ping.on_my_way_eta"
 msgstr "On my way. {minutes} min out."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.pickup"
+msgstr "Pickup"
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.done.title"
+msgstr "Quest done: {title}"
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.template"
 msgstr "Quick one, {name}: your {dates} block is marked maybe. Could you free it for {place}?"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.reply_by_title"
+msgstr "Reply by tomorrow · {place}"
 
 #: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.photo"
@@ -319,9 +411,29 @@ msgstr "Settle-up time: you owe {payee} {amount}."
 msgid "email.bookings.link_body"
 msgstr "Someone forwarded a booking from this address to {crew} on CritterPass. If it was you, enter {code} in the app within 24 hours to link this email to your account. If it wasn’t, ignore this message and nothing will be imported."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.stay"
+msgstr "Stay"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.followup_title"
+msgstr "Still thinking about {place}?"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.resend_body"
+msgstr "Take a look when you have a minute."
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_nudge.body"
 msgstr "Tap to join them. It takes a few seconds."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_arrived_body"
+msgstr "The crew is all here."
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.reply_by_body"
+msgstr "The crew needs your answer by {date}."
 
 #: ../domain/src/plan/templates.ts
 msgid "notifications.changeset.applied.title"
@@ -335,6 +447,10 @@ msgstr "The plan stays as it was"
 msgid "notifications.guide.queued_answer.body"
 msgstr "The question you asked last night has its answer."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_start_body"
+msgstr "The whole crew, on your lock screen."
+
 #: ../domain/src/nudges/templates.ts
 msgid "notifications.nudge.payment"
 msgstr "There's a settle-up waiting for you in {crew}. Two taps and you're square."
@@ -342,6 +458,26 @@ msgstr "There's a settle-up waiting for you in {crew}. Two taps and you're squar
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_body"
 msgstr "Time to get up. Tap when you are up."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_go_title"
+msgstr "Time to go · {place}"
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.ready.title"
+msgstr "Today's crew quests"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.vote_start_title"
+msgstr "Vote closes {time}"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.version_body"
+msgstr "Watch the trip, then tell the crew if you are in."
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.hatched.body"
+msgstr "Welcome to {place}. {critter} is on your pass."
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.ping"
@@ -351,6 +487,10 @@ msgstr "Where is everyone? Check the map."
 msgid "notifications.vote.destination.body"
 msgstr "Where next? {count} places are on the board. Pick one."
 
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.followup_body"
+msgstr "You asked me to check in. Take another look?"
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.body"
 msgstr "You're next on {crew}'s trip. The seat is yours if you take it within a day."
@@ -358,3 +498,11 @@ msgstr "You're next on {crew}'s trip. The seat is yours if you take it within a 
 #: ../domain/src/itinerary/templates.ts
 msgid "notifications.draft.ready.body"
 msgstr "Your {place} draft is in. Only you can see it for now."
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.resend_title"
+msgstr "Your crew planned {place}"
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.hatched.title"
+msgstr "Your egg hatched!"

@@ -12,6 +12,7 @@
 import { DomainError, type PriceDisplayMode } from '@cp/domain';
 
 import { currencyExponent, currencySymbol, displayDecimals, type CurrencyCode } from './currencies';
+import { formatCurrencyText } from './intl-fallbacks';
 import { type Money } from './money';
 import { divideRounded, type RoundingMode } from './round';
 
@@ -63,16 +64,6 @@ function toDisplayDecimalString(
 }
 
 /**
- * `toDisplayDecimalString` only ever emits an optional "-", digits, and optionally "." + digits, so
- * it always matches `Intl.StringNumericLiteral`'s `${number}` pattern; TypeScript's `NumberFormat`
- * types just cannot verify that for a dynamically-built string, so this narrows it once, in one
- * place, instead of a per-call-site assertion.
- */
-function asNumericLiteral(value: string): Intl.StringNumericLiteral {
-  return value as Intl.StringNumericLiteral;
-}
-
-/**
  * Renders one `Money` value with locale grouping and Critterpass's disambiguated symbol. Uses
  * `Intl.NumberFormat`'s own currency-part placement (prefix/suffix, spacing) for the locale, then
  * swaps in our symbol — CLDR knows *where* the symbol goes, we own *what* the glyph is. Falls back
@@ -84,16 +75,7 @@ function formatSingle(amount: Money, locale: string, roundingMode: RoundingMode)
   const decimalString = toDisplayDecimalString(amount, decimals, roundingMode);
   const symbol = currencySymbol(amount.currency);
   try {
-    const formatter = new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency: amount.currency,
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals,
-    });
-    return formatter
-      .formatToParts(asNumericLiteral(decimalString))
-      .map((part) => (part.type === 'currency' ? symbol : part.value))
-      .join('');
+    return formatCurrencyText(locale, decimalString, amount.currency, symbol, decimals);
   } catch {
     return `${symbol}${decimalString}`;
   }

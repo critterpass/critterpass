@@ -2,6 +2,7 @@
  * The review's summary chips (3e-3): "+$22 EACH", "1 BOOKING MOVED", "0 MUST-DOS TOUCHED", each
  * number rolling as changes are kept or dropped. A touched must-do turns its chip pink.
  */
+import { narrowCurrencySymbol } from '@cp/cost-engine';
 import { plural, t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
@@ -31,9 +32,10 @@ export function currencyParts(
   locale: string,
 ): { symbol: string; digits: number } {
   const format = new Intl.NumberFormat(locale, { style: 'currency', currency });
-  const symbol =
-    format.formatToParts(0).find((part) => part.type === 'currency')?.value ?? currency;
-  return { symbol, digits: format.resolvedOptions().maximumFractionDigits ?? 2 };
+  return {
+    symbol: narrowCurrencySymbol(currency),
+    digits: format.resolvedOptions().maximumFractionDigits ?? 2,
+  };
 }
 
 function Chip({
