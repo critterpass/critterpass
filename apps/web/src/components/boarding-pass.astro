@@ -1,6 +1,15 @@
 ---
 import '../styles/coming-soon.css';
 import { GUIDES } from '../lib/guides';
+import { comingSoonCopy as copy } from './site/copy/coming-soon';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await siteTranslator(locale);
 
 const initialGuide = GUIDES[0]!;
 ---
@@ -10,7 +19,7 @@ const initialGuide = GUIDES[0]!;
   <div class="cs-pass" data-cs="pass" style={`background:${initialGuide.bg}`}>
     <div class="cs-pass__texture"></div>
     <div class="cs-pass__head">
-      <span>CRITTERPASS · BOARDING SOON</span>
+      <span>{t(copy.passHead)}</span>
       <span>CP-<span data-cs="pass-no">{initialGuide.no}</span></span>
     </div>
     <div class="cs-pass__guide">
@@ -21,41 +30,41 @@ const initialGuide = GUIDES[0]!;
         size="230"
         pose="wave"
         sticker="#f4efe4"
-        label={`${initialGuide.name} waving`}
+        label={t(copy.guideWaving, { name: initialGuide.name })}
       />
     </div>
     <div class="cs-pass__foot">
       <div class="cs-pass__grid">
         <div class="cs-pass__field">
-          <span class="cs-pass__field-label">FROM</span>
-          <span class="cs-pass__field-value">GROUP CHAT</span>
+          <span class="cs-pass__field-label">{t(copy.passFrom)}</span>
+          <span class="cs-pass__field-value">{t(copy.passGroupChat)}</span>
         </div>
         <div class="cs-pass__field">
-          <span class="cs-pass__field-label">TO</span>
+          <span class="cs-pass__field-label">{t(copy.passTo)}</span>
           <span class="cs-pass__field-value" data-cs="pass-city">{initialGuide.city}</span>
         </div>
         <div class="cs-pass__field">
-          <span class="cs-pass__field-label">SEAT</span>
+          <span class="cs-pass__field-label">{t(copy.passSeat)}</span>
           <span class="cs-pass__field-value" data-cs="pass-seat">— —</span>
         </div>
       </div>
       <div class="cs-pass__bottom">
         <div class="cs-pass__gate">
-          <span class="cs-pass__field-label">GATE OPENS IN</span>
-          <span class="cs-pass__gate-badge" data-cs="pass-gate">BOARDING SOON</span>
+          <span class="cs-pass__field-label">{t(copy.gateOpensIn)}</span>
+          <span class="cs-pass__gate-badge" data-cs="pass-gate">{t(copy.boardingSoon)}</span>
         </div>
         <div class="cs-pass__guide-name">
-          <span class="cs-pass__guide-name-script">your guide</span>
+          <span class="cs-pass__guide-name-script">{t(copy.yourGuide)}</span>
           <span class="cs-pass__guide-name-value" data-cs="pass-guide-name">{initialGuide.name}</span>
         </div>
       </div>
     </div>
   </div>
   <span class="cs-pass__egg">
-    <cp-critter kind="egg" seed="12" size="100" label="A wiggling egg" />
+    <cp-critter kind="egg" seed="12" size="100" label={t(copy.eggLabel)} />
   </span>
   <div class="cs-pass__stamp">
-    <span class="cs-pass__stamp-title">COMING<br />SOON</span>
-    <span class="cs-pass__stamp-sub">EST. 2026</span>
+    <span class="cs-pass__stamp-title">{t(copy.stampTitle)}</span>
+    <span class="cs-pass__stamp-sub">{t(copy.stampSub)}</span>
   </div>
 </div>

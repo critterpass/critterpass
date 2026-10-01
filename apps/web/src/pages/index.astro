@@ -1,10 +1,10 @@
 ---
 import { env } from 'cloudflare:workers';
 
-import BaseLayout from '../layouts/base-layout.astro';
-import ComingSoonPage from '../components/coming-soon-page.astro';
+import ComingSoonDocument from '../components/coming-soon-document.astro';
 import HomePage from '../components/site/home/HomePage.astro';
 import { siteMode } from '../components/site/site-mode';
+import { resolveRequestLocale } from '../lib/locale-request';
 
 // SSR (not prerendered): the `www.critterpass.app` -> apex redirect lives in src/middleware.ts,
 // which only runs for server-rendered routes, and the front door depends on the Worker's
@@ -12,18 +12,15 @@ import { siteMode } from '../components/site/site-mode';
 export const prerender = false;
 
 const mode = siteMode((env as unknown as { SITE_MODE?: string }).SITE_MODE);
+// The coming-soon page answers here in the visitor's own language (remembered choice, then the
+// browser's languages), in place: no redirect, so `/` stays the one address to share.
+const locale = mode === 'coming-soon' ? resolveRequestLocale(Astro).locale : null;
 ---
 
 {
-  mode === 'coming-soon' ? (
-    <BaseLayout
-      title="CritterPass — Group trips, planned with the locals"
-      description="CritterPass is a group trip planner coming soon to iOS and Android. The locals happen to be animals. Join the waitlist."
-      canonicalPath="/"
-    >
-      <ComingSoonPage referredBy={null} />
-    </BaseLayout>
-  ) : (
+  locale === null ? (
     <HomePage />
+  ) : (
+    <ComingSoonDocument locale={locale} canonicalPath="/" referredBy={null} />
   )
 }

@@ -65,7 +65,7 @@ Transitions are enforced in command handlers (`packages/domain/state/*.ts`, one 
 | `redrafting` | `draft_review` | KEEP or revert; reservation committed (released on failure) | — |
 | `draft_review` | `proposed` | organiser SEND | per-recipient `proposal_versions`; reply_by timer |
 | `proposed` | `draft_review` | organiser edits and re-sends | — |
-| `proposed` | `confirmed` | reply_by passes, or organiser locks with ≥1 IN | unopened/maybe → out or waitlisted; Viator holds converted or released |
+| `proposed` | `confirmed` | reply_by passes with ≥ 2 IN (organiser included), or organiser locks with ≥ 1 recipient IN | proposed plan version → `current`. Organiser lock: maybe → waitlisted, unanswered → out, their open Viator holds released. Reply-by: unanswered → maybe, nobody moved off the trip |
 | `confirmed` | `pre_trip` | T − 14 d job | day bundles, flight watches |
 | `pre_trip` | `in_trip` | first member lands (flight webhook / geofence / manual) | egg hatch; location trip mode on |
 | `in_trip` | `post_trip` | destination-tz midnight after last day (or return landing) | crew-map shares end; recap job; settle nudges |

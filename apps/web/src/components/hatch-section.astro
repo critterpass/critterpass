@@ -1,26 +1,37 @@
 ---
 import '../styles/coming-soon-sections.css';
+import { LOCALS_TOTAL, formatNumber } from '../lib/coming-soon-strings';
+import { HATCH_POOL } from '../lib/hatch-pool';
+import { comingSoonSectionsCopy as copy, hatchLocalCopy } from './site/copy/coming-soon-sections';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await siteTranslator(locale);
+const first = HATCH_POOL[0]!;
 ---
 
-<section class="cs-hatch" aria-label="Hatch an egg preview">
+<section class="cs-hatch" aria-label={t(copy.hatchLabel)}>
   <div class="cs-hatch__grid">
     <div class="cs-hatch__copy">
-      <span class="cs-eyebrow">A LITTLE PREVIEW</span>
-      <h2 class="cs-h2">Every local starts as an egg</h2>
+      <span class="cs-eyebrow">{t(copy.hatchEyebrow)}</span>
+      <h2 class="cs-h2">{t(copy.hatchTitle)}</h2>
       <p class="cs-hatch__desc">
-        In the app, an egg hatches when you land somewhere new. Here you can cheat. Tap it three times and see who
-        turns up.
+        {t(copy.hatchBody)}
       </p>
       <div class="cs-stats">
         <div class="cs-stat">
-          <span class="cs-stat__value">150</span>
-          <span class="cs-stat__label">LOCALS</span>
+          <span class="cs-stat__value">{formatNumber(locale, LOCALS_TOTAL)}</span>
+          <span class="cs-stat__label">{t(copy.statLocals)}</span>
         </div>
         <div class="cs-stat">
           <span class="cs-stat__value">61</span>
-          <span class="cs-stat__label">PLACES</span>
+          <span class="cs-stat__label">{t(copy.statPlaces)}</span>
         </div>
-        <span class="cs-stats__quip">you can't buy them.<br />you have to go.</span>
+        <span class="cs-stats__quip">{t(copy.quipTop)}<br />{t(copy.quipBottom)}</span>
       </div>
     </div>
 
@@ -29,8 +40,8 @@ import '../styles/coming-soon-sections.css';
 
       <div data-cs="egg-not-hatched">
         <div style="display:flex;flex-direction:column;align-items:center;gap:20px">
-          <span class="cs-egg-hint" data-cs="egg-hint">tap the egg</span>
-          <button type="button" class="cs-egg-btn" data-cs="egg-button" aria-label="Tap the egg">
+          <span class="cs-egg-hint" data-cs="egg-hint">{t(copy.hintTap)}</span>
+          <button type="button" class="cs-egg-btn" data-cs="egg-button" aria-label={t(copy.tapEgg)}>
             <cp-critter data-cs="egg-critter" kind="egg" seed="12" size="200" />
           </button>
           <div class="cs-egg-shadow"></div>
@@ -45,16 +56,16 @@ import '../styles/coming-soon-sections.css';
       <div data-cs="egg-hatched" hidden>
         <div class="cs-hatched">
           <span class="cs-hatched__critter">
-            <cp-critter data-cs="hatched-critter" kind="cp-005" seed="1" size="210" sticker="#f4efe4" />
+            <cp-critter data-cs="hatched-critter" kind={first.id} seed="1" size="210" sticker="#f4efe4" />
           </span>
           <div class="cs-hatched__meta">
-            <span class="cs-hatched__num"><span data-cs="hatched-num">#005</span> OF 150 · <span data-cs="hatched-city">HỘI AN</span></span>
-            <span class="cs-hatched__name" data-cs="hatched-name">Chép</span>
-            <span class="cs-hatched__species" data-cs="hatched-species">A lantern carp, waiting for you in Hội An.</span>
+            <span class="cs-hatched__num" data-cs="hatched-number">{t(copy.hatchedNumber, { num: first.num, total: formatNumber(locale, LOCALS_TOTAL), city: first.city })}</span>
+            <span class="cs-hatched__name" data-cs="hatched-name">{first.name}</span>
+            <span class="cs-hatched__species" data-cs="hatched-species">{t(hatchLocalCopy['cp-005'])}</span>
           </div>
           <div class="cs-hatched__actions">
-            <a href="#join" class="cs-btn-solid">SAVE MY SEAT ↑</a>
-            <button type="button" class="cs-btn-outline" data-cs="hatch-again">HATCH ANOTHER</button>
+            <a href="#join" class="cs-btn-solid">{t(copy.saveSeatUp)}</a>
+            <button type="button" class="cs-btn-outline" data-cs="hatch-again">{t(copy.hatchAnother)}</button>
           </div>
         </div>
       </div>

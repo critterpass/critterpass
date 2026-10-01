@@ -4,9 +4,16 @@
  * place (first in line for a freed seat), every recipient who never answered is out, the open
  * activity holds of the people now off the trip are released (the IN members' holds stay for the
  * booking flow to convert), the proposed plan version becomes `current`, the proposal locks and the
- * trip moves `proposed → confirmed` through the one trip-status path. Locking a locked proposal changes nothing.
+ * trip moves `proposed → confirmed` through the one lock path the reply-by job shares. A proposal
+ * reply-by locked without confirming the trip can still be locked in here; locking a confirmed one
+ * changes nothing.
  */
-import { appendDomainEvent, cancelScheduledEvent, confirmTrip } from '@cp/db';
+import {
+  appendDomainEvent,
+  cancelScheduledEvent,
+  isConfirmedOrLater,
+  lockProposalAndConfirm,
+} from '@cp/db';
 import {
   DomainError,
   isOpenHold,
@@ -129,13 +136,14 @@ export const lockProposalCommand = defineCommand({
       await lockTripSeats(tx, proposal.trip_id);
       const people = await recipients(tx, proposal);
       const inCount = people.filter((p) => p.rsvp === 'in').length;
-      if (proposal.status === 'locked') {
-        const trip = await tx.query<{ status: string }>('SELECT status FROM trips WHERE id = $1', [
-          proposal.trip_id,
-        ]);
-        if (trip.rows[0]?.status !== 'confirmed') {
-          throw new DomainError('STATE_INVALID', { state: trip.rows[0]?.status ?? 'unknown' });
-        }
+      const trip = await tx.query<{ status: string }>('SELECT status FROM trips WHERE id = $1', [
+        proposal.trip_id,
+      ]);
+      const tripStatus = trip.rows[0]?.status ?? 'unknown';
+      // Already locked in (by an earlier lock, or by reply-by with the trip confirmed): nothing
+      // changes. A proposal that reply-by locked without confirming the trip can still be locked
+      // in here, once someone is IN.
+      if (proposal.status === 'locked' && isConfirmedOrLater(tripStatus)) {
         return {
           proposal_id: proposal.id,
           trip_status: 'confirmed',
@@ -152,39 +160,15 @@ export const lockProposalCommand = defineCommand({
       for (const uid of maybe) await move(tx, proposal, ctx.uid, uid, 'waitlisted');
       for (const uid of unanswered) await move(tx, proposal, ctx.uid, uid, 'out');
       await releaseHolds(tx, proposal, ctx.uid, [...maybe, ...unanswered]);
-      await tx.query(
-        `UPDATE proposals SET status = 'locked', locked_at = $2 WHERE id = $1 AND status = $3`,
-        [proposal.id, ctx.clock.serverNow, 'sent'],
-      );
-      await appendDomainEvent(tx, {
-        type: 'proposal.locked',
-        aggregateKind: 'proposal',
-        aggregateId: proposal.id,
-        actorKind: 'user',
-        actorId: ctx.uid,
-        payload: {
-          trip_id: proposal.trip_id,
-          proposal_id: proposal.id,
-          unanswered: unanswered.length,
-        },
-        crewId: proposal.crew_id,
+      const after = await lockProposalAndConfirm(tx, {
+        proposalId: proposal.id,
         tripId: proposal.trip_id,
+        crewId: proposal.crew_id,
+        actor: { kind: 'user', id: ctx.uid },
+        now: ctx.clock.serverNow,
+        unanswered: unanswered.length,
       });
-      // The plan the crew agreed to is the trip's plan from here on.
-      await tx.query(
-        `UPDATE itinerary_versions SET status = 'current'
-          WHERE status = 'proposed' AND id = (SELECT current_version_id FROM trips WHERE id = $1)`,
-        [proposal.trip_id],
-      );
-      const moved = await confirmTrip(tx, proposal.trip_id, { kind: 'user', id: ctx.uid });
-      if (!moved) {
-        const trip = await tx.query<{ status: string }>('SELECT status FROM trips WHERE id = $1', [
-          proposal.trip_id,
-        ]);
-        if (trip.rows[0]?.status !== 'confirmed') {
-          throw new DomainError('STATE_INVALID', { state: trip.rows[0]?.status ?? 'unknown' });
-        }
-      }
+      if (!isConfirmedOrLater(after)) throw new DomainError('STATE_INVALID', { state: after });
       const waitlisted = people.filter((p) => p.rsvp === 'waitlisted').length + maybe.length;
       const out = people.filter((p) => p.rsvp === 'out').length + unanswered.length;
       return { proposal_id: proposal.id, trip_status: 'confirmed', in: inCount, waitlisted, out };

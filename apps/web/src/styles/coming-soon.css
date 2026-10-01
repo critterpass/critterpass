@@ -13,7 +13,7 @@
   background: var(--color-ink-850);
   overflow-x: hidden;
   color: var(--color-paper-base);
-  font-family: Geist, system-ui, sans-serif;
+  font-family: Geist, var(--cs-body);
   -webkit-font-smoothing: antialiased;
 }
 /* Bare links inherit and turn yellow on hover. Zero specificity so every styled link (the yellow
@@ -57,7 +57,7 @@
   text-decoration: none;
 }
 .cs-brand__word {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 26px;
   line-height: 1;
@@ -76,7 +76,7 @@
   gap: 8px;
   font:
     500 12px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-ink-200);
 }
 .cs-ping {
@@ -120,7 +120,7 @@
   text-decoration: none;
   font:
     900 13px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.06em;
   transition: transform 0.2s;
   border: none;
@@ -165,7 +165,7 @@
   border-radius: 10px;
   font:
     700 11px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.16em;
 }
 .cs-badge--muted {
@@ -179,7 +179,7 @@
 }
 .cs-title {
   margin: 0;
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: clamp(96px, 14vw, 196px);
   line-height: 0.88;
@@ -197,7 +197,7 @@
   margin: 0;
   font:
     500 clamp(19px, 2vw, 24px) / 1.4 Geist,
-    sans-serif;
+    var(--cs-sans);
   text-wrap: pretty;
 }
 .cs-typed {
@@ -206,7 +206,7 @@
   gap: 10px;
   font:
     400 clamp(19px, 1.9vw, 24px) / 1.5 Borel,
-    cursive;
+    var(--cs-hand);
   color: var(--color-pink);
   transform: rotate(-2deg);
   margin-top: 6px;
@@ -256,13 +256,16 @@
   box-sizing: border-box;
   padding: 0 28px;
   display: flex;
+  /* Two labels side by side; when a language needs more room, one whole label per row. */
+  flex-wrap: wrap;
   align-items: center;
+  align-content: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 4px 12px;
   border-bottom: 3px dashed var(--color-paper-border);
   font:
     700 11px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.16em;
   color: var(--color-paper-label);
 }
@@ -278,7 +281,7 @@
   gap: 10px;
 }
 .cs-field-group__label {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 20px;
   line-height: 1;
@@ -302,7 +305,7 @@
   cursor: pointer;
   font:
     800 12px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.08em;
   transition: transform 0.15s;
 }
@@ -328,7 +331,7 @@
   color: var(--color-ink-850);
   font:
     500 17px Geist,
-    sans-serif;
+    var(--cs-sans);
   outline: none;
   box-sizing: border-box;
 }
@@ -345,7 +348,7 @@
   cursor: pointer;
   font:
     900 16px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.06em;
   transition: transform 0.2s;
 }
@@ -359,7 +362,7 @@
 .cs-note {
   font:
     500 13.5px/1.4 Geist,
-    sans-serif;
+    var(--cs-sans);
   color: var(--color-paper-label);
 }
 .cs-note[data-error='true'] {
@@ -386,7 +389,7 @@
   flex-wrap: wrap;
   font:
     500 12px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-paper-label);
 }
 .cs-wave__track {
@@ -431,12 +434,12 @@
 .cs-joined__spot-label {
   font:
     700 11px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.16em;
   color: var(--color-paper-label);
 }
 .cs-joined__spot-value {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: clamp(64px, 8vw, 92px);
   line-height: 0.92;
@@ -445,7 +448,7 @@
 .cs-joined__line {
   font:
     400 21px/1.5 Borel,
-    cursive;
+    var(--cs-hand);
   color: var(--color-rust-base);
   transform: rotate(-2deg);
 }
@@ -471,7 +474,7 @@
   border-top: 2px solid var(--color-paper-divider);
 }
 .cs-referral__title {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 22px;
   line-height: 1;
@@ -480,7 +483,7 @@
 .cs-referral__copy {
   font:
     500 15px/1.45 Geist,
-    sans-serif;
+    var(--cs-sans);
   color: var(--color-paper-body);
   text-wrap: pretty;
 }
@@ -501,7 +504,7 @@
   color: var(--color-yellow);
   font:
     500 14px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   box-sizing: border-box;
   overflow: hidden;
   white-space: nowrap;
@@ -516,7 +519,7 @@
   cursor: pointer;
   font:
     900 14px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.06em;
   transition: transform 0.2s;
 }
@@ -541,7 +544,7 @@
   text-decoration: none;
   font:
     800 12px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.08em;
   color: var(--color-ink-850);
   border: none;
@@ -568,7 +571,7 @@
   justify-content: center;
   font:
     800 14px Archivo,
-    sans-serif;
+    var(--cs-sans);
 }
 .cs-friend-avatar[data-filled='true'] {
   border-style: solid;
@@ -577,7 +580,7 @@
 .cs-friends-count {
   font:
     500 12px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-paper-label);
 }
 .cs-reset-btn {
@@ -588,7 +591,7 @@
   cursor: pointer;
   font:
     600 13px Geist,
-    sans-serif;
+    var(--cs-sans);
   color: var(--color-paper-label);
   text-decoration: underline;
 }
@@ -636,10 +639,16 @@
   padding: 22px 26px 0;
   display: flex;
   justify-content: space-between;
+  gap: 12px;
   font:
     700 11px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.16em;
+}
+/* The pass number never breaks; a long title wraps beside it instead. */
+.cs-pass__head > :last-child {
+  flex: none;
+  white-space: nowrap;
 }
 .cs-pass__guide {
   position: relative;
@@ -680,11 +689,11 @@
 .cs-pass__field-label {
   font:
     700 10px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.16em;
 }
 .cs-pass__field-value {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 22px;
   line-height: 1;
@@ -707,7 +716,7 @@
   border-radius: 12px;
   background: var(--color-ink-850);
   color: var(--color-yellow);
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: clamp(22px, 2.6vw, 34px);
   line-height: 1;
@@ -724,10 +733,10 @@
 .cs-pass__guide-name-script {
   font:
     400 18px/1.5 Borel,
-    cursive;
+    var(--cs-hand);
 }
 .cs-pass__guide-name-value {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 30px;
   line-height: 1;
@@ -782,16 +791,20 @@
   text-align: center;
 }
 .cs-pass__stamp-title {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 21px;
   line-height: 1;
   font-stretch: 70%;
+  /* Two short lines inside the ring, whatever the language. */
+  max-width: 88px;
+  text-align: center;
+  text-wrap: balance;
 }
 .cs-pass__stamp-sub {
   font:
     700 9px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.14em;
   margin-top: 6px;
 }

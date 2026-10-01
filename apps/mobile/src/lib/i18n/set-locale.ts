@@ -19,6 +19,11 @@ export function persistedLocale(): string | undefined {
   return storage.getString(LOCALE_STORAGE_KEY);
 }
 
+/** The language the UI is in right now; `undefined` until the first one is activated. */
+export function activeLocale(): string | undefined {
+  return i18n.locale === '' ? undefined : i18n.locale;
+}
+
 export interface SetLocaleOptions {
   /** Write the choice to MMKV so it wins over device-preferred detection on next launch. @default true */
   persist?: boolean;

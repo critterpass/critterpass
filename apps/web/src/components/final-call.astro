@@ -1,30 +1,45 @@
 ---
 import '../styles/coming-soon-sections.css';
+import { aroundSlot, formatNumber } from '../lib/coming-soon-strings';
+import { GUIDES } from '../lib/guides';
+import { FIRST_WAVE_TOTAL, WAITLIST_BASE_COUNT } from '../lib/waitlist';
+import { comingSoonCopy as heroCopy } from './site/copy/coming-soon';
+import { comingSoonSectionsCopy as copy } from './site/copy/coming-soon-sections';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await siteTranslator(locale);
+const [leftBefore, leftAfter] = aroundSlot(t, copy.finalSeatsLeft, 'count');
+const guide = GUIDES[0]!;
 ---
 
-<section class="cs-final" aria-label="Final call">
+<section class="cs-final" aria-label={t(copy.finalLabel)}>
   <div class="cs-final__outer">
     <div class="cs-final__card">
       <div class="cs-final__left">
         <div class="cs-final__eyebrow-row">
-          <span>FINAL CALL</span>
-          <span>FIRST WAVE · 5,000 SEATS</span>
+          <span>{t(copy.finalEyebrow)}</span>
+          <span>{t(copy.finalSeats, { seats: formatNumber(locale, FIRST_WAVE_TOTAL) })}</span>
         </div>
-        <h2 class="cs-final__title">The first wave boards soon</h2>
+        <h2 class="cs-final__title">{t(copy.finalTitle)}</h2>
         <div class="cs-final__gate-row">
-          <span class="cs-final__gate-badge" data-cs="final-gate">BOARDING SOON</span>
-          <span class="cs-final__seats"><span data-cs="final-wave-left">4,500</span> first-wave seats left</span>
+          <span class="cs-final__gate-badge" data-cs="final-gate">{t(heroCopy.boardingSoon)}</span>
+          <span class="cs-final__seats">{leftBefore}<span data-cs="final-wave-left">{formatNumber(locale, FIRST_WAVE_TOTAL - WAITLIST_BASE_COUNT)}</span>{leftAfter}</span>
         </div>
         <div class="cs-final__actions">
-          <a href="#join" class="cs-cta cs-final__cta" data-cs="final-cta">SAVE MY SEAT ↑</a>
-          <span class="cs-final__quip">takes 10 seconds</span>
+          <a href="#join" class="cs-cta cs-final__cta" data-cs="final-cta">{t(copy.saveSeatUp)}</a>
+          <span class="cs-final__quip">{t(copy.finalQuip)}</span>
         </div>
       </div>
       <div class="cs-final__right">
         <span class="cs-final__right-critter">
-          <cp-critter kind="gecko" seed="41" size="160" pose="cheer" sticker="#f4efe4" label="Tokek cheering" />
+          <cp-critter kind={guide.kind} seed={guide.seed} size="160" pose="cheer" sticker="#f4efe4" label={t(copy.guideCheering, { name: guide.name })} />
         </span>
-        <span class="cs-final__gate-label">GATE ✦ ANYWHERE</span>
+        <span class="cs-final__gate-label">{t(copy.finalGate)}</span>
       </div>
     </div>
   </div>
