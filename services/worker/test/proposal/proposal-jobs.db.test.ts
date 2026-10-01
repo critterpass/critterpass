@@ -242,6 +242,15 @@ describe('suggestions', () => {
   });
 });
 
+const tripState = async () =>
+  (
+    await world.q<{ trip: string; proposal: string }>(
+      `SELECT t.status AS trip, p.status AS proposal FROM proposals p
+         JOIN trips t ON t.id = p.trip_id WHERE p.id = $1`,
+      [world.proposalId],
+    )
+  )[0];
+
 describe('reply-by and follow-ups', () => {
   it('reminds once a day before, and locks once at reply-by with the unanswered on maybe', async () => {
     // Sent an hour ago with half a day to answer: its own push just went, so no reminder follows.
@@ -250,7 +259,7 @@ describe('reply-by and follow-ups', () => {
               reply_by = now() + interval '12 hours' WHERE id = $1`,
       [world.proposalId],
     );
-    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 0 });
+    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 0, confirmed: 0 });
     const early = await world.q(
       "SELECT 1 FROM domain_events WHERE type = 'proposal.reply_by_soon'",
     );
@@ -260,22 +269,67 @@ describe('reply-by and follow-ups', () => {
       `UPDATE proposals SET sent_at = now() - interval '3 days', reminded_at = NULL WHERE id = $1`,
       [world.proposalId],
     );
-    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 1, locked: 0 });
-    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 0 });
+    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 1, locked: 0, confirmed: 0 });
+    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 0, confirmed: 0 });
     const [soon] = await world.q<{ payload: { user_ids: string[] } }>(
       "SELECT payload FROM domain_events WHERE type = 'proposal.reply_by_soon'",
     );
     expect(soon!.payload.user_ids.sort()).toEqual([world.users.Jordan, world.users.Maya].sort());
+    // Only the organiser is IN: reply-by locks the proposal and leaves the trip proposed.
+    await world.q(
+      `UPDATE trip_participants SET rsvp = 'maybe'
+        WHERE trip_id = $1 AND rsvp = 'in' AND role <> 'organiser'`,
+      [world.tripId],
+    );
     await world.q("UPDATE proposals SET reply_by = now() - interval '1 minute' WHERE id = $1", [
       world.proposalId,
     ]);
-    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 1 });
-    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 0 });
+    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 1, confirmed: 0 });
+    expect(await tripState()).toEqual({ trip: 'proposed', proposal: 'locked' });
+    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 0, confirmed: 0 });
     const [jordan] = await world.q<{ rsvp: string }>(
       'SELECT rsvp FROM trip_participants WHERE trip_id = $1 AND user_id = $2',
       [world.tripId, world.users.Jordan],
     );
     expect(jordan!.rsvp).toBe('maybe');
+  });
+
+  it('confirms the trip at reply-by when two are in and the organiser never locked', async () => {
+    await world.q(
+      `UPDATE proposals SET status = 'sent', locked_at = NULL,
+              reply_by = now() - interval '1 minute' WHERE id = $1`,
+      [world.proposalId],
+    );
+    await world.q(
+      `UPDATE itinerary_versions SET status = 'proposed'
+        WHERE id = (SELECT current_version_id FROM trips WHERE id = $1)`,
+      [world.tripId],
+    );
+    await world.q("UPDATE trip_participants SET rsvp = 'in' WHERE trip_id = $1 AND user_id = $2", [
+      world.tripId,
+      world.users.Rin,
+    ]);
+    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 1, confirmed: 1 });
+    expect(await tripState()).toEqual({ trip: 'confirmed', proposal: 'locked' });
+    const [version] = await world.q<{ status: string }>(
+      `SELECT v.status FROM itinerary_versions v JOIN trips t ON t.current_version_id = v.id
+        WHERE t.id = $1`,
+      [world.tripId],
+    );
+    expect(version!.status).toBe('current');
+    // Nobody is moved off the trip on this path: a maybe stays a maybe.
+    const [jordan] = await world.q<{ rsvp: string }>(
+      'SELECT rsvp FROM trip_participants WHERE trip_id = $1 AND user_id = $2',
+      [world.tripId, world.users.Jordan],
+    );
+    expect(jordan!.rsvp).toBe('maybe');
+    const moved = await world.q<{ actor_kind: string }>(
+      `SELECT actor_kind FROM domain_events WHERE type = 'trip.status_changed'
+          AND aggregate_id = $1 AND payload->>'to' = 'confirmed'`,
+      [world.tripId],
+    );
+    expect(moved).toEqual([{ actor_kind: 'system' }]);
+    expect(await runReplyBy(world.harness.pool)).toEqual({ reminded: 0, locked: 0, confirmed: 0 });
   });
 
   it('delivers a due follow-up once, naming nobody in the event', async () => {

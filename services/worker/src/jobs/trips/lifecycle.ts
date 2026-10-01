@@ -3,7 +3,6 @@
  * privacy.md §3.1, each at a wall-clock boundary in the trip's own time zone (the trip's `tz`, else
  * its destination's, else UTC):
  *
- * - `proposed → confirmed` once the sent proposal's reply-by has passed with at least one member IN;
  * - `confirmed → pre_trip` from 00:00 fourteen days before the first day (at once for a trip
  *   confirmed later than that);
  * - `pre_trip → in_trip` at 12:00 on the first day when no landing, arrival or organiser has
@@ -15,7 +14,9 @@
  * The rules run in lifecycle order, so a trip that fell behind catches up in one run. Each move is
  * its own transaction through `moveTripStatus` (compare-and-set, the status guard trigger and the
  * `trip.status_changed` event), so a rerun, or a signal that moved the trip first, changes nothing.
- * Voting, setup-stage, cancelled and archived trips match no rule.
+ * Voting, setup-stage, proposed, cancelled and archived trips match no rule: a proposed trip is
+ * confirmed by the organiser's lock or by the reply-by job (`proposal.reply_by`), which share one
+ * lock path, never here.
  */
 import { moveTripStatus, withSystem } from '@cp/db';
 import { TRIP_LIFECYCLE_QUEUES, type TripStatus } from '@cp/domain';
@@ -42,13 +43,6 @@ interface LifecycleRule {
 }
 
 export const LIFECYCLE_RULES: readonly LifecycleRule[] = [
-  {
-    from: 'proposed',
-    to: 'confirmed',
-    due: `EXISTS (SELECT 1 FROM proposals p
-                   WHERE p.trip_id = t.id AND p.status = 'sent' AND p.reply_by <= $1)
-          AND EXISTS (SELECT 1 FROM trip_participants tp WHERE tp.trip_id = t.id AND tp.rsvp = 'in')`,
-  },
   {
     from: 'confirmed',
     to: 'pre_trip',
