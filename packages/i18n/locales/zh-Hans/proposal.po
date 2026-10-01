@@ -454,12 +454,12 @@ msgstr ""
 msgid "proposal.objection.laterDone"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
-msgid "proposal.trailer.in"
-msgstr ""
-
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.in"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.in"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx

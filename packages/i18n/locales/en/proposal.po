@@ -454,12 +454,12 @@ msgstr "I couldn’t reach the plan just now. Try again in a moment."
 msgid "proposal.objection.laterDone"
 msgstr "I’ll ask you on Sunday"
 
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
-msgid "proposal.trailer.in"
-msgstr "I’m in"
-
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.in"
+msgstr "I’m in"
+
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.in"
 msgstr "I’m in"
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
