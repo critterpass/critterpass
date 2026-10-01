@@ -58,4 +58,26 @@ describe('createTokenCache', () => {
     await cache.getToken('sync');
     expect(getToken).toHaveBeenCalledTimes(2);
   });
+
+  it('counts a fetch that never answers as failed, and a later fetch still succeeds', async () => {
+    jest.useFakeTimers();
+    try {
+      const getToken = jest
+        .fn<TokenClient['getToken']>()
+        .mockImplementationOnce(() => new Promise(() => undefined))
+        .mockResolvedValueOnce({ token: 'token-2', expiresAtMs: 15 * 60_000 });
+      const cache = createTokenCache({ getToken }, () => 0, 15_000);
+
+      const hung = cache.getToken('sync');
+      const settled = expect(hung).rejects.toThrow('did not answer within 15000 ms');
+      jest.advanceTimersByTime(15_000);
+      await settled;
+      expect(getToken.mock.calls[0]?.[1].aborted).toBe(true);
+
+      await expect(cache.getToken('sync')).resolves.toBe('token-2');
+      expect(getToken).toHaveBeenCalledTimes(2);
+    } finally {
+      jest.useRealTimers();
+    }
+  });
 });
