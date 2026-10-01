@@ -6,7 +6,8 @@ appId: app.critterpass.dev
 # joins with the crew code and reads the chat: the join line, a reply, a reaction, a mention, a long
 # message, one with Vietnamese diacritics (typed on iOS: the Android driver types ASCII only), the
 # keyboard opening and closing under the newest message, scrolling back and jumping to the latest,
-# and the attach menu. The organiser then logs an expense and opens its card from the chat.
+# and the attach menu. The organiser then logs an expense, opens its card from the chat, and finds
+# the chat again after the app was closed on it (a cold start restores the last screen).
 - runFlow:
     file: subflows/crew-with-code.yaml
     env:
@@ -50,6 +51,7 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: en-walk-first-message-keyboard
+# The keyboard goes down: the one bubble stays clear of the composer.
 - hideKeyboard
 - waitForAnimationToEnd
 - takeScreenshot: en-walk-first-message
@@ -172,6 +174,25 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: vi-walk-long-sent-keyboard
+# Back through the history with the keyboard up (the chat is longer than the room above it), and
+# down again with "jump to latest".
+- swipe:
+    start: 50%, 22%
+    end: 50%, 48%
+- extendedWaitUntil:
+    visible:
+      id: 'chat-jump-latest'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-scrolled-back-keyboard
+- tapOn:
+    id: 'chat-jump-latest'
+- extendedWaitUntil:
+    notVisible:
+      id: 'chat-jump-latest'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-back-at-latest-keyboard
 
 # Vietnamese with diacritics (iOS: Android's driver cannot type them).
 - runFlow:
@@ -199,18 +220,7 @@ appId: app.critterpass.dev
 - takeScreenshot: vi-walk-keyboard-reopened
 - hideKeyboard
 - waitForAnimationToEnd
-
-# Back through the history and down again.
-- swipe:
-    start: 50%, 35%
-    end: 50%, 75%
-- waitForAnimationToEnd
-- takeScreenshot: vi-walk-scrolled-back
-- tapOn:
-    id: 'chat-jump-latest'
-    optional: true
-- waitForAnimationToEnd
-- takeScreenshot: vi-walk-back-at-latest
+- takeScreenshot: vi-walk-keyboard-closed-again
 
 # The attach menu (a photo itself needs the system picker, which no flow drives).
 - tapOn: 'Thêm tệp đính kèm'
@@ -281,3 +291,21 @@ appId: app.critterpass.dev
     timeout: 20000
 - waitForAnimationToEnd
 - takeScreenshot: en-walk-expense-opened
+# Closed on the chat and opened again: the chat comes back, not an error.
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'chat-expense-view-.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-walk-chat-restored

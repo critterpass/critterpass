@@ -30,6 +30,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     '3l-9-empty',
     'undesigned-states 3l-9 "Names, reminders, notifications off, empty": a catalogue with no legendaries shows the month strip and one line',
   ],
+  [
+    'walk-first-message',
+    "render 3g-1 Crew chat: the timeline grows up from the composer, so a new crew's chat with its first message is the day label, one bubble and the composer",
+  ],
 ]);
 
 export function isSparseByDesign(shot: string): boolean {

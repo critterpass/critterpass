@@ -2,15 +2,10 @@ appId: app.critterpass.dev
 ---
 # The guide in crew chat (3g-1): typing, a streamed reply, the spent-meter hint and the offer
 # card's states, prefixed `${PREFIX}`.
+# In the lab list's own order: each scene is found by scrolling down from the last.
 - runFlow:
     file: scene.yaml
     env: { SCENE: crew-typing, READY: guide-crew-typing, SHOT: '${PREFIX}-3g-1-guide-typing' }
-- runFlow:
-    file: scene.yaml
-    env: { SCENE: crew-streaming, READY: guide-crew-reply, SHOT: '${PREFIX}-3g-1-guide-reply' }
-- runFlow:
-    file: scene.yaml
-    env: { SCENE: crew-spent, READY: guide-crew-spent, SHOT: '${PREFIX}-3g-1-guide-spent' }
 - runFlow:
     file: scene.yaml
     env:
@@ -37,3 +32,9 @@ appId: app.critterpass.dev
         READY: guide-offer-problem,
         SHOT: '${PREFIX}-3g-1-offer-problem',
       }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: crew-streaming, READY: guide-crew-reply, SHOT: '${PREFIX}-3g-1-guide-reply' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: crew-spent, READY: guide-crew-spent, SHOT: '${PREFIX}-3g-1-guide-spent' }
