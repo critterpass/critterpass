@@ -4,6 +4,7 @@
  */
 import type { FormSpec } from '@cp/critter-art';
 import { upper } from '@cp/i18n';
+import { Group, RadialGradient, Rect, vec } from '@shopify/react-native-skia';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -18,6 +19,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
+import { TextureCanvas } from '@/ui/textures/TextureCanvas';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import {
@@ -34,7 +36,11 @@ import { artKind } from '../art-kind';
 /** Beats of the choreography (ms from mount): wobble, crack, pop. */
 export const HATCH_BEATS = { crack: 900, pop: 1250, reveal: 1650 } as const;
 
-const EGG_SIZE = 96;
+/** The render's egg: about a third of the screen's width with its sticker edge. */
+const EGG_SIZE = 120;
+/** The soft glow behind the egg, in its spots' colour, fading into the page. */
+const GLOW_OPACITY = 0.22;
+const GLOW_RADIUS = EGG_SIZE * 1.6;
 const CRITTER_SIZE = 150;
 
 export interface HatchViewProps {
@@ -59,6 +65,8 @@ export interface HatchViewProps {
   readonly onLater: () => void;
   /** Fires once when the critter is revealed (the screen marks the ceremony seen). */
   readonly onRevealed?: () => void;
+  /** Holds the ceremony on one egg beat instead of playing it (the lab's still frames). */
+  readonly stillAt?: 'wobbling' | 'cracking';
 }
 
 const useStyles = makeStyles((th) => ({
@@ -73,9 +81,11 @@ export function HatchView(props: HatchViewProps) {
   const locale = useLocale();
   const reduced = useReducedImpactMotion();
   const { width, height } = useWindowDimensions();
-  const [egg, setEgg] = useState<EggState>(reduced ? 'hatched' : 'wobbling');
-  const [revealed, setRevealed] = useState(reduced);
-  const shown = useSharedValue(reduced ? 1 : 0);
+  const [egg, setEgg] = useState<EggState>(props.stillAt ?? (reduced ? 'hatched' : 'wobbling'));
+  const [revealed, setRevealed] = useState(
+    props.stillAt === undefined ? reduced : props.stillAt === 'cracking',
+  );
+  const shown = useSharedValue(revealed ? 1 : 0);
   useEffect(() => {
     if (revealed) shown.value = withTiming(1, { duration: theme.motion.duration.fast });
   }, [revealed, shown, theme.motion.duration.fast]);
@@ -85,7 +95,9 @@ export function HatchView(props: HatchViewProps) {
     onRevealed.current = props.onRevealed;
   });
 
+  const still = props.stillAt !== undefined;
   useEffect(() => {
+    if (still) return undefined;
     if (reduced) {
       impact('pop');
       onRevealed.current?.();
@@ -134,6 +146,19 @@ export function HatchView(props: HatchViewProps) {
           </Text>
         </Stack>
         <View style={styles.stage}>
+          <TextureCanvas>
+            {({ width: w, height: h }) => (
+              <Group opacity={GLOW_OPACITY}>
+                <Rect x={0} y={0} width={w} height={h}>
+                  <RadialGradient
+                    c={vec(w / 2, h / 2)}
+                    r={GLOW_RADIUS}
+                    colors={[props.colour ?? theme.semantic.action.primary, 'transparent']}
+                  />
+                </Rect>
+              </Group>
+            )}
+          </TextureCanvas>
           <Egg
             state={egg}
             size={EGG_SIZE}

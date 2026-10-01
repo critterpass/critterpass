@@ -35,7 +35,7 @@ export function EggCard({ egg, onHatch, onOpen, busy = false }: EggCardProps) {
     <Card tone="raised" testID={`critters-egg-${egg.kind}`}>
       <Row gap="14" align="center">
         <View style={{ width: 56, alignItems: 'center' }}>
-          <Egg state={egg.kind === 'waiting' ? 'resting' : 'wobbling'} size={44} color={colour} />
+          <Egg state={egg.kind === 'waiting' ? 'resting' : 'wobbling'} size={52} color={colour} />
         </View>
         <Stack gap="4" flex={1}>
           <Text variant="title">{copy.title}</Text>
