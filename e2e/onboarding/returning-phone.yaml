@@ -123,7 +123,14 @@ appId: app.critterpass.dev
       id: 'phone-sent'
     timeout: 20000
 - inputText: '${OTP_TEST_CODE}'
-# The app starts again on the account that saved the number, at Home with its crew.
+# The app starts again on the account that saved the number. It may come back on the tab it was
+# last on (TRIPS, from the account switch): Home shows the crew.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 60000
+- tapOn:
+    id: 'tab-home'
 - extendedWaitUntil:
     visible:
       text: '(?i)cp test sign-out'
