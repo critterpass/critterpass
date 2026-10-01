@@ -29,6 +29,7 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+import { useWalletGuide } from '@/features/bookings';
 
 import { ExpenseListRow } from '../components/ExpenseListRow';
 import type { ExpenseItem } from '../data/expense-items';
@@ -74,7 +75,8 @@ function Hero({ kind, amountMinor, currency, solo = false }: HeroProps) {
   const theme = useTheme();
   const styles = useStyles();
   const bob = useLoop('bob');
-  const tokek = GUIDE_STICKERS.tokek;
+  const guide = useWalletGuide();
+  const tokek = GUIDE_STICKERS[guide.id];
   const eyebrow = solo
     ? t({ id: 'money.hero.soloSpent', message: 'Spent so far' })
     : kind === 'owed'
@@ -108,7 +110,7 @@ function Hero({ kind, amountMinor, currency, solo = false }: HeroProps) {
         <Animated.View style={[styles.gecko, bob]}>
           <Sticker
             kind={tokek.kind}
-            name={tokek.name}
+            name={guide.name}
             size={72}
             variant="mask"
             maskColor={theme.tier.locked.default}
@@ -122,6 +124,8 @@ function Hero({ kind, amountMinor, currency, solo = false }: HeroProps) {
 
 export function BalancesView(props: BalancesViewProps) {
   const { t } = useLingui();
+  const guide = useWalletGuide();
+  const guideName = guide.name;
   const appLocale = useLocale();
   const locale = props.locale ?? appLocale;
   const styles = useStyles();
@@ -160,8 +164,8 @@ export function BalancesView(props: BalancesViewProps) {
         ) : null}
         {props.empty ? (
           <EmptyState
-            guide="tokek"
-            guideName={GUIDE_STICKERS.tokek.name}
+            guide={guide.id}
+            guideName={guide.name}
             title={t({ id: 'money.empty.title', message: 'No expenses yet' })}
             line={t({
               id: 'money.empty.line',
@@ -262,7 +266,7 @@ export function BalancesView(props: BalancesViewProps) {
               >
                 {t({
                   id: 'money.latest.empty',
-                  message: 'Nothing spent yet. Add the first expense and Tokek keeps the tally.',
+                  message: `Nothing spent yet. Add the first expense and ${guideName} keeps the tally.`,
                 })}
               </Text>
             ) : (

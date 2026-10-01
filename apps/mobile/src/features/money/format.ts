@@ -118,13 +118,18 @@ export function calendarDate(localDate: string): Date {
   return new Date(`${localDate}T12:00:00Z`);
 }
 
-/** Whole units for headline totals: "US$4,812", "Rp 1.080.000". */
+/**
+ * Whole units for headline totals: "$4,812", "Rp 1.080.000", "₫10,600,000". The symbol comes from
+ * the app's own table, as in `formatShort`: Hermes on iOS has no symbol data and would print the
+ * code run into the digits ("USD4,812").
+ */
 export function formatWhole(amountMinor: bigint, currency: string, locale: string): string {
   if (!known(currency)) return formatAmount(amountMinor, currency, locale);
-  return format.number(locale, Math.round(toMajor(amountMinor, currency)), {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
+  const whole = Math.round(toMajor(amountMinor < 0n ? -amountMinor : amountMinor, currency));
+  const body = format.number(locale, whole, { maximumFractionDigits: 0 });
+  const symbol = symbolOf(currency);
+  const sign = amountMinor < 0n ? MINUS : '';
+  if (symbolTrails(currency, locale)) return `${sign}${body}\u00a0${symbol}`;
+  const spaced = /[A-Za-z]$/u.test(symbol) ? `${symbol} ` : symbol;
+  return `${sign}${spaced}${body}`;
 }

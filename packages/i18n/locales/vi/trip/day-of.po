@@ -73,7 +73,7 @@ msgstr "Có mặt trước"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
 msgid "trip.dayOf.doneTitle"
-msgstr "Xong ngày"
+msgstr "Xong hôm nay"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.allUpDetail"

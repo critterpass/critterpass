@@ -19,6 +19,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { AddressPill } from '../add/ImportTiles';
 import type { MailboxStatus } from './use-mailbox';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const useStyles = makeStyles((t) => ({ body: { padding: t.space['16'], gap: t.space['16'] } }));
 
@@ -41,6 +42,7 @@ export function MailboxSheet(props: MailboxSheetProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
+  const { name: guideName } = useWalletGuide();
   const title = t({ id: 'bookings.mailbox.title', message: 'Find bookings in my email' });
   const secondary = theme.semantic.text.secondary;
   const providerName = (provider: MailboxProvider) =>
@@ -75,7 +77,7 @@ export function MailboxSheet(props: MailboxSheetProps) {
             <Text variant="body" color={secondary} testID="bookings-mailbox-locked">
               {t({
                 id: 'bookings.mailbox.lockedLine',
-                message: 'Tokek checks your inbox for new confirmations every morning with Pass+.',
+                message: `${guideName} checks your inbox for new confirmations every morning with Pass+.`,
               })}
             </Text>
           ) : (
@@ -83,7 +85,7 @@ export function MailboxSheet(props: MailboxSheetProps) {
               plan="passPlus"
               perk={t({
                 id: 'bookings.mailbox.perk',
-                message: 'Tokek finds new bookings in your inbox every morning',
+                message: `${guideName} finds new bookings in your inbox every morning`,
               })}
               onPress={props.onPaywall}
               testID="bookings-mailbox-locked"

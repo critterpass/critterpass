@@ -7,11 +7,24 @@ import type { ExpenseCategory } from '@cp/domain';
 
 import type { PlanItemRow } from '../data/queries';
 
+// English and Vietnamese words, matched in lower case: "Lunch", "Bánh xèo", "Khách sạn", "Grab".
 const WORDS: readonly (readonly [ExpenseCategory, RegExp])[] = [
-  ['food', /food|meal|eat|lunch|dinner|breakfast|brunch|cafe|coffee|restaurant|drink|bar|market/u],
-  ['stays', /stay|hotel|lodg|villa|hostel|room|accommodation/u],
-  ['transit', /transit|transport|flight|ride|taxi|boat|ferry|train|bus|transfer|scooter|car/u],
-  ['fun', /fun|activity|sight|tour|attraction|museum|temple|beach|dive|snorkel|show|class|spa/u],
+  [
+    'food',
+    /food|meal|eat|lunch|dinner|breakfast|brunch|cafe|café|coffee|restaurant|drink|\bbar\b|market|snack|beer|ăn|cơm|phở|bún|bánh|mì|chè|cà phê|quán|nhà hàng|trưa|tối|bữa|bia|nước/u,
+  ],
+  [
+    'stays',
+    /stay|hotel|lodg|villa|hostel|room|accommodation|khách sạn|nhà nghỉ|homestay|resort|phòng/u,
+  ],
+  [
+    'transit',
+    /transit|transport|flight|ride|taxi|boat|ferry|train|bus|transfer|scooter|\bcar\b|grab|xe|tàu|máy bay|xăng|thuê xe/u,
+  ],
+  [
+    'fun',
+    /fun|activity|sight|tour|attraction|museum|temple|beach|dive|snorkel|show|class|spa|ticket|vé|chùa|bảo tàng|biển|massage/u,
+  ],
 ];
 
 export function categoryFromWords(text: string | null | undefined): ExpenseCategory | null {
@@ -41,6 +54,6 @@ export function currentPlanItem(items: readonly PlanItemRow[], now: Date): PlanI
 export function suggestFromPlan(items: readonly PlanItemRow[], now: Date): PlanSuggestion | null {
   const item = currentPlanItem(items, now);
   if (item === null) return null;
-  const category = categoryFromWords(item.category) ?? 'other';
+  const category = categoryFromWords(item.category) ?? categoryFromWords(item.poi_name) ?? 'other';
   return { category, description: item.poi_name ?? '' };
 }

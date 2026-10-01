@@ -14,6 +14,7 @@ import { currentLeg } from '../flight-card/flight-model';
 import { dayDate, zoneOf } from '../format';
 import { BoardingPassView } from './BoardingPassView';
 import { useFullBrightness } from './use-full-brightness';
+import { WalletGuideProvider } from '../data/wallet-guide';
 
 export function BoardingPassScreen({ bookingId }: { readonly bookingId: string }) {
   const context = useWalletContext();
@@ -48,12 +49,14 @@ export function BoardingPassScreen({ bookingId }: { readonly bookingId: string }
   const payload = entry?.barcode?.payload ?? null;
   useFullBrightness(payload !== null);
   return (
-    <BoardingPassView
-      title={title}
-      subtitle={dayDate(locale, leg?.sched_dep_at ?? booking?.startsAt, tz)}
-      payload={payload}
-      fields={fields}
-      onClose={() => router.back()}
-    />
+    <WalletGuideProvider tripId={context.trip?.id ?? null}>
+      <BoardingPassView
+        title={title}
+        subtitle={dayDate(locale, leg?.sched_dep_at ?? booking?.startsAt, tz)}
+        payload={payload}
+        fields={fields}
+        onClose={() => router.back()}
+      />
+    </WalletGuideProvider>
   );
 }

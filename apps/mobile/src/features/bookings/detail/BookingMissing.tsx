@@ -6,13 +6,13 @@ import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { makeStyles } from '@/ui/theme';
 
 import { BOOKINGS_ROUTES } from '../routes';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, paddingTop: t.space['32'], gap: t.space['16'] },
@@ -21,13 +21,14 @@ const useStyles = makeStyles((t) => ({
 export function BookingMissing({ loaded }: { readonly loaded: boolean }) {
   const styles = useStyles();
   const { t } = useLingui();
+  const guide = useWalletGuide();
   return (
     <Scaffold variant="dark" testID={loaded ? 'bookings-missing' : 'bookings-detail-loading'}>
       <View style={styles.content}>
         {loaded ? (
           <EmptyState
-            guide="tokek"
-            guideName={GUIDE_STICKERS.tokek.name}
+            guide={guide.id}
+            guideName={guide.name}
             title={t({ id: 'bookings.missing.title', message: 'Not in the wallet' })}
             line={t({
               id: 'bookings.missing.line',

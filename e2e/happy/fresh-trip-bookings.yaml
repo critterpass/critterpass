@@ -101,6 +101,8 @@ appId: app.critterpass.dev
       id: 'bookings-add'
     direction: DOWN
     timeout: 15000
+    # Clear of the tab bar's guide button, which sits over the foot of the page.
+    centerElement: true
 - tapOn:
     id: 'bookings-add'
 - scrollUntilVisible:
@@ -108,6 +110,8 @@ appId: app.critterpass.dev
       id: 'bookings-add-by-hand'
     direction: DOWN
     timeout: 15000
+    # Clear of the tab bar's guide button, which sits over the foot of the page.
+    centerElement: true
 - tapOn:
     id: 'bookings-add-by-hand'
 - extendedWaitUntil:
@@ -140,9 +144,10 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-stack'
     timeout: 30000
+# A booking typed in by hand is in the wallet at once, before the server has answered.
 - extendedWaitUntil:
     visible: '(?i).*ba na cable car.*'
-    timeout: 120000
+    timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: bookings-wallet
 - assertVisible: '(?i).*sala danang.*'

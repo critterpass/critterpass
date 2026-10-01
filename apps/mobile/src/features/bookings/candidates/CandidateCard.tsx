@@ -25,6 +25,7 @@ import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
 import { clock, dayDate, price as formatPrice, zoneOf } from '../format';
 import { candidateIcon, type CandidateView } from './candidate-model';
+import { useWalletGuide } from '../data/wallet-guide';
 
 /** Per-field reveal as Tokek reads the confirmation. */
 export const ASSEMBLE_STAGGER_MS = 460;
@@ -98,6 +99,7 @@ export function CandidateCard(props: CandidateCardProps) {
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
+  const { name: guideName } = useWalletGuide();
   const [motionMode] = useMotionMode();
   const { view } = props;
   const line = useLine(view, props.tz);
@@ -116,7 +118,7 @@ export function CandidateCard(props: CandidateCardProps) {
       <Card testID={`${testID}-parsing`}>
         <Stack gap="8">
           <Text variant="bodySm" color={theme.semantic.text.secondary}>
-            {t({ id: 'bookings.candidate.parsing', message: 'Tokek is reading it…' })}
+            {t({ id: 'bookings.candidate.parsing', message: `${guideName} is reading it…` })}
           </Text>
           <Skeleton preset="lines" />
         </Stack>
