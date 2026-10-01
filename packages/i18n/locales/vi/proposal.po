@@ -12,6 +12,11 @@ msgstr ""
 msgid "proposal.tracker.you"
 msgstr "{0} (bạn)"
 
+#. placeholder {0}: props.share.each
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.each"
+msgstr "{0} mỗi người"
+
 #. placeholder {0}: state.going + 1
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.going"
@@ -61,7 +66,7 @@ msgstr "{0} chưa trả lời"
 #. placeholder {1}: version.slides.length
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.slide"
-msgstr ""
+msgstr "{0} trên {1}"
 
 #. placeholder {0}: props.organiserName
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
@@ -81,7 +86,7 @@ msgstr "Kế hoạch {0}"
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.presents"
-msgstr ""
+msgstr "{0} giới thiệu"
 
 #. placeholder {0}: trip.destination
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -102,6 +107,11 @@ msgstr "{0} trả lời “{words}”."
 #: ../../apps/mobile/src/features/proposal/tracker/suggestions.tsx
 msgid "proposal.suggest.title"
 msgstr "{0} gợi ý"
+
+#. placeholder {0}: waiting.length
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.tracker.waiting"
+msgstr "{0} người đang chờ chỗ"
 
 #. placeholder {0}: state.silent
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -128,9 +138,21 @@ msgstr "{0}: đề xuất"
 msgid "proposal.board.egg"
 msgstr "Trứng của {0} sẽ nở khi bạn hạ cánh"
 
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.seatsAfter"
+msgstr "{after}, hủy trong đơn đặt khi bạn áp dụng"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.eachAmount"
 msgstr "{amount} mỗi người"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.seatsBefore"
+msgstr "{before} chỗ"
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.eyebrow"
+msgstr "{destination} · chỗ thứ {seat}"
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
 msgid "proposal.alone.back"
@@ -147,6 +169,18 @@ msgstr "{guideName} đã viết cho mỗi người một bản. Chọn kiểu g�
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.subShared"
 msgstr "{guideName} đã viết một bản chung cho cả nhóm. Chọn kiểu gửi nhé."
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.title"
+msgstr "{name} không đi được"
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.chip"
+msgstr "{name} đã trả lời"
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-screen.tsx
+msgid "proposal.dropout.reply"
+msgstr "{name} báo với nhóm là không đi được · {when}"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.titleGroup"
@@ -168,6 +202,22 @@ msgstr "{pct}%"
 msgid "proposal.hype.count"
 msgstr "{reacted}/{recipients} người đã thả cảm xúc."
 
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.title"
+msgstr "{seat} người là hơi đông"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.offItem"
+msgstr "{who} rút khỏi điểm này"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.move"
+msgstr "{who} chuyển phòng"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.withdrawn"
+msgstr "Suất của {who} được rút lại"
+
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.reaction.sixAm"
 msgstr "6 GIỜ SÁNG??"
@@ -175,6 +225,10 @@ msgstr "6 GIỜ SÁNG??"
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.suggestion"
 msgstr "Một gợi ý của hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.planItem"
+msgstr "Một điểm trong kế hoạch"
 
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.react"
@@ -187,6 +241,18 @@ msgstr "Lời nhắc quyết định"
 #: ../../apps/mobile/src/features/proposal/board/seat-sheet.tsx
 msgid "proposal.seat.bodyCap"
 msgstr "Cả {cap} chỗ đã có người."
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.applied"
+msgstr "Đã áp dụng. Phần chia đã được tính lại."
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.apply"
+msgstr "Áp dụng thay đổi"
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.resolve"
+msgstr "Đang áp dụng việc chia lại"
 
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
@@ -229,9 +295,25 @@ msgstr "Cả nhóm đồng ý rồi hãy đặt. Chưa giữ chỗ nào cho bạ
 msgid "proposal.build.stayNoCancel"
 msgstr "Đã đặt · không hủy miễn phí"
 
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.activity"
+msgstr "Hoạt động đã đặt"
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.boost"
+msgstr "Boost {destination}"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.cantMake"
 msgstr "Không đi được"
+
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.tracker.seeChanges"
+msgstr "Không đi được · xem thay đổi"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.changeStay"
+msgstr "Đổi đặt chỗ trên {supplier}; chúng tôi không bao giờ đổi thay bạn"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failedSub"
@@ -298,6 +380,10 @@ msgstr "Hết chỗ rồi."
 msgid "proposal.sent.done"
 msgstr "Mọi bản đã viết xong và gửi đi."
 
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.share"
+msgstr "Phần của mỗi người"
+
 #. placeholder {0}: instantDate(locale, proposal.freeCancelUntil)
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.freeCancel"
@@ -322,6 +408,14 @@ msgstr "Hủy miễn phí đến {0}"
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.stayCancel"
 msgstr "Hủy miễn phí đến {0}"
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.bodyNoBoost"
+msgstr "Nhóm miễn phí tối đa {cap} người. {who} đứng đầu hàng chờ: có chỗ trống là được mời trước."
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.body"
+msgstr "Nhóm miễn phí tối đa {cap} người. Boost {destination} thì {who} có chỗ, và cả nhóm có bản đồ trực tiếp cùng số lần soạn lại không giới hạn."
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.gate"
@@ -360,13 +454,13 @@ msgstr "Mình chưa xem được kế hoạch lúc này. Thử lại sau chút n
 msgid "proposal.objection.laterDone"
 msgstr "Chủ nhật mình hỏi lại nhé"
 
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
-msgid "proposal.trailer.in"
-msgstr ""
-
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.in"
 msgstr "Mình đi"
+
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+msgid "proposal.trailer.in"
+msgstr "Tôi đi"
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.in"
@@ -418,6 +512,14 @@ msgstr "Đang gửi đi rồi"
 msgid "proposal.objection.private"
 msgstr "Chỉ bạn và {0} biết"
 
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.keep"
+msgstr "Giữ {name} trong nhóm chat"
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.keep"
+msgstr "Giữ ở mức {cap} người"
+
 #: ../../apps/mobile/src/features/proposal/builder/reply-by-sheet.tsx
 msgid "proposal.replyBy.auto"
 msgstr "Để hướng dẫn viên chọn"
@@ -460,7 +562,7 @@ msgstr "Đã chốt. Chuyến đi bắt đầu."
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.maybe"
-msgstr ""
+msgstr "Có thể"
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.maybe"
@@ -493,6 +595,10 @@ msgstr "Chưa chắc"
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.nothing"
 msgstr "Không có gì ở đây giúp giảm chi phí cho riêng bạn. Bạn cứ từ từ nghĩ nhé."
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.noChanges"
+msgstr "Không có gì chung thay đổi."
 
 #: ../../apps/mobile/src/features/proposal/tracker/suggestions.tsx
 msgid "proposal.suggest.nudge"
@@ -581,11 +687,15 @@ msgstr "Đề xuất"
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.react"
-msgstr ""
+msgstr "Trả lời nhanh"
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.ready"
 msgstr "Sẵn sàng gửi"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.released"
+msgstr "trả phòng"
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.replyBy"
@@ -608,6 +718,14 @@ msgstr "Trả lời trước {0}"
 #: ../../apps/mobile/src/features/proposal/tracker/suggestions.tsx
 msgid "proposal.suggest.resend"
 msgstr "Gửi lại"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.room"
+msgstr "Phòng {room}"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.moveTo"
+msgstr "phòng {to}"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.saidMaybe"
@@ -667,6 +785,14 @@ msgstr "Trượt để lên máy bay"
 msgid "proposal.objection.other"
 msgstr "Lý do khác"
 
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.waysAfter"
+msgstr "chia {after}"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.waysBefore"
+msgstr "chia {before} phần"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.noStay"
 msgstr "Chưa đặt chỗ ở"
@@ -677,7 +803,7 @@ msgstr "Đang nghĩ thêm. Chủ nhật hỏi lại mình"
 
 #: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 msgid "proposal.trailer.hint"
-msgstr ""
+msgstr "Chạm để xem tiếp · giữ để tạm dừng"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.out.title"
@@ -719,6 +845,10 @@ msgstr "Chuyến đi đã chốt"
 msgid "proposal.sent.ready"
 msgstr "Bản của bạn ấy đã sẵn sàng"
 
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.keepSub"
+msgstr "Họ vẫn nhận được ảnh và bản tổng kết"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.alreadySent"
 msgstr "Đề xuất này đã gửi đi rồi."
@@ -747,9 +877,22 @@ msgstr "Đang chờ có mạng để giữ chỗ cho bạn."
 msgid "proposal.tracker.waitChip"
 msgstr "Danh sách chờ"
 
+#. placeholder {0}: props.guideName
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.changes"
+msgstr "{0} sẽ thay đổi những gì"
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.title"
 msgstr "Điều gì khiến bạn còn phân vân?"
+
+#: ../../apps/mobile/src/features/proposal/data/commands.ts
+msgid "proposal.queued.keepInChat"
+msgstr "Ai ở lại nhóm chat"
+
+#: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
+msgid "proposal.dropout.back"
+msgstr "Ai đi"
 
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.track"
@@ -852,6 +995,10 @@ msgstr "Phần của bạn"
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.share"
 msgstr "Phần của bạn"
+
+#: ../../apps/mobile/src/features/proposal/dropout/model.ts
+msgid "proposal.dropout.stay"
+msgstr "Chỗ ở của bạn"
 
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.memberReady"

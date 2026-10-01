@@ -116,6 +116,7 @@ export const dismissSuggestionCommand = defineClientCommand<{ readonly suggestio
 export const lockInPlanCommand = defineClientCommand<{ readonly trip_id: string }>({
   name: 'lock_in_plan',
   offline: false,
+});
 
 export const resolveDropoutCommand = defineClientCommand<{
   readonly trip_id: string;
