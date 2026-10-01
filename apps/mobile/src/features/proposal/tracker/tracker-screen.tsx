@@ -164,7 +164,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
                 ]
               : []),
           ]}
-          confirmLabel={t({ id: 'proposal.lock.confirm', message: 'Yes, lock it in' })}
+          confirmLabel={t({ id: 'proposal.lock.confirmYes', message: 'Yes, lock it in' })}
           mode="button"
           onConfirm={() => void onLock()}
           onCancel={() => setAsking(false)}
