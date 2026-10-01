@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f554f643-d886-4b70-8570-eae08ba068c1",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Rain might catch the ridge walk.\",\"detail\":\"\",\"items\":[{\"id\":\"walk:title\",\"text\":\"Campuhan ridge walk · 55% rain\"},{\"id\":\"walk:detail\",\"text\":\"Forecast shows 55% chance of rain. Keeping an eye on it.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 846,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 63,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

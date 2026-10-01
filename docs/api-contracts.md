@@ -358,6 +358,8 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 
 **[api-contracts-trip.md](./api-contracts-trip.md):** section 4.12 commands for leave-by readiness, packing, briefing, disruptions, help, SOS, location sharing, meetups (with action key scope matrix); `trip_dayof:` realtime channel; offline bundle route and manifest structure.
 
+**[api-contracts-disruptions.md](./api-contracts-disruptions.md):** flight delay, forecast watch, storm decision, weather replan and running late: commands (`choose_late_option`, `dismiss_weather_suggestion`, `hold_storm_seats`), the journey check, the disruption row and its options, jobs, realtime hints and pushes.
+
 ### 4.13 Critters, quests, visits (P20, P40, P41)
 
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
@@ -538,6 +540,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/fx/snapshot?base` | S | Frankfurter v2 daily | 24 h, offline bundle |
 | `GET /v1/routes/eta` | S | Valhalla (+ Mapbox traffic for leave-by) | none |
 | `GET /v1/trips/{id}/live-snapshot` (doc delta) | S | crew live map state `{trip_id, window_ends_at, members[{uid, lat, lng, acc, activity, at}], shares[{uid, share_id, paused, changed_at}], etas[], meetup}`: latest fix per open, non-paused crew-map share via `app.shared_location_fixes`; participant while `app.crew_map_open` (unboosted → 402 `ENTITLEMENT_REQUIRED`, outside trip days / off the trip → 403 `NOT_ELIGIBLE`) | none |
+| `POST /v1/trips/{id}/journey-check` (doc delta) | S | `{item_id, lat, lng, mode}` → `{eta_at, late_min, traffic, estimate, status, disruption_id}`: the routed ETA to a plan item from where the phone is, once a minute while on the way; late twice in a row opens the item's running-late disruption. The position is used to route and never stored ([api-contracts-disruptions.md](./api-contracts-disruptions.md) §2) | 1 / 30 s per user |
 | `GET /v1/budget/{trip_id}/band` | S | `trip_budget_aggregates`, written by the `setup.budget_recompute` job with `@cp/cost-engine` `computeBudgetBand`: band, dots, under-all and infeasible only from k ≥ 4 maxes; below that `K_ANON_UNAVAILABLE` with `{maxes_count, member_count, currency, step_minor}` (doc delta: the counts plus the crew currency and the lock step, the published row's or else $50 in the crew currency; `step_minor` is left out while that currency has no rate; public price facts the app's knob snaps to, never derived from a max) | none |
 | `GET /v1/setup/{trip_id}/windows?length` (doc delta) | S | date window options for another trip length, computed on demand by the recompute job's engine and inputs (`app.setup_window_inputs`, as the server): `{trip_id, length_days, member_count, synced_count, unsynced_member_ids, options[{kind, start_date, end_date, free_count, member_count, missing_member_ids, missed_must_do_ids, ask_user_id, price_delta_minor, currency, season_score, reason, is_pick}]}`; setup members only (else `NOT_FOUND`), never a member's day | none |
 | `GET /v1/calendar/oauth/{provider}/start?device_id&tentative` (doc delta) | S | `{provider, state, authorize_url}`: PKCE S256, `state` in Redis for 10 min bound to the user and device; provider configured and flag `calendar.oauth_<provider>` on, else `SUPPLIER_UNAVAILABLE` / `STATE_INVALID{switched_off}` | no-store |

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "83e6a206-024e-4415-ae9e-052410b8a5c0",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Mostly clear, with one eye on the water.\",\"detail\":\"\",\"items\":[{\"id\":\"snorkel:title\",\"text\":\"Blue Lagoon snorkel · waves 1.6 m\"},{\"id\":\"snorkel:detail\",\"text\":\"Forecast shows waves 1.6 m. Keeping an eye on it.\"},{\"id\":\"temple:title\",\"text\":\"Tirta Empul\"},{\"id\":\"temple:detail\",\"text\":\"Looks fine for Tirta Empul.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 808,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 108,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

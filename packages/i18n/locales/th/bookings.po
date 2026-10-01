@@ -375,6 +375,10 @@ msgstr ""
 msgid "bookings.detail.doc"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.done"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.edit"
 msgstr ""
@@ -408,6 +412,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/bookings/add/AddBookingScreen.tsx
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copiedToast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.line"
 msgstr ""
 
 #. placeholder {0}: pending.length
@@ -450,6 +458,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailbox.gmail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.linkCode"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
@@ -505,8 +517,32 @@ msgstr ""
 msgid "bookings.form.timeProblem"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.link"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.label"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.field"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.linkedNothingHeld"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.linked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
@@ -761,8 +797,16 @@ msgstr ""
 msgid "bookings.kind.stay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.wrong"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
@@ -803,6 +847,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.to"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.wait"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts

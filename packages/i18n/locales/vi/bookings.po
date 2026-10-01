@@ -375,6 +375,10 @@ msgstr "Chuyển hướng"
 msgid "bookings.detail.doc"
 msgstr "Tài liệu {0}"
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.done"
+msgstr "Xong"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.edit"
 msgstr "Sửa"
@@ -409,6 +413,10 @@ msgstr "Chuyển tiếp"
 #: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
 msgid "bookings.add.copiedToast"
 msgstr "Chuyển tiếp mọi email xác nhận tới địa chỉ đó."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.line"
+msgstr "Bạn chuyển tiếp từ một địa chỉ chúng tôi chưa biết? Chúng tôi đã gửi tới địa chỉ đó một mã 6 số. Nhập mã để liên kết địa chỉ và đọc thư."
 
 #. placeholder {0}: pending.length
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
@@ -451,6 +459,10 @@ msgstr "Đặt cho nó một cái tên"
 #: ../../apps/mobile/src/features/bookings/mailbox/use-mailbox-row.ts
 msgid "bookings.mailbox.gmail"
 msgstr "Gmail"
+
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.linkCode"
+msgstr "Có mã rồi? Liên kết email của bạn"
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.sent"
@@ -505,9 +517,33 @@ msgstr "Hạ cánh lúc"
 msgid "bookings.form.timeProblem"
 msgstr "Ví dụ 09:05"
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.link"
+msgstr "Liên kết"
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.label"
+msgstr "Mã liên kết"
+
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.field"
 msgstr "Liên kết hoặc mã"
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.title"
+msgstr "Liên kết email của bạn"
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.linkedNothingHeld"
+msgstr "Đã liên kết. Thư bạn chuyển tiếp từ địa chỉ đó sẽ được đọc từ giờ."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.linked"
+msgstr "Đã liên kết. Thư chúng tôi đang giữ đang được đọc."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.offline"
+msgstr "Cần có sóng để liên kết. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingMissing.tsx
 #: ../../apps/mobile/src/features/bookings/stack/WalletView.tsx
@@ -761,8 +797,16 @@ msgstr "SQ 938"
 msgid "bookings.kind.stay"
 msgstr "Chỗ ở"
 
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.wrong"
+msgstr "Mã không khớp hoặc đã hết hạn. Mã có hiệu lực một ngày; hãy dùng mã mới nhất."
+
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.failed"
+msgstr "Chưa gửi được. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.failed"
 msgstr "Chưa gửi được. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
@@ -804,6 +848,10 @@ msgstr "Giờ"
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.to"
 msgstr "Đến"
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.wait"
+msgstr "Thử quá nhiều lần. Thử lại sau {minutes} phút."
 
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.rail"

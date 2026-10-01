@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5fbc9965-fe0e-4fba-93ec-60fc7f30ddd3",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Wes and Jordan 25 min late\",\"detail\":\"Traffic is heavy on the way to Karsa Spa, so breathe easy and let the sun do the waiting.\",\"items\":[{\"id\":\"push\",\"text\":\"The others start at 14:00. You slot in at 14:25.\"},{\"id\":\"skip\",\"text\":\"The others go ahead without you.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 751,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 83,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

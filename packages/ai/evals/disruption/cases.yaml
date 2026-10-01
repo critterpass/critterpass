@@ -1,0 +1,243 @@
+# Flight disruption cases: the rows the planner classified for a flight change, graded on what the
+# guide wrote. `must` strings appear somewhere, `forbid` nowhere; `seeded` cases grade the
+# validator on a deliberate model slip (their inline `reply`).
+- id: disruption-01
+  description: two-hour delay, pickup draft for Made, dinner needs a yes
+  guide: tokek
+  input:
+    facts: { flight: GA402, new_arrival: '13:20', delay_min: 100, ready_at: '13:50', travellers: 3 }
+    headlineTemplate: GA402 lands at 13:20
+    detailTemplate: Three of you land at 13:20. I moved what I could and need a yes on the rest.
+    items:
+      - {
+          id: 'contact_vendor:p1',
+          kind: contact_vendor,
+          facts: { vendor: Made, from: '12:10', to: '13:50' },
+          template: 'Ask Made to pick you up at 13:50?',
+        }
+      - {
+          id: 'reschedule_pickup:p1',
+          kind: reschedule_pickup,
+          facts: { title: Airport pickup, from: '12:10', to: '13:50' },
+          template: 'Airport pickup 12:10 → 13:50',
+        }
+      - {
+          id: 'retime_item:dinner',
+          kind: retime_item,
+          facts: { title: Dinner, from: '19:30', to: '21:00' },
+          template: 'Dinner 19:30 → 21:00',
+        }
+      - {
+          id: 'refresh_live_activity:trip',
+          kind: refresh_live_activity,
+          facts: {},
+          template: 'Flight updated on your lock screen',
+        }
+      - {
+          id: 'insert_briefing:trip',
+          kind: insert_briefing,
+          facts: {},
+          template: 'Added to your briefing',
+        }
+  must: ['13:50']
+  forbid: [confirmed, rebooked]
+- id: disruption-02
+  description: cancellation, rebook link, driver told the flight won't land
+  guide: tokek
+  input:
+    facts: { flight: QZ510, travellers: 2 }
+    headlineTemplate: QZ510 is cancelled
+    detailTemplate: Your flight is cancelled. Rebook with the airline and I will fit the plan around the new one.
+    items:
+      - {
+          id: 'contact_vendor:p2',
+          kind: contact_vendor,
+          facts: { vendor: Wayan, title: Airport pickup, from: '09:30' },
+          template: "Tell Wayan the flight won't land today?",
+        }
+      - {
+          id: 'rebook_flight:s1',
+          kind: rebook_flight,
+          facts: { carrier: QZ, flight: QZ510 },
+          template: 'Rebook on QZ',
+        }
+      - {
+          id: 'refresh_live_activity:trip',
+          kind: refresh_live_activity,
+          facts: {},
+          template: 'Flight updated on your lock screen',
+        }
+  must: [QZ]
+  forbid: [rebooked, confirmed, booked]
+- id: disruption-03
+  description: delay moves a surf lesson only the late three attend
+  guide: pon
+  input:
+    facts: { flight: JT34, new_arrival: '14:10', delay_min: 45, ready_at: '14:40', travellers: 3 }
+    headlineTemplate: JT34 lands at 14:10
+    detailTemplate: Three of you land at 14:10. Your surf lesson moved to 16:10.
+    items:
+      - {
+          id: 'retime_item:s2',
+          kind: retime_item,
+          facts: { title: Surf lesson, from: '15:00', to: '16:10' },
+          template: 'Surf lesson 15:00 → 16:10',
+        }
+      - {
+          id: 'recompute_leave_by:trip',
+          kind: recompute_leave_by,
+          facts: { count: 1 },
+          template: 'Leave-by times updated',
+        }
+  must: ['16:10']
+  forbid: [rebooked]
+- id: disruption-04
+  description: split crew, the others told nothing changes
+  guide: lundi
+  input:
+    facts: { flight: SQ938, new_arrival: '17:05', delay_min: 95, travellers: 2 }
+    headlineTemplate: SQ938 lands at 17:05
+    detailTemplate: Two of you land at 17:05. Rin still lands at 22:40, nothing changes for her.
+    items:
+      - {
+          id: 'notify_unaffected:crew',
+          kind: notify_unaffected,
+          facts: { count: 2 },
+          template: 'Told the others nothing changes for them',
+        }
+      - {
+          id: 'retime_item:m1',
+          kind: retime_item,
+          facts: { title: Warung lunch, from: '17:30', to: '19:05' },
+          template: 'Warung lunch 17:30 → 19:05',
+        }
+  must: ['17:05']
+  forbid: [confirmed]
+- id: disruption-05
+  description: diversion to Surabaya, villa check-in draft
+  guide: ajo
+  input:
+    facts: { flight: GA404, airport: SUB, new_arrival: '12:05', travellers: 4 }
+    headlineTemplate: GA404 diverted to SUB
+    detailTemplate: Your flight is landing in SUB at 12:05. I drafted a note for the villa.
+    items:
+      - {
+          id: 'contact_vendor:v1',
+          kind: contact_vendor,
+          facts: { vendor: Villa Kayu, title: Check-in, from: '14:00', to: '18:30' },
+          template: 'Tell Villa Kayu: Check-in at 18:30?',
+        }
+      - {
+          id: 'retime_item:v1',
+          kind: retime_item,
+          facts: { title: Check-in, from: '14:00', to: '18:30' },
+          template: 'Check-in 14:00 → 18:30',
+        }
+  must: [SUB]
+  forbid: [confirmed, rebooked]
+- id: disruption-06
+  description: vendor confirmed the new pickup time
+  guide: tokek
+  input:
+    facts: { flight: GA402, new_arrival: '13:20', travellers: 3 }
+    headlineTemplate: GA402 lands at 13:20
+    detailTemplate: Made will be there at 13:50.
+    items:
+      - {
+          id: 'contact_vendor:p1',
+          kind: contact_vendor,
+          facts: { vendor: Made, from: '12:10', to: '13:50', vendor_status: confirmed },
+          template: 'Made confirmed 13:50',
+        }
+      - {
+          id: 'reschedule_pickup:p1',
+          kind: reschedule_pickup,
+          facts: { title: Airport pickup, from: '12:10', to: '13:50' },
+          template: 'Airport pickup 12:10 → 13:50',
+        }
+  must: [Made]
+  forbid: [rebooked]
+- id: disruption-07
+  description: missed connection in Jakarta, one traveller
+  guide: sardi
+  input:
+    facts: { flight: GA150, airport: CGK, travellers: 1 }
+    headlineTemplate: Connection missed
+    detailTemplate: You missed your connection in CGK. Rebook with the airline and I will fit the rest around it.
+    items:
+      - {
+          id: 'rebook_flight:s3',
+          kind: rebook_flight,
+          facts: { carrier: GA, flight: GA150 },
+          template: 'Rebook on GA',
+        }
+      - {
+          id: 'insert_briefing:trip',
+          kind: insert_briefing,
+          facts: {},
+          template: 'Added to your briefing',
+        }
+  must: [GA]
+  forbid: [rebooked]
+- id: disruption-08
+  description: long delay, booked spa needs the crew's yes
+  guide: paco
+  input:
+    facts: { flight: MH851, new_arrival: '15:45', delay_min: 180, travellers: 2 }
+    headlineTemplate: MH851 lands at 15:45
+    detailTemplate: Two of you land at 15:45. The spa is booked, so the crew decides.
+    items:
+      - {
+          id: 'retime_item:spa',
+          kind: retime_item,
+          facts: { title: Karsa Spa, from: '16:00', to: '17:45' },
+          template: 'Karsa Spa 16:00 → 17:45',
+        }
+      - {
+          id: 'refresh_live_activity:trip',
+          kind: refresh_live_activity,
+          facts: {},
+          template: 'Flight updated on your lock screen',
+        }
+  must: ['17:45']
+  forbid: [refund, rebooked]
+- id: disruption-09
+  description: seeded slip, an invented time on a row
+  guide: tokek
+  seeded: true
+  expect_fallback: true
+  input:
+    facts: { flight: GA402, new_arrival: '13:20', travellers: 3 }
+    headlineTemplate: GA402 lands at 13:20
+    detailTemplate: Three of you land at 13:20.
+    items:
+      - {
+          id: 'retime_item:dinner',
+          kind: retime_item,
+          facts: { title: Dinner, from: '19:30', to: '21:00' },
+          template: 'Dinner 19:30 → 21:00',
+        }
+  reply:
+    headline: GA402 lands at 13:20
+    detail: Three of you land at 13:20.
+    items: [{ id: 'retime_item:dinner', text: 'Dinner moves to 21:30' }]
+- id: disruption-10
+  description: seeded slip, a vendor claimed confirmed before replying
+  guide: tokek
+  seeded: true
+  expect_fallback: true
+  input:
+    facts: { flight: GA402, new_arrival: '13:20', travellers: 3 }
+    headlineTemplate: GA402 lands at 13:20
+    detailTemplate: Three of you land at 13:20.
+    items:
+      - {
+          id: 'contact_vendor:p1',
+          kind: contact_vendor,
+          facts: { vendor: Made, from: '12:10', to: '13:50' },
+          template: 'Ask Made to pick you up at 13:50?',
+        }
+  reply:
+    headline: GA402 lands at 13:20
+    detail: Made confirmed the pickup.
+    items: [{ id: 'contact_vendor:p1', text: 'Made confirmed 13:50' }]

@@ -7,14 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: pt\n"
 
+#. placeholder {0}: names.length
+#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
+msgid "onboarding.invite.ticket.membersIn"
+msgstr ""
+
 #. placeholder {0}: movingCrews.length
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.movingCount"
-msgstr ""
-
-#. placeholder {0}: format.list(locale, names)
-#: ../../apps/mobile/src/features/onboarding/invited/InviteTicket.tsx
-msgid "onboarding.invite.ticket.membersIn"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/FoundCrewCard.tsx

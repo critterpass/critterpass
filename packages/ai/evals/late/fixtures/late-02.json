@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4f694645-e99b-42a3-b205-9ad8631f0648",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Rin is 18 min late to Nishiki Market\",\"detail\":\"Traffic is heavy on the way to Nishiki Market, so you will land at 11:18 instead of 11:00.\",\"items\":[{\"id\":\"push\",\"text\":\"Nishiki Market moves to 11:20.\"},{\"id\":\"walk\",\"text\":\"9 min on foot from here. There about 11:06.\"},{\"id\":\"skip\",\"text\":\"Nishiki Market comes off the plan.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 824,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 106,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

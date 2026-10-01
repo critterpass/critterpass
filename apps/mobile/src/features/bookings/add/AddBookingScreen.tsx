@@ -34,6 +34,7 @@ import { useMailbox } from '../mailbox/use-mailbox';
 import { useBookingScan } from '../scan/use-booking-scan';
 import { AddBookingView } from './AddBookingView';
 import type { ImportChannel } from './ImportTiles';
+import { LinkCodeFlow } from './LinkCodeFlow';
 import { MailboxFlow } from './MailboxFlow';
 import { PasteFlow } from './PasteFlow';
 import { WalletGuideProvider } from '../data/wallet-guide';
@@ -51,8 +52,8 @@ export function AddBookingScreen({ start }: { readonly start?: string | undefine
     CANDIDATES_TABLES,
   );
   const mailbox = useMailbox(context.passPlus);
-  const [sheet, setSheet] = useState<'paste' | 'mailbox' | null>(
-    start === 'paste' || start === 'mailbox' ? start : null,
+  const [sheet, setSheet] = useState<'paste' | 'mailbox' | 'link' | null>(
+    start === 'paste' || start === 'mailbox' || start === 'link' ? start : null,
   );
   const [splits, setSplits] = useState<Record<string, boolean>>({});
   const [leaving, setLeaving] = useState<Record<string, 'add' | 'ignore'>>({});
@@ -184,8 +185,12 @@ export function AddBookingScreen({ start }: { readonly start?: string | undefine
           }}
           onTypeIn={() => router.push(addByHandRoute())}
           onMailbox={() => setSheet('mailbox')}
+          onLinkCode={() => setSheet('link')}
         />
         {sheet === 'paste' ? <PasteFlow tripId={tripId} onDone={() => setSheet(null)} /> : null}
+        {sheet === 'link' ? (
+          <LinkCodeFlow crewId={context.crewId} onDone={() => setSheet(null)} />
+        ) : null}
         {sheet === 'mailbox' ? (
           <MailboxFlow
             status={mailbox.status}

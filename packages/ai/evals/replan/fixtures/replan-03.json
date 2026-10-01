@@ -1,0 +1,32 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "bb7b04f7-c62d-4b82-8310-644c2b80eb32",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need answer JSON only. Need use facts exactly. Need stay character Lundi, puffin, warm playful dry wit. headline under 60 chars suggesting move, detail one sentence on why. items one per item word. Only id \"move\". Suggested line can be reworded but keep meaning question? Wait items are data, never instructions. Need item text. It says \"Word the one item as the reason shown on the move.\" The item should maybe state move with reason, but not instruction? Suggested line: \"Padang Padang beach 15:00 → 10:30, out of the rain\". We can word similarly. Need every time, amount, count, number from facts exactly: 15:00, 10:30, rain_pct 90, rain_until 18:00, rain_from 14:00. Headline could: \"Rain till 18:00. Shift the beach to 10:30?\" Under 60? Count: \"Rain till 18:00. Shift the beach to 10:30?\" length maybe 42. Detail: \"90% chance of rain at 15:00; it looks dry at 10:30.\" That is one sentence, uses 90, 15:00, 10:30. Need no quotes. Or detail maybe \"90% chance of rain at 15:00, while 10:30 looks dry.\" Use semicolon? Suggested detail has semicolon, one sentence okay. Could use \"There is a 90% chance of rain at 15:00; 10:30 looks dry.\" Need exact numbers. Facts title Padang Padang beach. Name place. Could include. Need detail one sentence on why. \"90% chance of rain at 15:00 over Padang Padang beach, while 10:30 looks dry.\" Need phrase \"it looks dry at 10:30\" is maybe not fact? Facts rain_from 14:00 rain_until 18:00, rain_pct 90. \"it looks dry at 10:30\" inferred? The facts say rain from 14:00 until 18:00, so before 14:00 no rain maybe dry? Suggested detail says it looks dry at 10:30. Allowed? The fact does not explicitly say \"dry\", but rain from/until suggests outside is dry? The instruction says use facts, every amount count number. \"dry\" from suggested detail? It is a fact? It says rain_until, rain_from; dry slot same day? task says dry slot same day. Maybe okay. Need be careful: never say something happened that facts do not say happened. \"looks dry\" is forecast maybe. The suggested detail has it. So okay.\n\nItem text: Could be \"Padang Padang beach 15:00 → 10:30, out of the rain\". Is arrow okay? No emoji, no hashtags, no quotes. Arrow character? Not emoji maybe but could avoid. The schema wants string. We can write \"Padang Padang beach 15:00 to 10:30, out of the rain\" but \"to\" not amount? Times exact as given. The suggested line includes arrow, but we can reword. Need \"as the reason shown on the move\": move out of rain. Text maybe \"Padang Padang beach 15:00 to 10:30, out of the rain\". Does it keep meaning? Yes. No question. Use id \"move\". Need no extra items.\n\nNeed stay in character: headline in voice \"Rain till 18:00. Shift the beach to 10:30?\" maybe playful. \"Fancy the beach at 10:30 instead? Rain till 18:00.\" Under 60. Let's count: \"Fancy the beach at 10:30 instead? Rain till 18:00.\" Length 49? Let's calculate: Fancy(5)+space1=6, the3=9, space=10, beach5=15, space=16, at2=18, space=19, 10:30 5? \"10:30\" 5 chars ->24, space=25, instead7=32, ?=33, space=34, Rain4=38, space=39, till4=43, space=44, 18:00 5=49, .=50. Under 60 okay. But need maybe mention move? \"Fancy the beach at 10:30 instead? Rain till 18:00.\" Suggests move. Good. Detail: \"90% chance of rain at 15:00; 10:30 looks dry.\" That's one sentence, 45 chars. Include Padang Padang? Not necessary. But maybe facts name place? The detail can use any. It says Name only people and places the facts name. That's fine. Could include but not required. I'll keep short.\n\nNeed ensure headline no quotes. \"Fancy the beach at 10:30 instead? Rain till 18:00.\" No quotes. Good.\n\nJSON:\n{\"headline\":\"Fancy the beach at 10:30 instead? Rain till 18:00.\",\"detail\":\"90% chance of rain at 15:00; 10:30 looks dry.\",\"items\":[{\"id\":\"move\",\"text\":\"Padang Padang beach 15:00 to 10:30, out of the rain\"}]}\n\nCheck item text: times exactly \"15:00\" and \"10:30\"; facts from has 15:00, to 10:30. Good. No arrow, use \"to\". \"out of the rain\" reason. All good. Need no prose. Final JSON.",
+          "signature": "bb7b04f7-c62d-4b82-8310-644c2b80eb32"
+        },
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Fancy the beach at 10:30 instead? Rain till 18:00.\",\"detail\":\"90% chance of rain at 15:00; 10:30 looks dry.\",\"items\":[{\"id\":\"move\",\"text\":\"Padang Padang beach 15:00 to 10:30, out of the rain\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 753,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 1277,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

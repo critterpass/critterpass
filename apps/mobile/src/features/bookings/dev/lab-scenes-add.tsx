@@ -1,6 +1,7 @@
 /**
  * Bookings lab scenes for adding a booking (3h-2) and its states: the design's two finds, reading,
- * couldn't read, already in the wallet, scan lines, the paste sheet and the mailbox sheet.
+ * couldn't read, already in the wallet, scan lines, the paste sheet, the mailbox sheet and the
+ * link-code sheet (waiting for a code, a wrong one, linked).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
@@ -8,6 +9,8 @@ import { useState, type ReactNode } from 'react';
 import { AddBookingView } from '../add/AddBookingView';
 import { toCandidateView, type CandidateView } from '../candidates/candidate-model';
 import type { CandidateRow } from '../data/queries';
+import { LinkCodeSheet } from '../link-code/LinkCodeSheet';
+import type { LinkCodeState } from '../link-code/link-code-model';
 import { MailboxConnectedView } from '../mailbox/MailboxConnectedScreen';
 import { MailboxSheet } from '../mailbox/MailboxSheet';
 import type { MailboxStatus } from '../mailbox/use-mailbox';
@@ -88,6 +91,7 @@ function add(
       onByHand={noop}
       onTypeIn={noop}
       onMailbox={noop}
+      onLinkCode={noop}
     />
   );
 }
@@ -122,6 +126,23 @@ function mailbox(status: MailboxStatus, paywall = true): ReactNode {
           onDisconnect={noop}
           onCopy={copy}
           onClose={close}
+        />
+      )}
+    />
+  );
+}
+
+function linkCode(state: LinkCodeState, code = ''): ReactNode {
+  return (
+    <WithSheet
+      sheet={(close) => (
+        // No keyboard in the lab: the screenshot flows leave a scene with two backs.
+        <LinkCodeSheet
+          state={state}
+          onLink={noop}
+          onClose={close}
+          initialCode={code}
+          autoFocus={false}
         />
       )}
     />
@@ -231,4 +252,7 @@ export const ADD_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'mailbox-choose': () => mailbox({ kind: 'choose', providers: ['gmail', 'microsoft'] }),
   'mailbox-connected': () => mailbox({ kind: 'connected', connection: CONNECTION }),
   'mailbox-done': () => <MailboxConnectedView outcome="connected" onDone={noop} />,
+  'link-code': () => linkCode({ kind: 'idle' }),
+  'link-code-wrong': () => linkCode({ kind: 'wrong' }, '482913'),
+  'link-code-linked': () => linkCode({ kind: 'linked', released: 3 }),
 };

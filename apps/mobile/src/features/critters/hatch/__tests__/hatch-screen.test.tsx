@@ -21,11 +21,13 @@ jest.mock('expo-router', () => ({
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { configure, render, screen, waitFor } from '@testing-library/react-native';
+import { act, configure, render, screen, waitFor } from '@testing-library/react-native';
+import { router } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { LocalFirstProvider } from '@/data/powersync/local-first-context';
+import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import {
   openTestLocalFirst,
   type TestLocalFirst,
@@ -34,7 +36,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { MAYA, seedCritters, TRIP } from '../../test-support/seed-critters';
-import { HatchScreen } from '../hatch-screen';
+import { HatchScreen, MISSING_GRACE_MS } from '../hatch-screen';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -70,19 +72,20 @@ async function leg(
   );
 }
 
-async function renderHatch(withFlights: boolean) {
+async function openStack(bound = false) {
   const stack = await openTestLocalFirst({ holdUploads: true });
   stacks.push(stack);
-  await seedCritters(stack.db, stack.uid, { egg: 'hatched' });
-  await stack.db.execute('UPDATE trip_participants SET landed_at = ? WHERE user_id = ?', [
-    LANDED,
-    stack.uid,
-  ]);
-  if (withFlights) {
-    await leg(stack, 'seg-mine', stack.uid, 'DPS', LANDED);
-    // A crewmate's leg landing at the same moment elsewhere is not mine.
-    await leg(stack, 'seg-maya', MAYA, 'SIN', LANDED);
+  if (bound) {
+    // Signed in on this phone, with none of the trip's rows synced yet.
+    await stack.db.execute('INSERT OR REPLACE INTO local_state (id, value) VALUES (?, ?)', [
+      OWNER_UID_KEY,
+      stack.uid,
+    ]);
   }
+  return stack;
+}
+
+async function mount(stack: TestLocalFirst) {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
   await render(
     <I18nProvider i18n={i18n}>
@@ -97,7 +100,26 @@ async function renderHatch(withFlights: boolean) {
       </SafeAreaProvider>
     </I18nProvider>,
   );
+}
+
+async function renderHatch(withFlights: boolean) {
+  const stack = await openStack();
+  await seedCritters(stack.db, stack.uid, { egg: 'hatched' });
+  await stack.db.execute('UPDATE trip_participants SET landed_at = ? WHERE user_id = ?', [
+    LANDED,
+    stack.uid,
+  ]);
+  if (withFlights) {
+    await leg(stack, 'seg-mine', stack.uid, 'DPS', LANDED);
+    // A crewmate's leg landing at the same moment elsewhere is not mine.
+    await leg(stack, 'seg-maya', MAYA, 'SIN', LANDED);
+  }
+  await mount(stack);
   await waitFor(() => expect(screen.getByTestId('critters-hatch')).toBeTruthy());
+}
+
+function wait(ms: number) {
+  return act(() => new Promise<void>((resolve) => setTimeout(resolve, ms)));
 }
 
 describe('hatch eyebrow', () => {
@@ -114,5 +136,32 @@ describe('hatch eyebrow', () => {
     await waitFor(() =>
       expect(screen.getByText(/^\d\d:\d\d( [AP]M)? · YOU LANDED$/u)).toBeTruthy(),
     );
+  });
+});
+
+describe('hatch ceremony without its trip yet', () => {
+  afterEach(() => {
+    jest.mocked(router.back).mockClear();
+  });
+
+  it('stays open while the trip rows are a sync away, then shows the ceremony', async () => {
+    const stack = await openStack(true);
+    await mount(stack);
+    await waitFor(() => expect(screen.getByTestId('critters-hatch-loading')).toBeTruthy());
+    await wait(MISSING_GRACE_MS / 2);
+    await seedCritters(stack.db, stack.uid, { egg: 'hatched' });
+    await waitFor(() => expect(screen.getByTestId('critters-hatch')).toBeTruthy());
+    await wait(MISSING_GRACE_MS);
+    expect(router.back).not.toHaveBeenCalled();
+  });
+
+  it('leaves when the trip never reaches this phone', async () => {
+    const stack = await openStack(true);
+    await mount(stack);
+    await waitFor(() => expect(screen.getByTestId('critters-hatch-loading')).toBeTruthy());
+    expect(router.back).not.toHaveBeenCalled();
+    await waitFor(() => expect(router.back).toHaveBeenCalledTimes(1), {
+      timeout: MISSING_GRACE_MS + 2000,
+    });
   });
 });

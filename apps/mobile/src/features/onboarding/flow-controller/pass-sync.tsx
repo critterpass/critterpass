@@ -13,6 +13,7 @@ import { guideOfForm, type IssuePassPayload, type StartPassResult } from '@cp/do
 import { defineClientCommand } from '@/data/commands/summaries';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { watchRows } from '@/data/status/watch-rows';
+import { AccountClosedGate } from '@/features/you';
 import { mirrorStickerAvatar, type AppGroupImageWriter } from '@/ui/avatar/app-group-mirror';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { getDefaultSkiaEngine } from '@/ui/sticker/Sticker';
@@ -130,5 +131,6 @@ export function PassSync({ writeAppGroupImage }: PassSyncProps) {
     );
   }, [localFirst, draft]);
 
-  return null;
+  // Drawn here because this is mounted once at the root for every session.
+  return <AccountClosedGate />;
 }

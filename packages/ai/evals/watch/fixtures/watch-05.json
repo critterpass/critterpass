@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d660df4d-0b2e-40ce-8d2c-2ba9ca04451e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Tegallalang terraces are the one to keep an eye on this week.\",\"detail\":\"\",\"items\":[{\"id\":\"rice:title\",\"text\":\"Tegallalang terraces · crowd 92\"},{\"id\":\"rice:detail\",\"text\":\"Forecast shows busier than usual. Keeping an eye on it.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 803,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 74,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

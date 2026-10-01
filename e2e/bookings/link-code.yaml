@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# Screenshots of linking a forwarding address with its emailed code: the bookings lab's link-code
+# sheet waiting for a code, with a wrong one, and linked (over the Add a booking screen).
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: link-code, READY: bookings-link-code-boxes, SHOT: en-bookings-link-code }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      { SCENE: link-code-wrong, READY: bookings-link-code-error, SHOT: en-bookings-link-code-wrong }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      {
+        SCENE: link-code-linked,
+        READY: bookings-link-code-linked,
+        SHOT: en-bookings-link-code-linked,
+      }

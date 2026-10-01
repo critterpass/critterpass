@@ -21,8 +21,8 @@ import { stampBottom, stampLabel } from './profile-copy';
 import type { ProfileAvatar, ProfileStamp } from './profile-model';
 
 export const AVATAR = 84;
-const STAMP = 68;
-const STAMP_OVERLAP = -6;
+const STAMP = 72;
+const STAMP_OVERLAP = -8;
 const STAMP_TILTS = [-8, 6, -4, 9, -3];
 
 const useStyles = makeStyles((t) => ({

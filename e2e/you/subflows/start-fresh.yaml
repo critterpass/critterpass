@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# Developer tools → Start fresh, confirmed: the signed-in account is erased on the server and the
+# app restarts at the splash. Fails when the server cannot erase accounts (the sheet then says the
+# account stays), because the flows using this need the test phone number free again.
+- runFlow: ../../home/subflows/open-dev-tools.yaml
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-start-fresh'
+    timeout: 15000
+- tapOn:
+    id: 'dev-nav-start-fresh'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-start-fresh-confirm'
+    timeout: 15000
+- tapOn: '(?i)start fresh'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 90000
