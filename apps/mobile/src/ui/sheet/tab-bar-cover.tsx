@@ -38,7 +38,6 @@ type Navigation = NonNullable<ContextType<typeof NavigationContext>>;
 /** True for a screen that sits in a tab navigator, directly or through the stacks a tab holds. */
 function insideTabs(navigation: Navigation | undefined): boolean {
   for (let node = navigation; node !== undefined; node = node.getParent()) {
-    // eslint-disable-next-line lingui/no-unlocalized-strings -- navigator type, never rendered
     if (node.getState().type === 'tab') return true;
   }
   return false;

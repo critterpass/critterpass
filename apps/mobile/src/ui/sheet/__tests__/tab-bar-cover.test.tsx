@@ -1,10 +1,12 @@
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
+import { act } from '@testing-library/react-native';
 import { Stack } from 'expo-router/js-stack';
 import { useState } from 'react';
 import { Pressable, Text } from 'react-native';
 import type * as ReactNativeModule from 'react-native';
+import type { ViewProps } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -21,7 +23,7 @@ import { resetTabBarCoverForTests, useTabBarCovered } from '../tab-bar-cover';
 
 // Imported last on purpose: the testing library registers its own Reanimated mock, which cannot
 // load under this app's Jest setup (jest.config.js); everything above already loaded the app's.
-import { act, fireEvent, renderRouter, screen } from 'expo-router/testing-library';
+import { fireEvent, renderRouter, screen } from 'expo-router/testing-library';
 
 // `<Sticker>` rasterises critter art through Skia's JSI/GPU host, which Jest cannot run.
 jest.mock('../../sticker/Sticker', () => {
@@ -117,9 +119,13 @@ async function renderApp(initialUrl: string) {
 
 /** How the tab bar (with its guide button) is exposed to touches and the screen reader. */
 function bar() {
-  const { pointerEvents, accessibilityElementsHidden, importantForAccessibility } =
-    screen.getByTestId('tab-bar-container', { includeHiddenElements: true }).props;
-  return { pointerEvents, accessibilityElementsHidden, importantForAccessibility };
+  const props = screen.getByTestId('tab-bar-container', { includeHiddenElements: true })
+    .props as ViewProps;
+  return {
+    pointerEvents: props.pointerEvents,
+    accessibilityElementsHidden: props.accessibilityElementsHidden,
+    importantForAccessibility: props.importantForAccessibility,
+  };
 }
 
 const SHOWN = {
