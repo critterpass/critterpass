@@ -108,8 +108,8 @@ export function hubEntries(input: {
   return stop === null ? [todayPage] : [todayPage, stop];
 }
 
-/** "EXPLORE ĐÀ NẴNG" under the tiles: the destination's Explore page, once that screen exists. */
-export function exploreEntry(destination: string, onPress: (() => void) | undefined): HubNext {
+/** "EXPLORE ĐÀ NẴNG" under the tiles: the way into the destination's Explore page. */
+export function exploreEntry(destination: string, onPress: () => void): HubNext {
   return {
     icon: 'spark',
     label: null,
@@ -117,6 +117,6 @@ export function exploreEntry(destination: string, onPress: (() => void) | undefi
     detail: null,
     tone: 'raised',
     testID: 'trip-hub-explore',
-    onPress: onPress ?? null,
+    onPress,
   };
 }

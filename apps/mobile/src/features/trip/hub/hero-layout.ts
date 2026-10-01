@@ -1,10 +1,10 @@
 /**
  * How the hub's header is composed (3k-1): whether the countdown sits beside the destination or
- * drops under it, and the ink scrim over the header's photo that keeps every word on it readable.
+ * drops under it, where the countdown's baseline goes, and where the header's own ink scrim over
+ * its photo starts.
  */
 import { resolveTypeVariant, tokens } from '@cp/design-tokens';
 
-import { DARK_HIGHLIGHT_DEPTH, mixColour, scrimFor } from '@/ui/media/duotone';
 import { ADVANCE_RATIO, AUTO_FIT_MIN_SCALE } from '@/ui/text/auto-fit';
 import { FACE_METRICS } from '@/ui/text/glyph-room';
 
@@ -97,43 +97,39 @@ export function baselineLift(input: {
   );
 }
 
-export interface HeroScrim {
-  /** Ink over the photo behind the dates line and the switch pill. */
-  readonly label: number;
-  /** Ink behind the top of the destination; from there it deepens to solid at the bottom edge. */
-  readonly title: number;
+/** The photo's own room between the dates line and the destination when the header has media. */
+export const MEDIA_WINDOW = tokens.space['32'] * 2;
+
+/**
+ * Where the media layer's dark treatment (`@/ui/media/MediaLayer`, surface `dark`) carries the ink
+ * its text needs, as fractions of its height: from `label` down, enough for cream labels at
+ * 4.5:1; from `title` down, enough for the trip colour at 3:1 too.
+ */
+export const LAYER_ZONES = { label: 0.06, title: 0.32 } as const;
+
+/** True when the dates line and the destination sit where the media layer keeps their contrast. */
+export function textInLayerZones(layout: {
+  readonly height: number;
+  readonly labelY: number;
+  readonly titleY: number;
+}): boolean {
+  return (
+    layout.labelY >= layout.height * LAYER_ZONES.label &&
+    layout.titleY >= layout.height * LAYER_ZONES.title
+  );
 }
 
 /**
- * The least ink over the header's media that keeps the cream labels at 4.5:1 and the destination
- * (display type in the trip's colour) at 3:1, whatever the photo shows. A still's brightest tone
- * is the trip colour a little deepened; a loop keeps its own lightness, so its brightest is white.
+ * The header's own scrim over the media, down a header `height` tall: clear from the top of the
+ * screen to the middle of the destination, then deepening to solid ink at the bottom edge, so the
+ * destination's lower half and the countdown sit on near-solid ink and the photo ends in the page
+ * without a line. Above that the photo shows at the strength the media layer gives it.
  */
-export function heroScrim(accent: string, loops: boolean): HeroScrim {
-  const ink = tokens.color.ink['850'];
-  const cream = tokens.color.paper.base;
-  const brightest = loops
-    ? tokens.color.paper.bright
-    : mixColour(accent, ink, DARK_HIGHLIGHT_DEPTH);
-  const label = scrimFor(brightest, ink, [{ colour: cream, ratio: 4.5 }]);
-  const title = scrimFor(brightest, ink, [
-    { colour: accent, ratio: 3 },
-    { colour: cream, ratio: 4.5 },
-  ]);
-  return { label, title: Math.max(label, title) };
-}
-
-/**
- * The scrim's gradient down a header `height` tall: clear at the very top of the screen, at the
- * labels' strength where the top row starts, at the destination's where it starts, solid ink at
- * the bottom edge (so the photo ends without a line).
- */
-export function scrimStops(
-  scrim: HeroScrim,
-  layout: { readonly height: number; readonly labelY: number; readonly titleY: number },
-): { readonly alphas: readonly number[]; readonly positions: readonly number[] } {
-  const at = (y: number) => Math.min(1, Math.max(0, layout.height > 0 ? y / layout.height : 0));
-  const label = at(layout.labelY);
-  const title = Math.max(label, at(layout.titleY));
-  return { alphas: [0, scrim.label, scrim.title, 1], positions: [0, label, title, 1] };
+export function scrimStops(layout: { readonly height: number; readonly titleY: number }): {
+  readonly alphas: readonly number[];
+  readonly positions: readonly number[];
+} {
+  const { height, titleY } = layout;
+  const from = height > 0 ? Math.min(1, Math.max(0, (titleY + (height - titleY) / 2) / height)) : 0;
+  return { alphas: [0, 0, 1], positions: [0, from, 1] };
 }

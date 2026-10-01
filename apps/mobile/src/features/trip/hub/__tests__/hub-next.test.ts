@@ -48,9 +48,9 @@ describe('hub entry rows', () => {
   it("opens today's page from today's row and the stop's own day from the stop", async () => {
     i18n.loadAndActivate({ locale: 'en', messages: await loadCatalog('en', 'trip/hub') });
     const [today, stop] = entries('2026-10-02');
-    today?.onPress?.();
+    today?.onPress();
     expect(router.push).toHaveBeenLastCalledWith(tripDayRoute('t1', null));
-    stop?.onPress?.();
+    stop?.onPress();
     expect(router.push).toHaveBeenLastCalledWith(tripDayRoute('t1', '2026-10-03'));
     // The last evening, with no stop left at all, still has today's page.
     expect(entries('2026-10-04', { nextItem: null }).map((entry) => entry.testID)).toEqual([

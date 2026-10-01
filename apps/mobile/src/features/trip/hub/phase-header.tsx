@@ -1,12 +1,13 @@
 /**
  * The hub's header (3k-1), one block from the top of the screen: the dates and who's going
- * ("OCT 12 – OCT 19 · 6 GOING") with SWITCH TRIP beside it when there is another trip; the
+ * ("OCT 12–19 · 6 GOING") with SWITCH TRIP beside it when there is another trip; the
  * destination in the display face in the guide's colour; and the phase's line, on the
  * destination's baseline: a 1 Hz countdown before the trip ("Wheels up in 17D 05:26:29") or on a
  * travel day ("Land in"), "Day 4 of 8" during it, "Home since Oct 19" after, or the planning CTA
  * while the trip is still being planned. A name too long to share its line takes the whole width
  * and the phase's line sits under it. Behind it all, the destination's photo under an ink scrim;
- * with no photo the header is plain ink.
+ * with a photo the header is taller, the photo showing between the dates line and the
+ * destination; with none it is plain ink.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 import { tokens } from '@cp/design-tokens';
@@ -34,6 +35,7 @@ import {
   countdownBeside,
   countdownSize,
   labelHeight,
+  MEDIA_WINDOW,
   TITLE_GAP,
   titleLineSize,
 } from './hero-layout';
@@ -202,7 +204,6 @@ export function PhaseHeader(props: PhaseHeaderProps) {
         media={media}
         colour={props.colour}
         lowData={props.mediaLowData ?? false}
-        labelY={paddingTop}
         titleY={titleY}
       />
       <Row justify="space-between" align="center" gap="12">
@@ -218,7 +219,11 @@ export function PhaseHeader(props: PhaseHeaderProps) {
         )}
       </Row>
       <View
-        style={[styles.titleRow, marks ? null : styles.tight]}
+        style={[
+          styles.titleRow,
+          marks ? null : styles.tight,
+          media === null ? null : { marginTop: (marks ? 0 : -theme.space['32']) + MEDIA_WINDOW },
+        ]}
         onLayout={(event) =>
           setTitleY(event.nativeEvent.layout.y + (marks ? 0 : theme.space['32']))
         }

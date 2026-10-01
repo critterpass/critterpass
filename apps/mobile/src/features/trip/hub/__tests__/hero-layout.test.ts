@@ -1,10 +1,14 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { contrastRatio, tokens } from '@cp/design-tokens';
+import { tokens } from '@cp/design-tokens';
 
-import { mixColour } from '@/ui/media/duotone';
-
-import { baselineLift, countdownBeside, heroScrim, scrimStops } from '../hero-layout';
+import {
+  baselineLift,
+  countdownBeside,
+  MEDIA_WINDOW,
+  scrimStops,
+  textInLayerZones,
+} from '../hero-layout';
 
 const LINE = { label: 'WHEELS UP IN', value: '17D 05:26:29' };
 /** iPhone 15 and a 360 dp Android, inside the gutters. */
@@ -40,43 +44,33 @@ describe('hub header layout', () => {
   });
 });
 
-describe('hub header scrim', () => {
-  const ink = tokens.color.ink['850'];
-  const cream = tokens.color.paper.base;
-  const guides = Object.entries(tokens.guide).filter(
-    (entry): entry is [string, string] => typeof entry[1] === 'string',
-  );
-
-  it('keeps labels at 4.5:1 and the destination at 3:1 on the brightest a photo or loop gets', () => {
-    expect(guides.length).toBeGreaterThan(5);
-    for (const [guide, accent] of guides) {
-      for (const loops of [false, true]) {
-        const scrim = heroScrim(accent, loops);
-        const brightest = loops ? tokens.color.paper.bright : mixColour(accent, ink, 0.2);
-        const underLabel = mixColour(brightest, ink, scrim.label);
-        const underTitle = mixColour(brightest, ink, scrim.title);
-        expect({ guide, loops, ok: contrastRatio(cream, underLabel) >= 4.5 }).toEqual({
-          guide,
-          loops,
-          ok: true,
-        });
-        expect({
-          guide,
-          loops,
-          ok: contrastRatio(accent, underTitle) >= 3 && contrastRatio(cream, underTitle) >= 4.5,
-        }).toEqual({ guide, loops, ok: true });
-      }
-    }
+describe('hub header over media', () => {
+  it('keeps the photo clear down to the middle of the destination, then ends in solid ink', () => {
+    const stops = scrimStops({ height: 260, titleY: 160 });
+    expect(stops.alphas).toEqual([0, 0, 1]);
+    expect(stops.positions[1]).toBeCloseTo(210 / 260, 5);
+    // Before the header is measured the stops still rise in order.
+    expect(scrimStops({ height: 0, titleY: 0 }).positions).toEqual([0, 0, 1]);
   });
 
-  it('is clear at the top of the screen, deepens down the header and ends in solid ink', () => {
-    const scrim = heroScrim(tokens.guide.tokek, false);
-    const stops = scrimStops(scrim, { height: 200, labelY: 60, titleY: 110 });
-    expect(stops.positions).toEqual([0, 0.3, 0.55, 1]);
-    expect(stops.alphas[0]).toBe(0);
-    expect(stops.alphas[3]).toBe(1);
-    expect([...stops.alphas]).toEqual([...stops.alphas].sort((a, b) => a - b));
-    // Before the header is measured the stops still rise in order.
-    expect(scrimStops(scrim, { height: 0, labelY: 60, titleY: 0 }).positions).toEqual([0, 0, 0, 1]);
+  it("sets the dates line and the destination inside the media layer's own ink", () => {
+    const row = tokens.space['8'];
+    // Top inset, the dates line (16) or the switch pill (44), the photo's window, then the name
+    // on one line at its smallest or on two at its largest.
+    for (const inset of [24, 47, 59]) {
+      for (const top of [16, 44]) {
+        for (const title of [63, 180]) {
+          const labelY = inset + row;
+          const titleY = labelY + top + MEDIA_WINDOW;
+          const height = titleY + title + tokens.space['24'];
+          expect({ inset, top, title, ok: textInLayerZones({ height, labelY, titleY }) }).toEqual({
+            inset,
+            top,
+            title,
+            ok: true,
+          });
+        }
+      }
+    }
   });
 });

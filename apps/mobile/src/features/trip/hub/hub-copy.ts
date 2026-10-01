@@ -201,14 +201,18 @@ export function leaveByLabel(
 }
 
 /**
- * "Oct 12 – Oct 19" for a trip's dates. Hermes has no `Intl.DateTimeFormat#formatRange`, so the two
- * ends are formatted on their own.
+ * "Oct 12–19" for a trip's dates inside one month, "Sep 27 – Oct 3" across two: the shared
+ * interval formatter, which also covers Hermes having no `Intl.DateTimeFormat#formatRange`.
  */
 export function tripDates(locale: string, start: string, end: string | null): string {
-  const last = end ?? start;
-  return last === start
-    ? shortDay(locale, start)
-    : `${shortDay(locale, start)} – ${shortDay(locale, last)}`;
+  /* eslint-disable lingui/no-unlocalized-strings -- date literals and Intl options. */
+  const at = (date: string) => new Date(`${date}T12:00:00Z`);
+  return format.dateInterval(locale, at(start), at(end ?? start), {
+    timeZone: 'UTC',
+    month: 'short',
+    day: 'numeric',
+  });
+  /* eslint-enable lingui/no-unlocalized-strings */
 }
 
 /** "Oct 12" for a trip date. */

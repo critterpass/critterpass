@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { hrefFor } from '@/lib/navigation/screen-registry';
+import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { briefingClock, briefingState } from '../briefing/briefing-model';
 import { BUNDLE_KIND, savedDayId, type SavedDay } from '../bundle/bundle-manager';
@@ -85,6 +85,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   ).rows[0];
   const bookingsOffline = savedToday !== undefined && todayComplete(savedToday.data);
   const registered = useRegisteredHubTiles();
+  const exploreHref = useScreenHref('3d-1', { placeId: rows.trip?.destination_id ?? '', tripId });
   const myTrips = useLiveRows<{ n: number }>(
     MY_TRIP_COUNT_SQL,
     me === null ? null : [me],
@@ -205,13 +206,12 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
         }))),
   ];
 
+  // Shown once Explore's screen is registered: a row that opens nothing is not drawn.
+  const exploreAction = go(exploreHref);
   const explore =
-    trip === null || trip.destination_id === null || trip.destination_name === null
+    trip?.destination_name == null || exploreAction === undefined
       ? null
-      : exploreEntry(
-          trip.destination_name,
-          go(hrefFor('3d-1', { placeId: trip.destination_id, tripId })),
-        );
+      : exploreEntry(trip.destination_name, exploreAction);
   const planning = trip === null ? null : planningLink(tripId, trip.status, rows.openVotes[0]);
   const planningAction = planning === null ? undefined : go(planning.href);
 

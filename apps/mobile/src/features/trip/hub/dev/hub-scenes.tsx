@@ -6,6 +6,7 @@
  * the one the quests area registers.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { i18n } from '@lingui/core';
 import type { ReactNode } from 'react';
 
 import type { BriefingState } from '../../briefing/briefing-model';
@@ -68,9 +69,14 @@ function Hub({
       ? [
           {
             key: 'quests',
-            title: 'Quests',
-            value: '3 live',
-            caption: 'crew level 7',
+            // The quests area's own tile strings, by id (its tile reads live data).
+            title: i18n._({ id: 'quests.tile.title', message: 'Quests' }),
+            value: i18n._({ id: 'quests.tile.live', message: '{0} live', values: { 0: 3 } }),
+            caption: i18n._({
+              id: 'quests.tile.level',
+              message: '{level, plural, other {crew level #}}',
+              values: { level: 7 },
+            }),
             icon: 'star' as const,
             tone: 'orange' as const,
           },

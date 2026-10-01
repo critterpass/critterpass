@@ -1,8 +1,10 @@
 /**
- * The header's media (3k-1): the destination's photo or loop from the very top of the screen to
- * the header's bottom edge, in the dark duotone of the trip's colour, under an ink scrim that is
- * clear at the top and solid at the bottom, so the labels and the destination keep their contrast
- * and the photo ends in the page. No media draws nothing: the header is plain ink, as designed.
+ * The header's media (3k-1): the destination's photo from the very top of the screen to the
+ * header's bottom edge, in the dark duotone of the trip's colour (the media layer's own treatment,
+ * which carries the ink the labels and the destination need), under the header's scrim: clear down
+ * to the middle of the destination, solid at the bottom edge, so the photo reads as a photo and
+ * ends in the page. A still, never a loop: the layer draws a loop above its own ink, where the
+ * labels would lose their contrast. No media draws nothing: the header is plain ink, as designed.
  */
 import type { MediaAsset } from '@cp/domain';
 import { Canvas, LinearGradient, Rect, vec } from '@shopify/react-native-skia';
@@ -13,14 +15,13 @@ import { MediaLayer } from '@/ui/media/MediaLayer';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { heroScrim, scrimStops } from './hero-layout';
+import { scrimStops } from './hero-layout';
 
 export interface HeroBackdropProps {
   readonly media: MediaAsset | null;
   readonly colour: string;
   readonly lowData: boolean;
-  /** Where the top row and the destination start, from the header's top. */
-  readonly labelY: number;
+  /** Where the destination starts, from the header's top. */
   readonly titleY: number;
 }
 
@@ -35,14 +36,13 @@ function withAlpha(hex: string, alpha: number): string {
     .padStart(2, '0')}`;
 }
 
-export function HeroBackdrop({ media, colour, lowData, labelY, titleY }: HeroBackdropProps) {
+export function HeroBackdrop({ media, colour, lowData, titleY }: HeroBackdropProps) {
   const theme = useTheme();
   const styles = useStyles();
   const [size, setSize] = useState<{ width: number; height: number } | null>(null);
   if (media === null) return null;
   const ink = theme.color.ink['850'];
-  const scrim = heroScrim(colour, !lowData && media.videos.length > 0);
-  const stops = scrimStops(scrim, { height: size?.height ?? 0, labelY, titleY });
+  const stops = scrimStops({ height: size?.height ?? 0, titleY });
   return (
     <View
       style={StyleSheet.absoluteFill}
@@ -56,7 +56,7 @@ export function HeroBackdrop({ media, colour, lowData, labelY, titleY }: HeroBac
         media={media}
         surface="dark"
         accent={colour}
-        motion="loop"
+        motion="still"
         lowData={lowData}
         testID="trip-hub-hero-media"
       />

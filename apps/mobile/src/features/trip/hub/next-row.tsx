@@ -2,7 +2,7 @@
  * The hub's compact row (3k-1): what comes next in this phase under the header (the first day and
  * its pack list before the trip, my flight on a travel day, today's leave-by or next stop during
  * it) and the way into Explore under the tiles. An icon, a caps label carrying its day or time, a
- * title, one line and a chevron; a row with nowhere to go yet draws no chevron and takes no tap.
+ * title, one line and a chevron.
  */
 import { upper } from '@cp/i18n';
 import { I18nManager } from 'react-native';
@@ -24,8 +24,7 @@ export interface HubNext {
   readonly detail: string | null;
   readonly tone: 'raised' | 'pink';
   readonly testID: string;
-  /** Null while the row's screen is not there to open. */
-  readonly onPress: (() => void) | null;
+  readonly onPress: () => void;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -44,7 +43,7 @@ export function NextRow({ next }: { readonly next: HubNext }) {
     <Card
       tone={next.tone}
       halftone={accent}
-      {...(next.onPress === null ? {} : { onPress: next.onPress })}
+      onPress={next.onPress}
       accessibilityLabel={[next.label, next.title, next.detail].filter(Boolean).join(', ')}
       style={styles.card}
       testID={next.testID}
@@ -66,11 +65,9 @@ export function NextRow({ next }: { readonly next: HubNext }) {
             </Text>
           )}
         </Stack>
-        {next.onPress === null ? null : (
-          <Text variant="title" color={quiet} accessibilityElementsHidden>
-            {I18nManager.isRTL ? '‹' : '›'}
-          </Text>
-        )}
+        <Text variant="title" color={quiet} accessibilityElementsHidden>
+          {I18nManager.isRTL ? '‹' : '›'}
+        </Text>
       </Row>
     </Card>
   );
