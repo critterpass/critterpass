@@ -45,8 +45,11 @@ export interface ExploreMapViewProps {
   readonly onSettle: (id: string) => void;
   readonly onOpen: (card: CarouselCard) => void;
   readonly onBack: () => void;
-  /** The map canvas; null when it cannot draw (offline with no region on this phone). */
-  readonly canvas: ReactNode | null;
+  /**
+   * The map canvas, given how far up its mark and attribution button must sit to clear the cards
+   * and the home indicator; null when it cannot draw (offline with no region on this phone).
+   */
+  readonly canvas: ((ornamentBottom: number) => ReactNode) | null;
   /** The offer to download the region, shown where the map cannot draw. */
   readonly pack: ReactNode;
   /** Already worded: "You're 607 km from Kyoto"; null in the destination or with no fix. */
@@ -70,7 +73,7 @@ const useStyles = makeStyles((t) => ({
     borderRadius: t.radius.lg,
     backgroundColor: t.semantic.bg.raised,
   },
-  unavailable: { flex: 1, justifyContent: 'center', paddingHorizontal: t.size.gutter },
+  unavailable: { justifyContent: 'center', paddingHorizontal: t.size.gutter },
 }));
 
 export function ExploreMapView(props: ExploreMapViewProps) {
@@ -86,20 +89,33 @@ export function ExploreMapView(props: ExploreMapViewProps) {
   return (
     <Scaffold variant={listMode ? 'dark' : 'map'} edges={[]} testID="explore-map">
       {listMode ? (
-        <ExploreListView
-          cards={props.cards}
-          onOpen={props.onOpen}
-          topInset={insets.top + HEADER_PT}
-          bottomInset={insets.bottom + theme.space['24']}
-        />
+        // The list's own surface covers the whole screen, edge to edge; its rows keep to the safe
+        // areas.
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: theme.semantic.bg.base }]}>
+          <ExploreListView
+            cards={props.cards}
+            onOpen={props.onOpen}
+            topInset={insets.top + HEADER_PT}
+            bottomInset={insets.bottom + theme.space['24']}
+          />
+        </View>
       ) : props.canvas === null ? (
         props.loading ? null : (
-          <View style={styles.unavailable} testID="explore-map-unavailable">
+          <View
+            style={[
+              StyleSheet.absoluteFill,
+              styles.unavailable,
+              { backgroundColor: theme.color.map.base },
+            ]}
+            testID="explore-map-unavailable"
+          >
             {props.pack}
           </View>
         )
       ) : (
-        <View style={StyleSheet.absoluteFill}>{props.canvas}</View>
+        <View style={StyleSheet.absoluteFill}>
+          {props.canvas(insets.bottom + theme.space['12'] + CAROUSEL_PT + theme.space['8'])}
+        </View>
       )}
       <View
         style={[styles.top, { paddingTop: insets.top + theme.space['8'] }]}

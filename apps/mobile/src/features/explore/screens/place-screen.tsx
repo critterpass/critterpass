@@ -66,7 +66,7 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
   const tz = facts.tz ?? row?.timezone ?? row?.destination_tz ?? null;
   const now = useMemo(() => new Date(), []);
   const today = toLocalWallTime(now, tz ?? 'UTC');
-  const date = context?.crowd?.date ?? context?.suggested_slot?.date ?? today.date;
+  const date = pageDate(context, today.date);
   const crowds = dataOf(useCrowds({ poiId: row === null ? null : placeId, date }));
   const hours = useMemo(() => parseJson(row?.hours), [row?.hours]);
   const editorial = useMemo(
@@ -121,7 +121,11 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
   }
 
   const columns = crowdColumns(crowds?.hourly);
-  const window = context?.crowd?.best_window ?? crowds?.best_window ?? null;
+  // The quiet window of the day shown: the trip context's when it is for that day.
+  const window =
+    (context?.crowd?.date === date ? context.crowd.best_window : null) ??
+    crowds?.best_window ??
+    null;
   const crowd: CrowdChartProps = closedOn(hours, date)
     ? { kind: 'closed', date }
     : columns.length === 0
@@ -151,7 +155,7 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
       ? { kind: 'save', saved, onToggleSave: toggle }
       : {
           kind: 'trip',
-          state: addState(context, tz, adding.addedDay),
+          state: addState(context, tz, adding.addedDay, hours),
           proposed: adding.proposed,
           busy: contextRead.status === 'loading' || adding.busy,
           offline: contextRead.status === 'missing' && contextRead.reason === 'offline',

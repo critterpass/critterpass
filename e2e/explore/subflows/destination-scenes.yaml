@@ -62,6 +62,10 @@ appId: app.critterpass.dev
       }
 - runFlow:
     file: scene.yaml
+    env:
+      { SCENE: destination-writing, READY: explore-writing, SHOT: '${PREFIX}-3d-1-being-written' }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: destination-guest, READY: explore-limited, SHOT: '${PREFIX}-3b-8-guest-guide' }
 - runFlow:
     file: scene.yaml

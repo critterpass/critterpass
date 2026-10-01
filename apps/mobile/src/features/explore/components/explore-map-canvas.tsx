@@ -33,6 +33,7 @@ const WORLD_URL = (darkStyle.sources['world'] as { url: string }).url;
 export const OPENING_ZOOM = 12;
 /** Name capsules are wide: places nearer than this on screen share one bubble. */
 const GATHER_PX = 96;
+const ORNAMENT_SIDE = 12;
 
 /** The destination's published region tiles, beside the world tiles. */
 function regionTilesUrl(slug: string): string {
@@ -59,6 +60,8 @@ export interface ExploreMapCanvasProps {
   /** Where the viewer stands, when they are in the destination. */
   readonly you: Point | null;
   readonly guide: GuideFacts;
+  /** How far above the bottom edge the map's mark and attribution button sit, in points. */
+  readonly ornamentBottom: number;
   /** The camera the screen flies (`useFlyTo`). */
   readonly cameraRef: RefObject<CameraRef | null>;
   /** Zooms to fit a gathering that was tapped open. */
@@ -110,6 +113,11 @@ export function ExploreMapCanvas({ cameraRef, onFit, ...props }: ExploreMapCanva
     <MapLibreMap
       style={StyleSheet.absoluteFill}
       mapStyle={style}
+      // Drawn inside the view tree, so no band of the map's surface is left behind a screen that
+      // replaces it.
+      androidView="texture"
+      logoPosition={{ bottom: props.ornamentBottom, left: ORNAMENT_SIDE }}
+      attributionPosition={{ bottom: props.ornamentBottom, right: ORNAMENT_SIDE }}
       onRegionDidChange={(event) => setZoom(event.nativeEvent.zoom)}
     >
       <Camera

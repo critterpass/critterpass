@@ -27,6 +27,12 @@ msgstr ""
 msgid "explore.swipe.building"
 msgstr ""
 
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.writing"
+msgstr ""
+
 #. placeholder {0}: card.name
 #. placeholder {1}: card.guide.name
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
@@ -452,8 +458,9 @@ msgstr ""
 msgid "explore.map.locationOff"
 msgstr ""
 
+#. placeholder {0}: hero.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
-msgid "explore.picks.map"
+msgid "explore.dest.map"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -607,6 +614,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.mapBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx

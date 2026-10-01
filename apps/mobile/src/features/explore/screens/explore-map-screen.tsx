@@ -27,6 +27,7 @@ import {
   centreOf,
   filterCounts,
   filterPlaces,
+  orderPlaces,
   presence,
   type FilterContext,
   type MapFilter,
@@ -38,6 +39,8 @@ import { useDestinationRow } from '../queries';
 import { exploreRoutes } from '../routes';
 import { useSaved } from '../saved-queries';
 import { MAP_CAROUSEL } from '../sponsored-model';
+
+const MAX_PINS = 40;
 
 export interface ExploreMapScreenProps {
   /** Destination id or slug. */
@@ -82,9 +85,12 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
     }),
     [saved.rows, crewPicks, tz, now],
   );
+  const where = presence(position.kind === 'at' ? position.point : null, places);
+  const from = where.kind === 'here' ? where.at : null;
+  const ordered = useMemo(() => orderPlaces(places, from), [places, from]);
   const shown = useMemo(
-    () => filterPlaces(places, filters, query, context),
-    [places, filters, query, context],
+    () => filterPlaces(ordered, filters, query, context),
+    [ordered, filters, query, context],
   );
   const slot = useSponsoredSlot({ destinationId: id, list: MAP_CAROUSEL, tripId: trip });
   const sponsoredEvents = useSponsoredEvents(slot?.placement_id ?? null, MAP_CAROUSEL);
@@ -128,7 +134,10 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
   }, [flyToPlace, selected]);
 
   const centre = selected ?? centreOf(places);
-  const where = presence(position.kind === 'at' ? position.point : null, places);
+  // The map carries the first places of the list (and the chosen one), not hundreds of pins.
+  const pinned = shown
+    .slice(0, MAX_PINS)
+    .concat(selected !== null && !shown.slice(0, MAX_PINS).includes(selected) ? [selected] : []);
   const offline = sync.phase === 'offline';
   const canDraw = !offline || pack.uri !== null;
   const open = (card: CarouselCard) => {
@@ -159,27 +168,30 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
       onOpen={open}
       onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
       canvas={
-        canDraw && centre !== null ? (
-          <ExploreMapCanvas
-            places={shown.map((poi) => ({
-              id: poi.id,
-              name: poi.name,
-              category: poi.category,
-              lat: poi.lat,
-              lng: poi.lng,
-              faces: cards.find((card) => card.id === poi.id)?.keen ?? [],
-            }))}
-            selectedId={selectedId}
-            onSelect={setSelectedId}
-            centre={centre}
-            destinationSlug={row?.slug ?? null}
-            localRegionUri={pack.uri}
-            you={where.kind === 'here' ? where.at : null}
-            guide={guide}
-            cameraRef={cameraRef}
-            onFit={fitToBounds}
-          />
-        ) : null
+        canDraw && centre !== null
+          ? (ornamentBottom) => (
+              <ExploreMapCanvas
+                ornamentBottom={ornamentBottom}
+                places={pinned.map((poi) => ({
+                  id: poi.id,
+                  name: poi.name,
+                  category: poi.category,
+                  lat: poi.lat,
+                  lng: poi.lng,
+                  faces: cards.find((card) => card.id === poi.id)?.keen ?? [],
+                }))}
+                selectedId={selectedId}
+                onSelect={setSelectedId}
+                centre={centre}
+                destinationSlug={row?.slug ?? null}
+                localRegionUri={pack.uri}
+                you={where.kind === 'here' ? where.at : null}
+                guide={guide}
+                cameraRef={cameraRef}
+                onFit={fitToBounds}
+              />
+            )
+          : null
       }
       pack={
         <RegionPackCardView

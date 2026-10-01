@@ -27,6 +27,12 @@ msgstr "{0, plural, one {# of the crew saved it.} other {# of the crew saved it.
 msgid "explore.swipe.building"
 msgstr "{0} is picking the cards"
 
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.writing"
+msgstr "{0} is still writing up {1}: the picks and the month-by-month crowds land here. The places are already on the map."
+
 #. placeholder {0}: card.name
 #. placeholder {1}: card.guide.name
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
@@ -452,9 +458,10 @@ msgstr "Loading the guide"
 msgid "explore.map.locationOff"
 msgstr "Location is off, so the map leaves you out."
 
+#. placeholder {0}: hero.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
-msgid "explore.picks.map"
-msgstr "Map ›"
+msgid "explore.dest.map"
+msgstr "Map of {0}"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
@@ -608,6 +615,10 @@ msgstr "Pitching needs a crew. Start one from Home, or take this one solo."
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.other"
 msgstr "Place"
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.mapBody"
+msgstr "Places, search and what is open now"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.remove"

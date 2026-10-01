@@ -94,7 +94,7 @@ export function SwipeView(props: SwipeViewProps) {
               <Text variant="label" color={theme.color.pink}>
                 {upper(t({ id: 'explore.swipe.live', message: `● ${liveCount} live` }), locale)}
               </Text>
-              <AvatarStack members={props.live} max={4} size="sm" />
+              <AvatarStack members={props.live} max={4} />
             </View>
           )}
         </Row>

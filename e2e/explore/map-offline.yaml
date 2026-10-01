@@ -20,7 +20,7 @@ appId: app.critterpass.dev
     id: 'home-guide-pon'
 - extendedWaitUntil:
     visible:
-      id: 'explore-picks'
+      id: 'explore-(picks|months|writing)'
     timeout: 45000
 - scrollUntilVisible:
     element:

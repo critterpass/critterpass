@@ -17,7 +17,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { guideWritten } from '../data/guide-text';
 import type { PriceRow } from '../destination-model';
-import { monthName, moneyText } from '../format';
+import { estimateText, monthName } from '../format';
 
 export type MonthPrices =
   | { readonly kind: 'loading' }
@@ -122,7 +122,7 @@ export function MonthPanel(props: MonthPanelProps) {
           {prices.rows.map((row) => {
             const seen = row.seenAt === null ? null : formatSeen(row.seenAt, now, locale);
             const amount =
-              row.price === null ? null : moneyText(locale, row.price.minor, row.price.currency);
+              row.price === null ? null : estimateText(locale, row.price.minor, row.price.currency);
             return (
               <View key={row.origin} style={styles.fare}>
                 <Text variant="rowTitle">{who(row)}</Text>

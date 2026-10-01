@@ -14,6 +14,10 @@ export interface MapPoi {
   readonly lng: number;
   /** The stored opening hours (parsed JSON), or null. */
   readonly hours: unknown;
+  /** One of the guide's must-sees. */
+  readonly mustSee: boolean;
+  /** The editors wrote it up (a reason to go), must-see or not. */
+  readonly written: boolean;
 }
 
 export type MapFilter = 'saved' | 'crew' | 'food' | 'open';
@@ -41,10 +45,34 @@ export function fold(text: string): string {
   return text.normalize('NFD').replace(/[̀-ͯ]/gu, '').replace(/[đĐ]/gu, 'd').toLowerCase();
 }
 
+/** Must-sees first, then places the editors wrote up, then the rest. */
+function tier(poi: MapPoi): number {
+  if (poi.mustSee) return 0;
+  return poi.written ? 1 : 2;
+}
+
 /**
- * The places every active filter and the search text leave, by name with the marks folded away
- * (the same order on every phone, whatever its collation).
+ * The order every Explore list shows places in: the guide's must-sees, then other written-up
+ * places, then the rest; inside each group the nearest to `from` first (where the viewer stands,
+ * else the middle of the destination), and the name only to settle a tie.
  */
+export function orderPlaces(places: readonly MapPoi[], from: Point | null): MapPoi[] {
+  const origin = from ?? centreOf(places);
+  return places
+    .map((poi) => ({
+      poi,
+      tier: tier(poi),
+      meters: origin === null ? 0 : Math.round(distanceMeters(origin, poi)),
+      key: fold(poi.name),
+    }))
+    .sort(
+      (a, b) =>
+        a.tier - b.tier || a.meters - b.meters || (a.key < b.key ? -1 : a.key > b.key ? 1 : 0),
+    )
+    .map((entry) => entry.poi);
+}
+
+/** The places every active filter and the search text leave, in the order they were given. */
 export function filterPlaces(
   places: readonly MapPoi[],
   filters: ReadonlySet<MapFilter>,
@@ -59,10 +87,7 @@ export function filterPlaces(
         needle === '' ||
         fold(poi.name).includes(needle) ||
         (poi.nameLocal !== null && fold(poi.nameLocal).includes(needle)),
-    )
-    .map((poi) => ({ poi, key: fold(poi.name) }))
-    .sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0))
-    .map((entry) => entry.poi);
+    );
 }
 
 /** How many places each chip would show on its own. */

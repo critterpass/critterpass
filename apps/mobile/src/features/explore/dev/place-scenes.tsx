@@ -98,6 +98,8 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     tip: 'Come hungry and come before noon. The tamagoyaki stall sells out.',
     keen: 1,
     qna: undefined,
+    // The button never offers a closed day: with no open day free in the plan it offers none.
+    add: { kind: 'full' },
   },
   'place-no-crowd': {
     ...FUSHIMI,

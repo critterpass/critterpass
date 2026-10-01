@@ -171,7 +171,9 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
       ? null
       : guide.guest
         ? ('limited' as const)
-        : ('unavailable' as const);
+        : data === undefined
+          ? ('unavailable' as const)
+          : ('writing' as const);
 
   return (
     <DestinationView

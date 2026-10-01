@@ -9,6 +9,7 @@ import {
   crowdColumns,
   goAdvice,
   openState,
+  pageDate,
   windowHours,
 } from '../place-model';
 
@@ -118,6 +119,26 @@ describe('ADD TO DAY', () => {
     expect(addState(null, TOKYO, null)).toEqual({ kind: 'none' });
     expect(addState(context({ base_version: null }), TOKYO, null)).toEqual({ kind: 'none' });
     expect(addState(context({ suggested_slot: null }), TOKYO, null)).toEqual({ kind: 'full' });
+  });
+
+  it('never offers a day the place is closed', () => {
+    const closedMondays = {
+      weekly: { tu: span('09:00', '17:00'), we: span('09:00', '17:00') },
+    };
+    // The suggested slot's date, 2027-04-03, is a Saturday: no hours that day.
+    expect(addState(context({}), TOKYO, null, closedMondays)).toEqual({ kind: 'full' });
+    expect(addState(context({}), TOKYO, null, week(span('05:00', '20:00')))).toMatchObject({
+      kind: 'add',
+    });
+  });
+
+  it('draws the crowd chart for the day the button offers', () => {
+    const base = context({ crowd: { date: '2027-04-02', best_window: null } });
+    expect(pageDate(base, '2026-10-01')).toBe('2027-04-03');
+    expect(pageDate(context({ suggested_slot: null, crowd: base.crowd }), '2026-10-01')).toBe(
+      '2027-04-02',
+    );
+    expect(pageDate(null, '2026-10-01')).toBe('2026-10-01');
   });
 
   it('sends the organiser one add and a member the same add for the crew to okay', () => {

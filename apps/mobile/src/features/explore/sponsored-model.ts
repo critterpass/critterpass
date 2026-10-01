@@ -23,12 +23,17 @@ export interface PickEntry {
   readonly sponsored: SponsoredSlot | null;
 }
 
-/** The server's list as cards: organic order untouched, one sponsored card at most, never first. */
+/**
+ * The server's list as cards: the guide's must-sees in the order given, one sponsored card at most
+ * and never first. With no must-sees there are no picks (and so no sponsored card either).
+ */
 export function pickEntries(entries: readonly PicksEntryWire[]): PickEntry[] {
   const cards: PickEntry[] = [];
   let sponsored = false;
   for (const entry of entries) {
     if (entry.kind === 'organic') {
+      // Only what the guide marks as a must-see is a pick: the row is never padded out.
+      if (!entry.item.must_see) continue;
       cards.push({
         poiId: entry.item.poi_id,
         name: entry.item.name,

@@ -95,7 +95,7 @@ interface SceneSpec {
   readonly saved?: boolean;
   readonly offline?: boolean;
   readonly loading?: boolean;
-  readonly notice?: 'limited' | 'unavailable';
+  readonly notice?: 'limited' | 'writing' | 'unavailable';
   readonly mode?: ActionsMode;
   readonly crews?: readonly CrewChoice[];
   /** Puts a sponsored card at this position in the picks. */
@@ -160,6 +160,13 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     notice: 'unavailable',
   },
   'destination-da-nang': DA_NANG,
+  'destination-writing': {
+    ...KYOTO,
+    facts: { ...KYOTO.facts, best: [] },
+    curve: null,
+    picks: [],
+    notice: 'writing',
+  },
   'destination-guest': {
     name: 'Marrakech',
     guide: null,

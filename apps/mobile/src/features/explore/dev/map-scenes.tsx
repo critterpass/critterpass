@@ -20,6 +20,7 @@ import {
   centreOf,
   filterCounts,
   filterPlaces,
+  orderPlaces,
   type FilterContext,
   type MapFilter,
   type MapPoi,
@@ -39,6 +40,8 @@ const poi = (id: string, name: string, category: string, lat: number, lng: numbe
   lat,
   lng,
   hours: category === 'temple_shrine' || category === 'beach' ? ALWAYS : null,
+  mustSee: category === 'temple_shrine' || category === 'nature',
+  written: category !== 'nightlife',
 });
 
 const KYOTO: readonly MapPoi[] = [
@@ -141,7 +144,7 @@ function MapScene({ spec }: { readonly spec: MapSpec }) {
     }),
     [spec],
   );
-  const shown = filterPlaces(spec.places, filters, query, context);
+  const shown = filterPlaces(orderPlaces(spec.places, spec.you ?? null), filters, query, context);
   const cards = shown.map((place): CarouselCard => {
     const start = spec.planned?.[place.id];
     return {
@@ -184,23 +187,26 @@ function MapScene({ spec }: { readonly spec: MapSpec }) {
       onOpen={() => undefined}
       onBack={() => undefined}
       canvas={
-        spec.noMap === true ? null : (
-          <ExploreMapCanvas
-            places={shown.map((place) => ({
-              ...place,
-              faces: CREW.slice(0, spec.keen?.[place.id] ?? 0),
-            }))}
-            selectedId={selectedId}
-            onSelect={setSelectedId}
-            centre={selected ?? centreOf(spec.places) ?? { lat: 0, lng: 0 }}
-            destinationSlug={null}
-            localRegionUri={null}
-            you={spec.you ?? null}
-            guide={guideFor(spec.guide)}
-            cameraRef={cameraRef}
-            onFit={fitToBounds}
-          />
-        )
+        spec.noMap === true
+          ? null
+          : (ornamentBottom) => (
+              <ExploreMapCanvas
+                ornamentBottom={ornamentBottom}
+                places={shown.map((place) => ({
+                  ...place,
+                  faces: CREW.slice(0, spec.keen?.[place.id] ?? 0),
+                }))}
+                selectedId={selectedId}
+                onSelect={setSelectedId}
+                centre={selected ?? centreOf(spec.places) ?? { lat: 0, lng: 0 }}
+                destinationSlug={null}
+                localRegionUri={null}
+                you={spec.you ?? null}
+                guide={guideFor(spec.guide)}
+                cameraRef={cameraRef}
+                onFit={fitToBounds}
+              />
+            )
       }
       pack={
         <RegionPackCardView

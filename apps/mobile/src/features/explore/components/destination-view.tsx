@@ -9,6 +9,8 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { TextLink } from '@/ui/buttons/TextLink';
+import { ListCard } from '@/ui/cards/ListCard';
+import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -29,8 +31,11 @@ export interface DestinationViewProps {
   /** The page's facts are still on their way (nothing saved to show yet). */
   readonly loading: boolean;
   readonly offline: boolean;
-  /** `limited`: a guest-guide place with no curve or picks; `unavailable`: they did not load. */
-  readonly notice: 'limited' | 'unavailable' | null;
+  /**
+   * `limited`: a guest-guide place with no curve or picks; `writing`: a guide's own place whose
+   * curve and picks are not written yet; `unavailable`: they did not load.
+   */
+  readonly notice: 'limited' | 'writing' | 'unavailable' | null;
   readonly months: {
     readonly bars: readonly MonthBarModel[];
     readonly legend: readonly LegendChip[];
@@ -105,6 +110,21 @@ export function DestinationView(props: DestinationViewProps) {
               {months.panel === null ? null : <MonthPanel {...months.panel} />}
             </View>
           )}
+          {props.onMap === undefined ? null : (
+            <View style={styles.inset}>
+              <ListCard
+                title={t({ id: 'explore.dest.map', message: `Map of ${hero.name}` })}
+                subtitle={t({
+                  id: 'explore.dest.mapBody',
+                  message: 'Places, search and what is open now',
+                })}
+                leading={<Icon name="pin" size={22} decorative />}
+                chevron
+                onPress={props.onMap}
+                testID="explore-open-map"
+              />
+            </View>
+          )}
           {props.picks.length === 0 ? null : (
             <View style={{ gap: theme.space['12'] }}>
               <Row justify="space-between" align="center" gap="8" style={styles.inset}>
@@ -119,13 +139,6 @@ export function DestinationView(props: DestinationViewProps) {
                     )}
                   </Text>
                 </View>
-                {props.onMap === undefined ? null : (
-                  <TextLink
-                    label={upper(t({ id: 'explore.picks.map', message: 'Map ›' }), locale)}
-                    onPress={props.onMap}
-                    testID="explore-open-map"
-                  />
-                )}
                 {props.onCrewPlans === undefined ? null : (
                   <TextLink
                     label={upper(
@@ -140,6 +153,16 @@ export function DestinationView(props: DestinationViewProps) {
               <PicksRow picks={props.picks} onOpen={props.onOpenPick} accent={guide.colour} />
             </View>
           )}
+          {props.notice === 'writing' ? (
+            <View style={styles.card} testID="explore-writing">
+              <Text variant="body">
+                {t({
+                  id: 'explore.dest.writing',
+                  message: `${guide.name} is still writing up ${hero.name}: the picks and the month-by-month crowds land here. The places are already on the map.`,
+                })}
+              </Text>
+            </View>
+          ) : null}
           {props.notice === 'unavailable' ? (
             <View style={styles.card} testID="explore-unavailable">
               <Text variant="body">

@@ -4,19 +4,17 @@ import type { PicksEntryWire } from '@cp/domain';
 
 import { createImpressionGate, pickEntries, withSlot } from '../sponsored-model';
 
-const organic = (id: string): PicksEntryWire => ({
-  kind: 'organic',
-  item: {
-    poi_id: id,
-    name: id,
-    name_local: null,
-    category: 'food',
-    tags: [],
-    must_see: false,
-    why_go: null,
-    taste_matches: 0,
-  },
+const item = (id: string) => ({
+  poi_id: id,
+  name: id,
+  name_local: null,
+  category: 'food',
+  tags: [],
+  must_see: true,
+  why_go: null,
+  taste_matches: 0,
 });
+const organic = (id: string): PicksEntryWire => ({ kind: 'organic', item: item(id) });
 const paid = (id: string): PicksEntryWire => ({
   kind: 'sponsored',
   label: 'SPONSORED',
@@ -44,6 +42,15 @@ describe('picks with a sponsored slot', () => {
     ).toEqual(['a', 's', 'b']);
     expect(pickEntries([paid('s'), organic('a')]).map((card) => card.poiId)).toEqual(['a']);
     expect(pickEntries([paid('s')])).toEqual([]);
+  });
+
+  it('leaves out places that are not must-sees, and shows no row without any', () => {
+    const plain: PicksEntryWire = { kind: 'organic', item: { ...item('bar'), must_see: false } };
+    expect(pickEntries([organic('a'), plain, organic('b')]).map((card) => card.poiId)).toEqual([
+      'a',
+      'b',
+    ]);
+    expect(pickEntries([plain, paid('s'), plain])).toEqual([]);
   });
 
   it('shows none for someone who gets none', () => {

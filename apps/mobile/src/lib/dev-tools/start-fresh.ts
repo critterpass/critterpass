@@ -65,6 +65,11 @@ export const MMKV_STORES: readonly MmkvStore[] = [
   { id: 'cp-realtime', cleared: true, why: 'chat channel positions of the old account' },
   { id: 'cp-setup-calendar', cleared: true, why: 'calendar choices from trip setup' },
   { id: 'cp-travel-data', cleared: true, why: 'last good weather, fares and insights answers' },
+  {
+    id: 'cp-explore-swipes',
+    cleared: true,
+    why: 'what this phone swiped in a group swipe session',
+  },
 ];
 
 /** A directory, or the files in a root whose names start with `prefix`. */

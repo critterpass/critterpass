@@ -27,6 +27,12 @@ msgstr "{0, plural, other {# người trong nhóm đã lưu nơi này.}}"
 msgid "explore.swipe.building"
 msgstr "{0} đang chọn thẻ"
 
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.writing"
+msgstr "{0} vẫn đang viết về {1}: các gợi ý và độ đông theo tháng sẽ nằm ở đây. Các địa điểm đã có trên bản đồ."
+
 #. placeholder {0}: card.name
 #. placeholder {1}: card.guide.name
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
@@ -452,9 +458,10 @@ msgstr "Đang tải cẩm nang"
 msgid "explore.map.locationOff"
 msgstr "Vị trí đang tắt nên bản đồ không hiện bạn."
 
+#. placeholder {0}: hero.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
-msgid "explore.picks.map"
-msgstr "Bản đồ ›"
+msgid "explore.dest.map"
+msgstr "Bản đồ {0}"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
@@ -608,6 +615,10 @@ msgstr "Muốn giới thiệu thì cần có nhóm. Tạo nhóm từ Trang chủ
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.other"
 msgstr "Địa điểm"
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.mapBody"
+msgstr "Địa điểm, tìm kiếm và nơi đang mở cửa"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.remove"

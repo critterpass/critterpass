@@ -9,7 +9,7 @@ import { useMemo } from 'react';
 import { useLiveRows } from './data/live-rows';
 import type { MapPoi } from './map-model';
 
-const POIS_SQL = `SELECT id, name, name_local, category, lat, lng, hours FROM pois
+const POIS_SQL = `SELECT id, name, name_local, category, lat, lng, hours, editorial FROM pois
   WHERE destination_id = ? AND lat IS NOT NULL AND lng IS NOT NULL
     AND coalesce(status, 'active') <> 'hidden' AND category <> 'stay'`;
 const POIS_TABLES = ['pois'];
@@ -22,6 +22,7 @@ interface PoiRow {
   readonly lat: number;
   readonly lng: number;
   readonly hours: string | null;
+  readonly editorial: string | null;
 }
 
 function parse(text: string | null): unknown {

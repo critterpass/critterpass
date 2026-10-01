@@ -1,7 +1,8 @@
 /**
  * The place page's rules, apart from any rendering: whether the place is open, closed on the
  * chosen date or open round the clock, the crowd columns for the waking hours, the "go before"
- * advice from the quiet window, what ADD TO DAY offers, and the plan change it sends (the
+ * advice from the quiet window, what ADD TO DAY offers (never a day the place is closed), the day
+ * the page is about, and the plan change it sends (the
  * organiser's edit, or the same addition as a change for the crew to okay).
  */
 import {
@@ -114,18 +115,29 @@ export function addState(
   context: PlaceContextWire | null,
   tz: string | null,
   addedDay: number | null,
+  /** The place's stored hours: a slot on a day it is closed is never offered. */
+  hours: unknown = null,
 ): AddState {
   if (addedDay !== null) return { kind: 'planned', dayNo: addedDay };
   if (context === null || context.base_version === null) return { kind: 'none' };
   if (context.in_plan !== null) return { kind: 'planned', dayNo: context.in_plan.day_no };
   const slot = context.suggested_slot;
-  if (slot === null) return { kind: 'full' };
+  if (slot === null || closedOn(hours, slot.date)) return { kind: 'full' };
   return {
     kind: 'add',
     dayNo: slot.day_no,
     time: toLocalWallTime(new Date(slot.starts_at), tz ?? 'UTC').time.slice(0, 5),
     mode: context.add_mode,
   };
+}
+
+/**
+ * The day the page's crowd chart is for: the day ADD TO DAY offers when it offers one (so the
+ * chart and the button are about the same day), else the day the place is planned for or the
+ * trip's first day, else today where the place is.
+ */
+export function pageDate(context: PlaceContextWire | null, today: string): string {
+  return context?.suggested_slot?.date ?? context?.crowd?.date ?? today;
 }
 
 export interface PlaceToAdd {

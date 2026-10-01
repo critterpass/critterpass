@@ -5,8 +5,8 @@ appId: app.critterpass.dev
 # Home's first-run grid and lands on that guide's destination page, read from staging. The page
 # shows the guide's picks and, where the destination has a month curve, a tapped month answers
 # with prices, a "no fares" line or the ask for a home airport (never a blank panel), SAVE flips
-# to saved, PITCH says a pitch needs a crew, SOLO TRIP asks before it starts anything, a pick opens
-# its place page, and Explore's front page and the saved hub show what was saved.
+# to saved, PITCH says a pitch needs a crew, SOLO TRIP asks before it starts anything, the map's
+# list opens a place page, and Explore's front page and the saved hub show what was saved.
 - runFlow:
     file: ../screens/sweep/subflows/start.yaml
     env:
@@ -27,10 +27,11 @@ appId: app.critterpass.dev
     visible:
       id: 'explore-destination'
     timeout: 20000
-# The page has loaded once the guide's picks or its month bars are on screen.
+# The page has loaded once the guide's picks, its month bars or the line saying they are still
+# being written is on screen.
 - extendedWaitUntil:
     visible:
-      id: 'explore-(picks|months)'
+      id: 'explore-(picks|months|writing)'
     timeout: 45000
 - waitForAnimationToEnd:
     timeout: 6000
@@ -87,14 +88,30 @@ appId: app.critterpass.dev
     visible:
       id: 'explore-pitch'
     timeout: 10000
-# A pick opens its place page: with no trip, the main action saves the place.
+# The map lists the destination's places, the guide's must-sees and written-up places first. The
+# first one opens its place page: with no trip, the main action saves the place.
 - scrollUntilVisible:
     element:
-      id: 'explore-pick-0'
+      id: 'explore-open-map'
     direction: DOWN
     timeout: 10000
 - tapOn:
-    id: 'explore-pick-0'
+    id: 'explore-open-map'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-map-carousel'
+    timeout: 60000
+- tapOn:
+    id: 'explore-map-mode'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-map-row-0'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: vi-3d-4-fresh-account-list
+- tapOn:
+    id: 'explore-map-row-0'
 - extendedWaitUntil:
     visible:
       id: 'explore-place-save-cta'
@@ -110,6 +127,12 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'explore-place-back'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-map-row-0'
+    timeout: 15000
+- tapOn:
+    id: 'explore-map-back'
 - extendedWaitUntil:
     visible:
       id: 'explore-destination'

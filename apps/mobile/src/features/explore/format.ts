@@ -2,7 +2,7 @@
  * Explore's small formatters: month names in the reader's language, money through the shared
  * formatter (never a bare `Intl` call), and the guide each destination belongs to.
  */
-import { formatMoney, money } from '@cp/cost-engine';
+import { formatMoney, money, roundEstimate } from '@cp/cost-engine';
 import { tokens } from '@cp/design-tokens';
 import { format } from '@cp/i18n';
 
@@ -23,6 +23,14 @@ export function monthName(
 /** "$420" / "10.500.000 ₫": an amount in minor units, in the reader's locale. */
 export function moneyText(locale: string, minor: number, currency: string): string {
   return formatMoney(money(BigInt(Math.round(minor)), currency), { locale, mode: 'local' });
+}
+
+/** An estimate ("~$412 each"): rounded the way every estimate is, then formatted as money. */
+export function estimateText(locale: string, minor: number, currency: string): string {
+  return formatMoney(roundEstimate(money(BigInt(Math.round(minor)), currency)), {
+    locale,
+    mode: 'local',
+  });
 }
 
 /** The guest guide, who covers every place without a guide of its own. */
