@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { holdTripStreams } from '@/data/powersync/use-trip-streams';
+import { tidyGuideText } from '@/features/crew';
 
 import { parseJson, useLiveRows } from './rows';
 
@@ -132,9 +133,14 @@ export function toVersion(row: VersionRow): ProposalVersion {
     recipientId: row.recipient_id,
     status: row.status as ProposalVersionStatus,
     shared: row.shared === 1,
-    slides: parseJson<Slide[]>(row.slides, []),
-    posterTitle: poster?.title ?? null,
-    postcardMessage: postcard?.message ?? null,
+    // The guide's own lines, tidied as the chat shows them (a gloss inside a gloss).
+    slides: parseJson<Slide[]>(row.slides, []).map((slide) => ({
+      ...slide,
+      headline: tidyGuideText(slide.headline ?? ''),
+      body: tidyGuideText(slide.body ?? ''),
+    })),
+    posterTitle: poster?.title == null ? null : tidyGuideText(poster.title),
+    postcardMessage: postcard?.message == null ? null : tidyGuideText(postcard.message),
     highlights: parseJson<Highlight[]>(row.highlights, []),
     savingIds: parseJson<{ option_id: string }[]>(row.savings, []).map((s) => s.option_id),
     shareMinor: row.share_minor,
