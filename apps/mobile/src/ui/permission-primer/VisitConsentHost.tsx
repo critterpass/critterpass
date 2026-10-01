@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Keyboard, TextInput } from 'react-native';
 
 import {
@@ -7,14 +7,13 @@ import {
   setVisitConsentOffered,
   shouldAskVisitConsent,
   shouldOfferVisitConsent,
-  useAppActive,
   useLocationStatus,
   useRestedOnTripSurface,
   useVisitConsentRequested,
   visitConsentDismissedAt,
 } from '@/lib/location';
 
-import { presentedDepth } from '../sheet/presenter';
+import { useTabBarCovered } from '../sheet/tab-bar-cover';
 import { VisitConsentSheet } from './VisitConsentSheet';
 
 export interface VisitConsentHostProps {
@@ -24,11 +23,8 @@ export interface VisitConsentHostProps {
   readonly now?: () => number;
 }
 
-/** The traveller is in the middle of something: a sheet or rise is up, or they are typing. */
-const isBusy = () =>
-  presentedDepth.value > 0 ||
-  Keyboard.isVisible() ||
-  TextInput.State.currentlyFocusedInput() !== null;
+/** The traveller is typing: the keyboard is up or a text field has focus. */
+const isTyping = () => Keyboard.isVisible() || TextInput.State.currentlyFocusedInput() !== null;
 
 /**
  * Asks for visit detection once, at a calm moment: a trip day, nothing decided, "Not now" never
@@ -39,9 +35,14 @@ const isBusy = () =>
 export function VisitConsentHost({ decided, onAnswer, now = Date.now }: VisitConsentHostProps) {
   const status = useLocationStatus();
   const requested = useVisitConsentRequested();
+  // A sheet or rise on the screen in front (one left open on a screen underneath does not count).
+  const covered = useTabBarCovered();
+  const coveredNow = useRef(covered);
+  useEffect(() => {
+    coveredNow.current = covered;
+  }, [covered]);
   const restedOnTripSurface = useRestedOnTripSurface({
-    active: useAppActive(),
-    busy: isBusy,
+    busy: () => coveredNow.current || isTyping(),
   });
   const [open, setOpen] = useState(false);
   const [answered, setAnswered] = useState(false);
@@ -53,7 +54,7 @@ export function VisitConsentHost({ decided, onAnswer, now = Date.now }: VisitCon
     dismissed,
     restedOnTripSurface,
     // Read again at the moment of asking: the rest may have ended well before the session ran.
-    busy: isBusy(),
+    busy: covered || isTyping(),
   });
   const offered = shouldOfferVisitConsent({ tripDaySessionRunning, decided, dismissed });
 

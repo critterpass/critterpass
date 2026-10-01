@@ -15,7 +15,8 @@ jest.mock('expo-router', () => ({
 
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import type { ReactElement } from 'react';
+import { NavigationContext } from 'expo-router/react-navigation';
+import type { ContextType, ReactElement } from 'react';
 import { AppState, Keyboard, TextInput } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -28,7 +29,7 @@ import {
   type LocationSessionPort,
 } from '@/lib/location';
 
-import { presentedDepth } from '../../sheet/presenter';
+import { resetTabBarCoverForTests, useTabBarCover } from '../../sheet/tab-bar-cover';
 import { renderUi } from '../../test-support/render';
 import { VisitConsentHost } from '../VisitConsentHost';
 import { VisitConsentRow } from '../VisitConsentSheet';
@@ -84,9 +85,26 @@ async function engineOn(tripDay: boolean) {
   setLocationEngine(engine);
 }
 
+/** The hub as a navigator sees it: the focused screen of a tab. */
+const HUB_SCREEN = {
+  isFocused: () => true,
+  addListener: () => () => undefined,
+  getState: () => ({ type: 'tab' }),
+  getParent: () => undefined,
+} as unknown as ContextType<typeof NavigationContext>;
+
+/** Stands for a sheet the hub has open: it registers the way every sheet and rise does. */
+function OpenSheet() {
+  useTabBarCover();
+  return null;
+}
+
 const onAnswer = jest.fn();
-const tree = (decided = false): ReactElement => (
+const tree = (decided = false, sheetOnHub = false): ReactElement => (
   <SafeAreaProvider initialMetrics={METRICS}>
+    <NavigationContext.Provider value={HUB_SCREEN}>
+      {sheetOnHub ? <OpenSheet /> : null}
+    </NavigationContext.Provider>
     <VisitConsentRow />
     <VisitConsentHost decided={decided} onAnswer={onAnswer} />
   </SafeAreaProvider>
@@ -99,7 +117,7 @@ beforeEach(() => {
   (AppState as { currentState: string }).currentState = 'active';
   jest.useFakeTimers();
   onAnswer.mockClear();
-  presentedDepth.value = 0;
+  resetTabBarCoverForTests();
   mockPathname = '/pass';
 });
 
@@ -188,11 +206,10 @@ describe('visit consent host', () => {
   it('waits while another sheet is up over the trip screen', async () => {
     mockPathname = HUB;
     await engineOn(true);
-    await renderUi(tree());
-    presentedDepth.value = 1;
+    const view = await renderUi(tree(false, true));
     await rest(3 * VISIT_CONSENT_CALM_MS);
     expect(sheetUp()).toBe(false);
-    presentedDepth.value = 0;
+    await view.rerender(tree(false, false));
     await rest(VISIT_CONSENT_CALM_MS + 100);
     expect(sheetUp()).toBe(true);
   });
@@ -219,10 +236,10 @@ describe('visit consent host', () => {
   it('does not rise when the trip day starts while a sheet is already up over a rested hub', async () => {
     mockPathname = HUB;
     await engineOn(false);
-    await renderUi(tree());
+    const view = await renderUi(tree());
     await rest(2 * VISIT_CONSENT_CALM_MS);
     // The hub has rested; a sheet opens over it, and only then does the trip day begin.
-    presentedDepth.value = 1;
+    await view.rerender(tree(false, true));
     await act(() => engineOn(true));
     await rest(2 * VISIT_CONSENT_CALM_MS);
     expect(sheetUp()).toBe(false);

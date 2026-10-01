@@ -5,24 +5,35 @@
  */
 import { usePathname } from 'expo-router';
 import { useEffect, useState } from 'react';
+import { AppState } from 'react-native';
 
 import { isTripSurfacePath, VISIT_CONSENT_CALM_MS } from './consent-prompt';
 
 export interface RestedOptions {
-  /** The app is in front. */
-  readonly active: boolean;
   /** A sheet or rise is up, a text field has focus or the keyboard is showing, right now. */
   readonly busy: () => boolean;
   readonly restMs?: number;
 }
 
+/** A state not reported yet (right after launch) counts as in front. */
+const inFront = (state: string | null | undefined) =>
+  state !== 'background' && state !== 'inactive';
+
+function useInFront(): boolean {
+  const [front, setFront] = useState(inFront(AppState.currentState));
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (state) => setFront(inFront(state)));
+    return () => subscription.remove();
+  }, []);
+  return front;
+}
+
 export function useRestedOnTripSurface({
-  active,
   busy,
   restMs = VISIT_CONSENT_CALM_MS,
 }: RestedOptions): boolean {
   const pathname = usePathname();
-  const onSurface = active && isTripSurfacePath(pathname);
+  const onSurface = useInFront() && isTripSurfacePath(pathname);
   const [rested, setRested] = useState<string | null>(null);
 
   useEffect(() => {
