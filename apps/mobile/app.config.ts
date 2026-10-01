@@ -57,7 +57,41 @@ function resolveVariant(): AppVariant {
   return 'development';
 }
 
+/**
+ * Icon files per variant, exported from the design by tools/design-renders/export-app-icons.mjs.
+ * Development and staging icons carry a DEV / STAGING label so testers can tell builds apart.
+ */
+export function appIcons(appVariant: AppVariant) {
+  const suffix = appVariant === 'production' ? '' : `-${appVariant}`;
+  return {
+    icon: `./assets/icon${suffix}.png`,
+    ios: {
+      light: `./assets/icon${suffix}.png`,
+      dark: `./assets/icon${suffix}-dark.png`,
+      tinted: `./assets/icon${suffix}-tinted.png`,
+    },
+    adaptiveIcon: {
+      foregroundImage: `./assets/android-icon-foreground${suffix}.png`,
+      backgroundImage: './assets/android-icon-background.png',
+      monochromeImage: './assets/android-icon-monochrome.png',
+    },
+  };
+}
+
+/**
+ * The launch splash is the in-app hatch's first frame: the egg and its halftone glow on the app
+ * background, one 736 pt square centred on the screen (iOS). Android 12+ draws the egg alone in
+ * the system splash's icon mask, wobbling once (./plugins/with-splash-wobble).
+ */
+export const SPLASH_PLUGIN_OPTIONS = {
+  backgroundColor: WINDOW_BACKGROUND,
+  image: './assets/splash-launch.png',
+  imageWidth: 736,
+  android: { drawable: { icon: './assets/splash-android-wobble.xml' } },
+};
+
 const appVariant = resolveVariant();
+const icons = appIcons(appVariant);
 
 /**
  * Google credentials the native build embeds, all read from EAS environment variables at config
@@ -133,7 +167,7 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
   scheme: variant.scheme,
   version: '1.0.0',
   orientation: 'portrait',
-  icon: './assets/icon.png',
+  icon: icons.icon,
   userInterfaceStyle: 'automatic',
   backgroundColor: WINDOW_BACKGROUND,
   runtimeVersion: { policy: 'fingerprint' },
@@ -154,6 +188,7 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
   },
   ios: {
     bundleIdentifier: variant.bundleIdentifier,
+    icon: icons.ios,
     appleTeamId: APPLE_TEAM_ID,
     supportsTablet: false,
     usesAppleSignIn: true,
@@ -168,12 +203,7 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     package: variant.bundleIdentifier,
     // Firebase config for FCM push tokens; Expo's prebuild applies the google-services Gradle plugin.
     ...androidGoogleServices(process.env, projectRoot),
-    adaptiveIcon: {
-      foregroundImage: './assets/android-icon-foreground.png',
-      backgroundImage: './assets/android-icon-background.png',
-      monochromeImage: './assets/android-icon-monochrome.png',
-      backgroundColor: '#FFFFFF',
-    },
+    adaptiveIcon: icons.adaptiveIcon,
     // expo-brightness's prebuild step asks for WRITE_SETTINGS, which only the system-wide setting
     // needs; the boarding pass raises the app's own window brightness, which needs no permission.
     blockedPermissions: ['android.permission.WRITE_SETTINGS'],
@@ -182,14 +212,10 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     'expo-router',
     // Universal Links / App Links for this variant's link hosts (plugins/with-links.ts).
     ['./plugins/with-links', { variant: appVariant }],
-    [
-      'expo-splash-screen',
-      {
-        image: './assets/splash-icon.png',
-        imageWidth: 200,
-        backgroundColor: '#FFFFFF',
-      },
-    ],
+    // Before expo-splash-screen: style mods run last-registered first, and the wobble's duration
+    // goes onto the splash theme that expo-splash-screen writes.
+    './plugins/with-splash-wobble',
+    ['expo-splash-screen', SPLASH_PLUGIN_OPTIONS],
     [
       'expo-font',
       {
