@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# From the dates step to DRAFT MY TRIP: the week, the budget locked, the rooms (a stay picked and
+# From the dates step to DRAFT MY TRIP: the week, the budget skipped, the rooms (a stay picked and
 # its rooms locked, or the even split), one must-do, and DRAFT MY TRIP. When a crewmate's calendar
 # already offers a window, a week three weeks out is picked instead (the offered one may already be
 # under way, leaving no time to answer a proposal); otherwise a week is marked free by hand.
@@ -143,27 +143,10 @@ appId: app.critterpass.dev
     visible:
       id: 'budget-lock'
     timeout: 30000
+# The budget is skipped here: nobody else has set a max yet, and skipping is a real path for the
+# organiser. Locking it has its own gate flow (e2e/happy/fresh-setup-vnd.yaml).
 - tapOn:
-    id: 'budget-lock'
-# A lock the server refuses says so on the step: one more try, then the budget is skipped.
-- waitForAnimationToEnd:
-    timeout: 5000
-- runFlow:
-    when:
-      visible:
-        id: 'budget-lock-line'
-    commands:
-      - tapOn:
-          id: 'budget-lock'
-      - waitForAnimationToEnd:
-          timeout: 5000
-- runFlow:
-    when:
-      visible:
-        id: 'budget-lock-line'
-    commands:
-      - tapOn:
-          id: 'budget-skip'
+    id: 'budget-skip'
 # Rooms: pick the first stay when the place has stay prices and wait for its rooms; with none,
 # LOOKS GOOD accepts the even split.
 - extendedWaitUntil:
