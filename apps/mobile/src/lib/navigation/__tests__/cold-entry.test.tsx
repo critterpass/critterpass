@@ -2,13 +2,8 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { act } from '@testing-library/react-native';
 import { router, useNavigationContainerRef } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
-import { useState, useSyncExternalStore } from 'react';
+import { useSyncExternalStore } from 'react';
 import { Text } from 'react-native';
-
-import {
-  LocalFirstContext,
-  type LocalFirstContextValue,
-} from '@/data/powersync/local-first-context';
 
 import { provideSessionGate, type SessionGateState } from '../gates';
 import {
@@ -35,39 +30,35 @@ let launchUrl: string | null = null;
 let clock = 1_000_000;
 
 // The session: its local database opens some time after launch, and its gate opens at sign-in.
-const SESSION = {} as LocalFirstContextValue;
-let sessionReadyAtLaunch = true;
-let openSession: () => void = () => {};
-let gate: SessionGateState = { status: 'ready' };
-const gateListeners = new Set<() => void>();
-function setGate(status: SessionGateState['status']) {
-  gate = { status };
-  gateListeners.forEach((listener) => listener());
-}
-provideSessionGate(() =>
-  useSyncExternalStore(
-    (listener) => {
-      gateListeners.add(listener);
-      return () => gateListeners.delete(listener);
+function store<T>(initial: T) {
+  let value = initial;
+  const listeners = new Set<() => void>();
+  return {
+    get: () => value,
+    set: (next: T) => {
+      value = next;
+      listeners.forEach((listener) => listener());
     },
-    () => gate,
-  ),
-);
-
-function Navigator() {
-  const navigationRef = useNavigationContainerRef();
-  useNavigationPersistence({ navigationRef, build: BUILD, launchUrl, now: () => clock });
-  return <Stack screenOptions={{ headerShown: false }} />;
+    subscribe: (listener: () => void) => {
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
+  };
 }
+const sessionReady = store(true);
+const gate = store<SessionGateState>({ status: 'ready' });
+provideSessionGate(() => useSyncExternalStore(gate.subscribe, gate.get));
 
 function Root() {
-  const [ready, setReady] = useState(sessionReadyAtLaunch);
-  openSession = () => setReady(true);
-  return (
-    <LocalFirstContext.Provider value={ready ? SESSION : null}>
-      <Navigator />
-    </LocalFirstContext.Provider>
-  );
+  const navigationRef = useNavigationContainerRef();
+  useNavigationPersistence({
+    navigationRef,
+    build: BUILD,
+    launchUrl,
+    sessionReady: useSyncExternalStore(sessionReady.subscribe, sessionReady.get),
+    now: () => clock,
+  });
+  return <Stack screenOptions={{ headerShown: false }} />;
 }
 
 const named = (name: string) =>
@@ -118,8 +109,8 @@ let unregister: () => void = () => {};
 beforeEach(() => {
   launchUrl = null;
   clock = 1_000_000;
-  sessionReadyAtLaunch = true;
-  gate = { status: 'ready' };
+  sessionReady.set(true);
+  gate.set({ status: 'ready' });
   clearSavedNavigation();
   unregister = registerScreens({
     '3b-2': '/',
@@ -193,11 +184,11 @@ describe('navigation restore', () => {
     await navigate(() => openWithBackStack('3c-9'));
     await act(() => first.unmount());
 
-    sessionReadyAtLaunch = false;
+    sessionReady.set(false);
     const second = await renderApp();
     expect(second.getPathname()).toBe('/');
     await act(() => {
-      openSession();
+      sessionReady.set(true);
     });
     await act(() => {
       jest.runOnlyPendingTimers();
@@ -212,12 +203,12 @@ describe('navigation restore', () => {
     await navigate(() => openWithBackStack('3c-9'));
     await act(() => first.unmount());
 
-    sessionReadyAtLaunch = false;
+    sessionReady.set(false);
     const second = await renderApp(GROUPED_ROUTES);
     expect(second.getPathname()).toBe('/');
     expect(screen.getByText('home')).toBeTruthy();
     await act(() => {
-      openSession();
+      sessionReady.set(true);
     });
     await act(() => {
       jest.runOnlyPendingTimers();
@@ -230,11 +221,11 @@ describe('navigation restore', () => {
     await navigate(() => openWithBackStack('3c-9'));
     await act(() => first.unmount());
 
-    sessionReadyAtLaunch = false;
+    sessionReady.set(false);
     const second = await renderApp();
     await navigate(() => router.push('/when'));
     await act(() => {
-      openSession();
+      sessionReady.set(true);
     });
     await act(() => {
       jest.runOnlyPendingTimers();
@@ -248,7 +239,7 @@ describe('navigation restore', () => {
     await navigate(() => openWithBackStack('3c-9'));
     await act(() => first.unmount());
 
-    gate = { status: 'onboarding' };
+    gate.set({ status: 'onboarding' });
     const second = await renderApp();
     expect(second.getPathname()).toBe('/');
     expect(readSavedNavigation()).toBeUndefined();
@@ -256,7 +247,7 @@ describe('navigation restore', () => {
     expect(readSavedNavigation()).toBeUndefined();
 
     await act(() => {
-      setGate('ready');
+      gate.set({ status: 'ready' });
     });
     await navigate(() => router.push('/budget'));
     expect(readSavedNavigation()?.build).toBe(BUILD);

@@ -1,8 +1,6 @@
 import type { NavigationContainerRefWithCurrent } from 'expo-router/react-navigation';
-import { useContext, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createMMKV } from 'react-native-mmkv';
-
-import { LocalFirstContext } from '@/data/powersync/local-first-context';
 
 import { useSessionGate, type SessionGateState } from './gates';
 
@@ -130,6 +128,8 @@ export interface NavigationPersistenceOptions {
   readonly build: string;
   /** The URL the app was launched with (`Linking.getInitialURL()`); `null` for a plain launch. */
   readonly launchUrl: string | null | undefined;
+  /** The session's local database is open: restored screens read it as soon as they mount. */
+  readonly sessionReady: boolean;
   readonly now?: () => number;
 }
 
@@ -144,9 +144,9 @@ export function useNavigationPersistence({
   navigationRef,
   build,
   launchUrl,
+  sessionReady,
   now = Date.now,
 }: NavigationPersistenceOptions): void {
-  const sessionReady = useContext(LocalFirstContext) !== null;
   const gate = useSessionGate().status;
   // Nothing is saved until the restore decision is made, so the launch's own first state can't
   // overwrite the state being restored.
