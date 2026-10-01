@@ -1,0 +1,215 @@
+[
+    {
+        "greatCircleDistance": {
+            "meter": 601845.92,
+            "km": 601.85,
+            "mile": 373.97,
+            "nm": 324.97,
+            "feet": 1974560.11
+        },
+        "departure": {
+            "airport": {
+                "icao": "VVTS",
+                "iata": "SGN",
+                "name": "Ho Chi Minh City Tan Son Nhat",
+                "shortName": "Tan Son Nhat",
+                "municipalityName": "Ho Chi Minh City",
+                "location": {
+                    "lat": 10.818799,
+                    "lon": 106.652
+                },
+                "countryCode": "VN",
+                "timeZone": "Asia/Ho_Chi_Minh"
+            },
+            "scheduledTime": {
+                "utc": "2026-10-02 00:05Z",
+                "local": "2026-10-02 07:05+07:00"
+            },
+            "terminal": "3",
+            "quality": [
+                "Basic"
+            ]
+        },
+        "arrival": {
+            "airport": {
+                "icao": "VVDN",
+                "iata": "DAD",
+                "name": "Da Nang",
+                "shortName": "Da Nang",
+                "municipalityName": "Da Nang",
+                "location": {
+                    "lat": 16.0439,
+                    "lon": 108.199
+                },
+                "countryCode": "VN",
+                "timeZone": "Asia/Ho_Chi_Minh"
+            },
+            "scheduledTime": {
+                "utc": "2026-10-02 01:30Z",
+                "local": "2026-10-02 08:30+07:00"
+            },
+            "predictedTime": {
+                "utc": "2026-10-02 01:55Z",
+                "local": "2026-10-02 08:55+07:00"
+            },
+            "terminal": "1",
+            "quality": [
+                "Basic"
+            ]
+        },
+        "lastUpdatedUtc": "2026-07-28 21:23Z",
+        "number": "9G 956",
+        "status": "Unknown",
+        "codeshareStatus": "Unknown",
+        "isCargo": false,
+        "aircraft": {
+            "model": "Airbus A320 NEO"
+        },
+        "airline": {
+            "name": "9G Rail",
+            "iata": "9G"
+        }
+    },
+    {
+        "greatCircleDistance": {
+            "meter": 601845.92,
+            "km": 601.85,
+            "mile": 373.97,
+            "nm": 324.97,
+            "feet": 1974560.11
+        },
+        "departure": {
+            "airport": {
+                "icao": "VVTS",
+                "iata": "SGN",
+                "name": "Ho Chi Minh City Tan Son Nhat",
+                "shortName": "Tan Son Nhat",
+                "municipalityName": "Ho Chi Minh City",
+                "location": {
+                    "lat": 10.818799,
+                    "lon": 106.652
+                },
+                "countryCode": "VN",
+                "timeZone": "Asia/Ho_Chi_Minh"
+            },
+            "scheduledTime": {
+                "utc": "2026-10-03 00:05Z",
+                "local": "2026-10-03 07:05+07:00"
+            },
+            "terminal": "3",
+            "quality": [
+                "Basic"
+            ]
+        },
+        "arrival": {
+            "airport": {
+                "icao": "VVDN",
+                "iata": "DAD",
+                "name": "Da Nang",
+                "shortName": "Da Nang",
+                "municipalityName": "Da Nang",
+                "location": {
+                    "lat": 16.0439,
+                    "lon": 108.199
+                },
+                "countryCode": "VN",
+                "timeZone": "Asia/Ho_Chi_Minh"
+            },
+            "scheduledTime": {
+                "utc": "2026-10-03 01:30Z",
+                "local": "2026-10-03 08:30+07:00"
+            },
+            "predictedTime": {
+                "utc": "2026-10-03 01:55Z",
+                "local": "2026-10-03 08:55+07:00"
+            },
+            "terminal": "1",
+            "quality": [
+                "Basic"
+            ]
+        },
+        "lastUpdatedUtc": "2026-07-16 21:07Z",
+        "number": "9G 956",
+        "status": "Expected",
+        "codeshareStatus": "Unknown",
+        "isCargo": false,
+        "aircraft": {
+            "model": "Airbus A320 NEO"
+        },
+        "airline": {
+            "name": "9G Rail",
+            "iata": "9G"
+        }
+    },
+    {
+        "greatCircleDistance": {
+            "meter": 601845.92,
+            "km": 601.85,
+            "mile": 373.97,
+            "nm": 324.97,
+            "feet": 1974560.11
+        },
+        "departure": {
+            "airport": {
+                "icao": "VVTS",
+                "iata": "SGN",
+                "name": "Ho Chi Minh City Tan Son Nhat",
+                "shortName": "Tan Son Nhat",
+                "municipalityName": "Ho Chi Minh City",
+                "location": {
+                    "lat": 10.818799,
+                    "lon": 106.652
+                },
+                "countryCode": "VN",
+                "timeZone": "Asia/Ho_Chi_Minh"
+            },
+            "scheduledTime": {
+                "utc": "2026-10-04 00:05Z",
+                "local": "2026-10-04 07:05+07:00"
+            },
+            "terminal": "3",
+            "quality": [
+                "Basic"
+            ]
+        },
+        "arrival": {
+            "airport": {
+                "icao": "VVDN",
+                "iata": "DAD",
+                "name": "Da Nang",
+                "shortName": "Da Nang",
+                "municipalityName": "Da Nang",
+                "location": {
+                    "lat": 16.0439,
+                    "lon": 108.199
+                },
+                "countryCode": "VN",
+                "timeZone": "Asia/Ho_Chi_Minh"
+            },
+            "scheduledTime": {
+                "utc": "2026-10-04 01:30Z",
+                "local": "2026-10-04 08:30+07:00"
+            },
+            "predictedTime": {
+                "utc": "2026-10-04 01:55Z",
+                "local": "2026-10-04 08:55+07:00"
+            },
+            "terminal": "1",
+            "quality": [
+                "Basic"
+            ]
+        },
+        "lastUpdatedUtc": "2026-07-04 20:44Z",
+        "number": "9G 956",
+        "status": "Expected",
+        "codeshareStatus": "Unknown",
+        "isCargo": false,
+        "aircraft": {
+            "model": "Airbus A320 NEO"
+        },
+        "airline": {
+            "name": "9G Rail",
+            "iata": "9G"
+        }
+    }
+]

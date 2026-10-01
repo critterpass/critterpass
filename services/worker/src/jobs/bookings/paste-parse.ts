@@ -3,7 +3,10 @@
  * own candidates. A pasted link on the supplier allow-list is fetched once (./safe-fetch.ts) and
  * read like an email; any other link, a code or free text is read as text. A scan's boarding pass
  * barcode (IATA BCBP) is decoded and joined to the flight its text describes; a pass for a flight
- * already in the traveller's wallet is proposed as that booking's barcode and seat.
+ * already in the traveller's wallet is proposed as that booking's barcode and seat. A paste that is
+ * only a flight number (with or without a date) is looked up in the flight's published schedule
+ * (./flight-number-paste.ts); with nothing found, or no date to look on, the candidate asks for
+ * the date and route.
  */
 import { withSystem } from '@cp/db';
 import {
@@ -18,6 +21,7 @@ import {
   type ExtractedBooking,
   type ImportParseJob,
 } from '@cp/domain';
+import type { FlightSnapshot } from '@cp/suppliers';
 import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
@@ -28,11 +32,27 @@ import {
   type ReadResult,
   type ReaderDeps,
 } from './candidates';
+import {
+  flightExtraction,
+  lookupWindow,
+  pickFlight,
+  readPastedFlight,
+} from './flight-number-paste';
 import { isAllowListed, safeFetch, type SafeFetchDeps } from './safe-fetch';
+
+/** Flights with a number departing between two local dates; `[]` when the budget is spent. */
+export type FlightScheduleLookup = (
+  carrier: string,
+  number: string,
+  from: string,
+  to: string,
+) => Promise<FlightSnapshot[]>;
 
 export interface ImportParseDeps extends ReaderDeps {
   readonly fetch: SafeFetchDeps;
   readonly now?: () => Date;
+  /** Absent without a flight schedule provider: a pasted flight number then asks for the route. */
+  readonly schedule?: FlightScheduleLookup | undefined;
 }
 
 interface CandidateRow {
@@ -40,6 +60,36 @@ interface CandidateRow {
   readonly crew_id: string | null;
   readonly trip_id: string | null;
   readonly tz: string | null;
+  readonly start_date: string | null;
+  readonly end_date: string | null;
+  readonly home_airport: string | null;
+}
+
+/** A paste that is only a flight number: its schedule as one booking, or null when not found. */
+async function scheduledFlight(
+  deps: ImportParseDeps,
+  candidate: CandidateRow,
+  text: string,
+  now: Date,
+): Promise<ReadResult | 'not_flight'> {
+  const tz = candidate.tz ?? 'UTC';
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: tz }).format(now);
+  const pasted = readPastedFlight(text, candidate.start_date ?? today);
+  if (pasted === null) return 'not_flight';
+  const window = lookupWindow(pasted, { start: candidate.start_date, end: candidate.end_date });
+  if (window === null || deps.schedule === undefined) {
+    return { status: 'failed', reason: 'flight_not_found' };
+  }
+  const found = await deps.schedule(pasted.carrier, pasted.number, window.from, window.to);
+  const home = candidate.home_airport?.toUpperCase() ?? null;
+  const flight = pickFlight(found, pasted, { window, home, tz });
+  if (flight === null) return { status: 'failed', reason: 'flight_not_found' };
+  return {
+    status: 'parsed',
+    bookings: [flightExtraction(flight, tz)],
+    needsConfirm: false,
+    via: 'markup',
+  };
 }
 
 function decodePass(job: ImportParseJob): BcbpPass | null {
@@ -111,8 +161,10 @@ export async function parseImport(
 ): Promise<'parsed' | 'failed' | 'gone'> {
   const candidate = await withSystem(pool, async (tx) => {
     const { rows } = await tx.query<CandidateRow>(
-      `SELECT i.user_id, i.crew_id, i.trip_id, coalesce(t.tz, d.tz) AS tz
+      `SELECT i.user_id, i.crew_id, i.trip_id, coalesce(t.tz, d.tz) AS tz,
+              t.start_date::text AS start_date, t.end_date::text AS end_date, u.home_airport
          FROM import_candidates i
+         JOIN users u ON u.id = i.user_id
          LEFT JOIN trips t ON t.id = i.trip_id
          LEFT JOIN destinations d ON d.id = t.destination_id
         WHERE i.id = $1 AND i.status = 'parsing'`,
@@ -152,20 +204,26 @@ export async function parseImport(
     }
   }
   const pass = decodePass(job);
+  const scheduled =
+    job.kind === 'paste' && html === null && refused === null && text !== null
+      ? await scheduledFlight(deps, candidate, text, now)
+      : 'not_flight';
   let read: ReadResult =
-    refused !== null
-      ? { status: 'failed', reason: 'unreadable' }
-      : await readConfirmation(
-          {
-            html,
-            text,
-            supplier:
-              job.url === undefined ? null : supplierOfSender(`x@${new URL(job.url).hostname}`),
-            defaultTz: candidate.tz,
-            source: job.kind,
-          },
-          deps,
-        );
+    scheduled !== 'not_flight'
+      ? scheduled
+      : refused !== null
+        ? { status: 'failed', reason: 'unreadable' }
+        : await readConfirmation(
+            {
+              html,
+              text,
+              supplier:
+                job.url === undefined ? null : supplierOfSender(`x@${new URL(job.url).hostname}`),
+              defaultTz: candidate.tz,
+              source: job.kind,
+            },
+            deps,
+          );
   let knownBookingId: string | undefined;
   if (pass !== null && job.barcode !== undefined) {
     const barcode = { format: job.barcode.format, payload: job.barcode.payload };
