@@ -87,7 +87,9 @@ export async function startCommandDoors(
     exposeDocs: false,
     pool,
   });
-  const registry = createCommandRegistry();
+  const registry = createCommandRegistry({
+    onInstallStandIn: (standIn) => logger.info(standIn, 'install stand-in'),
+  });
   registerCommands(registry);
   const deps: CommandDoorDeps = {
     pool,
