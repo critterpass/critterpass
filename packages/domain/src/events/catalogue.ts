@@ -36,6 +36,7 @@ import { LA_EVENT_PAYLOADS, LA_EVENT_TYPES } from '../surfaces/la-events';
 import { YOU_EVENT_PAYLOADS, YOU_EVENT_TYPES } from '../you/events';
 import { ACCOUNT_EVENT_PAYLOADS, ACCOUNT_EVENT_TYPES } from '../account/events';
 import { PROFILE_FIELDS } from '../you/profile';
+import { SAFETY_EVENT_PAYLOADS, SAFETY_EVENT_TYPES } from '../safety/events';
 
 export const DOMAIN_EVENT_TYPES = [
   'crew.member_joined',
@@ -85,6 +86,7 @@ export const DOMAIN_EVENT_TYPES = [
   ...QUEST_EVENT_TYPES,
   ...LA_EVENT_TYPES,
   ...YOU_EVENT_TYPES,
+  ...SAFETY_EVENT_TYPES,
   ...ACCOUNT_EVENT_TYPES,
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
@@ -199,6 +201,7 @@ const DOMAIN_EVENT_CATALOGUE = {
   ...QUEST_EVENT_PAYLOADS,
   ...LA_EVENT_PAYLOADS,
   ...YOU_EVENT_PAYLOADS,
+  ...SAFETY_EVENT_PAYLOADS,
   ...ACCOUNT_EVENT_PAYLOADS,
 } as const satisfies Record<DomainEventType, z.ZodType>;
 

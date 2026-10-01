@@ -1,0 +1,95 @@
+appId: app.critterpass.dev
+---
+# The day-of screen (3k-2) in the states a real first trip reaches, in English then Vietnamese,
+# from the trip day lab's fixed-data scenes: a flight on the first morning with no travel worked
+# out ("Be at the airport by 05:05", travel not included), today once its last stop has started
+# ("Day done"), and tomorrow's day opened from the hub (led by "Tomorrow", with the way back to
+# today).
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 15000
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 3k-2-be-at-airport
+      SHOT: en-3k-2-be-at-airport
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 3k-2-day-done
+      SHOT: en-3k-2-day-done
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 3k-2-tomorrow
+      SHOT: en-3k-2-tomorrow
+# The same in Vietnamese: the dev gallery switches the running app's language.
+- runFlow: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-gallery'
+    direction: UP
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../../onboarding/subflows/back.yaml
+# Going back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-pre-trip'
+    timeout: 15000
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 3k-2-be-at-airport
+      SHOT: vi-3k-2-be-at-airport
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 3k-2-day-done
+      SHOT: vi-3k-2-day-done
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 3k-2-tomorrow
+      SHOT: vi-3k-2-tomorrow

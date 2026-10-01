@@ -9,7 +9,10 @@ import type { DraftStepId, DraftStepLabel } from '@cp/domain';
 import type pg from 'pg';
 
 import type { AgentStepContext } from '../../../ai/job-runner';
-import { loadDraftPlaces, loadDraftTrip, type DraftTripData } from './load';
+import { destinationPhrases, resolveWishes } from '@cp/planner';
+
+import { loadDraftTrip, type DraftTripData } from './load';
+import { loadDraftPlaces, loadWishCandidates } from './load-places';
 import { buildPlanInput } from './plan-input';
 import type { PrefetchResult } from './prefetch';
 import { skeletonRoute } from './skeleton';
@@ -30,15 +33,33 @@ export async function load(
   if (tripId === null || userId === null) throw new Error('draft job without a trip or organiser');
   const trip = await loadDraftTrip(ctx.pool, tripId, userId);
   if (trip === null) throw new Error('trip_not_ready');
-  const places = await loadDraftPlaces(
-    ctx.pool,
-    trip.destinationId,
-    trip.mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
+  // Hand-typed must-dos are matched to places first, so the place a wish names is always on the
+  // guide's list. The match is for this draft only; the must-do row keeps its text.
+  const ignoreNames = destinationPhrases(trip.destination);
+  const wishes = trip.mustDos.filter((m) => m.poiId === null);
+  const wished = resolveWishes(
+    wishes.map((m) => ({ id: m.id, text: m.title })),
+    wishes.length === 0
+      ? []
+      : await loadWishCandidates(
+          ctx.pool,
+          trip.destinationId,
+          wishes.map((m) => m.title),
+          ignoreNames,
+        ),
+    ignoreNames,
   );
+  const places = await loadDraftPlaces(ctx.pool, trip.destinationId, [
+    ...trip.mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
+    ...wished.places.values(),
+    ...wished.offered,
+  ]);
   const input = buildPlanInput(trip, places, {
     jobId: ctx.agentJob.id,
     skeletonRoute: await skeletonRoute(ctx.pool),
     closures,
+    wished,
+    ignoreNames,
   });
   return { trip, input };
 }

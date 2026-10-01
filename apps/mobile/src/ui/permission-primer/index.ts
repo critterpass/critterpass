@@ -28,6 +28,7 @@ export { PrimerCard, type PrimerCardProps } from './PrimerCard';
 export { PrimerSheet, type PrimerSheetProps } from './PrimerSheet';
 export { PrimerSheetHost } from './PrimerSheetHost';
 export {
+  VisitConsentRow,
   VisitConsentSheet,
   VisitDetectionSettings,
   type VisitConsentSheetProps,

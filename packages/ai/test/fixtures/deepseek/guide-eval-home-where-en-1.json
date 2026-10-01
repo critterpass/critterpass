@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "bc359f24-d996-407f-9de1-94a2067e7c3e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Rise and shine — three quick ideas: Japan in late March for cherry blossoms and food crawls, Portugal in May for warm coast and small towns, or Mexico's Yucatán in November for ruins and cenotes without the crowds. Tell me which one sparks something and I'll start shaping it."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 206,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9472,
+        "output_tokens": 62,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

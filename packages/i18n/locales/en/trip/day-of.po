@@ -59,6 +59,22 @@ msgstr "Alarms are off on this phone. It rings here only while the app is open."
 msgid "trip.dayOf.queued.notUp"
 msgstr "Back to sleep"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.toToday"
+msgstr "Back to today"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.beAtAirportBy"
+msgstr "Be at the airport by"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.beThereBy"
+msgstr "Be there by"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.doneTitle"
+msgstr "Day done"
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.allUpDetail"
 msgstr "Everyone is up. See you out front."
@@ -94,6 +110,10 @@ msgstr "Leave-by time has passed"
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.askAction"
 msgstr "Make it an alarm"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.nextUp"
+msgstr "Next up"
 
 #: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
 msgid "trip.dayOf.pack.empty"
@@ -143,9 +163,17 @@ msgstr "Ring on the minute"
 msgid "trip.dayOf.queued.snooze"
 msgstr "Snoozed the leave-by alarm"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.done"
+msgstr "That's everything on today's plan."
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.knocked"
 msgstr "The crew was pinged to knock for {who}."
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.ringBeThereLateSpoken"
+msgstr "The time to be there has passed"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.dayOf.ticketsInBookings"
@@ -154,6 +182,18 @@ msgstr "Tickets in Bookings"
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.ringToGo"
 msgstr "to go"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.tomorrow"
+msgstr "Tomorrow · {line}"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.noTravel"
+msgstr "Travel time isn't included."
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.noTravelAirport"
+msgstr "Travel time to the airport isn't included."
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
 msgid "trip.dayOf.back"

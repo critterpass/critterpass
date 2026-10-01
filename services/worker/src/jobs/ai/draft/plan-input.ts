@@ -12,6 +12,7 @@ import {
   straightLineMatrix,
   type Chronotype,
   type DraftPoi,
+  type ResolvedWishes,
   type TripFrame,
 } from '@cp/planner';
 
@@ -21,6 +22,9 @@ export interface PlanInputOptions {
   readonly jobId: string;
   readonly skeletonRoute: DraftPlanInput['skeletonRoute'];
   readonly closures: readonly ClosureRecord[];
+  /** Places the hand-typed must-dos name (see the planner's `resolveWishes`). */
+  readonly wished?: ResolvedWishes;
+  readonly ignoreNames?: readonly (readonly string[])[];
 }
 
 export function tripDates(trip: Pick<DraftTripData, 'startDate' | 'endDate'>): string[] {
@@ -75,7 +79,7 @@ export function buildPlanInput(
     mustDos: trip.mustDos.map((m) => ({
       id: m.id,
       ownerId: m.ownerId,
-      poiId: m.poiId,
+      poiId: m.poiId ?? options.wished?.places.get(m.id) ?? null,
       title: m.title,
     })),
     closures: options.closures,
@@ -85,7 +89,13 @@ export function buildPlanInput(
     destination: trip.destination,
     frame,
     pois,
-    pools: candidatePools({ pois: places, frame, tastes }),
+    pools: candidatePools({
+      pois: places,
+      frame,
+      tastes,
+      include: options.wished?.offered ?? [],
+      ignoreNames: options.ignoreNames ?? [],
+    }),
     tastes,
     bands: trip.bands,
     travel: straightLineMatrix(pois),

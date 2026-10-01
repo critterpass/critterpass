@@ -1,0 +1,206 @@
+appId: app.critterpass.dev
+---
+# Release gate: a brand-new traveller's trip day, with no demo world (subflows/trip-under-way.yaml:
+# a trip to Đà Nẵng that started today). The TRIPS tab opens the hub on day 1 of 3 with the next
+# thing and the tiles; the next thing opens the day-of screen with the day's timeline, where the
+# traveller says I'M UP when there is an early start, adds "Sunscreen" to the pack list and ticks
+# it. The screen is still there after the app goes to the background and comes back, the tick
+# survives a relaunch, and the hub's morning briefing settles (ready, or nothing today) instead of
+# staying on "writing".
+- runFlow:
+    file: subflows/trip-under-way.yaml
+    env:
+      SHOTS: day
+- runFlow: subflows/wait-for-trip-start.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'tab-trips'
+    timeout: 60000
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: day-hub
+- assertVisible:
+    id: 'trip-hub-header-in'
+- assertVisible: '(?i).*day 1 of 3.*'
+- assertVisible:
+    id: 'trip-briefing-.*'
+- assertVisible:
+    id: 'trip-hub-next'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-money'
+    direction: DOWN
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: day-hub-tiles
+- assertNotVisible: '.*ACTIVITY\..*'
+- assertNotVisible: '.*\$.*'
+# The day-of screen.
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-next'
+    direction: UP
+    timeout: 10000
+- tapOn:
+    id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: day-of
+- assertVisible:
+    id: 'trip-day-hero-.*'
+# The hub's next stop may be tomorrow's first: that day says it is tomorrow and offers the way
+# back to today, which leads with what is still ahead or says the day is done.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - assertVisible: '(?i)tomorrow · .*'
+      - runFlow: subflows/dismiss-visit-offer.yaml
+      - tapOn:
+          id: 'trip-day-to-today'
+      - runFlow: subflows/dismiss-visit-offer.yaml
+      - runFlow:
+          when:
+            visible:
+              id: 'trip-day-to-today'
+          commands:
+            - tapOn:
+                id: 'trip-day-to-today'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'trip-day-to-today'
+          timeout: 15000
+      - waitForAnimationToEnd
+      - takeScreenshot: day-of-today
+- assertVisible: '(?i).* · day 1'
+- assertVisible: '(?i)(first up|next up|day done|free day|leave by|be .*by)'
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-im-up'
+    commands:
+      - tapOn:
+          id: 'trip-day-im-up'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'trip-day-im-up'
+          timeout: 15000
+      - waitForAnimationToEnd
+      - takeScreenshot: day-of-im-up
+# Packing.
+- runFlow: subflows/dismiss-visit-offer.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-pack-add'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'trip-day-pack-add'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-pack-input'
+    timeout: 10000
+- tapOn:
+    id: 'trip-day-pack-input'
+- inputText: 'Sunscreen'
+- pressKey: Enter
+# Android shows the chip's text; iOS reads the chip whole, by its label.
+- extendedWaitUntil:
+    visible:
+      text: 'SUNSCREEN|Sunscreen, just you'
+    timeout: 10000
+- tapOn:
+    text: 'SUNSCREEN|Sunscreen, just you'
+- runFlow: subflows/sunscreen-packed.yaml
+- waitForAnimationToEnd
+- takeScreenshot: day-of-packed
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-timeline'
+    direction: DOWN
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: day-of-timeline
+- runFlow: subflows/dismiss-visit-offer.yaml
+# To the background and back: the same day, still drawn, the tick still there.
+- pressKey: Home
+- waitForAnimationToEnd:
+    timeout: 3000
+- launchApp:
+    stopApp: false
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: day-of-reopened
+- scrollUntilVisible:
+    element:
+      text: 'SUNSCREEN|Sunscreen, just you'
+    direction: UP
+    timeout: 20000
+- runFlow: subflows/sunscreen-packed.yaml
+# A relaunch: the tick comes back from the database.
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'tab-trips'
+    timeout: 60000
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-next|trip-day'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub-next'
+    commands:
+      - tapOn:
+          id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- runFlow: subflows/dismiss-visit-offer.yaml
+# The hub's next stop may be tomorrow's: the pack list ticked is today's.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'trip-day-to-today'
+          timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: 'SUNSCREEN|Sunscreen, just you'
+    direction: DOWN
+    timeout: 20000
+- runFlow: subflows/sunscreen-packed.yaml
+# Back on the hub the morning briefing has settled.
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 15000
+- runFlow: subflows/dismiss-visit-offer.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'trip-briefing-ready|trip-briefing-empty'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: day-hub-briefing

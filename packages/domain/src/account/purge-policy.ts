@@ -98,6 +98,10 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.share_calcs', ['user_id', del]),
   ...rules('public.participant_dietary_flags', ['user_id', del]),
   ...rules('public.crew_contact_cards', ['user_id', del]),
+  // Help and SOS: the user's incidents go with their sealed notes and thread (both cascade), ahead
+  // of the location share an incident points at; so do their words in other people's incidents.
+  ...rules('public.help_session_messages', ['sender_id', del]),
+  ...rules('public.help_sessions', ['user_id', del], ['resolved_by', nul]),
   ...rules('public.member_etas', ['user_id', del]),
   ...rules('public.location_shares', ['user_id', del]),
   ...rules('public.invite_opens', ['inviter_id', del]),

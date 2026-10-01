@@ -14,7 +14,16 @@ export {
   type ItineraryMetricsInput,
   type RedraftMetricsInput,
 } from './metrics';
+export {
+  destinationPhrases,
+  matchWish,
+  nameAliases,
+  nameTokens,
+  type NameAliases,
+  type WishMatches,
+} from './place-names';
 export { alignStableIds, redraftDiff } from './redraft-diff';
+export { collapseSamePlaces, type Collapsed } from './same-place';
 export {
   dropViolations,
   repairTargets,
@@ -64,6 +73,7 @@ export type {
   TravelMatrix,
   TripFrame,
 } from './types';
+export { resolveWishes, type ResolvedWishes } from './wishes';
 export {
   closedOn,
   DRAFT_VIOLATION_CODES,

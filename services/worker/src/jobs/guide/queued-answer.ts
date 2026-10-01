@@ -9,6 +9,7 @@ import {
   buildContext,
   buildGuideChatRequest,
   GUIDE_CHAT_ROUTE,
+  hasOwnGuide,
   packFor,
   runTurn,
   type GuideHistoryTurn,
@@ -109,6 +110,7 @@ export async function answerQueuedQuestion(
   ]);
   const request = buildGuideChatRequest({
     pack,
+    anywhere: !hasOwnGuide(q.guide_slug),
     tripContext: context.tripContext,
     history: past,
     question: q.text,

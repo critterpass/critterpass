@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "7cff3540-3712-44c2-ac7f-42de133e5131",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Để mình gợi ý ba hướng khác nhau nhé: Nhật mùa hoa anh đào cho crew mê ăn uống và đi bộ nhẹ nhàng, Iceland cho nhóm thích phong cảnh kỳ vĩ, hoặc Đài Loan cho chuyến ngắn, rẻ và dễ ăn. Bạn muốn mình bắt đầu dựng kế hoạch cho điểm nào?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 213,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9472,
+        "output_tokens": 108,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

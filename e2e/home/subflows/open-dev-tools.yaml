@@ -20,6 +20,14 @@ appId: app.critterpass.dev
     visible:
       id: 'tab-home|dev-tools-entry'
     timeout: 30000
+# On a trip day the TRIPS tab is where someone seated is asked, once, whether to remember the
+# places they visit; the sheet covers the tab bar. It is answered NOT NOW when it is up, before
+# the tap and after it in case it rose late.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    file: ../../location/subflows/visit-consent-not-now.yaml
 - runFlow:
     when:
       visible:
@@ -27,6 +35,11 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'tab-home'
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    file: ../../location/subflows/visit-consent-not-now.yaml
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'

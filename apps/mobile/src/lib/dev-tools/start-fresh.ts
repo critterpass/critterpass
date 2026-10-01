@@ -70,6 +70,11 @@ export const MMKV_STORES: readonly MmkvStore[] = [
     cleared: true,
     why: 'what this phone swiped in a group swipe session',
   },
+  {
+    id: 'cp-updates',
+    cleared: false,
+    why: 'the update the app last restarted itself for: forgetting it could restart for a failing update again',
+  },
 ];
 
 /** A directory, or the files in a root whose names start with `prefix`. */
