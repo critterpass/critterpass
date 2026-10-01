@@ -1,0 +1,62 @@
+---
+import '../styles/coming-soon.css';
+import '../styles/coming-soon-locales.css';
+import BaseLayout from '../layouts/base-layout.astro';
+import { comingSoonCopy as copy } from './site/copy/coming-soon';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await siteTranslator(locale);
+---
+
+<BaseLayout title={`${t(copy.notFoundTitle)} · CritterPass`} description={t(copy.notFoundLine)} canonicalPath={null} locale={locale} noindex>
+  <div class="cs-root cs-notfound" data-testid="coming-soon-not-found">
+    <a href="/" class="cs-brand">
+      <img src="/favicon.svg" width="40" height="40" alt="" aria-hidden="true" />
+      <span class="cs-brand__word" lang="en">CRITTERPASS</span>
+    </a>
+    <main class="cs-notfound__main">
+      <p class="cs-notfound__code" aria-hidden="true">404</p>
+      <h1 class="cs-notfound__line">{t(copy.notFoundLine)}</h1>
+      <a href="/" class="cs-cta">{t(copy.notFoundHome)}</a>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .cs-notfound {
+    box-sizing: border-box;
+    padding: 24px clamp(20px, 4vw, 48px) 64px;
+    display: flex;
+    flex-direction: column;
+  }
+  .cs-notfound__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
+    max-width: 720px;
+  }
+  .cs-notfound__code {
+    margin: 0;
+    font-family: Archivo, var(--cs-sans);
+    font-weight: 900;
+    font-stretch: 64%;
+    font-size: clamp(120px, 28vw, 260px);
+    line-height: 0.88;
+    color: var(--color-yellow);
+  }
+  .cs-notfound__line {
+    margin: 0;
+    font:
+      500 clamp(19px, 2.4vw, 24px) / 1.4 Geist,
+      var(--cs-body);
+    text-wrap: balance;
+  }
+</style>

@@ -6,6 +6,9 @@ import {
 } from '../components/site/copy/coming-soon-sections';
 import type { Translate } from '../components/site/i18n';
 import type { PageStrings } from '../scripts/page-strings';
+import { HATCH_POOL } from './hatch-pool';
+import { chipPlaces } from './place-catalogue';
+import { placeName, placeNameUpper } from './place-names';
 
 /** Locals to collect, as the page's design states it. */
 export const LOCALS_TOTAL = 150;
@@ -35,6 +38,14 @@ export function aroundSlot(
   return [text.slice(0, at), text.slice(at + token.length)];
 }
 
+/** Who hatched: the local's one-line introduction, with its city in the page's language. */
+export function hatchLine(t: Translate, locale: string, critterId: string): string {
+  const local = HATCH_POOL.find((entry) => entry.id === critterId);
+  const descriptor = hatchLocalCopy[critterId as keyof typeof hatchLocalCopy];
+  if (local === undefined || descriptor === undefined) return '';
+  return t(descriptor, { place: placeName(local.city, locale) });
+}
+
 export function pageStrings(t: Translate, locale: string): PageStrings {
   return {
     typedLine: t(copy.typedLine),
@@ -59,8 +70,18 @@ export function pageStrings(t: Translate, locale: string): PageStrings {
       ...keep('num', 'city'),
       total: formatNumber(locale, LOCALS_TOTAL),
     }),
+    yourGuide: t(copy.yourGuide),
+    yourLocal: t(copy.yourLocal),
+    pickPlace: t(copy.pickPlace),
+    searchEmpty: t(copy.searchEmpty),
+    searchFailed: t(copy.searchFailed),
+    removePlace: t(copy.removePlace, keep('city')),
+    chipPlaces: chipPlaces(locale),
+    hatchCities: Object.fromEntries(
+      HATCH_POOL.map((local) => [local.id, placeNameUpper(local.city, locale)]),
+    ),
     hatchLines: Object.fromEntries(
-      Object.entries(hatchLocalCopy).map(([id, descriptor]) => [id, t(descriptor)]),
+      HATCH_POOL.map((local) => [local.id, hatchLine(t, locale, local.id)]),
     ),
   };
 }

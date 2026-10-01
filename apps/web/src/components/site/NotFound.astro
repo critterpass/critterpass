@@ -1,0 +1,86 @@
+---
+/**
+ * Not found (undesigned; composed from the site header, a display headline, one sleeping critter
+ * and the two ways forward: home, or the join-code form).
+ */
+import { shellCopy as copy } from './copy/shell';
+import { siteTranslator } from './i18n';
+import { SITE_PATHS } from './site-config';
+import Site from '../../layouts/Site.astro';
+
+const t = await siteTranslator();
+---
+
+<Site
+  title={`${t(copy.notFoundPageTitle)} · CritterPass`}
+  description={t(copy.notFoundBody)}
+  canonicalPath={null}
+  noindex
+  tone="ink"
+>
+  <section class="site-notfound site-halftone--light" data-testid="not-found">
+    <div class="site-wrap site-notfound__inner">
+      <div>
+        <p class="site-eyebrow site-notfound__eyebrow">{t(copy.notFoundEyebrow)}</p>
+        <h1 class="site-display site-notfound__title">{t(copy.notFoundTitle)}</h1>
+        <p class="site-notfound__body">{t(copy.notFoundBody)}</p>
+        <div class="site-notfound__actions">
+          <a class="site-button" href={SITE_PATHS.home}>{t(copy.notFoundHome)}</a>
+          <a class="site-button site-button--ghost" href={SITE_PATHS.joinWithCode}>{t(copy.notFoundJoin)}</a>
+        </div>
+      </div>
+      <img
+        class="site-notfound__critter site-sticker"
+        src="/critters/puffin-common-idle-color-232pt@2x.webp"
+        width="232"
+        height="232"
+        alt=""
+      />
+    </div>
+  </section>
+</Site>
+
+<style>
+  .site-notfound {
+    padding: clamp(56px, 10vw, 120px) 0;
+  }
+  .site-notfound__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: center;
+  }
+  .site-notfound__eyebrow {
+    color: var(--color-pink);
+    margin-bottom: 16px;
+  }
+  .site-notfound__title {
+    color: var(--color-yellow);
+    font-size: clamp(72px, 14vw, 176px);
+  }
+  .site-notfound__body {
+    max-width: 520px;
+    margin: 24px 0 32px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--color-ink-100);
+  }
+  .site-notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .site-notfound__critter {
+    transform: rotate(8deg);
+  }
+  @media (max-width: 720px) {
+    .site-notfound__inner {
+      grid-template-columns: 1fr;
+    }
+    .site-notfound__critter {
+      width: 140px;
+      height: auto;
+      order: -1;
+    }
+  }
+</style>

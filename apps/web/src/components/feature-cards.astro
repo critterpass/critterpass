@@ -3,6 +3,7 @@ import '../styles/coming-soon-sections.css';
 import '../styles/coming-soon-cards.css';
 import { LOCALS_TOTAL, formatNumber } from '../lib/coming-soon-strings';
 import { PASS_PEEK } from '../lib/hatch-pool';
+import { placeNameUpper } from '../lib/place-names';
 import { comingSoonSectionsCopy as copy } from './site/copy/coming-soon-sections';
 import { siteTranslator } from './site/i18n';
 
@@ -29,7 +30,7 @@ const t = await siteTranslator(locale);
             <div class="cs-swipe-stack__back-b"></div>
             <div class="cs-swipe-stack__top">
               <cp-critter kind="cp-005" seed="5" size="92" sticker="#f4efe4" />
-              <span class="cs-swipe-stack__city">HỘI AN</span>
+              <span class="cs-swipe-stack__city">{placeNameUpper('Hội An', locale)}</span>
               <span class="cs-swipe-stack__tag">{t(copy.swipeTag)}</span>
             </div>
             <span class="cs-swipe-stack__yes">{t(copy.swipeYes)}</span>
