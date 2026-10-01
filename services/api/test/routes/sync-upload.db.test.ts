@@ -197,4 +197,24 @@ describe('POST /sync/upload', () => {
     expect(body.error.code).toBe('RATE_LIMITED');
     expect(body.error.detail.retry_after_s).toBeGreaterThan(0);
   });
+
+  it('rejects a command that breaks a database rule and still applies the rest of the batch', async () => {
+    const session = await harness.signInAnonymously();
+    const crewId = generateUuidV7();
+    const broken = envelope('broken_test_op', { sqlstate: 'check_violation' });
+    const dataError = envelope('broken_test_op', { sqlstate: 'division_by_zero' });
+    const good = envelope('create_test_crew', { crew_id: crewId, name: 'Hoi An' });
+
+    const response = await upload(session, [broken, dataError, good]);
+
+    expect(response.status).toBe(200);
+    const body = (await response.json()) as { results: OutcomeBody[] };
+    expect(body.results.map((r) => [r.op_id, r.status, r.code])).toEqual([
+      [broken.op_id, 'rejected', 'INTERNAL'],
+      [dataError.op_id, 'rejected', 'INTERNAL'],
+      [good.op_id, 'applied', undefined],
+    ]);
+    const { rowCount } = await harness.pool.query('SELECT 1 FROM crews WHERE id = $1', [crewId]);
+    expect(rowCount).toBe(1);
+  });
 });

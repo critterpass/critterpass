@@ -364,6 +364,10 @@ msgid "web.comingSoon.features.askReply"
 msgstr "下午 2 点改上烹饪课，海滩挪到周五。"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copiedCode"
+msgstr "已复制"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
 msgstr ""
 
@@ -374,6 +378,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.copied"
 msgstr "已复制 ✓"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copyCode"
+msgstr "复制"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
@@ -426,6 +434,14 @@ msgstr "CritterPass 是一款结伴旅行规划应用，即将登陆 iOS 和 And
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTesting"
+msgstr "CritterPass 正在测试中。请向 {inviter} 要 TestFlight 邀请，然后用这个代码加入："
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTestingNoName"
+msgstr "CritterPass 正在测试中。请向邀请你的人要 TestFlight 邀请，然后用这个代码加入："
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
@@ -626,6 +642,10 @@ msgstr "登机口 ✦ 任意目的地"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.gateOpensIn"
 msgstr "距登机口开放"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.testFlight"
+msgstr "在 TestFlight 上获取 CritterPass"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"

@@ -5,6 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { BriefingLine } from '../../briefing/briefing-model';
+import type { LeaveByRow } from '../../leave-by/model';
 
 /** Sep 25, 18:33:31 Bali time: 17 days, 5 h 26 min 29 s before the first flight. */
 export const NOW = new Date('2026-09-25T10:33:31Z');
@@ -51,11 +52,25 @@ export const TZ = 'Asia/Makassar';
 export const TODAY = '2026-09-25';
 
 /** The trip's day and stop fixtures for the scenes that are in the trip. */
-export const LEAVE_BY = {
+/** Today's leave-by with its travel worked out (a drive to the trailhead). */
+export const LEAVE_BY: LeaveByRow = {
   id: 'l1',
-  leave_at: '2026-10-13T19:10:00Z',
-  tz: TZ,
+  trip_id: 't1',
+  plan_item_id: null,
+  title: null,
   place_name: 'Batur',
+  local_date: '2026-10-14',
+  starts_at: '2026-10-13T20:30:00Z',
+  leave_at: '2026-10-13T19:10:00Z',
+  pickup_at: null,
+  tz: TZ,
+  legs: JSON.stringify([{ kind: 'drive', minutes: 70 }]),
+  alarm_policy: null,
+  pickup: null,
+  buffer_min: 10,
+  guide_note: null,
+  participant_ids: null,
+  state: 'scheduled',
 };
 export const STOP = {
   stable_id: 's1',

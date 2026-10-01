@@ -149,3 +149,51 @@ describe('resolving a crew candidate', () => {
     expect(rows[0]).toEqual({ status: 'rejected', resolved_by: maya.uid });
   });
 });
+
+describe('dismissing a paste that could not be read', () => {
+  async function failedCandidate(owner: SignedIn): Promise<string> {
+    return withSystem(harness.pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string }>(
+        `INSERT INTO import_candidates (user_id, crew_id, trip_id, source, dedupe_key, status,
+           failure_reason)
+         VALUES ($1, $2, $3, 'paste', $4, 'failed', 'no_booking') RETURNING id`,
+        [owner.uid, crew.crewId, crew.tripId, `paste:${generateUuidV7()}`],
+      );
+      return rows[0]!.id;
+    });
+  }
+
+  it('keeps it failed, marks it resolved, and takes a second dismissal as done', async () => {
+    const [organiser] = crew.members as [SignedIn];
+    const candidateId = await failedCandidate(organiser);
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      const ignored = await harness.run(organiser, 'resolve_import_candidate', {
+        candidate_id: candidateId,
+        action: 'ignore',
+      });
+      expect(resultOf(ignored)).toMatchObject({ status: 'rejected', booking_id: null });
+    }
+    const { rows } = await harness.pool.query<{
+      status: string;
+      failure_reason: string;
+      resolved_by: string;
+    }>('SELECT status, failure_reason, resolved_by FROM import_candidates WHERE id = $1', [
+      candidateId,
+    ]);
+    expect(rows[0]).toEqual({
+      status: 'failed',
+      failure_reason: 'no_booking',
+      resolved_by: organiser.uid,
+    });
+  });
+
+  it('refuses to add it', async () => {
+    const [organiser] = crew.members as [SignedIn];
+    const candidateId = await failedCandidate(organiser);
+    const added = await harness.run(organiser, 'resolve_import_candidate', {
+      candidate_id: candidateId,
+      action: 'add',
+    });
+    expect(errorOf(added)).toMatchObject({ code: 'STATE_INVALID' });
+  });
+});

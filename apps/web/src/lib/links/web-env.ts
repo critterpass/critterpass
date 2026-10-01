@@ -14,6 +14,8 @@ import {
   type LinkEnvironmentConfig,
 } from '@cp/domain';
 
+import { parseTestFlightUrl } from './install-route';
+
 /** Worker variables and secrets this feature reads (Wrangler `vars` / secrets). */
 export interface LinksWebEnv {
   readonly LINKS_ENV?: string;
@@ -23,6 +25,8 @@ export interface LinksWebEnv {
   readonly LINKS_WEB_PROXY_SECRET?: string;
   /** `{"<package>": ["AA:BB:…"]}` Android signing-cert SHA-256 fingerprints. */
   readonly ANDROID_CERT_FINGERPRINTS?: string;
+  /** Public TestFlight link for the test app; read on every host but production. */
+  readonly TESTFLIGHT_URL?: string;
 }
 
 const DEFAULT_API_BASE_URL: Readonly<Record<LinkEnvironment, string>> = {
@@ -38,6 +42,8 @@ export interface LinkRequestContext {
   /** The other host of the pair: taps on it can open the app even from a page on this host. */
   readonly otherHost: string;
   readonly apiBaseUrl: string;
+  /** The configured public TestFlight link, when it is a valid one. */
+  readonly testFlightUrl: string | null;
 }
 
 function fallbackEnvironment(value: string | undefined): LinkEnvironment {
@@ -60,5 +66,11 @@ export function linkRequestContext(requestUrl: URL, env: LinksWebEnv): LinkReque
     /\/+$/,
     '',
   );
-  return { config, host, otherHost, apiBaseUrl };
+  return {
+    config,
+    host,
+    otherHost,
+    apiBaseUrl,
+    testFlightUrl: parseTestFlightUrl(env.TESTFLIGHT_URL),
+  };
 }

@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { VisitConsentRow } from '@/ui/permission-primer';
 import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { briefingClock, briefingState } from '../briefing/briefing-model';
@@ -26,7 +27,7 @@ import { guideColour, guideName as nameOf, guideOr } from './guide';
 import { bookingsTile, moneyTile, planTile, tickerLines, tileTitles, wholeMoney } from './hub-copy';
 import { activityHref, HOME, planningLink } from './hub-links';
 import { hubHeader, viewerNet, type HubFlight } from './hub-model';
-import { exploreEntry, hubEntries } from './hub-next';
+import { exploreEntry, hubEntries, swipeEntry } from './hub-next';
 import { HubView } from './hub-view';
 import { HubTile, useRegisteredHubTiles } from './tiles';
 
@@ -85,6 +86,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   ).rows[0];
   const bookingsOffline = savedToday !== undefined && todayComplete(savedToday.data);
   const registered = useRegisteredHubTiles();
+  const swipeHref = useScreenHref('3d-2', { tripId });
   const exploreHref = useScreenHref('3d-1', { placeId: rows.trip?.destination_id ?? '', tripId });
   const myTrips = useLiveRows<{ n: number }>(
     MY_TRIP_COUNT_SQL,
@@ -213,6 +215,9 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     trip?.destination_name == null || exploreAction === undefined
       ? null
       : exploreEntry(trip.destination_name, exploreAction);
+  // The crew's swipe, once its screen is registered.
+  const swipeAction = trip === null ? undefined : go(swipeHref);
+  const swipe = swipeAction === undefined ? null : swipeEntry(swipeAction);
   const planning = trip === null ? null : planningLink(tripId, trip.status, rows.openVotes[0]);
   const planningAction = planning === null ? undefined : go(planning.href);
 
@@ -244,6 +249,8 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       onAct={onAct}
       tiles={tiles}
       explore={explore}
+      swipe={swipe}
+      visitConsent={<VisitConsentRow />}
       ticker={tickerLines(rows.activity, trip?.status ?? null).map(({ row, text }) => {
         const open = go(activityHref(row, tripId));
         return { id: row.id, text, ...(open === undefined ? {} : { onPress: open }) };

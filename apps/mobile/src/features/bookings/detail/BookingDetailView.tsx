@@ -23,6 +23,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import type { WalletBooking } from '../data/model';
 import { dateTime } from '../format';
 import { useKindLabel } from './labels';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['8'] },
@@ -62,6 +63,7 @@ export function BookingDetailView(props: BookingDetailViewProps) {
   const insets = useSafeAreaInsets();
   const locale = useLocale();
   const { t } = useLingui();
+  const { name: guideName } = useWalletGuide();
   const kindLabel = useKindLabel();
   const { booking } = props;
   const secondary = theme.semantic.text.secondary;
@@ -158,7 +160,7 @@ export function BookingDetailView(props: BookingDetailViewProps) {
             <Text variant="bodySm" color={secondary}>
               {t({
                 id: 'bookings.detail.reminder',
-                message: 'Tokek reminds you the day before it runs out.',
+                message: `${guideName} reminds you the day before it runs out.`,
               })}
             </Text>
             {booking.cancelPolicyText === null ? null : (

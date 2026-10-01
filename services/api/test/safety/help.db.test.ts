@@ -91,6 +91,20 @@ describe('GET /v1/help/context', () => {
     expect(phones.sort()).toEqual(['+62-361-2014-505', '+62-361-227-911']);
   });
 
+  it('names the place in letters the traveller can read when the landmark has several names', async () => {
+    const bridge = { lat: 16.0611, lng: 108.2272 };
+    await query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng)
+       SELECT destination_id, v.name, 'other', v.lat, v.lng FROM trips,
+         (VALUES ('ドラゴンブリッジ', 16.0611, 108.2272), ('Cầu Rồng', 16.0612, 108.2273),
+                 ('Dragon Bridge', 16.0613, 108.2274)) AS v(name, lat, lng)
+        WHERE trips.id = $1`,
+      [fx.tripId],
+    );
+    const { body } = await get(fx.rin, contextPath(fx.tripId, bridge));
+    expect(body['place_label']).toMatch(/^Cầu Rồng/u);
+  });
+
   it('leaves drive times out without a position', async () => {
     const { body } = await get(fx.maya, contextPath(fx.tripId, null));
     const facilities = body['facilities'] as { minutes: number | null }[];

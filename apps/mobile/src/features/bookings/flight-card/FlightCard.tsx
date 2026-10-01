@@ -22,6 +22,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { clock, dayDate } from '../format';
 import type { FlightView } from './flight-model';
 import { useChipLabel, useCoTravellerLine, useSourceLine } from './labels';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const TILE = 76;
 
@@ -72,6 +73,7 @@ export function FlightCard({
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
+  const { name: guideName } = useWalletGuide();
   const chipLabel = useChipLabel();
   const crewLine = useCoTravellerLine();
   const sourceLine = useSourceLine();
@@ -95,7 +97,7 @@ export function FlightCard({
   const lines = [
     crewLine(coTravellers),
     mine && view.chip !== 'landed' && view.chip !== 'cancelled'
-      ? t({ id: 'bookings.flight.ping', message: 'Tokek pings you when boarding opens.' })
+      ? t({ id: 'bookings.flight.ping', message: `${guideName} pings you when boarding opens.` })
       : null,
     mine && !hasPass
       ? t({

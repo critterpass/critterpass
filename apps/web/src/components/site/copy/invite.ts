@@ -19,6 +19,19 @@ export const inviteCopy = {
   appStore: /*i18n*/ { id: 'web.invite.appStore', message: 'App Store' },
   googlePlay: /*i18n*/ { id: 'web.invite.googlePlay', message: 'Google Play' },
   getTheApp: /*i18n*/ { id: 'web.invite.getTheApp', message: 'Get the app' },
+  testFlight: /*i18n*/ { id: 'web.invite.testFlight', message: 'Get CritterPass on TestFlight' },
+  inTesting: /*i18n*/ {
+    id: 'web.invite.inTesting',
+    message:
+      'CritterPass is in testing. Ask {inviter} for the TestFlight invite, then join with this code:',
+  },
+  inTestingNoName: /*i18n*/ {
+    id: 'web.invite.inTestingNoName',
+    message:
+      'CritterPass is in testing. Ask whoever invited you for the TestFlight invite, then join with this code:',
+  },
+  copyCode: /*i18n*/ { id: 'web.invite.copyCode', message: 'Copy' },
+  copiedCode: /*i18n*/ { id: 'web.invite.copiedCode', message: 'Copied' },
   haveCode: /*i18n*/ { id: 'web.invite.haveCode', message: 'Have a code?' },
   differentCode: /*i18n*/ { id: 'web.invite.differentCode', message: 'Got a different code?' },
   findMyCrew: /*i18n*/ { id: 'web.invite.findMyCrew', message: 'Find my crew' },

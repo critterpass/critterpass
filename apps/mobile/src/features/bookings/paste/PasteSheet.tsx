@@ -16,6 +16,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
 import { pasteBody, type PasteBody } from './paste-kind';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const PASTE_WIDTH = 200;
 
@@ -38,6 +39,7 @@ export function PasteSheet(props: PasteSheetProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
+  const { name: guideName } = useWalletGuide();
   const [value, setValue] = useState(props.initialText ?? '');
   const [empty, setEmpty] = useState(false);
   const title = t({ id: 'bookings.paste.title', message: 'Paste a booking' });
@@ -106,7 +108,10 @@ export function PasteSheet(props: PasteSheetProps) {
         {props.error === null ? null : (
           <Text variant="bodySm" color={theme.semantic.state.urgent} testID="bookings-paste-error">
             {props.error === 'offline'
-              ? t({ id: 'bookings.paste.offline', message: 'Tokek needs signal to read it.' })
+              ? t({
+                  id: 'bookings.paste.offline',
+                  message: `${guideName} needs signal to read it.`,
+                })
               : t({ id: 'bookings.paste.failed', message: "That didn't go through. Try again." })}
           </Text>
         )}

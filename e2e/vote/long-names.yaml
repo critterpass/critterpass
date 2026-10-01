@@ -1,0 +1,15 @@
+appId: app.critterpass.dev
+---
+# The showdown (3c-1) with a long one-word name against a marked name of several words
+# (CHEFCHAOUEN against THÀNH PHỐ HỒ CHÍ MINH), in English and in Vietnamese: both names share one
+# size, every word stays whole, no mark is clipped and nothing runs off the screen.
+- runFlow: ../screens/subflows/open-gallery.yaml
+- runFlow:
+    file: subflows/long-names.yaml
+    env:
+      LOCALE: en
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    file: subflows/long-names.yaml
+    env:
+      LOCALE: vi

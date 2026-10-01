@@ -37,6 +37,7 @@ import { useMoneyContext } from '../data/use-money-context';
 import { useTripMoney } from '../data/use-trip-money';
 import { BudgetView } from './BudgetView';
 import { budgetInput } from './model';
+import { WalletGuideProvider } from '@/features/bookings';
 
 const useStyles = makeStyles((t) => ({ body: { padding: t.space['16'], gap: t.space['16'] } }));
 
@@ -134,33 +135,35 @@ export function BudgetScreen() {
   const place = trip.destinationName ?? '';
   const tripId = trip.id;
   return (
-    <>
-      <BudgetView
-        title={
-          place === ''
-            ? t({ id: 'money.budget.titleNoPlace', message: 'Trip budget' })
-            : t({ id: 'money.budget.title', message: `${place} budget` })
-        }
-        currency={currency}
-        today={model.today}
-        days={trip.days}
-        forecast={model.forecast}
-        organiser={trip.organiser || ctx.crew?.organiser === true}
-        onSetBudget={() => setSheet(true)}
-      />
-      {sheet ? (
-        <SetBudgetSheet
+    <WalletGuideProvider tripId={ctx.trip?.id ?? null}>
+      <>
+        <BudgetView
+          title={
+            place === ''
+              ? t({ id: 'money.budget.titleNoPlace', message: 'Trip budget' })
+              : t({ id: 'money.budget.title', message: `${place} budget` })
+          }
           currency={currency}
-          busy={save.pending}
-          onClose={() => setSheet(false)}
-          onSave={(amount) => {
-            void save.send({ trip_id: tripId, target_minor: Number(amount) }).then((result) => {
-              feedback.emit(result.kind === 'applied' ? 'success' : 'error');
-              if (result.kind === 'applied') setSheet(false);
-            });
-          }}
+          today={model.today}
+          days={trip.days}
+          forecast={model.forecast}
+          organiser={trip.organiser || ctx.crew?.organiser === true}
+          onSetBudget={() => setSheet(true)}
         />
-      ) : null}
-    </>
+        {sheet ? (
+          <SetBudgetSheet
+            currency={currency}
+            busy={save.pending}
+            onClose={() => setSheet(false)}
+            onSave={(amount) => {
+              void save.send({ trip_id: tripId, target_minor: Number(amount) }).then((result) => {
+                feedback.emit(result.kind === 'applied' ? 'success' : 'error');
+                if (result.kind === 'applied') setSheet(false);
+              });
+            }}
+          />
+        ) : null}
+      </>
+    </WalletGuideProvider>
   );
 }

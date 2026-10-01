@@ -247,11 +247,14 @@ appId: app.critterpass.dev
     visible:
       id: 'money-add-keypad'
     timeout: 10000
-- tapOn: '6'
-- tapOn: '3'
-- tapOn: '0'
-- tapOn: '0'
-- tapOn: '0'
+# The keys by their ids: a bare '0' would also match the digits of the amount above.
+- tapOn:
+    id: 'money-add-keypad-key-6'
+- tapOn:
+    id: 'money-add-keypad-key-3'
+- tapOn:
+    id: 'money-add-keypad-key-000'
+- assertVisible: '.*63,000.*'
 - tapOn:
     id: 'money-add-submit'
 - extendedWaitUntil:

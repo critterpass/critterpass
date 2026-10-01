@@ -1,0 +1,7 @@
+appId: app.critterpass.dev
+---
+# Explore's front page and the saved hub in English, from the Explore lab's scenes.
+- runFlow: subflows/lab-en.yaml
+- runFlow:
+    file: subflows/saved-scenes.yaml
+    env: { PREFIX: en }

@@ -41,6 +41,7 @@ import { toMajor } from '../format';
 import { editExpenseRoute } from '../routes';
 import { ExpenseDetailView, type DetailEdit, type DetailShare } from './ExpenseDetailView';
 import { canChangeExpense, changedFields, changesOf, fxLine } from './model';
+import { WalletGuideProvider } from '@/features/bookings';
 
 /** The expense was deleted (here or on another phone) while it was open. */
 function ExpenseGone() {
@@ -161,37 +162,39 @@ export function ExpenseDetailScreen({ expenseId }: { readonly expenseId: string 
   }
 
   return (
-    <>
-      <ExpenseDetailView
-        item={item}
-        crewCurrency={currency}
-        fx={fx}
-        shares={shares}
-        edits={history}
-        canChange={canChange}
-        onEdit={() => router.push(editExpenseRoute(expenseId))}
-        onDelete={() => setConfirming(true)}
-      />
-      {confirming ? (
-        <DeleteConfirm
-          title={t({ id: 'money.detail.deleteTitle', message: 'Delete this expense?' })}
-          consequences={[
-            t({
-              id: 'money.detail.deleteLedger',
-              message: 'Everyone’s balance goes back to how it was before it.',
-            }),
-            t({
-              id: 'money.detail.deleteHistory',
-              message: 'The crew still sees it in the history.',
-            }),
-          ]}
-          confirmLabel={upper(t({ id: 'money.detail.deleteConfirm', message: 'Delete' }), locale)}
-          mode="button"
-          onConfirm={() => void confirmDelete()}
-          onCancel={() => setConfirming(false)}
-          testID="money-delete-confirm"
+    <WalletGuideProvider tripId={ctx.trip?.id ?? null}>
+      <>
+        <ExpenseDetailView
+          item={item}
+          crewCurrency={currency}
+          fx={fx}
+          shares={shares}
+          edits={history}
+          canChange={canChange}
+          onEdit={() => router.push(editExpenseRoute(expenseId))}
+          onDelete={() => setConfirming(true)}
         />
-      ) : null}
-    </>
+        {confirming ? (
+          <DeleteConfirm
+            title={t({ id: 'money.detail.deleteTitle', message: 'Delete this expense?' })}
+            consequences={[
+              t({
+                id: 'money.detail.deleteLedger',
+                message: 'Everyone’s balance goes back to how it was before it.',
+              }),
+              t({
+                id: 'money.detail.deleteHistory',
+                message: 'The crew still sees it in the history.',
+              }),
+            ]}
+            confirmLabel={upper(t({ id: 'money.detail.deleteConfirm', message: 'Delete' }), locale)}
+            mode="button"
+            onConfirm={() => void confirmDelete()}
+            onCancel={() => setConfirming(false)}
+            testID="money-delete-confirm"
+          />
+        ) : null}
+      </>
+    </WalletGuideProvider>
   );
 }

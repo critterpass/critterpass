@@ -229,3 +229,22 @@ describe('by-share rows', () => {
     expect(formatAmount(total, 'VND', 'en')).toMatch(/630[.,]000/u);
   });
 });
+
+describe('the category guess', () => {
+  it('follows the name until a chip is picked, in English and Vietnamese', () => {
+    const named = (text: string) => run(idr(), { type: 'description', text }).category;
+    expect(named('Lunch')).toBe('food');
+    expect(named('Bánh xèo Bà Dưỡng')).toBe('food');
+    expect(named('Hotel')).toBe('stays');
+    expect(named('Khách sạn')).toBe('stays');
+    expect(named('Grab to the airport')).toBe('transit');
+    expect(named('Vé Bà Nà')).toBe('fun');
+    expect(named('Sunscreen')).toBe('other');
+    const picked = run(
+      idr(),
+      { type: 'category', category: 'fun' },
+      { type: 'description', text: 'Dinner' },
+    );
+    expect(picked.category).toBe('fun');
+  });
+});

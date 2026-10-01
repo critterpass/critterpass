@@ -4,3 +4,4 @@ export * from './events';
 export * from './queues';
 export * from './rt';
 export * from './sponsored';
+export * from './wire';
