@@ -145,7 +145,7 @@ describe('modes', () => {
     const unregister = registerScreens({ 'explore-home': '/explore' });
     await fireEvent.press(screen.getByTestId('home-explore'));
     expect(push).toHaveBeenCalledWith('/explore');
-    screen.unmount();
+    await screen.unmount();
 
     const crew = await open();
     await seedCrew(crew);

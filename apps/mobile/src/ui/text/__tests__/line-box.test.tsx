@@ -132,6 +132,6 @@ describe('Text line box', () => {
     );
     await fireEvent(screen.getByTestId('label'), 'textLayout', lines('ĐẶT ', 'CHỖ NGAY'));
     const style = StyleSheet.flatten(screen.getByTestId('label').props.style as TextStyle);
-    expect(style.lineHeight).toBe(14);
+    expect(style?.lineHeight).toBe(14);
   });
 });

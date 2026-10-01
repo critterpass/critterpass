@@ -69,19 +69,20 @@ const TRIP_GUIDE_TABLES = [
  */
 export function useCurrentTripGuide(): ActiveGuide | null {
   const db = useContext(LocalFirstContext)?.db ?? null;
-  const [rows, setRows] = useState<readonly TripGuideRow[]>([]);
+  const [read, setRead] = useState<{
+    readonly db: unknown;
+    readonly rows: readonly TripGuideRow[];
+  } | null>(null);
   useEffect(() => {
-    if (db === null) {
-      setRows([]);
-      return undefined;
-    }
+    if (db === null) return undefined;
     return watchQuery<TripGuideRow>(
       db,
       TRIP_GUIDE_SQL,
       [OWNER_UID_KEY],
       TRIP_GUIDE_TABLES,
-      setRows,
+      (rows) => setRead({ db, rows }),
     );
   }, [db]);
-  return currentTripGuide(rows);
+  // Rows read from another session's database (or none open now) are not this one's.
+  return currentTripGuide(read !== null && read.db === db ? read.rows : []);
 }

@@ -1,3 +1,4 @@
+/* eslint-disable lingui/no-unlocalized-strings -- font table tags, file names and sample letters; test support, never copy. */
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
