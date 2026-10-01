@@ -85,6 +85,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 ## Tasks
 
 ### T1 — Snapshot contract, route, tables
+- Status: done — 243404c23
 - Goal: one widget snapshot for all surfaces.
 - Files: `packages/domain/src/surfaces/widget-snapshot.ts` (+ test), `services/api/src/routes/widgets-snapshot.ts`, `services/api/src/commands/widgets/*`, `packages/db/src/schema/widgets.ts`, `packages/db/migrations/<ts>_widget_tokens_and_installs.sql`, `packages/db/test/permissions/widgets.test.ts`, `services/api/test/widgets/*.test.ts`.
 - Steps: 1. zod snapshot (countdown per C14, vote summary, today items, balances net, crew ETA buckets, critterdex, next flight, entitlements). 2. Route with ETag + key auth. 3. Commands + migration.
@@ -99,6 +100,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: unknown fields ignored by Swift decoder test; writes are atomic (temp+rename test).
 
 ### T3 — Widget refresh pipeline
+- Status: done — 84c88079c (server side; the extension push handler is native and still to do)
 - Goal: server-driven refresh within budget.
 - Files: `services/worker/src/jobs/widgets/{refresh,debounce}.ts`, `services/worker/test/widgets/*.test.ts`.
 - Steps: 1. Event → affected users → debounce → push. 2. Daily cap + priority exceptions. 3. Widget extension push handler fetching snapshot with action key.
@@ -141,6 +143,7 @@ Done when: a vote cast from a locked-phone notification action lands as a ballot
 - Done when: poster snapshot matches render; vote from poster stamps without dismiss.
 
 ### T9 — Ping settings screen
+- Status: in-progress — 88831e130 command and tests, 8851c8f2a screen (Settings row, you/pings catalog, mobile checks and device capture still to do)
 - Goal: 5b-4 with spoken sample.
 - Files: `apps/mobile/src/app/you/pings.tsx`, `apps/mobile/src/features/you/ping-settings/**`, `services/api/src/commands/notification-prefs/set-notification-prefs.ts`, `packages/i18n/locales/en/you/pings.po`.
 - Steps: 1. Slider fills bar (motion preset), haptic ticks. 2. Sample audio per guide × level (content assets) with on-device TTS fallback. 3. OS-denied banners via cp-notifications permission state. 4. Voice read-out Pass+ gate + mechanism: roundup audio render (`roundup.narrate` via P13 voice client → R2) played in-app on open; Siri Announce eligibility on roundup/chat categories (T7 category flags); toggle copy states the locked-phone limitation.
