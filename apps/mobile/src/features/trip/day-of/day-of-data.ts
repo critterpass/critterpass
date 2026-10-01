@@ -88,6 +88,7 @@ export function dayLead(
 /** How the day shown sits against the trip's own today. */
 export function dayRelation(localDate: string, today: string): 'today' | 'tomorrow' | 'other' {
   if (localDate === today) return 'today';
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO time suffix, never copy.
   const next = new Date(Date.parse(`${today}T00:00:00Z`) + 86_400_000).toISOString().slice(0, 10);
   return localDate === next ? 'tomorrow' : 'other';
 }
