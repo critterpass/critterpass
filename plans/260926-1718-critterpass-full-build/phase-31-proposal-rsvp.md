@@ -157,6 +157,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Queries over synced rows (bookings, Viator cart). 2. Format morph. 3. Reply-by picker with validation. 4. Send with avatar stamp per job step.
 - Tests: `pnpm --filter @cp/mobile test -- features/proposal/builder`; `maestro test e2e/proposal/build-and-send.yaml`
 - Done when: no "hold the rooms" copy anywhere (grep test on catalog), send shows per-recipient progress, offline send queues.
+- Status: done — 57cbe8e72
 
 ### T5 — Story player + trailer (3f-2)
 - Goal: reusable story player; proposal trailer with live reactions.
@@ -171,7 +172,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Picks/why sheet/donut/odometer toggles. 2. Hype bar public-only. 3. SSE objection route: deterministic options (cost engine/planner) + Haiku wording. 4. Follow-up scheduling.
 - Tests: `pnpm --filter @cp/api test -- routes/proposals`; `maestro test e2e/proposal/objection-private.yaml`
 - Done when: organiser device in Maestro run sees only MAYBE; objection option totals equal cost-engine output; no per-person passive copy in catalog.
-- Status: server part done — 857e3e10 (objection SSE route, `proposal.objection` route, `submit_private_reason`); app screens and Maestro flow pending in the app lane
+- Status: done — 857e3e10 (server), 57cbe8e72 (app: your version, private objection sheet, proposal card in crew chat)
 
 ### T7 — Slide to board (3f-5)
 - Goal: scrubbed 6 s choreography committing RSVP.
@@ -179,6 +180,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Single progress value timeline. 2. Gesture Handler scrub + completion threshold. 3. a11y action; haptics via feedback bus. 4. Cap error → seat sheet; offline pending.
 - Tests: `pnpm --filter @cp/mobile test -- features/proposal/board`; `maestro test e2e/proposal/board.yaml`
 - Done when: a11y action boards without gesture; cap rejection reverses UI with message; CI perf budget (Reanimated frame-drop count on the Maestro run ≤ budget) passes; real-device 60 fps check moves to P54 launch checks.
+- Status: done — 57cbe8e72 (the stub tear and confetti are simplified to a thump and the egg drop; logged in undesigned-states)
 
 ### T8 — RSVP tracker + suggestions (3f-6, AI-17) + reply-by cron
 - Goal: organiser tracker and handled suggestions.
@@ -186,7 +188,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Rules: resend hour, lead item, anonymised offer (crew ≥ 4). 2. Haiku wording. 3. N-08/N-09 via notify router. 4. Lock at reply_by.
 - Tests: `pnpm --filter @cp/worker test -- proposal`
 - Done when: suggestion copy never contains a member name tied to a private reason; tracker catalog grep for "opened"/"not opened" = 0; reply-by cron idempotent per proposal.
-- Status: server part done — 244ae5c7 (suggestions, reply-by and follow-up jobs, `proposal.suggestion` route); tracker UI pending in the app lane
+- Status: done — 244ae5c7 (server), 57cbe8e72 (tracker, suggestions and the organiser's `lock_proposal`, which confirms the trip)
 
 ### T9 — Dropout re-split engine + intent (AI-18)
 - Goal: deterministic ChangeSet on dropout.
