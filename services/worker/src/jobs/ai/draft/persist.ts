@@ -5,6 +5,7 @@
  * trip moves on to review; a trip no longer drafting (the organiser cancelled) saves nothing.
  */
 import type { DraftPlanInput, RepairOutcome } from '@cp/ai';
+import { writeBookedPlanItems } from '@cp/db';
 import { closedOn, itineraryMetrics, mustDosKept } from '@cp/planner';
 import type {
   ClosureRecord,
@@ -176,6 +177,8 @@ export async function persistDraft(tx: pg.PoolClient, save: DraftToSave): Promis
   const versionId = rows[0]?.id;
   if (versionId === undefined) throw new Error('draft version insert returned no id');
   await insertDays(tx, save.trip.tripId, versionId, save.outcome.itinerary);
+  // Bookings already in the wallet sit on the draft as anchored items from the start.
+  await writeBookedPlanItems(tx, save.trip.tripId, versionId);
   if (trip.draft_version_id !== null) {
     await tx.query("UPDATE itinerary_versions SET status = 'superseded' WHERE id = $1", [
       trip.draft_version_id,
