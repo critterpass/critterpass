@@ -161,12 +161,20 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-14-pass-at-dragon-bridge
+# The way in a traveller has: the PASS card for the encounter under way.
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
-    env:
-      URL: critterpass-dev://encounter/now
-- waitForAnimationToEnd
-- takeScreenshot: fresh-critters-15-encounter-or-3l-4-nothing
+    when:
+      visible:
+        id: 'critters-encounter-banner'
+    commands:
+      - tapOn:
+          id: 'critters-encounter-banner'
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-encounter-scene'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-15-encounter
 # The trip's quests: Home → the trip → QUESTS.
 - runFlow:
     file: ../screens/sweep/subflows/open-link.yaml
@@ -190,6 +198,20 @@ appId: app.critterpass.dev
 - takeScreenshot: fresh-critters-15b-home-in-trip
 - tapOn:
     id: 'home-in-trip'
+- waitForAnimationToEnd
+# The Home card's tap has not always opened the trip; the TRIPS tab is the other way there.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-hub'
+    commands:
+      - takeScreenshot: fresh-critters-15c-home-tap-did-nothing
+      - tapOn:
+          id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-16-trip-hub
 - scrollUntilVisible:
