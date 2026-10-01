@@ -10,8 +10,11 @@ appId: app.critterpass.dev
       CREW: 'Link Crew'
 # The friend's phone: nothing of the organiser's account left on it.
 - runFlow: ../happy/subflows/fresh-install.yaml
-- stopApp
-- openLink: critterpass-dev://i/${output.crewCode}
+- retry:
+    maxRetries: 2
+    commands:
+      - stopApp
+      - openLink: critterpass-dev://i/${output.crewCode}
 - runFlow:
     when:
       visible: 'Open'
@@ -25,10 +28,16 @@ appId: app.critterpass.dev
 - takeScreenshot: invites-3a-10-ticket-cold-start
 # The same link over the running app, from the splash.
 - runFlow: ../happy/subflows/fresh-install.yaml
+# The simulator's openurl can time out before the app is involved: the link is opened again then.
+- retry:
+    maxRetries: 2
+    commands:
+      - openLink: critterpass-dev://i/${output.crewCode}
 - runFlow:
-    file: ../screens/sweep/subflows/open-link.yaml
-    env:
-      URL: critterpass-dev://i/${output.crewCode}
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
       id: 'invite-take-seat'
