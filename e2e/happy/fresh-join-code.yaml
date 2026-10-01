@@ -3,107 +3,13 @@ appId: app.critterpass.dev
 # Release gate: a friend on a new phone joins a crew with its code, no demo world. The organiser (a
 # new account) starts a crew and keeps its code. A second new account opens the app, taps "Got a
 # code?" on the splash, types the code and presses JOIN where it comes up, on top of the keyboard.
-# Then the three-tap pass: a name and a home on the pass card, ISSUE MY PASS, "Not now" on the save
+# Then the three-tap pass: the page asks for a name and a home, ISSUE MY PASS, "Not now" on the save
 # sheet, and the crew manifest with the newcomer on it.
-- runFlow: subflows/fresh-account.yaml
-- openLink: critterpass-dev://crew/new
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-name'
-    timeout: 15000
-- tapOn:
-    id: 'start-crew-name'
-- inputText: 'Code Crew'
-- hideKeyboard
-- tapOn:
-    id: 'start-crew-create'
-- extendedWaitUntil:
-    visible:
-      id: 'start-crew-code'
-    timeout: 30000
-- copyTextFrom:
-    id: 'start-crew-code'
-# iOS copies the spoken label ("Crew code E 2 X …"): the code is its last six characters.
-- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
-- tapOn:
-    id: 'start-crew-done'
-
-# The friend: a second new account on this phone, straight from the splash.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
+    file: subflows/crew-with-code.yaml
     env:
-      TARGET: 'dev-accounts-new'
-- extendedWaitUntil:
-    visible:
-      id: 'onboarding-invite-code'
-    timeout: 60000
-- tapOn:
-    id: 'onboarding-invite-code'
-- extendedWaitUntil:
-    visible:
-      id: 'invite-code-boxes'
-    timeout: 15000
-- tapOn:
-    id: 'invite-code-boxes'
-- inputText: ${output.crewCode}
-- extendedWaitUntil:
-    visible:
-      text: '(?i)found it.*'
-    timeout: 20000
-- extendedWaitUntil:
-    visible:
-      id: 'invite-code-join'
-    timeout: 20000
-- waitForAnimationToEnd
-- takeScreenshot: en-3a-11-code-found-first-run
-- tapOn:
-    id: 'invite-code-join'
-- extendedWaitUntil:
-    visible:
-      id: 'invite-pass-screen'
-    timeout: 20000
-
-# A code carries no name or home: both go on the pass card before the pass can be issued.
-- tapOn:
-    id: 'invite-pass-card'
-- extendedWaitUntil:
-    visible:
-      id: 'invite-edit-name'
-    timeout: 10000
-- tapOn:
-    id: 'invite-edit-name'
-- inputText: 'Mai'
-- tapOn:
-    id: 'invite-edit-home'
-- inputText: 'Sing'
-- extendedWaitUntil:
-    visible:
-      id: 'invite-edit-home-SIN'
-    timeout: 10000
-- tapOn:
-    id: 'invite-edit-home-SIN'
-- waitForAnimationToEnd
-- takeScreenshot: en-3a-12-edit-pass
-- tapOn:
-    id: 'invite-edit-done'
-- extendedWaitUntil:
-    visible:
-      id: 'invite-pass-issue'
-      enabled: true
-    timeout: 10000
-- waitForAnimationToEnd
-- takeScreenshot: en-3a-12-pass-code-joiner
-- tapOn:
-    id: 'invite-pass-issue'
-- extendedWaitUntil:
-    visible:
-      id: 'save-not-now'
-    timeout: 20000
-- tapOn:
-    id: 'save-not-now'
-- extendedWaitUntil:
-    visible:
-      id: 'invite-manifest-newcomer'
-    timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: en-3a-13-manifest-code-joiner
+      CREW: 'Code Crew'
+- runFlow:
+    file: subflows/join-by-code.yaml
+    env:
+      PREFIX: en

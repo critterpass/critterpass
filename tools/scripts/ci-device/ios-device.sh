@@ -36,6 +36,10 @@ for scheme in $(plutil -extract CFBundleURLTypes json -o - "$app/Info.plist" | j
 done
 xcrun simctl boot "$udid"
 xcrun simctl bootstatus "$udid" -b >/dev/null
+# A new simulator covers its first keyboard with the slide-to-type introduction ("Speed up your
+# typing…", Continue), which hides the app's own elements from the flow until it is dismissed.
+xcrun simctl spawn "$udid" defaults write com.apple.keyboard.preferences \
+  DidShowContinuousPathIntroduction -bool true
 xcrun simctl ui "$udid" appearance "${APPEARANCE:-light}"
 xcrun simctl status_bar "$udid" override --time 9:41 --batteryState charged --batteryLevel 100 \
   --cellularMode active --cellularBars 4 --wifiMode active --wifiBars 3 --dataNetwork wifi
