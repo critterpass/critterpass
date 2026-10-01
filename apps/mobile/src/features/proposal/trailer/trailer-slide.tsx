@@ -36,7 +36,7 @@ export function TrailerSlide({ guide, eyebrow, headline, body }: TrailerSlidePro
   const info = GUIDE_STICKERS[guide];
   const words = headline.toUpperCase().split(/\s+/u).filter(Boolean);
   return (
-    <View style={[styles.slide, { backgroundColor: theme.color.rust.base }]}>
+    <View style={[styles.slide, { backgroundColor: theme.color.rust.darkened }]}>
       <View style={styles.art} importantForAccessibility="no-hide-descendants">
         <Sticker kind={info.kind} name={info.name} size={180} />
       </View>
@@ -51,7 +51,9 @@ export function TrailerSlide({ guide, eyebrow, headline, body }: TrailerSlidePro
             key={`${index}-${word}`}
             {...(reduced ? {} : { entering: ZoomIn.delay(WORD_STAGGER_MS * index) })}
           >
-            <Text variant="displayXl">{word}</Text>
+            <Text variant="displayXl" autoFit={false}>
+              {word}
+            </Text>
           </Animated.View>
         ))}
       </View>
