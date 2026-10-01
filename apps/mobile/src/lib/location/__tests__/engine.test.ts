@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { MOCK_FLAG_IMPLAUSIBLE, type GeofenceSourceContext, type TripModeTrip } from '@cp/domain';
 
+import { toTripModeTrip } from '../bridge-inputs';
 import {
   createLocationEngine,
   FIX_RING_MS,
@@ -154,6 +155,36 @@ describe('location engine', () => {
     await flush();
     expect(engine.status()).toMatchObject({ running: false, reason: 'at_home' });
     expect(session.calls).toContain('stop');
+  });
+
+  it('keeps running on a trip in the home country once the device geocodes there', async () => {
+    const session = fakeSession();
+    const engine = createLocationEngine({
+      session: session.port,
+      upload: okUpload(),
+      platform: 'ios',
+      now: () => clock,
+      countryOf: () => Promise.resolve('VN'),
+    });
+    // The synced rows as they arrive: the destination's country by name, the home by code.
+    const domestic = toTripModeTrip({
+      id: 't1',
+      status: 'in_trip',
+      start_date: '2026-10-10',
+      end_date: '2026-10-14',
+      tz: 'Asia/Ho_Chi_Minh',
+      destination_country: 'Vietnam',
+    });
+    await engine.update(inputs({ trip: domestic, homeCountry: 'VN' }));
+    session.fix(fixAt(clock));
+    await flush();
+    await flush();
+    expect(engine.status()).toMatchObject({
+      running: true,
+      tripMode: 'trip_day',
+      session: 'trip_session',
+    });
+    expect(session.calls).not.toContain('stop');
   });
 
   it('goes high inside a planned place and coarse once the day’s allowance is spent', async () => {

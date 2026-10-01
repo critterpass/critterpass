@@ -4,7 +4,12 @@
  * trip-day window in the trip's own zone. At home it stays off: home is the country of the home
  * airport, and being there while the trip is abroad means the user has not left yet (or is back).
  * The one exception is the explicit, foreground-only "explore at home" opt-in.
+ *
+ * Countries are compared as ISO 3166-1 alpha-2 codes. Every country that comes in is read through
+ * `toCountryCode`, because the catalogue stores some by name ("Vietnam") while the home airport
+ * and the geocoder give codes ("VN"); one that cannot be read counts as unknown.
  */
+import { toCountryCode } from '../countries/country-code';
 import type { TripStatus } from '../enums/trip';
 import { toLocalWallTime } from '../time/local-schedule';
 
@@ -25,7 +30,7 @@ export interface TripModeTrip {
   readonly startDate: string | null;
   readonly endDate: string | null;
   readonly tz: string | null;
-  /** ISO 3166-1 alpha-2 of the destination, when known. */
+  /** The destination's country, when known: an ISO 3166-1 alpha-2 code, or its English name. */
   readonly destinationCountry: string | null;
 }
 
@@ -41,7 +46,7 @@ export const DEFAULT_TRIP_DAY_WINDOW: TripDayWindow = { startMinute: 5 * 60, end
 export interface TripModeInput {
   readonly trip: TripModeTrip | null;
   readonly now: Date;
-  /** Country of the home airport. */
+  /** Country of the home airport (code or English name). */
   readonly homeCountry: string | null;
   /** Country the device is in now (reverse-geocoded coarse fix), when known. */
   readonly currentCountry: string | null;
@@ -68,13 +73,12 @@ function withinDates(date: string, trip: TripModeTrip): boolean {
 }
 
 function isAtHome(input: TripModeInput, trip: TripModeTrip): boolean {
-  if (input.homeCountry === null || input.currentCountry === null) return false;
-  const home = input.homeCountry.toUpperCase();
+  const home = toCountryCode(input.homeCountry);
+  const current = toCountryCode(input.currentCountry);
+  if (home === null || current === null) return false;
   // A domestic trip happens in the home country; there, "home" cannot mean "not left yet".
-  if (trip.destinationCountry !== null && trip.destinationCountry.toUpperCase() === home) {
-    return false;
-  }
-  return input.currentCountry.toUpperCase() === home;
+  if (toCountryCode(trip.destinationCountry) === home) return false;
+  return current === home;
 }
 
 export function tripLocationMode(input: TripModeInput): TripModeResult {

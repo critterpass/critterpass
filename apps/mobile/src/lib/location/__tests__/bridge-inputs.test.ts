@@ -1,5 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { PlainSqlite } from '@/data/powersync/test-support/node-realm';
+
 import {
   activeShare,
   dayPlan,
@@ -7,10 +9,12 @@ import {
   toTripModeTrip,
   tripSql,
   type PlanPoiRow,
+  type TripRow,
 } from '../bridge-inputs';
 
 const NOW = Date.parse('2026-10-12T02:00:00Z');
 const TRIP = '01928f3e-7b1a-7c2d-8e9f-0a1b2c3d4e5f';
+const USER = '01928f3e-7b1a-7c2d-8e9f-0a1b2c3d4e60';
 
 describe('engine inputs from synced rows', () => {
   it('only ever inlines UUIDs into the watched SQL', () => {
@@ -37,6 +41,29 @@ describe('engine inputs from synced rows', () => {
       tz: 'Asia/Makassar',
       destinationCountry: 'ID',
     });
+  });
+
+  it('reads the destination country as an ISO code, from the place first', () => {
+    const db = new PlainSqlite(':memory:');
+    db.exec(`
+      CREATE TABLE trips (id TEXT, status TEXT, start_date TEXT, end_date TEXT, tz TEXT, destination_id TEXT);
+      CREATE TABLE trip_participants (trip_id TEXT, user_id TEXT, rsvp TEXT, role TEXT);
+      CREATE TABLE destinations (id TEXT, country TEXT, critter_set_id TEXT);
+      CREATE TABLE critter_sets (id TEXT, country TEXT);
+      INSERT INTO critter_sets VALUES ('set-vn', 'VN');
+      INSERT INTO destinations VALUES ('da-nang', 'Vietnam', 'set-vn'), ('unplaced', 'Vietnam', NULL);
+      INSERT INTO trips VALUES ('${TRIP}', 'in_trip', '2026-10-02', '2026-10-04', 'Asia/Ho_Chi_Minh', 'da-nang');
+      INSERT INTO trip_participants VALUES ('${TRIP}', '${USER}', 'in', 'member');
+    `);
+    const read = () => db.prepare(tripSql(USER)).get() as TripRow;
+    expect(read().destination_country).toBe('VN');
+    // A destination with no place yet only has the name: the row mapper still yields the code.
+    db.exec(`UPDATE trips SET destination_id = 'unplaced'`);
+    expect(read().destination_country).toBe('Vietnam');
+    expect(toTripModeTrip(read())?.destinationCountry).toBe('VN');
+    db.exec(`UPDATE trips SET destination_id = NULL`);
+    expect(toTripModeTrip(read())?.destinationCountry).toBeNull();
+    db.close();
   });
 
   it('picks the open share that matters most', () => {
