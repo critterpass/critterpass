@@ -2,8 +2,8 @@ appId: app.critterpass.dev
 ---
 # Shell tab bar: reaches the gallery's tab demo (apps/mobile/src/app/(dev)/gallery/tabs/) by tapping
 # through "Developer tools" → "Component gallery" (never `openLink` into a (dev) route: see
-# e2e/critters/sticker-lab.yaml). Switches every tab, then exercises the guide FAB: tap resolves the
-# guide sheet lookup, long-press (320 ms) the Help hub lookup.
+# e2e/critters/sticker-lab.yaml). Switches every tab, then exercises the guide button: a tap opens
+# the guide sheet, a long-press (320 ms) the Help hub lookup and not the sheet.
 # A plain relaunch reopens the last screen, so state is cleared; the launch then fetches the
 # freshly published JS before its first render.
 - launchApp:
@@ -14,10 +14,11 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
+- scrollUntilVisible:
+    element:
       id: 'dev-nav-gallery'
-    timeout: 10000
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'dev-nav-gallery'
 - extendedWaitUntil:
@@ -61,27 +62,38 @@ appId: app.critterpass.dev
       id: 'gallery-tab-index'
     timeout: 5000
 
-# FAB tap → guide sheet lookup. No tap retry: on a slow Android emulator the push hasn't changed
-# the screen when Maestro checks, and its retry lands a second touch on the FAB mid-transition,
-# which opens Help instead.
+# The guide button's tap opens the guide sheet (its root id isn't in iOS's accessibility tree; its
+# composer is). No tap retry: on a slow Android emulator the sheet hasn't changed the screen when
+# Maestro checks, and its retry lands a second touch on the button mid-transition, which opens
+# Help instead.
 - tapOn:
     id: 'guide-fab'
     retryTapIfNoChange: false
 - extendedWaitUntil:
     visible:
-      id: 'shell-target-guide'
-    timeout: 5000
+      id: 'guide-composer'
+    timeout: 15000
+- assertNotVisible:
+    id: 'shell-target-help'
+- waitForAnimationToEnd
+# The sheet has no ✕: its scrim closes it.
 - tapOn:
-    id: 'shell-target-back'
+    point: 50%, 8%
+- extendedWaitUntil:
+    notVisible:
+      id: 'guide-composer'
+    timeout: 10000
 - extendedWaitUntil:
     visible:
       id: 'guide-fab'
     timeout: 5000
 
-# FAB long-press → Help hub lookup.
+# The guide button's long-press (320 ms) wins over its tap: Help opens, the guide sheet does not.
 - longPressOn:
     id: 'guide-fab'
 - extendedWaitUntil:
     visible:
       id: 'shell-target-help'
     timeout: 5000
+- assertNotVisible:
+    id: 'guide-composer'
