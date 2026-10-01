@@ -127,6 +127,17 @@ function useEditing(onConflict = jest.fn(), onLocked = jest.fn()) {
   return { plan, editor };
 }
 
+/**
+ * The plan with its day rows and its items both in. They are separate live queries, and an item
+ * has no minutes on its day (so it cannot be moved) until the day row has landed.
+ */
+async function planLoaded(result: { current: ReturnType<typeof useEditing> }): Promise<void> {
+  await waitFor(() => {
+    expect(result.current.plan.loaded).toBe(true);
+    expect(result.current.plan.state.items).toHaveLength(2);
+  });
+}
+
 afterEach(async () => {
   if (stack !== null) {
     await stack.close();
@@ -147,7 +158,7 @@ describe('plan editing', () => {
   it('queues an organiser move as apply_plan_ops and shows it at once', async () => {
     const s = await seed('organiser');
     const { result } = await renderHook(() => useEditing(), { wrapper: s.wrapper });
-    await waitFor(() => expect(result.current.plan.state.items).toHaveLength(2));
+    await planLoaded(result);
     const walk = dayItems(result.current.plan.state, 3, result.current.plan.display, TZ)[0]!;
     expect(walk.title).toBe('Ridge walk');
     await act(async () => {
@@ -169,7 +180,7 @@ describe('plan editing', () => {
   it('turns a member add into a change set sent to the crew', async () => {
     const s = await seed('member');
     const { result } = await renderHook(() => useEditing(), { wrapper: s.wrapper });
-    await waitFor(() => expect(result.current.plan.state.items).toHaveLength(2));
+    await planLoaded(result);
     let outcome: unknown;
     await act(async () => {
       outcome = await result.current.editor.submit([
@@ -221,7 +232,7 @@ describe('plan editing', () => {
     const s = await seed('organiser');
     const onConflict = jest.fn();
     const { result } = await renderHook(() => useEditing(onConflict), { wrapper: s.wrapper });
-    await waitFor(() => expect(result.current.plan.state.items).toHaveLength(2));
+    await planLoaded(result);
     const walk = dayItems(result.current.plan.state, 3, result.current.plan.display, TZ)[0]!;
     await act(async () => {
       await result.current.editor.submit([moveOp(walk, { dayNo: 3, date: DATE }, 17 * 60)!]);
@@ -243,7 +254,7 @@ describe('plan editing', () => {
     const s = await seed('organiser');
     const onConflict = jest.fn();
     const { result } = await renderHook(() => useEditing(onConflict), { wrapper: s.wrapper });
-    await waitFor(() => expect(result.current.plan.state.items).toHaveLength(2));
+    await planLoaded(result);
     const walk = dayItems(result.current.plan.state, 3, result.current.plan.display, TZ)[0]!;
     await act(async () => {
       await result.current.editor.submit([moveOp(walk, { dayNo: 3, date: DATE }, 17 * 60)!]);
