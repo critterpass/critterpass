@@ -1,8 +1,9 @@
 appId: app.critterpass.dev
 ---
-# The private draft (3c-9) and its states, in English, from the fixed developer scenes: must-dos
-# missing, over budget, stale setup, stays and closures, a redraft waiting, offline, quota reached,
-# earlier drafts, no draft, a failed draft and what a crew member sees instead.
+# The private draft (3c-9) and its states, in English, from the fixed developer scenes: wallet
+# bookings on their days, must-dos missing, over budget, stale setup, stays and closures, a redraft
+# waiting, offline, quota reached, earlier drafts, no draft, a failed draft and what a crew member
+# sees instead.
 - launchApp:
     clearState: true
 - runFlow:
@@ -20,6 +21,38 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: en-3c-9-draft
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: Android
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'draft-scene-list'
+    commands:
+      - tapOn:
+          id: 'draft-scene-back'
+- scrollUntilVisible:
+    element:
+      id: 'draft-scene-draft-booked'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'draft-scene-draft-booked'
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertVisible:
+    id: 'draft-day-booked-1'
+- takeScreenshot: en-draft-booked
 - runFlow:
     when:
       platform: Android

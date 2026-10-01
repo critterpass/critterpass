@@ -5,7 +5,7 @@
  * name the trips and crews whose readers changed. Always in the caller's transaction.
  */
 import { sendInTx } from '@cp/db';
-import { GUIDE_QUEUES, type GuideTextTranslateJob } from '@cp/domain';
+import { GUIDE_QUEUES, SOURCE_APP_LOCALE, type GuideTextTranslateJob } from '@cp/domain';
 import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
@@ -22,6 +22,24 @@ export async function enqueueGuideTextTranslation(
   await sendInTx(tx, GUIDE_QUEUES.translate, job, {
     singletonKey: 'tripId' in target ? target.tripId : target.crewId,
   });
+}
+
+/**
+ * A crew sweep after new guide text was stored for the crew (a pitch), asked for only when
+ * someone in the crew reads another language than the one the guide writes in.
+ */
+export async function enqueueCrewGuideTextIfRead(tx: pg.PoolClient, crewId: string): Promise<void> {
+  const read = await asSystemRole(tx, async () => {
+    const { rows } = await tx.query<{ read: boolean }>(
+      `SELECT EXISTS (
+         SELECT 1 FROM crew_members cm
+          WHERE cm.crew_id = $1 AND cm.status = 'active' AND app.user_locale(cm.user_id) <> $2
+       ) AS read`,
+      [crewId, SOURCE_APP_LOCALE],
+    );
+    return rows[0]?.read === true;
+  });
+  if (read) await enqueueGuideTextTranslation(tx, { crewId });
 }
 
 async function enqueueAll(

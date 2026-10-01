@@ -1,36 +1,37 @@
 /**
  * Trip day pushes: the crew knock to members already up (ALWAYS), the remote copy of a leave-by
  * alarm for members whose phone never confirmed one (ALWAYS, time-sensitive), a member running
- * late to the rest of the trip (the crew ping) and the morning briefing's one push (budgeted).
+ * late to the rest of the trip (the crew ping) and the morning briefing's one push (budgeted). The
+ * leave-by pushes take their words from `leaveByPushCopy`: a time to leave, or a time to be there
+ * when no trip to the place was counted.
  */
 import { TRIP_DAY_PUSH } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
 import { DEFAULT_SETUP_GUIDE, firstName, str } from '../setup/facts';
+import { leaveByPushCopy, type LeaveByPushFacts } from './leave-by-push-copy';
 
-interface LeaveByFacts {
+interface LeaveByFacts extends LeaveByPushFacts {
   readonly trip_id: string;
   readonly crew_id: string;
-  readonly title: string;
-  readonly place_name: string | null;
-  readonly leave_at: Date;
-  readonly tz: string;
   readonly local_date: string;
 }
 
 async function leaveBy(tx: pg.PoolClient, routed: RoutedEvent): Promise<LeaveByFacts | undefined> {
   const { rows } = await tx.query<LeaveByFacts>(
-    `SELECT l.trip_id, t.crew_id, l.title, l.place_name, l.leave_at, l.tz,
-            l.local_date::text AS local_date
-       FROM leave_bys l JOIN trips t ON t.id = l.trip_id WHERE l.id = $1`,
+    `SELECT l.trip_id, t.crew_id, l.title, l.place_name, l.starts_at, l.leave_at, l.tz,
+            l.local_date::text AS local_date, l.legs->0->>'kind' AS leg_kind, i.category,
+            (SELECT s.dep_airport::text FROM flight_segments s
+              WHERE s.booking_id = i.booking_id AND s.sched_dep_at = l.starts_at
+              ORDER BY s.segment_no LIMIT 1) AS dep_airport
+       FROM leave_bys l JOIN trips t ON t.id = l.trip_id
+       LEFT JOIN plan_items i ON i.id = l.plan_item_id
+      WHERE l.id = $1`,
     [str(routed, 'leave_by_id')],
   );
   return rows[0];
 }
-
-const clock = (at: Date, tz: string) =>
-  new Intl.DateTimeFormat('en-GB', { timeZone: tz, hour: '2-digit', minute: '2-digit' }).format(at);
 
 function uuids(routed: RoutedEvent, key: string): string[] {
   const value = routed.payload[key];
@@ -53,14 +54,11 @@ export function registerTripDayNotifications(): void {
       const facts = await leaveBy(tx, routed);
       if (facts === undefined) return null;
       const sleeper = str(routed, 'user_id') ?? '';
+      const copy = leaveByPushCopy(facts);
       return {
-        title: TRIP_DAY_PUSH.knockTitle,
+        title: copy.knockTitle,
         body: TRIP_DAY_PUSH.knockBody,
-        vars: {
-          place: facts.place_name ?? facts.title,
-          time: clock(facts.leave_at, facts.tz),
-          name: await firstName(tx, sleeper),
-        },
+        vars: { place: copy.place, time: copy.time, name: await firstName(tx, sleeper) },
         sender: { kind: 'member', id: sleeper, name: await firstName(tx, sleeper) },
         crewId: facts.crew_id,
         tripId: facts.trip_id,
@@ -78,10 +76,11 @@ export function registerTripDayNotifications(): void {
     async compose(tx, routed) {
       const facts = await leaveBy(tx, routed);
       if (facts === undefined) return null;
+      const copy = leaveByPushCopy(facts);
       return {
-        title: TRIP_DAY_PUSH.alarmTitle,
-        body: TRIP_DAY_PUSH.alarmBody,
-        vars: { place: facts.place_name ?? facts.title, time: clock(facts.leave_at, facts.tz) },
+        title: copy.alarmTitle,
+        body: copy.alarmBody,
+        vars: { place: copy.place, time: copy.time },
         sender: DEFAULT_SETUP_GUIDE,
         crewId: facts.crew_id,
         tripId: facts.trip_id,

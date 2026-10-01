@@ -25,8 +25,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await pool.end();
-  await container.stop();
+  await pool?.end();
+  await container?.stop();
 });
 
 describe('review stage with a database', () => {

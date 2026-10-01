@@ -105,9 +105,9 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await boss.stop({ graceful: false });
-  await app.close();
-  await harness.stop();
+  await boss?.stop({ graceful: false });
+  await app?.close();
+  await harness?.stop();
 });
 
 async function publishJobs(): Promise<string[]> {

@@ -13,6 +13,8 @@ import {
   type BriefingItemStatus,
 } from '@cp/domain';
 
+import { guideText } from '@/lib/i18n/guide-text';
+
 import { parseIdList } from '../leave-by/model';
 
 export const ACT_BRIEFING_ITEM = 'act_briefing_item';
@@ -20,7 +22,7 @@ export const ACT_BRIEFING_ITEM = 'act_briefing_item';
 export const BRIEFING_SQL = `SELECT id, local_date, status, fallback_used, built_at FROM briefings
   WHERE trip_id = ? AND user_id = ? ORDER BY local_date DESC LIMIT 1`;
 export const BRIEFING_ITEMS_SQL = `SELECT id, position, icon, text, action, target_user_ids,
-    deep_link, status, source FROM briefing_items WHERE briefing_id = ? ORDER BY position, id`;
+    deep_link, status, source, i18n FROM briefing_items WHERE briefing_id = ? ORDER BY position, id`;
 export const PENDING_ACTS_SQL = `SELECT json_extract(envelope, '$.payload.item_id') AS item_id,
     json_extract(envelope, '$.payload.action') AS action
   FROM commands WHERE cmd = '${ACT_BRIEFING_ITEM}' ORDER BY seq`;
@@ -43,6 +45,8 @@ export interface BriefingItemRow {
   readonly deep_link: string | null;
   readonly status: string;
   readonly source: string | null;
+  /** The line in other languages (JSON text); absent in rows built before it synced. */
+  readonly i18n?: string | null;
 }
 
 export interface PendingAct {
@@ -93,14 +97,18 @@ export type BriefingState =
 
 const ACTIONS: readonly string[] = ['done', 'nudge', 'set', 'open'];
 
-function lineOf(row: BriefingItemRow, pending: ReadonlyMap<string, BriefingAction>): BriefingLine {
+function lineOf(
+  row: BriefingItemRow,
+  pending: ReadonlyMap<string, BriefingAction>,
+  locale: string,
+): BriefingLine {
   const action = (ACTIONS.includes(row.action) ? row.action : 'open') as BriefingAction;
   const queued = pending.get(row.id);
   const status = queued === undefined ? (row.status as BriefingItemStatus) : ACTED_STATUS[queued];
   return {
     id: row.id,
     icon: row.icon ?? 'sun',
-    text: row.text,
+    text: guideText('briefing_item', row, 'text', locale) ?? row.text,
     action,
     status,
     targets: parseIdList(row.target_user_ids),
@@ -120,6 +128,8 @@ export function briefingState(input: {
   readonly briefed: boolean;
   readonly startDate: string | null;
   readonly endDate: string | null;
+  /** The app's language: the guide's lines are read in it when a translation exists. */
+  readonly locale?: string;
 }): BriefingState {
   if (!input.briefed) return { kind: 'hidden' };
   if (input.read === 'failed') return { kind: 'failed' };
@@ -137,7 +147,7 @@ export function briefingState(input: {
       pending.set(act.item_id, act.action as BriefingAction);
     }
   }
-  const lines = input.items.map((row) => lineOf(row, pending));
+  const lines = input.items.map((row) => lineOf(row, pending, input.locale ?? 'en'));
   if (briefing.status === 'empty' || lines.length === 0) {
     // A row the morning's run has not filled in yet (an event made it early) is still to come.
     return { kind: 'none', next: next(fresh && briefing.built_at !== null) };

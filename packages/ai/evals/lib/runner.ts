@@ -23,6 +23,7 @@ import { BRIEFING_SUITE, runBriefingSuite } from '../briefing/suite';
 import { PLACE_QNA_SUITE, runPlaceQnaSuite } from '../explore/suite';
 import { PROPOSAL_SUITE, runProposalSuite } from '../proposal/suite';
 import { QUESTS_SUITE, runQuestsSuite } from '../quests/suite';
+import { runTranslateSuite, TRANSLATE_SUITE } from '../translate/suite';
 import { runCase, type EvalMode, type EvalOutput, type Pipeline } from './provider';
 import { EVALS_DIR, loadSuite, type Assertion, type CaseVars, type EvalCase } from './suite';
 
@@ -248,6 +249,7 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
   if (name === PLACE_QNA_SUITE) return runPlaceQnaSuite(options, threshold);
   if (name === PROPOSAL_SUITE) return runProposalSuite(options, threshold);
   if (name === QUESTS_SUITE) return runQuestsSuite(options, threshold);
+  if (name === TRANSLATE_SUITE) return runTranslateSuite(options, threshold);
   if (name === DRAFT_SUITE) {
     return runDraftSuite(
       {

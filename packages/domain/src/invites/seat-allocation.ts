@@ -64,3 +64,15 @@ export function canAcceptOffer(state: Pick<SeatState, 'seatsHeld' | 'cap'>): boo
 export function seatLimitOfferFor(boostActive: boolean): 'boost' | 'waitlist' {
   return boostActive ? 'waitlist' : 'boost';
 }
+
+/**
+ * Trip statuses a crew member takes a seat on directly: the plan is locked in (`confirmed`,
+ * `pre_trip`) or the trip is under way (`in_trip`), so no proposal will reach them any more.
+ * Earlier a seat comes from the proposal's RSVP (during setup crew membership is enough); later
+ * the trip is closed.
+ */
+export const OPEN_SEAT_TRIP_STATUSES = ['confirmed', 'pre_trip', 'in_trip'] as const;
+
+export function tripTakesJoiners(status: string): boolean {
+  return (OPEN_SEAT_TRIP_STATUSES as readonly string[]).includes(status);
+}

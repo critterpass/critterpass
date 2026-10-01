@@ -80,16 +80,25 @@ export interface LeaveByLaInput {
   readonly labels: { readonly stay: string; readonly pickup: string };
   /** The trip's guide slug, or null when the trip has none yet. */
   readonly guide: string | null;
+  /**
+   * Set when no trip to the place is counted (the leave-by has no travel leg): the line that says
+   * where to be ("Be at SGN"). `leaveAt` is then the time to be there, the trail is just the stay
+   * and that place, and the line replaces the pickup or place line.
+   */
+  readonly beThereLine?: string | null;
 }
 
 export function buildLeaveByLaAttributes(input: LeaveByLaInput): LeaveByLaAttributes {
   const place = input.placeName?.trim() ?? '';
-  const candidates = [
-    input.labels.stay,
-    input.hasPickup ? input.labels.pickup : '',
-    place === '' ? '' : laLine(place, 24),
-    laLine(input.title, 24),
-  ];
+  const beThere = (input.beThereLine ?? null) !== null;
+  const candidates = beThere
+    ? [input.labels.stay, laLine(place === '' ? input.title : place, 24)]
+    : [
+        input.labels.stay,
+        input.hasPickup ? input.labels.pickup : '',
+        place === '' ? '' : laLine(place, 24),
+        laLine(input.title, 24),
+      ];
   const legs: string[] = [];
   for (const stop of candidates) {
     if (stop !== '' && !legs.includes(stop) && legs.length < 4) legs.push(stop);
@@ -155,7 +164,7 @@ export function buildLeaveByLaState(input: LeaveByLaInput, now: Date, seq: numbe
     .map((p) => ({ uid_hash: laMemberHash(input.leaveById, p.uid), up: isAwake(p.readiness) }));
   const stops = buildLeaveByLaAttributes(input).legs.length;
   const { leg, progress } = leaveByLaPosition(input, now, stops);
-  const place = input.pickupPlace ?? input.placeName ?? input.title;
+  const place = input.beThereLine ?? input.pickupPlace ?? input.placeName ?? input.title;
   return {
     seq,
     leave_at: unixSeconds(input.leaveAt),

@@ -35,7 +35,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 const query = <T extends object>(sql: string, params: unknown[] = []) =>

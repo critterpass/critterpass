@@ -1,7 +1,7 @@
 /**
  * Wire schemas for the invite and seat commands (docs/api-contracts.md §4.2): create, accept,
- * defer, decline and revoke an invite, promote the waitlist and accept a seat offer, plus the
- * seat-limit detail a full trip answers with.
+ * defer, decline and revoke an invite, join a trip already locked in, promote the waitlist and
+ * accept a seat offer, plus the seat-limit detail a full trip answers with.
  */
 import { z } from 'zod';
 
@@ -94,6 +94,11 @@ export type AcceptInvitePayload = z.infer<typeof acceptInvitePayloadSchema>;
 
 export interface AcceptInviteResult {
   readonly crew_id: string;
+  /**
+   * The trip the seat fields describe: the invite's own trip, or for a crew join the crew's trip
+   * that is confirmed or under way (the one under way, else the next to start). Null when the join
+   * is to the crew alone.
+   */
   readonly trip_id: string | null;
   readonly invite_id: string | null;
   /** Joined the crew in this call (false when already a member). */
@@ -103,6 +108,20 @@ export interface AcceptInviteResult {
   readonly waitlist_position: number | null;
   /** The link was a personal one opened by someone other than its invitee. */
   readonly forwarded: boolean;
+}
+
+export const joinTripPayloadSchema = z.object({ trip_id: z.uuid() });
+export type JoinTripPayload = z.infer<typeof joinTripPayloadSchema>;
+
+export interface JoinTripResult {
+  readonly trip_id: string;
+  readonly seated: boolean;
+  /** The trip was full: the caller holds a waitlist place instead of a seat. */
+  readonly waitlisted: boolean;
+  readonly waitlist_position: number | null;
+  /** With `waitlisted`: the cap that was reached, and whether a Boost could still raise it. */
+  readonly cap?: number;
+  readonly boost_active?: boolean;
 }
 
 export const inviteIdPayloadSchema = z.object({ invite_id: z.uuid() });

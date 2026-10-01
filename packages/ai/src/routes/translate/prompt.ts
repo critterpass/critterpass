@@ -31,10 +31,11 @@ function task(language: string): string {
     "  as long as the original and never longer than that line's `max` characters.",
     '- A line marked `"title": true` is a heading shown on one line of a phone: write a title of about',
     '  the same length as the original, shorter if you can, never a sentence.',
-    "- Keep every place name, venue name, dish name, person's name and other proper noun exactly as",
-    '  written, letter for letter. Do not translate it, do not swap it for its name in another',
-    '  language (Dragon Bridge stays Dragon Bridge) and do not add or change accents: the traveller',
-    '  matches these names to the plan and the map.',
+    `- A place keeps its name as written unless it has a well-known name in ${language}: then use`,
+    '  that name, the one a local reader knows it by (for a Vietnamese reader Marble Mountains is',
+    '  Ngũ Hành Sơn and Hoi An is Hội An). If you are not sure a place has one, keep it as written.',
+    '- Never translate or respell the name of a business (a hotel, restaurant, cafe, shop or tour',
+    '  operator), a dish or a person: those stay exactly as written, letter for letter.',
     '- Keep every number, time, date, price and currency amount exactly as written, digit for digit,',
     '  with the same separators. Add no number the line does not have, and write a number as digits',
     '  only where the line does.',
@@ -64,7 +65,7 @@ export function buildTranslateRequest(input: TranslatePromptInput): GatewayInput
     ],
     messages: [
       userTurnWithData(
-        `Translate these lines. Add nothing a line does not say: no gloss and no brackets after a local word, even one from your list. [Reply language: ${language}.]`,
+        `Translate these lines. Copy every number, time and amount exactly, separators and currency code included (320,000 VND stays 320,000 VND). Add nothing a line does not say: no gloss and no brackets after a local word, even one from your list. [Reply language: ${language}.]`,
         [
           wrapUntrusted({
             kind: 'place_tip',

@@ -154,6 +154,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     briefed: header.phase === 'pre' || header.phase === 'travel' || header.phase === 'in',
     startDate: start,
     endDate: trip?.end_date ?? null,
+    locale,
   });
 
   const net = me === null ? null : viewerNet(rows.ledger, me, trip?.local_currency ?? null);

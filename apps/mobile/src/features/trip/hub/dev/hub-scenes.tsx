@@ -30,6 +30,8 @@ import { TripListView } from '../../trip-list/trip-list-view';
 import { guideColour } from '../guide';
 
 const noop = () => undefined;
+/** A message another area owns, by its id (never extracted into this area's catalog). */
+const say = (id: string, values?: Record<string, unknown>) => i18n._(id, values);
 
 function Hub({
   header = { phase: 'pre', target: WHEELS_UP },
@@ -70,13 +72,9 @@ function Hub({
           {
             key: 'quests',
             // The quests area's own tile strings, by id (its tile reads live data).
-            title: i18n._({ id: 'quests.tile.title', message: 'Quests' }),
-            value: i18n._({ id: 'quests.tile.live', message: '{0} live', values: { 0: 3 } }),
-            caption: i18n._({
-              id: 'quests.tile.level',
-              message: '{level, plural, other {crew level #}}',
-              values: { level: 7 },
-            }),
+            title: say('quests.tile.title'),
+            value: say('quests.tile.live', { 0: 3 }),
+            caption: say('quests.tile.level', { level: 7 }),
             icon: 'star' as const,
             tone: 'orange' as const,
           },

@@ -32,7 +32,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 const turn = (content: string) => ({ messages: [{ role: 'user' as const, content }] });

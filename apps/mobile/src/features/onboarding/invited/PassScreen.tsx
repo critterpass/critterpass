@@ -2,7 +2,9 @@
  * 3a-12 "Your pass, three taps": the pass the inviter half-filled (marked FROM {INVITER}'S
  * CONTACTS), 1 a face, 2 how you travel (chips, prefilled from the tags the inviter confirmed), 3
  * ISSUE MY PASS. Issuing plays the pass page's stamp slam, the save sheet rises over it, and saving
- * (or "Not now") takes the seat. A code joiner gets the same page without prefill.
+ * (or "Not now") takes the seat. A code joiner gets the same page without prefill: the sheet that
+ * asks for a name and a home opens by itself, and until both are there the button asks for the
+ * missing one instead of issuing.
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
@@ -37,6 +39,7 @@ import { TravelChips } from './TravelChips';
 import { InviteProblem } from './InviteProblem';
 import { inviteSession, useInviteSession } from './invite-session';
 import { acceptInvite, problemCardOf, type JoinProblem } from './join';
+import { missingPassPart, passAskLabel } from './pass-missing';
 import { answersForTags, applyPrefill, prefillOf } from './pass-prefill';
 import { HANDOFF_ROUTES, INVITED_ROUTES } from './routes';
 
@@ -78,7 +81,10 @@ export function PassScreen() {
       prefill.homeIata !== null && homeBaseFor(airportDataset(), prefill.homeIata) !== null
         ? prefill.homeIata
         : null;
-    updateDraft((d) => applyPrefill(d, { ...prefill, homeIata: home }, quiz));
+    const arrived = updateDraft((d) => applyPrefill(d, { ...prefill, homeIata: home }, quiz));
+    // Nobody has to find the pass card to be asked for what the invite did not carry.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (missingPassPart(arrived) !== null) setEditing(true);
     // eslint-disable-next-line lingui/no-unlocalized-strings -- an analytics event name.
     if (prefill.givenName !== null) analytics.capture('invite_prefill_viewed', {});
     // Prefill once per page visit.
@@ -98,7 +104,7 @@ export function PassScreen() {
       taste_done: next.length > 0,
     }));
   };
-  const ready = draft.given_name.trim().length > 0 && draft.home_iata !== null;
+  const missing = missingPassPart(draft);
 
   const issue = () => {
     updateDraft((d) => ({
@@ -200,7 +206,7 @@ export function PassScreen() {
               })
             : t({
                 id: 'onboarding.invite.pass.blank',
-                message: 'Three taps and you’re in the crew.',
+                message: 'Your name and your home airport, then you’re in the crew.',
               })}
         </Text>
         <Pressable
@@ -248,17 +254,26 @@ export function PassScreen() {
         />
       </ScrollView>
       <View style={styles.footer}>
-        <PillButton
-          label={upper(
-            t({ id: 'onboarding.invite.pass.issue', message: '3 · Issue my pass' }),
-            locale,
-          )}
-          tone="green"
-          onPress={issue}
-          disabled={!ready}
-          block
-          testID="invite-pass-issue"
-        />
+        {missing === null ? (
+          <PillButton
+            label={upper(
+              t({ id: 'onboarding.invite.pass.issue', message: '3 · Issue my pass' }),
+              locale,
+            )}
+            tone="green"
+            onPress={issue}
+            block
+            testID="invite-pass-issue"
+          />
+        ) : (
+          <PillButton
+            label={upper(passAskLabel(missing), locale)}
+            tone="green"
+            onPress={() => setEditing(true)}
+            block
+            testID="invite-pass-ask"
+          />
+        )}
         <Text variant="bodySm" color={theme.semantic.text.secondary}>
           {t({
             id: 'onboarding.invite.pass.next',

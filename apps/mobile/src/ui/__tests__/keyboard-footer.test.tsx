@@ -1,6 +1,6 @@
-import { afterEach, describe, expect, it } from '@jest/globals';
-import { screen } from '@testing-library/react-native';
-import { StyleSheet, Text } from 'react-native';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { act, screen } from '@testing-library/react-native';
+import { DeviceEventEmitter, Keyboard, Platform, StyleSheet, Text } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -37,8 +37,21 @@ async function renderFooter(variant: 'dark' | 'paper' = 'dark') {
   );
 }
 
+/** Reanimated's keyboard states a footer can be told. */
+const UNREPORTED = 0;
+const CLOSED = 4;
+
+/** The keyboard React Native saw open before the footer mounted. */
+function keyboardAlreadyOpen(height: number) {
+  jest
+    .spyOn(Keyboard, 'metrics')
+    .mockReturnValue({ screenX: 0, screenY: METRICS.frame.height - height, width: 390, height });
+}
+
 afterEach(() => {
   keyboardForTests.height.value = 0;
+  keyboardForTests.state.value = UNREPORTED;
+  jest.restoreAllMocks();
 });
 
 describe('KeyboardFooter', () => {
@@ -56,6 +69,39 @@ describe('KeyboardFooter', () => {
     await renderFooter();
     expect(flat('footer').paddingBottom).toBe(336 + tokens.space['8']);
     expect(flat('footer-edge')).toMatchObject({ opacity: 1, height: StyleSheet.hairlineWidth });
+  });
+});
+
+describe('a footer that mounts while the keyboard is already up', () => {
+  it('starts on top of the keyboard before the keyboard moves again', async () => {
+    keyboardAlreadyOpen(336);
+    await renderFooter();
+    expect(flat('footer').paddingBottom).toBe(336 + tokens.space['8']);
+    expect(flat('footer-edge').opacity).toBe(1);
+  });
+
+  it('adds the navigation bar on Android, where the keyboard is measured from above it', async () => {
+    jest.replaceProperty(Platform, 'OS', 'android');
+    keyboardAlreadyOpen(300);
+    await renderFooter();
+    expect(flat('footer').paddingBottom).toBe(300 + HOME_INDICATOR + tokens.space['8']);
+  });
+
+  it('comes down when that keyboard closes before it was seen moving', async () => {
+    keyboardAlreadyOpen(336);
+    await renderFooter();
+    await act(() => {
+      DeviceEventEmitter.emit('keyboardDidHide', {});
+    });
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
+  });
+
+  it('follows the keyboard once it has moved, not where it stood at mount', async () => {
+    keyboardAlreadyOpen(336);
+    keyboardForTests.state.value = CLOSED;
+    await renderFooter();
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
+    expect(flat('footer-edge').opacity).toBe(0);
   });
 });
 

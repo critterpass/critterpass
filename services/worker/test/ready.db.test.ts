@@ -27,9 +27,9 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await pool.end();
-  if (redis.isOpen) await redis.close();
-  await Promise.all([postgres.stop(), redisContainer.stop()]);
+  await pool?.end();
+  if (redis?.isOpen) await redis.close();
+  await Promise.all([postgres?.stop(), redisContainer?.stop()]);
 });
 
 describe('worker /ready against real Postgres and Redis', () => {

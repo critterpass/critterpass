@@ -3,23 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "4510e162-ea7c-46fc-b161-e9a7cad19b9f",
+      "id": "6ad4e08a-e472-4969-8677-b80db55378bf",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Ngày biển, khởi động chậm thôi\"},{\"id\":\"t2\",\"text\":\"Lên Ba Na Hills, sớm\"},{\"id\":\"t3\",\"text\":\"Khởi động nhẹ bằng một vòng bơi ở My Khe trước khi nắng gắt.\"},{\"id\":\"t4\",\"text\":\"Mì Quảng ở Ba Mua: gọi phần có tôm và thịt heo.\"},{\"id\":\"t5\",\"text\":\"Dragon Bridge phun lửa lúc 21:00 cuối tuần, nên có mặt ở bờ đông trước 20:45.\"},{\"id\":\"t6\",\"text\":\"Cáp treo lên Ba Na Hills. Vé 900,000 VND mỗi người, nhớ mang mã đặt chỗ.\"},{\"id\":\"t7\",\"text\":\"Đi từ 7:10 để kịp cáp treo Ba Na Hills.\"},{\"id\":\"t8\",\"text\":\"Ngắm cầu\"},{\"id\":\"t9\",\"text\":\"Đưa cả nhóm tới Dragon Bridge trước màn phun lửa lúc 21:00.\"}]}"
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Ngày biển, khởi đầu thong thả\"},{\"id\":\"t2\",\"text\":\"Lên Bà Nà Hills, sớm\"},{\"id\":\"t3\",\"text\":\"Khởi động nhẹ bằng một vòng bơi ở Mỹ Khê trước khi nắng gắt.\"},{\"id\":\"t4\",\"text\":\"Mì Quảng ở Ba Mua: gọi phần có tôm và thịt heo.\"},{\"id\":\"t5\",\"text\":\"Cầu Rồng phun lửa lúc 21:00 cuối tuần, nên có mặt ở bờ đông trước 20:45.\"},{\"id\":\"t6\",\"text\":\"Đi cáp treo lên Bà Nà Hills. Vé 900,000 VND mỗi người, nhớ mang mã đặt chỗ.\"},{\"id\":\"t7\",\"text\":\"Rời đi trước 7:10 để kịp cáp treo Bà Nà Hills.\"},{\"id\":\"t8\",\"text\":\"Ngắm cầu\"},{\"id\":\"t9\",\"text\":\"Đưa cả nhóm tới Cầu Rồng trước màn phun lửa lúc 21:00.\"}]}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 357,
+        "input_tokens": 299,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 1280,
-        "output_tokens": 269,
+        "cache_read_input_tokens": 1408,
+        "output_tokens": 285,
         "service_tier": "standard"
       }
     }

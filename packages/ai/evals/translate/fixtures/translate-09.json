@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "7367ad2f-fca3-4645-9926-cbddb3931286",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Atardecer desde la terraza de la Lady Buddha y bajamos antes de que oscurezca la carretera.\"},{\"id\":\"t2\",\"text\":\"Mì Quảng en Ba Mua: pide la de gambas y cerdo.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 231,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 66,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

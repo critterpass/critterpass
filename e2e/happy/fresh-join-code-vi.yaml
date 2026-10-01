@@ -1,0 +1,13 @@
+appId: app.critterpass.dev
+---
+# Release gate, in Vietnamese: the friend of e2e/happy/fresh-join-code.yaml reads the app in
+# Vietnamese from the splash on: "Got a code?", the crew found and joined, the pass page asking
+# for a name and a home, the pass issued and the crew manifest.
+- runFlow:
+    file: subflows/crew-with-code.yaml
+    env:
+      CREW: 'Da Nang Crew'
+- runFlow:
+    file: subflows/join-by-code.yaml
+    env:
+      PREFIX: vi

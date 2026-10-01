@@ -9,7 +9,10 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerCrewCommands } from '../../../src/commands/crews';
 import { registerDeviceCommands } from '../../../src/commands/device';
-import { guideTextMembershipHook } from '../../../src/commands/guide/guide-text';
+import {
+  enqueueCrewGuideTextIfRead,
+  guideTextMembershipHook,
+} from '../../../src/commands/guide/guide-text';
 import { startCrew, startDoorsWithJobs } from '../../crews/invite-fixture';
 import { runCommand } from '../../location/location-fixture';
 import type { CommandDoorsHarness, SignedIn } from '../../routes/command-doors-harness';
@@ -92,5 +95,17 @@ describe('asking for a translation sweep', () => {
       });
     });
     expect(await takeSweeps()).toEqual([{ crew_id: crewId }, { trip_id: tripId }]);
+  });
+  it('queues a crew sweep for new guide text only when someone reads another language', async () => {
+    // The owner reads Vietnamese: a new pitch for the crew is worth translating.
+    await withSystem(harness.pool, (tx) => enqueueCrewGuideTextIfRead(tx, crewId));
+    expect(await takeSweeps()).toEqual([{ crew_id: crewId }]);
+
+    // A crew where everyone reads English asks for nothing.
+    const solo = await harness.signInAnonymously();
+    const english = await startCrew(harness, solo);
+    await takeSweeps();
+    await withSystem(harness.pool, (tx) => enqueueCrewGuideTextIfRead(tx, english));
+    expect(await takeSweeps()).toEqual([]);
   });
 });

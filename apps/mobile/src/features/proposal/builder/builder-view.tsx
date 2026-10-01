@@ -5,10 +5,11 @@
  * PREVIEW AS {name} per written version, and SEND TO {n} FRIENDS with the reason when it can't.
  */
 import type { ProposalFormat } from '@cp/domain';
+import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
 
-import { QuickActionChip } from '@/ui/chips/QuickActionChip';
+import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
@@ -47,6 +48,7 @@ export interface StayRow {
 }
 
 export interface BuilderViewProps {
+  readonly locale: string;
   readonly guideName: string;
   readonly guide: GuideId;
   readonly destination: string;
@@ -91,10 +93,15 @@ export function BuilderView(props: BuilderViewProps) {
       kind: 'toggle',
       title: t({ id: 'proposal.build.personal', message: 'Personal versions' }),
       subtitle: config.personal
-        ? t({
-            id: 'proposal.build.personalOn',
-            message: `One for each of the ${n}, written by ${guideName}`,
-          })
+        ? n === 1
+          ? t({
+              id: 'proposal.build.personalOne',
+              message: `One for your friend, written by ${guideName}`,
+            })
+          : t({
+              id: 'proposal.build.personalOn',
+              message: `One for each of the ${n}, written by ${guideName}`,
+            })
         : t({ id: 'proposal.build.personalOff', message: 'One version for the whole crew' }),
       value: config.personal,
       onChange: props.onPersonal,
@@ -173,9 +180,13 @@ export function BuilderView(props: BuilderViewProps) {
         {props.previews.length === 0 ? null : (
           <View style={styles.chips}>
             {props.previews.map((p) => (
-              <QuickActionChip
+              <InlineAction
                 key={p.uid}
-                label={t({ id: 'proposal.build.previewAs', message: `Preview as ${p.name}` })}
+                kind="choice"
+                label={upper(
+                  t({ id: 'proposal.build.previewAs', message: `Preview as ${p.name}` }),
+                  props.locale,
+                )}
                 onPress={() => props.onPreview(p.uid)}
                 testID={`build-preview-${p.uid}`}
               />

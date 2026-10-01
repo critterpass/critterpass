@@ -22,7 +22,7 @@ jest.mock('expo-router', () => ({
 }));
 
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen, waitFor } from '@testing-library/react-native';
+import { fireEvent, screen, waitFor, within } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
 import {
@@ -133,12 +133,41 @@ describe('3a-12 your pass, three taps', () => {
     expect(await screen.findByTestId('invite-problem-expired')).toBeTruthy();
   });
 
-  it('waits for a home before a code joiner can issue', async () => {
+  it('asks a code joiner for a name and a home, then lets them issue', async () => {
     inviteSession.open('BATH6X', null, 0);
     stack = await openTestLocalFirst({ holdUploads: true });
     await renderInvited(<PassScreen />, { services: services({ status: 'not_found' }), stack });
-    expect(screen.getByText('Three taps and you’re in the crew.')).toBeTruthy();
-    expect(screen.getByTestId('invite-pass-issue')).toBeDisabled();
+    // The sheet that asks is already open; nothing to issue yet, and the button says what is missing.
+    expect(await screen.findByTestId('invite-edit-name')).toBeTruthy();
+    expect(screen.queryByTestId('invite-pass-issue')).toBeNull();
+    expect(within(screen.getByTestId('invite-pass-ask')).getByText('ADD YOUR NAME')).toBeTruthy();
+    expect(screen.getByTestId('invite-edit-done')).toBeDisabled();
+
+    await fireEvent.changeText(screen.getByTestId('invite-edit-name'), 'Mai');
+    expect(
+      within(screen.getByTestId('invite-edit-done')).getByText(/add your home airport/iu),
+    ).toBeTruthy();
+    await fireEvent.changeText(screen.getByTestId('invite-edit-home'), 'Sing');
+    await fireEvent.press(await screen.findByTestId('invite-edit-home-SIN'));
+    expect(
+      within(screen.getByTestId('invite-edit-home-picked')).getByText('Singapore · SIN'),
+    ).toBeTruthy();
+    await activate(screen.getByTestId('invite-edit-done'));
+
+    await waitFor(() => expect(readDraft()?.home_iata).toBe('SIN'));
+    expect(readDraft()?.given_name).toBe('Mai');
+    expect(screen.queryByTestId('invite-pass-ask')).toBeNull();
+    expect(screen.getByTestId('invite-pass-issue')).toBeEnabled();
+  });
+
+  it('asks only for the home when the invite carried a name', async () => {
+    openInvite({ invitee_home_hint: null });
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await renderInvited(<PassScreen />, { services: services({ status: 'not_found' }), stack });
+    await waitFor(() => expect(readDraft()?.given_name).toBe('Rin'));
+    expect(
+      within(await screen.findByTestId('invite-pass-ask')).getByText('ADD YOUR HOME AIRPORT'),
+    ).toBeTruthy();
   });
 });
 

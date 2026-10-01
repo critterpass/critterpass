@@ -8,15 +8,15 @@
 import type { PrivateReason } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { toast } from '@/motion';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import { ChoiceChip } from '@/ui/chips/ChoiceChip';
 import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
 import { Icon } from '@/ui/icons/Icon';
+import type { DoodleName } from '@/ui/icons/generated';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
@@ -39,6 +39,18 @@ const useStyles = makeStyles((th) => ({
   titleRow: { flexDirection: 'row', alignItems: 'center', gap: th.space['8'] },
   grow: { flex: 1 },
   reasons: { flexDirection: 'row', flexWrap: 'wrap', gap: th.space['8'] },
+  reason: {
+    flexBasis: '47%',
+    flexGrow: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: th.space['8'],
+    minHeight: th.space['32'] * 2,
+    paddingHorizontal: th.space['12'],
+    borderRadius: th.radius.lg,
+    borderWidth: 2,
+    borderColor: th.semantic.border.control,
+  },
   footer: { gap: th.space['8'], alignItems: 'center' },
 }));
 
@@ -95,11 +107,27 @@ export function ObjectionSheetView(props: ObjectionSheetViewProps) {
   const base = props.baseMinor;
   const currency = props.currency;
   const share = base === null ? null : shareWith(base, skips, chosen);
-  const reasons: { id: PrivateReason; label: string }[] = [
-    { id: 'cost', label: t({ id: 'proposal.objection.cost', message: 'The cost' }) },
-    { id: 'dates', label: t({ id: 'proposal.objection.dates', message: 'The dates' }) },
-    { id: 'plan', label: t({ id: 'proposal.objection.plan', message: 'The plan' }) },
-    { id: 'other', label: t({ id: 'proposal.objection.other', message: 'Something else' }) },
+  const reasons: { id: PrivateReason; label: string; icon: DoodleName }[] = [
+    {
+      id: 'cost',
+      icon: 'wallet',
+      label: t({ id: 'proposal.objection.cost', message: 'The cost' }),
+    },
+    {
+      id: 'dates',
+      icon: 'cal',
+      label: t({ id: 'proposal.objection.dates', message: 'The dates' }),
+    },
+    {
+      id: 'plan',
+      icon: 'ticket',
+      label: t({ id: 'proposal.objection.plan', message: 'The plan' }),
+    },
+    {
+      id: 'other',
+      icon: 'chat',
+      label: t({ id: 'proposal.objection.other', message: 'Something else' }),
+    },
   ];
   const amount =
     share === null || currency === null ? null : wholeMoney(props.locale, share, currency);
@@ -134,15 +162,34 @@ export function ObjectionSheetView(props: ObjectionSheetViewProps) {
             })}
           </Text>
           <View style={styles.reasons}>
-            {reasons.map((r) => (
-              <ChoiceChip
-                key={r.id}
-                label={r.label}
-                selected={reason === r.id}
-                onPress={() => props.onReason(r.id)}
-                testID={`objection-reason-${r.id}`}
-              />
-            ))}
+            {reasons.map((r) => {
+              const on = reason === r.id;
+              const ink = on ? theme.semantic.text.onAccent : theme.semantic.text.primary;
+              return (
+                <Pressable
+                  key={r.id}
+                  style={[
+                    styles.reason,
+                    on
+                      ? {
+                          backgroundColor: theme.semantic.action.primary,
+                          borderColor: theme.semantic.action.primary,
+                        }
+                      : null,
+                  ]}
+                  onPress={() => props.onReason(r.id)}
+                  accessibilityRole="radio"
+                  accessibilityState={{ selected: on }}
+                  accessibilityLabel={r.label}
+                  testID={`objection-reason-${r.id}`}
+                >
+                  <Icon name={r.icon} size={22} color={ink} decorative />
+                  <Text variant="title" color={ink} style={styles.grow}>
+                    {r.label.toUpperCase()}
+                  </Text>
+                </Pressable>
+              );
+            })}
           </View>
           {props.pending ? (
             <Text variant="bodySm" color={theme.semantic.text.secondary}>

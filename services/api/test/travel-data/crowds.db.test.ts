@@ -67,7 +67,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 async function crowds(poiId: string, date: string): Promise<{ status: number; body: CrowdView }> {

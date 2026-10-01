@@ -48,9 +48,9 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await auth.close();
-  await producer.stop({ graceful: false });
-  await harness.stop();
+  await auth?.close();
+  await producer?.stop({ graceful: false });
+  await harness?.stop();
 });
 
 function op(session: SignedIn, cmd: string, payload: unknown, via = 'offline') {

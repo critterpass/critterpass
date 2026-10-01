@@ -11,6 +11,7 @@ import {
   type RoutedEvent,
 } from '../notify/register';
 import { DEFAULT_SETUP_GUIDE, str } from '../setup/facts';
+import { registerTripNewsNotifications } from './trip-news';
 
 export const PROPOSAL_PUSH = {
   versionTitle: /*i18n*/ {
@@ -82,6 +83,7 @@ let registered = false;
 export function registerProposalNotifications(): void {
   if (registered) return;
   registered = true;
+  registerTripNewsNotifications();
 
   registerNotification({
     key: 'proposal_version',

@@ -5,6 +5,7 @@
  */
 import {
   poiCategorySchema,
+  toCountryCode,
   toLocalWallTime,
   type GeofenceSourceContext,
   type PlanPoi,
@@ -29,17 +30,24 @@ export interface TripRow {
   readonly start_date: string | null;
   readonly end_date: string | null;
   readonly tz: string | null;
+  /** As stored: the place's ISO code, or the destination row's country name. */
   readonly destination_country: string | null;
 }
 
-export const TRIP_TABLES = ['trips', 'trip_participants', 'destinations'] as const;
+export const TRIP_TABLES = ['trips', 'trip_participants', 'destinations', 'critter_sets'] as const;
 
-/** The trip the engine follows: in_trip first, else the next pre_trip, the user seated on it. */
+/**
+ * The trip the engine follows: in_trip first, else the next pre_trip, the user seated on it. The
+ * destination's country is its place's ISO code (`critter_sets.country`); `destinations.country`
+ * holds the place's name and is only the fallback for a destination with no place yet.
+ */
 export function tripSql(uid: string): string {
-  return `SELECT t.id, t.status, t.start_date, t.end_date, t.tz, d.country AS destination_country
+  return `SELECT t.id, t.status, t.start_date, t.end_date, t.tz,
+      COALESCE(s.country, d.country) AS destination_country
     FROM trips t
     JOIN trip_participants p ON p.trip_id = t.id AND p.user_id = '${uuid(uid)}'
     LEFT JOIN destinations d ON d.id = t.destination_id
+    LEFT JOIN critter_sets s ON s.id = d.critter_set_id
     WHERE t.status IN ('pre_trip', 'in_trip') AND (p.rsvp <> 'out' OR p.role = 'organiser')
     ORDER BY CASE t.status WHEN 'in_trip' THEN 0 ELSE 1 END, t.start_date
     LIMIT 1`;
@@ -52,7 +60,7 @@ export function toTripModeTrip(row: TripRow | undefined): TripModeTrip | null {
     startDate: row.start_date,
     endDate: row.end_date,
     tz: row.tz,
-    destinationCountry: row.destination_country,
+    destinationCountry: toCountryCode(row.destination_country),
   };
 }
 

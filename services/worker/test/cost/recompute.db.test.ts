@@ -86,6 +86,11 @@ beforeAll(async () => {
      RETURNING id, quote`,
   );
   fxUsdId = (fx.rows as { id: string; quote: string }[]).find((r) => r.quote === 'USD')?.id ?? '';
+  // The next day's rows so far: the yen alone. The dollar's newest rate is still the day before's.
+  await q(
+    `INSERT INTO fx_snapshots (base, quote, rate, as_of, source)
+     VALUES ('EUR', 'JPY', 162, '2027-02-02', 'frankfurter')`,
+  );
   const version = await q(
     "INSERT INTO itinerary_versions (trip_id, visibility, status) VALUES ($1, 'crew', 'current') RETURNING id",
     [tripId],
@@ -105,7 +110,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await db.stop();
+  await db?.stop();
 });
 
 describe('cost.recompute', () => {

@@ -1,8 +1,8 @@
 /**
  * `critter.grant_eggs` (the system `grant_egg`): after a boarding (an RSVP of in), a dropout or a
  * trip moving, every boarded traveller on the trip without an egg gets one (`app.grant_egg`: the
- * destination set's starter form), and an unhatched egg of someone now out is taken back. Safe to
- * run any number of times.
+ * destination set's starter form), an egg not yet hatched is re-pointed at the current starter,
+ * and an unhatched egg of someone now out is taken back. Safe to run any number of times.
  */
 import { appendDomainEvent, withSystem } from '@cp/db';
 import { CRITTER_QUEUES, grantEggsJobSchema, type GrantEggsJob } from '@cp/domain';
@@ -25,7 +25,8 @@ export async function grantEggs(
       `SELECT user_id FROM trip_participants
         WHERE trip_id = $1 AND ($2::uuid IS NULL OR user_id = $2)
           AND (rsvp = 'in' OR (role = 'organiser' AND rsvp <> 'out'))
-          AND NOT EXISTS (SELECT 1 FROM eggs e WHERE e.trip_id = $1 AND e.user_id = trip_participants.user_id)
+          AND NOT EXISTS (SELECT 1 FROM eggs e WHERE e.trip_id = $1
+            AND e.user_id = trip_participants.user_id AND e.hatched_at IS NOT NULL)
         ORDER BY user_id`,
       [job.trip_id, job.user_id ?? null],
     );
