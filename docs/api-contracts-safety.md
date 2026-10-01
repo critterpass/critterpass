@@ -61,8 +61,8 @@ takeovers on other members' `user:` channels come from the worker.
 ## 5. Pushes
 
 N-24 `sos` (ALWAYS, `cp.sos`, `cp_sos`, sender avatar, collapse `sos:{sos_id}`, 1 h TTL): title
-"{sender} needs help"; body the sender's text, else the preset line, else "{sender} sent an SOS to
-the crew."; escalation "Nobody's answered yet. {sender} still needs help." N-48 `sos_resolved`
+"{sender} needs help"; body the preset line, else "{sender} sent an SOS to the crew." (never the
+sender's own words, which may describe their health: those are read in the app); escalation "Nobody's answered yet. {sender} still needs help." N-48 `sos_resolved`
 (ALWAYS): "{sender} is safe. Thanks for being there." or "False alarm: {sender} is OK." to everyone
 alerted. N-25 `help_share_changed` (budgeted): "{sender} opened Help and is sharing where they are
 for an hour." Deep links: `/sos/{sos_id}`, `/help/{trip_id}/session/{session_id}`.

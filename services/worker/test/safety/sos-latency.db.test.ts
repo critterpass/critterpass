@@ -148,6 +148,21 @@ describe('sos.orchestrate with the model unavailable', { timeout: 60_000 }, () =
     expect(escalation).toBe(1);
   });
 
+  it("keeps the sender's own words out of the push", async () => {
+    const { sosId, eventId } = await newIncident();
+    const deps = { renderer: createCopyRenderer() };
+    await orchestrateSos(db.pool, deps, { sos_id: sosId, event_id: eventId });
+    const { rows } = await db.pool.query<{ title: string; body: string; ctx: unknown }>(
+      'SELECT title, body, ctx FROM notifications WHERE dedupe_key = $1',
+      [`sos:${eventId}`],
+    );
+    expect(rows).toHaveLength(crew.length);
+    for (const row of rows) {
+      expect(JSON.stringify(row)).not.toContain('scooter');
+      expect(row.body).toMatch(/fell and needs a hand/u);
+    }
+  });
+
   it('sends nobody a second push when the orchestrator retries', async () => {
     const { sosId, eventId } = await newIncident();
     const deps = { renderer: createCopyRenderer() };

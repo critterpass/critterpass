@@ -4,7 +4,9 @@
  * collapses per incident and opens the takeover. `sos_resolved` (N-48, ALWAYS): the all-clear, or
  * the false alarm, to the same crew. `help_share_changed` (N-25, budgeted): someone is sharing
  * where they are from Help, to the crew; it opens the session map. Copy tells the crew what
- * happened and never says anyone contacted emergency services.
+ * happened and never says anyone contacted emergency services. A push never carries what the
+ * sender wrote (their words may describe their health): the body is the preset's line or the plain
+ * one, and the words are read in the app, from the session.
  */
 import type pg from 'pg';
 
@@ -84,44 +86,41 @@ const num = (event: RoutedEvent, key: string): boolean => event.payload[key] ===
 interface SosFacts extends SenderFacts {
   readonly tripId: string;
   readonly preset: string | null;
-  readonly body: string | null;
-  readonly place: string | null;
 }
 
 async function sosFacts(tx: pg.PoolClient, sosId: string): Promise<SosFacts | null> {
   const facts = await senderFacts(tx, sosId);
   if (facts === null) return null;
-  const { rows } = await tx.query<{
-    preset: string | null;
-    body: string | null;
-    place: string | null;
-  }>('SELECT preset, body, place_label AS place FROM help_sessions WHERE id = $1', [sosId]);
-  return {
-    ...facts,
-    preset: rows[0]?.preset ?? null,
-    body: rows[0]?.body ?? null,
-    place: rows[0]?.place ?? null,
-  };
+  const { rows } = await tx.query<{ preset: string | null }>(
+    'SELECT preset FROM help_sessions WHERE id = $1',
+    [sosId],
+  );
+  return { ...facts, preset: rows[0]?.preset ?? null };
 }
 
 function sosBody(facts: SosFacts, escalated: boolean) {
   if (escalated) {
-    return {
+    return /*i18n*/ {
       id: 'notifications.sos.escalated',
       message: "Nobody's answered yet. {sender} still needs help.",
     };
   }
-  if (facts.body !== null) return { id: 'notifications.sos.text', message: '"{text}"' };
   switch (facts.preset) {
     case 'fell':
-      return { id: 'notifications.sos.fell', message: '{sender} fell and needs a hand.' };
+      return /*i18n*/ { id: 'notifications.sos.fell', message: '{sender} fell and needs a hand.' };
     case 'lost':
-      return { id: 'notifications.sos.lost', message: '{sender} is lost and needs a hand.' };
+      return /*i18n*/ {
+        id: 'notifications.sos.lost',
+        message: '{sender} is lost and needs a hand.',
+      };
     case 'need_ride':
-      return { id: 'notifications.sos.need_ride', message: '{sender} needs a ride.' };
+      return /*i18n*/ { id: 'notifications.sos.need_ride', message: '{sender} needs a ride.' };
     case null:
     default:
-      return { id: 'notifications.sos.plain', message: '{sender} sent an SOS to the crew.' };
+      return /*i18n*/ {
+        id: 'notifications.sos.plain',
+        message: '{sender} sent an SOS to the crew.',
+      };
   }
 }
 
@@ -142,8 +141,8 @@ export function registerSafetyNotifications(): void {
       const facts = await senderFacts(tx, sessionId);
       if (facts === null) return null;
       return {
-        title: { id: 'notifications.help_share.title', message: '{sender} · {crew}' },
-        body: {
+        title: /*i18n*/ { id: 'notifications.help_share.title', message: '{sender} · {crew}' },
+        body: /*i18n*/ {
           id: 'notifications.help_share.started',
           message: '{sender} opened Help and is sharing where they are for an hour.',
         },
@@ -180,14 +179,9 @@ export function registerSafetyNotifications(): void {
         );
         if ((open.rowCount ?? 0) === 0) return null;
         return {
-          title: { id: 'notifications.sos.title', message: '{sender} needs help' },
+          title: /*i18n*/ { id: 'notifications.sos.title', message: '{sender} needs help' },
           body: sosBody(facts, event === 'sos.escalated'),
-          vars: {
-            sender: facts.name,
-            crew: facts.crew,
-            text: facts.body ?? '',
-            place: facts.place ?? '',
-          },
+          vars: { sender: facts.name, crew: facts.crew },
           sender: memberSender(facts),
           tripId: facts.tripId,
           deepLink: `/sos/${sosId}`,
@@ -225,13 +219,13 @@ export function registerSafetyNotifications(): void {
       const facts = await sosFacts(tx, sosId);
       if (facts === null) return null;
       return {
-        title: { id: 'notifications.sos_resolved.title', message: '{crew}' },
+        title: /*i18n*/ { id: 'notifications.sos_resolved.title', message: '{crew}' },
         body: num(event, 'false_alarm')
-          ? {
+          ? /*i18n*/ {
               id: 'notifications.sos_resolved.false_alarm',
               message: 'False alarm: {sender} is OK.',
             }
-          : {
+          : /*i18n*/ {
               id: 'notifications.sos_resolved.safe',
               message: '{sender} is safe. Thanks for being there.',
             },
