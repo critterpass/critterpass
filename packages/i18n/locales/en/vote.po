@@ -516,6 +516,10 @@ msgstr "Taking a place off the board"
 msgid "vote.queued.retract"
 msgstr "Taking your vote back"
 
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refused"
+msgstr "That didn't go through"
+
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.lockInFailed"
 msgstr "That didn't lock in. Try again in a moment."

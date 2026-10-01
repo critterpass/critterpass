@@ -516,6 +516,10 @@ msgstr "Đang gỡ một nơi khỏi bảng"
 msgid "vote.queued.retract"
 msgstr "Đang rút phiếu của bạn"
 
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refused"
+msgstr "Chưa gửi được"
+
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.lockInFailed"
 msgstr "Chưa chốt được. Thử lại sau chút nhé."
