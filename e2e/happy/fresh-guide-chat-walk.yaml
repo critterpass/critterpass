@@ -8,7 +8,12 @@ appId: app.critterpass.dev
 # its gloss. The sheet the app was closed on comes back on that restart.
 #
 # Needs the staging api's guide model key and a free meter with answers left.
-- runFlow: subflows/fresh-account.yaml
+# Home is picked by its three-letter code: the shortest search for iPhone's typing to get through.
+- runFlow:
+    file: subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SIN
+      HOME_QUERY: 'SIN'
 - tapOn:
     id: 'dev-tools-entry'
 # The gallery sits below the first screenful on a phone; slow, or iOS flings past it.

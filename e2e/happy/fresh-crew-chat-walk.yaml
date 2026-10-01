@@ -7,10 +7,13 @@ appId: app.critterpass.dev
 # message, one with Vietnamese diacritics (typed on iOS: the Android driver types ASCII only), the
 # keyboard opening and closing under the newest message, scrolling back and jumping to the latest,
 # and the attach menu. The organiser then logs an expense and opens its card from the chat.
+# Home is picked by its three-letter code: the shortest search for iPhone's typing to get through.
 - runFlow:
     file: subflows/crew-with-code.yaml
     env:
       CREW: 'Chat Walk Crew'
+      HOME_IATA: SIN
+      HOME_QUERY: 'SIN'
 - openLink:
     link: critterpass-dev://
     optional: true
