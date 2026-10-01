@@ -78,7 +78,7 @@ function fakeRealtime() {
       at: new Date().toISOString(),
       data,
     });
-  return { client, emit };
+  return { client, emit, subscribed: (channel: string) => channels.has(channel) };
 }
 
 async function renderCalendar() {
@@ -103,7 +103,7 @@ async function renderCalendar() {
     </I18nProvider>,
   );
   await waitFor(() => expect(screen.getByTestId(`critters-legendary-${WINDOW}`)).toBeTruthy());
-  return { stack, emit: realtime.emit };
+  return { stack, emit: realtime.emit, subscribed: realtime.subscribed };
 }
 
 describe('legendary calendar', () => {
@@ -122,9 +122,24 @@ describe('legendary calendar', () => {
   });
 
   it('follows the crew count on the co-presence channel, never taking a position', async () => {
-    const { emit } = await renderCalendar();
+    const { emit, subscribed } = await renderCalendar();
     const channel = `trip_copresence:${TRIP}`;
-    // A payload carrying a coordinate is not a valid count, so it changes nothing.
+    // The screen joins the channel once it knows the trip under way, which is a few local reads
+    // after the calendar first draws: an event sent before then reaches no one.
+    await waitFor(() => expect(subscribed(channel)).toBe(true));
+    await act(() =>
+      emit(channel, 'copresence.progress', {
+        rule_id: COPRESENCE_RULE,
+        here: 3,
+        needed: 6,
+        missing: [MAYA],
+      }),
+    );
+    await waitFor(() => expect(screen.getByText('3 OF 6 IN')).toBeTruthy());
+    // The name comes from its own read of the crew.
+    await waitFor(() => expect(screen.getByText('Still to come: Maya')).toBeTruthy());
+    // A payload carrying a coordinate is not a valid count, so it changes nothing: the count the
+    // screen shows stays the one it had.
     await act(() =>
       emit(channel, 'copresence.progress', {
         rule_id: COPRESENCE_RULE,
@@ -135,15 +150,6 @@ describe('legendary calendar', () => {
       }),
     );
     expect(screen.queryByText('5 OF 6 IN')).toBeNull();
-    await act(() =>
-      emit(channel, 'copresence.progress', {
-        rule_id: COPRESENCE_RULE,
-        here: 3,
-        needed: 6,
-        missing: [MAYA],
-      }),
-    );
-    await waitFor(() => expect(screen.getByText('3 OF 6 IN')).toBeTruthy());
-    expect(screen.getByText('Still to come: Maya')).toBeTruthy();
+    expect(screen.getByText('3 OF 6 IN')).toBeTruthy();
   });
 });
