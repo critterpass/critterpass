@@ -6,7 +6,6 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire keys and Intl options, never copy. */
 import {
-  bandStepMinor,
   breakdownBars,
   budgetEstimates,
   crewFeasibleLow,
@@ -117,7 +116,7 @@ export interface Track {
   readonly stepMinor: number;
 }
 
-/** A fallback track length when nothing is priced yet: sixty steps ($3,000 in USD). */
+/** The track's length when nothing is priced yet: sixty steps ($3,000 in USD). */
 const FALLBACK_STEPS = 60;
 
 export function estimatesOf(source: BudgetEstimateSource | null): BudgetEstimates | null {
@@ -129,20 +128,12 @@ export function estimatesOf(source: BudgetEstimateSource | null): BudgetEstimate
   }
 }
 
+/** The knob's track in `stepMinor` steps (see `./lock-step` for where the step comes from). */
 export function trackOf(
   band: BandView,
   estimates: BudgetEstimates | null,
-  row: AggregateRow | null,
+  stepMinor: number,
 ): Track {
-  let step = row?.step_minor ?? null;
-  if (step === null && estimates !== null) {
-    try {
-      step = Number(bandStepMinor(estimates.currency, estimates.fx));
-    } catch {
-      step = null;
-    }
-  }
-  const stepMinor = step ?? 5000;
   const low = estimates === null ? null : crewFeasibleLow(estimates);
   const minMinor = low === null ? 0 : Math.floor(Number(low.amountMinor) / stepMinor) * stepMinor;
   const maxMinor =

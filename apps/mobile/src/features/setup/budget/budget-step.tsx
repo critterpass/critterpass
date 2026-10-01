@@ -2,7 +2,8 @@
  * The budget step, connected: synced rows for the crew-level row and the price inputs, the band
  * route re-read on mount and on every budget hint, the member's own max from their own device, and
  * the commands. The organiser gets the sweet-spot view (with a row for their own max); everyone
- * else gets the write-only form.
+ * else gets the write-only form. The knob's step is the server's (the band read's, or the one a
+ * refused lock answers with, which is taken up and the lock sent once more).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, api paths and wire codes, never copy. */
 import { fxContextOf } from '@cp/cost-engine';
@@ -26,12 +27,14 @@ import { BudgetView, type LockState } from './budget-view';
 import { useBudgetInputs } from './data/use-budget-inputs';
 import { saveOwnMax, useOwnMax } from './data/private-max';
 import { datesLabel } from './labels';
+import { gridFromBandRead, offStepOf, stepOf, type LockGrid } from './lock-step';
 import {
   bandView,
   estimatesOf,
   fractionDigits,
   initialTarget,
   rowFromBandWire,
+  snap,
   trackOf,
   type AggregateRow,
 } from './model';
@@ -65,6 +68,9 @@ export function BudgetStep({ trip, shell }: StepProps) {
   const usual = useCommand(setBudgetDefaultCommand);
   const step = useCommand(setSetupStepCommand);
   const [fresh, setFresh] = useState<AggregateRow | null>(null);
+  const [grid, setGrid] = useState<LockGrid | null>(null);
+  const [bandAnswered, setBandAnswered] = useState(false);
+  const [adopted, setAdopted] = useState<number | null>(null);
   const [lock, setLock] = useState<LockState>({ kind: 'idle' });
   const [attempts, setAttempts] = useState(0);
   const [editing, setEditing] = useState(false);
@@ -75,8 +81,11 @@ export function BudgetStep({ trip, shell }: StepProps) {
       .then((read) => {
         if (read.kind === 'ok') setFresh(rowFromBandWire(read.body));
         else if (read.kind === 'error' && read.code === 'K_ANON_UNAVAILABLE') setFresh(null);
+        const said = gridFromBandRead(read);
+        if (said !== null) setGrid(said);
       })
-      .catch(() => undefined);
+      .catch(() => undefined)
+      .finally(() => setBandAnswered(true));
   }, [services, trip.tripId]);
   useEffect(readBand, [readBand]);
   useSetupHints(trip.tripId, (hint) => {
@@ -86,8 +95,15 @@ export function BudgetStep({ trip, shell }: StepProps) {
   const row = fresh ?? inputs.aggregate;
   const band = bandView(row, trip.members.length);
   const estimates = useMemo(() => estimatesOf(inputs.source), [inputs.source]);
-  const track = trackOf(band, estimates, row);
-  const currency = row?.currency ?? inputs.source?.currency ?? 'USD';
+  const currency = row?.currency ?? grid?.currency ?? inputs.source?.currency ?? 'USD';
+  const stepMinor = stepOf({
+    adopted,
+    server: fresh?.step_minor ?? grid?.stepMinor ?? inputs.aggregate?.step_minor ?? null,
+    currency,
+    estimates,
+    bandAnswered,
+  });
+  const track = stepMinor === null ? null : trackOf(band, estimates, stepMinor);
   const dates = datesLabel(locale, trip.startDate, trip.endDate);
   const counts = { set: band.set, of: band.of };
 
@@ -139,7 +155,7 @@ export function BudgetStep({ trip, shell }: StepProps) {
 
   return (
     <BudgetView
-      key={inputs.loaded ? 'ready' : 'loading'}
+      key={inputs.loaded && track !== null ? 'ready' : 'loading'}
       shell={shell}
       trip={trip}
       dates={dates}
@@ -148,20 +164,29 @@ export function BudgetStep({ trip, shell }: StepProps) {
       currency={currency}
       estimates={estimates}
       estimatesLoading={!inputs.loaded}
-      initialTarget={initialTarget(band, track, inputs.lockedTargetMinor)}
+      initialTarget={track === null ? 0 : initialTarget(band, track, inputs.lockedTargetMinor)}
       lock={lock}
       ownMax={<OwnMaxRow set={own.set} onChange={() => setEditing(true)} />}
       onLock={(target) => {
         const attempt = attempts + 1;
         setAttempts(attempt);
         setLock({ kind: 'locking' });
-        void lockCmd.send({ trip_id: trip.tripId, target_minor: target }).then((sent) => {
+        const send = async (targetMinor: number, resend: boolean): Promise<void> => {
+          const sent = await lockCmd.send({ trip_id: trip.tripId, target_minor: targetMinor });
+          const serverStep = resend ? null : offStepOf(sent);
+          if (serverStep !== null) {
+            // The server's step differs from this device's: take it, move the knob onto it and
+            // send that once. A second refusal is shown as it is.
+            setAdopted(serverStep);
+            return send(snap(targetMinor, trackOf(band, estimates, serverStep)), true);
+          }
           const outcome = lockOutcome(sent, attempt);
           if (outcome === 'done') {
             setLock({ kind: 'idle' });
             shell.onSelectStep('rooms');
           } else setLock(outcome);
-        });
+        };
+        void send(target, false);
       }}
       onSkip={
         trip.members.length < 2

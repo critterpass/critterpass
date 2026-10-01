@@ -24,7 +24,7 @@ import type { ShellFrame } from '../shell/frame';
 import { DoneTag } from '../shell/header-tag';
 import { SetupShell } from '../shell/setup-shell';
 import { BreakdownBars, type BarsState } from './breakdown-bars';
-import { barsFor, type BandView, type Track } from './model';
+import { barsFor, snap, type BandView, type Track } from './model';
 import { isOverBand, SweetSpotCard } from './sweet-spot-card';
 import { useShake } from './use-shake';
 
@@ -41,7 +41,8 @@ export interface BudgetViewProps {
   readonly trip: SetupTrip;
   readonly dates: string | null;
   readonly band: BandView;
-  readonly track: Track;
+  /** Null while the crew's step is not known yet: the step waits, priced, with no knob. */
+  readonly track: Track | null;
   readonly currency: string;
   readonly estimates: BudgetEstimates | null;
   readonly estimatesLoading: boolean;
@@ -90,14 +91,16 @@ export function BudgetView(props: BudgetViewProps) {
   const { shell, trip, band, track, currency, lock } = props;
   const styles = useStyles();
   const theme = useTheme();
-  const [target, setTarget] = useState(props.initialTarget);
+  const [picked, setTarget] = useState(props.initialTarget);
+  // The knob always sits on the track it is shown on, also when the track's step changes under it.
+  const target = track === null ? 0 : snap(picked, track);
   const shake = useShake(lock.kind === 'over_band' ? lock.attempt : 0);
   const over = isOverBand(band, target);
   const barsState: BarsState = useMemo(() => {
-    if (props.estimatesLoading) return { kind: 'loading' };
+    if (props.estimatesLoading || track === null) return { kind: 'loading' };
     const bars = barsFor(target, props.estimates);
     return bars === null ? { kind: 'missing' } : { kind: 'ready', bars };
-  }, [props.estimatesLoading, props.estimates, target]);
+  }, [props.estimatesLoading, props.estimates, target, track]);
   const guide = GUIDE_STICKERS[trip.guide].name;
   const line =
     band.kind === 'waiting'
@@ -130,7 +133,7 @@ export function BudgetView(props: BudgetViewProps) {
             <PillButton
               label={t({ id: 'setup.budget.cta', message: 'Looks good' })}
               onPress={() => props.onLock(target)}
-              disabled={over || infeasible}
+              disabled={over || infeasible || track === null}
               loading={lock.kind === 'locking'}
               flap
               testID="budget-lock"
@@ -146,14 +149,16 @@ export function BudgetView(props: BudgetViewProps) {
         </>
       }
     >
-      <SweetSpotCard
-        band={band}
-        track={track}
-        currency={currency}
-        target={target}
-        onTarget={setTarget}
-      />
-      {infeasible ? (
+      {track === null ? null : (
+        <SweetSpotCard
+          band={band}
+          track={track}
+          currency={currency}
+          target={target}
+          onTarget={setTarget}
+        />
+      )}
+      {infeasible && track !== null ? (
         <Card style={styles.notice} testID="budget-infeasible">
           <Text variant="title">
             {t({
