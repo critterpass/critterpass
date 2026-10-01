@@ -15,3 +15,6 @@ UPDATE crew_inbound_addresses a
          WHERE status = 'quarantined' AND quarantine_reason = 'unknown_sender'
          GROUP BY crew_id) h
  WHERE a.crew_id = h.crew_id AND a.status = 'active';
+
+-- The ops console reads the same two counters (no mail content): the privacy map's grant.
+GRANT SELECT (held_at, held_count) ON crew_inbound_addresses TO admin_reader;
