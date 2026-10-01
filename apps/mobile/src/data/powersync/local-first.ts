@@ -60,22 +60,40 @@ export interface ConnectLocalFirstOptions {
   readonly getSyncToken: () => Promise<string>;
 }
 
+export interface LocalFirstConnection {
+  /**
+   * Settles once the first sync attempt has connected or failed. It never rejects: a failed start
+   * is reported, and PowerSync keeps retrying on its own.
+   */
+  readonly connected: Promise<void>;
+}
+
 /**
- * Binds the database to `uid` (wiping another uid's data first), starts syncing and sends whatever
- * the queue still holds.
+ * Binds the database to `uid` (wiping another uid's data first), then starts syncing and sends
+ * whatever the queue still holds. It returns as soon as the owner is bound: from there the phone's
+ * own data is readable, and that must never wait on a network attempt. `db.connect` only settles
+ * when the first sync attempt has connected or failed (a sync token request, then the stream),
+ * which on a stalled connection can take as long as the platform lets a request hang.
  */
 export async function connectLocalFirst(
   core: Pick<LocalFirstCore, 'db' | 'queue'>,
   options: ConnectLocalFirstOptions,
-): Promise<void> {
+): Promise<LocalFirstConnection> {
   const { db, queue } = core;
   await bindLocalOwner(db, queue, options.uid);
-  await db.connect(
-    createSyncConnector({
-      endpoint: options.endpoint,
-      getSyncToken: options.getSyncToken,
-      flushCommands: () => queue.flush(),
-    }),
-  );
+  const connected = db
+    .connect(
+      createSyncConnector({
+        endpoint: options.endpoint,
+        getSyncToken: options.getSyncToken,
+        flushCommands: () => queue.flush(),
+      }),
+    )
+    .catch((error: unknown) => {
+      // eslint-disable-next-line lingui/no-unlocalized-strings -- a developer-facing log prefix.
+      console.warn('[local-first] sync did not start', error);
+    });
+  // Uploads go over HTTP, not the sync stream: they do not wait for it either.
   queue.schedule();
+  return { connected };
 }
