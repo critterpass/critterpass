@@ -531,6 +531,10 @@ msgstr "Bạn đang ở {place}. Trứng sẵn sàng khi bạn muốn."
 msgid "critters.encounter.drainingBody"
 msgstr "Bạn vừa đi xa một chút. Bạn ấy đang nhìn từ mép, quay lại từ từ nhé."
 
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.startedBody"
+msgstr "Chuyến đi {place} của bạn đã bắt đầu. Trứng sẵn sàng khi bạn muốn."
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.title"
 msgstr "Critterdex của bạn"

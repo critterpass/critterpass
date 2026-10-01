@@ -81,7 +81,7 @@ function Cell({ cell, onOpen }: { readonly cell: CritterCell; readonly onOpen: (
       <Text variant="label" numberOfLines={1}>
         {upper(name, locale)}
       </Text>
-      <Text variant="caption" color={theme.semantic.text.secondary} numberOfLines={1}>
+      <Text variant="eyebrow" color={theme.semantic.text.secondary} numberOfLines={1}>
         {cell.pending ? upper(pendingLabel(), locale) : upper(cell.city, locale)}
       </Text>
     </PressScale>
@@ -114,13 +114,18 @@ export function SetView({ set, onOpenCritter }: SetViewProps) {
                     {upper(homeSetEyebrow(), locale)}
                   </Text>
                 ) : null}
-                <Row justify="space-between" align="flex-end">
-                  <Text variant="displayXl" style={{ flexShrink: 1 }}>
+                {/* The place at display size takes the row; the count sits smaller beside it. A
+                    title that only shrinks to fit has no width of its own in a row, so it is
+                    given the room that is left. */}
+                <Row justify="space-between" align="flex-end" gap="12">
+                  <Text variant="displayXl" style={{ flex: 1 }}>
                     {upper(set.name, locale)}
                   </Text>
                   <Row align="baseline">
-                    <Text variant="h1">{String(set.found)}</Text>
-                    <Text variant="h1" color={theme.semantic.text.secondary}>
+                    <Text variant="h2" autoFit={false}>
+                      {String(set.found)}
+                    </Text>
+                    <Text variant="h2" autoFit={false} color={theme.semantic.text.secondary}>
                       {`/${set.total}`}
                     </Text>
                   </Row>

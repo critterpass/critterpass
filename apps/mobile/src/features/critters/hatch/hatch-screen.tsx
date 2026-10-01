@@ -13,6 +13,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { music } from '@/motion';
 import { GUIDE_IDS, type GuideId } from '@/motion/music';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { type FormRow } from '../data/queries';
@@ -101,6 +102,8 @@ function isGuideTheme(slug: string | null): slug is GuideId {
 }
 
 export function HatchScreen({ tripId }: { readonly tripId: string }) {
+  // The ceremony's ways out are its own: SAY HI and "Show me around later".
+  useNoBackByDesign();
   const uid = useOwnerUid();
   const locale = useLocale();
   const { rows, loaded } = useLiveRows<HatchRow>(
