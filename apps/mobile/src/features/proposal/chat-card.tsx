@@ -43,7 +43,7 @@ function ProposalMessageCard({ message }: ChatCardProps) {
       ? t({ id: 'proposal.card.locked', message: 'The crew is locked in.' })
       : trip.isOrganiser
         ? t({ id: 'proposal.card.organiser', message: 'See who’s in so far.' })
-        : t({ id: 'proposal.card.memberLine', message: 'Your own version is in. Are you in?' }),
+        : t({ id: 'proposal.card.memberReady', message: 'Your version is ready. Are you in?' }),
     actions: createElement(PillButton, {
       size: 'sm',
       tone: 'ink',

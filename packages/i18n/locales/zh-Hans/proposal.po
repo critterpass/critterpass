@@ -711,10 +711,6 @@ msgstr ""
 msgid "proposal.reason.mustDo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
-msgid "proposal.card.memberLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.option"
 msgstr ""
@@ -751,4 +747,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.memberReady"
 msgstr ""

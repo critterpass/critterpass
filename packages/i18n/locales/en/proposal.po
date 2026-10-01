@@ -711,10 +711,6 @@ msgstr "You’re on the waitlist."
 msgid "proposal.reason.mustDo"
 msgstr "Your must-do"
 
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
-msgid "proposal.card.memberLine"
-msgstr "Your own version is in. Are you in?"
-
 #: ../../apps/mobile/src/features/proposal/data/commands.ts
 msgid "proposal.queued.option"
 msgstr "Your private choice"
@@ -752,3 +748,7 @@ msgstr "Your share"
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.share"
 msgstr "Your share"
+
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.memberReady"
+msgstr "Your version is ready. Are you in?"
