@@ -43,16 +43,17 @@ jobs:
       - name: No plan ids in source
         run: pnpm --filter @cp/scripts exec vitest run no-plan-ids.test.ts
       # The content factory starts Testcontainers Postgres from its `test` script, so that suite
-      # runs in this job: when it is affected, build its image before turbo starts everything else
-      # on this runner (the database job explains why).
-      - name: Build the test Postgres image
-        timeout-minutes: 10
+      # runs in this job: when it is affected, pull the suites' images and build the test Postgres
+      # image before turbo starts everything else on this runner (the database job explains why).
+      - name: Pull the suites' images and build the test Postgres image
+        timeout-minutes: 20
         env:
           DEBUG: testcontainers:build # the build log, which Testcontainers otherwise drops
           TESTCONTAINERS_RYUK_DISABLED: 'true' # the build starts no container to reap
         run: |
           if pnpm turbo run test --affected --dry-run=json |
             jq -e 'any(.tasks[]; .taskId == "@cp/content-factory#test")' > /dev/null; then
+            pnpm exec tsx tools/scripts/test-images.ts --pull
             pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
           fi
       # Every affected package's lint, typecheck, build and tests, in one run, except two suites
@@ -182,23 +183,17 @@ jobs:
           tasks=$(echo $tasks)
           echo "tasks=$tasks" >> "$GITHUB_OUTPUT"
           echo "Suites: ${tasks:-none here is affected by this change}"
-      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does. The
-      # package mirrors sometimes stall for ten minutes and more: each try at fetching gets three,
-      # and the install itself then runs from what was fetched.
+      # The worker's media and voice-note suites run the real ffmpeg, as the worker image does.
       - name: Install ffmpeg
         if: steps.suites.outputs.tasks != '' && matrix.suite == 'worker'
         timeout-minutes: 12
-        run: |
-          apt='apt-get -qq -o Acquire::Retries=3 -o Acquire::http::Timeout=30'
-          for attempt in 1 2 3; do
-            if sudo timeout 180 $apt update &&
-              sudo timeout 180 $apt install -y --no-install-recommends --download-only ffmpeg; then
-              sudo $apt install -y --no-install-recommends ffmpeg
-              exit 0
-            fi
-            echo "::warning::Fetching ffmpeg failed or stalled (try $attempt of 3)"
-          done
-          exit 1
+        run: tools/scripts/install-ffmpeg.sh
+      # The suites' images come from Docker Hub, which now and then answers 500 or stalls: pull
+      # them first, three tries each, so a hiccup costs a retry instead of a suite.
+      - name: Pull the suites' images
+        if: steps.suites.outputs.tasks != ''
+        timeout-minutes: 12
+        run: pnpm exec tsx tools/scripts/test-images.ts --pull
       # Each test file's worker builds the Postgres image; all but the first build come from
       # Docker's layer cache. Left to the suites, the first workers run that first build all at
       # once inside their beforeAll hooks and run out of hook time. Build it once here instead,

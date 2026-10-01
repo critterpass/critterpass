@@ -81,6 +81,9 @@ describe('trip hub', () => {
     expect(screen.getByText('TOMORROW · 10:00')).toBeTruthy();
     expect(screen.getByText('NOTHING MORE TODAY')).toBeTruthy();
     expect(screen.getByText('EXPLORE ĐÀ NẴNG')).toBeTruthy();
+    expect(screen.getByTestId('trip-hub-swipe')).toBeTruthy();
+    await scene('3k-1-visit-consent');
+    expect(screen.getByTestId('visit-consent-row')).toBeTruthy();
   });
 
   it('says home since the last day, with the money settled', async () => {

@@ -120,3 +120,19 @@ export function exploreEntry(destination: string, onPress: () => void): HubNext 
     onPress,
   };
 }
+
+/** "SWIPE PLACES TOGETHER" under Explore: the crew's place swipe for this trip. */
+export function swipeEntry(onPress: () => void): HubNext {
+  return {
+    icon: 'heart',
+    label: null,
+    title: t({ id: 'trip.hub.swipe', message: 'Swipe places together' }),
+    detail: t({
+      id: 'trip.hub.swipeDetail',
+      message: 'Everyone swipes, the matches go in the plan',
+    }),
+    tone: 'raised',
+    testID: 'trip-hub-swipe',
+    onPress,
+  };
+}

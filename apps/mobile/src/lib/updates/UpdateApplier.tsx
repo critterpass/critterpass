@@ -3,6 +3,7 @@
  * mounted. Mounted only on builds that carry Developer tools; production keeps expo-updates'
  * default (the update applies on the next cold start).
  */
+import Constants from 'expo-constants';
 import { useSegments } from 'expo-router';
 import * as Updates from 'expo-updates';
 import { useEffect, useRef, useState } from 'react';
@@ -11,7 +12,11 @@ import { createMMKV } from 'react-native-mmkv';
 
 import { devToolsAvailable } from '../dev-tools/variant';
 import { isBusy } from '../interaction/busy';
+import { carryNavigationTo } from '../navigation/restore';
 import { createUpdateApplier } from './update-applier';
+
+/** The key saved navigation is filed under in the root layout: app version and update id. */
+const buildKey = (updateId: string) => `${Constants.expoConfig?.version ?? ''}:${updateId}`;
 
 /** When this JS runtime loaded the app. */
 const STARTED_AT = Date.now();
@@ -33,6 +38,7 @@ export function UpdateApplier() {
         read: () => store().getString(RELOADED_FOR_KEY) ?? null,
         write: (updateId) => store().set(RELOADED_FOR_KEY, updateId),
       },
+      carryNavigation: (updateId) => carryNavigationTo(buildKey(updateId)),
       reload: () => Updates.reloadAsync(),
       now: () => Date.now(),
       startedAt: STARTED_AT,

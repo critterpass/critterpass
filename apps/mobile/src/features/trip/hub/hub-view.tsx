@@ -55,6 +55,10 @@ export interface HubViewProps {
   readonly tiles: readonly { key: string; node: ReactNode }[];
   /** The way into Explore for the trip's destination, under the tiles; null without a place. */
   readonly explore: HubNext | null;
+  /** The crew's place swipe for this trip, under Explore; null until that screen exists. */
+  readonly swipe: HubNext | null;
+  /** The "turn on visit memory" line under the entry rows (it draws itself only when undecided). */
+  readonly visitConsent?: ReactNode;
   readonly ticker: readonly TickerEvent[];
   /** Another trip is under way or being planned: the SWITCH TRIP pill. */
   readonly onSwitch: (() => void) | null;
@@ -143,6 +147,7 @@ export function HubView(props: HubViewProps) {
           {props.offlineCard !== undefined
             ? null
             : props.entries.map((entry) => <NextRow key={entry.testID} next={entry} />)}
+          {props.offlineCard === undefined ? props.visitConsent : null}
           <BriefingCard
             state={props.briefing}
             guide={props.guide}
@@ -151,6 +156,7 @@ export function HubView(props: HubViewProps) {
           />
           {props.tiles.length === 0 ? null : <HubTiles tiles={props.tiles} />}
           {props.explore === null ? null : <NextRow next={props.explore} />}
+          {props.swipe === null ? null : <NextRow next={props.swipe} />}
         </View>
         <View style={{ marginTop: theme.space['16'] }}>
           <Ticker events={props.ticker} />

@@ -42,13 +42,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -65,10 +65,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-pre-trip'
@@ -93,13 +94,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -116,10 +117,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-pre-trip-switch'
@@ -144,13 +146,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -167,10 +169,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-planning'
@@ -195,13 +198,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -218,10 +221,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-travel-day'
@@ -246,13 +250,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -269,10 +273,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-in-trip'
@@ -297,13 +302,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -320,10 +325,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-next-today'
@@ -348,13 +354,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -371,13 +377,66 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-next-tomorrow'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-visit-consent'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-visit-consent'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-visit-consent
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'trip-day-scene-back'
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-visit-consent'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
+          commands:
+            - tapOn:
+                id: 'trip-day-scene-back'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-visit-consent'
     timeout: 10000
 - scrollUntilVisible:
     element:
@@ -399,13 +458,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -422,10 +481,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-day-done'
@@ -450,13 +510,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -473,10 +533,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-long-name'
@@ -501,13 +562,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -524,10 +585,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-two-word-name'
@@ -552,13 +614,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -575,10 +637,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-post-trip'
@@ -603,13 +666,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -626,10 +689,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-loading'
@@ -654,13 +718,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -677,10 +741,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-none'
@@ -705,13 +770,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -728,10 +793,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-starts'
@@ -756,13 +822,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -779,10 +845,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-morning'
@@ -807,13 +874,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -830,10 +897,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-failed'
@@ -858,13 +926,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -881,10 +949,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-stale'
@@ -909,13 +978,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -932,10 +1001,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-acted'
@@ -960,13 +1030,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -983,10 +1053,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-no-bookings'
@@ -1011,13 +1082,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1034,10 +1105,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-ticker-line'
@@ -1062,13 +1134,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1085,10 +1157,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-guest-guide'
@@ -1113,13 +1186,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1136,10 +1209,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-loading'
@@ -1164,13 +1238,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1187,10 +1261,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-trips-switcher'
@@ -1215,13 +1290,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1238,10 +1313,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-trips-empty'
@@ -1254,10 +1330,12 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
+# The gallery sits below the developer tools' demo data and labs: scroll to it.
+- scrollUntilVisible:
+    element:
       id: 'dev-nav-gallery'
-    timeout: 10000
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'dev-nav-gallery'
 - extendedWaitUntil:
@@ -1317,13 +1395,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1340,10 +1418,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-pre-trip'
@@ -1368,13 +1447,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1391,10 +1470,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-pre-trip-switch'
@@ -1419,13 +1499,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1442,10 +1522,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-planning'
@@ -1470,13 +1551,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1493,10 +1574,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-travel-day'
@@ -1521,13 +1603,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1544,10 +1626,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-in-trip'
@@ -1572,13 +1655,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1595,10 +1678,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-next-today'
@@ -1623,13 +1707,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1646,13 +1730,66 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-next-tomorrow'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-visit-consent'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-visit-consent'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3k-1-visit-consent
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'trip-day-scene-back'
+- waitForAnimationToEnd:
+    timeout: 3000
+# A sheet scene closes its sheet on the first back; the second leaves the scene.
+- runFlow:
+    when:
+      notVisible:
+        id: 'trip-day-lab-3k-1-visit-consent'
+    commands:
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - back
+      - runFlow:
+          when:
+            platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
+          commands:
+            - tapOn:
+                id: 'trip-day-scene-back'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-lab-3k-1-visit-consent'
     timeout: 10000
 - scrollUntilVisible:
     element:
@@ -1674,13 +1811,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1697,10 +1834,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-day-done'
@@ -1725,13 +1863,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1748,10 +1886,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-long-name'
@@ -1776,13 +1915,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1799,10 +1938,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-two-word-name'
@@ -1827,13 +1967,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1850,10 +1990,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-post-trip'
@@ -1878,13 +2019,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1901,10 +2042,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-loading'
@@ -1929,13 +2071,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -1952,10 +2094,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-none'
@@ -1980,13 +2123,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2003,10 +2146,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-starts'
@@ -2031,13 +2175,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2054,10 +2198,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-morning'
@@ -2082,13 +2227,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2105,10 +2250,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-failed'
@@ -2133,13 +2279,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2156,10 +2302,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-stale'
@@ -2184,13 +2331,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2207,10 +2354,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-briefing-acted'
@@ -2235,13 +2383,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2258,10 +2406,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-no-bookings'
@@ -2286,13 +2435,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2309,10 +2458,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-ticker-line'
@@ -2337,13 +2487,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2360,10 +2510,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-guest-guide'
@@ -2388,13 +2539,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2411,10 +2562,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-3k-1-loading'
@@ -2439,13 +2591,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2462,10 +2614,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-trips-switcher'
@@ -2490,13 +2643,13 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       - back
+# iOS taps the scene's corner back target; an edge swipe over a full-bleed scene is not reliable.
 - runFlow:
     when:
       platform: iOS
     commands:
-      - swipe:
-          start: 2%, 50%
-          end: 90%, 50%
+      - tapOn:
+          id: 'trip-day-scene-back'
 - waitForAnimationToEnd:
     timeout: 3000
 # A sheet scene closes its sheet on the first back; the second leaves the scene.
@@ -2513,10 +2666,11 @@ appId: app.critterpass.dev
       - runFlow:
           when:
             platform: iOS
+            visible:
+              id: 'trip-day-scene-back'
           commands:
-            - swipe:
-                start: 2%, 50%
-                end: 90%, 50%
+            - tapOn:
+                id: 'trip-day-scene-back'
 - extendedWaitUntil:
     visible:
       id: 'trip-day-lab-trips-empty'

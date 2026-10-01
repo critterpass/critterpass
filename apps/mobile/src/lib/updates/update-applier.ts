@@ -21,6 +21,8 @@ export interface UpdateApplierDeps {
   readonly isBusy: () => boolean;
   /** The update id the app last restarted itself for. */
   readonly reloadedFor: { read(): string | null; write(updateId: string): void };
+  /** Lets the screen the person is on survive the restart into `updateId`. */
+  readonly carryNavigation: (updateId: string) => void;
   readonly reload: () => Promise<void>;
   readonly now: () => number;
   /** When this JS runtime started. */
@@ -48,6 +50,7 @@ export function createUpdateApplier(deps: UpdateApplierDeps): UpdateApplier {
       return false;
     }
     deps.reloadedFor.write(pending);
+    deps.carryNavigation(pending);
     // A restart that fails leaves the update for the next cold start, as without this.
     void deps.reload().catch(() => undefined);
     return true;

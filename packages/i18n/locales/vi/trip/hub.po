@@ -112,6 +112,14 @@ msgid "trip.hub.tile.allSettled"
 msgstr "đã thanh toán xong"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.beAtAirportBy"
+msgstr "Có mặt ở sân bay trước"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.beThereBy"
+msgstr "Có mặt trước"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.bookings"
 msgstr "Đặt chỗ"
 
@@ -138,6 +146,10 @@ msgstr "Khởi hành sớm"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.settled"
 msgstr "Hòa"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipeDetail"
+msgstr "Cả nhóm cùng quẹt, chỗ nào hợp sẽ vào lịch trình"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.explore"
@@ -290,6 +302,10 @@ msgstr "đang thiết lập"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.someone"
 msgstr "Ai đó"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipe"
+msgstr "Cùng quẹt chọn địa điểm"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
