@@ -197,8 +197,10 @@ appId: app.critterpass.dev
           visible:
             id: 'critters-encounter-scene'
           timeout: 20000
-      - waitForAnimationToEnd
+      - waitForAnimationToEnd:
+          timeout: 4000
       - takeScreenshot: fresh-critters-15-encounter
+      - runFlow: ../onboarding/subflows/back.yaml
 # The trip's quests: Home → the trip → QUESTS.
 - runFlow:
     file: ../screens/sweep/subflows/open-link.yaml
