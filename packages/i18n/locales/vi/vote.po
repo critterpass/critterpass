@@ -382,6 +382,10 @@ msgstr "Chuyến tới · chung kết"
 msgid "vote.search.noGuide"
 msgstr "Chưa có hướng dẫn viên"
 
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refusedBody"
+msgstr "Chưa có chuyến nào được tạo. Thử lại nhé."
+
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.guestLine"
 msgstr "Chưa ai dẫn đường ở {country}, nên mình lo. Các bạn bản địa vẫn xuất hiện."
@@ -515,6 +519,10 @@ msgstr "Đang gỡ một nơi khỏi bảng"
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.retract"
 msgstr "Đang rút phiếu của bạn"
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refused"
+msgstr "Chưa gửi được"
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.lockInFailed"

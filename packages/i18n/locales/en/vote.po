@@ -382,6 +382,10 @@ msgstr "Next trip · final"
 msgid "vote.search.noGuide"
 msgstr "No live guide yet"
 
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refusedBody"
+msgstr "No trip was started. Try again."
+
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.guestLine"
 msgstr "Nobody guides {country} yet, so I'll cover it. The locals still turn up."
@@ -515,6 +519,10 @@ msgstr "Taking a place off the board"
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.retract"
 msgstr "Taking your vote back"
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refused"
+msgstr "That didn't go through"
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.lockInFailed"

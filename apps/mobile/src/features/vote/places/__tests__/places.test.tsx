@@ -34,6 +34,7 @@ import {
   openTestLocalFirst,
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
+import { reconcileOnce } from '@/data/commands/reconcile';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
 import { voteRoutes } from '../../routes';
@@ -189,8 +190,7 @@ describe('guest guide page', () => {
     expect(router.push).toHaveBeenCalledWith(voteRoutes.pitch(SECOND_CREW, MARRAKECH));
   });
 
-  it('starts a solo trip after the confirm', async () => {
-    const s = await open();
+  async function startSolo(s: TestLocalFirst): Promise<string> {
     await renderVote(
       <GuestGuidePage placeId={MARRAKECH} crewId={undefined} />,
       s,
@@ -200,10 +200,55 @@ describe('guest guide page', () => {
     await fireEvent.press(screen.getByTestId('guest-solo'));
     expect(screen.getByTestId('solo-confirm')).toHaveTextContent(/JUST YOU, MARRAKECH/u);
     await fireEvent.press(screen.getByTestId('solo-start'));
-    await until(() => (router.back as jest.Mock).mock.calls.length > 0);
-    const [trip] = await queued(s, 'create_trip');
+    let sent = await queued(s, 'create_trip');
+    for (let tries = 0; sent.length === 0 && tries < 50; tries += 1) {
+      await act(() => new Promise((resolve) => setTimeout(resolve, 100)));
+      sent = await queued(s, 'create_trip');
+    }
+    const [trip] = sent;
     expect(trip).toMatchObject({ place_id: MARRAKECH, solo: true });
     expect(typeof trip?.['trip_id']).toBe('string');
+    const [op] = await s.db.getAll<{ id: string }>(
+      "SELECT id FROM commands WHERE cmd = 'create_trip'",
+    );
+    return op?.id ?? '';
+  }
+
+  /** The server's answer for `opId`, as it syncs down and settles the queue. */
+  async function settle(s: TestLocalFirst, opId: string, code: string | null): Promise<void> {
+    await s.db.execute(
+      `INSERT INTO cmd_results (id, op_id, uid, cmd, status, code, detail, server_ts)
+       VALUES (?, ?, ?, 'create_trip', ?, ?, NULL, '2026-10-01T06:00:00.000Z')`,
+      [opId, opId, s.uid, code === null ? 'applied' : 'rejected', code],
+    );
+    await act(async () => {
+      await reconcileOnce(s.db);
+    });
+  }
+
+  it('starts a solo trip after the confirm, once the server has made it', async () => {
+    const s = await open();
+    const opId = await startSolo(s);
+    expect(router.back).not.toHaveBeenCalled();
+    await settle(s, opId, null);
+    await until(() => (router.back as jest.Mock).mock.calls.length > 0);
+  });
+
+  it('says why a solo trip did not go through and stays on the confirm', async () => {
+    const s = await open();
+    const opId = await startSolo(s);
+    await settle(s, opId, 'VALIDATION');
+    await until(() => toastQueue.getCurrent() !== null);
+    expect(toastQueue.getCurrent()?.title).toBe("That didn't go through");
+    expect(router.back).not.toHaveBeenCalled();
+    expect(screen.getByTestId('solo-confirm')).toBeTruthy();
+  });
+
+  it('opens the solo trip at once offline, to fill in when it lands', async () => {
+    const s = await open();
+    s.network.set(false);
+    await startSolo(s);
+    await until(() => (router.back as jest.Mock).mock.calls.length > 0);
   });
 });
 

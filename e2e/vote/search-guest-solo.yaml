@@ -2,9 +2,11 @@ appId: app.critterpass.dev
 ---
 # 3b-7 → 3b-8: search finds a country nobody guides (NO LIVE GUIDE YET, the guest guide's line),
 # a city opens the guest guide's page with the place facts, the locals as hints and what the guest
-# guide read up on; SAVE flaps to SAVED; SOLO TRIP confirms and starts a trip for one.
+# guide read up on; SAVE flaps to SAVED; SOLO TRIP confirms and starts a trip for one, and setup
+# opens once the server has made it. A refusal would show "That didn't go through" and keep the
+# confirm open, captured here when it happens.
 #
-# Data: a fresh account onboards. Needs an api with the place index (the 61 places and their
+# Data: a fresh account onboards, so it has no crew yet: the server starts its crew of one. Needs an api with the place index (the 61 places and their
 # cities) and the guest brief enabled.
 - launchApp:
     clearState: true
@@ -43,9 +45,27 @@ appId: app.critterpass.dev
     id: 'guest-solo'
 - assertVisible:
     id: 'solo-confirm'
+- waitForAnimationToEnd
+- takeScreenshot: 3b-8-solo-confirm
 - tapOn:
     id: 'solo-start'
+# Up to about 30 s for the trip to be made; a refusal toast on the way is captured.
+- repeat:
+    times: 15
+    while:
+      notVisible:
+        id: 'when-cta|when-pick-week'
+    commands:
+      - runFlow:
+          when:
+            visible: "That didn't go through"
+          commands:
+            - takeScreenshot: 3b-8-solo-refused
+      - waitForAnimationToEnd:
+          timeout: 2000
 - extendedWaitUntil:
-    notVisible:
-      id: 'solo-confirm'
-    timeout: 10000
+    visible:
+      id: 'when-cta|when-pick-week'
+    timeout: 5000
+- waitForAnimationToEnd
+- takeScreenshot: 3c-3-solo-setup

@@ -382,6 +382,10 @@ msgstr ""
 msgid "vote.search.noGuide"
 msgstr ""
 
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refusedBody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.guestLine"
 msgstr ""
@@ -514,6 +518,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.retract"
+msgstr ""
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refused"
 msgstr ""
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx

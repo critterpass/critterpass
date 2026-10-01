@@ -10,26 +10,24 @@
  */
 import { appendDomainEvent } from '@cp/db';
 import {
+  CREW_NAME_MAX,
   createTripPayloadSchema,
   DomainError,
   generateUuidV7,
+  normaliseCrewName,
   type CreateTripResult,
 } from '@cp/domain';
 import { ftfEligible } from '@cp/entitlements';
 import type pg from 'pg';
 
 import { asSystemRole } from '../../admin/command';
+import { startCrew } from '../crews/create-crew';
 import { defineCommand } from '../_framework/define-command';
 import { pitchToCrew, resolvePlace, type Place } from '../polls/destination';
 import { requireCrewMember } from '../polls/shared';
 
-/** The crew a solo trip lives in: the one given, else the caller's active crew. */
-async function soloCrew(
-  tx: pg.PoolClient,
-  crewId: string | undefined,
-  uid: string,
-): Promise<string> {
-  if (crewId !== undefined) return crewId;
+/** The caller's active crew (their chosen one first), if they belong to any. */
+async function activeCrewOf(tx: pg.PoolClient, uid: string): Promise<string | undefined> {
   const { rows } = await tx.query<{ crew_id: string }>(
     `SELECT m.crew_id
        FROM crew_members m LEFT JOIN user_settings s ON s.user_id = m.user_id
@@ -38,9 +36,39 @@ async function soloCrew(
       LIMIT 1`,
     [uid],
   );
-  const found = rows[0]?.crew_id;
-  if (found === undefined) throw new DomainError('VALIDATION', { reason: 'no_crew' });
-  return found;
+  return rows[0]?.crew_id;
+}
+
+/** A crew of one is named after its member; with no name yet, plainly "Solo". */
+export function soloCrewName(displayName: string | null): string {
+  const name = normaliseCrewName(displayName ?? '');
+  return name === '' ? 'Solo' : [...name].slice(0, CREW_NAME_MAX).join('').trim();
+}
+
+/**
+ * The crew a solo trip lives in: the one given, else the caller's active crew, else a crew of one
+ * started for them here (a brand-new account has none), the same way `create_crew` starts one.
+ */
+async function soloCrew(
+  tx: pg.PoolClient,
+  crewId: string | undefined,
+  ctx: { readonly uid: string; readonly now: Date },
+): Promise<string> {
+  if (crewId !== undefined) return crewId;
+  const found = await activeCrewOf(tx, ctx.uid);
+  if (found !== undefined) return found;
+  const { rows } = await tx.query<{ display_name: string | null }>(
+    'SELECT display_name FROM users WHERE id = $1',
+    [ctx.uid],
+  );
+  const started = await startCrew(tx, {
+    crewId: generateUuidV7(),
+    name: soloCrewName(rows[0]?.display_name ?? null),
+    art: null,
+    uid: ctx.uid,
+    now: ctx.now,
+  });
+  return started.crew_id;
 }
 
 async function earlierCrewTrips(
@@ -105,16 +133,20 @@ export const createTripCommand = defineCommand({
     if (!payload.solo && payload.crew_id === undefined) {
       throw new DomainError('VALIDATION', { reason: 'crew_required' });
     }
-    await requireCrewMember(
-      tx,
-      payload.solo ? await soloCrew(tx, payload.crew_id, ctx.uid) : (payload.crew_id ?? ''),
-    );
+    // A solo trip by someone in no crew yet starts their crew of one in `handle`.
+    const crewId = payload.solo
+      ? (payload.crew_id ?? (await activeCrewOf(tx, ctx.uid)))
+      : payload.crew_id;
+    if (crewId !== undefined) await requireCrewMember(tx, crewId);
   },
   handle: async (tx, payload, ctx): Promise<CreateTripResult> => {
     const place = await resolvePlace(tx, payload.place_id);
     const tripId = payload.trip_id ?? generateUuidV7();
     if (payload.solo) {
-      const crewId = await soloCrew(tx, payload.crew_id, ctx.uid);
+      const crewId = await soloCrew(tx, payload.crew_id, {
+        uid: ctx.uid,
+        now: ctx.clock.serverNow,
+      });
       return asSystemRole(tx, () => createSoloTrip(tx, { tripId, crewId, place, uid: ctx.uid }));
     }
     const crewId = payload.crew_id ?? '';
