@@ -77,7 +77,7 @@ describe('a returning install (a stored last uid)', () => {
 
   it('changes nothing when the server names the same uid', async () => {
     const server = pendingCheck();
-    const wiped = jest.fn();
+    const wiped = jest.fn<() => void>();
     const h = harness({
       online: true,
       lastUid: memoryLastUid('uid-before'),
@@ -97,7 +97,7 @@ describe('a returning install (a stored last uid)', () => {
 
   it('wipes the old uid and restarts on the new one when the session is someone else’s', async () => {
     const server = pendingCheck();
-    const wiped = jest.fn();
+    const wiped = jest.fn<() => void>();
     const h = harness({
       online: true,
       lastUid: memoryLastUid('uid-before'),
@@ -118,7 +118,7 @@ describe('a returning install (a stored last uid)', () => {
 
   it('wipes the old uid and restarts as a first launch when no session is left', async () => {
     const server = pendingCheck();
-    const wiped = jest.fn();
+    const wiped = jest.fn<() => void>();
     const h = harness({
       online: true,
       lastUid: memoryLastUid('uid-before'),
@@ -138,7 +138,7 @@ describe('a returning install (a stored last uid)', () => {
 
   it('keeps working on local data when the check fails', async () => {
     const server = pendingCheck();
-    const wiped = jest.fn();
+    const wiped = jest.fn<() => void>();
     const h = harness({
       online: true,
       lastUid: memoryLastUid('uid-before'),
@@ -159,7 +159,7 @@ describe('a returning install (a stored last uid)', () => {
 
   it('keeps working on local data when the check never answers', async () => {
     const server = pendingCheck();
-    const wiped = jest.fn();
+    const wiped = jest.fn<() => void>();
     const h = harness({
       online: true,
       lastUid: memoryLastUid('uid-before'),
@@ -178,7 +178,7 @@ describe('a returning install (a stored last uid)', () => {
 
   it('ignores an answer that arrives after the session stopped', async () => {
     const server = pendingCheck();
-    const wiped = jest.fn();
+    const wiped = jest.fn<() => void>();
     const h = harness({
       online: true,
       lastUid: memoryLastUid('uid-before'),
