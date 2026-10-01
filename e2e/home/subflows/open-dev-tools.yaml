@@ -32,3 +32,28 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'dev-tools-entry'
+# The gallery's locale choice is never saved, so the cold start lost it: a flow shooting another
+# language (${PREFIX}: vi) picks it again before going on.
+- runFlow:
+    when:
+      true: ${PREFIX != undefined && PREFIX != 'en'}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-gallery'
+          direction: DOWN
+          timeout: 20000
+          speed: 20
+      - tapOn:
+          id: 'dev-nav-gallery'
+      - extendedWaitUntil:
+          visible:
+            id: 'gallery-locale-${PREFIX}'
+          timeout: 15000
+      - tapOn:
+          id: 'gallery-locale-${PREFIX}'
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-nav-gallery'
+          timeout: 10000
