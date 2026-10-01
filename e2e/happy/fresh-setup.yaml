@@ -27,10 +27,17 @@ appId: app.critterpass.dev
     file: subflows/pitch-place.yaml
     env:
       QUERY: 'lisbon'
-# One place on the board: the organiser locks it in, and it wins. Home from a cold start: a link
-# opened over the place page would put Home on top of it, with a back into it.
+# One place on the board: the organiser locks it in, and it wins. Home from a cold start through a
+# screen link (TRIPS, then the HOME tab): a link opened over the place page would put Home on top
+# of it with a back into it, and a bare app link restores the place page.
 - stopApp
-- openLink: critterpass-dev://
+- openLink: critterpass-dev://trips
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 30000
+- tapOn:
+    id: 'tab-home'
 - scrollUntilVisible:
     element:
       id: 'board-lock-in'
