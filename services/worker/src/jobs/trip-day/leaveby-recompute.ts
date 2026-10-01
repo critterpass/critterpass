@@ -1,5 +1,6 @@
 /**
- * `leaveby.recompute` (docs/api-contracts-async.md §2.3): after a plan or flight change, every
+ * `leaveby.recompute` (docs/api-contracts-async.md §2.3): after a plan or flight change, or when
+ * someone takes a seat on a trip that is already locked in, every
  * upcoming item on the trip's current plan that needs a leave-by (an early start, a transfer or
  * flight, or a long trip there) gets one, computed from the route (Mapbox traffic when configured,
  * flagged as an estimate otherwise), its pickup when a transfer booking collects the crew, and its
@@ -183,12 +184,17 @@ async function upsert(
     existing.state !== 'cancelled' &&
     existing.leave_at.getTime() === computed.leaveAt.getTime()
   ) {
-    await tx.query('UPDATE leave_bys SET plan_item_id = $2, legs = $3 WHERE id = $1', [
-      existing.id,
-      item.id,
-      JSON.stringify([leg]),
-    ]);
-    await ensureReadiness(tx, existing.id, tripId, item.participant_ids);
+    // Who the item is for can change while its time stands (someone got on the trip after the
+    // leave-by was made). One that has not fired yet takes the new list and their readiness row,
+    // quietly: nothing moved, so nobody is told. One that already fired keeps who it knocked.
+    const open = existing.leave_at.getTime() > now.getTime();
+    await tx.query(
+      `UPDATE leave_bys SET plan_item_id = $2, legs = $3,
+              participant_ids = CASE WHEN $5 THEN $4::uuid[] ELSE participant_ids END
+        WHERE id = $1`,
+      [existing.id, item.id, JSON.stringify([leg]), item.participant_ids, open],
+    );
+    if (open) await ensureReadiness(tx, existing.id, tripId, item.participant_ids);
     return false;
   }
   const pickup =
@@ -291,20 +297,36 @@ export async function recomputeLeaveBys(
   });
 }
 
+export interface TripDayRefresh extends RecomputeResult {
+  readonly briefings: number;
+  readonly bundles: number;
+}
+
+/**
+ * One run of the job: the leave-bys, then each going member's next morning and the day bundles,
+ * which the same plan, trip and roster changes move.
+ */
+export async function refreshTripDay(
+  pool: pg.Pool,
+  tripId: string,
+  router: RouteEtaProvider,
+  now: Date = new Date(),
+): Promise<TripDayRefresh> {
+  const result = await recomputeLeaveBys(pool, tripId, router, now);
+  const armed = await withSystem(pool, async (tx) => ({
+    briefings: await armTripBriefings(tx, tripId, now),
+    bundles: await armDayBundles(tx, tripId, now),
+  }));
+  return { ...result, ...armed };
+}
+
 export function leaveByRecomputeJob(router: RouteEtaProvider): JobDefinition<LeaveByRecomputeJob> {
   return defineJob({
     queue: TRIP_DAY_QUEUES.leaveByRecompute,
     schema: leaveByRecomputeJobSchema,
     singletonKey: (data: LeaveByRecomputeJob) => data.trip_id,
-    handler: async (data, ctx) => {
-      const now = new Date();
-      const result = await recomputeLeaveBys(ctx.pool, data.trip_id, router, now);
-      // The same plan and trip changes move each member's next morning and the day bundles.
-      const armed = await withSystem(ctx.pool, async (tx) => ({
-        briefings: await armTripBriefings(tx, data.trip_id, now),
-        bundles: await armDayBundles(tx, data.trip_id, now),
-      }));
-      return { ...result, ...armed };
-    },
+    handler: async (data, ctx) => ({
+      ...(await refreshTripDay(ctx.pool, data.trip_id, router)),
+    }),
   });
 }
