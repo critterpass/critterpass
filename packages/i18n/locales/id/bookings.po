@@ -21,6 +21,10 @@ msgstr ""
 msgid "bookings.candidate.split"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copyAddressA11y"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.paidBy"
 msgstr ""

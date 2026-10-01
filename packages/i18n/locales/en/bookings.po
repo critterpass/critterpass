@@ -21,6 +21,10 @@ msgstr "{0, plural, one {# past booking} other {# past bookings}}"
 msgid "bookings.candidate.split"
 msgstr "{0, plural, one {Split # way} other {Split # ways}}"
 
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copyAddressA11y"
+msgstr "{address}, copy the address"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.paidBy"
 msgstr "{amount} · paid by {payer}"

@@ -21,6 +21,10 @@ msgstr "{0, plural, other {# đặt chỗ đã qua}}"
 msgid "bookings.candidate.split"
 msgstr "{0, plural, other {Chia # phần}}"
 
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copyAddressA11y"
+msgstr "{address}, chép địa chỉ"
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.paidBy"
 msgstr "{amount} · {payer} trả"
