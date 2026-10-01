@@ -86,24 +86,36 @@ export async function recomputeBudget(
     const source = inputs.rows[0]?.inputs;
     if (source === undefined) return { outcome: 'missing' };
     const estimates = budgetEstimates(source);
-    let step: bigint;
+    // $50 in the crew currency. With no rate for that currency there is no step, and so no band:
+    // never a dollar-sized grid in another currency (a dollar crew needs no rate).
+    let step: bigint | null;
     try {
       step = bandStepMinor(estimates.currency, estimates.fx);
     } catch {
-      step = bandStepMinor('USD');
+      step = estimates.currency === 'USD' ? bandStepMinor('USD') : null;
     }
     const members = await tx.query<{ n: number }>(
       'SELECT count(*)::int AS n FROM app.setup_member_ids($1)',
       [tripId],
     );
-    const row = budgetAggregate({
-      maxes: maxes.rows.map((m) => BigInt(m.amount_trip_minor)),
+    const counted = {
       memberCount: members.rows[0]?.n ?? 0,
       currency: estimates.currency,
       feasibleLow: crewFeasibleLow(estimates),
-      stepMinor: step,
       seed: tripId,
-    });
+    };
+    const row =
+      step === null
+        ? // Counts only, as below four maxes.
+          {
+            ...budgetAggregate({ ...counted, maxes: [], stepMinor: 1n }),
+            maxesCount: maxes.rows.length,
+          }
+        : budgetAggregate({
+            ...counted,
+            maxes: maxes.rows.map((m) => BigInt(m.amount_trip_minor)),
+            stepMinor: step,
+          });
     const text = (value: bigint | null) => (value === null ? null : value.toString());
     await tx.query(
       `INSERT INTO trip_budget_aggregates AS a (trip_id, currency, maxes_count, member_count,
