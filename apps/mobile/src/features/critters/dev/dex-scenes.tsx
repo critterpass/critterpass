@@ -166,6 +166,8 @@ export const DEX_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3l-8-home-set': () => <SetScene code="vn" />,
   '3l-8-fresh': () => <SetScene code="vn" input={FRESH} />,
   '3l-1-hatch': () => <HatchView {...TOKEK_HATCH} />,
+  '3l-1-egg-wobbling': () => <HatchView {...TOKEK_HATCH} stillAt="wobbling" />,
+  '3l-1-egg-cracking': () => <HatchView {...TOKEK_HATCH} stillAt="cracking" />,
   '3l-1-hatch-offline': () => <HatchView {...TOKEK_HATCH} pending />,
   '3l-1-hatch-local': () => (
     <HatchView

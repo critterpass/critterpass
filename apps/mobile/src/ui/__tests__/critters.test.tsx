@@ -221,9 +221,13 @@ describe('critter moments', () => {
   });
 
   it('draws the crack while cracking and shows the hatchling once hatched', async () => {
-    const { rerender } = await renderUi(<Egg state="cracking" />);
+    const paths = () => screen.getAllByTestId('skia-path', { includeHiddenElements: true }).length;
+    const { rerender } = await renderUi(<Egg state="resting" />);
+    const whole = paths();
+    await rerender(<Egg state="cracking" />);
     expect(screen.getByRole('image', { name: 'Critter egg, cracking' })).toBeTruthy();
-    expect(screen.getAllByTestId('skia-path', { includeHiddenElements: true })).toHaveLength(1);
+    // The crack is one more stroke over the same egg.
+    expect(paths()).toBe(whole + 1);
     await rerender(<Egg state="hatched" hatchlingName="Tokek" hatchling={null} />);
     expect(screen.getByRole('image', { name: 'Hatched: Tokek' })).toBeTruthy();
   });

@@ -59,6 +59,8 @@ export interface HatchViewProps {
   readonly onLater: () => void;
   /** Fires once when the critter is revealed (the screen marks the ceremony seen). */
   readonly onRevealed?: () => void;
+  /** Holds the ceremony on one egg beat instead of playing it (the lab's still frames). */
+  readonly stillAt?: 'wobbling' | 'cracking';
 }
 
 const useStyles = makeStyles((th) => ({
@@ -73,9 +75,11 @@ export function HatchView(props: HatchViewProps) {
   const locale = useLocale();
   const reduced = useReducedImpactMotion();
   const { width, height } = useWindowDimensions();
-  const [egg, setEgg] = useState<EggState>(reduced ? 'hatched' : 'wobbling');
-  const [revealed, setRevealed] = useState(reduced);
-  const shown = useSharedValue(reduced ? 1 : 0);
+  const [egg, setEgg] = useState<EggState>(props.stillAt ?? (reduced ? 'hatched' : 'wobbling'));
+  const [revealed, setRevealed] = useState(
+    props.stillAt === undefined ? reduced : props.stillAt === 'cracking',
+  );
+  const shown = useSharedValue(revealed ? 1 : 0);
   useEffect(() => {
     if (revealed) shown.value = withTiming(1, { duration: theme.motion.duration.fast });
   }, [revealed, shown, theme.motion.duration.fast]);
@@ -85,7 +89,9 @@ export function HatchView(props: HatchViewProps) {
     onRevealed.current = props.onRevealed;
   });
 
+  const still = props.stillAt !== undefined;
   useEffect(() => {
+    if (still) return undefined;
     if (reduced) {
       impact('pop');
       onRevealed.current?.();
