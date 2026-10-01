@@ -63,8 +63,17 @@ appId: app.critterpass.dev
         id: 'trip-day-to-today'
     commands:
       - assertVisible: '(?i)tomorrow · .*'
+      - runFlow: subflows/dismiss-visit-offer.yaml
       - tapOn:
           id: 'trip-day-to-today'
+      - runFlow: subflows/dismiss-visit-offer.yaml
+      - runFlow:
+          when:
+            visible:
+              id: 'trip-day-to-today'
+          commands:
+            - tapOn:
+                id: 'trip-day-to-today'
       - extendedWaitUntil:
           notVisible:
             id: 'trip-day-to-today'
@@ -87,6 +96,7 @@ appId: app.critterpass.dev
       - waitForAnimationToEnd
       - takeScreenshot: day-of-im-up
 # Packing.
+- runFlow: subflows/dismiss-visit-offer.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-day-pack-add'
@@ -119,6 +129,7 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: day-of-timeline
+- runFlow: subflows/dismiss-visit-offer.yaml
 # To the background and back: the same day, still drawn, the tick still there.
 - pressKey: Home
 - waitForAnimationToEnd:
@@ -168,12 +179,7 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-hub'
     timeout: 15000
-# Once the trip turns "in trip" the visit history offer rises over the hub.
-- runFlow:
-    when:
-      visible: 'NOT NOW'
-    commands:
-      - tapOn: 'NOT NOW'
+- runFlow: subflows/dismiss-visit-offer.yaml
 - extendedWaitUntil:
     visible:
       id: 'trip-briefing-ready|trip-briefing-empty'

@@ -30,6 +30,9 @@ const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
   // Two fields on a line share it evenly; a field left to its own width hides what is typed.
   cell: { flex: 1, minWidth: 0 },
+  // A whole date is ten characters: the day takes the wider share beside the time.
+  day: { flex: 3, minWidth: 0 },
+  time: { flex: 2, minWidth: 0 },
 }));
 
 const FORM_KINDS: readonly BookingKind[] = [
@@ -151,7 +154,7 @@ export function BookingFormView(props: BookingFormViewProps) {
           />
         )}
         <Row gap="12">
-          <View style={styles.cell}>
+          <View style={styles.day}>
             <TextField
               label={t({ id: 'bookings.form.date', message: 'Day (YYYY-MM-DD)' })}
               placeholder={t({ id: 'bookings.form.dateExample', message: '2026-10-12' })}
@@ -165,7 +168,7 @@ export function BookingFormView(props: BookingFormViewProps) {
               testID="bookings-form-date"
             />
           </View>
-          <View style={styles.cell}>
+          <View style={styles.time}>
             <TextField
               label={t({ id: 'bookings.form.time', message: 'Time' })}
               placeholder={t({ id: 'bookings.form.timeExample', message: '09:05' })}

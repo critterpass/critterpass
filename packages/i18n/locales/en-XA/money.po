@@ -560,6 +560,7 @@ msgid "money.payout.field.mobile"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx

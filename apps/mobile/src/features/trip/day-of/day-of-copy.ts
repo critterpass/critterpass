@@ -9,6 +9,9 @@ import { plural, t } from '@lingui/core/macro';
 
 import { clockIn, countdownText, type LeaveByView } from '../leave-by/model';
 
+/** Past ten hours the countdown no longer fits inside the ring. */
+const RING_MAX_MS = 10 * 60 * 60 * 1000;
+
 export interface HeroCopy {
   readonly label: string;
   readonly time: string;
@@ -143,6 +146,8 @@ export function heroCopy(
     };
   }
   const value = countdownText(left);
+  // The ring holds a countdown up to "9:59:59"; a deadline further off (another day's) has none.
+  const ringed = left < RING_MAX_MS;
   return {
     label: !beThere
       ? t({ id: 'trip.dayOf.leaveBy', message: 'Leave by' })
@@ -152,20 +157,22 @@ export function heroCopy(
     time: leave,
     spokenTime: leave,
     instructions,
-    ring: {
-      value,
-      caption: late
-        ? t({ id: 'trip.dayOf.ringLate', message: 'late' })
-        : t({ id: 'trip.dayOf.ringToGo', message: 'to go' }),
-      spoken: late
-        ? beThere
-          ? t({
-              id: 'trip.dayOf.ringBeThereLateSpoken',
-              message: 'The time to be there has passed',
-            })
-          : t({ id: 'trip.dayOf.ringLateSpoken', message: 'Leave-by time has passed' })
-        : t({ id: 'trip.dayOf.ringSpoken', message: `${value} to go` }),
-    },
+    ring: !ringed
+      ? null
+      : {
+          value,
+          caption: late
+            ? t({ id: 'trip.dayOf.ringLate', message: 'late' })
+            : t({ id: 'trip.dayOf.ringToGo', message: 'to go' }),
+          spoken: late
+            ? beThere
+              ? t({
+                  id: 'trip.dayOf.ringBeThereLateSpoken',
+                  message: 'The time to be there has passed',
+                })
+              : t({ id: 'trip.dayOf.ringLateSpoken', message: 'Leave-by time has passed' })
+            : t({ id: 'trip.dayOf.ringSpoken', message: `${value} to go` }),
+        },
     readinessLabel,
     readinessDetail,
   };

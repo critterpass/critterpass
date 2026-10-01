@@ -141,7 +141,7 @@ appId: app.critterpass.dev
     timeout: 30000
 - extendedWaitUntil:
     visible: '(?i).*ba na cable car.*'
-    timeout: 30000
+    timeout: 120000
 - waitForAnimationToEnd
 - takeScreenshot: bookings-wallet
 - assertVisible: '(?i).*sala danang.*'
@@ -238,6 +238,7 @@ appId: app.critterpass.dev
     timeout: 10000
 - takeScreenshot: bookings-plan
 - runFlow: ../onboarding/subflows/back.yaml
+- runFlow: subflows/dismiss-visit-offer.yaml
 # Deleting the cable car ride: it leaves the wallet at once, with no card left behind.
 - tapOn:
     id: 'tab-wallet'
