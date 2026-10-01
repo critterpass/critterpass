@@ -157,7 +157,7 @@ export function registerLateNotifications(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: late.crew_id,
         tripId,
-        deepLink: `/trip/${tripId}/late/${disruptionId}`,
+        deepLink: `/late/${disruptionId}`,
         collapseVars: { plan_item_id: str(routed, 'plan_item_id') ?? '' },
       };
     },
