@@ -60,6 +60,7 @@ export interface AddExpenseViewProps {
   readonly draft: ExpenseDraft;
   readonly members: readonly MoneyMember[];
   readonly approx: string | undefined;
+  /** Each member's share in the draft's own currency (the one the amount is typed in). */
   readonly perMember: ReadonlyMap<string, bigint> | null;
   readonly ctaLabel: string;
   readonly ctaDisabled: boolean;
