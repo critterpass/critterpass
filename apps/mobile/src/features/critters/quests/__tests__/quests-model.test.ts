@@ -1,5 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
 
+import { guideTextSourceHash } from '@cp/domain';
+
+import { guideText } from '@/lib/i18n/guide-text';
+
 import { buildQuestsModel, type QuestRow, type QuestsInput } from '../quests-model';
 
 const TZ = 'Asia/Ho_Chi_Minh';
@@ -21,6 +25,7 @@ function quest(slot: number, changes: Partial<QuestRow> = {}): QuestRow {
     status: 'active',
     ends_at: '2026-10-03T17:00:00Z',
     reveal_at: null,
+    i18n: null,
     ...changes,
   };
 }
@@ -163,6 +168,39 @@ describe('crew quests model', () => {
       into: 640,
       need: 1000,
       nextStickerLevel: 8,
+    });
+  });
+
+  describe("in the reader's language", () => {
+    const VI = { title: 'Chạy hóa đơn', body: 'Ghi 3 khoản chi hôm nay.' };
+    const source = quest(0);
+    const row = quest(0, {
+      i18n: JSON.stringify({
+        vi: VI,
+        _src: guideTextSourceHash('quest', { title: source.title, body: source.body }),
+      }),
+    });
+    const reading = (locale: string, rows: readonly QuestRow[]) =>
+      buildQuestsModel(
+        input({
+          quests: rows,
+          text: (r, field) =>
+            guideText('quest', { title: r.title, body: r.body, i18n: r.i18n }, field, locale),
+        }),
+      ).cards[0];
+
+    it('shows the Vietnamese quest to a Vietnamese app and the English one to an English app', () => {
+      expect(reading('vi', [row])).toMatchObject(VI);
+      expect(reading('en', [row])).toMatchObject({ title: source.title, body: source.body });
+    });
+
+    it('falls back to the text as stored once the title changed after translation', () => {
+      const edited = { ...row, title: 'Receipt sprint' };
+      expect(reading('vi', [edited])).toMatchObject({ title: 'Receipt sprint', body: source.body });
+    });
+
+    it('shows the text as stored for a language with no translation yet', () => {
+      expect(reading('ja', [row])).toMatchObject({ title: source.title, body: source.body });
     });
   });
 });
