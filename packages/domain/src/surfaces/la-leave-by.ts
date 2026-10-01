@@ -26,6 +26,8 @@ export const LA_LEAVE_BY_LEAD_MS = 3 * 3_600_000;
 export const LA_LEAVE_BY_SOON_MS = 30 * 60_000;
 /** Past leave time by this much with someone still asleep, the activity reads "late". */
 export const LA_LEAVE_BY_LATE_MS = 5 * 60_000;
+/** The guide a trip without one shows. */
+export const LA_DEFAULT_GUIDE = 'tokek';
 /** Most crew pips a leave-by shows (a 16-member crew). */
 export const LA_MAX_PIPS = 16;
 /** Tokek's progress within a leg, in steps (discrete: updates, never animation). */
@@ -37,6 +39,8 @@ export const leaveByLaAttributesSchema = z.object({
   title: z.string().max(60),
   /** Trail stops, first to last ("Villa", "Pickup", "Trailhead", "Summit"). */
   legs: z.array(z.string().max(24)).min(2).max(4),
+  /** The trip's guide (`guides.slug`), whose critter walks the trail; Tokek when unknown. */
+  guide: z.string().regex(/^[a-z]{2,16}$/),
 });
 export type LeaveByLaAttributes = z.infer<typeof leaveByLaAttributesSchema>;
 
@@ -74,6 +78,8 @@ export interface LeaveByLaInput {
   readonly guideLine: string;
   /** Localised stop names the attributes fall back to. */
   readonly labels: { readonly stay: string; readonly pickup: string };
+  /** The trip's guide slug, or null when the trip has none yet. */
+  readonly guide: string | null;
 }
 
 export function buildLeaveByLaAttributes(input: LeaveByLaInput): LeaveByLaAttributes {
@@ -94,6 +100,7 @@ export function buildLeaveByLaAttributes(input: LeaveByLaInput): LeaveByLaAttrib
     leave_by_id: input.leaveById,
     title: laLine(input.title, 60),
     legs,
+    guide: input.guide ?? LA_DEFAULT_GUIDE,
   };
 }
 

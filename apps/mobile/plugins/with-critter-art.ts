@@ -16,7 +16,23 @@ import { IOSConfig, withDangerousMod } from 'expo/config-plugins';
  * that starts drawing another image fails CI until the name is listed here.
  */
 export const IOS_EXTENSION_CRITTER_ART: Readonly<Record<string, readonly string[]>> = {
-  widgets: [],
+  // Live Activities: each guide's critter, idle and cheering (LiveActivities/LiveActivityStyle.swift).
+  widgets: [
+    'alpaca-common-cheer-color-48pt',
+    'alpaca-common-idle-color-48pt',
+    'axolotl-common-cheer-color-48pt',
+    'axolotl-common-idle-color-48pt',
+    'gecko-common-cheer-color-48pt',
+    'gecko-common-idle-color-48pt',
+    'langur-common-cheer-color-48pt',
+    'langur-common-idle-color-48pt',
+    'puffin-common-cheer-color-48pt',
+    'puffin-common-idle-color-48pt',
+    'sardine-common-cheer-color-48pt',
+    'sardine-common-idle-color-48pt',
+    'tanuki-common-cheer-color-48pt',
+    'tanuki-common-idle-color-48pt',
+  ],
   // AvatarLoader.guideDefaultImageName: the face a notification shows when no avatar loads.
   'notification-service': ['gecko-common-idle-color-96pt'],
   'notification-content': [],

@@ -38,7 +38,10 @@ export const reportLaStateCommand = defineCommand({
       const live = rows[0];
       let changed = true;
       if (live !== undefined) {
-        changed = live.state !== payload.state;
+        // A closed activity stays closed: a late "active" queued offline never revives it, and
+        // the system clearing an activity that already ended is not the user dismissing it.
+        const closed = live.state === 'ended' || live.state === 'dismissed';
+        changed = !closed && live.state !== payload.state;
         if (changed)
           await tx.query(
             `UPDATE device_activities

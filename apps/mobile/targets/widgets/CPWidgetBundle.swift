@@ -1,15 +1,14 @@
 import SwiftUI
 import WidgetKit
 
-/// Hello-world scaffold proving `@bacons/apple-targets` can generate, sign and build a widget
-/// extension target containing a static widget, a Live Activity, an AlarmKit presentation and an
-/// App Intent button, all under Swift 6 strict concurrency. Feature phases replace these views;
-/// the target wiring (entitlements, Info.plist, embed phase) is what this scaffold proves.
+/// Every widget and Live Activity the extension draws. Live Activities live under
+/// LiveActivities/ (one per kind); home and lock screen widgets append here.
 @main
-struct CritterpassWidgetsBundle: WidgetBundle {
+struct CPWidgetBundle: WidgetBundle {
     var body: some Widget {
         LeaveByStatusWidget()
         LeaveByLiveActivityWidget()
+        FlightLiveActivityWidget()
         LeaveByAlarmCountdownWidget()
     }
 }
@@ -61,44 +60,5 @@ struct LeaveByStatusWidget: Widget {
         }
         .configurationDisplayName("Leave-by status")
         .description("Go/no-go scaffold widget for the Apple extension targets spike.")
-    }
-}
-
-// MARK: - Live Activity (lock screen + Dynamic Island)
-
-struct LeaveByLiveActivityWidget: Widget {
-    var body: some WidgetConfiguration {
-        ActivityConfiguration(for: LeaveByActivityAttributes.self) { context in
-            VStack(alignment: .leading, spacing: 4) {
-                Text(context.attributes.title)
-                    .font(.headline)
-                Text(context.state.guideLine)
-                    .font(.caption)
-                Button(intent: ImUpIntent(leaveById: context.attributes.leaveById)) {
-                    Text("I'm up (\(context.state.upCount)/\(context.state.total))")
-                }
-            }
-            .padding()
-        } dynamicIsland: { context in
-            DynamicIsland {
-                DynamicIslandExpandedRegion(.leading) {
-                    Text(context.attributes.title)
-                }
-                DynamicIslandExpandedRegion(.trailing) {
-                    Text(context.state.leg)
-                }
-                DynamicIslandExpandedRegion(.bottom) {
-                    Button(intent: ImUpIntent(leaveById: context.attributes.leaveById)) {
-                        Text("I'm up")
-                    }
-                }
-            } compactLeading: {
-                Image(systemName: "figure.walk")
-            } compactTrailing: {
-                Text("\(context.state.upCount)/\(context.state.total)")
-            } minimal: {
-                Image(systemName: "figure.walk")
-            }
-        }
     }
 }
