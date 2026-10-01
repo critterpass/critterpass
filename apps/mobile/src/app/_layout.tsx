@@ -34,9 +34,11 @@ import {
   deviceLinkClaims,
   devicePush,
   reportAppSessionError,
+  sessionHeaders,
   startDeviceAppSession,
   uploadLocationFixes,
 } from '@/data/app-session/device-session';
+import { createTravelDataReader, TravelDataReaderProvider } from '@/data/travel-data/client';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
 import { PassSync } from '@/features/onboarding/flow-controller/pass-sync';
 import '@/features/onboarding/routes';
@@ -150,6 +152,9 @@ configurePermissions({
 });
 
 configureAlwaysUpgrade({ allowed: () => readLocationFlags(analytics).alwaysUpsell });
+
+/** Weather, fares, hazards, crowds and destination insights read the api with this session. */
+const travelData = createTravelDataReader({ sessionHeaders });
 
 /** Session-scoped bridges; they need the local-first session, so they wait for it. */
 function SessionBridges() {
@@ -303,22 +308,24 @@ export default function RootLayout() {
               onError={reportAppSessionError}
               push={devicePush}
             >
-              <ScreenJoltProvider>
-                <RootNavigator />
-                <DeferredLinkGate
-                  primitives={deferredLinks}
-                  navigate={openHref}
-                  claims={deviceLinkClaims}
-                  onReady={() => setLinksReady(true)}
-                />
-                <SessionBridges />
-                <PassSync writeAppGroupImage={writeImage} />
-                <OverlayHost />
-                <PrimerSheetHost />
-                <SharedGrowHost />
-                <IslandToast Text={Text} />
-                <LaunchHatch revealed={prewarmed && linksReady} />
-              </ScreenJoltProvider>
+              <TravelDataReaderProvider value={travelData}>
+                <ScreenJoltProvider>
+                  <RootNavigator />
+                  <DeferredLinkGate
+                    primitives={deferredLinks}
+                    navigate={openHref}
+                    claims={deviceLinkClaims}
+                    onReady={() => setLinksReady(true)}
+                  />
+                  <SessionBridges />
+                  <PassSync writeAppGroupImage={writeImage} />
+                  <OverlayHost />
+                  <PrimerSheetHost />
+                  <SharedGrowHost />
+                  <IslandToast Text={Text} />
+                  <LaunchHatch revealed={prewarmed && linksReady} />
+                </ScreenJoltProvider>
+              </TravelDataReaderProvider>
             </AppSessionRoot>
           </AnalyticsProvider>
         </ThemeProvider>
