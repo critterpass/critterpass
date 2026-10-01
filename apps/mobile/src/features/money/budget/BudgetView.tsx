@@ -25,6 +25,7 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+import { useWalletGuide } from '@/features/bookings';
 
 import { useCategoryLabel } from '../components/category';
 import { toMajor } from '../format';
@@ -67,6 +68,7 @@ export function BudgetView(props: BudgetViewProps) {
   const inset = useTabBarInset();
   const locale = useLocale();
   const { t } = useLingui();
+  const guide = useWalletGuide();
   const categoryLabel = useCategoryLabel();
   const whole = useWhole(props.currency);
   const f = props.forecast;
@@ -223,12 +225,12 @@ export function BudgetView(props: BudgetViewProps) {
         )}
         {pace === null ? null : (
           <GuideLine
-            guide="tokek"
-            name={GUIDE_STICKERS.tokek.name}
+            guide={guide.id}
+            name={guide.name}
             sticker={
               <Sticker
-                kind={GUIDE_STICKERS.tokek.kind}
-                name={GUIDE_STICKERS.tokek.name}
+                kind={GUIDE_STICKERS[guide.id].kind}
+                name={guide.name}
                 size={44}
                 pose="point"
               />

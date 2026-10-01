@@ -41,6 +41,22 @@ msgstr ""
 msgid "money.detail.editedBy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.typeBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.savedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.aimLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.qrLabel"
 msgstr ""
@@ -491,6 +507,10 @@ msgid "money.detail.leftOut"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.missed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedGlare"
 msgstr ""
 
@@ -500,10 +520,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedFold"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.missed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
@@ -969,22 +985,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.today"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.typeBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
-msgid "money.scan.savedLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
-msgid "money.scan.aimLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx

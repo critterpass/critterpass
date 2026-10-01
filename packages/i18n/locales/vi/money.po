@@ -19,7 +19,7 @@ msgstr "{biggest} là khoản lớn nhất còn lại."
 
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.review.title"
-msgstr "{count, plural, other {Tokek đọc được # dòng}}"
+msgstr "{count, plural, other {{guideName} đọc được # dòng}}"
 
 #: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
 msgid "money.add.evenlyA11y"
@@ -40,6 +40,22 @@ msgstr "{editor} đã xoá · {on}"
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.editedBy"
 msgstr "{editor} đã sửa · {on}"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.typeBody"
+msgstr "{guideName} điền sẵn các giá đọc được"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.eyebrow"
+msgstr "{guideName} đọc được một nửa"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.savedLine"
+msgstr "{guideName} sẽ đọc khi bạn có mạng lại. Bạn có thể đóng lại."
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.aimLine"
+msgstr "{guideName} chụp khi giấy phẳng và yên, rồi đọc từng dòng."
 
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.qrLabel"
@@ -93,7 +109,7 @@ msgstr "{payer} trả {payee}"
 
 #: ../../apps/mobile/src/features/money/settle/SettleList.tsx
 msgid "money.settle.netted"
-msgstr "{payments, plural, other {Tokek gộp {expenses} khoản chi còn # lần trả.}}"
+msgstr "{payments, plural, other {{guideName} gộp {expenses} khoản chi còn # lần trả.}}"
 
 #: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
 msgid "money.budget.title"
@@ -443,7 +459,7 @@ msgstr "Sắp vượt {deltaText}."
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retakeBody"
-msgstr "Đặt lên bàn. Tokek sẽ đợi"
+msgstr "Đặt lên bàn. {guideName} sẽ đợi"
 
 #: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
 #: ../../apps/mobile/src/features/money/settle/SettleList.tsx
@@ -491,6 +507,10 @@ msgid "money.detail.leftOut"
 msgstr "Không tham gia"
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.missed"
+msgstr "Các món: {guideName} không đọc được"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedGlare"
 msgstr "Các món: bị loá mất"
 
@@ -501,10 +521,6 @@ msgstr "Các món: một phần giấy bị cắt"
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedFold"
 msgstr "Các món: bị nếp gấp che mất"
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.missed"
-msgstr "Các món: Tokek không đọc được"
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedBlur"
@@ -623,7 +639,7 @@ msgstr "Trừ {names}"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.empty"
-msgstr "Chưa chi gì. Thêm khoản đầu tiên và Tokek sẽ giữ sổ."
+msgstr "Chưa chi gì. Thêm khoản đầu tiên và {guideName} sẽ giữ sổ."
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.none"
@@ -970,22 +986,6 @@ msgstr "Hôm nay"
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.today"
 msgstr "Hôm nay"
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.typeBody"
-msgstr "Tokek điền sẵn các giá đọc được"
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.eyebrow"
-msgstr "Tokek đọc được một nửa"
-
-#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
-msgid "money.scan.savedLine"
-msgstr "Tokek sẽ đọc khi bạn có mạng lại. Bạn có thể đóng lại."
-
-#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
-msgid "money.scan.aimLine"
-msgstr "Tokek chụp khi giấy phẳng và yên, rồi đọc từng dòng."
 
 #: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
 msgid "money.pay.disputed"

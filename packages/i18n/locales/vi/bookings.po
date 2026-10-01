@@ -49,6 +49,38 @@ msgstr "{count, plural, other {Tìm thấy # đặt chỗ trong hộp thư của
 msgid "bookings.banner.mine"
 msgstr "{count, plural, other {Tìm thấy # đặt chỗ trong hộp thư của bạn mà ví chưa có.}}"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.lockedLine"
+msgstr "Với Pass+, {guideName} kiểm tra hộp thư của bạn mỗi sáng để tìm xác nhận mới."
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.perk"
+msgstr "{guideName} tìm đặt chỗ mới trong hộp thư của bạn mỗi sáng"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.parsing"
+msgstr "{guideName} đang đọc…"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.connectingLine"
+msgstr "{guideName} đang cài lịch kiểm tra buổi sáng."
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.offline"
+msgstr "{guideName} cần có sóng để đọc."
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.offline"
+msgstr "{guideName} cần có sóng để đọc."
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.ping"
+msgstr "{guideName} báo bạn khi bắt đầu lên máy bay."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.reminder"
+msgstr "{guideName} nhắc bạn một ngày trước khi hết hạn."
+
 #: ../../apps/mobile/src/features/bookings/stack/deck-meta.ts
 msgid "bookings.card.nights"
 msgstr "{nights, plural, other {# đêm}}"
@@ -426,7 +458,7 @@ msgstr "Gmail"
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.sent"
-msgstr "Nhận rồi. Tokek đang đọc ở bên dưới."
+msgstr "Nhận rồi. {guideName} đang đọc ở bên dưới."
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 msgid "bookings.add.mailboxOffer"
@@ -765,38 +797,6 @@ msgstr "Giờ"
 msgid "bookings.form.to"
 msgstr "Đến"
 
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-msgid "bookings.mailbox.lockedLine"
-msgstr "Với Pass+, Tokek kiểm tra hộp thư của bạn mỗi sáng để tìm xác nhận mới."
-
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-msgid "bookings.mailbox.perk"
-msgstr "Tokek tìm đặt chỗ mới trong hộp thư của bạn mỗi sáng"
-
-#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
-msgid "bookings.candidate.parsing"
-msgstr "Tokek đang đọc…"
-
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
-msgid "bookings.mailboxDone.connectingLine"
-msgstr "Tokek đang cài lịch kiểm tra buổi sáng."
-
-#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
-msgid "bookings.paste.offline"
-msgstr "Tokek cần có sóng để đọc."
-
-#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
-msgid "bookings.scan.offline"
-msgstr "Tokek cần có sóng để đọc."
-
-#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
-msgid "bookings.flight.ping"
-msgstr "Tokek báo bạn khi bắt đầu lên máy bay."
-
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
-msgid "bookings.detail.reminder"
-msgstr "Tokek nhắc bạn một ngày trước khi hết hạn."
-
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.rail"
 msgstr "Tàu hoả"
@@ -844,7 +844,7 @@ msgstr "Ví"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.landedToast"
-msgstr "Chào mừng đã tới. Tokek báo cả nhóm."
+msgstr "Chào mừng đã tới. {guideName} báo cả nhóm."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.what"

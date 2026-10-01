@@ -20,6 +20,7 @@ import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+import { useWalletGuide } from '@/features/bookings';
 
 import type { MoneyMember } from '../data/context';
 import type { SettleRowModel } from './model';
@@ -56,6 +57,7 @@ export function SettleList(props: SettleListProps) {
   const insets = useSafeAreaInsets();
   const locale = useLocale();
   const { t } = useLingui();
+  const { name: guideName } = useWalletGuide();
   const kindLabel = usePayoutKindLabel();
   const expenses = props.expenses;
   const payments = props.rows.length;
@@ -65,8 +67,8 @@ export function SettleList(props: SettleListProps) {
       : t({
           id: 'money.settle.netted',
           message: plural(payments, {
-            one: `Tokek netted ${expenses} expenses down to one payment.`,
-            other: `Tokek netted ${expenses} expenses down to # payments.`,
+            one: `${guideName} netted ${expenses} expenses down to one payment.`,
+            other: `${guideName} netted ${expenses} expenses down to # payments.`,
           }),
         });
   return (

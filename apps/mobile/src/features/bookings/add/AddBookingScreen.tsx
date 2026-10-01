@@ -36,6 +36,7 @@ import { AddBookingView } from './AddBookingView';
 import type { ImportChannel } from './ImportTiles';
 import { MailboxFlow } from './MailboxFlow';
 import { PasteFlow } from './PasteFlow';
+import { WalletGuideProvider } from '../data/wallet-guide';
 
 export function AddBookingScreen({ start }: { readonly start?: string | undefined }) {
   const context = useWalletContext();
@@ -145,43 +146,47 @@ export function AddBookingScreen({ start }: { readonly start?: string | undefine
   };
 
   return (
-    <>
-      <AddBookingView
-        address={context.inboundAddress}
-        candidates={views}
-        splits={splits}
-        assembling={assembling}
-        leaving={leaving}
-        scan={scan.state}
-        mailboxConnected={mailbox.status.kind === 'connected'}
-        noTrip={context.status === 'no_trip'}
-        tz={context.trip?.tz ?? undefined}
-        onBack={() => (router.canGoBack() ? router.back() : router.replace(BOOKINGS_ROUTES.wallet))}
-        onChannel={onChannel}
-        onCopy={(address) => services.copy(address)}
-        onSplit={(id, next) => setSplits((current) => ({ ...current, [id]: next }))}
-        onAdd={onAdd}
-        onIgnore={onIgnore}
-        onByHand={(id) => {
-          const view = views.find((item) => item.id === id);
-          const booking = view?.booking ?? null;
-          router.push(
-            addByHandRoute(booking === null ? {} : { kind: booking.kind, title: booking.title }),
-          );
-          if (view !== undefined) onIgnore(id);
-        }}
-        onTypeIn={() => router.push(addByHandRoute())}
-        onMailbox={() => setSheet('mailbox')}
-      />
-      {sheet === 'paste' ? <PasteFlow tripId={tripId} onDone={() => setSheet(null)} /> : null}
-      {sheet === 'mailbox' ? (
-        <MailboxFlow
-          status={mailbox.status}
+    <WalletGuideProvider tripId={context.trip?.id ?? null}>
+      <>
+        <AddBookingView
           address={context.inboundAddress}
-          onChanged={mailbox.reload}
-          onClose={() => setSheet(null)}
+          candidates={views}
+          splits={splits}
+          assembling={assembling}
+          leaving={leaving}
+          scan={scan.state}
+          mailboxConnected={mailbox.status.kind === 'connected'}
+          noTrip={context.status === 'no_trip'}
+          tz={context.trip?.tz ?? undefined}
+          onBack={() =>
+            router.canGoBack() ? router.back() : router.replace(BOOKINGS_ROUTES.wallet)
+          }
+          onChannel={onChannel}
+          onCopy={(address) => services.copy(address)}
+          onSplit={(id, next) => setSplits((current) => ({ ...current, [id]: next }))}
+          onAdd={onAdd}
+          onIgnore={onIgnore}
+          onByHand={(id) => {
+            const view = views.find((item) => item.id === id);
+            const booking = view?.booking ?? null;
+            router.push(
+              addByHandRoute(booking === null ? {} : { kind: booking.kind, title: booking.title }),
+            );
+            if (view !== undefined) onIgnore(id);
+          }}
+          onTypeIn={() => router.push(addByHandRoute())}
+          onMailbox={() => setSheet('mailbox')}
         />
-      ) : null}
-    </>
+        {sheet === 'paste' ? <PasteFlow tripId={tripId} onDone={() => setSheet(null)} /> : null}
+        {sheet === 'mailbox' ? (
+          <MailboxFlow
+            status={mailbox.status}
+            address={context.inboundAddress}
+            onChanged={mailbox.reload}
+            onClose={() => setSheet(null)}
+          />
+        ) : null}
+      </>
+    </WalletGuideProvider>
   );
 }
