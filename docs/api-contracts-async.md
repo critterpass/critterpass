@@ -47,7 +47,7 @@ History = size / TTL. Presence ✓ = Centrifugo presence + join/leave enabled.
 | `swipe:{session_id}` | participant in session | `vote{uid}` (verdict hidden until match), `match{poi_id}`, `progress`, presence ping | per swipe | ✓ | 100 / 24 h | 30 |
 | `proposal:{proposal_id}` | recipient; organiser gets extra `engagement.summary` via `user:#uid` only | `reaction`, `hype_pct`, `rsvp.status`, `offer.published` (never per-person opens, C28) | event | – | 50 / 14 d | 31 |
 | `guide_thread:{thread_id}` | group thread: crew member; private: owner (prefer `user:#uid`) | `token`, `tool_event`, `proposal{changeset_id}` | streaming | ✓ (group) | 50 / 24 h | 32 |
-| `disruption:{disruption_id}` | affected participant | `step{action_id, status}`, `needs_yes` | per step | – | 50 / 72 h | 37 |
+| `disruption:{disruption_id}` | affected participant | `step{action_id, status}`, `needs_yes` | per step | – | 50 / 72 h | 37 (doc delta: not used; disruption hints ride `trip_watch:` as `disruption.step` and `late.eta`, [api-contracts-disruptions.md](./api-contracts-disruptions.md) §5) |
 | `sos:{sos_id}` (fixes: `sos:{share_id}` of the SOS `location_shares` row) | crew of trip | `sender.fix`, `responder{uid, state}`, `step`, `message`, `resolved` | sub-second fixes | ✓ | 200 / 24 h | 38 |
 | `recap:{recap_id}` | participant | `signature`, `mvp.vote`, `mvp.result` | event | – | 50 / 14 d | 43 |
 | `memory:{memory_id}` | crew | `reaction` | event | – | 50 / 14 d | 43 |
@@ -149,7 +149,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 |---|---|---|---|
 | `sched.enqueue_due` | `* * * * *` | move due `scheduled_events` into queues | 11 |
 | `eta.meetups` | every 60 s per active meetup (self-rescheduling) | Valhalla ETAs → `trip_locations`, LA broadcast p5 (p10 on arrive/late/all <5 min) | 39 |
-| `eta.running_late` | every 60 s per active transfer/item | detect ETA > start + threshold → N-27 | 37 |
+| `eta.running_late` | `* * * * *` | doc delta: upkeep only. The phone drives the checks (`POST /v1/trips/{id}/journey-check`, which detects ETA ≥ start + 10 min twice in a row → N-27); this job marks journeys whose checks stopped for 3 min as stale, resolves a running-late disruption whose item is over, and deletes checks older than a day ([api-contracts-disruptions.md](./api-contracts-disruptions.md)) | 37 |
 | `weather.watch` | `0 */3 * * *` (hourly within 48 h; 15 min marine/volcano alerts) | forecast watcher → `trip_watch`, `ai.replan` | 37 |
 | `fx.refresh` | `15 * * * *` | Frankfurter snapshot | 12 (snapshot fn); cron registered in 15 |
 | `fares.refresh` | `0 2 * * *` SGT | Travelpayouts calendars for active origins × candidates; price-drop detect (AI-03) | 15 |
