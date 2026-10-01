@@ -77,3 +77,4 @@ export { poolMaxEnv, POOL_MAX_LIMIT } from './pool-env';
 export * from './polls';
 export * from './pitches';
 export * from './trips/status';
+export * from './proposals/lock';

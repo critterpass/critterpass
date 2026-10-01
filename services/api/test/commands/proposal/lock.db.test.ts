@@ -130,6 +130,11 @@ describe('lock_proposal', () => {
       200,
     );
     await run(m(2), 'set_rsvp', { proposal_id: proposalId, status: 'maybe' });
+    // Reply-by may already have locked the proposal without confirming the trip (too few IN at
+    // the time): the organiser's lock still goes through.
+    await q("UPDATE proposals SET status = 'locked', locked_at = now() WHERE id = $1", [
+      proposalId,
+    ]);
     const locked = await run(organiser, 'lock_proposal', { proposal_id: proposalId });
     expect(locked.status).toBe(200);
     expect(locked.body.result).toEqual({
