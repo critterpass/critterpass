@@ -110,7 +110,9 @@ export interface MeRow {
 
 /**
  * My trips that are travelling or about to, newest start first, with the destination's set and
- * my egg. Trips I dropped out of are left out (no egg for an RSVP out).
+ * my egg; and, from the moment I have an egg (boarded, or the plan locked in), the proposed or
+ * confirmed trip it waits on, so the PASS tab shows the egg as soon as there is one. Trips I
+ * dropped out of are left out (no egg for an RSVP out).
  */
 export const TRIPS_SQL = `SELECT t.id, t.crew_id, t.status, t.start_date, t.end_date,
     coalesce(t.tz, d.tz) AS tz, t.destination_id, d.name AS destination_name, d.country AS destination_country,
@@ -124,7 +126,9 @@ export const TRIPS_SQL = `SELECT t.id, t.crew_id, t.status, t.start_date, t.end_
   LEFT JOIN critter_sets cs ON cs.id = d.critter_set_id
   LEFT JOIN guides g ON g.id = t.guide_id
   LEFT JOIN eggs eg ON eg.trip_id = t.id AND eg.user_id = p.user_id
-  WHERE t.status IN ('pre_trip', 'in_trip') AND coalesce(p.rsvp, 'in') <> 'out'
+  WHERE (t.status IN ('pre_trip', 'in_trip')
+      OR (t.status IN ('proposed', 'confirmed') AND eg.id IS NOT NULL))
+    AND coalesce(p.rsvp, 'in') <> 'out'
   ORDER BY t.status = 'in_trip' DESC, t.start_date`;
 export const TRIPS_TABLES = [
   'trips',
@@ -138,7 +142,7 @@ export const TRIPS_TABLES = [
 export interface TripRow {
   readonly id: string;
   readonly crew_id: string;
-  readonly status: 'pre_trip' | 'in_trip';
+  readonly status: 'proposed' | 'confirmed' | 'pre_trip' | 'in_trip';
   readonly start_date: string | null;
   readonly end_date: string | null;
   readonly tz: string | null;

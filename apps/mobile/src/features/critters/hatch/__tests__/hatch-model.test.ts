@@ -112,6 +112,10 @@ describe('arriving at the destination', () => {
     expect(awaitsArrival(trip({ egg_hatched_at: '2026-10-02T02:00:00Z' }), morning, TZ)).toBe(
       false,
     );
+    // A plan just locked in (not yet about to start) shows the egg waiting and takes no arrival.
+    const locked = trip({ status: 'confirmed' });
+    expect(awaitsArrival(locked, morning, TZ)).toBe(false);
+    expect(eggCardFor([locked], morning, never, TZ, () => true)?.kind).toBe('waiting');
     // The PASS card offers HATCH IT there and then, as an arrival; elsewhere it still waits.
     expect(eggCardFor([preTrip], morning, never, TZ, () => true)).toMatchObject({
       kind: 'ready',

@@ -39,6 +39,8 @@ export async function hasArrived(
 /** The trip's first day has come: it is under way, or today (in its zone) is its start or later. */
 export function tripHasStarted(trip: TripRow, now: Date, deviceTz: string): boolean {
   if (trip.status === 'in_trip') return true;
+  // Before the trip is at least about to start, the server takes no arrival.
+  if (trip.status !== 'pre_trip') return false;
   return (
     trip.start_date !== null && toLocalWallTime(now, trip.tz ?? deviceTz).date >= trip.start_date
   );
