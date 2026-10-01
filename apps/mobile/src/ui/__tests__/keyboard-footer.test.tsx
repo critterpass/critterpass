@@ -43,6 +43,7 @@ async function renderFooter(variant: 'dark' | 'paper' = 'dark') {
 
 /** Reanimated's keyboard states a footer can be told. */
 const UNREPORTED = 0;
+const OPENING = 1;
 const OPEN = 2;
 const CLOSED = 4;
 
@@ -60,7 +61,7 @@ function lastKeyboardFrame(height: number) {
 function fieldInFocus(focused: boolean) {
   jest
     .spyOn(TextInput.State, 'currentlyFocusedInput')
-    .mockReturnValue(focused ? ({} as NonNullable<FocusedInput>) : null);
+    .mockReturnValue(focused ? ({} as NonNullable<FocusedInput>) : undefined);
 }
 
 /** The keyboard is up, under a field in focus, before the footer mounts. */
@@ -86,8 +87,10 @@ describe('KeyboardFooter', () => {
   });
 
   it('rides on top of the keyboard with its top edge drawn while the keyboard is up', async () => {
+    const view = await renderFooter();
+    keyboardForTests.state.value = OPENING;
     keyboardForTests.height.value = 336;
-    await renderFooter();
+    await view.rerender(footerScreen('dark'));
     expect(flat('footer').paddingBottom).toBe(336 + tokens.space['8']);
     expect(flat('footer-edge')).toMatchObject({ opacity: 1, height: StyleSheet.hairlineWidth });
   });
@@ -146,13 +149,37 @@ describe('a footer that mounts after the keyboard left with the screen before it
     expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
   });
 
+  it('stays down when Reanimated still has that keyboard on record as open', async () => {
+    jest.replaceProperty(Platform, 'OS', 'android');
+    keyboardForTests.state.value = OPEN;
+    keyboardForTests.height.value = 300;
+    await renderFooter();
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
+    expect(flat('footer-edge').opacity).toBe(0);
+  });
+
+  it('follows the record again once the keyboard is seen moving', async () => {
+    keyboardForTests.state.value = OPEN;
+    keyboardForTests.height.value = 300;
+    const view = await renderFooter();
+    keyboardForTests.state.value = OPENING;
+    keyboardForTests.height.value = 120;
+    await view.rerender(footerScreen('dark'));
+    // Mid-rise, frame by frame.
+    expect(flat('footer').paddingBottom).toBe(120 + tokens.space['8']);
+    keyboardForTests.state.value = OPEN;
+    keyboardForTests.height.value = 336;
+    await view.rerender(footerScreen('dark'));
+    expect(flat('footer').paddingBottom).toBe(336 + tokens.space['8']);
+  });
+
   it('rises with the keyboard when it opens later', async () => {
     lastKeyboardFrame(300);
     fieldInFocus(false);
     const view = await renderFooter();
     expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
 
-    keyboardForTests.state.value = OPEN;
+    keyboardForTests.state.value = OPENING;
     keyboardForTests.height.value = 336;
     await view.rerender(footerScreen('dark'));
     expect(flat('footer').paddingBottom).toBe(336 + tokens.space['8']);
@@ -165,7 +192,7 @@ describe('a footer that mounts after the keyboard left with the screen before it
     jest
       .spyOn(TextInput.State, 'currentlyFocusedInput')
       .mockReturnValueOnce({} as NonNullable<FocusedInput>)
-      .mockReturnValue(null);
+      .mockReturnValue(undefined);
     await renderFooter();
     expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
   });
