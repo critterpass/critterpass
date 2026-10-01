@@ -22,6 +22,7 @@ import { asSystemRole } from '../../admin/command';
 import { splitBookingExpense } from '../../bookings/booking-expense';
 import { insertBooking } from '../../bookings/booking-writer';
 import type { CommandContext } from '@cp/domain';
+import { syncBookedPlanItems } from '../../bookings/plan-sync';
 import { defineCommand } from '../_framework/define-command';
 import type { BookingCommandDeps } from './deps';
 import { requireInTrip, requireTripParticipant } from './shared';
@@ -214,6 +215,7 @@ export function createResolveImportCandidateCommand(deps: BookingCommandDeps) {
         attachments: [],
       };
       await insertBooking(tx, row, ctx.uid, now);
+      await syncBookedPlanItems(tx, trip.id, ctx.uid);
       let expenseId: string | undefined;
       if (payload.split !== undefined && row.priceMinor !== null && row.currency !== null) {
         const expense = await splitBookingExpense(

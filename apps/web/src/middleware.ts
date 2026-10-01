@@ -19,6 +19,8 @@ export const onRequest = defineMiddleware((context, next) => {
   // server-rendered ones. Pages being prerendered at build time are not requests.)
   if (
     !context.isPrerendered &&
+    // The 404 page being rendered for a refused address is not itself refused.
+    context.routePattern !== '/404' &&
     siteMode((env as unknown as { SITE_MODE?: string }).SITE_MODE) === 'coming-soon' &&
     !isComingSoonPath(url.pathname, SITE_LOCALE_CODES)
   ) {

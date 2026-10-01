@@ -142,34 +142,34 @@ export const comingSoonSectionsCopy = {
 export const hatchLocalCopy = {
   'cp-005': /*i18n*/ {
     id: 'web.comingSoon.hatch.local.chep',
-    message: 'A lantern carp, waiting for you in Hội An.',
+    message: 'A lantern carp, waiting for you in {place}.',
   },
   'cp-011': /*i18n*/ {
     id: 'web.comingSoon.hatch.local.roucou',
-    message: 'A pigeon in a beret, waiting for you in Paris.',
+    message: 'A pigeon in a beret, waiting for you in {place}.',
   },
   'cp-021': /*i18n*/ {
     id: 'web.comingSoon.hatch.local.pizza',
-    message: 'A subway rat, waiting for you in New York.',
+    message: 'A subway rat, waiting for you in {place}.',
   },
   'cp-016': /*i18n*/ {
     id: 'web.comingSoon.hatch.local.drac',
-    message: 'A mosaic salamander, waiting for you in Barcelona.',
+    message: 'A mosaic salamander, waiting for you in {place}.',
   },
   'cp-001': /*i18n*/ {
     id: 'web.comingSoon.hatch.local.cuRua',
-    message: 'A Hoàn Kiếm turtle, waiting for you in Hà Nội.',
+    message: 'A Hoàn Kiếm turtle, waiting for you in {place}.',
   },
   'cp-023': /*i18n*/ {
     id: 'web.comingSoon.hatch.local.lucky',
-    message: 'A jackrabbit, waiting for you in Las Vegas.',
+    message: 'A jackrabbit, waiting for you in {place}.',
   },
   'cp-018': /*i18n*/ {
     id: 'web.comingSoon.hatch.local.lince',
-    message: 'An Iberian lynx, waiting for you in Seville.',
+    message: 'An Iberian lynx, waiting for you in {place}.',
   },
   'cp-006': /*i18n*/ {
     id: 'web.comingSoon.hatch.local.ngua',
-    message: 'A flower pony, waiting for you in Đà Lạt.',
+    message: 'A flower pony, waiting for you in {place}.',
   },
 } as const;

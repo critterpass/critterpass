@@ -57,6 +57,8 @@ export const pitches = pgTable('pitches', {
   status: text('status').notNull().default('pitched'),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
+  /** Translations of the guide-written text, per language (`@cp/domain` guide-text). */
+  i18n: jsonb('i18n'),
 });
 
 /** One vote: destination (board → final), chat poll, day option, approval, decision or MVP. */

@@ -5,6 +5,12 @@
  */
 import type { DbCommandDefinition, DbCommandResolver } from '@cp/db';
 
+import {
+  INSTALL_KEYED_COMMANDS,
+  onRegisteredInstall,
+  type InstallStandInReporter,
+} from '../device/registered-install';
+
 type ErasedDefinition = DbCommandDefinition<unknown, unknown>;
 
 export interface CommandRegistry {
@@ -13,7 +19,12 @@ export interface CommandRegistry {
   names(): readonly string[];
 }
 
-export function createCommandRegistry(): CommandRegistry {
+export interface CommandRegistryOptions {
+  /** Told when an install-keyed command ran on the caller's stand-in device. */
+  readonly onInstallStandIn?: InstallStandInReporter;
+}
+
+export function createCommandRegistry(options: CommandRegistryOptions = {}): CommandRegistry {
   const byName = new Map<string, ErasedDefinition>();
 
   return {
@@ -23,7 +34,14 @@ export function createCommandRegistry(): CommandRegistry {
       }
       // Payload types are erased at the registry boundary; the pipeline validates each payload
       // with the definition's own schema before any hook sees it, so the hooks' input still holds.
-      byName.set(definition.name, definition as unknown as ErasedDefinition);
+      const erased = definition as unknown as ErasedDefinition;
+      // Install-keyed commands act on the device the caller registered (../device/registered-install).
+      byName.set(
+        definition.name,
+        INSTALL_KEYED_COMMANDS.has(definition.name)
+          ? onRegisteredInstall(erased, options.onInstallStandIn)
+          : erased,
+      );
     },
     resolve: (name) => byName.get(name),
     names: () => [...byName.keys()].sort(),

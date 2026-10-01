@@ -35,10 +35,31 @@ test.describe('coming-soon mode serves the coming-soon surface only', () => {
     });
   }
 
-  test('a gated address shows the 404 page, not a blank answer', async ({ page }) => {
+  test("a gated address shows a plain coming-soon 404 in the visitor's language", async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({ locale: 'vi-VN' });
+    const page = await context.newPage();
     const response = await page.goto(`${COMING_SOON_URL}/tips`);
     expect(response?.status()).toBe(404);
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'vi');
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(
+      'Trang này không nằm trên lộ trình. Thổ địa đã lục từng con hẻm rồi.',
+    );
+    // Brand and one way home; none of the full site's navigation.
+    await expect(page.getByRole('link', { name: 'VỀ TRANG ĐẦU' })).toHaveAttribute('href', '/');
+    await expect(page.getByRole('link')).toHaveCount(2);
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+    await context.close();
+  });
+
+  test('app-link files stay off until launch', async ({ request }) => {
+    for (const path of [
+      '/.well-known/apple-app-site-association',
+      '/.well-known/assetlinks.json',
+    ]) {
+      expect((await request.get(`${COMING_SOON_URL}${path}`)).status(), path).toBe(404);
+    }
   });
 
   test('the front door, a language address, privacy and a referral link answer', async ({
