@@ -369,12 +369,6 @@ appId: app.critterpass.dev
       id: 'trip-hub|trip-list|trip-list-empty|trip-waiting'
     timeout: 30000
     optional: true
-# Once the trip is under way, resting on the trip's own screen brings the visit consent sheet up,
-# once. NOT NOW puts it away for good, so it covers nothing below.
-- runFlow:
-    file: ../location/subflows/visit-consent-not-now.yaml
-    env:
-      SHOT: en-join-under-way-visit-consent
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: en-join-under-way-newcomer-trip
@@ -502,10 +496,11 @@ appId: app.critterpass.dev
       id: 'trip-hub|trip-list|trip-list-empty|trip-waiting'
     timeout: 30000
     optional: true
+# The trip is under way: resting on the trip's own screen brings the visit consent sheet up, once.
 - runFlow:
     file: ../location/subflows/visit-consent-not-now.yaml
     env:
-      SHOT: en-join-under-way-visit-consent-later
+      SHOT: en-join-under-way-visit-consent
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: en-join-under-way-newcomer-trip-later
