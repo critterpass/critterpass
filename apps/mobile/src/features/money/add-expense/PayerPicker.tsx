@@ -15,7 +15,7 @@ import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { Avatar } from '@/ui/people/Avatar';
 import { Row } from '@/ui/layout/Row';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
+import { makeStyles } from '@/ui/theme';
 
 import type { MoneyMember } from '../data/context';
 
@@ -23,12 +23,22 @@ const SPRING = isPhysicalSpring(tokens.motion.spring.bouncy)
   ? springConfig(tokens.motion.spring.bouncy)
   : undefined;
 
+/** Clear space between the avatar's edge and the ring. */
+const RING_GAP = tokens.space['4'];
+
+interface Slot {
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+}
+
 const useStyles = makeStyles((t) => ({
   row: { alignItems: 'center', justifyContent: 'space-between' },
   avatars: { flexDirection: 'row', gap: t.space['8'] },
   ring: {
     position: 'absolute',
-    top: -t.space['4'],
+    start: 0,
     borderWidth: t.space['2'] + 1,
     borderColor: t.semantic.action.primary,
   },
@@ -42,23 +52,24 @@ export interface PayerPickerProps {
 
 export function PayerPicker({ members, payerId, onPick }: PayerPickerProps) {
   const styles = useStyles();
-  const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
   const reduced = useReducedImpactMotion();
-  const diameter = sizeToken(theme.size.avatar, 'md');
-  const ringSize = diameter + theme.space['8'];
-  const [slots, setSlots] = useState<Readonly<Record<string, number>>>({});
+  // The ring is laid out around the avatar as measured (its drawn size, not the size token), so
+  // the two share a centre whatever the avatar adds around its face.
+  const [slots, setSlots] = useState<Readonly<Record<string, Slot>>>({});
   const target = slots[payerId];
+  const ringSize = target === undefined ? 0 : Math.max(target.width, target.height) + RING_GAP * 2;
+  const left = target === undefined ? 0 : target.x + target.width / 2 - ringSize / 2;
+  const top = target === undefined ? 0 : target.y + target.height / 2 - ringSize / 2;
   const x = useSharedValue(0);
   const placed = useSharedValue(false);
   useEffect(() => {
     if (target === undefined) return;
-    const left = target - theme.space['4'];
     x.value = !placed.value || reduced || SPRING === undefined ? left : withSpring(left, SPRING);
     placed.value = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps -- shared values are stable refs.
-  }, [target, reduced]);
+  }, [left, target === undefined, reduced]);
   const ringStyle = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
   return (
     <Row style={styles.row}>
@@ -75,12 +86,7 @@ export function PayerPicker({ members, payerId, onPick }: PayerPickerProps) {
             pointerEvents="none"
             style={[
               styles.ring,
-              {
-                width: ringSize,
-                height: ringSize,
-                borderRadius: ringSize / 2,
-                start: 0,
-              },
+              { width: ringSize, height: ringSize, borderRadius: ringSize / 2, top },
               ringStyle,
             ]}
           />
@@ -96,10 +102,13 @@ export function PayerPicker({ members, payerId, onPick }: PayerPickerProps) {
               onPick(member.userId);
             }}
             onLayout={(event) => {
-              const at = event.nativeEvent.layout.x;
-              setSlots((current) =>
-                current[member.userId] === at ? current : { ...current, [member.userId]: at },
-              );
+              const { x: at, y, width, height } = event.nativeEvent.layout;
+              setSlots((current) => {
+                const was = current[member.userId];
+                return was?.x === at && was.y === y && was.width === width && was.height === height
+                  ? current
+                  : { ...current, [member.userId]: { x: at, y, width, height } };
+              });
             }}
             testID={`money-add-payer-${member.joinIndex}`}
           >

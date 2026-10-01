@@ -147,6 +147,7 @@ export const HOME_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   add: () => <AddScene extra={[]} />,
+  'add-paid-by-alex': () => <AddScene extra={[{ type: 'payer', userId: 'u-alex' }]} />,
   'add-by-share': () => (
     <AddScene
       extra={[
