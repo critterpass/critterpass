@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4d414d26-45be-4b00-8851-8aeaa3d3d851",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"ランタン灯るホイアン\"},{\"id\":\"t2\",\"text\":\"ホイアンの仕立て屋は丸一日かかるから、先に預けて最後に受け取ろう。\"},{\"id\":\"t3\",\"text\":\"お土産のドライマンゴーとコーヒーはハン市場で。笑顔で値切ろう。\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 795,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 768,
+        "output_tokens": 91,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

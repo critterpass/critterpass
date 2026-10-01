@@ -5,6 +5,7 @@
 import { format } from '@cp/i18n';
 import { plural, t } from '@lingui/core/macro';
 
+import { clockIn } from '../leave-by/model';
 import type { ActivityRow } from './data/use-hub';
 
 export function tileTitles() {
@@ -105,15 +106,113 @@ export function activityLine(row: Pick<ActivityRow, 'verb' | 'actor_name'>): str
   }
 }
 
+/** The trip's latest step in the traveller's words, from the status it moved to. */
+export function statusLine(status: string | null): string {
+  switch (status) {
+    case 'voting':
+      return t({ id: 'trip.hub.ticker.status.voting', message: 'The vote is open' });
+    case 'won':
+      return t({ id: 'trip.hub.ticker.status.won', message: 'The place is picked' });
+    case 'setup':
+      return t({ id: 'trip.hub.ticker.status.setup', message: 'The trip is being set up' });
+    case 'drafting':
+    case 'redrafting':
+      return t({ id: 'trip.hub.ticker.status.drafting', message: 'The plan is being drafted' });
+    case 'draft_review':
+      return t({ id: 'trip.hub.ticker.status.review', message: 'The draft is ready to review' });
+    case 'proposed':
+      return t({ id: 'trip.hub.ticker.status.proposed', message: 'The plan is out to the crew' });
+    case 'confirmed':
+    case 'pre_trip':
+      return t({ id: 'trip.hub.ticker.status.confirmed', message: 'The plan is locked in' });
+    case 'in_trip':
+      return t({ id: 'trip.hub.ticker.status.inTrip', message: 'The trip has started' });
+    case 'post_trip':
+    case 'archived':
+      return t({ id: 'trip.hub.ticker.status.over', message: 'The trip is over' });
+    case 'cancelled':
+      return t({ id: 'trip.hub.ticker.status.cancelled', message: 'The trip was called off' });
+    case null:
+    default:
+      return t({ id: 'trip.hub.ticker.moved', message: 'The trip moved to its next step' });
+  }
+}
+
 /**
- * "Oct 12 – Oct 19" for a trip's dates. Hermes has no `Intl.DateTimeFormat#formatRange`, so the two
- * ends are formatted on their own.
+ * The ticker's lines, newest first: each activity in words, with the trip's steps told once, as
+ * the step it is on now (the events don't say which step each was), and no line said twice.
+ */
+export function tickerLines<Row extends Pick<ActivityRow, 'verb' | 'actor_name'>>(
+  rows: readonly Row[],
+  status: string | null,
+): { readonly row: Row; readonly text: string }[] {
+  const said = new Set<string>();
+  const lines: { row: Row; text: string }[] = [];
+  let step = false;
+  for (const row of rows) {
+    if (row.verb === 'moved') {
+      if (step) continue;
+      step = true;
+    }
+    const text = row.verb === 'moved' ? statusLine(status) : activityLine(row);
+    if (said.has(text)) continue;
+    said.add(text);
+    lines.push({ row, text });
+  }
+  return lines;
+}
+
+/** "First day · Oct 21", "Your flight · 17:00": what the hub's entry is, then its day or time. */
+export function entryLabel(what: string, when: string): string {
+  return `${what} · ${when}`;
+}
+
+/**
+ * The next stop's label: "Next up · 10:00" when it is today, "Tomorrow · 10:00" the day after and
+ * "Oct 24 · 10:00" for a later day, so a stop on another day never reads as today's.
+ */
+export function nextUpLabel(locale: string, today: string, dayDate: string, time: string): string {
+  /* eslint-disable lingui/no-unlocalized-strings -- date literals, never copy. */
+  const days = Math.round(
+    (Date.parse(`${dayDate}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000,
+  );
+  /* eslint-enable lingui/no-unlocalized-strings */
+  const what =
+    days <= 0
+      ? t({ id: 'trip.hub.next', message: 'Next up' })
+      : days === 1
+        ? t({ id: 'trip.hub.tomorrow', message: 'Tomorrow' })
+        : shortDay(locale, dayDate);
+  return entryLabel(what, time);
+}
+
+/**
+ * Today's leave-by as the hub's entry labels it: what kind of deadline it is and its time. The
+ * one place the hub words a leave-by.
+ */
+export function leaveByLabel(
+  leaveBy: { readonly leave_at: string; readonly tz: string },
+  locale: string,
+): string {
+  return entryLabel(
+    t({ id: 'trip.hub.leaveByToday', message: 'Leave by' }),
+    clockIn(new Date(leaveBy.leave_at), leaveBy.tz, locale),
+  );
+}
+
+/**
+ * "Oct 12–19" for a trip's dates inside one month, "Sep 27 – Oct 3" across two: the shared
+ * interval formatter, which also covers Hermes having no `Intl.DateTimeFormat#formatRange`.
  */
 export function tripDates(locale: string, start: string, end: string | null): string {
-  const last = end ?? start;
-  return last === start
-    ? shortDay(locale, start)
-    : `${shortDay(locale, start)} – ${shortDay(locale, last)}`;
+  /* eslint-disable lingui/no-unlocalized-strings -- date literals and Intl options. */
+  const at = (date: string) => new Date(`${date}T12:00:00Z`);
+  return format.dateInterval(locale, at(start), at(end ?? start), {
+    timeZone: 'UTC',
+    month: 'short',
+    day: 'numeric',
+  });
+  /* eslint-enable lingui/no-unlocalized-strings */
 }
 
 /** "Oct 12" for a trip date. */

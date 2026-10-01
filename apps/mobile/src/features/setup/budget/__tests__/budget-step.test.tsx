@@ -29,7 +29,7 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { SyncTransport } from '@/data/powersync/transport';
 
-import { ALEX, DEV, JORDAN, MAYA, RIN, WINSTON } from '../../scenes/fixtures';
+import { ALEX, DEV, JORDAN, MAYA, RIN, TRIP_ID, WINSTON } from '../../scenes/fixtures';
 import { apiReads, K_ANON, renderBudget, seedBudget } from '../test-support/budget-harness';
 
 let stack: TestLocalFirst | null = null;
@@ -210,6 +210,52 @@ describe('organiser of a crew settling in dong', () => {
     expect((targets[0] ?? 1) % STEP).toBe(0);
   });
 
+  it('works the step out from the newest rate of each currency when a day is only part in', async () => {
+    const { targets, transport } = answering([applied]);
+    stack = await openTestLocalFirst({ uid: WINSTON, transport });
+    await seedBudget(stack, {
+      people: PAIR,
+      aggregate: null,
+      currency: 'VND',
+      fx: [...DONG_ONLY, ['EUR', 'USD', '1.25']],
+    });
+    // The next day's rows so far: the dollar alone.
+    await stack.db.execute(
+      `INSERT INTO fx_snapshots (id, base, quote, rate, as_of, source)
+       VALUES ('fx-next-day', 'EUR', 'USD', '1.25', '2027-03-02', 'frankfurter')`,
+    );
+    await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
+    await screen.findByTestId('budget-track');
+    await fireEvent.press(screen.getByTestId('budget-lock'));
+    await waitFor(() => expect(targets).toHaveLength(1));
+    // $50 is 1,300,000 ₫ at these rates: the knob sits on that grid, not on a dollar-sized one.
+    expect(targets[0]).toBeGreaterThanOrEqual(STEP);
+    expect((targets[0] ?? 1) % STEP).toBe(0);
+  });
+
+  it('says the rate is not in yet when the server has no rate to lock with', async () => {
+    const { transport } = answering([
+      {
+        status: 409,
+        body: {
+          error: {
+            code: 'STATE_INVALID',
+            message: 'no',
+            retryable: false,
+            detail: { reason: 'rates_unavailable' },
+          },
+        },
+      },
+    ]);
+    stack = await openTestLocalFirst({ uid: WINSTON, transport });
+    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'VND', fx: DONG_ONLY });
+    await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
+    await screen.findByTestId('budget-track');
+    await fireEvent.press(screen.getByTestId('budget-lock'));
+    const line = await screen.findByTestId('budget-lock-line');
+    expect(String(line.props.children)).toMatch(/rate for your crew’s currency isn’t in yet/u);
+  });
+
   it('takes up the step a refused lock answers with and sends it once more', async () => {
     const { targets, transport } = answering([refusal(offStep), applied]);
     stack = await openTestLocalFirst({ uid: WINSTON, transport });
@@ -239,6 +285,37 @@ describe('organiser of a crew settling in dong', () => {
     const line = await screen.findByTestId('budget-lock-line');
     expect(line.props.children).toBe('That didn’t lock. Try again.');
     expect(targets).toHaveLength(2);
+  });
+});
+
+describe('the knob before the organiser touches it', () => {
+  it('follows the suggested start when prices arrive after the step is on screen', async () => {
+    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
+    await seedBudget(stack, {
+      people: SIX.slice(4),
+      aggregate: { currency: 'USD', maxes_count: 0, member_count: 2 },
+    });
+    await stack.db.execute(
+      "UPDATE trips SET start_date = '2027-04-02', end_date = '2027-04-04' WHERE id = ?",
+      [TRIP_ID],
+    );
+    await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
+    // Nothing priced yet: a third along the sixty-step track.
+    const track = await screen.findByTestId('budget-track');
+    expect(track.props.accessibilityValue).toEqual({ text: '$1,000' });
+    // The destination's cost index syncs: 2 nights at $40 + 3 days at $45 = $215 at the least,
+    // so the track runs $200 to $500 and the start is a third along it, not pinned to its end.
+    await stack.db.execute("UPDATE trips SET destination_id = 'dest-1' WHERE id = ?", [TRIP_ID]);
+    await stack.db.execute(
+      `INSERT INTO destination_cost_indices (id, destination_id, stay_type, nightly_minor_low,
+         nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, reviewed_at)
+       VALUES ('ci-1', 'dest-1', 'hotel', 4000, 6000, 3000, 1500, 'USD', '2027-01-01')`,
+    );
+    await waitFor(() =>
+      expect(screen.getByTestId('budget-track').props.accessibilityValue).toEqual({
+        text: '$300',
+      }),
+    );
   });
 });
 

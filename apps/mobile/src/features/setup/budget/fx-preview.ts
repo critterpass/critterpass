@@ -1,5 +1,5 @@
 /** "≈ $1,120 in USD": what a typed max is in the trip currency, at the latest synced rate. */
-import { assertCurrencyCode, convertWith, type FxContext } from '@cp/cost-engine';
+import { assertCurrencyCode, convertWith, roundEstimate, type FxContext } from '@cp/cost-engine';
 import { t } from '@lingui/core/macro';
 
 import { money } from './model';
@@ -17,7 +17,8 @@ export function approxIn(
       assertCurrencyCode(to),
       fx,
     );
-    const amount = money(locale, Number(converted.amountMinor), to);
+    // An approximation, shown as one: the max itself is stored exactly as typed.
+    const amount = money(locale, Number(roundEstimate(converted).amountMinor), to);
     return t({ id: 'setup.budget.member.approx', message: `≈ ${amount} in ${to}` });
   } catch {
     return undefined;

@@ -818,7 +818,7 @@ Presence and cursors are ephemeral (never persisted). Every channel is ACL'd per
 | N-08 | Scheduled resend / "ask me Sunday" | suggestion or private sheet, recipient local time | recipient | BUDGET |
 | N-09 | Reply-by / hold expiring | reply_by − 24 h; hold − 24 h | unanswered; organiser | ALWAYS (money) |
 | N-10 | RSVP change | status change | organiser | BUDGET |
-| N-11 | Crew chat / mention | message; per-crew mode (default mentions only) | members | BUDGET |
+| N-11 | Crew chat / mention | message; per-crew mode (default mentions only; doc delta 1 Oct 2026, product-decisions Q-85a: every message in a crew of six or fewer, and not counted toward the budget) | members | BUDGET |
 | N-12 | Nudge (guide-voiced) | nudge scheduler, engagement hour | target app user; a non-installed invitee has no push token → inviter share-sheet relay [P] (Q-19) | BUDGET |
 | N-13 | "Found N bookings" | import candidate created | crew | ROUNDUP |
 | N-14 | Flight change (delay, gate, cancel) | provider webhook | travellers + crew | ALWAYS |
@@ -860,6 +860,7 @@ Presence and cursors are ephemeral (never persisted). Every channel is ACL'd per
 | N-50 | Guide acted, with UNDO (3b-4 "Tokek moved Rin's pickup") | non-disruption GuideAction done | affected members | BUDGET (Inbox card) |
 | N-51 | MVP vote open (3m-5) | awards card viewed / recap ready | crew | ROUNDUP |
 | N-52 | Account purge reminder [P] (3n-11) | purge_at − 3 d | closed account | email / SMS |
+| N-53 | Trip confirmed, "It's on: {place}, {dates}" (`trip_confirmed`; added 1 Oct 2026 on the founder's say) | the trip becomes confirmed: the organiser locks it in, or enough are in when reply-by passes | everyone holding a place on the trip, except whoever locked it | BUDGET |
 
 **Scheduled and background jobs**
 

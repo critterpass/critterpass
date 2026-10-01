@@ -116,7 +116,6 @@ export function DetailView(props: DetailViewProps) {
             <CritterDetail
               name={upper(name, locale)}
               tier={form?.rarity ?? 'common'}
-              {...(form?.habitat == null ? {} : { habitat: upper(form.habitat, locale) })}
               dexNumber={model.no}
               tone={TONE[form?.rarity ?? 'common']}
               sticker={

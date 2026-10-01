@@ -1,0 +1,4 @@
+# Append-only tables that several pull requests add rows to at once: keep both sides instead of
+# stopping on a conflict. Each row is one line, so a union of the two sides is the right merge.
+docs/undesigned-states.md merge=union
+e2e/README.md merge=union

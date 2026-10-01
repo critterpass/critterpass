@@ -4,22 +4,24 @@
  * next calm moment: the app in front, the viewer resting on a tab root for a moment, never over a
  * boarding pass, an alarm, SOS, a sheet, a flow in progress or onboarding. It plays once per egg.
  *
- * Arrival: while the trip is under way and the egg is still whole, a position the location engine
- * already has (it never asks for permission here) in the destination's country hatches it with
- * `hatch_egg{trigger:'arrived'}`, once per egg per session.
+ * Arrival: from the trip's first day, while the egg is still whole, a position the location engine
+ * already has (it never asks for permission here) inside the destination's area hatches it with
+ * `hatch_egg{trigger:'arrived'}`, once per egg per session. On the first day that also starts the
+ * trip, so a morning landing doesn't wait for noon.
  */
 import { router, usePathname } from 'expo-router';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
-import { countryOf, getLocationEngine } from '@/lib/location';
+import { countryOf } from '@/lib/location';
 
 import { useInFront } from '../data/app-front';
 import { hatchEggCommand } from '../data/commands';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { TRIPS_SQL, TRIPS_TABLES, type TripRow } from '../data/queries';
 import { hatchRoute } from '../routes';
-import { eggCardFor, hatchSeen, useHatchSeenVersion } from './hatch-model';
+import { awaitsArrival, hasArrived, latestPosition } from './arrival';
+import { deviceTimeZone, eggCardFor, hatchSeen, useHatchSeenVersion } from './hatch-model';
 
 /** How long the viewer must rest on a calm screen before the ceremony opens. */
 export const CALM_MS = 1500;
@@ -37,12 +39,8 @@ export function isCalmPath(pathname: string): boolean {
 const arrivedAsked = new Set<string>();
 
 async function arrivedIn(trip: TripRow): Promise<boolean> {
-  if (trip.destination_country === null) return false;
-  const fixes = getLocationEngine()?.recentFixes() ?? [];
-  const last = fixes[fixes.length - 1];
-  if (last === undefined) return false;
-  const country = await countryOf(last.lat, last.lng);
-  return country !== null && country === trip.destination_country.toUpperCase();
+  const position = latestPosition();
+  return position !== null && hasArrived(trip, position, countryOf);
 }
 
 export function HatchRuntime({ now = () => new Date() }: { readonly now?: () => Date }) {
@@ -69,9 +67,7 @@ export function HatchRuntime({ now = () => new Date() }: { readonly now?: () => 
     return () => clearTimeout(timer);
   }, [unseenEgg, unseenTrip, active, pathname]);
 
-  const whole = rows.find(
-    (t) => t.status === 'in_trip' && t.egg_id !== null && t.egg_hatched_at === null,
-  );
+  const whole = rows.find((t) => awaitsArrival(t, now(), deviceTimeZone()));
   const wholeEgg = whole?.egg_id ?? null;
   const latest = useRef(whole);
   useLayoutEffect(() => {

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "134e0645-98d8-4855-9bab-06c115910707",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Đi từ 6:40 để kịp chuyến bay 8:15 tới Đà Nẵng.\"},{\"id\":\"t2\",\"text\":\"Minh còn nợ 320,000 VND từ tối qua. Nhắc khéo một chút cũng không sao.\"},{\"id\":\"t3\",\"text\":\"Fusion Suites miễn phí hủy phòng đến 14:00 ngày mai.\"},{\"id\":\"t4\",\"text\":\"15:00 mưa, nên đi dạo cầu vào buổi sáng nay.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 376,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 141,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

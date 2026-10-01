@@ -19,12 +19,8 @@ msgstr ""
 msgid "trip.hub.tile.days"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.guestGuide"
-msgstr ""
-
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.generating"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
@@ -135,7 +131,7 @@ msgstr ""
 msgid "trip.briefing.done"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.earlyStart"
 msgstr ""
 
@@ -143,7 +139,11 @@ msgstr ""
 msgid "trip.hub.tile.settled"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.explore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.firstDay"
 msgstr ""
 
@@ -175,8 +175,12 @@ msgstr ""
 msgid "trip.hub.lands"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.leaveByToday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -187,7 +191,7 @@ msgstr ""
 msgid "trip.list.unnamed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.next"
 msgstr ""
 
@@ -196,7 +200,23 @@ msgid "trip.list.emptyTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneYet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.todayDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneTomorrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneFrom"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
@@ -223,7 +243,7 @@ msgstr ""
 msgid "trip.hub.tile.owed"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.packTitle"
 msgstr ""
 
@@ -272,6 +292,7 @@ msgid "trip.hub.ticker.someone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.switch"
 msgstr ""
 
@@ -280,19 +301,64 @@ msgid "trip.hub.takeOff"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.review"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.won"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.drafting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.confirmed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.proposed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.inTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.setup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.over"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.moved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.cancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.ticker.status.voting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.today"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.today"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tomorrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
@@ -311,7 +377,7 @@ msgstr ""
 msgid "trip.hub.whereNext"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.openDay"
 msgstr ""
 
@@ -323,7 +389,7 @@ msgstr ""
 msgid "trip.briefing.queued"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
 msgstr ""
 

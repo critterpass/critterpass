@@ -64,7 +64,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 async function sent(body: string, mentions: string[], replyTo: string | null = null) {
@@ -106,10 +106,10 @@ async function withClient<T>(fn: (client: pg.PoolClient) => Promise<T>): Promise
 const registration = () => getRegistration('chat.message_sent', 'crew_chat')!;
 
 describe('crew chat audience', () => {
-  it('sends a plain message to `all` members only, never to the sender or a muter', async () => {
+  it('sends a plain message in a crew of six to `all` and never-chosen members, never to the sender or a muter', async () => {
     const { event } = await sent('dinner at 8?', []);
     const audience = await withClient((c) => registration().audience(c, event));
-    expect(audience).toEqual([people.all]);
+    expect([...audience].sort()).toEqual([people.all, people.unset].sort());
   });
 
   it('adds mentioned members at `mentions` or never-chosen level, never `off`', async () => {
@@ -121,7 +121,30 @@ describe('crew chat audience', () => {
   it('counts a reply to a mentions-level member as theirs', async () => {
     const { event } = await sent('yes!', [], people.mentions);
     const audience = await withClient((c) => registration().audience(c, event));
-    expect([...audience].sort()).toEqual([people.all, people.mentions].sort());
+    expect([...audience].sort()).toEqual([people.all, people.mentions, people.unset].sort());
+  });
+
+  it('keeps never-chosen members on mentions once the crew outgrows six, and a choice always wins', async () => {
+    const seventh = randomUUID();
+    await q("INSERT INTO users (id, status, display_name) VALUES ($1, 'registered', 'seventh')", [
+      seventh,
+    ]);
+    await q('INSERT INTO crew_members (crew_id, user_id) VALUES ($1, $2)', [crewId, seventh]);
+    const plain = await sent('anyone up?', []);
+    expect(await withClient((c) => registration().audience(c, plain.event))).toEqual([people.all]);
+    const mention = await sent('@seventh', [seventh]);
+    expect(
+      [...(await withClient((c) => registration().audience(c, mention.event)))].sort(),
+    ).toEqual([people.all, seventh].sort());
+    // Back to six active members: the never-chosen hear everything again, `mentions` stays put.
+    await q("UPDATE crew_members SET status = 'left' WHERE crew_id = $1 AND user_id = $2", [
+      crewId,
+      seventh,
+    ]);
+    const small = await sent('just us', []);
+    expect([...(await withClient((c) => registration().audience(c, small.event)))].sort()).toEqual(
+      [people.all, people.unset].sort(),
+    );
   });
 });
 

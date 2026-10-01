@@ -1,0 +1,165 @@
+appId: app.critterpass.dev
+---
+# A sheet that a Wallet tab screen opens covers the tab bar and the guide button: its scrim reaches
+# the bottom of the screen, its last row and primary button can be tapped where the bar was, and the
+# bar is back once the sheet is gone. Sheets that are routes of their own (the crews sheet, the
+# guide sheet) sit over the bar as before.
+#
+# Data: a fresh account with a crew of one and a solo trip to Hội An, on the Wallet's Money half
+# with one expense (e2e/happy/fresh-wallet.yaml).
+#
+# Each sheet is checked the same way: the bar is not there while the sheet is up, and the tap on the
+# sheet's own control does what that control does. A tap that landed on the bar instead would switch
+# tabs or open the guide, and the checks after it fail.
+- runFlow: ../happy/fresh-wallet.yaml
+- assertVisible:
+    id: 'tab-wallet'
+- assertVisible:
+    id: 'guide-fab'
+
+# 1. The crew currency (Money, the currency chip). Its last row sits where the guide button was.
+- tapOn:
+    id: 'money-currency-chip'
+- extendedWaitUntil:
+    visible: '(?i)switch the crew currency'
+    timeout: 10000
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: 'tab-wallet'
+- assertNotVisible:
+    id: 'guide-fab'
+- takeScreenshot: sheets-above-tabs-currency
+# The row of the currency the crew already counts in: choosing it again changes nothing, so the
+# sheet stays as it is. The guide opening instead means the guide button took the tap.
+- tapOn:
+    text: 'VND.*'
+    below: '(?i)switch the crew currency'
+- waitForAnimationToEnd
+- assertVisible: '(?i)switch the crew currency'
+- assertNotVisible:
+    id: 'guide-composer'
+- tapOn:
+    id: 'money-currency-close'
+- extendedWaitUntil:
+    notVisible: '(?i)switch the crew currency'
+    timeout: 10000
+# The sheet is gone and the bar is back, still on the Wallet's Money half.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 5000
+- assertVisible:
+    id: 'guide-fab'
+- assertVisible:
+    id: 'money-currency-chip'
+
+# 2. Set a crew budget (Money → Budget). SAVE is the sheet's last control; it is tapped with the
+# number pad still up.
+- openLink: critterpass-dev://wallet/money/budget
+- extendedWaitUntil:
+    visible:
+      id: 'money-budget-set'
+    timeout: 30000
+- tapOn:
+    id: 'money-budget-set'
+- extendedWaitUntil:
+    visible:
+      id: 'money-budget-save'
+    timeout: 10000
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: 'tab-wallet'
+- assertNotVisible:
+    id: 'guide-fab'
+- takeScreenshot: sheets-above-tabs-budget
+- tapOn:
+    id: 'money-budget-target'
+- inputText: '5000000'
+- tapOn:
+    id: 'money-budget-save'
+# Saved: the sheet closes, and the budget page (still the Wallet tab) no longer asks for a budget.
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-budget-save'
+    timeout: 30000
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-budget-set'
+    timeout: 30000
+- assertVisible:
+    id: 'money-budget-spent'
+- assertNotVisible:
+    id: 'guide-composer'
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 5000
+
+# 3. Paste a booking (Bookings → Add a booking → PASTE). READ IT is the sheet's last control; it is
+# tapped with the keyboard still up.
+- openLink: critterpass-dev://wallet/bookings/add
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-address'
+    timeout: 30000
+# Android shows the tile's title; iOS reads the tile whole ("PASTE, A link or code").
+- tapOn: 'PASTE.*'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-paste-field'
+    timeout: 10000
+- waitForAnimationToEnd
+- assertNotVisible:
+    id: 'tab-wallet'
+- assertNotVisible:
+    id: 'guide-fab'
+- takeScreenshot: sheets-above-tabs-paste
+- tapOn:
+    id: 'bookings-paste-field'
+- inputText: 'Booking reference K7Q2PX'
+- tapOn:
+    id: 'bookings-paste-send'
+# Sent: the sheet closes onto Add a booking (still the Wallet tab) while the guide reads it.
+- extendedWaitUntil:
+    notVisible:
+      id: 'bookings-paste-send'
+    timeout: 60000
+- assertVisible:
+    id: 'bookings-address'
+- assertNotVisible:
+    id: 'guide-composer'
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 5000
+
+# Sheets that are routes of their own are unchanged: they sit over the tabs, bar included.
+# The crews sheet (dismissed by its grabber or the scrim: it has no ✕).
+- openLink: critterpass-dev://crew
+- extendedWaitUntil:
+    visible:
+      id: 'crews-join-code'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: sheets-above-tabs-crews-route
+- tapOn:
+    point: 50%, 8%
+- extendedWaitUntil:
+    notVisible:
+      id: 'crews-join-code'
+    timeout: 10000
+# The guide sheet, opened from the guide button on the bar.
+- openLink: critterpass-dev://wallet/money
+- extendedWaitUntil:
+    visible:
+      id: 'guide-fab'
+    timeout: 15000
+- tapOn:
+    id: 'guide-fab'
+# The sheet's root id isn't in iOS's accessibility tree; its composer is.
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: sheets-above-tabs-guide-route

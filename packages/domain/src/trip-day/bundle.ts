@@ -7,6 +7,8 @@
  */
 import { z } from 'zod';
 
+import { toCountryCode } from '../countries/country-code';
+
 export const BUNDLE_ASSET_KINDS = ['attachment', 'phrase_audio', 'map_region'] as const;
 export type BundleAssetKind = (typeof BUNDLE_ASSET_KINDS)[number];
 
@@ -71,8 +73,10 @@ const COUNTRY_LANGUAGE: Readonly<Record<string, string>> = {
   MX: 'es',
 };
 
+/** `country` is the destination's country as stored: an ISO code or its English name. */
 export function phraseLanguageFor(country: string | null): string | null {
-  return country === null ? null : (COUNTRY_LANGUAGE[country.toUpperCase()] ?? null);
+  const code = toCountryCode(country);
+  return code === null ? null : (COUNTRY_LANGUAGE[code] ?? null);
 }
 
 /** Canonical JSON (sorted keys) so the same content always hashes the same. */

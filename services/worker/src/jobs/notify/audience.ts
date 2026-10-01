@@ -7,7 +7,7 @@
  * the trip's zone is their day; otherwise their most recently seen device's zone, then their
  * profile zone, then UTC. `roundup_tz = 'device'` opts the evening roundup out of the trip zone.
  */
-import type { NotificationPrefGate } from '@cp/domain';
+import { DEFAULT_BUDGET_PER_DAY, type NotificationPrefGate } from '@cp/domain';
 import type pg from 'pg';
 
 import { clockMinutes, type QuietHours } from './policy';
@@ -98,7 +98,7 @@ export async function loadRecipient(
       row.last_seen_at !== null &&
       now.getTime() - row.last_seen_at.getTime() < FOREGROUND_FRESH_MS,
     prefs: {
-      budgetPerDay: row.budget_per_day ?? 5,
+      budgetPerDay: row.budget_per_day ?? DEFAULT_BUDGET_PER_DAY,
       roundupMinutes: clockMinutes(row.roundup_time ?? '20:00'),
       roundupTz,
       quiet: {

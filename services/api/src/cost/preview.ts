@@ -29,8 +29,13 @@ async function loadFx(tx: pg.PoolClient): Promise<FxContext | undefined> {
     as_of: string;
     source: string;
   }>(
-    `SELECT id, base, quote, rate::text AS rate, as_of::text AS as_of, source FROM fx_snapshots
-      WHERE as_of = (SELECT max(as_of) FROM fx_snapshots) ORDER BY quote, source`,
+    // The newest rate of every pair: the source dates each currency on its own, so the newest
+    // day's rows are rarely a complete set.
+    `SELECT id, base, quote, rate, as_of, source FROM (
+       SELECT DISTINCT ON (base, quote) id, base, quote, rate::text AS rate, as_of::text AS as_of,
+              source
+         FROM fx_snapshots ORDER BY base, quote, as_of DESC, created_at DESC
+     ) newest ORDER BY quote, source`,
   );
   const first = rows[0];
   if (!first) return undefined;

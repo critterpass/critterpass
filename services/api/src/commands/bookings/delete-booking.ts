@@ -9,6 +9,7 @@ import { BOOKINGS_RT, deleteBookingPayloadSchema, type BookingResult } from '@cp
 
 import { asSystemRole } from '../../admin/command';
 import { armDeadlineReminder, emitFlightChange } from '../../bookings/booking-writer';
+import { syncBookedPlanItems } from '../../bookings/plan-sync';
 import { deleteExpense, loadExpense } from '../../money/expense-changes';
 import { defineCommand } from '../_framework/define-command';
 import { requireExpenseEditor } from '../money/shared';
@@ -55,6 +56,7 @@ export const deleteBookingCommand = defineCommand({
       }
     }
     await armDeadlineReminder(tx, { id: booking.id, tz: booking.tz, freeCancelUntil: null }, now);
+    await syncBookedPlanItems(tx, booking.trip_id, ctx.uid);
     await emitEvent(tx, {
       type: 'booking.deleted',
       aggregateKind: 'booking',

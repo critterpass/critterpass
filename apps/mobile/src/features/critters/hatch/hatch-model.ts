@@ -1,6 +1,7 @@
 /**
  * The trip egg's state for the PASS tab and the hatch ceremony (3l-1): waiting for landing,
- * ready to hatch by hand (the trip is under way and it is the start date or later on this phone),
+ * ready to hatch by hand (the trip is under way and it is the start date or later on this phone,
+ * or the trip's first day has come and the phone is at the destination),
  * or hatched with the ceremony still unseen on this device. Which ceremonies were seen is kept
  * per device, so a second phone still plays it once; the hatch itself is idempotent server-side.
  */
@@ -9,6 +10,7 @@ import { useSyncExternalStore } from 'react';
 import { createMMKV } from 'react-native-mmkv';
 
 import type { TripRow } from '../data/queries';
+import { tripHasStarted } from './arrival';
 
 export type EggCardKind = 'waiting' | 'ready' | 'unseen';
 
@@ -23,6 +25,8 @@ export interface EggCard {
   readonly guideName: string | null;
   readonly startDate: string | null;
   readonly endDate: string | null;
+  /** How HATCH IT hatches a ready egg: by hand once under way, else as an arrival. */
+  readonly trigger?: 'manual' | 'arrived';
 }
 
 export function deviceTimeZone(): string {
@@ -40,6 +44,8 @@ export function eggCardFor(
   now: Date,
   seen: (eggId: string) => boolean,
   tz?: string,
+  /** The phone is inside this trip's destination right now. */
+  here: (trip: TripRow) => boolean = () => false,
 ): EggCard | null {
   for (const trip of trips) {
     if (trip.egg_id === null) continue;
@@ -58,7 +64,12 @@ export function eggCardFor(
       if (!seen(trip.egg_id)) return { ...base, kind: 'unseen' };
       continue;
     }
-    return { ...base, kind: canHatchByHand(trip, now, tz) ? 'ready' : 'waiting' };
+    if (canHatchByHand(trip, now, tz)) return { ...base, kind: 'ready', trigger: 'manual' };
+    // Arrival day, at the destination, before the trip is marked under way: no waiting for that.
+    if (tripHasStarted(trip, now, tz ?? deviceTimeZone()) && here(trip)) {
+      return { ...base, kind: 'ready', trigger: 'arrived' };
+    }
+    return { ...base, kind: 'waiting' };
   }
   return null;
 }

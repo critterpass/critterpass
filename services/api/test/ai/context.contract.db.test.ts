@@ -106,8 +106,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await pool.end();
-  await postgres.stop();
+  await pool?.end();
+  await postgres?.stop();
 });
 
 function recordingRunner(): { run: RunAsGuideReader; sql: string[]; roles: string[] } {

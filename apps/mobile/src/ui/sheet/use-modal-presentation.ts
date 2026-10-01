@@ -18,6 +18,7 @@ import {
   presenterOpened,
   useHostedPresentation,
 } from './presenter';
+import { useTabBarCover } from './tab-bar-cover';
 
 export type ModalVariant = 'sheet' | 'rise';
 
@@ -73,7 +74,8 @@ export interface ModalPresentationOptions {
 
 /**
  * Shared engine of `Sheet` and `RiseModal`: entrance, detent snapping, drag-dismiss within the
- * grab zone (with nested-scroll hand-off), presenter scale, scrim, keyboard inset, Android back.
+ * grab zone (with nested-scroll hand-off), presenter scale, scrim, keyboard inset, Android back,
+ * and covering the tab bar when a tab screen renders it.
  */
 export function useModalPresentation({
   variant,
@@ -98,6 +100,7 @@ export function useModalPresentation({
   const inGrabZone = useSharedValue(false);
 
   useHostedPresentation();
+  useTabBarCover();
 
   useEffect(() => {
     const enterMs = reduced ? REDUCED_FADE_MS : ENTER_MS[variant];

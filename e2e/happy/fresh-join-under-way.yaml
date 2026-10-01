@@ -1,0 +1,522 @@
+appId: app.critterpass.dev
+---
+# Release gate: a friend joins a trip that is already under way. Three brand-new accounts on one
+# phone, no demo world. The organiser starts a crew and a trip to Da Nang whose first day is today;
+# one friend joins with the crew code before the proposal, boards it, and the organiser locks the
+# crew in. Then a third new account joins with the same crew code: the trip is confirmed and, from
+# noon in Da Nang, under way. Their Home, trip hub, plan and crew chat are captured, the organiser
+# adds an expense split between everyone on the trip, and the newcomer's Home is captured again
+# once the trip has started. The newcomer is on the trip: the plan opens and the expense is theirs
+# to share.
+# Today on the trip's clock (Da Nang, UTC+7): the lock button that names it, where its cell sits in
+# the week picker's month (Monday-first columns 11.93% of the screen apart from 14.6%, rows 5.69%
+# apart from 45%, in whole percents) and its spoken label.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); var blanks = (first.getUTCDay() + 6) % 7; var col = (d.getUTCDay() + 6) % 7; var row = Math.floor((blanks + d.getUTCDate() - 1) / 7); output.todayPoint = Math.round(14.6 + 11.93 * col) + '%, ' + Math.round(45 + 5.69 * row) + '%'; output.todayLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
+- runFlow: subflows/fresh-account.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Da Nang Crew'
+# START THE CREW rides on top of the keyboard.
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- copyTextFrom:
+    id: 'start-crew-code'
+# iOS copies the spoken label ("Crew code E 2 X …"): the code is its last six characters.
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+- tapOn:
+    id: 'start-crew-done'
+
+# The friend: a second new account on this phone joins the crew with its code.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-new'
+- runFlow: ../home/subflows/onboard.yaml
+# Onboarding may finish on another tab; Home has JOIN WITH A CODE.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-join-code'
+    timeout: 30000
+- tapOn:
+    id: 'home-join-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 15000
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${output.crewCode}
+- extendedWaitUntil:
+    visible:
+      text: '(?i)found it.*'
+    timeout: 20000
+- hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-join'
+    timeout: 20000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'invite-code-join'
+- extendedWaitUntil:
+    notVisible:
+      id: 'invite-code-screen'
+    timeout: 30000
+
+# The organiser again (kept first): one place locked in, then setup to the guide's draft.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/pitch-place.yaml
+    env:
+      QUERY: 'da nang'
+- openLink: critterpass-dev://
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+# The dates: a week that starts today, picked by hand (the crew's best window aims at the place's
+# season, weeks away). The picker opens on the month of that window, which is this month here. On
+# Android the sheet's cells carry no id or label of their own, so today's cell is tapped where the
+# sheet draws it; iOS finds it by its label. The lock button names the week, which proves the tap.
+- extendedWaitUntil:
+    visible:
+      id: 'when-pick-week'
+    timeout: 30000
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-shorter'
+    timeout: 10000
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          point: ${output.todayPoint}
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          text: ${output.todayLabel}
+          index: 1
+          optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: 'picker-lock'
+          commands:
+            - tapOn:
+                text: ${output.todayLabel}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: en-join-under-way-dates-from-today
+- assertVisible: ${output.lockToday}
+- tapOn:
+    id: 'picker-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'budget-lock'
+    timeout: 30000
+# The rest of setup (budget skipped, rooms, one must-do, DRAFT MY TRIP): the shared steps skip
+# their own dates step once the budget step is up.
+- runFlow: ../proposal/subflows/setup-to-draft.yaml
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+
+# BUILD THE PROPOSAL, then SEND to the one friend.
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- tapOn:
+    id: 'draft-propose'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-build'
+    timeout: 30000
+- assertVisible:
+    id: 'build-format-trailer'
+- extendedWaitUntil:
+    visible:
+      id: 'build-send'
+      enabled: true
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'build-send'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-sent'
+    timeout: 60000
+# The guide writes the friend's version on staging's AI.
+- extendedWaitUntil:
+    visible:
+      text: '(?i)their version is ready|.*wrote the group version.*'
+    timeout: 300000
+
+# The friend opens it from crew chat and boards.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-version'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'version-in'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'version-in'
+- extendedWaitUntil:
+    visible:
+      id: 'board-slide'
+    timeout: 30000
+- waitForAnimationToEnd
+# The knob sits at the start of the track. Android finds it by id; iOS reads the track as one
+# element, so the drag starts where the knob rests (low on the screen, at the left).
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          from:
+            id: 'board-knob'
+          direction: RIGHT
+          duration: 1200
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 12%, 86%
+          end: 96%, 86%
+          duration: 1200
+      - runFlow:
+          when:
+            notVisible:
+              id: 'board-egg'
+          commands:
+            - swipe:
+                start: 12%, 83%
+                end: 96%, 83%
+                duration: 1200
+- extendedWaitUntil:
+    visible:
+      id: 'board-egg'
+    timeout: 30000
+- assertNotVisible:
+    id: 'board-pending'
+- waitForAnimationToEnd
+
+# The organiser locks the crew in: the trip is confirmed.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-tracker'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-lock'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'tracker-lock'
+- tapOn: '(?i)yes, lock it in'
+- extendedWaitUntil:
+    visible:
+      text: '(?i)locked in\. the trip is confirmed\.'
+    timeout: 30000
+
+# The newcomer: a third new account joins with the crew code, after the trip was confirmed.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-new'
+- runFlow: ../home/subflows/onboard.yaml
+# Onboarding may finish on another tab; Home has JOIN WITH A CODE.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-join-code'
+    timeout: 30000
+- tapOn:
+    id: 'home-join-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 15000
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${output.crewCode}
+- extendedWaitUntil:
+    visible:
+      text: '(?i)found it.*'
+    timeout: 20000
+- hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-join'
+    timeout: 20000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'invite-code-join'
+- extendedWaitUntil:
+    notVisible:
+      id: 'invite-code-screen'
+    timeout: 30000
+# The manifest welcomes them: its button opens the plan when the join put them on a trip, the
+# crew otherwise.
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-screen'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-newcomer-manifest
+- tapOn:
+    id: 'invite-manifest-plan'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-newcomer-landing
+# Home for the crew, then the trip's hub, its plan and the crew chat.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-(everyday|in_trip)'
+    timeout: 60000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-newcomer-home
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub|trip-list|trip-list-empty|trip-waiting'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-newcomer-trip
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub-tile-plan'
+    commands:
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-day-list|plan-empty'
+          timeout: 30000
+          optional: true
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: en-join-under-way-newcomer-plan
+      - runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 30000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-newcomer-chat
+
+# The organiser pays for dinner: the split names everyone on the trip.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-organiser-home
+- openLink: critterpass-dev://wallet/money
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add-keypad'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- tapOn: '9'
+- tapOn: '0'
+# BY SHARE lists everyone in the split with their part.
+- tapOn: 'BY SHARE'
+- extendedWaitUntil:
+    visible:
+      id: 'money-share-count-0|money-split-in-0'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: en-join-under-way-expense-split
+- evalScript: ${output.threeWays = false}
+- runFlow:
+    when:
+      visible:
+        id: 'money-share-count-2|money-split-in-2'
+    commands:
+      - evalScript: ${output.threeWays = true}
+- tapOn: 'EVENLY'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 30000
+- tapOn:
+    id: 'money-latest-row'
+- extendedWaitUntil:
+    visible:
+      id: 'money-detail-shares'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-join-under-way-expense-shares
+
+# The newcomer again. From noon in Da Nang the lifecycle sweep (every ten minutes) starts a trip
+# whose first day is today, and Home turns to the trip day.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-2'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- runFlow:
+    when:
+      true: ${output.afterNoon == true}
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'home-mode-in_trip'
+          timeout: 660000
+          optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-newcomer-home-later
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub|trip-list|trip-list-empty|trip-waiting'
+    timeout: 30000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-newcomer-trip-later
+
+# The newcomer is on the trip: the organiser's split named three people, the plan opens with its
+# days, and the dinner is in their wallet.
+- assertTrue: ${output.threeWays == true}
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-tile-plan'
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 60000
+- openLink: critterpass-dev://wallet/money
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-join-under-way-newcomer-money

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "05aa54e7-30cb-4cfd-b3bf-2b76e5ed257a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"바나힐 케이블카를 타려면 7:10까지 출발하세요.\"},{\"id\":\"t2\",\"text\":\"크루에게 250,000 VND를 내야 합니다.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 762,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 768,
+        "output_tokens": 58,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

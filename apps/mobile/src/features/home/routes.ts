@@ -24,6 +24,9 @@ export const HOME_SCREENS: Readonly<Record<string, string>> = {
   '3b-5': HOME_ROUTES.inbox,
 };
 
+/** The Explore front page: undesigned, so the registry knows it by name. */
+export const EXPLORE_SCREEN = 'explore-home';
+
 let registered = false;
 
 /** Joins Home's screens to the registry (once; the Home route imports this). */

@@ -40,6 +40,7 @@ import { OnboardingPassCard } from '../pass-view';
 import { FirstHatch, firstHatchPending } from '../hatch/LaunchHatch';
 import { FloaterField } from './Floaters';
 import { useSplashStyles as useStyles } from './splash-styles';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import {
   COVER_H,
   COVER_W,
@@ -60,6 +61,8 @@ const DEV_TOOLS_ROUTE = '/(dev)';
 const RETURNING_SIGN_IN = `${ONBOARDING_ROUTES.phone}?mode=returning`;
 
 export function SplashScreen() {
+  // The first screen of the app: there is nothing to go back to.
+  useNoBackByDesign();
   useTrackStep('splash');
   const styles = useStyles();
   const theme = useTheme();

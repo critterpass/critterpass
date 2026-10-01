@@ -18,6 +18,9 @@ appId: app.critterpass.dev
     env: { SCENE: version, READY: version-in, SHOT: '${PREFIX}-3f-3-your-version' }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: version-group, READY: version-whole-plan, SHOT: '${PREFIX}-3f-3-group-version' }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: not-sure, READY: objection-board, SHOT: '${PREFIX}-3f-4-not-sure' }
 - runFlow:
     file: scene.yaml
@@ -34,3 +37,15 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: tracker-locked, READY: tracker-lock-note, SHOT: '${PREFIX}-3f-6-locked' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: trailer-slide, READY: lab-trailer-slide, SHOT: '${PREFIX}-3f-2-slide' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: dropout, READY: dropout-apply, SHOT: '${PREFIX}-3f-7-dev-s-out' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: dropout-applied, READY: dropout-applied, SHOT: '${PREFIX}-3f-7-applied' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: crowd, READY: crowd-keep, SHOT: '${PREFIX}-4f-1-crowd' }

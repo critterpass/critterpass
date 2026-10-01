@@ -50,9 +50,9 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await deps.apns?.shutdown();
-  await deps.fcm?.shutdown();
-  await Promise.all([apnsServer.close(), fcmServer.close(), db.stop()]);
+  await deps?.apns?.shutdown();
+  await deps?.fcm?.shutdown();
+  await Promise.all([apnsServer?.close(), fcmServer?.close(), db?.stop()]);
 });
 
 interface Target {

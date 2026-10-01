@@ -24,7 +24,8 @@ import { MemberRoomTools, MemberSwapAction, type RoomChipKey } from './member-to
 import { RoomsPlanCards } from './rooms-plan';
 import { StayPicker, type StayOption } from './stay-picker';
 
-export type RoomsNotice = 'conflict' | 'lock_offline' | 'lock_failed' | 'stay_failed' | null;
+export type RoomsNotice =
+  'conflict' | 'lock_offline' | 'lock_failed' | 'stay_failed' | 'stay_unavailable' | null;
 
 export interface RoomsModel {
   readonly plan: RoomsPlan | null;
@@ -68,6 +69,12 @@ function noticeText(notice: RoomsNotice): string | null {
       return t({
         id: 'setup.rooms.notice.stayFailed',
         message: 'That stay didn’t go through. Check the dates are locked and try again.',
+      });
+    case 'stay_unavailable':
+      return t({
+        id: 'setup.rooms.notice.stayUnavailable',
+        message:
+          'That stay has no price for this trip right now, so it wasn’t picked. Try another.',
       });
     case null:
       return null;

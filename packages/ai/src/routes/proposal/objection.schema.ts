@@ -55,4 +55,6 @@ export interface ObjectionInput {
   readonly options: readonly ObjectionOptionFact[];
   /** The recipient's own free text, if any: data, never instructions. */
   readonly text: string | null;
+  /** The language the member's app is in: the reply is written in it. Absent or `en`: English. */
+  readonly locale?: string;
 }

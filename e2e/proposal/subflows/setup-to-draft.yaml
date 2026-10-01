@@ -68,7 +68,14 @@ appId: app.critterpass.dev
                 element:
                   id: 'own-calendar-action'
                 timeout: 10000
-                centerElement: true
+            # The calendar row is the step's last: at the end of the scroll it stands clear of the
+            # footer. Higher up, the footer's button is drawn over it and takes the tap (LOCK).
+            - swipe:
+                start: 50%, 55%
+                end: 50%, 25%
+            - swipe:
+                start: 50%, 55%
+                end: 50%, 25%
             - waitForAnimationToEnd
             - tapOn:
                 id: 'own-calendar-action'
@@ -147,8 +154,10 @@ appId: app.critterpass.dev
 # organiser. Locking it has its own gate flow (e2e/happy/fresh-setup-vnd.yaml).
 - tapOn:
     id: 'budget-skip'
-# Rooms: pick the first stay when the place has stay prices and wait for its rooms; with none,
-# LOOKS GOOD accepts the even split.
+# Rooms. A crew that shares rooms picks the first stay and waits for the rooms the guide splits.
+# A crew of one, or a place with no stay prices, has no rooms to split: the step says the stay
+# splits evenly and LOOKS GOOD accepts that, with no stay picked. If the rooms never show for a
+# crew that needs them, LOOKS GOOD stays off and the wait for must-dos below fails.
 - extendedWaitUntil:
     visible:
       id: 'setup-rooms-lock'
@@ -157,6 +166,8 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'setup-rooms-stay-option-.*'
+      notVisible:
+        id: 'setup-rooms-even'
     commands:
       - tapOn:
           id: 'setup-rooms-stay-option-.*'
@@ -165,6 +176,7 @@ appId: app.critterpass.dev
           visible:
             id: 'setup-rooms-room-.*'
           timeout: 30000
+          optional: true
 - scrollUntilVisible:
     element:
       id: 'setup-rooms-lock'

@@ -218,9 +218,11 @@ export const setSetupStepCommand = defineCommand({
         await moveStep(tx, trip, 'when', ctx.uid);
         return { trip_id: trip.id, step: 'when' as const };
       }
-      const counts = await tx.query<{ rooms: number; must_dos: number }>(
+      const counts = await tx.query<{ rooms: number; must_dos: number; stays: number }>(
         `SELECT coalesce((SELECT jsonb_array_length(rooms) FROM room_plans WHERE trip_id = $1), 0)::int AS rooms,
-                (SELECT count(*) FROM must_dos WHERE trip_id = $1 AND deleted_at IS NULL)::int AS must_dos`,
+                (SELECT count(*) FROM must_dos WHERE trip_id = $1 AND deleted_at IS NULL)::int AS must_dos,
+                (SELECT count(*) FROM destination_cost_indices c JOIN trips t ON t.destination_id = c.destination_id
+                  WHERE t.id = $1 AND c.reviewed_at IS NOT NULL)::int AS stays`,
         [trip.id],
       );
       const to = resolveSetupStep(
@@ -230,6 +232,7 @@ export const setSetupStepCommand = defineCommand({
           isSolo: trip.is_solo,
           datesLocked: trip.start_date !== null,
           roomCount: counts.rows[0]?.rooms ?? 0,
+          stayCount: counts.rows[0]?.stays ?? 0,
           mustDoCount: counts.rows[0]?.must_dos ?? 0,
         },
         payload.step,

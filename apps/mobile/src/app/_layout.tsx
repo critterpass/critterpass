@@ -58,6 +58,7 @@ import '@/features/plan/overview/register';
 import { TripDayRuntime } from '@/features/trip/hub/register';
 import { CritterRuntime } from '@/features/critters/register';
 import '@/features/bookings/supplier/register';
+import '@/features/you/routes';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
@@ -71,6 +72,7 @@ import {
   useAnalytics,
   useScreenTracking,
 } from '@/lib/analytics';
+import { DevToolsShake } from '@/lib/dev-tools/DevToolsShake';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import {
@@ -324,6 +326,7 @@ export default function RootLayout() {
                   <PrimerSheetHost />
                   <SharedGrowHost />
                   <IslandToast Text={Text} />
+                  <DevToolsShake />
                   <LaunchHatch revealed={prewarmed && linksReady} />
                 </ScreenJoltProvider>
               </TravelDataReaderProvider>
@@ -336,9 +339,7 @@ export default function RootLayout() {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
+  root: { flex: 1 },
   prewarm: {
     position: 'absolute',
     opacity: 0,

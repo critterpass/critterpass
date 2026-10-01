@@ -36,6 +36,20 @@ export const LA_COPY = {
     id: 'notifications.la.leave_by_late_body',
     message: '{missing} still not up.',
   },
+  // A leave-by with no trip counted is a time to be somewhere, not a time to leave.
+  leaveByBeAt: /*i18n*/ { id: 'notifications.la.leave_by_be_at', message: 'Be at {place}' },
+  leaveByBeThereStartTitle: /*i18n*/ {
+    id: 'notifications.la.leave_by_be_there_start_title',
+    message: 'Be at {place} by {time}',
+  },
+  leaveByBeThereGoTitle: /*i18n*/ {
+    id: 'notifications.la.leave_by_be_there_go_title',
+    message: 'Time to be at {place}',
+  },
+  leaveByBeThereGoBody: /*i18n*/ {
+    id: 'notifications.la.leave_by_be_there_go_body',
+    message: '{up} of {total} up.',
+  },
   flightStartTitle: /*i18n*/ {
     id: 'notifications.la.flight_start_title',
     message: '{flight} · {route}',

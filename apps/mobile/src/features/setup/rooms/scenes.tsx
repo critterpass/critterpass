@@ -59,9 +59,9 @@ function assignments(layout: Layout): AssignmentRow[] {
 }
 
 const STAYS = [
-  { type: 'ryokan', estimate: '$180–$220' },
-  { type: 'apartment', estimate: '$90–$100' },
-  { type: 'hostel', estimate: '$40–$55' },
+  { type: 'ryokan', text: '$180–$220' },
+  { type: 'apartment', text: '$90–$100' },
+  { type: 'hostel', text: '$40–$55' },
 ];
 
 function model(

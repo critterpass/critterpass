@@ -12,7 +12,8 @@ import {
   TEST_DEVICE,
   type TestLocalFirst,
 } from '../../powersync/test-support/local-first-fixture';
-import { DEVICE_ID_ITEM, loadOrCreateDeviceId } from '../device';
+import { getOrCreateInstallId } from '../../push/register';
+import { loadOrCreateDeviceId } from '../device';
 import { defineClientCommand, summaryOrName } from '../summaries';
 
 jest.mock(
@@ -139,6 +140,7 @@ describe('device id', () => {
     const newId = () => `device-${++minted}`;
     expect(await loadOrCreateDeviceId(store, newId)).toBe('device-1');
     expect(await loadOrCreateDeviceId(store, newId)).toBe('device-1');
-    expect(items.get(DEVICE_ID_ITEM)).toBe('device-1');
+    // The envelope and `register_device` name the install by the same id.
+    expect(await getOrCreateInstallId(store, newId)).toBe('device-1');
   });
 });

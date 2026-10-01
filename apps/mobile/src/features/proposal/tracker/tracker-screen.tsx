@@ -11,18 +11,29 @@ import { useEffect, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { hrefFor } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
+import { TextLink } from '@/ui/buttons/TextLink';
 
+import { seatBoost } from '../crowd/boost-slot';
+import { CrowdSheet } from '../crowd/crowd-sheet';
 import { lockProposalCommand } from '../data/commands';
-import { instantDate, instantDateTime } from '../data/format';
+import { dayRange, instantDate, instantDateTime } from '../data/format';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
+import { useLiveRows } from '../data/rows';
 import { useProposalTrip, type CrewPerson } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import { proposalRoutes } from '../routes';
+import { ConfirmedCard } from './confirmed-card';
 import { lockState, publicStatus, tally } from './model';
 import { Suggestions } from './suggestions';
 import { TrackerView } from './tracker-view';
+
+/* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+const DROPOUTS_SQL = 'SELECT user_id FROM trip_dropouts WHERE trip_id = ? AND resolved_at IS NULL';
+const CAP_SQL = 'SELECT seat_cap FROM trip_entitlements WHERE trip_id = ?';
+/* eslint-enable lingui/no-unlocalized-strings */
 
 export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   const proposal = useProposal(proposalId);
@@ -33,6 +44,21 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   const locale = useLocale();
   const lock = useCommand(lockProposalCommand);
   const [asking, setAsking] = useState(false);
+  const [crowd, setCrowd] = useState(false);
+  const dropouts = useLiveRows<{ user_id: string }>(
+    DROPOUTS_SQL,
+    tripId === null ? null : [tripId],
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a table name, never copy.
+    ['trip_dropouts'],
+  );
+  const cap = useLiveRows<{ seat_cap: number | null }>(
+    CAP_SQL,
+    tripId === null ? null : [tripId],
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- a table name, never copy.
+    ['trip_entitlements'],
+  ).rows[0]?.seat_cap;
+  // The server's answer to LOCK shows at once; the synced proposal row follows.
+  const [lockedNow, setLockedNow] = useState(false);
   const member = trip != null && !trip.isOrganiser;
 
   useEffect(() => {
@@ -63,13 +89,20 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
     }
   };
   const recipients = trip.people.filter((p) => !p.organiser);
-  const state = lockState(proposal.status, recipients);
+  const status = lockedNow ? 'locked' : proposal.status;
+  const state = lockState(status, recipients);
   const counts = tally(trip.people);
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
+  const planHref = hrefFor('3e-1', { tripId: trip.tripId });
   const deadline = proposal.freeCancelUntil ?? proposal.replyBy;
+  const pending = new Set(dropouts.rows.map((d) => d.user_id));
+  const waiting = trip.people.filter((p) => p.rsvp === 'waitlisted');
+  const boost = seatBoost();
   const onLock = async () => {
     setAsking(false);
     const result = await lock.send({ proposal_id: proposal.id });
     if (result.kind === 'applied') {
+      setLockedNow(true);
       feedback.emit('success');
       toast.show({
         id: 'proposal-locked',
@@ -92,7 +125,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
       <TrackerView
         back={t({ id: 'proposal.tracker.back', message: `${trip.destination} proposal` })}
         chip={
-          proposal.status === 'locked'
+          status === 'locked'
             ? t({ id: 'proposal.tracker.confirmed', message: 'Confirmed' })
             : deadline === null
               ? null
@@ -114,13 +147,45 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
               : p.name,
           joinIndex: p.joinIndex,
           status: publicStatus(p),
-          line: line(p),
+          line: pending.has(p.uid)
+            ? t({ id: 'proposal.tracker.seeChanges', message: 'Can’t make it · see what changes' })
+            : line(p),
+          ...(pending.has(p.uid)
+            ? { onPress: () => router.push(proposalRoutes.dropout(proposal.id, p.uid)) }
+            : {}),
         }))}
+        waiting={
+          waiting.length === 0 ? null : (
+            <TextLink
+              label={t({
+                id: 'proposal.tracker.waiting',
+                message: `${waiting.length} waiting for a seat`,
+              })}
+              onPress={() => setCrowd(true)}
+              testID="tracker-waiting"
+            />
+          )
+        }
         tally={counts}
-        suggestions={
-          proposal.status === 'sent' ? (
-            <Suggestions proposalId={proposal.id} guide={trip.guide} />
+        confirmed={
+          state.kind === 'locked' ? (
+            <ConfirmedCard
+              guide={trip.guide}
+              going={counts.in}
+              tripLine={[
+                trip.destination,
+                trip.startDate && trip.endDate
+                  ? dayRange(locale, trip.startDate, trip.endDate)
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+              onPlan={planHref === undefined ? undefined : () => router.push(planHref)}
+            />
           ) : null
+        }
+        suggestions={
+          status === 'sent' ? <Suggestions proposalId={proposal.id} guide={trip.guide} /> : null
         }
         lockLabel={
           state.kind === 'ready' ? t({ id: 'proposal.lock.cta', message: 'Lock it in' }) : null
@@ -169,6 +234,16 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
           onConfirm={() => void onLock()}
           onCancel={() => setAsking(false)}
           testID="tracker-lock-confirm"
+        />
+      ) : null}
+      {crowd ? (
+        <CrowdSheet
+          destination={trip.destination}
+          cap={cap ?? trip.people.length - waiting.length}
+          seated={trip.people.filter((p) => p.rsvp !== 'waitlisted' && p.rsvp !== 'out')}
+          waiting={waiting}
+          onBoost={boost === null ? null : () => boost(trip.tripId)}
+          onClose={() => setCrowd(false)}
         />
       ) : null}
     </>

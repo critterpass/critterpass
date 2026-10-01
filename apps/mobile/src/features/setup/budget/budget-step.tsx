@@ -53,6 +53,7 @@ export function lockOutcome(
   const reason = (sent.detail as { reason?: unknown } | undefined)?.reason;
   if (sent.code === 'STATE_INVALID' && reason === 'over_band')
     return { kind: 'over_band', attempt };
+  if (sent.code === 'STATE_INVALID' && reason === 'rates_unavailable') return { kind: 'no_rates' };
   return { kind: 'failed' };
 }
 

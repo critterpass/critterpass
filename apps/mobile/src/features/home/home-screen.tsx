@@ -28,6 +28,7 @@ import {
   type HomeView,
 } from './data/use-home-state';
 import { DevToolsEntry } from './dev-tools-entry';
+import { ExploreRow } from './explore-row';
 import { FadeInView } from './fade-in-view';
 import { FirstRunGrid, guideCells } from './first-run-grid';
 import { HomeHeaderBar } from './home-header';
@@ -80,6 +81,7 @@ function FirstRun({
         })}
       </Text>
       <FirstRunGrid cells={guideCells(view.guideCells)} width={width} />
+      <ExploreRow />
     </Stack>
   );
 }
@@ -117,6 +119,7 @@ function CrewHome({ view }: { readonly view: HomeView }) {
       {home.mode === 'no_trip' ? <NoTripCard crewId={crew.id} lastTrip={home.lastTrip} /> : null}
       {home.mode === 'everyday' || home.mode === 'final_vote' ? <VoteSection view={view} /> : null}
       {showTip ? <TipStrip key={tip.id} tip={tip} /> : null}
+      <ExploreRow />
     </Stack>
   );
 }

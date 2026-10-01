@@ -26,6 +26,7 @@ export const SUITES = [
   'place-qna',
   'proposal',
   'quests',
+  'translate',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -52,6 +53,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/routes|evals)\/explore\//u, ['place-qna']],
   [/^packages\/ai\/(src\/routes|evals)\/proposal\//u, ['proposal']],
   [/^packages\/ai\/(src\/routes|evals)\/quests\//u, ['quests']],
+  [/^packages\/ai\/(src\/routes|evals)\/translate\//u, ['translate']],
   [/^packages\/planner\/src\/draft\//u, ['draft']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
   [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch', 'guest-brief']],
@@ -71,6 +73,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/domain\/src\/trip-day\//u, ['briefing']],
   [/^packages\/domain\/src\/proposal\//u, ['proposal']],
   [/^packages\/domain\/src\/quests\//u, ['quests']],
+  [/^packages\/domain\/src\/locale\//u, ['translate']],
   [/^packages\/domain\/src\/ai\//u, ALL],
 ];
 

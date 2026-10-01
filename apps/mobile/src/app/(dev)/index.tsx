@@ -36,6 +36,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
     entries: [
       { testId: 'dev-nav-accounts', href: '/(dev)/accounts', label: 'Test accounts (two people)' },
       {
+        testId: 'dev-nav-start-fresh',
+        href: '/(dev)/start-fresh',
+        label: 'Start fresh (new user on this phone)',
+      },
+      {
         testId: 'dev-nav-proposal-lab',
         href: '/(dev)/proposal-lab',
         label: 'Proposal (3f scenes)',
@@ -76,6 +81,7 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/critters-lab',
         label: 'Critters (3l scenes)',
       },
+      { testId: 'dev-nav-you-lab', href: '/(dev)/you-lab', label: 'You (3n scenes)' },
       {
         testId: 'dev-nav-live-map',
         href: '/(dev)/live-map',

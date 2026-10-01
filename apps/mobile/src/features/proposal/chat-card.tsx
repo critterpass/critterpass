@@ -1,8 +1,8 @@
 /**
  * The proposal's card in crew chat: sending a proposal posts a `proposal` message naming it, so
  * every member finds it in the chat as well as in their push. The card holds the trip's streams
- * (the message carries the trip) until the proposal row arrives, then opens it: the member's own
- * version, or the organiser's tracker.
+ * (the message carries the trip) until the proposal row arrives, then opens it: the trailer or
+ * the member's own version, or the organiser's tracker.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { t } from '@lingui/core/macro';
@@ -52,7 +52,11 @@ function ProposalMessageCard({ message }: ChatCardProps) {
         : t({ id: 'proposal.card.open', message: 'Open it' }),
       onPress: () =>
         router.push(
-          trip.isOrganiser ? proposalRoutes.tracker(proposal.id) : proposalRoutes.open(proposal.id),
+          trip.isOrganiser
+            ? proposalRoutes.tracker(proposal.id)
+            : proposal.format === 'trailer'
+              ? proposalRoutes.trailer(proposal.id)
+              : proposalRoutes.open(proposal.id),
         ),
       testID: `proposal-card-open-${proposal.id}`,
     }),

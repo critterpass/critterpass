@@ -92,6 +92,10 @@ msgid "setup.voteOpen.title"
 msgstr "Bình chọn chưa xong"
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.status.stepRefused"
+msgstr "Bước này chưa xong cho cả nhóm, nên phần thiết lập vẫn ở đây."
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.title"
 msgstr "Chuyến đi chưa có ở đây"
 

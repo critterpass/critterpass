@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "0a088207-561c-40e0-858b-9fa3b8bb7457",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Đừng nhìn bảng menu, cứ hỏi món đặc biệt trong ngày: dân quen ở đây ăn món đó.\"},{\"id\":\"t2\",\"text\":\"Dặn tài xế đợi ở cổng dưới, cổng trên đóng sớm.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 317,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 88,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

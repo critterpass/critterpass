@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3661bea7-b0eb-4111-b917-c16e1b6bee81",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Ruộng bậc thang trước khi nắng gắt\"},{\"id\":\"t2\",\"text\":\"Tegallalang yên tĩnh trước khi xe tour tới, nên đi ngay sau bữa sáng.\"},{\"id\":\"t3\",\"text\":\"Ăn trưa ở Warung Biah Biah: món nhỏ, nên gọi vài món rồi chia nhau.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 941,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 108,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

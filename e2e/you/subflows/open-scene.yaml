@@ -1,0 +1,29 @@
+appId: app.critterpass.dev
+---
+# Opens one profile lab scene (${SCENE}) from the developer tools list and waits for ${ROOT}.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-you-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-you-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'you-lab-${SCENE}'
+    timeout: 15000
+- tapOn:
+    id: 'you-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: ${ROOT}
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000

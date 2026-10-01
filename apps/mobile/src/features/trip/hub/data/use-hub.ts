@@ -14,6 +14,7 @@ import {
   BRIEFING_SQL,
   PENDING_ACTS_SQL,
   type BriefingItemRow,
+  type BriefingRead,
   type BriefingRow,
   type PendingAct,
 } from '../../briefing/briefing-model';
@@ -96,6 +97,8 @@ export interface HubRows {
     day_date: string;
   } | null;
   readonly leaveBy: { id: string; leave_at: string; tz: string; place_name: string | null } | null;
+  /** The briefing's first local read (the row, then its lines). */
+  readonly briefingRead: BriefingRead;
   readonly briefing: BriefingRow | null;
   readonly briefingItems: readonly BriefingItemRow[];
   readonly pendingActs: readonly PendingAct[];
@@ -147,6 +150,13 @@ export function useHubRows(
     briefingRow === null ? null : [briefingRow.id],
     ['briefing_items'],
   );
+  const linesRead = briefingRow === null || items.loaded;
+  const briefingRead: BriefingRead =
+    briefing.failed || items.failed
+      ? 'failed'
+      : briefing.loaded && linesRead
+        ? 'settled'
+        : 'pending';
   const pending = useLiveRows<PendingAct>(PENDING_ACTS_SQL, [], ['commands']);
   const [bump, setBump] = useState(0);
   const activity = useLiveRows<ActivityRow>(
@@ -173,6 +183,7 @@ export function useHubRows(
       flights: flights.rows,
       next: next.rows[0] ?? null,
       leaveBy: leaveBy.rows[0] ?? null,
+      briefingRead,
       briefing: briefingRow,
       briefingItems: items.rows,
       pendingActs: pending.rows,
@@ -190,6 +201,7 @@ export function useHubRows(
       flights.rows,
       next.rows,
       leaveBy.rows,
+      briefingRead,
       briefingRow,
       items.rows,
       pending.rows,

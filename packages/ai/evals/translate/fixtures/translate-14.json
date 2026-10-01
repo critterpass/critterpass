@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5be26511-5c0f-463c-a964-a1aeec9f563c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Thổ địa quanh đây\"},{\"id\":\"t2\",\"text\":\"Kết bạn với 2 thổ địa quanh Sơn Trà trước khi mặt trời lặn.\"},{\"id\":\"t3\",\"text\":\"Tối nay có một thổ địa ở gần Cầu Rồng. Ghé qua chào một tiếng nhé.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 328,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 97,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
