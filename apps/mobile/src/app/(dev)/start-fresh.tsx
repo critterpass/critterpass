@@ -109,7 +109,7 @@ const COPY = {
       'This phone forgets the account: the session, trips, crews, chat, drafts, settings, saved files, reminders and alarms.',
       'The account is erased on the server: its phone number, Google and Apple sign-ins are free again.',
       'Crews and trips you share stay with the others. Ones only you were in stay on the server, out of reach.',
-      'The app restarts at the welcome screen as a brand-new person. Permissions and Live Activity tokens stay with the phone.',
+      'The app restarts at the welcome screen as a brand-new person. Permissions and Live Activity tokens stay with the phone; widgets catch up after you set up again.',
     ],
     confirm: 'Start fresh',
     stays: {
@@ -133,7 +133,7 @@ const COPY = {
       'Điện thoại này quên tài khoản: phiên đăng nhập, chuyến đi, nhóm, tin nhắn, bản nháp, cài đặt, tệp đã lưu, lời nhắc và báo thức.',
       'Tài khoản bị xoá trên máy chủ: số điện thoại, đăng nhập Google và Apple dùng lại được.',
       'Nhóm và chuyến đi chung vẫn còn cho những người khác. Nhóm và chuyến đi chỉ có mình bạn vẫn nằm trên máy chủ nhưng không ai vào được.',
-      'Ứng dụng khởi động lại ở màn hình chào như một người hoàn toàn mới. Các quyền đã cấp và mã Live Activity vẫn ở lại với điện thoại.',
+      'Ứng dụng khởi động lại ở màn hình chào như một người hoàn toàn mới. Các quyền đã cấp và mã Live Activity vẫn ở lại với điện thoại; tiện ích màn hình sẽ cập nhật sau khi bạn thiết lập lại.',
     ],
     confirm: 'Bắt đầu lại',
     stays: {

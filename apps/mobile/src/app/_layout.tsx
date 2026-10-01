@@ -338,9 +338,7 @@ export default function RootLayout() {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
+  root: { flex: 1 },
   prewarm: {
     position: 'absolute',
     opacity: 0,

@@ -14,6 +14,12 @@ import {
 
 const SRC = join(__dirname, '..', '..', '..');
 
+/** A port that does `effect` and reports it done. */
+const done = (effect: () => unknown): Promise<void> => {
+  effect();
+  return Promise.resolve();
+};
+
 /** A phone with something in every store an account writes to. */
 function usedPhone(overrides: Partial<StartFreshPorts> = {}) {
   const stores = new Map<string | null, MMKV>();
@@ -32,13 +38,13 @@ function usedPhone(overrides: Partial<StartFreshPorts> = {}) {
   const calls: string[] = [];
   const ports: StartFreshPorts = {
     eraseAccount: () => Promise.resolve('erased'),
-    signOut: async (onServer) => void calls.push(onServer ? 'signOut on server' : 'signOut'),
-    forgetSessions: async () => void calls.push('forgetSessions'),
-    deleteSecureItem: async (item) => void secure.delete(item.key),
-    cancelNotificationsAndAlarms: async () => void calls.push('cancelNotificationsAndAlarms'),
-    deleteFiles: async (target) => void files.delete(`${target.root}/${target.name}`),
+    signOut: (onServer) => done(() => calls.push(onServer ? 'signOut on server' : 'signOut')),
+    forgetSessions: () => done(() => calls.push('forgetSessions')),
+    deleteSecureItem: (item) => done(() => secure.delete(item.key)),
+    cancelNotificationsAndAlarms: () => done(() => calls.push('cancelNotificationsAndAlarms')),
+    deleteFiles: (target) => done(() => files.delete(`${target.root}/${target.name}`)),
     openStore: store,
-    reload: async () => void calls.push('reload'),
+    reload: () => done(() => calls.push('reload')),
     ...overrides,
   };
   return { ports, store, secure, files, calls };
@@ -82,7 +88,7 @@ describe('startFresh', () => {
     expect(phone.store('cp-links').getAllKeys()).toEqual(['cp.links.deferred_checked']);
   });
 
-  it('clears the install id and the device id together, so the new identity has one of each', async () => {
+  it('clears the install id and the device id together, so no old id is left beside a new one', async () => {
     const phone = usedPhone();
     await startFresh(phone.ports, ASKING);
     expect(phone.secure.has('cp.install_id')).toBe(false);
@@ -125,7 +131,7 @@ describe('startFresh', () => {
         order.push('erase');
         return Promise.resolve('erased');
       },
-      signOut: async (onServer) => void order.push(onServer ? 'signOut on server' : 'signOut'),
+      signOut: (onServer) => done(() => order.push(onServer ? 'signOut on server' : 'signOut')),
     });
     expect(await startFresh(phone.ports, ASKING)).toEqual({ kind: 'restarting' });
     expect(order).toEqual(['erase', 'signOut']);

@@ -22,9 +22,19 @@ appId: app.critterpass.dev
     visible:
       id: 'start-crew-code'
     timeout: 30000
-- takeScreenshot: shell-start-fresh-1-old-account-crew
 - tapOn:
     id: 'start-crew-done'
+# The old account's crew, in the same sheet the new person's is checked in at the end.
+- openLink: critterpass-dev://crew
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 15000
+- extendedWaitUntil:
+    visible: '.*Old Crew.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: shell-start-fresh-1-old-account-crew
 
 # Developer tools → Start fresh opens the confirm sheet; nothing is wiped yet.
 - runFlow: ../home/subflows/open-dev-tools.yaml

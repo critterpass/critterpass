@@ -25,7 +25,10 @@ const mockUseAnimatedSensor = jest.fn((..._args: unknown[]) => ({
 /** The reaction the listener registered: tests feed it samples like the sensor thread would. */
 const mockReaction: { current: ((sample: unknown) => void) | null } = { current: null };
 jest.mock('react-native-reanimated', () => {
-  const react = jest.requireActual<typeof import('react')>('react');
+  const react = jest.requireActual<{
+    useEffect: (effect: () => () => void, deps: readonly unknown[]) => void;
+    useRef: <T>(initial: T) => { current: T };
+  }>('react');
   return {
     SensorType: { ACCELEROMETER: 1 },
     useAnimatedSensor: (...args: unknown[]) => {
@@ -47,8 +50,6 @@ import { AppState, type AppStateStatus } from 'react-native';
 
 import { DevToolsShake } from '../DevToolsShake';
 
-declare const globalThis: { __DEV__: boolean };
-
 /** Two seconds of a hard 5 Hz shake through the registered reaction. */
 function shake(): void {
   const now = jest.spyOn(performance, 'now');
@@ -65,15 +66,15 @@ describe('DevToolsShake', () => {
   beforeEach(() => {
     Object.defineProperty(AppState, 'currentState', { value: 'active', configurable: true });
     jest.spyOn(AppState, 'addEventListener').mockImplementation((_type, listener) => {
-      appStateChanged = listener as (state: AppStateStatus) => void;
-      return { remove: () => undefined } as ReturnType<typeof AppState.addEventListener>;
+      appStateChanged = listener;
+      return { remove: () => undefined };
     });
     mockUseAnimatedSensor.mockClear();
     mockPush.mockClear();
     mockReaction.current = null;
     mockSegments.current = [];
     // Release builds decide by variant alone.
-    globalThis.__DEV__ = false;
+    (globalThis as unknown as { __DEV__: boolean }).__DEV__ = false;
   });
 
   it('never subscribes to the accelerometer in a production build', async () => {
