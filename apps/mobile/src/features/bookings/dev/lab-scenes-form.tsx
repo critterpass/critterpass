@@ -4,7 +4,7 @@
  * once SAVE was tried, and the day picker open over it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { toWalletBooking } from '../data/model';
 import { DatePickerSheet } from '../detail/DatePickerSheet';
@@ -50,6 +50,28 @@ const FLIGHT: BookingDraft = {
   to: 'DAD',
 };
 
+/**
+ * The form with its day picker open. Closing the sheet unmounts it (as the field does), so the
+ * next Android back leaves the scene instead of reaching a sheet that stays up.
+ */
+function DayScene() {
+  const [open, setOpen] = useState(true);
+  return (
+    <>
+      {form(FLIGHT, 'add')}
+      {open ? (
+        <DatePickerSheet
+          value={FLIGHT.date}
+          trip={TRIP}
+          title="Day"
+          onPick={() => setOpen(false)}
+          onDismiss={() => setOpen(false)}
+        />
+      ) : null}
+    </>
+  );
+}
+
 export const FORM_SCENES: Readonly<Record<string, () => ReactNode>> = {
   edit: () => {
     const row = LAB_BOOKINGS.find((item) => item.id === 'b-trek');
@@ -61,10 +83,5 @@ export const FORM_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'add-by-hand-flight': () => form(FLIGHT, 'add'),
   'add-by-hand-zones': () =>
     form({ ...FLIGHT, flight: 'VN 300', to: 'NRT', time: '23:50', arrive: '07:30' }, 'add'),
-  'add-by-hand-day': () => (
-    <>
-      {form(FLIGHT, 'add')}
-      <DatePickerSheet value={FLIGHT.date} trip={TRIP} title="Day" onPick={noop} onDismiss={noop} />
-    </>
-  ),
+  'add-by-hand-day': () => <DayScene />,
 };
