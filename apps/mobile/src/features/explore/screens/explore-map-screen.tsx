@@ -127,6 +127,7 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
     if (selected !== null) flyToPlace([selected.lng, selected.lat]);
   }, [flyToPlace, selected]);
 
+  const centre = selected ?? centreOf(places);
   const where = presence(position.kind === 'at' ? position.point : null, places);
   const offline = sync.phase === 'offline';
   const canDraw = !offline || pack.uri !== null;
@@ -158,7 +159,7 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
       onOpen={open}
       onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
       canvas={
-        canDraw ? (
+        canDraw && centre !== null ? (
           <ExploreMapCanvas
             places={shown.map((poi) => ({
               id: poi.id,
@@ -170,7 +171,7 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
             }))}
             selectedId={selectedId}
             onSelect={setSelectedId}
-            centre={selected ?? centreOf(places)}
+            centre={centre}
             destinationSlug={row?.slug ?? null}
             localRegionUri={pack.uri}
             you={where.kind === 'here' ? where.at : null}

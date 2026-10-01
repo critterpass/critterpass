@@ -192,7 +192,7 @@ function MapScene({ spec }: { readonly spec: MapSpec }) {
             }))}
             selectedId={selectedId}
             onSelect={setSelectedId}
-            centre={selected ?? centreOf(spec.places)}
+            centre={selected ?? centreOf(spec.places) ?? { lat: 0, lng: 0 }}
             destinationSlug={null}
             localRegionUri={null}
             you={spec.you ?? null}

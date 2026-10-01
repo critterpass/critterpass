@@ -1,20 +1,12 @@
 /**
  * A place on the Explore map: a capsule with the category's doodle, the name and the initials of
- * the crewmates keen on it (three at most, then "+n"). The chosen pin is larger and yellow. Pins
- * drop in from above, staggered; reduced motion fades them in.
+ * the crewmates keen on it (three at most, then "+n"). The chosen pin is yellow. The map draws
+ * an annotation from a picture of its view, taken once, so the pin holds still: nothing in it
+ * animates, and it is whole from its first frame.
  */
-import { resolveMemberStyle, tokens } from '@cp/design-tokens';
-import { useEffect } from 'react';
+import { resolveMemberStyle } from '@cp/design-tokens';
 import { Pressable, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withTiming,
-} from 'react-native-reanimated';
 
-import { bezierEasing } from '@/motion';
-import { staggerDelayMs, useReducedImpactMotion } from '@/motion/patterns/shared';
 import { Icon } from '@/ui/icons/Icon';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -23,11 +15,8 @@ import { categoryIcon, categoryLabel } from '../category';
 
 /** The annotation is measured once, before the pin lays out: the pin sits in a fixed box. */
 export const PIN_BOX = { width: 196, height: 52 } as const;
-const DROP_FROM = -26;
-const STAGGER_MS = 70;
 const MAX_FACES = 3;
 const FACE = 18;
-const dropEasing = bezierEasing(tokens.motion.easing.back);
 
 export interface PinFace {
   readonly key: string;
@@ -41,8 +30,6 @@ export interface DoodlePinProps {
   readonly category: string;
   readonly faces: readonly PinFace[];
   readonly selected: boolean;
-  /** Position among the pins dropping in together. */
-  readonly index: number;
   readonly onPress: () => void;
 }
 
@@ -86,72 +73,53 @@ const useStyles = makeStyles((t) => ({
 export function DoodlePin(props: DoodlePinProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const reduced = useReducedImpactMotion();
-  const progress = useSharedValue(0);
-  const delay = staggerDelayMs(props.index, STAGGER_MS);
-  useEffect(() => {
-    progress.value = withDelay(
-      delay,
-      withTiming(1, {
-        duration: reduced ? tokens.motion.duration.fast : tokens.motion.duration.medium,
-        easing: dropEasing,
-      }),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- progress is a stable shared value ref.
-  }, [delay, reduced]);
-  const drop = useAnimatedStyle(() => ({
-    opacity: Math.min(1, progress.value),
-    transform: reduced ? [] : [{ translateY: (1 - progress.value) * DROP_FROM }],
-  }));
   const ink = props.selected ? theme.semantic.text.onAccent : theme.semantic.text.primary;
   const shown = props.faces.slice(0, MAX_FACES);
   const more = props.faces.length - shown.length;
   return (
     <View style={styles.box} collapsable={false}>
-      <Animated.View style={drop}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityState={{ selected: props.selected }}
-          accessibilityLabel={`${props.name}, ${categoryLabel(props.category)}`}
-          onPress={props.onPress}
-          style={[styles.capsule, props.selected ? styles.chosen : null]}
-          testID={`explore-pin-${props.id}`}
-        >
-          <View style={styles.icon}>
-            <Icon name={categoryIcon(props.category)} size={15} decorative />
-          </View>
-          <View style={styles.name}>
-            <Text variant="label" color={ink} numberOfLines={1}>
-              {props.name}
-            </Text>
-          </View>
-          {shown.length === 0 ? null : (
-            <View style={styles.faces}>
-              {shown.map((face, at) => (
-                <View
-                  key={face.key}
-                  style={[
-                    styles.face,
-                    {
-                      backgroundColor: resolveMemberStyle(face.joinIndex).color,
-                      marginStart: at === 0 ? 0 : -theme.space['6'],
-                    },
-                  ]}
-                >
-                  <Text variant="caption" color={theme.semantic.text.onAccent} numberOfLines={1}>
-                    {face.name.trim().charAt(0).toUpperCase()}
-                  </Text>
-                </View>
-              ))}
-              {more <= 0 ? null : (
-                <Text variant="caption" color={ink} numberOfLines={1}>
-                  {`+${String(more)}`}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityState={{ selected: props.selected }}
+        accessibilityLabel={`${props.name}, ${categoryLabel(props.category)}`}
+        onPress={props.onPress}
+        style={[styles.capsule, props.selected ? styles.chosen : null]}
+        testID={`explore-pin-${props.id}`}
+      >
+        <View style={styles.icon}>
+          <Icon name={categoryIcon(props.category)} size={15} decorative />
+        </View>
+        <View style={styles.name}>
+          <Text variant="label" color={ink} numberOfLines={1}>
+            {props.name}
+          </Text>
+        </View>
+        {shown.length === 0 ? null : (
+          <View style={styles.faces}>
+            {shown.map((face, at) => (
+              <View
+                key={face.key}
+                style={[
+                  styles.face,
+                  {
+                    backgroundColor: resolveMemberStyle(face.joinIndex).color,
+                    marginStart: at === 0 ? 0 : -theme.space['6'],
+                  },
+                ]}
+              >
+                <Text variant="caption" color={theme.semantic.text.onAccent} numberOfLines={1}>
+                  {face.name.trim().charAt(0).toUpperCase()}
                 </Text>
-              )}
-            </View>
-          )}
-        </Pressable>
-      </Animated.View>
+              </View>
+            ))}
+            {more <= 0 ? null : (
+              <Text variant="caption" color={ink} numberOfLines={1}>
+                {`+${String(more)}`}
+              </Text>
+            )}
+          </View>
+        )}
+      </Pressable>
     </View>
   );
 }

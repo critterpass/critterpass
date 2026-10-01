@@ -24,6 +24,7 @@ import type { GuideFacts } from '../format';
 import type { Verdict } from '../swipe-model';
 
 const NOTE_STICKER = 52;
+const NAME_FLOOR = 20;
 
 export interface SwipeCardFace {
   readonly poiId: string;
@@ -111,7 +112,8 @@ function Face({ face, guide }: { readonly face: SwipeCardFace; readonly guide: G
       )}
       <SurfaceToneProvider value="accent">
         <View style={styles.footer}>
-          <Text variant="h2" testID="explore-swipe-name">
+          {/* A long name shrinks to fit its three lines instead of being cut. */}
+          <Text variant="h2" autoFit autoFitMinSize={NAME_FLOOR} testID="explore-swipe-name">
             {upper(face.name, i18n.locale)}
           </Text>
           <Text variant="bodySm">{face.meta}</Text>

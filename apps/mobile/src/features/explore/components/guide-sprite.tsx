@@ -1,7 +1,7 @@
-/** The destination's guide, hopping beside the you-dot on the map. */
-import Animated from 'react-native-reanimated';
-
-import { useLoop } from '@/motion';
+/**
+ * The destination's guide beside the you-dot on the map. The map draws an annotation from a
+ * picture of its view, so the guide stands still there.
+ */
 import { Sticker } from '@/ui/sticker/Sticker';
 
 import type { GuideFacts } from '../format';
@@ -9,10 +9,5 @@ import type { GuideFacts } from '../format';
 const SPRITE = 40;
 
 export function GuideSprite({ guide }: { readonly guide: GuideFacts }) {
-  const hop = useLoop('hop');
-  return (
-    <Animated.View style={hop} pointerEvents="none">
-      <Sticker kind={guide.kind} name={guide.name} size={SPRITE} />
-    </Animated.View>
-  );
+  return <Sticker kind={guide.kind} name={guide.name} size={SPRITE} />;
 }

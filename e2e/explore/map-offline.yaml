@@ -33,8 +33,9 @@ appId: app.critterpass.dev
     visible:
       id: 'explore-map-carousel'
     timeout: 60000
+# The tiles come over the network: the map is given time to draw before it is looked at.
 - waitForAnimationToEnd:
-    timeout: 8000
+    timeout: 20000
 - takeScreenshot: en-3d-4-fresh-account
 - tapOn:
     id: 'explore-map-mode'

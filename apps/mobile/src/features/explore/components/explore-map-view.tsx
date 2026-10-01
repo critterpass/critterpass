@@ -84,7 +84,7 @@ export function ExploreMapView(props: ExploreMapViewProps) {
   const listMode = props.mode === 'list';
   const empty = !props.loading && props.cards.length === 0;
   return (
-    <Scaffold variant="map" edges={[]} testID="explore-map">
+    <Scaffold variant={listMode ? 'dark' : 'map'} edges={[]} testID="explore-map">
       {listMode ? (
         <ExploreListView
           cards={props.cards}
@@ -93,9 +93,11 @@ export function ExploreMapView(props: ExploreMapViewProps) {
           bottomInset={insets.bottom + theme.space['24']}
         />
       ) : props.canvas === null ? (
-        <View style={styles.unavailable} testID="explore-map-unavailable">
-          {props.pack}
-        </View>
+        props.loading ? null : (
+          <View style={styles.unavailable} testID="explore-map-unavailable">
+            {props.pack}
+          </View>
+        )
       ) : (
         <View style={StyleSheet.absoluteFill}>{props.canvas}</View>
       )}

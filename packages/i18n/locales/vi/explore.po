@@ -569,7 +569,7 @@ msgstr "Cần có mạng để xem ưu đãi."
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.offlineBadge"
-msgstr "Sẵn sàng ngoại tuyến"
+msgstr "Ngoại tuyến"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.busy"
@@ -739,7 +739,7 @@ msgstr "Đã bắt đầu chuyến đi một mình đến {placeName}."
 
 #: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
 msgid "explore.sponsored.tag"
-msgstr "Được tài trợ"
+msgstr "Tài trợ"
 
 #. placeholder {0}: pick.name
 #. placeholder {1}: categoryLabel(pick.category)

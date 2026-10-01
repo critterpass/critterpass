@@ -17,6 +17,7 @@ import { FilterChip } from '@/ui/chips/FilterChip';
 import { Row } from '@/ui/layout/Row';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { EmptyState } from '@/ui/states/EmptyState';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -64,6 +65,8 @@ export interface SavedViewProps {
   readonly plans?: ReactNode;
 }
 
+const EMPTY_STICKER = 140;
+
 const useStyles = makeStyles((t) => ({
   body: { paddingHorizontal: t.size.gutter, gap: t.space['16'] },
   chips: { flexDirection: 'row', gap: t.space['8'], paddingEnd: t.size.gutter },
@@ -82,6 +85,7 @@ export function SavedView(props: SavedViewProps) {
   const { groups, editor, choice } = props;
   const named = choice !== null && choice !== ALL_LISTS;
   const empty = groups.groups.length === 0 && groups.unknown === 0;
+  const guest = guideFor(null);
 
   const rowActions = (row: SavedRow) =>
     !props.editing || row.pending ? null : (
@@ -203,7 +207,7 @@ export function SavedView(props: SavedViewProps) {
         {empty ? (
           <EmptyState
             guide="tokek"
-            guideName={guideFor(null).name}
+            guideName={guest.name}
             title={
               props.total === 0
                 ? t({ id: 'explore.saved.emptyTitle', message: 'Nothing saved yet' })
@@ -221,6 +225,7 @@ export function SavedView(props: SavedViewProps) {
                     onPress: props.onExplore,
                   },
                 })}
+            sticker={<Sticker kind={guest.kind} name={guest.name} size={EMPTY_STICKER} />}
             testID="explore-saved-empty"
           />
         ) : null}

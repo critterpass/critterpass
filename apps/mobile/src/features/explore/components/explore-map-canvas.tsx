@@ -2,7 +2,7 @@
  * The Explore map itself: the hand-drawn dark style over the destination's tiles (the region file
  * on this phone when there is one), a doodle pin per place with nearby ones gathered into "+n"
  * bubbles that follow the zoom, the you-dot with the guide beside it, and a dotted line from there
- * to the chosen place.
+ * to the chosen place. It is mounted once the place to open on is known, so the camera starts there.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- MapLibre ids and a pmtiles URL, never copy. */
 import {
@@ -52,7 +52,7 @@ export interface ExploreMapCanvasProps {
   readonly places: readonly CanvasPlace[];
   readonly selectedId: string | null;
   readonly onSelect: (id: string) => void;
-  readonly centre: Point | null;
+  readonly centre: Point;
   readonly destinationSlug: string | null;
   /** The downloaded region (`file://…pmtiles`), used instead of the network. */
   readonly localRegionUri: string | null;
@@ -65,7 +65,7 @@ export interface ExploreMapCanvasProps {
   readonly onFit: (bounds: LngLatBounds) => void;
 }
 
-const styles = StyleSheet.create({ you: { flexDirection: 'row', alignItems: 'center' } });
+const styles = StyleSheet.create({ sprite: { width: 48, height: 48 } });
 
 export function ExploreMapCanvas({ cameraRef, onFit, ...props }: ExploreMapCanvasProps) {
   const theme = useTheme();
@@ -106,11 +106,6 @@ export function ExploreMapCanvas({ cameraRef, onFit, ...props }: ExploreMapCanva
     [props.places, zoom],
   );
   const selected = props.selectedId === null ? undefined : byId.get(props.selectedId);
-  const orderOf = useMemo(
-    () => new Map(props.places.map((place, index) => [place.id, index])),
-    [props.places],
-  );
-
   return (
     <MapLibreMap
       style={StyleSheet.absoluteFill}
@@ -119,11 +114,10 @@ export function ExploreMapCanvas({ cameraRef, onFit, ...props }: ExploreMapCanva
     >
       <Camera
         ref={cameraRef}
-        initialViewState={
-          props.centre === null
-            ? { center: [0, 0], zoom: 1 }
-            : { center: [props.centre.lng, props.centre.lat], zoom: OPENING_ZOOM }
-        }
+        initialViewState={{
+          center: [props.centre.lng, props.centre.lat],
+          zoom: OPENING_ZOOM,
+        }}
       />
       {props.you !== null && selected !== undefined ? (
         <RouteLine
@@ -159,14 +153,18 @@ export function ExploreMapCanvas({ cameraRef, onFit, ...props }: ExploreMapCanva
           const place = byId.get(entry.id);
           if (place === undefined) return null;
           return (
-            <ViewAnnotation key={place.id} lngLat={[place.lng, place.lat]} anchor="center">
+            <ViewAnnotation
+              // The annotation is a picture of the pin: a new one is taken when it is chosen.
+              key={place.id === props.selectedId ? `${place.id}-chosen` : place.id}
+              lngLat={[place.lng, place.lat]}
+              anchor="center"
+            >
               <DoodlePin
                 id={place.id}
                 name={place.name}
                 category={place.category}
                 faces={place.faces}
                 selected={place.id === props.selectedId}
-                index={Math.min(orderOf.get(place.id) ?? 0, 12)}
                 onPress={() => props.onSelect(place.id)}
               />
             </ViewAnnotation>
@@ -174,10 +172,16 @@ export function ExploreMapCanvas({ cameraRef, onFit, ...props }: ExploreMapCanva
         });
       })}
       {props.you === null ? null : (
-        <ViewAnnotation lngLat={[props.you.lng, props.you.lat]} anchor="center">
-          <View style={styles.you} collapsable={false}>
-            <GuideSprite guide={props.guide} />
+        <ViewAnnotation lngLat={[props.you.lng, props.you.lat]}>
+          <View>
             <YouDot />
+          </View>
+        </ViewAnnotation>
+      )}
+      {props.you === null ? null : (
+        <ViewAnnotation lngLat={[props.you.lng, props.you.lat]} anchor="right" offset={[-10, 0]}>
+          <View style={styles.sprite} collapsable={false}>
+            <GuideSprite guide={props.guide} />
           </View>
         </ViewAnnotation>
       )}

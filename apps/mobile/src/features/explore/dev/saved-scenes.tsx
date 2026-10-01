@@ -143,7 +143,7 @@ function SavedScene({ spec }: { readonly spec: SavedSpec }) {
 const SAVED_SPECS: Readonly<Record<string, SavedSpec>> = {
   saved: {},
   'saved-empty': { rows: [] },
-  'saved-editing': { editing: true, movingId: 'nishiki' },
+  'saved-editing': { editing: true, movingId: 'my-khe' },
   'saved-list': {
     choice: 'Mornings',
     editing: true,
