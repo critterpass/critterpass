@@ -256,6 +256,13 @@ export interface ReturningPhoneSignInDeps {
 
 interface InternalAdapterReturningSignIn {
   createSession(userId: string): Promise<{ token: string }>;
+  updateUser(userId: string, data: Record<string, unknown>): Promise<unknown>;
+}
+
+interface SessionApi {
+  getSession(args: {
+    headers: Headers;
+  }): Promise<{ user: { id: string; phoneNumber?: string | null } } | null>;
 }
 
 interface RawAdapterReturningSignIn {
@@ -294,6 +301,8 @@ const returningPhoneSignInBodySchema = z.object({
  * `/phone-number/send-otp` (already session-optional) for the code. `code-attempts.ts` adds a second,
  * IP+phone-dimensioned enumeration lockout on top of the per-code attempt cap above (defends against
  * cycling through many different phone numbers from one IP, which the per-code cap alone would not).
+ * A number nobody holds is saved to the caller's own pass (`{ linked: true }`), never moved from
+ * anyone: a returning sign-in signs in to the holder and leaves the number where it is.
  */
 export function registerReturningPhoneSignInRoute<E extends { Variables: object }>(
   app: Hono<E>,
@@ -343,6 +352,20 @@ export function registerReturningPhoneSignInRoute<E extends { Variables: object 
       model: 'user',
       where: [{ field: 'phoneNumber', value: phoneNumber }],
     });
+    if (user === null) {
+      // Nobody holds the number: the code proved it is the caller's, so it becomes the pass the
+      // caller is on now (the save a new pass makes), and the app goes on to make that pass.
+      const current = await (deps.auth.api as unknown as SessionApi).getSession({
+        headers: c.req.raw.headers,
+      });
+      if (current !== null && !current.user.phoneNumber) {
+        await context.internalAdapter.updateUser(current.user.id, {
+          phoneNumber,
+          phoneNumberVerified: true,
+        });
+        return c.json({ linked: true, user: { id: current.user.id } });
+      }
+    }
     if (!user?.phoneNumberVerified) {
       return errorResponse(
         c,
