@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from '@jest/globals';
 import { MOCK_FLAG_IMPLAUSIBLE, type GeofenceSourceContext, type TripModeTrip } from '@cp/domain';
 
+import { toTripModeTrip } from '../bridge-inputs';
 import {
   createLocationEngine,
   FIX_RING_MS,
@@ -154,6 +155,36 @@ describe('location engine', () => {
     await flush();
     expect(engine.status()).toMatchObject({ running: false, reason: 'at_home' });
     expect(session.calls).toContain('stop');
+  });
+
+  it('keeps running on a trip in the home country once the device geocodes there', async () => {
+    const session = fakeSession();
+    const engine = createLocationEngine({
+      session: session.port,
+      upload: okUpload(),
+      platform: 'ios',
+      now: () => clock,
+      countryOf: () => Promise.resolve('VN'),
+    });
+    // The synced rows as they arrive: the destination's country by name, the home by code.
+    const domestic = toTripModeTrip({
+      id: 't1',
+      status: 'in_trip',
+      start_date: '2026-10-10',
+      end_date: '2026-10-14',
+      tz: 'Asia/Ho_Chi_Minh',
+      destination_country: 'Vietnam',
+    });
+    await engine.update(inputs({ trip: domestic, homeCountry: 'VN' }));
+    session.fix(fixAt(clock));
+    await flush();
+    await flush();
+    expect(engine.status()).toMatchObject({
+      running: true,
+      tripMode: 'trip_day',
+      session: 'trip_session',
+    });
+    expect(session.calls).not.toContain('stop');
   });
 
   it('goes high inside a planned place and coarse once the day’s allowance is spent', async () => {
@@ -322,6 +353,137 @@ describe('location engine', () => {
     expect(plain.regions).toEqual([]);
     await engine.update(inputs({ level: 'always', androidBackgroundGeofences: true }));
     expect(plain.regions.at(-1)?.map((r) => r.id)).toEqual(['plan_pois:warung']);
+  });
+});
+
+describe('off at home while a trip is under way', () => {
+  const HOME = { lat: 10.8231, lng: 106.6297 };
+
+  /** An engine whose geocoder and one-off position read the test steers. */
+  function world(at: { country: string; point: { lat: number; lng: number } | null }) {
+    const session = fakeSession();
+    let locates = 0;
+    const engine = createLocationEngine({
+      session: session.port,
+      upload: okUpload(),
+      platform: 'ios',
+      now: () => clock,
+      countryOf: () => Promise.resolve(at.country),
+      locate: () => {
+        locates += 1;
+        return Promise.resolve(at.point);
+      },
+    });
+    const settle = async () => {
+      for (let i = 0; i < 4; i += 1) await flush();
+    };
+    const starts = () => session.calls.filter((call) => call.startsWith('start:')).length;
+    return { engine, session, settle, starts, locates: () => locates };
+  }
+
+  it('turns on after the landing: the trip starts while the engine still believes it is at home', async () => {
+    const at = { country: 'VN', point: HOME as { lat: number; lng: number } | null };
+    const { engine, session, settle, starts, locates } = world(at);
+    const departing = { ...trip, status: 'pre_trip' as const, startDate: '2026-10-12' };
+    // The phone stays in a pocket the whole way: Always is granted, the app is not in front.
+    const pocket = { appActive: false, level: 'always' as const };
+    await engine.update(inputs({ ...pocket, trip: departing }));
+    session.fix(fixAt(clock, HOME));
+    await settle();
+    expect(engine.status()).toMatchObject({ running: true, tripMode: 'travel_day' });
+    expect(locates()).toBe(0);
+
+    // Three hours later the phone is in Bali and the landing has started the trip; no fix has
+    // refreshed the country since the departure gate.
+    clock += 180 * MIN;
+    at.country = 'ID';
+    at.point = POI;
+    await engine.update(inputs({ ...pocket, trip: { ...departing, status: 'in_trip' } }));
+    expect(engine.status()).toMatchObject({ running: false, reason: 'at_home' });
+    await settle();
+    expect(locates()).toBe(1);
+    expect(engine.status()).toMatchObject({
+      running: true,
+      tripMode: 'trip_day',
+      session: 'trip_session',
+    });
+    expect(starts()).toBe(2);
+  });
+
+  it('turns on when the app comes back to the front after the journey', async () => {
+    const at = { country: 'VN', point: HOME as { lat: number; lng: number } | null };
+    const { engine, session, settle, locates } = world(at);
+    await engine.update(inputs());
+    session.fix(fixAt(clock, HOME));
+    await settle();
+    expect(engine.status()).toMatchObject({ running: false, reason: 'at_home' });
+    const before = locates();
+
+    await engine.update(inputs({ appActive: false }));
+    clock += 240 * MIN;
+    at.country = 'ID';
+    at.point = POI;
+    await engine.update(inputs({ appActive: false }));
+    await settle();
+    expect(locates()).toBe(before);
+    expect(engine.status().running).toBe(false);
+
+    await engine.update(inputs());
+    await settle();
+    expect(locates()).toBe(before + 1);
+    expect(engine.status()).toMatchObject({ running: true, tripMode: 'trip_day' });
+  });
+
+  it('stays off while still at home, looking again at most every ten minutes', async () => {
+    const at = { country: 'VN', point: HOME as { lat: number; lng: number } | null };
+    const { engine, session, settle, starts, locates } = world(at);
+    await engine.update(inputs());
+    session.fix(fixAt(clock, HOME));
+    await settle();
+    expect(engine.status()).toMatchObject({ running: false, reason: 'at_home' });
+    expect(locates()).toBe(1);
+
+    // The bridge re-applies every minute; nothing changed, so nothing is read.
+    for (let minute = 0; minute < 9; minute += 1) {
+      clock += MIN;
+      await engine.update(inputs());
+      await settle();
+    }
+    expect(locates()).toBe(1);
+    clock += 2 * MIN;
+    await engine.update(inputs());
+    await settle();
+    expect(locates()).toBe(2);
+    // No position (no permission, or none to be had) changes nothing either.
+    at.point = null;
+    clock += 11 * MIN;
+    await engine.update(inputs());
+    await settle();
+    expect(locates()).toBe(3);
+    expect(engine.status()).toMatchObject({ running: false, reason: 'at_home' });
+    expect(starts()).toBe(1);
+  });
+
+  it('never reads a position without a trip, outside its days or outside the window', async () => {
+    const at = { country: 'VN', point: HOME as { lat: number; lng: number } | null };
+    const { engine, session, settle, starts, locates } = world(at);
+    // Learn "at home" on a trip day first, then leave the trip days behind.
+    await engine.update(inputs());
+    session.fix(fixAt(clock, HOME));
+    await settle();
+    const before = locates();
+    clock += 60 * MIN;
+    await engine.update(inputs({ trip: null }));
+    await engine.update(inputs({ trip: { ...trip, status: 'confirmed' } }));
+    clock += 3 * 24 * 60 * MIN;
+    await engine.update(inputs());
+    // 03:00 in Bali on a trip day: before the window opens.
+    clock = Date.parse('2026-10-12T19:00:00Z');
+    await engine.update(inputs());
+    await settle();
+    expect(locates()).toBe(before);
+    expect(starts()).toBe(1);
+    expect(engine.status().running).toBe(false);
   });
 });
 

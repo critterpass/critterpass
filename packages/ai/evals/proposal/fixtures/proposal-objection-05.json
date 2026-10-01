@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "bff43a79-ebba-4f29-8a6c-59ffe1230df2",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"line\":\"Không sao đâu, tính sau cũng được — biển vẫn chờ. Mình giữ nhịp nhẹ nhàng thôi.\",\"options\":[{\"option_id\":\"skip:bana\",\"text\":\"Bỏ ngày Ba Na Hills, tiết kiệm 350.000 ₫\"},{\"option_id\":\"ask_crew\",\"text\":\"Hỏi cả nhóm, không nói ai hỏi\"},{\"option_id\":\"follow_up\",\"text\":\"Cứ suy nghĩ, lát nữa nhắn mình\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 615,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 768,
+        "output_tokens": 124,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

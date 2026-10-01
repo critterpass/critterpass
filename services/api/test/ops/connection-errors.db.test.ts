@@ -27,7 +27,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await Promise.all([postgres.stop(), redisContainer.stop()]);
+  await Promise.all([postgres?.stop(), redisContainer?.stop()]);
 });
 
 interface Logged {

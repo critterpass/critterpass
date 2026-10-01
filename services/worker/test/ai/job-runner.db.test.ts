@@ -33,7 +33,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 function start(job: Omit<StartAgentJobInput, 'kind' | 'tripId'>) {

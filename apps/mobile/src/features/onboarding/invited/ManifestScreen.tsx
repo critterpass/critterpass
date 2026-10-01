@@ -22,6 +22,7 @@ import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { GuideLine } from '@/ui/people/GuideLine';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -56,6 +57,8 @@ function firstName(name: string | null): string {
 }
 
 export function ManifestScreen() {
+  // The seat is taken: the page leads on to the plan or the chat, never back into the join.
+  useNoBackByDesign();
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();

@@ -6,7 +6,11 @@
 import { TRIP_DAY_PUSH } from '@cp/domain';
 import { describe, expect, it } from 'vitest';
 
-import { leaveByPushCopy, type LeaveByPushFacts } from '../../src/jobs/trip-day/leave-by-push-copy';
+import {
+  leaveByBriefingLine,
+  leaveByPushCopy,
+  type LeaveByPushFacts,
+} from '../../src/jobs/trip-day/leave-by-push-copy';
 
 const TZ = 'Asia/Ho_Chi_Minh';
 
@@ -25,6 +29,7 @@ const flight: LeaveByPushFacts = {
 describe('leave-by push copy', () => {
   it('tells a flight with no trip counted when to be at the airport', () => {
     expect(leaveByPushCopy(flight)).toEqual({
+      beThere: true,
       alarmTitle: TRIP_DAY_PUSH.alarmTitleBeThere,
       alarmBody: TRIP_DAY_PUSH.alarmBodyBeThere,
       knockTitle: TRIP_DAY_PUSH.knockTitleBeThere,
@@ -54,6 +59,7 @@ describe('leave-by push copy', () => {
   it('keeps "leave by" and the stored time once a route or a pickup is counted', () => {
     for (const kind of ['route', 'pickup']) {
       expect(leaveByPushCopy({ ...flight, place_name: 'Tan Son Nhat', leg_kind: kind })).toEqual({
+        beThere: false,
         alarmTitle: TRIP_DAY_PUSH.alarmTitle,
         alarmBody: TRIP_DAY_PUSH.alarmBody,
         knockTitle: TRIP_DAY_PUSH.knockTitle,
@@ -61,5 +67,17 @@ describe('leave-by push copy', () => {
         time: '04:55',
       });
     }
+  });
+
+  it('gives the morning briefing a line that says the same', () => {
+    expect(leaveByBriefingLine(flight, null)).toEqual({
+      template: 'Be at SGN by 05:05; getting there is not counted.',
+      facts: { time: '05:05', place: 'SGN' },
+    });
+    const routed = { ...flight, place_name: 'Mount Batur', leg_kind: 'pickup' };
+    expect(leaveByBriefingLine(routed, 'Villa gate')).toEqual({
+      template: 'Leave by 04:55 for Mount Batur. Pickup is at the Villa gate.',
+      facts: { time: '04:55', place: 'Mount Batur', pickup: 'Villa gate' },
+    });
   });
 });

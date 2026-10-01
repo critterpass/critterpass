@@ -32,7 +32,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 describe('agent job with its AI route switched off', () => {

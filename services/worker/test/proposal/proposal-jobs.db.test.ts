@@ -69,7 +69,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await world.stop();
+  await world?.stop();
 });
 
 describe('personal versions', { timeout: 60_000 }, () => {

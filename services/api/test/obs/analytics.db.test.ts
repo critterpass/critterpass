@@ -44,9 +44,9 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await analytics.shutdown();
-  await pool.end();
-  await postgres.stop();
+  await analytics?.shutdown();
+  await pool?.end();
+  await postgres?.stop();
 });
 
 async function user(consented: boolean | null): Promise<string> {

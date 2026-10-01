@@ -12,6 +12,7 @@ import { isDeclined, parseStructuredText, textOf } from '../../structured';
 import type { Gateway } from '../../client';
 import type { UsageContext } from '../../usage';
 import { sourcedNumbers, claimsHold, unsourcedNumbers, type Verdict } from './validate';
+import { READER_LANGUAGE_RULES, replyLanguage } from './version.prompt';
 import {
   OBJECTION_FORMAT,
   OBJECTION_LINE_MAX,
@@ -44,13 +45,14 @@ const TASK = [
 ].join('\n');
 
 export function buildObjectionRequest(input: ObjectionInput): GatewayInput {
+  const language = replyLanguage(input.locale);
   return {
     system: [
       { type: 'text', text: renderPersonaBlock(REPO_PACKS[input.guide]) },
-      { type: 'text', text: TASK },
+      { type: 'text', text: language === '' ? TASK : `${TASK}\n${READER_LANGUAGE_RULES}` },
     ],
     messages: [
-      userTurnWithData(`They are unsure about ${REASON_WORDS[input.reason]}.`, [
+      userTurnWithData(`They are unsure about ${REASON_WORDS[input.reason]}.${language}`, [
         wrapUntrusted({
           kind: 'crew_message',
           text: JSON.stringify({ options: input.options, their_words: input.text }),

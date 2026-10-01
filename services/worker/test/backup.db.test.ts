@@ -53,8 +53,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.close();
-  await s3.stop();
+  await harness?.close();
+  await s3?.stop();
 });
 
 function textBody(text: string): AsyncIterable<Uint8Array> {

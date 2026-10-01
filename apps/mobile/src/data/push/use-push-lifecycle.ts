@@ -5,6 +5,12 @@
  * serialised so a burst of app-state changes never races two registrations. Failures are reported
  * and retried by the next trigger; nothing here blocks the UI.
  *
+ * Once the server has this install for the signed-in person, every launch and foreground also
+ * makes sure the extensions' action key is in the shared Keychain (./action-key.ts): the key is
+ * what the notification service extension fetches a private push's text with. Whether there is a
+ * key is read from the Keychain each time, never remembered here, so a refused or failed request
+ * is asked again on the next trigger.
+ *
  * On iOS every token read (`registerForRemoteNotifications`) also fires the token listener with the
  * same token, so a rotation event only counts when its token differs from the last one seen, and a
  * rotation registers the token it carries without reading it again: otherwise each registration's
@@ -41,6 +47,14 @@ export interface PushLifecycleDeps {
   readonly locale: () => string;
   readonly timeZone: () => string;
   readonly capabilities?: DeviceCapabilities;
+  /**
+   * Issues or rotates the extensions' action key for this install when one is needed; absent
+   * where nothing reads one. Called only after `register_device` applied for `userId`.
+   */
+  readonly ensureActionKey?: (owner: {
+    readonly deviceId: string;
+    readonly userId: string;
+  }) => Promise<unknown>;
   readonly subscribeAppState: (listener: (state: AppStateStatus) => void) => () => void;
   readonly now?: () => number;
   readonly onError?: (error: unknown) => void;
@@ -56,6 +70,8 @@ export interface PushLifecycle {
 export function createPushLifecycle(deps: PushLifecycleDeps): PushLifecycle {
   const now = deps.now ?? Date.now;
   let last: LastRegistration | undefined;
+  /** The uid the server last accepted this install's registration for, in this process. */
+  let registeredUid: string | undefined;
   /** The newest token this install has read or been handed, registered or not. */
   let seenToken: string | undefined;
   let queue: Promise<void> = Promise.resolve();
@@ -76,13 +92,29 @@ export function createPushLifecycle(deps: PushLifecycleDeps): PushLifecycle {
     const snapshot = await currentToken(rotatedToken);
     const token = snapshot?.token;
     const at = now();
-    if (!shouldRegister(reason, last, at, token)) return;
+    const installId = await getOrCreateInstallId(deps.storage);
+    if (shouldRegister(reason, last, at, token)) {
+      await register(reason, uid, installId, snapshot, at);
+    }
+    if (reason !== 'background' && registeredUid === uid) {
+      await deps.ensureActionKey?.({ deviceId: installId, userId: uid });
+    }
+  }
+
+  async function register(
+    reason: RegisterReason,
+    uid: string,
+    installId: string,
+    snapshot: Awaited<ReturnType<typeof currentToken>>,
+    at: number,
+  ): Promise<void> {
+    const token = snapshot?.token;
     const foreground = reason !== 'background';
     await sendRegisterDevice(
       deps.transport,
       {
         uid,
-        installId: await getOrCreateInstallId(deps.storage),
+        installId,
         platform: deps.platform,
         ...(deps.bundleId !== undefined ? { bundleId: deps.bundleId } : {}),
         appVersion: deps.appVersion,
@@ -96,6 +128,7 @@ export function createPushLifecycle(deps: PushLifecycleDeps): PushLifecycle {
       new Date(at),
     );
     last = { at, foreground, token };
+    registeredUid = uid;
   }
 
   function trigger(reason: RegisterReason, token?: string): Promise<void> {

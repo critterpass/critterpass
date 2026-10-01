@@ -39,9 +39,9 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  redis.destroy();
-  await pool.end();
-  await Promise.all([postgres.stop(), redisContainer.stop()]);
+  redis?.destroy();
+  await pool?.end();
+  await Promise.all([postgres?.stop(), redisContainer?.stop()]);
 });
 
 function buildModule(isProduction: boolean): AuthModule {

@@ -70,8 +70,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
-  await s3.stop();
+  await harness?.stop();
+  await s3?.stop();
 });
 
 function post(session: SignedIn | undefined, path: string, body: unknown): Promise<Response> {

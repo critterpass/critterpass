@@ -84,9 +84,9 @@ beforeAll(async () => {
 }, 300_000);
 
 afterAll(async () => {
-  await harness.stopAll();
-  await harness.close();
-  await s3.stop();
+  await harness?.stopAll();
+  await harness?.close();
+  await s3?.stop();
 });
 
 async function setHashMatch(on: boolean): Promise<void> {

@@ -32,11 +32,9 @@ export interface LoadedContext {
   readonly savingsMinor: bigint | null;
 }
 
-const label = (minor: bigint, currency: string) =>
-  formatMoney(money(minor < 0n ? -minor : minor, currency), {
-    locale: 'en',
-    mode: 'local',
-  });
+/** An amount as the recipient reads it: punctuated the way their language writes money. */
+const label = (minor: bigint, currency: string, locale: string) =>
+  formatMoney(money(minor < 0n ? -minor : minor, currency), { locale, mode: 'local' });
 
 export async function loadVersionTarget(
   pool: pg.Pool,
@@ -127,10 +125,14 @@ export async function loadVersionContext(
         ORDER BY d.day_no NULLS LAST, i.starts_at NULLS LAST, i.stable_id`,
       [target.plan_version_id, target.trip_id],
     );
+    const language = await tx.query<{ locale: string }>('SELECT app.user_locale($1) AS locale', [
+      target.recipient_id,
+    ]);
     return {
       mustDos: new Set(mustDos.rows.map((r) => r.id)),
       items: items.rows,
       cost: await costFacts(tx, target),
+      locale: language.rows[0]?.locale ?? 'en',
     };
   });
   const me = read.crew.find((member) => member.user_id === target.recipient_id);
@@ -142,7 +144,7 @@ export async function loadVersionContext(
     category: item.category,
     must_do: item.must_do_id !== null && own.mustDos.has(item.must_do_id),
   }));
-  const { cost } = own;
+  const { cost, locale } = own;
   const share = target.show_cost ? cost.share : null;
   const savings = target.show_cost ? cost.savings : [];
   const context: VersionContext = {
@@ -155,15 +157,16 @@ export async function loadVersionContext(
         : null,
     tasteTags: me?.taste_tags ?? [],
     items,
-    share: share === null ? null : label(share, cost.currency),
+    share: share === null ? null : label(share, cost.currency, locale),
     savings: savings.map((s) => ({
       id: s.id,
       label: s.label,
-      amount: label(s.displayDeltaMinor, s.currency),
+      amount: label(s.displayDeltaMinor, s.currency, locale),
     })),
     otherNames: read.crew
       .filter((member) => member.user_id !== target.recipient_id && member.first_name.length > 0)
       .map((member) => member.first_name),
+    locale,
   };
   return {
     context,

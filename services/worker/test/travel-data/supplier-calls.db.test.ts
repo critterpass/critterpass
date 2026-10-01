@@ -21,8 +21,8 @@ function pgAudit(onError?: (error: unknown) => void) {
 }
 
 afterAll(async () => {
-  await pool.end();
-  await postgres.stop();
+  await pool?.end();
+  await postgres?.stop();
 });
 
 const RECORD = {
