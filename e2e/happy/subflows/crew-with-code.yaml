@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# A new account (no demo world) starts a crew named ${CREW} and keeps its join code in
+# ${output.crewCode}.
+- runFlow: fresh-account.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: ${CREW}
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- copyTextFrom:
+    id: 'start-crew-code'
+# iOS copies the spoken label ("Crew code E 2 X …"): the code is its last six characters.
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+- tapOn:
+    id: 'start-crew-done'

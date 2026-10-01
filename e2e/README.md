@@ -171,7 +171,8 @@ staging's AI, so those flows allow a few minutes for them.
 | `bookings`       | paste a confirmation → candidate → ADD → wallet stack → the flight's details     |
 | `suppliers`      | activity cards → OPEN KLOOK → click recorded → the partner redirect              |
 | `fresh-wallet`   | no seed: crew of one → Money in VND → BOOKINGS/MONEY → forward address → SAVE    |
-| `fresh-join-code` | no seed: a second new account → splash "Got a code?" → JOIN above the keyboard → three-tap pass → manifest |
+| `fresh-join-code` | no seed: a second new account → splash "Got a code?" → JOIN above the keyboard → the pass asks for name and home → ISSUE → manifest |
+| `fresh-join-code-vi` | the same friend, reading the app in Vietnamese from the splash on |
 | `critters`       | fresh account → PASS Critterdex synced → FOUND empty → a set page → Explore at home kept after a relaunch |
 | `fresh-setup-vnd` | no seed: crew of one from Ho Chi Minh City (VND) → Đà Nẵng locked in → dates from tomorrow, 3 days → budget in ₫ locks first time → rooms |
 
