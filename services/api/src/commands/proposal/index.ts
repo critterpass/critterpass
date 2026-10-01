@@ -4,6 +4,7 @@ import type { CommandRegistry } from '../_framework/registry';
 import { choosePrivateOptionCommand } from './choose-private-option';
 import { createProposalCommand } from './create-proposal';
 import { declineTripCommand } from './decline-trip';
+import { lockInPlanCommand } from './lock-in-plan';
 import { lockProposalCommand } from './lock-proposal';
 import { publishOfferCommand } from './publish-offer';
 import { reactProposalCommand } from './react-proposal';
@@ -23,6 +24,7 @@ export function registerProposalCommands(
   registry.register(createProposalCommand);
   registry.register(sendProposalCommand);
   registry.register(lockProposalCommand);
+  registry.register(lockInPlanCommand);
   registry.register(setRsvpCommand);
   registry.register(reactProposalCommand);
   registry.register(recordProposalOpenCommand);
