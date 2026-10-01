@@ -74,3 +74,19 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: destination-solo, READY: explore-solo-confirm, SHOT: '${PREFIX}-3d-1-solo' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-sponsored,
+        READY: explore-sponsored-tag,
+        SHOT: '${PREFIX}-3d-1-sponsored-pick',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-sponsored-why,
+        READY: explore-sponsored-sheet,
+        SHOT: '${PREFIX}-explore-sponsored-why',
+      }

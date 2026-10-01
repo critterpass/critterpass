@@ -89,6 +89,10 @@ msgstr ""
 msgid "explore.panel.crewCount"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.paid"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.ready"
 msgstr ""
@@ -250,19 +254,19 @@ msgstr ""
 msgid "explore.saved.edit"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.hero.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.explore"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-#: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
-#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
-msgid "explore.hero.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -432,6 +436,10 @@ msgstr ""
 msgid "explore.place.openNow"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.passPlus"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.cta.pitch"
 msgstr ""
@@ -480,6 +488,10 @@ msgstr ""
 msgid "explore.place.save"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.saved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedBadge"
 msgstr ""
@@ -490,10 +502,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
@@ -510,6 +518,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.seePassPlus"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
@@ -542,6 +554,16 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
 msgid "explore.solo.started"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.tag"
+msgstr ""
+
+#. placeholder {0}: pick.name
+#. placeholder {1}: categoryLabel(pick.category)
+#: ../../apps/mobile/src/features/explore/components/picks-row.tsx
+msgid "explore.sponsored.cardLabel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
@@ -590,6 +612,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.neutral"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
@@ -645,12 +671,24 @@ msgstr ""
 msgid "explore.pitch.whichCrew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.why"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.sheetTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.you"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.nameTaken"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.contextual"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx

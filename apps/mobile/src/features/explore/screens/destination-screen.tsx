@@ -33,8 +33,10 @@ import { guideFor, poiSubject } from '../format';
 import { guideTagline, heroChips } from '../guide-copy';
 import { useSavedPlace } from '../hooks/use-saved-place';
 import { useSoloTrip } from '../hooks/use-solo-trip';
+import { useSponsoredEvents } from '../hooks/use-sponsored-events';
 import { useDestinationRow, useMyCrews, useNames, useSeasonMonths, useViewer } from '../queries';
 import { exploreRoutes } from '../routes';
+import { pickEntries } from '../sponsored-model';
 
 export interface DestinationScreenProps {
   /** Destination id or slug. */
@@ -76,12 +78,11 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
   const solo = useSoloTrip({ placeId: id, placeName: name, crewId });
   const photo = heroAt(useDestinationMedia(slug).items);
 
-  const organic = useMemo(
-    () => (data?.picks ?? []).flatMap((entry) => (entry.kind === 'organic' ? [entry.item] : [])),
-    [data?.picks],
-  );
+  const organic = useMemo(() => pickEntries(data?.picks ?? []), [data?.picks]);
+  const paid = organic.find((pick) => pick.sponsored !== null)?.sponsored ?? null;
+  const sponsoredEvents = useSponsoredEvents(paid?.placementId ?? null, 'picks');
   const pickMedia = useSubjectMedia(
-    organic.length === 0 ? null : organic.map((pick) => poiSubject(pick.poi_id)).join(','),
+    organic.length === 0 ? null : organic.map((pick) => poiSubject(pick.poiId)).join(','),
   ).items;
   const pricedData = dataOf(priced);
   const names = useNames(
@@ -213,14 +214,22 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
             }
       }
       picks={organic.map((pick) => ({
-        id: pick.poi_id,
+        id: pick.poiId,
         name: pick.name,
         category: pick.category,
-        photo: pickMedia.find((item) => item.subjects.includes(poiSubject(pick.poi_id))) ?? null,
+        photo: pickMedia.find((item) => item.subjects.includes(poiSubject(pick.poiId))) ?? null,
+        sponsored:
+          pick.sponsored === null
+            ? undefined
+            : {
+                onWhy: () =>
+                  router.push(exploreRoutes.whySponsored(pick.sponsored?.partner ?? '', name)),
+              },
       }))}
-      onOpenPick={(poiId) =>
-        router.push(exploreRoutes.place(poiId, { destinationId: id ?? undefined, tripId }))
-      }
+      onOpenPick={(pick) => {
+        if (pick.sponsored !== undefined) sponsoredEvents.click();
+        router.push(exploreRoutes.place(pick.id, { destinationId: id ?? undefined, tripId }));
+      }}
       onCrewPlans={crewPlans === undefined ? undefined : () => router.push(crewPlans)}
       actions={{
         mode,

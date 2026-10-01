@@ -12,6 +12,7 @@ import type { ActionsMode } from '../components/destination-actions';
 import { DestinationView } from '../components/destination-view';
 import type { MonthPrices } from '../components/month-panel';
 import type { PickCard } from '../components/picks-row';
+import { WhySponsoredSheet } from '../components/why-sponsored-sheet';
 import { crowdBand, legendChips, monthBars, type PriceRow } from '../destination-model';
 import { guideFor } from '../format';
 import { guideTagline, heroChips, type HeroFacts } from '../guide-copy';
@@ -97,6 +98,8 @@ interface SceneSpec {
   readonly notice?: 'limited' | 'unavailable';
   readonly mode?: ActionsMode;
   readonly crews?: readonly CrewChoice[];
+  /** Puts a sponsored card at this position in the picks. */
+  readonly sponsoredAt?: number;
 }
 
 const KYOTO: SceneSpec = {
@@ -187,6 +190,7 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
   },
   'destination-no-crew': { ...KYOTO, mode: 'crews', crews: [] },
   'destination-solo': { ...DA_NANG, month: undefined, mode: 'solo' },
+  'destination-sponsored': { ...KYOTO, sponsoredAt: 2 },
 };
 
 function DestinationScene({ spec }: { readonly spec: SceneSpec }) {
@@ -194,10 +198,21 @@ function DestinationScene({ spec }: { readonly spec: SceneSpec }) {
   const [month, setMonth] = useState<number | null>(spec.month ?? null);
   const [mode, setMode] = useState<ActionsMode>(spec.mode ?? 'actions');
   const [saved, setSaved] = useState(spec.saved ?? false);
+  const [why, setWhy] = useState(false);
   const guide = guideFor(spec.guide);
   const bars = monthBars(spec.curve);
   const bar = month === null ? undefined : bars[month - 1];
   const crews = spec.crews ?? [];
+  if (why) {
+    return (
+      <WhySponsoredSheet
+        partner="Klook"
+        place={spec.name}
+        onPassPlus={() => setWhy(false)}
+        onDismiss={() => setWhy(false)}
+      />
+    );
+  }
   return (
     <DestinationView
       hero={{
@@ -235,7 +250,18 @@ function DestinationScene({ spec }: { readonly spec: SceneSpec }) {
                     },
             }
       }
-      picks={spec.picks}
+      picks={
+        spec.sponsoredAt === undefined
+          ? spec.picks
+          : [
+              ...spec.picks.slice(0, spec.sponsoredAt),
+              {
+                ...pick('kyoto-sponsored', 'Tea ceremony in Gion', 'other'),
+                sponsored: { onWhy: () => setWhy(true) },
+              },
+              ...spec.picks.slice(spec.sponsoredAt),
+            ]
+      }
       onOpenPick={() => undefined}
       actions={{
         mode,
@@ -253,6 +279,11 @@ function DestinationScene({ spec }: { readonly spec: SceneSpec }) {
   );
 }
 
-export const DESTINATION_SCENES: Readonly<Record<string, () => ReactNode>> = Object.fromEntries(
-  Object.entries(SPECS).map(([name, spec]) => [name, () => <DestinationScene spec={spec} />]),
-);
+export const DESTINATION_SCENES: Readonly<Record<string, () => ReactNode>> = {
+  ...Object.fromEntries(
+    Object.entries(SPECS).map(([name, spec]) => [name, () => <DestinationScene spec={spec} />]),
+  ),
+  'destination-sponsored-why': () => (
+    <WhySponsoredSheet partner="Klook" place="Kyoto" onPassPlus={() => undefined} />
+  ),
+};

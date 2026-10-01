@@ -89,6 +89,10 @@ msgstr "{names} is keen on this."
 msgid "explore.panel.crewCount"
 msgstr "{others} of the crew"
 
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.paid"
+msgstr "{partner} paid for this spot in the list. It is marked SPONSORED so you can tell it from the guide's own picks."
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.ready"
 msgstr "{place} works offline"
@@ -250,19 +254,19 @@ msgstr "Downloading {place}"
 msgid "explore.saved.edit"
 msgstr "Edit"
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.hero.back"
+msgstr "Explore"
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.title"
 msgstr "Explore"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.explore"
-msgstr "Explore"
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-#: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
-#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
-msgid "explore.hero.back"
 msgstr "Explore"
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -432,6 +436,10 @@ msgstr "open 24h"
 msgid "explore.place.openNow"
 msgstr "open now"
 
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.passPlus"
+msgstr "Pass+ and boosted trips have no sponsored picks."
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.cta.pitch"
 msgstr "Pitch to the crew"
@@ -480,6 +488,10 @@ msgstr "Save for a trip"
 msgid "explore.place.save"
 msgstr "Save this place"
 
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.saved"
+msgstr "Saved"
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedBadge"
 msgstr "Saved"
@@ -490,10 +502,6 @@ msgstr "Saved"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.title"
-msgstr "Saved"
-
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.saved"
 msgstr "Saved"
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
@@ -511,6 +519,10 @@ msgstr "Search any city or country"
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.open"
 msgstr "See offers"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.seePassPlus"
+msgstr "See Pass+"
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.body"
@@ -543,6 +555,16 @@ msgstr "Solo trip"
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
 msgid "explore.solo.started"
 msgstr "Solo trip to {placeName} started."
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.tag"
+msgstr "Sponsored"
+
+#. placeholder {0}: pick.name
+#. placeholder {1}: categoryLabel(pick.category)
+#: ../../apps/mobile/src/features/explore/components/picks-row.tsx
+msgid "explore.sponsored.cardLabel"
+msgstr "Sponsored: {0}, {1}"
 
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.start"
@@ -591,6 +613,10 @@ msgstr "The destinations haven't reached this phone yet. They load once it's onl
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.failed"
 msgstr "The download didn't finish. Check your connection and try again."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.neutral"
+msgstr "The guide's picks are never ranked by what a partner pays. We may earn a commission if you book through a partner."
 
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.readyBody"
@@ -645,6 +671,14 @@ msgstr "Where the guides live"
 msgid "explore.pitch.whichCrew"
 msgstr "Which crew gets the pitch?"
 
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.why"
+msgstr "Why am I seeing this?"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.sheetTitle"
+msgstr "Why am I seeing this?"
+
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.you"
 msgstr "You"
@@ -652,6 +686,10 @@ msgstr "You"
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.nameTaken"
 msgstr "You already have a list with that name."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.contextual"
+msgstr "You see it because you're looking at {place}. It isn't chosen from anything about you, and we don't track you for it."
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.offline"

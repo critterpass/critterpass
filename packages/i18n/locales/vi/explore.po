@@ -89,6 +89,10 @@ msgstr "{names} thích nơi này."
 msgid "explore.panel.crewCount"
 msgstr "{others} người trong nhóm"
 
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.paid"
+msgstr "{partner} đã trả tiền cho vị trí này trong danh sách. Nó được ghi rõ ĐƯỢC TÀI TRỢ để bạn phân biệt với gợi ý của chính hướng dẫn viên."
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.ready"
 msgstr "{place} dùng được khi không có mạng"
@@ -250,19 +254,19 @@ msgstr "Đang tải {place}"
 msgid "explore.saved.edit"
 msgstr "Sửa"
 
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.hero.back"
+msgstr "Khám phá"
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.title"
 msgstr "Khám phá"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.explore"
-msgstr "Khám phá"
-
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
-#: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
-#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
-#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
-msgid "explore.hero.back"
 msgstr "Khám phá"
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -432,6 +436,10 @@ msgstr "mở cửa 24 giờ"
 msgid "explore.place.openNow"
 msgstr "đang mở cửa"
 
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.passPlus"
+msgstr "Pass+ và các chuyến đi đã Boost không có gợi ý được tài trợ."
+
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.cta.pitch"
 msgstr "Giới thiệu cho nhóm"
@@ -480,6 +488,10 @@ msgstr "Lưu cho chuyến đi"
 msgid "explore.place.save"
 msgstr "Lưu nơi này"
 
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.saved"
+msgstr "Đã lưu"
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedBadge"
 msgstr "Đã lưu"
@@ -490,10 +502,6 @@ msgstr "Đã lưu"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.title"
-msgstr "Đã lưu"
-
-#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
-msgid "explore.add.saved"
 msgstr "Đã lưu"
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
@@ -511,6 +519,10 @@ msgstr "Tìm thành phố hoặc quốc gia bất kỳ"
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.open"
 msgstr "Xem ưu đãi"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.seePassPlus"
+msgstr "Xem Pass+"
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.body"
@@ -543,6 +555,16 @@ msgstr "Đi một mình"
 #: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
 msgid "explore.solo.started"
 msgstr "Đã bắt đầu chuyến đi một mình đến {placeName}."
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.tag"
+msgstr "Được tài trợ"
+
+#. placeholder {0}: pick.name
+#. placeholder {1}: categoryLabel(pick.category)
+#: ../../apps/mobile/src/features/explore/components/picks-row.tsx
+msgid "explore.sponsored.cardLabel"
+msgstr "Được tài trợ: {0}, {1}"
 
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.solo.start"
@@ -591,6 +613,10 @@ msgstr "Các điểm đến chưa về tới điện thoại này. Chúng sẽ t
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.failed"
 msgstr "Tải về chưa xong. Kiểm tra kết nối rồi thử lại."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.neutral"
+msgstr "Gợi ý của hướng dẫn viên không bao giờ được xếp hạng theo số tiền đối tác trả. Chúng tôi có thể nhận hoa hồng nếu bạn đặt chỗ qua đối tác."
 
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.readyBody"
@@ -645,6 +671,14 @@ msgstr "Nơi các hướng dẫn viên sống"
 msgid "explore.pitch.whichCrew"
 msgstr "Giới thiệu cho nhóm nào?"
 
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.why"
+msgstr "Vì sao tôi thấy mục này?"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.sheetTitle"
+msgstr "Vì sao tôi thấy mục này?"
+
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.you"
 msgstr "Bạn"
@@ -652,6 +686,10 @@ msgstr "Bạn"
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.nameTaken"
 msgstr "Bạn đã có danh sách tên này rồi."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.contextual"
+msgstr "Bạn thấy nó vì bạn đang xem {place}. Nó không được chọn dựa trên bất cứ điều gì về bạn, và chúng tôi không theo dõi bạn vì nó."
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.offline"

@@ -40,12 +40,18 @@ export const exploreRoutes = {
       ...defined({ destinationId: params.destinationId, tripId: params.tripId }),
     },
   }),
+  /** "Why am I seeing this?" for a sponsored pick, as a sheet. */
+  whySponsored: (partner: string, place: string): Href => ({
+    pathname: '/explore/why-sponsored',
+    params: { partner, place },
+  }),
   /** Screens other areas own, by design id: undefined until that area registers them. */
   pitch: (crewId: string, placeId: string): Href | undefined =>
     hrefFor('3b-3', { crewId, placeId }),
   tripSetup: (tripId: string): Href | undefined => hrefFor('3c-3', { tripId }),
   crewPlans: (placeId: string): Href | undefined => hrefFor('3o-1', { placeId }),
   profile: (): Href | undefined => hrefFor('3n-1'),
+  passPlus: (): Href | undefined => hrefFor('4a-1', { entry: 'explore_sponsored' }),
   /** The search for any place (the vote area's sheet). */
   search: (): Href | undefined => hrefFor('3b-7'),
   plan: (tripId: string): Href | undefined => hrefFor('3e-1', { tripId }),

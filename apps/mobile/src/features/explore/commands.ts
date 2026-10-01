@@ -3,7 +3,12 @@
  * may wait in the offline queue (a queued save shows at once from the queue).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
-import type { ApplyPlanOpsPayload, CreateChangesetPayload, CreateTripPayload } from '@cp/domain';
+import type {
+  ApplyPlanOpsPayload,
+  CreateChangesetPayload,
+  CreateTripPayload,
+  RecordSponsoredEventPayload,
+} from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
 import { defineClientCommand } from '@/data/commands/summaries';
@@ -73,4 +78,10 @@ export const moveSavedItemCommand = defineClientCommand<{
   name: 'move_saved_item',
   offline: true,
   summarize: () => msg({ id: 'explore.queued.move', message: 'Moving a saved place' }),
+});
+
+/** A sponsored pick shown or tapped: counted per placement and list, with no one attached. */
+export const recordSponsoredEventCommand = defineClientCommand<RecordSponsoredEventPayload>({
+  name: 'record_sponsored_event',
+  offline: true,
 });

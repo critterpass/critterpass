@@ -39,7 +39,7 @@ export interface DestinationViewProps {
     readonly panel: MonthPanelProps | null;
   } | null;
   readonly picks: readonly PickCard[];
-  readonly onOpenPick?: ((id: string) => void) | undefined;
+  readonly onOpenPick?: ((pick: PickCard) => void) | undefined;
   /** Opens the crews' shared plans for this place; absent while that screen is not in the app. */
   readonly onCrewPlans?: (() => void) | undefined;
   readonly actions: DestinationActionsProps;

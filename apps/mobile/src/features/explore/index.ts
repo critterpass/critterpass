@@ -6,3 +6,4 @@ export { SavedScreen } from './screens/saved-screen';
 export { registerSavedPlansSlot, SavedPlansSlot } from './saved-plans-slot';
 export { exploreRoutes } from './routes';
 export { LocalFirstGate } from './local-first-gate';
+export { WhySponsoredScreen } from './screens/why-sponsored-screen';
