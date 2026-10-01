@@ -164,7 +164,6 @@ export function tickerLines<Row extends Pick<ActivityRow, 'verb' | 'actor_name'>
 
 /** "First day · Oct 21", "Your flight · 17:00": what the hub's entry is, then its day or time. */
 export function entryLabel(what: string, when: string): string {
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a separator between two phrases.
   return `${what} · ${when}`;
 }
 
@@ -173,9 +172,11 @@ export function entryLabel(what: string, when: string): string {
  * "Oct 24 · 10:00" for a later day, so a stop on another day never reads as today's.
  */
 export function nextUpLabel(locale: string, today: string, dayDate: string, time: string): string {
+  /* eslint-disable lingui/no-unlocalized-strings -- date literals, never copy. */
   const days = Math.round(
     (Date.parse(`${dayDate}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000,
   );
+  /* eslint-enable lingui/no-unlocalized-strings */
   const what =
     days <= 0
       ? t({ id: 'trip.hub.next', message: 'Next up' })
