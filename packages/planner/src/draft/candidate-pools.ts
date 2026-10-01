@@ -4,7 +4,14 @@
  * activities ranked by must-see, editorial curation and the crew's tastes; then meal places that
  * suit every diet in the crew. Places closed on every trip date never make a list. The guide sees
  * only these ids, so it cannot pick a place we do not know.
+ *
+ * Hundreds of curated places tie on that score, and only a few dozen fit a list, so what breaks
+ * the tie decides the trip. It is never the alphabet: one row per place first (the curated set
+ * lists some places several times), then the places listed most often, then a spread across
+ * kinds of place and across the city (one market street cannot fill the list), and last the row
+ * id, so the same input always gives the same lists.
  */
+import { collapseSamePlaces } from './same-place';
 import { closedOn, suitsDiet } from './validate-itinerary';
 import { ceilGrid, dayWindow } from './schedule-day';
 import { spansOn } from './sequence';
@@ -54,7 +61,16 @@ export interface CandidatePoolsInput {
   readonly frame: TripFrame;
   /** The crew's taste tags with how many members hold each. */
   readonly tastes: Readonly<Record<string, number>>;
+  /** Places that must be on a list when open (what a hand-typed must-do may mean). */
+  readonly include?: readonly string[];
+  /** Phrases naming the destination itself, ignored when comparing place names. */
+  readonly ignoreNames?: readonly (readonly string[])[];
 }
+
+/** About a kilometre of city: places in one cell are neighbours. */
+const CELL_DEG = 0.01;
+const cellOf = (poi: DraftPoi) =>
+  `${Math.floor(poi.lat / CELL_DEG)}:${Math.floor(poi.lng / CELL_DEG)}`;
 
 /** A place can go on a day when a whole visit fits inside both its hours and the day's window. */
 function openOnDay(poi: DraftPoi, frame: TripFrame, index: number): boolean {
@@ -77,10 +93,68 @@ function tasteScore(poi: DraftPoi, tastes: Readonly<Record<string, number>>): nu
   return score;
 }
 
-function rank(pois: DraftPoi[], tastes: Readonly<Record<string, number>>): DraftPoi[] {
-  const score = (poi: DraftPoi) =>
-    (poi.mustSee ? 6 : 0) + (poi.editorial ? 4 : 0) + tasteScore(poi, tastes);
-  return pois.sort((a, b) => score(b) - score(a) || a.name.localeCompare(b.name));
+interface Ranking {
+  readonly tastes: Readonly<Record<string, number>>;
+  readonly mentions: ReadonlyMap<string, number>;
+  /** Places taken before any ranking. */
+  readonly include: ReadonlySet<string>;
+}
+
+/**
+ * The best `limit` places, picked one at a time: the highest score, then the place listed most
+ * often, then the kind of place and the part of the city picked least so far, then the id.
+ */
+function pick(pois: readonly DraftPoi[], limit: number, ranking: Ranking): DraftPoi[] {
+  const score = new Map(
+    pois.map((poi) => [
+      poi.id,
+      (poi.mustSee ? 6 : 0) + (poi.editorial ? 4 : 0) + tasteScore(poi, ranking.tastes),
+    ]),
+  );
+  const picked: DraftPoi[] = [];
+  const kinds = new Map<string, number>();
+  const cells = new Map<string, number>();
+  const take = (poi: DraftPoi) => {
+    picked.push(poi);
+    kinds.set(poi.category, (kinds.get(poi.category) ?? 0) + 1);
+    cells.set(cellOf(poi), (cells.get(cellOf(poi)) ?? 0) + 1);
+  };
+  const rest = new Map(pois.map((poi) => [poi.id, poi]));
+  for (const poi of pois) {
+    if (ranking.include.has(poi.id)) {
+      take(poi);
+      rest.delete(poi.id);
+    }
+  }
+  while (picked.length < limit && rest.size > 0) {
+    let best: DraftPoi | null = null;
+    let bestKey: readonly number[] = [];
+    for (const poi of rest.values()) {
+      const key = [
+        -(score.get(poi.id) ?? 0),
+        -(ranking.mentions.get(poi.id) ?? 1),
+        kinds.get(poi.category) ?? 0,
+        cells.get(cellOf(poi)) ?? 0,
+      ];
+      const order = best === null ? -1 : compare(key, bestKey) || (poi.id < best.id ? -1 : 1);
+      if (order < 0) {
+        best = poi;
+        bestKey = key;
+      }
+    }
+    if (best === null) break;
+    take(best);
+    rest.delete(best.id);
+  }
+  return picked;
+}
+
+function compare(a: readonly number[], b: readonly number[]): number {
+  for (let i = 0; i < a.length; i += 1) {
+    const diff = (a[i] ?? 0) - (b[i] ?? 0);
+    if (diff !== 0) return diff;
+  }
+  return 0;
 }
 
 export function candidatePools(input: CandidatePoolsInput): CandidatePools {
@@ -111,18 +185,35 @@ export function candidatePools(input: CandidatePoolsInput): CandidatePools {
     mustDoPois.add(poi.id);
   }
   const days = frame.dates.length;
-  const open = input.pois.filter((poi) => openDays.has(poi.id) && !mustDoPois.has(poi.id));
-  const activities = rank(
+  // One row per place. A must-do's own place stands for it, so no list offers it a second time.
+  const places = collapseSamePlaces(
+    input.pois.filter((poi) => openDays.has(poi.id)),
+    { keep: mustDoPois, ignore: input.ignoreNames ?? [] },
+  );
+  const open = places.kept.filter((poi) => !mustDoPois.has(poi.id));
+  const ranking: Ranking = {
+    tastes: input.tastes,
+    mentions: places.mentions,
+    include: new Set(
+      (input.include ?? []).flatMap((id) => {
+        const kept = places.keptFor.get(id);
+        return kept === undefined ? [] : [kept];
+      }),
+    ),
+  };
+  const activities = pick(
     open.filter(
       (poi) => poi.category !== 'food' && poi.category !== 'stay' && poi.category !== 'transit',
     ),
-    input.tastes,
-  ).slice(0, Math.min(48, Math.max(24, days * 6)));
-  const meals = rank(
+    Math.min(48, Math.max(24, days * 6)),
+    ranking,
+  );
+  const meals = pick(
     open.filter(
       (poi) => poi.category === 'food' && frame.diets.every((diet) => suitsDiet(poi.tags, diet)),
     ),
-    input.tastes,
-  ).slice(0, Math.min(30, Math.max(12, days * 3)));
+    Math.min(30, Math.max(12, days * 3)),
+    ranking,
+  );
   return { mustDos, unplaceable, activities, meals, openDays };
 }
