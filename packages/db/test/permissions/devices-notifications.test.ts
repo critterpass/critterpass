@@ -202,13 +202,15 @@ describe('writes', () => {
 
   it('starts a person on a daily budget of 10', async () => {
     const { actors } = harness.fixture;
-    const { rows } = await withSystem(harness.db.pool, (tx) =>
-      tx.query<{ budget_per_day: number }>(
-        `INSERT INTO notification_prefs (user_id) VALUES ($1)
-         ON CONFLICT (user_id) DO UPDATE SET budget_per_day = DEFAULT RETURNING budget_per_day`,
+    // A row of defaults, read and removed again: the outsider keeps no prefs for the other tests.
+    const rows = await withSystem(harness.db.pool, async (tx) => {
+      const created = await tx.query<{ budget_per_day: number }>(
+        'INSERT INTO notification_prefs (user_id) VALUES ($1) RETURNING budget_per_day',
         [actors.outsider],
-      ),
-    );
+      );
+      await tx.query('DELETE FROM notification_prefs WHERE user_id = $1', [actors.outsider]);
+      return created.rows;
+    });
     expect(rows).toEqual([{ budget_per_day: 10 }]);
   });
 
