@@ -34,7 +34,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 function retime(item: PlanItemRef, affected: string[], minutes: number) {

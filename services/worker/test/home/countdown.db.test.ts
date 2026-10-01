@@ -46,7 +46,7 @@ beforeAll(async () => {
 afterEach(() => resetFlightSegmentsSourceForTests());
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 describe('recomputeCountdowns', () => {

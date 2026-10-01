@@ -52,9 +52,9 @@ beforeAll(async () => {
 }, 180_000);
 
 afterAll(async () => {
-  await pool.end();
-  redis.destroy();
-  await Promise.all([postgres.stop(), redisContainer.stop()]);
+  await pool?.end();
+  redis?.destroy();
+  await Promise.all([postgres?.stop(), redisContainer?.stop()]);
 });
 
 function sign(timestamp: string, body: string, token = TOKEN): string {

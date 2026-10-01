@@ -144,6 +144,7 @@ const notificationSources = [
       `${repoRootPrefix}/services/worker/src/jobs/chat/notify.ts`,
       `${repoRootPrefix}/services/worker/src/jobs/live-map/notify.ts`,
       `${repoRootPrefix}/services/worker/src/jobs/proposal/notify.ts`,
+      `${repoRootPrefix}/services/worker/src/jobs/proposal/trip-news.ts`,
       // Push and email copy the domain packages carry as `{id, message}` templates.
       `${repoRootPrefix}/packages/domain/src/*/templates.ts`,
       `${repoRootPrefix}/packages/domain/src/quests/realtime.ts`,

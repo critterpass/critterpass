@@ -139,8 +139,32 @@ msgstr ""
 msgid "notifications.setup.ask.freed"
 msgstr ""
 
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.maybe_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.in_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.waitlisted_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.out_title"
+msgstr ""
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.locked_by_body"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
@@ -263,6 +287,10 @@ msgstr ""
 msgid "notifications.la.leave_by_start_body"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_body"
+msgstr ""
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.done.body"
 msgstr ""
@@ -277,6 +305,14 @@ msgstr ""
 
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.settled.title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_at"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
@@ -305,6 +341,10 @@ msgstr ""
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.flight_diverted"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.auto_body"
 msgstr ""
 
 #: ../domain/src/setup/templates.ts
@@ -341,6 +381,14 @@ msgstr ""
 
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.final.body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title_no_dates"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title"
 msgstr ""
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
@@ -401,6 +449,14 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.reply_by_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.body"
 msgstr ""
 
 #: ../../services/worker/src/jobs/chat/notify.ts
@@ -465,6 +521,10 @@ msgstr ""
 
 #: ../domain/src/nudges/templates.ts
 msgid "notifications.nudge.payment"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_title"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts

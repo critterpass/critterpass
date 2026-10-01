@@ -23,7 +23,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await db.stop();
+  await db?.stop();
 });
 
 async function mention(crewId: string, tripId: string, asker: string, body: string) {

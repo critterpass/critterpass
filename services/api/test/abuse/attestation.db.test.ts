@@ -56,9 +56,9 @@ beforeAll(async () => {
 }, 180_000);
 
 afterAll(async () => {
-  redis.destroy();
-  await pool.end();
-  await Promise.all([postgres.stop(), redisContainer.stop()]);
+  redis?.destroy();
+  await pool?.end();
+  await Promise.all([postgres?.stop(), redisContainer?.stop()]);
 });
 
 function appAttestConfig(overrides: Partial<AttestationConfig> = {}): AttestationConfig {

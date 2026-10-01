@@ -25,7 +25,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 const overloaded: DraftModel = {

@@ -27,7 +27,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 function op(session: SignedIn, cmd: string, payload: unknown) {

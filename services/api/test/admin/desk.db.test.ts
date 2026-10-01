@@ -25,8 +25,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await app.close();
-  await harness.stop();
+  await app?.close();
+  await harness?.stop();
 });
 
 const inMinutes = (minutes: number) => new Date(Date.now() + minutes * 60_000).toISOString();

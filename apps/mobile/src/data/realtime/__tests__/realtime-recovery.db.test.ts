@@ -29,7 +29,7 @@ afterEach(() => {
 });
 
 afterAll(async () => {
-  await centrifugo.stop();
+  await centrifugo?.stop();
 });
 
 function open(uid: string, positions: RecoveryStore = freshPositions()): RealtimeClient {

@@ -308,7 +308,11 @@ describe('Sheet', () => {
     });
     const onDismiss = jest.fn<() => void>();
     // The search sheet's screen, with the place page pushed over it: no longer focused.
-    const covered = { isFocused: () => false } as unknown as ContextType<typeof NavigationContext>;
+    const covered = {
+      isFocused: () => false,
+      getState: () => ({ type: 'stack' }),
+      getParent: () => undefined,
+    } as unknown as ContextType<typeof NavigationContext>;
     await renderModal(
       <NavigationContext.Provider value={covered}>
         <Sheet onDismiss={onDismiss}>

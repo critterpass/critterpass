@@ -1,6 +1,13 @@
 export { crewAudience, loadRecipient, tripAudience, type Recipient } from './audience';
 export { PAYWALL_PUSHES_PER_DAY, paywallAllowed } from './governor';
 export { clockMinutes, decide, inQuietHours, localClock, type Decision } from './policy';
+export { quietEndFor, quietWindowAt, travelMorningEnd, TRAVEL_MORNING_LEAD_MS } from './quiet';
+export {
+  MAX_RELEASE_LATENESS_MS,
+  notifyReleaseJob,
+  releaseHeldNotifications,
+  type ReleaseReport,
+} from './release';
 export {
   cachedRewriter,
   getRegistration,

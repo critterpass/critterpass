@@ -38,7 +38,7 @@ afterEach(() => {
 });
 
 afterAll(async () => {
-  await centrifugo.stop();
+  await centrifugo?.stop();
 });
 
 function connect(uid: string = randomUUID()): RealtimeClient {

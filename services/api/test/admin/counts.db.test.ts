@@ -30,8 +30,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await app.close();
-  await harness.stop();
+  await app?.close();
+  await harness?.stop();
 });
 
 async function counts(email: string) {

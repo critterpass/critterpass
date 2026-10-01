@@ -14,6 +14,7 @@ import { SendProgress } from '../builder/send-progress';
 import { BoardView, type BoardViewProps } from '../board/board-view';
 import { SeatSheet } from '../board/seat-sheet';
 import { ObjectionSheetView } from '../objection/objection-sheet';
+import { ConfirmedCard } from '../tracker/confirmed-card';
 import { publicStatus, tally } from '../tracker/model';
 import { SuggestionsView } from '../tracker/suggestions';
 import { TrackerView } from '../tracker/tracker-view';
@@ -23,6 +24,7 @@ import { YourVersionView } from '../your-version/your-version-view';
 import {
   LAB_OPTIONS,
   LAB_PEOPLE,
+  LAB_GROUP_PICKS,
   LAB_PICKS,
   LAB_RECIPIENTS,
   LAB_SAVINGS,
@@ -41,6 +43,7 @@ const LOCALE = 'en';
 
 const builder = (over: Partial<BuilderViewProps> = {}) => (
   <BuilderView
+    locale={LOCALE}
     guideName="Chà Vá"
     guide="chava"
     destination="Đà Nẵng"
@@ -68,16 +71,19 @@ const builder = (over: Partial<BuilderViewProps> = {}) => (
   />
 );
 
-const version = (sheet: ReactNode = null) => (
+const version = (sheet: ReactNode = null, group = false) => (
   <>
     <YourVersionView
       name="Linh"
+      group={group}
+      tripLine="Đà Nẵng · Oct 2–4"
+      onPlan={noop}
       preview={false}
       guide="chava"
       chip="Reply by Oct 1"
       pending={false}
       fallbackNote={null}
-      picks={LAB_PICKS}
+      picks={group ? LAB_GROUP_PICKS : LAB_PICKS}
       when={(pick) => `Day ${pick.dayNo ?? 1}`}
       share={
         <ShareCard
@@ -146,6 +152,11 @@ const tracker = (locked: boolean) => (
       line: p.rsvp === 'in' ? 'Boarded Oct 1, 09:20' : 'Sent Oct 1',
     }))}
     tally={tally(LAB_PEOPLE)}
+    confirmed={
+      locked ? (
+        <ConfirmedCard guide="chava" going={2} tripLine="Đà Nẵng · Oct 2–4" onPlan={noop} />
+      ) : null
+    }
     suggestions={
       locked ? null : (
         <SuggestionsView rows={LAB_SUGGESTIONS} guide="chava" onAct={noop} onDismiss={noop} />
@@ -193,6 +204,11 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ),
   sent: () => (
     <SendProgress
+      guide="chava"
+      format="trailer"
+      destination="Đà Nẵng"
+      headline="Bà Nà before the crowds."
+      price="₫4,200,000 each"
       guideName="Chà Vá"
       recipients={LAB_RECIPIENTS}
       versions={LAB_VERSIONS}
@@ -200,6 +216,7 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   version: () => version(),
+  'version-group': () => version(null, true),
   'not-sure': () =>
     version(
       <Dismissable>

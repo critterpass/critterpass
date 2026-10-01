@@ -88,8 +88,8 @@ afterAll(async () => {
   resetEventAppendedHooksForTests();
   resetJobProducerForTests();
   resetNotificationTriggersForTests();
-  await producer.stop({ graceful: false });
-  await harness.stop();
+  await producer?.stop({ graceful: false });
+  await harness?.stop();
 });
 
 async function run(cmd: string, payload: Record<string, unknown>): Promise<Response> {

@@ -3,8 +3,10 @@
  * the crew's own currency (two significant digits) and the server is its only authority: the band
  * read hands it out below four maxes alongside the counts, a target on it locks into a plan in the
  * crew currency, and a target off it is refused with the step and uses up none of the organiser's
- * hourly tries. With the stay, food and fun priced but no fare for the dates, the plan's breakdown
- * puts the whole target on the ground part.
+ * hourly tries. The rates are the newest of each currency, so a newer day that has only the
+ * dollar in yet changes nothing; and a crew whose currency has no rate at all gets no step and no
+ * lock, never a dollar-sized grid. With the stay, food and fun priced but no fare for the dates,
+ * the plan's breakdown puts the whole target on the ground part.
  */
 import { BUDGET_LOCKS_PER_HOUR } from '@cp/domain';
 import { withSystem } from '@cp/db';
@@ -44,6 +46,12 @@ beforeAll(async () => {
         [quote, rate],
       );
     }
+    // The next day's rows so far: the dollar alone. The dong and Singapore rates are a day older.
+    await tx.query(
+      `INSERT INTO fx_snapshots (base, quote, rate, as_of, source)
+       VALUES ('EUR', 'USD', $1, '2026-10-01', 'frankfurter')`,
+      [RATES.USD],
+    );
   });
   for (const { currency } of CREWS) {
     const crew = await buildSetupCrew(harness, 2);
@@ -140,5 +148,41 @@ describe.each(CREWS)('a crew settling in $currency', ({ currency, stepMinor, tar
     expect((breakdown['stays'] ?? 0) + (breakdown['food'] ?? 0) + (breakdown['fun'] ?? 0)).toBe(
       targetMinor,
     );
+  });
+});
+
+describe('a crew settling in a currency with no rate', () => {
+  let crew: SetupCrew;
+
+  beforeAll(async () => {
+    crew = await buildSetupCrew(harness, 2);
+    await withSystem(harness.pool, (tx) =>
+      tx.query("UPDATE crews SET settlement_currency = 'THB' WHERE id = $1", [crew.crewId]),
+    );
+  });
+
+  it('reads the currency with no step', async () => {
+    const response = await harness.request(`/v1/budget/${crew.tripId}/band`, {
+      headers: { cookie: crew.organiser.cookie },
+    });
+    const body = (await response.json()) as { error: { code: string; detail: object } };
+    expect(body.error.code).toBe('K_ANON_UNAVAILABLE');
+    expect(body.error.detail).toMatchObject({ currency: 'THB' });
+    expect(body.error.detail).not.toHaveProperty('step_minor');
+  });
+
+  it('locks nothing, rather than a target on a dollar-sized grid', async () => {
+    const refused = await harness.run(crew.organiser, 'lock_budget_target', {
+      trip_id: crew.tripId,
+      target_minor: 100_000,
+    });
+    expect(errorOf(refused)).toMatchObject({
+      code: 'STATE_INVALID',
+      detail: { reason: 'rates_unavailable' },
+    });
+    const { rows } = await withSystem(harness.pool, (tx) =>
+      tx.query('SELECT 1 FROM budget_plans WHERE trip_id = $1', [crew.tripId]),
+    );
+    expect(rows).toEqual([]);
   });
 });

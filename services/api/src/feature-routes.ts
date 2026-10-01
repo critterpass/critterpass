@@ -43,6 +43,7 @@ import { registerCritters } from './commands/critters';
 import { registerQuests } from './commands/quests';
 import { registerTripLifecycle } from './commands/trips/lifecycle';
 import { registerLiveActivities } from './commands/live-activities';
+import { registerMeAccountRoutes } from './routes/me-account';
 
 /** The command doors as the api boots them: its own Redis client and logger. */
 export interface ApiCommandDoors extends CommandDoorDeps {
@@ -117,6 +118,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
     logger.warn('Centrifugo proxies are disabled: RT_PROXY_SECRET is unset');
   }
   registerMediaRoutesFromEnv(app, doors, env);
+  registerMeAccountRoutes(app, doors);
 }
 
 function registerMediaRoutesFromEnv(

@@ -22,7 +22,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 async function sql<T>(text: string, params: unknown[] = []): Promise<T[]> {

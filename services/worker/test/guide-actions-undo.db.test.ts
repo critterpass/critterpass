@@ -29,7 +29,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await harness.close();
+  await harness?.close();
 });
 
 async function runtime(options: ExecuteOptions = {}) {

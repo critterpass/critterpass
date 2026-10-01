@@ -210,6 +210,29 @@ describe('organiser of a crew settling in dong', () => {
     expect((targets[0] ?? 1) % STEP).toBe(0);
   });
 
+  it('works the step out from the newest rate of each currency when a day is only part in', async () => {
+    const { targets, transport } = answering([applied]);
+    stack = await openTestLocalFirst({ uid: WINSTON, transport });
+    await seedBudget(stack, {
+      people: PAIR,
+      aggregate: null,
+      currency: 'VND',
+      fx: [...DONG_ONLY, ['EUR', 'USD', '1.25']],
+    });
+    // The next day's rows so far: the dollar alone.
+    await stack.db.execute(
+      `INSERT INTO fx_snapshots (id, base, quote, rate, as_of, source)
+       VALUES ('fx-next-day', 'EUR', 'USD', '1.25', '2027-03-02', 'frankfurter')`,
+    );
+    await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
+    await screen.findByTestId('budget-track');
+    await fireEvent.press(screen.getByTestId('budget-lock'));
+    await waitFor(() => expect(targets).toHaveLength(1));
+    // $50 is 1,300,000 ₫ at these rates: the knob sits on that grid, not on a dollar-sized one.
+    expect(targets[0]).toBeGreaterThanOrEqual(STEP);
+    expect((targets[0] ?? 1) % STEP).toBe(0);
+  });
+
   it('takes up the step a refused lock answers with and sends it once more', async () => {
     const { targets, transport } = answering([refusal(offStep), applied]);
     stack = await openTestLocalFirst({ uid: WINSTON, transport });

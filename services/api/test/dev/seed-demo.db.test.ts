@@ -44,8 +44,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await producer.stop({ graceful: false });
-  await harness.stop();
+  await producer?.stop({ graceful: false });
+  await harness?.stop();
 });
 
 interface Seeded {

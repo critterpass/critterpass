@@ -209,7 +209,7 @@ Queues are named `<domain>.<action>`; full catalogue (triggers, retries, singlet
 | Stage | Rule |
 |---|---|
 | Ping ledger | Every notification (remote or LOCAL) recorded in `ping_ledger(user, class, key, collapse_id, sent_at, suppressed_reason)` |
-| Classes | ALWAYS (bypass budget & quiet hours), BUDGET (user budget default 5/day, 1–10), ROUNDUP (evening roundup, default 20:00 local, ≤5 items), SILENT (data/LA/widget), LOCAL (device-scheduled, mirrored) |
+| Classes | ALWAYS (bypass budget & quiet hours), BUDGET (user budget default 10/day, 1–10; crew chat is not counted: product-decisions Q-85a), ROUNDUP (evening roundup, default 20:00 local, ≤5 items), SILENT (data/LA/widget), LOCAL (device-scheduled, mirrored) |
 | Router | domain event → `push.route` job → resolve audience → per-user class/budget/quiet-hours/paywall-governor (≤1/day) → collapse → channel (APNs alert / liveactivity / broadcast / widgets; FCM v1) |
 | Localisation | Push text rendered server-side from Lingui catalogs in user locale |
 | Rich | NSE attaches guide avatar (communication notification) from App Group; NCE renders poster + actions |

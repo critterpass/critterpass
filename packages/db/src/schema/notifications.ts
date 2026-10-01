@@ -114,7 +114,7 @@ export const notificationPrefs = pgTable('notification_prefs', {
   userId: uuid('user_id')
     .primaryKey()
     .references(() => users.id),
-  budgetPerDay: integer('budget_per_day').notNull().default(5),
+  budgetPerDay: integer('budget_per_day').notNull().default(10),
   roundupTime: time('roundup_time').notNull().default('20:00'),
   roundupTz: text('roundup_tz').notNull().default('trip'),
   quietFrom: time('quiet_from').notNull().default('22:00'),
