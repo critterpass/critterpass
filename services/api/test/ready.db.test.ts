@@ -29,10 +29,10 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await pool.end();
+  await pool?.end();
   // destroy, not close: a graceful QUIT would wait on a server one test deliberately stopped.
-  if (redis.isOpen) redis.destroy();
-  await Promise.all([postgres.stop(), redisStopped ? undefined : redisContainer.stop()]);
+  if (redis?.isOpen) redis.destroy();
+  await Promise.all([postgres?.stop(), redisStopped ? undefined : redisContainer?.stop()]);
 });
 
 function buildApp() {

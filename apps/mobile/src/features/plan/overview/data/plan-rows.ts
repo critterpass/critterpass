@@ -46,9 +46,11 @@ export interface PlanDayRow {
   readonly day_no: number;
   readonly date: string | null;
   readonly theme: string | null;
+  /** The guide's text in other languages (JSON text); read through `guideText`. */
+  readonly i18n?: string | null;
 }
 
-export const DAYS_SQL = `SELECT id, day_no, date, theme FROM plan_days
+export const DAYS_SQL = `SELECT id, day_no, date, theme, i18n FROM plan_days
   WHERE version_id = ? ORDER BY day_no`;
 export const DAYS_TABLES = ['plan_days'];
 
@@ -73,6 +75,7 @@ export interface PlanItemRow {
   readonly created_by_kind: string | null;
   readonly notes: string | null;
   readonly locked_reason: string | null;
+  readonly i18n?: string | null;
   readonly poi_name: string | null;
   readonly lat: number | null;
   readonly lng: number | null;
@@ -82,7 +85,7 @@ export interface PlanItemRow {
 export const ITEMS_SQL = `SELECT pi.id, pi.stable_id, d.day_no, pi.starts_at, pi.ends_at, pi.tz,
     pi.lane, pi.attendee_ids, pi.poi_id, pi.booking_id, pi.must_do_id, pi.category, pi.cost_model,
     pi.amount_minor, pi.currency, pi.status, pi.is_outdoor, pi.created_by_kind, pi.notes,
-    pi.locked_reason, p.name AS poi_name, p.lat, p.lng, b.title AS booking_title
+    pi.locked_reason, pi.i18n, p.name AS poi_name, p.lat, p.lng, b.title AS booking_title
   FROM plan_items pi
   JOIN plan_days d ON d.id = pi.day_id
   LEFT JOIN pois p ON p.id = pi.poi_id

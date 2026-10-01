@@ -8,6 +8,7 @@ import { useThemeSettings } from '@/lib/theme';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
 
+import { BelowSheets } from '../sheet/tab-bar-cover';
 import { Text } from '../text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
 import { FAB_RAISE, FAB_RING, FAB_SIZE, GuideFab } from './GuideFab';
@@ -218,11 +219,11 @@ export function TabBar({ state, descriptors, emitter, navigateToTab }: BottomTab
   const barHeight = TAB_BAR_CONTENT_HEIGHT + insets.bottom;
 
   // Floats over the scene (screens pad with `useTabBarInset`) and reserves the FAB's raised band
-  // inside its own bounds: Android never delivers touches outside a parent's frame.
+  // inside its own bounds: Android never delivers touches outside a parent's frame. A sheet that a
+  // tab screen renders inside itself covers the bar, so the bar steps aside while one is up.
   return (
-    <View
+    <BelowSheets
       testID="tab-bar-container"
-      pointerEvents="box-none"
       style={[styles.container, { height: barHeight - FAB_RAISE }]}
     >
       <View
@@ -240,7 +241,7 @@ export function TabBar({ state, descriptors, emitter, navigateToTab }: BottomTab
       <View pointerEvents="box-none" style={styles.fabLayer}>
         <GuideFab />
       </View>
-    </View>
+    </BelowSheets>
   );
 }
 

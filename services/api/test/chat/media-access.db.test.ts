@@ -23,7 +23,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await chat.stop();
+  await chat?.stop();
 });
 
 describe('chat media read access', () => {

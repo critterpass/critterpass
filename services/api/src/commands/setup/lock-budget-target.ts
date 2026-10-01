@@ -58,6 +58,8 @@ export function createLockBudgetTargetCommand(deps: { readonly redis: RateLimitR
       const estimates = await loadBudgetEstimates(tx, payload.trip_id);
       const published = await publishedBudget(tx, payload.trip_id);
       const { currency, stepMinor: step } = lockGrid(published, estimates);
+      // No rate for the crew currency: no step to hold the target to, so nothing is locked.
+      if (step === null) throw new DomainError('STATE_INVALID', { reason: 'rates_unavailable' });
       const target = { amountMinor: BigInt(payload.target_minor), currency };
       const band = published?.band ?? { state: 'waiting' as const, submitted: 0, of: 0 };
       const check = checkLockTarget(target, band, step);

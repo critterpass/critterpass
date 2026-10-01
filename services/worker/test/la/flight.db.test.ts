@@ -51,7 +51,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await world.stop();
+  await world?.stop();
 });
 
 describe('la.orchestrate flight on schedule only', { timeout: 60_000 }, () => {

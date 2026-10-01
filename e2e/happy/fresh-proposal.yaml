@@ -15,7 +15,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'start-crew-name'
 - inputText: 'Proposal Crew'
-- hideKeyboard
+# START THE CREW rides on top of the keyboard.
 - tapOn:
     id: 'start-crew-create'
 - extendedWaitUntil:
@@ -57,8 +57,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'invite-code-boxes'
 - inputText: ${output.crewCode}
-# The crew card shows once the code is found, and JOIN comes up on top of the keyboard: it is
-# pressed there, the way a person does it.
+# Once the code is found the keyboard makes way: the crew card shows whole, with JOIN under it.
 - extendedWaitUntil:
     visible:
       text: '(?i)found it.*'

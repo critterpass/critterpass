@@ -34,6 +34,8 @@ export interface DayRow {
   readonly day_no: number;
   readonly date: string;
   readonly theme: string | null;
+  /** The theme in other languages (JSON text); read through `guideText`. */
+  readonly i18n?: string | null;
 }
 
 export interface ItemRow {

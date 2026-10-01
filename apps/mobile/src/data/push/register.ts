@@ -11,22 +11,67 @@ import { generateUuidV7 } from '@cp/domain';
 import type { ApnsEnv, PushPlatform } from './tokens';
 
 export const HEARTBEAT_INTERVAL_MS = 10 * 60 * 1000;
-const INSTALL_ID_KEY = 'cp.install_id';
+/** The Keychain/Keystore item the install's one id lives in. */
+export const INSTALL_ID_ITEM = 'cp.install_id';
+/**
+ * Where earlier builds kept a second id, sent in every command envelope except `register_device`.
+ * Read only when the install never registered: an install the server knows keeps the id it
+ * registered under, so its `devices` row, push token and everything keyed by them stay put.
+ */
+export const LEGACY_ENVELOPE_ID_ITEM = 'cp.device.id';
 
 export interface InstallIdStorage {
   getItemAsync(key: string): Promise<string | null>;
   setItemAsync(key: string, value: string): Promise<void>;
 }
 
-/** The install id `devices.id` is keyed by: created once, kept until the app is deleted. */
-export async function getOrCreateInstallId(
+/** Where the id came from: the item it registered under, the earlier envelope item, or new. */
+export type InstallIdSource = 'registered' | 'envelope' | 'minted';
+
+const resolving = new WeakMap<InstallIdStorage, Promise<string>>();
+
+/**
+ * The one id of this install: `devices.id` on the server and `device.id` in every command
+ * envelope. Created once, kept until the app is deleted. Both items are read before a new id is
+ * minted, and `report` hears which one answered.
+ *
+ * One read-then-write per storage and process: every caller shares the first call's answer, so
+ * the push registration and the first command of a new install can never mint an id each.
+ */
+export function getOrCreateInstallId(
   storage: InstallIdStorage,
   create: () => string = generateUuidV7,
+  report?: (source: InstallIdSource) => void,
 ): Promise<string> {
-  const existing = await storage.getItemAsync(INSTALL_ID_KEY);
-  if (existing !== null && existing.length > 0) return existing;
+  let pending = resolving.get(storage);
+  if (pending === undefined) {
+    pending = resolveInstallId(storage, create, report);
+    resolving.set(storage, pending);
+    // A Keychain that could not be read or written is asked again by the next caller.
+    pending.catch(() => resolving.delete(storage));
+  }
+  return pending;
+}
+
+async function resolveInstallId(
+  storage: InstallIdStorage,
+  create: () => string,
+  report: ((source: InstallIdSource) => void) | undefined,
+): Promise<string> {
+  const items = [
+    [INSTALL_ID_ITEM, 'registered'],
+    [LEGACY_ENVELOPE_ID_ITEM, 'envelope'],
+  ] as const;
+  for (const [item, source] of items) {
+    const existing = await storage.getItemAsync(item);
+    if (existing !== null && existing.length > 0) {
+      report?.(source);
+      return existing;
+    }
+  }
   const id = create();
-  await storage.setItemAsync(INSTALL_ID_KEY, id);
+  await storage.setItemAsync(INSTALL_ID_ITEM, id);
+  report?.('minted');
   return id;
 }
 

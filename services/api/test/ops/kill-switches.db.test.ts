@@ -29,8 +29,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await pool.end();
-  await stop();
+  await pool?.end();
+  await stop?.();
 });
 
 beforeEach(async () => {

@@ -79,10 +79,10 @@ beforeAll(async () => {
 
 afterAll(async () => {
   vi.unstubAllGlobals();
-  await authModule.close();
-  redis.destroy();
-  await pool.end();
-  await Promise.all([postgres.stop(), redisContainer.stop()]);
+  await authModule?.close();
+  redis?.destroy();
+  await pool?.end();
+  await Promise.all([postgres?.stop(), redisContainer?.stop()]);
 });
 
 function authRequest(path: string, init: RequestInit = {}): Promise<Response> {

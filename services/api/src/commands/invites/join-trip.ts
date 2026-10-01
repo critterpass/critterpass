@@ -5,11 +5,15 @@
  * the same claim inside `accept_invite` for someone joining the crew (./accept-invite.ts). The seat
  * is the RSVP's own write: IN while a seat is free under the trip's row lock, a waitlist place past
  * the cap, and the `rsvp.changed` event an RSVP produces, so the countdown, the eggs, the crew's
- * activity and every roster follow. Nobody is moved off a waitlist ahead of the people before them.
+ * activity and every roster follow, and a seat queues the trip-day recompute so the leave-bys and
+ * the morning briefing include the newcomer. Nobody is moved off a waitlist ahead of the people
+ * before them.
  */
+import { sendInTx } from '@cp/db';
 import {
   DomainError,
   joinTripPayloadSchema,
+  TRIP_DAY_QUEUES,
   tripTakesJoiners,
   type JoinTripResult,
 } from '@cp/domain';
@@ -54,6 +58,16 @@ export async function takeOpenSeat(
     { ...scope, proposalId: await sentProposalId(tx, scope.tripId) },
     'in',
   );
+  if (!reply.waitlisted) {
+    // The trip day was laid out for the people on it then: its leave-bys take the newcomer in and
+    // their morning briefing is scheduled now, not at the next plan or flight change.
+    await sendInTx(
+      tx,
+      TRIP_DAY_QUEUES.leaveByRecompute,
+      { trip_id: scope.tripId },
+      { singletonKey: scope.tripId },
+    );
+  }
   return {
     trip_id: scope.tripId,
     seated: !reply.waitlisted,

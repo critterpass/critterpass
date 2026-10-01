@@ -6,7 +6,7 @@
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useContext, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import {
   CREW_NAME_MAX,
@@ -23,6 +23,8 @@ import { AvatarPicker, type GuideAvatarId } from '@/ui/avatar';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextField } from '@/ui/inputs/TextField';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
+import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -192,9 +194,10 @@ export function StartCrewScreen() {
   }
 
   return (
-    <Scaffold variant="dark" edges={['top', 'bottom']} testID="start-crew">
-      {/* A tap outside the field or a drag puts the keyboard away, so the footer is reachable. */}
-      <ScrollView
+    // The footer pads the bottom inset itself and rides the keyboard, so the button stays in reach
+    // while the name is typed.
+    <Scaffold variant="dark" edges={['top']} testID="start-crew">
+      <KeyboardScrollView
         style={styles.scroll}
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
@@ -224,8 +227,8 @@ export function StartCrewScreen() {
             })}
           </Text>
         ) : null}
-      </ScrollView>
-      <View style={styles.footer}>
+      </KeyboardScrollView>
+      <KeyboardFooter>
         <PillButton
           label={t({ id: 'crew.start.create', message: 'Start the crew' })}
           onPress={create}
@@ -234,7 +237,7 @@ export function StartCrewScreen() {
           block
           testID="start-crew-create"
         />
-      </View>
+      </KeyboardFooter>
     </Scaffold>
   );
 }

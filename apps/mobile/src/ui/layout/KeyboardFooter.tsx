@@ -1,5 +1,5 @@
 import { BottomTabBarHeightContext } from 'expo-router/js-tabs';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Keyboard, Platform, StyleSheet, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
@@ -83,7 +83,13 @@ export function KeyboardFooter({ children, inset = 'gutter', style, testID }: Ke
   // Reanimated reports the keyboard from its next move only. A footer that mounts while the
   // keyboard is already up (a button that appears once a typed code is found) starts from where
   // the keyboard stands, or it would sit behind it until the keyboard moved again.
-  const [openAtMount] = useState(() => openKeyboardCover(home));
+  const [openAtMount, setOpenAtMount] = useState(() => openKeyboardCover(home));
+  useEffect(() => {
+    if (openAtMount === 0) return undefined;
+    // A keyboard that closes before Reanimated has reported anything lets the footer down too.
+    const closed = Keyboard.addListener('keyboardDidHide', () => setOpenAtMount(0));
+    return () => closed.remove();
+  }, [openAtMount]);
   const gap = theme.space['8'];
 
   const lift = useAnimatedStyle(() => {

@@ -139,9 +139,33 @@ msgstr "{name} không dời được {dates}. Chọn tuần hợp nhất nhé."
 msgid "notifications.setup.ask.freed"
 msgstr "{name} đã sắp xếp được {dates}. Tuần này hợp với cả nhóm."
 
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.maybe_title"
+msgstr "{name} có thể sẽ đi"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.in_title"
+msgstr "{name} sẽ đi"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.waitlisted_title"
+msgstr "{name} đang trong danh sách chờ"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.out_title"
+msgstr "{name} không đi"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_body"
 msgstr "{name} đến trễ {minutes} phút."
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.title"
+msgstr "{name} đã vào {crew}"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.locked_by_body"
+msgstr "{name} đã chốt chuyến đi."
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_body"
@@ -263,6 +287,10 @@ msgstr "{title}: hủy miễn phí đến {deadline}. Sau đó áp dụng điề
 msgid "notifications.la.leave_by_start_body"
 msgstr "{up}/{total} người đã dậy."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_body"
+msgstr "{up}/{total} người đã dậy."
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.done.body"
 msgstr "+{xp} XP cho cả nhóm."
@@ -278,6 +306,14 @@ msgstr "Vừa có một chỗ trống"
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.settled.title"
 msgstr "Sòng phẳng rồi"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_at"
+msgstr "Có mặt ở {place}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
+msgstr "Có mặt ở {place} trước {time}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title_be_there"
@@ -306,6 +342,10 @@ msgstr "Khởi hành {time}. Chuyến bay đang ở trên màn hình khóa."
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.flight_diverted"
 msgstr "Chuyến bay đã chuyển hướng. Mình sẽ báo tiếp cho bạn."
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.auto_body"
+msgstr "Đủ bạn bè tham gia nên chuyến đi đã được chốt."
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.lottery.deadline"
@@ -342,6 +382,14 @@ msgstr "Chưa tính thời gian đi tới đó. Dậy rồi thì chạm nhé."
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.final.body"
 msgstr "Giờ là {first} hoặc {second}. Phiếu của bạn quyết định."
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title_no_dates"
+msgstr "Chốt rồi: {place}"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title"
+msgstr "Chốt rồi: {place}, {dates}"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.body"
@@ -402,6 +450,14 @@ msgstr "Hỏi nhanh {name} nè: lịch {dates} của bạn đang ghi là có th�
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.reply_by_title"
 msgstr "Trả lời trước ngày mai · {place}"
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.body"
+msgstr "Vào chat nhóm chào một câu nhé."
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.body"
+msgstr "Xem ai sẽ đi {place}."
 
 #: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.photo"
@@ -466,6 +522,10 @@ msgstr "Cả nhóm, ngay trên màn hình khóa."
 #: ../domain/src/nudges/templates.ts
 msgid "notifications.nudge.payment"
 msgstr "Có một khoản thanh toán đang chờ bạn trong {crew}. Hai chạm là sòng phẳng."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_title"
+msgstr "Đến giờ có mặt ở {place}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_body"
