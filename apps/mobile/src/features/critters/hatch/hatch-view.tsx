@@ -195,9 +195,13 @@ export function HatchView(props: HatchViewProps) {
             importantForAccessibility={revealed ? 'auto' : 'no-hide-descendants'}
           >
             <Stack gap="8" align="center">
+              {/* Set at its own size and centred: it wraps only when the words really don't fit
+                  (the fitting estimate is wide for this face and broke short Vietnamese lines). */}
               <Text
                 variant="h3"
+                autoFit={false}
                 color={theme.semantic.action.primary}
+                style={{ textAlign: 'center' }}
                 {...(revealed ? { testID: 'critters-hatched' } : {})}
               >
                 {upper(hatchedTitle(props.name), locale)}
