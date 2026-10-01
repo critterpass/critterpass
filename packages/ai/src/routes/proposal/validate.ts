@@ -14,9 +14,25 @@ import {
 
 const NUMBER = /\d+(?:[.,:]\d+)*/gu;
 
-/** Stay-hold claims we can never make: no room is ever held. */
+/** Stay-hold claims we can never make: no room is ever held. English first. */
 const HOLD_CLAIM =
   /\b(?:hold(?:ing)?|held)\b[^.]{0,30}\b(?:rooms?|stays?|beds?|villa|hotel)\b|\b(?:rooms?|stays?)\b[^.]{0,12}\bheld\b/iu;
+
+/**
+ * The same claim in Vietnamese. A sentence claims a hold when it puts a word for keeping or
+ * booking (giữ, đặt, để dành, dành riêng, book, lo xong, sắp xếp) next to a place to sleep
+ * (phòng, giường, villa, khách sạn, chỗ nghỉ/ở/ngủ, …), in either order, or says a spot is being
+ * held for someone ("đã giữ chỗ", "giữ chỗ cho bạn", "đặt giữ"). Advice such as "đến sớm giữ chỗ
+ * đẹp" names no stay and no one it is held for, so it passes. Other languages rest on the prompt.
+ */
+const VI_STAY =
+  '(?<!\\p{L})(?:phòng|giường|villa|biệt thự|khách sạn|chỗ nghỉ|chỗ ở|chỗ ngủ|homestay|resort|căn hộ|nhà nghỉ)(?!\\p{L})';
+const VI_HOLD = '(?<!\\p{L})(?:giữ|đặt|để dành|dành riêng|book|lo xong|sắp xếp)(?!\\p{L})';
+const VI_HOLD_CLAIMS: readonly RegExp[] = [
+  new RegExp(`${VI_HOLD}[^.!?\\n]{0,40}${VI_STAY}`, 'iu'),
+  new RegExp(`${VI_STAY}[^.!?\\n]{0,40}${VI_HOLD}`, 'iu'),
+  /(?<!\p{L})(?:(?:đã|đang|sẽ)\s+(?:đặt\s+)?giữ\s+chỗ|giữ\s+chỗ\s+cho|đặt\s+giữ)(?!\p{L})/iu,
+];
 
 function numbersIn(text: string): string[] {
   return [...text.matchAll(NUMBER)].map((match) => match[0]);
@@ -64,7 +80,8 @@ function escape(value: string): string {
 }
 
 export function claimsHold(text: string): boolean {
-  return HOLD_CLAIM.test(text);
+  const composed = text.normalize('NFC');
+  return HOLD_CLAIM.test(composed) || VI_HOLD_CLAIMS.some((pattern) => pattern.test(composed));
 }
 
 export type Verdict = { readonly ok: true } | { readonly ok: false; readonly reason: string };

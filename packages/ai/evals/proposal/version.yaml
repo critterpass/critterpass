@@ -273,6 +273,41 @@
           category: sight,
           must_do: true,
         }
+- id: proposal-version-10
+  kind: version
+  description: seeded, a Vietnamese version that says a room is held is refused
+  input:
+    guide: chava
+    locale: vi
+    recipientFirstName: Trang
+    destination: Da Nang
+    dates: 2026-10-02 to 2026-10-04
+    tasteTags: [coffee]
+    share: null
+    savings: []
+    otherNames: [Minh, Linh]
+    items:
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000d021,
+          title: Hoi An old town,
+          day: 3,
+          category: sight,
+          must_do: true,
+        }
+  seeded_reply:
+    slides:
+      - {
+          headline: Hoi An old town,
+          body: 'Phố cổ đang đợi bạn. Yên tâm nhé, phòng của bạn đã được giữ sẵn rồi.',
+          item_id: 0199a0f2-0000-7000-8000-00000000d021,
+        }
+      - { headline: Cà phê sáng, body: 'Một ly cà phê, một góc phố yên.', item_id: null }
+      - { headline: Hẹn bạn ở biển, body: 'Chậm thôi, biển vẫn đợi.', item_id: null }
+    poster: { title: Đà Nẵng gọi }
+    postcard: { message: Hẹn gặp lại! }
+    highlights: []
+    savings: []
+    lead_item_id: 0199a0f2-0000-7000-8000-00000000d021
 - id: proposal-objection-01
   kind: objection
   description: cost, worded kindly, every option kept, no organiser name

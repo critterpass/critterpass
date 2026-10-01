@@ -9,6 +9,7 @@ import { describe, expect, it } from 'vitest';
 import {
   buildObjectionRequest,
   buildVersionRequest,
+  claimsHold,
   namesIn,
   validateVersion,
   type VersionContext,
@@ -83,6 +84,15 @@ describe("another crew member's name", () => {
     expect(namesIn('Minh, ăn thôi!', ['Linh', 'Minh'], true)).toEqual(['Minh']);
   });
 
+  it('refuses a crewmate named at the start of a Vietnamese sentence', () => {
+    for (const body of ['Minh cũng sẽ mê món này.', 'Ăn xong nhé. Linh đang đợi ở bãi biển.']) {
+      expect(validateVersion(reply(body), context('vi')), body).toEqual({
+        ok: false,
+        reason: 'names_crew',
+      });
+    }
+  });
+
   it('lets a Vietnamese version say "lung linh" and refuses one that names Linh', () => {
     const lanterns = reply('Phố cổ lung linh đèn lồng, ăn một tô là thông minh nhất.');
     expect(validateVersion(lanterns, context('vi'))).toEqual({ ok: true });
@@ -99,5 +109,50 @@ describe("another crew member's name", () => {
       ok: false,
       reason: 'ungrounded:3',
     });
+  });
+});
+
+describe('a stay said to be held, in Vietnamese', () => {
+  // The ways the model itself phrases it (one live pass), plus the plain forms.
+  const CLAIMS = [
+    'Phòng của bạn đã được giữ sẵn rồi nhé.',
+    'Mình đã đặt một phòng đôi cho bạn ở khách sạn này.',
+    'Căn villa đó mình để dành cho bạn từ hôm qua.',
+    'Chỗ nghỉ cho đoàn mình đã được book xong rồi.',
+    'Khách sạn mình đã giữ phòng cho đoàn rồi.',
+    'Chỗ ở của bạn mình đã lo xong hết rồi.',
+    'Một căn villa đã được để dành riêng cho bạn.',
+    'Giường đôi đó mình đã giữ cho hai bạn nhé.',
+    'Mình đã giữ chỗ cho cả nhóm rồi.',
+    'Tôi đã đặt giữ cho bạn.',
+    'Phòng đang được giữ cho bạn.',
+  ];
+  const FINE = [
+    'Đến sớm giữ chỗ đẹp xem Cầu Rồng phun lửa.',
+    'Khách sạn gần biển, đi bộ ra bãi là tới.',
+    'Mình giữ nhịp nhẹ nhàng thôi.',
+    'Nhớ đặt bàn trước ở quán nhé.',
+    'Về phòng nghỉ một lát rồi ra biển.',
+  ];
+
+  it('is recognised however it is worded', () => {
+    expect(CLAIMS.filter((line) => !claimsHold(line))).toEqual([]);
+  });
+
+  it('is not seen in ordinary advice', () => {
+    expect(FINE.filter((line) => claimsHold(line))).toEqual([]);
+  });
+
+  it('sends the version back to the shared one', () => {
+    expect(
+      validateVersion(reply('Yên tâm, phòng của bạn đã được giữ sẵn.'), context('vi')),
+    ).toEqual({
+      ok: false,
+      reason: 'hold_claim',
+    });
+  });
+
+  it('is still recognised in English', () => {
+    expect(claimsHold('We are holding a room for you.')).toBe(true);
   });
 });
