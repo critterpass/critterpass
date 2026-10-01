@@ -34,8 +34,14 @@ const INDICES_SQL = `SELECT stay_type, nightly_minor_low, nightly_minor_high, fo
   WHERE destination_id = (SELECT destination_id FROM trips WHERE id = ?) AND reviewed_at IS NOT NULL
   ORDER BY stay_type`;
 
-export const FX_SQL = `SELECT id, base, quote, rate, as_of, source FROM fx_snapshots
-  WHERE as_of = (SELECT max(as_of) FROM fx_snapshots)`;
+/**
+ * The newest rate of every currency pair. Not "the newest day's rows": a day whose run is still
+ * partial (two currencies in, the rest to come) would otherwise hide every other currency's rate.
+ */
+export const FX_SQL = `SELECT f.id, f.base, f.quote, f.rate, f.as_of, f.source FROM fx_snapshots f
+  WHERE f.as_of = (SELECT max(g.as_of) FROM fx_snapshots g
+                    WHERE g.base = f.base AND g.quote = f.quote)
+  ORDER BY f.quote, f.source`;
 
 export interface FxRow {
   readonly id: string;
