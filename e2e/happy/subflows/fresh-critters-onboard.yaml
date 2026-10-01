@@ -1,0 +1,123 @@
+appId: app.critterpass.dev
+---
+# A copy of e2e/home/subflows/onboard.yaml that ends by allowing location and notifications on
+# the primer instead of asking later, as a traveller about to fly would.
+# The shortest pass flow from the splash to Home (iOS primer; Android taps "Allow" instead):
+# a name, a guide avatar, six this-or-thats, Singapore as home, no save, no permissions yet.
+# ${HOME_IATA} with ${HOME_QUERY} (e.g. SGN, 'Ho Chi') names the home to search for instead when
+# the nearest airports don't offer Ho Chi Minh City; a crew started from SGN settles in VND.
+- evalScript: "${output.homeIata = typeof HOME_IATA === 'undefined' || HOME_IATA === '' ? 'SIN' : HOME_IATA}"
+- evalScript: "${output.homeQuery = typeof HOME_QUERY === 'undefined' || HOME_QUERY === '' ? 'Sing' : HOME_QUERY}"
+- runFlow: ../../onboarding/subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-guides-ajo'
+- tapOn:
+    id: 'onboarding-photo-next'
+# On a busy simulator the photo page can still be settling when these land, and the taps are
+# dropped (the page stays, any guide works): THAT'S ME is tapped again when it is still there.
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 10000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'onboarding-photo-next'
+    commands:
+      - tapOn:
+          id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 20000
+# Six picks show DONE; a tap the slow simulator drops just means one more pick.
+- repeat:
+    while:
+      notVisible:
+        id: 'taste-done'
+    times: 9
+    commands:
+      - tapOn:
+          id: 'taste-card-right'
+      - waitForAnimationToEnd
+- tapOn:
+    id: 'taste-done'
+# The nearest airports are offered first; search only when none is.
+- runFlow:
+    when:
+      visible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-row-SGN'
+- runFlow:
+    when:
+      notVisible:
+        id: 'home-row-SGN'
+    commands:
+      - tapOn:
+          id: 'home-search'
+      - inputText: ${output.homeQuery}
+      - extendedWaitUntil:
+          visible:
+            id: 'home-row-${output.homeIata}'
+          timeout: 10000
+      - tapOn:
+          id: 'home-row-${output.homeIata}'
+# The page footer rides the keyboard, so NEXT is reachable with it up. On Android hideKeyboard is a
+# BACK press when no keyboard is open, which leaves this page for the taste result.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-issued-save'
+# Android closes the save sheet with back, the way e2e/onboarding/first-run-android.yaml does.
+# On iOS the sheet is still rising right after the tap: "Not now" is tapped where it comes to
+# rest, not where it was on the way up.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'save-not-now'
+          timeout: 10000
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'save-not-now'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+# The last step as a traveller takes it: location and notifications switched on (the system
+# prompt, when one shows, answered "while using the app" / "allow"), then LET'S GO.
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-go'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-01-primer
+- tapOn:
+    id: 'primer-location-toggle'
+- tapOn:
+    text: '(?i)while using the app|allow while using app'
+    optional: true
+- tapOn:
+    id: 'primer-notifications-toggle'
+- tapOn:
+    text: '(?i)allow'
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: fresh-critters-02-primer-allowed
+- tapOn:
+    id: 'permissions-primer-go'
