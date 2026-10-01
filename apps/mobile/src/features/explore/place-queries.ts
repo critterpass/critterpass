@@ -101,7 +101,7 @@ export function useTripFacts(tripId: string | null, poiId: string | null): TripF
     tz: string | null;
     destination_id: string | null;
     must_do_owner: string | null;
-  }>(TRIP_SQL, tripId === null || poiId === null ? null : [poiId, tripId], TRIP_TABLES).rows[0];
+  }>(TRIP_SQL, tripId === null ? null : [poiId ?? '', tripId], TRIP_TABLES).rows[0];
   return {
     tz: row?.tz ?? null,
     destinationId: row?.destination_id ?? null,

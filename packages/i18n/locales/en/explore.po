@@ -29,6 +29,10 @@ msgstr "{0}'s first-timer picks"
 msgid "explore.dest.unavailable"
 msgstr "{0}'s notes on {1} didn't load. They'll show up once this phone is back online."
 
+#: ../../apps/mobile/src/features/explore/components/pin-cluster.tsx
+msgid "explore.map.cluster"
+msgstr "{count} places here. Tap to spread them out."
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedCount"
 msgstr "{count} saved"
@@ -170,6 +174,7 @@ msgstr "All"
 msgid "explore.place.chat"
 msgstr "Ask {0} about this place"
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.back"
 msgstr "Back"
@@ -182,7 +187,7 @@ msgstr "Beach"
 msgid "explore.hero.best"
 msgstr "Best: {months}"
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.cancel"
 msgstr "Cancel"
 
@@ -194,6 +199,7 @@ msgstr "Cheapest return fares seen, from each home airport."
 msgid "explore.panel.loading"
 msgstr "Checking fares"
 
+#: ../../apps/mobile/src/features/explore/map-copy.ts
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.closedNow"
 msgstr "closed now"
@@ -206,9 +212,13 @@ msgstr "Closed on {day}. Pick another day for this one."
 msgid "explore.guide.sardiLine"
 msgstr "Come for the grilled sardines. Stay for the grilled sardines."
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.create"
 msgstr "Create list"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.crew"
+msgstr "Crew picks"
 
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.picks.crewPlans"
@@ -221,6 +231,14 @@ msgstr "Crowds by month"
 #: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
 msgid "explore.crowd.title"
 msgstr "Crowds on {day}"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDay"
+msgstr "Day {dayNo}"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDayTime"
+msgstr "Day {dayNo} · {time}"
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.deleteList"
@@ -268,6 +286,14 @@ msgstr "Explore"
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.explore"
 msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.loading"
+msgstr "Fetching {place}'s places"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.food"
+msgstr "Food"
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.food"
@@ -330,6 +356,14 @@ msgstr "Loading destinations"
 msgid "explore.dest.loading"
 msgstr "Loading the guide"
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationOff"
+msgstr "Location is off, so the map leaves you out."
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.picks.map"
+msgstr "Map ›"
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
 msgstr "Market"
@@ -350,7 +384,7 @@ msgstr "Museum"
 msgid "explore.place.mustDo"
 msgstr "Must-do · {mustDoOwner}"
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.newName"
 msgstr "Name the new list"
 
@@ -404,6 +438,11 @@ msgstr "Not now"
 msgid "explore.saved.emptyList"
 msgstr "Nothing in this list yet"
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+#: ../../apps/mobile/src/features/explore/screens/explore-list-screen.tsx
+msgid "explore.map.noResults"
+msgstr "Nothing matches. Try fewer filters or another word."
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedNone"
 msgstr "Nothing saved yet"
@@ -428,13 +467,19 @@ msgstr "One of the busiest months."
 msgid "explore.panel.quiet"
 msgstr "One of the quieter months."
 
+#: ../../apps/mobile/src/features/explore/map-copy.ts
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.open24"
 msgstr "open 24h"
 
+#: ../../apps/mobile/src/features/explore/map-copy.ts
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.openNow"
 msgstr "open now"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.open"
+msgstr "Open now"
 
 #: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
 msgid "explore.sponsored.passPlus"
@@ -468,7 +513,7 @@ msgstr "Remove from this phone"
 msgid "explore.queued.unsave"
 msgstr "Removing a saved place"
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.rename"
 msgstr "Rename"
 
@@ -476,7 +521,7 @@ msgstr "Rename"
 msgid "explore.saved.renameList"
 msgstr "Rename list"
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.renameName"
 msgstr "Rename this list"
 
@@ -487,6 +532,10 @@ msgstr "Save for a trip"
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.save"
 msgstr "Save this place"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.saved"
+msgstr "Saved"
 
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
 msgid "explore.add.saved"
@@ -508,6 +557,10 @@ msgstr "Saved"
 msgid "explore.home.saved"
 msgstr "Saved places"
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.search"
+msgstr "Search {place}"
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.offer"
 msgstr "Search and the map work offline once {place} is on this phone."
@@ -515,6 +568,10 @@ msgstr "Search and the map work offline once {place} is on this phone."
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.search"
 msgstr "Search any city or country"
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.map"
+msgstr "See it on the map"
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
 msgid "explore.offers.open"
@@ -536,6 +593,10 @@ msgstr "seen {seen}"
 msgid "explore.panel.setAirport"
 msgstr "Set home airport"
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationSettings"
+msgstr "Settings"
+
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.share"
 msgstr "Share this place"
@@ -547,6 +608,14 @@ msgstr "Shoes off, phone down, eyes up."
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.shopping"
 msgstr "Shopping"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showList"
+msgstr "Show as a list"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showMap"
+msgstr "Show the map"
 
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
 msgid "explore.cta.solo"
@@ -683,13 +752,17 @@ msgstr "Why am I seeing this?"
 msgid "explore.panel.you"
 msgstr "You"
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.nameTaken"
 msgstr "You already have a list with that name."
 
 #: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
 msgid "explore.sponsored.contextual"
 msgstr "You see it because you're looking at {place}. It isn't chosen from anything about you, and we don't track you for it."
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.away"
+msgstr "You're {km} km from {place}"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.offline"

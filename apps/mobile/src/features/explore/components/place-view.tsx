@@ -17,6 +17,7 @@ import { bezierEasing } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { IconButton } from '@/ui/buttons/IconButton';
 import { SplitCtaRow } from '@/ui/buttons/SplitCtaRow';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { Icon } from '@/ui/icons/Icon';
 import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { Row } from '@/ui/layout/Row';
@@ -62,6 +63,8 @@ export interface PlaceViewProps {
   /** Absent while the offers screen is not in the app. */
   readonly offers: SupplierCardProps | null;
   readonly action: AddToDayButtonProps;
+  /** Opens the map on this place; absent when its destination is not known. */
+  readonly onMap?: (() => void) | undefined;
   /** Opens the guide chat; absent while that screen is not in the app. */
   readonly onChat?: (() => void) | undefined;
 }
@@ -226,6 +229,15 @@ export function PlaceView(props: PlaceViewProps) {
               </Text>
             )}
           </View>
+          {props.onMap === undefined ? null : (
+            <View style={{ alignItems: 'flex-start' }}>
+              <TextLink
+                label={t({ id: 'explore.place.map', message: 'See it on the map' })}
+                onPress={props.onMap}
+                testID="explore-place-map"
+              />
+            </View>
+          )}
           {props.offline ? <OfflinePill testID="explore-place-offline" /> : null}
           {props.crowd === null ? null : <CrowdChart {...props.crowd} />}
           {props.tip === null ? null : (

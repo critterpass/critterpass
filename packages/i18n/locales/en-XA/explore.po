@@ -29,6 +29,10 @@ msgstr ""
 msgid "explore.dest.unavailable"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/pin-cluster.tsx
+msgid "explore.map.cluster"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedCount"
 msgstr ""
@@ -170,6 +174,7 @@ msgstr ""
 msgid "explore.place.chat"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.back"
 msgstr ""
@@ -182,7 +187,7 @@ msgstr ""
 msgid "explore.hero.best"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.cancel"
 msgstr ""
 
@@ -194,6 +199,7 @@ msgstr ""
 msgid "explore.panel.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/map-copy.ts
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.closedNow"
 msgstr ""
@@ -206,8 +212,12 @@ msgstr ""
 msgid "explore.guide.sardiLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.create"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.crew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
@@ -220,6 +230,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
 msgid "explore.crowd.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDayTime"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
@@ -267,6 +285,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.explore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.food"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
@@ -330,6 +356,14 @@ msgstr ""
 msgid "explore.dest.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.picks.map"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.market"
 msgstr ""
@@ -350,7 +384,7 @@ msgstr ""
 msgid "explore.place.mustDo"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.newName"
 msgstr ""
 
@@ -404,6 +438,11 @@ msgstr ""
 msgid "explore.saved.emptyList"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+#: ../../apps/mobile/src/features/explore/screens/explore-list-screen.tsx
+msgid "explore.map.noResults"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.savedNone"
 msgstr ""
@@ -428,12 +467,18 @@ msgstr ""
 msgid "explore.panel.quiet"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/map-copy.ts
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.open24"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/map-copy.ts
 #: ../../apps/mobile/src/features/explore/place-copy.ts
 msgid "explore.place.openNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
@@ -468,7 +513,7 @@ msgstr ""
 msgid "explore.queued.unsave"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.rename"
 msgstr ""
 
@@ -476,7 +521,7 @@ msgstr ""
 msgid "explore.saved.renameList"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.renameName"
 msgstr ""
 
@@ -486,6 +531,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.saved"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
@@ -508,12 +557,20 @@ msgstr ""
 msgid "explore.home.saved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.search"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
 msgid "explore.pack.offer"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
 msgid "explore.home.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.map"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
@@ -536,6 +593,10 @@ msgstr ""
 msgid "explore.panel.setAirport"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationSettings"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/place-view.tsx
 msgid "explore.place.share"
 msgstr ""
@@ -546,6 +607,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/category.ts
 msgid "explore.category.shopping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showList"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showMap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
@@ -683,12 +752,16 @@ msgstr ""
 msgid "explore.panel.you"
 msgstr ""
 
-#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.nameTaken"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
 msgid "explore.sponsored.contextual"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.away"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx

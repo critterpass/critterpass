@@ -20,6 +20,8 @@ export interface OfflinePack {
   /** 0–1 while downloading. */
   readonly progress: number;
   readonly bytes: number | null;
+  /** The region file on this phone (`file://…pmtiles`), once it is here. */
+  readonly uri: string | null;
   readonly download: () => void;
   readonly remove: () => void;
 }
@@ -81,6 +83,7 @@ export function useOfflinePack(destinationId: string, slug: string): OfflinePack
               : 'none',
     progress: pack.progress,
     bytes: pack.bytes ?? disk?.bytes ?? null,
+    uri: pack.localPmtilesUri ?? disk?.uri ?? null,
     download: () => void pack.download(),
     remove,
   };

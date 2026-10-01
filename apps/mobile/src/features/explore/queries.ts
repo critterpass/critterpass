@@ -15,10 +15,11 @@ export interface DestinationRow {
   readonly country: string | null;
   readonly currency: string | null;
   readonly best_months: string | null;
+  readonly tz: string | null;
   readonly guide_slug: string | null;
 }
 
-const DESTINATION_SQL = `SELECT d.id, d.slug, d.name, d.country, d.currency, d.best_months,
+const DESTINATION_SQL = `SELECT d.id, d.slug, d.name, d.country, d.currency, d.best_months, d.tz,
     (SELECT s.guide_slug FROM critter_sets s
       WHERE s.destination_id = d.id AND s.guide_slug IS NOT NULL LIMIT 1) AS guide_slug
   FROM destinations d WHERE d.id = ? OR d.slug = ? LIMIT 1`;

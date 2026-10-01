@@ -230,6 +230,7 @@ export function DestinationScreen({ destination, tripId, crewId }: DestinationSc
         if (pick.sponsored !== undefined) sponsoredEvents.click();
         router.push(exploreRoutes.place(pick.id, { destinationId: id ?? undefined, tripId }));
       }}
+      onMap={id === null ? undefined : () => router.push(exploreRoutes.map(id, { tripId }))}
       onCrewPlans={crewPlans === undefined ? undefined : () => router.push(crewPlans)}
       actions={{
         mode,

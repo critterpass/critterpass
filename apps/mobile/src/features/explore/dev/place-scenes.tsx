@@ -189,6 +189,7 @@ function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
               onOpenPlan: () => undefined,
             }
       }
+      onMap={() => undefined}
       onChat={() => undefined}
     />
   );

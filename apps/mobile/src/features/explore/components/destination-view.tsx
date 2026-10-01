@@ -40,6 +40,8 @@ export interface DestinationViewProps {
   } | null;
   readonly picks: readonly PickCard[];
   readonly onOpenPick?: ((pick: PickCard) => void) | undefined;
+  /** Opens the destination's map. */
+  readonly onMap?: (() => void) | undefined;
   /** Opens the crews' shared plans for this place; absent while that screen is not in the app. */
   readonly onCrewPlans?: (() => void) | undefined;
   readonly actions: DestinationActionsProps;
@@ -117,6 +119,13 @@ export function DestinationView(props: DestinationViewProps) {
                     )}
                   </Text>
                 </View>
+                {props.onMap === undefined ? null : (
+                  <TextLink
+                    label={upper(t({ id: 'explore.picks.map', message: 'Map ›' }), locale)}
+                    onPress={props.onMap}
+                    testID="explore-open-map"
+                  />
+                )}
                 {props.onCrewPlans === undefined ? null : (
                   <TextLink
                     label={upper(

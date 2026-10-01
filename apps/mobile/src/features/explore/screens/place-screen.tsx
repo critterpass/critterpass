@@ -180,6 +180,7 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
     ).catch(() => undefined);
   };
 
+  const destinationRef = row.destination_id;
   const whyGo = typeof editorial?.why_go === 'string' ? editorial.why_go : null;
   return (
     <PlaceView
@@ -212,6 +213,11 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
           : { placeName: name, offline, onOpen: () => router.push(offersHref) }
       }
       action={action}
+      onMap={
+        destinationRef === null
+          ? undefined
+          : () => router.push(exploreRoutes.map(destinationRef, { tripId, placeId }))
+      }
       onChat={chatHref === undefined ? undefined : () => router.push(chatHref)}
     />
   );

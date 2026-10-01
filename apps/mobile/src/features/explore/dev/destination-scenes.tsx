@@ -263,6 +263,7 @@ function DestinationScene({ spec }: { readonly spec: SceneSpec }) {
             ]
       }
       onOpenPick={() => undefined}
+      onMap={() => undefined}
       actions={{
         mode,
         placeName: spec.name,

@@ -7,6 +7,11 @@ import type { Href } from 'expo-router';
 
 import { hrefFor, registerScreens } from '@/lib/navigation/screen-registry';
 
+export interface MapParams {
+  readonly tripId?: string | undefined;
+  readonly placeId?: string | undefined;
+}
+
 export interface PlaceParams {
   readonly destinationId?: string | undefined;
   readonly tripId?: string | undefined;
@@ -39,6 +44,11 @@ export const exploreRoutes = {
       placeId,
       ...defined({ destinationId: params.destinationId, tripId: params.tripId }),
     },
+  }),
+  /** A destination's map, inside a trip and opened on a place when those are given. */
+  map: (destination: string, params: MapParams = {}): Href => ({
+    pathname: '/explore/map',
+    params: { destination, ...defined({ tripId: params.tripId, placeId: params.placeId }) },
   }),
   /** "Why am I seeing this?" for a sponsored pick, as a sheet. */
   whySponsored: (partner: string, place: string): Href => ({
@@ -85,5 +95,10 @@ registerScreens({
     exploreRoutes.place(params['placeId'] ?? '', {
       destinationId: params['destinationId'],
       tripId: params['tripId'],
+    }),
+  '3d-4': (params) =>
+    exploreRoutes.map(params['destinationId'] ?? '', {
+      tripId: params['tripId'],
+      placeId: params['placeId'],
     }),
 });
