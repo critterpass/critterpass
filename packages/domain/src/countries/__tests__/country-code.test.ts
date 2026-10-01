@@ -15,6 +15,8 @@ describe('toCountryCode', () => {
     expect(toCountryCode('South Korea')).toBe('KR');
     expect(toCountryCode('United Kingdom')).toBe('GB');
     expect(toCountryCode('United States')).toBe('US');
+    expect(toCountryCode('UK')).toBe('GB');
+    expect(toCountryCode('US')).toBe('US');
     expect(toCountryCode('Türkiye')).toBe('TR');
     expect(toCountryCode('turkiye')).toBe('TR');
     expect(toCountryCode("Côte d'Ivoire")).toBe('CI');

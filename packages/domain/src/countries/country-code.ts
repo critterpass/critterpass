@@ -47,8 +47,10 @@ function nameIndex(): ReadonlyMap<string, string> {
 export function toCountryCode(value: string | null | undefined): string | null {
   if (value === null || value === undefined) return null;
   const text = value.trim();
-  if (/^[A-Za-z]{2}$/u.test(text)) return text.toUpperCase();
-  return nameIndex().get(foldName(text)) ?? null;
+  // Names first: the table's short names "UK" and "US" look like codes, and "UK" is not one.
+  const named = nameIndex().get(foldName(text));
+  if (named !== undefined) return named;
+  return /^[A-Za-z]{2}$/u.test(text) ? text.toUpperCase() : null;
 }
 
 /** Both sides name the same country; false when either is unknown. */

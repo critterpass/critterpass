@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { PlainSqlite } from '@/data/powersync/test-support/node-realm';
+import Database from 'better-sqlite3';
 
 import {
   activeShare,
@@ -44,7 +44,7 @@ describe('engine inputs from synced rows', () => {
   });
 
   it('reads the destination country as an ISO code, from the place first', () => {
-    const db = new PlainSqlite(':memory:');
+    const db = new Database(':memory:');
     db.exec(`
       CREATE TABLE trips (id TEXT, status TEXT, start_date TEXT, end_date TEXT, tz TEXT, destination_id TEXT);
       CREATE TABLE trip_participants (trip_id TEXT, user_id TEXT, rsvp TEXT, role TEXT);
