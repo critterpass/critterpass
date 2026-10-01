@@ -1,4 +1,3 @@
-import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import * as Updates from 'expo-updates';
 import { useEffect, useState } from 'react';
@@ -6,6 +5,7 @@ import { DevSettings, ScrollView } from 'react-native';
 
 import { createDevSlots, type DevSlot } from '@/data/auth/dev-slots';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { clearSavedNavigation } from '@/lib/navigation/restore';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
@@ -73,9 +73,9 @@ export default function DevAccountsScreen() {
     try {
       if (current !== null) await slots.keep(current.uid, current.name);
       await slots.switchTo(target);
-      // Leave this screen first: the restart restores the last route, and Home lets the new
-      // session's gate send a brand-new account to onboarding.
-      router.replace('/');
+      // The restart starts at Home (not this screen), where a brand-new account's gate sends
+      // it to onboarding.
+      clearSavedNavigation();
       await reload();
     } catch (failure) {
       setError(failure instanceof Error ? failure.message : String(failure));
