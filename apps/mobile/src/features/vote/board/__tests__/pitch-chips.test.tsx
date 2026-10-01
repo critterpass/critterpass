@@ -18,7 +18,7 @@ jest.mock(
       .powersyncCommon,
 );
 
-import { afterEach, describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { screen } from '@testing-library/react-native';
 import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 
@@ -47,7 +47,7 @@ const PITCH: PitchState = {
   headline: 'Hội An by lantern light',
   chips: [
     { kind: 'flight', minutes: 180, origin: 'SIN' },
-    { kind: 'event', name: EVENT },
+    { kind: 'event', name: EVENT, starts_on: '2026-10-25' },
   ],
 };
 
