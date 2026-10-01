@@ -71,3 +71,4 @@ describe('hatch plans', () => {
     expect(firstHatchPlan('android')).toMatchObject({ from: BURST_MS, playMs: 2600 - BURST_MS });
   });
 });
+// Deliberately red: a decision-style citation (D7) the id check must catch on an app-only change.
