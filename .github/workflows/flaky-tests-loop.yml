@@ -1,0 +1,85 @@
+# Twenty runs in a row of each test file this pull request fixes, on a runner kept busy the way the
+# lint/typecheck/test job kept it busy (every core taken by other work beside Jest), then five runs
+# of main's version of the same file under the same load for comparison. Removed before merging.
+name: flaky tests loop
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/flaky-tests-loop.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  loop:
+    name: ${{ matrix.name }} × 20 under load
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: launch hatch
+            file: src/features/onboarding/hatch/__tests__/launch-hatch.test.tsx
+          - name: rooms step
+            file: src/features/setup/rooms/__tests__/rooms-step.test.tsx
+          - name: legendary screen
+            file: src/features/critters/legendary/__tests__/legendary-screen.test.tsx
+          - name: app session
+            file: src/data/app-session/__tests__/start-app-session.test.tsx
+    steps:
+      - uses: actions/checkout@v7
+        with: { fetch-depth: 0, filter: 'blob:none' }
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
+        with:
+          cache-prefix: turbo-node26_
+      - name: Build what the app's tests import
+        run: pnpm turbo run build --filter=@cp/mobile^...
+      - name: Twenty runs in a row
+        env:
+          FILE: ${{ matrix.file }}
+        working-directory: apps/mobile
+        run: |
+          # Two busy loops per core: Jest gets the share of the machine it had beside tsc and eslint.
+          for _ in $(seq $(( $(nproc) * 2 ))); do sh -c 'while :; do :; done' & done
+          passed=0
+          for run in $(seq 1 20); do
+            started=$(date +%s)
+            if pnpm exec jest "$FILE" --ci > "$RUNNER_TEMP/run-$run.log" 2>&1; then
+              passed=$((passed + 1))
+              echo "run $run: pass ($(( $(date +%s) - started )) s)"
+            else
+              echo "::error::run $run failed"
+              grep -E '●|Expected|Received|Unable to find' "$RUNNER_TEMP/run-$run.log" | head -20
+            fi
+          done
+          echo "### $FILE: $passed of 20 runs green, in a row, under load" >> "$GITHUB_STEP_SUMMARY"
+          [ "$passed" = 20 ]
+      - name: Main's version, five runs under the same load
+        if: always()
+        continue-on-error: true
+        env:
+          FILE: ${{ matrix.file }}
+        working-directory: apps/mobile
+        run: |
+          for _ in $(seq $(( $(nproc) * 2 ))); do sh -c 'while :; do :; done' & done
+          main="${FILE%.test.tsx}-main.test.tsx"
+          git fetch -q --no-tags origin main
+          git show "origin/main:apps/mobile/$FILE" > "$main"
+          passed=0
+          for run in $(seq 1 5); do
+            if pnpm exec jest "$main" --ci > "$RUNNER_TEMP/main-$run.log" 2>&1; then
+              passed=$((passed + 1))
+              echo "main run $run: pass"
+            else
+              echo "main run $run: FAIL"
+              grep -E '●|Unable to find|Expected length|Received length' "$RUNNER_TEMP/main-$run.log" | head -6
+            fi
+          done
+          rm "$main"
+          echo "main's version: $passed of 5 runs green under the same load" >> "$GITHUB_STEP_SUMMARY"
