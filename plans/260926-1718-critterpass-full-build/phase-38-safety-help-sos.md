@@ -121,6 +121,8 @@ Help and SOS are "tell your crew" features; copy never says we contact emergency
 - Tests: `pnpm --filter @cp/mobile test -- features/safety/help`
 - Done when: RNTL covers each state; offline render uses only local data (network mocked off); consent toggle renders OFF on first open and no `start_help_share` is queued until the user turns it on.
 
+- Status: done — 5711cf36 (tile→page transform: plain push; states logged in `docs/undesigned-states.md`)
+
 ### T4 — SOS backend: commands, orchestrator, escalation, responder ETAs
 - Files: `services/api/src/commands/safety/{trigger-sos,respond-sos,send-sos-message,resolve-sos}.ts`, `services/worker/src/jobs/safety/{sos-orchestrate,sos-escalate,sos-responder-eta}.ts`, `packages/ai/src/routes/sos/**`, `packages/ai/evals/sos/**`, `services/api/test/safety/sos.test.ts`, `services/worker/test/safety/sos-latency.test.ts`.
 - Steps: 1. Incident + share(sos) + outbox in one tx. 2. Fan-out push (ALWAYS, bypass budget/quiet hours) + channel events before any AI. 3. Summary with 3 s timeout, fallback. 4. Escalation timer, responder ETAs, arrival. 5. Resolve → N-48, share end.
@@ -134,6 +136,8 @@ Help and SOS are "tell your crew" features; copy never says we contact emergency
 - Steps: 1. Slide + 5 s cancel (haptic ticks). 2. Status view with seen/responders. 3. I'M OK / false alarm. 4. No-data SMS composer (expo-sms) prefilled to visible crew numbers + maps link. 5. Stale-SOS confirm prompt (SEND NOW / I'M OK) from `cmd_results`.
 - Tests: `pnpm --filter @cp/mobile test -- features/safety/sos/sender`
 - Done when: cancel within 5 s sends nothing (command queue empty); SMS fallback opens when offline.
+
+- Status: done — 276bd741 (stale prompt and I'M OK live on the SOS screen, 1a9b5efe)
 
 ### T6 — SOS receiver takeover and session map
 - Files: `apps/mobile/src/features/safety/sos/receiver/{takeover-host,sos-screen,steps-card,responder-row,im-going,long-buzz}.tsx|ts`, `apps/mobile/src/features/safety/session-map/{session-map,walking-route,use-session-map}.tsx|ts`.
