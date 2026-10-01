@@ -1,8 +1,9 @@
 /**
- * A crew on a Bali trip (Ubud, country ID) in its trip days, with the curated safety catalogue a
- * published release would hold: Indonesia's emergency numbers, two medical facilities near Ubud and
- * the Indonesian help phrases. Maya organises, Rin and Jordan travel, Sam is in the crew but not on
- * the trip, and Olly is an outsider. The doors run the safety commands and routes with a started
+ * A crew on a Bali trip (Ubud; its destination stores the country by English name, "Indonesia", as
+ * real rows do) in its trip days, with the curated safety catalogue a published release would
+ * hold: Indonesia's emergency numbers, two medical facilities near Ubud and the Indonesian help
+ * phrases. Maya organises, Rin and Jordan travel, Sam is in the crew but not on the trip, and Olly
+ * is an outsider. The doors run the safety commands and routes with a started
  * job producer; routing is the straight-line estimate and the model gateway is set per suite.
  */
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -162,7 +163,10 @@ export async function buildSafetyTrip(
     }
     const dest = await tx.query<{ id: string }>(
       "INSERT INTO destinations (slug, name, country) VALUES ($1, 'Ubud', $2) RETURNING id",
-      [`ubud-${randomUUID().slice(0, 8)}`, options.country === undefined ? 'ID' : options.country],
+      [
+        `ubud-${randomUUID().slice(0, 8)}`,
+        options.country === undefined ? 'Indonesia' : options.country,
+      ],
     );
     const crew = await tx.query<{ id: string }>(
       "INSERT INTO crews (name, created_by) VALUES ('The Bali Six', $1) RETURNING id",
