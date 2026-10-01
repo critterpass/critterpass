@@ -105,7 +105,14 @@ function linkCode(state: LinkCodeState, code = ''): ReactNode {
   return (
     <WithSheet
       sheet={(close) => (
-        <LinkCodeSheet state={state} onLink={noop} onClose={close} initialCode={code} />
+        // No keyboard in the lab: the screenshot flows leave a scene with two backs.
+        <LinkCodeSheet
+          state={state}
+          onLink={noop}
+          onClose={close}
+          initialCode={code}
+          autoFocus={false}
+        />
       )}
     />
   );

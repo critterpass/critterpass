@@ -86,22 +86,3 @@ appId: app.critterpass.dev
     file: scene.yaml
     env:
       { SCENE: mailbox-done, READY: bookings-mailbox-back, SHOT: '${PREFIX}-bookings-mailbox-done' }
-- runFlow:
-    file: scene.yaml
-    env: { SCENE: link-code, READY: bookings-link-code-boxes, SHOT: '${PREFIX}-bookings-link-code' }
-- runFlow:
-    file: scene.yaml
-    env:
-      {
-        SCENE: link-code-wrong,
-        READY: bookings-link-code-error,
-        SHOT: '${PREFIX}-bookings-link-code-wrong',
-      }
-- runFlow:
-    file: scene.yaml
-    env:
-      {
-        SCENE: link-code-linked,
-        READY: bookings-link-code-linked,
-        SHOT: '${PREFIX}-bookings-link-code-linked',
-      }

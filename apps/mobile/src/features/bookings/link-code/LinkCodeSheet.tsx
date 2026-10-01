@@ -27,6 +27,8 @@ export interface LinkCodeSheetProps {
   readonly onClose: () => void;
   /** The code the boxes open with (lab scenes). */
   readonly initialCode?: string;
+  /** The keyboard opens with the sheet. @default true */
+  readonly autoFocus?: boolean;
 }
 
 function useProblem(state: LinkCodeState): string | null {
@@ -99,7 +101,7 @@ export function LinkCodeSheet(props: LinkCodeSheetProps) {
               onChangeText={setCode}
               status={props.state.kind === 'wrong' ? 'invalid' : 'idle'}
               label={t({ id: 'bookings.linkCode.label', message: 'Link code' })}
-              autoFocus
+              autoFocus={props.autoFocus ?? true}
               testID="bookings-link-code-boxes"
             />
             {problem === null ? null : (
