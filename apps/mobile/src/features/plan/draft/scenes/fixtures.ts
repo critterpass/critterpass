@@ -170,6 +170,21 @@ export const REVIEW: ReviewModel = {
   lateMustDo: false,
 };
 
+/** The crew's flights from the wallet on the first and last day, as the server places them. */
+export const REVIEW_BOOKED: ReviewModel = {
+  ...REVIEW,
+  days: DAYS.map((day) => {
+    if (day.dayNo === 1) {
+      const flight = stop('JL 221 · HND → ITM', day.date, '09:05', true);
+      return { ...day, stops: [flight, ...day.stops], booked: true };
+    }
+    if (day.dayNo === DAYS.length) {
+      return { ...day, stops: [stop('JL 228 · ITM → HND', day.date, '18:40', true)], booked: true };
+    }
+    return day;
+  }),
+};
+
 export const REVIEW_MISSING: ReviewModel = {
   ...REVIEW,
   mustDos: {

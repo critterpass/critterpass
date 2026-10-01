@@ -149,4 +149,23 @@ describe('setup.budget_recompute', () => {
       expect(text).not.toContain(String(amount));
     }
   });
+
+  it('publishes counts only, with no band or step, for a crew currency that has no rate', async () => {
+    await world.q("UPDATE crews SET settlement_currency = 'THB' WHERE id = $1", [world.crewId]);
+    const outcome = await recomputeBudget(world.harness.pool, world.tripId, true, at(14));
+    expect(outcome).toMatchObject({ outcome: 'recomputed', banded: false });
+    const [published] = await world.q<Record<string, unknown>>(
+      `SELECT currency, maxes_count, band_high_minor, step_minor, track_high_minor, infeasible
+         FROM trip_budget_aggregates WHERE trip_id = $1`,
+      [world.tripId],
+    );
+    expect(published).toEqual({
+      currency: 'THB',
+      maxes_count: 5,
+      band_high_minor: null,
+      step_minor: null,
+      track_high_minor: null,
+      infeasible: null,
+    });
+  });
 });
