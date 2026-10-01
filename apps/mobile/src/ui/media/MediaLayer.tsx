@@ -1,7 +1,7 @@
 /**
- * A licensed photo (or a video loop's poster) under a colour hero's own overlays: the accent flood
- * stays, the photo sits on it as a duotone drawn from the accent, the halftone and the text go on
- * top. The blurhash shows while the file loads, and the photo fades in over it (at once under
+ * A licensed photo (or a video loop's poster) under a colour hero's text: the photo at full
+ * strength as a duotone drawn from the accent, with the hero's halftone over it at half strength
+ * (the layer draws those dots; a hero showing a photo turns its own off). The blurhash shows while the file loads, and the photo fades in over it (at once under
  * reduced motion). No asset, or a file that fails to load, leaves the flat colour exactly as
  * before (a file that fails keeps the tinted blurhash). The file used is saved on the device, so
  * the hero draws offline too, from any saved size when the exact one is missing. When the
@@ -50,6 +50,8 @@ export interface MediaLayerProps {
 const FADE_MS = 200;
 /** The dark halftone's dot (textures/halftone.tsx). */
 const DARK_DOT_RADIUS = 1.3;
+/** The halftone over a photo is half its strength on the flat colour, so the photo reads. */
+const DOTS_OVER_PHOTO = 0.5;
 /** A low-data slot loads a smaller still (it is tinted and dotted anyway). */
 const LOW_DATA_SCALE = 0.5;
 
@@ -106,15 +108,22 @@ function Still({
           </Group>
         )}
       </Group>
-      {fadeTo === null
-        ? null
-        : TEXTURE.halftoneDark.layers.map(({ color, grid }, index) => (
+      <Group opacity={DOTS_OVER_PHOTO}>
+        {fadeTo === null ? (
+          <Path
+            path={dotGridPath(width, height, TEXTURE.halftone.grid, TEXTURE.halftone.radius)}
+            color={TEXTURE.halftone.color}
+          />
+        ) : (
+          TEXTURE.halftoneDark.layers.map(({ color, grid }, index) => (
             <Path
               key={`${color}-${grid}`}
               path={dotGridPath(width, height, grid, DARK_DOT_RADIUS, (index * grid) / 2)}
               color={color}
             />
-          ))}
+          ))
+        )}
+      </Group>
       {fadeTo === null ? null : (
         <Rect {...frame}>
           <LinearGradient

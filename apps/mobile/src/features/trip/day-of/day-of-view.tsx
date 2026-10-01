@@ -93,7 +93,7 @@ function Hero(props: DayOfViewProps) {
     return (
       <Card
         tone="pink"
-        halftone
+        halftone={!props.heroMedia}
         style={styles.quiet}
         testID="trip-day-hero-quiet"
         backdrop={backdrop}
@@ -132,6 +132,7 @@ function Hero(props: DayOfViewProps) {
     <LeaveByHero
       testID={`trip-day-hero-${view.phase}`}
       backdrop={backdrop}
+      halftone={!props.heroMedia}
       eyebrow={upper(props.eyebrow, locale)}
       {...(props.forecast === null ? {} : { trailing: upper(props.forecast, locale) })}
       label={upper(copy.label, locale)}

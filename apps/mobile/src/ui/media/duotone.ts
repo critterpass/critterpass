@@ -1,7 +1,7 @@
 /**
  * The duotone a photo takes under a colour hero: its luminance mapped from a shadow tone to a
- * highlight tone, both drawn from the hero's accent, laid over the accent flood at a set opacity.
- * Tones and opacity are chosen so the hero's own text keeps its contrast wherever the photo is
+ * highlight tone, both drawn from the hero's accent, at full strength over the flood. The tones
+ * are chosen so the hero's own text keeps its contrast wherever the photo is
  * darkest or lightest (checked in the tests against the worst case of each).
  */
 import { contrastRatio, parseColor, tokens } from '@cp/design-tokens';
@@ -40,7 +40,8 @@ export function mixColour(a: string, b: string, t: number): string {
 
 export function treatmentFor(surface: MediaSurface, accent: string, ink: string): DuotoneTreatment {
   if (surface === 'accent') {
-    const opacity = 0.5;
+    // The photo at full strength; its tones keep the hero's text readable.
+    const opacity = 1;
     // As deep a shadow as the accent allows while ink text on it keeps 4.5:1.
     let depth = 0.35;
     while (
@@ -56,7 +57,7 @@ export function treatmentFor(surface: MediaSurface, accent: string, ink: string)
       base: accent,
     };
   }
-  const opacity = 0.7;
+  const opacity = 1;
   const cream = tokens.color.paper.base;
   // As bright a highlight as the accent wordmark (3:1) and cream text (4.5:1) allow over it.
   let depth = 0.3;
