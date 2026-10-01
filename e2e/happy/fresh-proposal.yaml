@@ -32,7 +32,16 @@ appId: app.critterpass.dev
     file: ../proposal/subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-new'
-- runFlow: ../home/subflows/onboard.yaml
+# The phone remembers it was onboarded, so the new account may open straight on Home.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open|home-join-code'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'onboarding-open'
+    file: ../home/subflows/onboard.yaml
 - extendedWaitUntil:
     visible:
       id: 'home-join-code'
