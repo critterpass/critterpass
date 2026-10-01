@@ -40,7 +40,12 @@ export function EncounterBanner({ banner }: { readonly banner: EncounterBannerMo
           </Text>
         </Stack>
         {/* At its own size: a number fitted to a row with no width of its own gets cut. */}
-        <Text variant="h2" autoFit={false} color={theme.semantic.text.onAccent}>
+        <Text
+          variant="h2"
+          autoFit={false}
+          color={theme.semantic.text.onAccent}
+          style={{ flexShrink: 0 }}
+        >
           {`${Math.round(banner.progress * 100)}%`}
         </Text>
       </Row>
