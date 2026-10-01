@@ -15,6 +15,7 @@ import {
   WHOLE_WORD_MIN_SCALE,
   wholeWordSize,
 } from '../auto-fit';
+import { displayAdvance } from '../display-advance';
 import { Text } from '../Text';
 
 let reports: string[] = [];
@@ -66,7 +67,12 @@ describe('whole-word fit', () => {
     // "YOUR" has to fit the width left beside the sticker, not the whole title box.
     expect(fitted).toBeLessThan(nominal * AUTO_FIT_MIN_SCALE);
     expect(fitted).toBeGreaterThanOrEqual(nominal * WHOLE_WORD_MIN_SCALE);
-    const word = { text: 'YOUR', width: box, advanceRatio: ADVANCE_RATIO.condensed };
+    const word = {
+      text: 'YOUR',
+      width: box,
+      advanceRatio: ADVANCE_RATIO.condensed,
+      advanceOf: displayAdvance('Archivo-W62-900'),
+    };
     expect(fitted).toBeCloseTo(wholeWordSize({ ...word, letterSpacingEm: MEGA_TRACKING }), 5);
 
     // One word per line: the single-line title wraps at its floor and settles there.
