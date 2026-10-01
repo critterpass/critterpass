@@ -58,3 +58,15 @@ END
 $$;
 REVOKE ALL ON FUNCTION app.grant_egg(uuid, uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION app.grant_egg(uuid, uuid) TO app_system;
+
+-- Eggs already granted and not yet hatched take the current starter now, so a phone that plays
+-- the hatch before it hears back from the server already holds the right critter.
+DO $$
+DECLARE
+  waiting record;
+BEGIN
+  FOR waiting IN SELECT user_id, trip_id FROM eggs WHERE hatched_at IS NULL LOOP
+    PERFORM app.grant_egg(waiting.user_id, waiting.trip_id);
+  END LOOP;
+END
+$$;
