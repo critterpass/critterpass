@@ -1,10 +1,11 @@
 appId: app.critterpass.dev
 ---
-# The setup's When step as organiser, picked by hand: today in Vietnam as the first day, three days
-# long (today to the day after tomorrow), so the trip is under way the moment it is confirmed. The
+# The setup's When step as organiser, picked by hand: today in Vietnam as the first day (or
+# ${START_OFFSET_DAYS} days from today), three days long, so the trip is under way the moment it is
+# confirmed (or starts tomorrow). The
 # lock's own label is checked before it is tapped, so a tap that landed on another day fails here
 # instead of locking the wrong dates.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); output.pickLabel = months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickColumn = (d.getUTCDay() + 6) % 7; output.pickRow = Math.floor((((first.getUTCDay() + 6) % 7) + d.getUTCDate() - 1) / 7); output.pickTry = 0}
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000 + (typeof START_OFFSET_DAYS === 'undefined' || START_OFFSET_DAYS === '' ? 0 : Number(START_OFFSET_DAYS)) * 86400000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); output.pickLabel = months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickColumn = (d.getUTCDay() + 6) % 7; output.pickRow = Math.floor((((first.getUTCDay() + 6) % 7) + d.getUTCDate() - 1) / 7); output.pickTry = 0}
 - scrollUntilVisible:
     element:
       id: 'when-pick-week'

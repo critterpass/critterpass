@@ -4,7 +4,8 @@ appId: app.critterpass.dev
 # Ho Chi Minh City starts a crew of one (which settles in đồng), pitches Đà Nẵng from Home and locks
 # it in, sets the trip up from today for three days with the budget locked in đồng, the rooms and
 # one must-do, has the guide draft it, and with nobody to send it to locks the plan in alone. It
-# ends on the screen the lock leaves the traveller on. ${SHOTS} prefixes the screenshots.
+# ends on the screen the lock leaves the traveller on. ${SHOTS} prefixes the screenshots;
+# ${START_OFFSET_DAYS} (optional) starts the trip that many days from today instead.
 - runFlow:
     file: fresh-account.yaml
     env:
@@ -87,7 +88,10 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
-- runFlow: pick-dates-from-today.yaml
+- runFlow:
+    file: pick-dates-from-today.yaml
+    env:
+      START_OFFSET_DAYS: ${typeof START_OFFSET_DAYS === 'undefined' ? '' : START_OFFSET_DAYS}
 # The budget, in đồng, locked as the guide suggests it.
 - extendedWaitUntil:
     visible:

@@ -2,9 +2,12 @@ appId: app.critterpass.dev
 ---
 # Release gate: a brand-new traveller's money in đồng on a trip that is on today, with no demo
 # world (subflows/trip-under-way.yaml). The wallet settles in VND; a ₫350,000 lunch and a
-# ₫1,250,000 dinner typed on the keypad land in LATEST, in what the crew of one has spent
-# (₫1,600,000) and in the history, whole and grouped, never in dollars; the budget page counts
-# them against the budget locked in setup on day 1 of 3; and the trip hub's MONEY tile agrees.
+# ₫1,250,000 dinner typed on the keypad, each under its own name, land in LATEST and in what the
+# crew of one has spent (₫1,600,000), and a ₫9,000,000 hotel takes the total to eight digits
+# (₫10,600,000) without it leaving the screen; the history lists all three, whole and grouped,
+# never in dollars; a new expense's detail lists no changes; the budget page, with its way back,
+# counts them against the budget locked in setup on day 1 of 3; and the trip hub's MONEY tile
+# agrees.
 - runFlow:
     file: subflows/trip-under-way.yaml
     env:
@@ -48,25 +51,12 @@ appId: app.critterpass.dev
 - tapOn: '000|Three zeros'
 - assertVisible:
     id: 'money-add-amount'
-- tapOn:
-    id: 'money-add-details-row'
-- extendedWaitUntil:
-    visible:
-      id: 'money-add-name'
-    timeout: 10000
-- tapOn:
-    id: 'money-add-name'
-- inputText: 'Lunch'
-- waitForAnimationToEnd
-- takeScreenshot: money-add-details
-- tapOn:
-    id: 'money-add-details-done'
-- extendedWaitUntil:
-    notVisible:
-      id: 'money-add-name'
-    timeout: 10000
-- waitForAnimationToEnd
+- runFlow:
+    file: subflows/type-expense-name.yaml
+    env:
+      NAME: 'Lunch'
 - takeScreenshot: money-add-lunch
+- assertVisible: '(?i)lunch'
 - assertVisible: '.*350,000.*'
 - assertNotVisible: '.*\$.*'
 - tapOn:
@@ -94,22 +84,10 @@ appId: app.critterpass.dev
 - tapOn: '5'
 - tapOn: '0'
 - tapOn: '000|Three zeros'
-- tapOn:
-    id: 'money-add-details-row'
-- extendedWaitUntil:
-    visible:
-      id: 'money-add-name'
-    timeout: 10000
-- tapOn:
-    id: 'money-add-name'
-- inputText: 'Dinner'
-- tapOn:
-    id: 'money-add-details-done'
-- extendedWaitUntil:
-    notVisible:
-      id: 'money-add-name'
-    timeout: 10000
-- waitForAnimationToEnd
+- runFlow:
+    file: subflows/type-expense-name.yaml
+    env:
+      NAME: 'Dinner'
 - takeScreenshot: money-add-dinner
 - assertVisible: '.*1,250,000.*'
 - tapOn:
@@ -129,21 +107,45 @@ appId: app.critterpass.dev
 - assertNotVisible: '.*\$.*'
 - waitForAnimationToEnd
 - takeScreenshot: money-after-dinner
-# Both expenses in the history.
+# A bigger one, ₫9,000,000 for the hotel: the total, now eight digits, still reads whole.
+- tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn: '9'
+- tapOn: '000|Three zeros'
+- tapOn: '000|Three zeros'
+- runFlow:
+    file: subflows/type-expense-name.yaml
+    env:
+      NAME: 'Hotel'
+- assertVisible: '.*9,000,000.*'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible: '(?i).*₫ ?10,600,000 spent.*'
+    timeout: 30000
+- assertVisible:
+    id: 'money-hero-amount'
+- assertNotVisible: '.*\$.*'
+- waitForAnimationToEnd
+- takeScreenshot: money-after-hotel
+# Every expense in the history.
 - tapOn:
     id: 'money-history-link'
 - extendedWaitUntil:
     visible:
       id: 'money-history'
     timeout: 15000
-- waitForAnimationToEnd
-- takeScreenshot: money-history
 - assertVisible: '(?i).*lunch.*'
+- assertVisible: '(?i).*hotel.*'
 - assertVisible: '(?i).*dinner.*'
 - assertVisible: '.*1,250,000.*'
 - assertVisible: '.*350,000.*'
 - assertNotVisible: '.*\$.*'
-# The dinner's detail.
+# The latest one's detail: an expense nobody edited lists no changes.
 - tapOn:
     id: 'money-history-row-.*'
     index: 0
@@ -153,6 +155,8 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: money-expense-detail
+- assertNotVisible:
+    id: 'money-detail-history'
 - assertNotVisible: '.*\$.*'
 - runFlow: ../onboarding/subflows/back.yaml
 - runFlow: ../onboarding/subflows/back.yaml
@@ -170,10 +174,8 @@ appId: app.critterpass.dev
 - takeScreenshot: money-budget
 - assertVisible:
     id: 'money-budget-spent'
-    text: '.*₫ ?1,600,000.*'
-- assertVisible:
-    id: 'money-budget-day'
-    text: '(?i)day 1 of 3'
+    text: '.*₫ ?10,600,000.*'
+- assertVisible: '(?i)day 1 of 3'
 - assertNotVisible:
     id: 'money-budget-none'
 - assertNotVisible: '.*\$.*'

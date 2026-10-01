@@ -119,8 +119,6 @@ appId: app.critterpass.dev
     visible:
       id: 'tab-trips'
     timeout: 60000
-- waitForAnimationToEnd
-- takeScreenshot: day-relaunched
 - tapOn:
     id: 'tab-trips'
 - extendedWaitUntil:
@@ -146,9 +144,15 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-hub'
     timeout: 15000
+# Once the trip turns "in trip" the visit history offer rises over the hub.
+- runFlow:
+    when:
+      visible: 'NOT NOW'
+    commands:
+      - tapOn: 'NOT NOW'
 - extendedWaitUntil:
     visible:
       id: 'trip-briefing-ready|trip-briefing-empty'
-    timeout: 600000
+    timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: day-hub-briefing
