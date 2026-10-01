@@ -47,7 +47,8 @@ appId: app.critterpass.dev
 - takeScreenshot: under-way-hub
 - assertVisible:
     id: 'trip-hub-header-in'
-- assertVisible: '(?i).*day 1 of 3.*'
+# Day 1, or day 2 when the run crosses midnight in Vietnam.
+- assertVisible: '(?i).*day [12] of 3.*'
 - assertVisible:
     id: 'trip-hub-next'
 - assertVisible:

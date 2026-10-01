@@ -203,7 +203,8 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'money-budget-spent'
     text: '.*₫ ?10,600,000.*'
-- assertVisible: '(?i)day 1 of 3'
+# Day 1, or day 2 when the run crosses midnight in Vietnam.
+- assertVisible: '(?i)day [12] of 3'
 - assertNotVisible:
     id: 'money-budget-none'
 - assertNotVisible: '.*\$.*'
