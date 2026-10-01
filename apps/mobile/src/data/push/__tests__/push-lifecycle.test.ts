@@ -10,7 +10,7 @@ import {
 } from '../register';
 import { readPushToken, toApnsEnv, type NativeDevicePushToken, type PushNative } from '../tokens';
 import { createPushLifecycle, type AppStateStatus } from '../use-push-lifecycle';
-import { loadOrCreateDeviceId } from '../../commands/device';
+import { installIdStorage, loadOrCreateDeviceId } from '../../commands/device';
 
 const INSTALL = '0192f0c1-7a2b-7c3d-8e4f-a1b2c3d4e5f6';
 const UID = '0192f0c1-0000-7000-8000-000000000001';
@@ -106,6 +106,57 @@ describe('install id', () => {
     const storage = memoryStorage({ 'cp.device.id': 'envelope-only' });
     expect(await loadOrCreateDeviceId(storage, () => 'other')).toBe('envelope-only');
     expect(await getOrCreateInstallId(storage, () => 'other')).toBe('envelope-only');
+  });
+
+  it('mints one id when the push registration and the first command ask at the same moment', async () => {
+    const values = new Map<string, string>();
+    const writes: string[] = [];
+    const slow = <T>(value: T) => new Promise<T>((resolve) => setTimeout(() => resolve(value), 5));
+    // The Keychain module both callers hold; every read and write takes a moment.
+    const keychain = {
+      getItemAsync: (key: string) => slow(values.get(key) ?? null),
+      setItemAsync: (key: string, value: string) => {
+        writes.push(value);
+        values.set(key, value);
+        return slow(undefined);
+      },
+    };
+    let minted = 0;
+    const newId = () => `id-${++minted}`;
+    const [fromEnvelope, fromPush, again] = await Promise.all([
+      loadOrCreateDeviceId(keychain, newId),
+      getOrCreateInstallId(installIdStorage(keychain), newId),
+      loadOrCreateDeviceId(keychain, newId),
+    ]);
+    expect([fromEnvelope, fromPush, again]).toEqual(['id-1', 'id-1', 'id-1']);
+    expect(writes).toEqual(['id-1']);
+  });
+
+  it('asks the Keychain again after a read that failed', async () => {
+    let broken = true;
+    const storage = {
+      getItemAsync: () =>
+        broken ? Promise.reject(new Error('keychain locked')) : Promise.resolve(INSTALL),
+      setItemAsync: () => Promise.resolve(),
+    };
+    await expect(getOrCreateInstallId(storage)).rejects.toThrow('keychain locked');
+    broken = false;
+    expect(await getOrCreateInstallId(storage)).toBe(INSTALL);
+  });
+
+  it('says where the id came from, and mints only when neither item exists', async () => {
+    const sources: string[] = [];
+    const report = (source: string) => sources.push(source);
+    await getOrCreateInstallId(memoryStorage({ 'cp.install_id': INSTALL }), () => 'x', report);
+    await getOrCreateInstallId(
+      memoryStorage({ 'cp.device.id': 'envelope-only' }),
+      () => 'x',
+      report,
+    );
+    const fresh = memoryStorage();
+    expect(await getOrCreateInstallId(fresh, () => 'minted-id', report)).toBe('minted-id');
+    expect(fresh.values.get('cp.install_id')).toBe('minted-id');
+    expect(sources).toEqual(['registered', 'envelope', 'minted']);
   });
 });
 

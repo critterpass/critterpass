@@ -20,17 +20,13 @@ import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/reso
 import type { FixUpload } from '../../lib/location';
 import { startAppLocaleReport } from '../app-locale/report-app-locale';
 import { createAuthDataLayer, type AuthDataLayer } from '../auth';
-import { createDeviceResolver } from '../commands/device';
+import { createDeviceResolver, installIdKeychain } from '../commands/device';
 import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
 import { startLocalFirst } from '../powersync/db';
 import { createFetchTransport } from '../powersync/transport';
 import { ensureActionKey, type ActionKeyHttp } from '../push/action-key';
-import {
-  expoPushNative,
-  secureActionKeyStorage,
-  secureInstallIdStorage,
-} from '../push/expo-native';
+import { expoPushNative, secureActionKeyStorage } from '../push/expo-native';
 import type { PushLifecycleDeps } from '../push/use-push-lifecycle';
 import type { AppStateSource } from '../realtime/client';
 import { createDeviceRecoveryStore } from '../realtime/device-recovery-store';
@@ -180,7 +176,8 @@ function devicePushDeps(): PushLifecycleDeps | undefined {
   return {
     native: expoPushNative,
     transport: (cmd, envelope) => transport.postJson(`/v1/cmd/${cmd}`, envelope),
-    storage: secureInstallIdStorage,
+    // The same Keychain view the command envelope reads its id through.
+    storage: installIdKeychain,
     // Only the iOS extensions (notification service, widgets, Live Activity intents) read the key.
     ...(platform === 'ios'
       ? {

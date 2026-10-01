@@ -25,20 +25,53 @@ export interface InstallIdStorage {
   setItemAsync(key: string, value: string): Promise<void>;
 }
 
+/** Where the id came from: the item it registered under, the earlier envelope item, or new. */
+export type InstallIdSource = 'registered' | 'envelope' | 'minted';
+
+const resolving = new WeakMap<InstallIdStorage, Promise<string>>();
+
 /**
  * The one id of this install: `devices.id` on the server and `device.id` in every command
- * envelope. Created once, kept until the app is deleted.
+ * envelope. Created once, kept until the app is deleted. Both items are read before a new id is
+ * minted, and `report` hears which one answered.
+ *
+ * One read-then-write per storage and process: every caller shares the first call's answer, so
+ * the push registration and the first command of a new install can never mint an id each.
  */
-export async function getOrCreateInstallId(
+export function getOrCreateInstallId(
   storage: InstallIdStorage,
   create: () => string = generateUuidV7,
+  report?: (source: InstallIdSource) => void,
 ): Promise<string> {
-  for (const item of [INSTALL_ID_ITEM, LEGACY_ENVELOPE_ID_ITEM]) {
+  let pending = resolving.get(storage);
+  if (pending === undefined) {
+    pending = resolveInstallId(storage, create, report);
+    resolving.set(storage, pending);
+    // A Keychain that could not be read or written is asked again by the next caller.
+    pending.catch(() => resolving.delete(storage));
+  }
+  return pending;
+}
+
+async function resolveInstallId(
+  storage: InstallIdStorage,
+  create: () => string,
+  report: ((source: InstallIdSource) => void) | undefined,
+): Promise<string> {
+  const items = [
+    [INSTALL_ID_ITEM, 'registered'],
+    [LEGACY_ENVELOPE_ID_ITEM, 'envelope'],
+  ] as const;
+  for (const [item, source] of items) {
     const existing = await storage.getItemAsync(item);
-    if (existing !== null && existing.length > 0) return existing;
+    if (existing !== null && existing.length > 0) {
+      report?.(source);
+      return existing;
+    }
   }
   const id = create();
   await storage.setItemAsync(INSTALL_ID_ITEM, id);
+  report?.('minted');
   return id;
 }
 
