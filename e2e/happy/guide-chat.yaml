@@ -20,7 +20,8 @@ appId: app.critterpass.dev
     visible:
       id: 'guide-composer'
     timeout: 15000
-- tapOn: 'Ask, or hold to talk'
+# iOS reads the field's label and its placeholder together (the same words twice).
+- tapOn: 'Ask, or hold to talk.*'
 - inputText: 'What should we pack for rain in Ubud?'
 - tapOn: 'Send'
 # The answer streams in: the live answer once its first words arrive, or its saved copy once it has

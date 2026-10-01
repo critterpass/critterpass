@@ -117,26 +117,7 @@ appId: app.critterpass.dev
     timeout: 60000
 - assertNotVisible:
     text: '(?i)nobody has shared their days yet.*'
-- runFlow:
-    when:
-      visible:
-        id: 'when-cta'
-    commands:
-      - tapOn:
-          id: 'when-cta'
-- runFlow:
-    when:
-      visible:
-        id: 'when-pick-week'
-    commands:
-      - tapOn:
-          id: 'when-pick-week'
-      - extendedWaitUntil:
-          visible:
-            id: 'picker-lock'
-          timeout: 10000
-      - tapOn:
-          id: 'picker-lock'
+- runFlow: subflows/lock-dates.yaml
 - extendedWaitUntil:
     visible:
       id: 'budget-lock'
