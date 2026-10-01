@@ -58,9 +58,15 @@ const TYPE_450K: DraftAction[] = ['4', '5', '0', '000'].map((key) => ({
   key: key as '4',
 }));
 
-function AddScene({ extra }: { readonly extra: readonly DraftAction[] }) {
+function AddScene({
+  extra,
+  currency = 'IDR',
+}: {
+  readonly extra: readonly DraftAction[];
+  readonly currency?: string;
+}) {
   const base = newDraft({
-    currency: 'IDR',
+    currency,
     payerId: LAB_UID,
     memberIds: LAB_MEMBERS.map((member) => member.userId),
   });
@@ -161,4 +167,6 @@ export const HOME_SCENES: Readonly<Record<string, () => ReactNode>> = {
       ]}
     />
   ),
+  // Dong: no minor units, and Vietnamese writes the symbol after the number.
+  'add-dong': () => <AddScene currency="VND" extra={[{ type: 'key', key: '0' }]} />,
 };

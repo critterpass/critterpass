@@ -37,3 +37,6 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: add-custom, READY: money-split-custom, SHOT: '${PREFIX}-money-add-custom' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: add-dong, READY: money-add-keypad, SHOT: '${PREFIX}-money-add-dong' }
