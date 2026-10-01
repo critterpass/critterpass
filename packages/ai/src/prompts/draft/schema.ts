@@ -5,6 +5,7 @@
  * of prose passes before it reaches a crew: no digits (numbers come from code), no links.
  */
 import type Anthropic from '@anthropic-ai/sdk';
+import { WISH_TIMES } from '@cp/planner';
 import { z } from 'zod';
 
 const id = z.string().min(1).max(64);
@@ -24,6 +25,19 @@ export const skeletonReplySchema = z.object({
       }),
     )
     .min(1),
+  // Answers to the must-dos members typed by hand (./wish-answers.ts).
+  wishes: z
+    .array(
+      z.object({
+        wish_id: id,
+        poi_id: id.nullable(),
+        day_no: z.number().int().positive().nullable(),
+        when: z.string().max(20),
+        weekdays: z.array(z.string().max(4)).max(7).default([]),
+      }),
+    )
+    .max(12)
+    .default([]),
 });
 export type SkeletonReply = z.infer<typeof skeletonReplySchema>;
 
@@ -62,9 +76,27 @@ export const SKELETON_FORMAT: Anthropic.Messages.JSONOutputFormat = {
   schema: {
     type: 'object',
     additionalProperties: false,
-    required: ['stay_area', 'days'],
+    required: ['stay_area', 'days', 'wishes'],
     properties: {
       stay_area: { type: 'string', maxLength: 60 },
+      wishes: {
+        type: 'array',
+        items: {
+          type: 'object',
+          additionalProperties: false,
+          required: ['wish_id', 'poi_id', 'day_no', 'when', 'weekdays'],
+          properties: {
+            wish_id: { type: 'string' },
+            poi_id: { type: ['string', 'null'] },
+            day_no: { type: ['integer', 'null'] },
+            when: { type: 'string', enum: [...WISH_TIMES] },
+            weekdays: {
+              type: 'array',
+              items: { type: 'string', enum: ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'] },
+            },
+          },
+        },
+      },
       days: {
         type: 'array',
         items: {

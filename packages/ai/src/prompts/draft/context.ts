@@ -30,8 +30,15 @@ export interface DraftPlanInput {
   readonly stayType: string | null;
   /** Members' first names by uid (as the trip context shows them). */
   readonly names: Readonly<Record<string, string>>;
-  /** Must-dos a member wrote without a place: flavour only, never scheduled. */
-  readonly wishes: readonly { readonly id: string; readonly text: string }[];
+  /**
+   * Must-dos a member wrote without a place, with the places each may mean (`options`); the guide
+   * answers each one (./wish-answers.ts).
+   */
+  readonly wishes: readonly {
+    readonly id: string;
+    readonly text: string;
+    readonly options?: readonly string[];
+  }[];
   /** Stable ids for scheduled stops; the same key always gives the same id. */
   readonly idFor: (key: string) => string;
   readonly skeletonRoute: 'draft.skeleton' | 'draft.skeleton_fast';
@@ -154,7 +161,17 @@ export function placeLine(
     parts.push(poi.priceLevel === 0 ? 'free' : `price ${'$'.repeat(poi.priceLevel)}`);
   const tags = poi.tags.filter((tag) => !tag.startsWith('book_ahead') && tag !== 'free');
   if (tags.length > 0) parts.push(tags.slice(0, 4).join(' '));
+  if (!poi.editorial) parts.push('uncurated: not checked by our editors, hours are a guess');
   return `- ${parts.join(' | ')}`;
+}
+
+/** What our editors wrote about a place (why go, best time), for the lines about a wish. */
+export function editorsNote(poi: DraftPoi): string {
+  const parts = [
+    poi.whyGo ?? null,
+    poi.bestTime === null || poi.bestTime === undefined ? null : `best time: ${poi.bestTime}`,
+  ].filter((part): part is string => part !== null);
+  return parts.length === 0 ? '' : `; our editors: ${parts.join('; ')}`;
 }
 
 export function crewLine(input: DraftPlanInput): string {

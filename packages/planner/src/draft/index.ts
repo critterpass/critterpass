@@ -50,6 +50,7 @@ export {
   minuteOfDate,
   scheduleDay,
   stopPriceMinor,
+  timeFitsDay,
   type ScheduleDayInput,
 } from './schedule-day';
 export {
@@ -74,6 +75,17 @@ export type {
   TripFrame,
 } from './types';
 export { resolveWishes, type ResolvedWishes } from './wishes';
+export {
+  FULL_DAY_MIN,
+  namedWeekdays,
+  timedDuration,
+  timeWindow,
+  timeWords,
+  WISH_TIME_STARTS,
+  WISH_TIMES,
+  type WishTime,
+} from './wish-time';
+export { usualHours, withOpenDataDefaults } from './open-data';
 export {
   closedOn,
   DRAFT_VIOLATION_CODES,

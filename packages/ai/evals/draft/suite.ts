@@ -7,6 +7,7 @@
  *
  * Replay serves each case's recorded DeepSeek responses (`fixtures/<case>.json`, one per call key)
  * through the real gateway; live runs call DeepSeek and, with EVAL_RECORD=1, store them.
+ * EVAL_CASES (comma-separated case ids) narrows a run to those cases, e.g. to record one.
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -20,13 +21,14 @@ import { templateSummary, writeDraftSummary } from '../../src/prompts/draft/summ
 import type { EvalMode } from '../lib/provider';
 import type { CaseReport, SuiteReport } from '../lib/runner';
 import { jsonResponse } from '../lib/transports';
-import { gradeDraft, gradeRedraft } from './asserts/draft-asserts';
+import { gradeDraft, gradeRedraft, gradeWishes } from './asserts/draft-asserts';
 import {
   baselineItinerary,
   CREWS,
   INJECTION_DRAFTS,
   planInput,
   REDRAFTS,
+  wishId,
   type CrewCase,
   type RedraftCase,
 } from './cases';
@@ -129,7 +131,8 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
   const input = planInput(crew);
   const { model, save } = caseModel(crew.id, options);
   try {
-    const result = await runDraftPlan(model, input);
+    const asked = input;
+    const result = await runDraftPlan(model, asked);
     const themes = result.itinerary.days.map((d) => d.theme);
     const allMustDos = result.final.violations.every((v) => v.code !== 'MUST_DO_MISSING');
     const text = await writeDraftSummary(model, {
@@ -157,7 +160,11 @@ async function draftCase(crew: CrewCase, options: DraftSuiteOptions): Promise<Dr
     return {
       report: report(
         `${crew.id} (${crew.days} days)`,
-        gradeDraft(input, result, { text, fromModel }),
+        [
+          // Graded on the input the days were planned on (the guide's wish answers applied).
+          ...gradeDraft(result.input, result, { text, fromModel }),
+          ...gradeWishes(result.input, result, crew.expect_wishes, (i) => wishId(crew, i)),
+        ],
         `${output} || ${text}`,
       ),
       firstPassClean: result.first.ok,
@@ -229,10 +236,14 @@ export async function runDraftSuite(
   threshold: number,
 ): Promise<SuiteReport> {
   const size = options.mode === 'live' ? (options.concurrency ?? 4) : 1;
-  const drafts = await pooled([...CREWS, ...INJECTION_DRAFTS], size, (crew) =>
+  // EVAL_CASES=danang-1,redraft-3 runs (and with EVAL_RECORD=1 records) only those cases.
+  const only = process.env['EVAL_CASES']?.split(',').filter(Boolean) ?? [];
+  const picked = <T extends { readonly id: string }>(cases: readonly T[]) =>
+    only.length === 0 ? cases : cases.filter((c) => only.includes(c.id));
+  const drafts = await pooled(picked([...CREWS, ...INJECTION_DRAFTS]), size, (crew) =>
     draftCase(crew, options),
   );
-  const redrafts = await pooled(REDRAFTS, size, (r) => redraftCase(r, options));
+  const redrafts = await pooled(picked(REDRAFTS), size, (r) => redraftCase(r, options));
   const firsts = drafts.map((d) => d.firstPassClean).filter((v): v is boolean => v !== null);
   const firstRate = firsts.length === 0 ? 0 : firsts.filter(Boolean).length / firsts.length;
   const cases = [...drafts, ...redrafts].map((c) => c.report);

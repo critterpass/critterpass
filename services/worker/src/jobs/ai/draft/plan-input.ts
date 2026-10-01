@@ -10,6 +10,7 @@ import {
   candidatePools,
   datesOf,
   straightLineMatrix,
+  timeWords,
   type Chronotype,
   type DraftPoi,
   type ResolvedWishes,
@@ -81,6 +82,8 @@ export function buildPlanInput(
       ownerId: m.ownerId,
       poiId: m.poiId ?? options.wished?.places.get(m.id) ?? null,
       title: m.title,
+      // The member's own words for when ("at sunrise"); the guide may add one for a wish.
+      when: timeWords(m.title),
     })),
     closures: options.closures,
   };
@@ -101,7 +104,9 @@ export function buildPlanInput(
     travel: straightLineMatrix(pois),
     stayType: trip.rooms?.stays[0]?.stayType ?? null,
     names: Object.fromEntries(trip.members.map((m) => [m.uid, m.name])),
-    wishes: trip.mustDos.filter((m) => m.poiId === null).map((m) => ({ id: m.id, text: m.title })),
+    wishes: trip.mustDos
+      .filter((m) => m.poiId === null)
+      .map((m) => ({ id: m.id, text: m.title, options: options.wished?.options.get(m.id) ?? [] })),
     idFor: (key) => derivedUuid(`${options.jobId}:${key}`),
     skeletonRoute: options.skeletonRoute,
   };

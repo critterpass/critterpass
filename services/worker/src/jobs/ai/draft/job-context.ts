@@ -3,7 +3,13 @@
  * resumed step on another worker plans from the same facts), the job's model, the live step rows
  * on the drafting screen, and giving the trip back to setup when the draft finally fails.
  */
-import type { DraftModel, DraftPlanInput, UsageContext } from '@cp/ai';
+import {
+  withWishAnswers,
+  type DraftModel,
+  type DraftPlanInput,
+  type SkeletonPlan,
+  type UsageContext,
+} from '@cp/ai';
 import { emitEvent, withSystem } from '@cp/db';
 import type { DraftStepId, DraftStepLabel } from '@cp/domain';
 import type pg from 'pg';
@@ -54,13 +60,16 @@ export async function load(
     ...wished.places.values(),
     ...wished.offered,
   ]);
-  const input = buildPlanInput(trip, places, {
+  const asked = buildPlanInput(trip, places, {
     jobId: ctx.agentJob.id,
     skeletonRoute: await skeletonRoute(ctx.pool),
     closures,
     wished,
     ignoreNames,
   });
+  // Once the outline has run, every later step plans with the guide's answers to the wishes.
+  const outline = (ctx.results.skeleton as { skeleton?: SkeletonPlan } | undefined)?.skeleton;
+  const input = withWishAnswers(asked, outline?.wishAnswers ?? []);
   return { trip, input };
 }
 

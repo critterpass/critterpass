@@ -28,6 +28,7 @@ export {
 } from './skeleton';
 export { templateSummary, writeDraftSummary, type SummaryInput } from './summary';
 export { derivedUuid } from './ids';
+export { withWishAnswers, wishOptions, type WishAnswer } from './wish-answers';
 export {
   checkClosures,
   closureQueries,

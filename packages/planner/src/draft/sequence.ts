@@ -8,6 +8,7 @@
 import { WEEKDAYS, type Hours } from '@cp/domain';
 
 import { ceilGrid, defaultDurationMin, DINNER, LUNCH, mealSlotAt } from './schedule-day';
+import { timedDuration, timeWindow } from './wish-time';
 import type { DayChoice, DayWindow, DraftPoi, TravelMatrix } from './types';
 
 /** Orders are searched exhaustively up to this many stops (7! = 5040 timelines). */
@@ -68,14 +69,23 @@ function timeline(
       if (meals.has(slot)) broken += 1;
       meals.add(slot);
     }
-    const duration = ceilGrid(poi.durationMin || defaultDurationMin(poi.category));
+    const timed = timeWindow(choice.when);
+    if (timed !== null && (previous === null || start < timed.fromMin)) {
+      start = Math.max(timed.fromMin, input.window.earliestMin ?? input.window.startMin);
+    }
+    const duration = ceilGrid(timedDuration(poi, choice.when) || defaultDurationMin(poi.category));
     const span = spansOn(poi.hours, input.date).find(
       (s) => Math.max(start, ceilGrid(s.start)) + duration <= s.end,
     );
     if (span === undefined) broken += 1;
     else start = Math.max(start, ceilGrid(span.start));
+    // Held to its time of day: too late for it is broken; running past the usual end is not.
+    if (timed !== null && start > timed.toMin) broken += 1;
     at = start + duration;
-    if (at > input.window.endMin) broken += 1;
+    if (
+      at > (timed === null ? input.window.endMin : (input.window.latestMin ?? input.window.endMin))
+    )
+      broken += 1;
     previous = poi.id;
   }
   return { broken, end: at };

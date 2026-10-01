@@ -8,6 +8,7 @@
 import { localSchedule, nextOpen, openAt, type DraftDay, type DraftItem } from '@cp/domain';
 
 import { localMinute } from '../feasibility/grid';
+import { timedDuration, timeWindow, type WishTime } from './wish-time';
 import type {
   Chronotype,
   CostBands,
@@ -89,19 +90,46 @@ export function baseWindow(frame: TripFrame): DayWindow {
   return { startMin, endMin: 22 * 60 };
 }
 
+/** A timed stop may start this early (a sunrise) and end this late (a night show). */
+const EARLIEST_TIMED_MIN = 4 * 60 + 30;
+const LATEST_TIMED_MIN = 24 * 60;
+
 /** The usable part of day `dayIndex` (0-based): the base day, cut by arrival and departure. */
 export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
   const base = baseWindow(frame);
   let { startMin, endMin } = base;
+  let earliestMin = EARLIEST_TIMED_MIN;
+  let latestMin = LATEST_TIMED_MIN;
   if (dayIndex === 0) {
     const landed = frame.arrivalMin ?? DEFAULT_ARRIVAL_MIN;
     startMin = Math.max(startMin, ceilGrid(landed + ARRIVAL_BUFFER_MIN));
+    earliestMin = Math.max(earliestMin, ceilGrid(landed + ARRIVAL_BUFFER_MIN));
   }
   if (dayIndex === frame.dates.length - 1) {
     const leaves = frame.departureMin ?? DEFAULT_DEPARTURE_MIN;
     endMin = Math.min(endMin, leaves - DEPARTURE_BUFFER_MIN);
+    latestMin = Math.min(latestMin, leaves - DEPARTURE_BUFFER_MIN);
   }
-  return { startMin, endMin: Math.max(startMin, endMin) };
+  return { startMin, endMin: Math.max(startMin, endMin), earliestMin, latestMin };
+}
+
+/**
+ * Whether a stop held to `when` can happen on day `dayIndex` at all: a sunrise needs the crew
+ * landed by then, a night show needs them not yet at the airport, a full day needs the morning.
+ */
+export function timeFitsDay(
+  frame: TripFrame,
+  dayIndex: number,
+  when: WishTime | null | undefined,
+  poi: DraftPoi,
+): boolean {
+  const timed = timeWindow(when);
+  if (timed === null) return true;
+  const window = dayWindow(frame, dayIndex);
+  const start = Math.max(timed.fromMin, window.earliestMin ?? window.startMin);
+  return (
+    start <= timed.toMin && start + timedDuration(poi, when) <= (window.latestMin ?? window.endMin)
+  );
 }
 
 const LEVEL_FACTOR = [0, 0.6, 1, 1.6, 2.4] as const;
@@ -159,9 +187,16 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
       if (meal === LUNCH) lunched = true;
       start = Math.max(start, meal.startMin);
     }
+    // A stop held to its time of day waits for it, and may open the day earlier than usual.
+    const timed = timeWindow(choice.when);
+    if (timed !== null && (previous === null || start < timed.fromMin)) {
+      start = Math.max(timed.fromMin, input.window.earliestMin ?? input.window.startMin);
+    }
     if (poi !== undefined) start = openFrom(poi, input.date, start);
     const duration = ceilGrid(
-      poi?.durationMin ?? defaultDurationMin(choice.kind === 'meal' ? 'food' : 'other'),
+      poi === undefined
+        ? defaultDurationMin(choice.kind === 'meal' ? 'food' : 'other')
+        : timedDuration(poi, choice.when),
     );
     const end = start + duration;
     const tz = poi?.tz ?? input.tz;

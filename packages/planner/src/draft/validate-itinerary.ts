@@ -13,6 +13,7 @@ import type { FeasibilityItem } from '../feasibility/types';
 import { itineraryCostPpMinor } from './metrics';
 import { baseWindow, dayWindow, LUNCH_BEFORE_MIN, minuteOfDate } from './schedule-day';
 import type { DraftPoi, TravelMatrix, TripFrame } from './types';
+import { timeWindow } from './wish-time';
 
 export const DRAFT_VIOLATION_CODES = [
   'UNKNOWN_POI',
@@ -115,7 +116,16 @@ function dayChecks(
   const start = minuteOfDate(new Date(item.starts_at), date, input.frame.tz);
   const end = minuteOfDate(new Date(item.ends_at), date, input.frame.tz);
   const window = dayWindow(input.frame, dayIndex);
-  if (start < window.startMin || end > window.endMin) {
+  // A must-do held to its time of day (a sunrise, a night show) may sit outside the usual day.
+  const when = input.frame.mustDos.find((m) => m.id === item.must_do_id)?.when;
+  const timed = timeWindow(when);
+  const heldOk =
+    timed !== null &&
+    start >= timed.fromMin &&
+    start <= timed.toMin &&
+    start >= (window.earliestMin ?? window.startMin) &&
+    end <= (window.latestMin ?? window.endMin);
+  if (!heldOk && (start < window.startMin || end > window.endMin)) {
     const base = baseWindow(input.frame);
     const inBase = start >= base.startMin && end <= base.endMin;
     out.push(at(inBase ? 'FLIGHT_BUFFER' : 'DAY_OVERRUN'));
