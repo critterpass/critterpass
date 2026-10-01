@@ -1,3 +1,4 @@
+import { NavigationContext } from 'expo-router/react-navigation';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { makeMutable, useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import type { SharedValue } from 'react-native-reanimated';
@@ -16,7 +17,11 @@ export const presenterProgress = makeMutable(0);
 let presentedCount = 0;
 /** How many sheets and rises are up right now; a screen mounted over them is not their presenter. */
 export const presentedDepth = makeMutable(0);
-provideSheetsOpen(() => presentedCount > 0);
+
+let focusedCount = 0;
+// What may interrupt the person asks about the screen they are looking at: a sheet left open on a
+// screen underneath in the stack does not hold anything back.
+provideSheetsOpen(() => focusedCount > 0);
 const standard = bezierEasing(tokens.motion.easing.standard);
 
 /** A sheet or rise started presenting (reduced motion keeps the presenter still). */
@@ -39,6 +44,39 @@ export function presenterClosed(durationMs: number): void {
 export function presenterFollow(progress: number): void {
   'worklet';
   presenterProgress.value = progress;
+}
+
+/** Whether the screen this renders on is the focused one; outside any navigator, it is. */
+function useScreenFocused(): boolean {
+  const navigation = useContext(NavigationContext);
+  const [focused, setFocused] = useState(() => navigation?.isFocused() ?? true);
+  useEffect(() => {
+    if (navigation === undefined) return undefined;
+    setFocused(navigation.isFocused());
+    const offFocus = navigation.addListener('focus', () => setFocused(true));
+    const offBlur = navigation.addListener('blur', () => setFocused(false));
+    return () => {
+      offFocus();
+      offBlur();
+    };
+  }, [navigation]);
+  return focused;
+}
+
+/**
+ * A sheet or rise counts as "up" for the person while the screen it is rendered on is focused: it
+ * stops counting when that screen goes under another one, counts again when it comes back, and
+ * never outlives its own unmount. A `(modal)` route's sheet is its focused screen.
+ */
+export function useFocusedPresentation(): void {
+  const focused = useScreenFocused();
+  useEffect(() => {
+    if (!focused) return undefined;
+    focusedCount += 1;
+    return () => {
+      focusedCount = Math.max(0, focusedCount - 1);
+    };
+  }, [focused]);
 }
 
 /** True inside a sheet or rise: their own content must not scale as a presenter. */
@@ -87,6 +125,7 @@ export function usePresenterStyle(hosting: SharedValue<number>) {
 }
 
 export function resetPresenterForTests(): void {
+  focusedCount = 0;
   presentedCount = 0;
   presentedDepth.value = 0;
   presenterProgress.value = 0;

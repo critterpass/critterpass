@@ -20,7 +20,7 @@ function updateInfoLabel(): string {
   const published = Updates.createdAt?.toISOString().slice(0, 16).replace('T', ' ');
   const commit = process.env['EXPO_PUBLIC_JS_COMMIT'];
   return [
-    `channel ${Updates.channel ?? 'none'}`,
+    `channel ${Updates.channel === null || Updates.channel === '' ? 'none' : Updates.channel}`,
     published === undefined ? 'embedded in the build' : `published ${published} UTC`,
     `commit ${commit ?? 'not recorded in this bundle'}`,
   ].join(' · ');
