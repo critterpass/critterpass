@@ -36,6 +36,7 @@ export {
   type ProductType,
 } from './entitlements/product-keys';
 export * from './commands';
+export * from './countries';
 export {
   DESTINATION_COVERAGES,
   GUIDE_COLOURS,
