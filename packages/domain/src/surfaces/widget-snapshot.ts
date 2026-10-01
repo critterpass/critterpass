@@ -267,8 +267,11 @@ export function widgetRefreshPriority(eventType: string): 'priority' | 'routine'
 export const widgetsRefreshJobSchema = z.object({ event_id: z.uuid() });
 export type WidgetsRefreshJob = z.infer<typeof widgetsRefreshJobSchema>;
 
-/** The trailing push a debounced install gets once its window ends. */
-export const widgetsPushJobSchema = z.object({ device_id: z.uuid() });
+/** One install's own push: the trailing one after a debounce window, or a retried priority one. */
+export const widgetsPushJobSchema = z.object({
+  device_id: z.uuid(),
+  priority: z.boolean().default(false),
+});
 export type WidgetsPushJob = z.infer<typeof widgetsPushJobSchema>;
 
 const WIDGET_QUEUE_SPECS = {
