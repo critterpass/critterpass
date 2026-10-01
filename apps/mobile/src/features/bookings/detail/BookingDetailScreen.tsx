@@ -6,11 +6,14 @@ import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useState } from 'react';
+import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
+import { Sheet } from '@/ui/sheet/Sheet';
+import { ConfirmSheet, type ConfirmSheetProps } from '@/ui/states/ConfirmSheet';
+import { makeStyles } from '@/ui/theme';
 
 import {
   deleteBookingCommand,
@@ -27,6 +30,22 @@ import { clock, dayDate, price as formatPrice, shortDate, zoneOf } from '../form
 import { boardingPassRoute, BOOKINGS_ROUTES, editBookingRoute } from '../routes';
 import { BookingDetailView, type DetailDoc } from './BookingDetailView';
 import { BookingMissing } from './BookingMissing';
+
+const useConfirmStyles = makeStyles((th) => ({
+  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'] },
+}));
+
+/** The delete confirm, risen in a sheet over the tab bar. */
+function DeleteConfirm(props: ConfirmSheetProps) {
+  const styles = useConfirmStyles();
+  return (
+    <Sheet detents={['fit']} onDismiss={props.onCancel} accessibilityLabel={props.title}>
+      <View style={styles.body}>
+        <ConfirmSheet {...props} />
+      </View>
+    </Sheet>
+  );
+}
 
 export function BookingDetailScreen({ bookingId }: { readonly bookingId: string }) {
   const context = useWalletContext();
@@ -136,7 +155,7 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
         onDelete={() => setConfirming(true)}
       />
       {confirming ? (
-        <ConfirmSheet
+        <DeleteConfirm
           title={t({ id: 'bookings.delete.title', message: 'Delete this booking?' })}
           consequences={[
             t({ id: 'bookings.delete.wallets', message: 'It leaves everyone’s wallet.' }),

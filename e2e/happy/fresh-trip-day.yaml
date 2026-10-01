@@ -167,6 +167,23 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'trip-hub-next'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day'
+    timeout: 20000
+- runFlow: subflows/dismiss-visit-offer.yaml
+# The hub's next stop may be tomorrow's: the pack list ticked is today's.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-day-to-today'
+    commands:
+      - tapOn:
+          id: 'trip-day-to-today'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'trip-day-to-today'
+          timeout: 15000
 - scrollUntilVisible:
     element:
       text: 'SUNSCREEN|Sunscreen, just you'

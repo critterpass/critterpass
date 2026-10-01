@@ -12,7 +12,9 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
+import { Sheet } from '@/ui/sheet/Sheet';
+import { ConfirmSheet, type ConfirmSheetProps } from '@/ui/states/ConfirmSheet';
+import { makeStyles } from '@/ui/theme';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Stack } from '@/ui/layout/Stack';
@@ -58,6 +60,22 @@ function ExpenseGone() {
         />
       </Stack>
     </Scaffold>
+  );
+}
+
+const useConfirmStyles = makeStyles((th) => ({
+  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'] },
+}));
+
+/** The delete confirm, risen in a sheet over the tab bar. */
+function DeleteConfirm(props: ConfirmSheetProps) {
+  const styles = useConfirmStyles();
+  return (
+    <Sheet detents={['fit']} onDismiss={props.onCancel} accessibilityLabel={props.title}>
+      <View style={styles.body}>
+        <ConfirmSheet {...props} />
+      </View>
+    </Sheet>
   );
 }
 
@@ -154,7 +172,7 @@ export function ExpenseDetailScreen({ expenseId }: { readonly expenseId: string 
         onDelete={() => setConfirming(true)}
       />
       {confirming ? (
-        <ConfirmSheet
+        <DeleteConfirm
           title={t({ id: 'money.detail.deleteTitle', message: 'Delete this expense?' })}
           consequences={[
             t({
