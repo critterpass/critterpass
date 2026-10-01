@@ -1,0 +1,40 @@
+appId: app.critterpass.dev
+---
+# Screenshots of a flight number pasted on its own and of the by-hand flight form: the flight found
+# in its schedule, not found (asks for the date and route), the form with one zone and across
+# zones, and the day picker open over it.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: add-by-hand-flight, READY: bookings-form-zone, SHOT: en-bookings-form-flight }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      { SCENE: add-by-hand-zones, READY: bookings-form-zone, SHOT: en-bookings-form-flight-zones }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: add-by-hand-day, READY: bookings-date-month, SHOT: en-bookings-form-day }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      {
+        SCENE: add-flight-found,
+        READY: bookings-candidate-c-9g956,
+        SHOT: en-bookings-paste-flight-found,
+      }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      {
+        SCENE: add-flight-not-found,
+        READY: bookings-candidate-c-9g999-failed,
+        SHOT: en-bookings-paste-flight-not-found,
+      }
