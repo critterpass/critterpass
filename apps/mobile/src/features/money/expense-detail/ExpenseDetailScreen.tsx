@@ -37,7 +37,7 @@ import { useTripMoney } from '../data/use-trip-money';
 import { toMajor } from '../format';
 import { editExpenseRoute } from '../routes';
 import { ExpenseDetailView, type DetailEdit, type DetailShare } from './ExpenseDetailView';
-import { canChangeExpense, changedFields, fxLine } from './model';
+import { canChangeExpense, changedFields, changesOf, fxLine } from './model';
 
 /** The expense was deleted (here or on another phone) while it was open. */
 function ExpenseGone() {
@@ -101,7 +101,7 @@ export function ExpenseDetailScreen({ expenseId }: { readonly expenseId: string 
       name: memberName(ctx.members, share.user_id),
       crewMinor: minor(share.crew_computed_minor),
     }));
-  const history: DetailEdit[] = edits.rows.map((edit) => ({
+  const history: DetailEdit[] = changesOf(edits.rows).map((edit) => ({
     id: edit.id,
     editorName: memberName(ctx.members, edit.editor_id ?? ''),
     kind: edit.kind === 'deleted' ? 'deleted' : 'edited',
