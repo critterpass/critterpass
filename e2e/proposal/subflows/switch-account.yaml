@@ -16,3 +16,14 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: ${TARGET}
+# The app restarts on the new session; Home sends a brand-new account to onboarding.
+- waitForAnimationToEnd:
+    timeout: 5000
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'

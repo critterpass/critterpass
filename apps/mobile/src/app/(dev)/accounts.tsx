@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 import * as Updates from 'expo-updates';
 import { useEffect, useState } from 'react';
@@ -72,6 +73,9 @@ export default function DevAccountsScreen() {
     try {
       if (current !== null) await slots.keep(current.uid, current.name);
       await slots.switchTo(target);
+      // Leave this screen first: the restart restores the last route, and Home lets the new
+      // session's gate send a brand-new account to onboarding.
+      router.replace('/');
       await reload();
     } catch (failure) {
       setError(failure instanceof Error ? failure.message : String(failure));
