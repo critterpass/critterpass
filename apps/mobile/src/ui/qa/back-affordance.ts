@@ -8,6 +8,8 @@ import { reportUiQa, UI_QA_ENABLED } from './ui-qa';
 
 /** Long enough for a push animation and a first data render to finish. */
 export const BACK_SETTLE_MS = 2500;
+/** How long after a first miss the screen is looked at again before it is reported. */
+export const BACK_RECHECK_MS = 5000;
 
 let focusedAffordances = 0;
 
@@ -93,15 +95,26 @@ export function useNoBackAffordanceGuard(): void {
   const navigation = useNavigationContainerRef();
   useEffect(() => {
     if (!UI_QA_ENABLED) return undefined;
-    const timer = setTimeout(() => {
-      const missing = missingBackAffordance({
+    const missing = () =>
+      missingBackAffordance({
         canGoBack: router.canGoBack(),
         developerTool,
         tabRoot: isTabRoot(navigation.isReady() ? navigation.getRootState() : undefined),
         affordances: focusedBackAffordances(),
       });
-      if (missing) reportUiQa('NO_BACK_AFFORDANCE', pathname);
+    // A screen can still be behind its session gate or first sync when it settles (a cold start
+    // restored to it draws nothing for a while): only one still missing its way back on a second
+    // look is reported.
+    let second: ReturnType<typeof setTimeout> | undefined;
+    const first = setTimeout(() => {
+      if (!missing()) return;
+      second = setTimeout(() => {
+        if (missing()) reportUiQa('NO_BACK_AFFORDANCE', pathname);
+      }, BACK_RECHECK_MS);
     }, BACK_SETTLE_MS);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(first);
+      if (second !== undefined) clearTimeout(second);
+    };
   }, [pathname, developerTool, navigation]);
 }

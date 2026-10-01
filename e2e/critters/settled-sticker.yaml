@@ -1,0 +1,130 @@
+appId: app.critterpass.dev
+---
+# The Settled Tokek on the sticker shelf for a brand-new account on staging: it takes the demo
+# crew (a Bali trip, four crewmates, no expenses), pays Rp 450.000 split evenly, then on Settle up
+# asks each crewmate for their share and confirms it arrived until the trip is square. The Settled
+# Tokek shows on Settle up, sits on the PASS shelf outside the dex, and its detail sheet says how
+# it was earned.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add-keypad'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- tapOn: '4'
+- tapOn: '5'
+- tapOn: '0'
+- tapOn: '000|Three zeros'
+- tapOn:
+    id: 'money-add-split'
+    optional: true
+- tapOn: 'EVENLY'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      text: '(?i).*settle in [0-9]+ taps?.*'
+    timeout: 30000
+- tapOn:
+    id: 'money-settle'
+- extendedWaitUntil:
+    visible:
+      id: 'money-settle-row-.*'
+    timeout: 15000
+# Ask each crewmate, then confirm their share arrived, until nothing is left to settle.
+- repeat:
+    times: 4
+    while:
+      notVisible:
+        id: 'money-settled-tokek'
+    commands:
+      - tapOn:
+          id: 'money-settle-row-.*'
+          index: 0
+      - runFlow:
+          when:
+            visible:
+              id: 'money-pay-request'
+          commands:
+            - tapOn:
+                id: 'money-pay-request'
+            - extendedWaitUntil:
+                visible:
+                  text: '(?i).*requested.*'
+                timeout: 20000
+            - tapOn:
+                id: 'money-settle-row-.*'
+                index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'money-pay-confirm'
+          timeout: 20000
+      - tapOn:
+          id: 'money-pay-confirm'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'money-pay-confirm'
+          timeout: 20000
+      - runFlow:
+          when:
+            notVisible:
+              id: 'money-settle'
+          file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'money-settled-tokek'
+    timeout: 30000
+- takeScreenshot: settled-tokek-on-settle-up
+# Settle up is pushed over the tab bar: step back to the wallet's root.
+- repeat:
+    times: 3
+    while:
+      notVisible:
+        id: 'tab-pass'
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'tab-pass'
+# The dex loads its catalogue first; the shelf sits under the home set card.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex'
+    timeout: 60000
+# Short, slow swipes: the shelf is one short row between the home set and the ranked places.
+- scrollUntilVisible:
+    element:
+      id: 'sticker-shelf'
+    direction: DOWN
+    speed: 20
+    visibilityPercentage: 60
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      text: 'Settled Tokek'
+    timeout: 30000
+- takeScreenshot: sticker-shelf-settled
+- tapOn: 'Settled Tokek'
+- extendedWaitUntil:
+    visible:
+      id: 'sticker-detail'
+    timeout: 10000
+- assertVisible:
+    id: 'sticker-detail-how'
+- takeScreenshot: sticker-detail-settled

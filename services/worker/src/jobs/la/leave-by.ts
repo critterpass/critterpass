@@ -29,6 +29,7 @@ interface LeaveByRow {
   pickup: { place?: string | null } | null;
   guide_note: string | null;
   participant_ids: string[];
+  guide: string | null;
 }
 
 /** An ended leave-by's last frame stays this long ("done", or the crew still walking). */
@@ -37,7 +38,8 @@ const LINGER_MS = 15 * 60_000;
 export const leaveByLoader: LaLoader = async ({ tx, refId, now, render }) => {
   const { rows } = await tx.query<LeaveByRow>(
     `SELECT l.id, l.trip_id, l.title, l.place_name, l.leave_at, l.tz, l.state, l.legs, l.pickup,
-            l.guide_note,
+            l.guide_note, (SELECT g.slug FROM trips t JOIN guides g ON g.id = t.guide_id
+                            WHERE t.id = l.trip_id) AS guide,
             CASE WHEN cardinality(l.participant_ids) > 0 THEN l.participant_ids
                  ELSE ARRAY(SELECT user_id FROM trip_participants
                              WHERE trip_id = l.trip_id AND holds_seat ORDER BY created_at, user_id)
@@ -72,6 +74,7 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render }) => {
     })),
     guideLine: row.guide_note ?? '',
     labels,
+    guide: row.guide,
   });
   const shared = input({ stay, pickup });
   const leave = row.leave_at.getTime();

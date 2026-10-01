@@ -4,6 +4,7 @@
  * names). Handlers are no-ops except the filters and search, which work.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { tokens } from '@cp/design-tokens';
 import { useState, type ReactNode } from 'react';
 
 import { buildDex, type DexFilter, type DexInput } from '../dex/dex-model';
@@ -171,6 +172,20 @@ export const DEX_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3l-1-hatch': () => <HatchView {...TOKEK_HATCH} />,
   '3l-1-egg-wobbling': () => <HatchView {...TOKEK_HATCH} stillAt="wobbling" />,
   '3l-1-egg-cracking': () => <HatchView {...TOKEK_HATCH} stillAt="cracking" />,
+  '3l-1-egg-chava': () => (
+    <HatchView
+      {...TOKEK_HATCH}
+      place="Đà Nẵng"
+      landedAirport="DAD"
+      colour={tokens.guide.chava}
+      critterKey="cp-151"
+      seed={151}
+      name="Chà Vá"
+      days={3}
+      setName="Đà Nẵng"
+      stillAt="cracking"
+    />
+  ),
   '3l-1-hatch-offline': () => <HatchView {...TOKEK_HATCH} pending />,
   '3l-1-hatch-local': () => (
     <HatchView

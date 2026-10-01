@@ -32,6 +32,7 @@ import {
   welcome,
 } from './hatch-copy';
 import { artKind } from '../art-kind';
+import { balancedBreak } from './hatch-model';
 
 /** Beats of the choreography (ms from mount): wobble, crack, pop. */
 export const HATCH_BEATS = { crack: 900, pop: 1250, reveal: 1650 } as const;
@@ -71,7 +72,13 @@ export interface HatchViewProps {
 
 const useStyles = makeStyles((th) => ({
   body: { flex: 1, paddingHorizontal: th.size.gutter, justifyContent: 'space-between' },
-  stage: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  stage: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: th.space['32'] + th.space['24'],
+  },
+  eggBox: { height: CRITTER_SIZE, alignItems: 'center', justifyContent: 'center' },
   footer: { gap: th.space['12'], alignItems: 'center', paddingBottom: th.space['16'] },
 }));
 
@@ -82,6 +89,7 @@ export function HatchView(props: HatchViewProps) {
   const reduced = useReducedImpactMotion();
   const { width, height } = useWindowDimensions();
   const [egg, setEgg] = useState<EggState>(props.stillAt ?? (reduced ? 'hatched' : 'wobbling'));
+  const [eggY, setEggY] = useState<number | null>(null);
   const [revealed, setRevealed] = useState(
     props.stillAt === undefined ? reduced : props.stillAt === 'cracking',
   );
@@ -141,8 +149,15 @@ export function HatchView(props: HatchViewProps) {
           <Text variant="eyebrow" color={theme.semantic.action.primary}>
             {upper(landedEyebrow(props.landedTime, props.landedAirport), locale)}
           </Text>
-          <Text variant="displayXl" style={{ textAlign: 'center' }} singleLine={false}>
-            {upper(welcome(props.place), locale)}
+          {/* The design breaks the welcome over two even lines at full size; a long place takes
+              a third before the type shrinks. */}
+          <Text
+            variant="displayXl"
+            style={{ textAlign: 'center' }}
+            singleLine={false}
+            numberOfLines={3}
+          >
+            {balancedBreak(upper(welcome(props.place), locale))}
           </Text>
         </Stack>
         <View style={styles.stage}>
@@ -151,7 +166,7 @@ export function HatchView(props: HatchViewProps) {
               <Group opacity={GLOW_OPACITY}>
                 <Rect x={0} y={0} width={w} height={h}>
                   <RadialGradient
-                    c={vec(w / 2, h / 2)}
+                    c={vec(w / 2, eggY ?? h / 2)}
                     r={GLOW_RADIUS}
                     colors={[props.colour ?? theme.semantic.action.primary, 'transparent']}
                   />
@@ -159,46 +174,59 @@ export function HatchView(props: HatchViewProps) {
               </Group>
             )}
           </TextureCanvas>
-          <Egg
-            state={egg}
-            size={EGG_SIZE}
-            {...(props.colour === null ? {} : { color: props.colour })}
-            {...(hatchling === undefined ? {} : { hatchling })}
-            {...(props.name === null ? {} : { hatchlingName: props.name })}
-            testID={`critters-hatch-egg-${egg}`}
-          />
+          {/* The egg and the critter share one box, so nothing below moves at the pop. */}
+          <View
+            style={styles.eggBox}
+            onLayout={(e) => setEggY(e.nativeEvent.layout.y + e.nativeEvent.layout.height / 2)}
+          >
+            <Egg
+              state={egg}
+              size={EGG_SIZE}
+              {...(props.colour === null ? {} : { color: props.colour })}
+              {...(hatchling === undefined ? {} : { hatchling })}
+              {...(props.name === null ? {} : { hatchlingName: props.name })}
+              testID={`critters-hatch-egg-${egg}`}
+            />
+          </View>
+          {/* Always laid out, so the egg keeps its place; it fades in at the reveal. */}
+          <Animated.View
+            style={reveal}
+            accessibilityElementsHidden={!revealed}
+            importantForAccessibility={revealed ? 'auto' : 'no-hide-descendants'}
+          >
+            <Stack gap="8" align="center">
+              <Text
+                variant="h3"
+                color={theme.semantic.action.primary}
+                {...(revealed ? { testID: 'critters-hatched' } : {})}
+              >
+                {upper(hatchedTitle(props.name), locale)}
+              </Text>
+              <Text
+                variant="body"
+                color={theme.semantic.text.secondary}
+                style={{ textAlign: 'center' }}
+              >
+                {hatchedBody({
+                  isGuide: props.isGuide,
+                  days: props.days,
+                  no: props.no,
+                  place: props.setName,
+                })}
+              </Text>
+              {props.pending ? (
+                <Text
+                  variant="caption"
+                  color={theme.semantic.text.secondary}
+                  {...(revealed ? { testID: 'critters-hatch-pending' } : {})}
+                >
+                  {pendingNote()}
+                </Text>
+              ) : null}
+            </Stack>
+          </Animated.View>
         </View>
         <View style={styles.footer}>
-          {revealed ? (
-            <Animated.View style={reveal}>
-              <Stack gap="8" align="center">
-                <Text variant="h2" color={theme.semantic.action.primary} testID="critters-hatched">
-                  {upper(hatchedTitle(props.name), locale)}
-                </Text>
-                <Text
-                  variant="body"
-                  color={theme.semantic.text.secondary}
-                  style={{ textAlign: 'center' }}
-                >
-                  {hatchedBody({
-                    isGuide: props.isGuide,
-                    days: props.days,
-                    no: props.no,
-                    place: props.setName,
-                  })}
-                </Text>
-                {props.pending ? (
-                  <Text
-                    variant="caption"
-                    color={theme.semantic.text.secondary}
-                    testID="critters-hatch-pending"
-                  >
-                    {pendingNote()}
-                  </Text>
-                ) : null}
-              </Stack>
-            </Animated.View>
-          ) : null}
           {props.onSayHi === null ? null : (
             <PillButton
               label={sayHi()}

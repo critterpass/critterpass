@@ -110,6 +110,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. `start(kind, attrs, state, startDate?)`, `update`, `end`, `list`. 2. Emit push-to-start and update tokens → `register_la_token`; state changes → `report_la_state`; authorization → `update_device_permissions`. 3. Write `state/la/<id>.json` via cp-app-group.
 - Tests: `pnpm --filter @cp/mobile test -- live-activities`; Xcode unit test target `CPLiveActivityTests` via `xcodebuild test -scheme CPLiveActivity`.
 - Done when: dev build logs both tokens on device; JS receives dismissal event.
+- Status: done — 805dbab8f
 
 ### T5 — Leave-by LA + Dynamic Island UI + I'M UP intent
 - Goal: 5a-1, 5a-5, 3k-3 pixel-faithful.

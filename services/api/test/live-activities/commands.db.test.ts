@@ -257,6 +257,22 @@ describe('report_la_state', () => {
     );
     expect(events).toHaveLength(2);
   });
+
+  it('keeps an ended activity ended: no late revival, and clearing it is not a dismissal', async () => {
+    const osId = randomUUID();
+    const payload = { activity_id: osId, kind: 'flight', ref_id: randomUUID(), state: 'active' };
+    await run(rin, 'report_la_state', payload, rinPhone);
+    await run(rin, 'report_la_state', { ...payload, state: 'ended' }, rinPhone);
+    for (const state of ['active', 'dismissed']) {
+      const late = await run(rin, 'report_la_state', { ...payload, state }, rinPhone);
+      expect(late.body['result']).toMatchObject({ changed: false });
+    }
+    const rows = await q<Record<string, unknown>>(
+      'SELECT state, end_reason FROM device_activities WHERE os_activity_id = $1',
+      [osId],
+    );
+    expect(rows).toEqual([{ state: 'ended', end_reason: 'ended_on_device' }]);
+  });
 });
 
 describe('request_crew_lock_screen', () => {

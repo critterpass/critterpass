@@ -72,7 +72,7 @@ export function HomeSetCard({
       testID="critters-home-set"
     >
       <Row justify="space-between" align="baseline">
-        <Text variant="h3">{upper(set.name, locale)}</Text>
+        <Text variant="title">{upper(set.name, locale)}</Text>
         <Text variant="label" color={theme.semantic.text.secondary}>
           {upper(count, locale)}
         </Text>

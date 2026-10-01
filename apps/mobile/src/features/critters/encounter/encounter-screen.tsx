@@ -43,6 +43,7 @@ import {
   type SpawnFormRow,
 } from './encounter-model';
 import { EncounterView } from './encounter-view';
+import { LiveCamera } from './live-camera';
 import { REMIND_BEFORE_MS, scheduleQuietReminder } from './quiet-reminder';
 
 const LEGENDARY_KINDS = new Set(['window', 'co_presence']);
@@ -121,6 +122,7 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
               hours: [hourLabel(6), hourLabel(12), hourLabel(18)],
             }
       }
+      camera={<LiveCamera />}
       onHold={() => void befriend('hold')}
       onTap={() => void befriend('accessible')}
       onRemind={() => {

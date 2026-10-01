@@ -1,0 +1,140 @@
+appId: app.critterpass.dev
+---
+# Crew quests (3l-7) and the sticker detail sheet in the critters lab's fixed-data scenes, in
+# English then Vietnamese: a generated quest day (faces, pips, an optional quest), one quest done
+# with its reward revealed, the guide still writing, offline, and the Settled Tokek and crew-level
+# stickers up close. Shots are named `<lang>-<design id>-<state>` so compare mode pairs each with
+# its render.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-critters-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-critters-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-2-pass'
+    timeout: 15000
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-7-quests'
+      WAIT_ID: 'quests-list'
+      SHOT: 'en-3l-7-quests'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-7-quest-done'
+      WAIT_ID: 'quests-list'
+      SHOT: 'en-3l-7-quest-done'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-7-writing'
+      WAIT_ID: 'quests-empty-writing'
+      SHOT: 'en-3l-7-writing'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-7-offline'
+      WAIT_ID: 'quests-offline'
+      SHOT: 'en-3l-7-offline'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-2-sticker-settled'
+      WAIT_ID: 'sticker-detail-how'
+      SHOT: 'en-3l-2-sticker-settled'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-2-sticker-crew-level'
+      WAIT_ID: 'sticker-detail-how'
+      SHOT: 'en-3l-2-sticker-crew-level'
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+# Going back lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-critters-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-critters-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-lab-3l-2-pass'
+    timeout: 15000
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-7-quests'
+      WAIT_ID: 'quests-list'
+      SHOT: 'vi-3l-7-quests'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-7-quest-done'
+      WAIT_ID: 'quests-list'
+      SHOT: 'vi-3l-7-quest-done'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-7-writing'
+      WAIT_ID: 'quests-empty-writing'
+      SHOT: 'vi-3l-7-writing'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-7-offline'
+      WAIT_ID: 'quests-offline'
+      SHOT: 'vi-3l-7-offline'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-2-sticker-settled'
+      WAIT_ID: 'sticker-detail-how'
+      SHOT: 'vi-3l-2-sticker-settled'
+- runFlow:
+    file: subflows/quest-scene.yaml
+    env:
+      SCENE: '3l-2-sticker-crew-level'
+      WAIT_ID: 'sticker-detail-how'
+      SHOT: 'vi-3l-2-sticker-crew-level'

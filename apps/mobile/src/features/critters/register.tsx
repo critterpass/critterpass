@@ -12,6 +12,8 @@ import { setNearbyWriter, type SnapshotWriter } from './engine/nearby-snapshot';
 import { EncounterRuntime } from './engine/use-encounter';
 import { HatchRuntime } from './hatch/hatch-runtime';
 import { registerCritterScreens } from './routes';
+// Crew quests join the trip hub (the QUESTS tile) and the navigation registry as this loads.
+import './quests/register';
 
 registerCritterScreens();
 

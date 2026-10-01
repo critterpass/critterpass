@@ -64,7 +64,7 @@ export function HereNowForms({ title, subtitle, forms, hint, testID }: HereNowFo
         accessible
         accessibilityRole="header"
       >
-        <Text variant="h3" color={theme.semantic.action.primary} style={styles.title}>
+        <Text variant="title" color={theme.semantic.action.primary} style={styles.title}>
           {title}
         </Text>
         {subtitle ? (

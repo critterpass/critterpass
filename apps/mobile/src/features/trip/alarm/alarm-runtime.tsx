@@ -18,6 +18,7 @@ import { setAlarmPort, type AlarmPort } from './alarm-port';
 import { useDayBundlePrefetch } from '../bundle/background-prefetch';
 import { deviceTripDayServices } from '../bundle/device-services';
 import { setReadinessCommand, snoozeLeaveByCommand } from '../leave-by/commands';
+import { useLiveActivityRegistration } from '../live-activities/bridge';
 import type { LeaveByView } from '../leave-by/model';
 import { tripDayRoute } from '../hub/routes';
 import { LEAVE_BY_CATEGORY, LEAVE_BY_CATEGORY_NO_SNOOZE, leaveByDataOf } from './alarm-backends';
@@ -86,6 +87,7 @@ function useNow(everyMs: number): Date {
 
 export function TripDayRuntime({ alarmPort }: { readonly alarmPort: AlarmPort | null }) {
   setAlarmPort(alarmPort);
+  useLiveActivityRegistration();
   const me = useOwnerUid();
   const locale = useLocale();
   const { views, guideFor } = useAlarmSync(me);

@@ -125,6 +125,15 @@ const supplierSources = [
   `${repoRootPrefix}/apps/mobile/src/app/(trip)/getting-around.tsx`,
 ];
 
+// Crew quests and the sticker shelf keep their own catalogs inside the critters area
+// (`quests/quests`, `quests/stickers`), so the quests lane and the rest of critters never edit the
+// same file.
+const questSources = [
+  `${repoRootPrefix}/apps/mobile/src/features/critters/quests/**`,
+  `${repoRootPrefix}/apps/mobile/src/app/(trip)/quests/**`,
+];
+const stickerSources = [`${repoRootPrefix}/apps/mobile/src/features/critters/stickers/**`];
+
 const notificationSources = [
   {
     name: 'common',
@@ -190,8 +199,22 @@ export default defineConfig({
                 ? [...testFileExcludes, ...Object.values(tripSubAreas).flat()]
                 : area === 'bookings'
                   ? [...testFileExcludes, ...supplierSources]
-                  : testFileExcludes,
+                  : area === 'critters'
+                    ? [...testFileExcludes, ...questSources, ...stickerSources]
+                    : testFileExcludes,
     })),
+    {
+      name: 'quests/quests',
+      path: 'locales/{locale}/quests/quests',
+      include: questSources,
+      exclude: testFileExcludes,
+    },
+    {
+      name: 'quests/stickers',
+      path: 'locales/{locale}/quests/stickers',
+      include: stickerSources,
+      exclude: testFileExcludes,
+    },
     {
       name: 'chat/chat',
       path: 'locales/{locale}/chat/chat',
