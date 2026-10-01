@@ -7,12 +7,17 @@
  * voted, or the approval's decider is satisfied); a destination board never closes this way, it
  * advances to its final.
  */
-import { appendDomainEvent, loadPollState, publishPollHints, tallyOf } from '@cp/db';
+import {
+  appendDomainEvent,
+  decideOnBallots,
+  loadPollState,
+  publishPollHints,
+  tallyOf,
+} from '@cp/db';
 import {
   ballotSourceForVia,
   castBallotPayloadSchema,
   DomainError,
-  evaluateDecider,
   soleLeader,
   type PollTallyResult,
 } from '@cp/domain';
@@ -24,7 +29,6 @@ import {
   lockPoll,
   takesBallots,
   tallyResult,
-  tripOrganiserIds,
   visiblePoll,
   voteClosed,
 } from './shared';
@@ -103,29 +107,16 @@ export const castBallotCommand = defineCommand({
           ...scope,
         });
       }
-      const closable = after.poll.kind !== 'destination' || after.poll.stage === 'final';
-      if (closable) {
-        const organisers = await tripOrganiserIds(tx, after.poll.trip_id);
-        const verdict = evaluateDecider({
-          policy: after.poll.decider_policy,
-          threshold: after.poll.threshold,
-          tally,
-          approveOptionId: after.options.find((o) => o.eliminated_at === null)?.id ?? null,
-          organiserIds:
-            organisers.length > 0 || after.poll.created_by === null
-              ? organisers
-              : [after.poll.created_by],
+      const verdict = await decideOnBallots(tx, after);
+      if (verdict.decided) {
+        await closeForEveryone(tx, after, {
+          reason: verdict.reason,
+          now,
+          actorId: ctx.uid,
+          deciderWinner: verdict.winnerOptionId,
         });
-        if (verdict.decided) {
-          await closeForEveryone(tx, after, {
-            reason: verdict.reason,
-            now,
-            actorId: ctx.uid,
-            deciderWinner: verdict.winnerOptionId,
-          });
-          const closed = await loadPollState(tx, state.poll.id);
-          return tallyResult(closed ?? after, ctx.uid);
-        }
+        const closed = await loadPollState(tx, state.poll.id);
+        return tallyResult(closed ?? after, ctx.uid);
       }
       await publishPollHints(tx, after, tally, 'ballot.upserted');
       return tallyResult(after, ctx.uid);

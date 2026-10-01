@@ -10,6 +10,7 @@ export {
   type ClosePollResult,
   type PricingFacts,
 } from './close';
+export { decideOnBallots } from './decide';
 export {
   advanceBoardInTx,
   armPollTimers,
