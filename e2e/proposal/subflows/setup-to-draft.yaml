@@ -145,6 +145,25 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'budget-lock'
+# A lock the server refuses says so on the step: one more try, then the budget is skipped.
+- waitForAnimationToEnd:
+    timeout: 5000
+- runFlow:
+    when:
+      visible:
+        id: 'budget-lock-line'
+    commands:
+      - tapOn:
+          id: 'budget-lock'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- runFlow:
+    when:
+      visible:
+        id: 'budget-lock-line'
+    commands:
+      - tapOn:
+          id: 'budget-skip'
 # Rooms: pick the first stay when the place has stay prices and wait for its rooms; with none,
 # LOOKS GOOD accepts the even split.
 - extendedWaitUntil:
