@@ -25,10 +25,16 @@ appId: app.critterpass.dev
 - stopApp
 - launchApp:
     stopApp: false
+# The first look is taken once the app has drawn its shell (the tab bar): the views exist a moment
+# before the first frame is on screen.
 - extendedWaitUntil:
     visible:
-      id: 'trip-waiting|trip-day'
+      id: 'tab-trips'
     timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'trip-waiting|trip-day-loading|trip-day'
+    timeout: 30000
 - takeScreenshot: en-3k-2-day-restored-first-look
 - extendedWaitUntil:
     visible:
