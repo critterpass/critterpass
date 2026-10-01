@@ -61,6 +61,9 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'center',
     gap: t.space['4'],
   },
+  // The label spans its slot, so it is fitted to the slot's width rather than to its own: a short
+  // word of narrow letters ("VÍ") measured against itself would shrink to the floor.
+  label: { alignSelf: 'stretch', textAlign: 'center' },
   container: { position: 'absolute', start: 0, end: 0, bottom: 0 },
   fabSlot: { width: FAB_SIZE + 2 * FAB_RING },
   fabLayer: { position: 'absolute', top: 0, start: 0, end: 0, alignItems: 'center' },
@@ -172,6 +175,7 @@ function TabButton({
           autoFit
           autoFitMinSize={LABEL_MIN_SIZE}
           numberOfLines={1}
+          style={styles.label}
         >
           {label}
         </Text>

@@ -9,12 +9,12 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/roundup/template.ts
 msgid "notifications.roundup.subtitle"
-msgstr ""
+msgstr "{count, plural, other {# việc cho ngày mai}}"
 
 #: ../../services/worker/src/jobs/roundup/template.ts
 msgid "notifications.roundup.title"
-msgstr ""
+msgstr "Điểm tin buổi tối của {guide}"
 
 #: ../../services/worker/src/jobs/roundup/template.ts
 msgid "notifications.roundup.titleWithoutGuide"
-msgstr ""
+msgstr "Điểm tin buổi tối của bạn"
