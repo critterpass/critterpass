@@ -112,7 +112,10 @@ function Preview({
   );
 }
 
+/* eslint-disable lingui/no-unlocalized-strings -- SQL and a table name, never copy. */
 const FLAG_SQL = "SELECT value FROM client_config WHERE key = 'critters.live_camera'";
+const FLAG_TABLES = ['client_config'];
+/* eslint-enable lingui/no-unlocalized-strings */
 
 /**
  * Whether the live camera is switched on for this install (`client_config`, off unless the server
@@ -126,7 +129,7 @@ function useLiveCameraSwitch(): boolean {
   const db = localFirst?.db ?? null;
   useEffect(() => {
     if (db === null) return undefined;
-    return watchQuery<{ value: string | null }>(db, FLAG_SQL, [], ['client_config'], (rows) => {
+    return watchQuery<{ value: string | null }>(db, FLAG_SQL, [], FLAG_TABLES, (rows) => {
       const value = rows[0]?.value ?? '';
       setOn(value === 'true' || value === '1');
     });

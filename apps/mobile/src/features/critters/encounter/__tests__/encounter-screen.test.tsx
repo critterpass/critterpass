@@ -96,7 +96,7 @@ const SNAPSHOT: EngineSnapshot = {
     },
     tripId: TRIP,
   },
-  band: 'near',
+  band: '10_25',
   dwellS: 33,
   peakDwellS: 33,
   startedAt: Date.now(),
@@ -111,7 +111,7 @@ function engineAt(snapshot: EngineSnapshot): EncounterEngine {
     dismiss: () => undefined,
     snapshot: () => snapshot,
     subscribe: () => () => undefined,
-  } as unknown as EncounterEngine;
+  };
 }
 
 async function renderScreen(stack: TestLocalFirst) {
