@@ -233,6 +233,29 @@ describe('organiser of a crew settling in dong', () => {
     expect((targets[0] ?? 1) % STEP).toBe(0);
   });
 
+  it('says the rate is not in yet when the server has no rate to lock with', async () => {
+    const { transport } = answering([
+      {
+        status: 409,
+        body: {
+          error: {
+            code: 'STATE_INVALID',
+            message: 'no',
+            retryable: false,
+            detail: { reason: 'rates_unavailable' },
+          },
+        },
+      },
+    ]);
+    stack = await openTestLocalFirst({ uid: WINSTON, transport });
+    await seedBudget(stack, { people: PAIR, aggregate: null, currency: 'VND', fx: DONG_ONLY });
+    await renderBudget(stack, apiReads({ '/v1/budget/': K_ANON }), { organiser: true });
+    await screen.findByTestId('budget-track');
+    await fireEvent.press(screen.getByTestId('budget-lock'));
+    const line = await screen.findByTestId('budget-lock-line');
+    expect(String(line.props.children)).toMatch(/rate for your crew’s currency isn’t in yet/u);
+  });
+
   it('takes up the step a refused lock answers with and sends it once more', async () => {
     const { targets, transport } = answering([refusal(offStep), applied]);
     stack = await openTestLocalFirst({ uid: WINSTON, transport });

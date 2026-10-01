@@ -223,6 +223,10 @@ msgid "setup.budget.member.line"
 msgstr "The most you’d spend on this trip, all in. Only you ever see it."
 
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.noRates"
+msgstr "Today’s rate for your crew’s currency isn’t in yet, so this can’t lock. Try again in a bit."
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.lock.rateLimited"
 msgstr "Too many tries for now. Give it an hour."
 

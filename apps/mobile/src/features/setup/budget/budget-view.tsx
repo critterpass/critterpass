@@ -35,6 +35,8 @@ export type LockState =
   | { readonly kind: 'over_band'; readonly attempt: number }
   | { readonly kind: 'rate_limited' }
   | { readonly kind: 'offline' }
+  /** The crew currency has no rate today, so there is no step to lock a target on. */
+  | { readonly kind: 'no_rates' }
   | { readonly kind: 'failed' };
 
 export interface BudgetViewProps {
@@ -79,6 +81,12 @@ function lockLine(lock: LockState): string | null {
       return t({
         id: 'setup.budget.lock.offline',
         message: 'Locking needs signal. Your pick stays here.',
+      });
+    case 'no_rates':
+      return t({
+        id: 'setup.budget.lock.noRates',
+        message:
+          'Today’s rate for your crew’s currency isn’t in yet, so this can’t lock. Try again in a bit.',
       });
     case 'failed':
       return t({ id: 'setup.budget.lock.failed', message: 'That didn’t lock. Try again.' });

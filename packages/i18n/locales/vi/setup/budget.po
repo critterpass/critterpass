@@ -223,6 +223,10 @@ msgid "setup.budget.member.line"
 msgstr "Số tiền nhiều nhất bạn sẽ chi cho chuyến này, tính hết. Chỉ mình bạn thấy."
 
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.noRates"
+msgstr "Tỷ giá hôm nay cho đồng tiền của nhóm chưa có nên chưa thể chốt. Hãy thử lại sau ít phút."
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.lock.rateLimited"
 msgstr "Thử nhiều lần quá rồi. Đợi một tiếng nhé."
 

@@ -223,6 +223,10 @@ msgid "setup.budget.member.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lock.noRates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.lock.rateLimited"
 msgstr ""
 
