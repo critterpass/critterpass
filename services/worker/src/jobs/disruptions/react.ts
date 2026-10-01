@@ -6,7 +6,8 @@
  * - `poll.closed` on a row's decision poll → approved (a plan row's change set is approved by the
  *   vote and applied through the executor; a vendor draft is approved as the member whose ballot
  *   decided it and handed to the desk) or kept;
- * - vendor messages sent, failed or answered, and "undo everything" → ./apply-vendor-reply.ts.
+ * - vendor messages sent, failed or answered, and "undo everything" → ./apply-vendor-reply.ts;
+ * - `running_late.detected` → the options (./late-options.ts); `late_option.chosen` → its rows.
  */
 import { appendDomainEvent, sendInTx, withSystem } from '@cp/db';
 import {
@@ -20,6 +21,8 @@ import type pg from 'pg';
 import { defineJob, type JobDefinition } from '../../boss';
 import { applyApprovedGuideAction, executeGuideAction } from '../../guide-actions';
 import { reactToUndo, reactToVendorMessage } from './apply-vendor-reply';
+import { workLateOptions, type LateWriter } from './late-options';
+import { applyLateChoice } from './running-late';
 import { seatsNotConfirmed } from './storm-supplier';
 import { advancePlan } from './execute-rows';
 import { settleSuggestions } from './weather-replan';
@@ -76,15 +79,22 @@ async function onProposed(tx: pg.PoolClient, event: ReactEvent): Promise<number>
   for (const action of rows) {
     for (const disruption of await disruptionsWhere(tx, 'guide_action_id', action.id)) {
       const row = disruption.actions.find(
-        (r) => r.guide_action_id === action.id && r.state === 'running' && r.poll !== null,
+        (r) => r.guide_action_id === action.id && r.state === 'running',
       );
-      if (row?.poll == null) continue;
+      if (row === undefined) continue;
+      if (row.poll === null) {
+        // A late member's own pick was the yes (./running-late.ts): approved as that member.
+        if (row.decided_by === null) continue;
+        await applyApproved(tx, row, { by: row.decided_by });
+        applied += 1;
+        continue;
+      }
       const poll = await tx.query<{ winner_option_id: string | null }>(
         "SELECT winner_option_id FROM polls WHERE id = $1 AND status = 'closed'",
         [row.poll.id],
       );
       if (poll.rows[0]?.winner_option_id !== row.poll.approve_option_id) continue;
-      await applyByVote(tx, row, row.poll.id);
+      await applyApproved(tx, row, { pollId: row.poll.id });
       applied += 1;
     }
   }
@@ -102,11 +112,14 @@ async function onUndone(tx: pg.PoolClient, event: ReactEvent): Promise<number> {
   return moved;
 }
 
-/** Approves a plan row's change set by the poll's vote and runs it through the executor. */
-export async function applyByVote(
+/**
+ * Approves a plan row's change set, by the poll's vote or as the member whose own pick was the
+ * yes, and runs it through the executor.
+ */
+async function applyApproved(
   tx: pg.PoolClient,
   row: DisruptionAction,
-  pollId: string,
+  yes: { readonly pollId: string } | { readonly by: string },
 ): Promise<void> {
   if (row.guide_action_id === null) return;
   const { rows } = await tx.query<{ change_set_id: string; status: string }>(
@@ -124,9 +137,11 @@ export async function applyByVote(
     return;
   }
   await tx.query(
-    `UPDATE change_sets SET status = 'approved', approved_by_kind = 'vote', poll_id = $2
+    `UPDATE change_sets SET status = 'approved', approved_by_kind = $2, poll_id = $3, approved_by = $4
       WHERE id = $1 AND status IN ('proposed', 'voting')`,
-    [action.change_set_id, pollId],
+    'pollId' in yes
+      ? [action.change_set_id, 'vote', yes.pollId, null]
+      : [action.change_set_id, 'self', null, yes.by],
   );
   await applyApprovedGuideAction(tx, row.guide_action_id);
 }
@@ -225,7 +240,20 @@ export async function reactToEvent(
   pool: pg.Pool,
   job: DisruptionReactJob,
   now: Date = new Date(),
+  lateWriter?: LateWriter,
 ): Promise<number> {
+  if (job.event_type === 'running_late.detected') {
+    // The guide words the options between two transactions, so this one runs outside the rest.
+    const disruptionId = await withSystem(pool, async (tx) => {
+      const { rows } = await tx.query<{ id: string | null }>(
+        "SELECT payload ->> 'disruption_id' AS id FROM app.domain_event_for_routing($1)",
+        [job.event_id],
+      );
+      return rows[0]?.id ?? null;
+    });
+    if (disruptionId === null || lateWriter === undefined) return 0;
+    return workLateOptions(pool, disruptionId, lateWriter, now);
+  }
   return withSystem(pool, async (tx) => {
     const { rows } = await tx.query<{ actor_id: string | null; payload: Record<string, unknown> }>(
       'SELECT actor_id, payload FROM app.domain_event_for_routing($1)',
@@ -253,6 +281,10 @@ export async function reactToEvent(
         return onPollClosed(tx, event, now);
       case 'disruption.action_undone':
         return reactToUndo(tx, event, now);
+      case 'late_option.chosen':
+        return applyLateChoice(tx, event, now);
+      case 'running_late.detected':
+        return 0;
       case 'activity.hold_expired':
       case 'activity.hold_released':
       case 'activity.rejected':
@@ -266,10 +298,12 @@ export async function reactToEvent(
   });
 }
 
-export function disruptionReactJob(): JobDefinition<DisruptionReactJob> {
+export function disruptionReactJob(lateWriter?: LateWriter): JobDefinition<DisruptionReactJob> {
   return defineJob({
     queue: DISRUPTION_QUEUES.react,
     schema: disruptionReactJobSchema,
-    handler: async (data, ctx) => ({ moved: await reactToEvent(ctx.pool, data) }),
+    handler: async (data, ctx) => ({
+      moved: await reactToEvent(ctx.pool, data, new Date(), lateWriter),
+    }),
   });
 }

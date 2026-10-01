@@ -40,23 +40,24 @@ export async function advancePlan(tx: pg.PoolClient, disruption: DisruptionRow):
     (row) =>
       row.class === 'plan' &&
       row.item_stable_id !== null &&
-      row.starts_at !== null &&
+      (row.starts_at !== null || row.kind === 'skip_item') &&
       ((row.state === 'planned' && row.autonomous) || row.state === 'approved'),
   );
-  if (next?.item_stable_id == null || next.starts_at === null) return;
+  if (next?.item_stable_id == null) return;
+  const shared = {
+    target: next.item_stable_id,
+    reason: next.label,
+    affected_user_ids: next.affected_user_ids,
+    booking_impact: next.booking_impact,
+  };
   const planned = await planGuideAction(tx, {
     tripId: disruption.trip_id,
-    kind: next.kind,
-    ops: [
-      {
-        op: 'retime',
-        target: next.item_stable_id,
-        after: { starts_at: next.starts_at },
-        reason: next.label,
-        affected_user_ids: next.affected_user_ids,
-        booking_impact: next.booking_impact,
-      },
-    ],
+    // Sitting an item out takes it off the plan; every other plan row moves its item's start.
+    kind: next.kind === 'skip_item' ? 'remove_item' : next.kind,
+    ops:
+      next.starts_at === null
+        ? [{ op: 'remove', ...shared }]
+        : [{ op: 'retime', ...shared, after: { starts_at: next.starts_at } }],
     guideId: disruption.guide_id,
     requesterId: null,
     trigger: 'delay',
@@ -153,6 +154,7 @@ async function runSystemRow(
       break;
     case 'retime_item':
     case 'reschedule_pickup':
+    case 'skip_item':
     case 'contact_vendor':
     case 'rebook_flight':
       return row;
@@ -165,6 +167,16 @@ export function vendorBody(row: DisruptionAction, vendor: string): string {
   const from = String(row.facts['from'] ?? '');
   const to = row.facts['to'];
   const title = String(row.facts['title'] ?? 'our booking');
+  const why = row.facts['why'];
+  if (why === 'late_push' || why === 'late_join' || why === 'late_skip') {
+    const late = `${String(row.facts['names'] ?? 'We')} will be about ${String(row.facts['minutes'] ?? '')} min late for ${title} at ${from}`;
+    if (why === 'late_skip') {
+      return `Hi ${vendor}, we are stuck on the way and can't make ${title} at ${from} today. Sorry for the short notice.`;
+    }
+    return why === 'late_join'
+      ? `Hi ${vendor}, ${late}. The others will start on time; is it all right to join at ${String(to)}?`
+      : `Hi ${vendor}, ${late}. Could we start at ${String(to)} instead?`;
+  }
   if (to === undefined) {
     return `Hi ${vendor}, our flight was cancelled and will not land today. Please don't wait for us at ${from}. We will be in touch with the new time.`;
   }

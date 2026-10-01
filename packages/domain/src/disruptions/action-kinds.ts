@@ -13,6 +13,7 @@ import { z } from 'zod';
 export const DISRUPTION_ACTION_KINDS = [
   'retime_item',
   'reschedule_pickup',
+  'skip_item',
   'recompute_leave_by',
   'refresh_live_activity',
   'insert_briefing',
@@ -31,6 +32,7 @@ export const DISRUPTION_ACTION_CLASS: Readonly<
 > = {
   retime_item: 'plan',
   reschedule_pickup: 'plan',
+  skip_item: 'plan',
   recompute_leave_by: 'system',
   refresh_live_activity: 'system',
   insert_briefing: 'system',

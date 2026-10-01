@@ -15,6 +15,10 @@ msgstr "{asker} hỏi: {question} Chạm để trả lời, mình sẽ đếm ph
 msgid "notifications.changeset.needs_yes.title"
 msgstr "{asker} muốn đổi kế hoạch"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_body_waiting"
+msgstr "{count, plural, other {{names} đang trễ {minutes} phút.}}"
+
 #: ../domain/src/plan/templates.ts
 msgid "notifications.changeset.needs_yes.body"
 msgstr "{count, plural, other {# thay đổi}} cho {crew}. Đồng ý hay từ chối?"
@@ -63,6 +67,14 @@ msgstr "{crew} đã đồng ý, nên mình đã cập nhật kế hoạch."
 msgid "notifications.nudge.rsvp"
 msgstr "{crew} muốn biết bạn có đi không. Có, không hay có thể đều được."
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.done_body"
+msgstr "{detail}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.watch_body"
+msgstr "{detail}"
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.flight_start_title"
 msgstr "{flight} · {route}"
@@ -103,9 +115,21 @@ msgstr "{guide}, kèm lời nhắc từ {sender}"
 msgid "notifications.draft.ready.title"
 msgstr "Bản nháp của {guide} đã xong"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_title"
+msgstr "{headline}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.done_title"
+msgstr "{headline}"
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.title"
 msgstr "{inviter} rủ bạn vào {crew}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_body"
+msgstr "{line}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_body"
@@ -219,6 +243,10 @@ msgstr "{place} · {time}"
 msgid "notifications.la.meet_up_late_title"
 msgstr "{place} · {time}"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_title"
+msgstr "{place} · +{minutes} phút"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_title_be_there"
 msgstr "{place} · có mặt trước {time}"
@@ -275,6 +303,10 @@ msgstr "{sender} đã đặt điểm hẹn: {place}, {time}."
 msgid "notifications.crew_chat.text"
 msgstr "{text}"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.watch_title"
+msgstr "{title}"
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.lottery.result"
 msgstr "Kết quả {title} có vào {date}. Xem trang chính thức để biết bạn có trúng không."
@@ -311,12 +343,12 @@ msgstr "Sòng phẳng rồi"
 msgid "notifications.la.leave_by_be_at"
 msgstr "Có mặt ở {place}"
 
-#: ../domain/src/surfaces/la-copy.ts
-msgid "notifications.la.leave_by_be_there_start_title"
-msgstr "Có mặt ở {place} trước {time}"
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title_be_there"
+msgstr "Có mặt ở {place} trước {time}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
 msgstr "Có mặt ở {place} trước {time}"
 
 #: ../domain/src/bookings/templates.ts
@@ -558,6 +590,10 @@ msgstr "Mọi người đâu cả rồi? Xem bản đồ nhé."
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.destination.body"
 msgstr "Đi đâu tiếp? Có {count} nơi trên bảng. Chọn một nhé."
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_body_you"
+msgstr "Bạn đang trễ {minutes} phút. Chạm để xem bạn có thể làm gì."
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.followup_body"

@@ -84,6 +84,8 @@ export const DISRUPTION_REACT_EVENTS = [
   'activity.hold_expired',
   'activity.hold_released',
   'activity.rejected',
+  'running_late.detected',
+  'late_option.chosen',
 ] as const;
 const REACT_EVENTS: ReadonlySet<string> = new Set(DISRUPTION_REACT_EVENTS);
 
