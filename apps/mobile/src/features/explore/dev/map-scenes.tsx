@@ -124,6 +124,8 @@ const SPECS: Readonly<Record<string, MapSpec>> = {
     selected: 'marble',
     saved: ['my-khe'],
     sponsored: 'banh-mi',
+    // Looked at from Sài Gòn: no you-dot, the distance instead.
+    awayMeters: 607_000,
   },
 };
 

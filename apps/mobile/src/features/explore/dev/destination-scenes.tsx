@@ -197,7 +197,8 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
   },
   'destination-no-crew': { ...KYOTO, mode: 'crews', crews: [] },
   'destination-solo': { ...DA_NANG, month: undefined, mode: 'solo' },
-  'destination-sponsored': { ...KYOTO, sponsoredAt: 2 },
+  // No month curve, so the picks (and the sponsored card) sit in the first screenful.
+  'destination-sponsored': { ...KYOTO, curve: null, sponsoredAt: 2 },
 };
 
 function DestinationScene({ spec }: { readonly spec: SceneSpec }) {
