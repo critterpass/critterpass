@@ -25,6 +25,22 @@ msgstr "{count} giờ"
 msgid "home.age.minutes"
 msgstr "{count} phút"
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleSoon"
+msgstr "{crewName} đã chốt một chuyến đi."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleSoonPlace"
+msgstr "{crewName} sắp đi {place}."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleNowPlace"
+msgstr "{crewName} đang ở {place}."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleNow"
+msgstr "{crewName} đang trong chuyến đi."
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.guideDid"
 msgstr "{guide} {summary}"
@@ -77,6 +93,10 @@ msgstr "Tất cả"
 msgid "home.inbox.caughtUp.title"
 msgstr "Xong hết rồi"
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.failed"
+msgstr "Chưa tham gia được chuyến đi. Thử lại nhé."
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.crew"
 msgstr "Nhóm"
@@ -117,9 +137,17 @@ msgstr "Hộp thư"
 msgid "home.inbox.refusedBody"
 msgstr "Mục này đã quay lại danh sách của bạn."
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.cta"
+msgstr "Tham gia chuyến đi"
+
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.joinCode"
 msgstr "Vào bằng mã"
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.offline"
+msgstr "Cần có mạng để tham gia. Thử lại khi bạn có kết nối."
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.last"
@@ -245,6 +273,10 @@ msgstr "Xem ngay"
 msgid "home.inbox.refused"
 msgstr "Chưa gửi được"
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.over"
+msgstr "Chuyến đi đó đã kết thúc"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.vote"
 msgstr "Cả nhóm đang chờ phiếu của bạn."
@@ -252,6 +284,10 @@ msgstr "Cả nhóm đang chờ phiếu của bạn."
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.failed"
 msgstr "Lời nhắc chưa gửi được. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.full"
+msgstr "Chuyến đi đã đủ chỗ. Bạn đứng thứ {position} chờ chỗ."
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.rsvp"
@@ -317,6 +353,14 @@ msgstr "Đi đâu trước?"
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.tooSoon"
 msgstr "Bạn vừa nhắc bạn ấy rồi. Thử lại sau {when}."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.body"
+msgstr "Bạn đã vào nhóm nhưng chưa có tên trong chuyến này. Tham gia để cùng xem lịch trình và chia chi phí."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.joined"
+msgstr "Bạn đã vào chuyến đi"
 
 #: ../../apps/mobile/src/features/home/home-commands.ts
 msgid "home.queued.inboxAction"

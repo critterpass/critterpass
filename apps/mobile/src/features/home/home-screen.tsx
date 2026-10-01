@@ -2,7 +2,8 @@
  * Home: crew-scoped and drawn from synced rows only, so it renders offline and counts down locally.
  * The mode machine picks what shows: first run (3b-1), everyday (3b-2), final vote (3b-6) and the
  * undesigned no-trip, in-trip and post-trip modes. A mode change cross-fades; the vote board comes
- * from the poll feature's slot. The skeleton shows only on a first sync with nothing local.
+ * from the poll feature's slot. A member who is not on the crew's locked-in trip gets the way on
+ * (or their place on its waitlist) above the trip's card. The skeleton shows only on a first sync with nothing local.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -10,7 +11,7 @@ import { router } from 'expo-router';
 import { useContext } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 
-import { LocalFirstContext } from '@/data/powersync/local-first-context';
+import { LocalFirstContext, useLocalFirst } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
@@ -27,11 +28,13 @@ import {
   useHomeState,
   type HomeView,
 } from './data/use-home-state';
+import { WaitlistCards } from '../crew/waitlist/WaitlistCards';
 import { DevToolsEntry } from './dev-tools-entry';
 import { FadeInView } from './fade-in-view';
 import { FirstRunGrid, guideCells } from './first-run-grid';
 import { HomeHeaderBar } from './home-header';
 import { useAppBadge } from './inbox/use-app-badge';
+import { JoinTripCard, useOpenTrip } from './join-trip-card';
 import { useRecordAppOpen } from './nudge/use-record-app-open';
 import { NextUpCard } from './next-up-card';
 import { HOME_ROUTES } from './routes';
@@ -93,6 +96,8 @@ function VoteSection({ view }: { readonly view: HomeView }) {
 
 function CrewHome({ view }: { readonly view: HomeView }) {
   const { home, crew, tip } = view;
+  const localFirst = useLocalFirst();
+  const openTrip = useOpenTrip(view.uid, crew?.id ?? null);
   if (crew === null) return null;
   // A trip still choosing its place has nothing to count down to: its vote, drawn below, is the
   // crew's next thing, so the card doesn't repeat it as "Your next trip".
@@ -103,6 +108,15 @@ function CrewHome({ view }: { readonly view: HomeView }) {
     (home.mode === 'everyday' || home.mode === 'no_trip' || home.mode === 'post_trip');
   return (
     <Stack gap="20" testID={`home-mode-${home.mode}`}>
+      {/* Not on the crew's locked-in trip: the way on, or their place in line for a seat. */}
+      {openTrip === null ? null : <JoinTripCard trip={openTrip} crewName={crew.name} />}
+      <WaitlistCards
+        db={localFirst.db}
+        uid={view.uid}
+        commands={localFirst.commands}
+        now={new Date()}
+        crewId={crew.id}
+      />
       {home.mode === 'in_trip' && home.activeTrip !== null ? (
         <InTripCard trip={home.activeTrip} now={new Date()} />
       ) : null}

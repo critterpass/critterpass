@@ -25,6 +25,22 @@ msgstr "{count}h"
 msgid "home.age.minutes"
 msgstr "{count}m"
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleSoon"
+msgstr "{crewName} has a trip locked in."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleSoonPlace"
+msgstr "{crewName} is going to {place}."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleNowPlace"
+msgstr "{crewName} is in {place} right now."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleNow"
+msgstr "{crewName} is on a trip right now."
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.guideDid"
 msgstr "{guide} {summary}"
@@ -77,6 +93,10 @@ msgstr "All"
 msgid "home.inbox.caughtUp.title"
 msgstr "All caught up"
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.failed"
+msgstr "Couldn’t join the trip. Try again."
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.crew"
 msgstr "Crew"
@@ -117,9 +137,17 @@ msgstr "Inbox"
 msgid "home.inbox.refusedBody"
 msgstr "It's back on your list."
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.cta"
+msgstr "Join the trip"
+
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.joinCode"
 msgstr "Join with a code"
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.offline"
+msgstr "Joining needs a connection. Try again when you’re online."
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.noTrip.last"
@@ -245,6 +273,10 @@ msgstr "Take a look"
 msgid "home.inbox.refused"
 msgstr "That didn't go through"
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.over"
+msgstr "That trip is over"
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.vote"
 msgstr "The crew is waiting on your vote."
@@ -252,6 +284,10 @@ msgstr "The crew is waiting on your vote."
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.failed"
 msgstr "The nudge didn't go through. Try again."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.full"
+msgstr "The trip is full. You’re number {position} in line for a seat."
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.rsvp"
@@ -317,6 +353,14 @@ msgstr "Where to first?"
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.tooSoon"
 msgstr "You nudged them recently. Try again after {when}."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.body"
+msgstr "You’re in the crew, not on this trip yet. Join to be in the plan and the splits."
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.joined"
+msgstr "You’re on the trip"
 
 #: ../../apps/mobile/src/features/home/home-commands.ts
 msgid "home.queued.inboxAction"
