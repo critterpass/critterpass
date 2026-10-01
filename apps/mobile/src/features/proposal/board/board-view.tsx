@@ -27,6 +27,7 @@ import { SlideToConfirm } from '@/ui/inputs/SlideToConfirm';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -77,6 +78,8 @@ export function BoardView(props: BoardViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
+  // The pass is drawn without a back control (3f-5); the system back still leaves it.
+  useNoBackByDesign();
   const info = GUIDE_STICKERS[props.guide];
   const thump = useSharedValue(1);
   useEffect(() => {

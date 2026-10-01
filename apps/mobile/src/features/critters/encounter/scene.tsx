@@ -1,13 +1,12 @@
 /**
- * The encounter scene above the card: in place of the live camera (build 13 ships no camera
- * module), an illustrated stand-in with the same logic, the place's striped backdrop inside the
- * viewfinder. The critter hops between spots and edges closer as the dwell ring fills; a legendary
+ * The encounter scene above the card: the live camera inside the viewfinder when it can run,
+ * over an illustrated stand-in (the place's striped backdrop) that shows whenever it can't. The critter hops between spots and edges closer as the dwell ring fills; a legendary
  * gets its own layer (drifting petals, swaying lanterns, pulsing sparkles) and a gold ring. When it
  * wandered off, only a dashed ring and its footprints remain.
  */
 import type { FormSpec } from '@cp/critter-art';
 import { Canvas, Circle, Path } from '@shopify/react-native-skia';
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { StyleSheet, View, type LayoutChangeEvent } from 'react-native';
 import Animated from 'react-native-reanimated';
 
@@ -38,6 +37,8 @@ export interface SceneProps {
   readonly progress: number;
   readonly legendary: boolean;
   readonly state: 'live' | 'ready' | 'wandered';
+  /** The live camera, over the illustrated backdrop when it runs. */
+  readonly camera?: ReactNode;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -133,6 +134,7 @@ export function EncounterScene(props: SceneProps) {
       <View style={StyleSheet.absoluteFill}>
         <Hatch baseColor={base} />
       </View>
+      {props.camera ?? null}
       {props.legendary && props.state !== 'wandered' ? (
         <>
           <Petals />

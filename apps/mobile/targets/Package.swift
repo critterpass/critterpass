@@ -42,6 +42,19 @@ let package = Package(
       ],
       sources: ["ClipInvite.swift"]
     ),
+    .target(
+      name: "PendingActionsCore",
+      path: "_shared",
+      exclude: ["ActionKey", "PushPayload"],
+      sources: ["PendingActionsOutbox.swift"]
+    ),
+    .testTarget(
+      name: "PendingActionsTests",
+      dependencies: ["PendingActionsCore"],
+      path: "widgets/Tests",
+      exclude: ["Fixtures"],
+      swiftSettings: testSettings
+    ),
     .testTarget(
       name: "AppClipTests",
       dependencies: ["AppClipCore"],

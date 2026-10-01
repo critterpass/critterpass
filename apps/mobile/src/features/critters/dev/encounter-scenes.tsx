@@ -1,7 +1,7 @@
 /**
  * Lab scenes for encounters: filling, ready, stepped away (3l-4), a legendary (3l-10), wandered off
  * with and without a crowd forecast (3l-5), befriended (3l-6) and nothing nearby. The hold ring and
- * links are live but do nothing.
+ * links are live but do nothing. The live scenes run the real camera guard.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { findDesignedForm } from '@cp/critter-art';
@@ -9,6 +9,7 @@ import type { ReactNode } from 'react';
 
 import type { SpawnArt } from '../encounter/encounter-model';
 import { EncounterView, type EncounterViewProps } from '../encounter/encounter-view';
+import { LiveCamera } from '../encounter/live-camera';
 
 const noop = () => undefined;
 
@@ -61,6 +62,9 @@ function live(overrides: Partial<LiveProps> = {}) {
       onTap={noop}
       onRemind={noop}
       onBack={noop}
+      // The real camera guard: on a phone with a camera the preview shows; without one (a
+      // simulator, a refused permission) the illustration stays.
+      camera={<LiveCamera />}
       {...overrides}
     />
   );

@@ -102,11 +102,6 @@ msgstr "{0} suggests"
 msgid "proposal.lock.silent"
 msgstr "{0} who haven’t answered are out."
 
-#. placeholder {0}: guide.name
-#: ../../apps/mobile/src/features/proposal/chat-card.tsx
-msgid "proposal.card.member"
-msgstr "{0} wrote you your own version. Are you in?"
-
 #. placeholder {0}: pick.title
 #: ../../apps/mobile/src/features/proposal/your-version/picks-list.tsx
 msgid "proposal.version.pickA11y"
@@ -665,8 +660,8 @@ msgid "proposal.sent.tracker"
 msgstr "Who’s in?"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.confirm"
-msgstr "Lock it in"
+msgid "proposal.lock.confirmYes"
+msgstr "Yes, lock it in"
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
 msgid "proposal.why.mustDo"
@@ -753,3 +748,7 @@ msgstr "Your share"
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.share"
 msgstr "Your share"
+
+#: ../../apps/mobile/src/features/proposal/chat-card.tsx
+msgid "proposal.card.memberReady"
+msgstr "Your version is ready. Are you in?"

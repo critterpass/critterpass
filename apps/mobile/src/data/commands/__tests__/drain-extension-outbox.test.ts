@@ -3,9 +3,10 @@
  * outbox on a real directory in the native store's file format (the Swift store's own tests write
  * the same fixture this suite reads).
  */
-import { readFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readFileSync } from 'node:fs';
+import path from 'node:path';
 
-import { generateUuidV7 } from '@cp/domain';
+import { generateUuidV7, setReadinessPayloadSchema } from '@cp/domain';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 
 import { resetOnSignOutHooksForTests, runOnSignOutHooks } from '../../auth/sign-out-hooks';
@@ -21,7 +22,12 @@ import {
   startExtensionOutboxDrain,
   type ExtensionOutbox,
 } from '../drain-extension-outbox';
-import { fileOutbox, SWIFT_STORE_FIXTURE, type FileOutbox } from '../test-support/file-outbox';
+import {
+  fileOutbox,
+  IM_UP_INTENT_FIXTURE,
+  SWIFT_STORE_FIXTURE,
+  type FileOutbox,
+} from '../test-support/file-outbox';
 
 jest.mock(
   '@powersync/common',
@@ -116,6 +122,38 @@ describe('drainExtensionOutbox', () => {
     ]);
     expect(outbox.entries()).toEqual([]);
     expect(schedules).toBe(1);
+  });
+
+  it("queues the lock-screen I'M UP as set_readiness from the Live Activity", async () => {
+    mkdirSync(path.dirname(outbox.file), { recursive: true });
+    copyFileSync(IM_UP_INTENT_FIXTURE, outbox.file);
+    const [imUp] = (
+      JSON.parse(readFileSync(IM_UP_INTENT_FIXTURE, 'utf8')) as {
+        actions: [FixtureAction];
+      }
+    ).actions;
+
+    await expect(drain()).resolves.toEqual({ queued: 1, dropped: 0 });
+
+    const [queued] = await queuedEnvelopes();
+    expect(queued).toEqual({
+      id: imUp.op_id,
+      envelope: {
+        op_id: imUp.op_id,
+        cmd: 'set_readiness',
+        v: 1,
+        actor: { uid: stack.uid, via: 'la_intent' },
+        device: TEST_DEVICE,
+        client_ts: imUp.client_ts,
+        payload: imUp.payload,
+      },
+    });
+    expect(setReadinessPayloadSchema.parse(queued?.envelope.payload)).toEqual({
+      leave_by_id: imUp.payload.leave_by_id,
+      state: 'up',
+      source: 'la',
+    });
+    expect(outbox.entries()).toEqual([]);
   });
 
   it('never queues an entry twice when the file still holds it after a crash', async () => {
