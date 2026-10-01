@@ -21,6 +21,14 @@ const HANGING = /[Q,;]/u;
 /** What the display face covers: Latin with its extensions (Vietnamese included) and punctuation. */
 const DISPLAY_FACE_TEXT = /^[ -ɏḀ-ỿ‐-‧]*$/u;
 
+/** Kept free beside the longest word, so rounding never pushes its last letter to the next line. */
+const SLACK = 2;
+
+/** How much smaller than designed the name is set so its widest word fits `box` (1 = as designed). */
+export function widthFit(box: number, widestWord: number): number {
+  return widestWord <= 0 ? 1 : Math.min(1, box / (widestWord + SLACK));
+}
+
 /** Extra room a name needs around its capitals, in em. */
 export interface MarkRoom {
   readonly top: number;
@@ -106,6 +114,27 @@ export function wordmarkBox(layout: TextLayout, leading: number, room: MarkRoom)
     height: line * (lines - 1) + (leading + room.top + room.bottom) * size,
     top: firstBaseline - (baselineIn(leading) + room.top) * size,
   };
+}
+
+/**
+ * Kept free on a line when working out where a name breaks, so the count is never fewer lines than
+ * the platform lays out (one more costs a little spare room; one fewer would overflow).
+ */
+const BREAK_MARGIN = 2;
+
+/** How many lines words of these widths take in a box `available` wide, breaking between words. */
+export function countLines(widths: readonly number[], space: number, available: number): number {
+  let lines = 1;
+  let used = 0;
+  widths.forEach((width, index) => {
+    if (index > 0 && used + space + width <= available - BREAK_MARGIN) {
+      used += space + width;
+    } else {
+      if (index > 0) lines += 1;
+      used = width;
+    }
+  });
+  return lines;
 }
 
 /** The height kept for a name before it is measured: one line at the designed size. */

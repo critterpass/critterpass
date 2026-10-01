@@ -5,9 +5,10 @@
  * neither finalist gets smaller billing, plain or marked): the largest at which both halves fit,
  * never below the 44 pt floor. What still does not fit there scrolls.
  *
- * The size is worked out in one pass from what the halves measure: a name's height scales with its
- * size and the rest of a half (its paddings, the guide's line, the chips, the voters) does not, so
- * no layout has to be tried and the names are never set at one size and then at another.
+ * The size is worked out in one pass from what the halves measure: a name's height at any size
+ * follows from its words' widths (a smaller name takes fewer lines) and the rest of a half (its
+ * paddings, the guide's line, the chips, the voters) does not change, so no layout has to be tried
+ * and the names are never set at one size and then at another.
  */
 import { useCallback, useState } from 'react';
 
@@ -21,6 +22,11 @@ export interface NameMeasure {
   readonly designHeight: number;
   /** Its type size. */
   readonly designLine: number;
+  /**
+   * Its box's height at `scale` of that size, when it is known more closely than a straight
+   * scaling of `designHeight`: a name on several lines takes fewer when it is set smaller.
+   */
+  readonly heightAt?: (scale: number) => number;
 }
 
 export interface HalfMeasure {
@@ -37,6 +43,10 @@ function scaleAt(name: NameMeasure, line: number): number {
   return Math.min(1, line / name.designLine);
 }
 
+function nameHeight(name: NameMeasure, scale: number): number {
+  return name.heightAt?.(scale) ?? name.designHeight * scale;
+}
+
 /**
  * The type size both names share: null when the halves fit the screen with each name at its
  * designed size, otherwise the largest at which they fit, or the floor when none does.
@@ -48,7 +58,7 @@ export function sharedNameLine(
   if (viewport <= 0 || !halves.every(measured)) return null;
   const rest = halves.reduce((sum, half) => sum + half.rest, 0);
   const total = (line: number) =>
-    halves.reduce((sum, half) => sum + half.name.designHeight * scaleAt(half.name, line), rest);
+    halves.reduce((sum, half) => sum + nameHeight(half.name, scaleAt(half.name, line)), rest);
   const top = Math.max(...halves.map((half) => half.name.designLine));
   if (total(top) <= viewport) return null;
   let low = 0;
@@ -95,7 +105,8 @@ export function useShowdownNames(key: string) {
           now.key === key &&
           next.rest === before.rest &&
           next.name.designHeight === before.name.designHeight &&
-          next.name.designLine === before.name.designLine
+          next.name.designLine === before.name.designLine &&
+          next.name.heightAt === before.name.heightAt
         ) {
           return now;
         }

@@ -36,8 +36,14 @@ import { FACE_METRICS } from '@/ui/text/glyph-room';
 import { Final, OPT_KYOTO, seedFinal } from '../../test-support/final-fixtures';
 import { MAYA, renderVote, seedCrew, until } from '../../test-support/vote-harness';
 import { scalesAt, sharedNameLine, type HalfMeasure } from '../showdown-name-fit';
-import { widthFit } from '../wordmark';
-import { markRoom, setInDisplayFace, typeSize, wordmarkBox } from '../wordmark-box';
+import {
+  countLines,
+  markRoom,
+  setInDisplayFace,
+  typeSize,
+  widthFit,
+  wordmarkBox,
+} from '../wordmark-box';
 
 const FACE = FACE_METRICS['Archivo'] ?? { ascent: 0, descent: 0, glyphTop: 0, capHeight: 0 };
 /** The render's name: 120 pt on a 0.8 em line. */
@@ -134,7 +140,10 @@ describe('shared name size', () => {
   });
   const totalAt = (halves: readonly [HalfMeasure, HalfMeasure], line: number | null) => {
     const scales = scalesAt(halves, line);
-    return halves.reduce((sum, h, i) => sum + h.rest + h.name.designHeight * (scales[i] ?? 1), 0);
+    return halves.reduce((sum, h, i) => {
+      const scale = scales[i] ?? 1;
+      return sum + h.rest + (h.name.heightAt?.(scale) ?? h.name.designHeight * scale);
+    }, 0);
   };
 
   it('keeps the designed size when the halves fit, and shrinks both names equally when not', () => {
@@ -157,6 +166,30 @@ describe('shared name size', () => {
     const [plain, withMarks] = scalesAt(marked, sharedNameLine(marked, 700));
     expect(plain).toBeLessThan(1);
     expect(plain).toBeCloseTo(withMarks, 5);
+  });
+
+  it('lets a name of several words take fewer lines as it is set smaller', () => {
+    // THÀNH PHỐ HỒ CHÍ MINH at the designed size: five words, a space 20 wide, a half 350 wide.
+    const words = [270, 190, 150, 170, 260];
+    expect(countLines(words, 20, 350)).toBe(4);
+    // At half the size each line has twice the room, and at a third the name is on one line.
+    expect(countLines(words, 20, 700)).toBe(2);
+    expect(countLines(words, 20, 1200)).toBe(1);
+    // A word that fits with less than the margin to spare goes to the next line, as the
+    // platform may put it there.
+    expect(countLines([200, 129], 20, 350)).toBe(2);
+    expect(countLines([200, 120], 20, 350)).toBe(1);
+    // The shared size uses those heights, not a straight scaling of the four-line box: the long
+    // name can be larger than four scaled lines would allow.
+    const heightAt = (scale: number) =>
+      ((countLines(words, 20, 350 / scale) - 1) * 134 + 135) * scale;
+    const long: HalfMeasure = { name: { designLine: 120, designHeight: 537, heightAt }, rest: 300 };
+    const straight: HalfMeasure = { name: { designLine: 120, designHeight: 537 }, rest: 300 };
+    const other = half(120, 96, 300);
+    const closer = sharedNameLine([other, long], 800) ?? 0;
+    const scaled = sharedNameLine([other, straight], 800) ?? 0;
+    expect(closer).toBeGreaterThan(scaled);
+    expect(totalAt([other, long], closer)).toBeLessThanOrEqual(800);
   });
 
   it('stops at the 44-point floor when nothing fits, and waits for both halves', () => {

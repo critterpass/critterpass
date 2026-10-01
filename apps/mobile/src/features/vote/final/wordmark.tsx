@@ -8,18 +8,23 @@
  * tight line instead of the text's own taller box (see `wordmark-box.ts`), and keeps that room from
  * its first frame.
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View, type AccessibilityRole } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Text } from '@/ui/text/Text';
 
-import { markRoom, reservedHeight, setInDisplayFace, typeSize, wordmarkBox } from './wordmark-box';
+import {
+  countLines,
+  markRoom,
+  reservedHeight,
+  setInDisplayFace,
+  typeSize,
+  widthFit,
+  wordmarkBox,
+} from './wordmark-box';
+import { MEASURE_WIDTH, WordProbes } from './wordmark-probes';
 
-/** Wide enough that no word of a name wraps while the words are measured. */
-const MEASURE_WIDTH = 4000;
-/** Kept free beside the longest word, so rounding never pushes its last letter to the next line. */
-const SLACK = 2;
 /** Each step a name too tall for its room is set smaller by, and how far that goes. */
 const SQUEEZE_STEP = 0.9;
 const SQUEEZE_FLOOR = 0.3;
@@ -34,6 +39,12 @@ export interface WordmarkMeasure {
   readonly designHeight: number;
   /** Height as set right now. */
   readonly height: number;
+  /**
+   * On the designed line: the box's height with the name set at `scale` of its width-limited size.
+   * A smaller name has more room on each line, so it may take fewer lines than a straight scaling
+   * of `designHeight` says.
+   */
+  readonly heightAt?: (scale: number) => number;
 }
 
 export interface WordmarkProps {
@@ -69,19 +80,22 @@ interface WordWidths {
   readonly line: number;
   /** The capitals' height the platform measured, when it reports one. */
   readonly capHeight: number | undefined;
+  /** The whole name's width on one line at the designed size (what a space adds between words). */
+  readonly whole: number;
 }
 
-const NO_WORDS: WordWidths = { key: '', widths: [], line: 0, capHeight: undefined };
+const NO_WORDS: WordWidths = {
+  key: '',
+  widths: [],
+  line: 0,
+  capHeight: undefined,
+  whole: 0,
+};
 const NO_ROOM = { top: 0, bottom: 0 } as const;
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- style values, never copy.
 const ORIGIN = { start: 'top left', center: 'top center', end: 'top right' } as const;
 const TEXT_ALIGN = { start: 'left', center: 'center', end: 'right' } as const;
-
-/** How much smaller than designed the name is set so its widest word fits `box` (1 = as designed). */
-export function widthFit(box: number, widestWord: number): number {
-  return widestWord <= 0 ? 1 : Math.min(1, box / (widestWord + SLACK));
-}
 
 export function Wordmark({
   name,
@@ -151,7 +165,7 @@ export function Wordmark({
     setSqueeze({ key, box, by: squeezed * SQUEEZE_STEP });
   }
   // Adjusted while rendering: the height at the uncapped size is what a caller's cap is worked from.
-  if (settled && scale === 1 && height > 0) {
+  if (!trimmed && measured && scale === 1 && height > 0) {
     if (design.key !== key || design.box !== box || design.height !== height) {
       setDesign({ key, box, height });
     }
@@ -160,13 +174,47 @@ export function Wordmark({
   // size is laid out, so it neither flashes at a wrong size nor blinks when the size changes.
   if (trimmed && settled && seen !== key) setSeen(key);
   const visible = trimmed ? seen === key || settled : measured;
-  const designHeight = design.key === key && design.box === box ? design.height : 0;
+  // On the designed line the box's height at any size follows from the words' widths: the lines
+  // they take in the room that size leaves, on the name's own line height.
+  const lineGap = lines.key === key ? lines.line : 0;
+  const space =
+    parts.length > 1 && words.key === key && words.whole > 0
+      ? Math.max(
+          0,
+          (words.whole - widths.reduce((sum, width) => sum + width, 0)) / (parts.length - 1),
+        )
+      : null;
+  const roomEm = room.top + room.bottom;
+  const heightAt = useMemo(() => {
+    if (!trimmed || !measured || lineGap <= 0 || (parts.length > 1 && space === null)) {
+      return undefined;
+    }
+    return (at: number) => {
+      const sized = fit * at;
+      const count = countLines(widths, space ?? 0, box / sized);
+      return ((count - 1) * lineGap + (leading + roomEm) * size) * sized;
+    };
+    // `widths` is replaced whenever a word's width changes; `parts` follows `name`, in `key`.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trimmed, measured, lineGap, space, widths, fit, box, leading, roomEm, size, key]);
+  const designHeight =
+    heightAt !== undefined
+      ? heightAt(1)
+      : design.key === key && design.box === box
+        ? design.height
+        : 0;
   // On the designed line a name is compared by its type size: the text's own line height differs
   // between a plain name and a marked one, which is set on looser leading.
   const designLine = measured ? (trimmed ? size : words.line) * fit : 0;
   useEffect(() => {
-    if (designLine > 0 && designHeight > 0) onMeasure?.({ designLine, designHeight, height });
-  }, [designLine, designHeight, height, onMeasure]);
+    if (designLine <= 0 || designHeight <= 0) return;
+    onMeasure?.({
+      designLine,
+      designHeight,
+      height,
+      ...(heightAt === undefined ? {} : { heightAt }),
+    });
+  }, [designLine, designHeight, height, heightAt, onMeasure]);
   // The room is kept from the first frame, so what sits under the name does not jump when it lands.
   const reserved = trimmed ? reservedHeight(designSize, leading, room) * scale : undefined;
   return (
@@ -175,36 +223,29 @@ export function Wordmark({
       onLayout={(event) => setBox(event.nativeEvent.layout.width)}
       testID={`${testID}-box`}
     >
-      {/* Each word on its own, in a box none can outgrow, so its line is as wide as the word. */}
-      <View
-        style={{ position: 'absolute', width: MEASURE_WIDTH, opacity: 0 }}
-        pointerEvents="none"
-        accessibilityElementsHidden
-        importantForAccessibility="no-hide-descendants"
-      >
-        {parts.map((word, index) => (
-          <Text
-            key={`${word}-${index}`}
-            variant={variant}
-            designSize={designSize}
-            autoFit={false}
-            testID={`${testID}-word-${index}`}
-            onTextLayout={(event) => {
-              const first = event.nativeEvent.lines[0];
-              if (first === undefined) return;
-              setWords((now) => {
-                const held = now.key === key ? now : { ...NO_WORDS, key };
-                if (held.widths[index] === first.width && held.line === first.height) return now;
-                const next = [...held.widths];
-                next[index] = first.width;
-                return { ...held, widths: next, line: first.height, capHeight: first.capHeight };
-              });
-            }}
-          >
-            {word}
-          </Text>
-        ))}
-      </View>
+      <WordProbes
+        name={name}
+        parts={parts}
+        whole={trimmed && parts.length > 1}
+        variant={variant}
+        designSize={designSize}
+        testID={testID}
+        onWord={(index, width, line, capHeight) =>
+          setWords((now) => {
+            const held = now.key === key ? now : { ...NO_WORDS, key };
+            if (held.widths[index] === width && held.line === line) return now;
+            const next = [...held.widths];
+            next[index] = width;
+            return { ...held, widths: next, line, capHeight };
+          })
+        }
+        onWhole={(whole) =>
+          setWords((now) => {
+            const held = now.key === key ? now : { ...NO_WORDS, key };
+            return held === now && now.whole === whole ? now : { ...held, whole };
+          })
+        }
+      />
       <View
         style={[
           {
