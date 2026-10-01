@@ -1,0 +1,9 @@
+{
+  "name": "cp-live-activity",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Live Activities on iOS: starts, updates and ends the app's own activities and reports push-to-start tokens, update tokens and activity states so the server can drive them.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

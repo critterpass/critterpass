@@ -13,6 +13,7 @@ export {
 } from './channel-names';
 export * from './realtime';
 export * from './travel-data';
+export * from './media';
 export * from './entitlements/capability-keys';
 export * from './entitlements/errors';
 export {
@@ -35,6 +36,7 @@ export {
   type ProductType,
 } from './entitlements/product-keys';
 export * from './commands';
+export * from './countries';
 export {
   DESTINATION_COVERAGES,
   GUIDE_COLOURS,
@@ -257,6 +259,7 @@ export {
 } from './state/machine';
 export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } from './state/trip';
 export * from './surfaces/entitlements';
+export * from './live-activities';
 export * from './time/local-schedule';
 export * from './links';
 export * from './notifications';
@@ -283,3 +286,11 @@ export * from './billing';
 export * from './paywall';
 export * from './trip-day';
 export * from './disruptions';
+export * from './explore';
+export * from './proposal';
+export * from './critters';
+export * from './trips/lifecycle';
+export * from './quests';
+export * from './locale/app-locale';
+export * from './locale/guide-text';
+export * from './you';

@@ -8,9 +8,17 @@ import type { RenderSpec } from './model';
 import { applyMaskVariant, applyMonoVariant, applyStampVariant } from './variants';
 
 const BASE: RenderSpec = { kind: 'heart', seed: 7 };
-const GUIDE_KINDS = ['gecko', 'tanuki', 'puffin', 'axolotl', 'sardine', 'alpaca'] as const;
-/** 150 critters (144 locals + 6 guide cp-id aliases) + the 6 guides by their own kind name = 156. */
-const ALL_156_KINDS = [...critters.map((c) => c.id), ...GUIDE_KINDS];
+const GUIDE_KINDS = [
+  'gecko',
+  'tanuki',
+  'puffin',
+  'axolotl',
+  'sardine',
+  'alpaca',
+  'langur',
+] as const;
+/** 151 critters (144 locals + 7 guide cp-id aliases) + the 7 guides by their own kind name = 158. */
+const ALL_KINDS = [...critters.map((c) => c.id), ...GUIDE_KINDS];
 
 describe('applyMaskVariant', () => {
   it('recolours every op to one colour and forces full opacity on wash/fill', () => {
@@ -23,11 +31,11 @@ describe('applyMaskVariant', () => {
     }
   });
 
-  it('covers all 156 kinds (150 critters incl. guide aliases + the 6 guides)', () => {
-    expect(ALL_156_KINDS).toHaveLength(156);
+  it('covers all 158 kinds (151 critters incl. guide aliases + the 7 guides)', () => {
+    expect(ALL_KINDS).toHaveLength(158);
   });
 
-  it.each(ALL_156_KINDS)('%s has 0 off-palette ops in mask mode', (kind) => {
+  it.each(ALL_KINDS)('%s has 0 off-palette ops in mask mode', (kind) => {
     const model = build({ kind, seed: 7, variant: 'mask', maskColor: '#3a3466' }, 96);
     const colors = [...new Set(model.ops.map((op) => op.color))];
     expect(colors).toEqual(['#3a3466']);

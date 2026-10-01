@@ -92,7 +92,11 @@ export const removeCandidatePayloadSchema = z.strictObject({
 
 export const queuePitchPayloadSchema = z.strictObject({ crew_id: z.uuid(), pitch_id: z.uuid() });
 
-export const savePlacePayloadSchema = z.strictObject({ place_id: z.uuid() });
+/** A destination (kind `place`) or a place page's POI (kind `poi`), optionally into a named list. */
+export const savePlacePayloadSchema = z.strictObject({
+  place_id: z.uuid(),
+  list_name: z.string().trim().min(1).max(60).optional(),
+});
 
 export const requestPlacePayloadSchema = z.strictObject({
   query: z.string().trim().min(2).max(80),

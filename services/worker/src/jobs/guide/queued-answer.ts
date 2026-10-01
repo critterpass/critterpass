@@ -68,6 +68,14 @@ async function history(runtime: GuideRuntime, q: DueQuestion): Promise<GuideHist
   });
 }
 
+/** The language the asker's app is in: the answer is written in it. */
+async function userLocale(runtime: GuideRuntime, uid: string): Promise<string> {
+  const { rows } = await withSystem(runtime.pool, (tx) =>
+    tx.query<{ locale: string }>('SELECT app.user_locale($1) AS locale', [uid]),
+  );
+  return rows[0]?.locale ?? 'en';
+}
+
 type Outcome = 'answered' | 'waiting' | 'failed';
 
 export async function answerQueuedQuestion(
@@ -90,20 +98,21 @@ export async function answerQueuedQuestion(
     throw error;
   }
   const read = guideReader(runtime.pool);
-  const [pack, context, past] = await Promise.all([
+  const [pack, context, past, locale] = await Promise.all([
     packFor(read, q.user_id, q.trip_id, q.guide_slug),
     buildContext(
       { uid: q.user_id, tripId: q.trip_id, surface: 'C' },
       { runAsGuideReader: read, redactKeys: privacyRedactionKeys() },
     ),
     history(runtime, q),
+    userLocale(runtime, q.user_id),
   ]);
   const request = buildGuideChatRequest({
     pack,
     tripContext: context.tripContext,
     history: past,
     question: q.text,
-    directives: { chattiness: context.prefs.chattiness, locale: context.prefs.locale ?? 'en' },
+    directives: { chattiness: context.prefs.chattiness, locale },
     queued: true,
   });
   let text = '';

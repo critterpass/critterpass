@@ -19,6 +19,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import { defineJob, type JobDefinition } from '../../boss';
+import { enqueueCrewGuideTextIfRead } from '../i18n/enqueue';
 import { registerTipCandidateSource } from '../tips';
 
 export const PITCH_PREWARM_QUEUE = 'ai.pitch';
@@ -84,8 +85,8 @@ export async function prewarmPitches(
       continue;
     }
     if (!lines.some((line) => line.s === 'headline')) continue;
-    await withSystem(pool, (tx) =>
-      storePitch(tx, {
+    await withSystem(pool, async (tx) => {
+      await storePitch(tx, {
         crewId: place.crewId,
         placeId: place.placeId,
         month: loaded.facts.month,
@@ -94,8 +95,10 @@ export async function prewarmPitches(
         model: 'pitch.place',
         promptVersion: PITCH_PROMPT_VERSION,
         fareSnapshotId: loaded.fareSnapshotId,
-      }),
-    );
+      });
+      // Crewmates whose apps are in another language read the pitch in theirs.
+      await enqueueCrewGuideTextIfRead(tx, place.crewId);
+    });
     written += 1;
   }
   return { written, fresh };

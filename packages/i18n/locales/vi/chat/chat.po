@@ -185,6 +185,10 @@ msgstr "Đang sửa tin nhắn"
 msgid "chat.delete.line"
 msgstr "Mọi người sẽ thấy \"Tin nhắn đã bị xoá\" ở chỗ này."
 
+#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
+msgid "chat.card.unknown.action"
+msgstr "Cập nhật app"
+
 #: ../../apps/mobile/src/features/crew/chat/components/mention-picker.tsx
 msgid "chat.mention.guide"
 msgstr "Hướng dẫn viên"
@@ -267,10 +271,6 @@ msgstr "Mới"
 #: ../../apps/mobile/src/features/crew/chat/components/composer.tsx
 msgid "chat.composer.unsafeLink"
 msgstr "Chỉ gửi được liên kết http và https."
-
-#: ../../apps/mobile/src/features/crew/chat/cards/unknown-card.tsx
-msgid "chat.card.unknown.action"
-msgstr "Mở trang cập nhật"
 
 #: ../../apps/mobile/src/features/crew/chat/media/photo-message.tsx
 msgid "chat.photo.open"

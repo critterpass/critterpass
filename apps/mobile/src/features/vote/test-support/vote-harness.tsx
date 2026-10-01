@@ -14,6 +14,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import type { TestLocalFirst } from '@/data/powersync/test-support/local-first-fixture';
+import { TravelDataReaderProvider } from '@/data/travel-data/client';
+import { recordedReader } from '@/data/travel-data/test-support/recorded-reader';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { VoteServicesProvider, type VoteServices } from '../data/vote-services';
@@ -35,6 +37,13 @@ export const KYOTO = '0192f000-0000-7000-8000-0000000000d2';
 export const LISBON = '0192f000-0000-7000-8000-0000000000d3';
 export const BALI = '0192f000-0000-7000-8000-0000000000d1';
 
+/** The api out of reach and nothing saved: every place keeps its flat colour, as it does offline. */
+function offlineTravelData() {
+  const reader = recordedReader({});
+  reader.online = false;
+  return reader;
+}
+
 export function renderVote(
   ui: ReactElement,
   stack: TestLocalFirst,
@@ -46,9 +55,11 @@ export function renderVote(
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
-            <VoteServicesProvider services={services}>
-              <ScreenJoltProvider>{ui}</ScreenJoltProvider>
-            </VoteServicesProvider>
+            <TravelDataReaderProvider value={offlineTravelData()}>
+              <VoteServicesProvider services={services}>
+                <ScreenJoltProvider>{ui}</ScreenJoltProvider>
+              </VoteServicesProvider>
+            </TravelDataReaderProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
@@ -56,8 +67,11 @@ export function renderVote(
   );
 }
 
-/** Waits until `check` passes (5 s at most), flushing the live queries' updates each round. */
-export async function until(check: () => boolean, timeoutMs = 5000, label = ''): Promise<void> {
+/**
+ * Waits until `check` passes (15 s at most: CI runs this beside the api's suites, about three times
+ * slower than a laptop), flushing the live queries' updates each round.
+ */
+export async function until(check: () => boolean, timeoutMs = 15_000, label = ''): Promise<void> {
   const deadline = Date.now() + timeoutMs;
   for (;;) {
     await new Promise((resolve) => setTimeout(resolve, 100));

@@ -45,6 +45,9 @@ appId: app.critterpass.dev
     env: { SCENE: paste, READY: bookings-paste-field, SHOT: '${PREFIX}-bookings-paste' }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: paste-long, READY: bookings-paste-send, SHOT: '${PREFIX}-bookings-paste-long' }
+- runFlow:
+    file: scene.yaml
     env:
       {
         SCENE: paste-offline,

@@ -1,8 +1,7 @@
 /**
  * Names stay server-side until found: `critter_names` is readable by no client-facing role and no
  * replication role, and `app.set_collected_name` copies a found form's names into the caller's own
- * collection entry only. The collection table is created here with the columns the collect command
- * writes when this suite runs before that table has its own migration.
+ * collection entry only, and only once that entry is verified.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
@@ -23,19 +22,6 @@ let formId: string;
 beforeAll(async () => {
   container = await startDbTestContainer();
   db = await container.createDatabase();
-  await db.pool.query(`CREATE TABLE IF NOT EXISTS collection_entries (
-    id uuid PRIMARY KEY DEFAULT uuidv7(),
-    user_id uuid NOT NULL REFERENCES users (id),
-    form_id uuid NOT NULL,
-    critter_name text,
-    form_name text,
-    UNIQUE (user_id, form_id)
-  )`);
-  await db.pool.query(`ALTER TABLE collection_entries ENABLE ROW LEVEL SECURITY;
-    ALTER TABLE collection_entries FORCE ROW LEVEL SECURITY;
-    DROP POLICY IF EXISTS collection_entries_owner ON collection_entries;
-    CREATE POLICY collection_entries_owner ON collection_entries FOR SELECT TO app_user USING (user_id = app.uid());
-    GRANT SELECT ON collection_entries TO app_user;`);
   ({ alice, bob, formId } = await withSystem(db.pool, async (tx) => {
     const a = await insertUser(tx, { username: 'alice' });
     const b = await insertUser(tx, { username: 'bob' });
@@ -69,12 +55,13 @@ beforeAll(async () => {
        VALUES ($1, NULL, 'en', 'Pon', 'ポン', $3), ($1, $2, 'en', 'Sakura Pon', NULL, $3)`,
       [critter[0]!.id, form[0]!.id, releaseId],
     );
+    await tx.query(
+      `INSERT INTO collection_entries (user_id, form_id, critter_id, found_at, source, verification)
+       VALUES ($1, $3, $4, now(), 'encounter', 'verified'), ($2, $3, $4, now(), 'encounter', 'verified')`,
+      [a, b, form[0]!.id, critter[0]!.id],
+    );
     return { alice: a, bob: b, formId: form[0]!.id };
   }));
-  await db.pool.query(
-    'INSERT INTO collection_entries (user_id, form_id) VALUES ($1, $3), ($2, $3)',
-    [alice, bob, formId],
-  );
 }, 180_000);
 
 afterAll(async () => {

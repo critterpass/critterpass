@@ -6,3 +6,567 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.unknownName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.landedAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.rankGroupCities"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindersSet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.crewChip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.guideBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.places"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.homeCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.setCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.hereCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.crew.befriended"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.crewHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/critters-copy.ts
+msgid "critters.crew.firstSpotter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.wanderedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.stayed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.noticed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.formsOf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.comparison"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.hatched"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.isHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.skinSet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.shareAlt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.formOf"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.legendaryTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.shareLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.formEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.formNo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.nextForm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.landed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.xp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.scene"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.encounter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.ended"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.befriend"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.remindOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.addToPass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.alsoHas"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.any"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.classicLook"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.backToDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.befriend"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.tapInstead"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.befriended"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.bestChance"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.remindOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.nothingBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyFoundBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.early"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.mode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.over"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.everyone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.exploreAtHome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.homeOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.homeOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.hardest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.forms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterFound"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.guideNotes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.fieldNotes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.hatchIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.hereNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.hold"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.holdTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.homeEyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.samples"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.waitingBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.legendaryBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.wandered"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.readyBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.shyBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.late"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.intro"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.legendaryMode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.legendaryOnDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.look"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.makeGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.meet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.exploreAtHomeBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.mid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.filterNear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyNearBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.noForecast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.emptyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptySearchTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.pending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyNearTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptyFoundTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.nothingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.inboxOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderDenied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.onOneDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.onPass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.rankGroup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindMe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.remindAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.reminding"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.remindersOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.sayHi"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.emptySearchBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.shareCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.later"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.someoneHere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.unseenBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.rustled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.stayTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.copresenceDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.emptyBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.today"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.tomorrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.reminderSet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.welcome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.where"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.youMadeIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.youreAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.readyBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
+msgid "critters.encounter.drainingBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
+msgid "critters.dex.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
+msgid "critters.legendary.yourDates"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.waitingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.unseenTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.hatchedSomeone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.hatch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.egg.readyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
+msgid "critters.hatch.firstBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.skinReverted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/data/commands.ts
+msgid "critters.queued.skin"
+msgstr ""

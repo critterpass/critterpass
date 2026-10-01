@@ -35,12 +35,39 @@ jobs:
           cache-prefix: turbo-node26_
       - name: Format
         run: pnpm format:check
+      # @cp/db and the content factory start Testcontainers Postgres from their `test` scripts, so
+      # those suites run in this job: when either is affected, build their image before turbo
+      # starts everything else on this runner (the database job explains why).
+      - name: Build the test Postgres image
+        timeout-minutes: 10
+        env:
+          DEBUG: testcontainers:build # the build log, which Testcontainers otherwise drops
+          TESTCONTAINERS_RYUK_DISABLED: 'true' # the build starts no container to reap
+        run: |
+          if pnpm turbo run test --affected --dry-run=json |
+            jq -e 'any(.tasks[]; .taskId == "@cp/db#test" or .taskId == "@cp/content-factory#test")' > /dev/null; then
+            pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
+          fi
       - name: Affected packages
         run: pnpm turbo run lint typecheck test build --affected --continue
 
   database:
-    name: database suites (Testcontainers)
+    # One runner per suite: every database test file starts its own Postgres (often Redis too), and
+    # the api, worker and app suites sharing a runner starved each other's container starts.
+    name: database suites (${{ matrix.suite }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - suite: api
+            filter: '--filter=@cp/api'
+          - suite: worker
+            filter: '--filter=@cp/worker'
+          # Every other package with a test:db script (the app's suites today), so a package that
+          # gains the script runs here without a new leg.
+          - suite: other packages
+            filter: '--filter=!@cp/api --filter=!@cp/worker'
     steps:
       - uses: actions/checkout@v7
         with: { fetch-depth: 0 }
@@ -49,12 +76,29 @@ jobs:
         with: { node-version: 26, cache: pnpm }
       - run: pnpm install --frozen-lockfile
       # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does.
-      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      - if: matrix.suite == 'worker'
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
       # Only the builds the suites depend on come from cache; turbo.json never caches test:db.
       - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
         with:
           cache-prefix: turbo-node26_
-      - run: pnpm turbo run test:db --affected --continue
+      # Each test file's worker builds the Postgres image; all but the first build come from
+      # Docker's layer cache. Left to the suites, the first workers run that first build all at
+      # once inside their beforeAll hooks and run out of hook time. Build it once here instead,
+      # with the suites' own helper so their builds find every layer cached.
+      - name: Build the test Postgres image
+        timeout-minutes: 10
+        env:
+          DEBUG: testcontainers:build # the build log, which Testcontainers otherwise drops
+          TESTCONTAINERS_RYUK_DISABLED: 'true' # the build starts no container to reap
+        run: |
+          if pnpm turbo run test:db --affected ${{ matrix.filter }} --dry-run=json |
+            jq -e 'any(.tasks[]; .task == "test:db" and .command != "<NONEXISTENT>")' > /dev/null; then
+            pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
+          else
+            echo 'No database suite here is affected by this change.'
+          fi
+      - run: pnpm turbo run test:db --affected ${{ matrix.filter }} --continue
 
   changes:
     runs-on: ubuntu-latest
@@ -94,6 +138,7 @@ jobs:
             critter_macos:
               - 'packages/critter-art/**'
               - 'packages/critter-bake/**'
+              - 'apps/mobile/assets/fonts/**'
               - 'apps/mobile/plugins/**'
               - 'apps/mobile/app.config.ts'
               - 'apps/mobile/generated/critter-art/**'
@@ -156,6 +201,7 @@ jobs:
               - '.github/workflows/ci.yml'
             admin_e2e:
               - 'apps/admin/**'
+              - 'packages/db/seed/**'
               - 'services/api/src/admin/**'
               - 'packages/domain/src/admin/**'
               - 'packages/db/migrations/**'
@@ -270,6 +316,22 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - run: docker build -f services/${{ matrix.service }}/Dockerfile -t cp-${{ matrix.service }}-check .
+      - name: worker boots to its health server
+        if: matrix.service == 'worker'
+        # Railway marks a deployment successful once the container starts, so a worker that hangs
+        # before serving its health port looks deployed while no job runs. Boot the image with
+        # unreachable dependencies and require the health server within a minute.
+        run: |
+          docker run -d --name worker-boot \
+            -e DATABASE_DIRECT_URL=postgres://ci:ci@127.0.0.1:1/ci -e DATABASE_URL=postgres://ci:ci@127.0.0.1:1/ci \
+            -e REDIS_URL=redis://127.0.0.1:1 -e APP_ENV=staging -e COMMIT_SHA=ci cp-worker-check
+          for i in $(seq 1 60); do
+            if docker logs worker-boot 2>&1 | grep -q 'worker health listening'; then echo "worker booted"; exit 0; fi
+            sleep 1
+          done
+          docker logs worker-boot 2>&1 | tail -30
+          echo "::error::the worker image never reached its health server"
+          exit 1
 
   secrets:
     name: secret scan

@@ -319,6 +319,10 @@ msgstr ""
 msgid "guide.queued.rate"
 msgstr ""
 
+#: ../../apps/mobile/src/features/guide/phrases/phrase-card.tsx
+msgid "guide.phrase.deviceVoice"
+msgstr ""
+
 #: ../../apps/mobile/src/features/guide/meter/limit-card.tsx
 msgid "guide.limit.resets"
 msgstr ""

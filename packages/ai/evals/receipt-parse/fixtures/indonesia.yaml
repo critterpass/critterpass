@@ -1,0 +1,535 @@
+# Photographed receipts from Indonesia: the founder's photos, redacted (dates, times, order and
+# invoice numbers, staff names, card and bank details, QR codes boxed out), read by the device
+# recogniser into the lines below, and graded on the charges the paper prints.
+- description: a seafood restaurant bill with a finger over the item names
+  fixture: receipt-parse-photo-id-seafood-finger
+  photo: id-seafood-finger.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: Bandar }
+    - { id: l1, text: Nelayan }
+    - { id: l2, text: LUMPIA KULIT TAHU UDANG }
+    - { id: l3, text: '@88.000' }
+    - { id: l4, text: '88.000' }
+    - { id: l5, text: MIE TERBANG REG }
+    - { id: l6, text: '118.000' }
+    - { id: l7, text: 1x }
+    - { id: l8, text: '@118.000' }
+    - { id: l9, text: KEPITING SOKA TELUR ASIN REG }
+    - { id: l10, text: '95.000' }
+    - { id: l11, text: '@95.000' }
+    - { id: l12, text: AILAN DUA RASA REG }
+    - { id: l13, text: '85.000' }
+    - { id: l14, text: PUTIH }
+    - { id: l15, text: ₴85.000 }
+    - { id: l16, text: '30.000' }
+    - { id: l17, text: '@15.000' }
+    - { id: l18, text: CHEE TEA }
+    - { id: l19, text: '38.000' }
+    - { id: l20, text: €38.000 }
+    - { id: l21, text: '* gp' }
+    - { id: l22, text: '30.000' }
+    - { id: l23, text: ICE TEA }
+    - { id: l24, text: 1x }
+    - { id: l25, text: ฿30.000 }
+    - { id: l26, text: ICE LEMON TEA }
+    - { id: l27, text: '* gp' }
+    - { id: l28, text: '38.000' }
+    - { id: l29, text: 1x }
+    - { id: l30, text: '@38.000' }
+    - { id: l31, text: OYSTER }
+    - { id: l32, text: '* gp' }
+    - { id: l33, text: '70.000' }
+    - { id: l34, text: KERAPU CANTANG SOUP JAHE }
+    - { id: l35, text: 2x }
+    - { id: l36, text: '* sasimi' }
+    - { id: l37, text: '@35.000' }
+    - { id: l38, text: '304.000' }
+    - { id: l39, text: '0,80x @380.000' }
+    - { id: l40, text: '11,80 items' }
+    - { id: l41, text: 'Service Charge :' }
+    - { id: l42, text: 'Subtotal :' }
+    - { id: l43, text: PB1 }
+    - { id: l44, text: '896.000' }
+    - { id: l45, text: '62.720' }
+    - { id: l46, text: '95.872' }
+    - { id: l47, text: 'Grand Total :' }
+    - { id: l48, text: 1.05.000 }
+    - { id: l49, text: --- NOT PAID - }
+  expect:
+    currency: IDR
+    total_minor: 105500000
+    amounts:
+      - { kind: item, amount_minor: 8800000 }
+      - { kind: item, amount_minor: 11800000 }
+      - { kind: item, amount_minor: 9500000 }
+      - { kind: item, amount_minor: 8500000 }
+      - { kind: item, amount_minor: 3000000 }
+      - { kind: item, amount_minor: 3800000 }
+      - { kind: item, amount_minor: 3000000 }
+      - { kind: item, amount_minor: 3800000 }
+      - { kind: item, amount_minor: 7000000 }
+      - { kind: item, amount_minor: 30400000 }
+      - { kind: service, amount_minor: 6272000 }
+      - { kind: tax, amount_minor: 9587200 }
+- description: a long warung slip, one item per two lines
+  fixture: receipt-parse-photo-id-warung-long
+  photo: id-warung-long.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: (085333998463) }
+    - { id: l1, text: ALAM WARUNG }
+    - { id: l2, text: I* Grill fishtvegtrice }
+    - { id: l3, text: '55,000.00' }
+    - { id: l4, text: 1* Grill chickentvegtrice }
+    - { id: l5, text: '5,000.00' }
+    - { id: l6, text: 1* Fried fish+fried rice }
+    - { id: l7, text: '65,000.00' }
+    - { id: l8, text: 1* Noodles soup }
+    - { id: l9, text: '25,000.00' }
+    - { id: l10, text: 1* Vegetable }
+    - { id: l11, text: '20,00.00' }
+    - { id: l12, text: 1* Cоke }
+    - { id: l13, text: '15,00.00' }
+    - { id: l14, text: 1* Ice lemon tea }
+    - { id: l15, text: '15,00.00' }
+    - { id: l16, text: 1* Ginger tea }
+    - { id: l17, text: '15,000.00' }
+    - { id: l18, text: 'QTY TOTAL:' }
+    - { id: l19, text: 'Subtotal:' }
+    - { id: l20, text: 'RP255,000.00' }
+    - { id: l21, text: 'GRAND TOTAL:' }
+    - { id: l22, text: 'RP265,000.00' }
+    - { id: l23, text: Terima kasıh }
+  expect:
+    currency: IDR
+    total_minor: 26500000
+    amounts:
+      - { kind: item, amount_minor: 5500000 }
+      - { kind: item, amount_minor: 5500000 }
+      - { kind: item, amount_minor: 6500000 }
+      - { kind: item, amount_minor: 2500000 }
+      - { kind: item, amount_minor: 2000000 }
+      - { kind: item, amount_minor: 1500000 }
+      - { kind: item, amount_minor: 1500000 }
+      - { kind: item, amount_minor: 1500000 }
+- description: a cafe pre-invoice with service and tax on top
+  fixture: receipt-parse-photo-id-cafe-folder
+  photo: id-cafe-folder.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: be ja na }
+    - { id: l1, text: Uluwatu - Ball }
+    - { id: l2, text: PRA INVOICE }
+    - { id: l3, text: NAME }
+    - { id: l4, text: PRICE }
+    - { id: l5, text: QTY }
+    - { id: l6, text: TOTAL }
+    - { id: l7, text: BEVERAGE }
+    - { id: l8, text: CHOCOLATE MILKSHAKE }
+    - { id: l9, text: '59,000 X' }
+    - { id: l10, text: '59,000' }
+    - { id: l11, text: COCO FRESH }
+    - { id: l12, text: '59,000 X' }
+    - { id: l13, text: '1' }
+    - { id: l14, text: '59,000' }
+    - { id: l15, text: MIX BREEZE }
+    - { id: l16, text: '59,000 X' }
+    - { id: l17, text: '59,000' }
+    - { id: l18, text: FOOD }
+    - { id: l19, text: HAWAIAN PIZZA }
+    - { id: l20, text: '135,000 X' }
+    - { id: l21, text: '135,000' }
+    - { id: l22, text: 'ITEM: 4 SUB TOTAL' }
+    - { id: l23, text: '312,000' }
+    - { id: l24, text: GLOBAL DISCOUNT }
+    - { id: l25, text: SERVICE 8% }
+    - { id: l26, text: '24,960' }
+    - { id: l27, text: TAX10% }
+    - { id: l28, text: '31,200' }
+    - { id: l29, text: GRAND TOTAL }
+    - { id: l30, text: '368,160' }
+  expect:
+    currency: IDR
+    total_minor: 36816000
+    amounts:
+      - { kind: item, amount_minor: 5900000 }
+      - { kind: item, amount_minor: 5900000 }
+      - { kind: item, amount_minor: 5900000 }
+      - { kind: item, amount_minor: 13500000 }
+      - { kind: service, amount_minor: 2496000 }
+      - { kind: tax, amount_minor: 3120000 }
+- description: a torn temple entry ticket for three
+  fixture: receipt-parse-photo-id-temple-ticket-torn
+  photo: id-temple-ticket-torn.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: AFиL PиIR }
+    - { id: l1, text: JBB }
+    - { id: l2, text: RANK BPD BALI }
+    - { id: l3, text: ISATA TIRTA EMPUL }
+    - { id: l4, text: 'unukaya, Tampakşir' }
+    - { id: l5, text: 'uten Gianyar, Bali 8' }
+    - { id: l6, text: '0552' }
+    - { id: l7, text: Telp. 0123 }
+    - { id: l8, text: Tiket Masuk Mancanegara (Dewas }
+    - { id: l9, text: аxЗ) }
+    - { id: l10, text: '225.000' }
+    - { id: l11, text: '75.000' }
+    - { id: l12, text: Total }
+    - { id: l13, text: '225.000' }
+    - { id: l14, text: Cash }
+    - { id: l15, text: '225.000' }
+    - { id: l16, text: Change }
+    - { id: l17, text: I-Ticket Daya Tarik Wisata Tir }
+    - { id: l18, text: ta Empul }
+    - { id: l19, text: lickets already purchaseu }
+    - { id: l20, text: changed or returned }
+    - { id: l21, text: Can }
+    - { id: l22, text: YOT }
+    - { id: l23, text: LIWC }
+    - { id: l24, text: during operational }
+    - { id: l25, text: Powered by atix.id }
+    - { id: l26, text: BANK BPD BALI }
+  expect:
+    currency: IDR
+    total_minor: 22500000
+    amounts:
+      - { kind: item, amount_minor: 22500000 }
+- description: a resort restaurant folio with VAT and a service tax
+  fixture: receipt-parse-photo-id-resort-restaurant
+  photo: id-resort-restaurant.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: POLENG RESTAURANT }
+    - { id: l1, text: TANAN SARI BALI RESORT & SPA }
+    - { id: l2, text: 'Dusun Pemuteran, Kecamatan Gerokgak, Bul' }
+    - { id: l3, text: eleng }
+    - { id: l4, text: Pemuteran - 81116 }
+    - { id: l5, text: TEL:+6285338283069 }
+    - { id: l6, text: EMAIL:reservation@tamansaribali.com }
+    - { id: l7, text: WEB SITE:www.tamansaribali.com }
+    - { id: l8, text: Qty Product/Item }
+    - { id: l9, text: Amount }
+    - { id: l10, text: (IOR) }
+    - { id: l11, text: '1' }
+    - { id: l12, text: Seafood Platter C.1 }
+    - { id: l13, text: '110,000' }
+    - { id: l14, text: '9' }
+    - { id: l15, text: 1 Nasi Goreng Chicken }
+    - { id: l16, text: '90,000' }
+    - { id: l17, text: C19 }
+    - { id: l18, text: '1' }
+    - { id: l19, text: Soto Ayam C19 }
+    - { id: l20, text: '70,000' }
+    - { id: l21, text: Green Salad C19 }
+    - { id: l22, text: '65,000' }
+    - { id: l23, text: '1' }
+    - { id: l24, text: Bebek Betutu C19 }
+    - { id: l25, text: '115,000' }
+    - { id: l26, text: '4' }
+    - { id: l27, text: SMALL BEER C.19 }
+    - { id: l28, text: '232,000' }
+    - { id: l29, text: '2' }
+    - { id: l30, text: Spirit Mixer C.19 }
+    - { id: l31, text: '220,000' }
+    - { id: l32, text: Sub Total }
+    - { id: l33, text: '902,000' }
+    - { id: l34, text: VAT }
+    - { id: l35, text: '90,200' }
+    - { id: l36, text: Total }
+    - { id: l37, text: '992,200' }
+    - { id: l38, text: Service Tax }
+    - { id: l39, text: '99,220' }
+    - { id: l40, text: 'Total Amount 1,091,420' }
+  expect:
+    currency: IDR
+    total_minor: 109142000
+    amounts:
+      - { kind: item, amount_minor: 11000000 }
+      - { kind: item, amount_minor: 9000000 }
+      - { kind: item, amount_minor: 7000000 }
+      - { kind: item, amount_minor: 6500000 }
+      - { kind: item, amount_minor: 11500000 }
+      - { kind: item, amount_minor: 23200000 }
+      - { kind: item, amount_minor: 22000000 }
+      - { kind: tax, amount_minor: 9020000 }
+      - { kinds: [service, tax], amount_minor: 9922000 }
+- description: a takeout slip whose prices sit a row above their items
+  fixture: receipt-parse-photo-id-takeout-folder
+  photo: id-takeout-folder.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: '081805308434' }
+    - { id: l1, text: umi }
+    - { id: l2, text: Barang }
+    - { id: l3, text: 'Rp35,000' }
+    - { id: l4, text: Banana juice }
+    - { id: l5, text: 'Rp50,000' }
+    - { id: l6, text: Beer radier }
+    - { id: l7, text: 'Rp30,000' }
+    - { id: l8, text: Papaya juice }
+    - { id: l9, text: 'Rp3 5,000' }
+    - { id: l10, text: Pinepple juice }
+    - { id: l11, text: '4 Rp280,000' }
+    - { id: l12, text: pho }
+    - { id: l13, text: 'Item: 5' }
+    - { id: l14, text: 'Jmlh: 8' }
+    - { id: l15, text: S. Charge. }
+    - { id: l16, text: 'Subtotal:' }
+    - { id: l17, text: Gov lax. }
+    - { id: l18, text: 'Rp430,000' }
+    - { id: l19, text: 'Rp21,500' }
+    - { id: l20, text: 'Rp45,150' }
+    - { id: l21, text: 'Total:' }
+    - { id: l22, text: 'Rp496,650' }
+    - { id: l23, text: 'Cash:' }
+    - { id: l24, text: 'Rp496,650' }
+    - { id: l25, text: Thank you for coming ! }
+  expect:
+    currency: IDR
+    total_minor: 49665000
+    amounts:
+      - { kind: item, amount_minor: 3500000 }
+      - { kind: item, amount_minor: 5000000 }
+      - { kind: item, amount_minor: 3000000 }
+      - { kind: item, amount_minor: 3500000 }
+      - { kind: item, amount_minor: 28000000 }
+      - { kind: service, amount_minor: 2150000 }
+      - { kind: tax, amount_minor: 4515000 }
+- description: an unpaid seafood bill with a price per line
+  fixture: receipt-parse-photo-id-seafood-unpaid
+  photo: id-seafood-unpaid.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: Baw Resto Seatood }
+    - { id: l1, text: Food Cene ei Reнa Ba i 80 рeні }
+    - { id: l2, text: 'Telp : 082313212956' }
+    - { id: l3, text: ~-UNPAID--- }
+    - { id: l4, text: Meja Meja 14 }
+    - { id: l5, text: Spinach Udang (1x) }
+    - { id: l6, text: Rp59.000 }
+    - { id: l7, text: (1x) }
+    - { id: l8, text: Nasi Goreng Singapore }
+    - { id: l9, text: Rp45.000 }
+    - { id: l10, text: Kangkung Tauco (1x) }
+    - { id: l11, text: Rp35.000 }
+    - { id: l12, text: Cumi Lada Hitam (1x) }
+    - { id: l13, text: Rp85.000 }
+    - { id: l14, text: Tahu Cabe Garan (1x) }
+    - { id: l15, text: Rp30.000 }
+    - { id: l16, text: Sop Tomyum (1x) }
+    - { id: l17, text: Rp70.000 }
+    - { id: l18, text: Udang Saus Thailand }
+    - { id: l19, text: Rp99.000 }
+    - { id: l20, text: Kepiting (400.0g) }
+    - { id: l21, text: Rp180.000 }
+    - { id: l22, text: Nasi Putih (1x) }
+    - { id: l23, text: Rp8.000 }
+    - { id: l24, text: Bintang Kecil 5 (1x) }
+    - { id: l25, text: Rp175.000 }
+    - { id: l26, text: Aqua Kecil (1x) }
+    - { id: l27, text: Rp10.000 }
+    - { id: l28, text: 'Total Item: 11' }
+    - { id: l29, text: Subtotal }
+    - { id: l30, text: Rp796.000 }
+    - { id: l31, text: Total Jumlah }
+    - { id: l32, text: Rp798.000 }
+    - { id: l33, text: Pembayaran }
+    - { id: l34, text: Terima kasih atas pesanan Anda }
+    - { id: l35, text: Powered by IDEKU }
+  expect:
+    currency: IDR
+    amounts:
+      - { kind: item, amount_minor: 5900000 }
+      - { kind: item, amount_minor: 4500000 }
+      - { kind: item, amount_minor: 3500000 }
+      - { kind: item, amount_minor: 8500000 }
+      - { kind: item, amount_minor: 3000000 }
+      - { kind: item, amount_minor: 7000000 }
+      - { kind: item, amount_minor: 9900000 }
+      - { kind: item, amount_minor: 18000000 }
+      - { kind: item, amount_minor: 800000 }
+      - { kind: item, amount_minor: 17500000 }
+      - { kind: item, amount_minor: 1000000 }
+  excluded:
+    - 'total: the last digit of the amount due is blurred (796,000 or 798,000)'
+- description: a handwritten bill on a printed pad
+  fixture: receipt-parse-photo-id-handwritten-bill
+  photo: id-handwritten-bill.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: 'Phone: 081' }
+    - { id: l1, text: Orang }
+    - { id: l2, text: Meja No. }
+    - { id: l3, text: S }
+    - { id: l4, text: Pesanan No. }
+    - { id: l5, text: Server }
+    - { id: l6, text: Qty }
+    - { id: l7, text: '3' }
+    - { id: l8, text: Hot cotk latte 2 5hot }
+    - { id: l9, text: Sman Water }
+    - { id: l10, text: whole coconf t' ee 3540 }
+    - { id: l11, text: Keterangan }
+    - { id: l12, text: Harga }
+    - { id: l13, text: Los-co }
+    - { id: l14, text: 65-020 }
+    - { id: l15, text: Total }
+    - { id: l16, text: 10 -000 }
+    - { id: l17, text: '2' }
+    - { id: l18, text: onu speual fsh yoon 15l0000 }
+    - { id: l19, text: 2tisn }
+    - { id: l20, text: '312.00' }
+    - { id: l21, text: Chicken F.P }
+    - { id: l22, text: raix venetuble }
+    - { id: l23, text: 48-ль }
+    - { id: l24, text: 35-4000 }
+    - { id: l25, text: + 1 }
+    - { id: l26, text: лих Vegebable. }
+    - { id: l27, text: chicken cerrg }
+    - { id: l28, text: 35-40 }
+    - { id: l29, text: 77-0о }
+    - { id: l30, text: 687-co }
+    - { id: l31, text: 10% Tax }
+    - { id: l32, text: 68-700 }
+    - { id: l33, text: Kasir }
+    - { id: l34, text: Total Harga }
+    - { id: l35, text: '755.700' }
+    - { id: l36, text: ) Terima Kasih }
+  expect:
+    currency: IDR
+    total_minor: 75570000
+    amounts:
+      - { kind: item, amount_minor: 10500000 }
+      - { kind: item, amount_minor: 6500000 }
+      - { kind: item, amount_minor: 1000000 }
+      - { kind: item, amount_minor: 31200000 }
+      - { kind: item, amount_minor: 4800000 }
+      - { kind: item, amount_minor: 3500000 }
+      - { kind: item, amount_minor: 7700000 }
+      - { kind: item, amount_minor: 3500000 }
+      - { kind: tax, amount_minor: 6870000 }
+- description: a bar bill in faded purple ink
+  fixture: receipt-parse-photo-id-bar-purple-ink
+  photo: id-bar-purple-ink.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: KELINGKING }
+    - { id: l1, text: BAR & RESTAURANT }
+    - { id: l2, text: 'Br. Karang Dawa, Dese Bunga Mekar' }
+    - { id: l3, text: Nusapenida }
+    - { id: l4, text: +62 812 6666 6262 }
+    - { id: l5, text: Cover }
+    - { id: l6, text: 1 BINTANG LARGE }
+    - { id: l7, text: '80,000' }
+    - { id: l8, text: 3 BINTANG LEMON }
+    - { id: l9, text: '165,000' }
+    - { id: l10, text: 1 SAN MIGUEL PALE }
+    - { id: l11, text: '60,000' }
+    - { id: l12, text: 1 CHICKEN PARMIGIANA }
+    - { id: l13, text: '85,000' }
+    - { id: l14, text: 1 TOM YAM GONG }
+    - { id: l15, text: '85,000' }
+    - { id: l16, text: 1 GRILLED CHICKEN SATAY }
+    - { id: l17, text: '₴0,000' }
+    - { id: l18, text: 1 GRILLED TUNA STEAK }
+    - { id: l19, text: '100,000' }
+    - { id: l20, text: 1 SFD FRIED NOODLE }
+    - { id: l21, text: '85,000' }
+    - { id: l22, text: 1 AQUA LARGE }
+    - { id: l23, text: '30,000' }
+    - { id: l24, text: 1 PUMPKIN SOUP }
+    - { id: l25, text: '40,000' }
+    - { id: l26, text: SUBTOTAL }
+    - { id: l27, text: '810,000' }
+    - { id: l28, text: Service }
+    - { id: l29, text: '40,500' }
+    - { id: l30, text: Tax }
+    - { id: l31, text: '85,050' }
+    - { id: l32, text: TOTAL }
+    - { id: l33, text: '935,550' }
+    - { id: l34, text: THANK YOU FOR COMING }
+    - { id: l35, text: SEE YOU SOON }
+  expect:
+    currency: IDR
+    total_minor: 93555000
+    amounts:
+      - { kind: item, amount_minor: 8000000 }
+      - { kind: item, amount_minor: 16500000 }
+      - { kind: item, amount_minor: 6000000 }
+      - { kind: item, amount_minor: 8500000 }
+      - { kind: item, amount_minor: 8500000 }
+      - { kind: item, amount_minor: 8000000 }
+      - { kind: item, amount_minor: 10000000 }
+      - { kind: item, amount_minor: 8500000 }
+      - { kind: item, amount_minor: 3000000 }
+      - { kind: item, amount_minor: 4000000 }
+      - { kind: service, amount_minor: 4050000 }
+      - { kind: tax, amount_minor: 8505000 }
+- description: an airport burger bill with a take-away fee
+  fixture: receipt-parse-photo-id-airport-burgers
+  photo: id-airport-burgers.jpg
+  country: indonesia
+  currency_hint: IDR
+  lines:
+    - { id: l0, text: nhnua }
+    - { id: l1, text: Коoг }
+    - { id: l2, text: JOHNNY ROCKETS }
+    - { id: l3, text: International Arrival Airport }
+    - { id: l4, text: 'I Gusti Ngurah Rai Airport, Bali -' }
+    - { id: l5, text: Indonesia }
+    - { id: l6, text: PRINT BILL }
+    - { id: l7, text: Тyрe }
+    - { id: l8, text: TAKE AWAY }
+    - { id: l9, text: Suc }
+    - { id: l10, text: Table No }
+    - { id: l11, text: ': TA-01' }
+    - { id: l12, text: 1 BACON CHEDDAR PS }
+    - { id: l13, text: 1 SMOKE HOUSE DOUBLE }
+    - { id: l14, text: '125,000' }
+    - { id: l15, text: '185,000' }
+    - { id: l16, text: '2,500' }
+    - { id: l17, text: 1 TAKE AWAY }
+    - { id: l18, text: '122,000' }
+    - { id: l19, text: 1 THE SPICY HOUSTON }
+    - { id: l20, text: 1 THE ORIGINAL }
+    - { id: l21, text: '126,000' }
+    - { id: l22, text: '560,500' }
+    - { id: l23, text: Sub Total }
+    - { id: l24, text: Tаx }
+    - { id: l25, text: Service }
+    - { id: l26, text: 10.0 % }
+    - { id: l27, text: 5.0 % }
+    - { id: l28, text: '58,353' }
+    - { id: l29, text: '28,025' }
+    - { id: l30, text: Totai }
+    - { id: l31, text: IDR }
+    - { id: l32, text: '647,378' }
+    - { id: l33, text: Payment }
+    - { id: l34, text: BCA Visa }
+    - { id: l35, text: IDR }
+    - { id: l36, text: '647,379' }
+    - { id: l37, text: Change }
+    - { id: l38, text: IDR }
+    - { id: l39, text: • }
+    - { id: l40, text: THANKS FOR COMING }
+  expect:
+    currency: IDR
+    total_minor: 64737800
+    amounts:
+      - { kind: item, amount_minor: 12500000 }
+      - { kind: item, amount_minor: 18500000 }
+      - { kind: item, amount_minor: 12200000 }
+      - { kind: item, amount_minor: 12600000 }
+      - { kind: service, amount_minor: 2802500 }
+      - { kind: tax, amount_minor: 5885300 }
+      - { kinds: [item, service], amount_minor: 250000 }

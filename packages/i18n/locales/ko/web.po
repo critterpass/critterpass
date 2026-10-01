@@ -15,6 +15,22 @@ msgstr ""
 msgid "web.tips.categoryPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.seatsLeft"
+msgstr "1차 탑승 {count}석 남음"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.inLine"
+msgstr "{count}명 대기 중"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.friendsJoined"
+msgstr "친구 3명 중 {count}명 등록"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.countdown"
+msgstr "{days}일 {hours}시간 {minutes}분 {seconds}초"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.byline"
 msgstr ""
@@ -27,6 +43,10 @@ msgstr ""
 msgid "web.tips.minRead"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.guideCheering"
+msgstr "환호하는 {name}"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.eyebrowFrom"
 msgstr ""
@@ -35,9 +55,17 @@ msgstr ""
 msgid "web.referral.bodyFrom"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.guideWaving"
+msgstr "손 흔드는 {name}"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.theirLink"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.savingSeat"
+msgstr "{place}에 자리 맡아 뒀어요 — {name}"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
@@ -47,6 +75,10 @@ msgstr ""
 msgid "web.legal.versionPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hatchedNumber"
+msgstr "#{num} / {total} · {city}"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
 msgstr ""
@@ -54,6 +86,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.estimateEach"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askStatus"
+msgstr "✓ 6명 일정 업데이트 완료"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Art"
@@ -95,6 +131,10 @@ msgstr ""
 msgid "web.home.mockVoteHoiAnCount"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTally"
+msgstr "6명 중 5명"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.fiveStamps"
 msgstr ""
@@ -111,9 +151,41 @@ msgstr ""
 msgid "web.home.passLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseTitle"
+msgstr "깜짝 선물이 더 있어요"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.ngua"
+msgstr "{place}에서 기다리고 있는 꽃 조랑말."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.cuRua"
+msgstr "{place}에서 기다리고 있는 호안끼엠 호수의 거북이."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.lucky"
+msgstr "{place}에서 기다리고 있는 산토끼."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.chep"
+msgstr "{place}에서 기다리고 있는 등불 잉어."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.eyebrow"
+msgstr "살짝 미리 보기"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.drac"
+msgstr "{place}에서 기다리고 있는 모자이크 도롱뇽."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.roucou"
+msgstr "{place}에서 기다리고 있는 베레모 쓴 비둘기."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -122,6 +194,18 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Body"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.pizza"
+msgstr "{place}에서 기다리고 있는 지하철 쥐."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.eggLabel"
+msgstr "꿈틀거리는 알"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.admit"
+msgstr "입장: 한 팀"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalAdmit"
@@ -143,6 +227,10 @@ msgstr ""
 msgid "web.invite.membersLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.lince"
+msgstr "{place}에서 기다리고 있는 이베리아스라소니."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
 msgstr ""
@@ -159,9 +247,17 @@ msgstr ""
 msgid "web.home.stop2Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askTitle"
+msgstr "현지 친구에게 물어보기"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "처음으로 돌아가기"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
@@ -171,9 +267,21 @@ msgstr ""
 msgid "web.home.mockPlanItem1"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowHike"
+msgstr "바투르산 일출 하이킹"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.boardingNow"
+msgstr "탑승 중"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalEyebrow"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.boardingSoon"
+msgstr "곧 탑승"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
@@ -191,6 +299,10 @@ msgstr ""
 msgid "web.referral.pageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.bringCrew"
+msgstr "친구들을 데려오면 순번이 빨라져요"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.bylineBy"
 msgstr ""
@@ -203,13 +315,53 @@ msgstr ""
 msgid "web.home.mockLocalName"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.chooseDestination"
+msgstr "첫 번째 여행지를 골라 주세요"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.cityGuides"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseClassified"
+msgstr "대외비"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.collectTitle"
+msgstr "패스 채우기"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.collector"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareTitle"
+msgstr "CritterPass 같이 등록하자"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareText"
+msgstr "CritterPass 같이 등록하자 — {url}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.stampTitle"
+msgstr "출시 예정"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.badgeSoon"
+msgstr "출시 예정 · iOS + ANDROID"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.confirmed"
+msgstr "등록 완료 · 1차 탑승"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowClass"
+msgstr "쿠킹 클래스"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askReply"
+msgstr "오후 2시에 쿠킹 클래스로 바꿀게요. 해변은 금요일로 옮겨요."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
@@ -219,6 +371,10 @@ msgstr ""
 msgid "web.tips.copied"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.copied"
+msgstr "복사됨 ✓"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
 msgstr ""
@@ -226,6 +382,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.copyLink"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.copyLink"
+msgstr "링크 복사"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerCrew"
@@ -243,6 +403,14 @@ msgstr ""
 msgid "web.shell.brand"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pageTitle"
+msgstr "CritterPass — 현지 친구들과 함께 짜는 단체 여행"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.head"
+msgstr "CRITTERPASS · 곧 탑승"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageTitle"
 msgstr ""
@@ -251,6 +419,10 @@ msgstr ""
 msgid "web.shell.homeLink"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pageDescription"
+msgstr "CritterPass는 iOS와 Android에 곧 출시될 단체 여행 플래너예요. 현지 친구들이 알고 보니 동물이에요. 대기 명단에 등록하세요."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
 msgstr ""
@@ -258,6 +430,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintCrack"
+msgstr "빠직!"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintCrackLoud"
+msgstr "빠지직!!"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.current"
@@ -291,6 +471,10 @@ msgstr ""
 msgid "web.tips.aiDisclosure"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planBody"
+msgstr "일정을 다른 시간대로 끌어다 놓으면 그날의 나머지 일정이 알아서 자리를 비켜 줘요. 모두의 화면에서 동시에요."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Body"
 msgstr ""
@@ -299,9 +483,17 @@ msgstr ""
 msgid "web.home.stop4ArtUnit"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitEach"
+msgstr "1인당 · 4명 정산"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsBody"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planEditing"
+msgstr "편집 중"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
@@ -310,6 +502,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampBottom"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.stampSub"
+msgstr "2026~"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsTitle"
@@ -323,6 +519,14 @@ msgstr ""
 msgid "web.home.insidePlanTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.referralBody"
+msgstr "내 링크로 친구가 등록할 때마다 순번이 100칸 올라가요. 친구 세 명이면 1차 탑승 확정이에요."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.title"
+msgstr "모든 현지 친구는 알에서 시작해요"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsTitle"
 msgstr ""
@@ -330,6 +534,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeBody"
+msgstr "모두가 후보 목록을 스와이프해요. 집계가 실시간으로 채워지고 몇 분이면 여행지가 정해져요."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop1Body"
@@ -347,13 +555,33 @@ msgstr ""
 msgid "web.invite.expiresIn"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseBrief"
+msgstr "기능 브리핑 · v0.9"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.featured"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.label"
+msgstr "마지막 탑승 안내"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.eyebrow"
+msgstr "마지막 탑승 안내"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.findMyCrew"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.waveLeft"
+msgstr "1차 탑승 · {count}석 남음"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.seats"
+msgstr "1차 탑승 · {seats}석"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
@@ -363,6 +591,10 @@ msgstr ""
 msgid "web.shell.footerFollow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.follow"
+msgstr "현지 친구들 팔로우 →"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
 msgstr ""
@@ -371,13 +603,29 @@ msgstr ""
 msgid "web.home.finalBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.from"
+msgstr "출발"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.quip"
+msgstr "“아무 데나”에서 착륙까지 ↓"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalGate"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.gate"
+msgstr "게이트 ✦ 어디든"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.gateOpensIn"
+msgstr "게이트 오픈까지"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"
@@ -403,9 +651,21 @@ msgstr ""
 msgid "web.invite.differentCode"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.groupChat"
+msgstr "단톡방"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTag"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.badgePlanner"
+msgstr "단체 여행 플래너"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.lede"
+msgstr "단체 여행, 현지 친구들과 함께 계획해요. 그런데 그 친구들, 알고 보니 동물이에요."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroLede"
@@ -414,6 +674,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideAjo"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.label"
+msgstr "알 부화시키기"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.another"
+msgstr "하나 더 부화"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.haveCode"
@@ -463,6 +731,10 @@ msgstr ""
 msgid "web.home.chat2"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.body"
+msgstr "앱에서는 새로운 곳에 도착하면 알이 부화해요. 여기서는 살짝 반칙해도 돼요. 세 번 톡톡 두드려서 누가 나오는지 보세요."
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeLabel"
 msgstr ""
@@ -479,9 +751,21 @@ msgstr ""
 msgid "web.home.mockGuideAsk"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askQuestion"
+msgstr "비가 쏟아져요. 플랜 B는요?"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Art"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.label"
+msgstr "대기 명단 등록"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.join"
+msgstr "대기 명단 등록"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinTitle"
@@ -511,6 +795,10 @@ msgstr ""
 msgid "web.home.insideLocalTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.language"
+msgstr "언어"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.language"
 msgstr ""
@@ -522,6 +810,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalSpecies"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTag"
+msgstr "등불의 도시"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem3"
@@ -551,6 +843,10 @@ msgstr ""
 msgid "web.home.passLocals"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.statLocals"
+msgstr "현지 친구"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampTop"
 msgstr ""
@@ -578,6 +874,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.openMenu"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareMessages"
+msgstr "메시지"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.money"
@@ -615,6 +915,10 @@ msgstr ""
 msgid "web.shell.noCookies"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "그런 이름의 장소가 없어요. 다른 철자로 검색해 보세요."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -643,6 +947,10 @@ msgstr ""
 msgid "web.home.insidePlanBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.note"
+msgstr "출시할 때 메일 한 통. 많아야 두 통. 스팸은 절대 없어요."
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
 msgstr ""
@@ -654,6 +962,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guidePaco"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "페이지를 찾을 수 없어요"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
@@ -671,9 +983,21 @@ msgstr ""
 msgid "web.referral.coverLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "목록에서 장소를 고르거나 검색어를 지워 주세요."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "여행지"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.statPlaces"
+msgstr "여행지"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalTitle"
@@ -683,9 +1007,17 @@ msgstr ""
 msgid "web.home.stop3Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planTitle"
+msgstr "함께 짜는 일정"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.privacy"
+msgstr "개인정보 처리방침"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.privacy"
@@ -715,6 +1047,22 @@ msgstr ""
 msgid "web.referral.finePrintTerms"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "{city} 선택 취소"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.saveSeat"
+msgstr "내 자리 맡기 →"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.saveSeat"
+msgstr "내 자리 맡기 ↑"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitBody"
+msgstr "영수증을 스캔하고, 원하는 대로 나누고, 정산하면 끝. 엑셀 정리는 아무도 안 해도 돼요."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Body"
 msgstr ""
@@ -730,6 +1078,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "도시 검색"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.seat"
+msgstr "좌석"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyAll"
@@ -755,6 +1111,10 @@ msgstr ""
 msgid "web.tips.share"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.share"
+msgstr "내 링크 공유하기 ↑"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.lede"
 msgstr ""
@@ -771,6 +1131,10 @@ msgstr ""
 msgid "web.home.chat1"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "다른 곳은요?"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
 msgstr ""
@@ -778,6 +1142,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Title"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitTitle"
+msgstr "정산하기"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.finePrint"
@@ -791,6 +1159,10 @@ msgstr ""
 msgid "web.home.insideVoteTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowSunset"
+msgstr "울루와뚜 일몰"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideSwap"
 msgstr ""
@@ -799,9 +1171,25 @@ msgstr ""
 msgid "web.home.stop1Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTitle"
+msgstr "스와이프로 고르기"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.quip"
+msgstr "10초면 끝"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintTap"
+msgstr "알을 두드려 보세요"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.tapEgg"
+msgstr "알 두드리기"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.terms"
@@ -810,6 +1198,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeError"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.joinFailed"
+msgstr "전송되지 않았어요. 잠시 후 다시 시도해 주세요."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailInvalid"
+msgstr "이메일 주소가 맞지 않는 것 같아요. 다시 확인해 주세요."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatName"
@@ -831,6 +1227,14 @@ msgstr ""
 msgid "web.legal.eyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.title"
+msgstr "1차 탑승이 곧 시작돼요"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askBody"
+msgstr "가이드가 일정 초안을 짜고, 음성이든 문자든 무엇이든 답해 줘요. 목요일에 비가 온다면? 일정 교체를 제안해요."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Body"
 msgstr ""
@@ -843,6 +1247,10 @@ msgstr ""
 msgid "web.shell.theLocals"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.typedLine"
+msgstr "현지 친구들은 아직 짐 싸는 중."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
 msgstr ""
@@ -851,9 +1259,17 @@ msgstr ""
 msgid "web.shell.thePass"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "장소 목록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요."
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseBody"
+msgstr "아직 공개하지 않은 것들이 더 있어요. 명단에 있는 분들께 가장 먼저 보여 드릴게요."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Title"
@@ -863,6 +1279,10 @@ msgstr ""
 msgid "web.referral.how3Body"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "이 페이지는 경로에 없어요. 현지 친구들이 골목골목 다 찾아봤어요."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
 msgstr ""
@@ -870,6 +1290,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Art"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planDate"
+msgstr "14일 (목)"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideChange"
@@ -899,6 +1323,10 @@ msgstr ""
 msgid "web.legal.tldrTag"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.to"
+msgstr "도착"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbip"
 msgstr ""
@@ -914,6 +1342,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.rateLimited"
+msgstr "시도가 너무 많았어요. 몇 분 뒤에 다시 해 주세요."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitTotal"
+msgstr "합계"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
@@ -931,6 +1367,10 @@ msgstr ""
 msgid "web.legal.updated"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.differentEmail"
+msgstr "다른 이메일 사용"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.historyLine"
 msgstr ""
@@ -943,6 +1383,10 @@ msgstr ""
 msgid "web.home.mockBookingsFlightMeta"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.waitlist"
+msgstr "대기 명단 · 1차 탑승"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat3"
 msgstr ""
@@ -951,13 +1395,25 @@ msgstr ""
 msgid "web.home.chatVoice"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.title"
+msgstr "기다릴 만한 이유"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.collectBody"
+msgstr "어딘가에 도착하면 그곳의 현지 친구가 내 패스에 들어와요. 오래 머물수록 더 많은 친구가 나타나요."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchBody"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.whereFirst"
+msgstr "어디부터 가고 싶어요?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteTitle"
@@ -971,13 +1427,29 @@ msgstr ""
 msgid "web.notFound.title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeYes"
+msgstr "좋아!"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.quipTop"
+msgstr "돈으로는 못 사요."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.quipBottom"
+msgstr "직접 가야 해요."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.youAre"
+msgstr "{position}번째예요"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyOwed"
@@ -987,9 +1459,21 @@ msgstr ""
 msgid "web.legal.olderVersion"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailPlaceholder"
+msgstr "you@email.com"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinEyebrow"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailLabel"
+msgstr "이메일"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourGuide"
+msgstr "나의 가이드"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideRole"
@@ -1006,3 +1490,11 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "나의 현지 친구"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.placeInLine"
+msgstr "내 대기 순번"

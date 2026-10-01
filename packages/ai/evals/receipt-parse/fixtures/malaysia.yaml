@@ -1,0 +1,50 @@
+# Photographed receipts from Malaysia: the founder's photos, redacted (dates, times, order and
+# invoice numbers, staff names, card and bank details, QR codes boxed out), read by the device
+# recogniser into the lines below, and graded on the charges the paper prints.
+- description: a dim bar bill half under a card clip, with a rounding line
+  fixture: receipt-parse-photo-ms-bar-dark
+  photo: ms-bar-dark.jpg
+  country: malaysia
+  currency_hint: MYR
+  lines:
+    - { id: l0, text: VISA }
+    - { id: l1, text: GRA }
+    - { id: l2, text: Bukit Bintar }
+    - { id: l3, text: 'NO. 25,' }
+    - { id: l4, text: '27.' }
+    - { id: l5, text: нуота }
+    - { id: l6, text: HH MOJITO MIXED BERRIES }
+    - { id: l7, text: -ASSSLONISTA }
+    - { id: l8, text: '38.87' }
+    - { id: l9, text: Subtotal }
+    - { id: l10, text: HH DAY OF THE DEAD }
+    - { id: l11, text: '38.67' }
+    - { id: l12, text: '38.67' }
+    - { id: l13, text: '36.87' }
+    - { id: l14, text: '36.87' }
+    - { id: l15, text: Subtotal }
+    - { id: l16, text: 'POS, WEB & BUSINESS MANAGEMENT POWERED BY' }
+    - { id: l17, text: This is not an invoice }
+    - { id: l18, text: Rounded }
+    - { id: l19, text: SST }
+    - { id: l20, text: '*Service charge (10%)' }
+    - { id: l21, text: Discount }
+    - { id: l22, text: TOTAL MYR129.80 }
+    - { id: l23, text: MYR-0.01 }
+    - { id: l24, text: 'MYR11,00' }
+    - { id: l25, text: MYR110.01 }
+    - { id: l26, text: MYR8.80 }
+    - { id: l27, text: MYRO.00 }
+    - { id: l28, text: '36.67' }
+    - { id: l29, text: Contact us for FREE TRIAL! }
+    - { id: l30, text: TRACKERTEER.COM }
+  expect:
+    currency: MYR
+    total_minor: 12980
+    amounts:
+      - { kind: item, amount_minor: 3667 }
+      - { kind: item, amount_minor: 3667 }
+      - { kind: item, amount_minor: 3667 }
+      - { kind: service, amount_minor: 1100 }
+      - { kind: tax, amount_minor: 880 }
+      - { kind: discount, amount_minor: 1, optional: true }

@@ -8,7 +8,7 @@ import { t } from '@lingui/core/macro';
 import * as Clipboard from 'expo-clipboard';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { Keyboard, View } from 'react-native';
 
 import { normalizeJoinCode } from '@cp/domain';
 import { upper } from '@cp/i18n';
@@ -18,8 +18,8 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { isOnboardingComplete } from '@/lib/links/pending';
 import { parseIncomingLink } from '@/lib/links/router';
-import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { CodeBoxes, type CodeStatus } from '@/ui/inputs/CodeBoxes';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -92,6 +92,11 @@ export function CodeScreen() {
   }, []);
 
   const found = code !== null && (model.status === 'active' || model.status === 'full');
+
+  useEffect(() => {
+    // The code is in: the keyboard makes way so the whole crew card shows above JOIN.
+    if (found) Keyboard.dismiss();
+  }, [found]);
   const wrong = typed.length === CODE_LENGTH && (code === null || model.status === 'not_found');
   const status: CodeStatus = found ? 'valid' : wrong ? 'invalid' : 'idle';
 
@@ -215,12 +220,13 @@ export function CodeScreen() {
             block
             testID="invite-code-join"
           />
-          <InlineAction
+          <TextLink
             label={t({
               id: 'onboarding.invite.code.wrongCrew',
               message: `Wrong crew? Ask ${inviter} for a new code`,
             })}
             onPress={() => setTyped('')}
+            testID="invite-code-wrong-crew"
           />
         </KeyboardFooter>
       ) : null}

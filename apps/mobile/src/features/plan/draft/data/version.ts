@@ -1,6 +1,7 @@
 /**
  * A private draft version as the review screen reads it: one row per day (title, the day's first
- * stops, whose must-dos land on it, any closure or lottery note), which must-dos made it and why
+ * stops, a booking from the wallet among them under its own title, whose must-dos land on it, any
+ * closure or lottery note), which must-dos made it and why
  * the others did not, the cost per person against the locked target, and whether setup has
  * changed since the draft was made. Every number comes from the version's own planner output
  * (`coverage`, `metrics`, the items' times); nothing here is estimated on the phone.
@@ -34,6 +35,8 @@ export interface DayRow {
   readonly day_no: number;
   readonly date: string;
   readonly theme: string | null;
+  /** The theme in other languages (JSON text); read through `guideText`. */
+  readonly i18n?: string | null;
 }
 
 export interface ItemRow {
@@ -46,6 +49,8 @@ export interface ItemRow {
   readonly category: string | null;
   readonly booking_id: string | null;
   readonly locked_reason: string | null;
+  /** A booked item's title (a flight's leg, a stay's name): it has no place to take one from. */
+  readonly notes?: string | null | undefined;
 }
 
 export interface MustDoRow {
@@ -94,6 +99,8 @@ export interface ReviewDay {
   readonly optional: boolean;
   /** A stop that sits in a cited closure on this day. */
   readonly closed: boolean;
+  /** A booking from the wallet sits on this day. */
+  readonly booked?: boolean | undefined;
   /** A must-do on this day that needs a lottery or booking ahead, with its result or deadline. */
   readonly lottery: { readonly action: string; readonly date: string } | null;
 }
@@ -154,6 +161,12 @@ function closedOn(closures: readonly ClosureRecord[], poiId: string | null, date
   );
 }
 
+/** What a booked item is called on the draft: the title the server gave it. */
+function bookedTitle(item: ItemRow): string | undefined {
+  const title = item.notes?.trim() ?? '';
+  return title === '' ? undefined : title;
+}
+
 export function buildReview(input: {
   readonly version: VersionRow;
   readonly days: readonly DayRow[];
@@ -193,7 +206,8 @@ export function buildReview(input: {
       date: day.date,
       title: day.theme ?? '',
       stops: dayItems.flatMap((item): ReviewStop[] => {
-        const name = item.poi_id === null ? undefined : places[item.poi_id]?.name;
+        const place = item.poi_id === null ? undefined : places[item.poi_id]?.name;
+        const name = place ?? (item.booking_id === null ? undefined : bookedTitle(item));
         return name === undefined
           ? []
           : [{ name, startsAt: item.starts_at, tz: item.tz, locked: item.locked_reason !== null }];
@@ -207,6 +221,7 @@ export function buildReview(input: {
       closed: dayItems.some(
         (item) => flagged.has(item.stable_id) || closedOn(closures, item.poi_id, day.date),
       ),
+      booked: dayItems.some((item) => item.booking_id !== null),
       lottery:
         lotteryMustDo?.external_action != null && lotteryMustDo.external_deadline != null
           ? {

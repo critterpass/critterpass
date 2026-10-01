@@ -1,11 +1,15 @@
 appId: app.critterpass.dev
 ---
 # From the developer tools list to the bookings lab.
+# Slow: a fast swipe on iOS flings the list past the row before it is read. Not centred: an entry
+# near the top of the list can't reach the middle, and scrolling for it pushes it off screen.
 - scrollUntilVisible:
     element:
       id: 'dev-nav-bookings-lab'
     direction: DOWN
     timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
 - tapOn:
     id: 'dev-nav-bookings-lab'
 - extendedWaitUntil:

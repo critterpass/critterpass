@@ -119,6 +119,11 @@
     "yellow": { "$type": "color", "$value": "#ffd84a", "$description": "Accent" },
     "orange": { "$type": "color", "$value": "#ff9a4d", "$description": "Accent" },
     "pink": { "$type": "color", "$value": "#ff5fa8", "$description": "Accent" },
+    "red": {
+      "$type": "color",
+      "$value": "#ff6b5b",
+      "$description": "Accent: the douc langur's red socks (Chà Vá, Đà Nẵng)"
+    },
     "blue": { "$type": "color", "$value": "#4f86ff", "$description": "Accent" },
     "blueLight": {
       "$type": "color",

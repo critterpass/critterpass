@@ -135,6 +135,30 @@ export const MUST_DOS_SCENES: readonly SetupScene[] = [
   ]),
   listScene('must-dos-done', FIVE, { step: 'done' }),
   sheetScene('add-must-do-loading', 'ramen', { kind: 'loading' }),
+  sheetScene('add-must-do-many', 'fushimi inari at sunrise', {
+    kind: 'done',
+    offline: false,
+    results: [
+      {
+        id: 'fushimi-inari',
+        name: 'Fushimi Inari Taisha',
+        blurb: 'Ten thousand gates up the mountain',
+        pill: { kind: 'fits', day: null },
+      },
+      {
+        id: 'oinari-pudding',
+        name: 'Oinari Pudding Fushimi Inari',
+        blurb: 'Fox-shaped custard by the station',
+        pill: null,
+      },
+      {
+        id: 'inari-sushi',
+        name: 'Inari Sushi Koshou',
+        blurb: 'Tofu-pocket sushi near the first gate',
+        pill: null,
+      },
+    ],
+  }),
   sheetScene('add-must-do-no-results', 'yakitori alley zz', {
     kind: 'done',
     results: [],

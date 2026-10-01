@@ -26,6 +26,10 @@ export const SUITES = [
   'disruption',
   'watch',
   'replan',
+  'place-qna',
+  'proposal',
+  'quests',
+  'translate',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -52,6 +56,10 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/routes|evals)\/disruption\//u, ['disruption', 'watch', 'replan']],
   [/^packages\/ai\/(src\/routes|evals)\/watch\//u, ['watch']],
   [/^packages\/ai\/(src\/routes|evals)\/replan\//u, ['replan']],
+  [/^packages\/ai\/(src\/routes|evals)\/explore\//u, ['place-qna']],
+  [/^packages\/ai\/(src\/routes|evals)\/proposal\//u, ['proposal']],
+  [/^packages\/ai\/(src\/routes|evals)\/quests\//u, ['quests']],
+  [/^packages\/ai\/(src\/routes|evals)\/translate\//u, ['translate']],
   [/^packages\/planner\/src\/draft\//u, ['draft']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
   [/^packages\/ai\/evals\/lib\/stream-suites\.ts$/u, ['pitch', 'guest-brief']],
@@ -69,6 +77,9 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/domain\/src\/(guide-actions|plan)\//u, ['autonomy']],
   [/^packages\/domain\/src\/pitches\//u, ['pitch']],
   [/^packages\/domain\/src\/trip-day\//u, ['briefing']],
+  [/^packages\/domain\/src\/proposal\//u, ['proposal']],
+  [/^packages\/domain\/src\/quests\//u, ['quests']],
+  [/^packages\/domain\/src\/locale\//u, ['translate']],
   [/^packages\/domain\/src\/ai\//u, ALL],
 ];
 

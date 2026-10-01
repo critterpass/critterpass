@@ -35,7 +35,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 const query = <T extends object>(sql: string, params: unknown[] = []) =>
@@ -203,5 +203,47 @@ describe('create_trip solo', () => {
       solo: false,
     });
     expect(errorCode(crewless)).toBe('VALIDATION');
+  });
+
+  it('starts a crew of one for a brand-new account, then reuses it for the next solo trip', async () => {
+    const fresh = await harness.signInAnonymously();
+    await harness.pool.query("UPDATE users SET display_name = 'Winston' WHERE id = $1", [
+      fresh.uid,
+    ]);
+    const first = await run(harness, fresh, 'create_trip', { place_id: kyoto, solo: true });
+    expect(first.status).toBe(200);
+    const trip = resultOf<CreateTripResult>(first);
+    expect(trip).toMatchObject({ status: 'setup', solo: true });
+
+    const crews = await query<{ crew_id: string; role: string; name: string; active: boolean }>(
+      `SELECT m.crew_id, m.role, c.name, s.active_crew_id = m.crew_id AS active
+         FROM crew_members m JOIN crews c ON c.id = m.crew_id
+         LEFT JOIN user_settings s ON s.user_id = m.user_id
+        WHERE m.user_id = $1 AND m.status = 'active'`,
+      [fresh.uid],
+    );
+    expect(crews).toHaveLength(1);
+    const crewId = crews[0]!.crew_id;
+    expect(crews[0]).toEqual({ crew_id: crewId, role: 'organiser', name: 'Winston', active: true });
+    expect(await query('SELECT crew_id FROM trips WHERE id = $1', [trip.trip_id])).toEqual([
+      { crew_id: crewId },
+    ]);
+    expect(
+      await query("SELECT 1 FROM domain_events WHERE type = 'crew.created' AND crew_id = $1", [
+        crewId,
+      ]),
+    ).toHaveLength(1);
+
+    const second = await run(harness, fresh, 'create_trip', { place_id: lisbon, solo: true });
+    expect(second.status).toBe(200);
+    const again = resultOf<CreateTripResult>(second);
+    expect(await query('SELECT crew_id FROM trips WHERE id = $1', [again.trip_id])).toEqual([
+      { crew_id: crewId },
+    ]);
+    expect(
+      await query("SELECT 1 FROM crew_members WHERE user_id = $1 AND status = 'active'", [
+        fresh.uid,
+      ]),
+    ).toHaveLength(1);
   });
 });

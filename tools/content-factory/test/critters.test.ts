@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
+import { critters as dex } from '@cp/critter-art';
+
 import '../src/kinds/critters';
 import { critterValidators, inScript } from '../src/kinds/critters/validate';
 import { validateCommitted } from '../src/pipeline';
@@ -41,12 +43,12 @@ describe('critter validators', () => {
     expect(check({ ...pon, name: 'Pikachu' })?.checks.map((c) => c.id)).toContain('ip-screen');
   });
 
-  it('holds every committed critter batch to its validators', () => {
-    const results = validateCommitted('critters');
-    expect(results.length).toBeGreaterThan(0);
-    for (const { batchKey, report } of results) {
-      expect(report.severity, batchKey).not.toBe('fail');
-      expect(report.items).toHaveLength(150);
-    }
+  it('holds the latest committed critter batch to its validators, one item per dex entry', () => {
+    // Each critters batch is the whole kind (publishing replaces it), so only the latest one can
+    // ship; earlier batches predate critters added to the dex since.
+    const latest = validateCommitted('critters').at(-1);
+    expect(latest).toBeDefined();
+    expect(latest?.report.severity, latest?.batchKey).not.toBe('fail');
+    expect(latest?.report.items).toHaveLength(dex.length);
   });
 });

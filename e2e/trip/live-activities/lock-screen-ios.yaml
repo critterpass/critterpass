@@ -1,0 +1,128 @@
+appId: app.critterpass.dev
+---
+# The leave-by (5a-1, 5a-5) and flight (5a-3) Live Activities as the system draws them: started
+# locally from the domain builders by the Live Activities dev scene
+# (apps/mobile/src/app/(dev)/live-activities.tsx), one at a time (the island shows one activity per
+# app). Notification Center shows the lock-screen presentation; the Dynamic Island is captured
+# expanded and compact from the Home Screen.
+#
+# iOS draws an activity only once the widget extension has rendered it, a few seconds after the app
+# leaves the foreground (longer right after an install), and shows it empty until then. So each
+# scene first waits for the activity's own text on the lock screen: the screenshots are never taken
+# of an activity that has not rendered yet, and one that never renders fails the flow instead of
+# posting empty sheets. Screenshots are named `<lang>-<design id>-<state>` so compare mode pairs
+# each with its render.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+# Slow: a fast swipe on iOS flings the list past the row before it is read.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-live-activities'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-live-activities'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-la-start-leave-by'
+    timeout: 15000
+- tapOn:
+    id: 'dev-la-start-leave-by'
+- extendedWaitUntil:
+    visible: 'Leave-by started'
+    timeout: 10000
+- pressKey: Home
+# Notification Center draws Live Activities as the lock screen does.
+- swipe:
+    start: 25%, 0%
+    end: 25%, 70%
+    duration: 600
+- extendedWaitUntil:
+    visible: '4 OF 6 UP'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-5a-1-lock-screen
+- swipe:
+    start: 50%, 95%
+    end: 50%, 20%
+    duration: 400
+- waitForAnimationToEnd:
+    timeout: 4000
+# Home Screen: a long press on the Dynamic Island expands it; a tap elsewhere leaves it compact.
+- longPressOn:
+    point: '50%, 2%'
+- extendedWaitUntil:
+    visible: 'LEAVE BY'
+    timeout: 10000
+- takeScreenshot: en-5a-5-expanded
+- tapOn:
+    point: '50%, 70%'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-5a-5-compact
+- launchApp:
+    stopApp: false
+- extendedWaitUntil:
+    visible:
+      id: 'dev-la-end-all'
+    timeout: 15000
+- tapOn:
+    id: 'dev-la-end-all'
+- extendedWaitUntil:
+    visible: 'Ended [0-9]+'
+    timeout: 10000
+- tapOn:
+    id: 'dev-la-start-flight'
+- extendedWaitUntil:
+    visible: 'Flight started'
+    timeout: 10000
+- pressKey: Home
+# Notification Center draws Live Activities as the lock screen does.
+- swipe:
+    start: 25%, 0%
+    end: 25%, 70%
+    duration: 600
+- extendedWaitUntil:
+    visible: 'BOARDING'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-5a-3-lock-screen
+- swipe:
+    start: 50%, 95%
+    end: 50%, 20%
+    duration: 400
+- waitForAnimationToEnd:
+    timeout: 4000
+# Home Screen: a long press on the Dynamic Island expands it; a tap elsewhere leaves it compact.
+- longPressOn:
+    point: '50%, 2%'
+- extendedWaitUntil:
+    visible: 'BOARDING'
+    timeout: 10000
+- takeScreenshot: en-5a-3-island-expanded
+- tapOn:
+    point: '50%, 70%'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-5a-3-island-compact
+- launchApp:
+    stopApp: false
+- extendedWaitUntil:
+    visible:
+      id: 'dev-la-end-all'
+    timeout: 15000
+- tapOn:
+    id: 'dev-la-end-all'
+- extendedWaitUntil:
+    visible: 'Ended [0-9]+'
+    timeout: 10000

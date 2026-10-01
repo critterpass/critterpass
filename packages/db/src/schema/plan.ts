@@ -58,6 +58,8 @@ export const planDays = pgTable('plan_days', {
   weatherRef: text('weather_ref'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+  /** Translations of the guide-written text, per language (`@cp/domain` guide-text). */
+  i18n: jsonb('i18n'),
 });
 
 export const planItems = pgTable('plan_items', {
@@ -103,6 +105,8 @@ export const planItems = pgTable('plan_items', {
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   /** Why a redraft must keep this item where it is (booking / must_do / user); null = free. */
   lockedReason: text('locked_reason'),
+  /** Translations of the guide-written text, per language (`@cp/domain` guide-text). */
+  i18n: jsonb('i18n'),
 });
 
 export const changeSets = pgTable('change_sets', {

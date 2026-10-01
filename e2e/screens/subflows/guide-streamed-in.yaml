@@ -1,0 +1,65 @@
+appId: app.critterpass.dev
+---
+# The guide's streamed answers in one language (`LOCALE`, a gallery locale code), from a fresh
+# launch: the gallery sets the running app's language, then back through the developer tools into
+# the guide lab. Each answer replays its frames and is shot once the last part has landed.
+- runFlow: open-gallery.yaml
+- tapOn:
+    id: 'gallery-locale-${LOCALE}'
+- swipe:
+    start: 2%, 50%
+    end: 90%, 50%
+# The back swipe lands on the developer tools list or, on some runs, on the splash.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- runFlow: guide-lab-in.yaml
+- scrollUntilVisible:
+    element:
+      id: 'guide-lab-chat-streamed-tool'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'guide-lab-chat-streamed-tool'
+- extendedWaitUntil:
+    visible:
+      text: '(?s).*see what.s lit up\?'
+    timeout: 20000
+- takeScreenshot: ${LOCALE}-3j-1-streamed-tool
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+# On iOS the edge swipe can go back past the lab to the home screen; the language stays set.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+      - runFlow: guide-lab-in.yaml
+- scrollUntilVisible:
+    element:
+      id: 'guide-lab-chat-streamed-list'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'guide-lab-chat-streamed-list'
+- extendedWaitUntil:
+    visible:
+      text: '(?s).*đặt bàn không\?'
+    timeout: 20000
+- takeScreenshot: ${LOCALE}-3j-1-streamed-list

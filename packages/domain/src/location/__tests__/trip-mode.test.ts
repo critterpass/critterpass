@@ -87,6 +87,65 @@ describe('tripLocationMode', () => {
     expect(tripLocationMode(input({ trip: domestic, currentCountry: 'VN' })).mode).toBe('trip_day');
   });
 
+  describe('a domestic trip with the country as the catalogue stores it', () => {
+    /** Đà Nẵng, whose destination row carries the country name, not the code. */
+    const daNang: TripModeTrip = {
+      status: 'in_trip',
+      startDate: '2026-10-02',
+      endDate: '2026-10-04',
+      tz: 'Asia/Ho_Chi_Minh',
+      destinationCountry: 'Vietnam',
+    };
+    /** 2026-10-02 15:00 in Vietnam (UTC+7). */
+    const firstAfternoon = new Date('2026-10-02T08:00:00Z');
+
+    it('keeps the session on for a traveller whose home is in the same country', () => {
+      const landed = input({ trip: daNang, now: firstAfternoon, currentCountry: 'VN' });
+      expect(tripLocationMode(landed)).toEqual({ mode: 'trip_day', reason: 'on' });
+      expect(tripLocationMode({ ...landed, homeCountry: 'Vietnam' }).mode).toBe('trip_day');
+    });
+
+    it('keeps the session on for a traveller from abroad', () => {
+      const visitor = input({
+        trip: daNang,
+        now: firstAfternoon,
+        homeCountry: 'SG',
+        currentCountry: 'VN',
+      });
+      expect(tripLocationMode(visitor)).toEqual({ mode: 'trip_day', reason: 'on' });
+    });
+
+    it('follows the trip, not the country, while it is under way: a country cannot tell the home city from the destination', () => {
+      // A trip is under way only once someone landed or arrived, the organiser started it, or
+      // noon of its first day passed; before that the travel-day mode covers leave-by only.
+      const stillInHomeCity = input({ trip: daNang, now: firstAfternoon, currentCountry: 'VN' });
+      expect(tripLocationMode(stillInHomeCity).mode).toBe('trip_day');
+      const before = { ...daNang, status: 'pre_trip' as const };
+      const dayBefore = new Date('2026-10-01T08:00:00Z');
+      expect(tripLocationMode({ ...stillInHomeCity, trip: before, now: dayBefore })).toEqual({
+        mode: 'off',
+        reason: 'not_trip_day',
+      });
+      const dayAfter = new Date('2026-10-05T08:00:00Z');
+      expect(tripLocationMode({ ...stillInHomeCity, now: dayAfter }).mode).toBe('off');
+    });
+  });
+
+  it('is off at home on a trip abroad however the countries are written', () => {
+    const bali = { ...trip, destinationCountry: 'Indonesia' };
+    expect(tripLocationMode(input({ trip: bali, currentCountry: 'VN' }))).toEqual({
+      mode: 'off',
+      reason: 'at_home',
+    });
+    expect(
+      tripLocationMode(input({ trip: bali, homeCountry: 'Singapore', currentCountry: 'SG' })),
+    ).toEqual({ mode: 'off', reason: 'at_home' });
+    expect(
+      tripLocationMode(input({ trip: bali, homeCountry: 'Viet Nam', currentCountry: 'vn' })).reason,
+    ).toBe('at_home');
+    expect(tripLocationMode(input({ trip: bali, homeCountry: 'Singapore' })).mode).toBe('trip_day');
+  });
+
   it('runs when home or the current country is unknown', () => {
     expect(tripLocationMode(input({ homeCountry: null, currentCountry: 'VN' })).mode).toBe(
       'trip_day',

@@ -1,0 +1,25 @@
+appId: app.critterpass.dev
+---
+# Chà Vá, the Đà Nẵng guide: every pose at every sticker size, states and the guide sheet,
+# prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chava-poses, READY: chava-poses, SHOT: '${PREFIX}-chava-poses-small' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chava-poses-96, READY: chava-poses, SHOT: '${PREFIX}-chava-poses-96' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chava-poses-150, READY: chava-poses, SHOT: '${PREFIX}-chava-poses-150' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chava-states, READY: chava-states, SHOT: '${PREFIX}-chava-states' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chava-chat, READY: guide-conversation, SHOT: '${PREFIX}-chava-chat' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chava-thinking, READY: guide-thinking, SHOT: '${PREFIX}-chava-thinking' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chava-empty, READY: guide-empty, SHOT: '${PREFIX}-chava-empty' }

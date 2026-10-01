@@ -68,6 +68,7 @@ const SECTIONS = new Map<string, PitchSections>([
 
 const useStyles = makeStyles((t) => ({
   screen: { flex: 1, backgroundColor: t.semantic.bg.base },
+  marker: { position: 'absolute', width: 1, height: 1 },
   footer: {
     position: 'absolute',
     left: t.space['16'],
@@ -94,6 +95,8 @@ export default function ShowdownLongScreen() {
   const footerBottom = insets.bottom + theme.space['8'];
   return (
     <View style={styles.screen} testID="showdown-long">
+      {/* A capture waits for this: the names are at the size they keep. */}
+      {names.settled ? <View testID="showdown-long-settled" style={styles.marker} /> : null}
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={{ flexGrow: 1 }}

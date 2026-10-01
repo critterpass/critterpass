@@ -10,6 +10,7 @@
 import {
   advanceBoardInTx,
   appendDomainEvent,
+  decideOnBallots,
   loadPollState,
   publishPollHints,
   reopenBoardInTx,
@@ -26,6 +27,7 @@ import {
 import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
 import {
+  closeForEveryone,
   isTripOrganiser,
   lockPoll,
   requirePollOrganiser,
@@ -60,7 +62,18 @@ export const advancePollStageCommand = defineCommand({
       if (outcome.outcome !== 'advanced') {
         throw new DomainError('STATE_INVALID', { reason: outcome.outcome });
       }
-      return tallyResult((await loadPollState(tx, state.poll.id)) ?? state, ctx.uid);
+      const final = (await loadPollState(tx, state.poll.id)) ?? state;
+      // Ballots on the two finalists carry into the final. When they already decide it (everyone
+      // voted for a finalist), close now: nobody has a reason to vote again.
+      const verdict = await decideOnBallots(tx, final);
+      if (!verdict.decided) return tallyResult(final, ctx.uid);
+      await closeForEveryone(tx, final, {
+        reason: verdict.reason,
+        now: ctx.clock.serverNow,
+        actorId: ctx.uid,
+        deciderWinner: verdict.winnerOptionId,
+      });
+      return tallyResult((await loadPollState(tx, state.poll.id)) ?? final, ctx.uid);
     });
   },
 });

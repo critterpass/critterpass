@@ -74,7 +74,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | Queue | Trigger | Handler does | Retry / DLQ | Idempotency key | Phase |
 |---|---|---|---|---|---|
 | `rt.relay` | `rt_outbox` insert (LISTEN wake + 1 s sweep) | publish to Centrifugo, mark sent, unsubscribe/disconnect ops | 10 fast retries | outbox id | 10 (plain worker loop); moved onto pg-boss in 11 |
-| `notify.route` | domain events with notification mapping (N-01…N-52) | class (ALWAYS/BUDGET/ROUNDUP/SILENT/LOCAL) → prefs → quiet hours → budget ledger → paywall governor → `push.send` or roundup queue; guide-voice rewrite (cached) | 3 / DLQ | `(event_id, uid)` | 11 |
+| `notify.route` | domain events with notification mapping (N-01…N-53) | class (ALWAYS/BUDGET/ROUNDUP/SILENT/LOCAL) → prefs → quiet hours → budget ledger → paywall governor → `push.send` or roundup queue; guide-voice rewrite (cached) | 3 / DLQ | `(event_id, uid)` | 11 |
+| `notify.release` (doc delta) | cron every 5 min | for each person holding pushes that arrived in their quiet hours (`notifications.not_before`): once quiet hours are over (their `quiet_to`, or 90 min before a leave-by inside the window) send each as itself, oldest first, within the day's budget; expired → dropped, over budget or more than 12 h late → evening roundup | 1 | – | 11 |
 | `push.send` | router | APNs/FCM send; 410/UNREGISTERED → token delete | 5 exp. | `(notification_id, device_id)` | 11 |
 | `push.la` | LA transitions, readiness, ETA | APNs `liveactivity` update/end/start or broadcast; FCM Live Update data | 3 | `(activity_id, seq)` | 48 |
 | `push.widget` | vote/balance/plan/forecast/crew change | APNs `widgets` content-changed; FCM data → Glance; budget ~40–70/day/device | 2 | `(device_id, kind, 5-min bucket)` | 49 |
@@ -98,6 +99,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `ai.rsvp_intent` | reply text | AI-18 intent; `out` → `trip.dropout` | 3 | message id | 31 |
 | `trip.dropout` | `participant.declined` | room re-optimise, Viator cancel if applicable, re-split, waitlist promote, ChangeSet | 3 / DLQ | `(trip_id, uid)` | 31 |
 | `ai.swipe_deck` | `start_swipe_session` | deck[30] + notes | 2 | session id | 30 |
+| `explore.place_qna_summary` (doc delta) | place context read after a newer crew-chat mention | the trip's Q&A line per place | 2 | trip id + poi id | 30 |
 | `chat.photo_thumbnail` (doc delta) | `send_message` with photos | 480 px JPEG per photo into R2 under the sender's photo prefix, registered in `media_objects`; `derived_key` and the photo's size written into the message's attachment | 3 | message id | 24 |
 | `chat.voice_transcode` (doc delta) | `send_message` with a voice note | ffmpeg: mono AAC 32 kbps M4A capped at 2 min, measured duration and 48 waveform peaks written into the attachment (`derived_key`, `duration_ms`, `peaks`) | 3 | message id | 24 |
 | `ai.guide_mention` | crew chat mention | AI-20 stream to `crew_chat` | 1 | message id | 32 |
@@ -118,7 +120,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `sos.orchestrate` | `trigger_sos` | deterministic fan-out (push ALWAYS + LA) first; AI-30 summary with hard timeout off the fan-out path; escalation timer | 10 fast | sos id | 38 |
 | `supplier.hold_expiry` | hold created | release/mark expired before lapse; close linked ChangeSet (C41) | 3 | hold id | 35 |
 | `vendor.reply_parse` | WhatsApp inbound | AI-31 reply intent → user card | 3 | wa message id | 35 |
-| `quest.evaluate` | expense/visit/phrase/copresence events | progress, completion → `grant_quest_reward` | 3 | `(quest_id, event_id)` | 41 |
+| `quest.evaluate` | the events any registered template or XP source reads (`visit.recorded`, `expense.added`, `critter.befriended`, `copresence.completed`, `trip.settled`; later features add theirs to `QUEST_INPUT_EVENTS`) | visit and settle XP, progress by distinct counted keys, completion → `app.grant_quest_reward`; `quest_progress.source_event_ids` makes a repeated event a no-op | 3 (DLQ) | event id | 41 |
 | `critter.verify` | `befriend_critter` | plausibility (speed, flight continuity, attestation, mock flags, skew) → verify/revoke | 3 | encounter id | 40 |
 | `reward.fanout` | reward events | stamps, icon unlocks, XP; same server ts | 3 | event id | 40 |
 | `media.process` | `register_photo`, avatar | thumbnails (sharp), hash dedupe, moderation, avatar PNG sizes for push/LA/widgets | 3 | media key | 44, 45 |
@@ -132,12 +134,14 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `feedback.forward` | `submit_feedback` | AI-38 triage → tracker | 3 | ticket id | 47 |
 | `idea.shipped_fanout` | tracker webhook | N-38 to voters when app version ≥ fixed | 3 | idea id | 47 |
 | `content.publish` | `approve_content_batch`, `rollback_content_release` | verify the release artifact's checksum, replace the kind's catalogue rows in one tx (refuses unreviewed emergency/allergy cards and unverified safety records: release → `blocked` with the reason), mark the previous release `superseded`, `catalogue.changed` on `catalog`; `pnpm content <kind> pull` copies it into `packages/content` | 2 / DLQ | release id | 18 |
+| `media.ingest` (doc delta) | `content.publish` of a `media` release, per asset not ready | download the source file, WebP stills (480/828/1242/1656 w, never upscaled), blurhash + dominant colour; video: 8 s muted H.264 loops (720/1280 w, faststart, ≤ 2.5 MB) and the first frame as poster; upload under `c/media/<id>/`, mark `ready`; a 404/undecodable file → `failed` without retry | 3 / DLQ | asset id | — |
 | `content.embed` (doc delta) | help release published | embeds help articles into `help_articles.embedding`; a no-op until an embedding vendor is chosen (help search runs on the full-text index meanwhile) | 3 | release id | 18 |
 | `og.render` | invite created, referral code minted (warm); code rotated, invite revoked, code expired in `maint.codes` (purge) | `GET {web}/og/{kind}/{code}.png?warm=1` as a preview bot: the web Worker draws the Takumi card into R2, or answers 404 and deletes it when the code no longer resolves | 3 | `(kind, code)` | 51 |
 | `cost.recompute` (doc delta) | trip quotes, participants, rooms, plan version or FX run changed | `services/worker/src/cost/recompute.ts`: loads inputs (room plans too: one `room`-unit component per occupied room, the index stay estimate cut to the nights no room plan prices; doc delta), prices with `@cp/cost-engine`, replaces `cost_components`, writes own `share_calcs` + `trip_share_totals`, `tiles` hint on `trip:{trip_id}`; no-op when the input hash is unchanged | 3 | trip id (job key), input hash (writes) | 16 |
 | `plan.stale_sweep` (doc delta) | a new group plan version (`apply_plan_ops`, an applied change set) | `services/worker/src/jobs/plan/stale-sweep.ts`: every pending group change set on an older base is rebased onto the current version when nothing it touches moved (`changeset.rebased`), else marked `stale` with its vote closed as no (`change_set.stale`, `changeset.stale`) | 3 exp. | `trip_id:version_id` | 29 |
 | `poi.embed` (doc delta) | POI created/updated | `services/worker/src/places/embed.ts`: embeds searchable text, upserts `poi_embeddings`; flag-gated no-op until an embedding vendor is chosen | 3 | poi id | 14 |
 | `poi.live_check` (doc delta) | place detail open, `last_live_check_at` > 24 h | `services/worker/src/places/live-check.ts`: Foursquare open/closed check, upserts `poi_live_checks`; degrades to `gated` (no retry backoff) on the account's own credits-exhausted response | 3 | poi id | 14 |
+| `la.orchestrate` | `leave_by.*`, `readiness.changed`, `meetup.*`, `eta.updated`, `flight.event`, `poll.*`, `boost.*` (event hook) and the lifecycle sweep | one object's Live Activities: kill switch `la.<kind>.enabled` (off → end what shows once, never start or update) → loader → start (push-to-start, first start creates the object's broadcast channel) / one broadcast or per-token update / end per device; two per phone by rank; dismissal final; unchanged frame sends nothing; LA off or no start token → counted fallback | 3 × 5 s | exclusive per `(kind, ref_id)` | 48 |
 
 ### 2.3 Cron and per-object schedules
 
@@ -155,7 +159,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `weather.refresh` (doc delta) | `*/15 * * * *`; each point due at 3 h, 1 h within 48 h of an outdoor item, 15 min marine while under way | WeatherAPI.com forecast + marine → `weather_snapshots`; `forecast.changed` on material change | 15 |
 | `hazards.refresh` (doc delta) | `*/15 * * * *`; reads hourly, every tick while a trip is under way | MAGMA / IMO / JMA / CENAPRED / GDACS → `hazard_alerts`; `hazard.changed` on a level move | 15 |
 | `briefing.build` | per user local morning (`scheduled_events`) | AI-27 | 36 |
-| `quests.generate` | per trip ~04:00 local | AI-32 → validator → publish, N-31 | 41 |
+| `quests.sweep` (doc delta) | hourly (`2 * * * *` UTC) | queues `quests.generate` for every trip on its dates (not voting, cancelled or archived) whose clock is past 04:00 and that has no quests for its local date; expires quests past their deadline | 41 |
+| `quests.generate` | `quests.sweep` | `{trip_id, local_date}`: AI-32 → validator → deterministic fill to three → publish, N-31; once per trip day | 41 |
 | `roundup.build` | per tz bucket, user time −10 min (default 20:00) | AI-39 ≤5 items, template fallback, skip empty | 49 |
 | `leaveby.schedule` | per LeaveBy: start T−≤8 h (push-to-start), T−15 relevance, T0, end | LA + alarm re-sync background push; crew knock at 2nd snooze/T0+N | 36, 48 |
 | `poll.close` | `scheduled_events` timer at a non-board poll's `closes_at` | closes under the poll row lock with the tie rule (a moved deadline or an earlier close: no-op); destination → trip `won`, reveals, N-03 | 26 |
@@ -164,6 +169,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `plan.changeset_expiry` (doc delta) | `scheduled_events` timer at a change set vote's `closes_at` (≤ earliest hold expiry) | an undecided vote closes as no and the change set ends `rejected` (`change_set.expired`, `changeset.expired`, result push): expiry keeps the current plan; a vote closed another way is settled by its winner | 29 |
 | `ai.pitch` (doc delta) | cron 05:00 Asia/Singapore | fresh pitches (≤20 per run) for places in crews' decks (queued, or back in the deck within 30 d) whose fares moved; no model key → nothing | 26 |
 | `proposal.reply_by` | reply_by −24 h, at reply_by | N-09, close | 31 |
+| `proposal.suggestions` (doc delta) | an open (debounced 10 min), a private "ask the crew" | organiser suggestion cards + `engagement.summary` | 31 |
 | `followup.deliver` | recipient local `at` | N-08 | 31 |
 | `nudge.dispatch` | `scheduled_events` timer at the target's engagement hour (modal open hour of 14 d, fallback 19:00, moved out of quiet hours) | marks sent, `nudge.received` → inbox item + N-12 | 25 |
 | `tips.generate` (doc delta) | `0 6 * * *` SGT + per crew on `fare.dropped` | detectors (fare drop ≥ `home.tips.min_fare_drop_pct` vs stored-night median, book-by, season peak, crowd dip) → `tips.phrase` line validated against facts, template fallback; ≤1 new tip/crew/day; `home.tips.enabled` kill switch | 25 |
@@ -173,6 +179,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `location.fixes_ttl` | `* * * * *` UTC | delete fixes older than 15 min unless their SOS share is open or ended < 24 h ago | 20 |
 | `visits.ttl` | `5 * * * *` UTC | visits of archived/cancelled trips get `expires_at` = now + 30 d; delete visits past `expires_at` | 20 |
 | `daybundle.build` | night before + stay geofence exit + wake | offline bundle version | 36 |
+| `trips.lifecycle` (doc delta) | `*/10 * * * *` UTC | the timed trip moves of data-model-sync-and-privacy §3.1 on the trip's clock (`trips.tz`, else the destination's, else UTC), in lifecycle order so a trip that fell behind catches up in one run: `proposed → confirmed` (sent proposal's `reply_by` passed, ≥ 1 IN), `confirmed → pre_trip` (00:00 on start − 14 d, at once when confirmed later), `pre_trip → in_trip` (12:00 on the first day, fallback), `in_trip → post_trip` (midnight after the last day), `post_trip → archived` (`app.boost_window_end`, last day + 7 d); each move is its own transaction with its `trip.status_changed` | 36 |
+| `trips.lifecycle_signal` (doc delta) | `flight.landed`, `egg.hatched` (trigger `arrived`) | an inbound final leg (not a connection within 24 h, not landing where the traveller's first leg on the trip left from, landing from the day before the first day) or a device arrival from 00:00 on the first day starts a `pre_trip` trip; a return landing home on or after the last day ends an `in_trip` trip; first signal wins | 36 |
 | `recap.build` | trip end (last-day local midnight) + debounced re-run | AI-34, share renders, N-32 | 43 |
 | `anniversary.scan` | `0 1 * * *` per tz bucket | N-35 | 43 |
 | `ftf.ending` | FTF end −3 d local | N-33 (governed) | 46 |
@@ -192,6 +200,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `powersync.compact` | `0 19 * * *` UTC | bucket compact | 11 |
 | `ops.backup` | `0 20 * * *` UTC | off-provider `pg_dump` → R2 (monthly restore drill is ops runbook) | 11 |
 | `poi.ingest` (doc delta) | monthly per destination | `services/worker/src/places/ingest.ts` via `tools/maps/ingest-cli.ts` (no pg-boss schedule wired yet — run manually/via Railway cron until this queue exists): reads Overture (+ FSQ OS Places where a source is configured) for the destination bbox, conflates, upserts `pois`, writes an attribution NOTICE; idempotent (rerun creates no new ids) | 14 |
+| `la.lifecycle` | `* * * * *` (UTC) | due starts, time-driven frames and planned ends for live objects; 8 h restart (same content version, never for a switched-off kind); stale marking; ended rows purged after 7 d | 48 |
+| `la.channels` | `17 * * * *` (UTC) | Channel Management API delete of broadcast channels past `delete_after` (`broadcast_channels.gc`) | 48 |
 
 ## 3. Push contracts (P11, P48, P49)
 

@@ -15,6 +15,22 @@ msgstr "???"
 msgid "web.tips.categoryPageTitle"
 msgstr "{category} tips · CritterPass"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.seatsLeft"
+msgstr "{count} first-wave seats left"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.inLine"
+msgstr "{count} IN LINE"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.friendsJoined"
+msgstr "{count} OF 3 FRIENDS JOINED"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.countdown"
+msgstr "{days}D {hours}H {minutes}M {seconds}S"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.byline"
 msgstr "{guide}, {place}"
@@ -27,6 +43,10 @@ msgstr "{minutes} min"
 msgid "web.tips.minRead"
 msgstr "{minutes} min read"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.guideCheering"
+msgstr "{name} cheering"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.eyebrowFrom"
 msgstr "{name} invited you"
@@ -35,9 +55,17 @@ msgstr "{name} invited you"
 msgid "web.referral.bodyFrom"
 msgstr "{name} wants you on CritterPass, the group trip planner. Get the app with this link and you both get a stamp on your pass once you've planned your first trip."
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.guideWaving"
+msgstr "{name} waving"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.theirLink"
 msgstr "{name}'s link"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.savingSeat"
+msgstr "{name}'s saving you a seat in {place}."
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
@@ -47,6 +75,10 @@ msgstr "{title} · CritterPass"
 msgid "web.legal.versionPageTitle"
 msgstr "{title} v{version} · CritterPass"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hatchedNumber"
+msgstr "#{num} OF {total} · {city}"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
 msgstr "© {year} CritterPass"
@@ -54,6 +86,10 @@ msgstr "© {year} CritterPass"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.estimateEach"
 msgstr "~{amount} each"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askStatus"
+msgstr "✓ PLAN UPDATED FOR 6"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Art"
@@ -73,7 +109,7 @@ msgstr "1 vote"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalFound"
-msgstr "10 / 150 found"
+msgstr "10 / {count} found"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatUnread"
@@ -95,6 +131,10 @@ msgstr "3 stamps · Navy cover"
 msgid "web.home.mockVoteHoiAnCount"
 msgstr "3 votes"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTally"
+msgstr "5 OF 6"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.fiveStamps"
 msgstr "5 stamps"
@@ -111,9 +151,41 @@ msgstr "9:41"
 msgid "web.home.passLabel"
 msgstr "A CritterPass passport with Tokek the gecko and four more locals stuck on it"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseTitle"
+msgstr "A FEW MORE SURPRISES"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.ngua"
+msgstr "A flower pony, waiting for you in Đà Lạt."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.cuRua"
+msgstr "A Hoàn Kiếm turtle, waiting for you in Hà Nội."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.lucky"
+msgstr "A jackrabbit, waiting for you in Las Vegas."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.chep"
+msgstr "A lantern carp, waiting for you in Hội An."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.eyebrow"
+msgstr "A LITTLE PREVIEW"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideTitle"
 msgstr "A look inside"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.drac"
+msgstr "A mosaic salamander, waiting for you in Barcelona."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.roucou"
+msgstr "A pigeon in a beret, waiting for you in Paris."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -122,6 +194,18 @@ msgstr "A seat still open"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Body"
 msgstr "A stamp lands once they've joined and voted on, or planned, their first trip."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.pizza"
+msgstr "A subway rat, waiting for you in New York."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.eggLabel"
+msgstr "A wiggling egg"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.admit"
+msgstr "ADMIT: ONE CREW"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalAdmit"
@@ -143,6 +227,10 @@ msgstr "All tips"
 msgid "web.invite.membersLabel"
 msgstr "Already in: {names}"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.lince"
+msgstr "An Iberian lynx, waiting for you in Seville."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
 msgstr "App"
@@ -159,9 +247,17 @@ msgstr "Ask the gecko. It's been everywhere."
 msgid "web.home.stop2Title"
 msgstr "Ask the local"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askTitle"
+msgstr "ASK THE LOCAL"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr "Back to the start"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "BACK TO THE START"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
@@ -171,9 +267,21 @@ msgstr "Bali"
 msgid "web.home.mockPlanItem1"
 msgstr "Bánh mì Phượng"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowHike"
+msgstr "Batur sunrise hike"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.boardingNow"
+msgstr "BOARDING NOW"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalEyebrow"
 msgstr "Boarding pass"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.boardingSoon"
+msgstr "BOARDING SOON"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
@@ -191,6 +299,10 @@ msgstr "Bring your crew"
 msgid "web.referral.pageTitle"
 msgstr "Bring your crew · CritterPass"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.bringCrew"
+msgstr "BRING YOUR CREW, SKIP THE LINE"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.bylineBy"
 msgstr "By {guide}, {place}"
@@ -203,13 +315,53 @@ msgstr "Categories"
 msgid "web.home.mockLocalName"
 msgstr "Chép"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.chooseDestination"
+msgstr "Choose your first destination"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.cityGuides"
 msgstr "City guides"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseClassified"
+msgstr "CLASSIFIED"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.collectTitle"
+msgstr "COLLECT THE PASS"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.collector"
 msgstr "Collector cover"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareTitle"
+msgstr "Come join me on CritterPass"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareText"
+msgstr "Come join me on CritterPass — {url}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.stampTitle"
+msgstr "COMING SOON"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.badgeSoon"
+msgstr "COMING SOON · iOS + ANDROID"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.confirmed"
+msgstr "CONFIRMED · FIRST WAVE"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowClass"
+msgstr "Cooking class"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askReply"
+msgstr "Cooking class at 2pm. Beach moves to Friday."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
@@ -219,6 +371,10 @@ msgstr "Copied"
 msgid "web.tips.copied"
 msgstr "Copied"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.copied"
+msgstr "COPIED ✓"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
 msgstr "Copy"
@@ -226,6 +382,10 @@ msgstr "Copy"
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.copyLink"
 msgstr "Copy link"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.copyLink"
+msgstr "COPY LINK"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerCrew"
@@ -243,6 +403,14 @@ msgstr "Critter"
 msgid "web.shell.brand"
 msgstr "CritterPass"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pageTitle"
+msgstr "CritterPass — Group trips, planned with the locals"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.head"
+msgstr "CRITTERPASS · BOARDING SOON"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageTitle"
 msgstr "CritterPass · Group trips, planned with the locals"
@@ -251,6 +419,10 @@ msgstr "CritterPass · Group trips, planned with the locals"
 msgid "web.shell.homeLink"
 msgstr "CritterPass home"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pageDescription"
+msgstr "CritterPass is a group trip planner coming soon to iOS and Android. The locals happen to be animals. Join the waitlist."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
 msgstr "CritterPass is a group trip planner for iPhone and Android. Swipe, vote, plan and split with your crew, guided by a local who happens to be an animal."
@@ -258,6 +430,14 @@ msgstr "CritterPass is a group trip planner for iPhone and Android. Swipe, vote,
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
 msgstr "CritterPass tips"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintCrack"
+msgstr "crk!"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintCrackLoud"
+msgstr "CRRRK!!"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.current"
@@ -291,6 +471,10 @@ msgstr "Draft: only visible on staging."
 msgid "web.tips.aiDisclosure"
 msgstr "Drafted with help from AI, then checked and edited by people who've been there."
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planBody"
+msgstr "Drag anything to a new slot and the rest of the day shifts to make room, for everyone at once."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Body"
 msgstr "Drag anything to a new slot and the rest of the day shifts to make room, for everyone at once."
@@ -299,9 +483,17 @@ msgstr "Drag anything to a new slot and the rest of the day shifts to make room,
 msgid "web.home.stop4ArtUnit"
 msgstr "each"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitEach"
+msgstr "EACH · 4 WAYS"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsBody"
 msgstr "Each destination has its own guide with its own colour and voice. They know the place the way someone who grew up there would."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planEditing"
+msgstr "EDITING"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
@@ -311,17 +503,29 @@ msgstr "Error 404 · off the map"
 msgid "web.home.passStampBottom"
 msgstr "Est. 2026"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.stampSub"
+msgstr "EST. 2026"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsTitle"
 msgstr "Every booking. Even with no signal."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideLocalBody"
-msgstr "Every city has a critter to hatch. 150 to collect, and you have to be there."
+msgstr "Every city has a critter to hatch. {count} to collect, and you have to be there."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insidePlanTitle"
 msgstr "Every day planned. Drag to change it."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.referralBody"
+msgstr "Every friend who joins with your link moves you 100 spots up. Three friends and you're in the first wave."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.title"
+msgstr "Every local starts as an egg"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsTitle"
@@ -330,6 +534,10 @@ msgstr "Every place has a local"
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatTitle"
 msgstr "Every trip starts in the group chat."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeBody"
+msgstr "Everyone swipes through the shortlist. The tally fills live and the winner is settled in minutes."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop1Body"
@@ -347,13 +555,33 @@ msgstr "Everything CritterPass promises you, in plain words. Each document keeps
 msgid "web.invite.expiresIn"
 msgstr "Expires in {left}"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseBrief"
+msgstr "FEATURE BRIEF · v0.9"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.featured"
 msgstr "Featured"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.label"
+msgstr "Final call"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.eyebrow"
+msgstr "FINAL CALL"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.findMyCrew"
 msgstr "Find my crew"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.waveLeft"
+msgstr "FIRST WAVE · {count} SEATS LEFT"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.seats"
+msgstr "FIRST WAVE · {seats} SEATS"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
@@ -363,6 +591,10 @@ msgstr "Flights, stays and tickets in one wallet, pulled in from your email."
 msgid "web.shell.footerFollow"
 msgstr "Follow"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.follow"
+msgstr "follow the locals →"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
 msgstr "Four stops on the route"
@@ -371,13 +603,29 @@ msgstr "Four stops on the route"
 msgid "web.home.finalBody"
 msgstr "Free on iPhone and Android. Start a crew, or join one with the code a friend sent you."
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.from"
+msgstr "FROM"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsTitle"
 msgstr "From “idk” to wheels down"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.quip"
+msgstr "from \"idk\" to wheels down ↓"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalGate"
 msgstr "Gate ✦ anywhere"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.gate"
+msgstr "GATE ✦ ANYWHERE"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.gateOpensIn"
+msgstr "GATE OPENS IN"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"
@@ -403,9 +651,21 @@ msgstr "Google Play"
 msgid "web.invite.differentCode"
 msgstr "Got a different code?"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.groupChat"
+msgstr "GROUP CHAT"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTag"
 msgstr "Group trip planner"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.badgePlanner"
+msgstr "GROUP TRIP PLANNER"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.lede"
+msgstr "Group trips, planned with the locals. The locals happen to be animals."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroLede"
@@ -414,6 +674,14 @@ msgstr "Group trips, planned with the locals. The locals happen to be animals."
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideAjo"
 msgstr "Has a taco stand for every neighbourhood and a trajinera booked before you ask."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.label"
+msgstr "Hatch an egg"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.another"
+msgstr "HATCH ANOTHER"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.haveCode"
@@ -463,6 +731,10 @@ msgstr "I've got a plan. Vote by Friday?"
 msgid "web.home.chat2"
 msgstr "idk u pick"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.body"
+msgstr "In the app, an egg hatches when you land somewhere new. Here you can cheat. Tap it three times and see who turns up."
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeLabel"
 msgstr "Invite code {spelled}"
@@ -479,9 +751,21 @@ msgstr "Istanbul"
 msgid "web.home.mockGuideAsk"
 msgstr "It's pouring in Hội An. Plan B?"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askQuestion"
+msgstr "It's pouring. Plan B?"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Art"
 msgstr "It's pouring. Plan B?"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.label"
+msgstr "Join the waitlist"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.join"
+msgstr "JOIN THE WAITLIST"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinTitle"
@@ -511,6 +795,10 @@ msgstr "Knows which temples open at 6am, which ramen lines are worth it, and whe
 msgid "web.home.insideLocalTitle"
 msgstr "Land somewhere new. Meet a local."
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.language"
+msgstr "Language"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.language"
 msgstr "Language"
@@ -522,6 +810,10 @@ msgstr "Lantern boat ride"
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalSpecies"
 msgstr "Lantern carp · #005"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTag"
+msgstr "LANTERN TOWN"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem3"
@@ -551,6 +843,10 @@ msgstr "licensed under CC BY 4.0"
 msgid "web.home.passLocals"
 msgstr "Locals"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.statLocals"
+msgstr "LOCALS"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampTop"
 msgstr "Locals only"
@@ -578,6 +874,10 @@ msgstr "Maya owes you"
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.openMenu"
 msgstr "Menu"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareMessages"
+msgstr "MESSAGES"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.money"
@@ -615,6 +915,10 @@ msgstr "Next trip · voting"
 msgid "web.shell.noCookies"
 msgstr "No cookies here. We count page visits without knowing who you are."
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "No place by that name. Try another spelling."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr "Nobody has to be the one who asks for money."
@@ -643,6 +947,10 @@ msgstr "On your computer?"
 msgid "web.home.insidePlanBody"
 msgstr "One day-by-day plan the whole crew can move around."
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.note"
+msgstr "One email when we launch. Maybe two. Never spam."
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
 msgstr "Or add them straight to a crew. Either counts."
@@ -654,6 +962,10 @@ msgstr "Or just ask the guide directly."
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guidePaco"
 msgstr "Paces the altitude for you and knows the trail to the ruins nobody else takes."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "Page not found"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
@@ -671,9 +983,21 @@ msgstr "Pass · No. 010"
 msgid "web.referral.coverLabel"
 msgstr "Pass cover"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "Pick a place from the list, or clear the search."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "Places"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
 msgstr "Places"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.statPlaces"
+msgstr "PLACES"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalTitle"
@@ -683,9 +1007,17 @@ msgstr "Plan the trip. Meet the locals."
 msgid "web.home.stop3Title"
 msgstr "Plan together"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planTitle"
+msgstr "PLAN TOGETHER"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
 msgstr "Planning"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.privacy"
+msgstr "Privacy"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.privacy"
@@ -715,6 +1047,22 @@ msgstr "Reads the weather better than the forecast and always has a hot pool in 
 msgid "web.referral.finePrintTerms"
 msgstr "Referral terms"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "Remove {city}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.saveSeat"
+msgstr "SAVE MY SEAT →"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.saveSeat"
+msgstr "SAVE MY SEAT ↑"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitBody"
+msgstr "Scan the receipt, split it however you like, settle up. Nobody keeps a spreadsheet."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Body"
 msgstr "Scan the receipt, split it however you like, settle up. Nobody keeps a spreadsheet."
@@ -730,6 +1078,14 @@ msgstr "Scan with your phone camera. The app opens straight to this link, or the
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr "scroll along the route"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "Search any city"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.seat"
+msgstr "SEAT"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyAll"
@@ -755,6 +1111,10 @@ msgstr "SGN → DAD"
 msgid "web.tips.share"
 msgstr "Share"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.share"
+msgstr "SHARE YOUR LINK ↑"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.lede"
 msgstr "Short, useful notes on planning with friends, sharing costs and getting the most out of a place. Written with our guides, checked by people who've been."
@@ -771,6 +1131,10 @@ msgstr "Skip to content"
 msgid "web.home.chat1"
 msgstr "so where r we going"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "Somewhere else?"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
 msgstr "Split 4 ways · $24 each"
@@ -778,6 +1142,10 @@ msgstr "Split 4 ways · $24 each"
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Title"
 msgstr "Split it"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitTitle"
+msgstr "SPLIT IT"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.finePrint"
@@ -791,6 +1159,10 @@ msgstr "Stop {n}"
 msgid "web.home.insideVoteTitle"
 msgstr "Stop planning trips in the group chat."
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowSunset"
+msgstr "Sunset at Uluwatu"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideSwap"
 msgstr "Swap it in"
@@ -799,9 +1171,25 @@ msgstr "Swap it in"
 msgid "web.home.stop1Title"
 msgstr "Swipe to pick"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTitle"
+msgstr "SWIPE TO PICK"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.quip"
+msgstr "takes 10 seconds"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsVoice"
 msgstr "tap one to say hi"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintTap"
+msgstr "tap the egg"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.tapEgg"
+msgstr "Tap the egg"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.terms"
@@ -810,6 +1198,14 @@ msgstr "Terms"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeError"
 msgstr "That code doesn't look right. Check each character."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.joinFailed"
+msgstr "That didn't go through. Try again in a moment."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailInvalid"
+msgstr "That email doesn't look right. Mind checking it?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatName"
@@ -831,6 +1227,14 @@ msgstr "The fine print · CritterPass"
 msgid "web.legal.eyebrow"
 msgstr "The fine print · updated {date}"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.title"
+msgstr "The first wave boards soon"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askBody"
+msgstr "The guide drafts the plan and answers anything, by voice or text. Rain on Thursday? It proposes a swap."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Body"
 msgstr "The guide drafts the plan and answers anything, by voice or text. Rain on Thursday? It proposes a swap."
@@ -843,6 +1247,10 @@ msgstr "The guides are still writing"
 msgid "web.shell.theLocals"
 msgstr "The locals"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.typedLine"
+msgstr "The locals are still packing."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
 msgstr "The pass"
@@ -851,9 +1259,17 @@ msgstr "The pass"
 msgid "web.shell.thePass"
 msgstr "The pass"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "The places didn't load. Try again in a moment."
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr "The short version"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseBody"
+msgstr "There's more on board that we're not showing yet. People on the list see it first."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Title"
@@ -863,6 +1279,10 @@ msgstr "They plan a trip"
 msgid "web.referral.how3Body"
 msgstr "They start with a stamp too. Covers unlock at 3 and 5."
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "This page isn't on the route. The locals checked every alley."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
 msgstr "This page isn't on the route. The locals checked every alley. Head home, or join a crew with the code a friend sent you."
@@ -870,6 +1290,10 @@ msgstr "This page isn't on the route. The locals checked every alley. Head home,
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Art"
 msgstr "Thu 14"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planDate"
+msgstr "THU 14"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideChange"
@@ -899,6 +1323,10 @@ msgstr "Tips from the locals · CritterPass"
 msgid "web.legal.tldrTag"
 msgstr "TL;DR from Tokek"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.to"
+msgstr "TO"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbip"
 msgstr "To suggest airports near you, we look up the approximate city of your network address in DB-IP's free IP-to-city database."
@@ -914,6 +1342,14 @@ msgstr "Tokek answers by text, voice or camera, and can rework the plan for you.
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroVoice"
 msgstr "Tokek's already found you a villa."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.rateLimited"
+msgstr "Too many attempts. Try again in a few minutes."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitTotal"
+msgstr "TOTAL"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
@@ -931,6 +1367,10 @@ msgstr "Undiscovered local number {num}, found by being there"
 msgid "web.legal.updated"
 msgstr "Updated {date}: {summary}"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.differentEmail"
+msgstr "Use a different email"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.historyLine"
 msgstr "Version {version} · effective {date}"
@@ -943,6 +1383,10 @@ msgstr "Version history"
 msgid "web.home.mockBookingsFlightMeta"
 msgstr "VN 128 · Thu 06:40 · 14A"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.waitlist"
+msgstr "WAITLIST · FIRST WAVE"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat3"
 msgstr "we said this in march"
@@ -951,13 +1395,25 @@ msgstr "we said this in march"
 msgid "web.home.chatVoice"
 msgstr "we've all been in this chat"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.title"
+msgstr "What you're waiting for"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchTitle"
 msgstr "Wheels down, egg hatches"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.collectBody"
+msgstr "When you land somewhere, that place's local joins your pass. Stay a while and more of them turn up."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchBody"
 msgstr "When you land somewhere, that place's local joins your pass. Stay a while and more of them turn up."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.whereFirst"
+msgstr "WHERE ARE YOU HEADED FIRST?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteTitle"
@@ -971,13 +1427,29 @@ msgstr "Winning"
 msgid "web.notFound.title"
 msgstr "Wrong turn"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeYes"
+msgstr "YES!"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Title"
 msgstr "You both get one"
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.quipTop"
+msgstr "you can't buy them."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passTitle"
 msgstr "You can't buy them. You have to go."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.quipBottom"
+msgstr "you have to go."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.youAre"
+msgstr "YOU'RE #{position}"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyOwed"
@@ -987,9 +1459,21 @@ msgstr "You're owed"
 msgid "web.legal.olderVersion"
 msgstr "You're reading version {version}, effective {date}. The current version is {current}."
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailPlaceholder"
+msgstr "you@email.com"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinEyebrow"
 msgstr "Your crew is waiting"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailLabel"
+msgstr "Your email"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourGuide"
+msgstr "your guide"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideRole"
@@ -1006,3 +1490,11 @@ msgstr "Your link"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr "Your link lives in the app: You → Invite friends. Share it from there."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "your local"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.placeInLine"
+msgstr "YOUR PLACE IN LINE"

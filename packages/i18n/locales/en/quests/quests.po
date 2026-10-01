@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-01 06:03+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#. placeholder {0}: level.into
+#. placeholder {1}: level.need
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.xp"
+msgstr "{0} / {1} XP"
+
+#. placeholder {0}: model.live
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.live"
+msgstr "{0} live"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.eyebrow"
+msgstr "{crewName} · Crew lvl {lvl}"
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.level"
+msgstr "{level, plural, other {crew level #}}"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.beforeLine"
+msgstr "{name} writes the crew's first quests the morning your trip starts."
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.writingLine"
+msgstr "{name} writes them from your plan every morning. They'll be here soon."
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.line"
+msgstr "A new crew sticker is on your pass."
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.allDone"
+msgstr "All done"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.title"
+msgstr "Crew level {level}!"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.levelOnly"
+msgstr "Crew lvl {lvl}"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.title"
+msgstr "Crew quests"
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.dayOne"
+msgstr "Day one"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.done"
+msgstr "Done ✓"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.join"
+msgstr "I'm in"
+
+#: ../../apps/mobile/src/features/critters/quests/commands.ts
+msgid "quests.queued.signup"
+msgstr "Joining a quest"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.unlock"
+msgstr "Level {next} unlocks a crew sticker"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.missed"
+msgstr "Missed"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.overLine"
+msgstr "No more quests on this trip. Your crew level and stickers stay on your pass."
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.offline"
+msgstr "Progress and rewards land when you're back online."
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.title"
+msgstr "Quests"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.beforeTitle"
+msgstr "Quests start on day one"
+
+#. placeholder {0}: card.reward.xp
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.reward.xp"
+msgstr "Reward · +{0} XP"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.reward.critter"
+msgstr "Reward · legendary critter"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.reward.settled"
+msgstr "Reward · Settled Tokek"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.overTitle"
+msgstr "That's a wrap"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.back"
+msgstr "Trip"
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.over"
+msgstr "Wrapped"
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.writing"
+msgstr "Writing"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.writingTitle"
+msgstr "Writing today's quests"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.joined"
+msgstr "You're in"

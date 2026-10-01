@@ -10,6 +10,8 @@ import { localSchedule, toLocalWallTime, type BriefingCandidate } from '@cp/doma
 import { joinNames } from '@cp/planner';
 import type pg from 'pg';
 
+import { leaveByBriefingLine, type LeaveByPushFacts } from './leave-by-push-copy';
+
 type Draft = Omit<BriefingCandidate, 'id'>;
 
 export interface CandidateScope {
@@ -38,16 +40,22 @@ function when(at: Date, scope: CandidateScope): string {
 }
 
 async function leaveBys(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft[]> {
-  const { rows } = await tx.query<{
-    id: string;
-    leave_at: Date;
-    place: string;
-    pickup_place: string | null;
-    organiser: boolean;
-    asleep: string[] | null;
-    asleep_ids: string[] | null;
-  }>(
-    `SELECT l.id, l.leave_at, coalesce(l.place_name, l.title) AS place, l.pickup->>'place' AS pickup_place,
+  const { rows } = await tx.query<
+    Omit<LeaveByPushFacts, 'tz'> & {
+      id: string;
+      pickup_place: string | null;
+      organiser: boolean;
+      asleep: string[] | null;
+      asleep_ids: string[] | null;
+    }
+  >(
+    `SELECT l.id, l.title, l.place_name, l.starts_at, l.leave_at,
+            l.legs->0->>'kind' AS leg_kind, l.pickup->>'place' AS pickup_place,
+            (SELECT i.category FROM plan_items i WHERE i.id = l.plan_item_id) AS category,
+            (SELECT s.dep_airport::text FROM flight_segments s
+               JOIN plan_items i ON i.booking_id = s.booking_id
+              WHERE i.id = l.plan_item_id AND s.sched_dep_at = l.starts_at
+              ORDER BY s.segment_no LIMIT 1) AS dep_airport,
             EXISTS (SELECT 1 FROM trip_participants p
                      WHERE p.trip_id = l.trip_id AND p.user_id = $2 AND p.role = 'organiser') AS organiser,
             (SELECT array_agg(split_part(trim(u.display_name), ' ', 1) ORDER BY u.display_name)
@@ -62,20 +70,16 @@ async function leaveBys(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft
     [scope.tripId, scope.userId, scope.localDate, scope.now],
   );
   return rows.flatMap((row): Draft[] => {
-    const time = hhmm(row.leave_at, scope.tz);
-    const pickup = row.pickup_place === null ? '' : ` Pickup is at the ${row.pickup_place}.`;
+    // The briefing reads on the member's trip clock, like every other time in it.
+    const line = leaveByBriefingLine({ ...row, tz: scope.tz }, row.pickup_place);
     const drafts: Draft[] = [
       {
         kind: 'leave_by',
         action: 'open',
         icon: 'alarm',
         priority: 90,
-        facts: {
-          time,
-          place: row.place,
-          ...(row.pickup_place === null ? {} : { pickup: row.pickup_place }),
-        },
-        template: `Leave by ${time} for ${row.place}.${pickup}`.slice(0, 140),
+        facts: line.facts,
+        template: line.template,
         target_user_ids: [],
         deep_link: `/hub/${scope.tripId}/day/${scope.localDate}`,
         dedupe_key: `leave_by:${row.id}`,
@@ -84,13 +88,14 @@ async function leaveBys(tx: pg.PoolClient, scope: CandidateScope): Promise<Draft
     const names = (row.asleep ?? []).filter((name) => name.length > 0);
     if (row.organiser && names.length > 0 && row.asleep_ids !== null) {
       const who = joinNames(names);
+      const place = row.place_name ?? row.title;
       drafts.push({
         kind: 'not_up',
         action: 'nudge',
         icon: 'alarm',
         priority: 80,
-        facts: { names: who, place: row.place },
-        template: `${who} ${names.length === 1 ? 'is' : 'are'} not up yet for ${row.place}.`.slice(
+        facts: { names: who, place },
+        template: `${who} ${names.length === 1 ? 'is' : 'are'} not up yet for ${place}.`.slice(
           0,
           140,
         ),

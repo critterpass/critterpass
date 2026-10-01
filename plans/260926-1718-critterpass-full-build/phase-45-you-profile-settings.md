@@ -1,7 +1,7 @@
 ---
 phase: 45
 title: "You: profile, settings, icons, export, deletion"
-status: pending
+status: in_progress
 depends_on: [5, 12, 22, 33, 43, 47, 49]
 wave: 21
 features: [F-141, F-142, F-143, F-144, F-145, F-146, F-147, F-148, F-191]
@@ -141,6 +141,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 
 ## Tasks
 ### T1 — Schema deltas, commands, permission tests
+- Status: done — 3a885ad20
 - Goal: data + write paths for profile, settings, icons, history.
 - Files: `packages/db/src/schema/you.ts`, `packages/db/migrations/<ts>_profile_settings_icons_history.sql`, `packages/db/test/permissions/{app-icon-unlocks,past-trips,user-settings-audio}.test.ts`, `packages/domain/src/you/{settings-schema,username,app-icons,history}.ts`, `services/api/src/commands/you/{update-profile,set-settings,set-app-icon,add-past-trip,remove-past-trip}.ts`, `services/api/src/routes/me-account.ts` (username availability), `services/api/test/you/*.test.ts`.
 - Steps: 1. Expand migrations. 2. zod schemas (settings patch whitelist). 3. Handlers with authorize/entitle (STAMP needs Pass+ or unlock). 4. Username rules + cooldown + availability endpoint.

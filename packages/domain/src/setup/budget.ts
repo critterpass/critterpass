@@ -75,6 +75,18 @@ export interface BudgetBandWire {
   readonly computed_at: string;
 }
 
+/**
+ * `K_ANON_UNAVAILABLE` detail below four maxes: the counts, plus the crew currency and the step a
+ * target must sit on. Both are public price facts; nothing here derives from a max.
+ */
+export interface BudgetBandUnavailableDetail {
+  readonly maxes_count: number;
+  readonly member_count: number;
+  readonly currency: string;
+  /** Left out while the crew currency has no rate to work the step out from. */
+  readonly step_minor?: number;
+}
+
 export const OWN_FIT_STATES = ['no_max', 'no_target', 'fits', 'over'] as const;
 export type OwnFitState = (typeof OWN_FIT_STATES)[number];
 

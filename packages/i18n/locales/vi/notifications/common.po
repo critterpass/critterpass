@@ -7,30 +7,574 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.needed.body"
+msgstr "{asker} hỏi: {question} Chạm để trả lời, mình sẽ đếm phiếu."
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.needs_yes.title"
+msgstr "{asker} muốn đổi kế hoạch"
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.needs_yes.body"
+msgstr "{count, plural, other {# thay đổi}} cho {crew}. Đồng ý hay từ chối?"
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.ready.body"
+msgstr "Có {count} nhiệm vụ cho {place}."
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.late_title"
+msgstr "{crew}"
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.title"
+msgstr "{crew}"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.found_title"
+msgstr "{crew}"
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.title"
+msgstr "{crew}"
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.readiness"
+msgstr "{crew} sắp xuất phát rồi. Báo cả nhóm bạn đang ở đâu nhé."
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_nudge.title"
-msgstr ""
+msgstr "{crew} vẫn đang giữ chỗ cho bạn"
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.invite_open"
+msgstr "{crew} vẫn đang giữ chỗ cho bạn. Rảnh thì xem thử nhé."
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.vote"
+msgstr "{crew} đang chờ phiếu của bạn. Chỉ một chạm thôi, phần đếm để mình lo."
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.applied.body"
+msgstr "{crew} đã đồng ý, nên mình đã cập nhật kế hoạch."
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.rsvp"
+msgstr "{crew} muốn biết bạn có đi không. Có, không hay có thể đều được."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.flight_start_title"
+msgstr "{flight} · {route}"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_title"
+msgstr "{flight} · {route}"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.boarding_title"
+msgstr "{flight} đang lên máy bay"
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.queued_answer.title"
+msgstr "{guide} đã trả lời câu hỏi của bạn"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.version_title"
+msgstr "{guide} đã viết bản {place} của bạn"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.guide.title"
+msgstr "{guide}, gửi {crew}"
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.needed.title"
+msgstr "{guide}, gửi {crew}"
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.winner.title"
+msgstr "{guide}, gửi {crew}"
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.title"
+msgstr "{guide}, kèm lời nhắc từ {sender}"
+
+#: ../domain/src/itinerary/templates.ts
+msgid "notifications.draft.ready.title"
+msgstr "Bản nháp của {guide} đã xong"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.title"
-msgstr ""
+msgstr "{inviter} rủ bạn vào {crew}"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.briefing_body"
+msgstr "{line}"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.body"
+msgstr "{line}"
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.befriended.named"
+msgstr "{member} vừa kết bạn với {critter} ở {place}."
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.befriended.unnamed"
+msgstr "{member} vừa kết bạn với một thổ địa mới ở {place}."
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.befriended.title"
+msgstr "{member} có bạn mới"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_late_body"
+msgstr "{missing} vẫn chưa dậy."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.not_movable"
+msgstr "{name} không dời được {dates}. Chọn tuần hợp nhất nhé."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.freed"
+msgstr "{name} đã sắp xếp được {dates}. Tuần này hợp với cả nhóm."
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.maybe_title"
+msgstr "{name} có thể sẽ đi"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.in_title"
+msgstr "{name} sẽ đi"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.waitlisted_title"
+msgstr "{name} đang trong danh sách chờ"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.out_title"
+msgstr "{name} không đi"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.late_body"
+msgstr "{name} đến trễ {minutes} phút."
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.title"
+msgstr "{name} đã vào {crew}"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.locked_by_body"
+msgstr "{name} đã chốt chuyến đi."
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.knock_body"
+msgstr "Có lẽ nên gõ cửa gọi {name}."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.rooms.swap"
+msgstr "{name} muốn đổi phòng. Xem qua trước khi chốt phòng nhé."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.calendar.missing"
+msgstr "{name} ơi, đánh dấu những ngày bạn đi {place} được nhé. Chỉ mất một phút."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.must_do.prompt"
+msgstr "{name} ơi, điều gì nhất định phải có thì {place} mới trọn vẹn?"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.calendar.stale"
+msgstr "{name} ơi, lịch của bạn chưa đồng bộ hơn {days} ngày rồi. Mở phần chuẩn bị để {place} tính cả bạn nhé."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.requested"
+msgstr "{payee} nhờ bạn trả {amount}."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.confirmed"
+msgstr "{payee} đã nhận {amount} của bạn. Xong xuôi."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.disputed"
+msgstr "{payee} chưa thấy khoản {amount} của bạn. Kiểm tra lại giao dịch nhé?"
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.nudged"
+msgstr "{payee} nhắc nhẹ bạn về khoản {amount}."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.expense_added"
+msgstr "{payer} đã trả {amount} cho {what}. Phần của bạn là {share}."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.marked_paid"
+msgstr "{payer} báo đã trả bạn {amount}. Bạn nhận được chưa?"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_start_title"
+msgstr "{place} · {time}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_late_title"
+msgstr "{place} · {time}"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.knock_title_be_there"
+msgstr "{place} · có mặt trước {time}"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.knock_title"
+msgstr "{place} · đi trước {time}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_late_title"
+msgstr "{place} · đang trễ"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.briefing_title"
+msgstr "{place} · hôm nay"
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.legendary.body"
+msgstr "Một tháng nữa {place} mở. Lên kế hoạch quanh dịp này nhé?"
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.winner.body"
+msgstr "{place} thắng với {score}. Vào xem kết quả nào."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.vote_start_body"
+msgstr "{question}"
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.closing.hours"
+msgstr "{question} đóng sau hai giờ nữa. Một chạm là xong."
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.closing.day"
+msgstr "{question} đóng vào ngày mai mà bạn chưa bỏ phiếu."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.title"
+msgstr "{sender} · {crew}"
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.title"
+msgstr "{sender} · {crew}"
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.moved"
+msgstr "{sender} đã đổi điểm hẹn: {place}, {time}."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.created"
+msgstr "{sender} đã đặt điểm hẹn: {place}, {time}."
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.text"
+msgstr "{text}"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.lottery.result"
+msgstr "Kết quả {title} có vào {date}. Xem trang chính thức để biết bạn có trúng không."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.deadline_body"
+msgstr "{title}: hủy miễn phí đến {deadline}. Sau đó áp dụng điều khoản của đặt chỗ."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_body"
+msgstr "{up}/{total} người đã dậy."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_body"
+msgstr "{up}/{total} người đã dậy."
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.done.body"
+msgstr "+{xp} XP cho cả nhóm."
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.legendary.title"
+msgstr "Sắp có huyền thoại xuất hiện"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.title"
-msgstr ""
+msgstr "Vừa có một chỗ trống"
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.settled.title"
+msgstr "Sòng phẳng rồi"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_at"
+msgstr "Có mặt ở {place}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
+msgstr "Có mặt ở {place} trước {time}"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_title_be_there"
+msgstr "Có mặt ở {place} trước {time}"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.boarding_body"
+msgstr "Lên máy bay ở cổng {gate}. Thẻ lên máy bay có trong ví."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.boarding_estimated"
+msgstr "Chắc đã bắt đầu lên máy bay (ước tính). Thẻ lên máy bay có trong ví."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_cancelled"
+msgstr "Hãng bay đã hủy chuyến. Mở thẻ để xem các lựa chọn."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_delayed"
+msgstr "Trễ {minutes} phút. Giờ khởi hành mới {time}."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.flight_start_body"
+msgstr "Khởi hành {time}. Chuyến bay đang ở trên màn hình khóa."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_diverted"
+msgstr "Chuyến bay đã chuyển hướng. Mình sẽ báo tiếp cho bạn."
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.auto_body"
+msgstr "Đủ bạn bè tham gia nên chuyến đi đã được chốt."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.lottery.deadline"
+msgstr "Đăng ký {title} đóng vào {date}. Mỗi người tự đăng ký trên trang chính thức."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.settled.body"
+msgstr "Ai cũng nhận Tokek Sòng Phẳng."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_arrived_title"
+msgstr "Mọi người đã tới {place}"
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.meetup_changed.crew_close"
+msgstr "Cả nhóm sắp đến {place} rồi."
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.found_body"
+msgstr "Tìm thấy một đặt chỗ trong email của {member}: {title}. Thêm vào ví nhé?"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.deadline_title"
+msgstr "Ngày mai hết hạn hủy miễn phí"
+
+#: ../domain/src/bookings/templates.ts
+msgid "notifications.bookings.flight_gate"
+msgstr "Đổi cổng: giờ là cổng {gate}."
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_body_be_there"
+msgstr "Chưa tính thời gian đi tới đó. Dậy rồi thì chạm nhé."
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.final.body"
+msgstr "Giờ là {first} hoặc {second}. Phiếu của bạn quyết định."
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title_no_dates"
+msgstr "Chốt rồi: {place}"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title"
+msgstr "Chốt rồi: {place}, {dates}"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.body"
-msgstr ""
+msgstr "Tham gia ngay, hoặc để dành sau."
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_title"
+msgstr "Đi trước {time} · {place}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_title"
+msgstr "Xuất phát lúc {time} · {place}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_go_body"
+msgstr "Đi ngay thôi. {up}/{total} người đã dậy."
+
+#: ../domain/src/bookings/templates.ts
+msgid "email.bookings.link_subject"
+msgstr "Liên kết email này với CritterPass"
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.ping_meetup"
+msgstr "Gặp ở {place}, {time}."
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.timed_out"
+msgstr "{name} chưa trả lời sau hai ngày, nên {dates} quay về tuần hợp nhất có thể."
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.kept.body"
+msgstr "{crew} chưa đủ phiếu đồng ý, nên không có gì thay đổi."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_late_body"
+msgstr "Chưa đủ mọi người."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.on_my_way"
+msgstr "Đang tới đây."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.on_my_way_eta"
+msgstr "Đang tới đây. Còn {minutes} phút."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.pickup"
+msgstr "Điểm đón"
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.done.title"
+msgstr "Xong nhiệm vụ: {title}"
+
+#: ../domain/src/setup/templates.ts
+msgid "notifications.setup.ask.template"
+msgstr "Hỏi nhanh {name} nè: lịch {dates} của bạn đang ghi là có thể. Bạn sắp xếp để đi {place} được không?"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.reply_by_title"
+msgstr "Trả lời trước ngày mai · {place}"
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.body"
+msgstr "Vào chat nhóm chào một câu nhé."
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.rsvp_changed.body"
+msgstr "Xem ai sẽ đi {place}."
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.photo"
+msgstr "Đã gửi một ảnh"
+
+#: ../../services/worker/src/jobs/chat/notify.ts
+msgid "notifications.crew_chat.voice"
+msgstr "Đã gửi một tin nhắn thoại"
 
 #: ../../services/worker/src/push/payload.ts
 msgid "notifications.push.privateBody"
-msgstr ""
+msgstr "Đã gửi bạn một thứ. Mở ra xem nhé."
+
+#: ../domain/src/money/templates.ts
+msgid "notifications.money.reminded"
+msgstr "Đến lúc thanh toán: bạn nợ {payee} {amount}."
+
+#: ../domain/src/bookings/templates.ts
+msgid "email.bookings.link_body"
+msgstr "Có người đã chuyển tiếp một đặt chỗ từ địa chỉ này đến {crew} trên CritterPass. Nếu là bạn, hãy nhập {code} trong ứng dụng trong vòng 24 giờ để liên kết email này với tài khoản của bạn. Nếu không phải bạn, hãy bỏ qua thư này và sẽ không có gì được nhập."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.stay"
+msgstr "Chỗ ở"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.followup_title"
+msgstr "Vẫn đang nghĩ về {place}?"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.resend_body"
+msgstr "Rảnh thì xem qua nhé."
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_nudge.body"
-msgstr ""
+msgstr "Chạm để tham gia cùng cả nhóm. Chỉ mất vài giây."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_arrived_body"
+msgstr "Cả nhóm có mặt đủ rồi."
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.reply_by_body"
+msgstr "Cả nhóm cần bạn trả lời trước {date}."
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.applied.title"
+msgstr "Kế hoạch đã thay đổi"
+
+#: ../domain/src/plan/templates.ts
+msgid "notifications.changeset.kept.title"
+msgstr "Kế hoạch giữ nguyên"
+
+#: ../domain/src/guide/templates.ts
+msgid "notifications.guide.queued_answer.body"
+msgstr "Câu hỏi tối qua của bạn đã có câu trả lời."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_start_body"
+msgstr "Cả nhóm, ngay trên màn hình khóa."
+
+#: ../domain/src/nudges/templates.ts
+msgid "notifications.nudge.payment"
+msgstr "Có một khoản thanh toán đang chờ bạn trong {crew}. Hai chạm là sòng phẳng."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_title"
+msgstr "Đến giờ có mặt ở {place}"
+
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_body"
+msgstr "Dậy thôi. Dậy rồi thì chạm nhé."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_go_title"
+msgstr "Đến giờ đi · {place}"
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.ready.title"
+msgstr "Nhiệm vụ nhóm hôm nay"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.vote_start_title"
+msgstr "Bình chọn đóng lúc {time}"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.version_body"
+msgstr "Xem chuyến đi rồi báo cả nhóm bạn có đi không nhé."
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.hatched.body"
+msgstr "Chào mừng tới {place}. {critter} đã vào pass của bạn."
+
+#: ../../services/worker/src/jobs/live-map/notify.ts
+msgid "notifications.crew_ping.ping"
+msgstr "Mọi người đâu cả rồi? Xem bản đồ nhé."
+
+#: ../domain/src/polls/templates.ts
+msgid "notifications.vote.destination.body"
+msgstr "Đi đâu tiếp? Có {count} nơi trên bảng. Chọn một nhé."
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.followup_body"
+msgstr "Bạn nhờ mình hỏi lại. Xem lại lần nữa nhé?"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.body"
-msgstr ""
+msgstr "Bạn là người tiếp theo cho chuyến của {crew}. Chỗ là của bạn nếu nhận trong vòng một ngày."
+
+#: ../domain/src/itinerary/templates.ts
+msgid "notifications.draft.ready.body"
+msgstr "Bản nháp {place} của bạn đã xong. Hiện chỉ mình bạn xem được."
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.resend_title"
+msgstr "Nhóm bạn đã lên kế hoạch {place}"
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.hatched.title"
+msgstr "Trứng của bạn đã nở!"

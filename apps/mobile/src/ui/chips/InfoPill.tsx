@@ -15,6 +15,8 @@ export interface InfoPillProps {
   readonly variant?: 'solid' | 'outline';
   /** Read instead of the visible text (spelled-out countdown). */
   readonly accessibilityLabel?: string;
+  /** Text too long for the row ends in an ellipsis on one line instead of wrapping (free text). */
+  readonly oneLine?: boolean;
   readonly testID?: string;
 }
 
@@ -37,6 +39,7 @@ export function InfoPill({
   icon,
   variant = 'solid',
   accessibilityLabel,
+  oneLine = false,
   testID,
 }: InfoPillProps) {
   const styles = useStyles();
@@ -54,13 +57,22 @@ export function InfoPill({
   return (
     <View
       testID={testID}
-      style={[styles.pill, { borderColor: ink }, solid ? { backgroundColor: ink } : null]}
+      style={[
+        styles.pill,
+        { borderColor: ink },
+        solid ? { backgroundColor: ink } : null,
+        oneLine ? { maxWidth: '100%' } : null,
+      ]}
       accessible
       {...(accessibilityLabel ? { accessibilityLabel } : {})}
     >
       {icon ? <Icon name={icon} size={14} color={fg} decorative /> : null}
       {typeof children === 'string' ? (
-        <Text variant="label" color={fg}>
+        <Text
+          variant="label"
+          color={fg}
+          {...(oneLine ? { numberOfLines: 1, style: { flexShrink: 1 } } : {})}
+        >
           {children}
         </Text>
       ) : (

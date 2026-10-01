@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# Screenshots for `pnpm screens:compare`: the proposal lab's scenes, named by design id (3f-1 the
+# builder, 3f-3 your version, 3f-4 not sure yet, 3f-5 slide to board, 3f-6 who's in) and state.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/scenes.yaml
+    env: { PREFIX: en }

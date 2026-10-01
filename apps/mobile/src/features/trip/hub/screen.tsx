@@ -9,6 +9,7 @@ import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
+import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 
@@ -19,7 +20,8 @@ import { useOffline } from '../offline/use-offline';
 import { useBriefingActions } from '../briefing/chip-actions';
 import { clockIn } from '../leave-by/model';
 import { useLiveRows, useOwnerUid } from './data/live-rows';
-import { useHubRows, type ActivityRow } from './data/use-hub';
+import { useMediaLowData } from '../media/use-media-low-data';
+import { useHubRows } from './data/use-hub';
 import { guideColour, guideName as nameOf, guideOr } from './guide';
 import {
   activityLine,
@@ -31,26 +33,11 @@ import {
   tileTitles,
   wholeMoney,
 } from './hub-copy';
+import { activityHref, HOME, planningLink } from './hub-links';
 import { hubHeader, viewerNet, type HubFlight } from './hub-model';
 import { HubView, type HubNext } from './hub-view';
 import { tripDayRoute } from './routes';
 import { HubTile, useRegisteredHubTiles } from './tiles';
-
-/** Where a ticker event leads: the vote, the change, or the plan it touched. */
-function activityHref(row: ActivityRow, tripId: string): Href | undefined {
-  if (row.object_id === null) return undefined;
-  switch (row.object_kind) {
-    case 'poll':
-      return hrefFor('3c-1', { pollId: row.object_id });
-    case 'change_set':
-      return hrefFor('3e-3', { tripId, changesetId: row.object_id });
-    case 'trip':
-    case 'itinerary_version':
-      return hrefFor('3e-1', { tripId });
-    default:
-      return undefined;
-  }
-}
 
 /** Today's saved day has every file it names (the BOOKINGS tile says "all offline"). */
 function todayComplete(data: string): boolean {
@@ -74,8 +61,10 @@ function useNow(everyMs: number): Date {
   return now;
 }
 
+/** Opens `href`; Home is another tab, switched to rather than pushed onto this tab's stack. */
 function go(href: Href | undefined): (() => void) | undefined {
-  return href === undefined ? undefined : () => router.push(href);
+  if (href === undefined) return undefined;
+  return href === HOME ? () => router.navigate(href) : () => router.push(href);
 }
 
 export interface TripHubScreenProps {
@@ -114,6 +103,10 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   );
   const onAct = useBriefingActions(names);
   const trip = rows.trip;
+  const mediaLowData = useMediaLowData();
+  const heroMedia = useDestinationMedia(trip?.destination_slug ?? null, {
+    prefetch: !mediaLowData,
+  });
   const guide = guideOr(trip?.guide_slug);
   const name = nameOf(guide, trip?.guide_name);
 
@@ -200,6 +193,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     today,
     offline: offline !== null,
     inWindow,
+    locale,
   });
 
   const net = me === null ? null : viewerNet(rows.ledger, me, trip?.local_currency ?? null);
@@ -209,7 +203,6 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     net === null ? null : wholeMoney(locale, net.amountMinor, net.currency),
     net === null ? 0 : Math.sign(net.amountMinor),
   );
-  const compact = registered.length === 0;
   const titles = tileTitles();
   const builtIn = [
     {
@@ -242,40 +235,18 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       const onPress = go(href);
       return {
         key: tile.key,
-        node: (
-          <HubTile
-            tile={{ ...tile, ...(onPress === undefined ? {} : { onPress }) }}
-            compact={compact}
-          />
-        ),
+        node: <HubTile tile={{ ...tile, ...(onPress === undefined ? {} : { onPress }) }} />,
       };
     }),
     ...(trip === null
       ? []
       : registered.map(({ key, Tile }) => ({
           key,
-          node: <Tile tripId={tripId} crewId={trip.crew_id} compact={compact} />,
+          node: <Tile tripId={tripId} crewId={trip.crew_id} />,
         }))),
   ];
 
-  const vote = rows.openVotes[0];
-  const planning =
-    trip === null
-      ? null
-      : trip.status === 'voting' && vote !== undefined
-        ? {
-            label: t({ id: 'trip.hub.cta.vote', message: 'Voting' }),
-            href: hrefFor('3c-1', { pollId: vote }),
-          }
-        : trip.status === 'won' || trip.status === 'setup'
-          ? {
-              label: t({ id: 'trip.hub.cta.setup', message: 'Set up the trip' }),
-              href: hrefFor('3c-3', { tripId }),
-            }
-          : {
-              label: t({ id: 'trip.hub.cta.plan', message: 'See the plan' }),
-              href: hrefFor('3e-1', { tripId }),
-            };
+  const planning = trip === null ? null : planningLink(tripId, trip.status, rows.openVotes[0]);
   const planningAction = planning === null ? undefined : go(planning.href);
 
   return (
@@ -286,8 +257,13 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       startDate={trip?.start_date ?? null}
       endDate={trip?.end_date ?? null}
       going={rows.going}
-      destination={trip?.destination_name ?? ''}
+      // A trip still choosing its place asks the crew's question (Home's heading while voting).
+      destination={
+        trip?.destination_name ?? t({ id: 'trip.hub.whereNext', message: 'Where next?' })
+      }
       colour={guideColour(guide)}
+      heroMedia={heroAt(heroMedia.items)}
+      mediaLowData={mediaLowData}
       guide={guide}
       guideName={name}
       guestGuide={trip?.is_guest_guide === 1}

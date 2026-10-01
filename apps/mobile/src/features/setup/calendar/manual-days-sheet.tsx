@@ -35,8 +35,10 @@ import { syncRange } from './sync-plan';
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['12'] },
-  grid: { flexDirection: 'row', flexWrap: 'wrap' },
-  cell: { width: `${100 / 7}%`, padding: th.space['2'] },
+  // One row per week with seven equal flex cells: percentage widths (100 / 7 %) round up on
+  // iOS's pixel grid and wrap the seventh day onto its own line.
+  week: { flexDirection: 'row' },
+  cell: { flex: 1, padding: th.space['2'] },
   box: {
     borderRadius: th.radius.sm,
     minHeight: th.space['32'] + th.space['12'],
@@ -103,6 +105,14 @@ export function ManualDaysView(props: ManualDaysViewProps) {
   const weekdays = Array.from({ length: 7 }, (_, i) =>
     format.date(locale, new Date(Date.UTC(2024, 0, 1 + i)), { weekday: 'narrow', timeZone: 'UTC' }),
   );
+  const cells: (string | null)[] = [
+    ...Array.from({ length: grid.leadingBlanks }, () => null),
+    ...grid.days,
+  ];
+  while (cells.length % 7 !== 0) cells.push(null);
+  const weeks = Array.from({ length: cells.length / 7 }, (_, row) =>
+    cells.slice(row * 7, row * 7 + 7),
+  );
   const heading = t({ id: 'setup.manual.title', message: 'Mark your days' });
   return (
     <Sheet
@@ -142,7 +152,7 @@ export function ManualDaysView(props: ManualDaysViewProps) {
             testID="manual-days-next"
           />
         </Row>
-        <View style={styles.grid} importantForAccessibility="no-hide-descendants">
+        <View style={styles.week} importantForAccessibility="no-hide-descendants">
           {weekdays.map((weekday, index) => (
             <View key={`w${index}`} style={styles.cell}>
               <Text
@@ -155,59 +165,61 @@ export function ManualDaysView(props: ManualDaysViewProps) {
             </View>
           ))}
         </View>
-        <View style={styles.grid}>
-          {Array.from({ length: grid.leadingBlanks }, (_, index) => (
-            <View key={`b${index}`} style={styles.cell} />
-          ))}
-          {grid.days.map((date) => {
-            const mark = props.marks[date];
-            const open = date >= props.from && date <= props.to;
-            const day = Number(date.slice(8));
-            const dayName = format.date(locale, new Date(Date.parse(date) + 12 * 3_600_000), {
-              day: 'numeric',
-              month: 'long',
-              timeZone: 'UTC',
-            });
-            const state = markWord(mark);
-            const ink =
-              mark === undefined ? theme.semantic.text.primary : theme.semantic.text.onAccent;
-            const face = (
-              <View
-                style={[
-                  styles.box,
-                  { backgroundColor: markColour(theme, mark), opacity: open ? 1 : 0.35 },
-                ]}
-              >
-                <Text variant="label" color={ink}>
-                  {String(day)}
-                </Text>
-                {mark === undefined ? null : (
-                  <Text variant="caption" color={ink}>
-                    {GLYPH[mark]}
-                  </Text>
-                )}
-              </View>
-            );
-            return (
-              <View key={date} style={styles.cell}>
-                {open ? (
-                  <PressScale
-                    widthClass="narrow"
-                    accessibilityLabel={t({
-                      id: 'setup.manual.dayA11y',
-                      message: `${dayName}, ${state}`,
-                    })}
-                    onPress={() => props.onToggle(date)}
-                    testID={`manual-day-${date}`}
+        <View>
+          {weeks.map((week, row) => (
+            <View key={`r${row}`} style={styles.week}>
+              {week.map((date, column) => {
+                if (date === null) return <View key={row * 7 + column} style={styles.cell} />;
+                const mark = props.marks[date];
+                const open = date >= props.from && date <= props.to;
+                const day = Number(date.slice(8));
+                const dayName = format.date(locale, new Date(Date.parse(date) + 12 * 3_600_000), {
+                  day: 'numeric',
+                  month: 'long',
+                  timeZone: 'UTC',
+                });
+                const state = markWord(mark);
+                const ink =
+                  mark === undefined ? theme.semantic.text.primary : theme.semantic.text.onAccent;
+                const face = (
+                  <View
+                    style={[
+                      styles.box,
+                      { backgroundColor: markColour(theme, mark), opacity: open ? 1 : 0.35 },
+                    ]}
                   >
-                    {face}
-                  </PressScale>
-                ) : (
-                  face
-                )}
-              </View>
-            );
-          })}
+                    <Text variant="label" color={ink}>
+                      {String(day)}
+                    </Text>
+                    {mark === undefined ? null : (
+                      <Text variant="caption" color={ink}>
+                        {GLYPH[mark]}
+                      </Text>
+                    )}
+                  </View>
+                );
+                return (
+                  <View key={date} style={styles.cell}>
+                    {open ? (
+                      <PressScale
+                        widthClass="narrow"
+                        accessibilityLabel={t({
+                          id: 'setup.manual.dayA11y',
+                          message: `${dayName}, ${state}`,
+                        })}
+                        onPress={() => props.onToggle(date)}
+                        testID={`manual-day-${date}`}
+                      >
+                        {face}
+                      </PressScale>
+                    ) : (
+                      face
+                    )}
+                  </View>
+                );
+              })}
+            </View>
+          ))}
         </View>
         <Row style={styles.legend}>
           {(['free', 'busy', 'maybe'] as const).map((mark) => (

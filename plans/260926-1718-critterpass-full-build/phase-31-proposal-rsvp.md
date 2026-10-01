@@ -1,7 +1,7 @@
 ---
 phase: 31
 title: Proposal, personalised versions, RSVP, dropout re-split
-status: pending
+status: in_progress
 depends_on: [11, 16, 28, 29, 34, 35, 46]
 wave: 17
 features: [F-084, F-085, F-086, F-087, F-088, F-089, F-090, F-091]
@@ -133,6 +133,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Drizzle schema + SQL (roles, RLS, SECURITY DEFINER writers `app.record_engagement`, `app.write_anonymous_suggestion` with crew ≥ 4 check). 2. Publication entries + `infra/powersync/streams/proposal.yaml`. 3. Testcontainers tests per role (`app_user` peer, organiser, recipient, `guide_reader`, `powersync_repl`).
 - Tests: `pnpm --filter @cp/db test -- permissions/proposal`
 - Done when: organiser cannot select `engagement_events` rows or another's `private_guide_threads`; peer cannot read another's `proposal_versions`; `guide_reader` has no access to private threads; anonymous suggestion insert AND unattributed objection ChangeSet fail for crew of 3.
+- Status: done — dc6a2f55
 
 ### T2 — Domain contracts + proposal/RSVP command handlers
 - Goal: all §4.7 commands with policy, idempotency, seat cap.
@@ -140,6 +141,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. zod payloads + events. 2. `reply-by.ts` default + validation (C43). 3. Handlers: create/send/set_rsvp (seat cap via entitlements, waitlist on cap)/react/record_open (via definer fn)/schedule_followup/execute/dismiss suggestion/publish_offer/decline_trip/set_keep_in_chat. 4. rt_outbox rows for `proposal:{id}`.
 - Tests: `pnpm --filter @cp/api test -- commands/proposal`
 - Done when: tests cover replay of same op_id (no dupes), 7th `in` on unboosted trip returns `SEAT_CAP_REACHED` and waitlists, reply_by after free-cancel deadline rejected, reply-by default unaffected by a 20-min Viator hold fixture (never in the past), `record_proposal_open` never publishes per-user payload.
+- Status: done — 857e3e10 (IN past the cap is kept as a waitlist place with result code `SEAT_CAP_REACHED`; `choose_private_option` and `resolve_dropout` added as doc deltas)
 
 ### T3 — Personalised version fan-out (AI-15) + poster/postcard render
 - Goal: real per-recipient versions via worker.
@@ -147,6 +149,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Context from `llm.*` views + injected cost numbers. 2. Structured output + number/id validator. 3. Poster/postcard via P05 share renderer → R2. 4. Progress to `user:#uid`; retry 3× then shared fallback.
 - Tests: `pnpm --filter @cp/ai eval -- proposal`; `pnpm --filter @cp/worker test -- proposal/versions`
 - Done when: eval passes leakage cases (another member's budget/objection in DB never appears), invented numbers rejected, fallback path tested.
+- Status: done — 6f462b4d (poster/postcard drawn in the worker with `@cp/critter-art` node renderer; fonts shipped in the worker image)
 
 ### T4 — Builder screen (3f-1)
 - Goal: builder with format morph, toggles, reply-by, truthful stay/activity rows, preview-as, send progress.
@@ -154,6 +157,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Queries over synced rows (bookings, Viator cart). 2. Format morph. 3. Reply-by picker with validation. 4. Send with avatar stamp per job step.
 - Tests: `pnpm --filter @cp/mobile test -- features/proposal/builder`; `maestro test e2e/proposal/build-and-send.yaml`
 - Done when: no "hold the rooms" copy anywhere (grep test on catalog), send shows per-recipient progress, offline send queues.
+- Status: done — 57cbe8e72
 
 ### T5 — Story player + trailer (3f-2)
 - Goal: reusable story player; proposal trailer with live reactions.
@@ -168,6 +172,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Picks/why sheet/donut/odometer toggles. 2. Hype bar public-only. 3. SSE objection route: deterministic options (cost engine/planner) + Haiku wording. 4. Follow-up scheduling.
 - Tests: `pnpm --filter @cp/api test -- routes/proposals`; `maestro test e2e/proposal/objection-private.yaml`
 - Done when: organiser device in Maestro run sees only MAYBE; objection option totals equal cost-engine output; no per-person passive copy in catalog.
+- Status: done — 857e3e10 (server), 57cbe8e72 (app: your version, private objection sheet, proposal card in crew chat)
 
 ### T7 — Slide to board (3f-5)
 - Goal: scrubbed 6 s choreography committing RSVP.
@@ -175,6 +180,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Single progress value timeline. 2. Gesture Handler scrub + completion threshold. 3. a11y action; haptics via feedback bus. 4. Cap error → seat sheet; offline pending.
 - Tests: `pnpm --filter @cp/mobile test -- features/proposal/board`; `maestro test e2e/proposal/board.yaml`
 - Done when: a11y action boards without gesture; cap rejection reverses UI with message; CI perf budget (Reanimated frame-drop count on the Maestro run ≤ budget) passes; real-device 60 fps check moves to P54 launch checks.
+- Status: done — 57cbe8e72 (the stub tear and confetti are simplified to a thump and the egg drop; logged in undesigned-states)
 
 ### T8 — RSVP tracker + suggestions (3f-6, AI-17) + reply-by cron
 - Goal: organiser tracker and handled suggestions.
@@ -182,6 +188,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Rules: resend hour, lead item, anonymised offer (crew ≥ 4). 2. Haiku wording. 3. N-08/N-09 via notify router. 4. Lock at reply_by.
 - Tests: `pnpm --filter @cp/worker test -- proposal`
 - Done when: suggestion copy never contains a member name tied to a private reason; tracker catalog grep for "opened"/"not opened" = 0; reply-by cron idempotent per proposal.
+- Status: done — 244ae5c7 (server), 57cbe8e72 (tracker, suggestions and the organiser's `lock_proposal`, which confirms the trip)
 
 ### T9 — Dropout re-split engine + intent (AI-18)
 - Goal: deterministic ChangeSet on dropout.
@@ -189,6 +196,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Room re-optimiser (beds, prior pairings). 2. Re-split via cost engine. 3. Ops incl. `cancel_supplier_item`. 4. RSVP intent as a Jev Choice decision route through P13 `decide()` (Haiku twin; low confidence → confirm card) + narrative (Haiku).
 - Tests: `pnpm --filter @cp/planner test -- dropout`; `pnpm --filter @cp/worker test -- proposal/dropout`
 - Done when: property test: sum of shares = total after dropout; job idempotent on `(trip_id, uid)`; an `out` intent alone never enqueues `trip.dropout` (confirm card required).
+- Status: done — ec1ce2d3 (the re-split is kept on `trip_dropouts` for the organiser to resolve with `resolve_dropout`, not as a `change_sets` row: its cost/booking ops cannot be replayed by `apply_changeset`)
 
 ### T10 — Dropout screen (3f-7) + waitlist offer (4f-1)
 - Goal: apply/ask-crew UI and seat offer.
@@ -196,6 +204,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Struck-through change list, rolling share, keep-in-chat toggle. 2. APPLY / Ask the crew first (C41 poll). 3. Waitlist offer lifecycle + expiry.
 - Tests: `maestro test e2e/proposal/dropout-waitlist.yaml`; `pnpm --filter @cp/worker test -- proposal/waitlist`
 - Done when: freed seat creates exactly one active offer; expired offer moves to next; nothing changes before APPLY.
+- Status: server part done — 0c3df1b0 (`proposal.waitlist` job); dropout screen and waitlist UI pending in the app lane
 
 ## Phase acceptance criteria
 - [ ] All T1–T10 done-when checks pass in CI.

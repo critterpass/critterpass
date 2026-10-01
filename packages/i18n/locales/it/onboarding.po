@@ -142,6 +142,14 @@ msgstr ""
 msgid "onboarding.invite.ticket.titleGeneric"
 msgstr ""
 
+#: ../../apps/mobile/src/features/onboarding/invited/pass-missing.ts
+msgid "onboarding.invite.pass.addHome"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/pass-missing.ts
+msgid "onboarding.invite.pass.addName"
+msgstr ""
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.adventure.short"
 msgstr ""
@@ -165,6 +173,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/InviteProblem.tsx
 msgid "onboarding.invite.problem.expiredLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/phone/PhoneScreen.tsx
+msgid "onboarding.phone.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/invited/CodeScreen.tsx
@@ -970,10 +982,6 @@ msgstr ""
 msgid "onboarding.quiz.pace.left.line"
 msgstr ""
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
-msgid "onboarding.invite.pass.blank"
-msgstr ""
-
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.thrifty.short"
 msgstr ""
@@ -1176,6 +1184,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.identity.google"
+msgstr ""
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.blank"
 msgstr ""
 
 #: ../../apps/mobile/src/features/onboarding/flow-controller/pass-sync.tsx

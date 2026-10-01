@@ -1,7 +1,7 @@
 ---
 phase: 40
 title: Critters: hatch, Critterdex, encounters, legendaries
-status: pending
+status: in_progress
 depends_on: [5, 6, 9, 14, 15, 18, 20, 25, 31, 34]
 wave: 18
 features: [F-122, F-123, F-124, F-125, F-126, F-127, F-128]
@@ -143,6 +143,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. zod schemas for five spawn kinds + windows. 2. Encounter reducer `(state, event{fix|tick|hold|leave}) → state` with hysteresis, accuracy gate, grace, drain, ready, wandered_off. 3. Solar sunrise/sunset per lat/lng/date (NOAA algorithm, no network). 4. Count derivations (C22) and home set (C39). 5. Defaults in `config.ts` overridable by server config.
 - Tests: `pnpm --filter @cp/domain test -- critters`
 - Done when: table-driven tests cover every §3.4 transition, grace/drain timing, solar within ±2 min of reference tables, and counts for fixtures.
+- Status: done — b2753e1ef
 
 ### T2 — Schema, RLS backstop, publication
 - Goal: critter collection tables with permission contract tests.
@@ -150,6 +151,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Drizzle tables + indexes per §3.9 (+ `guide_skins`, `trip_participants.egg_id`, `user_settings.explore_at_home`). 2. RLS policies + grants for `app_user`, `app_system`, `guide_reader`, `powersync_repl` (evidence column excluded). 3. `crew_collection_counts` table (app_user read for crew members, no write). 4. Publication entries (counts table in `crew_people`; no views published). 5. Schema test: `encounter_samples` has no lat/lng/geometry column.
 - Tests: `pnpm --filter @cp/db test -- permissions/eggs permissions/encounters permissions/collection-entries permissions/stickers permissions/guide-skins permissions/crew-collection-counts`; `pnpm tsx tools/scripts/check-publication.ts`
 - Done when: non-owner cannot read evidence or others' entries; crew sees counts only; `hide_collection` hides counts; publication excludes evidence and lists no views; `encounter_samples` schema test proves no coordinate columns.
+- Status: done — 77172eeaa
 
 ### T3 — Commands: egg, encounter, befriend, skin, settings
 - Goal: server handlers for all critter commands.
@@ -157,6 +159,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Handlers with app-layer policy (participant, owned form, trip state). 2. `befriend_critter` stores evidence, sets `verification=pending`, enqueues `critter.verify` in txn. 3. `hatch_egg` idempotent across triggers. 4. Domain events + `rt_outbox` rows.
 - Tests: `pnpm --filter @cp/api test -- critters`
 - Done when: replayed `op_id` is a no-op; offline-order batch via `/sync/upload` yields the same end state; rejects return 2xx + `cmd_results`.
+- Status: done — 8ad2efc34
 
 ### T4 — Verification, rewards fan-out, hatch triggers
 - Goal: server truth for encounters and hatches.
@@ -164,6 +167,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Plausibility scoring (speed, teleport vs flights, attestation, mock, skew) with thresholds in config. 2. verify → `collection_entries` + `critter.befriended`; revoke → remove pending entry + `critter.revoked`. 3. `reward.fanout` registry with same-ts grant. 4. `participant.boarded` consumer → `grant_egg`; `flight.event{landed}` consumer → `hatch_egg`. 5. `crew_collection` hints + first-spotter. 6. `crew-counts` job maintaining `crew_collection_counts`.
 - Tests: `pnpm --filter @cp/worker test -- critters`
 - Done when: fixtures with mock flag, bad device-key signature or 900 km/h hop are revoked; clean fixtures verified (also with `attestation: unavailable`); boarded event grants one egg; landed webhook fixture hatches every crew member on that flight once; counts row updates on befriend/revoke and disappears when `hide_collection` is on.
+- Status: done — bf55802cf
 
 ### T5 — Legendary windows, reminders, co-presence
 - Goal: F-127 and F-128 server side.
@@ -171,6 +175,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Reminder scheduling a month before window in user tz; conditions registry (`window_active_not_found`, `quiet_window`, `crew_planning_again` used by phase 43). 2. Reschedule on `season.ingest` output. 3. Co-presence grouping + overlap check + grant to all + `trip_copresence` counts.
 - Tests: `pnpm --filter @cp/worker test -- critters/reminders critters/copresence`
 - Done when: 6-member fixture grants all six with identical `found_at`; 5-of-6 grants none; reminder fires only when condition holds.
+- Status: done — 4ae305db3
 
 ### T6 — Client encounter engine (offline)
 - Goal: device-side engine driving UI, commands and App Group.
@@ -178,6 +183,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Subscribe `cp-location` `encounter` kind; feed domain reducer. 2. Load spawn rules from local PowerSync `trip_pack`; rotation seed. 3. Build evidence bundle (aggregates + local device-key signature via `lib/attestation`; Play Integrity token added at upload time, missing → `unavailable`). 4. Queue `start_encounter`/`report_encounter_samples`/`befriend_critter`. 5. Write silhouette stage + distance band to App Group for LA/widgets.
 - Tests: `pnpm --filter @cp/mobile test -- features/critters/engine`
 - Done when: GPX fixtures replayed in Jest produce expected states and queued commands with no network; no raw fixes leave the device.
+- Status: done — 1d96ae784
 
 ### T7 — Hatch + PASS tab Critterdex
 - Goal: 3l-1, 3l-2, 3l-8.
@@ -185,6 +191,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Hatch choreography (P6 patterns) + egg-waiting card + manual hatch. 2. Dex sections order, set rows, corner dots, bar, breathing locked slots, gold legendary silhouettes, filters + search. 3. Crew counts + realtime hints. 4. Home set + explore-at-home toggle. 5. Fly-in landing slot.
 - Tests: `pnpm --filter @cp/mobile test -- features/critters/hatch features/critters/dex`
 - Done when: RNTL snapshots per state (empty, waiting egg, hatched, filters, hidden crew counts) pass and names never render for unfound critters.
+- Status: done — a9b73e1ef
 
 ### T8 — Critter detail, make-it-my-guide, share
 - Goal: 3l-3.
@@ -192,6 +199,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Flip-in, form spin + recolour, locked shake + requirement copy. 2. Make-it-my-guide with confirm + revert; triggers avatar render for surfaces. 3. Share via `ui/share-image`.
 - Tests: `pnpm --filter @cp/mobile test -- features/critters/detail`
 - Done when: tapping each owned form changes skin across guide chat header in a test harness; locked forms cannot be set.
+- Status: done — 4a864bb51
 
 ### T9 — Encounter camera UI, hold ceremony, wandered-off, befriended
 - Goal: 3l-4, 3l-5, 3l-6, 3l-10.
@@ -199,6 +207,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. vision-camera scene + Skia overlay; illustrated fallback. 2. Hold ring (Gesture Handler 3 + Reanimated) with timings above; accessible Befriend action. 3. Wandered-off card with quiet window + reminder. 4. Befriended ceremony + XP chip + fly-to-pass. 5. Legendary scene layers.
 - Tests: `pnpm --filter @cp/mobile test -- features/critters/encounter`
 - Done when: hold completes only when state `ready`; accessibility action path befriends without hold; Reduce Motion variant renders final frames.
+- Status: done — 0e260c322
 
 ### T10 — Legendary calendar + co-presence UI
 - Goal: 3l-9 + co-presence progress.
@@ -206,6 +215,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. 12-month strip with gold glint, trip-overlap fill, reminder toggles. 2. Co-presence card "3 of 6 here" from `trip_copresence`, who-is-missing list, simultaneous reveal on grant.
 - Tests: `pnpm --filter @cp/mobile test -- features/critters/legendary features/critters/copresence`
 - Done when: reminder toggle queues `set_legendary_reminder` offline; co-presence card updates from a mocked Centrifugo client in tests without coordinates in payloads.
+- Status: done — 67bd69253
 
 ### T11 — End-to-end flows
 - Goal: Maestro coverage on both platforms.
@@ -213,6 +223,7 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 - Steps: 1. Simulator/emulator GPX injection per flow. 2. Seeded content fixture (P18 test release). 3. Sync e2e: offline befriend → upload → verified.
 - Tests: `maestro test e2e/critters`; `pnpm --filter @cp/api test -- critters/e2e-sync`
 - Done when: all flows pass on iOS 26 simulator and Android API 36 emulator.
+- Status: blocked — lab and functional flows plus e2e/happy/critters.yaml are in (3d72fb627, d60714f92); the GPX-driven encounter flows need a staging trip seed with spawn rules at a real POI, and the api e2e-sync suite belongs to the server side
 
 ## Phase acceptance criteria
 - [ ] Every §3.4 encounter transition covered by domain tests; grace/drain constants come from server config

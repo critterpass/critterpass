@@ -15,6 +15,22 @@ msgstr ""
 msgid "web.tips.categoryPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.seatsLeft"
+msgstr "Sisa {count} kursi gelombang pertama"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.inLine"
+msgstr "{count} DALAM ANTREAN"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.friendsJoined"
+msgstr "{count} DARI 3 TEMAN SUDAH GABUNG"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.countdown"
+msgstr "{days} HARI {hours} JAM {minutes} MNT {seconds} DTK"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.byline"
 msgstr ""
@@ -27,6 +43,10 @@ msgstr ""
 msgid "web.tips.minRead"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.guideCheering"
+msgstr "{name} bersorak"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.eyebrowFrom"
 msgstr ""
@@ -35,9 +55,17 @@ msgstr ""
 msgid "web.referral.bodyFrom"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.guideWaving"
+msgstr "{name} melambai"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.theirLink"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.savingSeat"
+msgstr "{name} menjagakan kursimu di {place}."
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
@@ -47,6 +75,10 @@ msgstr ""
 msgid "web.legal.versionPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hatchedNumber"
+msgstr "#{num} DARI {total} · {city}"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
 msgstr ""
@@ -54,6 +86,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.estimateEach"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askStatus"
+msgstr "✓ RENCANA DIPERBARUI UNTUK 6 ORANG"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Art"
@@ -95,6 +131,10 @@ msgstr ""
 msgid "web.home.mockVoteHoiAnCount"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTally"
+msgstr "5 DARI 6"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.fiveStamps"
 msgstr ""
@@ -111,9 +151,41 @@ msgstr ""
 msgid "web.home.passLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseTitle"
+msgstr "MASIH ADA KEJUTAN LAIN"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.ngua"
+msgstr "Kuda poni berhias bunga, menunggumu di {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.cuRua"
+msgstr "Kura-kura Danau Hoàn Kiếm, menunggumu di {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.lucky"
+msgstr "Kelinci gurun, menunggumu di {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.chep"
+msgstr "Ikan mas lampion, menunggumu di {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.eyebrow"
+msgstr "SEDIKIT BOCORAN"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.drac"
+msgstr "Salamander mosaik, menunggumu di {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.roucou"
+msgstr "Merpati berbaret, menunggumu di {place}."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -122,6 +194,18 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Body"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.pizza"
+msgstr "Tikus kereta bawah tanah, menunggumu di {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.eggLabel"
+msgstr "Telur yang bergoyang"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.admit"
+msgstr "UNTUK: SATU GENG"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalAdmit"
@@ -143,6 +227,10 @@ msgstr ""
 msgid "web.invite.membersLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.lince"
+msgstr "Lynx Iberia, menunggumu di {place}."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
 msgstr ""
@@ -159,9 +247,17 @@ msgstr ""
 msgid "web.home.stop2Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askTitle"
+msgstr "TANYA WARGA LOKAL"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "KEMBALI KE AWAL"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
@@ -171,9 +267,21 @@ msgstr ""
 msgid "web.home.mockPlanItem1"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowHike"
+msgstr "Sunrise di Gunung Batur"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.boardingNow"
+msgstr "BOARDING SEKARANG"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalEyebrow"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.boardingSoon"
+msgstr "SEGERA BOARDING"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
@@ -191,6 +299,10 @@ msgstr ""
 msgid "web.referral.pageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.bringCrew"
+msgstr "AJAK GENGMU, LEWATI ANTREAN"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.bylineBy"
 msgstr ""
@@ -203,13 +315,53 @@ msgstr ""
 msgid "web.home.mockLocalName"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.chooseDestination"
+msgstr "Pilih tujuan pertamamu"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.cityGuides"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseClassified"
+msgstr "RAHASIA"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.collectTitle"
+msgstr "LENGKAPI PASS-MU"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.collector"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareTitle"
+msgstr "Yuk, gabung CritterPass bareng aku"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareText"
+msgstr "Yuk, gabung CritterPass bareng aku — {url}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.stampTitle"
+msgstr "SEGERA HADIR"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.badgeSoon"
+msgstr "SEGERA HADIR · iOS + ANDROID"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.confirmed"
+msgstr "TERKONFIRMASI · GELOMBANG PERTAMA"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowClass"
+msgstr "Kelas memasak"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askReply"
+msgstr "Kelas memasak jam 14.00. Pantai pindah ke Jumat."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
@@ -219,6 +371,10 @@ msgstr ""
 msgid "web.tips.copied"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.copied"
+msgstr "TERSALIN ✓"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
 msgstr ""
@@ -226,6 +382,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.copyLink"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.copyLink"
+msgstr "SALIN TAUTAN"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerCrew"
@@ -243,6 +403,14 @@ msgstr ""
 msgid "web.shell.brand"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pageTitle"
+msgstr "CritterPass — Liburan bareng, direncanakan bersama warga lokal"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.head"
+msgstr "CRITTERPASS · SEGERA BOARDING"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageTitle"
 msgstr ""
@@ -251,6 +419,10 @@ msgstr ""
 msgid "web.shell.homeLink"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pageDescription"
+msgstr "CritterPass adalah perencana liburan bareng yang segera hadir di iOS dan Android. Kebetulan, warga lokalnya hewan. Yuk, gabung daftar tunggu."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
 msgstr ""
@@ -258,6 +430,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintCrack"
+msgstr "krek!"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintCrackLoud"
+msgstr "KREEEK!!"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.current"
@@ -291,6 +471,10 @@ msgstr ""
 msgid "web.tips.aiDisclosure"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planBody"
+msgstr "Seret apa saja ke jam lain dan sisa hari itu ikut bergeser memberi ruang, untuk semua orang sekaligus."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Body"
 msgstr ""
@@ -299,9 +483,17 @@ msgstr ""
 msgid "web.home.stop4ArtUnit"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitEach"
+msgstr "PER ORANG · BAGI 4"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsBody"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planEditing"
+msgstr "MENGEDIT"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
@@ -310,6 +502,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampBottom"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.stampSub"
+msgstr "SEJAK 2026"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsTitle"
@@ -323,6 +519,14 @@ msgstr ""
 msgid "web.home.insidePlanTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.referralBody"
+msgstr "Setiap teman yang gabung lewat tautanmu menaikkan posisimu 100 langkah. Ajak tiga teman dan kamu masuk gelombang pertama."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.title"
+msgstr "Setiap warga lokal berawal dari telur"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsTitle"
 msgstr ""
@@ -330,6 +534,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeBody"
+msgstr "Semua menggeser daftar pilihan. Hitungan suara terisi langsung dan pemenangnya ketahuan dalam hitungan menit."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop1Body"
@@ -347,13 +555,33 @@ msgstr ""
 msgid "web.invite.expiresIn"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseBrief"
+msgstr "RINGKASAN FITUR · v0.9"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.featured"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.label"
+msgstr "Panggilan terakhir"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.eyebrow"
+msgstr "PANGGILAN TERAKHIR"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.findMyCrew"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.waveLeft"
+msgstr "GELOMBANG PERTAMA · SISA {count} KURSI"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.seats"
+msgstr "GELOMBANG PERTAMA · {seats} KURSI"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
@@ -363,6 +591,10 @@ msgstr ""
 msgid "web.shell.footerFollow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.follow"
+msgstr "ikuti warga lokal →"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
 msgstr ""
@@ -371,13 +603,29 @@ msgstr ""
 msgid "web.home.finalBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.from"
+msgstr "DARI"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.quip"
+msgstr "dari \"terserah\" sampai mendarat ↓"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalGate"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.gate"
+msgstr "GERBANG ✦ KE MANA SAJA"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.gateOpensIn"
+msgstr "GERBANG DIBUKA DALAM"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"
@@ -403,9 +651,21 @@ msgstr ""
 msgid "web.invite.differentCode"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.groupChat"
+msgstr "GRUP CHAT"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTag"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.badgePlanner"
+msgstr "PERENCANA LIBURAN BARENG"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.lede"
+msgstr "Liburan bareng, direncanakan bersama warga lokal. Kebetulan, warga lokalnya hewan."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroLede"
@@ -414,6 +674,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideAjo"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.label"
+msgstr "Tetaskan telur"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.another"
+msgstr "TETASKAN LAGI"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.haveCode"
@@ -463,6 +731,10 @@ msgstr ""
 msgid "web.home.chat2"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.body"
+msgstr "Di aplikasi, telur menetas saat kamu mendarat di tempat baru. Di sini kamu boleh curang. Ketuk tiga kali dan lihat siapa yang muncul."
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeLabel"
 msgstr ""
@@ -479,9 +751,21 @@ msgstr ""
 msgid "web.home.mockGuideAsk"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askQuestion"
+msgstr "Hujan deras. Ada rencana B?"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Art"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.label"
+msgstr "Gabung daftar tunggu"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.join"
+msgstr "GABUNG DAFTAR TUNGGU"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinTitle"
@@ -511,6 +795,10 @@ msgstr ""
 msgid "web.home.insideLocalTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.language"
+msgstr "Bahasa"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.language"
 msgstr ""
@@ -522,6 +810,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalSpecies"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTag"
+msgstr "KOTA LAMPION"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem3"
@@ -551,6 +843,10 @@ msgstr ""
 msgid "web.home.passLocals"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.statLocals"
+msgstr "WARGA LOKAL"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampTop"
 msgstr ""
@@ -578,6 +874,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.openMenu"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareMessages"
+msgstr "PESAN"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.money"
@@ -615,6 +915,10 @@ msgstr ""
 msgid "web.shell.noCookies"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "Tidak ada tempat dengan nama itu. Coba ejaan lain."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -643,6 +947,10 @@ msgstr ""
 msgid "web.home.insidePlanBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.note"
+msgstr "Satu email saat kami rilis. Mungkin dua. Tidak akan ada spam."
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
 msgstr ""
@@ -654,6 +962,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guidePaco"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "Halaman tidak ditemukan"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
@@ -671,9 +983,21 @@ msgstr ""
 msgid "web.referral.coverLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "Pilih tempat dari daftar, atau kosongkan pencarian."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "Tempat"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.statPlaces"
+msgstr "TEMPAT"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalTitle"
@@ -683,9 +1007,17 @@ msgstr ""
 msgid "web.home.stop3Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planTitle"
+msgstr "RENCANAKAN BARENG"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.privacy"
+msgstr "Privasi"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.privacy"
@@ -715,6 +1047,22 @@ msgstr ""
 msgid "web.referral.finePrintTerms"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "Hapus {city}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.saveSeat"
+msgstr "AMANKAN KURSIKU →"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.saveSeat"
+msgstr "AMANKAN KURSIKU ↑"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitBody"
+msgstr "Pindai struknya, bagi sesukamu, lalu lunasi. Tidak ada yang perlu bikin spreadsheet."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Body"
 msgstr ""
@@ -730,6 +1078,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "Cari kota mana saja"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.seat"
+msgstr "KURSI"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyAll"
@@ -755,6 +1111,10 @@ msgstr ""
 msgid "web.tips.share"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.share"
+msgstr "BAGIKAN TAUTANMU ↑"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.lede"
 msgstr ""
@@ -771,6 +1131,10 @@ msgstr ""
 msgid "web.home.chat1"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "Ke tempat lain?"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
 msgstr ""
@@ -778,6 +1142,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Title"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitTitle"
+msgstr "PATUNGAN"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.finePrint"
@@ -791,6 +1159,10 @@ msgstr ""
 msgid "web.home.insideVoteTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowSunset"
+msgstr "Sunset di Uluwatu"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideSwap"
 msgstr ""
@@ -799,9 +1171,25 @@ msgstr ""
 msgid "web.home.stop1Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTitle"
+msgstr "GESER UNTUK MEMILIH"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.quip"
+msgstr "cuma 10 detik"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintTap"
+msgstr "ketuk telurnya"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.tapEgg"
+msgstr "Ketuk telurnya"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.terms"
@@ -810,6 +1198,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeError"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.joinFailed"
+msgstr "Belum berhasil terkirim. Coba lagi sebentar lagi."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailInvalid"
+msgstr "Email itu sepertinya kurang pas. Coba cek lagi, ya?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatName"
@@ -831,6 +1227,14 @@ msgstr ""
 msgid "web.legal.eyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.title"
+msgstr "Gelombang pertama segera boarding"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askBody"
+msgstr "Pemandu menyusun rencana dan menjawab apa saja, lewat suara atau teks. Kamis hujan? Ia mengusulkan tukar jadwal."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Body"
 msgstr ""
@@ -843,6 +1247,10 @@ msgstr ""
 msgid "web.shell.theLocals"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.typedLine"
+msgstr "Warga lokalnya masih berkemas."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
 msgstr ""
@@ -851,9 +1259,17 @@ msgstr ""
 msgid "web.shell.thePass"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "Daftar tempat gagal dimuat. Coba lagi sebentar lagi."
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseBody"
+msgstr "Masih ada lagi yang belum kami tunjukkan. Yang ada di daftar melihatnya lebih dulu."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Title"
@@ -863,6 +1279,10 @@ msgstr ""
 msgid "web.referral.how3Body"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "Halaman ini tidak ada di rute. Warga lokal sudah mencari di setiap gang."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
 msgstr ""
@@ -870,6 +1290,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Art"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planDate"
+msgstr "KAM 14"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideChange"
@@ -899,6 +1323,10 @@ msgstr ""
 msgid "web.legal.tldrTag"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.to"
+msgstr "KE"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbip"
 msgstr ""
@@ -914,6 +1342,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.rateLimited"
+msgstr "Terlalu banyak percobaan. Coba lagi beberapa menit lagi."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitTotal"
+msgstr "TOTAL"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
@@ -931,6 +1367,10 @@ msgstr ""
 msgid "web.legal.updated"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.differentEmail"
+msgstr "Pakai email lain"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.historyLine"
 msgstr ""
@@ -943,6 +1383,10 @@ msgstr ""
 msgid "web.home.mockBookingsFlightMeta"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.waitlist"
+msgstr "DAFTAR TUNGGU · GELOMBANG PERTAMA"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat3"
 msgstr ""
@@ -951,13 +1395,25 @@ msgstr ""
 msgid "web.home.chatVoice"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.title"
+msgstr "Yang sedang kamu tunggu"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.collectBody"
+msgstr "Saat kamu mendarat di suatu tempat, warga lokalnya masuk ke pass-mu. Tinggal lebih lama dan makin banyak yang muncul."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchBody"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.whereFirst"
+msgstr "MAU KE MANA DULU?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteTitle"
@@ -971,13 +1427,29 @@ msgstr ""
 msgid "web.notFound.title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeYes"
+msgstr "MAU!"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.quipTop"
+msgstr "tidak bisa dibeli."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.quipBottom"
+msgstr "kamu harus ke sana."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.youAre"
+msgstr "KAMU NOMOR {position}"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyOwed"
@@ -987,9 +1459,21 @@ msgstr ""
 msgid "web.legal.olderVersion"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailPlaceholder"
+msgstr "kamu@email.com"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinEyebrow"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailLabel"
+msgstr "Email kamu"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourGuide"
+msgstr "pemandumu"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideRole"
@@ -1006,3 +1490,11 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "warga lokalmu"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.placeInLine"
+msgstr "POSISIMU DI ANTREAN"

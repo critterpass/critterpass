@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "43768db1-aab5-4921-9a31-d9025439f6cd",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"stay\",\"title\":\"Song Tien Hotel\",\"supplier_name\":\"Agoda\",\"confirmation_code\":\"1491612482\",\"starts_local\":\"2024-10-26T14:00\",\"ends_local\":\"2024-10-27T12:00\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":\"Số 101, đường Trưng Trắc, Phường 1, Mỹ Tho (Tiền Giang), Việt Nam\",\"price\":{\"amount\":\"918.322\",\"currency\":\"VND\"},\"travellers\":[\"Minh Duc Tran\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"Không đến khách sạn hoặc chỗ nghỉ sẽ được giải quyết như là Vắng Mặt và sẽ phải trả một khoản tiền là 100% giá trị đặt phòng (Quy định của khách sạn).\",\"flights\":[],\"room\":\"Phòng Loại Sang Hướng Sông Giường Đôi\",\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 234,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 3712,
+        "output_tokens": 236,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

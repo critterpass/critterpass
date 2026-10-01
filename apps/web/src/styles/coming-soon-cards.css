@@ -49,7 +49,7 @@
   box-sizing: border-box;
 }
 .cs-swipe-stack__city {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 22px;
   line-height: 1.15;
@@ -59,7 +59,7 @@
 .cs-swipe-stack__tag {
   font:
     500 10px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-paper-label);
 }
 .cs-swipe-stack__yes {
@@ -73,7 +73,7 @@
   color: var(--guide-on-paper-sardi);
   font:
     900 14px/1 Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.08em;
   transform: rotate(-14deg);
 }
@@ -90,7 +90,7 @@
   color: var(--color-yellow);
   font:
     500 11px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
 }
 .cs-swipe-tally__bars {
   display: flex;
@@ -138,7 +138,7 @@
   color: var(--color-ink-850);
   font:
     500 14px/1.35 Geist,
-    sans-serif;
+    var(--cs-sans);
   transform: rotate(2deg);
   align-self: flex-end;
   max-width: 75%;
@@ -168,7 +168,7 @@
 .cs-chat-status {
   font:
     500 11px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-green-base);
 }
 
@@ -198,7 +198,7 @@
   margin-bottom: 2px;
 }
 .cs-plan-day__date {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 26px;
   line-height: 1.1;
@@ -211,7 +211,7 @@
   gap: 6px;
   font:
     500 11px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-card-plan-editing);
 }
 .cs-plan-day__avatars {
@@ -238,12 +238,12 @@
   padding: 0 12px;
   font:
     600 13px Geist,
-    sans-serif;
+    var(--cs-sans);
 }
 .cs-plan-row__time {
   font:
     500 11px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-ink-200);
 }
 .cs-plan-row--active {
@@ -262,7 +262,7 @@
   background: var(--color-pink);
   font:
     800 10px Archivo,
-    sans-serif;
+    var(--cs-sans);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -297,7 +297,7 @@
   gap: 6px;
   font:
     500 10.5px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-paper-body);
   -webkit-mask:
     linear-gradient(#000 0 0) top / 100% calc(100% - 8px) no-repeat,
@@ -309,7 +309,7 @@
       repeat-x;
 }
 .cs-receipt__title {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 13px;
   line-height: 1.1;
@@ -335,7 +335,7 @@
   gap: 8px;
 }
 .cs-split-total__value {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 64px;
   line-height: 1;
@@ -345,7 +345,7 @@
 .cs-split-total__label {
   font:
     800 12px/1 Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.12em;
   color: var(--color-ink-850);
 }
@@ -401,7 +401,7 @@
 .cs-pass-peek__num {
   font:
     500 9px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-ink-200);
 }
 .cs-pass-peek__count {
@@ -414,7 +414,7 @@
   color: var(--color-ink-850);
   font:
     500 11px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   transform: rotate(4deg);
 }
 
@@ -443,7 +443,7 @@
 .cs-brief__label {
   font:
     500 10px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-paper-label);
 }
 .cs-brief__line {
@@ -458,7 +458,7 @@
   border: 3px solid var(--color-pink);
   background: var(--color-paper-base);
   color: var(--guide-on-paper-ajo);
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 28px;
   line-height: 1;

@@ -15,6 +15,22 @@ msgstr ""
 msgid "web.tips.categoryPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.seatsLeft"
+msgstr "{count} places restantes dans la première vague"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.inLine"
+msgstr "{count} DANS LA FILE"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.friendsJoined"
+msgstr "{count} AMIS INSCRITS SUR 3"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.countdown"
+msgstr "{days} J {hours} H {minutes} MIN {seconds} S"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.byline"
 msgstr ""
@@ -27,6 +43,10 @@ msgstr ""
 msgid "web.tips.minRead"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.guideCheering"
+msgstr "{name} qui applaudit"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.eyebrowFrom"
 msgstr ""
@@ -35,9 +55,17 @@ msgstr ""
 msgid "web.referral.bodyFrom"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.guideWaving"
+msgstr "{name} qui fait coucou"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.theirLink"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.savingSeat"
+msgstr "{name} te garde une place. Direction : {place}."
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.pageTitle"
@@ -47,6 +75,10 @@ msgstr ""
 msgid "web.legal.versionPageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hatchedNumber"
+msgstr "N° {num} SUR {total} · {city}"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.copyright"
 msgstr ""
@@ -54,6 +86,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.estimateEach"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askStatus"
+msgstr "✓ PLAN MIS À JOUR POUR 6"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Art"
@@ -95,6 +131,10 @@ msgstr ""
 msgid "web.home.mockVoteHoiAnCount"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTally"
+msgstr "5 SUR 6"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.fiveStamps"
 msgstr ""
@@ -111,9 +151,41 @@ msgstr ""
 msgid "web.home.passLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseTitle"
+msgstr "ENCORE QUELQUES SURPRISES"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.ngua"
+msgstr "Un poney fleuri qui t’attend à {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.cuRua"
+msgstr "Une tortue du lac Hoàn Kiếm qui t’attend à {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.lucky"
+msgstr "Un lièvre qui t’attend à {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.chep"
+msgstr "Une carpe lanterne qui t’attend à {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.eyebrow"
+msgstr "UN PETIT APERÇU"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.drac"
+msgstr "Une salamandre en mosaïque qui t’attend à {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.roucou"
+msgstr "Un pigeon en béret qui t’attend à {place}."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -122,6 +194,18 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Body"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.pizza"
+msgstr "Un rat du métro qui t’attend à {place}."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.eggLabel"
+msgstr "Un œuf qui gigote"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.admit"
+msgstr "VALABLE POUR : UNE BANDE"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalAdmit"
@@ -143,6 +227,10 @@ msgstr ""
 msgid "web.invite.membersLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.local.lince"
+msgstr "Un lynx ibérique qui t’attend à {place}."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
 msgstr ""
@@ -159,9 +247,17 @@ msgstr ""
 msgid "web.home.stop2Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askTitle"
+msgstr "DEMANDE AU LOCAL"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "RETOUR AU DÉPART"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
@@ -171,9 +267,21 @@ msgstr ""
 msgid "web.home.mockPlanItem1"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowHike"
+msgstr "Lever de soleil au Batur"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.boardingNow"
+msgstr "EMBARQUEMENT"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalEyebrow"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.boardingSoon"
+msgstr "BIENTÔT À BORD"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockBookingsEyebrow"
@@ -191,6 +299,10 @@ msgstr ""
 msgid "web.referral.pageTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.bringCrew"
+msgstr "AMÈNE TA BANDE, DOUBLE LA FILE"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.bylineBy"
 msgstr ""
@@ -203,13 +315,53 @@ msgstr ""
 msgid "web.home.mockLocalName"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.chooseDestination"
+msgstr "Choisis ta première destination"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.cityGuides"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseClassified"
+msgstr "CONFIDENTIEL"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.collectTitle"
+msgstr "REMPLIS TON PASS"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.collector"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareTitle"
+msgstr "Rejoins-moi sur CritterPass"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareText"
+msgstr "Rejoins-moi sur CritterPass — {url}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.stampTitle"
+msgstr "BIENTÔT"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.badgeSoon"
+msgstr "BIENTÔT · iOS + ANDROID"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.confirmed"
+msgstr "CONFIRMÉ · PREMIÈRE VAGUE"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowClass"
+msgstr "Cours de cuisine"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askReply"
+msgstr "Cours de cuisine à 14 h. La plage passe à vendredi."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
@@ -219,6 +371,10 @@ msgstr ""
 msgid "web.tips.copied"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.copied"
+msgstr "COPIÉ ✓"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
 msgstr ""
@@ -226,6 +382,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.copyLink"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.copyLink"
+msgstr "COPIER LE LIEN"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerCrew"
@@ -243,6 +403,14 @@ msgstr ""
 msgid "web.shell.brand"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pageTitle"
+msgstr "CritterPass — Les voyages en groupe, organisés avec les locaux"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.head"
+msgstr "CRITTERPASS · BIENTÔT À BORD"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageTitle"
 msgstr ""
@@ -251,6 +419,10 @@ msgstr ""
 msgid "web.shell.homeLink"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pageDescription"
+msgstr "CritterPass est un organisateur de voyages en groupe, bientôt sur iOS et Android. Il se trouve que les locaux sont des animaux. Inscris-toi sur la liste d’attente."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
 msgstr ""
@@ -258,6 +430,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintCrack"
+msgstr "crac !"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintCrackLoud"
+msgstr "CRAAAC !!"
 
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.current"
@@ -291,6 +471,10 @@ msgstr ""
 msgid "web.tips.aiDisclosure"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planBody"
+msgstr "Glisse n’importe quoi vers un autre créneau et le reste de la journée se décale pour lui faire de la place, pour tout le monde en même temps."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Body"
 msgstr ""
@@ -299,9 +483,17 @@ msgstr ""
 msgid "web.home.stop4ArtUnit"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitEach"
+msgstr "CHACUN · À 4"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsBody"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planEditing"
+msgstr "MODIFICATION"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.eyebrow"
@@ -310,6 +502,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampBottom"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.stampSub"
+msgstr "DEPUIS 2026"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsTitle"
@@ -323,6 +519,14 @@ msgstr ""
 msgid "web.home.insidePlanTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.referralBody"
+msgstr "Chaque ami qui s’inscrit avec ton lien te fait gagner 100 places. Trois amis, et tu es dans la première vague."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.title"
+msgstr "Chaque local commence dans un œuf"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsTitle"
 msgstr ""
@@ -330,6 +534,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeBody"
+msgstr "Tout le monde fait défiler la sélection. Le compteur se remplit en direct et le gagnant est désigné en quelques minutes."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop1Body"
@@ -347,13 +555,33 @@ msgstr ""
 msgid "web.invite.expiresIn"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseBrief"
+msgstr "FICHE FONCTION · v0.9"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.featured"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.label"
+msgstr "Dernier appel"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.eyebrow"
+msgstr "DERNIER APPEL"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.findMyCrew"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.waveLeft"
+msgstr "PREMIÈRE VAGUE · {count} PLACES RESTANTES"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.seats"
+msgstr "PREMIÈRE VAGUE · {seats} PLACES"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideBookingsBody"
@@ -363,6 +591,10 @@ msgstr ""
 msgid "web.shell.footerFollow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.follow"
+msgstr "suis les locaux →"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsAside"
 msgstr ""
@@ -371,13 +603,29 @@ msgstr ""
 msgid "web.home.finalBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.from"
+msgstr "DE"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stopsTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.quip"
+msgstr "du « je sais pas » à l’atterrissage ↓"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalGate"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.gate"
+msgstr "PORTE ✦ PARTOUT"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.gateOpensIn"
+msgstr "PORTE OUVERTE DANS"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"
@@ -403,9 +651,21 @@ msgstr ""
 msgid "web.invite.differentCode"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.groupChat"
+msgstr "CHAT DE GROUPE"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroTag"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.badgePlanner"
+msgstr "ORGANISATEUR DE VOYAGES EN GROUPE"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.lede"
+msgstr "Les voyages en groupe, organisés avec les locaux. Il se trouve que les locaux sont des animaux."
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroLede"
@@ -414,6 +674,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guideAjo"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.label"
+msgstr "Fais éclore un œuf"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.another"
+msgstr "UN AUTRE ŒUF"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.haveCode"
@@ -463,6 +731,10 @@ msgstr ""
 msgid "web.home.chat2"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.body"
+msgstr "Dans l’appli, un œuf éclot quand tu atterris quelque part pour la première fois. Ici, tu peux tricher. Touche-le trois fois et regarde qui sort."
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeLabel"
 msgstr ""
@@ -479,9 +751,21 @@ msgstr ""
 msgid "web.home.mockGuideAsk"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askQuestion"
+msgstr "Il pleut des cordes. Un plan B ?"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Art"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.label"
+msgstr "Rejoindre la liste d’attente"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.join"
+msgstr "REJOINDRE LA LISTE"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinTitle"
@@ -511,6 +795,10 @@ msgstr ""
 msgid "web.home.insideLocalTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.language"
+msgstr "Langue"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.language"
 msgstr ""
@@ -522,6 +810,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockLocalSpecies"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTag"
+msgstr "VILLE AUX LANTERNES"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockPlanItem3"
@@ -551,6 +843,10 @@ msgstr ""
 msgid "web.home.passLocals"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.statLocals"
+msgstr "LOCAUX"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passStampTop"
 msgstr ""
@@ -578,6 +874,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.openMenu"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.shareMessages"
+msgstr "MESSAGES"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.money"
@@ -615,6 +915,10 @@ msgstr ""
 msgid "web.shell.noCookies"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "Aucun lieu à ce nom. Essaie une autre orthographe."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -643,6 +947,10 @@ msgstr ""
 msgid "web.home.insidePlanBody"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.note"
+msgstr "Un e-mail au lancement. Peut-être deux. Jamais de spam."
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how1Body"
 msgstr ""
@@ -654,6 +962,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.guidePaco"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "Page introuvable"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
@@ -671,9 +983,21 @@ msgstr ""
 msgid "web.referral.coverLabel"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "Choisis un lieu dans la liste, ou efface la recherche."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "Lieux"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.statPlaces"
+msgstr "LIEUX"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.finalTitle"
@@ -683,9 +1007,17 @@ msgstr ""
 msgid "web.home.stop3Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planTitle"
+msgstr "PLANIFIEZ ENSEMBLE"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.category.planning"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.footer.privacy"
+msgstr "Confidentialité"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.privacy"
@@ -715,6 +1047,22 @@ msgstr ""
 msgid "web.referral.finePrintTerms"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "Retirer {city}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.saveSeat"
+msgstr "GARDER MA PLACE →"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.saveSeat"
+msgstr "GARDER MA PLACE ↑"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitBody"
+msgstr "Scanne le ticket, partage-le comme tu veux, et on est quittes. Personne ne tient de tableur."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Body"
 msgstr ""
@@ -730,6 +1078,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "Cherche une ville"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.seat"
+msgstr "SIÈGE"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.emptyAll"
@@ -755,6 +1111,10 @@ msgstr ""
 msgid "web.tips.share"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.share"
+msgstr "PARTAGE TON LIEN ↑"
+
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.lede"
 msgstr ""
@@ -771,6 +1131,10 @@ msgstr ""
 msgid "web.home.chat1"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "Ailleurs ?"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
 msgstr ""
@@ -778,6 +1142,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop4Title"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitTitle"
+msgstr "PARTAGE L’ADDITION"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.finePrint"
@@ -791,6 +1159,10 @@ msgstr ""
 msgid "web.home.insideVoteTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planRowSunset"
+msgstr "Coucher de soleil à Uluwatu"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideSwap"
 msgstr ""
@@ -799,9 +1171,25 @@ msgstr ""
 msgid "web.home.stop1Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeTitle"
+msgstr "SWIPE POUR CHOISIR"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.quip"
+msgstr "ça prend 10 secondes"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.localsVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.hintTap"
+msgstr "touche l’œuf"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.tapEgg"
+msgstr "Touche l’œuf"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.terms"
@@ -810,6 +1198,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.codeError"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.joinFailed"
+msgstr "Ça n’est pas passé. Réessaie dans un instant."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailInvalid"
+msgstr "Cet e-mail a l’air bizarre. Tu peux vérifier ?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chatName"
@@ -831,6 +1227,14 @@ msgstr ""
 msgid "web.legal.eyebrow"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.final.title"
+msgstr "La première vague embarque bientôt"
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.askBody"
+msgstr "Le guide prépare le plan et répond à tout, à l’oral ou par écrit. Pluie jeudi ? Il propose un échange."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop2Body"
 msgstr ""
@@ -843,6 +1247,10 @@ msgstr ""
 msgid "web.shell.theLocals"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.hero.typedLine"
+msgstr "Les locaux font encore leurs valises."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passEyebrow"
 msgstr ""
@@ -851,9 +1259,17 @@ msgstr ""
 msgid "web.shell.thePass"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "Les lieux n’ont pas pu être chargés. Réessaie dans un instant."
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.surpriseBody"
+msgstr "Il y a d’autres choses à bord qu’on ne montre pas encore. Les inscrits les verront en premier."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how2Title"
@@ -863,6 +1279,10 @@ msgstr ""
 msgid "web.referral.how3Body"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "Cette page n’est pas sur l’itinéraire. Les locaux ont fouillé chaque ruelle."
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
 msgstr ""
@@ -870,6 +1290,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.stop3Art"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.planDate"
+msgstr "JEU. 14"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideChange"
@@ -899,6 +1323,10 @@ msgstr ""
 msgid "web.legal.tldrTag"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.to"
+msgstr "À"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.dbip"
 msgstr ""
@@ -914,6 +1342,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.heroVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.rateLimited"
+msgstr "Trop de tentatives. Réessaie dans quelques minutes."
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.splitTotal"
+msgstr "TOTAL"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.title"
@@ -931,6 +1367,10 @@ msgstr ""
 msgid "web.legal.updated"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.differentEmail"
+msgstr "Utiliser un autre e-mail"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.historyLine"
 msgstr ""
@@ -943,6 +1383,10 @@ msgstr ""
 msgid "web.home.mockBookingsFlightMeta"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.ticket.waitlist"
+msgstr "LISTE D’ATTENTE · PREMIÈRE VAGUE"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat3"
 msgstr ""
@@ -951,13 +1395,25 @@ msgstr ""
 msgid "web.home.chatVoice"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.title"
+msgstr "Ce qui t’attend"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchTitle"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.collectBody"
+msgstr "Quand tu atterris quelque part, le local du coin rejoint ton pass. Reste un peu et d’autres se montrent."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passHatchBody"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.whereFirst"
+msgstr "TU PARS OÙ EN PREMIER ?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockVoteTitle"
@@ -971,13 +1427,29 @@ msgstr ""
 msgid "web.notFound.title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.features.swipeYes"
+msgstr "OUI !"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Title"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.quipTop"
+msgstr "ils ne s’achètent pas."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passTitle"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
+msgid "web.comingSoon.hatch.quipBottom"
+msgstr "il faut y aller."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.header.youAre"
+msgstr "TU ES N° {position}"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyOwed"
@@ -987,9 +1459,21 @@ msgstr ""
 msgid "web.legal.olderVersion"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailPlaceholder"
+msgstr "toi@email.com"
+
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.joinEyebrow"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.form.emailLabel"
+msgstr "Ton e-mail"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourGuide"
+msgstr "ton guide"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockGuideRole"
@@ -1006,3 +1490,11 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "ton local"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.joined.placeInLine"
+msgstr "TA PLACE DANS LA FILE"

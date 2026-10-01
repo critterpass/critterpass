@@ -2,10 +2,11 @@
  * Guide lab scenes for the guide sheet (3j-1) and its designed-in-code states, over the Bali Six
  * rainy-afternoon fixtures, with every handler a no-op: group mode with a plan card, the empty
  * thread, thinking, streaming, a slow tool, a web answer with sources, the answer actions, a
- * failed turn, a refusal, the safety card and questions waiting offline.
+ * failed turn, a refusal, the safety card, questions waiting offline, and answers replayed from their
+ * streamed frames (a tool call between parts).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import { useTheme } from '@/ui';
 
@@ -18,7 +19,9 @@ import type { PlanCardModel } from '../data/use-plan-card';
 import type { GuideTripContext } from '../data/use-guide-context';
 import type { SavedGuideMessage } from '../data/use-guide-thread';
 import type { LiveTurn } from '../data/use-guide-turn';
-import { THINKING, type TurnState } from '../data/turn-state';
+import type { GuideFrame } from '../data/guide-frames';
+import { applyTurnFrame, THINKING, type TurnState } from '../data/turn-state';
+import { LIST_FRAMES, LIST_QUESTION, PLACES_FRAMES, PLACES_QUESTION } from './streamed-frames';
 
 const noop = () => undefined;
 
@@ -54,7 +57,7 @@ export const RAIN_QUESTION = "It's pouring in Ubud. What now?";
 export const RAIN_ANSWER =
   "Rain till about three. Here's a dry afternoon that still gets you to dinner at 19:30.";
 
-const question = (id: string, text: string, authorId = LAB_MAYA): SavedGuideMessage => ({
+export const question = (id: string, text: string, authorId = LAB_MAYA): SavedGuideMessage => ({
   id,
   role: 'user',
   authorId,
@@ -65,14 +68,14 @@ const question = (id: string, text: string, authorId = LAB_MAYA): SavedGuideMess
   createdAt: '2026-10-03T05:00:00Z',
 });
 
-const answer = (id: string, text: string, extra: Partial<SavedGuideMessage> = {}) => ({
+export const answer = (id: string, text: string, extra: Partial<SavedGuideMessage> = {}) => ({
   ...question(id, text),
   role: 'guide' as const,
   authorId: null,
   ...extra,
 });
 
-function live(state: Partial<TurnState>, text = RAIN_QUESTION): LiveTurn {
+export function live(state: Partial<TurnState>, text = RAIN_QUESTION): LiveTurn {
   return { key: 1, question: text, state: { ...THINKING, ...state } };
 }
 
@@ -163,6 +166,18 @@ export function LabSheet(options: LabSheetOptions) {
   );
 }
 
+/** Plays an answer's frames in at a steady pace, as the stream would, and keeps the finished turn. */
+function Replay({ question: asked, frames }: { question: string; frames: readonly GuideFrame[] }) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (count >= frames.length) return undefined;
+    const timer = setTimeout(() => setCount(count + 1), 60);
+    return () => clearTimeout(timer);
+  }, [count, frames.length]);
+  const state = frames.slice(0, count).reduce(applyTurnFrame, THINKING);
+  return <LabSheet live={{ key: 1, question: asked, state }} />;
+}
+
 const RAIN_SAVED = [
   question('q1', RAIN_QUESTION),
   answer('a1', RAIN_ANSWER, { proposals: [LAB_PLAN.changesetId] }),
@@ -226,5 +241,7 @@ export const CHAT_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'chat-offline': () => (
     <LabSheet messages={RAIN_SAVED} waiting={['Is the cooking class still on if it floods?']} />
   ),
+  'chat-streamed-tool': () => <Replay question={PLACES_QUESTION} frames={PLACES_FRAMES} />,
+  'chat-streamed-list': () => <Replay question={LIST_QUESTION} frames={LIST_FRAMES} />,
   'chat-sent': () => <LabSheet messages={RAIN_SAVED} proposal={{ ...LAB_PLAN, state: 'voting' }} />,
 };

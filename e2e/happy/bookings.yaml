@@ -2,7 +2,7 @@ appId: app.critterpass.dev
 ---
 # Release gate: adding a booking by pasting its confirmation. A fresh account takes the staging
 # demo crew's Bali trip; the pasted flight confirmation goes to the api, the guide reads it into a
-# candidate, ADD files it, and the wallet stack shows the flight card with its reference. A pasted
+# candidate, ADD files it, the wallet stack shows the flight card, and its details show the reference. A pasted
 # confirmation carries no boarding pass barcode (the pass comes from scanning it at check-in), so
 # the card offers no pass.
 - runFlow:
@@ -15,17 +15,26 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-add'
     timeout: 20000
-- tapOn: 'PASTE'
+# Android shows the tile's title; iOS reads the tile whole ("PASTE, A link or code").
+- tapOn: 'PASTE.*'
 - extendedWaitUntil:
     visible:
       id: 'bookings-paste-field'
     timeout: 10000
 - evalScript: ${output.day = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
 - evalScript: ${output.paste = 'Singapore Airlines booking confirmed. Booking reference K7Q2PX. Passenger WINSTON. Flight SQ 938 from Singapore (SIN) to Denpasar Bali (DPS) on ' + output.day + ', departs 09:10, arrives 11:55.'}
+# Android: the runner turns the soft keyboard off, so typed keys go straight into the field and no
+# keyboard panel is left over READ IT; it comes back after the send.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - evalScript: "${http.post('http://127.0.0.1:7788/keyboard?state=off', { body: '{}' }).status}"
 - tapOn:
     id: 'bookings-paste-field'
-# Runner: types the confirmation on Android (Maestro's inputText waits after every key, and this
-# field takes seconds per key there); iOS types it with inputText.
+# Runner: types the confirmation on Android in short chunks with a pause after each (Maestro's
+# inputText waits after every key, and one long `input text` outruns the field until Android drops
+# the queued keys); iOS types it with inputText.
 - runFlow:
     when:
       platform: Android
@@ -36,14 +45,23 @@ appId: app.critterpass.dev
       platform: iOS
     commands:
       - inputText: ${output.paste}
-# The field takes the keys one by one: wait for the end of the confirmation.
+# The runner answers at once and types in the background: wait for the end of the confirmation.
 - extendedWaitUntil:
     visible:
       text: '.*arrives 11:55.*'
     timeout: 300000
-- hideKeyboard
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
 - tapOn:
     id: 'bookings-paste-send'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - evalScript: "${http.post('http://127.0.0.1:7788/keyboard?state=on', { body: '{}' }).status}"
 # The api queues the read; the candidate shows once the guide has read the confirmation.
 - extendedWaitUntil:
     visible:
@@ -58,12 +76,17 @@ appId: app.critterpass.dev
       id: 'bookings-stack'
     timeout: 30000
 - assertVisible: '.*SQ ?938.*'
-- tapOn:
-    id: 'bookings-open-details'
+# The open card is the flight card; with no pass scanned it offers none.
 - extendedWaitUntil:
     visible:
       id: 'bookings-flight'
     timeout: 15000
-- assertVisible: '.*K7Q2PX.*'
 - assertNotVisible:
     id: 'bookings-flight-pass'
+- tapOn:
+    id: 'bookings-open-details'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 15000
+- assertVisible: '.*K7Q2PX.*'

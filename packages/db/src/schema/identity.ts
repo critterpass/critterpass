@@ -38,6 +38,13 @@ export const users = pgTable('users', {
   avatarId: uuid('avatar_id'),
   appIcon: text('app_icon'),
   purgeAt: timestamp('purge_at', { withTimezone: true, mode: 'date' }),
+  /** Spoken languages (ISO 639), up to 12. */
+  languages: text('languages')
+    .array()
+    .notNull()
+    .default(sql`'{}'::text[]`),
+  /** Last username change; the next one waits 30 days. */
+  usernameChangedAt: timestamp('username_changed_at', { withTimezone: true, mode: 'date' }),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });
@@ -59,6 +66,7 @@ export const userSettings = pgTable('user_settings', {
   hideLockscreenDetails: boolean('hide_lockscreen_details').notNull().default(false),
   hideTasteTags: boolean('hide_taste_tags').notNull().default(false),
   hideCollection: boolean('hide_collection').notNull().default(false),
+  exploreAtHome: boolean('explore_at_home').notNull().default(false),
   /** The crew Home shows; FK to crews in SQL (not mirrored here to keep the import graph acyclic). */
   activeCrewId: uuid('active_crew_id'),
   /** Crewmates whose chat messages this user hides on their own devices (`mute_member`). */
@@ -66,6 +74,10 @@ export const userSettings = pgTable('user_settings', {
     .array()
     .notNull()
     .default(sql`'{}'::uuid[]`),
+  /** Guide sound and music (`packages/domain` `audioSettingsSchema`), merged by `set_settings`. */
+  audio: jsonb('audio').notNull().default({}),
+  /** ISO 4217; overrides the home airport's currency for prices (3n-8). */
+  homeCurrencyOverride: text('home_currency_override'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

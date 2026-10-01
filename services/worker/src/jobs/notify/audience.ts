@@ -1,13 +1,13 @@
 /**
  * Who a notification goes to and what the router needs to know about each recipient: their
- * preferences (defaults while they have never changed any), locale, the time zone their day runs
- * in, and whether the app is on screen right now.
+ * preferences (defaults while they have never changed any), the language their app is in
+ * (`app.user_locale`), the time zone their day runs in, and whether the app is on screen right now.
  *
  * Time zone (docs/product-decisions.md, roundup zone): while the recipient is on a trip under way
  * the trip's zone is their day; otherwise their most recently seen device's zone, then their
  * profile zone, then UTC. `roundup_tz = 'device'` opts the evening roundup out of the trip zone.
  */
-import type { NotificationPrefGate } from '@cp/domain';
+import { DEFAULT_BUDGET_PER_DAY, type NotificationPrefGate } from '@cp/domain';
 import type pg from 'pg';
 
 import { clockMinutes, type QuietHours } from './policy';
@@ -37,11 +37,10 @@ export interface Recipient {
 }
 
 interface RecipientRow {
-  user_locale: string | null;
+  locale: string;
   user_tz: string | null;
   trip_tz: string | null;
   device_tz: string | null;
-  device_locale: string | null;
   foreground: boolean | null;
   last_seen_at: Date | null;
   budget_per_day: number | null;
@@ -70,14 +69,14 @@ export async function loadRecipient(
   now: Date,
 ): Promise<Recipient | undefined> {
   const { rows } = await tx.query<RecipientRow>(
-    `SELECT u.locale AS user_locale, u.tz AS user_tz, (${ON_TRIP_TZ_SQL}) AS trip_tz,
-       d.tz AS device_tz, d.locale AS device_locale, d.foreground, d.last_seen_at,
+    `SELECT app.user_locale(u.id) AS locale, u.tz AS user_tz, (${ON_TRIP_TZ_SQL}) AS trip_tz,
+       d.tz AS device_tz, d.foreground, d.last_seen_at,
        p.budget_per_day, p.roundup_time::text, p.roundup_tz, p.quiet_from::text,
        p.quiet_to::text, p.guide_tips, p.money, p.critters_nearby, p.crew_chat_mode,
        p.per_category, p.voice_readout
      FROM users u
      LEFT JOIN LATERAL (
-       SELECT tz, locale, foreground, last_seen_at FROM devices
+       SELECT tz, foreground, last_seen_at FROM devices
        WHERE user_id = u.id ORDER BY last_seen_at DESC LIMIT 1
      ) d ON true
      LEFT JOIN notification_prefs p ON p.user_id = u.id
@@ -91,7 +90,7 @@ export async function loadRecipient(
   const roundupTz = row.roundup_tz ?? 'trip';
   return {
     uid,
-    locale: row.device_locale ?? row.user_locale ?? 'en',
+    locale: row.locale,
     tz: dayTz,
     roundupTz: roundupTz === 'trip' ? dayTz : homeTz,
     inForeground:
@@ -99,7 +98,7 @@ export async function loadRecipient(
       row.last_seen_at !== null &&
       now.getTime() - row.last_seen_at.getTime() < FOREGROUND_FRESH_MS,
     prefs: {
-      budgetPerDay: row.budget_per_day ?? 5,
+      budgetPerDay: row.budget_per_day ?? DEFAULT_BUDGET_PER_DAY,
       roundupMinutes: clockMinutes(row.roundup_time ?? '20:00'),
       roundupTz,
       quiet: {

@@ -15,10 +15,12 @@ import { tokens } from '@cp/design-tokens';
 import { provideSessionGate } from '../../../lib/navigation/gates';
 import { registerScreens } from '../../../lib/navigation/screen-registry';
 import { tabTransition } from '../../../lib/navigation/transitions';
+import { KeyboardFooter } from '../../layout/KeyboardFooter';
 import { ThemeProvider } from '../../../lib/theme';
 import { FAB_RAISE } from '../GuideFab';
 import { ShellTabs } from '../ShellTabs';
 import { TAB_BAR_CONTENT_HEIGHT } from '../TabBar';
+import { TAB_BAR_CLEARANCE } from '../tab-bar-metrics';
 
 // Imported last on purpose: the testing library registers its own Reanimated mock (the package's
 // `/mock`, which cannot load under this app's Jest setup, see jest.config.js). Every module above
@@ -80,15 +82,25 @@ function TripsWithBadge() {
   return <Text>trips screen</Text>;
 }
 
+function footerScreen(testID: string) {
+  return function FooterScreen() {
+    return (
+      <KeyboardFooter testID={testID}>
+        <Text>save</Text>
+      </KeyboardFooter>
+    );
+  };
+}
+
 const ROUTES = {
   _layout: TestRoot,
   '(tabs)/_layout': ShellTabs,
   '(tabs)/index': screenNamed('home'),
   '(tabs)/trips': TripsWithBadge,
   '(tabs)/wallet': screenNamed('wallet'),
-  '(tabs)/pass': screenNamed('pass'),
+  '(tabs)/pass': footerScreen('tab-footer'),
   guide: screenNamed('guide'),
-  help: screenNamed('help'),
+  help: footerScreen('stack-footer'),
   welcome: screenNamed('welcome'),
 };
 
@@ -155,6 +167,26 @@ describe('TabBar', () => {
     const fabBottom = flat(screen.getByTestId('guide-fab')).height ?? 0;
     // The FAB hangs from the container's top edge, so it ends above the inset band.
     expect(fabBottom).toBeLessThanOrEqual((container.height as number) - inset);
+  });
+});
+
+describe('KeyboardFooter in a tab', () => {
+  it('sits above the tab bar and its FAB inside a tab, and above the home inset elsewhere', async () => {
+    const unregister = registerScreens({ '3k-6': '/help' });
+    const shell = await renderShell();
+    const home = GESTURE_NAV.insets.bottom;
+    const gap = tokens.space['8'];
+    await fireEvent.press(screen.getByTestId('tab-pass'));
+    const tabFooter = flat(screen.getByTestId('tab-footer'));
+    expect(tabFooter.paddingBottom).toBe(home + TAB_BAR_CLEARANCE + gap);
+    expect(TAB_BAR_CLEARANCE).toBe(TAB_BAR_CONTENT_HEIGHT - FAB_RAISE);
+
+    await fireEvent(screen.getByTestId('guide-fab'), 'accessibilityAction', {
+      nativeEvent: { actionName: 'longpress' },
+    });
+    expect(shell.getPathname()).toBe('/help');
+    expect(flat(screen.getByTestId('stack-footer')).paddingBottom).toBe(home + gap);
+    unregister();
   });
 });
 

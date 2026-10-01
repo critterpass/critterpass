@@ -1,0 +1,60 @@
+appId: app.critterpass.dev
+---
+# The developer tools list from a cold start: a way out of any dev screen when the iOS edge swipe
+# doesn't pop it. The app is stopped and launched by a screen link (TRIPS): a link launch is never
+# restored to the saved screen (a bare app link would be), and opened over a running app the link
+# would stack Home, or the pass flow, on top of the dev screens with a back into them. An account
+# that hasn't finished the pass flow lands on its splash, which has the entry too.
+# The simulator's openurl can time out and leave the app stopped: the launch is tried again.
+- retry:
+    maxRetries: 2
+    commands:
+      - stopApp
+      - openLink: critterpass-dev://trips
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home|dev-tools-entry'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'tab-home'
+    commands:
+      - tapOn:
+          id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 20000
+- tapOn:
+    id: 'dev-tools-entry'
+# The gallery's locale choice is never saved, so the cold start lost it: a flow shooting another
+# language (${PREFIX}: vi) picks it again before going on.
+- runFlow:
+    when:
+      true: ${PREFIX != undefined && PREFIX != 'en'}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-gallery'
+          direction: DOWN
+          timeout: 20000
+          speed: 20
+      - tapOn:
+          id: 'dev-nav-gallery'
+      - extendedWaitUntil:
+          visible:
+            id: 'gallery-locale-${PREFIX}'
+          timeout: 15000
+      - tapOn:
+          id: 'gallery-locale-${PREFIX}'
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-nav-gallery'
+          timeout: 10000

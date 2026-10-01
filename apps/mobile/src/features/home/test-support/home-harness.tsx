@@ -47,12 +47,12 @@ export function renderHome(ui: ReactElement, stack: TestLocalFirst) {
 }
 
 /**
- * Waits until `check` passes (5 s at most). Home settles through a dozen live queries on the
- * encrypted database whose results land after render's act has closed; each round flushes the
- * updates they scheduled in a short act of its own, so no poll sits in one long act scope that
- * holds them back.
+ * Waits until `check` passes (15 s at most: CI runs this beside the other suites, about three
+ * times slower than a laptop). Home settles through a dozen live queries on the encrypted
+ * database whose results land after render's act has closed; each round flushes the updates they
+ * scheduled in a short act of its own, so no poll sits in one long act scope that holds them back.
  */
-export async function until(check: () => boolean, timeoutMs = 5000): Promise<void> {
+export async function until(check: () => boolean, timeoutMs = 15_000): Promise<void> {
   const deadline = Date.now() + timeoutMs;
   for (;;) {
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -112,6 +112,8 @@ export interface SeedTrip {
   readonly endDate?: string | null;
   readonly countdownTargetAt?: string | null;
   readonly planProgress?: number;
+  /** Bali unless given; null for a trip still voting on its place. */
+  readonly destinationId?: string | null;
 }
 
 export async function seedTrip(stack: TestLocalFirst, trip: SeedTrip): Promise<void> {
@@ -123,7 +125,7 @@ export async function seedTrip(stack: TestLocalFirst, trip: SeedTrip): Promise<v
       TRIP,
       CREW,
       trip.status,
-      BALI,
+      trip.destinationId === undefined ? BALI : trip.destinationId,
       TOKEK,
       trip.startDate ?? null,
       trip.endDate ?? null,

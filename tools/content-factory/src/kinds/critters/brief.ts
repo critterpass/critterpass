@@ -9,6 +9,7 @@ import path from 'node:path';
 import { critters, isGuideSpec, places, type Critter } from '@cp/critter-art';
 
 import { placeFacts } from '../../data/place-facts';
+import { committedItems } from '../../committed';
 import { FACTORY_DIR } from '../../work';
 import type { Brief, GenerationUnit } from '../types';
 
@@ -38,11 +39,18 @@ export function dexEntry(id: string): Critter {
   return critter;
 }
 
-/** `--opt places=vn,jp` limits the batch to some places; the default is all 61. */
+/**
+ * `--opt places=vn,jp` limits the batch to some places; the default is all 61. `--opt carry=committed`
+ * keeps every critter the committed batches already hold as it is and writes only the dex entries
+ * they lack (a critter added to a set), because publishing replaces the whole kind.
+ */
 export function critterBrief(options: Readonly<Record<string, string>>): Brief {
   const wanted = options['places']?.split(',').map((code) => code.trim());
+  const carried = options['carry'] === 'committed' ? committedItems('critters') : [];
+  const done = new Set(carried.map((item) => item.id));
   const units: GenerationUnit[] = places
     .filter((place) => wanted === undefined || wanted.includes(place.code))
+    .filter((place) => place.critterIds.some((id) => !done.has(id)))
     .map((place) => {
       const facts = placeFacts(place.code);
       const input: CritterUnitInput = {
@@ -51,18 +59,20 @@ export function critterBrief(options: Readonly<Record<string, string>>): Brief {
         languages: facts.languages,
         script: facts.script,
         placeBrief: placeBrief(place.code),
-        critters: place.critterIds.map((id) => {
-          const critter = dexEntry(id);
-          return {
-            id,
-            name: critter.name,
-            species: critter.species,
-            city: critter.city,
-            guide: isGuideSpec(critter.spec),
-          };
-        }),
+        critters: place.critterIds
+          .filter((id) => !done.has(id))
+          .map((id) => {
+            const critter = dexEntry(id);
+            return {
+              id,
+              name: critter.name,
+              species: critter.species,
+              city: critter.city,
+              guide: isGuideSpec(critter.spec),
+            };
+          }),
       };
       return { id: place.code, input };
     });
-  return { units };
+  return carried.length === 0 ? { units } : { units, carried };
 }

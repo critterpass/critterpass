@@ -36,6 +36,7 @@ const GUIDE_EPIC_POSE: Readonly<Record<string, Pose>> = {
   axolotl: 'cheer',
   sardine: 'tilt',
   alpaca: 'tilt',
+  langur: 'cheer',
 };
 
 function defaultPoseFor(critter: Critter): Pose {

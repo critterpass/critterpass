@@ -95,6 +95,38 @@
       "url": "/critters/gecko-common-idle-color-232pt@2x.webp"
     }
   ],
+  "langur-common-idle": [
+    {
+      "sizePt": 96,
+      "scale": 1,
+      "url": "/critters/langur-common-idle-color-96pt@1x.webp"
+    },
+    {
+      "sizePt": 96,
+      "scale": 2,
+      "url": "/critters/langur-common-idle-color-96pt@2x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 1,
+      "url": "/critters/langur-common-idle-color-150pt@1x.webp"
+    },
+    {
+      "sizePt": 150,
+      "scale": 2,
+      "url": "/critters/langur-common-idle-color-150pt@2x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 1,
+      "url": "/critters/langur-common-idle-color-232pt@1x.webp"
+    },
+    {
+      "sizePt": 232,
+      "scale": 2,
+      "url": "/critters/langur-common-idle-color-232pt@2x.webp"
+    }
+  ],
   "puffin-common-idle": [
     {
       "sizePt": 96,

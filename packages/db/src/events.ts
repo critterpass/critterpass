@@ -5,7 +5,13 @@
  * (packages/db/src/tx.ts); none of them opens its own transaction, so a caller's other writes in
  * the same tx commit or roll back together with these.
  */
-import { type DomainEventInput, parseDomainEvent, projectActivity } from '@cp/domain';
+import {
+  checkRtPublication,
+  type DomainEventInput,
+  generateUuidV7,
+  parseDomainEvent,
+  projectActivity,
+} from '@cp/domain';
 import type pg from 'pg';
 
 export type ClaimOpResult =
@@ -145,11 +151,26 @@ export interface EnqueueRealtimeInput {
   readonly kind?: EnqueueRealtimeKind;
 }
 
-/** `app.enqueue_rt`: the one `rt_outbox` write path open to a command handler. */
+/**
+ * `app.enqueue_rt`: the one `rt_outbox` write path open to a command handler. A publication the
+ * relay could not deliver (bad envelope, oversized, or `data` that fails its `user:#uid` schema)
+ * throws here, rolling the caller back, instead of being written and dead-lettered later.
+ */
 export async function enqueueRealtime(
   tx: pg.PoolClient,
   input: EnqueueRealtimeInput,
 ): Promise<{ readonly id: string }> {
+  if ((input.kind ?? 'publish') === 'publish') {
+    const checked = checkRtPublication(input.channel, input.payload, {
+      id: generateUuidV7(),
+      at: new Date().toISOString(),
+    });
+    if (!checked.ok) {
+      throw new Error(
+        `realtime payload on ${input.channel.split(':')[0] ?? ''} cannot be published: ${checked.reason}`,
+      );
+    }
+  }
   const { rows } = await tx.query<{ enqueue_rt: string }>(
     'SELECT app.enqueue_rt($1, $2, $3) AS enqueue_rt',
     [input.channel, JSON.stringify(input.payload), input.kind ?? 'publish'],

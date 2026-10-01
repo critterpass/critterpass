@@ -12,6 +12,7 @@ import { useCommand } from '@/data/commands/use-command';
 
 import { CalendarConnectSheet } from '../calendar/calendar-connect-sheet';
 import { ManualDaysSheet } from '../calendar/manual-days-sheet';
+import { syncRange } from '../calendar/sync-plan';
 import { useCalendarSync } from '../calendar/use-calendar-sync';
 import { askAvailabilityCommand, lockTripDatesCommand } from '../data/commands';
 import { useSetupServices } from '../data/services';
@@ -61,6 +62,11 @@ export function WhenStep({ trip, shell }: StepProps) {
   const pick = noFit.find((option) => option.isPick) ?? noFit[0];
   const selectedId = chosen ?? pick?.id ?? null;
   const startMonth = initialMonth(months, best);
+  // The picker spans the whole horizon, so the organiser can pick a week before anyone has shared.
+  const pickerMonths = heatMonths(
+    data.summaries,
+    syncRange(new Date(services.now()), Intl.DateTimeFormat().resolvedOptions().timeZone),
+  );
 
   const onLock = (start: string, end: string) => {
     setFailure(null);
@@ -102,6 +108,7 @@ export function WhenStep({ trip, shell }: StepProps) {
           score: trip.score,
           members: trip.members,
           total,
+          solo: trip.isSolo || total === 1,
           synced,
           unsyncedNames: trip.members
             .filter((member) => unsynced.includes(member.uid))
@@ -138,8 +145,8 @@ export function WhenStep({ trip, shell }: StepProps) {
       ) : null}
       {overlay === 'picker' ? (
         <WeekPicker
-          months={months}
-          startMonth={startMonth}
+          months={pickerMonths}
+          startMonth={initialMonth(pickerMonths, best)}
           total={total}
           lengthDays={trip.lengthDays ?? DEFAULT_LENGTH_DAYS}
           busy={lock.pending}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "bcbb37b7-5bf1-46d2-afe7-fdd115fb8214",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"transfer\",\"title\":\"Car Xe Điện Chuyến Xa\",\"supplier_name\":\"Advance Booking\",\"confirmation_code\":\"A-9F3XPWY469G4AV\",\"starts_local\":\"2025-10-04T07:30\",\"ends_local\":null,\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":\"120 Nguyen Hue Blvd.\",\"price\":null,\"travellers\":[\"Minh Đức\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"If your plans change, you can cancel the booking for free up to 1 hour before your pickup time.\",\"flights\":[],\"room\":null,\"meeting_point\":\"120 Nguyen Hue Blvd.\",\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 219,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1408,
+        "output_tokens": 163,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

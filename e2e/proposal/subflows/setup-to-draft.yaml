@@ -1,0 +1,213 @@
+appId: app.critterpass.dev
+---
+# From the dates step to DRAFT MY TRIP: the week, the budget skipped, the rooms (a stay picked and
+# its rooms locked, or the even split), one must-do, and DRAFT MY TRIP. When a crewmate's calendar
+# already offers a window, a week three weeks out is picked instead (the offered one may already be
+# under way, leaving no time to answer a proposal); otherwise a week is marked free by hand.
+- runFlow:
+    when:
+      visible:
+        id: 'when-cta'
+    commands:
+      - tapOn:
+          id: 'when-pick-week'
+      - extendedWaitUntil:
+          visible:
+            id: 'picker-shorter'
+          timeout: 10000
+      - waitForAnimationToEnd
+      # The first day: a day in the second week of next month. On Android the sheet's cells
+      # carry no id or label of their own (only the screen under it does), so the month arrow and
+      # the cell are tapped where the sheet draws them; iOS finds the sheet's cell by its label.
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - tapOn:
+                point: 74%, 37%
+            - waitForAnimationToEnd
+            - tapOn:
+                point: 50%, 53%
+      - runFlow:
+          when:
+            platform: iOS
+          commands:
+            - evalScript: ${var d = new Date(Date.now() + 21 * 86400000); output.pickLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'}
+            - tapOn:
+                text: ${output.pickLabel}
+                index: 1
+                optional: true
+            - runFlow:
+                when:
+                  notVisible:
+                    id: 'picker-lock'
+                commands:
+                  - tapOn:
+                      text: ${output.pickLabel}
+      - extendedWaitUntil:
+          visible:
+            id: 'picker-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'picker-lock'
+      - extendedWaitUntil:
+          visible:
+            id: 'budget-lock'
+          timeout: 30000
+- runFlow:
+    when:
+      notVisible:
+        id: 'budget-lock'
+    commands:
+      # Days by hand, whatever this phone's calendar already shared on the way in. The step re-lays
+      # itself as the shared days sync, which can scroll the row away under a tap: try again then.
+      - retry:
+          maxRetries: 3
+          commands:
+            - scrollUntilVisible:
+                element:
+                  id: 'own-calendar-action'
+                timeout: 10000
+            # The calendar row is the step's last: at the end of the scroll it stands clear of the
+            # footer. Higher up, the footer's button is drawn over it and takes the tap (LOCK).
+            - swipe:
+                start: 50%, 55%
+                end: 50%, 25%
+            - swipe:
+                start: 50%, 55%
+                end: 50%, 25%
+            - waitForAnimationToEnd
+            - tapOn:
+                id: 'own-calendar-action'
+            - extendedWaitUntil:
+                visible:
+                  id: 'calendar-by-hand'
+                timeout: 10000
+      - tapOn:
+          id: 'calendar-by-hand'
+      - extendedWaitUntil:
+          visible:
+            id: 'manual-days-month'
+          timeout: 10000
+      # Next month: every day of it is ahead of today. Seven days in a row, each tapped once: free.
+      - tapOn:
+          id: 'manual-days-next'
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 8
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 9
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 10
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 11
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 12
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 13
+      - tapOn:
+          id: 'manual-day-.*'
+          index: 14
+      - tapOn:
+          id: 'manual-days-save'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'manual-days-month'
+          timeout: 15000
+      # The saved days reach the crew's counts, and the organiser has a way on.
+      - extendedWaitUntil:
+          visible:
+            id: 'when-cta|when-pick-week'
+          timeout: 60000
+      - assertNotVisible:
+          text: '(?i)nobody has shared their days yet.*'
+      - runFlow:
+          when:
+            visible:
+              id: 'when-cta'
+          commands:
+            - tapOn:
+                id: 'when-cta'
+      - runFlow:
+          when:
+            visible:
+              id: 'when-pick-week'
+          commands:
+            - tapOn:
+                id: 'when-pick-week'
+            - extendedWaitUntil:
+                visible:
+                  id: 'picker-lock'
+                timeout: 10000
+            - tapOn:
+                id: 'picker-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'budget-lock'
+    timeout: 30000
+# The budget is skipped here: nobody else has set a max yet, and skipping is a real path for the
+# organiser. Locking it has its own gate flow (e2e/happy/fresh-setup-vnd.yaml).
+- tapOn:
+    id: 'budget-skip'
+# Rooms: pick the first stay when the place has stay prices and wait for its rooms; with none,
+# LOOKS GOOD accepts the even split.
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-lock'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'setup-rooms-stay-option-.*'
+    commands:
+      - tapOn:
+          id: 'setup-rooms-stay-option-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'setup-rooms-room-.*'
+          timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'setup-rooms-lock'
+    timeout: 10000
+- tapOn:
+    id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Fushimi Inari at sunrise'
+- tapOn:
+    id: 'add-must-do-keep'
+# Android shows the row's title in capitals; iOS reads the row whole ("Fushimi Inari at sunrise,
+# Winston").
+- extendedWaitUntil:
+    visible:
+      text: '(?i)fushimi inari at sunrise.*'
+    timeout: 15000
+# KEEP closes the sheet and its keyboard with it; hideKeyboard with no keyboard up is a back press on
+# Android, which would leave setup.
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 10000
+- tapOn:
+    id: 'must-dos-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen'
+    timeout: 30000

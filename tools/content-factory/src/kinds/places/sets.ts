@@ -8,6 +8,7 @@ import { critters, isGuideSpec, places } from '@cp/critter-art';
 import { placeIndexItemSchema, type ContentItem } from '@cp/content';
 import { z } from 'zod';
 
+import { committedItems } from '../../committed';
 import { placeFacts } from '../../data/place-facts';
 import { registerKind } from '../registry';
 import type { Brief, GenerationUnit, KindModule, Prompt } from '../types';
@@ -29,7 +30,13 @@ const outputSchema = z.object({
 const SYSTEM = `You write the editorial season curve for a travel destination: for each month January to December, how crowded it usually is with visitors (0 = empty, 100 = peak) and an optional note of at most 30 characters naming what drives it ("Cherry blossom", "Monsoon rains", "School holidays"), or null.
 Base it on well-known, typical patterns; no prices, no hotels, no suppliers. Reply with JSON only.`;
 
-function setsBrief(): Brief {
+/**
+ * `--opt months=committed` re-issues the index from the current dex and place facts (a new guide,
+ * a critter added to a set) and keeps each place's reviewed month curve from the committed batches,
+ * with no model call.
+ */
+function setsBrief(options: Readonly<Record<string, string>>): Brief {
+  if (options['months'] === 'committed') return { units: [], carried: committedItems('sets') };
   const units: GenerationUnit[] = places.map((place) => ({
     id: place.code,
     input: {
@@ -101,15 +108,19 @@ export const setsKind: KindModule<'sets'> = {
   kind: 'sets',
   title: () => '61-place index',
   gate: 'places_review',
-  brief: () => Promise.resolve(setsBrief()),
+  brief: (ctx) => Promise.resolve(setsBrief(ctx.options)),
   prompt: setsPrompt,
   assemble: (_ctx, brief, outputs) =>
-    Promise.resolve(
-      brief.units.flatMap((unit) => {
+    Promise.resolve([
+      ...(brief.carried ?? []).map((raw) => {
+        const item = placeIndexItemSchema.parse(raw);
+        return placeIndexItem(item.code, item.month_hints);
+      }),
+      ...brief.units.flatMap((unit) => {
         const output = outputs.get(unit.id) as z.infer<typeof outputSchema> | undefined;
         return output === undefined ? [] : [placeIndexItem(unit.id, output.months)];
       }),
-    ),
+    ]),
   validators: {
     items: [
       {
@@ -145,8 +156,11 @@ export const setsKind: KindModule<'sets'> = {
               ref: null,
               message: `${items.length} places, the index has ${places.length}`,
             });
-          if (items.length === places.length && critterCount !== 150)
-            problems.push({ ref: null, message: `sets hold ${critterCount} critters, not 150` });
+          if (items.length === places.length && critterCount !== critters.length)
+            problems.push({
+              ref: null,
+              message: `sets hold ${critterCount} critters, the dex has ${critters.length}`,
+            });
           return problems;
         },
       },

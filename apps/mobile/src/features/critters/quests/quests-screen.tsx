@@ -1,0 +1,67 @@
+/**
+ * Crew quests (3l-7) over synced rows: the view's model from the local database, the shared reward
+ * moment from the trip's quest channel (a finished quest's reward spins onto every phone at once),
+ * the crew level-up toast, and joining an optional quest.
+ */
+import { useLingui } from '@lingui/react/macro';
+import { useLocalSearchParams } from 'expo-router';
+import { useEffect, useRef } from 'react';
+
+import { useCommand } from '@/data/commands/use-command';
+import { useTripStreams } from '@/data/powersync/use-trip-streams';
+import { useSyncStatus } from '@/data/status/use-sync-status';
+import { feedback, toast, useMotionMode } from '@/motion';
+import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { Sticker } from '@/ui/sticker/Sticker';
+
+import { signupQuestCommand } from './commands';
+import { guideOfSlug, QuestsView } from './quests-view';
+import { useQuests } from './use-quests';
+import { useRewardReveal } from './use-reward-reveal';
+
+export function QuestsScreen() {
+  const { tripId } = useLocalSearchParams<{ tripId: string }>();
+  const id = typeof tripId === 'string' && tripId.length > 0 ? tripId : null;
+  useTripStreams(id);
+  const { t } = useLingui();
+  const sync = useSyncStatus();
+  const [motionMode] = useMotionMode();
+  const { model, crewName, guideSlug } = useQuests(id);
+  const reveals = useRewardReveal(id, motionMode !== 'full');
+  const signup = useCommand(signupQuestCommand);
+  const guide = guideOfSlug(guideSlug);
+  const art = GUIDE_STICKERS[guide];
+  const toasted = useRef(new Set<string>());
+
+  useEffect(() => {
+    const levelUp = reveals.levelUp;
+    if (levelUp === null || levelUp.sticker_id === null) return;
+    if (toasted.current.has(levelUp.sticker_id)) return;
+    toasted.current.add(levelUp.sticker_id);
+    const level = levelUp.level ?? model.level.level;
+    toast.show({
+      // eslint-disable-next-line lingui/no-unlocalized-strings -- toast de-dupe key, never copy.
+      id: `quests-level-${levelUp.sticker_id}`,
+      sticker: <Sticker kind={art.kind} name={art.name} size={40} pose="cheer" />,
+      title: t({ id: 'quests.levelUp.title', message: `Crew level ${level}!` }),
+      subtitle: t({ id: 'quests.levelUp.line', message: 'A new crew sticker is on your pass.' }),
+    });
+  }, [reveals.levelUp, model.level.level, art, t]);
+
+  async function onSignUp(questId: string) {
+    const result = await signup.send({ quest_id: questId });
+    if (result.kind === 'applied' || result.kind === 'queued') feedback.emit('success');
+    else feedback.emit('error');
+  }
+
+  return (
+    <QuestsView
+      crewName={crewName}
+      guide={guide}
+      model={model}
+      offline={sync.phase === 'offline'}
+      reveals={reveals.quests}
+      onSignUp={(questId) => void onSignUp(questId)}
+    />
+  );
+}

@@ -1,5 +1,9 @@
 ---
 import '../styles/coming-soon.css';
+import '../styles/coming-soon-locales.css';
+import '../styles/coming-soon-search.css';
+import { pageStrings } from '../lib/coming-soon-strings';
+import { languageLinks } from '../lib/locale-request';
 import SiteHeader from './site-header.astro';
 import HeroSection from './hero-section.astro';
 import CityTicker from './city-ticker.astro';
@@ -7,32 +11,41 @@ import HatchSection from './hatch-section.astro';
 import FeatureCards from './feature-cards.astro';
 import FinalCall from './final-call.astro';
 import SiteFooter from './site-footer.astro';
+import { siteTranslator } from './site/i18n';
 
 export interface Props {
+  /** The language the page is written in (negotiated by the page that renders this). */
+  readonly locale: string;
+  /** Where in-page links to the top lead: `/` or the language's own address. */
+  readonly homePath: string;
   /** Handle from a `/w/<handle>` referral link, attributed on join. `null` on the plain landing page. */
   readonly referredBy: string | null;
 }
 
-const { referredBy } = Astro.props;
+const { locale, homePath, referredBy } = Astro.props;
+const t = await siteTranslator(locale);
 
 // Unset until the founder picks a launch date (binding decision: the countdown stays hidden as
 // "BOARDING SOON" until then). Configure via the `PUBLIC_LAUNCH_AT` build-time env var (ISO 8601).
 const launchAt = import.meta.env['PUBLIC_LAUNCH_AT'] ?? null;
 
-const config = { referredBy, launchAt };
+// Everything the scripts print after load, already in the page's language. `<` is escaped so no
+// translation can close the JSON block early.
+const config = { referredBy, launchAt, strings: pageStrings(t, locale) };
+const configJson = JSON.stringify(config).replaceAll('<', String.raw`<`);
 ---
 
 <div class="cs-root">
-  <SiteHeader />
-  <HeroSection />
-  <CityTicker />
-  <HatchSection />
-  <FeatureCards />
-  <FinalCall />
-  <SiteFooter />
+  <SiteHeader locale={locale} homePath={homePath} />
+  <HeroSection locale={locale} />
+  <CityTicker locale={locale} />
+  <HatchSection locale={locale} />
+  <FeatureCards locale={locale} />
+  <FinalCall locale={locale} />
+  <SiteFooter locale={locale} languages={languageLinks(locale, referredBy)} />
 </div>
 
-<script type="application/json" id="cs-config" set:html={JSON.stringify(config)} />
+<script type="application/json" id="cs-config" set:html={configJson} />
 <script>
   import { registerCritterCanvas } from '../scripts/critter-canvas';
   import { startComingSoonPage } from '../scripts/coming-soon-client';
@@ -40,6 +53,5 @@ const config = { referredBy, launchAt };
   registerCritterCanvas();
 
   const configEl = document.getElementById('cs-config');
-  const config = configEl ? JSON.parse(configEl.textContent ?? '{}') : {};
-  startComingSoonPage(config);
+  if (configEl?.textContent) startComingSoonPage(JSON.parse(configEl.textContent));
 </script>

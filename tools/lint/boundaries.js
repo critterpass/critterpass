@@ -79,6 +79,8 @@ export const consumerDeps = {
     'suppliers',
     'content',
     'i18n',
+    // The worker draws share cards (proposal poster and postcard) with the same templates.
+    'critter-art',
   ],
   'media-worker': ['domain'],
   tools: Object.keys(packageDeps),

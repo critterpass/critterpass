@@ -86,6 +86,11 @@ export interface NotificationSpec {
   readonly private: boolean;
   /** Held while the recipient's app is on screen (the app shows it in place instead). */
   readonly onlyIfBackgrounded: boolean;
+  /**
+   * Counts toward the recipient's daily budget. A budgeted push that is not capped still waits
+   * out quiet hours and its preference switch; it just never spends, or runs out of, the budget.
+   */
+  readonly capped: boolean;
   readonly pref?: NotificationPrefGate;
   readonly delivery: NotificationDelivery;
 }
@@ -95,6 +100,9 @@ type SpecOptions = Partial<
 >;
 
 const HOUR = 3600;
+
+/** BUDGET pushes a person gets per local day until they choose their own number (1–10). */
+export const DEFAULT_BUDGET_PER_DAY = 10;
 
 function spec(
   key: string,
@@ -118,6 +126,7 @@ function spec(
     paywall: false,
     private: false,
     onlyIfBackgrounded: false,
+    capped: true,
     delivery: 'push',
     ...options,
   };
@@ -141,7 +150,9 @@ const CATALOGUE = [
   spec('reply_by_expiring', 'always', 'cp.rsvp', 'cp_always', 'guide', 'reply_by:{trip_id}'),
   spec('hold_expiring', 'always', 'cp.generic', 'cp_always', 'guide', 'hold:{hold_id}'),
   spec('rsvp_changed', 'budgeted', 'cp.generic', 'cp_trip', 'member', 'rsvp:{trip_id}'),
-  spec('crew_chat', 'budgeted', 'cp.chat', 'cp_crew_chat', 'member', { pref: 'crew_chat', private: true, collapse: 'chat:{crew_id}' }),
+  spec('trip_confirmed', 'budgeted', 'cp.generic', 'cp_trip', 'guide', { collapse: 'trip_confirmed:{trip_id}', relevance: 0.9 }),
+  // Chat collapses to one banner per crew, so it cannot pile up: it does not spend the budget.
+  spec('crew_chat', 'budgeted', 'cp.chat', 'cp_crew_chat', 'member', { pref: 'crew_chat', private: true, capped: false, collapse: 'chat:{crew_id}' }),
   spec('nudge', 'budgeted', 'cp.generic', 'cp_guide', 'guide', { pref: 'guide_tips' }),
   spec('crew_invite_received', 'budgeted', 'cp.invite', 'cp_trip', 'member'),
   spec('seat_opened', 'budgeted', 'cp.rsvp', 'cp_trip', 'guide', { relevance: 0.8 }),
@@ -285,6 +296,8 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'trip.seat_opened': ['seat_opened'],
   'invite.created': ['crew_invite_received'],
   'invite.nudged': ['nudge'],
+  // Someone new in the crew, to the members already there.
+  'crew.member_joined': ['member_joined'],
   // A crewmate's nudge, delivered by the guide at the target's engagement hour.
   'nudge.received': ['nudge'],
   // Crew chat: a new message, to members by their per-crew level.
@@ -322,6 +335,9 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'payment.confirmed': ['money_event'],
   'payment.disputed': ['money_event'],
   'trip.settled': ['settled_reward'],
+  // Quests: the day's quests in the evening roundup, and a finished quest's reward to its crew.
+  'quest.published': ['quests_ready'],
+  'quest.completed': ['settled_reward'],
   // Change review: an affected member's yes is needed, then how the vote came out.
   'change_set.proposed': ['changeset_needs_yes'],
   'change_set.applied': ['changeset_decided'],
@@ -336,10 +352,24 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'booking.deadline_due': ['booking_deadline'],
   // Trip day: the crew knock for a sleeper, the remote copy of an alarm no device confirmed, a
   // member running late (the crew ping) and the morning briefing's one push.
+  // Proposals: each recipient's version (N-07), a follow-up or resend that came due (N-08) and the
+  // day-before reply-by reminder (N-09).
+  'proposal.sent': ['proposal_version'],
+  // A member's own answer to the trip (in, maybe, out, waitlisted), to its organisers.
+  'rsvp.changed': ['rsvp_changed'],
+  // The trip is on (the organiser locked it, or enough were in at reply-by), to everyone on it.
+  'trip.status_changed': ['trip_confirmed'],
+  'followup.due': ['scheduled_resend'],
+  'proposal.reply_by_soon': ['reply_by_expiring'],
   'leave_by.knocked': ['crew_knock'],
   'leave_by.alarm_due': ['leave_by_alarm'],
   'member.running_late': ['crew_ping'],
   'briefing.built': ['morning_briefing'],
+  // Critters: the egg hatching on arrival, a crewmate's find (roundup) and a legendary window a
+  // month away.
+  'egg.hatched': ['landed_egg_hatch'],
+  'critter.befriended': ['crewmate_befriended'],
+  'legendary.reminder_due': ['critter_window_reminder'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

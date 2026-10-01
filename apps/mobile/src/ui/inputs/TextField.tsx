@@ -32,8 +32,12 @@ export interface TextFieldProps extends Omit<
   readonly labelHidden?: boolean;
   /** Shows a clear button while the field has text. @default true */
   readonly clearable?: boolean;
+  /** A multiline field stops growing at this many lines and scrolls inside. Unset: it grows. */
+  readonly maxLines?: number;
   readonly testID?: string;
 }
+
+const LINE_EM = 1.35;
 
 function ringColour(theme: Theme, status: FieldStatus, focused: boolean): string {
   if (status === 'error') return theme.semantic.state.urgent;
@@ -70,6 +74,7 @@ export function TextField({
   leading,
   labelHidden = false,
   clearable = true,
+  maxLines,
   testID,
   onFocus,
   onBlur,
@@ -79,6 +84,11 @@ export function TextField({
   const theme = useTheme();
   const font = useInputFont('input');
   const [focused, setFocused] = useState(false);
+  // The face's natural line is about 1.35 em; the input's own vertical padding sits around it.
+  const capped =
+    maxLines === undefined
+      ? null
+      : { maxHeight: maxLines * Number(font.fontSize) * LINE_EM + theme.space['10'] * 2 };
   const messageColour =
     status === 'error'
       ? theme.semantic.state.urgent
@@ -113,7 +123,7 @@ export function TextField({
             setFocused(false);
             onBlur?.(event);
           }}
-          style={[styles.input, font]}
+          style={[styles.input, font, capped]}
         />
         {clearable && value.length > 0 ? (
           <PressScale

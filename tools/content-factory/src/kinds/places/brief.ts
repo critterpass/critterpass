@@ -1,14 +1,16 @@
 /**
- * The places brief: for each guide destination, the curated selection (./select) of the POIs the
- * importer left, their duplicate sweep (./duplicates) and generation units of open-data fields only.
+ * The places brief: for each guide destination, its pinned places (./pins) and the curated
+ * selection (./select) of the POIs the importer left, their duplicate sweep (./duplicates) and generation units of open-data fields only.
  */
 import { createDecisionClient, createGateway, loadDecisionEnv, loadGatewayEnv } from '@cp/ai';
 
 import { openPool } from '../../db';
+import { PINNED_PLACES } from '../../data/pinned-places';
 import { PLACE_FACTS } from '../../data/place-facts';
 import { recordingFetch } from '../../record';
 import type { Brief, GenerationUnit } from '../types';
 import { decideDuplicates, nearbyDifferentNames, type DuplicateVerdict } from './duplicates';
+import { pinnedPoiIds } from './pins';
 import type { PoiSource } from './pois';
 import { DEFAULT_POIS_PER_CITY, selectCurated } from './select';
 
@@ -63,7 +65,13 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
       );
       const destinationId = found.rows[0]?.id;
       if (destinationId === undefined) continue;
-      const curated = await selectCurated(
+      const pinned = await pinnedPoiIds(
+        pool,
+        destinationId,
+        PINNED_PLACES[destination.slug] ?? [],
+        console.log,
+      );
+      const selected = await selectCurated(
         pool,
         { id: destinationId, slug: destination.slug },
         target,
@@ -73,6 +81,7 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
           log: console.log,
         },
       );
+      const curated = [...new Set([...pinned, ...selected])];
       const { rows } = await pool.query<{
         id: string;
         source_ids: Record<string, string>;

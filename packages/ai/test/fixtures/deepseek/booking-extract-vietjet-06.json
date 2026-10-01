@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5095f4f9-5a44-4048-8cf7-ce4d3d16ece0",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"Vietjet Air VJ1138 · SGN → HAN\",\"supplier_name\":\"Vietjet Air\",\"confirmation_code\":\"W2XY33\",\"starts_local\":\"2024-06-14T12:25\",\"ends_local\":\"2024-06-14T14:35\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"2.307.200\",\"currency\":\"VND\"},\"travellers\":[\"TRAN MINH DUC\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":null,\"flights\":[{\"carrier\":\"VJ\",\"number\":\"1138\",\"from\":\"SGN\",\"to\":\"HAN\",\"departs_local\":\"2024-06-14T12:25\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2024-06-14T14:35\",\"arrives_timezone\":\"Asia/Bangkok\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 162,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2304,
+        "output_tokens": 223,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -3,7 +3,9 @@
  * A card without curated text is translated by the model (the purpose is the member's words, sent
  * as data; the address is kept verbatim, never translated). With a voice configured the card is
  * read in the trip guide's voice and stored in R2 for the offline bundle; without one it is marked
- * for the app's on-device speech. Three tries, then the card is marked failed.
+ * for the app's on-device speech. Three tries, then the card is marked failed. The audio is a media
+ * object like any upload (`u/<owner>/phrase_audio/<uuidv7>` with a `media_objects` row carrying the
+ * card's trip), so `POST /v1/media/read-urls` signs it for the owner and the trip's members.
  */
 import {
   GUIDE_OFFER_ROUTE,
@@ -15,8 +17,10 @@ import {
   wrapUntrusted,
   type Gateway,
 } from '@cp/ai';
+import { createHash } from 'node:crypto';
+
 import { emitEvent, withSystem } from '@cp/db';
-import { GUIDE_QUEUES, phraseJobSchema } from '@cp/domain';
+import { generateUuidV7, GUIDE_QUEUES, phraseJobSchema } from '@cp/domain';
 import type pg from 'pg';
 
 import { defineJob } from '../../boss';
@@ -43,8 +47,15 @@ interface Card {
   readonly guide_slug: string | null;
 }
 
-export function phraseAudioKey(card: Pick<Card, 'id' | 'user_id'>): string {
-  return `phrase_audio/${card.user_id}/${card.id}.mp3`;
+/** A fresh media key for a card's recorded audio, owned by the card's user. */
+export function newPhraseAudioKey(ownerId: string): string {
+  return `u/${ownerId}/phrase_audio/${generateUuidV7()}`;
+}
+
+interface StoredAudio {
+  readonly key: string;
+  readonly bytes: number;
+  readonly sha256: string;
 }
 
 /** The phrase in `language`, from the model; the purpose reaches it only as data. */
@@ -97,16 +108,24 @@ async function finish(
   fields: {
     text: string | null;
     gloss: string | null;
-    audioKey: string | null;
+    audio: StoredAudio | null;
     status: 'ready' | 'device' | 'failed';
   },
 ): Promise<void> {
   await withSystem(pool, async (tx) => {
+    if (fields.audio !== null) {
+      await tx.query(
+        `INSERT INTO media_objects (owner_id, r2_key, kind, bytes, sha256, purpose, trip_id)
+         SELECT $1, $2, 'audio/mpeg', $3, $4, 'phrase_audio', $5
+          WHERE NOT EXISTS (SELECT 1 FROM media_objects WHERE owner_id = $1 AND r2_key = $2)`,
+        [card.user_id, fields.audio.key, fields.audio.bytes, fields.audio.sha256, card.trip_id],
+      );
+    }
     await tx.query(
       `UPDATE custom_phrase_cards
           SET text = coalesce(text, $2), gloss = coalesce(gloss, $3), audio_key = $4, audio_status = $5
         WHERE id = $1`,
-      [card.id, fields.text, fields.gloss, fields.audioKey, fields.status],
+      [card.id, fields.text, fields.gloss, fields.audio?.key ?? null, fields.status],
     );
     await emitEvent(tx, {
       type: 'phrase.ready',
@@ -144,7 +163,7 @@ export function phraseTtsJob(runtime: GuideRuntime, voice: PhraseVoice | undefin
           gloss = card.address === null ? card.purpose : `${card.purpose}\n${card.address}`;
         }
         if (voice === undefined) {
-          await finish(runtime.pool, card, { text, gloss, audioKey: null, status: 'device' });
+          await finish(runtime.pool, card, { text, gloss, audio: null, status: 'device' });
           return { outcome: 'device' };
         }
         const audio = await voice.tts.synthesize({
@@ -152,16 +171,21 @@ export function phraseTtsJob(runtime: GuideRuntime, voice: PhraseVoice | undefin
           language: card.language,
           voiceId: pack.voice_id ?? voice.defaultVoiceId,
         });
-        const key = phraseAudioKey(card);
+        const key = newPhraseAudioKey(card.user_id);
         await voice.store.put(key, audio, 'audio/mpeg');
-        await finish(runtime.pool, card, { text, gloss, audioKey: key, status: 'ready' });
+        const stored: StoredAudio = {
+          key,
+          bytes: audio.byteLength,
+          sha256: createHash('sha256').update(audio).digest('hex'),
+        };
+        await finish(runtime.pool, card, { text, gloss, audio: stored, status: 'ready' });
         return { outcome: 'ready' };
       } catch (error) {
         if (!ctx.job.isFinalAttempt) throw error;
         await finish(runtime.pool, card, {
           text: null,
           gloss: null,
-          audioKey: null,
+          audio: null,
           status: 'failed',
         });
         return { outcome: 'failed' };

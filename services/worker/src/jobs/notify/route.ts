@@ -3,8 +3,9 @@
  * enqueues one job per (event, key) in the transaction that appended it; that job resolves the
  * audience and fans out one job per recipient, keyed `(event, key, uid)`. The recipient job writes
  * exactly one `notifications` row per dedupe key (a replayed event finds it and stops), books the
- * day's ledger under a row lock, and either enqueues `push.send` per reachable device, rolls the
- * item into the evening roundup, or records why it was dropped.
+ * day's ledger under a row lock, and either enqueues `push.send` per reachable device, holds the
+ * item until the recipient's quiet hours end, rolls it into the evening roundup, or records why
+ * it was dropped.
  */
 import { sendInTx, withSystem } from '@cp/db';
 import {
@@ -24,6 +25,7 @@ import { defineJob, type JobDefinition } from '../../boss';
 import type { CopyRenderer } from '../../push/render';
 import { loadRecipient } from './audience';
 import { decide, localClock, type Decision } from './policy';
+import { quietEndFor } from './quiet';
 import {
   dedupeKeyFor,
   getRegistration,
@@ -146,15 +148,18 @@ async function routeRecipient(
   const prefEnabled =
     (spec.pref === undefined || recipient.prefs.gates[spec.pref]) &&
     recipient.prefs.perCategory[spec.category] !== false;
+  const quietEnd = await quietEndFor(tx, uid, now, clock.minutes, recipient.prefs.quiet);
   let decision = decide({
     class: cls,
     paywall: spec.paywall,
     onlyIfBackgrounded: spec.onlyIfBackgrounded,
+    capped: spec.capped,
     prefEnabled,
     expired: expiresAt.getTime() <= now.getTime(),
     inForeground: recipient.inForeground,
     localMinutes: clock.minutes,
     quiet: recipient.prefs.quiet,
+    quietLifted: quietEnd === null,
     budgetPerDay: recipient.prefs.budgetPerDay,
     sentBudgeted: ledger.sentBudgeted,
     paywallSent: ledger.paywallSent,
@@ -193,6 +198,7 @@ async function routeRecipient(
     localDate: clock.date,
     expiresAt,
     decision,
+    notBefore: quietEnd ?? undefined,
     collapseKey: renderCollapseKey(spec.collapse, {
       ...(crewId ? { crew_id: crewId } : {}),
       ...(tripId ? { trip_id: tripId } : {}),
@@ -202,7 +208,7 @@ async function routeRecipient(
   });
   if (notificationId === undefined) return { outcome: 'duplicate' };
 
-  await bookLedger(tx, uid, clock.date, cls, spec.paywall, decision);
+  await bookLedger(tx, uid, clock.date, cls, spec, decision);
   for (const deviceId of devices) {
     await enqueuePushSend(tx, { notification_id: notificationId, device_id: deviceId });
   }

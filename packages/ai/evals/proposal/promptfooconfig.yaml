@@ -1,0 +1,11 @@
+# Proposal routes: personal versions (pro tier), the private objection reply, the organiser's
+# suggestion cards (fast tier) and reply intent (decision). Cases live in version.yaml and run
+# through the real writers and validators (see suite.ts); seeded cases grade the validators on
+# deliberate slips, including the leakage cases (another member's name, budget or reason).
+# Run: pnpm --filter @cp/ai eval proposal
+description: Proposal versions, objections, suggestions and reply intent
+prompts:
+  - '{{input}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

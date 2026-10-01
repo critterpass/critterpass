@@ -132,13 +132,23 @@ export function coerceFlag<C extends FlagCatalog, K extends keyof C & string>(
   return (valid ? raw : definition.default) as FlagValueOf<C[K]>;
 }
 
+/**
+ * The flag's key in PostHog. PostHog keys allow only letters, digits, `-` and `_`, so the catalog's
+ * dotted keys (`money.receipts`) live there with hyphens (`money-receipts`).
+ */
+export function posthogFlagKey(key: string): string {
+  return key.replaceAll('.', '-');
+}
+
 /** Every catalog flag resolved from PostHog's evaluated values (undefined = unreachable). */
 export function resolveFlags<C extends FlagCatalog = typeof FLAG_CATALOG>(
   evaluated: Readonly<Record<string, unknown>> | undefined,
   catalog: C = FLAG_CATALOG as unknown as C,
 ): FlagValues<C> {
   const out: Record<string, unknown> = {};
-  for (const key of Object.keys(catalog)) out[key] = coerceFlag(key, evaluated?.[key], catalog);
+  for (const key of Object.keys(catalog)) {
+    out[key] = coerceFlag(key, evaluated?.[posthogFlagKey(key)], catalog);
+  }
   return out as FlagValues<C>;
 }
 

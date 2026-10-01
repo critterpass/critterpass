@@ -15,7 +15,12 @@ import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { getAlarmPort } from '../../modules/cp-alarm';
-import { appGroupOutbox, writeEndpointsConfig, writeImage } from '../../modules/cp-app-group';
+import {
+  appGroupOutbox,
+  writeEndpointsConfig,
+  writeImage,
+  writeSnapshot,
+} from '../../modules/cp-app-group';
 import * as cpDeferredLink from '../../modules/cp-deferred-link';
 import { getLocationNative } from '../../modules/cp-location';
 import { cpNotifications } from '../../modules/cp-notifications/src';
@@ -29,9 +34,11 @@ import {
   deviceLinkClaims,
   devicePush,
   reportAppSessionError,
+  sessionHeaders,
   startDeviceAppSession,
   uploadLocationFixes,
 } from '@/data/app-session/device-session';
+import { createTravelDataReader, TravelDataReaderProvider } from '@/data/travel-data/client';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
 import { PassSync } from '@/features/onboarding/flow-controller/pass-sync';
 import '@/features/onboarding/routes';
@@ -41,11 +48,16 @@ import '@/features/crew/routes';
 import '@/features/plan/day/register';
 import '@/features/guide/chat/register';
 import '@/features/plan/draft/register';
+import '@/features/proposal/register';
 import '@/features/vote/register';
+import '@/features/money/chat/register';
+import '@/features/plan/review/register-chat-card';
 import { SetupNotificationActions } from '@/features/setup/notifications';
 import '@/features/setup/register';
 import '@/features/plan/overview/register';
 import { TripDayRuntime } from '@/features/trip/hub/register';
+import { CritterRuntime } from '@/features/critters/register';
+import '@/features/bookings/supplier/register';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
@@ -59,6 +71,7 @@ import {
   useAnalytics,
   useScreenTracking,
 } from '@/lib/analytics';
+import { DevToolsShake } from '@/lib/dev-tools/DevToolsShake';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import {
@@ -95,6 +108,7 @@ import { ThemeProvider } from '@/lib/theme';
 import { feedback } from '@/motion/feedback';
 import { useMotionMode } from '@/motion/motion-mode';
 import { IslandToast } from '@/motion/island-toast';
+import { LaunchHatch } from '@/features/onboarding/hatch/LaunchHatch';
 import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
@@ -141,6 +155,9 @@ configurePermissions({
 
 configureAlwaysUpgrade({ allowed: () => readLocationFlags(analytics).alwaysUpsell });
 
+/** Weather, fares, hazards, crowds and destination insights read the api with this session. */
+const travelData = createTravelDataReader({ sessionHeaders });
+
 /** Session-scoped bridges; they need the local-first session, so they wait for it. */
 function SessionBridges() {
   const localFirst = useContext(LocalFirstContext);
@@ -152,6 +169,7 @@ function SessionBridges() {
       <SetupNotificationActions />
       <ChangesetNotificationActions />
       <TripDayRuntime alarmPort={getAlarmPort()} />
+      <CritterRuntime writeSnapshot={writeSnapshot} />
     </>
   );
 }
@@ -292,21 +310,25 @@ export default function RootLayout() {
               onError={reportAppSessionError}
               push={devicePush}
             >
-              <ScreenJoltProvider>
-                <RootNavigator />
-                <DeferredLinkGate
-                  primitives={deferredLinks}
-                  navigate={openHref}
-                  claims={deviceLinkClaims}
-                  onReady={() => setLinksReady(true)}
-                />
-                <SessionBridges />
-                <PassSync writeAppGroupImage={writeImage} />
-                <OverlayHost />
-                <PrimerSheetHost />
-                <SharedGrowHost />
-                <IslandToast Text={Text} />
-              </ScreenJoltProvider>
+              <TravelDataReaderProvider value={travelData}>
+                <ScreenJoltProvider>
+                  <RootNavigator />
+                  <DeferredLinkGate
+                    primitives={deferredLinks}
+                    navigate={openHref}
+                    claims={deviceLinkClaims}
+                    onReady={() => setLinksReady(true)}
+                  />
+                  <SessionBridges />
+                  <PassSync writeAppGroupImage={writeImage} />
+                  <OverlayHost />
+                  <PrimerSheetHost />
+                  <SharedGrowHost />
+                  <IslandToast Text={Text} />
+                  <DevToolsShake />
+                  <LaunchHatch revealed={prewarmed && linksReady} />
+                </ScreenJoltProvider>
+              </TravelDataReaderProvider>
             </AppSessionRoot>
           </AnalyticsProvider>
         </ThemeProvider>
@@ -316,9 +338,7 @@ export default function RootLayout() {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
+  root: { flex: 1 },
   prewarm: {
     position: 'absolute',
     opacity: 0,

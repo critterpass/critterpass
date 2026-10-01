@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a1978008-5949-4d3a-9d32-44b4a6609f41",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-000000001016\",\"by_time\":\"16:00\"},\"title\":\"BEAT THE SUN\",\"desc\":\"Someone reach Uluwatu Temple by 16:00 and check in before the crowd.\",\"reward\":{\"xp\":70}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000b005\",\"0199a0f2-0000-7000-8000-00000000b006\"],\"n\":2},\"title\":\"TEMPLE THEN SAND\",\"desc\":\"Crew checks in at both Uluwatu Temple and Jimbaran Bay today.\",\"reward\":{\"xp\":110}},{\"template_id\":\"copresence\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000b006\",\"by_time\":\"20:30\"},\"title\":\"ALL FOUR AT BAY\",\"desc\":\"All 4 of us check in at Jimbaran Bay by 20:30, toes in the sand.\",\"reward\":{\"xp\":160}},{\"template_id\":\"settle_by\",\"params\":{\"by_time\":\"22:00\"},\"title\":\"LAST NIGHT SETTLED\",\"desc\":\"Settle every balance by 22:00 so we end this trip clean.\",\"reward\":{\"xp\":150}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 163,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2048,
+        "output_tokens": 320,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

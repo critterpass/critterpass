@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# From the developer tools list to the guide lab, tapping the entry again when a tap landed while
+# the list was still scrolling.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-guide-lab'
+    direction: DOWN
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'dev-nav-guide-lab'
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-guide-lab'
+    commands:
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - tapOn:
+          id: 'dev-nav-guide-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-lab-chat-group'
+    timeout: 15000

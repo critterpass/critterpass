@@ -1,4 +1,5 @@
 import { currentRelease } from '@cp/content';
+import { critters } from '@cp/critter-art';
 import { describe, expect, it } from 'vitest';
 
 import { deltaE2000 } from '../src/color/color';
@@ -44,12 +45,14 @@ describe('form validators', { timeout: 60_000 }, () => {
     expect(report.items[0]?.checks.map((c) => c.id)).toContain('designed-form');
   });
 
-  it('hold every committed forms batch to its validators', () => {
+  it('hold every committed forms batch to its validators, four forms per critter', () => {
     const results = validateCommitted('forms');
     expect(results.length).toBeGreaterThan(0);
     for (const { batchKey, report } of results) {
       expect(report.severity, batchKey).not.toBe('fail');
-      expect(report.items).toHaveLength(600);
+      expect(report.items.length % 4, batchKey).toBe(0);
     }
+    // The latest batch is the whole kind: four forms for every critter in the dex.
+    expect(results.at(-1)?.report.items).toHaveLength(critters.length * 4);
   });
 });

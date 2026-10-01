@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f4e46037-7522-4388-bcb5-1aae91fbb2fa",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"CAT TIÊN GREEN BAMBOO CO.,LTD\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l19\",\"label\":\"Phòng\",\"qty\":null,\"amount\":\"1.670.000\",\"kind\":\"item\"},{\"line_id\":\"l20\",\"label\":\"Ăn trưa\",\"qty\":null,\"amount\":\"2.800.000\",\"kind\":\"item\"},{\"line_id\":\"l23\",\"label\":\"Ăn tôi\",\"qty\":null,\"amount\":\"1.265.000\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"Đâu Chiện (hêm)\",\"qty\":null,\"amount\":\"120.000\",\"kind\":\"item\"},{\"line_id\":\"l31\",\"label\":\"Cano\",\"qty\":null,\"amount\":\"1400.000\",\"kind\":\"item\"}],\"total\":null}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 207,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 187,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

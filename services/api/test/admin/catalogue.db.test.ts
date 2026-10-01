@@ -33,8 +33,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await app.close();
-  await harness.stop();
+  await app?.close();
+  await harness?.stop();
 });
 
 async function list(kind: string, query = '') {
@@ -47,13 +47,27 @@ async function list(kind: string, query = '') {
 
 describe('catalogue reads', () => {
   it('pages guides by name with a keyset cursor and shows the colour as locked', async () => {
-    const first = await list('guides', '?limit=2');
-    expect(first.items.map((item) => item.title)).toEqual(['Lundi', 'Pon']);
-    expect(first.items[0]?.locked).toEqual({ slug: 'lundi', colour: 'blue' });
-    expect(first.items[0]?.data).not.toHaveProperty('colour');
-    const second = await list('guides', `?limit=2&cursor=${first.next_cursor ?? ''}`);
-    expect(second.items.map((item) => item.title)).toEqual(['Tokek']);
-    expect(second.next_cursor).toBeNull();
+    // Every guide row, the ones the migrations ship and the three seeded above, in name order.
+    const { rows: guides } = await harness.pool.query<{
+      name: string;
+      slug: string;
+      colour: string;
+    }>('SELECT name, slug, colour FROM guides ORDER BY name, id');
+    expect(guides.map((guide) => guide.slug)).toEqual(expect.arrayContaining(['lundi', 'pon']));
+    const pages: string[][] = [];
+    let cursor: string | null = null;
+    do {
+      const page = await list('guides', `?limit=2${cursor === null ? '' : `&cursor=${cursor}`}`);
+      pages.push(page.items.map((item) => item.title));
+      if (pages.length === 1) {
+        expect(page.items[0]?.locked).toEqual({ slug: guides[0]?.slug, colour: guides[0]?.colour });
+        expect(page.items[0]?.data).not.toHaveProperty('colour');
+      }
+      cursor = page.next_cursor;
+    } while (cursor !== null && pages.length <= guides.length);
+    expect(pages.every((page) => page.length > 0 && page.length <= 2)).toBe(true);
+    expect(pages.flat()).toEqual(guides.map((guide) => guide.name));
+    expect(pages.length).toBe(Math.ceil(guides.length / 2));
   });
 
   it('forbids roles without the catalogue area', async () => {

@@ -43,7 +43,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 async function errorCode(response: Response): Promise<string> {

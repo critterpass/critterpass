@@ -1,0 +1,345 @@
+{
+  "at": 1790795548650,
+  "url": "https://commons.wikimedia.org/w/api.php?action=query&format=json&formatversion=2&generator=search&gsrsearch=Marble+Mountains+Da+Nang+filetype%3Abitmap&gsrnamespace=6&gsrlimit=3&prop=imageinfo&iiprop=url%7Csize%7Cmime%7Cextmetadata&iiurlwidth=1920",
+  "body": {
+    "batchcomplete": true,
+    "continue": {
+      "gsroffset": 3,
+      "continue": "gsroffset||"
+    },
+    "query": {
+      "pages": [
+        {
+          "pageid": 96193068,
+          "ns": 6,
+          "title": "File:Da Nang Marble Mountains 2020 IMG 4008.jpg",
+          "index": 2,
+          "imagerepository": "local",
+          "imageinfo": [
+            {
+              "size": 7495329,
+              "width": 7461,
+              "height": 3773,
+              "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Da_Nang_Marble_Mountains_2020_IMG_4008.jpg/1920px-Da_Nang_Marble_Mountains_2020_IMG_4008.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+              "thumbwidth": 1920,
+              "thumbheight": 971,
+              "responsiveUrls": {
+                "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Da_Nang_Marble_Mountains_2020_IMG_4008.jpg/3840px-Da_Nang_Marble_Mountains_2020_IMG_4008.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+              },
+              "thumbattribs": {
+                "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Da_Nang_Marble_Mountains_2020_IMG_4008.jpg/1920px-Da_Nang_Marble_Mountains_2020_IMG_4008.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+                "decoding": "async",
+                "loading": "lazy",
+                "width": 1920,
+                "height": 971,
+                "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Da_Nang_Marble_Mountains_2020_IMG_4008.jpg/3840px-Da_Nang_Marble_Mountains_2020_IMG_4008.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+              },
+              "url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Da_Nang_Marble_Mountains_2020_IMG_4008.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+              "descriptionurl": "https://commons.wikimedia.org/wiki/File:Da_Nang_Marble_Mountains_2020_IMG_4008.jpg",
+              "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=96193068",
+              "extmetadata": {
+                "DateTime": {
+                  "value": "2020-11-16 18:47:04",
+                  "source": "mediawiki-metadata",
+                  "hidden": ""
+                },
+                "ObjectName": {
+                  "value": "Da Nang Marble Mountains 2020 IMG 4008",
+                  "source": "mediawiki-metadata"
+                },
+                "CommonsMetadataExtension": {
+                  "value": 1.2,
+                  "source": "extension",
+                  "hidden": ""
+                },
+                "Categories": {
+                  "value": "Self-published work|Ngũ Hành Sơn",
+                  "source": "commons-categories",
+                  "hidden": ""
+                },
+                "Assessments": {
+                  "value": "",
+                  "source": "commons-categories",
+                  "hidden": ""
+                },
+                "ImageDescription": {
+                  "value": "Da Nang - Vietnam - Marble Mountains",
+                  "source": "commons-desc-page"
+                },
+                "DateTimeOriginal": {
+                  "value": "2020-01-06 14:28:40",
+                  "source": "commons-desc-page"
+                },
+                "Credit": {
+                  "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                  "source": "commons-desc-page"
+                },
+                "Artist": {
+                  "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Kuroczynski&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Kuroczynski (page does not exist)\">Kuroczynski</a>",
+                  "source": "commons-desc-page"
+                },
+                "LicenseShortName": {
+                  "value": "CC BY-SA 4.0",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "UsageTerms": {
+                  "value": "Creative Commons Attribution-Share Alike 4.0",
+                  "source": "commons-desc-page"
+                },
+                "AttributionRequired": {
+                  "value": "true",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "LicenseUrl": {
+                  "value": "https://creativecommons.org/licenses/by-sa/4.0",
+                  "source": "commons-desc-page"
+                },
+                "Copyrighted": {
+                  "value": "True",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "Restrictions": {
+                  "value": "",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "License": {
+                  "value": "cc-by-sa-4.0",
+                  "source": "commons-templates",
+                  "hidden": ""
+                }
+              },
+              "mime": "image/jpeg"
+            }
+          ]
+        },
+        {
+          "pageid": 162974028,
+          "ns": 6,
+          "title": "File:Hiking at Marble Mountains, Da Nang, Vietnam.jpg",
+          "index": 1,
+          "imagerepository": "local",
+          "imageinfo": [
+            {
+              "size": 3403188,
+              "width": 1536,
+              "height": 2560,
+              "thumburl": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Hiking_at_Marble_Mountains%2C_Da_Nang%2C_Vietnam.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+              "thumbwidth": 1920,
+              "thumbheight": 3200,
+              "thumbattribs": {
+                "src": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Hiking_at_Marble_Mountains%2C_Da_Nang%2C_Vietnam.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+                "decoding": "async",
+                "loading": "lazy",
+                "width": 1920,
+                "height": 3200
+              },
+              "url": "https://upload.wikimedia.org/wikipedia/commons/5/5d/Hiking_at_Marble_Mountains%2C_Da_Nang%2C_Vietnam.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+              "descriptionurl": "https://commons.wikimedia.org/wiki/File:Hiking_at_Marble_Mountains,_Da_Nang,_Vietnam.jpg",
+              "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=162974028",
+              "extmetadata": {
+                "DateTime": {
+                  "value": "2025-03-30 10:23:25",
+                  "source": "mediawiki-metadata",
+                  "hidden": ""
+                },
+                "ObjectName": {
+                  "value": "Hiking at Marble Mountains, Da Nang, Vietnam",
+                  "source": "mediawiki-metadata"
+                },
+                "CommonsMetadataExtension": {
+                  "value": 1.2,
+                  "source": "extension",
+                  "hidden": ""
+                },
+                "Categories": {
+                  "value": "Self-published work|Ngũ Hành Sơn",
+                  "source": "commons-categories",
+                  "hidden": ""
+                },
+                "Assessments": {
+                  "value": "",
+                  "source": "commons-categories",
+                  "hidden": ""
+                },
+                "ImageDescription": {
+                  "value": "hiking at Marble Mountains, Da Nang, Vietnam",
+                  "source": "commons-desc-page"
+                },
+                "DateTimeOriginal": {
+                  "value": "2015-08-28 11:29:01",
+                  "source": "commons-desc-page"
+                },
+                "Credit": {
+                  "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                  "source": "commons-desc-page"
+                },
+                "Artist": {
+                  "value": "<a href=\"//commons.wikimedia.org/wiki/User:Pauloleong2002\" title=\"User:Pauloleong2002\">Pauloleong2002</a>",
+                  "source": "commons-desc-page"
+                },
+                "LicenseShortName": {
+                  "value": "CC BY-SA 4.0",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "UsageTerms": {
+                  "value": "Creative Commons Attribution-Share Alike 4.0",
+                  "source": "commons-desc-page"
+                },
+                "AttributionRequired": {
+                  "value": "true",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "LicenseUrl": {
+                  "value": "https://creativecommons.org/licenses/by-sa/4.0",
+                  "source": "commons-desc-page"
+                },
+                "Copyrighted": {
+                  "value": "True",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "Restrictions": {
+                  "value": "",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "License": {
+                  "value": "cc-by-sa-4.0",
+                  "source": "commons-templates",
+                  "hidden": ""
+                }
+              },
+              "mime": "image/jpeg"
+            }
+          ]
+        },
+        {
+          "pageid": 164457205,
+          "ns": 6,
+          "title": "File:Marble Mountain Hoi An, Da Nang (71468).jpg",
+          "index": 3,
+          "imagerepository": "local",
+          "imageinfo": [
+            {
+              "size": 5597157,
+              "width": 4032,
+              "height": 2268,
+              "thumburl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Marble_Mountain_Hoi_An%2C_Da_Nang_%2871468%29.jpg/1920px-Marble_Mountain_Hoi_An%2C_Da_Nang_%2871468%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+              "thumbwidth": 1920,
+              "thumbheight": 1080,
+              "responsiveUrls": {
+                "2": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Marble_Mountain_Hoi_An%2C_Da_Nang_%2871468%29.jpg/3840px-Marble_Mountain_Hoi_An%2C_Da_Nang_%2871468%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
+              },
+              "thumbattribs": {
+                "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Marble_Mountain_Hoi_An%2C_Da_Nang_%2871468%29.jpg/1920px-Marble_Mountain_Hoi_An%2C_Da_Nang_%2871468%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+                "decoding": "async",
+                "loading": "lazy",
+                "width": 1920,
+                "height": 1080,
+                "srcset": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Marble_Mountain_Hoi_An%2C_Da_Nang_%2871468%29.jpg/3840px-Marble_Mountain_Hoi_An%2C_Da_Nang_%2871468%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail 2x"
+              },
+              "url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Marble_Mountain_Hoi_An%2C_Da_Nang_%2871468%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+              "descriptionurl": "https://commons.wikimedia.org/wiki/File:Marble_Mountain_Hoi_An,_Da_Nang_(71468).jpg",
+              "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=164457205",
+              "extmetadata": {
+                "DateTime": {
+                  "value": "2025-04-30 17:18:17",
+                  "source": "mediawiki-metadata",
+                  "hidden": ""
+                },
+                "ObjectName": {
+                  "value": "Marble Mountain Hoi An, Da Nang (71468)",
+                  "source": "mediawiki-metadata"
+                },
+                "CommonsMetadataExtension": {
+                  "value": 1.2,
+                  "source": "extension",
+                  "hidden": ""
+                },
+                "Categories": {
+                  "value": "Self-published work|Uploaded with Mobile/Android|Files with coordinates missing SDC location of creation|Photographs taken on 2025-03-03|Views from Thuy Son|Moc Son|Pagodas in the Marble Mountains",
+                  "source": "commons-categories",
+                  "hidden": ""
+                },
+                "Assessments": {
+                  "value": "",
+                  "source": "commons-categories",
+                  "hidden": ""
+                },
+                "GPSLatitude": {
+                  "value": "16.003333",
+                  "source": "commons-desc-page"
+                },
+                "GPSLongitude": {
+                  "value": "108.264444",
+                  "source": "commons-desc-page"
+                },
+                "GPSMapDatum": {
+                  "value": "WGS-84",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "ImageDescription": {
+                  "value": "Marble Mountain Hoi An, Da Nang",
+                  "source": "commons-desc-page"
+                },
+                "DateTimeOriginal": {
+                  "value": "3 March 2025 (according to <span lang=\"en\" dir=\"ltr\"><a href=\"https://en.wikipedia.org/wiki/Exif\" class=\"extiw\" title=\"en:Exif\">Exif</a></span> data)",
+                  "source": "commons-desc-page"
+                },
+                "Credit": {
+                  "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+                  "source": "commons-desc-page"
+                },
+                "Artist": {
+                  "value": "<a href=\"//commons.wikimedia.org/w/index.php?title=User:Andre_Hospers&amp;action=edit&amp;redlink=1\" class=\"new\" title=\"User:Andre Hospers (page does not exist)\">Andre Hospers</a>",
+                  "source": "commons-desc-page"
+                },
+                "LicenseShortName": {
+                  "value": "CC BY 4.0",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "UsageTerms": {
+                  "value": "Creative Commons Attribution 4.0",
+                  "source": "commons-desc-page"
+                },
+                "AttributionRequired": {
+                  "value": "true",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "LicenseUrl": {
+                  "value": "https://creativecommons.org/licenses/by/4.0",
+                  "source": "commons-desc-page"
+                },
+                "Copyrighted": {
+                  "value": "True",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "Restrictions": {
+                  "value": "",
+                  "source": "commons-desc-page",
+                  "hidden": ""
+                },
+                "License": {
+                  "value": "cc-by-4.0",
+                  "source": "commons-templates",
+                  "hidden": ""
+                }
+              },
+              "mime": "image/jpeg"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

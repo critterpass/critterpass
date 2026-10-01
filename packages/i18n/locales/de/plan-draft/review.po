@@ -23,8 +23,13 @@ msgstr ""
 msgid "planDraft.history.daysCost"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+msgid "planDraft.loading.slow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
@@ -73,6 +78,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.changeDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+msgid "planDraft.loading.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/member-planning.tsx
@@ -141,6 +150,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/data/commands.ts
 msgid "planDraft.queued.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/draft/review/draft-loading.tsx
+msgid "planDraft.loading.label"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/draft/review/stale-banner.tsx

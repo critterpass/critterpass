@@ -69,6 +69,17 @@ describe('setup screen', () => {
     expect(screen.queryByTestId('setup-member-status')).toBeNull();
   });
 
+  it('keeps setup shut while the destination vote is still open', async () => {
+    stack = await openTestLocalFirst();
+    await seedKyoto(stack, { as: 'organiser', step: 'when' });
+    await stack.db.execute(`UPDATE trips SET status = 'voting' WHERE id = ?`, [TRIP_ID]);
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step={null} />, { stack });
+
+    expect(await screen.findByTestId('setup-vote-open')).toBeTruthy();
+    expect(screen.getByText('THE VOTE ISN’T OVER YET')).toBeTruthy();
+    expect(screen.queryByText('WHEN CAN EVERYONE GO?')).toBeNull();
+  });
+
   it('marks locked steps done and moves between them through the route', async () => {
     stack = await openTestLocalFirst();
     await seedKyoto(stack, { as: 'organiser', step: 'rooms' });

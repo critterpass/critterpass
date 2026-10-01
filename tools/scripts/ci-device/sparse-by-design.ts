@@ -22,6 +22,14 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'join-code-from-crews',
     'render 3a-11 Join with a code: a headline and one code field, shown here with the keyboard hidden',
   ],
+  [
+    '3l-4-nothing',
+    'undesigned-states 3l-4 "Nothing nearby, a way in": the encounter screen with nothing under way is the guide\'s empty state',
+  ],
+  [
+    '3l-9-empty',
+    'undesigned-states 3l-9 "Names, reminders, notifications off, empty": a catalogue with no legendaries shows the month strip and one line',
+  ],
 ]);
 
 export function isSparseByDesign(shot: string): boolean {

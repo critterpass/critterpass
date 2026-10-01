@@ -1,5 +1,17 @@
 ---
 import '../styles/coming-soon-sections.css';
+import type { LanguageLink } from '../lib/locale-request';
+import { comingSoonCopy as copy } from './site/copy/coming-soon';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+  /** The language switcher's links; omitted on pages that exist in one language only. */
+  readonly languages?: readonly LanguageLink[];
+}
+
+const { locale, languages = [] } = Astro.props;
+const t = await siteTranslator(locale);
 
 // TikTok has no account yet (founder decision) — no href configured, so no link renders.
 const INSTAGRAM_URL = 'https://www.instagram.com/critterpass.app';
@@ -7,19 +19,45 @@ const TIKTOK_URL: string | null = null;
 ---
 
 <footer class="cs-footer">
+  {
+    languages.length > 0 && (
+      <nav class="cs-lang" aria-label={t(copy.language)} data-cs="languages">
+        <svg class="cs-lang__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <circle cx="12" cy="12" r="9.25" />
+          <path d="M2.75 12h18.5M12 2.75c2.6 2.5 3.9 5.6 3.9 9.25s-1.3 6.75-3.9 9.25c-2.6-2.5-3.9-5.6-3.9-9.25s1.300-6.75 3.9-9.25Z" />
+        </svg>
+        <ul class="cs-lang__list">
+          {languages.map((language) => (
+            <li>
+              <a
+                href={language.href}
+                class="cs-lang__link"
+                lang={language.code}
+                hreflang={language.code}
+                rel="nofollow"
+                aria-current={language.current ? 'true' : undefined}
+              >
+                {language.nativeName}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
   <div class="cs-footer__inner">
     <div class="cs-footer__left">
-      <span class="cs-footer__brand">CRITTERPASS</span>
-      <span class="cs-footer__quip">follow the locals →</span>
-      <a href={INSTAGRAM_URL} target="_blank" rel="noopener" class="cs-footer__social">INSTAGRAM</a>
+      <span class="cs-footer__brand" lang="en">CRITTERPASS</span>
+      <span class="cs-footer__quip">{t(copy.followLocals)}</span>
+      <a href={INSTAGRAM_URL} target="_blank" rel="noopener" class="cs-footer__social" lang="en">INSTAGRAM</a>
       {TIKTOK_URL && (
-        <a href={TIKTOK_URL} target="_blank" rel="noopener" class="cs-footer__social">TIKTOK</a>
+        <a href={TIKTOK_URL} target="_blank" rel="noopener" class="cs-footer__social" lang="en">TIKTOK</a>
       )}
     </div>
     <div class="cs-footer__right">
-      <a href="/privacy">Privacy</a>
+      <a href="/privacy">{t(copy.privacy)}</a>
       <a href="mailto:hello@critterpass.app">hello@critterpass.app</a>
-      <span>© 2026 CritterPass</span>
+      <span lang="en">© 2026 CritterPass</span>
     </div>
   </div>
 </footer>

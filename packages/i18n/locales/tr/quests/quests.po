@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-01 06:03+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: tr\n"
+
+#. placeholder {0}: level.into
+#. placeholder {1}: level.need
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.xp"
+msgstr ""
+
+#. placeholder {0}: model.live
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.live"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.level"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.beforeLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.writingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.allDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.levelOnly"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.dayOne"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.join"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/commands.ts
+msgid "quests.queued.signup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.unlock"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.missed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.overLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.beforeTitle"
+msgstr ""
+
+#. placeholder {0}: card.reward.xp
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.reward.xp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.reward.critter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.reward.settled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.overTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.over"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.writing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.writingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.joined"
+msgstr ""

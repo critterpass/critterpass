@@ -18,7 +18,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await db.stop();
+  await db?.stop();
 });
 
 // Midnight in Asia/Saigon (UTC+7) on 2 October is 17:00 UTC on 1 October.

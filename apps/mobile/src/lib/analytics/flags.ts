@@ -4,7 +4,13 @@
  * has nothing valid, so an outage never changes behaviour. The exposure event is sent from an
  * effect, i.e. only once the component showing that variant has rendered.
  */
-import { coerceFlag, FLAG_CATALOG, type FlagKey, type FlagValues } from '@cp/domain';
+import {
+  coerceFlag,
+  FLAG_CATALOG,
+  posthogFlagKey,
+  type FlagKey,
+  type FlagValues,
+} from '@cp/domain';
 import { useEffect, useSyncExternalStore } from 'react';
 
 import type { AnalyticsClient } from './client';
@@ -14,7 +20,7 @@ export function readFlag<K extends FlagKey>(
   client: Pick<AnalyticsClient, 'posthog'>,
   key: K,
 ): FlagValues[K] {
-  return coerceFlag(key, client.posthog?.getFeatureFlag(key), FLAG_CATALOG);
+  return coerceFlag(key, client.posthog?.getFeatureFlag(posthogFlagKey(key)), FLAG_CATALOG);
 }
 
 export function useFlag<K extends FlagKey>(key: K): FlagValues[K] {

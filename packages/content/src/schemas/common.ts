@@ -9,7 +9,7 @@ export const RARITIES = ['common', 'rare', 'epic', 'legendary'] as const;
 export const raritySchema = z.enum(RARITIES);
 export type Rarity = z.infer<typeof raritySchema>;
 
-/** CritterDex id pinned in the design data: `cp-001` … `cp-150`. */
+/** CritterDex id: `cp-001` … `cp-999`, the design's 150 then critters added after it. */
 export const critterIdSchema = z.string().regex(/^cp-\d{3}$/u, 'must look like cp-001');
 
 /** A form is one critter in one rarity: `cp-112:epic`. */

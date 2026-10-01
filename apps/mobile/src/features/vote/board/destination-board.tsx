@@ -3,8 +3,9 @@
  * "VOTE OPEN · 4 OF 6 IN", the places as free-positioned stickers (the seeded layout, so every
  * device draws the same board) and the dashed PITCH A PLACE slot. Tapping a place votes for it; a
  * long press offers to take it off the board. The organiser can move the board on to its final
- * (GO TO FINAL), picking between places tied for a final spot. An empty board is the guide asking
- * for the first pitch.
+ * (GO TO FINAL), picking between places tied for a final spot; with a single place on the board
+ * there is nothing to vote between, so the organiser locks it in (LOCK IN {PLACE}) and the winner is
+ * revealed. An empty board is the guide asking for the first pitch.
  */
 import { boardLayout } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
@@ -30,7 +31,11 @@ import { useIsOrganiser, usePlaces } from '../data/use-board';
 import { useCastBallot } from '../data/use-cast-ballot';
 import { usePeople } from '../data/use-people';
 import type { PollView } from '../data/poll-view';
-import { advancePollStageCommand, removeCandidateCommand } from '../data/vote-commands';
+import {
+  advancePollStageCommand,
+  closePollCommand,
+  removeCandidateCommand,
+} from '../data/vote-commands';
 import { upper } from '../format';
 import { voteRoutes } from '../routes';
 import { registerBoardLanding } from './fly-to-board';
@@ -94,6 +99,7 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
   const organiser = useIsOrganiser(poll, me);
   const { cast } = useCastBallot(poll);
   const advance = useCommand(advancePollStageCommand);
+  const close = useCommand(closePollCommand);
   const remove = useCommand(removeCandidateCommand);
   const theme = useTheme();
   const screen = useWindowDimensions();
@@ -131,6 +137,28 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
           message: "The final didn't start. Try again in a moment.",
         }),
       });
+  };
+
+  // One place on the board: its name for LOCK IN.
+  const sole = options.length === 1 ? options[0] : undefined;
+  const only =
+    sole === undefined
+      ? null
+      : ((sole.refId === null ? undefined : places.get(sole.refId)?.name) ?? sole.label);
+
+  const lockIn = async () => {
+    const result = await close.send({ poll_id: poll.id });
+    if (result.kind === 'applied') {
+      router.push(voteRoutes.reveal(poll.id));
+      return;
+    }
+    toast.show({
+      id: 'vote-lock-in-failed',
+      title: t({
+        id: 'vote.board.lockInFailed',
+        message: "That didn't lock in. Try again in a moment.",
+      }),
+    });
   };
 
   const askRemove = (optionId: string, name: string, proposedBy: string | null) => {
@@ -227,6 +255,16 @@ export function DestinationBoard({ poll, me }: DestinationBoardProps) {
             : null}
         </View>
       </View>
+      {organiser && only !== null ? (
+        <Row justify="flex-end">
+          <InlineAction
+            kind="choice"
+            label={upper(t({ id: 'vote.board.lockIn', message: `Lock in ${only}` }), i18n.locale)}
+            onPress={() => void lockIn()}
+            testID="board-lock-in"
+          />
+        </Row>
+      ) : null}
       {organiser && options.length >= 2 ? (
         <Row justify="flex-end">
           <InlineAction

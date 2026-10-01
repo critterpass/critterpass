@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "e2ac7217-fbf4-4995-9fa6-78f561583fff",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"transfer\",\"title\":\"Car Plus ride from Riverside Residence - Gate B2\",\"supplier_name\":\"Grab\",\"confirmation_code\":\"A-9EYX0GDLE28WAV\",\"starts_local\":\"2026-02-02T08:15\",\"ends_local\":null,\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":\"Riverside Residence - Gate B2, Near Đường tỉnh 879B\",\"price\":null,\"travellers\":[\"Minh Đức\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":\"If your plans change, you can cancel the booking for free up to 1 hour before your pickup time.\",\"flights\":[],\"room\":null,\"meeting_point\":\"Riverside Residence - Gate B2\",\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 200,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1408,
+        "output_tokens": 176,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

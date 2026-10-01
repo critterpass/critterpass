@@ -1,5 +1,5 @@
 /**
- * Critters: all 150 dex entries with their design names, a native-script name where the place
+ * Critters: every dex entry with their design names, a native-script name where the place
  * writes in one, a neutral dex note and the design's art. Batches wait for the owner's IP sign-off.
  */
 import path from 'node:path';
@@ -22,8 +22,9 @@ export const crittersKind: KindModule<'critters'> = {
   brief: (ctx) => Promise.resolve(critterBrief(ctx.options)),
   prompt: critterPrompt,
   assemble: (_ctx, brief, outputs) =>
-    Promise.resolve(
-      brief.units.flatMap((unit) => {
+    Promise.resolve([
+      ...(brief.carried ?? []).map((item) => critterItemSchema.parse(item)),
+      ...brief.units.flatMap((unit) => {
         const input = unit.input as CritterUnitInput;
         const output = outputs.get(unit.id) as CritterOutput | undefined;
         if (output === undefined) return [];
@@ -48,7 +49,7 @@ export const crittersKind: KindModule<'critters'> = {
           ];
         });
       }),
-    ),
+    ]),
   validators: critterValidators,
   ipNames: (item: ContentItem<'critters'>) => [item.name],
   render: (_ctx, items, outDir) => {

@@ -34,6 +34,17 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
   {
     title: 'Labs',
     entries: [
+      { testId: 'dev-nav-accounts', href: '/(dev)/accounts', label: 'Test accounts (two people)' },
+      {
+        testId: 'dev-nav-start-fresh',
+        href: '/(dev)/start-fresh',
+        label: 'Start fresh (new user on this phone)',
+      },
+      {
+        testId: 'dev-nav-proposal-lab',
+        href: '/(dev)/proposal-lab',
+        label: 'Proposal (3f scenes)',
+      },
       { testId: 'dev-nav-motion-lab', href: '/(dev)/motion-lab', label: 'Motion lab' },
       { testId: 'dev-nav-sticker-lab', href: '/(dev)/sticker-lab', label: 'Sticker lab' },
       { testId: 'dev-nav-gallery', href: '/(dev)/gallery', label: 'Component gallery' },
@@ -44,6 +55,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         testId: 'dev-nav-bookings-lab',
         href: '/(dev)/bookings-lab',
         label: 'Bookings (3h scenes)',
+      },
+      {
+        testId: 'dev-nav-supplier-lab',
+        href: '/(dev)/supplier-lab',
+        label: 'Suppliers (3h-3, 6f-1 scenes)',
       },
       {
         testId: 'dev-nav-plan-edit-lab',
@@ -59,6 +75,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         testId: 'dev-nav-trip-day-lab',
         href: '/(dev)/trip-day-lab',
         label: 'Trip day (3k scenes)',
+      },
+      {
+        testId: 'dev-nav-critters-lab',
+        href: '/(dev)/critters-lab',
+        label: 'Critters (3l scenes)',
       },
       {
         testId: 'dev-nav-live-map',
@@ -94,6 +115,11 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         testId: 'dev-nav-permissions-primer',
         href: '/(dev)/permissions-primer',
         label: 'Permissions primer (3a-9)',
+      },
+      {
+        testId: 'dev-nav-live-activities',
+        href: '/(dev)/live-activities',
+        label: 'Live Activities (5a-1, 5a-3, 5a-5)',
       },
     ],
   },

@@ -1,7 +1,7 @@
 ---
 phase: 36
 title: Trip hub, briefing, day-of, leave-by & alarm, offline
-status: pending
+status: in_progress
 depends_on: [11, 13, 14, 15, 18, 20, 25, 32, 34]
 wave: 17
 features: [F-012, F-110, F-111, F-112, F-113, F-114]
@@ -161,7 +161,7 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Steps: 1. Authorization + status. 2. `schedule({leaveById, fireAt, title, tint, snoozeAllowed})`, `cancel`, `list`. 3. Stop intent writes `set_readiness{up}` to App Group outbox and posts with action key when network allows. 4. Snooze intent → countdown 5 min, reschedules without secondary, queues `snooze_leave_by`. 5. Countdown view with baked Tokek asset (phase 05 bake output).
 - Tests: `pnpm --filter @cp/mobile ios:test cp-alarm` (XCTest for scheduler mapping + intent → outbox write); simulator e2e in T11.
 - Done when: XCTests pass; on the iOS 26 simulator `schedule` → `list` returns the alarm and invoking `ImUpIntent.perform()` produces a `cmd_results` success row. Physical-device ring-through-silent/Focus check → founder device checklist (Non-code dependencies).
-- Status: blocked — the AlarmKit module and countdown view are in #255, held for the next native build
+- Status: done — fdbd3fa1
 
 ### T6 — cp-alarm Android (exact alarm + full-screen UI)
 - Goal: designed full-screen alarm on Android with truthful fallback.
@@ -169,7 +169,7 @@ Hub phase layouts (planning/travel day/in-trip/post), trip switcher, briefing fa
 - Steps: 1. `setAlarmClock` with exact-alarm check; Settings deep link for grant. 2. FSI Activity in Compose (show when locked, turn screen on), designed layout/motion, baked Tokek drawable. 3. Slide = up, snooze once, hardware button = snooze. 4. Default notification path (actions + Live Update); FSI Activity only when flag `android_fsi_alarm` on and `canUseFullScreenIntent()`. 5. Boot/time-change reschedule from stored schedule. 6. Outbox write via cp-app-group.
 - Tests: `./gradlew :cp-alarm:testDebugUnitTest`; Robolectric test for fallback branch.
 - Done when: unit tests pass; flag off → notification with I'M UP/SNOOZE appears on emulator API 36; flag on + FSI permission → full-screen alarm on lock screen; no exact-alarm grant → inexact path + notification.
-- Status: blocked — the Android alarm module is in #255, held for the next native build
+- Status: done — fdbd3fa1
 
 ### T7 — Alarm orchestration, day-of screen and packing
 - Goal: JS layer keeps OS alarms in sync; 3k-2 UI.

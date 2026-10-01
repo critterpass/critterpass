@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "c33ff917-928d-4c81-9189-240bd0b04946",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"quests\":[{\"template_id\":\"early_start\",\"params\":{\"plan_item_id\":\"0199a0f2-0000-7000-8000-000000001018\",\"by_time\":\"06:00\"},\"title\":\"FOX GATE DAWN PATROL\",\"desc\":\"Someone reach Fushimi Inari Taisha by 06:00, before the crowd wakes up.\",\"reward\":{\"xp\":90}},{\"template_id\":\"visit_any_of\",\"params\":{\"poi_ids\":[\"0199a0f2-0000-7000-8000-00000000c001\",\"0199a0f2-0000-7000-8000-00000000c002\",\"0199a0f2-0000-7000-8000-00000000c004\"],\"n\":3},\"title\":\"THREE TEMPLE TROT\",\"desc\":\"The crew checks in at 3 places today: Fushimi Inari Taisha, Nishiki Market, Kiyomizu-dera.\",\"reward\":{\"xp\":140}},{\"template_id\":\"copresence\",\"params\":{\"poi_id\":\"0199a0f2-0000-7000-8000-00000000c004\",\"by_time\":\"17:00\"},\"title\":\"ALL FOUR AT KIYOMIZU\",\"desc\":\"All 4 of us check in at Kiyomizu-dera by 17:00, shoes off, eyes up.\",\"reward\":{\"xp\":170}},{\"template_id\":\"log_expenses\",\"params\":{\"category\":\"food\",\"n\":4},\"title\":\"MARKET BELLY LEDGER\",\"desc\":\"Log 4 food expenses from Nishiki Market before the day runs off with you.\",\"reward\":{\"xp\":70}}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 135,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2176,
+        "output_tokens": 369,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

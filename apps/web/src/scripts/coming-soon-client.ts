@@ -1,79 +1,84 @@
-/* eslint-disable lingui/no-unlocalized-strings -- vanilla DOM copy, not JSX/<Trans>; the coming-soon
-   page ships single-locale English and isn't wired through @cp/i18n yet (see report follow-ups). */
+/* eslint-disable lingui/no-unlocalized-strings -- selectors, URLs and style values; every word the
+   page shows arrives translated in `config.strings` (src/scripts/page-strings.ts). */
 /**
  * Coming-soon page controller: chip/boarding-pass sync, the join form and its D1-backed waitlist
- * calls, the joined panel (referral link, sharing, reset), the egg-hatch mini-game, and refreshing
- * the real header/first-wave numbers. One instance per page load; no framework, just DOM.
+ * calls, the joined panel (referral link, sharing, reset), and refreshing the real header and
+ * first-wave numbers. One instance per page load; no framework, just DOM.
  */
-import type { Guide } from '../lib/guides';
-import { guideForDestination } from '../lib/guides';
-import { HATCH_POOL } from '../lib/hatch-pool';
+import { guideView } from '../lib/destination-view';
+import type { DestinationView } from '../lib/destination-view';
 import { DEFAULT_DESTINATION, findDestination } from '../lib/waitlist';
 import { burstConfetti } from './confetti';
 import { startCountdown } from './countdown';
-import { csAll, csEl, formatCount } from './dom';
+import { csAll, csEl, formatCount, setText } from './dom';
+import { startEggHatch } from './egg-hatch';
+import { fill } from './page-strings';
+import type { PageStrings } from './page-strings';
+import { startPlaceSearch } from './place-search';
 import { startTypedText } from './typed-text';
 import type { HandleResponse } from './waitlist-api';
 import { fetchHandle, fetchStats, joinWaitlist } from './waitlist-api';
 
 const STORAGE_KEY = 'cp-waitlist-handle';
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const HINT_BY_TAPS = ['tap the egg', 'crk!', 'CRRRK!!'] as const;
-const EGG_TRANSFORM_BY_TAPS = [
-  'rotate(0deg)',
-  'rotate(-12deg) scale(1.05)',
-  'rotate(14deg) scale(1.12)',
-] as const;
+const SEAT_EMPTY = '— —';
 
 export interface ComingSoonConfig {
   readonly referredBy: string | null;
   readonly launchAt: string | null;
-}
-
-function setText(el: Element | null, value: string): void {
-  if (el) el.textContent = value;
+  readonly strings: PageStrings;
 }
 
 export function startComingSoonPage(config: ComingSoonConfig): void {
   const root = document;
+  const { strings } = config;
   let selectedDestination: string = DEFAULT_DESTINATION.key;
   let currentReferralUrl: string | null = null;
-  let eggTaps = 0;
-  let eggSeed = 12;
-  let hatchCycle = -1;
+  const language = document.documentElement.lang || 'en';
+  /** One of the six chips, its place named the way the page's language names it. */
+  const chipView = (key: string): DestinationView =>
+    guideView(key, strings.chipPlaces[key] ?? '', language);
+  const placeSearch = startPlaceSearch(root, strings, language, {
+    onPick: (view) => selectDestination(view),
+    onClear: () => selectDestination(chipView(DEFAULT_DESTINATION.key)),
+  });
 
-  startTypedText(csEl(root, 'typed-text'), 'The locals are still packing.');
+  startTypedText(csEl(root, 'typed-text'), strings.typedLine);
   startCountdown(
     [csEl(root, 'pass-gate'), csEl(root, 'final-gate')].filter(
       (el): el is HTMLElement => el !== null,
     ),
     config.launchAt,
+    strings,
   );
 
-  function selectDestination(destinationKey: string): void {
-    const destination = findDestination(destinationKey);
-    if (!destination) return;
-    selectedDestination = destinationKey;
-    const guide = guideForDestination(destinationKey);
+  /** Makes `view` the destination: a chip when it is one of the six, the search's pick otherwise. */
+  function selectDestination(view: DestinationView): void {
+    selectedDestination = view.destinationKey;
     for (const chip of csAll(root, 'chip')) {
-      const isActive = chip.dataset['destination'] === destinationKey;
+      const isActive = chip.dataset['destination'] === view.destinationKey;
       chip.setAttribute('aria-pressed', String(isActive));
-      chip.style.background = isActive ? guide.bg : '';
+      chip.style.background = isActive ? view.bg : '';
       chip.style.borderColor = isActive ? 'var(--color-ink-850)' : '';
     }
-    updateBoardingPass(guide);
+    placeSearch.show(findDestination(view.destinationKey) === undefined ? view : null);
+    updateBoardingPass(view);
   }
 
-  function updateBoardingPass(guide: Guide): void {
+  function updateBoardingPass(view: DestinationView): void {
     const pass = csEl(root, 'pass');
-    if (pass) pass.style.background = guide.bg;
-    setText(csEl(root, 'pass-no'), guide.no);
-    setText(csEl(root, 'pass-city'), guide.city);
-    setText(csEl(root, 'pass-guide-name'), guide.name);
+    if (pass) pass.style.background = view.bg;
+    setText(csEl(root, 'pass-no'), view.no);
+    setText(csEl(root, 'pass-city'), view.city);
+    setText(csEl(root, 'pass-guide-name'), view.name);
+    setText(
+      csEl(root, 'pass-guide-label'),
+      view.role === 'local' ? strings.yourLocal : strings.yourGuide,
+    );
     const critter = csEl(root, 'pass-critter');
     if (critter) {
-      critter.setAttribute('kind', guide.kind);
-      critter.setAttribute('seed', String(guide.seed));
+      critter.setAttribute('kind', view.kind);
+      critter.setAttribute('seed', String(view.seed));
     }
   }
 
@@ -81,7 +86,7 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     for (const chip of csAll(root, 'chip')) {
       chip.addEventListener('click', () => {
         const destinationKey = chip.dataset['destination'];
-        if (destinationKey) selectDestination(destinationKey);
+        if (destinationKey) selectDestination(chipView(destinationKey));
       });
     }
   }
@@ -92,9 +97,7 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     if (emailInput) emailInput.dataset['invalid'] = String(isError);
     if (note) {
       note.dataset['error'] = String(isError);
-      note.textContent = isError
-        ? (message ?? "That email doesn't look right. Mind checking it?")
-        : 'One email when we launch. Maybe two. Never spam.';
+      note.textContent = isError ? (message ?? strings.emailInvalid) : strings.note;
     }
   }
 
@@ -109,18 +112,23 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
   function showJoinedPanel(data: {
     handle: string;
     position: number;
-    guide: Guide;
+    guide: DestinationView;
     friendsJoined: number;
   }): void {
     csEl(root, 'join-form')?.setAttribute('hidden', '');
     csEl(root, 'joined-panel')?.removeAttribute('hidden');
-    setText(csEl(root, 'ticket-title'), 'CONFIRMED · FIRST WAVE');
-    setText(csEl(root, 'nav-cta'), `YOU'RE #${formatCount(data.position)}`);
-    setText(csEl(root, 'final-cta'), 'SHARE YOUR LINK ↑');
+    setText(csEl(root, 'ticket-title'), strings.ticketConfirmed);
+    setText(
+      csEl(root, 'nav-cta'),
+      fill(strings.navJoined, { position: formatCount(data.position) }),
+    );
+    setText(csEl(root, 'final-cta'), strings.finalShare);
     setText(csEl(root, 'spot-value'), formatCount(data.position));
     setText(csEl(root, 'pass-seat'), formatCount(data.position));
-    setText(csEl(root, 'joined-guide-name'), data.guide.name);
-    setText(csEl(root, 'joined-guide-place'), data.guide.place);
+    setText(
+      csEl(root, 'joined-line'),
+      fill(strings.savingSeat, { name: data.guide.name, place: data.guide.place }),
+    );
     const joinedCritter = csEl(root, 'joined-guide-critter');
     if (joinedCritter) {
       joinedCritter.setAttribute('kind', data.guide.kind);
@@ -130,7 +138,7 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     const referralPath = `critterpass.app/w/${data.handle}`;
     currentReferralUrl = `https://${referralPath}`;
     setText(csEl(root, 'referral-link'), referralPath);
-    const shareText = `Come join me on CritterPass — ${currentReferralUrl}`;
+    const shareText = fill(strings.shareText, { url: currentReferralUrl });
     const whatsapp = csEl<HTMLAnchorElement>(root, 'share-whatsapp');
     if (whatsapp) whatsapp.href = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
     const messages = csEl<HTMLAnchorElement>(root, 'share-messages');
@@ -143,10 +151,10 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     localStorage.removeItem(STORAGE_KEY);
     csEl(root, 'joined-panel')?.setAttribute('hidden', '');
     csEl(root, 'join-form')?.removeAttribute('hidden');
-    setText(csEl(root, 'ticket-title'), 'WAITLIST · FIRST WAVE');
-    setText(csEl(root, 'nav-cta'), 'JOIN THE WAITLIST');
-    setText(csEl(root, 'final-cta'), 'SAVE MY SEAT ↑');
-    setText(csEl(root, 'pass-seat'), '— —');
+    setText(csEl(root, 'ticket-title'), strings.ticketWaitlist);
+    setText(csEl(root, 'nav-cta'), strings.navJoin);
+    setText(csEl(root, 'final-cta'), strings.finalJoin);
+    setText(csEl(root, 'pass-seat'), SEAT_EMPTY);
     const emailInput = csEl<HTMLInputElement>(root, 'email-input');
     if (emailInput) emailInput.value = '';
     setError(false);
@@ -170,6 +178,12 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     const submitButton = csEl<HTMLButtonElement>(form, 'join-submit');
     const honeypot = form.querySelector<HTMLInputElement>('input[name="company"]');
     const email = emailInput?.value.trim() ?? '';
+    // Typed in the search but picked nothing: the visitor has not chosen that place yet.
+    if (placeSearch.hasUnpickedText()) {
+      setError(true, strings.pickPlace);
+      placeSearch.focus();
+      return;
+    }
     if (!EMAIL_PATTERN.test(email)) {
       setError(true);
       return;
@@ -184,18 +198,22 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     });
     if (submitButton) submitButton.disabled = false;
     if (!outcome.ok) {
-      setError(
-        true,
-        outcome.status === 429 ? 'Too many attempts — try again in a few minutes.' : undefined,
-      );
+      // 400 is the server refusing the address; anything else is the line, not the visitor.
+      const message =
+        outcome.status === 429
+          ? strings.rateLimited
+          : outcome.status === 400
+            ? strings.emailInvalid
+            : strings.joinFailed;
+      setError(true, message);
       return;
     }
     localStorage.setItem(STORAGE_KEY, outcome.data.handle);
-    selectDestination(outcome.data.destination);
+    selectDestination(outcome.data.place);
     showJoinedPanel({
       handle: outcome.data.handle,
       position: outcome.data.position,
-      guide: guideForDestination(outcome.data.destination),
+      guide: outcome.data.place,
       friendsJoined: 0,
     });
     burstConfetti(csEl(root, 'hero-confetti'));
@@ -209,9 +227,9 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     } catch {
       // Clipboard permission denied or unavailable — the link text is still visible to copy by hand.
     }
-    const original = button.textContent ?? 'COPY LINK';
+    const original = button.textContent ?? '';
     button.dataset['copied'] = 'true';
-    button.textContent = 'COPIED ✓';
+    button.textContent = strings.copied;
     setTimeout(() => {
       button.dataset['copied'] = 'false';
       button.textContent = original;
@@ -224,7 +242,7 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
       try {
         await navigator.share({
           title: 'CritterPass',
-          text: 'Come join me on CritterPass',
+          text: strings.shareTitle,
           url: currentReferralUrl,
         });
         return;
@@ -235,50 +253,6 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     await copyReferralLink(event.currentTarget as HTMLButtonElement);
   }
 
-  function updateEggUi(): void {
-    setText(csEl(root, 'egg-hint'), HINT_BY_TAPS[eggTaps] ?? HINT_BY_TAPS[0]);
-    const button = csEl(root, 'egg-button');
-    if (button) button.style.transform = EGG_TRANSFORM_BY_TAPS[eggTaps] ?? 'none';
-    const dots = csEl(root, 'tap-dots')?.children ?? [];
-    Array.from(dots).forEach((dot, index) =>
-      dot.setAttribute('data-filled', String(index < eggTaps)),
-    );
-  }
-
-  function onEggTap(): void {
-    if (eggTaps < 2) {
-      eggTaps += 1;
-      updateEggUi();
-      return;
-    }
-    hatchCycle = (hatchCycle + 1) % HATCH_POOL.length;
-    eggTaps = 0;
-    const local = HATCH_POOL[hatchCycle];
-    if (!local) return;
-    csEl(root, 'egg-not-hatched')?.setAttribute('hidden', '');
-    csEl(root, 'egg-hatched')?.removeAttribute('hidden');
-    setText(csEl(root, 'hatched-num'), `#${local.num}`);
-    setText(csEl(root, 'hatched-city'), local.city);
-    setText(csEl(root, 'hatched-name'), local.name);
-    setText(csEl(root, 'hatched-species'), `${local.species}, waiting for you in ${local.place}.`);
-    const critter = csEl(root, 'hatched-critter');
-    if (critter) {
-      critter.setAttribute('kind', local.id);
-      critter.setAttribute('seed', '1');
-    }
-    burstConfetti(csEl(root, 'egg-confetti'));
-  }
-
-  function onHatchAgain(): void {
-    eggTaps = 0;
-    eggSeed += 7;
-    const eggCritter = csEl(root, 'egg-critter');
-    if (eggCritter) eggCritter.setAttribute('seed', String(eggSeed));
-    updateEggUi();
-    csEl(root, 'egg-hatched')?.setAttribute('hidden', '');
-    csEl(root, 'egg-not-hatched')?.removeAttribute('hidden');
-  }
-
   async function restoreJoinedFromStorage(): Promise<void> {
     const storedHandle = localStorage.getItem(STORAGE_KEY);
     if (!storedHandle) return;
@@ -287,17 +261,17 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
       localStorage.removeItem(STORAGE_KEY);
       return;
     }
-    selectDestination(data.destination);
+    selectDestination(data.place);
     showJoinedPanel({
       handle: data.handle,
       position: data.position,
-      guide: guideForDestination(data.destination),
+      guide: data.place,
       friendsJoined: data.friendsJoined,
     });
   }
 
   // Wiring.
-  selectDestination(DEFAULT_DESTINATION.key);
+  selectDestination(chipView(DEFAULT_DESTINATION.key));
   wireChips();
   csEl<HTMLFormElement>(root, 'join-form')?.addEventListener('submit', (event) => {
     void onSubmitJoin(event);
@@ -309,8 +283,7 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
   csEl(root, 'share-instagram')?.addEventListener('click', (event) => {
     void onInstagramShare(event);
   });
-  csEl(root, 'egg-button')?.addEventListener('click', onEggTap);
-  csEl(root, 'hatch-again')?.addEventListener('click', onHatchAgain);
+  startEggHatch(root, strings);
 
   void restoreJoinedFromStorage().then(refreshStats);
 }

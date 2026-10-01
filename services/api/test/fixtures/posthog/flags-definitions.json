@@ -4,7 +4,7 @@
       "id": 101,
       "team_id": 1,
       "name": "Masked onboarding and paywall replay",
-      "key": "analytics.replay",
+      "key": "analytics-replay",
       "active": true,
       "deleted": false,
       "ensure_experience_continuity": false,

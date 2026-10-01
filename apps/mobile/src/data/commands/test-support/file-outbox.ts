@@ -19,6 +19,12 @@ export const SWIFT_STORE_FIXTURE = path.resolve(
   '../../../../modules/cp-app-group/ios/Tests/Fixtures/pending-actions.json',
 );
 
+/** The file the lock-screen "I'M UP" intent writes (targets/widgets/Tests checks the writer against it). */
+export const IM_UP_INTENT_FIXTURE = path.resolve(
+  __dirname,
+  '../../../../targets/widgets/Tests/Fixtures/im-up-pending-actions.json',
+);
+
 type OutboxFile = { schema: number; generated_at: string; actions: unknown[] };
 
 export interface FileOutbox extends ExtensionOutbox {

@@ -15,6 +15,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
   alarms:
     'user_id device_id leave_by_id trip_id fire_at os_alarm_id state sync_version:integer created_at updated_at',
+  anonymous_suggestions: 'trip_id proposal_id topic text created_at',
+  app_icon_unlocks: 'user_id icon_key source unlocked_at seen_at created_at updated_at',
   availability_summaries:
     'trip_id date free_count:integer maybe_count:integer busy_count:integer unknown_count:integer member_count:integer computed_at created_at updated_at',
   avatars:
@@ -29,7 +31,7 @@ export const SYNCED_TABLE_COLUMNS = {
   boost_intents:
     'trip_id crew_id buyer_id product_key split_mode split_member_ids status expires_at created_at updated_at',
   briefing_items:
-    'briefing_id trip_id user_id position:integer icon text action target_user_ids deep_link facts status source source_event_id dedupe_key acted_at created_at updated_at',
+    'briefing_id trip_id user_id position:integer icon text action target_user_ids deep_link facts status source source_event_id dedupe_key acted_at created_at updated_at i18n',
   briefings:
     'trip_id user_id local_date tz agent_job_id status fallback_used:integer built_at created_at updated_at',
   budget_plans:
@@ -39,16 +41,20 @@ export const SYNCED_TABLE_COLUMNS = {
   client_config: 'key value updated_at',
   cmd_results: 'op_id uid cmd status code detail result_ref server_ts',
   code_redemptions: 'code_id user_id redeemed_at applied_as starts_at new_period_end created_at',
+  collection_entries:
+    'user_id form_id critter_id found_at poi_id trip_id source encounter_id verification critter_name form_name announced_at created_at updated_at',
   comment_plus_ones: 'comment_id trip_id user_id created_at',
   comments:
     'trip_id anchor_kind anchor_id author_id body edited_at deleted_at created_at updated_at',
   consents: 'user_id purpose scope granted_at revoked_at copy_version created_at updated_at',
   cost_components:
     'trip_id calc_version component_key kind unit is_shared:integer origin member_ids amount_minor:integer currency source quote_id label seen_at frozen_at created_at updated_at',
+  crew_collection_counts: 'crew_id user_id critters:integer forms:integer updated_at',
   crew_contact_cards: 'crew_id user_id phone_display created_at updated_at',
   crew_inbound_addresses: 'crew_id local_part status rotated_at created_at',
   crew_members:
     'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_seq:integer notify_level created_at updated_at',
+  crew_xp: 'crew_id xp:integer level:integer updated_at',
   crew_year_grants:
     'crew_id buyer_id subscription_id original_transaction_id intent_id split_expense_id valid_from valid_to rebound_for_period_end revoked_at created_at updated_at',
   crews:
@@ -63,6 +69,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'poi_id destination_id dow:integer hourly source fetched_at created_at updated_at',
   custom_phrase_cards:
     'user_id trip_id guide_id purpose language register address text romanisation gloss audio_key audio_status created_at updated_at',
+  data_exports:
+    'user_id status r2_key bytes:integer progress:integer error_code requested_at ready_at expires_at created_at updated_at',
   date_window_options:
     'trip_id position:integer kind start_date end_date free_count:integer member_count:integer missing_member_ids missed_must_do_ids ask_user_id ask_status price_delta_minor:integer currency season_score:integer reason is_pick:integer computed_at created_at updated_at',
   destination_cost_indices:
@@ -72,9 +80,12 @@ export const SYNCED_TABLE_COLUMNS = {
   devices:
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
   disruptions:
-    'trip_id kind cause status version:integer dedupe_key ref_kind ref_id title summary affected facts options source_snapshot change_set_id decision_poll_id chosen_option_id chosen_by detected_at resolved_at created_at updated_at',
+    'trip_id kind cause status version:integer dedupe_key ref_kind ref_id title summary affected facts actions options source_snapshot change_set_id decision_poll_id chosen_option_id chosen_by detected_at resolved_at created_at updated_at',
+  eggs: 'user_id trip_id form_id granted_at hatched_at trigger created_at updated_at',
   emergency_numbers:
     'country numbers source_url retrieved_on verified_at release_id created_at updated_at',
+  encounters:
+    'user_id trip_id spawn_rule_id form_id poi_id state dwell_s:integer offline:integer started_at ready_at resolved_at verification verified_at created_at updated_at',
   expense_edits: 'expense_id trip_id editor_id kind before after at',
   expense_shares:
     'expense_id trip_id user_id weight:integer fixed_minor:integer computed_minor:integer crew_computed_minor:integer excluded_reason created_at',
@@ -94,6 +105,7 @@ export const SYNCED_TABLE_COLUMNS = {
   guide_offer_claims: 'offer_id trip_id user_id created_at',
   guide_offers:
     'trip_id message_id kind slots_total:integer slots_taken:integer expires_at target_ref status created_at updated_at',
+  guide_skins: 'user_id guide_id form_id created_at updated_at',
   guide_threads: 'user_id trip_id crew_id guide_id mode last_message_at created_at updated_at',
   guides: 'slug name colour persona_pack_version voice_id local_words created_at updated_at',
   hazard_alerts:
@@ -102,6 +114,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'slug locale category title summary body_md embedding fts release_id created_at updated_at',
   home_tips:
     'crew_id guide_id kind text facts place_id dedupe_key valid_until status dismissed_by dismissed_at created_at updated_at',
+  hype_aggregates:
+    'proposal_id trip_id hype_pct:integer reacted_count:integer boarded_count:integer recipients:integer updated_at',
   import_candidates:
     'user_id crew_id trip_id source extracted confidence:real dedupe_key status crew_visible:integer needs_confirm:integer failure_reason duplicate_of_id booking_id inbound_email_id resolved_by resolved_at created_at updated_at',
   inbox_items:
@@ -141,6 +155,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id day owner_id label checked:integer checked_by checked_at suggested_by created_by version:integer deleted_at created_at updated_at',
   participant_dietary_flags: 'trip_id user_id flags created_at updated_at',
   passes: 'user_id status number issued_at cover created_at updated_at',
+  past_trips: 'user_id place_id country month source deleted_at created_at updated_at',
   payments:
     'crew_id trip_id from_id to_id amount_minor:integer currency method status requested_at last_nudged_at marked_at confirmed_at auto_confirmed:integer disputed_at dispute_note reissued_from_id created_by version:integer created_at updated_at',
   paywall_impressions:
@@ -155,10 +170,11 @@ export const SYNCED_TABLE_COLUMNS = {
   ping_ledger:
     'user_id local_date sent_budgeted:integer sent_always:integer sent_local:integer paywall_sent:integer queued:integer created_at updated_at',
   pitches:
-    'crew_id trip_id destination_id pitched_by month:integer sections quote_ids model prompt_version cache_key fare_snapshot_id status created_at updated_at',
-  plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at',
+    'crew_id trip_id destination_id pitched_by month:integer sections quote_ids model prompt_version cache_key fare_snapshot_id status created_at updated_at i18n',
+  place_tips: 'poi_id destination_id author_id text lang moderation_status created_at updated_at',
+  plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at i18n',
   plan_items:
-    'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason',
+    'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason i18n',
   pois: 'destination_id name name_local category lat:real lng:real location address hours hours_verified_at price_level:integer source_ids editorial tags fts status curation merged_into_id geofence visit_radius_m:integer timezone last_live_check_at created_at updated_at',
   poll_options:
     'poll_id crew_id trip_id kind ref_id label frozen_quote_id pitch_id proposed_by position:integer eliminated_at created_at updated_at',
@@ -168,8 +184,17 @@ export const SYNCED_TABLE_COLUMNS = {
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
+  proposal_reactions: 'proposal_id trip_id user_id kind created_at',
+  proposal_versions:
+    'proposal_id trip_id recipient_id status shared:integer slides poster postcard poster_key postcard_key highlights savings savings_minor:integer share_minor:integer currency lead_item_id fallback_note agent_job_id attempts:integer created_at updated_at',
+  proposals:
+    'trip_id version_id created_by format show_cost:integer personal:integer options reply_by stay_free_cancel_until status sent_at reminded_at locked_at created_at updated_at',
   providers:
     'trip_id kind name contact_enc vehicle policies added_by deleted_at version:integer created_at updated_at',
+  quest_progress: 'quest_id trip_id value:integer counted source_event_ids updated_at',
+  quest_signups: 'quest_id trip_id user_id created_at',
+  quests:
+    'trip_id local_date slot:integer template params metric target:integer reward title body scope status source starts_at ends_at completed_at reveal_at created_at updated_at i18n',
   queued_guide_questions:
     'user_id thread_id trip_id text tz queued_for queued_at answer_after status answer_message_id answered_at updated_at',
   readiness:
@@ -192,7 +217,10 @@ export const SYNCED_TABLE_COLUMNS = {
   room_prefs: 'trip_id user_id chips partner_id created_at updated_at',
   roundups:
     'user_id local_date tz guide_id notification_ids lines sent_at fallback_used:integer created_at updated_at',
+  rsvp_suggestions:
+    'proposal_id trip_id kind target_uid payload copy status dedupe_key created_at updated_at',
   saved_items: 'user_id kind ref_id list_name note created_at updated_at',
+  saved_lists: 'user_id name position:integer created_at updated_at',
   scheduled_deliveries:
     'user_id kind target_ref send_at_local tz due_at payload status created_at updated_at',
   season_events:
@@ -207,19 +235,26 @@ export const SYNCED_TABLE_COLUMNS = {
     'key form_id kind set_id destination_id poi_ids geofences n:integer dwell_s:integer hold_ms:integer window_id solar min_members:integer foreground_only:integer copy release_id created_at updated_at',
   stamps:
     'pass_id user_id kind seq_no:integer destination_id trip_id dates iata country ink_colour status stamped_at created_at updated_at',
-  stickers: 'user_id crew_id trip_id kind granted_at created_at',
+  stickers: 'user_id crew_id trip_id kind level:integer granted_at created_at',
   subscriptions:
     'user_id platform rc_customer_id original_transaction_id product_key status auto_renew:integer period_start period_end grace_ends_at paused_from resume_at storefront environment last_event_at created_at updated_at',
   supplier_order_items:
     'order_id trip_id item_ref product_code product_option_code travel_date start_time traveller_count:integer price_minor:integer participant_ids supplier_booking_ref created_at',
   supplier_orders:
     'trip_id buyer_id supplier stable_id partner_cart_ref cart_ref status pricing_status availability_status hold_valid_until total_minor:integer currency payment_session_token supplier_booking_ref voucher_booking_id rejection_code cancel_quote last_polled_at next_poll_at version:integer created_at updated_at',
+  swipe_matches:
+    'session_id trip_id poi_id user_ids change_set_id day_no:integer created_at updated_at',
+  swipe_sessions:
+    'trip_id destination_id started_by status deck match_rule:integer ended_at created_at updated_at',
+  swipe_yes_votes: 'session_id trip_id user_id poi_id super:integer created_at updated_at',
   taste_profiles:
     'user_id answers tags tag_sources chronotype pace room_pref visibility created_at updated_at',
   trip_boosts:
     'trip_id crew_id buyer_id source store_transaction_id intent_id crew_year_grant_id split_mode split_member_ids starts_at ends_at status moved_from_trip_id moved_from_boost_id expense_id thanked_by revoked_at revoke_reason created_at updated_at',
   trip_budget_aggregates:
     'trip_id currency maxes_count:integer member_count:integer band_low_minor:integer band_high_minor:integer step_minor:integer track_high_minor:integer bucketed_dots under_all_ok:integer infeasible:integer computed_at created_at updated_at',
+  trip_dropouts:
+    'trip_id user_id ops members cost_delta_minor:integer resolved_at resolved_by created_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
   trip_participants:
@@ -233,11 +268,12 @@ export const SYNCED_TABLE_COLUMNS = {
   user_entitlements:
     'user_id pass_plus:integer sources expires_at guide_unlimited_global:integer icon_styles computed_at',
   user_settings:
-    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer active_crew_id muted_uids created_at updated_at',
+    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer explore_at_home:integer active_crew_id muted_uids audio home_currency_override created_at updated_at',
   users:
-    'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at created_at updated_at',
+    'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at languages username_changed_at created_at updated_at',
   watch_items:
     'trip_id kind target_ref plan_item_stable_id day status score:integer impact title detail sources disruption_id escalated_at checked_at resolved_at created_at updated_at',
   weather_snapshots:
     'destination_id point_key lat:real lng:real elevation_m:integer date hourly marine marine_fetched_at source fetched_at checked_at created_at updated_at',
+  xp_ledger: 'user_id crew_id trip_id amount:integer source_kind source_id granted_at created_at',
 } as const;

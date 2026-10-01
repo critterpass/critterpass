@@ -30,7 +30,7 @@
   gap: 28px;
   padding-right: 28px;
   align-items: center;
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 30px;
   line-height: 1;
@@ -40,7 +40,7 @@
 .cs-ticker__who {
   font:
     400 21px Borel,
-    cursive;
+    var(--cs-hand);
   color: var(--color-rust-darkened);
 }
 
@@ -68,13 +68,13 @@
 .cs-eyebrow {
   font:
     700 12px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.18em;
   color: var(--color-ink-200);
 }
 .cs-h2 {
   margin: 0;
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: clamp(56px, 7vw, 96px);
   line-height: 0.94;
@@ -87,7 +87,7 @@
   margin: 0;
   font:
     500 clamp(17px, 1.6vw, 20px) / 1.5 Geist,
-    sans-serif;
+    var(--cs-sans);
   color: var(--color-ink-200);
   text-wrap: pretty;
 }
@@ -103,7 +103,7 @@
   gap: 2px;
 }
 .cs-stat__value {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 56px;
   line-height: 1;
@@ -113,14 +113,14 @@
 .cs-stat__label {
   font:
     800 12px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.12em;
   color: var(--color-ink-200);
 }
 .cs-stats__quip {
   font:
     400 21px/1.5 Borel,
-    cursive;
+    var(--cs-hand);
   color: var(--color-pink);
   transform: rotate(-3deg);
   margin-left: 8px;
@@ -142,7 +142,7 @@
 .cs-egg-hint {
   font:
     400 24px/1.5 Borel,
-    cursive;
+    var(--cs-hand);
   color: var(--color-pink);
   transform: rotate(-4deg);
 }
@@ -198,11 +198,11 @@
 .cs-hatched__num {
   font:
     500 12px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-ink-200);
 }
 .cs-hatched__name {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 56px;
   line-height: 1;
@@ -212,7 +212,7 @@
 .cs-hatched__species {
   font:
     500 15px Geist,
-    sans-serif;
+    var(--cs-sans);
   color: var(--color-ink-200);
 }
 .cs-hatched__actions {
@@ -232,7 +232,7 @@
   text-decoration: none;
   font:
     900 13px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.06em;
   transition: transform 0.2s;
   border: none;
@@ -251,7 +251,7 @@
   cursor: pointer;
   font:
     900 13px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.06em;
 }
 
@@ -277,19 +277,21 @@
 }
 .cs-features__title {
   margin: 0;
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: clamp(48px, 6vw, 80px);
   line-height: 0.94;
   font-stretch: 66%;
   text-transform: uppercase;
   text-wrap: balance;
+  /* Two balanced lines for a title the length of the English one. */
+  max-width: 7.2em;
   color: var(--color-ink-850);
 }
 .cs-features__quip {
   font:
     400 22px/1.5 Borel,
-    cursive;
+    var(--cs-hand);
   color: var(--color-rust-base);
   transform: rotate(-2deg);
 }
@@ -326,10 +328,10 @@
 .cs-card__index {
   font:
     500 12px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
 }
 .cs-card__title {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 28px;
   line-height: 1.05;
@@ -338,7 +340,7 @@
 .cs-card__desc {
   font:
     400 15px/1.55 Geist,
-    sans-serif;
+    var(--cs-sans);
   color: var(--color-paper-body);
   text-wrap: pretty;
 }
@@ -381,13 +383,13 @@
   gap: 12px;
   font:
     700 11px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.16em;
   color: var(--color-paper-label);
 }
 .cs-final__title {
   margin: 0;
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: clamp(56px, 8vw, 104px);
   line-height: 0.92;
@@ -406,7 +408,7 @@
   border-radius: 14px;
   background: var(--color-ink-850);
   color: var(--color-yellow);
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: clamp(24px, 3.4vw, 42px);
   line-height: 1;
@@ -416,7 +418,7 @@
 .cs-final__seats {
   font:
     500 15px/1.4 Geist,
-    sans-serif;
+    var(--cs-sans);
   color: var(--color-paper-body);
 }
 .cs-final__actions {
@@ -433,7 +435,7 @@
 .cs-final__quip {
   font:
     400 21px/1.5 Borel,
-    cursive;
+    var(--cs-hand);
   color: var(--color-rust-base);
   transform: rotate(-2deg);
 }
@@ -467,7 +469,7 @@
 .cs-final__gate-label {
   font:
     500 12px 'Geist Mono',
-    monospace;
+    var(--cs-mono);
   color: var(--color-paper-label);
 }
 
@@ -486,7 +488,7 @@
   flex-wrap: wrap;
   font:
     500 13px Geist,
-    sans-serif;
+    var(--cs-sans);
   color: var(--color-ink-200);
 }
 .cs-footer__left {
@@ -496,7 +498,7 @@
   flex-wrap: wrap;
 }
 .cs-footer__brand {
-  font-family: Archivo, sans-serif;
+  font-family: Archivo, var(--cs-sans);
   font-weight: 900;
   font-size: 22px;
   line-height: 1;
@@ -506,7 +508,7 @@
 .cs-footer__quip {
   font:
     400 18px/1.5 Borel,
-    cursive;
+    var(--cs-hand);
   color: var(--color-pink);
 }
 .cs-footer__social {
@@ -519,7 +521,7 @@
   text-decoration: none;
   font:
     800 11px Archivo,
-    sans-serif;
+    var(--cs-sans);
   letter-spacing: 0.1em;
   color: var(--color-paper-base);
 }

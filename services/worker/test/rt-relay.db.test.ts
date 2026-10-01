@@ -87,9 +87,9 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-  await pool.end();
+  await pool?.end();
   await new Promise((resolve) => proxy.close(resolve));
-  await Promise.all([postgres.stop(), centrifugo.stop()]);
+  await Promise.all([postgres?.stop(), centrifugo?.stop()]);
 });
 
 function base64url(value: string | Buffer): string {
@@ -250,7 +250,10 @@ describe('rt_outbox relay', () => {
     await sleep(300);
 
     await withSystem(pool, (tx) =>
-      enqueueRealtime(tx, { channel, payload: envelope('badge.counts', { counts: {} }) }),
+      enqueueRealtime(tx, {
+        channel,
+        payload: envelope('badge.counts', { needs_you: 0, unread: 0 }),
+      }),
     );
     const committedAt = performance.now();
     await until(() => watched.publications.length === 1, 1000);
@@ -284,7 +287,10 @@ describe('rt_outbox relay', () => {
 
     await expect(
       withSystem(pool, async (tx) => {
-        await enqueueRealtime(tx, { channel, payload: envelope('badge.counts', { counts: {} }) });
+        await enqueueRealtime(tx, {
+          channel,
+          payload: envelope('badge.counts', { needs_you: 0, unread: 0 }),
+        });
         throw new Error('handler failed');
       }),
     ).rejects.toThrow('handler failed');
@@ -295,7 +301,7 @@ describe('rt_outbox relay', () => {
       await open.query('SET LOCAL ROLE app_system');
       await enqueueRealtime(open, {
         channel,
-        payload: envelope('badge.counts', { counts: { inbox: 1 } }),
+        payload: envelope('badge.counts', { needs_you: 1, unread: 1 }),
       });
       await sleep(1500);
       expect(watched.publications).toEqual([]);
@@ -356,7 +362,7 @@ describe('rt_outbox relay', () => {
       for (let i = 0; i < 250; i += 1) {
         await enqueueRealtime(tx, {
           channel,
-          payload: envelope('badge.counts', { counts: { i } }),
+          payload: envelope('badge.counts', { needs_you: i, unread: i }),
         });
       }
     });
@@ -375,8 +381,15 @@ describe('rt_outbox relay', () => {
   it('retries when Centrifugo is unreachable and parks rows that can never be sent', async () => {
     const channel = channelName('user', randomUUID());
     await withSystem(pool, async (tx) => {
-      await enqueueRealtime(tx, { channel, payload: envelope('badge.counts', { counts: {} }) });
-      await enqueueRealtime(tx, { channel, payload: { no_type: true } });
+      await enqueueRealtime(tx, {
+        channel,
+        payload: envelope('badge.counts', { needs_you: 0, unread: 0 }),
+      });
+      // A row SQL wrote past the write-site check (app.enqueue_rt takes any jsonb).
+      await tx.query("SELECT app.enqueue_rt($1, $2, 'publish')", [
+        channel,
+        JSON.stringify({ no_type: true }),
+      ]);
     });
     const relay = await startRelay(countingApi('http://127.0.0.1:9'));
     await until(async () => {

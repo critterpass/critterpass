@@ -74,6 +74,8 @@ const app = createApp({
   ...(env.MAPBOX_TOKEN !== undefined ? { mapboxToken: env.MAPBOX_TOKEN } : {}),
   ...(routing !== undefined ? { routing } : {}),
   tilesBaseUrl: env.TILES_BASE_URL,
+  // Resolved per request, so the auth module created below is in place by then.
+  sessions: (headers) => commandDoors.sessions(headers),
   readiness: {
     db: async () => {
       await pool.query('select 1');
@@ -179,7 +181,10 @@ const serverAnalytics = createServerAnalytics({
 });
 
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
-const commands = createAppCommandRegistry();
+const commands = createAppCommandRegistry({
+  onInstallStandIn: (standIn) =>
+    logger.info(standIn, 'command ran on the caller’s registered device, not the envelope’s'),
+});
 
 // Links (docs/api-contracts.md §5.6): providers per link kind, the claim command, public routes.
 const linkProviders = createLinkProviderRegistry();

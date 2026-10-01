@@ -1,25 +1,25 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-29.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
   "response": {
     "status": 200,
     "body": {
-      "id": "636ba6a3-0134-449f-b10b-7ad909ec163a",
+      "id": "f4162de8-66f3-462d-bee8-7ff2c05c19b7",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"merchant\":\"IBU OKA\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l1\",\"label\":\"Babi gul...\",\"qty\":5,\"amount\":\"85?.000\",\"kind\":\"item\"},{\"line_id\":\"l2\",\"label\":\"Es kela...\",\"qty\":null,\"amount\":\"\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l3\",\"amount\":\"1.080.000\"}}"
+          "text": "{\"merchant\":\"IBU OKA\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l1\",\"label\":\"Babi gul...\",\"qty\":5,\"amount\":\"85?.000\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l3\",\"amount\":\"1.080.000\"}}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 286,
+        "input_tokens": 134,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 512,
-        "output_tokens": 93,
+        "cache_read_input_tokens": 766,
+        "output_tokens": 67,
         "service_tier": "standard"
       }
     }

@@ -1,14 +1,25 @@
 ---
 import '../styles/coming-soon-sections.css';
 import '../styles/coming-soon-cards.css';
+import { LOCALS_TOTAL, formatNumber } from '../lib/coming-soon-strings';
 import { PASS_PEEK } from '../lib/hatch-pool';
+import { placeNameUpper } from '../lib/place-names';
+import { comingSoonSectionsCopy as copy } from './site/copy/coming-soon-sections';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await siteTranslator(locale);
 ---
 
-<section class="cs-features" aria-label="What you're waiting for">
+<section class="cs-features" aria-label={t(copy.featuresTitle)}>
   <div class="cs-features__inner">
     <div class="cs-features__head">
-      <h2 class="cs-features__title">What you're<br />waiting for</h2>
-      <span class="cs-features__quip">from "idk" to wheels down ↓</span>
+      <h2 class="cs-features__title">{t(copy.featuresTitle)}</h2>
+      <span class="cs-features__quip">{t(copy.featuresQuip)}</span>
     </div>
 
     <div class="cs-cards">
@@ -19,10 +30,10 @@ import { PASS_PEEK } from '../lib/hatch-pool';
             <div class="cs-swipe-stack__back-b"></div>
             <div class="cs-swipe-stack__top">
               <cp-critter kind="cp-005" seed="5" size="92" sticker="#f4efe4" />
-              <span class="cs-swipe-stack__city">HỘI AN</span>
-              <span class="cs-swipe-stack__tag">LANTERN TOWN</span>
+              <span class="cs-swipe-stack__city">{placeNameUpper('Hội An', locale)}</span>
+              <span class="cs-swipe-stack__tag">{t(copy.swipeTag)}</span>
             </div>
-            <span class="cs-swipe-stack__yes">YES!</span>
+            <span class="cs-swipe-stack__yes">{t(copy.swipeYes)}</span>
           </div>
           <div class="cs-swipe-tally">
             <span class="cs-swipe-tally__bars">
@@ -33,57 +44,57 @@ import { PASS_PEEK } from '../lib/hatch-pool';
               <span class="cs-swipe-tally__bar" data-filled="true"></span>
               <span class="cs-swipe-tally__bar"></span>
             </span>
-            5 OF 6
+            {t(copy.swipeTally)}
           </div>
         </div>
         <div class="cs-card__body">
           <span class="cs-card__index">01</span>
-          <span class="cs-card__title">SWIPE TO PICK</span>
-          <span class="cs-card__desc">Everyone swipes through the shortlist. The tally fills live and the winner is settled in minutes.</span>
+          <span class="cs-card__title">{t(copy.swipeTitle)}</span>
+          <span class="cs-card__desc">{t(copy.swipeBody)}</span>
         </div>
       </article>
 
       <article class="cs-card cs-card--ask">
         <div class="cs-card__art">
-          <div class="cs-chat-bubble">It's pouring. Plan B?</div>
+          <div class="cs-chat-bubble">{t(copy.askQuestion)}</div>
           <div class="cs-chat-row">
             <div class="cs-chat-row__guide"><cp-critter kind="gecko" seed="41" size="60" pose="point" sticker="#f4efe4" /></div>
             <div class="cs-chat-row__replies">
-              <div class="cs-chat-bubble cs-chat-bubble--reply">Cooking class at 2pm. Beach moves to Friday.</div>
-              <span class="cs-chat-status">✓ PLAN UPDATED FOR 6</span>
+              <div class="cs-chat-bubble cs-chat-bubble--reply">{t(copy.askReply)}</div>
+              <span class="cs-chat-status">{t(copy.askStatus)}</span>
             </div>
           </div>
         </div>
         <div class="cs-card__body">
           <span class="cs-card__index">02</span>
-          <span class="cs-card__title">ASK THE LOCAL</span>
-          <span class="cs-card__desc">The guide drafts the plan and answers anything, by voice or text. Rain on Thursday? It proposes a swap.</span>
+          <span class="cs-card__title">{t(copy.askTitle)}</span>
+          <span class="cs-card__desc">{t(copy.askBody)}</span>
         </div>
       </article>
 
       <article class="cs-card cs-card--plan">
         <div class="cs-card__art">
           <div class="cs-plan-day">
-            <span class="cs-plan-day__date">THU 14</span>
+            <span class="cs-plan-day__date">{t(copy.planDate)}</span>
             <span class="cs-plan-day__editing">
               <span class="cs-plan-day__avatars">
                 <span class="cs-plan-day__avatar" style="background:var(--color-pink)"></span>
                 <span class="cs-plan-day__avatar" style="background:var(--color-blue)"></span>
                 <span class="cs-plan-day__avatar" style="background:var(--color-paper-base)"></span>
               </span>
-              EDITING
+              {t(copy.planEditing)}
             </span>
           </div>
-          <div class="cs-plan-row"><span class="cs-plan-row__time">09:00</span>Batur sunrise hike</div>
+          <div class="cs-plan-row"><span class="cs-plan-row__time">09:00</span>{t(copy.planRowHike)}</div>
           <div class="cs-plan-row cs-plan-row--active">
-            <span class="cs-plan-row__time">13:00</span>Cooking class<span class="cs-plan-row__avatar">M</span>
+            <span class="cs-plan-row__time">13:00</span>{t(copy.planRowClass)}<span class="cs-plan-row__avatar">M</span>
           </div>
-          <div class="cs-plan-row"><span class="cs-plan-row__time">18:00</span>Sunset at Uluwatu</div>
+          <div class="cs-plan-row"><span class="cs-plan-row__time">18:00</span>{t(copy.planRowSunset)}</div>
         </div>
         <div class="cs-card__body">
           <span class="cs-card__index">03</span>
-          <span class="cs-card__title">PLAN TOGETHER</span>
-          <span class="cs-card__desc">Drag anything to a new slot and the rest of the day shifts to make room, for everyone at once.</span>
+          <span class="cs-card__title">{t(copy.planTitle)}</span>
+          <span class="cs-card__desc">{t(copy.planBody)}</span>
         </div>
       </article>
 
@@ -94,11 +105,11 @@ import { PASS_PEEK } from '../lib/hatch-pool';
             <span class="cs-receipt__line"><span>Babi guling</span><span>48</span></span>
             <span class="cs-receipt__line"><span>Nasi campur</span><span>30</span></span>
             <span class="cs-receipt__line"><span>Es kelapa ×4</span><span>18</span></span>
-            <span class="cs-receipt__total"><span>TOTAL</span><span>$96</span></span>
+            <span class="cs-receipt__total"><span>{t(copy.splitTotal)}</span><span>$96</span></span>
           </div>
           <div class="cs-split-total">
             <span class="cs-split-total__value">$24</span>
-            <span class="cs-split-total__label">EACH · 4 WAYS</span>
+            <span class="cs-split-total__label">{t(copy.splitEach)}</span>
             <div class="cs-split-total__avatars">
               <span class="cs-split-total__avatar" style="background:var(--color-pink)"></span>
               <span class="cs-split-total__avatar" style="background:var(--color-blue)"></span>
@@ -109,8 +120,8 @@ import { PASS_PEEK } from '../lib/hatch-pool';
         </div>
         <div class="cs-card__body">
           <span class="cs-card__index">04</span>
-          <span class="cs-card__title">SPLIT IT</span>
-          <span class="cs-card__desc">Scan the receipt, split it however you like, settle up. Nobody keeps a spreadsheet.</span>
+          <span class="cs-card__title">{t(copy.splitTitle)}</span>
+          <span class="cs-card__desc">{t(copy.splitBody)}</span>
         </div>
       </article>
 
@@ -126,30 +137,30 @@ import { PASS_PEEK } from '../lib/hatch-pool';
               ))
             }
           </div>
-          <span class="cs-pass-peek__count">4 / 150</span>
+          <span class="cs-pass-peek__count">4 / {formatNumber(locale, LOCALS_TOTAL)}</span>
         </div>
         <div class="cs-card__body">
           <span class="cs-card__index">05</span>
-          <span class="cs-card__title">COLLECT THE PASS</span>
-          <span class="cs-card__desc">When you land somewhere, that place's local joins your pass. Stay a while and more of them turn up.</span>
+          <span class="cs-card__title">{t(copy.collectTitle)}</span>
+          <span class="cs-card__desc">{t(copy.collectBody)}</span>
         </div>
       </article>
 
       <article class="cs-card cs-card--surprise">
         <div class="cs-card__art">
           <div class="cs-brief">
-            <span class="cs-brief__label">FEATURE BRIEF · v0.9</span>
+            <span class="cs-brief__label">{t(copy.surpriseBrief)}</span>
             <span class="cs-brief__line" style="width:90%"></span>
             <span class="cs-brief__line" style="width:70%"></span>
             <span class="cs-brief__line" style="width:82%"></span>
             <span class="cs-brief__line" style="width:46%"></span>
           </div>
-          <span class="cs-classified">CLASSIFIED</span>
+          <span class="cs-classified">{t(copy.surpriseClassified)}</span>
         </div>
         <div class="cs-card__body">
           <span class="cs-card__index">06</span>
-          <span class="cs-card__title">A FEW MORE SURPRISES</span>
-          <span class="cs-card__desc">There's more on board that we're not showing yet. People on the list see it first.</span>
+          <span class="cs-card__title">{t(copy.surpriseTitle)}</span>
+          <span class="cs-card__desc">{t(copy.surpriseBody)}</span>
         </div>
       </article>
     </div>

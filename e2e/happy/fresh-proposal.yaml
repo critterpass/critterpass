@@ -1,0 +1,296 @@
+appId: app.critterpass.dev
+---
+# Release gate: a real proposal between two brand-new accounts on one phone, no demo world. The
+# organiser starts a crew and keeps its code; a second new account (Developer tools → Test
+# accounts) joins with that code. Back as the organiser: one place locked in, setup, the guide's
+# draft, BUILD THE PROPOSAL and SEND. The friend opens it from crew chat, reads their version and
+# slides to board. The organiser locks the crew in from the tracker and the trip is confirmed.
+- runFlow: subflows/fresh-account.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Proposal Crew'
+# START THE CREW rides on top of the keyboard.
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- copyTextFrom:
+    id: 'start-crew-code'
+# iOS copies the spoken label ("Crew code E 2 X …"): the code is its last six characters.
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+- tapOn:
+    id: 'start-crew-done'
+
+# The friend: a second new account on this phone joins the crew with its code.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-new'
+- runFlow: ../home/subflows/onboard.yaml
+# Onboarding may finish on another tab; Home has JOIN WITH A CODE.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-join-code'
+    timeout: 30000
+- tapOn:
+    id: 'home-join-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 15000
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${output.crewCode}
+# Once the code is found the keyboard makes way: the crew card shows whole, with JOIN under it.
+- extendedWaitUntil:
+    visible:
+      text: '(?i)found it.*'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-join'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-3a-11-code-found
+- tapOn:
+    id: 'invite-code-join'
+- extendedWaitUntil:
+    notVisible:
+      id: 'invite-code-screen'
+    timeout: 30000
+
+# The organiser again (kept first): one place locked in, then setup to the guide's draft.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: subflows/pitch-place.yaml
+    env:
+      QUERY: 'lisbon'
+- openLink: critterpass-dev://
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+- runFlow: ../proposal/subflows/setup-to-draft.yaml
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+
+# BUILD THE PROPOSAL, then SEND to the one friend.
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- tapOn:
+    id: 'draft-propose'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-build'
+    timeout: 30000
+- assertVisible:
+    id: 'build-format-trailer'
+- extendedWaitUntil:
+    visible:
+      id: 'build-send'
+      enabled: true
+    timeout: 60000
+# PREVIEW AS <friend> shows once the guide has written their version.
+- extendedWaitUntil:
+    visible:
+      id: 'build-preview-.*'
+    timeout: 180000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-1-build
+- tapOn:
+    id: 'build-send'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-sent'
+    timeout: 60000
+# The guide writes the friend's version on staging's AI.
+- extendedWaitUntil:
+    visible:
+      text: '(?i)their version is ready|.*wrote the group version.*'
+    timeout: 300000
+- takeScreenshot: en-3f-1-sent
+
+# The friend opens it from crew chat and boards.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-version'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'version-in'
+    timeout: 30000
+# The friend sees what they are agreeing to: the plan's highlights, from the plan SEND published.
+- extendedWaitUntil:
+    visible:
+      id: 'version-pick-0'
+    timeout: 60000
+- assertVisible:
+    id: 'version-whole-plan'
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-3-your-version
+- tapOn:
+    id: 'version-ask'
+- extendedWaitUntil:
+    visible:
+      id: 'objection-reason-cost'
+    timeout: 15000
+- tapOn:
+    id: 'objection-reason-cost'
+- extendedWaitUntil:
+    visible:
+      id: 'objection-later'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-4-not-sure
+# "Ask me on Sunday" closes the sheet (and schedules the nudge).
+- tapOn:
+    id: 'objection-later'
+- extendedWaitUntil:
+    visible:
+      id: 'version-in'
+    timeout: 15000
+- tapOn:
+    id: 'version-in'
+- extendedWaitUntil:
+    visible:
+      id: 'board-slide'
+    timeout: 30000
+- waitForAnimationToEnd
+# The pass's barcode and stickers are drawn a moment after the screen settles.
+- extendedWaitUntil:
+    visible:
+      id: 'board-pass-drawn'
+    timeout: 4000
+    optional: true
+- takeScreenshot: en-3f-5-slide
+# The knob sits at the start of the track. Android finds it by id; iOS reads the track as one
+# element, so the drag starts where the knob rests (low on the screen, at the left).
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          from:
+            id: 'board-knob'
+          direction: RIGHT
+          duration: 1200
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 12%, 86%
+          end: 96%, 86%
+          duration: 1200
+      - runFlow:
+          when:
+            notVisible:
+              id: 'board-egg'
+          commands:
+            - swipe:
+                start: 12%, 83%
+                end: 96%, 83%
+                duration: 1200
+- extendedWaitUntil:
+    visible:
+      id: 'board-egg'
+    timeout: 30000
+- assertNotVisible:
+    id: 'board-pending'
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-5-boarded
+# In: the friend opens the whole plan from their version and sees day 1.
+- tapOn:
+    id: 'board-done'
+- scrollUntilVisible:
+    element:
+      id: 'version-whole-plan'
+    timeout: 30000
+- tapOn:
+    id: 'version-whole-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-1'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-3e-1-friend-plan
+
+# The organiser locks the crew in: the trip is confirmed.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-tracker'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-lock'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-6-who-s-in
+- tapOn:
+    id: 'tracker-lock'
+- tapOn: '(?i)yes, lock it in'
+# Confirmed: the chip says so and LOCK IT IN is gone.
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-lock-note'
+    timeout: 30000
+- extendedWaitUntil:
+    notVisible:
+      id: 'tracker-lock'
+    timeout: 15000
+- assertVisible:
+    text: '(?i)confirmed'
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-6-locked

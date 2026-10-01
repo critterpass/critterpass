@@ -2,15 +2,15 @@
  * The vote feature's small formatters: a poll deadline ("closes Fri", "closes in 2h"), prices from
  * the tools ("$412"), flight hours, month names, and guide identities for places.
  */
+import { formatNarrowCurrency } from '@cp/cost-engine';
 import { tokens } from '@cp/design-tokens';
 import { format } from '@cp/i18n';
 
+import { isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
-const GUIDES: readonly GuideId[] = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco'];
-
 export function guideOr(value: string | null | undefined, fallback: GuideId = 'tokek'): GuideId {
-  return GUIDES.includes(value as GuideId) ? (value as GuideId) : fallback;
+  return isGuideStickerId(value) ? value : fallback;
 }
 
 export function guideColour(guide: GuideId): string {
@@ -42,10 +42,7 @@ export function money(locale: string, amountMinor: number, currency: string): st
   const digits =
     new Intl.NumberFormat('en', { style: 'currency', currency }).resolvedOptions()
       .maximumFractionDigits ?? 2;
-  return format.number(locale, Math.round(amountMinor / 10 ** digits), {
-    style: 'currency',
-    currency,
-    currencyDisplay: 'narrowSymbol',
+  return formatNarrowCurrency(locale, Math.round(amountMinor / 10 ** digits), currency, {
     maximumFractionDigits: 0,
   });
 }

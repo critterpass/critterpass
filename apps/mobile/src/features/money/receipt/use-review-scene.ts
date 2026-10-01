@@ -24,7 +24,7 @@ import {
   type ParsedReceipt,
   type ReceiptView,
 } from './review-model';
-import { resultParts, reviewRows, type ReviewCopy } from './review-rows';
+import { linesToCheck, resultParts, reviewRows, type ReviewCopy } from './review-rows';
 import type { ScanScene } from './ScanView';
 import type { SweepLine } from './ScanSweep';
 import type { ScanControls } from './use-scan';
@@ -72,15 +72,24 @@ export function useReviewScene(input: {
     not: (names) => upper(t({ id: 'money.review.not', message: `Not ${names}` }), locale),
     pays: (names) => t({ id: 'money.review.pays', message: `${names} pays` }),
     everyoneElse: t({ id: 'money.review.everyoneElse', message: 'Everyone else' }),
+    amount: (minor) => formatAmount(minor, parsed?.currency ?? crewCurrency, locale),
   };
 
   const read = scan.read?.lines ?? [];
   const totalId = parsed?.total_line_id ?? null;
+  // Lines to check stay lit on the photo, so they can be compared with the paper.
+  const toCheck = parsed === null ? new Set<string>() : linesToCheck(parsed);
   const sweepLines: SweepLine[] = read.map((line) => ({
     id: line.id,
     box: line.bbox,
     tone:
-      view.kind === 'total_only' ? (line.id === totalId ? 'locked' : 'grey') : ('read' as const),
+      view.kind === 'total_only'
+        ? line.id === totalId
+          ? 'locked'
+          : 'grey'
+        : toCheck.has(line.id)
+          ? 'locked'
+          : ('read' as const),
   }));
 
   function assign(lineId: string, next: readonly string[] | null) {
@@ -162,6 +171,7 @@ export function useReviewScene(input: {
                 }),
                 keep: keepTotal,
               },
+        onFix: scan.typeLines,
         committing: false,
         onLine: (lineId) => input.onPicker(lineId),
         onKeepTotal: setKeepTotal,

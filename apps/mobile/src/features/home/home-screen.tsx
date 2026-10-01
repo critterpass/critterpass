@@ -94,6 +94,10 @@ function VoteSection({ view }: { readonly view: HomeView }) {
 function CrewHome({ view }: { readonly view: HomeView }) {
   const { home, crew, tip } = view;
   if (crew === null) return null;
+  // A trip still choosing its place has nothing to count down to: its vote, drawn below, is the
+  // crew's next thing, so the card doesn't repeat it as "Your next trip".
+  const votingIsNextUp =
+    home.nextTrip?.destinationId === null && home.vote !== null && homeVoteSlot() !== null;
   const showTip =
     tip !== null &&
     (home.mode === 'everyday' || home.mode === 'no_trip' || home.mode === 'post_trip');
@@ -102,7 +106,9 @@ function CrewHome({ view }: { readonly view: HomeView }) {
       {home.mode === 'in_trip' && home.activeTrip !== null ? (
         <InTripCard trip={home.activeTrip} now={new Date()} />
       ) : null}
-      {(home.mode === 'everyday' || home.mode === 'final_vote') && home.nextTrip !== null ? (
+      {(home.mode === 'everyday' || home.mode === 'final_vote') &&
+      home.nextTrip !== null &&
+      !votingIsNextUp ? (
         <NextUpCard trip={home.nextTrip} />
       ) : null}
       {home.mode === 'post_trip' && home.recentTrip !== null ? (

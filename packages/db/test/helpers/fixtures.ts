@@ -29,6 +29,10 @@ import { seedPollRows } from './poll-fixture';
 import { seedGuideChat } from './guide-fixture';
 import { seedTripDayRows } from './trip-day-fixture';
 import { seedDisruptionRows } from './disruptions-fixture';
+import { seedExploreRows } from './explore-fixture';
+import { seedProposalRows } from './proposal-fixture';
+import { seedCritterRows } from './critters-fixture';
+import { seedQuestRows } from './quests-fixture';
 import { seedSetupRows } from './setup-fixture';
 import {
   insertChangeSet,
@@ -94,6 +98,16 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       [organiserDevice, `matrix-probe-${organiserDevice}`],
     );
     await tx.query(
+      `INSERT INTO la_push_to_start_tokens (device_id, user_id, activity_type, token, env)
+       VALUES ($1, $2, 'leave_by', 'abcdef0123456789', 'sandbox')`,
+      [organiserDevice, organiser],
+    );
+    await tx.query(
+      `INSERT INTO device_activities (device_id, user_id, kind, ref_id, started_via, state)
+       VALUES ($1, $2, 'flight', $3, 'push_to_start', 'active')`,
+      [organiserDevice, organiser, crypto.randomUUID()],
+    );
+    await tx.query(
       `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
        VALUES ($1, $2, $3, 'matrix-probe', ARRAY['ballot'], now() + interval '30 days')`,
       [crypto.randomUUID(), organiserDevice, organiser],
@@ -127,6 +141,15 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       `INSERT INTO account_deletions (user_id, purge_at, source) VALUES ($1, now() + interval '30 days', 'app')`,
       [organiser],
     );
+    await tx.query(
+      "INSERT INTO app_icon_unlocks (user_id, icon_key, source) VALUES ($1, 'pon', 'form_found')",
+      [organiser],
+    );
+    await tx.query(
+      "INSERT INTO past_trips (id, user_id, country, month) VALUES (uuidv7(), $1, 'JP', '2024-04-01')",
+      [organiser],
+    );
+    await tx.query('INSERT INTO data_exports (user_id) VALUES ($1)', [organiser]);
 
     // Catalogue content (RLS class R, read-all authenticated): the table must not be empty or a
     // probe cannot tell "denied" apart from "table has nothing in it yet".
@@ -161,6 +184,13 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     );
     await tx.query(
       "INSERT INTO cities (name, country, lat, lng) VALUES ('Matrix Probe City', 'XX', 0, 0)",
+    );
+    await tx.query(
+      `INSERT INTO media_assets (kind, source, source_id, source_url, download_url, subject_keys, author,
+         licence, licence_url, attribution_required, credit, blurhash, variants, status)
+       VALUES ('photo', 'pexels', 'matrix-probe', 'https://www.pexels.com/photo/1/', 'https://images.pexels.com/1.jpeg',
+         '{destination:matrix-probe}', 'Probe', 'pexels', 'https://www.pexels.com/license/', false,
+         'Photo: Probe · Pexels', 'LEHV6nWB2yk8', '[{"key":"c/media/probe/828.webp","format":"webp","w":828,"h":552,"bytes":1}]', 'ready')`,
     );
 
     // Content catalogue (RLS R while the row's release is the published one).
@@ -424,6 +454,16 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await seedGuideChat(tx, { tripId, crewId, organiser });
     await seedTripDayRows(tx, { tripId, organiser, member });
     await seedDisruptionRows(tx, { tripId, organiser });
+    await seedExploreRows(tx, {
+      tripId,
+      destinationId: matrixProbeDestinationId,
+      poiId: matrixProbePoiId,
+      organiser,
+      member,
+    });
+    await seedProposalRows(tx, { tripId, organiser, coOrganiser, member, exMember });
+    await seedCritterRows(tx, { tripId, organiser, member });
+    await seedQuestRows(tx, { tripId, crewId, organiser });
 
     const opId = crypto.randomUUID();
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });

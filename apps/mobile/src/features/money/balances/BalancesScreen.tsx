@@ -25,7 +25,7 @@ import { useTripMoney } from '../data/use-trip-money';
 import { expenseRoute, MONEY_ROUTES } from '../routes';
 import { BalancesView } from './BalancesView';
 import { CurrencySheet } from './CurrencySheet';
-import { buildBalances } from './model';
+import { buildBalances, isSolo } from './model';
 import { tripLabel, TripSheet } from './TripSheet';
 
 const useStyles = makeStyles((t) => ({
@@ -149,6 +149,7 @@ export function BalancesScreen() {
         settleTaps={model.plan.length}
         latest={items[0] ?? null}
         empty={items.length === 0 && rows.ledger.length === 0}
+        solo={isSolo(ctx.uid ?? '', ctx.members, model.lines)}
         offline={sync.phase === 'offline'}
         tripLabel={ctx.trips.length > 1 ? tripLabel(trip, fallbackTrip) : null}
         onTrip={() => setSheet('trip')}

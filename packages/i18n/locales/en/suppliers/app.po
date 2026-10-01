@@ -1,0 +1,719 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 17:02+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.flight.delayed"
+msgstr "{flight} delayed {delay} ({source}, {time}). Here's what I'd change"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.ticker.found"
+msgstr "{guide} found {seats} {what}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.ticker.held"
+msgstr "{guide} held {seats} {what}"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
+msgid "suppliers.around.hours"
+msgstr "{hours}h {rest}m"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.booked.memberOn"
+msgstr "{member} booked it on {supplier}"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
+msgid "suppliers.around.minutesShort"
+msgstr "{mins}m"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.operator"
+msgstr "{operator}'s own published rates, over the routed distance and time."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.meter"
+msgstr "{operator}'s published meter tariff, over the routed distance and time."
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.seatsHeld"
+msgstr "{seats} seats held until {time}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.partnerOff"
+msgstr "{supplier} links aren't available right now."
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.vendor.replied"
+msgstr "{vendor} replied: {reply}"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.airport"
+msgstr "+ {fee} airport pickup fee"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.dispatch"
+msgstr "+ {fee} if you book by phone or app"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.fares.recent"
+msgstr "~{price} from {origin} (recent searches, {time})"
+
+#. placeholder {0}: crew.low
+#. placeholder {1}: crew.high
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.crew"
+msgstr "≈ {0}–{1} in the crew’s currency"
+
+#: ../../apps/mobile/src/features/bookings/supplier/data/commands.ts
+msgid "suppliers.queued.click"
+msgstr "A partner link you opened"
+
+#: ../../apps/mobile/src/features/bookings/supplier/data/commands.ts
+msgid "suppliers.queued.ride"
+msgstr "A ride you logged"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.left"
+msgstr "About {left} min to go · estimate"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.tariffEstimate"
+msgstr "About {low}–{high} · estimate"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.transferBooked"
+msgstr "Airport pickup booked on {supplier} (from your email) · driver details from your voucher"
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.approvedLine"
+msgstr "Approved · the desk sends it"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.approved"
+msgstr "Approved. The desk sends exactly this."
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.vendor.ask"
+msgstr "Ask {vendor} to {ask}? I'll draft the WhatsApp."
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.loading"
+msgstr "Asking Viator what comes back"
+
+#. placeholder {0}: '19:30'
+#. placeholder {0}: clock(locale, leg.to.startsAt, data.tz)
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+msgid "suppliers.later.at"
+msgstr "At {0}"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.offlineLast"
+msgstr "At {seen} Grab estimated {fares}. The card below works offline."
+
+#: ../../apps/mobile/src/features/bookings/supplier/OffersView.tsx
+msgid "suppliers.offers.back"
+msgstr "Back"
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.book"
+msgstr "Book"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.chipBookBy"
+msgstr "BOOK BY {date}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.bookBy"
+msgstr "Book by {date} for free cancellation"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.bookByKeep"
+msgstr "Book by {date} to keep free cancellation"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.bookNowNotHeld"
+msgstr "Book now · seats not held"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.bookKlookLeft"
+msgstr "Book on Klook · {left} left"
+
+#: ../../apps/mobile/src/app/(modal)/supplier/book.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+msgid "suppliers.book.title"
+msgstr "Book with Viator"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.booked.viatorRef"
+msgstr "Booked · Viator ref {ref}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.bookedRooms"
+msgstr "Booked {rooms} rooms, free cancellation until {date}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/OffersView.tsx
+msgid "suppliers.offers.lede"
+msgstr "Booked and paid with the supplier. Their titles and prices are theirs, word for word."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.callCar"
+msgstr "Call a car"
+
+#. placeholder {0}: refund(state.quote) ?? ''
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.refund"
+msgstr "Cancel now and Viator refunds {0}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.dropout.cancelBy"
+msgstr "Cancel on {supplier} by {date} to avoid the fee"
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.confirm"
+msgstr "Cancel the booking"
+
+#: ../../apps/mobile/src/app/(modal)/supplier/cancel.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+msgid "suppliers.cancel.title"
+msgstr "Cancel with Viator"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.dropout.cancelledRefund"
+msgstr "Cancelled · {amount} refunded"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.dropout.cancelledFullRefund"
+msgstr "Cancelled · full refund"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.dropout.cancelledAgoda"
+msgstr "Cancelled on Agoda · refund per policy"
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.offline"
+msgstr "Cancelling needs signal, so Viator can say what you get back."
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.checkAgain"
+msgstr "Check again"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.check"
+msgstr "Check with Viator"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.sourceChecked"
+msgstr "Checked {on}"
+
+#. placeholder {0}: clock(locale, estimate.fetched_at, data.tz)
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.seen"
+msgstr "Checked at {0}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.checkedLive"
+msgstr "Checked live rooms at {count} {area} {kind}, free cancel"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GrabEstimateCard.tsx
+msgid "suppliers.rides.loading"
+msgstr "Checking rides"
+
+#: ../../apps/mobile/src/features/bookings/supplier/OffersView.tsx
+msgid "suppliers.offers.loading"
+msgstr "Checking the suppliers"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.done"
+msgstr "Done"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.vendor.draftReady"
+msgstr "Draft ready — send?"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.email"
+msgstr "Email (optional)"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.lottery.entriesClose"
+msgstr "Entries close {date}. Each of you enters on the official site — I'll remind you."
+
+#. placeholder {0}: clock(locale, estimate.fetched_at, data.tz)
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.surge"
+msgstr "Fares are up right now · checked at {0}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.first"
+msgstr "First name"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.found"
+msgstr "Found {count} free-cancel {kind} in {area}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.activity.foundSlot"
+msgstr "Found a free-cancel slot. Book it once the crew's in."
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.chipFreeCancel"
+msgstr "FREE CANCEL TO {date}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.freeCancelUntil"
+msgstr "Free cancellation until {date}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.liveRate"
+msgstr "Free-cancel rooms at {hotel} on Agoda, {price} a night (checked live {time})"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.shortlist"
+msgstr "Free-cancel rooms at {hotel} on Agoda, from ~{price} a night (seen {time})"
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.priceFrom"
+msgstr "From {price}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/OfferCard.tsx
+msgid "suppliers.offer.from"
+msgstr "From {supplier}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.grabEstimate"
+msgstr "Grab estimates {low}–{high}, about {minutes} min away"
+
+#: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
+msgid "suppliers.hold.leftA11y"
+msgstr "Hold ends in {label}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
+msgid "suppliers.hold.ranOut"
+msgstr "HOLD RAN OUT"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.howMany"
+msgstr "How many are going"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.start"
+msgstr "I'm in the car"
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failedLine"
+msgstr "It didn’t reach them on WhatsApp. The desk will tell you what next."
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.keep"
+msgstr "Keep it"
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.keepLink"
+msgstr "Keep it"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.last"
+msgstr "Last name"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.later.title"
+msgstr "Later today"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.lead"
+msgstr "LEAD TRAVELLER"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.soloNote"
+msgstr "Leave it empty to only note the ride."
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.release"
+msgstr "Let it go"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.loading"
+msgstr "Loading your day"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.loading"
+msgstr "Loading your messages"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.log"
+msgstr "Log it"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LaterTodayRow.tsx
+msgid "suppliers.later.log"
+msgstr "Log it"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.save"
+msgstr "Log it"
+
+#: ../../apps/mobile/src/app/(modal)/supplier/log-ride.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+msgid "suppliers.log.title"
+msgstr "Log the ride"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.kept"
+msgstr "Logged on the plan"
+
+#. placeholder {0}: people > 0 ? people : 1
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.split"
+msgstr "Logged, and split between {0}"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/TransferCard.tsx
+msgid "suppliers.transfer.meeting"
+msgstr "Meet at: {meeting}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.textLabel"
+msgstr "Message to {vendor}"
+
+#: ../../apps/mobile/src/app/(modal)/supplier/draft.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+msgid "suppliers.vendor.draftTitle"
+msgstr "Message to a place"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listError"
+msgstr "Messages didn’t load. Try again in a moment."
+
+#: ../../apps/mobile/src/app/(modal)/supplier/messages.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+msgid "suppliers.vendor.listTitle"
+msgstr "Messages to places"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listOffline"
+msgstr "Messages to places need signal to load."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.taxi"
+msgstr "Metered taxi"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.emptyTitle"
+msgstr "No messages to places yet"
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.noRefund"
+msgstr "No refund if you cancel now"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.noApps"
+msgstr "No ride apps here"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.offlineTitle"
+msgstr "No signal right now"
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.offline"
+msgstr "No signal. Links open, and the supplier's page loads once you're back."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.noTrip"
+msgstr "No trip under way"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.unreviewed"
+msgstr "Not reviewed by a person yet: figures taken from the sources on {checked}. Drivers and meters can differ."
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.exactNote"
+msgstr "Nothing leaves until you send it, and {vendor} gets exactly this text."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.noPlace"
+msgstr "Nothing left to get to today"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.openApp"
+msgstr "Open {app}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.openLink"
+msgstr "Open {supplier}"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/TransferCard.tsx
+msgid "suppliers.transfer.open"
+msgstr "Open the voucher"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.openViator"
+msgstr "Open Viator ↗"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.linksDetail"
+msgstr "Opens the app with the drop-off filled in. We don’t book the car."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.showHint"
+msgstr "Opens the card full screen to show the driver"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/TransferCard.tsx
+msgid "suppliers.transfer.operator"
+msgstr "Operator on the voucher: {operator}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.concierge.clinic"
+msgstr "Ops desk is calling the clinic with you — share insurance details?"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.pay"
+msgstr "Pay with Viator"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+msgid "suppliers.book.payCancelled"
+msgstr "Payment cancelled. Nothing was charged."
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.phone"
+msgstr "Phone"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/phrase.ts
+msgid "suppliers.around.gloss"
+msgstr "Please take us to {place}."
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.activity.priceHeld"
+msgstr "Price held until {time}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.priceHeld"
+msgstr "Price held until {time}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.replyBy"
+msgstr "Reply by {date}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.lottery.results"
+msgstr "results {date} · reminder set"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.reviewedOn"
+msgstr "Reviewed by our team, figures checked {checked}. Drivers and meters can differ."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.bike"
+msgstr "Ride-hail bike"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.car"
+msgstr "Ride-hail car"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.emptyBody"
+msgstr "Rides show up here for the places on your plan."
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.seen"
+msgstr "seen {time} on Viator"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.send"
+msgstr "Send"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfTitle"
+msgstr "Send it from your WhatsApp"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.share"
+msgstr "Send it on WhatsApp"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.needsSignal"
+msgstr "Sending needs signal. Your text is still here."
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.vendor.sentWaiting"
+msgstr "Sent {time}, waiting"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.noAppsDetail"
+msgstr "Show a taxi driver the card below."
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.phraseCard"
+msgstr "Show this to the driver"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.sources"
+msgstr "SOURCES"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.splitNote"
+msgstr "Split evenly between the {people} who rode. Leave it empty to only note the ride."
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+msgid "suppliers.book.retry"
+msgstr "That didn’t go through. Try again in a moment."
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failed"
+msgstr "That didn’t go through. Try again."
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.failed"
+msgstr "That didn't open. Try again."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.failed"
+msgstr "That didn’t save. Try again."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.invalid"
+msgstr "That doesn’t look like an amount"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.offlineNone"
+msgstr "The card below works offline: show it to any driver."
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.deskHours"
+msgstr "The desk sends messages between {open} and {close} ({tz})."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.band"
+msgstr "The fare band the local regulator publishes, over the routed distance and time."
+
+#: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
+msgid "suppliers.hold.ranOutA11y"
+msgstr "The hold ran out"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.expired"
+msgstr "The hold ran out — check again"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.operatorNote"
+msgstr "The operator confirms most bookings within a day. I’ll tell you when they do."
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+msgid "suppliers.book.payFailed"
+msgstr "The payment didn’t go through. Nothing was charged."
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.peak"
+msgstr "The top of the range allows for busy-time prices up to {peak}×; real surges can go higher."
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.inWallet"
+msgstr "The voucher is in your wallet, and the cost is in the crew’s expenses."
+
+#: ../../apps/mobile/src/features/bookings/supplier/OfferCard.tsx
+msgid "suppliers.offer.theirWords"
+msgstr "Their words"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.minimum"
+msgstr "This trip is short enough that the minimum fare applies."
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.linkLine"
+msgstr "Times, prices and tickets on {supplier}"
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+msgid "suppliers.book.rejected"
+msgstr "Viator couldn’t book it"
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.rejectedNote"
+msgstr "Viator couldn’t book it and nothing was charged. Try another time or day."
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.failed"
+msgstr "Viator didn’t cancel it. The booking still stands."
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.holdNote"
+msgstr "Viator holds the seats when it can. If it can’t, you can still book straight away."
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.down"
+msgstr "Viator isn’t answering right now. Nothing has changed."
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.down"
+msgstr "Viator isn't answering, so these open the supplier's own site."
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.unavailable"
+msgstr "Viator isn’t taking bookings in the app right now. You can still book it on their site."
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.notCancellable"
+msgstr "Viator says this one can’t be cancelled any more."
+
+#: ../../apps/mobile/src/features/bookings/supplier/PaymentWebView.tsx
+msgid "suppliers.pay.note"
+msgstr "Viator's own payment form. Your card goes to Viator, never to us."
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.booked.waitingOperator"
+msgstr "Waiting for the operator"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.disclosure.affiliate"
+msgstr "We may earn a commission. It never changes what {guide} recommends."
+
+#. placeholder {0}: params.currency
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.amount"
+msgstr "What it cost ({0})"
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfBody"
+msgstr "WhatsApp opens with this text. Pick {vendor}’s chat and send it. Their reply comes to you."
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.empty"
+msgstr "No messages to places yet. When you ask a place something, it shows here."
+
+#: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+msgid "suppliers.estimate.title"
+msgstr "Why this estimate"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GrabEstimateCard.tsx
+msgid "suppliers.rides.whyEstimate"
+msgstr "Why this estimate"
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.there"
+msgstr "You should be about there · estimate"

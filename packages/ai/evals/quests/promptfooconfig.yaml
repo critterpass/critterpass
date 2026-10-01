@@ -1,0 +1,13 @@
+# Crew quests: a trip day's plan → up to four quests from the registered templates, in the guide's
+# voice. The guide picks templates and params; the validator drops anything that does not resolve
+# against the day (a place not on the plan, a count or XP outside the template table, a number the
+# quest facts do not hold) and deterministic quests fill the day to three. Cases live in
+# cases/*.yaml and run through the real writeQuests (see suite.ts); seeded cases grade the validator
+# on deliberate model slips.
+# Run: pnpm --filter @cp/ai eval quests
+description: Crew quests written from the day plan
+prompts:
+  - '{{day}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

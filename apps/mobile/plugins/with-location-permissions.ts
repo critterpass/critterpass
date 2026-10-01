@@ -21,13 +21,15 @@ export const IOS_USAGE_STRINGS: Readonly<Record<string, string>> = {
     'Allow all the time so critters can find you and your crew map stays current while your phone is in your pocket. Only on trip days; switch it off any time.',
   NSAlarmKitUsageDescription:
     'CritterPass rings a real alarm when it is time to leave for your flight, pickup or tour.',
-  NSCameraUsageDescription: 'Take a real photo for your pass, your receipts and trip moments.',
+  NSCameraUsageDescription:
+    'CritterPass uses the camera to show critters where you stand and to take photos for your pass, receipts and trip moments. Camera frames stay on your phone.',
   NSMicrophoneUsageDescription: 'Talk to your guide instead of typing.',
   NSSpeechRecognitionUsageDescription: 'Turns what you say to your guide into text.',
   NSPhotoLibraryAddUsageDescription: 'Save share cards and postcards to your photos.',
   NSPhotoLibraryUsageDescription: 'Add the photos you pick to your crew album.',
   NSCalendarsFullAccessUsageDescription:
     'Find dates when your whole crew is free. Only free and busy times are used; event details stay on your phone.',
+  NSCalendarsWriteOnlyAccessUsageDescription: 'Adds your trip plans to your calendar.',
 };
 
 export const IOS_TEMPORARY_ACCURACY_STRINGS: Readonly<Record<string, string>> = {

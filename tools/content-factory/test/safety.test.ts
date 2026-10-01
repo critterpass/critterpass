@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { committedItems } from '../src/committed';
 import { numberInSource } from '../src/kinds/emergency/sources';
 import { toEmergency } from '../src/kinds/emergency';
-import { toFacility } from '../src/kinds/facilities';
+import { facilitiesKind, toFacility } from '../src/kinds/facilities';
 import { toInsurance } from '../src/kinds/insurance';
 import { validateCommitted } from '../src/pipeline';
 import { suppliersNamed } from '../src/suppliers';
@@ -67,6 +67,29 @@ describe('safety records keep only what their source states', () => {
     expect(toFacility(input, { ...base, name: 'Invented Medical Centre' }, now)).toBeNull();
   });
 
+  it('keeps carried-over facilities as they are beside the newly researched ones', async () => {
+    const carried = {
+      ref: 'lisbon-hospital-de-santa-maria',
+      destination: 'lisbon',
+      kind: 'hospital',
+      name: 'Hospital de Santa Maria',
+      lat: 38.7485,
+      lng: -9.1602,
+      address: 'Avenida Professor Egas Moniz, 1649-035 Lisboa',
+      phone: '+351 217 805 000',
+      open_24h: null,
+      source_url: 'https://www.example.gov/santa-maria',
+      retrieved_on: '2026-09-28',
+      verified_at: '2026-09-29T10:00:00.000Z',
+    };
+    const items = await facilitiesKind.assemble(
+      { batchKey: 'test', now, options: { destinations: 'bali' } },
+      { units: [], carried: [carried] },
+      new Map(),
+    );
+    expect(items).toEqual([carried]);
+  });
+
   it('keeps only cited sources in insurance guidance and spots named suppliers', () => {
     const item = toInsurance(
       { country: 'ID', name: 'Indonesia', hits: [hit] },
@@ -89,7 +112,7 @@ describe('safety records keep only what their source states', () => {
       numbers.every((n) => n.verified_at === null && n.source_url.startsWith('https://')),
     ).toBe(true);
     const facilities = committedItems('facilities');
-    for (const city of ['bali', 'kyoto', 'iceland', 'mexico-city', 'lisbon', 'cusco']) {
+    for (const city of ['bali', 'kyoto', 'iceland', 'mexico-city', 'lisbon', 'cusco', 'da-nang']) {
       expect(
         facilities.some((f) => f.destination === city && f.kind === 'hospital'),
         city,
@@ -99,9 +122,9 @@ describe('safety records keep only what their source states', () => {
         city,
       ).toBe(true);
     }
+    // The newest batch is the one that publishes; an older one may predate a destination.
     for (const kind of ['emergency', 'facilities', 'insurance'] as const) {
-      for (const { report } of validateCommitted(kind))
-        expect(report.severity, kind).not.toBe('fail');
+      expect(validateCommitted(kind).at(-1)?.report.severity, kind).not.toBe('fail');
     }
   });
 });

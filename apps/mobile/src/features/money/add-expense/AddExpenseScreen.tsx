@@ -17,7 +17,7 @@ import { MONEY_ROUTES } from '../routes';
 import { AddExpenseView } from './AddExpenseView';
 import { CurrencyPicker } from './CurrencyPicker';
 import { DetailsSheet, shiftDays } from './DetailsSheet';
-import { amountMinorOf, draftProblem } from './draft';
+import { amountMinorOf, draftProblem, sharesByMember } from './draft';
 import { useAddLabels } from './labels';
 import { useExpenseDraft } from './useExpenseDraft';
 
@@ -80,7 +80,7 @@ export function AddExpenseScreen({
         draft={draft}
         members={members}
         approx={approx}
-        perMember={preview?.perMember ?? null}
+        perMember={sharesByMember(draft)}
         ctaLabel={ctaLabel}
         ctaDisabled={amountMinor === 0n}
         shake={shake}

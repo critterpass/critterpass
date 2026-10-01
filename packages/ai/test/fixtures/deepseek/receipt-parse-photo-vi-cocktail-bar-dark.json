@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "7c5ea5ea-af79-4e0d-9e89-5cc52a2e2069",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":null,\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l6\",\"label\":\"Bespoke Gin (Hendrick's)\",\"qty\":null,\"amount\":\"329,000\",\"kind\":\"item\"},{\"line_id\":\"l9\",\"label\":\"Bespoke Tequila (Lunazul)\",\"qty\":null,\"amount\":\"269,000\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"Maker's Mark (Cocktail 40ml)\",\"qty\":null,\"amount\":\"329,000\",\"kind\":\"item\"},{\"line_id\":\"l17\",\"label\":\"Old Fashioned (Rittenhouse Rye)\",\"qty\":2,\"amount\":\"498,000\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"Phí dịch vụ 5% (Service Charge 5%)\",\"qty\":null,\"amount\":\"71,250\",\"kind\":\"service\"}],\"total\":{\"line_id\":\"l23\",\"amount\":\"1,496,250\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 251,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 218,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

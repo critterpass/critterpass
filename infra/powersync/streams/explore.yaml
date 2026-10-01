@@ -1,0 +1,36 @@
+# Explore streams (docs/data-model-sync-and-privacy.md §4): group swiping on the trip, guide tips
+# for a browsed destination, and the caller's saved lists. Filters mirror each table's RLS SELECT
+# policy. swipe_votes is never synced (it holds every "no"); the crew sees swipe_yes_votes, the
+# yes-only mirror. place_tips lists its columns so the author never leaves the server, and filters
+# on its own destination_id so the stream needs no subquery over the destination's places.
+
+streams:
+  trip:
+    queries:
+      - |
+        SELECT * FROM swipe_sessions
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |
+        SELECT * FROM swipe_yes_votes
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |
+        SELECT * FROM swipe_matches
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+
+  # Subscribed with {destination_id} while browsing; approved tips are public to any signed-in reader.
+  explore:
+    accept_potentially_dangerous_queries: true
+    queries:
+      - |
+        SELECT id, poi_id, destination_id, text, lang, moderation_status, created_at, updated_at
+        FROM place_tips
+        WHERE destination_id = subscription.parameter('destination_id')
+          AND moderation_status = 'approved'
+
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM saved_lists WHERE user_id = auth.user_id()

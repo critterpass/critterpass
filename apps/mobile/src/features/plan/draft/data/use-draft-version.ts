@@ -7,6 +7,9 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { useMemo } from 'react';
 
+import { guideText } from '@/lib/i18n/guide-text';
+import { useActiveLocale } from '@/lib/i18n/use-locale';
+
 import type { DraftTrip } from './draft-trip';
 import { useLiveRows } from './rows';
 import {
@@ -44,8 +47,9 @@ export interface DraftVersionView {
 
 const VERSION_SQL = `SELECT id, status, parent_id, created_at, cost_pp_minor, currency, metrics, coverage
   FROM itinerary_versions WHERE id = ?`;
-const DAYS_SQL = `SELECT id, day_no, date, theme FROM plan_days WHERE version_id = ? ORDER BY day_no`;
-const ITEMS_SQL = `SELECT day_id, stable_id, starts_at, tz, poi_id, must_do_id, category, booking_id, locked_reason
+const DAYS_SQL = `SELECT id, day_no, date, theme, i18n FROM plan_days WHERE version_id = ? ORDER BY day_no`;
+const ITEMS_SQL = `SELECT day_id, stable_id, starts_at, tz, poi_id, must_do_id, category, booking_id, locked_reason,
+    notes
   FROM plan_items WHERE version_id = ?`;
 const MUST_DOS_SQL = `SELECT id, owner_id, title, external_action, external_deadline FROM must_dos
   WHERE trip_id = ?`;
@@ -93,6 +97,7 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
   const mustDos = useLiveRows<MustDoRow>(MUST_DOS_SQL, byTrip, ['must_dos']);
   const history = useLiveRows<HistoryRow>(HISTORY_SQL, byTrip, ['itinerary_versions', 'plan_days']);
   const jobs = useLiveRows<JobRow>(JOBS_SQL, byTrip, ['agent_jobs']);
+  const locale = useActiveLocale();
   const reserved = useLiveRows<{ agent_job_id: string }>(RESERVED_SQL, byTrip, [
     'redraft_reservations',
   ]);
@@ -102,13 +107,17 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
     if (trip === undefined || trip === null || row === undefined) return null;
     return buildReview({
       version: row,
-      days: days.rows,
+      // The organiser reviews the draft in their own language: each day's theme as they read it.
+      days: days.rows.map((day) => ({
+        ...day,
+        theme: guideText('plan_day', day, 'theme', locale),
+      })),
       items: items.rows,
       mustDos: mustDos.rows,
       people: trip.people,
       setup: trip.setup,
     });
-  }, [trip, version.rows, days.rows, items.rows, mustDos.rows]);
+  }, [trip, version.rows, days.rows, items.rows, mustDos.rows, locale]);
 
   const openRedraft = useMemo((): OpenRedraft | null => {
     const waiting = new Set(reserved.rows.map((r) => r.agent_job_id));

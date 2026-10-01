@@ -27,7 +27,7 @@ export const MEMBERS_SQL = `SELECT m.user_id, m.colour, u.display_name
 export const MEMBERS_TABLES = ['crew_members', 'users'];
 
 export const TRIPS_SQL = `SELECT t.id, t.status, t.start_date, t.end_date,
-    coalesce(t.tz, d.tz) AS tz, t.destination_id, d.name AS destination_name, t.guide_id,
+    coalesce(t.tz, d.tz) AS tz, t.destination_id, d.name AS destination_name, d.slug AS destination_slug, t.guide_id,
     g.slug AS guide_slug, t.plan_progress, p.countdown_target_at
   FROM trips t
   LEFT JOIN destinations d ON d.id = t.destination_id
@@ -78,6 +78,7 @@ export interface TripRow {
   readonly tz: string | null;
   readonly destination_id: string | null;
   readonly destination_name: string | null;
+  readonly destination_slug?: string | null;
   readonly guide_id: string | null;
   readonly guide_slug: string | null;
   readonly plan_progress: number | null;
@@ -125,6 +126,7 @@ export function toTripInput(row: TripRow): HomeTripInput {
     tz: row.tz,
     destinationId: row.destination_id,
     destinationName: row.destination_name,
+    destinationSlug: row.destination_slug ?? null,
     guideId: row.guide_slug,
     planProgress: Math.max(0, Math.min(100, Number(row.plan_progress ?? 0))),
     countdownTargetAt: row.countdown_target_at,

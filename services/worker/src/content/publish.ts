@@ -17,6 +17,7 @@ import { defineJob, enqueueInTx, type AnyJobDefinition } from '../boss/define-jo
 import { contentEmbedJob } from './embed';
 import { WRITERS, PublishRefusedError } from './writers';
 import { writePersonas, writePlaces } from './writers-guides-places';
+import { writeMedia } from './writers-media';
 
 export const contentPublishPayloadSchema = z.object({ release_id: z.uuid() });
 
@@ -55,6 +56,8 @@ export async function publishRelease(tx: pg.PoolClient, releaseId: string): Prom
   else if (row.kind === 'personas')
     await writePersonas(tx, loadRelease(row.artifact, 'personas').items, row.version);
   else if (row.kind === 'places') await writePlaces(tx, loadRelease(row.artifact, 'places').items);
+  else if (row.kind === 'media')
+    await writeMedia(tx, loadRelease(row.artifact, 'media').items, releaseId);
 
   await tx.query(
     "UPDATE content_releases SET status = 'superseded' WHERE kind = $1 AND status = 'published' AND id <> $2",

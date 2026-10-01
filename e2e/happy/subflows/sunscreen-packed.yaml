@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# The day-of pack chip "Sunscreen, just you" is ticked. The chip is a checkbox: Android reports its
+# checked state; iOS has no checkbox element type, so React Native reads the state in the chip's
+# value ("checkbox, checked"), which Maestro matches as the element's text.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          visible:
+            text: 'Sunscreen, just you'
+            checked: true
+          timeout: 10000
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-day-pack-.*'
+            text: 'checkbox, checked'
+          timeout: 10000

@@ -1,0 +1,458 @@
+# Proposal cases. `version`: one member's personal version from the facts guide_reader and the
+# cost engine give it; `forbid` lists what must never appear (other members' names, another
+# member's budget or private reason, a stay "held"). `objection`: the private reply over the
+# options code decided. `suggestion`: the organiser's cards. `intent`: a free-text reply read as
+# in / maybe / out / question. `seeded_reply` cases grade a validator on a deliberate slip.
+- id: proposal-version-01
+  kind: version
+  description: Rin's Kyoto version leads with her must-do and names nobody else
+  forbid: [Maya, Dev, Alex, Jordan, held, hold the, '2,400', afford]
+  expect_lead: 0199a0f2-0000-7000-8000-00000000f001
+  input:
+    guide: pon
+    recipientFirstName: Rin
+    destination: Kyoto
+    dates: 2026-11-12 to 2026-11-18
+    tasteTags: [temples, food, early_riser]
+    share: '$1,310'
+    savings: [{ id: 'skip:nara', label: 'Skip the Nara day', amount: '$64' }]
+    otherNames: [Maya, Dev, Alex, Jordan]
+    items:
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f001,
+          title: Fushimi Inari at dawn,
+          day: 2,
+          category: sight,
+          must_do: true,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f002,
+          title: Nishiki Market,
+          day: 1,
+          category: food,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f003,
+          title: Nara deer park,
+          day: 4,
+          category: sight,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f004,
+          title: Kaiseki dinner in Gion,
+          day: 3,
+          category: food,
+          must_do: false,
+        }
+- id: proposal-version-02
+  kind: version
+  description: cost hidden, so the version writes no price at all
+  forbid: [$, Maya, Rin, held]
+  input:
+    guide: tokek
+    recipientFirstName: Dev
+    destination: Bali
+    dates: 2026-12-02 to 2026-12-09
+    tasteTags: [surf, nightlife]
+    share: null
+    savings: []
+    otherNames: [Maya, Rin, Alex]
+    items:
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f011,
+          title: Uluwatu surf lesson,
+          day: 2,
+          category: activity,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f012,
+          title: Mount Batur sunrise,
+          day: 3,
+          category: activity,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f013,
+          title: Seminyak beach club,
+          day: 4,
+          category: food,
+          must_do: false,
+        }
+- id: proposal-version-03
+  kind: version
+  description: a guest guide, a must-do and a saving on offer
+  forbid: [Sam, Ines, held, reserved rooms]
+  expect_lead: 0199a0f2-0000-7000-8000-00000000f023
+  input:
+    guide: guest
+    recipientFirstName: Jordan
+    destination: Lisbon
+    dates: 2026-10-20 to 2026-10-24
+    tasteTags: [music, food]
+    share: '€890'
+    savings: [{ id: 'skip:sintra', label: 'Skip the Sintra day trip', amount: '€45' }]
+    otherNames: [Sam, Ines]
+    items:
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f021,
+          title: Belém pastries,
+          day: 1,
+          category: food,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f022,
+          title: Sintra palaces,
+          day: 2,
+          category: sight,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f023,
+          title: Fado night in Alfama,
+          day: 3,
+          category: music,
+          must_do: true,
+        }
+- id: proposal-version-04
+  kind: version
+  description: seeded, an invented number is refused
+  input: &kyoto
+    guide: pon
+    recipientFirstName: Rin
+    destination: Kyoto
+    dates: 2026-11-12 to 2026-11-18
+    tasteTags: [temples]
+    share: '$1,310'
+    savings: []
+    otherNames: [Maya, Dev]
+    items:
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f001,
+          title: Fushimi Inari at dawn,
+          day: 2,
+          category: sight,
+          must_do: true,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000f002,
+          title: Nishiki Market,
+          day: 1,
+          category: food,
+          must_do: false,
+        }
+  seeded_reply: &reply
+    slides:
+      - { headline: Kyoto calls, body: 'Your share is just $999.', item_id: null }
+      - {
+          headline: Dawn gates,
+          body: Fushimi Inari before the crowds.,
+          item_id: 0199a0f2-0000-7000-8000-00000000f001,
+        }
+      - { headline: Are you in?, body: Tell the crew., item_id: null }
+    poster: { title: Kyoto }
+    postcard: { message: See you in Kyoto. }
+    highlights: []
+    savings: []
+    lead_item_id: 0199a0f2-0000-7000-8000-00000000f001
+- id: proposal-version-05
+  kind: version
+  description: seeded, naming another member (a passive signal about them) is refused
+  input: *kyoto
+  seeded_reply:
+    <<: *reply
+    slides:
+      - { headline: Kyoto calls, body: Maya already watched the trailer twice., item_id: null }
+      - {
+          headline: Dawn gates,
+          body: Fushimi Inari before the crowds.,
+          item_id: 0199a0f2-0000-7000-8000-00000000f001,
+        }
+      - { headline: Are you in?, body: Tell the crew., item_id: null }
+- id: proposal-version-06
+  kind: version
+  description: seeded, claiming the rooms are held is refused
+  input: *kyoto
+  seeded_reply:
+    <<: *reply
+    slides:
+      - { headline: Kyoto calls, body: We are holding the rooms for you., item_id: null }
+      - {
+          headline: Dawn gates,
+          body: Fushimi Inari before the crowds.,
+          item_id: 0199a0f2-0000-7000-8000-00000000f001,
+        }
+      - { headline: Are you in?, body: Tell the crew., item_id: null }
+- id: proposal-version-07
+  kind: version
+  description: seeded, an item that is not on the plan is refused
+  input: *kyoto
+  seeded_reply:
+    <<: *reply
+    lead_item_id: 0199a0f2-0000-7000-8000-00000000ffff
+- id: proposal-version-08
+  kind: version
+  description: Linh reads Vietnamese, so her Đà Nẵng version is written in it with the amounts as given
+  forbid: [Minh, Trang, Khoa, held, giữ phòng, đã giữ]
+  expect_lead: 0199a0f2-0000-7000-8000-00000000d001
+  input:
+    guide: chava
+    locale: vi
+    recipientFirstName: Linh
+    destination: Da Nang
+    dates: 2026-10-02 to 2026-10-04
+    tasteTags: [street_food, beach]
+    share: '4.200.000 ₫'
+    savings: [{ id: 'skip:bana', label: 'Skip the Ba Na Hills day', amount: '350.000 ₫' }]
+    otherNames: [Minh, Trang, Khoa]
+    items:
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000d001,
+          title: Mì Quảng Bà Mua,
+          day: 1,
+          category: food,
+          must_do: true,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000d002,
+          title: My Khe Beach,
+          day: 1,
+          category: beach,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000d003,
+          title: Ba Na Hills,
+          day: 2,
+          category: sight,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000d004,
+          title: Dragon Bridge fire show,
+          day: 2,
+          category: sight,
+          must_do: false,
+        }
+- id: proposal-version-09
+  kind: version
+  description: a Vietnamese reader with cost hidden gets no price, in Vietnamese
+  forbid: ['₫', VND, Minh, held, giữ phòng]
+  input:
+    guide: chava
+    locale: vi
+    recipientFirstName: Trang
+    destination: Da Nang
+    dates: 2026-10-02 to 2026-10-04
+    tasteTags: [coffee, slow_mornings]
+    share: null
+    savings: []
+    otherNames: [Minh, Linh]
+    items:
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000d011,
+          title: Son Tra Peninsula,
+          day: 1,
+          category: sight,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000d012,
+          title: Han Market,
+          day: 2,
+          category: market,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000d013,
+          title: Hoi An old town,
+          day: 3,
+          category: sight,
+          must_do: true,
+        }
+- id: proposal-version-10
+  kind: version
+  description: seeded, a Vietnamese version that says a room is held is refused
+  input:
+    guide: chava
+    locale: vi
+    recipientFirstName: Trang
+    destination: Da Nang
+    dates: 2026-10-02 to 2026-10-04
+    tasteTags: [coffee]
+    share: null
+    savings: []
+    otherNames: [Minh, Linh]
+    items:
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000d021,
+          title: Hoi An old town,
+          day: 3,
+          category: sight,
+          must_do: true,
+        }
+  seeded_reply:
+    slides:
+      - {
+          headline: Hoi An old town,
+          body: 'Phố cổ đang đợi bạn. Yên tâm nhé, phòng của bạn đã được giữ sẵn rồi.',
+          item_id: 0199a0f2-0000-7000-8000-00000000d021,
+        }
+      - { headline: Cà phê sáng, body: 'Một ly cà phê, một góc phố yên.', item_id: null }
+      - { headline: Hẹn bạn ở biển, body: 'Chậm thôi, biển vẫn đợi.', item_id: null }
+    poster: { title: Đà Nẵng gọi }
+    postcard: { message: Hẹn gặp lại! }
+    highlights: []
+    savings: []
+    lead_item_id: 0199a0f2-0000-7000-8000-00000000d021
+- id: proposal-objection-01
+  kind: objection
+  description: cost, worded kindly, every option kept, no organiser name
+  forbid: [Maya, held, promise]
+  input:
+    guide: pon
+    reason: cost
+    organiser: Maya
+    text: Money is tight after my move.
+    options:
+      - { id: 'skip:nara', kind: skip_item, label: Skip the Nara day, saves: '$64' }
+      - { id: 'skip:kayak', kind: skip_item, label: Skip the kayak trip, saves: '$120' }
+      - { id: ask_crew, kind: ask_crew, label: Ask the crew without saying who asked, saves: null }
+      - { id: follow_up, kind: follow_up, label: 'Still thinking, ask me later', saves: null }
+- id: proposal-objection-02
+  kind: objection
+  description: dates, only the crew question and a later check-in
+  forbid: [Alex, held]
+  input:
+    guide: tokek
+    reason: dates
+    organiser: Alex
+    text: null
+    options:
+      - { id: ask_crew, kind: ask_crew, label: Ask the crew without saying who asked, saves: null }
+      - { id: follow_up, kind: follow_up, label: 'Still thinking, ask me later', saves: null }
+- id: proposal-objection-03
+  kind: objection
+  description: seeded, an amount the engine never gave is refused
+  input: &objection
+    guide: pon
+    reason: cost
+    organiser: Maya
+    text: null
+    options:
+      - { id: 'skip:nara', kind: skip_item, label: Skip the Nara day, saves: '$64' }
+      - { id: follow_up, kind: follow_up, label: 'Still thinking, ask me later', saves: null }
+  seeded_reply:
+    line: I can get this down by $200 for you.
+    options:
+      - { option_id: 'skip:nara', text: Skip Nara and save $64 }
+      - { option_id: follow_up, text: Ask me again later }
+- id: proposal-objection-04
+  kind: objection
+  description: seeded, dropping an option is refused
+  input: *objection
+  seeded_reply:
+    line: Just between us.
+    options:
+      - { option_id: 'skip:nara', text: Skip Nara and save $64 }
+- id: proposal-objection-05
+  kind: objection
+  description: a Vietnamese reader unsure about the cost is answered in Vietnamese, amounts as given
+  forbid: [Minh, held, giữ phòng]
+  input:
+    guide: chava
+    locale: vi
+    reason: cost
+    organiser: Minh
+    text: Tháng này mình hơi kẹt tiền.
+    options:
+      - { id: 'skip:bana', kind: skip_item, label: Skip the Ba Na Hills day, saves: '350.000 ₫' }
+      - { id: ask_crew, kind: ask_crew, label: Ask the crew without saying who asked, saves: null }
+      - { id: follow_up, kind: follow_up, label: 'Still thinking, ask me later', saves: null }
+- id: proposal-suggestion-01
+  kind: suggestion
+  description: a resend and an anonymous offer, worded without tying anyone to a reason
+  forbid: [opened, watched, worried]
+  input:
+    guide: pon
+    crewNames: [Maya, Dev, Rin, Alex, Jordan]
+    cards:
+      - id: 'resend:dev'
+        kind: resend
+        name: Dev
+        facts: { name: Dev, time: '21:00' }
+        template: Resend to Dev at 21:00 their time?
+      - id: 'offer:cost'
+        kind: offer
+        name: null
+        facts: { topic: cost }
+        template: Someone asked about cost. Offer everyone the cheaper room option?
+- id: proposal-suggestion-02
+  kind: suggestion
+  description: seeded, a name next to a reason is refused
+  input: &cards
+    guide: pon
+    crewNames: [Maya, Dev, Rin]
+    cards:
+      - id: 'resend:dev'
+        kind: resend
+        name: Dev
+        facts: { name: Dev, time: '21:00' }
+        template: Resend to Dev at 21:00 their time?
+  seeded_reply: Dev is worried about the cost. Resend at 21:00?
+- id: proposal-suggestion-03
+  kind: suggestion
+  description: seeded, an open reported as a signal is refused
+  input: *cards
+  seeded_reply: Dev opened it twice. Resend at 21:00?
+- id: proposal-suggestion-04
+  kind: suggestion
+  description: seeded, an offer that names who asked is refused
+  input:
+    guide: pon
+    crewNames: [Maya, Dev, Rin]
+    cards:
+      - id: 'offer:cost'
+        kind: offer
+        name: null
+        facts: { topic: cost }
+        template: Someone asked about cost. Offer everyone the cheaper room option?
+  seeded_reply: Rin asked about cost. Offer everyone the cheaper room?
+- {
+    id: proposal-intent-01,
+    kind: intent,
+    description: a clear yes,
+    expect_intent: in,
+    input: { text: 'Count me in, booking my flights tonight!' },
+  }
+- {
+    id: proposal-intent-02,
+    kind: intent,
+    description: a clear no,
+    expect_intent: out,
+    input: { text: "Sorry guys, I can't make it this time." },
+  }
+- {
+    id: proposal-intent-03,
+    kind: intent,
+    description: not sure yet,
+    expect_intent: maybe,
+    input: { text: 'Maybe, I need to check with work first.' },
+  }
+- {
+    id: proposal-intent-04,
+    kind: intent,
+    description: a question,
+    expect_intent: question,
+    input: { text: 'Is the ryokan close to the station?' },
+  }
+- {
+    id: proposal-intent-05,
+    kind: intent,
+    description: drop me,
+    expect_intent: out,
+    input: { text: "Drop me from this one, money's tight." },
+  }

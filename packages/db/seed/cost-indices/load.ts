@@ -36,8 +36,11 @@ export function readCostIndexSeed(dir: string = import.meta.dirname): CostIndexS
   return z.array(costIndexRowSchema).parse(raw);
 }
 
-export async function seedCostIndices(pool: pg.Pool): Promise<void> {
-  const rows = readCostIndexSeed();
+/** Seeds every cost index row, or only those of `slugs`. */
+export async function seedCostIndices(pool: pg.Pool, slugs?: readonly string[]): Promise<void> {
+  const rows = readCostIndexSeed().filter(
+    (row) => slugs === undefined || slugs.includes(row.destination),
+  );
   await withSystem(pool, async (tx) => {
     for (const row of rows) {
       await tx.query(

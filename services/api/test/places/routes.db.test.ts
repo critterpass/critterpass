@@ -75,8 +75,8 @@ beforeAll(async () => {
 }, 180_000);
 
 afterAll(async () => {
-  await pool.end();
-  await postgres.stop();
+  await pool?.end();
+  await postgres?.stop();
 });
 
 describe('GET /v1/places/search', () => {
@@ -109,6 +109,32 @@ describe('GET /v1/places/search', () => {
     };
     expect(body.results[0]?.name).toBe('Nishiki Market');
     expect(body.results[0]?.distanceM).toBeLessThan(100);
+  });
+
+  it('lists curated places before other matches and hides records merged into another', async () => {
+    const insert = `INSERT INTO pois (destination_id, name, category, lat, lng, curation, merged_into_id)
+      VALUES ($1, $2, $3, 35.0, 135.76, $4, $5) RETURNING id`;
+    const street = await pool.query<{ id: string }>(insert, [
+      destinationId,
+      'Kamo River Kamo River Guesthouse',
+      'stay',
+      'auto',
+      null,
+    ]);
+    const river = await pool.query<{ id: string }>(insert, [
+      destinationId,
+      'Kamo River',
+      'nature',
+      'editorial',
+      null,
+    ]);
+    await pool.query(insert, [destinationId, 'Kamo River', 'other', 'auto', river.rows[0]!.id]);
+    const app = buildTestApp();
+    const response = await app.request(
+      `/v1/places/search?q=${encodeURIComponent('Kamo River')}&destination_id=${destinationId}`,
+    );
+    const body = (await response.json()) as { results: { id: string; name: string }[] };
+    expect(body.results.map((r) => r.id)).toEqual([river.rows[0]!.id, street.rows[0]!.id]);
   });
 
   it('rejects an unauthenticated request', async () => {

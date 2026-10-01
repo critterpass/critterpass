@@ -11,6 +11,7 @@ import type { LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent } from 
 import { View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
+import { FOOTER_FADE_PT } from '@/ui/layout/KeyboardFooter';
 import { makeStyles } from '@/ui/theme';
 
 import type { ChatMessage } from '../data/rows';
@@ -32,9 +33,10 @@ export interface MessageListProps {
 
 const useStyles = makeStyles((th) => ({
   list: { flex: 1 },
-  content: { paddingHorizontal: th.space['12'], paddingBottom: th.space['8'] },
+  // The composer's fade covers the list's last FOOTER_FADE_PT: the newest message ends clear of it.
+  content: { paddingHorizontal: th.space['12'], paddingBottom: FOOTER_FADE_PT + th.space['8'] },
   row: { paddingVertical: th.space['2'] },
-  jump: { position: 'absolute', alignSelf: 'center', bottom: th.space['8'] },
+  jump: { position: 'absolute', alignSelf: 'center', bottom: FOOTER_FADE_PT + th.space['8'] },
 }));
 
 export function lastSeq(messages: readonly ChatMessage[]): number {

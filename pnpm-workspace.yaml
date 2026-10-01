@@ -20,6 +20,7 @@ catalog:
   '@lingui/conf': 6.8.0
   '@lingui/core': 6.8.0
   '@lingui/format-po': 6.8.0
+  '@lingui/message-utils': 6.8.0
   '@lingui/react': 6.8.0
   '@maplibre/maplibre-gl-style-spec': 26.4.4
   '@messageformat/parser': 5.1.1
@@ -90,7 +91,9 @@ catalog:
   posthog-node: 5.54.1
   prettier: 3.9.9
   react-native-mmkv: 4.3.2
+  react-native-nitro-image: 0.15.2
   react-native-nitro-modules: 0.37.1
+  react-native-vision-camera: 5.2.3
   redis: 6.2.1
   testcontainers: 12.1.0
   tsdown: 0.23.0

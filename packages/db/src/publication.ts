@@ -61,29 +61,50 @@ import * as schema from './schema';
  * and read only by the conversions import and the ops console, never by a client.
  * `journey_checks` (packages/db/src/schema/disruptions.ts) is C2: the latest running-late ETA per
  * member and item, answered over HTTP and never synced.
+ * `swipe_votes` (packages/db/src/schema/explore.ts) is owner-read and holds every "no": the crew
+ * syncs `swipe_yes_votes`, the trigger-kept yes-only mirror, and replication never sees a verdict.
+ * `place_qna_summaries` is trip-visible (C1) but served by the place context route only.
+ * `sponsored_placements` is RLS "R" but read over HTTP only, gated per viewer by `sponsored(u,t)`,
+ * and `sponsored_event_counts` is "S": counts the ops console reads, no client ever does.
+ * `media_assets` is RLS "R" but read over HTTP only (`/v1/media`): the app fetches a subject's
+ * hero when it shows it and prefetches a trip's files to disk itself.
+ * `la_push_to_start_tokens`, `device_activities`, `broadcast_channels` and `la_object_states`
+ * (packages/db/src/schema/live-activities.ts) stay server-side: Live Activity tokens and frames
+ * are the phone's own truth plus the orchestrator's, never synced.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'affiliate_clicks',
   'app_open_hours',
+  'broadcast_channels',
   'cities',
   'codes',
   'content_releases',
+  'device_activities',
   'critter_names',
+  'engagement_events',
   'fair_use_counters',
   'fare_cells',
   'flight_watches',
   'install_attributions',
   'journey_checks',
+  'la_object_states',
+  'la_push_to_start_tokens',
+  'media_assets',
   'media_objects',
   'member_etas',
   'moderation_reports',
   'persona_packs',
+  'place_qna_summaries',
   'poi_embeddings',
   'poi_hours_proposals',
   'poi_live_checks',
+  'proposal_followups',
   'push_tokens',
   'scheduled_events',
+  'sponsored_event_counts',
+  'sponsored_placements',
+  'swipe_votes',
 ]);
 
 /** Every table this schema declares that the `powersync` publication should carry. */

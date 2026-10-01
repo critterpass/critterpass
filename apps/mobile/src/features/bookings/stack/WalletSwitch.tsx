@@ -1,24 +1,24 @@
 /**
  * BOOKINGS | MONEY at the top of both halves of the Wallet tab. Undesigned: the shared segmented
- * control, which swaps one half for the other in place (no push, so back never flips between them).
+ * control, which swaps one half for the other in place without a transition (see wallet-halves).
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { router, type Href } from 'expo-router';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Segmented } from '@/ui/inputs/Segmented';
 
-import { BOOKINGS_ROUTES } from '../routes';
+import { switchWalletHalf, type WalletHalf } from './wallet-halves';
 
-export type WalletHalf = 'bookings' | 'money';
-
-// eslint-disable-next-line lingui/no-unlocalized-strings -- a route, not copy
-const MONEY_HOME: Href = '/wallet/money';
+export type { WalletHalf } from './wallet-halves';
 
 export function WalletSwitch({ current }: { readonly current: WalletHalf }) {
   const { t } = useLingui();
   const locale = useLocale();
+  // Both halves are the Wallet tab's root, drawn without a back (3i-1): the switch and the tab bar
+  // are the way around, even when a link pushed Bookings over Money.
+  useNoBackByDesign();
   return (
     <Segmented<WalletHalf>
       label={t({ id: 'bookings.switch.label', message: 'Wallet' })}
@@ -34,8 +34,7 @@ export function WalletSwitch({ current }: { readonly current: WalletHalf }) {
       ]}
       value={current}
       onChange={(half) => {
-        if (half !== current)
-          router.replace(half === 'bookings' ? BOOKINGS_ROUTES.wallet : MONEY_HOME);
+        if (half !== current) switchWalletHalf(half);
       }}
       testID="wallet-switch"
     />

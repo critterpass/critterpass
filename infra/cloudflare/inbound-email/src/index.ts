@@ -1,7 +1,7 @@
 /**
- * The Email Worker entry: Cloudflare Email Routing hands every message for the `in.` subdomain to
- * `email()`, which runs the handler with the real bindings, the platform's `fetch` and replies
- * sent through `message.reply` (threaded, from the crew address).
+ * The Email Worker entry: Cloudflare Email Routing's catch-all hands every unmatched message of the
+ * zone to `email()`, which runs the handler with the real bindings, the platform's `fetch`, replies
+ * sent through `message.reply` (threaded, from the crew address) and `message.forward`.
  */
 import { EmailMessage } from 'cloudflare:email';
 
@@ -15,6 +15,9 @@ export default {
       newId: () => crypto.randomUUID(),
       reply: async (raw) => {
         await message.reply(new EmailMessage(message.to, message.from, raw));
+      },
+      forward: async (to) => {
+        await message.forward(to);
       },
     });
   },

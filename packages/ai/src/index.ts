@@ -290,3 +290,7 @@ export * from './routes/briefing';
 export * from './routes/disruption';
 export * from './routes/watch';
 export * from './routes/replan';
+export * from './routes/translate';
+export * from './routes/explore';
+export * from './routes/proposal';
+export * from './routes/quests';

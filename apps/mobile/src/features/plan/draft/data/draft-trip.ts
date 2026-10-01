@@ -4,9 +4,9 @@
  * quota and the setup inputs a draft is compared against. Everything here works offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
-import { tokens } from '@cp/design-tokens';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { redraftQuota, type RedraftQuota } from './quota';
@@ -93,8 +93,6 @@ const MUST_DOS_TABLES = ['must_dos'];
 const ME_SQL = 'SELECT value FROM local_state WHERE id = ?';
 const ME_TABLES = ['local_state'];
 
-const GUIDES: readonly string[] = tokens.guide.order;
-
 export function firstName(displayName: string | null): string {
   return displayName?.trim().split(/\s+/u)[0] ?? '';
 }
@@ -118,7 +116,7 @@ export function toDraftTrip(
     tripId,
     status: trip.status,
     destinationName: trip.destination_name ?? '',
-    guide: (GUIDES.includes(trip.guide_slug ?? '') ? trip.guide_slug : 'tokek') as GuideId,
+    guide: isGuideStickerId(trip.guide_slug) ? trip.guide_slug : 'tokek',
     startDate: trip.start_date,
     endDate: trip.end_date,
     tz: trip.tz ?? 'UTC',

@@ -46,12 +46,13 @@ describe('parseArgs', () => {
   });
 });
 
-describe('bake (CLI core acceptance)', () => {
+// Bakes real art through the renderer: CI runners are about 3× slower than a laptop.
+describe('bake (CLI core acceptance)', { timeout: 90_000 }, () => {
   let dir: string;
 
   afterEach(() => {
     if (dir) rmSync(dir, { recursive: true, force: true });
-  }, 20_000);
+  });
 
   it('bakes files, writes zero files on an unchanged re-run, and --check catches a stale output', async () => {
     dir = mkdtempSync(join(tmpdir(), 'critter-bake-cli-'));
@@ -104,7 +105,7 @@ describe('bake (CLI core acceptance)', () => {
     expect(checkStale.staleOutPaths).toContain('out/gecko-common-idle-color-48pt@2x.png');
     // --check must never write.
     expect(readFileSync(outFile).equals(Buffer.from([0, 1, 2, 3]))).toBe(true);
-  }, 30_000);
+  });
 
   it('filters jobs with --only', async () => {
     dir = mkdtempSync(join(tmpdir(), 'critter-bake-cli-'));
@@ -119,5 +120,5 @@ describe('bake (CLI core acceptance)', () => {
     expect(result.totalOutputs).toBe(1);
     expect(existsSync(join(dir, 'out', 'tanuki-common-idle-color-48pt@2x.png'))).toBe(true);
     expect(existsSync(join(dir, 'out', 'gecko-common-idle-color-48pt@2x.png'))).toBe(false);
-  }, 20_000);
+  });
 });

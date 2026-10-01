@@ -1,14 +1,18 @@
 appId: app.critterpass.dev
 ---
-# Phrase cards (3h-3): with recorded audio, shown only, audio coming, audio out of reach and SHOW
-# mode, prefixed `${PREFIX}`.
+# Phrase cards (3h-3): with recorded audio, in the phone's voice, audio coming, the phone's voice
+# when the audio is out of reach, and SHOW mode, prefixed `${PREFIX}`.
 - runFlow:
     file: scene.yaml
     env: { SCENE: phrase-audio, READY: guide-phrase-card, SHOT: '${PREFIX}-3h-3-phrase-audio' }
 - runFlow:
     file: scene.yaml
     env:
-      { SCENE: phrase-show-only, READY: guide-phrase-card, SHOT: '${PREFIX}-3h-3-phrase-show-only' }
+      {
+        SCENE: phrase-show-only,
+        READY: guide-phrase-card,
+        SHOT: '${PREFIX}-3h-3-phrase-device-voice',
+      }
 - runFlow:
     file: scene.yaml
     env:
@@ -18,8 +22,8 @@ appId: app.critterpass.dev
     env:
       {
         SCENE: phrase-unavailable,
-        READY: guide-phrase-unavailable,
-        SHOT: '${PREFIX}-3h-3-phrase-unavailable',
+        READY: guide-phrase-device-voice,
+        SHOT: '${PREFIX}-3h-3-phrase-device-voice-fallback',
       }
 - runFlow:
     file: scene.yaml

@@ -14,7 +14,7 @@ export const guideArtSchema = z.object({ k: z.string().min(1) }).strict();
 export const critterItemSchema = z
   .object({
     id: critterIdSchema,
-    no: z.number().int().min(1).max(150),
+    no: z.number().int().min(1).max(999),
     set_code: placeCodeSchema,
     /** The city or spot the critter lives in (shown on locked slots instead of the name). */
     city: z.string().min(1),

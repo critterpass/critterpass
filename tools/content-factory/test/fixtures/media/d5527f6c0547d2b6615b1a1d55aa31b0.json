@@ -1,0 +1,210 @@
+{
+  "at": 1790795550969,
+  "url": "https://pixabay.com/api/videos/?q=Da+Nang&video_type=film&safesearch=true&min_width=1280&per_page=4",
+  "body": {
+    "total": 45,
+    "totalHits": 45,
+    "hits": [
+      {
+        "id": 174459,
+        "pageURL": "https://pixabay.com/videos/id-174459/",
+        "type": "film",
+        "tags": "seaport, beach, sea, tien sa port in danang city, da nang seaport, vietnam, da nang city",
+        "duration": 30,
+        "videos": {
+          "large": {
+            "url": "https://cdn.pixabay.com/video/2023/08/03/174459-851502066_large.mp4",
+            "width": 2560,
+            "height": 1440,
+            "size": 30495994,
+            "thumbnail": "https://cdn.pixabay.com/video/2023/08/03/174459-851502066_large.jpg"
+          },
+          "medium": {
+            "url": "https://cdn.pixabay.com/video/2023/08/03/174459-851502066_medium.mp4",
+            "width": 1920,
+            "height": 1080,
+            "size": 18160624,
+            "thumbnail": "https://cdn.pixabay.com/video/2023/08/03/174459-851502066_medium.jpg"
+          },
+          "small": {
+            "url": "https://cdn.pixabay.com/video/2023/08/03/174459-851502066_small.mp4",
+            "width": 1280,
+            "height": 720,
+            "size": 9264127,
+            "thumbnail": "https://cdn.pixabay.com/video/2023/08/03/174459-851502066_small.jpg"
+          },
+          "tiny": {
+            "url": "https://cdn.pixabay.com/video/2023/08/03/174459-851502066_tiny.mp4",
+            "width": 960,
+            "height": 540,
+            "size": 5554828,
+            "thumbnail": "https://cdn.pixabay.com/video/2023/08/03/174459-851502066_tiny.jpg"
+          }
+        },
+        "views": 8790,
+        "downloads": 3112,
+        "likes": 60,
+        "comments": 2,
+        "user_id": 38512273,
+        "user": "SonDiem168",
+        "userImageURL": "https://cdn.pixabay.com/user/2023/08/03/09-59-38-956_250x250.jpg",
+        "noAiTraining": false,
+        "isAiGenerated": false,
+        "isGRated": true,
+        "isLowQuality": false,
+        "userURL": "https://pixabay.com/users/38512273/",
+        "name": "seaport, beach, sea"
+      },
+      {
+        "id": 7667,
+        "pageURL": "https://pixabay.com/videos/id-7667/",
+        "type": "film",
+        "tags": "dragon bridge, bridge, lights, night, flow, chinese sea, vietnam, da nang",
+        "duration": 98,
+        "videos": {
+          "large": {
+            "url": "https://cdn.pixabay.com/video/2017/02/05/7667-202716532_large.mp4",
+            "width": 1920,
+            "height": 1080,
+            "size": 58420752,
+            "thumbnail": "https://cdn.pixabay.com/video/2017/02/05/7667-202716532_large.jpg"
+          },
+          "medium": {
+            "url": "https://cdn.pixabay.com/video/2017/02/05/7667-202716532_medium.mp4",
+            "width": 1280,
+            "height": 720,
+            "size": 33897403,
+            "thumbnail": "https://cdn.pixabay.com/video/2017/02/05/7667-202716532_medium.jpg"
+          },
+          "small": {
+            "url": "https://cdn.pixabay.com/video/2017/02/05/7667-202716532_small.mp4",
+            "width": 960,
+            "height": 540,
+            "size": 21570720,
+            "thumbnail": "https://cdn.pixabay.com/video/2017/02/05/7667-202716532_small.jpg"
+          },
+          "tiny": {
+            "url": "https://cdn.pixabay.com/video/2017/02/05/7667-202716532_tiny.mp4",
+            "width": 640,
+            "height": 360,
+            "size": 7735123,
+            "thumbnail": "https://cdn.pixabay.com/video/2017/02/05/7667-202716532_tiny.jpg"
+          }
+        },
+        "views": 15148,
+        "downloads": 6487,
+        "likes": 78,
+        "comments": 18,
+        "user_id": 359839,
+        "user": "Dieter_G",
+        "userImageURL": "https://cdn.pixabay.com/user/2014/08/02/17-13-24-433_250x250.jpg",
+        "noAiTraining": false,
+        "isAiGenerated": false,
+        "isGRated": true,
+        "isLowQuality": true,
+        "userURL": "https://pixabay.com/users/359839/",
+        "name": "dragon bridge, bridge, lights"
+      },
+      {
+        "id": 174458,
+        "pageURL": "https://pixabay.com/videos/id-174458/",
+        "type": "film",
+        "tags": "seaport, sea, beach, city, tien sa port in danang city, da nang seaport, vietnam, da nang",
+        "duration": 15,
+        "videos": {
+          "large": {
+            "url": "https://cdn.pixabay.com/video/2023/08/03/174458-851502065_large.mp4",
+            "width": 2560,
+            "height": 1440,
+            "size": 23624173,
+            "thumbnail": "https://cdn.pixabay.com/video/2023/08/03/174458-851502065_large.jpg"
+          },
+          "medium": {
+            "url": "https://cdn.pixabay.com/video/2023/08/03/174458-851502065_medium.mp4",
+            "width": 1920,
+            "height": 1080,
+            "size": 11163398,
+            "thumbnail": "https://cdn.pixabay.com/video/2023/08/03/174458-851502065_medium.jpg"
+          },
+          "small": {
+            "url": "https://cdn.pixabay.com/video/2023/08/03/174458-851502065_small.mp4",
+            "width": 1280,
+            "height": 720,
+            "size": 5580458,
+            "thumbnail": "https://cdn.pixabay.com/video/2023/08/03/174458-851502065_small.jpg"
+          },
+          "tiny": {
+            "url": "https://cdn.pixabay.com/video/2023/08/03/174458-851502065_tiny.mp4",
+            "width": 960,
+            "height": 540,
+            "size": 3163986,
+            "thumbnail": "https://cdn.pixabay.com/video/2023/08/03/174458-851502065_tiny.jpg"
+          }
+        },
+        "views": 1372,
+        "downloads": 584,
+        "likes": 15,
+        "comments": 0,
+        "user_id": 38512273,
+        "user": "SonDiem168",
+        "userImageURL": "https://cdn.pixabay.com/user/2023/08/03/09-59-38-956_250x250.jpg",
+        "noAiTraining": false,
+        "isAiGenerated": false,
+        "isGRated": true,
+        "isLowQuality": true,
+        "userURL": "https://pixabay.com/users/38512273/",
+        "name": "seaport, sea, beach"
+      },
+      {
+        "id": 372346,
+        "pageURL": "https://pixabay.com/videos/id-372346/",
+        "type": "film",
+        "tags": "da nang dishes, nang, da nang quang noodles",
+        "duration": 66,
+        "videos": {
+          "large": {
+            "url": "https://cdn.pixabay.com/video/2026/08/24/372346_large.mp4",
+            "width": 3840,
+            "height": 2160,
+            "size": 203325717,
+            "thumbnail": "https://cdn.pixabay.com/video/2026/08/24/372346_large.jpg"
+          },
+          "medium": {
+            "url": "https://cdn.pixabay.com/video/2026/08/24/372346_medium.mp4",
+            "width": 2560,
+            "height": 1440,
+            "size": 103061154,
+            "thumbnail": "https://cdn.pixabay.com/video/2026/08/24/372346_medium.jpg"
+          },
+          "small": {
+            "url": "https://cdn.pixabay.com/video/2026/08/24/372346_small.mp4",
+            "width": 1920,
+            "height": 1080,
+            "size": 65616898,
+            "thumbnail": "https://cdn.pixabay.com/video/2026/08/24/372346_small.jpg"
+          },
+          "tiny": {
+            "url": "https://cdn.pixabay.com/video/2026/08/24/372346_tiny.mp4",
+            "width": 1280,
+            "height": 720,
+            "size": 25528687,
+            "thumbnail": "https://cdn.pixabay.com/video/2026/08/24/372346_tiny.jpg"
+          }
+        },
+        "views": 27,
+        "downloads": 9,
+        "likes": 0,
+        "comments": 0,
+        "user_id": 13990683,
+        "user": "RosePham",
+        "userImageURL": "https://cdn.pixabay.com/user/2019/10/18/23-31-43-364_250x250.jpg",
+        "noAiTraining": false,
+        "isAiGenerated": false,
+        "isGRated": true,
+        "isLowQuality": true,
+        "userURL": "https://pixabay.com/users/13990683/",
+        "name": "da nang dishes, nang, da nang quang noodles"
+      }
+    ]
+  }
+}

@@ -1,7 +1,7 @@
 ---
 phase: 41
 title: Crew quests, XP, special stickers
-status: pending
+status: done
 depends_on: [13, 33, 40]
 wave: 19
 features: [F-129, F-130]
@@ -86,6 +86,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Template registry + zod schema per built-in template with bounds (not `photos`/`phrase_practice`). 2. `validateQuest(quest, dayContext)`. 3. Level curve + sticker thresholds. 4. Deterministic fallback quests from plan.
 - Tests: `pnpm --filter @cp/domain test -- quests`
 - Done when: invalid params (POI not in plan, target out of bounds) are rejected; fallback always yields ≥ 1 quest for a non-empty day.
+- Status: done — b6221dee4
 
 ### T2 — Schema + permission tests
 - Goal: quest and XP tables.
@@ -93,6 +94,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Tables incl. `crew_xp` table. 2. RLS + grants + publication (`crew_xp` in `crews` stream; no views published). 3. Append-only trigger on `xp_ledger`.
 - Tests: `pnpm --filter @cp/db test -- permissions/quests permissions/quest-signups permissions/quest-progress permissions/xp-ledger`
 - Done when: non-members read nothing; `app_user` cannot update/delete `xp_ledger` or write `crew_xp`; publication check lists no views.
+- Status: done — 8f92459a3
 
 ### T3 — Quest generation job + AI-32 + evals
 - Goal: daily quests from the plan.
@@ -100,6 +102,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Build context via LLM views (no C3). 2. Haiku structured output. 3. Validate + fallback + publish rows + `quest.published` + N-31. 4. Evals: validity rate, tone, no invented POIs.
 - Tests: `pnpm --filter @cp/worker test -- quests/generate`; `pnpm --filter @cp/ai eval -- quests`
 - Done when: eval ≥ 95 % valid quests on the case set; job idempotent per (trip, local date).
+- Status: done — 1083c4448
 
 ### T4 — Evaluation, rewards, stickers
 - Goal: progress and grants.
@@ -107,6 +110,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Event → registered-template matcher → progress upsert (dedupe). 2. Completion → `grant_quest_reward` → XP rows + `crew_xp` update + `reward{reveal_at}`. 3. XP from befriend/visit/settle (`settle-xp` on P33 `reward.granted{kind: settled}`; backfill XP for trips settled before this phase). 4. Level-up → `stickers(kind=crew_level)`.
 - Tests: `pnpm --filter @cp/worker test -- quests`; `pnpm --filter @cp/api test -- quests`
 - Done when: duplicate events never double-count; one level-up yields exactly one sticker per crew; settle fixture writes settle XP once and creates no second `settled` sticker (P33's grant stays the only one); tests use only events that exist by wave 16.
+- Status: done — 050492b87
 
 ### T5 — Crew quests screen + hub tile
 - Goal: 3l-7 UI.
@@ -114,6 +118,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Header (crew level, XP bar, next-level sticker), quest cards in quest colour with pips/reward/icon. 2. Signup, states listed above. 3. Simultaneous reveal using server clock offset. 4. Hub tile.
 - Tests: `pnpm --filter @cp/mobile test -- features/critters/quests`
 - Done when: reveal fires within ±100 ms of `reveal_at` in a clock-offset unit test; Reduce Motion variant shows static grant with haptic.
+- Status: done — 5a1d19013
 
 ### T6 — Sticker shelf
 - Goal: C38 shelf on PASS + sticker detail (3i-5 grant moment stays in P33).
@@ -121,6 +126,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Shelf component exported for P40 PASS screen slot. 2. Detail sheet (shows P33-granted Settled Tokek with trip + date). No edit to P33 files: P33 already owns `SettledTokekReveal`.
 - Tests: `pnpm --filter @cp/mobile test -- features/critters/stickers`
 - Done when: stickers never appear in dex counts, avatar picker or app-icon picker (test asserts selectors exclude them).
+- Status: done — 1d3eadf38
 
 ### T7 — End-to-end
 - Goal: two-device quest flow.
@@ -128,6 +134,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Seed trip day, run generator with recorded LLM fixture from eval cassette. 2. Emit visit/expense events; assert pips + reward on two sessions.
 - Tests: `maestro test e2e/critters/quests-progress.yaml e2e/critters/quests-reward.yaml e2e/critters/settled-sticker.yaml`; `pnpm --filter @cp/worker test -- quests/e2e`
 - Done when: flows pass on iOS and Android.
+- Status: done — c6c291d93
 
 ## Phase acceptance criteria
 - [ ] Every published quest passes the code validator; the model never sets progress, targets or XP amounts outside the template table

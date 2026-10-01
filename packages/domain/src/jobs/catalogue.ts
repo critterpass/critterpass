@@ -5,17 +5,8 @@
  * the same table for descriptions and crons, and redacts each queue's payloads before showing them.
  * Later features append rows.
  */
-
-import { MONEY_QUEUE_DESCRIPTIONS, moneyQueueSpecs } from '../money/queues';
-import { BOOKINGS_QUEUE_DESCRIPTIONS, bookingsQueueSpecs } from '../bookings/queues';
+import { FEATURE_QUEUE_DESCRIPTIONS, featureQueueSpecs } from './feature-queues';
 import { redactJobPayload, type JobPayloadRedactor } from './redact';
-import { SETUP_QUEUE_DESCRIPTIONS, setupQueueSpecs } from '../setup/queues';
-import { DRAFT_QUEUE_DESCRIPTIONS, draftQueueSpecs } from '../itinerary/queues';
-import { BILLING_QUEUE_DESCRIPTIONS, billingQueueSpecs } from '../billing/queues';
-import { GUIDE_QUEUE_DESCRIPTIONS, guideQueueSpecs } from '../guide/queues';
-import { SUPPLIER_QUEUE_DESCRIPTIONS, supplierQueueSpecs } from '../suppliers/queues';
-import { TRIP_DAY_QUEUE_DESCRIPTIONS, tripDayQueueSpecs } from '../trip-day/queues';
-import { DISRUPTION_QUEUE_DESCRIPTIONS, disruptionQueueSpecs } from '../disruptions/queues';
 
 /** pg-boss queue policies (pg-boss `QueuePolicy`). */
 export type QueuePolicy =
@@ -278,15 +269,7 @@ export const QUEUES = {
     expireInSeconds: 30 * 60,
     cron: { expr: '0 5 * * *', tz: 'Asia/Singapore' },
   }),
-  ...setupQueueSpecs(DEFAULT_QUEUE_SPEC),
-  ...draftQueueSpecs(DEFAULT_QUEUE_SPEC),
-  ...moneyQueueSpecs(DEFAULT_QUEUE_SPEC),
-  ...bookingsQueueSpecs(DEFAULT_QUEUE_SPEC),
-  ...billingQueueSpecs(DEFAULT_QUEUE_SPEC),
-  ...guideQueueSpecs(DEFAULT_QUEUE_SPEC),
-  ...supplierQueueSpecs(DEFAULT_QUEUE_SPEC),
-  ...tripDayQueueSpecs(DEFAULT_QUEUE_SPEC),
-  ...disruptionQueueSpecs(DEFAULT_QUEUE_SPEC),
+  ...featureQueueSpecs(DEFAULT_QUEUE_SPEC),
 } as const satisfies Record<string, QueueSpec>;
 
 export type QueueName = keyof typeof QUEUES;
@@ -345,15 +328,7 @@ export const QUEUE_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'poll.board_advance': "Moves a destination board to its two-place final at the board's deadline",
   'poll.remind': 'Reminds voters who have not voted before a poll closes',
   'ai.pitch': "Refreshes guide pitches for the places in crews' decks when their fares move",
-  ...SETUP_QUEUE_DESCRIPTIONS,
-  ...DRAFT_QUEUE_DESCRIPTIONS,
-  ...MONEY_QUEUE_DESCRIPTIONS,
-  ...BOOKINGS_QUEUE_DESCRIPTIONS,
-  ...BILLING_QUEUE_DESCRIPTIONS,
-  ...GUIDE_QUEUE_DESCRIPTIONS,
-  ...SUPPLIER_QUEUE_DESCRIPTIONS,
-  ...TRIP_DAY_QUEUE_DESCRIPTIONS,
-  ...DISRUPTION_QUEUE_DESCRIPTIONS,
+  ...FEATURE_QUEUE_DESCRIPTIONS,
 };
 
 export { redactJobPayload, type JobPayloadRedactor } from './redact';

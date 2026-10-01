@@ -1,7 +1,17 @@
 /** The budget model: nothing crew-level below four maxes, and bars that always sum to the target. */
-import { describe, expect, it } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 
-import { bandView, barsFor, estimatesOf, snap, trackOf, type AggregateRow } from '../model';
+import { stepOf } from '../lock-step';
+import {
+  bandView,
+  barsFor,
+  currencySymbol,
+  estimatesOf,
+  money,
+  snap,
+  trackOf,
+  type AggregateRow,
+} from '../model';
 
 const ROW: AggregateRow = {
   currency: 'USD',
@@ -74,9 +84,44 @@ describe('barsFor', () => {
 
 describe('the knob', () => {
   it('snaps to the crew step inside the track', () => {
-    const track = trackOf(bandView(null, 3), estimatesOf(SOURCE), null);
-    expect(track.stepMinor).toBe(5_000);
+    const estimates = estimatesOf(SOURCE);
+    const stepMinor = stepOf({
+      adopted: null,
+      server: null,
+      currency: 'USD',
+      estimates,
+      bandAnswered: false,
+    });
+    expect(stepMinor).toBe(5_000);
+    const track = trackOf(bandView(null, 3), estimates, stepMinor ?? 0);
     expect(snap(track.maxMinor + 99_999, track)).toBe(track.maxMinor);
     expect(snap(101_234, track) % 5_000).toBe(0);
+  });
+});
+
+describe('budget amounts', () => {
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  it('writes whole units in the currency symbol', () => {
+    expect(money('en', 135_000, 'USD')).toBe('$1,350');
+    expect(currencySymbol('en', 'USD')).toBe('$');
+  });
+
+  it('swaps the code for the symbol where the runtime has no narrow symbol (Hermes on iOS)', () => {
+    const Real = Intl.NumberFormat;
+    jest
+      .spyOn(Intl, 'NumberFormat')
+      .mockImplementation(
+        ((locale?: string | string[], options?: Intl.NumberFormatOptions) =>
+          new Real(
+            locale,
+            options?.currencyDisplay === 'narrowSymbol'
+              ? { ...options, currencyDisplay: 'code' }
+              : options,
+          )) as unknown as typeof Intl.NumberFormat,
+      );
+    expect(money('en', 135_000, 'USD')).toBe('$1,350');
   });
 });

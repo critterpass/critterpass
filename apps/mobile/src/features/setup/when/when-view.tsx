@@ -6,7 +6,7 @@
  * (or its empty state) with the way forward. Everyone sees their own calendar's row; only the
  * organiser gets the lock and ask actions. Only counts are ever shown, never anyone's days.
  */
-import { plural, t } from '@lingui/core/macro';
+import { t } from '@lingui/core/macro';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -21,17 +21,11 @@ import type { ShellFrame } from '../shell/frame';
 import { GuideNote } from '../shell/guide-note';
 import { WonTag } from '../shell/header-tag';
 import { SetupShell } from '../shell/setup-shell';
-import {
-  bestReasonLine,
-  countWord,
-  monthName,
-  pickReasonLine,
-  rangeLabel,
-  sentenceStart,
-} from './copy';
+import { bestReasonLine, countWord, pickReasonLine, rangeLabel } from './copy';
 import { Heatmap } from './heatmap';
 import type { HeatMonth, WhenMode, WindowOption } from './model';
 import { OwnCalendarRow, type OwnCalendar } from './own-calendar-row';
+import { checkedLine, syncedLine } from './when-lines';
 import { WindowOptions } from './window-options';
 
 export interface WhenModel {
@@ -43,6 +37,8 @@ export interface WhenModel {
   readonly score: { readonly won: number; readonly next: number } | null;
   readonly members: readonly SetupMember[];
   readonly total: number;
+  /** A trip for one (solo, or a crew of one so far): the step speaks to you, not the crew. */
+  readonly solo: boolean;
   readonly synced: number;
   /** Names of people who have not shared a day, when the api could say (online). */
   readonly unsyncedNames: readonly string[];
@@ -83,60 +79,6 @@ export interface WhenActions {
   readonly onPickWeek: () => void;
   readonly onConnect: () => void;
   readonly onMarkByHand: () => void;
-}
-
-function syncedLine(model: WhenModel): string {
-  const calendars = model.synced;
-  const synced = countWord(calendars);
-  const missing = model.total - model.synced;
-  if (model.synced === 0) {
-    return t({
-      id: 'setup.when.line.none',
-      message: 'Nobody has shared their days yet. Connect a calendar or mark days by hand.',
-    });
-  }
-  if (missing <= 0) {
-    return t({
-      id: 'setup.when.line.all',
-      message: plural(calendars, {
-        one: `From ${synced} synced calendar. Everyone’s in.`,
-        other: `From ${synced} synced calendars. Everyone’s in.`,
-      }),
-    });
-  }
-  const only =
-    model.unsyncedNames.length === 1 && missing === 1 ? model.unsyncedNames[0] : undefined;
-  if (only !== undefined) {
-    return t({
-      id: 'setup.when.line.oneMissing',
-      message: plural(calendars, {
-        one: `From ${synced} synced calendar. ${only} hasn’t connected yet.`,
-        other: `From ${synced} synced calendars. ${only} hasn’t connected yet.`,
-      }),
-    });
-  }
-  const left = sentenceStart(countWord(missing));
-  return t({
-    id: 'setup.when.line.some',
-    message: plural(calendars, {
-      one: `From ${synced} synced calendar. ${left} still to come.`,
-      other: `From ${synced} synced calendars. ${left} still to come.`,
-    }),
-  });
-}
-
-function checkedLine(model: WhenModel, locale: string): string {
-  const last = model.months.at(-1)?.days.at(-1)?.date;
-  const calendars = model.synced;
-  const count = sentenceStart(countWord(calendars));
-  const until = last === undefined ? '' : monthName(locale, last);
-  return t({
-    id: 'setup.when.line.checked',
-    message: plural(calendars, {
-      one: `${count} calendar, checked through ${until}. Nobody's week is perfect.`,
-      other: `${count} calendars, checked through ${until}. Nobody's week is perfect.`,
-    }),
-  });
 }
 
 export function WhenView({
@@ -238,11 +180,15 @@ export function WhenView({
     <SetupShell
       {...shell}
       tag={tag}
-      title={t({ id: 'setup.when.title', message: 'When can everyone go?' })}
+      title={
+        model.solo
+          ? t({ id: 'setup.when.titleSolo', message: 'When can you go?' })
+          : t({ id: 'setup.when.title', message: 'When can everyone go?' })
+      }
       line={syncedLine(model)}
       testID={`setup-when-${model.mode}`}
       footer={
-        model.isOrganiser && best !== null && range !== null ? (
+        !model.isOrganiser ? undefined : best !== null && range !== null ? (
           <>
             <PillButton
               label={t({ id: 'setup.when.cta.lock', message: `Lock ${range}` })}
@@ -257,7 +203,15 @@ export function WhenView({
               testID="when-pick-week"
             />
           </>
-        ) : undefined
+        ) : (
+          // Before anyone has shared a day, or while the windows are worked out, the organiser can
+          // still pick a week and move on.
+          <TextLink
+            label={t({ id: 'setup.when.pickAnyway', message: 'Pick a week anyway' })}
+            onPress={actions.onPickWeek}
+            testID="when-pick-week"
+          />
+        )
       }
     >
       {model.months.length > 0 ? (
@@ -269,12 +223,14 @@ export function WhenView({
           windowLabel={
             range === null
               ? undefined
-              : t({ id: 'setup.when.windowPill', message: `${range} · all ${everyone} free` })
+              : model.solo
+                ? t({ id: 'setup.when.windowPillSolo', message: `${range} · you're free` })
+                : t({ id: 'setup.when.windowPill', message: `${range} · all ${everyone} free` })
           }
         />
       ) : null}
       {best !== null ? (
-        <GuideNote guide={model.guide} line={bestReasonLine(best, model.place)} />
+        <GuideNote guide={model.guide} line={bestReasonLine(best, model.place, model.solo)} />
       ) : null}
       {model.mode === 'computing' ? (
         <Skeleton

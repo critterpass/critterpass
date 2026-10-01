@@ -18,6 +18,7 @@ import { registerSyncUploadRoute } from './routes/sync-upload';
 import { registerAiRoutes } from './ai/routes';
 import { registerVoteRoutesFromEnv } from './routes/vote-routes';
 import { registerTravelDataRoutes } from './travel-data/routes';
+import { registerEditorialMediaRoute } from './editorial-media/route';
 import { registerCostRoutes } from './cost/routes';
 import { registerPlanRoutes } from './plan/routes';
 import { createR2Client } from './media/r2';
@@ -37,6 +38,13 @@ import { registerGuideRoutes } from './routes/guide';
 import { registerSupplierRoutes } from './suppliers/register';
 import { registerTripDay } from './commands/trip-day';
 import { registerDisruptions } from './commands/disruptions';
+import { registerExplore } from './explore/register';
+import { registerProposals } from './routes/proposals';
+import { registerCritters } from './commands/critters';
+import { registerQuests } from './commands/quests';
+import { registerTripLifecycle } from './commands/trips/lifecycle';
+import { registerLiveActivities } from './commands/live-activities';
+import { registerMeAccountRoutes } from './routes/me-account';
 
 /** The command doors as the api boots them: its own Redis client and logger. */
 export interface ApiCommandDoors extends CommandDoorDeps {
@@ -71,11 +79,20 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerGuideRoutes(app, doors, env, keyring);
   registerTripDay(doors);
   registerDisruptions(app, doors);
+  registerProposals(app, doors, env, keyring);
+  registerCritters(doors);
+  registerQuests(doors);
+  registerTripLifecycle(doors);
+  registerLiveActivities(doors);
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerTravelDataRoutes(app, doors);
+  if (env.MEDIA_PUBLIC_BASE_URL) {
+    registerEditorialMediaRoute(app, { ...doors, publicBaseUrl: env.MEDIA_PUBLIC_BASE_URL });
+  }
   registerCostRoutes(app, doors);
   registerPlanRoutes(app, doors);
   registerSupplierRoutes(app, doors);
+  registerExplore(app, doors);
   registerSetupRoutes(app, { ...doors, store: redis, env: process.env });
   registerReceiptRoutesFromEnv(app, doors, process.env);
   registerGeoRoutesFromEnv(app, doors, env.GEOIP_CITY_MMDB, logger);
@@ -103,6 +120,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
     logger.warn('Centrifugo proxies are disabled: RT_PROXY_SECRET is unset');
   }
   registerMediaRoutesFromEnv(app, doors, env);
+  registerMeAccountRoutes(app, doors);
 }
 
 function registerMediaRoutesFromEnv(

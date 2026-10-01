@@ -1,0 +1,719 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-09-30 17:02+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: zh-Hans\n"
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.flight.delayed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.ticker.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.ticker.held"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
+msgid "suppliers.around.hours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.booked.memberOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/duration.ts
+msgid "suppliers.around.minutesShort"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.operator"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.meter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.seatsHeld"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.partnerOff"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.vendor.replied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.airport"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.dispatch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.fares.recent"
+msgstr ""
+
+#. placeholder {0}: crew.low
+#. placeholder {1}: crew.high
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.crew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/data/commands.ts
+msgid "suppliers.queued.click"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/data/commands.ts
+msgid "suppliers.queued.ride"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.left"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.tariffEstimate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.transferBooked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.approvedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.approved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.vendor.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.loading"
+msgstr ""
+
+#. placeholder {0}: '19:30'
+#. placeholder {0}: clock(locale, leg.to.startsAt, data.tz)
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+msgid "suppliers.later.at"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.offlineLast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/OffersView.tsx
+msgid "suppliers.offers.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.book"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.chipBookBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.bookBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.bookByKeep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.bookNowNotHeld"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.bookKlookLeft"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(modal)/supplier/book.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+msgid "suppliers.book.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.booked.viatorRef"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.bookedRooms"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/OffersView.tsx
+msgid "suppliers.offers.lede"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.callCar"
+msgstr ""
+
+#. placeholder {0}: refund(state.quote) ?? ''
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.refund"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.dropout.cancelBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(modal)/supplier/cancel.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+msgid "suppliers.cancel.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.dropout.cancelledRefund"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.dropout.cancelledFullRefund"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.dropout.cancelledAgoda"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.checkAgain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.check"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.sourceChecked"
+msgstr ""
+
+#. placeholder {0}: clock(locale, estimate.fetched_at, data.tz)
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.seen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.checkedLive"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GrabEstimateCard.tsx
+msgid "suppliers.rides.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/OffersView.tsx
+msgid "suppliers.offers.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.vendor.draftReady"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.email"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.lottery.entriesClose"
+msgstr ""
+
+#. placeholder {0}: clock(locale, estimate.fetched_at, data.tz)
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.surge"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.first"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.found"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.activity.foundSlot"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.chipFreeCancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.freeCancelUntil"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.liveRate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.shortlist"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.priceFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/OfferCard.tsx
+msgid "suppliers.offer.from"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.grabEstimate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
+msgid "suppliers.hold.leftA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
+msgid "suppliers.hold.ranOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.howMany"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.start"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.keepLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.last"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.later.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.lead"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.soloNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.release"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.log"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LaterTodayRow.tsx
+msgid "suppliers.later.log"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.save"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(modal)/supplier/log-ride.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+msgid "suppliers.log.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.kept"
+msgstr ""
+
+#. placeholder {0}: people > 0 ? people : 1
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/TransferCard.tsx
+msgid "suppliers.transfer.meeting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.textLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(modal)/supplier/draft.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+msgid "suppliers.vendor.draftTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listError"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(modal)/supplier/messages.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-sheet.tsx
+msgid "suppliers.vendor.listTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.listOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.taxi"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.emptyTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.noRefund"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.noApps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.offlineTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.noTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.unreviewed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.exactNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.noPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.openApp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.openLink"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/TransferCard.tsx
+msgid "suppliers.transfer.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.openViator"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.linksDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.showHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/TransferCard.tsx
+msgid "suppliers.transfer.operator"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.concierge.clinic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.pay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+msgid "suppliers.book.payCancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.phone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/phrase.ts
+msgid "suppliers.around.gloss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.activity.priceHeld"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.offer.priceHeld"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.stay.replyBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.lottery.results"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.reviewedOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.bike"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/fare-rows.ts
+msgid "suppliers.fare.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GettingAroundView.tsx
+msgid "suppliers.around.emptyBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.seen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.needsSignal"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.vendor.sentWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.noAppsDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.rides.phraseCard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.sources"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.splitNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+msgid "suppliers.book.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.invalid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/ride-card.ts
+msgid "suppliers.rides.offlineNone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-vendor.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/VendorScreens.tsx
+msgid "suppliers.vendor.deskHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.band"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/HoldTimer.tsx
+msgid "suppliers.hold.ranOutA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.expired"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.operatorNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+msgid "suppliers.book.payFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.peak"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.inWallet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/OfferCard.tsx
+msgid "suppliers.offer.theirWords"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/EstimateSheet.tsx
+msgid "suppliers.estimate.minimum"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.linkLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingScreen.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-offers.tsx
+msgid "suppliers.book.rejected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.rejectedNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.holdNote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.down"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/use-offer-cards.ts
+msgid "suppliers.offers.down"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/BookingSheet.tsx
+msgid "suppliers.book.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/CancelSheet.tsx
+msgid "suppliers.cancel.notCancellable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/PaymentWebView.tsx
+msgid "suppliers.pay.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.booked.waitingOperator"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/copy.ts
+msgid "suppliers.disclosure.affiliate"
+msgstr ""
+
+#. placeholder {0}: params.currency
+#: ../../apps/mobile/src/features/bookings/getting-around/LogRideSheet.tsx
+msgid "suppliers.log.amount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorDraftCard.tsx
+msgid "suppliers.vendor.selfBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/supplier/VendorThreadCard.tsx
+msgid "suppliers.vendor.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/app/(modal)/supplier/estimate.tsx
+#: ../../apps/mobile/src/features/bookings/supplier/dev/lab-scenes-around.tsx
+msgid "suppliers.estimate.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/GrabEstimateCard.tsx
+msgid "suppliers.rides.whyEstimate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/getting-around/JourneyProgress.tsx
+msgid "suppliers.journey.there"
+msgstr ""

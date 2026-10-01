@@ -95,6 +95,7 @@ export function whenModel(overrides: Partial<WhenModel> & { readonly me?: string
     score: trip.score,
     members: trip.members,
     total: 6,
+    solo: false,
     synced: 5,
     unsyncedNames: ['Dev'],
     months,

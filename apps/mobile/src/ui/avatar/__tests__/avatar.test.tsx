@@ -11,7 +11,7 @@ import { fireEvent, screen } from '@testing-library/react-native';
 import { renderUi } from '../../test-support/render';
 import { UserAvatar, visibleAvatar, type AvatarView } from '../Avatar';
 import { AvatarPicker } from '../AvatarPicker';
-import { GUIDE_AVATAR_IDS, GUIDE_STICKERS } from '../guides';
+import { GUIDE_AVATAR_IDS, GUIDE_STICKERS, isGuideStickerId } from '../guides';
 import { PhotoAvatar } from '../PhotoAvatar';
 
 const pending: AvatarView = {
@@ -55,6 +55,22 @@ describe('AvatarPicker', () => {
       nativeEvent: { actionName: 'activate' },
     });
     expect(onPick).toHaveBeenCalledWith('ajo');
+  });
+});
+
+describe('guide stickers', () => {
+  it('draws every guide from its dex entry, Chà Vá of Đà Nẵng included', () => {
+    expect(GUIDE_STICKERS.tokek).toEqual({ id: 'tokek', name: 'Tokek', kind: 'gecko' });
+    expect(GUIDE_STICKERS.chava).toEqual({ id: 'chava', name: 'Chà Vá', kind: 'langur' });
+    expect(isGuideStickerId('chava')).toBe(true);
+    expect(isGuideStickerId('toString')).toBe(false);
+    expect(isGuideStickerId(null)).toBe(false);
+  });
+
+  it('keeps Chà Vá out of the six-guide avatar picker', async () => {
+    await renderUi(<AvatarPicker selected={null} onPick={jest.fn()} testID="pick" />);
+    expect(GUIDE_AVATAR_IDS).not.toContain('chava');
+    expect(screen.queryByTestId('pick-chava')).toBeNull();
   });
 });
 

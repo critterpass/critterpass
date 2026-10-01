@@ -77,9 +77,10 @@ appId: app.critterpass.dev
     visible:
       id: 'place-search-field'
     timeout: 10000
-# The scrim shows above the sheet's top edge.
+# The scrim shows above the sheet's top edge, below the status bar (a tap there on iOS goes to
+# the system, not the app).
 - tapOn:
-    point: 50%, 6%
+    point: 50%, 10%
 - extendedWaitUntil:
     notVisible:
       id: 'place-search-field'

@@ -70,8 +70,8 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
-  await s3.stop();
+  await harness?.stop();
+  await s3?.stop();
 });
 
 function post(session: SignedIn | undefined, path: string, body: unknown): Promise<Response> {
@@ -336,6 +336,24 @@ describe('POST /v1/media/read-urls', () => {
     ]);
     expect((await readUrls(member, [presigned.media_key])).status).toBe(200);
     expect((await readUrls(outsider, [presigned.media_key])).status).toBe(404);
+  });
+
+  it('signs guide phrase audio for its owner and the trip, NOT_FOUND for anyone else', async () => {
+    const owner = await harness.signInAnonymously();
+    const member = await harness.signInAnonymously();
+    const outsider = await harness.signInAnonymously();
+    const tripId = await tripWithMember(owner.uid, member.uid);
+    // Registered the way the phrase job records it: the worker writes the object, never an upload.
+    const key = `u/${owner.uid}/phrase_audio/${generateUuidV7()}`;
+    await harness.pool.query(
+      `INSERT INTO media_objects (owner_id, r2_key, kind, bytes, sha256, purpose, trip_id)
+       VALUES ($1, $2, 'audio/mpeg', 3, $3, 'phrase_audio', $4)`,
+      [owner.uid, key, 'a'.repeat(64), tripId],
+    );
+
+    expect((await readUrls(owner, [key])).status).toBe(200);
+    expect((await readUrls(member, [key])).status).toBe(200);
+    expect((await readUrls(outsider, [key])).status).toBe(404);
   });
 
   it('refuses the whole request when any key is unknown or malformed', async () => {

@@ -1,0 +1,4 @@
+<resources>
+  <!-- Only used when the alarm needs the channel before the app created its channels. -->
+  <string name="cp_alarm_channel">Leave-by alarms</string>
+</resources>

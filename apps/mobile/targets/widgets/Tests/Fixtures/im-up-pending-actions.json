@@ -1,0 +1,19 @@
+{
+  "actions": [
+    {
+      "client_ts": "2026-10-02T05:40:12.250Z",
+      "cmd": "set_readiness",
+      "op_id": "019a9f3c-8a3a-7c21-9d4e-5b6f7a8b9c0d",
+      "payload": {
+        "leave_by_id": "5f0c8e2a-3b1d-4c6e-9a7f-2d4b6c8e0a1f",
+        "source": "la",
+        "state": "up"
+      },
+      "scope": "readiness",
+      "v": 1,
+      "via": "la_intent"
+    }
+  ],
+  "generated_at": "2026-10-02T05:40:12.250Z",
+  "schema": 1
+}

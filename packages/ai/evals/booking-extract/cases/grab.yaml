@@ -1,0 +1,97 @@
+# Grab advance bookings, GrabFood receipts and finished-ride receipts: redacted copies (fake names, codes, contacts and payment details;
+# every date moved by whole weeks per email), graded against labels read from the redacted text.
+- description: 'a Grab advance booking: an electric car to a riverside hotel'
+  fixture: booking-extract-grab-01
+  provider: grab
+  email: grab-01.txt
+  subject: 'Advance Booking: Your ride is all booked!'
+  expect:
+    status: parsed
+    bookings:
+      - kind: transfer
+        supplier_ref: A-9F3XPWY469G4AV
+        starts_at: 2025-10-04T00:30:00.000Z
+        cancel_policy: true
+  excluded:
+    - 'price: an advance booking prints no fare'
+    - 'free_cancel_until: the policy is relative ("up to 1 hour before your pickup"), no date is
+      printed'
+- description: 'a Grab advance booking: a car out of the city on a provincial road'
+  fixture: booking-extract-grab-02
+  provider: grab
+  email: grab-02.txt
+  subject: 'Advance Booking: Your ride is all booked!'
+  expect:
+    status: parsed
+    bookings:
+      - kind: transfer
+        supplier_ref: A-9EYX0GDLE28WAV
+        starts_at: 2026-02-02T01:15:00.000Z
+        cancel_policy: true
+  excluded:
+    - 'price: an advance booking prints no fare'
+    - 'free_cancel_until: the policy is relative ("up to 1 hour before your pickup"), no date is
+      printed'
+- description: a GrabFood receipt from a fried chicken chain (an expense, not a booking)
+  fixture: booking-extract-grab-03
+  provider: grab
+  email: grab-03.txt
+  subject: Your Grab E-Receipt
+  expect:
+    status: failed
+- description: a GrabFood receipt for duck porridge (an expense, not a booking)
+  fixture: booking-extract-grab-04
+  provider: grab
+  email: grab-04.txt
+  subject: Your Grab E-Receipt
+  expect:
+    status: failed
+- description: a GrabFood receipt for noodle soup paid by card (an expense, not a booking)
+  fixture: booking-extract-grab-05
+  provider: grab
+  email: grab-05.txt
+  subject: Your Grab E-Receipt
+  expect:
+    status: failed
+- description: a GrabFood group order of milk tea (an expense, not a booking)
+  fixture: booking-extract-grab-08
+  provider: grab
+  email: grab-08.txt
+  subject: Your Grab E-Receipt
+  expect:
+    status: failed
+- description: a GrabFood receipt for congee (an expense, not a booking)
+  fixture: booking-extract-grab-09
+  provider: grab
+  email: grab-09.txt
+  subject: Your Grab E-Receipt
+  expect:
+    status: failed
+- description: a GrabBike receipt for a late-night ride (a finished ride, not a booking)
+  fixture: booking-extract-grab-06
+  provider: grab
+  email: grab-06.txt
+  subject: Your Grab E-Receipt
+  expect:
+    status: failed
+- description: a GrabBike receipt for an afternoon ride (a finished ride, not a booking)
+  fixture: booking-extract-grab-07
+  provider: grab
+  email: grab-07.txt
+  subject: Your Grab E-Receipt
+  expect:
+    status: failed
+- description: a GrabBike receipt for a ride after midnight (a finished ride, not a booking)
+  fixture: booking-extract-grab-10
+  provider: grab
+  email: grab-10.txt
+  subject: Your Grab E-Receipt
+  expect:
+    status: failed
+- description: a GrabBike receipt for an evening ride from a mall (a finished ride, not a booking)
+  fixture: booking-extract-grab-11
+  provider: grab
+  email: grab-11.txt
+  subject: Your Grab E-Receipt
+  expect:
+    status: failed

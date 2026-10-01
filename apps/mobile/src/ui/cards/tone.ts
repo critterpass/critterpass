@@ -1,9 +1,9 @@
 import type { SurfaceTone } from '../surface/Scaffold';
 import type { Theme } from '../theme';
 
-/** Surface fills a card can take: dark raised/sunken, paper, or one of the six accents. */
+/** Surface fills a card can take: dark raised/sunken, paper, or one of the guide accents. */
 export type CardTone =
-  'raised' | 'sunken' | 'paper' | 'yellow' | 'orange' | 'pink' | 'blue' | 'green' | 'cream';
+  'raised' | 'sunken' | 'paper' | 'yellow' | 'orange' | 'pink' | 'blue' | 'green' | 'cream' | 'red';
 
 export function cardBackground(theme: Theme, tone: CardTone): string {
   switch (tone) {
@@ -25,6 +25,8 @@ export function cardBackground(theme: Theme, tone: CardTone): string {
       return theme.color.green.base;
     case 'cream':
       return theme.color.paper.warm;
+    case 'red':
+      return theme.color.red;
   }
 }
 

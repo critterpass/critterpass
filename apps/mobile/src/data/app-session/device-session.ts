@@ -15,34 +15,26 @@ import { getCalendars, getLocales } from 'expo-localization';
 import { AppState, Platform } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
+import { activeLocale, onLocaleChanged } from '../../lib/i18n/set-locale';
 import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/resolver-client';
 import type { FixUpload } from '../../lib/location';
-import {
-  createAuthDataLayer,
-  createMobileAuthClient,
-  type AuthDataLayer,
-  type MobileAuthClient,
-} from '../auth';
-import { createDeviceAttestor } from '../auth/device-attestor';
-import { createDeviceResolver } from '../commands/device';
+import { startAppLocaleReport } from '../app-locale/report-app-locale';
+import { createAuthDataLayer, type AuthDataLayer } from '../auth';
+import { createDeviceResolver, installIdKeychain } from '../commands/device';
 import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
 import { resolveApiBaseUrl } from '../places/apiBaseUrl';
 import { startLocalFirst } from '../powersync/db';
 import { createFetchTransport } from '../powersync/transport';
-import { expoPushNative, secureInstallIdStorage } from '../push/expo-native';
+import { ensureActionKey, type ActionKeyHttp } from '../push/action-key';
+import { expoPushNative, secureActionKeyStorage } from '../push/expo-native';
 import type { PushLifecycleDeps } from '../push/use-push-lifecycle';
 import type { AppStateSource } from '../realtime/client';
 import { createDeviceRecoveryStore } from '../realtime/device-recovery-store';
+import { authClient, sessionHeaders } from './auth-client';
 import { appEnvironment, endpointsConfigJson, resolveRealtimeUrl } from './endpoints';
 import { createLinksHttp } from './links-http';
 import { startAppSession, type AppSession } from './start-app-session';
 import { startOnce } from './start-once';
-
-function appScheme(): string {
-  const scheme = Constants.expoConfig?.scheme;
-  const first = Array.isArray(scheme) ? scheme[0] : scheme;
-  return first ?? 'critterpass';
-}
 
 /** Background failures stay out of the UI; they surface in the device log. */
 export function reportAppSessionError(error: unknown): void {
@@ -51,6 +43,7 @@ export function reportAppSessionError(error: unknown): void {
 
 const storage = createMMKV({ id: 'cp-app-session' });
 const LAST_UID_KEY = 'cp.session.last_uid';
+const REPORTED_LOCALE_KEY = 'cp.session.reported_locale';
 
 /** React Native's `AppState`; before the first report it counts as foreground. */
 export const deviceAppState: AppStateSource = {
@@ -72,21 +65,7 @@ export function configureDeviceAppGroup(access: AppGroupAccess): void {
   appGroup = access;
 }
 
-let client: MobileAuthClient | null = null;
-
-function authClient(): MobileAuthClient {
-  client ??= createMobileAuthClient({
-    baseUrl: resolveApiBaseUrl(),
-    scheme: appScheme(),
-    attestor: createDeviceAttestor(resolveApiBaseUrl()),
-  });
-  return client;
-}
-
-/** The session cookie for authenticated api requests outside the command path (presign, geo). */
-export async function sessionHeaders(): Promise<Record<string, string>> {
-  return { cookie: await authClient().getCookie() };
-}
+export { sessionHeaders } from './auth-client';
 
 let auth: AuthDataLayer | null = null;
 
@@ -160,6 +139,20 @@ function createSession(): Promise<AppSession> {
     linksHttp: createLinksHttp({ baseUrl: resolveApiBaseUrl(), sessionHeaders }),
     realtime: { url: resolveRealtimeUrl(), positions: createDeviceRecoveryStore() },
     onError: reportAppSessionError,
+  }).then((session) => {
+    // The server learns the language this app is in (and every later switch) for as long as the
+    // process lives, like the session itself.
+    startAppLocaleReport({
+      uid: session.uid,
+      commands: session.localFirst.commands,
+      locale: { current: activeLocale, onChange: onLocaleChanged },
+      reported: {
+        read: () => storage.getString(REPORTED_LOCALE_KEY) ?? null,
+        write: (value) => storage.set(REPORTED_LOCALE_KEY, value),
+      },
+      onError: reportAppSessionError,
+    });
+    return session;
   });
 }
 
@@ -172,10 +165,26 @@ function devicePushDeps(): PushLifecycleDeps | undefined {
   if (platform === null) return undefined;
   const transport = createFetchTransport({ baseUrl: resolveApiBaseUrl(), sessionHeaders });
   const bundleId = Application.applicationId;
+  // Issuing and rotating are both POSTs; the lifecycle never revokes.
+  const actionKeyHttp: ActionKeyHttp = async (path, init) => {
+    const response = await transport.postJson(
+      path,
+      init.body === undefined ? {} : (JSON.parse(init.body) as unknown),
+    );
+    return { status: response.status, json: () => Promise.resolve(response.body) };
+  };
   return {
     native: expoPushNative,
     transport: (cmd, envelope) => transport.postJson(`/v1/cmd/${cmd}`, envelope),
-    storage: secureInstallIdStorage,
+    // The same Keychain view the command envelope reads its id through.
+    storage: installIdKeychain,
+    // Only the iOS extensions (notification service, widgets, Live Activity intents) read the key.
+    ...(platform === 'ios'
+      ? {
+          ensureActionKey: (owner) =>
+            ensureActionKey({ storage: secureActionKeyStorage, http: actionKeyHttp, ...owner }),
+        }
+      : {}),
     // Registration waits for the session; before one exists (offline first launch) it skips and
     // the next foreground tries again.
     currentUid: () =>

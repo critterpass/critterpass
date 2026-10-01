@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d74c336c-3ace-484d-8af1-8ac357e263cd",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"THE COFFEE HOUSE\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l17\",\"label\":\"Latte Nong (R)\",\"qty\":1,\"amount\":\"55 000\",\"kind\":\"item\"},{\"line_id\":\"l22\",\"label\":\"Bánh mì Cha\",\"qty\":1,\"amount\":\"25 000\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"Tiền phiếu giảm giá\",\"qty\":null,\"amount\":\"25 000\",\"kind\":\"discount\"}],\"total\":{\"line_id\":\"l29\",\"amount\":\"55 000\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 148,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1152,
+        "output_tokens": 134,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

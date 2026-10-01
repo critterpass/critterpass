@@ -28,7 +28,7 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { Halftone } from '@/ui/textures/halftone';
-import { degrees, makeStyles, useTheme } from '@/ui/theme';
+import { degrees, useTheme } from '@/ui/theme';
 
 import type { PassDraft } from '@cp/domain';
 
@@ -37,7 +37,10 @@ import { ONBOARDING_ROUTES } from '../flow-controller/steps';
 import { useTrackStep } from '../flow-controller/track';
 import { PASSPORT_BOB, TOKEK_POP, useOnboardingLoop } from '../motion';
 import { OnboardingPassCard } from '../pass-view';
-import { FLOATERS, Floater } from './Floaters';
+import { FirstHatch, firstHatchPending } from '../hatch/LaunchHatch';
+import { FloaterField } from './Floaters';
+import { useSplashStyles as useStyles } from './splash-styles';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import {
   COVER_H,
   COVER_W,
@@ -46,59 +49,6 @@ import {
   usePassportOpening,
   type Frame,
 } from './passport-opening';
-
-const useStyles = makeStyles((th) => ({
-  stage: { flex: 1, alignItems: 'center', justifyContent: 'center' },
-  cover: {
-    width: COVER_W,
-    height: COVER_H,
-    borderRadius: 18,
-    backgroundColor: th.color.orange,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 36,
-    overflow: 'hidden',
-    borderWidth: 3,
-    borderColor: th.color.yellow,
-  },
-  globe: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    borderWidth: 4,
-    borderColor: th.color.yellow,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  globeLat: { position: 'absolute', width: 96, height: 4, backgroundColor: th.color.yellow },
-  globeLng: {
-    width: 44,
-    height: 88,
-    borderRadius: 22,
-    borderWidth: 4,
-    borderColor: th.color.yellow,
-  },
-  sheen: {
-    position: 'absolute',
-    top: -40,
-    bottom: -40,
-    width: 60,
-    backgroundColor: th.color.paper.base,
-  },
-  tokek: { position: 'absolute', top: -58, alignSelf: 'center' },
-  page: {
-    position: 'absolute',
-    overflow: 'hidden',
-    backgroundColor: th.color.paper.base,
-  },
-  footer: {
-    paddingHorizontal: th.space['20'],
-    paddingBottom: th.space['8'],
-    gap: th.space['12'],
-    alignItems: 'center',
-  },
-  devTools: { marginTop: th.space['4'] },
-}));
 
 function readAppVariant(): string {
   const raw: unknown = Constants.expoConfig?.extra?.appVariant;
@@ -111,6 +61,8 @@ const DEV_TOOLS_ROUTE = '/(dev)';
 const RETURNING_SIGN_IN = `${ONBOARDING_ROUTES.phone}?mode=returning`;
 
 export function SplashScreen() {
+  // The first screen of the app: there is nothing to go back to.
+  useNoBackByDesign();
   useTrackStep('splash');
   const styles = useStyles();
   const theme = useTheme();
@@ -136,6 +88,8 @@ export function SplashScreen() {
   const [stage, setStage] = useState<Frame | null>(null);
   const [bodyWidth, setBodyWidth] = useState(0);
   const tokek = GUIDE_STICKERS.tokek;
+  // The first launch opens on the hatch; the floaters slap on as it fades.
+  const [hatching, setHatching] = useState(firstHatchPending);
 
   const goToName = () => {
     ensureDraft();
@@ -203,96 +157,103 @@ export function SplashScreen() {
   };
 
   return (
-    <Scaffold
-      variant="dark"
-      edges={['top', 'bottom']}
-      background={<Halftone variant="dark" />}
-      testID="onboarding-splash"
-    >
-      <View style={styles.stage} onLayout={onStageLayout} testID="onboarding-stage">
-        <Animated.View style={[StyleSheet.absoluteFill, chromeStyle]} pointerEvents="none">
-          {FLOATERS.map((floater) => (
-            <Floater key={floater.guide} {...floater} />
-          ))}
-        </Animated.View>
-        <Animated.View style={bob}>
-          <Animated.View
-            style={[styles.page, pageStyle]}
-            pointerEvents="none"
-            testID="onboarding-first-page"
-          >
-            {printed === null ? null : (
-              <Animated.View style={[{ width: to.width }, printStyle]}>
-                <OnboardingPassCard draft={printed} />
-              </Animated.View>
-            )}
+    <>
+      <Scaffold
+        variant="dark"
+        edges={['top', 'bottom']}
+        background={<Halftone variant="dark" />}
+        testID="onboarding-splash"
+      >
+        <View style={styles.stage} onLayout={onStageLayout} testID="onboarding-stage">
+          <Animated.View style={[StyleSheet.absoluteFill, chromeStyle]} pointerEvents="none">
+            <FloaterField waiting={hatching} />
           </Animated.View>
-          <Animated.View style={coverStyle} testID="onboarding-cover">
-            <View
-              style={styles.cover}
-              accessible
-              accessibilityRole="image"
-              accessibilityLabel={t({
-                id: 'onboarding.splash.cover',
-                message: 'Your CritterPass passport',
-              })}
+          <Animated.View style={bob}>
+            <Animated.View
+              style={[styles.page, pageStyle]}
+              pointerEvents="none"
+              testID="onboarding-first-page"
             >
-              <Text variant="eyebrow" color={theme.color.yellow}>
-                {t({ id: 'onboarding.splash.coverTitle', message: 'CRITTERPASS' })}
-              </Text>
-              <View style={styles.globe}>
-                <View style={styles.globeLat} />
-                <View style={styles.globeLng} />
+              {printed === null ? null : (
+                <Animated.View style={[{ width: to.width }, printStyle]}>
+                  <OnboardingPassCard draft={printed} />
+                </Animated.View>
+              )}
+            </Animated.View>
+            <Animated.View style={coverStyle} testID="onboarding-cover">
+              <View
+                style={styles.cover}
+                accessible
+                accessibilityRole="image"
+                accessibilityLabel={t({
+                  id: 'onboarding.splash.cover',
+                  message: 'Your CritterPass passport',
+                })}
+              >
+                <Text variant="eyebrow" color={theme.color.yellow}>
+                  {t({ id: 'onboarding.splash.coverTitle', message: 'CRITTERPASS' })}
+                </Text>
+                <View style={styles.globe}>
+                  <View style={styles.globeLat} />
+                  <View style={styles.globeLng} />
+                </View>
+                <Text variant="eyebrow" color={theme.color.yellow}>
+                  {t({ id: 'onboarding.splash.coverMark', message: 'PASSPORT · PASSEPORT' })}
+                </Text>
+                <Animated.View style={[styles.sheen, sheenStyle]} pointerEvents="none" />
               </View>
-              <Text variant="eyebrow" color={theme.color.yellow}>
-                {t({ id: 'onboarding.splash.coverMark', message: 'PASSPORT · PASSEPORT' })}
-              </Text>
-              <Animated.View style={[styles.sheen, sheenStyle]} pointerEvents="none" />
-            </View>
-          </Animated.View>
-          {/* Fading and popping are two animated styles on two views: on one they fight over opacity. */}
-          <Animated.View style={[styles.tokek, chromeStyle]}>
-            <Animated.View style={pop}>
-              <Sticker kind={tokek.kind} name={tokek.name} size={84} />
+            </Animated.View>
+            {/* Fading and popping are two animated styles on two views: on one they fight over opacity. */}
+            <Animated.View style={[styles.tokek, chromeStyle]}>
+              <Animated.View style={pop}>
+                <Sticker kind={tokek.kind} name={tokek.name} size={84} />
+              </Animated.View>
             </Animated.View>
           </Animated.View>
+        </View>
+        <Animated.View style={[styles.footer, chromeStyle]}>
+          <Text variant="bodyLg" style={{ textAlign: 'center' }}>
+            {t({
+              id: 'onboarding.splash.tagline',
+              message: 'Your pass to every place, and the locals who live there.',
+            })}
+          </Text>
+          <PillButton
+            label={t({ id: 'onboarding.splash.open', message: 'Open your pass' })}
+            onPress={open}
+            sheen
+            testID="onboarding-open"
+          />
+          <TextLink
+            label={t({ id: 'onboarding.splash.invite', message: 'I have an invite code' })}
+            onPress={() => router.push(CODE_ENTRY_ROUTE)}
+            testID="onboarding-invite-code"
+          />
+          <TextLink
+            label={t({
+              id: 'onboarding.splash.signIn',
+              message: 'I already have a pass · Sign in',
+            })}
+            onPress={() => router.push(RETURNING_SIGN_IN)}
+            testID="onboarding-sign-in"
+          />
+          {readAppVariant() !== 'production' ? (
+            // Never in production: the (dev) group is dropped from a production export
+            // (tools/scripts/check-release-bundle.ts), so this entry stays hidden there too.
+            <Link href={DEV_TOOLS_ROUTE} asChild>
+              <Pressable testID="dev-tools-entry" style={styles.devTools}>
+                <Text variant="caption" color={theme.semantic.text.tertiary}>
+                  {upper(
+                    t({ id: 'onboarding.splash.devTools', message: 'Developer tools' }),
+                    locale,
+                  )}
+                </Text>
+              </Pressable>
+            </Link>
+          ) : null}
         </Animated.View>
-      </View>
-      <Animated.View style={[styles.footer, chromeStyle]}>
-        <Text variant="bodyLg" style={{ textAlign: 'center' }}>
-          {t({
-            id: 'onboarding.splash.tagline',
-            message: 'Your pass to every place, and the locals who live there.',
-          })}
-        </Text>
-        <PillButton
-          label={t({ id: 'onboarding.splash.open', message: 'Open your pass' })}
-          onPress={open}
-          sheen
-          testID="onboarding-open"
-        />
-        <TextLink
-          label={t({ id: 'onboarding.splash.invite', message: 'I have an invite code' })}
-          onPress={() => router.push(CODE_ENTRY_ROUTE)}
-          testID="onboarding-invite-code"
-        />
-        <TextLink
-          label={t({ id: 'onboarding.splash.signIn', message: 'I already have a pass · Sign in' })}
-          onPress={() => router.push(RETURNING_SIGN_IN)}
-          testID="onboarding-sign-in"
-        />
-        {readAppVariant() !== 'production' ? (
-          // Never in production: the (dev) group is dropped from a production export
-          // (tools/scripts/check-release-bundle.ts), so this entry stays hidden there too.
-          <Link href={DEV_TOOLS_ROUTE} asChild>
-            <Pressable testID="dev-tools-entry" style={styles.devTools}>
-              <Text variant="caption" color={theme.semantic.text.tertiary}>
-                {upper(t({ id: 'onboarding.splash.devTools', message: 'Developer tools' }), locale)}
-              </Text>
-            </Pressable>
-          </Link>
-        ) : null}
-      </Animated.View>
-    </Scaffold>
+      </Scaffold>
+      {hatching ? <FirstHatch onDone={() => setHatching(false)} /> : null}
+    </>
   );
 }

@@ -21,7 +21,6 @@ export async function emitOtpChannelFailed(
     enqueueRealtime(tx, {
       channel: userChannel(uid),
       payload: {
-        v: 1,
         type: 'otp.channel_failed',
         data: { verification_id: delivery.verificationId ?? null },
       },

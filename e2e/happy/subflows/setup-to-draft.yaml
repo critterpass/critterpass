@@ -77,11 +77,19 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'add-must-do-field'
 - inputText: 'Fushimi Inari at sunrise'
-- tapOn:
-    id: 'add-must-do-keep'
+# Kept as typed. The place search answers first (places, or none): the keep row sits under at most
+# two places, above the keyboard, and stops moving once they are in.
 - extendedWaitUntil:
     visible:
-      text: 'Fushimi Inari at sunrise'
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+- tapOn:
+    id: 'add-must-do-keep'
+# Android shows the row's title in capitals; iOS reads the row whole ("Fushimi Inari at sunrise,
+# Winston").
+- extendedWaitUntil:
+    visible:
+      text: '(?i)fushimi inari at sunrise.*'
     timeout: 15000
 # KEEP closes the sheet and its keyboard with it; hideKeyboard with no keyboard up is a back press on
 # Android, which would leave setup.

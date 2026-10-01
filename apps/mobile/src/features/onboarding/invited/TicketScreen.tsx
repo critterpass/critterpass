@@ -19,6 +19,7 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Avatar } from '@/ui/people/Avatar';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -125,6 +126,8 @@ function Footer({
 }
 
 export function TicketScreen() {
+  // 3a-10 draws no back control: "Just look around first" is the way out of the invite.
+  useNoBackByDesign();
   const styles = useStyles();
   const locale = useLocale();
   const services = useInviteServices();

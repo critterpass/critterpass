@@ -117,7 +117,7 @@ msgstr "Bình chọn của {askerName}"
 
 #: ../../apps/mobile/src/features/vote/places/result-row.tsx
 msgid "vote.search.localMany"
-msgstr "{count} bạn bản địa chờ tìm"
+msgstr "{count} thổ địa chờ bạn tìm"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.finalists"
@@ -189,7 +189,7 @@ msgstr "1 giờ"
 
 #: ../../apps/mobile/src/features/vote/places/result-row.tsx
 msgid "vote.search.localOne"
-msgstr "1 bạn bản địa chờ tìm"
+msgstr "1 thổ địa chờ bạn tìm"
 
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.oneStop"
@@ -205,7 +205,7 @@ msgstr "Một thành phố hoặc quốc gia"
 
 #: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
 msgid "vote.guest.localHint"
-msgstr "Một bạn bản địa. Gợi ý: {hint}"
+msgstr "Một thổ địa. Gợi ý: {hint}"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.pickTitle"
@@ -366,6 +366,10 @@ msgstr "Chỉ mình bạn, {placeName}"
 msgid "vote.poll.loading"
 msgstr "Đang tải bình chọn"
 
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.lockIn"
+msgstr "Chốt {only}"
+
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.title"
 msgstr "Bình chọn mới"
@@ -378,9 +382,13 @@ msgstr "Chuyến tới · chung kết"
 msgid "vote.search.noGuide"
 msgstr "Chưa có hướng dẫn viên"
 
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refusedBody"
+msgstr "Chưa có chuyến nào được tạo. Thử lại nhé."
+
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.guestLine"
-msgstr "Chưa ai dẫn đường ở {country}, nên mình lo. Các bạn bản địa vẫn xuất hiện."
+msgstr "Chưa ai dẫn đường ở {country}, nên mình lo. Thổ địa vẫn ra chào bạn."
 
 #: ../../apps/mobile/src/features/vote/poll/poll-result.tsx
 msgid "vote.result.none"
@@ -512,6 +520,14 @@ msgstr "Đang gỡ một nơi khỏi bảng"
 msgid "vote.queued.retract"
 msgstr "Đang rút phiếu của bạn"
 
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refused"
+msgstr "Chưa gửi được"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.lockInFailed"
+msgstr "Chưa chốt được. Thử lại sau chút nhé."
+
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.emptyLine"
 msgstr "Bảng còn trống. Giới thiệu một nơi đi, mình mang số liệu tới."
@@ -530,7 +546,7 @@ msgstr "Hướng dẫn viên đang lo"
 
 #: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
 msgid "vote.guest.locals"
-msgstr "Các bạn bản địa"
+msgstr "Thổ địa"
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.setupWithOrganiser"

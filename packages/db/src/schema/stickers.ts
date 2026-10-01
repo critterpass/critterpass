@@ -4,7 +4,7 @@
  */
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
-import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { pgTable, smallint, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { crews } from './crews';
 import { users } from './identity';
@@ -20,6 +20,8 @@ export const stickers = pgTable('stickers', {
   crewId: uuid('crew_id').references(() => crews.id),
   tripId: uuid('trip_id').references(() => trips.id),
   kind: text('kind').notNull(),
+  /** The crew level a `crew_level` sticker marks. */
+  level: smallint('level'),
   grantedAt: at('granted_at').notNull(),
   createdAt: at('created_at').notNull().defaultNow(),
 });

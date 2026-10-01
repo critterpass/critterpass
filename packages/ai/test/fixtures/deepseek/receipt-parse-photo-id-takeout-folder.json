@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "70f2d407-a09a-48ee-bc4e-a4f753ed615a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"umi\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l3\",\"label\":\"Barang\",\"qty\":null,\"amount\":\"Rp35,000\",\"kind\":\"item\"},{\"line_id\":\"l5\",\"label\":\"Banana juice\",\"qty\":null,\"amount\":\"Rp50,000\",\"kind\":\"item\"},{\"line_id\":\"l7\",\"label\":\"Beer radier\",\"qty\":null,\"amount\":\"Rp30,000\",\"kind\":\"item\"},{\"line_id\":\"l9\",\"label\":\"Papaya juice\",\"qty\":null,\"amount\":\"Rp3 5,000\",\"kind\":\"item\"},{\"line_id\":\"l11\",\"label\":\"Pinepple juice\",\"qty\":4,\"amount\":\"Rp280,000\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"pho\",\"qty\":5,\"amount\":\"Rp430,000\",\"kind\":\"item\"},{\"line_id\":\"l19\",\"label\":\"S. Charge.\",\"qty\":null,\"amount\":\"Rp21,500\",\"kind\":\"service\"},{\"line_id\":\"l20\",\"label\":\"Gov lax.\",\"qty\":null,\"amount\":\"Rp45,150\",\"kind\":\"tax\"}],\"total\":{\"line_id\":\"l22\",\"amount\":\"Rp496,650\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 413,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 269,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

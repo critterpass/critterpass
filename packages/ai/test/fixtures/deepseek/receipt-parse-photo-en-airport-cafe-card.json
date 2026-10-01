@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "362c63be-b341-4e13-917c-75bc821f3e3a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"The Coffee Bean & Tea Leaf\",\"datetime\":null,\"currency\":\"SGD\",\"lines\":[{\"line_id\":\"l8\",\"label\":\"T.Bacon & Chz Sourdough SW\",\"qty\":null,\"amount\":\"13.00\",\"kind\":\"item\"},{\"line_id\":\"l12\",\"label\":\"Chicken Tikka Tomato Wrap\",\"qty\":1,\"amount\":\"12.50\",\"kind\":\"item\"},{\"line_id\":\"l15\",\"label\":\"T.Bacon & Chz Sourdough SW\",\"qty\":null,\"amount\":\"13.00\",\"kind\":\"item\"},{\"line_id\":\"l18\",\"label\":\"TA HOT.\",\"qty\":1,\"amount\":\"0.00\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"Iced Organic Matcha Latte (R)\",\"qty\":null,\"amount\":\"9.10\",\"kind\":\"item\"},{\"line_id\":\"l24\",\"label\":\"W Lychee CBrewT (L)\",\"qty\":null,\"amount\":\"9.70\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"G&G Chicken Ham & Cheese Ciabatta SW\",\"qty\":null,\"amount\":\"11.50\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l29\",\"amount\":\"68.80\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 273,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

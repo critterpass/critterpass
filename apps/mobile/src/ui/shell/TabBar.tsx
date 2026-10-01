@@ -4,17 +4,17 @@ import { Platform, Pressable, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { tokens } from '@cp/design-tokens';
-
 import { useThemeSettings } from '@/lib/theme';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
 
+import { BelowSheets } from '../sheet/tab-bar-cover';
 import { Text } from '../text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
 import { FAB_RAISE, FAB_RING, FAB_SIZE, GuideFab } from './GuideFab';
 import type { TabIconKind } from './TabIcon';
 import { TabIcon } from './TabIcon';
+import { TAB_BAR_CONTENT_HEIGHT } from './tab-bar-metrics';
 
 /** Tab route names (files under `app/(tabs)/`, created by the home/trips/wallet/pass areas). */
 export type TabRouteName = 'index' | 'trips' | 'wallet' | 'pass';
@@ -39,13 +39,7 @@ export const TAB_ROUTES: readonly TabRouteName[] = [...LEFT_SLOTS, ...RIGHT_SLOT
   (slot) => slot.route,
 );
 
-/**
- * `size.tabbar` (88) is measured on the 390 × 844 reference frame and includes its 34 pt home
- * indicator; the bar keeps the remaining design height above whatever inset the device reports
- * (gesture or 3-button navigation on Android, home indicator on iOS).
- */
-const REFERENCE_BOTTOM_INSET = 34;
-export const TAB_BAR_CONTENT_HEIGHT = tokens.size.tabbar - REFERENCE_BOTTOM_INSET;
+export { TAB_BAR_CONTENT_HEIGHT };
 
 /** Labels hide from AX1 up (iOS large-content viewer pattern); below that they shrink to 9 pt. */
 export const LABEL_HIDE_FONT_SCALE = 1.6;
@@ -68,6 +62,9 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'center',
     gap: t.space['4'],
   },
+  // The label spans its slot, so it is fitted to the slot's width rather than to its own: a short
+  // word of narrow letters ("VÍ") measured against itself would shrink to the floor.
+  label: { alignSelf: 'stretch', textAlign: 'center' },
   container: { position: 'absolute', start: 0, end: 0, bottom: 0 },
   fabSlot: { width: FAB_SIZE + 2 * FAB_RING },
   fabLayer: { position: 'absolute', top: 0, start: 0, end: 0, alignItems: 'center' },
@@ -179,6 +176,7 @@ function TabButton({
           autoFit
           autoFitMinSize={LABEL_MIN_SIZE}
           numberOfLines={1}
+          style={styles.label}
         >
           {label}
         </Text>
@@ -221,11 +219,11 @@ export function TabBar({ state, descriptors, emitter, navigateToTab }: BottomTab
   const barHeight = TAB_BAR_CONTENT_HEIGHT + insets.bottom;
 
   // Floats over the scene (screens pad with `useTabBarInset`) and reserves the FAB's raised band
-  // inside its own bounds: Android never delivers touches outside a parent's frame.
+  // inside its own bounds: Android never delivers touches outside a parent's frame. A sheet that a
+  // tab screen renders inside itself covers the bar, so the bar steps aside while one is up.
   return (
-    <View
+    <BelowSheets
       testID="tab-bar-container"
-      pointerEvents="box-none"
       style={[styles.container, { height: barHeight - FAB_RAISE }]}
     >
       <View
@@ -243,7 +241,7 @@ export function TabBar({ state, descriptors, emitter, navigateToTab }: BottomTab
       <View pointerEvents="box-none" style={styles.fabLayer}>
         <GuideFab />
       </View>
-    </View>
+    </BelowSheets>
   );
 }
 

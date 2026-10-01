@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# The hatch (3l-1) plays through: the egg wobbles, cracks and pops, then the critter is named
+# with SAY HI and "Show me around later".
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3l-1-hatch'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatched'
+    timeout: 10000
+- assertVisible:
+    text: 'TOKEK HATCHED'
+- assertVisible:
+    id: 'critters-hatch-say-hi'
+- assertVisible:
+    id: 'critters-hatch-later'

@@ -12,6 +12,7 @@ import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import {
+  crewCurrencyOf,
   pickCrew,
   pickTrip,
   splitMembers,
@@ -91,9 +92,7 @@ export function useMoneyContext(requestedTripId: string | null = null): MoneyCon
         : {
             id: crewRow.id,
             name: crewRow.name ?? '',
-            // The server writes the ledger in USD until the crew picks a currency
-            // (coalesce(settlement_currency, 'USD')); anything else nets nothing.
-            settlementCurrency: crewRow.settlement_currency ?? 'USD',
+            settlementCurrency: crewCurrencyOf(crewRow, me?.home_currency),
             organiser: crewRow.role === 'organiser',
           };
     const tripList = trips.rows.map((row) => toTrip(row, crewRow));

@@ -11,20 +11,24 @@ import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { patterns } from '@/motion';
+import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
+import { cardBackground } from '@/ui/cards/tone';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Icon } from '@/ui/icons/Icon';
 import type { DoodleName } from '@/ui/icons/generated';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import { MediaLayer } from '@/ui/media/MediaLayer';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { LiveSticker } from '@/ui/people/LiveSticker';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
+import { useDestinationSlug } from '../data/use-destination-slug';
 import { stackOf, type Person } from '../data/use-people';
 import { FadeSection } from './fade-section';
 import type { PitchState } from '../data/use-pitch-stream';
@@ -37,6 +41,7 @@ const TONES = {
   ajo: 'pink',
   sardi: 'green',
   paco: 'cream',
+  chava: 'red',
 } as const;
 
 const TAG_ICONS: Readonly<Record<string, DoodleName>> = {
@@ -132,6 +137,9 @@ export function PitchCard({ state, people, onRetry }: PitchCardProps) {
   const slap = patterns.useSlap({ active: state.sticker !== null, direction: -1 });
   const streaming = state.phase === 'streaming';
   const ink = theme.semantic.text.onAccent;
+  const photo = heroAt(
+    useDestinationMedia(useDestinationSlug(state.sticker?.placeId ?? null)).items,
+  );
   if (state.phase === 'error' && state.headline === null) {
     return (
       <Card tone="raised" testID="pitch-error">
@@ -155,7 +163,21 @@ export function PitchCard({ state, people, onRetry }: PitchCardProps) {
   }
   const heading = state.sticker === null ? '' : (state.headline ?? state.sticker.name);
   return (
-    <Card tone={TONES[guideId]} halftone radius="cardBig" testID="pitch-card">
+    <Card
+      tone={TONES[guideId]}
+      halftone={photo === null}
+      backdrop={
+        <MediaLayer
+          media={photo}
+          surface="accent"
+          accent={cardBackground(theme, TONES[guideId])}
+          creditAt="top"
+          testID="pitch-card-photo"
+        />
+      }
+      radius="cardBig"
+      testID="pitch-card"
+    >
       <Stack gap="12">
         <Row gap="12" align="center">
           <Animated.View style={slap}>
@@ -187,7 +209,10 @@ export function PitchCard({ state, people, onRetry }: PitchCardProps) {
           <FadeSection>
             <Row gap="6" wrap testID="pitch-chips">
               {state.chips.map((chip, index) => (
-                <InfoPill key={`${chip.kind}-${index}`}>{chipText(chip)}</InfoPill>
+                // An event's name is the guide's own words: one line, cut short when long.
+                <InfoPill key={`${chip.kind}-${index}`} oneLine>
+                  {chipText(chip)}
+                </InfoPill>
               ))}
             </Row>
           </FadeSection>

@@ -1,7 +1,9 @@
 /**
  * AeroDataBox (flight status by number and local date; server-only): the schedule checks at T−24 h,
  * T−6 h and T−3 h, and the whole status source when AeroAPI is not configured. The key travels in
- * the `X-RapidAPI-Key` header. Audited through the supplier client like every supplier call.
+ * the `X-RapidAPI-Key` header. Audited through the supplier client like every supplier call. Each
+ * request is billed against a small monthly plan, so a failed read is never retried here: the
+ * caller decides whether another call is worth spending.
  */
 import { z } from 'zod';
 
@@ -130,7 +132,8 @@ export function createAeroDataBoxClient(
             'X-RapidAPI-Key': config.apiKey,
             'X-RapidAPI-Host': config.host ?? DEFAULT_HOST,
           },
-          timeoutMs: 120_000,
+          timeoutMs: 30_000,
+          retries: 0,
         },
         z.array(adbFlightSchema),
       );

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5329b0f7-cb01-4a5b-8ab6-26b35afdb42f",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"Đặc Sản Sapa Hương Đà\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l13\",\"label\":\"Bánh hại dể T.A L1\",\"qty\":12,\"amount\":\"720,000\",\"kind\":\"item\"},{\"line_id\":\"l16\",\"label\":\"Búp bé chuông đồng\",\"qty\":null,\"amount\":\"56,000\",\"kind\":\"item\"},{\"line_id\":\"l19\",\"label\":\"Thuốc gút viên (hộp)\",\"qty\":null,\"amount\":\"90,000\",\"kind\":\"item\"},{\"line_id\":\"l23\",\"label\":\"Ví dài thổ cẩm\",\"qty\":1,\"amount\":\"35,000\",\"kind\":\"item\"},{\"line_id\":\"l27\",\"label\":\"Mắc khén rừng\",\"qty\":1,\"amount\":\"35,000\",\"kind\":\"item\"},{\"line_id\":\"l30\",\"label\":\"Hạt dỗi\",\"qty\":null,\"amount\":\"210,000\",\"kind\":\"item\"},{\"line_id\":\"l34\",\"label\":\"Muôi ngâm chân\",\"qty\":1,\"amount\":\"70,000\",\"kind\":\"item\"},{\"line_id\":\"l38\",\"label\":\"Cá bò rim - (hộp)\",\"qty\":1,\"amount\":\"110,000\",\"kind\":\"item\"},{\"line_id\":\"l42\",\"label\":\"Trà hoa hồng\",\"qty\":2,\"amount\":\"60,000\",\"kind\":\"item\"},{\"line_id\":\"l46\",\"label\":\"Nai khô Tây Bắc - (hộp)\",\"qty\":2,\"amount\":\"279.000\",\"kind\":\"item\"},{\"line_id\":\"l49\",\"label\":\"Ô mai Đảo hông - (Lọ)\",\"qty\":null,\"amount\":\"70,000\",\"kind\":\"item\"},{\"line_id\":\"l53\",\"label\":\"Bánh dảo Sapa\",\"qty\":1,\"amount\":\"25,000\",\"kind\":\"item\"},{\"line_id\":\"l56\",\"label\":\"Trà sảm quế\",\"qty\":null,\"amount\":\"80,000\",\"kind\":\"item\"},{\"line_id\":\"l58\",\"label\":\"Thịt trâu gác bếp\",\"qty\":null,\"amount\":\"800,000\",\"kind\":\"item\"},{\"line_id\":\"l63\",\"label\":\"Bò sợi nhỏ 250g\",\"qty\":0.5,\"amount\":\"151,000\",\"kind\":\"item\"}],\"total\":{\"line_id\":\"l69\",\"amount\":\"2,730,000\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 161,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1408,
+        "output_tokens": 558,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

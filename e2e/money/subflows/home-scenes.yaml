@@ -15,6 +15,9 @@ appId: app.critterpass.dev
     env: { SCENE: balances-empty, READY: money-empty, SHOT: '${PREFIX}-money-balances-empty' }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: balances-solo, READY: money-solo, SHOT: '${PREFIX}-money-balances-solo' }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: balances-offline, READY: money-offline, SHOT: '${PREFIX}-money-balances-offline' }
 - runFlow:
     file: scene.yaml
@@ -30,7 +33,13 @@ appId: app.critterpass.dev
     env: { SCENE: add, READY: money-add, SHOT: '${PREFIX}-3i-2-add' }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: add-paid-by-alex, READY: money-add-keypad, SHOT: '${PREFIX}-money-add-paid-by' }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: add-by-share, READY: money-split-shares, SHOT: '${PREFIX}-money-add-by-share' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: add-custom, READY: money-split-custom, SHOT: '${PREFIX}-money-add-custom' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: add-dong, READY: money-add-keypad, SHOT: '${PREFIX}-money-add-dong' }

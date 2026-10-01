@@ -209,6 +209,15 @@ export function draftShares(draft: ExpenseDraft): readonly Share[] | null {
   });
 }
 
+/**
+ * Each member's share in the currency the expense was typed in, for the split rows beside that
+ * amount; null while the draft has a problem.
+ */
+export function sharesByMember(draft: ExpenseDraft): ReadonlyMap<string, bigint> | null {
+  const shares = draftShares(draft);
+  return shares === null ? null : new Map(shares.map((share) => [share.userId, share.amountMinor]));
+}
+
 /** How many people the split counts (for "each"). */
 export function headCount(draft: ExpenseDraft): number {
   if (draft.mode === 'equal') return draft.included.length;

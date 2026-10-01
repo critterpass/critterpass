@@ -65,6 +65,10 @@ msgstr "chấm hiện khi có bốn mức"
 msgid "setup.budget.card.caption"
 msgstr "mỗi chấm là mức của một người"
 
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.captionSmallCrew"
+msgstr "mức của ai cũng được giữ kín"
+
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.line"
 msgstr "Mỗi người đặt một mức tối đa riêng. Không ai thấy con số của người khác, kể cả {guide}."
@@ -140,6 +144,10 @@ msgstr "Có một mức thấp hơn phương án rẻ nhất"
 #: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
 msgid "setup.budget.card.over"
 msgstr "Vượt mức của một người"
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lineSmallCrew"
+msgstr "Chọn mức cả nhóm thấy thoải mái. Mức tối đa của mỗi người được giữ kín, và ai cũng biết mức bạn chọn có vừa với mình không."
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.loading"

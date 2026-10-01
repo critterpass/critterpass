@@ -9,6 +9,7 @@ import { router } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useOwnerUid } from '../hub/data/live-rows';
 import { guideOr } from '../hub/guide';
@@ -39,6 +40,7 @@ import {
   setReadinessCommand,
 } from '../leave-by/commands';
 import { useDayLeaveBys } from '../leave-by/use-leave-by';
+import { useMediaLowData } from '../media/use-media-low-data';
 import { alarmNoteFor, dayTimeline, forecastFor, pickLeaveBy } from './day-of-data';
 import { dayEyebrow, forecastLabel } from './day-of-copy';
 import { DayOfView } from './day-of-view';
@@ -72,6 +74,10 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
   const [sheet, setSheet] = useState<AlarmSheetKind | null>(null);
   const trip = useLiveRows<TripRow>(TRIP_SQL, me === null ? null : [me, tripId], TRIP_TABLES);
   const tripRow = trip.rows[0] ?? null;
+  const mediaLowData = useMediaLowData();
+  const media = useDestinationMedia(tripRow?.destination_slug ?? null, {
+    prefetch: !mediaLowData,
+  });
   const tz = tripRow?.tz ?? Intl.DateTimeFormat().resolvedOptions().timeZone;
   const minute = Math.floor(now.getTime() / 60_000);
   const localDate = useMemo(
@@ -134,6 +140,9 @@ export function DayOfScreen({ tripId, date }: { readonly tripId: string; readonl
 
   return (
     <DayOfView
+      // Each day of the trip shows the next of the destination's photos.
+      heroMedia={heroAt(media.items, (dayNo ?? 0) + 1)}
+      mediaLowData={mediaLowData}
       // Ready once the day's own rows are in, so the hero never swaps its words under the reader.
       state={
         trip.loaded &&

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "b24774df-f73b-4f80-8efe-df5776ab8038",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"bookings\":[{\"kind\":\"flight\",\"title\":\"Vietjet Air VJ300 · SGN → HUI\",\"supplier_name\":\"Vietjet Air\",\"confirmation_code\":\"KMXHLR\",\"starts_local\":\"2024-04-24T06:10\",\"ends_local\":\"2024-04-24T07:35\",\"timezone\":\"Asia/Ho_Chi_Minh\",\"location\":null,\"price\":{\"amount\":\"1.176.608\",\"currency\":\"VND\"},\"travellers\":[\"TRAN MINH DUC\"],\"free_cancel_until_local\":null,\"cancel_policy_text\":null,\"flights\":[{\"carrier\":\"VJ\",\"number\":\"VJ300\",\"from\":\"SGN\",\"to\":\"HUI\",\"departs_local\":\"2024-04-24T06:10\",\"departs_timezone\":\"Asia/Ho_Chi_Minh\",\"arrives_local\":\"2024-04-24T07:35\",\"arrives_timezone\":\"Asia/Ho_Chi_Minh\"}],\"room\":null,\"meeting_point\":null,\"seat\":null}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 154,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 2304,
+        "output_tokens": 227,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,6 +1,12 @@
 export { agentJobs, aiUsage, guideOfferClaims, guideOffers, personaPacks } from './ai';
 export { authAccount, authJwks, authSchema, authSession, authUser, authVerification } from './auth';
 export {
+  broadcastChannels,
+  deviceActivities,
+  laObjectStates,
+  laPushToStartTokens,
+} from './live-activities';
+export {
   contentReleases,
   critterForms,
   critterNames,
@@ -15,6 +21,7 @@ export {
   poiHoursProposals,
   spawnRules,
 } from './content';
+export { mediaAssets, type MediaVariantRow } from './media-assets';
 export { crewChatCounters, messageReactions, messages } from './chat';
 export { appOpenHours, homeTips, nudges, reminders, savedItems } from './home';
 export {
@@ -117,6 +124,7 @@ export {
 } from './ops-console';
 export { opsWorkClaims } from './ops-work';
 export { cities, llmPois, mapRegions, poiEmbeddings, poiLiveChecks, pois } from './places';
+export * from './explore';
 export { ballots, pitches, pollOptions, pollReveals, polls } from './polls';
 export {
   availabilityAsks,
@@ -176,3 +184,15 @@ export {
   readiness,
 } from './trip-day';
 export { disruptions, journeyChecks, watchItems } from './disruptions';
+export * from './proposals';
+export {
+  collectionEntries,
+  crewCollectionCounts,
+  eggs,
+  encounterEvidence,
+  encounterSamples,
+  encounters,
+  guideSkins,
+} from './critters';
+export { crewXp, questProgress, quests, questSignups, xpLedger } from './quests';
+export { appIconUnlocks, dataExports, pastTrips } from './you';

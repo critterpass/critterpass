@@ -15,7 +15,13 @@ jest.mock(
 );
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
+  router: {
+    push: jest.fn(),
+    navigate: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    canGoBack: () => false,
+  },
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
@@ -35,6 +41,7 @@ import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { TripHubScreen } from '../screen';
 import { NUDGE_ITEM, SEED_TRIP, seedTripDay } from '../test-support/seed-trip-day';
+import { FRESH_TRIP, seedFreshVote } from '../test-support/seed-fresh-vote';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -52,10 +59,15 @@ afterEach(async () => {
   }
 });
 
-async function renderHub(nudgeStatus?: string): Promise<TestLocalFirst> {
+async function renderHub(
+  nudgeStatus?: string,
+  seed: (stack: TestLocalFirst) => Promise<void> = (stack) =>
+    seedTripDay(stack.db, stack.uid, nudgeStatus === undefined ? {} : { nudgeStatus }),
+  tripId = SEED_TRIP,
+): Promise<TestLocalFirst> {
   const stack = await openTestLocalFirst({ holdUploads: true });
   stacks.push(stack);
-  await seedTripDay(stack.db, stack.uid, nudgeStatus === undefined ? {} : { nudgeStatus });
+  await seed(stack);
   i18n.loadAndActivate({ locale: 'en', messages: {} });
   await render(
     <I18nProvider i18n={i18n}>
@@ -63,7 +75,7 @@ async function renderHub(nudgeStatus?: string): Promise<TestLocalFirst> {
         <GestureHandlerRootView>
           <LocalFirstProvider value={stack.value}>
             <ScreenJoltProvider>
-              <TripHubScreen tripId={SEED_TRIP} onSwitch={null} />
+              <TripHubScreen tripId={tripId} onSwitch={null} />
             </ScreenJoltProvider>
           </LocalFirstProvider>
         </GestureHandlerRootView>
@@ -91,5 +103,22 @@ describe('trip hub briefing', () => {
     await renderHub('nudged');
     await waitFor(() => expect(screen.getByText('SENT')).toBeTruthy());
     expect(screen.queryByText('NUDGE')).toBeNull();
+  });
+});
+
+describe('trip hub for a trip still choosing its place', () => {
+  it('asks where next, opens the vote on Home and reads every activity as copy', async () => {
+    await renderHub(undefined, (stack) => seedFreshVote(stack.db, stack.uid), FRESH_TRIP);
+    await waitFor(() => expect(screen.getByTestId('trip-hub')).toBeTruthy());
+    expect(screen.getByText('WHERE NEXT?')).toBeTruthy();
+    expect(screen.getByText('1 GOING')).toBeTruthy();
+    await waitFor(() =>
+      expect(screen.getAllByText(/KHANH PITCHED A PLACE/u).length).toBeGreaterThan(0),
+    );
+    expect(screen.getAllByText(/KHANH STARTED THE TRIP/u).length).toBeGreaterThan(0);
+    expect(screen.queryAllByText(/activity\./iu)).toEqual([]);
+    await fireEvent.press(screen.getByTestId('trip-hub-planning-cta'));
+    const { router } = jest.requireMock<{ router: { navigate: jest.Mock } }>('expo-router');
+    expect(router.navigate).toHaveBeenLastCalledWith('/');
   });
 });

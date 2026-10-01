@@ -8,6 +8,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 const DAY: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', timeZone: 'UTC' };
 
+import { formatNarrowCurrency } from '@cp/cost-engine';
+
 function utcNoon(date: string): Date {
   return new Date(`${date.slice(0, 10)}T12:00:00Z`);
 }
@@ -54,21 +56,18 @@ export function clock(locale: string, instant: string, tz: string): string {
   }
 }
 
-function currencyFormat(locale: string, currency: string, digits?: number): Intl.NumberFormat {
-  const base = {
-    style: 'currency',
-    currency,
-    ...(digits === undefined ? {} : { maximumFractionDigits: digits, minimumFractionDigits: 0 }),
-  } as const;
-  try {
-    return new Intl.NumberFormat(locale, { ...base, currencyDisplay: 'narrowSymbol' });
-  } catch {
-    return new Intl.NumberFormat(locale, base);
-  }
+/** The currency's minor-unit digits (2 for USD, 0 for VND). */
+function minorDigitsOf(currency: string): number {
+  return (
+    new Intl.NumberFormat('en', { style: 'currency', currency }).resolvedOptions()
+      .maximumFractionDigits ?? 2
+  );
 }
 
 /** A minor-unit amount as whole currency units ("$1,310"), the way estimates are shown. */
 export function wholeMoney(locale: string, minor: number, currency: string): string {
-  const digits = currencyFormat(locale, currency).resolvedOptions().maximumFractionDigits ?? 2;
-  return currencyFormat(locale, currency, 0).format(Math.round(minor / 10 ** digits));
+  return formatNarrowCurrency(locale, Math.round(minor / 10 ** minorDigitsOf(currency)), currency, {
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  });
 }

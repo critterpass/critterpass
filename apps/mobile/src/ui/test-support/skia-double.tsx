@@ -33,6 +33,7 @@ export const RoundedRect = primitive('rounded-rect');
 export const Circle = primitive('circle');
 export const LinearGradient = primitive('linear-gradient');
 export const SweepGradient = primitive('sweep-gradient');
+export const RadialGradient = primitive('radial-gradient');
 export const Picture = primitive('picture');
 export const Image = primitive('image');
 

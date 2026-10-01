@@ -158,10 +158,87 @@
         "subscribe_proxy_enabled": true
       },
       {
+        "name": "trip_copresence",
+        "subscribe_proxy_enabled": true,
+        "history_size": 10,
+        "history_ttl": "24h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
         "name": "poll",
         "subscribe_proxy_enabled": true,
         "history_size": 50,
         "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "swipe",
+        "subscribe_proxy_enabled": true,
+        "publish_proxy_enabled": true,
+        "presence": true,
+        "join_leave": true,
+        "force_push_join_leave": true,
+        "allow_presence_for_subscriber": true,
+        "history_size": 100,
+        "history_ttl": "24h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "proposal",
+        "subscribe_proxy_enabled": true,
+        "history_size": 50,
+        "history_ttl": "336h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "guide_thread",
+        "subscribe_proxy_enabled": true,
+        "presence": true,
+        "join_leave": true,
+        "force_push_join_leave": true,
+        "allow_presence_for_subscriber": true,
+        "history_size": 50,
+        "history_ttl": "24h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "disruption",
+        "subscribe_proxy_enabled": true,
+        "history_size": 50,
+        "history_ttl": "72h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "sos",
+        "subscribe_proxy_enabled": true,
+        "presence": true,
+        "join_leave": true,
+        "force_push_join_leave": true,
+        "allow_presence_for_subscriber": true,
+        "history_size": 200,
+        "history_ttl": "24h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "recap",
+        "subscribe_proxy_enabled": true,
+        "history_size": 50,
+        "history_ttl": "336h",
+        "force_positioning": true,
+        "force_recovery": true
+      },
+      {
+        "name": "memory",
+        "subscribe_proxy_enabled": true,
+        "history_size": 50,
+        "history_ttl": "336h",
         "force_positioning": true,
         "force_recovery": true
       }

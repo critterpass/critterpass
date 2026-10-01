@@ -8,43 +8,43 @@ export interface PollCopy {
   readonly message: string;
 }
 
-export const VOTE_NEEDED_TITLE: PollCopy = {
+export const VOTE_NEEDED_TITLE: PollCopy = /*i18n*/ {
   id: 'notifications.vote.needed.title',
   message: '{guide}, for {crew}',
 };
 
-export const VOTE_NEEDED_BODY: PollCopy = {
+export const VOTE_NEEDED_BODY: PollCopy = /*i18n*/ {
   id: 'notifications.vote.needed.body',
   message: '{asker} asked: {question} Tap an answer, I will count.',
 };
 
-export const VOTE_DESTINATION_BODY: PollCopy = {
+export const VOTE_DESTINATION_BODY: PollCopy = /*i18n*/ {
   id: 'notifications.vote.destination.body',
   message: 'Where next? {count} places are on the board. Pick one.',
 };
 
-export const VOTE_FINAL_BODY: PollCopy = {
+export const VOTE_FINAL_BODY: PollCopy = /*i18n*/ {
   id: 'notifications.vote.final.body',
   message: "It's {first} or {second} now. Your vote decides it.",
 };
 
 export const VOTE_CLOSING_BODY: Readonly<Record<'24h' | '2h', PollCopy>> = {
-  '24h': {
+  '24h': /*i18n*/ {
     id: 'notifications.vote.closing.day',
     message: '{question} closes tomorrow and you have not voted yet.',
   },
-  '2h': {
+  '2h': /*i18n*/ {
     id: 'notifications.vote.closing.hours',
     message: '{question} closes in two hours. One tap and you are in.',
   },
 };
 
-export const WINNER_TITLE: PollCopy = {
+export const WINNER_TITLE: PollCopy = /*i18n*/ {
   id: 'notifications.vote.winner.title',
   message: '{guide}, for {crew}',
 };
 
-export const WINNER_BODY: PollCopy = {
+export const WINNER_BODY: PollCopy = /*i18n*/ {
   id: 'notifications.vote.winner.body',
   message: '{place} won {score}. Come see the reveal.',
 };

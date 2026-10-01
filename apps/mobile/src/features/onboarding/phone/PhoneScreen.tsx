@@ -23,6 +23,7 @@ import { CodeBoxes } from '@/ui/inputs/CodeBoxes';
 import { TextField } from '@/ui/inputs/TextField';
 import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -114,6 +115,7 @@ export function PhoneScreen() {
     <>
       <Scaffold variant="dark" edges={['top', 'bottom']} testID="onboarding-phone">
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+          <BackEyebrow label={t({ id: 'onboarding.phone.back', message: 'Back' })} />
           <View style={styles.head}>
             <View style={styles.headText}>
               <Text variant="h1" designSize={52} accessibilityRole="header">

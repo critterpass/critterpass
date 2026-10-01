@@ -26,7 +26,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await chat.stop();
+  await chat?.stop();
 });
 
 const HOUR_MS = 60 * 60 * 1000;

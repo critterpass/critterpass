@@ -1,7 +1,8 @@
 /**
  * Budget reads (docs/api-contracts.md §5.5):
  * - `GET /v1/budget/{trip_id}/band`: the crew-level band as published, to setup members, only from
- *   four maxes; below that `K_ANON_UNAVAILABLE` with the count ("2 of 6 set") and nothing else.
+ *   four maxes; below that `K_ANON_UNAVAILABLE` with the count ("2 of 6 set") and the public lock
+ *   grid (crew currency and step), nothing crew-level.
  * - `GET /v1/setup/{trip_id}/own-fit`: the caller's own fit against the organiser's locked target
  *   ("fits your max" / "over your max"), computed from the caller's max alone.
  * - `GET /v1/me/private/{kind}` (`budget_max?trip_id`, `budget_default`): the owner's own value for
@@ -12,6 +13,7 @@ import { withUser } from '@cp/db';
 import {
   DomainError,
   privateReadKindSchema,
+  type BudgetBandUnavailableDetail,
   type BudgetBandWire,
   type OwnFitWire,
   type PrivateBudgetMaxWire,
@@ -21,6 +23,7 @@ import type pg from 'pg';
 import { z } from 'zod';
 
 import type { AppEnv } from '../app';
+import { loadBudgetEstimates, lockGrid } from '../commands/setup/budget-shared';
 import { requireSetupMember } from '../commands/setup/shared';
 import { requireCommandSession, type SessionResolver } from '../commands/_framework/session';
 
@@ -58,10 +61,22 @@ export function registerBudgetRoutes(app: OpenAPIHono<AppEnv>, deps: BudgetRoute
         row.maxes_count >= 4 &&
         (row.band_high_minor !== null || row.infeasible === true);
       if (row === undefined || !published) {
-        throw new DomainError('K_ANON_UNAVAILABLE', {
+        const grid = lockGrid(
+          row === undefined
+            ? null
+            : {
+                currency: row.currency,
+                stepMinor: row.step_minor === null ? null : BigInt(row.step_minor),
+              },
+          await loadBudgetEstimates(tx, tripId),
+        );
+        const detail: BudgetBandUnavailableDetail = {
           maxes_count: row?.maxes_count ?? 0,
           member_count: row?.member_count ?? 0,
-        });
+          currency: grid.currency,
+          ...(grid.stepMinor === null ? {} : { step_minor: Number(grid.stepMinor) }),
+        };
+        throw new DomainError('K_ANON_UNAVAILABLE', { ...detail });
       }
       const wire: BudgetBandWire & { track_high_minor: number } = {
         trip_id: tripId,

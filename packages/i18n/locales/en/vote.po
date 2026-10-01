@@ -366,6 +366,10 @@ msgstr "Just you, {placeName}"
 msgid "vote.poll.loading"
 msgstr "Loading the poll"
 
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.lockIn"
+msgstr "Lock in {only}"
+
 #: ../../apps/mobile/src/features/vote/poll/create-poll-sheet.tsx
 msgid "vote.newPoll.title"
 msgstr "New poll"
@@ -377,6 +381,10 @@ msgstr "Next trip · final"
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.noGuide"
 msgstr "No live guide yet"
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refusedBody"
+msgstr "No trip was started. Try again."
 
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.guestLine"
@@ -511,6 +519,14 @@ msgstr "Taking a place off the board"
 #: ../../apps/mobile/src/features/vote/data/vote-commands.ts
 msgid "vote.queued.retract"
 msgstr "Taking your vote back"
+
+#: ../../apps/mobile/src/features/vote/places/solo-confirm.tsx
+msgid "vote.solo.refused"
+msgstr "That didn't go through"
+
+#: ../../apps/mobile/src/features/vote/board/destination-board.tsx
+msgid "vote.board.lockInFailed"
+msgstr "That didn't lock in. Try again in a moment."
 
 #: ../../apps/mobile/src/features/vote/board/destination-board.tsx
 msgid "vote.board.emptyLine"

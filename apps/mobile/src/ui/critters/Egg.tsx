@@ -1,5 +1,5 @@
 import { t } from '@lingui/core/macro';
-import { Canvas, Path } from '@shopify/react-native-skia';
+import { Canvas, Group, Path } from '@shopify/react-native-skia';
 import { useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
@@ -17,13 +17,14 @@ import { useIdleLoopRunning } from '@/motion/idle-pause';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { useSlap } from '@/motion/patterns/slap';
 
-import { makeStyles, useTheme } from '../theme';
+import { eggDoodle } from '../icons/generated/egg';
+import { useTheme } from '../theme';
 
 export type EggState = 'resting' | 'wobbling' | 'cracking' | 'hatched';
 
 export interface EggProps {
   readonly state: EggState;
-  /** Shell colour (the destination colour). @default action.primary */
+  /** The spots' colour (the guide's or destination's colour). @default action.primary */
   readonly color?: string;
   /** Egg width in points; height follows. @default 72 */
   readonly size?: number;
@@ -36,24 +37,30 @@ export interface EggProps {
 const WOBBLE_DEG = 6;
 const HEIGHT_RATIO = 1.25;
 
-const useStyles = makeStyles((th) => ({
-  spot: {
-    position: 'absolute',
-    borderRadius: th.radius.xl,
-    backgroundColor: th.color.paper.bright,
-    opacity: 0.55,
-  },
-}));
-
-function crackPath(width: number, height: number): string {
-  const y = height * 0.48;
-  const step = width / 6;
-  const points = Array.from(
-    { length: 7 },
-    (_, i) => [i * step, y + (i % 2 === 0 ? -6 : 6)] as const,
-  );
-  return points.map(([x, py], i) => [i === 0 ? 'M' : 'L', x, py].join(' ')).join(' ');
-}
+/**
+ * The egg's one shape: the hand-drawn egg doodle (the tab bar's and the launch egg's outline), an
+ * ovoid narrower at the top. Its layers are the body, four spots and the ink outline, in a
+ * 100-unit box. It is drawn as the design's egg sticker: the paper sticker edge, a cream body
+ * washed over it, spots in the guide's colour and the ink outline. `EGG_BOX` is the egg with its
+ * sticker edge.
+ */
+const [BODY, ...REST] = eggDoodle.layers;
+const OUTLINE = REST[REST.length - 1];
+const SPOTS = REST.slice(0, -1);
+/** How far the sticker edge reaches past the shell, in the doodle's units. */
+const EDGE = 4.5;
+const EGG_BOX = {
+  x: 20 - EDGE,
+  y: 5.5 - EDGE,
+  width: 60 + EDGE * 2,
+  height: 87 + EDGE * 2,
+} as const;
+const WASH_OPACITY = 0.9;
+/* eslint-disable lingui/no-unlocalized-strings -- vector path data, never copy. */
+/** The crack across the shell, in the doodle's units (the design's `crack` pose). */
+const CRACK = 'M25 50L35 44L42 53L50 43L58 53L65 44L75 50';
+const CRACK_WIDTH = 2.6;
+/* eslint-enable lingui/no-unlocalized-strings */
 
 function Hatchling({ children }: { readonly children: ReactNode }) {
   const slap = useSlap({ active: true });
@@ -62,7 +69,6 @@ function Hatchling({ children }: { readonly children: ReactNode }) {
 
 /** The trip egg: rests, wobbles, cracks, then hatches into the guide sticker. */
 export function Egg({ state, color, size = 72, hatchling, hatchlingName, testID }: EggProps) {
-  const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
   const rotate = useSharedValue(0);
@@ -116,48 +122,56 @@ export function Egg({ state, color, size = 72, hatchling, hatchlingName, testID 
     );
   }
 
+  // Fitted by height and centred, so the egg keeps the footprint it always had.
+  const scale = height / EGG_BOX.height;
+  const offsetX = (size - EGG_BOX.width * scale) / 2 - EGG_BOX.x * scale;
   return (
     <View testID={testID} accessible accessibilityRole="image" accessibilityLabel={label}>
-      <Animated.View
-        style={[
-          {
-            width: size,
-            height,
-            borderTopStartRadius: size / 2,
-            borderTopEndRadius: size / 2,
-            borderBottomStartRadius: size / 2.2,
-            borderBottomEndRadius: size / 2.2,
-            backgroundColor: color ?? theme.semantic.action.primary,
-            borderWidth: theme.space['2'],
-            borderColor: theme.color.paper.ink,
-            transformOrigin: 'bottom',
-            overflow: 'hidden',
-          },
-          wobble,
-        ]}
-      >
-        <View
-          style={[
-            styles.spot,
-            { width: size * 0.22, height: size * 0.22, top: height * 0.2, start: size * 0.2 },
-          ]}
-        />
-        <View
-          style={[
-            styles.spot,
-            { width: size * 0.14, height: size * 0.14, top: height * 0.6, end: size * 0.18 },
-          ]}
-        />
-        {state === 'cracking' ? (
-          <Canvas style={{ position: 'absolute', width: size, height }}>
-            <Path
-              path={crackPath(size, height)}
-              style="stroke"
-              strokeWidth={theme.space['2']}
-              color={theme.color.paper.ink}
-            />
-          </Canvas>
-        ) : null}
+      <Animated.View style={[{ width: size, height, transformOrigin: 'bottom' }, wobble]}>
+        <Canvas style={{ width: size, height }}>
+          <Group
+            transform={[{ translateX: offsetX }, { translateY: -EGG_BOX.y * scale }, { scale }]}
+          >
+            {BODY === undefined ? null : (
+              <>
+                <Path path={BODY.d} color={theme.color.paper.base} />
+                <Path
+                  path={BODY.d}
+                  color={theme.color.paper.base}
+                  style="stroke"
+                  strokeWidth={EDGE * 2}
+                  strokeJoin="round"
+                />
+                <Path
+                  path={BODY.d}
+                  color={theme.color.paper.warm}
+                  opacity={WASH_OPACITY}
+                  blendMode="multiply"
+                />
+              </>
+            )}
+            {SPOTS.map((spot) => (
+              <Path
+                key={spot.d}
+                path={spot.d}
+                color={color ?? theme.semantic.action.primary}
+                opacity={WASH_OPACITY}
+                blendMode="multiply"
+              />
+            ))}
+            {OUTLINE === undefined ? null : <Path path={OUTLINE.d} color={theme.color.paper.ink} />}
+            {state === 'cracking' ? (
+              <Path
+                path={CRACK}
+                style="stroke"
+                strokeWidth={CRACK_WIDTH}
+                strokeJoin="round"
+                strokeCap="round"
+                color={theme.color.paper.ink}
+              />
+            ) : null}
+          </Group>
+        </Canvas>
       </Animated.View>
     </View>
   );

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "60256994-ade7-4f7e-845a-555c49e43898",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"be ja na\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l10\",\"label\":\"CHOCOLATE MILKSHAKE\",\"qty\":null,\"amount\":\"59,000\",\"kind\":\"item\"},{\"line_id\":\"l14\",\"label\":\"COCO FRESH\",\"qty\":1,\"amount\":\"59,000\",\"kind\":\"item\"},{\"line_id\":\"l17\",\"label\":\"MIX BREEZE\",\"qty\":null,\"amount\":\"59,000\",\"kind\":\"item\"},{\"line_id\":\"l21\",\"label\":\"HAWAIAN PIZZA\",\"qty\":null,\"amount\":\"135,000\",\"kind\":\"item\"},{\"line_id\":\"l26\",\"label\":\"SERVICE 8%\",\"qty\":null,\"amount\":\"24,960\",\"kind\":\"service\"},{\"line_id\":\"l28\",\"label\":\"TAX10%\",\"qty\":null,\"amount\":\"31,200\",\"kind\":\"tax\"}],\"total\":{\"line_id\":\"l30\",\"amount\":\"368,160\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 209,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 217,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

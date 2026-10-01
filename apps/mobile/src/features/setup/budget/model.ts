@@ -6,16 +6,16 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire keys and Intl options, never copy. */
 import {
-  bandStepMinor,
   breakdownBars,
   budgetEstimates,
-  crewFeasibleLow,
-  planBreakdown,
-  type BudgetEstimateSource,
   type BudgetEstimates,
+  type BudgetEstimateSource,
+  crewFeasibleLow,
+  formatNarrowCurrency,
+  narrowCurrencySymbol,
+  planBreakdown,
 } from '@cp/cost-engine';
 import { BUDGET_K_MIN } from '@cp/domain';
-import { format } from '@cp/i18n';
 
 /** The synced crew-level row, as the local database holds it. */
 export interface AggregateRow {
@@ -115,7 +115,7 @@ export interface Track {
   readonly stepMinor: number;
 }
 
-/** A fallback track length when nothing is priced yet: sixty steps ($3,000 in USD). */
+/** The track's length when nothing is priced yet: sixty steps ($3,000 in USD). */
 const FALLBACK_STEPS = 60;
 
 export function estimatesOf(source: BudgetEstimateSource | null): BudgetEstimates | null {
@@ -127,20 +127,12 @@ export function estimatesOf(source: BudgetEstimateSource | null): BudgetEstimate
   }
 }
 
+/** The knob's track in `stepMinor` steps (see `./lock-step` for where the step comes from). */
 export function trackOf(
   band: BandView,
   estimates: BudgetEstimates | null,
-  row: AggregateRow | null,
+  stepMinor: number,
 ): Track {
-  let step = row?.step_minor ?? null;
-  if (step === null && estimates !== null) {
-    try {
-      step = Number(bandStepMinor(estimates.currency, estimates.fx));
-    } catch {
-      step = null;
-    }
-  }
-  const stepMinor = step ?? 5000;
   const low = estimates === null ? null : crewFeasibleLow(estimates);
   const minMinor = low === null ? 0 : Math.floor(Number(low.amountMinor) / stepMinor) * stepMinor;
   const maxMinor =
@@ -201,26 +193,17 @@ export function fractionDigits(currency: string): number {
   }
 }
 
-/** "$1,350": whole units in the currency's own symbol. */
+/** "$1,350": whole units in the currency's own short symbol, as the locale places it. */
 export function money(locale: string, amountMinor: number, currency: string): string {
-  return format.number(locale, Math.round(amountMinor / 10 ** fractionDigits(currency)), {
-    style: 'currency',
+  return formatNarrowCurrency(
+    locale,
+    Math.round(amountMinor / 10 ** fractionDigits(currency)),
     currency,
-    currencyDisplay: 'narrowSymbol',
-    maximumFractionDigits: 0,
-  });
+    { maximumFractionDigits: 0 },
+  );
 }
 
-/** The currency's symbol as the locale writes it ("$", "₫"). */
-export function currencySymbol(locale: string, currency: string): string {
-  try {
-    const parts = new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency,
-      currencyDisplay: 'narrowSymbol',
-    }).formatToParts(0);
-    return parts.find((part) => part.type === 'currency')?.value ?? currency;
-  } catch {
-    return currency;
-  }
+/** The currency's symbol ("$", "₫"). */
+export function currencySymbol(_locale: string, currency: string): string {
+  return narrowCurrencySymbol(currency);
 }

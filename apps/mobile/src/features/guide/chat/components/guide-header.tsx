@@ -12,7 +12,7 @@ import type { GuideThreadMode } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
 import { Row, Stack, Text, makeStyles, useTheme } from '@/ui';
-import { GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
+import { GUIDE_STICKERS, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { Sticker } from '@/ui/sticker/Sticker';
 
@@ -23,8 +23,8 @@ const useStyles = makeStyles((t) => ({
   modes: { flexShrink: 0 },
 }));
 
-export function guideAvatarId(slug: string): GuideAvatarId {
-  return slug in GUIDE_STICKERS ? (slug as GuideAvatarId) : 'tokek';
+export function guideAvatarId(slug: string): GuideStickerId {
+  return isGuideStickerId(slug) ? slug : 'tokek';
 }
 
 function dateRange(start: string | null, end: string | null, locale: string): string | null {

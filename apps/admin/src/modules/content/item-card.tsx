@@ -32,6 +32,9 @@ export function ItemCard({
       {face.critterId !== undefined && (
         <CritterPreview critterId={face.critterId} form={face.form} size={56} label={face.title} />
       )}
+      {face.imageUrl !== undefined && (
+        <img className="cb-item-image" src={face.imageUrl} alt="" loading="lazy" />
+      )}
       <span className="cb-item-title">{face.title}</span>
       <span className="cb-item-sub muted">{face.subtitle}</span>
       <span className="row cb-item-foot">

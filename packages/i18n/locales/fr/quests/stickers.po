@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-01 06:03+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: fr\n"
+
+#. placeholder {0}: item.place
+#: ../../apps/mobile/src/features/critters/stickers/StickerDetailSheet.tsx
+msgid "stickers.detail.when"
+msgstr ""
+
+#. placeholder {0}: String(item.level ?? '')
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.how.crewLevel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.how.special"
+msgstr ""
+
+#. placeholder {0}: String(item.level ?? '')
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.name.crewLevel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.how.settled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.how.settledNoPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
+msgid "stickers.shelf.empty"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.name.settled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-copy.ts
+msgid "stickers.name.special"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/stickers/sticker-shelf-view.tsx
+msgid "stickers.shelf.title"
+msgstr ""

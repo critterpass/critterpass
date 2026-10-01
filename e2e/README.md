@@ -169,6 +169,13 @@ staging's AI, so those flows allow a few minutes for them.
 | `drafting`       | setup, then the draft ready → private review → change a day → keep               |
 | `money`          | add an expense → balances → settle up (request, then confirm it arrived)         |
 | `bookings`       | paste a confirmation → candidate → ADD → wallet stack → the flight's details     |
+| `suppliers`      | activity cards → OPEN KLOOK → click recorded → the partner redirect              |
+| `fresh-wallet`   | no seed: crew of one → Money in VND → BOOKINGS/MONEY → forward address → SAVE    |
+| `fresh-join-code` | no seed: a second new account → splash "Got a code?" → JOIN → the pass asks for name and home → ISSUE → manifest |
+| `fresh-join-code-vi` | the same friend, reading the app in Vietnamese from the splash on |
+| `critters`       | fresh account → PASS Critterdex synced → FOUND empty → a set page → Explore at home kept after a relaunch |
+| `fresh-setup-vnd` | no seed: crew of one from Ho Chi Minh City (VND) → Đà Nẵng locked in → dates from tomorrow, 3 days → budget in ₫ locks first time → rooms |
+| `fresh-join-under-way` | no seed, three accounts: a trip from today confirmed → a third joins with the crew code → on the trip (plan, split three ways) |
 
 The `happy` preset records every flow on video (`screenrecord` in three-minute segments on Android,
 `simctl io recordVideo` on iOS; `tools/scripts/ci-device/screen-video.ts`) and the publish job builds

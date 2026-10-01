@@ -11,7 +11,7 @@ let package = Package(
     .target(
       name: "CpCalendarReduction",
       path: ".",
-      exclude: ["CpCalendar.podspec", "CpCalendarModule.swift", "Tests"],
+      exclude: ["CpCalendar.podspec", "CpCalendarModule.swift", "CalendarWriter.swift", "Tests"],
       sources: ["BusyDayReducer.swift"]
     ),
     .testTarget(

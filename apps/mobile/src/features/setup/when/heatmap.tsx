@@ -218,37 +218,40 @@ export function Heatmap({
           </View>
         )}
       </Row>
-      <View style={styles.week} importantForAccessibility="no-hide-descendants">
-        {letters.map((letter, column) => (
-          <View key={`w${column}`} style={[styles.slot, styles.weekday]}>
-            <Text variant="label" color={theme.semantic.text.secondary}>
-              {letter}
-            </Text>
+      {/* The weekday letters and the weeks sit together, outside the card's gap between rows. */}
+      <View>
+        <View style={styles.week} importantForAccessibility="no-hide-descendants">
+          {letters.map((letter, column) => (
+            <View key={`w${column}`} style={[styles.slot, styles.weekday]}>
+              <Text variant="label" color={theme.semantic.text.secondary}>
+                {letter}
+              </Text>
+            </View>
+          ))}
+        </View>
+        {weeksOf(month).map((week, row) => (
+          <View key={`r${row}`} style={styles.week}>
+            {week.map((day, column) => {
+              if (day === null) return <View key={column} style={styles.slot} />;
+              const order = windowDays.findIndex((candidate) => candidate.date === day.date);
+              return (
+                <View key={day.date} style={styles.slot}>
+                  <Cell
+                    day={day}
+                    total={total}
+                    highlighted={order >= 0}
+                    order={order}
+                    count={windowDays.length}
+                    progress={drawing.progress}
+                    label={cellLabel(day)}
+                    onPress={onSelectDay === undefined ? undefined : () => onSelectDay(day.date)}
+                  />
+                </View>
+              );
+            })}
           </View>
         ))}
       </View>
-      {weeksOf(month).map((week, row) => (
-        <View key={`r${row}`} style={styles.week}>
-          {week.map((day, column) => {
-            if (day === null) return <View key={column} style={styles.slot} />;
-            const order = windowDays.findIndex((candidate) => candidate.date === day.date);
-            return (
-              <View key={day.date} style={styles.slot}>
-                <Cell
-                  day={day}
-                  total={total}
-                  highlighted={order >= 0}
-                  order={order}
-                  count={windowDays.length}
-                  progress={drawing.progress}
-                  label={cellLabel(day)}
-                  onPress={onSelectDay === undefined ? undefined : () => onSelectDay(day.date)}
-                />
-              </View>
-            );
-          })}
-        </View>
-      ))}
     </View>
   );
 }

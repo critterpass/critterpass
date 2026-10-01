@@ -1,7 +1,8 @@
 /**
  * One day of the private draft: number tile in the guide's colour, the day's title, "FRI · first
  * stop at 11:20, second stop" (or a lottery date, or nothing booked on purpose), the avatars of
- * whoever's must-do lands on it or an OPTIONAL tag. Rows drop in one after another (opacity 0,
+ * whoever's must-do lands on it, else BOOKED when a wallet booking sits on the day, or an OPTIONAL
+ * tag. Rows drop in one after another (opacity 0,
  * ty −12 → 0, 400 ms, from 520 ms, 80 ms apart), then the owners' avatars stamp on. A kept redraft
  * flaps its title in place.
  */
@@ -21,6 +22,7 @@ import { patterns } from '@/motion';
 import { bezierEasing } from '@/motion/easing';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { PressScale } from '@/ui/press/PressScale';
+import { StatusChip } from '@/ui/chips/StatusChip';
 import { Avatar } from '@/ui/people/Avatar';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -133,10 +135,13 @@ export function DraftDayRow({ day, index, locale, colour, onPress }: DraftDayRow
     id: 'planDraft.day.closedNote',
     message: 'Something here is closed that day',
   });
+  // The same word and chip the trip plan puts on a day that holds a booking.
+  const booked = t({ id: 'plan.overview.chip.booked', message: 'Booked' });
   const label = [
     t({ id: 'planDraft.day.a11y', message: `Day ${n}` }),
     day.title,
     detail,
+    day.booked === true ? booked : undefined,
     day.optional ? optional : undefined,
     day.closed ? closed : undefined,
     ...day.owners.map((owner) => owner.name),
@@ -177,6 +182,12 @@ export function DraftDayRow({ day, index, locale, colour, onPress }: DraftDayRow
             />
           ))}
         </Animated.View>
+      ) : day.booked === true ? (
+        <StatusChip
+          status="booked"
+          label={upper(booked, locale)}
+          testID={`draft-day-booked-${n}`}
+        />
       ) : day.optional ? (
         <View style={styles.tag}>
           <Text variant="label" color={theme.semantic.text.secondary}>

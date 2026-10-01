@@ -47,6 +47,11 @@ export interface Brief {
   readonly notes?: Readonly<Record<string, string>>;
   /** The kind options the batch was briefed with; later stages reuse them. */
   readonly options?: Readonly<Record<string, string>>;
+  /**
+   * Items copied unchanged from the live release: a batch that researches only some destinations
+   * keeps the others' already verified records, because publishing replaces the whole kind.
+   */
+  readonly carried?: readonly unknown[];
 }
 
 export interface RenderedItem {

@@ -210,6 +210,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'season.research': fast(null, 2048, { output: 'structured' }),
   'pitch.place': fast(null, 1024, { delivery: 'stream', cacheLayers: JOB_LAYERS }),
   'briefing.daily': fast('B', 2048, { output: 'structured', cacheLayers: JOB_LAYERS }),
+  'explore.place_qna': fast(null, 512, { output: 'structured' }),
+  'explore.swipe_notes': pro(null, 4096, 'low', { output: 'structured', cacheLayers: JOB_LAYERS }),
   'photo.picks': fast(null, 2048, { output: 'structured', vision: true }),
   'avatar.moderate': fast(null, 256, { output: 'structured', vision: true }),
   'receipt.parse': fast('M', 4096, { output: 'structured', vision: true }),
@@ -243,6 +245,13 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'draft.closures': fast(null, 2048, { output: 'structured' }),
   'watch.copy': fast('R', 1024, { output: 'structured', cacheLayers: JOB_LAYERS }),
   'late.options': fast('R', 1024, { output: 'structured', cacheLayers: JOB_LAYERS }),
+  'proposal.objection': fast(null, 768, { output: 'structured' }),
+  'proposal.suggestion': fast(null, 1024, { output: 'structured' }),
+  // A batch of the guide's own lines in a reader's language, in the guide's voice.
+  'guide_text.translate': fast(null, 8192, {
+    output: 'structured',
+    cacheLayers: ['global_rules', 'persona'],
+  }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
@@ -253,6 +262,7 @@ const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
   'compliance.check': twin(),
   'availability.reply_intent': twin(),
   'vendor.reply_intent': twin(),
+  'rsvp.reply_intent': twin(),
 };
 
 function toConfig(route: AiRoute, spec: RouteSpec): RouteConfig {

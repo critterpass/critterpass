@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "6553d47c-4beb-4e33-9816-e8adfd447546",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"POLENG RESTAURANT\",\"datetime\":null,\"currency\":\"IDR\",\"lines\":[{\"line_id\":\"l13\",\"label\":\"Seafood Platter C.1\",\"qty\":1,\"amount\":\"110,000\",\"kind\":\"item\"},{\"line_id\":\"l16\",\"label\":\"Nasi Goreng Chicken\",\"qty\":1,\"amount\":\"90,000\",\"kind\":\"item\"},{\"line_id\":\"l20\",\"label\":\"Soto Ayam C19\",\"qty\":1,\"amount\":\"70,000\",\"kind\":\"item\"},{\"line_id\":\"l22\",\"label\":\"Green Salad C19\",\"qty\":null,\"amount\":\"65,000\",\"kind\":\"item\"},{\"line_id\":\"l25\",\"label\":\"Bebek Betutu C19\",\"qty\":1,\"amount\":\"115,000\",\"kind\":\"item\"},{\"line_id\":\"l28\",\"label\":\"SMALL BEER C.19\",\"qty\":4,\"amount\":\"232,000\",\"kind\":\"item\"},{\"line_id\":\"l31\",\"label\":\"Spirit Mixer C.19\",\"qty\":2,\"amount\":\"220,000\",\"kind\":\"item\"},{\"line_id\":\"l35\",\"label\":\"VAT\",\"qty\":null,\"amount\":\"90,200\",\"kind\":\"tax\"},{\"line_id\":\"l39\",\"label\":\"Service Tax\",\"qty\":null,\"amount\":\"99,220\",\"kind\":\"service\"}],\"total\":{\"line_id\":\"l40\",\"amount\":\"1,091,420\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 198,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 312,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

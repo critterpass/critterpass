@@ -620,6 +620,18 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, false, false),
     },
   },
+  // A ready asset; the ready-only policy is proven in media-assets.test.ts.
+  media_assets: {
+    selectProbe: { sql: 'SELECT 1 FROM media_assets LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: op(true, false, false),
+      exMember: op(true, false, false),
+      anonymous: op(true, false, false),
+      member: op(true, false, false),
+      coOrganiser: op(true, false, false),
+      organiser: op(true, false, false),
+    },
+  },
   // llm.pois is a view, not a public-schema table (the coverage scan below never requires an entry
   // for it), added anyway: guide_reader is the only role granted it, so every app_user actor here
   // must see the same "no access" shape as poi_embeddings/media_objects.
@@ -753,6 +765,31 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       coOrganiser: op(false, true, false),
       organiser: op(true, true, true),
     },
+  },
+  // Earned app icons: the unlock job writes, the owner only reads (docs/data-model.md §3.1).
+  app_icon_unlocks: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM app_icon_unlocks WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  // Self-reported past trips: RLS class O, written by their owner.
+  past_trips: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM past_trips WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: SELF_ONLY,
+  },
+  // Data exports: the api's system step and the worker write, the owner reads (docs/data-model.md
+  // §3.17).
+  data_exports: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM data_exports WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
   },
   // RLS class X, self-only (docs/data-model.md §3.1: excluded from every derived view) — same
   // self-only shape as user_settings/consents/device_action_keys above.
@@ -1343,6 +1380,29 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: OWNER_READ,
   },
+  // Live Activities: the owner reads their own tokens and activities; the worker owns the rest.
+  la_push_to_start_tokens: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM la_push_to_start_tokens WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  device_activities: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM device_activities WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  broadcast_channels: {
+    selectProbe: { sql: 'SELECT 1 FROM broadcast_channels LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  la_object_states: {
+    selectProbe: { sql: 'SELECT 1 FROM la_object_states LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
   // Wallet: the crew reads a crew booking and its crew-visible documents and flight segments; the
   // server writes. Personal rows are covered per actor in bookings.test.ts and friends.
   bookings: {
@@ -1590,6 +1650,65 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: { sql: 'SELECT 1 FROM readiness WHERE trip_id = $1', params: (f) => [f.tripId] },
     expectations: CREW_VISIBLE_READ,
   },
+  // Critters: own rows only, crewmates' eggs on a shared trip, crew counts to the crew, and the
+  // evidence and samples to nobody.
+  eggs: {
+    selectProbe: { sql: 'SELECT 1 FROM eggs WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  encounters: {
+    selectProbe: ownRowProbe('encounters'),
+    // Anyone may start their own encounter; only the owner reads it; the server updates it.
+    expectations: {
+      organiser: op(true, true, false),
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      outsider: op(false, true, false),
+      exMember: op(false, true, false),
+      anonymous: op(false, true, false),
+    },
+  },
+  encounter_evidence: {
+    selectProbe: { sql: 'SELECT 1 FROM encounter_evidence LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  encounter_samples: {
+    selectProbe: { sql: 'SELECT 1 FROM encounter_samples LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  collection_entries: { selectProbe: ownRowProbe('collection_entries'), expectations: OWNER_READ },
+  guide_skins: { selectProbe: ownRowProbe('guide_skins'), expectations: OWNER_READ },
+  crew_collection_counts: {
+    selectProbe: ownRowProbe('crew_collection_counts'),
+    expectations: CREW_VISIBLE_READ,
+  },
+  // Quests: the trip reads its quests, sign-ups and progress (a traveller signs themselves up);
+  // a member reads their own XP rows, the crew its crew rows and total; the server writes the rest.
+  quests: {
+    selectProbe: { sql: 'SELECT 1 FROM quests WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  quest_signups: {
+    selectProbe: ownRowProbe('quest_signups'),
+    expectations: {
+      ...CREW_VISIBLE_READ,
+      member: op(true, true, false),
+      coOrganiser: op(true, true, false),
+      organiser: op(true, true, false),
+    },
+  },
+  quest_progress: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM quest_progress WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  xp_ledger: { selectProbe: ownRowProbe('xp_ledger'), expectations: OWNER_READ },
+  crew_xp: {
+    selectProbe: { sql: 'SELECT 1 FROM crew_xp WHERE crew_id = $1', params: (f) => [f.crewId] },
+    expectations: CREW_VISIBLE_READ,
+  },
   disruptions: {
     selectProbe: {
       sql: 'SELECT 1 FROM disruptions WHERE trip_id = $1',
@@ -1616,6 +1735,118 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   offline_bundles: {
     selectProbe: {
       sql: 'SELECT 1 FROM offline_bundles WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  // Explore: the crew reads a trip's swipe sessions, yes votes, matches and Q&A line; a vote
+  // (and so every "no") is its voter's alone; tips and live placements are open to every reader;
+  // saved lists are their owner's; sponsored counts are the server's.
+  swipe_sessions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM swipe_sessions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  swipe_votes: { selectProbe: ownRowProbe('swipe_votes'), expectations: OWNER_READ },
+  swipe_yes_votes: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM swipe_yes_votes WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  swipe_matches: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM swipe_matches WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  place_qna_summaries: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM place_qna_summaries WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  place_tips: {
+    selectProbe: { sql: 'SELECT 1 FROM place_tips LIMIT 1', params: () => [] },
+    expectations: READ_ONLY_ALL,
+  },
+  saved_lists: { selectProbe: ownRowProbe('saved_lists'), expectations: SELF_ONLY },
+  sponsored_placements: {
+    selectProbe: { sql: 'SELECT 1 FROM sponsored_placements LIMIT 1', params: () => [] },
+    expectations: READ_ONLY_ALL,
+  },
+  sponsored_event_counts: {
+    selectProbe: { sql: 'SELECT 1 FROM sponsored_event_counts LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  proposals: {
+    selectProbe: { sql: 'SELECT 1 FROM proposals WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  proposal_versions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM proposal_versions WHERE trip_id = $1 AND recipient_id = $2',
+      params: (f) => [f.tripId, f.actors.member],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  proposal_reactions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM proposal_reactions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  hype_aggregates: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM hype_aggregates WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  engagement_events: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM engagement_events WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: SYSTEM_ONLY,
+  },
+  private_guide_threads: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM private_guide_threads WHERE owner_id = $1',
+      params: (f) => [f.actors.member],
+    },
+    expectations: { ...SYSTEM_ONLY, member: op(true, false, false) },
+  },
+  anonymous_suggestions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM anonymous_suggestions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  rsvp_suggestions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM rsvp_suggestions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: { ...CREW_VISIBLE_READ, member: F },
+  },
+  proposal_followups: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM proposal_followups WHERE user_id = $1',
+      params: (f) => [f.actors.member],
+    },
+    expectations: { ...SYSTEM_ONLY, member: op(true, false, false) },
+  },
+  trip_dropouts: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM trip_dropouts WHERE trip_id = $1',
       params: (f) => [f.tripId],
     },
     expectations: CREW_VISIBLE_READ,

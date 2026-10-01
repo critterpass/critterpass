@@ -6,7 +6,13 @@
 import type { ReactNode } from 'react';
 
 import { AddExpenseView } from '../add-expense/AddExpenseView';
-import { draftReducer, newDraft, type DraftAction, type ExpenseDraft } from '../add-expense/draft';
+import {
+  draftReducer,
+  newDraft,
+  sharesByMember,
+  type DraftAction,
+  type ExpenseDraft,
+} from '../add-expense/draft';
 import { useAddLabels } from '../add-expense/labels';
 import { previewDraft } from '../add-expense/preview';
 import { MoneyLoading } from '../balances/BalancesScreen';
@@ -20,13 +26,13 @@ const noop = () => undefined;
 
 function balances(
   uid: string,
-  options: { empty?: boolean; offline?: boolean; latest?: typeof LAB_LATEST } = {},
+  options: { empty?: boolean; offline?: boolean; solo?: boolean; latest?: typeof LAB_LATEST } = {},
 ): ReactNode {
   const model = buildBalances({
     uid,
-    members: LAB_MEMBERS,
-    shown: LAB_MEMBERS,
-    ledger: options.empty === true ? [] : LAB_LEDGER,
+    members: options.solo === true ? LAB_MEMBERS.slice(0, 1) : LAB_MEMBERS,
+    shown: options.solo === true ? LAB_MEMBERS.slice(0, 1) : LAB_MEMBERS,
+    ledger: options.empty === true || options.solo === true ? [] : LAB_LEDGER,
     payments: [],
     expenses: [{ crew_amount_minor: 481_200, crew_currency: 'USD' }],
     currency: 'USD',
@@ -40,6 +46,7 @@ function balances(
       settleTaps={model.plan.length}
       latest={options.empty === true ? null : (options.latest ?? LAB_LATEST)}
       empty={options.empty === true}
+      solo={options.solo === true}
       offline={options.offline === true}
       onCurrency={noop}
       onSettle={noop}
@@ -57,9 +64,15 @@ const TYPE_450K: DraftAction[] = ['4', '5', '0', '000'].map((key) => ({
   key: key as '4',
 }));
 
-function AddScene({ extra }: { readonly extra: readonly DraftAction[] }) {
+function AddScene({
+  extra,
+  currency = 'IDR',
+}: {
+  readonly extra: readonly DraftAction[];
+  readonly currency?: string;
+}) {
   const base = newDraft({
-    currency: 'IDR',
+    currency,
     payerId: LAB_UID,
     memberIds: LAB_MEMBERS.map((member) => member.userId),
   });
@@ -77,7 +90,7 @@ function AddScene({ extra }: { readonly extra: readonly DraftAction[] }) {
       draft={draft}
       members={LAB_MEMBERS}
       approx={labels.approx}
-      perMember={preview?.perMember ?? null}
+      perMember={sharesByMember(draft)}
       ctaLabel={labels.ctaLabel}
       ctaDisabled={false}
       shake={0}
@@ -101,6 +114,7 @@ export const HOME_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'balances-owes': () => balances('u-alex'),
   'balances-square': () => balances('u-dev'),
   'balances-empty': () => balances(LAB_UID, { empty: true }),
+  'balances-solo': () => balances(LAB_UID, { solo: true }),
   'balances-offline': () =>
     balances(LAB_UID, { offline: true, latest: LAB_HISTORY[0] ?? LAB_LATEST }),
   'balances-loading': () => <MoneyLoading />,
@@ -139,6 +153,7 @@ export const HOME_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   add: () => <AddScene extra={[]} />,
+  'add-paid-by-alex': () => <AddScene extra={[{ type: 'payer', userId: 'u-alex' }]} />,
   'add-by-share': () => (
     <AddScene
       extra={[
@@ -159,4 +174,6 @@ export const HOME_SCENES: Readonly<Record<string, () => ReactNode>> = {
       ]}
     />
   ),
+  // Dong: no minor units, and Vietnamese writes the symbol after the number.
+  'add-dong': () => <AddScene currency="VND" extra={[{ type: 'key', key: '0' }]} />,
 };

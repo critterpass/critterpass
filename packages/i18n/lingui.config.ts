@@ -115,6 +115,25 @@ const tripSubAreas = {
   ],
 } as const;
 
+// Supplier cards, the booking sheet, vendor messages and Getting around keep their own catalog
+// inside the bookings area (`suppliers/app`), so the supplier lane and the wallet never edit the
+// same file.
+const supplierSources = [
+  `${repoRootPrefix}/apps/mobile/src/features/bookings/supplier/**`,
+  `${repoRootPrefix}/apps/mobile/src/features/bookings/getting-around/**`,
+  `${repoRootPrefix}/apps/mobile/src/app/(modal)/supplier/**`,
+  `${repoRootPrefix}/apps/mobile/src/app/(trip)/getting-around.tsx`,
+];
+
+// Crew quests and the sticker shelf keep their own catalogs inside the critters area
+// (`quests/quests`, `quests/stickers`), so the quests lane and the rest of critters never edit the
+// same file.
+const questSources = [
+  `${repoRootPrefix}/apps/mobile/src/features/critters/quests/**`,
+  `${repoRootPrefix}/apps/mobile/src/app/(trip)/quests/**`,
+];
+const stickerSources = [`${repoRootPrefix}/apps/mobile/src/features/critters/stickers/**`];
+
 const notificationSources = [
   {
     name: 'common',
@@ -122,6 +141,15 @@ const notificationSources = [
       `${repoRootPrefix}/services/worker/src/push/**`,
       `${repoRootPrefix}/services/worker/src/jobs/notify/**`,
       `${repoRootPrefix}/services/worker/src/jobs/invites/notifications.ts`,
+      `${repoRootPrefix}/services/worker/src/jobs/chat/notify.ts`,
+      `${repoRootPrefix}/services/worker/src/jobs/live-map/notify.ts`,
+      `${repoRootPrefix}/services/worker/src/jobs/proposal/notify.ts`,
+      `${repoRootPrefix}/services/worker/src/jobs/proposal/trip-news.ts`,
+      // Push and email copy the domain packages carry as `{id, message}` templates.
+      `${repoRootPrefix}/packages/domain/src/*/templates.ts`,
+      `${repoRootPrefix}/packages/domain/src/quests/realtime.ts`,
+      `${repoRootPrefix}/packages/domain/src/critters/realtime.ts`,
+      `${repoRootPrefix}/packages/domain/src/surfaces/la-copy.ts`,
     ],
   },
   { name: 'roundup', include: [`${repoRootPrefix}/services/worker/src/jobs/roundup/**`] },
@@ -174,12 +202,34 @@ export default defineConfig({
               ? [...testFileExcludes, `${draftRoot}/**`, ...planSubAreas.flatMap(planSubSources)]
               : area === 'trip'
                 ? [...testFileExcludes, ...Object.values(tripSubAreas).flat()]
-                : testFileExcludes,
+                : area === 'bookings'
+                  ? [...testFileExcludes, ...supplierSources]
+                  : area === 'critters'
+                    ? [...testFileExcludes, ...questSources, ...stickerSources]
+                    : testFileExcludes,
     })),
+    {
+      name: 'quests/quests',
+      path: 'locales/{locale}/quests/quests',
+      include: questSources,
+      exclude: testFileExcludes,
+    },
+    {
+      name: 'quests/stickers',
+      path: 'locales/{locale}/quests/stickers',
+      include: stickerSources,
+      exclude: testFileExcludes,
+    },
     {
       name: 'chat/chat',
       path: 'locales/{locale}/chat/chat',
       include: chatSources,
+      exclude: testFileExcludes,
+    },
+    {
+      name: 'suppliers/app',
+      path: 'locales/{locale}/suppliers/app',
+      include: supplierSources,
       exclude: testFileExcludes,
     },
     {

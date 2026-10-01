@@ -19,7 +19,7 @@ import { format, upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { GUIDE_AVATAR_IDS, GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
+import { GUIDE_STICKERS, isGuideStickerId, type GuideStickerId } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Stack } from '@/ui/layout/Stack';
@@ -39,10 +39,8 @@ const useStyles = makeStyles((th) => ({
   guide: { position: 'absolute', end: th.space['12'], top: -th.space['24'] },
 }));
 
-function guideOf(slug: string | null): GuideAvatarId {
-  return (GUIDE_AVATAR_IDS as readonly string[]).includes(slug ?? '')
-    ? (slug as GuideAvatarId)
-    : 'tokek';
+function guideOf(slug: string | null): GuideStickerId {
+  return isGuideStickerId(slug) ? slug : 'tokek';
 }
 
 export function FoundCrewCard({ model }: { readonly model: TicketModel }) {

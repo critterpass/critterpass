@@ -1,5 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { critters, places } from '@cp/critter-art';
+
 test.describe('home', () => {
   test('renders every section the header and footer link to', async ({ page }) => {
     await page.goto('/');
@@ -20,8 +22,8 @@ test.describe('home', () => {
   test('the pass counts come from the critter set', async ({ page }) => {
     await page.goto('/');
     const stats = page.locator('.home-pass-section__stats');
-    await expect(stats).toContainText('150');
-    await expect(stats).toContainText('61');
+    await expect(stats.locator('dd').first()).toHaveText(String(critters.length));
+    await expect(stats.locator('dd').nth(1)).toHaveText(String(places.length));
     await expect(page.locator('.home-pass-book__tile')).toHaveCount(20);
   });
 

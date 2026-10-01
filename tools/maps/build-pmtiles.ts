@@ -206,6 +206,9 @@ function buildRegion(args: RegionArgs): void {
       `--minzoom=${String(args.minZoom)}`,
       `--maxzoom=${String(args.maxZoom)}`,
       '--force',
+      // Space-separated extra planetiler flags, e.g. `--storage=ram --nodemap_storage=ram` to keep
+      // temporary storage off a nearly full disk.
+      ...(process.env['PLANETILER_EXTRA_ARGS'] ?? '').split(' ').filter((arg) => arg !== ''),
     ];
     console.log(
       JSON.stringify({ msg: 'tiles build-pmtiles: running planetiler', args: planetilerArgs }),

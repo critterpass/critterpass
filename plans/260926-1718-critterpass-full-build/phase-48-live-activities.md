@@ -1,7 +1,7 @@
 ---
 phase: 48
 title: Live Activities & Dynamic Island
-status: pending
+status: in_progress
 depends_on: [2, 5, 11, 34, 36, 39, 40]
 wave: 19
 features: [F-170, F-171, F-172, F-173, F-174, F-175]
@@ -86,6 +86,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. zod Attributes/ContentState per async §3.2 (+ Ride). 2. Pure builders; priority + concurrency rules table. 3. Migration + RLS + grants. 4. Swift codegen run into `targets/_shared/ActivityAttributes/`.
 - Tests: `pnpm --filter @cp/domain test -- surfaces/la`; `pnpm --filter @cp/db test -- permissions/live-activities`.
 - Done when: every builder output ≤4 KB for 16-member crews, no field named/typed as lat/lng passes schema lint, permission tests green.
+- Status: done — d5f14be10
 
 ### T2 — Device token + state commands
 - Goal: register tokens and LA state from devices.
@@ -93,6 +94,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. Handlers with app-layer policy (self device only). 2. Idempotent by op_id. 3. Boost check in `request_crew_lock_screen` returns `ENTITLEMENT_REQUIRED` with offer key.
 - Tests: `pnpm --filter @cp/api test -- live-activities`.
 - Done when: replayed op returns stored result; foreign device id rejected; unboosted trip returns offer payload.
+- Status: done — ddd2554e4
 
 ### T3 — Orchestrator, broadcast channels, lifecycle cron
 - Goal: server decides start/update/end for all kinds.
@@ -100,6 +102,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. Event → affected (user, device) set → builder → APNs payload (start needs `alert`, `attributes-type`, `input-push-channel`). 2. Channel create/delete via Channel Management API; per-object broadcast for shared kinds. 3. Priority budget + collapse; fallback to notification (phase-11 router) when `la_enabled=false` or token missing. 4. Minute cron: stale-date, end, 8 h restart, dismissed handling.
 - Tests: `pnpm --filter @cp/worker test -- la` (Testcontainers Postgres + APNs HTTP/2 mock server from node-apn test harness).
 - Done when: readiness change on a LeaveBy emits one broadcast update; 8 h-old active LeaveBy is ended and restarted with the same `last_content_version`; disabled LA yields a notification instead.
+- Status: done — be828f0c9
 
 ### T4 — cp-live-activity native module
 - Goal: JS control + token streams.
@@ -107,6 +110,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. `start(kind, attrs, state, startDate?)`, `update`, `end`, `list`. 2. Emit push-to-start and update tokens → `register_la_token`; state changes → `report_la_state`; authorization → `update_device_permissions`. 3. Write `state/la/<id>.json` via cp-app-group.
 - Tests: `pnpm --filter @cp/mobile test -- live-activities`; Xcode unit test target `CPLiveActivityTests` via `xcodebuild test -scheme CPLiveActivity`.
 - Done when: dev build logs both tokens on device; JS receives dismissal event.
+- Status: done — 805dbab8f
 
 ### T5 — Leave-by LA + Dynamic Island UI + I'M UP intent
 - Goal: 5a-1, 5a-5, 3k-3 pixel-faithful.
