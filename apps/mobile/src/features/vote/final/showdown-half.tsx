@@ -4,6 +4,7 @@
  * a ring; choosing it squashes the half from the VS edge.
  */
 import { tokens } from '@cp/design-tokens';
+import type { MediaAsset } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
 import { Pressable, View } from 'react-native';
@@ -18,6 +19,7 @@ import { bezierEasing, useMotionMode } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
+import { MediaLayer } from '@/ui/media/MediaLayer';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { LiveSticker } from '@/ui/people/LiveSticker';
 import { Text } from '@/ui/text/Text';
@@ -169,6 +171,7 @@ function Facts({
 export function ShowdownHalf({
   option,
   place,
+  photo = null,
   people,
   sectionsOf,
   alignEnd,
@@ -182,6 +185,8 @@ export function ShowdownHalf({
 }: {
   readonly option: PollOptionView;
   readonly place: BoardPlace | undefined;
+  /** The place's photo under its colour; null keeps the flat colour. */
+  readonly photo?: MediaAsset | null;
   readonly people: ReadonlyMap<string, Person>;
   readonly sectionsOf: ReturnType<typeof usePitchSections>;
   readonly alignEnd: boolean;
@@ -246,6 +251,14 @@ export function ShowdownHalf({
           squash,
         ]}
       >
+        <MediaLayer
+          media={photo}
+          surface="accent"
+          accent={place?.colour ?? theme.color.yellow}
+          creditAt={alignEnd ? 'bottom' : 'top'}
+          dots={false}
+          testID={`showdown-half-photo-${alignEnd ? 1 : 0}`}
+        />
         <Text
           variant="displayMega"
           color={ink}

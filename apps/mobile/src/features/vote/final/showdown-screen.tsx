@@ -26,6 +26,8 @@ import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
+import { heroAt, useDestinationsMedia } from '@/data/media/use-subject-media';
+
 import { usePlaces } from '../data/use-board';
 import { useCastBallot } from '../data/use-cast-ballot';
 import { usePitchSections } from '../data/use-final';
@@ -75,6 +77,9 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
   const insets = useSafeAreaInsets();
   const { t, i18n } = useLingui();
   const places = usePlaces(poll.id);
+  const media = useDestinationsMedia([...places.values()].flatMap((p) => (p.slug ? [p.slug] : [])));
+  const photoOf = (slug: string | undefined) =>
+    slug === undefined ? null : heroAt(media.get(slug) ?? []);
   const people = usePeople(poll.crewId);
   const sectionsOf = usePitchSections(poll.id);
   const lines = useFinalLines(poll, places, people);
@@ -172,6 +177,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
         <ShowdownHalf
           option={first}
           place={placeOf(first)}
+          photo={photoOf(placeOf(first)?.slug)}
           people={people}
           sectionsOf={sectionsOf}
           alignEnd={false}
@@ -192,6 +198,7 @@ export function ShowdownView({ poll }: { readonly poll: PollView }) {
         <ShowdownHalf
           option={second}
           place={placeOf(second)}
+          photo={photoOf(placeOf(second)?.slug)}
           people={people}
           sectionsOf={sectionsOf}
           alignEnd

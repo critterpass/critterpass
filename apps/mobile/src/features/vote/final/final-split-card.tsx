@@ -19,9 +19,11 @@ import Animated, {
 
 import { bezierEasing, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
+import { heroAt, useDestinationsMedia } from '@/data/media/use-subject-media';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import { MediaLayer } from '@/ui/media/MediaLayer';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { LiveSticker } from '@/ui/people/LiveSticker';
 import { Text } from '@/ui/text/Text';
@@ -32,7 +34,8 @@ import { stackOf, usePeople } from '../data/use-people';
 import type { PollOptionView, PollView } from '../data/poll-view';
 import { deadlineParts, upper } from '../format';
 import { voteRoutes } from '../routes';
-import { CARD_HEIGHT, diagonalStyle } from './diagonal';
+import { CARD_HEIGHT } from './diagonal';
+import { DiagonalBand } from './diagonal-band';
 import { pendingByName, useFinalLines } from './tie-line';
 
 const RISE = 70;
@@ -143,6 +146,7 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const places = usePlaces(poll.id);
+  const media = useDestinationsMedia([...places.values()].flatMap((p) => (p.slug ? [p.slug] : [])));
   const people = usePeople(poll.crewId);
   const lines = useFinalLines(poll, places, people);
   const pulse = useLoop('pulse');
@@ -184,6 +188,10 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
   }));
   const firstColour = placeOf(first)?.colour ?? theme.color.orange;
   const secondColour = placeOf(second)?.colour ?? theme.color.blue;
+  const photoOf = (option: PollOptionView) => {
+    const slug = placeOf(option)?.slug;
+    return slug === undefined ? null : heroAt(media.get(slug) ?? []);
+  };
   const segments = [
     ...first.voterIds.map(() => firstColour),
     ...second.voterIds.map(() => secondColour),
@@ -221,11 +229,15 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
             style={[styles.card, { backgroundColor: secondColour }]}
             onLayout={(event) => setWidth(event.nativeEvent.layout.width)}
           >
+            <MediaLayer
+              media={photoOf(second)}
+              surface="accent"
+              accent={secondColour}
+              dots={false}
+              testID="final-split-photo-1"
+            />
             {width > 0 ? (
-              <View
-                pointerEvents="none"
-                style={[diagonalStyle(width), { backgroundColor: firstColour }]}
-              />
+              <DiagonalBand width={width} colour={firstColour} photo={photoOf(first)} />
             ) : null}
             <Half
               option={first}

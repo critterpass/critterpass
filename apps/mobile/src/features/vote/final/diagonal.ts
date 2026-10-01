@@ -6,9 +6,13 @@ const DIAGONAL_TOP = 0.62;
 const DIAGONAL_BOTTOM = 0.38;
 
 /** The first place's colour: a band whose end edge, turned about the centre, runs 62 % → 38 %. */
+/** The diagonal's angle for a card `width` wide, in degrees. */
+export function diagonalDegrees(width: number): number {
+  return (Math.atan(((DIAGONAL_TOP - DIAGONAL_BOTTOM) * width) / CARD_HEIGHT) * 180) / Math.PI;
+}
+
 export function diagonalStyle(width: number) {
-  const degrees =
-    (Math.atan(((DIAGONAL_TOP - DIAGONAL_BOTTOM) * width) / CARD_HEIGHT) * 180) / Math.PI;
+  const degrees = diagonalDegrees(width);
   return {
     position: 'absolute',
     start: -width,

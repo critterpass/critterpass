@@ -42,6 +42,8 @@ export interface MediaLayerProps {
   readonly motion?: 'loop' | 'still';
   /** Low data: stills only, the smallest that covers the slot, never a loop. */
   readonly lowData?: boolean;
+  /** The hero's halftone over the photo (at half strength); off where the hero has none. @default true */
+  readonly dots?: boolean;
   /** The corner the licence credit sits in. @default 'bottom' */
   readonly creditAt?: 'top' | 'bottom';
   readonly testID?: string;
@@ -81,6 +83,7 @@ function Still({
   animate,
   fadeTo,
   scrim,
+  dots,
 }: {
   readonly media: MediaView;
   readonly uri: string;
@@ -92,6 +95,7 @@ function Still({
   /** On the dark scaffold the band, with its dark halftone, fades into it at both edges. */
   readonly fadeTo: string | null;
   readonly scrim: DuotoneTreatment['scrim'];
+  readonly dots: boolean;
 }) {
   const image = useImage(uri);
   const placeholder = useMemo(() => blurhashImage(media.blurhash), [media.blurhash]);
@@ -117,7 +121,7 @@ function Still({
           </Group>
         )}
       </Group>
-      <Group opacity={DOTS_OVER_PHOTO}>
+      <Group opacity={dots ? DOTS_OVER_PHOTO : 0}>
         {fadeTo === null ? (
           <Path
             path={dotGridPath(width, height, TEXTURE.halftone.grid, TEXTURE.halftone.radius)}
@@ -162,6 +166,7 @@ export function MediaLayer({
   accent,
   motion = 'still',
   lowData = false,
+  dots = true,
   creditAt = 'bottom',
   testID,
 }: MediaLayerProps) {
@@ -214,6 +219,7 @@ export function MediaLayer({
             animate={!reduced}
             fadeTo={surface === 'dark' ? treatment.base : null}
             scrim={treatment.scrim}
+            dots={dots}
           />
         ) : null}
         {loop === undefined ? null : (
