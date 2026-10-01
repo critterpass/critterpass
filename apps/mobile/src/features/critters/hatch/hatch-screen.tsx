@@ -8,12 +8,14 @@
 import { toLocalWallTime } from '@cp/domain';
 import { format } from '@cp/i18n';
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { music } from '@/motion';
 import { GUIDE_IDS, type GuideId } from '@/motion/music';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { Scaffold } from '@/ui/surface/Scaffold';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { type FormRow } from '../data/queries';
@@ -112,7 +114,16 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
     HATCH_TABLES,
   );
   const row = rows[0];
-  if (!loaded || row === undefined) return null;
+  const missing = loaded && row === undefined;
+  useEffect(() => {
+    // No such trip on this phone: leave, rather than sit unseen over the screen below.
+    if (missing) router.back();
+  }, [missing]);
+  // The route is a see-through card: until the trip's row is read it shows the page, never nothing
+  // (an empty card would look like the screen below while swallowing its taps).
+  if (!loaded || row === undefined) {
+    return <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-hatch-loading" />;
+  }
   const isGuide = row.critter_key !== null && row.critter_key === row.hero_critter_key;
   const verifiedName = row.verification === 'verified' ? row.critter_name : null;
   const form =
