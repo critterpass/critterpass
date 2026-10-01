@@ -182,9 +182,23 @@ jobs:
           tasks=$(echo $tasks)
           echo "tasks=$tasks" >> "$GITHUB_OUTPUT"
           echo "Suites: ${tasks:-none here is affected by this change}"
-      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does.
-      - if: steps.suites.outputs.tasks != '' && matrix.suite == 'worker'
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does. The
+      # package mirrors sometimes stall for ten minutes and more: each try at fetching gets three,
+      # and the install itself then runs from what was fetched.
+      - name: Install ffmpeg
+        if: steps.suites.outputs.tasks != '' && matrix.suite == 'worker'
+        timeout-minutes: 12
+        run: |
+          apt='apt-get -qq -o Acquire::Retries=3 -o Acquire::http::Timeout=30'
+          for attempt in 1 2 3; do
+            if sudo timeout 180 $apt update &&
+              sudo timeout 180 $apt install -y --no-install-recommends --download-only ffmpeg; then
+              sudo $apt install -y --no-install-recommends ffmpeg
+              exit 0
+            fi
+            echo "::warning::Fetching ffmpeg failed or stalled (try $attempt of 3)"
+          done
+          exit 1
       # Each test file's worker builds the Postgres image; all but the first build come from
       # Docker's layer cache. Left to the suites, the first workers run that first build all at
       # once inside their beforeAll hooks and run out of hook time. Build it once here instead,
