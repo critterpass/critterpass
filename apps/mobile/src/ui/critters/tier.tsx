@@ -51,7 +51,8 @@ export function TierWord({
     <Text
       variant={variant}
       color={color ?? tierColor(tier)}
-      {...(fit ? { autoFit: true, numberOfLines: 1 } : {})}
+      // Measured by the platform, so only a word that is really too wide shrinks.
+      {...(fit ? { numberOfLines: 1, adjustsFontSizeToFit: true, minimumFontScale: 0.7 } : {})}
     >
       {`${glyph ? `${tokens.tier[tier].glyph}${GLUE}` : ''}${word}${suffix ? ` · ${suffix}` : ''}`}
     </Text>
