@@ -139,6 +139,18 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-not-found
+# The id of a trip this account cannot read: not-found once the server has answered, with its way
+# home, never a trip screen with nothing behind it.
+- tapOn:
+    id: 'not-found-home'
+- runFlow:
+    file: open-link.yaml
+    env:
+      URL: critterpass-dev://0192e1a2-0000-7000-8000-00000000dead/plan
+- extendedWaitUntil:
+    visible:
+      id: 'not-found'
+    timeout: 30000
 - runFlow:
     file: start.yaml
     env:
