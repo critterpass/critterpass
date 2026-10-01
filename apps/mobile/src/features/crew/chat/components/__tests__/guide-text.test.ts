@@ -1,3 +1,5 @@
+import { describe, expect, it } from '@jest/globals';
+
 import { tidyGuideText } from '../guide-text';
 
 describe('a guide line with a gloss in brackets', () => {
