@@ -9,7 +9,8 @@ export const __CP_DEV_ROUTE__ = true;
 
 /**
  * One trip day lab scene, full screen; back returns to the list. A screenshot flow taps the
- * invisible corner target on iOS, where an edge swipe over a full-bleed scene is not reliable.
+ * invisible target at the start edge on iOS, where an edge swipe over a full-bleed scene is not
+ * reliable. It sits in the gutter, halfway down, clear of the status bar (which takes taps there).
  */
 export default function TripDaySceneRoute() {
   const { scene } = useLocalSearchParams<{ scene: string }>();
@@ -30,5 +31,5 @@ export default function TripDaySceneRoute() {
 
 const styles = StyleSheet.create({
   fill: { flex: 1 },
-  back: { position: 'absolute', top: 0, end: 0, width: 44, height: 44 },
+  back: { position: 'absolute', top: '50%', start: 0, width: 16, height: 44 },
 });
