@@ -157,19 +157,19 @@ msgstr "ยังมีเซอร์ไพรส์อีก"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.ngua"
-msgstr "ม้าแคระประดับดอกไม้ รอคุณอยู่ที่ Đà Lạt"
+msgstr "ม้าแคระประดับดอกไม้ รอคุณอยู่ที่ {place}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.cuRua"
-msgstr "เต่าแห่งทะเลสาบคืนดาบ รอคุณอยู่ที่ Hà Nội"
+msgstr "เต่าแห่งทะเลสาบคืนดาบ รอคุณอยู่ที่ {place}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lucky"
-msgstr "กระต่ายป่าหูยาว รอคุณอยู่ที่ Las Vegas"
+msgstr "กระต่ายป่าหูยาว รอคุณอยู่ที่ {place}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.chep"
-msgstr "ปลาคาร์ปโคมไฟ รอคุณอยู่ที่ Hội An"
+msgstr "ปลาคาร์ปโคมไฟ รอคุณอยู่ที่ {place}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.eyebrow"
@@ -181,11 +181,11 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.drac"
-msgstr "ซาลาแมนเดอร์โมเสก รอคุณอยู่ที่ Barcelona"
+msgstr "ซาลาแมนเดอร์โมเสก รอคุณอยู่ที่ {place}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.roucou"
-msgstr "นกพิราบใส่หมวกเบเร่ต์ รอคุณอยู่ที่ Paris"
+msgstr "นกพิราบใส่หมวกเบเร่ต์ รอคุณอยู่ที่ {place}"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -197,7 +197,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
-msgstr "หนูรถไฟใต้ดิน รอคุณอยู่ที่ New York"
+msgstr "หนูรถไฟใต้ดิน รอคุณอยู่ที่ {place}"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -229,7 +229,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
-msgstr "แมวป่าลิงซ์ไอบีเรีย รอคุณอยู่ที่ Seville"
+msgstr "แมวป่าลิงซ์ไอบีเรีย รอคุณอยู่ที่ {place}"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
@@ -254,6 +254,10 @@ msgstr "ถามเจ้าถิ่น"
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "กลับไปหน้าแรก"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
@@ -911,6 +915,10 @@ msgstr ""
 msgid "web.shell.noCookies"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "ไม่พบสถานที่ชื่อนี้ ลองสะกดแบบอื่นดูนะ"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -955,6 +963,10 @@ msgstr ""
 msgid "web.home.guidePaco"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "ไม่พบหน้านี้"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
 msgstr ""
@@ -970,6 +982,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.coverLabel"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "เลือกสถานที่จากรายการ หรือล้างช่องค้นหา"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "สถานที่"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
@@ -1028,6 +1048,10 @@ msgid "web.referral.finePrintTerms"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "ลบ {city}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.saveSeat"
 msgstr "จองที่ให้ฉัน →"
 
@@ -1054,6 +1078,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "ค้นหาเมืองไหนก็ได้"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.seat"
@@ -1102,6 +1130,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat1"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "ไปที่อื่นไหม?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
@@ -1227,6 +1259,10 @@ msgstr ""
 msgid "web.shell.thePass"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "โหลดรายชื่อสถานที่ไม่สำเร็จ อีกสักครู่ลองใหม่นะ"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr ""
@@ -1242,6 +1278,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Body"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "หน้านี้ไม่อยู่ในเส้นทาง เจ้าถิ่นหาทุกซอกทุกซอยแล้ว"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
@@ -1450,6 +1490,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "เจ้าถิ่นของคุณ"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"

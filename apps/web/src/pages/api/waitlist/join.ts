@@ -15,7 +15,11 @@ import {
   readRateLimit,
   writeRateLimit,
 } from '../../../lib/waitlist-repository';
-import { findDestination, positionInLine } from '../../../lib/waitlist';
+import type { DestinationView } from '../../../lib/destination-view';
+import { guideView } from '../../../lib/destination-view';
+import { exactLocale, DEFAULT_LOCALE } from '../../../lib/locale';
+import { chipPlaces, resolveDestination } from '../../../lib/place-catalogue';
+import { DEFAULT_DESTINATION, positionInLine } from '../../../lib/waitlist';
 
 export const prerender = false;
 
@@ -23,6 +27,8 @@ interface JoinResponseBody {
   readonly handle: string;
   readonly position: number;
   readonly destination: string;
+  /** How to draw that destination: its name and the critter that goes with it. */
+  readonly place: DestinationView;
 }
 
 function jsonResponse(body: unknown, status: number): Response {
@@ -74,7 +80,17 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   const destinationKey = typeof body['destination'] === 'string' ? body['destination'] : '';
-  const destination = findDestination(destinationKey);
+  // One of the six chips or a place from the bundled lists; the name shown anywhere afterwards
+  // comes from that data, never from the request.
+  // The page's language only decides how the place is named in the answer.
+  const locale = exactLocale(typeof body['locale'] === 'string' ? body['locale'] : null);
+  const language = locale ?? DEFAULT_LOCALE;
+  const fallback = guideView(
+    DEFAULT_DESTINATION.key,
+    chipPlaces(language)[DEFAULT_DESTINATION.key] ?? '',
+    language,
+  );
+  const destination = resolveDestination(destinationKey, language);
   if (!destination) {
     return jsonResponse(GENERIC_INVALID, 400);
   }
@@ -92,6 +108,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       handle: existing.handle,
       position: positionInLine(rank, referrals),
       destination: existing.destination,
+      place: resolveDestination(existing.destination, language) ?? fallback,
     };
     return jsonResponse(responseBody, 200);
   }
@@ -118,7 +135,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const created = await insertEntry(db, {
     email,
     handle,
-    destination: destination.key,
+    destination: destination.destinationKey,
     referredByHandle: referrer?.handle ?? null,
   });
   const rank = await rankOfEntry(db, created.id);
@@ -126,6 +143,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     handle: created.handle,
     position: positionInLine(rank, 0),
     destination: created.destination,
+    place: destination,
   };
   return jsonResponse(responseBody, 201);
 };
