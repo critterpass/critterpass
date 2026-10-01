@@ -2,6 +2,18 @@ appId: app.critterpass.dev
 ---
 # Home → crew chat → the proposal's card → its button (the member's version, or the organiser's
 # tracker). The card waits for the trip's rows to sync.
+# A reveal the member hasn't seen (the place the crew picked) opens over Home first.
+- waitForAnimationToEnd:
+    timeout: 8000
+- repeat:
+    while:
+      notVisible:
+        id: 'home-header-chat'
+    times: 3
+    commands:
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 5000
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'
