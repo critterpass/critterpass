@@ -5,14 +5,11 @@ import { ScrollView } from 'react-native';
 
 import { seedDemoData, type DemoScenario } from '@/data/dev/seed-demo';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
-import {
-  checkForUpdateNow,
-  type CheckNowOutcome,
-  type CheckNowStep,
-} from '@/lib/updates/check-now';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
+
+import { UpdatesSection } from './updates';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
@@ -40,11 +37,7 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
     title: 'Labs',
     entries: [
       { testId: 'dev-nav-accounts', href: '/(dev)/accounts', label: 'Test accounts (two people)' },
-      {
-        testId: 'dev-nav-start-fresh',
-        href: '/(dev)/start-fresh',
-        label: 'Start fresh (new user on this phone)',
-      },
+      { testId: 'dev-nav-start-fresh', href: '/(dev)/start-fresh', label: 'Start as a new user' },
       {
         testId: 'dev-nav-proposal-lab',
         href: '/(dev)/proposal-lab',
@@ -214,73 +207,6 @@ const SEED_SCENARIOS: readonly {
   },
 ];
 
-/** What is known about the running JS beyond its id: where it came from and when it was published. */
-function updateInfoLabel(): string {
-  const published = Updates.createdAt?.toISOString().slice(0, 16).replace('T', ' ');
-  const commit = process.env['EXPO_PUBLIC_JS_COMMIT'];
-  return [
-    `channel ${Updates.channel ?? 'none'}`,
-    published === undefined ? 'embedded in the build' : `published ${published} UTC`,
-    `commit ${commit ?? 'not recorded in this bundle'}`,
-  ].join(' · ');
-}
-
-type CheckState = CheckNowStep | CheckNowOutcome['kind'] | 'idle';
-
-const CHECK_LABELS: Record<CheckState, string | null> = {
-  idle: null,
-  checking: 'Asking the update server…',
-  downloading: 'Downloading the update…',
-  restarting: 'Restarting into the update…',
-  up_to_date: 'This is the latest update.',
-  failed: null,
-};
-
-/**
- * Checks for a published update, downloads it and restarts into it, without waiting for the next
- * cold start. Builds without expo-updates (a development client on Metro) say so instead.
- */
-function CheckForUpdate() {
-  const theme = useTheme();
-  const [state, setState] = useState<CheckState>('idle');
-  const [failure, setFailure] = useState<string | null>(null);
-  const working = state === 'checking' || state === 'downloading' || state === 'restarting';
-  const check = async () => {
-    setFailure(null);
-    const outcome = await checkForUpdateNow(
-      {
-        check: () => Updates.checkForUpdateAsync(),
-        fetch: () => Updates.fetchUpdateAsync(),
-        reload: () => Updates.reloadAsync(),
-      },
-      setState,
-    );
-    setState(outcome.kind);
-    if (outcome.kind === 'failed') setFailure(outcome.message);
-  };
-  const label = CHECK_LABELS[state];
-  return (
-    <Stack gap="8">
-      <ListCard
-        testID="dev-update-check"
-        title="Check for update now"
-        chevron={false}
-        {...(working ? {} : { onPress: () => void check() })}
-      />
-      {label === null ? null : (
-        <SecondaryText variant="body" testID="dev-update-check-status">
-          {label}
-        </SecondaryText>
-      )}
-      {failure === null ? null : (
-        <Text testID="dev-update-check-failed" color={theme.semantic.state.urgent}>
-          {failure}
-        </Text>
-      )}
-    </Stack>
-  );
-}
-
 type SeedState =
   | { readonly kind: 'idle' }
   | { readonly kind: 'seeding' }
@@ -386,12 +312,9 @@ export default function DevToolsIndexScreen() {
           <SecondaryText variant="caption" testID="dev-build-marker">
             {buildMarkerLabel()}
           </SecondaryText>
-          <SecondaryText variant="caption" testID="dev-update-info">
-            {updateInfoLabel()}
-          </SecondaryText>
         </Stack>
         <Section title="Updates">
-          <CheckForUpdate />
+          <UpdatesSection />
         </Section>
         <Section title="Demo data">
           <SeedDemoData />
