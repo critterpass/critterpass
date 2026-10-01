@@ -129,6 +129,8 @@ export interface QuestsInput {
   readonly progress: readonly ProgressRow[];
   readonly signups: readonly { readonly quest_id: string; readonly user_id: string }[];
   readonly members: readonly QuestMember[];
+  /** Travellers whose balance on the trip is not zero yet (they still owe or are owed). */
+  readonly unsettled: readonly string[];
   readonly viewerId: string | null;
   readonly now: Date;
 }
@@ -162,6 +164,9 @@ export function buildQuestsModel(input: QuestsInput): QuestsModel {
       const done = state === 'done' ? row.target : Math.min(moved?.value ?? 0, row.target);
       const counted = new Set(json<string[]>(moved?.counted ?? null, []));
       const allHands = row.template === 'copresence';
+      // Settling up counts people, not payments: one pip per traveller, lit once they are square.
+      const settling = row.template === 'settle_by' && input.members.length > 0;
+      const square = input.members.filter((m) => !input.unsettled.includes(m.userId)).length;
       const signedUp = input.signups.some(
         (signup) => signup.quest_id === row.id && signup.user_id === input.viewerId,
       );
@@ -173,7 +178,14 @@ export function buildQuestsModel(input: QuestsInput): QuestsModel {
         icon: iconOf(row, reward),
         state,
         reward,
-        progress: allHands ? null : { done, total: row.target },
+        progress: allHands
+          ? null
+          : settling
+            ? {
+                done: state === 'done' ? input.members.length : square,
+                total: input.members.length,
+              }
+            : { done, total: row.target },
         people: allHands
           ? input.members.map((member) => ({
               ...member,

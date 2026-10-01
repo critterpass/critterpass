@@ -91,6 +91,7 @@ function input(changes: Partial<QuestsInput> = {}): QuestsInput {
     ],
     signups: [],
     members: MEMBERS,
+    unsettled: ['u4', 'u5'],
     viewerId: 'u0',
     now: NOW,
     ...changes,
