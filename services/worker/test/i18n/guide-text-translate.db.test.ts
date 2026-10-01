@@ -324,6 +324,29 @@ describe('guide_text.translate', () => {
       [tripId, draft, guide, JSON.stringify(ops)],
     );
     await db.pool.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [changeSet]);
+    // The autonomy policy lets the guide apply it by itself, as a reversible guide action.
+    const action = await id(
+      `INSERT INTO guide_actions (trip_id, change_set_id, kind, status, reversible, inverse, audit)
+       VALUES ($1, $2, 'reschedule_pickup', 'planned', true, $3, $4) RETURNING id`,
+      [
+        tripId,
+        changeSet,
+        JSON.stringify({
+          type: 'change_set_ops',
+          ops: [
+            {
+              ...op,
+              op: 'retime',
+              target: stable[0],
+              after: { starts_at: swim.rows[0]!.starts_at },
+            },
+            { ...op, op: 'swap', target: stable[2], after: { notes: NOTES[2] } },
+          ],
+        }),
+        JSON.stringify({ affected_user_ids: [organiser, linh], decider: { outcome: 'auto' } }),
+      ],
+    );
+    await db.pool.query("UPDATE guide_actions SET status = 'running' WHERE id = $1", [action]);
     await db.pool.query(
       "UPDATE change_sets SET status = 'approved', approved_by_kind = 'policy' WHERE id = $1",
       [changeSet],
