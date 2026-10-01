@@ -282,6 +282,7 @@ Auth flows themselves (anonymous sign-in, phone OTP, Apple/Google link, merge) a
 | `execute_rsvp_suggestion` / `dismiss_rsvp_suggestion` | `{suggestion_id}` | organiser | – | `suggestion.executed/dismissed` | A, O | 31 |
 | `publish_offer` | `{proposal_id, option}` (anonymised) | organiser | – | `proposal.offer_published` | A | 31 |
 | `decline_trip` | `{trip_id}` | participant | – | `participant.declined` → re-split job | A, N | 31 |
+| `start_trip` (doc delta) | `{trip_id}` | organiser | – | `confirmed` → `pre_trip` → `in_trip`, or `pre_trip` → `in_trip`: one `trip.status_changed` per step in one transaction, from 00:00 the day before the first day on the trip's clock (else `STATE_INVALID` `before_start_date`); `proposed` and other states → `STATE_INVALID`; already `in_trip` → `{started: false}`. Result `{trip_id, status: 'in_trip', started}` | A | 36 |
 | `set_keep_in_chat` | `{crew_id, uid, keep}` | organiser | – | `crew.member_updated` | A | 31 |
 
 ### 4.8 Guide (P32, P42)
