@@ -15,8 +15,10 @@ import { getCalendars, getLocales } from 'expo-localization';
 import { AppState, Platform } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
+import { activeLocale, onLocaleChanged } from '../../lib/i18n/set-locale';
 import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/resolver-client';
 import type { FixUpload } from '../../lib/location';
+import { startAppLocaleReport } from '../app-locale/report-app-locale';
 import { createAuthDataLayer, type AuthDataLayer } from '../auth';
 import { createDeviceResolver } from '../commands/device';
 import type { ExtensionOutbox } from '../commands/drain-extension-outbox';
@@ -40,6 +42,7 @@ export function reportAppSessionError(error: unknown): void {
 
 const storage = createMMKV({ id: 'cp-app-session' });
 const LAST_UID_KEY = 'cp.session.last_uid';
+const REPORTED_LOCALE_KEY = 'cp.session.reported_locale';
 
 /** React Native's `AppState`; before the first report it counts as foreground. */
 export const deviceAppState: AppStateSource = {
@@ -135,6 +138,20 @@ function createSession(): Promise<AppSession> {
     linksHttp: createLinksHttp({ baseUrl: resolveApiBaseUrl(), sessionHeaders }),
     realtime: { url: resolveRealtimeUrl(), positions: createDeviceRecoveryStore() },
     onError: reportAppSessionError,
+  }).then((session) => {
+    // The server learns the language this app is in (and every later switch) for as long as the
+    // process lives, like the session itself.
+    startAppLocaleReport({
+      uid: session.uid,
+      commands: session.localFirst.commands,
+      locale: { current: activeLocale, onChange: onLocaleChanged },
+      reported: {
+        read: () => storage.getString(REPORTED_LOCALE_KEY) ?? null,
+        write: (value) => storage.set(REPORTED_LOCALE_KEY, value),
+      },
+      onError: reportAppSessionError,
+    });
+    return session;
   });
 }
 

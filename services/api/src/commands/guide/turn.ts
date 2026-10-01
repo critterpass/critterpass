@@ -81,6 +81,14 @@ async function readHistory(pool: pg.Pool, uid: string, thread: GuideThread) {
   });
 }
 
+/** The language the asker's app is in (`app.user_locale`): the guide replies in it. */
+async function userLocale(pool: pg.Pool, uid: string): Promise<string> {
+  const { rows } = await withSystem(pool, (tx) =>
+    tx.query<{ locale: string }>('SELECT app.user_locale($1) AS locale', [uid]),
+  );
+  return rows[0]?.locale ?? 'en';
+}
+
 interface Answer {
   text: string;
   cards: unknown[];
@@ -177,10 +185,11 @@ export async function streamThreadTurn(
     ...(holders.length === 0 ? {} : { crewPassHolders: holders }),
   });
 
-  const [pack, context, history] = await Promise.all([
+  const [pack, context, history, locale] = await Promise.all([
     guidePack(deps.pool, uid, thread.tripId, thread.guideSlug),
     buildGuideContext(deps.pool, { uid, tripId: thread.tripId, surface: 'C' }),
     readHistory(deps.pool, uid, thread),
+    userLocale(deps.pool, uid),
   ]);
   await withSystem(deps.pool, (tx) =>
     tx.query(
@@ -202,7 +211,7 @@ export async function streamThreadTurn(
     history,
     question: body.text,
     documents: context.documents,
-    directives: { chattiness: context.prefs.chattiness, locale: context.prefs.locale ?? 'en' },
+    directives: { chattiness: context.prefs.chattiness, locale },
   });
 
   const abort = new AbortController();
