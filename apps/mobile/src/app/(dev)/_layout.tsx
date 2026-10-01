@@ -10,7 +10,7 @@ export const __CP_DEV_ROUTE__ = true;
  * Sheets and rises (the gallery demos of `Sheet` / `RiseModal`, the Start fresh confirm):
  * transparent so the screen beneath stays visible.
  */
-const MODAL_ROUTES = ['gallery/sheet-demo', 'gallery/rise-demo'] as const;
+const MODAL_ROUTES = ['gallery/sheet-demo', 'gallery/rise-demo', 'start-fresh'] as const;
 
 /**
  * Dev-only group (gallery, motion lab, sticker lab, spikes). The real exclusion is build-time

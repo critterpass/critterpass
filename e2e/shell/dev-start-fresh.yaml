@@ -1,0 +1,112 @@
+appId: app.critterpass.dev
+---
+# Developer tools → Start fresh: the phone becomes a brand-new user without a reinstall. A fresh
+# account onboards with a name and starts a crew; Start fresh (confirmed in its sheet) signs out,
+# clears what the account left on the phone and restarts the app at the splash as a first launch.
+# The new person then onboards and has no crew, no trip and none of the old account's data.
+# While the server cannot erase accounts the sheet asks a second time, saying the old account
+# stays there; once it can, the first confirm goes straight to the restart.
+- runFlow: ../happy/subflows/fresh-account.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Old Crew'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- takeScreenshot: shell-start-fresh-1-old-account-crew
+- tapOn:
+    id: 'start-crew-done'
+
+# Developer tools → Start fresh opens the confirm sheet; nothing is wiped yet.
+- runFlow: ../home/subflows/open-dev-tools.yaml
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-start-fresh'
+    timeout: 15000
+- tapOn:
+    id: 'dev-nav-start-fresh'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-start-fresh-confirm'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: shell-start-fresh-2-confirm
+- tapOn: '(?i)start fresh'
+
+# The server either erased the account (the app restarts) or cannot yet (the sheet asks again).
+- extendedWaitUntil:
+    visible:
+      id: 'dev-start-fresh-account-stays|onboarding-open'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-start-fresh-account-stays'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: shell-start-fresh-3-account-stays
+      - tapOn: '(?i)start fresh anyway'
+
+# The app restarts at the splash, as a first launch.
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: shell-start-fresh-4-first-launch
+- assertNotVisible:
+    id: 'dev-start-fresh-failed'
+
+# The name page is empty: the old account's name is gone with its pass draft.
+- tapOn:
+    id: 'onboarding-open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-name-field'
+    timeout: 10000
+- assertNotVisible: '.*Winston.*'
+- takeScreenshot: shell-start-fresh-5-empty-name
+
+# A cold start is still a first launch: nothing of the old account comes back from storage.
+- stopApp
+- launchApp
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- runFlow: ../home/subflows/onboard.yaml
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-first-run'
+    timeout: 60000
+- assertNotVisible: '.*Old Crew.*'
+- waitForAnimationToEnd
+- takeScreenshot: shell-start-fresh-6-new-person-home
+
+# No crew: the crews sheet has nothing of the old account.
+- openLink: critterpass-dev://crew
+- extendedWaitUntil:
+    visible:
+      id: 'crews-sheet'
+    timeout: 15000
+- assertNotVisible: '.*Old Crew.*'
+- waitForAnimationToEnd
+- takeScreenshot: shell-start-fresh-7-no-crews
