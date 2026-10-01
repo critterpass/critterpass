@@ -1,0 +1,50 @@
+appId: app.critterpass.dev
+---
+# Release gate: a brand-new traveller confirms a trip that starts today, with no demo world. A
+# fresh account from Ho Chi Minh City starts a crew of one, locks Đà Nẵng in, sets the trip up from
+# today for three days with the budget in đồng, and locks the guide's plan in alone
+# (subflows/trip-under-way.yaml). Home then shows the trip as on (TODAY · DAY 1), and the TRIPS tab
+# opens its hub on day 1 of 3 with the day's card, not a countdown or a vote.
+- runFlow:
+    file: subflows/trip-under-way.yaml
+    env:
+      SHOTS: under-way
+# Home: the trip is on today.
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: under-way-home-after-lock
+- extendedWaitUntil:
+    visible:
+      id: 'home-in-trip'
+    timeout: 60000
+- assertVisible: '(?i).*today.*day 1.*'
+- assertNotVisible:
+    id: 'home-countdown'
+- waitForAnimationToEnd
+- takeScreenshot: under-way-home-in-trip
+# TRIPS: the hub for a trip that is on, day 1 of 3.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: under-way-hub
+- assertVisible:
+    id: 'trip-hub-header-in'
+- assertVisible: '(?i).*day 1 of 3.*'
+- assertVisible:
+    id: 'trip-hub-next'
+- assertVisible:
+    id: 'trip-hub-tiles'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: under-way-hub-tiles
