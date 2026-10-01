@@ -85,12 +85,13 @@ export function costLine(model: PlanCardModel, locale: string): string | null {
     const digits =
       new Intl.NumberFormat('en', { style: 'currency', currency: model.currency }).resolvedOptions()
         .maximumFractionDigits ?? 2;
-    return new Intl.NumberFormat(locale, {
+    // The sign is written here: Hermes on iPhone has no `signDisplay`.
+    const amount = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: model.currency,
-      signDisplay: 'always',
       maximumFractionDigits: 0,
-    }).format(model.eachMinor / 10 ** digits);
+    }).format(Math.abs(model.eachMinor) / 10 ** digits);
+    return `${model.eachMinor < 0 ? '-' : '+'}${amount}`;
   } catch {
     return null;
   }
