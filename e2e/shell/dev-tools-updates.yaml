@@ -1,0 +1,28 @@
+appId: app.critterpass.dev
+---
+# Developer tools → Updates: the line under the build marker says where the running JS came from
+# (channel, when it was published, its commit), and "Check for update now" asks the update server,
+# downloads and restarts. Device runs install a build with expo-updates off, so the check reports
+# why it cannot run here; on a staging build it restarts into the published update.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-update-check'
+    timeout: 15000
+- assertVisible:
+    id: 'dev-update-info'
+- tapOn:
+    id: 'dev-update-check'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-update-check-status|dev-update-check-failed'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: shell-dev-tools-updates
