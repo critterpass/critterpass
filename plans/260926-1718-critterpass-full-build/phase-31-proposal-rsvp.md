@@ -165,6 +165,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Headless timeline (Reanimated shared values), tap/hold/swipe. 2. Word-stamp headline, Ken Burns. 3. Centrifugo subscription + floating reactions. 4. `record_proposal_open` on view; reduced motion.
 - Tests: `pnpm --filter @cp/mobile test -- ui/story-player features/proposal/trailer`
 - Done when: RNTL tests for pause/advance/reduced-motion; player has no import from `features/`.
+- Status: done — 1f2d5a0b5 (the headline arrives as one block rather than word by word, the backdrop is the guide's art card until destination photos exist, and reactions arrive through sync; logged in undesigned-states)
 
 ### T6 — Your version (3f-3) + private objection sheet (3f-4)
 - Goal: personalised page, local share recompute, private objection flow.
@@ -204,7 +205,7 @@ Empty tracker (just sent), all IN celebration, all OUT → trip back to planning
 - Steps: 1. Struck-through change list, rolling share, keep-in-chat toggle. 2. APPLY / Ask the crew first (C41 poll). 3. Waitlist offer lifecycle + expiry.
 - Tests: `maestro test e2e/proposal/dropout-waitlist.yaml`; `pnpm --filter @cp/worker test -- proposal/waitlist`
 - Done when: freed seat creates exactly one active offer; expired offer moves to next; nothing changes before APPLY.
-- Status: server part done — 0c3df1b0 (`proposal.waitlist` job); dropout screen and waitlist UI pending in the app lane
+- Status: done — 0c3df1b0 (`proposal.waitlist` job), 1f2d5a0b5 (app: the dropout change list with APPLY CHANGES, and the crowd sheet from the tracker; "Ask the crew first" and Boost are logged in undesigned-states)
 
 ## Phase acceptance criteria
 - [ ] All T1–T10 done-when checks pass in CI.
