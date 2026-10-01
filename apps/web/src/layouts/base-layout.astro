@@ -1,26 +1,46 @@
 ---
 import '../styles/fonts.css';
 import '../styles/tokens.css';
+import { DEFAULT_LOCALE, SITE_LOCALE_CODES } from '../lib/locale';
 
 export interface Props {
   readonly title: string;
   readonly description: string;
   readonly canonicalPath: string;
+  /** The language the document is written in. */
+  readonly locale?: string;
+  /** Lists the front door's address in every language (`hreflang`), for a page that has them. */
+  readonly languageAlternates?: boolean;
 }
 
-const { title, description, canonicalPath } = Astro.props;
-const canonicalUrl = new URL(canonicalPath, Astro.site ?? 'https://critterpass.app').toString();
-const ogImageUrl = new URL('/og-image.png', Astro.site ?? 'https://critterpass.app').toString();
+const {
+  title,
+  description,
+  canonicalPath,
+  locale = DEFAULT_LOCALE,
+  languageAlternates = false,
+} = Astro.props;
+const site = Astro.site ?? 'https://critterpass.app';
+const canonicalUrl = new URL(canonicalPath, site).toString();
+const ogImageUrl = new URL('/og-image.png', site).toString();
+// `/` follows the visitor's language, so it is the `x-default`; each language has its own address.
+const alternates = languageAlternates
+  ? [
+      ...SITE_LOCALE_CODES.map((code) => ({ hreflang: code, href: new URL(`/${code}`, site) })),
+      { hreflang: 'x-default', href: new URL('/', site) },
+    ]
+  : [];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    {alternates.map((alternate) => <link rel="alternate" hreflang={alternate.hreflang} href={alternate.href.toString()} />)}
     <meta name="theme-color" content="#17142a" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

@@ -2,24 +2,30 @@
 import BaseLayout from '../layouts/base-layout.astro';
 import SiteHeader from '../components/site-header.astro';
 import SiteFooter from '../components/site-footer.astro';
+import { resolveRequestLocale } from '../lib/locale-request';
 import '../styles/privacy.css';
 
 // SSR (not prerendered) so the `www.critterpass.app` -> apex redirect in src/middleware.ts applies
 // here too; see index.astro for the same note.
 export const prerender = false;
+
+// The policy itself is written in English only; the header and footer around it follow the
+// visitor's language like the rest of the coming-soon pages.
+const { locale } = resolveRequestLocale(Astro);
 ---
 
 <BaseLayout
   title="Privacy — CritterPass"
   description="What CritterPass collects on the coming-soon waitlist, why, where it's stored, and how to delete it."
   canonicalPath="/privacy"
+  locale={locale}
 >
   <div class="cs-root cs-privacy">
-    <SiteHeader />
-    <div class="cs-privacy__inner">
+    <SiteHeader locale={locale} homePath="/" />
+    <div class="cs-privacy__inner" lang="en">
       <div class="cs-privacy__head">
         <h1 class="cs-privacy__title">Privacy</h1>
-        <p class="cs-privacy__updated">Last updated 27 September 2026 — draft, pending founder/counsel review.</p>
+        <p class="cs-privacy__updated">Last updated 1 October 2026 — draft, pending founder/counsel review.</p>
       </div>
 
       <section>
@@ -51,6 +57,16 @@ export const prerender = false;
       </section>
 
       <section>
+        <h2>The one cookie we set</h2>
+        <p>The page opens in your browser's language. If you pick a different language at the bottom
+          of the page, or open a link to the page in a particular language (such as
+          <code>critterpass.app/vi</code>), we set a single cookie named <code>cp_locale</code> so the
+          page stays in that language next time. It holds only the language code (for example
+          <code>vi</code>), lasts one year, and is not used to identify or track you. You can clear it
+          in your browser at any time; the page then follows your browser's language again.</p>
+      </section>
+
+      <section>
         <h2>How long we keep it</h2>
         <p>Until CritterPass launches, plus a short wind-down period, or until you ask us to delete
           it — whichever comes first.</p>
@@ -62,6 +78,6 @@ export const prerender = false;
           signed up with and we'll remove your entry.</p>
       </section>
     </div>
-    <SiteFooter />
+    <SiteFooter locale={locale} />
   </div>
 </BaseLayout>

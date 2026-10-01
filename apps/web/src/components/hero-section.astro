@@ -3,22 +3,31 @@ import '../styles/coming-soon.css';
 import WaitlistForm from './waitlist-form.astro';
 import JoinedPanel from './joined-panel.astro';
 import BoardingPass from './boarding-pass.astro';
+import { comingSoonCopy as copy } from './site/copy/coming-soon';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await siteTranslator(locale);
 ---
 
-<section id="join" class="cs-hero" aria-label="Hero and waitlist">
+<section id="join" class="cs-hero" aria-label={t(copy.heroLabel)}>
   <div class="cs-confetti-layer" data-cs="hero-confetti" aria-hidden="true"></div>
   <div class="cs-hero__grid">
     <div class="cs-hero__copy">
       <div class="cs-badges">
-        <span class="cs-badge cs-badge--muted">GROUP TRIP PLANNER</span>
-        <span class="cs-badge cs-badge--pink">COMING SOON · iOS + ANDROID</span>
+        <span class="cs-badge cs-badge--muted">{t(copy.badgePlanner)}</span>
+        <span class="cs-badge cs-badge--pink">{t(copy.badgeSoon)}</span>
       </div>
-      <h1 class="cs-title">CRITTER<br />PASS</h1>
+      <h1 class="cs-title" lang="en">CRITTER<br />PASS</h1>
       <div class="cs-lede">
-        <p class="cs-lede__text">Group trips, planned with the locals. The locals happen to be animals.</p>
+        <p class="cs-lede__text">{t(copy.lede)}</p>
         <div class="cs-typed">
           <span aria-hidden="true">↳</span>
-          <span data-cs="typed-text">The locals are still packing.</span>
+          <span data-cs="typed-text">{t(copy.typedLine)}</span>
         </div>
       </div>
 
@@ -26,15 +35,15 @@ import BoardingPass from './boarding-pass.astro';
         <div class="cs-ticket__shadow"></div>
         <div class="cs-ticket__card">
           <div class="cs-ticket__head">
-            <span data-cs="ticket-title">WAITLIST · FIRST WAVE</span>
-            <span>ADMIT: ONE CREW</span>
+            <span data-cs="ticket-title">{t(copy.ticketWaitlist)}</span>
+            <span>{t(copy.ticketAdmit)}</span>
           </div>
-          <WaitlistForm />
-          <JoinedPanel />
+          <WaitlistForm locale={locale} />
+          <JoinedPanel locale={locale} />
         </div>
       </div>
     </div>
 
-    <BoardingPass />
+    <BoardingPass locale={locale} />
   </div>
 </section>
