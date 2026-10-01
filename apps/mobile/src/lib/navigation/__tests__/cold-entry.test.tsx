@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act } from '@testing-library/react-native';
-import { router, useNavigationContainerRef } from 'expo-router';
+import { Redirect, router, useNavigationContainerRef } from 'expo-router';
 import { Stack } from 'expo-router/js-stack';
 import { useSyncExternalStore } from 'react';
 import { Text } from 'react-native';
@@ -78,6 +78,10 @@ const ROUTES = {
 // root's and fills in its own first screen while the launch settles.
 const GROUPED_ROUTES = {
   _layout: Root,
+  // `/` sends the launch on to the tabs, as the app's root index does.
+  index: function RootIndex() {
+    return <Redirect href="/(tabs)" />;
+  },
   '(tabs)/_layout': function Tabs() {
     return <Stack screenOptions={{ headerShown: false }} />;
   },
@@ -198,7 +202,7 @@ describe('navigation restore', () => {
     expect(second.getPathname()).toBe('/budget');
   });
 
-  it('restores when the launch itself settles on its first screen before the database opens', async () => {
+  it('restores when the launch redirects and settles on its first screen before the database opens', async () => {
     const first = await renderApp(GROUPED_ROUTES);
     await navigate(() => openWithBackStack('3c-9'));
     await act(() => first.unmount());
@@ -301,13 +305,33 @@ describe('restore rules', () => {
   });
 
   it('tells a launch settling from a person moving', () => {
+    const tabs = (index: number) => ({
+      index,
+      routes: [{ name: 'index' }, { name: 'trips' }, { name: 'wallet' }],
+    });
     // Navigators mount one inside the other and fill in their own first screen.
-    expect(leftLaunchScreen(['(tabs)'], ['(tabs)', 'index'])).toBe(false);
-    expect(leftLaunchScreen(['(tabs)', 'index'], ['(tabs)', 'index'])).toBe(false);
-    expect(leftLaunchScreen([], ['(tabs)', 'index'])).toBe(false);
-    // Another tab, or a screen pushed over the tabs.
-    expect(leftLaunchScreen(['(tabs)', 'index'], ['(tabs)', 'wallet'])).toBe(true);
-    expect(leftLaunchScreen(['(tabs)', 'index'], ['crew'])).toBe(true);
+    expect(
+      leftLaunchScreen(['(tabs)'], { index: 0, routes: [{ name: '(tabs)', state: tabs(0) }] }),
+    ).toBe(false);
+    expect(leftLaunchScreen([], { index: 0, routes: [{ name: '(tabs)' }] })).toBe(false);
+    // `/` redirects to the tabs: the root's `index` is replaced, not left behind.
+    expect(
+      leftLaunchScreen(['index'], { index: 0, routes: [{ name: '(tabs)', state: tabs(0) }] }),
+    ).toBe(false);
+    // Another tab: Home is still there, beside it.
+    expect(
+      leftLaunchScreen(['(tabs)', 'index'], {
+        index: 0,
+        routes: [{ name: '(tabs)', state: tabs(2) }],
+      }),
+    ).toBe(true);
+    // A screen pushed over the tabs.
+    expect(
+      leftLaunchScreen(['(tabs)', 'index'], {
+        index: 1,
+        routes: [{ name: '(tabs)', state: tabs(0) }, { name: 'crew' }],
+      }),
+    ).toBe(true);
   });
 
   it('tells deep links from plain launches', () => {

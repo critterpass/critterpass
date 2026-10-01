@@ -109,14 +109,23 @@ export function focusedPath(state: NavigationStateLike | undefined): string[] {
 }
 
 /**
- * Whether the person has left the screen the app opened on. During a launch the navigators mount
- * one inside the other, and each fills in its own first screen under the same names: that is the
- * launch settling, not a move. A different screen at any level is one.
+ * Whether the person has left the screen the app opened on (`launch`, from `focusedPath`). During a
+ * launch the navigators mount one inside the other and fill in their own first screen, and a
+ * redirect (`/` to the tabs) replaces a screen with another: both are the launch settling. A
+ * person's move leaves the launch screen where it was, under a pushed screen or beside another tab,
+ * so it is still among its navigator's routes but no longer the focused one.
  */
-export function leftLaunchScreen(launch: readonly string[], current: readonly string[]): boolean {
-  const shared = Math.min(launch.length, current.length);
-  for (let depth = 0; depth < shared; depth += 1) {
-    if (launch[depth] !== current[depth]) return true;
+export function leftLaunchScreen(
+  launch: readonly string[],
+  state: NavigationStateLike | undefined,
+): boolean {
+  let current = state;
+  for (const name of launch) {
+    const routes = current?.routes;
+    if (routes === undefined || routes.length === 0) return false;
+    const focused = routes[current?.index ?? routes.length - 1];
+    if (focused?.name !== name) return routes.some((route) => route.name === name);
+    current = focused.state;
   }
   return false;
 }
@@ -158,12 +167,12 @@ export function useNavigationPersistence({
   useEffect(() => {
     const decide = () => {
       if (decided.current || launchUrl === undefined || !navigationRef.isReady()) return;
-      const path = focusedPath(navigationRef.getRootState());
-      // The longest path seen so far is the launch screen: navigators add to it as they mount.
-      if (launchPath.current === undefined || !leftLaunchScreen(launchPath.current, path)) {
-        if (path.length >= (launchPath.current?.length ?? 0)) launchPath.current = path;
-      } else {
+      const state = navigationRef.getRootState();
+      // Until the person moves, the launch screen is wherever the launch has settled so far.
+      if (launchPath.current !== undefined && leftLaunchScreen(launchPath.current, state)) {
         navigated.current = true;
+      } else {
+        launchPath.current = focusedPath(state);
       }
       const saved = readSavedNavigation();
       const decision = decideRestore({
