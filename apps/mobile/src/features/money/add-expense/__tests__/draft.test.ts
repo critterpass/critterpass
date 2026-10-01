@@ -9,11 +9,13 @@ import {
   draftShares,
   leftToAssign,
   newDraft,
+  sharesByMember,
   toAddPayload,
   unitsToMinor,
   type DraftAction,
   type ExpenseDraft,
 } from '../draft';
+import { formatAmount } from '../../format';
 import { draftFromExpense, fxContextOf, previewDraft, toEditPayload } from '../preview';
 
 const crew = ['w', 'm', 'a', 'j', 'r', 'd'];
@@ -191,5 +193,39 @@ describe('edits', () => {
       base_version: 3,
       patch: { payer_uid: 'm' },
     });
+  });
+});
+
+describe('by-share rows', () => {
+  const byShare = (currency: string, amount: KeypadKey[]) =>
+    run(
+      newDraft({ currency, payerId: 'w', memberIds: crew }),
+      ...amount.map((key): DraftAction => ({ type: 'key', key })),
+      { type: 'mode', mode: 'weights' },
+      { type: 'weight', userId: 'w', delta: 1 },
+      { type: 'weight', userId: 'd', delta: -1 },
+    );
+  const shown = (draft: ExpenseDraft, userId: string) =>
+    formatAmount(sharesByMember(draft)?.get(userId) ?? 0n, draft.currency, 'en');
+
+  it('shows each share of Rp 450,000 in rupiah, whatever the crew settles in', () => {
+    const draft = byShare('IDR', ['4', '5', '0', '000']);
+    // Shares 2 / 1 / 1 / 1 / 1 / 0 of six.
+    expect(shown(draft, 'w')).toBe(formatAmount(15_000_000n, 'IDR', 'en'));
+    expect(shown(draft, 'm')).toBe(formatAmount(7_500_000n, 'IDR', 'en'));
+    expect(shown(draft, 'w')).toMatch(/150[.,]000/u);
+    expect(shown(draft, 'm')).toMatch(/75[.,]000/u);
+    expect(sharesByMember(draft)?.get('d') ?? 0n).toBe(0n);
+    // The crew-currency preview is a different number (US dollars): never the row's amount.
+    const preview = previewDraft(draft, 'USD', fxContextOf(fxRows, 'IDR'));
+    expect(preview?.perMember.get('w')).not.toBe(sharesByMember(draft)?.get('w'));
+  });
+
+  it('shows each share of ₫630,000 in dong', () => {
+    const draft = byShare('VND', ['6', '3', '0', '000']);
+    expect(shown(draft, 'w')).toMatch(/210[.,]000/u);
+    expect(shown(draft, 'm')).toMatch(/105[.,]000/u);
+    const total = [...(sharesByMember(draft)?.values() ?? [])].reduce((sum, v) => sum + v, 0n);
+    expect(formatAmount(total, 'VND', 'en')).toMatch(/630[.,]000/u);
   });
 });
