@@ -83,7 +83,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await db.stop();
+  await db?.stop();
 });
 
 const watch = (before: PointForecast, after: PointForecast, pointKey = 'centroid') =>

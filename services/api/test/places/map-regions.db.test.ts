@@ -77,8 +77,8 @@ beforeAll(async () => {
 }, 180_000);
 
 afterAll(async () => {
-  await pool.end();
-  await postgres.stop();
+  await pool?.end();
+  await postgres?.stop();
 });
 
 describe('GET /v1/map/regions/:destination_id', () => {

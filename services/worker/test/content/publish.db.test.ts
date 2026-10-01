@@ -22,7 +22,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterEach(() => harness.stopAll());
-afterAll(() => harness.close());
+afterAll(() => harness?.close());
 
 async function approved<K extends ContentKind>(
   kind: K,

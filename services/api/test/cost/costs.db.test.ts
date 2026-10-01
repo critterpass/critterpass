@@ -170,7 +170,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 const get = (path: string, who?: SignedIn) =>

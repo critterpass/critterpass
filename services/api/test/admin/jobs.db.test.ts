@@ -65,9 +65,9 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await app.close();
-  await boss.stop({ graceful: false });
-  await harness.stop();
+  await app?.close();
+  await boss?.stop({ graceful: false });
+  await harness?.stop();
 });
 
 async function failEveryAttempt(data: object, singletonKey?: string): Promise<void> {

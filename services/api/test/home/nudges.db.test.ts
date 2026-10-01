@@ -40,7 +40,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 async function sql<T = Record<string, unknown>>(text: string, params: unknown[] = []) {

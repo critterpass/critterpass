@@ -22,7 +22,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await harness.stop();
+  await harness?.stop();
 });
 
 function send(session: SignedIn | undefined, cmd: string, body: unknown): Promise<Response> {

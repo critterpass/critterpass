@@ -59,7 +59,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await world.stop();
+  await world?.stop();
 });
 
 describe('leaveby.recompute', () => {

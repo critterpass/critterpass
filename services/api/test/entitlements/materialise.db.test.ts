@@ -26,8 +26,8 @@ afterEach(() => {
 });
 
 afterAll(async () => {
-  await pool.end();
-  await postgres.stop();
+  await pool?.end();
+  await postgres?.stop();
 });
 
 async function outboxCountFor(uid: string): Promise<number> {

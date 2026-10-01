@@ -35,7 +35,7 @@ beforeAll(async () => {
 }, 240_000);
 
 afterAll(async () => {
-  await api.stop();
+  await api?.stop();
 });
 
 describe('extension outbox against the api', () => {
