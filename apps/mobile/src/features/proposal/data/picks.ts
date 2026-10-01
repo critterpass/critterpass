@@ -106,6 +106,20 @@ export function usePicks(
   });
 }
 
+export interface StopTime {
+  readonly dayNo: number | null;
+  readonly startsAt: string | null;
+  readonly tz: string | null;
+}
+
+/** When each stop of the plan happens, by item: a trailer slide about a stop says its day and time. */
+export function useStopTimes(tripId: string | null): ReadonlyMap<string, StopTime> {
+  const { rows } = useLiveRows<ItemRow>(ITEMS_SQL, tripId === null ? null : [tripId], ITEMS_TABLES);
+  return new Map(
+    rows.map((row) => [row.stable_id, { dayNo: row.day_no, startsAt: row.starts_at, tz: row.tz }]),
+  );
+}
+
 interface PlanRow {
   readonly stable_id: string;
   readonly poi_id: string | null;
