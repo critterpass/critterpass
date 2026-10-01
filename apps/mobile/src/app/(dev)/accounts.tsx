@@ -5,6 +5,7 @@ import { DevSettings, ScrollView } from 'react-native';
 
 import { createDevSlots, type DevSlot } from '@/data/auth/dev-slots';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { setOnboardingComplete } from '@/lib/links/pending';
 import { clearSavedNavigation } from '@/lib/navigation/restore';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
@@ -76,6 +77,8 @@ export default function DevAccountsScreen() {
       // The restart starts at Home (not this screen), where a brand-new account's gate sends
       // it to onboarding.
       clearSavedNavigation();
+      // A brand-new account onboards (name, guide, home) like a new phone; a kept one is past it.
+      setOnboardingComplete(target !== null);
       await reload();
     } catch (failure) {
       setError(failure instanceof Error ? failure.message : String(failure));
