@@ -111,6 +111,10 @@ export function AddExpenseView(props: AddExpenseViewProps) {
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
   const splitY = useRef(0);
   const listing = props.draft.mode !== 'equal';
+  // BY SHARE sets each share with − / +, not the keypad: the keypad folds away so the member rows
+  // have the room (a short phone showed one row above it), and comes back with "Change amount".
+  const [reopened, setReopened] = useState(false);
+  const keypadOpen = props.draft.mode !== 'weights' || reopened;
   useEffect(() => {
     scroll.current?.scrollTo({ y: listing ? splitY.current : 0, animated: true });
   }, [listing]);
@@ -186,6 +190,7 @@ export function AddExpenseView(props: AddExpenseViewProps) {
             label={upper(t({ id: 'money.add.split', message: 'Split' }), locale)}
             value={draft.mode}
             onChange={(mode) => {
+              setReopened(false);
               if (mode === 'equal' && draft.mode === 'equal') setShowWho((shown) => !shown);
               else props.onMode(mode);
             }}
@@ -223,7 +228,17 @@ export function AddExpenseView(props: AddExpenseViewProps) {
         )}
       </ScrollView>
       <View style={[styles.bottom, { paddingBottom: insets.bottom + theme.space['8'] }]}>
-        <Keypad onKey={props.onKey} testID="money-add-keypad" />
+        {keypadOpen ? (
+          <Keypad onKey={props.onKey} testID="money-add-keypad" />
+        ) : (
+          <PillButton
+            label={t({ id: 'money.add.changeAmount', message: 'Change amount' })}
+            onPress={() => setReopened(true)}
+            variant="secondary"
+            block
+            testID="money-add-keypad-open"
+          />
+        )}
         <PillButton
           label={props.ctaLabel}
           onPress={props.onSubmit}

@@ -8,7 +8,7 @@ msgstr ""
 "Language: en-XA\n"
 
 #. placeholder {0}: whole(line.spentMinor)
-#. placeholder {1}: whole(line.plannedMinor)
+#. placeholder {1}: whole(plan(line.plannedMinor))
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.dayA11y"
 msgstr ""
@@ -271,6 +271,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.category"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.changeAmount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
@@ -702,7 +706,7 @@ msgstr ""
 msgid "money.add.out"
 msgstr ""
 
-#. placeholder {0}: whole(line.spentMinor - line.plannedMinor)
+#. placeholder {0}: whole(line.spentMinor - plan(line.plannedMinor))
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.overBy"
 msgstr ""
