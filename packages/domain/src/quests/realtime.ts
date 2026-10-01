@@ -38,11 +38,13 @@ interface QuestCopy {
   readonly id: string;
   readonly message: string;
 }
-const copy = (id: string, message: string): QuestCopy => ({ id, message });
 
 export const QUEST_PUSH = {
-  readyTitle: copy('notifications.quests.ready.title', "Today's crew quests"),
-  readyBody: copy('notifications.quests.ready.body', '{count} quests are up for {place}.'),
-  doneTitle: copy('notifications.quests.done.title', 'Quest done: {title}'),
-  doneBody: copy('notifications.quests.done.body', '+{xp} XP for the crew.'),
-} as const;
+  readyTitle: /*i18n*/ { id: 'notifications.quests.ready.title', message: "Today's crew quests" },
+  readyBody: /*i18n*/ {
+    id: 'notifications.quests.ready.body',
+    message: '{count} quests are up for {place}.',
+  },
+  doneTitle: /*i18n*/ { id: 'notifications.quests.done.title', message: 'Quest done: {title}' },
+  doneBody: /*i18n*/ { id: 'notifications.quests.done.body', message: '+{xp} XP for the crew.' },
+} as const satisfies Record<string, QuestCopy>;

@@ -12,29 +12,39 @@ import {
 } from '../notify/register';
 import { DEFAULT_SETUP_GUIDE, str } from '../setup/facts';
 
-const copy = (id: string, message: string) => ({ id, message });
-
 export const PROPOSAL_PUSH = {
-  versionTitle: copy(
-    'notifications.proposal.version_title',
-    '{guide} wrote your version of {place}',
-  ),
-  versionBody: copy(
-    'notifications.proposal.version_body',
-    'Watch the trip, then tell the crew if you are in.',
-  ),
-  followupTitle: copy('notifications.proposal.followup_title', 'Still thinking about {place}?'),
-  followupBody: copy(
-    'notifications.proposal.followup_body',
-    'You asked me to check in. Take another look?',
-  ),
-  resendTitle: copy('notifications.proposal.resend_title', 'Your crew planned {place}'),
-  resendBody: copy('notifications.proposal.resend_body', 'Take a look when you have a minute.'),
-  replyByTitle: copy('notifications.proposal.reply_by_title', 'Reply by tomorrow · {place}'),
-  replyByBody: copy(
-    'notifications.proposal.reply_by_body',
-    'The crew needs your answer by {date}.',
-  ),
+  versionTitle: /*i18n*/ {
+    id: 'notifications.proposal.version_title',
+    message: '{guide} wrote your version of {place}',
+  },
+  versionBody: /*i18n*/ {
+    id: 'notifications.proposal.version_body',
+    message: 'Watch the trip, then tell the crew if you are in.',
+  },
+  followupTitle: /*i18n*/ {
+    id: 'notifications.proposal.followup_title',
+    message: 'Still thinking about {place}?',
+  },
+  followupBody: /*i18n*/ {
+    id: 'notifications.proposal.followup_body',
+    message: 'You asked me to check in. Take another look?',
+  },
+  resendTitle: /*i18n*/ {
+    id: 'notifications.proposal.resend_title',
+    message: 'Your crew planned {place}',
+  },
+  resendBody: /*i18n*/ {
+    id: 'notifications.proposal.resend_body',
+    message: 'Take a look when you have a minute.',
+  },
+  replyByTitle: /*i18n*/ {
+    id: 'notifications.proposal.reply_by_title',
+    message: 'Reply by tomorrow · {place}',
+  },
+  replyByBody: /*i18n*/ {
+    id: 'notifications.proposal.reply_by_body',
+    message: 'The crew needs your answer by {date}.',
+  },
 } as const;
 
 interface TripFacts {
