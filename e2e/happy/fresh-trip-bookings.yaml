@@ -118,6 +118,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'bookings-form-title'
 - inputText: 'Ba Na cable car'
+- scrollUntilVisible:
+    element:
+      id: 'bookings-form-date'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
 - tapOn:
     id: 'bookings-form-date'
 - inputText: ${output.nextDay}

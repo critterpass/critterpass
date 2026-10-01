@@ -8,6 +8,7 @@
 import type { BookingKind } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -27,6 +28,8 @@ import { useKindLabel } from './labels';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
+  // Two fields on a line share it evenly; a field left to its own width hides what is typed.
+  cell: { flex: 1, minWidth: 0 },
 }));
 
 const FORM_KINDS: readonly BookingKind[] = [
@@ -107,28 +110,32 @@ export function BookingFormView(props: BookingFormViewProps) {
               testID="bookings-form-flight"
             />
             <Row gap="12">
-              <TextField
-                label={t({ id: 'bookings.form.from', message: 'From' })}
-                placeholder="SIN"
-                autoCapitalize="characters"
-                maxLength={3}
-                value={draft.from}
-                onChangeText={(from) => props.onChange({ from })}
-                {...problem(
-                  'airports',
-                  t({ id: 'bookings.form.airportProblem', message: 'Three-letter airport code' }),
-                )}
-                testID="bookings-form-from"
-              />
-              <TextField
-                label={t({ id: 'bookings.form.to', message: 'To' })}
-                placeholder="DPS"
-                autoCapitalize="characters"
-                maxLength={3}
-                value={draft.to}
-                onChangeText={(to) => props.onChange({ to })}
-                testID="bookings-form-to"
-              />
+              <View style={styles.cell}>
+                <TextField
+                  label={t({ id: 'bookings.form.from', message: 'From' })}
+                  placeholder="SIN"
+                  autoCapitalize="characters"
+                  maxLength={3}
+                  value={draft.from}
+                  onChangeText={(from) => props.onChange({ from })}
+                  {...problem(
+                    'airports',
+                    t({ id: 'bookings.form.airportProblem', message: 'Three-letter airport code' }),
+                  )}
+                  testID="bookings-form-from"
+                />
+              </View>
+              <View style={styles.cell}>
+                <TextField
+                  label={t({ id: 'bookings.form.to', message: 'To' })}
+                  placeholder="DPS"
+                  autoCapitalize="characters"
+                  maxLength={3}
+                  value={draft.to}
+                  onChangeText={(to) => props.onChange({ to })}
+                  testID="bookings-form-to"
+                />
+              </View>
             </Row>
           </Stack>
         ) : (
@@ -144,24 +151,31 @@ export function BookingFormView(props: BookingFormViewProps) {
           />
         )}
         <Row gap="12">
-          <TextField
-            label={t({ id: 'bookings.form.date', message: 'Day (YYYY-MM-DD)' })}
-            placeholder={t({ id: 'bookings.form.dateExample', message: '2026-10-12' })}
-            keyboardType="numbers-and-punctuation"
-            value={draft.date}
-            onChangeText={(date) => props.onChange({ date })}
-            {...problem('date', t({ id: 'bookings.form.dateProblem', message: 'Like 2026-10-12' }))}
-            testID="bookings-form-date"
-          />
-          <TextField
-            label={t({ id: 'bookings.form.time', message: 'Time' })}
-            placeholder={t({ id: 'bookings.form.timeExample', message: '09:05' })}
-            keyboardType="numbers-and-punctuation"
-            value={draft.time}
-            onChangeText={(time) => props.onChange({ time })}
-            {...problem('time', t({ id: 'bookings.form.timeProblem', message: 'Like 09:05' }))}
-            testID="bookings-form-time"
-          />
+          <View style={styles.cell}>
+            <TextField
+              label={t({ id: 'bookings.form.date', message: 'Day (YYYY-MM-DD)' })}
+              placeholder={t({ id: 'bookings.form.dateExample', message: '2026-10-12' })}
+              keyboardType="numbers-and-punctuation"
+              value={draft.date}
+              onChangeText={(date) => props.onChange({ date })}
+              {...problem(
+                'date',
+                t({ id: 'bookings.form.dateProblem', message: 'Like 2026-10-12' }),
+              )}
+              testID="bookings-form-date"
+            />
+          </View>
+          <View style={styles.cell}>
+            <TextField
+              label={t({ id: 'bookings.form.time', message: 'Time' })}
+              placeholder={t({ id: 'bookings.form.timeExample', message: '09:05' })}
+              keyboardType="numbers-and-punctuation"
+              value={draft.time}
+              onChangeText={(time) => props.onChange({ time })}
+              {...problem('time', t({ id: 'bookings.form.timeProblem', message: 'Like 09:05' }))}
+              testID="bookings-form-time"
+            />
+          </View>
         </Row>
         {draft.kind === 'stay' ? (
           <TextField

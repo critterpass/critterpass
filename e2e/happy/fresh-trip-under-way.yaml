@@ -34,6 +34,13 @@ appId: app.critterpass.dev
           id: 'home-countdown'
       - waitForAnimationToEnd
       - takeScreenshot: under-way-home-in-trip
+# Once the trip turns "in trip" the visit history offer rises over Home.
+- runFlow:
+    when:
+      visible: 'NOT NOW'
+    commands:
+      - tapOn: 'NOT NOW'
+      - waitForAnimationToEnd
 # TRIPS: the hub for a trip that is on, day 1 of 3.
 - tapOn:
     id: 'tab-trips'

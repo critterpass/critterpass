@@ -25,6 +25,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'bookings-form-to'
 - inputText: ${TO}
+- scrollUntilVisible:
+    element:
+      id: 'bookings-form-date'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
 - tapOn:
     id: 'bookings-form-date'
 - inputText: ${DAY}
@@ -36,6 +42,7 @@ appId: app.critterpass.dev
       id: 'bookings-form-arrive'
     direction: DOWN
     timeout: 10000
+    centerElement: true
 - tapOn:
     id: 'bookings-form-arrive'
 - inputText: ${LANDS}

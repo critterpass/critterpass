@@ -94,6 +94,12 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'trip-day-pack-add'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-day-pack-input'
+    timeout: 10000
+- tapOn:
+    id: 'trip-day-pack-input'
 - inputText: 'Sunscreen'
 - pressKey: Enter
 # Android shows the chip's text; iOS reads the chip whole, by its label.

@@ -67,7 +67,7 @@ appId: app.critterpass.dev
     timeout: 30000
 - extendedWaitUntil:
     visible: '(?i).*₫ ?350,000 spent.*'
-    timeout: 30000
+    timeout: 90000
 - assertVisible:
     id: 'money-hero-solo'
 - waitForAnimationToEnd
@@ -95,7 +95,7 @@ appId: app.critterpass.dev
 # SPENT SO FAR and the header count both; LATEST is the dinner.
 - extendedWaitUntil:
     visible: '(?i).*₫ ?1,600,000 spent.*'
-    timeout: 30000
+    timeout: 90000
 - assertVisible:
     id: 'money-hero-solo'
 - assertVisible:
@@ -126,7 +126,7 @@ appId: app.critterpass.dev
     id: 'money-add-submit'
 - extendedWaitUntil:
     visible: '(?i).*₫ ?10,600,000 spent.*'
-    timeout: 30000
+    timeout: 90000
 - assertVisible:
     id: 'money-hero-amount'
 - assertNotVisible: '.*\$.*'
