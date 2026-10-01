@@ -1,5 +1,5 @@
 import type { NavigationContainerRefWithCurrent } from 'expo-router/react-navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useSyncExternalStore } from 'react';
 import { createMMKV } from 'react-native-mmkv';
 
 import { useSessionGate, type SessionGateState } from './gates';
@@ -130,6 +130,29 @@ export function leftLaunchScreen(
   return false;
 }
 
+let sessionReady = false;
+const sessionListeners = new Set<() => void>();
+
+/**
+ * Set by the app session (data/app-session) as its local database opens and closes: this layer
+ * cannot import the data layer, and a restored screen reads that database as soon as it mounts.
+ */
+export function setSessionReady(ready: boolean): void {
+  if (ready === sessionReady) return;
+  sessionReady = ready;
+  sessionListeners.forEach((listener) => listener());
+}
+
+function useSessionReady(): boolean {
+  return useSyncExternalStore(
+    (listener) => {
+      sessionListeners.add(listener);
+      return () => sessionListeners.delete(listener);
+    },
+    () => sessionReady,
+  );
+}
+
 type RootRef = NavigationContainerRefWithCurrent<ReactNavigation.RootParamList>;
 
 export interface NavigationPersistenceOptions {
@@ -137,8 +160,6 @@ export interface NavigationPersistenceOptions {
   readonly build: string;
   /** The URL the app was launched with (`Linking.getInitialURL()`); `null` for a plain launch. */
   readonly launchUrl: string | null | undefined;
-  /** The session's local database is open: restored screens read it as soon as they mount. */
-  readonly sessionReady: boolean;
   readonly now?: () => number;
 }
 
@@ -153,9 +174,9 @@ export function useNavigationPersistence({
   navigationRef,
   build,
   launchUrl,
-  sessionReady,
   now = Date.now,
 }: NavigationPersistenceOptions): void {
+  const ready = useSessionReady();
   const gate = useSessionGate().status;
   // Nothing is saved until the restore decision is made, so the launch's own first state can't
   // overwrite the state being restored.
@@ -177,7 +198,7 @@ export function useNavigationPersistence({
       const saved = readSavedNavigation();
       const decision = decideRestore({
         gate,
-        sessionReady,
+        sessionReady: ready,
         navigated: navigated.current,
         saved,
         now: now(),
@@ -206,5 +227,5 @@ export function useNavigationPersistence({
       const state = navigationRef.getRootState();
       if (state) writeSavedNavigation({ savedAt: now(), build, state });
     });
-  }, [navigationRef, build, launchUrl, now, gate, sessionReady]);
+  }, [navigationRef, build, launchUrl, now, gate, ready]);
 }

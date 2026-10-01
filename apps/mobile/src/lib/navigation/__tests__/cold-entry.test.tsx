@@ -14,6 +14,7 @@ import {
   leftLaunchScreen,
   readSavedNavigation,
   RESTORE_WINDOW_MS,
+  setSessionReady,
   shouldRestore,
   useNavigationPersistence,
   writeSavedNavigation,
@@ -45,7 +46,6 @@ function store<T>(initial: T) {
     },
   };
 }
-const sessionReady = store(true);
 const gate = store<SessionGateState>({ status: 'ready' });
 provideSessionGate(() => useSyncExternalStore(gate.subscribe, gate.get));
 
@@ -55,7 +55,6 @@ function Root() {
     navigationRef,
     build: BUILD,
     launchUrl,
-    sessionReady: useSyncExternalStore(sessionReady.subscribe, sessionReady.get),
     now: () => clock,
   });
   return <Stack screenOptions={{ headerShown: false }} />;
@@ -113,7 +112,7 @@ let unregister: () => void = () => {};
 beforeEach(() => {
   launchUrl = null;
   clock = 1_000_000;
-  sessionReady.set(true);
+  setSessionReady(true);
   gate.set({ status: 'ready' });
   clearSavedNavigation();
   unregister = registerScreens({
@@ -188,11 +187,11 @@ describe('navigation restore', () => {
     await navigate(() => openWithBackStack('3c-9'));
     await act(() => first.unmount());
 
-    sessionReady.set(false);
+    setSessionReady(false);
     const second = await renderApp();
     expect(second.getPathname()).toBe('/');
     await act(() => {
-      sessionReady.set(true);
+      setSessionReady(true);
     });
     await act(() => {
       jest.runOnlyPendingTimers();
@@ -207,12 +206,12 @@ describe('navigation restore', () => {
     await navigate(() => openWithBackStack('3c-9'));
     await act(() => first.unmount());
 
-    sessionReady.set(false);
+    setSessionReady(false);
     const second = await renderApp(GROUPED_ROUTES);
     expect(second.getPathname()).toBe('/');
     expect(screen.getByText('home')).toBeTruthy();
     await act(() => {
-      sessionReady.set(true);
+      setSessionReady(true);
     });
     await act(() => {
       jest.runOnlyPendingTimers();
@@ -225,11 +224,11 @@ describe('navigation restore', () => {
     await navigate(() => openWithBackStack('3c-9'));
     await act(() => first.unmount());
 
-    sessionReady.set(false);
+    setSessionReady(false);
     const second = await renderApp();
     await navigate(() => router.push('/when'));
     await act(() => {
-      sessionReady.set(true);
+      setSessionReady(true);
     });
     await act(() => {
       jest.runOnlyPendingTimers();

@@ -248,8 +248,7 @@ function RootNavigator() {
       .then(setLaunchUrl)
       .catch(() => setLaunchUrl(null));
   }, []);
-  const sessionReady = useContext(LocalFirstContext) !== null;
-  useNavigationPersistence({ navigationRef, build: BUILD, launchUrl, sessionReady });
+  useNavigationPersistence({ navigationRef, build: BUILD, launchUrl });
   useNoBackAffordanceGuard();
   useScreenTracking(useAnalytics());
   usePushNotifications(cpNotifications);
