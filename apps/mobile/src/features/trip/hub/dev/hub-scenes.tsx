@@ -11,6 +11,7 @@ import type { ReactNode } from 'react';
 
 import type { BriefingState } from '../../briefing/briefing-model';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { VisitConsentRowView } from '@/ui/permission-primer/VisitConsentSheet';
 
 import type { HubRows } from '../data/use-hub';
 import {
@@ -22,7 +23,7 @@ import {
   wholeMoney,
 } from '../hub-copy';
 import type { HubHeader } from '../hub-model';
-import { exploreEntry, hubEntries } from '../hub-next';
+import { exploreEntry, hubEntries, swipeEntry } from '../hub-next';
 import { FLIGHT, LEAVE_BY, LINES, NOW, STOP, TICKER, TODAY, TZ, WHEELS_UP } from './hub-fixtures';
 import { HubView, type HubViewProps } from '../hub-view';
 import { HubTile, type HubTileData } from '../tiles';
@@ -115,6 +116,7 @@ function Hub({
       node: <HubTile tile={tile} />,
     })),
     explore: header.phase === 'planning' ? null : exploreEntry(destination, noop),
+    swipe: header.phase === 'planning' ? null : swipeEntry(noop),
     ticker: TICKER,
     onSwitch: null,
     ...overrides,
@@ -214,6 +216,15 @@ export const HUB_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   // The last day's evening: nothing ahead, today's page still one tap away.
+  // A trip day before the traveller decided on visit memory: the quiet line to turn it on.
+  '3k-1-visit-consent': () => (
+    <Hub
+      header={{ phase: 'in', day: 2, days: 3 }}
+      today="2026-10-03"
+      stop={{ ...STOP, starts_at: '2026-10-03T08:00:00Z', day_date: '2026-10-03' }}
+      overrides={{ ...DA_NANG, visitConsent: <VisitConsentRowView onPress={noop} /> }}
+    />
+  ),
   '3k-1-day-done': () => (
     <Hub
       header={{ phase: 'in', day: 3, days: 3 }}

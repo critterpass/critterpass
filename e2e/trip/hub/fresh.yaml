@@ -36,10 +36,12 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
+# The gallery sits below the developer tools' demo data and labs: scroll to it.
+- scrollUntilVisible:
+    element:
       id: 'dev-nav-gallery'
-    timeout: 10000
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'dev-nav-gallery'
 - extendedWaitUntil:
