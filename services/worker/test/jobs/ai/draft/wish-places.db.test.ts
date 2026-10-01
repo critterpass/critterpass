@@ -65,9 +65,9 @@ beforeAll(async () => {
           lat,
           lng,
           curation,
-          curation === 'editorial'
-            ? JSON.stringify({ why_go: 'Worth it.', time_needed_min: 90 })
-            : null,
+          JSON.stringify(
+            curation === 'editorial' ? { why_go: 'Worth it.', time_needed_min: 90 } : {},
+          ),
           mergedInto,
         ],
       );
