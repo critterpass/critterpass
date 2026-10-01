@@ -287,6 +287,10 @@ msgstr "{title}: hủy miễn phí đến {deadline}. Sau đó áp dụng điề
 msgid "notifications.la.leave_by_start_body"
 msgstr "{up}/{total} người đã dậy."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_body"
+msgstr "{up}/{total} người đã dậy."
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.done.body"
 msgstr "+{xp} XP cho cả nhóm."
@@ -302,6 +306,14 @@ msgstr "Vừa có một chỗ trống"
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.settled.title"
 msgstr "Sòng phẳng rồi"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_at"
+msgstr "Có mặt ở {place}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
+msgstr "Có mặt ở {place} trước {time}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title_be_there"
@@ -510,6 +522,10 @@ msgstr "Cả nhóm, ngay trên màn hình khóa."
 #: ../domain/src/nudges/templates.ts
 msgid "notifications.nudge.payment"
 msgstr "Có một khoản thanh toán đang chờ bạn trong {crew}. Hai chạm là sòng phẳng."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_title"
+msgstr "Đến giờ có mặt ở {place}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_body"

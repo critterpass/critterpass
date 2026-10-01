@@ -25,6 +25,7 @@ import {
   type TripRow,
 } from './bridge-inputs';
 import { createLocationEngine, type LocationEngine, type SessionSummary } from './engine';
+import { coarsePosition } from './geocode';
 import type { FixUploader, LocationSessionPort } from './ports';
 import { setLocationEngine } from './use-location-status';
 
@@ -46,6 +47,8 @@ export interface EngineBridgeDeps {
   readonly exploreAtHome: boolean;
   readonly androidBackgroundGeofences: boolean;
   readonly countryOf?: (lat: number, lng: number) => Promise<string | null>;
+  /** One coarse position with no session running; the device's own by default. */
+  readonly locate?: () => Promise<{ readonly lat: number; readonly lng: number } | null>;
   readonly highAccuracyCapMs?: number;
   readonly onSessionEnded?: (summary: SessionSummary) => void;
   readonly now?: () => number;
@@ -79,7 +82,9 @@ export function useLocationEngineBridge(deps: EngineBridgeDeps): {
       upload: deps.upload,
       platform: deps.platform,
       now,
-      ...(deps.countryOf ? { countryOf: deps.countryOf } : {}),
+      ...(deps.countryOf
+        ? { countryOf: deps.countryOf, locate: deps.locate ?? coarsePosition }
+        : {}),
       highAccuracyCapMs: () => deps.highAccuracyCapMs,
       ...(deps.onSessionEnded ? { onSessionEnded: deps.onSessionEnded } : {}),
     }),

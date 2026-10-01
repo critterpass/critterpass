@@ -2,7 +2,8 @@
  * The leave-by loader: the crew's trail from three hours before leave time until it is walked.
  * Everyone on the leave-by gets it (their own activity is free, with every crewmate's pip); leave
  * time and a late crew are the only urgent frames (priority 10 with an alert, a sound at leave
- * time), everything else rides the power-considerate budget.
+ * time), everything else rides the power-considerate budget. A leave-by with no travel leg is a
+ * time to be somewhere: its time, countdown and alerts say "be at" instead of "leave by".
  */
 import {
   buildLeaveByLaAttributes,
@@ -14,6 +15,7 @@ import {
   type LeaveByState,
   type ReadinessState,
 } from '@cp/domain';
+import { arriveEarlyMinutes } from '@cp/planner';
 
 import { clockIn, ROUTINE, type LaLoader } from './snapshot';
 
@@ -30,6 +32,10 @@ interface LeaveByRow {
   guide_note: string | null;
   participant_ids: string[];
   guide: string | null;
+  starts_at: Date;
+  leg_kind: string | null;
+  category: string | null;
+  dep_airport: string | null;
 }
 
 /** An ended leave-by's last frame stays this long ("done", or the crew still walking). */
@@ -40,11 +46,15 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render }) => {
     `SELECT l.id, l.trip_id, l.title, l.place_name, l.leave_at, l.tz, l.state, l.legs, l.pickup,
             l.guide_note, (SELECT g.slug FROM trips t JOIN guides g ON g.id = t.guide_id
                             WHERE t.id = l.trip_id) AS guide,
+            l.starts_at, l.legs->0->>'kind' AS leg_kind, i.category,
+            (SELECT s.dep_airport::text FROM flight_segments s
+              WHERE s.booking_id = i.booking_id AND s.sched_dep_at = l.starts_at
+              ORDER BY s.segment_no LIMIT 1) AS dep_airport,
             CASE WHEN cardinality(l.participant_ids) > 0 THEN l.participant_ids
                  ELSE ARRAY(SELECT user_id FROM trip_participants
                              WHERE trip_id = l.trip_id AND holds_seat ORDER BY created_at, user_id)
             END AS participant_ids
-       FROM leave_bys l WHERE l.id = $1`,
+       FROM leave_bys l LEFT JOIN plan_items i ON i.id = l.plan_item_id WHERE l.id = $1`,
     [refId],
   );
   const row = rows[0];
@@ -54,18 +64,32 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render }) => {
     [refId],
   );
   const stateOf = new Map(readiness.rows.map((r) => [r.user_id, r.state]));
-  const [stay, pickup] = await Promise.all([
+  // No travel leg: nothing says where the crew sets off from, so no trip is counted and the
+  // activity shows where to be and by when (the departure airport and check-in time for a flight,
+  // the place and the start otherwise), as the leave-by's pushes do.
+  const beThere =
+    row.leg_kind === 'none'
+      ? {
+          place: row.dep_airport ?? row.place_name ?? row.title,
+          at: new Date(row.starts_at.getTime() - arriveEarlyMinutes(row.category) * 60_000),
+        }
+      : null;
+  const place = beThere?.place ?? row.place_name ?? row.title;
+  const leaveAt = beThere?.at ?? row.leave_at;
+  const [stay, pickup, beAt] = await Promise.all([
     render('en', LA_COPY.stay),
     render('en', LA_COPY.pickup),
+    beThere === null ? null : render('en', LA_COPY.leaveByBeAt, { place }),
   ]);
   const input = (labels: { stay: string; pickup: string }): LeaveByLaInput => ({
     leaveById: row.id,
     tripId: row.trip_id,
     title: row.title === '' ? (row.place_name ?? '') : row.title,
-    placeName: row.place_name,
+    placeName: beThere?.place ?? row.place_name,
     pickupPlace: row.pickup?.place ?? null,
     hasPickup: row.pickup !== null,
-    leaveAt: row.leave_at,
+    leaveAt,
+    beThereLine: beAt,
     state: row.state,
     legMinutes: row.legs.map((leg) => leg.minutes ?? 0),
     participants: row.participant_ids.map((uid) => ({
@@ -77,9 +101,8 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render }) => {
     guide: row.guide,
   });
   const shared = input({ stay, pickup });
-  const leave = row.leave_at.getTime();
+  const leave = leaveAt.getTime();
   const trailEnds = new Date(leave + leaveByLaTrailMs(shared));
-  const place = row.place_name ?? row.title;
   const counts = () => {
     const up = shared.participants.filter((p) => p.readiness !== 'not_up').length;
     return { up, total: shared.participants.length };
@@ -100,9 +123,9 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render }) => {
       ),
     state: (seq) => buildLeaveByLaState(shared, now, seq),
     startAlert: {
-      title: LA_COPY.leaveByStartTitle,
+      title: beThere === null ? LA_COPY.leaveByStartTitle : LA_COPY.leaveByBeThereStartTitle,
       body: LA_COPY.leaveByStartBody,
-      vars: { time: clockIn(row.leave_at, row.tz), place, ...counts() },
+      vars: { time: clockIn(leaveAt, row.tz), place, ...counts() },
     },
     endsAt: trailEnds,
     lingerMs: row.state === 'cancelled' ? 0 : LINGER_MS,
@@ -113,8 +136,8 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render }) => {
         return {
           priority: 10,
           alert: {
-            title: LA_COPY.leaveByGoTitle,
-            body: LA_COPY.leaveByGoBody,
+            title: beThere === null ? LA_COPY.leaveByGoTitle : LA_COPY.leaveByBeThereGoTitle,
+            body: beThere === null ? LA_COPY.leaveByGoBody : LA_COPY.leaveByBeThereGoBody,
             vars: { place, up, total },
             sound: true,
           },

@@ -287,6 +287,10 @@ msgstr ""
 msgid "notifications.la.leave_by_start_body"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_body"
+msgstr ""
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.done.body"
 msgstr ""
@@ -301,6 +305,14 @@ msgstr ""
 
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.settled.title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_at"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
@@ -509,6 +521,10 @@ msgstr ""
 
 #: ../domain/src/nudges/templates.ts
 msgid "notifications.nudge.payment"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_title"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts

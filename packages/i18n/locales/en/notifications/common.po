@@ -287,6 +287,10 @@ msgstr "{title}: cancel for free until {deadline}. After that the booking’s ow
 msgid "notifications.la.leave_by_start_body"
 msgstr "{up} of {total} up so far."
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_body"
+msgstr "{up} of {total} up."
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.done.body"
 msgstr "+{xp} XP for the crew."
@@ -302,6 +306,14 @@ msgstr "A seat just opened"
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.settled.title"
 msgstr "All square"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_at"
+msgstr "Be at {place}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
+msgstr "Be at {place} by {time}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title_be_there"
@@ -510,6 +522,10 @@ msgstr "The whole crew, on your lock screen."
 #: ../domain/src/nudges/templates.ts
 msgid "notifications.nudge.payment"
 msgstr "There's a settle-up waiting for you in {crew}. Two taps and you're square."
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_go_title"
+msgstr "Time to be at {place}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_body"
