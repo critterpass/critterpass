@@ -15,7 +15,9 @@ import { toast } from '@/motion';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
+import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
 import { Icon } from '@/ui/icons/Icon';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
@@ -34,12 +36,15 @@ import { nextSundayEvening, parseOptions, type PrivateOption } from './options';
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'], gap: th.space['14'] },
   eyebrow: { flexDirection: 'row', alignItems: 'center', gap: th.space['6'] },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: th.space['8'] },
+  grow: { flex: 1 },
   reasons: { flexDirection: 'row', flexWrap: 'wrap', gap: th.space['8'] },
   footer: { gap: th.space['8'], alignItems: 'center' },
 }));
 
 export interface ObjectionSheetProps {
   readonly proposalId: string;
+  readonly guide: GuideStickerId;
   readonly guideName: string;
   readonly organiserName: string;
   readonly locale: string;
@@ -72,6 +77,7 @@ export function ObjectionSheetView(props: ObjectionSheetViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { reason, answer, chosen } = props;
+  const sticker = GUIDE_STICKERS[props.guide];
   const skips: Saving[] = (answer?.options ?? []).flatMap((o) =>
     o.kind === 'skip_item' && o.deltaMinor !== null && o.currency !== null
       ? [
@@ -115,9 +121,12 @@ export function ObjectionSheetView(props: ObjectionSheetViewProps) {
               })}
             </Text>
           </View>
-          <Text variant="h1" accessibilityRole="header">
-            {t({ id: 'proposal.objection.title', message: 'What’s holding you back?' })}
-          </Text>
+          <View style={styles.titleRow}>
+            <Text variant="h1" accessibilityRole="header" style={styles.grow}>
+              {t({ id: 'proposal.objection.title', message: 'What’s holding you back?' })}
+            </Text>
+            <Sticker kind={sticker.kind} name={sticker.name} size={88} />
+          </View>
           <Text variant="body" color={theme.semantic.text.secondary}>
             {t({
               id: 'proposal.objection.sub',

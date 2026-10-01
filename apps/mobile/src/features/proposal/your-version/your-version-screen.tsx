@@ -163,6 +163,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
       {asking ? (
         <ObjectionSheet
           proposalId={props.proposalId}
+          guide={trip.guide}
           guideName={guideName}
           organiserName={organiser?.name ?? ''}
           locale={locale}

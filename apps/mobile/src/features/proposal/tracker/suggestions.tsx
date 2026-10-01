@@ -5,12 +5,11 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { t } from '@lingui/core/macro';
-import { View } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
-import { TextLink } from '@/ui/buttons/TextLink';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -31,7 +30,7 @@ const useStyles = makeStyles((th) => ({
   },
   head: { flexDirection: 'row', alignItems: 'center', gap: th.space['8'] },
   row: { flexDirection: 'row', alignItems: 'center', gap: th.space['10'] },
-  grow: { flex: 1 },
+  grow: { flex: 1, gap: th.space['6'] },
   divider: { height: 1, backgroundColor: th.semantic.text.onAccent, opacity: 0.2 },
 }));
 
@@ -70,11 +69,16 @@ export function SuggestionsView(props: {
               <Text variant="bodySm" color={ink}>
                 {row.copy}
               </Text>
-              <TextLink
-                label={t({ id: 'proposal.suggest.dismiss', message: 'Not now' })}
+              <Pressable
                 onPress={() => props.onDismiss(row.id)}
+                accessibilityRole="button"
+                hitSlop={8}
                 testID={`suggestion-dismiss-${index}`}
-              />
+              >
+                <Text variant="label" color={ink}>
+                  {t({ id: 'proposal.suggest.dismiss', message: 'Not now' })}
+                </Text>
+              </Pressable>
             </View>
             <PillButton
               size="sm"
