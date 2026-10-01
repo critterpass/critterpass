@@ -197,6 +197,9 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
     entitlements: {
       'com.apple.security.application-groups': ['group.app.critterpass'],
       'keychain-access-groups': ['$(AppIdentifierPrefix)app.critterpass.shared'],
+      // Leave-by, SOS and other must-arrive pushes are sent time-sensitive: without this they do
+      // not break through a Focus.
+      'com.apple.developer.usernotifications.time-sensitive': true,
     },
   },
   android: {

@@ -80,6 +80,11 @@ where A: Sendable, A.ContentState: Sendable {
     func observe(_ events: LiveActivityEvents) -> [Task<Void, Never>] {
         let kind = self.kind
         let tokens = Task {
+            // The update sequence only speaks when iOS issues a new token; the current one, if
+            // any, is reported on every launch so the server can always be told again.
+            if let current = Activity<A>.pushToStartToken {
+                events.pushToStartToken(kind: kind, token: current.hexToken)
+            }
             for await token in Activity<A>.pushToStartTokenUpdates {
                 events.pushToStartToken(kind: kind, token: token.hexToken)
             }
