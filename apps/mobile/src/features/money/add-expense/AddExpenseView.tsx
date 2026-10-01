@@ -6,7 +6,7 @@
 import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -105,6 +105,14 @@ export function AddExpenseView(props: AddExpenseViewProps) {
   const shake = useShake(props.shake);
   // EVENLY splits between everyone; tapping EVENLY again shows who is in, to leave someone out.
   const [showWho, setShowWho] = useState(false);
+  // BY SHARE and CUSTOM list a row per member under the split control: the page scrolls the
+  // control to the top so the rows have the room above the keypad, and back for EVENLY.
+  const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
+  const splitY = useRef(0);
+  const listing = props.draft.mode !== 'equal';
+  useEffect(() => {
+    scroll.current?.scrollTo({ y: listing ? splitY.current : 0, animated: true });
+  }, [listing]);
   const { draft } = props;
   const crew = props.crewName;
   const eyebrow = props.editing
@@ -113,6 +121,7 @@ export function AddExpenseView(props: AddExpenseViewProps) {
   return (
     <Scaffold variant="dark" testID="money-add">
       <ScrollView
+        ref={scroll}
         style={{ flex: 1 }}
         contentContainerStyle={styles.top}
         keyboardShouldPersistTaps="handled"
@@ -164,30 +173,38 @@ export function AddExpenseView(props: AddExpenseViewProps) {
           </Row>
         </Pressable>
         <PayerPicker members={props.members} payerId={draft.payerId} onPick={props.onPayer} />
-        <Segmented<SplitEditorMode>
-          selectedTone="yellow"
-          label={upper(t({ id: 'money.add.split', message: 'Split' }), locale)}
-          value={draft.mode}
-          onChange={(mode) => {
-            if (mode === 'equal' && draft.mode === 'equal') setShowWho((shown) => !shown);
-            else props.onMode(mode);
+        <View
+          onLayout={(event) => {
+            splitY.current = event.nativeEvent.layout.y;
+            // Opened already listing (an edit, a split by share): start there, without the glide.
+            if (listing) scroll.current?.scrollTo({ y: splitY.current, animated: false });
           }}
-          segments={[
-            {
-              value: 'equal',
-              label: upper(t({ id: 'money.add.evenly', message: 'Evenly' }), locale),
-            },
-            {
-              value: 'weights',
-              label: upper(t({ id: 'money.add.byShare', message: 'By share' }), locale),
-            },
-            {
-              value: 'fixed',
-              label: upper(t({ id: 'money.add.custom', message: 'Custom' }), locale),
-            },
-          ]}
-          testID="money-add-split"
-        />
+        >
+          <Segmented<SplitEditorMode>
+            selectedTone="yellow"
+            label={upper(t({ id: 'money.add.split', message: 'Split' }), locale)}
+            value={draft.mode}
+            onChange={(mode) => {
+              if (mode === 'equal' && draft.mode === 'equal') setShowWho((shown) => !shown);
+              else props.onMode(mode);
+            }}
+            segments={[
+              {
+                value: 'equal',
+                label: upper(t({ id: 'money.add.evenly', message: 'Evenly' }), locale),
+              },
+              {
+                value: 'weights',
+                label: upper(t({ id: 'money.add.byShare', message: 'By share' }), locale),
+              },
+              {
+                value: 'fixed',
+                label: upper(t({ id: 'money.add.custom', message: 'Custom' }), locale),
+              },
+            ]}
+            testID="money-add-split"
+          />
+        </View>
         {draft.mode === 'equal' ? (
           showWho || draft.included.length < draft.memberIds.length ? (
             <SplitEditorEvenly members={props.members} draft={draft} onToggle={props.onToggle} />
