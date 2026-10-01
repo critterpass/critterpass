@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act, screen } from '@testing-library/react-native';
-import { DeviceEventEmitter, Keyboard, Platform, StyleSheet, Text } from 'react-native';
+import { DeviceEventEmitter, Keyboard, Platform, StyleSheet, Text, TextInput } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -23,8 +23,8 @@ function flat(testID: string): ViewStyle {
   return StyleSheet.flatten(screen.getByTestId(testID).props.style as StyleProp<ViewStyle>) ?? {};
 }
 
-async function renderFooter(variant: 'dark' | 'paper' = 'dark') {
-  await renderUi(
+function footerScreen(variant: 'dark' | 'paper') {
+  return (
     <SafeAreaProvider initialMetrics={METRICS}>
       <ScreenJoltProvider>
         <Scaffold variant={variant}>
@@ -33,19 +33,40 @@ async function renderFooter(variant: 'dark' | 'paper' = 'dark') {
           </KeyboardFooter>
         </Scaffold>
       </ScreenJoltProvider>
-    </SafeAreaProvider>,
+    </SafeAreaProvider>
   );
+}
+
+async function renderFooter(variant: 'dark' | 'paper' = 'dark') {
+  return renderUi(footerScreen(variant));
 }
 
 /** Reanimated's keyboard states a footer can be told. */
 const UNREPORTED = 0;
+const OPEN = 2;
 const CLOSED = 4;
 
-/** The keyboard React Native saw open before the footer mounted. */
-function keyboardAlreadyOpen(height: number) {
+type FocusedInput = ReturnType<typeof TextInput.State.currentlyFocusedInput>;
+
+/** The keyboard frame React Native last saw, whether or not that keyboard is still there. */
+function lastKeyboardFrame(height: number) {
+  jest.spyOn(Keyboard, 'isVisible').mockReturnValue(true);
   jest
     .spyOn(Keyboard, 'metrics')
     .mockReturnValue({ screenX: 0, screenY: METRICS.frame.height - height, width: 390, height });
+}
+
+/** Whether a text field holds focus: a keyboard that is up always has one. */
+function fieldInFocus(focused: boolean) {
+  jest
+    .spyOn(TextInput.State, 'currentlyFocusedInput')
+    .mockReturnValue(focused ? ({} as NonNullable<FocusedInput>) : null);
+}
+
+/** The keyboard is up, under a field in focus, before the footer mounts. */
+function keyboardAlreadyOpen(height: number) {
+  lastKeyboardFrame(height);
+  fieldInFocus(true);
 }
 
 afterEach(() => {
@@ -102,6 +123,51 @@ describe('a footer that mounts while the keyboard is already up', () => {
     await renderFooter();
     expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
     expect(flat('footer-edge').opacity).toBe(0);
+  });
+});
+
+describe('a footer that mounts after the keyboard left with the screen before it', () => {
+  // Android keeps reporting the last keyboard frame once the field that had the keyboard has
+  // unmounted (start a crew with the keyboard up, then open its chat).
+  it('stays down: a frame left over with no field in focus is not an open keyboard', async () => {
+    jest.replaceProperty(Platform, 'OS', 'android');
+    lastKeyboardFrame(300);
+    fieldInFocus(false);
+    await renderFooter();
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
+    expect(flat('footer-edge').opacity).toBe(0);
+  });
+
+  it('stays down when React Native says the keyboard is gone, whatever frame it kept', async () => {
+    lastKeyboardFrame(336);
+    jest.spyOn(Keyboard, 'isVisible').mockReturnValue(false);
+    fieldInFocus(true);
+    await renderFooter();
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
+  });
+
+  it('rises with the keyboard when it opens later', async () => {
+    lastKeyboardFrame(300);
+    fieldInFocus(false);
+    const view = await renderFooter();
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
+
+    keyboardForTests.state.value = OPEN;
+    keyboardForTests.height.value = 336;
+    await view.rerender(footerScreen('dark'));
+    expect(flat('footer').paddingBottom).toBe(336 + tokens.space['8']);
+    expect(flat('footer-edge').opacity).toBe(1);
+  });
+
+  it('comes down when the keyboard went between its first render and its mount', async () => {
+    lastKeyboardFrame(336);
+    // In focus for the first render, blurred by the time the footer's effects run.
+    jest
+      .spyOn(TextInput.State, 'currentlyFocusedInput')
+      .mockReturnValueOnce({} as NonNullable<FocusedInput>)
+      .mockReturnValue(null);
+    await renderFooter();
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
   });
 });
 
