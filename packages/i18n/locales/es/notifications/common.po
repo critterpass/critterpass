@@ -196,6 +196,10 @@ msgid "notifications.la.meet_up_late_title"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.knock_title_be_there"
+msgstr ""
+
+#: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_title"
 msgstr ""
 
@@ -275,6 +279,10 @@ msgstr ""
 msgid "notifications.money.settled.title"
 msgstr ""
 
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_title_be_there"
+msgstr ""
+
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.boarding_body"
 msgstr ""
@@ -327,6 +335,10 @@ msgstr ""
 msgid "notifications.bookings.flight_gate"
 msgstr ""
 
+#: ../domain/src/trip-day/templates.ts
+msgid "notifications.trip_day.alarm_body_be_there"
+msgstr ""
+
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.final.body"
 msgstr ""
@@ -335,12 +347,12 @@ msgstr ""
 msgid "notifications.crew_invite.body"
 msgstr ""
 
-#: ../domain/src/surfaces/la-copy.ts
-msgid "notifications.la.leave_by_start_title"
-msgstr ""
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_title"
 msgstr ""
 
 #: ../domain/src/surfaces/la-copy.ts
