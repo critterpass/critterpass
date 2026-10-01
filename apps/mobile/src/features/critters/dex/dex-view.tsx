@@ -44,6 +44,8 @@ import { HereNowCard } from './here-now';
 import { HomeSetCard, PlaceRow } from './set-rows';
 
 export interface DexViewProps {
+  /** The sticker shelf, under the home set (stickers sit outside the dex grid). */
+  readonly shelf?: ReactNode;
   readonly state: 'loading' | 'ready';
   readonly model: DexModel;
   readonly near: ReadonlySet<string>;
@@ -222,6 +224,7 @@ export function DexView(props: DexViewProps) {
               )}
             </Stack>
           )}
+          {props.shelf}
         </>
       )}
     </Stack>

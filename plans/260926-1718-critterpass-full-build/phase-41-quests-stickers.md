@@ -1,7 +1,7 @@
 ---
 phase: 41
 title: Crew quests, XP, special stickers
-status: pending
+status: done
 depends_on: [13, 33, 40]
 wave: 19
 features: [F-129, F-130]
@@ -118,6 +118,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Header (crew level, XP bar, next-level sticker), quest cards in quest colour with pips/reward/icon. 2. Signup, states listed above. 3. Simultaneous reveal using server clock offset. 4. Hub tile.
 - Tests: `pnpm --filter @cp/mobile test -- features/critters/quests`
 - Done when: reveal fires within ±100 ms of `reveal_at` in a clock-offset unit test; Reduce Motion variant shows static grant with haptic.
+- Status: done — 5a1d19013
 
 ### T6 — Sticker shelf
 - Goal: C38 shelf on PASS + sticker detail (3i-5 grant moment stays in P33).
@@ -125,6 +126,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Shelf component exported for P40 PASS screen slot. 2. Detail sheet (shows P33-granted Settled Tokek with trip + date). No edit to P33 files: P33 already owns `SettledTokekReveal`.
 - Tests: `pnpm --filter @cp/mobile test -- features/critters/stickers`
 - Done when: stickers never appear in dex counts, avatar picker or app-icon picker (test asserts selectors exclude them).
+- Status: done — 1d3eadf38
 
 ### T7 — End-to-end
 - Goal: two-device quest flow.
@@ -132,6 +134,7 @@ Done when: a seeded trip day generates validated quests at 04:00 local, events a
 - Steps: 1. Seed trip day, run generator with recorded LLM fixture from eval cassette. 2. Emit visit/expense events; assert pips + reward on two sessions.
 - Tests: `maestro test e2e/critters/quests-progress.yaml e2e/critters/quests-reward.yaml e2e/critters/settled-sticker.yaml`; `pnpm --filter @cp/worker test -- quests/e2e`
 - Done when: flows pass on iOS and Android.
+- Status: done — c6c291d93
 
 ## Phase acceptance criteria
 - [ ] Every published quest passes the code validator; the model never sets progress, targets or XP amounts outside the template table

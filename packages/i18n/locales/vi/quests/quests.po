@@ -1,0 +1,132 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-01 06:03+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#. placeholder {0}: level.into
+#. placeholder {1}: level.need
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.xp"
+msgstr "{0} / {1} XP"
+
+#. placeholder {0}: model.live
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.live"
+msgstr "{0} đang mở"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.eyebrow"
+msgstr "{crewName} · Cấp nhóm {lvl}"
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.level"
+msgstr "{level, plural, other {nhóm cấp #}}"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.beforeLine"
+msgstr "{name} sẽ viết những nhiệm vụ đầu tiên cho cả nhóm vào buổi sáng chuyến đi bắt đầu."
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.writingLine"
+msgstr "{name} viết nhiệm vụ từ kế hoạch của nhóm mỗi sáng. Sắp có rồi."
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.line"
+msgstr "Một sticker nhóm mới đã vào pass của bạn."
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.allDone"
+msgstr "Xong hết"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-screen.tsx
+msgid "quests.levelUp.title"
+msgstr "Nhóm lên cấp {level}!"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.levelOnly"
+msgstr "Cấp nhóm {lvl}"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.title"
+msgstr "Nhiệm vụ nhóm"
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.dayOne"
+msgstr "Ngày đầu"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.done"
+msgstr "Xong ✓"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.join"
+msgstr "Tôi tham gia"
+
+#: ../../apps/mobile/src/features/critters/quests/commands.ts
+msgid "quests.queued.signup"
+msgstr "Tham gia một nhiệm vụ"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-header.tsx
+msgid "quests.header.unlock"
+msgstr "Lên cấp {next} mở một sticker nhóm"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.missed"
+msgstr "Đã lỡ"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.overLine"
+msgstr "Chuyến này hết nhiệm vụ rồi. Cấp nhóm và sticker vẫn nằm trong pass của bạn."
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.offline"
+msgstr "Tiến độ và phần thưởng sẽ cập nhật khi bạn có mạng lại."
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.title"
+msgstr "Nhiệm vụ"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.beforeTitle"
+msgstr "Nhiệm vụ bắt đầu từ ngày đầu tiên"
+
+#. placeholder {0}: card.reward.xp
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.reward.xp"
+msgstr "Thưởng · +{0} XP"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.reward.critter"
+msgstr "Thưởng · critter huyền thoại"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.reward.settled"
+msgstr "Thưởng · Tokek Sòng Phẳng"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.overTitle"
+msgstr "Khép lại chuyến đi"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.back"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.over"
+msgstr "Đã xong"
+
+#: ../../apps/mobile/src/features/critters/quests/QuestsTile.tsx
+msgid "quests.tile.writing"
+msgstr "Đang viết"
+
+#: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
+msgid "quests.empty.writingTitle"
+msgstr "Đang viết nhiệm vụ hôm nay"
+
+#: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
+msgid "quests.card.joined"
+msgstr "Bạn đã tham gia"
