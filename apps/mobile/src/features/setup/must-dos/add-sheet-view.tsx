@@ -7,7 +7,7 @@
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
-import { View } from 'react-native';
+import { I18nManager, View } from 'react-native';
 
 import { MUST_DO_TITLE_MAX } from '@cp/domain';
 
@@ -48,7 +48,8 @@ const useStyles = makeStyles((th) => ({
   list: { gap: th.space['10'] },
   result: {
     borderRadius: th.radius.md,
-    backgroundColor: th.semantic.bg.raised,
+    // One step up from the sheet (itself the raised surface), so each row reads as a card.
+    backgroundColor: th.semantic.bg.control,
     paddingHorizontal: th.space['14'],
     paddingVertical: th.space['12'],
     gap: th.space['12'],
@@ -223,7 +224,11 @@ export function AddSheetView({
               <ResultRow
                 title={`“${typed}”`}
                 line={t({ id: 'setup.addMustDo.keep', message: 'Keep it just as you typed it' })}
-                trailing={<Icon name="arrow" size={18} decorative />}
+                trailing={
+                  <Text variant="title" color={theme.semantic.text.secondary}>
+                    {I18nManager.isRTL ? '‹' : '›'}
+                  </Text>
+                }
                 onPress={onKeepText}
                 label={t({
                   id: 'setup.addMustDo.keepA11y',
