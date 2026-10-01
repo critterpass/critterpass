@@ -56,6 +56,10 @@ msgstr "{rooms} phòng. Ghép cặp như ở {first}."
 msgid "setup.rooms.estimate"
 msgstr "Khoảng {estimate} một phòng một đêm, ước tính"
 
+#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
+msgid "setup.rooms.estimateQuoted"
+msgstr "Khoảng {estimate} một phòng một đêm, ước tính (tính bằng {code})"
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.stay.apartment"
 msgstr "Căn hộ"

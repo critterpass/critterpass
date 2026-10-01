@@ -86,6 +86,10 @@ msgid "setup.budget.bars.missingLine"
 msgstr "Chưa có giá vé bay và chỗ ở cho những ngày này. Phần chia sẽ hiện khi có giá."
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
+msgid "setup.budget.bars.noFlights"
+msgstr "Vé bay cho những ngày này chưa có giá. Phần này gồm chỗ ở, ăn uống và vui chơi."
+
+#: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx
 msgid "setup.budget.bars.food"
 msgstr "Ăn uống"
 

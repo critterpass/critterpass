@@ -56,6 +56,10 @@ msgstr ""
 msgid "setup.rooms.estimate"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
+msgid "setup.rooms.estimateQuoted"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.stay.apartment"
 msgstr ""

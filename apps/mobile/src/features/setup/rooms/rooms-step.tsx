@@ -8,7 +8,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { isSkippable } from '@cp/domain';
-import { format } from '@cp/i18n';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -21,27 +20,14 @@ import {
   setSetupStepCommand,
   setStayChoiceCommand,
 } from '../data/commands';
+import { useCrewMoney } from '../data/crew-money';
 import type { StepProps } from '../shell/frame';
 import type { RoomChipKey } from './copy';
-import { moveGuest, perPersonPrice, roomsPayload, type PlanStay } from './model';
+import { estimateOf, moveGuest, perPersonPrice, roomsPayload, type PlanStay } from './model';
 import { fractionDigits } from './price-line';
-import { useRoomsData, type StayRateRow } from './rooms-data';
+import { useRoomsData } from './rooms-data';
 import { RoomsView, type RoomsModel, type RoomsNotice } from './rooms-view';
 import type { StayOption } from './stay-picker';
-
-function estimateOf(locale: string, row: StayRateRow): string {
-  const scale = 10 ** fractionDigits(row.currency);
-  const money = (minor: number) =>
-    format.number(locale, Math.round(minor / scale), {
-      style: 'currency',
-      currency: row.currency,
-      currencyDisplay: 'narrowSymbol',
-      maximumFractionDigits: 0,
-    });
-  const low = money(row.nightly_minor_low);
-  const high = money(row.nightly_minor_high);
-  return low === high ? low : `${low}–${high}`;
-}
 
 /** Room chips after a tap: "don't care" stands alone, at most four. */
 export function toggleChip(chips: readonly RoomChipKey[], chip: RoomChipKey): RoomChipKey[] {
@@ -53,6 +39,7 @@ export function toggleChip(chips: readonly RoomChipKey[], chip: RoomChipKey): Ro
 export function RoomsStep({ trip, shell }: StepProps) {
   const locale = useLocale();
   const data = useRoomsData(trip.tripId, trip.me);
+  const crewMoney = useCrewMoney(trip.tripId);
   const assign = useCommand(setRoomAssignmentCommand);
   const lock = useCommand(lockRoomsCommand);
   const step = useCommand(setSetupStepCommand);
@@ -102,7 +89,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
 
   const stays: StayOption[] = data.stays.map((row) => ({
     type: row.stay_type,
-    estimate: estimateOf(locale, row),
+    ...estimateOf(locale, row, crewMoney),
   }));
   const currency = plan?.currency ?? null;
   const facts = {
