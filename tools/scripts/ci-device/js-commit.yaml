@@ -4,15 +4,17 @@ appId: app.critterpass.dev
 # run (the commit inlined as EXPO_PUBLIC_JS_COMMIT, shown by the Developer tools build marker) and
 # not an embedded or published bundle from another commit. Run with `-e JS_COMMIT=<short sha>`.
 # Always the first flow on a fresh simulator, so the app starts from a clean install.
-- launchApp
-- extendedWaitUntil:
-    visible:
-      id: 'dev-tools-entry'
-    timeout: 90000
-# On a slow runner a tap during the splash's entrance can land before the entry responds; retry it.
+# Launched again on each try: on a slow runner the emulator's launcher can still be starting when
+# the first launch lands, the app's window gets no input focus, and every tap is dropped until the
+# app is brought forward again (the shard's later flows, which launch it themselves, are fine).
 - retry:
     maxRetries: 2
     commands:
+      - launchApp
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-tools-entry'
+          timeout: 90000
       - tapOn:
           id: 'dev-tools-entry'
       - extendedWaitUntil:

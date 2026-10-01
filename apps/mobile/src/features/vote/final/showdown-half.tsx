@@ -1,7 +1,8 @@
 /**
  * One side of the showdown: the place's name over its colour, the guide's line from the pitch, the
- * tool chips (flight hours, price each, best months) and who voted for it. The viewer's side wears
- * a ring; choosing it squashes the half from the VS edge.
+ * tool chips (flight hours, price each, best months) and who voted for it, with the guide's pale
+ * silhouette wiggling beside them. The viewer's side wears a ring; choosing it squashes the half
+ * from the VS edge.
  */
 import { tokens } from '@cp/design-tokens';
 import type { MediaAsset } from '@cp/domain';
@@ -15,13 +16,12 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { bezierEasing, useMotionMode } from '@/motion';
+import { bezierEasing, useLoop, useMotionMode } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { MediaLayer } from '@/ui/media/MediaLayer';
 import { AvatarStack } from '@/ui/people/AvatarStack';
-import { LiveSticker } from '@/ui/people/LiveSticker';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
@@ -29,13 +29,18 @@ import type { BoardPlace } from '../data/use-board';
 import type { usePitchSections } from '../data/use-final';
 import { stackOf, type Person } from '../data/use-people';
 import type { PollOptionView } from '../data/poll-view';
-import { flightHours, guideOr, money, monthShort, upper } from '../format';
-import { NAME_FLOOR, useNameMeasure, type NameMeasure } from './showdown-name-fit';
+import { guideOr, upper } from '../format';
+import { ShowdownFacts } from './showdown-facts';
+import type { NameMeasure } from './showdown-name-fit';
+import { Wordmark } from './wordmark';
 
-/** Widest a half's pitch card grows; the faded critter sits in the rest of its row. */
+/** The size the render sets a finalist's name at. */
+const NAME_SIZE = 138;
+/** Widest the guide's line grows; the guide's silhouette sits in the rest of the half. */
 const COLUMN = '62%';
-/** The faded critter beside each pitch card. */
-const GHOST_SIZE = 120;
+/** The guide's silhouette beside its line and chips. */
+const GHOST_SIZE = 136;
+const GHOST_OPACITY = 0.45;
 
 /** Showdown stacks show this many voters before "+n" (boosted crews reach sixteen). */
 const MAX_AVATARS = 16;
@@ -87,17 +92,15 @@ const useStyles = makeStyles((th) => ({
   // for the bottom one under the VS disc, which the display name's own leading already clears.
   top: { paddingBottom: sizeToken(th.size.fab, 'size') / 2 + th.space['16'] },
   bottom: { paddingTop: th.space['8'] },
-  // Under the name (drawn before it) and beside the pitch card, clear of the chips below.
-  pitchRow: { alignSelf: 'stretch', zIndex: -1 },
-  ghostSlot: { flex: 1, alignSelf: 'stretch' },
+  // The guide's line, the chips and the voters, with the guide's silhouette behind them.
+  pitch: { alignSelf: 'stretch', gap: th.space['10'] },
   ghost: {
     position: 'absolute',
     top: '50%',
-    marginTop: -GHOST_SIZE / 2,
-    opacity: 0.35,
+    marginTop: -GHOST_SIZE / 2 - th.space['16'],
+    opacity: GHOST_OPACITY,
   },
   quote: {
-    flexShrink: 1,
     maxWidth: COLUMN,
     backgroundColor: th.semantic.bg.raised,
     borderRadius: th.radius.lg,
@@ -110,64 +113,6 @@ const useStyles = makeStyles((th) => ({
   },
 }));
 
-function Facts({
-  option,
-  sectionsOf,
-  alignEnd,
-}: {
-  readonly option: PollOptionView;
-  readonly sectionsOf: ReturnType<typeof usePitchSections>;
-  readonly alignEnd: boolean;
-}) {
-  const { t, i18n } = useLingui();
-  const sections = option.pitchId === null ? undefined : sectionsOf.get(option.pitchId);
-  const locale = i18n.locale;
-  const chips = (sections?.chips ?? []).flatMap((chip) => {
-    switch (chip.kind) {
-      case 'flight':
-        return [
-          upper(
-            t({ id: 'vote.showdown.flight', message: `${flightHours(chip.minutes)}h flight` }),
-            locale,
-          ),
-        ];
-      case 'price':
-        return [
-          upper(
-            t({
-              id: 'vote.showdown.each',
-              message: `${money(locale, chip.amount_minor, chip.currency)} each`,
-            }),
-            locale,
-          ),
-        ];
-      case 'best_months':
-        return [
-          upper(
-            t({
-              id: 'vote.showdown.best',
-              message: `Best ${chip.months.map((m) => monthShort(locale, m)).join(' · ')}`,
-            }),
-            locale,
-          ),
-        ];
-      case 'event':
-      case 'prices_pending':
-        return [];
-    }
-  });
-  if (chips.length === 0) return null;
-  return (
-    <Row gap="6" wrap justify={alignEnd ? 'flex-end' : 'flex-start'}>
-      {chips.map((chip) => (
-        <InfoPill key={chip} variant="outline">
-          {chip}
-        </InfoPill>
-      ))}
-    </Row>
-  );
-}
-
 export function ShowdownHalf({
   option,
   place,
@@ -178,7 +123,7 @@ export function ShowdownHalf({
   onVote,
   squashKey,
   edgeInset,
-  nameCap,
+  nameScale,
   nameHidden,
   onNaturalHeight,
   onNameMeasure,
@@ -194,13 +139,13 @@ export function ShowdownHalf({
   readonly squashKey: number;
   /** Room kept at the half's outer edge: the screen header above the top half, the tally card below the bottom one. */
   readonly edgeInset: number;
-  /** The box the city name is set in (both halves at one shared size), or null at its designed size. */
-  readonly nameCap: number | null;
+  /** How much smaller than its own best fit the name is set (both halves share one size); 1 = not at all. */
+  readonly nameScale: number;
   /** The name is hidden while the screen searches for the size both names fit at. */
   readonly nameHidden: boolean;
   /** Reports the height the half's content needs, before it grows to share the screen. */
   readonly onNaturalHeight: (height: number) => void;
-  /** Reports the name's designed and current size. */
+  /** Reports the name's size at its best fit and now. */
   readonly onNameMeasure: (measure: NameMeasure) => void;
 }) {
   const styles = useStyles();
@@ -212,12 +157,8 @@ export function ShowdownHalf({
   const ink = theme.semantic.text.onAccent;
   const quote = option.pitchId === null ? null : (sectionsOf.get(option.pitchId)?.quote ?? null);
   const name = place?.name ?? option.label;
-  const nameFit = useNameMeasure(name, i18n.locale, nameCap);
-  const { designHeight, designWidth, designLine, height, split } = nameFit.measure;
-  useEffect(
-    () => onNameMeasure({ designHeight, designWidth, designLine, height, split }),
-    [designHeight, designWidth, designLine, height, split, onNameMeasure],
-  );
+  const wiggle = useLoop('wiggle', { offset: alignEnd ? 0.5 : 0 });
+  const index = alignEnd ? 1 : 0;
   const endPadding = alignEnd
     ? edgeInset
     : sizeToken(theme.size.fab, 'size') / 2 + theme.space['16'];
@@ -234,7 +175,7 @@ export function ShowdownHalf({
       accessibilityState={{ selected: option.mine, disabled: onVote === undefined }}
       onPress={onVote}
       style={styles.press}
-      testID={`showdown-half-${alignEnd ? 1 : 0}`}
+      testID={`showdown-half-${index}`}
     >
       <Animated.View
         style={[
@@ -257,64 +198,73 @@ export function ShowdownHalf({
           accent={place?.colour ?? theme.color.yellow}
           creditAt={alignEnd ? 'bottom' : 'top'}
           dots={false}
-          testID={`showdown-half-photo-${alignEnd ? 1 : 0}`}
+          testID={`showdown-half-photo-${index}`}
         />
-        <Text
-          variant="displayMega"
+        <Wordmark
+          name={upper(name, i18n.locale)}
+          designSize={NAME_SIZE}
           color={ink}
-          autoFit
-          {...(nameCap === null
-            ? {}
-            : {
-                autoFitMinSize: NAME_FLOOR,
-                style: {
-                  width: nameCap,
-                  textAlign: alignEnd ? 'right' : 'left',
-                  opacity: nameHidden ? 0 : 1,
-                },
-              })}
-          testID={`showdown-name-${alignEnd ? 1 : 0}`}
-          onLayout={nameFit.onLayout}
-          onTextLayout={nameFit.onTextLayout}
-        >
-          {upper(name, i18n.locale)}
-        </Text>
-        <View style={[styles.pitchRow, { flexDirection: alignEnd ? 'row-reverse' : 'row' }]}>
-          {quote === null ? null : (
-            <View style={styles.quote} accessible accessibilityLabel={`${guide.name}: ${quote}`}>
-              <Text variant="voice" color={tokens.guide[guideId]}>
-                {quote}
-              </Text>
-            </View>
-          )}
-          <View style={styles.ghostSlot} pointerEvents="none">
-            <View
-              style={[
-                styles.ghost,
-                alignEnd ? { left: -theme.space['16'] } : { right: -theme.space['16'] },
-              ]}
-            >
-              <LiveSticker kind={guide.kind} name={guide.name} size={GHOST_SIZE} drawOn={false} />
-            </View>
-          </View>
-        </View>
-        <Facts option={option} sectionsOf={sectionsOf} alignEnd={alignEnd} />
-        <Row
-          gap="8"
-          align="center"
-          testID={`showdown-votes-${alignEnd ? 1 : 0}`}
+          align={alignEnd ? 'end' : 'start'}
+          scale={nameScale}
+          hidden={nameHidden}
+          testID={`showdown-name-${index}`}
+          onMeasure={onNameMeasure}
+        />
+        <View
+          style={[styles.pitch, { alignItems: alignEnd ? 'flex-end' : 'flex-start' }]}
+          testID={`showdown-pitch-${index}`}
           onLayout={(event) => {
             const { y, height } = event.nativeEvent.layout;
             onNaturalHeight(y + height + endPadding);
           }}
         >
-          {option.voterIds.length > 0 ? (
-            <AvatarStack members={stackOf(people, option.voterIds)} size="md" max={MAX_AVATARS} />
-          ) : null}
-          <Text variant="title" color={ink}>
-            {upper(t({ id: 'vote.showdown.count', message: `${option.votes} votes` }), i18n.locale)}
-          </Text>
-        </Row>
+          {/* The opacity sits outside the wiggle, whose own frame sets one. */}
+          <View
+            style={[
+              styles.ghost,
+              alignEnd ? { left: -theme.space['8'] } : { right: -theme.space['8'] },
+            ]}
+            pointerEvents="none"
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            testID={`showdown-guide-${index}`}
+          >
+            <Animated.View style={wiggle}>
+              <Sticker
+                kind={guide.kind}
+                name={guide.name}
+                variant="mask"
+                maskColor={theme.color.paper.base}
+                sticker={null}
+                size={GHOST_SIZE}
+              />
+            </Animated.View>
+          </View>
+          {quote === null ? null : (
+            <View
+              style={styles.quote}
+              accessible
+              accessibilityLabel={`${guide.name}: ${quote}`}
+              testID={`showdown-quote-${index}`}
+            >
+              <Text variant="voice" color={tokens.guide[guideId]}>
+                {quote}
+              </Text>
+            </View>
+          )}
+          <ShowdownFacts option={option} sectionsOf={sectionsOf} alignEnd={alignEnd} />
+          <Row gap="8" align="center" testID={`showdown-votes-${index}`}>
+            {option.voterIds.length > 0 ? (
+              <AvatarStack members={stackOf(people, option.voterIds)} size="md" max={MAX_AVATARS} />
+            ) : null}
+            <Text variant="title" color={ink}>
+              {upper(
+                t({ id: 'vote.showdown.count', message: `${option.votes} votes` }),
+                i18n.locale,
+              )}
+            </Text>
+          </Row>
+        </View>
       </Animated.View>
     </Pressable>
   );

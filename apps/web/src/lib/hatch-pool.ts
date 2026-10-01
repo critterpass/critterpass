@@ -1,37 +1,32 @@
 /* eslint-disable lingui/no-unlocalized-strings -- design data constants, not JSX; see src/lib/guides.ts. */
-/** The "hatch an egg" preview pool — matches `hatchPool` in the coming-soon design script. */
+/** The "hatch an egg" preview pool — matches `hatchPool` in the coming-soon design script. Each
+ * local's one-line introduction is copy (`hatchLocalCopy`), keyed by the `id` here. */
 export interface HatchLocal {
   readonly no: number;
   readonly id: string;
   readonly num: string;
   readonly name: string;
   readonly city: string;
-  readonly place: string;
-  readonly species: string;
 }
 
-const RAW_POOL: readonly [number, string, string, string, string][] = [
-  [5, 'CHÉP', 'HỘI AN', 'Hội An', 'A lantern carp'],
-  [11, 'ROUCOU', 'PARIS', 'Paris', 'A pigeon in a beret'],
-  [21, 'PIZZA', 'NEW YORK', 'New York', 'A subway rat'],
-  [16, 'DRAC', 'BARCELONA', 'Barcelona', 'A mosaic salamander'],
-  [1, 'CỤ RÙA', 'HÀ NỘI', 'Hà Nội', 'A Hoàn Kiếm turtle'],
-  [23, 'LUCKY', 'LAS VEGAS', 'Las Vegas', 'A jackrabbit'],
-  [18, 'LINCE', 'SEVILLE', 'Seville', 'An Iberian lynx'],
-  [6, 'NGỰA', 'ĐÀ LẠT', 'Đà Lạt', 'A flower pony'],
+const RAW_POOL: readonly [number, string, string][] = [
+  [5, 'CHÉP', 'HỘI AN'],
+  [11, 'ROUCOU', 'PARIS'],
+  [21, 'PIZZA', 'NEW YORK'],
+  [16, 'DRAC', 'BARCELONA'],
+  [1, 'CỤ RÙA', 'HÀ NỘI'],
+  [23, 'LUCKY', 'LAS VEGAS'],
+  [18, 'LINCE', 'SEVILLE'],
+  [6, 'NGỰA', 'ĐÀ LẠT'],
 ];
 
-export const HATCH_POOL: readonly HatchLocal[] = RAW_POOL.map(
-  ([no, name, city, place, species]) => ({
-    no,
-    id: `cp-${String(no).padStart(3, '0')}`,
-    num: String(no).padStart(3, '0'),
-    name,
-    city,
-    place,
-    species,
-  }),
-);
+export const HATCH_POOL: readonly HatchLocal[] = RAW_POOL.map(([no, name, city]) => ({
+  no,
+  id: `cp-${String(no).padStart(3, '0')}`,
+  num: String(no).padStart(3, '0'),
+  name,
+  city,
+}));
 
 /** The pass-peek grid on the "collect the pass" feature card (`passPeek` in the design script). */
 const RAW_PASS_PEEK: readonly [number, boolean][] = [

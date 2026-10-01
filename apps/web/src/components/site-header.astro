@@ -1,12 +1,26 @@
 ---
 import '../styles/coming-soon.css';
+import { aroundSlot, formatNumber } from '../lib/coming-soon-strings';
+import { WAITLIST_BASE_COUNT } from '../lib/waitlist';
+import { comingSoonCopy as copy } from './site/copy/coming-soon';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+  /** Where the brand and the call to action lead: `/` or the language's own address. */
+  readonly homePath: string;
+}
+
+const { locale, homePath } = Astro.props;
+const t = await siteTranslator(locale);
+const [inLineBefore, inLineAfter] = aroundSlot(t, copy.inLine, 'count');
 ---
 
 <header class="cs-header">
   <div class="cs-header__inner">
-    <a href="/#join" class="cs-brand">
+    <a href={`${homePath}#join`} class="cs-brand">
       <img src="/favicon.svg" width="40" height="40" alt="" aria-hidden="true" />
-      <span class="cs-brand__word">CRITTERPASS</span>
+      <span class="cs-brand__word" lang="en">CRITTERPASS</span>
     </a>
     <div class="cs-header__right">
       <span class="cs-count-chip">
@@ -14,9 +28,9 @@ import '../styles/coming-soon.css';
           <span class="cs-ping__ring"></span>
           <span class="cs-ping__dot"></span>
         </span>
-        <span data-cs="header-count">500</span> IN LINE
+        <span>{inLineBefore}<span data-cs="header-count">{formatNumber(locale, WAITLIST_BASE_COUNT)}</span>{inLineAfter}</span>
       </span>
-      <a href="/#join" class="cs-cta" data-cs="nav-cta">JOIN THE WAITLIST</a>
+      <a href={`${homePath}#join`} class="cs-cta" data-cs="nav-cta">{t(copy.joinWaitlist)}</a>
     </div>
   </div>
 </header>

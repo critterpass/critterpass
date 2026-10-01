@@ -65,7 +65,26 @@ interface PlanRow {
   readonly starts_at: Date | null;
 }
 
-async function planItems(pool: pg.Pool, trip: QuestTrip, localDate: string) {
+/**
+ * When the crew can first be there on the trip's first date: the latest scheduled arrival of the
+ * trip's flights landing that day, or null on any other date or with no flight on file.
+ */
+export async function firstDayArrival(
+  tx: pg.PoolClient,
+  trip: QuestTrip,
+  localDate: string,
+): Promise<Date | null> {
+  if (localDate !== trip.start_date) return null;
+  const { start, end } = dayBounds(localDate, trip.tz);
+  const { rows } = await tx.query<{ at: Date | null }>(
+    `SELECT max(sched_arr_at) AS at FROM flight_segments
+      WHERE trip_id = $1 AND status <> 'cancelled' AND sched_arr_at >= $2 AND sched_arr_at < $3`,
+    [trip.id, start, end],
+  );
+  return rows[0]?.at ?? null;
+}
+
+async function planItems(pool: pg.Pool, trip: QuestTrip, localDate: string, arrival: Date | null) {
   if (trip.organiser_id === null) return [];
   const { start, end } = dayBounds(localDate, trip.tz);
   const rows = await withGuideReader(pool, trip.organiser_id, trip.id, async (tx) => {
@@ -81,6 +100,8 @@ async function planItems(pool: pg.Pool, trip: QuestTrip, localDate: string) {
   const items: QuestPlanItem[] = [];
   for (const row of rows) {
     if (seen.has(row.stable_id)) continue;
+    // A stop that starts before the crew lands is not theirs to chase today.
+    if (arrival !== null && row.starts_at !== null && row.starts_at <= arrival) continue;
     seen.add(row.stable_id);
     items.push({
       id: row.stable_id,
@@ -106,8 +127,9 @@ export async function loadQuestDay(
   pool: pg.Pool,
   trip: QuestTrip,
   localDate: string,
+  arrival: Date | null = null,
 ): Promise<QuestDay> {
-  const items = await planItems(pool, trip, localDate);
+  const items = await planItems(pool, trip, localDate, arrival);
   const facts = await withSystem(pool, async (tx) => {
     const { rows } = await tx.query<DayFacts>(
       `SELECT

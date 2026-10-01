@@ -15,6 +15,7 @@ jest.mock(
       .powersyncCommon,
 );
 
+// Loading the critters runtime pulls in most of the app's modules: a wide budget for slow runners.
 describe('crew quests registration', () => {
   it('joins the trip hub and the navigation registry when the critters runtime loads', async () => {
     const before = await renderHook(() => useRegisteredHubTiles());
@@ -25,5 +26,5 @@ describe('crew quests registration', () => {
     const tiles = (await renderHook(() => useRegisteredHubTiles())).result.current;
     expect(tiles.map((tile) => [tile.key, tile.order])).toEqual([['quests', 40]]);
     expect(isScreenRegistered('3l-7')).toBe(true);
-  });
+  }, 180_000);
 });

@@ -49,6 +49,17 @@ const MEMBERS_SQL = `
    WHERE p.trip_id = ? AND p.rsvp NOT IN ('out', 'waitlisted')
    ORDER BY coalesce(m.joined_epoch, 0), coalesce(m.created_at, p.created_at), p.user_id`;
 
+// A traveller is square once their ledger on the trip nets to zero in every currency.
+const UNSETTLED_SQL = `
+  SELECT DISTINCT member FROM (
+    SELECT member, currency, sum(delta) AS net FROM (
+      SELECT creditor_id AS member, currency, amount_minor AS delta
+        FROM ledger_entries WHERE trip_id = ?
+      UNION ALL
+      SELECT debtor_id, currency, -amount_minor FROM ledger_entries WHERE trip_id = ?
+    ) GROUP BY member, currency
+  ) WHERE net <> 0`;
+
 export interface QuestsData {
   readonly model: QuestsModel;
   readonly crewName: string;
@@ -85,6 +96,11 @@ export function useQuests(tripId: string | null): QuestsData {
     'users',
     'crew_members',
   ]);
+  const unsettled = useLiveRows<{ member: string }>(
+    UNSETTLED_SQL,
+    tripId === null ? null : [tripId, tripId],
+    ['ledger_entries'],
+  );
   const model = useMemo(
     () =>
       buildQuestsModel({
@@ -106,6 +122,7 @@ export function useQuests(tripId: string | null): QuestsData {
           name: row.name,
           joinIndex: index,
         })),
+        unsettled: unsettled.rows.map((row) => row.member),
         viewerId,
         now,
       }),
@@ -118,6 +135,7 @@ export function useQuests(tripId: string | null): QuestsData {
       progress.rows,
       signups.rows,
       members.rows,
+      unsettled.rows,
       viewerId,
       now,
     ],
