@@ -91,13 +91,16 @@ export function forgetCachedDraftForTests(): void {
   cachedSync = undefined;
 }
 
-export function clearDraftForTests(): void {
+/** Forgets the pass in progress, so the next account on this phone onboards from the start. */
+export function clearPassDraft(): void {
   storage.remove(DRAFT_KEY);
   storage.remove(SYNC_KEY);
   cachedDraft = undefined;
   cachedSync = undefined;
   notify();
 }
+
+export const clearDraftForTests = clearPassDraft;
 
 function subscribe(listener: () => void): () => void {
   listeners.add(listener);

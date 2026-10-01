@@ -5,6 +5,7 @@ import { DevSettings, ScrollView } from 'react-native';
 
 import { createDevSlots, type DevSlot } from '@/data/auth/dev-slots';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { clearPassDraft } from '@/features/onboarding';
 import { setOnboardingComplete } from '@/lib/links/pending';
 import { clearSavedNavigation } from '@/lib/navigation/restore';
 import { makeStyles, Scaffold, Stack, Text, useTheme } from '@/ui';
@@ -79,6 +80,7 @@ export default function DevAccountsScreen() {
       clearSavedNavigation();
       // A brand-new account onboards (name, guide, home) like a new phone; a kept one is past it.
       setOnboardingComplete(target !== null);
+      if (target === null) clearPassDraft();
       await reload();
     } catch (failure) {
       setError(failure instanceof Error ? failure.message : String(failure));
