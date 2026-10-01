@@ -1,9 +1,9 @@
 /**
  * When the visit consent sheet rises by itself: on a trip day, while the traveller has not
- * decided, at a calm moment on one of the trip's own screens, and once. "Not now" is remembered
- * on the device for good; after it the sheet only opens when the traveller asks for it (the
- * trip screen's row, or the Settings toggle). It never rises over a screen being read elsewhere,
- * over a ceremony, or over another sheet.
+ * decided, at a calm moment on the trip's own screen, and once. "Not now" is remembered on the
+ * device for good; after it the sheet only opens when the traveller asks for it (the trip
+ * screen's row, or the Settings toggle). It never rises on any other screen, over a ceremony,
+ * over another sheet, or while the traveller is typing.
  */
 import { useSyncExternalStore } from 'react';
 import { createMMKV } from 'react-native-mmkv';
@@ -14,9 +14,13 @@ import { createMMKV } from 'react-native-mmkv';
  */
 export const VISIT_CONSENT_CALM_MS = 4000;
 
-const TRIP_SURFACES = [/^\/trips$/u, /^\/trips\/[^/]+$/u, /^\/trips\/[^/]+\/day\/[^/]+$/u];
+const TRIP_SURFACES = [/^\/trips$/u, /^\/trips\/[^/]+$/u];
 
-/** The trips tab root, one trip's hub or its day-of screen, with no other route over it. */
+/**
+ * The trip's own screen with no other route over it: the trips tab root (the one trip's hub, or
+ * the switcher when there are several) and a trip's hub. Nothing else counts: not Home's other
+ * tabs, the wallet, a day-of screen with its pack list field, or any modal route.
+ */
 export function isTripSurfacePath(pathname: string): boolean {
   return TRIP_SURFACES.some((pattern) => pattern.test(pathname));
 }
@@ -27,13 +31,20 @@ export interface VisitConsentAskInput {
   readonly decided: boolean;
   /** "Not now" was answered on this device before. */
   readonly dismissed: boolean;
-  /** The app has rested in front on a trip screen with no sheet or rise over it. */
+  /** The app has rested in front on the trip's own screen (see `isTripSurfacePath`). */
   readonly restedOnTripSurface: boolean;
+  /** Right now a sheet or rise is up, a text field has focus or the keyboard is showing. */
+  readonly busy: boolean;
 }
 
+/** The gate: every condition must hold at the moment the sheet would rise. */
 export function shouldAskVisitConsent(input: VisitConsentAskInput): boolean {
   return (
-    input.tripDaySessionRunning && !input.decided && !input.dismissed && input.restedOnTripSurface
+    input.tripDaySessionRunning &&
+    !input.decided &&
+    !input.dismissed &&
+    input.restedOnTripSurface &&
+    !input.busy
   );
 }
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Keyboard, TextInput } from 'react-native';
 
 import {
   clearVisitConsentRequest,
@@ -23,12 +24,16 @@ export interface VisitConsentHostProps {
   readonly now?: () => number;
 }
 
-const somethingPresented = () => presentedDepth.value > 0;
+/** The traveller is in the middle of something: a sheet or rise is up, or they are typing. */
+const isBusy = () =>
+  presentedDepth.value > 0 ||
+  Keyboard.isVisible() ||
+  TextInput.State.currentlyFocusedInput() !== null;
 
 /**
  * Asks for visit detection once, at a calm moment: a trip day, nothing decided, "Not now" never
- * answered, the traveller resting on one of the trip's own screens with no sheet or ceremony over
- * it. After "Not now" the sheet opens only when asked for (the trip screen's row). Until the
+ * answered, the traveller resting on the trip's own screen with no sheet or ceremony over it and
+ * no text field in use. After "Not now" the sheet opens only when asked for (the trip screen's row). Until the
  * answer is "Turn on", no visit is recorded.
  */
 export function VisitConsentHost({ decided, onAnswer, now = Date.now }: VisitConsentHostProps) {
@@ -36,7 +41,7 @@ export function VisitConsentHost({ decided, onAnswer, now = Date.now }: VisitCon
   const requested = useVisitConsentRequested();
   const restedOnTripSurface = useRestedOnTripSurface({
     active: useAppActive(),
-    covered: somethingPresented,
+    busy: isBusy,
   });
   const [open, setOpen] = useState(false);
   const [answered, setAnswered] = useState(false);
@@ -47,6 +52,8 @@ export function VisitConsentHost({ decided, onAnswer, now = Date.now }: VisitCon
     decided,
     dismissed,
     restedOnTripSurface,
+    // Read again at the moment of asking: the rest may have ended well before the session ran.
+    busy: isBusy(),
   });
   const offered = shouldOfferVisitConsent({ tripDaySessionRunning, decided, dismissed });
 

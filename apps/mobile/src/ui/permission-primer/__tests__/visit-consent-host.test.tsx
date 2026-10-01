@@ -1,6 +1,6 @@
 /**
- * When the visit consent sheet rises by itself: on a trip day, at a calm moment on a trip screen,
- * never over another screen, a ceremony or a sheet, and once. The engine is the real one over a
+ * When the visit consent sheet rises by itself: on a trip day, at a calm moment on the trip's own
+ * screen, never on another screen, over a ceremony or a sheet, or while typing, and once. The engine is the real one over a
  * stand-in for the native session.
  */
 // Skia's native renderer does not exist under Jest; see test-support/skia-double for the stand-in.
@@ -16,13 +16,14 @@ jest.mock('expo-router', () => ({
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { ReactElement } from 'react';
-import { AppState } from 'react-native';
+import { AppState, Keyboard, TextInput } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import {
   createLocationEngine,
   isTripSurfacePath,
   setLocationEngine,
+  shouldAskVisitConsent,
   VISIT_CONSENT_CALM_MS,
   type LocationSessionPort,
 } from '@/lib/location';
@@ -108,13 +109,37 @@ afterEach(() => {
 });
 
 describe('visit consent host', () => {
-  it('knows the trip screens from everything else', () => {
-    expect(['/trips', `${HUB}`, `${HUB}/day/today`].every(isTripSurfacePath)).toBe(true);
+  it('knows the trip’s own screen from everything else', () => {
+    expect(['/trips', HUB].every(isTripSurfacePath)).toBe(true);
     expect(
-      ['/', '/pass', '/crew/abc', `${HUB}/plan`, '/hatch/abc', '/settings/account'].some(
-        isTripSurfacePath,
-      ),
+      [
+        '/',
+        '/pass',
+        '/wallet',
+        '/wallet/bookings/add',
+        '/crew/abc',
+        `${HUB}/day/today`,
+        `${HUB}/plan`,
+        '/hatch/abc',
+        '/settings/account',
+      ].some(isTripSurfacePath),
     ).toBe(false);
+  });
+
+  it('asks only when every condition holds at that moment', () => {
+    const calm = {
+      tripDaySessionRunning: true,
+      decided: false,
+      dismissed: false,
+      restedOnTripSurface: true,
+      busy: false,
+    };
+    expect(shouldAskVisitConsent(calm)).toBe(true);
+    expect(shouldAskVisitConsent({ ...calm, tripDaySessionRunning: false })).toBe(false);
+    expect(shouldAskVisitConsent({ ...calm, decided: true })).toBe(false);
+    expect(shouldAskVisitConsent({ ...calm, dismissed: true })).toBe(false);
+    expect(shouldAskVisitConsent({ ...calm, restedOnTripSurface: false })).toBe(false);
+    expect(shouldAskVisitConsent({ ...calm, busy: true })).toBe(false);
   });
 
   it('never rises over a screen that is not the trip’s own, however long the trip day runs', async () => {
@@ -172,6 +197,37 @@ describe('visit consent host', () => {
     expect(sheetUp()).toBe(true);
   });
 
+  it('waits while the traveller is typing: the keyboard up or a text field in focus', async () => {
+    mockPathname = HUB;
+    await engineOn(true);
+    await renderUi(tree());
+    const keyboard = jest.spyOn(Keyboard, 'isVisible').mockReturnValue(true);
+    await rest(3 * VISIT_CONSENT_CALM_MS);
+    expect(sheetUp()).toBe(false);
+    keyboard.mockReturnValue(false);
+    const focused = jest
+      .spyOn(TextInput.State, 'currentlyFocusedInput')
+      .mockReturnValue({} as ReturnType<typeof TextInput.State.currentlyFocusedInput>);
+    await rest(3 * VISIT_CONSENT_CALM_MS);
+    expect(sheetUp()).toBe(false);
+    focused.mockRestore();
+    keyboard.mockRestore();
+    await rest(VISIT_CONSENT_CALM_MS + 100);
+    expect(sheetUp()).toBe(true);
+  });
+
+  it('does not rise when the trip day starts while a sheet is already up over a rested hub', async () => {
+    mockPathname = HUB;
+    await engineOn(false);
+    await renderUi(tree());
+    await rest(2 * VISIT_CONSENT_CALM_MS);
+    // The hub has rested; a sheet opens over it, and only then does the trip day begin.
+    presentedDepth.value = 1;
+    await act(() => engineOn(true));
+    await rest(2 * VISIT_CONSENT_CALM_MS);
+    expect(sheetUp()).toBe(false);
+  });
+
   it('takes Turn on once and does not come back while the answer is on its way', async () => {
     mockPathname = HUB;
     await engineOn(true);
@@ -187,7 +243,7 @@ describe('visit consent host', () => {
 
   // Runs last: "Not now" is remembered on the device for the rest of this file.
   it('asks once: Not now is remembered, and the trip screen’s row brings the sheet back', async () => {
-    mockPathname = `${HUB}/day/today`;
+    mockPathname = HUB;
     await engineOn(true);
     const view = await renderUi(tree());
     expect(screen.queryByTestId('visit-consent-row')).toBeNull();
