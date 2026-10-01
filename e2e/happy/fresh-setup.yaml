@@ -27,7 +27,9 @@ appId: app.critterpass.dev
     file: subflows/pitch-place.yaml
     env:
       QUERY: 'lisbon'
-# One place on the board: the organiser locks it in, and it wins.
+# One place on the board: the organiser locks it in, and it wins. Home from a cold start: a link
+# opened over the place page would put Home on top of it, with a back into it.
+- stopApp
 - openLink: critterpass-dev://
 - scrollUntilVisible:
     element:
@@ -48,20 +50,23 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
-# Days by hand, whatever this phone's calendar already shared on the way in. The row sits under
-# the heatmap, behind the footer until it is scrolled to the middle.
-- scrollUntilVisible:
-    element:
-      id: 'own-calendar-action'
-    timeout: 10000
-    centerElement: true
-- waitForAnimationToEnd
-- tapOn:
-    id: 'own-calendar-action'
-- extendedWaitUntil:
-    visible:
-      id: 'calendar-by-hand'
-    timeout: 10000
+# Days by hand, whatever this phone's calendar already shared on the way in. The step re-lays
+# itself as the shared days sync, which can scroll the row away under a tap: try again then.
+- retry:
+    maxRetries: 3
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'own-calendar-action'
+          timeout: 10000
+          centerElement: true
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'own-calendar-action'
+      - extendedWaitUntil:
+          visible:
+            id: 'calendar-by-hand'
+          timeout: 10000
 - tapOn:
     id: 'calendar-by-hand'
 - extendedWaitUntil:
