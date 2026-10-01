@@ -198,6 +198,7 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
       <Dismissable>
         {(close) => (
           <ObjectionSheetView
+            guide="chava"
             guideName="Chà Vá"
             organiserName="Khanh"
             locale={LOCALE}
