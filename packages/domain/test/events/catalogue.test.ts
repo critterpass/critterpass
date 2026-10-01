@@ -116,6 +116,12 @@ const QUEST_PAYLOADS = {
     level: 2,
   },
 };
+const HELP_SHARE = {
+  trip_id: crypto.randomUUID(),
+  share_id: crypto.randomUUID(),
+  session_id: crypto.randomUUID(),
+};
+const SOS_REF = { trip_id: crypto.randomUUID(), sos_id: crypto.randomUUID() };
 
 const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string, unknown>> = {
   'crew.member_joined': { crew_id: crypto.randomUUID(), user_id: crypto.randomUUID() },
@@ -852,6 +858,36 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'profile.icon_unlocked': { user_id: crypto.randomUUID(), icon_id: 'pon', source: 'form_found' },
   'past_trip.added': { user_id: crypto.randomUUID(), past_trip_id: crypto.randomUUID() },
   'past_trip.removed': { user_id: crypto.randomUUID(), past_trip_id: crypto.randomUUID() },
+  'help_share.started': { ...HELP_SHARE, ends_at: '2026-10-01T10:00:00+07:00' },
+  'help_share.stopped': HELP_SHARE,
+  'help_share.extended': { ...HELP_SHARE, ends_at: '2026-10-01T11:00:00+07:00' },
+  'help_share.expired': HELP_SHARE,
+  'sos.triggered': { ...SOS_REF, crew_count: 4 },
+  'sos.stale': { ...SOS_REF, age_min: 14 },
+  'sos.escalated': SOS_REF,
+  'sos.responded': { ...SOS_REF, user_id: crypto.randomUUID(), state: 'coming' },
+  'sos.message': { ...SOS_REF, message_id: crypto.randomUUID(), sender_id: crypto.randomUUID() },
+  'sos.resolved': { ...SOS_REF, by: crypto.randomUUID(), false_alarm: false, alerted: true },
+  'help.clinic_requested': {
+    trip_id: crypto.randomUUID(),
+    session_id: crypto.randomUUID(),
+    task_id: crypto.randomUUID(),
+    details_consent: true,
+  },
+  'account.closed': {
+    user_id: crypto.randomUUID(),
+    deletion_id: crypto.randomUUID(),
+    instant: false,
+    source: 'app',
+  },
+  'account.restored': { user_id: crypto.randomUUID(), deletion_id: crypto.randomUUID() },
+  'account.purged': { deletion_id: crypto.randomUUID(), forced: false },
+  'trip.organiser_transferred': {
+    trip_id: crypto.randomUUID(),
+    from_id: crypto.randomUUID(),
+    to_id: null,
+    reason: 'account_closed',
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

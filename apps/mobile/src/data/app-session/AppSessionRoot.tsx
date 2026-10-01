@@ -11,6 +11,8 @@
  */
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
+import { setSessionReady } from '../../lib/navigation/restore';
+
 import { LocalFirstContext } from '../powersync/local-first-context';
 import type { ForegroundSource } from '../commands/drain-extension-outbox';
 import { usePushLifecycle, type PushLifecycleDeps } from '../push/use-push-lifecycle';
@@ -70,6 +72,9 @@ export function AppSessionRoot({ start, appState, onError, push, children }: App
       subscription.remove();
     };
   }, []);
+
+  // A cold start restores the last screen only once there is a database for it to read.
+  useEffect(() => setSessionReady(session !== null), [session]);
 
   return (
     <LocalFirstContext.Provider value={session?.localFirst ?? null}>

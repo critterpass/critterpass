@@ -8,7 +8,7 @@ msgstr ""
 "Language: en\n"
 
 #. placeholder {0}: whole(line.spentMinor)
-#. placeholder {1}: whole(line.plannedMinor)
+#. placeholder {1}: whole(plan(line.plannedMinor))
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.dayA11y"
 msgstr "{0} of {1} planned"
@@ -19,7 +19,7 @@ msgstr "{biggest} is the biggest cost left."
 
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
 msgid "money.review.title"
-msgstr "{count, plural, one {Tokek read # line} other {Tokek read # lines}}"
+msgstr "{count, plural, one {{guideName} read # line} other {{guideName} read # lines}}"
 
 #: ../../apps/mobile/src/features/money/add-expense/SplitEditorShares.tsx
 msgid "money.add.evenlyA11y"
@@ -40,6 +40,22 @@ msgstr "{editor} deleted it · {on}"
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.editedBy"
 msgstr "{editor} edited it · {on}"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.typeBody"
+msgstr "{guideName} fills in the prices it could read"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.eyebrow"
+msgstr "{guideName} got half of it"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.savedLine"
+msgstr "{guideName} reads it when you're back online. You can close this."
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.aimLine"
+msgstr "{guideName} snaps it when the paper is flat and still, then reads every line."
 
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.qrLabel"
@@ -93,7 +109,7 @@ msgstr "{payer} pays {payee}"
 
 #: ../../apps/mobile/src/features/money/settle/SettleList.tsx
 msgid "money.settle.netted"
-msgstr "{payments, plural, one {Tokek netted {expenses} expenses down to one payment.} other {Tokek netted {expenses} expenses down to # payments.}}"
+msgstr "{payments, plural, one {{guideName} netted {expenses} expenses down to one payment.} other {{guideName} netted {expenses} expenses down to # payments.}}"
 
 #: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
 msgid "money.budget.title"
@@ -256,6 +272,10 @@ msgstr "Cash"
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.category"
 msgstr "Category"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.changeAmount"
+msgstr "Change amount"
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.history"
@@ -443,7 +463,7 @@ msgstr "Heading for {deltaText} over."
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retakeBody"
-msgstr "Hold it on the table. Tokek will wait"
+msgstr "Hold it on the table. {guideName} will wait"
 
 #: ../../apps/mobile/src/features/money/settle/PayoutMethodsEditor.tsx
 #: ../../apps/mobile/src/features/money/settle/SettleList.tsx
@@ -491,6 +511,10 @@ msgid "money.detail.leftOut"
 msgstr "Left out"
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.missed"
+msgstr "Line items: {guideName} could not read them"
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedGlare"
 msgstr "Line items: lost in the glare"
 
@@ -501,10 +525,6 @@ msgstr "Line items: part of the paper is cut off"
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedFold"
 msgstr "Line items: the fold hides them"
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.missed"
-msgstr "Line items: Tokek could not read them"
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedBlur"
@@ -560,6 +580,7 @@ msgid "money.payout.field.mobile"
 msgstr "Mobile number"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+#: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailScreen.tsx
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 #: ../../apps/mobile/src/features/money/history/HistoryView.tsx
@@ -622,7 +643,7 @@ msgstr "Not {names}"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.empty"
-msgstr "Nothing spent yet. Add the first expense and Tokek keeps the tally."
+msgstr "Nothing spent yet. Add the first expense and {guideName} keeps the tally."
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.none"
@@ -685,7 +706,7 @@ msgstr "Other"
 msgid "money.add.out"
 msgstr "Out"
 
-#. placeholder {0}: whole(line.spentMinor - line.plannedMinor)
+#. placeholder {0}: whole(line.spentMinor - plan(line.plannedMinor))
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.overBy"
 msgstr "Over by {0}"
@@ -969,22 +990,6 @@ msgstr "Today"
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.today"
 msgstr "Today"
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.typeBody"
-msgstr "Tokek fills in the prices it could read"
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.eyebrow"
-msgstr "Tokek got half of it"
-
-#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
-msgid "money.scan.savedLine"
-msgstr "Tokek reads it when you're back online. You can close this."
-
-#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
-msgid "money.scan.aimLine"
-msgstr "Tokek snaps it when the paper is flat and still, then reads every line."
 
 #: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx
 msgid "money.pay.disputed"

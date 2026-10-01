@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "2c6e538f-0d4b-4a50-bd3d-3688a67dedc6",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"step_id\":\"lost.share_pin\",\"text\":\"Hãy chia sẻ vị trí của bạn để đội của bạn tìm được bạn nhé.\"},{\"step_id\":\"lost.stay_put\",\"text\":\"Cứ đứng yên tại chỗ, chọn nơi an toàn và dễ thấy.\"},{\"step_id\":\"lost.walk_back\",\"text\":\"Hoặc đi bộ về điểm dừng đã định gần nhất của bạn.\"},{\"step_id\":\"lost.phrase\",\"text\":\"Đưa họ xem: \\\"Saya tersesat.\\\" (I'm lost.).\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 147,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 640,
+        "output_tokens": 139,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,67 @@
+appId: app.critterpass.dev
+---
+# Release gate: splitting an expense by share. A fresh account takes the staging demo crew (a Bali
+# trip with four crewmates), types Rp 450.000 on the keypad and taps BY SHARE: the split switches
+# to it at the first tap, the keypad folds into CHANGE AMOUNT so every member row shows, and two
+# taps on + give the first crewmate three shares. ADD lands the expense in LATEST.
+- runFlow:
+    file: subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add-keypad'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'money-add-keypad-key-4'
+- tapOn:
+    id: 'money-add-keypad-key-5'
+- tapOn:
+    id: 'money-add-keypad-key-0'
+- tapOn:
+    id: 'money-add-keypad-key-000'
+# One tap on BY SHARE switches the split: its member rows show and the keypad folds away.
+- tapOn: 'BY SHARE'
+- extendedWaitUntil:
+    visible:
+      id: 'money-split-shares'
+    timeout: 5000
+- assertVisible:
+    id: 'money-add-keypad-open'
+- assertNotVisible:
+    id: 'money-add-keypad'
+- tapOn:
+    id: 'money-share-more-.*'
+    index: 1
+- tapOn:
+    id: 'money-share-more-.*'
+    index: 1
+- assertVisible:
+    id: 'money-share-count-.*'
+    text: '3'
+- waitForAnimationToEnd
+- takeScreenshot: by-share-selected
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: by-share-added

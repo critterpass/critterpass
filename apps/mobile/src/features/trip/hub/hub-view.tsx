@@ -1,43 +1,36 @@
 /**
- * The trip hub (3k-1) from props: header by phase, the next thing (today's item or the flight),
- * the guide's briefing, the tiles and the activity ticker. The lab scenes render it with fixed
+ * The trip hub (3k-1) from props: the header by phase, full-bleed from the top of the screen, then
+ * on one gutter the next thing (the first day, the flight, today's leave-by or stop), the guide's
+ * briefing and the tiles, and the activity ticker. The lab scenes render it with fixed
  * data; the screen feeds it synced rows.
  */
+import { tokens } from '@cp/design-tokens';
 import type { MediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import type { ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { useState, type ReactNode } from 'react';
+import { Animated, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { TextLink } from '@/ui/buttons/TextLink';
-import { Card } from '@/ui/cards/Card';
-import { InfoPill } from '@/ui/chips/InfoPill';
+import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
-import { Stack } from '@/ui/layout/Stack';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { Scaffold } from '@/ui/surface/Scaffold';
-import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { BriefingCard } from '../briefing/briefing-card';
 import type { BriefingLine, BriefingState } from '../briefing/briefing-model';
 import type { HubHeader } from './hub-model';
+import { NextRow, type HubNext } from './next-row';
 import { PhaseHeader } from './phase-header';
 import { Ticker, type TickerEvent } from './ticker';
 import { HubTiles } from './tiles';
 
-export interface HubNext {
-  readonly eyebrow: string;
-  readonly time: string;
-  readonly title: string;
-  readonly detail: string | null;
-  readonly tone: 'raised' | 'pink';
-  readonly onPress: () => void;
-}
+export type { HubNext } from './next-row';
 
 export interface HubViewProps {
   readonly state: 'loading' | 'ready';
@@ -55,12 +48,19 @@ export interface HubViewProps {
   readonly guideName: string;
   readonly guestGuide: boolean;
   readonly planning: { readonly label: string; readonly onPress: () => void } | null;
-  readonly next: HubNext | null;
+  /** What comes next in this phase, one compact row each. */
+  readonly entries: readonly HubNext[];
   readonly briefing: BriefingState;
   readonly onAct: (line: BriefingLine) => void;
   readonly tiles: readonly { key: string; node: ReactNode }[];
+  /** The way into Explore for the trip's destination, under the tiles; null without a place. */
+  readonly explore: HubNext | null;
+  /** The crew's place swipe for this trip, under Explore; null until that screen exists. */
+  readonly swipe: HubNext | null;
+  /** The "turn on visit memory" line under the entry rows (it draws itself only when undecided). */
+  readonly visitConsent?: ReactNode;
   readonly ticker: readonly TickerEvent[];
-  /** Another trip is under way or being planned: "Switch trip". */
+  /** Another trip is under way or being planned: the SWITCH TRIP pill. */
   readonly onSwitch: (() => void) | null;
   /** Replaces the header while offline (3k-4). */
   readonly offlineCard?: ReactNode;
@@ -68,43 +68,17 @@ export interface HubViewProps {
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, gap: th.space['16'] },
+  statusBar: {
+    position: 'absolute',
+    top: 0,
+    start: 0,
+    end: 0,
+    backgroundColor: th.semantic.bg.base,
+  },
 }));
 
-function NextCard({ next }: { readonly next: HubNext }) {
-  const theme = useTheme();
-  const locale = useLocale();
-  const ink = next.tone === 'pink' ? theme.semantic.text.onAccent : theme.semantic.text.primary;
-  return (
-    <Card
-      tone={next.tone}
-      halftone={next.tone === 'pink'}
-      onPress={next.onPress}
-      accessibilityLabel={[next.eyebrow, next.time, next.title, next.detail]
-        .filter(Boolean)
-        .join(', ')}
-      testID="trip-hub-next"
-    >
-      <Row gap="14" align="center">
-        <Stack gap="2" flex={1}>
-          <Text variant="eyebrow" color={ink}>
-            {upper(next.eyebrow, locale)}
-          </Text>
-          <Text variant="title" color={ink}>
-            {upper(next.title, locale)}
-          </Text>
-          {next.detail === null ? null : (
-            <Text variant="bodySm" color={ink}>
-              {next.detail}
-            </Text>
-          )}
-        </Stack>
-        <Text variant="h2" color={ink} style={{ fontVariant: ['tabular-nums'] }}>
-          {next.time}
-        </Text>
-      </Row>
-    </Card>
-  );
-}
+/** How far the hub scrolls before the status bar is back on solid ink. */
+const STATUS_BAR_FADE_PT = tokens.space['32'];
 
 export function HubView(props: HubViewProps) {
   // The hub is the TRIPS tab's own screen (3k-1 draws no back); a pushed one has Switch trip.
@@ -113,6 +87,9 @@ export function HubView(props: HubViewProps) {
   const theme = useTheme();
   const { t } = useLingui();
   const inset = useTabBarInset();
+  const insets = useSafeAreaInsets();
+  const locale = useLocale();
+  const [scrollY] = useState(() => new Animated.Value(0));
   const { guideName } = props;
   if (props.state === 'loading') {
     return (
@@ -125,48 +102,52 @@ export function HubView(props: HubViewProps) {
       </Scaffold>
     );
   }
+  const top = insets.top + theme.space['12'];
   return (
-    <Scaffold variant="dark" edges={['top']} testID="trip-hub">
-      <ScrollView
-        contentContainerStyle={{
-          paddingBottom: inset + theme.space['16'],
-          paddingTop: theme.space['12'],
-        }}
+    <Scaffold variant="dark" edges={[]} testID="trip-hub">
+      <Animated.ScrollView
+        contentContainerStyle={{ paddingBottom: inset + theme.space['16'] }}
+        scrollEventThrottle={16}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollY } } }], {
+          useNativeDriver: true,
+        })}
       >
-        <View style={styles.body}>
-          {props.onSwitch === null && !props.guestGuide ? null : (
-            <Row justify="space-between" align="center">
-              {props.guestGuide ? (
-                <InfoPill>
-                  {t({ id: 'trip.hub.guestGuide', message: `${guideName} is a guest here` })}
-                </InfoPill>
-              ) : (
-                <View />
-              )}
-              {props.onSwitch === null ? null : (
-                <TextLink
-                  label={t({ id: 'trip.hub.switch', message: 'Switch trip' })}
-                  onPress={props.onSwitch}
-                  testID="trip-hub-switch"
-                />
-              )}
+        {props.offlineCard === undefined ? (
+          <PhaseHeader
+            header={props.header}
+            now={props.now}
+            startDate={props.startDate}
+            endDate={props.endDate}
+            going={props.going}
+            destination={props.destination}
+            colour={props.colour}
+            media={props.heroMedia ?? null}
+            mediaLowData={props.mediaLowData ?? false}
+            planning={props.planning}
+            onSwitch={props.onSwitch}
+            guestGuideName={props.guestGuide ? guideName : null}
+          />
+        ) : null}
+        <View
+          style={[
+            styles.body,
+            { paddingTop: props.offlineCard === undefined ? theme.space['4'] : top },
+          ]}
+        >
+          {props.offlineCard === undefined || props.onSwitch === null ? null : (
+            <Row justify="flex-end">
+              <InlineAction
+                label={upper(t({ id: 'trip.hub.switch', message: 'Switch trip' }), locale)}
+                onPress={props.onSwitch}
+                testID="trip-hub-switch"
+              />
             </Row>
           )}
-          {props.offlineCard ?? (
-            <PhaseHeader
-              header={props.header}
-              now={props.now}
-              startDate={props.startDate}
-              endDate={props.endDate}
-              going={props.going}
-              destination={props.destination}
-              colour={props.colour}
-              media={props.heroMedia ?? null}
-              mediaLowData={props.mediaLowData ?? false}
-              planning={props.planning}
-              below={props.next === null ? null : <NextCard next={props.next} />}
-            />
-          )}
+          {props.offlineCard}
+          {props.offlineCard !== undefined
+            ? null
+            : props.entries.map((entry) => <NextRow key={entry.testID} next={entry} />)}
+          {props.offlineCard === undefined ? props.visitConsent : null}
           <BriefingCard
             state={props.briefing}
             guide={props.guide}
@@ -174,11 +155,28 @@ export function HubView(props: HubViewProps) {
             onAct={props.onAct}
           />
           {props.tiles.length === 0 ? null : <HubTiles tiles={props.tiles} />}
+          {props.explore === null ? null : <NextRow next={props.explore} />}
+          {props.swipe === null ? null : <NextRow next={props.swipe} />}
         </View>
         <View style={{ marginTop: theme.space['16'] }}>
           <Ticker events={props.ticker} />
         </View>
-      </ScrollView>
+      </Animated.ScrollView>
+      {/* The header runs under the status bar; once it scrolls away, the bar gets its ink back. */}
+      <Animated.View
+        pointerEvents="none"
+        style={[
+          styles.statusBar,
+          {
+            height: insets.top,
+            opacity: scrollY.interpolate({
+              inputRange: [0, STATUS_BAR_FADE_PT],
+              outputRange: [0, 1],
+              extrapolate: 'clamp',
+            }),
+          },
+        ]}
+      />
     </Scaffold>
   );
 }

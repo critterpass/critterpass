@@ -14,6 +14,9 @@ import { defineConfig, devices } from '@playwright/test';
 export const WEB_PORT = 4399;
 export const API_PORT = 4398;
 export const COMING_SOON_PORT = 4397;
+/** The same build answering as the staging host (its test app is on no store). */
+export const STAGING_PORT = 4396;
+export const STAGING_URL = `http://127.0.0.1:${STAGING_PORT}`;
 /** The front door as production serves it until launch: the coming-soon page and its waitlist. */
 export const COMING_SOON_URL = `http://127.0.0.1:${COMING_SOON_PORT}`;
 export const TEST_FINGERPRINT =
@@ -34,6 +37,14 @@ const serve = [
   `--var LINKS_API_BASE_URL:http://127.0.0.1:${API_PORT}`,
   `--var 'ANDROID_CERT_FINGERPRINTS:${fingerprints}'`,
   `--var OG_CACHE_SECRET:${TEST_OG_SECRET}`,
+].join(' ');
+// A second Worker from the same build, as a host other than production with no TestFlight link.
+const serveStaging = [
+  'exec pnpm exec wrangler dev -c dist/server/wrangler.json',
+  `--port ${STAGING_PORT} --ip 127.0.0.1 --inspector-port 0`,
+  '--persist-to .wrangler/staging-e2e/state',
+  '--var LINKS_ENV:staging',
+  `--var LINKS_API_BASE_URL:http://127.0.0.1:${API_PORT}`,
 ].join(' ');
 // The coming-soon Worker runs its own build (a coming-soon build leaves the rest of the site out),
 // with its own state folder and inspector port, so the two Workers never share a local database
@@ -75,7 +86,16 @@ export default defineConfig({
       reuseExistingServer: false,
       gracefulShutdown: { signal: 'SIGINT', timeout: 5_000 },
     },
-    // Started once the server above is up, so the two builds never run at the same time.
+    // Started once the server above is up: it serves that server's build.
+    {
+      command: serveStaging,
+      cwd: webRoot,
+      url: `${STAGING_URL}/`,
+      timeout: 120_000,
+      reuseExistingServer: false,
+      gracefulShutdown: { signal: 'SIGINT', timeout: 5_000 },
+    },
+    // Started once the servers above are up, so the two builds never run at the same time.
     {
       command: serveComingSoon,
       cwd: webRoot,

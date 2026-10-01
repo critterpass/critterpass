@@ -58,7 +58,7 @@ const outputSchema = z.object({
 function emergencyPrompt(unit: GenerationUnit): Prompt {
   const input = unit.input as CountryInput;
   return {
-    system: `You copy emergency phone numbers exactly as a source states them. Pick the most official source among the results (government, embassy or emergency service pages first) and list only numbers that source states, each with its service (${EMERGENCY_SERVICES.join(', ')}) and a short label such as "Ambulance, police, fire". Never add a number the source does not state. If no result states the numbers, return source_url null and no numbers. Reply with JSON only.`,
+    system: `You copy emergency phone numbers exactly as a source states them. Pick the most official source among the results (government, embassy or emergency service pages first) and list only numbers that source states, each with its service (${EMERGENCY_SERVICES.join(', ')}) and a short label such as "Ambulance, police, fire". Use "general" only for the one national number that reaches police, fire and ambulance (112, 911, 999, 000); a hotline that is none of the listed services (search and rescue, a helpline, a city's own line) is "other". Never add a number the source does not state. If no result states the numbers, return source_url null and no numbers. Reply with JSON only.`,
     user: `Country: ${input.name} (${input.country}).\nSearch results:\n${sourcesBlock(input.hits)}\n\nReturn {"source_url", "numbers": [...]}.`,
     schema: outputSchema,
     jsonSchema: {
@@ -129,6 +129,14 @@ export const emergencyKind: KindModule<'emergency'> = {
         severity: 'warn',
         check: (item) =>
           item.verified_at === null ? ['waits for a person to verify it against the source'] : [],
+      },
+      {
+        id: 'one-general-line',
+        severity: 'warn',
+        check: (item) =>
+          item.numbers.filter((n) => n.service === 'general').length > 1
+            ? ['several general lines: only an all-services number is general, the rest are other']
+            : [],
       },
     ],
     batch: [

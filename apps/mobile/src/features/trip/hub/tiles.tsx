@@ -3,6 +3,7 @@
  * (QUESTS). They sit on the render's two-column grid: four fill it 2×2, and an odd last tile keeps
  * its half width.
  */
+import { tokens } from '@cp/design-tokens';
 import { upper } from '@cp/i18n';
 import type { ReactNode } from 'react';
 import { useSyncExternalStore } from 'react';
@@ -17,6 +18,9 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+
+/** The smallest a tile's value gets: the card hero face's own floor (h3, 20). */
+const VALUE_MIN_SIZE = tokens.type.h3.fontSizeMin ?? 20;
 
 export interface HubTileData {
   readonly key: string;
@@ -59,7 +63,9 @@ export function HubTile({ tile }: { readonly tile: HubTileData }) {
           <Icon name={tile.icon} size={24} decorative color={ink} />
         </Row>
         <Stack gap="2">
-          <Text variant="h2" color={ink} autoFit>
+          {/* The value is one line, as designed: a longer one ("3 ĐANG MỞ", "+₫1.250.000") shrinks,
+              down to the smallest card hero size, instead of wrapping. */}
+          <Text variant="h2" color={ink} autoFit numberOfLines={1} autoFitMinSize={VALUE_MIN_SIZE}>
             {upper(tile.value, locale)}
           </Text>
           {tile.caption === null ? null : (

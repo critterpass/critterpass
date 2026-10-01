@@ -18,9 +18,10 @@ import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 import { useSharedSource, zoomTo } from '@/ui/transitions/use-shared-source';
 
+import { DashedRow } from './dashed-row';
 import type { GuideCellRow } from './data/home-queries';
 import { guideColour } from './format';
 import { homeRoutes } from './routes';
@@ -28,7 +29,6 @@ import { homeRoutes } from './routes';
 const CELL_HEIGHT = 132;
 const CELL_STICKER = 88;
 const COLUMNS = 3;
-const PLUS = 36;
 /** The render's flat grey guide silhouettes on the raised cell. */
 const SILHOUETTE = tokens.color.ink[400];
 
@@ -61,26 +61,6 @@ const useStyles = makeStyles((t) => ({
     paddingVertical: t.space['2'],
     borderRadius: t.radius.sm,
   },
-  elsewhere: {
-    minHeight: MIN_TOUCH_TARGET,
-    borderRadius: t.radius.cardBig,
-    borderWidth: 1.5,
-    borderStyle: 'dashed',
-    borderColor: t.color.divider,
-    padding: t.space['16'],
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: t.space['16'],
-  },
-  plus: {
-    width: PLUS,
-    height: PLUS,
-    borderRadius: PLUS / 2,
-    backgroundColor: t.semantic.bg.control,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  copy: { flex: 1, gap: t.space['2'] },
 }));
 
 export interface GuideCell {
@@ -173,27 +153,16 @@ export function FirstRunGrid({ cells, width }: FirstRunGridProps) {
           <Cell key={cell.guide} cell={cell} index={index} width={cellWidth} />
         ))}
       </View>
-      <Pressable
+      <DashedRow
         testID="home-somewhere-else"
-        accessibilityRole="button"
+        title={upper(t({ id: 'home.firstRun.elsewhere', message: 'Somewhere else' }), locale)}
+        body={t({
+          id: 'home.firstRun.elsewhereBody',
+          message: 'No guide there yet. Tokek will cover until one moves in.',
+        })}
+        mark={<Text variant="h3">+</Text>}
         onPress={openSearch}
-        style={styles.elsewhere}
-      >
-        <View style={styles.plus}>
-          <Text variant="h3">+</Text>
-        </View>
-        <View style={styles.copy}>
-          <Text variant="title">
-            {upper(t({ id: 'home.firstRun.elsewhere', message: 'Somewhere else' }), locale)}
-          </Text>
-          <Text variant="bodySm" color={theme.semantic.text.secondary}>
-            {t({
-              id: 'home.firstRun.elsewhereBody',
-              message: 'No guide there yet. Tokek will cover until one moves in.',
-            })}
-          </Text>
-        </View>
-      </Pressable>
+      />
     </View>
   );
 }

@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 
 import { compactNumber } from '@cp/cost-engine';
 
-import { formatShort, symbolTrails } from '../format';
+import { formatShort, formatWhole, heroParts, heroVariant, symbolTrails } from '../format';
 
 afterEach(() => {
   jest.restoreAllMocks();
@@ -48,5 +48,25 @@ describe('short money amounts', () => {
 
   it('leaves small amounts whole', () => {
     expect(formatShort(6_800n, 'USD', 'en')).toBe('US$68');
+  });
+});
+
+describe('the hero amount', () => {
+  it('steps its size down as the amount grows, so a total in đồng stays on the screen', () => {
+    expect(heroVariant({ whole: 4812, prefix: '$', suffix: '' })).toBe('displayHero');
+    expect(heroVariant(heroParts(350_000n, 'VND', 'en'))).toBe('displayHero');
+    expect(heroVariant(heroParts(1_600_000n, 'VND', 'en'))).toBe('displayXl');
+    expect(heroVariant(heroParts(10_600_000n, 'VND', 'en'))).toBe('displayXl');
+    expect(heroVariant(heroParts(126_000_000n, 'VND', 'en'))).toBe('h1');
+  });
+});
+
+describe('headline totals', () => {
+  it("print the symbol from the app's own table, never the code run into the digits", () => {
+    withoutCompactNotation();
+    expect(formatWhole(10_600_000n, 'VND', 'en')).toBe('₫10,600,000');
+    expect(formatWhole(10_600_000n, 'VND', 'vi')).toBe('10.600.000\u00a0₫');
+    expect(formatWhole(481_200n, 'USD', 'en')).toBe('US$4,812');
+    expect(formatWhole(-9_210n, 'USD', 'en')).toBe('−US$92');
   });
 });

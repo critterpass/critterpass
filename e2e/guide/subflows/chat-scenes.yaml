@@ -1,6 +1,7 @@
 appId: app.critterpass.dev
 ---
-# The guide sheet (3j-1) and its states, prefixed `${PREFIX}`.
+# The guide sheet (3j-1) and its states, prefixed `${PREFIX}`, in the lab list's own order (each
+# scene is found by scrolling down from the last).
 - runFlow:
     file: scene.yaml
     env: { SCENE: chat-group, READY: guide-plan-propose, SHOT: '${PREFIX}-3j-1-group' }
@@ -13,6 +14,9 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: chat-streaming, READY: guide-answer-live, SHOT: '${PREFIX}-3j-1-streaming' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: chat-checking, READY: guide-filler, SHOT: '${PREFIX}-3j-1-checking' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: chat-sources, READY: guide-sources, SHOT: '${PREFIX}-3j-1-sources' }
@@ -34,6 +38,3 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: chat-sent, READY: guide-plan-outcome, SHOT: '${PREFIX}-3j-1-sent' }
-- runFlow:
-    file: scene.yaml
-    env: { SCENE: chat-checking, READY: guide-filler, SHOT: '${PREFIX}-3j-1-checking' }

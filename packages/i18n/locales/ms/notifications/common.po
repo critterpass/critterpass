@@ -23,6 +23,10 @@ msgstr ""
 msgid "notifications.quests.ready.body"
 msgstr ""
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.title"
+msgstr ""
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
 msgstr ""
@@ -255,6 +259,10 @@ msgstr ""
 msgid "notifications.vote.closing.day"
 msgstr ""
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.title"
+msgstr ""
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.title"
 msgstr ""
@@ -263,8 +271,36 @@ msgstr ""
 msgid "notifications.crew_chat.title"
 msgstr ""
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.fell"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.lost"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.safe"
+msgstr ""
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.moved"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.need_ride"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.started"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.plain"
 msgstr ""
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
@@ -311,12 +347,12 @@ msgstr ""
 msgid "notifications.la.leave_by_be_at"
 msgstr ""
 
-#: ../domain/src/surfaces/la-copy.ts
-msgid "notifications.la.leave_by_be_there_start_title"
-msgstr ""
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title_be_there"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
 msgstr ""
 
 #: ../domain/src/bookings/templates.ts
@@ -361,6 +397,10 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.crew_close"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.false_alarm"
 msgstr ""
 
 #: ../domain/src/bookings/templates.ts
@@ -417,6 +457,10 @@ msgstr ""
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.timed_out"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.escalated"
 msgstr ""
 
 #: ../domain/src/plan/templates.ts

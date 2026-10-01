@@ -59,6 +59,22 @@ msgstr "Báo thức đang tắt trên điện thoại này. Chỉ reo trong ứn
 msgid "trip.dayOf.queued.notUp"
 msgstr "Ngủ tiếp"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.toToday"
+msgstr "Về hôm nay"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.beAtAirportBy"
+msgstr "Có mặt ở sân bay trước"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.beThereBy"
+msgstr "Có mặt trước"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.doneTitle"
+msgstr "Xong hôm nay"
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.allUpDetail"
 msgstr "Mọi người dậy hết rồi. Gặp nhau ở cổng nhé."
@@ -94,6 +110,10 @@ msgstr "Đã qua giờ xuất phát"
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.alarm.note.askAction"
 msgstr "Chuyển thành báo thức"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.nextUp"
+msgstr "Tiếp theo"
 
 #: ../../apps/mobile/src/features/trip/day-of/pack-chips.tsx
 msgid "trip.dayOf.pack.empty"
@@ -143,9 +163,17 @@ msgstr "Reo đúng phút"
 msgid "trip.dayOf.queued.snooze"
 msgstr "Đã báo lại báo thức giờ xuất phát"
 
+#: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
+msgid "trip.dayOf.done"
+msgstr "Hết lịch hôm nay rồi."
+
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.knocked"
 msgstr "Cả nhóm đã được nhắn gõ cửa {who}."
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.ringBeThereLateSpoken"
+msgstr "Đã quá giờ phải có mặt"
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-data.ts
 msgid "trip.dayOf.ticketsInBookings"
@@ -154,6 +182,18 @@ msgstr "Vé nằm trong Đặt chỗ"
 #: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
 msgid "trip.dayOf.ringToGo"
 msgstr "còn lại"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.tomorrow"
+msgstr "Ngày mai · {line}"
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.noTravel"
+msgstr "Chưa tính thời gian di chuyển."
+
+#: ../../apps/mobile/src/features/trip/day-of/day-of-copy.ts
+msgid "trip.dayOf.noTravelAirport"
+msgstr "Chưa tính thời gian di chuyển ra sân bay."
 
 #: ../../apps/mobile/src/features/trip/day-of/day-of-view.tsx
 msgid "trip.dayOf.back"

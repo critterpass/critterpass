@@ -1,0 +1,75 @@
+appId: app.critterpass.dev
+---
+# A brand-new account's first trip, with no demo seed, once it is confirmed: the crew of one locks
+# its trip in (../../happy/fresh-solo-confirm.yaml), then the TRIPS tab opens that trip's hub
+# before the trip. The header counts down over the destination, there is no SWITCH TRIP (one
+# trip), the first day's row is there, and with no briefing written for today the card settles on
+# the guide's own line instead of a skeleton. Captured again in Vietnamese.
+- runFlow: ../../happy/fresh-solo-confirm.yaml
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-pre'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'trip-briefing-none'
+    timeout: 15000
+- assertNotVisible:
+    id: 'trip-briefing-loading'
+- assertNotVisible:
+    id: 'trip-hub-switch'
+- assertVisible:
+    id: 'trip-hub-countdown'
+- assertVisible:
+    id: 'trip-hub-next'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-3k-1-fresh-pre-trip
+# The same hub in Vietnamese: the dev gallery switches the running app's language.
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 20000
+- tapOn:
+    id: 'dev-tools-entry'
+# The gallery sits below the developer tools' demo data and labs: scroll to it.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-gallery'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+# Back from the gallery lands on the developer tools list, one more back on Home.
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-gallery'
+    file: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'tab-trips'
+    timeout: 20000
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-pre'
+    timeout: 30000
+- assertVisible:
+    id: 'trip-briefing-none'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-3k-1-fresh-pre-trip

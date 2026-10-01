@@ -124,6 +124,10 @@ msgstr "Kết thúc"
 msgid "plan.day.item.everyone"
 msgstr "Cả nhóm"
 
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.costFree"
+msgstr "Miễn phí"
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.freeTitle"
 msgstr "Ngày tự do"

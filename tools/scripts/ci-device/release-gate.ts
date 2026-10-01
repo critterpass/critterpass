@@ -11,7 +11,8 @@
  * (a sped-up preview, a minute at most) and `<flow>-failure.png`, all with ffmpeg. The markdown
  * table embeds the GIFs and failure screens from --raw-url and links the MP4s under --blob-url:
  * both are where the media folder is published (the `screenshots` branch, see
- * publish-screenshots.sh).
+ * publish-screenshots.sh). A flow the run planned (IOS_MATRIX and ANDROID_MATRIX, see run-summary)
+ * that left no report is a failed row: its shard stopped before it.
  */
 import { spawnSync } from 'node:child_process';
 import {
@@ -25,7 +26,7 @@ import {
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
-import { readShards } from './run-summary';
+import { planFromEnv, readShards, type ShardPlan } from './run-summary';
 import { segmentFiles } from './screen-video';
 
 /** The shard's first flow, which only proves the app runs this run's JS. */
@@ -75,41 +76,62 @@ export function failedStep(log: string): string | undefined {
   return steps[0]?.[1]?.trim();
 }
 
-/** Every flow of every shard; the JS commit check is listed only when it failed. */
-export function readGateFlows(root: string): GateFlow[] {
-  if (!existsSync(root)) return [];
-  return readdirSync(root)
-    .filter((name) => /^device-(ios|android)-shard-\d+$/.test(name))
+/** What a planned flow with no report failed on. */
+export const NO_RESULT = 'no result: the shard stopped before this flow ran';
+
+/**
+ * Every flow of every shard, and every planned flow that left no report (failed); the JS commit
+ * check is listed only when it failed.
+ */
+export function readGateFlows(root: string, plan: ShardPlan = new Map()): GateFlow[] {
+  const uploaded = existsSync(root)
+    ? readdirSync(root).filter((name) => /^device-(ios|android)-shard-\d+$/.test(name))
+    : [];
+  const planned = [...plan.keys()].map((shard) => `device-${shard}`);
+  return [...new Set([...uploaded, ...planned])]
     .sort()
     .flatMap((shard) => {
       const shardDir = path.join(root, shard);
       const platform = shard.split('-')[1] ?? '';
       const junit = path.join(shardDir, 'junit');
-      if (!existsSync(junit)) return [];
-      return readdirSync(junit)
-        .filter((file) => file.endsWith('.xml'))
-        .map((file) => {
-          const slug = file.replace(/\.xml$/, '');
-          const result = parseJunit(readFileSync(path.join(junit, file), 'utf8'));
-          const log = path.join(shardDir, 'maestro', slug, 'maestro.log');
-          const step =
-            result.failure && existsSync(log) ? failedStep(readFileSync(log, 'utf8')) : undefined;
-          // Assertions name their element already; other failures (a driver timeout) need the step.
-          const bare =
-            result.failure === undefined ||
-            /^(Assertion is false|Element not found)/.test(result.failure);
-          const failure = step && !bare ? `${step}: ${result.failure ?? ''}` : result.failure;
-          return {
-            platform,
-            slug,
-            name: flowName(slug),
-            shardDir,
-            passed: result.passed,
-            seconds: result.seconds,
-            ...(failure === undefined ? {} : { failure }),
-          };
-        })
-        .filter((flow) => flow.slug !== JS_COMMIT_FLOW || !flow.passed);
+      const reports = existsSync(junit)
+        ? readdirSync(junit).filter((file) => file.endsWith('.xml'))
+        : [];
+      const ran = reports.map((file): GateFlow => {
+        const slug = file.replace(/\.xml$/, '');
+        const result = parseJunit(readFileSync(path.join(junit, file), 'utf8'));
+        const log = path.join(shardDir, 'maestro', slug, 'maestro.log');
+        const step =
+          result.failure && existsSync(log) ? failedStep(readFileSync(log, 'utf8')) : undefined;
+        // Assertions name their element already; other failures (a driver timeout) need the step.
+        const bare =
+          result.failure === undefined ||
+          /^(Assertion is false|Element not found)/.test(result.failure);
+        const failure = step && !bare ? `${step}: ${result.failure ?? ''}` : result.failure;
+        return {
+          platform,
+          slug,
+          name: flowName(slug),
+          shardDir,
+          passed: result.passed,
+          seconds: result.seconds,
+          ...(failure === undefined ? {} : { failure }),
+        };
+      });
+      const reported = new Set(ran.map((flow) => flow.slug));
+      const missing = (plan.get(shard.replace(/^device-/, '')) ?? [])
+        .map((flow) => flow.replace(/\//g, '__'))
+        .filter((slug) => !reported.has(slug))
+        .map((slug): GateFlow => ({
+          platform,
+          slug,
+          name: flowName(slug),
+          shardDir,
+          passed: false,
+          seconds: 0,
+          failure: NO_RESULT,
+        }));
+      return [...ran, ...missing].filter((flow) => flow.slug !== JS_COMMIT_FLOW || !flow.passed);
     })
     .sort((a, b) => a.name.localeCompare(b.name) || a.platform.localeCompare(b.platform));
 }
@@ -253,7 +275,8 @@ function main(): void {
       'Usage: release-gate <shards dir> --media <dir> --raw-url <url> --blob-url <url>',
     );
   mkdirSync(path.resolve(media), { recursive: true });
-  const rows = readGateFlows(path.resolve(root)).map((flow) => ({
+  const plan = planFromEnv();
+  const rows = readGateFlows(path.resolve(root), plan).map((flow) => ({
     flow,
     media: buildMedia(flow, path.resolve(media)),
   }));
@@ -262,7 +285,7 @@ function main(): void {
     blobUrl,
     ...(values['run-url'] ? { runUrl: values['run-url'] } : {}),
     ...(values.commit ? { commit: values.commit } : {}),
-    uiReports: readShards(path.resolve(root)).flatMap((shard) =>
+    uiReports: readShards(path.resolve(root), plan).flatMap((shard) =>
       [...shard.uiQa, ...shard.screenChecks].map((line) => `${shard.shard}: ${line}`),
     ),
   });

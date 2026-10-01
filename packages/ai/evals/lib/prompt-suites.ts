@@ -15,6 +15,7 @@ import { z } from 'zod';
 import { createGateway } from '../../src/client';
 import { personaIdSchema } from '../../src/persona/schema';
 import { writeCrewWelcome } from '../../src/prompts/crew-welcome/prompt';
+import { SCRIPT } from '../translate/suite';
 import { inferInviteTags } from '../../src/prompts/invite-tags/prompt';
 import { phraseTip, ungroundedTokens } from '../../src/prompts/tips/prompt';
 import { loadFixture } from '../../test/fixture-transport';
@@ -64,6 +65,8 @@ const crewWelcomeCase = z.object({
   crew: z.string().min(1),
   members: z.int().positive(),
   place: z.string().optional(),
+  /** The newcomer's app language; the line must come back in it. */
+  locale: z.string().optional(),
   forbid: z.array(z.string()).optional(),
 });
 
@@ -181,11 +184,14 @@ async function crewWelcome(raw: unknown, options: PromptRunOptions): Promise<Cas
     members: c.members,
     guide: c.guide,
     ...(c.place === undefined ? {} : { place: c.place }),
+    ...(c.locale === undefined ? {} : { locale: c.locale }),
   });
   const failures: string[] = [];
   if (result.source !== 'model') failures.push('template fallback answered');
   const first = c.newcomer.split(/\s+/u)[0] ?? c.newcomer;
   if (!result.line.includes(first)) failures.push(`no ${first}`);
+  const script = c.locale === undefined ? undefined : SCRIPT[c.locale];
+  if (script !== undefined && !script.test(result.line)) failures.push(`not in ${c.locale ?? ''}`);
   const lower = result.line.toLowerCase();
   const forbidden = (c.forbid ?? []).filter((word) => lower.includes(word.toLowerCase()));
   if (forbidden.length > 0) failures.push(`forbidden ${forbidden.join(', ')}`);

@@ -6,13 +6,16 @@ import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
+import { View } from 'react-native';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { toast } from '@/motion/island-toast';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
-import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
+import { Sheet } from '@/ui/sheet/Sheet';
+import { ConfirmSheet, type ConfirmSheetProps } from '@/ui/states/ConfirmSheet';
+import { makeStyles } from '@/ui/theme';
 import { EmptyState } from '@/ui/states/EmptyState';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Stack } from '@/ui/layout/Stack';
@@ -37,7 +40,8 @@ import { useTripMoney } from '../data/use-trip-money';
 import { toMajor } from '../format';
 import { editExpenseRoute } from '../routes';
 import { ExpenseDetailView, type DetailEdit, type DetailShare } from './ExpenseDetailView';
-import { canChangeExpense, changedFields, fxLine } from './model';
+import { canChangeExpense, changedFields, changesOf, fxLine } from './model';
+import { WalletGuideProvider } from '@/features/bookings';
 
 /** The expense was deleted (here or on another phone) while it was open. */
 function ExpenseGone() {
@@ -58,6 +62,22 @@ function ExpenseGone() {
         />
       </Stack>
     </Scaffold>
+  );
+}
+
+const useConfirmStyles = makeStyles((th) => ({
+  body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'] },
+}));
+
+/** The delete confirm, risen in a sheet over the tab bar. */
+function DeleteConfirm(props: ConfirmSheetProps) {
+  const styles = useConfirmStyles();
+  return (
+    <Sheet detents={['fit']} onDismiss={props.onCancel} accessibilityLabel={props.title}>
+      <View style={styles.body}>
+        <ConfirmSheet {...props} />
+      </View>
+    </Sheet>
   );
 }
 
@@ -101,7 +121,7 @@ export function ExpenseDetailScreen({ expenseId }: { readonly expenseId: string 
       name: memberName(ctx.members, share.user_id),
       crewMinor: minor(share.crew_computed_minor),
     }));
-  const history: DetailEdit[] = edits.rows.map((edit) => ({
+  const history: DetailEdit[] = changesOf(edits.rows).map((edit) => ({
     id: edit.id,
     editorName: memberName(ctx.members, edit.editor_id ?? ''),
     kind: edit.kind === 'deleted' ? 'deleted' : 'edited',
@@ -142,37 +162,39 @@ export function ExpenseDetailScreen({ expenseId }: { readonly expenseId: string 
   }
 
   return (
-    <>
-      <ExpenseDetailView
-        item={item}
-        crewCurrency={currency}
-        fx={fx}
-        shares={shares}
-        edits={history}
-        canChange={canChange}
-        onEdit={() => router.push(editExpenseRoute(expenseId))}
-        onDelete={() => setConfirming(true)}
-      />
-      {confirming ? (
-        <ConfirmSheet
-          title={t({ id: 'money.detail.deleteTitle', message: 'Delete this expense?' })}
-          consequences={[
-            t({
-              id: 'money.detail.deleteLedger',
-              message: 'Everyone’s balance goes back to how it was before it.',
-            }),
-            t({
-              id: 'money.detail.deleteHistory',
-              message: 'The crew still sees it in the history.',
-            }),
-          ]}
-          confirmLabel={upper(t({ id: 'money.detail.deleteConfirm', message: 'Delete' }), locale)}
-          mode="button"
-          onConfirm={() => void confirmDelete()}
-          onCancel={() => setConfirming(false)}
-          testID="money-delete-confirm"
+    <WalletGuideProvider tripId={ctx.trip?.id ?? null}>
+      <>
+        <ExpenseDetailView
+          item={item}
+          crewCurrency={currency}
+          fx={fx}
+          shares={shares}
+          edits={history}
+          canChange={canChange}
+          onEdit={() => router.push(editExpenseRoute(expenseId))}
+          onDelete={() => setConfirming(true)}
         />
-      ) : null}
-    </>
+        {confirming ? (
+          <DeleteConfirm
+            title={t({ id: 'money.detail.deleteTitle', message: 'Delete this expense?' })}
+            consequences={[
+              t({
+                id: 'money.detail.deleteLedger',
+                message: 'Everyone’s balance goes back to how it was before it.',
+              }),
+              t({
+                id: 'money.detail.deleteHistory',
+                message: 'The crew still sees it in the history.',
+              }),
+            ]}
+            confirmLabel={upper(t({ id: 'money.detail.deleteConfirm', message: 'Delete' }), locale)}
+            mode="button"
+            onConfirm={() => void confirmDelete()}
+            onCancel={() => setConfirming(false)}
+            testID="money-delete-confirm"
+          />
+        ) : null}
+      </>
+    </WalletGuideProvider>
   );
 }

@@ -1,0 +1,49 @@
+appId: app.critterpass.dev
+---
+# On the wallet's paste sheet: types ${output.paste} (a confirmation, ending in text that matches
+# ${output.pasteEnd}), sends it with READ IT and waits for the candidate the guide reads it into.
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-paste-field'
+    timeout: 15000
+# Android: the runner turns the soft keyboard off, so typed keys go straight into the field and no
+# keyboard panel is left over READ IT; it comes back after the send.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - evalScript: "${http.post('http://127.0.0.1:7788/keyboard?state=off', { body: '{}' }).status}"
+- tapOn:
+    id: 'bookings-paste-field'
+# Runner: types the confirmation on Android in short chunks; iOS types it with inputText.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - evalScript: "${http.post('http://127.0.0.1:7788/type', { body: output.paste }).status}"
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - inputText: ${output.paste}
+- extendedWaitUntil:
+    visible:
+      text: ${output.pasteEnd}
+    timeout: 300000
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- tapOn:
+    id: 'bookings-paste-send'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - evalScript: "${http.post('http://127.0.0.1:7788/keyboard?state=on', { body: '{}' }).status}"
+# The api queues the read; the candidate shows once the guide has read the confirmation.
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-candidate-.*-add'
+    timeout: 180000

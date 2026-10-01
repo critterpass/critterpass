@@ -25,7 +25,15 @@ const PRESS_DOWN_MS = 130;
 const RELEASE_MS = 420;
 const OVERSHOOT_SCALE = 1.035;
 /** "tap cancels past 8 pt". */
-const CANCEL_DISTANCE_PT = 8;
+export const PRESS_CANCEL_DISTANCE_PT = 8;
+/**
+ * A press fires on release however long the finger rested, as a native button's touch-up-inside
+ * does: the tap handler's own default gives up after 500 ms, which drops a deliberate, slow press
+ * (and any press on a device too busy to deliver the release in time). Only movement cancels it;
+ * a long-press or a drag on the same control still wins by activating first. An hour stands in
+ * for "no limit": the native handlers take a whole number of milliseconds.
+ */
+export const PRESS_MAX_DURATION_MS = 60 * 60 * 1000;
 
 export interface UsePressOptions {
   /** @default 'medium' */
@@ -55,7 +63,8 @@ export function usePress({
 
   const gesture = Gesture.Tap()
     .enabled(!disabled)
-    .maxDistance(CANCEL_DISTANCE_PT)
+    .maxDistance(PRESS_CANCEL_DISTANCE_PT)
+    .maxDuration(PRESS_MAX_DURATION_MS)
     .onBegin(() => {
       'worklet';
       scale.value = withTiming(targetScale, { duration: PRESS_DOWN_MS, easing: pressEasing });

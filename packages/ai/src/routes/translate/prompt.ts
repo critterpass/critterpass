@@ -19,7 +19,31 @@ export function translateLanguageName(locale: string): string {
   return name === undefined || name === locale ? locale : `${name} (${locale})`;
 }
 
-function task(language: string): string {
+/**
+ * The product's own words in a reader's language, where the founder has chosen one: `[what the
+ * English lines call it, the word to write]`. A language without an entry translates freely.
+ */
+export const TRANSLATE_GLOSSARY: Readonly<Record<string, readonly (readonly [string, string])[]>> =
+  {
+    vi: [
+      [
+        'the locals, local friends: the critters that live in a place, which travellers meet and befriend there',
+        'thổ địa',
+      ],
+    ],
+  };
+
+function glossary(locale: string): string[] {
+  const entries = TRANSLATE_GLOSSARY[locale] ?? [];
+  if (entries.length === 0) return [];
+  return [
+    "- The app's own words: when a line means one of these, write the word given, not a literal",
+    '  translation.',
+    ...entries.map(([meaning, word]) => `  - ${meaning} → ${word}`),
+  ];
+}
+
+function task(language: string, locale: string): string {
   return [
     '# Task',
     '',
@@ -29,8 +53,9 @@ function task(language: string): string {
     'say it.',
     '- Translate the meaning and keep your voice; do not translate word for word. Keep each line about',
     "  as long as the original and never longer than that line's `max` characters.",
-    '- A line marked `"title": true` is a heading shown on one line of a phone: write a title of about',
-    '  the same length as the original, shorter if you can, never a sentence.',
+    '- A line marked `"title": true` is a heading shown on one line of a phone, and its `max` is all',
+    '  the room that line has: count the characters. If the full meaning does not fit, say less (drop',
+    '  the second half of the heading) rather than run over. Never a sentence.',
     `- A place keeps its name as written unless it has a well-known name in ${language}: then use`,
     '  that name, the one a local reader knows it by (for a Vietnamese reader Marble Mountains is',
     '  Ngũ Hành Sơn and Hoi An is Hội An). If you are not sure a place has one, keep it as written.',
@@ -40,6 +65,7 @@ function task(language: string): string {
     '  with the same separators. Add no number the line does not have, and write a number as digits',
     '  only where the line does.',
     '- A local word from your own list stays as it is. Use no other words from a third language.',
+    ...glossary(locale),
     '- Say only what the line says. You are translating a finished line, so the rule about glossing',
     '  local words does not apply: add no gloss, no brackets, no explanation and no advice.',
     '- No emoji, no quotation marks around a line, no notes.',
@@ -61,7 +87,7 @@ export function buildTranslateRequest(input: TranslatePromptInput): GatewayInput
   return {
     system: [
       { type: 'text', text: renderPersonaBlock(input.pack) },
-      { type: 'text', text: task(language) },
+      { type: 'text', text: task(language, input.locale) },
     ],
     messages: [
       userTurnWithData(

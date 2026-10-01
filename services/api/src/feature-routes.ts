@@ -43,7 +43,9 @@ import { registerCritters } from './commands/critters';
 import { registerQuests } from './commands/quests';
 import { registerTripLifecycle } from './commands/trips/lifecycle';
 import { registerLiveActivities } from './commands/live-activities';
-import { registerMeAccountRoutes } from './routes/me-account';
+import { guardClosedAccounts } from './account/closed-guard';
+import { registerAccount } from './account/register';
+import { registerSafety } from './commands/safety';
 
 /** The command doors as the api boots them: its own Redis client and logger. */
 export interface ApiCommandDoors extends CommandDoorDeps {
@@ -65,7 +67,9 @@ export interface FeatureRouteDeps {
  * registration line here; index.ts keeps the boot (env, pools, auth, jobs, console, shutdown).
  */
 export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRouteDeps): void {
-  const { env, doors, keyring } = deps;
+  const { env, keyring } = deps;
+  // A closed account may only restore itself, whichever door it knocks on.
+  const doors = { ...deps.doors, registry: guardClosedAccounts(deps.doors.registry) };
   const { pool, redis, logger } = doors;
   registerBilling({ app, commands: doors.registry, pool: doors.pool, logger: doors.logger });
   registerCommandRoute(app, doors);
@@ -82,6 +86,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerQuests(doors);
   registerTripLifecycle(doors);
   registerLiveActivities(doors);
+  registerSafety(app, doors, env, keyring);
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerTravelDataRoutes(app, doors);
   if (env.MEDIA_PUBLIC_BASE_URL) {
@@ -118,7 +123,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
     logger.warn('Centrifugo proxies are disabled: RT_PROXY_SECRET is unset');
   }
   registerMediaRoutesFromEnv(app, doors, env);
-  registerMeAccountRoutes(app, doors);
+  registerAccount(app, { doors, auth: deps.auth, env, keyring });
 }
 
 function registerMediaRoutesFromEnv(

@@ -1,0 +1,11 @@
+# Crew SOS summary: what the sender typed or picked and where they are → one or two calm sentences
+# for the crew's takeover. Nothing added: no number, place, injury or severity the data does not
+# hold, no medical advice, no claim that anyone called emergency services; otherwise the sender's
+# own words stand. Cases live in cases.yaml and run through the real writeSosSummary (suite.ts).
+# Run: pnpm --filter @cp/ai eval sos
+description: Crew SOS summary worded only from the sender's words and place
+prompts:
+  - '{{text}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

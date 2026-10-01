@@ -32,6 +32,11 @@ export interface ComposerProps {
   readonly onHoldEnd?: () => void;
   /** A voice message is recording (mic shows active). */
   readonly recording?: boolean;
+  /**
+   * The bar sits on a raised surface (a sheet): the "+" and the field take the control colour, as
+   * the raised colour they wear on a page is the sheet's own.
+   */
+  readonly onRaised?: boolean;
   readonly testID?: string;
 }
 
@@ -61,7 +66,6 @@ const useStyles = makeStyles((th) => ({
     flex: 1,
     minHeight: MIN_TOUCH_TARGET + th.space['4'],
     borderRadius: MIN_TOUCH_TARGET,
-    backgroundColor: th.semantic.bg.raised,
     paddingHorizontal: th.space['16'],
     justifyContent: 'center',
   },
@@ -106,10 +110,12 @@ export function Composer({
   onHoldStart,
   onHoldEnd,
   recording = false,
+  onRaised = false,
   testID,
 }: ComposerProps) {
   const styles = useStyles();
   const theme = useTheme();
+  const fill = onRaised ? theme.semantic.bg.control : theme.semantic.bg.raised;
   const locale = useLocale();
   const { fontScale } = useThemeSettings();
   const token = TEXT_VARIANTS.bodyLg;
@@ -154,12 +160,12 @@ export function Composer({
           accessibilityLabel={t({ id: 'common.chat.addAttachment', message: 'Add attachment' })}
           onPress={onAttach}
           widthClass="narrow"
-          style={[styles.circle, { backgroundColor: theme.semantic.bg.raised }]}
+          style={[styles.circle, { backgroundColor: fill }]}
         >
           <Text variant="h3">+</Text>
         </PressScale>
       ) : null}
-      <View style={styles.field}>
+      <View style={[styles.field, { backgroundColor: fill }]}>
         <TextInput
           value={value}
           onChangeText={onChangeText}

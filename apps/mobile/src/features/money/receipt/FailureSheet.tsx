@@ -12,6 +12,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Grabber } from '@/ui/sheet/Grabber';
 import { ErrorSheet } from '@/ui/states/ErrorSheet';
 import { makeStyles, useTheme } from '@/ui/theme';
+import { useWalletGuide } from '@/features/bookings';
 
 import type { ReaderQualityIssue } from '../data/services';
 
@@ -45,6 +46,7 @@ export function FailureSheet(props: FailureSheetProps) {
   const insets = useSafeAreaInsets();
   const locale = useLocale();
   const { t } = useLingui();
+  const { name: guideName } = useWalletGuide();
   const total = props.total;
   const merchant = props.merchant ?? '';
   const each = props.each;
@@ -60,7 +62,10 @@ export function FailureSheet(props: FailureSheetProps) {
                 id: 'money.failure.missedCut',
                 message: 'Line items: part of the paper is cut off',
               })
-            : t({ id: 'money.failure.missed', message: 'Line items: Tokek could not read them' });
+            : t({
+                id: 'money.failure.missed',
+                message: `Line items: ${guideName} could not read them`,
+              });
   return (
     <View
       style={[styles.panel, { paddingBottom: insets.bottom + theme.space['8'] }]}
@@ -68,7 +73,10 @@ export function FailureSheet(props: FailureSheetProps) {
     >
       <Grabber />
       <ErrorSheet
-        eyebrow={upper(t({ id: 'money.failure.eyebrow', message: 'Tokek got half of it' }), locale)}
+        eyebrow={upper(
+          t({ id: 'money.failure.eyebrow', message: `${guideName} got half of it` }),
+          locale,
+        )}
         title={upper(t({ id: 'money.failure.title', message: 'The total, not the lines' }), locale)}
         facts={[
           {
@@ -87,7 +95,7 @@ export function FailureSheet(props: FailureSheetProps) {
             title: upper(t({ id: 'money.failure.type', message: 'Type the lines' }), locale),
             body: t({
               id: 'money.failure.typeBody',
-              message: 'Tokek fills in the prices it could read',
+              message: `${guideName} fills in the prices it could read`,
             }),
             onPress: props.onTypeLines,
           },
@@ -96,7 +104,7 @@ export function FailureSheet(props: FailureSheetProps) {
             title: upper(t({ id: 'money.failure.retake', message: 'Retake, flatter' }), locale),
             body: t({
               id: 'money.failure.retakeBody',
-              message: 'Hold it on the table. Tokek will wait',
+              message: `Hold it on the table. ${guideName} will wait`,
             }),
             onPress: props.onRetake,
           },

@@ -1,0 +1,11 @@
+appId: app.critterpass.dev
+---
+# The profile and Settings lab scenes in vi.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: vi
+- runFlow:
+    file: subflows/lab-shots.yaml
+    env:
+      LANG: vi

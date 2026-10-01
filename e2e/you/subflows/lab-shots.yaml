@@ -1,0 +1,32 @@
+appId: app.critterpass.dev
+---
+# Every profile lab scene (apps/mobile/src/features/you/dev/lab-scenes.tsx), from the splash of a
+# fresh install: the profile for a seasoned traveller (3n-1), a minute after onboarding, and while
+# loading, then Settings (3n-2). ${LANG} prefixes the screenshots so compare mode pairs each with
+# its render.
+- runFlow:
+    file: open-scene.yaml
+    env:
+      SCENE: '3n-1-profile'
+      ROOT: 'you-profile'
+- takeScreenshot: ${LANG}-3n-1-profile
+- runFlow: ../../screens/sweep/subflows/back.yaml
+- tapOn:
+    id: 'you-lab-3n-1-fresh'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-no-trips'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${LANG}-3n-1-fresh
+- runFlow: ../../screens/sweep/subflows/back.yaml
+- tapOn:
+    id: 'you-lab-3n-2-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${LANG}-3n-2-settings

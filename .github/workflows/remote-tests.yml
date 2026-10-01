@@ -37,11 +37,28 @@ jobs:
       - uses: actions/setup-node@v7
         with: { node-version: 26, cache: pnpm }
       - run: pnpm install --frozen-lockfile
-      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does.
-      - run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      # The worker's media and voice-note suites run the real ffmpeg, as the worker image does.
+      - name: Install ffmpeg
+        if: contains(inputs.package, 'worker')
+        timeout-minutes: 12
+        run: tools/scripts/install-ffmpeg.sh
       - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
         with:
           cache-prefix: turbo-node26_
+      # Database suites, and @cp/db's own (its `test` script), start Testcontainers: as in CI's
+      # database legs, pull their images first with retries, and build the test Postgres image once
+      # here instead of in the first files' hooks, all at once.
+      - name: Pull the suites' images
+        if: inputs.script == 'test:db' || inputs.package == '@cp/db'
+        timeout-minutes: 12
+        run: pnpm exec tsx tools/scripts/test-images.ts --pull
+      - name: Build the test Postgres image
+        if: inputs.script == 'test:db' || inputs.package == '@cp/db'
+        timeout-minutes: 10
+        env:
+          DEBUG: testcontainers:build # the build log, which Testcontainers otherwise drops
+          TESTCONTAINERS_RYUK_DISABLED: 'true' # the build starts no container to reap
+        run: pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
       - name: Run the suite
         env:
           PACKAGE: ${{ inputs.package }}

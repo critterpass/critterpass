@@ -21,6 +21,10 @@ msgstr ""
 msgid "bookings.candidate.split"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/add/ImportTiles.tsx
+msgid "bookings.add.copyAddressA11y"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.paidBy"
 msgstr ""
@@ -45,6 +49,38 @@ msgstr ""
 msgid "bookings.banner.mine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.lockedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.perk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.parsing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.connectingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.ping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.reminder"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/stack/deck-meta.ts
 msgid "bookings.card.nights"
 msgstr ""
@@ -67,6 +103,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.timeExample"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.arriveExample"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
@@ -462,6 +502,10 @@ msgid "bookings.flight.landed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.arrive"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.timeProblem"
 msgstr ""
 
@@ -562,6 +606,10 @@ msgstr ""
 msgid "bookings.insurance.privacy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.byHand"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.other"
 msgstr ""
@@ -625,6 +673,11 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.reading"
+msgstr ""
+
+#. placeholder {0}: pending.length
+#: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
+msgid "bookings.add.read"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/boarding-pass/BoardingPassScreen.tsx
@@ -744,38 +797,6 @@ msgstr ""
 msgid "bookings.form.to"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-msgid "bookings.mailbox.lockedLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-msgid "bookings.mailbox.perk"
-msgstr ""
-
-#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
-msgid "bookings.candidate.parsing"
-msgstr ""
-
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
-msgid "bookings.mailboxDone.connectingLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
-msgid "bookings.paste.offline"
-msgstr ""
-
-#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
-msgid "bookings.scan.offline"
-msgstr ""
-
-#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
-msgid "bookings.flight.ping"
-msgstr ""
-
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
-msgid "bookings.detail.reminder"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/detail/labels.ts
 msgid "bookings.kind.rail"
 msgstr ""
@@ -803,6 +824,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.failedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.zone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx

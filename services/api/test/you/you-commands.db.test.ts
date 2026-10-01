@@ -6,12 +6,12 @@
 import { generateUuidV7 } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { envelope, startYouHarness, type YouHarness } from './you-harness';
+import { envelope, startAccountHarness, type AccountHarness } from '../account/account-harness';
 
-let h: YouHarness;
+let h: AccountHarness;
 
 beforeAll(async () => {
-  h = await startYouHarness();
+  h = await startAccountHarness();
 }, 240_000);
 
 afterAll(async () => {

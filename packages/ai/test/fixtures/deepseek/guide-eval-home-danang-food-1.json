@@ -1,0 +1,44 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "ab01a538-3976-46a1-bb78-32cc9272e59b",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "One evening in Da Nang means one proper bowl of mì quảng and a walk along the beach after — that's the honest local order of operations. Let me check what's actually good and open near you."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_nkqz1NYN3kFLhnxko9Q34956",
+          "name": "web_search",
+          "input": {
+            "query": "Da Nang what to eat one evening local dishes best area"
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01_LsDSUY72wVBZXimxvzgY4219",
+          "name": "web_search",
+          "input": {
+            "query": "Da Nang street food evening spots 2025",
+            "recent": "year"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 215,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9472,
+        "output_tokens": 145,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

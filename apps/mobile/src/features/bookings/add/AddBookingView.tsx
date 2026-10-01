@@ -2,7 +2,8 @@
  * Add a booking (3h-2): ← BOOKINGS, ADD A BOOKING, the FORWARD / SCAN / PASTE tiles, the crew's
  * forward address with COPY, the bookings found in the crew's inboxes (the first open, the rest
  * compact; ADD slides a card up into the wallet, IGNORE slides it off), and Tokek's footnote about
- * the morning inbox check, or the way to switch it on.
+ * the morning inbox check, or the way to switch it on. Under the address a link opens the by-hand
+ * form (undesigned), for a booking with no confirmation to forward, scan or paste.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -27,6 +28,7 @@ import type { CandidateView } from '../candidates/candidate-model';
 import type { ScanState } from '../scan/use-booking-scan';
 import { AddressPill, ImportTiles, type ImportChannel } from './ImportTiles';
 import { useScanLine } from './scan-line';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -50,6 +52,8 @@ export interface AddBookingViewProps {
   readonly onAdd: (id: string) => void;
   readonly onIgnore: (id: string) => void;
   readonly onByHand: (id: string) => void;
+  /** Adding by hand with nothing read first. */
+  readonly onTypeIn: () => void;
   readonly onMailbox: () => void;
 }
 
@@ -61,7 +65,8 @@ export function AddBookingView(props: AddBookingViewProps) {
   const { t } = useLingui();
   const [motionMode] = useMotionMode();
   const scanLine = useScanLine(props.scan);
-  const tokek = GUIDE_STICKERS.tokek;
+  const guide = useWalletGuide();
+  const tokek = GUIDE_STICKERS[guide.id];
   const moving = motionMode !== 'off';
   const pending = props.candidates.filter((view) => view.state === 'pending');
   const firstPending = pending[0]?.id ?? null;
@@ -87,6 +92,13 @@ export function AddBookingView(props: AddBookingViewProps) {
         {props.address === null ? null : (
           <AddressPill address={props.address} onCopy={props.onCopy} />
         )}
+        {props.noTrip ? null : (
+          <TextLink
+            label={t({ id: 'bookings.add.byHand', message: 'Or type it in by hand' })}
+            onPress={props.onTypeIn}
+            testID="bookings-add-by-hand"
+          />
+        )}
         {props.noTrip ? (
           <Text variant="body" color={theme.semantic.text.secondary} testID="bookings-add-no-trip">
             {t({
@@ -100,10 +112,12 @@ export function AddBookingView(props: AddBookingViewProps) {
             {pending.length === 0 ? null : (
               <Text variant="eyebrow">
                 {upper(
-                  t({
-                    id: 'bookings.add.found',
-                    message: `Found in your crew’s inboxes · ${pending.length}`,
-                  }),
+                  pending.every((view) => view.broughtIn)
+                    ? t({ id: 'bookings.add.read', message: `Ready to add · ${pending.length}` })
+                    : t({
+                        id: 'bookings.add.found',
+                        message: `Found in your crew’s inboxes · ${pending.length}`,
+                      }),
                   locale,
                 )}
               </Text>
@@ -136,8 +150,8 @@ export function AddBookingView(props: AddBookingViewProps) {
           </Stack>
         )}
         <GuideLine
-          guide="tokek"
-          name={tokek.name}
+          guide={guide.id}
+          name={guide.name}
           line={
             props.mailboxConnected
               ? t({
@@ -150,7 +164,7 @@ export function AddBookingView(props: AddBookingViewProps) {
                   message: 'I can also check your inbox for new confirmations every morning.',
                 })
           }
-          sticker={<Sticker kind={tokek.kind} name={tokek.name} size={44} pose="point" />}
+          sticker={<Sticker kind={tokek.kind} name={guide.name} size={44} pose="point" />}
           testID="bookings-add-footnote"
         />
         {props.mailboxConnected ? null : (
