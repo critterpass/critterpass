@@ -5,7 +5,7 @@
  * setup opens once the trip is made, and a refusal shows why; offline, setup opens at once and
  * fills in when the trip lands.
  */
-import { errorMessageKey, generateUuidV7, type ErrorCode } from '@cp/domain';
+import { generateUuidV7 } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -71,16 +71,14 @@ export function SoloConfirm({
   );
 
   const refuse = useCallback(
-    (opId: string, code: string) => {
-      // The refusal's own copy (`errors.<code>`), as the "didn't go through" list reads it.
-      const reason = { id: errorMessageKey(code as ErrorCode), message: code };
+    (opId: string) => {
       toast.show({
         id: opId,
         title: t({ id: 'vote.solo.refused', message: "That didn't go through" }),
-        subtitle: i18n._(reason),
+        subtitle: t({ id: 'vote.solo.refusedBody', message: 'No trip was started. Try again.' }),
       });
     },
-    [i18n, t],
+    [t],
   );
 
   // Online, the trip opens once the server has made it (or says why not); offline it opens at once
@@ -90,7 +88,7 @@ export function SoloConfirm({
     if (waiting === null || settled.current === waiting.opId) return;
     if (outcome?.kind === 'rejected') {
       settled.current = waiting.opId;
-      refuse(waiting.opId, outcome.code);
+      refuse(waiting.opId);
     } else if (outcome?.kind === 'applied' || sync.phase === 'offline') {
       settled.current = waiting.opId;
       open(waiting.tripId);
@@ -106,7 +104,7 @@ export function SoloConfirm({
       solo: true,
       ...(crewId === undefined ? {} : { crew_id: crewId }),
     });
-    if (result.kind === 'rejected') refuse(result.opId, result.code);
+    if (result.kind === 'rejected') refuse(result.opId);
     else if (result.kind === 'queued') setWaiting({ opId: result.opId, tripId });
     else if (result.kind === 'applied') open(tripId);
   };
