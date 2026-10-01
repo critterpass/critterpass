@@ -178,7 +178,7 @@ beforeAll(async () => {
   );
   const poiId = await one(
     `INSERT INTO pois (destination_id, name, category, lat, lng)
-     VALUES ($1, 'Karsa Spa', 'wellness', $2, $3) RETURNING id`,
+     VALUES ($1, 'Karsa Spa', 'health', $2, $3) RETURNING id`,
     [destinationId, SPA.lat, SPA.lng],
   );
   const versionId = await one(
