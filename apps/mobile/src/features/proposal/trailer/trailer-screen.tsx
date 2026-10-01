@@ -28,7 +28,8 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { reactProposalCommand } from '../data/commands';
-import { dayRange } from '../data/format';
+import { clock, dayRange } from '../data/format';
+import { useStopTimes } from '../data/picks';
 import { useFindProposalTrip, useProposal, useReactions, useVersions } from '../data/proposal';
 import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
@@ -61,6 +62,7 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
   const trip = useProposalTrip(tripId);
   const versions = useVersions(proposal?.id ?? null);
   const reactions = useReactions(proposalId);
+  const stops = useStopTimes(tripId);
   const locale = useLocale();
   const react = useCommand(reactProposalCommand);
   const [quick, setQuick] = useState(false);
@@ -75,6 +77,13 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
     return <ProposalLoading testID="trailer-loading" />;
   }
   const info = GUIDE_STICKERS[trip.guide];
+  /** "Day 2 · 06:00" for a slide about a plan stop; the progress segments already say which slide. */
+  const stopLine = (itemId: string | null): string | null => {
+    const stop = itemId === null ? undefined : stops.get(itemId);
+    if (stop === undefined || stop.dayNo === null) return null;
+    const day = t({ id: 'proposal.version.day', message: `Day ${stop.dayNo}` });
+    return stop.startsAt === null ? day : `${day} · ${clock(locale, stop.startsAt, stop.tz)}`;
+  };
   const toVersion = () => router.replace(proposalRoutes.open(proposalId));
   const names = new Map(trip.people.map((p) => [p.uid, p.name]));
   const line = [
@@ -93,10 +102,7 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
           content: (
             <TrailerSlide
               guide={trip.guide}
-              eyebrow={t({
-                id: 'proposal.trailer.slide',
-                message: `${index + 1} of ${version.slides.length}`,
-              })}
+              eyebrow={stopLine(slide.item_id)}
               headline={slide.headline}
               body={slide.body}
             />

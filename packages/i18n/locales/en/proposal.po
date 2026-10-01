@@ -62,12 +62,6 @@ msgstr "{0} maybe go on the waitlist for a freed seat."
 msgid "proposal.tracker.noReply"
 msgstr "{0} no reply"
 
-#. placeholder {0}: index + 1
-#. placeholder {1}: version.slides.length
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
-msgid "proposal.trailer.slide"
-msgstr "{0} of {1}"
-
 #. placeholder {0}: props.organiserName
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.sub"
@@ -356,6 +350,8 @@ msgid "proposal.board.dates"
 msgstr "Dates"
 
 #. placeholder {0}: pick.dayNo
+#. placeholder {0}: stop.dayNo
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
 msgstr "Day {0}"
@@ -763,6 +759,10 @@ msgstr "Sent"
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.sent"
 msgstr "Sent {0}"
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.titleSeven"
+msgstr "Seven’s a crowd"
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
 msgid "proposal.out.resplit"

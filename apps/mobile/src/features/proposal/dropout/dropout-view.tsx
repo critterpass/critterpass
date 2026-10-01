@@ -5,7 +5,7 @@
  * moves until the organiser applies it.
  */
 import { t } from '@lingui/core/macro';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Toggle } from '@/ui/inputs/Toggle';
@@ -44,7 +44,17 @@ const useStyles = makeStyles((th) => ({
   },
   reply: { flexDirection: 'row', gap: th.space['10'], alignItems: 'center' },
   grow: { flex: 1 },
-  change: { gap: th.space['2'], paddingVertical: th.space['8'] },
+  change: { gap: th.space['2'], paddingVertical: th.space['10'] },
+  divided: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: th.semantic.border.decorative,
+  },
+  amounts: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'baseline',
+    columnGap: th.space['8'],
+  },
   struck: { textDecorationLine: 'line-through' },
   share: {
     backgroundColor: th.semantic.action.primary,
@@ -113,8 +123,8 @@ export function DropoutView(props: DropoutViewProps) {
               {t({ id: 'proposal.dropout.noChanges', message: 'Nothing shared changes.' })}
             </Text>
           ) : (
-            props.rows.map((row) => (
-              <View key={row.key} style={styles.change}>
+            props.rows.map((row, index) => (
+              <View key={row.key} style={[styles.change, index > 0 && styles.divided]}>
                 <Text variant="title">{row.title.toUpperCase()}</Text>
                 <Text variant="bodySm" color={theme.semantic.text.secondary}>
                   {row.before === null ? null : (
@@ -138,12 +148,14 @@ export function DropoutView(props: DropoutViewProps) {
               <Text variant="eyebrow" color={ink}>
                 {t({ id: 'proposal.dropout.share', message: 'Everyone’s share' })}
               </Text>
-              <Text variant="h1" color={ink}>
-                {props.share.after}{' '}
+              <View style={styles.amounts}>
+                <Text variant="h1" color={ink}>
+                  {props.share.after}
+                </Text>
                 <Text variant="bodySm" color={ink} style={styles.struck}>
                   {props.share.before}
                 </Text>
-              </Text>
+              </View>
             </View>
             <Text variant="label" color={ink}>
               {t({ id: 'proposal.dropout.each', message: `${props.share.each} each` })}

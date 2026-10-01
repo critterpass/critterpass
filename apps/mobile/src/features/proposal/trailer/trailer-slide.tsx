@@ -1,7 +1,8 @@
 /**
  * One trailer slide (3f-2): the guide's art card as the backdrop (licensed destination photos are
- * not in yet), the day line, the headline stamping in word by word, and the guide's line in the
- * voice face. Reduced motion shows the words at once.
+ * not in yet), the stop's day and time, the headline stamping in as one block (one text, so its
+ * wrapped lines keep the display leading), and the guide's line in the voice face. Reduced motion
+ * shows it at once.
  */
 import { View } from 'react-native';
 import Animated, { ZoomIn } from 'react-native-reanimated';
@@ -13,12 +14,9 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-const WORD_STAGGER_MS = 140;
-
 const useStyles = makeStyles((th) => ({
   slide: { flex: 1, justifyContent: 'flex-end', padding: th.space['20'], paddingBottom: 190 },
   art: { position: 'absolute', top: '22%', alignSelf: 'center', opacity: 0.35 },
-  words: { flexDirection: 'row', flexWrap: 'wrap', columnGap: th.space['8'] },
   body: { marginTop: th.space['8'] },
 }));
 
@@ -34,7 +32,6 @@ export function TrailerSlide({ guide, eyebrow, headline, body }: TrailerSlidePro
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
   const info = GUIDE_STICKERS[guide];
-  const words = headline.toUpperCase().split(/\s+/u).filter(Boolean);
   return (
     <View style={[styles.slide, { backgroundColor: theme.color.rust.darkened }]}>
       <View style={styles.art} importantForAccessibility="no-hide-descendants">
@@ -45,18 +42,11 @@ export function TrailerSlide({ guide, eyebrow, headline, body }: TrailerSlidePro
           {eyebrow}
         </Text>
       )}
-      <View style={styles.words}>
-        {words.map((word, index) => (
-          <Animated.View
-            key={`${index}-${word}`}
-            {...(reduced ? {} : { entering: ZoomIn.delay(WORD_STAGGER_MS * index) })}
-          >
-            <Text variant="displayXl" autoFit={false}>
-              {word}
-            </Text>
-          </Animated.View>
-        ))}
-      </View>
+      <Animated.View key={headline} {...(reduced ? {} : { entering: ZoomIn })}>
+        <Text variant="displayXl" autoFit={false} numberOfLines={4} accessibilityRole="header">
+          {headline.toUpperCase()}
+        </Text>
+      </Animated.View>
       {body === '' ? null : (
         <Text variant="voice" color={theme.semantic.action.primary} style={styles.body}>
           {body}

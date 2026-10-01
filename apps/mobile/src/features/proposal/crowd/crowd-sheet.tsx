@@ -4,6 +4,7 @@
  * the monetisation area offers it, and "Keep it at {cap}". Nobody joins by themselves: a freed
  * seat is offered to the next person waiting.
  */
+import { SEAT_CAP_FREE } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
@@ -46,7 +47,9 @@ export function CrowdSheet(props: CrowdSheetProps) {
           {t({ id: 'proposal.crowd.eyebrow', message: `${destination} · seat ${seat}` })}
         </Text>
         <Text variant="h1" accessibilityRole="header">
-          {t({ id: 'proposal.crowd.title', message: `${seat} is a crowd` })}
+          {cap === SEAT_CAP_FREE
+            ? t({ id: 'proposal.crowd.titleSeven', message: 'Seven’s a crowd' })
+            : t({ id: 'proposal.crowd.title', message: `${seat} is a crowd` })}
         </Text>
         <View style={styles.seats}>
           {props.seated.map((p) => (

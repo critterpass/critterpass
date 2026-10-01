@@ -1,5 +1,6 @@
 /** Proposal lab scenes for a trailer slide (3f-2), a dropout's change list (3f-7) and the crowd sheet (4f-1). */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { SEAT_CAP_FREE } from '@cp/domain';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
@@ -32,11 +33,24 @@ const dropout = (resolved: boolean) => (
   />
 );
 
+const seat = (uid: string, name: string, joinIndex: number) => ({
+  uid,
+  name,
+  fullName: `${name} Nguyen`,
+  joinIndex,
+  organiser: false,
+  rsvp: 'in' as RsvpStatus,
+  repliedAt: null,
+});
+
+/** A full free crew, so the sheet shows the designed case. */
+const seated = [...LAB_PEOPLE, seat('u-vy', 'Vy', 4), seat('u-bao', 'Bảo', 5)];
+
 const waiting = {
   uid: 'u-sam',
   name: 'Sam',
   fullName: 'Sam Nguyen',
-  joinIndex: 4,
+  joinIndex: 6,
   organiser: false,
   rsvp: 'waitlisted' as RsvpStatus,
   repliedAt: null,
@@ -47,7 +61,7 @@ export const DROPOUT_SCENES: Readonly<Record<string, () => ReactNode>> = {
     <View style={{ flex: 1 }} testID="lab-trailer-slide">
       <TrailerSlide
         guide="chava"
-        eyebrow="1 of 4"
+        eyebrow="Day 1 · 07:30"
         headline="Bà Nà before the crowds."
         body="First cable car up, and the Golden Bridge to ourselves."
       />
@@ -60,8 +74,8 @@ export const DROPOUT_SCENES: Readonly<Record<string, () => ReactNode>> = {
       {(close) => (
         <CrowdSheet
           destination="Đà Nẵng"
-          cap={4}
-          seated={LAB_PEOPLE}
+          cap={SEAT_CAP_FREE}
+          seated={seated}
           waiting={[waiting]}
           onBoost={null}
           onClose={close}

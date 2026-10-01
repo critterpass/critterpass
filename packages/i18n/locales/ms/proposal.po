@@ -62,12 +62,6 @@ msgstr ""
 msgid "proposal.tracker.noReply"
 msgstr ""
 
-#. placeholder {0}: index + 1
-#. placeholder {1}: version.slides.length
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
-msgid "proposal.trailer.slide"
-msgstr ""
-
 #. placeholder {0}: props.organiserName
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.sub"
@@ -356,6 +350,8 @@ msgid "proposal.board.dates"
 msgstr ""
 
 #. placeholder {0}: pick.dayNo
+#. placeholder {0}: stop.dayNo
+#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
 msgstr ""
@@ -762,6 +758,10 @@ msgstr ""
 #. placeholder {0}: instantDate(locale, proposal.sentAt)
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.sent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
+msgid "proposal.crowd.titleSeven"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-screen.tsx
