@@ -1,0 +1,93 @@
+appId: app.critterpass.dev
+---
+# A brand-new Vietnamese traveller reaches a destination guide: a fresh install in Vietnamese
+# onboards from Ho Chi Minh City (no crew, no trip, no saved places, no demo data), taps a guide on
+# Home's first-run grid and lands on that guide's destination page, read from staging. The page
+# shows its months, a tapped month answers with prices, a "no fares" line or the ask for a home
+# airport (never a blank panel), SAVE flips to saved, PITCH says a pitch needs a crew, and SOLO
+# TRIP asks before it starts anything.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: vi
+- runFlow:
+    file: ../home/subflows/onboard.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- extendedWaitUntil:
+    visible:
+      id: 'home-guide-pon'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'home-guide-pon'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-destination'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'explore-months'
+    timeout: 45000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: vi-3d-1-fresh-account
+- scrollUntilVisible:
+    element:
+      id: 'explore-month-4'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'explore-month-4'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-month-(prices|unavailable|no-airport)'
+    timeout: 45000
+- scrollUntilVisible:
+    element:
+      id: 'explore-month-(prices|unavailable|no-airport)'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: vi-3d-1-fresh-account-month
+- scrollUntilVisible:
+    element:
+      id: 'explore-save'
+    direction: UP
+    timeout: 10000
+- tapOn:
+    id: 'explore-save'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-save'
+      selected: true
+    timeout: 10000
+- tapOn:
+    id: 'explore-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-pitch-no-crew'
+    timeout: 10000
+- tapOn:
+    id: 'explore-solo'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-solo-confirm'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: vi-3d-1-fresh-account-solo
+- tapOn:
+    id: 'explore-solo-cancel'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-pitch'
+    timeout: 10000
+- tapOn:
+    id: 'explore-back'
+- extendedWaitUntil:
+    visible:
+      id: 'home-guide-pon'
+    timeout: 15000

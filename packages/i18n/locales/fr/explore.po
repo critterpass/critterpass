@@ -6,3 +6,287 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: fr\n"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.picks.title"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.unavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.hoursFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-bars.tsx
+msgid "explore.months.cheapest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-bars.tsx
+msgid "explore.months.barCheapest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
+msgid "explore.save.toast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.crewCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.stopsFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.moreCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.each"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.steady"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.noAirport"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.beach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.best"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.footnote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.sardiLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.picks.crewPlans"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.months.subtitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.directFrom"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.hero.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.food"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
+msgid "explore.hero.guestGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.health"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.offlineLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.market"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.museum"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.nature"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.nightlife"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.noFare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.unavailable"
+msgstr ""
+
+#. placeholder {0}: hero.name
+#. placeholder {1}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.limited.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
+msgid "explore.solo.refusedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.guestLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.busy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.cta.pitch"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.noCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.unsave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.seen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.setAirport"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.ponLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.shopping"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.cta.solo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
+msgid "explore.solo.started"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.start"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.stay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.temple"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
+msgid "explore.solo.refused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.offlineTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.transit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.line"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.limited.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.months.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.whichCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.homeLine"
+msgstr ""
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
+msgid "explore.hero.yourGuide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.trip"
+msgstr ""
