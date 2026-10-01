@@ -3,7 +3,10 @@
  * `uploadData` flushes its queue through. Ops run in order, each in its own transaction:
  * - business/validation rejects are recorded in `cmd_results` and the batch continues (2xx);
  * - the first transient failure stops the batch with 503 and `detail.first_unprocessed`, so the
- *   client retries from there; ops before it already committed and replay as `duplicate`.
+ *   client retries from there; ops before it already committed and replay as `duplicate`;
+ * - a command that hits a data or integrity error in Postgres (SQLSTATE class 22 or 23) can never
+ *   succeed on a retry: it is answered as rejected (INTERNAL, not retryable) and the batch goes on,
+ *   so one broken command never holds every later write on the phone behind it.
  */
 import { executeCommand } from '@cp/db';
 import { DomainError } from '@cp/domain';
@@ -76,6 +79,23 @@ function unusableEnvelope(index: number, error: DomainError): CommandOutcomeBody
   };
 }
 
+/** Postgres data exceptions (class 22) and integrity violations (class 23): retrying cannot help. */
+export function isUnretryableDatabaseError(error: unknown): boolean {
+  if (error instanceof DomainError || typeof error !== 'object' || error === null) return false;
+  const code = (error as { code?: unknown }).code;
+  return typeof code === 'string' && /^2[23][0-9A-Z]{3}$/u.test(code);
+}
+
+function unprocessable(op: unknown): CommandOutcomeBody {
+  const opId = (op as { op_id?: unknown } | null)?.op_id;
+  return {
+    op_id: typeof opId === 'string' ? opId : '',
+    status: 'rejected',
+    code: 'INTERNAL',
+    detail: { reason: 'unprocessable' },
+  };
+}
+
 export function registerSyncUploadRoute(app: OpenAPIHono<AppEnv>, deps: CommandDoorDeps): void {
   app.openapi(
     syncUploadRoute,
@@ -101,6 +121,14 @@ export function registerSyncUploadRoute(app: OpenAPIHono<AppEnv>, deps: CommandD
         } catch (error) {
           if (error instanceof DomainError && !error.retryable) {
             results.push(unusableEnvelope(index, error));
+            continue;
+          }
+          if (isUnretryableDatabaseError(error)) {
+            deps.logger.error(
+              { err: error, uid: session.uid, index },
+              'sync upload command rejected: it cannot succeed on a retry',
+            );
+            results.push(unprocessable(op));
             continue;
           }
           deps.logger.error(
