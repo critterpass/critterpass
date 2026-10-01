@@ -93,10 +93,28 @@ appId: app.critterpass.dev
     visible:
       id: 'phone-number'
     timeout: 10000
+# A new pass has no home yet, so the country is this phone's region: Singapore is picked by hand.
+- tapOn:
+    id: 'phone-country'
+- extendedWaitUntil:
+    visible:
+      id: 'country-picker-panel'
+    timeout: 10000
+- tapOn: 'Search countries'
+- inputText: 'Singapore'
+- extendedWaitUntil:
+    visible:
+      id: 'country-SG'
+    timeout: 10000
+- tapOn:
+    id: 'country-SG'
+- extendedWaitUntil:
+    notVisible:
+      id: 'country-picker-panel'
+    timeout: 10000
 - tapOn:
     id: 'phone-number'
-# Typed with its country code, so the screen picks Singapore whatever this phone's region is.
-- inputText: '+6591234567'
+- inputText: '91234567'
 - hideKeyboard
 - tapOn:
     id: 'phone-send'
