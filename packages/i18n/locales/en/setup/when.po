@@ -11,19 +11,19 @@ msgstr ""
 msgid "setup.when.pick.askFirst"
 msgstr "“Maybe” usually means it can move. Worth one message."
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.checked"
 msgstr "{calendars, plural, one {{count} calendar, checked through {until}. Nobody's week is perfect.} other {{count} calendars, checked through {until}. Nobody's week is perfect.}}"
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.some"
 msgstr "{calendars, plural, one {From {synced} synced calendar. {left} still to come.} other {From {synced} synced calendars. {left} still to come.}}"
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.oneMissing"
 msgstr "{calendars, plural, one {From {synced} synced calendar. {only} hasn’t connected yet.} other {From {synced} synced calendars. {only} hasn’t connected yet.}}"
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.all"
 msgstr "{calendars, plural, one {From {synced} synced calendar. Everyone’s in.} other {From {synced} synced calendars. Everyone’s in.}}"
 
@@ -82,6 +82,10 @@ msgstr "{range} · all {everyone} free"
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.allTitle"
 msgstr "{range} · all {total}"
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.windowPillSolo"
+msgstr "{range} · you're free"
 
 #: ../../apps/mobile/src/features/setup/when/heatmap.tsx
 msgid "setup.when.cellA11y"
@@ -147,6 +151,10 @@ msgstr "Finding the best week"
 msgid "setup.ask.freed"
 msgstr "Freed it"
 
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.solo"
+msgstr "From your calendar."
+
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.cta.lock"
@@ -184,7 +192,7 @@ msgstr "No calendar access"
 msgid "setup.when.noFit.title"
 msgstr "No week fits all {total}"
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.none"
 msgstr "Nobody has shared their days yet. Connect a calendar or mark days by hand."
 
@@ -257,8 +265,16 @@ msgid "setup.when.reason.fullCrew"
 msgstr "The first week the whole crew is free. Lock it before calendars fill up."
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reasonSolo.free"
+msgstr "The first week you’re free. Lock it before your calendar fills up."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reason.seasonPeak"
 msgstr "This week sits in {place}'s best season, and everyone's free. It gets you both."
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reasonSolo.seasonPeak"
+msgstr "This week sits in {place}'s best season, and you're free. It gets you both."
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.fail.rate"
@@ -276,6 +292,14 @@ msgstr "Try again, or mark your days by hand."
 msgid "setup.when.title"
 msgstr "When can everyone go?"
 
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.titleSolo"
+msgstr "When can you go?"
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reasonSolo.fareDrop"
+msgstr "You’re free, and flights are cheaper that week."
+
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.error"
 msgstr "Your calendar didn’t sync"
@@ -291,3 +315,7 @@ msgstr "Your calendar synced {ago}"
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.none"
 msgstr "Your days aren’t in yet"
+
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.noneSolo"
+msgstr "Your days aren’t in yet. Connect a calendar or mark days by hand."

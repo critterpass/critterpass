@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 import { exitScene, type SetupScene } from '../scenes/types';
 import { DEV, kyotoTrip, MAYA, SCENE_NOW, sceneFrame, WINSTON } from '../scenes/fixtures';
-import { ASK, FULL, PARTIAL, summaries, whenModel } from './fixtures';
+import { ASK, FULL, option, PARTIAL, summaries, whenModel } from './fixtures';
 import { heatMonths, type WindowOption } from './model';
 import { AskSheetView } from './ask-sheet';
 import { WeekPicker } from './week-picker';
@@ -74,6 +74,35 @@ export const WHEN_SCENES: readonly SetupScene[] = [
   {
     name: 'when-one-synced',
     render: () => <When m={whenModel({ synced: 1 })} />,
+  },
+  {
+    name: 'when-solo',
+    render: () => (
+      <When
+        m={whenModel({
+          solo: true,
+          total: 1,
+          synced: 1,
+          // One person's days: free where the crew fixture has everyone free, busy elsewhere.
+          months: heatMonths(
+            summaries([4]).map((row) => ({
+              ...row,
+              free_count: row.free_count === 6 ? 1 : 0,
+              busy_count: row.free_count === 6 ? 0 : 1,
+              unknown_count: 0,
+              member_count: 1,
+            })),
+          ),
+          best: option({
+            id: 'solo',
+            kind: 'best',
+            freeCount: 1,
+            memberCount: 1,
+            reason: 'full_crew',
+          }),
+        })}
+      />
+    ),
   },
   {
     name: 'when-computing',
