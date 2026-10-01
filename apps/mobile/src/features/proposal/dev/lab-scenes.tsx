@@ -4,7 +4,7 @@
  * to board (3f-5) and who's in (3f-6), each drawn from the pure views with fixed data.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { BuilderView, type BuilderViewProps } from '../builder/builder-view';
 import { DEFAULT_CONFIG } from '../builder/model';
@@ -30,6 +30,12 @@ import {
 } from './lab-fixtures';
 
 const noop = () => undefined;
+
+/** A sheet scene that really closes, so back on the scene closes the sheet first. */
+function Dismissable({ children }: { readonly children: (close: () => void) => ReactNode }) {
+  const [open, setOpen] = useState(true);
+  return open ? children(() => setOpen(false)) : null;
+}
 const LOCALE = 'en';
 
 const builder = (over: Partial<BuilderViewProps> = {}) => (
@@ -163,15 +169,19 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'build-reply-by': () => (
     <>
       {builder()}
-      <ReplyBySheet
-        locale={LOCALE}
-        choices={[1, 2, 3].map((d) => new Date(Date.UTC(2026, 9, d, 13)))}
-        fallback={new Date(Date.UTC(2026, 9, 1, 23))}
-        value={null}
-        freeCancelUntil={null}
-        onPick={noop}
-        onClose={noop}
-      />
+      <Dismissable>
+        {(close) => (
+          <ReplyBySheet
+            locale={LOCALE}
+            choices={[1, 2, 3].map((d) => new Date(Date.UTC(2026, 9, d, 13)))}
+            fallback={new Date(Date.UTC(2026, 9, 1, 23))}
+            value={null}
+            freeCancelUntil={null}
+            onPick={noop}
+            onClose={close}
+          />
+        )}
+      </Dismissable>
     </>
   ),
   sent: () => (
@@ -185,32 +195,36 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   version: () => version(),
   'not-sure': () =>
     version(
-      <ObjectionSheetView
-        guideName="Chà Vá"
-        organiserName="Khanh"
-        locale={LOCALE}
-        baseMinor={4_200_000}
-        currency="VND"
-        freeCancelLine={null}
-        reason="cost"
-        answer={{ threadId: 't1', options: LAB_OPTIONS }}
-        chosen={['skip:ba-na']}
-        pending={false}
-        failed={false}
-        onReason={noop}
-        onToggle={noop}
-        onAskCrew={noop}
-        onLater={noop}
-        onBoard={noop}
-        onClose={noop}
-      />,
+      <Dismissable>
+        {(close) => (
+          <ObjectionSheetView
+            guideName="Chà Vá"
+            organiserName="Khanh"
+            locale={LOCALE}
+            baseMinor={4_200_000}
+            currency="VND"
+            freeCancelLine={null}
+            reason="cost"
+            answer={{ threadId: 't1', options: LAB_OPTIONS }}
+            chosen={['skip:ba-na']}
+            pending={false}
+            failed={false}
+            onReason={noop}
+            onToggle={noop}
+            onAskCrew={noop}
+            onLater={noop}
+            onBoard={noop}
+            onClose={close}
+          />
+        )}
+      </Dismissable>,
     ),
   board: () => board(),
   'board-boarded': () => board({ boarded: true, counter: '2/4' }),
   'board-full': () => (
     <>
       {board()}
-      <SeatSheet position={1} cap={6} onClose={noop} />
+      <Dismissable>{(close) => <SeatSheet position={1} cap={6} onClose={close} />}</Dismissable>
     </>
   ),
   tracker: () => tracker(false),

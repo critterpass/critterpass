@@ -135,7 +135,7 @@ export function FormatCards(props: FormatCardsProps) {
         </Text>
         {props.price === null ? null : (
           <View style={styles.price}>
-            <Text variant="label" color={ink}>
+            <Text variant="label" color={ink} singleLine={false}>
               {props.price}
             </Text>
           </View>
