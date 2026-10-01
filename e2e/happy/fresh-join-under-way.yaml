@@ -436,9 +436,8 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn: '9'
 - tapOn: '0'
-# The control's middle is BY SHARE, which lists everyone in the split with their part.
-- tapOn:
-    id: 'money-add-split'
+# BY SHARE lists everyone in the split with their part.
+- tapOn: 'BY SHARE'
 - extendedWaitUntil:
     visible:
       id: 'money-share-count-0|money-split-in-0'
