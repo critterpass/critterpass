@@ -193,7 +193,6 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     today,
     offline: offline !== null,
     inWindow,
-    locale,
   });
 
   const net = me === null ? null : viewerNet(rows.ledger, me, trip?.local_currency ?? null);

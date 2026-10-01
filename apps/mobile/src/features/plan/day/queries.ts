@@ -37,14 +37,14 @@ export interface MemberRow {
   readonly display_name: string | null;
 }
 
-export const DAYS_SQL = `SELECT day_no, date, theme, i18n FROM plan_days
+export const DAYS_SQL = `SELECT day_no, date, theme FROM plan_days
   WHERE version_id = ? ORDER BY day_no`;
 export const DAYS_TABLES = ['plan_days'];
 
 export const ITEMS_SQL = `SELECT i.stable_id, d.day_no, i.starts_at, i.ends_at, i.tz, i.lane,
     i.attendee_ids, i.poi_id, i.booking_id, i.must_do_id, i.category, i.cost_model,
     i.amount_minor, i.currency, i.status, i.is_outdoor, i.created_by_kind, i.notes,
-    i.locked_reason, i.i18n, p.name AS poi_name, p.lat AS poi_lat, p.lng AS poi_lng
+    i.locked_reason, p.name AS poi_name, p.lat AS poi_lat, p.lng AS poi_lng
   FROM plan_items i JOIN plan_days d ON d.id = i.day_id
   LEFT JOIN pois p ON p.id = i.poi_id
   WHERE i.version_id = ?

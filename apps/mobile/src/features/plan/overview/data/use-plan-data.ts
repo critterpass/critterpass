@@ -8,7 +8,6 @@
 import { useMemo } from 'react';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
-import { useLocale } from '@/lib/i18n/use-locale';
 
 import {
   buildDayCards,
@@ -122,9 +121,8 @@ export function usePlanData(tripId: string | null): PlanData {
     MEMBERS_TABLES,
   );
 
-  const locale = useLocale();
-  const planDays = useMemo(() => toPlanDays(days.rows, locale), [days.rows, locale]);
-  const planItems = useMemo(() => toPlanItems(items.rows, locale), [items.rows, locale]);
+  const planDays = useMemo(() => toPlanDays(days.rows), [days.rows]);
+  const planItems = useMemo(() => toPlanItems(items.rows), [items.rows]);
   const status: PlanData['status'] =
     !uidRows.loaded || !tripRows.loaded
       ? 'loading'

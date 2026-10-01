@@ -14,14 +14,10 @@ import {
   type PlanStateItem,
 } from '@cp/domain';
 
-import { guideText } from '@/lib/i18n/guide-text';
-
 export interface PlanDayRow {
   readonly day_no: number;
   readonly date: string | null;
   readonly theme: string | null;
-  /** The guide's text in other languages (JSON text); read through `guideText`. */
-  readonly i18n?: string | null;
 }
 
 export interface PlanItemRow {
@@ -44,7 +40,6 @@ export interface PlanItemRow {
   readonly created_by_kind: string | null;
   readonly notes: string | null;
   readonly locked_reason: string | null;
-  readonly i18n?: string | null;
   readonly poi_name: string | null;
   readonly poi_lat: number | null;
   readonly poi_lng: number | null;
@@ -174,22 +169,16 @@ export function instantOnDay(dayDate: string, minutes: number, tz: string): stri
 
 export interface ItemDisplay {
   readonly title: string | null;
-  /** The note as this person reads it (the guide's line in the app's language). */
-  readonly notes?: string | null;
   readonly place: { readonly lat: number; readonly lng: number } | null;
 }
 
-/**
- * Display fields the plan state does not carry (a place's name and position, the guide's note in
- * the app's language), by stable id. The state keeps the note as written: edits replay on that.
- */
-export function displayOf(rows: readonly PlanItemRow[], locale = 'en'): Map<string, ItemDisplay> {
+/** Display fields the plan state does not carry (a place's name and position), by stable id. */
+export function displayOf(rows: readonly PlanItemRow[]): Map<string, ItemDisplay> {
   return new Map(
     rows.map((row) => [
       row.stable_id,
       {
-        title: row.poi_name ?? guideText('plan_item', row, 'notes', locale),
-        notes: guideText('plan_item', row, 'notes', locale),
+        title: row.poi_name ?? row.notes,
         place:
           row.poi_lat === null || row.poi_lng === null
             ? null
@@ -197,19 +186,6 @@ export function displayOf(rows: readonly PlanItemRow[], locale = 'en'): Map<stri
       },
     ]),
   );
-}
-
-/**
- * Each day theme as this person reads it, keyed by the theme as written (a reorder moves themes
- * between day numbers, so the text is the key that follows them).
- */
-export function themesAsRead(rows: readonly PlanDayRow[], locale: string): Map<string, string> {
-  const themes = new Map<string, string>();
-  for (const row of rows) {
-    const read = guideText('plan_day', row, 'theme', locale);
-    if (row.theme !== null && read !== null) themes.set(row.theme, read);
-  }
-  return themes;
 }
 
 /** The items of day `dayNo`, in time order (untimed last), from a (possibly optimistic) state. */
@@ -245,7 +221,7 @@ export function dayItems(
         lock: lockOf(item),
         status: item.status ?? 'confirmed',
         byGuide: item.created_by_kind === 'guide',
-        notes: shown?.notes ?? item.notes ?? null,
+        notes: item.notes ?? null,
         poiId: item.poi_id ?? null,
         place: shown?.place ?? null,
         amountMinor: item.amount_minor ?? null,

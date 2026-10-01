@@ -134,7 +134,7 @@ export function DayScreen({
         dayNo={dayNo}
         dayCount={plan.state.days.length}
         date={day?.date ?? null}
-        theme={day?.theme == null ? null : (plan.themes.get(day.theme) ?? day.theme)}
+        theme={day?.theme ?? null}
         here={presence.here.map((member) => ({
           key: member.uid,
           name: member.name ?? '',
