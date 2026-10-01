@@ -22,7 +22,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { crewLineText } from './profile-copy';
+import { crewLineText, statLabel } from './profile-copy';
 import { CREW_FACES, type ProfileModel } from './profile-model';
 import { ProfileFace, SectionHead, StampRow, StatTile, Tags } from './profile-parts';
 
@@ -137,19 +137,19 @@ export function ProfileView(props: ProfileViewProps) {
         <Row gap="8" align="stretch">
           <StatTile
             value={model.stats.trips}
-            label={t({ id: 'you.profile.stat.trips', message: 'Trips' })}
+            label={statLabel('trips', model.stats.trips)}
             color={theme.color.yellow}
             testID="you-profile-stat-trips"
           />
           <StatTile
             value={model.stats.countries}
-            label={t({ id: 'you.profile.stat.countries', message: 'Countries' })}
+            label={statLabel('countries', model.stats.countries)}
             color={theme.color.pink}
             testID="you-profile-stat-countries"
           />
           <StatTile
             value={model.stats.critters}
-            label={t({ id: 'you.profile.stat.critters', message: 'Critters' })}
+            label={statLabel('critters', model.stats.critters)}
             color={theme.color.green.base}
             testID="you-profile-stat-critters"
           />

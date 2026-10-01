@@ -21,7 +21,7 @@ export function primerCopy(kind: PermissionKind, always = false): PrimerCopy {
         title: t({ id: 'permissions.notifications.title', message: 'Alarms and pings' }),
         body: t({
           id: 'permissions.notifications.body',
-          message: 'Leave-by alarms and votes that need you. About five a day.',
+          message: 'Leave-by alarms and votes that need you. Only a few a day.',
         }),
         action,
       };

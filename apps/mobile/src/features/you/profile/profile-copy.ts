@@ -16,6 +16,37 @@ function utcDay(date: string): Date {
   return new Date(`${date.slice(0, 10)}T00:00:00Z`);
 }
 
+/** What fits on a stamp's small line at its size: "JUN 2024" does, "THG 6 2024" does not. */
+const STAMP_LINE_MAX = 8;
+
+/** "Jun 2024", or the numeric "6/2024" where a language's short month runs long. */
+export function stampMonth(date: string, locale: string): string {
+  const short = format.date(locale, utcDay(date), MONTH_YEAR);
+  if (short.length <= STAMP_LINE_MAX) return short;
+  return `${Number(date.slice(5, 7))}/${date.slice(0, 4)}`;
+}
+
+/** The label under a stat tile's number, in the number's own grammatical form. */
+export function statLabel(kind: 'trips' | 'countries' | 'critters', count: number): string {
+  switch (kind) {
+    case 'trips':
+      return t({
+        id: 'you.profile.stat.trips',
+        message: plural(count, { one: 'Trip', other: 'Trips' }),
+      });
+    case 'countries':
+      return t({
+        id: 'you.profile.stat.countries',
+        message: plural(count, { one: 'Country', other: 'Countries' }),
+      });
+    case 'critters':
+      return t({
+        id: 'you.profile.stat.critters',
+        message: plural(count, { one: 'Critter', other: 'Critters' }),
+      });
+  }
+}
+
 export function inDays(days: number): string {
   if (days <= 0) return t({ id: 'you.profile.stamp.today', message: 'Today' });
   return t({
@@ -32,7 +63,7 @@ export function stampBottom(stamp: ProfileStamp, locale: string): string | undef
       : inDays(stamp.daysUntil);
   }
   if (stamp.kind === 'home' || stamp.date === null) return undefined;
-  return format.date(locale, utcDay(stamp.date), MONTH_YEAR);
+  return stampMonth(stamp.date, locale);
 }
 
 export function stampLabel(stamp: ProfileStamp, locale: string): string {

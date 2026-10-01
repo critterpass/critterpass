@@ -1,26 +1,13 @@
-import { Directory, Paths } from 'expo-file-system';
-import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
-import * as SecureStore from 'expo-secure-store';
-import * as Updates from 'expo-updates';
 import { useState } from 'react';
-import { DevSettings, View } from 'react-native';
-import { createMMKV } from 'react-native-mmkv';
+import { View } from 'react-native';
 
 import { getAlarmPort } from '../../../modules/cp-alarm';
 
-import { createDevSlots } from '@/data/auth/dev-slots';
-import { runOnSignOutHooks } from '@/data/auth/sign-out-hooks';
-import { secureActionKeyStorage } from '@/data/push/expo-native';
-import { INSTALL_ID_ITEM, LEGACY_ENVELOPE_ID_ITEM } from '@/data/push/register';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { eraseAccount } from '@/lib/dev-tools/erase-account';
-import {
-  startFresh,
-  type EraseOutcome,
-  type FileTarget,
-  type StartFreshPorts,
-} from '@/lib/dev-tools/start-fresh';
+import { deviceWipePorts, provideAlarmCanceller } from '@/features/you/account/device-wipe';
+import { startFresh, type EraseOutcome, type StartFreshPorts } from '@/lib/dev-tools/start-fresh';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { makeStyles, Stack, Text, useTheme } from '@/ui';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
@@ -36,79 +23,9 @@ async function eraseThisAccount(): Promise<EraseOutcome> {
   return eraseAccount({ baseUrl: resolveApiBaseUrl(), sessionHeaders, fetch });
 }
 
-/**
- * Lets go of the account on this phone. While its session is still live on the server it is signed
- * out there first; an erased account's sessions are already ended, and no call is made on them.
- */
-async function signOutHere(sessionStillOnServer: boolean): Promise<void> {
-  if (sessionStillOnServer) {
-    const { deviceAuth } = await import('@/data/app-session/device-session');
-    const signedOut = await deviceAuth()
-      .signOut()
-      .then((result) => result.signedOut)
-      .catch(() => false);
-    // A confirmed sign-out has already run the cleanup.
-    if (signedOut) return;
-  }
-  await runOnSignOutHooks();
-}
-
-async function forgetSessions(): Promise<void> {
-  // The sign-out cleanup already ran: only the stored sessions are left to remove.
-  const slots = createDevSlots(SecureStore, () => Promise.resolve());
-  await slots.clear();
-  await slots.switchTo(null);
-  await secureActionKeyStorage.remove();
-}
-
-/** Both items go together: a leftover one would be adopted as the new person's id. */
-async function forgetInstallId(): Promise<void> {
-  await SecureStore.deleteItemAsync(INSTALL_ID_ITEM);
-  await SecureStore.deleteItemAsync(LEGACY_ENVELOPE_ID_ITEM);
-}
-
-async function cancelNotificationsAndAlarms(): Promise<void> {
-  await Notifications.cancelAllScheduledNotificationsAsync();
-  await Notifications.dismissAllNotificationsAsync();
-  await Notifications.setBadgeCountAsync(0);
-  const alarms = getAlarmPort();
-  if (alarms === null) return;
-  for (const alarm of await alarms.list()) await alarms.cancel(alarm.leaveById);
-}
-
-function deleteFiles(target: FileTarget): Promise<void> {
-  const root = target.root === 'document' ? Paths.document : Paths.cache;
-  if (target.match === 'directory') {
-    const directory = new Directory(root, target.name);
-    if (directory.exists) directory.delete();
-    return Promise.resolve();
-  }
-  for (const entry of new Directory(root).list()) {
-    if (entry.name.startsWith(target.name)) entry.delete();
-  }
-  return Promise.resolve();
-}
-
-/** Restarts the JS: the app comes up at the splash as a first launch. */
-async function reload(): Promise<void> {
-  if (__DEV__) {
-    DevSettings.reload();
-    return;
-  }
-  await Updates.reloadAsync();
-}
-
-const devicePorts: StartFreshPorts = {
-  eraseAccount: eraseThisAccount,
-  signOut: signOutHere,
-  forgetSessions,
-  forgetInstallId,
-  deleteSecureItem: (item) => SecureStore.deleteItemAsync(item.key),
-  cancelNotificationsAndAlarms,
-  deleteFiles,
-  openStore: (id) => (id === null ? createMMKV() : createMMKV({ id })),
-  reload,
-};
+// The same wiring signing out and deleting an account use, so the three never clear different things.
+provideAlarmCanceller(getAlarmPort());
+const devicePorts: StartFreshPorts = { ...deviceWipePorts, eraseAccount: eraseThisAccount };
 
 const COPY = {
   en: {

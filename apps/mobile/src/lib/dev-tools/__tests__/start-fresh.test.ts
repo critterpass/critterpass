@@ -168,8 +168,8 @@ function sourceFiles(dir: string): string[] {
 describe('the list of MMKV stores', () => {
   it('names every store the app opens, so a new store must decide: cleared or kept', () => {
     const opened = new Set<string>();
-    // The Start fresh screen opens the stores this list names; it adds none of its own.
-    const wipe = join('(dev)', 'start-fresh.tsx');
+    // The device wipe opens the stores this list names; it adds none of its own.
+    const wipe = join('features', 'you', 'account', 'device-wipe.ts');
     for (const file of sourceFiles(SRC).filter((path) => !path.endsWith(wipe))) {
       const source = readFileSync(file, 'utf8');
       for (const match of source.matchAll(/createMMKV\(\s*\{\s*id(?::\s*([^}\s]+))?\s*\}\s*\)/gu)) {

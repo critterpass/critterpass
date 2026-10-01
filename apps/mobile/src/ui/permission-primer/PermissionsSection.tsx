@@ -51,10 +51,11 @@ function detail(kind: PermissionKind, state: PermissionsState): string {
   if (kind === 'live_activities' && report?.status !== 'granted') return liveActivitiesOffLine();
   if (report === undefined) return primerCopy(kind).body;
   if (kind === 'location' && report.status === 'granted') {
-    return statusLine('granted', {
-      approximate: report.precise === false,
-      wiuOnly: report.level === 'wiu',
-    });
+    const approximate = report.precise === false;
+    const wiuOnly = report.level === 'wiu';
+    // Fully on: the row's value already says "On", so the line says what it is for.
+    if (!approximate && !wiuOnly) return primerCopy(kind).body;
+    return statusLine('granted', { approximate, wiuOnly });
   }
   return report.status === 'granted' ? primerCopy(kind).body : statusLine(report.status);
 }
