@@ -4,20 +4,23 @@
  *
  * Order: stale items are dropped; SILENT and LOCAL are not routed here (their own queues / the
  * device own them); ALWAYS is sent no matter what; a muted category drops; ROUNDUP-only waits for
- * the roundup; a BUDGET item is held while the app is on screen when it asks to be, dropped past
- * the paywall governor, and otherwise rolls into the roundup in quiet hours or once the day's
- * budget is spent (a kind that is not capped never runs out of budget).
+ * the roundup; a BUDGET item is dropped while the app is on screen when it asks to be, dropped past
+ * the paywall governor, held until quiet hours end when it arrives inside them (./release.ts sends
+ * it then), and otherwise rolls into the roundup once the day's budget is spent (a kind that is
+ * not capped never runs out of budget).
  */
 import type { NotificationClass } from '@cp/domain';
 
 import { paywallAllowed } from './governor';
 
-export type RoundupReason = 'roundup_class' | 'quiet_hours' | 'budget_exhausted';
+export type RoundupReason = 'roundup_class' | 'budget_exhausted' | 'released_late';
 export type DropReason =
   'expired' | 'not_routed' | 'pref_off' | 'in_foreground' | 'paywall_governor' | 'no_push_token';
 
 export type Decision =
   | { readonly action: 'send' }
+  /** Kept back until the recipient's quiet hours end, then sent as itself. */
+  | { readonly action: 'hold' }
   | { readonly action: 'roundup'; readonly reason: RoundupReason }
   | { readonly action: 'drop'; readonly reason: DropReason };
 
@@ -39,6 +42,8 @@ export interface DecideInput {
   /** Recipient's local clock, minutes after midnight. */
   readonly localMinutes: number;
   readonly quiet: QuietHours;
+  /** Quiet hours are over for today although the clock is inside them (./quiet.ts). */
+  readonly quietLifted: boolean;
   readonly budgetPerDay: number;
   /** BUDGET pushes already sent on the recipient's local date. */
   readonly sentBudgeted: number;
@@ -67,8 +72,8 @@ export function decide(input: DecideInput): Decision {
   if (input.paywall && !paywallAllowed(input.paywallSent)) {
     return { action: 'drop', reason: 'paywall_governor' };
   }
-  if (inQuietHours(input.localMinutes, input.quiet)) {
-    return { action: 'roundup', reason: 'quiet_hours' };
+  if (!input.quietLifted && inQuietHours(input.localMinutes, input.quiet)) {
+    return { action: 'hold' };
   }
   if (input.capped && input.sentBudgeted >= input.budgetPerDay) {
     return { action: 'roundup', reason: 'budget_exhausted' };

@@ -26,8 +26,8 @@ function catalogIds(locale: string): Set<string> {
 }
 
 describe('invite notification copy', () => {
-  it('sends six messages', () => {
-    expect(ids).toHaveLength(6);
+  it('sends eight messages', () => {
+    expect(ids).toHaveLength(8);
   });
 
   it.each(['en', 'vi'])('every message is in the %s notifications catalog', (locale) => {
