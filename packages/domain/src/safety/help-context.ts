@@ -81,7 +81,13 @@ export const helpContextSchema = z.object({
 });
 export type HelpContext = z.infer<typeof helpContextSchema>;
 
-/** The curated lines of a country, or the limited-coverage fallback when none are on file. */
+/**
+ * The curated lines of a country, or the limited-coverage fallback when none are on file.
+ *
+ * The number the hub leads with is the country's single all-services line. Where the catalogue
+ * lists several `general` lines (Vietnam: search and rescue, a child protection hotline) there is
+ * no such line, so the ambulance leads and the others stay in `lines` under their own labels.
+ */
 export function emergencyNumbersFor(lines: readonly EmergencyLine[] | null): {
   readonly general: string;
   readonly lines: readonly EmergencyLine[];
@@ -92,9 +98,11 @@ export function emergencyNumbersFor(lines: readonly EmergencyLine[] | null): {
       lines: [{ service: 'general', number: GSM_EMERGENCY_NUMBER, label: '' }],
     };
   }
+  const generals = lines.filter((line) => line.service === 'general');
   const general =
-    lines.find((line) => line.service === 'general') ??
+    (generals.length === 1 ? generals[0] : undefined) ??
     lines.find((line) => line.service === 'ambulance') ??
+    generals[0] ??
     lines[0];
   return { general: general?.number ?? GSM_EMERGENCY_NUMBER, lines };
 }
