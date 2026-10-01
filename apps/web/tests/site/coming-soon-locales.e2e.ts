@@ -89,13 +89,40 @@ test.describe('coming-soon page languages', () => {
       'href',
       'https://critterpass.app/zh-Hans',
     );
-    const setCookie = (await response?.headerValue('set-cookie')) ?? '';
+    // Opening a language's address is not a choice: nothing is remembered.
+    expect(await response?.headerValue('set-cookie')).toBeNull();
+    expect(await context.cookies()).toEqual([]);
+    await context.close();
+  });
+
+  test("a shared /en link does not change a Vietnamese visitor's language", async ({ browser }) => {
+    const context = await visitor(browser, 'vi-VN');
+    const page = await context.newPage();
+    await page.goto('/en');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.locator('[data-cs="nav-cta"]')).toHaveText(EN_JOIN);
+    await page.goto('/');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'vi');
+    await page.goto('/w/somefriend?lang=ja');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
+    await page.goto('/w/somefriend');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'vi');
+    await context.close();
+  });
+
+  test('a switcher link remembers the language, then shows its clean address', async ({
+    request,
+  }) => {
+    const response = await request.get(`${COMING_SOON_URL}/vi?remember=1`, { maxRedirects: 0 });
+    expect(response.status()).toBe(302);
+    expect(response.headers()['location']).toBe('/vi');
+    expect(response.headers()['cache-control']).toContain('no-store');
+    const setCookie = response.headers()['set-cookie'] ?? '';
     expect(setCookie).toContain('cp_locale=vi');
     expect(setCookie).toContain('Max-Age=31536000');
     expect(setCookie).toContain('Path=/');
     expect(setCookie).toContain('SameSite=Lax');
     expect(setCookie).toContain('Secure');
-    await context.close();
   });
 
   test('the switcher changes the language and the choice sticks', async ({ browser }) => {
@@ -106,6 +133,10 @@ test.describe('coming-soon page languages', () => {
     await expect(switcher.getByRole('link')).toHaveCount(10);
     await expect(switcher.locator('[aria-current="true"]')).toHaveText('English');
 
+    await expect(switcher.getByRole('link', { name: 'Tiếng Việt' })).toHaveAttribute(
+      'rel',
+      'nofollow',
+    );
     await switcher.getByRole('link', { name: 'Tiếng Việt' }).click();
     await expect(page).toHaveURL(`${COMING_SOON_URL}/vi`);
     await expect(page.locator('html')).toHaveAttribute('lang', 'vi');
@@ -150,7 +181,7 @@ test.describe('coming-soon page languages', () => {
       .getByRole('navigation', { name: 'Language' })
       .getByRole('link', { name: '日本語' })
       .click();
-    await expect(page).toHaveURL(`${COMING_SOON_URL}/w/somefriend?lang=ja`);
+    await expect(page).toHaveURL(`${COMING_SOON_URL}/w/somefriend`);
     await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
     const config = JSON.parse((await page.locator('#cs-config').textContent()) ?? '{}') as {
       referredBy?: string;
