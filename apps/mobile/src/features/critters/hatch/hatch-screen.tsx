@@ -23,6 +23,9 @@ import { formSpec } from '../dex/dex-model';
 import { deviceTimeZone, markHatchSeen } from './hatch-model';
 import { HatchView } from './hatch-view';
 
+/** How long the ceremony waits for its trip's rows before giving up on them. */
+export const MISSING_GRACE_MS = 3000;
+
 const HATCH_SQL = `SELECT t.id, t.end_date, coalesce(t.tz, d.tz) AS tz, d.name AS place, d.colour,
     cs.name AS set_name, cs.hero_critter_key, g.slug AS guide_slug, g.name AS guide_name,
     p.landed_at, eg.id AS egg_id, eg.hatched_at,
@@ -116,8 +119,12 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
   const row = rows[0];
   const missing = loaded && row === undefined;
   useEffect(() => {
-    // No such trip on this phone: leave, rather than sit unseen over the screen below.
-    if (missing) router.back();
+    // No such trip on this phone: leave, rather than sit over the screen below. Not at once: while a
+    // trip turns from "starting" to "under way" its rows can be missing for a sync or two, and
+    // leaving then closed the ceremony right after HATCH IT.
+    if (!missing) return undefined;
+    const leave = setTimeout(() => router.back(), MISSING_GRACE_MS);
+    return () => clearTimeout(leave);
   }, [missing]);
   // The route is a see-through card: until the trip's row is read it shows the page, never nothing
   // (an empty card would look like the screen below while swallowing its taps).
