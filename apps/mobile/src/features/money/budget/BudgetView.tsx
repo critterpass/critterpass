@@ -19,6 +19,7 @@ import { LinearBar } from '@/ui/data/LinearBar';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { GuideLine } from '@/ui/people/GuideLine';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
@@ -103,6 +104,7 @@ export function BudgetView(props: BudgetViewProps) {
       <ScrollView
         contentContainerStyle={[styles.content, { paddingBottom: inset + theme.space['32'] }]}
       >
+        <BackEyebrow label={upper(t({ id: 'money.back', message: 'Money' }), locale)} />
         <Row justify="space-between" align="center">
           <Text variant="eyebrow">{upper(props.title, locale)}</Text>
           <InfoPill variant="outline" testID="money-budget-day">

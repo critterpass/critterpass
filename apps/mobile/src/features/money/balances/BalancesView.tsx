@@ -32,7 +32,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { ExpenseListRow } from '../components/ExpenseListRow';
 import type { ExpenseItem } from '../data/expense-items';
-import { formatSigned, formatWhole, heroParts } from '../format';
+import { formatSigned, formatWhole, heroParts, heroVariant } from '../format';
 import type { BalanceLine, HeroKind } from './model';
 
 const useStyles = makeStyles((t) => ({
@@ -96,6 +96,7 @@ function Hero({ kind, amountMinor, currency, solo = false }: HeroProps) {
       <Row style={styles.heroRow}>
         <Odometer
           value={parts.whole}
+          variant={heroVariant(parts)}
           prefix={parts.prefix}
           suffix={parts.suffix}
           color={color}
