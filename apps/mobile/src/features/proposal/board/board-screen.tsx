@@ -22,7 +22,7 @@ import { useProposalTrip } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
 import { proposalRoutes } from '../routes';
-import { boardOutcome, placeCode, type BoardOutcome } from './model';
+import { boardOutcome, arrivalCode, type BoardOutcome } from './model';
 import { BoardView } from './board-view';
 import { SeatSheet } from './seat-sheet';
 
@@ -107,8 +107,8 @@ export function BoardScreen(props: {
         boarded={boarded}
         pending={outcome?.kind === 'pending'}
         ticket={{
-          from: row?.home_airport?.toUpperCase() ?? '···',
-          to: placeCode(trip.destination),
+          from: row?.home_airport?.toUpperCase() ?? '—',
+          to: arrivalCode(trip.destinationSlug, trip.destination),
           passenger: me?.fullName ?? '',
           dates:
             trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : '',

@@ -3,7 +3,7 @@
  * the trip is full (`SEAT_CAP_REACHED` comes back applied, never as an error), queued while
  * offline (the board shows as pending until the server answers), or refused.
  */
-import { SEAT_CAP_REACHED } from '@cp/domain';
+import { SEAT_CAP_REACHED, travelDestination } from '@cp/domain';
 
 import type { SendResult } from '@/data/commands/client';
 
@@ -55,13 +55,12 @@ export function boardOutcome(result: SendResult): BoardOutcome {
   }
 }
 
-/** A three-letter board code for a place with no airport code on file ("Đà Nẵng" → "DAN"). */
-export function placeCode(name: string): string {
-  const letters = name
-    .normalize('NFD')
-    .replace(/\p{M}/gu, '')
-    .replace(/đ/giu, 'd')
-    .replace(/[^a-z]/giu, '')
-    .toUpperCase();
-  return letters.slice(0, 3) || '···';
+/**
+ * The pass's arrival code: the destination's primary airport from the travel data (Đà Nẵng is
+ * DAD). A place with no airport on file shows its own name instead; a code is never made up
+ * from the name.
+ */
+export function arrivalCode(slug: string | null, name: string): string {
+  const airport = slug === null ? undefined : travelDestination(slug)?.airports[0];
+  return airport ?? name;
 }

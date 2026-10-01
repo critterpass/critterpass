@@ -5,7 +5,7 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
-import { boardOutcome, placeCode } from '../board/model';
+import { arrivalCode, boardOutcome } from '../board/model';
 
 describe('boardOutcome', () => {
   it('boards on a plain IN', () => {
@@ -49,9 +49,10 @@ describe('boardOutcome', () => {
   });
 });
 
-describe('placeCode', () => {
-  it('reads a board code from a place name', () => {
-    expect(placeCode('Đà Nẵng')).toBe('DAN');
-    expect(placeCode('Kyoto')).toBe('KYO');
+describe('arrivalCode', () => {
+  it('takes the destination’s primary airport, never a code made from the name', () => {
+    expect(arrivalCode('da-nang', 'Đà Nẵng')).toBe('DAD');
+    expect(arrivalCode('nowhere-on-file', 'Hội An')).toBe('Hội An');
+    expect(arrivalCode(null, 'Hội An')).toBe('Hội An');
   });
 });
