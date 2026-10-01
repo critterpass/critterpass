@@ -188,7 +188,10 @@ export function PitchCard({ state, people, onRetry }: PitchCardProps) {
           <FadeSection>
             <Row gap="6" wrap testID="pitch-chips">
               {state.chips.map((chip, index) => (
-                <InfoPill key={`${chip.kind}-${index}`}>{chipText(chip)}</InfoPill>
+                // An event's name is the guide's own words: one line, cut short when long.
+                <InfoPill key={`${chip.kind}-${index}`} oneLine>
+                  {chipText(chip)}
+                </InfoPill>
               ))}
             </Row>
           </FadeSection>
