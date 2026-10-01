@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { screen } from '@testing-library/react-native';
-import { Keyboard, Platform, StyleSheet, Text } from 'react-native';
+import { act, screen } from '@testing-library/react-native';
+import { DeviceEventEmitter, Keyboard, Platform, StyleSheet, Text } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -85,6 +85,15 @@ describe('a footer that mounts while the keyboard is already up', () => {
     keyboardAlreadyOpen(300);
     await renderFooter();
     expect(flat('footer').paddingBottom).toBe(300 + HOME_INDICATOR + tokens.space['8']);
+  });
+
+  it('comes down when that keyboard closes before it was seen moving', async () => {
+    keyboardAlreadyOpen(336);
+    await renderFooter();
+    await act(() => {
+      DeviceEventEmitter.emit('keyboardDidHide', {});
+    });
+    expect(flat('footer').paddingBottom).toBe(HOME_INDICATOR + tokens.space['8']);
   });
 
   it('follows the keyboard once it has moved, not where it stood at mount', async () => {

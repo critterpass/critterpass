@@ -103,8 +103,8 @@ describe('the day view', () => {
 
 describe('the overview', () => {
   it('shows day themes and place-less labels in the app language', () => {
-    expect(toPlanDays([{ id: 'd1', ...DAY }], 'vi')[0]?.theme).toBe(THEME_VI);
-    expect(toPlanDays([{ id: 'd1', ...DAY }], 'en')[0]?.theme).toBe(THEME);
+    expect(toPlanDays([{ id: 'day-one', ...DAY }], 'vi')[0]?.theme).toBe(THEME_VI);
+    expect(toPlanDays([{ id: 'day-one', ...DAY }], 'en')[0]?.theme).toBe(THEME);
     const row: OverviewItemRow = {
       ...item({ poi_id: null, poi_name: null }),
       id: 'i1',
