@@ -133,6 +133,33 @@ describe('modes', () => {
     expect(push).toHaveBeenCalledWith('/place-search');
     expect(screen.getByTestId('dev-tools-entry')).toBeTruthy();
   });
+  it('shows the Explore row on the first run and a crew Home once Explore is registered', async () => {
+    const s = await open();
+    await seedMe(s);
+    await renderHome(<HomeScreen />, s);
+    await until(() => screen.queryByTestId('home-first-run') !== null);
+    // Not registered yet: no row, rather than one that opens nothing.
+    expect(screen.queryByTestId('home-explore')).toBeNull();
+    const unregister = registerScreens({ 'explore-home': '/explore' });
+    await until(() => screen.queryByTestId('home-explore') !== null);
+    expect(screen.getByText('EXPLORE')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('home-explore'));
+    expect(push).toHaveBeenCalledWith('/explore');
+    await screen.unmount();
+
+    const crew = await open();
+    await seedCrew(crew);
+    await seedTrip(crew, { status: 'confirmed', startDate: isoDate(new Date(Date.now() + DAY)) });
+    await renderHome(<HomeScreen />, crew);
+    await until(() => screen.queryByTestId('home-mode-everyday') !== null);
+    push.mockClear();
+    await fireEvent.press(screen.getByTestId('home-explore'));
+    expect(push).toHaveBeenCalledWith('/explore');
+    unregister();
+    await s.close();
+    removeDir(s.dir);
+  });
+
   it('renders everyday with a ticking countdown, plan progress, the bell count and the tip', async () => {
     const s = await open();
     await seedCrew(s);
