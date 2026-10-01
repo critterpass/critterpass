@@ -46,7 +46,8 @@ describe('parseArgs', () => {
   });
 });
 
-describe('bake (CLI core acceptance)', () => {
+// Bakes real art through the renderer: CI runners are about 3× slower than a laptop.
+describe('bake (CLI core acceptance)', { timeout: 90_000 }, () => {
   let dir: string;
 
   afterEach(() => {
