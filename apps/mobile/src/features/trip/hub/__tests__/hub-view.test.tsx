@@ -79,6 +79,8 @@ describe('trip hub', () => {
     expect(screen.getByText('you owe')).toBeTruthy();
     await scene('3k-1-next-tomorrow');
     expect(screen.getByText('TOMORROW · 10:00')).toBeTruthy();
+    expect(screen.getByText('NOTHING MORE TODAY')).toBeTruthy();
+    expect(screen.getByText('EXPLORE ĐÀ NẴNG')).toBeTruthy();
   });
 
   it('says home since the last day, with the money settled', async () => {

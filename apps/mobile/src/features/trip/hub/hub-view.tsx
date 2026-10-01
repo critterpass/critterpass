@@ -53,6 +53,8 @@ export interface HubViewProps {
   readonly briefing: BriefingState;
   readonly onAct: (line: BriefingLine) => void;
   readonly tiles: readonly { key: string; node: ReactNode }[];
+  /** The way into Explore for the trip's destination, under the tiles; null without a place. */
+  readonly explore: HubNext | null;
   readonly ticker: readonly TickerEvent[];
   /** Another trip is under way or being planned: the SWITCH TRIP pill. */
   readonly onSwitch: (() => void) | null;
@@ -148,6 +150,7 @@ export function HubView(props: HubViewProps) {
             onAct={props.onAct}
           />
           {props.tiles.length === 0 ? null : <HubTiles tiles={props.tiles} />}
+          {props.explore === null ? null : <NextRow next={props.explore} />}
         </View>
         <View style={{ marginTop: theme.space['16'] }}>
           <Ticker events={props.ticker} />

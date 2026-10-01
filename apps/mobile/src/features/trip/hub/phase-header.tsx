@@ -9,6 +9,7 @@
  * with no photo the header is plain ink.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
+import { tokens } from '@cp/design-tokens';
 import type { MediaAsset } from '@cp/domain';
 import { format, upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -16,6 +17,7 @@ import { useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { fontFor } from '@/lib/fonts';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useThemeSettings } from '@/lib/theme';
 import { InlineAction } from '@/ui/buttons/InlineAction';
@@ -26,7 +28,15 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { HeroBackdrop } from './hero-backdrop';
-import { COUNTDOWN_SIZE, countdownBeside, TITLE_GAP } from './hero-layout';
+import {
+  baselineLift,
+  COUNTDOWN_SIZE,
+  countdownBeside,
+  countdownSize,
+  labelHeight,
+  TITLE_GAP,
+  titleLineSize,
+} from './hero-layout';
 import { tripDates } from './hub-copy';
 import { countdownClock, type HubHeader } from './hub-model';
 
@@ -49,13 +59,28 @@ export interface PhaseHeaderProps {
 }
 
 const useStyles = makeStyles((th) => ({
-  hero: { paddingHorizontal: th.size.gutter, gap: th.space['8'] },
+  hero: { paddingHorizontal: th.size.gutter },
   meta: { flexShrink: 1 },
+  titleRow: { flexDirection: 'row', alignItems: 'flex-end', gap: TITLE_GAP },
+  // A name with no stacked marks needs no room above its capitals: the row makes that room
+  // itself and takes it back, so the name sits right under the dates line, as designed.
+  tight: { paddingTop: th.space['32'], marginTop: -th.space['32'] },
   title: { flex: 1 },
-  // The label hangs above the value without taking part in the row's baseline.
-  sideLabel: { position: 'absolute', end: 0, bottom: '100%', start: -th.size.gutter * 4 },
+  // The label hangs above the countdown, out of the row's flow, wide enough for a longer label.
+  sideLabel: { position: 'absolute', end: 0, start: -th.size.gutter * 4 },
   sideLabelText: { textAlign: 'right' },
+  under: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-end',
+    columnGap: th.space['8'],
+    marginTop: th.space['4'],
+  },
+  below: { marginTop: th.space['12'], alignItems: 'flex-start' },
 }));
+
+/** Vietnamese letters with marks above (Ặ, Ỗ, Ế…), which rise past the capitals' height. */
+const STACKED_MARKS = /[\u1EA0-\u1EF9]/u;
 
 function day(locale: string, date: string, options: Intl.DateTimeFormatOptions): string {
   return format.date(locale, new Date(`${date}T12:00:00Z`), { timeZone: 'UTC', ...options });
@@ -111,16 +136,31 @@ export function PhaseHeader(props: PhaseHeaderProps) {
   const line = usePhaseLine(header, props.now);
   const label = line === null ? null : upper(line.label, locale);
   const value = line === null ? null : upper(line.value, locale);
-  const beside =
-    label !== null &&
-    value !== null &&
-    countdownBeside({
-      title,
-      label,
-      value,
-      width: width - theme.size.gutter * 2,
-      fontScale,
-    });
+  const titleLine =
+    label === null || value === null
+      ? null
+      : { title, label, value, width: width - theme.size.gutter * 2, fontScale };
+  const beside = titleLine !== null && countdownBeside(titleLine);
+  const marks = STACKED_MARKS.test(title);
+  const heroToken = tokens.type.display.hero;
+  const titleLeading = fontFor(
+    {
+      fontFamily: heroToken.fontFamily,
+      fontWeight: heroToken.fontWeight,
+      ...(heroToken.widthStepMin === undefined ? {} : { widthStep: heroToken.widthStepMin }),
+      lineHeightMultiplier: heroToken.lineHeight,
+      condensed: heroToken.condensed,
+    },
+    marks ? 'vi' : locale,
+  ).lineHeightMultiplier;
+  const lift =
+    titleLine === null
+      ? 0
+      : baselineLift({
+          titleSize: titleLineSize(titleLine),
+          titleLeading,
+          valueSize: countdownSize(fontScale),
+        });
   const paddingTop = insets.top + theme.space['8'];
   // A licence credit sits in the bottom corner, under the content.
   const paddingBottom = media?.attribution_required ? theme.space['24'] : theme.space['12'];
@@ -170,15 +210,17 @@ export function PhaseHeader(props: PhaseHeaderProps) {
         )}
       </Row>
       <View
-        style={{ flexDirection: 'row', alignItems: 'baseline', gap: TITLE_GAP }}
-        onLayout={(event) => setTitleY(event.nativeEvent.layout.y)}
+        style={[styles.titleRow, marks ? null : styles.tight]}
+        onLayout={(event) =>
+          setTitleY(event.nativeEvent.layout.y + (marks ? 0 : theme.space['32']))
+        }
       >
         <Text variant="displayHero" autoFit color={props.colour} style={styles.title}>
           {title}
         </Text>
         {beside && timer !== null ? (
-          <View {...timer}>
-            <View style={styles.sideLabel}>
+          <View style={{ marginBottom: lift }} {...timer}>
+            <View style={[styles.sideLabel, { top: -(labelHeight(fontScale) + theme.space['2']) }]}>
               <Text variant="eyebrow" color={cream} numberOfLines={1} style={styles.sideLabelText}>
                 {label}
               </Text>
@@ -196,17 +238,21 @@ export function PhaseHeader(props: PhaseHeaderProps) {
         </View>
       ) : null}
       {guideName === null ? null : (
-        <InfoPill>
-          {t({ id: 'trip.hub.guestGuide', message: `${guideName} is a guest here` })}
-        </InfoPill>
+        <View style={styles.below}>
+          <InfoPill>
+            {t({ id: 'trip.hub.guestGuide', message: `${guideName} is a guest here` })}
+          </InfoPill>
+        </View>
       )}
       {header.phase === 'planning' && props.planning !== null ? (
-        <PillButton
-          label={props.planning.label}
-          tone="yellow"
-          onPress={props.planning.onPress}
-          testID="trip-hub-planning-cta"
-        />
+        <View style={{ marginTop: theme.space['12'] }}>
+          <PillButton
+            label={props.planning.label}
+            tone="yellow"
+            onPress={props.planning.onPress}
+            testID="trip-hub-planning-cta"
+          />
+        </View>
       ) : null}
     </View>
   );

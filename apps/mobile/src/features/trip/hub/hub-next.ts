@@ -107,3 +107,16 @@ export function hubEntries(input: {
   };
   return stop === null ? [todayPage] : [todayPage, stop];
 }
+
+/** "EXPLORE ĐÀ NẴNG" under the tiles: the destination's Explore page, once that screen exists. */
+export function exploreEntry(destination: string, onPress: (() => void) | undefined): HubNext {
+  return {
+    icon: 'spark',
+    label: null,
+    title: t({ id: 'trip.hub.explore', message: `Explore ${destination}` }),
+    detail: null,
+    tone: 'raised',
+    testID: 'trip-hub-explore',
+    onPress: onPress ?? null,
+  };
+}

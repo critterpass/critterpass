@@ -26,7 +26,7 @@ import { guideColour, guideName as nameOf, guideOr } from './guide';
 import { bookingsTile, moneyTile, planTile, tickerLines, tileTitles, wholeMoney } from './hub-copy';
 import { activityHref, HOME, planningLink } from './hub-links';
 import { hubHeader, viewerNet, type HubFlight } from './hub-model';
-import { hubEntries } from './hub-next';
+import { exploreEntry, hubEntries } from './hub-next';
 import { HubView } from './hub-view';
 import { HubTile, useRegisteredHubTiles } from './tiles';
 
@@ -205,6 +205,13 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
         }))),
   ];
 
+  const explore =
+    trip === null || trip.destination_id === null || trip.destination_name === null
+      ? null
+      : exploreEntry(
+          trip.destination_name,
+          go(hrefFor('3d-1', { placeId: trip.destination_id, tripId })),
+        );
   const planning = trip === null ? null : planningLink(tripId, trip.status, rows.openVotes[0]);
   const planningAction = planning === null ? undefined : go(planning.href);
 
@@ -235,6 +242,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
       briefing={briefing}
       onAct={onAct}
       tiles={tiles}
+      explore={explore}
       ticker={tickerLines(rows.activity, trip?.status ?? null).map(({ row, text }) => {
         const open = go(activityHref(row, tripId));
         return { id: row.id, text, ...(open === undefined ? {} : { onPress: open }) };

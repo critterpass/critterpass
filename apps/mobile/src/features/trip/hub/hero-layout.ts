@@ -6,6 +6,7 @@ import { resolveTypeVariant, tokens } from '@cp/design-tokens';
 
 import { DARK_HIGHLIGHT_DEPTH, mixColour, scrimFor } from '@/ui/media/duotone';
 import { ADVANCE_RATIO, AUTO_FIT_MIN_SCALE } from '@/ui/text/auto-fit';
+import { FACE_METRICS } from '@/ui/text/glyph-room';
 
 const { type } = tokens;
 const HERO = type.display.hero;
@@ -26,7 +27,11 @@ export const COUNTDOWN_SIZE = 22;
  * narrower screen takes the whole width for the name and sets the countdown under it, instead of
  * shrinking the name further to make room.
  */
-export function countdownBeside(input: {
+export function countdownBeside(input: TitleLine): boolean {
+  return titleLineSize(input) >= heroFloor(input.fontScale);
+}
+
+export interface TitleLine {
   readonly title: string;
   /** The phase's label and value ("WHEELS UP IN", "17D 05:26:29"). */
   readonly label: string;
@@ -34,23 +39,62 @@ export function countdownBeside(input: {
   /** The header's width inside the gutters. */
   readonly width: number;
   readonly fontScale?: number;
-}): boolean {
+}
+
+function heroFloor(fontScale = 1): number {
+  const hero = resolveTypeVariant(HERO, { fontScale });
+  return hero.fontSize * (HERO.dynamicType.minScale ?? AUTO_FIT_MIN_SCALE);
+}
+
+/** The countdown's size at this text scale. */
+export function countdownSize(fontScale = 1): number {
+  const h3 = resolveTypeVariant(type.h3, { fontScale });
+  return (h3.fontSize * COUNTDOWN_SIZE) / (type.h3.fontSizeMax ?? COUNTDOWN_SIZE);
+}
+
+/** The size the destination gets on one line beside the countdown, by the auto-fit's estimate. */
+export function titleLineSize(input: TitleLine): number {
   const scale = { fontScale: input.fontScale ?? 1 };
   const eyebrow = resolveTypeVariant(type.eyebrow, scale);
-  const h3 = resolveTypeVariant(type.h3, scale);
   const hero = resolveTypeVariant(HERO, scale);
-  const valueSize = (h3.fontSize * COUNTDOWN_SIZE) / (type.h3.fontSizeMax ?? COUNTDOWN_SIZE);
   const side = Math.max(
     textWidth(
       input.label,
       eyebrow.fontSize,
       ADVANCE_RATIO.regular + (type.eyebrow.letterSpacing ?? 0),
     ),
-    textWidth(input.value, valueSize, ADVANCE_RATIO.condensed + (type.h3.letterSpacing ?? 0)),
+    textWidth(
+      input.value,
+      countdownSize(input.fontScale),
+      ADVANCE_RATIO.condensed + (type.h3.letterSpacing ?? 0),
+    ),
   );
   const room = input.width - TITLE_GAP - side;
-  const oneLineSize = room / ([...input.title].length * ADVANCE_RATIO.condensed);
-  return oneLineSize >= hero.fontSize * (HERO.dynamicType.minScale ?? AUTO_FIT_MIN_SCALE);
+  return Math.min(hero.fontSize, room / ([...input.title].length * ADVANCE_RATIO.condensed));
+}
+
+/** The eyebrow line's height: how far the phase's label hangs above the countdown's box. */
+export function labelHeight(fontScale = 1): number {
+  return resolveTypeVariant(type.eyebrow, { fontScale }).lineHeight;
+}
+
+/**
+ * How far the countdown rises so its baseline meets the destination's when their boxes share a
+ * bottom edge. Each line centres its face (Archivo: ascent .878, descent .21 em) on its line
+ * height, so a baseline sits `(leading − face) / 2 + descent` em above its box's bottom.
+ */
+export function baselineLift(input: {
+  readonly titleSize: number;
+  /** The destination's line height in em (the display face's, or its script's own). */
+  readonly titleLeading: number;
+  readonly valueSize: number;
+}): number {
+  const { ascent, descent } = FACE_METRICS['Archivo'] ?? { ascent: 0, descent: 0 };
+  const above = (leading: number) => (leading - (ascent + descent)) / 2 + descent;
+  return Math.max(
+    0,
+    above(input.titleLeading) * input.titleSize - above(type.h3.lineHeight) * input.valueSize,
+  );
 }
 
 export interface HeroScrim {

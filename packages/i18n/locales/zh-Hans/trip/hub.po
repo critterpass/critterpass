@@ -140,6 +140,10 @@ msgid "trip.hub.tile.settled"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.explore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.firstDay"
 msgstr ""
 

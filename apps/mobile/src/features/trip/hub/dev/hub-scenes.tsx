@@ -21,7 +21,7 @@ import {
   wholeMoney,
 } from '../hub-copy';
 import type { HubHeader } from '../hub-model';
-import { hubEntries } from '../hub-next';
+import { exploreEntry, hubEntries } from '../hub-next';
 import { FLIGHT, LEAVE_BY, LINES, NOW, STOP, TICKER, TODAY, TZ, WHEELS_UP } from './hub-fixtures';
 import { HubView, type HubViewProps } from '../hub-view';
 import { HubTile, type HubTileData } from '../tiles';
@@ -89,6 +89,7 @@ function Hub({
     tz: TZ,
     locale,
   });
+  const destination = overrides.destination ?? 'Bali';
   const props: HubViewProps = {
     state: 'ready',
     header,
@@ -96,7 +97,7 @@ function Hub({
     startDate,
     endDate: '2026-10-19',
     going: 6,
-    destination: 'Bali',
+    destination,
     colour: guideColour('tokek'),
     guide: 'tokek',
     guideName: 'Tokek',
@@ -109,6 +110,7 @@ function Hub({
       key: tile.key,
       node: <HubTile tile={tile} />,
     })),
+    explore: header.phase === 'planning' ? null : exploreEntry(destination, noop),
     ticker: TICKER,
     onSwitch: null,
     ...overrides,

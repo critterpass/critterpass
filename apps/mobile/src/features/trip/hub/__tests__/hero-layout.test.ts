@@ -4,7 +4,7 @@ import { contrastRatio, tokens } from '@cp/design-tokens';
 
 import { mixColour } from '@/ui/media/duotone';
 
-import { countdownBeside, heroScrim, scrimStops } from '../hero-layout';
+import { baselineLift, countdownBeside, heroScrim, scrimStops } from '../hero-layout';
 
 const LINE = { label: 'WHEELS UP IN', value: '17D 05:26:29' };
 /** iPhone 15 and a 360 dp Android, inside the gutters. */
@@ -24,6 +24,15 @@ describe('hub header layout', () => {
         beside: false,
       });
     }
+  });
+
+  it("lifts the countdown onto the destination's baseline", () => {
+    // Display leading (.82) puts a 90 pt baseline 6.8 pt above its box; a 22 pt countdown's is
+    // 3.7 pt above its own.
+    const lift = baselineLift({ titleSize: 90, titleLeading: 0.82, valueSize: 22 });
+    expect(lift).toBeCloseTo(3.19, 1);
+    // A looser line (Vietnamese marks) carries its baseline higher still.
+    expect(baselineLift({ titleSize: 90, titleLeading: 1, valueSize: 22 })).toBeGreaterThan(lift);
   });
 
   it('drops the countdown under the name at larger text sizes', () => {
