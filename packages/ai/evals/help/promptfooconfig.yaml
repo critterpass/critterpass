@@ -1,0 +1,11 @@
+# Help checklists: the curated steps for one problem → the guide's wording in the traveller's
+# language. Every number, place and phrase must be one the catalogue gave; no medical advice and no
+# claim that anyone called emergency services, otherwise the plain steps answer. Cases live in
+# cases.yaml and run through the real writeHelpChecklist (see suite.ts).
+# Run: pnpm --filter @cp/ai eval help
+description: Help checklist worded from curated safety facts
+prompts:
+  - '{{steps}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

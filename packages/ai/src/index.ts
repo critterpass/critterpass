@@ -293,3 +293,5 @@ export * from './routes/translate';
 export * from './routes/explore';
 export * from './routes/proposal';
 export * from './routes/quests';
+export * from './routes/help';
+export * from './routes/sos';

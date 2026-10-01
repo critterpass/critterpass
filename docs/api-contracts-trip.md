@@ -17,12 +17,13 @@ Status: contract for day-of, disruptions, help, map (P36–P39). Stack: Hono + Z
 | `decide_disruption_action` | `{disruption_id, action_id, decision}` | affected member (money/others → needs yes) | – | `disruption.action_decided` | A, N | 37 | – |
 | `undo_disruption_action` | `{disruption_id, action_id}` | approver | reversible only | `disruption.action_undone` | A, N | 37 | – |
 | `announce_disruption` | `{disruption_id}` | organiser | – | `disruption.announced` | A | 37 | – |
-| `start_help_share` | `{trip_id, reason, ttl_min}` | participant | – (helpMap) | `help_share.started` (N-25) | A | 38 | – |
-| `stop_help_share` / `extend_help_share` | `{share_id, ttl_min?}` | owner | – | `help_share.stopped/extended` | A, N | 38 | – |
-| `trigger_sos` | `{trip_id, text?, fix?}` (confirm step on surfaces) | participant | – | `sos.triggered` (N-24, deterministic fan-out first) | A, L, I | 38 | – |
+| `start_help_share` | `{trip_id, reason: help, ttl_min?, session_id?, place_label?}` (detail: [api-contracts-safety.md](./api-contracts-safety.md) §2) | participant | – (free) | `help_share.started` (N-25) | A, O | 38 | – |
+| `stop_help_share` / `extend_help_share` | `{share_id, ttl_min?}` (+1 h, capped 3 h ahead) | owner | – | `help_share.stopped/extended` (`help_share.expired` from the timer) | A, O, N | 38 | – |
+| `request_ops_clinic_call` (doc delta) | `{trip_id, session_id?, facility_id?, share_insurance, text_shown}` → human ops desk task (`clinic_handoff`) | participant (own session) | – | `concierge.requested`, `help.clinic_requested` | A, O | 38 | – |
+| `trigger_sos` | `{trip_id, sos_id?, text?, preset?, fix?, place_label?, health_notes?, clock_offset_ms?, confirm_of?}` (confirm step on surfaces; stale rule in [api-contracts-safety.md](./api-contracts-safety.md) §2) | participant | – (free) | `sos.triggered` (N-24, deterministic fan-out first) or `sos.stale` (no alert) | A, O, L, I | 38 | – |
 | `respond_sos` | `{sos_id, state: coming\|seen\|calling}` | crew | – | `sos.responded` | A, N | 38 | – |
-| `send_sos_message` | `{sos_id, body}` | crew | – | `sos.message` | A, O | 38 | – |
-| `resolve_sos` | `{sos_id, note?}` | sender / responder | – | `sos.resolved` (N-48) | A, N | 38 | – |
+| `send_sos_message` | `{sos_id, message_id?, body}` | participant | – | `sos.message` | A, O | 38 | – |
+| `resolve_sos` | `{sos_id, note?, false_alarm?}` | sender / responder | – | `sos.resolved` (N-48 when the crew was alerted) | A, O, N | 38 | – |
 | `set_location_share` | `{trip_id, status: on\|off}` (window ends last-day midnight; a `location.expire` timer announces the end and unsubscribes when the map closes; `off` always allowed) | participant | `boostActive(t)` except Help/SOS | `location_share.changed` | A, O | 39 | – |
 | `pause_location_share` (doc delta) | `{share_id, paused}` | share owner | resume: `boostActive(t)` + trip days; pause always | `location_share.changed` + `share.paused`/`share.resumed` on `trip_locations` | A, O | 39 | – |
 | `report_location_fixes` | `{trip_id, fixes[{lat, lng, acc, at, mode?}]}` via `POST /v1/trips/{id}/fixes` (TTL rows, not synced) | sharing participant | same | `trip_locations` publish | A (bg) | 39 | – |
