@@ -1,7 +1,7 @@
 import { router } from 'expo-router';
 import { useState } from 'react';
 import type { ReactNode } from 'react';
-import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -32,6 +32,21 @@ export function detentHeights(
     detent === 'fit' ? Math.min(large, fitHeight ?? large) : screenHeight * DETENT_FRACTION[detent],
   );
   return [...new Set(heights)].sort((a, b) => a - b);
+}
+
+/**
+ * How much of its foot a sheet's content keeps clear: the home indicator, or the keyboard while it
+ * is up. The sheet runs to the bottom edge of the screen. iOS gives the keyboard's height from that
+ * edge; Android gives it from the top of the navigation bar, so there the bar's inset is added, or
+ * the foot (a composer, a save button) sits behind the keyboard by that much.
+ */
+export function sheetFootClearance(
+  os: string,
+  bottomInset: number,
+  keyboardHeight: number,
+): number {
+  if (keyboardHeight <= 0) return bottomInset;
+  return Math.max(bottomInset, keyboardHeight + (os === 'android' ? bottomInset : 0));
 }
 
 const useStyles = makeStyles((t) => ({
@@ -191,7 +206,9 @@ export function Sheet({
                     styles.content,
                     hasHeader ? styles.contentUnderHeader : null,
                     fitOnly ? null : { flex: 1 },
-                    { paddingBottom: Math.max(insets.bottom, keyboardInset) },
+                    {
+                      paddingBottom: sheetFootClearance(Platform.OS, insets.bottom, keyboardInset),
+                    },
                   ]}
                   onLayout={(event) => {
                     if (!fitOnly) return;
