@@ -8,18 +8,23 @@
 import { toLocalWallTime } from '@cp/domain';
 import { format } from '@cp/i18n';
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { music } from '@/motion';
 import { GUIDE_IDS, type GuideId } from '@/motion/music';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
+import { Scaffold } from '@/ui/surface/Scaffold';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { type FormRow } from '../data/queries';
 import { formSpec } from '../dex/dex-model';
 import { deviceTimeZone, markHatchSeen } from './hatch-model';
 import { HatchView } from './hatch-view';
+
+/** How long the ceremony waits for its trip's rows before giving up on them. */
+export const MISSING_GRACE_MS = 3000;
 
 const HATCH_SQL = `SELECT t.id, t.end_date, coalesce(t.tz, d.tz) AS tz, d.name AS place, d.colour,
     cs.name AS set_name, cs.hero_critter_key, g.slug AS guide_slug, g.name AS guide_name,
@@ -112,7 +117,20 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
     HATCH_TABLES,
   );
   const row = rows[0];
-  if (!loaded || row === undefined) return null;
+  const missing = loaded && row === undefined;
+  useEffect(() => {
+    // No such trip on this phone: leave, rather than sit over the screen below. Not at once: while a
+    // trip turns from "starting" to "under way" its rows can be missing for a sync or two, and
+    // leaving then closed the ceremony right after HATCH IT.
+    if (!missing) return undefined;
+    const leave = setTimeout(() => router.back(), MISSING_GRACE_MS);
+    return () => clearTimeout(leave);
+  }, [missing]);
+  // The route is a see-through card: until the trip's row is read it shows the page, never nothing
+  // (an empty card would look like the screen below while swallowing its taps).
+  if (!loaded || row === undefined) {
+    return <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-hatch-loading" />;
+  }
   const isGuide = row.critter_key !== null && row.critter_key === row.hero_critter_key;
   const verifiedName = row.verification === 'verified' ? row.critter_name : null;
   const form =

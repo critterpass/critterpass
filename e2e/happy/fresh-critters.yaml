@@ -74,6 +74,16 @@ appId: app.critterpass.dev
       id: 'critters-hatch'
     timeout: 120000
     optional: true
+# When the ceremony opened by itself, let it play to the reveal: mid-pop the stage is empty.
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-hatched'
+          timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-10-after-arriving
 # If arriving did not hatch it, the traveller's own way: HATCH IT (it needs the trip under way).
@@ -93,6 +103,20 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'critters-egg-hatch'
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-meet'
+          commands:
+            - tapOn:
+                id: 'critters-egg-meet'
+      # What HATCH IT led to, a few seconds on (the ceremony, its loading page, or neither).
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-hatch'
+          timeout: 8000
+          optional: true
+      - takeScreenshot: fresh-critters-10b-after-hatch-it
       - runFlow:
           when:
             visible:
@@ -173,8 +197,10 @@ appId: app.critterpass.dev
           visible:
             id: 'critters-encounter-scene'
           timeout: 20000
-      - waitForAnimationToEnd
+      - waitForAnimationToEnd:
+          timeout: 4000
       - takeScreenshot: fresh-critters-15-encounter
+      - runFlow: ../onboarding/subflows/back.yaml
 # The trip's quests: Home → the trip → QUESTS.
 - runFlow:
     file: ../screens/sweep/subflows/open-link.yaml

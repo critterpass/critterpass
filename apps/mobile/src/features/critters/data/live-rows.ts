@@ -28,7 +28,10 @@ export function watchQuery<Row>(
       (rows) => {
         if (!controller.signal.aborted) onRows(rows);
       },
-      () => undefined,
+      (error: unknown) => {
+        // A query that cannot run leaves its screen waiting for ever; say so where it can be read.
+        console.warn('[critters] local query failed', sql.slice(0, 80), error);
+      },
     );
   void load();
   db.onChange(
