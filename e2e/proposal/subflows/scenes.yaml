@@ -21,7 +21,7 @@ appId: app.critterpass.dev
     env: { SCENE: not-sure, READY: objection-board, SHOT: '${PREFIX}-3f-4-not-sure' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: board, READY: board-knob, SHOT: '${PREFIX}-3f-5-slide' }
+    env: { SCENE: board, READY: board-slide, SHOT: '${PREFIX}-3f-5-slide' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: board-boarded, READY: board-egg, SHOT: '${PREFIX}-3f-5-boarded' }
