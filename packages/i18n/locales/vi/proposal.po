@@ -102,6 +102,11 @@ msgstr "{0} gợi ý"
 msgid "proposal.lock.silent"
 msgstr "{0} người chưa trả lời sẽ tính là không đi."
 
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.subGroup"
+msgstr "{0} đã viết một kế hoạch cho cả nhóm. Chạm vào một điểm để mở."
+
 #. placeholder {0}: pick.title
 #: ../../apps/mobile/src/features/proposal/your-version/picks-list.tsx
 msgid "proposal.version.pickA11y"
@@ -128,6 +133,10 @@ msgstr "{guideName} đã viết cho mỗi người một bản. Chọn kiểu g�
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.subShared"
 msgstr "{guideName} đã viết một bản chung cho cả nhóm. Chọn kiểu gửi nhé."
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.titleGroup"
+msgstr "{name}, đây là kế hoạch"
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
 msgid "proposal.version.title"
@@ -254,6 +263,10 @@ msgstr "Ngày đi"
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
 msgstr "Ngày {0}"
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.day"
+msgstr "Ngày {dayNo}"
 
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
 msgid "proposal.build.dearCrew"
@@ -435,6 +448,10 @@ msgstr "Có thể"
 msgid "proposal.why.crew"
 msgstr "Hầu hết cả nhóm đều muốn mục này."
 
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.groupMustDo"
+msgstr "Phải đi"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
 msgstr "Chưa trả lời"
@@ -471,6 +488,10 @@ msgstr "ÔI WOW"
 msgid "proposal.reaction.fire"
 msgstr "Cháy quá"
 
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.onThePlan"
+msgstr "Có trong kế hoạch"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.waitlisted"
 msgstr "Trong danh sách chờ"
@@ -478,6 +499,10 @@ msgstr "Trong danh sách chờ"
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.personalOn"
 msgstr "Mỗi người một bản, {n} bản do {guideName} viết"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.personalOne"
+msgstr "Một bản cho bạn của bạn, do {guideName} viết"
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.personalOff"
@@ -561,6 +586,10 @@ msgstr "Nói là có thể"
 #: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
 msgid "proposal.share.saved"
 msgstr "Tiết kiệm"
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.wholePlan"
+msgstr "Xem toàn bộ kế hoạch"
 
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx
 msgid "proposal.card.organiser"

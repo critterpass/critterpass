@@ -95,7 +95,7 @@ export function TrackerView(props: TrackerViewProps) {
         <BackEyebrow label={props.back} onPress={props.onBack} testID="tracker-back" />
         {props.chip === null ? null : (
           <View style={styles.chip}>
-            <Text variant="label" color={theme.semantic.text.onAccent}>
+            <Text variant="label" color={theme.semantic.text.onAccent} testID="tracker-chip">
               {props.chip}
             </Text>
           </View>

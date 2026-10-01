@@ -91,10 +91,15 @@ export function BuilderView(props: BuilderViewProps) {
       kind: 'toggle',
       title: t({ id: 'proposal.build.personal', message: 'Personal versions' }),
       subtitle: config.personal
-        ? t({
-            id: 'proposal.build.personalOn',
-            message: `One for each of the ${n}, written by ${guideName}`,
-          })
+        ? n === 1
+          ? t({
+              id: 'proposal.build.personalOne',
+              message: `One for your friend, written by ${guideName}`,
+            })
+          : t({
+              id: 'proposal.build.personalOn',
+              message: `One for each of the ${n}, written by ${guideName}`,
+            })
         : t({ id: 'proposal.build.personalOff', message: 'One version for the whole crew' }),
       value: config.personal,
       onChange: props.onPersonal,

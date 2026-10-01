@@ -102,6 +102,11 @@ msgstr ""
 msgid "proposal.lock.silent"
 msgstr ""
 
+#. placeholder {0}: info.name
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.subGroup"
+msgstr ""
+
 #. placeholder {0}: pick.title
 #: ../../apps/mobile/src/features/proposal/your-version/picks-list.tsx
 msgid "proposal.version.pickA11y"
@@ -127,6 +132,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.subShared"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.titleGroup"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
@@ -253,6 +262,10 @@ msgstr ""
 #. placeholder {0}: pick.dayNo
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.day"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/format-cards.tsx
@@ -435,6 +448,10 @@ msgstr ""
 msgid "proposal.why.crew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.groupMustDo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-view.tsx
 msgid "proposal.tracker.noReplyChip"
 msgstr ""
@@ -471,12 +488,20 @@ msgstr ""
 msgid "proposal.reaction.fire"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/data/picks.ts
+msgid "proposal.reason.onThePlan"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.waitlisted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.personalOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
+msgid "proposal.build.personalOne"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
@@ -560,6 +585,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/share-card.tsx
 msgid "proposal.share.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.wholePlan"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/chat-card.tsx

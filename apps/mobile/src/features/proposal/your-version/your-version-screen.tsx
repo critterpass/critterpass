@@ -11,14 +11,15 @@ import { useEffect, useRef, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useLocale } from '@/lib/i18n/use-locale';
+import { hrefFor } from '@/lib/navigation/screen-registry';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 
 import { recordProposalOpenCommand } from '../data/commands';
-import { instantDate } from '../data/format';
+import { dayRange, instantDate } from '../data/format';
 import { reasonWhy, type Pick } from '../data/picks';
-import { usePicks } from '../data/picks';
+import { useGroupPicks, usePicks } from '../data/picks';
 import {
   useFindProposalTrip,
   useHype,
@@ -52,7 +53,11 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
   const opened = useRef(false);
   const viewer = props.as ?? trip?.me ?? null;
   const version = versions.find((v) => v.recipientId === viewer) ?? null;
-  const picks = usePicks(tripId ?? '', version?.highlights ?? [], version?.slides ?? []);
+  const personal = usePicks(tripId ?? '', version?.highlights ?? [], version?.slides ?? []);
+  const fromPlan = useGroupPicks(tripId ?? '');
+  // The crew's shared version (or one with no picks of its own) shows the plan's own highlights.
+  const group = version !== null && (version.shared || personal.length === 0);
+  const picks = group ? fromPlan : personal;
   const savings = useSavings(
     tripId ?? '',
     viewer ?? '',
@@ -108,6 +113,8 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         : person?.rsvp === 'out'
           ? t({ id: 'proposal.version.out', message: 'You said you can’t make it.' })
           : null;
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
+  const planHref = hrefFor('3e-1', { tripId: trip.tripId });
   const board = (ids: readonly string[]) => {
     setAsking(false);
     router.push(proposalRoutes.board(props.proposalId, ids));
@@ -121,6 +128,14 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         chip={chip}
         pending={version === null || version.status === 'pending'}
         fallbackNote={version?.fallbackNote ?? null}
+        group={group}
+        tripLine={[
+          trip.destination,
+          trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : null,
+        ]
+          .filter(Boolean)
+          .join(' · ')}
+        onPlan={planHref === undefined ? undefined : () => router.push(planHref)}
         picks={picks}
         when={(pick) =>
           pick.dayNo === null ? '' : t({ id: 'proposal.version.day', message: `Day ${pick.dayNo}` })
@@ -151,7 +166,16 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         }
         answered={answered}
         onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
-        onPick={setWhy}
+        onPick={(pick) => {
+          if (!group) {
+            setWhy(pick);
+            return;
+          }
+          // A group stop opens its day in the plan.
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id.
+          const day = hrefFor('3e-2', { tripId: trip.tripId, day: String(pick.dayNo ?? 1) });
+          if (day !== undefined) router.push(day);
+        }}
         onIn={() => board(chosen)}
         onAsk={() => setAsking(true)}
       />

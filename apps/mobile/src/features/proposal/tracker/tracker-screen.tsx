@@ -33,6 +33,8 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   const locale = useLocale();
   const lock = useCommand(lockProposalCommand);
   const [asking, setAsking] = useState(false);
+  // The server's answer to LOCK shows at once; the synced proposal row follows.
+  const [lockedNow, setLockedNow] = useState(false);
   const member = trip != null && !trip.isOrganiser;
 
   useEffect(() => {
@@ -63,13 +65,15 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
     }
   };
   const recipients = trip.people.filter((p) => !p.organiser);
-  const state = lockState(proposal.status, recipients);
+  const status = lockedNow ? 'locked' : proposal.status;
+  const state = lockState(status, recipients);
   const counts = tally(trip.people);
   const deadline = proposal.freeCancelUntil ?? proposal.replyBy;
   const onLock = async () => {
     setAsking(false);
     const result = await lock.send({ proposal_id: proposal.id });
     if (result.kind === 'applied') {
+      setLockedNow(true);
       feedback.emit('success');
       toast.show({
         id: 'proposal-locked',
@@ -92,7 +96,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
       <TrackerView
         back={t({ id: 'proposal.tracker.back', message: `${trip.destination} proposal` })}
         chip={
-          proposal.status === 'locked'
+          status === 'locked'
             ? t({ id: 'proposal.tracker.confirmed', message: 'Confirmed' })
             : deadline === null
               ? null
@@ -118,9 +122,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
         }))}
         tally={counts}
         suggestions={
-          proposal.status === 'sent' ? (
-            <Suggestions proposalId={proposal.id} guide={trip.guide} />
-          ) : null
+          status === 'sent' ? <Suggestions proposalId={proposal.id} guide={trip.guide} /> : null
         }
         lockLabel={
           state.kind === 'ready' ? t({ id: 'proposal.lock.cta', message: 'Lock it in' }) : null

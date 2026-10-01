@@ -23,6 +23,7 @@ import { YourVersionView } from '../your-version/your-version-view';
 import {
   LAB_OPTIONS,
   LAB_PEOPLE,
+  LAB_GROUP_PICKS,
   LAB_PICKS,
   LAB_RECIPIENTS,
   LAB_SAVINGS,
@@ -68,16 +69,19 @@ const builder = (over: Partial<BuilderViewProps> = {}) => (
   />
 );
 
-const version = (sheet: ReactNode = null) => (
+const version = (sheet: ReactNode = null, group = false) => (
   <>
     <YourVersionView
       name="Linh"
+      group={group}
+      tripLine="Đà Nẵng · Oct 2–4"
+      onPlan={noop}
       preview={false}
       guide="chava"
       chip="Reply by Oct 1"
       pending={false}
       fallbackNote={null}
-      picks={LAB_PICKS}
+      picks={group ? LAB_GROUP_PICKS : LAB_PICKS}
       when={(pick) => `Day ${pick.dayNo ?? 1}`}
       share={
         <ShareCard
@@ -200,6 +204,7 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   version: () => version(),
+  'version-group': () => version(null, true),
   'not-sure': () =>
     version(
       <Dismissable>
