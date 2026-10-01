@@ -49,17 +49,18 @@ export const exploreRoutes = {
   /** The search for any place (the vote area's sheet). */
   search: (): Href | undefined => hrefFor('3b-7'),
   plan: (tripId: string): Href | undefined => hrefFor('3e-1', { tripId }),
-  /** Partner offers for an activity, in the partners' own words (the suppliers area's screen). */
+  /**
+   * Partner offers for an activity, in the partners' own words (the suppliers area's screen). The
+   * offers screen works inside a trip, so there is none to open without one.
+   */
   offers: (params: {
     readonly tripId: string | null;
     readonly name: string;
     readonly date: string;
   }): Href | undefined =>
-    hrefFor('6f-1', {
-      name: params.name,
-      date: params.date,
-      ...(params.tripId === null ? {} : { tripId: params.tripId }),
-    }),
+    params.tripId === null
+      ? undefined
+      : hrefFor('6f-1', { tripId: params.tripId, name: params.name, date: params.date }),
   /** The guide chat, inside the trip when there is one. */
   guideChat: (tripId: string | null): Href | undefined =>
     hrefFor('3j-1', tripId === null ? {} : { tripId }),
