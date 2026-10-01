@@ -133,6 +133,11 @@ appId: app.critterpass.dev
       id: 'build-send'
       enabled: true
     timeout: 60000
+# PREVIEW AS <friend> shows once the guide has written their version.
+- extendedWaitUntil:
+    visible:
+      id: 'build-preview-.*'
+    timeout: 180000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-1-build
 - tapOn:
@@ -162,6 +167,13 @@ appId: app.critterpass.dev
     visible:
       id: 'version-in'
     timeout: 30000
+# The friend sees what they are agreeing to: the plan's highlights, from the plan SEND published.
+- extendedWaitUntil:
+    visible:
+      id: 'version-pick-0'
+    timeout: 60000
+- assertVisible:
+    id: 'version-whole-plan'
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-3-your-version
 - tapOn:
@@ -192,6 +204,12 @@ appId: app.critterpass.dev
       id: 'board-slide'
     timeout: 30000
 - waitForAnimationToEnd
+# The pass's barcode and stickers are drawn a moment after the screen settles.
+- extendedWaitUntil:
+    visible:
+      id: 'board-pass-drawn'
+    timeout: 4000
+    optional: true
 - takeScreenshot: en-3f-5-slide
 # The knob sits at the start of the track. Android finds it by id; iOS reads the track as one
 # element, so the drag starts where the knob rests (low on the screen, at the left).
@@ -229,6 +247,21 @@ appId: app.critterpass.dev
     id: 'board-pending'
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-5-boarded
+# In: the friend opens the whole plan from their version and sees day 1.
+- tapOn:
+    id: 'board-done'
+- scrollUntilVisible:
+    element:
+      id: 'version-whole-plan'
+    timeout: 30000
+- tapOn:
+    id: 'version-whole-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-1'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-3e-1-friend-plan
 
 # The organiser locks the crew in: the trip is confirmed.
 - runFlow:
@@ -249,8 +282,16 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'tracker-lock'
 - tapOn: '(?i)yes, lock it in'
+# Confirmed: the chip says so and LOCK IT IN is gone.
 - extendedWaitUntil:
     visible:
-      text: '(?i)locked in\. the trip is confirmed\.'
+      id: 'tracker-lock-note'
     timeout: 30000
+- extendedWaitUntil:
+    notVisible:
+      id: 'tracker-lock'
+    timeout: 15000
+- assertVisible:
+    text: '(?i)confirmed'
+- waitForAnimationToEnd
 - takeScreenshot: en-3f-6-locked

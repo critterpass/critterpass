@@ -3,18 +3,22 @@
  * version; one the guide couldn't write gets the crew's shared version and says so. The crew can
  * already open it; WHO'S IN? goes to the tracker.
  */
+import type { ProposalFormat } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
 
+import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Icon } from '@/ui/icons/Icon';
 import { Avatar } from '@/ui/people/Avatar';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { CrewPerson } from '../data/trip';
 import type { ProposalVersion } from '../data/proposal';
+import { FormatThumb } from './format-cards';
 
 const useStyles = makeStyles((th) => ({
   content: { padding: th.space['20'], gap: th.space['16'], flexGrow: 1 },
@@ -31,10 +35,17 @@ const useStyles = makeStyles((th) => ({
     paddingVertical: th.space['10'],
   },
   grow: { flex: 1 },
+  sentRow: { flexDirection: 'row', alignItems: 'flex-end', gap: th.space['16'] },
   footer: { paddingHorizontal: th.space['20'], paddingBottom: th.space['8'] },
 }));
 
 export interface SendProgressProps {
+  readonly guide: GuideStickerId;
+  /** What went out, as the builder drew it. */
+  readonly format: ProposalFormat;
+  readonly destination: string;
+  readonly headline: string;
+  readonly price: string | null;
   readonly guideName: string;
   readonly recipients: readonly CrewPerson[];
   readonly versions: readonly ProposalVersion[];
@@ -44,11 +55,22 @@ export interface SendProgressProps {
 export function SendProgress(props: SendProgressProps) {
   const styles = useStyles();
   const theme = useTheme();
+  const info = GUIDE_STICKERS[props.guide];
   const byUid = new Map(props.versions.map((v) => [v.recipientId, v]));
   const done = props.versions.filter((v) => v.status !== 'pending').length;
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="proposal-sent">
       <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.sentRow}>
+          <FormatThumb
+            format={props.format}
+            guide={props.guide}
+            destination={props.destination}
+            headline={props.headline}
+            price={props.price}
+          />
+          <Sticker kind={info.kind} name={info.name} size={112} />
+        </View>
         <Text variant="h1" accessibilityRole="header">
           {t({ id: 'proposal.sent.title', message: 'It’s on its way' })}
         </Text>

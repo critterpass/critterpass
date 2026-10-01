@@ -91,6 +91,13 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
   if (trip !== null && outId !== null) {
     return (
       <SendProgress
+        guide={trip.guide}
+        format={proposal?.format ?? config.format}
+        destination={trip.destination}
+        headline={
+          versions.find((v) => v.slides.length > 0)?.slides[0]?.headline ?? `${trip.destination}.`
+        }
+        price={eachPrice(locale, trip.shareMinor, trip.currency)}
         guideName={guideName}
         recipients={trip.recipients}
         versions={versions}
@@ -186,19 +193,13 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
   return (
     <>
       <BuilderView
+        locale={locale}
         guideName={guideName}
         guide={trip.guide}
         destination={trip.destination}
         config={config}
         headline={shared?.slides[0]?.headline ?? `${trip.destination}.`}
-        price={
-          trip.shareMinor === null || trip.currency === null
-            ? null
-            : t({
-                id: 'proposal.build.each',
-                message: `${wholeMoney(locale, trip.shareMinor, trip.currency)} each`,
-              })
-        }
+        price={eachPrice(locale, trip.shareMinor, trip.currency)}
         replyByLabel={
           config.replyBy !== null
             ? instantDate(locale, config.replyBy)
@@ -251,6 +252,13 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       ) : null}
     </>
   );
+}
+
+/** "$1,310 each", or null before the trip is priced. */
+function eachPrice(locale: string, shareMinor: number | null, currency: string | null) {
+  if (shareMinor === null || currency === null) return null;
+  const amount = wholeMoney(locale, shareMinor, currency);
+  return t({ id: 'proposal.build.eachAmount', message: `${amount} each` });
 }
 
 function proposalIdOf(result: unknown): string | null {
