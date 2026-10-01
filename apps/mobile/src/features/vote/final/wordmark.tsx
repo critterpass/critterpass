@@ -67,13 +67,11 @@ interface WordWidths {
   readonly widths: readonly number[];
   /** Line height at the designed size. */
   readonly line: number;
-  /** A one-line text's height at the designed size: the line and the room the text adds. */
-  readonly oneLine: number;
   /** The capitals' height the platform measured, when it reports one. */
   readonly capHeight: number | undefined;
 }
 
-const NO_WORDS: WordWidths = { key: '', widths: [], line: 0, oneLine: 0, capHeight: undefined };
+const NO_WORDS: WordWidths = { key: '', widths: [], line: 0, capHeight: undefined };
 const NO_ROOM = { top: 0, bottom: 0 } as const;
 
 // eslint-disable-next-line lingui/no-unlocalized-strings -- style values, never copy.
@@ -105,6 +103,8 @@ export function Wordmark({
   const parts = name.split(/\s+/u).filter(Boolean);
   const [words, setWords] = useState<WordWidths>(NO_WORDS);
   const [set, setSet] = useState({ key, width: 0, height: 0, y: 0 });
+  // The name's own lines, as the platform broke them.
+  const [lines, setLines] = useState({ key, count: 0, line: 0 });
   const [design, setDesign] = useState({ key, box, height: 0 });
   const [seen, setSeen] = useState<string | null>(null);
   const widths = words.key === key ? words.widths : [];
@@ -123,19 +123,21 @@ export function Wordmark({
   const trimmed = leading !== undefined && setInDisplayFace(name, locale);
   const room = trimmed ? markRoom(name, leading) : NO_ROOM;
   const size = typeSize(words.key === key ? words.capHeight : undefined, designSize);
+  // The name's lines and its height come in two events: they describe one layout only when what is
+  // left of the height after the lines is the text's own room above them, less than a line.
+  const above = set.height - lines.line * lines.count;
+  const broken =
+    laidOut && lines.key === key && lines.count > 0 && above > -0.5 && above < lines.line;
   const placed =
-    trimmed && laidOut && words.key === key && words.line > 0 && words.oneLine > 0
+    trimmed && broken
       ? wordmarkBox(
-          {
-            size,
-            line: words.line,
-            oneLine: words.oneLine,
-            height: set.height,
-          },
+          { size, line: lines.line, lines: lines.count, height: set.height },
           leading,
           room,
         )
       : { height: laidOut ? set.height : 0, top: 0 };
+  // A layout to go by: for a name on the designed line, its own box and its lines, both current.
+  const settled = trimmed ? current && broken : measured;
   const height = placed.height * shown;
   if (
     measured &&
@@ -149,15 +151,15 @@ export function Wordmark({
     setSqueeze({ key, box, by: squeezed * SQUEEZE_STEP });
   }
   // Adjusted while rendering: the height at the uncapped size is what a caller's cap is worked from.
-  if ((trimmed ? current : measured) && scale === 1 && height > 0) {
+  if (settled && scale === 1 && height > 0) {
     if (design.key !== key || design.box !== box || design.height !== height) {
       setDesign({ key, box, height });
     }
   }
   // A trimmed name shows once it has been laid out in its own box, and stays shown while a new
   // size is laid out, so it neither flashes at a wrong size nor blinks when the size changes.
-  if (trimmed && current && seen !== key) setSeen(key);
-  const visible = measured && (!trimmed || seen === key || current);
+  if (trimmed && settled && seen !== key) setSeen(key);
+  const visible = trimmed ? seen === key || settled : measured;
   const designHeight = design.key === key && design.box === box ? design.height : 0;
   // On the designed line a name is compared by its type size: the text's own line height differs
   // between a plain name and a marked one, which is set on looser leading.
@@ -187,13 +189,6 @@ export function Wordmark({
             designSize={designSize}
             autoFit={false}
             testID={`${testID}-word-${index}`}
-            onLayout={(event) => {
-              const oneLine = event.nativeEvent.layout.height;
-              setWords((now) => {
-                const held = now.key === key ? now : { ...NO_WORDS, key };
-                return held === now && now.oneLine === oneLine ? now : { ...held, oneLine };
-              });
-            }}
             onTextLayout={(event) => {
               const first = event.nativeEvent.lines[0];
               if (first === undefined) return;
@@ -234,6 +229,15 @@ export function Wordmark({
           style={{ textAlign: TEXT_ALIGN[align] }}
           accessibilityRole={accessibilityRole}
           testID={testID}
+          onTextLayout={(event) => {
+            const count = event.nativeEvent.lines.length;
+            const line = event.nativeEvent.lines[0]?.height ?? 0;
+            setLines((now) =>
+              now.key === key && now.count === count && now.line === line
+                ? now
+                : { key, count, line },
+            );
+          }}
           onLayout={(event) => {
             const { width, height: textHeight, y } = event.nativeEvent.layout;
             setSet((now) =>

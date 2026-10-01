@@ -73,11 +73,11 @@ export function typeSize(capHeight: number | undefined, designSize: number): num
 export interface TextLayout {
   /** The type size, in points. */
   readonly size: number;
-  /** One line's height. */
+  /** One line's height, as the platform laid the name out. */
   readonly line: number;
-  /** The height of the text when it is one line: the line and the room the primitive adds. */
-  readonly oneLine: number;
-  /** The height of the text as it is laid out (one line or more). */
+  /** How many lines the name is on. */
+  readonly lines: number;
+  /** The height of the laid-out text: its lines and the room the primitive adds above them. */
   readonly height: number;
 }
 
@@ -91,18 +91,19 @@ export interface WordmarkBox {
 /**
  * The designed box for a laid-out name: `leading` em for its last line, the text's own leading
  * between lines, and the name's mark room. `top` says how far the text is pulled up so its first
- * line's capitals sit in the box as the render sets them.
+ * line's capitals sit in the box as the render sets them. Everything is read from the name's own
+ * layout, so it holds whatever leading the primitive chose for it.
  */
 export function wordmarkBox(layout: TextLayout, leading: number, room: MarkRoom): WordmarkBox {
-  const { size, line, oneLine, height } = layout;
+  const { size, line, lines, height } = layout;
   // The primitive pads the text above its first line; the baseline is where the platform puts it
   // on that line (centred, or riding high on iOS when the line is shorter than the face).
-  const padding = Math.max(0, oneLine - line);
+  const padding = Math.max(0, height - line * lines);
   const ratio = line / size;
   const natural = baselineIn(ratio) - lineBoxEm(FACE_NAME, ratio).shift;
   const firstBaseline = padding + natural * size;
   return {
-    height: height - oneLine + (leading + room.top + room.bottom) * size,
+    height: line * (lines - 1) + (leading + room.top + room.bottom) * size,
     top: firstBaseline - (baselineIn(leading) + room.top) * size,
   };
 }

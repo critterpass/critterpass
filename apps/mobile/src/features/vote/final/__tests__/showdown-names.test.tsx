@@ -55,7 +55,7 @@ function iosText(leading: number, lines = 1) {
     : (leading - FACE.ascent - FACE.descent) / 2 + FACE.ascent;
   const room = (FACE.glyphTop - baseline) * SIZE;
   return {
-    layout: { size: SIZE, line, oneLine: room + line, height: room + line * lines },
+    layout: { size: SIZE, line, lines, height: room + line * lines },
     /** The first baseline, from the text's top. */
     firstBaseline: room + baseline * SIZE,
   };
@@ -190,14 +190,13 @@ describe('showdown names', () => {
         lines: [{ width: word, height: TEXT.line, capHeight: FACE.capHeight * SIZE, text: 'X' }],
       },
     });
-    await fireEvent(measurer, 'layout', layout(word, TEXT.oneLine));
-    // The name itself, laid out in the box it is given.
+    // The name itself, laid out on one line in the box it is given.
     const width = Number(style(`showdown-name-${index}-set`)?.width);
-    await fireEvent(
-      screen.getByTestId(`showdown-name-${index}`),
-      'layout',
-      layout(width, TEXT.height),
-    );
+    const name = screen.getByTestId(`showdown-name-${index}`);
+    await fireEvent(name, 'textLayout', {
+      nativeEvent: { lines: [{ width: word, height: TEXT.line, text: 'X' }] },
+    });
+    await fireEvent(name, 'layout', layout(width, TEXT.height));
   };
 
   async function showdown() {
