@@ -142,6 +142,14 @@ msgstr "3 · Cấp pass cho tôi"
 msgid "onboarding.invite.ticket.titleGeneric"
 msgstr "Một chỗ trong {crew}"
 
+#: ../../apps/mobile/src/features/onboarding/invited/pass-missing.ts
+msgid "onboarding.invite.pass.addHome"
+msgstr "Thêm sân bay nhà"
+
+#: ../../apps/mobile/src/features/onboarding/invited/pass-missing.ts
+msgid "onboarding.invite.pass.addName"
+msgstr "Thêm tên của bạn"
+
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.adventure.short"
 msgstr "Phiêu lưu"
@@ -974,10 +982,6 @@ msgstr "Chuyến đi này xong rồi"
 msgid "onboarding.quiz.pace.left.line"
 msgstr "Ba thành phố, hai ngày"
 
-#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
-msgid "onboarding.invite.pass.blank"
-msgstr "Ba chạm là bạn vào nhóm."
-
 #: ../../apps/mobile/src/features/onboarding/taste/tag-labels.ts
 msgid "onboarding.tag.thrifty.short"
 msgstr "Tiết kiệm"
@@ -1181,6 +1185,10 @@ msgstr "Tên của bạn"
 #: ../../apps/mobile/src/features/onboarding/save/MergeChoice.tsx
 msgid "onboarding.merge.identity.google"
 msgstr "Tài khoản Google của bạn"
+
+#: ../../apps/mobile/src/features/onboarding/invited/PassScreen.tsx
+msgid "onboarding.invite.pass.blank"
+msgstr "Tên và sân bay nhà của bạn, rồi bạn vào nhóm."
 
 #: ../../apps/mobile/src/features/onboarding/flow-controller/pass-sync.tsx
 msgid "onboarding.queued.issuePass"
