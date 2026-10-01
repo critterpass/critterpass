@@ -116,4 +116,22 @@ export const dismissSuggestionCommand = defineClientCommand<{ readonly suggestio
 export const lockInPlanCommand = defineClientCommand<{ readonly trip_id: string }>({
   name: 'lock_in_plan',
   offline: false,
+
+export const resolveDropoutCommand = defineClientCommand<{
+  readonly trip_id: string;
+  readonly uid: string;
+}>({
+  name: 'resolve_dropout',
+  offline: true,
+  summarize: () => msg({ id: 'proposal.queued.resolve', message: 'Applying the re-split' }),
+});
+
+export const setKeepInChatCommand = defineClientCommand<{
+  readonly crew_id: string;
+  readonly uid: string;
+  readonly keep: boolean;
+}>({
+  name: 'set_keep_in_chat',
+  offline: true,
+  summarize: () => msg({ id: 'proposal.queued.keepInChat', message: 'Who stays in the chat' }),
 });

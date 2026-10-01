@@ -21,6 +21,7 @@ import { TrackerView } from '../tracker/tracker-view';
 import { HypeBar } from '../your-version/hype-bar';
 import { ShareCard } from '../your-version/share-card';
 import { YourVersionView } from '../your-version/your-version-view';
+import { DROPOUT_SCENES } from './lab-scenes-dropout';
 import {
   LAB_OPTIONS,
   LAB_PEOPLE,
@@ -254,6 +255,7 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ),
   tracker: () => tracker(false),
   'tracker-locked': () => tracker(true),
+  ...DROPOUT_SCENES,
 };
 
 export const PROPOSAL_LAB_SCENE_NAMES: readonly string[] = Object.keys(PROPOSAL_LAB_SCENES);
