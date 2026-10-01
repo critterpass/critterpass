@@ -140,9 +140,10 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-stack'
     timeout: 30000
+# A booking typed in by hand is in the wallet at once, before the server has answered.
 - extendedWaitUntil:
     visible: '(?i).*ba na cable car.*'
-    timeout: 120000
+    timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: bookings-wallet
 - assertVisible: '(?i).*sala danang.*'
