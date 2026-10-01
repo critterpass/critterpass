@@ -19,6 +19,7 @@ import {
 } from '@cp/domain';
 
 import { createBudget, type Budget } from './budget';
+import { createCountryWatch } from './country-watch';
 import { resolveEngineMode, type ConsumerKind, type EngineMode, type SessionKind } from './modes';
 import { createPlannerBridge } from './planner-bridge';
 import type {
@@ -34,8 +35,6 @@ import { createSubscriptions, type Consumer } from './subscriptions';
 
 /** No fix is kept longer than this, in memory only. */
 export const FIX_RING_MS = 5 * 60_000;
-/** How often the device's country is re-checked (at home vs away). */
-const COUNTRY_RECHECK_MS = 30 * 60_000;
 
 export interface EngineInputs {
   readonly trip: TripModeTrip | null;
@@ -76,6 +75,8 @@ export interface EngineOptions {
   readonly now?: () => number;
   /** Country (ISO alpha-2) of a point, from the on-device geocoder. */
   readonly countryOf?: (lat: number, lng: number) => Promise<string | null>;
+  /** One coarse position with no session running (off at home on a trip day), or null. */
+  readonly locate?: () => Promise<{ readonly lat: number; readonly lng: number } | null>;
   readonly highAccuracyCapMs?: () => number | undefined;
   readonly schedule?: (run: () => void, everyMs: number) => () => void;
   readonly onSessionEnded?: (summary: SessionSummary) => void;
@@ -119,8 +120,6 @@ export function createLocationEngine(options: EngineOptions) {
   let tier: AccuracyTier | null = null;
   let ring: EngineFix[] = [];
   let previous: FixEvidence | null = null;
-  let currentCountry: string | null = null;
-  let countryCheckedAt = 0;
   let sessionStartedAt: number | null = null;
   let sessionMode: SessionSummary['mode'] | null = null;
   let listeners: Subscription[] = [];
@@ -136,6 +135,13 @@ export function createLocationEngine(options: EngineOptions) {
     platform: options.platform,
     context: () => inputs?.geofenceContext ?? null,
     now,
+  });
+
+  const country = createCountryWatch({
+    now,
+    countryOf: options.countryOf,
+    locate: options.locate,
+    onChange: () => void (inputs !== null && apply(inputs)),
   });
 
   function setStatus(next: Partial<EngineStatus>): void {
@@ -159,7 +165,7 @@ export function createLocationEngine(options: EngineOptions) {
     ring = ring.filter((f) => now() - f.at <= FIX_RING_MS);
     budget.recordUpdate();
     setStatus({ lastFixAt: fix.at });
-    maybeCheckCountry(fix);
+    country.onFix(fix);
     void planner
       .onFix(fix)
       .then(() => setStatus({ regions: planner.currentPlan()?.regions.length ?? 0 }));
@@ -181,16 +187,6 @@ export function createLocationEngine(options: EngineOptions) {
   function onRegion(event: EngineRegionEvent): void {
     planner.onRegion(event);
     subscriptions.region(mode.consumers, event);
-  }
-
-  function maybeCheckCountry(fix: EngineFix): void {
-    if (options.countryOf === undefined || now() - countryCheckedAt < COUNTRY_RECHECK_MS) return;
-    countryCheckedAt = now();
-    void options.countryOf(fix.lat, fix.lng).then((country) => {
-      if (country === null || country === currentCountry) return;
-      currentCountry = country;
-      if (inputs !== null) void apply(inputs);
-    });
   }
 
   async function startSession(kind: SessionKind, tripMode: LocationMode): Promise<void> {
@@ -247,12 +243,13 @@ export function createLocationEngine(options: EngineOptions) {
   }
 
   async function apply(next: EngineInputs): Promise<void> {
+    const before = inputs;
     inputs = next;
     const trip = tripLocationMode({
       trip: next.trip,
       now: new Date(now()),
       homeCountry: next.homeCountry,
-      currentCountry,
+      currentCountry: country.current(),
       exploreAtHome: next.exploreAtHome,
       deviceTz: next.deviceTz,
       ...(next.window ? { window: next.window } : {}),
@@ -272,6 +269,13 @@ export function createLocationEngine(options: EngineOptions) {
     syncFlushTimer();
     if (session === 'none') {
       await stopSession();
+      // Off at home gets no fixes: look again (app in front, or Always granted), at once when the
+      // trip just started or the app just came forward, so a landing is not missed until relaunch.
+      if (trip.reason === 'at_home' && (next.appActive || next.level === 'always')) {
+        country.recheckAtHome(
+          before?.trip?.status !== next.trip?.status || before?.appActive !== true,
+        );
+      }
       return;
     }
     await startSession(session, trip.mode);
