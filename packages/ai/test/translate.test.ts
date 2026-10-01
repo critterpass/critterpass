@@ -93,7 +93,7 @@ describe('what a translated line must keep', () => {
 });
 
 describe('translateGuideLines', () => {
-  it('keeps every line of a recorded Vietnamese answer, names and numbers as written', async () => {
+  it('keeps every line of a recorded Vietnamese answer: places by the names a Vietnamese reader knows, a business and every number as written', async () => {
     const transport = fixtureTransport(['guide-text-translate-vi-danang']);
     const gateway = createGateway({
       apiKey: 'fixture-key',
@@ -127,8 +127,10 @@ describe('translateGuideLines', () => {
     expect(result.calls).toBe(1);
     expect(result.rejected).toEqual([]);
     expect(result.accepted.get('t5')).toBe(
-      'Dragon Bridge phun lửa lúc 21:00 cuối tuần, nên có mặt ở bờ đông trước 20:45.',
+      'Cầu Rồng phun lửa lúc 21:00 cuối tuần, nên có mặt ở bờ đông trước 20:45.',
     );
+    expect(result.accepted.get('t3')).toContain('Mỹ Khê');
+    expect(result.accepted.get('t4')).toBe('Mì Quảng ở Ba Mua: gọi phần có tôm và thịt heo.');
     expect(result.accepted.get('t6')).toContain('900,000 VND');
     expect(result.accepted.get('t8')).toBe('Ngắm cầu');
     expect(transport.requests[0]?.['model']).toBe('deepseek-flash');
