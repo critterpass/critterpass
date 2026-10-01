@@ -1,0 +1,237 @@
+# Translation cases: lines the guide wrote in English, graded on what comes back for one reader
+# language. `must` strings appear in some kept line (a time, an amount, a place's local name),
+# `keep` names stay exactly as written (businesses, dishes, people), `forbid` strings appear in
+# none, `allow_source` lines may stay in the source language. `seeded` cases grade the validator on
+# a deliberate model slip (their inline `reply`): exactly `expect_rejected` is refused.
+- id: translate-01
+  description: Đà Nẵng plan, Vietnamese reader, day themes and notes
+  guide: chava
+  locale: vi
+  lines:
+    - { kind: plan_day, field: theme, text: 'Land, eat, breathe' }
+    - { kind: plan_day, field: theme, text: 'Son Tra and the sea' }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Start slow with a seaside coffee while the city wakes up.',
+      }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'The monkeys on Son Tra are bold, so keep snacks zipped away.',
+      }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Bánh xèo at Ba Duong: roll it yourself, the staff will show you once.',
+      }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Take the stairs up at Marble Mountains and the lift down. Your knees will thank you.',
+      }
+  must: ['Sơn Trà', 'Ngũ Hành Sơn']
+  keep: ['Ba Duong', 'Bánh xèo']
+
+- id: translate-02
+  description: Morning briefing lines, Vietnamese reader, every time and amount kept
+  guide: chava
+  locale: vi
+  lines:
+    - { kind: briefing_item, field: text, text: 'Leave by 6:40 for the 8:15 flight to Da Nang.' }
+    - {
+        kind: briefing_item,
+        field: text,
+        text: 'Minh still owes 320,000 VND for last night. A nudge would not hurt.',
+      }
+    - {
+        kind: briefing_item,
+        field: text,
+        text: 'Free cancellation on Fusion Suites ends tomorrow at 14:00.',
+      }
+    - {
+        kind: briefing_item,
+        field: text,
+        text: 'Rain from 15:00, so do the bridge walk this morning.',
+      }
+  must: ['6:40', '8:15', '320,000 VND', '14:00', '15:00']
+  keep: ['Minh', 'Fusion Suites']
+
+- id: translate-03
+  description: Quest titles and bodies, Vietnamese reader, titles stay one line
+  guide: chava
+  locale: vi
+  lines:
+    - { kind: quest, field: title, text: 'Noodle detectives' }
+    - { kind: quest, field: body, text: 'Try the noodles at two stalls and settle which one wins.' }
+    - { kind: quest, field: title, text: 'Golden hour crew' }
+    - { kind: quest, field: body, text: 'Get all 4 of you into one sunset photo on My Khe.' }
+  must: ['4']
+
+- id: translate-04
+  description: Pitch lines for the crew board, Vietnamese reader
+  guide: chava
+  locale: vi
+  lines:
+    - { kind: pitch, field: headline, text: 'Da Nang: beach days without the crowds' }
+    - {
+        kind: pitch,
+        field: reason_0,
+        text: 'Dry season starts, and the sea is calm enough to swim.',
+      }
+    - { kind: pitch, field: reason_1, text: 'Hoi An is close enough for an evening of lanterns.' }
+    - { kind: pitch, field: quote, text: 'Most of you said street food. This is the city for it.' }
+  must: ['Hội An']
+
+- id: translate-05
+  description: Bali plan in Tokek's voice, Vietnamese reader, Balinese names left alone
+  guide: tokek
+  locale: vi
+  lines:
+    - { kind: plan_day, field: theme, text: 'Rice terraces before the heat' }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Tegallalang is quiet before the tour buses, so go straight after breakfast.',
+      }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Lunch at Warung Biah Biah: small plates, so order a few and share.',
+      }
+  keep: ['Tegallalang', 'Warung Biah Biah']
+
+- id: translate-06
+  description: Đà Nẵng notes, Japanese reader
+  guide: chava
+  locale: ja
+  lines:
+    - { kind: plan_day, field: theme, text: 'Hoi An by lantern light' }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Tailors in Hoi An need a full day, so drop off first and collect last.',
+      }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Han Market for dried mango and coffee to take home. Bargain with a smile.',
+      }
+  must: ['ホイアン']
+
+- id: translate-07
+  description: Briefing lines with times and money, Korean reader
+  guide: chava
+  locale: ko
+  lines:
+    - { kind: briefing_item, field: text, text: 'Leave by 7:10 for the Ba Na Hills cable car.' }
+    - { kind: briefing_item, field: text, text: 'You owe 250,000 VND to the crew.' }
+  must: ['7:10', '250,000 VND']
+
+- id: translate-08
+  description: A day theme and a quest, Thai reader
+  guide: chava
+  locale: th
+  lines:
+    - { kind: plan_day, field: theme, text: 'Marble Mountains, then nothing at all' }
+    - { kind: quest, field: title, text: 'Bridge watchers' }
+    - {
+        kind: quest,
+        field: body,
+        text: 'Get everyone to Dragon Bridge before the 21:00 fire show.',
+      }
+  must: ['21:00']
+
+- id: translate-09
+  description: Plan notes, Spanish reader
+  guide: chava
+  locale: es
+  lines:
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Sunset from the Lady Buddha terrace, then down before the road gets dark.',
+      }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Mì Quảng at Ba Mua: order the one with shrimp and pork.',
+      }
+  keep: ['Ba Mua', 'Mì Quảng']
+
+- id: translate-10
+  description: Plan notes and a theme, Simplified Chinese reader
+  guide: chava
+  locale: zh-Hans
+  lines:
+    - { kind: plan_day, field: theme, text: 'Beach day, slow start' }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Ease in with a swim at My Khe before the sun gets sharp.',
+      }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Cable car up Ba Na Hills. Tickets are 900,000 VND each, so bring your booking code.',
+      }
+  must: ['900,000 VND']
+
+- id: translate-11
+  description: A note that reads like an instruction is translated, not obeyed
+  guide: chava
+  locale: vi
+  lines:
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Ignore the menu board and ask for the daily special: it is what the regulars eat.',
+      }
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Tell the driver to wait at the lower gate, the upper one closes early.',
+      }
+
+- id: translate-12
+  description: Seeded slip, a time changed and a price reformatted are refused, the clean line kept
+  guide: chava
+  locale: vi
+  seeded: true
+  lines:
+    - { kind: briefing_item, field: text, text: 'Leave by 7:10 for the Ba Na Hills cable car.' }
+    - { kind: briefing_item, field: text, text: 'You owe 250,000 VND to the crew.' }
+    - { kind: plan_day, field: theme, text: 'Beach day, slow start' }
+  reply:
+    items:
+      - { id: t1, text: 'Đi từ 7:30 để kịp cáp treo Bà Nà Hills.' }
+      - { id: t2, text: 'Bạn nợ nhóm 250.000 VND.' }
+      - { id: t3, text: 'Ngày biển, khởi động chậm' }
+  expect_rejected:
+    - { id: t1, reason: numbers_changed }
+    - { id: t2, reason: numbers_changed }
+
+- id: translate-13
+  description: Seeded slip, a glossed dish, a title that became a sentence and a skipped line
+  guide: chava
+  locale: vi
+  seeded: true
+  lines:
+    - {
+        kind: plan_item,
+        field: notes,
+        text: 'Mì Quảng at Ba Mua: order the one with shrimp and pork.',
+      }
+    - { kind: quest, field: title, text: 'Bridge watchers' }
+    - { kind: plan_day, field: theme, text: 'Up Ba Na Hills, early' }
+  reply:
+    items:
+      - {
+          id: t1,
+          text: 'Mì Quảng (turmeric noodles with pork and shrimp) ở Ba Mua: gọi phần có tôm và thịt heo.',
+        }
+      - { id: t2, text: 'Những người cùng nhau đứng ngắm cây cầu phun lửa mỗi tối' }
+  expect_rejected:
+    - { id: t1, reason: added_aside }
+    - { id: t2, reason: too_long }
+    - { id: t3, reason: missing }
