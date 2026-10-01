@@ -157,19 +157,19 @@ msgstr "MAIS ALGUMAS SURPRESAS"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.ngua"
-msgstr "Um pônei florido esperando por você em Đà Lạt."
+msgstr "Um pônei florido esperando por você em {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.cuRua"
-msgstr "Uma tartaruga do lago Hoàn Kiếm esperando por você em Hà Nội."
+msgstr "Uma tartaruga do lago Hoàn Kiếm esperando por você em {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lucky"
-msgstr "Uma lebre esperando por você em Las Vegas."
+msgstr "Uma lebre esperando por você em {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.chep"
-msgstr "Uma carpa-lanterna esperando por você em Hội An."
+msgstr "Uma carpa-lanterna esperando por você em {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.eyebrow"
@@ -181,11 +181,11 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.drac"
-msgstr "Uma salamandra de mosaico esperando por você em Barcelona."
+msgstr "Uma salamandra de mosaico esperando por você em {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.roucou"
-msgstr "Um pombo de boina esperando por você em Paris."
+msgstr "Um pombo de boina esperando por você em {place}."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -197,7 +197,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
-msgstr "Um rato de metrô esperando por você em New York."
+msgstr "Um rato de metrô esperando por você em {place}."
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -229,7 +229,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
-msgstr "Um lince-ibérico esperando por você em Seville."
+msgstr "Um lince-ibérico esperando por você em {place}."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
@@ -254,6 +254,10 @@ msgstr "PERGUNTE AO LOCAL"
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "VOLTAR AO INÍCIO"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
@@ -911,6 +915,10 @@ msgstr ""
 msgid "web.shell.noCookies"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "Nenhum lugar com esse nome. Tente escrever de outro jeito."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -955,6 +963,10 @@ msgstr ""
 msgid "web.home.guidePaco"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "Página não encontrada"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
 msgstr ""
@@ -970,6 +982,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.coverLabel"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "Escolha um lugar da lista ou limpe a busca."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "Lugares"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
@@ -1028,6 +1048,10 @@ msgid "web.referral.finePrintTerms"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "Remover {city}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.saveSeat"
 msgstr "GUARDAR MEU LUGAR →"
 
@@ -1054,6 +1078,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "Busque qualquer cidade"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.seat"
@@ -1102,6 +1130,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat1"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "Outro lugar?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
@@ -1227,6 +1259,10 @@ msgstr ""
 msgid "web.shell.thePass"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "Os lugares não carregaram. Tente de novo daqui a pouco."
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr ""
@@ -1242,6 +1278,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Body"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "Esta página não está na rota. Os locais procuraram em cada beco."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
@@ -1450,6 +1490,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "seu local"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"

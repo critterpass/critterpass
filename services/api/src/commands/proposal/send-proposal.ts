@@ -4,7 +4,7 @@
  * `proposed` version), the trip moves to `proposed`, each recipient gets their guide's push (N-07)
  * and the proposal's card is posted in crew chat. Sending twice changes nothing.
  */
-import { appendDomainEvent, outbox } from '@cp/db';
+import { appendDomainEvent, outbox, writeBookedPlanItems } from '@cp/db';
 import { channelName, DomainError, generateUuidV7, proposalIdPayloadSchema } from '@cp/domain';
 import type pg from 'pg';
 
@@ -40,6 +40,11 @@ export async function publishProposedPlan(
 ): Promise<void> {
   if (proposal.version_id === null) return;
   const head = await lockTripPlan(tx, proposal.trip_id);
+  // Bookings already in the wallet take their place on the plan the crew is about to read. A
+  // version that is the trip's plan already has them: the booking commands keep it in step.
+  if (head.currentVersionId !== proposal.version_id) {
+    await writeBookedPlanItems(tx, proposal.trip_id, proposal.version_id);
+  }
   if (head.currentVersionId !== null && head.currentVersionId !== proposal.version_id) {
     await tx.query(
       `UPDATE itinerary_versions SET status = 'superseded' WHERE id = $1 AND trip_id = $2`,

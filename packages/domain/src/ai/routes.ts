@@ -55,6 +55,8 @@ export const AI_ROUTES = [
   // Proposal lines on the fast tier: the private objection reply and the organiser's suggestions.
   'proposal.objection',
   'proposal.suggestion',
+  // Guide-written shared text (plan notes, briefings, quests, pitches) into a reader's language.
+  'guide_text.translate',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',

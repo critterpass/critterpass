@@ -181,7 +181,10 @@ const serverAnalytics = createServerAnalytics({
 });
 
 // The three command doors over one registry (docs/api-contracts.md §2.2, §5.2).
-const commands = createAppCommandRegistry();
+const commands = createAppCommandRegistry({
+  onInstallStandIn: (standIn) =>
+    logger.info(standIn, 'command ran on the caller’s registered device, not the envelope’s'),
+});
 
 // Links (docs/api-contracts.md §5.6): providers per link kind, the claim command, public routes.
 const linkProviders = createLinkProviderRegistry();

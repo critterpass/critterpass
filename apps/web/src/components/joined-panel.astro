@@ -2,6 +2,7 @@
 import '../styles/coming-soon.css';
 import { aroundSlot } from '../lib/coming-soon-strings';
 import { GUIDES } from '../lib/guides';
+import { placeName } from '../lib/place-names';
 import { comingSoonCopy as copy } from './site/copy/coming-soon';
 import { siteTranslator } from './site/i18n';
 
@@ -25,7 +26,7 @@ const [friendsBefore, friendsAfter] = aroundSlot(t, copy.friendsJoined, 'count')
       <span class="cs-joined__spot-value">#<span data-cs="spot-value">—</span></span>
     </div>
     <span class="cs-joined__line" data-cs="joined-line">
-      {t(copy.savingSeat, { name: firstGuide.name, place: firstGuide.place })}
+      {t(copy.savingSeat, { name: firstGuide.name, place: placeName(firstGuide.place, locale) })}
     </span>
   </div>
 

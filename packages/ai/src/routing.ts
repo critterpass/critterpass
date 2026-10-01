@@ -244,6 +244,11 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'draft.closures': fast(null, 2048, { output: 'structured' }),
   'proposal.objection': fast(null, 768, { output: 'structured' }),
   'proposal.suggestion': fast(null, 1024, { output: 'structured' }),
+  // A batch of the guide's own lines in a reader's language, in the guide's voice.
+  'guide_text.translate': fast(null, 8192, {
+    output: 'structured',
+    cacheLayers: ['global_rules', 'persona'],
+  }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {

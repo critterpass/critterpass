@@ -1,6 +1,14 @@
 ---
 import '../styles/coming-soon-sections.css';
 import { CITY_TICKER } from '../lib/guides';
+import { placeNameUpper } from '../lib/place-names';
+
+export interface Props {
+  /** The page's language, for the cities' names; the full site's home page is English. */
+  readonly locale?: string;
+}
+
+const { locale = 'en' } = Astro.props;
 ---
 
 <div class="cs-ticker" aria-hidden="true">
@@ -10,7 +18,7 @@ import { CITY_TICKER } from '../lib/guides';
         <div class="cs-ticker__group" data-copy={copy}>
           {CITY_TICKER.map((entry) => (
             <span style="display:contents">
-              <span>{entry.city}</span>
+              <span>{placeNameUpper(entry.city, locale)}</span>
               <span class="cs-ticker__who">{entry.who}</span>
               <span>✦</span>
             </span>

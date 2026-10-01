@@ -5,11 +5,12 @@ appId: app.critterpass.dev
 # restored to the saved screen (a bare app link would be), and opened over a running app the link
 # would stack Home, or the pass flow, on top of the dev screens with a back into them. An account
 # that hasn't finished the pass flow lands on its splash, which has the entry too.
-- stopApp
-# The simulator's openurl can time out; the waits below still decide.
-- openLink:
-    link: critterpass-dev://trips
-    optional: true
+# The simulator's openurl can time out and leave the app stopped: the launch is tried again.
+- retry:
+    maxRetries: 2
+    commands:
+      - stopApp
+      - openLink: critterpass-dev://trips
 - runFlow:
     when:
       visible: 'Open'

@@ -1,8 +1,9 @@
 /**
  * An organiser's draft stays theirs: a version with `visibility = 'organiser'`, its days and items
- * (with the drafting columns `metrics`, `coverage` and `locked_reason`) and the trip's drafting jobs
- * reach organisers only, whether read directly, through the sync streams or through the guide's
- * `llm.plan_items`. Nobody writes the drafting columns as `app_user`.
+ * (with the drafting columns `metrics`, `coverage` and `locked_reason`, and the translations of the
+ * guide's text in `i18n`) and the trip's drafting jobs reach organisers only, whether read
+ * directly, through the sync streams or through the guide's `llm.plan_items`. Nobody writes the
+ * drafting columns or an item's translations as `app_user`.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -34,12 +35,16 @@ beforeAll(async () => {
     );
     versionId = version.rows[0]?.id as string;
     const day = await tx.query<{ id: string }>(
-      "INSERT INTO plan_days (version_id, trip_id, day_no, date, theme) VALUES ($1, $2, 1, '2026-11-02', 'Old town') RETURNING id",
+      `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, i18n)
+       VALUES ($1, $2, 1, '2026-11-02', 'Old town', '{"_src": "a", "vi": {"theme": "Phố cổ"}}')
+       RETURNING id`,
       [versionId, tripId],
     );
     const item = await tx.query<{ id: string }>(
-      `INSERT INTO plan_items (version_id, day_id, trip_id, category, locked_reason, created_by_kind)
-       VALUES ($1, $2, $3, 'activity', 'must_do', 'guide') RETURNING id`,
+      `INSERT INTO plan_items (version_id, day_id, trip_id, category, locked_reason, created_by_kind,
+         notes, i18n)
+       VALUES ($1, $2, $3, 'activity', 'must_do', 'guide', 'Go early',
+         '{"_src": "b", "vi": {"notes": "Đi sớm"}}') RETURNING id`,
       [versionId, day.rows[0]?.id, tripId],
     );
     itemId = item.rows[0]?.id as string;
@@ -53,8 +58,11 @@ afterAll(async () => {
 
 const PROBES = [
   ['itinerary_versions', 'SELECT metrics, coverage FROM itinerary_versions WHERE id = $1'],
-  ['plan_days', 'SELECT 1 FROM plan_days WHERE version_id = $1'],
-  ['plan_items', 'SELECT locked_reason FROM plan_items WHERE version_id = $1'],
+  ['plan_days', 'SELECT i18n FROM plan_days WHERE version_id = $1 AND i18n IS NOT NULL'],
+  [
+    'plan_items',
+    'SELECT locked_reason, i18n FROM plan_items WHERE version_id = $1 AND i18n IS NOT NULL',
+  ],
 ] as const;
 
 describe('organiser drafts', () => {
@@ -84,6 +92,9 @@ describe('organiser drafts', () => {
     const organiser = await harness.rows('trip_draft', 'organiser', { trip_id: tripId });
     expect(organiser.get('itinerary_versions')?.map((row) => row.id)).toContain(versionId);
     expect(organiser.get('plan_items')?.map((row) => row.id)).toContain(itemId);
+    // The translations travel with the row, to the same people.
+    const synced = organiser.get('plan_items')?.find((row) => row.id === itemId);
+    expect(JSON.stringify(synced?.['i18n'])).toContain('Đi sớm');
     expect(organiser.get('agent_jobs')?.map((row) => row.id)).toContain(jobId);
     for (const kind of ['member', 'exMember', 'outsider', 'anonymous'] as const) {
       const draft = await harness.rows('trip_draft', kind, { trip_id: tripId });
@@ -121,6 +132,12 @@ describe('organiser drafts', () => {
       await expect(
         withUser(harness.db.pool, actors[kind], randomUUID(), (tx) =>
           tx.query("UPDATE plan_items SET locked_reason = 'user' WHERE id = $1", [itemId]),
+        ),
+        kind,
+      ).rejects.toThrow(/permission denied/i);
+      await expect(
+        withUser(harness.db.pool, actors[kind], randomUUID(), (tx) =>
+          tx.query(`UPDATE plan_items SET i18n = '{"vi": {"notes": "x"}}' WHERE id = $1`, [itemId]),
         ),
         kind,
       ).rejects.toThrow(/permission denied/i);

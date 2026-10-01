@@ -2,15 +2,15 @@
  * Hands ActivityKit's tokens and activity states from the installed Live Activity module to the
  * server through the command queue, from inside the signed-in session (the trip-day runtime, which
  * every session mounts at launch). Without the module (older builds, Android, web) nothing is
- * subscribed and nothing is sent. What was sent is forgotten on sign-out, so the next account on
- * this install registers its own tokens.
+ * subscribed and nothing is sent. The phone's tokens outlive a sign-out (they belong to the
+ * install): every session sends them again, so the next account registers them as its own.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: command names and a store id. */
 import type { RegisterLaTokenPayload, ReportLaStatePayload } from '@cp/domain';
 import { useEffect } from 'react';
+import { AppState } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
-import { registerOnSignOut } from '../../../data/auth/sign-out-hooks';
 import { defineClientCommand } from '../../../data/commands/summaries';
 import { useCommand } from '../../../data/commands/use-command';
 import { expoPushNative } from '../../../data/push/expo-native';
@@ -29,9 +29,15 @@ export const REPORT_LA_STATE = defineClientCommand<ReportLaStatePayload>({
 });
 
 const storage = createMMKV({ id: 'cp-live-activities' });
-registerOnSignOut(() => storage.clearAll());
 
 const apnsEnv = async () => toApnsEnv(await expoPushNative.getApnsEnvironment());
+
+function onForeground(listener: () => void): () => void {
+  const subscription = AppState.addEventListener('change', (state) => {
+    if (state === 'active') listener();
+  });
+  return () => subscription.remove();
+}
 
 /**
  * Registers this phone's Live Activity tokens and states for as long as the caller is mounted.
@@ -42,6 +48,13 @@ export function useLiveActivityRegistration(port: LaPort | null = installedLaPor
   const { send: reportState } = useCommand(REPORT_LA_STATE);
   useEffect(() => {
     if (port === null) return undefined;
-    return startLaRegistration({ port, apnsEnv, registerToken, reportState, storage });
+    return startLaRegistration({
+      port,
+      apnsEnv,
+      registerToken,
+      reportState,
+      storage,
+      onForeground,
+    });
   }, [port, registerToken, reportState]);
 }

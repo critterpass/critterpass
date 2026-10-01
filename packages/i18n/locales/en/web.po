@@ -255,6 +255,10 @@ msgstr "ASK THE LOCAL"
 msgid "web.notFound.home"
 msgstr "Back to the start"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "BACK TO THE START"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
 msgstr "Bali"
@@ -911,6 +915,10 @@ msgstr "Next trip · voting"
 msgid "web.shell.noCookies"
 msgstr "No cookies here. We count page visits without knowing who you are."
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "No place by that name. Try another spelling."
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr "Nobody has to be the one who asks for money."
@@ -955,6 +963,10 @@ msgstr "Or just ask the guide directly."
 msgid "web.home.guidePaco"
 msgstr "Paces the altitude for you and knows the trail to the ruins nobody else takes."
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "Page not found"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
 msgstr "Page not found"
@@ -970,6 +982,14 @@ msgstr "Pass · No. 010"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.coverLabel"
 msgstr "Pass cover"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "Pick a place from the list, or clear the search."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "Places"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
@@ -1028,6 +1048,10 @@ msgid "web.referral.finePrintTerms"
 msgstr "Referral terms"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "Remove {city}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.saveSeat"
 msgstr "SAVE MY SEAT →"
 
@@ -1054,6 +1078,10 @@ msgstr "Scan with your phone camera. The app opens straight to this link, or the
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr "scroll along the route"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "Search any city"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.seat"
@@ -1102,6 +1130,10 @@ msgstr "Skip to content"
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat1"
 msgstr "so where r we going"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "Somewhere else?"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
@@ -1227,6 +1259,10 @@ msgstr "The pass"
 msgid "web.shell.thePass"
 msgstr "The pass"
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "The places didn't load. Try again in a moment."
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr "The short version"
@@ -1242,6 +1278,10 @@ msgstr "They plan a trip"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Body"
 msgstr "They start with a stamp too. Covers unlock at 3 and 5."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "This page isn't on the route. The locals checked every alley."
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
@@ -1450,6 +1490,10 @@ msgstr "Your link"
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr "Your link lives in the app: You → Invite friends. Share it from there."
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "your local"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"

@@ -11,6 +11,7 @@ import {
   flightLaEndsAt,
   flightLaPhase,
   LA_COPY,
+  LA_PICKUP_MS,
   type BookingSource,
   type FlightLaInput,
   type FlightStatus,
@@ -45,6 +46,10 @@ interface SegmentRow {
 }
 
 const CANCELLED_LINGER_MS = 60 * 60_000;
+/** A leg with no departure report reads departed this long after its departure time. */
+const DEPARTED_BY_SCHEDULE_MS = 15 * 60_000;
+/** A leg with no landing time at all is taken to land this long after departure. */
+const NO_ARRIVAL_TIME_MS = 12 * 3_600_000;
 const LANDED_LINGER_MS = 15 * 60_000;
 
 export const flightLoader: LaLoader = async ({ tx, refId, now }) => {
@@ -97,11 +102,22 @@ export const flightLoader: LaLoader = async ({ tx, refId, now }) => {
     delayMin: row.delay_min,
     pickup: transfer[0] ?? null,
   };
-  const phase = flightLaPhase(input, now);
   const departs = row.est_dep_at ?? row.sched_dep_at;
+  // The schedule bounds the activity whatever the status feed says (or never says): a leg nobody
+  // reported as departed reads departed a quarter of an hour after its departure time, and the
+  // activity is over two hours after its landing time (fourteen hours after departure when no
+  // landing time is known). Without this a leg with no live status would board for ever.
+  const endsAt =
+    flightLaEndsAt(input) ?? new Date(departs.getTime() + NO_ARRIVAL_TIME_MS + LA_PICKUP_MS);
+  const reported = flightLaPhase(input, now);
+  const phase =
+    (reported === 'check_in' || reported === 'boarding') &&
+    now.getTime() >= departs.getTime() + DEPARTED_BY_SCHEDULE_MS
+      ? 'departed'
+      : reported;
   return {
     tripId: row.trip_id,
-    live: phase !== null && phase !== 'cancelled',
+    live: phase !== null && phase !== 'cancelled' && now.getTime() < endsAt.getTime(),
     audience: row.traveller_ids.length > 0 ? row.traveller_ids : [row.owner_id],
     attributes: () => Promise.resolve(buildFlightLaAttributes(input)),
     state: (seq) => buildFlightLaState(input, phase ?? 'pickup', now, seq),
@@ -114,7 +130,7 @@ export const flightLoader: LaLoader = async ({ tx, refId, now }) => {
         time: clockIn(departs, row.tz ?? 'UTC'),
       },
     },
-    endsAt: flightLaEndsAt(input),
+    endsAt,
     lingerMs: phase === 'cancelled' ? CANCELLED_LINGER_MS : LANDED_LINGER_MS,
     urgency: () => ROUTINE,
   };

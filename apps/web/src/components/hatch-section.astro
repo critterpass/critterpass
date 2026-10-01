@@ -1,8 +1,9 @@
 ---
 import '../styles/coming-soon-sections.css';
-import { LOCALS_TOTAL, formatNumber } from '../lib/coming-soon-strings';
+import { LOCALS_TOTAL, formatNumber, hatchLine } from '../lib/coming-soon-strings';
+import { placeNameUpper } from '../lib/place-names';
 import { HATCH_POOL } from '../lib/hatch-pool';
-import { comingSoonSectionsCopy as copy, hatchLocalCopy } from './site/copy/coming-soon-sections';
+import { comingSoonSectionsCopy as copy } from './site/copy/coming-soon-sections';
 import { siteTranslator } from './site/i18n';
 
 export interface Props {
@@ -59,9 +60,9 @@ const first = HATCH_POOL[0]!;
             <cp-critter data-cs="hatched-critter" kind={first.id} seed="1" size="210" sticker="#f4efe4" />
           </span>
           <div class="cs-hatched__meta">
-            <span class="cs-hatched__num" data-cs="hatched-number">{t(copy.hatchedNumber, { num: first.num, total: formatNumber(locale, LOCALS_TOTAL), city: first.city })}</span>
+            <span class="cs-hatched__num" data-cs="hatched-number">{t(copy.hatchedNumber, { num: first.num, total: formatNumber(locale, LOCALS_TOTAL), city: placeNameUpper(first.city, locale) })}</span>
             <span class="cs-hatched__name" data-cs="hatched-name">{first.name}</span>
-            <span class="cs-hatched__species" data-cs="hatched-species">{t(hatchLocalCopy['cp-005'])}</span>
+            <span class="cs-hatched__species" data-cs="hatched-species">{hatchLine(t, locale, first.id)}</span>
           </div>
           <div class="cs-hatched__actions">
             <a href="#join" class="cs-btn-solid">{t(copy.saveSeatUp)}</a>
