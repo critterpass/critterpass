@@ -39,7 +39,8 @@ export function EncounterBanner({ banner }: { readonly banner: EncounterBannerMo
             {title}
           </Text>
         </Stack>
-        <Text variant="h2" color={theme.semantic.text.onAccent}>
+        {/* At its own size: a number fitted to a row with no width of its own gets cut. */}
+        <Text variant="h2" autoFit={false} color={theme.semantic.text.onAccent}>
           {`${Math.round(banner.progress * 100)}%`}
         </Text>
       </Row>
