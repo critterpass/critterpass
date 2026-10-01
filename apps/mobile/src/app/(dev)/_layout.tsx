@@ -1,18 +1,16 @@
-import Constants from 'expo-constants';
 import { Redirect, Stack } from 'expo-router';
+
+import { devToolsAvailable } from '@/lib/dev-tools/variant';
 
 // Read by tools/scripts/check-release-bundle.ts: a production export must never contain this
 // marker, which proves metro.config.js excluded this (dev) route group from the bundle.
 export const __CP_DEV_ROUTE__ = true;
 
-/** Gallery demos of `Sheet` / `RiseModal`: transparent so the gallery stays visible beneath. */
-const MODAL_DEMOS = ['gallery/sheet-demo', 'gallery/rise-demo'] as const;
-
-function devRoutesEnabled(): boolean {
-  if (__DEV__) return true;
-  const variant: unknown = Constants.expoConfig?.extra?.appVariant;
-  return variant !== 'production';
-}
+/**
+ * Sheets and rises (the gallery demos of `Sheet` / `RiseModal`, the Start fresh confirm):
+ * transparent so the screen beneath stays visible.
+ */
+const MODAL_ROUTES = ['gallery/sheet-demo', 'gallery/rise-demo'] as const;
 
 /**
  * Dev-only group (gallery, motion lab, sticker lab, spikes). The real exclusion is build-time
@@ -20,11 +18,11 @@ function devRoutesEnabled(): boolean {
  * build from showing internal harnesses — it is not a security boundary.
  */
 export default function DevLayout() {
-  if (!devRoutesEnabled()) return <Redirect href="/" />;
+  if (!devToolsAvailable()) return <Redirect href="/" />;
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="gallery/zoom-detail" options={{ animation: 'fade' }} />
-      {MODAL_DEMOS.map((name) => (
+      {MODAL_ROUTES.map((name) => (
         <Stack.Screen
           key={name}
           name={name}

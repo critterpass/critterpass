@@ -71,6 +71,7 @@ import {
   useAnalytics,
   useScreenTracking,
 } from '@/lib/analytics';
+import { DevToolsShake } from '@/lib/dev-tools/DevToolsShake';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
 import {
@@ -324,6 +325,7 @@ export default function RootLayout() {
                   <PrimerSheetHost />
                   <SharedGrowHost />
                   <IslandToast Text={Text} />
+                  <DevToolsShake />
                   <LaunchHatch revealed={prewarmed && linksReady} />
                 </ScreenJoltProvider>
               </TravelDataReaderProvider>
