@@ -25,7 +25,10 @@ const SQUEEZE_STEP = 0.9;
 const SQUEEZE_FLOOR = 0.3;
 
 export interface WordmarkMeasure {
-  /** Line height when nothing but the box's width limits the name. */
+  /**
+   * The name's size when nothing but the box's width limits it: its type size on the designed line
+   * (`leading`), its line height otherwise. Two names at one `designLine` are set at one size.
+   */
   readonly designLine: number;
   /** Height when nothing but the box's width limits the name. */
   readonly designHeight: number;
@@ -119,11 +122,12 @@ export function Wordmark({
   // On the designed line, the box is that line and the name's own mark room, not the text's box.
   const trimmed = leading !== undefined && setInDisplayFace(name, locale);
   const room = trimmed ? markRoom(name, leading) : NO_ROOM;
+  const size = typeSize(words.key === key ? words.capHeight : undefined, designSize);
   const placed =
     trimmed && laidOut && words.key === key && words.line > 0 && words.oneLine > 0
       ? wordmarkBox(
           {
-            size: typeSize(words.capHeight, designSize),
+            size,
             line: words.line,
             oneLine: words.oneLine,
             height: set.height,
@@ -155,7 +159,9 @@ export function Wordmark({
   if (trimmed && current && seen !== key) setSeen(key);
   const visible = measured && (!trimmed || seen === key || current);
   const designHeight = design.key === key && design.box === box ? design.height : 0;
-  const designLine = measured ? words.line * fit : 0;
+  // On the designed line a name is compared by its type size: the text's own line height differs
+  // between a plain name and a marked one, which is set on looser leading.
+  const designLine = measured ? (trimmed ? size : words.line) * fit : 0;
   useEffect(() => {
     if (designLine > 0 && designHeight > 0) onMeasure?.({ designLine, designHeight, height });
   }, [designLine, designHeight, height, onMeasure]);

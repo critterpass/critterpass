@@ -1,9 +1,9 @@
 /**
  * How the showdown's two city names give up height before anything scrolls (3c-1). Each starts at
  * the render's size, or as large as its longest word fits its half; when the two halves fit the
- * screen there, nothing changes. When they don't, both names are capped at one shared line height
- * (so neither finalist gets smaller billing): the largest at which both halves fit, never below the
- * 44 pt floor. What still does not fit there scrolls.
+ * screen there, nothing changes. When they don't, both names are capped at one shared type size (so
+ * neither finalist gets smaller billing, plain or marked): the largest at which both halves fit,
+ * never below the 44 pt floor. What still does not fit there scrolls.
  *
  * The size is worked out in one pass from what the halves measure: a name's height scales with its
  * size and the rest of a half (its paddings, the guide's line, the chips, the voters) does not, so
@@ -19,7 +19,7 @@ const SEARCH_STEPS = 24;
 export interface NameMeasure {
   /** Its box's height. */
   readonly designHeight: number;
-  /** Its line height. */
+  /** Its type size. */
   readonly designLine: number;
 }
 
@@ -38,7 +38,7 @@ function scaleAt(name: NameMeasure, line: number): number {
 }
 
 /**
- * The line height both names share: null when the halves fit the screen with each name at its
+ * The type size both names share: null when the halves fit the screen with each name at its
  * designed size, otherwise the largest at which they fit, or the floor when none does.
  */
 export function sharedNameLine(
@@ -61,7 +61,7 @@ export function sharedNameLine(
   return Math.max(low, Math.min(NAME_FLOOR, top));
 }
 
-/** Both names' scale (1 = designed size) at a shared line height, or at their designed size. */
+/** Both names' scale (1 = designed size) at a shared type size, or at their designed size. */
 export function scalesAt(
   halves: readonly [HalfMeasure, HalfMeasure],
   line: number | null,

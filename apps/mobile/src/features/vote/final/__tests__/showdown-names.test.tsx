@@ -138,25 +138,32 @@ describe('shared name size', () => {
   };
 
   it('keeps the designed size when the halves fit, and shrinks both names equally when not', () => {
-    // English: a big KYOTO and a LISBON its half's width set smaller, 690 of 700 points in all.
-    const en = [half(103, 96, 290), half(90, 84, 220)] as const;
+    // English: KYOTO at the render's 120 pt and a LISBON its half's width set at 105, 690 of 700
+    // points in all. Nothing changes.
+    const en = [half(120, 96, 290), half(105, 84, 220)] as const;
     expect(sharedNameLine(en, 700)).toBeNull();
     expect(scalesAt(en, null)).toEqual([1, 1]);
-    // Vietnamese chips wrap taller: 790 of 700. Both names end on one line height, the largest
+    // Vietnamese chips wrap taller: 790 of 700. Both names end at one type size, the largest
     // that fits.
-    const vi = [half(103, 96, 340), half(90, 84, 270)] as const;
-    const line = sharedNameLine(vi, 700);
-    const [a, b] = scalesAt(vi, line);
-    expect(103 * a).toBeCloseTo(90 * b, 3);
-    expect(totalAt(vi, line)).toBeLessThanOrEqual(700);
-    expect(totalAt(vi, (line ?? 0) + 2)).toBeGreaterThan(700);
+    const vi = [half(120, 96, 340), half(105, 84, 270)] as const;
+    const size = sharedNameLine(vi, 700);
+    const [a, b] = scalesAt(vi, size);
+    expect(120 * a).toBeCloseTo(105 * b, 3);
+    expect(totalAt(vi, size)).toBeLessThanOrEqual(700);
+    expect(totalAt(vi, (size ?? 0) + 2)).toBeGreaterThan(700);
+    // A marked name is taller than a plain one at the same size (it keeps its mark room): the two
+    // still share one size.
+    const marked = [half(120, 96, 340), half(120, 152, 270)] as const;
+    const [plain, withMarks] = scalesAt(marked, sharedNameLine(marked, 700));
+    expect(plain).toBeLessThan(1);
+    expect(plain).toBeCloseTo(withMarks, 5);
   });
 
   it('stops at the 44-point floor when nothing fits, and waits for both halves', () => {
-    const crowded = [half(103, 96, 900), half(90, 84, 900)] as const;
+    const crowded = [half(120, 96, 900), half(105, 84, 900)] as const;
     expect(sharedNameLine(crowded, 700)).toBe(44);
     // A half not measured yet: nothing is decided.
-    expect(sharedNameLine([half(103, 96, 340), half(0, 0, 0)], 700)).toBeNull();
+    expect(sharedNameLine([half(120, 96, 340), half(0, 0, 0)], 700)).toBeNull();
   });
 });
 
