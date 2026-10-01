@@ -19,6 +19,10 @@ msgstr ""
 msgid "notifications.changeset.needs_yes.body"
 msgstr ""
 
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.ready.body"
+msgstr ""
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
 msgstr ""
@@ -59,6 +63,10 @@ msgstr ""
 msgid "notifications.nudge.rsvp"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.flight_start_title"
+msgstr ""
+
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.flight_title"
 msgstr ""
@@ -69,6 +77,10 @@ msgstr ""
 
 #: ../domain/src/guide/templates.ts
 msgid "notifications.guide.queued_answer.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.version_title"
 msgstr ""
 
 #: ../domain/src/setup/templates.ts
@@ -101,6 +113,22 @@ msgstr ""
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.body"
+msgstr ""
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.befriended.named"
+msgstr ""
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.befriended.unnamed"
+msgstr ""
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.befriended.title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_late_body"
 msgstr ""
 
 #: ../domain/src/setup/templates.ts
@@ -159,16 +187,36 @@ msgstr ""
 msgid "notifications.money.marked_paid"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_start_title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_late_title"
+msgstr ""
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_late_title"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_title"
 msgstr ""
 
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.legendary.body"
+msgstr ""
+
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.winner.body"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.vote_start_body"
 msgstr ""
 
 #: ../domain/src/polls/templates.ts
@@ -207,6 +255,18 @@ msgstr ""
 msgid "notifications.bookings.deadline_body"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_body"
+msgstr ""
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.done.body"
+msgstr ""
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.legendary.title"
+msgstr ""
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.title"
 msgstr ""
@@ -231,6 +291,10 @@ msgstr ""
 msgid "notifications.bookings.flight_delayed"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.flight_start_body"
+msgstr ""
+
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.flight_diverted"
 msgstr ""
@@ -241,6 +305,10 @@ msgstr ""
 
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.settled.body"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_arrived_title"
 msgstr ""
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
@@ -267,8 +335,16 @@ msgstr ""
 msgid "notifications.crew_invite.body"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_title"
+msgstr ""
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_go_body"
 msgstr ""
 
 #: ../domain/src/bookings/templates.ts
@@ -287,6 +363,10 @@ msgstr ""
 msgid "notifications.changeset.kept.body"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_late_body"
+msgstr ""
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.on_my_way"
 msgstr ""
@@ -295,8 +375,20 @@ msgstr ""
 msgid "notifications.crew_ping.on_my_way_eta"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.pickup"
+msgstr ""
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.done.title"
+msgstr ""
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.template"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.reply_by_title"
 msgstr ""
 
 #: ../../services/worker/src/jobs/chat/notify.ts
@@ -319,8 +411,28 @@ msgstr ""
 msgid "email.bookings.link_body"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.stay"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.followup_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.resend_body"
+msgstr ""
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.invite_nudge.body"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_arrived_body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.reply_by_body"
 msgstr ""
 
 #: ../domain/src/plan/templates.ts
@@ -335,12 +447,36 @@ msgstr ""
 msgid "notifications.guide.queued_answer.body"
 msgstr ""
 
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.meet_up_start_body"
+msgstr ""
+
 #: ../domain/src/nudges/templates.ts
 msgid "notifications.nudge.payment"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_body"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_go_title"
+msgstr ""
+
+#: ../domain/src/quests/realtime.ts
+msgid "notifications.quests.ready.title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.vote_start_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.version_body"
+msgstr ""
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.hatched.body"
 msgstr ""
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
@@ -351,10 +487,22 @@ msgstr ""
 msgid "notifications.vote.destination.body"
 msgstr ""
 
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.followup_body"
+msgstr ""
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.body"
 msgstr ""
 
 #: ../domain/src/itinerary/templates.ts
 msgid "notifications.draft.ready.body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.proposal.resend_title"
+msgstr ""
+
+#: ../domain/src/critters/realtime.ts
+msgid "notifications.critters.hatched.title"
 msgstr ""
