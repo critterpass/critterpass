@@ -16,7 +16,14 @@ import type { TurnEvent } from '../../runner/sse';
 import { runTurn } from '../../runner/turn';
 import type { ToolRegistry } from '../../tools/registry';
 import type { RunAsSystem, SqlClient } from '../../usage';
-import { chatWindow, claimMention, crewPassHolders, packFor, settle } from './crew-store';
+import {
+  chatWindow,
+  claimMention,
+  crewPassHolders,
+  hasOwnGuide,
+  packFor,
+  settle,
+} from './crew-store';
 import { detach } from './detach';
 import { buildCrewMentionRequest, CREW_MENTION_ROUTE } from './mention.prompt';
 
@@ -106,6 +113,7 @@ async function* mentionEvents(
   ]);
   const request = buildCrewMentionRequest({
     pack,
+    anywhere: !hasOwnGuide(claim.guideSlug),
     tripContext: context.tripContext,
     window: window.some((line) => line.body === claim.body)
       ? window

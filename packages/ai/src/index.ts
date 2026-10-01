@@ -69,6 +69,8 @@ export {
   buildSystemBlocks,
   globalRulesText,
   renderPersonaBlock,
+  writtenGloss,
+  type PersonaBlockOptions,
   type PromptLayers,
 } from './persona/layering';
 export {

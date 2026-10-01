@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "19dac7cf-dfaa-422c-b4a3-3d78d874b65e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Đà Nẵng một buổi tối thì cứ nhắm hải sản nướng ven biển với mì Quảng, cao lầu — no bụng mà vẫn đúng vị miền Trung. Để mình tra giúp vài quán cụ thể còn mở buổi tối nhé, bạn cho mình biết bạn ở khu nào?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 228,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9472,
+        "output_tokens": 91,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

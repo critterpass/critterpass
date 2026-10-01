@@ -44,15 +44,54 @@ const DRYNESS = [
   'deadpan',
 ] as const;
 
-/** Renders the persona layer; fixed field order, no timestamps, no per-user data. */
-export function renderPersonaBlock(pack: PersonaPack): string {
+export interface PersonaBlockOptions {
+  /**
+   * The conversation has no local guide of its own: the person has no trip yet, or their trip's
+   * destination has no guide. The persona then guides for any destination, instead of its home.
+   */
+  readonly anywhere?: boolean;
+}
+
+/**
+ * A gloss as it is written after a local word, `term (gloss)`: a gloss that carries its own
+ * bracket ("thank you (Indonesian)") drops it, so the written form never nests brackets.
+ */
+export function writtenGloss(gloss: string): string {
+  const plain = gloss
+    .replace(/\s*[([{][^)\]}]*[)\]}]/gu, '')
+    .replace(/\s{2,}/gu, ' ')
+    .trim();
+  return plain === '' ? gloss.replace(/[()[\]{}]/gu, '').trim() : plain;
+}
+
+/** What the persona guides, in one or more lines. */
+function scopeLines(pack: PersonaPack, options: PersonaBlockOptions): string[] {
+  if (pack.guest_mode !== null) {
+    return [
+      `You are covering this destination as a guest guide. Begin every reply with "From ${pack.guest_mode.hedge}," (in the reply language) and frame what you share as ${pack.guest_mode.hedge}.`,
+    ];
+  }
+  const home = pack.destination ?? 'your home destination';
+  if (options.anywhere !== true) return [`You are the live guide for ${home}.`];
+  return [
+    `Your home is ${home}, but this person has no trip with a local guide yet, so in this conversation you are their travel guide for anywhere in the world.`,
+    'Answer about any destination helpfully and concretely: where to go, when, what to eat, what to see, how to get their crew planning. Never say a place is outside your patch, and never ask for a destination and dates before you help.',
+    'Asked where to go next, suggest two or three places, each with one reason, then offer to start planning one. Fit them to what the conversation and the context tell you about this person; when you know nothing about them yet, do not invent their tastes: offer a varied shortlist.',
+    'A question that names no place (which month is best, how long do we need) still gets something useful first, such as the best months for two or three kinds of trip, and then one question to narrow it down.',
+    'Never send them to another guide or tell them to ask one: they cannot reach any guide but you. You may add, at most once in a conversation, one short line that a local guide joins their crew once a trip there exists.',
+  ];
+}
+
+/**
+ * Renders the persona layer; fixed field order, no timestamps, no per-user data (the two scopes
+ * are two stable blocks, so each still shares its cached prefix).
+ */
+export function renderPersonaBlock(pack: PersonaPack, options: PersonaBlockOptions = {}): string {
   const lines = [
     `# Your persona: ${pack.name}`,
     '',
     `You are ${pack.name}, a ${pack.species}.`,
-    pack.guest_mode === null
-      ? `You are the live guide for ${pack.destination ?? 'your home destination'}.`
-      : `You are covering this destination as a guest guide. Begin every reply with "From ${pack.guest_mode.hedge}," (in the reply language) and frame what you share as ${pack.guest_mode.hedge}.`,
+    ...scopeLines(pack, options),
     `Your line: "${pack.tagline}"`,
     'Stay in character in every reply, even a one-line answer or a question: your warmth, humour and way of speaking should be recognisable in a single sentence.',
     `Your voice: ${WARMTH[pack.register.warmth]}, ${HUMOUR[pack.register.humour]}, ${DRYNESS[pack.register.dryness]}.`,
@@ -68,7 +107,7 @@ export function renderPersonaBlock(pack: PersonaPack): string {
   if (pack.local_words.length === 0) lines.push('- none yet: use none.');
   for (const word of pack.local_words) {
     lines.push(
-      `- "${word.term}" means ${word.gloss}; use it when ${word.when}. Write it as "${word.term} (${word.gloss})" the first time in a reply.`,
+      `- "${word.term}" means ${word.gloss}; use it when ${word.when}. Write it as "${word.term} (${writtenGloss(word.gloss)})" the first time in a reply.`,
     );
   }
   if (pack.taboos.length > 0) {
@@ -86,6 +125,8 @@ export interface PromptLayers {
   readonly destinationPack?: string;
   /** Privacy-filtered trip context rendered from llm.* views. */
   readonly tripContext?: string;
+  /** No local guide of its own: the persona guides for any destination (see `renderPersonaBlock`). */
+  readonly anywhere?: boolean;
 }
 
 const cached = (text: string): Anthropic.Messages.TextBlockParam => ({
@@ -98,7 +139,10 @@ export function buildSystemBlocks(layers: PromptLayers): Anthropic.Messages.Text
   if (layers.pack.guest_mode !== null && layers.destinationPack !== undefined) {
     throw new Error('the guest guide has no curated destination pack');
   }
-  const blocks = [cached(globalRulesText()), cached(renderPersonaBlock(layers.pack))];
+  const blocks = [
+    cached(globalRulesText()),
+    cached(renderPersonaBlock(layers.pack, { anywhere: layers.anywhere === true })),
+  ];
   if (layers.destinationPack !== undefined) {
     blocks.push(cached(`# Destination\n\n${layers.destinationPack}`));
   }
