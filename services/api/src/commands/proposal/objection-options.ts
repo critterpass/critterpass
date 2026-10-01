@@ -23,12 +23,15 @@ export interface ObjectionOption {
 
 const SKIP_REASONS: ReadonlySet<PrivateReason> = new Set(['cost', 'plan', 'other']);
 
-/** The saving as the member sees it ("$64"), for the guide's wording and the validator. */
-export function savesLabel(option: ObjectionOption): string | null {
+/**
+ * The saving as the member sees it ("$64"), punctuated the way their language writes money, for
+ * the guide's wording and the validator.
+ */
+export function savesLabel(option: ObjectionOption, locale = 'en'): string | null {
   if (option.display_delta_minor === null || option.currency === null) return null;
   const minor = BigInt(option.display_delta_minor);
   return formatMoney(money(minor < 0n ? -minor : minor, option.currency), {
-    locale: 'en',
+    locale,
     mode: 'local',
   });
 }

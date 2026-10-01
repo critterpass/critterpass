@@ -131,4 +131,9 @@ export interface VersionContext {
   readonly savings: readonly VersionSaving[];
   /** First names of the rest of the crew: the version may name none of them. */
   readonly otherNames: readonly string[];
+  /**
+   * The language the recipient's app is in (`app.user_locale`): their version is written in it.
+   * Absent or `en` writes English.
+   */
+  readonly locale?: string;
 }
