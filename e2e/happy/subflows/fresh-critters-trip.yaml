@@ -120,15 +120,25 @@ appId: app.critterpass.dev
       platform: Android
     commands:
       # The sheet opens on the month of the suggested week, which can be a later one: page back
-      # to this month first.
+      # to this month first. The dates step under the sheet has its own month and arrows, so
+      # both are looked up inside the sheet.
       - repeat:
           while:
-            notVisible: ${output.monthLabel}
+            notVisible:
+              text: ${output.monthLabel}
+              childOf:
+                id: 'week-picker-panel'
           times: 3
           commands:
-            - tapOn: 'Previous month'
+            - tapOn:
+                id: 'heatmap-prev'
+                childOf:
+                  id: 'week-picker-panel'
             - waitForAnimationToEnd
-      - assertVisible: ${output.monthLabel}
+      - assertVisible:
+          text: ${output.monthLabel}
+          childOf:
+            id: 'week-picker-panel'
       - repeat:
           while:
             notVisible:
