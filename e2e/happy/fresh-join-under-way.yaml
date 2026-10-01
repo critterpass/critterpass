@@ -541,6 +541,22 @@ appId: app.critterpass.dev
     file: ../proposal/subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-0'
+# The switch restarts the app where it last was (the trips tab): back to Home.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- tapOn:
+    id: 'tab-home'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
@@ -641,6 +657,22 @@ appId: app.critterpass.dev
     file: ../proposal/subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-3'
+# The switch restarts the app where it last was (the trips tab): back to Home.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- tapOn:
+    id: 'tab-home'
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'
@@ -731,6 +763,22 @@ appId: app.critterpass.dev
     file: ../proposal/subflows/switch-account.yaml
     env:
       TARGET: 'dev-accounts-switch-2'
+# The switch restarts the app where it last was (the trips tab): back to Home.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- tapOn:
+    id: 'tab-home'
 - extendedWaitUntil:
     visible:
       id: 'home-join-trip'
