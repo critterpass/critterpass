@@ -107,16 +107,30 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-01-primer
-- tapOn:
-    id: 'primer-location-toggle'
-- tapOn:
-    text: '(?i)while using the app|allow while using app'
-    optional: true
-- tapOn:
-    id: 'primer-notifications-toggle'
-- tapOn:
-    text: '(?i)allow'
-    optional: true
+# A switch already on (the runner grants permissions at install) is left alone: tapping it would
+# open the system settings to turn it off.
+- runFlow:
+    when:
+      visible:
+        id: 'primer-location-toggle'
+        checked: false
+    commands:
+      - tapOn:
+          id: 'primer-location-toggle'
+      - tapOn:
+          text: '(?i)while using the app|allow while using app'
+          optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'primer-notifications-toggle'
+        checked: false
+    commands:
+      - tapOn:
+          id: 'primer-notifications-toggle'
+      - tapOn:
+          text: '(?i)allow'
+          optional: true
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-02-primer-allowed
 - tapOn:
