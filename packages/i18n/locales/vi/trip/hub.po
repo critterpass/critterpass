@@ -148,6 +148,10 @@ msgid "trip.hub.tile.settled"
 msgstr "Hòa"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipeDetail"
+msgstr "Cả nhóm cùng quẹt, chỗ nào hợp sẽ vào lịch trình"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.explore"
 msgstr "Khám phá {destination}"
 
@@ -298,6 +302,10 @@ msgstr "đang thiết lập"
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.someone"
 msgstr "Ai đó"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipe"
+msgstr "Cùng quẹt chọn địa điểm"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
 #: ../../apps/mobile/src/features/trip/hub/phase-header.tsx

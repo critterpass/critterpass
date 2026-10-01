@@ -148,6 +148,10 @@ msgid "trip.hub.tile.settled"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipeDetail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.explore"
 msgstr ""
 
@@ -297,6 +301,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.someone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
