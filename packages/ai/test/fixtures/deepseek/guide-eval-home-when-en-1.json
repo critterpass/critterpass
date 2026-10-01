@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "36ec5c10-2222-40b2-90dd-aa6f6c91ec33",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Depends on the trip, honestly — for beaches in Southeast Asia, dry-season months like February to April are the sweet spot, while for cities in Europe, late spring and early autumn beat the summer crowds and heat. Tell me where your crew is dreaming of, and I'll pin down the exact window."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 207,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9472,
+        "output_tokens": 62,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+appId: app.critterpass.dev
+---
+# The app is closed on a screen and opened again within half an hour: the same screen comes back
+# with its data, never "That didn't load". A cold start restores the saved screen only once the
+# session's local database is open, so the screen has something to read.
+#
+# Three screens that read the local database as they mount: a booking's details (the flight pasted
+# by e2e/happy/bookings.yaml on a fresh account with the demo trip), the trip's money, and the
+# guide sheet.
+- runFlow: ../happy/bookings.yaml
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      text: '.*K7Q2PX.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: reopen-booking-detail
+
+- openLink: critterpass-dev://wallet/money
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: reopen-trip-money
+
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-fab'
+    timeout: 30000
+- tapOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 15000
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: reopen-guide-sheet
+- assertNotVisible: '(?i)that didn.t load'

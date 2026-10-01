@@ -96,19 +96,40 @@ export function heroParts(
   };
 }
 
+/**
+ * The type size a hero amount fits its row at, by how many characters it prints (symbol,
+ * digits and group marks): "$4,812" at the full hero size, "₫10,600,000" a step down, and
+ * anything longer at the heading size, so the amount is never cut off at the screen edge.
+ */
+export function heroVariant(parts: {
+  readonly whole: number;
+  readonly prefix: string;
+  readonly suffix: string;
+}): 'displayHero' | 'displayXl' | 'h1' {
+  const digits = String(Math.abs(Math.trunc(parts.whole))).length;
+  const length = parts.prefix.length + parts.suffix.length + digits + Math.floor((digits - 1) / 3);
+  if (length <= 8) return 'displayHero';
+  return length <= 11 ? 'displayXl' : 'h1';
+}
+
 /** A calendar date (`YYYY-MM-DD`) at noon UTC, so formatting it in UTC never shifts the day. */
 export function calendarDate(localDate: string): Date {
   // eslint-disable-next-line lingui/no-unlocalized-strings -- an ISO time suffix, never copy.
   return new Date(`${localDate}T12:00:00Z`);
 }
 
-/** Whole units for headline totals: "US$4,812", "Rp 1.080.000". */
+/**
+ * Whole units for headline totals: "$4,812", "Rp 1.080.000", "₫10,600,000". The symbol comes from
+ * the app's own table, as in `formatShort`: Hermes on iOS has no symbol data and would print the
+ * code run into the digits ("USD4,812").
+ */
 export function formatWhole(amountMinor: bigint, currency: string, locale: string): string {
   if (!known(currency)) return formatAmount(amountMinor, currency, locale);
-  return format.number(locale, Math.round(toMajor(amountMinor, currency)), {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
+  const whole = Math.round(toMajor(amountMinor < 0n ? -amountMinor : amountMinor, currency));
+  const body = format.number(locale, whole, { maximumFractionDigits: 0 });
+  const symbol = symbolOf(currency);
+  const sign = amountMinor < 0n ? MINUS : '';
+  if (symbolTrails(currency, locale)) return `${sign}${body}\u00a0${symbol}`;
+  const spaced = /[A-Za-z]$/u.test(symbol) ? `${symbol} ` : symbol;
+  return `${sign}${spaced}${body}`;
 }

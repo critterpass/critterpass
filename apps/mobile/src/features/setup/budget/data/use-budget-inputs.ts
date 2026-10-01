@@ -8,6 +8,7 @@
 import type { BudgetEstimateSource } from '@cp/cost-engine';
 
 import { useLiveRows } from '../../data/rows';
+import { SETUP_MEMBERS_FROM } from '../../data/setup-trip';
 import type { AggregateRow } from '../model';
 
 const AGG_SQL = `SELECT currency, maxes_count, member_count, band_low_minor, band_high_minor,
@@ -20,9 +21,8 @@ const PLAN_SQL = `SELECT target_minor, currency, locked_at FROM budget_plans
 const TRIP_SQL = `SELECT t.start_date, t.end_date, c.settlement_currency AS currency
   FROM trips t LEFT JOIN crews c ON c.id = t.crew_id WHERE t.id = ?`;
 
-const HOMES_SQL = `SELECT p.user_id AS uid, upper(u.home_airport) AS home
-  FROM trip_participants p LEFT JOIN users u ON u.id = p.user_id
-  WHERE p.trip_id = ? AND coalesce(p.rsvp, '') <> 'out' ORDER BY p.user_id`;
+const HOMES_SQL = `SELECT m.user_id AS uid, upper(u.home_airport) AS home
+  ${SETUP_MEMBERS_FROM} ORDER BY m.user_id`;
 
 const FARES_SQL = `SELECT upper(origin) AS origin, min(amount_minor) AS price_minor, currency
   FROM price_quotes WHERE trip_id = ? AND kind = 'flight' AND origin IS NOT NULL
@@ -85,6 +85,8 @@ export function useBudgetInputs(tripId: string): BudgetInputs {
   const plan = useLiveRows<{ target_minor: number }>(PLAN_SQL, params, ['budget_plans']);
   const trip = useLiveRows<TripRow>(TRIP_SQL, params, ['trips', 'crews']);
   const homes = useLiveRows<{ uid: string; home: string | null }>(HOMES_SQL, params, [
+    'trips',
+    'crew_members',
     'trip_participants',
     'users',
   ]);

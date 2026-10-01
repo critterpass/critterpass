@@ -121,8 +121,16 @@ msgstr ""
 msgid "home.inbox.earlier"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/explore-row.tsx
+msgid "home.explore.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.guides"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/explore-row.tsx
+msgid "home.explore.body"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx

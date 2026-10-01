@@ -1,0 +1,62 @@
+appId: app.critterpass.dev
+---
+# Opens one explore lab scene (apps/mobile/src/app/(dev)/explore-lab.tsx), waits for `${READY}`, takes
+# `${SHOT}` and goes back to the list (Android back; iOS drags back from the edge or reopens the lab).
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-${SCENE}'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'explore-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: '${READY}'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+      # A sheet scene takes the first back itself (the sheet closes); the second leaves the scene.
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - runFlow:
+          when:
+            notVisible:
+              id: 'explore-lab-${SCENE}'
+          commands:
+            - back
+# iOS: a slow drag from the very edge pops the scene; when a scene's gestures or sheet take it
+# and the list isn't back, the lab is reopened from Home.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 0%, 50%
+          end: 85%, 50%
+          duration: 800
+      - waitForAnimationToEnd:
+          timeout: 3000
+- runFlow:
+    when:
+      platform: iOS
+      notVisible:
+        id: 'explore-lab-${SCENE}'
+    commands:
+      - runFlow: ../../home/subflows/open-dev-tools.yaml
+      - runFlow: open-lab.yaml
+      # The reopened list starts at its top.
+      - scrollUntilVisible:
+          element:
+            id: 'explore-lab-${SCENE}'
+          direction: DOWN
+          timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'explore-lab-${SCENE}'
+    timeout: 10000

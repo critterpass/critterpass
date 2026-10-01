@@ -30,6 +30,7 @@ import { ImportTiles, type ImportChannel } from '../add/ImportTiles';
 import { BookingDeck, type DeckItem } from './BookingDeck';
 import { ImportBanner, OfflineBadge, type ImportBannerProps } from './WalletParts';
 import { WalletSwitch } from './WalletSwitch';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['8'] },
@@ -76,7 +77,8 @@ export function WalletView(props: WalletViewProps) {
   const inset = useTabBarInset();
   const locale = useLocale();
   const { t } = useLingui();
-  const tokek = GUIDE_STICKERS.tokek;
+  const guide = useWalletGuide();
+  const tokek = GUIDE_STICKERS[guide.id];
   return (
     <Scaffold variant="dark" testID={`bookings-wallet-${props.state}`}>
       <ScrollView
@@ -96,14 +98,14 @@ export function WalletView(props: WalletViewProps) {
         {props.state === 'empty' ? (
           <Stack gap="16" testID="bookings-empty">
             <GuideLine
-              guide="tokek"
-              name={tokek.name}
+              guide={guide.id}
+              name={guide.name}
               line={t({
                 id: 'bookings.empty.line',
                 message:
                   'Nothing in the wallet yet. Forward, scan or paste a confirmation and I file it here.',
               })}
-              sticker={<Sticker kind={tokek.kind} name={tokek.name} size={48} pose="wave" />}
+              sticker={<Sticker kind={tokek.kind} name={guide.name} size={48} pose="wave" />}
             />
             <ImportTiles onChannel={props.onChannel} />
           </Stack>

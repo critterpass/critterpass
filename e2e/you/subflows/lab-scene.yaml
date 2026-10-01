@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# From the profile lab list: opens ${SCENE}, waits for ${ROOT}, takes ${SHOT}, and goes back.
+- scrollUntilVisible:
+    element:
+      id: 'you-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'you-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: ${ROOT}
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow: ../../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'you-lab-3n-1-profile'
+    timeout: 10000
+    optional: true

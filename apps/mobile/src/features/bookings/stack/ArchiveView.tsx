@@ -23,6 +23,7 @@ import { useWalletContext } from '../data/use-wallet-context';
 import { zoneOf } from '../format';
 import { bookingRoute } from '../routes';
 import { useDeckMeta } from './deck-meta';
+import { WalletGuideProvider } from '../data/wallet-guide';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -81,10 +82,12 @@ export function ArchiveScreen() {
   const context = useWalletContext();
   const wallet = useWallet(context.trip?.id ?? null, context.uid);
   return (
-    <ArchiveView
-      past={wallet.past}
-      tz={context.trip?.tz ?? undefined}
-      onOpen={(id) => router.push(bookingRoute(id))}
-    />
+    <WalletGuideProvider tripId={context.trip?.id ?? null}>
+      <ArchiveView
+        past={wallet.past}
+        tz={context.trip?.tz ?? undefined}
+        onOpen={(id) => router.push(bookingRoute(id))}
+      />
+    </WalletGuideProvider>
   );
 }

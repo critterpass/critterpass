@@ -164,7 +164,10 @@ function cheapestFlight(estimates: BudgetEstimates): Money | null {
   return best;
 }
 
-/** The cheapest workable trip anyone in the crew could take; `null` when prices are missing. */
+/**
+ * The cheapest workable trip anyone in the crew could take: on the crew's cheapest flight, or the
+ * ground part alone when nobody's flight is priced. `null` with no cost index or no dates.
+ */
 export function crewFeasibleLow(estimates: BudgetEstimates): Money | null {
   return feasibleLow({
     flights: cheapestFlight(estimates),

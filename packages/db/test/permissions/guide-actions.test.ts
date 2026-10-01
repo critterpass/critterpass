@@ -28,7 +28,9 @@ async function insertAction(reversible: boolean): Promise<string> {
   return withSystem(db.pool, async (tx) => {
     const { rows } = await tx.query<{ id: string }>(
       `INSERT INTO guide_actions (trip_id, kind, reversible, inverse, undo_until, disruption_id)
-       VALUES ($1, 'move_pickup', $2, $3, now() + interval '1 day', uuidv7()) RETURNING id`,
+       VALUES ($1, 'move_pickup', $2, $3, now() + interval '1 day',
+               (SELECT id FROM disruptions WHERE trip_id = $1 ORDER BY id LIMIT 1))
+       RETURNING id`,
       [fixture.tripId, reversible, reversible ? { kind: 'move_pickup', to: '09:00' } : null],
     );
     return firstRow(rows).id;

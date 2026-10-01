@@ -15,7 +15,8 @@ export function detailCopy(
   const found = model.foundCount;
   return {
     formsLabel: t({ id: 'critters.detail.forms', message: `Forms · ${found} of ${total}` }),
-    fieldNote: model.note,
+    // A found form's own note first; the critter's while only its silhouette is known.
+    fieldNote: (form?.found === true ? form.note : null) ?? model.note,
     fieldNoteSource:
       guideName === null
         ? t({ id: 'critters.detail.fieldNotes', message: 'From the field notes' })

@@ -222,6 +222,7 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'redraft.day': pro('D', 4096, 'high', { ...PLANNING_CALL, temperature: 0.5 }),
   'proposal.personal': pro('D', 8192, 'low', { output: 'structured' }),
   'disruption.plan_b': pro('R', 8192, 'low', { output: 'structured' }),
+  'replan.weather': pro('R', 4096, 'low', { output: 'structured' }),
   'recap.narration': pro('B', 16_000, 'low', { output: 'structured' }),
   'notification.templates': pro(null, 16_000, 'low', {
     output: 'structured',
@@ -242,6 +243,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'draft.skeleton_fast': fast('D', 8192, { ...PLANNING_CALL, cacheLayers: JOB_LAYERS }),
   'draft.summary': fast(null, 256),
   'draft.closures': fast(null, 2048, { output: 'structured' }),
+  'watch.copy': fast('R', 1024, { output: 'structured', cacheLayers: JOB_LAYERS }),
+  'late.options': fast('R', 1024, { output: 'structured', cacheLayers: JOB_LAYERS }),
   'proposal.objection': fast(null, 768, { output: 'structured' }),
   'proposal.suggestion': fast(null, 1024, { output: 'structured' }),
   // A batch of the guide's own lines in a reader's language, in the guide's voice.
@@ -249,6 +252,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
     output: 'structured',
     cacheLayers: ['global_rules', 'persona'],
   }),
+  'help.checklist': fast(null, 1024, { output: 'structured', temperature: 0.3 }),
+  'sos.summary': fast(null, 256, { output: 'structured', temperature: 0.2 }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {

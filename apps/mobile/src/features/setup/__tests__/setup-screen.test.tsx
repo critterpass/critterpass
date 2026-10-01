@@ -20,7 +20,7 @@ jest.mock('expo-router', () => ({
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
 import {
@@ -96,6 +96,40 @@ describe('setup screen', () => {
       selected: false,
       disabled: true,
     });
+  });
+
+  it('puts the organiser back on the step the server holds when a step move is refused', async () => {
+    stack = await openTestLocalFirst();
+    await seedKyoto(stack, { as: 'organiser', step: 'rooms' });
+    // The app had moved on to must-dos; the server then refused the move and stayed on rooms.
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step="must_dos" />, { stack });
+    await screen.findByTestId('setup-step-must_dos');
+    expect(router.replace).not.toHaveBeenCalled();
+    await stack.db.execute(
+      `INSERT INTO rejected_commands (id, cmd, code, detail, rejected_at)
+       VALUES ('op-1', 'set_setup_step', 'STATE_INVALID', ?, '2026-10-01T10:55:07Z')`,
+      [JSON.stringify({ reason: 'step_not_done', step: 'rooms' })],
+    );
+    await waitFor(() =>
+      expect(router.replace).toHaveBeenCalledWith({
+        pathname: '/[tripId]/setup/[step]',
+        params: { tripId: TRIP_ID, step: 'rooms' },
+      }),
+    );
+  });
+
+  it('says why on the step it went back to, until the organiser moves again', async () => {
+    stack = await openTestLocalFirst();
+    await seedKyoto(stack, { as: 'organiser', step: 'rooms' });
+    await stack.db.execute(
+      `INSERT INTO rejected_commands (id, cmd, code, detail, rejected_at)
+       VALUES ('op-1', 'set_setup_step', 'STATE_INVALID', '{}', '2026-10-01T10:55:07Z')`,
+    );
+    await renderSetup(<SetupScreen tripId={TRIP_ID} step="rooms" />, { stack });
+    expect(await screen.findByTestId('setup-step-refused')).toBeTruthy();
+    expect(router.replace).not.toHaveBeenCalled();
+    await fireEvent.press(screen.getByLabelText('Step 2, Budget, done'));
+    await waitFor(() => expect(screen.queryByTestId('setup-step-refused')).toBeNull());
   });
 
   it('locks the best week through the command client and says when it needs signal', async () => {

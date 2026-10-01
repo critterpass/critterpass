@@ -8,6 +8,7 @@ import type { FormSpec } from '@cp/critter-art';
 import type { Rarity } from '@cp/domain';
 
 import { parseJson } from '../data/queries';
+import type { SpawnSqlRow } from '../data/spawn-rows';
 import { formSpec } from '../dex/dex-model';
 
 export const SPAWN_FORM_SQL = `SELECT f.id, f.rarity, f.palette, f.pose, f.edge, f.xp,
@@ -61,17 +62,39 @@ export interface SpawnArt {
   readonly formCount: number;
 }
 
-export function spawnArt(row: SpawnFormRow): SpawnArt {
-  const guide = row.key === row.hero_critter_key ? row.guide_name : null;
+const RARITIES: readonly Rarity[] = ['common', 'rare', 'epic', 'legendary'];
+
+/**
+ * The scene's art for a spawn. It comes from the spawn's own row, which is on hand the moment an
+ * encounter exists; the form's row adds what only it knows (a name the viewer may see, the form's
+ * place among its critter's forms) once it has loaded, and is never waited for. Null when even
+ * the critter's art key is unknown.
+ */
+export function spawnArt(rule: SpawnSqlRow, row: SpawnFormRow | undefined): SpawnArt | null {
+  const key = rule.critter_key ?? row?.key ?? null;
+  if (key === null) return null;
+  const rarity = (RARITIES.find((r) => r === rule.rarity) ??
+    row?.rarity ??
+    'common') satisfies Rarity;
+  const look = row ?? {
+    id: rule.form_id,
+    critter_id: rule.critter_id,
+    rarity,
+    palette: rule.palette ?? null,
+    pose: rule.pose ?? null,
+    edge: rule.edge ?? null,
+    xp: rule.xp ?? null,
+  };
+  const guide = row !== undefined && row.key === row.hero_critter_key ? row.guide_name : null;
   return {
-    key: row.key,
-    seed: row.canonical_seed ?? row.no,
-    form: formSpec({ ...row, key: null, requirement_copy: null }),
-    rarity: row.rarity,
-    xp: row.xp ?? 0,
-    name: row.known_name ?? guide,
-    formNo: row.form_no,
-    formCount: row.form_count,
+    key,
+    seed: rule.canonical_seed ?? row?.canonical_seed ?? rule.critter_no ?? row?.no ?? 0,
+    form: formSpec({ ...look, key: null, requirement_copy: null }),
+    rarity,
+    xp: look.xp ?? 0,
+    name: row?.known_name ?? guide,
+    formNo: row?.form_no ?? RARITIES.indexOf(rarity) + 1,
+    formCount: row?.form_count ?? RARITIES.length,
   };
 }
 

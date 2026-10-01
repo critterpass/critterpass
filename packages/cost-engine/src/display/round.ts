@@ -3,7 +3,7 @@
  * every stored calc stay exact; only labels round, and a delta label is the difference of the two
  * rounded labels so "+$24 each" always matches the odometer going from $1,310 to $1,334.
  */
-import { currencyExponent } from '../money/currencies';
+import { currencyExponent, type CurrencyCode } from '../money/currencies';
 import { type Money } from '../money/money';
 import { divideRounded } from '../money/round';
 
@@ -12,6 +12,34 @@ export function roundEach(amount: Money): Money {
   const unit = 10n ** BigInt(currencyExponent(amount.currency));
   return {
     amountMinor: divideRounded(amount.amountMinor, unit, 'half_up') * unit,
+    currency: amount.currency,
+  };
+}
+
+/**
+ * Whole major units below which nobody quotes a price in the currency's everyday cash: an estimate
+ * is never shown finer than this. Currencies not listed use one whole unit.
+ */
+export const ESTIMATE_CASH_STEP_MAJOR: Readonly<Partial<Record<CurrencyCode, bigint>>> = {
+  VND: 1_000n,
+  IDR: 1_000n,
+};
+
+/**
+ * Display rounding for estimates (a stay's nightly range, a cost each before anything is booked):
+ * three significant digits, half up, and never finer than the currency's cash step, so an estimate
+ * does not claim the precision of a receipt ("₫3,340,000 each", "₫467,000 a night"; "$202" stays
+ * "$202"). Real expenses, shares and settlements are never rounded this way.
+ */
+export function roundEstimate(amount: Money): Money {
+  const unit = 10n ** BigInt(currencyExponent(amount.currency));
+  const cash = (ESTIMATE_CASH_STEP_MAJOR[amount.currency] ?? 1n) * unit;
+  const size = amount.amountMinor < 0n ? -amount.amountMinor : amount.amountMinor;
+  let step = 1n;
+  while (size / step >= 1_000n) step *= 10n;
+  if (step < cash) step = cash;
+  return {
+    amountMinor: divideRounded(amount.amountMinor, step, 'half_up') * step,
     currency: amount.currency,
   };
 }

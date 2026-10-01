@@ -1,0 +1,143 @@
+appId: app.critterpass.dev
+---
+# A brand-new account's guide chat on staging, no demo world, first on a Vietnamese phone and then
+# in English. Vietnamese: the greeting, a suggested question, the answer streaming in and settling,
+# the daily count under the guide's name, and a typed question (without diacritics: the Android
+# driver types ASCII only) with the keyboard up. English after a restart (the dev gallery's
+# language is never saved): the same thread, and a question whose answer uses a local word with
+# its gloss. The sheet the app was closed on comes back on that restart.
+#
+# Needs the staging api's guide model key and a free meter with answers left.
+# Home is picked by its three-letter code: the shortest search for iPhone's typing to get through.
+- runFlow:
+    file: subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SIN
+      HOME_QUERY: 'SIN'
+- tapOn:
+    id: 'dev-tools-entry'
+# The gallery sits below the first screenful on a phone; slow, or iOS flings past it.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-gallery'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      notVisible:
+        id: 'guide-fab'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'guide-fab'
+    timeout: 20000
+
+# Vietnamese: the greeting and its three questions.
+- tapOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: 'guide-prompt-0'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-guide-greeting
+# A suggested question: the dots, the answer typing in, then its saved copy and the count.
+- tapOn:
+    id: 'guide-prompt-0'
+- takeScreenshot: vi-walk-guide-asked
+- extendedWaitUntil:
+    visible:
+      id: 'guide-answer-(live|[0-9a-f-]{36})'
+    timeout: 90000
+- takeScreenshot: vi-walk-guide-streaming
+- assertNotVisible:
+    id: 'guide-error'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-answer-[0-9a-f-]{36}'
+    timeout: 90000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-walk-guide-answer
+# A typed question, the keyboard up under the composer.
+- tapOn:
+    id: 'guide-composer'
+- inputText: 'Da Nang co mon gi ngon?'
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-guide-draft-keyboard
+- assertVisible: 'Da Nang co mon gi ngon\?'
+- tapOn: 'Gửi'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-live'
+    timeout: 30000
+    optional: true
+- takeScreenshot: vi-walk-guide-asked-keyboard
+- extendedWaitUntil:
+    notVisible:
+      id: 'guide-live'
+    timeout: 120000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: vi-walk-guide-answer-keyboard
+- assertNotVisible:
+    id: 'guide-error'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: vi-walk-guide-thread
+
+# English: a cold start drops the gallery's language and restores the guide sheet it was closed on
+# (never an error). The same thread, and a local word's gloss.
+- stopApp
+- launchApp
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'guide-answer-[0-9a-f-]{36}'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-walk-guide-thread
+- tapOn:
+    id: 'guide-composer'
+- inputText: 'How do I thank a driver in Bali?'
+- assertVisible: 'How do I thank a driver in Bali\?'
+- tapOn: 'Send'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-live'
+    timeout: 30000
+    optional: true
+- extendedWaitUntil:
+    notVisible:
+      id: 'guide-live'
+    timeout: 120000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- assertNotVisible:
+    id: 'guide-error'
+- takeScreenshot: en-walk-guide-gloss-keyboard
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: en-walk-guide-gloss

@@ -364,6 +364,10 @@ msgid "web.comingSoon.features.askReply"
 msgstr "Cours de cuisine à 14 h. La plage passe à vendredi."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copiedCode"
+msgstr "Copié"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
 msgstr ""
 
@@ -374,6 +378,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.copied"
 msgstr "COPIÉ ✓"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copyCode"
+msgstr "Copier"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
@@ -426,6 +434,14 @@ msgstr "CritterPass est un organisateur de voyages en groupe, bientôt sur iOS e
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTesting"
+msgstr "CritterPass est en test. Demande l’invitation TestFlight à {inviter}, puis rejoins avec ce code :"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTestingNoName"
+msgstr "CritterPass est en test. Demande l’invitation TestFlight à la personne qui t’a invité, puis rejoins avec ce code :"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
@@ -626,6 +642,10 @@ msgstr "PORTE ✦ PARTOUT"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.gateOpensIn"
 msgstr "PORTE OUVERTE DANS"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.testFlight"
+msgstr "Obtenir CritterPass sur TestFlight"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"

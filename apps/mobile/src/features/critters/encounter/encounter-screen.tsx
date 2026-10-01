@@ -68,10 +68,10 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
   const [now] = useState(() => Date.now());
   const back = () => (router.canGoBack() ? router.back() : router.replace(passRoute()));
 
-  if (candidate === null || formRow === undefined || snapshot.phase === 'none') {
+  const art = candidate === null ? null : spawnArt(candidate.rule, formRow);
+  if (candidate === null || art === null || snapshot.phase === 'none') {
     return <EncounterView kind="nothing" onBack={back} />;
   }
-  const art = spawnArt(formRow);
   const minutes = Math.max(1, Math.round(snapshot.peakDwellS / 60));
   const hourLabel = (hour: number) =>
     format.date(locale, new Date(Date.UTC(2026, 0, 1, hour)), { hour: 'numeric', timeZone: 'UTC' });
@@ -91,8 +91,8 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
         onAdd={() => {
           dismiss();
           impact('thud.heavy');
-          toast.show({ id: `critters-landed-${formRow.id}`, title: onYourPass() });
-          router.replace(passRoute(formRow.critter_id));
+          toast.show({ id: `critters-landed-${candidate.rule.form_id}`, title: onYourPass() });
+          router.replace(passRoute(candidate.rule.critter_id));
         }}
         onShare={crewHref === undefined ? null : () => router.push(crewHref)}
       />

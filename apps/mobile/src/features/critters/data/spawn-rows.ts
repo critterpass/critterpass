@@ -17,9 +17,11 @@ import { parseJson } from './queries';
 
 export const SPAWNS_SQL = `SELECT s.id, s.key, s.form_id, s.kind, s.set_id, s.destination_id,
     s.poi_ids, s.geofences, s.n, s.dwell_s, s.hold_ms, s.window_id, s.solar, s.min_members,
-    s.foreground_only, s.copy, f.critter_id, f.rarity
-  FROM spawn_rules s JOIN critter_forms f ON f.id = s.form_id`;
-export const SPAWNS_TABLES = ['spawn_rules', 'critter_forms'];
+    s.foreground_only, s.copy, f.critter_id, f.rarity, f.palette, f.pose, f.edge, f.xp,
+    c.key AS critter_key, c.no AS critter_no, c.canonical_seed
+  FROM spawn_rules s JOIN critter_forms f ON f.id = s.form_id
+  LEFT JOIN critters c ON c.id = f.critter_id`;
+export const SPAWNS_TABLES = ['spawn_rules', 'critter_forms', 'critters'];
 
 export interface SpawnSqlRow {
   readonly id: string;
@@ -40,6 +42,14 @@ export interface SpawnSqlRow {
   readonly copy: string | null;
   readonly critter_id: string;
   readonly rarity: string;
+  /** The form's look and its critter's art key: everything the encounter scene draws with. */
+  readonly palette?: string | null;
+  readonly pose?: string | null;
+  readonly edge?: string | null;
+  readonly xp?: number | null;
+  readonly critter_key?: string | null;
+  readonly critter_no?: number | null;
+  readonly canonical_seed?: number | null;
 }
 
 export const SPAWN_POIS_SQL = `SELECT id, name, lat, lng, visit_radius_m FROM pois

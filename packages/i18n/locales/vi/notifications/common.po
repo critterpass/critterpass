@@ -15,6 +15,10 @@ msgstr "{asker} hỏi: {question} Chạm để trả lời, mình sẽ đếm ph
 msgid "notifications.changeset.needs_yes.title"
 msgstr "{asker} muốn đổi kế hoạch"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_body_waiting"
+msgstr "{count, plural, other {{names} đang trễ {minutes} phút.}}"
+
 #: ../domain/src/plan/templates.ts
 msgid "notifications.changeset.needs_yes.body"
 msgstr "{count, plural, other {# thay đổi}} cho {crew}. Đồng ý hay từ chối?"
@@ -22,6 +26,10 @@ msgstr "{count, plural, other {# thay đổi}} cho {crew}. Đồng ý hay từ c
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.ready.body"
 msgstr "Có {count} nhiệm vụ cho {place}."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.title"
+msgstr "{crew}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
@@ -63,6 +71,14 @@ msgstr "{crew} đã đồng ý, nên mình đã cập nhật kế hoạch."
 msgid "notifications.nudge.rsvp"
 msgstr "{crew} muốn biết bạn có đi không. Có, không hay có thể đều được."
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.done_body"
+msgstr "{detail}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.watch_body"
+msgstr "{detail}"
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.flight_start_title"
 msgstr "{flight} · {route}"
@@ -103,9 +119,21 @@ msgstr "{guide}, kèm lời nhắc từ {sender}"
 msgid "notifications.draft.ready.title"
 msgstr "Bản nháp của {guide} đã xong"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_title"
+msgstr "{headline}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.done_title"
+msgstr "{headline}"
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.title"
 msgstr "{inviter} rủ bạn vào {crew}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_body"
+msgstr "{line}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_body"
@@ -219,6 +247,10 @@ msgstr "{place} · {time}"
 msgid "notifications.la.meet_up_late_title"
 msgstr "{place} · {time}"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_title"
+msgstr "{place} · +{minutes} phút"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_title_be_there"
 msgstr "{place} · có mặt trước {time}"
@@ -255,6 +287,10 @@ msgstr "{question} đóng sau hai giờ nữa. Một chạm là xong."
 msgid "notifications.vote.closing.day"
 msgstr "{question} đóng vào ngày mai mà bạn chưa bỏ phiếu."
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.title"
+msgstr "{sender} · {crew}"
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.title"
 msgstr "{sender} · {crew}"
@@ -263,9 +299,37 @@ msgstr "{sender} · {crew}"
 msgid "notifications.crew_chat.title"
 msgstr "{sender} · {crew}"
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.fell"
+msgstr "{sender} bị ngã và cần giúp một tay."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.lost"
+msgstr "{sender} bị lạc và cần giúp một tay."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.safe"
+msgstr "{sender} đã an toàn. Cảm ơn mọi người đã có mặt."
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.moved"
 msgstr "{sender} đã đổi điểm hẹn: {place}, {time}."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.need_ride"
+msgstr "{sender} cần một chuyến xe."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.title"
+msgstr "{sender} cần giúp đỡ"
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.started"
+msgstr "{sender} đã mở Trợ giúp và đang chia sẻ vị trí trong một giờ."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.plain"
+msgstr "{sender} đã gửi SOS cho cả nhóm."
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.created"
@@ -274,6 +338,10 @@ msgstr "{sender} đã đặt điểm hẹn: {place}, {time}."
 #: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.text"
 msgstr "{text}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.watch_title"
+msgstr "{title}"
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.lottery.result"
@@ -311,12 +379,12 @@ msgstr "Sòng phẳng rồi"
 msgid "notifications.la.leave_by_be_at"
 msgstr "Có mặt ở {place}"
 
-#: ../domain/src/surfaces/la-copy.ts
-msgid "notifications.la.leave_by_be_there_start_title"
-msgstr "Có mặt ở {place} trước {time}"
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title_be_there"
+msgstr "Có mặt ở {place} trước {time}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
 msgstr "Có mặt ở {place} trước {time}"
 
 #: ../domain/src/bookings/templates.ts
@@ -362,6 +430,10 @@ msgstr "Mọi người đã tới {place}"
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.crew_close"
 msgstr "Cả nhóm sắp đến {place} rồi."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.false_alarm"
+msgstr "Báo động nhầm: {sender} vẫn ổn."
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.found_body"
@@ -418,6 +490,10 @@ msgstr "Gặp ở {place}, {time}."
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.timed_out"
 msgstr "{name} chưa trả lời sau hai ngày, nên {dates} quay về tuần hợp nhất có thể."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.escalated"
+msgstr "Chưa ai trả lời. {sender} vẫn đang cần giúp đỡ."
 
 #: ../domain/src/plan/templates.ts
 msgid "notifications.changeset.kept.body"
@@ -558,6 +634,10 @@ msgstr "Mọi người đâu cả rồi? Xem bản đồ nhé."
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.destination.body"
 msgstr "Đi đâu tiếp? Có {count} nơi trên bảng. Chọn một nhé."
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_body_you"
+msgstr "Bạn đang trễ {minutes} phút. Chạm để xem bạn có thể làm gì."
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.followup_body"

@@ -25,6 +25,7 @@ import { inviteJobs } from './jobs/invites';
 import { liveMapJobs } from './jobs/live-map';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
 import { visitsTtlJob } from './jobs/location/visits-ttl';
+import { accountPurgeJob } from './jobs/account/purge';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
 import { moneyJobs } from './jobs/money';
@@ -68,6 +69,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     purgeJob(),
     aiCostGuardJob(),
     anonGcJob(),
+    accountPurgeJob(),
     fixesTtlJob(),
     visitsTtlJob(),
     ...inviteJobs(env),
@@ -103,10 +105,16 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...guideJobs({ ...processEnv, ...env }, pool, assertRouteOn, llmObservability),
     ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger, aiSwitches, processEnv),
     ...(await import('./jobs/trip-day')).tripDayJobs(processEnv, aiSwitches, llmObservability),
+    ...(await import('./jobs/disruptions')).disruptionJobs(
+      processEnv,
+      aiSwitches,
+      llmObservability,
+    ),
     ...(await import('./jobs/proposal')).proposalJobs(env, pool, aiSwitches, llmObservability),
     ...(await import('./jobs/critters')).critterJobs(),
     ...(await import('./jobs/quests')).questJobs(processEnv, aiSwitches, llmObservability),
     ...(await import('./jobs/trips/lifecycle-jobs')).tripLifecycleJobs(),
+    ...(await import('./jobs/safety')).safetyJobs(processEnv, aiSwitches, llmObservability),
     ...(await import('./jobs/la')).laJobs({
       ...deps,
       switches: aiSwitches,

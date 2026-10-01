@@ -2,17 +2,15 @@
  * What a draft is built from. The trip and its crew come through the guide's own view
  * (`llm.trip_context`, read as `guide_reader` for the organiser): names, taste tags, the budget
  * band. The crew-visible setup rows (must-dos, consented dietary flags, the locked budget plan, the
- * room plan) and our curated places are read as the system; nothing here is C3, and no supplier
- * content exists to read. Editorial places come first; an open-data place joins only as a must-do.
+ * room plan) are read as the system; nothing here is C3, and no supplier
+ * content exists to read. The places themselves are read in `./load-places`.
  */
 import { withGuideReader, withSystem } from '@cp/db';
 import { budgetEstimates, type BudgetEstimateSource } from '@cp/cost-engine';
-import { hoursSchema, TASTE_TAGS } from '@cp/domain';
-import { defaultDurationMin, type DraftPoi } from '@cp/planner';
+import { TASTE_TAGS } from '@cp/domain';
 import type pg from 'pg';
 
-/** Places offered per destination before the planner narrows them into pools. */
-export const MAX_DRAFT_PLACES = 200;
+export { loadDraftPlaces } from './load-places';
 
 export interface DraftTripData {
   readonly tripId: string;
@@ -232,65 +230,4 @@ export async function loadDraftTrip(
             funPpDayMinor: Number(index.funPpDayMinor),
           },
   };
-}
-
-interface PoiRow {
-  readonly id: string;
-  readonly name: string;
-  readonly category: string;
-  readonly lat: number;
-  readonly lng: number;
-  readonly timezone: string;
-  readonly hours: unknown;
-  readonly price_level: number | null;
-  readonly tags: string[] | null;
-  readonly editorial: unknown;
-  readonly curation: string;
-}
-
-/** Our curated places for the destination (editorial first), plus every must-do's place. */
-export async function loadDraftPlaces(
-  pool: pg.Pool,
-  destinationId: string,
-  mustDoPoiIds: readonly string[],
-): Promise<DraftPoi[]> {
-  const { rows } = await withSystem(pool, (tx) =>
-    tx.query<PoiRow>(
-      `(SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-               p.hours, p.price_level, p.tags, p.editorial, p.curation
-          FROM pois p JOIN destinations d ON d.id = p.destination_id
-         WHERE p.destination_id = $1 AND p.status = 'active' AND p.curation = 'editorial'
-           AND p.category NOT IN ('transit', 'stay', 'health')
-         ORDER BY (p.editorial->>'must_see')::boolean IS TRUE DESC, p.id
-         LIMIT $3)
-       UNION
-       (SELECT p.id, p.name, p.category, p.lat, p.lng, coalesce(p.timezone, d.tz) AS timezone,
-               p.hours, p.price_level, p.tags, p.editorial, p.curation
-          FROM pois p JOIN destinations d ON d.id = p.destination_id
-         WHERE p.id = ANY($2::uuid[]) AND p.status = 'active')`,
-      [destinationId, mustDoPoiIds, MAX_DRAFT_PLACES],
-    ),
-  );
-  return rows.map((row) => {
-    const editorial = (row.editorial ?? {}) as { time_needed_min?: unknown; must_see?: unknown };
-    const hours = hoursSchema.safeParse(row.hours);
-    return {
-      id: row.id,
-      name: row.name,
-      category: row.category,
-      lat: row.lat,
-      lng: row.lng,
-      tz: row.timezone,
-      hours: hours.success && Object.keys(hours.data.weekly).length > 0 ? hours.data : null,
-      // Free places carry a `free` tag (price levels start at 1).
-      priceLevel: (row.tags ?? []).includes('free') ? 0 : row.price_level,
-      tags: row.tags ?? [],
-      durationMin:
-        typeof editorial.time_needed_min === 'number' && editorial.time_needed_min > 0
-          ? Math.round(editorial.time_needed_min)
-          : defaultDurationMin(row.category),
-      editorial: row.curation === 'editorial',
-      mustSee: editorial.must_see === true,
-    };
-  });
 }

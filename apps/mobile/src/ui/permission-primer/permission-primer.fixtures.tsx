@@ -8,7 +8,7 @@ import { DeniedRow } from './DeniedRow';
 import { CalendarFitDemo, CameraDemo, CritterPingDemo, LeaveByDemo, MicDemo } from './demos';
 import { PermissionsSection } from './PermissionsSection';
 import { PrimerCard } from './PrimerCard';
-import { VisitDetectionSettings } from './VisitConsentSheet';
+import { VisitConsentRowView, VisitDetectionSettings } from './VisitConsentSheet';
 
 const noop = () => undefined;
 
@@ -77,3 +77,6 @@ function VisitSettingsFixture() {
   return <VisitDetectionSettings granted={granted} onChange={setGranted} onManage={noop} />;
 }
 registerFixture('VisitDetectionSettings', 'off by default', () => <VisitSettingsFixture />);
+registerFixture('VisitConsentRow', 'on a trip day after Not now', () => (
+  <VisitConsentRowView onPress={noop} />
+));

@@ -1,0 +1,7 @@
+appId: app.critterpass.dev
+---
+# The place page's screenshots in English, from the Explore lab's scenes.
+- runFlow: subflows/lab-en.yaml
+- runFlow:
+    file: subflows/place-scenes.yaml
+    env: { PREFIX: en }

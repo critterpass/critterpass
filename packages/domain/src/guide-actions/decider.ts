@@ -4,7 +4,8 @@
  * the action's facts and the clock.
  *
  * - `auto` only when the action is reversible, free (no cost delta, no booking impact) and touches
- *   exactly the requester's own items ("Tokek moved Rin's pickup · UNDO" when Rin asked).
+ *   exactly the requester's own items ("Tokek moved Rin's pickup · UNDO" when Rin asked), or, for
+ *   a disruption, only items the disrupted members themselves attend (`ownerIds`).
  * - Money → majority of the affected (organiser breaks ties).
  * - Others affected: time-critical in-trip → any affected; otherwise majority of the affected.
  * - Only the requester affected (irreversible) → self; nobody identifiable → organiser.
@@ -28,6 +29,11 @@ export interface AutonomyAction {
   readonly affectedUserIds: readonly string[];
   /** Who asked the guide; null for a proactive action (disruption, forecast). */
   readonly requesterId: string | null;
+  /**
+   * The members a proactive action acts for (a delayed flight's travellers). An action touching
+   * only these members' items counts as their own, like a requester's.
+   */
+  readonly ownerIds?: readonly string[];
   /** A disruption the crew must answer now (flight delay, closure). */
   readonly timeCritical: boolean;
 }
@@ -90,9 +96,11 @@ export function decideAutonomy(action: AutonomyAction, ctx: AutonomyContext): Au
   if (isForbiddenActionKind(action.kind)) return { outcome: 'forbidden', reason: 'forbidden_kind' };
 
   const affected = [...new Set(action.affectedUserIds)].sort();
-  const others = affected.filter((id) => id !== action.requesterId);
+  const owners = new Set(action.ownerIds ?? []);
+  if (action.requesterId !== null) owners.add(action.requesterId);
+  const others = affected.filter((id) => !owners.has(id));
   const money = action.costDeltaMinor !== 0 || action.bookingImpact;
-  const ownOnly = action.requesterId !== null && affected.length > 0 && others.length === 0;
+  const ownOnly = owners.size > 0 && affected.length > 0 && others.length === 0;
   if (ownOnly && action.reversible && !money) return { outcome: 'auto' };
 
   const closesAt = approvalClosesAt(ctx).toISOString();

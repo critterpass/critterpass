@@ -72,6 +72,9 @@ export function Keypad({ onKey, disabled = false, testID }: KeypadProps) {
               accessibilityLabel={keyLabel(key)}
               accessibilityRole="keyboardkey"
               style={[styles.key, key === 'delete' || key === '000' ? styles.plain : null]}
+              // Each key by its own id ("money-add-keypad-key-0"), so a flow never matches a digit
+              // of the amount above it.
+              {...(testID === undefined ? {} : { testID: `${testID}-key-${key}` })}
             >
               {key === 'delete' ? (
                 <Text variant="h3" color={theme.semantic.text.primary}>

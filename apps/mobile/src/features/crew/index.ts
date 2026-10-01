@@ -7,4 +7,5 @@ export { registerChatCard, type ChatCardProps, type ChatCardRenderer } from './c
 export { registerAttachEntry, type AttachEntry } from './chat/media/attach-menu';
 export type { ChatMessage } from './chat/data/rows';
 export { registerChatComposerHint } from './chat/slots';
+export { tidyGuideText } from './chat/components/guide-text';
 export { WaitlistCards } from './waitlist/WaitlistCards';

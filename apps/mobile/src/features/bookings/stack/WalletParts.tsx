@@ -15,6 +15,7 @@ import { PressScale } from '@/ui/press/PressScale';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const useStyles = makeStyles((t) => ({
   badge: {
@@ -81,7 +82,8 @@ export function ImportBanner({ count, member, onReview }: ImportBannerProps) {
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const tokek = GUIDE_STICKERS.tokek;
+  const guide = useWalletGuide();
+  const tokek = GUIDE_STICKERS[guide.id];
   const line =
     member === null
       ? t({
@@ -100,7 +102,7 @@ export function ImportBanner({ count, member, onReview }: ImportBannerProps) {
         });
   return (
     <Row gap="12" align="center" style={styles.banner} testID="bookings-import-banner">
-      <Sticker kind={tokek.kind} name={tokek.name} size={44} pose="cheer" />
+      <Sticker kind={tokek.kind} name={guide.name} size={44} pose="cheer" />
       <Text variant="voice" color={theme.color.yellow} style={styles.bannerLine}>
         {line}
       </Text>

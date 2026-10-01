@@ -6,3 +6,406 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.past"
+msgstr "{0}, {when}"
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.upcomingLabel"
+msgstr "{0}, not stamped yet. {1}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stat.countries"
+msgstr "{count, plural, one {Country} other {Countries}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stat.critters"
+msgstr "{count, plural, one {Critter} other {Critters}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stat.trips"
+msgstr "{count, plural, one {Trip} other {Trips}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.inDays"
+msgstr "{days, plural, one {{place} in # day} other {{place} in # days}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.inDays"
+msgstr "{days, plural, one {In # day} other {In # days}}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.today"
+msgstr "{place} today"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.account"
+msgstr "Account"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.erasedTitle"
+msgstr "Account closed"
+
+#. placeholder {0}: model.stampTotal
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.allStamps"
+msgstr "All {0} ›"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.stays.all"
+msgstr "All of it. Sign in again and everything comes back."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.app"
+msgstr "App"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTripsLine"
+msgstr "Bookings, maps and phrases on this phone"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.close"
+msgstr "Close"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.title"
+msgstr "Closed for 30 days"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.keepHint"
+msgstr "Closing signed you out everywhere, so keeping it means signing in again."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.closing"
+msgstr "Closing your account…"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.continue"
+msgstr "Continue"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.moved"
+msgstr "Crew moved apps"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.deleteAccount"
+msgstr "Delete account"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.holdAction"
+msgstr "Delete my account"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.title"
+msgstr "Delete your account?"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.departures"
+msgstr "DEPARTURES · DÉPARTS"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.edit"
+msgstr "Edit"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.entry"
+msgstr "ENTRY · ENTRÉE"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.exit"
+msgstr "EXIT · SORTIE"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keeps.expenses"
+msgstr "Expenses you added, so Balances still add up"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes"
+msgstr "Goes"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.haptics"
+msgstr "Haptics"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.stampBack"
+msgstr "Hello again"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.lede"
+msgstr "Here’s what goes with you, and what the crew keeps."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.hold"
+msgstr "Hold"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.holdFor"
+msgstr "Hold for 3 seconds"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.holdTitle"
+msgstr "Hold to delete"
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.home"
+msgstr "Home"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.back"
+msgstr "Home"
+
+#. placeholder {0}: stamp.title
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.homeLabel"
+msgstr "Home stamp, {0}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.howYouTravel"
+msgstr "How you travel"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keep"
+msgstr "Keep my account"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.lastCheck"
+msgstr "Last check"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.lastPage"
+msgstr "LAST PAGE"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.leave"
+msgstr "Leave it closed"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.leaves"
+msgstr "Leaves this phone"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.none"
+msgstr "No trips yet"
+
+#. placeholder {0}: until ?? ''
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.body"
+msgstr "Nothing is erased until {0}. Sign in before then and your pass, critters and crews come back as they were."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offline"
+msgstr "Offline"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.passPlus"
+msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planningPlace"
+msgstr "Planning {0}"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planning"
+msgstr "Planning a trip"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keeps.plans"
+msgstr "Plans you helped make, shown as “former member”"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.privacy"
+msgstr "Privacy"
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.back"
+msgstr "Profile"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.restore"
+msgstr "Restore my account"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.savePass"
+msgstr "Save my pass first"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.stamp"
+msgstr "See you"
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.title"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.settings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.back"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.back"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.signOut"
+msgstr "Sign out"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.confirm"
+msgstr "Sign out"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.eraseAnyway"
+msgstr "Sign out and lose this pass"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.title"
+msgstr "Sign out?"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.unsavedLine"
+msgstr "Signing out erases it from this phone, and there is no way to sign back in. Save it with your phone number first and nothing is lost."
+
+#. placeholder {0}: model.sinceYear
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.since"
+msgstr "SINCE {0}"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.account.incomplete"
+msgstr "Some of this phone could not be cleared. Try again."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.else"
+msgstr "Something else"
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.soon"
+msgstr "Soon"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffects"
+msgstr "Sound effects"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stamps"
+msgstr "Stamps"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrew"
+msgstr "Start a crew"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.stays"
+msgstr "Stays on your account"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffectsLine"
+msgstr "Sticker slaps, stamps, pops"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.hapticsLine"
+msgstr "Taps and thuds you can feel"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keeps"
+msgstr "The crew keeps"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.unsavedTitle"
+msgstr "This pass isn’t saved"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.erasedBody"
+msgstr "This pass wasn’t saved, so there is nothing to sign back into. It is being erased now."
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.account.restartFailed"
+msgstr "This phone is cleared. Close the app and open it again."
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.today"
+msgstr "Today"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.pings"
+msgstr "Too many pings"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.tripsOver"
+msgstr "Trip’s over"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrewLine"
+msgstr "Trips are better with your people."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTrips"
+msgstr "Trips saved offline"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.leaves.offline"
+msgstr "Trips saved offline, reminders and alarms"
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.keep"
+msgstr "Undo, keep my account"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.notClosed"
+msgstr "We couldn’t close your account, so nothing was changed on this phone. Try again in a moment."
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.notRestored"
+msgstr "We couldn’t restore your account. Check your connection and try again."
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.restoreTitle"
+msgstr "Welcome back"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.why"
+msgstr "Why are you leaving? Optional"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.offline"
+msgstr "You’re offline. Deleting needs a connection."
+
+#. placeholder {0}: until ?? ''
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.restoreBody"
+msgstr "Your account is closed and will be erased on {0}. Restore it and your pass, critters and crews come back as they were."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.closesLine"
+msgstr "Your account is closed now and erased after 30 days. Sign in before then and everything comes back."
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.yourCrews"
+msgstr "Your crews"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.noTrips"
+msgstr "Your first trip stamps itself here when you land."
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes.pass"
+msgstr "Your pass, your critters and your stamps"
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes.profile"
+msgstr "Your profile, uploads and chat messages"
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.leaves.trips"
+msgstr "Your trips, crews and chats"

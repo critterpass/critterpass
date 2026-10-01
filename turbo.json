@@ -1,7 +1,12 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "stream",
-  "globalDependencies": ["tsconfig.base.json", "eslint.config.js", "pnpm-workspace.yaml"],
+  "globalDependencies": [
+    "tsconfig.base.json",
+    "eslint.config.js",
+    "pnpm-workspace.yaml",
+    ".github/workflows/ci.yml"
+  ],
   "globalPassThroughEnv": [
     "CI",
     "DOCKER_HOST",

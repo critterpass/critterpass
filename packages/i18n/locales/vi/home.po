@@ -121,9 +121,17 @@ msgstr "Ẩn mẹo"
 msgid "home.inbox.earlier"
 msgstr "Trước đó"
 
+#: ../../apps/mobile/src/features/home/explore-row.tsx
+msgid "home.explore.title"
+msgstr "Khám phá"
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.guides"
 msgstr "Hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/home/explore-row.tsx
+msgid "home.explore.body"
+msgstr "Cẩm nang, địa điểm đã lưu và bản đồ ngoại tuyến"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.eyebrow"

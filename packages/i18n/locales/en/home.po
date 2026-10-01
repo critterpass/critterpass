@@ -121,9 +121,17 @@ msgstr "Dismiss tip"
 msgid "home.inbox.earlier"
 msgstr "Earlier"
 
+#: ../../apps/mobile/src/features/home/explore-row.tsx
+msgid "home.explore.title"
+msgstr "Explore"
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.guides"
 msgstr "Guides"
+
+#: ../../apps/mobile/src/features/home/explore-row.tsx
+msgid "home.explore.body"
+msgstr "Guides, saved places and offline maps"
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
 msgid "home.postTrip.eyebrow"

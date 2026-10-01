@@ -39,12 +39,15 @@ function line(overrides: Partial<BriefingItemRow> = {}): BriefingItemRow {
 
 function lines(items: readonly BriefingItemRow[], locale?: string): string[] {
   const state = briefingState({
+    read: 'settled',
     briefing: BRIEFING,
     items,
     pending: [],
-    today: TODAY,
+    clock: { date: TODAY, time: '09:00' },
     offline: false,
-    inWindow: true,
+    briefed: true,
+    startDate: TODAY,
+    endDate: TODAY,
     ...(locale === undefined ? {} : { locale }),
   });
   return state.kind === 'ready' ? state.lines.map((l) => l.text) : [];

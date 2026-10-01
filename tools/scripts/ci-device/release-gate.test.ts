@@ -6,6 +6,7 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 import {
+  NO_RESULT,
   buildMedia,
   failedStep,
   formatGateReport,
@@ -13,6 +14,7 @@ import {
   previewSpeed,
   readGateFlows,
 } from './release-gate';
+import { shardPlan } from './run-summary';
 
 const pass = (name: string, time: number) =>
   `<testsuites><testsuite tests="1" failures="0" time="${String(time)}"><testcase id="${name}" name="${name}" time="${String(time)}" status="SUCCESS"/></testsuite></testsuites>`;
@@ -61,6 +63,38 @@ describe('release gate report', { timeout: 60_000 }, () => {
       'onboarding android true',
       'onboarding ios true',
     ]);
+  });
+
+  it('fails a planned flow whose shard stopped before it ran', () => {
+    const root = mkdtempSync(path.join(tmpdir(), 'release-gate-'));
+    write(root, 'device-android-shard-1/junit/e2e__happy__onboarding.xml', pass('onboarding', 200));
+    // Shard 2 never installed its emulator: no artifact. Shard 3 stopped after its first flow.
+    write(root, 'device-android-shard-3/junit/e2e__happy__chat.xml', pass('chat', 90));
+    const plan = shardPlan({
+      android: JSON.stringify({
+        include: [
+          { shard: 1, flows: 'e2e/happy/onboarding.yaml' },
+          { shard: 2, flows: 'e2e/happy/money.yaml' },
+          { shard: 3, flows: 'e2e/happy/chat.yaml e2e/happy/vote.yaml' },
+        ],
+      }),
+    });
+    const flows = readGateFlows(root, plan);
+    expect(flows.map((flow) => `${flow.name} ${String(flow.passed)}`)).toEqual([
+      'chat true',
+      'money false',
+      'onboarding true',
+      'vote false',
+    ]);
+    expect(flows.find((flow) => flow.name === 'money')?.failure).toBe(NO_RESULT);
+    const text = formatGateReport(
+      flows.map((flow) => ({ flow, media: {} })),
+      { rawUrl: 'https://raw/run', blobUrl: 'https://blob/run' },
+    );
+    expect(text).toContain('**Fail**: 2 of 4 flow runs failed.');
+    // With no artifact at all, the planned flows are still the report's rows.
+    const none = readGateFlows(path.join(root, 'missing'), plan);
+    expect(none.map((flow) => flow.passed)).toEqual([false, false, false, false]);
   });
 
   it('writes a table with previews, video links and the failing step with its screen', () => {

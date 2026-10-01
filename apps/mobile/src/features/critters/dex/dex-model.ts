@@ -128,9 +128,15 @@ export function windowRule(row: WindowRow): WindowRule | null {
 
 function cellsFor(input: DexInput): Map<string, CritterCell> {
   const formsById = new Map(input.forms.map((form) => [form.id, form]));
+  // Gold marks a critter met only in a legendary window: every one of its forms is a window's.
+  // A guide with everyday forms and one legendary look stays an ordinary silhouette.
   const legendaryForms = new Set(input.windows.map((w) => w.form_id));
+  const formsOf = new Map<string, string[]>();
+  for (const form of input.forms) {
+    formsOf.set(form.critter_id, [...(formsOf.get(form.critter_id) ?? []), form.id]);
+  }
   const goldCritters = new Set(
-    input.forms.filter((f) => legendaryForms.has(f.id)).map((f) => f.critter_id),
+    [...formsOf].filter(([, ids]) => ids.every((id) => legendaryForms.has(id))).map(([id]) => id),
   );
   const counts = dexCounts({
     critters: input.critters,
@@ -174,13 +180,17 @@ function legendaryOnDates(input: DexInput, cells: Map<string, CritterCell>) {
       if (rule === null || rule.type === 'any_day') continue;
       const span = nextWindowSpan(rule, trip.start_date);
       if (span === null || span.start > trip.end_date) continue;
+      // Only a legendary of the place the trip goes to: a window somewhere else in the world is
+      // not "on your dates".
       const critterId = formCritter.get(row.form_id);
-      if (critterId !== undefined && cells.get(critterId)?.found === true) continue;
+      const cell = critterId === undefined ? undefined : cells.get(critterId);
+      if (cell === undefined || trip.critter_set_id === null) continue;
+      if (cell.setId !== trip.critter_set_id || cell.found) continue;
       return {
         windowId: row.id,
         formId: row.form_id,
-        critterKey: critterId === undefined ? null : (cells.get(critterId)?.key ?? null),
-        critterSeed: critterId === undefined ? 0 : (cells.get(critterId)?.seed ?? 0),
+        critterKey: cell.key,
+        critterSeed: cell.seed,
         placeLine: row.place_line ?? '',
         start: span.start,
         end: span.end,

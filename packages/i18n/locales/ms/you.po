@@ -6,3 +6,406 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: ms\n"
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.past"
+msgstr ""
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.upcomingLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stat.countries"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stat.critters"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stat.trips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.inDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.inDays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.today"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.account"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.erasedTitle"
+msgstr ""
+
+#. placeholder {0}: model.stampTotal
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.allStamps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.stays.all"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.app"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTripsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.keepHint"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.closing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.continue"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.moved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.deleteAccount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.holdAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.departures"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.entry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.exit"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keeps.expenses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.haptics"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.stampBack"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.lede"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.hold"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.holdFor"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.holdTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.home"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.back"
+msgstr ""
+
+#. placeholder {0}: stamp.title
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.homeLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.howYouTravel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.lastCheck"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.lastPage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.leave"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.leaves"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.none"
+msgstr ""
+
+#. placeholder {0}: until ?? ''
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.passPlus"
+msgstr ""
+
+#. placeholder {0}: line.place
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planningPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.crew.planning"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keeps.plans"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.privacy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.restore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.savePass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.stamp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-view.tsx
+msgid "you.settings.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.settings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.signOut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.eraseAnyway"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.unsavedLine"
+msgstr ""
+
+#. placeholder {0}: model.sinceYear
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.since"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.account.incomplete"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.else"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.soon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffects"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.stamps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.stays"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.soundEffectsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.hapticsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.keeps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.unsavedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.erasedBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.account.restartFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.today"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.pings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.reason.tripsOver"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.startCrewLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.offlineTrips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.leaves.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.notClosed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.notRestored"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.restoreTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.why"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.offline"
+msgstr ""
+
+#. placeholder {0}: until ?? ''
+#: ../../apps/mobile/src/features/you/account/closed-view.tsx
+msgid "you.closed.restoreBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.closesLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.yourCrews"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.noTrips"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes.pass"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/delete-view.tsx
+msgid "you.delete.goes.profile"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
+msgid "you.signOut.leaves.trips"
+msgstr ""

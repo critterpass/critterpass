@@ -13,6 +13,7 @@ import {
   AVATAR_MODERATE_QUEUE,
   AVATAR_RENDER_QUEUE,
   BILLING_QUEUES,
+  DISRUPTION_QUEUES,
   CHAT_PHOTO_THUMBNAIL_QUEUE,
   CHAT_VOICE_TRANSCODE_QUEUE,
   COUNTDOWN_RECOMPUTE_QUEUE,
@@ -20,6 +21,7 @@ import {
   EXPLORE_QUEUES,
   GUIDE_QUEUES,
   INBOX_FANOUT_QUEUE,
+  ACCOUNT_QUEUES,
   LA_QUEUES,
   notificationKeysForEvent,
   notifyRouteSingletonKey,
@@ -30,6 +32,7 @@ import {
   PLAN_QUEUES,
   SETUP_QUEUES,
   SUPPLIER_QUEUES,
+  SAFETY_QUEUES,
   TRIP_DAY_QUEUES,
   PROPOSAL_QUEUES,
   type NotifyRouteJob,
@@ -110,8 +113,11 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(CRITTER_QUEUES),
       ...Object.values(QUEST_QUEUES),
       LA_QUEUES.orchestrate,
+      ...Object.values(SAFETY_QUEUES),
+      ACCOUNT_QUEUES.purge,
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
+      DISRUPTION_QUEUES.react,
     ]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });

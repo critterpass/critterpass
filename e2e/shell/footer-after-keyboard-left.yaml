@@ -1,0 +1,55 @@
+appId: app.critterpass.dev
+---
+# A screen's footer sits at the bottom when the screen before it was left with its keyboard up. A
+# new account starts a crew and taps START THE CREW with the keyboard still open (the name field
+# goes away with the keyboard under it), then opens the crew's empty chat: the composer rests on the
+# bottom edge with no keyboard on screen, and rises with the keyboard once its field is tapped.
+- runFlow:
+    file: ../happy/subflows/crew-with-code.yaml
+    env:
+      CREW: 'Footer Crew'
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 30000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-empty'
+    timeout: 20000
+- waitForAnimationToEnd
+# No screenshot of the empty chat itself: it is sparse and the empty-screen check would flag it.
+# Android, where the keyboard outlived the screen it was open on: the tap goes where a resting
+# composer is, just above the navigation bar. A composer lifted over an empty band is not under
+# this tap, and nothing typed would show.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          point: 50%, 93%
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'chat-composer'
+- inputText: 'Morning crew'
+- assertVisible: 'Morning crew'
+- waitForAnimationToEnd
+# The composer now rides the open keyboard.
+- takeScreenshot: footer-chat-keyboard-up
+- tapOn: 'Send'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-list'
+    timeout: 10000

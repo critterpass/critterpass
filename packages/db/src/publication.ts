@@ -59,6 +59,8 @@ import * as schema from './schema';
  * the server (a hash lookup); a client sees its own `code_redemptions`, never a code row.
  * `affiliate_clicks` (packages/db/src/schema/suppliers.ts) is "S": clicks are written by the api
  * and read only by the conversions import and the ops console, never by a client.
+ * `journey_checks` (packages/db/src/schema/disruptions.ts) is C2: the latest running-late ETA per
+ * member and item, answered over HTTP and never synced.
  * `swipe_votes` (packages/db/src/schema/explore.ts) is owner-read and holds every "no": the crew
  * syncs `swipe_yes_votes`, the trigger-kept yes-only mirror, and replication never sees a verdict.
  * `place_qna_summaries` is trip-visible (C1) but served by the place context route only.
@@ -85,6 +87,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'fare_cells',
   'flight_watches',
   'install_attributions',
+  'journey_checks',
   'la_object_states',
   'la_push_to_start_tokens',
   'media_assets',

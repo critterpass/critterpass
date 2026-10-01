@@ -43,7 +43,7 @@ const CASES = fileURLToPath(new URL('./cases.yaml', import.meta.url));
 const EMOJI = /\p{Extended_Pictographic}/u;
 
 /** A character only the reader's language writes: proof the line is not still English. */
-const SCRIPT: Readonly<Record<string, RegExp>> = {
+export const SCRIPT: Readonly<Record<string, RegExp>> = {
   vi: /[ăâđêôơưàáảãạèéẻẽẹìíỉĩịòóỏõọùúủũụỳýỷỹỵ]/iu,
   ja: /[぀-ヿ]/u,
   ko: /[가-힯]/u,
@@ -64,6 +64,8 @@ const caseSchema = z.object({
   /** Names that stay exactly as written: businesses, dishes, people. */
   keep: z.array(z.string()).default([]),
   forbid: z.array(z.string()).default([]),
+  /** The app's own words that some kept line must use, in any letter case. */
+  glossary: z.array(z.string()).default([]),
   /** Lines that may stay in the source language (a known limit, said in the description). */
   allow_source: z.number().int().nonnegative().default(0),
   seeded: z.boolean().default(false),
@@ -168,6 +170,9 @@ export function gradeTranslate(c: TranslateCase, result: TranslateResult): strin
     if (!text.includes(word)) failures.push(`no "${word}"`);
   }
   const lower = text.toLowerCase();
+  for (const word of c.glossary) {
+    if (!lower.includes(word.toLowerCase())) failures.push(`no "${word}"`);
+  }
   for (const word of c.forbid) if (lower.includes(word.toLowerCase())) failures.push(`"${word}"`);
   return failures;
 }
