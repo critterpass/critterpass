@@ -276,6 +276,9 @@ describe('rt_outbox relay', () => {
     await until(() => crew.publications.length + bookings.publications.length === 2, 3000);
     expect(crew.publications).toEqual([sent]);
     expect(bookings.publications).toEqual([sent]);
+    // Centrifugo can reach the subscribers before the relay has its answer to the broadcast; the
+    // relay marks the rows published once every call of the batch has returned.
+    await until(async () => (await unpublishedCount()) === 0, 3000);
     expect(api.publishedKeys).toEqual([sent.id]);
   });
 
