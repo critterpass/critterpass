@@ -86,6 +86,11 @@ export interface NotificationSpec {
   readonly private: boolean;
   /** Held while the recipient's app is on screen (the app shows it in place instead). */
   readonly onlyIfBackgrounded: boolean;
+  /**
+   * Counts toward the recipient's daily budget. A budgeted push that is not capped still waits
+   * out quiet hours and its preference switch; it just never spends, or runs out of, the budget.
+   */
+  readonly capped: boolean;
   readonly pref?: NotificationPrefGate;
   readonly delivery: NotificationDelivery;
 }
@@ -95,6 +100,9 @@ type SpecOptions = Partial<
 >;
 
 const HOUR = 3600;
+
+/** BUDGET pushes a person gets per local day until they choose their own number (1–10). */
+export const DEFAULT_BUDGET_PER_DAY = 10;
 
 function spec(
   key: string,
@@ -118,6 +126,7 @@ function spec(
     paywall: false,
     private: false,
     onlyIfBackgrounded: false,
+    capped: true,
     delivery: 'push',
     ...options,
   };
@@ -141,7 +150,8 @@ const CATALOGUE = [
   spec('reply_by_expiring', 'always', 'cp.rsvp', 'cp_always', 'guide', 'reply_by:{trip_id}'),
   spec('hold_expiring', 'always', 'cp.generic', 'cp_always', 'guide', 'hold:{hold_id}'),
   spec('rsvp_changed', 'budgeted', 'cp.generic', 'cp_trip', 'member', 'rsvp:{trip_id}'),
-  spec('crew_chat', 'budgeted', 'cp.chat', 'cp_crew_chat', 'member', { pref: 'crew_chat', private: true, collapse: 'chat:{crew_id}' }),
+  // Chat collapses to one banner per crew, so it cannot pile up: it does not spend the budget.
+  spec('crew_chat', 'budgeted', 'cp.chat', 'cp_crew_chat', 'member', { pref: 'crew_chat', private: true, capped: false, collapse: 'chat:{crew_id}' }),
   spec('nudge', 'budgeted', 'cp.generic', 'cp_guide', 'guide', { pref: 'guide_tips' }),
   spec('crew_invite_received', 'budgeted', 'cp.invite', 'cp_trip', 'member'),
   spec('seat_opened', 'budgeted', 'cp.rsvp', 'cp_trip', 'guide', { relevance: 0.8 }),

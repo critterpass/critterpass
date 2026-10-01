@@ -1,12 +1,13 @@
 /**
  * Crew chat pushes (`crew_chat`, a communication notification from the sender): who hears a new
- * message follows each member's per-crew level (`crew_members.notify_level`, mentions when never
- * chosen). `all` hears every message, `mentions` only messages that mention them or reply to one of
+ * message follows each member's per-crew level (`crew_members.notify_level`; a member who never
+ * chose hears everything in a small crew and mentions in a larger one, `defaultCrewNotifyLevel`).
+ * `all` hears every message, `mentions` only messages that mention them or reply to one of
  * theirs, `off` nothing. The sender never hears their own message, and a member who muted the
  * sender hears nothing from them. Pushes collapse per crew and thread by crew; the `cp.chat`
  * category offers REPLY (sends through `send_message`) and READ (`mark_read` up to this `seq`).
  */
-import type { MessageType } from '@cp/domain';
+import { defaultCrewNotifyLevel, type MessageType } from '@cp/domain';
 import type pg from 'pg';
 
 import { registerNotification, type RoutedEvent } from '../notify/register';
@@ -56,8 +57,14 @@ export function hearsMessage(
 export async function chatAudience(tx: pg.PoolClient, event: RoutedEvent): Promise<string[]> {
   const message = sentPayload(event);
   if (message === null) return [];
-  const { rows } = await tx.query<{ user_id: string; level: ChatNotifyLevel }>(
-    `SELECT cm.user_id, coalesce(cm.notify_level, 'mentions') AS level
+  const { rows } = await tx.query<{
+    user_id: string;
+    level: ChatNotifyLevel | null;
+    crew_size: number;
+  }>(
+    `SELECT cm.user_id, cm.notify_level AS level,
+            (SELECT count(*)::int FROM crew_members a
+              WHERE a.crew_id = cm.crew_id AND a.status = 'active') AS crew_size
        FROM crew_members cm
        LEFT JOIN user_settings s ON s.user_id = cm.user_id
       WHERE cm.crew_id = $1 AND cm.status = 'active' AND cm.user_id <> $2
@@ -66,7 +73,9 @@ export async function chatAudience(tx: pg.PoolClient, event: RoutedEvent): Promi
     [message.crewId, message.senderId],
   );
   return rows
-    .filter((row) => hearsMessage(row.level, row.user_id, message))
+    .filter((row) =>
+      hearsMessage(row.level ?? defaultCrewNotifyLevel(row.crew_size), row.user_id, message),
+    )
     .map((row) => row.user_id);
 }
 

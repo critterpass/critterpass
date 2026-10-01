@@ -33,20 +33,23 @@ export async function lockLedger(
   return { sentBudgeted: rows[0]?.sent_budgeted ?? 0, paywallSent: rows[0]?.paywall_sent ?? 0 };
 }
 
-/** Books one routed notification against the recipient's day. */
+/**
+ * Books one routed notification against the recipient's day. A sent push of a kind that is not
+ * capped spends nothing: the budget count is only what the cap is checked against.
+ */
 export async function bookLedger(
   tx: pg.PoolClient,
   uid: string,
   localDate: string,
   cls: NotificationClass,
-  paywall: boolean,
+  spec: Pick<NotificationSpec, 'paywall' | 'capped'>,
   decision: Decision,
 ): Promise<void> {
   let set: string | undefined;
   if (decision.action === 'roundup') set = 'queued = queued + 1';
   else if (decision.action === 'send' && cls === 'always') set = 'sent_always = sent_always + 1';
-  else if (decision.action === 'send') {
-    set = `sent_budgeted = sent_budgeted + 1${paywall ? ', paywall_sent = paywall_sent + 1' : ''}`;
+  else if (decision.action === 'send' && spec.capped) {
+    set = `sent_budgeted = sent_budgeted + 1${spec.paywall ? ', paywall_sent = paywall_sent + 1' : ''}`;
   }
   if (set === undefined) return;
   await tx.query(`UPDATE ping_ledger SET ${set} WHERE user_id = $1 AND local_date = $2`, [
