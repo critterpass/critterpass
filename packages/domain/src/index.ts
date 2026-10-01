@@ -289,3 +289,4 @@ export * from './proposal';
 export * from './critters';
 export * from './trips/lifecycle';
 export * from './quests';
+export * from './locale/app-locale';
