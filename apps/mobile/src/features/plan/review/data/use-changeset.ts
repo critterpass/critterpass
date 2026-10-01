@@ -13,7 +13,7 @@ import { changeSetOpsSchema, type ChangeSetOp } from '@cp/domain';
 import type { SendResult } from '@/data/commands/client';
 import type { ClientCommandSpec } from '@/data/commands/summaries';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
-import { useLocale } from '@/lib/i18n/use-locale';
+import { useActiveLocale } from '@/lib/i18n/use-locale';
 
 import { useLiveRows } from '../../overview/data/live-rows';
 import {
@@ -164,7 +164,7 @@ export function useChangeset(tripId: string | null, changesetId: string | null):
   );
   const pois = useLiveRows<{ id: string; name: string }>(POIS_SQL, [poiIds], ['pois']);
 
-  const locale = useLocale();
+  const locale = useActiveLocale();
   const baseItems = useMemo(
     () => toPlanItems(baseItemRows.rows, locale),
     [baseItemRows.rows, locale],

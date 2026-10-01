@@ -15,7 +15,7 @@ import {
 import { useMemo } from 'react';
 
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
-import { useLocale } from '@/lib/i18n/use-locale';
+import { useActiveLocale } from '@/lib/i18n/use-locale';
 
 import { APPLY_PLAN_OPS } from './commands';
 import { useLiveRows } from './live-rows';
@@ -144,7 +144,7 @@ export function useTripPlan(tripId: string | null): TripPlan {
     ITEMS_TABLES,
   );
   const queued = useLiveRows<QueuedRow>(QUEUED_PLAN_SQL, [], QUEUED_PLAN_TABLES);
-  const locale = useLocale();
+  const locale = useActiveLocale();
   const changesets = useLiveRows<ChangesetRow>(
     OPEN_CHANGESETS_SQL,
     tripId === null ? null : [tripId],

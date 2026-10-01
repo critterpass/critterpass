@@ -8,7 +8,7 @@
 import { useMemo } from 'react';
 
 import { guideText } from '@/lib/i18n/guide-text';
-import { useLocale } from '@/lib/i18n/use-locale';
+import { useActiveLocale } from '@/lib/i18n/use-locale';
 
 import type { DraftTrip } from './draft-trip';
 import { useLiveRows } from './rows';
@@ -96,7 +96,7 @@ export function useDraftVersion(trip: DraftTrip | null | undefined): DraftVersio
   const mustDos = useLiveRows<MustDoRow>(MUST_DOS_SQL, byTrip, ['must_dos']);
   const history = useLiveRows<HistoryRow>(HISTORY_SQL, byTrip, ['itinerary_versions', 'plan_days']);
   const jobs = useLiveRows<JobRow>(JOBS_SQL, byTrip, ['agent_jobs']);
-  const locale = useLocale();
+  const locale = useActiveLocale();
   const reserved = useLiveRows<{ agent_job_id: string }>(RESERVED_SQL, byTrip, [
     'redraft_reservations',
   ]);
