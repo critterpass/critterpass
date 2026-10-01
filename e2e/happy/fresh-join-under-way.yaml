@@ -641,12 +641,12 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn: '9'
 - tapOn: '0'
-# BY SHARE lists everyone in the split with their part.
-- tapOn: 'BY SHARE'
+# EVENLY splits between everyone on the trip: PAID BY shows each of them, and S$0.09 three ways
+# reads "S$ 0.03 each" (two people would read 0.05).
 - extendedWaitUntil:
-    visible:
-      id: 'money-share-count-0|money-split-in-0'
-    timeout: 10000
+    visible: '.*0\.03 each.*'
+    timeout: 20000
+    optional: true
 - waitForAnimationToEnd
 - runFlow:
     when:
@@ -661,11 +661,9 @@ appId: app.critterpass.dev
 - evalScript: ${output.threeWays = false}
 - runFlow:
     when:
-      visible:
-        id: 'money-share-count-3|money-split-in-3'
+      visible: '.*0\.03 each.*'
     commands:
       - evalScript: ${output.threeWays = true}
-- tapOn: 'EVENLY'
 - tapOn:
     id: 'money-add-submit'
 - extendedWaitUntil:
