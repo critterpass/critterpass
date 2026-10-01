@@ -13,6 +13,7 @@ const row = (
   must_do_id: string | null = null,
 ) => ({
   stable_id,
+  poi_id: null,
   name,
   must_do_title: must_do_id === null ? null : 'Bà Nà Hills',
   must_do_id,

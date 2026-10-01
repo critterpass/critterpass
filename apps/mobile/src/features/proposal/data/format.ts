@@ -78,3 +78,19 @@ export function dayRange(locale: string, start: string, end: string): string {
 export function firstName(displayName: string | null): string {
   return displayName?.trim().split(/\s+/u)[0] ?? '';
 }
+
+/** "17:00": an instant on the clock of its own zone, 24-hour as the plan writes times. */
+export function clock(locale: string, instant: string, tz: string | null): string {
+  const at = new Date(instant);
+  if (Number.isNaN(at.getTime())) return '';
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      hour: '2-digit',
+      minute: '2-digit',
+      hourCycle: 'h23',
+      timeZone: tz ?? 'UTC',
+    }).format(at);
+  } catch {
+    return at.toISOString().slice(11, 16);
+  }
+}

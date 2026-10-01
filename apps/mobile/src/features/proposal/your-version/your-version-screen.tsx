@@ -17,7 +17,7 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 
 import { recordProposalOpenCommand } from '../data/commands';
-import { dayRange, instantDate } from '../data/format';
+import { clock, dayRange, instantDate } from '../data/format';
 import { reasonWhy, type Pick } from '../data/picks';
 import { useGroupPicks, usePicks } from '../data/picks';
 import {
@@ -137,9 +137,11 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
           .join(' · ')}
         onPlan={planHref === undefined ? undefined : () => router.push(planHref)}
         picks={picks}
-        when={(pick) =>
-          pick.dayNo === null ? '' : t({ id: 'proposal.version.day', message: `Day ${pick.dayNo}` })
-        }
+        when={(pick) => {
+          if (pick.dayNo === null) return '';
+          const day = t({ id: 'proposal.version.day', message: `Day ${pick.dayNo}` });
+          return pick.startsAt === null ? day : `${day} · ${clock(locale, pick.startsAt, pick.tz)}`;
+        }}
         share={
           base === null || currency === null || !proposal.showCost ? null : (
             <ShareCard

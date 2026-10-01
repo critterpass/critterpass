@@ -8,7 +8,7 @@
 import { t } from '@lingui/core/macro';
 
 import type { Highlight, Slide } from './proposal';
-import { useLiveRows } from './rows';
+import { parseJson, useLiveRows } from './rows';
 
 export interface Pick {
   readonly itemId: string;
@@ -22,6 +22,7 @@ export interface Pick {
 
 interface ItemRow {
   readonly stable_id: string;
+  readonly poi_id: string | null;
   readonly name: string | null;
   readonly category: string | null;
   readonly day_no: number | null;
@@ -29,7 +30,7 @@ interface ItemRow {
   readonly tz: string | null;
 }
 
-const ITEMS_SQL = `SELECT i.stable_id, p.name, i.category, d.day_no, i.starts_at, i.tz
+const ITEMS_SQL = `SELECT i.stable_id, i.poi_id, p.name, i.category, d.day_no, i.starts_at, i.tz
   FROM plan_items i
   JOIN trips t ON t.id = i.trip_id
   LEFT JOIN plan_days d ON d.id = i.day_id
@@ -84,10 +85,12 @@ export function usePicks(
 ): readonly Pick[] {
   const { rows } = useLiveRows<ItemRow>(ITEMS_SQL, [tripId], ITEMS_TABLES);
   const byId = new Map(rows.map((row) => [row.stable_id, row]));
+  const names = usePlaceNames(tripId);
   return highlights.flatMap((h) => {
     const row = byId.get(h.item_id);
     const slide = slides.find((s) => s.item_id === h.item_id);
-    const title = row?.name ?? slide?.headline ?? row?.category ?? null;
+    const placed = row?.poi_id == null ? undefined : names.get(row.poi_id);
+    const title = placed ?? row?.name ?? slide?.headline ?? row?.category ?? null;
     if (title === null) return [];
     return [
       {
@@ -105,6 +108,7 @@ export function usePicks(
 
 interface PlanRow {
   readonly stable_id: string;
+  readonly poi_id: string | null;
   readonly name: string | null;
   readonly must_do_title: string | null;
   readonly must_do_id: string | null;
@@ -114,7 +118,7 @@ interface PlanRow {
   readonly tz: string | null;
 }
 
-const PLAN_SQL = `SELECT i.stable_id, p.name, m.title AS must_do_title, i.must_do_id, i.category,
+const PLAN_SQL = `SELECT i.stable_id, i.poi_id, p.name, m.title AS must_do_title, i.must_do_id, i.category,
     d.day_no, i.starts_at, i.tz
   FROM plan_items i
   JOIN trips t ON t.id = i.trip_id AND t.current_version_id = i.version_id
@@ -156,7 +160,37 @@ export function groupPicks(rows: readonly PlanRow[], limit = 5): Pick[] {
   return picks.slice(0, limit);
 }
 
+const PLACES_SQL = `SELECT v.coverage FROM itinerary_versions v
+  JOIN trips t ON t.current_version_id = v.id WHERE t.id = ?`;
+
+/**
+ * The plan version's own place names (the display fields the draft keeps for every named place,
+ * keyed by place id): a drafted stop's place is often not in the phone's place catalogue.
+ */
+function usePlaceNames(tripId: string): ReadonlyMap<string, string> {
+  const { rows } = useLiveRows<{ coverage: string | null }>(
+    PLACES_SQL,
+    [tripId],
+    ['itinerary_versions', 'trips'],
+  );
+  const places = parseJson<{ places?: Record<string, { name?: string }> } | null>(
+    rows[0]?.coverage,
+    null,
+  )?.places;
+  return new Map(
+    Object.entries(places ?? {}).flatMap(([id, place]) =>
+      typeof place.name === 'string' ? [[id, place.name] as const] : [],
+    ),
+  );
+}
+
 export function useGroupPicks(tripId: string): readonly Pick[] {
   const { rows } = useLiveRows<PlanRow>(PLAN_SQL, [tripId], PLAN_TABLES);
-  return groupPicks(rows);
+  const names = usePlaceNames(tripId);
+  return groupPicks(
+    rows.map((row) => ({
+      ...row,
+      name: (row.poi_id === null ? undefined : names.get(row.poi_id)) ?? row.name,
+    })),
+  );
 }

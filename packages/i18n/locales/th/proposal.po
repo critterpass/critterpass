@@ -12,11 +12,6 @@ msgstr ""
 msgid "proposal.tracker.you"
 msgstr ""
 
-#. placeholder {0}: wholeMoney(locale, trip.shareMinor, trip.currency)
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.build.each"
-msgstr ""
-
 #. placeholder {0}: state.going + 1
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.going"
@@ -120,6 +115,10 @@ msgstr ""
 #. placeholder {0}: info.name
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.egg"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.eachAmount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx

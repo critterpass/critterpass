@@ -5,10 +5,11 @@
  * PREVIEW AS {name} per written version, and SEND TO {n} FRIENDS with the reason when it can't.
  */
 import type { ProposalFormat } from '@cp/domain';
+import { upper } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
 
-import { QuickActionChip } from '@/ui/chips/QuickActionChip';
+import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
 import type { GuideStickerId as GuideId } from '@/ui/avatar/guides';
@@ -47,6 +48,7 @@ export interface StayRow {
 }
 
 export interface BuilderViewProps {
+  readonly locale: string;
   readonly guideName: string;
   readonly guide: GuideId;
   readonly destination: string;
@@ -178,9 +180,13 @@ export function BuilderView(props: BuilderViewProps) {
         {props.previews.length === 0 ? null : (
           <View style={styles.chips}>
             {props.previews.map((p) => (
-              <QuickActionChip
+              <InlineAction
                 key={p.uid}
-                label={t({ id: 'proposal.build.previewAs', message: `Preview as ${p.name}` })}
+                kind="choice"
+                label={upper(
+                  t({ id: 'proposal.build.previewAs', message: `Preview as ${p.name}` }),
+                  props.locale,
+                )}
                 onPress={() => props.onPreview(p.uid)}
                 testID={`build-preview-${p.uid}`}
               />

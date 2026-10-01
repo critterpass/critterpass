@@ -42,6 +42,7 @@ const LOCALE = 'en';
 
 const builder = (over: Partial<BuilderViewProps> = {}) => (
   <BuilderView
+    locale={LOCALE}
     guideName="Chà Vá"
     guide="chava"
     destination="Đà Nẵng"
@@ -197,6 +198,11 @@ export const PROPOSAL_LAB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ),
   sent: () => (
     <SendProgress
+      guide="chava"
+      format="trailer"
+      destination="Đà Nẵng"
+      headline="Bà Nà before the crowds."
+      price="₫4,200,000 each"
       guideName="Chà Vá"
       recipients={LAB_RECIPIENTS}
       versions={LAB_VERSIONS}

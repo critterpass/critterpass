@@ -12,11 +12,6 @@ msgstr ""
 msgid "proposal.tracker.you"
 msgstr "{0} (bạn)"
 
-#. placeholder {0}: wholeMoney(locale, trip.shareMinor, trip.currency)
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
-msgid "proposal.build.each"
-msgstr "{0} mỗi người"
-
 #. placeholder {0}: state.going + 1
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.going"
@@ -121,6 +116,10 @@ msgstr "{0}: đề xuất"
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.egg"
 msgstr "Trứng của {0} sẽ nở khi bạn hạ cánh"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.build.eachAmount"
+msgstr "{amount} mỗi người"
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
 msgid "proposal.alone.back"

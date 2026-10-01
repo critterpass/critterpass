@@ -2,11 +2,14 @@
  * The version's picks (3f-3): colour cards that slide in one by one, each with its stop, its day
  * and time, and the reason tag stamped on the right. Tapping one opens why it's there.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- item categories and icon names, never copy. */
 import { t } from '@lingui/core/macro';
 import { Pressable, View } from 'react-native';
 import Animated, { FadeInRight } from 'react-native-reanimated';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
+import { Icon } from '@/ui/icons/Icon';
+import type { DoodleName } from '@/ui/icons/generated';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -30,6 +33,36 @@ const useStyles = makeStyles((th) => ({
     maxWidth: 120,
   },
 }));
+
+/** The doodle for a stop's kind (the plan's item categories); a pin when the kind has none. */
+export function kindIcon(category: string | null): DoodleName {
+  switch (category) {
+    case 'food':
+    case 'drink':
+    case 'cafe':
+      return 'food';
+    case 'stay':
+    case 'rest':
+      return 'bed';
+    case 'beach':
+    case 'nature':
+    case 'outdoor':
+      return 'sun';
+    case 'transfer':
+    case 'transport':
+      return 'car';
+    case 'flight':
+      return 'plane';
+    case 'sight':
+    case 'culture':
+      return 'temple';
+    case 'activity':
+    case 'tour':
+      return 'ticket';
+    default:
+      return 'pin';
+  }
+}
 
 export interface PicksListProps {
   readonly picks: readonly Pick[];
@@ -64,6 +97,7 @@ export function PicksList({ picks, when, onOpen }: PicksListProps) {
               })}
               testID={`version-pick-${index}`}
             >
+              <Icon name={kindIcon(pick.category)} size={28} color={ink} decorative />
               <View style={styles.grow}>
                 <Text variant="title" color={ink} numberOfLines={2}>
                   {pick.title.toUpperCase()}
