@@ -12,6 +12,7 @@ import {
   phraseLanguageFor,
   PROBLEM_FACILITY_KIND,
   rankFacilities,
+  toCountryCode,
   type ChecklistStep,
   type EmergencyLine,
   type HelpContext,
@@ -34,6 +35,10 @@ export interface HelpTrip {
   readonly guide: string | null;
 }
 
+/**
+ * The trip with its destination's country as an ISO code: destinations store the English name
+ * ("Vietnam"), while the curated catalogue (`emergency_numbers`) is keyed by code ("VN").
+ */
 export async function loadHelpTrip(tx: pg.PoolClient, tripId: string): Promise<HelpTrip> {
   const { rows } = await tx.query<HelpTrip>(
     `SELECT t.id, d.country, t.destination_id, g.slug AS guide
@@ -43,7 +48,9 @@ export async function loadHelpTrip(tx: pg.PoolClient, tripId: string): Promise<H
       WHERE t.id = $1`,
     [tripId],
   );
-  return rows[0] ?? { id: tripId, country: null, destination_id: null, guide: null };
+  const row = rows[0];
+  if (row === undefined) return { id: tripId, country: null, destination_id: null, guide: null };
+  return { ...row, country: toCountryCode(row.country) };
 }
 
 export interface Position {
