@@ -1,8 +1,8 @@
 /**
  * The destination final over the real local-first stack: Home's split card says who is still to
  * vote and where a tie goes and opens the showdown; a tap on a showdown half queues the ballot and
- * the guide notes an underdog pick; the bottom side's voters sit in the tally card; a closed poll
- * sends the showdown on to the reveal.
+ * the guide notes an underdog pick; the bottom side's voters sit in the tally card; a poll is drawn
+ * only once its votes have been read; a closed poll sends the showdown on to the reveal.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -34,6 +34,8 @@ import {
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 
+import type { PollView } from '../../data/poll-view';
+import { usePoll } from '../../data/use-poll';
 import { voteRoutes } from '../../routes';
 import {
   Final,
@@ -49,6 +51,7 @@ import {
   queued,
   renderVote,
   seedCrew,
+  settleMotion,
   until,
 } from '../../test-support/vote-harness';
 
@@ -115,6 +118,25 @@ describe('destination final', () => {
     await until(() => (scaleOf(0) ?? 1) < 1);
     expect(scaleOf(1)).toBeCloseTo(164 / 202, 5);
     expect(scaleOf(0)).toBeCloseTo(scaleOf(1) ?? 0, 5);
+  });
+
+  it('draws a poll only once its options and votes have been read', async () => {
+    const s = await open();
+    await seedFinal(s, [{ userId: MAYA, optionId: OPT_KYOTO }]);
+    // Every poll a surface is handed, from the first read to the last.
+    const drawn: PollView[] = [];
+    function Probe({ me }: { readonly me: string }) {
+      const { poll } = usePoll(POLL, me);
+      if (poll !== null) drawn.push(poll);
+      return null;
+    }
+    await renderVote(<Probe me={s.uid} />, s);
+    await until(() => drawn.length > 0);
+    await settleMotion(300);
+    for (const poll of drawn) {
+      expect(poll.options).toHaveLength(2);
+      expect(poll.votedCount).toBe(1);
+    }
   });
 
   it('casts from a showdown half, notes an underdog pick and states the tie rule', async () => {
