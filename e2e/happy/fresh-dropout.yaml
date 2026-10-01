@@ -41,10 +41,11 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-5-cant-make-it
+# The sheet's own button, under its consequences (the pass's link of the same words sits behind it).
 - tapOn:
     text: '(?i)I can.t make it'
-    childOf:
-      id: 'board-out-confirm'
+    below:
+      text: '(?i)Shared costs are split again.*'
 # The reply is sent and the friend is back on their version.
 - extendedWaitUntil:
     visible:
