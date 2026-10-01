@@ -9,9 +9,9 @@ appId: app.critterpass.dev
 # once the trip has started. The newcomer is on the trip: the plan opens and the expense is theirs
 # to share.
 # Today on the trip's clock (Da Nang, UTC+7): the lock button that names it, where its cell sits in
-# the week picker's month (Monday-first columns of 49 pt from 34 pt in, rows of 44 pt, on the
-# 411 x 914 pt emulator) and its spoken label.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); var blanks = (first.getUTCDay() + 6) % 7; var col = (d.getUTCDay() + 6) % 7; var row = Math.floor((blanks + d.getUTCDate() - 1) / 7); output.todayPoint = ((34 + 49 * (col + 0.5)) / 4.114).toFixed(1) + '%, ' + (45.4 + 4.8 * row).toFixed(1) + '%'; output.todayLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
+# the week picker's month (Monday-first columns 11.93% of the screen apart from 14.6%, rows 5.69%
+# apart from 45%, in whole percents) and its spoken label.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); var blanks = (first.getUTCDay() + 6) % 7; var col = (d.getUTCDay() + 6) % 7; var row = Math.floor((blanks + d.getUTCDate() - 1) / 7); output.todayPoint = Math.round(14.6 + 11.93 * col) + '%, ' + Math.round(45 + 5.69 * row) + '%'; output.todayLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
 - runFlow: subflows/fresh-account.yaml
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:
