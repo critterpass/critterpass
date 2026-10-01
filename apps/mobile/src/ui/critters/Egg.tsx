@@ -24,7 +24,7 @@ export type EggState = 'resting' | 'wobbling' | 'cracking' | 'hatched';
 
 export interface EggProps {
   readonly state: EggState;
-  /** Shell colour (the destination colour). @default action.primary */
+  /** The spots' colour (the guide's or destination's colour). @default action.primary */
   readonly color?: string;
   /** Egg width in points; height follows. @default 72 */
   readonly size?: number;
@@ -40,13 +40,22 @@ const HEIGHT_RATIO = 1.25;
 /**
  * The egg's one shape: the hand-drawn egg doodle (the tab bar's and the launch egg's outline), an
  * ovoid narrower at the top. Its layers are the body, four spots and the ink outline, in a
- * 100-unit box where the egg itself spans `EGG_BOX`.
+ * 100-unit box. It is drawn as the design's egg sticker: the paper sticker edge, a cream body
+ * washed over it, spots in the guide's colour and the ink outline. `EGG_BOX` is the egg with its
+ * sticker edge.
  */
 const [BODY, ...REST] = eggDoodle.layers;
 const OUTLINE = REST[REST.length - 1];
 const SPOTS = REST.slice(0, -1);
-const EGG_BOX = { x: 20, y: 5.5, width: 60, height: 87 } as const;
-const SPOT_OPACITY = 0.55;
+/** How far the sticker edge reaches past the shell, in the doodle's units. */
+const EDGE = 4.5;
+const EGG_BOX = {
+  x: 20 - EDGE,
+  y: 5.5 - EDGE,
+  width: 60 + EDGE * 2,
+  height: 87 + EDGE * 2,
+} as const;
+const WASH_OPACITY = 0.9;
 /* eslint-disable lingui/no-unlocalized-strings -- vector path data, never copy. */
 /** The crack across the shell, in the doodle's units (the design's `crack` pose). */
 const CRACK = 'M25 50L35 44L42 53L50 43L58 53L65 44L75 50';
@@ -124,14 +133,30 @@ export function Egg({ state, color, size = 72, hatchling, hatchlingName, testID 
             transform={[{ translateX: offsetX }, { translateY: -EGG_BOX.y * scale }, { scale }]}
           >
             {BODY === undefined ? null : (
-              <Path path={BODY.d} color={color ?? theme.semantic.action.primary} />
+              <>
+                <Path path={BODY.d} color={theme.color.paper.base} />
+                <Path
+                  path={BODY.d}
+                  color={theme.color.paper.base}
+                  style="stroke"
+                  strokeWidth={EDGE * 2}
+                  strokeJoin="round"
+                />
+                <Path
+                  path={BODY.d}
+                  color={theme.color.paper.warm}
+                  opacity={WASH_OPACITY}
+                  blendMode="multiply"
+                />
+              </>
             )}
             {SPOTS.map((spot) => (
               <Path
                 key={spot.d}
                 path={spot.d}
-                color={theme.color.paper.bright}
-                opacity={SPOT_OPACITY}
+                color={color ?? theme.semantic.action.primary}
+                opacity={WASH_OPACITY}
+                blendMode="multiply"
               />
             ))}
             {OUTLINE === undefined ? null : <Path path={OUTLINE.d} color={theme.color.paper.ink} />}

@@ -136,6 +136,9 @@ export const DEX_SCENES: Readonly<Record<string, () => ReactNode>> = {
     <Pass input={{ trips: [labTrip({ egg_hatched_at: null })] }} egg={egg('ready')} />
   ),
   '3l-2-egg-unseen': () => <Pass egg={egg('unseen')} />,
+  '3l-2-here-now-long-place': () => (
+    <Pass input={{ trips: [labTrip({ destination_name: 'Thành phố Hồ Chí Minh' })] }} />
+  ),
   '3l-2-found': () => <Pass filter="found" />,
   '3l-2-near': () => <Pass filter="near" near={new Set(['cp-112', 'cp-113', 'cp-114'])} />,
   '3l-2-search': () => <Pass query="Hội An" />,

@@ -4,6 +4,7 @@
  */
 import type { FormSpec } from '@cp/critter-art';
 import { upper } from '@cp/i18n';
+import { Group, RadialGradient, Rect, vec } from '@shopify/react-native-skia';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
@@ -18,6 +19,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
+import { TextureCanvas } from '@/ui/textures/TextureCanvas';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import {
@@ -34,7 +36,11 @@ import { artKind } from '../art-kind';
 /** Beats of the choreography (ms from mount): wobble, crack, pop. */
 export const HATCH_BEATS = { crack: 900, pop: 1250, reveal: 1650 } as const;
 
-const EGG_SIZE = 96;
+/** The render's egg: about a third of the screen's width with its sticker edge. */
+const EGG_SIZE = 120;
+/** The soft glow behind the egg, in its spots' colour, fading into the page. */
+const GLOW_OPACITY = 0.22;
+const GLOW_RADIUS = EGG_SIZE * 1.6;
 const CRITTER_SIZE = 150;
 
 export interface HatchViewProps {
@@ -140,6 +146,19 @@ export function HatchView(props: HatchViewProps) {
           </Text>
         </Stack>
         <View style={styles.stage}>
+          <TextureCanvas>
+            {({ width: w, height: h }) => (
+              <Group opacity={GLOW_OPACITY}>
+                <Rect x={0} y={0} width={w} height={h}>
+                  <RadialGradient
+                    c={vec(w / 2, h / 2)}
+                    r={GLOW_RADIUS}
+                    colors={[props.colour ?? theme.semantic.action.primary, 'transparent']}
+                  />
+                </Rect>
+              </Group>
+            )}
+          </TextureCanvas>
           <Egg
             state={egg}
             size={EGG_SIZE}
