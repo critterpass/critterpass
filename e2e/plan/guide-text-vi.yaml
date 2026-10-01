@@ -1,0 +1,121 @@
+appId: app.critterpass.dev
+---
+# The guide's plan text in the language the app is in, on one real trip on staging. A fresh
+# account, a crew of one, confirms a trip the guide drafted (happy/fresh-solo-confirm.yaml: real
+# setup, real draft, no demo world), and the plan is read twice from the same rows: in English,
+# then, after the app is switched to Vietnamese from the dev gallery, in Vietnamese. The switch
+# is what a friend's phone does on its first launch: the app reports its language
+# (`set_app_locale`), the worker translates what the guide already wrote for the trip, and the
+# translations sync onto the rows. Place names and times stay as written.
+#
+# Needs staging with the translation job deployed and its model key present. The trip hub's
+# briefing card is not part of this flow: its lines are written by the morning job, which no flow
+# can wait for.
+- runFlow: ../happy/fresh-solo-confirm.yaml
+
+# English: the overview's day themes, a day, and one stop's note from the guide.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-1'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3e-1-guide-text
+- tapOn:
+    id: 'plan-day-1'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-3e-2-guide-text
+- tapOn:
+    id: 'plan-day-row-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-place|plan-item-save|plan-item-skip'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3e-2-guide-text-item
+
+# Vietnamese: switched in the running app (kept in memory: it survives links, not a relaunch).
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+# The language report goes up, the sweep translates the plan (one model call) and the rows sync
+# back: nothing on screen marks the moment, so this waits out a fixed minute.
+- extendedWaitUntil:
+    visible:
+      id: 'guide-text-translation-settled'
+    timeout: 60000
+    optional: true
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://trips
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-1'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: vi-3e-1-guide-text
+- tapOn:
+    id: 'plan-day-1'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: vi-3e-2-guide-text
+- tapOn:
+    id: 'plan-day-row-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-place|plan-item-save|plan-item-skip'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: vi-3e-2-guide-text-item
