@@ -171,15 +171,38 @@ appId: app.critterpass.dev
     id: 'version-in'
 - extendedWaitUntil:
     visible:
-      id: 'board-knob'
+      id: 'board-slide'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-5-slide
-- swipe:
-    from:
-      id: 'board-knob'
-    direction: RIGHT
-    duration: 1200
+# The knob sits at the start of the track. Android finds it by id; iOS reads the track as one
+# element, so the drag starts where the knob rests (low on the screen, at the left).
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          from:
+            id: 'board-knob'
+          direction: RIGHT
+          duration: 1200
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 12%, 86%
+          end: 96%, 86%
+          duration: 1200
+      - runFlow:
+          when:
+            notVisible:
+              id: 'board-egg'
+          commands:
+            - swipe:
+                start: 12%, 83%
+                end: 96%, 83%
+                duration: 1200
 - extendedWaitUntil:
     visible:
       id: 'board-egg'
