@@ -42,7 +42,7 @@ const STICKER = { min: 96, max: 232, fallback: 200, share: 1.1 } as const;
 const RAYS_SPAN = 2.2;
 const SLEEPER_SIZE = 48;
 /** How strongly the winner's colour is washed back in behind the name and score, over a photo. */
-const WASH_ALPHA = 'd9';
+const WASH_STRENGTH = 0.85;
 
 export interface RevealGuide {
   readonly kind: string;
@@ -90,6 +90,14 @@ const useStyles = makeStyles((th) => ({
   consolation: { paddingHorizontal: th.space['4'] },
   line: { flex: 1 },
 }));
+
+/** `#rrggbb` with an alpha channel. */
+function withAlpha(hex: string, alpha: number): string {
+  const channel = Math.round(alpha * 255)
+    .toString(16)
+    .padStart(2, '0');
+  return `${hex}${channel}`;
+}
 
 function clamp(value: number, low: number, high: number): number {
   return Math.min(high, Math.max(low, value));
@@ -177,10 +185,10 @@ export function RevealStage({
                         start={vec(0, 0)}
                         end={vec(0, height)}
                         colors={[
-                          `${colour}00`,
-                          `${colour}${WASH_ALPHA}`,
-                          `${colour}${WASH_ALPHA}`,
-                          `${colour}00`,
+                          withAlpha(colour, 0),
+                          withAlpha(colour, WASH_STRENGTH),
+                          withAlpha(colour, WASH_STRENGTH),
+                          withAlpha(colour, 0),
                         ]}
                         positions={[0, 0.3, 0.8, 1]}
                       />
