@@ -30,6 +30,7 @@ import type { CandidateView } from '../candidates/candidate-model';
 import type { ScanState } from '../scan/use-booking-scan';
 import { AddressPill, ImportTiles, type ImportChannel } from './ImportTiles';
 import { useScanLine } from './scan-line';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
@@ -68,7 +69,8 @@ export function AddBookingView(props: AddBookingViewProps) {
   const { t } = useLingui();
   const [motionMode] = useMotionMode();
   const scanLine = useScanLine(props.scan);
-  const tokek = GUIDE_STICKERS.tokek;
+  const guide = useWalletGuide();
+  const tokek = GUIDE_STICKERS[guide.id];
   const moving = motionMode !== 'off';
   const pending = props.candidates.filter((view) => view.state === 'pending');
   const firstPending = pending[0]?.id ?? null;
@@ -159,8 +161,8 @@ export function AddBookingView(props: AddBookingViewProps) {
           </Stack>
         )}
         <GuideLine
-          guide="tokek"
-          name={tokek.name}
+          guide={guide.id}
+          name={guide.name}
           line={
             props.mailboxConnected
               ? t({
@@ -173,7 +175,7 @@ export function AddBookingView(props: AddBookingViewProps) {
                   message: 'I can also check your inbox for new confirmations every morning.',
                 })
           }
-          sticker={<Sticker kind={tokek.kind} name={tokek.name} size={44} pose="point" />}
+          sticker={<Sticker kind={tokek.kind} name={guide.name} size={44} pose="point" />}
           testID="bookings-add-footnote"
         />
         {props.mailboxConnected ? null : (

@@ -26,7 +26,8 @@ appId: app.critterpass.dev
 - takeScreenshot: day-hub
 - assertVisible:
     id: 'trip-hub-header-in'
-- assertVisible: '(?i).*day 1 of 3.*'
+# Day 1, or day 2 when the run crosses midnight in Vietnam.
+- assertVisible: '(?i).*day [12] of 3.*'
 - assertVisible:
     id: 'trip-briefing-.*'
 - assertVisible:
@@ -81,7 +82,7 @@ appId: app.critterpass.dev
           timeout: 15000
       - waitForAnimationToEnd
       - takeScreenshot: day-of-today
-- assertVisible: '(?i).* · day 1'
+- assertVisible: '(?i).* · day [12]'
 - assertVisible: '(?i)(first up|next up|day done|free day|leave by|be .*by)'
 - runFlow:
     when:

@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# Swipe together (3d-2): the deck, WHY THIS?, the match stamp, a solo traveller, the deck being
+# built, the finished summary, an ended session, offline and long Vietnamese names, prefixed
+# `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: swipe, READY: explore-swipe-card, SHOT: '${PREFIX}-3d-2-swipe' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: swipe-why, READY: explore-swipe-why-sheet, SHOT: '${PREFIX}-3d-2-why-this' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: swipe-match, READY: explore-swipe-match, SHOT: '${PREFIX}-3d-2-match' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: swipe-solo, READY: explore-swipe-card, SHOT: '${PREFIX}-3d-2-solo' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: swipe-building, READY: explore-swipe-building, SHOT: '${PREFIX}-3d-2-building' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: swipe-summary, READY: explore-swipe-summary, SHOT: '${PREFIX}-3d-2-deck-finished' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: swipe-ended, READY: explore-swipe-summary, SHOT: '${PREFIX}-3d-2-session-ended' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: swipe-offline, READY: explore-swipe-offline, SHOT: '${PREFIX}-3d-2-offline' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: swipe-da-nang, READY: explore-swipe-card, SHOT: '${PREFIX}-3d-2-da-nang-long-names' }

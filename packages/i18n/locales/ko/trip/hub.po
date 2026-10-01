@@ -112,6 +112,14 @@ msgid "trip.hub.tile.allSettled"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.beAtAirportBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.beThereBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.bookings"
 msgstr ""
 
@@ -137,6 +145,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.settled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipeDetail"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
@@ -289,6 +301,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.someone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.swipe"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-view.tsx

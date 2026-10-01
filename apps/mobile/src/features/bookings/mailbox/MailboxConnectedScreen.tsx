@@ -17,6 +17,9 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { connectMailboxCommand } from '../data/commands';
 import { BOOKINGS_ROUTES } from '../routes';
 import type { MailboxReturn } from './oauth';
+import { useWalletGuide } from '../data/wallet-guide';
+import { useWalletContext } from '../data/use-wallet-context';
+import { WalletGuideProvider } from '../data/wallet-guide';
 
 export type MailboxOutcome = 'connecting' | 'connected' | 'denied' | 'failed';
 
@@ -40,12 +43,13 @@ export function MailboxConnectedView({
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
+  const { name: guideName } = useWalletGuide();
   const copy: Record<MailboxOutcome, { title: string; line: string }> = {
     connecting: {
       title: t({ id: 'bookings.mailboxDone.connectingTitle', message: 'Connecting…' }),
       line: t({
         id: 'bookings.mailboxDone.connectingLine',
-        message: 'Tokek is setting up the morning check.',
+        message: `${guideName} is setting up the morning check.`,
       }),
     },
     connected: {
@@ -94,6 +98,7 @@ export function MailboxConnectedView({
 }
 
 export function MailboxConnectedScreen({ result }: { readonly result: MailboxReturn }) {
+  const walletTrip = useWalletContext().trip?.id ?? null;
   const { send } = useCommand(connectMailboxCommand);
   const [outcome, setOutcome] = useState<MailboxOutcome>(
     result.kind === 'authorized' ? 'connecting' : result.kind,
@@ -108,6 +113,11 @@ export function MailboxConnectedScreen({ result }: { readonly result: MailboxRet
     );
   }, [result, send]);
   return (
-    <MailboxConnectedView outcome={outcome} onDone={() => router.replace(BOOKINGS_ROUTES.wallet)} />
+    <WalletGuideProvider tripId={walletTrip}>
+      <MailboxConnectedView
+        outcome={outcome}
+        onDone={() => router.replace(BOOKINGS_ROUTES.wallet)}
+      />
+    </WalletGuideProvider>
   );
 }

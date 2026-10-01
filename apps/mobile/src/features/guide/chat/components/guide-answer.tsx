@@ -9,6 +9,7 @@ import * as Clipboard from 'expo-clipboard';
 import { useEffect, useState } from 'react';
 import { Linking, Pressable } from 'react-native';
 
+import { tidyGuideText } from '@/features/crew';
 import { patterns } from '@/motion';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { TypingDots } from '@/ui/chat/TypingDots';
@@ -85,8 +86,10 @@ export function GuideAnswer({
   const theme = useTheme();
   const [actions, setActions] = useState(false);
   const [copied, setCopied] = useState(false);
-  const typed = patterns.useTypewriter({ text });
-  const shown = streaming ? typed.visibleText : text;
+  // Brackets inside brackets (a gloss within a gloss) are shown, and copied, as one pair.
+  const line = tidyGuideText(text);
+  const typed = patterns.useTypewriter({ text: line });
+  const shown = streaming ? typed.visibleText : line;
   return (
     <Stack gap="8" {...(testID === undefined ? {} : { testID })}>
       <Pressable
@@ -107,7 +110,7 @@ export function GuideAnswer({
                 : t({ id: 'guide.chat.copy', message: 'Copy' })
             }
             onPress={() => {
-              void Clipboard.setStringAsync(text);
+              void Clipboard.setStringAsync(line);
               setCopied(true);
             }}
             testID="guide-answer-copy"

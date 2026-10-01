@@ -12,11 +12,11 @@ import { useWindowDimensions, View } from 'react-native';
 import type { ChatCardProps } from '@/features/crew';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { TextLink } from '@/ui/buttons/TextLink';
 import { Icon } from '@/ui/icons/Icon';
+import { PressScale } from '@/ui/press/PressScale';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
 import { CATEGORY_ICON } from '../components/category';
 import { categoryOf } from '../data/expense-items';
@@ -64,6 +64,13 @@ const useStyles = makeStyles((th) => ({
     backgroundColor: th.semantic.bg.raised,
   },
   body: { flex: 1, gap: th.space['2'] },
+  // 3g-1: VIEW is the card's action in the primary yellow, a bare label with a full touch target.
+  view: {
+    minHeight: MIN_TOUCH_TARGET,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: th.space['14'],
+  },
 }));
 
 export function ExpenseChatCard({ message }: ChatCardProps) {
@@ -119,6 +126,7 @@ export function ExpenseChatCard({ message }: ChatCardProps) {
       : row.split_mode === 'equal'
         ? t({ id: 'money.chat.splitEach', message: `Split ${ways} ways · ${each} each` })
         : t({ id: 'money.chat.split', message: `Split ${ways} ways` });
+  const view = t({ id: 'money.chat.view', message: 'View' });
   return (
     <View style={[styles.card, { width }]} testID={`chat-expense-${row.id}`}>
       <Icon name={CATEGORY_ICON[categoryOf(row.category)]} size={28} decorative />
@@ -130,11 +138,17 @@ export function ExpenseChatCard({ message }: ChatCardProps) {
           </Text>
         )}
       </View>
-      <TextLink
-        label={upper(t({ id: 'money.chat.view', message: 'View' }), locale)}
+      <PressScale
+        accessibilityLabel={`${view}, ${paid}`}
         onPress={() => router.push(expenseRoute(row.id))}
+        widthClass="narrow"
+        style={styles.view}
         testID={`chat-expense-view-${row.id}`}
-      />
+      >
+        <Text variant="buttonSm" color={theme.semantic.action.primary}>
+          {upper(view, locale)}
+        </Text>
+      </PressScale>
     </View>
   );
 }

@@ -6,9 +6,9 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import { useLingui } from '@lingui/react/macro';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
-import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { LocalFirstContext, useLocalFirst } from '@/data/powersync/local-first-context';
 import { makeStyles } from '@/ui';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
@@ -27,7 +27,13 @@ const useStyles = makeStyles((t) => ({
   body: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['32'] },
 }));
 
-export function DietaryScreen({ services }: { readonly services: DietaryServices }) {
+/** The sheet once the session's local database is open (a cold start can restore it earlier). */
+export function DietaryScreen(props: { readonly services: DietaryServices }) {
+  const localFirst = useContext(LocalFirstContext);
+  return localFirst === null ? null : <OpenDietaryScreen {...props} />;
+}
+
+function OpenDietaryScreen({ services }: { readonly services: DietaryServices }) {
   const styles = useStyles();
   const { t } = useLingui();
   const { db } = useLocalFirst();

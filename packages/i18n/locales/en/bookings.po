@@ -49,6 +49,38 @@ msgstr "{count, plural, one {Found # booking in {member}'s inbox that wasn't her
 msgid "bookings.banner.mine"
 msgstr "{count, plural, one {Found # booking in your inbox that wasn't here yet.} other {Found # bookings in your inbox that weren't here yet.}}"
 
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.lockedLine"
+msgstr "{guideName} checks your inbox for new confirmations every morning with Pass+."
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
+msgid "bookings.mailbox.perk"
+msgstr "{guideName} finds new bookings in your inbox every morning"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.parsing"
+msgstr "{guideName} is reading it…"
+
+#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
+msgid "bookings.mailboxDone.connectingLine"
+msgstr "{guideName} is setting up the morning check."
+
+#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
+msgid "bookings.paste.offline"
+msgstr "{guideName} needs signal to read it."
+
+#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
+msgid "bookings.scan.offline"
+msgstr "{guideName} needs signal to read it."
+
+#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
+msgid "bookings.flight.ping"
+msgstr "{guideName} pings you when boarding opens."
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
+msgid "bookings.detail.reminder"
+msgstr "{guideName} reminds you the day before it runs out."
+
 #: ../../apps/mobile/src/features/bookings/stack/deck-meta.ts
 msgid "bookings.card.nights"
 msgstr "{nights, plural, one {# night} other {# nights}}"
@@ -438,7 +470,7 @@ msgstr "Got a code? Link your email"
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
 msgid "bookings.scan.sent"
-msgstr "Got it. Tokek is reading it below."
+msgstr "Got it. {guideName} is reading it below."
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 msgid "bookings.add.mailboxOffer"
@@ -809,38 +841,6 @@ msgstr "Time"
 msgid "bookings.form.to"
 msgstr "To"
 
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-msgid "bookings.mailbox.lockedLine"
-msgstr "Tokek checks your inbox for new confirmations every morning with Pass+."
-
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
-msgid "bookings.mailbox.perk"
-msgstr "Tokek finds new bookings in your inbox every morning"
-
-#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
-msgid "bookings.candidate.parsing"
-msgstr "Tokek is reading it…"
-
-#: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
-msgid "bookings.mailboxDone.connectingLine"
-msgstr "Tokek is setting up the morning check."
-
-#: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
-msgid "bookings.paste.offline"
-msgstr "Tokek needs signal to read it."
-
-#: ../../apps/mobile/src/features/bookings/add/scan-line.ts
-msgid "bookings.scan.offline"
-msgstr "Tokek needs signal to read it."
-
-#: ../../apps/mobile/src/features/bookings/flight-card/FlightCard.tsx
-msgid "bookings.flight.ping"
-msgstr "Tokek pings you when boarding opens."
-
-#: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
-msgid "bookings.detail.reminder"
-msgstr "Tokek reminds you the day before it runs out."
-
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
 msgid "bookings.linkCode.wait"
 msgstr "Too many tries. Try again in {minutes} min."
@@ -892,7 +892,7 @@ msgstr "Wallet"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.landedToast"
-msgstr "Welcome in. Tokek tells the crew."
+msgstr "Welcome in. {guideName} tells the crew."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.what"

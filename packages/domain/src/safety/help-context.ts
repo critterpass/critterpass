@@ -20,6 +20,7 @@ export const EMERGENCY_SERVICE_KEYS = [
   'fire',
   'tourist_police',
   'coast_guard',
+  'other',
 ] as const;
 export type EmergencyServiceKey = (typeof EMERGENCY_SERVICE_KEYS)[number];
 
@@ -86,7 +87,8 @@ export type HelpContext = z.infer<typeof helpContextSchema>;
  *
  * The number the hub leads with is the country's single all-services line. Where the catalogue
  * lists several `general` lines (Vietnam: search and rescue, a child protection hotline) there is
- * no such line, so the ambulance leads and the others stay in `lines` under their own labels.
+ * no such line, so the ambulance leads and the others stay in `lines` under their own labels. An
+ * `other` hotline (search and rescue, a helpline) never leads.
  */
 export function emergencyNumbersFor(lines: readonly EmergencyLine[] | null): {
   readonly general: string;
@@ -103,7 +105,7 @@ export function emergencyNumbersFor(lines: readonly EmergencyLine[] | null): {
     (generals.length === 1 ? generals[0] : undefined) ??
     lines.find((line) => line.service === 'ambulance') ??
     generals[0] ??
-    lines[0];
+    lines.find((line) => line.service !== 'other');
   return { general: general?.number ?? GSM_EMERGENCY_NUMBER, lines };
 }
 

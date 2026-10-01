@@ -44,11 +44,14 @@ appId: app.critterpass.dev
       id: 'money-add-keypad'
     timeout: 10000
 - waitForAnimationToEnd
-- tapOn: '3'
-- tapOn: '5'
-- tapOn: '0'
-# iOS reads the 000 key by its label.
-- tapOn: '000|Three zeros'
+- tapOn:
+    id: 'money-add-keypad-key-3'
+- tapOn:
+    id: 'money-add-keypad-key-5'
+- tapOn:
+    id: 'money-add-keypad-key-0'
+- tapOn:
+    id: 'money-add-keypad-key-000'
 - assertVisible:
     id: 'money-add-amount'
 - runFlow:
@@ -79,11 +82,16 @@ appId: app.critterpass.dev
       id: 'money-add-keypad'
     timeout: 10000
 - waitForAnimationToEnd
-- tapOn: '1'
-- tapOn: '2'
-- tapOn: '5'
-- tapOn: '0'
-- tapOn: '000|Three zeros'
+- tapOn:
+    id: 'money-add-keypad-key-1'
+- tapOn:
+    id: 'money-add-keypad-key-2'
+- tapOn:
+    id: 'money-add-keypad-key-5'
+- tapOn:
+    id: 'money-add-keypad-key-0'
+- tapOn:
+    id: 'money-add-keypad-key-000'
 - runFlow:
     file: subflows/type-expense-name.yaml
     env:
@@ -114,9 +122,12 @@ appId: app.critterpass.dev
       id: 'money-add-keypad'
     timeout: 10000
 - waitForAnimationToEnd
-- tapOn: '9'
-- tapOn: '000|Three zeros'
-- tapOn: '000|Three zeros'
+- tapOn:
+    id: 'money-add-keypad-key-9'
+- tapOn:
+    id: 'money-add-keypad-key-000'
+- tapOn:
+    id: 'money-add-keypad-key-000'
 - runFlow:
     file: subflows/type-expense-name.yaml
     env:
@@ -192,7 +203,8 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'money-budget-spent'
     text: '.*₫ ?10,600,000.*'
-- assertVisible: '(?i)day 1 of 3'
+# Day 1, or day 2 when the run crosses midnight in Vietnam.
+- assertVisible: '(?i)day [12] of 3'
 - assertNotVisible:
     id: 'money-budget-none'
 - assertNotVisible: '.*\$.*'

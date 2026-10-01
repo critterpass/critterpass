@@ -8,7 +8,7 @@ msgstr ""
 "Language: pl\n"
 
 #. placeholder {0}: whole(line.spentMinor)
-#. placeholder {1}: whole(line.plannedMinor)
+#. placeholder {1}: whole(plan(line.plannedMinor))
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.dayA11y"
 msgstr ""
@@ -39,6 +39,22 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.editedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.typeBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.savedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.aimLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
@@ -255,6 +271,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.category"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.changeAmount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
@@ -491,6 +511,10 @@ msgid "money.detail.leftOut"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
+msgid "money.failure.missed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedGlare"
 msgstr ""
 
@@ -500,10 +524,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.missedFold"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.missed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
@@ -686,7 +706,7 @@ msgstr ""
 msgid "money.add.out"
 msgstr ""
 
-#. placeholder {0}: whole(line.spentMinor - line.plannedMinor)
+#. placeholder {0}: whole(line.spentMinor - plan(line.plannedMinor))
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.overBy"
 msgstr ""
@@ -969,22 +989,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.today"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.typeBody"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
-msgid "money.failure.eyebrow"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
-msgid "money.scan.savedLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
-msgid "money.scan.aimLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/settle/PaymentScreen.tsx

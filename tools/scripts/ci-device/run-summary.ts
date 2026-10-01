@@ -6,20 +6,52 @@
  * Reads every downloaded shard artifact (`device-<platform>-shard-<n>/`): the flows that failed
  * (their JUnit reports), the screen-check findings (`screen-checks.log`) and the app's `[ui-qa]`
  * reports (`ui-qa.log`). With --coverage, appends the sweep coverage report.
+ *
+ * A shard that stops before its flows (the emulator never installed, the app crashed on launch)
+ * uploads no report, and often no artifact at all. So the summary is checked against the plan: the
+ * prepare job's shard matrices, read from IOS_MATRIX and ANDROID_MATRIX. A planned flow with no
+ * report has no result, and is listed as such instead of being counted among the flows that passed.
  */
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 
+import type { ShardMatrix } from './plan-shards';
 import { coverage, formatCoverage } from './sweep-coverage';
 
 const REPO_ROOT = path.resolve(import.meta.dirname, '../../..');
 
 export interface ShardFindings {
   readonly shard: string;
+  /** How many flows left a JUnit report. */
+  readonly ran: number;
   readonly failedFlows: string[];
+  /** Planned flows with no report: the shard stopped before them, or Maestro wrote none. */
+  readonly notRun: string[];
   readonly screenChecks: string[];
   readonly uiQa: string[];
+}
+
+/** The flows each shard was to run, by shard (`android-shard-2`), named like their reports. */
+export type ShardPlan = ReadonlyMap<string, readonly string[]>;
+
+/** A flow as its JUnit report names it: `e2e/happy/money.yaml` and `e2e__happy__money.xml` alike. */
+function flowName(file: string): string {
+  return file.replace(/\.(xml|ya?ml)$/, '').replace(/__/g, '/');
+}
+
+/** The plan from the prepare job's matrices, one JSON string per platform that ran. */
+export function shardPlan(matrices: Readonly<Record<string, string | undefined>>): ShardPlan {
+  const plan = new Map<string, string[]>();
+  for (const [platform, json] of Object.entries(matrices)) {
+    if (!json) continue;
+    for (const { shard, flows } of (JSON.parse(json) as ShardMatrix).include)
+      plan.set(
+        `${platform}-shard-${String(shard)}`,
+        flows.split(/\s+/).filter(Boolean).map(flowName),
+      );
+  }
+  return plan;
 }
 
 function lines(file: string): string[] {
@@ -30,51 +62,80 @@ function lines(file: string): string[] {
     .filter(Boolean);
 }
 
-export function readShard(dir: string): ShardFindings {
+export function readShard(dir: string, planned: readonly string[] = []): ShardFindings {
   const junit = path.join(dir, 'junit');
-  const failedFlows = existsSync(junit)
-    ? readdirSync(junit)
-        .filter((file) => file.endsWith('.xml'))
-        .filter((file) => /<(failure|error)\b/.test(readFileSync(path.join(junit, file), 'utf8')))
-        .map((file) => file.replace(/\.xml$/, '').replace(/__/g, '/'))
-        .sort()
-    : [];
+  const reports = existsSync(junit) ? readdirSync(junit).filter((f) => f.endsWith('.xml')) : [];
+  const ran = new Set(reports.map(flowName));
   return {
     shard: path.basename(dir).replace(/^device-/, ''),
-    failedFlows,
+    ran: ran.size,
+    failedFlows: reports
+      .filter((file) => /<(failure|error)\b/.test(readFileSync(path.join(junit, file), 'utf8')))
+      .map(flowName)
+      .sort(),
+    notRun: planned.filter((flow) => !ran.has(flow)),
     screenChecks: lines(path.join(dir, 'screen-checks.log')),
     uiQa: lines(path.join(dir, 'ui-qa.log')),
   };
 }
 
-export function readShards(root: string): ShardFindings[] {
-  if (!existsSync(root)) return [];
-  return readdirSync(root)
-    .filter((name) => name.startsWith('device-') && name.includes('-shard-'))
+/** Every shard that uploaded an artifact and every planned shard, uploaded or not. */
+export function readShards(root: string, plan: ShardPlan = new Map()): ShardFindings[] {
+  const uploaded = existsSync(root)
+    ? readdirSync(root).filter((name) => name.startsWith('device-') && name.includes('-shard-'))
+    : [];
+  const planned = [...plan.keys()].map((shard) => `device-${shard}`);
+  return [...new Set([...uploaded, ...planned])]
     .sort()
-    .map((name) => readShard(path.join(root, name)));
+    .map((name) => readShard(path.join(root, name), plan.get(name.replace(/^device-/, ''))));
 }
 
 export function formatSummary(shards: readonly ShardFindings[]): string {
   const failed = shards.flatMap((s) => s.failedFlows.map((flow) => `${flow} (${s.shard})`));
+  // Without a plan, a shard that ran nothing is all that is known of its flows.
+  const noResult = shards.flatMap((s) =>
+    s.notRun.length > 0
+      ? s.notRun.map((flow) => `${flow} (${s.shard})`)
+      : s.ran === 0
+        ? [`every flow of ${s.shard}`]
+        : [],
+  );
   const checks = shards.flatMap((s) => s.screenChecks);
   const uiQa = shards.flatMap((s) => s.uiQa);
   const block = (items: readonly string[]) => ['```', ...items, '```'].join('\n');
+  const list = (items: readonly string[]) => items.map((item) => `- \`${item}\``);
   const out = ['### Checks', ''];
-  if (failed.length + checks.length + uiQa.length === 0) {
+  if (!shards.some((s) => s.ran > 0)) {
+    out.push(
+      '**No flow ran.** Every shard stopped before its first flow (the emulator or simulator, the install or the launch): the failed jobs of the run say why.',
+      '',
+    );
+    if (noResult.length) out.push('**No result**', '', ...list(noResult), '');
+    return out.join('\n');
+  }
+  if (failed.length + noResult.length + checks.length + uiQa.length === 0) {
     out.push('Every flow passed, with no screen-check findings and no `[ui-qa]` reports.', '');
     return out.join('\n');
   }
   out.push(
     `- Flows failed: **${String(failed.length)}**`,
+    ...(noResult.length
+      ? [`- Flows with no result (their shard stopped first): **${String(noResult.length)}**`]
+      : []),
     `- Screen-check findings (SCREEN_FRAME, KEYBOARD_BAND, EMPTY_SCREEN): **${String(checks.length)}**`,
     `- \`[ui-qa]\` report lines: **${String(uiQa.length)}**`,
     '',
   );
-  if (failed.length) out.push('**Failed flows**', '', ...failed.map((f) => `- \`${f}\``), '');
+  if (failed.length) out.push('**Failed flows**', '', ...list(failed), '');
+  if (noResult.length) out.push('**No result**', '', ...list(noResult), '');
   if (checks.length) out.push('**Screen checks**', '', block(checks), '');
   if (uiQa.length) out.push('**`[ui-qa]` reports**', '', block(uiQa), '');
   return out.join('\n');
+}
+
+/** The plan this run's prepare job made, when the workflow passes it. */
+export function planFromEnv(env: NodeJS.ProcessEnv = process.env): ShardPlan {
+  return shardPlan({ ios: env.IOS_MATRIX, android: env.ANDROID_MATRIX });
 }
 
 function main(): void {
@@ -85,7 +146,7 @@ function main(): void {
   });
   const root = positionals[0];
   if (!root) throw new Error('Usage: run-summary <shards dir> [--coverage] [--out file]');
-  let text = formatSummary(readShards(path.resolve(root)));
+  let text = formatSummary(readShards(path.resolve(root), planFromEnv()));
   if (values.coverage) text += `\n${formatCoverage(coverage(REPO_ROOT))}`;
   if (values.out) writeFileSync(values.out, text);
   else console.log(text);

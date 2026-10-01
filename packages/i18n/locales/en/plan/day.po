@@ -124,6 +124,10 @@ msgstr "Ends"
 msgid "plan.day.item.everyone"
 msgstr "Everyone"
 
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.costFree"
+msgstr "Free"
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.freeTitle"
 msgstr "Free day"

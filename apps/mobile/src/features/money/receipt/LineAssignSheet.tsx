@@ -24,6 +24,7 @@ import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
+import { useWalletGuide } from '@/features/bookings';
 
 import type { MoneyMember } from '../data/context';
 
@@ -87,7 +88,9 @@ export function LineAssignSheet(props: LineAssignSheetProps) {
   const locale = useLocale();
   const reduced = useReducedImpactMotion();
   const { t } = useLingui();
-  const tokek = GUIDE_STICKERS.tokek;
+  const { name: guideName } = useWalletGuide();
+  const guide = useWalletGuide();
+  const tokek = GUIDE_STICKERS[guide.id];
   const count = props.rows.length;
   const payer = props.payerName;
   return (
@@ -96,13 +99,16 @@ export function LineAssignSheet(props: LineAssignSheetProps) {
       testID="money-review"
     >
       <Row gap="12" align="center">
-        <Sticker kind={tokek.kind} name={tokek.name} size={44} pose="point" />
+        <Sticker kind={tokek.kind} name={guide.name} size={44} pose="point" />
         <Stack gap="2" style={{ flex: 1 }}>
           <Text variant="h3" accessibilityRole="header">
             {upper(
               t({
                 id: 'money.review.title',
-                message: plural(count, { one: 'Tokek read # line', other: 'Tokek read # lines' }),
+                message: plural(count, {
+                  one: `${guideName} read # line`,
+                  other: `${guideName} read # lines`,
+                }),
               }),
               locale,
             )}

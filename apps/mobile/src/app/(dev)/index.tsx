@@ -95,6 +95,7 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/draft',
         label: 'Drafting and redrafts (3c-8…3c-12, 4f-3 scenes)',
       },
+      { testId: 'dev-nav-explore-lab', href: '/(dev)/explore-lab', label: 'Explore (3d scenes)' },
     ],
   },
   {
@@ -313,9 +314,6 @@ export default function DevToolsIndexScreen() {
             {buildMarkerLabel()}
           </SecondaryText>
         </Stack>
-        <Section title="Updates">
-          <UpdatesSection />
-        </Section>
         <Section title="Demo data">
           <SeedDemoData />
         </Section>
@@ -331,6 +329,10 @@ export default function DevToolsIndexScreen() {
             ))}
           </Section>
         ))}
+        {/* Last: flows wait for the list entries above without scrolling. */}
+        <Section title="Updates">
+          <UpdatesSection />
+        </Section>
       </ScrollView>
     </Scaffold>
   );
