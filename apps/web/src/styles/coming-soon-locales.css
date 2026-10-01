@@ -1,0 +1,173 @@
+/* The coming-soon page in its ten languages: the type each script falls back to, how its lines
+   break, and the language switcher in the footer. The brand faces (Archivo, Geist, Geist Mono,
+   Borel) cover Latin and Vietnamese only; every other script reaches the last family of each
+   `font` declaration, which the page stylesheets write as `var(--cs-sans | --cs-hand | --cs-mono)`.
+   `<html lang>` picks the stack, and the right regional glyph forms with it. */
+
+.cs-root {
+  --cs-sans: sans-serif;
+  --cs-body: system-ui, sans-serif;
+  --cs-hand: cursive;
+  --cs-mono: monospace;
+}
+
+/* System faces per platform, heaviest-capable first: Apple, Windows, then Android and Linux (Noto).
+   Handwritten and monospace runs use the same face: a platform's generic `cursive` or `monospace`
+   for these scripts is a bitmap-era or brush face that reads badly at label sizes. */
+.cs-root:lang(zh) {
+  --cs-sans:
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Noto Sans CJK SC',
+    'Noto Sans SC', 'Source Han Sans SC', sans-serif;
+  --cs-body: var(--cs-sans);
+  --cs-hand: var(--cs-sans);
+  --cs-mono: var(--cs-sans);
+}
+.cs-root:lang(ja) {
+  --cs-sans:
+    'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic UI', 'Yu Gothic', 'Noto Sans CJK JP',
+    'Noto Sans JP', 'Source Han Sans JP', Meiryo, sans-serif;
+  --cs-body: var(--cs-sans);
+  --cs-hand: var(--cs-sans);
+  --cs-mono: var(--cs-sans);
+}
+.cs-root:lang(ko) {
+  --cs-sans:
+    'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans CJK KR', 'Noto Sans KR',
+    'Source Han Sans KR', sans-serif;
+  --cs-body: var(--cs-sans);
+  --cs-hand: var(--cs-sans);
+  --cs-mono: var(--cs-sans);
+}
+.cs-root:lang(th) {
+  --cs-sans: 'Noto Sans Thai', 'Sukhumvit Set', Thonburi, 'Leelawadee UI', Tahoma, sans-serif;
+  --cs-body: var(--cs-sans);
+  --cs-hand: var(--cs-sans);
+  --cs-mono: var(--cs-sans);
+}
+
+/* ---------- Line breaking ---------- */
+/* Chinese and Japanese break between any two characters: keep punctuation off line starts, and
+   let headings break between phrases where the browser can tell them apart. */
+.cs-root:lang(zh),
+.cs-root:lang(ja) {
+  line-break: strict;
+}
+:is(.cs-root:lang(zh), .cs-root:lang(ja)) :is(h2, .cs-lede__text, .cs-card__title) {
+  word-break: auto-phrase;
+}
+/* Korean breaks at spaces, never inside a word. (`break-word`, not `anywhere`: the latter also
+   shrinks a column's minimum width and would let the hero grid squeeze the title.) */
+.cs-root:lang(ko) {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+/* Thai has no spaces between words: the browser's dictionary finds the breaks, and a run it cannot
+   split still wraps instead of pushing the page wide. */
+.cs-root:lang(th) {
+  overflow-wrap: break-word;
+}
+
+/* The brand is one word in every language: the giant title is wider than its column by design
+   and must never be split to fit. */
+.cs-root [lang='en'] {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* ---------- Line height and tracking per script ---------- */
+/* The display lines are set tight for Latin capitals (0.92 to 1.05). Vietnamese stacks marks
+   above and below its capitals, Thai stacks vowels and tones, and CJK fills the whole em box:
+   each needs more room between lines or neighbouring lines touch. */
+.cs-root:lang(vi) :is(.cs-h2, .cs-features__title, .cs-final__title) {
+  line-height: 1.06;
+}
+.cs-root:lang(vi)
+  :is(.cs-card__title, .cs-referral__title, .cs-field-group__label, .cs-pass__stamp-title) {
+  line-height: 1.15;
+}
+:is(.cs-root:lang(zh), .cs-root:lang(ja), .cs-root:lang(ko))
+  :is(
+    .cs-h2,
+    .cs-features__title,
+    .cs-final__title,
+    .cs-card__title,
+    .cs-referral__title,
+    .cs-pass__field-value
+  ) {
+  line-height: 1.2;
+}
+.cs-root:lang(th)
+  :is(
+    .cs-h2,
+    .cs-features__title,
+    .cs-final__title,
+    .cs-card__title,
+    .cs-referral__title,
+    .cs-field-group__label,
+    .cs-pass__stamp-title
+  ) {
+  line-height: 1.3;
+}
+/* Thai is never letter-spaced: tracking pulls vowels and tone marks away from their consonants.
+   The brand stays in its own Latin setting. */
+.cs-root:lang(th) :not(:lang(en)) {
+  letter-spacing: 0;
+}
+/* Full-width characters are wider than condensed capitals: the stamp's two lines stay in the ring. */
+:is(.cs-root:lang(zh), .cs-root:lang(ja), .cs-root:lang(ko)) .cs-pass__stamp-title {
+  max-width: 3em;
+  font-size: 19px;
+}
+
+/* ---------- Language switcher ---------- */
+.cs-lang {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 28px clamp(20px, 4vw, 48px) 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.cs-lang__icon {
+  flex: none;
+  margin-top: 9px;
+  fill: none;
+  stroke: var(--color-ink-200);
+  stroke-width: 1.5;
+}
+.cs-lang__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.cs-lang__link {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 18px;
+  border: 1.5px solid var(--color-ink-700);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font:
+    500 14px/1 Geist,
+    system-ui,
+    sans-serif;
+  color: var(--color-ink-200);
+}
+.cs-lang__link:hover {
+  border-color: var(--color-yellow);
+  color: var(--color-yellow);
+}
+.cs-lang__link:focus-visible {
+  outline: 2px solid var(--color-yellow);
+  outline-offset: 2px;
+}
+.cs-lang__link[aria-current='true'] {
+  border-color: var(--color-yellow);
+  background: var(--color-yellow);
+  color: var(--color-ink-850);
+  font-weight: 700;
+}

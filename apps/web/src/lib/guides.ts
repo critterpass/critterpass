@@ -1,5 +1,5 @@
-/* eslint-disable lingui/no-unlocalized-strings -- design copy/data constants, not JSX; the
-   coming-soon page ships single-locale English and isn't wired through @cp/i18n (see report). */
+/* eslint-disable lingui/no-unlocalized-strings -- guide, critter and city names are data, the same
+   in every language; the page's copy lives in src/components/site/copy/coming-soon*.ts. */
 /**
  * The six boarding-pass guides, matching `guides` in the coming-soon design script. Each guide's
  * `destinationKey` links back to `DESTINATIONS` in `./waitlist` (the chip a visitor picks); `bg` is

@@ -1,18 +1,15 @@
 ---
-import BaseLayout from '../../layouts/base-layout.astro';
-import ComingSoonPage from '../../components/coming-soon-page.astro';
+import ComingSoonDocument from '../../components/coming-soon-document.astro';
+import { locateLocale } from '../../lib/locale';
+import { resolveRequestLocale } from '../../lib/locale-request';
 
 export const prerender = false;
 
 // Referral link (`critterpass.app/w/<handle>`): the visitor's own join is attributed to this
 // handle, whether or not it turns out to belong to a real entry (the join endpoint checks that).
+// It opens in the visitor's language; the switcher's `?lang=` keeps the handle while changing it.
 const handle = Astro.params.handle ?? null;
+const { locale } = resolveRequestLocale(Astro, locateLocale(Astro.url.searchParams.get('lang')));
 ---
 
-<BaseLayout
-  title="CritterPass — Group trips, planned with the locals"
-  description="CritterPass is a group trip planner coming soon to iOS and Android. The locals happen to be animals. Join the waitlist."
-  canonicalPath="/"
->
-  <ComingSoonPage referredBy={handle} />
-</BaseLayout>
+<ComingSoonDocument locale={locale} canonicalPath="/" referredBy={handle} />

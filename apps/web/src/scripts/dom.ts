@@ -8,6 +8,11 @@ export function csAll<T extends Element = HTMLElement>(root: ParentNode, name: s
   return Array.from(root.querySelectorAll<T>(`[data-cs="${name}"]`));
 }
 
+export function setText(el: Element | null, value: string): void {
+  if (el) el.textContent = value;
+}
+
+/** Counts are grouped the way the page's language writes numbers (`<html lang>`). */
 export function formatCount(value: number): string {
-  return value.toLocaleString('en-US');
+  return value.toLocaleString(document.documentElement.lang || 'en');
 }

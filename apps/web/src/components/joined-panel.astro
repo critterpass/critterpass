@@ -1,5 +1,18 @@
 ---
 import '../styles/coming-soon.css';
+import { aroundSlot } from '../lib/coming-soon-strings';
+import { GUIDES } from '../lib/guides';
+import { comingSoonCopy as copy } from './site/copy/coming-soon';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await siteTranslator(locale);
+const firstGuide = GUIDES[0]!;
+const [friendsBefore, friendsAfter] = aroundSlot(t, copy.friendsJoined, 'count');
 ---
 
 <div class="cs-joined" data-cs="joined-panel" hidden>
@@ -8,26 +21,26 @@ import '../styles/coming-soon.css';
       <cp-critter data-cs="joined-guide-critter" kind="gecko" seed="41" size="96" pose="cheer" sticker="#f4efe4"></cp-critter>
     </span>
     <div class="cs-joined__spot">
-      <span class="cs-joined__spot-label">YOUR PLACE IN LINE</span>
+      <span class="cs-joined__spot-label">{t(copy.placeInLine)}</span>
       <span class="cs-joined__spot-value">#<span data-cs="spot-value">—</span></span>
     </div>
-    <span class="cs-joined__line">
-      <span data-cs="joined-guide-name">Tokek</span>'s saving you<br />a seat in <span data-cs="joined-guide-place">Bali</span>.
+    <span class="cs-joined__line" data-cs="joined-line">
+      {t(copy.savingSeat, { name: firstGuide.name, place: firstGuide.place })}
     </span>
   </div>
 
   <div class="cs-referral">
-    <span class="cs-referral__title">BRING YOUR CREW, SKIP THE LINE</span>
+    <span class="cs-referral__title">{t(copy.bringCrew)}</span>
     <p class="cs-referral__copy">
-      Every friend who joins with your link moves you 100 spots up. Three friends and you're in the first wave.
+      {t(copy.referralBody)}
     </p>
     <div class="cs-referral__row">
       <span class="cs-referral__link" data-cs="referral-link">critterpass.app/w/friend</span>
-      <button type="button" class="cs-copy-btn" data-cs="copy-link">COPY LINK</button>
+      <button type="button" class="cs-copy-btn" data-cs="copy-link">{t(copy.copyLink)}</button>
     </div>
     <div class="cs-share-row">
       <a href="#" target="_blank" rel="noopener" class="cs-share-btn" data-cs="share-whatsapp">WHATSAPP</a>
-      <a href="#" class="cs-share-btn" data-cs="share-messages">MESSAGES</a>
+      <a href="#" class="cs-share-btn" data-cs="share-messages">{t(copy.shareMessages)}</a>
       <button type="button" class="cs-share-btn" data-cs="share-instagram">INSTAGRAM</button>
     </div>
     <div class="cs-friends-row">
@@ -36,8 +49,8 @@ import '../styles/coming-soon.css';
         <span class="cs-friend-avatar">+</span>
         <span class="cs-friend-avatar">+</span>
       </div>
-      <span class="cs-friends-count"><span data-cs="friends-count">0</span> OF 3 FRIENDS JOINED</span>
-      <button type="button" class="cs-reset-btn" data-cs="reset-email">Use a different email</button>
+      <span class="cs-friends-count">{friendsBefore}<span data-cs="friends-count">0</span>{friendsAfter}</span>
+      <button type="button" class="cs-reset-btn" data-cs="reset-email">{t(copy.differentEmail)}</button>
     </div>
   </div>
 </div>

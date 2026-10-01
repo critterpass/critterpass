@@ -1,0 +1,25 @@
+---
+import { env } from 'cloudflare:workers';
+
+import ComingSoonDocument from '../components/coming-soon-document.astro';
+import { siteMode } from '../components/site/site-mode';
+import { locateLocale } from '../lib/locale';
+import { resolveRequestLocale } from '../lib/locale-request';
+
+// A language's own address (`/vi`, `/zh-Hans`): always that language, whatever the browser asks
+// for, and it remembers the choice. Any other single-segment address is not a page.
+export const prerender = false;
+
+const requested = Astro.params.locale ?? '';
+const code = locateLocale(requested);
+if (code === null) return new Response(null, { status: 404 });
+// Only the coming-soon page is translated; the full site answers at `/`.
+if (siteMode((env as unknown as { SITE_MODE?: string }).SITE_MODE) !== 'coming-soon') {
+  return Astro.redirect('/', 302);
+}
+if (requested !== code) return Astro.redirect(`/${code}`, 301);
+
+const { locale } = resolveRequestLocale(Astro, code);
+---
+
+<ComingSoonDocument locale={locale} canonicalPath={`/${locale}`} referredBy={null} />

@@ -1,13 +1,24 @@
 ---
 import '../styles/coming-soon.css';
-import { DESTINATIONS } from '../lib/waitlist';
+import { aroundSlot, formatNumber } from '../lib/coming-soon-strings';
 import { GUIDES, guideForDestination } from '../lib/guides';
+import { DESTINATIONS, FIRST_WAVE_TOTAL, WAITLIST_BASE_COUNT } from '../lib/waitlist';
+import { comingSoonCopy as copy } from './site/copy/coming-soon';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+}
+
+const { locale } = Astro.props;
+const t = await siteTranslator(locale);
+const [waveBefore, waveAfter] = aroundSlot(t, copy.waveLeft, 'count');
 ---
 
 <form data-cs="join-form" class="cs-ticket__body" novalidate>
   <div class="cs-field-group">
-    <span class="cs-field-group__label">WHERE ARE YOU HEADED FIRST?</span>
-    <div class="cs-chips" role="group" aria-label="Choose your first destination" data-cs="chips">
+    <span class="cs-field-group__label">{t(copy.whereFirst)}</span>
+    <div class="cs-chips" role="group" aria-label={t(copy.chooseDestination)} data-cs="chips">
       {
         DESTINATIONS.map((destination, index) => {
           const guide = guideForDestination(destination.key);
@@ -36,12 +47,13 @@ import { GUIDES, guideForDestination } from '../lib/guides';
       autocomplete="email"
       inputmode="email"
       required
-      placeholder="you@email.com"
+      placeholder={t(copy.emailPlaceholder)}
+      aria-label={t(copy.emailLabel)}
       class="cs-email"
       data-cs="email-input"
       aria-describedby="cs-join-note"
     />
-    <button type="submit" class="cs-submit" data-cs="join-submit">SAVE MY SEAT →</button>
+    <button type="submit" class="cs-submit" data-cs="join-submit">{t(copy.saveSeat)}</button>
   </div>
 
   <div class="cs-honeypot" aria-hidden="true">
@@ -49,14 +61,14 @@ import { GUIDES, guideForDestination } from '../lib/guides';
     <input type="text" id="cs-company" name="company" tabindex="-1" autocomplete="off" />
   </div>
 
-  <span id="cs-join-note" class="cs-note" data-cs="join-note">
-    One email when we launch. Maybe two. Never spam.
+  <span id="cs-join-note" class="cs-note" data-cs="join-note" role="status">
+    {t(copy.note)}
   </span>
 
   <div class="cs-wave">
     <div class="cs-wave__row">
-      <span>FIRST WAVE · <span data-cs="wave-left">4,500</span> SEATS LEFT</span>
-      <span><span data-cs="wave-count">500</span> / 5,000</span>
+      <span>{waveBefore}<span data-cs="wave-left">{formatNumber(locale, FIRST_WAVE_TOTAL - WAITLIST_BASE_COUNT)}</span>{waveAfter}</span>
+      <span><span data-cs="wave-count">{formatNumber(locale, WAITLIST_BASE_COUNT)}</span> / {formatNumber(locale, FIRST_WAVE_TOTAL)}</span>
     </div>
     <div class="cs-wave__track">
       <div class="cs-wave__fill" data-cs="wave-fill" style="width:10%"></div>

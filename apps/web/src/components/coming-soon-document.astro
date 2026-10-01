@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/base-layout.astro';
+import ComingSoonPage from './coming-soon-page.astro';
+import { comingSoonCopy as copy } from './site/copy/coming-soon';
+import { siteTranslator } from './site/i18n';
+
+export interface Props {
+  readonly locale: string;
+  /** `/` for the front door that follows the visitor's language, `/<locale>` for a language's own address. */
+  readonly canonicalPath: string;
+  /** Handle from a `/w/<handle>` referral link; in-page links then stay on that link. */
+  readonly referredBy: string | null;
+}
+
+const { locale, canonicalPath, referredBy } = Astro.props;
+const homePath = referredBy === null ? canonicalPath : `/w/${encodeURIComponent(referredBy)}`;
+const t = await siteTranslator(locale);
+---
+
+<BaseLayout
+  title={t(copy.pageTitle)}
+  description={t(copy.pageDescription)}
+  canonicalPath={canonicalPath}
+  locale={locale}
+  languageAlternates
+>
+  <ComingSoonPage locale={locale} homePath={homePath} referredBy={referredBy} />
+</BaseLayout>
