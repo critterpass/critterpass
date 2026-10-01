@@ -1,7 +1,7 @@
 # Translation cases: lines the guide wrote in English, graded on what comes back for one reader
 # language. `must` strings appear in some kept line (a time, an amount, a place's local name),
-# `keep` names stay exactly as written (businesses, dishes, people), `forbid` strings appear in
-# none, `allow_source` lines may stay in the source language. `seeded` cases grade the validator on
+# `keep` names stay exactly as written (businesses, dishes, people), `glossary` words (the app's
+# own, in any letter case) appear in some kept line, `forbid` strings appear in none, `allow_source` lines may stay in the source language. `seeded` cases grade the validator on
 # a deliberate model slip (their inline `reply`): exactly `expect_rejected` is refused.
 - id: translate-01
   description: Đà Nẵng plan, Vietnamese reader, day themes and notes
@@ -192,6 +192,22 @@
         field: notes,
         text: 'Tell the driver to wait at the lower gate, the upper one closes early.',
       }
+
+- id: translate-14
+  description: the critters of a place are thổ địa for a Vietnamese reader, not a literal translation
+  guide: chava
+  locale: vi
+  lines:
+    - { kind: quest, field: title, text: 'Local friends' }
+    - { kind: quest, field: body, text: 'Befriend 2 locals around Son Tra before sunset.' }
+    - {
+        kind: briefing_item,
+        field: text,
+        text: 'A local is out near Dragon Bridge this evening. Go and say hello.',
+      }
+  must: ['2']
+  glossary: ['thổ địa']
+  forbid: ['bạn địa phương', 'người địa phương']
 
 - id: translate-12
   description: Seeded slip, a time changed and a price reformatted are refused, the clean line kept

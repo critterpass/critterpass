@@ -68,6 +68,8 @@ interface CrewFacts {
   readonly crewName: string;
   readonly members: number;
   readonly me: string;
+  /** The language the caller's app is in (`app.user_locale`). */
+  readonly locale: string;
   readonly guide: PersonaId;
   readonly place: string | undefined;
 }
@@ -98,11 +100,17 @@ async function crewFacts(
   tripId: string | undefined,
 ): Promise<CrewFacts> {
   return withUser(pool, uid, 'unknown', async (tx) => {
-    const { rows } = await tx.query<{ name: string; members: number; me: string | null }>(
+    const { rows } = await tx.query<{
+      name: string;
+      members: number;
+      me: string | null;
+      locale: string;
+    }>(
       `SELECT c.name,
               (SELECT count(*)::int FROM crew_members m
                 WHERE m.crew_id = c.id AND m.status = 'active') AS members,
-              (SELECT display_name FROM users WHERE id = $2) AS me
+              (SELECT display_name FROM users WHERE id = $2) AS me,
+              app.user_locale($2) AS locale
          FROM crews c
         WHERE c.id = $1
           AND EXISTS (SELECT 1 FROM crew_members m
@@ -116,6 +124,7 @@ async function crewFacts(
         crewName: crew.name,
         members: crew.members,
         me: crew.me ?? '',
+        locale: crew.locale,
         guide: DEFAULT_GUIDE,
         place: undefined,
       };
@@ -135,6 +144,7 @@ async function crewFacts(
       crewName: crew.name,
       members: crew.members,
       me: crew.me ?? '',
+      locale: crew.locale,
       guide: guide.success ? guide.data : DEFAULT_GUIDE,
       place: trip.place ?? undefined,
     };
@@ -181,6 +191,8 @@ export function registerInviteLineRoutes(app: OpenAPIHono<AppEnv>, deps: InviteL
       crewName: facts.crewName,
       members: facts.members,
       guide: facts.guide,
+      // The line is shown to the caller on their manifest: in the language their app is in.
+      locale: facts.locale,
       ...(facts.place === undefined ? {} : { place: facts.place }),
     };
     const context: UsageContext = { userId: uid, crewId, tripId: body.trip_id ?? null };
