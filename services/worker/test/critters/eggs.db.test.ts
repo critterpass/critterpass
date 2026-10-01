@@ -140,3 +140,42 @@ describe('critter.hatch', () => {
     expect(hatched.rowCount).toBe(2);
   });
 });
+
+describe('the egg starter', () => {
+  it('is the set hero, and an unhatched egg granted before it follows; a hatched one stays', async () => {
+    const [maya, , dev] = world.members as [string, string, string];
+    // A lower-numbered critter with a common form joins the set: it must not become the starter.
+    const [lower] = await world.q<{ form: string }>(
+      `WITH c AS (
+         INSERT INTO critters (key, set_id, no, city, species, art_params, canonical_seed, note, release_id)
+         SELECT 'cp-700', set_id, 700, 'Hanoi', 'Turtle', '{}', 7, 'Test.', release_id
+           FROM critters WHERE key = 'cp-801'
+         RETURNING id, release_id)
+       INSERT INTO critter_forms (key, critter_id, rarity, palette, edge, note, requirement_copy, xp, release_id)
+       SELECT 'cp-700:common', c.id, 'common', '{}', 'none', 'Test.', 'Be there', 10, c.release_id FROM c
+       RETURNING id AS form`,
+      [],
+    );
+    // Dev's egg was granted when the lower critter was the starter; Maya's has hatched.
+    await world.q('UPDATE eggs SET form_id = $2 WHERE trip_id = $1 AND user_id = $3', [
+      world.tripId,
+      lower?.form,
+      dev,
+    ]);
+    await world.q('UPDATE eggs SET form_id = $2 WHERE trip_id = $1 AND user_id = $3', [
+      world.tripId,
+      lower?.form,
+      maya,
+    ]);
+    await grantEggs(world.harness.pool, { trip_id: world.tripId });
+    const rows = await eggs();
+    expect(rows.find((row) => row.user_id === dev)).toMatchObject({
+      form_id: world.ids['form_common'],
+      hatched: false,
+    });
+    expect(rows.find((row) => row.user_id === maya)).toMatchObject({
+      form_id: lower?.form,
+      hatched: true,
+    });
+  });
+});
