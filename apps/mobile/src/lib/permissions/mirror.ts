@@ -1,7 +1,7 @@
 /**
  * The device permission mirror: the store's picture of every kind folded into the
- * `update_device_permissions` payload, sent once per actual change (the last mirror sent is kept
- * in MMKV, so a relaunch with nothing changed sends nothing). The server derives from it whether
+ * `update_device_permissions` payload, sent once per app launch and once per actual change after
+ * that (the last mirror sent is kept in MMKV). The server derives from it whether
  * to push or keep things in the inbox, whether a Live Activity can start, and the crewmate-visible
  * capability ("alarm off") — never the raw list.
  */
@@ -58,7 +58,16 @@ export function createMirror(options: MirrorOptions) {
     }
   }
 
-  /** Sends the mirror for `state` unless it equals the last one sent; resolves true when sent. */
+  /**
+   * Whether this launch has sent a mirror yet. The stored "last sent" only says the command was
+   * queued: the server may have refused it since, so each launch sends the picture once more.
+   */
+  let sentThisLaunch = false;
+
+  /**
+   * Sends the mirror for `state` on the first read of each launch and then whenever it differs
+   * from the last one sent; resolves true when sent.
+   */
   function update(state: PermissionsState): Promise<boolean> {
     // Only once every kind has been read: a half-read picture would flap the server's copy.
     if (PERMISSION_KINDS.some((kind) => state.reports[kind] === undefined)) {
@@ -67,9 +76,11 @@ export function createMirror(options: MirrorOptions) {
     const mirror = buildMirror(state);
     const next = chain.then(async () => {
       const previous = lastSent();
-      if (previous !== null && permissionStatesEqual(previous, mirror)) return false;
+      const unchanged = previous !== null && permissionStatesEqual(previous, mirror);
+      if (sentThisLaunch && unchanged) return false;
       await options.send(mirror);
       options.storage.set(LAST_SENT_KEY, JSON.stringify(mirror));
+      sentThisLaunch = true;
       return true;
     });
     chain = next.catch(() => undefined);

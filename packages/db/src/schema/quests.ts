@@ -59,6 +59,8 @@ export const quests = pgTable('quests', {
   revealAt: instant('reveal_at'),
   createdAt: instant('created_at').notNull().defaultNow(),
   updatedAt: instant('updated_at').notNull().defaultNow(),
+  /** Translations of the guide-written text, per language (`@cp/domain` guide-text). */
+  i18n: jsonb('i18n'),
 });
 
 export const questSignups = pgTable('quest_signups', {

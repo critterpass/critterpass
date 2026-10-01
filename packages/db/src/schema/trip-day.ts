@@ -83,6 +83,8 @@ export const briefingItems = pgTable('briefing_items', {
   dedupeKey: text('dedupe_key').notNull(),
   actedAt: instant('acted_at'),
   ...stamps(),
+  /** Translations of the guide-written text, per language (`@cp/domain` guide-text). */
+  i18n: jsonb('i18n'),
 });
 
 export const packingItems = pgTable('packing_items', {
