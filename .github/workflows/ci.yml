@@ -157,38 +157,48 @@ jobs:
         with: { node-version: 26, cache: pnpm }
       - if: env.RUN_SUITE == 'true'
         run: pnpm install --frozen-lockfile
-      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does.
-      - if: env.RUN_SUITE == 'true' && matrix.suite == 'worker'
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
       # Only the builds the suites depend on come from cache: turbo.json never caches test:db
       # (@cp/db's `test` is cached like any other package's).
       - uses: rharkor/caching-for-turbo@2238fae6eb9a9936f92356f54cb3660200d105e7 # v2.5.1
         if: env.RUN_SUITE == 'true'
         with:
           cache-prefix: turbo-node26_
+      - name: Suites to run
+        id: suites
+        if: env.RUN_SUITE == 'true'
+        env:
+          TASK: ${{ matrix.task }}
+          FILTER: ${{ matrix.filter }}
+          # The app's database suites start the api's own test harness by its path, which turbo
+          # does not see, so they also run for every change that reaches the server suites.
+          WITH_APP: ${{ matrix.suite == 'other packages' && needs.changes.outputs.server_suites == 'true' }}
+        run: |
+          set -o pipefail
+          tasks=$(pnpm turbo run "$TASK" --affected $FILTER --dry-run=json |
+            jq -r --arg task "$TASK" '[.tasks[] | select(.task == $task and .command != "<NONEXISTENT>") | .taskId] | join(" ")')
+          if [ "$WITH_APP" = true ] && [[ " $tasks " != *' @cp/mobile#test:db '* ]]; then
+            tasks="$tasks @cp/mobile#test:db"
+          fi
+          tasks=$(echo $tasks)
+          echo "tasks=$tasks" >> "$GITHUB_OUTPUT"
+          echo "Suites: ${tasks:-none here is affected by this change}"
+      # The worker's chat voice-note suite runs the real ffmpeg, as the worker image does.
+      - if: steps.suites.outputs.tasks != '' && matrix.suite == 'worker'
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
       # Each test file's worker builds the Postgres image; all but the first build come from
       # Docker's layer cache. Left to the suites, the first workers run that first build all at
       # once inside their beforeAll hooks and run out of hook time. Build it once here instead,
       # with the suites' own helper so their builds find every layer cached.
       - name: Build the test Postgres image
-        if: env.RUN_SUITE == 'true'
+        if: steps.suites.outputs.tasks != ''
         timeout-minutes: 10
         env:
           DEBUG: testcontainers:build # the build log, which Testcontainers otherwise drops
           TESTCONTAINERS_RYUK_DISABLED: 'true' # the build starts no container to reap
-          TASK: ${{ matrix.task }}
-        run: |
-          if pnpm turbo run "$TASK" --affected ${{ matrix.filter }} --dry-run=json |
-            jq -e --arg task "$TASK" 'any(.tasks[]; .task == $task and .command != "<NONEXISTENT>")' > /dev/null; then
-            pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
-          else
-            echo 'No database suite here is affected by this change.'
-          fi
+        run: pnpm --filter @cp/db exec tsx -e "import('./test/helpers/containers.ts').then((m) => m.buildPostgresImage())"
       # A shard's arguments reach the test runner and are part of turbo's task hash.
-      - if: env.RUN_SUITE == 'true'
-        run: >-
-          pnpm turbo run ${{ matrix.task }} --affected ${{ matrix.filter }} --continue
-          ${{ matrix.shard }}
+      - if: steps.suites.outputs.tasks != ''
+        run: pnpm turbo run ${{ steps.suites.outputs.tasks }} --continue ${{ matrix.shard }}
 
   changes:
     runs-on: ubuntu-latest
