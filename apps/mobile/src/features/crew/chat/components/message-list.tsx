@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { FlashList, type FlashListRef } from '@shopify/flash-list';
-import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { LayoutChangeEvent, NativeScrollEvent, NativeSyntheticEvent } from 'react-native';
 import { View } from 'react-native';
 
@@ -20,6 +20,8 @@ import type { TimelineRow } from './timeline-rows';
 import { UnreadDivider } from './unread-divider';
 
 const AT_BOTTOM_PX = 48;
+/** How long after the list's height last changed it is brought to its end once more. */
+const SETTLE_MS = 120;
 
 export interface MessageListProps {
   readonly rows: readonly TimelineRow[];
@@ -64,11 +66,22 @@ export function MessageList({
     [rows],
   );
 
+  // The newest message is in view: read by the layout handler, which outlives a render.
+  const following = useRef(true);
+  const settle = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(
+    () => () => {
+      if (settle.current !== null) clearTimeout(settle.current);
+    },
+    [],
+  );
+
   const onScroll = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
       const bottom =
         contentOffset.y + layoutMeasurement.height >= contentSize.height - AT_BOTTOM_PX;
+      following.current = bottom;
       setAtBottom(bottom);
       if (bottom && newest > 0) onSeenLatest(newest);
     },
@@ -76,16 +89,23 @@ export function MessageList({
   );
 
   // The composer growing (more lines, a reply strip) or the keyboard rising shortens the list from
-  // below; a member reading the newest message keeps it, and its delivery line, in view.
-  const onLayout = useCallback(
-    (event: LayoutChangeEvent) => {
-      const next = event.nativeEvent.layout.height;
-      const shrank = next < height.current;
-      height.current = next;
-      if (shrank && atBottom) list.current?.scrollToEnd({ animated: false });
-    },
-    [atBottom],
-  );
+  // below, and the keyboard closing lengthens it again; a member reading the newest message keeps
+  // it, and its delivery line, in view and clear of the composer's fade. As the list grows Android
+  // pulls the scroll position back before the list has moved its content down, which leaves the
+  // newest bubble under the fade: the list is brought to its end on every change of height and
+  // once more when the height has settled.
+  const onLayout = useCallback((event: LayoutChangeEvent) => {
+    const next = event.nativeEvent.layout.height;
+    const previous = height.current;
+    height.current = next;
+    if (previous === 0 || next === previous || !following.current) return;
+    const toEnd = () => {
+      if (following.current) list.current?.scrollToEnd({ animated: false });
+    };
+    toEnd();
+    if (settle.current !== null) clearTimeout(settle.current);
+    settle.current = setTimeout(toEnd, SETTLE_MS);
+  }, []);
 
   return (
     <View style={styles.list} onLayout={onLayout}>
