@@ -68,7 +68,7 @@ appId: app.critterpass.dev
     visible:
       text: '(?i)found it.*'
     timeout: 20000
-- hideKeyboard
+# A found code puts the keyboard away by itself, so JOIN is in reach.
 - extendedWaitUntil:
     visible:
       id: 'invite-code-join'
@@ -236,7 +236,7 @@ appId: app.critterpass.dev
     visible:
       text: '(?i)found it.*'
     timeout: 20000
-- hideKeyboard
+# A found code puts the keyboard away by itself, so JOIN is in reach.
 - extendedWaitUntil:
     visible:
       id: 'invite-code-join'
@@ -378,7 +378,7 @@ appId: app.critterpass.dev
     visible:
       text: '(?i)found it.*'
     timeout: 20000
-- hideKeyboard
+# A found code puts the keyboard away by itself, so JOIN is in reach.
 - extendedWaitUntil:
     visible:
       id: 'invite-code-join'
