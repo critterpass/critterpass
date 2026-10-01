@@ -139,19 +139,19 @@ msgstr ""
 msgid "notifications.setup.ask.freed"
 msgstr ""
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.maybe_title"
 msgstr ""
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.in_title"
 msgstr ""
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.waitlisted_title"
 msgstr ""
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.out_title"
 msgstr ""
 
@@ -161,6 +161,10 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.member_joined.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.locked_by_body"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
@@ -319,6 +323,10 @@ msgstr ""
 msgid "notifications.bookings.flight_diverted"
 msgstr ""
 
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.auto_body"
+msgstr ""
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.lottery.deadline"
 msgstr ""
@@ -349,6 +357,14 @@ msgstr ""
 
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.final.body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title_no_dates"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title"
 msgstr ""
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
@@ -415,7 +431,7 @@ msgstr ""
 msgid "notifications.member_joined.body"
 msgstr ""
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.body"
 msgstr ""
 

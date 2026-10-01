@@ -139,19 +139,19 @@ msgstr "{name} can't move {dates}. Pick the week that works best."
 msgid "notifications.setup.ask.freed"
 msgstr "{name} freed {dates}. The week works for all."
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.maybe_title"
 msgstr "{name} is a maybe"
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.in_title"
 msgstr "{name} is in"
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.waitlisted_title"
 msgstr "{name} is on the waitlist"
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.out_title"
 msgstr "{name} is out"
 
@@ -162,6 +162,10 @@ msgstr "{name} is running {minutes} min late."
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.member_joined.title"
 msgstr "{name} joined {crew}"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.locked_by_body"
+msgstr "{name} locked the trip in."
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_body"
@@ -319,6 +323,10 @@ msgstr "Departs {time}. Your flight is on the lock screen."
 msgid "notifications.bookings.flight_diverted"
 msgstr "Diverted. I’ll keep you posted."
 
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.auto_body"
+msgstr "Enough friends are in, so the trip is locked in."
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.lottery.deadline"
 msgstr "Entries for {title} close {date}. Each of you enters on the official site."
@@ -350,6 +358,14 @@ msgstr "Gate change: now gate {gate}."
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.final.body"
 msgstr "It's {first} or {second} now. Your vote decides it."
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title_no_dates"
+msgstr "It's on: {place}"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title"
+msgstr "It's on: {place}, {dates}"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.body"
@@ -415,7 +431,7 @@ msgstr "Reply by tomorrow · {place}"
 msgid "notifications.member_joined.body"
 msgstr "Say hi in the crew chat."
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.body"
 msgstr "See who is coming to {place}."
 

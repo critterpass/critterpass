@@ -139,19 +139,19 @@ msgstr "{name} không dời được {dates}. Chọn tuần hợp nhất nhé."
 msgid "notifications.setup.ask.freed"
 msgstr "{name} đã sắp xếp được {dates}. Tuần này hợp với cả nhóm."
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.maybe_title"
 msgstr "{name} có thể sẽ đi"
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.in_title"
 msgstr "{name} sẽ đi"
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.waitlisted_title"
 msgstr "{name} đang trong danh sách chờ"
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.out_title"
 msgstr "{name} không đi"
 
@@ -162,6 +162,10 @@ msgstr "{name} đến trễ {minutes} phút."
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.member_joined.title"
 msgstr "{name} đã vào {crew}"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.locked_by_body"
+msgstr "{name} đã chốt chuyến đi."
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_body"
@@ -319,6 +323,10 @@ msgstr "Khởi hành {time}. Chuyến bay đang ở trên màn hình khóa."
 msgid "notifications.bookings.flight_diverted"
 msgstr "Chuyến bay đã chuyển hướng. Mình sẽ báo tiếp cho bạn."
 
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.auto_body"
+msgstr "Đủ bạn bè tham gia nên chuyến đi đã được chốt."
+
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.lottery.deadline"
 msgstr "Đăng ký {title} đóng vào {date}. Mỗi người tự đăng ký trên trang chính thức."
@@ -350,6 +358,14 @@ msgstr "Đổi cổng: giờ là cổng {gate}."
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.final.body"
 msgstr "Giờ là {first} hoặc {second}. Phiếu của bạn quyết định."
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title_no_dates"
+msgstr "Chốt rồi: {place}"
+
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
+msgid "notifications.trip_confirmed.title"
+msgstr "Chốt rồi: {place}, {dates}"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.body"
@@ -415,7 +431,7 @@ msgstr "Trả lời trước ngày mai · {place}"
 msgid "notifications.member_joined.body"
 msgstr "Vào chat nhóm chào một câu nhé."
 
-#: ../../services/worker/src/jobs/proposal/notify.ts
+#: ../../services/worker/src/jobs/proposal/trip-news.ts
 msgid "notifications.rsvp_changed.body"
 msgstr "Xem ai sẽ đi {place}."
 

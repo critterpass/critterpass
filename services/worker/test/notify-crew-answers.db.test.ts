@@ -2,13 +2,16 @@
  * The crew's own news as pushes, against a migrated Postgres: a new member is announced to the
  * crew they joined (never to themselves, and not once they have left again), and a member's own
  * answer to a trip reaches its organisers (never an answer someone else set for them, never the
- * mere opening of a proposal, and never an answer that has changed since).
+ * mere opening of a proposal, and never an answer that has changed since). When the trip is
+ * confirmed, everyone holding a place on it hears "it's on" once, in their own language, except
+ * the person who locked it in.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerInviteNotifications } from '../src/jobs/invites/notifications';
 import { routeNotification, type NotifyRouteDeps } from '../src/jobs/notify';
 import { registerProposalNotifications } from '../src/jobs/proposal/notify';
+import { tripDates } from '../src/jobs/proposal/trip-news';
 import { createCopyRenderer } from '../src/push/render';
 import {
   insertCrew,
@@ -36,8 +39,8 @@ afterAll(async () => {
   await db.stop();
 });
 
-async function person(name: string): Promise<string> {
-  const uid = await insertUser(db.pool);
+async function person(name: string, locale = 'en'): Promise<string> {
+  const uid = await insertUser(db.pool, { locale });
   await db.pool.query('UPDATE users SET display_name = $2 WHERE id = $1', [uid, `${name} Test`]);
   await insertDevice(db.pool, uid, { tz: 'Asia/Ho_Chi_Minh' });
   return uid;
@@ -207,5 +210,105 @@ describe('a member’s answer to a trip', () => {
       uid: maya,
     });
     expect(routed).toEqual({ outcome: 'skipped', reason: 'nothing_to_send' });
+  });
+});
+
+describe('a confirmed trip', () => {
+  async function confirmed(actorId: string | null) {
+    const [maya, rin, dev, sam, linh] = [
+      await person('Maya'),
+      await person('Rin'),
+      await person('Dev'),
+      await person('Sam'),
+      await person('Linh', 'vi'),
+    ];
+    const crewId = await insertCrew(db.pool, [maya, rin, dev, sam, linh]);
+    const tripId = await trip(crewId, maya, [rin, dev, sam, linh]);
+    await db.pool.query(
+      "UPDATE trips SET start_date = '2026-10-02', end_date = '2026-10-04' WHERE id = $1",
+      [tripId],
+    );
+    for (const [uid, rsvp] of [
+      [rin, 'in'],
+      [dev, 'out'],
+      [sam, 'waitlisted'],
+      [linh, 'maybe'],
+    ] as const) {
+      await db.pool.query(
+        'UPDATE trip_participants SET rsvp = $3 WHERE trip_id = $1 AND user_id = $2',
+        [tripId, uid, rsvp],
+      );
+    }
+    const event = (to: string) =>
+      insertEvent(
+        db.pool,
+        'trip.status_changed',
+        { trip_id: tripId, from: 'proposed', to },
+        {
+          crewId,
+          tripId,
+          occurredAt: NOON_SAIGON,
+          ...(actorId === 'maya' ? { actorId: maya } : {}),
+        },
+      );
+    return { maya, rin, dev, sam, linh, tripId, event };
+  }
+
+  const recipients = async (eventId: string) =>
+    (await queuedJobs(db.pool, 'notify.route'))
+      .filter((job) => job.data['event_id'] === eventId && job.data['uid'] !== undefined)
+      .map((job) => job.data['uid']);
+
+  it('tells everyone holding a place except the organiser who locked it in, each in their language', async () => {
+    const { maya, rin, linh, tripId, event } = await confirmed('maya');
+    const eventId = await event('confirmed');
+    const fanOut = await routeNotification(db.pool, deps, {
+      event_id: eventId,
+      key: 'trip_confirmed',
+    });
+    expect(fanOut).toEqual({ outcome: 'fanned_out', recipients: 2 });
+    expect([...(await recipients(eventId))].sort()).toEqual([rin, linh].sort());
+
+    for (const uid of [rin, linh]) {
+      await routeNotification(db.pool, deps, { event_id: eventId, key: 'trip_confirmed', uid });
+    }
+    expect(await notificationsFor(rin)).toEqual([
+      {
+        key: 'trip_confirmed',
+        class: 'budgeted',
+        state: 'queued',
+        title: `It's on: Bali crew, ${tripDates('en', '2026-10-02', '2026-10-04') ?? ''}`,
+        body: 'Maya locked the trip in.',
+        collapse_key: `trip_confirmed:${tripId}`,
+        deep_link: `/hub/${tripId}`,
+      },
+    ]);
+    const [inVietnamese] = await notificationsFor(linh);
+    expect(inVietnamese?.title).toBe(
+      `Chốt rồi: Bali crew, ${tripDates('vi', '2026-10-02', '2026-10-04') ?? ''}`,
+    );
+    expect(inVietnamese?.title).toMatch(/2.*4.*10/u);
+    expect(inVietnamese?.body).toBe('Maya đã chốt chuyến đi.');
+    expect(await notificationsFor(maya)).toEqual([]);
+  });
+
+  it('tells the organiser too when the trip confirmed by itself at reply-by', async () => {
+    const { maya, rin, linh, event } = await confirmed(null);
+    const eventId = await event('confirmed');
+    await routeNotification(db.pool, deps, { event_id: eventId, key: 'trip_confirmed' });
+    expect([...(await recipients(eventId))].sort()).toEqual([maya, rin, linh].sort());
+    await routeNotification(db.pool, deps, { event_id: eventId, key: 'trip_confirmed', uid: maya });
+    expect((await notificationsFor(maya)).map((row) => row.body)).toEqual([
+      'Enough friends are in, so the trip is locked in.',
+    ]);
+  });
+
+  it('says nothing for any other change of the trip’s status', async () => {
+    const { event } = await confirmed('maya');
+    const fanOut = await routeNotification(db.pool, deps, {
+      event_id: await event('pre_trip'),
+      key: 'trip_confirmed',
+    });
+    expect(fanOut).toEqual({ outcome: 'fanned_out', recipients: 0 });
   });
 });

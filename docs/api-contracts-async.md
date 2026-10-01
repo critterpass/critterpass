@@ -74,7 +74,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | Queue | Trigger | Handler does | Retry / DLQ | Idempotency key | Phase |
 |---|---|---|---|---|---|
 | `rt.relay` | `rt_outbox` insert (LISTEN wake + 1 s sweep) | publish to Centrifugo, mark sent, unsubscribe/disconnect ops | 10 fast retries | outbox id | 10 (plain worker loop); moved onto pg-boss in 11 |
-| `notify.route` | domain events with notification mapping (N-01…N-52) | class (ALWAYS/BUDGET/ROUNDUP/SILENT/LOCAL) → prefs → quiet hours → budget ledger → paywall governor → `push.send` or roundup queue; guide-voice rewrite (cached) | 3 / DLQ | `(event_id, uid)` | 11 |
+| `notify.route` | domain events with notification mapping (N-01…N-53) | class (ALWAYS/BUDGET/ROUNDUP/SILENT/LOCAL) → prefs → quiet hours → budget ledger → paywall governor → `push.send` or roundup queue; guide-voice rewrite (cached) | 3 / DLQ | `(event_id, uid)` | 11 |
 | `push.send` | router | APNs/FCM send; 410/UNREGISTERED → token delete | 5 exp. | `(notification_id, device_id)` | 11 |
 | `push.la` | LA transitions, readiness, ETA | APNs `liveactivity` update/end/start or broadcast; FCM Live Update data | 3 | `(activity_id, seq)` | 48 |
 | `push.widget` | vote/balance/plan/forecast/crew change | APNs `widgets` content-changed; FCM data → Glance; budget ~40–70/day/device | 2 | `(device_id, kind, 5-min bucket)` | 49 |

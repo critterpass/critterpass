@@ -1,8 +1,7 @@
 /**
- * Proposal pushes: each recipient's version (from the trip's guide), a follow-up or resend that
- * came due (to its one member), a day before reply-by (to members who have not answered, and the
- * organisers), and a member's own answer to the trip's organisers (from that member). Copy never
- * says anything is held: nothing is until the crew books.
+ * Proposal pushes: N-07 each recipient's version (from the trip's guide), N-08 a follow-up or
+ * resend that came due (to its one member) and N-09 a day before reply-by (to members who have not
+ * answered, and the organisers). Copy never says anything is held: nothing is until the crew books.
  */
 import type pg from 'pg';
 
@@ -11,7 +10,8 @@ import {
   type NotificationSender,
   type RoutedEvent,
 } from '../notify/register';
-import { DEFAULT_SETUP_GUIDE, firstName, str } from '../setup/facts';
+import { DEFAULT_SETUP_GUIDE, str } from '../setup/facts';
+import { registerTripNewsNotifications } from './trip-news';
 
 export const PROPOSAL_PUSH = {
   versionTitle: /*i18n*/ {
@@ -46,32 +46,7 @@ export const PROPOSAL_PUSH = {
     id: 'notifications.proposal.reply_by_body',
     message: 'The crew needs your answer by {date}.',
   },
-  rsvpInTitle: /*i18n*/ { id: 'notifications.rsvp_changed.in_title', message: '{name} is in' },
-  rsvpMaybeTitle: /*i18n*/ {
-    id: 'notifications.rsvp_changed.maybe_title',
-    message: '{name} is a maybe',
-  },
-  rsvpOutTitle: /*i18n*/ { id: 'notifications.rsvp_changed.out_title', message: '{name} is out' },
-  rsvpWaitlistedTitle: /*i18n*/ {
-    id: 'notifications.rsvp_changed.waitlisted_title',
-    message: '{name} is on the waitlist',
-  },
-  rsvpBody: /*i18n*/ {
-    id: 'notifications.rsvp_changed.body',
-    message: 'See who is coming to {place}.',
-  },
 } as const;
-
-/** The answers an organiser hears about; opening a proposal is not an answer. */
-const RSVP_TITLE = {
-  in: PROPOSAL_PUSH.rsvpInTitle,
-  maybe: PROPOSAL_PUSH.rsvpMaybeTitle,
-  out: PROPOSAL_PUSH.rsvpOutTitle,
-  waitlisted: PROPOSAL_PUSH.rsvpWaitlistedTitle,
-} as const;
-
-const isAnswer = (rsvp: unknown): rsvp is keyof typeof RSVP_TITLE =>
-  typeof rsvp === 'string' && rsvp in RSVP_TITLE;
 
 interface TripFacts {
   readonly crew_id: string;
@@ -108,6 +83,7 @@ let registered = false;
 export function registerProposalNotifications(): void {
   if (registered) return;
   registered = true;
+  registerTripNewsNotifications();
 
   registerNotification({
     key: 'proposal_version',
@@ -191,52 +167,6 @@ export function registerProposalNotifications(): void {
         deepLink: `/proposal/${str(routed, 'proposal_id') ?? ''}`,
         needsYou: true,
         collapseVars: { trip_id: str(routed, 'trip_id') ?? '' },
-      };
-    },
-  });
-
-  registerNotification({
-    key: 'rsvp_changed',
-    event: 'rsvp.changed',
-    // Only an answer the member gave themselves: seats an organiser or the reply-by lock moved
-    // are already known to the organiser, or announced by the lock.
-    async audience(tx, routed) {
-      const member = str(routed, 'user_id');
-      if (member === null || routed.actorId !== member) return [];
-      if (!isAnswer(routed.payload['rsvp'])) return [];
-      const { rows } = await tx.query<{ user_id: string }>(
-        `SELECT user_id FROM trip_participants
-          WHERE trip_id = $1 AND role = 'organiser' AND rsvp <> 'out' AND user_id <> $2
-          ORDER BY user_id`,
-        [str(routed, 'trip_id'), member],
-      );
-      return rows.map((row) => row.user_id);
-    },
-    async compose(tx, routed) {
-      const member = str(routed, 'user_id');
-      const tripId = str(routed, 'trip_id');
-      const rsvp = routed.payload['rsvp'];
-      if (member === null || !isAnswer(rsvp)) return null;
-      const trip = await tripFacts(tx, tripId);
-      if (trip === null) return null;
-      const { rows } = await tx.query<{ rsvp: string; crew: string }>(
-        `SELECT tp.rsvp, c.name AS crew FROM trip_participants tp
-           JOIN trips t ON t.id = tp.trip_id JOIN crews c ON c.id = t.crew_id
-          WHERE tp.trip_id = $1 AND tp.user_id = $2`,
-        [tripId, member],
-      );
-      // Changed again since: the newer event carries the answer that stands.
-      if (rows[0]?.rsvp !== rsvp) return null;
-      const name = await firstName(tx, member);
-      return {
-        title: RSVP_TITLE[rsvp],
-        body: PROPOSAL_PUSH.rsvpBody,
-        vars: { name, place: trip.place === '' ? rows[0].crew : trip.place },
-        sender: { kind: 'member', id: member, name },
-        crewId: trip.crew_id,
-        tripId,
-        deepLink: `/hub/${tripId ?? ''}`,
-        collapseVars: { trip_id: tripId ?? '' },
       };
     },
   });
