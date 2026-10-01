@@ -56,12 +56,16 @@ export function treatmentFor(surface: MediaSurface, accent: string, ink: string)
       base: accent,
     };
   }
-  return {
-    shadow: ink,
-    highlight: mixColour(accent, ink, 0.45),
-    opacity: 0.55,
-    base: ink,
+  const opacity = 0.7;
+  const cream = tokens.color.paper.base;
+  // As bright a highlight as the accent wordmark (3:1) and cream text (4.5:1) allow over it.
+  let depth = 0.3;
+  const readable = (highlight: string) => {
+    const under = composite(highlight, ink, opacity);
+    return contrastRatio(accent, under) >= 3 && contrastRatio(cream, under) >= 4.5;
   };
+  while (depth < 0.9 && !readable(mixColour(accent, ink, depth))) depth += 0.05;
+  return { shadow: ink, highlight: mixColour(accent, ink, depth), opacity, base: ink };
 }
 
 /** The colour a pixel of the photo lands on screen: `tone` over `base` at `opacity`. */

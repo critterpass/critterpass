@@ -19,7 +19,6 @@ import { MediaLayer } from '@/ui/media/MediaLayer';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
-import { Halftone } from '@/ui/textures/halftone';
 import { makeStyles } from '@/ui/theme';
 
 import { tripDates } from './hub-copy';
@@ -97,7 +96,6 @@ export function PhaseHeader(props: PhaseHeaderProps) {
             creditAt="top"
             testID="trip-hub-hero-media"
           />
-          {props.media ? <Halftone variant="dark" /> : null}
         </View>
         <Text variant="eyebrow">{upper(meta, locale)}</Text>
         <Row justify="space-between" align="flex-end" gap="12">

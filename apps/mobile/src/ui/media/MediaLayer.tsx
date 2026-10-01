@@ -13,6 +13,7 @@ import {
   Group,
   Image,
   LinearGradient,
+  Path,
   Rect,
   useImage,
   vec,
@@ -26,6 +27,8 @@ import { saveMediaFile, savedMediaUri, savedStillUri } from '@/lib/media/media-f
 import { pickBySize, type MediaView } from '@/lib/media/variants';
 
 import { Text } from '../text/Text';
+import { dotGridPath } from '../textures/geometry';
+import { TEXTURE } from '../textures/texture-tokens';
 import { makeStyles, useTheme } from '../theme';
 import { blurhashImage } from './blurhash-image';
 import { duotoneMatrix, treatmentFor, type MediaSurface } from './duotone';
@@ -45,6 +48,8 @@ export interface MediaLayerProps {
 }
 
 const FADE_MS = 200;
+/** The dark halftone's dot (textures/halftone.tsx). */
+const DARK_DOT_RADIUS = 1.3;
 /** A low-data slot loads a smaller still (it is tinted and dotted anyway). */
 const LOW_DATA_SCALE = 0.5;
 
@@ -74,7 +79,7 @@ function Still({
   readonly matrix: number[];
   readonly opacity: number;
   readonly animate: boolean;
-  /** On the dark scaffold the band fades into it at the top and bottom edges. */
+  /** On the dark scaffold the band, with its dark halftone, fades into it at both edges. */
   readonly fadeTo: string | null;
 }) {
   const image = useImage(uri);
@@ -101,6 +106,15 @@ function Still({
           </Group>
         )}
       </Group>
+      {fadeTo === null
+        ? null
+        : TEXTURE.halftoneDark.layers.map(({ color, grid }, index) => (
+            <Path
+              key={`${color}-${grid}`}
+              path={dotGridPath(width, height, grid, DARK_DOT_RADIUS, (index * grid) / 2)}
+              color={color}
+            />
+          ))}
       {fadeTo === null ? null : (
         <Rect {...frame}>
           <LinearGradient
