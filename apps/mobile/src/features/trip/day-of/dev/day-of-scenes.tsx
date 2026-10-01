@@ -55,9 +55,15 @@ function props(overrides: Partial<DayOfViewProps> = {}): DayOfViewProps {
 
 /** Day 1 of a Đà Nẵng trip: the flight in, then the afternoon. */
 const DA_NANG_FIRST_DAY: DayOfViewProps['timeline'] = [
-  { id: 'f1', time: '07:05', title: '9G 956 SGN → DAD', detail: null, dimmed: false },
-  { id: 'd1', time: '14:00', title: 'Chợ Hàn (Han Market)', detail: null, dimmed: false },
-  { id: 'd2', time: '18:00', title: 'Cầu Rồng (Dragon Bridge)', detail: null, dimmed: false },
+  { id: 'flight-in', time: '07:05', title: '9G 956 SGN → DAD', detail: null, dimmed: false },
+  { id: 'han-market', time: '14:00', title: 'Chợ Hàn (Han Market)', detail: null, dimmed: false },
+  {
+    id: 'dragon-bridge',
+    time: '18:00',
+    title: 'Cầu Rồng (Dragon Bridge)',
+    detail: null,
+    dimmed: false,
+  },
 ];
 
 const NOTIFY: AlarmStatus = { mode: 'notification', engine: null, denied: false, next: null };
