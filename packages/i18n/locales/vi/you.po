@@ -63,6 +63,10 @@ msgstr "Tất cả. Đăng nhập lại là mọi thứ trở về."
 msgid "you.settings.app"
 msgstr "Ứng dụng"
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.appLanguage"
+msgstr "Ngôn ngữ ứng dụng"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.offlineTripsLine"
 msgstr "Đặt chỗ, bản đồ và câu giao tiếp trên máy này"
@@ -172,6 +176,14 @@ msgstr "Phong cách đi của bạn"
 msgid "you.delete.keep"
 msgstr "Giữ tài khoản"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.language"
+msgstr "Ngôn ngữ"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.title"
+msgstr "Ngôn ngữ"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lastCheck"
 msgstr "Kiểm tra lần cuối"
@@ -246,6 +258,10 @@ msgstr "Cài đặt"
 msgid "you.profile.settings"
 msgstr "Cài đặt"
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.back"
+msgstr "Cài đặt"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.back"
 msgstr "Cài đặt"
@@ -315,6 +331,10 @@ msgstr "Tiếng dán sticker, đóng dấu, bật nảy"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.hapticsLine"
 msgstr "Những cú chạm và rung bạn cảm nhận được"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.note"
+msgstr "Ứng dụng, câu trả lời của hướng dẫn viên và thông báo đổi cùng lúc. Tên địa điểm vẫn giữ tên địa phương."
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps"
