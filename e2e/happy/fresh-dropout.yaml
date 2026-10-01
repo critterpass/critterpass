@@ -41,14 +41,22 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-5-cant-make-it
-# The sheet's own button, between its consequences and CANCEL: the pass's link of the same words
-# sits behind the sheet, lower down.
-- tapOn:
-    text: '(?i)I can.t make it'
-    below:
-      text: '(?i)Shared costs are split again.*'
-    above:
-      text: '(?i)cancel'
+# The sheet's own button. Android's hierarchy here lists only the pass's link of the same words,
+# which sits behind the sheet, so the tap goes where the sheet draws its button (above CANCEL);
+# iOS finds the button by its words.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          point: 50%, 76%
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          text: '(?i)I can.t make it'
+          index: 1
 # The reply is sent and the friend is back on their version.
 - extendedWaitUntil:
     visible:
