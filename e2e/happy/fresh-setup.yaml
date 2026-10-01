@@ -1,0 +1,131 @@
+appId: app.critterpass.dev
+---
+# Release gate: trip setup for a brand-new crew, with no demo world. A fresh account starts its own
+# crew (just itself), pitches one place and locks it in: the place wins and SET UP opens the dates
+# step. The account marks a week of next month free by hand and saves (set_availability): the step
+# shows those days counted and a way on, the crew's window to lock or a week to pick, and locking
+# it moves setup to the budget.
+- runFlow: subflows/fresh-account.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Fresh Crew'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 20000
+- tapOn:
+    id: 'start-crew-done'
+- runFlow:
+    file: subflows/pitch-place.yaml
+    env:
+      QUERY: 'lisbon'
+# One place on the board: the organiser locks it in, and it wins.
+- openLink: critterpass-dev://
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+# Days by hand, whatever this phone's calendar already shared on the way in. The row sits under
+# the heatmap, behind the footer until it is scrolled to the middle.
+- scrollUntilVisible:
+    element:
+      id: 'own-calendar-action'
+    timeout: 10000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'own-calendar-action'
+- extendedWaitUntil:
+    visible:
+      id: 'calendar-by-hand'
+    timeout: 10000
+- tapOn:
+    id: 'calendar-by-hand'
+- extendedWaitUntil:
+    visible:
+      id: 'manual-days-month'
+    timeout: 10000
+# Next month: every day of it is ahead of today. Seven days in a row, each tapped once: free.
+- tapOn:
+    id: 'manual-days-next'
+- tapOn:
+    id: 'manual-day-.*'
+    index: 8
+- tapOn:
+    id: 'manual-day-.*'
+    index: 9
+- tapOn:
+    id: 'manual-day-.*'
+    index: 10
+- tapOn:
+    id: 'manual-day-.*'
+    index: 11
+- tapOn:
+    id: 'manual-day-.*'
+    index: 12
+- tapOn:
+    id: 'manual-day-.*'
+    index: 13
+- tapOn:
+    id: 'manual-day-.*'
+    index: 14
+- tapOn:
+    id: 'manual-days-save'
+- extendedWaitUntil:
+    notVisible:
+      id: 'manual-days-month'
+    timeout: 15000
+# The saved days reach the crew's counts, and the organiser has a way on.
+- extendedWaitUntil:
+    visible:
+      id: 'when-cta|when-pick-week'
+    timeout: 60000
+- assertNotVisible:
+    text: '(?i)nobody has shared their days yet.*'
+- runFlow:
+    when:
+      visible:
+        id: 'when-cta'
+    commands:
+      - tapOn:
+          id: 'when-cta'
+- runFlow:
+    when:
+      visible:
+        id: 'when-pick-week'
+    commands:
+      - tapOn:
+          id: 'when-pick-week'
+      - extendedWaitUntil:
+          visible:
+            id: 'picker-lock'
+          timeout: 10000
+      - tapOn:
+          id: 'picker-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'budget-lock'
+    timeout: 30000

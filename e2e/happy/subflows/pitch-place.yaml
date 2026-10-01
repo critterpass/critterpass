@@ -1,0 +1,41 @@
+appId: app.critterpass.dev
+---
+# Pitches a place to the account's crew from search: ${QUERY} is typed, the first result opens its
+# guide page, PITCH TO THE CREW streams the guide's pitch and ADD TO THE VOTE puts it on the board.
+- openLink: critterpass-dev://places/search
+- extendedWaitUntil:
+    visible:
+      id: 'place-search-field'
+    timeout: 15000
+- inputText: ${QUERY}
+- extendedWaitUntil:
+    visible:
+      id: 'place-result-.*'
+    timeout: 15000
+# The row, not the query: text matching would also find what was typed.
+- tapOn:
+    id: 'place-result-.*'
+    index: 0
+- scrollUntilVisible:
+    element:
+      id: 'guest-pitch'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'guest-pitch'
+# Until the new crew has synced the page asks which crew to pitch to; pick it there.
+- runFlow:
+    when:
+      visible:
+        id: 'crew-picker'
+    commands:
+      - tapOn:
+          id: 'crew-pick-.*'
+          index: 0
+# The sheet's root id isn't in iOS's accessibility tree; the pitch's quote is.
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- tapOn:
+    id: 'pitch-add'

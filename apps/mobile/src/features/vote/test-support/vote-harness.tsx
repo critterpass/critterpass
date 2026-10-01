@@ -56,8 +56,11 @@ export function renderVote(
   );
 }
 
-/** Waits until `check` passes (5 s at most), flushing the live queries' updates each round. */
-export async function until(check: () => boolean, timeoutMs = 5000, label = ''): Promise<void> {
+/**
+ * Waits until `check` passes (15 s at most: CI runs this beside the api's suites, about three times
+ * slower than a laptop), flushing the live queries' updates each round.
+ */
+export async function until(check: () => boolean, timeoutMs = 15_000, label = ''): Promise<void> {
   const deadline = Date.now() + timeoutMs;
   for (;;) {
     await new Promise((resolve) => setTimeout(resolve, 100));
