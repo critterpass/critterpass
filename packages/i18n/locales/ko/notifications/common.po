@@ -139,8 +139,28 @@ msgstr ""
 msgid "notifications.setup.ask.freed"
 msgstr ""
 
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.maybe_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.in_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.waitlisted_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.out_title"
+msgstr ""
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.title"
 msgstr ""
 
 #: ../domain/src/trip-day/templates.ts
@@ -335,12 +355,12 @@ msgstr ""
 msgid "notifications.crew_invite.body"
 msgstr ""
 
-#: ../domain/src/surfaces/la-copy.ts
-msgid "notifications.la.leave_by_start_title"
-msgstr ""
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title"
+msgstr ""
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_title"
 msgstr ""
 
 #: ../domain/src/surfaces/la-copy.ts
@@ -389,6 +409,14 @@ msgstr ""
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.reply_by_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.body"
+msgstr ""
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.body"
 msgstr ""
 
 #: ../../services/worker/src/jobs/chat/notify.ts

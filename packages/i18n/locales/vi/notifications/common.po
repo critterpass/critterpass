@@ -139,9 +139,29 @@ msgstr "{name} không dời được {dates}. Chọn tuần hợp nhất nhé."
 msgid "notifications.setup.ask.freed"
 msgstr "{name} đã sắp xếp được {dates}. Tuần này hợp với cả nhóm."
 
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.maybe_title"
+msgstr "{name} có thể sẽ đi"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.in_title"
+msgstr "{name} sẽ đi"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.waitlisted_title"
+msgstr "{name} đang trong danh sách chờ"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.out_title"
+msgstr "{name} không đi"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_body"
 msgstr "{name} đến trễ {minutes} phút."
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.title"
+msgstr "{name} đã vào {crew}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_body"
@@ -335,13 +355,13 @@ msgstr "Giờ là {first} hoặc {second}. Phiếu của bạn quyết định."
 msgid "notifications.crew_invite.body"
 msgstr "Tham gia ngay, hoặc để dành sau."
 
-#: ../domain/src/surfaces/la-copy.ts
-msgid "notifications.la.leave_by_start_title"
-msgstr "Xuất phát lúc {time} · {place}"
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title"
 msgstr "Đi trước {time} · {place}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_title"
+msgstr "Xuất phát lúc {time} · {place}"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.leave_by_go_body"
@@ -390,6 +410,14 @@ msgstr "Hỏi nhanh {name} nè: lịch {dates} của bạn đang ghi là có th�
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.reply_by_title"
 msgstr "Trả lời trước ngày mai · {place}"
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.body"
+msgstr "Vào chat nhóm chào một câu nhé."
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.body"
+msgstr "Xem ai sẽ đi {place}."
 
 #: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.photo"

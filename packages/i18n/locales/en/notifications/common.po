@@ -139,9 +139,29 @@ msgstr "{name} can't move {dates}. Pick the week that works best."
 msgid "notifications.setup.ask.freed"
 msgstr "{name} freed {dates}. The week works for all."
 
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.maybe_title"
+msgstr "{name} is a maybe"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.in_title"
+msgstr "{name} is in"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.waitlisted_title"
+msgstr "{name} is on the waitlist"
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.out_title"
+msgstr "{name} is out"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_body"
 msgstr "{name} is running {minutes} min late."
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.title"
+msgstr "{name} joined {crew}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_body"
@@ -335,12 +355,12 @@ msgstr "It's {first} or {second} now. Your vote decides it."
 msgid "notifications.crew_invite.body"
 msgstr "Join now, or save it for later."
 
-#: ../domain/src/surfaces/la-copy.ts
-msgid "notifications.la.leave_by_start_title"
-msgstr "Leave by {time} · {place}"
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title"
+msgstr "Leave by {time} · {place}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_start_title"
 msgstr "Leave by {time} · {place}"
 
 #: ../domain/src/surfaces/la-copy.ts
@@ -390,6 +410,14 @@ msgstr "Quick one, {name}: your {dates} block is marked maybe. Could you free it
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.reply_by_title"
 msgstr "Reply by tomorrow · {place}"
+
+#: ../../services/worker/src/jobs/invites/notifications.ts
+msgid "notifications.member_joined.body"
+msgstr "Say hi in the crew chat."
+
+#: ../../services/worker/src/jobs/proposal/notify.ts
+msgid "notifications.rsvp_changed.body"
+msgstr "See who is coming to {place}."
 
 #: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.photo"
