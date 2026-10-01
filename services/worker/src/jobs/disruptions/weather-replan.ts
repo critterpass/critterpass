@@ -21,6 +21,7 @@ import type { CopyResult } from '@cp/ai';
 import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
+import { enqueueGuideTextTranslation } from '../i18n/enqueue';
 import { readPointForecast } from '../../travel-data/forecast-watch';
 
 export type ReplanWriter = (
@@ -191,6 +192,8 @@ export async function runReplan(
       rain_from: suggestion.rainFrom,
       rain_to: suggestion.rainTo,
     });
+    // The suggestion's line in each reader's language.
+    await enqueueGuideTextTranslation(tx, { tripId: item.trip_id });
     return 'suggested';
   });
 }

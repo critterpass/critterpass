@@ -5,7 +5,8 @@
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { withGuideReader } from '../../src/tx';
+import { withGuideReader, withUser } from '../../src/tx';
+import { anonymousActor } from '../helpers/actors';
 import { expectCrewReadOnly } from '../helpers/setup-privacy';
 import { startStreamHarness, type StreamHarness } from '../helpers/stream-harness';
 
@@ -55,6 +56,24 @@ describe('disruptions', () => {
         tx.query('SELECT 1 FROM disruptions'),
       ),
     ).rejects.toThrow(/permission denied/i);
+  });
+
+  it("lets a reader see the guide's translations and never write them", async () => {
+    const { actors, tripId } = harness.fixture;
+    await harness.db.pool.query(
+      `UPDATE disruptions SET i18n = '{"vi": {"title": "Chuyến bay trễ"}, "_src": "x"}'
+        WHERE trip_id = $1`,
+      [tripId],
+    );
+    const read = await withUser(harness.db.pool, actors.member, anonymousActor().device, (tx) =>
+      tx.query<{ i18n: unknown }>('SELECT i18n FROM disruptions WHERE trip_id = $1', [tripId]),
+    );
+    expect(read.rows[0]?.i18n).toMatchObject({ vi: { title: 'Chuyến bay trễ' } });
+    await expect(
+      withUser(harness.db.pool, actors.organiser, anonymousActor().device, (tx) =>
+        tx.query("UPDATE disruptions SET i18n = '{}' WHERE trip_id = $1", [tripId]),
+      ),
+    ).rejects.toThrow(/permission denied/iu);
   });
 
   it('grants the replication role read on the table it publishes', async () => {

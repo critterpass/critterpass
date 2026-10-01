@@ -104,7 +104,7 @@ Disruption hints ride `trip_watch:{trip}` and `trip_plan:{trip}` (doc delta: the
 | `watch_escalation` (ALWAYS only when plan-changing, else the roundup) | `watch.escalated` | the trip | the row's title and detail |
 | `running_late_detected` (ALWAYS) | `running_late.detected` | the late party; and whoever waits, unless the member reported it themselves (they already pinged the crew) | built from names, minutes and the place, in the recipient's language: the late ones are told they can choose, the waiting ones who is late; once per member per disruption |
 
-The first three carry the guide's own English line (per-language guide text for `disruptions` and `watch_items` is a follow-up). Templates: `packages/domain/src/disruptions/templates.ts`.
+The first three carry the guide's own line: `disruptions.title/summary` and `watch_items.title/detail` are guide text with per-language translations (`i18n`, written by `guide_text.translate`), and the push reads the recipient's translation when the sweep has stored it, the English line until then. Row labels and option lines are not translated yet. Templates: `packages/domain/src/disruptions/templates.ts`.
 
 ## 7. Not wired yet
 

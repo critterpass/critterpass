@@ -64,6 +64,8 @@ export const disruptions = pgTable('disruptions', {
   chosenBy: uuid('chosen_by').references(() => users.id),
   detectedAt: instant('detected_at').notNull().defaultNow(),
   resolvedAt: instant('resolved_at'),
+  /** Translations of `title` and `summary`, per language (`@cp/domain` guide-text). */
+  i18n: jsonb('i18n'),
   ...stamps(),
 });
 
@@ -89,6 +91,8 @@ export const watchItems = pgTable('watch_items', {
   escalatedAt: instant('escalated_at'),
   checkedAt: instant('checked_at').notNull().defaultNow(),
   resolvedAt: instant('resolved_at'),
+  /** Translations of `title` and `detail`, per language (`@cp/domain` guide-text). */
+  i18n: jsonb('i18n'),
   ...stamps(),
 });
 

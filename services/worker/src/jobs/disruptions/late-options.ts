@@ -12,6 +12,8 @@ import { channelName, joinNames, lateOptionsSchema, type JourneyMode } from '@cp
 import { lateOptions, type LateBooking, type LateInput } from '@cp/planner';
 import type pg from 'pg';
 
+import { enqueueGuideTextTranslation } from '../i18n/enqueue';
+
 export type LateWriter = (
   guide: string | null,
   input: CopyInput,
@@ -246,6 +248,7 @@ export async function workLateOptions(
       action_id: 'late_options',
       state: 'ready',
     });
+    await enqueueGuideTextTranslation(tx, { tripId: world.tripId });
     return 1;
   });
 }

@@ -12,6 +12,7 @@ import { analyzeFlightImpact, classifyFlightActions, diffActions } from '@cp/pla
 import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
+import { enqueueGuideTextTranslation } from '../i18n/enqueue';
 import type { DisruptionWriter } from './copy';
 import { advancePlan, startRows } from './execute-rows';
 import { loadFlightFacts, type FlightFacts } from './flight-inputs';
@@ -170,6 +171,7 @@ export async function runFlightDisruption(
             }
           : { trip_id: facts.tripId, disruption_id: disruptionId, version },
     });
+    await enqueueGuideTextTranslation(tx, { tripId: facts.tripId });
     return previous === undefined ? 'opened' : 'updated';
   });
 }

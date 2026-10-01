@@ -11,6 +11,7 @@ import { scoreWatch, stormOptions, type StormBooking, type StormOption } from '@
 import type pg from 'pg';
 
 import { readPointForecast } from '../../travel-data/forecast-watch';
+import { enqueueGuideTextTranslation } from '../i18n/enqueue';
 import type { WatchedTrip } from './watch-score';
 
 const DAY_MS = 86_400_000;
@@ -220,6 +221,7 @@ export async function openStormDecision(
     },
     ...scope,
   });
+  await enqueueGuideTextTranslation(tx, { tripId: trip.id });
   return disruptionId;
 }
 
