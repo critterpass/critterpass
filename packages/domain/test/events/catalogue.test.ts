@@ -852,6 +852,20 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'profile.icon_unlocked': { user_id: crypto.randomUUID(), icon_id: 'pon', source: 'form_found' },
   'past_trip.added': { user_id: crypto.randomUUID(), past_trip_id: crypto.randomUUID() },
   'past_trip.removed': { user_id: crypto.randomUUID(), past_trip_id: crypto.randomUUID() },
+  'account.closed': {
+    user_id: crypto.randomUUID(),
+    deletion_id: crypto.randomUUID(),
+    instant: false,
+    source: 'app',
+  },
+  'account.restored': { user_id: crypto.randomUUID(), deletion_id: crypto.randomUUID() },
+  'account.purged': { deletion_id: crypto.randomUUID(), forced: false },
+  'trip.organiser_transferred': {
+    trip_id: crypto.randomUUID(),
+    from_id: crypto.randomUUID(),
+    to_id: null,
+    reason: 'account_closed',
+  },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

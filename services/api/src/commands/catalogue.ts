@@ -29,6 +29,7 @@ import { registerDraftCommands } from './draft';
 import { registerPlanCommands } from './plan';
 import { registerGuideCommands } from './guide';
 import { guideTextMembershipHook } from './guide/guide-text';
+import { registerAccountCommands } from './account';
 import { registerYouCommands } from './you';
 
 // The setup routes register the calendar commands with their runtime dependencies.
@@ -54,6 +55,7 @@ export function createAppCommandRegistry(options: CommandRegistryOptions = {}): 
   registerMoneyCommands(commands);
   registerPlanCommands(commands);
   registerYouCommands(commands);
+  registerAccountCommands(commands);
   commands.register(undoGuideActionCommand);
   commands.register(reportContentCommand);
   commands.register(approveOpsActionCommand);

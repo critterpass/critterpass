@@ -2,7 +2,7 @@
 
 Companion to [api-contracts.md](./api-contracts.md): profile, synced settings, the app icon choice and self-reported travel history. Tables live in [data-model.md](./data-model.md) §3.1 and §3.17; streams in [data-model-sync-and-privacy.md](./data-model-sync-and-privacy.md) §4 (`me`).
 
-Status: server contract for the profile and settings screens (3n-1…3n-8). Stack: Hono + Zod, commands through the one registry (`/v1/cmd`, `/sync/upload`). Data export and account deletion are not covered here yet.
+Status: server contract for the profile and settings screens (3n-1…3n-8). Stack: Hono + Zod, commands through the one registry (`/v1/cmd`, `/sync/upload`). Account deletion is covered below; data export is not covered here yet.
 
 ## Commands
 
@@ -21,6 +21,34 @@ Every command is open to anonymous accounts. A self-reported trip counts toward 
 | Route | Auth | Source | Cache |
 |---|---|---|---|
 | `GET /v1/me/username-available?u=` | S | `{username, available, reason: too_short\|too_long\|invalid_chars\|dots\|reserved\|taken\|null}` for the normalized name; the caller's own current username reads as available. Rate-limited per uid | none |
+
+## Account deletion
+
+| Command | Payload → result | Authz | Ent | Events | Surfaces |
+|---|---|---|---|---|---|
+| `request_account_deletion` | `{reason?: trips_over\|too_many_pings\|crew_moved_apps\|privacy\|something_else, source?: app\|web}` → `{deletion_id, requested_at, purge_at, instant, contact: {kind: email\|phone\|none, masked}}`. Closes the account at once: `users.status = closed`, an `account_deletions` row with the balances snapshot and `purge_at` (now + 30 days), open trips and crews the caller organises alone handed to the longest-standing member, live location stopped, push tokens parked, device action keys revoked, realtime disconnected, Apple and Google tokens revoked, every session ended (this request's included). An account nobody can sign back into (no verified phone, no Apple or Google link) gets `instant: true`: `purge_at` is now and its purge is queued | self | – | `account.closed`, `trip.organiser_transferred` | A |
+| `restore_account` | `{}` → `{deletion_id, status: anonymous\|registered}`. Inside the grace window only (`STATE_INVALID{reason: not_closed\|grace_over}`); the account, its memberships and its push tokens come back as they were | self (the only command a closed account may run) | – | `account.restored` | A |
+
+While an account is closed every other command answers `ACCOUNT_CLOSED` (403) on every door; after the purge the uid has no account left.
+
+| Route | Auth | Source | Cache |
+|---|---|---|---|
+| `GET /v1/me/account` | S (answered while closed) | `{status: anonymous\|registered\|closed\|purged, deletion: {requested_at, purge_at} \| null}` | none |
+| `POST /v1/me/deletion/purge-now` | S | For test devices that need to start again as a new person. Closes the caller's account if it is still open, then runs the purge at once: `{purged: true, user_id, deletion_id, purged_at}`. Every session of the account is ended, so the next call is 401. `FORBIDDEN{reason: production}` (403) whenever the server's `APP_ENV` is `production`. Six tries an hour per uid | none |
+
+### The purge
+
+`account.purge` runs hourly and erases every closed account whose `purge_at` has come, one transaction per account, through `purgeAccount` (`packages/db/src/account/purge.ts`); the purge route runs the same routine. What happens to each column that names a user is listed in `packages/domain/src/account/purge-policy.ts`, and a database test fails when a new column has no rule.
+
+- The person's own rows are deleted: pass, stamps, critters and eggs, taste, avatar, settings, devices and push tokens, notifications and inbox, saved places, location, calendar, private budget and dietary data, guide threads, past trips, command log.
+- In shared crews the membership becomes `former`; trips, plans, votes, expenses and the ledger stay under the same uid, which is now a `purged` user with no name, username, home or avatar ("former member").
+- Chat messages the person sent keep their place with an empty body.
+- Join codes and open invites the person handed out are revoked.
+- What crewmates still owed the person is written off with one `adjustment` ledger entry per crew, currency and crewmate; what the person owed stays on the crew's balances. Every crew still sums to zero.
+- Store and usage ledgers keep their amounts with the user column cleared.
+- The sign-in identity is deleted (Better Auth user, sessions, linked Apple and Google accounts, verifications), so the same phone number or provider account signs up as a new person with a new uid.
+- A crew or trip only that person was in stays in the database, unreachable by anyone.
+- `media_objects` rows stay as the list of stored objects still to erase.
 
 ## Data deltas
 
