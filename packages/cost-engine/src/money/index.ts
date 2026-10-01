@@ -14,6 +14,12 @@ export {
 } from './currencies';
 export { formatMoney, type FormatMoneyOptions } from './format';
 export {
+  compactNumber,
+  formatNarrowCurrency,
+  narrowCurrencySymbol,
+  withCurrencySymbol,
+} from './intl-fallbacks';
+export {
   add,
   compare,
   equalsMoney,

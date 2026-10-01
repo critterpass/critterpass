@@ -16,7 +16,7 @@ import type pg from 'pg';
 
 const ITEM_COLUMNS = `stable_id, starts_at, ends_at, tz, lane, attendee_ids, poi_id, provider_id, booking_id,
   must_do_id, category, cost_model, amount_minor, currency, status, flexibility, is_outdoor,
-  created_by_kind, notes, locked_reason`;
+  created_by_kind, notes, locked_reason, i18n`;
 
 /**
  * A new organiser draft copied from `source` (leaving out the items in `skip`), parented on
@@ -39,8 +39,8 @@ export async function copyVersion(
   const id = rows[0]?.id;
   if (id === undefined) throw new Error(`no version ${source} to copy`);
   await tx.query(
-    `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref)
-     SELECT $2, trip_id, day_no, date, theme, weather_ref FROM plan_days WHERE version_id = $1`,
+    `INSERT INTO plan_days (version_id, trip_id, day_no, date, theme, weather_ref, i18n)
+     SELECT $2, trip_id, day_no, date, theme, weather_ref, i18n FROM plan_days WHERE version_id = $1`,
     [source, id],
   );
   await tx.query(

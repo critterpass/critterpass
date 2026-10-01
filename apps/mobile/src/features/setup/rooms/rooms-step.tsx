@@ -5,10 +5,10 @@
  * signal), and a member's wishes and swap request.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- chip keys, step names and notice keys, never copy. */
+import { formatNarrowCurrency } from '@cp/cost-engine';
 import { useEffect, useRef, useState } from 'react';
 
 import { isSkippable } from '@cp/domain';
-import { format } from '@cp/i18n';
 
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -32,10 +32,7 @@ import type { StayOption } from './stay-picker';
 function estimateOf(locale: string, row: StayRateRow): string {
   const scale = 10 ** fractionDigits(row.currency);
   const money = (minor: number) =>
-    format.number(locale, Math.round(minor / scale), {
-      style: 'currency',
-      currency: row.currency,
-      currencyDisplay: 'narrowSymbol',
+    formatNarrowCurrency(locale, Math.round(minor / scale), row.currency, {
       maximumFractionDigits: 0,
     });
   const low = money(row.nightly_minor_low);

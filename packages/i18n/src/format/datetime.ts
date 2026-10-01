@@ -24,7 +24,30 @@ export function dateInterval(
   end: Date,
   options?: Intl.DateTimeFormatOptions,
 ): string {
-  return new Intl.DateTimeFormat(locale, options).formatRange(start, end);
+  const formatter = new Intl.DateTimeFormat(locale, options);
+  // Hermes has no `formatRange`: the same day once, days of one month as "Sep 27–30" (when the
+  // parts can be read), anything else as the two dates around an en dash.
+  const ranged = formatter as Intl.DateTimeFormat & {
+    formatRange?: (a: Date, b: Date) => string;
+  };
+  if (typeof ranged.formatRange === 'function') return ranged.formatRange(start, end);
+  const from = formatter.format(start);
+  const to = formatter.format(end);
+  if (from === to) return from;
+  if (typeof formatter.formatToParts === 'function') {
+    const first = formatter.formatToParts(start);
+    const last = formatter.formatToParts(end);
+    const day = last.find((part) => part.type === 'day')?.value;
+    const sameButDay =
+      first.length === last.length &&
+      first.every((part, index) => part.type === 'day' || part.value === last[index]?.value);
+    if (day !== undefined && sameButDay) {
+      return first
+        .map((part) => (part.type === 'day' ? `${part.value}–${day}` : part.value))
+        .join('');
+    }
+  }
+  return `${from} – ${to}`;
 }
 
 /** e.g. "in 3 days", "2 hours ago" — countdown/activity copy that is not a fixed calendar date. */

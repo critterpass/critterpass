@@ -157,19 +157,19 @@ msgstr "还有更多惊喜"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.ngua"
-msgstr "一匹戴花的小马，正在 Đà Lạt 等你。"
+msgstr "一匹戴花的小马，正在 {place} 等你。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.cuRua"
-msgstr "一只还剑湖神龟，正在 Hà Nội 等你。"
+msgstr "一只还剑湖神龟，正在 {place} 等你。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lucky"
-msgstr "一只长耳野兔，正在 Las Vegas 等你。"
+msgstr "一只长耳野兔，正在 {place} 等你。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.chep"
-msgstr "一条灯笼鲤鱼，正在 Hội An 等你。"
+msgstr "一条灯笼鲤鱼，正在 {place} 等你。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.eyebrow"
@@ -181,11 +181,11 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.drac"
-msgstr "一只马赛克蝾螈，正在 Barcelona 等你。"
+msgstr "一只马赛克蝾螈，正在 {place} 等你。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.roucou"
-msgstr "一只戴贝雷帽的鸽子，正在 Paris 等你。"
+msgstr "一只戴贝雷帽的鸽子，正在 {place} 等你。"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.invite.waitingSeat"
@@ -197,7 +197,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.pizza"
-msgstr "一只地铁老鼠，正在 New York 等你。"
+msgstr "一只地铁老鼠，正在 {place} 等你。"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.eggLabel"
@@ -229,7 +229,7 @@ msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon-sections.ts
 msgid "web.comingSoon.hatch.local.lince"
-msgstr "一只伊比利亚猞猁，正在 Seville 等你。"
+msgstr "一只伊比利亚猞猁，正在 {place} 等你。"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.footerApp"
@@ -254,6 +254,10 @@ msgstr "问问当地朋友"
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.home"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.home"
+msgstr "回到起点"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlace"
@@ -911,6 +915,10 @@ msgstr ""
 msgid "web.shell.noCookies"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.empty"
+msgstr "没有找到这个名字的地方，换个写法试试。"
+
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideMoneyTitle"
 msgstr ""
@@ -955,6 +963,10 @@ msgstr ""
 msgid "web.home.guidePaco"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.title"
+msgstr "页面不存在"
+
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.pageTitle"
 msgstr ""
@@ -970,6 +982,14 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.coverLabel"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.pickPlace"
+msgstr "请从列表里选一个地方，或者清空搜索。"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.results"
+msgstr "地点"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.passPlaces"
@@ -1028,6 +1048,10 @@ msgid "web.referral.finePrintTerms"
 msgstr ""
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.remove"
+msgstr "移除{city}"
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.form.saveSeat"
 msgstr "帮我留座 →"
 
@@ -1054,6 +1078,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.insideVoice"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.placeholder"
+msgstr "搜索任意城市"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.seat"
@@ -1102,6 +1130,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.chat1"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.label"
+msgstr "想去别的地方？"
 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.mockMoneyReceipt"
@@ -1227,6 +1259,10 @@ msgstr ""
 msgid "web.shell.thePass"
 msgstr ""
 
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.search.failed"
+msgstr "地点列表没加载出来，稍后再试一次吧。"
+
 #: ../../apps/web/src/components/site/copy/legal.ts
 msgid "web.legal.shortVersion"
 msgstr ""
@@ -1242,6 +1278,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.how3Body"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.notFound.line"
+msgstr "这个页面不在路线上。当地朋友们把每条小巷都找遍了。"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.notFound.body"
@@ -1450,6 +1490,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.inApp"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/coming-soon.ts
+msgid "web.comingSoon.pass.yourLocal"
+msgstr "你的当地朋友"
 
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.placeInLine"

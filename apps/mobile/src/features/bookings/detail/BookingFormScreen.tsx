@@ -22,6 +22,7 @@ import {
   problemsOf,
   toAddPayload,
   toEditPayload,
+  zoneName,
   type BookingDraft,
 } from './form-model';
 
@@ -83,6 +84,7 @@ export function BookingFormScreen({
       problems={problems}
       showProblems={tried}
       saving={add.pending || edit.pending}
+      zone={zoneName(tz, Date.now())}
       onChange={(patch) => setDraft({ ...current, ...patch })}
       onSave={() => void save()}
     />

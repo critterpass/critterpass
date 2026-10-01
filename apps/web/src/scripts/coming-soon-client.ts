@@ -5,8 +5,8 @@
  * calls, the joined panel (referral link, sharing, reset), and refreshing the real header and
  * first-wave numbers. One instance per page load; no framework, just DOM.
  */
-import type { Guide } from '../lib/guides';
-import { guideForDestination } from '../lib/guides';
+import { guideView } from '../lib/destination-view';
+import type { DestinationView } from '../lib/destination-view';
 import { DEFAULT_DESTINATION, findDestination } from '../lib/waitlist';
 import { burstConfetti } from './confetti';
 import { startCountdown } from './countdown';
@@ -14,6 +14,7 @@ import { csAll, csEl, formatCount, setText } from './dom';
 import { startEggHatch } from './egg-hatch';
 import { fill } from './page-strings';
 import type { PageStrings } from './page-strings';
+import { startPlaceSearch } from './place-search';
 import { startTypedText } from './typed-text';
 import type { HandleResponse } from './waitlist-api';
 import { fetchHandle, fetchStats, joinWaitlist } from './waitlist-api';
@@ -33,6 +34,14 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
   const { strings } = config;
   let selectedDestination: string = DEFAULT_DESTINATION.key;
   let currentReferralUrl: string | null = null;
+  const language = document.documentElement.lang || 'en';
+  /** One of the six chips, its place named the way the page's language names it. */
+  const chipView = (key: string): DestinationView =>
+    guideView(key, strings.chipPlaces[key] ?? '', language);
+  const placeSearch = startPlaceSearch(root, strings, language, {
+    onPick: (view) => selectDestination(view),
+    onClear: () => selectDestination(chipView(DEFAULT_DESTINATION.key)),
+  });
 
   startTypedText(csEl(root, 'typed-text'), strings.typedLine);
   startCountdown(
@@ -43,30 +52,33 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     strings,
   );
 
-  function selectDestination(destinationKey: string): void {
-    const destination = findDestination(destinationKey);
-    if (!destination) return;
-    selectedDestination = destinationKey;
-    const guide = guideForDestination(destinationKey);
+  /** Makes `view` the destination: a chip when it is one of the six, the search's pick otherwise. */
+  function selectDestination(view: DestinationView): void {
+    selectedDestination = view.destinationKey;
     for (const chip of csAll(root, 'chip')) {
-      const isActive = chip.dataset['destination'] === destinationKey;
+      const isActive = chip.dataset['destination'] === view.destinationKey;
       chip.setAttribute('aria-pressed', String(isActive));
-      chip.style.background = isActive ? guide.bg : '';
+      chip.style.background = isActive ? view.bg : '';
       chip.style.borderColor = isActive ? 'var(--color-ink-850)' : '';
     }
-    updateBoardingPass(guide);
+    placeSearch.show(findDestination(view.destinationKey) === undefined ? view : null);
+    updateBoardingPass(view);
   }
 
-  function updateBoardingPass(guide: Guide): void {
+  function updateBoardingPass(view: DestinationView): void {
     const pass = csEl(root, 'pass');
-    if (pass) pass.style.background = guide.bg;
-    setText(csEl(root, 'pass-no'), guide.no);
-    setText(csEl(root, 'pass-city'), guide.city);
-    setText(csEl(root, 'pass-guide-name'), guide.name);
+    if (pass) pass.style.background = view.bg;
+    setText(csEl(root, 'pass-no'), view.no);
+    setText(csEl(root, 'pass-city'), view.city);
+    setText(csEl(root, 'pass-guide-name'), view.name);
+    setText(
+      csEl(root, 'pass-guide-label'),
+      view.role === 'local' ? strings.yourLocal : strings.yourGuide,
+    );
     const critter = csEl(root, 'pass-critter');
     if (critter) {
-      critter.setAttribute('kind', guide.kind);
-      critter.setAttribute('seed', String(guide.seed));
+      critter.setAttribute('kind', view.kind);
+      critter.setAttribute('seed', String(view.seed));
     }
   }
 
@@ -74,7 +86,7 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     for (const chip of csAll(root, 'chip')) {
       chip.addEventListener('click', () => {
         const destinationKey = chip.dataset['destination'];
-        if (destinationKey) selectDestination(destinationKey);
+        if (destinationKey) selectDestination(chipView(destinationKey));
       });
     }
   }
@@ -100,7 +112,7 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
   function showJoinedPanel(data: {
     handle: string;
     position: number;
-    guide: Guide;
+    guide: DestinationView;
     friendsJoined: number;
   }): void {
     csEl(root, 'join-form')?.setAttribute('hidden', '');
@@ -166,6 +178,12 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
     const submitButton = csEl<HTMLButtonElement>(form, 'join-submit');
     const honeypot = form.querySelector<HTMLInputElement>('input[name="company"]');
     const email = emailInput?.value.trim() ?? '';
+    // Typed in the search but picked nothing: the visitor has not chosen that place yet.
+    if (placeSearch.hasUnpickedText()) {
+      setError(true, strings.pickPlace);
+      placeSearch.focus();
+      return;
+    }
     if (!EMAIL_PATTERN.test(email)) {
       setError(true);
       return;
@@ -191,11 +209,11 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
       return;
     }
     localStorage.setItem(STORAGE_KEY, outcome.data.handle);
-    selectDestination(outcome.data.destination);
+    selectDestination(outcome.data.place);
     showJoinedPanel({
       handle: outcome.data.handle,
       position: outcome.data.position,
-      guide: guideForDestination(outcome.data.destination),
+      guide: outcome.data.place,
       friendsJoined: 0,
     });
     burstConfetti(csEl(root, 'hero-confetti'));
@@ -243,17 +261,17 @@ export function startComingSoonPage(config: ComingSoonConfig): void {
       localStorage.removeItem(STORAGE_KEY);
       return;
     }
-    selectDestination(data.destination);
+    selectDestination(data.place);
     showJoinedPanel({
       handle: data.handle,
       position: data.position,
-      guide: guideForDestination(data.destination),
+      guide: data.place,
       friendsJoined: data.friendsJoined,
     });
   }
 
   // Wiring.
-  selectDestination(DEFAULT_DESTINATION.key);
+  selectDestination(chipView(DEFAULT_DESTINATION.key));
   wireChips();
   csEl<HTMLFormElement>(root, 'join-form')?.addEventListener('submit', (event) => {
     void onSubmitJoin(event);

@@ -55,6 +55,7 @@ function add(
       onAdd={noop}
       onIgnore={noop}
       onByHand={noop}
+      onTypeIn={noop}
       onMailbox={noop}
     />
   );

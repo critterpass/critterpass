@@ -28,7 +28,22 @@ describe('coming-soon page strings', () => {
     const strings = pageStrings(await siteTranslator(locale), locale);
     for (const local of HATCH_POOL) {
       expect(strings.hatchLines[local.id], local.id).toMatch(/\S/u);
+      expect(strings.hatchLines[local.id], local.id).not.toContain('{place}');
+      expect(strings.hatchCities[local.id], local.id).toMatch(/\S/u);
     }
+  });
+
+  it("names places the way the page's language does", async () => {
+    const japanese = pageStrings(await siteTranslator('ja'), 'ja');
+    expect(japanese.hatchLines['cp-005']).toBe('ランタンの鯉。ホイアンであなたを待っています。');
+    expect(japanese.hatchCities['cp-011']).toBe('パリ');
+    expect(japanese.chipPlaces['kyoto']).toBe('京都');
+    const spanish = pageStrings(await siteTranslator('es'), 'es');
+    expect(spanish.hatchLines['cp-018']).toBe('Un lince ibérico que te espera en Sevilla.');
+    expect(spanish.chipPlaces['mexico-city']).toBe('Ciudad de México');
+    const english = pageStrings(await siteTranslator('en'), 'en');
+    expect(english.hatchLines['cp-005']).toBe('A lantern carp, waiting for you in Hội An.');
+    expect(english.chipPlaces['iceland']).toBe('Iceland');
   });
 
   it('is translated in every language but the source', async () => {

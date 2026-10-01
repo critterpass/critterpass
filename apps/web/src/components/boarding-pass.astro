@@ -1,6 +1,7 @@
 ---
 import '../styles/coming-soon.css';
 import { GUIDES } from '../lib/guides';
+import { placeNameUpper } from '../lib/place-names';
 import { comingSoonCopy as copy } from './site/copy/coming-soon';
 import { siteTranslator } from './site/i18n';
 
@@ -41,7 +42,7 @@ const initialGuide = GUIDES[0]!;
         </div>
         <div class="cs-pass__field">
           <span class="cs-pass__field-label">{t(copy.passTo)}</span>
-          <span class="cs-pass__field-value" data-cs="pass-city">{initialGuide.city}</span>
+          <span class="cs-pass__field-value" data-cs="pass-city">{placeNameUpper(initialGuide.place, locale)}</span>
         </div>
         <div class="cs-pass__field">
           <span class="cs-pass__field-label">{t(copy.passSeat)}</span>
@@ -54,7 +55,7 @@ const initialGuide = GUIDES[0]!;
           <span class="cs-pass__gate-badge" data-cs="pass-gate">{t(copy.boardingSoon)}</span>
         </div>
         <div class="cs-pass__guide-name">
-          <span class="cs-pass__guide-name-script">{t(copy.yourGuide)}</span>
+          <span class="cs-pass__guide-name-script" data-cs="pass-guide-label">{t(copy.yourGuide)}</span>
           <span class="cs-pass__guide-name-value" data-cs="pass-guide-name">{initialGuide.name}</span>
         </div>
       </div>

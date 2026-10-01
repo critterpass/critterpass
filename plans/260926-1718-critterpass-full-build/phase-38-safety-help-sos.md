@@ -1,7 +1,7 @@
 ---
 phase: 38
 title: Help hub & crew SOS
-status: pending
+status: in_progress
 depends_on: [11, 14, 18, 20, 32, 34, 35, 39]
 wave: 17
 features: [F-119, F-120]

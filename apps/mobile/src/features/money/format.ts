@@ -4,6 +4,7 @@
  * into arithmetic). Full amounts go through the app-wide formatter so symbols match everywhere.
  */
 import {
+  compactNumber,
   currencyExponent,
   currencySymbol,
   displayDecimals,
@@ -52,29 +53,6 @@ export function symbolOf(currency: string): string {
   return known(currency) ? currencySymbol(currency) : currency;
 }
 
-const COMPACT_STEPS: readonly (readonly [number, string])[] = [
-  [1e9, 'B'],
-  [1e6, 'M'],
-  [1e3, 'K'],
-];
-
-/**
- * "450K", "1.08M": the locale's own compact form where the runtime has one. Hermes on iOS ignores
- * `notation: 'compact'` and writes the number out in full; there the amount is scaled here, with
- * the locale's digits and decimal mark.
- */
-export function compactNumber(locale: string, value: number): string {
-  const native = format.number(locale, value, {
-    notation: 'compact',
-    maximumSignificantDigits: 3,
-  });
-  const full = format.number(locale, value, { maximumSignificantDigits: 3 });
-  if (native !== full) return native;
-  const step = COMPACT_STEPS.find(([size]) => value >= size);
-  if (step === undefined) return full;
-  return `${format.number(locale, value / step[0], { maximumSignificantDigits: 3 })}${step[1]}`;
-}
-
 /** Short amount for chips, rows and buttons: "Rp 1.08M", "Rp 450K", "US$68". */
 export function formatShort(amountMinor: bigint, currency: string, locale: string): string {
   const major = toMajor(amountMinor < 0n ? -amountMinor : amountMinor, currency);
@@ -83,8 +61,18 @@ export function formatShort(amountMinor: bigint, currency: string, locale: strin
       ? compactNumber(locale, major)
       : format.number(locale, major, { maximumFractionDigits: major >= 100 ? 0 : 2 });
   const symbol = symbolOf(currency);
+  const sign = amountMinor < 0n ? MINUS : '';
+  if (symbolTrails(currency, locale)) return `${sign}${body}\u00a0${symbol}`;
   const spaced = /[A-Za-z]$/u.test(symbol) ? `${symbol} ` : symbol;
-  return `${amountMinor < 0n ? MINUS : ''}${spaced}${body}`;
+  return `${sign}${spaced}${body}`;
+}
+
+/**
+ * True where the locale writes this currency's symbol after the number ("1.250.000 ₫" in
+ * Vietnamese), so the keypad's amount, the short form and the rows all place it the same way.
+ */
+export function symbolTrails(currency: string, locale: string): boolean {
+  return formatAmount(0n, currency, locale).search(/\d/u) === 0;
 }
 
 /** Whole major units and the text around them, for the rolling hero number. */
@@ -106,6 +94,22 @@ export function heroParts(
     prefix: first > 0 ? text.slice(0, first) : '',
     suffix: last < 0 ? '' : text.slice(suffixStart),
   };
+}
+
+/**
+ * The type size a hero amount fits its row at, by how many characters it prints (symbol,
+ * digits and group marks): "$4,812" at the full hero size, "₫10,600,000" a step down, and
+ * anything longer at the heading size, so the amount is never cut off at the screen edge.
+ */
+export function heroVariant(parts: {
+  readonly whole: number;
+  readonly prefix: string;
+  readonly suffix: string;
+}): 'displayHero' | 'displayXl' | 'h1' {
+  const digits = String(Math.abs(Math.trunc(parts.whole))).length;
+  const length = parts.prefix.length + parts.suffix.length + digits + Math.floor((digits - 1) / 3);
+  if (length <= 8) return 'displayHero';
+  return length <= 11 ? 'displayXl' : 'h1';
 }
 
 /** A calendar date (`YYYY-MM-DD`) at noon UTC, so formatting it in UTC never shifts the day. */

@@ -6,11 +6,14 @@ import { DEFAULT_LOCALE, SITE_LOCALE_CODES } from '../lib/locale';
 export interface Props {
   readonly title: string;
   readonly description: string;
-  readonly canonicalPath: string;
+  /** `null` for a page with no address of its own (not found). */
+  readonly canonicalPath: string | null;
   /** The language the document is written in. */
   readonly locale?: string;
   /** Lists the front door's address in every language (`hreflang`), for a page that has them. */
   readonly languageAlternates?: boolean;
+  /** Keeps the page out of search results. */
+  readonly noindex?: boolean;
 }
 
 const {
@@ -19,9 +22,10 @@ const {
   canonicalPath,
   locale = DEFAULT_LOCALE,
   languageAlternates = false,
+  noindex = false,
 } = Astro.props;
 const site = Astro.site ?? 'https://critterpass.app';
-const canonicalUrl = new URL(canonicalPath, site).toString();
+const canonicalUrl = canonicalPath === null ? null : new URL(canonicalPath, site).toString();
 const ogImageUrl = new URL('/og-image.png', site).toString();
 // `/` follows the visitor's language, so it is the `x-default`; each language has its own address.
 const alternates = languageAlternates
@@ -39,7 +43,8 @@ const alternates = languageAlternates
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
+    {noindex && <meta name="robots" content="noindex" />}
     {alternates.map((alternate) => <link rel="alternate" hreflang={alternate.hreflang} href={alternate.href.toString()} />)}
     <meta name="theme-color" content="#17142a" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -49,7 +54,7 @@ const alternates = languageAlternates
     <meta property="og:site_name" content="CritterPass" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
+    {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
