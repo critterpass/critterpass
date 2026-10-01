@@ -141,6 +141,15 @@ describe('install-keyed commands under an envelope id the install never register
     ).toEqual([]);
   });
 
+  it('refuses a caller who has registered no device at all', async () => {
+    const maya = await harness.signInAnonymously();
+    const result = await run(maya, 'update_device_permissions', { perms: PERMS }, randomUUID());
+    expect(result.status).toBe(404);
+    expect(result.body).toMatchObject({ error: { detail: { reason: 'device_not_registered' } } });
+    const token = await run(maya, 'register_la_token', START_TOKEN, randomUUID());
+    expect(token.status).toBe(404);
+  });
+
   it('refuses a caller with no registered device on the envelope’s platform', async () => {
     const maya = await harness.signInAnonymously();
     const android = await registerPhone(maya, 'android');
