@@ -1,0 +1,2054 @@
+{
+  "kind": "windows",
+  "version": 2,
+  "items": [
+    {
+      "id": "marigold-ajo",
+      "form_id": "cp-041:legendary",
+      "place_line": "Mexico City · Día de Muertos",
+      "rule": {
+        "type": "annual_range",
+        "start": "11-01",
+        "end": "11-02"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://ich.unesco.org/en/RL/indigenous-festivity-dedicated-to-the-dead-00054",
+      "designed": true
+    },
+    {
+      "id": "sakura-pon",
+      "form_id": "cp-061:legendary",
+      "place_line": "Kyoto · the week the blossoms peak",
+      "rule": {
+        "type": "month_part",
+        "month": 4,
+        "part": "early"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.japan-guide.com/sakura/",
+      "designed": true
+    },
+    {
+      "id": "festa-sardi",
+      "form_id": "cp-076:legendary",
+      "place_line": "Lisbon · Santo António night",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-12",
+        "end": "06-12"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.visitlisboa.com/en/events/festas-de-lisboa",
+      "designed": true
+    },
+    {
+      "id": "inti-paco",
+      "form_id": "cp-145:legendary",
+      "place_line": "Cusco · Inti Raymi",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-24",
+        "end": "06-24"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.peru.travel/en/events/inti-raymi",
+      "designed": true
+    },
+    {
+      "id": "puffling-lundi",
+      "form_id": "cp-148:legendary",
+      "place_line": "Heimaey · puffling nights",
+      "rule": {
+        "type": "month_part",
+        "month": 8,
+        "part": "late"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.visitwestmanislands.com/",
+      "designed": true
+    },
+    {
+      "id": "golden-tokek",
+      "form_id": "cp-112:legendary",
+      "place_line": "Bali · all six on Batur by sunrise",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": "by_sunrise",
+      "challenge": "All six on Batur by sunrise",
+      "source_url": null,
+      "designed": true
+    },
+    {
+      "id": "golden-cu-rua-001",
+      "form_id": "cp-001:legendary",
+      "place_line": "Hà Nội · Tết at Hoàn Kiếm Lake",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.instagram.com/reel/DUneIUhEjEy",
+      "designed": false
+    },
+    {
+      "id": "golden-rong-002",
+      "form_id": "cp-002:legendary",
+      "place_line": "Hạ Long · Hạ Long Carnaval week",
+      "rule": {
+        "type": "annual_range",
+        "start": "05-01",
+        "end": "05-01"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://revitrip.com/blog/ha-long-carnaval",
+      "designed": false
+    },
+    {
+      "id": "festival-trau-003",
+      "form_id": "cp-003:legendary",
+      "place_line": "Sa Pa · Sa Pa Winter Festival",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Summit Fansipan in winter",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-sao-la-004",
+      "form_id": "cp-004:legendary",
+      "place_line": "Huế · Tet at Imperial City",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.friendstravelvietnam.com/tet-holiday-vietnams-lunar-new-year-your-ultimate-guide-for-international-tourists",
+      "designed": false
+    },
+    {
+      "id": "golden-chep-005",
+      "form_id": "cp-005:legendary",
+      "place_line": "Hội An · Hoi An Lantern Festival",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Release a lantern on the 14th night",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-ngua-006",
+      "form_id": "cp-006:legendary",
+      "place_line": "Đà Lạt · Dalat Flower Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 12,
+        "part": "late"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://vietnamspot.ru/en/blog/da-lat-flower-festival",
+      "designed": false
+    },
+    {
+      "id": "golden-chao-mao-007",
+      "form_id": "cp-007:legendary",
+      "place_line": "Sài Gòn · Tết in Sài Gòn",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://howtotravelvietnam.com/guides/vietnam-tet-holiday",
+      "designed": false
+    },
+    {
+      "id": "golden-co-008",
+      "form_id": "cp-008:legendary",
+      "place_line": "Mekong · Ok Om Bok in Soc Trang",
+      "rule": {
+        "type": "month_part",
+        "month": 11,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.asiakingtravel.com/blog/ok-om-bok-festival-2025.html",
+      "designed": false
+    },
+    {
+      "id": "tet-xoay-009",
+      "form_id": "cp-009:legendary",
+      "place_line": "Phú Quốc · Dinh Cậu during Tết",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://all.accor.com/a/en/limitless/thematics/top-things-to-do/tet-festival-vietnam.html",
+      "designed": false
+    },
+    {
+      "id": "golden-doi-010",
+      "form_id": "cp-010:legendary",
+      "place_line": "Phong Nha · Son Doong",
+      "rule": {
+        "type": "annual_range",
+        "start": "02-01",
+        "end": "08-31"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://pickyourtrail.com/blog/phong-nha-cave-tours",
+      "designed": false
+    },
+    {
+      "id": "quatorze-roucou-011",
+      "form_id": "cp-011:legendary",
+      "place_line": "Paris · Bastille Day at Champs-Élysées",
+      "rule": {
+        "type": "annual_range",
+        "start": "07-14",
+        "end": "07-14"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Bastille_Day",
+      "designed": false
+    },
+    {
+      "id": "carnaval-cigalou-012",
+      "form_id": "cp-012:legendary",
+      "place_line": "Nice · Carnaval de Nice",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://luggagehero.com/blog/carnaval-de-nice",
+      "designed": false
+    },
+    {
+      "id": "festival-of-lights-leon-013",
+      "form_id": "cp-013:legendary",
+      "place_line": "Lyon · Fête des Lumières",
+      "rule": {
+        "type": "annual_range",
+        "start": "12-08",
+        "end": "12-08"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Festival_of_Lights_(Lyon)",
+      "designed": false
+    },
+    {
+      "id": "golden-rascasse-014",
+      "form_id": "cp-014:legendary",
+      "place_line": "Marseille · Fête de la Musique",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-21",
+        "end": "06-21"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://gogofrance.com/en/blog/fete-de-la-musique-in-france",
+      "designed": false
+    },
+    {
+      "id": "golden-stori-015",
+      "form_id": "cp-015:legendary",
+      "place_line": "Strasbourg · Christmas Market",
+      "rule": {
+        "type": "month_part",
+        "month": 12,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.visitstrasbourg.fr/main-events.pdf",
+      "designed": false
+    },
+    {
+      "id": "merce-drac-016",
+      "form_id": "cp-016:legendary",
+      "place_line": "Barcelona · La Mercè Magic Fountain",
+      "rule": {
+        "type": "month_part",
+        "month": 9,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.turbopass.com/en/blog/barcelona/la-merce-festival-barcelona-2026",
+      "designed": false
+    },
+    {
+      "id": "san-isidro-osito-017",
+      "form_id": "cp-017:legendary",
+      "place_line": "Madrid · San Isidro",
+      "rule": {
+        "type": "annual_range",
+        "start": "05-11",
+        "end": "05-15"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.uniplaces.com/city-explorer/spains-seasonal-activities-your-ultimate-expat-guide",
+      "designed": false
+    },
+    {
+      "id": "feria-lince-018",
+      "form_id": "cp-018:legendary",
+      "place_line": "Seville · Feria de Abril",
+      "rule": {
+        "type": "month_part",
+        "month": 4,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.andalucia.com/festival/seville-feria.htm",
+      "designed": false
+    },
+    {
+      "id": "golden-ferreret-019",
+      "form_id": "cp-019:legendary",
+      "place_line": "Mallorca · Torrent de Pareis",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Breeding season at Torrent de Pareis",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "carnival-canario-020",
+      "form_id": "cp-020:legendary",
+      "place_line": "Tenerife · Santa Cruz Carnival",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Carnival_of_Santa_Cruz_de_Tenerife",
+      "designed": false
+    },
+    {
+      "id": "golden-pizza-021",
+      "form_id": "cp-021:legendary",
+      "place_line": "New York · Macy's Parade",
+      "rule": {
+        "type": "month_part",
+        "month": 11,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.ameritanianyc.com/events/new-york/macys-thanksgiving-day-parade-12999876",
+      "designed": false
+    },
+    {
+      "id": "rose-parade-coyo-022",
+      "form_id": "cp-022:legendary",
+      "place_line": "Pasadena · Rose Parade",
+      "rule": {
+        "type": "month_part",
+        "month": 1,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Rose_Parade",
+      "designed": false
+    },
+    {
+      "id": "golden-lucky-023",
+      "form_id": "cp-023:legendary",
+      "place_line": "Las Vegas · New Year's Eve on the Strip",
+      "rule": {
+        "type": "annual_range",
+        "start": "12-31",
+        "end": "12-31"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://party.alibaba.com/newyear/did-las-vegas-have-fire-works-for-the-new-year",
+      "designed": false
+    },
+    {
+      "id": "golden-gator-024",
+      "form_id": "cp-024:legendary",
+      "place_line": "Orlando · Orlando Wetlands Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.nbbd.com/festivals/OrlandoWetlands",
+      "designed": false
+    },
+    {
+      "id": "aloha-humu-025",
+      "form_id": "cp-025:legendary",
+      "place_line": "Honolulu · Waikiki Hoolaulea",
+      "rule": {
+        "type": "month_part",
+        "month": 9,
+        "part": "mid"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.alohafestivals.com/events",
+      "designed": false
+    },
+    {
+      "id": "lunar-new-year-jingba-026",
+      "form_id": "cp-026:legendary",
+      "place_line": "Beijing · Lunar New Year at Ditan Park",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.facebook.com/globaltimesnews/posts/inpicsthe-38th-ditan-park-temple-fair-celebrating-the-springfestival-kicked-off-/1447444134094456",
+      "designed": false
+    },
+    {
+      "id": "golden-xiexie-027",
+      "form_id": "cp-027:legendary",
+      "place_line": "Shanghai · Yuyuan Lantern Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.shanghaitourism.org/chinese-new-year-shanghai",
+      "designed": false
+    },
+    {
+      "id": "golden-jinsi-028",
+      "form_id": "cp-028:legendary",
+      "place_line": "Xi'an · City Wall Lantern Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 1,
+        "part": "mid"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.xianprivatetour.com/xian/festivals-and-events.htm",
+      "designed": false
+    },
+    {
+      "id": "golden-huahua-029",
+      "form_id": "cp-029:legendary",
+      "place_line": "Chengdu · Jinsha Sun Festival",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": "after_dark",
+      "challenge": "Brave the Jinsha Sun Festival crowds",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-luci-030",
+      "form_id": "cp-030:legendary",
+      "place_line": "Guilin · Li River Lantern Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://windhorsetour.com/china-travel-tips/china-traditional-festivals-holidays",
+      "designed": false
+    },
+    {
+      "id": "golden-tombili-031",
+      "form_id": "cp-031:legendary",
+      "place_line": "Istanbul · Tulip season at Emirgan Park",
+      "rule": {
+        "type": "annual_range",
+        "start": "04-01",
+        "end": "04-30"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.insideoutinistanbul.com/istanbul-tulip-festival",
+      "designed": false
+    },
+    {
+      "id": "golden-caretta-032",
+      "form_id": "cp-032:legendary",
+      "place_line": "Antalya · Golden Orange Film Festival",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Win the Golden Orange",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-peri-033",
+      "form_id": "cp-033:legendary",
+      "place_line": "Cappadocia · Hıdırellez",
+      "rule": {
+        "type": "annual_range",
+        "start": "05-05",
+        "end": "05-06"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.feztravel.com/fez/hidirellez-welcoming-spring-with-turkey-s-ancient-festival-of-wishes_BI_Hidirel",
+      "designed": false
+    },
+    {
+      "id": "golden-yunus-034",
+      "form_id": "cp-034:legendary",
+      "place_line": "Bodrum · Bodrum Cup Regatta",
+      "rule": {
+        "type": "month_part",
+        "month": 10,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://goolets.net/blog/what-is-bodrum-cup",
+      "designed": false
+    },
+    {
+      "id": "golden-pembe-035",
+      "form_id": "cp-035:legendary",
+      "place_line": "Izmir · Izmir International Fair",
+      "rule": {
+        "type": "month_part",
+        "month": 9,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/%C4%B0zmir_International_Fair",
+      "designed": false
+    },
+    {
+      "id": "aurea-lupa-036",
+      "form_id": "cp-036:legendary",
+      "place_line": "Rome · Natale di Roma",
+      "rule": {
+        "type": "annual_range",
+        "start": "04-21",
+        "end": "04-21"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.headout.com/blog/natale-di-roma",
+      "designed": false
+    },
+    {
+      "id": "carnevale-seppia-037",
+      "form_id": "cp-037:legendary",
+      "place_line": "Venice · Carnevale at St Mark's Square",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.visit-venice-italy.com/carnival-venice-italy-programme.html",
+      "designed": false
+    },
+    {
+      "id": "golden-porcellino-038",
+      "form_id": "cp-038:legendary",
+      "place_line": "Florence · Scoppio del Carro",
+      "rule": {
+        "type": "month_part",
+        "month": 4,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.visitflorence.com/florence-events/explosion-of-the-cart-easter.html",
+      "designed": false
+    },
+    {
+      "id": "ambrosian-biscio-039",
+      "form_id": "cp-039:legendary",
+      "place_line": "Milan · Sant'Ambrogio's feast",
+      "rule": {
+        "type": "annual_range",
+        "start": "12-07",
+        "end": "12-07"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.timeanddate.com/holidays/italy/feast-of-st-ambrose",
+      "designed": false
+    },
+    {
+      "id": "golden-azzurra-040",
+      "form_id": "cp-040:legendary",
+      "place_line": "Capri · Settembrata Anacapri",
+      "rule": {
+        "type": "month_part",
+        "month": 9,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://theweather.guide/italy/campania/capri/capri-events-festivals",
+      "designed": false
+    },
+    {
+      "id": "dorado-tibu-042",
+      "form_id": "cp-042:legendary",
+      "place_line": "Cancún · Whale Shark Season",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-01",
+        "end": "09-15"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.facebook.com/ArteagasFoodCenter/posts/we-will-have-teal-conchas-for-the-month-of-september-go-sharks/1702812501846548",
+      "designed": false
+    },
+    {
+      "id": "guelaguetza-chapulin-043",
+      "form_id": "cp-043:legendary",
+      "place_line": "Oaxaca · Guelaguetza",
+      "rule": {
+        "type": "month_part",
+        "month": 7,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://queondaoaxaca.com/en/guelaguetza",
+      "designed": false
+    },
+    {
+      "id": "golden-coati-044",
+      "form_id": "cp-044:legendary",
+      "place_line": "Tulum · Día de Muertos",
+      "rule": {
+        "type": "annual_range",
+        "start": "10-31",
+        "end": "11-02"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.instagram.com/p/DPEr7jfDMyj",
+      "designed": false
+    },
+    {
+      "id": "golden-xolo-045",
+      "form_id": "cp-045:legendary",
+      "place_line": "Guadalajara · Fiestas de Octubre",
+      "rule": {
+        "type": "annual_range",
+        "start": "10-02",
+        "end": "11-02"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.gaytravel4u.com/event/fiestas-de-octubre-guadalajara-day-of-the-dead-celebrations",
+      "designed": false
+    },
+    {
+      "id": "golden-maying-046",
+      "form_id": "cp-046:legendary",
+      "place_line": "Victoria Peak · CNY at Victoria Harbour",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Hike Victoria Peak after dark",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-malau-047",
+      "form_id": "cp-047:legendary",
+      "place_line": "Kowloon · Mid-Autumn at Walled City",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Explore Walled City Park at night",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "lunar-gamyu-048",
+      "form_id": "cp-048:legendary",
+      "place_line": "Mong Kok · Chinese New Year",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Wander Mong Kok markets by night",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-hoitun-049",
+      "form_id": "cp-049:legendary",
+      "place_line": "Lantau · Tai O Dragon Boat Festival",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Visit Tai O after dark",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-romer-050",
+      "form_id": "cp-050:legendary",
+      "place_line": "Lamma · Tin Hau Festival",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Attend Lamma Tin Hau Festival at dusk",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "new-year-merlina-051",
+      "form_id": "cp-051:legendary",
+      "place_line": "London · New Year's Eve",
+      "rule": {
+        "type": "annual_range",
+        "start": "12-31",
+        "end": "01-01"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/New_Year%27s_Eve_in_London",
+      "designed": false
+    },
+    {
+      "id": "hogmanay-bobby-052",
+      "form_id": "cp-052:legendary",
+      "place_line": "Edinburgh · Hogmanay on Calton Hill",
+      "rule": {
+        "type": "annual_range",
+        "start": "12-31",
+        "end": "12-31"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Hogmanay",
+      "designed": false
+    },
+    {
+      "id": "golden-nessie-053",
+      "form_id": "cp-053:legendary",
+      "place_line": "Loch Ness · Hogmanay",
+      "rule": {
+        "type": "annual_range",
+        "start": "12-31",
+        "end": "12-31"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.visitscotland.com/things-to-do/events/christmas-winter-festivals/hogmanay",
+      "designed": false
+    },
+    {
+      "id": "golden-buzz-054",
+      "form_id": "cp-054:legendary",
+      "place_line": "Manchester · Manchester Day",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Brave Manchester Day in June crowds",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "grasmere-golden-herdy-055",
+      "form_id": "cp-055:legendary",
+      "place_line": "Lake District · Grasmere Sports",
+      "rule": {
+        "type": "month_part",
+        "month": 8,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.facebook.com/CumbriaLifeMag/posts/grasmere-sports-will-be-free-to-enter-for-all-visitors-this-year/1669554681659669",
+      "designed": false
+    },
+    {
+      "id": "golden-buddy-056",
+      "form_id": "cp-056:legendary",
+      "place_line": "Berlin · Festival of Lights",
+      "rule": {
+        "type": "month_part",
+        "month": 10,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://festival-of-lights.de/en",
+      "designed": false
+    },
+    {
+      "id": "oktoberfest-waldi-057",
+      "form_id": "cp-057:legendary",
+      "place_line": "Munich · Oktoberfest",
+      "rule": {
+        "type": "month_part",
+        "month": 9,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.oktoberfest.de/en",
+      "designed": false
+    },
+    {
+      "id": "golden-hein-058",
+      "form_id": "cp-058:legendary",
+      "place_line": "Hamburg · Hafengeburtstag",
+      "rule": {
+        "type": "month_part",
+        "month": 5,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.hamburg-travel.com/see-explore/events/hamburg-port-anniversary",
+      "designed": false
+    },
+    {
+      "id": "gilded-kucki-059",
+      "form_id": "cp-059:legendary",
+      "place_line": "Black Forest · Fasnet",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Join a Fasnet parade in the Black Forest",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-ludwig-060",
+      "form_id": "cp-060:legendary",
+      "place_line": "Neuschwanstein · Winter Solstice",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": "by_sunrise",
+      "challenge": "Reach Neuschwanstein at sunrise",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "hanabi-hachi-062",
+      "form_id": "cp-062:legendary",
+      "place_line": "Tokyo · Sumida River fireworks",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": "after_dark",
+      "challenge": "Witness Sumida River fireworks",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "tenjin-fugu-063",
+      "form_id": "cp-063:legendary",
+      "place_line": "Osaka · Tenjin Matsuri, Okawa River",
+      "rule": {
+        "type": "annual_range",
+        "start": "07-25",
+        "end": "07-25"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Tenjin_Matsuri",
+      "designed": false
+    },
+    {
+      "id": "golden-koukou-064",
+      "form_id": "cp-064:legendary",
+      "place_line": "Athens · Odeon summer festival",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-01",
+        "end": "08-31"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.athenstourism.org/athens-theater-performances-odeon-herodes",
+      "designed": false
+    },
+    {
+      "id": "golden-kri-kri-065",
+      "form_id": "cp-065:legendary",
+      "place_line": "Crete · Samaria Gorge in May",
+      "rule": {
+        "type": "month_part",
+        "month": 5,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.reddit.com/r/crete/comments/1jde5vl/opening_season_samaria_gorge_2025",
+      "designed": false
+    },
+    {
+      "id": "full-moon-petros-066",
+      "form_id": "cp-066:legendary",
+      "place_line": "Mykonos · August full moon on Delos",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": "after_dark",
+      "challenge": "During the August full moon on Delos",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-plakad-067",
+      "form_id": "cp-067:legendary",
+      "place_line": "Bangkok · Loy Krathong",
+      "rule": {
+        "type": "month_part",
+        "month": 11,
+        "part": "late"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.facebook.com/61557144261298/posts/%F0%9D%91%B3%F0%9D%92%90%F0%9D%92%9A-%F0%9D%91%B2%F0%9D%92%93%F0%9D%92%82%F0%9D%92%95%F0%9D%92%89%F0%9D%92%90%F0%9D%92%8F%F0%9D%92%88-%F0%9D%92%8A%F0%9D%92%94-%F0%9D%92%82-%F0%9D%92%95%F0%9D%92%93%F0%9D%92%82%F0%9D%92%85%F0%9D%92%8A%F0%9D%92%95%F0%9D%92%8A%F0%9D%92%90%F0%9D%92%8F%F0%9D%92%82%F0%9D%92%8D-%F0%9D%91%BB%F0%9D%92%89%F0%9D%92%82%F0%9D%92%8A-%F0%9D%92%87%F0%9D%92%86%F0%9D%92%94%F0%9D%92%95%F0%9D%92%8A%F0%9D%92%97%F0%9D%92%82%F0%9D%92%8D-%F0%9D%92%98%F0%9D%92%89%F0%9D%92%86%F0%9D%92%93%F0%9D%92%86-%F0%9D%92%91%F0%9D%92%86%F0%9D%92%90%F0%9D%92%91%F0%9D%92%8D%F0%9D%92%86-%F0%9D%92%87%F0%9D%92%8D%F0%9D%92%90%F0%9D%92%82%F0%9D%92%95-%F0%9D%92%94%F0%9D%92%8E%F0%9D%92%82%F0%9D%92%8D%F0%9D%92%8D-%F0%9D%92%85%F0%9D%92%86%F0%9D%92%84%F0%9D%92%90%F0%9D%92%93%F0%9D%92%82%F0%9D%92%95%F0%9D%92%86%F0%9D%92%85-%F0%9D%92%83/122322890222238142",
+      "designed": false
+    },
+    {
+      "id": "yi-peng-chang-068",
+      "form_id": "cp-068:legendary",
+      "place_line": "Chiang Mai · Yi Peng Lantern Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 11,
+        "part": "late"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.thailandhighlights.com/thailand/yi-peng-festival",
+      "designed": false
+    },
+    {
+      "id": "golden-chanee-069",
+      "form_id": "cp-069:legendary",
+      "place_line": "Phuket · Phuket Vegetarian Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 10,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://messyvegancook.com/2026-phuket-vegetarian-festival",
+      "designed": false
+    },
+    {
+      "id": "opera-ball-lipi-070",
+      "form_id": "cp-070:legendary",
+      "place_line": "Vienna · Opera Ball",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.gocomgo.com/vienna_state_opera/vienna-state-opera-ball/166919",
+      "designed": false
+    },
+    {
+      "id": "golden-murmeli-071",
+      "form_id": "cp-071:legendary",
+      "place_line": "Salzburg · Salzburg Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 7,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Salzburg_Festival",
+      "designed": false
+    },
+    {
+      "id": "golden-gamsi-072",
+      "form_id": "cp-072:legendary",
+      "place_line": "Innsbruck · Four Hills Tournament",
+      "rule": {
+        "type": "month_part",
+        "month": 1,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.tyrol.com/activities/events/top-sport-events",
+      "designed": false
+    },
+    {
+      "id": "golden-jamal-073",
+      "form_id": "cp-073:legendary",
+      "place_line": "Riyadh · Riyadh Season at Boulevard City",
+      "rule": {
+        "type": "annual_range",
+        "start": "10-10",
+        "end": "03-31"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.visitsaudi.com/en/seasons/riyadh-season",
+      "designed": false
+    },
+    {
+      "id": "tantora-hudhud-074",
+      "form_id": "cp-074:legendary",
+      "place_line": "AlUla · Winter at Tantora",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Attend Winter at Tantora in AlUla",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-marjan-075",
+      "form_id": "cp-075:legendary",
+      "place_line": "Jeddah · Red Sea Film Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 12,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://redseafilmfest.com/en/festival-information-2025",
+      "designed": false
+    },
+    {
+      "id": "sao-joao-galo-077",
+      "form_id": "cp-077:legendary",
+      "place_line": "Porto · São João at Ribeira",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-23",
+        "end": "06-23"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Festa_de_S%C3%A3o_Jo%C3%A3o_do_Porto",
+      "designed": false
+    },
+    {
+      "id": "golden-faro-078",
+      "form_id": "cp-078:legendary",
+      "place_line": "Faro · Feira de Santa Iria",
+      "rule": {
+        "type": "month_part",
+        "month": 10,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://quintaproperty.com/whats-on-in-the-algarve-september-october-november-2026",
+      "designed": false
+    },
+    {
+      "id": "thaipusam-rimau-079",
+      "form_id": "cp-079:legendary",
+      "place_line": "Kuala Lumpur · Thaipusam Batu Caves",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Carry kavadi up 272 steps to Batu Caves",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-helang-080",
+      "form_id": "cp-080:legendary",
+      "place_line": "Langkawi · Water Festival Pantai Cenang",
+      "rule": {
+        "type": "annual_range",
+        "start": "04-10",
+        "end": "04-12"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.24-7pressrelease.com/press-release/141824/enjoy-the-langkawi-water-festival-asiaroomscom",
+      "designed": false
+    },
+    {
+      "id": "golden-utan-081",
+      "form_id": "cp-081:legendary",
+      "place_line": "Borneo · Gawai Dayak Kuching Waterfront",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-01",
+        "end": "06-01"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.facebook.com/61582818456687/posts/gawai-festival-malaysia-the-most-amazing-dayak-harvest-celebration-in-borneowelc/122131963995093948",
+      "designed": false
+    },
+    {
+      "id": "golden-reiger-082",
+      "form_id": "cp-082:legendary",
+      "place_line": "Amsterdam · King's Day at Vondelpark",
+      "rule": {
+        "type": "month_part",
+        "month": 4,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Koningsdag",
+      "designed": false
+    },
+    {
+      "id": "golden-lieve-083",
+      "form_id": "cp-083:legendary",
+      "place_line": "Keukenhof · Tulip Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 4,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.holland.com/global/tourism/get-inspired/dutch-icons/tulip-season-in-the-netherlands",
+      "designed": false
+    },
+    {
+      "id": "gilded-eendje-084",
+      "form_id": "cp-084:legendary",
+      "place_line": "Giethoorn · Winter",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Skate the frozen canals and lakes",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "midway-bandit-085",
+      "form_id": "cp-085:legendary",
+      "place_line": "Toronto · CNE midway",
+      "rule": {
+        "type": "month_part",
+        "month": 8,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.destinationontario.com/en-ca/articles/tips-for-planning-your-cne-trip",
+      "designed": false
+    },
+    {
+      "id": "golden-skaana-086",
+      "form_id": "cp-086:legendary",
+      "place_line": "Vancouver · Celebration of Light",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Watch the fireworks over English Bay",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-wapiti-087",
+      "form_id": "cp-087:legendary",
+      "place_line": "Banff · Lake Louise Ice Magic Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.banfflakelouise.com/events/snowdays",
+      "designed": false
+    },
+    {
+      "id": "golden-smok-088",
+      "form_id": "cp-088:legendary",
+      "place_line": "Kraków · Wianki on the Vistula",
+      "rule": {
+        "type": "month_part",
+        "month": 6,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.ricksteves.com/europe/poland/festivals",
+      "designed": false
+    },
+    {
+      "id": "golden-wiewi-089",
+      "form_id": "cp-089:legendary",
+      "place_line": "Warsaw · Wianki by the Vistula",
+      "rule": {
+        "type": "month_part",
+        "month": 6,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://polandww2.com/blogs/2024/06/wianki-2024-celebrate-the-summer-solstice",
+      "designed": false
+    },
+    {
+      "id": "amber-fair-foka-090",
+      "form_id": "cp-090:legendary",
+      "place_line": "Gdańsk · St. Dominic's Fair",
+      "rule": {
+        "type": "annual_range",
+        "start": "07-25",
+        "end": "08-16"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.cantonfair.net/event/60782-st-dominics-fair",
+      "designed": false
+    },
+    {
+      "id": "golden-paun-091",
+      "form_id": "cp-091:legendary",
+      "place_line": "Dubrovnik · Feast of St Blaise",
+      "rule": {
+        "type": "annual_range",
+        "start": "02-03",
+        "end": "02-03"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.dubrovnik-travel.net/feast-st-blaise-dubrovnik",
+      "designed": false
+    },
+    {
+      "id": "golden-pjega-092",
+      "form_id": "cp-092:legendary",
+      "place_line": "Split · Sudamja at Peristyle",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Climb Marjan Hill without stopping",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-vilin-093",
+      "form_id": "cp-093:legendary",
+      "place_line": "Plitvice · Frozen falls at winter",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Walk the frozen boardwalk loop at dawn",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-saqr-094",
+      "form_id": "cp-094:legendary",
+      "place_line": "Dubai · Dubai Shopping Festival",
+      "rule": {
+        "type": "annual_range",
+        "start": "12-05",
+        "end": "01-11"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.dubaidet.gov.ae/en/newsroom/press-releases/31st-edition-of-dubai-shopping-festival",
+      "designed": false
+    },
+    {
+      "id": "golden-arus-095",
+      "form_id": "cp-095:legendary",
+      "place_line": "Abu Dhabi · Qasr Al Hosn National Day",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Reach Qasr Al Hosn's watchtower",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-ramli-096",
+      "form_id": "cp-096:legendary",
+      "place_line": "Sharjah · Sharjah Light Festival",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": "after_dark",
+      "challenge": "See Sharjah's illuminated landmarks",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-belarj-097",
+      "form_id": "cp-097:legendary",
+      "place_line": "Marrakech · Popular Arts Festival",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Find your way out of the Marrakech souks",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-magot-098",
+      "form_id": "cp-098:legendary",
+      "place_line": "Chefchaouen · Almond Blossom Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.serenitymoroccotours.com/blog/moroccan-festivals-guide",
+      "designed": false
+    },
+    {
+      "id": "golden-fanak-099",
+      "form_id": "cp-099:legendary",
+      "place_line": "Merzouga · Date Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 10,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.facebook.com/groups/132714715593474/posts/1182794347252167",
+      "designed": false
+    },
+    {
+      "id": "golden-puli-100",
+      "form_id": "cp-100:legendary",
+      "place_line": "Budapest · Spring Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 5,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://events.europa.tips/budapest-spring-festival?lang=en",
+      "designed": false
+    },
+    {
+      "id": "golden-fogas-101",
+      "form_id": "cp-101:legendary",
+      "place_line": "Balatonfüred · Anna Ball",
+      "rule": {
+        "type": "annual_range",
+        "start": "07-27",
+        "end": "07-27"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.facebook.com/visithungary/posts/on-the-27th-of-july-in-balatonf%C3%BCred-the-anna-ball-takes-place-this-is-a-traditio/889598496545434",
+      "designed": false
+    },
+    {
+      "id": "crane-moon-mangalica-102",
+      "form_id": "cp-102:legendary",
+      "place_line": "Hortobágy · Autumn Crane Migration",
+      "rule": {
+        "type": "month_part",
+        "month": 10,
+        "part": "mid"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.lake.com/articles/best-time-to-go-to-hungary",
+      "designed": false
+    },
+    {
+      "id": "golden-merang-103",
+      "form_id": "cp-103:legendary",
+      "place_line": "Marina Bay · i Light Singapore",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-05",
+        "end": "06-28"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.ura.gov.sg/news/media/pr26-42",
+      "designed": false
+    },
+    {
+      "id": "golden-enggang-104",
+      "form_id": "cp-104:legendary",
+      "place_line": "Sentosa · Lunar New Year",
+      "rule": {
+        "type": "month_part",
+        "month": 1,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.rwsentosa.com/en/about/press-room",
+      "designed": false
+    },
+    {
+      "id": "golden-belacak-105",
+      "form_id": "cp-105:legendary",
+      "place_line": "Sungei Buloh · Migratory bird season",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Migratory bird season, Sungei Buloh",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "lantern-kkachi-106",
+      "form_id": "cp-106:legendary",
+      "place_line": "Seoul · Seoul Lantern Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 11,
+        "part": "early"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://english.seoul.go.kr/must-see-sights-seoul-5-seoul-lantern-festival",
+      "designed": false
+    },
+    {
+      "id": "fireworks-galmaegi-107",
+      "form_id": "cp-107:legendary",
+      "place_line": "Busan · Busan Fireworks Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 11,
+        "part": "early"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.koreatraveleasy.com/product/2026-busan-fireworks-festival-ticket-gwangalli",
+      "designed": false
+    },
+    {
+      "id": "fire-festival-dwaeji-108",
+      "form_id": "cp-108:legendary",
+      "place_line": "Jeju · Jeju Fire Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 3,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.touristkorea.com/jeju-fire-festival-march-9th-14th-2026",
+      "designed": false
+    },
+    {
+      "id": "golden-bastet-109",
+      "form_id": "cp-109:legendary",
+      "place_line": "Cairo · Sham el-Nessim",
+      "rule": {
+        "type": "month_part",
+        "month": 4,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.middleeasteye.net/discover/what-sham-el-nessim-egypt-spring-festival-explained",
+      "designed": false
+    },
+    {
+      "id": "solstice-khepri-110",
+      "form_id": "cp-110:legendary",
+      "place_line": "Luxor · Karnak Winter Solstice Sunrise",
+      "rule": {
+        "type": "annual_range",
+        "start": "12-21",
+        "end": "12-21"
+      },
+      "solar": "by_sunrise",
+      "challenge": null,
+      "source_url": "https://exploreluxor.org/winter-solstice-sunrise-at-the-karnak-temple",
+      "designed": false
+    },
+    {
+      "id": "golden-sobek-111",
+      "form_id": "cp-111:legendary",
+      "place_line": "Aswan · Abu Simbel Sun Festival",
+      "rule": {
+        "type": "annual_range",
+        "start": "02-22",
+        "end": "02-22"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://egyptunitedtours.com/abu-simbel-sun-festival",
+      "designed": false
+    },
+    {
+      "id": "golden-ora-113",
+      "form_id": "cp-113:legendary",
+      "place_line": "Labuan Bajo · Komodo Festival week",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Komodo Festival week at Labuan Bajo",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "sekaten-kukang-114",
+      "form_id": "cp-114:legendary",
+      "place_line": "Yogyakarta · Sekaten at Alun-Alun Utara",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Attend Sekaten at Alun-Alun Utara",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "fasnacht-chueli-115",
+      "form_id": "cp-115:legendary",
+      "place_line": "Lucerne · Fasnacht",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://livingin.swiss/your-guide-to-fasnacht-2026",
+      "designed": false
+    },
+    {
+      "id": "festival-nasli-116",
+      "form_id": "cp-116:legendary",
+      "place_line": "Zermatt · Zermatt Unplugged",
+      "rule": {
+        "type": "month_part",
+        "month": 4,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://guestpectacular.com/festival/zermatt-unplugged/zermatt-unplugged-2026",
+      "designed": false
+    },
+    {
+      "id": "golden-barry-117",
+      "form_id": "cp-117:legendary",
+      "place_line": "Interlaken · Christmas Market",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Survive Interlaken's Christmas Market",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-lev-118",
+      "form_id": "cp-118:legendary",
+      "place_line": "Prague · Prague Spring",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Endure a Prague Spring symphony marathon",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "rose-festival-meda-119",
+      "form_id": "cp-119:legendary",
+      "place_line": "Český Krumlov · Five-Petalled Rose Fest",
+      "rule": {
+        "type": "month_part",
+        "month": 6,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.slavnostipetilisteruze.cz/en/five-petalled-rose-festival-cesky-krumlov",
+      "designed": false
+    },
+    {
+      "id": "golden-jelen-120",
+      "form_id": "cp-120:legendary",
+      "place_line": "Karlovy Vary · Mill Colonnade Christmas",
+      "rule": {
+        "type": "annual_range",
+        "start": "11-29",
+        "end": "01-06"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.karlovyvary.cz/en/christmas-karlovy-vary",
+      "designed": false
+    },
+    {
+      "id": "golden-shqipe-121",
+      "form_id": "cp-121:legendary",
+      "place_line": "Tirana · Dita e Verës at Rinia Park",
+      "rule": {
+        "type": "annual_range",
+        "start": "03-14",
+        "end": "03-14"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Tirana",
+      "designed": false
+    },
+    {
+      "id": "festival-maknine-122",
+      "form_id": "cp-122:legendary",
+      "place_line": "Sidi Bou Said · Festival Maknine",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "During Sidi Bou Said festival in July",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-hathi-123",
+      "form_id": "cp-123:legendary",
+      "place_line": "Jaipur · Holi at Jaipur Polo Ground",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Survive Holi's color riot at Polo Ground",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-lanchals-124",
+      "form_id": "cp-124:legendary",
+      "place_line": "Bruges · Procession of the Holy Blood",
+      "rule": {
+        "type": "month_part",
+        "month": 5,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.bloedprocessiebrugge.be/en/home",
+      "designed": false
+    },
+    {
+      "id": "golden-boulders-pikkie-125",
+      "form_id": "cp-125:legendary",
+      "place_line": "Cape Town · Boulders breeding season",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Spot a penguin chick at Boulders Beach",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-yubarta-126",
+      "form_id": "cp-126:legendary",
+      "place_line": "Samaná · Whale season",
+      "rule": {
+        "type": "annual_range",
+        "start": "01-01",
+        "end": "03-31"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://dominicanrepublic365.com/events/whale-watching-season-samana",
+      "designed": false
+    },
+    {
+      "id": "navruz-sher-127",
+      "form_id": "cp-127:legendary",
+      "place_line": "Samarkand · Navruz at Registan",
+      "rule": {
+        "type": "annual_range",
+        "start": "03-21",
+        "end": "03-21"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://craftnculture.uz/blog/navruz-festival-uzbekistan-guide-2026",
+      "designed": false
+    },
+    {
+      "id": "lantern-festival-chuan-128",
+      "form_id": "cp-128:legendary",
+      "place_line": "Taipei · Taipei Lantern Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "early"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Taiwan_Lantern_Festival",
+      "designed": false
+    },
+    {
+      "id": "vivid-gula-129",
+      "form_id": "cp-129:legendary",
+      "place_line": "Sydney · Vivid Sydney",
+      "rule": {
+        "type": "month_part",
+        "month": 5,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.vividsydney.com/info/about-vivid-sydney",
+      "designed": false
+    },
+    {
+      "id": "st-patricks-fia-130",
+      "form_id": "cp-130:legendary",
+      "place_line": "Dublin · St Patrick's Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 3,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://stpatricksfestival.ie",
+      "designed": false
+    },
+    {
+      "id": "midsummer-algis-131",
+      "form_id": "cp-131:legendary",
+      "place_line": "Stockholm · Midsummer at Skansen",
+      "rule": {
+        "type": "month_part",
+        "month": 6,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.stockholmtourism.org/skansen-guide",
+      "designed": false
+    },
+    {
+      "id": "sankranta-neak-132",
+      "form_id": "cp-132:legendary",
+      "place_line": "Siem Reap · Angkor Sankranta",
+      "rule": {
+        "type": "annual_range",
+        "start": "04-14",
+        "end": "04-16"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Cambodian_New_Year",
+      "designed": false
+    },
+    {
+      "id": "carnival-capivara-133",
+      "form_id": "cp-133:legendary",
+      "place_line": "Rio de Janeiro · Rio Carnival week",
+      "rule": {
+        "type": "month_part",
+        "month": 2,
+        "part": "late"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://riocarnivaldates.com",
+      "designed": false
+    },
+    {
+      "id": "tango-hornero-134",
+      "form_id": "cp-134:legendary",
+      "place_line": "Buenos Aires · Tango Festival at Usina",
+      "rule": {
+        "type": "month_part",
+        "month": 8,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.nomadotravel.app/en/guides/buenos-aires-tango-festival",
+      "designed": false
+    },
+    {
+      "id": "golden-perezoso-135",
+      "form_id": "cp-135:legendary",
+      "place_line": "Cartagena · November festivities",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Brave the November heat in Cartagena",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-mamag-136",
+      "form_id": "cp-136:legendary",
+      "place_line": "Tagbilaran · Sandugo Festival",
+      "rule": {
+        "type": "annual_range",
+        "start": "07-01",
+        "end": "07-31"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://en.wikipedia.org/wiki/Sandugo_Festival",
+      "designed": false
+    },
+    {
+      "id": "golden-wardi-137",
+      "form_id": "cp-137:legendary",
+      "place_line": "Petra · Petra Desert Marathon",
+      "rule": {
+        "type": "month_part",
+        "month": 9,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://mybestruns.com/PetraDesertMarathon?b=fMw&details=Y",
+      "designed": false
+    },
+    {
+      "id": "golden-chulengo-138",
+      "form_id": "cp-138:legendary",
+      "place_line": "Torres del Paine · Winter solstice",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": "after_dark",
+      "challenge": "Trek the O Circuit in snow",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "national-orry-139",
+      "form_id": "cp-139:legendary",
+      "place_line": "Doha · Qatar National Day, Corniche",
+      "rule": {
+        "type": "annual_range",
+        "start": "12-18",
+        "end": "12-18"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://yearsofculture.qa/posts/qatar-national-day-a-celebration-of-unity-and-heritage",
+      "designed": false
+    },
+    {
+      "id": "tbilisoba-khokhobi-140",
+      "form_id": "cp-140:legendary",
+      "place_line": "Tbilisi · Tbilisoba in Old Town",
+      "rule": {
+        "type": "month_part",
+        "month": 10,
+        "part": "early"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://georgiatoday.ge/festivals-in-tbilisi-the-best-events-to-plan-your-trip-around",
+      "designed": false
+    },
+    {
+      "id": "golden-fjellrev-141",
+      "form_id": "cp-141:legendary",
+      "place_line": "Tromsø · Midnight Sun season",
+      "rule": {
+        "type": "annual_range",
+        "start": "05-20",
+        "end": "07-22"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.visittromso.no/midnight-sun",
+      "designed": false
+    },
+    {
+      "id": "golden-mee-142",
+      "form_id": "cp-142:legendary",
+      "place_line": "Luang Prabang · Pi Mai, Wat Xieng Thong",
+      "rule": {
+        "type": "annual_range",
+        "start": "04-13",
+        "end": "04-15"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.bestpricetravel.com/travel-guide/must-do-activities-to-celebrate-boun-pi-mai-in-laos-618.html",
+      "designed": false
+    },
+    {
+      "id": "golden-nimr-143",
+      "form_id": "cp-143:legendary",
+      "place_line": "Muscat · Muscat Nights at Qurum Park",
+      "rule": {
+        "type": "annual_range",
+        "start": "01-01",
+        "end": "01-31"
+      },
+      "solar": "after_dark",
+      "challenge": null,
+      "source_url": "https://www.omanobserver.om/article/1181453/oman/musatnights2026/municipality-announces-details-of-muscat-nights-2026",
+      "designed": false
+    },
+    {
+      "id": "golden-kiwi-144",
+      "form_id": "cp-144:legendary",
+      "place_line": "Queenstown · Winter Festival",
+      "rule": {
+        "type": "month_part",
+        "month": 6,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://myqueenstowndiary.com/things-to-do-queenstown-winter",
+      "designed": false
+    },
+    {
+      "id": "golden-ranita-146",
+      "form_id": "cp-146:legendary",
+      "place_line": "La Fortuna · Dry season on Arenal slopes",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": null,
+      "challenge": "Dry season on Arenal slopes",
+      "source_url": null,
+      "designed": false
+    },
+    {
+      "id": "golden-twiga-147",
+      "form_id": "cp-147:legendary",
+      "place_line": "Nairobi · World Giraffe Day",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-21",
+        "end": "06-21"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.facebook.com/GiraffeManor/posts/world-giraffe-day-the-longest-day-of-the-year-is-dedicated-to-the-worlds-tallest/648722247300091",
+      "designed": false
+    },
+    {
+      "id": "carnaval-zunzun-149",
+      "form_id": "cp-149:legendary",
+      "place_line": "Havana · Carnaval de La Habana",
+      "rule": {
+        "type": "annual_range",
+        "start": "06-24",
+        "end": "06-24"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.lovecuba.com/blog/the-havana-carnival",
+      "designed": false
+    },
+    {
+      "id": "golden-milia-150",
+      "form_id": "cp-150:legendary",
+      "place_line": "Serengeti, Tanzania · Ndutu Migration",
+      "rule": {
+        "type": "month_part",
+        "month": 1,
+        "part": "mid"
+      },
+      "solar": null,
+      "challenge": null,
+      "source_url": "https://www.facebook.com/groups/651315545786455/posts/2137720477145947",
+      "designed": false
+    },
+    {
+      "id": "golden-cha-va-151",
+      "form_id": "cp-151:legendary",
+      "place_line": "Đà Nẵng · Bàn Cờ Peak by sunrise",
+      "rule": {
+        "type": "any_day"
+      },
+      "solar": "by_sunrise",
+      "challenge": "Reach Bàn Cờ Peak by sunrise",
+      "source_url": null,
+      "designed": false
+    }
+  ],
+  "generated_by": {
+    "batch_key": "2026-10-01-windows-01",
+    "route": null,
+    "model": null,
+    "generated_at": "2026-10-01T11:00:00.000Z"
+  },
+  "approved_by": null,
+  "checksum": "be16f17f297eb9994fae7497deff76526e3a8b481af032aa55c58eb5c21c26a6"
+}
