@@ -59,11 +59,12 @@ const { locale } = resolveRequestLocale(Astro);
       <section>
         <h2>The one cookie we set</h2>
         <p>The page opens in your browser's language. If you pick a different language at the bottom
-          of the page, or open a link to the page in a particular language (such as
-          <code>critterpass.app/vi</code>), we set a single cookie named <code>cp_locale</code> so the
-          page stays in that language next time. It holds only the language code (for example
-          <code>vi</code>), lasts one year, and is not used to identify or track you. You can clear it
-          in your browser at any time; the page then follows your browser's language again.</p>
+          of the page, we set a single cookie named <code>cp_locale</code> so the page stays in that
+          language next time. It holds only the language code (for example <code>vi</code>), lasts
+          one year, and is not used to identify or track you. Opening a link to the page in a
+          particular language (such as <code>critterpass.app/vi</code>) sets nothing. You can clear
+          the cookie in your browser at any time; the page then follows your browser's language
+          again.</p>
       </section>
 
       <section>

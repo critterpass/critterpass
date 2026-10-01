@@ -1,8 +1,9 @@
 /* eslint-disable lingui/no-unlocalized-strings -- language tags, cookie and header plumbing, not UI copy. */
 /**
  * Which language a visitor reads the coming-soon page in. One pure function decides, in this
- * order: a locale in the address (`/vi`), the visitor's own choice remembered in the `cp_locale`
- * cookie, the browser's `Accept-Language` list, then English. Only shipped languages are ever
+ * order: a locale in the address (`/vi`, for that request only), the choice the visitor made in
+ * the language switcher (the `cp_locale` cookie), the browser's `Accept-Language` list, then
+ * English. Only shipped languages are ever
  * returned (the registry in @cp/i18n), so a request for anything else falls through to the next
  * preference instead of a half-translated page.
  */

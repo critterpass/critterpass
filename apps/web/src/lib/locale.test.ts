@@ -2,6 +2,7 @@ import { readdirSync } from 'node:fs';
 
 import { describe, expect, it } from 'vitest';
 
+import { languageLinks } from './locale-request';
 import {
   SITE_LOCALE_CODES,
   locateLocale,
@@ -146,5 +147,21 @@ describe('locateLocale', () => {
     expect(locateLocale('VI')).toBe('vi');
     expect(locateLocale('i')).toBeNull();
     expect(locateLocale('privacy')).toBeNull();
+  });
+});
+
+describe('languageLinks', () => {
+  it('points the switcher at each language address, marked to be remembered', () => {
+    const links = languageLinks('vi', null);
+    expect(links.map((link) => link.code)).toEqual(SITE_LOCALE_CODES);
+    expect(links.find((link) => link.code === 'zh-Hans')?.href).toBe('/zh-Hans?remember=1');
+    expect(links.filter((link) => link.current).map((link) => link.code)).toEqual(['vi']);
+  });
+
+  it('keeps a referral handle in the address while switching', () => {
+    const links = languageLinks('en', 'some friend');
+    expect(links.find((link) => link.code === 'ja')?.href).toBe(
+      '/w/some%20friend?lang=ja&remember=1',
+    );
   });
 });

@@ -4,10 +4,11 @@ import { env } from 'cloudflare:workers';
 import ComingSoonDocument from '../components/coming-soon-document.astro';
 import { siteMode } from '../components/site/site-mode';
 import { locateLocale } from '../lib/locale';
-import { resolveRequestLocale } from '../lib/locale-request';
+import { rememberLocaleChoice, resolveRequestLocale } from '../lib/locale-request';
 
 // A language's own address (`/vi`, `/zh-Hans`): always that language, whatever the browser asks
-// for, and it remembers the choice. Any other single-segment address is not a page.
+// for. Opening it does not change the visitor's remembered language; only the switcher does.
+// Any other single-segment address is not a page.
 export const prerender = false;
 
 const requested = Astro.params.locale ?? '';
@@ -18,6 +19,9 @@ if (siteMode((env as unknown as { SITE_MODE?: string }).SITE_MODE) !== 'coming-s
   return Astro.redirect('/', 302);
 }
 if (requested !== code) return Astro.redirect(`/${code}`, 301);
+
+const remembered = rememberLocaleChoice(Astro, code, `/${code}`);
+if (remembered !== null) return remembered;
 
 const { locale } = resolveRequestLocale(Astro, code);
 ---
