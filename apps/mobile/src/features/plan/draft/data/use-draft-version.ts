@@ -48,7 +48,8 @@ export interface DraftVersionView {
 const VERSION_SQL = `SELECT id, status, parent_id, created_at, cost_pp_minor, currency, metrics, coverage
   FROM itinerary_versions WHERE id = ?`;
 const DAYS_SQL = `SELECT id, day_no, date, theme, i18n FROM plan_days WHERE version_id = ? ORDER BY day_no`;
-const ITEMS_SQL = `SELECT day_id, stable_id, starts_at, tz, poi_id, must_do_id, category, booking_id, locked_reason
+const ITEMS_SQL = `SELECT day_id, stable_id, starts_at, tz, poi_id, must_do_id, category, booking_id, locked_reason,
+    notes
   FROM plan_items WHERE version_id = ?`;
 const MUST_DOS_SQL = `SELECT id, owner_id, title, external_action, external_deadline FROM must_dos
   WHERE trip_id = ?`;
