@@ -1,16 +1,19 @@
 appId: app.critterpass.dev
 ---
 # Help and SOS as a brand-new traveller, no demo world: a fresh account from Ho Chi Minh City locks
-# in a Đà Nẵng trip that starts today (../happy/subflows/trip-under-way.yaml). A long-press on the
+# in a Đà Nẵng trip (../happy/subflows/trip-under-way.yaml). A long-press on the
 # guide button opens Help (3k-6): the share consent asks first with the toggle off; turned on, the
 # crew can see them for an hour and CALL 115 leads with Vietnam's police on the side. Hurt or sick
 # opens its checklist. SOS to the crew: a preset, the slide, the five-second cancel (cancelled, then
 # sent), the sender's own SOS screen (3k-10) and I'M OK. Then the same hub and checklist in
 # Vietnamese.
+# The trip starts a week out: Help opens over the next locked-in trip just as over one under way,
+# and the date sheet's first week row (today, early in a month) is the shared subflow's weak spot.
 - runFlow:
     file: ../happy/subflows/trip-under-way.yaml
     env:
       SHOTS: help
+      START_OFFSET_DAYS: '7'
 - extendedWaitUntil:
     visible:
       id: 'home-mode-.*'
