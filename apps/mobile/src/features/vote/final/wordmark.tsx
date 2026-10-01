@@ -170,8 +170,7 @@ export function Wordmark({
           color={color}
           style={{ textAlign: TEXT_ALIGN[align] }}
           accessibilityRole={accessibilityRole}
-          // A flow waits on the name's id: it carries it only once the name is shown.
-          testID={hidden ? `${testID}-hidden` : testID}
+          testID={testID}
           onLayout={(event) => {
             const { width: laidOutWidth, height: laidOut } = event.nativeEvent.layout;
             setSet((now) =>

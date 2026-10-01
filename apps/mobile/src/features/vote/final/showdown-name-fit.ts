@@ -195,6 +195,8 @@ export function useShowdownNames(key: string) {
   const [first, second] = scalesAt(halves, step.line);
   return {
     onViewport: setViewport,
+    /** Both names are measured and set at the size they keep. */
+    settled: ready && step.done,
     first: {
       nameScale: first,
       nameHidden: searching,
