@@ -40,6 +40,8 @@ export const LAB_PICKS: readonly Pick[] = [
     tz: null,
     category: 'sight',
     reasonTag: 'your_must_do',
+    note: null,
+    dayTheme: null,
   },
   {
     itemId: 'i2',
@@ -49,6 +51,8 @@ export const LAB_PICKS: readonly Pick[] = [
     tz: null,
     category: 'food',
     reasonTag: 'matches_taste',
+    note: null,
+    dayTheme: null,
   },
   {
     itemId: 'i3',
@@ -58,6 +62,8 @@ export const LAB_PICKS: readonly Pick[] = [
     tz: null,
     category: 'beach',
     reasonTag: 'good_value',
+    note: null,
+    dayTheme: null,
   },
 ];
 

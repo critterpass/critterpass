@@ -15,12 +15,13 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
 
 import { setRsvpCommand, setRsvpQueuedCommand } from '../data/commands';
-import { dayRange, wholeMoney } from '../data/format';
+import { wholeMoney } from '../data/format';
 import { useFindProposalTrip, useProposal, useVersions } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
+import { tripDates, tripLine } from '../labels';
 import { proposalRoutes } from '../routes';
 import { boardOutcome, arrivalCode, type BoardOutcome } from './model';
 import { BoardView } from './board-view';
@@ -93,12 +94,7 @@ export function BoardScreen(props: {
     <>
       <BoardView
         guide={trip.guide}
-        eyebrow={[
-          trip.destination,
-          trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : null,
-        ]
-          .filter(Boolean)
-          .join(' · ')}
+        eyebrow={tripLine(locale, trip.destination, trip.startDate, trip.endDate)}
         name={me?.name ?? ''}
         crewIn={trip.people
           .filter((p) => p.rsvp === 'in')
@@ -110,8 +106,7 @@ export function BoardScreen(props: {
           from: row?.home_airport?.toUpperCase() ?? '—',
           to: arrivalCode(trip.destinationSlug, trip.destination),
           passenger: me?.fullName ?? '',
-          dates:
-            trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : '',
+          dates: tripDates(locale, trip.startDate, trip.endDate),
           share:
             share === null || currency === null || !proposal.showCost
               ? null

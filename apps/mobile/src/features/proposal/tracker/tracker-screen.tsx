@@ -18,12 +18,12 @@ import { TextLink } from '@/ui/buttons/TextLink';
 import { seatBoost } from '../crowd/boost-slot';
 import { CrowdSheet } from '../crowd/crowd-sheet';
 import { lockProposalCommand } from '../data/commands';
-import { dayRange, instantDate, instantDateTime } from '../data/format';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
-import { useProposalTrip, type CrewPerson } from '../data/trip';
+import { useProposalTrip } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
+import { lockCopy, trackerBack, trackerChip, trackerLine, trackerName, tripLine } from '../labels';
 import { proposalRoutes } from '../routes';
 import { ConfirmedCard } from './confirmed-card';
 import { lockState, publicStatus, tally } from './model';
@@ -68,33 +68,13 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   if (proposal == null || trip == null || member) {
     return <ProposalLoading testID="tracker-loading" />;
   }
-  const sentLine = proposal.sentAt
-    ? t({ id: 'proposal.tracker.sent', message: `Sent ${instantDate(locale, proposal.sentAt)}` })
-    : t({ id: 'proposal.tracker.notSent', message: 'Not sent yet' });
-  const line = (person: CrewPerson): string => {
-    const at = person.repliedAt === null ? '' : instantDateTime(locale, person.repliedAt);
-    switch (publicStatus(person)) {
-      case 'organiser':
-        return sentLine;
-      case 'in':
-        return t({ id: 'proposal.tracker.boarded', message: `Boarded ${at}` });
-      case 'maybe':
-        return t({ id: 'proposal.tracker.saidMaybe', message: 'Said maybe' });
-      case 'out':
-        return t({ id: 'proposal.tracker.cantMake', message: 'Can’t make it' });
-      case 'waitlisted':
-        return t({ id: 'proposal.tracker.waitlisted', message: 'On the waitlist' });
-      case 'no_reply':
-        return sentLine;
-    }
-  };
   const recipients = trip.people.filter((p) => !p.organiser);
   const status = lockedNow ? 'locked' : proposal.status;
   const state = lockState(status, recipients);
   const counts = tally(trip.people);
+  const copy = lockCopy(state);
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a design screen id, never copy.
   const planHref = hrefFor('3e-1', { tripId: trip.tripId });
-  const deadline = proposal.freeCancelUntil ?? proposal.replyBy;
   const pending = new Set(dropouts.rows.map((d) => d.user_id));
   const waiting = trip.people.filter((p) => p.rsvp === 'waitlisted');
   const boost = seatBoost();
@@ -123,33 +103,16 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
   return (
     <>
       <TrackerView
-        back={t({ id: 'proposal.tracker.back', message: `${trip.destination} proposal` })}
-        chip={
-          status === 'locked'
-            ? t({ id: 'proposal.tracker.confirmed', message: 'Confirmed' })
-            : deadline === null
-              ? null
-              : proposal.freeCancelUntil !== null
-                ? t({
-                    id: 'proposal.tracker.freeCancel',
-                    message: `Free cancel till ${instantDate(locale, deadline)}`,
-                  })
-                : t({
-                    id: 'proposal.tracker.replyBy',
-                    message: `Reply by ${instantDate(locale, deadline)}`,
-                  })
-        }
+        back={trackerBack(trip)}
+        chip={trackerChip(locale, status === 'locked', proposal.freeCancelUntil, proposal.replyBy)}
         rows={trip.people.map((p) => ({
           uid: p.uid,
-          name:
-            p.uid === trip.me
-              ? t({ id: 'proposal.tracker.you', message: `${p.name} (you)` })
-              : p.name,
+          name: trackerName(p, p.uid === trip.me),
           joinIndex: p.joinIndex,
           status: publicStatus(p),
           line: pending.has(p.uid)
             ? t({ id: 'proposal.tracker.seeChanges', message: 'Can’t make it · see what changes' })
-            : line(p),
+            : trackerLine(locale, p, proposal.sentAt),
           ...(pending.has(p.uid)
             ? { onPress: () => router.push(proposalRoutes.dropout(proposal.id, p.uid)) }
             : {}),
@@ -172,14 +135,7 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
             <ConfirmedCard
               guide={trip.guide}
               going={counts.in}
-              tripLine={[
-                trip.destination,
-                trip.startDate && trip.endDate
-                  ? dayRange(locale, trip.startDate, trip.endDate)
-                  : null,
-              ]
-                .filter(Boolean)
-                .join(' · ')}
+              tripLine={tripLine(locale, trip.destination, trip.startDate, trip.endDate)}
               onPlan={planHref === undefined ? undefined : () => router.push(planHref)}
             />
           ) : null
@@ -187,19 +143,8 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
         suggestions={
           status === 'sent' ? <Suggestions proposalId={proposal.id} guide={trip.guide} /> : null
         }
-        lockLabel={
-          state.kind === 'ready' ? t({ id: 'proposal.lock.cta', message: 'Lock it in' }) : null
-        }
-        lockNote={
-          state.kind === 'nobody_in'
-            ? t({
-                id: 'proposal.lock.nobody',
-                message: 'You can lock the trip in once someone says they’re in.',
-              })
-            : state.kind === 'locked'
-              ? t({ id: 'proposal.lock.locked', message: 'Locked in. The trip is confirmed.' })
-              : null
-        }
+        lockLabel={copy.label}
+        lockNote={copy.note}
         locking={lock.pending}
         onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
         onLock={() => setAsking(true)}

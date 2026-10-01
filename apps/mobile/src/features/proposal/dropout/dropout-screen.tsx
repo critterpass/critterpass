@@ -5,7 +5,6 @@
  * membership. Organisers only; a member who opens it goes to their own version.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 
@@ -15,11 +14,11 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 
 import { resolveDropoutCommand, setKeepInChatCommand } from '../data/commands';
-import { instantDateTime, signedMoney, wholeMoney } from '../data/format';
 import { useFindProposalTrip, useProposal } from '../data/proposal';
 import { parseJson, useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
+import { dropoutReplyLine, dropoutShare } from '../labels';
 import { proposalRoutes } from '../routes';
 import { DropoutView } from './dropout-view';
 import { changeRows, shareChange, type DropoutOp, type MemberResplit } from './model';
@@ -69,26 +68,15 @@ export function DropoutScreen(props: { readonly proposalId: string; readonly uid
   const rows = changeRows(parseJson<DropoutOp[]>(row.ops, []), names, (id) => byKey.get(id) ?? id);
   const change = shareChange(parseJson<MemberResplit[]>(row.members, []), trip.me);
   const currency = trip.currency;
-  const when = instantDateTime(locale, row.created_at);
   return (
     <DropoutView
       name={name}
       joinIndex={person?.joinIndex ?? 0}
+      guide={trip.guide}
       guideName={GUIDE_STICKERS[trip.guide].name}
-      replyLine={t({
-        id: 'proposal.dropout.reply',
-        message: `${name} told the crew they can’t make it · ${when}`,
-      })}
+      replyLine={dropoutReplyLine(locale, name, row.created_at)}
       rows={rows}
-      share={
-        change === null || currency === null
-          ? null
-          : {
-              after: wholeMoney(locale, change.after, currency),
-              before: wholeMoney(locale, change.before, currency),
-              each: signedMoney(locale, change.delta, currency),
-            }
-      }
+      share={change === null || currency === null ? null : dropoutShare(locale, change, currency)}
       keepInChat={keep.rows[0]?.keep_in_chat === 1}
       resolved={row.resolved_at !== null}
       onBack={() =>

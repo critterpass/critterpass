@@ -28,11 +28,11 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { reactProposalCommand } from '../data/commands';
-import { clock, dayRange } from '../data/format';
 import { useStopTimes } from '../data/picks';
 import { useFindProposalTrip, useProposal, useReactions, useVersions } from '../data/proposal';
 import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
+import { stopWhen, tripLine } from '../labels';
 import { proposalRoutes } from '../routes';
 import { reactionWords } from '../your-version/hype-bar';
 import { TrailerSlide } from './trailer-slide';
@@ -80,18 +80,11 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
   /** "Day 2 · 06:00" for a slide about a plan stop; the progress segments already say which slide. */
   const stopLine = (itemId: string | null): string | null => {
     const stop = itemId === null ? undefined : stops.get(itemId);
-    if (stop === undefined || stop.dayNo === null) return null;
-    const day = t({ id: 'proposal.version.day', message: `Day ${stop.dayNo}` });
-    return stop.startsAt === null ? day : `${day} · ${clock(locale, stop.startsAt, stop.tz)}`;
+    return stop === undefined ? null : stopWhen(locale, stop) || null;
   };
   const toVersion = () => router.replace(proposalRoutes.open(proposalId));
   const names = new Map(trip.people.map((p) => [p.uid, p.name]));
-  const line = [
-    trip.destination,
-    trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : null,
-  ]
-    .filter(Boolean)
-    .join(' · ');
+  const line = tripLine(locale, trip.destination, trip.startDate, trip.endDate);
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="proposal-trailer">
       <StoryPlayer

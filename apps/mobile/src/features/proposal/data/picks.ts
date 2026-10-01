@@ -7,6 +7,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { t } from '@lingui/core/macro';
 
+import { useGuideText } from '@/lib/i18n/guide-text';
+
 import type { Highlight, Slide } from './proposal';
 import { parseJson, useLiveRows } from './rows';
 
@@ -18,6 +20,9 @@ export interface Pick {
   readonly tz: string | null;
   readonly category: string | null;
   readonly reasonTag: string;
+  /** What the guide wrote about the stop and its day, as this person reads them. */
+  readonly note: string | null;
+  readonly dayTheme: string | null;
 }
 
 interface ItemRow {
@@ -28,9 +33,14 @@ interface ItemRow {
   readonly day_no: number | null;
   readonly starts_at: string | null;
   readonly tz: string | null;
+  readonly notes: string | null;
+  readonly i18n: string | null;
+  readonly theme: string | null;
+  readonly day_i18n: string | null;
 }
 
-const ITEMS_SQL = `SELECT i.stable_id, i.poi_id, p.name, i.category, d.day_no, i.starts_at, i.tz
+const ITEMS_SQL = `SELECT i.stable_id, i.poi_id, p.name, i.category, d.day_no, i.starts_at, i.tz,
+    i.notes, i.i18n, d.theme, d.i18n AS day_i18n
   FROM plan_items i
   JOIN trips t ON t.id = i.trip_id
   LEFT JOIN plan_days d ON d.id = i.day_id
@@ -86,6 +96,7 @@ export function usePicks(
   const { rows } = useLiveRows<ItemRow>(ITEMS_SQL, [tripId], ITEMS_TABLES);
   const byId = new Map(rows.map((row) => [row.stable_id, row]));
   const names = usePlaceNames(tripId);
+  const text = useGuideText();
   return highlights.flatMap((h) => {
     const row = byId.get(h.item_id);
     const slide = slides.find((s) => s.item_id === h.item_id);
@@ -101,6 +112,14 @@ export function usePicks(
         tz: row?.tz ?? null,
         category: row?.category ?? null,
         reasonTag: h.reason_tag,
+        note:
+          row === undefined
+            ? null
+            : text('plan_item', { notes: row.notes, i18n: row.i18n }, 'notes'),
+        dayTheme:
+          row === undefined
+            ? null
+            : text('plan_day', { theme: row.theme, i18n: row.day_i18n }, 'theme'),
       },
     ];
   });
@@ -161,6 +180,8 @@ export function groupPicks(rows: readonly PlanRow[], limit = 5): Pick[] {
     tz: row.tz,
     category: row.category,
     reasonTag,
+    note: null,
+    dayTheme: null,
   });
   const picks = named
     .filter((row) => row.must_do_id !== null)
