@@ -38,6 +38,7 @@ function input(changes: Partial<QuestsInput> = {}): QuestsInput {
       { userId: 'u2', name: 'Rin', joinIndex: 1 },
       { userId: 'u3', name: 'Dev', joinIndex: 2 },
     ],
+    unsettled: [],
     viewerId: 'u1',
     now: NOW,
     ...changes,
@@ -127,6 +128,20 @@ describe('crew quests model', () => {
       ['settled', 'wallet'],
       ['xp', 'food'],
     ]);
+  });
+
+  it('shows settling up as one pip per traveller, lit once they are square', () => {
+    const settle = quest(0, {
+      template: 'settle_by',
+      target: 1,
+      reward: '{"xp":120,"sticker":"settled"}',
+    });
+    const open = buildQuestsModel(input({ quests: [settle], unsettled: ['u3', 'someone-else'] }));
+    expect(open.cards[0]?.progress).toEqual({ done: 2, total: 3 });
+    const done = buildQuestsModel(
+      input({ quests: [{ ...settle, status: 'completed' }], unsettled: ['u3'] }),
+    );
+    expect(done.cards[0]?.progress).toEqual({ done: 3, total: 3 });
   });
 
   it('knows whether the viewer joined an optional quest', () => {

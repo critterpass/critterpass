@@ -22,7 +22,6 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { QuestCard } from '@/ui/critters/QuestCard';
 import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
-import { Stack } from '@/ui/layout/Stack';
 import { Avatar } from '@/ui/people/Avatar';
 import { EmptySeat } from '@/ui/people/EmptySeat';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -32,7 +31,9 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import type { QuestCardModel } from './quests-model';
 import type { RevealMode } from './use-reward-reveal';
 
-const ART = 48;
+/** The reward doodle's size in the design, and the locked legendary's. */
+const ART = 44;
+const LOCKED_ART = 72;
 
 /** The quest colours in their design order. */
 export function questColour(theme: ReturnType<typeof useTheme>, colour: QuestCardModel['colour']) {
@@ -49,7 +50,7 @@ export function questColour(theme: ReturnType<typeof useTheme>, colour: QuestCar
 }
 
 const useStyles = makeStyles(() => ({
-  locked: { width: ART, height: ART, alignItems: 'center', justifyContent: 'center' },
+  locked: { width: LOCKED_ART, height: LOCKED_ART, alignItems: 'center', justifyContent: 'center' },
   mark: { position: 'absolute' },
   missed: { opacity: 0.55 },
 }));
@@ -69,12 +70,12 @@ function LockedLegendary({ guide }: { readonly guide: QuestGuideArt }) {
       <Sticker
         kind={guide.kind}
         name={guide.name}
-        size={ART}
+        size={LOCKED_ART}
         variant="mask"
         maskColor={theme.tier.locked.legendary.silhouette}
         sticker={null}
       />
-      <Text variant="h3" style={styles.mark} color={theme.tier.legendary.color}>
+      <Text variant="h3" designSize={26} style={styles.mark} color={theme.tier.legendary.color}>
         ?
       </Text>
     </View>
@@ -110,7 +111,13 @@ function RewardArt({
       {card.icon === 'critter' ? (
         <LockedLegendary guide={guide} />
       ) : (
-        <Icon name={card.icon} size={ART} decorative color={colour} />
+        <Icon
+          name={card.icon}
+          size={ART}
+          decorative
+          color={theme.semantic.text.primary}
+          accent={colour}
+        />
       )}
     </Animated.View>
   );
@@ -168,8 +175,27 @@ export function QuestCardView({
       : done
         ? { done: card.progress.total, total: card.progress.total }
         : card.progress;
+  const footer =
+    card.optional && card.state === 'active' ? (
+      card.signedUp ? (
+        <Text
+          variant="label"
+          color={theme.semantic.state.success}
+          testID={`quest-joined-${card.id}`}
+        >
+          {upper(t({ id: 'quests.card.joined', message: "You're in" }), locale)}
+        </Text>
+      ) : (
+        <PillButton
+          label={t({ id: 'quests.card.join', message: "I'm in" })}
+          size="sm"
+          onPress={() => onSignUp(card.id)}
+          testID={`quest-join-${card.id}`}
+        />
+      )
+    ) : undefined;
   return (
-    <Stack gap="8" style={card.state === 'missed' ? styles.missed : null}>
+    <View style={card.state === 'missed' ? styles.missed : null}>
       <QuestCard
         title={upper(card.title, locale)}
         description={card.body}
@@ -180,22 +206,9 @@ export function QuestCardView({
         rewardSticker={
           <RewardArt card={card} guide={guide} {...(reveal === undefined ? {} : { reveal })} />
         }
+        {...(footer === undefined ? {} : { footer })}
         testID={`quest-card-${card.id}`}
       />
-      {card.optional && card.state === 'active' ? (
-        card.signedUp ? (
-          <Text variant="label" color={theme.semantic.state.success}>
-            {upper(t({ id: 'quests.card.joined', message: "You're in" }), locale)}
-          </Text>
-        ) : (
-          <PillButton
-            label={t({ id: 'quests.card.join', message: "I'm in" })}
-            size="sm"
-            onPress={() => onSignUp(card.id)}
-            testID={`quest-join-${card.id}`}
-          />
-        )
-      ) : null}
-    </Stack>
+    </View>
   );
 }
