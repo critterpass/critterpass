@@ -95,3 +95,17 @@ function subscribe(listener: () => void): () => void {
 export function useHatchSeenVersion(): number {
   return useSyncExternalStore(subscribe, () => version);
 }
+
+/**
+ * A heading broken where its two lines come out closest in length ("WELCOME / TO BALI", never
+ * "WELCOME TO / BALI"): the break goes at the space nearest the middle. One word stays whole.
+ */
+export function balancedBreak(text: string): string {
+  const spaces = [...text.matchAll(/ /gu)].map((m) => m.index);
+  if (spaces.length === 0) return text;
+  const middle = text.length / 2;
+  const at = spaces.reduce((best, i) =>
+    Math.abs(i - middle) < Math.abs(best - middle) ? i : best,
+  );
+  return `${text.slice(0, at)}\n${text.slice(at + 1)}`;
+}

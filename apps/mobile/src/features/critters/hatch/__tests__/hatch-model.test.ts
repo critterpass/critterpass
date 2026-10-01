@@ -1,7 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 
 import type { TripRow } from '../../data/queries';
-import { canHatchByHand, eggCardFor } from '../hatch-model';
+import { balancedBreak, canHatchByHand, eggCardFor } from '../hatch-model';
 
 const TZ = 'Asia/Ho_Chi_Minh';
 
@@ -55,5 +55,11 @@ describe('the trip egg', () => {
 
   it('has no card without an egg (a dropout, or before boarding)', () => {
     expect(eggCardFor([trip({ egg_id: null })], at('2026-10-02T03:00:00Z'), never, TZ)).toBeNull();
+  });
+
+  it('breaks the welcome where its two lines come out even', () => {
+    expect(balancedBreak('WELCOME TO BALI')).toBe('WELCOME\nTO BALI');
+    expect(balancedBreak('CHÀO MỪNG ĐẾN ĐÀ NẴNG')).toBe('CHÀO MỪNG\nĐẾN ĐÀ NẴNG');
+    expect(balancedBreak('BALI')).toBe('BALI');
   });
 });

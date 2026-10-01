@@ -32,6 +32,7 @@ import {
   welcome,
 } from './hatch-copy';
 import { artKind } from '../art-kind';
+import { balancedBreak } from './hatch-model';
 
 /** Beats of the choreography (ms from mount): wobble, crack, pop. */
 export const HATCH_BEATS = { crack: 900, pop: 1250, reveal: 1650 } as const;
@@ -148,15 +149,15 @@ export function HatchView(props: HatchViewProps) {
           <Text variant="eyebrow" color={theme.semantic.action.primary}>
             {upper(landedEyebrow(props.landedTime, props.landedAirport), locale)}
           </Text>
-          {/* The design breaks the welcome over two lines at full size; a long place takes a
-              third before the type shrinks. */}
+          {/* The design breaks the welcome over two even lines at full size; a long place takes
+              a third before the type shrinks. */}
           <Text
             variant="displayXl"
             style={{ textAlign: 'center' }}
             singleLine={false}
             numberOfLines={3}
           >
-            {upper(welcome(props.place), locale)}
+            {balancedBreak(upper(welcome(props.place), locale))}
           </Text>
         </Stack>
         <View style={styles.stage}>
