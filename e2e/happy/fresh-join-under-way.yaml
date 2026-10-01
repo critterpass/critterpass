@@ -672,12 +672,8 @@ appId: app.critterpass.dev
     visible:
       id: 'money-latest-row'
     timeout: 30000
-- tapOn:
-    id: 'money-latest-row'
-- extendedWaitUntil:
-    visible:
-      id: 'money-detail-shares'
-    timeout: 20000
+# The saved expense at the top of the list (the row can sit under the guide button, so it is
+# captured in place rather than opened).
 - waitForAnimationToEnd
 - runFlow:
     when:
