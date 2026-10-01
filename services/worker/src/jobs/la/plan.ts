@@ -4,13 +4,20 @@
  * the rows those decisions need, and return the pushes to send. Rules:
  * - one live activity per (device, kind, object); a user's dismissal is final for that object;
  * - at most two per phone, by rank (SOS first); a lower newcomer falls back to notifications, as
- *   does a phone with Live Activities off or without a push-to-start token (counted, never sent);
+ *   does a phone with Live Activities off or without a push-to-start token (counted, never sent),
+ *   and an iPhone whose build does not draw the kind (baseline kinds only, unless it listed it);
  * - shared kinds update once on the broadcast channel; activities off it get per-token updates;
  * - priority 10 only when the loader says so (leave time, late, arrived, SOS) and the phone has
  *   frequent updates on; everything else is power-considerate;
  * - an unchanged frame sends nothing.
  */
-import { admitActivity, LA_KIND_SPECS, type AppBundleId, type LaKind } from '@cp/domain';
+import {
+  admitActivity,
+  LA_BASELINE_IOS_KINDS,
+  LA_KIND_SPECS,
+  type AppBundleId,
+  type LaKind,
+} from '@cp/domain';
 import type pg from 'pg';
 
 import type { LaSend } from './deliver';
@@ -171,6 +178,10 @@ async function startOn(
   if (!device.la_on || (android ? device.fcm_token === null : device.start_token === null)) {
     return null;
   }
+  // An iPhone whose build cannot draw the kind would show a blank activity.
+  if (!android && device.start_drawn !== true && !LA_BASELINE_IOS_KINDS.includes(kind)) {
+    return null;
+  }
   const slots = await slotsOn(tx, device.device_id);
   const admission = admitActivity(slots, { kind, refId });
   if (!admission.admit) return null;
@@ -262,8 +273,9 @@ export async function planLive(input: PlanInput): Promise<LaPlan> {
   }
 
   let fallbacks = 0;
+  const starters = new Set(snapshot.startAudience ?? snapshot.audience);
   for (const device of devices) {
-    if (showing.has(device.device_id) || device.blocked) continue;
+    if (showing.has(device.device_id) || device.blocked || !starters.has(device.user_id)) continue;
     const started = await startOn(input, device, seq, at);
     if (started === null) fallbacks += 1;
     else sends.push(...started);

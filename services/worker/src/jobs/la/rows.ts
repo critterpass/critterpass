@@ -19,6 +19,8 @@ export interface LaDeviceRow {
   la_frequent: boolean;
   start_token: string | null;
   start_env: 'sandbox' | 'prod' | null;
+  /** The build that registered the push-to-start token draws this kind (`la_kinds`). */
+  start_drawn: boolean | null;
   fcm_token: string | null;
   /** The user dismissed this object's activity here, or a start failed in the last half hour. */
   blocked: boolean;
@@ -89,6 +91,7 @@ export async function audienceDevices(
   const { rows } = await tx.query<LaDeviceRow>(
     `SELECT d.id AS device_id, d.user_id, d.platform, coalesce(d.bundle_id, $4) AS bundle_id,
             d.locale, d.la_frequent, t.token AS start_token, t.env AS start_env,
+            t.drawn AS start_drawn,
             ${FCM_TOKEN} AS fcm_token,
             CASE WHEN d.platform = 'ios' THEN d.la_enabled
                  ELSE coalesce((d.capabilities ->> 'live_updates')::boolean, false) END AS la_on,
