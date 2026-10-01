@@ -11,6 +11,8 @@ export const SETTABLE_CONSENT_PURPOSES = [
   'analytics',
   'marketing',
   'dietary_visibility',
+  // "Share where I am with the crew for 1 hour when I open Help": off until turned on.
+  'help_auto_share',
 ] as const;
 export const settableConsentPurposeSchema = z.enum(SETTABLE_CONSENT_PURPOSES);
 export type SettableConsentPurpose = z.infer<typeof settableConsentPurposeSchema>;
