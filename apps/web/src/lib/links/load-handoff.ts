@@ -11,6 +11,7 @@ import { channelOf, decideHandoff, targetOf, type HandoffModel } from './handoff
 import { expiresIn, handoffCopy, NOT_FOUND_COPY, type HandoffCopy } from './handoff-copy';
 import { fetchLinkSwitches } from './link-settings';
 import { fetchLinkPreview } from './resolver-fetch';
+import { installRoute, type InstallRoute } from './install-route';
 import { appStoreUrl, playStoreUrl } from './store-url';
 import { linkRequestContext, type LinksWebEnv } from './web-env';
 
@@ -26,6 +27,8 @@ export type LoadedHandoff =
       /** Store buttons, shown on every page (with the link's referrer when there is a link). */
       readonly appStoreHref: string | null;
       readonly playStoreHref: string;
+      /** How to get the app on this host (the invite page's store area). */
+      readonly install: InstallRoute;
     };
 
 export async function loadHandoff(request: Request, url: URL): Promise<LoadedHandoff> {
@@ -41,6 +44,7 @@ export async function loadHandoff(request: Request, url: URL): Promise<LoadedHan
     qrSvg: null,
     appStoreHref: appStoreUrl(context.config),
     playStoreHref: playStoreUrl(context.config, null),
+    install: installRoute(context.config, null, context.testFlightUrl),
   };
   if (target === null) return notFound;
 
@@ -80,5 +84,6 @@ export async function loadHandoff(request: Request, url: URL): Promise<LoadedHan
         : null,
     appStoreHref: model.appStoreHref,
     playStoreHref: model.playStoreHref,
+    install: model.install,
   };
 }

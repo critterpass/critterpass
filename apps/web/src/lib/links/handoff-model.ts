@@ -15,6 +15,7 @@ import {
   LINK_CHANNELS,
 } from '@cp/domain';
 
+import { installRoute, iosInstallHref, type InstallRoute } from './install-route';
 import { openAppIntent, openInChromeIntent } from './intent-url';
 import type { PreviewOutcome } from './resolver-fetch';
 import { appStoreUrl, playStoreUrl, smartAppBannerContent } from './store-url';
@@ -36,6 +37,8 @@ export interface HandoffModel {
   readonly openInAppHref: string;
   readonly appStoreHref: string | null;
   readonly playStoreHref: string;
+  /** How to get the app on this host: the stores, TestFlight, or the inviter. */
+  readonly install: InstallRoute;
   readonly smartAppBanner: string | null;
   /** Android only: lifts the page out of an in-app browser into Chrome. */
   readonly openInChromeHref: string | null;
@@ -73,14 +76,16 @@ export function decideHandoff(input: {
   const path = linkPath(target);
   const appStoreHref = appStoreUrl(context.config);
   const playStoreHref = playStoreUrl(context.config, path);
+  const install = installRoute(context.config, path, context.testFlightUrl);
+  const iosInstall = iosInstallHref(install);
 
   if (
     url.searchParams.get(OPEN_TAP_PARAM) === '1' &&
     platform === 'ios' &&
     inAppBrowser === null &&
-    appStoreHref !== null
+    iosInstall !== null
   ) {
-    return { kind: 'redirect', location: appStoreHref };
+    return { kind: 'redirect', location: iosInstall };
   }
 
   const canonicalLink = buildLink(target, { host: context.config.primaryHost });
@@ -107,6 +112,7 @@ export function decideHandoff(input: {
       openInAppHref,
       appStoreHref,
       playStoreHref,
+      install,
       smartAppBanner: smartAppBannerContent(context.config, canonicalLink, {
         appClip: input.appClip === true,
       }),

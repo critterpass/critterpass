@@ -364,6 +364,10 @@ msgid "web.comingSoon.features.askReply"
 msgstr "Kelas memasak jam 14.00. Pantai pindah ke Jumat."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copiedCode"
+msgstr "Tersalin"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
 msgstr ""
 
@@ -374,6 +378,10 @@ msgstr ""
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.copied"
 msgstr "TERSALIN ✓"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copyCode"
+msgstr "Salin"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
@@ -426,6 +434,14 @@ msgstr "CritterPass adalah perencana liburan bareng yang segera hadir di iOS dan
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
 msgstr ""
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTesting"
+msgstr "CritterPass sedang dalam uji coba. Minta undangan TestFlight ke {inviter}, lalu bergabung dengan kode ini:"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTestingNoName"
+msgstr "CritterPass sedang dalam uji coba. Minta undangan TestFlight ke orang yang mengundangmu, lalu bergabung dengan kode ini:"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
@@ -626,6 +642,10 @@ msgstr "GERBANG ✦ KE MANA SAJA"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.gateOpensIn"
 msgstr "GERBANG DIBUKA DALAM"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.testFlight"
+msgstr "Dapatkan CritterPass di TestFlight"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"
