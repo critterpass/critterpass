@@ -111,3 +111,9 @@ export const dismissSuggestionCommand = defineClientCommand<{ readonly suggestio
   offline: true,
   summarize: () => msg({ id: 'proposal.queued.dismiss', message: 'Dismissing a suggestion' }),
 });
+
+/** The organiser locks the plan in with nobody to send it to (a crew of one). */
+export const lockInPlanCommand = defineClientCommand<{ readonly trip_id: string }>({
+  name: 'lock_in_plan',
+  offline: false,
+});

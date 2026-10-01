@@ -6,7 +6,7 @@ appId: app.critterpass.dev
     env: { SCENE: build, READY: build-send, SHOT: '${PREFIX}-3f-1-build' }
 - runFlow:
     file: scene.yaml
-    env: { SCENE: build-no-recipients, READY: build-blocked, SHOT: '${PREFIX}-3f-1-no-recipients' }
+    env: { SCENE: build-alone, READY: build-lock-alone, SHOT: '${PREFIX}-3f-1-alone' }
 - runFlow:
     file: scene.yaml
     env: { SCENE: build-reply-by, READY: reply-by-options, SHOT: '${PREFIX}-3f-1-reply-by' }

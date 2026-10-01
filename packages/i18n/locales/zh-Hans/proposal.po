@@ -117,6 +117,10 @@ msgstr ""
 msgid "proposal.board.egg"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr ""
@@ -206,6 +210,10 @@ msgstr ""
 msgid "proposal.tracker.cantMake"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failedSub"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failedSub"
 msgstr ""
@@ -216,6 +224,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -341,6 +353,10 @@ msgstr ""
 msgid "proposal.seat.offer"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.invite"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.noRecipients"
 msgstr ""
@@ -351,6 +367,15 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
 msgid "proposal.why.taste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.body"
+msgstr ""
+
+#. placeholder {0}: props.dates
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.bodyDates"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
@@ -374,6 +399,10 @@ msgstr ""
 msgid "proposal.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.lock"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.cta"
 msgstr ""
@@ -382,12 +411,20 @@ msgstr ""
 msgid "proposal.lock.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.done"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.done"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx

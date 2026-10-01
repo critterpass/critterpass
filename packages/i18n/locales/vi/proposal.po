@@ -117,6 +117,10 @@ msgstr "{0}: đề xuất"
 msgid "proposal.board.egg"
 msgstr "Trứng của {0} sẽ nở khi bạn hạ cánh"
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.back"
+msgstr "Kế hoạch {destination}"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr "{guideName} đã viết cho mỗi người một bản. Chọn kiểu gửi nhé."
@@ -206,6 +210,10 @@ msgstr "Đã đặt · không hủy miễn phí"
 msgid "proposal.tracker.cantMake"
 msgstr "Không đi được"
 
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failedSub"
+msgstr "Kiểm tra kết nối rồi thử lại."
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failedSub"
 msgstr "Kiểm tra kết nối rồi thử lại nhé."
@@ -217,6 +225,10 @@ msgstr "Đã xác nhận"
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.failed"
 msgstr "Chưa lập được đề xuất"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failed"
+msgstr "Chưa chốt được"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failed"
@@ -341,6 +353,10 @@ msgstr "Mình đi với giá {amount}"
 msgid "proposal.seat.offer"
 msgstr "Có chỗ trống là bạn được mời đầu tiên. Bạn không bị tự động thêm vào đâu."
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.invite"
+msgstr "Mời bạn bè trước"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.noRecipients"
 msgstr "Mời ai đó vào nhóm trước đã. Chưa có ai để gửi cả."
@@ -352,6 +368,15 @@ msgstr "Bỏ ra ít mà được nhiều."
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
 msgid "proposal.why.taste"
 msgstr "Hợp với những gì bạn chọn ở phần cái này hay cái kia, nên {guideName} đưa vào."
+
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.body"
+msgstr "Hiện chỉ có mình bạn đi {destination}, nên chưa có ai để gửi đề xuất. Chốt kế hoạch là chuyến đi bắt đầu. Bạn bè tham gia sau sẽ theo kế hoạch này."
+
+#. placeholder {0}: props.dates
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.bodyDates"
+msgstr "Hiện chỉ có mình bạn đi {destination}, {0}, nên chưa có ai để gửi đề xuất. Chốt kế hoạch là chuyến đi bắt đầu. Bạn bè tham gia sau sẽ theo kế hoạch này."
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.title"
@@ -374,6 +399,10 @@ msgstr "Đang tải đề xuất"
 msgid "proposal.loading"
 msgstr "Đang tải đề xuất"
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.lock"
+msgstr "Chốt kế hoạch"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.cta"
 msgstr "Chốt luôn"
@@ -382,6 +411,10 @@ msgstr "Chốt luôn"
 msgid "proposal.lock.title"
 msgstr "Chốt danh sách nhóm?"
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.title"
+msgstr "Chốt kế hoạch nhé?"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.done"
 msgstr "Đã chốt. Chuyến đi được xác nhận."
@@ -389,6 +422,10 @@ msgstr "Đã chốt. Chuyến đi được xác nhận."
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.locked"
 msgstr "Đã chốt. Chuyến đi được xác nhận."
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.done"
+msgstr "Đã chốt. Chuyến đi bắt đầu."
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.maybe"
