@@ -5,6 +5,7 @@
 import { format } from '@cp/i18n';
 import { plural, t } from '@lingui/core/macro';
 
+import { clockIn } from '../leave-by/model';
 import type { ActivityRow } from './data/use-hub';
 
 export function tileTitles() {
@@ -103,6 +104,42 @@ export function activityLine(row: Pick<ActivityRow, 'verb' | 'actor_name'>): str
     default:
       return t({ id: 'trip.hub.ticker.other', message: `${name} updated the trip` });
   }
+}
+
+/** "First day · Oct 21", "Your flight · 17:00": what the hub's entry is, then its day or time. */
+export function entryLabel(what: string, when: string): string {
+  return `${what} · ${when}`;
+}
+
+/**
+ * The next stop's label: "Next up · 10:00" when it is today, "Tomorrow · 10:00" the day after and
+ * "Oct 24 · 10:00" for a later day, so a stop on another day never reads as today's.
+ */
+export function nextUpLabel(locale: string, today: string, dayDate: string, time: string): string {
+  const days = Math.round(
+    (Date.parse(`${dayDate}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000,
+  );
+  const what =
+    days <= 0
+      ? t({ id: 'trip.hub.next', message: 'Next up' })
+      : days === 1
+        ? t({ id: 'trip.hub.tomorrow', message: 'Tomorrow' })
+        : shortDay(locale, dayDate);
+  return entryLabel(what, time);
+}
+
+/**
+ * Today's leave-by as the hub's entry labels it: what kind of deadline it is and its time. The
+ * one place the hub words a leave-by.
+ */
+export function leaveByLabel(
+  leaveBy: { readonly leave_at: string; readonly tz: string },
+  locale: string,
+): string {
+  return entryLabel(
+    t({ id: 'trip.hub.leaveByToday', message: 'Leave by' }),
+    clockIn(new Date(leaveBy.leave_at), leaveBy.tz, locale),
+  );
 }
 
 /**

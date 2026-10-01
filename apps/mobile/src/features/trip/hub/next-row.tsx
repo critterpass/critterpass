@@ -1,0 +1,71 @@
+/**
+ * The hub's entry under the header (3k-1): one compact row for what comes next in this phase
+ * (the first day and its pack list before the trip, my flight on a travel day, today's leave-by
+ * or next stop during it), with an icon, a caps label carrying its day or time, a title, one line
+ * and a chevron.
+ */
+import { upper } from '@cp/i18n';
+import { I18nManager } from 'react-native';
+
+import { useLocale } from '@/lib/i18n/use-locale';
+import { Card } from '@/ui/cards/Card';
+import type { DoodleName } from '@/ui/icons/generated';
+import { Icon } from '@/ui/icons/Icon';
+import { Row } from '@/ui/layout/Row';
+import { Stack } from '@/ui/layout/Stack';
+import { Text } from '@/ui/text/Text';
+import { makeStyles, useTheme } from '@/ui/theme';
+
+export interface HubNext {
+  readonly icon: DoodleName;
+  /** "First day · Oct 21", "Tomorrow · 10:00": what it is and when. */
+  readonly label: string;
+  readonly title: string;
+  readonly detail: string | null;
+  readonly tone: 'raised' | 'pink';
+  readonly onPress: () => void;
+}
+
+const useStyles = makeStyles((th) => ({
+  card: { paddingVertical: th.space['10'] },
+  body: { flex: 1, minWidth: 0 },
+}));
+
+export function NextRow({ next }: { readonly next: HubNext }) {
+  const theme = useTheme();
+  const styles = useStyles();
+  const locale = useLocale();
+  const accent = next.tone === 'pink';
+  const ink = accent ? theme.semantic.text.onAccent : theme.semantic.text.primary;
+  const quiet = accent ? theme.semantic.text.onAccent : theme.semantic.text.secondary;
+  return (
+    <Card
+      tone={next.tone}
+      halftone={accent}
+      onPress={next.onPress}
+      accessibilityLabel={[next.label, next.title, next.detail].filter(Boolean).join(', ')}
+      style={styles.card}
+      testID="trip-hub-next"
+    >
+      <Row gap="12" align="center">
+        <Icon name={next.icon} size={24} decorative color={ink} />
+        <Stack gap="2" style={styles.body}>
+          <Text variant="eyebrow" color={quiet} testID="trip-hub-next-label">
+            {upper(next.label, locale)}
+          </Text>
+          <Text variant="title" color={ink}>
+            {upper(next.title, locale)}
+          </Text>
+          {next.detail === null ? null : (
+            <Text variant="bodySm" color={quiet}>
+              {next.detail}
+            </Text>
+          )}
+        </Stack>
+        <Text variant="title" color={quiet} accessibilityElementsHidden>
+          {I18nManager.isRTL ? '‹' : '›'}
+        </Text>
+      </Row>
+    </Card>
+  );
+}

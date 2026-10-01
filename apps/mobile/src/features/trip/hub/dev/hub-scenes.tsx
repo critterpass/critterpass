@@ -1,79 +1,64 @@
 /**
  * Lab scenes for the trip hub (3k-1) in every phase and state and the trip switcher, over the
- * Bali trip (Oct 12–19, six going), with every handler a no-op. The QUESTS tile here stands in for
+ * Bali trip (Oct 12–19, six going) and a three-day Đà Nẵng one, with every handler a no-op. The
+ * header, the entry row and the tiles get their words from the catalog and the app's formatters,
+ * so a capture in another language shows that language's copy. The QUESTS tile here stands in for
  * the one the quests area registers.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { ReactNode } from 'react';
 
-import type { BriefingLine, BriefingState } from '../../briefing/briefing-model';
-import { activityLine, bookingsTile, moneyTile, planTile, tileTitles } from '../hub-copy';
+import type { BriefingState } from '../../briefing/briefing-model';
+import { useLocale } from '@/lib/i18n/use-locale';
+
+import type { HubRows } from '../data/use-hub';
+import {
+  activityLine,
+  bookingsTile,
+  moneyTile,
+  planTile,
+  tileTitles,
+  wholeMoney,
+} from '../hub-copy';
 import type { HubHeader } from '../hub-model';
+import { hubNext } from '../hub-next';
+import { FLIGHT, LEAVE_BY, LINES, NOW, STOP, TICKER, TODAY, TZ, WHEELS_UP } from './hub-fixtures';
 import { HubView, type HubViewProps } from '../hub-view';
 import { HubTile, type HubTileData } from '../tiles';
 import { TripListView } from '../../trip-list/trip-list-view';
 import { guideColour } from '../guide';
 
 const noop = () => undefined;
-/** Sep 25, 18:33:31 Bali time: 17 days, 5 h 26 min 29 s before the first flight. */
-const NOW = new Date('2026-09-25T10:33:31Z');
-const WHEELS_UP = new Date('2026-10-12T16:00:00Z');
-
-const LINES: readonly BriefingLine[] = [
-  {
-    id: 'b1',
-    icon: 'plane',
-    text: "Rin's flight moved to 22:40. I moved her pickup to match.",
-    action: 'done',
-    status: 'open',
-    targets: [],
-    deepLink: null,
-  },
-  {
-    id: 'b2',
-    icon: 'wallet',
-    text: "Visa on arrival is $35, cash only. Dev and Alex haven't got any yet.",
-    action: 'nudge',
-    status: 'open',
-    targets: [],
-    deepLink: null,
-  },
-  {
-    id: 'b3',
-    icon: 'key',
-    text: "The villa door code arrives Oct 11. I'll pin it to Day 1.",
-    action: 'set',
-    status: 'open',
-    targets: [],
-    deepLink: null,
-  },
-];
-
-const TICKER = [
-  'Alex moved snorkelling to 14:00',
-  'Maya voted Nusa Penida',
-  'Tokek held 6 boat seats',
-  'Jordan added 12 photos',
-].map((text, index) => ({ id: `a${index}`, text }));
 
 function Hub({
   header = { phase: 'pre', target: WHEELS_UP },
   briefing = { kind: 'ready', lines: LINES, staleDate: null },
-  money = { amount: '$186', sign: 1 },
+  money = { minor: 18_600, sign: 1 },
   bookings = 9,
   quests = true,
+  today = TODAY,
+  leaveBy = null,
+  stop = null,
   overrides = {},
 }: {
   readonly header?: HubHeader;
   readonly briefing?: BriefingState;
-  readonly money?: { readonly amount: string | null; readonly sign: number };
+  readonly money?: { readonly minor: number | null; readonly sign: number };
   readonly bookings?: number;
   readonly quests?: boolean;
+  /** Today on the trip's clock, for the entry row's day. */
+  readonly today?: string;
+  readonly leaveBy?: HubRows['leaveBy'];
+  readonly stop?: HubRows['next'];
   readonly overrides?: Partial<HubViewProps>;
 }) {
+  const locale = useLocale();
   const plan = planTile(8, 2);
   const saved = bookingsTile(bookings, true);
-  const owed = moneyTile(money.amount, money.sign);
+  const owed = moneyTile(
+    money.minor === null ? null : wholeMoney(locale, money.minor, 'USD'),
+    money.sign,
+  );
   const titles = tileTitles();
   const tiles: HubTileData[] = [
     { key: 'plan', title: titles.plan, ...plan, icon: 'cal', tone: 'pink' },
@@ -92,11 +77,23 @@ function Hub({
         ]
       : []),
   ];
+  const startDate = overrides.startDate === undefined ? '2026-10-12' : overrides.startDate;
+  // The entry row through the screen's own derivation, so its labels come from the catalog.
+  const next = hubNext({
+    header,
+    tripId: 't1',
+    startDate,
+    leaveBy,
+    nextItem: stop,
+    today,
+    tz: TZ,
+    locale,
+  });
   const props: HubViewProps = {
     state: 'ready',
     header,
     now: NOW,
-    startDate: '2026-10-12',
+    startDate,
     endDate: '2026-10-19',
     going: 6,
     destination: 'Bali',
@@ -105,7 +102,7 @@ function Hub({
     guideName: 'Tokek',
     guestGuide: false,
     planning: null,
-    next: null,
+    next: next === null ? null : { ...next, onPress: noop },
     briefing,
     onAct: noop,
     tiles: tiles.map((tile) => ({
@@ -118,6 +115,17 @@ function Hub({
   };
   return <HubView {...props} />;
 }
+
+/** A trip whose guide and place are not Bali's: Đà Nẵng with Chà Vá, three days. */
+const DA_NANG: Partial<HubViewProps> = {
+  destination: 'Đà Nẵng',
+  colour: guideColour('chava'),
+  guide: 'chava',
+  guideName: 'Chà Vá',
+  startDate: '2026-10-02',
+  endDate: '2026-10-04',
+  going: 4,
+};
 
 function Ticker() {
   const line = activityLine({ verb: 'edited', actor_name: 'Alex' });
@@ -154,6 +162,7 @@ function Switcher() {
 
 export const HUB_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3k-1-pre-trip': () => <Hub />,
+  '3k-1-pre-trip-switch': () => <Hub overrides={{ onSwitch: noop }} />,
   '3k-1-planning': () => (
     <Hub
       header={{ phase: 'planning' }}
@@ -163,54 +172,45 @@ export const HUB_SCENES: Readonly<Record<string, () => ReactNode>> = {
     />
   ),
   '3k-1-travel-day': () => (
-    <Hub
-      header={{
-        phase: 'travel',
-        target: new Date('2026-09-25T13:43:31Z'),
-        flight: {
-          id: 'f',
-          title: 'SQ 938 Singapore to Denpasar',
-          departsAt: new Date('2026-09-25T09:00:00Z'),
-          arrivesAt: new Date('2026-09-25T13:43:31Z'),
-        },
-      }}
-      overrides={{
-        next: {
-          eyebrow: 'Your flight',
-          time: '17:00',
-          title: 'SQ 938 Singapore to Denpasar',
-          detail: 'Lands 21:43',
-          tone: 'raised',
-          onPress: noop,
-        },
-      }}
-    />
+    <Hub header={{ phase: 'travel', target: FLIGHT.arrivesAt, flight: FLIGHT }} />
   ),
   '3k-1-in-trip': () => (
     <Hub
-      header={{ phase: 'in', day: 4, days: 8 }}
-      money={{ amount: '$42', sign: -1 }}
-      overrides={{
-        next: {
-          eyebrow: 'Leave by',
-          time: '03:10',
-          title: 'Batur',
-          detail: "Who's up, and what to pack",
-          tone: 'pink',
-          onPress: noop,
-        },
-      }}
+      header={{ phase: 'in', day: 2, days: 3 }}
+      money={{ minor: 4_200, sign: -1 }}
+      today="2026-10-13"
+      leaveBy={LEAVE_BY}
+      overrides={{ ...DA_NANG, briefing: { kind: 'ready', lines: LINES, staleDate: null } }}
     />
   ),
+  '3k-1-next-today': () => (
+    <Hub header={{ phase: 'in', day: 2, days: 8 }} today="2026-10-13" stop={STOP} />
+  ),
+  // The day's stops are over: the next one is tomorrow's, and says so.
+  '3k-1-next-tomorrow': () => (
+    <Hub
+      header={{ phase: 'in', day: 1, days: 3 }}
+      briefing={{ kind: 'none', next: { on: 'tomorrow' } }}
+      today="2026-10-12"
+      stop={{ ...STOP, poi_name: 'Chợ Cồn', starts_at: '2026-10-13T03:00:00Z', tz: 'Asia/Saigon' }}
+      overrides={DA_NANG}
+    />
+  ),
+  '3k-1-long-name': () => <Hub overrides={{ destination: 'Hồ Chí Minh', onSwitch: noop }} />,
+  '3k-1-two-word-name': () => <Hub overrides={{ destination: 'Mexico City' }} />,
   '3k-1-post-trip': () => (
     <Hub
       header={{ phase: 'post', homeSince: '2026-10-19' }}
       briefing={{ kind: 'hidden' }}
-      money={{ amount: null, sign: 0 }}
+      money={{ minor: null, sign: 0 }}
     />
   ),
-  '3k-1-briefing-generating': () => <Hub briefing={{ kind: 'generating' }} />,
-  '3k-1-briefing-empty': () => <Hub briefing={{ kind: 'empty' }} />,
+  '3k-1-briefing-loading': () => <Hub briefing={{ kind: 'loading' }} />,
+  '3k-1-briefing-none': () => <Hub briefing={{ kind: 'none', next: { on: 'tomorrow' } }} />,
+  '3k-1-briefing-starts': () => (
+    <Hub briefing={{ kind: 'none', next: { on: 'date', date: '2026-09-12' } }} />
+  ),
+  '3k-1-briefing-morning': () => <Hub briefing={{ kind: 'none', next: { on: 'today' } }} />,
   '3k-1-briefing-failed': () => <Hub briefing={{ kind: 'failed' }} />,
   '3k-1-briefing-stale': () => (
     <Hub briefing={{ kind: 'ready', lines: LINES.slice(1), staleDate: '2026-09-24' }} />

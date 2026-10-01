@@ -19,13 +19,9 @@ msgstr "{count} saved"
 msgid "trip.hub.tile.days"
 msgstr "{days, plural, one {# day} other {# days}}"
 
-#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.guestGuide"
 msgstr "{guideName} is a guest here"
-
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.generating"
-msgstr "{guideName} is writing today's briefing"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.title"
@@ -135,7 +131,7 @@ msgstr "Day {dayNo} of {days}"
 msgid "trip.briefing.done"
 msgstr "Done"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.earlyStart"
 msgstr "Early start"
 
@@ -143,7 +139,7 @@ msgstr "Early start"
 msgid "trip.hub.tile.settled"
 msgstr "Even"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.firstDay"
 msgstr "First day"
 
@@ -175,9 +171,13 @@ msgstr "Land in"
 msgid "trip.hub.lands"
 msgstr "Lands {time}"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.leaveByToday"
 msgstr "Leave by"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.loading"
+msgstr "Loading {guideName}'s briefing"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.money"
@@ -187,7 +187,7 @@ msgstr "Money"
 msgid "trip.list.unnamed"
 msgstr "Next trip"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.next"
 msgstr "Next up"
 
@@ -196,8 +196,20 @@ msgid "trip.list.emptyTitle"
 msgstr "No trips yet"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneYet"
+msgstr "Nothing from me yet. Today's briefing comes this morning."
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.empty"
 msgstr "Nothing needs you today. Enjoy it."
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneTomorrow"
+msgstr "Nothing needs you today. I'll check again tomorrow morning."
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneFrom"
+msgstr "Nothing needs you today. My morning briefings start {start}."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.noVotes"
@@ -223,7 +235,7 @@ msgstr "Open"
 msgid "trip.hub.tile.owed"
 msgstr "owed to you"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.packTitle"
 msgstr "Pack list"
 
@@ -272,6 +284,7 @@ msgid "trip.hub.ticker.someone"
 msgstr "Someone"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.switch"
 msgstr "Switch trip"
 
@@ -295,6 +308,10 @@ msgstr "Today"
 msgid "trip.briefing.failed"
 msgstr "Today's briefing didn't come through. The plan below is up to date."
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tomorrow"
+msgstr "Tomorrow"
+
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.voting"
 msgstr "voting"
@@ -311,7 +328,7 @@ msgstr "Wheels up in"
 msgid "trip.hub.whereNext"
 msgstr "Where next?"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.openDay"
 msgstr "Who's up, and what to pack"
 
@@ -323,7 +340,7 @@ msgstr "you owe"
 msgid "trip.briefing.queued"
 msgstr "Your briefing"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
 msgstr "Your flight"
 

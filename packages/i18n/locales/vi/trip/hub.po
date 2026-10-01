@@ -19,13 +19,9 @@ msgstr "{count} đã lưu"
 msgid "trip.hub.tile.days"
 msgstr "{days, plural, other {# ngày}}"
 
-#: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.guestGuide"
 msgstr "{guideName} là hướng dẫn viên khách mời ở đây"
-
-#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
-msgid "trip.briefing.generating"
-msgstr "{guideName} đang viết bản tin sáng nay"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.title"
@@ -135,7 +131,7 @@ msgstr "Ngày {dayNo}/{days}"
 msgid "trip.briefing.done"
 msgstr "Xong"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.earlyStart"
 msgstr "Khởi hành sớm"
 
@@ -143,7 +139,7 @@ msgstr "Khởi hành sớm"
 msgid "trip.hub.tile.settled"
 msgstr "Hòa"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.firstDay"
 msgstr "Ngày đầu tiên"
 
@@ -175,9 +171,13 @@ msgstr "Hạ cánh sau"
 msgid "trip.hub.lands"
 msgstr "Hạ cánh {time}"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.leaveByToday"
 msgstr "Xuất phát lúc"
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.loading"
+msgstr "Đang tải bản tin của {guideName}"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.money"
@@ -187,7 +187,7 @@ msgstr "Tiền"
 msgid "trip.list.unnamed"
 msgstr "Chuyến tới"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.next"
 msgstr "Tiếp theo"
 
@@ -196,8 +196,20 @@ msgid "trip.list.emptyTitle"
 msgstr "Chưa có chuyến nào"
 
 #: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneYet"
+msgstr "Mình chưa có gì cho bạn. Bản tin hôm nay sẽ có trong sáng nay."
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
 msgid "trip.briefing.empty"
 msgstr "Hôm nay không có gì cần bạn. Tận hưởng nhé."
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneTomorrow"
+msgstr "Hôm nay không có gì cần bạn. Sáng mai mình xem lại nhé."
+
+#: ../../apps/mobile/src/features/trip/briefing/briefing-card.tsx
+msgid "trip.briefing.noneFrom"
+msgstr "Hôm nay không có gì cần bạn. Bản tin sáng của mình bắt đầu từ {start}."
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.noVotes"
@@ -223,7 +235,7 @@ msgstr "Mở"
 msgid "trip.hub.tile.owed"
 msgstr "người khác nợ bạn"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.packTitle"
 msgstr "Đồ mang theo"
 
@@ -272,6 +284,7 @@ msgid "trip.hub.ticker.someone"
 msgstr "Ai đó"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-view.tsx
+#: ../../apps/mobile/src/features/trip/hub/phase-header.tsx
 msgid "trip.hub.switch"
 msgstr "Đổi chuyến"
 
@@ -295,6 +308,10 @@ msgstr "Hôm nay"
 msgid "trip.briefing.failed"
 msgstr "Bản tin hôm nay chưa đến được. Lịch trình bên dưới vẫn là mới nhất."
 
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.tomorrow"
+msgstr "Ngày mai"
+
 #: ../../apps/mobile/src/features/trip/trip-list/trip-row.tsx
 msgid "trip.list.voting"
 msgstr "đang bình chọn"
@@ -311,7 +328,7 @@ msgstr "Cất cánh sau"
 msgid "trip.hub.whereNext"
 msgstr "Đi đâu tiếp?"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.openDay"
 msgstr "Ai đã dậy, và cần mang gì"
 
@@ -323,7 +340,7 @@ msgstr "bạn nợ"
 msgid "trip.briefing.queued"
 msgstr "Bản tin của bạn"
 
-#: ../../apps/mobile/src/features/trip/hub/screen.tsx
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
 msgstr "Chuyến bay của bạn"
 
