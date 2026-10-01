@@ -33,13 +33,28 @@ export interface GuideTextFieldSpec {
 
 /** How much longer than its source a translation may run once it is past the field's limit. */
 export const GUIDE_TEXT_GROWTH = 1.4;
+/** A heading may run a fifth over its source, or four characters when the source is short. */
+export const GUIDE_TEXT_HEADING_GROWTH = 1.2;
+export const GUIDE_TEXT_HEADING_SLACK = 4;
 
 /**
- * The longest translation of `source` that is stored for `field`: anything within the field's own
- * limit, and past it only up to 1.4 times the source's length (the same line usually runs a little
- * longer outside English; much longer means the surface no longer fits it, so the source stays).
+ * The longest translation of `source` that is stored for `field`.
+ *
+ * A heading sits on one line sized for the words the guide wrote, so its translation may be only a
+ * little longer than them (a fifth, or four characters), and never past the field's own limit: a
+ * heading that needs more room keeps the source.
+ *
+ * Any other line may use the field's own limit, and past it up to 1.4 times the source's length
+ * (the same line usually runs a little longer outside English).
  */
 export function guideTextLimit(field: GuideTextFieldSpec, source: string): number {
+  if (field.title === true) {
+    const grown = Math.max(
+      Math.ceil(source.length * GUIDE_TEXT_HEADING_GROWTH),
+      source.length + GUIDE_TEXT_HEADING_SLACK,
+    );
+    return Math.min(field.max, grown);
+  }
   return Math.max(field.max, Math.ceil(source.length * GUIDE_TEXT_GROWTH));
 }
 

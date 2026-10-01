@@ -65,8 +65,10 @@ describe('DevToolsShake', () => {
 
   beforeEach(() => {
     Object.defineProperty(AppState, 'currentState', { value: 'active', configurable: true });
+    const listeners: ((state: AppStateStatus) => void)[] = [];
+    appStateChanged = (state) => listeners.forEach((listener) => listener(state));
     jest.spyOn(AppState, 'addEventListener').mockImplementation((_type, listener) => {
-      appStateChanged = listener;
+      listeners.push(listener);
       return { remove: () => undefined };
     });
     mockUseAnimatedSensor.mockClear();

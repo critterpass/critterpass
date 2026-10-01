@@ -8,7 +8,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 const DAY: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', timeZone: 'UTC' };
 
-import { formatNarrowCurrency } from '@cp/cost-engine';
+import { formatNarrowCurrency, isKnownCurrency, roundEstimate } from '@cp/cost-engine';
 
 function utcNoon(date: string): Date {
   return new Date(`${date.slice(0, 10)}T12:00:00Z`);
@@ -70,4 +70,35 @@ export function wholeMoney(locale: string, minor: number, currency: string): str
     maximumFractionDigits: 0,
     minimumFractionDigits: 0,
   });
+}
+
+/** A minor-unit estimate rounded the way every estimate is shown (unchanged for an unknown code). */
+export function estimateMinor(minor: number, currency: string): number {
+  if (!isKnownCurrency(currency) || !Number.isFinite(minor)) return minor;
+  return Number(roundEstimate({ amountMinor: BigInt(Math.round(minor)), currency }).amountMinor);
+}
+
+/**
+ * An estimate as it is shown: three significant digits, never finer than the currency's cash step
+ * ("₫3,340,000", "₫467,000"; "$202" stays "$202"). The draft's cost each, its stays' nightly
+ * rates and a redraft's cost change are all estimates; a booked or spent amount is never put
+ * through this.
+ */
+export function estimateMoney(locale: string, minor: number, currency: string): string {
+  return wholeMoney(locale, estimateMinor(minor, currency), currency);
+}
+
+/**
+ * How far over the budget the draft reads, from the figure on screen: the locked target is exact,
+ * the cost each is shown rounded, so the gap is the rounded cost less the target. Zero or less
+ * means the rounded cost no longer reads as over.
+ */
+export function overBudgetMinor(
+  costPpMinor: number,
+  overByMinor: number,
+  currency: string,
+): number {
+  if (overByMinor <= 0) return 0;
+  const target = costPpMinor - overByMinor;
+  return Math.max(0, estimateMinor(costPpMinor, currency) - target);
 }

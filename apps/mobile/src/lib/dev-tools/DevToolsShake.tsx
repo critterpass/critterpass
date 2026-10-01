@@ -2,6 +2,9 @@
  * Shaking the phone opens Developer tools from any screen, on builds that carry them. Mounted once
  * at the root with no UI. Production renders nothing here, so it never subscribes to the
  * accelerometer; the sensor is also released while the app is in the background.
+ *
+ * The same builds apply a downloaded update on their own at a safe moment (lib/updates): it
+ * mounts here, behind the same gate, so production keeps the default.
  */
 import { router, useNavigationContainerRef, useSegments } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -14,6 +17,7 @@ import {
 } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import { UpdateApplier } from '../updates/UpdateApplier';
 import { INITIAL_SHAKE_STATE, stepShake, type ShakeState } from './shake';
 import { devToolsAvailable } from './variant';
 
@@ -24,7 +28,12 @@ const SAMPLE_INTERVAL_MS = 20;
 
 export function DevToolsShake() {
   if (!devToolsAvailable()) return null;
-  return <ShakeWhileActive />;
+  return (
+    <>
+      <ShakeWhileActive />
+      <UpdateApplier />
+    </>
+  );
 }
 
 function ShakeWhileActive() {

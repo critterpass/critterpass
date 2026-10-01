@@ -23,7 +23,9 @@
     "place-qna": 1,
     "proposal": 1,
     "quests": 1,
-    "translate": 1
+    "translate": 1,
+    "help": 1,
+    "sos": 1
   },
   "live": {
     "chat": 0.9,
@@ -49,7 +51,9 @@
     "place-qna": 0.9,
     "proposal": 0.9,
     "quests": 0.95,
-    "translate": 0.9
+    "translate": 0.9,
+    "help": 0.95,
+    "sos": 0.95
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

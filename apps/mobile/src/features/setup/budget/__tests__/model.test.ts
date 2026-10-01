@@ -7,6 +7,7 @@ import {
   barsFor,
   currencySymbol,
   estimatesOf,
+  initialTarget,
   money,
   snap,
   trackOf,
@@ -77,6 +78,14 @@ describe('barsFor', () => {
     }
   });
 
+  it('splits the whole target over stay, food and fun when no flight is priced', () => {
+    const estimates = estimatesOf({ ...SOURCE, fares: [] });
+    const bars = barsFor(100_000, estimates);
+    expect(bars).toMatchObject({ flights: 0, flightsPriced: false });
+    expect((bars?.stays ?? 0) + (bars?.food ?? 0) + (bars?.fun ?? 0)).toBe(100_000);
+    expect(barsFor(135_000, estimatesOf(SOURCE))?.flightsPriced).toBe(true);
+  });
+
   it('says nothing is priced when the destination has no cost index', () => {
     expect(barsFor(135_000, estimatesOf({ ...SOURCE, indices: [], fares: [] }))).toBeNull();
   });
@@ -96,6 +105,17 @@ describe('the knob', () => {
     const track = trackOf(bandView(null, 3), estimates, stepMinor ?? 0);
     expect(snap(track.maxMinor + 99_999, track)).toBe(track.maxMinor);
     expect(snap(101_234, track) % 5_000).toBe(0);
+  });
+});
+
+describe('the track with no flight priced', () => {
+  it('starts at the ground part (stay, food and fun), not at zero', () => {
+    const estimates = estimatesOf({ ...SOURCE, fares: [] });
+    const track = trackOf(bandView(null, 3), estimates, 5_000);
+    // 7 nights × $35 + 8 days × ($27.50 + $17.50) = $605, on the $50 step below it.
+    expect(track.minMinor).toBe(60_000);
+    expect(track.maxMinor).toBe(150_000);
+    expect(initialTarget(bandView(null, 3), track, null)).toBe(90_000);
   });
 });
 

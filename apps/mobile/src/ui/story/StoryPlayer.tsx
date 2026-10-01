@@ -12,9 +12,7 @@ import { tokens } from '@cp/design-tokens';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { useStoryProgress } from '@/motion/patterns/story-progress';
 
-import { Row } from '../layout/Row';
 import { Stack } from '../layout/Stack';
-import { ActionPill } from '../plan/ActionPill';
 import { Text } from '../text/Text';
 import { makeStyles } from '../theme';
 
@@ -116,7 +114,8 @@ export function storyPlayerGestures(
 
 /**
  * Story playback (proposal trailer, recap): 5-second segments, tap start/end thirds to step, hold
- * to pause, a visible pause button, captions, and a slow push-in that Reduce Motion drops.
+ * to pause (and a pause action for assistive tech), captions, and a slow push-in that Reduce
+ * Motion drops.
  */
 export function StoryPlayer({
   segments,
@@ -204,10 +203,12 @@ export function StoryPlayer({
               name: 'decrement',
               label: t({ id: 'common.story.previous', message: 'Previous slide' }),
             },
+            { name: 'activate', label: pauseLabel },
           ]}
           onAccessibilityAction={(event) => {
             if (event.nativeEvent.actionName === 'increment') go(index + 1);
             if (event.nativeEvent.actionName === 'decrement') go(index - 1);
+            if (event.nativeEvent.actionName === 'activate') setPaused((value) => !value);
           }}
         >
           <GestureDetector gesture={gestures.tapArea}>
@@ -236,14 +237,7 @@ export function StoryPlayer({
             {segment.caption}
           </Text>
         ) : null}
-        <Row justify="space-between" align="center" gap="8">
-          {hint ? <Text variant="caption">{hint}</Text> : <View />}
-          <ActionPill
-            label={pauseLabel}
-            selected={paused}
-            onPress={() => setPaused((value) => !value)}
-          />
-        </Row>
+        {hint ? <Text variant="caption">{hint}</Text> : null}
         {footer}
       </Stack>
     </View>

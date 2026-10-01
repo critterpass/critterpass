@@ -123,6 +123,7 @@ function Cell({ day, total, highlighted, order, count, progress, label, onPress 
       widthClass="narrow"
       accessibilityLabel={label}
       accessibilityState={{ selected: highlighted }}
+      testID={`heat-pick-${day.date}`}
     >
       {face}
     </PressScale>

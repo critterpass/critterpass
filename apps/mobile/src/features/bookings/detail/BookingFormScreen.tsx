@@ -22,6 +22,7 @@ import {
   problemsOf,
   toAddPayload,
   toEditPayload,
+  zoneName,
   type BookingDraft,
 } from './form-model';
 
@@ -49,6 +50,8 @@ export function BookingFormScreen({
   const tz = zoneOf(booking?.tz, context.trip?.tz) ?? deviceZone();
   const [draft, setDraft] = useState<BookingDraft | null>(null);
   const [tried, setTried] = useState(false);
+  // The zone's offset as of opening the form (its name is for the traveller, not for the maths).
+  const [openedAt] = useState(() => Date.now());
   if (!adding && booking === undefined) return <BookingMissing loaded={wallet.loaded} />;
   const current: BookingDraft =
     draft ??
@@ -83,6 +86,7 @@ export function BookingFormScreen({
       problems={problems}
       showProblems={tried}
       saving={add.pending || edit.pending}
+      zone={zoneName(tz, openedAt)}
       onChange={(patch) => setDraft({ ...current, ...patch })}
       onSave={() => void save()}
     />

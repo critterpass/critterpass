@@ -1,0 +1,63 @@
+appId: app.critterpass.dev
+---
+# The guide's draft as a crew settling in dong reads it, with no demo world: the same fresh
+# account, Đà Nẵng trip, dates and budget lock as the release gate's dong setup
+# (e2e/happy/fresh-setup-vnd.yaml), then a stay picked and its room locked, one must-do, and DRAFT
+# MY TRIP. The review's cost each and the stay's nightly rate are estimates: they read rounded
+# (₫3,340,000, ₫467,000), never to the single dong.
+#
+# Data: staging with the Đà Nẵng destination and its stay rates; the draft runs on staging's AI.
+- runFlow: ../happy/fresh-setup-vnd.yaml
+- tapOn:
+    id: 'setup-rooms-stay-option-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-room-.*'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'setup-rooms-lock'
+    timeout: 10000
+- tapOn:
+    id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Marble Mountains at sunrise'
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      text: '(?i)marble mountains at sunrise.*'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 10000
+- tapOn:
+    id: 'must-dos-draft'
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- waitForAnimationToEnd
+- assertVisible: '.*₫.*'
+- takeScreenshot: en-draft-review-vnd
+- scrollUntilVisible:
+    element:
+      id: 'draft-stays'
+    timeout: 20000
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: en-draft-review-vnd-stays

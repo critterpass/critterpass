@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "28799d9a-e563-4570-8ebe-67b33d48c65e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"step_id\":\"missed_ride.ride_quote\",\"text\":\"Get a fresh ride quote, then book the next car. Easy does it.\"},{\"step_id\":\"missed_ride.driver_message\",\"text\":\"Your guide can draft a message to your driver. You send it yourself.\"},{\"step_id\":\"missed_ride.phrase\",\"text\":\"Show them: \\\"Làm sao để đến...?\\\" (How do I get to...?).\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 628,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 101,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

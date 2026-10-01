@@ -3,23 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "70bcc4b0-6a4f-4705-b5b0-032606ca796c",
+      "id": "114bb0c0-2d5a-49cd-9119-1ec2afb02413",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"เขาหินอ่อน แล้วก็ปล่อยว่างเลย\"},{\"id\":\"t2\",\"text\":\"คนดูสะพาน\"},{\"id\":\"t3\",\"text\":\"พาทุกคนไปสะพานมังกรก่อนโชว์ไฟ 21:00\"}]}"
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"เขาหินอ่อน แล้วก็ปล่อยว่าง\"},{\"id\":\"t2\",\"text\":\"ดูสะพาน\"},{\"id\":\"t3\",\"text\":\"พาทุกคนไปสะพานมังกรก่อนการแสดงไฟ 21:00\"}]}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 244,
+        "input_tokens": 782,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 1280,
-        "output_tokens": 70,
+        "cache_read_input_tokens": 768,
+        "output_tokens": 66,
         "service_tier": "standard"
       }
     }

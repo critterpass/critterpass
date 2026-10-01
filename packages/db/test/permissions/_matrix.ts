@@ -489,6 +489,41 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, true, true),
     },
   },
+  // Help and SOS: the shared fixture holds no session, so no actor finds one here; the sender,
+  // responder, crew and outsider cases live in ./help-sessions.test.ts and its siblings.
+  help_sessions: {
+    selectProbe: { sql: 'SELECT 1 FROM help_sessions LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
+  help_session_private: {
+    selectProbe: { sql: 'SELECT 1 FROM help_session_private LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
+  help_session_messages: {
+    selectProbe: { sql: 'SELECT 1 FROM help_session_messages LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
   destination_cost_indices: {
     selectProbe: { sql: 'SELECT count(*) FROM destination_cost_indices', params: () => [] },
     expectations: READ_ONLY_ALL,

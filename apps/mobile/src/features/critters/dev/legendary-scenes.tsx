@@ -42,10 +42,18 @@ const WINDOWS: WindowRow[] = [
 
 const ART: WindowArtRow[] = WINDOWS.map((w) => {
   const key = w.form_id.replace('-legendary', '');
-  return { form_id: w.form_id, key, no: Number(key.slice(3)), canonical_seed: 7, critter_id: key };
+  return {
+    form_id: w.form_id,
+    key,
+    no: Number(key.slice(3)),
+    canonical_seed: 7,
+    critter_id: key,
+    set_id: `set-${key}`,
+  };
 });
 
-const TRIP = { start_date: '2027-04-02', end_date: '2027-04-09' };
+/** A Kyoto trip over blossom week: only Kyoto's legendary is on its dates. */
+const TRIP = { start_date: '2027-04-02', end_date: '2027-04-09', critter_set_id: 'set-cp-061' };
 const NOW = new Date('2026-10-02T03:00:00Z');
 
 function Calendar({

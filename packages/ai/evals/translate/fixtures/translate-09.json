@@ -3,23 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "7367ad2f-fca3-4645-9926-cbddb3931286",
+      "id": "d0dc9b3e-6cb9-4862-93b4-851587a87ff9",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Atardecer desde la terraza de la Lady Buddha y bajamos antes de que oscurezca la carretera.\"},{\"id\":\"t2\",\"text\":\"Mì Quảng en Ba Mua: pide la de gambas y cerdo.\"}]}"
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Atardecer desde la terraza del Lady Buddha y bajada antes de que oscurezca la carretera.\"},{\"id\":\"t2\",\"text\":\"Mì Quảng en Ba Mua: pide la de gambas y cerdo.\"}]}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 231,
+        "input_tokens": 769,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 1280,
-        "output_tokens": 66,
+        "cache_read_input_tokens": 768,
+        "output_tokens": 65,
         "service_tier": "standard"
       }
     }

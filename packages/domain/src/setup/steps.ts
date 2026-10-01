@@ -2,7 +2,8 @@
  * The setup wizard's step machine (docs/data-model-sync-and-privacy.md §3.1): `when → budget →
  * rooms → must_dos → done`, advanced by the organiser. Locking a step moves to the next one; the
  * organiser may go back to any earlier step (re-opening it) and may skip forward only past a step
- * that does not apply (budget for a crew under two, rooms for a solo trip or a one-room stay).
+ * that does not apply (budget for a crew under two; rooms for a solo trip, a one-room stay, or a
+ * place with no stay prices to plan rooms from, where the stay splits evenly).
  */
 import { z } from 'zod';
 
@@ -23,6 +24,8 @@ export interface SetupStepFacts {
   readonly datesLocked: boolean;
   /** Rooms in the current room plan (0 = none yet). */
   readonly roomCount: number;
+  /** Stay types the destination has reviewed prices for (0 = no room plan can be made). */
+  readonly stayCount: number;
   readonly mustDoCount: number;
 }
 
@@ -40,7 +43,7 @@ export function isSkippable(step: TripSetupStep, facts: SetupStepFacts): boolean
     case 'budget':
       return facts.crewSize < 2;
     case 'rooms':
-      return facts.isSolo || facts.crewSize < 2 || facts.roomCount === 1;
+      return facts.isSolo || facts.crewSize < 2 || facts.roomCount === 1 || facts.stayCount === 0;
     case 'must_dos':
       return facts.mustDoCount > 0;
     case 'when':

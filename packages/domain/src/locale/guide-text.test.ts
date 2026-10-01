@@ -87,9 +87,20 @@ describe('guideTextSourceHash', () => {
 describe('guideTextLimit', () => {
   const [title] = GUIDE_TEXT_FIELDS.quest;
 
-  it('lets a short title use the field, and a long one grow by two fifths at most', () => {
-    expect(guideTextLimit(title, 'Bridge fans')).toBe(24);
-    expect(guideTextLimit(title, 'Bridge watchers at night')).toBe(34);
+  const [, body] = GUIDE_TEXT_FIELDS.quest;
+  const [theme] = GUIDE_TEXT_FIELDS.plan_day;
+
+  it('keeps a heading close to the words it replaces, never past the field', () => {
+    // A short heading gets four characters; a longer one a fifth more.
+    expect(guideTextLimit(title, 'Bridge fans')).toBe(15);
+    expect(guideTextLimit(theme, 'Gentle landing, local sips')).toBe(32);
+    // At the field's own limit there is no room to grow.
+    expect(guideTextLimit(title, 'Bridge watchers at night')).toBe(24);
+  });
+
+  it('lets any other line use its field, and grow by two fifths past it', () => {
+    expect(guideTextLimit(body, 'Be at the bridge by 21:00.')).toBe(110);
+    expect(guideTextLimit(body, 'x'.repeat(100))).toBe(140);
   });
 });
 

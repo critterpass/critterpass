@@ -11,7 +11,7 @@ import { Icon } from '@/ui/icons/Icon';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { shortDate, wholeMoney } from '../data/format';
+import { estimateMoney, shortDate } from '../data/format';
 
 const useStyles = makeStyles((th) => ({
   card: {
@@ -40,7 +40,7 @@ export function StayRows({
       {stays.map((stay) => {
         const nights = stay.nights;
         const kind = stay.stay_type.replaceAll('_', ' ');
-        const price = wholeMoney(locale, stay.nightly_pp_minor, stay.currency);
+        const price = estimateMoney(locale, stay.nightly_pp_minor, stay.currency);
         const until =
           stay.free_cancel_until === null ? null : shortDate(locale, stay.free_cancel_until);
         return (

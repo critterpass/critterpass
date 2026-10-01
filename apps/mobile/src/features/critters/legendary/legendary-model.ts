@@ -9,7 +9,7 @@ import { nextWindowSpan, toLocalWallTime, type WindowRule } from '@cp/domain';
 import type { EntryRow, TripRow, WindowRow } from '../data/queries';
 import { windowRule } from '../dex/dex-model';
 
-export const WINDOW_ART_SQL = `SELECT f.id AS form_id, c.key, c.no, c.canonical_seed, c.id AS critter_id
+export const WINDOW_ART_SQL = `SELECT f.id AS form_id, c.key, c.no, c.canonical_seed, c.id AS critter_id, c.set_id
   FROM critter_forms f JOIN critters c ON c.id = f.critter_id
   WHERE f.id IN (SELECT form_id FROM legendary_windows)`;
 export const WINDOW_ART_TABLES = ['critter_forms', 'critters', 'legendary_windows'];
@@ -20,6 +20,8 @@ export interface WindowArtRow {
   readonly no: number;
   readonly canonical_seed: number | null;
   readonly critter_id: string;
+  /** The set the legendary belongs to: only a trip to that place has it "on your dates". */
+  readonly set_id?: string | null;
 }
 
 export const REMINDERS_SQL = `SELECT target_id FROM reminders
@@ -96,7 +98,7 @@ export function buildLegendaries(input: {
   readonly art: readonly WindowArtRow[];
   readonly entries: readonly EntryRow[];
   readonly reminders: ReadonlySet<string>;
-  readonly trip: Pick<TripRow, 'start_date' | 'end_date'> | null;
+  readonly trip: Pick<TripRow, 'start_date' | 'end_date' | 'critter_set_id'> | null;
   readonly now: Date;
   readonly tz: string;
   readonly copresence: ReadonlyMap<string, Copresence>;
@@ -115,6 +117,8 @@ export function buildLegendaries(input: {
     const trip = input.trip;
     const onYourDates =
       trip !== null &&
+      trip.critter_set_id !== null &&
+      a?.set_id === trip.critter_set_id &&
       trip.start_date !== null &&
       trip.end_date !== null &&
       rule.type !== 'any_day' &&

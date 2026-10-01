@@ -10,6 +10,7 @@ import {
   toEditPayload,
   wallOf,
   zonedIso,
+  zoneName,
 } from '../detail/form-model';
 
 const BALI = 'Asia/Makassar';
@@ -22,6 +23,13 @@ describe('booking form times', () => {
     expect(zonedIso('2026-02-30', '10:00', BALI)).toBeNull();
     expect(zonedIso('12/10/2026', '10:00', BALI)).toBeNull();
     expect(wallOf('2026-10-12T01:05:00Z', BALI)).toEqual({ date: '2026-10-12', time: '09:05' });
+  });
+
+  it('names the zone the form reads its times in', () => {
+    const at = Date.parse('2026-10-02T00:00:00Z');
+    expect(zoneName('Asia/Ho_Chi_Minh', at)).toEqual({ city: 'Ho Chi Minh', offset: 'GMT+7' });
+    expect(zoneName('Asia/Kolkata', at)).toEqual({ city: 'Kolkata', offset: 'GMT+5:30' });
+    expect(zoneName('America/New_York', at)).toEqual({ city: 'New York', offset: 'GMT-4' });
   });
 });
 
@@ -51,6 +59,33 @@ describe('adding by hand', () => {
         },
       ],
     });
+  });
+
+  it('sends when a flight lands, on the next day for an overnight flight', () => {
+    const flight = {
+      ...emptyDraft('flight'),
+      date: '2026-10-02',
+      time: '07:05',
+      arrive: '08:30',
+      flight: '9G 956',
+      from: 'SGN',
+      to: 'DAD',
+    };
+    const ids = { bookingId: 'b3', tripId: 't1' };
+    const saigon = 'Asia/Ho_Chi_Minh';
+    expect(toAddPayload(flight, ids, saigon)).toMatchObject({
+      starts_at: '2026-10-02T07:05:00+07:00',
+      ends_at: '2026-10-02T08:30:00+07:00',
+      segments: [
+        { sched_dep_at: '2026-10-02T07:05:00+07:00', sched_arr_at: '2026-10-02T08:30:00+07:00' },
+      ],
+    });
+    const overnight = toAddPayload({ ...flight, time: '23:40', arrive: '01:10' }, ids, saigon);
+    expect(overnight?.segments?.[0]?.sched_arr_at).toBe('2026-10-03T01:10:00+07:00');
+    expect(problemsOf({ ...flight, arrive: '8.3' }, saigon)).toEqual(['arrive']);
+    const untimed = toAddPayload({ ...flight, arrive: '' }, ids, saigon);
+    expect(untimed?.ends_at).toBeUndefined();
+    expect(untimed?.segments?.[0]).not.toHaveProperty('sched_arr_at');
   });
 
   it('adds a stay with its check-out day and no time', () => {
