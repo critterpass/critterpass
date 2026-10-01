@@ -558,6 +558,7 @@ streams:
   fx:
     auto_subscribe: true
     queries:
+      - SELECT * FROM fx_snapshots WHERE quote = 'USD'
       - |-
         SELECT * FROM fx_snapshots
         WHERE quote IN (SELECT home_currency FROM users WHERE id = auth.user_id())
@@ -567,6 +568,12 @@ streams:
       - |-
         SELECT * FROM fx_snapshots
         WHERE quote IN (SELECT local_currency FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM fx_snapshots
+        WHERE quote IN (
+          SELECT currency FROM destinations
+          WHERE id IN (SELECT destination_id FROM trips WHERE crew_id IN my_crews)
+        )
   explore:
     accept_potentially_dangerous_queries: true
     queries:

@@ -27,12 +27,16 @@ streams:
       - SELECT *, key AS id FROM products
       - SELECT *, key AS id FROM perks
 
-  # Rates the caller can need offline: their home currency, their crews' settlement currencies and their
-  # trips' local currencies. Stream filters cannot compare against now(), so the "recent days" window is
-  # bounded by the currency set rather than by date (one row per pair per day).
+  # Rates the caller can need offline: their home currency, their crews' settlement currencies, their
+  # trips' local currencies (a trip's own, else its destination's: crew trips leave the column empty)
+  # and USD, which every cost index, fare and the budget step is quoted in. Rates share one base, so
+  # converting between two currencies needs both of their rows. Stream filters cannot compare against
+  # now(), so the "recent days" window is bounded by the currency set rather than by date (one row per
+  # pair per day).
   fx:
     auto_subscribe: true
     queries:
+      - SELECT * FROM fx_snapshots WHERE quote = 'USD'
       - |
         SELECT * FROM fx_snapshots
         WHERE quote IN (SELECT home_currency FROM users WHERE id = auth.user_id())
@@ -42,3 +46,9 @@ streams:
       - |
         SELECT * FROM fx_snapshots
         WHERE quote IN (SELECT local_currency FROM trips WHERE crew_id IN my_crews)
+      - |
+        SELECT * FROM fx_snapshots
+        WHERE quote IN (
+          SELECT currency FROM destinations
+          WHERE id IN (SELECT destination_id FROM trips WHERE crew_id IN my_crews)
+        )
