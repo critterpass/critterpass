@@ -166,6 +166,9 @@ appId: app.critterpass.dev
     env: { SCENE: add-must-do-loading }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: add-must-do-many }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: add-must-do-no-results }
 - runFlow:
     file: scene.yaml

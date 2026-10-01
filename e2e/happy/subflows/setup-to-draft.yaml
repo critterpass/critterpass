@@ -77,6 +77,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'add-must-do-field'
 - inputText: 'Fushimi Inari at sunrise'
+# Kept as typed. The place search answers first (places, or none): the keep row sits under at most
+# two places, above the keyboard, and stops moving once they are in.
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
 - tapOn:
     id: 'add-must-do-keep'
 # Android shows the row's title in capitals; iOS reads the row whole ("Fushimi Inari at sunrise,

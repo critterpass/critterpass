@@ -103,6 +103,12 @@ function PlaceRow({ place, onPick }: { readonly place: PlaceResult; readonly onP
   );
 }
 
+/**
+ * Places listed before "Keep it just as you typed it" (3c-10 draws two): with the keyboard up, a
+ * third would push the keep row under it. Any further places follow the keep row.
+ */
+const PLACES_ABOVE_KEEP = 2;
+
 export function AddSheetView({
   trip,
   me,
@@ -184,7 +190,7 @@ export function AddSheetView({
                   {t({ id: 'setup.addMustDo.found', message: `${guideName} found` })}
                 </Text>
               ) : null}
-              {open.map((result) => (
+              {open.slice(0, PLACES_ABOVE_KEEP).map((result) => (
                 <PlaceRow key={result.id} place={result} onPick={() => onPickPlace(result)} />
               ))}
               {search.kind === 'done' && search.offline && results.length > 0 ? (
@@ -225,6 +231,9 @@ export function AddSheetView({
                 })}
                 testID="add-must-do-keep"
               />
+              {open.slice(PLACES_ABOVE_KEEP).map((result) => (
+                <PlaceRow key={result.id} place={result} onPick={() => onPickPlace(result)} />
+              ))}
               {closed.length > 0 ? (
                 <Text variant="eyebrow" testID="add-must-do-closed">
                   {t({ id: 'setup.addMustDo.closed', message: 'Closed on your dates' })}
