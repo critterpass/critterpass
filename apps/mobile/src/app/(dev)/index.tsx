@@ -313,9 +313,6 @@ export default function DevToolsIndexScreen() {
             {buildMarkerLabel()}
           </SecondaryText>
         </Stack>
-        <Section title="Updates">
-          <UpdatesSection />
-        </Section>
         <Section title="Demo data">
           <SeedDemoData />
         </Section>
@@ -331,6 +328,10 @@ export default function DevToolsIndexScreen() {
             ))}
           </Section>
         ))}
+        {/* Last: flows wait for the list entries above without scrolling. */}
+        <Section title="Updates">
+          <UpdatesSection />
+        </Section>
       </ScrollView>
     </Scaffold>
   );
