@@ -41,4 +41,18 @@ describe('emergencyNumbersFor', () => {
     );
     expect(emergencyNumbersFor([line('police', '999')]).general).toBe('999');
   });
+
+  it('never leads with a hotline filed as other', () => {
+    const vietnam = [
+      line('police', '113', 'Police'),
+      line('ambulance', '115', 'Ambulance'),
+      line('fire', '114', 'Fire'),
+      line('other', '112', 'National search and rescue'),
+      line('other', '111', 'Child protection hotline'),
+    ];
+    expect(emergencyNumbersFor(vietnam)).toEqual({ general: '115', lines: vietnam });
+    expect(emergencyNumbersFor([line('other', '143', 'Red Cross')]).general).toBe(
+      GSM_EMERGENCY_NUMBER,
+    );
+  });
 });
