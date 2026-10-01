@@ -9,6 +9,7 @@ import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
 import { boolean, integer, jsonb, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
+import { registerMergeRule } from '../merge-rules';
 import { users } from './identity';
 import { locationShares } from './location';
 import { trips } from './trips';
@@ -86,3 +87,11 @@ export const helpSessionMessages = pgTable('help_session_messages', {
 registerTablePrivacy('help_sessions', { class: 'C1' });
 registerTablePrivacy('help_session_private', { class: 'C3' });
 registerTablePrivacy('help_session_messages', { class: 'C1' });
+
+// An incident and its thread stay with the trip and follow whoever opened or wrote them.
+registerMergeRule({ table: 'help_sessions', userColumn: 'user_id', strategy: 'reassign' });
+registerMergeRule({
+  table: 'help_session_messages',
+  userColumn: 'sender_id',
+  strategy: 'reassign',
+});

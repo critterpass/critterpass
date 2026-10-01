@@ -5,12 +5,8 @@ import { emergencyNumbersFor, GSM_EMERGENCY_NUMBER, type EmergencyLine } from '.
 const line = (
   service: EmergencyLine['service'],
   number: string,
-  label = service,
-): EmergencyLine => ({
-  service,
-  number,
-  label,
-});
+  label: string = service,
+): EmergencyLine => ({ service, number, label });
 
 describe('emergencyNumbersFor', () => {
   it('falls back to the GSM number when a country has no curated lines', () => {
@@ -27,9 +23,9 @@ describe('emergencyNumbersFor', () => {
 
   it('leads with the ambulance where several lines share the general bucket', () => {
     const vietnam = [
-      line('police', '113'),
-      line('ambulance', '115'),
-      line('fire', '114'),
+      line('police', '113', 'Police'),
+      line('ambulance', '115', 'Ambulance'),
+      line('fire', '114', 'Fire'),
       line('general', '112', 'National search and rescue'),
       line('general', '111', 'Child protection hotline'),
     ];
