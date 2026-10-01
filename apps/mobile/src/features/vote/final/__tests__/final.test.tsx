@@ -185,6 +185,39 @@ describe('destination final', () => {
     expect(router.push).toHaveBeenCalledWith(voteRoutes.showdown(POLL));
   });
 
+  it('sets both names on the final card at one size, each whole on its side', async () => {
+    const s = await open();
+    await seedFinal(s, [{ userId: MAYA, optionId: OPT_KYOTO }]);
+    await renderVote(<Final me={s.uid} view="card" />, s);
+    await until(() => screen.queryByTestId('final-split') !== null);
+    // Each side is `box` wide; its name's one word is `word` wide on a 52-point line.
+    const measureName = async (index: number, box: number, word: number) => {
+      await fireEvent(screen.getByTestId(`final-name-${index}-box`), 'layout', {
+        nativeEvent: { layout: { x: 0, y: 0, width: box, height: 0 } },
+      });
+      await fireEvent(
+        screen.getByTestId(`final-name-${index}-word-0`, { includeHiddenElements: true }),
+        'textLayout',
+        { nativeEvent: { lines: [{ width: word, height: 52, text: 'KYOTO' }] } },
+      );
+      await fireEvent(screen.getByTestId(`final-name-${index}`), 'layout', {
+        nativeEvent: { layout: { x: 0, y: 0, width: box, height: 52 } },
+      });
+    };
+    const scaleOf = (index: number) => {
+      const set = StyleSheet.flatten(
+        screen.getByTestId(`final-name-${index}-set`).props.style as StyleProp<ViewStyle>,
+      );
+      return (set?.transform as { scale: number }[] | undefined)?.[0]?.scale;
+    };
+    // KYOTO fits its side as designed; LISBON is wider than its side and needs less.
+    await measureName(0, 171, 130);
+    await measureName(1, 164, 200);
+    await until(() => (scaleOf(0) ?? 1) < 1);
+    expect(scaleOf(1)).toBeCloseTo(164 / 202, 5);
+    expect(scaleOf(0)).toBeCloseTo(scaleOf(1) ?? 0, 5);
+  });
+
   it('casts from a showdown half, notes an underdog pick and states the tie rule', async () => {
     const s = await open();
     await seedFinal(s, [{ userId: MAYA, optionId: OPT_KYOTO }]);

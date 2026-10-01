@@ -8,7 +8,7 @@
 import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -20,23 +20,23 @@ import Animated, {
 import { bezierEasing, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
 import { heroAt, useDestinationsMedia } from '@/data/media/use-subject-media';
-import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { MediaLayer } from '@/ui/media/MediaLayer';
 import { AvatarStack } from '@/ui/people/AvatarStack';
-import { LiveSticker } from '@/ui/people/LiveSticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
-import { usePlaces, type BoardPlace } from '../data/use-board';
+import { usePlaces } from '../data/use-board';
 import { stackOf, usePeople } from '../data/use-people';
 import type { PollOptionView, PollView } from '../data/poll-view';
 import { deadlineParts, upper } from '../format';
 import { voteRoutes } from '../routes';
 import { CARD_HEIGHT } from './diagonal';
 import { DiagonalBand } from './diagonal-band';
+import { FinalSplitHalf } from './final-split-half';
 import { pendingByName, useFinalLines } from './tie-line';
+import type { WordmarkMeasure } from './wordmark';
 
 const RISE = 70;
 const ENTER = bezierEasing(tokens.motion.easing.enter);
@@ -47,16 +47,6 @@ const useStyles = makeStyles((th) => ({
     borderRadius: th.radius.cardBig,
     overflow: 'hidden',
   },
-  // Each half's content keeps to its own side of the diagonal.
-  half: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    justifyContent: 'space-between',
-    padding: th.space['16'],
-  },
-  firstHalf: { start: 0, width: '58%' },
-  secondHalf: { end: 0, width: '48%' },
   vsWrap: {
     position: 'absolute',
     top: 0,
@@ -86,59 +76,13 @@ const useStyles = makeStyles((th) => ({
   dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: th.color.pink },
 }));
 
-function Half({
-  option,
-  place,
-  alignEnd,
-  people,
-  wiggleOffset,
-}: {
-  readonly option: PollOptionView;
-  readonly place: BoardPlace | undefined;
-  readonly alignEnd: boolean;
-  readonly people: ReturnType<typeof usePeople>;
-  readonly wiggleOffset: number;
-}) {
-  const styles = useStyles();
-  const theme = useTheme();
-  const { i18n } = useLingui();
-  const wiggle = useLoop('wiggle', { offset: wiggleOffset });
-  const guide = GUIDE_STICKERS[place?.guide ?? 'tokek'];
-  const ink = theme.semantic.text.onAccent;
-  const name = (
-    <Text variant="h1" color={ink} numberOfLines={1} autoFit>
-      {upper(place?.name ?? option.label, i18n.locale)}
-    </Text>
-  );
-  const sticker = (
-    <Animated.View style={wiggle}>
-      <LiveSticker kind={guide.kind} name={guide.name} size={96} drawOn={false} />
-    </Animated.View>
-  );
-  const votes = (
-    <Row gap="6" align="center">
-      {option.voterIds.length > 0 ? (
-        <AvatarStack members={stackOf(people, option.voterIds)} size="sm" max={4} />
-      ) : null}
-      <Text variant="title" color={ink}>
-        {String(option.votes)}
-      </Text>
-    </Row>
-  );
-  return (
-    <View
-      pointerEvents="none"
-      style={[
-        styles.half,
-        alignEnd ? styles.secondHalf : styles.firstHalf,
-        { alignItems: alignEnd ? 'flex-end' : 'flex-start' },
-      ]}
-    >
-      {alignEnd ? sticker : name}
-      {alignEnd ? votes : sticker}
-      {alignEnd ? name : votes}
-    </View>
-  );
+function sameLine(
+  now: readonly [number, number],
+  index: 0 | 1,
+  line: number,
+): readonly [number, number] {
+  if (now[index] === line) return now;
+  return index === 0 ? [line, now[1]] : [now[0], line];
 }
 
 export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
@@ -152,6 +96,18 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
   const pulse = useLoop('pulse');
   const blink = useLoop('blink');
   const [width, setWidth] = useState(0);
+  // Each name's line height at its own best fit; both are then set at the smaller of the two.
+  const [nameLines, setNameLines] = useState<readonly [number, number]>([0, 0]);
+  const onFirstName = useCallback(
+    (m: WordmarkMeasure) => setNameLines((now) => sameLine(now, 0, m.designLine)),
+    [],
+  );
+  const onSecondName = useCallback(
+    (m: WordmarkMeasure) => setNameLines((now) => sameLine(now, 1, m.designLine)),
+    [],
+  );
+  const sharedLine = Math.min(...nameLines);
+  const nameScale = (index: 0 | 1) => (sharedLine > 0 ? sharedLine / nameLines[index] : 1);
   const reduced = useReducedImpactMotion();
   const rise = useSharedValue(reduced ? 0 : RISE);
   const fade = useSharedValue(reduced ? 1 : 0);
@@ -239,19 +195,23 @@ export function FinalSplitCard({ poll }: { readonly poll: PollView }) {
             {width > 0 ? (
               <DiagonalBand width={width} colour={firstColour} photo={photoOf(first)} />
             ) : null}
-            <Half
+            <FinalSplitHalf
               option={first}
               place={placeOf(first)}
               alignEnd={false}
               people={people}
               wiggleOffset={0}
+              nameScale={nameScale(0)}
+              onNameMeasure={onFirstName}
             />
-            <Half
+            <FinalSplitHalf
               option={second}
               place={placeOf(second)}
               alignEnd
               people={people}
               wiggleOffset={0.2}
+              nameScale={nameScale(1)}
+              onNameMeasure={onSecondName}
             />
             <View pointerEvents="none" style={styles.vsWrap}>
               <Animated.View style={[styles.vs, pulse]}>

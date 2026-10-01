@@ -125,6 +125,8 @@ const NO_HALF: HalfMeasure = { name: NO_NAME, natural: 0 };
 
 /** How long the layout must stay still before a search step reads it. */
 const SETTLE_MS = 200;
+/** The longest the names stay hidden while their shared size is searched for. */
+const SEARCH_LIMIT_MS = 2500;
 
 /**
  * Collects both halves' measures and the viewport and gives each half its name's scale. The names
@@ -176,8 +178,21 @@ export function useShowdownNames(key: string) {
     }, SETTLE_MS);
     return () => clearTimeout(timer);
   }, [ready, settled, step, halves, viewport, key, fits]);
-  const [first, second] = scalesAt(halves, step.line);
+  // The names are hidden while the search runs; a layout that never settles ends it at the largest
+  // size known to fit (or the floor), so they always come back.
   const searching = step.line !== null && !step.done;
+  useEffect(() => {
+    if (!searching) return undefined;
+    const timer = setTimeout(() => {
+      setSearch((current) =>
+        current.step.done
+          ? current
+          : { ...current, step: { ...current.step, line: current.step.low, done: true } },
+      );
+    }, SEARCH_LIMIT_MS);
+    return () => clearTimeout(timer);
+  }, [searching, key, viewport]);
+  const [first, second] = scalesAt(halves, step.line);
   return {
     onViewport: setViewport,
     first: {

@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 
-import { RevealStage } from '@/features/vote/final/reveal-stage';
+import { RevealAction, RevealStage } from '@/features/vote/final/reveal-stage';
 import { guideColour } from '@/features/vote/format';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { PillButton } from '@/ui/buttons/PillButton';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 
 export const __CP_DEV_ROUTE__ = true;
@@ -48,7 +47,7 @@ const ROWS = [
 /**
  * The winner reveal (3c-2) held at a moment of its entrance, so a device capture shows the name
  * mid-fall (600 ms), landed with the score arriving (1000 ms) and the settled screen. A tap moves
- * to the next moment and plays the entrance again up to it.
+ * to the next moment. A held moment shows the full entrance's frame whatever the motion setting.
  */
 export default function RevealMomentsScreen() {
   const [index, setIndex] = useState(0);
@@ -70,7 +69,7 @@ export default function RevealMomentsScreen() {
           guide: GUIDE_STICKERS.sardi,
           line: 'Sardi took it well. Already pitching the next trip.',
         }}
-        action={<PillButton tone="ink" label="SET UP KYOTO" onPress={() => undefined} />}
+        action={<RevealAction label="SET UP KYOTO" onPress={() => undefined} />}
         backInDeck="Lisbon goes back in the deck for next time"
         holdAt={moment.holdAt}
       />

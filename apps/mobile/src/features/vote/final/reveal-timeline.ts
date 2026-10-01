@@ -61,7 +61,7 @@ function useEnter(clock: SharedValue<number>, at: number) {
 }
 
 export interface RevealTimelineOptions {
-  /** Stops the clock at this moment (a lab capture of the stamp mid-fall, the score, the tally). */
+  /** Shows the entrance stopped at this moment (a lab capture of the stamp mid-fall, the score). */
   readonly holdAt?: number | undefined;
   /** Runs once, in the frame the stamp lands (full motion only). */
   readonly onLand: () => void;
@@ -71,7 +71,7 @@ export function useRevealTimeline({ holdAt, onLand }: RevealTimelineOptions) {
   // The system's setting is known on the first frame; the app's own mode resolves a moment later.
   const systemReduced = useReducedMotion();
   const reduced = useReducedImpactMotion() || systemReduced;
-  const clock = useSharedValue(reduced ? REVEAL_MS.end : 0);
+  const clock = useSharedValue(holdAt ?? (reduced ? REVEAL_MS.end : 0));
   const { triggerScreenJolt } = useScreenJolt();
   const landed = useRef(false);
   const latest = useRef({ onLand, triggerScreenJolt });
@@ -86,6 +86,11 @@ export function useRevealTimeline({ holdAt, onLand }: RevealTimelineOptions) {
   }).current;
 
   useEffect(() => {
+    if (holdAt !== undefined) {
+      // A held moment is a still of the full entrance, whatever the motion setting: nothing lands.
+      clock.value = holdAt;
+      return;
+    }
     if (reduced) {
       clock.value = REVEAL_MS.end;
       if (!landed.current) {
@@ -94,15 +99,13 @@ export function useRevealTimeline({ holdAt, onLand }: RevealTimelineOptions) {
       }
       return;
     }
-    const until = holdAt ?? REVEAL_MS.end;
     const run = (to: number, from: number, then?: () => void) =>
       withTiming(to, { duration: to - from, easing: linearEasing }, (finished) => {
         'worklet';
         if (finished && then !== undefined) triggerImpact(THUD, then);
       });
     clock.value = 0;
-    clock.value =
-      until <= LAND_MS ? run(until, 0) : withSequence(run(LAND_MS, 0, land), run(until, LAND_MS));
+    clock.value = withSequence(run(LAND_MS, 0, land), run(REVEAL_MS.end, LAND_MS));
     // eslint-disable-next-line react-hooks/exhaustive-deps -- the clock is a stable shared value.
   }, [reduced, holdAt]);
 

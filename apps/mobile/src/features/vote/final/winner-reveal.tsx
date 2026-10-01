@@ -13,7 +13,6 @@ import { useEffect, useRef } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { heroAt, useDestinationsMedia } from '@/data/media/use-subject-media';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { PillButton } from '@/ui/buttons/PillButton';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { Text } from '@/ui/text/Text';
@@ -29,7 +28,7 @@ import { markRevealSeenCommand } from '../data/vote-commands';
 import { guideOr, money, upper } from '../format';
 import { pollScore } from '../poll/poll-result';
 import { voteRoutes } from '../routes';
-import { RevealStage } from './reveal-stage';
+import { RevealAction, RevealStage } from './reveal-stage';
 
 function nameOf(option: PollOptionView, places: ReturnType<typeof usePlaces>): string {
   return (option.refId === null ? undefined : places.get(option.refId)?.name) ?? option.label;
@@ -154,14 +153,12 @@ export function WinnerRevealView({ poll, me }: { readonly poll: PollView; readon
       }
       action={
         organiser ? (
-          <PillButton
-            tone="ink"
+          <RevealAction
             label={upper(
               t({ id: 'vote.reveal.setUp', message: `Set up ${winnerName}` }),
               i18n.locale,
             )}
             onPress={setUp}
-            testID="reveal-set-up"
           />
         ) : (
           <Text

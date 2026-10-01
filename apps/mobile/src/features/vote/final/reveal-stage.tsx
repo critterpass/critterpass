@@ -13,6 +13,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { deviceTier, patterns, useLoop } from '@/motion';
 import type { MediaView } from '@/lib/media/variants';
+import { PillButton } from '@/ui/buttons/PillButton';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { MediaLayer } from '@/ui/media/MediaLayer';
@@ -21,7 +22,7 @@ import { SurfaceToneProvider } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { Halftone } from '@/ui/textures/halftone';
 import { TextureCanvas } from '@/ui/textures/TextureCanvas';
-import { makeStyles, useTheme } from '@/ui/theme';
+import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 import { Burst } from '@/ui/transitions/Burst';
 
 import { RevealRays } from './reveal-rays';
@@ -88,6 +89,10 @@ const useStyles = makeStyles((th) => ({
   foot: { paddingHorizontal: th.space['20'], gap: th.space['16'] },
   rest: { gap: th.space['12'] },
   consolation: { paddingHorizontal: th.space['4'] },
+  action: {
+    backgroundColor: th.semantic.bg.base,
+    borderRadius: sizeToken(th.size.primaryCta, 'radius'),
+  },
   line: { flex: 1 },
 }));
 
@@ -101,6 +106,25 @@ function withAlpha(hex: string, alpha: number): string {
 
 function clamp(value: number, low: number, high: number): number {
   return Math.min(high, Math.max(low, value));
+}
+
+/**
+ * The organiser's call to action as the render draws it on the winner's colour: an ink pill with
+ * the label in the action yellow.
+ */
+export function RevealAction({
+  label,
+  onPress,
+}: {
+  readonly label: string;
+  readonly onPress: () => void;
+}) {
+  const styles = useStyles();
+  return (
+    <View style={styles.action}>
+      <PillButton variant="tertiary" label={label} onPress={onPress} testID="reveal-set-up" />
+    </View>
+  );
 }
 
 export function RevealStage({

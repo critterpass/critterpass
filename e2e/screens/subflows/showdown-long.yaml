@@ -20,9 +20,11 @@ appId: app.critterpass.dev
     visible:
       id: 'showdown-long'
     timeout: 10000
-# The names are hidden (and not read out) while the halves settle on the size both fit at.
+# The names are hidden while the halves settle on the size both fit at; a name carries its id
+# once it is shown.
 - extendedWaitUntil:
-    visible: 'CHEFCHAOUEN'
+    visible:
+      id: 'showdown-name-0'
     timeout: 15000
 - waitForAnimationToEnd:
     timeout: 3000
