@@ -12,7 +12,7 @@ import { View } from 'react-native';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { FOOTER_FADE_PT } from '@/ui/layout/KeyboardFooter';
-import { makeStyles } from '@/ui/theme';
+import { makeStyles, sizeToken } from '@/ui/theme';
 
 import type { ChatMessage } from '../data/rows';
 import { DaySeparator } from './day-separator';
@@ -43,7 +43,7 @@ const useStyles = makeStyles((th) => ({
     position: 'absolute',
     alignSelf: 'center',
     bottom: FOOTER_FADE_PT + th.space['8'],
-    borderRadius: th.radius.pill,
+    borderRadius: sizeToken(th.size.headerPill, 'height') / 2,
     backgroundColor: th.semantic.bg.raised,
   },
 }));
