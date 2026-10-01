@@ -334,7 +334,19 @@ appId: app.critterpass.dev
       text: '(?i)locked in\. the trip is confirmed\.'
     timeout: 30000
 
+# From here on someone on the trip can be asked, once the trip day has started, whether to remember
+# the places they visit. The sheet covers the screen under it, so wherever it is up it is answered
+# "Not now" before a capture or an account switch.
 # The newcomer: one more new account joins with the crew code, after the trip was confirmed.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - runFlow:
     file: ../proposal/subflows/switch-account.yaml
     env:
@@ -378,19 +390,40 @@ appId: app.critterpass.dev
     notVisible:
       id: 'invite-code-screen'
     timeout: 30000
-# The manifest welcomes them: its button opens the plan when the join put them on a trip, the
-# crew otherwise.
+# The manifest welcomes them. The join put them on the trip, so its button opens the plan.
 - extendedWaitUntil:
     visible:
       id: 'invite-manifest-screen'
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-manifest
 - tapOn:
     id: 'invite-manifest-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-landing
 # Home for the crew, then the trip's hub, its plan and the crew chat.
 - openLink:
@@ -412,6 +445,15 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-home
 - tapOn:
     id: 'tab-trips'
@@ -422,6 +464,15 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-trip
 - runFlow:
     when:
@@ -437,6 +488,15 @@ appId: app.critterpass.dev
           optional: true
       - waitForAnimationToEnd:
           timeout: 8000
+      - runFlow:
+          when:
+            visible:
+              id: 'visit-consent-decline'
+          commands:
+            - tapOn:
+                id: 'visit-consent-decline'
+            - waitForAnimationToEnd:
+                timeout: 5000
       - takeScreenshot: en-join-under-way-newcomer-plan
       - runFlow: ../onboarding/subflows/back.yaml
 - tapOn:
@@ -451,11 +511,32 @@ appId: app.critterpass.dev
     visible:
       id: 'chat-composer'
     timeout: 20000
+- extendedWaitUntil:
+    visible: '(?i).*the proposal.*'
+    timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-chat
 
 # The organiser pays for dinner: the split names everyone on the trip.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - runFlow:
     file: ../proposal/subflows/switch-account.yaml
     env:
@@ -466,6 +547,15 @@ appId: app.critterpass.dev
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-organiser-home
 - openLink: critterpass-dev://wallet/money
 - extendedWaitUntil:
@@ -494,6 +584,15 @@ appId: app.critterpass.dev
       id: 'money-share-count-0|money-split-in-0'
     timeout: 10000
 - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-expense-split
 - evalScript: ${output.threeWays = false}
 - runFlow:
@@ -516,10 +615,28 @@ appId: app.critterpass.dev
       id: 'money-detail-shares'
     timeout: 20000
 - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-expense-shares
 
 # The newcomer again. From noon in Da Nang the lifecycle sweep (every ten minutes) starts a trip
 # whose first day is today, and Home turns to the trip day.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - runFlow:
     file: ../proposal/subflows/switch-account.yaml
     env:
@@ -539,6 +656,15 @@ appId: app.critterpass.dev
           optional: true
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-home-later
 - tapOn:
     id: 'tab-trips'
@@ -549,6 +675,15 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-trip-later
 
 # The newcomer is on the trip: the organiser's split named three people, the plan opens with its
@@ -570,10 +705,28 @@ appId: app.critterpass.dev
       id: 'money-latest-row'
     timeout: 60000
 - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-money
 
 # The one who joined while the proposal was out: Home says where the crew is and JOIN THE TRIP puts
 # them on it; the card goes once their seat has synced.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - runFlow:
     file: ../proposal/subflows/switch-account.yaml
     env:
@@ -584,6 +737,15 @@ appId: app.critterpass.dev
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-not-on-trip-card
 - tapOn:
     id: 'home-join-trip-cta'
@@ -593,6 +755,15 @@ appId: app.critterpass.dev
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-not-on-trip-joined
 - tapOn:
     id: 'tab-trips'
@@ -602,4 +773,13 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-not-on-trip-hub
