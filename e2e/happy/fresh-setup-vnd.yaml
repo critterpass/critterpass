@@ -6,8 +6,7 @@ appId: app.critterpass.dev
 # on the dates step. The budget step then prices and steps in đồng, LOOKS GOOD locks first time
 # (no retry, no skip) and setup moves on to the rooms.
 #
-# Data: staging with the Đà Nẵng destination. The picker opens on this month, so a run on a
-# month's last day (tomorrow on the next page) is not covered.
+# Data: staging with the Đà Nẵng destination.
 - runFlow:
     file: subflows/fresh-account.yaml
     env:
@@ -89,10 +88,12 @@ appId: app.critterpass.dev
     visible:
       id: 'setup-step-when'
     timeout: 20000
-# Tomorrow in Vietnam, three days: the first day tapped in the picker's heatmap, the length taken
-# down to three, and the lock's own label checked before it is tapped, so a tap that landed on
-# another day fails here instead of locking the wrong dates.
-- evalScript: ${var d = new Date(Date.now() + 31 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); output.pickLabel = months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickColumn = (d.getUTCDay() + 6) % 7; output.pickRow = Math.floor((((first.getUTCDay() + 6) % 7) + d.getUTCDate() - 1) / 7); output.pickTry = 0}
+# Tomorrow in Vietnam, three days, picked in the week picker by each day's own id, so nothing
+# depends on the screen's size. The picker opens on this month; a start on the 1st sits a page on.
+# Every run takes that page turn first (the 1st of next month is picked, and the lock names it),
+# then comes back for tomorrow unless tomorrow is that day. The lock's label is checked before it
+# is tapped, so a tap that landed on another day fails here instead of locking the wrong dates.
+- evalScript: ${var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; var d = new Date(Date.now() + 31 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + Number(d.getUTCDate() !== 1), 1)); output.pickId = 'heat-pick-' + d.toISOString().slice(0, 10); output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()] + ' ' + d.getUTCDate() + '\\D.*'; output.firstId = 'heat-pick-' + first.toISOString().slice(0, 10); output.firstLabel = '(?i)lock ' + months[first.getUTCMonth()] + ' 1\\D.*'; output.startsOnFirst = d.getUTCDate() === 1}
 - scrollUntilVisible:
     element:
       id: 'when-pick-week'
@@ -105,41 +106,51 @@ appId: app.critterpass.dev
       id: 'picker-shorter'
     timeout: 10000
 - waitForAnimationToEnd
-# iOS finds the day's cell by its spoken label: the sheet's own when the step under it shows the
-# same day (the second match), else the only one.
+# A page on. With a heatmap on the step under the sheet too, the sheet's arrow is the second.
+- tapOn:
+    id: 'heatmap-next'
+    index: 1
+    optional: true
 - runFlow:
     when:
-      platform: iOS
+      notVisible:
+        id: ${output.firstId}
     commands:
       - tapOn:
-          text: ${output.pickLabel}
+          id: 'heatmap-next'
+- scrollUntilVisible:
+    element:
+      id: ${output.firstId}
+    timeout: 10000
+- tapOn:
+    id: ${output.firstId}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+      text: ${output.firstLabel}
+    timeout: 10000
+# Back a page for tomorrow, wherever it sits in its month (the 31st is in the last row).
+- runFlow:
+    when:
+      true: ${output.startsOnFirst !== true}
+    commands:
+      - tapOn:
+          id: 'heatmap-prev'
           index: 1
           optional: true
       - runFlow:
           when:
             notVisible:
-              id: 'picker-lock'
+              id: ${output.pickId}
           commands:
             - tapOn:
-                text: ${output.pickLabel}
-# On Android the sheet's cells carry no id or label of their own (only the step under it does), so
-# the cell is tapped where the sheet draws it on the runner's Pixel 7: its weekday column, and a
-# few heights around its week's row until the lock names the day.
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - repeat:
-          while:
-            notVisible:
-              id: 'picker-lock'
-              text: ${output.lockLabel}
-          times: 9
-          commands:
-            - tapOn:
-                point: ${Math.round(8.26 + (output.pickColumn + 0.5) * 11.925) + '%, ' + Math.round(40 + output.pickRow * 5.25 + output.pickTry * 2) + '%'}
-            - evalScript: ${output.pickTry = output.pickTry + 1}
-            - waitForAnimationToEnd
+                id: 'heatmap-prev'
+      - scrollUntilVisible:
+          element:
+            id: ${output.pickId}
+          timeout: 10000
+      - tapOn:
+          id: ${output.pickId}
 - extendedWaitUntil:
     visible:
       id: 'picker-lock'
