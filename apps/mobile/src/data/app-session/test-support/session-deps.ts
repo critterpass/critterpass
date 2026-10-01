@@ -53,6 +53,8 @@ export interface SessionHarness {
   readonly outbox: FileOutbox;
   readonly endpointWrites: string[];
   readonly errors: unknown[];
+  /** One entry per app restart asked for: the last uid in storage at that moment. */
+  readonly restarts: (string | null)[];
   /** Every request to the link endpoints, answered from recorded fixtures. */
   readonly linkRequests: { method: string; path: string; body?: unknown }[];
   /** One entry per `GET /v1/config/bootstrap` the session made. */
@@ -66,6 +68,8 @@ export function sessionHarness(options: {
   lastUid?: MemoryLastUid;
   /** The api's answer to `GET /v1/config/bootstrap`, in place of the recorded one. */
   serverFlags?: ServerFlagsFetch;
+  /** What the server says about this phone's session; by default `uid-online` holds it. */
+  currentSession?: () => Promise<{ readonly userId: string } | null>;
 }): SessionHarness {
   const opened: { uid: string; auth: LocalFirstAuth }[] = [];
   const stacks: TestLocalFirst[] = [];
@@ -74,6 +78,7 @@ export function sessionHarness(options: {
   const outbox = fileOutbox(outboxDir);
   const endpointWrites: string[] = [];
   const errors: unknown[] = [];
+  const restarts: (string | null)[] = [];
   const appState = lifecycle();
   const lastUid = options.lastUid ?? memoryLastUid();
   const links = fakeLinksHttp(standardRoutes);
@@ -88,6 +93,12 @@ export function sessionHarness(options: {
       getSyncToken: () => Promise.resolve('sync-token'),
       getRealtimeToken: () => Promise.resolve('rt-token'),
       sessionHeaders: () => Promise.resolve({ cookie: 'session=1' }),
+      currentSession:
+        options.currentSession ??
+        (() =>
+          options.online
+            ? Promise.resolve({ userId: 'uid-online' })
+            : Promise.reject(new Error('Network request failed'))),
     },
     lastUid,
     startLocalFirst: async (auth, uid) => {
@@ -109,6 +120,7 @@ export function sessionHarness(options: {
     },
     realtime: { url: UNREACHABLE_WS, positions: createDeviceRecoveryStore() },
     onError: (error) => errors.push(error),
+    restart: () => restarts.push(lastUid.current),
   };
   return {
     value,
@@ -118,6 +130,7 @@ export function sessionHarness(options: {
     outbox,
     endpointWrites,
     errors,
+    restarts,
     linkRequests: links.requests,
     flagRequests,
     start: async () => {

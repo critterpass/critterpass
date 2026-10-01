@@ -12,7 +12,8 @@
 import * as Application from 'expo-application';
 import Constants from 'expo-constants';
 import { getCalendars, getLocales } from 'expo-localization';
-import { AppState, Platform } from 'react-native';
+import * as Updates from 'expo-updates';
+import { AppState, DevSettings, Platform } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
 import { SERVER_FLAGS_PATH } from '../../lib/analytics/server-flags';
@@ -105,6 +106,22 @@ export const deviceLinkClaims = {
   },
 };
 
+/** Whose session the server says this phone holds; a failed request rejects, never reads as none. */
+async function currentSession(): Promise<{ readonly userId: string } | null> {
+  const { data, error } = await authClient().getSession();
+  if (error) throw new Error(`session check failed: ${error.status ?? 'unknown'}`);
+  return data ? { userId: data.user.id } : null;
+}
+
+/** Restarts the JS so the app boots on the session now in storage. */
+function restartApp(): void {
+  if (__DEV__) {
+    DevSettings.reload();
+    return;
+  }
+  Updates.reloadAsync().catch(reportAppSessionError);
+}
+
 function createSession(): Promise<AppSession> {
   const group = appGroup;
   if (group === null) {
@@ -126,6 +143,7 @@ function createSession(): Promise<AppSession> {
       getSyncToken: () => auth.getSyncToken(),
       getRealtimeToken: () => auth.getRealtimeToken(),
       sessionHeaders,
+      currentSession,
     },
     lastUid: {
       read: () => storage.getString(LAST_UID_KEY) ?? null,
@@ -142,6 +160,7 @@ function createSession(): Promise<AppSession> {
     fetchServerFlags: () => signedInHttp.request({ method: 'GET', path: SERVER_FLAGS_PATH }),
     realtime: { url: resolveRealtimeUrl(), positions: createDeviceRecoveryStore() },
     onError: reportAppSessionError,
+    restart: restartApp,
   }).then((session) => {
     // The server learns the language this app is in (and every later switch) for as long as the
     // process lives, like the session itself.
