@@ -30,6 +30,13 @@ export const MEDIA_SUBJECTS: readonly MediaSubject[] = [
     ['Da Nang', 'Da Nang beach'],
     ['Marble Mountains Da Nang', 'Linh Ung Pagoda Son Tra', 'Dragon Bridge Da Nang'],
   ),
+  // A guest place: its place page (the guest guide's) shows the photo.
+  destination(
+    'vn-hoi-an',
+    ['Hoi An ancient town', 'Hoi An lanterns', 'Hoi An Japanese bridge'],
+    ['Hoi An', 'Hoi An lanterns'],
+    ['Japanese Covered Bridge Hoi An', 'Hoi An Ancient Town'],
+  ),
   destination(
     'bali',
     ['Bali rice terraces', 'Bali temple', 'Bali beach cliffs'],
