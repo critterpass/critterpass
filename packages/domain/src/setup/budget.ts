@@ -83,7 +83,8 @@ export interface BudgetBandUnavailableDetail {
   readonly maxes_count: number;
   readonly member_count: number;
   readonly currency: string;
-  readonly step_minor: number;
+  /** Left out while the crew currency has no rate to work the step out from. */
+  readonly step_minor?: number;
 }
 
 export const OWN_FIT_STATES = ['no_max', 'no_target', 'fits', 'over'] as const;
