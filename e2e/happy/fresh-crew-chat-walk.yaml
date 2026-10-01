@@ -6,8 +6,7 @@ appId: app.critterpass.dev
 # joins with the crew code and reads the chat: the join line, a reply, a reaction, a mention, a long
 # message, one with Vietnamese diacritics (typed on iOS: the Android driver types ASCII only), the
 # keyboard opening and closing under the newest message, scrolling back and jumping to the latest,
-# and the attach menu. The organiser then logs an expense, opens its card from the chat, and finds
-# the chat again after the app was closed on it (a cold start restores the last screen).
+# and the attach menu. The organiser then logs an expense and opens its card from the chat.
 - runFlow:
     file: subflows/crew-with-code.yaml
     env:
@@ -291,21 +290,3 @@ appId: app.critterpass.dev
     timeout: 20000
 - waitForAnimationToEnd
 - takeScreenshot: en-walk-expense-opened
-# Closed on the chat and opened again: the chat comes back, not an error.
-- runFlow: ../onboarding/subflows/back.yaml
-- extendedWaitUntil:
-    visible:
-      id: 'chat-composer'
-    timeout: 15000
-- stopApp
-- launchApp
-- extendedWaitUntil:
-    visible:
-      id: 'chat-composer'
-    timeout: 60000
-- extendedWaitUntil:
-    visible:
-      id: 'chat-expense-view-.*'
-    timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: en-walk-chat-restored

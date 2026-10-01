@@ -34,6 +34,10 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'walk-first-message',
     "render 3g-1 Crew chat: the timeline grows up from the composer, so a new crew's chat with its first message is the day label, one bubble and the composer",
   ],
+  [
+    'walk-guide-asked',
+    'render 3j-1 Guide chat: a thread a moment after its first question is the header, the question and the answer starting to type',
+  ],
 ]);
 
 export function isSparseByDesign(shot: string): boolean {
