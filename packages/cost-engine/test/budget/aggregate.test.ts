@@ -2,6 +2,7 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 
 import { budgetAggregate } from '../../src/budget/aggregate';
+import { breakdownBars } from '../../src/budget/breakdown';
 import { budgetEstimates, crewFeasibleLow, planBreakdown } from '../../src/budget/estimates';
 import { USD, dollars } from '../golden/design-chain.fixture';
 import { PROPERTY_SUITE_OPTIONS } from '../property-budget';
@@ -159,6 +160,41 @@ describe('budget estimates', () => {
     const plan = planBreakdown({ amountMinor: 200_000n, currency: 'SGD' }, estimates);
     expect(plan.flights).toEqual({ amountMinor: 52_000n, currency: 'SGD' });
     expect(plan.fits).toBe(true);
+  });
+
+  it('prices a dong crew with no fare on the ground part: stay, food and fun', () => {
+    const estimates = budgetEstimates({
+      ...source,
+      currency: 'VND',
+      start_date: '2027-04-02',
+      end_date: '2027-04-04',
+      fares: [],
+      fx: [
+        { id: 'fx-run', base: 'EUR', quote: 'USD', rate: '1.25', as_of: '2027-02-01', source: 'x' },
+        {
+          id: 'fx-run',
+          base: 'EUR',
+          quote: 'VND',
+          rate: '32500',
+          as_of: '2027-02-01',
+          source: 'x',
+        },
+      ],
+    });
+    expect(estimates).toMatchObject({ currency: 'VND', nights: 2, days: 3 });
+    expect([...estimates.flights.values()]).toEqual([null, null, null]);
+    // A dollar is 26,000 ₫: 2 × $90 + 3 × ($27.50 + $12.50) = $300.
+    expect(crewFeasibleLow(estimates)).toEqual({ amountMinor: 7_800_000n, currency: 'VND' });
+    const target = { amountMinor: 10_400_000n, currency: 'VND' } as const;
+    const plan = planBreakdown(target, estimates);
+    expect(plan).toMatchObject({ flights: null, missing: ['flights'], fits: true });
+    const bars = breakdownBars(target, plan);
+    expect(bars?.flights.amountMinor).toBe(0n);
+    expect(
+      (bars?.stays.amountMinor ?? 0n) +
+        (bars?.food.amountMinor ?? 0n) +
+        (bars?.fun.amountMinor ?? 0n),
+    ).toBe(10_400_000n);
   });
 
   it('has no low end before the dates are locked', () => {

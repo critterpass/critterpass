@@ -260,6 +260,52 @@ describe('no stay prices', () => {
   });
 });
 
+describe('a stay pick the server refused after it was queued', () => {
+  it('says the stay was not picked and why, until another is picked', async () => {
+    stack = await openTestLocalFirst({ uid: WINSTON, holdUploads: true });
+    const trip = kyotoTrip({ step: 'rooms', dates: true });
+    await stack.db.execute("INSERT INTO destinations (id, name) VALUES ('dest-1', 'Kyoto')");
+    await stack.db.execute(
+      `INSERT INTO trips (id, crew_id, status, setup_step, destination_id)
+       VALUES (?, 'crew-1', 'setup', 'rooms', 'dest-1')`,
+      [TRIP_ID],
+    );
+    await stack.db.execute(
+      `INSERT INTO destination_cost_indices (id, destination_id, stay_type, nightly_minor_low,
+         nightly_minor_high, food_pp_day_minor, fun_pp_day_minor, currency, reviewed_at)
+       VALUES ('ci-1', 'dest-1', 'hostel', 700, 1800, 2000, 1000, 'USD', '2027-01-01')`,
+    );
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+    await render(
+      <I18nProvider i18n={i18n}>
+        <SafeAreaProvider initialMetrics={METRICS}>
+          <GestureHandlerRootView>
+            <LocalFirstProvider value={stack.value}>
+              <ScreenJoltProvider>
+                <RoomsStep trip={trip} shell={sceneFrame(trip, 'rooms')} />
+              </ScreenJoltProvider>
+            </LocalFirstProvider>
+          </GestureHandlerRootView>
+        </SafeAreaProvider>
+      </I18nProvider>,
+    );
+    const option = await screen.findByTestId('setup-rooms-stay-option-hostel');
+    expect(screen.queryByTestId('setup-rooms-notice')).toBeNull();
+    // The pick was uploaded and the server answered that the stay has no price for this trip.
+    await stack.db.execute(
+      `INSERT INTO rejected_commands (id, cmd, code, detail, rejected_at)
+       VALUES ('op-1', 'set_stay_choice', 'STATE_INVALID', ?, '2026-10-01T11:58:57Z')`,
+      [JSON.stringify({ reason: 'stay_unavailable', stay: 'hostel' })],
+    );
+    const notice = await screen.findByTestId('setup-rooms-notice');
+    expect(notice.props.children).toBe(
+      'That stay has no price for this trip right now, so it wasn’t picked. Try another.',
+    );
+    await fireEvent.press(option);
+    await waitFor(() => expect(screen.queryByTestId('setup-rooms-notice')).toBeNull());
+  });
+});
+
 describe('rooms rules', () => {
   it('keeps "don’t care" on its own', () => {
     expect(toggleChip(['early_bird'], 'dont_care')).toEqual(['dont_care']);

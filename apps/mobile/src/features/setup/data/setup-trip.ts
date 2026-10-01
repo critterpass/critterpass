@@ -76,14 +76,23 @@ export const TRIP_SQL = `SELECT t.crew_id, t.status, t.setup_step, d.name AS des
   WHERE t.id = ?`;
 const TRIP_TABLES = ['trips', 'destinations', 'guides'];
 
+/**
+ * Who takes part in a trip's setup, the way the server counts them (`app.setup_member_ids`): the
+ * trip's active crew members, less anyone who said no to the trip; a solo trip, its participants
+ * only. A crew trip starts with the organiser as its one participant, so counting participants
+ * would make a crew of five look like a crew of one and offer skips the server refuses.
+ */
+export const SETUP_MEMBERS_FROM = `FROM trips t
+  JOIN crew_members m ON m.crew_id = t.crew_id AND m.status = 'active'
+  LEFT JOIN trip_participants p ON p.trip_id = t.id AND p.user_id = m.user_id
+  LEFT JOIN users u ON u.id = m.user_id
+  WHERE t.id = ? AND coalesce(p.rsvp, '') <> 'out'
+    AND (coalesce(t.is_solo, 0) = 0 OR p.user_id IS NOT NULL)`;
+
 /** Everyone taking part, in crew join order (member colours follow it). */
-export const MEMBERS_SQL = `SELECT p.user_id, p.role, u.display_name
-  FROM trip_participants p
-  JOIN trips t ON t.id = p.trip_id
-  LEFT JOIN crew_members m ON m.crew_id = t.crew_id AND m.user_id = p.user_id
-  LEFT JOIN users u ON u.id = p.user_id
-  WHERE p.trip_id = ? AND coalesce(p.rsvp, '') <> 'out'
-  ORDER BY coalesce(m.created_at, p.created_at), p.user_id`;
+export const MEMBERS_SQL = `SELECT m.user_id, coalesce(p.role, 'member') AS role, u.display_name
+  ${SETUP_MEMBERS_FROM}
+  ORDER BY m.created_at, m.user_id`;
 const MEMBERS_TABLES = ['trip_participants', 'trips', 'crew_members', 'users'];
 
 /** Ballots per option of the trip's decided destination vote, most first. */
