@@ -96,22 +96,22 @@ export function nextMatch(
 }
 
 export type WhyLine =
-  | { readonly kind: 'must_see' }
+  | { readonly kind: 'mustSee' }
   | { readonly kind: 'taste'; readonly tag: string }
-  | { readonly kind: 'crew_saved'; readonly count: number }
-  | { readonly kind: 'near_stay'; readonly meters: number };
+  | { readonly kind: 'crewSaved'; readonly count: number }
+  | { readonly kind: 'nearStay'; readonly meters: number };
 
 /** WHY THIS? from the card's own signals, in a fixed order; unknown codes say nothing. */
 export function whyLines(reasons: readonly DeckReason[]): WhyLine[] {
   const lines: WhyLine[] = [];
   for (const reason of reasons) {
-    if (reason.code === 'must_see') lines.push({ kind: 'must_see' });
+    if (reason.code === 'must_see') lines.push({ kind: 'mustSee' });
     else if (reason.code === 'taste' && typeof reason.value === 'string') {
       lines.push({ kind: 'taste', tag: reason.value });
     } else if (reason.code === 'crew_saved' && typeof reason.value === 'number') {
-      lines.push({ kind: 'crew_saved', count: reason.value });
+      lines.push({ kind: 'crewSaved', count: reason.value });
     } else if (reason.code === 'near_stay' && typeof reason.value === 'number') {
-      lines.push({ kind: 'near_stay', meters: reason.value });
+      lines.push({ kind: 'nearStay', meters: reason.value });
     }
   }
   return lines;

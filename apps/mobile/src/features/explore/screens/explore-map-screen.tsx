@@ -37,6 +37,7 @@ import { useTripCrew, useTripFacts } from '../place-queries';
 import { useDestinationRow } from '../queries';
 import { exploreRoutes } from '../routes';
 import { useSaved } from '../saved-queries';
+import { MAP_CAROUSEL } from '../sponsored-model';
 
 export interface ExploreMapScreenProps {
   /** Destination id or slug. */
@@ -85,8 +86,8 @@ export function ExploreMapScreen({ destination, tripId, placeId }: ExploreMapScr
     () => filterPlaces(places, filters, query, context),
     [places, filters, query, context],
   );
-  const slot = useSponsoredSlot({ destinationId: id, list: 'map_carousel', tripId: trip });
-  const sponsoredEvents = useSponsoredEvents(slot?.placement_id ?? null, 'map_carousel');
+  const slot = useSponsoredSlot({ destinationId: id, list: MAP_CAROUSEL, tripId: trip });
+  const sponsoredEvents = useSponsoredEvents(slot?.placement_id ?? null, MAP_CAROUSEL);
 
   const cards = useMemo((): CarouselCard[] => {
     const name = row?.name ?? '';

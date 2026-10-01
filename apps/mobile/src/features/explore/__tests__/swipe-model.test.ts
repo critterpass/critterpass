@@ -103,10 +103,10 @@ describe('why this', () => {
         { code: 'taste' },
       ]),
     ).toEqual([
-      { kind: 'must_see' },
+      { kind: 'mustSee' },
       { kind: 'taste', tag: 'temples' },
-      { kind: 'crew_saved', count: 2 },
-      { kind: 'near_stay', meters: 450 },
+      { kind: 'crewSaved', count: 2 },
+      { kind: 'nearStay', meters: 450 },
     ]);
   });
 });

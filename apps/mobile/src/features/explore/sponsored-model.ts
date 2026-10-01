@@ -7,6 +7,9 @@ import type { PicksEntryWire } from '@cp/domain';
 
 export type ListKind = 'picks' | 'map_carousel' | 'search';
 
+// eslint-disable-next-line lingui/no-unlocalized-strings -- a wire value, never copy.
+export const MAP_CAROUSEL: ListKind = 'map_carousel';
+
 export interface SponsoredSlot {
   readonly placementId: string;
   readonly partner: string;

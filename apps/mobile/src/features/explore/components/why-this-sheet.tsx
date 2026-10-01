@@ -44,7 +44,7 @@ export function WhyThisSheet({ placeName, guideName, lines, note, onClose }: Why
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const worded = lines.map((line) => {
-    if (line.kind === 'must_see') {
+    if (line.kind === 'mustSee') {
       return t({
         id: 'explore.swipe.whyMustSee',
         message: `It's one of ${guideName}'s must-sees.`,
@@ -54,7 +54,7 @@ export function WhyThisSheet({ placeName, guideName, lines, note, onClose }: Why
       const tag = line.tag;
       return t({ id: 'explore.swipe.whyTaste', message: `It fits what the crew likes: ${tag}.` });
     }
-    if (line.kind === 'crew_saved') {
+    if (line.kind === 'crewSaved') {
       return t({
         id: 'explore.swipe.whySaved',
         message: plural(line.count, {
