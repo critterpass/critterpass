@@ -1,0 +1,205 @@
+appId: app.critterpass.dev
+---
+# Release gate: a brand-new traveller's money in đồng on a trip that is on today, with no demo
+# world (subflows/trip-under-way.yaml). The wallet settles in VND; a ₫350,000 lunch and a
+# ₫1,250,000 dinner typed on the keypad, each under its own name, land in LATEST and in what the
+# crew of one has spent (₫1,600,000), and a ₫9,000,000 hotel takes the total to eight digits
+# (₫10,600,000) without it leaving the screen; the history lists all three, whole and grouped,
+# never in dollars; a new expense's detail lists no changes; the budget page, with its way back,
+# counts them against the budget locked in setup on day 1 of 3; and the trip hub's MONEY tile
+# agrees.
+- runFlow:
+    file: subflows/trip-under-way.yaml
+    env:
+      SHOTS: money
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 60000
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      text: 'VND'
+      id: 'money-currency-chip'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: money-empty
+# Lunch, ₫350,000.
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add-keypad'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn: '3'
+- tapOn: '5'
+- tapOn: '0'
+# iOS reads the 000 key by its label.
+- tapOn: '000|Three zeros'
+- assertVisible:
+    id: 'money-add-amount'
+- runFlow:
+    file: subflows/type-expense-name.yaml
+    env:
+      NAME: 'Lunch'
+- takeScreenshot: money-add-lunch
+- assertVisible: '(?i)lunch'
+- assertVisible: '.*350,000.*'
+- assertNotVisible: '.*\$.*'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 30000
+- extendedWaitUntil:
+    visible: '(?i).*₫ ?350,000 spent.*'
+    timeout: 30000
+- assertVisible:
+    id: 'money-hero-solo'
+- waitForAnimationToEnd
+- takeScreenshot: money-after-lunch
+# Dinner, ₫1,250,000.
+- tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn: '1'
+- tapOn: '2'
+- tapOn: '5'
+- tapOn: '0'
+- tapOn: '000|Three zeros'
+- runFlow:
+    file: subflows/type-expense-name.yaml
+    env:
+      NAME: 'Dinner'
+- takeScreenshot: money-add-dinner
+- assertVisible: '.*1,250,000.*'
+- tapOn:
+    id: 'money-add-submit'
+# SPENT SO FAR and the header count both; LATEST is the dinner.
+- extendedWaitUntil:
+    visible: '(?i).*₫ ?1,600,000 spent.*'
+    timeout: 30000
+- assertVisible:
+    id: 'money-hero-solo'
+- assertVisible:
+    id: 'money-solo'
+- assertVisible:
+    id: 'money-latest-row'
+    text: '(?i).*dinner.*'
+    optional: true
+- assertNotVisible: '.*\$.*'
+- waitForAnimationToEnd
+- takeScreenshot: money-after-dinner
+# A bigger one, ₫9,000,000 for the hotel: the total, now eight digits, still reads whole.
+- tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- waitForAnimationToEnd
+- tapOn: '9'
+- tapOn: '000|Three zeros'
+- tapOn: '000|Three zeros'
+- runFlow:
+    file: subflows/type-expense-name.yaml
+    env:
+      NAME: 'Hotel'
+- assertVisible: '.*9,000,000.*'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible: '(?i).*₫ ?10,600,000 spent.*'
+    timeout: 30000
+- assertVisible:
+    id: 'money-hero-amount'
+- assertNotVisible: '.*\$.*'
+- waitForAnimationToEnd
+- takeScreenshot: money-after-hotel
+# Every expense in the history.
+- tapOn:
+    id: 'money-history-link'
+- extendedWaitUntil:
+    visible:
+      id: 'money-history'
+    timeout: 15000
+- assertVisible: '(?i).*lunch.*'
+- assertVisible: '(?i).*hotel.*'
+- assertVisible: '(?i).*dinner.*'
+- assertVisible: '.*1,250,000.*'
+- assertVisible: '.*350,000.*'
+- assertNotVisible: '.*\$.*'
+# The latest one's detail: an expense nobody edited lists no changes.
+- tapOn:
+    id: 'money-history-row-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'money-expense-detail'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: money-expense-detail
+- assertNotVisible:
+    id: 'money-detail-history'
+- assertNotVisible: '.*\$.*'
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 15000
+# The budget: what was spent against the budget locked in setup, on day 1 of 3.
+- tapOn: 'BUDGET'
+- extendedWaitUntil:
+    visible:
+      id: 'money-budget'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: money-budget
+- assertVisible:
+    id: 'money-budget-spent'
+    text: '.*₫ ?10,600,000.*'
+- assertVisible: '(?i)day 1 of 3'
+- assertNotVisible:
+    id: 'money-budget-none'
+- assertNotVisible: '.*\$.*'
+- scrollUntilVisible:
+    element:
+      id: 'money-budget-line'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: money-budget-lower
+- runFlow: ../onboarding/subflows/back.yaml
+# The trip hub's MONEY tile.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-money'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: money-hub
+- assertNotVisible: '.*\$.*'

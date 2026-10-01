@@ -1,0 +1,129 @@
+appId: app.critterpass.dev
+---
+# Release gate: landing starts the trip, with no demo world. A fresh account confirms a trip to
+# Đà Nẵng that starts tomorrow (subflows/trip-under-way.yaml) and types its flight in by hand:
+# 9G 956, Ho Chi Minh City 07:05 to Đà Nẵng 08:30, today (the day before the first day, which
+# still counts as flying in). Home shows the trip as next up. With no flight status from a
+# provider, the scheduled arrival passing changes nothing; the traveller's own I LANDED on the
+# flight's details does: the flight reads LANDED and Home turns to the trip being on.
+- runFlow:
+    file: subflows/trip-under-way.yaml
+    env:
+      SHOTS: landing
+      START_OFFSET_DAYS: '1'
+- extendedWaitUntil:
+    visible:
+      id: 'home-next-up'
+    timeout: 60000
+- evalScript: ${var now = new Date(Date.now() + 7 * 3600000); output.day = now.toISOString().slice(0, 10)}
+# The flight, by hand.
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- tapOn: 'BOOKINGS'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-empty'
+    timeout: 30000
+- tapOn: 'FORWARD.*'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-add'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: landing-add-a-booking
+- runFlow:
+    file: subflows/add-flight-by-hand.yaml
+    env:
+      FLIGHT: '9G 956'
+      FROM: 'SGN'
+      TO: 'DAD'
+      DAY: ${output.day}
+      DEPARTS: '07:05'
+      LANDS: '08:30'
+      SHOT: landing-form-flight
+# A confirmed trip turns "pre trip" on the worker's ten-minute sweep, and only a trip in that state
+# starts on a landing: give the sweep its time, then look at Home before the landing.
+- extendedWaitUntil:
+    visible:
+      id: 'landing-sweep-never-shown'
+    timeout: 660000
+    optional: true
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-next-up'
+    timeout: 30000
+- assertNotVisible:
+    id: 'home-in-trip'
+- waitForAnimationToEnd
+- takeScreenshot: landing-home-before
+# The flight's details: in the stack, or under past bookings once it has been down six hours.
+- tapOn:
+    id: 'tab-wallet'
+- runFlow:
+    when:
+      notVisible:
+        id: 'bookings-wallet-.*'
+    commands:
+      - tapOn: 'BOOKINGS'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-open-details|bookings-archive-link'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-open-details'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: landing-wallet-flight
+      - assertVisible: '07:05'
+      - assertVisible: '08:30'
+      - tapOn:
+          id: 'bookings-open-details'
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-archive-link'
+    commands:
+      - tapOn:
+          id: 'bookings-archive-link'
+      - extendedWaitUntil:
+          visible:
+            id: 'bookings-archive'
+          timeout: 15000
+      - tapOn:
+          id: 'bookings-archive-.*'
+          index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 15000
+- assertVisible: '.*07:05.*08:30.*'
+- assertVisible:
+    id: 'bookings-detail-landed'
+- waitForAnimationToEnd
+- takeScreenshot: landing-flight-detail
+- tapOn:
+    id: 'bookings-detail-landed'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail-status'
+      text: '(?i).*landed.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: landing-flight-landed
+# Home: the trip is on.
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-in-trip'
+    timeout: 120000
+- waitForAnimationToEnd
+- takeScreenshot: landing-home-after
