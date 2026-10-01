@@ -207,6 +207,8 @@ export async function streamThreadTurn(
   );
   const request_ = buildGuideChatRequest({
     pack,
+    // No trip, or a trip without a guide of its own: the home guide answers for anywhere.
+    anywhere: !personaIdSchema.safeParse(thread.guideSlug).success,
     tripContext: context.tripContext,
     history,
     question: body.text,

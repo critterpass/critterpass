@@ -10,3 +10,4 @@ tests:
   - file://mention.yaml
   - file://proactive.yaml
   - file://queued.yaml
+  - file://home-guide.yaml
