@@ -78,7 +78,10 @@ export interface ProposalRouteDeps extends CommandDoorDeps {
   readonly gateway?: Pick<Gateway, 'callModel'>;
 }
 
-/** The objection's wording input: the guide of the trip, the organiser's first name, the options. */
+/**
+ * The objection's wording input: the guide of the trip, the organiser's first name, the options
+ * and the language the member's app is in.
+ */
 async function objectionInput(
   deps: ProposalRouteDeps,
   uid: string,
@@ -87,16 +90,23 @@ async function objectionInput(
   text: string | null,
 ): Promise<ObjectionInput> {
   const facts = await withUser(deps.pool, uid, 'objection', async (tx) => {
-    const { rows } = await tx.query<{ slug: string | null; organiser: string | null }>(
-      `SELECT g.slug, split_part(coalesce(u.display_name, ''), ' ', 1) AS organiser
+    const { rows } = await tx.query<{
+      slug: string | null;
+      organiser: string | null;
+      locale: string;
+    }>(
+      `SELECT g.slug, split_part(coalesce(u.display_name, ''), ' ', 1) AS organiser,
+              app.user_locale($2) AS locale
          FROM proposals p JOIN trips t ON t.id = p.trip_id
          LEFT JOIN guides g ON g.id = t.guide_id LEFT JOIN users u ON u.id = p.created_by
         WHERE p.id = $1`,
-      [proposalId],
+      [proposalId, uid],
     );
     return rows[0];
   });
   const guide = personaIdSchema.safeParse(facts?.slug);
+  // The member's own app language: the guide answers in it, with amounts written its way.
+  const locale = facts?.locale ?? 'en';
   return {
     guide: guide.success ? guide.data : 'guest',
     reason: result.reason as ObjectionInput['reason'],
@@ -105,9 +115,10 @@ async function objectionInput(
       id: option.id,
       kind: option.kind,
       label: option.label,
-      saves: savesLabel(option),
+      saves: savesLabel(option, locale),
     })),
     text,
+    locale,
   };
 }
 

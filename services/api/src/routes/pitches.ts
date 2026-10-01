@@ -30,6 +30,7 @@ import type pg from 'pg';
 import type { RateLimitRedisClient } from '../abuse/rate-limits';
 import type { AppEnv } from '../app';
 import { validationHook } from '../commands/_framework/doors';
+import { enqueueCrewGuideTextIfRead } from '../commands/guide/guide-text';
 import {
   enforceUidRateLimit,
   requireCommandSession,
@@ -143,8 +144,8 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
       }
       for (const alternative of facts.alternatives) yield { type: 'alternative', ...alternative };
       const sections = buildPitchSections(facts, lines);
-      const pitchId = await withSystem(deps.pool, (tx) =>
-        storePitch(tx, {
+      const pitchId = await withSystem(deps.pool, async (tx) => {
+        const id = await storePitch(tx, {
           crewId: body.crew_id,
           placeId: body.place_id,
           month: facts.month,
@@ -153,8 +154,11 @@ export function registerPitchRoutes(app: OpenAPIHono<AppEnv>, deps: PitchRouteDe
           model: fromModel ? 'pitch.place' : null,
           promptVersion: PITCH_PROMPT_VERSION,
           fareSnapshotId,
-        }),
-      );
+        });
+        // Crewmates whose apps are in another language read the pitch in theirs.
+        await enqueueCrewGuideTextIfRead(tx, body.crew_id);
+        return id;
+      });
       yield { type: 'done', pitch_id: pitchId, cached: false, ai_generated: fromModel };
     }
 

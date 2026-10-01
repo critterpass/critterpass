@@ -14,9 +14,25 @@ import {
 
 const NUMBER = /\d+(?:[.,:]\d+)*/gu;
 
-/** Stay-hold claims we can never make: no room is ever held. */
+/** Stay-hold claims we can never make: no room is ever held. English first. */
 const HOLD_CLAIM =
   /\b(?:hold(?:ing)?|held)\b[^.]{0,30}\b(?:rooms?|stays?|beds?|villa|hotel)\b|\b(?:rooms?|stays?)\b[^.]{0,12}\bheld\b/iu;
+
+/**
+ * The same claim in Vietnamese. A sentence claims a hold when it puts a word for keeping or
+ * booking (giữ, đặt, để dành, dành riêng, book, lo xong, sắp xếp) next to a place to sleep
+ * (phòng, giường, villa, khách sạn, chỗ nghỉ/ở/ngủ, …), in either order, or says a spot is being
+ * held for someone ("đã giữ chỗ", "giữ chỗ cho bạn", "đặt giữ"). Advice such as "đến sớm giữ chỗ
+ * đẹp" names no stay and no one it is held for, so it passes. Other languages rest on the prompt.
+ */
+const VI_STAY =
+  '(?<!\\p{L})(?:phòng|giường|villa|biệt thự|khách sạn|chỗ nghỉ|chỗ ở|chỗ ngủ|homestay|resort|căn hộ|nhà nghỉ)(?!\\p{L})';
+const VI_HOLD = '(?<!\\p{L})(?:giữ|đặt|để dành|dành riêng|book|lo xong|sắp xếp)(?!\\p{L})';
+const VI_HOLD_CLAIMS: readonly RegExp[] = [
+  new RegExp(`${VI_HOLD}[^.!?\\n]{0,40}${VI_STAY}`, 'iu'),
+  new RegExp(`${VI_STAY}[^.!?\\n]{0,40}${VI_HOLD}`, 'iu'),
+  /(?<!\p{L})(?:(?:đã|đang|sẽ)\s+(?:đặt\s+)?giữ\s+chỗ|giữ\s+chỗ\s+cho|đặt\s+giữ)(?!\p{L})/iu,
+];
 
 function numbersIn(text: string): string[] {
   return [...text.matchAll(NUMBER)].map((match) => match[0]);
@@ -45,10 +61,18 @@ export function unsourcedNumbers(text: string, allowed: ReadonlySet<string>): st
   );
 }
 
-export function namesIn(text: string, names: readonly string[]): string[] {
-  return names.filter(
-    (name) => name.length > 1 && new RegExp(`\\b${escape(name)}\\b`, 'iu').test(text),
-  );
+/**
+ * The names from `names` that `text` mentions. English text is matched whatever the case. In
+ * another language a first name is often also an everyday word (Vietnamese "linh", "minh",
+ * "trang"), so there a name counts only as written: capitalised, as a whole word.
+ */
+export function namesIn(text: string, names: readonly string[], asWritten = false): string[] {
+  return names.filter((name) => {
+    if (name.length <= 1) return false;
+    return asWritten
+      ? new RegExp(`(?<![\\p{L}\\p{N}])${escape(name)}(?![\\p{L}\\p{N}])`, 'u').test(text)
+      : new RegExp(`\\b${escape(name)}\\b`, 'iu').test(text);
+  });
 }
 
 function escape(value: string): string {
@@ -56,7 +80,8 @@ function escape(value: string): string {
 }
 
 export function claimsHold(text: string): boolean {
-  return HOLD_CLAIM.test(text);
+  const composed = text.normalize('NFC');
+  return HOLD_CLAIM.test(composed) || VI_HOLD_CLAIMS.some((pattern) => pattern.test(composed));
 }
 
 export type Verdict = { readonly ok: true } | { readonly ok: false; readonly reason: string };
@@ -76,6 +101,7 @@ export function validateVersion(reply: VersionReply, context: VersionContext): V
   const items = new Set(context.items.map((item) => item.id));
   const savings = new Set(context.savings.map((saving) => saving.id));
   const allowed = sourcedNumbers(versionNumberSources(context));
+  const otherLanguage = context.locale !== undefined && context.locale !== 'en';
   if (reply.slides.length > MAX_SLIDES) return { ok: false, reason: 'too_many_slides' };
   if (!items.has(reply.lead_item_id))
     return { ok: false, reason: `unknown_item:${reply.lead_item_id}` };
@@ -101,7 +127,7 @@ export function validateVersion(reply: VersionReply, context: VersionContext): V
   for (const text of texts) {
     const loose = unsourcedNumbers(text, allowed);
     if (loose.length > 0) return { ok: false, reason: `ungrounded:${loose.join(',')}` };
-    const named = namesIn(text, context.otherNames);
+    const named = namesIn(text, context.otherNames, otherLanguage);
     if (named.length > 0) return { ok: false, reason: 'names_crew' };
     if (claimsHold(text)) return { ok: false, reason: 'hold_claim' };
   }
