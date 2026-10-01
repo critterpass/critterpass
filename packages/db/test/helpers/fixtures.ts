@@ -97,6 +97,16 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       [organiserDevice, `matrix-probe-${organiserDevice}`],
     );
     await tx.query(
+      `INSERT INTO la_push_to_start_tokens (device_id, user_id, activity_type, token, env)
+       VALUES ($1, $2, 'leave_by', 'abcdef0123456789', 'sandbox')`,
+      [organiserDevice, organiser],
+    );
+    await tx.query(
+      `INSERT INTO device_activities (device_id, user_id, kind, ref_id, started_via, state)
+       VALUES ($1, $2, 'flight', $3, 'push_to_start', 'active')`,
+      [organiserDevice, organiser, crypto.randomUUID()],
+    );
+    await tx.query(
       `INSERT INTO device_action_keys (key_id, device_id, user_id, secret_enc, scopes, expires_at)
        VALUES ($1, $2, $3, 'matrix-probe', ARRAY['ballot'], now() + interval '30 days')`,
       [crypto.randomUUID(), organiserDevice, organiser],

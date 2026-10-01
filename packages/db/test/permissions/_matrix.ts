@@ -1355,6 +1355,29 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: OWNER_READ,
   },
+  // Live Activities: the owner reads their own tokens and activities; the worker owns the rest.
+  la_push_to_start_tokens: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM la_push_to_start_tokens WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  device_activities: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM device_activities WHERE user_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: OWNER_READ,
+  },
+  broadcast_channels: {
+    selectProbe: { sql: 'SELECT 1 FROM broadcast_channels LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
+  la_object_states: {
+    selectProbe: { sql: 'SELECT 1 FROM la_object_states LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
   // Wallet: the crew reads a crew booking and its crew-visible documents and flight segments; the
   // server writes. Personal rows are covered per actor in bookings.test.ts and friends.
   bookings: {

@@ -1,6 +1,12 @@
 export { agentJobs, aiUsage, guideOfferClaims, guideOffers, personaPacks } from './ai';
 export { authAccount, authJwks, authSchema, authSession, authUser, authVerification } from './auth';
 export {
+  broadcastChannels,
+  deviceActivities,
+  laObjectStates,
+  laPushToStartTokens,
+} from './live-activities';
+export {
   contentReleases,
   critterForms,
   critterNames,

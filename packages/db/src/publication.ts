@@ -66,20 +66,27 @@ import * as schema from './schema';
  * and `sponsored_event_counts` is "S": counts the ops console reads, no client ever does.
  * `media_assets` is RLS "R" but read over HTTP only (`/v1/media`): the app fetches a subject's
  * hero when it shows it and prefetches a trip's files to disk itself.
+ * `la_push_to_start_tokens`, `device_activities`, `broadcast_channels` and `la_object_states`
+ * (packages/db/src/schema/live-activities.ts) stay server-side: Live Activity tokens and frames
+ * are the phone's own truth plus the orchestrator's, never synced.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'affiliate_clicks',
   'app_open_hours',
+  'broadcast_channels',
   'cities',
   'codes',
   'content_releases',
+  'device_activities',
   'critter_names',
   'engagement_events',
   'fair_use_counters',
   'fare_cells',
   'flight_watches',
   'install_attributions',
+  'la_object_states',
+  'la_push_to_start_tokens',
   'media_assets',
   'media_objects',
   'member_etas',

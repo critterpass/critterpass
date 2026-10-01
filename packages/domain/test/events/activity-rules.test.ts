@@ -15,6 +15,7 @@ import { EXPLORE_EVENT_TYPES } from '../../src/explore/events';
 import { PROPOSAL_EVENT_TYPES } from '../../src/proposal/events';
 import { CRITTER_EVENT_TYPES } from '../../src/critters/events';
 import { QUEST_EVENT_TYPES } from '../../src/quests/events';
+import { LA_EVENT_TYPES } from '../../src/surfaces/la-events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -131,6 +132,7 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   ...CRITTER_EVENT_TYPES,
   // Quests speak through their own screen, the hub tile and the reward reveal.
   ...QUEST_EVENT_TYPES,
+  ...LA_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {
