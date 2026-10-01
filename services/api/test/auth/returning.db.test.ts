@@ -131,7 +131,7 @@ async function anonymousSession(): Promise<{ cookie: string; uid: string }> {
 
 /**
  * "I already have a pass" on a phone whose app has made a new anonymous pass after sign-out, from
- * its own address (the lockout case below locks the shared test address out).
+ * its own address and number range (the lockout case below trips the shared ones).
  */
 async function returningFrom(cookie: string, phoneNumber: string, ip: string): Promise<Response> {
   capturedCodes.delete(phoneNumber);
@@ -228,7 +228,7 @@ describe('returning sign-in: phone', () => {
 
 describe('returning sign-in after signing out', () => {
   it('brings back the pass saved with the phone, with its crew, and moves the number nowhere', async () => {
-    const phone = '+6592000101';
+    const phone = '+6581230101';
     const saved = await registerExistingUser(phone);
     const crewId = await withSystem(pool, async (tx) => {
       const crew = await tx.query<{ id: string }>(
@@ -266,7 +266,7 @@ describe('returning sign-in after signing out', () => {
   });
 
   it('saves a number nobody holds to the pass the phone is on, which goes on to be made', async () => {
-    const phone = '+6592000102';
+    const phone = '+6581230102';
     const fresh = await anonymousSession();
 
     const response = await returningFrom(fresh.cookie, phone, '203.0.113.102');
