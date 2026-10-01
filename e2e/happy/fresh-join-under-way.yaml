@@ -37,10 +37,15 @@ appId: app.critterpass.dev
     id: 'start-crew-done'
 
 # The friend: a second new account on this phone joins the crew with its code.
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-new'
+# The switch goes through Developer tools from a cold start; a tap that lands mid-launch is
+# tried once more.
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-new'
 - runFlow: ../home/subflows/onboard.yaml
 # Onboarding may finish on another tab; Home has JOIN WITH A CODE.
 - openLink:
@@ -82,10 +87,13 @@ appId: app.critterpass.dev
     timeout: 30000
 
 # The organiser again (kept first): one place locked in, then setup to the guide's draft.
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-0'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-0'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
@@ -205,10 +213,13 @@ appId: app.critterpass.dev
 
 # Someone who joins while the proposal is out: in the crew, with no version of their own to answer
 # and so no seat when the organiser locks.
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-new'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-new'
 - runFlow: ../home/subflows/onboard.yaml
 # Onboarding may finish on another tab; Home has JOIN WITH A CODE.
 - openLink:
@@ -254,10 +265,13 @@ appId: app.critterpass.dev
     timeout: 60000
 
 # The friend opens it from crew chat and boards.
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-1'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-1'
 - runFlow: ../proposal/subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
@@ -312,10 +326,13 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 
 # The organiser locks the crew in: the trip is confirmed.
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-0'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-0'
 - runFlow: ../proposal/subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
@@ -372,10 +389,13 @@ appId: app.critterpass.dev
           id: 'visit-consent-decline'
       - waitForAnimationToEnd:
           timeout: 5000
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-new'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-new'
 - runFlow: ../home/subflows/onboard.yaml
 # Onboarding may finish on another tab; Home has JOIN WITH A CODE.
 - openLink:
@@ -562,10 +582,13 @@ appId: app.critterpass.dev
           id: 'visit-consent-decline'
       - waitForAnimationToEnd:
           timeout: 5000
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-0'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-0'
 # The switch restarts the app where it last was (the trips tab): back to Home.
 - extendedWaitUntil:
     visible:
@@ -678,10 +701,13 @@ appId: app.critterpass.dev
           id: 'visit-consent-decline'
       - waitForAnimationToEnd:
           timeout: 5000
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-3'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-3'
 # The switch restarts the app where it last was (the trips tab): back to Home.
 - extendedWaitUntil:
     visible:
@@ -784,10 +810,13 @@ appId: app.critterpass.dev
           id: 'visit-consent-decline'
       - waitForAnimationToEnd:
           timeout: 5000
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-2'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-2'
 # The switch restarts the app where it last was (the trips tab): back to Home.
 - extendedWaitUntil:
     visible:
