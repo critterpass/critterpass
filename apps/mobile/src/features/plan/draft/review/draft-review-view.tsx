@@ -23,7 +23,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { wholeMoney } from '../data/format';
+import { estimateMoney, overBudgetMinor, wholeMoney } from '../data/format';
 import type { RedraftQuota } from '../data/quota';
 import { counterLine } from '../data/quota-copy';
 import type { ReviewModel } from '../data/version';
@@ -96,7 +96,9 @@ export function DraftReviewView(props: DraftReviewViewProps) {
   const guideName = info.name;
   const destination = props.destination;
   const dates = props.dates;
-  const cost = wholeMoney(locale, model.costPpMinor, model.currency);
+  const cost = estimateMoney(locale, model.costPpMinor, model.currency);
+  // The target is exact and the cost is shown rounded: the gap is taken from the shown figure.
+  const overBy = overBudgetMinor(model.costPpMinor, model.overByMinor, model.currency);
   const counter = counterLine(quota);
   const redraftDay = openRedraft?.dayNo ?? null;
   return (
@@ -165,9 +167,7 @@ export function DraftReviewView(props: DraftReviewViewProps) {
           />
         ) : null}
         <CoverageStrip model={model.mustDos} />
-        {model.overByMinor > 0 ? (
-          <OverBudget amount={wholeMoney(locale, model.overByMinor, model.currency)} />
-        ) : null}
+        {overBy > 0 ? <OverBudget amount={wholeMoney(locale, overBy, model.currency)} /> : null}
         <View style={styles.days} testID="draft-days">
           {model.days.map((day, index) => (
             <DraftDayRow

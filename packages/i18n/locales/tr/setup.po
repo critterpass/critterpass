@@ -92,6 +92,10 @@ msgid "setup.voteOpen.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
+msgid "setup.status.stepRefused"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/shell/setup-screen.tsx
 msgid "setup.missing.title"
 msgstr ""
 

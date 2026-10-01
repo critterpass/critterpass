@@ -29,6 +29,8 @@ export interface CrewMentionPromptInput {
   /** The window, oldest first, ending with the mention itself. */
   readonly window: readonly CrewChatLine[];
   readonly directives: TurnDirectives;
+  /** The crew has no local guide of its own: the default guide answers for any destination. */
+  readonly anywhere?: boolean;
 }
 
 export const CREW_MENTION_RULES = `${GUIDE_CHAT_RULES}
@@ -54,7 +56,12 @@ export function buildCrewMentionRequest(input: CrewMentionPromptInput): {
     })),
   );
   return {
-    system: guideSystemBlocks(input.pack, input.tripContext, CREW_MENTION_RULES),
+    system: guideSystemBlocks(
+      input.pack,
+      input.tripContext,
+      CREW_MENTION_RULES,
+      input.anywhere === true,
+    ),
     messages: applyTurnDirectives(
       [userTurnWithData(CREW_MENTION_QUESTION, documents)],
       input.pack,

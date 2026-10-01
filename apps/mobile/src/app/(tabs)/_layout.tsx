@@ -1,3 +1,4 @@
+import '@/features/home/register';
 import { ShellTabs } from '@/ui/shell/ShellTabs';
 
 /**

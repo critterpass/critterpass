@@ -21,6 +21,8 @@ export interface BookingDraft {
   readonly date: string;
   /** `HH:MM`, 24 h. */
   readonly time: string;
+  /** Flights: when it lands, `HH:MM` as the ticket prints it. */
+  readonly arrive: string;
   /** Stays: check-out day, `YYYY-MM-DD`. */
   readonly endDate: string;
   readonly location: string;
@@ -33,7 +35,7 @@ export interface BookingDraft {
   readonly notes: string;
 }
 
-export type DraftProblem = 'title' | 'date' | 'time' | 'flight' | 'airports';
+export type DraftProblem = 'title' | 'date' | 'time' | 'arrive' | 'flight' | 'airports';
 
 const DATE = /^(\d{4})-(\d{2})-(\d{2})$/u;
 const TIME = /^([01]?\d|2[0-3])[:.]([0-5]\d)$/u;
@@ -46,6 +48,7 @@ export function emptyDraft(kind: BookingKind, title = ''): BookingDraft {
     title,
     date: '',
     time: '',
+    arrive: '',
     endDate: '',
     location: '',
     ref: '',
@@ -79,6 +82,20 @@ export function offsetMinutes(tz: string, utcMs: number): number {
     get('second'),
   );
   return Math.round((asUtc - Math.floor(utcMs / 1000) * 1000) / 60_000);
+}
+
+/**
+ * How the form names the zone its times are read in: the zone's city and its offset now
+ * ("Ho Chi Minh", "GMT+7"; "Kolkata", "GMT+5:30").
+ */
+export function zoneName(tz: string, utcMs: number): { city: string; offset: string } {
+  const minutes = offsetMinutes(tz, utcMs);
+  const abs = Math.abs(minutes);
+  const rest = abs % 60 === 0 ? '' : `:${String(abs % 60).padStart(2, '0')}`;
+  return {
+    city: (tz.split('/').pop() ?? tz).replace(/_/gu, ' '),
+    offset: `GMT${minutes < 0 ? '-' : '+'}${String(Math.floor(abs / 60))}${rest}`,
+  };
 }
 
 function pad(value: number): string {
@@ -121,6 +138,7 @@ export function draftOf(booking: WalletBooking, tz: string): BookingDraft {
     title: booking.title,
     date: start.date,
     time: start.time,
+    arrive: wallOf(leg?.sched_arr_at ?? null, tz).time,
     endDate: wallOf(booking.endsAt, tz).date,
     location: booking.location ?? '',
     ref: booking.supplierRef ?? '',
@@ -142,6 +160,9 @@ export function problemsOf(draft: BookingDraft, tz: string): DraftProblem[] {
     }
   }
   if (draft.kind === 'flight') {
+    if (draft.arrive.trim() !== '' && TIME.exec(draft.arrive.trim()) === null) {
+      problems.push('arrive');
+    }
     if (FLIGHT.exec(draft.flight.trim().toUpperCase()) === null) problems.push('flight');
     if (!IATA.test(draft.from.trim().toUpperCase()) || !IATA.test(draft.to.trim().toUpperCase())) {
       problems.push('airports');
@@ -161,21 +182,41 @@ function detailsOf(draft: BookingDraft, base: BookingDetails): BookingDetails {
   return details;
 }
 
+/**
+ * When a flight lands: the arrival time on the departure day, or on the next day when it reads
+ * earlier than the departure (an overnight flight). Null without an arrival time.
+ */
+export function arrivalIso(draft: BookingDraft, tz: string): string | null {
+  if (draft.kind !== 'flight' || draft.arrive.trim() === '') return null;
+  const sameDay = zonedIso(draft.date, draft.arrive, tz);
+  const departs = zonedIso(draft.date, draft.time, tz);
+  if (sameDay === null || departs === null) return null;
+  if (Date.parse(sameDay) > Date.parse(departs)) return sameDay;
+  const nextDay = new Date(Date.parse(`${draft.date.trim()}T00:00:00Z`) + 86_400_000)
+    .toISOString()
+    .slice(0, 10);
+  return zonedIso(nextDay, draft.arrive, tz);
+}
+
 function timesOf(draft: BookingDraft, tz: string) {
   const startsAt = draft.date.trim() === '' ? null : zonedIso(draft.date, draft.time, tz);
   const endsAt =
-    draft.kind === 'stay' && draft.endDate.trim() !== '' ? zonedIso(draft.endDate, '', tz) : null;
+    draft.kind === 'stay' && draft.endDate.trim() !== ''
+      ? zonedIso(draft.endDate, '', tz)
+      : arrivalIso(draft, tz);
   return { startsAt, endsAt };
 }
 
-function segmentOf(draft: BookingDraft, startsAt: string) {
+function segmentOf(draft: BookingDraft, startsAt: string, tz: string) {
   const match = FLIGHT.exec(draft.flight.trim().toUpperCase());
+  const arrivesAt = arrivalIso(draft, tz);
   return {
     carrier: match?.[1] ?? '',
     flight_no: match?.[2] ?? '',
     dep_airport: draft.from.trim().toUpperCase(),
     arr_airport: draft.to.trim().toUpperCase(),
     sched_dep_at: startsAt,
+    ...(arrivesAt === null ? {} : { sched_arr_at: arrivesAt }),
   };
 }
 
@@ -206,7 +247,7 @@ export function toAddPayload(
     ...(draft.ref.trim() === '' ? {} : { supplier_ref: draft.ref.trim() }),
     ...(Object.keys(details).length === 0 ? {} : { details }),
     ...(draft.kind === 'flight' && startsAt !== null
-      ? { segments: [segmentOf(draft, startsAt)] }
+      ? { segments: [segmentOf(draft, startsAt, tz)] }
       : {}),
   };
 }
@@ -226,9 +267,14 @@ export function toEditPayload(
   if (draft.date !== before.date || draft.time !== before.time) {
     if (startsAt === null) clear.push('starts_at');
     else patch.starts_at = startsAt;
-    if (draft.kind === 'flight' && startsAt !== null) patch.segments = [segmentOf(draft, startsAt)];
   }
-  if (draft.endDate !== before.endDate) {
+  const flightMoved =
+    draft.kind === 'flight' &&
+    (draft.date !== before.date || draft.time !== before.time || draft.arrive !== before.arrive);
+  if (flightMoved && startsAt !== null) patch.segments = [segmentOf(draft, startsAt, tz)];
+  // A flight's end is its landing: it moves with the departure, and goes when the time is cleared.
+  const landingMoved = flightMoved && (draft.arrive.trim() !== '' || before.arrive !== '');
+  if (draft.endDate !== before.endDate || landingMoved) {
     if (endsAt === null) clear.push('ends_at');
     else patch.ends_at = endsAt;
   }
@@ -245,7 +291,7 @@ export function toEditPayload(
     startsAt !== null &&
     (draft.flight !== before.flight || draft.from !== before.from || draft.to !== before.to)
   ) {
-    patch.segments = [segmentOf(draft, startsAt)];
+    patch.segments = [segmentOf(draft, startsAt, tz)];
   }
   if (draft.seat !== before.seat || draft.notes !== before.notes) {
     patch.details = detailsOf(draft, booking.details);

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "c236da71-050a-4965-a7f0-3f375e044485",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "One evening, one bowl: mì quảng — turmeric noodles with just enough broth to coat them, peanuts, herbs and a rice cracker — is the dish locals say to pick if you eat only one thing in Da Nang (ORIGIN VIETNAM). For the evening itself, head to the riverside area along the Han for dinner and a stroll, or the beach strip if you'd rather eat seafood with sea views (ORIGIN VIETNAM); bánh xèo, the crispy shrimp-and-pork pancake, and grilled skewers are the easy street wins (Truong Sa Tour). Want me to sketch a two-hour evening route around whichever of those two areas you're staying near?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3496,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9728,
+        "output_tokens": 148,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

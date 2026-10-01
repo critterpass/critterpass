@@ -44,6 +44,8 @@ interface GuideVars extends CaseVars {
   readonly surface?: Surface;
   readonly history?: { role: 'user' | 'guide'; content: string }[];
   readonly offer?: OfferFacts;
+  /** The thread has no trip (or its trip no guide of its own): the default guide answers. */
+  readonly no_trip?: boolean;
 }
 
 function request(vars: GuideVars, pack: PersonaPack): GatewayInput {
@@ -53,6 +55,7 @@ function request(vars: GuideVars, pack: PersonaPack): GatewayInput {
     surface === 'mention'
       ? buildCrewMentionRequest({
           pack,
+          anywhere: vars.no_trip === true,
           tripContext: vars.trip_context,
           directives,
           window: [...(vars.untrusted ?? []), { text: vars.question, label: 'Dev' }].map(
@@ -67,6 +70,7 @@ function request(vars: GuideVars, pack: PersonaPack): GatewayInput {
         })
       : buildGuideChatRequest({
           pack,
+          anywhere: vars.no_trip === true,
           tripContext: vars.trip_context,
           history: vars.history ?? [],
           question: vars.question,

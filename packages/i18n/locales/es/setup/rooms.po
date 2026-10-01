@@ -56,6 +56,10 @@ msgstr ""
 msgid "setup.rooms.estimate"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
+msgid "setup.rooms.estimateQuoted"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.stay.apartment"
 msgstr ""
@@ -206,6 +210,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.notice.stayFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.stayUnavailable"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx

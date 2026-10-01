@@ -1,0 +1,11 @@
+appId: app.critterpass.dev
+---
+# The trip hub's header (3k-1) over the destination's photo, in vi: a seeded account's Bali trip.
+- runFlow:
+    file: ../../screens/sweep/subflows/start.yaml
+    env:
+      LANG: vi
+- runFlow:
+    file: subflows/photo.yaml
+    env:
+      LANG: vi

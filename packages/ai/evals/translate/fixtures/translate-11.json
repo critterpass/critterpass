@@ -3,23 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "573a1a59-1529-4733-b4f0-2e45683a2393",
+      "id": "0a088207-561c-40e0-858b-9fa3b8bb7457",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Đừng nhìn bảng menu, cứ hỏi món đặc biệt của ngày hôm nay: dân quen ở đây ăn đúng món đó.\"},{\"id\":\"t2\",\"text\":\"Dặn tài xế đợi ở cổng dưới, cổng trên đóng sớm.\"}]}"
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"Đừng nhìn bảng menu, cứ hỏi món đặc biệt trong ngày: dân quen ở đây ăn món đó.\"},{\"id\":\"t2\",\"text\":\"Dặn tài xế đợi ở cổng dưới, cổng trên đóng sớm.\"}]}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 233,
+        "input_tokens": 317,
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 1280,
-        "output_tokens": 93,
+        "output_tokens": 88,
         "service_tier": "standard"
       }
     }

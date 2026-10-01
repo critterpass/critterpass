@@ -153,7 +153,7 @@ describe('story', () => {
     { id: 'b', label: 'Bamboo', content: null },
   ];
 
-  it('pauses with the visible pause button, then advances and announces the next slide', async () => {
+  it('pauses with the slide’s pause action, then advances and announces the next slide', async () => {
     jest.useFakeTimers();
     const announce = jest.spyOn(AccessibilityInfo, 'announceForAccessibility');
     const onIndexChange = jest.fn();
@@ -161,11 +161,11 @@ describe('story', () => {
     expect(screen.getByRole('adjustable', { name: 'Slide 1 of 2. Gates at dawn' })).toBeTruthy();
     expect(screen.getByText('Worth the alarm.')).toBeTruthy();
 
-    await run(screen.getByRole('button', { name: 'Pause' }), 'activate');
+    await run(screen.getByRole('adjustable'), 'activate');
     await act(() => jest.advanceTimersByTime(6000));
     expect(onIndexChange).not.toHaveBeenCalled();
 
-    await run(screen.getByRole('button', { name: 'Play' }), 'activate');
+    await run(screen.getByRole('adjustable'), 'activate');
     await act(() => jest.advanceTimersByTime(5000));
     expect(onIndexChange).toHaveBeenCalledWith(1);
     expect(announce).toHaveBeenCalledWith('Bamboo');

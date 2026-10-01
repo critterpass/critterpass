@@ -14,8 +14,10 @@ import { stayName } from './copy';
 
 export interface StayOption {
   readonly type: string;
-  /** "~$120–$180" per room per night, already formatted. */
-  readonly estimate: string;
+  /** "₫180,000–₫470,000" per room per night, already formatted. */
+  readonly text: string;
+  /** The currency the figures are quoted in when they could not be put in the crew's own. */
+  readonly quotedIn?: string | null;
 }
 
 export function StayPicker({
@@ -39,15 +41,23 @@ export function StayPicker({
   return (
     <Stack gap="10" testID="setup-rooms-stays">
       {stays.map((stay) => {
-        const estimate = stay.estimate;
+        const estimate = stay.text;
+        const code = stay.quotedIn ?? null;
         return (
           <RadioCard
             key={stay.type}
             title={stayName(stay.type)}
-            description={t({
-              id: 'setup.rooms.estimate',
-              message: `About ${estimate} a room a night, estimate`,
-            })}
+            description={
+              code === null
+                ? t({
+                    id: 'setup.rooms.estimate',
+                    message: `About ${estimate} a room a night, estimate`,
+                  })
+                : t({
+                    id: 'setup.rooms.estimateQuoted',
+                    message: `About ${estimate} a room a night, estimate in ${code}`,
+                  })
+            }
             selected={false}
             onSelect={() => onPick(stay.type)}
             testID={`setup-rooms-stay-option-${stay.type}`}

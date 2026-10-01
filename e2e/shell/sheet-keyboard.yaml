@@ -1,0 +1,80 @@
+appId: app.critterpass.dev
+---
+# A sheet with the keyboard up keeps its foot above the keyboard: the control under the field (SAVE,
+# READ IT, the guide's composer) is whole and can be read, never half behind the keys. Android
+# counts the keyboard's height from the top of the navigation bar, so a sheet that runs to the
+# bottom of the screen adds the bar to it.
+#
+# Data: a fresh account with a crew of one and a solo trip to Hội An, on the Wallet's Money half
+# with one expense (e2e/happy/fresh-wallet.yaml).
+- runFlow: ../happy/fresh-wallet.yaml
+
+# The crew budget sheet: the number pad is up and SAVE sits on top of it.
+- openLink: critterpass-dev://wallet/money/budget
+- extendedWaitUntil:
+    visible:
+      id: 'money-budget-set'
+    timeout: 30000
+- tapOn:
+    id: 'money-budget-set'
+- extendedWaitUntil:
+    visible:
+      id: 'money-budget-save'
+    timeout: 10000
+- tapOn:
+    id: 'money-budget-target'
+- inputText: '5000000'
+- waitForAnimationToEnd
+- takeScreenshot: sheet-keyboard-budget
+- assertVisible:
+    id: 'money-budget-save'
+- tapOn:
+    id: 'money-budget-save'
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-budget-save'
+    timeout: 30000
+
+# The paste sheet: the keyboard is up and READ IT sits on top of it.
+- openLink: critterpass-dev://wallet/bookings/add
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-address'
+    timeout: 30000
+- tapOn: 'PASTE.*'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-paste-field'
+    timeout: 10000
+- tapOn:
+    id: 'bookings-paste-field'
+- inputText: 'Booking reference K7Q2PX'
+- waitForAnimationToEnd
+- takeScreenshot: sheet-keyboard-paste
+- assertVisible:
+    id: 'bookings-paste-send'
+- tapOn:
+    id: 'bookings-paste-send'
+- extendedWaitUntil:
+    notVisible:
+      id: 'bookings-paste-send'
+    timeout: 60000
+
+# The guide sheet: the question being typed is whole above the keyboard.
+- openLink: critterpass-dev://wallet/money
+- extendedWaitUntil:
+    visible:
+      id: 'guide-fab'
+    timeout: 15000
+- tapOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-composer'
+    timeout: 15000
+- tapOn:
+    id: 'guide-composer'
+- inputText: 'Where is good for dinner?'
+- waitForAnimationToEnd
+- takeScreenshot: sheet-keyboard-guide
+- assertVisible: 'Where is good for dinner\?'

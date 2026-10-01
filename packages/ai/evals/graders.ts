@@ -23,6 +23,16 @@ const ok = (reason: string): GradeResult => ({ pass: true, reason });
 const fail = (reason: string): GradeResult => ({ pass: false, reason });
 
 /** Wording that tells the crew a change already happened. */
+/** Ways the default guide sends a person away: out of scope, to another guide, or back with homework. */
+const HOME_GUIDE_DEFLECTIONS: readonly RegExp[] = [
+  /\bnot my (?:patch|turf|territory|area|island|home)\b/iu,
+  /\b(?:ask|talk to|check with|reach out to|try)\b[^.!?]{0,40}\bguide\b/iu,
+  /\bI(?:'m|’m| am) (?:only |just )?(?:the )?Bali(?:'s|’s)? guide\b/iu,
+  /\b(?:tell|let) me (?:know )?where and when\b/iu,
+  /hỏi[^.!?]{0,40}hướng dẫn viên/iu,
+  /không phải (?:sân|địa bàn|khu vực|chỗ) của (?:mình|tôi|tớ)/iu,
+];
+
 const DONE_CLAIM =
   /\b(i(?:'|’)?ve|i have|we(?:'|’)?ve)\s+(?:already\s+)?(moved|booked|changed|rescheduled|cancelled|canceled|updated|paid|confirmed)\b|\b(?:it(?:'|’)?s|that(?:'|’)?s|all)\s+(?:done|sorted|booked|confirmed)\b|^\s*done\b/imu;
 
@@ -158,6 +168,33 @@ export const GRADERS: Readonly<Record<string, Grader>> = {
     return borrowed.length === 0
       ? ok('local words only from its own vetted list')
       : fail(`borrowed ${borrowed.join(', ')}`);
+  },
+
+  /**
+   * The default guide with no local guide to hand over to: the any-destination scope reached the
+   * prompt, and the answer helps instead of sending the person away or only asking them back.
+   */
+  home_guide_helps: (output) => {
+    const system = JSON.stringify(output.request.system ?? '');
+    if (!system.includes('anywhere in the world')) return fail('the prompt still scopes the guide');
+    const answer = output.answer.trim();
+    if (answer === '') return fail('no answer');
+    const deflection = HOME_GUIDE_DEFLECTIONS.find((pattern) => pattern.test(answer));
+    if (deflection !== undefined) return fail(`deflects: ${deflection.exec(answer)?.[0] ?? ''}`);
+    const statements = answer.split(/(?<=[.!?…])\s+/u).filter((part) => !part.trim().endsWith('?'));
+    return statements.length > 0
+      ? ok('helps, sends the person to nobody')
+      : fail('only asks the person back');
+  },
+
+  /** A trip with its own guide keeps that guide's scope: the home guide's rules never reach it. */
+  local_guide_unchanged: (output) => {
+    const system = JSON.stringify(output.request.system ?? '');
+    if (system.includes('anywhere in the world')) return fail('the local guide got the home scope');
+    if (!system.includes('You are the live guide for')) return fail('no local scope in the prompt');
+    return /\btokek\b/iu.test(output.answer)
+      ? fail('names the default guide')
+      : ok('the local guide answers as itself');
   },
 
   persona_layered: (output, vars) => {

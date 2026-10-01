@@ -64,10 +64,17 @@ function useLine(view: CandidateView, tz: string | undefined): string {
   if (booking === null) return '';
   const zone = zoneOf(booking.tz, tz);
   const start = booking.segments[0]?.sched_dep_at ?? booking.starts_at;
+  // A flight reads "07:05 → 08:30" when the confirmation printed when it lands.
+  const lands = booking.segments[booking.segments.length - 1]?.sched_arr_at;
+  const leaves = clock(locale, start, zone);
   const seats = view.travellerIds.length;
   return [
     dayDate(locale, start, zone),
-    booking.kind === 'stay' ? '' : clock(locale, start, zone),
+    booking.kind === 'stay'
+      ? ''
+      : lands === undefined || leaves === ''
+        ? leaves
+        : `${leaves} → ${clock(locale, lands, zone)}`,
     booking.location ?? '',
     seats >= 2
       ? t({

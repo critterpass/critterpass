@@ -56,6 +56,10 @@ msgstr "{rooms} phòng. Ghép cặp như ở {first}."
 msgid "setup.rooms.estimate"
 msgstr "Khoảng {estimate} một phòng một đêm, ước tính"
 
+#: ../../apps/mobile/src/features/setup/rooms/stay-picker.tsx
+msgid "setup.rooms.estimateQuoted"
+msgstr "Khoảng {estimate} một phòng một đêm, ước tính (tính bằng {code})"
+
 #: ../../apps/mobile/src/features/setup/rooms/copy.ts
 msgid "setup.rooms.stay.apartment"
 msgstr "Căn hộ"
@@ -207,6 +211,10 @@ msgstr "Phòng đó đã đủ người. Chuyển bớt một người ra trư�
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.notice.stayFailed"
 msgstr "Chưa chọn được chỗ ở. Kiểm tra đã chốt ngày chưa rồi thử lại."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.stayUnavailable"
+msgstr "Chỗ ở này hiện chưa có giá cho chuyến đi nên chưa được chọn. Hãy thử chỗ khác."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.stayGone"
