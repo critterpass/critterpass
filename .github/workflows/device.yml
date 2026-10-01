@@ -421,6 +421,9 @@ jobs:
         if: needs.prepare.outputs.preset != 'happy'
         env:
           PRESET: ${{ needs.prepare.outputs.preset }}
+          # The plan: a planned flow with no report is listed as having no result, never as passed.
+          IOS_MATRIX: ${{ needs.prepare.outputs.ios_matrix }}
+          ANDROID_MATRIX: ${{ needs.prepare.outputs.android_matrix }}
         run: |
           args=()
           [ "$PRESET" = sweep ] && args+=(--coverage)
@@ -467,6 +470,9 @@ jobs:
           ISSUE: ${{ steps.target.outputs.number }}
           JS_COMMIT: ${{ needs.prepare.outputs.js_commit }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          # The plan: a planned flow with no report is a failed row of the gate.
+          IOS_MATRIX: ${{ needs.prepare.outputs.ios_matrix }}
+          ANDROID_MATRIX: ${{ needs.prepare.outputs.android_matrix }}
         run: |
           command -v ffmpeg >/dev/null || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null; }
           # Where publish-screenshots.sh puts this run's files on the screenshots branch.

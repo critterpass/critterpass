@@ -28,7 +28,19 @@ const bannedIds: { pattern: RegExp; what: string }[] = [
 ];
 
 const sourceExtensions = /\.(ts|tsx|js|mjs|cjs|py|swift|kt|kts|sql|ya?ml|json|astro|css)$/;
-const excluded = /(^|\/)(plans|docs|design|node_modules|fixtures)\//;
+// Fixtures and the content factory's batches are recorded data, not code: a Wikimedia thumbnail
+// path in a media batch (`/d/d9/…`) reads as a decision id.
+const excluded =
+  /(^|\/)(plans|docs|design|node_modules|fixtures)\/|^tools\/content-factory\/batches\//;
+
+/** Whether the check reads a tracked file: source outside the bookkeeping and recorded-data folders. */
+function isCheckedSource(file: string): boolean {
+  return (
+    (sourceExtensions.test(file) || file.endsWith('.env.example')) &&
+    !excluded.test(file) &&
+    !file.endsWith('pnpm-lock.yaml')
+  );
+}
 
 function trackedSourceFiles(): string[] {
   const output = execFileSync(
@@ -39,14 +51,7 @@ function trackedSourceFiles(): string[] {
       encoding: 'utf8',
     },
   );
-  return output
-    .split('\n')
-    .filter(
-      (file) =>
-        (sourceExtensions.test(file) || file.endsWith('.env.example')) &&
-        !excluded.test(file) &&
-        !file.endsWith('pnpm-lock.yaml'),
-    );
+  return output.split('\n').filter(isCheckedSource);
 }
 
 describe('decision id pattern', () => {
@@ -61,6 +66,27 @@ describe('decision id pattern', () => {
     expect(decision?.test('In a Cloudflare D1 database operated by Critterpass.')).toBe(false);
     expect(decision?.test('the join form and its D1-backed waitlist')).toBe(false);
     expect(decision?.test('against a single D1 read per attempt')).toBe(false);
+  });
+});
+
+describe('files the check reads', () => {
+  it('leaves recorded data alone: fixtures and the content factory batches', () => {
+    const batch = 'tools/content-factory/batches/media/2026-10-01-media-01.json';
+    expect(isCheckedSource(batch)).toBe(false);
+    expect(isCheckedSource('apps/mobile/src/data/__tests__/fixtures/media-da-nang.json')).toBe(
+      false,
+    );
+    // The path such a batch records does read as a decision id.
+    const thumbnail =
+      '"url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Cau_Rong.jpg"';
+    expect(bannedIds.some(({ pattern }) => pattern.test(thumbnail))).toBe(true);
+  });
+
+  it('still reads the content factory code and every other source file', () => {
+    expect(isCheckedSource('tools/content-factory/src/cli.ts')).toBe(true);
+    expect(isCheckedSource('tools/content-factory/src/batches/media.ts')).toBe(true);
+    expect(isCheckedSource('apps/mobile/src/features/plan/__tests__/overview.test.tsx')).toBe(true);
+    expect(isCheckedSource('packages/db/migrations/20260927000000_users.sql')).toBe(true);
   });
 });
 
