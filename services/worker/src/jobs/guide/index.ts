@@ -1,10 +1,14 @@
 /**
  * The guide's worker jobs, with the process's gateway: crew-chat mention replies, proactive offers,
- * queued answers at each zone's midnight and custom phrase cards. Without a model key none of them
- * is registered (mentions are then answered only from the app's stream).
+ * queued answers at each zone's midnight, custom phrase cards and the translation of guide-written
+ * text into its readers' languages. Without a model key none of them is registered (mentions are
+ * then answered only from the app's stream, and everyone reads guide text in the source language).
  */
+import { onEventAppended } from '@cp/db';
+
 import type { AnyJobDefinition } from '../../boss';
 import { createAvatarMediaStore } from '../avatar/media-store';
+import { guideTextEventHook, guideTextTranslateJob } from '../i18n';
 import { createElevenLabs } from './elevenlabs';
 import { guideMentionJob } from './mention';
 import { phraseTtsJob, type PhraseVoice } from './phrase-tts';
@@ -39,6 +43,8 @@ export function phraseVoiceFromEnv(env: PhraseVoiceEnv): PhraseVoice | undefined
   };
 }
 
+let hooked = false;
+
 export function guideJobs(
   env: GuideJobsEnv & PhraseVoiceEnv,
   pool: GuideJobsDeps['pool'],
@@ -47,10 +53,16 @@ export function guideJobs(
 ): AnyJobDefinition[] {
   const runtime = guideRuntime(env, { pool, assertRouteOn, telemetry });
   if (runtime === undefined) return [];
+  if (!hooked) {
+    hooked = true;
+    // New guide text (a draft, a briefing, the day's quests) is translated for its readers.
+    onEventAppended(guideTextEventHook);
+  }
   return [
     guideMentionJob(runtime),
     guideProactiveJob(runtime),
     queuedAnswerJob(runtime),
     phraseTtsJob(runtime, phraseVoiceFromEnv(env)),
+    guideTextTranslateJob(runtime),
   ];
 }
