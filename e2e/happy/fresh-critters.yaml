@@ -110,6 +110,20 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'critters-egg-meet'
+      # What HATCH IT led to, a few seconds on (the ceremony, its loading page, or neither).
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-hatch'
+          timeout: 8000
+          optional: true
+      - takeScreenshot: fresh-critters-10b-after-hatch-it
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-meet'
+          commands:
+            - tapOn:
+                id: 'critters-egg-meet'
 - extendedWaitUntil:
     visible:
       id: 'critters-hatch'
