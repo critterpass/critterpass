@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 
 import { loadCatalog } from '@cp/i18n';
 
+import { LEAVE_BY } from '../dev/hub-fixtures';
 import { hubEntries } from '../hub-next';
 import { tripDayRoute } from '../routes';
 

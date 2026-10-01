@@ -112,6 +112,14 @@ msgid "trip.hub.tile.allSettled"
 msgstr "đã thanh toán xong"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.beAtAirportBy"
+msgstr "Có mặt ở sân bay trước"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.beThereBy"
+msgstr "Có mặt trước"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.bookings"
 msgstr "Đặt chỗ"
 

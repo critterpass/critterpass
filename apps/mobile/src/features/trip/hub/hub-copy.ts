@@ -5,7 +5,7 @@
 import { format } from '@cp/i18n';
 import { plural, t } from '@lingui/core/macro';
 
-import { clockIn } from '../leave-by/model';
+import { clockIn, deadlineOf, type LeaveByRow } from '../leave-by/model';
 import type { ActivityRow } from './data/use-hub';
 
 export function tileTitles() {
@@ -187,17 +187,19 @@ export function nextUpLabel(locale: string, today: string, dayDate: string, time
 }
 
 /**
- * Today's leave-by as the hub's entry labels it: what kind of deadline it is and its time. The
- * one place the hub words a leave-by.
+ * Today's leave-by as the hub's entry labels it, from the leave-by model's deadline: "Leave by ·
+ * 03:10" with travel worked out, "Be at the airport by · 05:05" or "Be there by · 09:00" without.
+ * The one place the hub words a leave-by.
  */
-export function leaveByLabel(
-  leaveBy: { readonly leave_at: string; readonly tz: string },
-  locale: string,
-): string {
-  return entryLabel(
-    t({ id: 'trip.hub.leaveByToday', message: 'Leave by' }),
-    clockIn(new Date(leaveBy.leave_at), leaveBy.tz, locale),
-  );
+export function leaveByLabel(leaveBy: LeaveByRow, locale: string): string {
+  const deadline = deadlineOf(leaveBy);
+  const what =
+    deadline.kind === 'leave_by'
+      ? t({ id: 'trip.hub.leaveByToday', message: 'Leave by' })
+      : deadline.airport
+        ? t({ id: 'trip.hub.beAtAirportBy', message: 'Be at the airport by' })
+        : t({ id: 'trip.hub.beThereBy', message: 'Be there by' });
+  return entryLabel(what, clockIn(deadline.at, leaveBy.tz, locale));
 }
 
 /**

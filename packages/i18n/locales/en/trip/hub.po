@@ -112,6 +112,14 @@ msgid "trip.hub.tile.allSettled"
 msgstr "all settled"
 
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.beAtAirportBy"
+msgstr "Be at the airport by"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
+msgid "trip.hub.beThereBy"
+msgstr "Be there by"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.tile.bookings"
 msgstr "Bookings"
 
