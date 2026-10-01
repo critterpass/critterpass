@@ -18,11 +18,10 @@ export interface SecureItem {
 /**
  * Beside these, `StartFreshPorts.forgetSessions` removes the items whose keys the data layer owns:
  * the auth client's cookie and session cache (chunked), the kept test accounts, and the device
- * action key the notification extensions sign with.
+ * action key the notification extensions sign with. `forgetInstallId` removes the install's id
+ * and the item earlier builds kept a second id in, so the next launch mints exactly one new id.
  */
 export const SECURE_ITEMS: readonly SecureItem[] = [
-  { key: 'cp.install_id', cleared: true, why: 'the install the server knows this account by' },
-  { key: 'cp.device.id', cleared: true, why: 'the device id on every command the account sent' },
   { key: 'cp.attest.key_id', cleared: true, why: 'attested for the old install id' },
   {
     key: 'cp.local-db.key',
@@ -151,6 +150,8 @@ export interface StartFreshPorts {
   readonly signOut: (sessionStillOnServer: boolean) => Promise<void>;
   /** Removes the auth client's stored session, every kept test account and the device action key. */
   readonly forgetSessions: () => Promise<void>;
+  /** Removes the install id the server knows the account by, in both items it may live in. */
+  readonly forgetInstallId: () => Promise<void>;
   readonly deleteSecureItem: (item: SecureItem) => Promise<void>;
   /** Scheduled local notifications, delivered ones, the badge and leave-by alarms. */
   readonly cancelNotificationsAndAlarms: () => Promise<void>;
@@ -207,6 +208,7 @@ export async function startFresh(
 
   await attempt('sign out', () => ports.signOut(erased === 'unavailable'));
   await attempt('stored sessions', ports.forgetSessions);
+  await attempt('install id', ports.forgetInstallId);
   for (const item of SECURE_ITEMS) {
     if (item.cleared) await attempt(item.key, () => ports.deleteSecureItem(item));
   }

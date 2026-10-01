@@ -12,6 +12,7 @@ import { getAlarmPort } from '../../../modules/cp-alarm';
 import { createDevSlots } from '@/data/auth/dev-slots';
 import { runOnSignOutHooks } from '@/data/auth/sign-out-hooks';
 import { secureActionKeyStorage } from '@/data/push/expo-native';
+import { INSTALL_ID_ITEM, LEGACY_ENVELOPE_ID_ITEM } from '@/data/push/register';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { eraseAccount } from '@/lib/dev-tools/erase-account';
 import {
@@ -60,6 +61,12 @@ async function forgetSessions(): Promise<void> {
   await secureActionKeyStorage.remove();
 }
 
+/** Both items go together: a leftover one would be adopted as the new person's id. */
+async function forgetInstallId(): Promise<void> {
+  await SecureStore.deleteItemAsync(INSTALL_ID_ITEM);
+  await SecureStore.deleteItemAsync(LEGACY_ENVELOPE_ID_ITEM);
+}
+
 async function cancelNotificationsAndAlarms(): Promise<void> {
   await Notifications.cancelAllScheduledNotificationsAsync();
   await Notifications.dismissAllNotificationsAsync();
@@ -95,6 +102,7 @@ const devicePorts: StartFreshPorts = {
   eraseAccount: eraseThisAccount,
   signOut: signOutHere,
   forgetSessions,
+  forgetInstallId,
   deleteSecureItem: (item) => SecureStore.deleteItemAsync(item.key),
   cancelNotificationsAndAlarms,
   deleteFiles,

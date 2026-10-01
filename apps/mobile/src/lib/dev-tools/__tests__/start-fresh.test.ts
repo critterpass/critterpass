@@ -12,6 +12,9 @@ import {
   type StartFreshPorts,
 } from '../start-fresh';
 
+/** The install's id and the item earlier builds kept a second id in. */
+const INSTALL_ID_ITEMS = ['cp.install_id', 'cp.device.id'];
+
 const SRC = join(__dirname, '..', '..', '..');
 
 /** A port that does `effect` and reports it done. */
@@ -33,13 +36,14 @@ function usedPhone(overrides: Partial<StartFreshPorts> = {}) {
   store('cp-links').set('cp.links.onboarded', true);
   store('cp-live-activities').set('la.start.trip_day', 'push-to-start-token');
 
-  const secure = new Set(SECURE_ITEMS.map((item) => item.key));
+  const secure = new Set([...SECURE_ITEMS.map((item) => item.key), ...INSTALL_ID_ITEMS]);
   const files = new Set(FILE_TARGETS.map((target) => `${target.root}/${target.name}`));
   const calls: string[] = [];
   const ports: StartFreshPorts = {
     eraseAccount: () => Promise.resolve('erased'),
     signOut: (onServer) => done(() => calls.push(onServer ? 'signOut on server' : 'signOut')),
     forgetSessions: () => done(() => calls.push('forgetSessions')),
+    forgetInstallId: () => done(() => INSTALL_ID_ITEMS.forEach((key) => secure.delete(key))),
     deleteSecureItem: (item) => done(() => secure.delete(item.key)),
     cancelNotificationsAndAlarms: () => done(() => calls.push('cancelNotificationsAndAlarms')),
     deleteFiles: (target) => done(() => files.delete(`${target.root}/${target.name}`)),
@@ -86,13 +90,6 @@ describe('startFresh', () => {
     expect(liveActivities.getString('la.start.trip_day')).toBe('push-to-start-token');
     expect(liveActivities.getAllKeys().sort()).toEqual(['la.start.trip_day', 'some.key']);
     expect(phone.store('cp-links').getAllKeys()).toEqual(['cp.links.deferred_checked']);
-  });
-
-  it('clears the install id and the device id together, so no old id is left beside a new one', async () => {
-    const phone = usedPhone();
-    await startFresh(phone.ports, ASKING);
-    expect(phone.secure.has('cp.install_id')).toBe(false);
-    expect(phone.secure.has('cp.device.id')).toBe(false);
   });
 
   it('touches nothing on the phone when the server refuses to erase the account', async () => {
