@@ -84,6 +84,7 @@ export function SetupScreen({
   const trip = useSetupTrip(tripId, me);
   const sync = useSyncStatus();
   const present = useSetupPresence(tripId);
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a command name, never copy
   const refusal = useRefusedCommand('set_setup_step');
   const current = trip?.step ?? 'when';
   const viewing = step ?? landingStep(current);
