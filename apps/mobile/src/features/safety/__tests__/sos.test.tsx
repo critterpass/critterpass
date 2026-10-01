@@ -93,16 +93,24 @@ describe('SOS cancel window', () => {
     const tick = jest.fn();
     const { result } = await renderHook(() => useCountdown(send, 5, tick));
     await act(() => result.current.start());
-    await act(() => jest.advanceTimersByTime(4000));
+    await act(() => {
+      jest.advanceTimersByTime(4000);
+    });
     expect(result.current.left).toBe(1);
     await act(() => result.current.cancel());
-    await act(() => jest.advanceTimersByTime(10_000));
+    await act(() => {
+      jest.advanceTimersByTime(10_000);
+    });
     expect(send).not.toHaveBeenCalled();
     expect(result.current.left).toBeNull();
 
     await act(() => result.current.start());
-    await act(() => jest.advanceTimersByTime(5000));
-    await act(() => jest.advanceTimersByTime(5000));
+    await act(() => {
+      jest.advanceTimersByTime(5000);
+    });
+    await act(() => {
+      jest.advanceTimersByTime(5000);
+    });
     expect(send).toHaveBeenCalledTimes(1);
     expect(tick).toHaveBeenCalledTimes(5 + 5);
   });

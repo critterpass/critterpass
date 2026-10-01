@@ -48,7 +48,7 @@ export function HelpScreen() {
   useTripStreams(hub.tripId);
   const now = useNow(30_000);
   const location = usePermission('location').report;
-  const locationDenied = location?.status === 'denied' || location?.status === 'blocked';
+  const locationDenied = location?.status === 'denied' || location?.status === 'restricted';
   const insurance = useInsurancePolicies();
   const insurer = pickPolicy(insurance.policies, hub.tripId)?.provider ?? null;
 
