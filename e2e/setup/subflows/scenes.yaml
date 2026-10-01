@@ -19,6 +19,9 @@ appId: app.critterpass.dev
     env: { SCENE: when-one-synced }
 - runFlow:
     file: scene.yaml
+    env: { SCENE: when-solo }
+- runFlow:
+    file: scene.yaml
     env: { SCENE: when-computing }
 - runFlow:
     file: scene.yaml

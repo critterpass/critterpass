@@ -11,19 +11,19 @@ msgstr ""
 msgid "setup.when.pick.askFirst"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.checked"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.some"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.oneMissing"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.all"
 msgstr ""
 
@@ -81,6 +81,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/window-options.tsx
 msgid "setup.when.option.allTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.windowPillSolo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/heatmap.tsx
@@ -147,6 +151,10 @@ msgstr ""
 msgid "setup.ask.freed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.solo"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/when/week-picker.tsx
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
 msgid "setup.when.cta.lock"
@@ -184,7 +192,7 @@ msgstr ""
 msgid "setup.when.noFit.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
 msgid "setup.when.line.none"
 msgstr ""
 
@@ -257,7 +265,15 @@ msgid "setup.when.reason.fullCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reasonSolo.free"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
 msgid "setup.when.reason.seasonPeak"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reasonSolo.seasonPeak"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/when-view.tsx
@@ -276,6 +292,14 @@ msgstr ""
 msgid "setup.when.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/when/when-view.tsx
+msgid "setup.when.titleSolo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/copy.ts
+msgid "setup.when.reasonSolo.fareDrop"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.error"
 msgstr ""
@@ -290,4 +314,8 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/when/own-calendar-row.tsx
 msgid "setup.when.own.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/when/when-lines.ts
+msgid "setup.when.line.noneSolo"
 msgstr ""

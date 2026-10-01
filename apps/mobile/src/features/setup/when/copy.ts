@@ -76,7 +76,8 @@ export function namesList(locale: string, names: readonly string[]): string {
 }
 
 /** The guide's line under a best window, from its reason key. */
-export function bestReasonLine(option: WindowOption, place: string): string {
+export function bestReasonLine(option: WindowOption, place: string, solo = false): string {
+  if (solo) return soloReasonLine(option, place);
   switch (option.reason) {
     case 'season_peak':
       return t({
@@ -92,6 +93,26 @@ export function bestReasonLine(option: WindowOption, place: string): string {
       return t({
         id: 'setup.when.reason.fullCrew',
         message: 'The first week the whole crew is free. Lock it before calendars fill up.',
+      });
+  }
+}
+
+function soloReasonLine(option: WindowOption, place: string): string {
+  switch (option.reason) {
+    case 'season_peak':
+      return t({
+        id: 'setup.when.reasonSolo.seasonPeak',
+        message: `This week sits in ${place}'s best season, and you're free. It gets you both.`,
+      });
+    case 'fare_drop':
+      return t({
+        id: 'setup.when.reasonSolo.fareDrop',
+        message: 'You’re free, and flights are cheaper that week.',
+      });
+    default:
+      return t({
+        id: 'setup.when.reasonSolo.free',
+        message: 'The first week you’re free. Lock it before your calendar fills up.',
       });
   }
 }

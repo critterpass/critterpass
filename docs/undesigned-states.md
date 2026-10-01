@@ -284,6 +284,7 @@ if they were verified design values.
 | 3c-3 When | Several months of counts | Month paging with ‹ › around the month title; opens on the best week's month. |
 | 3c-3 When | Lock failed (no signal, too many tries) | One urgent line under the heatmap; the CTA stays. |
 | 3c-3 When | "Pick another week" / "Pick a week anyway" (week picker) | A sheet with the same heatmap: tap the first day, − / + for the length, "{n} of {N} can make every day of it", then Lock {range}. |
+| 3c-3 When | A trip for one (a solo trip, or a crew of one so far) | The step speaks to you, not the crew: "When can you go?", "From your calendar." (or "Your days aren't in yet…"), the window pill "{range} · you're free" and the guide's reasons in the second person ("The first week you're free. Lock it before your calendar fills up."). There is no solo render; the layout is 3c-3's. |
 | 3c-4 No week fits | "Dev flies in on the 5th and misses Inari and Arashiyama." | Rendered as "{names} can't make all of it and would miss {must-dos}.": when someone is away inside the week is their private calendar. |
 | 3c-4 No week fits | "His Apr 2–4 block is marked "tentative". I'll ask him privately." | "{name} has a maybe block that week. I'll ask privately.": the block's dates stay private until the member answers. |
 | 3c-4 No week fits | Ask pending / freed / can't move it / no answer in 48 h, and two or more blockers | The ask's progress is the ask card's line; a closed ask's card is disabled and the pick moves to another option; several blockers are listed by first name. |

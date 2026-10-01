@@ -108,6 +108,7 @@ export function WhenStep({ trip, shell }: StepProps) {
           score: trip.score,
           members: trip.members,
           total,
+          solo: trip.isSolo || total === 1,
           synced,
           unsyncedNames: trip.members
             .filter((member) => unsynced.includes(member.uid))
