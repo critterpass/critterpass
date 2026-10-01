@@ -1,0 +1,49 @@
+appId: app.critterpass.dev
+---
+# The vote final's lab scenes from the dev gallery. The winner reveal (3c-2) with its entrance held
+# at 600 ms (the name mid-fall), at 1000 ms (the name landed, the score arriving) and settled (the
+# tally, the sleeping guide and the call to action in); then the showdown (3c-1) with long names
+# (CHEFCHAOUEN against THÀNH PHỐ HỒ CHÍ MINH) in English and Vietnamese.
+- runFlow: subflows/open-gallery.yaml
+- scrollUntilVisible:
+    element:
+      id: 'gallery-reveal-moments'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'gallery-reveal-moments'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-moment-600'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-3c-2-reveal-600ms
+- tapOn:
+    id: 'reveal-moment-next'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-moment-1000'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-3c-2-reveal-1000ms
+- tapOn:
+    id: 'reveal-moment-next'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-moment-settled'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: en-3c-2-reveal-settled
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    file: subflows/showdown-long.yaml
+    env:
+      LOCALE: en
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    file: subflows/showdown-long.yaml
+    env:
+      LOCALE: vi

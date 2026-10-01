@@ -45,6 +45,11 @@ const SHELL_DEMOS = [
     label: 'Vote: showdown with long names',
   },
   {
+    href: '/(dev)/gallery/reveal-moments',
+    testID: 'gallery-reveal-moments',
+    label: 'Vote: winner reveal, moment by moment',
+  },
+  {
     href: '/(dev)/gallery/zoom-demo',
     testID: 'gallery-shell-zoom',
     label: 'Shell: zoom (shared grow)',

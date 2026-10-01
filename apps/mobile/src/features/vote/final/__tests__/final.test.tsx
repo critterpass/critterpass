@@ -24,11 +24,12 @@ jest.mock('expo-router', () => ({
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { act, fireEvent, renderHook, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 
-import { toastQueue } from '@/motion';
+import { toastQueue, useMotionMode } from '@/motion';
+import { resetMotionModeForTests } from '@/motion/test-support/reset-motion-mode';
 import {
   openTestLocalFirst,
   type TestLocalFirst,
@@ -60,11 +61,11 @@ import {
   guessNameLine,
   nextNameSearch,
   scalesAt,
-  splitsWord,
   type HalfMeasure,
 } from '../showdown-name-fit';
 import { ShowdownView } from '../showdown-screen';
 import { WinnerRevealScreen, WinnerRevealView } from '../winner-reveal';
+import { widthFit } from '../wordmark';
 
 const OPT_KYOTO = '0192f000-0000-7000-8000-000000000711';
 const OPT_LISBON = '0192f000-0000-7000-8000-000000000712';
@@ -84,7 +85,16 @@ async function open(): Promise<TestLocalFirst> {
   return stack;
 }
 
+async function setReducedMotion(): Promise<void> {
+  const { result, unmount } = await renderHook(() => useMotionMode());
+  await act(() => {
+    result.current[1]('reduced');
+  });
+  await unmount();
+}
+
 afterEach(async () => {
+  await resetMotionModeForTests();
   (router.push as jest.Mock).mockClear();
   (router.replace as jest.Mock).mockClear();
   (router.back as jest.Mock).mockClear();
@@ -243,39 +253,82 @@ describe('destination final', () => {
     const layout = (y: number, width: number, height: number) => ({
       nativeEvent: { layout: { x: 0, y, width, height } },
     });
-    const lines = (width: number, height: number) => ({
+    const word = (width: number, height: number) => ({
       nativeEvent: { lines: [{ width, height, text: 'KYOTO' }] },
     });
-    const nameWidth = (index: number) =>
+    // A name's half is 350 points wide; its one word is `width` wide on a 110-point line.
+    const measureName = async (index: number, width: number) => {
+      await fireEvent(
+        screen.getByTestId(`showdown-name-${index}-box`),
+        'layout',
+        layout(0, 350, 0),
+      );
+      await fireEvent(
+        screen.getByTestId(`showdown-name-${index}-word-0`, { includeHiddenElements: true }),
+        'textLayout',
+        word(width, 110),
+      );
+      await fireEvent(screen.getByTestId(`showdown-name-${index}`), 'layout', layout(0, 350, 110));
+    };
+    const set = (index: number) =>
       StyleSheet.flatten(
-        screen.getByTestId(`showdown-name-${index}`).props.style as StyleProp<ViewStyle>,
-      )?.width;
+        screen.getByTestId(`showdown-name-${index}-set`).props.style as StyleProp<ViewStyle>,
+      );
+    const scaleOf = (index: number) => {
+      const transform = set(index)?.transform;
+      const first = Array.isArray(transform) ? (transform[0] as { scale?: number }) : undefined;
+      return first?.scale;
+    };
     await fireEvent(screen.getByTestId('showdown-body'), 'layout', layout(0, 360, 700));
-    await fireEvent(screen.getByTestId('showdown-name-0'), 'textLayout', lines(300, 150));
-    await fireEvent(screen.getByTestId('showdown-name-0'), 'layout', layout(0, 300, 150));
-    await fireEvent(screen.getByTestId('showdown-name-1'), 'textLayout', lines(280, 120));
-    await fireEvent(screen.getByTestId('showdown-name-1'), 'layout', layout(0, 280, 120));
+    await measureName(0, 250);
+    await measureName(1, 310);
     // Both halves fit the screen: both names keep their designed size.
-    await fireEvent(screen.getByTestId('showdown-votes-0'), 'layout', layout(250, 300, 30));
-    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(250, 300, 30));
-    expect(nameWidth(0)).toBeUndefined();
-    expect(nameWidth(1)).toBeUndefined();
-    // The lower half's chips wrap taller: both names are set in narrower boxes.
-    await fireEvent(screen.getByTestId('showdown-votes-1'), 'layout', layout(420, 300, 30));
-    await until(() => nameWidth(0) !== undefined && nameWidth(1) !== undefined);
-    expect(nameWidth(0)).toBeLessThan(300);
-    expect(nameWidth(1)).toBeLessThan(280);
+    await fireEvent(screen.getByTestId('showdown-pitch-0'), 'layout', layout(250, 350, 30));
+    await fireEvent(screen.getByTestId('showdown-pitch-1'), 'layout', layout(250, 350, 30));
+    await settleMotion();
+    expect(scaleOf(0)).toBe(1);
+    expect(scaleOf(1)).toBe(1);
+    expect(set(0)?.opacity).not.toBe(0);
+    // The lower half's chips arrive and wrap taller: both names are set smaller, at one size.
+    await fireEvent(screen.getByTestId('showdown-pitch-1'), 'layout', layout(420, 350, 30));
+    await until(() => (scaleOf(0) ?? 1) < 1 && (scaleOf(1) ?? 1) < 1);
+    expect(scaleOf(0)).toBeCloseTo(scaleOf(1) ?? 0, 5);
+    // Each name is laid out in a box widened by what it is scaled down by, so it breaks as the
+    // smaller type would.
+    expect(Number(set(0)?.width) * (scaleOf(0) ?? 0)).toBeCloseTo(350, 3);
+  });
+
+  it('sets a long name smaller until its longest word fits whole, and no smaller', async () => {
+    const s = await open();
+    await seedFinal(s, [{ userId: MAYA, optionId: OPT_KYOTO }]);
+    await renderVote(<Final me={s.uid} view="showdown" />, s);
+    await until(() => screen.queryByText('LISBON') !== null);
+    const box = screen.getByTestId('showdown-name-0-box');
+    await fireEvent(box, 'layout', {
+      nativeEvent: { layout: { x: 0, y: 0, width: 350, height: 0 } },
+    });
+    // The word is 520 points wide at its designed size, in a half 350 wide.
+    await fireEvent(
+      screen.getByTestId('showdown-name-0-word-0', { includeHiddenElements: true }),
+      'textLayout',
+      { nativeEvent: { lines: [{ width: 520, height: 110, text: 'KYOTO' }] } },
+    );
+    const set = StyleSheet.flatten(
+      screen.getByTestId('showdown-name-0-set').props.style as StyleProp<ViewStyle>,
+    );
+    const scale = (set?.transform as { scale: number }[])[0]?.scale ?? 0;
+    // The box it is laid out in holds the word, and the scaled box is the half's width.
+    expect(Number(set?.width)).toBeGreaterThanOrEqual(520);
+    expect(Number(set?.width) * scale).toBeCloseTo(350, 3);
+    expect(scale).toBeGreaterThan(0.66);
+    // A name that fits is never enlarged past its designed size.
+    expect(widthFit(350, 250)).toBe(1);
+    expect(widthFit(350, 520) * 520).toBeLessThanOrEqual(350);
   });
 
   it('keeps the designed size when the halves fit, and shrinks both names equally when not', () => {
     const half = (designLine: number, natural: number) => ({
-      name: {
-        designHeight: designLine,
-        designWidth: 300,
-        designLine,
-        height: designLine,
-        split: false,
-      },
+      name: { designHeight: designLine, designLine, height: designLine },
       natural,
     });
     // The layout as the device would measure it at a shared line height.
@@ -286,13 +339,11 @@ describe('destination final', () => {
         0,
       );
     };
-    // A name set below `breakAt` line height splits a word.
-    const run = (halves: readonly [HalfMeasure, HalfMeasure], viewport: number, breakAt = 0) => {
+    const run = (halves: readonly [HalfMeasure, HalfMeasure], viewport: number) => {
       let search = DESIGN_SEARCH;
       for (let step = 0; step < 20 && !search.done; step += 1) {
         const fits = totalAt(halves, search.line) <= viewport;
-        const broke = search.line !== null && search.line < breakAt;
-        search = nextNameSearch(search, fits, broke, guessNameLine(halves, viewport) ?? 150, 150);
+        search = nextNameSearch(search, fits, guessNameLine(halves, viewport) ?? 150, 150);
       }
       return search;
     };
@@ -308,17 +359,10 @@ describe('destination final', () => {
     const [a, b] = scalesAt(vi, found.line);
     expect(150 * a).toBeCloseTo(120 * b, 3);
     expect(totalAt(vi, found.line)).toBeLessThanOrEqual(700);
-    expect(totalAt(vi, (found.line ?? 0) + 3)).toBeGreaterThan(700);
-    // Nothing fits unless a word breaks: the names stop at the smallest size that keeps them
-    // whole, and the rest scrolls.
+    expect(totalAt(vi, (found.line ?? 0) + 5)).toBeGreaterThan(700);
+    // Nothing fits at any size: the names stop at the 44-point floor, and the rest scrolls.
     const crowded = [half(150, 900), half(120, 900)] as const;
-    const whole = run(crowded, 700, 60);
-    expect(whole.done).toBe(true);
-    expect(whole.line).toBeGreaterThanOrEqual(60);
-    expect(whole.line).toBeLessThanOrEqual(65);
-    // A split word is told apart from a many-word name wrapping at its spaces.
-    expect(splitsWord('Chefchaouen', 'en', ['CHEFCHA', 'OUEN'])).toBe(true);
-    expect(splitsWord('Thành phố Hồ Chí Minh', 'vi', ['THÀNH PHỐ', 'HỒ CHÍ MINH'])).toBe(false);
+    expect(run(crowded, 700)).toMatchObject({ line: 44, done: true });
   });
 
   it('sends the showdown on to the reveal once the poll closes', async () => {
@@ -378,6 +422,45 @@ describe('winner reveal', () => {
     expect(screen.getByTestId('reveal-missed')).toHaveTextContent(
       'You missed this vote. The crew picked Kyoto.',
     );
+  });
+
+  it('draws the result as designed: the score, the tally in each place colour, the sleeping guide', async () => {
+    const s = await open();
+    await seedClosed(
+      s,
+      [
+        { userId: s.uid, optionId: OPT_KYOTO },
+        { userId: MAYA, optionId: OPT_KYOTO },
+        { userId: JORDAN, optionId: OPT_LISBON },
+      ],
+      s.uid,
+    );
+    await renderVote(<Reveal me={s.uid} />, s);
+    await until(() => screen.queryByTestId('reveal-set-up') !== null);
+    expect(screen.getByTestId('reveal-voted')).toHaveTextContent('3 OF 3 VOTED');
+    expect(screen.getByTestId('reveal-name')).toHaveTextContent('KYOTO');
+    expect(screen.getByTestId('reveal-score')).toHaveTextContent('WINS 2–1');
+    expect(screen.getByTestId('reveal-tally').props.accessibilityLabel).toBe(
+      'Kyoto. Wins 2–1; Kyoto, 2 votes; Lisbon, 1 votes',
+    );
+    expect(screen.getByTestId('reveal-consolation')).toHaveTextContent(
+      'Tokek took it well. Already pitching the next trip.',
+    );
+    expect(screen.getByText('Lisbon goes back in the deck for next time')).toBeTruthy();
+    // Full motion: the rays turn behind the guide.
+    expect(screen.getByTestId('reveal-rays')).toBeTruthy();
+  });
+
+  it('shows the finished result without rays under reduced motion', async () => {
+    const s = await open();
+    await seedClosed(s, [{ userId: MAYA, optionId: OPT_KYOTO }], MAYA);
+    await setReducedMotion();
+    await renderVote(<Reveal me={s.uid} />, s);
+    await until(() => screen.queryByTestId('reveal-missed') !== null);
+    expect(screen.queryByTestId('reveal-rays')).toBeNull();
+    expect(screen.getByTestId('reveal-name')).toHaveTextContent('KYOTO');
+    expect(screen.getByTestId('reveal-score')).toHaveTextContent('WINS 1–0');
+    expect(screen.queryByTestId('reveal-burst-flash')).toBeNull();
   });
 
   it('does not open a reveal already seen on another device', async () => {
