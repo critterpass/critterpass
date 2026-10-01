@@ -222,6 +222,21 @@ describe('POST /v1/trips/{id}/journey-check', () => {
       [wes.uid, rin.uid],
     ]);
     expect(codeOf((await check(jordan, point)).body)).toBe('NOT_ELIGIBLE');
+    // Named on the item but no longer travelling: still refused.
+    await harness.pool.query(
+      "UPDATE trip_participants SET rsvp = 'out' WHERE trip_id = $1 AND user_id = $2",
+      [tripId, jordan.uid],
+    );
+    await harness.pool.query('UPDATE plan_items SET attendee_ids = $2::uuid[] WHERE id = $1', [
+      itemId,
+      [wes.uid, jordan.uid, rin.uid],
+    ]);
+    const left = await check(jordan, point);
+    expect(left.body).toMatchObject({ error: { code: 'NOT_ELIGIBLE' } });
+    await harness.pool.query(
+      "UPDATE trip_participants SET rsvp = 'in' WHERE trip_id = $1 AND user_id = $2",
+      [tripId, jordan.uid],
+    );
     await harness.pool.query('UPDATE plan_items SET attendee_ids = $2::uuid[] WHERE id = $1', [
       itemId,
       [wes.uid, jordan.uid, rin.uid],
