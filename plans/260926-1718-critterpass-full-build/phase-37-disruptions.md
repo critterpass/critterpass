@@ -172,6 +172,7 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 - Steps: 1. Route + threshold + disruption creation (fix not stored). 2. Options (push/split, walk, skip, call a car) with vendor status. 3. Selection → waiting-crew message immediately, vendor draft, apply on confirm. 4. Auto-resolve when on time.
 - Tests: `pnpm --filter @cp/api test -- disruptions/late`; `pnpm --filter @cp/planner test -- late-options`
 - Done when: a replayed GPX drive fixture creates exactly one disruption; `journey_checks` never contains coordinates (schema test).
+- Status: done — 97e6a255 (server; the phone drives the checks and `eta.running_late` only does upkeep; a car is quoted by the app from the phone's own position; sourced closures are not wired, so the reason is only ever heavy traffic; a booked item is never retimed or removed, only its vendor draft)
 
 ### T11 — Running-late screen and e2e suite
 - Files: `apps/mobile/src/app/(trip)/late/[id].tsx`, `apps/mobile/src/features/trip/disruptions/late/{screen,route-map,closure-callout,late-sheet,option-list,waiting-view,use-journey-check,states/*}.tsx`, `e2e/trip/disruptions/running-late.yaml`.
