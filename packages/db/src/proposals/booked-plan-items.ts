@@ -6,7 +6,8 @@
  * local date, so a booking outside the trip's days gives none. Only what the crew may already see
  * in the wallet reaches the plan, because plan items are read by the whole trip: a crew booking
  * under its title, and a personal flight the owner left visible under its leg's number and route.
- * A booking bought through a supplier order is left out: the order already points at its plan item.
+ * A booking bought through a supplier order is left out (the order already points at its plan
+ * item), and so is one a plan item already carries, such as the pickup of an activity.
  * Each item keeps one `stable_id` per booking and leg across versions, so adding the same booking
  * twice changes nothing. Runs in the caller's transaction, as a role that may write plan rows.
  */
@@ -78,6 +79,10 @@ export async function bookedPlanItems(
        FROM moments m CROSS JOIN trip
        JOIN plan_days d ON d.version_id = $2
         AND d.date = (m.starts_at AT TIME ZONE coalesce(m.tz, trip.tz))::date
+      WHERE NOT EXISTS (
+        SELECT 1 FROM plan_items linked
+         WHERE linked.version_id = $2 AND linked.booking_id = m.booking_id
+           AND linked.locked_reason IS DISTINCT FROM 'booking')
       ORDER BY m.starts_at, m.booking_id, m.part`,
     [tripId, versionId, STAY_CHECK_IN_MINUTES, DEFAULT_MINUTES],
   );

@@ -1,9 +1,9 @@
 /**
  * A flight in the wallet, from the booking to its leave-by, against a migrated Postgres: the draft
- * takes the flight as an anchored item for its traveller alone (writing it again changes nothing),
- * and once that plan is the trip's plan the recompute gives the traveller a leave-by two hours and
- * the buffer before departure, with no leg to route: nothing on the plan says where they set off
- * from.
+ * takes the flight as an anchored item for its traveller alone (writing it again changes nothing,
+ * and the pickup booking the trek already carries gets no item of its own), and once that plan is
+ * the trip's plan the recompute gives the traveller a leave-by two hours and the buffer before
+ * departure, with no leg to route: nothing on the plan says where they set off from.
  */
 import { withSystem, writeBookedPlanItems } from '@cp/db';
 import { toLocalWallTime } from '@cp/domain';
@@ -52,18 +52,30 @@ describe('a booked flight', () => {
        VALUES ($1, 'organiser', 'draft') RETURNING id`,
       [world.tripId],
     );
-    await world.q(
-      "INSERT INTO plan_days (version_id, trip_id, day_no, date) VALUES ($1, $2, 4, '2026-10-15')",
+    const [day] = await world.q<{ id: string }>(
+      `INSERT INTO plan_days (version_id, trip_id, day_no, date)
+       VALUES ($1, $2, 4, '2026-10-15') RETURNING id`,
       [draft!.id, world.tripId],
+    );
+    // The trek at 04:30, carrying the crew's pickup booking as it does on the trip's plan.
+    await world.q(
+      `INSERT INTO plan_items (version_id, day_id, trip_id, starts_at, tz, category, booking_id)
+       VALUES ($1, $2, $3, '2026-10-14T20:30:00Z', $4, 'activity', $5)`,
+      [draft!.id, day!.id, world.tripId, TRIP_TZ, world.transferBookingId],
     );
     const write = () =>
       withSystem(world.harness.pool, (tx) => writeBookedPlanItems(tx, world.tripId, draft!.id));
     expect(await write()).toBe(1);
     expect(await write()).toBe(0);
     const items = await world.q<{ id: string; category: string; attendee_ids: string[] }>(
-      'SELECT id, category, attendee_ids FROM plan_items WHERE version_id = $1',
-      [draft!.id],
+      'SELECT id, category, attendee_ids FROM plan_items WHERE version_id = $1 AND booking_id = $2',
+      [draft!.id, booking!.id],
     );
+    const pickups = await world.q(
+      'SELECT 1 FROM plan_items WHERE version_id = $1 AND booking_id = $2',
+      [draft!.id, world.transferBookingId],
+    );
+    expect(pickups).toHaveLength(1);
     expect(items).toMatchObject([{ category: 'flight', attendee_ids: [rin] }]);
 
     // The draft becomes the trip's plan.
@@ -76,7 +88,7 @@ describe('a booked flight', () => {
       draft!.id,
     ]);
     const result = await recomputeLeaveBys(world.harness.pool, world.tripId, router, NOW);
-    expect(result).toEqual({ changed: 1, cancelled: 0 });
+    expect(result).toEqual({ changed: 2, cancelled: 0 });
     const [leaveBy] = await world.q<{
       id: string;
       plan_item_id: string;
@@ -85,8 +97,9 @@ describe('a booked flight', () => {
       participant_ids: string[];
       legs: { kind: string; minutes: number; estimate: boolean }[];
     }>(
-      'SELECT id, plan_item_id, title, leave_at, participant_ids, legs FROM leave_bys WHERE trip_id = $1',
-      [world.tripId],
+      `SELECT id, plan_item_id, title, leave_at, participant_ids, legs FROM leave_bys
+        WHERE trip_id = $1 AND plan_item_id = $2`,
+      [world.tripId, items[0]!.id],
     );
     expect(leaveBy).toMatchObject({
       plan_item_id: items[0]!.id,
