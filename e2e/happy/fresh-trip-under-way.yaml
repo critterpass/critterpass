@@ -32,6 +32,7 @@ appId: app.critterpass.dev
       - assertVisible: '(?i).*today.*day 1.*'
       - assertNotVisible:
           id: 'home-countdown'
+      - runFlow: subflows/dismiss-visit-offer.yaml
       - waitForAnimationToEnd
       - takeScreenshot: under-way-home-in-trip
 - runFlow: subflows/dismiss-visit-offer.yaml

@@ -16,6 +16,7 @@ appId: app.critterpass.dev
       SHOTS: bookings
       # A long crew name makes a long forward address.
       CREW_NAME: 'The head still didnt look so goo'
+- runFlow: subflows/wait-for-trip-start.yaml
 - extendedWaitUntil:
     visible:
       id: 'tab-wallet'

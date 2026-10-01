@@ -118,6 +118,16 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: landing-flight-landed
+# Landing hatches the trip's egg: its welcome page comes up first, with a way past it.
+- runFlow:
+    when:
+      visible: 'Show me around later'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: landing-welcome
+      - tapOn: 'Show me around later'
+      - waitForAnimationToEnd
+- runFlow: subflows/dismiss-visit-offer.yaml
 # Home: the trip is on.
 - tapOn:
     id: 'tab-home'
@@ -125,5 +135,15 @@ appId: app.critterpass.dev
     visible:
       id: 'home-in-trip'
     timeout: 120000
+- runFlow: subflows/dismiss-visit-offer.yaml
+- runFlow:
+    when:
+      visible: 'Show me around later'
+    commands:
+      - tapOn: 'Show me around later'
+- extendedWaitUntil:
+    visible:
+      id: 'home-in-trip'
+    timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: landing-home-after

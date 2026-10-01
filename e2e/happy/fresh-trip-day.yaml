@@ -11,6 +11,7 @@ appId: app.critterpass.dev
     file: subflows/trip-under-way.yaml
     env:
       SHOTS: day
+- runFlow: subflows/wait-for-trip-start.yaml
 - extendedWaitUntil:
     visible:
       id: 'tab-trips'
