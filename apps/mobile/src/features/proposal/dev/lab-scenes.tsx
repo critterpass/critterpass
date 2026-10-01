@@ -118,7 +118,7 @@ const board = (over: Partial<BoardViewProps> = {}) => (
     pending={false}
     ticket={{
       from: 'SGN',
-      to: 'DAN',
+      to: 'DAD',
       passenger: 'Linh Nguyen',
       dates: 'Oct 2–4',
       share: '₫4,200,000',

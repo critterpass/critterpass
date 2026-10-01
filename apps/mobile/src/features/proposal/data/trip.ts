@@ -28,6 +28,8 @@ export interface ProposalTrip {
   readonly crewId: string;
   readonly status: string;
   readonly destination: string;
+  /** The destination's catalogue slug (its airports and travel data key). */
+  readonly destinationSlug: string | null;
   readonly guide: GuideId;
   readonly startDate: string | null;
   readonly endDate: string | null;
@@ -45,6 +47,7 @@ interface TripRow {
   readonly crew_id: string;
   readonly status: string;
   readonly destination_name: string | null;
+  readonly destination_slug: string | null;
   readonly guide_slug: string | null;
   readonly start_date: string | null;
   readonly end_date: string | null;
@@ -58,7 +61,7 @@ interface PersonRow {
   readonly updated_at: string | null;
 }
 
-const TRIP_SQL = `SELECT t.crew_id, t.status, d.name AS destination_name, g.slug AS guide_slug,
+const TRIP_SQL = `SELECT t.crew_id, t.status, d.name AS destination_name, d.slug AS destination_slug, g.slug AS guide_slug,
     t.start_date, t.end_date
   FROM trips t
   LEFT JOIN destinations d ON d.id = t.destination_id
@@ -124,6 +127,7 @@ export function useProposalTrip(tripId: string | null): ProposalTrip | null | un
     crewId: row.crew_id,
     status: row.status,
     destination: row.destination_name ?? '',
+    destinationSlug: row.destination_slug,
     guide: isGuideStickerId(row.guide_slug) ? row.guide_slug : 'tokek',
     startDate: row.start_date,
     endDate: row.end_date,
