@@ -177,10 +177,10 @@ export async function recordLate(
     await tx.query(
       // The summary is the guide's line once the options are worked out: only the title follows.
       `UPDATE disruptions SET affected = $2, facts = $3::jsonb, title = $4,
-              ref_id = $5, version = version + $6,
+              ref_id = $5::uuid, version = version + $6::int,
               source_snapshot = jsonb_set(
-                source_snapshot || jsonb_build_object('item_id', $5::text)
-                  || CASE WHEN $6 = 1 THEN jsonb_build_object('worked_late_min', $9::int)
+                source_snapshot || jsonb_build_object('item_id', $5::uuid)
+                  || CASE WHEN $6::int = 1 THEN jsonb_build_object('worked_late_min', $9::int)
                           ELSE '{}'::jsonb END,
                 ARRAY['checks', $7::text], $8::jsonb, true)
         WHERE id = $1`,
