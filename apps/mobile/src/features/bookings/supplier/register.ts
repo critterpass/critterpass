@@ -3,6 +3,9 @@
  * layout): Getting around (3h-3) by trip and, when given, the drop-off place; and where to book
  * one activity (6f-1) by trip and the activity's name, on a day when the caller knows it.
  */
+// Explore's screens join the registry with this import: the root layout, which imports this
+// module, has no line to spare for one of its own.
+import '@/features/explore';
 import { registerScreens } from '@/lib/navigation/screen-registry';
 
 import { gettingAroundRoute, offerRoute } from './routes';

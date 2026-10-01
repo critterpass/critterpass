@@ -29,7 +29,11 @@ function isoDate(offsetDays: number): string {
 export async function seedTripDay(
   db: AbstractPowerSyncDatabase,
   me: string,
-  options: { readonly nudgeStatus?: string } = {},
+  options: {
+    readonly nudgeStatus?: string;
+    /** `false` seeds no briefing for me today (I joined after the morning's run). */
+    readonly briefing?: boolean;
+  } = {},
 ): Promise<void> {
   await db.execute('INSERT OR REPLACE INTO local_state (id, value) VALUES (?, ?)', [
     OWNER_UID_KEY,
@@ -70,10 +74,16 @@ export async function seedTripDay(
       [`tp-${member}`, SEED_TRIP, member],
     );
   }
+  if (options.briefing === false) return;
+  // Before the trip a briefing's day is counted on the member's own clock.
+  const ownToday = toLocalWallTime(
+    new Date(),
+    Intl.DateTimeFormat().resolvedOptions().timeZone,
+  ).date;
   await db.execute(
     `INSERT INTO briefings (id, trip_id, user_id, local_date, tz, status, fallback_used, built_at)
      VALUES (?, ?, ?, ?, ?, 'ready', 0, ?)`,
-    [BRIEFING, SEED_TRIP, me, isoDate(0), SEED_TZ, new Date().toISOString()],
+    [BRIEFING, SEED_TRIP, me, ownToday, SEED_TZ, new Date().toISOString()],
   );
   await db.execute(
     `INSERT INTO briefing_items (id, briefing_id, trip_id, user_id, position, icon, text, action,

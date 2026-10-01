@@ -58,7 +58,7 @@ import '@/features/plan/overview/register';
 import { TripDayRuntime } from '@/features/trip/hub/register';
 import { CritterRuntime } from '@/features/critters/register';
 import '@/features/bookings/supplier/register';
-import '@/features/explore/routes';
+import '@/features/you/routes';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';

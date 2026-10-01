@@ -2,7 +2,11 @@
  * Other areas open "where to book this" by its screen id: the registration carries the trip, the
  * activity's name and, when the caller has one, the day.
  */
-import { describe, expect, it } from '@jest/globals';
+// The registration module also pulls in Explore (so its screens register at startup); this test
+// is about the supplier ids only, so Explore's screens are left out of it.
+jest.mock('@/features/explore', () => ({}));
+
+import { describe, expect, it, jest } from '@jest/globals';
 
 import { hrefFor } from '@/lib/navigation/screen-registry';
 

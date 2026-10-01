@@ -81,6 +81,7 @@ const DEV_SECTIONS: readonly DevScreenSection[] = [
         href: '/(dev)/critters-lab',
         label: 'Critters (3l scenes)',
       },
+      { testId: 'dev-nav-you-lab', href: '/(dev)/you-lab', label: 'You (3n scenes)' },
       {
         testId: 'dev-nav-live-map',
         href: '/(dev)/live-map',
