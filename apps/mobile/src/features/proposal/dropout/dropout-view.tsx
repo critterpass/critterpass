@@ -55,7 +55,11 @@ const useStyles = makeStyles((th) => ({
     gap: th.space['10'],
   },
   keep: { flexDirection: 'row', alignItems: 'center', gap: th.space['10'] },
-  footer: { paddingHorizontal: th.space['20'], paddingTop: th.space['8'] },
+  footer: {
+    paddingHorizontal: th.space['20'],
+    paddingTop: th.space['8'],
+    paddingBottom: th.space['12'],
+  },
 }));
 
 export interface DropoutViewProps {
@@ -111,7 +115,7 @@ export function DropoutView(props: DropoutViewProps) {
           ) : (
             props.rows.map((row) => (
               <View key={row.key} style={styles.change}>
-                <Text variant="rowTitle">{row.title.toUpperCase()}</Text>
+                <Text variant="title">{row.title.toUpperCase()}</Text>
                 <Text variant="bodySm" color={theme.semantic.text.secondary}>
                   {row.before === null ? null : (
                     <Text
