@@ -13,11 +13,27 @@ appId: app.critterpass.dev
           id: 'when-pick-week'
       - extendedWaitUntil:
           visible:
+            id: 'picker-shorter'
+          timeout: 10000
+      - waitForAnimationToEnd
+      # The first day, three weeks out. The screen under the sheet has the same heatmap, so the
+      # sheet's own cell is the second match when both are in the tree.
+      - evalScript: ${output.pickDay = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
+      - tapOn:
+          id: 'heat-${output.pickDay}'
+          index: 1
+          optional: true
+      - runFlow:
+          when:
+            notVisible:
+              id: 'picker-lock'
+          commands:
+            - tapOn:
+                id: 'heat-${output.pickDay}'
+      - extendedWaitUntil:
+          visible:
             id: 'picker-lock'
           timeout: 10000
-      - tapOn:
-          id: 'heat-.*'
-          index: 20
       - tapOn:
           id: 'picker-lock'
       - extendedWaitUntil:
