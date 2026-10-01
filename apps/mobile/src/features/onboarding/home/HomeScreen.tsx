@@ -30,6 +30,7 @@ import { STAMP_BREATHE, useOnboardingLoop } from '../motion';
 import { OnboardingPage } from '../page-chrome';
 import { OnboardingServicesContext } from '../services';
 import { TokekSays } from '../tokek-says';
+import { regionName } from '../region-names';
 import { homeResults, type HomeRow } from './home-search';
 
 const useStyles = makeStyles((th) => ({
@@ -70,12 +71,7 @@ const useStyles = makeStyles((th) => ({
 }));
 
 function countryName(country: string, locale: string): string {
-  try {
-    const names = new Intl.DisplayNames([locale], { type: 'region' });
-    return names.of(country) ?? airportDataset().countries[country]?.name ?? country;
-  } catch {
-    return airportDataset().countries[country]?.name ?? country;
-  }
+  return regionName(country, locale) ?? airportDataset().countries[country]?.name ?? country;
 }
 
 function driveLabel(minutes: number): string {

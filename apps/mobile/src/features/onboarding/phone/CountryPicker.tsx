@@ -9,7 +9,7 @@ import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { airportDataset } from '../content';
+import { regionName } from '../region-names';
 import { countryList } from './phone-number';
 
 const useStyles = makeStyles((th) => ({
@@ -20,7 +20,10 @@ const useStyles = makeStyles((th) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: th.space['12'],
+    gap: th.space['12'],
   },
+  // A long name ("Antigua và Barbuda") wraps beside the calling code instead of being cut.
+  name: { flex: 1 },
 }));
 
 /** The country code picker (undesigned): searchable list, name and calling code per row. */
@@ -35,10 +38,7 @@ export function CountryPicker({
   const theme = useTheme();
   const locale = useLocale();
   const [query, setQuery] = useState('');
-  const all = useMemo(
-    () => countryList(locale, (code) => airportDataset().countries[code]?.name),
-    [locale],
-  );
+  const all = useMemo(() => countryList(locale, (code) => regionName(code, locale)), [locale]);
   const q = query.trim().toLowerCase();
   const rows =
     q.length === 0
@@ -76,7 +76,9 @@ export function CountryPicker({
               testID={`country-${item.code}`}
             >
               <View style={styles.row}>
-                <Text variant="body">{item.name}</Text>
+                <Text variant="body" style={styles.name}>
+                  {item.name}
+                </Text>
                 <Text variant="body" color={theme.semantic.text.secondary}>
                   +{item.dial}
                 </Text>

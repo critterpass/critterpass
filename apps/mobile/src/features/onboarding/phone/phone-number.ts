@@ -80,12 +80,14 @@ export function resendWaitS(sends: number): number {
 }
 
 /**
- * Every dialable country with its localised name. Hermes has no `Intl.DisplayNames` (or answers
- * with the bare code), so `fallbackName` supplies a name the app ships; the code is the last resort.
+ * Every dialable country with its name in `locale`, sorted by it. `shippedName` is the name the app
+ * carries for the code (features/onboarding/region-names); the platform's own `Intl.DisplayNames`
+ * is only asked for a code the app has no name for (Hermes has none on iPhone, and elsewhere can
+ * answer with the bare code), and the code itself is the last resort.
  */
 export function countryList(
   locale: string,
-  fallbackName: (code: string) => string | undefined = () => undefined,
+  shippedName: (code: string) => string | undefined = () => undefined,
 ): readonly { code: string; name: string; dial: string }[] {
   let names: Intl.DisplayNames | null = null;
   try {
@@ -94,8 +96,10 @@ export function countryList(
     names = null;
   }
   const nameOf = (code: string) => {
+    const shipped = shippedName(code);
+    if (shipped !== undefined) return shipped;
     const native = names?.of(code);
-    return native !== undefined && native !== code ? native : (fallbackName(code) ?? code);
+    return native !== undefined && native !== code ? native : code;
   };
   return Object.entries(DIAL_CODES)
     .map(([code, dial]) => ({ code, dial, name: nameOf(code) }))
