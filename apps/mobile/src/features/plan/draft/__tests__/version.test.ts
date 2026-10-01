@@ -93,7 +93,7 @@ function item(day: string, id: string, time: string, extra: Partial<ItemRow> = {
   };
 }
 
-function review(setup: SetupNow = NOW) {
+function review(setup: SetupNow = NOW, more: readonly ItemRow[] = []) {
   return buildReview({
     version: {
       id: 'v1',
@@ -123,6 +123,7 @@ function review(setup: SetupNow = NOW) {
         poi_id: '0199a6f0-0000-7000-8000-00000000cc01',
         booking_id: 'b1',
       }),
+      ...more,
     ],
     mustDos: [
       {
@@ -153,6 +154,24 @@ describe('the private draft review', () => {
     expect(inari?.stops.map((stop) => stop.name)).toEqual(['Fushimi Inari', 'Market']);
     expect(inari?.stops[0]?.locked).toBe(true);
     expect(inari?.owners).toEqual([MAYA]);
+  });
+
+  it('lists a wallet booking under its own title and marks its day booked', () => {
+    const flight = item('day-1', 'i0', '07:05', {
+      category: 'flight',
+      booking_id: 'b2',
+      locked_reason: 'booking',
+      notes: '9G 956 · SGN → DAD',
+    });
+    const note = item('day-3', 'i5', '08:00', { notes: 'Pack light' });
+    const model = review(NOW, [flight, note]);
+    expect(model.days[0]?.stops).toEqual([
+      { name: '9G 956 · SGN → DAD', startsAt: flight.starts_at, tz: 'Asia/Tokyo', locked: true },
+      expect.objectContaining({ name: 'Fushimi Inari' }),
+    ]);
+    // An item with neither a place nor a booking has nothing to be called: it stays off the row.
+    expect(model.days[2]?.stops.map((stop) => stop.name)).toEqual(['Nara Park']);
+    expect(model.days.map((day) => day.booked)).toEqual([true, false, false, false]);
   });
 
   it('tags only a middle day with stops and no must-do or booking as optional', () => {
