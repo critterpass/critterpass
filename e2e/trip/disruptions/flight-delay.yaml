@@ -1,23 +1,28 @@
 appId: app.critterpass.dev
 ---
-# The flight-delayed screen (3k-5). First the real route as a brand-new account sees it: no
-# disruption of theirs exists, so the screen says there is nothing to sort. Then every state from
+# The flight-delayed screen (3k-5). First the real route as a brand-new account sees it (a real
+# onboarding, no demo seed): no disruption of theirs exists, so the screen says there is nothing
+# to sort. Then every state from
 # the disruptions lab's fixed data (apps/mobile/src/app/(dev)/disruption-lab.tsx), in English and
 # in Vietnamese, named `<lang>-3k-5-<state>` so compare mode pairs each with its render.
-- launchApp:
-    clearState: true
-- extendedWaitUntil:
-    visible:
-      id: 'dev-tools-entry'
-    timeout: 60000
-- openLink: critterpass-dev://disruption/0190f0a0-0000-7000-8000-00000000dead
+- runFlow: ../../happy/subflows/fresh-account.yaml
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://disruption/0190f0a0-0000-7000-8000-00000000dead
 - extendedWaitUntil:
     visible:
       id: 'disruption-missing'
     timeout: 30000
 - takeScreenshot: en-3k-5-missing-fresh
-- launchApp:
-    clearState: true
+- runFlow: ../../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'tab-home'
+    commands:
+      - tapOn:
+          id: 'tab-home'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
