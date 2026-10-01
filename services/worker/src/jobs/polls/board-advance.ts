@@ -9,6 +9,7 @@ import {
   appendDomainEvent,
   armPollTimers,
   closePollInTx,
+  decideOnBallots,
   loadPollState,
   POLL_BOARD_ADVANCE_QUEUE,
   scheduledJobDataSchema,
@@ -53,7 +54,21 @@ export async function advanceBoardAtDeadline(
       return 'single_winner';
     }
     const outcome = await advanceBoardInTx(tx, state, { now, actorId: null });
-    if (outcome.outcome === 'advanced') return 'advanced';
+    if (outcome.outcome === 'advanced') {
+      // Ballots on the two finalists carry into the final; when they already decide it, close now.
+      const final = await loadPollState(tx, pollId, 'update');
+      const verdict =
+        final === undefined ? { decided: false as const } : await decideOnBallots(tx, final);
+      if (final !== undefined && verdict.decided) {
+        await closePollInTx(tx, final, {
+          reason: verdict.reason,
+          now,
+          actorId: null,
+          deciderWinner: verdict.winnerOptionId,
+        });
+      }
+      return 'advanced';
+    }
     if (outcome.outcome === 'needs_pick') {
       await extend(tx, pollId, PICK_WAIT_MS, now);
       await appendDomainEvent(tx, {
