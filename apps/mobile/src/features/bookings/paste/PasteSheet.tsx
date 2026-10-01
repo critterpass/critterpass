@@ -30,13 +30,15 @@ export interface PasteSheetProps {
   readonly readClipboard: () => Promise<string>;
   readonly onSend: (body: PasteBody) => void;
   readonly onClose: () => void;
+  /** Text the field opens with (a confirmation handed to the sheet). */
+  readonly initialText?: string;
 }
 
 export function PasteSheet(props: PasteSheetProps) {
   const styles = useStyles();
   const theme = useTheme();
   const { t } = useLingui();
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(props.initialText ?? '');
   const [empty, setEmpty] = useState(false);
   const title = t({ id: 'bookings.paste.title', message: 'Paste a booking' });
   const take = (text: string) => {
@@ -82,6 +84,12 @@ export function PasteSheet(props: PasteSheetProps) {
           value={value}
           onChangeText={take}
           multiline
+          // A whole pasted email scrolls inside the field, so READ IT stays above the keyboard.
+          maxLines={5}
+          // Return puts the keyboard away (a pasted confirmation needs no new lines typed), which
+          // brings READ IT back on a phone too short to show both.
+          submitBehavior="blurAndSubmit"
+          returnKeyType="done"
           autoCapitalize="none"
           autoCorrect={false}
           {...(empty
