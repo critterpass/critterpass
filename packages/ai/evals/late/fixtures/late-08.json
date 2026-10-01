@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f78aea48-e35d-4a3c-a1b5-42a1bee95e3a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Dev and Rin 30 min late\",\"detail\":\"Traffic is heavy on the way to Mount Batur sunrise, so you will miss the 04:00 start and land at 04:30. I would go anyway, the sun won't wait.\",\"items\":[{\"id\":\"skip\",\"text\":\"Part of it comes back.\"},{\"id\":\"car\",\"text\":\"Fare and pickup time from Grab.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 348,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 512,
+        "output_tokens": 89,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

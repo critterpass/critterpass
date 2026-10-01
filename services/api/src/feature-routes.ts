@@ -37,6 +37,7 @@ import { registerBilling } from './billing/register';
 import { registerGuideRoutes } from './routes/guide';
 import { registerSupplierRoutes } from './suppliers/register';
 import { registerTripDay } from './commands/trip-day';
+import { registerDisruptions } from './commands/disruptions';
 import { registerExplore } from './explore/register';
 import { registerProposals } from './routes/proposals';
 import { registerCritters } from './commands/critters';
@@ -81,6 +82,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerAiRoutes(app, doors, env, logger);
   registerGuideRoutes(app, doors, env, keyring);
   registerTripDay(doors);
+  registerDisruptions(app, doors);
   registerProposals(app, doors, env, keyring);
   registerCritters(doors);
   registerQuests(doors);

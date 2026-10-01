@@ -1,0 +1,10 @@
+# Weather replan: the solver's dry slot for a rained-on outdoor item → a headline question and a
+# reason. Times and rain chance only from the solver's facts; never "moved" before the crew accepts.
+# Cases live in cases.yaml and run through the real grounded-copy writer (suite.ts).
+# Run: pnpm --filter @cp/ai eval replan
+description: Weather move suggestions worded from the replan solver
+prompts:
+  - '{{move}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

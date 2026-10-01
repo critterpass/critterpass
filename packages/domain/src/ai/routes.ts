@@ -34,6 +34,7 @@ export const AI_ROUTES = [
   'proposal.personal',
   'briefing.daily',
   'disruption.plan_b',
+  'replan.weather',
   'recap.narration',
   'photo.picks',
   'avatar.moderate',
@@ -52,6 +53,9 @@ export const AI_ROUTES = [
   'draft.skeleton_fast',
   'draft.summary',
   'draft.closures',
+  // Disruption copy on the fast tier: the forecast watch list and running-late options.
+  'watch.copy',
+  'late.options',
   // Proposal lines on the fast tier: the private objection reply and the organiser's suggestions.
   'proposal.objection',
   'proposal.suggestion',

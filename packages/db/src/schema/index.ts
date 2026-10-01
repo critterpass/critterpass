@@ -184,6 +184,7 @@ export {
   packingItems,
   readiness,
 } from './trip-day';
+export { disruptions, journeyChecks, watchItems } from './disruptions';
 export * from './proposals';
 export {
   collectionEntries,

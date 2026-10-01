@@ -28,6 +28,7 @@ import { seedBillingRows } from './billing-fixture';
 import { seedPollRows } from './poll-fixture';
 import { seedGuideChat } from './guide-fixture';
 import { seedTripDayRows } from './trip-day-fixture';
+import { seedDisruptionRows } from './disruptions-fixture';
 import { seedExploreRows } from './explore-fixture';
 import { seedProposalRows } from './proposal-fixture';
 import { seedCritterRows } from './critters-fixture';
@@ -452,6 +453,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     );
     await seedGuideChat(tx, { tripId, crewId, organiser });
     await seedTripDayRows(tx, { tripId, organiser, member });
+    await seedDisruptionRows(tx, { tripId, organiser });
     await seedExploreRows(tx, {
       tripId,
       destinationId: matrixProbeDestinationId,

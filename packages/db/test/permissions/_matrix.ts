@@ -1744,6 +1744,29 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: { sql: 'SELECT 1 FROM crew_xp WHERE crew_id = $1', params: (f) => [f.crewId] },
     expectations: CREW_VISIBLE_READ,
   },
+  disruptions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM disruptions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  watch_items: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM watch_items WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  // The fixture item has no attendee list (everyone goes), so every active member reads the
+  // organiser's check; the attendee-scoped case is in permissions/journey-checks.test.ts.
+  journey_checks: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM journey_checks WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
   offline_bundles: {
     selectProbe: {
       sql: 'SELECT 1 FROM offline_bundles WHERE trip_id = $1',

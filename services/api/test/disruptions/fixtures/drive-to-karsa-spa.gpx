@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- A drive north to Karsa Spa (-8.5005, 115.2540) on 15 Oct 2026, due there at 14:00 local
+     (06:00 UTC). Traffic thickens after 13:26: the ETA slips past the start, dips once, then
+     stays late until the car arrives at 14:20. Times are UTC. -->
+<gpx version="1.1" creator="critterpass" xmlns="http://www.topografix.com/GPX/1/1">
+  <trk>
+    <name>Sanur to Karsa Spa</name>
+    <trkseg>
+      <trkpt lat="-8.608419" lon="115.254"><time>2026-10-15T05:20:00Z</time></trkpt>
+      <trkpt lat="-8.607519" lon="115.254"><time>2026-10-15T05:21:00Z</time></trkpt>
+      <trkpt lat="-8.604821" lon="115.254"><time>2026-10-15T05:26:00Z</time></trkpt>
+      <trkpt lat="-8.602123" lon="115.254"><time>2026-10-15T05:31:00Z</time></trkpt>
+      <trkpt lat="-8.599425" lon="115.254"><time>2026-10-15T05:36:00Z</time></trkpt>
+      <trkpt lat="-8.590432" lon="115.254"><time>2026-10-15T05:37:00Z</time></trkpt>
+      <trkpt lat="-8.589533" lon="115.254"><time>2026-10-15T05:40:00Z</time></trkpt>
+      <trkpt lat="-8.588634" lon="115.254"><time>2026-10-15T05:41:00Z</time></trkpt>
+      <trkpt lat="-8.587734" lon="115.254"><time>2026-10-15T05:42:00Z</time></trkpt>
+      <trkpt lat="-8.576942" lon="115.254"><time>2026-10-15T05:50:00Z</time></trkpt>
+      <trkpt lat="-8.558956" lon="115.254"><time>2026-10-15T05:58:00Z</time></trkpt>
+      <trkpt lat="-8.52748" lon="115.254"><time>2026-10-15T06:10:00Z</time></trkpt>
+      <trkpt lat="-8.504997" lon="115.254"><time>2026-10-15T06:20:00Z</time></trkpt>
+    </trkseg>
+  </trk>
+</gpx>

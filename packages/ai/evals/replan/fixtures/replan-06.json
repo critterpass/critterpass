@@ -1,0 +1,32 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4ab2ead4-2746-40c3-a48b-6c81115b5a67",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need to output JSON only. The task: Rain forecast over one of crew's outdoor plans and dry slot same day. We have untrusted data with facts. We need to suggest moving the plan. We are Paco, warm playful dry wit. Headline under 60 chars, detail one sentence on why. Items array with one item, id \"move\", text worded from suggested line but keeping meaning and facts. Use only ids given. Suggested line: \"Ubud cycling tour 14:00 → 17:00, out of the rain\". We need to reword it but keep meaning: a suggestion question? The item text should be a suggested line, likely as a statement or maybe question? The instruction says \"Each suggested line’s meaning: a question stays a question.\" The suggested line is not a question, it's a statement with arrow. So we can keep as statement. Need to ensure all numbers exact: from 14:00 to 17:00, rain until 16:00, rain pct 85. Headline can use any. Detail one sentence on why: the reason shown on the move is \"out of the rain\" or the rain until 16:00 and dry at 17:00. We should word as suggestion but not say moved. Use Paco voice. No emoji, hashtags, quotes. JSON double quotes. Write exactly.\n\nPossible headline: \"Rain till 16:00, dry at 17:00. Move Ubud cycling tour?\" That's 50 chars? Count: \"Rain till 16:00, dry at 17:00. Move Ubud cycling tour?\" Length: R a i n space t i l l space 1 6 : 0 0 , space d r y space a t space 1 7 : 0 0 . space M o v e space U b u d space c y c l i n g space t o u r ? Let's count: \"Rain\" 4, space 5, \"till\" 9, space 10, \"16:00,\" 16 (including comma? 1,6,:,0,0,comma =6 chars, total 16), space 17, \"dry\" 20, space 21, \"at\" 23, space 24, \"17:00.\" 30, space 31, \"Move\" 35, space 36, \"Ubud\" 40, space 41, \"cycling\" 48, space 49, \"tour?\" 54. Under 60. Good. But suggested headline was \"Rain till 16:00. Move Ubud cycling tour?\" We can use similar but add dry slot mention? The detail will explain. Headline should be short question in voice. Keep under 60. Maybe simpler: \"Rain till 16:00, dry at 17:00. Move Ubud cycling tour?\" Good.\n\nDetail one sentence: \"85% chance of rain at 14:00; Inti (the sun (Quechua)) should be back by 17:00.\" But careful: facts say rain_pct 85, rain_from 13:00 rain_until 16:00, and \"it looks dry at 17:00\" from suggested_detail? Actually suggested_detail says \"85% chance of rain at 14:00; it looks dry at 17:00.\" That uses 85% and 14:00 and 17:00. We can use those. Need one sentence only. We can say: \"An 85% chance of rain at 14:00, but the sky looks clear by 17:00.\" Or keep as statement. Paco voice: \"With an 85% chance of rain at 14:00, Inti (the sun (Quechua)) should be back by 17:00.\" But first time using Inti, write as \"Inti (the sun (Quechua))\". That's fine. Or simpler without local word? The instruction says local words may use, not mandatory. But as Paco, could be nice. Keep chattiness: no more per reply than chattiness instruction allows? It says \"no more per reply than the chattiness instruction allows\" but no specific chattiness number given? Probably keep concise. Since one sentence detail, can include Inti once. I'll write: \"An 85% chance of rain at 14:00, but Inti (the sun (Quechua)) should peek out by 17:00.\" That's one sentence. Ensure not saying moved. Good.\n\nItem text: reword suggested line \"Ubud cycling tour 14:00 → 17:00, out of the rain\" but as a suggestion? It's a data line, should be a statement. We can keep same or slightly tweak: \"Ubud cycling tour from 14:00 to 17:00, out of the rain.\" That keeps meaning. The arrow might be fine as arrow? No restriction on symbols except emoji/hashtag/quotes. Arrow is not emoji? It might be considered an arrow symbol, allowed? To be safe, use \"from 14:00 to 17:00\" instead of arrow. The suggested line had arrow, but we can reword. \"Ubud cycling tour from 14:00 to 17:00, out of the rain.\" That is clear. Ensure not changing meaning. It remains a suggestion implicitly? The item is the suggested line for the move, it's okay.\n\nOutput JSON with keys headline, detail, items array with one object id \"move\", text as above. No extra spaces? JSON compact is fine.\n\nThus:\n{\"headline\":\"Rain till 16:00, dry at 17:00. Move Ubud cycling tour?\",\"detail\":\"An 85% chance of rain at 14:00, but Inti (the sun (Quechua)) should peek out by 17:00.\",\"items\":[{\"id\":\"move\",\"text\":\"Ubud cycling tour from 14:00 to 17:00, out of the rain\"}]}\n\nCheck length headline: 54? Yes. Detail one sentence. No quotes except as JSON delimiters. No emoji. All good.",
+          "signature": "4ab2ead4-2746-40c3-a48b-6c81115b5a67"
+        },
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Rain till 16:00, dry at 17:00. Move Ubud cycling tour?\",\"detail\":\"An 85% chance of rain at 14:00, but Inti (the sun (Quechua)) should peek out by 17:00.\",\"items\":[{\"id\":\"move\",\"text\":\"Ubud cycling tour from 14:00 to 17:00, out of the rain\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 793,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 1410,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
