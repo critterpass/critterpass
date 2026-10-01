@@ -33,10 +33,11 @@ appId: app.critterpass.dev
     visible:
       id: 'explore-map-carousel'
     timeout: 60000
-# The tiles come over the network: the map is given time to draw before it is looked at.
+# No screenshot of the map itself: the CI emulator draws neither the tiles nor the pins reliably
+# (they are GL symbols), so the map canvas is judged on a real phone. The cards prove the places
+# are here.
 - waitForAnimationToEnd:
-    timeout: 20000
-- takeScreenshot: en-3d-4-fresh-account
+    timeout: 8000
 - tapOn:
     id: 'explore-map-mode'
 - extendedWaitUntil:
