@@ -213,6 +213,10 @@ msgid "setup.rooms.notice.stayFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.stayUnavailable"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.stayGone"
 msgstr ""
 

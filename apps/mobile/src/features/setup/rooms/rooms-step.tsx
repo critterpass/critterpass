@@ -21,6 +21,7 @@ import {
   setStayChoiceCommand,
 } from '../data/commands';
 import { useCrewMoney } from '../data/crew-money';
+import { useRefusedCommand } from '../data/use-refused-command';
 import type { StepProps } from '../shell/frame';
 import type { RoomChipKey } from './copy';
 import { estimateOf, moveGuest, perPersonPrice, roomsPayload, type PlanStay } from './model';
@@ -40,6 +41,8 @@ export function RoomsStep({ trip, shell }: StepProps) {
   const locale = useLocale();
   const data = useRoomsData(trip.tripId, trip.me);
   const crewMoney = useCrewMoney(trip.tripId);
+  // A stay picked while the answer was still on its way, and then refused by the server.
+  const stayRefusal = useRefusedCommand('set_stay_choice');
   const assign = useCommand(setRoomAssignmentCommand);
   const lock = useCommand(lockRoomsCommand);
   const step = useCommand(setSetupStepCommand);
@@ -114,7 +117,13 @@ export function RoomsStep({ trip, shell }: StepProps) {
         : perPersonPrice(plan, trip.me, fractionDigits(currency)),
     currency,
     skippable: isSkippable('rooms', facts),
-    notice,
+    notice:
+      notice ??
+      (stayRefusal.refused
+        ? stayRefusal.reason === 'stay_unavailable'
+          ? 'stay_unavailable'
+          : 'stay_failed'
+        : null),
     myChips: data.myChips,
     swapAsked: swapAsked || data.swapQueued,
     locking: lock.pending,
@@ -137,6 +146,7 @@ export function RoomsStep({ trip, shell }: StepProps) {
         },
         onPickStay: (type) => {
           setNotice(null);
+          stayRefusal.acknowledge();
           void stay.send({ trip_id: trip.tripId, stay_option_id: type }).then((result) => {
             if (result.kind === 'rejected') setNotice('stay_failed');
           });

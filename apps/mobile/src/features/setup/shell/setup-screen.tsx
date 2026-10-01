@@ -23,7 +23,7 @@ import { useMe } from '../data/use-me';
 import { useSetupServices } from '../data/services';
 import { useSetupTrip, type SetupTrip } from '../data/setup-trip';
 import { useSetupPresence } from '../data/use-setup-channel';
-import { useStepRefusal } from '../data/use-step-refusal';
+import { useRefusedCommand } from '../data/use-refused-command';
 import { MustDosStep } from '../must-dos';
 import { RoomsStep } from '../rooms';
 import { setupRoutes } from '../routes';
@@ -84,7 +84,7 @@ export function SetupScreen({
   const trip = useSetupTrip(tripId, me);
   const sync = useSyncStatus();
   const present = useSetupPresence(tripId);
-  const refusal = useStepRefusal();
+  const refusal = useRefusedCommand('set_setup_step');
   const current = trip?.step ?? 'when';
   const viewing = step ?? landingStep(current);
   const held = landingStep(current);

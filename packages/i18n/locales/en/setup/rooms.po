@@ -213,6 +213,10 @@ msgid "setup.rooms.notice.stayFailed"
 msgstr "That stay didn’t go through. Check the dates are locked and try again."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.stayUnavailable"
+msgstr "That stay has no price for this trip right now, so it wasn’t picked. Try another."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.stayGone"
 msgstr "That stay isn’t on offer for these dates any more. Pick another."
 

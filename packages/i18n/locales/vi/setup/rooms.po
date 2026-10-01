@@ -213,6 +213,10 @@ msgid "setup.rooms.notice.stayFailed"
 msgstr "Chưa chọn được chỗ ở. Kiểm tra đã chốt ngày chưa rồi thử lại."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.notice.stayUnavailable"
+msgstr "Chỗ ở này hiện chưa có giá cho chuyến đi nên chưa được chọn. Hãy thử chỗ khác."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.stayGone"
 msgstr "Chỗ ở đó không còn cho những ngày này. Chọn chỗ khác nhé."
 
