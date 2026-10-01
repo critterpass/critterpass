@@ -83,6 +83,16 @@ export const WHEN_SCENES: readonly SetupScene[] = [
           solo: true,
           total: 1,
           synced: 1,
+          // One person's days: free where the crew fixture has everyone free, busy elsewhere.
+          months: heatMonths(
+            summaries([4]).map((row) => ({
+              ...row,
+              free_count: row.free_count === 6 ? 1 : 0,
+              busy_count: row.free_count === 6 ? 0 : 1,
+              unknown_count: 0,
+              member_count: 1,
+            })),
+          ),
           best: option({
             id: 'solo',
             kind: 'best',
