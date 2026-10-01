@@ -17,6 +17,7 @@ import {
 import type { AddExpensePayload, ExpenseCategory } from '@cp/domain';
 
 import type { KeypadKey } from '@/ui/inputs/Keypad';
+import { categoryFromWords } from './suggest';
 
 export type SplitEditorMode = 'equal' | 'weights' | 'fixed';
 
@@ -141,7 +142,15 @@ export function draftReducer(draft: ExpenseDraft, action: DraftAction): ExpenseD
         ? draft
         : { ...draft, category: action.category, description: action.description };
     case 'description':
-      return { ...draft, description: action.text };
+      // Until a chip is picked, the category follows the name ("Lunch" is food); a name with no
+      // telling word keeps what was there.
+      return draft.categoryTouched
+        ? { ...draft, description: action.text }
+        : {
+            ...draft,
+            description: action.text,
+            category: categoryFromWords(action.text) ?? draft.category,
+          };
     case 'spentAt':
       return { ...draft, spentAt: action.at };
   }
