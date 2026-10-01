@@ -111,6 +111,15 @@ const lateDisruptions = () =>
     [tripId],
   );
 
+/** Read as the owner: no application role may read the event log. */
+async function eventCount(type: string): Promise<number> {
+  const { rows } = await harness.pool.query<{ n: number }>(
+    'SELECT count(*)::int AS n FROM domain_events WHERE trip_id = $1 AND type = $2',
+    [tripId, type],
+  );
+  return rows[0]?.n ?? 0;
+}
+
 const chatLines = () =>
   all<{ body: string }>(
     "SELECT body FROM messages WHERE crew_id = $1 AND ref_kind = 'disruption' ORDER BY seq",
@@ -262,14 +271,11 @@ describe('POST /v1/trips/{id}/journey-check', () => {
     expect(seen.at(-1)?.disruption_id).toBe(late?.id);
     // The options are worked out when it opens, and again each time the lateness has moved five
     // minutes from what they were last worked out for (12, then 18, then 24).
+    expect(await eventCount('running_late.detected')).toBe(3);
     const jobs = await all<{ data: { event_type: string } }>(
-      "SELECT data FROM pgboss.job WHERE name = 'disruption.react' ORDER BY created_on",
+      "SELECT data FROM pgboss.job WHERE name = 'disruption.react' ORDER BY created_on LIMIT 1",
     );
-    expect(jobs.map((job) => job.data.event_type)).toEqual([
-      'running_late.detected',
-      'running_late.detected',
-      'running_late.detected',
-    ]);
+    expect(jobs[0]?.data.event_type).toBe('running_late.detected');
   });
 
   it('keeps one check per member and item, and never where the car was', async () => {
@@ -358,10 +364,8 @@ describe('choose_late_option', () => {
       body: 'Update: Wes is skipping Karsa Spa. Go ahead.',
     });
     expect((await lateDisruptions())[0]?.chosen_option_id).toBe('skip');
-    const job = await all<{ data: { event_type: string } }>(
-      "SELECT data FROM pgboss.job WHERE name = 'disruption.react' ORDER BY created_on DESC LIMIT 1",
-    );
-    expect(job[0]?.data.event_type).toBe('late_option.chosen');
+    // One event per real change of mind: the repeated pick appended nothing.
+    expect(await eventCount('late_option.chosen')).toBe(2);
   });
 });
 
