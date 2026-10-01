@@ -36,30 +36,38 @@ interface CritterCopy {
   readonly id: string;
   readonly message: string;
 }
-const copy = (id: string, message: string): CritterCopy => ({ id, message });
 
 /**
  * Push copy (catalog id + source message; the worker renders it per recipient). A critter's name
  * appears only to someone who has found it: crewmates hear "a new local", never an unfound name.
  */
 export const CRITTER_PUSH = {
-  hatchedTitle: copy('notifications.critters.hatched.title', 'Your egg hatched!'),
-  hatchedBody: copy(
-    'notifications.critters.hatched.body',
-    'Welcome to {place}. {critter} is on your pass.',
-  ),
-  befriendedTitle: copy('notifications.critters.befriended.title', '{member} made a friend'),
-  befriendedNamed: copy(
-    'notifications.critters.befriended.named',
-    '{member} befriended {critter} in {place}.',
-  ),
-  befriendedUnnamed: copy(
-    'notifications.critters.befriended.unnamed',
-    '{member} befriended a new local in {place}.',
-  ),
-  legendaryTitle: copy('notifications.critters.legendary.title', 'A legendary is out soon'),
-  legendaryBody: copy(
-    'notifications.critters.legendary.body',
-    '{place} opens in a month. Want to plan around it?',
-  ),
-} as const;
+  hatchedTitle: /*i18n*/ {
+    id: 'notifications.critters.hatched.title',
+    message: 'Your egg hatched!',
+  },
+  hatchedBody: /*i18n*/ {
+    id: 'notifications.critters.hatched.body',
+    message: 'Welcome to {place}. {critter} is on your pass.',
+  },
+  befriendedTitle: /*i18n*/ {
+    id: 'notifications.critters.befriended.title',
+    message: '{member} made a friend',
+  },
+  befriendedNamed: /*i18n*/ {
+    id: 'notifications.critters.befriended.named',
+    message: '{member} befriended {critter} in {place}.',
+  },
+  befriendedUnnamed: /*i18n*/ {
+    id: 'notifications.critters.befriended.unnamed',
+    message: '{member} befriended a new local in {place}.',
+  },
+  legendaryTitle: /*i18n*/ {
+    id: 'notifications.critters.legendary.title',
+    message: 'A legendary is out soon',
+  },
+  legendaryBody: /*i18n*/ {
+    id: 'notifications.critters.legendary.body',
+    message: '{place} opens in a month. Want to plan around it?',
+  },
+} as const satisfies Record<string, CritterCopy>;

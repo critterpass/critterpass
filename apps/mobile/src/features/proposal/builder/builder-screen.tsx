@@ -13,16 +13,17 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { toast } from '@/motion';
+import { feedback, toast } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 
-import { createProposalCommand, sendProposalCommand } from '../data/commands';
-import { instantDate, instantDateTime, wholeMoney } from '../data/format';
+import { createProposalCommand, lockInPlanCommand, sendProposalCommand } from '../data/commands';
+import { dayRange, instantDate, instantDateTime, wholeMoney } from '../data/format';
 import { useCurrentProposal, useVersions } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
 import { proposalRoutes } from '../routes';
+import { AloneView } from './alone-view';
 import { BuilderView } from './builder-view';
 import {
   configOf,
@@ -58,6 +59,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
   const offline = useSyncStatus().phase === 'offline';
   const create = useCommand(createProposalCommand);
   const send = useCommand(sendProposalCommand);
+  const lockAlone = useCommand(lockInPlanCommand);
   const [edited, setConfig] = useState<BuilderConfig | null>(null);
   const [picking, setPicking] = useState(false);
   const [sending, setSending] = useState(false);
@@ -97,6 +99,43 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
     );
   }
   if (trip === null) return null;
+  // Nobody to send it to: no pitch to make, the organiser locks the plan in (or invites first).
+  if (trip.recipients.length === 0 && trip.isOrganiser) {
+    const onLock = async () => {
+      const result = await lockAlone.send({ trip_id: tripId });
+      if (result.kind === 'applied') {
+        feedback.emit('success');
+        toast.show({
+          id: 'proposal-locked-alone',
+          title: t({ id: 'proposal.alone.done', message: 'Locked in. The trip is on.' }),
+        });
+        router.replace('/');
+        return;
+      }
+      feedback.emit('error');
+      toast.show({
+        id: 'proposal-lock-alone-failed',
+        title: t({ id: 'proposal.alone.failed', message: 'Couldn’t lock it in' }),
+        subtitle: t({
+          id: 'proposal.alone.failedSub',
+          message: 'Check your connection and try again.',
+        }),
+      });
+    };
+    return (
+      <AloneView
+        guide={trip.guide}
+        destination={trip.destination}
+        dates={trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : ''}
+        offline={offline}
+        locking={lockAlone.pending}
+        onBack={back}
+        onLock={() => void onLock()}
+
+        onInvite={() => router.push(`/crew/${trip.crewId}/invite`)}
+      />
+    );
+  }
 
   const facts = {
     freeCancelDeadlines: stays.rows.flatMap((s) =>

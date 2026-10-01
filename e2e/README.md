@@ -172,6 +172,7 @@ staging's AI, so those flows allow a few minutes for them.
 | `suppliers`      | activity cards → OPEN KLOOK → click recorded → the partner redirect              |
 | `fresh-wallet`   | no seed: crew of one → Money in VND → BOOKINGS/MONEY → forward address → SAVE    |
 | `critters`       | fresh account → PASS Critterdex synced → FOUND empty → a set page → Explore at home kept after a relaunch |
+| `fresh-setup-vnd` | no seed: crew of one from Ho Chi Minh City (VND) → Đà Nẵng locked in → dates from tomorrow, 3 days → budget in ₫ locks first time → rooms |
 | `fresh-join-under-way` | no seed, three accounts: a trip from today confirmed → a third joins with the crew code → on the trip (plan, split three ways) |
 
 The `happy` preset records every flow on video (`screenrecord` in three-minute segments on Android,

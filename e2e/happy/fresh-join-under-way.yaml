@@ -327,7 +327,29 @@ appId: app.critterpass.dev
     notVisible:
       id: 'invite-code-screen'
     timeout: 30000
-# What they land on: Home for the crew, then the trip's hub, its plan and the crew chat.
+# The manifest welcomes them: its button opens the plan when the join put them on a trip, the
+# crew otherwise.
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-screen'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-newcomer-manifest
+- tapOn:
+    id: 'invite-manifest-plan'
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: en-join-under-way-newcomer-landing
+# Home for the crew, then the trip's hub, its plan and the crew chat.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'

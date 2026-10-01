@@ -65,6 +65,10 @@ msgstr ""
 msgid "setup.budget.card.caption"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
+msgid "setup.budget.card.captionSmallCrew"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
 msgid "setup.budget.line"
 msgstr ""
@@ -139,6 +143,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/sweet-spot-card.tsx
 msgid "setup.budget.card.over"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/budget/budget-view.tsx
+msgid "setup.budget.lineSmallCrew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/budget/breakdown-bars.tsx

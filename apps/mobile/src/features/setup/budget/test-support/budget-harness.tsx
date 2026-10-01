@@ -49,12 +49,17 @@ export function apiReads(answers: Readonly<Record<string, ApiRead>>): SetupServi
 
 export const K_ANON: ApiRead = { kind: 'error', status: 409, code: 'K_ANON_UNAVAILABLE' };
 
-/** The trip, its crew (settling in USD), `people` taking part and the crew-level row. */
+/**
+ * The trip, its crew (settling in USD unless `currency` says otherwise), `people` taking part,
+ * the crew-level row when there is one, and the day's synced rates as `[base, quote, rate]`.
+ */
 export async function seedBudget(
   stack: TestLocalFirst,
   options: {
     readonly people: readonly (readonly [string, string])[];
-    readonly aggregate: Readonly<Record<string, unknown>>;
+    readonly aggregate: Readonly<Record<string, unknown>> | null;
+    readonly currency?: string;
+    readonly fx?: readonly (readonly [base: string, quote: string, rate: string])[];
   },
 ): Promise<void> {
   const { db } = stack;
@@ -65,8 +70,15 @@ export async function seedBudget(
   await db.execute('INSERT INTO crews (id, name, settlement_currency) VALUES (?, ?, ?)', [
     'crew-1',
     'Kyoto Six',
-    'USD',
+    options.currency ?? 'USD',
   ]);
+  for (const [base, quote, rate] of options.fx ?? []) {
+    await db.execute(
+      `INSERT INTO fx_snapshots (id, base, quote, rate, as_of, source)
+       VALUES (?, ?, ?, ?, '2027-03-01', 'frankfurter')`,
+      [`fx-${base}-${quote}`, base, quote, rate],
+    );
+  }
   await db.execute(
     `INSERT INTO trips (id, crew_id, status, setup_step, start_date, end_date, tz)
      VALUES (?, 'crew-1', 'setup', 'budget', '2027-04-02', '2027-04-09', 'Asia/Tokyo')`,
@@ -83,6 +95,7 @@ export async function seedBudget(
       [`tp-${uid}`, TRIP_ID, uid],
     );
   }
+  if (options.aggregate === null) return;
   const columns = Object.keys(options.aggregate);
   await db.execute(
     `INSERT INTO trip_budget_aggregates (id, trip_id, ${columns.join(', ')})

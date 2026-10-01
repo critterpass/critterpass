@@ -117,6 +117,10 @@ msgstr "{0}: the proposal"
 msgid "proposal.board.egg"
 msgstr "{0}’s egg hatches when you land"
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.back"
+msgstr "{destination} plan"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr "{guideName} wrote a version for each person. Pick how it arrives."
@@ -210,6 +214,10 @@ msgstr "Can’t make it"
 msgid "proposal.lock.failedSub"
 msgstr "Check your connection and try again."
 
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failedSub"
+msgstr "Check your connection and try again."
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.confirmed"
 msgstr "Confirmed"
@@ -220,6 +228,10 @@ msgstr "Couldn’t build the proposal"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failed"
+msgstr "Couldn’t lock it in"
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failed"
 msgstr "Couldn’t lock it in"
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
@@ -341,6 +353,10 @@ msgstr "I’m in at {amount}"
 msgid "proposal.seat.offer"
 msgstr "If a seat frees up, it’s offered to you first in line. Nothing joins you by itself."
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.invite"
+msgstr "Invite friends first"
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.noRecipients"
 msgstr "Invite someone to the crew first. There’s nobody to send it to yet."
@@ -352,6 +368,15 @@ msgstr "It gives a lot for what it costs."
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
 msgid "proposal.why.taste"
 msgstr "It matches what you picked in your this-or-thats, so {guideName} put it in."
+
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.body"
+msgstr "It’s just you on {destination} for now, so there’s nobody to pitch it to. Lock it in and the trip is on. Friends who join later land on this plan."
+
+#. placeholder {0}: props.dates
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.bodyDates"
+msgstr "It’s just you on {destination}, {0}, for now, so there’s nobody to pitch it to. Lock it in and the trip is on. Friends who join later land on this plan."
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
 msgid "proposal.sent.title"
@@ -378,9 +403,17 @@ msgstr "Loading the proposal"
 msgid "proposal.lock.cta"
 msgstr "Lock it in"
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.lock"
+msgstr "Lock it in"
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.title"
 msgstr "Lock the crew in?"
+
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.title"
+msgstr "Lock the plan in?"
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.done"
@@ -389,6 +422,10 @@ msgstr "Locked in. The trip is confirmed."
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.locked"
 msgstr "Locked in. The trip is confirmed."
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.done"
+msgstr "Locked in. The trip is on."
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.maybe"

@@ -2,8 +2,9 @@ appId: app.critterpass.dev
 ---
 # Release gate: a brand-new user's crew picks Đà Nẵng and meets its own guide, Chà Vá, not the
 # guest Tokek. With no demo seed, a fresh account starts a crew, pitches Đà Nẵng (Chà Vá pitches
-# it) and Lisbon from Home, votes for Đà Nẵng, takes the top two to the final, casts the deciding
-# ballot, sets the trip up from the reveal, and opens the guide sheet: its header is Chà Vá.
+# it) and Lisbon from Home, votes for Đà Nẵng, takes the top two to the final (which closes at once:
+# the crew's only ballot is already on a finalist), sets the trip up from the reveal, and opens the
+# guide sheet: its header is Chà Vá.
 #
 # Data: staging with the Vietnam set linked to Chà Vá and the Đà Nẵng destination.
 - runFlow: subflows/fresh-account.yaml
@@ -99,18 +100,18 @@ appId: app.critterpass.dev
       notVisible:
         id: 'destination-board'
     file: ../onboarding/subflows/back.yaml
-# The crew's only member first votes Lisbon, then switches to Đà Nẵng in the final: a ballot
-# that carries into the final unchanged does not close the vote.
+# The crew's only member votes Đà Nẵng on the board. Going to the final with every ballot already
+# on a finalist closes the vote at once: the winner is revealed without a showdown.
 - scrollUntilVisible:
     element:
-      text: '(?i)lisbon, 0 votes'
+      text: '(?i)đà nẵng, 0 votes'
     timeout: 20000
     centerElement: true
 - waitForAnimationToEnd
-- tapOn: '(?i)lisbon, 0 votes'
+- tapOn: '(?i)đà nẵng, 0 votes'
 - extendedWaitUntil:
     visible:
-      text: '(?i)lisbon, 1 votes, your vote'
+      text: '(?i)đà nẵng, 1 votes, your vote'
     timeout: 15000
 - retry:
     maxRetries: 2
@@ -130,21 +131,8 @@ appId: app.critterpass.dev
           id: 'board-go-to-final'
       - extendedWaitUntil:
           visible:
-            id: 'final-split'
-          timeout: 30000
-- tapOn:
-    id: 'final-split-open'
-- extendedWaitUntil:
-    visible:
-      id: 'showdown'
-    timeout: 15000
-- waitForAnimationToEnd
-# The deciding ballot: a tap on Đà Nẵng's half moves the vote from Lisbon.
-- tapOn: '(?i)đà nẵng'
-- extendedWaitUntil:
-    visible:
-      id: 'winner-reveal'
-    timeout: 60000
+            id: 'winner-reveal'
+          timeout: 60000
 - extendedWaitUntil:
     visible:
       id: 'reveal-set-up'

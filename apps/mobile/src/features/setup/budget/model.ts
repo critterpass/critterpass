@@ -6,18 +6,16 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire keys and Intl options, never copy. */
 import {
-  bandStepMinor,
   breakdownBars,
   budgetEstimates,
-  crewFeasibleLow,
-  currencySymbol as symbolOf,
-  isKnownCurrency,
-  planBreakdown,
-  type BudgetEstimateSource,
   type BudgetEstimates,
+  type BudgetEstimateSource,
+  crewFeasibleLow,
+  formatNarrowCurrency,
+  narrowCurrencySymbol,
+  planBreakdown,
 } from '@cp/cost-engine';
 import { BUDGET_K_MIN } from '@cp/domain';
-import { format } from '@cp/i18n';
 
 /** The synced crew-level row, as the local database holds it. */
 export interface AggregateRow {
@@ -117,7 +115,7 @@ export interface Track {
   readonly stepMinor: number;
 }
 
-/** A fallback track length when nothing is priced yet: sixty steps ($3,000 in USD). */
+/** The track's length when nothing is priced yet: sixty steps ($3,000 in USD). */
 const FALLBACK_STEPS = 60;
 
 export function estimatesOf(source: BudgetEstimateSource | null): BudgetEstimates | null {
@@ -129,20 +127,12 @@ export function estimatesOf(source: BudgetEstimateSource | null): BudgetEstimate
   }
 }
 
+/** The knob's track in `stepMinor` steps (see `./lock-step` for where the step comes from). */
 export function trackOf(
   band: BandView,
   estimates: BudgetEstimates | null,
-  row: AggregateRow | null,
+  stepMinor: number,
 ): Track {
-  let step = row?.step_minor ?? null;
-  if (step === null && estimates !== null) {
-    try {
-      step = Number(bandStepMinor(estimates.currency, estimates.fx));
-    } catch {
-      step = null;
-    }
-  }
-  const stepMinor = step ?? 5000;
   const low = estimates === null ? null : crewFeasibleLow(estimates);
   const minMinor = low === null ? 0 : Math.floor(Number(low.amountMinor) / stepMinor) * stepMinor;
   const maxMinor =
@@ -203,30 +193,17 @@ export function fractionDigits(currency: string): number {
   }
 }
 
-/** The currency's own short symbol ("$", "₫", "Rp") from the bundled table; else its code. */
-function narrowSymbol(currency: string): string {
-  return isKnownCurrency(currency) ? symbolOf(currency, 'narrow') : currency;
-}
-
-/**
- * "$1,350": whole units in the currency's own symbol. Hermes on iOS has no `narrowSymbol` and
- * writes the code instead ("USD1,350"); the code is swapped for the symbol there.
- */
+/** "$1,350": whole units in the currency's own short symbol, as the locale places it. */
 export function money(locale: string, amountMinor: number, currency: string): string {
-  const text = format.number(locale, Math.round(amountMinor / 10 ** fractionDigits(currency)), {
-    style: 'currency',
+  return formatNarrowCurrency(
+    locale,
+    Math.round(amountMinor / 10 ** fractionDigits(currency)),
     currency,
-    currencyDisplay: 'narrowSymbol',
-    maximumFractionDigits: 0,
-  });
-  const symbol = narrowSymbol(currency);
-  if (symbol === currency || !text.includes(currency)) return text;
-  // A symbol hugs the number where a code would stand off from it.
-  const hugs = !/[A-Za-z]$/u.test(symbol);
-  return text.replace(new RegExp(`${currency}${hugs ? '[\\s\\u00a0]?' : ''}`, 'u'), symbol);
+    { maximumFractionDigits: 0 },
+  );
 }
 
 /** The currency's symbol ("$", "₫"). */
 export function currencySymbol(_locale: string, currency: string): string {
-  return narrowSymbol(currency);
+  return narrowCurrencySymbol(currency);
 }

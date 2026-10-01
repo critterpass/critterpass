@@ -117,6 +117,10 @@ msgstr ""
 msgid "proposal.board.egg"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-view.tsx
 msgid "proposal.build.sub"
 msgstr ""
@@ -210,6 +214,10 @@ msgstr ""
 msgid "proposal.lock.failedSub"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failedSub"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.tracker.confirmed"
 msgstr ""
@@ -220,6 +228,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
@@ -341,6 +353,10 @@ msgstr ""
 msgid "proposal.seat.offer"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.invite"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
 msgid "proposal.build.noRecipients"
 msgstr ""
@@ -351,6 +367,15 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/data/picks.ts
 msgid "proposal.why.taste"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.body"
+msgstr ""
+
+#. placeholder {0}: props.dates
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.bodyDates"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/send-progress.tsx
@@ -378,8 +403,16 @@ msgstr ""
 msgid "proposal.lock.cta"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.lock"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+msgid "proposal.alone.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
@@ -388,6 +421,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.lock.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+msgid "proposal.alone.done"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx

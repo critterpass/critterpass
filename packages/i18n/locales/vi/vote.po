@@ -117,7 +117,7 @@ msgstr "Bình chọn của {askerName}"
 
 #: ../../apps/mobile/src/features/vote/places/result-row.tsx
 msgid "vote.search.localMany"
-msgstr "{count} bạn bản địa chờ tìm"
+msgstr "{count} thổ địa chờ bạn tìm"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.finalists"
@@ -189,7 +189,7 @@ msgstr "1 giờ"
 
 #: ../../apps/mobile/src/features/vote/places/result-row.tsx
 msgid "vote.search.localOne"
-msgstr "1 bạn bản địa chờ tìm"
+msgstr "1 thổ địa chờ bạn tìm"
 
 #: ../../apps/mobile/src/features/vote/places/guest-guide-page.tsx
 msgid "vote.guest.oneStop"
@@ -205,7 +205,7 @@ msgstr "Một thành phố hoặc quốc gia"
 
 #: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
 msgid "vote.guest.localHint"
-msgstr "Một bạn bản địa. Gợi ý: {hint}"
+msgstr "Một thổ địa. Gợi ý: {hint}"
 
 #: ../../apps/mobile/src/features/vote/inbox-renderers.ts
 msgid "vote.inbox.pickTitle"
@@ -388,7 +388,7 @@ msgstr "Chưa có chuyến nào được tạo. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/vote/places/search-sheet.tsx
 msgid "vote.search.guestLine"
-msgstr "Chưa ai dẫn đường ở {country}, nên mình lo. Các bạn bản địa vẫn xuất hiện."
+msgstr "Chưa ai dẫn đường ở {country}, nên mình lo. Thổ địa vẫn ra chào bạn."
 
 #: ../../apps/mobile/src/features/vote/poll/poll-result.tsx
 msgid "vote.result.none"
@@ -546,7 +546,7 @@ msgstr "Hướng dẫn viên đang lo"
 
 #: ../../apps/mobile/src/features/vote/places/locals-strip.tsx
 msgid "vote.guest.locals"
-msgstr "Các bạn bản địa"
+msgstr "Thổ địa"
 
 #: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.reveal.setupWithOrganiser"

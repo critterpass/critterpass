@@ -1,7 +1,7 @@
 ---
 phase: 45
 title: "You: profile, settings, icons, export, deletion"
-status: pending
+status: in_progress
 depends_on: [5, 12, 22, 33, 43, 47, 49]
 wave: 21
 features: [F-141, F-142, F-143, F-144, F-145, F-146, F-147, F-148, F-191]
