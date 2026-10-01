@@ -1,0 +1,14 @@
+appId: app.critterpass.dev
+---
+# From the developer tools list to the proposal lab.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-proposal-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-proposal-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-lab'
+    timeout: 15000

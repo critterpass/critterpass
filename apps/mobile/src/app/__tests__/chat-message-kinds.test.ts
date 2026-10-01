@@ -29,6 +29,7 @@ import '@/features/crew/chat/media/register';
 import '@/features/guide/chat/register';
 import '@/features/money/chat/register';
 import '@/features/plan/review/register-chat-card';
+import '@/features/proposal/register';
 import '@/features/vote/register';
 
 /** The modules that register chat cards: the root layout loads each (the chat screen, its media). */
@@ -37,6 +38,7 @@ const CARD_REGISTRATIONS = [
   '@/features/guide/chat/register',
   '@/features/money/chat/register',
   '@/features/plan/review/register-chat-card',
+  '@/features/proposal/register',
 ];
 
 const DRAWN_BY_THE_CHAT = new Set(['text', 'system']);
