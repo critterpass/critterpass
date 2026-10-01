@@ -12,6 +12,7 @@ import { useContext } from 'react';
 import { ScrollView, useWindowDimensions, View } from 'react-native';
 
 import { LocalFirstContext, useLocalFirst } from '@/data/powersync/local-first-context';
+import { WaitlistCards } from '@/features/crew';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { Row } from '@/ui/layout/Row';
@@ -28,7 +29,6 @@ import {
   useHomeState,
   type HomeView,
 } from './data/use-home-state';
-import { WaitlistCards } from '../crew/waitlist/WaitlistCards';
 import { DevToolsEntry } from './dev-tools-entry';
 import { FadeInView } from './fade-in-view';
 import { FirstRunGrid, guideCells } from './first-run-grid';
