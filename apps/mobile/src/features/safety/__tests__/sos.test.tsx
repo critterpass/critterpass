@@ -85,8 +85,12 @@ describe('SOS model', () => {
 });
 
 describe('SOS cancel window', () => {
-  beforeEach(() => jest.useFakeTimers());
-  afterEach(() => jest.useRealTimers());
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('sends nothing when cancelled within five seconds, and once when it runs out', async () => {
     const send = jest.fn();
