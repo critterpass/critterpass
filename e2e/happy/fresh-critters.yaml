@@ -108,6 +108,12 @@ appId: app.critterpass.dev
     visible:
       id: 'critters-hatched'
     timeout: 30000
+# The critter's sticker is drawn the first time here; give it a moment before the capture.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch-settled'
+    timeout: 4000
+    optional: true
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-11-hatched
 - tapOn:
@@ -160,7 +166,7 @@ appId: app.critterpass.dev
     env:
       URL: critterpass-dev://encounter/now
 - waitForAnimationToEnd
-- takeScreenshot: fresh-critters-15-encounter
+- takeScreenshot: fresh-critters-15-encounter-or-3l-4-nothing
 # The trip's quests: Home → the trip → QUESTS.
 - runFlow:
     file: ../screens/sweep/subflows/open-link.yaml
