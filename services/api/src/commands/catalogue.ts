@@ -7,7 +7,11 @@ import { onEventAppended } from '@cp/db';
 
 import { undoGuideActionCommand } from '../ai/undo-guide-action';
 import { registerMediaUploadCommand } from '../media/register-media-upload';
-import { createCommandRegistry, type CommandRegistry } from './_framework/registry';
+import {
+  createCommandRegistry,
+  type CommandRegistry,
+  type CommandRegistryOptions,
+} from './_framework/registry';
 import { approveOpsActionCommand } from './approve-ops-action';
 import { registerAvatarCommands } from './avatar';
 import { registerChatCommands } from './chat';
@@ -30,8 +34,8 @@ import { guideTextMembershipHook } from './guide/guide-text';
 export { registerSetupRoutes } from '../setup/routes';
 import { registerLocationCommands } from './visits';
 
-export function createAppCommandRegistry(): CommandRegistry {
-  const commands = createCommandRegistry();
+export function createAppCommandRegistry(options: CommandRegistryOptions = {}): CommandRegistry {
+  const commands = createCommandRegistry(options);
   commands.register(registerMediaUploadCommand);
   registerDeviceCommands(commands);
   registerLocationCommands(commands);
