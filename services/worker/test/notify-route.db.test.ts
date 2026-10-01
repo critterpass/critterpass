@@ -233,6 +233,63 @@ describe('per recipient', () => {
     ]);
   });
 
+  it('sends crew chat past a spent budget without spending it, and still holds it in quiet hours', async () => {
+    registerNotificationTrigger('crew.member_removed', 'crew_chat');
+    registerNotification({
+      key: 'crew_chat',
+      event: 'crew.member_removed',
+      audience: (tx, event) => crewAudience(tx, String(event.payload['crew_id'])),
+      compose: (_tx, event) =>
+        Promise.resolve({
+          title: { id: 'notifications.test.chat.title', message: 'Mai · Bali crew' },
+          body: { id: 'notifications.test.chat.body', message: 'dinner at 8?' },
+          sender: { kind: 'member', id: 'mai', name: 'Mai' },
+          crewId: String(event.payload['crew_id']),
+          collapseVars: { crew_id: String(event.payload['crew_id']) },
+        }),
+    });
+    const joiner = await insertUser(db.pool);
+    const uid = await insertUser(db.pool);
+    await insertDevice(db.pool, uid, { tz: 'Asia/Ho_Chi_Minh' });
+    await db.pool.query('INSERT INTO notification_prefs (user_id, budget_per_day) VALUES ($1, 1)', [
+      uid,
+    ]);
+    const crewId = await insertCrew(db.pool, [joiner, uid]);
+    const chatEvent = () =>
+      insertEvent(db.pool, 'crew.member_removed', { crew_id: crewId }, { crewId });
+
+    await routeNotification(db.pool, deps(), {
+      event_id: await joinedEvent(crewId, joiner),
+      key: 'member_joined',
+      uid,
+    });
+    for (let message = 0; message < 3; message += 1) {
+      const chat = await routeNotification(db.pool, deps(), {
+        event_id: await chatEvent(),
+        key: 'crew_chat',
+        uid,
+      });
+      expect(chat).toMatchObject({ class: 'budgeted', decision: { action: 'send' } });
+    }
+    expect(await ledger(uid)).toEqual([
+      { local_date: '2026-09-27', sent_budgeted: 1, sent_always: 0, queued: 0 },
+    ]);
+
+    /** 23:30 in Ho Chi Minh City: inside the default quiet hours. */
+    const night = new Date('2026-09-27T16:30:00Z');
+    const held = await routeNotification(db.pool, deps(night), {
+      event_id: await insertEvent(
+        db.pool,
+        'crew.member_removed',
+        { crew_id: crewId },
+        { crewId, occurredAt: night },
+      ),
+      key: 'crew_chat',
+      uid,
+    });
+    expect(held).toMatchObject({ decision: { action: 'roundup', reason: 'quiet_hours' } });
+  });
+
   it('holds BUDGET in quiet hours, in the zone of the trip the recipient is on', async () => {
     const joiner = await insertUser(db.pool);
     const uid = await insertUser(db.pool);

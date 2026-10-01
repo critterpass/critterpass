@@ -38,6 +38,7 @@ const input = fc.record<DecideInput>({
   class: cls,
   paywall: fc.boolean(),
   onlyIfBackgrounded: fc.boolean(),
+  capped: fc.boolean(),
   prefEnabled: fc.boolean(),
   expired: fc.boolean(),
   inForeground: fc.boolean(),
@@ -54,7 +55,7 @@ function simulateDay(items: readonly DecideInput[]) {
   let paywallSent = 0;
   const decisions = items.map((item) => {
     const decision = decide({ ...item, sentBudgeted, paywallSent });
-    if (decision.action === 'send' && item.class === 'budgeted') {
+    if (decision.action === 'send' && item.class === 'budgeted' && item.capped) {
       sentBudgeted += 1;
       if (item.paywall) paywallSent += 1;
     }
@@ -74,7 +75,7 @@ describe('decide', () => {
     );
   });
 
-  it('never sends more BUDGET pushes in a day than the budget allows', () => {
+  it('never sends more capped BUDGET pushes in a day than the budget allows', () => {
     fc.assert(
       fc.property(
         fc.integer({ min: 1, max: 10 }),
@@ -109,11 +110,31 @@ describe('decide', () => {
     );
   });
 
+  it('sends a BUDGET push that is not capped whatever the day has spent, outside quiet hours', () => {
+    fc.assert(
+      fc.property(input, (item) => {
+        fc.pre(!inQuietHours(item.localMinutes, item.quiet));
+        const decision = decide({
+          ...item,
+          class: 'budgeted',
+          capped: false,
+          paywall: false,
+          onlyIfBackgrounded: false,
+          prefEnabled: true,
+          expired: false,
+        });
+        expect(decision).toEqual({ action: 'send' });
+      }),
+      RUNS,
+    );
+  });
+
   it('rolls over-budget and quiet-hour BUDGET items into the roundup instead of dropping them', () => {
     const base: DecideInput = {
       class: 'budgeted',
       paywall: false,
       onlyIfBackgrounded: false,
+      capped: true,
       prefEnabled: true,
       expired: false,
       inForeground: false,

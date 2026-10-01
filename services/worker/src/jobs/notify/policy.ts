@@ -6,7 +6,7 @@
  * device own them); ALWAYS is sent no matter what; a muted category drops; ROUNDUP-only waits for
  * the roundup; a BUDGET item is held while the app is on screen when it asks to be, dropped past
  * the paywall governor, and otherwise rolls into the roundup in quiet hours or once the day's
- * budget is spent.
+ * budget is spent (a kind that is not capped never runs out of budget).
  */
 import type { NotificationClass } from '@cp/domain';
 
@@ -31,6 +31,8 @@ export interface DecideInput {
   readonly class: NotificationClass;
   readonly paywall: boolean;
   readonly onlyIfBackgrounded: boolean;
+  /** Counts toward the daily budget (`NotificationSpec.capped`). */
+  readonly capped: boolean;
   readonly prefEnabled: boolean;
   readonly expired: boolean;
   readonly inForeground: boolean;
@@ -68,7 +70,7 @@ export function decide(input: DecideInput): Decision {
   if (inQuietHours(input.localMinutes, input.quiet)) {
     return { action: 'roundup', reason: 'quiet_hours' };
   }
-  if (input.sentBudgeted >= input.budgetPerDay) {
+  if (input.capped && input.sentBudgeted >= input.budgetPerDay) {
     return { action: 'roundup', reason: 'budget_exhausted' };
   }
   return { action: 'send' };

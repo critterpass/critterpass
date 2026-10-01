@@ -380,6 +380,7 @@ Flags in `feature_flags` (server): `supplier.viator_booking`, `supplier.agoda_de
 | Q-83 | Ship Watch/CarPlay `.small` LA family | N |
 | Q-84 | Roundup in trip tz while on a trip, else device tz; one roundup across crews | N |
 | Q-85 | Always gets through (bypasses budget and quiet hours): SOS, leave-by alarm, boarding/gate/delay for own flights, meet-up running-late affecting you, booking or free-cancel deadlines < 24 h, billing failure | N |
+| Q-85a | Doc delta, 1 Oct 2026: settings for the first real trip, delegated by the founder (asked about the notification cap, quiet hours and the chat default, the answer was "you decide"), to be revisited with the delivery data after it. Daily budget starts at 10 (was 5; range 1–10 unchanged). Crew chat: a member who never chose a level hears every message in a crew of six or fewer active members and mentions only in a larger one; their own choice always wins. Crew chat pushes do not count toward the daily budget (they collapse to one banner per crew); quiet hours and the chat switch still hold them | N |
 | Q-86 | Lock-screen redacts money amounts and exact places by default; toggle in settings | N |
 | Q-87 | Crew LA per meet-up: starts T − 45 min, ends at meet-up + 15 min | N |
 | Q-88 | Any participant creates meet-ups; guide auto-creates from plan transfers | N |
