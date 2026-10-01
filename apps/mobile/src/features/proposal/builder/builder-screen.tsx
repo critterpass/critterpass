@@ -131,7 +131,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
         locking={lockAlone.pending}
         onBack={back}
         onLock={() => void onLock()}
-         
+
         onInvite={() => router.push(`/crew/${trip.crewId}/invite`)}
       />
     );
