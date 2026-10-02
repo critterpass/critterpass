@@ -13,6 +13,7 @@ import Animated from 'react-native-reanimated';
 import { homeBaseFor } from '@cp/domain';
 import { upper } from '@cp/i18n';
 
+import { deviceLastUid } from '@/data/app-session/last-uid-store';
 import { useAnalytics } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useLoop } from '@/motion/use-loop';
@@ -85,7 +86,9 @@ export function PhoneScreen() {
       // Signed in to the pass this number holds: the app starts again on that account, at Home.
       returning: returning
         ? {
-            onSignedIn: () => {
+            onSignedIn: (userId) => {
+              // The restart opens this account's data straight away, not the fresh pass's first.
+              deviceLastUid.write(userId);
               setTimeout(() => {
                 markOnboardingComplete();
                 services.restart();

@@ -15,6 +15,7 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
+import { deviceLastUid } from '@/data/app-session/last-uid-store';
 import { createAuthDataLayer } from '@/data/auth';
 import type {
   AuthFailure,
@@ -271,6 +272,8 @@ describe('3a-8 phone sign-in', () => {
     });
     expect(isOnboardingComplete()).toBe(true);
     expect(restart).toHaveBeenCalledTimes(1);
+    // The restart opens the account signed in to, not this phone's fresh pass first.
+    expect(deviceLastUid.read()).toBe('u-existing');
   });
 
   it('makes a new pass on a number nobody holds, saved to this phone', async () => {
