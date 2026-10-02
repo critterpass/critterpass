@@ -29,7 +29,7 @@ export interface PhoneFlowDeps {
   readonly auth: Pick<OnboardingAuth, 'sendOtp' | 'verifyOtp' | 'signInReturningPhone'>;
   readonly save: ReturnType<typeof useSaveFlow>;
   /** Set for "I already have a pass": called once the phone is signed in to its existing account. */
-  readonly returning?: { readonly onSignedIn: () => void } | undefined;
+  readonly returning?: { readonly onSignedIn: (userId: string) => void } | undefined;
 }
 
 export function usePhoneFlow({ auth, save, returning }: PhoneFlowDeps, initialCountry: string) {
@@ -78,7 +78,11 @@ export function usePhoneFlow({ auth, save, returning }: PhoneFlowDeps, initialCo
     }
   };
 
-  const signInAgain = async (phoneNumber: string, entered: string, onSignedIn: () => void) => {
+  const signInAgain = async (
+    phoneNumber: string,
+    entered: string,
+    onSignedIn: (userId: string) => void,
+  ) => {
     setBusy(true);
     const outcome: ReturningSignInOutcome = await auth
       .signInReturningPhone({ phoneNumber, code: entered })
@@ -88,7 +92,7 @@ export function usePhoneFlow({ auth, save, returning }: PhoneFlowDeps, initialCo
       case 'signed_in':
         setStatus('valid');
         feedback.emit('success');
-        onSignedIn();
+        onSignedIn(outcome.userId);
         return;
       case 'linked':
         setStatus('valid');
