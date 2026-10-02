@@ -6,8 +6,6 @@ appId: app.critterpass.dev
 # receipt eval's vi-restaurant-promo). The phone reads it, uploads it, the server parses it, and
 # the itemised review lists its lines; a line is assigned, SPLIT IT commits, and Money shows the
 # itemised expense. Any failure on the way must end on a screen that says what to do.
-- addMedia:
-    - '../../apps/mobile/modules/cp-ocr/fixtures/vi-restaurant-promo.jpg'
 - runFlow:
     file: ../happy/subflows/trip-under-way.yaml
     env:
@@ -16,6 +14,13 @@ appId: app.critterpass.dev
     visible:
       id: 'tab-wallet'
     timeout: 60000
+# The bill goes into the photo library (the simulator's photo service can be slow to answer the
+# first time, so it is tried again).
+- retry:
+    maxRetries: 2
+    commands:
+      - addMedia:
+          - '../../apps/mobile/modules/cp-ocr/fixtures/vi-restaurant-promo.jpg'
 - tapOn:
     id: 'tab-wallet'
 - extendedWaitUntil:
