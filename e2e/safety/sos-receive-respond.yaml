@@ -77,7 +77,7 @@ appId: app.critterpass.dev
       id: 'sos-ok'
     timeout: 15000
 - extendedWaitUntil:
-    visible: '(?i)sos sent to all 1 of you'
+    visible: '(?i)sos sent to your one crewmate'
     timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: en-sos-sender-sent
