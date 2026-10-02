@@ -609,6 +609,10 @@ msgid "money.payout.field.name"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.detailsLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.detailsA11y"
 msgstr ""
 
