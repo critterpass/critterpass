@@ -10,15 +10,19 @@ import * as Clipboard from 'expo-clipboard';
 import { CryptoDigestAlgorithm, digest } from 'expo-crypto';
 import { File } from 'expo-file-system';
 import type * as ImagePickerModule from 'expo-image-picker';
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
 
 import { sessionHeaders } from '@/data/app-session/device-session';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
 import type { HttpOutcome, MoneyServices, PickOutcome, ReceiptReader } from './services';
 
-/** Receipt photos are JPEGs from the scanner or the picker; the api caps them at 10 MB. */
-const RECEIPT_QUALITY = 0.8;
+/**
+ * Receipt photos are JPEGs from the scanner or the picker; the api caps them at 10 MB. On Android
+ * the picker hands the photo back as it is: its re-encoding step fails to start in the app's
+ * Android build (`ExceptionInInitializerError`), which left PICK A PHOTO unable to return anything.
+ */
+const RECEIPT_QUALITY = Platform.OS === 'android' ? 1 : 0.8;
 
 function hex(buffer: ArrayBuffer): string {
   return Array.from(new Uint8Array(buffer), (byte) => byte.toString(16).padStart(2, '0')).join('');
