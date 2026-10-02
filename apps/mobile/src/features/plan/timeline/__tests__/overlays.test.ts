@@ -106,6 +106,18 @@ describe('guide ghost', () => {
   });
 });
 
+describe('guide ghost freshness', () => {
+  it('hides a suggestion made on an older plan version, and one turned down here', () => {
+    expect(
+      ghostFor([weatherSet()], LAB_ITEMS, LAB_DATE, { currentVersionId: 'v1' }),
+    ).not.toBeNull();
+    expect(ghostFor([weatherSet()], LAB_ITEMS, LAB_DATE, { currentVersionId: 'v2' })).toBeNull();
+    expect(
+      ghostFor([weatherSet()], LAB_ITEMS, LAB_DATE, { dismissed: new Set(['cs-rain']) }),
+    ).toBeNull();
+  });
+});
+
 describe('remote cursors', () => {
   it('pins a cursor to its block, shifted by the minutes being dragged', () => {
     const frames = new Map([[WALK.stableId, { top: 100, height: 40, left: 40, width: 300 }]]);

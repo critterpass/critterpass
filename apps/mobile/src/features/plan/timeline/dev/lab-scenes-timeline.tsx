@@ -181,6 +181,7 @@ const banner = () => (
       message: `Rain till ${'15:00'}. Move ${'Ridge walk'}?`,
     })}
     onAccept={noop}
+    onDismiss={noop}
   />
 );
 
