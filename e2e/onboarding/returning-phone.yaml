@@ -131,9 +131,10 @@ appId: app.critterpass.dev
     timeout: 60000
 - tapOn:
     id: 'tab-home'
+# The crew's name in Home's header (on iOS only the button's label, "{crew}, switch crew", shows).
 - extendedWaitUntil:
     visible:
-      text: '(?i)cp test sign-out'
+      text: '(?i)cp test sign-out.*'
     timeout: 60000
 - assertNotVisible:
     id: 'onboarding-name-field'
