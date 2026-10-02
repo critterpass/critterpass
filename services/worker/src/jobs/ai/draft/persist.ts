@@ -83,6 +83,18 @@ export function draftCoverage(save: DraftToSave): DraftCoverage {
       budget_version: trip.budget?.version ?? null,
       rooms_version: trip.rooms?.version ?? null,
     },
+    // What the guide answered to the typed must-dos: a redraft of this version plans from them.
+    wish_answers: (input.wishAnswers ?? []).map((answer) => ({
+      must_do_id: answer.wishId,
+      poi_id: answer.poiId,
+      day_no: answer.dayNo,
+      when: answer.when,
+      weekdays: [...answer.weekdays],
+    })),
+    untimed_must_dos: (input.untimed ?? []).map((entry) => ({
+      must_do_id: entry.mustDoId,
+      reason: entry.reason,
+    })),
   };
 }
 

@@ -27,6 +27,7 @@ import { registerSetupPushes } from './jobs/setup';
 import { registerMoneyPushes } from './jobs/money';
 import { registerCritterPushes } from './jobs/critters/pushes';
 import { startWorkerHeartbeat } from './boss/heartbeat';
+import { createShutdown, STOP_JOB_TIMEOUT_MS } from './shutdown';
 import { registerInviteNotifications } from './jobs/invites';
 import { routeEventHook } from './jobs/notify';
 import { createCopyRenderer, createPushProviders } from './push';
@@ -179,33 +180,24 @@ const server = serve({ fetch: health.fetch, port: env.PORT }, (info) => {
   logger.info({ port: info.port }, 'worker health listening');
 });
 
-let shuttingDown = false;
-function shutdown(signal: string) {
-  if (shuttingDown) return;
-  shuttingDown = true;
-  logger.info({ signal }, 'draining');
-  stopHeartbeat?.();
-  server.close(() => {
-    void runtime
-      .then(() => rtRelay?.stop())
-      .then(() => analyticsExport?.stop())
-      .then(() => stopJobRuntime(boss))
-      .then(() => pushProviders.shutdown())
-      .catch((error: unknown) => logger.error({ err: error }, 'job runtime stop failed'))
-      .then(() =>
-        Promise.allSettled([
-          pool.end(),
-          redis.isOpen ? redis.close() : Promise.resolve(),
-          errors.flush(),
-        ]),
-      )
-      .then(() => {
-        logger.info('stopped');
-        process.exit(0);
-      });
-  });
-  setTimeout(() => process.exit(1), 25_000).unref();
-}
+const shutdown = createShutdown({
+  server,
+  started: runtime,
+  immediate: [() => stopHeartbeat?.()],
+  stops: [
+    () => rtRelay?.stop(),
+    () => analyticsExport?.stop(),
+    () => stopJobRuntime(boss, STOP_JOB_TIMEOUT_MS),
+    () => pushProviders.shutdown(),
+  ],
+  closes: [
+    () => pool.end(),
+    () => (redis.isOpen ? redis.close() : undefined),
+    () => errors.flush(),
+  ],
+  logger,
+  exit: (code) => process.exit(code),
+});
 
-process.on('SIGTERM', () => shutdown('SIGTERM'));
-process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => void shutdown('SIGTERM'));
+process.on('SIGINT', () => void shutdown('SIGINT'));

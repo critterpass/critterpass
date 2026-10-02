@@ -10,6 +10,7 @@ jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
 }));
 
+import { shippedLocales } from '@cp/i18n';
 import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
@@ -21,7 +22,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { setLocale } from '@/lib/i18n/set-locale';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { languageChoices } from '../language-names';
+import { languageChoices, localLanguageName } from '../language-names';
 import { LanguageScreen } from '../language-screen';
 
 const METRICS = {
@@ -31,11 +32,19 @@ const METRICS = {
 
 describe('language', () => {
   it('lists every shipped language once, the current one first, never the pseudo locale', () => {
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
     const codes = languageChoices('vi').map((choice) => choice.code);
     expect(codes[0]).toBe('vi');
     expect(new Set(codes).size).toBe(codes.length);
     expect(codes).toContain('en');
     expect(codes).not.toContain('en-XA');
+  });
+
+  it('has a translatable name for every shipped language, not the registry fallback', () => {
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+    for (const entry of shippedLocales.filter((locale) => locale.pseudo !== true)) {
+      expect(localLanguageName(entry.code, 'FALLBACK')).not.toBe('FALLBACK');
+    }
   });
 
   it('redraws in the picked language in place, with no navigation', async () => {

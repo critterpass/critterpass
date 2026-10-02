@@ -36,6 +36,7 @@ import {
   type TripRow,
 } from './home-queries';
 import { useLiveRows } from './watch-query';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface HomeMember {
   readonly userId: string;
@@ -150,7 +151,7 @@ export function useHomeState(requestedCrewId: string | null = null): HomeView {
               name: crewRow.name ?? '',
               members: members.rows.map((row, index) => ({
                 userId: row.user_id,
-                name: firstName(row.display_name),
+                name: memberFirstName(row.display_name),
                 colour: row.colour,
                 joinIndex: index,
               })),

@@ -7,12 +7,15 @@
  * instructions planted in crew text changed nothing: same checks, no exceptions.
  */
 import type { Itinerary } from '@cp/domain';
-import { redraftDiff } from '@cp/planner';
+import { minuteOfDate, redraftDiff } from '@cp/planner';
 
 import type { DraftPlanInput } from '../../../src/prompts/draft/context';
 import type { DraftPlanResult } from '../../../src/prompts/draft/pipeline';
 import { ownViolations, type RedraftOutcome } from '../../../src/prompts/draft/redraft';
 import { proseProblem } from '../../../src/prompts/draft/schema';
+import type { CrewCase } from '../cases';
+
+type WishExpectation = CrewCase['expect_wishes'][number];
 
 export function unknownIdsIn(input: DraftPlanInput, itinerary: Itinerary): string[] {
   return itinerary.days.flatMap((day) =>
@@ -54,6 +57,51 @@ export function gradeDraft(
   const placed = new Set(result.itinerary.days.flatMap((d) => d.items.map((i) => i.must_do_id)));
   const missing = input.pools.mustDos.filter((slot) => !placed.has(slot.mustDoId));
   if (missing.length > 0) failures.push(`must-dos missing: ${missing.length}`);
+  return failures;
+}
+
+const WEEKDAY_KEYS = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'] as const;
+const minuteOf = (time: string) => {
+  const [h = 0, m = 0] = time.split(':').map(Number);
+  return h * 60 + m;
+};
+
+/** Where and when each typed wish landed, against what the case expects of it. */
+export function gradeWishes(
+  input: DraftPlanInput,
+  result: DraftPlanResult,
+  expected: readonly WishExpectation[],
+  wishIdOf: (index: number) => string,
+): string[] {
+  const failures: string[] = [];
+  for (const want of expected) {
+    const mustDoId = wishIdOf(want.wish);
+    const day = result.itinerary.days.find((d) => d.items.some((i) => i.must_do_id === mustDoId));
+    const item = day?.items.find((i) => i.must_do_id === mustDoId);
+    if (day === undefined || item === undefined) {
+      failures.push(`wish ${want.wish}: not placed`);
+      continue;
+    }
+    if (item.poi_id === null || !want.place_ids.includes(item.poi_id)) {
+      failures.push(
+        `wish ${want.wish}: placed at ${input.pois.get(item.poi_id ?? '')?.name ?? item.poi_id}`,
+      );
+    }
+    const start = minuteOfDate(new Date(item.starts_at), day.date, input.frame.tz);
+    const end = minuteOfDate(new Date(item.ends_at), day.date, input.frame.tz);
+    const weekday = WEEKDAY_KEYS[new Date(`${day.date}T00:00:00Z`).getUTCDay()] ?? 'mo';
+    const at = `${String(Math.floor(start / 60)).padStart(2, '0')}:${String(start % 60).padStart(2, '0')}`;
+    if (want.start_before !== undefined && start >= minuteOf(want.start_before))
+      failures.push(`wish ${want.wish}: starts ${at}, not before ${want.start_before}`);
+    if (want.start_from !== undefined && start < minuteOf(want.start_from))
+      failures.push(`wish ${want.wish}: starts ${at}, before ${want.start_from}`);
+    if (want.start_by !== undefined && start > minuteOf(want.start_by))
+      failures.push(`wish ${want.wish}: starts ${at}, after ${want.start_by}`);
+    if (want.end_after !== undefined && end < minuteOf(want.end_after))
+      failures.push(`wish ${want.wish}: ends before ${want.end_after}`);
+    if (want.weekdays !== undefined && !want.weekdays.includes(weekday))
+      failures.push(`wish ${want.wish}: on a ${weekday}`);
+  }
   return failures;
 }
 

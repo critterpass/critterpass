@@ -5,37 +5,15 @@
  * closest to the guide's (fewest swapped pairs, then the earliest finish). The stops themselves
  * never change here: dropping or swapping a place is the guide's call, in the repair pass.
  */
-import { WEEKDAYS, type Hours } from '@cp/domain';
-
-import { ceilGrid, defaultDurationMin, DINNER, LUNCH, mealSlotAt } from './schedule-day';
+import { ceilGrid, spansOn } from './day-minutes';
+import { defaultDurationMin, DINNER, LUNCH, mealSlotAt } from './schedule-day';
+import { heldWindow, timedDuration } from './wish-time';
 import type { DayChoice, DayWindow, DraftPoi, TravelMatrix } from './types';
+
+export { spansOn } from './day-minutes';
 
 /** Orders are searched exhaustively up to this many stops (7! = 5040 timelines). */
 export const MAX_SEARCHED_STOPS = 7;
-
-interface Span {
-  readonly start: number;
-  readonly end: number;
-}
-
-const toMin = (time: string) => {
-  if (time === '24:00') return 1440;
-  const [h = 0, m = 0] = time.split(':').map(Number);
-  return h * 60 + m;
-};
-
-/** Opening spans of `hours` on `date` in local minutes; null hours = open all day. */
-export function spansOn(hours: Hours | null, date: string): readonly Span[] {
-  if (hours === null) return [{ start: 0, end: 2880 }];
-  const exception = hours.exceptions?.find((entry) => entry.date === date);
-  const isoDow = (new Date(`${date}T00:00:00Z`).getUTCDay() + 6) % 7;
-  const spans = exception?.spans ?? hours.weekly[WEEKDAYS[isoDow] ?? 'mo'] ?? [];
-  return spans.map((s) => {
-    const start = toMin(s.start);
-    const end = toMin(s.end);
-    return { start, end: end <= start ? end + 1440 : end };
-  });
-}
 
 export interface SequenceInput {
   readonly date: string;
@@ -68,14 +46,27 @@ function timeline(
       if (meals.has(slot)) broken += 1;
       meals.add(slot);
     }
-    const duration = ceilGrid(poi.durationMin || defaultDurationMin(poi.category));
-    const span = spansOn(poi.hours, input.date).find(
+    // A stop held to its time of day waits for it; nothing else starts before the usual day.
+    const held = heldWindow(poi, input.date, choice.when);
+    if (held === null) start = Math.max(start, input.window.startMin);
+    else if (previous === null || start < held.fromMin) {
+      start = Math.max(held.fromMin, input.window.earliestMin ?? input.window.startMin);
+    }
+    const duration = ceilGrid(timedDuration(poi, choice.when) || defaultDurationMin(poi.category));
+    // Hours that are only a guess never move a held stop or count against it.
+    const hours = held !== null && poi.hoursGuessed === true ? null : poi.hours;
+    const span = spansOn(hours, input.date).find(
       (s) => Math.max(start, ceilGrid(s.start)) + duration <= s.end,
     );
     if (span === undefined) broken += 1;
     else start = Math.max(start, ceilGrid(span.start));
+    // Held to its time of day: too late for it is broken; running past the usual end is not.
+    if (held !== null && start > held.toMin) broken += 1;
     at = start + duration;
-    if (at > input.window.endMin) broken += 1;
+    if (
+      at > (held === null ? input.window.endMin : (input.window.latestMin ?? input.window.endMin))
+    )
+      broken += 1;
     previous = poi.id;
   }
   return { broken, end: at };

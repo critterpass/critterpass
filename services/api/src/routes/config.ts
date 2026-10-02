@@ -6,9 +6,10 @@
  * PostHog for it.
  *
  * It never fails on PostHog's account: unset keys or salt, an outage or a slow first load all
- * answer the catalog defaults.
+ * answer the catalog defaults, and `source` says so (`defaults`, else `evaluated`), so the app
+ * keeps the values it already has instead of switching a rollout off for the length of an outage.
  */
-import { resolveFlags, userPid, type FLAG_CATALOG, type FlagValues } from '@cp/domain';
+import { resolveFlags, userPid, type FLAG_CATALOG } from '@cp/domain';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 
 import type { RateLimitRedisClient } from '../abuse/rate-limits';
@@ -18,7 +19,12 @@ import {
   requireCommandSession,
   type SessionResolver,
 } from '../commands/_framework/session';
-import { processFlagService, type FlagService } from '../obs/flags';
+import {
+  FIRST_LOAD_WAIT_MS,
+  processFlagService,
+  type FlagAnswer,
+  type FlagService,
+} from '../obs/flags';
 
 export interface ConfigRouteDeps {
   readonly sessions: SessionResolver;
@@ -33,20 +39,21 @@ export interface ConfigRouteDeps {
 /** The app asks on session start and on each return to the foreground. */
 const CONFIG_PER_UID_RULE = { windowSeconds: 60, max: 30 };
 
-/** Long enough for a fresh process to load its definitions, so a deploy is not a kill switch. */
-const READY_TIMEOUT_MS = 3_000;
 const MIN_SALT_LENGTH = 16;
 
-async function flagsFor(deps: ConfigRouteDeps, uid: string): Promise<FlagValues> {
+type Answer = FlagAnswer<typeof FLAG_CATALOG>;
+const defaults = (): Answer => ({ flags: resolveFlags(undefined), source: 'defaults' });
+
+async function answerFor(deps: ConfigRouteDeps, uid: string): Promise<Answer> {
   const salt = deps.pidSalt;
-  if (salt === undefined || salt.length < MIN_SALT_LENGTH) return resolveFlags(undefined);
+  if (salt === undefined || salt.length < MIN_SALT_LENGTH) return defaults();
   try {
-    return await deps.flags.evaluate(
+    return await deps.flags.answer(
       { distinctId: await userPid(uid, salt) },
-      { readyTimeoutMs: deps.readyTimeoutMs ?? READY_TIMEOUT_MS },
+      { readyTimeoutMs: deps.readyTimeoutMs ?? FIRST_LOAD_WAIT_MS },
     );
   } catch {
-    return resolveFlags(undefined);
+    return defaults();
   }
 }
 
@@ -55,7 +62,8 @@ export function registerConfigRoutes(app: OpenAPIHono<AppEnv>, deps: ConfigRoute
     const { uid } = await requireCommandSession(deps.sessions, c.req.raw.headers);
     await enforceUidRateLimit(deps.redis, 'config', uid, CONFIG_PER_UID_RULE);
     c.header('Cache-Control', 'private, no-store');
-    return c.json({ flags: await flagsFor(deps, uid) });
+    const { flags, source } = await answerFor(deps, uid);
+    return c.json({ flags, source });
   });
 }
 

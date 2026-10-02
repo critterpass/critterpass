@@ -109,6 +109,42 @@ describe('flags from the api', () => {
     expect(view.getByText('scan on')).toBeTruthy();
   });
 
+  it('keeps the evaluated values when the api answers its defaults, and uses a first answer of them', async () => {
+    const defaults = {
+      flags: { ...bootstrap.flags, 'money.receipts': false, 'location.always_upsell': false },
+      source: 'defaults',
+    };
+    // Nothing stored yet: the defaults are what there is.
+    expect(applyServerFlags(defaults)).toBe(true);
+    expect(serverFlag('money.receipts')).toBe(false);
+    expect(serverFlag('location.always_upsell')).toBe(false);
+
+    const view = await screen(client());
+    await act(async () => {
+      await refreshServerFlags(() => Promise.resolve({ status: 200, body: bootstrap }));
+    });
+    expect(view.getByText('scan on')).toBeTruthy();
+
+    // PostHog is unreachable for the api: the rollout stays on.
+    await act(async () => {
+      await refreshServerFlags(() => Promise.resolve({ status: 200, body: defaults }));
+    });
+    expect(serverFlag('money.receipts')).toBe(true);
+    expect(serverFlag('location.always_upsell')).toBe(true);
+    expect(view.getByText('scan on')).toBeTruthy();
+
+    // An evaluated answer that turns it off does.
+    await act(async () => {
+      await refreshServerFlags(() =>
+        Promise.resolve({
+          status: 200,
+          body: { flags: { ...bootstrap.flags, 'money.receipts': false }, source: 'evaluated' },
+        }),
+      );
+    });
+    expect(view.getByText('scan off')).toBeTruthy();
+  });
+
   it('keeps the last values when a refresh fails', async () => {
     applyServerFlags(bootstrap);
     const view = await screen(client());

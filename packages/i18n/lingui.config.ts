@@ -108,6 +108,10 @@ const tripSubAreas = {
   ],
   'day-of': [`${tripRoot}/day-of/**`, `${tripRoot}/leave-by/**`],
   alarm: [`${tripRoot}/alarm/**`],
+  disruptions: [
+    `${tripRoot}/disruptions/**`,
+    `${repoRootPrefix}/apps/mobile/src/app/(trip)/{disruption,forecast,storm,late}/**`,
+  ],
   offline: [
     `${tripRoot}/offline/**`,
     `${tripRoot}/bundle/**`,
