@@ -95,6 +95,17 @@ export function MessageList({
     [newest, onSeenLatest],
   );
 
+  // A new message, or one that settles (its "sending" line goes), keeps the newest in view for a
+  // member who is reading it. The list's own autoscroll is not used: it scrolls on the frame after
+  // the change, so a member who has just started reading back is pulled to the end mid-drag.
+  const onContentSizeChange = useCallback(() => {
+    if (following.current) list.current?.scrollToEnd({ animated: true });
+  }, []);
+  // Taking hold of the list stops following at once, before the drag's first scroll event lands.
+  const onScrollBeginDrag = useCallback(() => {
+    following.current = false;
+  }, []);
+
   // The composer growing (more lines, a reply strip) or the keyboard rising shortens the list from
   // below, and the keyboard closing lengthens it again; a member reading the newest message keeps
   // it, and its delivery line, in view and clear of the composer's fade. As the list grows Android
@@ -134,10 +145,11 @@ export function MessageList({
         )}
         ListFooterComponent={<>{footer}</>}
         contentContainerStyle={styles.content}
-        maintainVisibleContentPosition={{
-          startRenderingFromBottom: true,
-          autoscrollToBottomThreshold: 0.2,
-        }}
+        maintainVisibleContentPosition={{ startRenderingFromBottom: true }}
+        onContentSizeChange={onContentSizeChange}
+        onScrollBeginDrag={onScrollBeginDrag}
+        // A drag that ends without moving the list says again whether the member is at the end.
+        onScrollEndDrag={onScroll}
         onStartReached={onLoadOlder}
         onEndReached={() => {
           if (newest > 0) onSeenLatest(newest);
