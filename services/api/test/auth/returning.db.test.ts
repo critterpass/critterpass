@@ -277,3 +277,90 @@ describe('returning sign-in after signing out', () => {
     expect(await phonesOf([fresh.uid])).toEqual({ [fresh.uid]: phone });
   });
 });
+
+describe('returning sign-in on an https deployment', () => {
+  it('hands back the session under the cookie name the server reads', async () => {
+    const secure = createAuthModule({
+      appPool: pool,
+      authDatabaseUrl: postgres.getConnectionUri(),
+      redis,
+      secret: SECRET,
+      baseUrl: 'https://api.example.test/api/auth',
+      trustedOrigins: ['app.critterpass://'],
+      otpAdapters: { whatsapp: fakeWhatsAppAdapter() },
+      rateLimit: {
+        customRules: {
+          '/sign-in/*': { window: 1, max: 1000 },
+          '/phone-number/*': { window: 1, max: 1000 },
+        },
+      },
+      attestation: disabledAttestationConfig(),
+    });
+    try {
+      const secureApp = new Hono<{ Variables: object }>();
+      registerReturningPhoneSignInRoute(secureApp, { auth: secure.auth, redis, secret: SECRET });
+      secureApp.on(['GET', 'POST'], '/api/auth/*', (c) => secure.handler(c.req.raw));
+      const call = (path: string, init: RequestInit = {}) =>
+        secureApp.request(`https://api.example.test${path}`, {
+          ...init,
+          headers: {
+            'content-type': 'application/json',
+            'x-real-ip': '203.0.113.103',
+            ...init.headers,
+          },
+        });
+      const phone = '+6581230103';
+      // A pass saved with the phone, then a new anonymous pass on the same phone (signed out).
+      const sessionOf = async () => {
+        const signIn = await call('/api/auth/sign-in/anonymous', { method: 'POST', body: '{}' });
+        const cookie = /__Secure-better-auth\.session_token=[^;]+/.exec(
+          signIn.headers.get('set-cookie') ?? '',
+        )?.[0];
+        const { user } = (await signIn.json()) as { user: { id: string } };
+        if (!cookie) throw new Error('no secure session cookie');
+        return { cookie, uid: user.id };
+      };
+      const saved = await sessionOf();
+      await call('/api/auth/phone-number/send-otp', {
+        method: 'POST',
+        headers: { cookie: saved.cookie },
+        body: JSON.stringify({ phoneNumber: phone }),
+      });
+      const save = await call('/api/auth/phone-number/verify', {
+        method: 'POST',
+        headers: { cookie: saved.cookie },
+        body: JSON.stringify({
+          phoneNumber: phone,
+          code: capturedCodes.get(phone),
+          updatePhoneNumber: true,
+        }),
+      });
+      expect(save.status).toBe(200);
+      const fresh = await sessionOf();
+      capturedCodes.delete(phone);
+      await call('/api/auth/phone-number/send-otp', {
+        method: 'POST',
+        headers: { cookie: fresh.cookie },
+        body: JSON.stringify({ phoneNumber: phone }),
+      });
+
+      const response = await call('/api/auth/sign-in/phone-number', {
+        method: 'POST',
+        headers: { cookie: fresh.cookie },
+        body: JSON.stringify({ phoneNumber: phone, code: capturedCodes.get(phone) }),
+      });
+
+      expect(response.status).toBe(200);
+      const setCookie = response.headers.get('set-cookie') ?? '';
+      expect(setCookie).toMatch(
+        /^__Secure-better-auth\.session_token=[^;]+; Path=\/; HttpOnly; Secure/u,
+      );
+      // What the phone holds next: the new cookie replaces the old one under the same name.
+      const kept = /__Secure-better-auth\.session_token=[^;]+/.exec(setCookie)?.[0] ?? '';
+      const session = await call('/api/auth/get-session', { headers: { cookie: kept } });
+      expect(((await session.json()) as { user: { id: string } } | null)?.user.id).toBe(saved.uid);
+    } finally {
+      await secure.close();
+    }
+  });
+});

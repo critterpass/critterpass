@@ -22,9 +22,9 @@ import {
   buildMergePreview,
   executeMerge,
   sessionMatchesTicket,
-  signBetterAuthSessionCookie,
   type MergePreview,
 } from '../auth/merge/execute';
+import { sessionCookieOf, setSessionCookieHeader } from '../auth/session-cookie';
 import {
   consumeMergeTicket,
   verifyMergeTicket,
@@ -47,21 +47,9 @@ const challengeBodySchema = z.object({
   installId: z.uuid(),
 });
 
-/** Matches services/api/src/auth/config.ts's session.expiresIn (Better Auth's own 30-day sliding session). */
-const THIRTY_DAYS_SECONDS = 60 * 60 * 24 * 30;
-
 function errorResponse(c: Context, error: DomainError) {
   const body: ErrorResponseBody = error.toResponseBody();
   return c.json(body, error.http as never);
-}
-
-/** Sets the same `better-auth.session_token` cookie a real sign-in response would, so a web/browser caller (and manual testing) works immediately without depending on the Expo client's own token persistence. */
-function setSessionCookieHeader(c: Context, token: string, secret: string): void {
-  const signedCookie = encodeURIComponent(signBetterAuthSessionCookie(token, secret));
-  c.header(
-    'set-cookie',
-    `better-auth.session_token=${signedCookie}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${THIRTY_DAYS_SECONDS}`,
-  );
 }
 
 export function registerAuthExtraRoutes<E extends { Variables: object }>(
@@ -241,9 +229,9 @@ export function registerMergeExecuteRoute<E extends { Variables: object }>(
       appPool: deps.appPool,
       auth: deps.auth,
     });
-    // The raw token is also returned in the body for the Expo client (apps/mobile/src/data/auth/),
-    // which persists tokens itself rather than relying on a cookie jar.
-    setSessionCookieHeader(c, result.sessionToken, deps.secret);
+    // The Expo client keeps the session from this cookie (it stores every Set-Cookie it is sent);
+    // the raw token in the body is for callers that keep tokens themselves.
+    setSessionCookieHeader(c, result.sessionToken, deps.secret, await sessionCookieOf(deps.auth));
     return c.json({ token: result.sessionToken, user: { id: result.existingUid } });
   });
 }
@@ -374,7 +362,7 @@ export function registerReturningPhoneSignInRoute<E extends { Variables: object 
     }
 
     const session = await context.internalAdapter.createSession(user.id);
-    setSessionCookieHeader(c, session.token, deps.secret);
+    setSessionCookieHeader(c, session.token, deps.secret, await sessionCookieOf(deps.auth));
     return c.json({ token: session.token, user: { id: user.id } });
   });
 }
