@@ -1,25 +1,25 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-02.",
   "response": {
     "status": 200,
     "body": {
-      "id": "6946a819-e992-4ea8-b7dc-66ffbf584e09",
+      "id": "611516ef-4ef9-493d-8797-1e11ede2a66a",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"summary\":\"Rin cần xe về, đang ở Phố cổ Hội An, Hội An. Họ lỡ chuyến xe buýt cuối, điện thoại còn 8%.\"}"
+          "text": "{\"summary\":\"Rin cần xe về. Họ lỡ chuyến buýt cuối ở Phố cổ Hội An, Hội An, điện thoại còn 8%.\"}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 141,
+        "input_tokens": 288,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 256,
-        "output_tokens": 50,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 46,
         "service_tier": "standard"
       }
     }

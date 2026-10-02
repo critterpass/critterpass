@@ -152,6 +152,19 @@ function priceLineNear(
   return undefined;
 }
 
+/**
+ * Column headings a bill prints over its items ("TT", "STT", "SL", "ĐG", "Tên món", "Qty"…): never
+ * the shop's name, though a model may take the first line it sees for one.
+ */
+const COLUMN_HEADING =
+  /^(?:s?tt|sl|s\.l|đg|dg|đ\.giá|đơn giá|t\.tiền|thành tiền|tên món|tên hàng|qty|item|items|price|amount|no\.?|#)$/iu;
+
+/** The shop's name as the reply gives it, unless it is empty or a column heading. */
+export function merchantOf(reply: string | null): string | null {
+  const name = reply?.trim().slice(0, 120) ?? '';
+  return name === '' || COLUMN_HEADING.test(name) ? null : name;
+}
+
 /** Checks a model reply against the OCR lines; no number reaches the result unless it is printed. */
 export function validateReceiptReply(
   reply: ReceiptReply,
@@ -245,7 +258,7 @@ export function validateReceiptReply(
         ? 'parsed'
         : 'partial';
   return {
-    merchant: reply.merchant?.trim().slice(0, 120) || null,
+    merchant: merchantOf(reply.merchant),
     datetime: reply.datetime?.trim().slice(0, 40) || null,
     currency,
     lines: reconciled.lines,

@@ -1,0 +1,56 @@
+appId: app.critterpass.dev
+---
+# The plan item sheet's details scroll inside the sheet: from the plan editing lab, a member's
+# item sheet, its start moved a quarter hour later, then scrolled down to SUGGEST TO THE CREW at the
+# foot of the details (below the notes and MOVE TO). The sheet stays up while it scrolls.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-plan-edit-lab'
+    direction: DOWN
+    timeout: 20000
+# A list still settling from the scroll takes a tap as a stop on iOS: let it settle first.
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'dev-nav-plan-edit-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-edit-lab-day'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-item-sheet-member'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    id: 'plan-edit-lab-item-sheet-member'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-time-start-later'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- tapOn:
+    id: 'plan-time-start-later'
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-save'
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
+- assertVisible:
+    id: 'plan-time-start-later|plan-item-move-.*|plan-item-skip'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-3e-2-item-sheet-member-suggest

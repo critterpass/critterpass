@@ -177,6 +177,7 @@ const CATALOGUE = [
   spec('sos', 'always', 'cp.sos', 'cp_sos', 'member', { collapse: 'sos:{sos_id}', ttlSeconds: HOUR }),
   spec('sos_resolved', 'always', 'cp.generic', 'cp_sos', 'member', 'sos:{sos_id}'),
   spec('help_share_changed', 'budgeted', 'cp.help', 'cp_trip', 'member', { private: true }),
+  spec('location_share_ending', 'budgeted', 'cp.help', 'cp_trip', 'system', 'share:{share_id}'),
   spec('watch_escalation', 'roundup_only', 'cp.generic', 'cp_trip', 'guide', { variant: 'always_if_plan_changing' }),
   spec('disruption_update', 'always', 'cp.disruption', 'cp_always', 'guide', 'disruption:{disruption_id}',),
   spec('guide_acted', 'budgeted', 'cp.changeset', 'cp_guide', 'guide', 'guide_action:{action_id}'),
@@ -313,6 +314,7 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'sos.escalated': ['sos'],
   'sos.resolved': ['sos_resolved'],
   'help_share.started': ['help_share_changed'],
+  'help_share.ending': ['location_share_ending'],
   // Polls: a vote that needs you (a new poll, or the destination final), the reminders before it
   // closes to those who have not voted, and the destination winner.
   'poll.created': ['vote_needs_you'],

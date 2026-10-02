@@ -7,6 +7,7 @@
 import { appendDomainEvent, outbox, sendInTx, type AppendedDomainEvent } from '@cp/db';
 import {
   DomainError,
+  HELP_SHARE_ENDING_LEAD_MIN,
   SAFETY_QUEUES,
   sosChannel,
   type DomainEventInput,
@@ -111,16 +112,30 @@ export function emit(tx: pg.PoolClient, event: DomainEventInput): Promise<Append
   return appendDomainEvent(tx, event);
 }
 
-/** Arms the Help share's end-of-window notice (one per share and end, so an extend re-arms). */
+/**
+ * Arms the Help share's end-of-window notice and, ten minutes before it, the sharer's reminder (one
+ * of each per share and end, so an extend re-arms both; the job for an earlier end finds the share
+ * moved on and stays silent).
+ */
 export async function armHelpShareExpiry(
   tx: pg.PoolClient,
   shareId: string,
   endsAt: Date,
+  now: Date = new Date(),
 ): Promise<void> {
+  const key = `${shareId}:${endsAt.toISOString()}`;
   await sendInTx(
     tx,
     SAFETY_QUEUES.helpShareExpire,
     { share_id: shareId },
-    { startAfter: endsAt, singletonKey: `${shareId}:${endsAt.toISOString()}` },
+    { startAfter: endsAt, singletonKey: key },
+  );
+  const remindAt = new Date(endsAt.getTime() - HELP_SHARE_ENDING_LEAD_MIN * 60_000);
+  if (remindAt.getTime() <= now.getTime()) return;
+  await sendInTx(
+    tx,
+    SAFETY_QUEUES.helpShareEnding,
+    { share_id: shareId, ends_at: endsAt.toISOString() },
+    { startAfter: remindAt, singletonKey: key },
   );
 }

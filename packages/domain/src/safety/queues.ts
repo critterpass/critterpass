@@ -12,6 +12,7 @@ export const SAFETY_QUEUES = {
   sosEscalate: 'sos.escalate',
   sosResponderEta: 'sos.responder_eta',
   helpShareExpire: 'help.share_expire',
+  helpShareEnding: 'help.share_ending',
   retention: 'safety.retention',
 } as const;
 
@@ -28,6 +29,7 @@ export const SAFETY_QUEUE_SPECS = {
   'sos.escalate': { policy: 'exclusive', retryLimit: 5, retryDelay: 2, notify: true },
   'sos.responder_eta': { policy: 'exclusive', retryLimit: 1, expireInSeconds: 50, notify: true },
   'help.share_expire': { policy: 'exclusive', retryLimit: 3, notify: true },
+  'help.share_ending': { policy: 'exclusive', retryLimit: 3 },
   'safety.retention': {
     policy: 'singleton',
     retryLimit: 3,
@@ -53,6 +55,7 @@ export const SAFETY_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof SAFETY_QUEU
     'sos.escalate': 'Pushes an unanswered SOS again and prompts the sender to call',
     'sos.responder_eta': "Recounts responders' walking ETAs to an SOS every minute",
     'help.share_expire': "Announces the end of a Help share's one-hour window",
+    'help.share_ending': 'Reminds the sharer ten minutes before their location share ends',
     'safety.retention': 'Deletes SOS health notes and threads after 90 days, sessions after a year',
   };
 
@@ -64,4 +67,14 @@ export const sosJobSchema = z.object({
 export type SosJob = z.infer<typeof sosJobSchema>;
 
 export const helpShareExpireJobSchema = z.object({ share_id: z.uuid() });
+
+/** How long before a Help share ends its sharer is reminded (stop it, or share for longer). */
+export const HELP_SHARE_ENDING_LEAD_MIN = 10;
+
+export const helpShareEndingJobSchema = z.object({
+  share_id: z.uuid(),
+  /** The end this reminder is for: an extend or a stop since then leaves it silent. */
+  ends_at: z.iso.datetime({ offset: true }),
+});
+export type HelpShareEndingJob = z.infer<typeof helpShareEndingJobSchema>;
 export type HelpShareExpireJob = z.infer<typeof helpShareExpireJobSchema>;

@@ -44,3 +44,112 @@
       - { line_id: l5, kind: item, amount_minor: 75000 }
       - { line_id: l7, kind: service, amount_minor: 21250 }
       - { line_id: l8, kind: tax, amount_minor: 35700 }
+- description: a promo bill as the iPhone reads it (KM1 in the table, the promo again under it with a dot for its minus, a "Còn lại" row, column headings first)
+  fixture: receipt-parse-vi-promo-iphone
+  currency_hint: VND
+  lines:
+    - { id: l0, text: 'TT' }
+    - { id: l1, text: 'Lạc rang húng' }
+    - { id: l2, text: 'llu.' }
+    - { id: l3, text: '20.000' }
+    - { id: l4, text: '20.000' }
+    - { id: l5, text: '2' }
+    - { id: l6, text: 'Ba hội Hà Nội' }
+    - { id: l7, text: '126.000' }
+    - { id: l8, text: '378,000' }
+    - { id: l9, text: '3' }
+    - { id: l10, text: 'Chả ốc Tràng' }
+    - { id: l11, text: 'Aв...' }
+    - { id: l12, text: '119,000' }
+    - { id: l13, text: '119.000' }
+    - { id: l14, text: 'Đậu hũ chiên' }
+    - { id: l15, text: 'giòn' }
+    - { id: l16, text: '69.000' }
+    - { id: l17, text: '68.000' }
+    - { id: l18, text: 'Rau củ luộc' }
+    - { id: l19, text: '5' }
+    - { id: l20, text: 'chấm muối' }
+    - { id: l21, text: 'vừng' }
+    - { id: l22, text: '89.000' }
+    - { id: l23, text: '89.000' }
+    - { id: l24, text: '7' }
+    - { id: l25, text: '6' }
+    - { id: l26, text: 'Tôm Sông' }
+    - { id: l27, text: 'Trâu Gác Bếp' }
+    - { id: l28, text: '139,000' }
+    - { id: l29, text: '139.000' }
+    - { id: l30, text: 'Cuốn' }
+    - { id: l31, text: '99.000' }
+    - { id: l32, text: '99.000' }
+    - { id: l33, text: 'KM1' }
+    - { id: l34, text: '7/' }
+    - { id: l35, text: '99.000' }
+    - { id: l36, text: 'Còn lại' }
+    - { id: l37, text: '99.000' }
+    - { id: l38, text: '8' }
+    - { id: l39, text: 'Cơm chiên hải' }
+    - { id: l40, text: '0' }
+    - { id: l41, text: '9' }
+    - { id: l42, text: 'sản' }
+    - { id: l43, text: 'Ech rang muối' }
+    - { id: l44, text: '119.000' }
+    - { id: l45, text: '119.000' }
+    - { id: l46, text: '10' }
+    - { id: l47, text: 'Đậu hũ lướt' }
+    - { id: l48, text: '139.000' }
+    - { id: l49, text: '139.000' }
+    - { id: l50, text: 'vàn' }
+    - { id: l51, text: '11' }
+    - { id: l52, text: 'Đồi sụn Tràng' }
+    - { id: l53, text: 'An' }
+    - { id: l54, text: '69.000' }
+    - { id: l55, text: '69,000' }
+    - { id: l56, text: '119.000' }
+    - { id: l57, text: 'Tiền hàng' }
+    - { id: l58, text: '119.000' }
+    - { id: l59, text: 'Khuyến mại' }
+    - { id: l60, text: '1.359.000đ' }
+    - { id: l61, text: 'Tổng thanh toán' }
+    - { id: l62, text: '•99.000d' }
+    - { id: l63, text: 'Còn phải thu' }
+    - { id: l64, text: '1.260.000đ' }
+    - { id: l65, text: 'HĐ đã được KM:' }
+    - { id: l66, text: '1.260.000đ' }
+    - { id: l67, text: 'Món mời (món mời)' }
+    - { id: l68, text: 'Vui lòng kiểm tra kỹ lại nội dung trước khi thanh' }
+    - { id: l69, text: 'Hóa đơn chưa bao gồm VAT.' }
+  expect:
+    currency: VND
+    total_minor: 1260000
+    merchant: null
+    amounts: null
+- description: seeded, a promo read with a dot for its minus and d for đ is still the discount printed, and a column heading is no shop name
+  currency_hint: VND
+  lines:
+    - { id: l0, text: TT }
+    - { id: l1, text: Tôm Sông Cuốn }
+    - { id: l2, text: '99.000' }
+    - { id: l3, text: Cơm chiên hải sản }
+    - { id: l4, text: '1.260.000' }
+    - { id: l5, text: Khuyến mại }
+    - { id: l6, text: '•99.000d' }
+    - { id: l7, text: Còn phải thu }
+    - { id: l8, text: 1.260.000đ }
+  reply:
+    merchant: TT
+    datetime: null
+    currency: VND
+    lines:
+      - { line_id: l2, label: Tôm Sông Cuốn, qty: null, amount: '99.000', kind: item }
+      - { line_id: l4, label: Cơm chiên hải sản, qty: null, amount: '1.260.000', kind: item }
+      - { line_id: l5, label: Khuyến mại, qty: null, amount: '-99.000đ', kind: discount }
+    total: { line_id: l8, amount: 1.260.000đ }
+  expect:
+    currency: VND
+    total_minor: 1260000
+    matches_total: true
+    merchant: null
+    lines:
+      - { line_id: l2, kind: item, amount_minor: 99000 }
+      - { line_id: l4, kind: item, amount_minor: 1260000 }
+      - { line_id: l6, kind: discount, amount_minor: 99000 }

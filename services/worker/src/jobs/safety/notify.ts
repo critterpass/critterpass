@@ -155,6 +155,37 @@ export function registerSafetyNotifications(): void {
     },
   });
 
+  // The sharer alone, ten minutes before their Help share ends. Worded as a location share: the
+  // lock screen never says Help. STOP and +1 H act on it (category `cp.help`).
+  registerNotification({
+    key: 'location_share_ending',
+    event: 'help_share.ending',
+    async audience(tx, event) {
+      const shareId = str(event, 'share_id');
+      if (shareId === null) return [];
+      const { rows } = await tx.query<{ user_id: string }>(
+        'SELECT user_id FROM location_shares WHERE id = $1',
+        [shareId],
+      );
+      return rows.map((row) => row.user_id);
+    },
+    compose(_tx, event, uid) {
+      const shareId = str(event, 'share_id');
+      if (shareId === null || event.tripId === null) return Promise.resolve(null);
+      return Promise.resolve({
+        title: /*i18n*/ { id: 'notifications.location_share.title', message: 'Location share' },
+        body: /*i18n*/ {
+          id: 'notifications.location_share.ending',
+          message: 'Your location share with the crew ends in 10 minutes.',
+        },
+        sender: { kind: 'system' as const, id: 'critterpass', name: 'CritterPass' },
+        tripId: event.tripId,
+        ctx: { trip_id: event.tripId, share_id: shareId, sharer_id: uid },
+        collapseVars: { share_id: shareId },
+      });
+    },
+  });
+
   const sos = (event: 'sos.triggered' | 'sos.escalated') =>
     registerNotification({
       key: 'sos',

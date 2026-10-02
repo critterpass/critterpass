@@ -6,7 +6,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
-import { ScrollView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { upper } from '@cp/i18n';
 
@@ -19,6 +19,7 @@ import { Row } from '@/ui/layout/Row';
 import { AvatarStack } from '@/ui/people/AvatarStack';
 import { ActionPill } from '@/ui/plan/ActionPill';
 import { Sheet } from '@/ui/sheet/Sheet';
+import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -125,7 +126,7 @@ export function ItemDetailSheet({
       testID="plan-item-sheet"
     >
       {confirming === null ? (
-        <ScrollView contentContainerStyle={styles.body}>
+        <SheetScrollView contentContainerStyle={styles.body} testID="plan-item-scroll">
           {item.lock === 'booking' ? <StatusChip status="booked" /> : null}
           {item.poiId !== null ? (
             <ListCard
@@ -226,7 +227,7 @@ export function ItemDetailSheet({
             onPress={() => setConfirming({ kind: 'remove' })}
             testID="plan-item-remove"
           />
-        </ScrollView>
+        </SheetScrollView>
       ) : (
         <View style={styles.body}>
           <ConfirmSheet

@@ -177,6 +177,18 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: en-3e-2-item-sheet-member
+# The changed time's SUGGEST sits at the foot of the details: they scroll inside the sheet.
+- scrollUntilVisible:
+    element:
+      id: 'plan-item-save'
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
+- assertVisible:
+    id: 'plan-item-sheet'
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-3e-2-item-sheet-member-suggest
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
