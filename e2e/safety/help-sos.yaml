@@ -79,7 +79,7 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'sos-preset-fell'
-- hideKeyboard
+# No keyboard is up here: on Android, hideKeyboard would press Back and leave the screen.
 - waitForAnimationToEnd
 - takeScreenshot: en-sos-send
 - runFlow: subflows/slide-sos.yaml
