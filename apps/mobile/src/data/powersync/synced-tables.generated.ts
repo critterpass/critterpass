@@ -52,7 +52,7 @@ export const SYNCED_TABLE_COLUMNS = {
   crew_collection_counts: 'crew_id user_id critters:integer forms:integer updated_at',
   crew_contact_cards: 'crew_id user_id phone_display created_at updated_at',
   crew_inbound_addresses:
-    'crew_id local_part status rotated_at held_count:integer held_at created_at',
+    'crew_id local_part status rotated_at held_count:integer held_at held_code_until created_at',
   crew_members:
     'crew_id user_id role colour status keep_in_chat:integer joined_epoch:integer left_at last_read_seq:integer notify_level created_at updated_at',
   crew_xp: 'crew_id xp:integer level:integer updated_at',

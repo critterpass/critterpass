@@ -10,7 +10,10 @@
  *   passing DKIM or SPF verdict; `mail.parse` is queued;
  * - `quarantined`: failed sender authentication (kept, no reply), or an unknown sender, who gets the
  *   "Link this email?" reply with a 6-digit code (at most one live code per sender and crew, a new
- *   one no sooner than ten minutes after the last) while the crew sees that mail is waiting.
+ *   one no sooner than ten minutes after the last) while the crew sees that mail is waiting. The
+ *   reply names the sender link (`link_id`); the code stays `pending` until the Worker reports the
+ *   reply `sent` or `failed` on `/webhooks/inbound-email/reply` (./inbound-email-reply), and the
+ *   crew is asked for it only once it was sent.
  * Sender addresses and Message-IDs are stored only as peppered hashes; the body never reaches here.
  */
 import { randomInt } from 'node:crypto';
@@ -24,11 +27,13 @@ import {
   LINK_EMAIL_REPLY,
 } from '@cp/domain';
 import type { OpenAPIHono } from '@hono/zod-openapi';
+import type { Context } from 'hono';
 import type pg from 'pg';
 import { z } from 'zod';
 
 import type { AppEnv } from '../../app';
 import { refreshHeldMail } from '../../bookings/held-mail';
+import { deliveryReportSchema, recordLinkCodeDelivery } from './inbound-email-reply';
 import {
   normalizeSender,
   resolveSender,
@@ -67,7 +72,12 @@ export type InboundAnswer =
   | { readonly action: 'duplicate' | 'accepted' }
   | {
       readonly action: 'quarantined';
-      readonly reply?: { readonly subject: string; readonly text: string };
+      readonly reply?: {
+        readonly subject: string;
+        readonly text: string;
+        /** The sender link the code belongs to: the Worker reports the reply's delivery for it. */
+        readonly link_id: string;
+      };
     };
 
 /** Constant-time check of the Worker's signature and a timestamp within the window. */
@@ -125,29 +135,34 @@ async function insertMail(
   return rows[0]?.id ?? null;
 }
 
-/** Issues a link code for an unknown sender unless one went out in the last ten minutes. */
+/**
+ * Issues a link code for an unknown sender unless one was issued in the last ten minutes, or the
+ * last one's reply was refused (its code was cleared). The code waits as `pending` for the Worker.
+ */
 async function issueLinkCode(
   tx: pg.PoolClient,
   crewId: string,
   hash: string,
   pepper: string,
   now: Date,
-): Promise<string | null> {
+): Promise<{ readonly linkId: string; readonly code: string } | null> {
   const code = String(randomInt(0, 1_000_000)).padStart(6, '0');
   const expires = new Date(now.getTime() + LINK_CODE_TTL_HOURS * 3_600_000);
   const recentAfter = new Date(expires.getTime() - LINK_REPLY_INTERVAL_MINUTES * 60_000);
   const { rows } = await tx.query<{ id: string }>(
-    `INSERT INTO inbound_sender_links (crew_id, sender_hash, code_hash, code_expires_at)
-     VALUES ($1, $2, $3, $4)
+    `INSERT INTO inbound_sender_links (crew_id, sender_hash, code_hash, code_expires_at,
+       code_delivery)
+     VALUES ($1, $2, $3, $4, 'pending')
      ON CONFLICT (crew_id, sender_hash) DO UPDATE
        SET code_hash = EXCLUDED.code_hash, code_expires_at = EXCLUDED.code_expires_at,
-           attempts = 0, user_id = NULL, verified_at = NULL
+           code_delivery = 'pending', attempts = 0, user_id = NULL, verified_at = NULL
        WHERE inbound_sender_links.code_expires_at IS NULL
           OR inbound_sender_links.code_expires_at < $5
      RETURNING id`,
     [crewId, hash, linkCodeHash(crewId, code, pepper), expires, recentAfter],
   );
-  return rows.length === 0 ? null : code;
+  const linkId = rows[0]?.id;
+  return linkId === undefined ? null : { linkId, code };
 }
 
 export async function receiveInboundEmail(
@@ -215,18 +230,49 @@ export async function receiveInboundEmail(
     await outbox(tx, channelName('crew_bookings', target.crew_id), BOOKINGS_RT.importQuarantined, {
       crew_id: target.crew_id,
     });
-    const code = await issueLinkCode(tx, target.crew_id, hash, deps.pepper, now);
-    if (code === null) return { action: 'quarantined' };
+    const issued = await issueLinkCode(tx, target.crew_id, hash, deps.pepper, now);
+    if (issued === null) return { action: 'quarantined' };
     return {
       action: 'quarantined',
       reply: {
         subject: LINK_EMAIL_REPLY.subject.message,
         text: LINK_EMAIL_REPLY.body.message
           .replace('{crew}', target.crew_name)
-          .replace('{code}', code),
+          .replace('{code}', issued.code),
+        link_id: issued.linkId,
       },
     };
   });
+}
+
+/** Checks the Worker's signature and parses its JSON body with `schema`. */
+async function signedBody<T>(
+  c: Context<AppEnv>,
+  secret: string,
+  now: Date,
+  schema: z.ZodType<T>,
+): Promise<T> {
+  const body = await c.req.text();
+  if (
+    !verifySignature(
+      secret,
+      c.req.header('x-cp-timestamp'),
+      c.req.header('x-cp-signature'),
+      body,
+      now,
+    )
+  ) {
+    throw new DomainError('FORBIDDEN', { reason: 'bad_signature' });
+  }
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(body);
+  } catch {
+    throw new DomainError('VALIDATION', { reason: 'not_json' });
+  }
+  const report = schema.safeParse(parsed);
+  if (!report.success) throw new DomainError('VALIDATION', { reason: 'bad_report' });
+  return report.data;
 }
 
 export function registerInboundEmailWebhook(
@@ -234,27 +280,13 @@ export function registerInboundEmailWebhook(
   deps: InboundEmailDeps,
 ): void {
   app.post('/webhooks/inbound-email', async (c) => {
-    const body = await c.req.text();
     const now = deps.now?.() ?? new Date();
-    if (
-      !verifySignature(
-        deps.secret,
-        c.req.header('x-cp-timestamp'),
-        c.req.header('x-cp-signature'),
-        body,
-        now,
-      )
-    ) {
-      throw new DomainError('FORBIDDEN', { reason: 'bad_signature' });
-    }
-    let parsed: unknown;
-    try {
-      parsed = JSON.parse(body);
-    } catch {
-      throw new DomainError('VALIDATION', { reason: 'not_json' });
-    }
-    const report = reportSchema.safeParse(parsed);
-    if (!report.success) throw new DomainError('VALIDATION', { reason: 'bad_report' });
-    return c.json(await receiveInboundEmail(deps, report.data, now));
+    const report = await signedBody(c, deps.secret, now, reportSchema);
+    return c.json(await receiveInboundEmail(deps, report, now));
+  });
+  app.post('/webhooks/inbound-email/reply', async (c) => {
+    const now = deps.now?.() ?? new Date();
+    const report = await signedBody(c, deps.secret, now, deliveryReportSchema);
+    return c.json(await recordLinkCodeDelivery(deps.pool, report));
   });
 }
