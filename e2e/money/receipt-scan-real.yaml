@@ -1,0 +1,136 @@
+appId: app.critterpass.dev
+---
+# A real receipt, end to end, for a brand-new traveller on staging: a fresh account on a trip in
+# Vietnam that is on today (../happy/subflows/trip-under-way.yaml) opens Money, takes SCAN and
+# PICK A PHOTO, and picks a photographed restaurant bill in đồng ("126.000", "1.260.000đ"; the
+# receipt eval's vi-restaurant-promo). The phone reads it, uploads it, the server parses it, and
+# the itemised review lists its lines; a line is assigned, SPLIT IT commits, and Money shows the
+# itemised expense. Any failure on the way must end on a screen that says what to do.
+- addMedia:
+    - '../../apps/mobile/modules/cp-ocr/fixtures/vi-restaurant-promo.jpg'
+- runFlow:
+    file: ../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: receipt-real
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 60000
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      text: 'VND'
+      id: 'money-currency-chip'
+    timeout: 30000
+- scrollUntilVisible:
+    element: 'SCAN'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn: 'SCAN'
+- extendedWaitUntil:
+    visible:
+      id: 'money-scan-aim'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-aim
+- tapOn:
+    id: 'money-scan-pick'
+# The system photo picker: the bill is today's photo (its file carries no date of its own), so it
+# is found by today's date in its label ("Photo taken on Oct 2, 2026…" on Android, "Photo, October
+# 2, 2026…" on iOS), else it is the picker's first photo.
+- evalScript: ${var d = new Date(); var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; output.photoToday = '(?i).*photo.*' + months[d.getUTCMonth()] + '[a-z]* 0?' + d.getUTCDate() + ', ' + d.getUTCFullYear() + '.*'}
+- extendedWaitUntil:
+    visible: '(?i).*photo.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-picker
+- tapOn:
+    text: ${output.photoToday}
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-scan'
+    commands:
+      - tapOn:
+          text: '(?i).*photo.*'
+          index: 0
+          optional: true
+# Some pickers ask to confirm the choice.
+- runFlow:
+    when:
+      visible: '(?i)^(add|done|select)$'
+    commands:
+      - tapOn: '(?i)^(add|done|select)$'
+- extendedWaitUntil:
+    visible:
+      id: 'money-scan'
+    timeout: 30000
+- takeScreenshot: receipt-real-reading
+# The read, the upload and the server's parse: the review, or a screen that says what to do.
+- extendedWaitUntil:
+    visible:
+      id: 'money-review|money-failure|money-scan-upload_failed|money-add|money-scan-trouble'
+    timeout: 240000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-parsed
+- assertVisible:
+    id: 'money-review'
+- assertVisible:
+    id: 'money-review-line-.*'
+- assertVisible: '.*126,000.*'
+# Who had the first line: the member picker over the review.
+- tapOn:
+    id: 'money-review-line-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'money-member-picker'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-assign
+- tapOn:
+    id: 'money-member-done'
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-member-picker'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'money-review-commit'
+    direction: DOWN
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-review
+- tapOn:
+    id: 'money-review-commit'
+# Money, with the itemised expense.
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- extendedWaitUntil:
+    visible: '(?i).*₫ ?1,[23][0-9]{2},[0-9]{3} spent.*'
+    timeout: 120000
+- scrollUntilVisible:
+    element:
+      id: 'money-latest-row'
+    direction: DOWN
+    timeout: 30000
+- assertNotVisible: '.*\$.*'
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-money
+- tapOn:
+    id: 'money-latest-row'
+- extendedWaitUntil:
+    visible:
+      id: 'money-expense-detail'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-expense
