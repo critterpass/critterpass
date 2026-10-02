@@ -63,11 +63,20 @@ describe('SOS model', () => {
       sent: { state: 'done', n: 5 },
       ops_clinic: { state: 'pending' },
     });
-    expect(buildSosModel(row({ steps: asked }), MAYA, names).steps.map((s) => s.key)).toEqual([
-      'sent',
-      'location_live',
-      'ops_clinic',
-    ]);
+    expect(buildSosModel(row({ steps: asked }), MAYA, names, true).steps.map((s) => s.key)).toEqual(
+      ['sent', 'location_live', 'ops_clinic'],
+    );
+  });
+
+  it('never shows a desk call or insurance hand-off where nobody staffs the desk', () => {
+    const asked = JSON.stringify({
+      sent: { state: 'done', n: 5 },
+      ops_clinic: { state: 'pending' },
+      insurance: { state: 'pending' },
+    });
+    expect(
+      buildSosModel(row({ steps: asked }), MAYA, names, false).steps.map((s) => s.key),
+    ).toEqual(['sent', 'location_live']);
   });
 
   it('reads a resolved false alarm and a stale SOS as such', () => {

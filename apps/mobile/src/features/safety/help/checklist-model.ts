@@ -43,6 +43,11 @@ export function localChecklist(model: HubModel, problem: HelpProblem): Checklist
   });
 }
 
+/** Without a staffed desk there is no "the ops desk can call the clinic with you" step. */
+export function withDesk(steps: readonly ChecklistStep[], desk: boolean): ChecklistStep[] {
+  return desk ? [...steps] : steps.filter((step) => step.kind !== 'ops_clinic');
+}
+
 export function checklistPhrase(model: HubModel, problem: HelpProblem): HelpPhrase | null {
   return problemPhrase(model, problem);
 }

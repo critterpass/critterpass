@@ -32,7 +32,8 @@ import { deviceHelpApi } from '../data/help-api';
 import { useSpeech } from '../data/use-speech';
 import { telUrl } from '../format';
 import { stepText } from './checklist-copy';
-import { checklistPhrase, localChecklist } from './checklist-model';
+import { useOpsDesk } from '../data/use-ops-desk';
+import { checklistPhrase, localChecklist, withDesk } from './checklist-model';
 import { ShowIt } from './show-it';
 import { useHelpHub } from './use-help-hub';
 import { useStepActions, type StepAction } from './use-step-actions';
@@ -65,7 +66,8 @@ export function ChecklistScreen() {
     };
   }, [hub.tripId, hub.located, hub.position, problem]);
 
-  const steps = server ?? localChecklist(hub.model, problem);
+  const desk = useOpsDesk();
+  const steps = withDesk(server ?? localChecklist(hub.model, problem), desk);
   const phrase = checklistPhrase(hub.model, problem);
   const speech = useSpeech(phrase?.text ?? null, phrase?.language ?? null);
   const actionsFor = useStepActions({

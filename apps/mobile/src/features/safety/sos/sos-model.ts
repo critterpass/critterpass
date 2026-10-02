@@ -104,7 +104,7 @@ function stepsOf(row: Pick<SosRow, 'steps'>): ReadonlyMap<string, SosStep> {
 }
 
 /** The card's rows: sent and the live location always; the desk and insurance only once asked. */
-function stepViews(row: SosRow, steps: ReadonlyMap<string, SosStep>): SosStepView[] {
+function stepViews(row: SosRow, steps: ReadonlyMap<string, SosStep>, desk: boolean): SosStepView[] {
   const view = (key: SosStepKey): SosStepView => {
     const step = steps.get(key);
     return { key, done: step?.state === 'done', n: step?.n ?? null };
@@ -115,8 +115,9 @@ function stepViews(row: SosRow, steps: ReadonlyMap<string, SosStep>): SosStepVie
     done: row.status === 'open' || row.status === 'responding',
     n: null,
   });
-  if (steps.has('ops_clinic')) out.push(view('ops_clinic'));
-  if (steps.has('insurance')) out.push(view('insurance'));
+  // The desk call and the insurance hand-off are a person's work: shown only where one staffs it.
+  if (desk && steps.has('ops_clinic')) out.push(view('ops_clinic'));
+  if (desk && steps.has('insurance')) out.push(view('insurance'));
   return out;
 }
 
@@ -131,6 +132,7 @@ export function buildSosModel(
   row: SosRow,
   me: string | null,
   names: ReadonlyMap<string, string>,
+  desk = false,
 ): SosModel {
   const responses = responsesOf(row);
   const responders: SosResponder[] = [];
@@ -160,7 +162,7 @@ export function buildSosModel(
     escalated: state === 'open' && responders.length === 0 && row.escalated_at !== null,
     words: row.summary ?? row.body,
     preset: row.preset,
-    steps: stepViews(row, stepsOf(row)),
+    steps: stepViews(row, stepsOf(row), desk),
     responders,
     seen,
     myResponse: me === null ? null : (responses.get(me)?.state ?? null),

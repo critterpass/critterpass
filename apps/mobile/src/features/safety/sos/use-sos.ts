@@ -15,6 +15,7 @@ import { coarsePosition } from '@/lib/location/geocode';
 
 import type { Position } from '../data/help-api';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
+import { useOpsDesk } from '../data/use-ops-desk';
 import { buildSosModel, type SosModel, type SosRow } from './sos-model';
 
 const SOS_SQL = `
@@ -69,6 +70,7 @@ function latestFix(data: unknown, sender: string): Position | null {
 
 export function useSos(sosId: string | null): SosData {
   const uid = useOwnerUid();
+  const desk = useOpsDesk();
   const sos = useLiveRows<SosRow>(SOS_SQL, sosId === null ? null : [sosId], ['help_sessions']);
   const row = sos.rows[0] ?? null;
   const names = useLiveRows<{ id: string; display_name: string | null }>(
@@ -128,8 +130,8 @@ export function useSos(sosId: string | null): SosData {
     [names],
   );
   const model = useMemo(
-    () => (row === null ? null : buildSosModel(row, uid, nameMap)),
-    [row, uid, nameMap],
+    () => (row === null ? null : buildSosModel(row, uid, nameMap, desk)),
+    [row, uid, nameMap, desk],
   );
   return {
     loaded: sos.loaded,

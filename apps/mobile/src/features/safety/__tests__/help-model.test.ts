@@ -2,7 +2,8 @@ import { describe, expect, it } from '@jest/globals';
 import type { EmergencyLine, HelpContext, HelpPhrase } from '@cp/domain';
 
 import { buildHubModel, type FacilityRow, type HelpLocalInput } from '../help/help-model';
-import { localChecklist } from '../help/checklist-model';
+import { localChecklist, withDesk } from '../help/checklist-model';
+import { isOn } from '../data/ops-desk-flag';
 
 const VIETNAM: readonly EmergencyLine[] = [
   { service: 'police', number: '113', label: 'Police' },
@@ -148,5 +149,21 @@ describe('Help checklists offline', () => {
   it('reports a theft to the police number on file', () => {
     const steps = localChecklist(buildHubModel(DA_NANG, null), 'lost_stolen');
     expect(steps.find((step) => step.kind === 'police_report')?.facts['number']).toBe('113');
+  });
+});
+
+describe('the ops desk switch', () => {
+  it('offers the desk step only where a person staffs it', () => {
+    const steps = localChecklist(buildHubModel(DA_NANG, null), 'hurt');
+    expect(withDesk(steps, true).map((step) => step.kind)).toContain('ops_clinic');
+    expect(withDesk(steps, false).map((step) => step.kind)).not.toContain('ops_clinic');
+    expect(withDesk(steps, false)).toHaveLength(steps.length - 1);
+  });
+
+  it('is off unless the server says it is on', () => {
+    expect(isOn(undefined)).toBe(false);
+    expect(isOn(null)).toBe(false);
+    expect(isOn('false')).toBe(false);
+    expect(isOn('true')).toBe(true);
   });
 });

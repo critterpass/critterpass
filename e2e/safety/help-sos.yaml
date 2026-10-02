@@ -62,7 +62,9 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: en-help-checklist-hurt
-- back
+# Maestro's back is Android only: the screen's own back control works on both.
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'help-back'
@@ -123,7 +125,8 @@ appId: app.critterpass.dev
     visible:
       id: 'help-back'
     timeout: 10000
-- back
+- tapOn:
+    id: 'help-back'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
