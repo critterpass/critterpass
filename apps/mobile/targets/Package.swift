@@ -65,7 +65,10 @@ let package = Package(
       name: "WidgetSnapshotCore",
       path: "_shared",
       exclude: ["ActionKey", "PushPayload", "ActivityAttributes", "Intents", "Snapshot/Tests"],
-      sources: ["Snapshot/WidgetSnapshot.swift", "Snapshot/WidgetSnapshotReader.swift"]
+      sources: [
+        "Snapshot/WidgetSnapshot.swift", "Snapshot/WidgetSnapshotReader.swift",
+        "Snapshot/HomeWidgetModels.swift", "Snapshot/PendingVote.swift",
+      ]
     ),
     .testTarget(
       name: "WidgetSnapshotTests",

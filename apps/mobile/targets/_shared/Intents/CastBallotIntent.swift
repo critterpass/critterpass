@@ -1,10 +1,11 @@
 internal import AppIntents
 import ActivityKit
 import Foundation
+import WidgetKit
 
 /// A vote from the vote activity or the vote widget (api-contracts-async.md §4): queues
-/// `cast_ballot` and counts it at once on this phone's activity, with the "you voted" stamp; the
-/// server's next frame carries the real tallies to everyone.
+/// `cast_ballot` and counts it at once on this phone (the activity's tallies and stamp, or the
+/// widget's count); the server's next frame and snapshot carry the real tallies to everyone.
 struct CastBallotIntent: LiveActivityIntent {
     static let title: LocalizedStringResource = "Vote"
     static let description = IntentDescription("Casts your vote in a crew vote.")
@@ -35,6 +36,11 @@ struct CastBallotIntent: LiveActivityIntent {
         try PendingActionsOutbox.append(
             .ballot(pollId: pollId, optionId: optionId, via: fromWidget ? .widget : .laIntent),
             root: AppGroupContainer.url)
+        if fromWidget {
+            try? PendingVote(pollId: pollId, optionId: optionId, at: Date())
+                .write(root: AppGroupContainer.url)
+            WidgetCenter.shared.reloadTimelines(ofKind: "CPVoteWidget")
+        }
         let uid = try? ActionKeyStore.read().userId
         for activity in Activity<VoteActivityAttributes>.activities
         where activity.attributes.pollId == pollId && activity.content.state.state == .open {
