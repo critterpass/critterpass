@@ -45,7 +45,8 @@ const useStyles = makeStyles((th) => ({
     borderBottomEndRadius: th.radius.heroBottom,
   },
   guide: { position: 'absolute', end: th.space['16'], bottom: th.space['20'], opacity: 0.55 },
-  detail: { maxWidth: '78%' },
+  // The title and the line never run under the guide: they keep the sticker's width free.
+  words: { paddingEnd: GUIDE_SIZE },
 }));
 
 export function FlightHero(props: FlightHeroProps) {
@@ -70,23 +71,23 @@ export function FlightHero(props: FlightHeroProps) {
   const ink = theme.semantic.text.onAccent;
   return (
     <Card tone="pink" halftone radius="cardBig" style={styles.hero} testID="disruption-hero">
-      <Animated.View style={dropStyle}>
+      <Animated.View style={[dropStyle, styles.words]}>
         <Stack gap="10">
           <Text variant="eyebrow" color={ink} testID="disruption-hero-eyebrow">
             {props.eyebrow}
           </Text>
           <View accessible accessibilityRole="header">
-            <Text variant="displayHero" color={ink} singleLine={false}>
+            <Text variant="displayHero" color={ink} autoFit>
               {props.lines[0]}
             </Text>
             {props.lines[1] === null ? null : (
-              <Text variant="displayHero" color={ink} testID="disruption-hero-amount">
+              <Text variant="displayHero" color={ink} autoFit testID="disruption-hero-amount">
                 {props.lines[1]}
               </Text>
             )}
           </View>
           {props.detail === '' ? null : (
-            <Text variant="body" color={ink} style={styles.detail} singleLine={false}>
+            <Text variant="body" color={ink} singleLine={false}>
               {props.detail}
             </Text>
           )}

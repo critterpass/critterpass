@@ -6,6 +6,8 @@
  */
 import type { DisruptionAction } from '@cp/domain';
 import { ScrollView, View } from 'react-native';
+
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -50,7 +52,7 @@ const EMPTY_STICKER = 120;
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, paddingTop: th.space['20'], gap: th.space['16'] },
-  footer: { alignItems: 'center', gap: th.space['12'], paddingTop: th.space['8'] },
+  footer: { alignItems: 'center', gap: th.space['12'] },
 }));
 
 function Closed({ model }: { readonly model: FlightModel }) {
@@ -108,7 +110,7 @@ export function FlightView(props: FlightViewProps) {
   const footer = footerLabels();
   return (
     <Scaffold variant="dark" edges={[]} testID="disruption-screen">
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + theme.space['24'] }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: theme.space['24'] }}>
         <View
           style={{
             paddingTop: insets.top + theme.space['8'],
@@ -164,26 +166,24 @@ export function FlightView(props: FlightViewProps) {
             testID="disruption-problems"
           />
           <FlightLinks rows={model.links} onOpen={props.onOpenLink} />
-          <Stack style={styles.footer}>
-            {model.canAnnounce ? (
-              <PillButton
-                label={footer.tell}
-                block
-                loading={props.telling ?? false}
-                onPress={props.onTellCrew}
-                testID="disruption-tell-crew"
-              />
-            ) : null}
-            {model.canUndo ? (
-              <TextLink
-                label={footer.undo}
-                onPress={props.onUndoAll}
-                testID="disruption-undo-all"
-              />
-            ) : null}
-          </Stack>
         </Stack>
       </ScrollView>
+      {model.canAnnounce || model.canUndo ? (
+        <KeyboardFooter style={styles.footer} testID="disruption-footer">
+          {model.canAnnounce ? (
+            <PillButton
+              label={footer.tell}
+              block
+              loading={props.telling ?? false}
+              onPress={props.onTellCrew}
+              testID="disruption-tell-crew"
+            />
+          ) : null}
+          {model.canUndo ? (
+            <TextLink label={footer.undo} onPress={props.onUndoAll} testID="disruption-undo-all" />
+          ) : null}
+        </KeyboardFooter>
+      ) : null}
     </Scaffold>
   );
 }

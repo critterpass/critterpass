@@ -6,10 +6,11 @@
  * Every handler is a no-op; the names are the scene ids the device sheets pair with renders.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { DisruptionAction } from '@cp/domain';
+import { guideTextSourceHash, type DisruptionAction } from '@cp/domain';
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 
+import { guideText } from '@/lib/i18n/guide-text';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { flightEyebrow, heroLines } from '../copy';
@@ -97,7 +98,34 @@ const DINNER = action({
   label: 'Dinner 19:30 → 21:00',
 });
 
+/** The guide's words as the server stores them: English, with the Vietnamese the sweep adds. */
+function withVietnamese(title: string, summary: string, vi: { title: string; summary: string }) {
+  const src = guideTextSourceHash('disruption', { title, summary });
+  return JSON.stringify({ _src: src, vi });
+}
+
+const DELAY_VI = {
+  title: 'SQ938 hạ cánh lúc 13:50',
+  summary: 'Giờ đến mới 13:50. Tokek đã lo gần hết rồi.',
+};
+const CANCELLED_VI = {
+  title: 'SQ938 bị huỷ',
+  summary: 'SQ938 hôm nay không bay. Hãy đặt lại với Singapore Airlines, mình sẽ sắp lại lịch.',
+};
+const DIVERTED_VI = {
+  title: 'SQ938 đổi hướng',
+  summary: 'SQ938 hạ cánh ở Surabaya thay vì Bali. Mình đang lo việc này.',
+};
+
 function row(actions: DisruptionAction[], fields: Partial<DisruptionRowData> = {}) {
+  const title = fields.title ?? 'SQ938 lands at 13:50';
+  const summary = fields.summary ?? 'New arrival 13:50. Tokek has already sorted most of it.';
+  const vi =
+    fields.cause === 'cancelled'
+      ? CANCELLED_VI
+      : fields.cause === 'diverted'
+        ? DIVERTED_VI
+        : DELAY_VI;
   return {
     id: 'sq938-delay',
     trip_id: 'bali-trip',
@@ -114,9 +142,9 @@ function row(actions: DisruptionAction[], fields: Partial<DisruptionRowData> = {
     }),
     facts: JSON.stringify({ flight: 'SQ938', delay_min: 130, new_arrival: '13:50' }),
     actions: JSON.stringify(actions),
-    i18n: null,
     ref_id: null,
     ...fields,
+    i18n: withVietnamese(title, summary, vi),
   };
 }
 
@@ -138,7 +166,7 @@ function Scene(props: {
         locale,
       )}
       heroLines={heroLines(model.cause, delayParts(model.delayMin), locale)}
-      detail={data.summary}
+      detail={guideText('disruption', data, 'summary', locale) ?? data.summary}
       guide="tokek"
       guideName="Tokek"
       tz="Asia/Makassar"
