@@ -1,7 +1,8 @@
 /**
  * The add-a-must-do sheet (3c-10), as a pure view: "{PLACE} · MUST-DOS" with "AS {NAME}", the
- * guide's question, a search field (return adds what is typed), the guide's matches with their
- * pills, and the typed words as a row of their own ("Keep it just as you typed it"). Offline the
+ * guide's question, a search field (return adds what is typed), the typed words as a row of their
+ * own ("Keep it just as you typed it") and under it the guide's matches with their pills. The keep
+ * row comes first so places that land late never push it from under the finger. Offline the
  * places on the phone still show, and a pick waits in the queue. A place closed on every trip day
  * is set apart under "Closed on your dates" below the ones that are open.
  */
@@ -28,6 +29,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { SetupMember, SetupTrip } from '../data/setup-trip';
 import { FitPill } from './fit-pill';
+import { addSheetRows } from './result-rows';
 import type { PlaceResult, SearchState } from './search';
 
 export interface AddSheetViewProps {
@@ -104,12 +106,6 @@ function PlaceRow({ place, onPick }: { readonly place: PlaceResult; readonly onP
   );
 }
 
-/**
- * Places listed before "Keep it just as you typed it" (3c-10 draws two): with the keyboard up, a
- * third would push the keep row under it. Any further places follow the keep row.
- */
-const PLACES_ABOVE_KEEP = 2;
-
 export function AddSheetView({
   trip,
   me,
@@ -129,9 +125,7 @@ export function AddSheetView({
   const guideName = guide.name;
   const name = me.name;
   const typed = query.trim();
-  const results = search.kind === 'done' ? search.results : [];
-  const open = results.filter((result) => result.pill?.kind !== 'clash');
-  const closed = results.filter((result) => result.pill?.kind === 'clash');
+  const rows = addSheetRows(typed, search);
   const title = t({ id: 'setup.addMustDo.header', message: `${place} · Must-dos` });
   return (
     <Sheet
@@ -177,76 +171,93 @@ export function AddSheetView({
             onSubmitEditing={typed === '' ? undefined : onKeepText}
             testID="add-must-do-field"
           />
-          {typed === '' ? null : (
+          {rows.length === 0 ? null : (
             <View style={styles.list}>
-              {search.kind === 'loading' ? (
-                <Skeleton
-                  preset="list"
-                  repeat={2}
-                  label={t({ id: 'setup.addMustDo.loading', message: 'Looking for places' })}
-                />
-              ) : null}
-              {open.length > 0 ? (
-                <Text variant="eyebrow">
-                  {t({ id: 'setup.addMustDo.found', message: `${guideName} found` })}
-                </Text>
-              ) : null}
-              {open.slice(0, PLACES_ABOVE_KEEP).map((result) => (
-                <PlaceRow key={result.id} place={result} onPick={() => onPickPlace(result)} />
-              ))}
-              {search.kind === 'done' && search.offline && results.length > 0 ? (
-                <Text variant="caption" color={theme.semantic.text.secondary}>
-                  {t({
-                    id: 'setup.addMustDo.offlineSaved',
-                    message:
-                      'No signal: these are the places on your phone. Your pick sends when you’re back.',
-                  })}
-                </Text>
-              ) : null}
-              {search.kind === 'done' && results.length === 0 ? (
-                <Text
-                  variant="bodySm"
-                  color={theme.semantic.text.secondary}
-                  testID="add-must-do-none"
-                >
-                  {search.offline
-                    ? t({
-                        id: 'setup.addMustDo.offline',
-                        message:
-                          'No signal, so no new places. Keep your own words and it sends when you’re back.',
-                      })
-                    : t({
-                        id: 'setup.addMustDo.noResults',
-                        message: `No place matches that in ${place}. Keep it in your own words below.`,
-                      })}
-                </Text>
-              ) : null}
-              <ResultRow
-                title={`“${typed}”`}
-                line={t({ id: 'setup.addMustDo.keep', message: 'Keep it just as you typed it' })}
-                trailing={
-                  <Text variant="title" color={theme.semantic.text.secondary}>
-                    {I18nManager.isRTL ? '‹' : '›'}
-                  </Text>
+              {rows.map((row) => {
+                switch (row.kind) {
+                  case 'keep':
+                    return (
+                      <ResultRow
+                        key="keep"
+                        title={`“${typed}”`}
+                        line={t({
+                          id: 'setup.addMustDo.keep',
+                          message: 'Keep it just as you typed it',
+                        })}
+                        trailing={
+                          <Text variant="title" color={theme.semantic.text.secondary}>
+                            {I18nManager.isRTL ? '‹' : '›'}
+                          </Text>
+                        }
+                        onPress={onKeepText}
+                        label={t({
+                          id: 'setup.addMustDo.keepA11y',
+                          message: `Add “${typed}” as you typed it`,
+                        })}
+                        testID="add-must-do-keep"
+                      />
+                    );
+                  case 'loading':
+                    return (
+                      <Skeleton
+                        key="loading"
+                        preset="list"
+                        repeat={2}
+                        label={t({ id: 'setup.addMustDo.loading', message: 'Looking for places' })}
+                      />
+                    );
+                  case 'found':
+                    return (
+                      <Text key="found" variant="eyebrow">
+                        {t({ id: 'setup.addMustDo.found', message: `${guideName} found` })}
+                      </Text>
+                    );
+                  case 'place':
+                    return (
+                      <PlaceRow
+                        key={row.place.id}
+                        place={row.place}
+                        onPick={() => onPickPlace(row.place)}
+                      />
+                    );
+                  case 'offline':
+                    return (
+                      <Text key="offline" variant="caption" color={theme.semantic.text.secondary}>
+                        {t({
+                          id: 'setup.addMustDo.offlineSaved',
+                          message:
+                            'No signal: these are the places on your phone. Your pick sends when you’re back.',
+                        })}
+                      </Text>
+                    );
+                  case 'none':
+                    return (
+                      <Text
+                        key="none"
+                        variant="bodySm"
+                        color={theme.semantic.text.secondary}
+                        testID="add-must-do-none"
+                      >
+                        {row.offline
+                          ? t({
+                              id: 'setup.addMustDo.offline',
+                              message:
+                                'No signal, so no new places. Keep your own words and it sends when you’re back.',
+                            })
+                          : t({
+                              id: 'setup.addMustDo.noResults',
+                              message: `No place matches that in ${place}. Keep it in your own words.`,
+                            })}
+                      </Text>
+                    );
+                  case 'closed':
+                    return (
+                      <Text key="closed" variant="eyebrow" testID="add-must-do-closed">
+                        {t({ id: 'setup.addMustDo.closed', message: 'Closed on your dates' })}
+                      </Text>
+                    );
                 }
-                onPress={onKeepText}
-                label={t({
-                  id: 'setup.addMustDo.keepA11y',
-                  message: `Add “${typed}” as you typed it`,
-                })}
-                testID="add-must-do-keep"
-              />
-              {open.slice(PLACES_ABOVE_KEEP).map((result) => (
-                <PlaceRow key={result.id} place={result} onPick={() => onPickPlace(result)} />
-              ))}
-              {closed.length > 0 ? (
-                <Text variant="eyebrow" testID="add-must-do-closed">
-                  {t({ id: 'setup.addMustDo.closed', message: 'Closed on your dates' })}
-                </Text>
-              ) : null}
-              {closed.map((result) => (
-                <PlaceRow key={result.id} place={result} onPick={() => onPickPlace(result)} />
-              ))}
+              })}
             </View>
           )}
         </View>

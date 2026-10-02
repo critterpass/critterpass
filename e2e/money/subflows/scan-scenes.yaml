@@ -4,6 +4,12 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: scan-review, READY: money-review, SHOT: '${PREFIX}-3i-3-scan' }
+# Who had a line, for a crew too big for one screen: the avatars scroll inside the sheet and
+# EVERYONE and DONE stay at its foot.
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: scan-assign-crowd, READY: money-member-done, SHOT: '${PREFIX}-money-assign-crowd' }
 - runFlow:
     file: scene.yaml
     env:

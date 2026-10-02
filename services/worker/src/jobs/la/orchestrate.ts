@@ -18,6 +18,7 @@ import {
 import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
+import { lockscreenCopy } from '../../push/lockscreen-copy';
 import {
   deliverAll,
   type ChannelBook,
@@ -27,7 +28,7 @@ import {
 } from './deliver';
 import { planLive } from './plan';
 import { endSends, liveRows, markEnded } from './rows';
-import type { LaLoaders, LaRender, LaSnapshot } from './snapshot';
+import type { LaLoader, LaLoaders, LaRender, LaSnapshot } from './snapshot';
 
 export interface LaDeps extends LaTransports {
   readonly loaders: LaLoaders;
@@ -227,6 +228,34 @@ async function switchedOff(
   return { outcome: 'switched_off', ended: planned.ended };
 }
 
+/**
+ * The object as its lock screens may show it. A Live Activity's frames and alerts go to the whole
+ * audience at once (one broadcast channel), so when anyone on it hides details on the lock screen
+ * (`user_settings.hide_lockscreen_details`), everyone's copy leaves out exact places.
+ */
+async function loadForLockScreens(
+  tx: pg.PoolClient,
+  loader: LaLoader,
+  refId: string,
+  now: Date,
+  render: LaRender,
+): Promise<{ snapshot: LaSnapshot | null; render: LaRender }> {
+  const plain = await loader({ tx, refId, now, render });
+  if (plain === null || plain.audience.length === 0) return { snapshot: plain, render };
+  const { rows } = await tx.query<{ hides: boolean }>(
+    `SELECT EXISTS (SELECT 1 FROM user_settings
+                     WHERE user_id = ANY($1::uuid[]) AND hide_lockscreen_details) AS hides`,
+    [plain.audience],
+  );
+  if (rows[0]?.hides !== true) return { snapshot: plain, render };
+  const redacted: LaRender = (locale, copy, vars) =>
+    render(locale, lockscreenCopy(copy, true), vars);
+  return {
+    snapshot: await loader({ tx, refId, now, render: redacted, redact: true }),
+    render: redacted,
+  };
+}
+
 /** One orchestrator run for one object. */
 export async function orchestrateObject(
   pool: pg.Pool,
@@ -244,7 +273,7 @@ export async function orchestrateObject(
 
   const planned = await withSystem(pool, async (tx): Promise<Planned | null> => {
     const locked = await lockFrame(tx, kind, refId);
-    const snapshot = await loader({ tx, refId, now, render: deps.render });
+    const { snapshot, render } = await loadForLockScreens(tx, loader, refId, now, deps.render);
     const book = await knownChannels(tx, kind, refId);
     if (snapshot === null || !snapshot.live) {
       const sends = await endObject(tx, kind, refId, locked, snapshot, now);
@@ -258,7 +287,7 @@ export async function orchestrateObject(
       snapshot,
       prev: frame.last_state,
       seq: frame.seq,
-      render: deps.render,
+      render,
       now,
       defaultBundleId: deps.defaultBundleId,
     });

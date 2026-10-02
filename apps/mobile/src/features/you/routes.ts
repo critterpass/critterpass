@@ -14,6 +14,8 @@ export const YOU_ROUTES = {
   pings: '/you/pings',
   signOut: '/you/sign-out',
   language: '/you/language',
+  stamps: '/you/stamps',
+  pastTrip: '/you/past-trip',
   deleteAccount: '/you/delete',
   /** Settings > Offline lives with the trip screens. */
   offlineStorage: '/(trip)/hub/offline-storage',

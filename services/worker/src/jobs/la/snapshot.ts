@@ -54,6 +54,11 @@ export interface LaLoadContext {
   readonly refId: string;
   readonly now: Date;
   readonly render: LaRender;
+  /**
+   * Someone the activity reaches hides details on the lock screen: the shared frames, attributes
+   * and alerts name no exact place (the render already swaps in the lock-screen templates).
+   */
+  readonly redact?: boolean;
 }
 
 export type LaLoader = (ctx: LaLoadContext) => Promise<LaSnapshot | null>;

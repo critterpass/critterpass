@@ -55,7 +55,7 @@ export const userSettings = pgTable('user_settings', {
     .references(() => users.id),
   chattiness: text('chattiness'),
   talkOutLoud: boolean('talk_out_loud').notNull().default(false),
-  leaveByThroughDnd: boolean('leave_by_through_dnd').notNull().default(false),
+  leaveByThroughDnd: boolean('leave_by_through_dnd').notNull().default(true),
   crewChatMode: text('crew_chat_mode'),
   locationMode: text('location_mode'),
   emailImport: boolean('email_import').notNull().default(false),
