@@ -61,5 +61,17 @@ let package = Package(
       path: "app-clip/Tests",
       swiftSettings: testSettings
     ),
+    .target(
+      name: "LiveActivityLogicCore",
+      path: "_shared/ActivityAttributes",
+      exclude: ["CPActivityAttributes.swift", "Tests"],
+      sources: ["LiveActivityLogic.swift"]
+    ),
+    .testTarget(
+      name: "LiveActivityLogicTests",
+      dependencies: ["LiveActivityLogicCore"],
+      path: "_shared/ActivityAttributes/Tests",
+      swiftSettings: testSettings
+    ),
   ]
 )
