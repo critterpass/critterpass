@@ -88,6 +88,7 @@ appId: app.critterpass.dev
     visible:
       id: 'add-must-do-place-.*|add-must-do-none'
     timeout: 20000
+- waitForAnimationToEnd
 - tapOn:
     id: 'add-must-do-keep'
 # Android shows the row's title in capitals; iOS reads the row whole ("Fushimi Inari at sunrise,
