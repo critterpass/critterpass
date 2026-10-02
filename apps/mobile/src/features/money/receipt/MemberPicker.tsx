@@ -1,6 +1,7 @@
 /**
  * Who had a line (undesigned; opened by tapping a line in the review): every member as a toggle
- * avatar, EVERYONE to reset, DONE to apply. At least one member must stay on.
+ * avatar, EVERYONE to reset, DONE to apply. At least one member must stay on. A crew too big for
+ * the sheet scrolls its avatars, and EVERYONE and DONE stay at the sheet's foot.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -14,6 +15,7 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Avatar } from '@/ui/people/Avatar';
 import { Sheet } from '@/ui/sheet/Sheet';
+import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
@@ -21,6 +23,7 @@ import type { MoneyMember } from '../data/context';
 
 const useStyles = makeStyles((t) => ({
   body: { padding: t.space['16'], gap: t.space['16'] },
+  foot: { paddingHorizontal: t.space['16'], paddingTop: t.space['8'], gap: t.space['16'] },
   grid: { gap: t.space['12'], flexWrap: 'wrap' },
   person: { alignItems: 'center', gap: t.space['4'] },
   off: { opacity: 0.35 },
@@ -62,7 +65,7 @@ export function MemberPicker({
       accessibilityLabel={title}
       testID="money-member-picker"
     >
-      <View style={styles.body}>
+      <SheetScrollView contentContainerStyle={styles.body} testID="money-member-scroll">
         <Row style={styles.grid}>
           {members.map((member) => {
             const on = picked.includes(member.userId);
@@ -83,6 +86,8 @@ export function MemberPicker({
             );
           })}
         </Row>
+      </SheetScrollView>
+      <View style={styles.foot}>
         <Row>
           <ChoiceChip
             label={upper(t({ id: 'money.picker.everyone', message: 'Everyone' }), locale)}

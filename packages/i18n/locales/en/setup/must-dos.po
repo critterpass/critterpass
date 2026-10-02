@@ -121,7 +121,7 @@ msgstr "Lottery"
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.noResults"
-msgstr "No place matches that in {place}. Keep it in your own words below."
+msgstr "No place matches that in {place}. Keep it in your own words."
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.offline"

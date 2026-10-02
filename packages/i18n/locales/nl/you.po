@@ -41,10 +41,6 @@ msgstr ""
 msgid "you.profile.stat.trips"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/language/language-view.tsx
-msgid "you.language.more"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.inDays"
 msgstr ""
@@ -102,18 +98,6 @@ msgstr ""
 msgid "you.settings.location.ask"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.tooShort"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.tooLong"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.tabs"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offlineTripsLine"
 msgstr ""
@@ -122,28 +106,16 @@ msgstr ""
 msgid "you.settings.budgetMax"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.unknown"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
-msgid "you.edit.changeAvatar"
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.leaveByAlarmsLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.chatty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.checking"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.zhHans"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
-msgid "you.edit.airportSearch"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
@@ -166,10 +138,6 @@ msgstr ""
 msgid "you.delete.continue"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.save.failed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.country"
 msgstr ""
@@ -187,8 +155,8 @@ msgstr ""
 msgid "you.settings.hideCollectionLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.tab.critter"
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideTravelStyleLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -207,28 +175,12 @@ msgstr ""
 msgid "you.closed.departures"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
-msgid "you.edit.done"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.done"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.trips"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.edit"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
-msgid "you.edit.title"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -285,7 +237,15 @@ msgid "you.delete.lede"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideLockscreen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideCollection"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideTravelStyle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -308,11 +268,6 @@ msgstr ""
 msgid "you.profile.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
-#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
-msgid "you.edit.homeAirport"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/history/stamps-copy.ts
 msgid "you.stamps.home"
 msgstr ""
@@ -326,28 +281,12 @@ msgstr ""
 msgid "you.settings.howChatty"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.crewSees"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.howYouTravel"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.id"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
-msgid "you.edit.avatarInitials"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.tab.initials"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.available"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -378,24 +317,16 @@ msgstr ""
 msgid "you.closed.lastPage"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
-msgid "you.edit.discard"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.leave"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
-msgid "you.edit.discardTitle"
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.leaveByAlarms"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.leaves"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.chars"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -407,17 +338,8 @@ msgstr ""
 msgid "you.pings.crewChat.mentions"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
-#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
-msgid "you.edit.name"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.budgetMaxLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.dots"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
@@ -450,10 +372,6 @@ msgstr ""
 msgid "you.settings.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.sampleLine"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.backPass"
 msgstr ""
@@ -466,16 +384,8 @@ msgstr ""
 msgid "you.pastTrip.editTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
-msgid "you.edit.avatarPhoto"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.tab.photo"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.photoLine"
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideLockscreenLine"
 msgstr ""
 
 #. placeholder {0}: line.place
@@ -511,10 +421,6 @@ msgstr ""
 msgid "you.stamps.back"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
-msgid "you.edit.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.quiet"
 msgstr ""
@@ -529,10 +435,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.retake"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
-msgid "you.edit.save"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
@@ -613,14 +515,6 @@ msgstr ""
 msgid "you.account.incomplete"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.taken"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.save.taken"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.else"
 msgstr ""
@@ -671,14 +565,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.th"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.reserved"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.name.tooLong"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
@@ -738,29 +624,8 @@ msgstr ""
 msgid "you.signOut.leaves.offline"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.name.blocked"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.save.rejected"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.keep"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.photoPending"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.usePhoto"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
-#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
-msgid "you.edit.username"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -791,14 +656,6 @@ msgstr ""
 msgid "you.delete.why"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.username.cooldown"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.save.cooldown"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.offline"
 msgstr ""
@@ -812,24 +669,8 @@ msgstr ""
 msgid "you.delete.closesLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
-msgid "you.edit.discardLine"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
-msgid "you.edit.name.empty"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.yourCrews"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
-msgid "you.edit.crewSees"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.initialsLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
@@ -838,10 +679,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.guide"
-msgstr ""
-
-#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
-msgid "you.avatar.guides"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
