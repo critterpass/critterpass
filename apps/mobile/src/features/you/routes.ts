@@ -11,6 +11,7 @@ import { registerScreens } from '@/lib/navigation/screen-registry';
 export const YOU_ROUTES = {
   profile: '/you',
   settings: '/you/settings',
+  pings: '/you/pings',
   signOut: '/you/sign-out',
   language: '/you/language',
   deleteAccount: '/you/delete',
@@ -22,6 +23,7 @@ export const YOU_SCREENS: Readonly<Record<string, Href>> = {
   '3n-1': YOU_ROUTES.profile,
   '3n-2': YOU_ROUTES.settings,
   '3n-6': YOU_ROUTES.settings,
+  '5b-4': YOU_ROUTES.pings,
   '3n-8': YOU_ROUTES.language,
   '3n-9': YOU_ROUTES.deleteAccount,
   '3n-10': YOU_ROUTES.deleteAccount,

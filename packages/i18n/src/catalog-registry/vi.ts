@@ -55,4 +55,5 @@ export const catalogs: Record<string, () => Promise<Messages>> = {
   "vote": () => import('../../locales/vi/vote').then((m) => m.messages),
   "web": () => import('../../locales/vi/web').then((m) => m.messages),
   "you": () => import('../../locales/vi/you').then((m) => m.messages),
+  "you/pings": () => import('../../locales/vi/you/pings').then((m) => m.messages),
 };

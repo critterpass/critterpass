@@ -21,6 +21,7 @@ import { QUEST_QUEUE_DESCRIPTIONS, questQueueSpecs } from '../quests/queues';
 import { TRIP_LIFECYCLE_QUEUE_DESCRIPTIONS, tripLifecycleQueueSpecs } from '../trips/lifecycle';
 import { LA_QUEUE_DESCRIPTIONS, laQueueSpecs } from '../surfaces/la-queues';
 import { SAFETY_QUEUE_DESCRIPTIONS, safetyQueueSpecs } from '../safety/queues';
+import { WIDGET_QUEUE_DESCRIPTIONS, widgetQueueSpecs } from '../surfaces/widget-snapshot';
 
 export function featureQueueSpecs(defaults: QueueSpec) {
   return {
@@ -42,6 +43,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...tripLifecycleQueueSpecs(defaults),
     ...laQueueSpecs(defaults),
     ...safetyQueueSpecs(defaults),
+    ...widgetQueueSpecs(defaults),
   } as const;
 }
 
@@ -64,4 +66,5 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...TRIP_LIFECYCLE_QUEUE_DESCRIPTIONS,
   ...LA_QUEUE_DESCRIPTIONS,
   ...SAFETY_QUEUE_DESCRIPTIONS,
+  ...WIDGET_QUEUE_DESCRIPTIONS,
 } as const;

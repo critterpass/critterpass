@@ -71,6 +71,9 @@ import * as schema from './schema';
  * `la_push_to_start_tokens`, `device_activities`, `broadcast_channels` and `la_object_states`
  * (packages/db/src/schema/live-activities.ts) stay server-side: Live Activity tokens and frames
  * are the phone's own truth plus the orchestrator's, never synced.
+ * `widget_push_tokens`, `installed_widgets` and `widget_push_ledger`
+ * (packages/db/src/schema/widgets.ts) stay server-side too: the phone reports its widget token and
+ * installed widgets, the worker reads them to push, and no client reads them back.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -105,6 +108,9 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'sponsored_event_counts',
   'sponsored_placements',
   'swipe_votes',
+  'installed_widgets',
+  'widget_push_ledger',
+  'widget_push_tokens',
 ]);
 
 /** Every table this schema declares that the `powersync` publication should carry. */
