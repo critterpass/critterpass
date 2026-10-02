@@ -25,21 +25,23 @@ appId: app.critterpass.dev
 - takeScreenshot: en-visit-consent
 - tapOn:
     id: 'visit-consent-decline'
-# Vietnamese: the developer gallery switches the running app's language.
+# Vietnamese: the developer gallery switches the running app's language. Back to Home, then
+# into the developer tools again (their list starts at the top, where the gallery is).
 - repeat:
     while:
       notVisible:
-        id: 'dev-nav-gallery'
+        id: 'dev-tools-entry'
     times: 4
     commands:
       - runFlow: ../onboarding/subflows/back.yaml
       - waitForAnimationToEnd:
           timeout: 3000
-- scrollUntilVisible:
-    element:
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
       id: 'dev-nav-gallery'
-    direction: UP
-    timeout: 15000
+    timeout: 10000
 - tapOn:
     id: 'dev-nav-gallery'
 - extendedWaitUntil:
