@@ -144,6 +144,10 @@ msgstr ""
 msgid "proposal.dropout.seatsBefore"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.boarded"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.eyebrow"
 msgstr ""
@@ -193,7 +197,7 @@ msgid "proposal.hype.pct"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
-msgid "proposal.hype.count"
+msgid "proposal.hype.reacted"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
