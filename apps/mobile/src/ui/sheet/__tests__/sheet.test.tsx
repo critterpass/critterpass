@@ -20,7 +20,7 @@ import { useMotionMode } from '../../../motion/motion-mode';
 import { Scaffold } from '../../surface/Scaffold';
 import { presenterProgress, resetPresenterForTests } from '../presenter';
 import { RiseModal } from '../RiseModal';
-import { detentHeights, Sheet, sheetFootClearance } from '../Sheet';
+import { detentHeights, fitContentShrinks, Sheet, sheetFootClearance } from '../Sheet';
 import { SheetScrollView } from '../SheetScrollView';
 import { resolveRelease } from '../use-modal-presentation';
 
@@ -107,6 +107,20 @@ describe('detentHeights', () => {
   it('clamps fit to large and drops duplicates', () => {
     expect(detentHeights(['fit'], 800, 1200)).toEqual([696]);
     expect(detentHeights(['fit', 'medium'], 800, 400)).toEqual([400]);
+  });
+});
+
+describe('fitContentShrinks', () => {
+  it('lets fit content shrink only once it has reached the large detent', () => {
+    expect(fitContentShrinks(1200, 800)).toBe(true);
+    expect(fitContentShrinks(696, 800)).toBe(true);
+    // Measured while shrunk, a fraction under large after layout rounding: it stays shrinking.
+    expect(fitContentShrinks(695.5, 800)).toBe(true);
+  });
+
+  it('keeps shorter or unmeasured content at its natural height, so it can still grow the sheet', () => {
+    expect(fitContentShrinks(400, 800)).toBe(false);
+    expect(fitContentShrinks(null, 800)).toBe(false);
   });
 });
 
