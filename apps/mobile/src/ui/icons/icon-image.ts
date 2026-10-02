@@ -145,3 +145,11 @@ export function iconImage(input: IconImageInput): string | null {
   images.set(key, uri);
   return uri;
 }
+
+/** Tests only: forgets every drawn icon and every queued one, so each test starts uncached. */
+export function resetIconImagesForTests(): void {
+  images.clear();
+  queue.clear();
+  if (pending !== null) clearTimeout(pending);
+  pending = null;
+}
