@@ -67,7 +67,7 @@ export const CANDIDATES_SQL = `SELECT id, user_id, crew_id, trip_id, source, ext
   ORDER BY created_at DESC, id`;
 export const CANDIDATES_TABLES = ['import_candidates'];
 
-export const INBOUND_SQL = `SELECT local_part, held_count FROM crew_inbound_addresses
+export const INBOUND_SQL = `SELECT local_part, held_count, held_code_until FROM crew_inbound_addresses
   WHERE crew_id = ? AND status = 'active' ORDER BY created_at DESC LIMIT 1`;
 export const INBOUND_TABLES = ['crew_inbound_addresses'];
 

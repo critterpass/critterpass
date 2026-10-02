@@ -62,6 +62,8 @@ export interface AddBookingViewProps {
   readonly onLinkCode: () => void;
   /** Mail the crew address holds from an unlinked address: the card replaces the quiet link. */
   readonly heldMail?: number;
+  /** A code for the held mail was emailed and is still good; otherwise the card offers paste. */
+  readonly heldMailCodeSent?: boolean;
 }
 
 export function AddBookingView(props: AddBookingViewProps) {
@@ -100,7 +102,12 @@ export function AddBookingView(props: AddBookingViewProps) {
           <AddressPill address={props.address} onCopy={props.onCopy} />
         )}
         {(props.heldMail ?? 0) > 0 ? (
-          <HeldMailCard count={props.heldMail ?? 0} onLink={props.onLinkCode} />
+          <HeldMailCard
+            count={props.heldMail ?? 0}
+            codeSent={props.heldMailCodeSent ?? false}
+            onLink={props.onLinkCode}
+            onPaste={() => props.onChannel('paste')}
+          />
         ) : props.address === null ? null : (
           <TextLink
             label={t({ id: 'bookings.add.linkCode', message: 'Got a code? Link your email' })}

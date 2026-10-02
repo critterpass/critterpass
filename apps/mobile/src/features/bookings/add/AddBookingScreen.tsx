@@ -187,6 +187,7 @@ export function AddBookingScreen({ start }: { readonly start?: string | undefine
           onMailbox={() => setSheet('mailbox')}
           onLinkCode={() => setSheet('link')}
           heldMail={context.heldMail}
+          heldMailCodeSent={context.heldMailCodeSent}
         />
         {sheet === 'paste' ? <PasteFlow tripId={tripId} onDone={() => setSheet(null)} /> : null}
         {sheet === 'link' ? (

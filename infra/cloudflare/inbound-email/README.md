@@ -10,7 +10,15 @@ organiser). Mail sent there reaches this Cloudflare Email Worker, which:
 3. posts signed metadata (address, sender, Message-ID, size, R2 key, DKIM/SPF verdicts; never the
    body) to `POST {API_BASE_URL}/webhooks/inbound-email` with `x-cp-timestamp` and
    `x-cp-signature = HMAC-SHA256(secret, "{timestamp}.{body}")`;
-4. sends the api's "Link this email?" reply (a 6-digit code) when the sender is not yet linked.
+4. sends the api's "Link this email?" reply (a 6-digit code) when the sender is not yet linked, and
+   reports whether Cloudflare sent it (`sent`) or refused it (`failed`) to
+   `POST {API_BASE_URL}/webhooks/inbound-email/reply`, signed the same way. The app asks the crew
+   for a code only after `sent`; a refused reply clears the code.
+
+Workers Logs is on (`[observability]`, per env): every crew message logs one JSON line with its
+outcome and the DKIM/SPF/DMARC verdicts Cloudflare stamped, and a link-code reply logs whether it
+went out or Cloudflare's refusal (addresses removed). Addresses, subjects, bodies and codes are
+never logged. Read them in the dashboard under Workers → `cp-inbound-email` → Logs.
 
 The api decides: a crew member's verified sign-in email (or their Apple private relay address, or a
 sender they linked with a code) is accepted and parsed; anything else is quarantined.

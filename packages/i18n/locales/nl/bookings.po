@@ -590,6 +590,10 @@ msgstr ""
 msgid "bookings.pass.missing"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.noCodeLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.deniedTitle"
 msgstr ""
@@ -681,6 +685,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.fromClipboard"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.paste"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx

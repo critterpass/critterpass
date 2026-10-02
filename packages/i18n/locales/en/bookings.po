@@ -590,6 +590,10 @@ msgstr "No boarding pass in this email — scan it at check-in."
 msgid "bookings.pass.missing"
 msgstr "No boarding pass on this phone yet. Scan it at check-in and it lands here."
 
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.noCodeLine"
+msgstr "No code went out for this mail, so it can’t be read yet. Paste the email here, or forward it again from the address you sign in with."
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.deniedTitle"
 msgstr "Not connected"
@@ -682,6 +686,10 @@ msgstr "Paste a booking"
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.fromClipboard"
 msgstr "Paste from clipboard"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.paste"
+msgstr "Paste the email"
 
 #: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
 msgid "bookings.date.pick"
