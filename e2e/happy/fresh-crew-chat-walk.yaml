@@ -93,15 +93,16 @@ appId: app.critterpass.dev
     visible:
       id: 'chat-composer'
     timeout: 20000
+# iOS reads a message whole ("Winston, 17:07: Fushimi Inari at sunrise").
 - extendedWaitUntil:
     visible:
-      text: 'Fushimi Inari at sunrise'
+      text: '.*Fushimi Inari at sunrise.*'
     timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: vi-walk-joined
 
 # A reply: long press, "Trả lời", the quoted strip over the composer.
-- longPressOn: 'Fushimi Inari at sunrise'
+- longPressOn: '.*Fushimi Inari at sunrise.*'
 - extendedWaitUntil:
     visible:
       id: 'chat-actions'
@@ -130,7 +131,7 @@ appId: app.critterpass.dev
 # A reaction on the organiser's message.
 - hideKeyboard
 - waitForAnimationToEnd
-- longPressOn: 'Fushimi Inari at sunrise'
+- longPressOn: '.*Fushimi Inari at sunrise.*'
 - extendedWaitUntil:
     visible:
       id: 'chat-reaction-bar'

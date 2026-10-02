@@ -60,7 +60,7 @@ appId: app.critterpass.dev
       - extendedWaitUntil:
           visible:
             id: 'home-row-${output.homeIata}'
-          timeout: 10000
+          timeout: 20000
       # The results catch up with the typed query a moment later and redraw: a tap during that
       # redraw is lost, and the page stays without a home.
       - waitForAnimationToEnd

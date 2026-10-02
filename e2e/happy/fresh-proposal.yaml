@@ -23,8 +23,9 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'proposal-trailer'
+    # The trailer plays on by itself and opens the version when it ends: no wait for a still screen,
+    # which never comes while it plays.
     commands:
-      - waitForAnimationToEnd
       - takeScreenshot: en-3f-2-trailer
       - tapOn:
           id: 'trailer-quick'
