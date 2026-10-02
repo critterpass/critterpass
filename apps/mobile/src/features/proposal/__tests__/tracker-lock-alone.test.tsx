@@ -6,8 +6,9 @@ jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticke
 // The tracker is drawn outside a route tree here: it is the focused screen.
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
 
+import { i18n } from '@lingui/core';
 import { screen } from '@testing-library/react-native';
-import { describe, expect, it, jest } from '@jest/globals';
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
@@ -19,6 +20,11 @@ import { lockState, publicStatus, tally } from '../tracker/model';
 import { TrackerView } from '../tracker/tracker-view';
 
 const noop = () => undefined;
+
+// The labels are built before rendering, as the screen builds them.
+beforeAll(() => {
+  i18n.loadAndActivate({ locale: 'en', messages: {} });
+});
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
