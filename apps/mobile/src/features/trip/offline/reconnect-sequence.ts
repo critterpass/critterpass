@@ -30,6 +30,19 @@ export interface ReconnectState {
   readonly acked: readonly string[];
 }
 
+/**
+ * What the traveller did, out of everything queued: the ops whose feature describes them (a
+ * stored summary from the catalogs: "Expense: Dinner at Bé Mặn", "Your vote: Nusa Penida").
+ * Bookkeeping the app sends by itself (app opens, permission and device registration, Live
+ * Activity tokens and state) has no summary, so it is listed under its own command name, and
+ * never shows here.
+ */
+export function travellerActions<T extends Pick<QueueSnapshotItem, 'cmd' | 'summary'>>(
+  queue: readonly T[],
+): T[] {
+  return queue.filter((op) => op.summary.id !== op.cmd);
+}
+
 export const INITIAL_RECONNECT: ReconnectState = { phase: 'online', items: [], acked: [] };
 
 export function stepReconnect(
