@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { AccessibilityInfo } from 'react-native';
 import { useMMKVString } from 'react-native-mmkv';
 
@@ -27,12 +27,40 @@ export function combineMotionMode(
 }
 
 /**
+ * The OS "Reduce Motion" setting as last read, shared by every caller: a screen or navigator that
+ * mounts after it was read starts on it. Each caller reading it afresh would start on full motion
+ * and switch after mounting, and a stack that switches its transitions with a screen already
+ * covered leaves that screen where full motion had slid it (part-way off to the left).
+ */
+let osReduceMotion: boolean | undefined;
+const osListeners = new Set<() => void>();
+
+function setOsReduceMotion(enabled: boolean): void {
+  if (enabled === osReduceMotion) return;
+  osReduceMotion = enabled;
+  osListeners.forEach((listener) => listener());
+}
+
+function subscribeOsReduceMotion(listener: () => void): () => void {
+  osListeners.add(listener);
+  return () => osListeners.delete(listener);
+}
+
+/** Forgets the OS setting read so far, so a test starts from an app that has not read it yet. */
+export function forgetOsReduceMotionForTests(): void {
+  osReduceMotion = undefined;
+}
+
+/**
  * Combines the OS setting with the in-app override (`cp.motion.mode` in MMKV, the "You" phase's
- * 3n-7 settings screen writes it via the returned setter). Defaults to `'full'` before the OS
- * setting resolves and when no in-app override has been saved yet.
+ * 3n-7 settings screen writes it via the returned setter). Defaults to `'full'` until the OS
+ * setting is first read and when no in-app override has been saved yet.
  */
 export function useMotionMode(): [MotionMode, (mode: MotionMode) => void] {
-  const [osReduceMotionEnabled, setOsReduceMotionEnabled] = useState(false);
+  const osReduceMotionEnabled = useSyncExternalStore(
+    subscribeOsReduceMotion,
+    () => osReduceMotion === true,
+  );
   const [storedMode, setStoredMode] = useMMKVString(MOTION_MODE_KEY);
 
   useEffect(() => {
@@ -42,14 +70,13 @@ export function useMotionMode(): [MotionMode, (mode: MotionMode) => void] {
     // (before `.catch` below ever gets a chance to run) instead of just falling back to "motion on".
     Promise.resolve(AccessibilityInfo.isReduceMotionEnabled())
       .then((enabled) => {
-        if (isMounted) setOsReduceMotionEnabled(enabled === true);
+        if (isMounted) setOsReduceMotion(enabled === true);
       })
       .catch(() => {
         // Platforms without the accessibility service (or a misbehaving one) keep the default: motion on.
       });
-    const subscription = AccessibilityInfo.addEventListener(
-      'reduceMotionChanged',
-      setOsReduceMotionEnabled,
+    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', (enabled) =>
+      setOsReduceMotion(enabled === true),
     );
     return () => {
       isMounted = false;

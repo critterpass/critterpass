@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react-native';
 
-import { useMotionMode } from '../motion-mode';
+import { forgetOsReduceMotionForTests, useMotionMode } from '../motion-mode';
 
 /**
  * `react-native-mmkv`'s test-mode mock is an in-memory store that persists across every test in a
@@ -11,9 +11,11 @@ import { useMotionMode } from '../motion-mode';
  * to reset the exact storage the app reads.
  */
 export async function resetMotionModeForTests(): Promise<void> {
+  forgetOsReduceMotionForTests();
   const { result, unmount } = await renderHook(() => useMotionMode());
   await act(() => {
     result.current[1]('full');
   });
   await unmount();
+  forgetOsReduceMotionForTests();
 }
