@@ -1,9 +1,8 @@
-import { Canvas, Image as SkiaImage, Picture } from '@shopify/react-native-skia';
-import type { SkImage } from '@shopify/react-native-skia';
+import { Canvas, Picture } from '@shopify/react-native-skia';
 import type * as RNSkiaModule from '@shopify/react-native-skia';
 import type * as ExpoFileSystemModule from 'expo-file-system';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { PixelRatio, View } from 'react-native';
+import { Image, PixelRatio, View } from 'react-native';
 import { useFrameCallback } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 import type { SharedValue } from 'react-native-reanimated';
@@ -22,6 +21,24 @@ import { renderStickerPicture, renderStickerPng } from './export-png';
 import { specKey } from './spec-key';
 
 const MEMORY_CACHE_MAX_BYTES = 25 * 1024 * 1024;
+/** Finished stickers as data URIs, by cache key: a remount shows its image in the first frame. */
+const PNG_URIS_MAX = 400;
+const pngUris = new Map<string, string>();
+
+function pngUri(key: string, bytes: Uint8Array): string {
+  const known = pngUris.get(key);
+  if (known !== undefined) return known;
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i] ?? 0);
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a data URI prefix, never copy.
+  const uri = `data:image/png;base64,${btoa(binary)}`;
+  if (pngUris.size >= PNG_URIS_MAX) {
+    const oldest = pngUris.keys().next().value;
+    if (oldest !== undefined) pngUris.delete(oldest);
+  }
+  pngUris.set(key, uri);
+  return uri;
+}
 const DISK_CACHE_MAX_BYTES = 60 * 1024 * 1024;
 
 let defaultEngine: SkiaEngine | undefined;
@@ -191,7 +208,9 @@ export function Sticker(props: StickerProps): React.JSX.Element {
   const bucketPt = nearestBucket(size);
   const key = specKey(spec, bucketPt, deviceScale, closedEyes, artVersion);
 
-  const [image, setImage] = useState<SkImage | null>(null);
+  const [loaded, setUri] = useState<string | null>(null);
+  // Known already (this sticker drew before): shown in the first frame, no blank flash.
+  const uri = pngUris.get(key) ?? loaded;
 
   useEffect(() => {
     // Icons draw bare by design: masks, and the `srcOver` line icons on dark UI (the egg tab icon).
@@ -225,7 +244,7 @@ export function Sticker(props: StickerProps): React.JSX.Element {
       )
       .then((bytes) => {
         if (cancelled) return;
-        setImage(engine.Image.MakeImageFromEncoded(bytes));
+        setUri(pngUri(key, bytes));
       });
     return () => {
       cancelled = true;
@@ -251,13 +270,22 @@ export function Sticker(props: StickerProps): React.JSX.Element {
       accessibilityLabel={label}
       onTouchEnd={onPress}
     >
-      <Canvas style={{ width: size, height: size }}>
-        {livePicture ? (
+      {livePicture ? (
+        <Canvas style={{ width: size, height: size }}>
           <Picture picture={livePicture} />
-        ) : image ? (
-          <SkiaImage image={image} x={0} y={0} width={size} height={size} fit="contain" />
-        ) : null}
-      </Canvas>
+        </Canvas>
+      ) : uri ? (
+        // A finished sticker is a plain image: a live canvas is a GL surface of its own, and a
+        // screen of them (the Critterdex grid) left the next screen without surfaces on Android.
+        <Image
+          source={{ uri }}
+          style={{ width: size, height: size }}
+          resizeMode="contain"
+          accessible={false}
+          fadeDuration={0}
+          testID="sticker-image"
+        />
+      ) : null}
     </View>
   );
 }

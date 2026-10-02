@@ -4,9 +4,9 @@ import type { LayoutChangeEvent, TextLayoutEvent, TextStyle } from 'react-native
 import { hasWordBreak } from '../qa/text-layout-check';
 
 /**
- * Average glyph advance per em, used for the first-pass size estimate before the platform reports
- * real line breaks. Archivo's condensed display cuts run narrower than Geist's body text; both are
- * deliberately generous (wider than the real average) so the estimate errs towards fitting.
+ * Flat glyph advance per em for the first-pass size estimate, for faces without measured advances
+ * (`display-advance.ts` measures the display face glyph by glyph). Deliberately generous (wider
+ * than the real average) so the estimate errs towards fitting.
  */
 export const ADVANCE_RATIO = { condensed: 0.56, regular: 0.6 } as const;
 
@@ -35,37 +35,58 @@ export interface MeasureInput {
   readonly text: string;
   readonly fontSize: number;
   readonly width: number;
+  /** Flat advance per character in em, for a face with no measured advances. */
   readonly advanceRatio: number;
+  /** Measured advance of one character in em (`displayAdvance`); wins over the flat ratio. */
+  readonly advanceOf?: ((char: string) => number) | undefined;
   /** Letter spacing in em (the token's own unit). */
   readonly letterSpacingEm?: number;
 }
 
+type Advances = Pick<MeasureInput, 'advanceRatio' | 'advanceOf' | 'letterSpacingEm'>;
+
+/** Rounding slack when a line is filled exactly. */
+const EPSILON_EM = 1e-9;
+
+function charEm(char: string, { advanceRatio, advanceOf, letterSpacingEm = 0 }: Advances): number {
+  return (advanceOf?.(char) ?? advanceRatio) + letterSpacingEm;
+}
+
+/** The width of `text` on one line, in em of its font size. */
+export function textEm(text: string, advances: Advances): number {
+  let em = 0;
+  for (const char of text) em += charEm(char, advances);
+  return em;
+}
+
 /** Greedy word-wrap line count for `text` at `fontSize` in a box `width` points wide. */
-export function estimateLineCount({
-  text,
-  fontSize,
-  width,
-  advanceRatio,
-  letterSpacingEm = 0,
-}: MeasureInput): number {
-  const charWidth = fontSize * (advanceRatio + letterSpacingEm);
-  if (width <= 0 || charWidth <= 0) return Number.POSITIVE_INFINITY;
-  const charsPerLine = Math.max(1, Math.floor(width / charWidth));
+export function estimateLineCount({ text, fontSize, width, ...advances }: MeasureInput): number {
+  if (width <= 0 || fontSize <= 0 || advances.advanceRatio + (advances.letterSpacingEm ?? 0) <= 0) {
+    return Number.POSITIVE_INFINITY;
+  }
+  const line = width / fontSize + EPSILON_EM;
+  const space = charEm(' ', advances);
   let lines = 0;
   for (const paragraph of text.split('\n')) {
     let used = 0;
     lines += 1;
     for (const word of paragraph.split(/\s+/).filter(Boolean)) {
-      const length = [...word].length;
-      const needed = used === 0 ? length : used + 1 + length;
-      if (needed <= charsPerLine) {
+      const needed = (used === 0 ? 0 : used + space) + textEm(word, advances);
+      if (needed <= line) {
         used = needed;
         continue;
       }
       if (used > 0) lines += 1;
       // A word longer than a line breaks mid-word across as many lines as it needs.
-      lines += Math.ceil(length / charsPerLine) - 1;
-      used = length % charsPerLine || charsPerLine;
+      used = 0;
+      for (const char of word) {
+        const em = charEm(char, advances);
+        if (used > 0 && used + em > line) {
+          lines += 1;
+          used = 0;
+        }
+        used += em;
+      }
     }
   }
   return lines;
@@ -75,12 +96,10 @@ export function estimateLineCount({
 export function wholeWordSize({
   text,
   width,
-  advanceRatio,
-  letterSpacingEm = 0,
+  ...advances
 }: Omit<MeasureInput, 'fontSize'>): number {
-  const longest = Math.max(1, ...text.split(/\s+/).map((word) => [...word].length));
-  const em = advanceRatio + letterSpacingEm;
-  return em > 0 ? width / (longest * em) : Number.POSITIVE_INFINITY;
+  const longest = Math.max(0, ...text.split(/\s+/).map((word) => textEm(word, advances)));
+  return longest > 0 ? width / longest : Number.POSITIVE_INFINITY;
 }
 
 function points(...values: readonly unknown[]): number {

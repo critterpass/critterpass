@@ -83,6 +83,8 @@ const NO_GUARD: HeaderOverlapGuard = { onLayout: () => undefined, ref: () => () 
 
 /**
  * Reports HEADER_OVERLAP when controls of one header row (`name`) collide or leave the screen.
+ * The report carries where each control of the row was and the window's width, so a report shows
+ * which side a control left by and how far.
  * Development and e2e builds only; elsewhere the handlers do nothing.
  */
 export function useHeaderOverlapGuard(name: string): HeaderOverlapGuard {
@@ -105,8 +107,18 @@ export function useHeaderOverlapGuard(name: string): HeaderOverlapGuard {
               timer.current = setTimeout(() => sample(rects, samples + 1), SETTLE_MS);
             return;
           }
-          for (const problem of headerLayoutProblems(rects, Dimensions.get('window').width))
-            reportUiQa('HEADER_OVERLAP', `${name}: ${problem}`);
+          const windowWidth = Dimensions.get('window').width;
+          const problems = headerLayoutProblems(rects, windowWidth);
+          if (problems.length === 0) return;
+          const row = [...rects]
+            .map(([id, r]) => `${id} x=${Math.round(r.x)} w=${Math.round(r.width)}`)
+            .join(', ');
+          for (const problem of problems)
+            reportUiQa(
+              'HEADER_OVERLAP',
+              `${name}: ${problem}`,
+              `(${row}; window ${Math.round(windowWidth)})`,
+            );
         });
       }
     };

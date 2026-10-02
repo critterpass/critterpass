@@ -1,0 +1,152 @@
+appId: app.critterpass.dev
+---
+# Two brand-new accounts on one phone, up to a sent proposal: the organiser starts a crew and keeps
+# its code; a second new account joins with it; the organiser locks one place in, runs setup, waits
+# for the guide's draft, builds the proposal and sends it. Ends on "It's on its way" as the
+# organiser (account 0); the friend is account 1.
+- runFlow: fresh-account.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Proposal Crew'
+# START THE CREW rides on top of the keyboard.
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- copyTextFrom:
+    id: 'start-crew-code'
+# iOS copies the spoken label ("Crew code E 2 X …"): the code is its last six characters.
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
+- tapOn:
+    id: 'start-crew-done'
+
+# The friend: a second new account on this phone joins the crew with its code.
+- runFlow:
+    file: ../../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-new'
+- runFlow: ../../home/subflows/onboard.yaml
+# Onboarding may finish on another tab; Home has JOIN WITH A CODE.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-join-code'
+    timeout: 30000
+- tapOn:
+    id: 'home-join-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 15000
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${output.crewCode}
+# Once the code is found the keyboard makes way: the crew card shows whole, with JOIN under it.
+- extendedWaitUntil:
+    visible:
+      text: '(?i)found it.*'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-join'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-3a-11-code-found
+- tapOn:
+    id: 'invite-code-join'
+- extendedWaitUntil:
+    notVisible:
+      id: 'invite-code-screen'
+    timeout: 30000
+
+# The organiser again (kept first): one place locked in, then setup to the guide's draft.
+- runFlow:
+    file: ../../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- runFlow:
+    file: pitch-place.yaml
+    env:
+      QUERY: 'lisbon'
+- openLink: critterpass-dev://
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+- runFlow: ../../proposal/subflows/setup-to-draft.yaml
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+
+# BUILD THE PROPOSAL, then SEND to the one friend.
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- tapOn:
+    id: 'draft-propose'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-build'
+    timeout: 30000
+- assertVisible:
+    id: 'build-format-trailer'
+- extendedWaitUntil:
+    visible:
+      id: 'build-send'
+      enabled: true
+    timeout: 60000
+# PREVIEW AS <friend> shows once the guide has written their version.
+- extendedWaitUntil:
+    visible:
+      id: 'build-preview-.*'
+    timeout: 180000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-1-build
+- tapOn:
+    id: 'build-send'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-sent'
+    timeout: 60000
+# The guide writes the friend's version on staging's AI.
+- extendedWaitUntil:
+    visible:
+      text: '(?i)their version is ready|.*wrote the group version.*'
+    timeout: 300000
+- takeScreenshot: en-3f-1-sent

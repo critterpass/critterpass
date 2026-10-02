@@ -21,7 +21,7 @@ import {
   LAB_HERE,
   LAB_ITEMS,
   LAB_MEMBERS,
-  LAB_META,
+  labMeta,
   LAB_TZ,
   TERRACES,
   WALK,
@@ -42,7 +42,7 @@ export function labDay(overrides: Partial<DayViewProps> = {}): ReactNode {
       onTogglePlanning={noop}
       items={LAB_ITEMS}
       states={new Map()}
-      meta={(item: DayItem) => LAB_META[item.stableId] ?? ''}
+      meta={labMeta}
       loading={false}
       offline={false}
       editable

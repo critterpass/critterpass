@@ -71,9 +71,11 @@ describe('HEADER_OVERLAP', () => {
     expect(reports).toEqual([]);
     act(() => jest.runAllTimers());
     jest.useRealTimers();
-    expect(reports).toEqual(
+    expect(reports.map((line) => line.split(' (')[0])).toEqual(
       UI_QA_ENABLED ? ['[ui-qa] HEADER_OVERLAP "home-header: caret overlaps chat"'] : [],
     );
+    // The measured row and the window come with the report.
+    if (UI_QA_ENABLED) expect(reports[0]).toContain('caret x=250 w=16');
   });
 
   it('waits out a push sliding the row in from the right before judging it', async () => {

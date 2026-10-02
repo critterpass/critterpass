@@ -1,0 +1,150 @@
+appId: app.critterpass.dev
+---
+# A real receipt, end to end, for a brand-new traveller on staging: a fresh account on a trip in
+# Vietnam that is on today (../happy/subflows/trip-under-way.yaml) opens Money, takes SCAN and
+# PICK A PHOTO, and picks a photographed restaurant bill in đồng ("126.000", "1.260.000đ"; the
+# receipt eval's vi-restaurant-promo). The phone reads it, uploads it, the server parses it, and
+# the itemised review lists its lines; a line is assigned, SPLIT IT commits, and Money shows the
+# itemised expense. Any failure on the way must end on a screen that says what to do.
+- runFlow:
+    file: ../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: receipt-real
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 60000
+# The bill goes into the photo library (the simulator's photo service can be slow to answer the
+# first time, so it is tried again).
+- retry:
+    maxRetries: 2
+    commands:
+      - addMedia:
+          - '../../apps/mobile/modules/cp-ocr/fixtures/vi-restaurant-promo.jpg'
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      text: 'VND'
+      id: 'money-currency-chip'
+    timeout: 30000
+- scrollUntilVisible:
+    element: 'SCAN'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn: 'SCAN'
+- extendedWaitUntil:
+    visible:
+      id: 'money-scan-aim'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-aim
+- tapOn:
+    id: 'money-scan-pick'
+# The system photo picker opens on the newest photos first: the bill, just added, is the first
+# cell of the grid (top left), where each platform's picker draws it.
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-scan-aim'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-picker
+# iOS may show its "Private Access to Photos" note above the grid, which moves the grid down.
+- runFlow:
+    when:
+      platform: iOS
+      visible: '(?i)private access to photos'
+    commands:
+      - tapOn:
+          point: '16%,43%'
+- runFlow:
+    when:
+      platform: iOS
+      notVisible: '(?i)private access to photos'
+    commands:
+      - tapOn:
+          point: '16%,25%'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          point: '16%,34%'
+# Some pickers ask to confirm the choice.
+- runFlow:
+    when:
+      visible: '(?i)^(add|done|select)$'
+    commands:
+      - tapOn: '(?i)^(add|done|select)$'
+- extendedWaitUntil:
+    visible:
+      id: 'money-scan'
+    timeout: 30000
+- takeScreenshot: receipt-real-reading
+# The read, the upload and the server's parse: the review, or a screen that says what to do.
+- extendedWaitUntil:
+    visible:
+      id: 'money-review|money-failure|money-scan-upload_failed|money-scan-unreadable|money-scan-pick_failed|money-scan-denied'
+    timeout: 240000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-parsed
+- assertVisible:
+    id: 'money-review'
+- assertVisible:
+    id: 'money-review-line-.*'
+# The review names how many lines it read; lines whose amount needs a look show what was read.
+- assertVisible: '(?i).*read [0-9]+ lines.*'
+# Who had the first line: the member picker over the review.
+- tapOn:
+    id: 'money-review-line-.*'
+    index: 0
+- takeScreenshot: receipt-real-line-tapped
+# The sheet's container carries no element of its own on iOS: its DONE is what shows it is up.
+- extendedWaitUntil:
+    visible:
+      id: 'money-member-done'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-assign
+- tapOn:
+    id: 'money-member-done'
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-member-done'
+    timeout: 10000
+# SPLIT IT stays on screen under a long bill's lines.
+- assertVisible:
+    id: 'money-review-commit'
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-review
+- tapOn:
+    id: 'money-review-commit'
+# Money, with the itemised expense.
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- extendedWaitUntil:
+    visible: '(?i).*₫ ?1,[23][0-9]{2},[0-9]{3} spent.*'
+    timeout: 120000
+- scrollUntilVisible:
+    element:
+      id: 'money-latest-row'
+    direction: DOWN
+    timeout: 30000
+- assertNotVisible: '.*\$.*'
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-money
+- tapOn:
+    id: 'money-latest-row'
+- extendedWaitUntil:
+    visible:
+      id: 'money-expense-detail'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-real-expense

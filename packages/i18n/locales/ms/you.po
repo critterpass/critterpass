@@ -237,6 +237,10 @@ msgstr ""
 msgid "you.settings.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.backPass"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.passPlus"
 msgstr ""

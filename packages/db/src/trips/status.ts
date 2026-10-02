@@ -5,10 +5,11 @@
  * leave-by and day-bundle recompute, billing) and the activity ticker see it. The caller holds a
  * role that may update `trips` (app_system, or a command's `asSystemRole`).
  */
-import type { TripStatus } from '@cp/domain';
+import { QUEST_QUEUES, type TripStatus } from '@cp/domain';
 import type pg from 'pg';
 
-import { appendDomainEvent } from '../events';
+import { appendDomainEvent, type AppendedDomainEvent } from '../events';
+import { sendInTx } from '../jobs/send-in-tx';
 
 export type TripStatusActor =
   { readonly kind: 'system' } | { readonly kind: 'user'; readonly id: string };
@@ -52,4 +53,37 @@ export function confirmTrip(
   actor: TripStatusActor,
 ): Promise<boolean> {
   return moveTripStatus(tx, { tripId, from: 'proposed', to: 'confirmed', actor });
+}
+
+/**
+ * The quests of the day a trip got under way, written at once rather than at the hourly sweep's
+ * next tick: an `onEventAppended` hook on `trip.status_changed` (the api and the worker both move
+ * trips, so both register it) that queues `quests.generate` for the trip's local date when the
+ * trip is now `in_trip`, on its dates, and has no quests for that day yet. The job's singleton key
+ * is the sweep's (`trip:date`) and the generator publishes a day once, so the two never write a
+ * day twice.
+ */
+export async function queueQuestsOnTripStart(
+  tx: pg.PoolClient,
+  event: AppendedDomainEvent,
+): Promise<void> {
+  if (event.type !== 'trip.status_changed' || event.tripId === null) return;
+  const { rows } = await tx.query<{ local_date: string }>(
+    `SELECT local.day::text AS local_date
+       FROM trips t
+       LEFT JOIN destinations d ON d.id = t.destination_id
+       CROSS JOIN LATERAL (
+         SELECT (now() AT TIME ZONE coalesce(t.tz, d.tz, 'UTC'))::date AS day
+       ) local
+      WHERE t.id = $1 AND t.status = 'in_trip'
+        AND local.day BETWEEN t.start_date AND t.end_date
+        AND NOT EXISTS (SELECT 1 FROM quests q WHERE q.trip_id = t.id AND q.local_date = local.day)`,
+    [event.tripId],
+  );
+  const day = rows[0];
+  if (day === undefined) return;
+  const job = { trip_id: event.tripId, local_date: day.local_date };
+  await sendInTx(tx, QUEST_QUEUES.generate, job, {
+    singletonKey: `${job.trip_id}:${job.local_date}`,
+  });
 }

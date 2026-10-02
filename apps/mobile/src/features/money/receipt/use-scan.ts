@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import { generateUuidV7 } from '@cp/domain';
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
@@ -31,6 +31,20 @@ const CURRENCY_LANGUAGES: Readonly<Record<string, readonly string[]>> = {
 
 export function languagesFor(currency: string | null): readonly string[] {
   return (currency === null ? undefined : CURRENCY_LANGUAGES[currency]) ?? ['en'];
+}
+
+/** How long a parse may take before the screen offers a way out (it keeps waiting meanwhile). */
+export const SLOW_PARSE_MS = 45_000;
+
+/** True once `key` (the receipt being parsed) has been waited on for `ms`; a new key starts over. */
+export function useWaitedTooLong(key: string | null, ms: number = SLOW_PARSE_MS): boolean {
+  const [late, setLate] = useState<string | null>(null);
+  useEffect(() => {
+    if (key === null) return undefined;
+    const timer = setTimeout(() => setLate(key), ms);
+    return () => clearTimeout(timer);
+  }, [key, ms]);
+  return key !== null && late === key;
 }
 
 export interface ScanControls {
@@ -64,7 +78,9 @@ export function useScan(
       let read: ReaderResult;
       try {
         read = await reader.recognize(uri, { languages: languagesFor(trip.localCurrency) });
-      } catch {
+      } catch (error) {
+        // The server reads the photo instead.
+        console.warn('[receipt-scan] on-device read', error);
         read = { status: 'no_text', lines: [], quality: null };
       }
       const id = generateUuidV7();
@@ -82,6 +98,7 @@ export function useScan(
         ocr_status: uploadStatus(read),
       };
       const photo = await services.uploadReceiptPhoto(uri);
+      if (photo.kind === 'error') console.warn('[receipt-scan] photo upload', photo.code);
       if (photo.kind === 'offline') {
         await queueScan(db, { uri, body });
         dispatch({ type: 'offline' });
@@ -95,6 +112,7 @@ export function useScan(
         await queueScan(db, { uri, body });
         dispatch({ type: 'offline' });
       } else if (posted.kind === 'error') {
+        console.warn('[receipt-scan] receipt post', posted.code);
         dispatch({ type: 'upload_error', code: posted.code });
       } else {
         dispatch({ type: 'posted' });
@@ -110,7 +128,8 @@ export function useScan(
       const result = await reader.scanDocument({ pageLimit: 1 });
       const uri = result.status === 'captured' ? result.uris[0] : undefined;
       if (uri !== undefined) await process(uri);
-    } catch {
+    } catch (error) {
+      console.warn('[receipt-scan] document scanner', error);
       dispatch({ type: 'denied' });
     }
   }, [services, process]);
@@ -119,6 +138,7 @@ export function useScan(
     const picked = await services.pickPhoto();
     if (picked.kind === 'picked') await process(picked.uri);
     else if (picked.kind === 'denied') dispatch({ type: 'denied' });
+    else if (picked.kind === 'failed') dispatch({ type: 'pick_failed' });
   }, [services, process]);
 
   return {

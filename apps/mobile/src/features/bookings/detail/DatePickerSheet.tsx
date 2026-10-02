@@ -162,19 +162,21 @@ export function DatePickerSheet(props: DatePickerSheetProps) {
 export interface DateFieldProps {
   readonly label: string;
   readonly value: string;
-  readonly trip: DatePickerSheetProps['trip'];
   readonly problem?: string | undefined;
-  readonly onChange: (date: string) => void;
+  /** Opens the month grid, which the screen presents over itself (`DatePickerSheet`). */
+  readonly onOpen: () => void;
   readonly testID: string;
 }
 
-/** A form field that shows the picked day and opens the month grid. */
+/**
+ * A form field that shows the picked day. The month grid is a sheet, which fills the view it is
+ * placed in, so the screen presents it at its root rather than the field inside its column.
+ */
 export function DateField(props: DateFieldProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const [open, setOpen] = useState(false);
   const shown =
     props.value === ''
       ? t({ id: 'bookings.date.pick', message: 'Pick a day' })
@@ -188,46 +190,32 @@ export function DateField(props: DateFieldProps) {
   const ring =
     props.problem === undefined ? theme.semantic.border.control : theme.semantic.state.urgent;
   return (
-    <>
-      <Stack gap="6">
-        <Text variant="eyebrow" accessibilityElementsHidden importantForAccessibility="no">
-          {props.label}
-        </Text>
-        <PressScale
-          onPress={() => setOpen(true)}
-          accessibilityRole="button"
-          accessibilityLabel={`${props.label}, ${shown}`}
-          accessibilityHint={props.problem}
-          testID={props.testID}
-        >
-          <View style={[styles.field, { borderColor: ring }]}>
-            <Text
-              variant="body"
-              color={props.value === '' ? theme.color.ink[300] : theme.semantic.text.primary}
-              numberOfLines={1}
-            >
-              {shown}
-            </Text>
-          </View>
-        </PressScale>
-        {props.problem === undefined ? null : (
-          <Text variant="bodySm" color={theme.semantic.state.urgent}>
-            {props.problem}
+    <Stack gap="6">
+      <Text variant="eyebrow" accessibilityElementsHidden importantForAccessibility="no">
+        {props.label}
+      </Text>
+      <PressScale
+        onPress={props.onOpen}
+        accessibilityRole="button"
+        accessibilityLabel={`${props.label}, ${shown}`}
+        accessibilityHint={props.problem}
+        testID={props.testID}
+      >
+        <View style={[styles.field, { borderColor: ring }]}>
+          <Text
+            variant="body"
+            color={props.value === '' ? theme.color.ink[300] : theme.semantic.text.primary}
+            numberOfLines={1}
+          >
+            {shown}
           </Text>
-        )}
-      </Stack>
-      {open ? (
-        <DatePickerSheet
-          value={props.value}
-          trip={props.trip}
-          title={props.label}
-          onPick={(date) => {
-            props.onChange(date);
-            setOpen(false);
-          }}
-          onDismiss={() => setOpen(false)}
-        />
-      ) : null}
-    </>
+        </View>
+      </PressScale>
+      {props.problem === undefined ? null : (
+        <Text variant="bodySm" color={theme.semantic.state.urgent}>
+          {props.problem}
+        </Text>
+      )}
+    </Stack>
   );
 }

@@ -32,40 +32,10 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'start-crew-done'
 # A vote: pitching a place starts the crew's destination vote and posts its card in the chat.
-- openLink: critterpass-dev://places/search
-- extendedWaitUntil:
-    visible:
-      id: 'place-search-field'
-    timeout: 15000
-- inputText: 'lisbon'
-- extendedWaitUntil:
-    visible:
-      id: 'place-result-.*'
-    timeout: 15000
-- tapOn:
-    id: 'place-result-.*'
-    index: 0
-- scrollUntilVisible:
-    element:
-      id: 'guest-pitch'
-    direction: DOWN
-    timeout: 30000
-- tapOn:
-    id: 'guest-pitch'
 - runFlow:
-    when:
-      visible:
-        id: 'crew-picker'
-    commands:
-      - tapOn:
-          id: 'crew-pick-.*'
-          index: 0
-- extendedWaitUntil:
-    visible:
-      id: 'pitch-quote'
-    timeout: 60000
-- tapOn:
-    id: 'pitch-add'
+    file: pitch-place.yaml
+    env:
+      QUERY: 'lisbon'
 # Back to Home through the stack (a link to Home would push a second Home with no way back).
 - waitForAnimationToEnd
 - repeat:

@@ -7,7 +7,7 @@
 import type { Gateway } from '../../client';
 import { isDeclined, parseStructuredText, textOf } from '../../structured';
 import type { UsageContext } from '../../usage';
-import { validateVersion } from './validate';
+import { keepGoodLabels, validateVersion } from './validate';
 import { buildVersionRequest, VERSION_ROUTE } from './version.prompt';
 import { versionReplySchema, type VersionContext, type VersionReply } from './version.schema';
 
@@ -26,7 +26,9 @@ export async function writeVersion(
     const reply = versionReplySchema.safeParse(parseStructuredText(textOf(result.message)));
     if (!reply.success) return { ok: false, rejected: 'unparseable' };
     const verdict = validateVersion(reply.data, context);
-    return verdict.ok ? { ok: true, reply: reply.data } : { ok: false, rejected: verdict.reason };
+    return verdict.ok
+      ? { ok: true, reply: keepGoodLabels(reply.data, context) }
+      : { ok: false, rejected: verdict.reason };
   } catch {
     return { ok: false, rejected: 'call_failed' };
   }

@@ -3,7 +3,8 @@
  * installed list are stored for the caller's own install only; the snapshot is the viewer's own
  * (their net, never a crewmate's budget or anyone's coordinates), drops the next flight and marks
  * it locked without Pass+, answers 304 on an unchanged ETag, and opens to a device action key only
- * with the `read_snapshot` scope.
+ * with the `read_snapshot` scope. Today carries the viewer's own plan rows, packing and the
+ * forecast; Balances names who to nudge by first name only, and when; Crew dots carry initials.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -251,5 +252,152 @@ describe('GET /v1/widgets/snapshot', () => {
     });
     expect(refused.status).toBe(403);
     expect(await refused.json()).toMatchObject({ error: { code: 'ACTION_KEY_SCOPE' } });
+  });
+});
+
+describe('the snapshot fields the widgets draw', () => {
+  const day = (offsetMinutes: number) =>
+    // Noon today in the trip's zone, plus an offset: always inside the local day.
+    q<{ at: Date }>(
+      `SELECT ((now() AT TIME ZONE 'Asia/Ho_Chi_Minh')::date + time '12:00')
+                AT TIME ZONE 'Asia/Ho_Chi_Minh' + make_interval(mins => $1) AS at`,
+      [offsetMinutes],
+    ).then((rows) => rows[0]!.at);
+
+  beforeAll(async () => {
+    await q("UPDATE users SET display_name = 'Maya Tan' WHERE id = $1", [maya.uid]);
+    await q("UPDATE users SET display_name = 'Rin Sato' WHERE id = $1", [rin.uid]);
+    await withSystem(harness.pool, async (tx) => {
+      const one = async (sql: string, params: unknown[]) =>
+        (await tx.query<{ id: string }>(sql, params)).rows[0]!.id;
+      const destination = await one(
+        `INSERT INTO destinations (slug, name, country, coverage, currency, tz)
+         VALUES ($1, 'Da Nang', 'VN', 'live', 'VND', 'Asia/Ho_Chi_Minh') RETURNING id`,
+        [`da-nang-${randomUUID().slice(0, 8)}`],
+      );
+      await tx.query('UPDATE trips SET destination_id = $2 WHERE id = $1', [tripId, destination]);
+      const version = await one(
+        `INSERT INTO itinerary_versions (trip_id, visibility, status)
+         VALUES ($1, 'crew', 'current') RETURNING id`,
+        [tripId],
+      );
+      await tx.query('UPDATE trips SET current_version_id = $2 WHERE id = $1', [tripId, version]);
+      const planDay = await one(
+        'INSERT INTO plan_days (version_id, trip_id, day_no) VALUES ($1, $2, 1) RETURNING id',
+        [version, tripId],
+      );
+      const items: [number, string, string[]][] = [
+        [-180, 'Morning swim', []],
+        [0, 'Banh mi lunch', [maya.uid, rin.uid]],
+        [120, 'Rin alone at the spa', [rin.uid]],
+      ];
+      for (const [offset, notes, attendees] of items) {
+        await tx.query(
+          `INSERT INTO plan_items (version_id, day_id, trip_id, starts_at, tz, category, notes,
+             attendee_ids)
+           VALUES ($1, $2, $3, $4, 'Asia/Ho_Chi_Minh', 'activity', $5, $6::uuid[])`,
+          [version, planDay, tripId, await day(offset), notes, attendees],
+        );
+      }
+      const today = (
+        await tx.query<{ d: string }>(
+          "SELECT (now() AT TIME ZONE 'Asia/Ho_Chi_Minh')::date::text AS d",
+        )
+      ).rows[0]!.d;
+      await tx.query(
+        `INSERT INTO packing_items (trip_id, day, owner_id, label, checked, checked_at) VALUES
+           ($1, $2, $3, 'Sunscreen', false, NULL), ($1, NULL, NULL, 'Snorkels', true, now()),
+           ($1, $2, $4, 'Rin''s hat', false, NULL)`,
+        [tripId, today, maya.uid, rin.uid],
+      );
+      const hours = [0, 6, 18].map((h) => ({
+        at: new Date(Date.now() + h * 3_600_000).toISOString(),
+        temp_c: h === 6 ? 33.4 : 28,
+        chance_of_rain: h === 18 ? 80 : 10,
+        precip_mm: 0,
+        wind_kph: 5,
+        gust_kph: 9,
+        uv: 4,
+        code: 1000,
+        is_day: true,
+      }));
+      await tx.query(
+        `INSERT INTO weather_snapshots (destination_id, point_key, lat, lng, date, hourly, source,
+           fetched_at, checked_at)
+         VALUES ($1, 'centre', 16.05, 108.2, $2::date, $3::jsonb, 'weatherapi', now(), now())`,
+        [
+          destination,
+          today,
+          JSON.stringify({
+            day: {
+              max_temp_c: 33,
+              min_temp_c: 25,
+              chance_of_rain: 80,
+              precip_mm: 2,
+              uv: 6,
+              code: 1063,
+            },
+            hours,
+          }),
+        ],
+      );
+    });
+  });
+
+  it('gives each viewer their own plan rows and packing, and the forecast', async () => {
+    const mine = widgetSnapshotSchema.parse(await (await snapshot(maya)).json());
+    expect(mine.today?.plan.map((row) => row.title)).toEqual(['Morning swim', 'Banh mi lunch']);
+    expect(mine.today?.packing).toEqual([
+      expect.objectContaining({ label: 'Sunscreen', checked: false }),
+      expect.objectContaining({ label: 'Snorkels', checked: true }),
+    ]);
+    expect(mine.today?.forecast).toMatchObject({ temp_max_c: 33, condition: 'rain' });
+    expect(mine.today?.forecast?.rain_from).not.toBeNull();
+    const hers = widgetSnapshotSchema.parse(await (await snapshot(rin)).json());
+    expect(hers.today?.plan.map((row) => row.title)).toEqual([
+      'Morning swim',
+      'Banh mi lunch',
+      'Rin alone at the spa',
+    ]);
+    expect(hers.today?.packing.map((item) => item.label)).toEqual(["Rin's hat", 'Snorkels']);
+  });
+
+  it('names who to nudge by first name, only to the one who is owed, and says when', async () => {
+    const mine = widgetSnapshotSchema.parse(await (await snapshot(maya)).json());
+    expect(mine.balances?.nudge).toEqual({
+      user_id: rin.uid,
+      first_name: 'Rin',
+      available_at: null,
+    });
+    const hers = widgetSnapshotSchema.parse(await (await snapshot(rin)).json());
+    expect(hers.balances?.nudge).toBeNull();
+    const body = await (await snapshot(maya)).text();
+    expect(body).not.toContain('Sato');
+
+    await q(
+      `INSERT INTO nudges (sender_id, target_id, crew_id, trip_id, reason, channel)
+       SELECT $1, $2, crew_id, id, 'payment', 'inbox' FROM trips WHERE id = $3`,
+      [maya.uid, rin.uid, tripId],
+    );
+    const later = widgetSnapshotSchema.parse(await (await snapshot(maya)).json());
+    const next = Date.parse(later.balances?.nudge?.available_at ?? '');
+    expect(next - Date.now()).toBeGreaterThan(23 * 3_600_000);
+  });
+
+  it('gives crew dots an initial, never a name', async () => {
+    await q(
+      `INSERT INTO trip_entitlements (trip_id, boost_active) VALUES ($1, true)
+       ON CONFLICT (trip_id) DO UPDATE SET boost_active = true`,
+      [tripId],
+    );
+    await q(
+      `INSERT INTO member_etas (trip_id, user_id, eta_min, sharing)
+       VALUES ($1, $2, 8, 'live') ON CONFLICT (trip_id, user_id) DO UPDATE SET eta_min = 8`,
+      [tripId, rin.uid],
+    );
+    const body = await (await snapshot(maya)).text();
+    const crew = widgetSnapshotSchema.parse(JSON.parse(body)).crew;
+    expect(crew?.members).toEqual([{ user_id: rin.uid, bucket: 'close', initial: 'R' }]);
+    expect(body).not.toMatch(/Rin Sato/);
   });
 });

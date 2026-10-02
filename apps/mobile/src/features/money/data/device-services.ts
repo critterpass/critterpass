@@ -17,7 +17,7 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
 import type { HttpOutcome, MoneyServices, PickOutcome, ReceiptReader } from './services';
 
-/** Receipt photos are JPEGs from the scanner or the picker; the api caps them at 10 MB. */
+/** Receipt photos are JPEGs from the scanner or the picker; the api takes up to 5 MiB in one upload. */
 const RECEIPT_QUALITY = 0.8;
 
 function hex(buffer: ArrayBuffer): string {
@@ -56,7 +56,7 @@ function imagePicker(): typeof ImagePickerModule | null {
 
 async function pickPhoto(): Promise<PickOutcome> {
   const picker = imagePicker();
-  if (picker === null) return { kind: 'cancelled' };
+  if (picker === null) return { kind: 'failed' };
   try {
     const result = await picker.launchImageLibraryAsync({
       mediaTypes: ['images'],
@@ -65,8 +65,10 @@ async function pickPhoto(): Promise<PickOutcome> {
     });
     const asset = result.canceled ? undefined : result.assets[0];
     return asset === undefined ? { kind: 'cancelled' } : { kind: 'picked', uri: asset.uri };
-  } catch {
-    return { kind: 'denied' };
+  } catch (error) {
+    // The picker needs no permission: a throw is the picker failing, not a refusal.
+    console.warn('[receipt-scan] photo picker', error);
+    return { kind: 'failed' };
   }
 }
 

@@ -46,7 +46,9 @@ export type HttpOutcome<T> =
 export type PickOutcome =
   | { readonly kind: 'picked'; readonly uri: string }
   | { readonly kind: 'cancelled' }
-  | { readonly kind: 'denied' };
+  | { readonly kind: 'denied' }
+  /** The picker could not open or hand the photo back (logged on the device). */
+  | { readonly kind: 'failed' };
 
 export interface MoneyServices {
   readonly reader: ReceiptReader | null;

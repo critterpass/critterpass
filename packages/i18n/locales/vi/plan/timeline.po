@@ -51,6 +51,14 @@ msgstr "Dời đi"
 msgid "plan.timeline.a11y.lane"
 msgstr "Chuyển sang làn kế tiếp"
 
+#: ../../apps/mobile/src/features/plan/timeline/weather-suggestion-data.ts
+msgid "plan.timeline.queued.dismiss"
+msgstr "Không dời nữa"
+
+#: ../../apps/mobile/src/features/plan/timeline/guide-banner.tsx
+msgid "plan.timeline.notNow"
+msgstr "Để sau"
+
 #: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
 msgid "plan.timeline.overlap"
 msgstr "Trùng giờ"

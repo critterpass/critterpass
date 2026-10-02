@@ -65,6 +65,7 @@ function WalletScene({
   offline = 9,
   archive = 0,
   held = 0,
+  codeSent = true,
 }: {
   readonly openId: string;
   readonly body: ReactNode;
@@ -72,6 +73,7 @@ function WalletScene({
   readonly offline?: number;
   readonly archive?: number;
   readonly held?: number;
+  readonly codeSent?: boolean;
 }) {
   const meta = useDeckMeta();
   const { upcoming } = splitWallet(bookings(), LAB_NOW);
@@ -94,7 +96,11 @@ function WalletScene({
       openBody={body}
       banner={banner ? { count: 2, member: 'Alex' } : null}
       archiveCount={archive}
-      heldMail={held > 0 ? <HeldMailCard count={held} onLink={noop} /> : null}
+      heldMail={
+        held > 0 ? (
+          <HeldMailCard count={held} codeSent={codeSent} onLink={noop} onPaste={noop} />
+        ) : null
+      }
       onSelect={noop}
       onOpenDetail={noop}
       onReview={noop}
@@ -108,7 +114,13 @@ function WalletScene({
 function wallet(
   openId: string,
   body: ReactNode,
-  options: { banner?: boolean; offline?: number; archive?: number; held?: number } = {},
+  options: {
+    banner?: boolean;
+    offline?: number;
+    archive?: number;
+    held?: number;
+    codeSent?: boolean;
+  } = {},
 ): ReactNode {
   return <WalletScene openId={openId} body={body} {...options} />;
 }
@@ -162,6 +174,8 @@ function PassScene() {
 export const WALLET_SCENES: Readonly<Record<string, () => ReactNode>> = {
   wallet: () => wallet('b-flight', flightBody({})),
   'wallet-held-mail': () => wallet('b-flight', flightBody({}), { banner: false, held: 3 }),
+  'wallet-held-mail-no-code': () =>
+    wallet('b-flight', flightBody({}), { banner: false, held: 3, codeSent: false }),
   'wallet-delayed': () =>
     wallet(
       'b-flight',

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { artifactOf, noMatchMessage, overrideFor } from './resolve-build';
 import {
   annotation,
+  countSkiaSurfaces,
   flowSlug,
   isMaestroFailureShot,
   maestroEnvArgs,
@@ -102,5 +103,23 @@ describe('noMatchMessage', () => {
     expect(message).toContain('fingerprint abc');
     expect(message).toContain('build_url=https://x/app.apk');
     expect(noMatchMessage('android', 'abc', undefined)).toContain('Run an e2e-test build');
+  });
+});
+
+describe('countSkiaSurfaces', () => {
+  it('counts the Skia surfaces a flow created and released, and nothing else', () => {
+    const log = [
+      '10-02 08:11:32.849  5738  5738 I SkiaTextureView: onSurfaceTextureAvailable: 89x90',
+      '10-02 08:11:32.853  5738  5738 I SkiaTextureView: onSurfaceTextureAvailable: 63x63',
+      '10-02 08:11:40.001  5738  5738 I SkiaTextureView: onSurfaceTextureDestroyed',
+      '10-02 08:11:41.002  5738  5738 I RNSkia  : updateAndRelease() failed.',
+      '',
+    ].join('\n');
+    expect(countSkiaSurfaces(log)).toEqual({
+      created: 2,
+      destroyed: 1,
+      sizes: { '89x90': 1, '63x63': 1 },
+    });
+    expect(countSkiaSurfaces('')).toEqual({ created: 0, destroyed: 0, sizes: {} });
   });
 });

@@ -62,6 +62,8 @@ export interface QuestCardModel {
   readonly optional: boolean;
   readonly signedUp: boolean;
   readonly revealAt: string | null;
+  /** A "befriend" quest, with the set it asks for (null = any of the trip's critters). */
+  readonly befriend: { readonly set: string | null } | null;
 }
 
 export type QuestsScreenState = 'loading' | 'before' | 'writing' | 'over' | 'ready';
@@ -203,6 +205,10 @@ export function buildQuestsModel(input: QuestsInput): QuestsModel {
         optional: row.scope === 'optional',
         signedUp,
         revealAt: row.reveal_at,
+        befriend:
+          row.template === 'befriend'
+            ? { set: json<{ set?: string }>(row.params, {}).set ?? null }
+            : null,
       };
     });
   return {
