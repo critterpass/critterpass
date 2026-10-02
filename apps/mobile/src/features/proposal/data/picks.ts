@@ -5,6 +5,7 @@
  * guide wrote about it; one with neither is dropped.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
+import { isProposalReasonTag, type ProposalReasonTag } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 
 import { useGuideText } from '@/lib/i18n/guide-text';
@@ -48,25 +49,29 @@ const ITEMS_SQL = `SELECT i.stable_id, i.poi_id, p.name, i.category, d.day_no, i
   WHERE i.trip_id = ? AND i.version_id = coalesce(t.current_version_id, t.draft_version_id)`;
 const ITEMS_TABLES = ['plan_items', 'plan_days', 'pois', 'trips'];
 
+/** Tags a group version may carry: what the stop is, never a claim about the reader. */
+export const GROUP_TAG_MUST_DO = 'group_must_do';
+export const GROUP_TAG_DAY = 'group_day';
+
+/** The card's tag for each reason the guide may give (one per tag in the shared list). */
+const REASON_LABELS: Readonly<Record<ProposalReasonTag, () => string>> = {
+  your_must_do: () => t({ id: 'proposal.reason.mustDo', message: 'Your must-do' }),
+  matches_taste: () => t({ id: 'proposal.reason.taste', message: 'You’ll love this' }),
+  crew_favourite: () => t({ id: 'proposal.reason.crew', message: 'Crew favourite' }),
+  good_value: () => t({ id: 'proposal.reason.value', message: 'Good value' }),
+  only_here: () => t({ id: 'proposal.reason.onlyHere', message: 'Only here' }),
+};
+
 export function reasonLabel(tag: string, dayNo: number | null = null): string {
-  switch (tag) {
-    case 'group_must_do':
-      return t({ id: 'proposal.reason.groupMustDo', message: 'Must-do' });
-    case 'group_day':
-      return dayNo === null
-        ? t({ id: 'proposal.reason.onThePlan', message: 'On the plan' })
-        : t({ id: 'proposal.reason.day', message: `Day ${dayNo}` });
-    case 'your_must_do':
-      return t({ id: 'proposal.reason.mustDo', message: 'Your must-do' });
-    case 'matches_taste':
-      return t({ id: 'proposal.reason.taste', message: 'You’ll love this' });
-    case 'crew_favourite':
-      return t({ id: 'proposal.reason.crew', message: 'Crew favourite' });
-    case 'good_value':
-      return t({ id: 'proposal.reason.value', message: 'Good value' });
-    default:
-      return t({ id: 'proposal.reason.onlyHere', message: 'Only here' });
+  if (tag === GROUP_TAG_MUST_DO)
+    return t({ id: 'proposal.reason.groupMustDo', message: 'Must-do' });
+  if (tag === GROUP_TAG_DAY) {
+    return dayNo === null
+      ? t({ id: 'proposal.reason.onThePlan', message: 'On the plan' })
+      : t({ id: 'proposal.reason.day', message: `Day ${dayNo}` });
   }
+  // A tag this app does not know yet reads as the place-only reason.
+  return (isProposalReasonTag(tag) ? REASON_LABELS[tag] : REASON_LABELS.only_here)();
 }
 
 /** Why the guide put it there, in a sentence for the why sheet. */
@@ -161,10 +166,6 @@ const PLAN_SQL = `SELECT i.stable_id, i.poi_id, p.name, m.title AS must_do_title
   WHERE i.trip_id = ?
   ORDER BY d.day_no, i.starts_at, i.stable_id`;
 const PLAN_TABLES = ['plan_items', 'plan_days', 'pois', 'must_dos', 'trips'];
-
-/** Tags a group version may carry: what the stop is, never a claim about the reader. */
-export const GROUP_TAG_MUST_DO = 'group_must_do';
-export const GROUP_TAG_DAY = 'group_day';
 
 /**
  * The group version's highlights, from the plan the crew can read once the proposal is sent: the

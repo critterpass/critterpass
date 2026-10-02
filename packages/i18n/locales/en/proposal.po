@@ -144,6 +144,10 @@ msgstr "{amount} each"
 msgid "proposal.dropout.seatsBefore"
 msgstr "{before} seats"
 
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.boarded"
+msgstr "{boarded} of {recipients} boarded."
+
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.eyebrow"
 msgstr "{destination} · seat {seat}"
@@ -193,8 +197,8 @@ msgid "proposal.hype.pct"
 msgstr "{pct}%"
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
-msgid "proposal.hype.count"
-msgstr "{reacted} of {recipients} reacted."
+msgid "proposal.hype.reacted"
+msgstr "{reacted} reacted."
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"

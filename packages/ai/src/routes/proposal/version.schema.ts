@@ -4,18 +4,13 @@
  * the lead item. The model names plan items and options by id; every number is injected.
  */
 import type Anthropic from '@anthropic-ai/sdk';
+import { PROPOSAL_REASON_TAGS, type ProposalReasonTag } from '@cp/domain';
 import { z } from 'zod';
 
 import type { PersonaId } from '../../persona/schema';
 
-export const REASON_TAGS = [
-  'your_must_do',
-  'matches_taste',
-  'crew_favourite',
-  'good_value',
-  'only_here',
-] as const;
-export type ReasonTag = (typeof REASON_TAGS)[number];
+export const REASON_TAGS = PROPOSAL_REASON_TAGS;
+export type ReasonTag = ProposalReasonTag;
 
 export const MAX_SLIDES = 6;
 export const SLIDE_HEADLINE_MAX = 60;

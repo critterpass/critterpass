@@ -2,5 +2,6 @@
 export * from './events';
 export * from './ops';
 export * from './queues';
+export * from './reason-tags';
 export * from './reply-by';
 export * from './schemas';

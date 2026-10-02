@@ -144,6 +144,10 @@ msgstr "{amount} mỗi người"
 msgid "proposal.dropout.seatsBefore"
 msgstr "{before} chỗ"
 
+#: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
+msgid "proposal.hype.boarded"
+msgstr "{boarded} trên {recipients} người đã lên tàu."
+
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.eyebrow"
 msgstr "{destination} · chỗ thứ {seat}"
@@ -193,8 +197,8 @@ msgid "proposal.hype.pct"
 msgstr "{pct}%"
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
-msgid "proposal.hype.count"
-msgstr "{reacted}/{recipients} người đã thả cảm xúc."
+msgid "proposal.hype.reacted"
+msgstr "{reacted} người đã thả cảm xúc."
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.title"
