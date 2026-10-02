@@ -155,7 +155,7 @@ describe('<Sticker>', () => {
       new DiskLruCache(fs, 1024 * 1024),
     );
     const drawProgress = fakeSharedValue(0);
-    const { rerender, findByTestId } = await render(
+    const { rerender, findByTestId, queryByTestId } = await render(
       <Sticker
         kind="gecko"
         name="Tokek"
@@ -193,7 +193,9 @@ describe('<Sticker>', () => {
       />,
     );
     await waitFor(() => expect(fs.files.size).toBeGreaterThan(0));
-    expect(await findByTestId('cached-image')).toBeTruthy();
+    // Finished, it is a plain image: no live canvas (a GL surface of its own) stays mounted.
+    expect(await findByTestId('sticker-image')).toBeTruthy();
+    expect(queryByTestId('live-picture')).toBeNull();
   });
 
   it('closedEyes renders under a different cache key than open eyes', async () => {
