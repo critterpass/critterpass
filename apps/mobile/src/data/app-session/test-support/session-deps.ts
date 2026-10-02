@@ -73,6 +73,8 @@ export interface SessionHarness {
   readonly errors: unknown[];
   /** One entry per app restart asked for: the last uid in storage at that moment. */
   readonly restarts: (string | null)[];
+  /** How many times a start offered the sign-in back (no session, unsent changes kept). */
+  readonly sessionLost: () => number;
   /** Every request to the link endpoints, answered from recorded fixtures. */
   readonly linkRequests: { method: string; path: string; body?: unknown }[];
   /** One entry per `GET /v1/config/bootstrap` the session made. */
@@ -102,6 +104,7 @@ export function sessionHarness(options: {
   const endpointWrites: string[] = [];
   const errors: unknown[] = [];
   const restarts: (string | null)[] = [];
+  let lost = 0;
   const appState = lifecycle();
   const lastUid = options.lastUid ?? memoryLastUid();
   const links = fakeLinksHttp(standardRoutes);
@@ -151,6 +154,9 @@ export function sessionHarness(options: {
     realtime: { url: UNREACHABLE_WS, positions: createDeviceRecoveryStore() },
     onError: (error) => errors.push(error),
     restart: () => restarts.push(lastUid.current),
+    onSessionLost: () => {
+      lost += 1;
+    },
     // A check with no answer gives up after 100 ms and asks again 20–40 ms later.
     sessionCheck: { timeoutMs: 100, backoff: { baseMs: 40, maxMs: 40, random: () => 0 } },
   };
@@ -164,6 +170,7 @@ export function sessionHarness(options: {
     endpointWrites,
     errors,
     restarts,
+    sessionLost: () => lost,
     linkRequests: links.requests,
     flagRequests,
     start: async () => {

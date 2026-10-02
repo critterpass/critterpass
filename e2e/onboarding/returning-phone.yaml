@@ -4,7 +4,8 @@ appId: app.critterpass.dev
 # number (+65 9123 4567, its fixed code in OTP_TEST_CODE) and starts a crew; Developer tools → Test
 # accounts keeps that account and starts a new one on this phone (as a sign-out leaves it); "I
 # already have a pass" with the same number then lands on Home with the crew, not on the name page.
-# Run with `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+# The sign-in restarts the app once, onto that account. Run with
+# `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
 - runFlow: ../happy/subflows/fresh-install.yaml
 - runFlow: subflows/through-name.yaml
 - tapOn:
@@ -87,12 +88,19 @@ appId: app.critterpass.dev
     visible:
       id: 'onboarding-sign-in'
     timeout: 60000
-- tapOn:
-    id: 'onboarding-sign-in'
-- extendedWaitUntil:
-    visible:
-      id: 'phone-number'
-    timeout: 10000
+# The splash is still settling after the account switch's restart: a tap while it lands can be
+# lost (seen on iOS), so the tap is made again until the sign-in page is up.
+- waitForAnimationToEnd:
+    timeout: 5000
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: 'onboarding-sign-in'
+      - extendedWaitUntil:
+          visible:
+            id: 'phone-number'
+          timeout: 10000
 # A new pass has no home yet, so the country is this phone's region: Singapore is picked by hand.
 - tapOn:
     id: 'phone-country'
@@ -123,12 +131,16 @@ appId: app.critterpass.dev
       id: 'phone-sent'
     timeout: 20000
 - inputText: '${OTP_TEST_CODE}'
-# The app starts again on the account that saved the number. It may come back on the tab it was
-# last on (TRIPS, from the account switch): Home shows the crew.
+# The app starts again, once, straight onto the account that saved the number: the first shell it
+# draws is that account's (Home waits on its first sync), never the new pass's own Home with no
+# crew, which a start on the stale stored uid would show until its session check restarted it
+# again. It may come back on the tab it was last on (TRIPS, from the account switch).
 - extendedWaitUntil:
     visible:
       id: 'tab-home'
     timeout: 60000
+- assertNotVisible:
+    id: 'home-first-run'
 - tapOn:
     id: 'tab-home'
 # The crew's name in Home's header (on iOS only the button's label, "{crew}, switch crew", shows).

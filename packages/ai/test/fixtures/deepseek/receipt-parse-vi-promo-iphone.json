@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-02.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4ebc5722-3008-4987-9339-3bce688f0d0a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"merchant\":\"TT\",\"datetime\":null,\"currency\":\"VND\",\"lines\":[{\"line_id\":\"l4\",\"label\":\"Lạc rang húng\",\"qty\":null,\"amount\":\"20.000\",\"kind\":\"item\"},{\"line_id\":\"l8\",\"label\":\"Ba hội Hà Nội\",\"qty\":null,\"amount\":\"378,000\",\"kind\":\"item\"},{\"line_id\":\"l13\",\"label\":\"Chả ốc Tràng\",\"qty\":null,\"amount\":\"119.000\",\"kind\":\"item\"},{\"line_id\":\"l17\",\"label\":\"Đậu hũ chiên giòn\",\"qty\":null,\"amount\":\"68.000\",\"kind\":\"item\"},{\"line_id\":\"l23\",\"label\":\"Rau củ luộc chấm muối vừng\",\"qty\":null,\"amount\":\"89.000\",\"kind\":\"item\"},{\"line_id\":\"l29\",\"label\":\"Tôm Sông\",\"qty\":null,\"amount\":\"139.000\",\"kind\":\"item\"},{\"line_id\":\"l32\",\"label\":\"Trâu Gác Bếp Cuốn\",\"qty\":null,\"amount\":\"99.000\",\"kind\":\"item\"},{\"line_id\":\"l44\",\"label\":\"Cơm chiên hải sản\",\"qty\":null,\"amount\":\"119.000\",\"kind\":\"item\"},{\"line_id\":\"l49\",\"label\":\"Ech rang muối\",\"qty\":null,\"amount\":\"139.000\",\"kind\":\"item\"},{\"line_id\":\"l55\",\"label\":\"Đồi sụn Tràng An\",\"qty\":null,\"amount\":\"69,000\",\"kind\":\"item\"},{\"line_id\":\"l59\",\"label\":\"Khuyến mại\",\"qty\":null,\"amount\":\"99.000\",\"kind\":\"discount\"}],\"total\":{\"line_id\":\"l64\",\"amount\":\"1.260.000đ\"}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 168,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 396,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

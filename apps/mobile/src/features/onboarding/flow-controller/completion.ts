@@ -7,6 +7,7 @@ import { useSyncExternalStore } from 'react';
 import type { SessionGateState } from '@/lib/navigation/gates';
 import { resumePendingLink } from '@/lib/links/router';
 import { isOnboardingComplete, setOnboardingComplete } from '@/lib/links/pending';
+import { useSessionLostSignIn } from '../phone/session-lost-sign-in';
 
 const HOME = '/';
 
@@ -35,6 +36,7 @@ const ONBOARDING: SessionGateState = { status: 'onboarding' };
 
 /** The session gate: tabs and trip screens wait behind onboarding until it completes. */
 export function useOnboardingGate(): SessionGateState {
+  useSessionLostSignIn();
   const done = useSyncExternalStore(subscribe, isOnboardingComplete);
   return done ? READY : ONBOARDING;
 }

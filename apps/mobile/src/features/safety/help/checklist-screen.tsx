@@ -14,6 +14,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { pickPolicy, useInsurancePolicies, BOOKINGS_ROUTES } from '@/features/bookings';
+import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { feedback } from '@/motion';
 import { Card } from '@/ui/cards/Card';
@@ -33,7 +34,13 @@ import { useSpeech } from '../data/use-speech';
 import { telUrl } from '../format';
 import { stepText } from './checklist-copy';
 import { useOpsDesk } from '../data/use-ops-desk';
-import { checklistPhrase, localChecklist, withDesk } from './checklist-model';
+import {
+  checklistPhrase,
+  localChecklist,
+  readsPhraseLanguage,
+  withDesk,
+  withPhrase,
+} from './checklist-model';
 import { ShowIt } from './show-it';
 import { useHelpHub } from './use-help-hub';
 import { useStepActions, type StepAction } from './use-step-actions';
@@ -67,8 +74,13 @@ export function ChecklistScreen() {
   }, [hub.tripId, hub.located, hub.position, problem]);
 
   const desk = useOpsDesk();
-  const steps = withDesk(server ?? localChecklist(hub.model, problem), desk);
-  const phrase = checklistPhrase(hub.model, problem);
+  const locale = useLocale();
+  const found = checklistPhrase(hub.model, problem);
+  const phrase = found !== null && readsPhraseLanguage(locale, found.language) ? null : found;
+  const steps = withPhrase(
+    withDesk(server ?? localChecklist(hub.model, problem), desk),
+    phrase !== null || found === null,
+  );
   const speech = useSpeech(phrase?.text ?? null, phrase?.language ?? null);
   const actionsFor = useStepActions({
     model: hub.model,

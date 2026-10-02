@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import type { EmergencyLine, HelpContext, HelpPhrase } from '@cp/domain';
 
 import { buildHubModel, type FacilityRow, type HelpLocalInput } from '../help/help-model';
-import { localChecklist, withDesk } from '../help/checklist-model';
+import { localChecklist, readsPhraseLanguage, withDesk, withPhrase } from '../help/checklist-model';
 import { isOn } from '../data/ops-desk-flag';
 
 const VIETNAM: readonly EmergencyLine[] = [
@@ -165,5 +165,20 @@ describe('the ops desk switch', () => {
     expect(isOn(null)).toBe(false);
     expect(isOn('false')).toBe(false);
     expect(isOn('true')).toBe(true);
+  });
+});
+
+describe('the phrase card', () => {
+  it('is left out for a reader whose app language is the phrase language', () => {
+    expect(readsPhraseLanguage('vi', 'vi')).toBe(true);
+    expect(readsPhraseLanguage('vi-VN', 'vi')).toBe(true);
+    expect(readsPhraseLanguage('en', 'vi')).toBe(false);
+    expect(readsPhraseLanguage('pt-BR', 'pt-PT')).toBe(true);
+  });
+
+  it("takes the checklist's show-them step with it", () => {
+    const steps = localChecklist(buildHubModel(DA_NANG, null), 'hurt');
+    expect(withPhrase(steps, false).map((step) => step.kind)).not.toContain('phrase');
+    expect(withPhrase(steps, true)).toHaveLength(steps.length);
   });
 });

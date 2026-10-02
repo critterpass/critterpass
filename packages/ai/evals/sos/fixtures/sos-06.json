@@ -1,25 +1,25 @@
 {
-  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-02.",
   "response": {
     "status": 200,
     "body": {
-      "id": "b8e9854b-d070-4acb-bd59-3dae9d78800d",
+      "id": "7b7a377d-4141-4770-85f6-5c65ad450fea",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"summary\":\"Jordan had a fall in Ubud. They sent an SOS to the crew.\"}"
+          "text": "{\"summary\":\"Jordan fell in Ubud.\"}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 141,
+        "input_tokens": 284,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 256,
-        "output_tokens": 20,
+        "cache_read_input_tokens": 128,
+        "output_tokens": 10,
         "service_tier": "standard"
       }
     }

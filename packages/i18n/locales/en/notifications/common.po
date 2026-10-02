@@ -27,10 +27,6 @@ msgstr "{count, plural, one {# change} other {# changes}} for {crew}. Approve or
 msgid "notifications.quests.ready.body"
 msgstr "{count} quests are up for {place}."
 
-#: ../../services/worker/src/jobs/safety/notify.ts
-msgid "notifications.sos_resolved.title"
-msgstr "{crew}"
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
 msgstr "{crew}"
@@ -41,6 +37,10 @@ msgstr "{crew}"
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.found_title"
+msgstr "{crew}"
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.title"
 msgstr "{crew}"
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
@@ -131,16 +131,16 @@ msgstr "{headline}"
 msgid "notifications.crew_invite.title"
 msgstr "{inviter} wants you in {crew}"
 
-#: ../domain/src/disruptions/templates.ts
-msgid "notifications.disruption.needs_yes_body"
-msgstr "{line}"
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_body"
 msgstr "{line}"
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.body"
+msgstr "{line}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_body"
 msgstr "{line}"
 
 #: ../domain/src/critters/realtime.ts
@@ -483,6 +483,10 @@ msgstr "Leave now. {up} of {total} up."
 msgid "email.bookings.link_subject"
 msgstr "Link this email to CritterPass"
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.location_share.title"
+msgstr "Location share"
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.ping_meetup"
 msgstr "Meet at {place}, {time}."
@@ -658,3 +662,7 @@ msgstr "Your crew planned {place}"
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.hatched.title"
 msgstr "Your egg hatched!"
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.location_share.ending"
+msgstr "Your location share with the crew ends in 10 minutes."

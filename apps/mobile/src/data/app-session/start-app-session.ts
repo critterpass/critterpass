@@ -95,6 +95,11 @@ export interface AppSessionDeps {
   readonly onError: (error: unknown) => void;
   /** Restarts the app's JavaScript, so it starts again on the session now in storage. */
   readonly restart: () => void;
+  /**
+   * No session while changes made here are unsent: called once the data is held (no wipe, no
+   * sync), so the app can offer the sign-in that gets this account back.
+   */
+  readonly onSessionLost?: () => void;
   /** The returning install's session check timing; `SESSION_CHECK` unless a test shortens it. */
   readonly sessionCheck?: SessionCheckPolicy;
 }

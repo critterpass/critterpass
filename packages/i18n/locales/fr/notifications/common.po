@@ -27,10 +27,6 @@ msgstr ""
 msgid "notifications.quests.ready.body"
 msgstr ""
 
-#: ../../services/worker/src/jobs/safety/notify.ts
-msgid "notifications.sos_resolved.title"
-msgstr ""
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
 msgstr ""
@@ -41,6 +37,10 @@ msgstr ""
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.found_title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.title"
 msgstr ""
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
@@ -131,16 +131,16 @@ msgstr ""
 msgid "notifications.crew_invite.title"
 msgstr ""
 
-#: ../domain/src/disruptions/templates.ts
-msgid "notifications.disruption.needs_yes_body"
-msgstr ""
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_body"
 msgstr ""
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.body"
+msgstr ""
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_body"
 msgstr ""
 
 #: ../domain/src/critters/realtime.ts
@@ -483,6 +483,10 @@ msgstr ""
 msgid "email.bookings.link_subject"
 msgstr ""
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.location_share.title"
+msgstr ""
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.ping_meetup"
 msgstr ""
@@ -657,4 +661,8 @@ msgstr ""
 
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.hatched.title"
+msgstr ""
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.location_share.ending"
 msgstr ""

@@ -35,6 +35,8 @@ import { createDeviceRecoveryStore } from '../realtime/device-recovery-store';
 import { authClient, sessionHeaders } from './auth-client';
 import { appEnvironment, endpointsConfigJson, resolveRealtimeUrl } from './endpoints';
 import { createLinksHttp } from './links-http';
+import { deviceLastUid } from './last-uid-store';
+import { sessionLost } from './session-lost';
 import { startAppSession, type AppSession } from './start-app-session';
 import { startOnce } from './start-once';
 
@@ -44,7 +46,6 @@ export function reportAppSessionError(error: unknown): void {
 }
 
 const storage = createMMKV({ id: 'cp-app-session' });
-const LAST_UID_KEY = 'cp.session.last_uid';
 const REPORTED_LOCALE_KEY = 'cp.session.reported_locale';
 
 /** React Native's `AppState`; before the first report it counts as foreground. */
@@ -138,13 +139,7 @@ function createSession(): Promise<AppSession> {
       sessionHeaders,
       getSession: () => authClient().getSession(),
     },
-    lastUid: {
-      read: () => storage.getString(LAST_UID_KEY) ?? null,
-      write: (uid) => storage.set(LAST_UID_KEY, uid),
-      clear: () => {
-        storage.remove(LAST_UID_KEY);
-      },
-    },
+    lastUid: deviceLastUid,
     startLocalFirst,
     outbox: group.outbox,
     device: deviceResolver,
@@ -154,6 +149,7 @@ function createSession(): Promise<AppSession> {
     realtime: { url: resolveRealtimeUrl(), positions: createDeviceRecoveryStore() },
     onError: reportAppSessionError,
     restart: restartApp,
+    onSessionLost: () => sessionLost.set(),
   }).then((session) => {
     // The server learns the language this app is in (and every later switch) for as long as the
     // process lives, like the session itself.

@@ -61,6 +61,9 @@ appId: app.critterpass.dev
       id: 'checklist-action-call_number'
     timeout: 15000
 - waitForAnimationToEnd
+# An English reader in Vietnam gets the Vietnamese phrase card.
+- assertVisible:
+    id: 'checklist-phrase'
 - takeScreenshot: en-help-checklist-hurt
 # Maestro's back is Android only: the screen's own back control works on both.
 - tapOn:
@@ -163,6 +166,8 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: vi-3k-6-help
+- assertNotVisible:
+    id: 'help-phrase'
 - tapOn: '(?i)bị thương hoặc ốm'
 - extendedWaitUntil:
     visible:
@@ -170,3 +175,6 @@ appId: app.critterpass.dev
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: vi-help-checklist-hurt
+# A Vietnamese reader in Vietnam needs no Vietnamese phrase card.
+- assertNotVisible:
+    id: 'checklist-phrase'

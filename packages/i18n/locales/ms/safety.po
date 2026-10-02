@@ -84,6 +84,10 @@ msgstr ""
 msgid "safety.sos.arrived"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.extendShare"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.extend"
 msgstr ""
@@ -490,6 +494,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.stayPut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.stopShare"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx

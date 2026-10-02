@@ -84,6 +84,10 @@ msgstr "{who} is going. {eta} minutes away on foot."
 msgid "safety.sos.arrived"
 msgstr "{who} is there."
 
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.extendShare"
+msgstr "+1 h"
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.extend"
 msgstr "+1 h"
@@ -491,6 +495,10 @@ msgstr "Starting as soon as you have signal"
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.stayPut"
 msgstr "Stay where you are, somewhere safe and easy to spot."
+
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.stopShare"
+msgstr "Stop"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.stop"

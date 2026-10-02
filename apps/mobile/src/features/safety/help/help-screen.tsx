@@ -12,6 +12,7 @@ import { Linking } from 'react-native';
 import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { SET_CONSENT } from '@/lib/location/visits';
+import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { usePermission } from '@/lib/permissions';
 import { toast } from '@/motion';
@@ -31,6 +32,7 @@ import { deviceHelpApi } from '../data/help-api';
 import { useSpeech } from '../data/use-speech';
 import { telUrl } from '../format';
 import { safetyRoutes } from '../routes';
+import { readsPhraseLanguage } from './checklist-model';
 import { ConsentSheet } from './consent-sheet';
 import { HelpView } from './help-view';
 import { ShowIt } from './show-it';
@@ -71,7 +73,9 @@ export function HelpScreen() {
     ? GUIDE_STICKERS[guideSlug as keyof typeof GUIDE_STICKERS]
     : GUIDE_STICKERS.tokek;
   const guideName = hub.trip?.guide_name ?? guide.name;
-  const phrase = hub.model.phrase;
+  const locale = useLocale();
+  const found = hub.model.phrase;
+  const phrase = found !== null && readsPhraseLanguage(locale, found.language) ? null : found;
   const speech = useSpeech(phrase?.text ?? null, phrase?.language ?? null);
 
   function shared(sessionId: string, result: SendResult) {
@@ -152,7 +156,7 @@ export function HelpScreen() {
           shareHours: share === null ? null : Math.max(1, Math.ceil(share.minutesLeft / 60)),
           onBack: () => (router.canGoBack() ? router.back() : router.replace('/')),
         }}
-        model={hub.model}
+        model={phrase === found ? hub.model : { ...hub.model, phrase: null }}
         share={{
           crewName,
           share,
