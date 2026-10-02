@@ -31,9 +31,8 @@ import type pg from 'pg';
 import { defineJob, type JobDefinition } from '../../boss';
 import { armTripBriefings } from './briefing-schedule';
 import { armDayBundles } from './daybundle-triggers';
+import { travelFor } from './leave-by-travel';
 import { loadPlanItems, type PlanItemRow } from './plan-items';
-
-const MINUTE = 60_000;
 
 interface ExistingLeaveBy {
   id: string;
@@ -42,53 +41,6 @@ interface ExistingLeaveBy {
   buffer_min: number;
   state: LeaveByState;
   version: number;
-}
-
-async function travelFor(
-  router: RouteEtaProvider,
-  item: PlanItemRow,
-  arriveEarly: number,
-): Promise<LeaveByLeg> {
-  if (item.pickup_at !== null) {
-    return {
-      kind: 'pickup',
-      minutes: 0,
-      distance_m: null,
-      mode: null,
-      source: 'pickup',
-      traffic: false,
-      estimate: false,
-    };
-  }
-  if (item.origin === null || item.lat === null || item.lng === null) {
-    return {
-      kind: 'none',
-      minutes: 0,
-      distance_m: null,
-      mode: null,
-      source: 'none',
-      traffic: false,
-      estimate: true,
-    };
-  }
-  const eta = await router.eta({
-    originLat: item.origin.lat,
-    originLng: item.origin.lng,
-    destLat: item.lat,
-    destLng: item.lng,
-    mode: 'auto',
-    // A first guess of when the crew sets off, so predicted traffic is for the right hour.
-    departAt: new Date(item.starts_at.getTime() - (arriveEarly + 60) * MINUTE),
-  });
-  return {
-    kind: 'route',
-    minutes: eta.minutes,
-    distance_m: eta.distanceM,
-    mode: eta.mode,
-    source: eta.source,
-    traffic: eta.traffic,
-    estimate: eta.estimate,
-  };
 }
 
 async function armTimers(
@@ -257,7 +209,12 @@ export async function recomputeLeaveBys(
   for (const item of items) {
     const leg = await travelFor(router, item, arriveEarlyMinutes(item.category));
     const travel = leg.kind === 'route' ? leg.minutes : null;
-    if (isLeaveByEligible({ ...item, startsAt: item.starts_at }, travel)) {
+    const place = {
+      category: item.place_category,
+      name: item.place_name,
+      nameLocal: item.place_name_local,
+    };
+    if (isLeaveByEligible({ ...item, startsAt: item.starts_at, place }, travel)) {
       eligible.push({ item, leg });
     }
   }
