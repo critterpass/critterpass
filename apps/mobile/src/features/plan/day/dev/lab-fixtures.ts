@@ -66,8 +66,8 @@ export const TERRACES = item({
 export const LUNCH = item({
   stableId: 'i-lunch',
   title: 'Lunch · Biah Biah',
-  start: 11 * 60 + 30,
-  end: 12 * 60 + 45,
+  start: 11 * 60,
+  end: 12 * 60 + 30,
   category: 'food',
   status: 'voting',
 });
@@ -75,7 +75,7 @@ export const WALK = item({
   stableId: 'i-walk',
   title: 'Ridge walk',
   start: 14 * 60,
-  end: 15 * 60 + 15,
+  end: 15 * 60 + 30,
   category: 'hike',
   place: { lat: -8.5031, lng: 115.2543 },
 });
