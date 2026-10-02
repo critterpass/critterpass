@@ -4,18 +4,24 @@
  * keeps the words as written; the overview does the same for its day cards and labels.
  */
 import { guideTextSourceHash } from '@cp/domain';
-import { describe, expect, it } from '@jest/globals';
+import { i18n as lingui } from '@lingui/core';
+import { beforeAll, describe, expect, it } from '@jest/globals';
 
 import { toPlanDays, toPlanItems } from '../../overview/model/plan-model';
 import type { PlanItemRow as OverviewItemRow } from '../../overview/data/plan-rows';
 import {
   dayItems,
   displayOf,
+  placeNamesOf,
   themesAsRead,
   toPlanState,
   type PlanDayRow,
   type PlanItemRow,
 } from '../plan-model';
+
+beforeAll(() => {
+  lingui.loadAndActivate({ locale: 'en', messages: {} });
+});
 
 const NOTE = 'Dragon Bridge breathes fire at 21:00 on weekends.';
 const NOTE_VI = 'Dragon Bridge phun lửa lúc 21:00 cuối tuần.';
@@ -77,9 +83,37 @@ describe('the day view', () => {
     expect(read([item({})], 'en').items[0]?.notes).toBe(NOTE);
   });
 
-  it('titles a stop without a place by its translated note', () => {
-    const { items } = read([item({ poi_id: null, poi_name: null })], 'vi');
-    expect(items[0]?.title).toBe(NOTE_VI);
+  it("never titles a guide's stop by its note: its kind names it, the note stays a note", () => {
+    const { items } = read([item({ poi_id: null, poi_name: null, category: 'meal' })], 'vi');
+    expect(items[0]).toMatchObject({ title: 'Meal', notes: NOTE_VI });
+  });
+
+  it("names a stop by the plan's own place name when the phone's catalogue has none", () => {
+    const rows = [item({ poi_name: null })];
+    const state = toPlanState([DAY], rows);
+    const places = placeNamesOf(
+      JSON.stringify({ places: { 'poi-1': { name: 'Mì Quảng Bà Mua' } } }),
+    );
+    const items = dayItems(state, 1, displayOf(rows, 'en', places), 'Asia/Ho_Chi_Minh');
+    expect(items[0]).toMatchObject({ title: 'Mì Quảng Bà Mua', notes: NOTE });
+    // Without the version's names it reads as its kind, never as the note.
+    expect(read(rows, 'en').items[0]?.title).toBe('Activity');
+  });
+
+  it("names a person's own stop (no place) by what they typed", () => {
+    const typed = 'Coffee with Linh';
+    const rows = [
+      item({ poi_id: null, poi_name: null, created_by_kind: 'user', notes: typed, i18n: null }),
+    ];
+    expect(read(rows, 'en').items[0]?.title).toBe(typed);
+  });
+
+  it('reads the place names out of the version, and nothing out of a broken record', () => {
+    expect(placeNamesOf(null).size).toBe(0);
+    expect(placeNamesOf('not json').size).toBe(0);
+    expect(
+      placeNamesOf(JSON.stringify({ places: { a: { name: ' ' }, b: { name: 'Ba Na' } } })).get('b'),
+    ).toBe('Ba Na');
   });
 
   it('shows a note someone edited as typed, in every language', () => {

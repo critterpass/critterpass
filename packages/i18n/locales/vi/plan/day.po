@@ -48,6 +48,10 @@ msgstr "Một bình luận"
 msgid "plan.day.queued.edit"
 msgstr "Một chỉnh sửa lịch trình"
 
+#: ../../apps/mobile/src/features/plan/day/plan-model.ts
+msgid "plan.day.item.kindActivity"
+msgstr "Hoạt động"
+
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.from"
 msgstr "Thêm từ"
@@ -151,6 +155,10 @@ msgstr "Muộn hơn 15 phút"
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.loading"
 msgstr "Đang tải ngày"
+
+#: ../../apps/mobile/src/features/plan/day/plan-model.ts
+msgid "plan.day.item.kindMeal"
+msgstr "Bữa ăn"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"

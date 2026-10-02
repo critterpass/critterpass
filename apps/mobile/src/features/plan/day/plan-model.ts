@@ -6,6 +6,7 @@
  * 1650 and the axis extends to it.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values and ISO date parts, never copy. */
+import { t } from '@lingui/core/macro';
 import {
   localSchedule,
   toLocalWallTime,
@@ -180,15 +181,65 @@ export interface ItemDisplay {
 }
 
 /**
+ * The plan version's own place names, by place id (`itinerary_versions.coverage.places`): a
+ * drafted stop's place is often not in the phone's place catalogue.
+ */
+export function placeNamesOf(coverage: string | null): ReadonlyMap<string, string> {
+  let parsed: unknown = null;
+  try {
+    parsed = JSON.parse(coverage ?? 'null') as unknown;
+  } catch {
+    return new Map();
+  }
+  const places = (parsed as { places?: unknown } | null)?.places;
+  if (typeof places !== 'object' || places === null) return new Map();
+  return new Map(
+    Object.entries(places as Record<string, unknown>).flatMap(([id, place]) => {
+      const name = (place as { name?: unknown } | null)?.name;
+      return typeof name === 'string' && name.trim() !== '' ? [[id, name.trim()] as const] : [];
+    }),
+  );
+}
+
+/**
+ * An item's name: its place's name (the version's own first, then the catalogue's). An item with
+ * no place is named by its note only when someone typed it as the item's name (a person's own
+ * item); the guide's note is a sentence about the stop, so a guide item with no name reads as its
+ * kind ("Meal", "Activity") and the note stays under Notes.
+ */
+export function itemTitle(
+  row: Pick<PlanItemRow, 'poi_id' | 'poi_name' | 'notes' | 'category' | 'created_by_kind'>,
+  places: ReadonlyMap<string, string>,
+): string | null {
+  const named = (row.poi_id === null ? undefined : places.get(row.poi_id)) ?? row.poi_name;
+  if (named !== null && named !== undefined) return named;
+  if (row.poi_id === null && row.created_by_kind !== 'guide' && row.notes !== null) {
+    return row.notes;
+  }
+  return kindTitle(row.category);
+}
+
+/** A stop's kind as a name, for a stop with nothing better to go by. */
+export function kindTitle(category: string | null): string {
+  return category === 'meal' || category === 'food'
+    ? t({ id: 'plan.day.item.kindMeal', message: 'Meal' })
+    : t({ id: 'plan.day.item.kindActivity', message: 'Activity' });
+}
+
+/**
  * Display fields the plan state does not carry (a place's name and position, the guide's note in
  * the app's language), by stable id. The state keeps the note as written: edits replay on that.
  */
-export function displayOf(rows: readonly PlanItemRow[], locale = 'en'): Map<string, ItemDisplay> {
+export function displayOf(
+  rows: readonly PlanItemRow[],
+  locale = 'en',
+  places: ReadonlyMap<string, string> = new Map(),
+): Map<string, ItemDisplay> {
   return new Map(
     rows.map((row) => [
       row.stable_id,
       {
-        title: row.poi_name ?? guideText('plan_item', row, 'notes', locale),
+        title: itemTitle(row, places),
         notes: guideText('plan_item', row, 'notes', locale),
         place:
           row.poi_lat === null || row.poi_lng === null
@@ -235,7 +286,12 @@ export function dayItems(
       return {
         stableId: item.stable_id,
         dayNo,
-        title: shown?.title ?? item.notes ?? item.category ?? '',
+        // An item not synced yet (a person's own, just added) is named by what they typed.
+        title:
+          shown?.title ??
+          (item.poi_id == null && item.created_by_kind !== 'guide' && item.notes
+            ? item.notes
+            : kindTitle(item.category ?? null)),
         category: item.category ?? null,
         start,
         end: end ?? (start === null ? null : start + 60),

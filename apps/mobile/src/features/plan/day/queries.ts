@@ -51,6 +51,10 @@ export const ITEMS_SQL = `SELECT i.stable_id, d.day_no, i.starts_at, i.ends_at, 
   ORDER BY i.starts_at, i.stable_id`;
 export const ITEMS_TABLES = ['plan_items', 'plan_days', 'pois'];
 
+/** The version's own record of the places it plans (their names, for items to go by). */
+export const VERSION_PLACES_SQL = 'SELECT coverage FROM itinerary_versions WHERE id = ?';
+export const VERSION_PLACES_TABLES = ['itinerary_versions'];
+
 /** Plan edits and proposals still in the local queue, oldest first. */
 export const QUEUED_PLAN_SQL = `SELECT id, cmd, envelope, status FROM commands
   WHERE cmd IN ('apply_plan_ops', 'create_changeset') ORDER BY seq`;

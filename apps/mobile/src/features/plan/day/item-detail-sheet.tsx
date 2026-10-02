@@ -180,7 +180,7 @@ export function ItemDetailSheet({
               </Text>
             </Section>
           )}
-          {item.notes === null || item.poiId === null ? null : (
+          {item.notes === null || item.notes === item.title ? null : (
             <Section label={t({ id: 'plan.day.item.notes', message: 'Notes' })}>
               <Text variant="body">{item.notes}</Text>
             </Section>
