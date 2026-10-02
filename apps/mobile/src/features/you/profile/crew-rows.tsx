@@ -45,7 +45,8 @@ function CrewRow(props: {
     <>
       {props.leading}
       <Stack gap="2" style={styles.body}>
-        <Text variant="h3" numberOfLines={2}>
+        {/* A long name wraps between words; a word too long for the line shrinks, never clips. */}
+        <Text variant="h3" autoFit>
           {props.title}
         </Text>
         <SecondaryText>{props.line}</SecondaryText>

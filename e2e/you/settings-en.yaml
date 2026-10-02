@@ -7,6 +7,24 @@ appId: app.critterpass.dev
     file: ../screens/sweep/subflows/start.yaml
     env:
       LANG: en
+# Long crew names on the profile wrap between words or shrink, never clip.
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3n-1-long-crews'
+      ROOT: 'you-profile'
+- scrollUntilVisible:
+    element:
+      id: 'you-profile-mrz'
+    direction: DOWN
+    timeout: 15000
+- takeScreenshot: en-3n-1-long-crews
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 15000
 - runFlow: ../home/subflows/onboard.yaml
 - tapOn:
     id: 'tab-pass'

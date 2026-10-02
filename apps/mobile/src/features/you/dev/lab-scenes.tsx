@@ -194,6 +194,25 @@ function Language() {
   );
 }
 
+/** Crew names longer than the row, to check they wrap or shrink and never clip. */
+const withLongCrews = (): ProfileModel => ({
+  ...SEASONED,
+  crews: [
+    'The Đà Nẵng Weekend Warriors',
+    'Uni housemates reunion tour',
+    'Supercalifragilisticexpialidocious',
+  ].map((name, index) => ({
+    id: `long-${index}`,
+    name,
+    members: ['Maya', 'Arjun', 'Jordan'].map((member, joinIndex) => ({
+      id: member,
+      name: member,
+      joinIndex,
+    })),
+    line: { kind: 'past', place: 'Lisbon', date: '2024-06-03' },
+  })),
+});
+
 /** A seasoned pass with two trips reported from before the app. */
 const withSelfReported = (): ProfileModel => ({
   ...SEASONED,
@@ -234,6 +253,7 @@ export const YOU_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3n-1-fresh': () => <Profile model={FRESH} />,
   '3n-1-loading': () => <Profile model={null} />,
   '3n-1-self-reported': () => <Profile model={withSelfReported()} />,
+  '3n-1-long-crews': () => <Profile model={withLongCrews()} />,
   ...HISTORY_SCENES,
   '3n-2-settings': () => <Settings />,
   '3n-8-language': () => <Language />,

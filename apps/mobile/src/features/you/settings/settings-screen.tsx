@@ -29,6 +29,8 @@ import { playTokekTheme } from './tokek-theme';
 import { useSyncedSettings } from './use-synced-settings';
 
 const STICKER_SOUNDS = 'stickers-and-stamps';
+/** Location has its own row under PRIVACY (3n-2), so the permissions section leaves it out. */
+const IN_PRIVACY = ['location'] as const;
 
 /** "CRITTERPASS 1.0 (214)"; the brand is set in capitals here, as on the pass cover. */
 export function versionLine(version: string | null, build: string | null): string {
@@ -97,7 +99,7 @@ export function SettingsScreen({
         version={versionLine(Application.nativeApplicationVersion, Application.nativeBuildVersion)}
         onTokek={playTokekTheme}
       >
-        <PermissionsSection testID="you-settings-permissions" />
+        <PermissionsSection exclude={IN_PRIVACY} testID="you-settings-permissions" />
       </SettingsView>
       {choosingCrewChat ? (
         <CrewChatSheet
