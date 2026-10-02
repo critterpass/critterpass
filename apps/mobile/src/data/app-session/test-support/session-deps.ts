@@ -18,9 +18,25 @@ import bootstrap from '../../../lib/analytics/test-support/config-bootstrap.json
 import { fakeLinksHttp, standardRoutes } from '../../../lib/links/test-support/fake-links-http';
 import { createDeviceRecoveryStore } from '../../realtime/device-recovery-store';
 import { lifecycle, type Lifecycle } from '../../realtime/test-support/lifecycle';
-import { startAppSession, type AppSession, type AppSessionDeps } from '../start-app-session';
+import { connectLocalFirst } from '../../powersync/local-first';
+import {
+  startAppSession,
+  type AppSession,
+  type AppSessionDeps,
+  type SessionAnswer,
+} from '../start-app-session';
 
 export const UNREACHABLE_WS = 'ws://127.0.0.1:49/connection/websocket';
+/** A PowerSync endpoint nothing listens on. */
+const UNREACHABLE_SYNC = 'http://127.0.0.1:49';
+
+/** The session check as the auth client returns it: the server names `userId`. */
+export function sessionOf(userId: string): SessionAnswer {
+  return { data: { user: { id: userId }, session: { userId } }, error: null };
+}
+
+/** The server's plain "no session": a 2xx with a null body. */
+export const NO_SESSION: SessionAnswer = { data: null, error: null };
 
 export interface MemoryLastUid {
   read(): string | null;
@@ -68,8 +84,13 @@ export function sessionHarness(options: {
   lastUid?: MemoryLastUid;
   /** The api's answer to `GET /v1/config/bootstrap`, in place of the recorded one. */
   serverFlags?: ServerFlagsFetch;
-  /** What the server says about this phone's session; by default `uid-online` holds it. */
-  currentSession?: () => Promise<{ readonly userId: string } | null>;
+  /** The session check's answers; by default `uid-online` holds the session, or no answer offline. */
+  getSession?: () => Promise<SessionAnswer>;
+  /**
+   * When given, each start also starts sync for its uid with this sync token function (against a
+   * service nothing listens on), as `startLocalFirst` does on a phone.
+   */
+  syncToken?: () => Promise<string>;
 }): SessionHarness {
   const opened: { uid: string; auth: LocalFirstAuth }[] = [];
   const stacks: TestLocalFirst[] = [];
@@ -93,18 +114,25 @@ export function sessionHarness(options: {
       getSyncToken: () => Promise.resolve('sync-token'),
       getRealtimeToken: () => Promise.resolve('rt-token'),
       sessionHeaders: () => Promise.resolve({ cookie: 'session=1' }),
-      currentSession:
-        options.currentSession ??
+      getSession:
+        options.getSession ??
         (() =>
           options.online
-            ? Promise.resolve({ userId: 'uid-online' })
-            : Promise.reject(new Error('Network request failed'))),
+            ? Promise.resolve(sessionOf('uid-online'))
+            : Promise.reject(new TypeError('Network request failed'))),
     },
     lastUid,
     startLocalFirst: async (auth, uid) => {
       opened.push({ uid, auth });
       const stack = await openTestLocalFirst({ uid, holdUploads: true });
       stacks.push(stack);
+      if (options.syncToken !== undefined) {
+        await connectLocalFirst(stack.value, {
+          uid,
+          endpoint: UNREACHABLE_SYNC,
+          getSyncToken: options.syncToken,
+        });
+      }
       return stack.value;
     },
     outbox,
@@ -121,6 +149,8 @@ export function sessionHarness(options: {
     realtime: { url: UNREACHABLE_WS, positions: createDeviceRecoveryStore() },
     onError: (error) => errors.push(error),
     restart: () => restarts.push(lastUid.current),
+    // A check with no answer gives up after 100 ms and asks again 20–40 ms later.
+    sessionCheck: { timeoutMs: 100, backoff: { baseMs: 40, maxMs: 40, random: () => 0 } },
   };
   return {
     value,

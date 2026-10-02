@@ -106,17 +106,6 @@ export const deviceLinkClaims = {
   },
 };
 
-/** Whose session the server says this phone holds; a failed request rejects, never reads as none. */
-async function currentSession(): Promise<{ readonly userId: string } | null> {
-  const { data, error } = await authClient().getSession();
-  if (error) throw new Error(`session check failed: ${error.status ?? 'unknown'}`);
-  if (data === null) return null;
-  // Anything but a session or a clear "none" (a captive portal's page) is no answer at all.
-  const userId: unknown = (data as { user?: { id?: unknown } }).user?.id;
-  if (typeof userId !== 'string') throw new Error('session check failed: unreadable answer');
-  return { userId };
-}
-
 /** Restarts the JS so the app boots on the session now in storage. */
 function restartApp(): void {
   if (__DEV__) {
@@ -147,7 +136,7 @@ function createSession(): Promise<AppSession> {
       getSyncToken: () => auth.getSyncToken(),
       getRealtimeToken: () => auth.getRealtimeToken(),
       sessionHeaders,
-      currentSession,
+      getSession: () => authClient().getSession(),
     },
     lastUid: {
       read: () => storage.getString(LAST_UID_KEY) ?? null,
