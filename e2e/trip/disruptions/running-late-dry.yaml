@@ -1,0 +1,132 @@
+appId: app.critterpass.dev
+---
+# Running late, live (3k-9), Android, as a brand-new traveller with no demo world. A fresh
+# account's Đà Nẵng trip is under way (it turns in_trip at noon Vietnam time, so this runs after
+# 12:00 ICT). The traveller adds Mỹ Sơn Sanctuary to day 1, starting about an hour and three
+# quarters from now: it is far more than 45 minutes' drive from the day's other stops, so it gets a
+# leave-by (an evening stop a short ride away gets none, by design), due within the run. The hub's
+# next row turns into that leave-by before anything waits on it. With location and notifications
+# granted through the app's own primers, the phone sits in Huế, hours away: the app's once-a-minute
+# journey check (only while the leave-by is due) sends the ETA, the server opens the running-late
+# disruption on the second late check, and the guide's push opens `/late/{id}`. One option is
+# sent; at Mỹ Sơn itself the screen says the traveller is on time again. Needs the staging client
+# config `disruptions.journey_check` on for the run (it is off by default), and Mỹ Sơn among the
+# Đà Nẵng destination's places. A crew of one has nobody waiting, so no crew-chat line is posted.
+# Day 1 must still have room for the stop: the run starts between noon and 21:30 in Vietnam.
+- assertTrue: ${new Date(Date.now() + 7 * 3600000).getUTCHours() * 60 + new Date(Date.now() + 7 * 3600000).getUTCMinutes() <= 21 * 60 + 30}
+- assertTrue: ${new Date(Date.now() + 7 * 3600000).getUTCHours() >= 12}
+- runFlow:
+    file: ../../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: late-live
+- extendedWaitUntil:
+    visible:
+      id: 'home-in-trip'
+    timeout: 900000
+- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
+
+# Mỹ Sơn added to day 1, starting at the first quarter hour at least 105 minutes from now (Vietnam
+# time), so that its leave-by (the drive there, about an hour and a half, and the buffer) falls due
+# soon after.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 30000
+- runFlow: ../../happy/subflows/answer-visit-offer.yaml
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-1'
+    timeout: 30000
+- tapOn:
+    id: 'plan-day-1'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'plan-day-add'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'plan-day-add'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-query'
+    timeout: 15000
+- tapOn:
+    id: 'plan-add-query'
+- inputText: 'My Son'
+# Mỹ Sơn must be among the destination's places; nothing else will do.
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-place-.*'
+      text: '(?i).*m[ỹy] s[ơo]n.*'
+    timeout: 20000
+- hideKeyboard
+- tapOn:
+    id: 'plan-add-place-.*'
+    text: '(?i).*m[ỹy] s[ơo]n.*'
+- copyTextFrom:
+    id: 'plan-time-start-value'
+- evalScript: >-
+    ${var m = /(\d{1,2})[:.h](\d{2})\s*([AaPp][Mm])?/.exec(maestro.copiedText);
+    var h = Number(m[1]) % 12 + (m[3] && m[3].toLowerCase() === 'pm' ? 12 : m[3] ? 0 : Number(m[1]) >= 12 ? 12 : 0);
+    var current = h * 60 + Number(m[2]);
+    var now = Math.floor((Date.now() / 60000 + 7 * 60) % 1440);
+    var target = Math.ceil((now + 105) / 15) * 15;
+    output.target = target;
+    output.later = Math.max(0, (target - current) / 15);
+    output.earlier = Math.max(0, (current - target) / 15)}
+- repeat:
+    times: ${output.later}
+    commands:
+      - tapOn:
+          id: 'plan-time-start-later'
+- repeat:
+    times: ${output.earlier}
+    commands:
+      - tapOn:
+          id: 'plan-time-start-earlier'
+- tapOn:
+    id: 'plan-add-confirm'
+- extendedWaitUntil:
+    notVisible:
+      id: 'plan-add-sheet'
+    timeout: 15000
+- extendedWaitUntil:
+    visible: '(?i).*m[ỹy] s[ơo]n.*'
+    timeout: 15000
+- takeScreenshot: late-live-moved
+- runFlow: ../../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'plan-day-1'
+    file: ../../onboarding/subflows/back.yaml
+# Before anything waits on it: the leave-by exists, and the hub's next row has turned into it.
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 15000
+- extendedWaitUntil:
+    visible: '(?i)leave by.*'
+    timeout: 180000
+- assertVisible: '(?i).*m[ỹy] s[ơo]n.*'
+- copyTextFrom:
+    text: '(?i)leave by.*'
+- evalScript: >-
+    ${var m = /(\d{1,2})[:.h](\d{2})\s*([AaPp][Mm])?/.exec(maestro.copiedText);
+    var h = Number(m[1]) % 12 + (m[3] && m[3].toLowerCase() === 'pm' ? 12 : m[3] ? 0 : Number(m[1]) >= 12 ? 12 : 0);
+    output.leaveAt = h * 60 + Number(m[2])}
+- waitForAnimationToEnd
+- takeScreenshot: late-live-leave-by
