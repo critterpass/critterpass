@@ -1,0 +1,164 @@
+appId: app.critterpass.dev
+---
+# A brand-new traveller's Đà Nẵng trip under way with the egg hatched, for the location-driven
+# critter flows: the steps of ../../happy/fresh-critters.yaml up to the hatch (a fresh account,
+# location allowed, a crew of one, the trip locked in for today, the phone at Đà Nẵng airport),
+# ending on the PASS tab. Captures are named ${SHOTS}-<step>.
+#
+# The app reads positions only between 05:00 and midnight where the trip is, so before 05:00 in
+# Vietnam nothing here can hatch or meet a critter: the clock check below says so at once.
+- assertTrue:
+    condition: ${new Date(Date.now() + 7 * 3600000).getUTCHours() >= 5}
+    label: 'before 05:00 in Vietnam the app reads no position, so no critter can be met'
+- runFlow: ../../happy/subflows/fresh-install.yaml
+- runFlow:
+    file: ../../happy/subflows/fresh-critters-onboard.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+# Before any trip: what the PASS tab shows a traveller with nothing yet.
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-05-pass-no-trip
+- tapOn:
+    id: 'tab-home'
+- runFlow: ../../happy/subflows/fresh-critters-trip.yaml
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-06-home-locked
+# Right after locking in: is there an egg anywhere yet?
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-07-pass-after-lock
+# The egg card follows the trip: it shows once the worker's sweep (every ten minutes) has moved
+# the trip towards its start.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-egg-waiting|critters-egg-ready|critters-egg-unseen'
+    timeout: 780000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-08-pass-egg
+# Arriving hatches the egg through the phone's own position, and the app reads positions only
+# inside the trip-day window (05:00 to midnight where the trip is). Before 05:00 in Vietnam a trip
+# that starts today cannot hatch by arriving, so the run says so here instead of waiting it out.
+- assertTrue:
+    condition: ${new Date(Date.now() + 7 * 3600000).getUTCHours() >= 5}
+    label: 'before 05:00 in Vietnam the app reads no position, so arriving cannot hatch the egg'
+# Arriving: the phone is at Đà Nẵng airport. A traveller who allowed location expects the egg to
+# hatch without touching anything: the ceremony opens by itself on a tab.
+- setLocation:
+    latitude: 16.0439
+    longitude: 108.1994
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch|visit-consent-accept'
+    timeout: 240000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: ${SHOTS}-09-visit-consent
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch'
+    timeout: 120000
+    optional: true
+# When the ceremony opened by itself, let it play to the reveal: mid-pop the stage is empty.
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-hatched'
+          timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-10-after-arriving
+# If arriving did not hatch it, the traveller's own way: HATCH IT (it needs the trip under way).
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-hatch'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-egg-hatch|critters-egg-meet'
+          timeout: 780000
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-hatch'
+          commands:
+            - tapOn:
+                id: 'critters-egg-hatch'
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-meet'
+          commands:
+            - tapOn:
+                id: 'critters-egg-meet'
+      # What HATCH IT led to, a few seconds on (the ceremony, its loading page, or neither).
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-hatch'
+          timeout: 8000
+          optional: true
+      - takeScreenshot: ${SHOTS}-10b-after-hatch-it
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-meet'
+          commands:
+            - tapOn:
+                id: 'critters-egg-meet'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatched'
+    timeout: 30000
+# The critter's sticker is drawn the first time here; give it a moment before the capture.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-hatch-settled'
+    timeout: 4000
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: ${SHOTS}-11-hatched
+- tapOn:
+    id: 'critters-hatch-later'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
