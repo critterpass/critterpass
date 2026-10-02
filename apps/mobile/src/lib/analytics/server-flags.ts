@@ -83,26 +83,47 @@ export async function refreshServerFlags(fetchFlags: ServerFlagsFetch): Promise<
   applyServerFlags(response.body);
 }
 
-/**
- * Refreshes now and on every return to the foreground; concurrent triggers share one request.
- * Returns the function that stops listening.
- */
+export interface ServerFlagsRefresh {
+  /** Asks again; a call while a request is out asks once more when it lands. */
+  refresh(): void;
+  /** Stops listening to the foreground; later `refresh` calls do nothing. */
+  stop(): void;
+}
+
+/** Refreshes now and on every return to the foreground. */
 export function startServerFlags(options: {
   readonly fetchFlags: ServerFlagsFetch;
   readonly appState: ServerFlagsAppState;
   readonly onError?: (error: unknown) => void;
-}): () => void {
-  let running: Promise<void> | null = null;
+}): ServerFlagsRefresh {
+  let running = false;
+  let again = false;
+  let stopped = false;
   const refresh = () => {
-    running ??= refreshServerFlags(options.fetchFlags)
+    if (stopped) return;
+    if (running) {
+      again = true;
+      return;
+    }
+    running = true;
+    void refreshServerFlags(options.fetchFlags)
       .catch((error: unknown) => options.onError?.(error))
       .finally(() => {
-        running = null;
+        running = false;
+        if (!again) return;
+        again = false;
+        refresh();
       });
   };
   const subscription = options.appState.addEventListener('change', (state) => {
     if (state === 'active') refresh();
   });
   refresh();
-  return () => subscription.remove();
+  return {
+    refresh,
+    stop() {
+      stopped = true;
+      subscription.remove();
+    },
+  };
 }

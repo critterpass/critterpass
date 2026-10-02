@@ -43,7 +43,7 @@ describe('server flags on app start', () => {
     appState.emit('background');
     expect(flagRequests).toHaveLength(1);
     appState.emit('active');
-    expect(flagRequests).toHaveLength(2);
+    await waitUntil(() => flagRequests.length === 2);
   });
 
   it('stops asking once the session is stopped', async () => {
@@ -72,13 +72,41 @@ describe('server flags on app start', () => {
     expect(serverFlag('money.receipts')).toBe(true);
   });
 
-  it('forgets the answer on sign-out', async () => {
-    harness = sessionHarness({ online: true });
+  it('forgets the answer on sign-out and asks again, which a signed-out phone gets no answer to', async () => {
+    let signedIn = true;
+    harness = sessionHarness({
+      online: true,
+      serverFlags: () =>
+        Promise.resolve(
+          signedIn
+            ? { status: 200, body: bootstrap }
+            : { status: 401, body: { error: { code: 'AUTH_REQUIRED' } } },
+        ),
+    });
+    const { flagRequests } = harness;
     await harness.start();
     await waitUntil(() => serverFlag('money.receipts') === true);
 
+    signedIn = false;
     await runOnSignOutHooks();
+    await waitUntil(() => flagRequests.length === 2);
 
     expect(serverFlag('money.receipts')).toBeUndefined();
+  });
+
+  it("gives the account a switch lands on its own values, not the previous account's", async () => {
+    let answer = bootstrap;
+    harness = sessionHarness({
+      online: true,
+      serverFlags: () => Promise.resolve({ status: 200, body: answer }),
+    });
+    await harness.start();
+    await waitUntil(() => serverFlag('money.receipts') === true);
+
+    answer = { flags: { ...bootstrap.flags, 'money.receipts': false, 'setup.budget_dots': true } };
+    await runOnSignOutHooks();
+
+    await waitUntil(() => serverFlag('setup.budget_dots') === true);
+    expect(serverFlag('money.receipts')).toBe(false);
   });
 });

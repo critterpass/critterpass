@@ -13,6 +13,7 @@ import {
 } from '../../powersync/test-support/local-first-fixture';
 import { removeDir, tempDatabaseDir } from '../../powersync/test-support/open-node-database';
 import { fileOutbox, type FileOutbox } from '../../commands/test-support/file-outbox';
+import type { ServerFlagsFetch } from '../../../lib/analytics/server-flags';
 import bootstrap from '../../../lib/analytics/test-support/config-bootstrap.json';
 import { fakeLinksHttp, standardRoutes } from '../../../lib/links/test-support/fake-links-http';
 import { createDeviceRecoveryStore } from '../../realtime/device-recovery-store';
@@ -63,6 +64,8 @@ export interface SessionHarness {
 export function sessionHarness(options: {
   online: boolean;
   lastUid?: MemoryLastUid;
+  /** The api's answer to `GET /v1/config/bootstrap`, in place of the recorded one. */
+  serverFlags?: ServerFlagsFetch;
 }): SessionHarness {
   const opened: { uid: string; auth: LocalFirstAuth }[] = [];
   const stacks: TestLocalFirst[] = [];
@@ -99,6 +102,7 @@ export function sessionHarness(options: {
     linksHttp: links.http,
     fetchServerFlags: () => {
       flagRequests.push('/v1/config/bootstrap');
+      if (options.serverFlags !== undefined) return options.serverFlags();
       return options.online
         ? Promise.resolve({ status: 200, body: bootstrap })
         : Promise.reject(new Error('Network request failed'));

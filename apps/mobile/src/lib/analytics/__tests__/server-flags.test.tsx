@@ -2,7 +2,8 @@
  * Flags as a screen reads them (`useFlag`) over the real server-flag store: the api's answer comes
  * first, PostHog's own value second, the catalog default last. The api's answer is the recorded
  * `GET /v1/config/bootstrap` body (the one services/api/test/routes/config.db.test.ts asserts);
- * PostHog's HTTP boundary is unreachable and records every attempt.
+ * PostHog's HTTP boundary is unreachable and records every attempt (the SDK still tries to load
+ * the project's remote config from PostHog's asset host, which carries nothing about the device).
  */
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, render } from '@testing-library/react-native';
@@ -83,7 +84,8 @@ describe('flags from the api', () => {
     });
 
     expect(view.getByText('scan on')).toBeTruthy();
-    expect(requests).toEqual([]);
+    // Nobody consented: the app has not asked PostHog to evaluate anything for this device.
+    expect(requests.filter((url) => /\/(flags|decide)\b/u.test(url))).toEqual([]);
   });
 
   it("falls back to PostHog's value, then the catalog default, when the api has not answered", async () => {

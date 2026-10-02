@@ -137,12 +137,16 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
   configureLinkRouter({ resolver: createLinkResolverClient(deps.linksHttp) });
   const stopMembership = watchLinkMembership(localFirst.db, uid, deps.onError);
 
-  // The next account on this phone never starts with this one's flags.
-  registerOnSignOut(clearServerFlags);
-  const stopFlags = startServerFlags({
+  const flags = startServerFlags({
     fetchFlags: deps.fetchServerFlags,
     appState: deps.appState,
     onError: deps.onError,
+  });
+  // The next account on this phone never starts with this one's flags. An account switch has its
+  // own session by now, so it gets its own values; after a sign-out the api answers nothing.
+  registerOnSignOut(() => {
+    clearServerFlags();
+    flags.refresh();
   });
 
   return {
@@ -154,7 +158,7 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
       detachPolicy();
       realtime.disconnect();
       stopMembership();
-      stopFlags();
+      flags.stop();
       configureLinkRouter({ resolver: null });
     },
   };
