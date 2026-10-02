@@ -11,16 +11,15 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { tokens } from '@cp/design-tokens';
 
 import { impact, useLoop } from '@/motion';
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { UserAvatar } from '@/ui/avatar/Avatar';
-import type { GuideAvatarId } from '@/ui/avatar/guides';
+import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
 import { Card } from '@/ui/cards/Card';
 import { Stack } from '@/ui/layout/Stack';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -28,13 +27,13 @@ export interface FlightHeroProps {
   readonly eyebrow: string;
   readonly lines: readonly [string, string | null];
   readonly detail: string;
-  readonly guide: GuideAvatarId | null;
-  readonly guideName: string;
+  readonly guide: GuideStickerId;
 }
 
 /** The hero drops in once it is laid out (3k-5: 560 ms, after 380 ms). */
 const DROP_MS = 560;
 const DROP_DELAY_MS = 380;
+const GUIDE_SIZE = 96;
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a sound cue id, never copy.
 const THUD = 'thud.heavy';
 
@@ -45,14 +44,13 @@ const useStyles = makeStyles((th) => ({
     borderBottomStartRadius: th.radius.heroBottom,
     borderBottomEndRadius: th.radius.heroBottom,
   },
-  guide: { position: 'absolute', end: th.space['16'], bottom: th.space['20'], opacity: 0.45 },
+  guide: { position: 'absolute', end: th.space['16'], bottom: th.space['20'], opacity: 0.55 },
   detail: { maxWidth: '78%' },
 }));
 
 export function FlightHero(props: FlightHeroProps) {
   const styles = useStyles();
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const wiggle = useLoop('wiggle');
   const reduced = useReducedImpactMotion();
   const drop = useSharedValue(0);
@@ -72,7 +70,7 @@ export function FlightHero(props: FlightHeroProps) {
   const ink = theme.semantic.text.onAccent;
   return (
     <Card tone="pink" halftone radius="cardBig" style={styles.hero} testID="disruption-hero">
-      <Animated.View style={[{ paddingTop: insets.top }, dropStyle]}>
+      <Animated.View style={dropStyle}>
         <Stack gap="10">
           <Text variant="eyebrow" color={ink} testID="disruption-hero-eyebrow">
             {props.eyebrow}
@@ -94,16 +92,13 @@ export function FlightHero(props: FlightHeroProps) {
           )}
         </Stack>
       </Animated.View>
-      {props.guide === null ? null : (
-        <Animated.View style={[styles.guide, wiggle]} pointerEvents="none">
-          <UserAvatar
-            name={props.guideName}
-            avatar={{ kind: 'guide', guide: props.guide }}
-            viewer="others"
-            size="xl"
-          />
-        </Animated.View>
-      )}
+      <Animated.View style={[styles.guide, wiggle]} pointerEvents="none">
+        <Sticker
+          kind={GUIDE_STICKERS[props.guide].kind}
+          name={GUIDE_STICKERS[props.guide].name}
+          size={GUIDE_SIZE}
+        />
+      </Animated.View>
     </Card>
   );
 }

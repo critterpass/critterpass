@@ -64,6 +64,10 @@ msgid "trip.disruptions.flight.row.briefing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.missingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.done"
 msgstr ""
 
@@ -81,6 +85,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.vendorAsk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
@@ -169,6 +177,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.unaffected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.backTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts

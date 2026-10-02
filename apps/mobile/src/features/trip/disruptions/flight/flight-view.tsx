@@ -5,15 +5,18 @@
  * queue and a note says they go out later. The lab scenes render it with fixed data.
  */
 import type { DisruptionAction } from '@cp/domain';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
-import type { GuideAvatarId } from '@/ui/avatar/guides';
+import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
 import { Stack } from '@/ui/layout/Stack';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { EmptyState } from '@/ui/states/EmptyState';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -30,7 +33,7 @@ export interface FlightViewProps {
   readonly eyebrow: string;
   readonly heroLines: readonly [string, string | null];
   readonly detail: string;
-  readonly guide: GuideAvatarId | null;
+  readonly guide: GuideStickerId;
   readonly guideName: string;
   readonly tz: string;
   readonly offline: boolean;
@@ -39,8 +42,11 @@ export interface FlightViewProps {
   readonly onTellCrew: () => void;
   readonly onUndoAll: () => void;
   readonly onOpenLink: (row: DisruptionAction) => void;
+  readonly onBack: () => void;
   readonly telling?: boolean;
 }
+
+const EMPTY_STICKER = 120;
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, paddingTop: th.space['20'], gap: th.space['16'] },
@@ -67,16 +73,32 @@ export function FlightView(props: FlightViewProps) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const { model } = props;
+  const lines = stateLines();
+  const back = <BackEyebrow label={lines.backTo} onPress={props.onBack} testID="disruption-back" />;
   if (props.state !== 'ready' || model === null) {
     return (
       <Scaffold testID="disruption-screen">
-        <Stack gap="16" style={{ padding: 24, paddingTop: insets.top + 48 }}>
+        <Stack gap="16" style={{ padding: theme.size.gutter }}>
+          {back}
           {props.state === 'loading' ? (
             <Skeleton preset="card" repeat={2} testID="disruption-loading" />
           ) : (
-            <Text variant="body" color={theme.semantic.text.secondary} testID="disruption-missing">
-              {stateLines().missing}
-            </Text>
+            <EmptyState
+              guide={props.guide}
+              guideName={props.guideName}
+              sticker={
+                <Sticker
+                  kind={GUIDE_STICKERS[props.guide].kind}
+                  name={GUIDE_STICKERS[props.guide].name}
+                  pose="sleep"
+                  size={EMPTY_STICKER}
+                />
+              }
+              title={lines.missingTitle}
+              line={lines.missing}
+              action={{ label: lines.back, onPress: props.onBack }}
+              testID="disruption-missing"
+            />
           )}
         </Stack>
       </Scaffold>
@@ -85,14 +107,27 @@ export function FlightView(props: FlightViewProps) {
   const titles = sectionTitles();
   const footer = footerLabels();
   return (
-    <Scaffold testID="disruption-screen">
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}>
+    <Scaffold variant="dark" edges={[]} testID="disruption-screen">
+      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + theme.space['24'] }}>
+        <View
+          style={{
+            paddingTop: insets.top + theme.space['8'],
+            paddingHorizontal: theme.size.gutter,
+            backgroundColor: theme.color.pink,
+          }}
+        >
+          <BackEyebrow
+            label={lines.backTo}
+            onPress={props.onBack}
+            color={theme.semantic.text.onAccent}
+            testID="disruption-back"
+          />
+        </View>
         <FlightHero
           eyebrow={props.eyebrow}
           lines={props.heroLines}
           detail={props.detail}
           guide={props.guide}
-          guideName={props.guideName}
         />
         <Stack style={styles.body}>
           {props.offline ? <OfflinePill /> : null}
@@ -102,7 +137,7 @@ export function FlightView(props: FlightViewProps) {
               color={theme.semantic.text.secondary}
               testID="disruption-offline"
             >
-              {stateLines().offline}
+              {lines.offline}
             </Text>
           ) : null}
           <Closed model={model} />

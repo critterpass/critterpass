@@ -125,7 +125,7 @@ export function FlightDisruptionScreen({ id }: { readonly id: string }) {
         model === null ? ['', null] : heroLines(model.cause, delayParts(model.delayMin), locale)
       }
       detail={row === null ? '' : (words('disruption', row, 'summary') ?? row.summary)}
-      guide={guide === 'chava' ? null : guide}
+      guide={guide}
       guideName={guideLabel}
       tz={trip?.tz ?? 'UTC'}
       offline={sync.phase === 'offline'}
@@ -146,6 +146,7 @@ export function FlightDisruptionScreen({ id }: { readonly id: string }) {
           .send({ disruption_id: id, action_id: 'all' })
           .then(() => toast.show({ id: `disruption-undone-${id}`, title: toasts.undone }))
       }
+      onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
       onOpenLink={(link: DisruptionAction) => {
         if (link.kind === 'rebook_flight' && segment !== undefined) {
           router.push({

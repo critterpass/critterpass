@@ -7,6 +7,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import type { DisruptionAction } from '@cp/domain';
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -152,6 +153,7 @@ function Scene(props: {
       onTellCrew={noop}
       onUndoAll={noop}
       onOpenLink={noop}
+      onBack={() => router.back()}
       {...props.view}
     />
   );

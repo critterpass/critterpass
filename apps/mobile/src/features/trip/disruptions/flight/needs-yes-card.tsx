@@ -91,6 +91,7 @@ export function NeedsYesCard({ question, tz, joinIndex, onAnswer }: NeedsYesCard
       ? null
       : format.date(locale, new Date(question.closesAt), {
           timeZone: tz,
+          hourCycle: 'h23',
           hour: '2-digit',
           minute: '2-digit',
         });

@@ -230,5 +230,8 @@ export const stateLines = () => ({
     id: 'trip.disruptions.flight.offline',
     message: "You're offline. Answers go out when you're back.",
   }),
+  missingTitle: t({ id: 'trip.disruptions.flight.missingTitle', message: 'All sorted' }),
   missing: t({ id: 'trip.disruptions.flight.missing', message: 'Nothing to sort here any more.' }),
+  back: t({ id: 'trip.disruptions.flight.back', message: 'Back' }),
+  backTo: t({ id: 'trip.disruptions.flight.backTo', message: 'Trip' }),
 });
