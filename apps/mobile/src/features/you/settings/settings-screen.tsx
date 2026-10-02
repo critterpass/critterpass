@@ -4,11 +4,13 @@
  * area offers, this phone's sound effects and haptics, the permissions the app holds, signing out
  * and deleting the account (once the server has answered for it), and the build it runs.
  */
+import { useLingui } from '@lingui/react/macro';
 import * as Application from 'expo-application';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
-import { useMailboxSettingsRow } from '@/features/bookings';
+import { BOOKINGS_ROUTES, useMailboxSettingsRow } from '@/features/bookings';
+import { useFlag } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useFeedbackPrefs } from '@/motion/feedback/prefs';
 import { PermissionsSection } from '@/ui/permission-primer/PermissionsSection';
@@ -20,6 +22,7 @@ import { nativeNameOf } from '../language/language-names';
 import { YOU_ROUTES } from '../routes';
 import { CrewChatSheet } from './crew-chat-sheet';
 import { useHelpShareConsent } from './help-share-consent';
+import { useLocationRow } from './location-row';
 import { useSettingsSections } from './settings-sections';
 import { SettingsView } from './settings-view';
 import { playTokekTheme } from './tokek-theme';
@@ -39,6 +42,7 @@ export function SettingsScreen({
 }: {
   readonly services?: AccountServices;
 }) {
+  const { t } = useLingui();
   const prefs = useFeedbackPrefs();
   const locale = useLocale();
   const account = useAccountRead(services);
@@ -46,12 +50,25 @@ export function SettingsScreen({
   const helpShare = useHelpShareConsent();
   const pings = usePingPrefs();
   const mailbox = useMailboxSettingsRow();
+  const location = useLocationRow();
+  // Reading the inbox needs a provider switched on for this build; until then the row offers the
+  // crew's forward address, which works today.
+  /* eslint-disable lingui/no-unlocalized-strings -- feature flag keys, never copy. */
+  const gmail = useFlag('mailbox.gmail');
+  const microsoft = useFlag('mailbox.microsoft');
+  /* eslint-enable lingui/no-unlocalized-strings */
+  const inboxOn = gmail === true || microsoft === true;
+  const forwardLine = t({
+    id: 'you.settings.mailboxForward',
+    message: 'Forward confirmations to your crew’s address',
+  });
   const [choosingCrewChat, setChoosingCrewChat] = useState(false);
   const sections = useSettingsSections(
     {
       ...synced.settings,
       crewChat: pings.prefs.crewChat,
-      mailbox: { title: mailbox.title, subtitle: mailbox.subtitle },
+      location: location.value,
+      mailbox: { title: mailbox.title, subtitle: inboxOn ? mailbox.subtitle : forwardLine },
       helpShare: helpShare.on,
       soundEffects: prefs.categoryEnabled[STICKER_SOUNDS],
       haptics: prefs.hapticsEnabled,
@@ -62,7 +79,8 @@ export function SettingsScreen({
       onSynced: synced.change,
       onCrewChat: () => setChoosingCrewChat(true),
       onPings: () => router.push(YOU_ROUTES.pings),
-      onMailbox: mailbox.onPress,
+      onLocation: location.open,
+      onMailbox: inboxOn ? mailbox.onPress : () => router.push(BOOKINGS_ROUTES.add),
       onHelpShare: helpShare.set,
       onOfflineTrips: () => router.push(YOU_ROUTES.offlineStorage),
       onSoundEffects: (next) => prefs.setCategoryEnabled(STICKER_SOUNDS, next),

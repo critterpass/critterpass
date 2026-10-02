@@ -72,8 +72,8 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'you-past-trip-country-PT'
 - extendedWaitUntil:
-    visible:
-      id: 'you-past-trip-country-picked'
+    notVisible:
+      id: 'you-past-trip-country-PT'
     timeout: 10000
 - tapOn:
     id: 'you-past-trip-year-2025'

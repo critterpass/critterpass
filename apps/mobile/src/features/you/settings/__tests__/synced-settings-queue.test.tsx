@@ -56,12 +56,10 @@ describe('synced settings on this phone', () => {
   it('queues only the changed column and shows the change at once', async () => {
     const stack = await open();
     const { result } = await renderHook(() => useSyncedSettings(), { wrapper: stack.wrapper });
-    await act(() => result.current.change({ hideLockscreenDetails: true, chattiness: 'normal' }));
-    expect(result.current.settings.hideLockscreenDetails).toBe(true);
+    await act(() => result.current.change({ hideCollection: true, chattiness: 'normal' }));
+    expect(result.current.settings.hideCollection).toBe(true);
     await waitFor(async () =>
-      expect(await queued(stack, 'set_settings')).toEqual([
-        { patch: { hide_lockscreen_details: true } },
-      ]),
+      expect(await queued(stack, 'set_settings')).toEqual([{ patch: { hide_collection: true } }]),
     );
   });
 

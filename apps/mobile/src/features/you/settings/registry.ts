@@ -2,7 +2,8 @@
  * Every Settings row (3n-2, 3n-6), where its value lives and which area answers for it. `synced`
  * rows follow the account to every phone (`user_settings` through `set_settings`, or a consent
  * through `set_consent`); `device` rows stay on this phone; `link` rows open another screen and
- * hold no value. The screen draws rows in this order, section by section.
+ * hold no value. The screen draws rows in this order, section by section. A setting joins only
+ * once something acts on it: a switch that changes nothing is not offered.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- keys, sections and owners, never copy. */
 
@@ -39,14 +40,9 @@ export const SETTINGS_SECTIONS: readonly SettingsSectionId[] = [
 export const SETTINGS_REGISTRY: readonly SettingDef[] = [
   { key: 'chattiness', section: 'guide', scope: synced('chattiness'), owner: 'guide' },
   { key: 'talk-out-loud', section: 'guide', scope: synced('talk_out_loud'), owner: 'guide' },
-  {
-    key: 'leave-by-dnd',
-    section: 'notifications',
-    scope: synced('leave_by_through_dnd'),
-    owner: 'trip-day',
-  },
   { key: 'crew-chat', section: 'notifications', scope: link, owner: 'notifications' },
   { key: 'pings', section: 'notifications', scope: link, owner: 'notifications' },
+  { key: 'location', section: 'privacy', scope: link, owner: 'permissions' },
   { key: 'mailbox', section: 'privacy', scope: link, owner: 'bookings' },
   { key: 'budget-max', section: 'privacy', scope: link, owner: 'setup' },
   {
@@ -55,18 +51,11 @@ export const SETTINGS_REGISTRY: readonly SettingDef[] = [
     scope: { kind: 'consent', purpose: 'help_auto_share' },
     owner: 'safety',
   },
-  { key: 'hide-taste', section: 'privacy', scope: synced('hide_taste_tags'), owner: 'you' },
   {
     key: 'hide-collection',
     section: 'privacy',
     scope: synced('hide_collection'),
     owner: 'critters',
-  },
-  {
-    key: 'lock-screen',
-    section: 'privacy',
-    scope: synced('hide_lockscreen_details'),
-    owner: 'notifications',
   },
   { key: 'offline-trips', section: 'offline', scope: link, owner: 'trip-day' },
   { key: 'sound-effects', section: 'app', scope: device, owner: 'motion' },

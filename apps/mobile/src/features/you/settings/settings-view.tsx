@@ -1,7 +1,7 @@
 /**
  * Settings (3n-2, and 3n-6 once scrolled) as a pure view: a large title that collapses into the
  * bar (with the plan chip once the plan screen exists), the sections it is given, another area's
- * section after PRIVACY (the permissions), and Tokek over the version line. Tapping Tokek five
+ * section after APP (the permissions), and Tokek over the version line. Tapping Tokek five
  * times plays his theme. A section with no rows is not drawn.
  */
 import { useLingui } from '@lingui/react/macro';
@@ -26,7 +26,7 @@ export interface SettingsSection {
 
 export interface SettingsViewProps {
   readonly sections: readonly SettingsSection[];
-  /** Sections another area draws itself (permissions), placed after PRIVACY. */
+  /** Sections another area draws itself (permissions), placed after APP. */
   readonly children?: ReactNode;
   /** "CRITTERPASS 1.0 (214)" */
   readonly version: string;
@@ -37,8 +37,8 @@ export interface SettingsViewProps {
   readonly onBack?: () => void;
 }
 
-/** The section the permissions follow (the render's Location row sits in PRIVACY). */
-const CHILDREN_AFTER = 'privacy';
+/** The section the permissions follow: after the app's own settings, before the account. */
+const CHILDREN_AFTER = 'app';
 
 const useStyles = makeStyles((t) => ({
   content: {

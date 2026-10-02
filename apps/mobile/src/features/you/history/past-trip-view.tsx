@@ -5,14 +5,14 @@
  */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
-import { ScrollView, View } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { ScrollView, View, type ScrollViewInstance } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { ListCard } from '@/ui/cards/ListCard';
 import { ChoiceChip } from '@/ui/chips/ChoiceChip';
-import { FilterChip } from '@/ui/chips/FilterChip';
 import { SearchField } from '@/ui/inputs/SearchField';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -29,7 +29,6 @@ export interface PastTripViewProps {
   readonly query: string;
   readonly onQuery: (text: string) => void;
   readonly results: readonly CountryOption[];
-  readonly country: CountryOption | null;
   readonly onCountry: (option: CountryOption) => void;
   readonly years: readonly number[];
   readonly year: number | null;
@@ -56,6 +55,18 @@ export function PastTripView(props: PastTripViewProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
+  const yearsRef = useRef<ScrollViewInstance>(null);
+  const yearX = useRef(new Map<number, number>());
+  // A saved trip's year may sit far along the row: bring its chip into view.
+  const scrollToYear = (year: number) => {
+    const x = yearX.current.get(year);
+    if (x !== undefined) yearsRef.current?.scrollTo({ x: Math.max(0, x - theme.space['16']) });
+  };
+  useEffect(() => {
+    if (props.year !== null) scrollToYear(props.year);
+    // Only when the picked year changes; positions arrive through onLayout.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.year]);
   const monthName = (month: number) =>
     format.date(locale, new Date(Date.UTC(2000, month - 1, 1)), {
       month: 'short',
@@ -89,13 +100,6 @@ export function PastTripView(props: PastTripViewProps) {
           <Text variant="eyebrow" accessibilityRole="header">
             {t({ id: 'you.pastTrip.country', message: 'Country' })}
           </Text>
-          {props.country !== null ? (
-            <ListCard
-              title={props.country.name}
-              chevron={false}
-              testID="you-past-trip-country-picked"
-            />
-          ) : null}
           <SearchField
             value={props.query}
             onChangeText={props.onQuery}
@@ -122,18 +126,27 @@ export function PastTripView(props: PastTripViewProps) {
             {t({ id: 'you.pastTrip.when', message: 'When' })}
           </Text>
           <ScrollView
+            ref={yearsRef}
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.years}
           >
-            {props.years.map((year) => (
-              <FilterChip
+            {props.years.map((year, index) => (
+              <View
                 key={year}
-                label={String(year)}
-                selected={props.year === year}
-                onPress={() => props.onYear(year)}
-                testID={`you-past-trip-year-${year}`}
-              />
+                onLayout={(event) => {
+                  yearX.current.set(year, event.nativeEvent.layout.x);
+                  if (year === props.year) scrollToYear(year);
+                }}
+              >
+                <ChoiceChip
+                  label={String(year)}
+                  selected={props.year === year}
+                  tilt={index % 2 === 0 ? -2 : 2}
+                  onPress={() => props.onYear(year)}
+                  testID={`you-past-trip-year-${year}`}
+                />
+              </View>
             ))}
           </ScrollView>
           <Row gap="8" wrap>

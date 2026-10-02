@@ -44,11 +44,12 @@ export function PastTripScreen({
   const optionOf = (code: string | undefined) =>
     code === undefined ? null : (options.find((option) => option.code === code) ?? null);
 
-  const [query, setQuery] = useState('');
+  // Null while the field shows the chosen country's name; typing searches again.
+  const [query, setQuery] = useState<string | null>(null);
   const [picked, setPicked] = useState<CountryOption | null>(null);
   const [year, setYear] = useState<number | null>(null);
   const [month, setMonth] = useState<number | null>(null);
-  const country = picked ?? optionOf(existing?.country);
+  const country = query === null ? (picked ?? optionOf(existing?.country)) : null;
   const shownYear = year ?? (existing === undefined ? null : Number(existing.month.slice(0, 4)));
   const shownMonth = month ?? (existing === undefined ? null : Number(existing.month.slice(5, 7)));
   const draft = draftOf(country?.code ?? null, shownYear, shownMonth, today);
@@ -62,13 +63,12 @@ export function PastTripScreen({
   return (
     <PastTripView
       editing={existing !== undefined}
-      query={query}
+      query={query ?? country?.name ?? ''}
       onQuery={setQuery}
-      results={searchCountries(options, query)}
-      country={country}
+      results={query === null ? [] : searchCountries(options, query)}
       onCountry={(option) => {
         setPicked(option);
-        setQuery('');
+        setQuery(null);
         Keyboard.dismiss();
       }}
       years={pastTripYears(today)}

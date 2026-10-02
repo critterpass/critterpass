@@ -12,6 +12,7 @@ import { Segmented } from '@/ui/inputs/Segmented';
 
 import { PINGS_ROW_LINE, PINGS_ROW_TITLE } from '../ping-settings/copy';
 import type { CrewChatMode } from '../ping-settings/ping-prefs';
+import type { LocationValue } from './location-row';
 import { SETTINGS_REGISTRY, SETTINGS_SECTIONS, type SettingsSectionId } from './registry';
 import type { SyncedSettings } from './synced-settings';
 import type { SettingsSection } from './settings-view';
@@ -20,6 +21,8 @@ const CHATTY_TRACK: ViewStyle = { flexShrink: 1, maxWidth: '64%' };
 
 export interface SettingsValues extends SyncedSettings {
   readonly crewChat: CrewChatMode;
+  /** What location the app holds, from this phone's permission. */
+  readonly location: LocationValue;
   /** The mailbox row's line, when the bookings area offers one. */
   readonly mailbox: { readonly title: string; readonly subtitle: string } | null;
   readonly helpShare: boolean;
@@ -35,6 +38,7 @@ export interface SettingsHandlers {
   readonly onSynced: (change: Partial<SyncedSettings>) => void;
   readonly onCrewChat: () => void;
   readonly onPings: () => void;
+  readonly onLocation: () => void;
   readonly onMailbox: () => void;
   readonly onHelpShare: (next: boolean) => void;
   readonly onOfflineTrips: () => void;
@@ -59,6 +63,12 @@ export function useSettingsSections(
     all: t({ id: 'you.pings.crewChat.all', message: 'Every message' }),
     mentions: t({ id: 'you.pings.crewChat.mentions', message: 'Mentions only' }),
     off: t({ id: 'you.pings.crewChat.off', message: 'Off' }),
+  };
+  const locationWords: Readonly<Record<LocationValue, string>> = {
+    trips: t({ id: 'you.settings.location.trips', message: 'During trips' }),
+    always: t({ id: 'you.settings.location.always', message: 'Always' }),
+    off: t({ id: 'you.settings.location.off', message: 'Off' }),
+    ask: t({ id: 'you.settings.location.ask', message: 'Ask' }),
   };
   const toggle = (
     key: string,
@@ -100,13 +110,6 @@ export function useSettingsSections(
       values.talkOutLoud,
       (next) => handlers.onSynced({ talkOutLoud: next }),
     ),
-    'leave-by-dnd': toggle(
-      'leave-by-dnd',
-      t({ id: 'you.settings.leaveBy', message: 'Leave-by alarms' }),
-      t({ id: 'you.settings.leaveByLine', message: 'Can ring through Do Not Disturb' }),
-      values.leaveByThroughDnd,
-      (next) => handlers.onSynced({ leaveByThroughDnd: next }),
-    ),
     'crew-chat': {
       key: 'crew-chat',
       kind: 'value',
@@ -121,6 +124,13 @@ export function useSettingsSections(
       subtitle: t(PINGS_ROW_LINE),
       value: '',
       onPress: handlers.onPings,
+    },
+    location: {
+      key: 'location',
+      kind: 'value',
+      title: t({ id: 'you.settings.location', message: 'Location' }),
+      value: locationWords[values.location],
+      onPress: handlers.onLocation,
     },
     mailbox:
       values.mailbox === null
@@ -152,29 +162,12 @@ export function useSettingsSections(
       values.helpShare,
       handlers.onHelpShare,
     ),
-    'hide-taste': toggle(
-      'hide-taste',
-      t({ id: 'you.settings.hideTaste', message: 'Hide my travel style' }),
-      t({ id: 'you.settings.hideTasteLine', message: 'Crews stop seeing your tags' }),
-      values.hideTasteTags,
-      (next) => handlers.onSynced({ hideTasteTags: next }),
-    ),
     'hide-collection': toggle(
       'hide-collection',
       t({ id: 'you.settings.hideCollection', message: 'Hide my critters' }),
       t({ id: 'you.settings.hideCollectionLine', message: 'Crews stop seeing your collection' }),
       values.hideCollection,
       (next) => handlers.onSynced({ hideCollection: next }),
-    ),
-    'lock-screen': toggle(
-      'lock-screen',
-      t({ id: 'you.settings.lockScreen', message: 'Hide details on the lock screen' }),
-      t({
-        id: 'you.settings.lockScreenLine',
-        message: 'Pings and live trips show no names or places',
-      }),
-      values.hideLockscreenDetails,
-      (next) => handlers.onSynced({ hideLockscreenDetails: next }),
     ),
     'offline-trips': {
       key: 'offline-trips',

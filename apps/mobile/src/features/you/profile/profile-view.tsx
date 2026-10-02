@@ -9,12 +9,10 @@ import { Pressable, ScrollView, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { ListCard } from '@/ui/cards/ListCard';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { StatusChip } from '@/ui/chips/StatusChip';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
-import { AvatarStack } from '@/ui/people/AvatarStack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { HeaderPill, HeaderPills } from '@/ui/shell/HeaderPills';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -22,8 +20,9 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { crewLineText, statLabel } from './profile-copy';
-import { CREW_FACES, type ProfileModel } from './profile-model';
+import { statLabel } from './profile-copy';
+import type { ProfileModel } from './profile-model';
+import { CrewRows } from './crew-rows';
 import { ProfileFace, SectionHead, StampRow, StatTile, Tags } from './profile-parts';
 
 export interface ProfileViewProps {
@@ -234,38 +233,11 @@ export function ProfileView(props: ProfileViewProps) {
 
         <Stack gap="10">
           <SectionHead title={t({ id: 'you.profile.yourCrews', message: 'Your crews' })} />
-          {model.crews.map((crew) => (
-            <ListCard
-              key={crew.id}
-              title={crew.name}
-              subtitle={crewLineText(crew.line, locale)}
-              leading={
-                <AvatarStack
-                  members={crew.members.map((member) => ({
-                    key: member.id,
-                    name: member.name,
-                    joinIndex: member.joinIndex,
-                  }))}
-                  max={CREW_FACES}
-                />
-              }
-              {...(props.onOpenCrew
-                ? { onPress: () => props.onOpenCrew?.(crew.id) }
-                : { chevron: false })}
-              testID={`you-profile-crew-${crew.id}`}
-            />
-          ))}
-          {model.crews.length === 0 ? (
-            <ListCard
-              title={t({ id: 'you.profile.startCrew', message: 'Start a crew' })}
-              subtitle={t({
-                id: 'you.profile.startCrewLine',
-                message: 'Trips are better with your people.',
-              })}
-              {...(props.onStartCrew ? { onPress: props.onStartCrew } : { chevron: false })}
-              testID="you-profile-start-crew"
-            />
-          ) : null}
+          <CrewRows
+            crews={model.crews}
+            onOpenCrew={props.onOpenCrew}
+            onStartCrew={props.onStartCrew}
+          />
         </Stack>
 
         <Row justify="space-between" style={styles.footer}>

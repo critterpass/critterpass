@@ -56,10 +56,9 @@ function PastTrip({ editing }: { readonly editing: boolean }) {
   return (
     <PastTripView
       editing={editing}
-      query={editing ? '' : 'Port'}
+      query={editing ? option('PT').name : 'Port'}
       onQuery={noop}
       results={editing ? [] : [option('PT'), option('PR')]}
-      country={editing ? option('PT') : null}
       onCountry={noop}
       years={pastTripYears(TODAY)}
       year={editing ? 2019 : null}

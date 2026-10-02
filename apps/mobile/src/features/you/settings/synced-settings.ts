@@ -9,44 +9,31 @@ import type { Chattiness, SettingsPatch } from '@cp/domain';
 export interface SyncedSettings {
   readonly chattiness: Chattiness;
   readonly talkOutLoud: boolean;
-  readonly leaveByThroughDnd: boolean;
-  readonly hideTasteTags: boolean;
   readonly hideCollection: boolean;
-  readonly hideLockscreenDetails: boolean;
 }
 
 /** `user_settings` column defaults (docs/data-model.md §3.1). */
 export const DEFAULT_SYNCED_SETTINGS: SyncedSettings = {
   chattiness: 'normal',
   talkOutLoud: false,
-  leaveByThroughDnd: false,
-  hideTasteTags: false,
   hideCollection: false,
-  hideLockscreenDetails: false,
 };
 
-export const SYNCED_SETTINGS_SQL = `SELECT chattiness, talk_out_loud, leave_by_through_dnd,
-    hide_taste_tags, hide_collection, hide_lockscreen_details
+export const SYNCED_SETTINGS_SQL = `SELECT chattiness, talk_out_loud, hide_collection
   FROM user_settings WHERE user_id = ?`;
 export const SYNCED_SETTINGS_TABLES = ['user_settings'];
 
 export interface SyncedSettingsRow {
   readonly chattiness: string | null;
   readonly talk_out_loud: number | null;
-  readonly leave_by_through_dnd: number | null;
-  readonly hide_taste_tags: number | null;
   readonly hide_collection: number | null;
-  readonly hide_lockscreen_details: number | null;
 }
 
 /** The patch key each field writes. */
 const COLUMN: Readonly<Record<keyof SyncedSettings, keyof SettingsPatch>> = {
   chattiness: 'chattiness',
   talkOutLoud: 'talk_out_loud',
-  leaveByThroughDnd: 'leave_by_through_dnd',
-  hideTasteTags: 'hide_taste_tags',
   hideCollection: 'hide_collection',
-  hideLockscreenDetails: 'hide_lockscreen_details',
 };
 
 export function syncedSettingsColumn(field: keyof SyncedSettings): keyof SettingsPatch {
@@ -68,10 +55,7 @@ export function settingsFromRow(row: SyncedSettingsRow | undefined): SyncedSetti
   return {
     chattiness: chattinessOf(row?.chattiness),
     talkOutLoud: flag(row?.talk_out_loud, d.talkOutLoud),
-    leaveByThroughDnd: flag(row?.leave_by_through_dnd, d.leaveByThroughDnd),
-    hideTasteTags: flag(row?.hide_taste_tags, d.hideTasteTags),
     hideCollection: flag(row?.hide_collection, d.hideCollection),
-    hideLockscreenDetails: flag(row?.hide_lockscreen_details, d.hideLockscreenDetails),
   };
 }
 
