@@ -13,7 +13,7 @@ import type { AppEnv } from '../app';
 import type { CommandRegistry } from '../commands/_framework/registry';
 import type { SessionResolver } from '../commands/_framework/session';
 import { createSetPayoutMethodCommand } from '../commands/money/set-payout-method';
-import { createFlagService } from '../obs/flags';
+import { processFlagService } from '../obs/flags';
 import { registerPayoutRoutes } from '../routes/payout-reveal';
 import { registerReceiptRoutes } from '../routes/receipts';
 import { assertMoneyPushActions } from './push-actions';
@@ -33,18 +33,16 @@ export function registerMoneyRoutes(app: OpenAPIHono<AppEnv>, deps: MoneyRouteDe
 
 /**
  * Mounts `POST /v1/receipts` behind the `money.receipts` flag, evaluated per member (PostHog; off
- * when PostHog is unreachable or unset, so scans stay off until the flag is turned on).
+ * when PostHog is unreachable or unset, so scans stay off until the flag is turned on). The gate
+ * reads the process's one flag service, which waits for a fresh process's first definitions load,
+ * so an upload right after a deploy is not refused.
  */
 export function registerReceiptRoutesFromEnv(
   app: OpenAPIHono<AppEnv>,
   deps: Pick<MoneyRouteDeps, 'pool' | 'sessions'>,
   env: Readonly<Record<string, string | undefined>>,
 ): void {
-  const flags = createFlagService({
-    projectApiKey: env['POSTHOG_PROJECT_API_KEY'],
-    flagsSecretKey: env['POSTHOG_PROJECT_SECRET_KEY'],
-    host: env['POSTHOG_HOST'],
-  });
+  const flags = processFlagService(env);
   const salt = env['ANALYTICS_PID_SALT'];
   registerReceiptRoutes(app, {
     ...deps,

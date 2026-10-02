@@ -16,7 +16,7 @@ import { createLockBudgetTargetCommand } from '../commands/setup/lock-budget-tar
 import { registerCalendarCommands } from '../commands/setup';
 import type { CommandRegistry } from '../commands/_framework/registry';
 import type { SessionResolver } from '../commands/_framework/session';
-import { createFlagService } from '../obs/flags';
+import { processFlagService } from '../obs/flags';
 import { registerBudgetRoutes } from './budget-band-route';
 import { registerWindowsRoute } from './windows-route';
 
@@ -30,11 +30,7 @@ export interface SetupRouteDeps {
 
 export function registerSetupRoutes(app: OpenAPIHono<AppEnv>, deps: SetupRouteDeps): void {
   const config = calendarOAuthConfigFromEnv(deps.env);
-  const flags = createFlagService({
-    projectApiKey: deps.env['POSTHOG_PROJECT_API_KEY'],
-    flagsSecretKey: deps.env['POSTHOG_PROJECT_SECRET_KEY'],
-    host: deps.env['POSTHOG_HOST'],
-  });
+  const flags = processFlagService(deps.env);
   const salt = deps.env['ANALYTICS_PID_SALT'];
   const gate = flagGate(async (uid) =>
     salt === undefined || salt.length < 16

@@ -5,7 +5,9 @@
  *
  * Each value is kept in MMKV under its catalog key, so an offline launch starts with the last
  * answer. A refresh that fails (offline, an api error, an answer in another shape) changes
- * nothing; signing out forgets the account's values.
+ * nothing, and neither does an answer of the api's defaults (`source: 'defaults'`, PostHog was
+ * unreachable for it) once values are stored: an outage never switches a rollout off on a phone.
+ * Signing out forgets the account's values.
  */
 import { coerceFlag, FLAG_CATALOG, FLAG_KEYS, type FlagKey, type FlagValues } from '@cp/domain';
 import { createMMKV } from 'react-native-mmkv';
@@ -55,10 +57,15 @@ export function subscribeServerFlags(onChange: () => void): () => void {
   };
 }
 
-/** Stores a `{flags}` answer; false (and nothing changed) when the body is not one. */
+/**
+ * Stores a `{flags, source}` answer. False, and nothing changed, when the body is not one, or when
+ * it is the api's defaults and values are already stored.
+ */
 export function applyServerFlags(body: unknown): boolean {
-  const flags = (body as { flags?: unknown } | null)?.flags;
+  const answer = body as { flags?: unknown; source?: unknown } | null;
+  const flags = answer?.flags;
   if (typeof flags !== 'object' || flags === null) return false;
+  if (answer?.source === 'defaults' && store().getAllKeys().length > 0) return false;
   const answered = flags as Readonly<Record<string, unknown>>;
   for (const key of FLAG_KEYS) {
     const value = accepted(key, answered[key]);
