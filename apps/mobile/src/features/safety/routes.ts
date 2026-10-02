@@ -20,7 +20,11 @@ export const safetyRoutes = {
     params: { problem, tripId },
   }),
   send: (tripId: string): Href => ({ pathname: '/sos/send', params: { tripId } }),
-  sos: (sosId: string): Href => ({ pathname: '/sos/[id]', params: { id: sosId } }),
+  /** `sent`: this phone just sent it (the screen says so until the incident syncs back). */
+  sos: (sosId: string, sent = false): Href => ({
+    pathname: '/sos/[id]',
+    params: sent ? { id: sosId, sent: '1' } : { id: sosId },
+  }),
   /** The session map of an SOS: free on any trip, it ends with the incident. */
   map: (sosId: string): Href => ({ pathname: '/sos/map', params: { id: sosId } }),
 };

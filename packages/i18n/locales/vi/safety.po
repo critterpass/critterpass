@@ -124,6 +124,7 @@ msgstr "Gọi"
 msgid "safety.action.call"
 msgstr "Gọi"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.callGeneral"
 msgstr "Gọi {general}"
@@ -273,6 +274,14 @@ msgstr "Thông tin bảo hiểm đã gửi tới phòng khám"
 msgid "safety.help.insurer"
 msgstr "Bảo hiểm: {insurer} · thẻ bảo hiểm nằm trong mục Đặt chỗ"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
+msgid "safety.pending.sentLine"
+msgstr "SOS sẽ đi ngay khi có sóng. Ai đã xem sẽ hiện ở đây."
+
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
+msgid "safety.pending.openLine"
+msgstr "SOS sẽ hiện ở đây ngay khi điện thoại này nhận được."
+
 #: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
 msgid "safety.consent.title"
 msgstr "Để cả nhóm tìm được bạn"
@@ -335,6 +344,10 @@ msgstr "Không có ai khác trong chuyến đi để báo"
 msgid "safety.push.open"
 msgstr "Mở"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
+msgid "safety.pending.openTitle"
+msgstr "Đang mở SOS"
+
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 msgid "safety.desk.title"
 msgstr "Bộ phận trực cùng bạn gọi phòng khám"
@@ -377,6 +390,10 @@ msgstr "Gửi sau {left}…"
 
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepSending"
+msgstr "Đang gửi SOS cho cả nhóm"
+
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
+msgid "safety.pending.sentTitle"
 msgstr "Đang gửi SOS cho cả nhóm"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx

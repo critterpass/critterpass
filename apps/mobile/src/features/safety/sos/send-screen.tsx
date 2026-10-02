@@ -93,7 +93,7 @@ export function SosSendScreen() {
         ),
       );
     }
-    router.replace(safetyRoutes.sos(sosId));
+    router.replace(safetyRoutes.sos(sosId, true));
   }
 
   const countdown = useCountdown(() => void send());

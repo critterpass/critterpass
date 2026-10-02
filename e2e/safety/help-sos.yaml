@@ -96,10 +96,11 @@ appId: app.critterpass.dev
 - assertNotVisible:
     id: 'sos-screen'
 - runFlow: subflows/slide-sos.yaml
+# The incident row syncs back from the server; until then the screen says it is sending.
 - extendedWaitUntil:
     visible:
-      id: 'sos-screen'
-    timeout: 30000
+      id: 'sos-ok'
+    timeout: 90000
 - extendedWaitUntil:
     visible:
       id: 'sos-ok'

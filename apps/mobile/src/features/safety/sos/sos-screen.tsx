@@ -20,6 +20,7 @@ import { resolveSosCommand, respondSosCommand, triggerSosCommand } from '../comm
 import { deviceHelpApi } from '../data/help-api';
 import { useHelpHub } from '../help/use-help-hub';
 import { safetyRoutes } from '../routes';
+import { SosPending } from './sos-pending';
 import { SosView } from './sos-view';
 import { senderBubble } from './sos-model';
 import { useSos } from './use-sos';
@@ -46,7 +47,7 @@ function presetWords(preset: string | null, t: ReturnType<typeof useLingui>['t']
 
 export function SosScreen() {
   const { t } = useLingui();
-  const params = useLocalSearchParams<{ id?: string }>();
+  const params = useLocalSearchParams<{ id?: string; sent?: string }>();
   const sosId = typeof params.id === 'string' && params.id !== '' ? params.id : null;
   const sos = useSos(sosId);
   const tripId = sos.row?.trip_id ?? null;
@@ -67,7 +68,15 @@ export function SosScreen() {
     void respond.send({ sos_id: sosId, state: 'seen' });
   }, [model, sosId, respond]);
 
-  if (model === null || sosId === null) return null;
+  if (model === null || sosId === null) {
+    return (
+      <SosPending
+        sent={params.sent === '1'}
+        general={hub.model.general.number}
+        onCallGeneral={() => dial(hub.model.general.number)}
+      />
+    );
+  }
   const guideSlug = hub.trip?.guide_slug ?? 'tokek';
   const guide = GUIDE_IDS.includes(guideSlug)
     ? GUIDE_STICKERS[guideSlug as keyof typeof GUIDE_STICKERS]
@@ -122,7 +131,7 @@ export function SosScreen() {
         const fresh = generateUuidV7();
         void trigger
           .send({ trip_id: tripId, sos_id: fresh, confirm_of: sosId })
-          .then(() => router.replace(safetyRoutes.sos(fresh)));
+          .then(() => router.replace(safetyRoutes.sos(fresh, true)));
       }}
       onMap={() => router.push(safetyRoutes.map(sosId))}
       onClose={() => (router.canGoBack() ? router.back() : router.replace('/'))}

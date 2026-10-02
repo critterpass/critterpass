@@ -68,10 +68,11 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'sos-preset-fell'
 - runFlow: subflows/slide-sos.yaml
+# The incident row syncs back from the server; until then the screen says it is sending.
 - extendedWaitUntil:
     visible:
-      id: 'sos-screen'
-    timeout: 30000
+      id: 'sos-ok'
+    timeout: 90000
 # Sent: the crew has been told (the first step ticks once the fan-out ran).
 - extendedWaitUntil:
     visible:
@@ -89,7 +90,7 @@ appId: app.critterpass.dev
       TARGET: 'dev-accounts-switch-0'
 - extendedWaitUntil:
     visible:
-      id: 'sos-screen'
+      id: 'sos-going'
     timeout: 90000
 - extendedWaitUntil:
     visible:
