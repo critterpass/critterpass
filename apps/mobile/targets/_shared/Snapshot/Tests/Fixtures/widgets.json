@@ -50,10 +50,7 @@
     "pass_plus": false,
     "boost_active": false
   },
-  "locked": [
-    "crew",
-    "next_flight"
-  ],
+  "locked": ["crew", "next_flight"],
   "headline_of_a_newer_build": {
     "text": "a field this reader never heard of"
   }
