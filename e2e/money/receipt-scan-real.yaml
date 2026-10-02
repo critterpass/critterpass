@@ -95,9 +95,10 @@ appId: app.critterpass.dev
     id: 'money-review-line-.*'
     index: 0
 - takeScreenshot: receipt-real-line-tapped
+# The sheet's container carries no element of its own on iOS: its DONE is what shows it is up.
 - extendedWaitUntil:
     visible:
-      id: 'money-member-picker'
+      id: 'money-member-done'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: receipt-real-assign
@@ -105,7 +106,7 @@ appId: app.critterpass.dev
     id: 'money-member-done'
 - extendedWaitUntil:
     notVisible:
-      id: 'money-member-picker'
+      id: 'money-member-done'
     timeout: 10000
 - scrollUntilVisible:
     element:
