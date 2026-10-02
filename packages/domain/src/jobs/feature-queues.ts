@@ -22,6 +22,7 @@ import { TRIP_LIFECYCLE_QUEUE_DESCRIPTIONS, tripLifecycleQueueSpecs } from '../t
 import { LA_QUEUE_DESCRIPTIONS, laQueueSpecs } from '../surfaces/la-queues';
 import { SAFETY_QUEUE_DESCRIPTIONS, safetyQueueSpecs } from '../safety/queues';
 import { WIDGET_QUEUE_DESCRIPTIONS, widgetQueueSpecs } from '../surfaces/widget-refresh';
+import { RECAP_QUEUE_DESCRIPTIONS, recapQueueSpecs } from '../recap/queues';
 
 export function featureQueueSpecs(defaults: QueueSpec) {
   return {
@@ -44,6 +45,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...laQueueSpecs(defaults),
     ...safetyQueueSpecs(defaults),
     ...widgetQueueSpecs(defaults),
+    ...recapQueueSpecs(defaults),
   } as const;
 }
 
@@ -67,4 +69,5 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...LA_QUEUE_DESCRIPTIONS,
   ...SAFETY_QUEUE_DESCRIPTIONS,
   ...WIDGET_QUEUE_DESCRIPTIONS,
+  ...RECAP_QUEUE_DESCRIPTIONS,
 } as const;
