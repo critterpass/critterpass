@@ -1,7 +1,7 @@
 /**
  * Start a crew (undesigned; from the page and sheet patterns): a name up to 32 characters and a
- * guide sticker as the crew's art, then the crew's code with the share sheet to send it, then
- * Home. A queued crew (offline, or while the queue uploads) shows its code as soon as it syncs.
+ * guide sticker as the crew's art, then the crew's page (its sticker, its code in display type)
+ * with the share sheet to send the code, then Home. A queued crew (offline, or while the queue uploads) shows its code as soon as it syncs.
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
@@ -20,12 +20,14 @@ import { upper } from '@cp/i18n';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { AvatarPicker, type GuideAvatarId } from '@/ui/avatar';
+import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { InlineAction } from '@/ui/buttons/InlineAction';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextField } from '@/ui/inputs/TextField';
 import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 import { KeyboardScrollView } from '@/ui/layout/KeyboardScrollView';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -33,6 +35,9 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { CREATE_CREW } from '../crews-sheet/crew-commands';
 import { useCrewCode } from '../crews-sheet/crew-data';
 import { useCrewServices } from '../crews-sheet/crew-services';
+
+/** The crew's sticker on its "is on" page. */
+const ART_PT = 140;
 
 const useStyles = makeStyles((th) => ({
   scroll: { flex: 1 },
@@ -63,6 +68,7 @@ const useStyles = makeStyles((th) => ({
     gap: th.space['8'],
   },
   done: { alignSelf: 'center' },
+  art: { alignSelf: 'center', marginTop: th.space['24'] },
 }));
 
 type Step =
@@ -128,6 +134,18 @@ export function StartCrewScreen() {
     return (
       <Scaffold variant="dark" edges={['top', 'bottom']} testID="start-crew-created">
         <View style={styles.content}>
+          {/* The sticker the crew just picked as its art. */}
+          <View
+            style={styles.art}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          >
+            <Sticker
+              kind={GUIDE_STICKERS[art].kind}
+              name={GUIDE_STICKERS[art].name}
+              size={ART_PT}
+            />
+          </View>
           <Text variant="h1" accessibilityRole="header">
             {upper(t({ id: 'crew.start.createdTitle', message: `${crew} is on` }), locale)}
           </Text>
@@ -151,8 +169,12 @@ export function StartCrewScreen() {
                 <Text variant="eyebrow">
                   {upper(t({ id: 'crew.start.codeLabel', message: 'Crew code' }), locale)}
                 </Text>
+                {/* Six characters always fit at display size: fitting would shrink it to the floor
+                    in the centred card, where the text is measured before it has a width. */}
                 <Text
                   variant="displayXl"
+                  autoFit={false}
+                  numberOfLines={1}
                   accessibilityLabel={t({
                     id: 'crew.start.codeA11y',
                     message: `Crew code ${code.split('').join(' ')}`,
