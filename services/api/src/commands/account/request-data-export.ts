@@ -14,6 +14,7 @@ import {
   type RequestDataExportResult,
 } from '@cp/domain';
 
+import { asSystemRole } from '../../admin/command';
 import { defineCommand } from '../_framework/define-command';
 
 export const requestDataExportCommand = defineCommand({
@@ -24,9 +25,12 @@ export const requestDataExportCommand = defineCommand({
   allowAnonymous: true,
   authorize: () => Promise.resolve(),
   handle: async (tx, payload, ctx): Promise<RequestDataExportResult> => {
-    const mine = await tx.query<{ user_id: string }>(
-      'SELECT user_id FROM data_exports WHERE id = $1',
-      [payload.export_id],
+    // `data_exports` is written by the system only (the owner reads it): the checks and the row
+    // run under that role, scoped to the caller's uid.
+    const mine = await asSystemRole(tx, () =>
+      tx.query<{ user_id: string }>('SELECT user_id FROM data_exports WHERE id = $1', [
+        payload.export_id,
+      ]),
     );
     const replay = mine.rows[0];
     if (replay !== undefined) {
@@ -52,9 +56,11 @@ export const requestDataExportCommand = defineCommand({
         });
       }
     }
-    await tx.query(
-      `INSERT INTO data_exports (id, user_id, status, requested_at) VALUES ($1, $2, 'queued', $3)`,
-      [payload.export_id, ctx.uid, ctx.clock.serverNow],
+    await asSystemRole(tx, () =>
+      tx.query(
+        `INSERT INTO data_exports (id, user_id, status, requested_at) VALUES ($1, $2, 'queued', $3)`,
+        [payload.export_id, ctx.uid, ctx.clock.serverNow],
+      ),
     );
     const job: ExportBuildJob = { export_id: payload.export_id };
     await sendInTx(tx, ACCOUNT_QUEUES.exportBuild, job, { singletonKey: payload.export_id });

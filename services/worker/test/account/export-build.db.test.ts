@@ -96,7 +96,13 @@ describe('export.build', () => {
     ]);
 
     const now = new Date('2026-10-03T09:00:00Z');
-    expect(await buildExport(harness.pool, store, exportId, silent, () => now)).toBe('ready');
+    const errors: string[] = [];
+    const logger = {
+      ...silent,
+      error: (fields: object) => void errors.push(String((fields as { err?: unknown }).err)),
+    };
+    const outcome = await buildExport(harness.pool, store, exportId, logger, () => now);
+    expect(outcome, errors.join('\n')).toBe('ready');
 
     const zip = store.objects.get(exportObjectKey(me, exportId));
     expect(zip?.contentType).toBe('application/zip');
