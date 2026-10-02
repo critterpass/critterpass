@@ -197,3 +197,4 @@ export {
 } from './critters';
 export { crewXp, questProgress, quests, questSignups, xpLedger } from './quests';
 export { appIconUnlocks, dataExports, pastTrips } from './you';
+export { installedWidgets, widgetPushLedger, widgetPushTokens } from './widgets';

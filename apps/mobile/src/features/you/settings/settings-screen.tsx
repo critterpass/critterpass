@@ -46,6 +46,7 @@ export function SettingsScreen({
       onSignOut: () => router.push(YOU_ROUTES.signOut),
       onDeleteAccount: () => router.push(YOU_ROUTES.deleteAccount),
       onOfflineTrips: () => router.push(YOU_ROUTES.offlineStorage),
+      onPings: () => router.push(YOU_ROUTES.pings),
       onSoundEffects: (next) => prefs.setCategoryEnabled(STICKER_SOUNDS, next),
       onHaptics: prefs.setHapticsEnabled,
     },
