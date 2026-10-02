@@ -38,6 +38,14 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'walk-guide-asked',
     'render 3j-1 Guide chat: a thread a moment after its first question is the header, the question and the answer starting to type',
   ],
+  [
+    '3f-6-friend-out',
+    "render 3f-6 Who's in: crew of two with the friend out: two rows and the lock note, honest and complete",
+  ],
+  [
+    '3f-6-after-apply',
+    "render 3f-6 Who's in: crew of two with the friend out: two rows and the lock note, honest and complete",
+  ],
 ]);
 
 export function isSparseByDesign(shot: string): boolean {
