@@ -38,9 +38,12 @@ appId: app.critterpass.dev
     visible:
       id: 'money-add-keypad'
     timeout: 10000
-- tapOn: '4'
-- tapOn: '5'
-- tapOn: '0'
+- tapOn:
+    id: 'money-add-keypad-key-4'
+- tapOn:
+    id: 'money-add-keypad-key-5'
+- tapOn:
+    id: 'money-add-keypad-key-0'
 - tapOn: '000'
 - assertVisible:
     id: 'money-add-approx'

@@ -63,15 +63,18 @@ appId: app.critterpass.dev
       id: 'money-add-keypad'
     timeout: 10000
 # The keypad can take a moment to accept taps on a new crew's first expense: ADD stays disabled
-# until an amount lands, so the entry is typed again until the expense is added. Digits only: a
-# bare "0" would also match the amount display.
+# until an amount lands, so the entry is typed again until the expense is added. Keys by their ids:
+# a digit's text also matches the amount display's digit columns, and a tap there opens the name.
 - retry:
     maxRetries: 3
     commands:
       - waitForAnimationToEnd
-      - tapOn: '1'
-      - tapOn: '2'
-      - tapOn: '5'
+      - tapOn:
+          id: 'money-add-keypad-key-1'
+      - tapOn:
+          id: 'money-add-keypad-key-2'
+      - tapOn:
+          id: 'money-add-keypad-key-5'
       - tapOn:
           id: 'money-add-submit'
       - extendedWaitUntil:
