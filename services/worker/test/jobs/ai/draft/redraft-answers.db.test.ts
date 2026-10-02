@@ -71,8 +71,8 @@ describe('a redraft of a draft with an answered wish', () => {
         ],
       );
       const { rows: wishes } = await harness.pool.query<{ id: string }>(
-        `INSERT INTO must_dos (trip_id, owner_id, title, poi_id)
-         VALUES ($1, $2, 'the lantern walk with drums', null) RETURNING id`,
+        `INSERT INTO must_dos (trip_id, owner_id, title, poi_id, freeform, priority)
+         VALUES ($1, $2, 'the lantern walk with drums', null, true, 5) RETURNING id`,
         [tripId, organiser],
       );
       const wish = wishes[0]?.id as string;
