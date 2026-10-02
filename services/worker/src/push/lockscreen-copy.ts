@@ -1,6 +1,6 @@
 /**
  * What a push or Live Activity says to someone who hides details on the lock screen
- * (`user_settings.hide_lockscreen_details`, product decision Q-86): no money amounts and no exact
+ * (`user_settings.hide_lockscreen_details`, docs/product-decisions.md): no money amounts and no exact
  * places. Each template that carries one has a sibling worded without it, so the sentence still
  * reads naturally; the router and the Live Activity orchestrator swap the template, never the
  * values. A destination name ("It's on: Đà Nẵng") is not an exact place and stays; free text a
