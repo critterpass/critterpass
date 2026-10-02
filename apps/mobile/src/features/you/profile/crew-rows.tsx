@@ -1,6 +1,6 @@
 /**
  * YOUR CREWS on the profile (3n-1): one raised card, a row per crew divided by a hairline, each
- * with its faces, its name in the display face set in capitals ("THE BALI SIX") and one line on
+ * with its faces, its name in the card-title face set in capitals ("THE BALI SIX") and one line on
  * where it is headed. No crew yet: one "Start a crew" row.
  */
 import { upper } from '@cp/i18n';
@@ -19,6 +19,9 @@ import { makeStyles } from '@/ui/theme';
 
 import { crewLineText } from './profile-copy';
 import { CREW_FACES, type ProfileCrew } from './profile-model';
+
+/** How far an overlong one-word crew name may shrink (the title face is 16 pt). */
+const CREW_NAME_FLOOR = 10;
 
 const useStyles = makeStyles((t) => ({
   group: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, overflow: 'hidden' },
@@ -46,7 +49,7 @@ function CrewRow(props: {
       {props.leading}
       <Stack gap="2" style={styles.body}>
         {/* A long name wraps between words; a word too long for the line shrinks, never clips. */}
-        <Text variant="h3" autoFit>
+        <Text variant="title" autoFit autoFitMinSize={CREW_NAME_FLOOR}>
           {props.title}
         </Text>
         <SecondaryText>{props.line}</SecondaryText>
