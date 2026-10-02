@@ -223,12 +223,49 @@ export function countSkiaSurfaces(log: string): {
 function recordSkiaSurfaces(options: ShardOptions, slug: string): void {
   try {
     const log = adb(options.device, ['logcat', '-d', '-s', 'SkiaTextureView:V']);
+    const js = adb(options.device, ['logcat', '-d', '-v', 'epoch', '-s', 'ReactNativeJS:V']);
     const dir = path.join(options.out, 'skia-surfaces');
     mkdirSync(dir, { recursive: true });
-    writeFileSync(path.join(dir, `${slug}.json`), JSON.stringify(countSkiaSurfaces(log)));
+    writeFileSync(
+      path.join(dir, `${slug}.json`),
+      JSON.stringify({ ...countSkiaSurfaces(log), iconEncodes: iconEncodeCost(js) }),
+    );
   } catch {
     // A count is a measurement, never a reason to fail the shard.
   }
+}
+
+/**
+ * What drawing icons cost the JS thread in a flow, from the app's `[icon-encode] <ms>` lines
+ * (QA builds): how many new icons were drawn, the total time, and the busiest second.
+ */
+export function iconEncodeCost(log: string): {
+  count: number;
+  totalMs: number;
+  busiestSecondMs: number;
+  slowestMs: number;
+} {
+  let count = 0;
+  let totalMs = 0;
+  let slowestMs = 0;
+  const bySecond = new Map<string, number>();
+  for (const line of log.split('\n')) {
+    const match = /^\s*(\d+)\.\d+.*\[icon-encode\] ([\d.]+)/.exec(line);
+    if (match === null) continue;
+    const [, second = '', msText = '0'] = match;
+    const ms = Number(msText);
+    count += 1;
+    totalMs += ms;
+    slowestMs = Math.max(slowestMs, ms);
+    bySecond.set(second, (bySecond.get(second) ?? 0) + ms);
+  }
+  const round = (n: number) => Math.round(n * 10) / 10;
+  return {
+    count,
+    totalMs: round(totalMs),
+    busiestSecondMs: round(Math.max(0, ...bySecond.values())),
+    slowestMs: round(slowestMs),
+  };
 }
 
 /** The device's screen and the app's recent log after a failed flow, into `<out>/failures/`. */

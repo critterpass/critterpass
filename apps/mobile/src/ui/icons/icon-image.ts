@@ -8,6 +8,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- a data URI prefix and cache keys, never copy. */
 import type * as RNSkiaModule from '@shopify/react-native-skia';
 
+import { UI_QA_ENABLED } from '../qa/ui-qa';
 import type { DoodleLayer } from './types';
 
 export interface IconImageInput {
@@ -44,6 +45,7 @@ export function iconImage(input: IconImageInput): string | null {
     return known;
   }
   let uri: string | null = null;
+  const started = UI_QA_ENABLED ? performance.now() : 0;
   try {
     // Loaded here, not at import: the image is optional and Jest suites stand Skia in.
     // eslint-disable-next-line @typescript-eslint/no-require-imports -- see above.
@@ -77,6 +79,11 @@ export function iconImage(input: IconImageInput): string | null {
     }
   } catch {
     uri = null;
+  }
+  if (UI_QA_ENABLED) {
+    // Read by the device shards (skia-surfaces/<flow>.json): what drawing new icons costs the JS
+    // thread on a real screen.
+    console.info(`[icon-encode] ${(performance.now() - started).toFixed(2)}`);
   }
   if (images.size >= MAX_IMAGES) {
     const oldest = images.keys().next().value;

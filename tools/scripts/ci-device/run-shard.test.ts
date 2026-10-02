@@ -4,6 +4,7 @@ import { artifactOf, noMatchMessage, overrideFor } from './resolve-build';
 import {
   annotation,
   countSkiaSurfaces,
+  iconEncodeCost,
   flowSlug,
   isMaestroFailureShot,
   maestroEnvArgs,
@@ -121,5 +122,23 @@ describe('countSkiaSurfaces', () => {
       sizes: { '89x90': 1, '63x63': 1 },
     });
     expect(countSkiaSurfaces('')).toEqual({ created: 0, destroyed: 0, sizes: {} });
+  });
+});
+
+describe('iconEncodeCost', () => {
+  it('sums the icon encodes per flow and finds the busiest second', () => {
+    const log = [
+      '  1790950000.120  5738  5764 I ReactNativeJS: [icon-encode] 2.50',
+      '  1790950000.400  5738  5764 I ReactNativeJS: [icon-encode] 4.00',
+      '  1790950003.010  5738  5764 I ReactNativeJS: [icon-encode] 1.25',
+      '  1790950003.020  5738  5764 I ReactNativeJS: [ui-qa] TEXT_TRUNCATED "x"',
+    ].join('\n');
+    expect(iconEncodeCost(log)).toEqual({
+      count: 3,
+      totalMs: 7.8,
+      busiestSecondMs: 6.5,
+      slowestMs: 4,
+    });
+    expect(iconEncodeCost('')).toEqual({ count: 0, totalMs: 0, busiestSecondMs: 0, slowestMs: 0 });
   });
 });
