@@ -305,9 +305,9 @@ describe('the snapshot fields the widgets draw', () => {
         )
       ).rows[0]!.d;
       await tx.query(
-        `INSERT INTO packing_items (trip_id, day, owner_id, label, checked) VALUES
-           ($1, $2, $3, 'Sunscreen', false), ($1, NULL, NULL, 'Snorkels', true),
-           ($1, $2, $4, 'Rin''s hat', false)`,
+        `INSERT INTO packing_items (trip_id, day, owner_id, label, checked, checked_at) VALUES
+           ($1, $2, $3, 'Sunscreen', false, NULL), ($1, NULL, NULL, 'Snorkels', true, now()),
+           ($1, $2, $4, 'Rin''s hat', false, NULL)`,
         [tripId, today, maya.uid, rin.uid],
       );
       const hours = [0, 6, 18].map((h) => ({
