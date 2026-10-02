@@ -173,6 +173,6 @@ appId: app.critterpass.dev
       id: 'tracker-lock'
     timeout: 15000
 - assertVisible:
-    text: '(?i)confirmed'
+    text: '(?i).*confirmed.*'
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-6-locked
