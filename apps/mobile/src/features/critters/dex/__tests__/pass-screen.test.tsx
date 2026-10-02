@@ -15,8 +15,9 @@ jest.mock(
     jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
       .powersyncCommon,
 );
+let mockFocused = true;
 jest.mock('expo-router', () => ({
-  useIsFocused: () => true,
+  useIsFocused: () => mockFocused,
   usePathname: () => '/pass',
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
 }));
@@ -50,6 +51,7 @@ const METRICS = {
 const stacks: TestLocalFirst[] = [];
 
 afterEach(async () => {
+  mockFocused = true;
   for (const stack of stacks.splice(0)) {
     await stack.close();
     removeDir(stack.dir);
@@ -61,7 +63,13 @@ async function renderPass(options: CritterSeedOptions = {}): Promise<TestLocalFi
   stacks.push(stack);
   await seedCritters(stack.db, stack.uid, options);
   i18n.loadAndActivate({ locale: 'en', messages: {} });
-  await render(
+  await render(passTree(stack));
+  await waitFor(() => expect(screen.getByTestId('critters-dex')).toBeTruthy());
+  return stack;
+}
+
+function passTree(stack: TestLocalFirst) {
+  return (
     <I18nProvider i18n={i18n}>
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
@@ -72,10 +80,8 @@ async function renderPass(options: CritterSeedOptions = {}): Promise<TestLocalFi
           </LocalFirstProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
-    </I18nProvider>,
+    </I18nProvider>
   );
-  await waitFor(() => expect(screen.getByTestId('critters-dex')).toBeTruthy());
-  return stack;
 }
 
 async function queued(stack: TestLocalFirst, cmd: string): Promise<unknown[]> {
@@ -154,5 +160,19 @@ describe('PASS tab Critterdex', () => {
     await waitFor(() => expect(screen.getByTestId('critters-dex-empty')).toBeTruthy());
     expect(screen.getByText('NOTHING BEFRIENDED YET')).toBeTruthy();
     expect(screen.queryByTestId('critters-here-now')).toBeNull();
+  });
+
+  it('stops drawing the dex while another screen is in front, and draws it again on return', async () => {
+    const stack = await renderPass();
+    await waitFor(() => expect(screen.getByText('HERE NOW · BALI')).toBeTruthy());
+    mockFocused = false;
+    await screen.rerender(passTree(stack));
+    expect(screen.getByTestId('critters-dex-resting')).toBeTruthy();
+    expect(screen.queryByTestId('critters-dex')).toBeNull();
+    mockFocused = true;
+    await screen.rerender(passTree(stack));
+    // The rows stayed loaded: the dex is back in the same render, with no loading state between.
+    expect(screen.getByTestId('critters-dex')).toBeTruthy();
+    expect(screen.getByText('HERE NOW · BALI')).toBeTruthy();
   });
 });

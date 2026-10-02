@@ -2,11 +2,17 @@
  * The PASS tab over synced rows: the Critterdex, the trip egg (HATCH IT queues `hatch_egg` and
  * plays the ceremony at once, offline too), and Explore at home (the device's own opt-in plus
  * `set_explore_at_home`, so the server accepts home-set encounters).
+ *
+ * While another screen or tab is in front, the dex is not drawn: its grid is dozens of live Skia
+ * canvases (each one a GL surface on Android), and keeping them up under the encounter left the
+ * screen on top without surfaces of its own (no scene, no critter) and stalled the app. The rows
+ * stay loaded, so coming back draws the dex at once.
  */
-import { router } from 'expo-router';
+import { router, useIsFocused } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
+import { Scaffold } from '@/ui/surface/Scaffold';
 import { setExploreAtHome, useExploreAtHome } from '@/lib/location';
 
 import { hatchEggCommand, setExploreAtHomeCommand } from '../data/commands';
@@ -38,11 +44,15 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
   const live = LIVE.has(snapshot.phase) && snapshot.encounterId !== null;
   const encounterId = snapshot.encounterId;
 
+  const focused = useIsFocused();
+
   const onHatch = () => {
     if (egg === null) return;
     void hatch.send({ trip_id: egg.tripId, trigger: egg.trigger ?? 'manual' });
     router.push(hatchRoute(egg.tripId));
   };
+
+  if (!focused) return <Scaffold variant="dark" edges={['top']} testID="critters-dex-resting" />;
 
   return (
     <DexView
