@@ -35,18 +35,10 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
-      id: 'dev-nav-gallery'
-    timeout: 10000
-- tapOn:
-    id: 'dev-nav-gallery'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-locale-vi'
-    timeout: 15000
-- tapOn:
-    id: 'gallery-locale-vi'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
 # Back out of the gallery and the developer tools to Home (a link to Home keeps the tools open).
 - repeat:
     while:
