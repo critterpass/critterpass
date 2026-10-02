@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { formatE164, formatNational, typedNumber } from '../phone/phone-number';
+import { formatE164, formatNational, toE164, typedNumber } from '../phone/phone-number';
 
 describe('phone number as you type', () => {
   it('groups digits the way the country writes them, and regroups on a country switch', () => {
@@ -31,5 +31,18 @@ describe('phone number as you type', () => {
       country: 'SG',
       number: '9123 456',
     });
+  });
+
+  it('switches to the country of a dial code typed one key at a time', () => {
+    const typeIn = (country: string, keys: string) => {
+      let state = { country, number: '' };
+      for (const key of keys) state = typedNumber(state.country, state.number, state.number + key);
+      return state;
+    };
+    expect(typeIn('US', '+6591234567')).toEqual({ country: 'SG', number: '9123 4567' });
+    expect(typeIn('SG', '+84949840370')).toEqual({ country: 'VN', number: '949 840 370' });
+    // Before the country is known the "+" and its digits stay as typed, and nothing is sent.
+    expect(typeIn('US', '+6')).toEqual({ country: 'US', number: '+6' });
+    expect(toE164('US', '+65')).toBeNull();
   });
 });
