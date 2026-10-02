@@ -62,6 +62,10 @@ msgstr ""
 msgid "quests.card.done"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.go"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.join"
 msgstr ""
@@ -76,6 +80,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.missed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.nearest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.nearestAway"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
@@ -105,6 +117,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.reward.settled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.how"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
