@@ -86,7 +86,8 @@ async function candidates(tx: pg.PoolClient, facts: SessionFacts): Promise<Place
   return rows;
 }
 
-async function crewTaste(
+/** How many of the going crew hold each taste tag; tags a member hid from the crew never count. */
+export async function crewTaste(
   tx: pg.PoolClient,
   tripId: string,
 ): Promise<{ taste: CrewTaste; size: number }> {
@@ -96,7 +97,7 @@ async function crewTaste(
      )
      SELECT lower(t.tag) AS tag, count(DISTINCT tp.user_id)::int AS n,
             (SELECT count(*)::int FROM crew) AS size
-       FROM crew LEFT JOIN taste_profiles tp ON tp.user_id = crew.user_id
+       FROM crew LEFT JOIN taste_profiles tp ON tp.user_id = crew.user_id AND tp.visibility = 'crew'
        LEFT JOIN LATERAL unnest(tp.tags) AS t (tag) ON true
       GROUP BY 1`,
     [tripId],

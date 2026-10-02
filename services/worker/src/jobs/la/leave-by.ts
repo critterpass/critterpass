@@ -41,7 +41,7 @@ interface LeaveByRow {
 /** An ended leave-by's last frame stays this long ("done", or the crew still walking). */
 const LINGER_MS = 15 * 60_000;
 
-export const leaveByLoader: LaLoader = async ({ tx, refId, now, render }) => {
+export const leaveByLoader: LaLoader = async ({ tx, refId, now, render, redact = false }) => {
   const { rows } = await tx.query<LeaveByRow>(
     `SELECT l.id, l.trip_id, l.title, l.place_name, l.leave_at, l.tz, l.state, l.legs, l.pickup,
             l.guide_note, (SELECT g.slug FROM trips t JOIN guides g ON g.id = t.guide_id
@@ -81,12 +81,13 @@ export const leaveByLoader: LaLoader = async ({ tx, refId, now, render }) => {
     render('en', LA_COPY.pickup),
     beThere === null ? null : render('en', LA_COPY.leaveByBeAt, { place }),
   ]);
+  // Hiding details on the lock screen: the item's title is usually its place, so neither shows.
   const input = (labels: { stay: string; pickup: string }): LeaveByLaInput => ({
     leaveById: row.id,
     tripId: row.trip_id,
-    title: row.title === '' ? (row.place_name ?? '') : row.title,
-    placeName: beThere?.place ?? row.place_name,
-    pickupPlace: row.pickup?.place ?? null,
+    title: redact ? '' : row.title === '' ? (row.place_name ?? '') : row.title,
+    placeName: redact ? null : (beThere?.place ?? row.place_name),
+    pickupPlace: redact ? null : (row.pickup?.place ?? null),
     hasPickup: row.pickup !== null,
     leaveAt,
     beThereLine: beAt,

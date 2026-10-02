@@ -42,21 +42,24 @@ appId: app.critterpass.dev
       - tapOn:
           text: '(?i)(no thanks|no, thanks)'
           optional: true
-# A fresh simulator's Safari opens with a tip over the page that hides everything else, the
-# address bar included.
+# The outcome is the hand-off, not Klook's page: what Klook serves (a bot check on CI) and Safari's
+# first-run tips, which hide the rest of its hierarchy, address bar included, are not the app's.
+# iOS: Safari is in front with its way back to the app. Android: Chrome's address bar shows the
+# partner redirect or Klook, which the go host only redirects to once it knows the click.
 - runFlow:
     when:
       platform: iOS
     commands:
       - extendedWaitUntil:
           visible:
-            id: 'xmark.circle.fill'
-          timeout: 15000
-          optional: true
-      - tapOn:
-          id: 'xmark.circle.fill'
-          optional: true
-- extendedWaitUntil:
-    visible:
-      text: '(?i).*(klook|tp\.media).*'
-    timeout: 60000
+            id: 'breadcrumb'
+            text: '(?i)return to critterpass.*'
+          timeout: 60000
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          visible:
+            text: '(?i).*(klook|tp\.media).*'
+          timeout: 60000

@@ -7,6 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: when(stamp.date, locale)
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReportedWhen"
+msgstr "{0} · Self-reported"
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.selfLabel"
+msgstr "{0}, {1}, self-reported"
+
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.past"
@@ -42,13 +53,25 @@ msgstr "{days, plural, one {In # day} other {In # days}}"
 msgid "you.profile.crew.today"
 msgstr "{place} today"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
 msgstr "Account"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.erasedTitle"
 msgstr "Account closed"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.title"
+msgstr "Add a past trip"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.addPastTrip"
+msgstr "Add a past trip"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.allYears"
+msgstr "All"
 
 #. placeholder {0}: model.stampTotal
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
@@ -59,7 +82,11 @@ msgstr "All {0} ›"
 msgid "you.signOut.stays.all"
 msgstr "All of it. Sign in again and everything comes back."
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.always"
+msgstr "Always"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.app"
 msgstr "App"
 
@@ -67,9 +94,21 @@ msgstr "App"
 msgid "you.language.appLanguage"
 msgstr "App language"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.ask"
+msgstr "Ask"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offlineTripsLine"
 msgstr "Bookings, maps and phrases on this phone"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.budgetMax"
+msgstr "Budget max"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.chatty.chatty"
+msgstr "Chatty"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.zhHans"
@@ -95,11 +134,24 @@ msgstr "Closing your account…"
 msgid "you.delete.continue"
 msgstr "Continue"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.country"
+msgstr "Country"
+
+#: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.pings.crewChat"
+msgstr "Crew chat"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.moved"
 msgstr "Crew moved apps"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideCollectionLine"
+msgstr "Crews stop seeing your collection"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
 msgstr "Delete account"
 
@@ -115,6 +167,10 @@ msgstr "Delete your account?"
 msgid "you.closed.departures"
 msgstr "DEPARTURES · DÉPARTS"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.trips"
+msgstr "During trips"
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.edit"
 msgstr "Edit"
@@ -127,6 +183,11 @@ msgstr "English"
 msgid "you.closed.entry"
 msgstr "ENTRY · ENTRÉE"
 
+#: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.pings.crewChat.all"
+msgstr "Every message"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.exit"
 msgstr "EXIT · SORTIE"
@@ -135,15 +196,27 @@ msgstr "EXIT · SORTIE"
 msgid "you.delete.keeps.expenses"
 msgstr "Expenses you added, so Balances still add up"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpShareLine"
+msgstr "For an hour with the crew, when I open Help"
+
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.mailboxForward"
+msgstr "Forward confirmations to your crew’s address"
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.fr"
 msgstr "French"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.getPassPlus"
+msgstr "Get Pass+"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes"
 msgstr "Goes"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.haptics"
 msgstr "Haptics"
 
@@ -154,6 +227,10 @@ msgstr "Hello again"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lede"
 msgstr "Here’s what goes with you, and what the crew keeps."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideCollection"
+msgstr "Hide my critters"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.hold"
@@ -175,10 +252,18 @@ msgstr "Home"
 msgid "you.profile.back"
 msgstr "Home"
 
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.home"
+msgstr "Home base"
+
 #. placeholder {0}: stamp.title
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.stamp.homeLabel"
 msgstr "Home stamp, {0}"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.howChatty"
+msgstr "How chatty"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.howYouTravel"
@@ -200,7 +285,7 @@ msgstr "Keep my account"
 msgid "you.language.name.ko"
 msgstr "Korean"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.language"
 msgstr "Language"
 
@@ -224,16 +309,46 @@ msgstr "Leave it closed"
 msgid "you.signOut.leaves"
 msgstr "Leaves this phone"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location"
+msgstr "Location"
+
+#: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.pings.crewChat.mentions"
+msgstr "Mentions only"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.budgetMaxLine"
+msgstr "Never shown to anyone, guides included"
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.none"
 msgstr "No trips yet"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.chatty.normal"
+msgstr "Normal"
 
 #. placeholder {0}: until ?? ''
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.body"
 msgstr "Nothing is erased until {0}. Sign in before then and your pass, critters and crews come back as they were."
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.notifications"
+msgstr "Notifications"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.off"
+msgstr "Off"
+
+#: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.pings.crewChat.off"
+msgstr "Off"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offline"
 msgstr "Offline"
 
@@ -244,6 +359,10 @@ msgstr "Pass"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.passPlus"
 msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.editTitle"
+msgstr "Past trip"
 
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
@@ -262,6 +381,10 @@ msgstr "Plans you helped make, shown as “former member”"
 msgid "you.language.name.pt"
 msgstr "Portuguese"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.privacy"
+msgstr "Privacy"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.privacy"
 msgstr "Privacy"
@@ -270,17 +393,49 @@ msgstr "Privacy"
 msgid "you.settings.back"
 msgstr "Profile"
 
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.back"
+msgstr "Profile"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.chatty.quiet"
+msgstr "Quiet"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.remove"
+msgstr "Remove this trip"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restore"
 msgstr "Restore my account"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.retake"
+msgstr "Retake"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.savePass"
 msgstr "Save my pass first"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.save"
+msgstr "Save trip"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.searchCountry"
+msgstr "Search countries"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.stamp"
 msgstr "See you"
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.selfReported"
+msgstr "Self-reported"
+
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReported"
+msgstr "Self-reported"
 
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.title"
@@ -302,7 +457,11 @@ msgstr "Settings"
 msgid "you.signOut.back"
 msgstr "Settings"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpShare"
+msgstr "Share where I am from Help"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.signOut"
 msgstr "Sign out"
 
@@ -340,7 +499,7 @@ msgstr "Something else"
 msgid "you.profile.stamp.soon"
 msgstr "Soon"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.soundEffects"
 msgstr "Sound effects"
 
@@ -352,7 +511,15 @@ msgstr "Spanish"
 msgid "you.profile.stamps"
 msgstr "Stamps"
 
-#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.back"
+msgstr "Stamps"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.title"
+msgstr "Stamps"
+
+#: ../../apps/mobile/src/features/you/profile/crew-rows.tsx
 msgid "you.profile.startCrew"
 msgstr "Start a crew"
 
@@ -360,11 +527,15 @@ msgstr "Start a crew"
 msgid "you.signOut.stays"
 msgstr "Stays on your account"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.soundEffectsLine"
 msgstr "Sticker slaps, stamps, pops"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.talkOutLoud"
+msgstr "Talk out loud"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hapticsLine"
 msgstr "Taps and thuds you can feel"
 
@@ -379,6 +550,10 @@ msgstr "The app, your guide’s replies and your notifications switch together. 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps"
 msgstr "The crew keeps"
+
+#: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
+msgid "you.profile.retakeTitle"
+msgstr "This or that"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.unsavedTitle"
@@ -397,6 +572,10 @@ msgstr "This phone is cleared. Close the app and open it again."
 msgid "you.profile.stamp.today"
 msgstr "Today"
 
+#: ../../apps/mobile/src/features/you/settings/tokek-footer.tsx
+msgid "you.settings.tokek"
+msgstr "Tokek, your guide"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.pings"
 msgstr "Too many pings"
@@ -405,11 +584,15 @@ msgstr "Too many pings"
 msgid "you.delete.reason.tripsOver"
 msgstr "Trip’s over"
 
-#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+#: ../../apps/mobile/src/features/you/profile/crew-rows.tsx
 msgid "you.profile.startCrewLine"
 msgstr "Trips are better with your people."
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.lead"
+msgstr "Trips from before CritterPass. They count toward your trips and countries, and their stamp says self-reported."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offlineTrips"
 msgstr "Trips saved offline"
 
@@ -425,6 +608,10 @@ msgstr "Undo, keep my account"
 msgid "you.language.name.vi"
 msgstr "Vietnamese"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.talkOutLoudLine"
+msgstr "Voice replies when you speak first"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.notClosed"
 msgstr "We couldn’t close your account, so nothing was changed on this phone. Try again in a moment."
@@ -436,6 +623,10 @@ msgstr "We couldn’t restore your account. Check your connection and try again.
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restoreTitle"
 msgstr "Welcome back"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.when"
+msgstr "When"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.why"
@@ -461,6 +652,10 @@ msgstr "Your crews"
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.noTrips"
 msgstr "Your first trip stamps itself here when you land."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.guide"
+msgstr "Your guide"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes.pass"

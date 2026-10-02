@@ -1,8 +1,6 @@
 import { Canvas, Picture } from '@shopify/react-native-skia';
-import type * as RNSkiaModule from '@shopify/react-native-skia';
-import type * as ExpoFileSystemModule from 'expo-file-system';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Image, PixelRatio, View } from 'react-native';
+import { useCallback, useEffect, useMemo, useRef, useState, type ComponentRef } from 'react';
+import { Dimensions, PixelRatio, View } from 'react-native';
 import { useFrameCallback } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 import type { SharedValue } from 'react-native-reanimated';
@@ -15,104 +13,21 @@ import { reportUiQa, UI_QA_ENABLED } from '../qa/ui-qa';
 
 import { stickerLabel, stickerPoseLabel } from './a11y';
 import { nearestBucket } from './bucket';
-import { DiskLruCache, MemoryLruCache, StickerCache } from './cache';
-import type { StickerDiskFs } from './cache';
+import type { StickerCache } from './cache';
+import { CancelledDraw, type DrawRequest } from './draw-queue';
 import { renderStickerPicture, renderStickerPng } from './export-png';
 import { specKey } from './spec-key';
+import {
+  getDefaultSkiaCache,
+  getDefaultSkiaEngine,
+  getRasterSkiaEngine,
+  pngUri,
+  pngUris,
+  stickerDrawQueue,
+} from './sticker-runtime';
+import { StickerImage } from './StickerImage';
 
-const MEMORY_CACHE_MAX_BYTES = 25 * 1024 * 1024;
-/** Finished stickers as data URIs, by cache key: a remount shows its image in the first frame. */
-const PNG_URIS_MAX = 400;
-const pngUris = new Map<string, string>();
-
-function pngUri(key: string, bytes: Uint8Array): string {
-  const known = pngUris.get(key);
-  if (known !== undefined) return known;
-  let binary = '';
-  for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i] ?? 0);
-  // eslint-disable-next-line lingui/no-unlocalized-strings -- a data URI prefix, never copy.
-  const uri = `data:image/png;base64,${btoa(binary)}`;
-  if (pngUris.size >= PNG_URIS_MAX) {
-    const oldest = pngUris.keys().next().value;
-    if (oldest !== undefined) pngUris.delete(oldest);
-  }
-  pngUris.set(key, uri);
-  return uri;
-}
-const DISK_CACHE_MAX_BYTES = 60 * 1024 * 1024;
-
-let defaultEngine: SkiaEngine | undefined;
-
-/**
- * Lazily adapts the real `@shopify/react-native-skia` `Skia` singleton to this backend's
- * `SkiaEngine` shape (only `Image.MakeImageFromEncoded` needs adapting — real Skia takes an
- * `SkData`, not raw bytes, unlike this engine's contract). `require`d lazily so importing this
- * module never forces the native Skia JSI binding to load (e.g. under Jest, which always injects
- * its own `engine` prop instead and never reaches this function).
- */
-export function getDefaultSkiaEngine(): SkiaEngine {
-  if (!defaultEngine) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, lingui/no-unlocalized-strings -- lazy native-module load, see doc comment above
-    const { Skia } = require('@shopify/react-native-skia') as typeof RNSkiaModule;
-    defaultEngine = {
-      Path: Skia.Path,
-      Paint: () => Skia.Paint(),
-      PictureRecorder: () => Skia.PictureRecorder(),
-      Surface: Skia.Surface,
-      ImageFilter: Skia.ImageFilter,
-      Color: (color: string) => Skia.Color(color),
-      Image: {
-        MakeImageFromEncoded: (bytes: Uint8Array) =>
-          Skia.Image.MakeImageFromEncoded(Skia.Data.fromBytes(bytes)),
-      },
-    };
-  }
-  return defaultEngine;
-}
-
-let defaultCache: StickerCache | undefined;
-
-/** Lazily builds the on-device cache over `expo-file-system`'s cache directory — see the doc comment on `getDefaultSkiaEngine` for why this is lazy. Exported for the sticker lab's cache-size readout, which reports on this same default instance's `memoryBytes` rather than a private grid-only copy. */
-export function getDefaultSkiaCache(): StickerCache {
-  if (!defaultCache) {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports -- lazy native-module load, see doc comment above
-    const { Directory, File, Paths } = require('expo-file-system') as typeof ExpoFileSystemModule;
-    const fs: StickerDiskFs = {
-      cacheDirectory: Paths.cache.uri,
-      exists: (path) => Promise.resolve(new File(path).exists),
-      readBytes: (path) => new File(path).bytes(),
-      writeBytes: async (path, bytes) => {
-        const file = new File(path);
-        file.create({ intermediates: true, overwrite: true });
-        await file.write(bytes);
-      },
-      deleteFile: (path) => {
-        const file = new File(path);
-        if (file.exists) file.delete();
-        return Promise.resolve();
-      },
-      listFiles: (dir) => {
-        const directory = new Directory(dir);
-        if (!directory.exists) return Promise.resolve([]);
-        return Promise.resolve(
-          directory
-            .list()
-            .filter((entry) => entry instanceof File)
-            .map((file) => file.uri.slice(dir.length)),
-        );
-      },
-      statFile: (path) => {
-        const file = new File(path);
-        return Promise.resolve({ size: file.size, modifiedMs: file.lastModified ?? 0 });
-      },
-    };
-    defaultCache = new StickerCache(
-      new MemoryLruCache(MEMORY_CACHE_MAX_BYTES),
-      new DiskLruCache(fs, DISK_CACHE_MAX_BYTES),
-    );
-  }
-  return defaultCache;
-}
+export { getDefaultSkiaCache, getDefaultSkiaEngine, stickerDrawQueue };
 
 // The bake pipeline's own content-hash manifest is the real source of truth for this value; a
 // caller that cares about cache invalidation across an art/content bump passes its own
@@ -200,6 +115,8 @@ function buildRenderSpec(props: StickerProps): RenderSpec {
 export function Sticker(props: StickerProps): React.JSX.Element {
   const { size, closedEyes = false, drawProgress, onPress, name, pose } = props;
   const engine = props.engine ?? getDefaultSkiaEngine();
+  // Finished stickers draw on the CPU (see getRasterSkiaEngine); a live draw-on stays as it was.
+  const pngEngine = props.engine ?? getRasterSkiaEngine();
   const cache = props.cache ?? getDefaultSkiaCache();
   const deviceScale = props.deviceScale ?? PixelRatio.get();
   const artVersion = props.artVersion ?? DEFAULT_ART_VERSION;
@@ -235,26 +152,58 @@ export function Sticker(props: StickerProps): React.JSX.Element {
   const liveProgress = drawProgress ? drawProgress.value : 1;
   const isLive = liveProgress < 1;
 
+  // Where the sticker sits: on screen draws first, below the fold later (see draw-queue).
+  const place = useRef<ComponentRef<typeof View>>(null);
+  const priority = useRef(0);
+  const request = useRef<DrawRequest<Uint8Array> | null>(null);
+  const onLayout = () => {
+    place.current?.measureInWindow((_x, y, _w, h) => {
+      const below = Math.max(0, y - Dimensions.get('window').height);
+      priority.current = y + h < 0 ? below + 1 : below;
+      request.current?.prioritise(priority.current);
+    });
+  };
+
+  const [fresh, setFresh] = useState(false);
   useEffect(() => {
-    if (isLive) return;
-    let cancelled = false;
-    void cache
-      .getOrRender(key, () => {
-        const started = UI_QA_ENABLED ? performance.now() : 0;
-        const bytes = renderStickerPng(spec, bucketPt, deviceScale, engine);
-        if (UI_QA_ENABLED) {
-          // Read by the device shards: what drawing new stickers costs the JS thread.
-          // eslint-disable-next-line lingui/no-unlocalized-strings -- a log tag, never copy.
-          console.info(`[sticker-encode] ${(performance.now() - started).toFixed(2)}`);
-        }
-        return Promise.resolve(bytes);
-      })
-      .then((bytes) => {
-        if (cancelled) return;
-        setUri(pngUri(key, bytes));
-      });
+    if (isLive) return undefined;
+    // Shown already (this picture drew before): no fade, it is there from the first frame.
+    const known = pngUris.has(key);
+    let unmounted = false;
+    const draw = () => {
+      const started = UI_QA_ENABLED ? performance.now() : 0;
+      const bytes = renderStickerPng(spec, bucketPt, deviceScale, pngEngine);
+      if (UI_QA_ENABLED) {
+        // Read by the device shards: what drawing new stickers costs the JS thread.
+        // eslint-disable-next-line lingui/no-unlocalized-strings -- a log tag, never copy.
+        console.info(`[sticker-encode] ${(performance.now() - started).toFixed(2)}`);
+      }
+      return bytes;
+    };
+    const load = (): void => {
+      void cache
+        .getOrRender(key, () => {
+          // Drawn in its turn, one sticker per task, never inside this render.
+          request.current = stickerDrawQueue.request(key, draw, priority.current);
+          return request.current.result;
+        })
+        .then(
+          (bytes) => {
+            if (unmounted) return;
+            setUri(pngUri(key, bytes));
+            if (!known) setFresh(true);
+          },
+          (error: unknown) => {
+            // Another sticker with this picture went away before it was drawn: ask again.
+            if (!unmounted && error instanceof CancelledDraw) load();
+          },
+        );
+    };
+    load();
     return () => {
-      cancelled = true;
+      unmounted = true;
+      request.current?.cancel();
+      request.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- `spec`/`engine`/`cache` are stable per key; re-running on `key` alone avoids re-rendering identical work every frame
   }, [key, isLive]);
@@ -271,6 +220,8 @@ export function Sticker(props: StickerProps): React.JSX.Element {
 
   return (
     <View
+      ref={place}
+      onLayout={onLayout}
       style={{ width: size, height: size }}
       accessible
       accessibilityRole={onPress ? 'button' : 'image'}
@@ -284,14 +235,8 @@ export function Sticker(props: StickerProps): React.JSX.Element {
       ) : uri ? (
         // A finished sticker is a plain image: a live canvas is a GL surface of its own, and a
         // screen of them (the Critterdex grid) left the next screen without surfaces on Android.
-        <Image
-          source={{ uri }}
-          style={{ width: size, height: size }}
-          resizeMode="contain"
-          accessible={false}
-          fadeDuration={0}
-          testID="sticker-image"
-        />
+        // Until it is drawn the slot shows its own background, never a silhouette ("not found").
+        <StickerImage uri={uri} size={size} fade={fresh} />
       ) : null}
     </View>
   );

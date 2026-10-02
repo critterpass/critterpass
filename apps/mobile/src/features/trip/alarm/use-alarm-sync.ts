@@ -18,7 +18,7 @@ import { guideColour, guideOr } from '../hub/guide';
 import { useLiveRows } from '../hub/data/live-rows';
 import { useLocale } from '@/lib/i18n/use-locale';
 
-import { alarmPort, type AlarmPort } from './alarm-port';
+import { alarmPort } from './alarm-port';
 import { mirrorAlarmStateCommand } from '../leave-by/commands';
 import type { LeaveByRow, LeaveByView, ReadinessRow } from '../leave-by/model';
 import {
@@ -31,15 +31,10 @@ import {
   READINESS_TABLES,
   UPCOMING_LEAVE_BYS_SQL,
 } from '../leave-by/use-leave-by';
-import {
-  inAppBackend,
-  nativeBackend,
-  notificationBackend,
-  type AlarmBackend,
-} from './alarm-backends';
+import { chooseBackend } from './alarm-backends';
 import { alarmText } from './alarm-copy';
 import { desiredAlarms } from './alarm-plan';
-import { alarmStore, useAlarmState, type AlarmStatus } from './alarm-store';
+import { alarmStore, useAlarmState } from './alarm-store';
 import { syncAlarms, type MirroredAlarm } from './alarm-sync';
 
 const GUIDES_SQL = `SELECT t.id AS trip_id, g.slug, g.name FROM trips t
@@ -47,48 +42,9 @@ const GUIDES_SQL = `SELECT t.id AS trip_id, g.slug, g.name FROM trips t
 const GUIDES_TABLES = ['trips', 'guides'];
 const MIRROR_SQL = `SELECT leave_by_id, fire_at, state FROM alarms WHERE device_id = ?`;
 const FLAG_SQL = `SELECT value FROM client_config WHERE key = 'android_fsi_alarm'`;
+const THROUGH_DND_SQL = `SELECT leave_by_through_dnd FROM user_settings WHERE user_id = ?`;
 
 const resolveDevice = createDeviceResolver();
-
-interface Choice {
-  readonly backend: AlarmBackend;
-  readonly status: Omit<AlarmStatus, 'next'>;
-}
-
-/** How alarms ring on this phone right now. */
-export async function chooseBackend(
-  port: AlarmPort | null,
-  fullScreen: boolean,
-  notificationsGranted: () => Promise<{ granted: boolean; canAsk: boolean }>,
-): Promise<Choice> {
-  if (port !== null) {
-    const status = port.authorizationStatus();
-    if (status === 'authorized') {
-      return {
-        backend: nativeBackend(port, fullScreen),
-        status: { mode: 'native', engine: port.capabilities().engine, denied: false },
-      };
-    }
-    const notify = await notificationsGranted();
-    return {
-      backend: notify.granted ? notificationBackend() : inAppBackend(),
-      status: {
-        mode: notify.granted ? 'notification' : 'in_app',
-        engine: null,
-        denied: status === 'denied',
-      },
-    };
-  }
-  const notify = await notificationsGranted();
-  return {
-    backend: notify.granted ? notificationBackend() : inAppBackend(),
-    status: {
-      mode: notify.granted ? 'notification' : 'in_app',
-      engine: null,
-      denied: !notify.granted && !notify.canAsk,
-    },
-  };
-}
 
 async function notificationPermission() {
   const result = await Notifications.getPermissionsAsync();
@@ -145,6 +101,13 @@ export function useAlarmSync(me: string | null): AlarmSyncState {
   );
   const flag = useLiveRows<{ value: string | null }>(FLAG_SQL, [], ['client_config']);
   const fullScreen = flag.rows[0]?.value === 'true' || flag.rows[0]?.value === '1';
+  const dnd = useLiveRows<{ leave_by_through_dnd: number | null }>(
+    THROUGH_DND_SQL,
+    me === null ? null : [me],
+    ['user_settings'],
+  );
+  // On unless switched off (the column's default): the leave-by alarm always gets through.
+  const throughDnd = dnd.rows[0]?.leave_by_through_dnd !== 0;
 
   const views = useMemo(
     () =>
@@ -181,7 +144,12 @@ export function useAlarmSync(me: string | null): AlarmSyncState {
     }));
     running.current = running.current
       .then(async () => {
-        const choice = await chooseBackend(alarmPort(), fullScreen, notificationPermission);
+        const choice = await chooseBackend(
+          alarmPort(),
+          fullScreen,
+          notificationPermission,
+          throughDnd,
+        );
         const next = desired[0];
         alarmStore.setStatus({
           ...choice.status,
@@ -212,7 +180,18 @@ export function useAlarmSync(me: string | null): AlarmSyncState {
       .catch(() => undefined);
     // `mirrored` rows are read at run time; a new mirror row alone never needs another pass.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, views, snoozedUntil, fullScreen, deviceId, generation, locale, guideFor, mirror]);
+  }, [
+    ready,
+    views,
+    snoozedUntil,
+    fullScreen,
+    throughDnd,
+    deviceId,
+    generation,
+    locale,
+    guideFor,
+    mirror,
+  ]);
 
   return { views, guideFor };
 }

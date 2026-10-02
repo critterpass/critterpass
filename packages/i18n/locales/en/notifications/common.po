@@ -219,17 +219,37 @@ msgstr "{name}, your calendar hasn't synced in over {days} days. Open setup so {
 msgid "notifications.money.requested"
 msgstr "{payee} asked you for {amount}."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.requested"
+msgstr "{payee} asked you to settle up."
+
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.confirmed"
 msgstr "{payee} got your {amount}. All clear."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.confirmed"
+msgstr "{payee} got your payment. All clear."
 
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.disputed"
 msgstr "{payee} hasn't seen your {amount} yet. Check the transfer?"
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.disputed"
+msgstr "{payee} hasn’t seen your payment yet. Check the transfer?"
+
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.nudged"
 msgstr "{payee} nudged you about {amount}. Gently."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.nudged"
+msgstr "{payee} nudged you about a payment. Gently."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.expense_added"
+msgstr "{payer} added an expense you share."
 
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.expense_added"
@@ -238,6 +258,10 @@ msgstr "{payer} paid {amount} for {what}. Your share is {share}."
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.marked_paid"
 msgstr "{payer} says they paid you {amount}. Got it?"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.marked_paid"
+msgstr "{payer} says they paid you. Got it?"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.meet_up_start_title"
@@ -311,6 +335,10 @@ msgstr "{sender} is lost and needs a hand."
 msgid "notifications.sos_resolved.safe"
 msgstr "{sender} is safe. Thanks for being there."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.meetup_changed.moved"
+msgstr "{sender} moved the meet-up to {time}."
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.moved"
 msgstr "{sender} moved the meet-up: {place}, {time}."
@@ -330,6 +358,10 @@ msgstr "{sender} opened Help and is sharing where they are for an hour."
 #: ../../services/worker/src/jobs/safety/notify.ts
 msgid "notifications.sos.plain"
 msgstr "{sender} sent an SOS to the crew."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.meetup_changed.created"
+msgstr "{sender} set a meet-up for {time}."
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.created"
@@ -363,9 +395,17 @@ msgstr "{up} of {total} up."
 msgid "notifications.quests.done.body"
 msgstr "+{xp} XP for the crew."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.bookings.deadline_body"
+msgstr "A booking can be cancelled for free until {deadline}. After that the booking’s own terms apply."
+
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.legendary.title"
 msgstr "A legendary is out soon"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.needs_yes_title"
+msgstr "A plan change needs your yes"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.title"
@@ -386,6 +426,22 @@ msgstr "Be at {place} by {time}"
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.leave_by_be_there_start_title"
 msgstr "Be at {place} by {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_be_at"
+msgstr "Be there"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.alarm_title_be_there"
+msgstr "Be there by {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.knock_title_be_there"
+msgstr "Be there by {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_be_there_start_title"
+msgstr "Be there by {time}"
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.boarding_body"
@@ -427,17 +483,33 @@ msgstr "Everyone gets the Settled Tokek."
 msgid "notifications.la.meet_up_arrived_title"
 msgstr "Everyone is at {place}"
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.meet_up_arrived_title"
+msgstr "Everyone is at the meet-up"
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.crew_close"
 msgstr "Everyone's nearly at {place}."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.meetup_changed.crew_close"
+msgstr "Everyone’s nearly at the meet-up."
 
 #: ../../services/worker/src/jobs/safety/notify.ts
 msgid "notifications.sos_resolved.false_alarm"
 msgstr "False alarm: {sender} is OK."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.watch_title"
+msgstr "Forecast watch"
+
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.found_body"
 msgstr "Found a booking in {member}’s email: {title}. Add it to the wallet?"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.bookings.found_body"
+msgstr "Found a booking in {member}’s email. Add it to the wallet?"
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.deadline_title"
@@ -467,6 +539,18 @@ msgstr "It's on: {place}, {dates}"
 msgid "notifications.crew_invite.body"
 msgstr "Join now, or save it for later."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.alarm_title"
+msgstr "Leave by {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.knock_title"
+msgstr "Leave by {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_start_title"
+msgstr "Leave by {time}"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title"
 msgstr "Leave by {time} · {place}"
@@ -490,6 +574,18 @@ msgstr "Location share"
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.ping_meetup"
 msgstr "Meet at {place}, {time}."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.meet_up_start_title"
+msgstr "Meet-up · {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.meet_up_late_title"
+msgstr "Meet-up · {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.crew_ping.ping_meetup"
+msgstr "Meet-up at {time}."
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.timed_out"
@@ -515,6 +611,18 @@ msgstr "On my way."
 msgid "notifications.crew_ping.on_my_way_eta"
 msgstr "On my way. {minutes} min out."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.needs_yes_body"
+msgstr "Open the trip to decide."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.watch_body"
+msgstr "Open the trip to see the forecast."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.done_body"
+msgstr "Open the trip to see what changed."
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.pickup"
 msgstr "Pickup"
@@ -530,6 +638,14 @@ msgstr "Quick one, {name}: your {dates} block is marked maybe. Could you free it
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.reply_by_title"
 msgstr "Reply by tomorrow · {place}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_late_title"
+msgstr "Running late"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.late_title"
+msgstr "Running late · +{minutes} min"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.member_joined.body"
@@ -554,6 +670,10 @@ msgstr "Sent you something. Open to see it."
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.reminded"
 msgstr "Settle-up time: you owe {payee} {amount}."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.reminded"
+msgstr "Settle-up time: you owe {payee}."
 
 #: ../domain/src/bookings/templates.ts
 msgid "email.bookings.link_body"
@@ -607,9 +727,17 @@ msgstr "There's a settle-up waiting for you in {crew}. Two taps and you're squar
 msgid "notifications.la.leave_by_be_there_go_title"
 msgstr "Time to be at {place}"
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_be_there_go_title"
+msgstr "Time to be there"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_body"
 msgstr "Time to get up. Tap when you are up."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_go_title"
+msgstr "Time to go"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.leave_by_go_title"
@@ -655,6 +783,10 @@ msgstr "You're next on {crew}'s trip. The seat is yours if you take it within a 
 msgid "notifications.draft.ready.body"
 msgstr "Your {place} draft is in. Only you can see it for now."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.briefing_body"
+msgstr "Your briefing for today is ready."
+
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.resend_title"
 msgstr "Your crew planned {place}"
@@ -666,3 +798,7 @@ msgstr "Your egg hatched!"
 #: ../../services/worker/src/jobs/safety/notify.ts
 msgid "notifications.location_share.ending"
 msgstr "Your location share with the crew ends in 10 minutes."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.done_title"
+msgstr "Your plan changed"

@@ -24,18 +24,10 @@ appId: app.critterpass.dev
           timeout: 60000
       - tapOn:
           id: 'dev-tools-entry'
-      - extendedWaitUntil:
-          visible:
-            id: 'dev-nav-gallery'
-          timeout: 10000
-      - tapOn:
-          id: 'dev-nav-gallery'
-      - extendedWaitUntil:
-          visible:
-            id: 'gallery-locale-${PREFIX}'
-          timeout: 15000
-      - tapOn:
-          id: 'gallery-locale-${PREFIX}'
+      - runFlow:
+          file: ../../home/subflows/pick-gallery-locale.yaml
+          env:
+            LOCALE: ${PREFIX}
       - runFlow: ../../onboarding/subflows/back.yaml
       - waitForAnimationToEnd
       - runFlow: ../../onboarding/subflows/back.yaml

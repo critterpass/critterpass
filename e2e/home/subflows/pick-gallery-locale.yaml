@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# From the developer tools list: the gallery, and its ${LOCALE} language picked for the running app
+# (not saved). The list is longer than an iPhone's screen, and a row below the fold still counts as
+# visible to Maestro while its tap lands off screen: the list is scrolled to the gallery first. It
+# ends on the gallery.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-build-marker'
+    timeout: 10000
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-gallery'
+    direction: DOWN
+    timeout: 20000
+    # Slow, or iOS flings past it.
+    speed: 20
+    centerElement: true
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-${LOCALE}'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-${LOCALE}'
