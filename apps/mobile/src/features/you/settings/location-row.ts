@@ -13,7 +13,7 @@ import {
 
 export type LocationValue = 'trips' | 'always' | 'off' | 'ask';
 
-/** Granted while in use is the trip-day mode (D13); Always adds background places. */
+/** Granted while in use is the default trip-day mode (location only while a trip is on); Always adds background places. */
 export function locationValue(report: PermissionReport | undefined): LocationValue {
   switch (report?.status) {
     case 'granted':
