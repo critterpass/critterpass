@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "01abb4be-b91e-445b-8598-0b1b9d00b567",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Plan B is set for the boat.\",\"detail\":\"\",\"items\":[{\"id\":\"boat:title\",\"text\":\"Gili boat · waves 2.2 m\"},{\"id\":\"boat:detail\",\"text\":\"Plan B is set. Forecast still shows waves 2.2 m.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 766,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 64,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

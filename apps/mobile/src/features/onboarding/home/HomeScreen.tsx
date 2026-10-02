@@ -4,7 +4,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { TextInput, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
@@ -30,6 +30,7 @@ import { STAMP_BREATHE, useOnboardingLoop } from '../motion';
 import { OnboardingPage } from '../page-chrome';
 import { OnboardingServicesContext } from '../services';
 import { TokekSays } from '../tokek-says';
+import { regionName } from '../region-names';
 import { homeResults, type HomeRow } from './home-search';
 
 const useStyles = makeStyles((th) => ({
@@ -70,12 +71,7 @@ const useStyles = makeStyles((th) => ({
 }));
 
 function countryName(country: string, locale: string): string {
-  try {
-    const names = new Intl.DisplayNames([locale], { type: 'region' });
-    return names.of(country) ?? airportDataset().countries[country]?.name ?? country;
-  } catch {
-    return airportDataset().countries[country]?.name ?? country;
-  }
+  return regionName(country, locale) ?? airportDataset().countries[country]?.name ?? country;
 }
 
 function driveLabel(minutes: number): string {
@@ -214,7 +210,9 @@ export function HomeScreen() {
     };
   }, [services]);
 
-  const results = useMemo(() => homeResults(airportDataset(), query, hint), [query, hint]);
+  // The search runs on the deferred query: a keystroke's render stays cheap, and the list catches up.
+  const searched = useDeferredValue(query);
+  const results = useMemo(() => homeResults(airportDataset(), searched, hint), [searched, hint]);
 
   const pick = (iata: string) => {
     // eslint-disable-next-line lingui/no-unlocalized-strings -- a sound cue id.
@@ -234,7 +232,7 @@ export function HomeScreen() {
     if (next.step !== 'home') router.push(routeForStep(next.step));
   };
 
-  const noResults = query.trim().length > 0 && results.rows.length === 0;
+  const noResults = searched.trim().length > 0 && results.rows.length === 0;
   // eslint-disable-next-line lingui/no-unlocalized-strings -- a content trigger id.
   const farLine = tokekLine('home_far', locale);
   return (
@@ -261,8 +259,9 @@ export function HomeScreen() {
       </Text>
       <View style={styles.search}>
         <Icon name="plane" size={20} color={theme.semantic.text.secondary} decorative />
+        {/* Uncontrolled: the native field owns the typed text. A value written back from state
+            can arrive after the next keystroke on a busy JS thread and reorder letters ("Sngi"). */}
         <TextInput
-          value={query}
           onChangeText={setQuery}
           placeholder={t({ id: 'onboarding.home.search', message: 'City, airport or code' })}
           placeholderTextColor={theme.semantic.text.tertiary}
@@ -289,11 +288,11 @@ export function HomeScreen() {
           testID="home-no-results"
           line={t({
             id: 'onboarding.home.noResults',
-            message: `No airport called “${query.trim()}”. Try a city or a three-letter code.`,
+            message: `No airport called “${searched.trim()}”. Try a city or a three-letter code.`,
           })}
         />
       ) : null}
-      {query.trim().length === 0 && results.farMinutes !== null ? (
+      {searched.trim().length === 0 && results.farMinutes !== null ? (
         <TokekSays
           testID="home-far"
           line={t({

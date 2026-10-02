@@ -1,0 +1,37 @@
+appId: app.critterpass.dev
+---
+# The Explore map (3d-4) inside a trip, far away, with location off, with nothing matching, offline
+# without the region, as a list with a sponsored row and with long Vietnamese names, prefixed
+# `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: map, READY: explore-map-carousel, SHOT: '${PREFIX}-3d-4-map' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: map-away, READY: explore-map-away, SHOT: '${PREFIX}-3d-4-away' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: map-location-off,
+        READY: explore-map-location-off,
+        SHOT: '${PREFIX}-3d-4-location-off',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: map-no-results, READY: explore-map-no-results, SHOT: '${PREFIX}-3d-4-no-results' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: map-offline-no-pack,
+        READY: explore-map-unavailable,
+        SHOT: '${PREFIX}-3d-4-offline-no-region',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: map-list, READY: explore-map-list, SHOT: '${PREFIX}-3d-4-list-view' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: map-da-nang, READY: explore-map-carousel, SHOT: '${PREFIX}-3d-4-da-nang-long-names' }

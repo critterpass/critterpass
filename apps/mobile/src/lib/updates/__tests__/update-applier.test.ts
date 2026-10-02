@@ -10,7 +10,7 @@ const NEXT_UPDATE = '0199b0f4-11c2-7a05-b3d8-6e9a1c2f4b77';
 /** A phone some time into a session, with nothing downloaded yet. */
 function phone(overrides: Partial<UpdateApplierDeps> = {}) {
   const storage = createMMKV();
-  const state = { now: 60_000, busy: false, reloads: 0 };
+  const state = { now: 60_000, busy: false, reloads: 0, carried: [] as string[] };
   const applier = createUpdateApplier({
     available: true,
     isBusy: () => state.busy,
@@ -18,6 +18,7 @@ function phone(overrides: Partial<UpdateApplierDeps> = {}) {
       read: () => storage.getString(KEY) ?? null,
       write: (updateId) => storage.set(KEY, updateId),
     },
+    carryNavigation: (updateId) => state.carried.push(updateId),
     reload: () => {
       state.reloads += 1;
       return Promise.resolve();
@@ -64,6 +65,7 @@ describe('update applier', () => {
       available: true,
       isBusy: () => false,
       reloadedFor: { read: () => first.storage.getString(KEY) ?? null, write: () => undefined },
+      carryNavigation: () => undefined,
       reload: () => Promise.reject(new Error('must not restart')),
       now: () => 1000,
       startedAt: 0,
@@ -85,6 +87,15 @@ describe('update applier', () => {
     applier.downloaded(NEXT_UPDATE);
     expect(applier.returnedToForeground()).toBe(true);
     expect(storedAtRestart).toEqual([UPDATE, NEXT_UPDATE]);
+  });
+
+  it('carries the screen the person is on to the update before restarting, and only then', () => {
+    const { applier, state } = phone();
+    applier.downloaded(UPDATE);
+    expect(state.carried).toEqual([]);
+    applier.returnedToForeground();
+    expect(state.carried).toEqual([UPDATE]);
+    expect(state.reloads).toBe(1);
   });
 
   it('never restarts on a production build', () => {

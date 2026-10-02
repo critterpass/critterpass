@@ -2,8 +2,10 @@
  * Add a booking (3h-2): ← BOOKINGS, ADD A BOOKING, the FORWARD / SCAN / PASTE tiles, the crew's
  * forward address with COPY, the bookings found in the crew's inboxes (the first open, the rest
  * compact; ADD slides a card up into the wallet, IGNORE slides it off), and Tokek's footnote about
- * the morning inbox check, or the way to switch it on. Under the address a link opens the by-hand
- * form (undesigned), for a booking with no confirmation to forward, scan or paste.
+ * the morning inbox check, or the way to switch it on. Under the address "Got a code? Link your
+ * email" opens the link-code sheet (undesigned), for mail forwarded from an address the crew does
+ * not know yet, and a link opens the by-hand form (undesigned), for a booking with no confirmation
+ * to forward, scan or paste.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -55,6 +57,8 @@ export interface AddBookingViewProps {
   /** Adding by hand with nothing read first. */
   readonly onTypeIn: () => void;
   readonly onMailbox: () => void;
+  /** Enter the code an unknown forwarding address was emailed. */
+  readonly onLinkCode: () => void;
 }
 
 export function AddBookingView(props: AddBookingViewProps) {
@@ -91,6 +95,13 @@ export function AddBookingView(props: AddBookingViewProps) {
         )}
         {props.address === null ? null : (
           <AddressPill address={props.address} onCopy={props.onCopy} />
+        )}
+        {props.address === null ? null : (
+          <TextLink
+            label={t({ id: 'bookings.add.linkCode', message: 'Got a code? Link your email' })}
+            onPress={props.onLinkCode}
+            testID="bookings-add-link-code"
+          />
         )}
         {props.noTrip ? null : (
           <TextLink

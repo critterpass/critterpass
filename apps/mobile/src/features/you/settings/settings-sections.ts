@@ -9,12 +9,19 @@ import type { SettingsSection } from './settings-view';
 export interface SettingsValues {
   readonly soundEffects: boolean;
   readonly haptics: boolean;
+  /** The app's language, in its own script ("Tiếng Việt"). */
+  readonly language: string;
+  /** The server answered for this account: only then are the account rows offered. */
+  readonly account: boolean;
 }
 
 export interface SettingsHandlers {
   readonly onOfflineTrips: () => void;
   readonly onSoundEffects: (next: boolean) => void;
   readonly onHaptics: (next: boolean) => void;
+  readonly onLanguage: () => void;
+  readonly onSignOut: () => void;
+  readonly onDeleteAccount: () => void;
 }
 
 export function useSettingsSections(
@@ -63,7 +70,35 @@ export function useSettingsSections(
           value: values.haptics,
           onChange: handlers.onHaptics,
         },
+        {
+          key: 'language',
+          kind: 'value',
+          title: t({ id: 'you.settings.language', message: 'Language' }),
+          value: values.language,
+          onPress: handlers.onLanguage,
+        },
       ],
+    },
+    {
+      id: 'account',
+      title: t({ id: 'you.settings.account', message: 'Account' }),
+      rows: values.account
+        ? [
+            {
+              key: 'sign-out',
+              kind: 'value',
+              title: t({ id: 'you.settings.signOut', message: 'Sign out' }),
+              value: '',
+              onPress: handlers.onSignOut,
+            },
+            {
+              key: 'delete-account',
+              kind: 'destructive',
+              title: t({ id: 'you.settings.deleteAccount', message: 'Delete account' }),
+              onPress: handlers.onDeleteAccount,
+            },
+          ]
+        : [],
     },
   ];
 }

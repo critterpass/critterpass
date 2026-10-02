@@ -81,7 +81,7 @@ msgstr "Đi lúc"
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.notifications.body"
-msgstr "Báo giờ lên đường và những cuộc bình chọn cần bạn. Khoảng năm lần mỗi ngày."
+msgstr "Báo giờ lên đường và những cuộc bình chọn cần bạn. Mỗi ngày chỉ vài lần."
 
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.liveActivities.body"

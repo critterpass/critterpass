@@ -30,3 +30,48 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: ${LANG}-3n-2-settings
+# Signing out (a saved pass, then the warning an unsaved one gets), deleting the account (3n-9, the
+# hold of 3n-10) and the closed page (3n-11: just closed, then signed back in to restore).
+- runFlow: ../../screens/sweep/subflows/back.yaml
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: 'sign-out-saved'
+      ROOT: 'you-sign-out-confirm'
+      SHOT: ${LANG}-sign-out-saved
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: 'sign-out-unsaved'
+      ROOT: 'you-sign-out-warning'
+      SHOT: ${LANG}-sign-out-unsaved
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-9-delete'
+      ROOT: 'you-delete-continue'
+      SHOT: ${LANG}-3n-9-delete
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-10-hold'
+      ROOT: 'you-delete-hold-step'
+      SHOT: ${LANG}-3n-10-hold
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-11-closed'
+      ROOT: 'you-closed-closed'
+      SHOT: ${LANG}-3n-11-closed
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-11-restore'
+      ROOT: 'you-closed-restore'
+      SHOT: ${LANG}-3n-11-restore
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-8-language'
+      ROOT: 'you-language'
+      SHOT: ${LANG}-3n-8-language

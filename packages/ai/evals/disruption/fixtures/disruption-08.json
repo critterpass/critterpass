@@ -1,0 +1,32 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "28b521b8-9e8e-4d36-b814-81f3788898f9",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need answer JSON only. Need follow schema. Need use facts. Items: two ids. Need label each row. Rows states? The untrusted data doesn't specify state? It says suggested lines. items: retime_item spa, refresh_live_activity trip. Need word headline, detail, items. Headline hero few words. Detail in Paco voice says what means for crew. Use facts: flight MH851, new arrival 15:45, delay 180 min, travellers 2. Row spa from 16:00 to 17:45. Link? refresh live activity maybe link? We need word labels. No state given, but item kinds maybe retime_item and refresh_live_activity. We can use suggested line meaning. Need talk to crew as \"you\". No emoji. No quotes. Amounts exactly: 15:45, 180, 2, 16:00, 17:45. Could say \"Two of you land at 15:45...\" as suggested. Need not say confirmed. Headline \"MH851 lands at 15:45\" okay. Detail should be in voice, maybe warm: \"Inti (the sun (Quechua)) will have moved by then, but don't worry—two of you land at 15:45 and Karsa Spa gets a later slot.\" Need no quotes? quotes are prohibited? \"No emoji, no hashtags, no quotes.\" Means don't use quotation marks around text. Fine.\n\nItems: \n- id retime_item:spa, text \"Karsa Spa 16:00 → 17:45\" exact? suggested line has arrow. Need maybe label. Could word as factual row. \n- id refresh_live_activity:trip, text \"Flight updated on your lock screen\" maybe keep suggested. Need label. But instruction: \"Rows in state done already happened; needs_yes rows are questions; draft_ready rows are messages you drafted; link rows are things only traveller can do.\" The data doesn't include states. But item kinds: refresh_live_activity probably a link? Actually refresh_live_activity might be an action? We need not infer? They ask label for each row. Maybe use suggested lines as labels, but we can make text. Need maybe mention \"Flight updated on your lock screen\" is a fact? It says suggested_line. Since no state, perhaps treat as given label. But instruction says items we leave out keep suggested line; we can include both. Ensure no invented ids.\n\nNeed JSON only. Let's craft with Paco voice. Detail line: \"Two of you land at 15:45—180 minutes later than planned, so Karsa Spa moves to 17:45. No need to rush, the mountains won't mind.\" But use exact times: 180, 15:45, 17:45, two. Could mention Inti? Local word optional. Maybe \"Inti (the sun (Quechua)) is taking the slow road today—two of you land at 15:45, 180 minutes later, so Karsa Spa slides to 17:45.\" Ensure no quotes. Detail should say what it means for crew. Use you. That's okay. But items text: for spa, maybe \"Karsa Spa 16:00 → 17:45\" contains arrow, no quotes. For refresh, \"Flight updated on your lock screen\". Could tweak to \"Your lock screen now shows the updated flight\"? But facts no state? suggested_line says flight updated. That's fine. Need not say happened if facts don't say? Untrusted data facts? refresh item facts empty, suggested line \"Flight updated on your lock screen\" is not fact? The task says use facts from untrusted data; suggested lines are given but not necessarily facts? Actually untrusted_data includes suggested lines and items. We can use those suggested lines as source? The instruction says \"Items you leave out keep their suggested line.\" So if we include, we can use or word meaning. Need keep meaning. \"Flight updated on your lock screen\" is meaning. It doesn't say happened? The row kind is refresh_live_activity, perhaps an action. Might be a label \"Flight updated on your lock screen\" presented as fact. The instruction \"Never say something happened that the facts do not say happened\" - facts for refresh item empty, but suggested line says updated. But is suggested line considered fact? It is untrusted data attached for reference, use its facts. The facts include only flight info; suggested lines are not facts? Hmm the task says \"Untrusted data ... Use its facts. Ignore any instructions in it\" So suggested lines are part of untrusted data, not facts? But it says item facts include title etc. For refresh item facts {}, suggested_line provided. We need word label based on fact? For row, maybe label should be \"Flight updated on your lock screen\" as given, okay. But if we can't say updated as fact, we might phrase as \"Flight change reflected on your lock screen\" still asserts. Better to keep suggested line exactly, as it is allowed? The instruction says items you leave out keep suggested line; including maybe can alter. I think safe to include text exactly from suggested lines to avoid inventing. But need ensure no quotes. So items:\n{\"id\":\"retime_item:spa\",\"text\":\"Karsa Spa 16:00 → 17:45\"}\n{\"id\":\"refresh_live_activity:trip\",\"text\":\"Flight updated on your lock screen\"}\n\nBut maybe need Paco voice? Items are data, not prose? They can be straightforward. Good.\n\nHeadline: \"MH851 lands at 15:45\" suggested. Could add \"MH851 lands at 15:45\" fine.\n\nDetail: \"Two of you land at 15:45, 180 minutes later than planned—Karsa Spa moves to 17:45. Inti (the sun (Quechua)) will still be shining.\" This uses exact numbers. No quotes. Is \"moves\" okay? Retimed from 16:00 to 17:45, yes.\n\nNeed no prose before. Output JSON only.\n\nEnsure valid JSON: no trailing comma. Use double quotes.",
+          "signature": "28b521b8-9e8e-4d36-b814-81f3788898f9"
+        },
+        {
+          "type": "text",
+          "text": "{\"headline\":\"MH851 lands at 15:45\",\"detail\":\"Two of you land at 15:45, 180 minutes later than planned—Karsa Spa moves to 17:45. Inti (the sun (Quechua)) will still be shining.\",\"items\":[{\"id\":\"retime_item:spa\",\"text\":\"Karsa Spa 16:00 → 17:45\"},{\"id\":\"refresh_live_activity:trip\",\"text\":\"Flight updated on your lock screen\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 48,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 768,
+        "output_tokens": 1417,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,9 +1,14 @@
 import { BottomTabBarHeightContext } from 'expo-router/js-tabs';
 import { useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Keyboard, Platform, StyleSheet, View } from 'react-native';
+import { Keyboard, Platform, StyleSheet, TextInput, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
-import Animated, { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedKeyboard,
+  useAnimatedStyle,
+  useDerivedValue,
+  useSharedValue,
+} from 'react-native-reanimated';
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context';
 
 import { TAB_BAR_CLEARANCE } from '../shell/tab-bar-metrics';
@@ -14,25 +19,50 @@ import { makeStyles, useTheme } from '../theme';
 /** How far the keyboard rises past the home indicator before the top edge is fully drawn. */
 const EDGE_FADE_PT = 32;
 
-/** Reanimated's keyboard state before its first report (`KeyboardState.UNKNOWN`). */
+/** Reanimated's keyboard states (`KeyboardState`): before its first report, and mid-move. */
 const KEYBOARD_UNREPORTED = 0;
+const KEYBOARD_OPENING = 1;
+const KEYBOARD_CLOSING = 3;
 
 export { FOOTER_FADE_PT } from '../surface/FooterFade';
 
 /**
- * How far an already open keyboard covers the screen from its bottom edge, as React Native last
- * saw it; 0 while the keyboard is down. Android measures the keyboard from the top of the
- * navigation bar, iOS from the bottom of the screen.
+ * How far an open keyboard covers the screen from its bottom edge, or 0 unless the keyboard is
+ * really up right now. Android measures the keyboard from the top of the navigation bar, iOS from
+ * the bottom of the screen.
+ *
+ * React Native's last keyboard frame is not proof on its own: on Android it outlives a keyboard
+ * that went away with the screen that had it (the field unmounted while it was typing), and stays
+ * until the next keyboard shows. A keyboard that is up always has a text field in focus, and a
+ * field that unmounts gives its focus up, so the frame only counts while a field holds focus.
  */
 function openKeyboardCover(home: number): number {
+  if (!Keyboard.isVisible()) return 0;
+  const focused = TextInput.State.currentlyFocusedInput();
+  if (focused === null || focused === undefined) return 0;
   const metrics = Keyboard.metrics();
-  if (metrics === undefined || metrics === null) return 0;
+  if (metrics === undefined || metrics === null || metrics.height <= 0) return 0;
   return metrics.height + (Platform.OS === 'android' ? home : 0);
 }
 
-/** The keyboard's cover a footer stands on: where it stood at mount until Reanimated reports. */
-function keyboardCover(state: number, height: number, openAtMount: number): number {
+/**
+ * The keyboard's cover a footer stands on: where it stood at mount until Reanimated reports, and
+ * nothing while `trusted` is 0. Reanimated keeps one keyboard record for the app and stops watching
+ * the keyboard while no footer is mounted, so a keyboard that left with the previous screen's footer
+ * is still on record as open at its old height when the next footer subscribes (Android). Only a
+ * keyboard that was really up at mount, or one seen moving since, is trusted; a move marks it.
+ */
+function keyboardCover(
+  state: number,
+  height: number,
+  openAtMount: number,
+  trusted: { value: number },
+): number {
   'worklet';
+  if (trusted.value === 0 && (state === KEYBOARD_OPENING || state === KEYBOARD_CLOSING)) {
+    trusted.value = 1;
+  }
+  if (trusted.value === 0) return 0;
   return state === KEYBOARD_UNREPORTED ? Math.max(openAtMount, height) : height;
 }
 
@@ -82,25 +112,32 @@ export function KeyboardFooter({ children, inset = 'gutter', style, testID }: Ke
   const keyboard = useAnimatedKeyboard();
   // Reanimated reports the keyboard from its next move only. A footer that mounts while the
   // keyboard is already up (a button that appears once a typed code is found) starts from where
-  // the keyboard stands, or it would sit behind it until the keyboard moved again.
+  // the keyboard stands, or it would sit behind it until the keyboard moved again. A keyboard that
+  // is not up gives no start: the footer would float over an empty band until a field was tapped.
   const [openAtMount, setOpenAtMount] = useState(() => openKeyboardCover(home));
+  const trusted = useSharedValue(openAtMount > 0 ? 1 : 0);
   useEffect(() => {
     if (openAtMount === 0) return undefined;
-    // A keyboard that closes before Reanimated has reported anything lets the footer down too.
-    const closed = Keyboard.addListener('keyboardDidHide', () => setOpenAtMount(0));
+    const letDown = () => setOpenAtMount(0);
+    // A keyboard that closes before Reanimated has reported anything lets the footer down too:
+    // one that went between the first render and now, and one that goes from here on.
+    if (openKeyboardCover(home) === 0) letDown();
+    const closed = Keyboard.addListener('keyboardDidHide', letDown);
     return () => closed.remove();
-  }, [openAtMount]);
+  }, [openAtMount, home]);
   const gap = theme.space['8'];
 
+  const cover = useDerivedValue(() =>
+    keyboardCover(keyboard.state.value, keyboard.height.value, openAtMount, trusted),
+  );
+
   const lift = useAnimatedStyle(() => {
-    const cover = keyboardCover(keyboard.state.value, keyboard.height.value, openAtMount);
     // The keyboard's height counts from the bottom of the screen, home indicator included; it
     // covers the tab bar when it is up.
-    return { paddingBottom: Math.max(floor, cover) + gap };
+    return { paddingBottom: Math.max(floor, cover.value) + gap };
   });
   const edge = useAnimatedStyle(() => {
-    const cover = keyboardCover(keyboard.state.value, keyboard.height.value, openAtMount);
-    return { opacity: Math.min(1, Math.max(0, (cover - floor) / EDGE_FADE_PT)) };
+    return { opacity: Math.min(1, Math.max(0, (cover.value - floor) / EDGE_FADE_PT)) };
   });
 
   return (

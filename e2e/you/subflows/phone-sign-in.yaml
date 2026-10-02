@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# On the phone page: the staging test number (+65 9123 4567, in the api's OTP_TEST_NUMBERS, never
+# sent a message) and its fixed code. Needs `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- extendedWaitUntil:
+    visible:
+      id: 'phone-number'
+    timeout: 20000
+- tapOn:
+    id: 'phone-country'
+- extendedWaitUntil:
+    visible:
+      id: 'country-picker'
+    timeout: 10000
+# Typing into the picker's search field narrows the list to Singapore.
+- tapOn: '(?i)search countries'
+- inputText: 'Singapore'
+- extendedWaitUntil:
+    visible:
+      id: 'country-SG'
+    timeout: 10000
+- tapOn:
+    id: 'country-SG'
+- tapOn:
+    id: 'phone-number'
+- inputText: '91234567'
+- hideKeyboard
+- tapOn:
+    id: 'phone-send'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-sent'
+    timeout: 20000
+- inputText: '${OTP_TEST_CODE}'

@@ -1,0 +1,177 @@
+# Watch list cases: rows as the watcher scores them (ids `<row>:title` / `<row>:detail`).
+- id: watch-01
+  description: rough seas put the boat on plan B
+  guide: tokek
+  input:
+    facts: {}
+    headlineTemplate: "Friday's boat looks rough."
+    detailTemplate: ''
+    items:
+      - {
+          id: 'boat:title',
+          kind: plan_b,
+          facts: { title: Nusa Penida boat, waves_m: '2.5', wind_kmh: 35 },
+          template: 'Nusa Penida boat · waves 2.5 m',
+        }
+      - {
+          id: 'boat:detail',
+          kind: plan_b,
+          facts: { title: Nusa Penida boat, waves_m: '2.5', wind_kmh: 35 },
+          template: 'Forecast shows waves 2.5 m, wind 35 km/h. The harbour might close.',
+        }
+  must: ['2.5']
+  forbid: [closed, cancelled]
+- id: watch-02
+  description: rain on the ridge walk, watching
+  guide: pon
+  input:
+    facts: {}
+    headlineTemplate: Rain might catch the ridge walk.
+    detailTemplate: ''
+    items:
+      - {
+          id: 'walk:title',
+          kind: watching,
+          facts: { title: Campuhan ridge walk, rain_pct: 55 },
+          template: 'Campuhan ridge walk · 55% rain',
+        }
+      - {
+          id: 'walk:detail',
+          kind: watching,
+          facts: { title: Campuhan ridge walk, rain_pct: 55 },
+          template: 'Forecast shows 55% chance of rain. Keeping an eye on it.',
+        }
+  must: ['55']
+  forbid: [cancelled]
+- id: watch-03
+  description: volcano level 3 on the sunrise trek
+  guide: lundi
+  input:
+    facts: {}
+    headlineTemplate: Batur is on alert.
+    detailTemplate: ''
+    items:
+      - {
+          id: 'batur:title',
+          kind: plan_b,
+          facts: { title: Mount Batur sunrise, volcano_level: 3 },
+          template: 'Mount Batur sunrise · volcano level 3',
+        }
+      - {
+          id: 'batur:detail',
+          kind: plan_b,
+          facts: { title: Mount Batur sunrise, volcano_level: 3 },
+          template: 'Forecast shows volcano alert level 3. Worth a plan B.',
+        }
+  must: ['3']
+  forbid: [closed]
+- id: watch-04
+  description: two rows, one fine and one watching
+  guide: ajo
+  input:
+    facts: {}
+    headlineTemplate: Mostly clear. One to watch.
+    detailTemplate: ''
+    items:
+      - {
+          id: 'snorkel:title',
+          kind: watching,
+          facts: { title: Blue Lagoon snorkel, waves_m: '1.6' },
+          template: 'Blue Lagoon snorkel · waves 1.6 m',
+        }
+      - {
+          id: 'snorkel:detail',
+          kind: watching,
+          facts: { title: Blue Lagoon snorkel, waves_m: '1.6' },
+          template: 'Forecast shows waves 1.6 m. Keeping an eye on it.',
+        }
+      - { id: 'temple:title', kind: go, facts: { title: Tirta Empul }, template: 'Tirta Empul' }
+      - {
+          id: 'temple:detail',
+          kind: go,
+          facts: { title: Tirta Empul },
+          template: 'Looks fine for Tirta Empul.',
+        }
+  must: ['1.6']
+- id: watch-05
+  description: crowds at the rice terraces
+  guide: sardi
+  input:
+    facts: {}
+    headlineTemplate: Tegallalang will be busy.
+    detailTemplate: ''
+    items:
+      - {
+          id: 'rice:title',
+          kind: watching,
+          facts: { title: Tegallalang terraces, crowd: 92 },
+          template: 'Tegallalang terraces · busy',
+        }
+      - {
+          id: 'rice:detail',
+          kind: watching,
+          facts: { title: Tegallalang terraces, crowd: 92 },
+          template: 'Forecast shows busier than usual. Keeping an eye on it.',
+        }
+  forbid: [closed]
+- id: watch-06
+  description: set plan b still showing the swell
+  guide: paco
+  input:
+    facts: {}
+    headlineTemplate: Plan B is set for the boat.
+    detailTemplate: ''
+    items:
+      - {
+          id: 'boat:title',
+          kind: set,
+          facts: { title: Gili boat, waves_m: '2.2' },
+          template: 'Gili boat · waves 2.2 m',
+        }
+      - {
+          id: 'boat:detail',
+          kind: set,
+          facts: { title: Gili boat, waves_m: '2.2' },
+          template: 'Plan B is set. Forecast still shows waves 2.2 m.',
+        }
+  must: ['2.2']
+- id: watch-07
+  description: seeded slip, an invented wave height
+  guide: tokek
+  seeded: true
+  expect_fallback: true
+  input:
+    facts: {}
+    headlineTemplate: "Friday's boat looks rough."
+    detailTemplate: ''
+    items:
+      - {
+          id: 'boat:title',
+          kind: plan_b,
+          facts: { title: Nusa Penida boat, waves_m: '2.5' },
+          template: 'Nusa Penida boat · waves 2.5 m',
+        }
+  reply:
+    headline: "Friday's boat looks rough."
+    detail: ''
+    items: [{ id: 'boat:title', text: 'Nusa Penida boat · waves 3 m' }]
+- id: watch-08
+  description: seeded slip, a closure nobody reported
+  guide: tokek
+  seeded: true
+  expect_fallback: true
+  input:
+    facts: {}
+    headlineTemplate: "Friday's boat looks rough."
+    detailTemplate: ''
+    items:
+      - {
+          id: 'boat:detail',
+          kind: plan_b,
+          facts: { title: Nusa Penida boat, waves_m: '2.5' },
+          template: 'Forecast shows waves 2.5 m. The harbour might close.',
+        }
+  reply:
+    headline: "Friday's boat looks rough."
+    detail: ''
+    items: [{ id: 'boat:detail', text: 'The harbour is closed on Friday.' }]

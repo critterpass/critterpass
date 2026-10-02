@@ -1,0 +1,11 @@
+# Flight disruption screen: the planner's classified rows → a headline, a guide line and one label
+# per row in the guide's voice. Every number must be one its row's facts hold, a vendor is never
+# "confirmed" before it replied and a flight is never "rebooked" by us; anything else falls back to
+# the templates. Cases live in cases.yaml and run through the real writeDisruptionCopy (suite.ts).
+# Run: pnpm --filter @cp/ai eval disruption
+description: Flight disruption rows worded from the planner's classification
+prompts:
+  - '{{rows}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

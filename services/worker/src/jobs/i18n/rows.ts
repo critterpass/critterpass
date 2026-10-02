@@ -3,7 +3,8 @@
  *
  * A trip sweep covers the trip's live plan versions (every version not superseded, organiser-only
  * drafts included, so a plan is already translated when it is published), its members' briefings
- * from yesterday on and its quests still open or just ended. A crew sweep covers the crew's
+ * from yesterday on, its quests still open or just ended, its disruptions open or closed within a
+ * day, and its forecast watch rows still ahead. A crew sweep covers the crew's
  * pitches still in play. Shared rows are read by everyone on the trip (travellers not out, and the
  * crew's active members); a briefing line is read by its owner alone.
  *
@@ -42,6 +43,8 @@ export const GUIDE_TEXT_TABLES: Readonly<Record<GuideTextKind, string>> = {
   briefing_item: 'briefing_items',
   quest: 'quests',
   pitch: 'pitches',
+  disruption: 'disruptions',
+  watch_item: 'watch_items',
 };
 
 interface Raw {
@@ -126,6 +129,20 @@ export async function loadTripSweep(tx: pg.PoolClient, tripId: string): Promise<
       ORDER BY q.local_date, q.slot`,
     [tripId],
   );
+  const disruptions = await tx.query<Raw>(
+    `SELECT d.id, d.title, d.summary, d.i18n FROM disruptions d
+      WHERE d.trip_id = $1 AND (d.title <> '' OR d.summary <> '')
+        AND (d.status = 'open' OR d.resolved_at > now() - interval '1 day')
+      ORDER BY d.detected_at, d.id`,
+    [tripId],
+  );
+  const watch = await tx.query<Raw>(
+    `SELECT w.id, w.title, w.detail, w.i18n FROM watch_items w
+      WHERE w.trip_id = $1 AND w.resolved_at IS NULL AND w.title <> ''
+        AND w.day >= (now() - interval '1 day')::date
+      ORDER BY w.day, w.id`,
+    [tripId],
+  );
   return {
     guideSlug: trip.rows[0].guide_slug,
     readerUid: audience.rows[0]?.user_id ?? null,
@@ -140,6 +157,8 @@ export async function loadTripSweep(tx: pg.PoolClient, tripId: string): Promise<
         ),
       ...briefing.rows.map((raw) => toRow('briefing_item', raw)),
       ...quests.rows.map((raw) => toRow('quest', raw)),
+      ...disruptions.rows.map((raw) => toRow('disruption', raw)),
+      ...watch.rows.map((raw) => toRow('watch_item', raw)),
     ],
   };
 }

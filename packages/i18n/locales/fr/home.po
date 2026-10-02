@@ -25,6 +25,22 @@ msgstr ""
 msgid "home.age.minutes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleSoon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleSoonPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleNowPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.titleNow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.guideDid"
 msgstr ""
@@ -77,6 +93,10 @@ msgstr ""
 msgid "home.inbox.caughtUp.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/filter-tabs.tsx
 msgid "home.inbox.crew"
 msgstr ""
@@ -125,8 +145,16 @@ msgstr ""
 msgid "home.inbox.refusedBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.cta"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/home-screen.tsx
 msgid "home.firstRun.joinCode"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.offline"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/trip-state-cards.tsx
@@ -253,12 +281,20 @@ msgstr ""
 msgid "home.inbox.refused"
 msgstr ""
 
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.over"
+msgstr ""
+
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
 msgid "home.inbox.nudge.vote"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.full"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/inbox/kind-renderers.tsx
@@ -324,6 +360,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/home/nudge/nudge-toast.ts
 msgid "home.nudge.tooSoon"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/home/join-trip-card.tsx
+msgid "home.joinTrip.joined"
 msgstr ""
 
 #: ../../apps/mobile/src/features/home/home-commands.ts

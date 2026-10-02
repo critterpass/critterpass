@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "576e1f5f-2c40-47a3-bcfc-7fce92bf9d15",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Wes and Jordan 25 min late\",\"detail\":\"Jalan Raya Ubud is closed until 15:00, so you are stuck in traffic; I would sit tight and let Inti (the sun (Quechua)) do the waiting.\",\"items\":[{\"id\":\"push\",\"text\":\"The others start at 14:00. You slot in at 14:25.\"},{\"id\":\"skip\",\"text\":\"The others go ahead without you.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 854,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 100,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

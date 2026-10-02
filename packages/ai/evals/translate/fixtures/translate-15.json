@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3f506f30-d8d6-49a4-94d2-084a97743187",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"items\":[{\"id\":\"t1\",\"text\":\"VN 123 hạ cánh lúc 19:30\"},{\"id\":\"t2\",\"text\":\"Hai bạn hạ cánh lúc 19:30. Mình đã dời buổi học lướt và cần bạn xác nhận bữa tối.\"},{\"id\":\"t3\",\"text\":\"Tàu Cù Lao Chàm · sóng 2.5 m\"},{\"id\":\"t4\",\"text\":\"Dự báo sóng 2.5 m, gió 35 km/h. Cảng có thể đóng.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 379,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1280,
+        "output_tokens": 137,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+appId: app.critterpass.dev
+---
+# Sponsored picks: the labelled card in a destination's picks (third, never first) and the "Why am
+# I seeing this?" sheet it opens, in English, from the Explore lab's scenes. Whether an account
+# gets a slot at all is the server's rule and is tested there; the screenshots here also ride in
+# the destination flows.
+- runFlow: subflows/lab-en.yaml
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-destination-sponsored'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'explore-lab-destination-sponsored'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-sponsored-tag'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'explore-sponsored-why'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'explore-sponsored-why'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-sponsored-sheet'
+    timeout: 10000
+- assertVisible:
+    id: 'explore-sponsored-pass-plus'

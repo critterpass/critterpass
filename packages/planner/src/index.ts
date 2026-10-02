@@ -4,4 +4,5 @@ export * from './draft/index';
 export * from './ops/rebase';
 export * from './overlay/index';
 export * from './leave-by/index';
+export * from './disruption/index';
 export * from './dropout/index';

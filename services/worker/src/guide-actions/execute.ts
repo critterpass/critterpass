@@ -48,6 +48,8 @@ interface ActionRow {
   readonly audit: {
     readonly inputs?: {
       readonly requester_id?: string | null;
+      /** A disruption's travellers, read from the disruption row when the action was planned. */
+      readonly owner_ids?: readonly string[];
       readonly time_critical?: boolean;
       readonly hold_expires_at?: readonly string[];
     };
@@ -179,6 +181,7 @@ export async function executeGuideAction(
       bookingImpact: ops.some((op) => op.booking_impact),
       affectedUserIds: row.audit.affected_user_ids ?? [],
       requesterId: inputs.requester_id ?? null,
+      ...(inputs.owner_ids === undefined ? {} : { ownerIds: inputs.owner_ids }),
       timeCritical: inputs.time_critical === true,
     },
     {
