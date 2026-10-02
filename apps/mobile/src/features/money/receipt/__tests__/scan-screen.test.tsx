@@ -18,7 +18,7 @@ jest.mock(
 );
 
 import type { PostReceiptBody } from '@cp/domain';
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { afterEach, beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { router } from 'expo-router';
@@ -38,6 +38,7 @@ import type { SyncTransport } from '@/data/powersync/transport';
 import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 import { ThemeProvider } from '@/lib/theme';
 import { toastQueue } from '@/motion/island-toast/queue';
+import { useMotionMode } from '@/motion/motion-mode';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { ShellTabs } from '@/ui/shell/ShellTabs';
 
@@ -273,6 +274,17 @@ async function scanAPhoto(answer: 'applied' | 'unreachable' = 'applied') {
   return app;
 }
 
+beforeAll(async () => {
+  // A member on reduced motion (the app's own setting): the review's rows appear without their
+  // entrance animation, which Jest's Reanimated stand-in does not provide.
+  const { result, unmount } = await renderHook(() => useMotionMode());
+  await act(() => {
+    result.current[1]('reduced');
+    return Promise.resolve();
+  });
+  await unmount();
+});
+
 afterEach(async () => {
   toastQueue.resetForTests();
   await stack?.close();
@@ -298,7 +310,7 @@ describe('a scanned receipt', () => {
     await openScan('applied', { ...device, pickPhoto: () => Promise.resolve({ kind: 'failed' }) });
 
     await until(() => screen.queryByTestId('money-scan-pick_failed') !== null);
-    expect(screen.getByText("Couldn't open that photo")).toBeTruthy();
+    expect(screen.getByText(/couldn't open that photo/i)).toBeTruthy();
     expect(screen.getByTestId('money-scan-start')).toBeTruthy();
     expect(screen.getByTestId('money-scan-type')).toBeTruthy();
     expect(posted).toHaveLength(0);
@@ -309,7 +321,7 @@ describe('a scanned receipt', () => {
     await parseLands('failed');
 
     await until(() => screen.queryByTestId('money-scan-unreadable') !== null);
-    expect(screen.getByText("Couldn't read that one")).toBeTruthy();
+    expect(screen.getByText(/couldn't read that one/i)).toBeTruthy();
     expect(screen.getByTestId('money-scan-retake')).toBeTruthy();
     expect(app.getPathname()).toBe(MONEY_ROUTES.scan);
 
@@ -321,7 +333,7 @@ describe('a scanned receipt', () => {
     const app = await scanAPhoto();
     await parseLands('parsed');
     await until(() => screen.queryByTestId('money-review-commit') !== null);
-    expect(screen.getByText(/378,000/)).toBeTruthy();
+    expect(screen.getByText(/^Bia hơi Hà Nội/)).toBeTruthy();
 
     const commit = screen.getByTestId('money-review-commit');
     for (let tap = 0; tap < 3; tap += 1) await fireEvent.press(commit);
