@@ -180,7 +180,7 @@ async function show(status: string, place: BefriendPlace) {
 
 describe('befriend quest card', () => {
   it('says where and how, and GO opens directions to the spot', async () => {
-    const open = jest.spyOn(Linking, 'openURL').mockResolvedValue(true);
+    const open = jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
     await show('active', PLACE);
     expect(screen.getByText('Nearest: East Sea Park · 1.9 km')).toBeTruthy();
     expect(screen.getByText('Stay about 5 minutes nearby with CritterPass open.')).toBeTruthy();
