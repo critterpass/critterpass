@@ -7,13 +7,40 @@
  */
 import type Anthropic from '@anthropic-ai/sdk';
 import { WEEKDAYS, type Hours } from '@cp/domain';
-import type { CandidatePools, CostBands, DraftPoi, TravelMatrix, TripFrame } from '@cp/planner';
+import type {
+  CandidatePools,
+  CostBands,
+  DraftPoi,
+  TravelMatrix,
+  TripFrame,
+  WishTime,
+} from '@cp/planner';
 
 import type { Gateway, GatewayInput, GatewayResult } from '../../client';
 import { renderPersonaBlock } from '../../persona/layering';
 import { REPO_PACKS } from '../../persona/loader';
 import type { PersonaId } from '../../persona/schema';
 import type { UsageContext } from '../../usage';
+
+/** The guide's answer to a must-do typed by hand, as code holds it (./wish-answers.ts). */
+export interface WishAnswer {
+  readonly wishId: string;
+  /** The place the guide says the wish means; null when none of the offered places fits. */
+  readonly poiId: string | null;
+  readonly dayNo: number | null;
+  readonly when: WishTime;
+  /** Weekdays the wished thing happens on at all (`sa`, `su`; empty = any day), e.g. a weekly show. */
+  readonly weekdays: readonly string[];
+}
+
+/**
+ * A must-do planned without the time of day or the show day wished for it: the trip has no day
+ * its show runs on (`no_show_day`), or no day can hold it at its time (`no_day_fits`).
+ */
+export interface UntimedMustDo {
+  readonly mustDoId: string;
+  readonly reason: 'no_show_day' | 'no_day_fits';
+}
 
 export interface DraftPlanInput {
   readonly guide: PersonaId;
@@ -39,6 +66,10 @@ export interface DraftPlanInput {
     readonly text: string;
     readonly options?: readonly string[];
   }[];
+  /** The guide's answers this input was built with (set by `withWishAnswers`). */
+  readonly wishAnswers?: readonly WishAnswer[];
+  /** Must-dos planned without their time of day or show day (set by `withWishAnswers`). */
+  readonly untimed?: readonly UntimedMustDo[];
   /** Stable ids for scheduled stops; the same key always gives the same id. */
   readonly idFor: (key: string) => string;
   readonly skeletonRoute: 'draft.skeleton' | 'draft.skeleton_fast';

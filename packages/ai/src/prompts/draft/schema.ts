@@ -25,21 +25,23 @@ export const skeletonReplySchema = z.object({
       }),
     )
     .min(1),
-  // Answers to the must-dos members typed by hand (./wish-answers.ts).
-  wishes: z
-    .array(
-      z.object({
-        wish_id: id,
-        poi_id: id.nullable(),
-        day_no: z.number().int().positive().nullable(),
-        when: z.string().max(20),
-        weekdays: z.array(z.string().max(4)).max(7).default([]),
-      }),
-    )
-    .max(12)
-    .default([]),
+  // Answers to the must-dos members typed by hand, read one by one in ./wish-answers.ts: a reply
+  // without the list, or with entries that do not hold up, still gives a draft.
+  wishes: z.array(z.unknown()).catch([]),
 });
 export type SkeletonReply = z.infer<typeof skeletonReplySchema>;
+
+/**
+ * One wish answer as the reply gave it. Only the wish it answers is required: any other field that
+ * does not hold up is read as empty (no place, no day, any time, any weekday).
+ */
+export const wishAnswerReplySchema = z.object({
+  wish_id: id,
+  poi_id: z.string().nullable().catch(null),
+  day_no: z.number().int().nullable().catch(null),
+  when: z.string().catch('any'),
+  weekdays: z.array(z.unknown()).catch([]),
+});
 
 export const stopReplySchema = z.object({
   poi_id: id,
