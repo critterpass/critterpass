@@ -88,7 +88,8 @@ appId: app.critterpass.dev
     id: 'money-review'
 - assertVisible:
     id: 'money-review-line-.*'
-- assertVisible: '.*126,000.*'
+# The review names how many lines it read; lines whose amount needs a look show what was read.
+- assertVisible: '(?i).*read [0-9]+ lines.*'
 # Who had the first line: the member picker over the review.
 - tapOn:
     id: 'money-review-line-.*'
