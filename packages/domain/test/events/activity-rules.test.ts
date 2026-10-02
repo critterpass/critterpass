@@ -20,6 +20,7 @@ import { LA_EVENT_TYPES } from '../../src/surfaces/la-events';
 import { YOU_EVENT_TYPES } from '../../src/you/events';
 import { SAFETY_EVENT_TYPES } from '../../src/safety/events';
 import { ACCOUNT_EVENT_TYPES } from '../../src/account/events';
+import { HELP_EVENT_TYPES } from '../../src/help/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -146,6 +147,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   // Closing, restoring and purging an account are private to it; an organiser hand-over reaches
   // the crew as the trip's own rows.
   ...ACCOUNT_EVENT_TYPES,
+  // Feedback, idea votes and rating prompts belong to one traveller and the support team.
+  ...HELP_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {
