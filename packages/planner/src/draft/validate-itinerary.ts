@@ -13,6 +13,7 @@ import type { FeasibilityItem } from '../feasibility/types';
 import { itineraryCostPpMinor } from './metrics';
 import { baseWindow, dayWindow, LUNCH_BEFORE_MIN, minuteOfDate } from './schedule-day';
 import type { DraftPoi, TravelMatrix, TripFrame } from './types';
+import { heldWindow, type StartWindow } from './wish-time';
 
 export const DRAFT_VIOLATION_CODES = [
   'UNKNOWN_POI',
@@ -23,6 +24,7 @@ export const DRAFT_VIOLATION_CODES = [
   'OFF_GRID',
   'DAY_OVERRUN',
   'FLIGHT_BUFFER',
+  'WRONG_TIME_OF_DAY',
   'DIETARY',
   'DUPLICATE_PLACE',
   'EXTRA_MEAL',
@@ -82,6 +84,18 @@ export function closedOn(frame: TripFrame, poi: DraftPoi, date: string): 'poi' |
   return null;
 }
 
+/** The start window of an item that is a must-do held to its time of day, else null. */
+function heldAt(
+  input: ValidateItineraryInput,
+  item: DraftItem,
+  poi: DraftPoi,
+  date: string,
+): StartWindow | null {
+  if (item.must_do_id === null) return null;
+  const when = input.frame.mustDos.find((m) => m.id === item.must_do_id)?.when;
+  return heldWindow(poi, date, when);
+}
+
 function dayChecks(
   input: ValidateItineraryInput,
   item: DraftItem,
@@ -115,7 +129,15 @@ function dayChecks(
   const start = minuteOfDate(new Date(item.starts_at), date, input.frame.tz);
   const end = minuteOfDate(new Date(item.ends_at), date, input.frame.tz);
   const window = dayWindow(input.frame, dayIndex);
-  if (start < window.startMin || end > window.endMin) {
+  // A must-do held to its time of day (a sunrise, a night show) may sit outside the usual day, up
+  // to landing and the flight home; at any other time it is off its time, inside the usual day too.
+  const held = heldAt(input, item, poi, date);
+  if (held !== null && (start < held.fromMin || start > held.toMin)) {
+    out.push(at('WRONG_TIME_OF_DAY'));
+  }
+  const from = held === null ? window.startMin : (window.earliestMin ?? window.startMin);
+  const until = held === null ? window.endMin : (window.latestMin ?? window.endMin);
+  if (start < from || end > until) {
     const base = baseWindow(input.frame);
     const inBase = start >= base.startMin && end <= base.endMin;
     out.push(at(inBase ? 'FLIGHT_BUFFER' : 'DAY_OVERRUN'));
@@ -166,7 +188,11 @@ export function validateItinerary(input: ValidateItineraryInput): ValidationResu
         endsAt: new Date(item.ends_at),
         tz: poi.tz,
         dayNo: day.day_no,
-        hours: poi.hours,
+        // Hours that are only a guess never count against a must-do held to its time of day.
+        hours:
+          poi.hoursGuessed === true && heldAt(input, item, poi, day.date) !== null
+            ? null
+            : poi.hours,
         mustDoId: item.must_do_id,
       });
     }

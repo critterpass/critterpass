@@ -45,6 +45,8 @@ const TEXT: Readonly<Record<DraftViolationCode, (name: string) => string>> = {
   OFF_GRID: (name) => `${name} is off the plan grid. Keep the order simple.`,
   DAY_OVERRUN: (name) => `${name} runs past the end of the day. Use fewer stops.`,
   FLIGHT_BUFFER: (name) => `${name} is too close to the flight. Use fewer stops on this day.`,
+  WRONG_TIME_OF_DAY: (name) =>
+    `${name} is held to its time of day and landed at another. Put a sunrise stop first and a night stop last, with fewer stops around it.`,
   DIETARY: (name) => `${name} does not suit the crew's diets. Pick a meal place that does.`,
   DUPLICATE_PLACE: (name) => `${name} is already on another day. Pick a different place.`,
   EXTRA_MEAL: (name) =>
@@ -116,7 +118,10 @@ export function repairTargets(input: RepairTargetsInput): RepairTarget[] {
     .map(([dayNo, reasons]) => ({ dayNo, reasons }));
 }
 
-/** Item-level codes that drop the item once repairs are spent (trip-wide ones only flag). */
+/**
+ * Item-level codes that drop the item once repairs are spent (trip-wide ones only flag). A must-do
+ * planned at another time of day than it is held to is kept: the review shows it, off its time.
+ */
 const DROPPED_CODES: ReadonlySet<DraftViolationCode> = new Set([
   'UNKNOWN_POI',
   'CLOSED_AT_TIME',

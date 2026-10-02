@@ -3,18 +3,26 @@
  * resumed step on another worker plans from the same facts), the job's model, the live step rows
  * on the drafting screen, and giving the trip back to setup when the draft finally fails.
  */
-import type { DraftModel, DraftPlanInput, UsageContext } from '@cp/ai';
+import {
+  withWishAnswers,
+  type DraftModel,
+  type DraftPlanInput,
+  type SkeletonPlan,
+  type UsageContext,
+} from '@cp/ai';
 import { emitEvent, withSystem } from '@cp/db';
 import type { DraftStepId, DraftStepLabel } from '@cp/domain';
+import { destinationPhrases, resolveWishes } from '@cp/planner';
 import type pg from 'pg';
+import { z } from 'zod';
 
 import type { AgentStepContext } from '../../../ai/job-runner';
-import { destinationPhrases, resolveWishes } from '@cp/planner';
 
 import { loadDraftTrip, type DraftTripData } from './load';
 import { loadDraftPlaces, loadWishCandidates } from './load-places';
 import { buildPlanInput } from './plan-input';
 import type { PrefetchResult } from './prefetch';
+import { savedWishAnswers } from './redraft-store';
 import { skeletonRoute } from './skeleton';
 import { publishDone, publishStep } from './steps';
 
@@ -24,6 +32,9 @@ export interface Loaded {
   readonly trip: DraftTripData;
   readonly input: DraftPlanInput;
 }
+
+/** A redraft job's input names the version it redrafts. */
+const redraftBaseSchema = z.object({ base_version: z.uuid() });
 
 export async function load(
   ctx: AgentStepContext,
@@ -54,14 +65,21 @@ export async function load(
     ...wished.places.values(),
     ...wished.offered,
   ]);
-  const input = buildPlanInput(trip, places, {
+  const asked = buildPlanInput(trip, places, {
     jobId: ctx.agentJob.id,
     skeletonRoute: await skeletonRoute(ctx.pool),
     closures,
     wished,
     ignoreNames,
   });
-  return { trip, input };
+  // Once the outline has run, every later step plans with the guide's answers to the wishes. A
+  // redraft has no outline of its own: it plans with the answers saved with the version it redoes.
+  const outline = (ctx.results.skeleton as { skeleton?: SkeletonPlan } | undefined)?.skeleton;
+  const base = redraftBaseSchema.safeParse(ctx.input);
+  const answers =
+    outline?.wishAnswers ??
+    (base.success ? await savedWishAnswers(ctx.pool, tripId, base.data.base_version) : []);
+  return { trip, input: withWishAnswers(asked, answers) };
 }
 
 export function modelFor(

@@ -17,6 +17,8 @@ export interface ResolvedWishes {
   readonly places: ReadonlyMap<string, string>;
   /** Places to put on the guide's list for wishes that name several, or sit near one. */
   readonly offered: readonly string[];
+  /** Must-do id → every place the wish may mean (its own place first when it has one). */
+  readonly options: ReadonlyMap<string, readonly string[]>;
 }
 
 export function resolveWishes(
@@ -26,14 +28,21 @@ export function resolveWishes(
 ): ResolvedWishes {
   const places = new Map<string, string>();
   const offered: string[] = [];
+  const options = new Map<string, string[]>();
   for (const wish of wishes) {
     const match = matchWish(wish.text, candidates, ignore);
     const named = collapseSamePlaces(match.named, { ignore }).kept;
     const only = named.length === 1 ? named[0] : undefined;
     if (only !== undefined) places.set(wish.id, only.id);
     else offered.push(...named.slice(0, MAX_OFFERED).map((poi) => poi.id));
-    offered.push(...match.near.slice(0, MAX_OFFERED - 1).map((poi) => poi.id));
+    const near = match.near.slice(0, MAX_OFFERED - 1).map((poi) => poi.id);
+    offered.push(...near);
+    options.set(wish.id, [...named.slice(0, MAX_OFFERED).map((poi) => poi.id), ...near]);
   }
   const taken = new Set(places.values());
-  return { places, offered: [...new Set(offered)].filter((id) => !taken.has(id)) };
+  return {
+    places,
+    offered: [...new Set(offered)].filter((id) => !taken.has(id)),
+    options,
+  };
 }

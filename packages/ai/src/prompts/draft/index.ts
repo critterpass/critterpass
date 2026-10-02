@@ -1,5 +1,12 @@
 // Drafting prompts: the trip outline, day plans and their repair, redrafts and the summary line.
-export { clockText, gatewayModel, hoursOn, type DraftModel, type DraftPlanInput } from './context';
+export {
+  clockText,
+  gatewayModel,
+  hoursOn,
+  type DraftModel,
+  type DraftPlanInput,
+  type UntimedMustDo,
+} from './context';
 export { stopBudget } from './budget';
 export { buildDayRequest, draftOneDay, toChoices, type DayContext } from './day';
 export { draftDays, runDraftPlan, type DraftedDays, type DraftPlanResult } from './pipeline';
@@ -28,6 +35,7 @@ export {
 } from './skeleton';
 export { templateSummary, writeDraftSummary, type SummaryInput } from './summary';
 export { derivedUuid } from './ids';
+export { withWishAnswers, wishOptions, type WishAnswer } from './wish-answers';
 export {
   checkClosures,
   closureQueries,
