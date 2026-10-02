@@ -376,6 +376,10 @@ msgstr "Every seat is taken."
 msgid "proposal.sent.done"
 msgstr "Every version is written and sent."
 
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.lock.alone"
+msgstr "Everyone else said they can’t make it, so it’s just you. The trip is confirmed, and friends who join later land on this plan."
+
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.share"
 msgstr "Everyone’s share"
@@ -537,6 +541,7 @@ msgid "proposal.lock.cta"
 msgstr "Lock it in"
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.alone.lock"
 msgstr "Lock it in"
 
@@ -545,6 +550,7 @@ msgid "proposal.lock.title"
 msgstr "Lock the crew in?"
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.alone.title"
 msgstr "Lock the plan in?"
 
