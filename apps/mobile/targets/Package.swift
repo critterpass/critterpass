@@ -62,6 +62,19 @@ let package = Package(
       swiftSettings: testSettings
     ),
     .target(
+      name: "WidgetSnapshotCore",
+      path: "_shared",
+      exclude: ["ActionKey", "PushPayload", "ActivityAttributes", "Intents", "Snapshot/Tests"],
+      sources: ["Snapshot/WidgetSnapshot.swift", "Snapshot/WidgetSnapshotReader.swift"]
+    ),
+    .testTarget(
+      name: "WidgetSnapshotTests",
+      dependencies: ["WidgetSnapshotCore"],
+      path: "_shared/Snapshot/Tests",
+      exclude: ["Fixtures"],
+      swiftSettings: testSettings
+    ),
+    .target(
       name: "LiveActivityLogicCore",
       path: "_shared/ActivityAttributes",
       exclude: ["CPActivityAttributes.swift", "Tests"],

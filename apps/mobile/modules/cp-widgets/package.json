@@ -1,0 +1,9 @@
+{
+  "name": "cp-widgets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Home and lock screen widgets on iOS: reloads their timelines after the app writes a new snapshot and reports which widgets the person has placed, so the server refreshes only what is shown.",
+  "main": "index.ts",
+  "types": "index.ts",
+  "license": "UNLICENSED"
+}

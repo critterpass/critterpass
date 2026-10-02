@@ -69,6 +69,11 @@ const singular = (wire: string): string => {
 
 interface Emitter {
   readonly nested: string[];
+  /**
+   * Enums as plain `String`: a reader that must keep working when the writer adds a value (the
+   * widget snapshot) cannot have its whole decode fail on one unknown case.
+   */
+  readonly lenientEnums?: boolean;
 }
 
 function swiftType(schema: z.ZodType, prefix: string, field: string, out: Emitter): string {
@@ -85,7 +90,15 @@ function swiftType(schema: z.ZodType, prefix: string, field: string, out: Emitte
       return 'Bool';
     case 'number':
       return (schema as unknown as { isInt?: boolean }).isInt === true ? 'Int' : 'Double';
+    case 'literal': {
+      const values = (def as unknown as { values: readonly unknown[] }).values;
+      const first = values[0];
+      if (typeof first === 'number') return Number.isInteger(first) ? 'Int' : 'Double';
+      if (typeof first === 'boolean') return 'Bool';
+      return 'String';
+    }
     case 'enum': {
+      if (out.lenientEnums === true) return 'String';
       const name = `${prefix}${pascal(field)}`;
       const cases = Object.values(def.entries ?? {}).map(
         (value) => `    case ${ident(swiftCamel(value))} = "${value}"`,
@@ -158,4 +171,21 @@ export function renderLaSwift(types: readonly LaSwiftType[], header: string): st
   return [header, '', 'import ActivityKit', 'import Foundation', '', blocks.join('\n\n'), ''].join(
     '\n',
   );
+}
+
+/**
+ * One Swift file declaring a plain `Decodable` document type (and its nested types) from a zod
+ * object, for App Group files an extension only reads. Enums decode as `String`, and a field the
+ * Swift type does not name is ignored by `JSONDecoder`, so a newer writer never breaks an older
+ * reader.
+ */
+export function renderSwiftDocument(
+  name: string,
+  schema: z.ZodType,
+  prefix: string,
+  header: string,
+): string {
+  const out: Emitter = { nested: [], lenientEnums: true };
+  const root = renderStruct(name, schema, prefix, out, '', 'Codable, Hashable, Sendable');
+  return [header, '', 'import Foundation', '', [...out.nested, root].join('\n\n'), ''].join('\n');
 }
