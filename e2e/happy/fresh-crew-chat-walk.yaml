@@ -93,18 +93,20 @@ appId: app.critterpass.dev
     visible:
       id: 'chat-composer'
     timeout: 20000
+# iOS reads a message whole ("Winston, 17:07: Fushimi Inari at sunrise").
 - extendedWaitUntil:
     visible:
-      text: 'Fushimi Inari at sunrise'
+      text: '.*Fushimi Inari at sunrise.*'
     timeout: 60000
 - waitForAnimationToEnd
 - takeScreenshot: vi-walk-joined
 
 # A reply: long press, "Trả lời", the quoted strip over the composer.
-- longPressOn: 'Fushimi Inari at sunrise'
+- longPressOn: '.*Fushimi Inari at sunrise.*'
 - extendedWaitUntil:
     visible:
-      id: 'chat-actions'
+      # The sheet's panel: iOS leaves the sheet's full-screen root out of its hierarchy.
+      id: 'chat-actions-panel'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: vi-walk-message-actions
@@ -121,7 +123,7 @@ appId: app.critterpass.dev
 - tapOn: 'Gửi'
 - extendedWaitUntil:
     visible:
-      text: 'count me in'
+      text: '.*count me in'
     timeout: 10000
 - extendedWaitUntil:
     notVisible:
@@ -130,7 +132,7 @@ appId: app.critterpass.dev
 # A reaction on the organiser's message.
 - hideKeyboard
 - waitForAnimationToEnd
-- longPressOn: 'Fushimi Inari at sunrise'
+- longPressOn: '.*Fushimi Inari at sunrise.*'
 - extendedWaitUntil:
     visible:
       id: 'chat-reaction-bar'
@@ -160,7 +162,7 @@ appId: app.critterpass.dev
 - tapOn: 'Gửi'
 - extendedWaitUntil:
     visible:
-      text: '.*dinner at 7\?'
+      text: '.*dinner at 7\?.*'
     timeout: 10000
 
 # A long message: the composer grows, then the bubble wraps.
@@ -172,7 +174,7 @@ appId: app.critterpass.dev
 - tapOn: 'Gửi'
 - extendedWaitUntil:
     visible:
-      text: 'Landing 09:40.*'
+      text: '.*Landing 09:40.*'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: vi-walk-long-sent-keyboard
@@ -207,7 +209,7 @@ appId: app.critterpass.dev
       - tapOn: 'Gửi'
       - extendedWaitUntil:
           visible:
-            text: 'Tối nay ăn phở.*'
+            text: '.*Tối nay ăn phở.*'
           timeout: 10000
       - waitForAnimationToEnd
       - takeScreenshot: vi-walk-vietnamese-sent-keyboard
@@ -228,7 +230,8 @@ appId: app.critterpass.dev
 - tapOn: 'Thêm tệp đính kèm'
 - extendedWaitUntil:
     visible:
-      id: 'chat-attach'
+      # The sheet's panel: iOS leaves the sheet's full-screen root out of its hierarchy.
+      id: 'chat-attach-panel'
     timeout: 5000
 - waitForAnimationToEnd
 - takeScreenshot: vi-walk-attach-menu

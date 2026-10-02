@@ -165,7 +165,8 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-address'
     timeout: 30000
-- assertVisible: '.*@in\.staging\.critterpass\.app'
+# iOS reads the address with its copy hint ("…@in.staging.critterpass.app, copy the address").
+- assertVisible: '.*@in\.staging\.critterpass\.app.*'
 - tapOn: 'COPY'
 # The copy confirms with COPIED on the button (2 s) and a toast. Android shows its own clipboard
 # overlay over the app instead, which hides the app from the runner until it goes.

@@ -57,7 +57,8 @@ appId: app.critterpass.dev
 - tapOn: 'Add attachment|Thêm tệp đính kèm'
 - extendedWaitUntil:
     visible:
-      id: 'chat-attach'
+      # The sheet's panel: iOS leaves the sheet's full-screen root out of its hierarchy.
+      id: 'chat-attach-panel'
     timeout: 5000
 - waitForAnimationToEnd
 - takeScreenshot: ${LANG}-3g-1-attach
