@@ -86,21 +86,47 @@ export async function replyWithSeat(
   return { rsvp: status, waitlisted: false };
 }
 
-/** `out`: frees the seat (or waitlist place) and queues the re-split and the seat offer. */
+/** The participant row of a crew member who declines before ever answering: out, no seat. */
+async function outWithoutReply(
+  tx: pg.PoolClient,
+  scope: RsvpScope,
+): Promise<{ rsvp: string; holds_seat: boolean }> {
+  const member = await tx.query(
+    `SELECT 1 FROM crew_members WHERE crew_id = $1 AND user_id = $2 AND status = 'active'`,
+    [scope.crewId, scope.uid],
+  );
+  if (member.rows.length === 0) {
+    throw new DomainError('NOT_ELIGIBLE', { reason: 'not_a_participant' });
+  }
+  await tx.query(
+    `INSERT INTO trip_participants (trip_id, user_id, role, rsvp) VALUES ($1, $2, 'member', 'out')`,
+    [scope.tripId, scope.uid],
+  );
+  return { rsvp: 'out', holds_seat: false };
+}
+
+/**
+ * `out`: frees the seat (or waitlist place) and queues the re-split and the seat offer. A crew
+ * member with no reply yet is recorded as out; with no seat to free there is no re-split.
+ */
 export async function declineSeat(tx: pg.PoolClient, scope: RsvpScope): Promise<RsvpResult> {
   await lockTripSeats(tx, scope.tripId);
   const { rows } = await tx.query<{ rsvp: string; holds_seat: boolean }>(
     'SELECT rsvp, holds_seat FROM trip_participants WHERE trip_id = $1 AND user_id = $2',
     [scope.tripId, scope.uid],
   );
-  const row = rows[0];
-  if (row === undefined) throw new DomainError('NOT_ELIGIBLE', { reason: 'not_a_participant' });
-  if (row.rsvp === 'out') return { rsvp: 'out', waitlisted: false };
-  await tx.query(
-    `UPDATE trip_participants SET rsvp = 'out', waitlist_position = NULL
-      WHERE trip_id = $1 AND user_id = $2`,
-    [scope.tripId, scope.uid],
-  );
+  const existing = rows[0];
+  if (existing?.rsvp === 'out') return { rsvp: 'out', waitlisted: false };
+  // A crew member who never answered has no participant row yet: their decline is stored as one,
+  // out and holding no seat. Anyone outside the crew is refused.
+  const row = existing ?? (await outWithoutReply(tx, scope));
+  if (existing !== undefined) {
+    await tx.query(
+      `UPDATE trip_participants SET rsvp = 'out', waitlist_position = NULL
+        WHERE trip_id = $1 AND user_id = $2`,
+      [scope.tripId, scope.uid],
+    );
+  }
   await announce(tx, scope, 'out');
   await appendDomainEvent(tx, {
     type: 'participant.declined',
