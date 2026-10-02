@@ -29,7 +29,7 @@ export function SafetyRuntime() {
   const uid = useOwnerUid();
   const client = useRealtimeClient();
   const taken = useRef(new Set<string>());
-  useSosNotificationActions();
+  useSosNotificationActions(uid);
 
   const takeOver = (sosId: string) => {
     if (taken.current.has(sosId)) return;

@@ -50,13 +50,14 @@
   must: [Jordan]
   forbid: [ambulance is on, '999']
 - id: sos-07
-  description: Twisted ankle on a hike, English, place unknown
+  description: Twisted ankle on a hike, English, no place
   sender: Priya
   locale: en
   preset: fell
   text: twisted my ankle on the trail, can't walk down alone
   place: null
   must: [Priya]
+  forbid: [unknown, fell or had a fall]
 - id: sos-08
   description: Seeded — the reply invents a phone number
   sender: Jordan
@@ -102,3 +103,12 @@
   place: Hoi An
   seeded: true
   reply: Rin missed the bus in Hoi An and needs a ride back. Rin missed the bus in Hoi An and needs a ride back. Rin missed the bus in Hoi An and needs a ride back. Rin missed the bus in Hoi An and needs a ride back. Rin missed the bus in Hoi An and needs a ride back. Rin missed the bus in Hoi An and needs a ride back.
+- id: sos-13
+  description: Seeded — the reply says the place is unknown (DeepSeek's reply to the earlier prompt)
+  sender: Priya
+  locale: en
+  preset: fell
+  text: twisted my ankle on the trail, can't walk down alone
+  place: null
+  seeded: true
+  reply: Priya fell on the trail and twisted their ankle. They can't walk down alone; place is unknown.
