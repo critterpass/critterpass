@@ -88,6 +88,27 @@ describe('server flags', () => {
     );
   });
 
+  it('says whether an answer was evaluated or is the defaults', async () => {
+    const loaded = serviceWith(() => response(200, definitions));
+    expect(await loaded.answer({ distinctId: 'pid-1' })).toEqual({
+      flags: EVALUATED,
+      source: 'evaluated',
+    });
+    await loaded.shutdown();
+
+    const down = serviceWith(() => Promise.reject(new Error('ECONNREFUSED')));
+    expect(await down.answer({ distinctId: 'pid-1' })).toEqual({
+      flags: DEFAULTS,
+      source: 'defaults',
+    });
+
+    const unset = createFlagService({ projectApiKey: undefined, flagsSecretKey: undefined });
+    expect(await unset.answer({ distinctId: 'pid-1' })).toEqual({
+      flags: DEFAULTS,
+      source: 'defaults',
+    });
+  });
+
   it('returns defaults without credentials', async () => {
     const flags = createFlagService({ projectApiKey: undefined, flagsSecretKey: undefined });
     expect(await flags.evaluate({ distinctId: 'pid-1' })).toEqual({
