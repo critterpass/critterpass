@@ -64,6 +64,8 @@ appId: app.critterpass.dev
     element:
       id: 'version-out'
     timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-3-in-with-way-out
 - tapOn:
     id: 'version-out'
 - extendedWaitUntil:
