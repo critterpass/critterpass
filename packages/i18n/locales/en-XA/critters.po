@@ -399,6 +399,10 @@ msgstr ""
 msgid "critters.encounter.reminderDenied"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.ok"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.onOneDay"
 msgstr ""
@@ -455,6 +459,10 @@ msgstr ""
 msgid "critters.hatch.later"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.eyebrow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.someoneHere"
 msgstr ""
@@ -487,6 +495,10 @@ msgstr ""
 msgid "critters.legendary.emptyBody"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr ""
@@ -501,6 +513,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.locked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.bodyAt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts

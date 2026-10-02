@@ -399,6 +399,10 @@ msgstr "Thông báo đang tắt, nên lời nhắc sẽ nằm trong hộp thư c
 msgid "critters.encounter.reminderDenied"
 msgstr "Thông báo đang tắt nên chúng tôi không nhắc được. Hãy bật trong Cài đặt."
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.ok"
+msgstr "OK"
+
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.onOneDay"
 msgstr "Chỉ một ngày"
@@ -455,6 +459,10 @@ msgstr "Chia sẻ với nhóm"
 msgid "critters.hatch.later"
 msgstr "Để sau dẫn tôi đi dạo"
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.eyebrow"
+msgstr "Đã lẩn mất"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.someoneHere"
 msgstr "Có ai đó ở đây"
@@ -487,6 +495,10 @@ msgstr "Cả nhóm đã có mặt. Bạn ấy đã vào thẻ của mọi ngư�
 msgid "critters.legendary.emptyBody"
 msgstr "Chúng đến cùng những nơi chúng sống. Hãy xem lại sau lần cập nhật tới."
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.title"
+msgstr "Bạn này đã lẩn mất"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr "Hôm nay, {time}"
@@ -502,6 +514,14 @@ msgstr "Hoàn tác"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.locked"
 msgstr "Một thổ địa chưa gặp ở {city}"
+
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.body"
+msgstr "Mình chưa xác nhận được lần gặp đó nên bạn ấy không ở lại. Quay lại thử lần nữa nhé."
+
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.bodyAt"
+msgstr "Mình chưa xác nhận được lần gặp ở {place} nên bạn ấy không ở lại. Quay lại thử lần nữa nhé."
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderSet"

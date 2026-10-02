@@ -39,7 +39,12 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { PassScreen } from '../pass-screen';
-import { seedCritters, TRIP, type CritterSeedOptions } from '../../test-support/seed-critters';
+import {
+  seedCritters,
+  TOKEK_RARE,
+  TRIP,
+  type CritterSeedOptions,
+} from '../../test-support/seed-critters';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -174,5 +179,20 @@ describe('PASS tab Critterdex', () => {
     // The rows stayed loaded: the dex is back in the same render, with no loading state between.
     expect(screen.getByTestId('critters-dex')).toBeTruthy();
     expect(screen.getByText('HERE NOW · BALI')).toBeTruthy();
+  });
+
+  it('says a find slipped away once the server revoked it, until OK', async () => {
+    const stack = await renderPass();
+    await waitFor(() => expect(screen.getByText('HERE NOW · BALI')).toBeTruthy());
+    expect(screen.queryByTestId('critters-slipped-away')).toBeNull();
+    await stack.db.execute(
+      `INSERT INTO encounters (id, user_id, trip_id, form_id, state, verification, verified_at)
+       VALUES ('enc-slipped', ?, ?, ?, 'befriended', 'revoked', ?)`,
+      [stack.uid, TRIP, TOKEK_RARE, new Date().toISOString()],
+    );
+    await waitFor(() => expect(screen.getByTestId('critters-slipped-away')).toBeTruthy());
+    expect(screen.getByText('THIS ONE SLIPPED AWAY')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('critters-slipped-away-ok'));
+    await waitFor(() => expect(screen.queryByTestId('critters-slipped-away')).toBeNull());
   });
 });
