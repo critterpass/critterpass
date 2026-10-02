@@ -135,6 +135,37 @@ describe('screen checks', { timeout: 60_000 }, () => {
       expect(findKeyboardBand(pad)).toBeNull();
     });
 
+    /**
+     * A sheet with a results card that covers more rows than the sheet's own surface (the place
+     * search on the vote, in Vietnamese), over a grey keyboard.
+     */
+    function sheetOverKeyboard(): { image: RgbaImage; keyboard: number } {
+      const sheet: Rgb = [32, 28, 56];
+      const card: Rgb = [44, 39, 80];
+      const image = blank(400, 860, sheet);
+      paint(image, 18, 120, 382, 470, card);
+      for (let y = 490; y < 520; y += 16) paint(image, 30, y, 330, y + 8, [255, 214, 74]);
+      const keyboard = 600;
+      paint(image, 0, keyboard, 400, 860, [215, 218, 226]);
+      return { image, keyboard };
+    }
+
+    it('passes a sheet whose own surface reaches the keyboard below a larger card', () => {
+      const { image, keyboard } = sheetOverKeyboard();
+      expect(keyboardTop(image)).toBe(keyboard);
+      expect(findKeyboardBand(image)).toBeNull();
+    });
+
+    it('still finds a gap of another colour under a lifted footer on that sheet', () => {
+      const { image, keyboard } = sheetOverKeyboard();
+      // A footer lifted by the keyboard (its button on the sheet), and a black gap under it.
+      paint(image, 30, keyboard - 90, 370, keyboard - 50, [255, 214, 74]);
+      paint(image, 0, keyboard - 50, 400, keyboard, [0, 0, 0]);
+      const band = findKeyboardBand(image);
+      expect(band?.code).toBe('KEYBOARD_BAND');
+      expect(band?.detail).toContain('#000000');
+    });
+
     it('passes a screen whose own background runs down to the keyboard', () => {
       expect(findKeyboardBand(load('pitch-search-keyboard'))).toBeNull();
       expect(findKeyboardBand(load('frame-join-code-keyboard'))).toBeNull();

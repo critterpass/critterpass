@@ -250,6 +250,17 @@ function uniformColour(image: RgbaImage, y: number): Rgb | null {
   return same.length >= samples.length * 0.95 ? colour : null;
 }
 
+/** The left margin (2% in) of the `span` rows above `bandTop` is `colour` almost all the way. */
+function isMarginAbove(image: RgbaImage, bandTop: number, span: number, colour: Rgb): boolean {
+  const from = Math.max(Math.floor(image.height * LIMITS.top), bandTop - span);
+  if (from >= bandTop) return false;
+  let same = 0;
+  for (let y = from; y < bandTop; y += 1) {
+    if (colourDistance(pixel(image, image.width * 0.02, y), colour) <= LIMITS.sameColour) same += 1;
+  }
+  return same >= (bandTop - from) * 0.9;
+}
+
 export function findKeyboardBand(image: RgbaImage): ScreenFinding | null {
   const top = keyboardTop(image);
   if (top === null) return null;
@@ -270,6 +281,11 @@ export function findKeyboardBand(image: RgbaImage): ScreenFinding | null {
   const above = rowsBetween(image, 0.1, Math.max(0.11, y / image.height - 0.01), 80);
   const screen = dominant(above.flatMap((row) => rowSamples(image, row, 0.02, 0.98, 40)));
   if (colourDistance(screen, bandColour) <= LIMITS.sameColour) return null;
+  // A sheet's own surface reaching the keyboard is no gap, even when a card above it covers more
+  // of the screen than the surface does: the band's colour is then the left margin of the rows
+  // just above it, the surface the content sits on. A gap under a lifted footer differs from that
+  // margin (the footer stands on the screen's background).
+  if (isMarginAbove(image, y, height, bandColour)) return null;
   bottom = Math.round((height / image.height) * 1000) / 10;
   return {
     code: 'KEYBOARD_BAND',
