@@ -3,13 +3,16 @@
  * plays the ceremony at once, offline too), and Explore at home (the device's own opt-in plus
  * `set_explore_at_home`, so the server accepts home-set encounters).
  */
+import { guideOfForm } from '@cp/domain';
 import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { setExploreAtHome, useExploreAtHome } from '@/lib/location';
+import { useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { hatchEggCommand, setExploreAtHomeCommand } from '../data/commands';
+import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { atDestination, awaitsArrival, useLatestPosition } from '../hatch/arrival';
 import { deviceTimeZone, eggCardFor, hatchSeen, useHatchSeenVersion } from '../hatch/hatch-model';
 import { useEncounter } from '../engine/use-encounter';
@@ -19,10 +22,28 @@ import { DexView } from './dex-view';
 import { useDexRows } from './use-dex';
 import { StickerShelf } from '../stickers';
 
+/* eslint-disable lingui/no-unlocalized-strings -- SQL and a design screen id, never copy. */
+const PROFILE_SCREEN = '3n-1';
+const ME_SQL = `SELECT u.display_name, a.kind AS avatar_kind, a.form_id AS avatar_form_id
+  FROM users u LEFT JOIN avatars a ON a.id = u.avatar_id WHERE u.id = ?`;
+const ME_TABLES = ['users', 'avatars'];
+/* eslint-enable lingui/no-unlocalized-strings */
+
+interface MeRow {
+  readonly display_name: string | null;
+  readonly avatar_kind: string | null;
+  readonly avatar_form_id: string | null;
+}
+
 const LIVE = new Set(['accruing', 'ready', 'draining']);
 
 export function PassScreen({ now = () => new Date() }: { readonly now?: () => Date }) {
   const data = useDexRows();
+  const uid = useOwnerUid();
+  const me = useLiveRows<MeRow>(ME_SQL, uid === null ? null : [uid], ME_TABLES).rows[0];
+  // The way to the profile (and from there Settings) for someone with no crew yet: Home shows its
+  // "HEY {NAME}" header only once there is one.
+  const profileHref = useScreenHref(PROFILE_SCREEN);
   const [filter, setFilter] = useState<DexFilter>('all');
   const [query, setQuery] = useState('');
   const hatch = useCommand(hatchEggCommand);
@@ -66,6 +87,18 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
       onOpenSet={(id) => router.push(setRoute(id))}
       onOpenCritter={(id) => router.push(critterRoute(id))}
       onOpenLegendaries={() => router.push(LEGENDARIES_ROUTE)}
+      profile={
+        profileHref === undefined || me === undefined
+          ? undefined
+          : {
+              name: me.display_name?.trim() ?? '',
+              guide:
+                me.avatar_kind === 'critter' && me.avatar_form_id !== null
+                  ? guideOfForm(me.avatar_form_id)
+                  : null,
+              onOpen: () => router.push(profileHref),
+            }
+      }
       encounter={
         live && encounterId !== null
           ? {
