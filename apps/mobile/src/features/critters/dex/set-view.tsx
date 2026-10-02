@@ -4,6 +4,7 @@
  * the four corner dots are its forms, lit in their tier colour. Found cells open the critter.
  */
 import { upper } from '@cp/i18n';
+import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -19,6 +20,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { unknownName } from '../critters-copy';
 import { CellArt } from './cell-art';
+import { gridTileWidth } from './grid';
 import { backToDex, homeSetEyebrow, lockedCell, pendingLabel } from './dex-copy';
 import type { CritterCell, SetModel } from './dex-model';
 
@@ -28,7 +30,6 @@ const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, gap: th.space['14'] },
   segment: { flex: 1, height: th.space['6'], borderRadius: th.space['4'] },
   cell: {
-    width: '31%',
     alignItems: 'center',
     gap: th.space['4'],
     padding: th.space['10'],
@@ -39,7 +40,15 @@ const useStyles = makeStyles((th) => ({
   dot: { width: th.space['6'], height: th.space['6'], borderRadius: th.space['4'] },
 }));
 
-function Cell({ cell, onOpen }: { readonly cell: CritterCell; readonly onOpen: () => void }) {
+function Cell({
+  cell,
+  width,
+  onOpen,
+}: {
+  readonly cell: CritterCell;
+  readonly width: number;
+  readonly onOpen: () => void;
+}) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
@@ -50,7 +59,7 @@ function Cell({ cell, onOpen }: { readonly cell: CritterCell; readonly onOpen: (
       accessibilityRole={cell.found ? 'button' : 'image'}
       accessibilityLabel={label}
       {...(cell.found ? { onPress: onOpen } : {})}
-      style={styles.cell}
+      style={[styles.cell, width > 0 ? { width } : { opacity: 0 }]}
       testID={`critters-set-cell-${cell.no}`}
     >
       <View style={[styles.dots, { gap: theme.space['2'] }]}>
@@ -98,6 +107,9 @@ export function SetView({ set, onOpenCritter }: SetViewProps) {
   const theme = useTheme();
   const locale = useLocale();
   const inset = useTabBarInset();
+  // Measured, not a percentage (see grid.ts); the tiles wait for the width in their first frame.
+  const [gridWidth, setGridWidth] = useState(0);
+  const gridGap = theme.space['10'];
   return (
     <Scaffold variant="dark" edges={['top']} testID="critters-set">
       <ScrollView
@@ -150,9 +162,20 @@ export function SetView({ set, onOpenCritter }: SetViewProps) {
                   />
                 ))}
               </Row>
-              <Row gap="8" wrap justify="flex-start" style={{ columnGap: '3.5%' }}>
+              <Row
+                gap="8"
+                wrap
+                justify="flex-start"
+                style={{ columnGap: gridGap }}
+                onLayout={(event) => setGridWidth(event.nativeEvent.layout.width)}
+              >
                 {set.cells.map((cell) => (
-                  <Cell key={cell.id} cell={cell} onOpen={() => onOpenCritter(cell.id)} />
+                  <Cell
+                    key={cell.id}
+                    cell={cell}
+                    width={gridTileWidth(gridWidth, gridGap)}
+                    onOpen={() => onOpenCritter(cell.id)}
+                  />
                 ))}
               </Row>
             </>
