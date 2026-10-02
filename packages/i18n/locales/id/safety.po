@@ -6,3 +6,564 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: id\n"
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.phraseGloss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.active"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.eta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
+msgid "safety.help.whereUnknown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.onIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.away"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.distance"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepSent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.open24"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.safeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.theyAreSafe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.safe"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-screen.tsx
+msgid "safety.sos.knows"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.live"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepLive"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.going"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.goingEta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.arrived"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.extend"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.words"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.desk.consequence"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
+msgid "safety.action.addPolicy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/commands.ts
+msgid "safety.queued.respond"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
+msgid "safety.action.askDesk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.desk.confirm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
+msgid "safety.action.guide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/commands.ts
+msgid "safety.queued.clinic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.call"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
+msgid "safety.action.call"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.callGeneral"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.callName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.insurance"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.help.calling"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.deniedLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/show-it.tsx
+msgid "safety.showIt.close"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.seen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
+msgid "safety.help.sharing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.help.disclaimer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+msgid "safety.consent.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.limitedLabel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.falseAlarm"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.freezeCards"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
+msgid "safety.action.ride"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.rideQuote"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+#: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
+msgid "safety.help.go"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.facilityMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.facility"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.goingDone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.back.help"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.hurt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.preset.fell"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.coming"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.imGoing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.preset.lost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.imLost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.imOk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.call"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.embassyPhone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.embassy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepInsurance"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepInsuranceSent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.help.insurer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
+msgid "safety.pending.sentLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
+msgid "safety.pending.openLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+msgid "safety.consent.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.limited"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.lostStolen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/commands.ts
+msgid "safety.queued.message"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.missedRide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
+msgid "safety.help.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.preset.ride"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.needsHelp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.noFacility"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.noInsurance"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.noAnswer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.youAlone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.nobody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepSentNobody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
+msgid "safety.pending.openTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+msgid "safety.desk.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepClinic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.walkBack"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.policeNumber"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.police"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.seeOnMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.againTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.sendNow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.action"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.countdown"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepSending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-pending.tsx
+msgid "safety.pending.sentTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.settings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
+msgid "safety.action.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.start"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.denied"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+msgid "safety.consent.toggle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+msgid "safety.consent.toggleCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.sharePin"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.override"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/commands.ts
+msgid "safety.queued.extendShare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/commands.ts
+msgid "safety.queued.startShare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
+msgid "safety.action.showIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.showIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.phrase"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.slide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.at"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.sentAt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-view.tsx
+msgid "safety.help.sos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/commands.ts
+msgid "safety.queued.sos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.sms.bodyWhere"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.sms.body"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.starting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.stayPut"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.stop"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/commands.ts
+msgid "safety.queued.stopShare"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/commands.ts
+msgid "safety.queued.resolve"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.youSafeTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.straight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.opsClinic"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/consent-sheet.tsx
+msgid "safety.consent.control"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.ended"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.until"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.directions"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
+msgid "safety.help.where"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/share-controls.tsx
+msgid "safety.share.activeCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.youTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/help-screen.tsx
+msgid "safety.share.overrideLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
+msgid "safety.step.driverMessage"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepLiveYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.staleQuestion"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.send.againLine"
+msgstr ""

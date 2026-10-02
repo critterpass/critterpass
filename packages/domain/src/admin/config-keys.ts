@@ -177,6 +177,14 @@ export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
     description:
       'Phones send their position once a minute on the way to a plan item to spot running late; off sends nothing',
   },
+  'safety.ops_desk': {
+    group: 'limits',
+    schema: z.boolean(),
+    isPublic: true,
+    critical: false,
+    description:
+      'A person staffs the ops desk: Help offers "the ops desk can call the clinic with you" and an SOS shows the desk call; off offers neither',
+  },
   'critters.live_camera': {
     group: 'limits',
     schema: z.boolean(),

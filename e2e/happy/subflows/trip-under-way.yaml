@@ -6,7 +6,7 @@ appId: app.critterpass.dev
 # one must-do, has the guide draft it, and with nobody to send it to locks the plan in alone. It
 # ends on the screen the lock leaves the traveller on. ${SHOTS} prefixes the screenshots;
 # ${START_OFFSET_DAYS} (optional) starts the trip that many days from today instead, and
-# ${CREW_NAME} (optional) names the crew.
+# ${CREW_NAME} (optional) names the crew. The crew's join code is left in ${output.crewCode}.
 - runFlow:
     file: fresh-account.yaml
     env:
@@ -30,6 +30,11 @@ appId: app.critterpass.dev
     visible:
       id: 'start-crew-done'
     timeout: 30000
+# The crew's join code, for flows that bring a second account onto the trip (iOS copies the spoken
+# label, "Crew code E 2 X …": the code is its last six characters).
+- copyTextFrom:
+    id: 'start-crew-code'
+- evalScript: ${output.crewCode = maestro.copiedText.replace(/[^A-Z0-9]/g, '').slice(-6)}
 - tapOn:
     id: 'start-crew-done'
 - extendedWaitUntil:
