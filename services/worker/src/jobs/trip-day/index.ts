@@ -15,6 +15,7 @@ import { tripDayEventHook } from './hooks';
 import { leaveByRecomputeJob } from './leaveby-recompute';
 import { leaveByScheduleJob } from './leaveby-schedule';
 import { registerTripDayNotifications } from './notify';
+import { mapboxPickupGeocoder, type PickupGeocoder } from './pickup-placing';
 import { mapboxLeaveByRouter, straightLineLeaveByRouter } from './route-eta';
 
 export { tripDayEventHook } from './hooks';
@@ -31,6 +32,13 @@ export function leaveByRouterFrom(env: TripDayJobsEnv): RouteEtaProvider {
   const token = env.MAPBOX_TOKEN;
   if (token === undefined || token.length === 0) return straightLineLeaveByRouter;
   return mapboxLeaveByRouter({ accessToken: token });
+}
+
+/** Places transfer pickups on Mapbox addresses when `MAPBOX_TOKEN` is set; own places only otherwise. */
+export function pickupGeocoderFrom(env: TripDayJobsEnv): PickupGeocoder | undefined {
+  const token = env.MAPBOX_TOKEN;
+  if (token === undefined || token.length === 0) return undefined;
+  return mapboxPickupGeocoder({ accessToken: token });
 }
 
 let registered = false;
@@ -64,7 +72,7 @@ export function tripDayJobs(
   }
   const router = leaveByRouterFrom(env);
   return [
-    leaveByRecomputeJob(router),
+    leaveByRecomputeJob(router, pickupGeocoderFrom(env)),
     leaveByScheduleJob(router),
     briefingJob(briefingWriter(env, switches.assertAiRoute, telemetry)),
     dayBundleJob(),

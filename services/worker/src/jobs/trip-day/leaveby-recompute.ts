@@ -4,7 +4,7 @@
  * upcoming item on the trip's current plan that needs a leave-by (an early start, a transfer or
  * flight, or a long trip there) gets one, computed from the route (Mapbox traffic when configured,
  * flagged as an estimate otherwise), its pickup when a transfer booking collects the crew, and its
- * buffer. A leave-by that moved re-arms its timers and tells the crew once; one that no longer has
+ * buffer. A transfer booked without a place routes to its booking's placed pickup point. A leave-by that moved re-arms its timers and tells the crew once; one that no longer has
  * an item is cancelled. Running it again with nothing changed changes nothing.
  */
 import { appendDomainEvent, cancelScheduledEvent, outbox, scheduleEvent, withSystem } from '@cp/db';
@@ -32,6 +32,7 @@ import { defineJob, type JobDefinition } from '../../boss';
 import { armTripBriefings } from './briefing-schedule';
 import { armDayBundles } from './daybundle-triggers';
 import { travelFor } from './leave-by-travel';
+import { withPickupPlaces, type PickupGeocoder } from './pickup-placing';
 import { loadPlanItems, type PlanItemRow } from './plan-items';
 
 interface ExistingLeaveBy {
@@ -202,8 +203,11 @@ export async function recomputeLeaveBys(
   tripId: string,
   router: RouteEtaProvider,
   now: Date = new Date(),
+  geocoder?: PickupGeocoder,
 ): Promise<RecomputeResult> {
-  const items = await withSystem(pool, (tx) => loadPlanItems(tx, tripId, now));
+  const loaded = await withSystem(pool, (tx) => loadPlanItems(tx, tripId, now));
+  // A transfer booked by hand routes to its booking's pickup, placed once per pickup text.
+  const items = await withPickupPlaces(pool, tripId, loaded, geocoder);
   // Routing runs outside any transaction; storing is one short transaction.
   const eligible: { item: PlanItemRow; leg: LeaveByLeg }[] = [];
   for (const item of items) {
@@ -268,8 +272,9 @@ export async function refreshTripDay(
   tripId: string,
   router: RouteEtaProvider,
   now: Date = new Date(),
+  geocoder?: PickupGeocoder,
 ): Promise<TripDayRefresh> {
-  const result = await recomputeLeaveBys(pool, tripId, router, now);
+  const result = await recomputeLeaveBys(pool, tripId, router, now, geocoder);
   const armed = await withSystem(pool, async (tx) => ({
     briefings: await armTripBriefings(tx, tripId, now),
     bundles: await armDayBundles(tx, tripId, now),
@@ -277,13 +282,16 @@ export async function refreshTripDay(
   return { ...result, ...armed };
 }
 
-export function leaveByRecomputeJob(router: RouteEtaProvider): JobDefinition<LeaveByRecomputeJob> {
+export function leaveByRecomputeJob(
+  router: RouteEtaProvider,
+  geocoder?: PickupGeocoder,
+): JobDefinition<LeaveByRecomputeJob> {
   return defineJob({
     queue: TRIP_DAY_QUEUES.leaveByRecompute,
     schema: leaveByRecomputeJobSchema,
     singletonKey: (data: LeaveByRecomputeJob) => data.trip_id,
     handler: async (data, ctx) => ({
-      ...(await refreshTripDay(ctx.pool, data.trip_id, router)),
+      ...(await refreshTripDay(ctx.pool, data.trip_id, router, new Date(), geocoder)),
     }),
   });
 }

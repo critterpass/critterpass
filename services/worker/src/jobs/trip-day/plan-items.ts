@@ -1,7 +1,8 @@
 /**
  * The upcoming items on a trip's current plan, as the leave-by engine needs them: when and where,
  * who they are for, where the crew sets off from (the last placed stop in the 18 hours before) and
- * the pickup when a linked booking collects the crew before the item starts.
+ * the pickup when a linked booking collects the crew before the item starts, and for a transfer
+ * booking's own item, the booking's pickup text and placed pickup point.
  */
 import type pg from 'pg';
 
@@ -24,6 +25,12 @@ export interface PlanItemRow {
   readonly pickup_at: Date | null;
   readonly pickup_place: string | null;
   readonly booking_id: string | null;
+  /** The transfer booking the item itself is, whose pickup can stand in for a missing place. */
+  readonly transfer: {
+    readonly booking_id: string;
+    readonly location: string | null;
+    readonly details: Record<string, unknown> | null;
+  } | null;
   readonly participant_ids: string[];
 }
 
@@ -40,6 +47,11 @@ export async function loadPlanItems(
      ),
      items AS (
        SELECT i.id, i.stable_id, i.starts_at, coalesce(i.tz, trip.tz) AS tz, i.category, i.notes,
+              (SELECT json_build_object('booking_id', ob.id, 'location', ob.location,
+                                        'details', ob.details)
+                 FROM bookings ob
+                WHERE ob.id = i.booking_id AND ob.type = 'transfer' AND ob.deleted_at IS NULL)
+                AS transfer,
               i.attendee_ids, i.booking_id, p.name AS place_name, p.name_local AS place_name_local,
               p.category AS place_category, p.lat, p.lng
          FROM plan_items i
@@ -53,7 +65,7 @@ export async function loadPlanItems(
      )
      SELECT it.id, it.stable_id, it.starts_at, it.tz, it.category,
             left(coalesce(it.place_name, it.notes, initcap(it.category), ''), 120) AS title,
-            it.place_name, it.place_name_local, it.place_category, it.lat, it.lng,
+            it.place_name, it.place_name_local, it.place_category, it.lat, it.lng, it.transfer,
             (SELECT json_build_object('lat', o.lat, 'lng', o.lng) FROM items o
               WHERE o.lat IS NOT NULL AND o.id <> it.id AND o.starts_at < it.starts_at
                 AND o.starts_at > it.starts_at - interval '18 hours'
