@@ -10,10 +10,15 @@ import { userTurnWithData, wrapUntrusted } from '../../context/wrap-untrusted';
 import { renderPersonaBlock } from '../../persona/layering';
 import { REPO_PACKS } from '../../persona/loader';
 import { translateLanguageName } from '../translate/prompt';
-import { MAX_SLIDES, VERSION_FORMAT, type VersionContext } from './version.schema';
+import {
+  MAX_SLIDES,
+  REASON_LABEL_MAX,
+  VERSION_FORMAT,
+  type VersionContext,
+} from './version.schema';
 
 export const VERSION_ROUTE = 'proposal.personal' as const;
-export const VERSION_PROMPT_VERSION = 'proposal-version@1';
+export const VERSION_PROMPT_VERSION = 'proposal-version@2';
 
 const TASK = [
   '# Task',
@@ -24,7 +29,11 @@ const TASK = [
   '  under 150 characters. Tie a slide to a plan item by its `id` when it is about one.',
   '- Lead with the item this person will love most (`lead_item_id`): their must-dos first, then',
   '  what matches their taste tags.',
-  '- `highlights`: up to 5 picks by item id, each with the reason tag that is true for them.',
+  '- `highlights`: up to 5 picks by item id, each with the reason tag that is true for them and',
+  `  a \`reason_label\`: the card's tag for this pick, at most ${REASON_LABEL_MAX} characters, in`,
+  '  capitals, about why it suits this person in particular ("YOU PICKED STREET FOOD",',
+  '  "SUNRISE CHASER", "EASY-ISH PACE"). No numbers, no names. Use `only_here` only for a stop',
+  '  that exists nowhere else.',
   '- `savings`: the saving options by id that suit them; never invent one.',
   '- Every number you write (money, dates, days, counts) must appear in the data exactly as given.',
   '  Never count or work anything out (no number of nights or days). If the data has no share,',
@@ -46,6 +55,7 @@ export const READER_LANGUAGE_RULES = [
   '  the destination stay as the data gives them.',
   '- Write no number of your own in any form: no count of days, nights, stops or people.',
   '- The length limits count characters in the reply language too: keep every line short.',
+  '- Each `reason_label` is in the reply language as well.',
   '- A local word needs no gloss or bracket when you write in the language it comes from.',
   '- In any language: never say a room or a stay is held, reserved or booked.',
 ].join('\n');

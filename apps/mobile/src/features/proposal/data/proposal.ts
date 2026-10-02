@@ -38,6 +38,8 @@ export interface Slide {
 export interface Highlight {
   readonly item_id: string;
   readonly reason_tag: string;
+  /** The guide's own tag for this pick, in the reader's language; older versions have none. */
+  readonly reason_label?: string;
 }
 
 export interface ProposalVersion {
