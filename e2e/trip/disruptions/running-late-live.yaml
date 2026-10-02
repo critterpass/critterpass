@@ -86,6 +86,7 @@ appId: app.critterpass.dev
     var current = h * 60 + Number(m[2]);
     var now = Math.floor((Date.now() / 60000 + 7 * 60) % 1440);
     var target = Math.ceil((now + 25) / 15) * 15;
+    output.target = target;
     output.later = Math.max(0, (target - current) / 15);
     output.earlier = Math.max(0, (current - target) / 15)}
 - repeat:
@@ -205,13 +206,15 @@ appId: app.critterpass.dev
       id: 'home-in-trip'
     timeout: 20000
 
-# Stay in Tam Kỳ with fresh fixes until the guide's push arrives (the leave-by falls due within
-# about half an hour; two late checks a minute apart open the disruption).
+# Stay in Tam Kỳ with fresh fixes until the guide's push arrives. The leave-by falls due some time
+# before the moved item's start (its travel leg decides how long), up to about half an hour after
+# the move; two late checks a minute apart then open the disruption. So the wait runs by the clock,
+# until five minutes past the item's start in Vietnam, not by a count of rounds.
 - evalScript: ${output.found = false}
 - repeat:
-    times: 40
+    times: 400
     while:
-      true: ${!output.found}
+      true: ${!output.found && Math.floor((Date.now() / 60000 + 7 * 60) % 1440) < output.target + 5}
     commands:
       - travel:
           points:
