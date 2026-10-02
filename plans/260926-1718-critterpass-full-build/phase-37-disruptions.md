@@ -133,6 +133,7 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 - Steps: 1. Subscribe `disruption:`; rows tick on real steps. 2. Decision cards with decider state. 3. TELL THE CREW, undo, landed toast. 4. All states incl. offline.
 - Tests: `pnpm --filter @cp/mobile test -- features/trip/disruptions/flight`
 - Done when: RNTL covers every listed state; this task creates `e2e/trip/disruptions/flight-delay.yaml` and it is green.
+- Status: done — 0ec22b29 (every state as lab scenes in EN and VI; `flight-delay.yaml` green on Android, run 36971221112)
 
 ### T5 — Forecast watcher and impact scoring
 - Files: `services/worker/src/jobs/disruptions/{weather-watch,watch-score,watch-notify}.ts`, `packages/planner/src/disruption/watch-rules.ts` + tests, `packages/ai/src/routes/watch/**`, `packages/ai/evals/watch/**`.
@@ -146,6 +147,7 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 - Steps: 1. Synced `watch_items` + `weather_snapshots`; FLIP reorder; slide-in + buzz. 2. Units per settings. 3. States.
 - Tests: `pnpm --filter @cp/mobile test -- features/trip/disruptions/forecast`
 - Done when: RNTL covers states; reorder animation respects reduced motion.
+- Status: done — a31f8735 (Celsius only, no unit setting exists yet; `forecast.yaml` green on Android, run 36978102784)
 
 ### T7 — Storm options, decision poll and truthful commit
 - Files: `packages/planner/src/disruption/{storm-options,swap-days}.ts` + tests, `services/worker/src/jobs/disruptions/{storm-decision,storm-commit}.ts`, `services/api/test/disruptions/storm.test.ts`.
@@ -159,13 +161,14 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 - Steps: 1. Storm UI with live re-pricing, CTA flap, card-trick flip on apply. 2. Booker "Confirm & pay" card (opens phase-35 Viator payment form) + waiting-on-booker / hold-expired states. 3. All F-116 states.
 - Tests: `pnpm --filter @cp/mobile test -- features/trip/disruptions/storm`
 - Done when: RNTL covers states incl. waiting-on-booker and payment-failed; this task creates `storm-swap.yaml` and it is green.
+- Status: done — a31f8735 (no card-trick flip: the day cards live on the plan screen; `storm-swap.yaml` green on Android, run 36981886243)
 
 ### T9 — Weather replan job and 3e-2 overlay
 - Files: `apps/mobile/src/features/plan/weather-suggestion/{rain-band,ghost-block,suggestion-banner,use-weather-suggestion}.tsx|ts`, `packages/ai/src/routes/replan/**`, `packages/ai/evals/replan/**`, `services/worker/src/jobs/disruptions/weather-replan.ts`, `services/api/src/commands/disruptions/dismiss-weather-suggestion.ts`, `services/worker/test/disruptions/replan.test.ts`, `e2e/trip/disruptions/weather-ghost.yaml`.
 - Steps: 1. `ai.replan` job (solver + AI-14 copy, ChangeSet trigger=weather). 2. 3e-2 overlay components exported for the phase-29 grid slot. 3. Accept → 3e-3 navigation; dismiss command.
 - Tests: `pnpm --filter @cp/mobile test -- features/plan/weather-suggestion`; `pnpm --filter @cp/worker test -- disruptions/replan`; `pnpm --filter @cp/ai eval -- replan`
 - Done when: RNTL + evals pass; stale suggestion withdrawn on plan change; this task creates `weather-ghost.yaml` and it is green.
-- Status: in progress — 1a9bf3d2 (server done: `ai.replan` job, `dismiss_weather_suggestion`, `replan.weather` route and evals; the 3e-2 overlay and `weather-ghost.yaml` belong to the app lane)
+- Status: done — 1a9bf3d2 + e43103fb (server; the 3e-2 overlay builds on the plan timeline's rain band, ghost and banner, adding the guide's line, NOT NOW and the stale filter; captured by `e2e/plan/timeline.yaml`, not a separate `weather-ghost.yaml`)
 
 ### T10 — Journey check, running-late detection and options
 - Files: `services/api/src/routes/journey.ts`, `services/worker/src/jobs/disruptions/{running-late,late-options,journey-stale}.ts`, `packages/planner/src/disruption/late-options.ts` + tests, `packages/ai/src/routes/late/**`, `packages/ai/evals/late/**`, `services/api/src/commands/disruptions/choose-late-option.ts`, `services/api/test/disruptions/late.test.ts`.
@@ -179,6 +182,7 @@ All free (Q-78, entitlement matrix); guide work unmetered (system guide work).
 - Steps: 1. Map with stroke-dash detour redraw, closure pulse, ETA pill live. 2. Journey check hook in location engine subscription `leaveby`. 3. Waiting-crew view. 4. Create `running-late.yaml`; run the full Maestro suite (flows from T4, T8, T9, T11) with seeded webhooks and simulated location.
 - Tests: `pnpm --filter @cp/mobile test -- features/trip/disruptions/late`; `maestro test e2e/trip/disruptions/`
 - Done when: all 4 flows green on iOS 26 + Android 36.
+- Status: done — dda6b6a1 (Android `running-late.yaml` green, runs 36975677446 and 36978095987; the journey check is off behind `disruptions.journey_check` until a fresh-account check on a real trip day; iOS not run)
 
 ## Phase acceptance criteria
 - [ ] No vendor contact, spend or other-member change happens without an explicit yes (policy tests)

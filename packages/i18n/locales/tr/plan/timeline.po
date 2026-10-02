@@ -51,6 +51,14 @@ msgstr ""
 msgid "plan.timeline.a11y.lane"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/timeline/weather-suggestion-data.ts
+msgid "plan.timeline.queued.dismiss"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/timeline/guide-banner.tsx
+msgid "plan.timeline.notNow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
 msgid "plan.timeline.overlap"
 msgstr ""

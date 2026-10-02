@@ -3,53 +3,14 @@ appId: app.critterpass.dev
 # From the dates step to DRAFT MY TRIP: the week, the budget skipped, the rooms (a stay picked and
 # its rooms locked, or the even split), one must-do, and DRAFT MY TRIP. When a crewmate's calendar
 # already offers a window, a week three weeks out is picked instead (the offered one may already be
-# under way, leaving no time to answer a proposal); otherwise a week is marked free by hand.
+# under way, leaving no time to answer a proposal); otherwise the organiser marks days free by hand
+# first, then picks the same week.
 - runFlow:
     when:
       visible:
         id: 'when-cta'
     commands:
-      - tapOn:
-          id: 'when-pick-week'
-      - extendedWaitUntil:
-          visible:
-            id: 'picker-shorter'
-          timeout: 10000
-      - waitForAnimationToEnd
-      # The first day: a day in the second week of next month. On Android the sheet's cells
-      # carry no id or label of their own (only the screen under it does), so the month arrow and
-      # the cell are tapped where the sheet draws them; iOS finds the sheet's cell by its label.
-      - runFlow:
-          when:
-            platform: Android
-          commands:
-            - tapOn:
-                point: 74%, 37%
-            - waitForAnimationToEnd
-            - tapOn:
-                point: 50%, 53%
-      - runFlow:
-          when:
-            platform: iOS
-          commands:
-            - evalScript: ${var d = new Date(Date.now() + 21 * 86400000); output.pickLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'}
-            - tapOn:
-                text: ${output.pickLabel}
-                index: 1
-                optional: true
-            - runFlow:
-                when:
-                  notVisible:
-                    id: 'picker-lock'
-                commands:
-                  - tapOn:
-                      text: ${output.pickLabel}
-      - extendedWaitUntil:
-          visible:
-            id: 'picker-lock'
-          timeout: 10000
-      - tapOn:
-          id: 'picker-lock'
+      - runFlow: pick-week-three-out.yaml
       - extendedWaitUntil:
           visible:
             id: 'budget-lock'
@@ -126,34 +87,29 @@ appId: app.critterpass.dev
           timeout: 60000
       - assertNotVisible:
           text: '(?i)nobody has shared their days yet.*'
-      - runFlow:
-          when:
-            visible:
-              id: 'when-cta'
-          commands:
-            - tapOn:
-                id: 'when-cta'
-      - runFlow:
-          when:
-            visible:
-              id: 'when-pick-week'
-          commands:
-            - tapOn:
-                id: 'when-pick-week'
-            - extendedWaitUntil:
-                visible:
-                  id: 'picker-lock'
-                timeout: 10000
-            - tapOn:
-                id: 'picker-lock'
+      # The best window offered may already be under way: the week is picked by hand instead.
+      - runFlow: pick-week-three-out.yaml
 - extendedWaitUntil:
     visible:
       id: 'budget-lock'
     timeout: 30000
-# The budget is skipped here: nobody else has set a max yet, and skipping is a real path for the
-# organiser. Locking it has its own gate flow (e2e/happy/fresh-setup-vnd.yaml).
-- tapOn:
-    id: 'budget-skip'
+# A crew of one may skip the budget; a crew with others is offered only LOOKS GOOD, which locks the
+# sweet spot the step suggests. Setting a max has its own gate flow (e2e/happy/fresh-setup-vnd.yaml).
+# The lock is checked first, so whichever applies runs once.
+- runFlow:
+    when:
+      notVisible:
+        id: 'budget-skip'
+    commands:
+      - tapOn:
+          id: 'budget-lock'
+- runFlow:
+    when:
+      visible:
+        id: 'budget-skip'
+    commands:
+      - tapOn:
+          id: 'budget-skip'
 # Rooms. A crew that shares rooms picks the first stay and waits for the rooms the guide splits.
 # A crew of one, or a place with no stay prices, has no rooms to split: the step says the stay
 # splits evenly and LOOKS GOOD accepts that, with no stay picked. If the rooms never show for a

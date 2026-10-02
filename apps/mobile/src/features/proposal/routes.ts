@@ -18,6 +18,11 @@ export const proposalRoutes = {
     params:
       options.length === 0 ? { id: proposalId } : { id: proposalId, options: options.join(',') },
   }),
+  /** The pass opened on "Tell the crew you can't make it?", for a member who already said IN. */
+  decline: (proposalId: string): Href => ({
+    pathname: '/proposal/[id]/board',
+    params: { id: proposalId, decline: '1' },
+  }),
   trailer: (proposalId: string): Href => ({
     pathname: '/proposal/[id]/trailer',
     params: { id: proposalId },

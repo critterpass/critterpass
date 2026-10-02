@@ -5,7 +5,7 @@
  * the same moves as actions: 15 minutes earlier or later, extend or shorten by 15, next lane.
  */
 import { t } from '@lingui/core/macro';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { AccessibilityActionEvent } from 'react-native';
 import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
@@ -34,6 +34,10 @@ const SOFT = isPhysicalSpring(tokens.motion.spring.soft)
 /** Blocks shorter than this show the title only. */
 const META_MIN_HEIGHT = 40;
 const HANDLE_HEIGHT = 12;
+/** The frame's and the face's vertical padding (theme space 2 and 8; 4 when tightened). */
+const FRAME_PAD = 2;
+const FACE_PAD = 8;
+const FACE_PAD_TIGHT = 4;
 
 export interface TimelineBlockModel {
   readonly id: string;
@@ -219,7 +223,15 @@ export function TimelineBlock({
         break;
     }
   };
-  const showMeta = frame.height >= META_MIN_HEIGHT && block.meta !== '';
+  // The words must fit the block at its height. When a language's lines run taller (stacked
+  // marks) the face first tightens its padding; only if the meta line still would be cut is it
+  // left out, never drawn in half.
+  const [fit, setFit] = useState<{ key: string; step: 1 | 2 } | null>(null);
+  const fitKey = `${frame.height}|${block.meta}|${block.title}`;
+  const step = fit?.key === fitKey ? fit.step : 0;
+  const showMeta = frame.height >= META_MIN_HEIGHT && block.meta !== '' && step < 2;
+  const padding = step === 0 ? FACE_PAD : FACE_PAD_TIGHT;
+  const inner = frame.height - FRAME_PAD * 2 - padding * 2;
   return (
     <GestureDetector gesture={gestures.drag}>
       <Animated.View
@@ -236,28 +248,37 @@ export function TimelineBlock({
           <View
             style={[
               styles.face,
+              { paddingVertical: padding },
               struck ? styles.struck : { backgroundColor: block.color },
               block.pending && !struck ? styles.pending : null,
             ]}
           >
-            <Text
-              variant="title"
-              color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
-              style={struck ? styles.strike : null}
-              numberOfLines={1}
+            <View
+              onLayout={(event) => {
+                if (showMeta && event.nativeEvent.layout.height > inner + 0.5) {
+                  setFit({ key: fitKey, step: step === 0 ? 1 : 2 });
+                }
+              }}
             >
-              {upper(block.title, locale)}
-            </Text>
-            {showMeta ? (
               <Text
-                variant="bodySm"
+                variant="title"
                 color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
                 style={struck ? styles.strike : null}
                 numberOfLines={1}
               >
-                {block.meta}
+                {upper(block.title, locale)}
               </Text>
-            ) : null}
+              {showMeta ? (
+                <Text
+                  variant="bodySm"
+                  color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
+                  style={struck ? styles.strike : null}
+                  numberOfLines={1}
+                >
+                  {block.meta}
+                </Text>
+              ) : null}
+            </View>
           </View>
         </GestureDetector>
         {editable && !block.fixed ? (

@@ -11,6 +11,10 @@ msgstr ""
 msgid "trip.disruptions.flight.affected"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.picks"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.delayHours"
 msgstr ""
@@ -47,12 +51,28 @@ msgstr ""
 msgid "trip.disruptions.late.vendor.agreed"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.backEach"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.moreEach"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.retime"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.skip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.detail.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.swap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
@@ -79,6 +99,10 @@ msgstr ""
 msgid "trip.disruptions.flight.row.vendorDeclined"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.tally.some"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.waitingTitle"
 msgstr ""
@@ -93,6 +117,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.briefing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.chip.volcano"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.allClear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.missingTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
@@ -131,6 +167,10 @@ msgstr ""
 msgid "trip.disruptions.late.vendor.asked"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.backAction"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.backAction"
 msgstr ""
@@ -143,12 +183,44 @@ msgstr ""
 msgid "trip.disruptions.flight.undone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.cancelFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.moved"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.option.car"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.cancelMine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.cancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.partner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.checked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.checking"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.confirmPay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.pay"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
@@ -175,6 +247,22 @@ msgstr ""
 msgid "trip.disruptions.flight.row.liveActivity"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.status.go"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.stale"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.option.keep"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.keep"
 msgstr ""
@@ -185,6 +273,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.landed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.lastChecked"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
@@ -211,8 +303,28 @@ msgstr ""
 msgid "trip.disruptions.flight.row.vendorNoAnswer"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.noFee"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.noForecast"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.noHours"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.offlineMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.tally.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.missing"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
@@ -223,8 +335,20 @@ msgstr ""
 msgid "trip.disruptions.flight.missing"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.titleBottom"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.working"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.cta.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.pickOne"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
@@ -233,6 +357,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.pickup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.status.planB"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
@@ -247,20 +375,52 @@ msgstr ""
 msgid "trip.disruptions.late.cta.push"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.rain"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.chip.rain"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.rebook"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.refundUnknown"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.notConfirmed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.chosen"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.status.set"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.option.skip"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.option.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.option.swap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.cta.swap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
@@ -271,8 +431,40 @@ msgstr ""
 msgid "trip.disruptions.flight.tellCrew"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.rebook"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.partner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.decided.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.decided.swap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.withdrawn"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.detail.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.decided.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.titleTop"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
@@ -303,6 +495,18 @@ msgstr ""
 msgid "trip.disruptions.queued.undo"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.closes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.cancelWaiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.waiting"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.waitingOn"
 msgstr ""
@@ -311,14 +515,62 @@ msgstr ""
 msgid "trip.disruptions.late.option.walk"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.status.watching"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.chip.waves"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.guideLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.section"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/commands.ts
 msgid "trip.disruptions.queued.lateOption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.chip.wind"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.voted.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.voted.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.voted.swap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.notVoting"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.offline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.onTime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.vote"
 msgstr ""

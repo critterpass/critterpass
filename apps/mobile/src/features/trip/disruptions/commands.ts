@@ -5,7 +5,9 @@
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type {
   AnnounceDisruptionPayload,
+  CastBallotPayload,
   ChooseLateOptionPayload,
+  HoldStormSeatsPayload,
   DecideDisruptionActionPayload,
   UndoDisruptionActionPayload,
 } from '@cp/domain';
@@ -37,4 +39,17 @@ export const chooseLateOptionCommand = defineClientCommand<ChooseLateOptionPaylo
   offline: true,
   summarize: () =>
     msg({ id: 'trip.disruptions.queued.lateOption', message: 'What to do about running late' }),
+});
+
+/** Holding the new date needs the supplier's answer, so it is sent online only. */
+export const holdStormSeatsCommand = defineClientCommand<HoldStormSeatsPayload>({
+  name: 'hold_storm_seats',
+  offline: false,
+});
+
+/** A vote on the storm decision: the same `cast_ballot` as any poll. */
+export const castStormBallotCommand = defineClientCommand<CastBallotPayload>({
+  name: 'cast_ballot',
+  offline: true,
+  summarize: () => msg({ id: 'trip.disruptions.queued.vote', message: 'Your vote' }),
 });

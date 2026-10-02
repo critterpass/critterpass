@@ -11,6 +11,10 @@ msgstr ""
 msgid "trip.disruptions.flight.affected"
 msgstr "{count, plural, one {# affected} other {# affected}}"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.picks"
+msgstr "{guide} picks"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.delayHours"
 msgstr "{hours}h"
@@ -47,13 +51,29 @@ msgstr "{name} said no"
 msgid "trip.disruptions.late.vendor.agreed"
 msgstr "{name} said yes"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.backEach"
+msgstr "{sum} back each."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.moreEach"
+msgstr "{sum} more each."
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.retime"
 msgstr "{title} {from} → {to}"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.skip"
+msgstr "{title} comes off the plan."
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.detail.skip"
 msgstr "{title} goes on without you."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.swap"
+msgstr "{title} moves to {to}."
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.detail.push"
@@ -79,6 +99,10 @@ msgstr "{vendor} confirmed {to}"
 msgid "trip.disruptions.flight.row.vendorDeclined"
 msgstr "{vendor} said no"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.tally.some"
+msgstr "{voters, plural, one {{count} of # said {what}.} other {{count} of # said {what}.}}"
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.waitingTitle"
 msgstr "{who}: {minutes} min late"
@@ -94,6 +118,18 @@ msgstr "A note to the crew"
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.briefing"
 msgstr "Added to your briefing"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.chip.volcano"
+msgstr "Alert level {level}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.allClear"
+msgstr "All clear. Nothing on the plan is at risk."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.missingTitle"
+msgstr "All sorted"
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.missingTitle"
@@ -131,6 +167,10 @@ msgstr "Ask {vendor} for {to}?"
 msgid "trip.disruptions.late.vendor.asked"
 msgstr "Asked {name}"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.backAction"
+msgstr "Back"
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.backAction"
 msgstr "Back"
@@ -143,13 +183,45 @@ msgstr "Back"
 msgid "trip.disruptions.flight.undone"
 msgstr "Back to the plan from before the delay."
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.cancelFailed"
+msgstr "Booked for {date}. The old booking could not be cancelled yet; we are on it."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.moved"
+msgstr "Booked for {date}. The old booking is cancelled."
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.option.car"
 msgstr "Call a car"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.cancelMine"
+msgstr "Cancel the booking from your wallet."
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.cancelled"
 msgstr "Cancelled"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.partner"
+msgstr "Change the booking with the seller you bought it from."
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.checked"
+msgstr "Checked {time}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.checking"
+msgstr "Checking"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.confirmPay"
+msgstr "Confirm & pay"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.pay"
+msgstr "Confirm and pay for {date}. Your old booking is cancelled only after."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.missed"
@@ -175,6 +247,22 @@ msgstr "Fare and pickup time from Grab."
 msgid "trip.disruptions.flight.row.liveActivity"
 msgstr "Flight updated on your lock screen"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.back"
+msgstr "Forecast"
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.status.go"
+msgstr "Go"
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.stale"
+msgstr "I couldn't check in the last three hours. This is the last I saw."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.option.keep"
+msgstr "Keep {day}"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.keep"
 msgstr "Keep {from}"
@@ -186,6 +274,10 @@ msgstr "Keep the plan"
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.landed"
 msgstr "Landed. Everything here is settled."
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.lastChecked"
+msgstr "Last checked {time}"
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.etaStale"
@@ -211,9 +303,29 @@ msgstr "Needs a yes"
 msgid "trip.disruptions.flight.row.vendorNoAnswer"
 msgstr "No answer from {vendor}. Call them?"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.noFee"
+msgstr "No fee."
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.noForecast"
+msgstr "No forecast yet. It shows up about two weeks before each day."
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.noHours"
+msgstr "No hour-by-hour forecast for this day yet."
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.offlineMap"
 msgstr "No map offline. Your pick goes out when you're back."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.tally.none"
+msgstr "Nobody has voted yet."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.missing"
+msgstr "Nothing to decide here any more."
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.missing"
@@ -223,9 +335,21 @@ msgstr "Nothing to sort here any more."
 msgid "trip.disruptions.flight.missing"
 msgstr "Nothing to sort here any more."
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.titleBottom"
+msgstr "of the trip"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.working"
 msgstr "On its way"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.cta.none"
+msgstr "Pick one"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.pickOne"
+msgstr "Pick one"
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.cta.none"
@@ -234,6 +358,10 @@ msgstr "Pick one"
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.pickup"
 msgstr "Pickup {from} → {to}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.status.planB"
+msgstr "Plan B"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.toldCrew"
@@ -247,21 +375,53 @@ msgstr "Push the slot"
 msgid "trip.disruptions.late.cta.push"
 msgstr "Push to {to}"
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.rain"
+msgstr "Rain"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.chip.rain"
+msgstr "Rain {rain}%"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.rebook"
 msgstr "Rebook on {carrier}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.refundUnknown"
+msgstr "Refund depends on the booking policy."
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.title"
 msgstr "Running {minutes} min late"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.notConfirmed"
+msgstr "Seats for {date} weren't confirmed. The old booking is kept."
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.chosen"
 msgstr "Sent"
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.status.set"
+msgstr "Set"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.option.skip"
+msgstr "Skip {title}"
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.option.skip"
 msgstr "Skip it"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.option.swap"
+msgstr "Swap {from} and {to}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.cta.swap"
+msgstr "Swap the days"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.vendorCancel"
@@ -271,9 +431,41 @@ msgstr "Tell {vendor} the flight won't land today?"
 msgid "trip.disruptions.flight.tellCrew"
 msgstr "Tell the crew"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.rebook"
+msgstr "The booker confirms and pays the new date; the old booking is cancelled after."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.partner"
+msgstr "The booking is changed with the seller."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.decided.skip"
+msgstr "The crew skipped it."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.decided.swap"
+msgstr "The crew swapped the days."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.withdrawn"
+msgstr "The forecast improved. The plan stays as it was."
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.detail.split"
 msgstr "The others start at {from}. You slot in at {to}."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.decided.keep"
+msgstr "The plan stays as it was."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.detail.keep"
+msgstr "The plan stays. It may not run on the day."
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.titleTop"
+msgstr "The rest"
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.back"
@@ -303,6 +495,18 @@ msgstr "Undo everything"
 msgid "trip.disruptions.queued.undo"
 msgstr "Undoing the guide's changes"
 
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.closes"
+msgstr "Vote closes {time}."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.cancelWaiting"
+msgstr "Waiting on {booker} to cancel the booking."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.seat.waiting"
+msgstr "Waiting on {booker} to confirm and pay for {date}."
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.waitingOn"
 msgstr "Waiting on {list}"
@@ -311,14 +515,62 @@ msgstr "Waiting on {list}"
 msgid "trip.disruptions.late.option.walk"
 msgstr "Walk the last bit"
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.status.watching"
+msgstr "Watching"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.chip.waves"
+msgstr "Waves {waves}m"
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.guideLine"
+msgstr "Weather, the sea, crowds and the volcano. I check every three hours and only ping you when it changes the plan."
+
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.section"
+msgstr "What could change the plan"
+
 #: ../../apps/mobile/src/features/trip/disruptions/commands.ts
 msgid "trip.disruptions.queued.lateOption"
 msgstr "What to do about running late"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.chip.wind"
+msgstr "Wind {wind} km/h"
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.voted.keep"
+msgstr "You voted to keep it."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.voted.skip"
+msgstr "You voted to skip it."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.voted.swap"
+msgstr "You voted to swap."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.notVoting"
+msgstr "You're not on this one, so the others decide."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.offline"
 msgstr "You're offline. Answers go out when you're back."
 
+#: ../../apps/mobile/src/features/trip/disruptions/forecast/copy.ts
+msgid "trip.disruptions.forecast.offline"
+msgstr "You're offline. This is the last forecast on your phone."
+
+#: ../../apps/mobile/src/features/trip/disruptions/storm/copy.ts
+msgid "trip.disruptions.storm.offline"
+msgstr "You're offline. Your vote goes out when you're back."
+
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.onTime"
 msgstr "You're on time again."
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.vote"
+msgstr "Your vote"

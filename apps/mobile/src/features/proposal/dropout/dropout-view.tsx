@@ -7,16 +7,21 @@
 import { t } from '@lingui/core/macro';
 import { ScrollView, StyleSheet, View } from 'react-native';
 
+import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { Toggle } from '@/ui/inputs/Toggle';
 import { Avatar } from '@/ui/people/Avatar';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { FooterFade, FOOTER_FADE_PT } from '@/ui/surface/FooterFade';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { ChangeRow } from './model';
+
+/** The guide's silhouette beside the title, as the design draws it. */
+const SILHOUETTE_PT = 88;
 
 const useStyles = makeStyles((th) => ({
   header: {
@@ -44,6 +49,7 @@ const useStyles = makeStyles((th) => ({
   },
   reply: { flexDirection: 'row', gap: th.space['10'], alignItems: 'center' },
   grow: { flex: 1 },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: th.space['10'] },
   change: { gap: th.space['2'], paddingVertical: th.space['10'] },
   divided: {
     borderTopWidth: StyleSheet.hairlineWidth,
@@ -75,6 +81,7 @@ const useStyles = makeStyles((th) => ({
 export interface DropoutViewProps {
   readonly name: string;
   readonly joinIndex: number;
+  readonly guide: GuideStickerId;
   readonly guideName: string;
   readonly replyLine: string;
   readonly rows: readonly ChangeRow[];
@@ -91,6 +98,7 @@ export function DropoutView(props: DropoutViewProps) {
   const theme = useTheme();
   const ink = theme.semantic.text.onAccent;
   const { name } = props;
+  const guide = GUIDE_STICKERS[props.guide];
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="proposal-dropout">
       <View style={styles.header}>
@@ -105,9 +113,20 @@ export function DropoutView(props: DropoutViewProps) {
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text variant="h1" accessibilityRole="header">
-          {t({ id: 'proposal.dropout.title', message: `${name} can’t make it` })}
-        </Text>
+        <View style={styles.titleRow}>
+          <Text variant="h1" accessibilityRole="header" style={styles.grow}>
+            {t({ id: 'proposal.dropout.title', message: `${name} can’t make it` })}
+          </Text>
+          <View importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
+            <Sticker
+              kind={guide.kind}
+              name={guide.name}
+              size={SILHOUETTE_PT}
+              variant="mask"
+              maskColor={theme.semantic.text.tertiary}
+            />
+          </View>
+        </View>
         <View style={[styles.card, styles.reply]}>
           <Avatar name={name} joinIndex={props.joinIndex} size="md" decorative />
           <Text variant="bodySm" color={theme.semantic.text.secondary} style={styles.grow}>

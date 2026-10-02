@@ -6,10 +6,18 @@ import {
   FLIGHT_SCENES,
 } from '@/features/trip/disruptions/flight/dev/flight-scenes';
 import {
+  FORECAST_SCENE_NAMES,
+  FORECAST_SCENES,
+} from '@/features/trip/disruptions/forecast/dev/forecast-scenes';
+import {
   LATE_SCENE_NAMES,
   LATE_SCENE_PLACE,
   lateScenes,
 } from '@/features/trip/disruptions/late/dev/late-scenes';
+import {
+  STORM_SCENE_NAMES,
+  STORM_SCENES,
+} from '@/features/trip/disruptions/storm/dev/storm-scenes';
 import { Stack, Text } from '@/ui';
 import { ListCard } from '@/ui/cards/ListCard';
 import { CpMap } from '@/ui/map/CpMap';
@@ -24,10 +32,15 @@ const LATE_SCENES = lateScenes(() => (
     initialCenter={[LATE_SCENE_PLACE.lng, LATE_SCENE_PLACE.lat]}
   />
 ));
-const SCENES = { ...FLIGHT_SCENES, ...LATE_SCENES };
-const NAMES = [...FLIGHT_SCENE_NAMES, ...LATE_SCENE_NAMES];
+const SCENES = { ...FLIGHT_SCENES, ...LATE_SCENES, ...FORECAST_SCENES, ...STORM_SCENES };
+const NAMES = [
+  ...FLIGHT_SCENE_NAMES,
+  ...LATE_SCENE_NAMES,
+  ...FORECAST_SCENE_NAMES,
+  ...STORM_SCENE_NAMES,
+];
 
-/** Disruption screens (3k-5, 3k-9) with fixed data per state: the list, or one scene full screen. */
+/** Disruption screens (3k-5, 3k-7, 3k-8, 3k-9) with fixed data per state: the list, or one scene full screen. */
 export default function DisruptionLab() {
   const { scene } = useLocalSearchParams<{ scene?: string }>();
   const render = typeof scene === 'string' ? SCENES[scene] : undefined;

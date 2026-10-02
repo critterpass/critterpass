@@ -18,6 +18,17 @@ const person = (uid: string, rsvp: RsvpStatus, organiser = false): CrewPerson =>
 });
 
 describe('tracker model', () => {
+  it('lets the organiser lock in alone only once every recipient is out', () => {
+    expect(lockState('sent', [person('a', 'out'), person('b', 'out')])).toEqual({ kind: 'alone' });
+    expect(lockState('sent', [person('a', 'out'), person('b', 'maybe')])).toEqual({
+      kind: 'nobody_in',
+    });
+    expect(lockState('sent', [person('a', 'out'), person('b', 'unopened')])).toEqual({
+      kind: 'nobody_in',
+    });
+    expect(lockState('sent', [])).toEqual({ kind: 'nobody_in' });
+  });
+
   it('never shows an open: opened reads as no reply', () => {
     expect(publicStatus(person('a', 'opened'))).toBe('no_reply');
     expect(publicStatus(person('a', 'unopened'))).toBe('no_reply');
