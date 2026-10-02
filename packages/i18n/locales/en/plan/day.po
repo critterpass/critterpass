@@ -48,10 +48,6 @@ msgstr "A comment"
 msgid "plan.day.queued.edit"
 msgstr "A plan edit"
 
-#: ../../apps/mobile/src/features/plan/day/plan-model.ts
-msgid "plan.day.item.kindActivity"
-msgstr "Activity"
-
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.from"
 msgstr "Add from"
@@ -155,10 +151,6 @@ msgstr "Later by 15 minutes"
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.loading"
 msgstr "Loading the day"
-
-#: ../../apps/mobile/src/features/plan/day/plan-model.ts
-msgid "plan.day.item.kindMeal"
-msgstr "Meal"
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"

@@ -1,6 +1,6 @@
 appId: app.critterpass.dev
 ---
-# A fresh trip's day as its traveller reads it: a brand-new account locks in a Đà Nẵng trip for
+# A fresh trip's plan as its traveller reads it, in English and then Vietnamese: a brand-new account locks in a Đà Nẵng trip for
 # today (../happy/subflows/trip-under-way.yaml), opens the trip's plan and one of the guide's
 # stops. Each stop is named by its place (the plan's own record of it when the phone's place
 # catalogue has none), never by the guide's sentence about it, which sits under Notes.
@@ -21,50 +21,40 @@ appId: app.critterpass.dev
       id: 'home-header-chat'
     timeout: 60000
 - runFlow: ../happy/subflows/dismiss-visit-offer.yaml
-- tapOn:
-    id: 'tab-trips'
+- runFlow:
+    file: subflows/fresh-plan-walk.yaml
+    env:
+      LANG: en
+# The same in Vietnamese: the developer gallery switches the running app's language.
+- openLink:
+    link: critterpass-dev://
+    optional: true
 - extendedWaitUntil:
     visible:
-      id: 'trip-hub-tile-plan|visit-consent-decline'
+      id: 'dev-tools-entry'
+    timeout: 30000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
     timeout: 60000
 - runFlow:
-    when:
-      visible:
-        id: 'visit-consent-decline'
-    commands:
-      - tapOn:
-          id: 'visit-consent-decline'
-      - waitForAnimationToEnd:
-          timeout: 5000
-- scrollUntilVisible:
-    element:
-      id: 'trip-hub-tile-plan'
-    direction: DOWN
-    timeout: 30000
-- tapOn:
-    id: 'trip-hub-tile-plan'
-- extendedWaitUntil:
-    visible:
-      id: 'plan-day-1'
-    timeout: 60000
-- waitForAnimationToEnd:
-    timeout: 8000
-- takeScreenshot: en-fresh-day-list
-# The overview shows a card per day; its first day opens the day's stops.
-- tapOn:
-    id: 'plan-day-1'
-- extendedWaitUntil:
-    visible:
-      id: 'plan-day-row-.*'
-    timeout: 30000
-- waitForAnimationToEnd
-- takeScreenshot: en-fresh-day-stops
-- tapOn:
-    id: 'plan-day-row-.*'
-    index: 0
-- extendedWaitUntil:
-    visible:
-      id: 'plan-item-place|plan-item-move-.*'
-    timeout: 20000
-- waitForAnimationToEnd
-- takeScreenshot: en-fresh-day-item
+    file: subflows/fresh-plan-walk.yaml
+    env:
+      LANG: vi

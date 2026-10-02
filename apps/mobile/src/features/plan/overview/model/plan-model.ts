@@ -9,6 +9,8 @@ import { weatherSnapshotBodySchema, type PlanState, type PlanStateItem } from '@
 
 import { guideText } from '@/lib/i18n/guide-text';
 
+import { stopName } from '../../stop-name';
+
 import {
   idArray,
   jsonArray,
@@ -83,17 +85,19 @@ export function toPlanDays(rows: readonly PlanDayRow[], locale = 'en'): PlanDay[
   }));
 }
 
-export function toPlanItems(rows: readonly PlanItemRow[], locale = 'en'): PlanItem[] {
+export function toPlanItems(
+  rows: readonly PlanItemRow[],
+  locale = 'en',
+  places: ReadonlyMap<string, string> = new Map(),
+): PlanItem[] {
   return rows.map((row) => ({
     stableId: row.stable_id,
     dayNo: row.day_no,
     startsAt: row.starts_at,
     endsAt: row.ends_at,
     tz: row.tz,
-    label:
-      row.poi_name ??
-      row.booking_title ??
-      (guideText('plan_item', row, 'notes', locale)?.trim() || null),
+    // Named as everywhere the plan shows a stop (../../stop-name); never the guide's note.
+    label: stopName({ ...row, notes: guideText('plan_item', row, 'notes', locale) }, places),
     category: row.category,
     poiId: row.poi_id,
     bookingId: row.booking_id,

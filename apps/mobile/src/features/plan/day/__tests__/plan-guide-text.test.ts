@@ -136,7 +136,7 @@ describe('the day view', () => {
 });
 
 describe('the overview', () => {
-  it('shows day themes and place-less labels in the app language', () => {
+  it('shows day themes in the app language, and names stops as the day view does', () => {
     expect(toPlanDays([{ id: 'day-one', ...DAY }], 'vi')[0]?.theme).toBe(THEME_VI);
     expect(toPlanDays([{ id: 'day-one', ...DAY }], 'en')[0]?.theme).toBe(THEME);
     const row: OverviewItemRow = {
@@ -146,9 +146,29 @@ describe('the overview', () => {
       lng: null,
       booking_title: null,
     };
-    expect(toPlanItems([row], 'vi')[0]?.label).toBe(NOTE_VI);
+    // A guide's stop with no place is its kind, never its note.
+    expect(toPlanItems([{ ...row, category: 'meal' }], 'vi')[0]?.label).toBe('Meal');
     expect(toPlanItems([{ ...row, poi_name: 'Dragon Bridge' }], 'vi')[0]?.label).toBe(
       'Dragon Bridge',
     );
+    // The version's own name, then the catalogue's, then the booking's title.
+    const placed: OverviewItemRow = { ...row, poi_id: 'poi-1', poi_name: 'Catalogue name' };
+    const places = placeNamesOf(
+      JSON.stringify({ places: { 'poi-1': { name: 'Mì Quảng Bà Mua' } } }),
+    );
+    expect(toPlanItems([placed], 'en', places)[0]?.label).toBe('Mì Quảng Bà Mua');
+    expect(toPlanItems([placed], 'en')[0]?.label).toBe('Catalogue name');
+    expect(toPlanItems([{ ...row, booking_title: 'Ba Na Hills tickets' }], 'en')[0]?.label).toBe(
+      'Ba Na Hills tickets',
+    );
+    // Both views use the one naming rule.
+    const dayRows = [item({ poi_name: null })];
+    const dayTitle = dayItems(
+      toPlanState([DAY], dayRows),
+      1,
+      displayOf(dayRows, 'en', places),
+      'Asia/Ho_Chi_Minh',
+    )[0]?.title;
+    expect(dayTitle).toBe(toPlanItems([{ ...row, poi_id: 'poi-1' }], 'en', places)[0]?.label);
   });
 });

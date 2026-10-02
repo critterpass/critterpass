@@ -1,0 +1,51 @@
+appId: app.critterpass.dev
+---
+# From Home on a fresh trip: TRIPS, the plan's day cards, the first day's stops and the first
+# stop's sheet. ${LANG} prefixes the screenshots.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-tile-plan|visit-consent-decline'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-plan'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-1'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: ${LANG}-fresh-day-list
+# The overview shows a card per day; its first day opens the day's stops.
+- tapOn:
+    id: 'plan-day-1'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-row-.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-fresh-day-stops
+- tapOn:
+    id: 'plan-day-row-.*'
+    index: 0
+- extendedWaitUntil:
+    visible:
+      id: 'plan-item-place|plan-item-move-.*'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: ${LANG}-fresh-day-item
