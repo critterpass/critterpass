@@ -34,6 +34,8 @@ export interface FlightHeroProps {
 const DROP_MS = 560;
 const DROP_DELAY_MS = 380;
 const GUIDE_SIZE = 96;
+/** The duration may shrink further than a heading usually does, to stay on one line beside the guide. */
+const AMOUNT_MIN_PT = 36;
 // eslint-disable-next-line lingui/no-unlocalized-strings -- a sound cue id, never copy.
 const THUD = 'thud.heavy';
 
@@ -86,6 +88,7 @@ export function FlightHero(props: FlightHeroProps) {
                 variant="displayHero"
                 color={ink}
                 autoFit
+                autoFitMinSize={AMOUNT_MIN_PT}
                 style={styles.words}
                 testID="disruption-hero-amount"
               >
