@@ -51,7 +51,9 @@ export function stepReconnect(
     };
   }
   if (state.phase === 'online') return state;
-  if (state.phase === 'back') return queue.length === 0 ? state : { ...state, phase: 'online' };
+  // "Back online" holds until the card lifts; only losing the network again ends it. The ops it
+  // ticked leave the queue as their results sync down, and that must not cut the hold short.
+  if (state.phase === 'back') return state;
   const waiting = new Map(queue.filter((op) => op.status !== 'done').map((op) => [op.opId, op]));
   const acked = [...state.acked];
   let batch = 0;
