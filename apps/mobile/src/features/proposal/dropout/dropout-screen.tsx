@@ -76,7 +76,12 @@ export function DropoutScreen(props: { readonly proposalId: string; readonly uid
       guideName={GUIDE_STICKERS[trip.guide].name}
       replyLine={dropoutReplyLine(locale, name, row.created_at)}
       rows={rows}
-      share={change === null || currency === null ? null : dropoutShare(locale, change, currency)}
+      share={
+        // A trip with nothing priced yet has no share to show ($0 before and after).
+        change === null || currency === null || (change.before === 0 && change.after === 0)
+          ? null
+          : dropoutShare(locale, change, currency)
+      }
       keepInChat={keep.rows[0]?.keep_in_chat === 1}
       resolved={row.resolved_at !== null}
       onBack={() =>
