@@ -91,6 +91,10 @@ msgstr "{name}, {pose}"
 msgid "common.avatar.pending"
 msgstr "{name}, invited"
 
+#: ../../apps/mobile/src/ui/people/member-name.ts
+msgid "common.member.former"
+msgstr "Former member"
+
 #: ../../apps/mobile/src/ui/people/AvatarStack.tsx
 msgid "common.avatarStack.more"
 msgstr "{names} and {hidden} more"

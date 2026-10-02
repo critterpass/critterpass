@@ -13,8 +13,6 @@ import { BoardingPassView } from '../boarding-pass/BoardingPassView';
 import { toWalletBooking, splitWallet, stackOrder, type WalletBooking } from '../data/model';
 import type { SegmentRow } from '../data/queries';
 import { BookingDetailView } from '../detail/BookingDetailView';
-import { BookingFormView } from '../detail/BookingFormView';
-import { draftOf, emptyDraft, problemsOf } from '../detail/form-model';
 import { FlightCard } from '../flight-card/FlightCard';
 import { clock, dayDate, price } from '../format';
 import { flightView } from '../flight-card/flight-model';
@@ -23,6 +21,8 @@ import { ArchiveView } from '../stack/ArchiveView';
 import { BookingBody } from '../stack/BookingBody';
 import { useDeckMeta } from '../stack/deck-meta';
 import { WalletView } from '../stack/WalletView';
+import { HeldMailCard } from '../link-code/HeldMailCard';
+import { FORM_SCENES } from './lab-scenes-form';
 import {
   LAB_BOOKINGS,
   LAB_FLIGHT,
@@ -64,12 +64,14 @@ function WalletScene({
   banner = true,
   offline = 9,
   archive = 0,
+  held = 0,
 }: {
   readonly openId: string;
   readonly body: ReactNode;
   readonly banner?: boolean;
   readonly offline?: number;
   readonly archive?: number;
+  readonly held?: number;
 }) {
   const meta = useDeckMeta();
   const { upcoming } = splitWallet(bookings(), LAB_NOW);
@@ -92,6 +94,7 @@ function WalletScene({
       openBody={body}
       banner={banner ? { count: 2, member: 'Alex' } : null}
       archiveCount={archive}
+      heldMail={held > 0 ? <HeldMailCard count={held} onLink={noop} /> : null}
       onSelect={noop}
       onOpenDetail={noop}
       onReview={noop}
@@ -105,7 +108,7 @@ function WalletScene({
 function wallet(
   openId: string,
   body: ReactNode,
-  options: { banner?: boolean; offline?: number; archive?: number } = {},
+  options: { banner?: boolean; offline?: number; archive?: number; held?: number } = {},
 ): ReactNode {
   return <WalletScene openId={openId} body={body} {...options} />;
 }
@@ -158,6 +161,7 @@ function PassScene() {
 
 export const WALLET_SCENES: Readonly<Record<string, () => ReactNode>> = {
   wallet: () => wallet('b-flight', flightBody({})),
+  'wallet-held-mail': () => wallet('b-flight', flightBody({}), { banner: false, held: 3 }),
   'wallet-delayed': () =>
     wallet(
       'b-flight',
@@ -243,38 +247,7 @@ export const WALLET_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ),
   'detail-flight': () => <DetailScene id="b-flight" />,
   'detail-activity': () => <DetailScene id="b-trek" />,
-  edit: () => {
-    const trek = bookings().find((item) => item.id === 'b-trek');
-    if (trek === undefined) return null;
-    const draft = draftOf(trek, LAB_TZ);
-    return (
-      <BookingFormView
-        mode="edit"
-        draft={draft}
-        problems={[]}
-        showProblems={false}
-        saving={false}
-        zone={{ city: 'Makassar', offset: 'GMT+8' }}
-        onChange={noop}
-        onSave={noop}
-      />
-    );
-  },
-  'add-by-hand': () => {
-    const draft = { ...emptyDraft('flight'), date: '2026-10-12', flight: 'SQ 93' };
-    return (
-      <BookingFormView
-        mode="add"
-        draft={draft}
-        problems={problemsOf(draft, LAB_TZ)}
-        showProblems
-        saving={false}
-        zone={{ city: 'Makassar', offset: 'GMT+8' }}
-        onChange={noop}
-        onSave={noop}
-      />
-    );
-  },
+  ...FORM_SCENES,
   pass: () => <PassScene />,
   'pass-missing': () => (
     <BoardingPassView

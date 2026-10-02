@@ -132,7 +132,9 @@ export const LAB_SEGMENTS: readonly SegmentRow[] = [
 
 export const LAB_PASS = 'M1TAN/WINSTON         EK7PQ2Z SINDPSSQ 0938 285Y034A0042 100';
 
-function extracted(fields: Partial<ExtractedBooking> & Pick<ExtractedBooking, 'kind' | 'title'>) {
+export function extracted(
+  fields: Partial<ExtractedBooking> & Pick<ExtractedBooking, 'kind' | 'title'>,
+) {
   const base: ExtractedBooking = {
     supplier: 'other',
     supplier_name: null,

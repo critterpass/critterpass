@@ -49,6 +49,10 @@ msgstr ""
 msgid "bookings.banner.mine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 msgid "bookings.mailbox.lockedLine"
 msgstr ""
@@ -109,14 +113,6 @@ msgstr ""
 msgid "bookings.form.arriveExample"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.dateExample"
-msgstr ""
-
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.endExample"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
 msgid "bookings.candidate.untitled"
 msgstr ""
@@ -171,6 +167,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
 msgid "bookings.candidate.byHand"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.flightNotFound"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
@@ -327,7 +327,7 @@ msgid "bookings.detail.shareFlight"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.date"
+msgid "bookings.form.day"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
@@ -389,6 +389,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.editTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.enter"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
@@ -521,10 +525,6 @@ msgstr ""
 msgid "bookings.form.timeProblem"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.dateProblem"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
 msgid "bookings.linkCode.link"
 msgstr ""
@@ -572,6 +572,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.docPending"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
+msgid "bookings.date.next"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
@@ -679,6 +683,14 @@ msgstr ""
 msgid "bookings.paste.fromClipboard"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
+msgid "bookings.date.pick"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.dayProblem"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.policyNo"
 msgstr ""
@@ -689,6 +701,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.docAttached"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
+msgid "bookings.date.previous"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
@@ -793,12 +809,12 @@ msgstr ""
 msgid "bookings.linkCode.wrong"
 msgstr ""
 
-#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
-msgid "bookings.linkCode.failed"
-msgstr ""
-
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.failed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
@@ -878,6 +894,10 @@ msgstr ""
 msgid "bookings.form.zone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.zones"
+msgstr ""
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.voucher"
 msgstr ""
@@ -888,6 +908,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 msgid "bookings.switch.label"
+msgstr ""
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.line"
 msgstr ""
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx

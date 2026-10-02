@@ -2,9 +2,12 @@
  * Builds packages/content/airports/airports.json from OurAirports (public domain): airports with
  * scheduled service and an IATA code (large, medium and small; heliports and seaplane bases left
  * out), each country's ISO alpha-3 and name from the datasets/country-codes table, and the home
- * currency from @cp/cost-engine so money and the profile agree on it.
+ * currency from @cp/cost-engine so money and the profile agree on it, and each airport's IANA time
+ * zone from its coordinates (`geo-tz`, MIT, the timezone-boundary-builder polygons, offline; a
+ * build-time dependency only).
  *
  *   pnpm tsx tools/scripts/build-airports.ts           download, filter, write
+ *   pnpm tsx tools/scripts/build-airports.ts --zones   recompute the zones of the committed rows
  *   pnpm tsx tools/scripts/build-airports.ts --check   validate the committed file (no network)
  */
 import { readFileSync, statSync, writeFileSync } from 'node:fs';
@@ -16,6 +19,8 @@ import {
   type AirportsFile,
 } from '@cp/content/airports/schema';
 import { COUNTRY_CURRENCIES } from '@cp/cost-engine';
+import { canonicalTz } from '@cp/domain';
+import { find as zonesAt } from 'geo-tz/all';
 
 const DIR = path.resolve(import.meta.dirname, '../../packages/content/airports');
 export const AIRPORTS_PATH = path.join(DIR, 'airports.json');
@@ -67,6 +72,21 @@ export function parseCsv(text: string): Record<string, string>[] {
 
 const round = (value: number): number => Math.round(value * 1000) / 1000;
 
+/** The canonical IANA zone at an airport's coordinates. */
+export function zoneAt(lat: number, lng: number): string {
+  const zone = zonesAt(lat, lng)[0];
+  if (zone === undefined) throw new Error(`no time zone at ${lat}, ${lng}`);
+  return canonicalTz(zone);
+}
+
+type AirportRow = AirportsFile['airports'][number];
+
+/** A committed row (with or without its zone) with the zone recomputed from its coordinates. */
+export function withZone(row: readonly [...Readonly<AirportRow>] | readonly unknown[]): AirportRow {
+  const [iata, name, city, country, lat, lng, rank] = row as AirportRow;
+  return [iata, name, city, country, lat, lng, rank, zoneAt(lat, lng)];
+}
+
 export function buildAirportsFile(
   airportsCsv: string,
   countriesCsv: string,
@@ -95,14 +115,17 @@ export function buildAirportsFile(
     if (row['scheduled_service'] !== 'yes' || rank === undefined) continue;
     if (!/^[A-Z]{3}$/u.test(iata) || seen.has(iata) || !facts.has(country)) continue;
     seen.add(iata);
+    const lat = round(Number(row['latitude_deg']));
+    const lng = round(Number(row['longitude_deg']));
     airports.push([
       iata,
       (row['name'] ?? '').slice(0, 120),
       (row['municipality'] ?? '').slice(0, 80),
       country,
-      round(Number(row['latitude_deg'])),
-      round(Number(row['longitude_deg'])),
+      lat,
+      lng,
       rank,
+      zoneAt(lat, lng),
     ]);
   }
   airports.sort((a, b) => a[0].localeCompare(b[0]));
@@ -147,7 +170,13 @@ async function download(url: string): Promise<string> {
 }
 
 async function main(): Promise<void> {
-  if (!process.argv.includes('--check')) {
+  if (process.argv.includes('--zones')) {
+    const file = JSON.parse(readFileSync(AIRPORTS_PATH, 'utf8')) as AirportsFile;
+    writeFileSync(
+      AIRPORTS_PATH,
+      serializeAirportsFile({ ...file, airports: file.airports.map(withZone) }),
+    );
+  } else if (!process.argv.includes('--check')) {
     const [airportsCsv, countriesCsv] = await Promise.all([
       download(AIRPORTS_URL),
       download(COUNTRIES_URL),

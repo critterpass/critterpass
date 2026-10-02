@@ -18,7 +18,7 @@ import { PassportPage } from '../documents/PassportPage';
 import { Postcard } from '../documents/Postcard';
 import { Receipt, zigzagPath } from '../documents/Receipt';
 import { appendPoint, SignatureLayer } from '../documents/SignatureLayer';
-import { Stamp, stampLineInset } from '../documents/Stamp';
+import { Stamp, stampLineInset, stampLineMaxSize } from '../documents/Stamp';
 import { Ticket } from '../documents/Ticket';
 import { Visa } from '../documents/Visa';
 import { WalletStack } from '../documents/WalletStack';
@@ -180,6 +180,12 @@ describe('document artefacts', () => {
     }
     expect(stampLineInset(76, true)).toBe(8);
     expect(stampLineInset(131, false)).toBe(4);
+  });
+
+  it('sets a small round stamp’s lines smaller, and leaves stamps of 85 pt and up alone', () => {
+    expect(stampLineMaxSize(72, 11)).toBe(9.4);
+    expect(stampLineMaxSize(56, 11)).toBe(7.3);
+    for (const size of [85, 92, 96, 150]) expect(stampLineMaxSize(size, 11)).toBe(11);
   });
 
   it('flips a postcard and reads the side facing up', async () => {

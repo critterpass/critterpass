@@ -157,12 +157,17 @@ export function CandidateCard(props: CandidateCardProps) {
         <Stack gap="12">
           {view.booking === null ? null : head}
           <Text variant="body">
-            {failed
-              ? t({
-                  id: 'bookings.candidate.failed',
-                  message: 'Couldn’t read this one — add it by hand.',
-                })
-              : t({ id: 'bookings.candidate.duplicate', message: 'Already in the wallet.' })}
+            {!failed
+              ? t({ id: 'bookings.candidate.duplicate', message: 'Already in the wallet.' })
+              : view.failureReason === 'flight_not_found'
+                ? t({
+                    id: 'bookings.candidate.flightNotFound',
+                    message: 'Add the date and route, or add it by hand.',
+                  })
+                : t({
+                    id: 'bookings.candidate.failed',
+                    message: 'Couldn’t read this one — add it by hand.',
+                  })}
           </Text>
           <Row gap="8">
             {failed ? (
