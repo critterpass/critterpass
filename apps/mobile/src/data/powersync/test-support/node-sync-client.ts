@@ -121,12 +121,15 @@ export async function openNodeSyncClient(options: NodeSyncClientOptions): Promis
     core,
     realtime,
     uid: session.uid,
-    connect: () =>
-      connectLocalFirst(core, {
+    // The sync tests read synced rows next: they wait for the first connection attempt.
+    connect: async () => {
+      const { connected } = await connectLocalFirst(core, {
         uid: session.uid,
         endpoint: options.powersyncUrl,
         getSyncToken: () => tokens.getToken('sync'),
-      }),
+      });
+      await connected;
+    },
     async close() {
       realtime.disconnect();
       core.stopReconcile();
