@@ -128,6 +128,12 @@ appId: app.critterpass.dev
 - takeScreenshot: en-sos-session-map
 - tapOn:
     id: 'sos-map-back'
+- extendedWaitUntil:
+    visible:
+      id: 'sos-map-link'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: en-3k-10-sos-after-map
 # "Mai is safe": the SOS ends for everyone.
 - scrollUntilVisible:
     element:
