@@ -146,7 +146,7 @@ msgstr "{before} chỗ"
 
 #: ../../apps/mobile/src/features/proposal/your-version/hype-bar.tsx
 msgid "proposal.hype.boarded"
-msgstr "{boarded} trên {recipients} người đã lên tàu."
+msgstr "{boarded} trên {recipients} người đã lên máy bay."
 
 #: ../../apps/mobile/src/features/proposal/crowd/crowd-sheet.tsx
 msgid "proposal.crowd.eyebrow"
