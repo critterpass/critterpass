@@ -4,7 +4,7 @@ import type { TasteTag } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { tagWords } from '@/features/onboarding';
@@ -55,15 +55,30 @@ export function ProfileFace({
   avatar,
   name,
   ring = null,
+  photoUri = null,
 }: {
   readonly avatar: ProfileAvatar;
   readonly name: string;
   /** The worn critter's rarity ring (rare blue, epic pink, legendary gold). */
   readonly ring?: AvatarRing | null;
+  /** The person's own photo, once its link has been read. */
+  readonly photoUri?: string | null;
 }) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
+  if (photoUri) {
+    return (
+      <View style={styles.ring} testID="you-profile-face">
+        <Image
+          source={{ uri: photoUri }}
+          style={{ width: AVATAR, height: AVATAR }}
+          accessibilityLabel={name}
+          accessibilityIgnoresInvertColors
+        />
+      </View>
+    );
+  }
   if (avatar.kind === 'guide') {
     const guide = GUIDE_STICKERS[avatar.guide];
     return (

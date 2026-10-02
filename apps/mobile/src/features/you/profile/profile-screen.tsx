@@ -7,6 +7,8 @@ import { useState } from 'react';
 
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 
+import { useMemberFaces } from '../avatar/member-faces';
+import { useOwnerUid } from '../data/live-rows';
 import { YOU_ROUTES } from '../routes';
 import { ProfileView } from './profile-view';
 import { RetakeSheet } from './retake-sheet';
@@ -31,11 +33,16 @@ export function ProfileScreen({
   const crews = useScreenHref(CREWS_SCREEN);
   const paywall = useScreenHref(PAYWALL_SCREEN);
   const [retaking, setRetaking] = useState(false);
+  const uid = useOwnerUid();
+  const faces = useMemberFaces();
+  const photoUri = uid === null ? null : (faces.faceProps(uid, 'xl').photo?.uri ?? null);
   return (
     <>
       <ProfileView
         model={model}
         from={from}
+        photoUri={photoUri}
+        faceFor={(member) => faces.faceProps(member, 'sm')}
         onSettings={() => router.push(YOU_ROUTES.settings)}
         onAllStamps={() => router.push(YOU_ROUTES.stamps)}
         onRetake={() => setRetaking(true)}

@@ -98,6 +98,18 @@ msgstr "Ngôn ngữ ứng dụng"
 msgid "you.settings.location.ask"
 msgstr "Hỏi"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.tooShort"
+msgstr "Ít nhất 3 ký tự."
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.tooLong"
+msgstr "Nhiều nhất 20 ký tự."
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.tabs"
+msgstr "Ảnh đại diện"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offlineTripsLine"
 msgstr "Đặt chỗ, bản đồ và câu giao tiếp trên máy này"
@@ -106,13 +118,29 @@ msgstr "Đặt chỗ, bản đồ và câu giao tiếp trên máy này"
 msgid "you.settings.budgetMax"
 msgstr "Ngân sách tối đa"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.unknown"
+msgstr "Chưa kiểm tra được lúc này. Lưu sẽ cho bạn biết."
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
+msgid "you.edit.changeAvatar"
+msgstr "Đổi ảnh đại diện"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.chatty"
 msgstr "Nói nhiều"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.checking"
+msgstr "Đang kiểm tra…"
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.zhHans"
 msgstr "Tiếng Trung giản thể"
+
+#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+msgid "you.edit.airportSearch"
+msgstr "Thành phố hoặc mã sân bay"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.close"
@@ -134,6 +162,10 @@ msgstr "Đang đóng tài khoản…"
 msgid "you.delete.continue"
 msgstr "Tiếp tục"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.save.failed"
+msgstr "Chưa lưu được. Kiểm tra kết nối rồi thử lại."
+
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.country"
 msgstr "Quốc gia"
@@ -151,6 +183,10 @@ msgstr "Nhóm chuyển app khác"
 msgid "you.settings.hideCollectionLine"
 msgstr "Hội không còn thấy bộ sưu tập của bạn"
 
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.tab.critter"
+msgstr "Critter"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
 msgstr "Xoá tài khoản"
@@ -167,6 +203,14 @@ msgstr "Xoá tài khoản của bạn?"
 msgid "you.closed.departures"
 msgstr "DEPARTURES · DÉPARTS"
 
+#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+msgid "you.edit.done"
+msgstr "Xong"
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.done"
+msgstr "Xong"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location.trips"
 msgstr "Trong chuyến đi"
@@ -174,6 +218,14 @@ msgstr "Trong chuyến đi"
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.edit"
 msgstr "Sửa"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
+msgid "you.edit.title"
+msgstr "Sửa hồ sơ"
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.back"
+msgstr "Sửa hồ sơ"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.en"
@@ -252,6 +304,11 @@ msgstr "Nhà"
 msgid "you.profile.back"
 msgstr "Trang chủ"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+msgid "you.edit.homeAirport"
+msgstr "Sân bay nhà"
+
 #: ../../apps/mobile/src/features/you/history/stamps-copy.ts
 msgid "you.stamps.home"
 msgstr "Nơi ở"
@@ -265,6 +322,10 @@ msgstr "Con dấu nhà, {0}"
 msgid "you.settings.howChatty"
 msgstr "Nói nhiều cỡ nào"
 
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.crewSees"
+msgstr "Cả hội sẽ thấy thế này"
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.howYouTravel"
 msgstr "Phong cách đi của bạn"
@@ -272,6 +333,18 @@ msgstr "Phong cách đi của bạn"
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.id"
 msgstr "Tiếng Indonesia"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+msgid "you.edit.avatarInitials"
+msgstr "Chữ cái đầu"
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.tab.initials"
+msgstr "Chữ cái đầu"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.available"
+msgstr "Là của bạn nếu bạn lưu."
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.ja"
@@ -301,13 +374,25 @@ msgstr "Kiểm tra lần cuối"
 msgid "you.closed.lastPage"
 msgstr "TRANG CUỐI"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+msgid "you.edit.discard"
+msgstr "Rời đi"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.leave"
 msgstr "Cứ để đóng"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+msgid "you.edit.discardTitle"
+msgstr "Rời đi mà không lưu?"
+
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.leaves"
 msgstr "Rời khỏi điện thoại này"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.chars"
+msgstr "Chỉ chữ, số, dấu chấm và gạch dưới."
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location"
@@ -318,9 +403,18 @@ msgstr "Vị trí"
 msgid "you.pings.crewChat.mentions"
 msgstr "Chỉ khi được nhắc tên"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+msgid "you.edit.name"
+msgstr "Tên"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.budgetMaxLine"
 msgstr "Không bao giờ hiện cho ai, kể cả hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.dots"
+msgstr "Không có dấu chấm ở đầu hay cuối, và không hai dấu liền nhau."
 
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.none"
@@ -339,18 +433,22 @@ msgstr "Chưa có gì bị xoá cho đến {0}. Đăng nhập trước ngày đ�
 msgid "you.settings.notifications"
 msgstr "Thông báo"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.location.off"
-msgstr "Tắt"
-
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.off"
 msgstr "Tắt"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.off"
+msgstr "Tắt"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offline"
 msgstr "Ngoại tuyến"
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.sampleLine"
+msgstr "đang tới đây!"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.backPass"
@@ -363,6 +461,18 @@ msgstr "Pass+ được tính tiền qua cửa hàng nơi bạn mua. Xoá tài kh
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.editTitle"
 msgstr "Chuyến đi cũ"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+msgid "you.edit.avatarPhoto"
+msgstr "Ảnh"
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.tab.photo"
+msgstr "Ảnh"
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.photoLine"
+msgstr "Ảnh chỉ hiện trong các hội của bạn."
 
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
@@ -389,6 +499,10 @@ msgstr "Riêng tư"
 msgid "you.delete.reason.privacy"
 msgstr "Quyền riêng tư"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
+msgid "you.edit.back"
+msgstr "Hồ sơ"
+
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.back"
 msgstr "Hồ sơ"
@@ -412,6 +526,10 @@ msgstr "Khôi phục tài khoản"
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.retake"
 msgstr "Làm lại"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
+msgid "you.edit.save"
+msgstr "Lưu"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.savePass"
@@ -491,6 +609,14 @@ msgstr "TỪ {0}"
 msgid "you.account.incomplete"
 msgstr "Một phần dữ liệu trên điện thoại chưa xoá được. Hãy thử lại."
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.taken"
+msgstr "Đã có người dùng tên này."
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.save.taken"
+msgstr "Vừa có người lấy tên này."
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.else"
 msgstr "Lý do khác"
@@ -542,6 +668,14 @@ msgstr "Những cú chạm và rung bạn cảm nhận được"
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.th"
 msgstr "Tiếng Thái"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.reserved"
+msgstr "Tên này đã được giữ chỗ."
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.name.tooLong"
+msgstr "Dài quá, thẻ không đủ chỗ."
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
 msgid "you.language.note"
@@ -600,9 +734,30 @@ msgstr "Chuyến đi đã lưu ngoại tuyến"
 msgid "you.signOut.leaves.offline"
 msgstr "Chuyến đi đã lưu ngoại tuyến, lời nhắc và báo thức"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.name.blocked"
+msgstr "Thử một tên khác nhé."
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.save.rejected"
+msgstr "Thử một tên khác nhé."
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.keep"
 msgstr "Hoàn tác, giữ tài khoản"
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.photoPending"
+msgstr "Trong lúc ảnh được kiểm tra, cả hội thấy chữ cái đầu của bạn."
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.usePhoto"
+msgstr "Dùng ảnh thật"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+msgid "you.edit.username"
+msgstr "Tên người dùng"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.vi"
@@ -632,6 +787,14 @@ msgstr "Khi nào"
 msgid "you.delete.why"
 msgstr "Vì sao bạn rời đi? Không bắt buộc"
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.username.cooldown"
+msgstr "Bạn vừa đổi gần đây. Có thể đổi lại vào {when}."
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.save.cooldown"
+msgstr "Bạn vừa đổi tên người dùng gần đây."
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.offline"
 msgstr "Bạn đang ngoại tuyến. Xoá tài khoản cần có kết nối."
@@ -645,9 +808,25 @@ msgstr "Tài khoản của bạn đang đóng và sẽ bị xoá vào {0}. Khôi
 msgid "you.delete.closesLine"
 msgstr "Tài khoản được đóng ngay và bị xoá sau 30 ngày. Đăng nhập trước lúc đó thì mọi thứ trở lại."
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+msgid "you.edit.discardLine"
+msgstr "Những thay đổi trên hồ sơ sẽ bị bỏ."
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.name.empty"
+msgstr "Cả hội cần một cái tên để gọi bạn."
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.yourCrews"
 msgstr "Nhóm của bạn"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
+msgid "you.edit.crewSees"
+msgstr "Cả hội thấy tên, ảnh đại diện và sân bay nhà của bạn. Không gì khác."
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.initialsLine"
+msgstr "Chữ cái đầu của bạn theo màu của từng hội."
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.noTrips"
@@ -655,6 +834,10 @@ msgstr "Chuyến đầu tiên sẽ tự đóng dấu ở đây khi bạn hạ c�
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.guide"
+msgstr "Hướng dẫn viên của bạn"
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.guides"
 msgstr "Hướng dẫn viên của bạn"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx

@@ -1,0 +1,124 @@
+/**
+ * The avatar picker over the person's current face: pick initials, a guide, or a real photo (the
+ * onboarding photo flow: pick or take, cut out on the phone, upload through the avatar presign),
+ * then DONE records it with `set_avatar` (queued offline). A photo stays the person's own until it
+ * is checked; crewmates see initials meanwhile.
+ */
+/* eslint-disable lingui/no-unlocalized-strings -- a command name, never copy. */
+import { generateUuidV7, guideFormId, type AvatarChoice, type SetAvatarPayload } from '@cp/domain';
+import { router } from 'expo-router';
+import { useState } from 'react';
+
+import { defineClientCommand } from '@/data/commands/summaries';
+import { useCommand } from '@/data/commands/use-command';
+import { RealPhotoSheet, useRealPhoto } from '@/features/onboarding';
+import { requestWithPrimer } from '@/lib/permissions';
+import type { GuideAvatarId } from '@/ui/avatar/guides';
+import { sizeToken, useTheme } from '@/ui/theme';
+
+import { useOwnerUid } from '../data/live-rows';
+import { ProfileFace } from '../profile/profile-parts';
+import { useProfile } from '../profile/use-profile';
+import { facePropsOf, useMemberFaces } from './member-faces';
+import type { MemberFace } from './member-face';
+import { AvatarView, type AvatarTab } from './avatar-view';
+
+export const setAvatarCommand = defineClientCommand<SetAvatarPayload>({
+  name: 'set_avatar',
+  offline: true,
+});
+
+type PhotoServices = Parameters<typeof useRealPhoto>[0]['photos'];
+
+type Choice =
+  | { readonly kind: 'initials' }
+  | { readonly kind: 'guide'; readonly guide: GuideAvatarId }
+  | { readonly kind: 'photo'; readonly mediaKey: string; readonly uri: string };
+
+function wireChoice(choice: Choice): AvatarChoice {
+  switch (choice.kind) {
+    case 'initials':
+      return { kind: 'initials' };
+    case 'guide':
+      return { kind: 'critter', form_id: guideFormId(choice.guide) };
+    case 'photo':
+      return { kind: 'photo', media_key: choice.mediaKey };
+  }
+}
+
+function tabOf(face: MemberFace): AvatarTab {
+  if (face.kind === 'photo') return 'photo';
+  return face.kind === 'initials' ? 'initials' : 'critter';
+}
+
+export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
+  const theme = useTheme();
+  const uid = useOwnerUid();
+  const { model } = useProfile();
+  const faces = useMemberFaces();
+  const current = uid === null ? ({ kind: 'initials' } as const) : faces.faceOf(uid);
+  const currentUri = uid === null ? null : (faces.faceProps(uid, 'xl').photo?.uri ?? null);
+  const [choice, setChoice] = useState<Choice | null>(null);
+  const [tab, setTab] = useState<AvatarTab | null>(null);
+  const { send } = useCommand(setAvatarCommand);
+  const real = useRealPhoto({
+    photos,
+    requestCamera: () => requestWithPrimer('camera', 'real_photo'),
+    onUploaded: ({ mediaKey, uri }) => setChoice({ kind: 'photo', mediaKey, uri }),
+  });
+
+  const shown: MemberFace =
+    choice === null
+      ? current
+      : choice.kind === 'guide'
+        ? { kind: 'guide', guide: choice.guide, ring: null }
+        : choice.kind === 'photo'
+          ? { kind: 'photo', mediaKey: choice.mediaKey }
+          : { kind: 'initials' };
+  const shownUri = choice?.kind === 'photo' ? choice.uri : choice === null ? currentUri : null;
+  const name = model?.name ?? '';
+  const diameter = sizeToken(theme.size.avatar, 'sm');
+
+  return (
+    <>
+      <AvatarView
+        name={name}
+        preview={
+          <ProfileFace
+            avatar={
+              shown.kind === 'guide' ? { kind: 'guide', guide: shown.guide } : { kind: 'initials' }
+            }
+            name={name}
+            ring={choice === null ? (model?.ring ?? null) : null}
+            photoUri={shown.kind === 'photo' ? shownUri : null}
+          />
+        }
+        face={facePropsOf(shown, shown.kind === 'photo' ? shownUri : null, diameter)}
+        tab={tab ?? tabOf(current)}
+        onTab={setTab}
+        guide={shown.kind === 'guide' ? shown.guide : null}
+        onGuide={(guide) => setChoice({ kind: 'guide', guide })}
+        onPhoto={photos === null ? null : real.open}
+        photoPending={choice?.kind === 'photo'}
+        canDone={choice !== null}
+        onDone={() => {
+          if (choice === null) return;
+          void send({ avatar_id: generateUuidV7(), choice: wireChoice(choice) });
+          router.back();
+        }}
+        onBack={() => router.back()}
+      />
+      {photos === null ? null : (
+        <RealPhotoSheet
+          state={real.state}
+          onLibrary={() => void real.fromLibrary()}
+          onCamera={() => void real.fromCamera()}
+          onZoom={real.setZoom}
+          onConfirm={real.confirm}
+          onRetry={real.retry}
+          onClose={real.close}
+        />
+      )}
+    </>
+  );
+}

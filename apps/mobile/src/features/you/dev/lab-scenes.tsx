@@ -16,6 +16,7 @@ import { LanguageView } from '../language/language-view';
 import type { ProfileModel } from '../profile/profile-model';
 import { ProfileView } from '../profile/profile-view';
 import { FormerMemberChat } from './lab-scenes-former';
+import { EDIT_SCENES } from './lab-scenes-edit';
 import { HISTORY_SCENES } from './lab-scenes-history';
 import { Settings } from './lab-scenes-settings';
 
@@ -255,6 +256,7 @@ export const YOU_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3n-1-self-reported': () => <Profile model={withSelfReported()} />,
   '3n-1-long-crews': () => <Profile model={withLongCrews()} />,
   ...HISTORY_SCENES,
+  ...EDIT_SCENES,
   '3n-2-settings': () => <Settings />,
   '3n-8-language': () => <Language />,
   'former-member-crew': () => <Profile model={withFormer()} />,

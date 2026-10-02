@@ -1,0 +1,121 @@
+appId: app.critterpass.dev
+---
+# Edit profile and the avatar picker (en). First the lab scenes: Edit profile (3n-3) and its taken
+# username, then the avatar picker (3n-4) on each tab. Then for real: a brand-new account opens its
+# profile from the PASS tab, renames itself, saves, and puts on another guide as its avatar; the
+# profile and the PASS face show both.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3n-3-edit'
+      ROOT: 'you-edit'
+- takeScreenshot: en-3n-3-edit
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-3-username-taken'
+      ROOT: 'you-edit'
+      SHOT: en-3n-3-username-taken
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-4-avatar'
+      ROOT: 'you-avatar'
+      SHOT: en-3n-4-avatar
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-4-initials'
+      ROOT: 'you-avatar'
+      SHOT: en-3n-4-initials
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: '3n-4-photo'
+      ROOT: 'you-avatar'
+      SHOT: en-3n-4-photo
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 15000
+
+# A real new account: PASS tab → its face → profile → EDIT.
+- runFlow: ../home/subflows/onboard.yaml
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-edit'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-edit'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-name'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-3-real
+- tapOn:
+    id: 'you-edit-name'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-name-field'
+    timeout: 10000
+- eraseText: 30
+- inputText: 'Winnie'
+- tapOn:
+    id: 'you-edit-name-done'
+- tapOn:
+    id: 'you-edit-save'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-name'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      text: 'WINNIE'
+    timeout: 30000
+# A new face: another guide.
+- tapOn:
+    id: 'you-profile-edit'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-change-avatar'
+    timeout: 15000
+- tapOn:
+    id: 'you-edit-change-avatar'
+- extendedWaitUntil:
+    visible:
+      id: 'you-avatar-tabs'
+    timeout: 15000
+- tapOn: 'CRITTER'
+- tapOn:
+    id: 'you-avatar-guide-pon'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-4-real-picked
+- tapOn:
+    id: 'you-avatar-done'
+- tapOn:
+    id: 'you-edit-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-name'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-1-after-edit
