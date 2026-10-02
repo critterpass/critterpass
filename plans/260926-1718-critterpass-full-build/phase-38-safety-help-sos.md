@@ -145,6 +145,8 @@ Help and SOS are "tell your crew" features; copy never says we contact emergency
 - Tests: `pnpm --filter @cp/mobile test -- features/safety/sos/receiver features/safety/session-map`
 - Done when: takeover appears over any route in RNTL navigation test; unboosted trip still renders session map.
 
+- Status: done — 1a9b5efe, 64a0b159 (takeover in `runtime.tsx` with its rule under test; the session map draws a straight line and hands the walking route to the maps app, since the routing layer returns no path)
+
 ### T7 — Notification actions and e2e
 - Files: `apps/mobile/src/features/safety/notification-actions.ts`, `e2e/safety/{help-share.yaml,help-offline.yaml,sos-send-cancel.yaml,sos-receive-respond.yaml,sos-resolve.yaml}`, `tools/scripts/seed-sos-crew.ts`.
 - Steps: 1. Register handlers for `cp.sos` COMING/CALL/OPEN and `cp.help` STOP_SHARE (action keys scope `sos`). 2. Android `cp_sos` channel DND-bypass request flow + FSI permission explainer. 3. Maestro flows with second simulated crew device via API.
