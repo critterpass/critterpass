@@ -241,6 +241,45 @@ describe('send and reply', () => {
     );
     expect(jobs.map((job) => job.data)).toEqual([{ trip_id: fx.tripId, user_id: m(3).uid }]);
   });
+
+  it('records a decline from a crew member who never answered, with no seat and no re-split', async () => {
+    const participant = () =>
+      q<{ rsvp: string; holds_seat: boolean }>(
+        'SELECT rsvp, holds_seat FROM trip_participants WHERE trip_id = $1 AND user_id = $2',
+        [fx.tripId, m(7).uid],
+      );
+    expect(await participant()).toEqual([]);
+
+    // Someone no longer in the crew is still refused.
+    await q("UPDATE crew_members SET status = 'left' WHERE crew_id = $1 AND user_id = $2", [
+      fx.crewId,
+      m(7).uid,
+    ]);
+    const refused = await run(m(7), 'set_rsvp', { proposal_id: proposalId, status: 'out' });
+    expect(refused.body.error.code).toBe('NOT_ELIGIBLE');
+    expect(await participant()).toEqual([]);
+    await q("UPDATE crew_members SET status = 'active' WHERE crew_id = $1 AND user_id = $2", [
+      fx.crewId,
+      m(7).uid,
+    ]);
+
+    const since = await now();
+    const declined = await run(m(7), 'set_rsvp', { proposal_id: proposalId, status: 'out' });
+    expect(declined.status).toBe(200);
+    expect(declined.body.result).toMatchObject({ rsvp: 'out', waitlisted: false });
+    expect(await participant()).toEqual([{ rsvp: 'out', holds_seat: false }]);
+    const events = await eventsSince(since);
+    expect(events.map((e) => e.type)).toEqual(
+      expect.arrayContaining(['rsvp.changed', 'participant.declined']),
+    );
+    const published = await outboxSince(since);
+    expect(published.map((row) => (row.payload as { type: string }).type)).toContain('rsvp.status');
+    // Only the member who held a seat starts a re-split.
+    const jobs = await q<{ data: { trip_id: string; user_id: string } }>(
+      "SELECT data FROM pgboss.job WHERE name = 'trip.dropout'",
+    );
+    expect(jobs.map((job) => job.data)).toEqual([{ trip_id: fx.tripId, user_id: m(3).uid }]);
+  });
 });
 
 describe('resolve_dropout', () => {
