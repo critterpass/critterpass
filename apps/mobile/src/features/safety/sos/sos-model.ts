@@ -167,3 +167,28 @@ export function buildSosModel(
     reachedNobody: reachedNobody(row, stepsOf(row)),
   };
 }
+
+/** A line in the SOS thread as the hero's bubble shows it. */
+export interface SosBubble {
+  readonly id: string;
+  readonly sender_id: string;
+  readonly body: string;
+  readonly at: string;
+}
+
+/**
+ * The sender's own words under the summary (3k-10's bubble): their latest message in the SOS thread,
+ * else what they wrote or picked when sending, when the line above is the guide's summary of it.
+ */
+export function senderBubble(
+  latest: SosBubble | null,
+  row: { id: string; user_id: string; body: string | null; opened_at: string } | null,
+  shown: string | null,
+  preset: string,
+): SosBubble | null {
+  if (latest !== null) return latest;
+  if (row === null) return null;
+  const own = row.body ?? (preset === '' ? null : preset);
+  if (own === null || own === shown) return null;
+  return { id: row.id, sender_id: row.user_id, body: own, at: row.opened_at };
+}

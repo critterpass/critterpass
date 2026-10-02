@@ -21,6 +21,7 @@ import { deviceHelpApi } from '../data/help-api';
 import { useHelpHub } from '../help/use-help-hub';
 import { safetyRoutes } from '../routes';
 import { SosView } from './sos-view';
+import { senderBubble } from './sos-model';
 import { useSos } from './use-sos';
 
 const GUIDE_IDS = Object.keys(GUIDE_STICKERS);
@@ -81,7 +82,12 @@ export function SosScreen() {
       hero={{
         model,
         words: model.words ?? presetWords(model.preset, t),
-        message: fromSender[fromSender.length - 1] ?? null,
+        message: senderBubble(
+          fromSender[fromSender.length - 1] ?? null,
+          sos.row,
+          model.words,
+          presetWords(model.preset, t),
+        ),
         distanceM: sos.distanceM,
       }}
       steps={{ guideName, guideSticker: guide }}

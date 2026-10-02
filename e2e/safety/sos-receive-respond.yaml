@@ -99,6 +99,8 @@ appId: app.critterpass.dev
 # What happened: the guide's summary when it came in time, else Mai's own words ("I fell").
 - assertVisible:
     id: 'sos-words'
+# Her own words in the bubble under it (the 3k-10 render).
+- assertVisible: '(?i)i fell'
 - waitForAnimationToEnd
 - takeScreenshot: en-3k-10-sos-takeover
 - tapOn:

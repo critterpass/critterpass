@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, renderHook } from '@testing-library/react-native';
 
-import { buildSosModel, type SosRow } from '../sos/sos-model';
+import { buildSosModel, senderBubble, type SosRow } from '../sos/sos-model';
 import { smsUrl } from '../sos/sms-fallback';
 import { useCountdown } from '../sos/use-countdown';
 
@@ -147,5 +147,27 @@ describe('SOS that reached nobody', () => {
     expect(buildSosModel(row({ steps: '{}', alerted_count: 0 }), SENDER, names).reachedNobody).toBe(
       false,
     );
+  });
+});
+
+describe("the sender's own words under the summary", () => {
+  const sent = { id: 'sos-1', user_id: SENDER, body: null, opened_at: '2026-10-02T09:42:00Z' };
+
+  it('shows the picked preset when the line above is the guide summary', () => {
+    expect(senderBubble(null, sent, 'Jordan had a fall.', 'I fell')?.body).toBe('I fell');
+  });
+
+  it('prefers their latest message, and never repeats the line already shown', () => {
+    const latest = {
+      id: 'm-1',
+      sender_id: SENDER,
+      body: 'knee is scraped',
+      at: '2026-10-02T09:43:00Z',
+    };
+    expect(senderBubble(latest, sent, 'Jordan had a fall.', 'I fell')).toBe(latest);
+    expect(
+      senderBubble(null, { ...sent, body: 'came off the scooter' }, 'came off the scooter', ''),
+    ).toBeNull();
+    expect(senderBubble(null, sent, null, '')).toBeNull();
   });
 });
