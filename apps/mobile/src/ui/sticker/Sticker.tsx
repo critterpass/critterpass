@@ -244,6 +244,7 @@ export function Sticker(props: StickerProps): React.JSX.Element {
         const bytes = renderStickerPng(spec, bucketPt, deviceScale, engine);
         if (UI_QA_ENABLED) {
           // Read by the device shards: what drawing new stickers costs the JS thread.
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- a log tag, never copy.
           console.info(`[sticker-encode] ${(performance.now() - started).toFixed(2)}`);
         }
         return Promise.resolve(bytes);
