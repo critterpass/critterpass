@@ -112,31 +112,23 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'place-result-.*'
     index: 0
+# The result opens the place's Explore page: SOLO TRIP asks once, START SOLO TRIP makes the trip.
 - scrollUntilVisible:
     element:
-      id: 'guest-solo'
+      id: 'explore-solo'
     direction: DOWN
     timeout: 30000
 - tapOn:
-    id: 'guest-solo'
+    id: 'explore-solo'
 - extendedWaitUntil:
     visible:
-      id: 'solo-confirm'
+      id: 'explore-solo-confirm'
     timeout: 10000
-# Until the new crew has synced the page may ask which crew the trip is for.
-- runFlow:
-    when:
-      visible:
-        id: 'crew-picker'
-    commands:
-      - tapOn:
-          id: 'crew-pick-.*'
-          index: 0
 - tapOn:
-    id: 'solo-start'
+    id: 'explore-solo-start'
 - extendedWaitUntil:
     notVisible:
-      id: 'solo-confirm'
+      id: 'explore-solo-confirm'
     timeout: 20000
 # The Wallet tab opens on Money: the crew settles in the traveller's home currency.
 - openLink: critterpass-dev://wallet/money

@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
-# About ten minutes after a trip starts, the visit history offer rises over whatever is open:
-# NOT NOW puts it away when it is up.
+# The visit history offer, if it is up (it rises on the trip's own screen once the trip is on, see
+# answer-visit-offer.yaml): NOT NOW puts it away.
 - runFlow:
     when:
       visible: 'NOT NOW'

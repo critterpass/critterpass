@@ -33,9 +33,10 @@ appId: app.critterpass.dev
     direction: DOWN
     timeout: 10000
     centerElement: true
-- tapOn:
-    id: 'bookings-form-date'
-- inputText: ${DAY}
+- runFlow:
+    file: pick-booking-day.yaml
+    env:
+      DAY: ${DAY}
 - tapOn:
     id: 'bookings-form-time'
 - inputText: ${DEPARTS}

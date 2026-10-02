@@ -89,11 +89,12 @@ appId: app.critterpass.dev
       id: 'setup-step-when'
     timeout: 20000
 # Tomorrow in Vietnam, three days, picked in the week picker by each day's own id, so nothing
-# depends on the screen's size. The picker opens on this month; a start on the 1st sits a page on.
-# Every run takes that page turn first (the 1st of next month is picked, and the lock names it),
-# then comes back for tomorrow unless tomorrow is that day. The lock's label is checked before it
-# is tapped, so a tap that landed on another day fails here instead of locking the wrong dates.
-- evalScript: ${var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; var d = new Date(Date.now() + 31 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + Number(d.getUTCDate() !== 1), 1)); output.pickId = 'heat-pick-' + d.toISOString().slice(0, 10); output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()] + ' ' + d.getUTCDate() + '\\D.*'; output.firstId = 'heat-pick-' + first.toISOString().slice(0, 10); output.firstLabel = '(?i)lock ' + months[first.getUTCMonth()] + ' 1\\D.*'; output.startsOnFirst = d.getUTCDate() === 1}
+# depends on the screen's size. The picker opens on the month of its suggested week, which may be
+# another month than tomorrow's: pick-week-day.yaml pages the sheet's own month to the day. Every
+# run first picks the 1st of next month (the lock names it), then comes back for tomorrow. The
+# lock's label is checked before it is tapped, so a tap that landed on another day fails here
+# instead of locking the wrong dates.
+- evalScript: ${var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; var d = new Date(Date.now() + 31 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + Number(d.getUTCDate() !== 1), 1)); output.pickDate = d.toISOString().slice(0, 10); output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()] + ' ' + d.getUTCDate() + '\\D.*'; output.firstDate = first.toISOString().slice(0, 10); output.firstLabel = '(?i)lock ' + months[first.getUTCMonth()] + ' 1\\D.*'}
 - scrollUntilVisible:
     element:
       id: 'when-pick-week'
@@ -106,51 +107,19 @@ appId: app.critterpass.dev
       id: 'picker-shorter'
     timeout: 10000
 - waitForAnimationToEnd
-# A page on. With a heatmap on the step under the sheet too, the sheet's arrow is the second.
-- tapOn:
-    id: 'heatmap-next'
-    index: 1
-    optional: true
 - runFlow:
-    when:
-      notVisible:
-        id: ${output.firstId}
-    commands:
-      - tapOn:
-          id: 'heatmap-next'
-- scrollUntilVisible:
-    element:
-      id: ${output.firstId}
-    timeout: 10000
-- tapOn:
-    id: ${output.firstId}
+    file: subflows/pick-week-day.yaml
+    env:
+      PICK_DATE: ${output.firstDate}
 - extendedWaitUntil:
     visible:
       id: 'picker-lock'
       text: ${output.firstLabel}
     timeout: 10000
-# Back a page for tomorrow, wherever it sits in its month (the 31st is in the last row).
 - runFlow:
-    when:
-      true: ${output.startsOnFirst !== true}
-    commands:
-      - tapOn:
-          id: 'heatmap-prev'
-          index: 1
-          optional: true
-      - runFlow:
-          when:
-            notVisible:
-              id: ${output.pickId}
-          commands:
-            - tapOn:
-                id: 'heatmap-prev'
-      - scrollUntilVisible:
-          element:
-            id: ${output.pickId}
-          timeout: 10000
-      - tapOn:
-          id: ${output.pickId}
+    file: subflows/pick-week-day.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
 - extendedWaitUntil:
     visible:
       id: 'picker-lock'

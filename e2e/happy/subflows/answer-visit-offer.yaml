@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# On the trip's own screen (the TRIPS hub) of a trip that is on, the visit history offer rises once
+# the screen has rested a few seconds, unless it was answered before: NOT NOW puts it away for good
+# and the hub offers TURN ON in a row instead. Before the trip is on (noon of its first day in
+# Vietnam) nothing rises. Run it right after the hub's header shows.
+- runFlow:
+    when:
+      visible:
+        id: 'trip-hub-header-in'
+      notVisible:
+        id: 'visit-consent-row'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'visit-consent-decline'
+          timeout: 20000
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'visit-consent-decline'
+      - extendedWaitUntil:
+          visible:
+            id: 'visit-consent-row'
+          timeout: 10000
