@@ -20,6 +20,8 @@ export const GUIDE_TEXT_KINDS = [
   'briefing_item',
   'quest',
   'pitch',
+  'disruption',
+  'watch_item',
 ] as const;
 export type GuideTextKind = (typeof GUIDE_TEXT_KINDS)[number];
 
@@ -76,6 +78,15 @@ export const GUIDE_TEXT_FIELDS = {
     { name: 'reason_1', max: 90 },
     { name: 'reason_2', max: 90 },
     { name: 'quote', max: 110 },
+  ],
+  // The limits the disruption copy routes word them within (packages/ai/src/routes/{disruption,watch}).
+  disruption: [
+    { name: 'title', max: 60, title: true },
+    { name: 'summary', max: 200 },
+  ],
+  watch_item: [
+    { name: 'title', max: 140, title: true },
+    { name: 'detail', max: 140 },
   ],
 } as const satisfies Record<GuideTextKind, readonly GuideTextFieldSpec[]>;
 
