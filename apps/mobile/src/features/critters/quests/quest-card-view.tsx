@@ -22,13 +22,16 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { QuestCard } from '@/ui/critters/QuestCard';
 import { Icon } from '@/ui/icons/Icon';
 import { Row } from '@/ui/layout/Row';
+import { Stack } from '@/ui/layout/Stack';
 import { Avatar } from '@/ui/people/Avatar';
 import { EmptySeat } from '@/ui/people/EmptySeat';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { BefriendWhere } from './befriend-where';
 import type { QuestCardModel } from './quests-model';
+import type { BefriendPlace } from './use-befriend-spot';
 import type { RevealMode } from './use-reward-reveal';
 
 /** The reward doodle's size in the design, and the locked legendary's. */
@@ -142,11 +145,14 @@ export function QuestCardView({
   card,
   guide,
   reveal,
+  befriendPlace,
   onSignUp,
 }: {
   readonly card: QuestCardModel;
   readonly guide: QuestGuideArt;
   readonly reveal?: RevealMode;
+  /** Where a "befriend" quest can be done, for an active one. */
+  readonly befriendPlace?: BefriendPlace | undefined;
   readonly onSignUp: (id: string) => void;
 }) {
   const theme = useTheme();
@@ -175,7 +181,7 @@ export function QuestCardView({
       : done
         ? { done: card.progress.total, total: card.progress.total }
         : card.progress;
-  const footer =
+  const join =
     card.optional && card.state === 'active' ? (
       card.signedUp ? (
         <Text
@@ -194,6 +200,21 @@ export function QuestCardView({
         />
       )
     ) : undefined;
+  const where =
+    card.befriend !== null && card.state === 'active' && !done && befriendPlace !== undefined ? (
+      <BefriendWhere id={card.id} place={befriendPlace} />
+    ) : undefined;
+  const footer =
+    where === undefined ? (
+      join
+    ) : join === undefined ? (
+      where
+    ) : (
+      <Stack gap="12">
+        {where}
+        {join}
+      </Stack>
+    );
   return (
     <View style={card.state === 'missed' ? styles.missed : null}>
       <QuestCard
