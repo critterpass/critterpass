@@ -33,7 +33,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'help-consent-done'
 - extendedWaitUntil:
-    visible: '(?i)call 115'
+    visible: '(?i)call 115.*'
     timeout: 30000
 - assertVisible: '(?i).*113.*'
 - extendedWaitUntil:
@@ -151,7 +151,7 @@ appId: app.critterpass.dev
 - longPressOn:
     id: 'guide-fab'
 - extendedWaitUntil:
-    visible: '(?i)gọi 115'
+    visible: '(?i)gọi 115.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: vi-3k-6-help

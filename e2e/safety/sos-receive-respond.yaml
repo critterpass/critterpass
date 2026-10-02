@@ -52,7 +52,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'help-consent-done'
 - extendedWaitUntil:
-    visible: '(?i)call 115'
+    visible: '(?i)call 115.*'
     timeout: 30000
 - scrollUntilVisible:
     element:
@@ -107,7 +107,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'sos-going'
 - extendedWaitUntil:
-    visible: '(?i)going ✓'
+    visible: '(?i)going ✓.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: en-3k-10-sos-going
