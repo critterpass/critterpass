@@ -2,15 +2,18 @@ appId: app.critterpass.dev
 ---
 # Running late, live (3k-9), Android, as a brand-new traveller with no demo world. A fresh
 # account's Đà Nẵng trip is under way (it turns in_trip at noon Vietnam time, so this runs after
-# 12:00 ICT). Day 1's last item, which comes after the stay's check-in, is moved to start about
-# half an hour from now, so its leave-by (with a travel leg) falls due within the run. With
-# location and notifications granted through the app's own primers, the phone sits in Tam Kỳ, far
-# too far to make it: the app's once-a-minute journey check (only while the leave-by is due) sends
-# the ETA, the server opens the running-late disruption on the second late check, and the guide's
-# push opens `/late/{id}`. One option is sent; back in central Đà Nẵng the screen says the
-# traveller is on time again. Needs the staging client config `disruptions.journey_check` on for
-# the run (it is off by default). A crew of one has nobody waiting, so no crew-chat line is posted.
-# The trip only turns in_trip from noon in Vietnam.
+# 12:00 ICT). The traveller adds Mỹ Sơn Sanctuary to day 1, starting about an hour and three
+# quarters from now: it is far more than 45 minutes' drive from the day's other stops, so it gets a
+# leave-by (an evening stop a short ride away gets none, by design), due within the run. The hub's
+# next row turns into that leave-by before anything waits on it. With location and notifications
+# granted through the app's own primers, the phone sits in Huế, hours away: the app's once-a-minute
+# journey check (only while the leave-by is due) sends the ETA, the server opens the running-late
+# disruption on the second late check, and the guide's push opens `/late/{id}`. One option is
+# sent; at Mỹ Sơn itself the screen says the traveller is on time again. Needs the staging client
+# config `disruptions.journey_check` on for the run (it is off by default), and Mỹ Sơn among the
+# Đà Nẵng destination's places. A crew of one has nobody waiting, so no crew-chat line is posted.
+# Day 1 must still have room for the stop: the run starts between noon and 21:30 in Vietnam.
+- assertTrue: ${new Date(Date.now() + 7 * 3600000).getUTCHours() * 60 + new Date(Date.now() + 7 * 3600000).getUTCMinutes() <= 21 * 60 + 30}
 - assertTrue: ${new Date(Date.now() + 7 * 3600000).getUTCHours() >= 12}
 - runFlow:
     file: ../../happy/subflows/trip-under-way.yaml
@@ -22,14 +25,16 @@ appId: app.critterpass.dev
     timeout: 900000
 - runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
 
-# Day 1's last item, moved to the first quarter hour at least 25 minutes from now (Vietnam time).
+# Mỹ Sơn added to day 1, starting at the first quarter hour at least 105 minutes from now (Vietnam
+# time), so that its leave-by (the drive there, about an hour and a half, and the buffer) falls due
+# soon after.
 - tapOn:
     id: 'tab-trips'
 - extendedWaitUntil:
     visible:
       id: 'trip-hub'
     timeout: 30000
-- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
+- runFlow: ../../happy/subflows/answer-visit-offer.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-plan'
@@ -37,16 +42,6 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'trip-hub-tile-plan'
-# The visit history offer can rise over the hub just as the tile is tapped, and the tap only
-# closes it: put it away and open the plan again.
-- runFlow:
-    when:
-      visible: 'NOT NOW'
-    commands:
-      - tapOn: 'NOT NOW'
-      - waitForAnimationToEnd
-      - tapOn:
-          id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
       id: 'plan-day-1'
@@ -62,22 +57,25 @@ appId: app.critterpass.dev
       id: 'plan-day-add'
     direction: DOWN
     timeout: 15000
-- evalScript: ${output.rows = 0}
-- repeat:
-    while:
-      visible:
-        id: 'plan-day-row-.*'
-        index: ${output.rows}
-    commands:
-      - evalScript: ${output.rows = output.rows + 1}
 - tapOn:
-    id: 'plan-day-row-.*'
-    index: ${output.rows - 1}
+    id: 'plan-day-add'
 - extendedWaitUntil:
     visible:
-      id: 'plan-time-start-value'
+      id: 'plan-add-query'
     timeout: 15000
-- waitForAnimationToEnd
+- tapOn:
+    id: 'plan-add-query'
+- inputText: 'My Son'
+# Mỹ Sơn must be among the destination's places; nothing else will do.
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-place-.*'
+      text: '(?i).*m[ỹy] s[ơo]n.*'
+    timeout: 20000
+- hideKeyboard
+- tapOn:
+    id: 'plan-add-place-.*'
+    text: '(?i).*m[ỹy] s[ơo]n.*'
 - copyTextFrom:
     id: 'plan-time-start-value'
 - evalScript: >-
@@ -85,7 +83,7 @@ appId: app.critterpass.dev
     var h = Number(m[1]) % 12 + (m[3] && m[3].toLowerCase() === 'pm' ? 12 : m[3] ? 0 : Number(m[1]) >= 12 ? 12 : 0);
     var current = h * 60 + Number(m[2]);
     var now = Math.floor((Date.now() / 60000 + 7 * 60) % 1440);
-    var target = Math.ceil((now + 25) / 15) * 15;
+    var target = Math.ceil((now + 105) / 15) * 15;
     output.target = target;
     output.later = Math.max(0, (target - current) / 15);
     output.earlier = Math.max(0, (current - target) / 15)}
@@ -99,35 +97,14 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'plan-time-start-earlier'
-# A changed time shows SAVE at the foot of the sheet's details, below the notes and MOVE TO; an
-# item already at that time has nothing to save, and the sheet is closed instead.
-- runFlow:
-    when:
-      true: ${output.later + output.earlier > 0}
-    commands:
-      - scrollUntilVisible:
-          element:
-            id: 'plan-item-save'
-          direction: DOWN
-          timeout: 15000
-          centerElement: true
-      - tapOn:
-          id: 'plan-item-save'
-      - runFlow:
-          when:
-            visible:
-              id: 'plan-item-confirm'
-          commands:
-            - tapOn: 'Change it anyway'
-- runFlow:
-    when:
-      true: ${output.later + output.earlier === 0}
-    commands:
-      - tapOn:
-          id: 'plan-item-sheet-close'
+- tapOn:
+    id: 'plan-add-confirm'
 - extendedWaitUntil:
     notVisible:
-      id: 'plan-item-sheet'
+      id: 'plan-add-sheet'
+    timeout: 15000
+- extendedWaitUntil:
+    visible: '(?i).*m[ỹy] s[ơo]n.*'
     timeout: 15000
 - takeScreenshot: late-live-moved
 - runFlow: ../../onboarding/subflows/back.yaml
@@ -136,18 +113,30 @@ appId: app.critterpass.dev
       visible:
         id: 'plan-day-1'
     file: ../../onboarding/subflows/back.yaml
-- runFlow:
-    when:
-      visible:
-        id: 'trip-hub'
-    commands:
-      - tapOn:
-          id: 'tab-home'
+# Before anything waits on it: the leave-by exists, and the hub's next row has turned into it.
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 15000
+- extendedWaitUntil:
+    visible: '(?i)leave by.*'
+    timeout: 180000
+- assertVisible: '(?i).*m[ỹy] s[ơo]n.*'
+- copyTextFrom:
+    text: '(?i)leave by.*'
+- evalScript: >-
+    ${var m = /(\d{1,2})[:.h](\d{2})\s*([AaPp][Mm])?/.exec(maestro.copiedText);
+    var h = Number(m[1]) % 12 + (m[3] && m[3].toLowerCase() === 'pm' ? 12 : m[3] ? 0 : Number(m[1]) >= 12 ? 12 : 0);
+    output.leaveAt = h * 60 + Number(m[2])}
+- waitForAnimationToEnd
+- takeScreenshot: late-live-leave-by
+- tapOn:
+    id: 'tab-home'
 
 # Location and notifications, each through the app's primer and then the OS prompt.
 - setLocation:
-    latitude: 15.5736
-    longitude: 108.474
+    latitude: 16.4637
+    longitude: 107.5909
 - runFlow:
     file: ../../permissions/subflows/open-dev-screen.yaml
     env:
@@ -206,21 +195,20 @@ appId: app.critterpass.dev
       id: 'home-in-trip'
     timeout: 20000
 
-# Stay in Tam Kỳ with fresh fixes until the guide's push arrives. The leave-by falls due some time
-# before the moved item's start (its travel leg decides how long), up to about half an hour after
-# the move; two late checks a minute apart then open the disruption. So the wait runs by the clock,
-# until five minutes past the item's start in Vietnam, not by a count of rounds.
+# Stay in Huế with fresh fixes until the guide's push arrives: the checks start at the leave-by,
+# and two late ones a minute apart open the disruption. The wait runs by the clock, until 20
+# minutes past the leave-by in Vietnam.
 - evalScript: ${output.found = false}
 - repeat:
     times: 400
     while:
-      true: ${!output.found && Math.floor((Date.now() / 60000 + 7 * 60) % 1440) < output.target + 5}
+      true: ${!output.found && Math.floor((Date.now() / 60000 + 7 * 60) % 1440) < output.leaveAt + 20}
     commands:
       - travel:
           points:
-            - 15.5736,108.4740
-            - 15.5740,108.4744
-            - 15.5736,108.4740
+            - 16.4637,107.5909
+            - 16.4641,107.5913
+            - 16.4637,107.5909
           speed: 7
       - swipe:
           start: 50%, 0%
@@ -257,7 +245,7 @@ appId: app.critterpass.dev
     timeout: 20000
 - takeScreenshot: en-3k-9-live-chosen
 
-# Back in central Đà Nẵng, by the Dragon Bridge: the next checks are on time.
+# At Mỹ Sơn itself: the next checks are on time.
 - repeat:
     times: 8
     while:
@@ -266,9 +254,9 @@ appId: app.critterpass.dev
     commands:
       - travel:
           points:
-            - 16.0613,108.2275
-            - 16.0617,108.2279
-            - 16.0613,108.2275
+            - 15.7638,108.1240
+            - 15.7642,108.1244
+            - 15.7638,108.1240
           speed: 7
 - extendedWaitUntil:
     visible:
