@@ -3,8 +3,8 @@ appId: app.critterpass.dev
 # Crew quests (3l-7) and the sticker detail sheet in the critters lab's fixed-data scenes, in
 # English then Vietnamese: a generated quest day (faces, pips, an optional quest, where to meet a
 # critter for the befriend quest), one quest done with its reward revealed, the guide still
-# writing, offline, and the Settled Tokek and crew-level stickers up close. Shots are named `<lang>-<design id>-<state>` so compare mode pairs each with
-# its render.
+# writing, offline, and the Settled Tokek and crew-level stickers up close. Shots are named
+# `<lang>-<design id>-<state>` so compare mode pairs each with its render.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
