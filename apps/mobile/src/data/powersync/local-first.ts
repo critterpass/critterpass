@@ -135,6 +135,13 @@ function reconnectWhenOnline(
   latest.set(db, current);
 }
 
+/** Stops syncing `db` until the next `connectLocalFirst`, coming back online included. */
+export async function stopSyncing(db: AbstractPowerSyncDatabase): Promise<void> {
+  latest.get(db)?.stop();
+  latest.delete(db);
+  await db.disconnect();
+}
+
 /**
  * Binds the database to `uid` (wiping another uid's data first), then starts syncing and sends
  * whatever the queue still holds. It returns as soon as the owner is bound: from there the phone's

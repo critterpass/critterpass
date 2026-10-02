@@ -64,6 +64,8 @@ export function memoryLastUid(initial: string | null = null): MemoryLastUid {
 export interface SessionHarness {
   readonly value: AppSessionDeps;
   readonly opened: { uid: string; auth: LocalFirstAuth }[];
+  /** The local-first stack each start opened, in order (its network can be switched). */
+  readonly stacks: TestLocalFirst[];
   readonly appState: Lifecycle;
   readonly lastUid: MemoryLastUid;
   readonly outbox: FileOutbox;
@@ -155,6 +157,7 @@ export function sessionHarness(options: {
   return {
     value,
     opened,
+    stacks,
     appState,
     lastUid,
     outbox,

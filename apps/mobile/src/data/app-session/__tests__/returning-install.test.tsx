@@ -10,6 +10,7 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { act } from '@testing-library/react-native';
 
 import { registerOnSignOut, resetOnSignOutHooksForTests } from '../../auth/sign-out-hooks';
+import { defineClientCommand } from '../../commands/summaries';
 import type { AppSession, SessionAnswer } from '../start-app-session';
 import {
   memoryLastUid,
@@ -165,6 +166,76 @@ describe('a returning install (a stored last uid)', () => {
 
     expect(wiped).not.toHaveBeenCalled();
     expect(h.restarts).toEqual([]);
+  });
+});
+
+const addExpense = defineClientCommand<{ amount: number }>({ name: 'add_expense', offline: true });
+
+describe('a returning install the server says has no session', () => {
+  it('keeps everything while changes made here are unsent, stops syncing, and asks again next start', async () => {
+    const wiped = jest.fn<() => void>();
+    let tokens = 0;
+    const server = pendingCheck();
+    const lastUid = memoryLastUid('uid-before');
+    const h = harness({
+      online: true,
+      lastUid,
+      getSession: server.check,
+      syncToken: () => {
+        tokens += 1;
+        return Promise.reject(new Error('sync token refused'));
+      },
+    });
+    const session = await h.start();
+    const { opId } = await session.localFirst.commands.send(addExpense, { amount: 120_000 });
+    await keepPassport(session);
+    registerOnSignOut(wiped);
+
+    server.answer(NO_SESSION);
+    await settle(200);
+
+    expect(wiped).not.toHaveBeenCalled();
+    expect(h.restarts).toEqual([]);
+    expect(lastUid.current).toBe('uid-before');
+    await expect(session.localFirst.db.getAll('SELECT id, status FROM commands')).resolves.toEqual([
+      { id: opId, status: 'queued' },
+    ]);
+    await expect(
+      session.localFirst.db.getAll('SELECT data FROM local_private WHERE id = ?', ['passport']),
+    ).resolves.toEqual([{ data: 'mine' }]);
+    // Sync is stopped, and stays stopped when the network comes back.
+    const tokensWhenStopped = tokens;
+    h.stacks[0]?.network.set(false);
+    h.stacks[0]?.network.set(true);
+    await settle(200);
+    expect(tokens).toBe(tokensWhenStopped);
+    expect(session.localFirst.db.currentStatus.connected).toBe(false);
+    expect(session.localFirst.queue.getState().sending).toBe(false);
+
+    // The next start asks the server again.
+    await h.start();
+    expect(server.asked).toBe(2);
+  });
+
+  it('wipes as before when nothing made here is unsent', async () => {
+    const server = pendingCheck();
+    const wiped = jest.fn<() => void>();
+    const h = harness({
+      online: true,
+      lastUid: memoryLastUid('uid-before'),
+      getSession: server.check,
+    });
+    const session = await h.start();
+    const { opId } = await session.localFirst.commands.send(addExpense, { amount: 120_000 });
+    // The server has the expense: its result synced down.
+    await session.localFirst.db.execute("UPDATE commands SET status = 'done' WHERE id = ?", [opId]);
+    registerOnSignOut(wiped);
+
+    server.answer(NO_SESSION);
+    await settle();
+
+    expect(wiped).toHaveBeenCalledTimes(1);
+    expect(h.restarts).toEqual([null]);
   });
 });
 
