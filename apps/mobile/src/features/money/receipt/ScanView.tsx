@@ -44,6 +44,7 @@ export type ScanScene =
   | { readonly kind: 'reading'; readonly waiting: boolean; readonly slow?: boolean }
   | { readonly kind: 'offline' }
   | { readonly kind: 'upload_failed' }
+  | { readonly kind: 'pick_failed' }
   /** The server could not read it: the manual paths, said plainly. */
   | { readonly kind: 'unreadable' }
   | { readonly kind: 'review'; readonly review: LineAssignSheetProps }
@@ -183,6 +184,23 @@ export function ScanView(props: ScanViewProps) {
             />
           </>
         ) : null}
+      </Panel>
+    );
+  } else if (scene.kind === 'pick_failed') {
+    panel = (
+      <Panel testID="money-scan-pick_failed">
+        <Stack gap="8">
+          <Text variant="h3" accessibilityRole="header">
+            {t({ id: 'money.scan.pickFailedTitle', message: "Couldn't open that photo" })}
+          </Text>
+          <Text variant="body" color={theme.semantic.text.secondary}>
+            {t({
+              id: 'money.scan.pickFailedLine',
+              message: 'Scan the receipt, pick another photo, or type it in. Nothing was added.',
+            })}
+          </Text>
+        </Stack>
+        {scanButtons}
       </Panel>
     );
   } else if (scene.kind === 'unreadable') {

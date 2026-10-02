@@ -25,12 +25,15 @@ export type ScanState =
     }
   | { readonly step: 'saved_offline'; readonly uri: string; readonly receiptId: string }
   | { readonly step: 'upload_failed'; readonly uri: string; readonly code: string }
+  /** The photo picker could not hand a photo back. */
+  | { readonly step: 'pick_failed' }
   | { readonly step: 'typing'; readonly receiptId: string | null };
 
 export type ScanEvent =
   | { readonly type: 'captured'; readonly uri: string }
   | { readonly type: 'cancelled' }
   | { readonly type: 'denied' }
+  | { readonly type: 'pick_failed' }
   | { readonly type: 'read'; readonly result: ReaderResult; readonly receiptId: string }
   | { readonly type: 'posted' }
   | { readonly type: 'offline' }
@@ -50,6 +53,10 @@ export function scanReducer(state: ScanState, event: ScanEvent): ScanState {
       return state.step === 'reading' ? { step: 'aim' } : state;
     case 'denied':
       return { step: 'denied' };
+    case 'pick_failed':
+      return state.step === 'aim' || state.step === 'denied' || state.step === 'pick_failed'
+        ? { step: 'pick_failed' }
+        : state;
     case 'read':
       return state.step === 'reading'
         ? { step: 'uploading', uri: state.uri, receiptId: event.receiptId, read: event.result }

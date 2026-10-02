@@ -56,6 +56,7 @@ const TRIP = '0199a6f0-0000-7000-8000-00000000e201';
 let stack: TestLocalFirst | null = null;
 let posted: PostReceiptBody[] = [];
 let commits: unknown[] = [];
+let services: MoneyServices;
 
 function current(): TestLocalFirst {
   if (stack === null) throw new Error('the local database is not open');
@@ -128,7 +129,7 @@ function Root() {
             <AnalyticsProvider client={analytics}>
               <LocalFirstProvider value={current().value}>
                 <ScreenJoltProvider>
-                  <MoneyServicesProvider services={device}>
+                  <MoneyServicesProvider services={services}>
                     <Stack screenOptions={{ headerShown: false }} />
                   </MoneyServicesProvider>
                 </ScreenJoltProvider>
@@ -241,7 +242,8 @@ async function press(testID: string): Promise<void> {
 }
 
 /** Opens Money, takes SCAN and picks the photo; the scan is then waiting for the server. */
-async function scanAPhoto(answer: 'applied' | 'unreachable' = 'applied') {
+async function openScan(answer: 'applied' | 'unreachable', using: MoneyServices) {
+  services = using;
   stack = await openTestLocalFirst({ transport: api(answer) });
   await seed(stack);
   i18n.loadAndActivate({ locale: 'en', messages: {} });
@@ -250,6 +252,7 @@ async function scanAPhoto(answer: 'applied' | 'unreachable' = 'applied') {
       _layout: Root,
       '(tabs)/_layout': () => <ShellTabs gated={false} />,
       '(tabs)/index': () => <Text>home</Text>,
+      '(tabs)/wallet/_layout': () => <Stack screenOptions={{ headerShown: false }} />,
       '(tabs)/wallet/money/index': Money,
       'money/scan': ScanScreen,
       'money/add': () => <View testID="money-add" />,
@@ -261,8 +264,13 @@ async function scanAPhoto(answer: 'applied' | 'unreachable' = 'applied') {
   await app;
   await press('money-scan-entry');
   await press('money-scan-pick');
-  await until(() => posted.length === 1);
   return { getPathname: () => app.getPathname() };
+}
+
+async function scanAPhoto(answer: 'applied' | 'unreachable' = 'applied') {
+  const app = await openScan(answer, device);
+  await until(() => posted.length === 1);
+  return app;
 }
 
 afterEach(async () => {
@@ -284,6 +292,16 @@ describe('a scanned receipt', () => {
     });
     expect(posted[0]?.ocr_lines).toHaveLength(3);
     expect(screen.getByTestId('money-scan-reading')).toBeTruthy();
+  });
+
+  it('says when the photo picker fails, and keeps every other way in', async () => {
+    await openScan('applied', { ...device, pickPhoto: () => Promise.resolve({ kind: 'failed' }) });
+
+    await until(() => screen.queryByTestId('money-scan-pick_failed') !== null);
+    expect(screen.getByText("Couldn't open that photo")).toBeTruthy();
+    expect(screen.getByTestId('money-scan-start')).toBeTruthy();
+    expect(screen.getByTestId('money-scan-type')).toBeTruthy();
+    expect(posted).toHaveLength(0);
   });
 
   it('says it could not be read and offers typing it in or a retake', async () => {

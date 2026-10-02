@@ -41,27 +41,26 @@ appId: app.critterpass.dev
 - takeScreenshot: receipt-real-aim
 - tapOn:
     id: 'money-scan-pick'
-# The system photo picker: the bill is today's photo (its file carries no date of its own), so it
-# is found by today's date in its label ("Photo taken on Oct 2, 2026…" on Android, "Photo, October
-# 2, 2026…" on iOS), else it is the picker's first photo.
-- evalScript: ${var d = new Date(); var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; output.photoToday = '(?i).*photo.*' + months[d.getUTCMonth()] + '[a-z]* 0?' + d.getUTCDate() + ', ' + d.getUTCFullYear() + '.*'}
+# The system photo picker opens on the newest photos first: the bill, just added, is the first
+# cell of the grid (top left), where each platform's picker draws it.
 - extendedWaitUntil:
-    visible: '(?i).*photo.*'
+    notVisible:
+      id: 'money-scan-aim'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: receipt-real-picker
-- tapOn:
-    text: ${output.photoToday}
-    optional: true
 - runFlow:
     when:
-      notVisible:
-        id: 'money-scan'
+      platform: iOS
     commands:
       - tapOn:
-          text: '(?i).*photo.*'
-          index: 0
-          optional: true
+          point: '16%,25%'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          point: '16%,34%'
 # Some pickers ask to confirm the choice.
 - runFlow:
     when:
@@ -76,7 +75,7 @@ appId: app.critterpass.dev
 # The read, the upload and the server's parse: the review, or a screen that says what to do.
 - extendedWaitUntil:
     visible:
-      id: 'money-review|money-failure|money-scan-upload_failed|money-add|money-scan-trouble'
+      id: 'money-review|money-failure|money-scan-upload_failed|money-scan-unreadable|money-scan-pick_failed|money-scan-denied'
     timeout: 240000
 - waitForAnimationToEnd
 - takeScreenshot: receipt-real-parsed

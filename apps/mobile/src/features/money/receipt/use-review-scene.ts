@@ -110,6 +110,7 @@ export function useReviewScene(input: {
     if (step === 'denied') return { kind: 'denied' };
     if (step === 'saved_offline') return { kind: 'offline' };
     if (step === 'upload_failed') return { kind: 'upload_failed' };
+    if (step === 'pick_failed') return { kind: 'pick_failed' };
     if (step === 'waiting' && view.kind === 'unreadable') return { kind: 'unreadable' };
     if (parsed === null || step !== 'waiting') {
       return {

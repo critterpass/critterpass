@@ -78,7 +78,9 @@ export function useScan(
       let read: ReaderResult;
       try {
         read = await reader.recognize(uri, { languages: languagesFor(trip.localCurrency) });
-      } catch {
+      } catch (error) {
+        // The server reads the photo instead.
+        console.warn('[receipt-scan] on-device read', error);
         read = { status: 'no_text', lines: [], quality: null };
       }
       const id = generateUuidV7();
@@ -96,6 +98,7 @@ export function useScan(
         ocr_status: uploadStatus(read),
       };
       const photo = await services.uploadReceiptPhoto(uri);
+      if (photo.kind === 'error') console.warn('[receipt-scan] photo upload', photo.code);
       if (photo.kind === 'offline') {
         await queueScan(db, { uri, body });
         dispatch({ type: 'offline' });
@@ -109,6 +112,7 @@ export function useScan(
         await queueScan(db, { uri, body });
         dispatch({ type: 'offline' });
       } else if (posted.kind === 'error') {
+        console.warn('[receipt-scan] receipt post', posted.code);
         dispatch({ type: 'upload_error', code: posted.code });
       } else {
         dispatch({ type: 'posted' });
@@ -124,7 +128,8 @@ export function useScan(
       const result = await reader.scanDocument({ pageLimit: 1 });
       const uri = result.status === 'captured' ? result.uris[0] : undefined;
       if (uri !== undefined) await process(uri);
-    } catch {
+    } catch (error) {
+      console.warn('[receipt-scan] document scanner', error);
       dispatch({ type: 'denied' });
     }
   }, [services, process]);
@@ -133,6 +138,7 @@ export function useScan(
     const picked = await services.pickPhoto();
     if (picked.kind === 'picked') await process(picked.uri);
     else if (picked.kind === 'denied') dispatch({ type: 'denied' });
+    else if (picked.kind === 'failed') dispatch({ type: 'pick_failed' });
   }, [services, process]);
 
   return {
