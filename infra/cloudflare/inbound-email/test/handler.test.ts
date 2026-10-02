@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  envelopeIsAuthor,
   handleInbound,
   MAX_RAW_BYTES,
   senderVerdicts,
@@ -22,6 +23,7 @@ function message(overrides: Partial<{ to: string; rawSize: number; auth: string 
   const rejected: string[] = [];
   const headers = new Headers({
     'message-id': '<abc123@mail.example.com>',
+    from: 'Maya Tan <Maya@example.com>',
     subject: 'Fwd: Your booking is confirmed',
     'authentication-results':
       overrides.auth ??
@@ -213,6 +215,7 @@ describe('inbound email', () => {
         dkim: 'pass',
         spf: 'pass',
         dmarc: 'pass',
+        envelope_is_author: true,
         link_code: true,
       },
       { event: 'link_code_reply', delivery: 'sent', dmarc: 'pass', error: null, reported: 200 },
@@ -250,5 +253,14 @@ describe('inbound email', () => {
     expect(await handleInbound(message().value, env, deps)).toBe('quarantined');
     expect(replies).toHaveLength(1);
     expect(posts).toHaveLength(1);
+  });
+
+  it('tells a forward from its author apart from an auto-forward that keeps the original From', () => {
+    const relayed = new Headers({ from: 'VietJet Air <no-reply@vietjetair.example>' });
+    expect(envelopeIsAuthor('maya+caf_=crew=in.critterpass.app@gmail.example', relayed)).toBe(
+      false,
+    );
+    expect(envelopeIsAuthor('no-reply@vietjetair.example', relayed)).toBe(true);
+    expect(envelopeIsAuthor('maya@example.com', new Headers())).toBe(false);
   });
 });

@@ -91,6 +91,13 @@ export function senderVerdicts(headers: Headers): {
   };
 }
 
+/** Whether the envelope sender is the address in the From header (compared, never logged). */
+export function envelopeIsAuthor(envelope: string, headers: Headers): boolean {
+  const from = headers.get('from') ?? '';
+  const address = (/<([^<>]+)>\s*$/u.exec(from)?.[1] ?? from).trim().toLowerCase();
+  return address !== '' && address === envelope.trim().toLowerCase();
+}
+
 function utf8Base64(text: string): string {
   let binary = '';
   for (const byte of new TextEncoder().encode(text)) binary += String.fromCharCode(byte);
@@ -168,7 +175,14 @@ export async function handleInbound(
   await env.RAW_MAIL.put(r2Key, raw, { httpMetadata: { contentType: 'message/rfc822' } });
   const messageId = message.headers.get('message-id');
   const { dkim, spf } = senderVerdicts(message.headers);
-  const verdicts = { dkim, spf, dmarc: dmarcVerdict(message.headers) };
+  const verdicts = {
+    dkim,
+    spf,
+    dmarc: dmarcVerdict(message.headers),
+    // A manual forward comes from its author; an auto-forward or redirect keeps the original From
+    // while the envelope (where a reply goes) is the forwarder's or the original sender's.
+    envelope_is_author: envelopeIsAuthor(message.from, message.headers),
+  };
   const body = JSON.stringify({
     local_part: localPart,
     from: message.from,
