@@ -228,7 +228,12 @@ function recordSkiaSurfaces(options: ShardOptions, slug: string): void {
     mkdirSync(dir, { recursive: true });
     writeFileSync(
       path.join(dir, `${slug}.json`),
-      JSON.stringify({ ...countSkiaSurfaces(log), iconEncodes: iconEncodeCost(js) }),
+      JSON.stringify({
+        ...countSkiaSurfaces(log),
+        iconEncodes: iconEncodeCost(js),
+        stickerEncodes: iconEncodeCost(js, 'sticker'),
+        hatchEncodes: iconEncodeCost(js, 'hatch'),
+      }),
     );
   } catch {
     // A count is a measurement, never a reason to fail the shard.
@@ -236,10 +241,13 @@ function recordSkiaSurfaces(options: ShardOptions, slug: string): void {
 }
 
 /**
- * What drawing icons cost the JS thread in a flow, from the app's `[icon-encode] <ms>` lines
- * (QA builds): how many new icons were drawn, the total time, and the busiest second.
+ * What drawing icons (or stickers, or hatched blocks) cost the JS thread in a flow, from the app's
+ * `[<kind>-encode] <ms>` lines (QA builds): how many new icons were drawn, the total time, and the busiest second.
  */
-export function iconEncodeCost(log: string): {
+export function iconEncodeCost(
+  log: string,
+  kind: 'icon' | 'sticker' | 'hatch' = 'icon',
+): {
   count: number;
   totalMs: number;
   busiestSecondMs: number;
@@ -250,7 +258,7 @@ export function iconEncodeCost(log: string): {
   let slowestMs = 0;
   const bySecond = new Map<string, number>();
   for (const line of log.split('\n')) {
-    const match = /^\s*(\d+)\.\d+.*\[icon-encode\] ([\d.]+)/.exec(line);
+    const match = new RegExp(`^\\s*(\\d+)\\.\\d+.*\\[${kind}-encode\\] ([\\d.]+)`).exec(line);
     if (match === null) continue;
     const [, second = '', msText = '0'] = match;
     const ms = Number(msText);

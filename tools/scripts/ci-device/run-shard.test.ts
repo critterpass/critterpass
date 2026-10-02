@@ -139,6 +139,10 @@ describe('iconEncodeCost', () => {
       busiestSecondMs: 6.5,
       slowestMs: 4,
     });
+    expect(iconEncodeCost(log, 'sticker').count).toBe(0);
+    expect(
+      iconEncodeCost('  1790950000.120  1  1 I ReactNativeJS: [sticker-encode] 3.00', 'sticker'),
+    ).toEqual({ count: 1, totalMs: 3, busiestSecondMs: 3, slowestMs: 3 });
     expect(iconEncodeCost('')).toEqual({ count: 0, totalMs: 0, busiestSecondMs: 0, slowestMs: 0 });
   });
 });
