@@ -13,6 +13,7 @@ import { useCommand } from '@/data/commands/use-command';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { feedback, toast } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 
 import { telUrl } from '../format';
 import { resolveSosCommand, respondSosCommand, triggerSosCommand } from '../commands';
@@ -54,6 +55,8 @@ export function SosScreen() {
   const resolve = useCommand(resolveSosCommand);
   const trigger = useCommand(triggerSosCommand);
   const acked = useRef(false);
+  // 3k-10 is a takeover: the design draws no back control (the system back gesture still works).
+  useNoBackByDesign();
   const model = sos.model;
 
   useEffect(() => {
@@ -115,6 +118,7 @@ export function SosScreen() {
           .send({ trip_id: tripId, sos_id: fresh, confirm_of: sosId })
           .then(() => router.replace(safetyRoutes.sos(fresh)));
       }}
+      onMap={() => router.push(safetyRoutes.map(sosId))}
       onClose={() => (router.canGoBack() ? router.back() : router.replace('/'))}
     />
   );

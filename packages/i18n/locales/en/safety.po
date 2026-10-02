@@ -15,6 +15,10 @@ msgstr "\"{gloss}\" Show it, or tap to play."
 msgid "safety.share.active"
 msgstr "{crewName} can see where you are"
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.eta"
+msgstr "{eta} minutes away on foot."
+
 #: ../../apps/mobile/src/features/safety/help/help-hero.tsx
 msgid "safety.help.whereUnknown"
 msgstr "{guideName} has the numbers and the words."
@@ -26,6 +30,10 @@ msgstr "{guideName}'s on it"
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.away"
 msgstr "{km} km from you"
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.distance"
+msgstr "{km} km from you, in a straight line."
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.open24"
@@ -43,9 +51,14 @@ msgstr "{name} is safe."
 msgid "safety.sos.knows"
 msgstr "{name} knows you're coming."
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.title"
 msgstr "{name} needs help"
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.live"
+msgstr "{name}'s location is live."
 
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepLive"
@@ -98,10 +111,6 @@ msgstr "Ask the guide"
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.clinic"
 msgstr "Asking the ops desk to call the clinic"
-
-#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
-msgid "safety.help.backTo"
-msgstr "Back to {guideName}"
 
 #: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
 msgid "safety.action.call"
@@ -198,6 +207,11 @@ msgid "safety.sos.goingDone"
 msgstr "Going ✓"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.back.help"
+msgstr "Help"
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.hurt"
 msgstr "Hurt or sick"
@@ -277,6 +291,10 @@ msgstr "Need a hand?"
 msgid "safety.preset.ride"
 msgstr "Need a ride"
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.needsHelp"
+msgstr "Needs help"
+
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.noFacility"
 msgstr "No clinic on file near here yet. The numbers above work everywhere."
@@ -308,6 +326,10 @@ msgstr "Report it to the police ({number}) and ask for a written report for your
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.police"
 msgstr "Report it to the police and ask for a written report for your insurer."
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.seeOnMap"
+msgstr "See {name} on the map"
 
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
 msgid "safety.send.againTitle"
@@ -437,6 +459,10 @@ msgstr "Stopping your Help share"
 msgid "safety.queued.resolve"
 msgstr "Telling the crew you are OK"
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.straight"
+msgstr "The line is straight; your maps app has the walking route."
+
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.opsClinic"
 msgstr "The ops desk can call the clinic with you."
@@ -445,9 +471,21 @@ msgstr "The ops desk can call the clinic with you."
 msgid "safety.consent.control"
 msgstr "The share stops by itself after an hour. Off, Help still has every number and phrase, and you can share with one tap. Change it any time in Settings."
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.ended"
+msgstr "This SOS is over. The location share has stopped."
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.until"
 msgstr "Until {until}, then it stops by itself"
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.waiting"
+msgstr "Waiting for {name}'s location."
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.directions"
+msgstr "Walking directions"
 
 #: ../../apps/mobile/src/features/safety/help/help-hero.tsx
 msgid "safety.help.where"

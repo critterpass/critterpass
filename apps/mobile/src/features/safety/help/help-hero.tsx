@@ -5,7 +5,7 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 import Animated, {
   cancelAnimation,
   useAnimatedStyle,
@@ -19,6 +19,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { useMotionMode } from '@/motion';
 import { HeroPanel } from '@/ui/cards/HeroPanel';
 import { Row } from '@/ui/layout/Row';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Stack } from '@/ui/layout/Stack';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -100,17 +101,7 @@ export function HelpHero({
     >
       <Stack gap="16">
         <Row justify="space-between" align="center">
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t({ id: 'safety.help.backTo', message: `Back to ${guideName}` })}
-            onPress={onBack}
-            hitSlop={12}
-            testID="help-back"
-          >
-            <Text variant="label" color={ink}>
-              {upper(`← ${guideName}`, locale)}
-            </Text>
-          </Pressable>
+          <BackEyebrow label={guideName} color={ink} onPress={onBack} testID="help-back" />
           {shareHours === null ? <View /> : <ShareIndicator hours={shareHours} />}
         </Row>
         <Text variant="displayHero" color={ink} accessibilityRole="header">

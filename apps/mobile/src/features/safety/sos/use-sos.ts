@@ -48,6 +48,8 @@ export interface SosData {
   /** Metres between this phone and the sender's latest fix; null until both are known. */
   readonly distanceM: number | null;
   readonly senderAt: Position | null;
+  /** This phone's own position (the permission it already holds; never asked for here). */
+  readonly here: Position | null;
 }
 
 function firstName(name: string | null): string {
@@ -138,5 +140,6 @@ export function useSos(sosId: string | null): SosData {
     senderPhone: phone,
     distanceM: here === null || senderAt === null ? null : Math.round(distanceM(here, senderAt)),
     senderAt,
+    here,
   };
 }

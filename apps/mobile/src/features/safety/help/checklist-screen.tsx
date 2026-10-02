@@ -21,6 +21,7 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { ActionPill } from '@/ui/plan/ActionPill';
 import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
@@ -110,6 +111,7 @@ export function ChecklistScreen() {
           gap: theme.space['16'],
         }}
       >
+        <BackEyebrow label={t({ id: 'safety.back.help', message: 'Help' })} />
         <Text variant="h1" accessibilityRole="header">
           {titles[problem]}
         </Text>

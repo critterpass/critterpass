@@ -15,6 +15,10 @@ msgstr ""
 msgid "safety.share.active"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.eta"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/help-hero.tsx
 msgid "safety.help.whereUnknown"
 msgstr ""
@@ -25,6 +29,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.away"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.distance"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
@@ -43,8 +51,13 @@ msgstr ""
 msgid "safety.sos.knows"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.live"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
@@ -97,10 +110,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.clinic"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/help/help-hero.tsx
-msgid "safety.help.backTo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
@@ -198,6 +207,11 @@ msgid "safety.sos.goingDone"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
+#: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
+msgid "safety.back.help"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.hurt"
 msgstr ""
@@ -277,6 +291,10 @@ msgstr ""
 msgid "safety.preset.ride"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.needsHelp"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.noFacility"
 msgstr ""
@@ -307,6 +325,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.police"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.seeOnMap"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/send-screen.tsx
@@ -437,6 +459,10 @@ msgstr ""
 msgid "safety.queued.resolve"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.straight"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.opsClinic"
 msgstr ""
@@ -445,8 +471,20 @@ msgstr ""
 msgid "safety.consent.control"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.ended"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.until"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.waiting"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.directions"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/help-hero.tsx

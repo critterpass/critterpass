@@ -37,6 +37,8 @@ export interface SosViewProps {
   readonly onSafe: () => void;
   readonly onSendAgain: () => void;
   readonly onClose: () => void;
+  /** The session map: where the sender is, and the way there on foot. */
+  readonly onMap: () => void;
 }
 
 interface Cta {
@@ -200,6 +202,13 @@ export function SosView(props: SosViewProps) {
               label={t({ id: 'safety.sos.theyAreSafe', message: `${name} is safe` })}
               onPress={props.onSafe}
               testID="sos-safe"
+            />
+          ) : null}
+          {model.state === 'open' && model.role === 'crew' ? (
+            <TextLink
+              label={t({ id: 'safety.sos.seeOnMap', message: `See ${name} on the map` })}
+              onPress={props.onMap}
+              testID="sos-map-link"
             />
           ) : null}
           <SecondaryText>

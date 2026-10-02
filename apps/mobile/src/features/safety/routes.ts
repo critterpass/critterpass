@@ -21,6 +21,8 @@ export const safetyRoutes = {
   }),
   send: (tripId: string): Href => ({ pathname: '/sos/send', params: { tripId } }),
   sos: (sosId: string): Href => ({ pathname: '/sos/[id]', params: { id: sosId } }),
+  /** The session map of an SOS: free on any trip, it ends with the incident. */
+  map: (sosId: string): Href => ({ pathname: '/sos/map', params: { id: sosId } }),
 };
 
 let registered = false;

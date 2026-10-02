@@ -23,6 +23,7 @@ import { TextField } from '@/ui/inputs/TextField';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
@@ -114,6 +115,7 @@ export function SosSendScreen() {
           gap: theme.space['20'],
         }}
       >
+        <BackEyebrow label={t({ id: 'safety.back.help', message: 'Help' })} />
         <Text variant="h1" accessibilityRole="header">
           {t({ id: 'safety.send.title', message: 'SOS to your crew' })}
         </Text>
