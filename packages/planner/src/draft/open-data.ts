@@ -1,8 +1,9 @@
 /**
  * Open-data places (not curated by our editors) carry no opening hours and no visit length. When a
  * typed must-do names one, it is planned with the hours places of its kind usually keep, so a
- * mountain park is not put on the evening schedule because nothing said it closes. Curated places
- * keep what the editors wrote (unknown hours stay unknown).
+ * mountain park is not put on the evening schedule because nothing said it closes. Those hours are
+ * marked as a guess: they shape a plain visit, and never overrule the time of day a must-do is
+ * held to. Curated places keep what the editors wrote (unknown hours stay unknown).
  */
 import type { Hours } from '@cp/domain';
 
@@ -22,8 +23,8 @@ const USUAL_HOURS: Readonly<Record<string, readonly [string, string]>> = {
   food: ['07:00', '22:00'],
 };
 
-/** The hours places of `category` usually keep; null when there is no usual (open all day). */
-export function usualHours(category: string): Hours | null {
+/** The hours places of `category` usually keep (eight to six for a kind we have no usual for). */
+export function usualHours(category: string): Hours {
   const span = USUAL_HOURS[category] ?? ['08:00', '18:00'];
   return {
     weekly: Object.fromEntries(DAYS.map((day) => [day, [{ start: span[0], end: span[1] }]])),
@@ -35,7 +36,7 @@ export function withOpenDataDefaults(poi: DraftPoi): DraftPoi {
   if (poi.editorial) return poi;
   return {
     ...poi,
-    hours: poi.hours ?? usualHours(poi.category),
+    ...(poi.hours === null ? { hours: usualHours(poi.category), hoursGuessed: true } : {}),
     durationMin: poi.durationMin > 0 ? poi.durationMin : defaultDurationMin(poi.category),
   };
 }

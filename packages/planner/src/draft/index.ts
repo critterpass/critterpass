@@ -77,12 +77,14 @@ export type {
 export { resolveWishes, type ResolvedWishes } from './wishes';
 export {
   FULL_DAY_MIN,
+  heldWindow,
   namedWeekdays,
   timedDuration,
   timeWindow,
   timeWords,
   WISH_TIME_STARTS,
   WISH_TIMES,
+  type StartWindow,
   type WishTime,
 } from './wish-time';
 export { usualHours, withOpenDataDefaults } from './open-data';

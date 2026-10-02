@@ -19,6 +19,8 @@ export interface DraftPoi {
   /** The place's own zone, else the destination's. */
   readonly tz: string;
   readonly hours: Hours | null;
+  /** The hours are the usual ones of places of its kind, not the place's own (./open-data). */
+  readonly hoursGuessed?: boolean;
   /** 0 (free) to 4 (splurge); null = unknown. */
   readonly priceLevel: number | null;
   readonly tags: readonly string[];
