@@ -213,6 +213,10 @@ msgstr "Chưa có gì bị xoá cho đến {0}. Đăng nhập trước ngày đ�
 msgid "you.settings.offline"
 msgstr "Ngoại tuyến"
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.backPass"
+msgstr "Pass"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.passPlus"
 msgstr "Pass+ được tính tiền qua cửa hàng nơi bạn mua. Xoá tài khoản không huỷ gói, nên hãy huỷ ở đó nữa."

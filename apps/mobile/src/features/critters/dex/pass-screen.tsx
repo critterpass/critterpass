@@ -24,6 +24,7 @@ import { StickerShelf } from '../stickers';
 
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and a design screen id, never copy. */
 const PROFILE_SCREEN = '3n-1';
+const FROM_PASS = '?from=pass';
 const ME_SQL = `SELECT u.display_name, a.kind AS avatar_kind, a.form_id AS avatar_form_id
   FROM users u LEFT JOIN avatars a ON a.id = u.avatar_id WHERE u.id = ?`;
 const ME_TABLES = ['users', 'avatars'];
@@ -96,7 +97,11 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
                 me.avatar_kind === 'critter' && me.avatar_form_id !== null
                   ? guideOfForm(me.avatar_form_id)
                   : null,
-              onOpen: () => router.push(profileHref),
+              // The profile's back control then reads "Pass", where the person came from.
+              onOpen: () =>
+                router.push(
+                  typeof profileHref === 'string' ? `${profileHref}${FROM_PASS}` : profileHref,
+                ),
             }
       }
       encounter={
