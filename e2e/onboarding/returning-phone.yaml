@@ -1,0 +1,142 @@
+appId: app.critterpass.dev
+---
+# A pass saved with a phone comes back after signing out. A new pass is saved with the staging test
+# number (+65 9123 4567, its fixed code in OTP_TEST_CODE) and starts a crew; Developer tools → Test
+# accounts keeps that account and starts a new one on this phone (as a sign-out leaves it); "I
+# already have a pass" with the same number then lands on Home with the crew, not on the name page.
+# Run with `-e OTP_TEST_CODE=<the api's OTP_TEST_CODE>`.
+- runFlow: ../happy/subflows/fresh-install.yaml
+- runFlow: subflows/through-name.yaml
+- tapOn:
+    id: 'onboarding-photo-next'
+- extendedWaitUntil:
+    visible:
+      id: 'taste-card-left'
+    timeout: 20000
+- repeat:
+    times: 6
+    commands:
+      - tapOn:
+          id: 'taste-skip'
+- tapOn:
+    id: 'taste-done'
+- tapOn:
+    id: 'home-search'
+- inputText: 'SIN'
+- tapOn:
+    id: 'home-row-SIN'
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- tapOn:
+    id: 'onboarding-home-next'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-issued-save'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-issued-save'
+- tapOn:
+    id: 'save-phone'
+- tapOn:
+    id: 'phone-number'
+- inputText: '91234567'
+- hideKeyboard
+- tapOn:
+    id: 'phone-send'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-sent'
+    timeout: 20000
+- inputText: '${OTP_TEST_CODE}'
+- extendedWaitUntil:
+    visible:
+      id: 'permissions-primer-later'
+    timeout: 20000
+- tapOn:
+    id: 'permissions-primer-later'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'CP Test Sign-out'
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+
+# Signed out: this account stays on the server, the phone starts on a new pass.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-new'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-sign-in'
+    timeout: 60000
+- tapOn:
+    id: 'onboarding-sign-in'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-number'
+    timeout: 10000
+# A new pass has no home yet, so the country is this phone's region: Singapore is picked by hand.
+- tapOn:
+    id: 'phone-country'
+- extendedWaitUntil:
+    visible:
+      id: 'country-picker-panel'
+    timeout: 10000
+- tapOn: 'Search countries'
+- inputText: 'Singapore'
+- extendedWaitUntil:
+    visible:
+      id: 'country-SG'
+    timeout: 10000
+- tapOn:
+    id: 'country-SG'
+- extendedWaitUntil:
+    notVisible:
+      id: 'country-picker-panel'
+    timeout: 10000
+- tapOn:
+    id: 'phone-number'
+- inputText: '91234567'
+- hideKeyboard
+- tapOn:
+    id: 'phone-send'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-sent'
+    timeout: 20000
+- inputText: '${OTP_TEST_CODE}'
+# The app starts again on the account that saved the number. It may come back on the tab it was
+# last on (TRIPS, from the account switch): Home shows the crew.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 60000
+- tapOn:
+    id: 'tab-home'
+# The crew's name in Home's header (on iOS only the button's label, "{crew}, switch crew", shows).
+- extendedWaitUntil:
+    visible:
+      text: '(?i)cp test sign-out.*'
+    timeout: 60000
+- assertNotVisible:
+    id: 'onboarding-name-field'
+- waitForAnimationToEnd
+- takeScreenshot: en-returning-phone-home

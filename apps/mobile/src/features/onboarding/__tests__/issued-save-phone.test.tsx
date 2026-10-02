@@ -27,7 +27,7 @@ import { isOnboardingComplete, setOnboardingComplete } from '@/lib/links/pending
 
 import { clearDraftForTests, readDraft, updateDraft } from '../flow-controller/draft-store';
 import { IssuedScreen } from '../issued/IssuedScreen';
-import { PhoneScreen } from '../phone/PhoneScreen';
+import { PHONE_ADVANCE_MS, PhoneScreen } from '../phone/PhoneScreen';
 import { countryList, formatE164, resendWaitS, toE164 } from '../phone/phone-number';
 import { SaveScreen } from '../save/SaveScreen';
 import { fakeServices, recordingAnalytics, renderOnboarding } from '../test-support/harness';
@@ -248,19 +248,49 @@ describe('3a-8 phone sign-in', () => {
     expect(reported).toEqual([{ flow: 'link_google', code: 'PLAY_SERVICES_NOT_AVAILABLE' }]);
   });
 
-  it('signs a returning user in to their pass', async () => {
+  it('signs a returning user in to the pass their number holds, without saving it here', async () => {
+    jest.useFakeTimers();
     jest.mocked(useLocalSearchParams).mockReturnValue({ mode: 'returning' });
     clearDraftForTests();
-    const services = withAuth({
-      verifyOtp: () => Promise.resolve({ kind: 'merge_required', ticket: 't-9' }),
-    });
+    const verifyOtp = jest.fn(() => Promise.resolve({ kind: 'verified' } as const));
+    const signInReturningPhone = jest.fn(() =>
+      Promise.resolve({ kind: 'signed_in', userId: 'u-existing' } as const),
+    );
+    const restart = jest.fn();
+    const services = { ...withAuth({ verifyOtp, signInReturningPhone }), restart };
     await sendCode(services);
     expect(screen.getByText('WELCOME BACK')).toBeTruthy();
     await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
     await flush();
-    await activate(screen.getByTestId('merge-use-existing'));
-    await flush();
+    expect(signInReturningPhone).toHaveBeenCalledWith(expect.objectContaining({ code: '419203' }));
+    // The save call would move the number onto this phone's new pass: never made here.
+    expect(verifyOtp).not.toHaveBeenCalled();
+    await act(async () => {
+      jest.advanceTimersByTime(PHONE_ADVANCE_MS);
+      await Promise.resolve();
+    });
     expect(isOnboardingComplete()).toBe(true);
-    expect(router.replace).toHaveBeenCalledWith('/');
+    expect(restart).toHaveBeenCalledTimes(1);
+  });
+
+  it('makes a new pass on a number nobody holds, saved to this phone', async () => {
+    jest.useFakeTimers();
+    jest.mocked(useLocalSearchParams).mockReturnValue({ mode: 'returning' });
+    clearDraftForTests();
+    const restart = jest.fn();
+    const services = {
+      ...withAuth({ signInReturningPhone: () => Promise.resolve({ kind: 'linked' } as const) }),
+      restart,
+    };
+    await sendCode(services);
+    await fireEvent.changeText(screen.getByLabelText('Verification code'), '419203');
+    await flush();
+    await act(async () => {
+      jest.advanceTimersByTime(PHONE_ADVANCE_MS);
+      await Promise.resolve();
+    });
+    expect(router.replace).toHaveBeenCalledWith('/onboarding/name');
+    expect(restart).not.toHaveBeenCalled();
+    expect(isOnboardingComplete()).toBe(false);
   });
 });
