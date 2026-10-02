@@ -218,29 +218,19 @@
       "country": "CL",
       "numbers": [
         {
+          "service": "ambulance",
+          "number": "131",
+          "label": "Medical emergency (SAMU)"
+        },
+        {
+          "service": "fire",
+          "number": "132",
+          "label": "Fire department"
+        },
+        {
           "service": "police",
           "number": "133",
-          "label": "Police (Carabineros emergencies)"
-        },
-        {
-          "service": "police",
-          "number": "135",
-          "label": "Police (drugs)"
-        },
-        {
-          "service": "police",
-          "number": "139",
-          "label": "Police (information)"
-        },
-        {
-          "service": "police",
-          "number": "147",
-          "label": "Police (children)"
-        },
-        {
-          "service": "police",
-          "number": "149",
-          "label": "Police (family)"
+          "label": "Police (Carabineros)"
         },
         {
           "service": "police",
@@ -248,34 +238,24 @@
           "label": "Investigative police (PDI)"
         },
         {
-          "service": "ambulance",
-          "number": "131",
-          "label": "Ambulance"
-        },
-        {
           "service": "other",
-          "number": "138",
-          "label": "Air search and rescue (SAR)"
-        },
-        {
-          "service": "fire",
-          "number": "130",
-          "label": "Forest fires (Conaf)"
-        },
-        {
-          "service": "fire",
-          "number": "132",
-          "label": "Fire department (Bomberos)"
+          "number": "136",
+          "label": "Mountain rescue"
         },
         {
           "service": "coast_guard",
           "number": "137",
-          "label": "Coastal rescue unit"
+          "label": "Maritime search and rescue"
         },
         {
           "service": "other",
-          "number": "56-2-26994764",
-          "label": "Andean rescue corps"
+          "number": "138",
+          "label": "Air search and rescue"
+        },
+        {
+          "service": "other",
+          "number": "139",
+          "label": "Police information"
         }
       ],
       "source_url": "https://www.chile.gob.cl/chile/sobre-chile/informacion-turistica/condiciones-de-seguridad/condiciones-de-seguridad",
@@ -311,22 +291,7 @@
         {
           "service": "general",
           "number": "123",
-          "label": "National emergency number"
-        },
-        {
-          "service": "police",
-          "number": "112",
-          "label": "Metropolitan police"
-        },
-        {
-          "service": "ambulance",
-          "number": "125",
-          "label": "Ambulance"
-        },
-        {
-          "service": "fire",
-          "number": "119",
-          "label": "Fire"
+          "label": "National emergency line"
         }
       ],
       "source_url": "https://www1.funcionpublica.gov.co/preguntas-frecuentes/-/asset_publisher/sqxafjubsrEu/content/linea-unica-de-emergencias-nacional-123/28585938",
@@ -954,27 +919,17 @@
         {
           "service": "ambulance",
           "number": "150",
-          "label": "Ambulance and fire"
+          "label": "Medical assistance and fire"
         },
         {
           "service": "fire",
           "number": "150",
-          "label": "Fire brigade"
+          "label": "Firefighters"
         },
         {
           "service": "police",
           "number": "190",
           "label": "Police"
-        },
-        {
-          "service": "police",
-          "number": "177",
-          "label": "Royal Gendarmerie"
-        },
-        {
-          "service": "other",
-          "number": "141",
-          "label": "Medical emergencies"
         }
       ],
       "source_url": "https://travel.gc.ca/destinations/morocco",
@@ -1001,16 +956,6 @@
           "service": "general",
           "number": "999",
           "label": "Police, fire, ambulance"
-        },
-        {
-          "service": "fire",
-          "number": "994",
-          "label": "Fire"
-        },
-        {
-          "service": "ambulance",
-          "number": "112",
-          "label": "Ambulance (from mobile)"
         }
       ],
       "source_url": "https://www.malaysia.gov.my/en/categories/safety-and-community/public-safety/mers-999-emergency-line",
@@ -1073,16 +1018,6 @@
           "service": "general",
           "number": "9999",
           "label": "Emergency (Royal Oman Police)"
-        },
-        {
-          "service": "ambulance",
-          "number": "23218888",
-          "label": "Ambulance (Salalah)"
-        },
-        {
-          "service": "ambulance",
-          "number": "26718888",
-          "label": "Ambulance (Sohar)"
         }
       ],
       "source_url": "https://gov.om/en/royal-oman-police",
@@ -1121,14 +1056,14 @@
           "label": "National emergency hotline"
         },
         {
+          "service": "police",
+          "number": "117",
+          "label": "Philippine National Police"
+        },
+        {
           "service": "other",
           "number": "143",
           "label": "Philippine Red Cross"
-        },
-        {
-          "service": "police",
-          "number": "117",
-          "label": "Philippine National Police emergency hot"
         }
       ],
       "source_url": "https://ehotlines.e.gov.ph",
@@ -1297,22 +1232,22 @@
         {
           "service": "police",
           "number": "197",
-          "label": "Police (towns and cities)"
+          "label": "Police"
         },
         {
           "service": "police",
           "number": "193",
-          "label": "National Guard (rural areas)"
+          "label": "National Guard"
         },
         {
           "service": "ambulance",
           "number": "190",
-          "label": "Ambulance (SAMU)"
+          "label": "Medical assistance"
         },
         {
           "service": "fire",
           "number": "198",
-          "label": "Fire and civil protection"
+          "label": "Firefighters"
         }
       ],
       "source_url": "https://travel.gc.ca/destinations/tunisia",
@@ -1343,12 +1278,12 @@
         {
           "service": "ambulance",
           "number": "119",
-          "label": "Ambulance and fire"
+          "label": "Medical assistance and fire"
         },
         {
           "service": "fire",
           "number": "119",
-          "label": "Fire"
+          "label": "Firefighters"
         }
       ],
       "source_url": "https://travel.gc.ca/destinations/taiwan",
@@ -1361,7 +1296,7 @@
         {
           "service": "general",
           "number": "112",
-          "label": "Emergency services"
+          "label": "Emergency assistance"
         }
       ],
       "source_url": "https://travel.gc.ca/destinations/tanzania",
@@ -1425,17 +1360,12 @@
         {
           "service": "fire",
           "number": "114",
-          "label": "Fire"
+          "label": "Fire and rescue"
         },
         {
           "service": "other",
           "number": "112",
-          "label": "National search and rescue"
-        },
-        {
-          "service": "other",
-          "number": "111",
-          "label": "Child protection hotline"
+          "label": "Incidents and disasters"
         }
       ],
       "source_url": "https://vov.gov.vn/new-emergency-hotline-launched-to-receive-disaster-related-information-dtnew-1113530",
@@ -1448,27 +1378,22 @@
         {
           "service": "police",
           "number": "10111",
-          "label": "South African Police Service"
+          "label": "Police Flying Squad"
         },
         {
           "service": "ambulance",
           "number": "10177",
-          "label": "General ambulance"
-        },
-        {
-          "service": "fire",
-          "number": "10111",
-          "label": "Fire brigade"
+          "label": "Ambulance"
         },
         {
           "service": "general",
           "number": "112",
-          "label": "Emergency call from mobile phone"
+          "label": "Emergency from a mobile phone"
         },
         {
           "service": "other",
           "number": "107",
-          "label": "Cape Town emergency"
+          "label": "City of Cape Town fire (mobile)"
         }
       ],
       "source_url": "https://www.westerncape.gov.za/know-who-you-can-call-emergency",
@@ -1483,5 +1408,5 @@
     "generated_at": "2026-10-02T16:00:00.000Z"
   },
   "approved_by": null,
-  "checksum": "dffdd8eeb558579b76a2a29c53788fe352621999fc8096b5ea49690fd2ad1ed6"
+  "checksum": "f41585c080981acbaf4da10be5f9e9091cc9fc0369ce72381c4eabeca74486da"
 }

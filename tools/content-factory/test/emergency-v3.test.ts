@@ -65,8 +65,42 @@ describe('emergency numbers correction', () => {
     }
   });
 
-  it('drops Morocco 112, which no official page states', () => {
-    expect(byCountry.get('MA')!.numbers.map((line) => line.number)).not.toContain('112');
+  it("carries only the numbers each record's own cited page states", () => {
+    const ON_PAGE: Readonly<Record<string, readonly string[]>> = {
+      VN: ['112', '113', '114', '115'],
+      PH: ['117', '143', '911'],
+      OM: ['9999'],
+      BR: ['190', '192', '193', '911'],
+      CL: ['131', '132', '133', '134', '136', '137', '138', '139'],
+      IN: [
+        '100',
+        '101',
+        '102',
+        '104',
+        '108',
+        '112',
+        '1071',
+        '1073',
+        '1091',
+        '1092',
+        '1322',
+        '1363',
+      ],
+      ZA: ['10111', '10177', '107', '112'],
+      MY: ['999'],
+      NL: ['112'],
+      MA: ['150', '190'],
+      AU: ['000'],
+      CO: ['123'],
+      CA: ['911'],
+      TN: ['190', '193', '197', '198'],
+      TW: ['110', '119'],
+      TZ: ['112'],
+    };
+    for (const [country, numbers] of Object.entries(ON_PAGE)) {
+      const held = [...new Set(byCountry.get(country)!.numbers.map((line) => line.number))].sort();
+      expect(held, country).toEqual([...numbers].sort());
+    }
   });
 
   it('adds Canada, Tunisia, Taiwan and Tanzania, and keeps every published country', () => {
