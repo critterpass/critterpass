@@ -63,9 +63,6 @@ appId: app.critterpass.dev
     visible:
       id: 'you-settings-crew-chat-sheet-mentions'
     timeout: 10000
-- waitForAnimationToEnd:
-    timeout: 6000
-- takeScreenshot: en-3n-6-crew-chat-sheet
 - tapOn:
     id: 'you-settings-crew-chat-sheet-mentions'
 - extendedWaitUntil:
