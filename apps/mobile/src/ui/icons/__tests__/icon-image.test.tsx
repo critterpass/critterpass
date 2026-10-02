@@ -50,23 +50,39 @@ jest.mock('@shopify/react-native-skia', () => {
   };
 });
 
-import { describe, expect, it, jest } from '@jest/globals';
-import { render, screen, waitFor } from '@testing-library/react-native';
+import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
+import { act, render, screen } from '@testing-library/react-native';
 
 import { tokens } from '@cp/design-tokens';
 
 import { renderUi } from '../../test-support/render';
 import { Icon } from '../Icon';
+import { resetIconImagesForTests } from '../icon-image';
 
-async function shownUri(): Promise<string> {
-  const image = await screen.findByTestId('icon-image', { includeHiddenElements: true });
-  return (image.props as { source: { uri: string } }).source.uri;
+/** Runs the queued icon draws (the tasks after the frame) and returns the picture now shown. */
+async function drawQueued(): Promise<string | null> {
+  await act(() => {
+    jest.runOnlyPendingTimers();
+  });
+  return uriNow();
 }
 
 function uriNow(): string | null {
   const image = screen.queryByTestId('icon-image', { includeHiddenElements: true });
   return image === null ? null : (image.props as { source: { uri: string } }).source.uri;
 }
+
+// Every test starts with nothing drawn, and the after-the-frame draw runs only when the test says:
+// on a slow runner a real timer can fire while the first render settles, which would show the
+// picture in what the test checks as the first frame.
+beforeEach(() => {
+  resetIconImagesForTests();
+  jest.useFakeTimers();
+});
+
+afterEach(() => {
+  jest.useRealTimers();
+});
 
 describe('icon as an image', () => {
   it('draws the icon in its colour, and redraws at once when the colour changes', async () => {
@@ -75,13 +91,14 @@ describe('icon as an image', () => {
     const view = await renderUi(<Icon name="bell" size={24} color={pink} decorative />);
     // First frame: the live icon, not a blank one; the picture follows.
     expect(uriNow()).toBeNull();
-    const first = await shownUri();
+    const first = await drawQueued();
     expect(first).toContain(`fill:${pink}`);
     await view.rerender(<Icon name="bell" size={24} color={ink} decorative />);
     // Never the old colour while the new picture is drawn.
     expect(uriNow()).toBeNull();
-    await waitFor(() => expect(uriNow()).toContain(`fill:${ink}`));
-    expect(uriNow()).not.toContain(`fill:${pink}`);
+    const second = await drawQueued();
+    expect(second).toContain(`fill:${ink}`);
+    expect(second).not.toContain(`fill:${pink}`);
     // Back to the first colour: the same picture as before, from the cache, in the same render.
     await view.rerender(<Icon name="bell" size={24} color={pink} decorative />);
     expect(uriNow()).toBe(first);
@@ -89,9 +106,11 @@ describe('icon as an image', () => {
 
   it('draws a new picture for a new size', async () => {
     await render(<Icon name="pin" size={24} color={tokens.color.pink} decorative />);
-    const small = await shownUri();
+    const small = await drawQueued();
+    expect(small).not.toBeNull();
     await screen.rerender(<Icon name="pin" size={40} color={tokens.color.pink} decorative />);
-    await waitFor(() => expect(uriNow()).not.toBeNull());
-    expect(uriNow()).not.toBe(small);
+    const large = await drawQueued();
+    expect(large).not.toBeNull();
+    expect(large).not.toBe(small);
   });
 });
