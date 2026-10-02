@@ -108,11 +108,9 @@ appId: app.critterpass.dev
     notVisible:
       id: 'money-member-done'
     timeout: 10000
-- scrollUntilVisible:
-    element:
-      id: 'money-review-commit'
-    direction: DOWN
-    timeout: 10000
+# SPLIT IT stays on screen under a long bill's lines.
+- assertVisible:
+    id: 'money-review-commit'
 - waitForAnimationToEnd
 - takeScreenshot: receipt-real-review
 - tapOn:

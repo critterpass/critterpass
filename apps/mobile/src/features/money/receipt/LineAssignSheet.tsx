@@ -7,7 +7,7 @@
 import { upper } from '@cp/i18n';
 import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
-import { Pressable, View } from 'react-native';
+import { Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
 import Animated, { FadeInRight } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -45,6 +45,7 @@ const useStyles = makeStyles((t) => ({
     alignItems: 'center',
     gap: t.space['8'],
   },
+  lines: { gap: t.space['12'] },
   check: { borderWidth: t.space['2'], borderColor: t.semantic.state.warning },
   label: { flex: 1 },
   chip: {
@@ -53,6 +54,9 @@ const useStyles = makeStyles((t) => ({
     paddingVertical: t.space['4'],
   },
 }));
+
+/** The share of the screen the lines may take before they scroll. */
+const LINES_MAX_SHARE = 0.45;
 
 export interface ReviewRow {
   readonly lineId: string;
@@ -93,6 +97,8 @@ export function LineAssignSheet(props: LineAssignSheetProps) {
   const tokek = GUIDE_STICKERS[guide.id];
   const count = props.rows.length;
   const payer = props.payerName;
+  // A long bill scrolls its lines; who pays and SPLIT IT stay on screen under them.
+  const { height } = useWindowDimensions();
   return (
     <View
       style={[styles.panel, { paddingBottom: insets.bottom + theme.space['8'] }]}
@@ -118,90 +124,96 @@ export function LineAssignSheet(props: LineAssignSheetProps) {
           </Text>
         </Stack>
       </Row>
-      {props.rows.map((row, index) => (
-        <Pressable
-          key={row.lineId}
-          onPress={() => props.onLine(row.lineId)}
-          disabled={row.byShare}
-          accessibilityRole="button"
-          accessibilityLabel={[row.label, row.check, row.chip.text]
-            .filter((part) => part !== null)
-            .join(', ')}
-          testID={`money-review-line-${row.lineId}`}
-        >
-          <Row style={[styles.row, row.check === null ? null : styles.check]}>
-            <Stack gap="2" style={styles.label}>
-              <Text variant="rowTitle" numberOfLines={1}>
-                {row.label}
-              </Text>
-              {row.check === null ? null : (
-                <Text
-                  variant="bodySm"
-                  color={theme.semantic.state.warning}
-                  testID={`money-review-check-${row.lineId}`}
-                >
-                  {row.check}
+      <ScrollView
+        style={{ maxHeight: height * LINES_MAX_SHARE }}
+        contentContainerStyle={styles.lines}
+        testID="money-review-lines"
+      >
+        {props.rows.map((row, index) => (
+          <Pressable
+            key={row.lineId}
+            onPress={() => props.onLine(row.lineId)}
+            disabled={row.byShare}
+            accessibilityRole="button"
+            accessibilityLabel={[row.label, row.check, row.chip.text]
+              .filter((part) => part !== null)
+              .join(', ')}
+            testID={`money-review-line-${row.lineId}`}
+          >
+            <Row style={[styles.row, row.check === null ? null : styles.check]}>
+              <Stack gap="2" style={styles.label}>
+                <Text variant="rowTitle" numberOfLines={1}>
+                  {row.label}
                 </Text>
+                {row.check === null ? null : (
+                  <Text
+                    variant="bodySm"
+                    color={theme.semantic.state.warning}
+                    testID={`money-review-check-${row.lineId}`}
+                  >
+                    {row.check}
+                  </Text>
+                )}
+              </Stack>
+              {row.assignees === null || row.byShare ? null : (
+                <Animated.View
+                  {...(reduced
+                    ? {}
+                    : { entering: FadeInRight.delay(staggerDelayMs(index, BAR_GROW_STAGGER_MS)) })}
+                >
+                  <AvatarStack
+                    size="sm"
+                    max={5}
+                    members={row.assignees.map((member) => ({
+                      key: member.userId,
+                      name: member.name,
+                      joinIndex: member.joinIndex,
+                    }))}
+                  />
+                </Animated.View>
               )}
-            </Stack>
-            {row.assignees === null || row.byShare ? null : (
-              <Animated.View
-                {...(reduced
-                  ? {}
-                  : { entering: FadeInRight.delay(staggerDelayMs(index, BAR_GROW_STAGGER_MS)) })}
+              <View
+                style={[
+                  styles.chip,
+                  {
+                    backgroundColor:
+                      row.chip.tone === 'pink'
+                        ? theme.semantic.state.urgent
+                        : theme.semantic.bg.control,
+                  },
+                ]}
               >
-                <AvatarStack
-                  size="sm"
-                  max={5}
-                  members={row.assignees.map((member) => ({
-                    key: member.userId,
-                    name: member.name,
-                    joinIndex: member.joinIndex,
-                  }))}
-                />
-              </Animated.View>
-            )}
-            <View
-              style={[
-                styles.chip,
-                {
-                  backgroundColor:
-                    row.chip.tone === 'pink'
-                      ? theme.semantic.state.urgent
-                      : theme.semantic.bg.control,
-                },
-              ]}
-            >
-              <Text
-                variant="label"
-                color={row.chip.tone === 'pink' ? theme.semantic.text.onAccent : undefined}
-              >
-                {row.chip.text}
-              </Text>
-            </View>
+                <Text
+                  variant="label"
+                  color={row.chip.tone === 'pink' ? theme.semantic.text.onAccent : undefined}
+                >
+                  {row.chip.text}
+                </Text>
+              </View>
+            </Row>
+          </Pressable>
+        ))}
+        {props.mismatch === null ? null : (
+          <Row gap="12" align="center" testID="money-review-mismatch">
+            <Text variant="bodySm" style={{ flex: 1 }} color={theme.semantic.state.warning}>
+              {props.mismatch.text}
+            </Text>
+            <Toggle
+              value={props.mismatch.keep}
+              onValueChange={props.onKeepTotal}
+              label={t({ id: 'money.review.keepTotal', message: 'Keep total' })}
+              testID="money-review-keep-total"
+            />
           </Row>
-        </Pressable>
-      ))}
-      {props.mismatch === null ? null : (
-        <Row gap="12" align="center" testID="money-review-mismatch">
-          <Text variant="bodySm" style={{ flex: 1 }} color={theme.semantic.state.warning}>
-            {props.mismatch.text}
-          </Text>
-          <Toggle
-            value={props.mismatch.keep}
-            onValueChange={props.onKeepTotal}
-            label={t({ id: 'money.review.keepTotal', message: 'Keep total' })}
-            testID="money-review-keep-total"
+        )}
+        {props.mismatch === null || props.onFix === undefined ? null : (
+          <TextLink
+            label={t({ id: 'money.failure.type', message: 'Type the lines' })}
+            onPress={props.onFix}
+            testID="money-review-fix"
           />
-        </Row>
-      )}
-      {props.mismatch === null || props.onFix === undefined ? null : (
-        <TextLink
-          label={t({ id: 'money.failure.type', message: 'Type the lines' })}
-          onPress={props.onFix}
-          testID="money-review-fix"
-        />
-      )}
+        )}
+      </ScrollView>
       <Row justify="space-between" style={{ flexWrap: 'wrap' }} testID="money-review-summary">
         {props.summary.map((part) => (
           <Text key={part.who} variant="body">
