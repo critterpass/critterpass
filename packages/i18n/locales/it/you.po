@@ -62,6 +62,10 @@ msgstr ""
 msgid "you.profile.crew.today"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.form.found"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
 msgstr ""
@@ -76,6 +80,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
 msgid "you.stamps.addPastTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+msgid "you.edit.languages.none"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
@@ -169,6 +177,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.closing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.form.common"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -267,6 +279,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.entry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.form.epic"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
@@ -421,6 +437,11 @@ msgstr ""
 msgid "you.language.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+#: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
+msgid "you.edit.languages"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lastCheck"
 msgstr ""
@@ -447,6 +468,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.leaves"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.form.legendary"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
@@ -596,6 +621,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
+msgid "you.edit.form.rare"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx

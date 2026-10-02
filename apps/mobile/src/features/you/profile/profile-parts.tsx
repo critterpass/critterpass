@@ -57,6 +57,7 @@ export function ProfileFace({
   name,
   ring = null,
   photoUri = null,
+  size = AVATAR,
 }: {
   readonly avatar: ProfileAvatar;
   readonly name: string;
@@ -64,16 +65,19 @@ export function ProfileFace({
   readonly ring?: AvatarRing | null;
   /** The person's own photo, once its link has been read. */
   readonly photoUri?: string | null;
+  /** The circle's diameter (Edit profile and the avatar picker draw it larger). @default 84 */
+  readonly size?: number;
 }) {
   const styles = useStyles();
+  const circle = { width: size, height: size, borderRadius: size / 2 };
   const theme = useTheme();
   const locale = useLocale();
   if (photoUri) {
     return (
-      <View style={styles.ring} testID="you-profile-face">
+      <View style={[styles.ring, circle]} testID="you-profile-face">
         <Image
           source={{ uri: photoUri }}
-          style={{ width: AVATAR, height: AVATAR }}
+          style={{ width: size, height: size }}
           accessibilityLabel={name}
           accessibilityIgnoresInvertColors
         />
@@ -85,12 +89,13 @@ export function ProfileFace({
       <View
         style={[
           styles.ring,
+          circle,
           { backgroundColor: theme.color.paper.base },
           ring === null ? null : { borderColor: theme.tier[ring].color },
         ]}
         testID="you-profile-face"
       >
-        <FormSticker form={avatar.formId} size={AVATAR - 16} />
+        <FormSticker form={avatar.formId} size={size - 16} />
       </View>
     );
   }
@@ -100,18 +105,19 @@ export function ProfileFace({
       <View
         style={[
           styles.ring,
+          circle,
           { backgroundColor: theme.color.paper.base },
           ring === null ? null : { borderColor: theme.tier[ring].color },
         ]}
         testID="you-profile-face"
       >
-        <Sticker kind={guide.kind} name={guide.name} size={AVATAR - 16} />
+        <Sticker kind={guide.kind} name={guide.name} size={size - 16} />
       </View>
     );
   }
   return (
     <View
-      style={[styles.ring, { backgroundColor: resolveMemberStyle(0).color }]}
+      style={[styles.ring, circle, { backgroundColor: resolveMemberStyle(0).color }]}
       accessible
       accessibilityRole="image"
       accessibilityLabel={name}

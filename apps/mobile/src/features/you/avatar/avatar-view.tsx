@@ -44,6 +44,8 @@ export interface AvatarViewProps {
   readonly forms: readonly OwnedForm[];
   readonly form: string | null;
   readonly onForm: (key: string) => void;
+  /** Lab scenes draw the forms without the catalogue. */
+  readonly drawForm?: (key: string, size: number) => ReactNode;
   /** Null when this build has no photo picker. */
   readonly onPhoto: (() => void) | null;
   /** The photo waits for its check before crewmates see it. */
@@ -144,7 +146,12 @@ export function AvatarView(props: AvatarViewProps) {
                     {t({ id: 'you.avatar.unlocked', message: `${props.forms.length} unlocked` })}
                   </Text>
                 </Row>
-                <FormGrid forms={props.forms} selected={props.form} onPick={props.onForm} />
+                <FormGrid
+                  forms={props.forms}
+                  selected={props.form}
+                  onPick={props.onForm}
+                  {...(props.drawForm ? { drawForm: props.drawForm } : {})}
+                />
                 <Text variant="bodySm" color={theme.semantic.text.secondary}>
                   {t({
                     id: 'you.avatar.ringsLine',

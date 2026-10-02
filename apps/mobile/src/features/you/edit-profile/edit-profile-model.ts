@@ -18,6 +18,8 @@ export interface SavedProfile {
   readonly name: string;
   readonly username: string | null;
   readonly homeAirport: string | null;
+  /** Languages the person speaks (`users.languages`), in their order. */
+  readonly languages: readonly string[];
   /** `users.username_changed_at`; null when the username was never changed. */
   readonly usernameChangedAt: string | null;
 }
@@ -26,10 +28,16 @@ export interface ProfileDraft {
   readonly name: string;
   readonly username: string;
   readonly homeAirport: string | null;
+  readonly languages: readonly string[];
 }
 
 export function draftOf(saved: SavedProfile): ProfileDraft {
-  return { name: saved.name, username: saved.username ?? '', homeAirport: saved.homeAirport };
+  return {
+    name: saved.name,
+    username: saved.username ?? '',
+    homeAirport: saved.homeAirport,
+    languages: saved.languages,
+  };
 }
 
 export type NameProblem = 'empty' | 'too_long' | 'blocked';
@@ -52,11 +60,13 @@ export interface ProfileChanges {
 }
 
 export function changesOf(saved: SavedProfile, draft: ProfileDraft): ProfileChanges {
-  const profile: { name?: string; username?: string } = {};
+  const profile: { name?: string; username?: string; languages?: string[] } = {};
   const name = normalizeGivenName(draft.name);
   if (name !== saved.name) profile.name = name;
   const username = usernameOf(draft);
   if (username !== null && username !== saved.username) profile.username = username;
+  const languages = [...new Set(draft.languages)];
+  if (languages.join(',') !== saved.languages.join(',')) profile.languages = languages;
   return {
     profile: Object.keys(profile).length === 0 ? null : profile,
     homeAirport:
@@ -106,4 +116,21 @@ export function canSave(
   if (!hasChanges(changes)) return false;
   if (nameProblemOf(draft.name) !== null) return false;
   return username.kind !== 'invalid' && username.kind !== 'cooldown' && username.kind !== 'taken';
+}
+
+/** `users.languages` as the local database holds it: a JSON array, or Postgres array text. */
+export function languagesOf(raw: string | null): string[] {
+  if (raw === null || raw.length === 0) return [];
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (Array.isArray(parsed))
+      return parsed.filter((code): code is string => typeof code === 'string');
+  } catch {
+    // Postgres array text: {en,vi}
+  }
+  return raw
+    .replace(/^\{|\}$/g, '')
+    .split(',')
+    .map((code) => code.trim().replace(/^"|"$/g, ''))
+    .filter((code) => code.length > 0);
 }

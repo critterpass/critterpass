@@ -29,6 +29,9 @@ export const setAvatarCommand = defineClientCommand<SetAvatarPayload>({
   offline: true,
 });
 
+/** The picker's preview, as large as the render draws it. */
+const PREVIEW = 112;
+
 type PhotoServices = Parameters<typeof useRealPhoto>[0]['photos'];
 
 type Choice =
@@ -108,6 +111,7 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
                   : null
             }
             photoUri={shown.kind === 'photo' ? shownUri : null}
+            size={PREVIEW}
           />
         }
         face={facePropsOf(shown, shown.kind === 'photo' ? shownUri : null, diameter)}

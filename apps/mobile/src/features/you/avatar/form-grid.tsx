@@ -3,6 +3,7 @@
  * ring (rare blue, epic pink, legendary gold); the picked one wears the yellow ring.
  */
 import { useLingui } from '@lingui/react/macro';
+import type { ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { FormSticker } from '@/features/critters';
@@ -31,6 +32,8 @@ export function FormGrid(props: {
   readonly forms: readonly OwnedForm[];
   readonly selected: string | null;
   readonly onPick: (key: string) => void;
+  /** Draws a form's sticker; the critters area's form sticker unless a lab scene passes its own. */
+  readonly drawForm?: (key: string, size: number) => ReactNode;
 }) {
   const { t } = useLingui();
   const styles = useStyles();
@@ -55,7 +58,11 @@ export function FormGrid(props: {
             style={[styles.cell, { borderColor: ring }]}
             testID={`you-avatar-form-${index}`}
           >
-            <FormSticker form={form.key} size={CELL - 10} />
+            {props.drawForm ? (
+              props.drawForm(form.key, CELL - 10)
+            ) : (
+              <FormSticker form={form.key} size={CELL - 10} />
+            )}
           </PressScale>
         );
       })}

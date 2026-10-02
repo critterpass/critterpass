@@ -3,7 +3,7 @@
  * and pill buttons): one field each, DONE puts the value in the draft. Nothing is sent until SAVE.
  */
 import { airportDataset } from '@cp/content/airports';
-import { hitIata, searchAirports, type AirportHit } from '@cp/domain';
+import { hitIata, PROFILE_LANGUAGES_MAX, searchAirports, type AirportHit } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { View } from 'react-native';
@@ -12,9 +12,11 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ListCard } from '@/ui/cards/ListCard';
 import { SearchField } from '@/ui/inputs/SearchField';
+import { SettingsGroup } from '@/ui/inputs/SettingsGroup';
 import { TextField } from '@/ui/inputs/TextField';
 import { Stack } from '@/ui/layout/Stack';
 import { Sheet } from '@/ui/sheet/Sheet';
+import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { makeStyles } from '@/ui/theme';
 
 import { nameProblemText, usernameText } from './edit-profile-copy';
@@ -151,6 +153,58 @@ export function AirportSheet(props: {
           }
         />
       </View>
+    </Sheet>
+  );
+}
+
+/** The languages the person speaks: tick any, in the order ticked (the first is their main one). */
+export function LanguagesSheet(props: {
+  readonly value: readonly string[];
+  readonly choices: readonly {
+    readonly code: string;
+    readonly name: string;
+    readonly line: string;
+  }[];
+  readonly onDone: (languages: string[]) => void;
+  readonly onClose: () => void;
+}) {
+  const { t } = useLingui();
+  const styles = useStyles();
+  const [picked, setPicked] = useState<string[]>([...props.value]);
+  const title = t({ id: 'you.edit.languages', message: 'Languages' });
+  const toggle = (code: string) =>
+    setPicked((now) =>
+      now.includes(code)
+        ? now.filter((item) => item !== code)
+        : now.length >= PROFILE_LANGUAGES_MAX
+          ? now
+          : [...now, code],
+    );
+  return (
+    <Sheet
+      detents={['large']}
+      title={title}
+      onDismiss={props.onClose}
+      testID="you-edit-languages-sheet"
+    >
+      <SheetScrollView contentContainerStyle={styles.body}>
+        <SettingsGroup
+          rows={props.choices.map((choice) => ({
+            key: choice.code,
+            kind: 'check' as const,
+            title: choice.name,
+            subtitle: choice.line,
+            checked: picked.includes(choice.code),
+            onPress: () => toggle(choice.code),
+          }))}
+          testID="you-edit-languages"
+        />
+        <PillButton
+          label={t({ id: 'you.edit.done', message: 'Done' })}
+          onPress={() => props.onDone(picked)}
+          testID="you-edit-languages-done"
+        />
+      </SheetScrollView>
     </Sheet>
   );
 }

@@ -80,6 +80,31 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'you-edit-name-done'
 - tapOn:
+    id: 'you-edit-languages'
+- extendedWaitUntil:
+    visible:
+      id: 'you-edit-languages-sheet'
+    timeout: 10000
+- tapOn:
+    text: 'English.*'
+- scrollUntilVisible:
+    element:
+      text: 'Tiếng Việt.*'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    text: 'Tiếng Việt.*'
+- scrollUntilVisible:
+    element:
+      id: 'you-edit-languages-done'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'you-edit-languages-done'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-3-real-edited
+- tapOn:
     id: 'you-edit-save'
 - extendedWaitUntil:
     visible:

@@ -1,5 +1,6 @@
 /** Lab scenes for Edit profile (3n-3) and the avatar picker (3n-4): pure views, fixed props. */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture names and values, never shipped copy. */
+import { critters } from '@cp/critter-art';
 import type { ReactNode } from 'react';
 
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
@@ -12,12 +13,38 @@ import { ProfileFace } from '../profile/profile-parts';
 const noop = () => undefined;
 const TOKEK = GUIDE_STICKERS.tokek;
 
+/** Ten found forms, two of them rare, one epic and one legendary, as the render lists them. */
+const DEX = critters.slice(0, 10).map((critter, index) => ({
+  key: critter.id,
+  ring:
+    index === 1 || index === 4
+      ? ('rare' as const)
+      : index === 8
+        ? ('epic' as const)
+        : index === 9
+          ? ('legendary' as const)
+          : null,
+}));
+const drawForm = (key: string, size: number) => {
+  const critter = critters.find((item) => item.id === key);
+  return critter === undefined ? null : (
+    <Sticker kind={critter.kind} name={critter.name} size={size} />
+  );
+};
+
 function Edit({ note = null }: { readonly note?: string | null }) {
   return (
     <EditProfileView
-      face={<ProfileFace avatar={{ kind: 'guide', guide: 'tokek' }} name="Winston" ring="rare" />}
-      avatarTitle={TOKEK.name}
-      avatarLine={null}
+      face={
+        <ProfileFace
+          avatar={{ kind: 'guide', guide: 'tokek' }}
+          name="Winston"
+          ring="rare"
+          size={112}
+        />
+      }
+      avatarTitle="Temple Tokek"
+      avatarLine="Rare form · found Oct 14"
       onChangeAvatar={noop}
       fields={[
         { key: 'name', label: 'Name', value: 'Winston', onPress: noop },
@@ -48,16 +75,18 @@ function Avatar({ tab }: { readonly tab: AvatarTab }) {
           avatar={guide ? { kind: 'guide', guide: 'tokek' } : { kind: 'initials' }}
           name="Winston"
           ring={guide ? 'rare' : null}
+          size={112}
         />
       }
       face={guide ? { critter: <Sticker kind={TOKEK.kind} name={TOKEK.name} size={24} /> } : {}}
       tab={tab}
       onTab={noop}
-      guide={guide ? 'tokek' : null}
+      guide={null}
       onGuide={noop}
-      forms={[]}
-      form={null}
+      forms={guide ? DEX : []}
+      form={guide ? (DEX[1]?.key ?? null) : null}
       onForm={noop}
+      drawForm={drawForm}
       onPhoto={noop}
       photoPending={false}
       canDone

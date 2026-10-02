@@ -76,3 +76,18 @@ export function saveProblemText(code: string, reason: string | null): string {
     message: 'Couldn’t save. Check your connection and try again.',
   });
 }
+
+/** "Rare form · found Oct 14", for a critter form worn as the avatar. */
+export function wornFormLine(rarity: string, foundAt: string | null, locale: string): string {
+  const tier =
+    rarity === 'legendary'
+      ? t({ id: 'you.edit.form.legendary', message: 'Legendary form' })
+      : rarity === 'epic'
+        ? t({ id: 'you.edit.form.epic', message: 'Epic form' })
+        : rarity === 'rare'
+          ? t({ id: 'you.edit.form.rare', message: 'Rare form' })
+          : t({ id: 'you.edit.form.common', message: 'Common form' });
+  if (foundAt === null) return tier;
+  const when = format.date(locale, new Date(foundAt), { day: 'numeric', month: 'short' });
+  return t({ id: 'you.edit.form.found', message: `${tier} · found ${when}` });
+}

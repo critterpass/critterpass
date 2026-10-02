@@ -8,6 +8,7 @@ import {
   canSave,
   changesOf,
   draftOf,
+  languagesOf,
   usernameLocalState,
   type SavedProfile,
 } from '../edit-profile-model';
@@ -17,6 +18,7 @@ const SAVED: SavedProfile = {
   name: 'Winston',
   username: 'winston',
   homeAirport: 'SIN',
+  languages: ['en'],
   usernameChangedAt: null,
 };
 
@@ -32,6 +34,17 @@ describe('edit profile', () => {
       profile: { username: 'winnie' },
       homeAirport: null,
     });
+  });
+
+  it('sends the spoken languages only when the set or its order changes, without repeats', () => {
+    const draft = draftOf(SAVED);
+    expect(changesOf(SAVED, { ...draft, languages: ['en'] }).profile).toBeNull();
+    expect(changesOf(SAVED, { ...draft, languages: ['en', 'vi', 'en'] }).profile).toEqual({
+      languages: ['en', 'vi'],
+    });
+    expect(languagesOf('["en","zh-Hans"]')).toEqual(['en', 'zh-Hans']);
+    expect(languagesOf('{en,vi}')).toEqual(['en', 'vi']);
+    expect(languagesOf(null)).toEqual([]);
   });
 
   it('checks the username on the phone first, then leaves it to the server', () => {

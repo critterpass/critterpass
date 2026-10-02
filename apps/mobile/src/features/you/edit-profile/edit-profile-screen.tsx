@@ -22,18 +22,21 @@ import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { ProfileFace } from '../profile/profile-parts';
 import { useProfile } from '../profile/use-profile';
 import { YOU_ROUTES } from '../routes';
-import { nameProblemText, saveProblemText, usernameText } from './edit-profile-copy';
+import { nameProblemText, saveProblemText, usernameText, wornFormLine } from './edit-profile-copy';
 import {
   canSave,
   changesOf,
   draftOf,
   hasChanges,
+  languagesOf,
   nameProblemOf,
   type ProfileDraft,
   type SavedProfile,
 } from './edit-profile-model';
 import { EditProfileView } from './edit-profile-view';
-import { AirportSheet, NameSheet, UsernameSheet } from './field-sheets';
+import { languageChoices } from '../language/language-names';
+import { AirportSheet, LanguagesSheet, NameSheet, UsernameSheet } from './field-sheets';
+import { useWornForm } from './worn-form';
 import { useUsernameState } from './username-check';
 
 export const updateProfileOnline = defineClientCommand<UpdateProfilePayload>({
@@ -49,7 +52,7 @@ export const setHomeAirportCommand = defineClientCommand<SetHomeAirportPayload>(
   offline: true,
 });
 
-const SAVED_SQL = `SELECT display_name, username, home_airport, username_changed_at
+const SAVED_SQL = `SELECT display_name, username, home_airport, languages, username_changed_at
   FROM users WHERE id = ?`;
 const SAVED_TABLES = ['users'];
 
@@ -57,6 +60,7 @@ interface SavedRow {
   readonly display_name: string | null;
   readonly username: string | null;
   readonly home_airport: string | null;
+  readonly languages: string | null;
   readonly username_changed_at: string | null;
 }
 
@@ -66,7 +70,10 @@ function airportLabel(iata: string | null): string {
   return airport === undefined ? iata : `${iata} · ${airport.name}`;
 }
 
-type Editing = 'name' | 'username' | 'home-airport' | null;
+type Editing = 'name' | 'username' | 'home-airport' | 'languages' | null;
+
+/** The Edit profile avatar, as large as the render draws it. */
+const FACE = 112;
 
 export function EditProfileScreen() {
   const { t } = useLingui();
@@ -83,6 +90,7 @@ export function EditProfileScreen() {
           name: row.display_name?.trim() ?? '',
           username: row.username,
           homeAirport: row.home_airport,
+          languages: languagesOf(row.languages),
           usernameChangedAt: row.username_changed_at,
         };
   const [edits, setEdits] = useState<Partial<ProfileDraft>>({});
@@ -126,6 +134,12 @@ export function EditProfileScreen() {
   };
 
   const avatar = model?.avatar ?? { kind: 'initials' as const };
+  const worn = useWornForm(avatar.kind === 'form' ? avatar.formId : null);
+  const languageNames = new Map(
+    languageChoices(locale).map((choice) => [choice.code, choice.localName]),
+  );
+  const languagesText = (codes: readonly string[]) =>
+    codes.map((code) => languageNames.get(code) ?? code).join(', ');
   const nameProblem = draft === null ? null : nameProblemOf(draft.name);
   return (
     <>
@@ -136,6 +150,7 @@ export function EditProfileScreen() {
             name={draft?.name ?? ''}
             ring={model?.ring ?? null}
             photoUri={photoUri}
+            size={FACE}
           />
         }
         avatarTitle={
@@ -144,10 +159,16 @@ export function EditProfileScreen() {
             : avatar.kind === 'guide'
               ? GUIDE_STICKERS[avatar.guide].name
               : avatar.kind === 'form'
-                ? t({ id: 'you.edit.avatarCritter', message: 'From your Critterdex' })
+                ? (worn?.form_name ??
+                  worn?.critter_name ??
+                  t({ id: 'you.edit.avatarCritter', message: 'From your Critterdex' }))
                 : t({ id: 'you.edit.avatarInitials', message: 'Initials' })
         }
-        avatarLine={null}
+        avatarLine={
+          photoUri === null && avatar.kind === 'form' && worn !== null
+            ? wornFormLine(worn.rarity, worn.found_at, locale)
+            : null
+        }
         onChangeAvatar={() => router.push(YOU_ROUTES.avatar)}
         fields={[
           {
@@ -172,6 +193,15 @@ export function EditProfileScreen() {
             label: t({ id: 'you.edit.homeAirport', message: 'Home airport' }),
             value: airportLabel(draft?.homeAirport ?? null),
             onPress: () => setEditing('home-airport'),
+          },
+          {
+            key: 'languages',
+            label: t({ id: 'you.edit.languages', message: 'Languages' }),
+            value:
+              draft === null || draft.languages.length === 0
+                ? t({ id: 'you.edit.languages.none', message: 'Add the languages you speak' })
+                : languagesText(draft.languages),
+            onPress: () => setEditing('languages'),
           },
         ]}
         canSave={changes !== null && draft !== null && canSave(changes, draft, username)}
@@ -205,6 +235,21 @@ export function EditProfileScreen() {
         <AirportSheet
           onDone={(iata) => {
             setEdits((e) => ({ ...e, homeAirport: iata }));
+            setEditing(null);
+          }}
+          onClose={() => setEditing(null)}
+        />
+      ) : null}
+      {editing === 'languages' && draft !== null ? (
+        <LanguagesSheet
+          value={draft.languages}
+          choices={languageChoices(locale).map((choice) => ({
+            code: choice.code,
+            name: choice.nativeName,
+            line: choice.localName,
+          }))}
+          onDone={(languages) => {
+            setEdits((e) => ({ ...e, languages }));
             setEditing(null);
           }}
           onClose={() => setEditing(null)}

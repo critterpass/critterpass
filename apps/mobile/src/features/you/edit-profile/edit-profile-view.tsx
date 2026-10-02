@@ -1,7 +1,7 @@
 /**
  * Edit profile (3n-3) as a pure view: back to the profile and SAVE, the avatar with CHANGE AVATAR,
- * the NAME, USERNAME and HOME AIRPORT rows (each opens its own sheet), and what crews see. The
- * render's LANGUAGES and LOOK (app icon) rows are left out until something acts on them.
+ * the NAME, USERNAME, HOME AIRPORT and LANGUAGES rows (each opens its own sheet), and what crews
+ * see. The render's LOOK (app icon) row waits for the native app-icon module.
  */
 import { useLingui } from '@lingui/react/macro';
 import { Fragment, type ReactNode } from 'react';
@@ -19,7 +19,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 export interface EditField {
-  readonly key: 'name' | 'username' | 'home-airport';
+  readonly key: 'name' | 'username' | 'home-airport' | 'languages';
   readonly label: string;
   readonly value: string;
   /** A problem or a live answer under the value. */
