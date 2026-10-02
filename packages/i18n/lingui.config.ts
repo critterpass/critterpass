@@ -108,6 +108,14 @@ const tripSubAreas = {
   ],
   'day-of': [`${tripRoot}/day-of/**`, `${tripRoot}/leave-by/**`],
   alarm: [`${tripRoot}/alarm/**`],
+  'live-activities': [
+    `${tripRoot}/live-activities/**`,
+    `${repoRootPrefix}/apps/mobile/src/app/(trip)/lock-screen-offer.tsx`,
+  ],
+  disruptions: [
+    `${tripRoot}/disruptions/**`,
+    `${repoRootPrefix}/apps/mobile/src/app/(trip)/{disruption,forecast,storm,late}/**`,
+  ],
   offline: [
     `${tripRoot}/offline/**`,
     `${tripRoot}/bundle/**`,
@@ -134,6 +142,13 @@ const questSources = [
 ];
 const stickerSources = [`${repoRootPrefix}/apps/mobile/src/features/critters/stickers/**`];
 
+// The ping settings keep their own catalog inside the you area (`you/pings`), so the pings lane and
+// the rest of the profile never edit the same file.
+const pingSources = [
+  `${repoRootPrefix}/apps/mobile/src/features/you/ping-settings/**`,
+  `${repoRootPrefix}/apps/mobile/src/app/you/pings.tsx`,
+];
+
 const notificationSources = [
   {
     name: 'common',
@@ -145,6 +160,7 @@ const notificationSources = [
       `${repoRootPrefix}/services/worker/src/jobs/live-map/notify.ts`,
       `${repoRootPrefix}/services/worker/src/jobs/proposal/notify.ts`,
       `${repoRootPrefix}/services/worker/src/jobs/proposal/trip-news.ts`,
+      `${repoRootPrefix}/services/worker/src/jobs/safety/notify.ts`,
       // Push and email copy the domain packages carry as `{id, message}` templates.
       `${repoRootPrefix}/packages/domain/src/*/templates.ts`,
       `${repoRootPrefix}/packages/domain/src/quests/realtime.ts`,
@@ -206,8 +222,16 @@ export default defineConfig({
                   ? [...testFileExcludes, ...supplierSources]
                   : area === 'critters'
                     ? [...testFileExcludes, ...questSources, ...stickerSources]
-                    : testFileExcludes,
+                    : area === 'you'
+                      ? [...testFileExcludes, ...pingSources]
+                      : testFileExcludes,
     })),
+    {
+      name: 'you/pings',
+      path: 'locales/{locale}/you/pings',
+      include: pingSources,
+      exclude: testFileExcludes,
+    },
     {
       name: 'quests/quests',
       path: 'locales/{locale}/quests/quests',

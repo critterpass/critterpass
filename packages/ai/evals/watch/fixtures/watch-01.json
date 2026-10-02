@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5a595b53-0cac-42b9-8d1b-d20a434c3085",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Friday's boat looks rough.\",\"detail\":\"\",\"items\":[{\"id\":\"boat:title\",\"text\":\"Nusa Penida boat · waves 2.5 m\"},{\"id\":\"boat:detail\",\"text\":\"Forecast shows waves 2.5 m, wind 35 km/h. The harbour might close.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 846,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 70,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

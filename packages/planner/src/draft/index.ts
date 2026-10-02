@@ -14,7 +14,16 @@ export {
   type ItineraryMetricsInput,
   type RedraftMetricsInput,
 } from './metrics';
+export {
+  destinationPhrases,
+  matchWish,
+  nameAliases,
+  nameTokens,
+  type NameAliases,
+  type WishMatches,
+} from './place-names';
 export { alignStableIds, redraftDiff } from './redraft-diff';
+export { collapseSamePlaces, type Collapsed } from './same-place';
 export {
   dropViolations,
   repairTargets,
@@ -41,6 +50,7 @@ export {
   minuteOfDate,
   scheduleDay,
   stopPriceMinor,
+  timeFitsDay,
   type ScheduleDayInput,
 } from './schedule-day';
 export {
@@ -64,6 +74,20 @@ export type {
   TravelMatrix,
   TripFrame,
 } from './types';
+export { resolveWishes, type ResolvedWishes } from './wishes';
+export {
+  FULL_DAY_MIN,
+  heldWindow,
+  namedWeekdays,
+  timedDuration,
+  timeWindow,
+  timeWords,
+  WISH_TIME_STARTS,
+  WISH_TIMES,
+  type StartWindow,
+  type WishTime,
+} from './wish-time';
+export { usualHours, withOpenDataDefaults } from './open-data';
 export {
   closedOn,
   DRAFT_VIOLATION_CODES,

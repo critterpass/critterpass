@@ -1,12 +1,14 @@
 /**
  * Adding a booking by hand or correcting one (undesigned; settings type scale and text fields):
- * the kind (when adding), what it is, the day and time as the confirmation prints them, where,
- * the confirmation code, a flight's number, airports and seat, and notes. SAVE stays off until
- * the required fields read.
+ * the kind (when adding), what it is, the day (picked on a month grid) and time as the
+ * confirmation prints them, where, the confirmation code, a flight's number, airports, landing
+ * time and seat (with the zones its times are read in: the departure airport's and the arrival
+ * airport's), and notes. SAVE stays off until the required fields read.
  */
 import type { BookingKind } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
@@ -19,13 +21,19 @@ import { Stack } from '@/ui/layout/Stack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { makeStyles } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
+import { DateField } from './DatePickerSheet';
 import type { BookingDraft, DraftProblem } from './form-model';
 import { useKindLabel } from './labels';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['16'], paddingTop: t.space['8'] },
+  // Two fields on a line share it evenly; a field left to its own width hides what is typed.
+  cell: { flex: 1, minWidth: 0 },
+  // A whole date is ten characters: the day takes the wider share beside the time.
+  day: { flex: 3, minWidth: 0 },
+  time: { flex: 2, minWidth: 0 },
 }));
 
 const FORM_KINDS: readonly BookingKind[] = [
@@ -46,12 +54,20 @@ export interface BookingFormViewProps {
   /** Problems show once the traveller tried to save. */
   readonly showProblems: boolean;
   readonly saving: boolean;
+  /** The zones a flight's departure and landing are read in ("Ho Chi Minh", "GMT+7"). */
+  readonly zones: {
+    readonly dep: { readonly city: string; readonly offset: string };
+    readonly arr: { readonly city: string; readonly offset: string };
+  };
+  /** The trip's days, tinted on the day picker. */
+  readonly trip: { readonly start: string; readonly end: string } | null;
   readonly onChange: (patch: Partial<BookingDraft>) => void;
   readonly onSave: () => void;
 }
 
 export function BookingFormView(props: BookingFormViewProps) {
   const styles = useStyles();
+  const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
   const kindLabel = useKindLabel();
@@ -61,6 +77,11 @@ export function BookingFormView(props: BookingFormViewProps) {
       ? ({ status: 'error', message } as const)
       : {};
   const flight = draft.kind === 'flight';
+  const { city: zoneCity, offset: zoneOffset } = props.zones.dep;
+  const { city: arrCity, offset: arrOffset } = props.zones.arr;
+  const oneZone = zoneCity === arrCity && zoneOffset === arrOffset;
+  const problemText = (key: DraftProblem, message: string) =>
+    props.showProblems && props.problems.includes(key) ? message : undefined;
   return (
     <Scaffold variant="dark" testID={`bookings-form-${props.mode}`}>
       <KeyboardScrollView contentContainerStyle={styles.content}>
@@ -102,28 +123,32 @@ export function BookingFormView(props: BookingFormViewProps) {
               testID="bookings-form-flight"
             />
             <Row gap="12">
-              <TextField
-                label={t({ id: 'bookings.form.from', message: 'From' })}
-                placeholder="SIN"
-                autoCapitalize="characters"
-                maxLength={3}
-                value={draft.from}
-                onChangeText={(from) => props.onChange({ from })}
-                {...problem(
-                  'airports',
-                  t({ id: 'bookings.form.airportProblem', message: 'Three-letter airport code' }),
-                )}
-                testID="bookings-form-from"
-              />
-              <TextField
-                label={t({ id: 'bookings.form.to', message: 'To' })}
-                placeholder="DPS"
-                autoCapitalize="characters"
-                maxLength={3}
-                value={draft.to}
-                onChangeText={(to) => props.onChange({ to })}
-                testID="bookings-form-to"
-              />
+              <View style={styles.cell}>
+                <TextField
+                  label={t({ id: 'bookings.form.from', message: 'From' })}
+                  placeholder="SIN"
+                  autoCapitalize="characters"
+                  maxLength={3}
+                  value={draft.from}
+                  onChangeText={(from) => props.onChange({ from })}
+                  {...problem(
+                    'airports',
+                    t({ id: 'bookings.form.airportProblem', message: 'Three-letter airport code' }),
+                  )}
+                  testID="bookings-form-from"
+                />
+              </View>
+              <View style={styles.cell}>
+                <TextField
+                  label={t({ id: 'bookings.form.to', message: 'To' })}
+                  placeholder="DPS"
+                  autoCapitalize="characters"
+                  maxLength={3}
+                  value={draft.to}
+                  onChangeText={(to) => props.onChange({ to })}
+                  testID="bookings-form-to"
+                />
+              </View>
             </Row>
           </Stack>
         ) : (
@@ -139,34 +164,63 @@ export function BookingFormView(props: BookingFormViewProps) {
           />
         )}
         <Row gap="12">
-          <TextField
-            label={t({ id: 'bookings.form.date', message: 'Day (YYYY-MM-DD)' })}
-            placeholder={t({ id: 'bookings.form.dateExample', message: '2026-10-12' })}
-            keyboardType="numbers-and-punctuation"
-            value={draft.date}
-            onChangeText={(date) => props.onChange({ date })}
-            {...problem('date', t({ id: 'bookings.form.dateProblem', message: 'Like 2026-10-12' }))}
-            testID="bookings-form-date"
-          />
-          <TextField
-            label={t({ id: 'bookings.form.time', message: 'Time' })}
-            placeholder={t({ id: 'bookings.form.timeExample', message: '09:05' })}
-            keyboardType="numbers-and-punctuation"
-            value={draft.time}
-            onChangeText={(time) => props.onChange({ time })}
-            {...problem('time', t({ id: 'bookings.form.timeProblem', message: 'Like 09:05' }))}
-            testID="bookings-form-time"
-          />
+          <View style={styles.day}>
+            <DateField
+              label={t({ id: 'bookings.form.day', message: 'Day' })}
+              value={draft.date}
+              trip={props.trip}
+              problem={problemText(
+                'date',
+                t({ id: 'bookings.form.dayProblem', message: 'Pick the day' }),
+              )}
+              onChange={(date) => props.onChange({ date })}
+              testID="bookings-form-date"
+            />
+          </View>
+          <View style={styles.time}>
+            <TextField
+              label={t({ id: 'bookings.form.time', message: 'Time' })}
+              placeholder={t({ id: 'bookings.form.timeExample', message: '09:05' })}
+              keyboardType="numbers-and-punctuation"
+              value={draft.time}
+              onChangeText={(time) => props.onChange({ time })}
+              {...problem('time', t({ id: 'bookings.form.timeProblem', message: 'Like 09:05' }))}
+              testID="bookings-form-time"
+            />
+          </View>
         </Row>
         {draft.kind === 'stay' ? (
-          <TextField
+          <DateField
             label={t({ id: 'bookings.form.checkOut', message: 'Check-out day' })}
-            placeholder={t({ id: 'bookings.form.endExample', message: '2026-10-17' })}
-            keyboardType="numbers-and-punctuation"
             value={draft.endDate}
-            onChangeText={(endDate) => props.onChange({ endDate })}
+            trip={props.trip}
+            onChange={(endDate) => props.onChange({ endDate })}
             testID="bookings-form-end"
           />
+        ) : null}
+        {flight ? (
+          <TextField
+            label={t({ id: 'bookings.form.arrive', message: 'Lands at' })}
+            placeholder={t({ id: 'bookings.form.arriveExample', message: '11:55' })}
+            keyboardType="numbers-and-punctuation"
+            value={draft.arrive}
+            onChangeText={(arrive) => props.onChange({ arrive })}
+            {...problem('arrive', t({ id: 'bookings.form.timeProblem', message: 'Like 09:05' }))}
+            testID="bookings-form-arrive"
+          />
+        ) : null}
+        {flight ? (
+          <Text variant="bodySm" color={theme.semantic.text.secondary} testID="bookings-form-zone">
+            {oneZone
+              ? t({
+                  id: 'bookings.form.zone',
+                  message: `Type both times as ${zoneCity} time (${zoneOffset}).`,
+                })
+              : t({
+                  id: 'bookings.form.zones',
+                  message: `Type the departure as ${zoneCity} time (${zoneOffset}) and the landing as ${arrCity} time (${arrOffset}).`,
+                })}
+          </Text>
         ) : null}
         {flight ? (
           <TextField

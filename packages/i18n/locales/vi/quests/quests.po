@@ -62,6 +62,10 @@ msgstr "Ngày đầu"
 msgid "quests.card.done"
 msgstr "Xong ✓"
 
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.go"
+msgstr "Đi"
+
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.join"
 msgstr "Tôi tham gia"
@@ -77,6 +81,14 @@ msgstr "Lên cấp {next} mở một sticker nhóm"
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.missed"
 msgstr "Đã lỡ"
+
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.nearest"
+msgstr "Gần nhất: {name}"
+
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.nearestAway"
+msgstr "Gần nhất: {name} · {away}"
 
 #: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
 msgid "quests.empty.overLine"
@@ -106,6 +118,10 @@ msgstr "Thưởng · critter huyền thoại"
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.reward.settled"
 msgstr "Thưởng · Tokek Sòng Phẳng"
+
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.how"
+msgstr "Nán lại gần đó khoảng 5 phút và mở CritterPass."
 
 #: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
 msgid "quests.empty.overTitle"

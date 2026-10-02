@@ -1,0 +1,14 @@
+{
+  "flags": {
+    "mailbox.gmail": false,
+    "mailbox.microsoft": false,
+    "analytics.replay": false,
+    "location.always_upsell": true,
+    "location.android_background_geofences": false,
+    "calendar.oauth_google": false,
+    "calendar.oauth_microsoft": false,
+    "money.receipts": true,
+    "setup.budget_dots": false
+  },
+  "source": "evaluated"
+}

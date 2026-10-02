@@ -1,0 +1,7 @@
+appId: app.critterpass.dev
+---
+# The Explore map and its list view in Vietnamese, from the Explore lab's scenes.
+- runFlow: subflows/lab-vi.yaml
+- runFlow:
+    file: subflows/map-scenes.yaml
+    env: { PREFIX: vi }

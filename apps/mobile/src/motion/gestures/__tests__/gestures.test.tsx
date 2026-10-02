@@ -20,7 +20,7 @@ import { snapMinutes, SNAP_MINUTES, useDragSnap } from '../drag-snap';
 import { commitsEdgeSwipe, EDGE_SWIPE_COMMIT_DISTANCE_PT, useEdgeSwipeBack } from '../edge-swipe';
 import { HOLD_FILL_MS, useHoldFill } from '../hold-fill';
 import { LONG_PRESS_DURATION_MS, useLongPress } from '../long-press';
-import { usePress } from '../press';
+import { PRESS_CANCEL_DISTANCE_PT, PRESS_MAX_DURATION_MS, usePress } from '../press';
 import { useReorder } from '../reorder';
 import {
   commitsSlideToConfirm,
@@ -212,6 +212,71 @@ describe('useLongPress', () => {
     );
     expect(LONG_PRESS_DURATION_MS).toBe(320);
     expect(result.current.gesture.config.minDurationMs).toBe(LONG_PRESS_DURATION_MS);
+  });
+});
+
+describe('usePress', () => {
+  it('fires on release however long the press was held, and only movement cancels it', async () => {
+    const onPress = jest.fn();
+    const { result } = await renderHook(() => usePress({ onPress, accessibilityLabel: 'Confirm' }));
+    const { gesture } = result.current;
+
+    // The tap handler's own limit is 500 ms; a deliberate two-second press is well inside ours.
+    expect(gesture.config.maxDurationMs).toBe(PRESS_MAX_DURATION_MS);
+    expect(PRESS_MAX_DURATION_MS).toBeGreaterThan(2000);
+    // The native handlers read the limit as a 32-bit whole number of milliseconds.
+    expect(Number.isInteger(PRESS_MAX_DURATION_MS)).toBe(true);
+    expect(PRESS_MAX_DURATION_MS).toBeLessThan(2 ** 31);
+    expect(gesture.config.maxDist).toBe(PRESS_CANCEL_DISTANCE_PT);
+
+    // Released in place: the handler ends from its active state and the press fires.
+    await act(async () => {
+      gesture.handlers.onBegin?.({} as never);
+      gesture.handlers.onEnd?.({} as never, true);
+      gesture.handlers.onFinalize?.({} as never, true);
+      await Promise.resolve();
+    });
+    expect(onPress).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not fire when the finger moves past the cancel distance (a scroll, a drag)', async () => {
+    const onPress = jest.fn();
+    const { result } = await renderHook(() => usePress({ onPress, accessibilityLabel: 'Confirm' }));
+    // The handler fails before it activates: it finalizes without ever ending.
+    await act(async () => {
+      result.current.gesture.handlers.onBegin?.({} as never);
+      result.current.gesture.handlers.onFinalize?.({} as never, false);
+      await Promise.resolve();
+    });
+    expect(onPress).not.toHaveBeenCalled();
+    const transform = (result.current.animatedStyle as { transform: { scale: number }[] })
+      .transform;
+    expect(transform[0]?.scale).toBe(1);
+  });
+
+  it('gives way to a long-press on the same control: the hold fires, the tap does not', async () => {
+    const onPress = jest.fn();
+    const onLongPress = jest.fn();
+    const { result } = await renderHook(() => ({
+      press: usePress({ onPress, accessibilityLabel: 'Ask' }),
+      hold: useLongPress({ onLongPress, accessibilityLabel: 'Get help' }),
+    }));
+    const hold = result.current.hold.gesture;
+    const tap = result.current.press.gesture.requireExternalGestureToFail(hold);
+
+    // The hold activates at 320 ms, long before the tap's limit, and the tap waits on it.
+    expect(hold.config.minDurationMs).toBeLessThan(PRESS_MAX_DURATION_MS);
+    expect(tap.config.requireToFail).toEqual([hold]);
+
+    // Held: the long-press starts, and the waiting tap is cancelled without ending.
+    await act(async () => {
+      tap.handlers.onBegin?.({} as never);
+      hold.handlers.onStart?.({} as never);
+      tap.handlers.onFinalize?.({} as never, false);
+      await Promise.resolve();
+    });
+    expect(onLongPress).toHaveBeenCalledTimes(1);
+    expect(onPress).not.toHaveBeenCalled();
   });
 });
 

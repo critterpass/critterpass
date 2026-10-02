@@ -1,17 +1,19 @@
 /**
  * The 3a-7 route: the finished pass with the save sheet over it. Saved → SAVED tick, then on to
- * the permissions page; "Use that pass" → the existing pass's account, straight home.
+ * the permissions page; "Use that pass" → the app starts again on the existing pass's account, at
+ * Home (its session and its data, not the new pass's).
  */
 import { router, useIsFocused } from 'expo-router';
 import { useEffect } from 'react';
 
 import { useAnalytics } from '@/lib/analytics';
 
-import { completeOnboarding } from '../flow-controller/completion';
+import { markOnboardingComplete } from '../flow-controller/completion';
 import { updateDraft } from '../flow-controller/draft-store';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
 import { useTrackStep } from '../flow-controller/track';
 import { IssuedPage } from '../issued/IssuedScreen';
+import { useOnboardingServices } from '../services';
 import { SaveSheet } from './SaveSheet';
 import { useSaveFlow } from './use-save-flow';
 
@@ -21,6 +23,7 @@ export const SAVED_ADVANCE_MS = 900;
 export function SaveScreen() {
   useTrackStep('save');
   const flow = useSaveFlow();
+  const services = useOnboardingServices();
   const analytics = useAnalytics();
   const { state } = flow;
   // The phone page is pushed over this one: the sheet goes while it is up (so the presenter scale
@@ -39,10 +42,11 @@ export function SaveScreen() {
       return () => clearTimeout(timer);
     }
     if (state.kind === 'switched') {
-      void completeOnboarding().then((href) => router.replace(href));
+      markOnboardingComplete();
+      services.restart();
     }
     return undefined;
-  }, [state, analytics]);
+  }, [state, analytics, services]);
 
   const notNow = () => {
     updateDraft((d) => ({ ...d, step: 'saved' }));

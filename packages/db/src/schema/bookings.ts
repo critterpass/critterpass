@@ -140,6 +140,11 @@ export const crewInboundAddresses = pgTable('crew_inbound_addresses', {
   localPart: text('local_part').notNull().unique(),
   status: text('status').notNull().default('active'),
   rotatedAt: at('rotated_at'),
+  /** Forwarded mail held from addresses nobody in the crew has linked yet, and the newest's time. */
+  heldCount: integer('held_count').notNull().default(0),
+  heldAt: at('held_at'),
+  /** Latest expiry of a link code that was emailed for the held mail; null when none went out. */
+  heldCodeUntil: at('held_code_until'),
   createdAt: createdAt(),
 });
 
@@ -152,6 +157,8 @@ export const inboundSenderLinks = pgTable('inbound_sender_links', {
   senderHash: text('sender_hash').notNull(),
   codeHash: text('code_hash'),
   codeExpiresAt: at('code_expires_at'),
+  /** The Worker's report on the code's reply: pending, sent or failed (null: issued before reports). */
+  codeDelivery: text('code_delivery'),
   attempts: smallint('attempts').notNull().default(0),
   verifiedAt: at('verified_at'),
   createdAt: createdAt(),

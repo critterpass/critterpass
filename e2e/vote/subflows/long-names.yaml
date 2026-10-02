@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# From the dev gallery's list: switches the app to ${LOCALE}, opens the showdown with long names
+# and takes `${LOCALE}-3c-1-showdown-long` once both names are on screen. The names are sized in
+# one pass and shown only at the size they keep, so seeing them is the wait. On iOS a half reads
+# as one button labelled with its name, so either the drawn name or that label counts.
+- scrollUntilVisible:
+    element:
+      id: 'gallery-locale-${LOCALE}'
+    direction: UP
+    timeout: 20000
+- tapOn:
+    id: 'gallery-locale-${LOCALE}'
+- scrollUntilVisible:
+    element:
+      id: 'gallery-showdown-long'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'gallery-showdown-long'
+- extendedWaitUntil:
+    visible:
+      id: 'showdown-long'
+    timeout: 10000
+- extendedWaitUntil:
+    visible: 'CHEFCHAOUEN|Chefchaouen, .*'
+    timeout: 10000
+- extendedWaitUntil:
+    visible: 'THÀNH PHỐ HỒ CHÍ MINH|Thành phố Hồ Chí Minh, .*'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: ${LOCALE}-3c-1-showdown-long

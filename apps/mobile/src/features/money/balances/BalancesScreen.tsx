@@ -27,6 +27,7 @@ import { BalancesView } from './BalancesView';
 import { CurrencySheet } from './CurrencySheet';
 import { buildBalances, isSolo } from './model';
 import { tripLabel, TripSheet } from './TripSheet';
+import { WalletGuideProvider } from '@/features/bookings';
 
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, gap: t.space['20'], paddingTop: t.space['16'] },
@@ -140,47 +141,49 @@ export function BalancesScreen() {
   ];
   const fallbackTrip = t({ id: 'money.trips.unnamed', message: 'Trip' });
   return (
-    <>
-      <BalancesView
-        currency={currency}
-        totalSpentMinor={model.totalSpentMinor}
-        hero={model.hero}
-        lines={model.lines}
-        settleTaps={model.plan.length}
-        latest={items[0] ?? null}
-        empty={items.length === 0 && rows.ledger.length === 0}
-        solo={isSolo(ctx.uid ?? '', ctx.members, model.lines)}
-        offline={sync.phase === 'offline'}
-        tripLabel={ctx.trips.length > 1 ? tripLabel(trip, fallbackTrip) : null}
-        onTrip={() => setSheet('trip')}
-        onCurrency={() => setSheet('currency')}
-        onSettle={() => router.push(MONEY_ROUTES.settle)}
-        onScan={() => router.push(MONEY_ROUTES.scan)}
-        onAdd={() => router.push(MONEY_ROUTES.add)}
-        onBudget={() => router.push(MONEY_ROUTES.budget)}
-        onHistory={() => router.push(MONEY_ROUTES.history)}
-        onExpense={(id) => router.push(expenseRoute(id))}
-      />
-      {sheet === 'currency' ? (
-        <CurrencySheet
-          crewId={crew.id}
-          current={currency}
-          choices={choices}
-          organiser={crew.organiser || trip.organiser}
-          onClose={() => setSheet(null)}
+    <WalletGuideProvider tripId={ctx.trip?.id ?? null}>
+      <>
+        <BalancesView
+          currency={currency}
+          totalSpentMinor={model.totalSpentMinor}
+          hero={model.hero}
+          lines={model.lines}
+          settleTaps={model.plan.length}
+          latest={items[0] ?? null}
+          empty={items.length === 0 && rows.ledger.length === 0}
+          solo={isSolo(ctx.uid ?? '', ctx.members, model.lines)}
+          offline={sync.phase === 'offline'}
+          tripLabel={ctx.trips.length > 1 ? tripLabel(trip, fallbackTrip) : null}
+          onTrip={() => setSheet('trip')}
+          onCurrency={() => setSheet('currency')}
+          onSettle={() => router.push(MONEY_ROUTES.settle)}
+          onScan={() => router.push(MONEY_ROUTES.scan)}
+          onAdd={() => router.push(MONEY_ROUTES.add)}
+          onBudget={() => router.push(MONEY_ROUTES.budget)}
+          onHistory={() => router.push(MONEY_ROUTES.history)}
+          onExpense={(id) => router.push(expenseRoute(id))}
         />
-      ) : null}
-      {sheet === 'trip' ? (
-        <TripSheet
-          trips={ctx.trips}
-          current={trip.id}
-          onPick={(id) => {
-            selectTrip(id);
-            setSheet(null);
-          }}
-          onClose={() => setSheet(null)}
-        />
-      ) : null}
-    </>
+        {sheet === 'currency' ? (
+          <CurrencySheet
+            crewId={crew.id}
+            current={currency}
+            choices={choices}
+            organiser={crew.organiser || trip.organiser}
+            onClose={() => setSheet(null)}
+          />
+        ) : null}
+        {sheet === 'trip' ? (
+          <TripSheet
+            trips={ctx.trips}
+            current={trip.id}
+            onPick={(id) => {
+              selectTrip(id);
+              setSheet(null);
+            }}
+            onClose={() => setSheet(null)}
+          />
+        ) : null}
+      </>
+    </WalletGuideProvider>
   );
 }

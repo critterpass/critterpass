@@ -38,6 +38,13 @@ env:
       id: 'winner-reveal'
     timeout: 60000
 - waitForAnimationToEnd
+# The sticker, the rays and the halftone are canvases that paint a moment after the screen settles.
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-canvases-painted'
+    timeout: 3000
+    optional: true
+- waitForAnimationToEnd
 - takeScreenshot: 3c-2
 - stopApp
 - launchApp

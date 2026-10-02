@@ -15,6 +15,9 @@ export const EMERGENCY_SERVICES = [
   'fire',
   'tourist_police',
   'coast_guard',
+  // A real hotline that is none of the above (search and rescue, a helpline): listed under its own
+  // label, never the number Help leads with.
+  'other',
 ] as const;
 
 const phoneNumberSchema = z.string().regex(/^\+?[0-9][0-9 -]{1,18}$/u, 'must be a dialable number');

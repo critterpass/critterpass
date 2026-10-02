@@ -16,10 +16,12 @@ import {
   parseIdList,
   soonestRelevant,
   splitWallet,
+  withoutDeleted,
   stackOrder,
   toWalletBooking,
 } from '../data/model';
 import { offlineBookingIds, type OfflineEntry } from '../data/offline';
+import { pendingAdds } from '../data/pending-adds';
 import { chipOf, flightView } from '../flight-card/flight-model';
 import { gateChanged } from '../flight-card/gate-memory';
 import { bannerOf } from '../stack/banner';
@@ -69,6 +71,54 @@ describe('wallet stack', () => {
     expect(parseIdList('["a","b"]')).toEqual(['a', 'b']);
     expect(parseIdList('{a,"b"}')).toEqual(['a', 'b']);
     expect(parseIdList(null)).toEqual([]);
+  });
+});
+
+describe('a booking added on this phone', () => {
+  it('shows from the upload queue until its row syncs, with its flight leg', () => {
+    const envelope = JSON.stringify({
+      payload: {
+        booking_id: 'b-new',
+        trip_id: 't1',
+        kind: 'flight',
+        title: '9G 957 DAD → SGN',
+        tz: 'Asia/Ho_Chi_Minh',
+        starts_at: '2026-10-03T19:40:00+07:00',
+        ends_at: '2026-10-03T21:05:00+07:00',
+        segments: [
+          {
+            carrier: '9G',
+            flight_no: '957',
+            dep_airport: 'DAD',
+            arr_airport: 'SGN',
+            sched_dep_at: '2026-10-03T19:40:00+07:00',
+            sched_arr_at: '2026-10-03T21:05:00+07:00',
+          },
+        ],
+      },
+    });
+    const queued = [{ envelope }, { envelope: 'not json' }];
+    const shown = pendingAdds(queued, 't1', 'me', new Set());
+    expect(shown.bookings.map((row) => [row.id, row.type, row.owner_id])).toEqual([
+      ['b-new', 'flight', 'me'],
+    ]);
+    const card = toWalletBooking(shown.bookings[0]!, shown.segments, 'me');
+    expect(card.segments[0]).toMatchObject({
+      dep_airport: 'DAD',
+      sched_arr_at: '2026-10-03T21:05:00+07:00',
+    });
+    expect(pendingAdds(queued, 't1', 'me', new Set(['b-new'])).bookings).toEqual([]);
+    expect(pendingAdds(queued, 'other-trip', 'me', new Set()).bookings).toEqual([]);
+  });
+});
+
+describe('a deleted booking', () => {
+  it('leaves the wallet while its delete is still queued, so it cannot be deleted twice', () => {
+    const rows = [{ id: 'b-flight' }, { id: 'b-trek' }];
+    expect(withoutDeleted(rows, [])).toBe(rows);
+    expect(withoutDeleted(rows, [{ booking_id: 'b-trek' }, { booking_id: null }])).toEqual([
+      { id: 'b-flight' },
+    ]);
   });
 });
 

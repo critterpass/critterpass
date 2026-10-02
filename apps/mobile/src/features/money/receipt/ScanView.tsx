@@ -14,10 +14,12 @@ import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { GuideLine } from '@/ui/people/GuideLine';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { Stack } from '@/ui/layout/Stack';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
+import { useWalletGuide } from '@/features/bookings';
 
 import { FailureSheet, type FailureSheetProps } from './FailureSheet';
 import { LineAssignSheet, type LineAssignSheetProps } from './LineAssignSheet';
@@ -77,8 +79,12 @@ export function ScanView(props: ScanViewProps) {
   const theme = useTheme();
   const locale = useLocale();
   const { t } = useLingui();
-  const tokek = GUIDE_STICKERS.tokek;
+  const { name: guideName } = useWalletGuide();
+  const guide = useWalletGuide();
+  const tokek = GUIDE_STICKERS[guide.id];
   const { scene } = props;
+  // The camera's ✕ is drawn in every scene, so the screen always has its way back.
+  useBackAffordance();
   const issue = scene.kind === 'failure' ? scene.failure.issue : null;
   const chipText =
     issue === 'crumpled'
@@ -122,9 +128,9 @@ export function ScanView(props: ScanViewProps) {
     panel = (
       <Panel testID="money-scan-denied">
         <GuideLine
-          guide="tokek"
-          name={tokek.name}
-          sticker={<Sticker kind={tokek.kind} name={tokek.name} size={44} pose="think" />}
+          guide={guide.id}
+          name={guide.name}
+          sticker={<Sticker kind={tokek.kind} name={guide.name} size={44} pose="think" />}
           line={t({
             id: 'money.scan.deniedLine',
             message: 'I need the camera to read receipts. A photo from your library works too.',
@@ -148,9 +154,9 @@ export function ScanView(props: ScanViewProps) {
     panel = (
       <Panel testID="money-scan-reading">
         <GuideLine
-          guide="tokek"
-          name={tokek.name}
-          sticker={<Sticker kind={tokek.kind} name={tokek.name} size={44} pose="point" />}
+          guide={guide.id}
+          name={guide.name}
+          sticker={<Sticker kind={tokek.kind} name={guide.name} size={44} pose="point" />}
           line={
             scene.waiting
               ? t({ id: 'money.scan.waiting', message: 'Adding it up. Who had what comes next.' })
@@ -172,7 +178,7 @@ export function ScanView(props: ScanViewProps) {
             {scene.kind === 'offline'
               ? t({
                   id: 'money.scan.savedLine',
-                  message: "Tokek reads it when you're back online. You can close this.",
+                  message: `${guideName} reads it when you're back online. You can close this.`,
                 })
               : t({
                   id: 'money.scan.failedLine',
@@ -215,7 +221,7 @@ export function ScanView(props: ScanViewProps) {
           <Text variant="body" color={theme.color.paper.base} style={{ textAlign: 'center' }}>
             {t({
               id: 'money.scan.aimLine',
-              message: 'Tokek snaps it when the paper is flat and still, then reads every line.',
+              message: `${guideName} snaps it when the paper is flat and still, then reads every line.`,
             })}
           </Text>
         </View>

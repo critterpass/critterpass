@@ -1,0 +1,32 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "b4ce952c-a805-4503-bfcb-f66edebab860",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-v4-pro",
+      "content": [
+        {
+          "type": "thinking",
+          "thinking": "We need answer JSON only. Need use facts. We are Sardi. Need headline under 60 chars, detail one sentence. items one item id \"move\". Need word reason shown on move. Suggested line \"Tanah Lot 17:00 → 15:30, out of the rain\". But need every time amount count number from facts exactly as given. Facts: title Tanah Lot, from 17:00, to 15:30, rain_from 16:30, rain_until 19:00, rain_pct 75. Headline suggestion: \"Rain till 19:00. Move Tanah Lot?\" length count: R a i n space t i l l space 1 9 : 0 0 . space M o v e space T a n a h space L o t ? = let's count: \"Rain till 19:00. Move Tanah Lot?\" 30? okay under 60. But need in Sardi voice perhaps \"Rain till 19:00. Shift Tanah Lot?\" Better use suggested? They said headline is a short question in your voice suggesting move. Could be \"Rain till 19:00. Tanah Lot at 15:30?\" That suggests move to dry slot. Need not say moved. detail one sentence on why: \"75% chance of rain at 17:00; it looks dry at 15:30.\" This is from suggested_detail. Word as one item reason shown on move. The item text should include id move, text maybe \"Tanah Lot 17:00 → 15:30, out of the rain\" but perhaps we can word: \"Tanah Lot 17:00 → 15:30, before the 75% rain chance.\" But keep suggested line's meaning. The suggested line uses arrow, numbers exactly. Note facts include 75% chance. We can use that. Need no quotes, no emoji. We need produce valid JSON. Ensure no extra prose.\n\nBut check instruction: \"Every time, amount, count and number must be one from that item's facts (the headline and detail may use any of them), written exactly as given.\" So in item text, use 17:00, 15:30, maybe 75%? The item facts have rain_pct 75, not \"75%\" but given as 75 in facts? Actually fact rain_pct:75. The suggested_detail says 75% chance. We can write 75%? The facts gave rain_pct 75, maybe need exactly \"75\" not \"75%\"? Untrusted data: rain_pct:75, suggested_detail \"75% chance\". Instruction says numbers written exactly as given. The facts show \"rain_pct\":75 (numeric), but suggested detail includes 75%. Hmm. We should use \"75%\" as in suggested_detail? The item facts include rain_pct:75 no percent sign but the semantic is percent. \"75% chance\" is from suggested detail. The instruction says use facts, write exactly as given. In the JSON fact, it's numeric 75, but we need text. I think \"75%\" is acceptable as the suggested line has 75%? Actually suggested_detail says 75% chance, so that's the given textual representation. Use \"75%\". Need not use all times. In item text maybe \"Tanah Lot 17:00 → 15:30, out of the 16:30–19:00 rain.\" But that would be factual. Suggested line says \"out of the rain\". Could use that. Need possibly include reason shown on move, e.g., \"Tanah Lot 17:00 → 15:30, dry before the 16:30 rain.\" But rain_from 16:30, rain_until 19:00. Dry slot same day? to 15:30, yes before rain_from 16:30. Detail one sentence can say 75% chance of rain at 17:00; it looks dry at 15:30. That's fine.\n\nNeed make headline Sardi voice. Maybe \"Rain till 19:00. Shift Tanah Lot to 15:30?\" That uses time. Under 60. Detail: \"75% chance of rain at 17:00; it looks dry at 15:30.\" That is one sentence? It has semicolon, two clauses, okay one sentence. Items text: \"Tanah Lot 17:00 → 15:30, out of the rain\" exactly suggested line, but maybe need include reason shown? The item is reason shown on move. Suggested line qualifies. We can keep or slightly modify to include 75%? But instruction: Items you leave out keep their suggested line. We can keep suggested line for move? They said \"Word the one item as the reason shown on the move.\" So we can word it as reason. Suggested line already is reason? \"Tanah Lot 17:00 → 15:30, out of the rain\" is a reason. Good.\n\nNeed check headline length: \"Rain till 19:00. Shift Tanah Lot to 15:30?\" Let's count: \"Rain till 19:00. Shift Tanah Lot to 15:30?\" = 41? fine. But maybe too direct? Sardi voice warm, funny. Could be \"Rain till 19:00. Tanah Lot earlier, like a sardine dodging the grill?\" That's maybe over char? Under 60 maybe. But need suggest move. Maybe simpler.\n\nNo emoji, no hashtags, no quotes. So avoid quotes. Use JSON with double quotes as required. That's fine.\n\nFinal JSON:\n{\n  \"headline\": \"Rain till 19:00. Shift Tanah Lot to 15:30?\",\n  \"detail\": \"75% chance of rain at 17:00; it looks dry at 15:30.\",\n  \"items\": [\n    {\n      \"id\": \"move\",\n      \"text\": \"Tanah Lot 17:00 → 15:30, out of the rain\"\n    }\n  ]\n}\n\nNeed ensure no trailing comments. Valid JSON. Use arrow character? Yes allowed. No quotes inside text. Good.\n\nBut the suggested_headline had \"Rain till 19:00. Move Tanah Lot?\" but we can adapt. The instruction says headline is short question in your voice. Ours is question. Good.\n\nCheck detail one sentence on why. The why: 75% chance rain at 17:00; dry at 15:30. Good.\n\nOne potential issue: The untrusted data's suggested_item line includes arrow and \"out of the rain\"; we use exactly. Good.\n\nNo mention of moved, confirmed, etc.\n\nThus answer.",
+          "signature": "b4ce952c-a805-4503-bfcb-f66edebab860"
+        },
+        {
+          "type": "text",
+          "text": "{\n  \"headline\": \"Rain till 19:00. Shift Tanah Lot to 15:30?\",\n  \"detail\": \"75% chance of rain at 17:00; it looks dry at 15:30.\",\n  \"items\": [\n    {\n      \"id\": \"move\",\n      \"text\": \"Tanah Lot 17:00 → 15:30, out of the rain\"\n    }\n  ]\n}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 821,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 1503,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

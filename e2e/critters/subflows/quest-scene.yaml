@@ -1,13 +1,18 @@
 appId: app.critterpass.dev
 ---
-# From the critters lab list: opens scene ${SCENE}, waits for ${WAIT_ID}, takes ${SHOT} and steps
-# back to the list (reopening the lab when the step back went further).
+# From the critters lab list: opens scene ${SCENE}, waits for ${WAIT_ID}, takes ${SHOT} (and, with
+# ${SCROLL_TO}, scrolls down to it and takes ${SHOT}-more) and steps back to the list (reopening the
+# lab when the step back went further).
+# Centred: a row left at the bottom edge sits under the gesture bar, where a tap can miss it.
 - scrollUntilVisible:
     element:
       id: 'critters-lab-${SCENE}'
     direction: DOWN
     visibilityPercentage: 100
+    centerElement: true
     timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 2000
 - tapOn:
     id: 'critters-lab-${SCENE}'
 - extendedWaitUntil:
@@ -17,6 +22,19 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: ${SHOT}
+- runFlow:
+    when:
+      true: ${typeof SCROLL_TO !== 'undefined' && SCROLL_TO !== ''}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: ${SCROLL_TO}
+          direction: DOWN
+          visibilityPercentage: 100
+          timeout: 20000
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - takeScreenshot: ${SHOT}-more
 - runFlow: ../../onboarding/subflows/back.yaml
 - waitForAnimationToEnd:
     timeout: 3000

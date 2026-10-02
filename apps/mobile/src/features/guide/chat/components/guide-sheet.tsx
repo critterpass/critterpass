@@ -6,11 +6,12 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, config keys and design ids, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useContext, useMemo, useState, type ReactNode } from 'react';
 
 import type { GuideThreadMode } from '@cp/domain';
 
 import { useCommand } from '@/data/commands/use-command';
+import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
 import { hrefFor } from '@/lib/navigation/screen-registry';
@@ -103,7 +104,16 @@ export interface GuideSheetProps {
   readonly onAttach?: () => void;
 }
 
-export function GuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: GuideSheetProps) {
+/**
+ * The sheet once the session's local database is open. A cold start can restore the guide route
+ * before that; the sheet rises when the session is up instead of failing to load.
+ */
+export function GuideSheet(props: GuideSheetProps) {
+  const localFirst = useContext(LocalFirstContext);
+  return localFirst === null ? null : <OpenGuideSheet {...props} />;
+}
+
+function OpenGuideSheet({ tripId, initialMode, useMeter = noMeter, onAttach }: GuideSheetProps) {
   const theme = useTheme();
   const context = useGuideContext(tripId);
   const trip = context.trip;

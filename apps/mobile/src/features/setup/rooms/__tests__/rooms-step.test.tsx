@@ -181,6 +181,16 @@ describe('organiser moves people', () => {
     await fireEvent.press(screen.getByTestId(`setup-rooms-person-${RIN}`));
     await fireEvent.press(await screen.findByTestId('setup-rooms-move-room-3'));
     await waitFor(async () => expect(await queued(db, 'set_room_assignment')).toHaveLength(1));
+    // The screen reads its queued moves back from the database a moment after they are written,
+    // and a move starts from the plan on screen: until Rin shows in room 3, room 1 still looks
+    // full and would refuse Dev without a command.
+    await waitFor(() =>
+      expect(
+        within(screen.getByTestId('setup-rooms-room-room-3')).getByTestId(
+          `setup-rooms-person-${RIN}`,
+        ),
+      ).toBeTruthy(),
+    );
     await fireEvent.press(screen.getByTestId(`setup-rooms-person-${DEV}`));
     await fireEvent.press(await screen.findByTestId('setup-rooms-move-room-1'));
     await waitFor(async () => expect(await queued(db, 'set_room_assignment')).toHaveLength(2));

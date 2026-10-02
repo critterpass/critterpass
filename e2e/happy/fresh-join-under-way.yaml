@@ -1,17 +1,17 @@
 appId: app.critterpass.dev
 ---
-# Release gate: a friend joins a trip that is already under way. Three brand-new accounts on one
+# Release gate: a friend joins a trip that is already under way. Four brand-new accounts on one
 # phone, no demo world. The organiser starts a crew and a trip to Da Nang whose first day is today;
 # one friend joins with the crew code before the proposal, boards it, and the organiser locks the
-# crew in. Then a third new account joins with the same crew code: the trip is confirmed and, from
+# crew in. Then another new account joins with the same crew code: the trip is confirmed and, from
 # noon in Da Nang, under way. Their Home, trip hub, plan and crew chat are captured, the organiser
 # adds an expense split between everyone on the trip, and the newcomer's Home is captured again
 # once the trip has started. The newcomer is on the trip: the plan opens and the expense is theirs
-# to share.
-# Today on the trip's clock (Da Nang, UTC+7): the lock button that names it, where its cell sits in
-# the week picker's month (Monday-first columns 11.93% of the screen apart from 14.6%, rows 5.69%
-# apart from 45%, in whole percents) and its spoken label.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); var blanks = (first.getUTCDay() + 6) % 7; var col = (d.getUTCDay() + 6) % 7; var row = Math.floor((blanks + d.getUTCDate() - 1) / 7); output.todayPoint = Math.round(14.6 + 11.93 * col) + '%, ' + Math.round(45 + 5.69 * row) + '%'; output.todayLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
+# to share. A fourth account joins earlier, while the proposal is out, and never answers it: after
+# the lock their Home has the JOIN THE TRIP card, and the tap puts them on the trip.
+# Today on the trip's clock (Da Nang, UTC+7): the id of its cell in the week picker and the lock
+# button that names it.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); output.pickId = 'heat-pick-' + d.toISOString().slice(0, 10); output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
 - runFlow: subflows/fresh-account.yaml
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -36,10 +36,15 @@ appId: app.critterpass.dev
     id: 'start-crew-done'
 
 # The friend: a second new account on this phone joins the crew with its code.
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-new'
+# The switch goes through Developer tools from a cold start; a tap that lands mid-launch is
+# tried once more.
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-new'
 - runFlow: ../home/subflows/onboard.yaml
 # Onboarding may finish on another tab; Home has JOIN WITH A CODE.
 - openLink:
@@ -67,7 +72,7 @@ appId: app.critterpass.dev
     visible:
       text: '(?i)found it.*'
     timeout: 20000
-- hideKeyboard
+# A found code puts the keyboard away by itself, so JOIN is in reach.
 - extendedWaitUntil:
     visible:
       id: 'invite-code-join'
@@ -81,10 +86,13 @@ appId: app.critterpass.dev
     timeout: 30000
 
 # The organiser again (kept first): one place locked in, then setup to the guide's draft.
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-0'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-0'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
@@ -114,9 +122,9 @@ appId: app.critterpass.dev
       id: 'setup-step-when'
     timeout: 20000
 # The dates: a week that starts today, picked by hand (the crew's best window aims at the place's
-# season, weeks away). The picker opens on the month of that window, which is this month here. On
-# Android the sheet's cells carry no id or label of their own, so today's cell is tapped where the
-# sheet draws it; iOS finds it by its label. The lock button names the week, which proves the tap.
+# season, weeks away). The sheet opens on the month of that window, which can be a later one: it
+# is paged back until today's cell is there, and the cell is tapped by its date. The lock button
+# names the week, which proves the tap.
 - extendedWaitUntil:
     visible:
       id: 'when-pick-week'
@@ -128,27 +136,20 @@ appId: app.critterpass.dev
       id: 'picker-shorter'
     timeout: 10000
 - waitForAnimationToEnd
-- runFlow:
-    when:
-      platform: Android
+# The dates step under the sheet has its own month arrows, so the sheet's are looked up inside it.
+- repeat:
+    while:
+      notVisible:
+        id: ${output.pickId}
+    times: 6
     commands:
       - tapOn:
-          point: ${output.todayPoint}
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - tapOn:
-          text: ${output.todayLabel}
-          index: 1
-          optional: true
-      - runFlow:
-          when:
-            notVisible:
-              id: 'picker-lock'
-          commands:
-            - tapOn:
-                text: ${output.todayLabel}
+          id: 'heatmap-prev'
+          childOf:
+            id: 'week-picker-panel'
+      - waitForAnimationToEnd
+- tapOn:
+    id: ${output.pickId}
 - extendedWaitUntil:
     visible:
       id: 'picker-lock'
@@ -202,11 +203,67 @@ appId: app.critterpass.dev
       text: '(?i)their version is ready|.*wrote the group version.*'
     timeout: 300000
 
-# The friend opens it from crew chat and boards.
+# Someone who joins while the proposal is out: in the crew, with no version of their own to answer
+# and so no seat when the organiser locks.
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-new'
+- runFlow: ../home/subflows/onboard.yaml
+# Onboarding may finish on another tab; Home has JOIN WITH A CODE.
+- openLink:
+    link: critterpass-dev://
+    optional: true
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-1'
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-join-code'
+    timeout: 30000
+- tapOn:
+    id: 'home-join-code'
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-boxes'
+    timeout: 15000
+- tapOn:
+    id: 'invite-code-boxes'
+- inputText: ${output.crewCode}
+- extendedWaitUntil:
+    visible:
+      text: '(?i)found it.*'
+    timeout: 20000
+# A found code puts the keyboard away by itself, so JOIN is in reach.
+- extendedWaitUntil:
+    visible:
+      id: 'invite-code-join'
+    timeout: 20000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'invite-code-join'
+- extendedWaitUntil:
+    notVisible:
+      id: 'invite-code-screen'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'invite-manifest-screen'
+    timeout: 60000
+
+# The friend opens it from crew chat and boards.
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-1'
 - runFlow: ../proposal/subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
@@ -261,10 +318,13 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 
 # The organiser locks the crew in: the trip is confirmed.
-- runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-0'
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-0'
 - runFlow: ../proposal/subflows/open-proposal-card.yaml
 - extendedWaitUntil:
     visible:
@@ -282,12 +342,52 @@ appId: app.critterpass.dev
     visible:
       text: '(?i)locked in\. the trip is confirmed\.'
     timeout: 30000
-
-# The newcomer: a third new account joins with the crew code, after the trip was confirmed.
+# The trip's first day is today, so the trip day starts for the organiser at once and the app asks
+# whether to remember the places they visit. It is answered here, on the trips tab, so the sheet
+# is not met later in the middle of an account switch (the answer holds for the phone).
+- openLink:
+    link: critterpass-dev://trips
+    optional: true
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-new'
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-decline'
+    timeout: 90000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+
+# From here on someone on the trip can be asked, once the trip day has started, whether to remember
+# the places they visit. The sheet covers the screen under it, so wherever it is up it is answered
+# "Not now" before a capture or an account switch.
+# The newcomer: one more new account joins with the crew code, after the trip was confirmed.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-new'
 - runFlow: ../home/subflows/onboard.yaml
 # Onboarding may finish on another tab; Home has JOIN WITH A CODE.
 - openLink:
@@ -315,7 +415,7 @@ appId: app.critterpass.dev
     visible:
       text: '(?i)found it.*'
     timeout: 20000
-- hideKeyboard
+# A found code puts the keyboard away by itself, so JOIN is in reach.
 - extendedWaitUntil:
     visible:
       id: 'invite-code-join'
@@ -327,19 +427,40 @@ appId: app.critterpass.dev
     notVisible:
       id: 'invite-code-screen'
     timeout: 30000
-# The manifest welcomes them: its button opens the plan when the join put them on a trip, the
-# crew otherwise.
+# The manifest welcomes them. The join put them on the trip, so its button opens the plan.
 - extendedWaitUntil:
     visible:
       id: 'invite-manifest-screen'
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-manifest
 - tapOn:
     id: 'invite-manifest-plan'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-landing
 # Home for the crew, then the trip's hub, its plan and the crew chat.
 - openLink:
@@ -361,6 +482,15 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-home
 - tapOn:
     id: 'tab-trips'
@@ -371,6 +501,15 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-trip
 - runFlow:
     when:
@@ -386,6 +525,15 @@ appId: app.critterpass.dev
           optional: true
       - waitForAnimationToEnd:
           timeout: 8000
+      - runFlow:
+          when:
+            visible:
+              id: 'visit-consent-decline'
+          commands:
+            - tapOn:
+                id: 'visit-consent-decline'
+            - waitForAnimationToEnd:
+                timeout: 5000
       - takeScreenshot: en-join-under-way-newcomer-plan
       - runFlow: ../onboarding/subflows/back.yaml
 - tapOn:
@@ -400,21 +548,70 @@ appId: app.critterpass.dev
     visible:
       id: 'chat-composer'
     timeout: 20000
+- extendedWaitUntil:
+    visible: '(?i).*the proposal.*'
+    timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-chat
 
 # The organiser pays for dinner: the split names everyone on the trip.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-0'
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-0'
+# The switch restarts the app where it last was (the trips tab): back to Home.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- tapOn:
+    id: 'tab-home'
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-organiser-home
 - openLink: critterpass-dev://wallet/money
 - extendedWaitUntil:
@@ -434,45 +631,87 @@ appId: app.critterpass.dev
     visible:
       id: 'money-add-keypad'
     timeout: 10000
+# 9 then the 000 key: S$90.00. A bare '0' would also match the amount's own digit, and a tap
+# there opens the currency sheet instead. iOS reads the 000 key by its label.
 - tapOn: '9'
-- tapOn: '0'
-# BY SHARE lists everyone in the split with their part.
-- tapOn: 'BY SHARE'
+- tapOn: '000|Three zeros'
+# EVENLY splits between everyone on the trip: PAID BY shows each of them, and S$90 three ways
+# reads "S$ 30.00 each" (two people would read 45.00, four 22.50).
 - extendedWaitUntil:
-    visible:
-      id: 'money-share-count-0|money-split-in-0'
-    timeout: 10000
+    visible: '.*30\.00 each.*'
+    timeout: 20000
+    optional: true
 - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-expense-split
 - evalScript: ${output.threeWays = false}
 - runFlow:
     when:
-      visible:
-        id: 'money-share-count-2|money-split-in-2'
+      visible: '.*30\.00 each.*'
     commands:
       - evalScript: ${output.threeWays = true}
-- tapOn: 'EVENLY'
 - tapOn:
     id: 'money-add-submit'
 - extendedWaitUntil:
     visible:
       id: 'money-latest-row'
     timeout: 30000
-- tapOn:
-    id: 'money-latest-row'
-- extendedWaitUntil:
-    visible:
-      id: 'money-detail-shares'
-    timeout: 20000
+# The saved expense at the top of the list (the row can sit under the guide button, so it is
+# captured in place rather than opened).
 - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-expense-shares
 
 # The newcomer again. From noon in Da Nang the lifecycle sweep (every ten minutes) starts a trip
 # whose first day is today, and Home turns to the trip day.
 - runFlow:
-    file: ../proposal/subflows/switch-account.yaml
-    env:
-      TARGET: 'dev-accounts-switch-2'
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-3'
+# The switch restarts the app where it last was (the trips tab): back to Home.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- tapOn:
+    id: 'tab-home'
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'
@@ -488,6 +727,15 @@ appId: app.critterpass.dev
           optional: true
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-home-later
 - tapOn:
     id: 'tab-trips'
@@ -498,6 +746,15 @@ appId: app.critterpass.dev
     optional: true
 - waitForAnimationToEnd:
     timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-trip-later
 
 # The newcomer is on the trip: the organiser's split named three people, the plan opens with its
@@ -519,4 +776,100 @@ appId: app.critterpass.dev
       id: 'money-latest-row'
     timeout: 60000
 - waitForAnimationToEnd
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
 - takeScreenshot: en-join-under-way-newcomer-money
+
+# The one who joined while the proposal was out: Home says where the crew is and JOIN THE TRIP puts
+# them on it; the card goes once their seat has synced.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- retry:
+    maxRetries: 1
+    commands:
+      - runFlow:
+          file: ../proposal/subflows/switch-account.yaml
+          env:
+            TARGET: 'dev-accounts-switch-2'
+# The switch restarts the app where it last was (the trips tab): back to Home.
+- extendedWaitUntil:
+    visible:
+      id: 'tab-home'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-join-trip'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- takeScreenshot: en-join-under-way-not-on-trip-card
+- tapOn:
+    id: 'home-join-trip-cta'
+- extendedWaitUntil:
+    notVisible:
+      id: 'home-join-trip'
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- takeScreenshot: en-join-under-way-not-on-trip-joined
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 8000
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+      - waitForAnimationToEnd:
+          timeout: 5000
+- takeScreenshot: en-join-under-way-not-on-trip-hub

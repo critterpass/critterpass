@@ -51,6 +51,14 @@ msgstr "Move it"
 msgid "plan.timeline.a11y.lane"
 msgstr "Move to the next lane"
 
+#: ../../apps/mobile/src/features/plan/timeline/weather-suggestion-data.ts
+msgid "plan.timeline.queued.dismiss"
+msgstr "Not moving it"
+
+#: ../../apps/mobile/src/features/plan/timeline/guide-banner.tsx
+msgid "plan.timeline.notNow"
+msgstr "Not now"
+
 #: ../../apps/mobile/src/features/plan/timeline/timeline-editor.tsx
 msgid "plan.timeline.overlap"
 msgstr "Overlaps"

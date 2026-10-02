@@ -489,6 +489,41 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: op(true, true, true),
     },
   },
+  // Help and SOS: the shared fixture holds no session, so no actor finds one here; the sender,
+  // responder, crew and outsider cases live in ./help-sessions.test.ts and its siblings.
+  help_sessions: {
+    selectProbe: { sql: 'SELECT 1 FROM help_sessions LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
+  help_session_private: {
+    selectProbe: { sql: 'SELECT 1 FROM help_session_private LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
+  help_session_messages: {
+    selectProbe: { sql: 'SELECT 1 FROM help_session_messages LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(false, true, false),
+    },
+  },
   destination_cost_indices: {
     selectProbe: { sql: 'SELECT count(*) FROM destination_cost_indices', params: () => [] },
     expectations: READ_ONLY_ALL,
@@ -1395,6 +1430,13 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: OWNER_READ,
   },
+  // Widgets: the owner reads their own token and installs; the worker owns the rest.
+  widget_push_tokens: { selectProbe: ownRowProbe('widget_push_tokens'), expectations: OWNER_READ },
+  installed_widgets: { selectProbe: ownRowProbe('installed_widgets'), expectations: OWNER_READ },
+  widget_push_ledger: {
+    selectProbe: { sql: 'SELECT 1 FROM widget_push_ledger LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
   broadcast_channels: {
     selectProbe: { sql: 'SELECT 1 FROM broadcast_channels LIMIT 1', params: () => [] },
     expectations: SYSTEM_ONLY,
@@ -1707,6 +1749,29 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   xp_ledger: { selectProbe: ownRowProbe('xp_ledger'), expectations: OWNER_READ },
   crew_xp: {
     selectProbe: { sql: 'SELECT 1 FROM crew_xp WHERE crew_id = $1', params: (f) => [f.crewId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  disruptions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM disruptions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  watch_items: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM watch_items WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  // The fixture item has no attendee list (everyone goes), so every active member reads the
+  // organiser's check; the attendee-scoped case is in permissions/journey-checks.test.ts.
+  journey_checks: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM journey_checks WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
     expectations: CREW_VISIBLE_READ,
   },
   offline_bundles: {

@@ -28,6 +28,7 @@ import { seedBillingRows } from './billing-fixture';
 import { seedPollRows } from './poll-fixture';
 import { seedGuideChat } from './guide-fixture';
 import { seedTripDayRows } from './trip-day-fixture';
+import { seedDisruptionRows } from './disruptions-fixture';
 import { seedExploreRows } from './explore-fixture';
 import { seedProposalRows } from './proposal-fixture';
 import { seedCritterRows } from './critters-fixture';
@@ -99,6 +100,16 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await tx.query(
       `INSERT INTO la_push_to_start_tokens (device_id, user_id, activity_type, token, env)
        VALUES ($1, $2, 'leave_by', 'abcdef0123456789', 'sandbox')`,
+      [organiserDevice, organiser],
+    );
+    await tx.query(
+      `INSERT INTO widget_push_tokens (device_id, user_id, token, env)
+       VALUES ($1, $2, 'abcdef0123456789', 'sandbox')`,
+      [organiserDevice, organiser],
+    );
+    await tx.query(
+      `INSERT INTO installed_widgets (device_id, user_id, kind, family)
+       VALUES ($1, $2, 'countdown', 'system_small')`,
       [organiserDevice, organiser],
     );
     await tx.query(
@@ -452,6 +463,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     );
     await seedGuideChat(tx, { tripId, crewId, organiser });
     await seedTripDayRows(tx, { tripId, organiser, member });
+    await seedDisruptionRows(tx, { tripId, organiser });
     await seedExploreRows(tx, {
       tripId,
       destinationId: matrixProbeDestinationId,

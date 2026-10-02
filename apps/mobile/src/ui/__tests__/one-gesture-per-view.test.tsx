@@ -108,7 +108,7 @@ describe('one gesture per native view', () => {
     expect(onIndexChange).toHaveBeenLastCalledWith(1);
   });
 
-  it('keeps a pill pause through a tap and resumes only after a hold', async () => {
+  it('keeps a pause made by its action through a tap and resumes only after a hold', async () => {
     await renderUi(
       <StoryPlayer
         segments={[
@@ -118,16 +118,26 @@ describe('one gesture per native view', () => {
       />,
     );
     const hold = gestureById('story-hold');
-    await fireEvent.press(screen.getByRole('button', { name: 'Pause' }));
-    expect(screen.getByRole('button', { name: 'Play' })).toBeTruthy();
+    // The slide's own action reads "Pause" while playing and "Play" while paused.
+    const pauseAction = (): string | undefined =>
+      (
+        screen.getByRole('adjustable').props.accessibilityActions as readonly {
+          name: string;
+          label?: string;
+        }[]
+      ).find((action) => action.name === 'activate')?.label;
+    await fireEvent(screen.getByRole('adjustable'), 'accessibilityAction', {
+      nativeEvent: { actionName: 'activate' },
+    });
+    expect(pauseAction()).toBe('Play');
 
     // A tap fails the hold, which still finalizes.
     await fire(() => hold.handlers.onFinalize?.({ state: State.FAILED } as never, false));
-    expect(screen.getByRole('button', { name: 'Play' })).toBeTruthy();
+    expect(pauseAction()).toBe('Play');
 
     await fire(() => hold.handlers.onStart?.({ state: State.ACTIVE } as never));
     await fire(() => hold.handlers.onFinalize?.({ state: State.END } as never, true));
-    expect(screen.getByRole('button', { name: 'Pause' })).toBeTruthy();
+    expect(pauseAction()).toBe('Pause');
   });
 
   it('races the day row drag and press without either waiting', async () => {

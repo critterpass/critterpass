@@ -29,7 +29,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { airportDataset } from '../content';
-import { completeOnboarding } from '../flow-controller/completion';
+import { markOnboardingComplete } from '../flow-controller/completion';
 import { readDraft, updateDraft } from '../flow-controller/draft-store';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
 import { useTrackStep } from '../flow-controller/track';
@@ -79,7 +79,21 @@ export function PhoneScreen() {
   const draft = readDraft();
   const home = draft?.home_iata ? homeBaseFor(airportDataset(), draft.home_iata) : null;
   const phone = usePhoneFlow(
-    { auth: services.auth, save: flow },
+    {
+      auth: services.auth,
+      save: flow,
+      // Signed in to the pass this number holds: the app starts again on that account, at Home.
+      returning: returning
+        ? {
+            onSignedIn: () => {
+              setTimeout(() => {
+                markOnboardingComplete();
+                services.restart();
+              }, PHONE_ADVANCE_MS);
+            },
+          }
+        : undefined,
+    },
     defaultCountry(home?.country ?? null, getLocales()[0]?.regionCode ?? null),
   );
   const [picking, setPicking] = useState(false);
@@ -105,10 +119,12 @@ export function PhoneScreen() {
       return () => clearTimeout(timer);
     }
     if (state.kind === 'switched') {
-      void completeOnboarding().then((href) => router.replace(href));
+      // "Use my old pass": the app starts again on that account, like a returning sign-in.
+      markOnboardingComplete();
+      services.restart();
     }
     return undefined;
-  }, [flow.state, returning, analytics]);
+  }, [flow.state, returning, analytics, services]);
 
   const lundi = GUIDE_STICKERS.lundi;
   return (

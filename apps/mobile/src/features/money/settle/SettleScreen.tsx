@@ -24,6 +24,7 @@ import { MONEY_ROUTES, paymentRoute } from '../routes';
 import { canRemind, openCount, planKey, settleRows, type SettleRowModel } from './model';
 import { SettleList } from './SettleList';
 import { useSettledCeremony } from './use-settled-ceremony';
+import { WalletGuideProvider } from '@/features/bookings';
 
 export function SettleScreen() {
   const ctx = useMoneyContext(useSelectedTrip());
@@ -109,22 +110,24 @@ export function SettleScreen() {
   const onKind = () => router.push(MONEY_ROUTES.payoutMethods);
   const people = ctx.splitMembers.length;
   return (
-    <SettleList
-      rows={list}
-      members={ctx.members}
-      expenses={rows.expenses.length}
-      open={openCount(list)}
-      people={people}
-      settled={settled}
-      offline={sync.phase === 'offline'}
-      kinds={payoutKindsFor(ctx.homeCountry)}
-      myKinds={myKinds}
-      canRemind={canRemind(list)}
-      reminding={remind.pending}
-      onKind={onKind}
-      onNudge={(row) => void onNudge(row)}
-      onRow={(row) => router.push(paymentRoute(row.paymentId ?? planKey(row.fromId, row.toId)))}
-      onRemind={() => void onRemind()}
-    />
+    <WalletGuideProvider tripId={ctx.trip?.id ?? null}>
+      <SettleList
+        rows={list}
+        members={ctx.members}
+        expenses={rows.expenses.length}
+        open={openCount(list)}
+        people={people}
+        settled={settled}
+        offline={sync.phase === 'offline'}
+        kinds={payoutKindsFor(ctx.homeCountry)}
+        myKinds={myKinds}
+        canRemind={canRemind(list)}
+        reminding={remind.pending}
+        onKind={onKind}
+        onNudge={(row) => void onNudge(row)}
+        onRow={(row) => router.push(paymentRoute(row.paymentId ?? planKey(row.fromId, row.toId)))}
+        onRemind={() => void onRemind()}
+      />
+    </WalletGuideProvider>
   );
 }

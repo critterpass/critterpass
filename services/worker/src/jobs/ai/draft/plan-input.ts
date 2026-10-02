@@ -10,8 +10,10 @@ import {
   candidatePools,
   datesOf,
   straightLineMatrix,
+  timeWords,
   type Chronotype,
   type DraftPoi,
+  type ResolvedWishes,
   type TripFrame,
 } from '@cp/planner';
 
@@ -21,6 +23,9 @@ export interface PlanInputOptions {
   readonly jobId: string;
   readonly skeletonRoute: DraftPlanInput['skeletonRoute'];
   readonly closures: readonly ClosureRecord[];
+  /** Places the hand-typed must-dos name (see the planner's `resolveWishes`). */
+  readonly wished?: ResolvedWishes;
+  readonly ignoreNames?: readonly (readonly string[])[];
 }
 
 export function tripDates(trip: Pick<DraftTripData, 'startDate' | 'endDate'>): string[] {
@@ -75,8 +80,12 @@ export function buildPlanInput(
     mustDos: trip.mustDos.map((m) => ({
       id: m.id,
       ownerId: m.ownerId,
-      poiId: m.poiId,
+      poiId: m.poiId ?? options.wished?.places.get(m.id) ?? null,
       title: m.title,
+      // The member's own words for when ("at sunrise"), read only from a must-do they typed: a
+      // place picked from search has its name as its title ("Morning Glory"), which says nothing
+      // about when. The guide may add a time for a typed one.
+      when: m.poiId === null ? timeWords(m.title) : null,
     })),
     closures: options.closures,
   };
@@ -85,13 +94,21 @@ export function buildPlanInput(
     destination: trip.destination,
     frame,
     pois,
-    pools: candidatePools({ pois: places, frame, tastes }),
+    pools: candidatePools({
+      pois: places,
+      frame,
+      tastes,
+      include: options.wished?.offered ?? [],
+      ignoreNames: options.ignoreNames ?? [],
+    }),
     tastes,
     bands: trip.bands,
     travel: straightLineMatrix(pois),
     stayType: trip.rooms?.stays[0]?.stayType ?? null,
     names: Object.fromEntries(trip.members.map((m) => [m.uid, m.name])),
-    wishes: trip.mustDos.filter((m) => m.poiId === null).map((m) => ({ id: m.id, text: m.title })),
+    wishes: trip.mustDos
+      .filter((m) => m.poiId === null)
+      .map((m) => ({ id: m.id, text: m.title, options: options.wished?.options.get(m.id) ?? [] })),
     idFor: (key) => derivedUuid(`${options.jobId}:${key}`),
     skeletonRoute: options.skeletonRoute,
   };

@@ -1,10 +1,11 @@
 /**
  * The guide's suggestion under the timeline (3e-2): the guide, "Rain till three. Move the walk?"
- * in the guide's hand, "Drag it, or tap to accept", and MOVE IT.
+ * in the guide's hand, "Drag it, or tap to accept", MOVE IT, and Not now.
  */
 import { useLingui } from '@lingui/react/macro';
 
 import { PillButton } from '@/ui/buttons/PillButton';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -27,10 +28,13 @@ export function GuideBanner({
   guide,
   line,
   onAccept,
+  onDismiss,
 }: {
   readonly guide: { readonly kind: string; readonly name: string };
   readonly line: string;
   readonly onAccept: () => void;
+  /** Turns the suggestion down (NOT NOW). */
+  readonly onDismiss?: () => void;
 }) {
   const styles = useStyles();
   const theme = useTheme();
@@ -46,13 +50,22 @@ export function GuideBanner({
           {t({ id: 'plan.timeline.bannerHint', message: 'Drag it, or tap to accept' })}
         </Text>
       </Stack>
-      <PillButton
-        size="sm"
-        tone="yellow"
-        label={t({ id: 'plan.timeline.moveIt', message: 'Move it' })}
-        onPress={onAccept}
-        testID="plan-guide-move-it"
-      />
+      <Stack gap="4" align="center">
+        <PillButton
+          size="sm"
+          tone="yellow"
+          label={t({ id: 'plan.timeline.moveIt', message: 'Move it' })}
+          onPress={onAccept}
+          testID="plan-guide-move-it"
+        />
+        {onDismiss === undefined ? null : (
+          <TextLink
+            label={t({ id: 'plan.timeline.notNow', message: 'Not now' })}
+            onPress={onDismiss}
+            testID="plan-guide-not-now"
+          />
+        )}
+      </Stack>
     </Row>
   );
 }

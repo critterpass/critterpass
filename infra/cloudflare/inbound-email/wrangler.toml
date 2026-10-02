@@ -8,6 +8,13 @@ name = "cp-inbound-email"
 main = "src/index.ts"
 compatibility_date = "2026-08-01"
 
+# Workers Logs: one JSON line per message (outcome, DKIM/SPF/DMARC verdicts, whether the link-code
+# reply went out or Cloudflare's refusal). Never an address, subject, body or code. Not inherited by
+# environments, so each env repeats it.
+[observability]
+enabled = true
+head_sampling_rate = 1
+
 [vars]
 INBOUND_DOMAIN = "in.critterpass.app"
 API_BASE_URL = "http://localhost:8787"
@@ -23,6 +30,10 @@ INBOUND_DOMAIN = "in.staging.critterpass.app"
 API_BASE_URL = "https://api-staging-de92.up.railway.app"
 IMPORTS_MAIL_ENABLED = "true"
 
+[env.staging.observability]
+enabled = true
+head_sampling_rate = 1
+
 [[env.staging.r2_buckets]]
 binding = "RAW_MAIL"
 bucket_name = "cp-inbound-mail-staging"
@@ -31,6 +42,10 @@ bucket_name = "cp-inbound-mail-staging"
 INBOUND_DOMAIN = "in.critterpass.app"
 API_BASE_URL = "https://api.critterpass.app"
 IMPORTS_MAIL_ENABLED = "true"
+
+[env.production.observability]
+enabled = true
+head_sampling_rate = 1
 
 [[env.production.r2_buckets]]
 binding = "RAW_MAIL"

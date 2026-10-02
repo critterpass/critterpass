@@ -1,0 +1,272 @@
+# Weather replan cases: the solver's move for one rained-on item, graded on the guide's words.
+
+- id: replan-01
+  description: ridge walk out of the afternoon rain
+  guide: tokek
+  input:
+    facts:
+      {
+        title: 'Campuhan ridge walk',
+        from: '13:00',
+        to: '15:00',
+        rain_from: '12:00',
+        rain_until: '15:00',
+        rain_pct: 80,
+      }
+    headlineTemplate: 'Rain till 15:00. Move Campuhan ridge walk?'
+    detailTemplate: '80% chance of rain at 13:00; it looks dry at 15:00.'
+    items:
+      - {
+          id: move,
+          kind: retime_item,
+          facts:
+            {
+              title: 'Campuhan ridge walk',
+              from: '13:00',
+              to: '15:00',
+              rain_from: '12:00',
+              rain_until: '15:00',
+              rain_pct: 80,
+            },
+          template: 'Campuhan ridge walk 13:00 → 15:00, out of the rain',
+        }
+  must: ['15:00']
+  forbid: [moved it, booked]
+
+- id: replan-02
+  description: rice terrace morning rain, later slot
+  guide: pon
+  input:
+    facts:
+      {
+        title: 'Tegallalang terraces',
+        from: '09:00',
+        to: '11:30',
+        rain_from: '08:00',
+        rain_until: '11:00',
+        rain_pct: 70,
+      }
+    headlineTemplate: 'Rain till 11:00. Move Tegallalang terraces?'
+    detailTemplate: '70% chance of rain at 09:00; it looks dry at 11:30.'
+    items:
+      - {
+          id: move,
+          kind: retime_item,
+          facts:
+            {
+              title: 'Tegallalang terraces',
+              from: '09:00',
+              to: '11:30',
+              rain_from: '08:00',
+              rain_until: '11:00',
+              rain_pct: 70,
+            },
+          template: 'Tegallalang terraces 09:00 → 11:30, out of the rain',
+        }
+  must: ['11:30']
+  forbid: [moved it, booked]
+
+- id: replan-03
+  description: beach afternoon moved earlier
+  guide: lundi
+  input:
+    facts:
+      {
+        title: 'Padang Padang beach',
+        from: '15:00',
+        to: '10:30',
+        rain_from: '14:00',
+        rain_until: '18:00',
+        rain_pct: 90,
+      }
+    headlineTemplate: 'Rain till 18:00. Move Padang Padang beach?'
+    detailTemplate: '90% chance of rain at 15:00; it looks dry at 10:30.'
+    items:
+      - {
+          id: move,
+          kind: retime_item,
+          facts:
+            {
+              title: 'Padang Padang beach',
+              from: '15:00',
+              to: '10:30',
+              rain_from: '14:00',
+              rain_until: '18:00',
+              rain_pct: 90,
+            },
+          template: 'Padang Padang beach 15:00 → 10:30, out of the rain',
+        }
+  must: ['10:30']
+  forbid: [moved it, booked]
+
+- id: replan-04
+  description: waterfall hike after a storm cell
+  guide: ajo
+  input:
+    facts:
+      {
+        title: 'Tegenungan waterfall',
+        from: '11:00',
+        to: '14:00',
+        rain_from: '10:00',
+        rain_until: '13:00',
+        rain_pct: 65,
+      }
+    headlineTemplate: 'Rain till 13:00. Move Tegenungan waterfall?'
+    detailTemplate: '65% chance of rain at 11:00; it looks dry at 14:00.'
+    items:
+      - {
+          id: move,
+          kind: retime_item,
+          facts:
+            {
+              title: 'Tegenungan waterfall',
+              from: '11:00',
+              to: '14:00',
+              rain_from: '10:00',
+              rain_until: '13:00',
+              rain_pct: 65,
+            },
+          template: 'Tegenungan waterfall 11:00 → 14:00, out of the rain',
+        }
+  must: ['14:00']
+  forbid: [moved it, booked]
+
+- id: replan-05
+  description: sunset temple visit dodging an evening shower
+  guide: sardi
+  input:
+    facts:
+      {
+        title: 'Tanah Lot',
+        from: '17:00',
+        to: '15:30',
+        rain_from: '16:30',
+        rain_until: '19:00',
+        rain_pct: 75,
+      }
+    headlineTemplate: 'Rain till 19:00. Move Tanah Lot?'
+    detailTemplate: '75% chance of rain at 17:00; it looks dry at 15:30.'
+    items:
+      - {
+          id: move,
+          kind: retime_item,
+          facts:
+            {
+              title: 'Tanah Lot',
+              from: '17:00',
+              to: '15:30',
+              rain_from: '16:30',
+              rain_until: '19:00',
+              rain_pct: 75,
+            },
+          template: 'Tanah Lot 17:00 → 15:30, out of the rain',
+        }
+  must: ['15:30']
+  forbid: [moved it, booked]
+
+- id: replan-06
+  description: cycling tour pushed to golden hour
+  guide: paco
+  input:
+    facts:
+      {
+        title: 'Ubud cycling tour',
+        from: '14:00',
+        to: '17:00',
+        rain_from: '13:00',
+        rain_until: '16:00',
+        rain_pct: 85,
+      }
+    headlineTemplate: 'Rain till 16:00. Move Ubud cycling tour?'
+    detailTemplate: '85% chance of rain at 14:00; it looks dry at 17:00.'
+    items:
+      - {
+          id: move,
+          kind: retime_item,
+          facts:
+            {
+              title: 'Ubud cycling tour',
+              from: '14:00',
+              to: '17:00',
+              rain_from: '13:00',
+              rain_until: '16:00',
+              rain_pct: 85,
+            },
+          template: 'Ubud cycling tour 14:00 → 17:00, out of the rain',
+        }
+  must: ['17:00']
+  forbid: [moved it, booked]
+
+- id: replan-07
+  description: seeded slip, a time the solver never chose
+  guide: tokek
+  seeded: true
+  expect_fallback: true
+  input:
+    facts:
+      {
+        title: 'Campuhan ridge walk',
+        from: '13:00',
+        to: '15:00',
+        rain_from: '12:00',
+        rain_until: '15:00',
+        rain_pct: 80,
+      }
+    headlineTemplate: 'Rain till 15:00. Move Campuhan ridge walk?'
+    detailTemplate: '80% chance of rain at 13:00; it looks dry at 15:00.'
+    items:
+      - {
+          id: move,
+          kind: retime_item,
+          facts:
+            {
+              title: 'Campuhan ridge walk',
+              from: '13:00',
+              to: '15:00',
+              rain_from: '12:00',
+              rain_until: '15:00',
+              rain_pct: 80,
+            },
+          template: 'Campuhan ridge walk 13:00 → 15:00, out of the rain',
+        }
+  reply:
+    headline: Move the walk to 16:00?
+    detail: ''
+    items: []
+- id: replan-08
+  description: seeded slip, claiming the move already happened
+  guide: tokek
+  seeded: true
+  expect_fallback: true
+  input:
+    facts:
+      {
+        title: 'Campuhan ridge walk',
+        from: '13:00',
+        to: '15:00',
+        rain_from: '12:00',
+        rain_until: '15:00',
+        rain_pct: 80,
+      }
+    headlineTemplate: 'Rain till 15:00. Move Campuhan ridge walk?'
+    detailTemplate: '80% chance of rain at 13:00; it looks dry at 15:00.'
+    items:
+      - {
+          id: move,
+          kind: retime_item,
+          facts:
+            {
+              title: 'Campuhan ridge walk',
+              from: '13:00',
+              to: '15:00',
+              rain_from: '12:00',
+              rain_until: '15:00',
+              rain_pct: 80,
+            },
+          template: 'Campuhan ridge walk 13:00 → 15:00, out of the rain',
+        }
+  reply:
+    headline: Rain till 15:00.
+    detail: I've moved the walk to 15:00.
+    items: []

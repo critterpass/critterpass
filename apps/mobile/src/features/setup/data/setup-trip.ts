@@ -11,6 +11,7 @@ import { isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { useLiveRows } from './rows';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface SetupMember {
   readonly uid: string;
@@ -121,7 +122,7 @@ export function toSetupTrip(
 ): SetupTrip {
   const people = members.map((row, joinIndex) => ({
     uid: row.user_id,
-    name: firstName(row.display_name),
+    name: memberFirstName(row.display_name),
     joinIndex,
     organiser: row.role === 'organiser',
   }));

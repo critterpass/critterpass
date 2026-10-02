@@ -1,7 +1,8 @@
 /**
  * The Email Worker entry: Cloudflare Email Routing's catch-all hands every unmatched message of the
  * zone to `email()`, which runs the handler with the real bindings, the platform's `fetch`, replies
- * sent through `message.reply` (threaded, from the crew address) and `message.forward`.
+ * sent through `message.reply` (threaded, from the crew address), `message.forward` and log lines
+ * for Workers Logs.
  */
 import { EmailMessage } from 'cloudflare:email';
 
@@ -18,6 +19,10 @@ export default {
       },
       forward: async (to) => {
         await message.forward(to);
+      },
+      // One JSON line per message for Workers Logs (outcomes and verdicts only).
+      log: (entry) => {
+        console.log(JSON.stringify(entry));
       },
     });
   },

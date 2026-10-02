@@ -81,6 +81,8 @@ export interface YourVersionViewProps {
   readonly onPick: (pick: Pick) => void;
   readonly onIn: () => void;
   readonly onAsk: () => void;
+  /** "I can't make it" under an IN answer; null when there is no way out to offer. */
+  readonly onOut: (() => void) | null;
 }
 
 export function YourVersionView(props: YourVersionViewProps) {
@@ -186,6 +188,16 @@ export function YourVersionView(props: YourVersionViewProps) {
               <Text variant="title" color={theme.semantic.state.success} testID="version-answered">
                 {props.answered}
               </Text>
+              {props.onOut === null ? null : (
+                <TextLink
+                  label={t({
+                    id: 'proposal.version.out.cta',
+                    message: 'I can’t make it after all',
+                  })}
+                  onPress={props.onOut}
+                  testID="version-out"
+                />
+              )}
             </View>
           )}
         </View>

@@ -23,6 +23,7 @@ import { SystemCard } from '../cards/system-card';
 import type { ChatMessage } from '../data/rows';
 import { firstName } from '../data/use-typing';
 import { timeOf } from './format';
+import { tidyGuideText } from './guide-text';
 import { useRise } from './rise';
 import { useSwipeToReply } from './swipe-reply';
 
@@ -108,7 +109,9 @@ export function Bubble(props: BubbleProps) {
   const deleted = message.deleted;
   const text = deleted
     ? t({ id: 'chat.message.deleted', message: 'Message deleted' })
-    : message.body;
+    : guide
+      ? tidyGuideText(message.body)
+      : message.body;
   const who = author ?? t({ id: 'chat.message.you', message: 'You' });
   const spoken = t({ id: 'chat.message.spoken', message: `${who}, ${time}: ${text}` });
   const card = !deleted && message.type !== 'text';

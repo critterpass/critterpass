@@ -23,7 +23,8 @@
   "r2_buckets": [{ "binding": "OG_CACHE", "bucket_name": "cp-og" }],
   "env": {
     "staging": {
-      "vars": { "SITE_MODE": "site", "LINKS_ENV": "staging" },
+      // TESTFLIGHT_URL: the public TestFlight link invite pages offer; empty = ask the inviter.
+      "vars": { "SITE_MODE": "site", "LINKS_ENV": "staging", "TESTFLIGHT_URL": "" },
       "r2_buckets": [{ "binding": "OG_CACHE", "bucket_name": "cp-og" }],
       "routes": [
         { "pattern": "staging.critterpass.app", "custom_domain": true },

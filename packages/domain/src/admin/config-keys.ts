@@ -169,6 +169,21 @@ export const CONFIG_KEYS: Readonly<Record<string, ConfigKeyDefinition>> = {
     description:
       'Show labelled sponsored picks to free users in Explore lists; off until the store ads declaration and privacy label are filed',
   },
+  'disruptions.journey_check': {
+    group: 'limits',
+    schema: z.boolean(),
+    isPublic: true,
+    critical: true,
+    description:
+      'Phones send their position once a minute on the way to a plan item to spot running late; off sends nothing',
+  },
+  'critters.live_camera': {
+    group: 'limits',
+    schema: z.boolean(),
+    isPublic: true,
+    critical: false,
+    description: 'Live camera behind the encounter scene; off shows the illustrated scene',
+  },
   ...Object.fromEntries(PARTNER_KEYS.flatMap((partner) => Object.entries(supplierKeys(partner)))),
   ...serviceKeys(),
 };

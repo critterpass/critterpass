@@ -1,0 +1,7 @@
+appId: app.critterpass.dev
+---
+# Swipe together in English, from the Explore lab's scenes.
+- runFlow: subflows/lab-en.yaml
+- runFlow:
+    file: subflows/swipe-scenes.yaml
+    env: { PREFIX: en }

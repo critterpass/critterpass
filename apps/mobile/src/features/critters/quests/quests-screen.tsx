@@ -16,6 +16,7 @@ import { Sticker } from '@/ui/sticker/Sticker';
 
 import { signupQuestCommand } from './commands';
 import { guideOfSlug, QuestsView } from './quests-view';
+import { useBefriendSpot } from './use-befriend-spot';
 import { useQuests } from './use-quests';
 import { useRewardReveal } from './use-reward-reveal';
 
@@ -27,6 +28,12 @@ export function QuestsScreen() {
   const sync = useSyncStatus();
   const [motionMode] = useMotionMode();
   const { model, crewName, guideSlug } = useQuests(id);
+  const befriend = model.cards.find((card) => card.befriend !== null && card.state === 'active');
+  const befriendPlace = useBefriendSpot(
+    id,
+    befriend?.befriend?.set ?? null,
+    befriend !== undefined,
+  );
   const reveals = useRewardReveal(id, motionMode !== 'full');
   const signup = useCommand(signupQuestCommand);
   const guide = guideOfSlug(guideSlug);
@@ -61,6 +68,7 @@ export function QuestsScreen() {
       model={model}
       offline={sync.phase === 'offline'}
       reveals={reveals.quests}
+      befriendPlace={befriendPlace}
       onSignUp={(questId) => void onSignUp(questId)}
     />
   );

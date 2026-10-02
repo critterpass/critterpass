@@ -15,6 +15,10 @@ msgstr "{asker} asked: {question} Tap an answer, I will count."
 msgid "notifications.changeset.needs_yes.title"
 msgstr "{asker} wants to change the plan"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_body_waiting"
+msgstr "{count, plural, one {{names} is running {minutes} min late.} other {{names} are running {minutes} min late.}}"
+
 #: ../domain/src/plan/templates.ts
 msgid "notifications.changeset.needs_yes.body"
 msgstr "{count, plural, one {# change} other {# changes}} for {crew}. Approve or reject?"
@@ -22,6 +26,10 @@ msgstr "{count, plural, one {# change} other {# changes}} for {crew}. Approve or
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.ready.body"
 msgstr "{count} quests are up for {place}."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.title"
+msgstr "{crew}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.late_title"
@@ -63,6 +71,14 @@ msgstr "{crew} said yes, so I updated the plan."
 msgid "notifications.nudge.rsvp"
 msgstr "{crew} wants to know if you're in. Yes, no or maybe all help."
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.done_body"
+msgstr "{detail}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.watch_body"
+msgstr "{detail}"
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.flight_start_title"
 msgstr "{flight} · {route}"
@@ -103,9 +119,21 @@ msgstr "{guide}, with a nudge from {sender}"
 msgid "notifications.draft.ready.title"
 msgstr "{guide}'s draft is ready"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_title"
+msgstr "{headline}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.done_title"
+msgstr "{headline}"
+
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.crew_invite.title"
 msgstr "{inviter} wants you in {crew}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.needs_yes_body"
+msgstr "{line}"
 
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.briefing_body"
@@ -219,6 +247,10 @@ msgstr "{place} · {time}"
 msgid "notifications.la.meet_up_late_title"
 msgstr "{place} · {time}"
 
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_title"
+msgstr "{place} · +{minutes} min"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.knock_title_be_there"
 msgstr "{place} · be there by {time}"
@@ -255,6 +287,10 @@ msgstr "{question} closes in two hours. One tap and you are in."
 msgid "notifications.vote.closing.day"
 msgstr "{question} closes tomorrow and you have not voted yet."
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.title"
+msgstr "{sender} · {crew}"
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.title"
 msgstr "{sender} · {crew}"
@@ -263,9 +299,37 @@ msgstr "{sender} · {crew}"
 msgid "notifications.crew_chat.title"
 msgstr "{sender} · {crew}"
 
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.fell"
+msgstr "{sender} fell and needs a hand."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.lost"
+msgstr "{sender} is lost and needs a hand."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.safe"
+msgstr "{sender} is safe. Thanks for being there."
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.moved"
 msgstr "{sender} moved the meet-up: {place}, {time}."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.need_ride"
+msgstr "{sender} needs a ride."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.title"
+msgstr "{sender} needs help"
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.help_share.started"
+msgstr "{sender} opened Help and is sharing where they are for an hour."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.plain"
+msgstr "{sender} sent an SOS to the crew."
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.created"
@@ -274,6 +338,10 @@ msgstr "{sender} set a meet-up: {place}, {time}."
 #: ../../services/worker/src/jobs/chat/notify.ts
 msgid "notifications.crew_chat.text"
 msgstr "{text}"
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.watch_title"
+msgstr "{title}"
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.lottery.result"
@@ -311,12 +379,12 @@ msgstr "All square"
 msgid "notifications.la.leave_by_be_at"
 msgstr "Be at {place}"
 
-#: ../domain/src/surfaces/la-copy.ts
-msgid "notifications.la.leave_by_be_there_start_title"
-msgstr "Be at {place} by {time}"
-
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title_be_there"
+msgstr "Be at {place} by {time}"
+
+#: ../domain/src/surfaces/la-copy.ts
+msgid "notifications.la.leave_by_be_there_start_title"
 msgstr "Be at {place} by {time}"
 
 #: ../domain/src/bookings/templates.ts
@@ -362,6 +430,10 @@ msgstr "Everyone is at {place}"
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.crew_close"
 msgstr "Everyone's nearly at {place}."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos_resolved.false_alarm"
+msgstr "False alarm: {sender} is OK."
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.found_body"
@@ -418,6 +490,10 @@ msgstr "Meet at {place}, {time}."
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.timed_out"
 msgstr "No answer from {name} in two days, so {dates} is back to the best partial week."
+
+#: ../../services/worker/src/jobs/safety/notify.ts
+msgid "notifications.sos.escalated"
+msgstr "Nobody's answered yet. {sender} still needs help."
 
 #: ../domain/src/plan/templates.ts
 msgid "notifications.changeset.kept.body"
@@ -558,6 +634,10 @@ msgstr "Where is everyone? Check the map."
 #: ../domain/src/polls/templates.ts
 msgid "notifications.vote.destination.body"
 msgstr "Where next? {count} places are on the board. Pick one."
+
+#: ../domain/src/disruptions/templates.ts
+msgid "notifications.disruption.late_body_you"
+msgstr "You are running {minutes} min late. Tap for what you can do."
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.followup_body"

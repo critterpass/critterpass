@@ -44,6 +44,11 @@ describe('signInReturningPhone', () => {
     expect(post).toHaveBeenCalledWith('/api/auth/sign-in/phone-number', input);
   });
 
+  it('reports a number nobody held, now saved to this pass, as linked', async () => {
+    const { client } = fakeClient({ data: { user: { id: 'uid-2' }, linked: true }, error: null });
+    await expect(signInReturningPhone(input, client)).resolves.toEqual({ kind: 'linked' });
+  });
+
   it('reports no_account for a 404', async () => {
     const { client } = fakeClient({ data: null, error: { status: 404 } });
     await expect(signInReturningPhone(input, client)).resolves.toEqual({ kind: 'no_account' });

@@ -5999,5 +5999,1108 @@
         "editorial": true
       }
     ]
+  },
+  "da-nang": {
+    "guide": "chava",
+    "destination": "Đà Nẵng, Vietnam",
+    "tz": "Asia/Ho_Chi_Minh",
+    "bands": {
+      "food_pp_day_minor": 2500,
+      "fun_pp_day_minor": 2000
+    },
+    "pois": [
+      {
+        "id": "0199b000-0007-7000-8000-000000000001",
+        "name": "Marble Mountains",
+        "category": "temple_shrine",
+        "lat": 16.0029,
+        "lng": 108.2638,
+        "hours": null,
+        "price_level": null,
+        "duration_min": 90,
+        "tags": ["temples", "photo_spot", "hiking"],
+        "must_see": false,
+        "editorial": true,
+        "why_go": "Climb to ancient pagodas and caves with panoramic views of Da Nang.",
+        "best_time": "Early morning to avoid heat and crowds"
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000002",
+        "name": "Ngũ Hành Sơn (Marble Mountain)",
+        "category": "nature",
+        "lat": 16.0034,
+        "lng": 108.2644,
+        "hours": null,
+        "price_level": null,
+        "duration_min": 120,
+        "tags": ["nature", "hiking"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000003",
+        "name": "Cầu Rồng, Cầu Quay Sông Hàn, Cầu Tình Yêu, Cầu Trần Thị Lý",
+        "category": "nature",
+        "lat": 16.0679,
+        "lng": 108.2248,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 60,
+        "tags": ["photo_spot", "nightlife"],
+        "must_see": false,
+        "editorial": true,
+        "why_go": "See the dragon-shaped bridge, especially the weekend fire and water show.",
+        "best_time": "Saturday or Sunday evening before 9pm show"
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000004",
+        "name": "Dragon Bridge",
+        "category": "other",
+        "lat": 16.0611,
+        "lng": 108.2277,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 45,
+        "tags": ["photo_spot"],
+        "must_see": false,
+        "editorial": true,
+        "why_go": "Iconic bridge shaped like a dragon, best seen at night when lit.",
+        "best_time": "Evening, especially weekend nights for fire and water show."
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000005",
+        "name": "Linh Ứng Pagoda",
+        "category": "temple_shrine",
+        "lat": 16.0996,
+        "lng": 108.2775,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 75,
+        "tags": ["temples", "photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000006",
+        "name": "Chùa Linh Ứng (Linh Ung Pagoda)",
+        "category": "temple_shrine",
+        "lat": 16.0998,
+        "lng": 108.2777,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 75,
+        "tags": ["temples"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000007",
+        "name": "Bãi biển Mỹ Khê",
+        "category": "beach",
+        "lat": 16.0605,
+        "lng": 108.2468,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 120,
+        "tags": ["beach"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000008",
+        "name": "My Khe Beach",
+        "category": "beach",
+        "lat": 16.0607,
+        "lng": 108.2466,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 120,
+        "tags": ["beach"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000009",
+        "name": "Hải Vân Pass",
+        "category": "nature",
+        "lat": 16.1851,
+        "lng": 108.1366,
+        "hours": null,
+        "price_level": null,
+        "duration_min": 150,
+        "tags": ["nature", "photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000010",
+        "name": "Bảo tàng Điêu khắc Chăm",
+        "category": "museum",
+        "lat": 16.0604,
+        "lng": 108.2234,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:30",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:30",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:30",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:30",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:30",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:30",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:30",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": ["history", "culture"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000011",
+        "name": "Chợ Hàn (Han Market)",
+        "category": "market",
+        "lat": 16.0683,
+        "lng": 108.2241,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["markets", "local_life"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000012",
+        "name": "Chợ Cồn (Con Market)",
+        "category": "market",
+        "lat": 16.0678,
+        "lng": 108.2143,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "06:00",
+                "end": "19:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["markets", "street_food"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000013",
+        "name": "Bán đảo Sơn Trà",
+        "category": "nature",
+        "lat": 16.1157,
+        "lng": 108.2793,
+        "hours": null,
+        "price_level": 0,
+        "duration_min": 120,
+        "tags": ["nature", "photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000014",
+        "name": "Nhà thờ Chính tòa Đà Nẵng",
+        "category": "temple_shrine",
+        "lat": 16.0668,
+        "lng": 108.2232,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "06:00",
+                "end": "16:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "06:00",
+                "end": "16:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "06:00",
+                "end": "16:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "06:00",
+                "end": "16:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "06:00",
+                "end": "16:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "06:00",
+                "end": "16:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "06:00",
+                "end": "16:30"
+              }
+            ]
+          }
+        },
+        "price_level": 0,
+        "duration_min": 30,
+        "tags": ["culture", "photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000015",
+        "name": "Sun Wheel - Vòng Quay Mặt Trời",
+        "category": "nature",
+        "lat": 16.0393,
+        "lng": 108.2263,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "15:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "15:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "15:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "15:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "15:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "15:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "15:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 60,
+        "tags": ["photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000016",
+        "name": "Sky36",
+        "category": "nightlife",
+        "lat": 16.0776,
+        "lng": 108.2234,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "18:00",
+                "end": "24:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "18:00",
+                "end": "24:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "18:00",
+                "end": "24:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "18:00",
+                "end": "24:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "18:00",
+                "end": "24:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "18:00",
+                "end": "24:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "18:00",
+                "end": "24:00"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 90,
+        "tags": ["nightlife"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000017",
+        "name": "Golden Bridge",
+        "category": "other",
+        "lat": 15.9947,
+        "lng": 107.9966,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": 3,
+        "duration_min": 60,
+        "tags": ["photo_spot"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000018",
+        "name": "Thích Ca Phật Đài - Bà Nà",
+        "category": "temple_shrine",
+        "lat": 15.9975,
+        "lng": 107.994,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "08:00",
+                "end": "17:00"
+              }
+            ]
+          }
+        },
+        "price_level": null,
+        "duration_min": 45,
+        "tags": ["temples"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000019",
+        "name": "Bà Nà Hills",
+        "category": "nature",
+        "lat": 15.9972,
+        "lng": 107.9888,
+        "hours": null,
+        "price_level": null,
+        "duration_min": 150,
+        "tags": [],
+        "must_see": false,
+        "editorial": false
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000020",
+        "name": "Ba Na Hills",
+        "category": "nature",
+        "lat": 16.0312,
+        "lng": 108.1177,
+        "hours": null,
+        "price_level": null,
+        "duration_min": 150,
+        "tags": [],
+        "must_see": false,
+        "editorial": false
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000021",
+        "name": "Mì Quảng Bà Mua",
+        "category": "food",
+        "lat": 16.0699,
+        "lng": 108.2172,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["street_food"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000022",
+        "name": "Bánh Xèo Bà Dưỡng",
+        "category": "food",
+        "lat": 16.0545,
+        "lng": 108.2124,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "09:00",
+                "end": "21:30"
+              }
+            ],
+            "tu": [
+              {
+                "start": "09:00",
+                "end": "21:30"
+              }
+            ],
+            "we": [
+              {
+                "start": "09:00",
+                "end": "21:30"
+              }
+            ],
+            "th": [
+              {
+                "start": "09:00",
+                "end": "21:30"
+              }
+            ],
+            "fr": [
+              {
+                "start": "09:00",
+                "end": "21:30"
+              }
+            ],
+            "sa": [
+              {
+                "start": "09:00",
+                "end": "21:30"
+              }
+            ],
+            "su": [
+              {
+                "start": "09:00",
+                "end": "21:30"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["street_food"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000023",
+        "name": "Bún Chả Cá Ông Tạ",
+        "category": "food",
+        "lat": 16.0662,
+        "lng": 108.212,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "06:00",
+                "end": "21:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 60,
+        "tags": ["street_food"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000024",
+        "name": "Hải sản Bé Mặn",
+        "category": "food",
+        "lat": 16.0617,
+        "lng": 108.2473,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "10:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["sit_down", "seafood"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000025",
+        "name": "Madame Lân",
+        "category": "food",
+        "lat": 16.0786,
+        "lng": 108.2239,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "06:30",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "06:30",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "06:30",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "06:30",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "06:30",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "06:30",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "06:30",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 75,
+        "tags": ["sit_down", "vegetarian_options"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000026",
+        "name": "Cộng Cà Phê",
+        "category": "food",
+        "lat": 16.0695,
+        "lng": 108.2245,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "23:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 45,
+        "tags": ["coffee"],
+        "must_see": false,
+        "editorial": true
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000027",
+        "name": "Cà Phê Trứng 3T - Cầu Rồng - Đà Nẵng",
+        "category": "food",
+        "lat": 16.0659,
+        "lng": 108.2243,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "07:00",
+                "end": "22:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "07:00",
+                "end": "22:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "07:00",
+                "end": "22:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "07:00",
+                "end": "22:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "07:00",
+                "end": "22:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "07:00",
+                "end": "22:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "07:00",
+                "end": "22:00"
+              }
+            ]
+          }
+        },
+        "price_level": 1,
+        "duration_min": 45,
+        "tags": ["coffee"],
+        "must_see": false,
+        "editorial": true,
+        "why_go": "Sip creamy egg coffee while watching Dragon Bridge activity from a prime spot.",
+        "best_time": "Late afternoon before bridge show"
+      },
+      {
+        "id": "0199b000-0007-7000-8000-000000000028",
+        "name": "An Thượng night street",
+        "category": "nightlife",
+        "lat": 16.0495,
+        "lng": 108.2462,
+        "hours": {
+          "weekly": {
+            "mo": [
+              {
+                "start": "17:00",
+                "end": "24:00"
+              }
+            ],
+            "tu": [
+              {
+                "start": "17:00",
+                "end": "24:00"
+              }
+            ],
+            "we": [
+              {
+                "start": "17:00",
+                "end": "24:00"
+              }
+            ],
+            "th": [
+              {
+                "start": "17:00",
+                "end": "24:00"
+              }
+            ],
+            "fr": [
+              {
+                "start": "17:00",
+                "end": "24:00"
+              }
+            ],
+            "sa": [
+              {
+                "start": "17:00",
+                "end": "24:00"
+              }
+            ],
+            "su": [
+              {
+                "start": "17:00",
+                "end": "24:00"
+              }
+            ]
+          }
+        },
+        "price_level": 2,
+        "duration_min": 90,
+        "tags": ["nightlife", "street_food"],
+        "must_see": false,
+        "editorial": true
+      }
+    ]
   }
 }

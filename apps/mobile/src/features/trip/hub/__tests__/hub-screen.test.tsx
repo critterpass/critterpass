@@ -99,6 +99,15 @@ describe('trip hub briefing', () => {
     );
   });
 
+  it('settles on the guide saying nothing needs me when I have no briefing today', async () => {
+    await renderHub(undefined, (stack) => seedTripDay(stack.db, stack.uid, { briefing: false }));
+    await waitFor(() => expect(screen.getByTestId('trip-briefing-none')).toBeTruthy());
+    expect(screen.queryByTestId('trip-briefing-loading')).toBeNull();
+    expect(screen.getByTestId('trip-briefing-none-line')).toBeTruthy();
+    // One trip on the account: nothing to switch to.
+    expect(screen.queryByTestId('trip-hub-switch')).toBeNull();
+  });
+
   it('shows SENT where the nudge synced back from another phone', async () => {
     await renderHub('nudged');
     await waitFor(() => expect(screen.getByText('SENT')).toBeTruthy());

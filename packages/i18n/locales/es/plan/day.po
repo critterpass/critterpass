@@ -124,6 +124,10 @@ msgstr ""
 msgid "plan.day.item.everyone"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
+msgid "plan.day.item.costFree"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.freeTitle"
 msgstr ""

@@ -5,7 +5,7 @@
  * pushes and the hook that queues `quest.evaluate` for every event a quest or an XP source reads.
  */
 import { createGateway, type AssertRouteOn, type Telemetry } from '@cp/ai';
-import { onEventAppended, sendInTx } from '@cp/db';
+import { onEventAppended, queueQuestsOnTripStart, sendInTx } from '@cp/db';
 import { QUEST_INPUT_EVENTS, QUEST_QUEUES } from '@cp/domain';
 import type pg from 'pg';
 
@@ -59,6 +59,8 @@ export function registerQuestRuntime(): void {
   registerXpRewardHandler();
   registerQuestPushes();
   onEventAppended(questEventHook);
+  // A trip that turns in_trip gets its day's quests at once, not at the next hourly sweep.
+  onEventAppended(queueQuestsOnTripStart);
 }
 
 export function questJobs(

@@ -2,7 +2,9 @@
  * The booking form's draft (undesigned: adding by hand, or correcting a card): plain text fields
  * the traveller types as the confirmation prints them, turned into `add_booking` /
  * `edit_booking` payloads. Dates and times are read in the booking's own time zone and sent as
- * ISO instants with that zone's offset.
+ * ISO instants with that zone's offset; a flight's departure is read on its departure airport's
+ * clock and its landing on its arrival airport's (the bundled airports' zones), so a flight across
+ * zones lands when the ticket says.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values and date patterns, never copy. */
 import type {
@@ -13,6 +15,9 @@ import type {
 } from '@cp/domain';
 
 import type { WalletBooking } from '../data/model';
+import { flightZones, wallOf, zonedIso } from './zoned-time';
+
+export { flightZones, offsetMinutes, wallOf, zonedIso, zoneName } from './zoned-time';
 
 export interface BookingDraft {
   readonly kind: BookingKind;
@@ -21,6 +26,8 @@ export interface BookingDraft {
   readonly date: string;
   /** `HH:MM`, 24 h. */
   readonly time: string;
+  /** Flights: when it lands, `HH:MM` as the ticket prints it. */
+  readonly arrive: string;
   /** Stays: check-out day, `YYYY-MM-DD`. */
   readonly endDate: string;
   readonly location: string;
@@ -33,9 +40,8 @@ export interface BookingDraft {
   readonly notes: string;
 }
 
-export type DraftProblem = 'title' | 'date' | 'time' | 'flight' | 'airports';
+export type DraftProblem = 'title' | 'date' | 'time' | 'arrive' | 'flight' | 'airports';
 
-const DATE = /^(\d{4})-(\d{2})-(\d{2})$/u;
 const TIME = /^([01]?\d|2[0-3])[:.]([0-5]\d)$/u;
 const FLIGHT = /^([A-Z0-9]{2}|[A-Z]{3})\s*([0-9]{1,4}[A-Z]?)$/u;
 const IATA = /^[A-Z]{3}$/u;
@@ -46,6 +52,7 @@ export function emptyDraft(kind: BookingKind, title = ''): BookingDraft {
     title,
     date: '',
     time: '',
+    arrive: '',
     endDate: '',
     location: '',
     ref: '',
@@ -57,70 +64,21 @@ export function emptyDraft(kind: BookingKind, title = ''): BookingDraft {
   };
 }
 
-/** Minutes east of UTC that `tz` observes at `utcMs`. */
-export function offsetMinutes(tz: string, utcMs: number): number {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone: tz,
-    hourCycle: 'h23',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  }).formatToParts(new Date(utcMs));
-  const get = (type: string) => Number(parts.find((part) => part.type === type)?.value ?? 0);
-  const asUtc = Date.UTC(
-    get('year'),
-    get('month') - 1,
-    get('day'),
-    get('hour'),
-    get('minute'),
-    get('second'),
-  );
-  return Math.round((asUtc - Math.floor(utcMs / 1000) * 1000) / 60_000);
-}
-
-function pad(value: number): string {
-  return String(value).padStart(2, '0');
-}
-
-/** "2026-10-12" + "09:05" in Asia/Singapore → "2026-10-12T09:05:00+08:00"; null when unreadable. */
-export function zonedIso(date: string, time: string, tz: string): string | null {
-  const d = DATE.exec(date.trim());
-  const t = TIME.exec((time.trim() === '' ? '00:00' : time).trim());
-  if (d === null || t === null) return null;
-  const [year, month, day] = [Number(d[1]), Number(d[2]), Number(d[3])];
-  const [hour, minute] = [Number(t[1]), Number(t[2])];
-  const wall = Date.UTC(year, month - 1, day, hour, minute);
-  if (new Date(wall).getUTCDate() !== day) return null;
-  let offset = offsetMinutes(tz, wall);
-  offset = offsetMinutes(tz, wall - offset * 60_000);
-  const sign = offset < 0 ? '-' : '+';
-  const abs = Math.abs(offset);
-  return `${String(year)}-${pad(month)}-${pad(day)}T${pad(hour)}:${pad(minute)}:00${sign}${pad(Math.floor(abs / 60))}:${pad(abs % 60)}`;
-}
-
-/** The wall-clock date and time of an instant in `tz`. */
-export function wallOf(iso: string | null, tz: string): { date: string; time: string } {
-  if (iso === null) return { date: '', time: '' };
-  const ms = Date.parse(iso);
-  if (!Number.isFinite(ms)) return { date: '', time: '' };
-  const local = new Date(ms + offsetMinutes(tz, ms) * 60_000);
-  return {
-    date: `${String(local.getUTCFullYear())}-${pad(local.getUTCMonth() + 1)}-${pad(local.getUTCDate())}`,
-    time: `${pad(local.getUTCHours())}:${pad(local.getUTCMinutes())}`,
-  };
+/** The zone a draft's start is read in: a flight's departure airport, else the booking's. */
+function startZone(draft: BookingDraft, tz: string): string {
+  return draft.kind === 'flight' ? flightZones(draft, tz).dep : tz;
 }
 
 export function draftOf(booking: WalletBooking, tz: string): BookingDraft {
   const leg = booking.segments[0];
-  const start = wallOf(leg?.sched_dep_at ?? booking.startsAt, tz);
+  const zones = flightZones({ from: leg?.dep_airport ?? '', to: leg?.arr_airport ?? '' }, tz);
+  const start = wallOf(leg?.sched_dep_at ?? booking.startsAt, leg === undefined ? tz : zones.dep);
   return {
     kind: booking.kind,
     title: booking.title,
     date: start.date,
     time: start.time,
+    arrive: wallOf(leg?.sched_arr_at ?? null, zones.arr).time,
     endDate: wallOf(booking.endsAt, tz).date,
     location: booking.location ?? '',
     ref: booking.supplierRef ?? '',
@@ -135,13 +93,17 @@ export function draftOf(booking: WalletBooking, tz: string): BookingDraft {
 export function problemsOf(draft: BookingDraft, tz: string): DraftProblem[] {
   const problems: DraftProblem[] = [];
   if (draft.kind !== 'flight' && draft.title.trim() === '') problems.push('title');
+  const startTz = startZone(draft, tz);
   if (draft.date.trim() !== '' || draft.kind === 'flight') {
-    if (zonedIso(draft.date, '00:00', tz) === null) problems.push('date');
-    else if (draft.time.trim() !== '' && zonedIso(draft.date, draft.time, tz) === null) {
+    if (zonedIso(draft.date, '00:00', startTz) === null) problems.push('date');
+    else if (draft.time.trim() !== '' && zonedIso(draft.date, draft.time, startTz) === null) {
       problems.push('time');
     }
   }
   if (draft.kind === 'flight') {
+    if (draft.arrive.trim() !== '' && TIME.exec(draft.arrive.trim()) === null) {
+      problems.push('arrive');
+    }
     if (FLIGHT.exec(draft.flight.trim().toUpperCase()) === null) problems.push('flight');
     if (!IATA.test(draft.from.trim().toUpperCase()) || !IATA.test(draft.to.trim().toUpperCase())) {
       problems.push('airports');
@@ -161,21 +123,46 @@ function detailsOf(draft: BookingDraft, base: BookingDetails): BookingDetails {
   return details;
 }
 
+/**
+ * When a flight lands: the first moment after it leaves that reads the arrival time on the arrival
+ * airport's clock (the same day, the next for an overnight flight, or the day before for one that
+ * crosses the date line eastwards). Null without an arrival time.
+ */
+export function arrivalIso(draft: BookingDraft, tz: string): string | null {
+  if (draft.kind !== 'flight' || draft.arrive.trim() === '') return null;
+  const zones = flightZones(draft, tz);
+  const departs = zonedIso(draft.date, draft.time, zones.dep);
+  if (departs === null) return null;
+  const base = Date.parse(`${draft.date.trim()}T00:00:00Z`);
+  for (const offset of [-1, 0, 1, 2]) {
+    const day = new Date(base + offset * 86_400_000).toISOString().slice(0, 10);
+    const lands = zonedIso(day, draft.arrive, zones.arr);
+    if (lands === null) return null;
+    if (Date.parse(lands) > Date.parse(departs)) return lands;
+  }
+  return null;
+}
+
 function timesOf(draft: BookingDraft, tz: string) {
-  const startsAt = draft.date.trim() === '' ? null : zonedIso(draft.date, draft.time, tz);
+  const startsAt =
+    draft.date.trim() === '' ? null : zonedIso(draft.date, draft.time, startZone(draft, tz));
   const endsAt =
-    draft.kind === 'stay' && draft.endDate.trim() !== '' ? zonedIso(draft.endDate, '', tz) : null;
+    draft.kind === 'stay' && draft.endDate.trim() !== ''
+      ? zonedIso(draft.endDate, '', tz)
+      : arrivalIso(draft, tz);
   return { startsAt, endsAt };
 }
 
-function segmentOf(draft: BookingDraft, startsAt: string) {
+function segmentOf(draft: BookingDraft, startsAt: string, tz: string) {
   const match = FLIGHT.exec(draft.flight.trim().toUpperCase());
+  const arrivesAt = arrivalIso(draft, tz);
   return {
     carrier: match?.[1] ?? '',
     flight_no: match?.[2] ?? '',
     dep_airport: draft.from.trim().toUpperCase(),
     arr_airport: draft.to.trim().toUpperCase(),
     sched_dep_at: startsAt,
+    ...(arrivesAt === null ? {} : { sched_arr_at: arrivesAt }),
   };
 }
 
@@ -199,14 +186,14 @@ export function toAddPayload(
     trip_id: ids.tripId,
     kind: draft.kind,
     title: titleOf(draft),
-    tz,
+    tz: startZone(draft, tz),
     ...(startsAt === null ? {} : { starts_at: startsAt }),
     ...(endsAt === null ? {} : { ends_at: endsAt }),
     ...(draft.location.trim() === '' ? {} : { location: draft.location.trim() }),
     ...(draft.ref.trim() === '' ? {} : { supplier_ref: draft.ref.trim() }),
     ...(Object.keys(details).length === 0 ? {} : { details }),
     ...(draft.kind === 'flight' && startsAt !== null
-      ? { segments: [segmentOf(draft, startsAt)] }
+      ? { segments: [segmentOf(draft, startsAt, tz)] }
       : {}),
   };
 }
@@ -226,9 +213,14 @@ export function toEditPayload(
   if (draft.date !== before.date || draft.time !== before.time) {
     if (startsAt === null) clear.push('starts_at');
     else patch.starts_at = startsAt;
-    if (draft.kind === 'flight' && startsAt !== null) patch.segments = [segmentOf(draft, startsAt)];
   }
-  if (draft.endDate !== before.endDate) {
+  const flightMoved =
+    draft.kind === 'flight' &&
+    (draft.date !== before.date || draft.time !== before.time || draft.arrive !== before.arrive);
+  if (flightMoved && startsAt !== null) patch.segments = [segmentOf(draft, startsAt, tz)];
+  // A flight's end is its landing: it moves with the departure, and goes when the time is cleared.
+  const landingMoved = flightMoved && (draft.arrive.trim() !== '' || before.arrive !== '');
+  if (draft.endDate !== before.endDate || landingMoved) {
     if (endsAt === null) clear.push('ends_at');
     else patch.ends_at = endsAt;
   }
@@ -245,7 +237,7 @@ export function toEditPayload(
     startsAt !== null &&
     (draft.flight !== before.flight || draft.from !== before.from || draft.to !== before.to)
   ) {
-    patch.segments = [segmentOf(draft, startsAt)];
+    patch.segments = [segmentOf(draft, startsAt, tz)];
   }
   if (draft.seat !== before.seat || draft.notes !== before.notes) {
     patch.details = detailsOf(draft, booking.details);

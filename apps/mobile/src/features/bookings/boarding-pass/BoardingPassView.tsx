@@ -22,6 +22,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { qrPath } from './qr-path';
+import { useWalletGuide } from '../data/wallet-guide';
 
 const useStyles = makeStyles((t) => ({
   root: {
@@ -61,7 +62,8 @@ export function BoardingPassView(props: BoardingPassViewProps) {
   const { t } = useLingui();
   const { width } = useWindowDimensions();
   const size = Math.min(width - theme.size.gutter * 2 - theme.space['24'], 360);
-  const tokek = GUIDE_STICKERS.tokek;
+  const guide = useWalletGuide();
+  const tokek = GUIDE_STICKERS[guide.id];
   const qr = useMemo(
     () => (props.payload === null ? null : qrPath(props.payload)),
     [props.payload],
@@ -80,7 +82,7 @@ export function BoardingPassView(props: BoardingPassViewProps) {
         </Stack>
         {qr === null ? (
           <Stack gap="16" align="center" testID="bookings-pass-missing">
-            <Sticker kind={tokek.kind} name={tokek.name} size={120} pose="think" />
+            <Sticker kind={tokek.kind} name={guide.name} size={120} pose="think" />
             <Text variant="bodyLg" style={styles.missing}>
               {t({
                 id: 'bookings.pass.missing',

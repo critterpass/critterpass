@@ -156,6 +156,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Hero + guide walk-in; shared-element enter. 2. Month bars grow on intersection; month-selected re-price panel. 3. Pitch/solo CTAs; save. 4. States.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/destination`; `maestro test e2e/explore/destination.yaml`
 - Done when: tapping a month shows per-origin prices for each crew member's airport in viewer currency; guest variant renders for a non-live destination.
+- Status: done — d8d723fea
 
 ### T4 — Place detail screen
 - Goal: 3d-3.
@@ -163,6 +164,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Photo push-in + sheet. 2. Crowd bars + best window. 3. Add-to-day via P29 hooks (ops/ChangeSet) with in-plan state. 4. Supplier cards verbatim + disclosure; share; chat entry.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/place`; `maestro test e2e/explore/place.yaml`
 - Done when: add-to-day appears in the plan on a second device; supplier card data is not written to any local table (test asserts no persistence).
+- Status: done — df3a4b686 (offers open through the suppliers screen id, c6dcebc7f); not yet run: add-to-day seen on a second device
 
 ### T5 — Explore map + list view
 - Goal: 3d-4.
@@ -170,6 +172,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Pins with avatars + clusters, filter re-drop. 2. Carousel ↔ camera fly-to sync. 3. Guide sprite heading + you-dot line; away state. 4. Offline search + list view.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/map`; `maestro test e2e/explore/map.yaml`
 - Done when: CI perf budget on the map pan Maestro run (500 POIs, dropped frames ≤ budget) passes (real-device 60 fps → P54); offline search returns results for a saved destination in airplane mode.
+- Status: done — c8fd1bda0; not yet run: the 500-place pan budget, and the map canvas (tiles, pins) on a real phone: the CI emulator draws neither
 
 ### T6 — Saved places & lists
 - Goal: F-066.
@@ -177,7 +180,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Commands with idempotency. 2. Saved hub with lists + `SavedPlansSlot` (empty state until P52). 3. Offline pack offer on destination save.
 - Tests: `pnpm --filter @cp/api test -- commands/explore/save`; `maestro test e2e/explore/saved.yaml`
 - Done when: save offline → synced after reconnect; SAVED filter count matches.
-- Status: server done — f5e61374 (save/list commands); screens pending
+- Status: done — f5e61374 (save/list commands), f5114ff1f (saved hub, lists, offline pack)
 
 ### T7 — Swipe server: deck job, votes, arbitrated matches
 - Goal: F-067 backend.
@@ -193,6 +196,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Card physics per spec with worklets. 2. Presence + social pills + progress. 3. Match stamp + fly-into-plan. 4. Undo, summary, offline states.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/swipe`; `maestro test e2e/explore/swipe.yaml`
 - Done when: two devices produce a match stamp on both; queued offline swipes resolve on reconnect.
+- Status: done — 1412f9b02; not yet run: a match stamped on two devices
 
 ### T9 — Sponsored picks
 - Goal: F-068 end to end.
@@ -200,7 +204,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Slot rendering in picks, carousel, search with label. 2. Why-sheet + Pass+ link (P46). 3. Impression/click events (no personal targeting). 4. Store declarations checklist added to P54 inputs (**doc delta** note).
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/sponsored`; `maestro test e2e/explore/sponsored.yaml`
 - Done when: free user sees ≤ 1 labelled slot per list; Pass+ and boosted-trip users see none (Maestro with two accounts).
-- Status: server done — f8180380 (slot rules, `record_sponsored_event`); screens pending
+- Status: done — f8180380 (slot rules, `record_sponsored_event`), acac70151 (labelled card, why sheet); not yet run: the two-account device check (the gating is the server's and tested there)
 
 ### T10 — Explore entry points + offline pack integration
 - Goal: wire Explore under HOME and TRIPS (C30) and offline readiness.
@@ -208,6 +212,7 @@ Done when: every Explore screen renders real data for all 6 live destinations (+
 - Steps: 1. Explore home (destinations grid by guide colour, search, saved entry). 2. Entry links from Home and trip hub (exported hooks). 3. Offline badge per destination.
 - Tests: `pnpm --filter @cp/mobile test -- features/explore/home`
 - Done when: no 6th tab added; Explore reachable from Home and Trips; offline badge accurate.
+- Status: done — f5114ff1f (Explore front page, offline badge, screen ids); the Home row and the trip hub row that open it belong to those screens' lanes
 
 ## Phase acceptance criteria
 

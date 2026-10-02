@@ -20,10 +20,16 @@
     "vendor-reply": 1,
     "guide": 1,
     "briefing": 1,
+    "disruption": 1,
+    "watch": 1,
+    "replan": 1,
+    "late": 1,
     "place-qna": 1,
     "proposal": 1,
     "quests": 1,
-    "translate": 1
+    "translate": 1,
+    "help": 1,
+    "sos": 1
   },
   "live": {
     "chat": 0.9,
@@ -46,10 +52,16 @@
     "vendor-reply": 0.9,
     "guide": 0.9,
     "briefing": 0.95,
+    "disruption": 0.95,
+    "watch": 0.95,
+    "replan": 0.95,
+    "late": 0.95,
     "place-qna": 0.9,
     "proposal": 0.9,
     "quests": 0.95,
-    "translate": 0.9
+    "translate": 0.9,
+    "help": 0.95,
+    "sos": 0.95
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

@@ -11,32 +11,24 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { heroAt, useDestinationMedia } from '@/data/media/use-subject-media';
 import { useLocale } from '@/lib/i18n/use-locale';
-import { hrefFor } from '@/lib/navigation/screen-registry';
+import { VisitConsentRow } from '@/ui/permission-primer';
+import { hrefFor, useScreenHref } from '@/lib/navigation/screen-registry';
 
-import { briefingState } from '../briefing/briefing-model';
+import { briefingClock, briefingState } from '../briefing/briefing-model';
 import { BUNDLE_KIND, savedDayId, type SavedDay } from '../bundle/bundle-manager';
 import { OfflineView } from '../offline/offline-view';
 import { useOffline } from '../offline/use-offline';
 import { useBriefingActions } from '../briefing/chip-actions';
-import { clockIn } from '../leave-by/model';
 import { useLiveRows, useOwnerUid } from './data/live-rows';
 import { useMediaLowData } from '../media/use-media-low-data';
+import { MY_TRIP_COUNT_SQL, MY_TRIP_COUNT_TABLES } from './data/queries';
 import { useHubRows } from './data/use-hub';
 import { guideColour, guideName as nameOf, guideOr } from './guide';
-import {
-  activityLine,
-  bookingsTile,
-  landsAt,
-  shortDay,
-  moneyTile,
-  planTile,
-  tileTitles,
-  wholeMoney,
-} from './hub-copy';
+import { bookingsTile, moneyTile, planTile, tickerLines, tileTitles, wholeMoney } from './hub-copy';
 import { activityHref, HOME, planningLink } from './hub-links';
 import { hubHeader, viewerNet, type HubFlight } from './hub-model';
-import { HubView, type HubNext } from './hub-view';
-import { tripDayRoute } from './routes';
+import { exploreEntry, hubEntries, swipeEntry } from './hub-next';
+import { HubView } from './hub-view';
 import { HubTile, useRegisteredHubTiles } from './tiles';
 
 /** Today's saved day has every file it names (the BOOKINGS tile says "all offline"). */
@@ -48,9 +40,6 @@ function todayComplete(data: string): boolean {
     return false;
   }
 }
-
-/** A month before the trip the briefing starts coming every morning. */
-const BRIEFING_LEAD_DAYS = 30;
 
 function useNow(everyMs: number): Date {
   const [now, setNow] = useState(() => new Date());
@@ -97,6 +86,15 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   ).rows[0];
   const bookingsOffline = savedToday !== undefined && todayComplete(savedToday.data);
   const registered = useRegisteredHubTiles();
+  const swipeHref = useScreenHref('3d-2', { tripId });
+  const exploreHref = useScreenHref('3d-1', { placeId: rows.trip?.destination_id ?? '', tripId });
+  const myTrips = useLiveRows<{ n: number }>(
+    MY_TRIP_COUNT_SQL,
+    me === null ? null : [me],
+    MY_TRIP_COUNT_TABLES,
+  ).rows[0]?.n;
+  // The switch is for an account with another trip to go to; with one, there is nowhere to switch.
+  const switchTrip = (myTrips ?? 0) > 1 ? onSwitch : null;
   const names = useMemo(
     () => new Map(rows.members.map((row) => [row.user_id, row.display_name ?? ''])),
     [rows.members],
@@ -132,67 +130,32 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
           now,
         );
 
-  let next: HubNext | null = null;
-  if (header.phase === 'travel') {
-    next = {
-      eyebrow: t({ id: 'trip.hub.flight', message: 'Your flight' }),
-      time: clockIn(header.flight.departsAt, tz, locale),
-      title: header.flight.title,
-      detail:
-        header.flight.arrivesAt === null
-          ? null
-          : landsAt(clockIn(header.flight.arrivesAt, tz, locale)),
-      tone: 'raised',
-      onPress: () => router.push('/(tabs)/wallet/bookings'),
-    };
-  } else if (header.phase === 'pre' && trip?.start_date != null) {
-    const firstDay = trip.start_date;
-    next = {
-      eyebrow: t({ id: 'trip.hub.firstDay', message: 'First day' }),
-      time: shortDay(locale, firstDay),
-      title: t({ id: 'trip.hub.packTitle', message: 'Pack list' }),
-      detail: t({ id: 'trip.hub.openDay', message: "Who's up, and what to pack" }),
-      tone: 'raised',
-      onPress: () => router.push(tripDayRoute(tripId, firstDay)),
-    };
-  } else if (header.phase === 'in' && rows.leaveBy !== null) {
-    const place = rows.leaveBy.place_name;
-    next = {
-      eyebrow: t({ id: 'trip.hub.leaveByToday', message: 'Leave by' }),
-      time: clockIn(new Date(rows.leaveBy.leave_at), rows.leaveBy.tz, locale),
-      title: place ?? t({ id: 'trip.hub.earlyStart', message: 'Early start' }),
-      detail: t({ id: 'trip.hub.openDay', message: "Who's up, and what to pack" }),
-      tone: 'pink',
-      onPress: () => router.push(tripDayRoute(tripId, null)),
-    };
-  } else if (header.phase === 'in' && rows.next !== null) {
-    const item = rows.next;
-    next = {
-      eyebrow: t({ id: 'trip.hub.next', message: 'Next up' }),
-      time: clockIn(new Date(item.starts_at), item.tz ?? tz, locale),
-      title: item.poi_name ?? item.notes ?? item.category ?? '',
-      detail: null,
-      tone: 'raised',
-      onPress: () => router.push(tripDayRoute(tripId, item.day_date)),
-    };
-  }
+  const entries = hubEntries({
+    header,
+    tripId,
+    startDate: trip?.start_date ?? null,
+    leaveBy: rows.leaveBy,
+    nextItem: rows.next,
+    today,
+    tz,
+    locale,
+  });
 
   const start = trip?.start_date ?? null;
-  const daysToStart =
-    start === null
-      ? null
-      : (Date.parse(`${start}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / 86_400_000;
-  const inWindow =
-    header.phase === 'in' ||
-    header.phase === 'travel' ||
-    (header.phase === 'pre' && daysToStart !== null && daysToStart <= BRIEFING_LEAD_DAYS);
   const briefing = briefingState({
+    read: rows.briefingRead,
     briefing: rows.briefing,
     items: rows.briefingItems,
     pending: rows.pendingActs,
-    today,
+    clock: briefingClock(new Date(minute * 60_000), {
+      startDate: start,
+      tripTz: tz,
+      ownTz: tzGuess,
+    }),
     offline: offline !== null,
-    inWindow,
+    briefed: header.phase === 'pre' || header.phase === 'travel' || header.phase === 'in',
+    startDate: start,
+    endDate: trip?.end_date ?? null,
     locale,
   });
 
@@ -246,6 +209,15 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
         }))),
   ];
 
+  // Shown once Explore's screen is registered: a row that opens nothing is not drawn.
+  const exploreAction = go(exploreHref);
+  const explore =
+    trip?.destination_name == null || exploreAction === undefined
+      ? null
+      : exploreEntry(trip.destination_name, exploreAction);
+  // The crew's swipe, once its screen is registered.
+  const swipeAction = trip === null ? undefined : go(swipeHref);
+  const swipe = swipeAction === undefined ? null : swipeEntry(swipeAction);
   const planning = trip === null ? null : planningLink(tripId, trip.status, rows.openVotes[0]);
   const planningAction = planning === null ? undefined : go(planning.href);
 
@@ -272,19 +244,18 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
           ? null
           : { label: planning.label, onPress: planningAction }
       }
-      next={next}
+      entries={entries}
       briefing={briefing}
       onAct={onAct}
       tiles={tiles}
-      ticker={rows.activity.map((row) => {
+      explore={explore}
+      swipe={swipe}
+      visitConsent={<VisitConsentRow />}
+      ticker={tickerLines(rows.activity, trip?.status ?? null).map(({ row, text }) => {
         const open = go(activityHref(row, tripId));
-        return {
-          id: row.id,
-          text: activityLine(row),
-          ...(open === undefined ? {} : { onPress: open }),
-        };
+        return { id: row.id, text, ...(open === undefined ? {} : { onPress: open }) };
       })}
-      onSwitch={onSwitch}
+      onSwitch={switchTrip}
       {...(offlineCard === null ? {} : { offlineCard })}
     />
   );

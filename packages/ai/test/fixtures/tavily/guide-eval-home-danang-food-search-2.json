@@ -1,0 +1,52 @@
+{
+  "source": "Live recording from Tavily's search API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "query": "Da Nang street food evening spots 2025",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.novotel-danang-premier.com/news/da-nang-night-market",
+          "title": "Top 5 Night Markets & Walking Streets in Da Nang 2026: Must-Visit Spots",
+          "content": "Location name: Ariyana International Convention Centre, 107 Vo Nguyen Giap Street, Khue My Ward, Ngu Hanh Son District, Da Nang\n Opening dates and time: December 5-7, 2025, during the afternoon and evening [...] During the 2026 Lunar New Year period, the street is expected to host the “Da Nang – Welcome New Year 2026” Boulevard over three nights from 30/12/2025 to 01/01/2026, featuring Christmas 2025 mini-scenes, traditional lanterns, and large “D” letter installations.\n\nIn addition, the pedestrian street frequently hosts hot air balloon festivals, food festivals, magic performances, and traditional folk games on special occasions.\n\n### Son Tra Night Market [...] Da Nang Christmas Market 2025 returns as a community-scale event, bringing together more than 60 curated stalls. The Furama-Ariyana complex is decorated with a festive theme, ideal for strolling, holiday gift shopping, and enjoying diverse culinary experiences.",
+          "score": 0.8745175,
+          "raw_content": null,
+          "published_date": "Thu, 01 Jan 2026 00:00:00 GMT",
+          "id": "223440-00"
+        },
+        {
+          "url": "https://www.youtube.com/watch?v=nWfquSJ6imY",
+          "title": "43 Town Street Food Block in Da Nang, Vietnam",
+          "content": "43 Town Street Food Block in Da Nang, Vietnam | Must-Try Street Food Spot! ... DA NANG VIETNAM Night Vibes Walking Tour 4K | Summer 2025. Milky Walks",
+          "score": 0.78314424,
+          "raw_content": null,
+          "published_date": null,
+          "id": "40076f-01"
+        },
+        {
+          "url": "https://tiawellnessresort.com/the-7-best-restaurants-in-da-nang-for-every-traveler",
+          "title": "The 7 Best Restaurants in Da Nang for Every Traveler",
+          "content": "Location: 109 Vo Nguyen Giap Street, Khue My Ward, Ngu Hanh Son District, Da Nang.\n\nSpace: Luxurious, modern, with stunning sea views.\n\nCuisine: Focus on real, natural food cooked to preserve nutrients, boosting energy and mood.\n\nExplore more of the menu at The Ocean Bistro Restaurant.\n\n### 3. Bếp Cuốn Đà Nẵng – Michelin Selected 2025-2026 [...] If you are searching for a fun night out after exploring Da Nang, Veteran Restaurant offers a memorable way to end the day with great food and great company.\n\nLocation: 08 Duong Dinh Nghe Street, An Hai Bac Ward, Son Tra District, Da Nang\n\nStyle: Spacious, modern space that offers an enjoyable experience.\n\nCuisine: Specializing in premium imported beef, marinated beef ribs, and traditional Korean side dishes.\n\n## Essential Tips for Dining in Da Nang [...] Location: 109 Vo Nguyen Giap Street, Khue My Ward, Ngu Hanh Son District, Da Nang (located right by the sea).\n\nStyle: Fine-dining focusing on health and relaxation, modern and artistic space.\n\nCuisine: Offers a modern à la carte menu and tasting set menus inspired by local cuisine.\n\n### 2. The Ocean Bistro Restaurant at TIA Wellness Resort",
+          "score": 0.6932451,
+          "raw_content": null,
+          "published_date": "Wed, 22 Jul 2026 08:49:41 GMT",
+          "id": "3039c7-02"
+        },
+        {
+          "url": "https://www.facebook.com/groups/expatsindanangcity/posts/1940731053176656",
+          "title": "What are night and local food markets in Da Nang?",
+          "content": "The must-visit night market in Da Nang is Son Tra Night Market, where you can find various goods like replica purses, shoes, clothes, and accessories. •. \"Son",
+          "score": 0.35958952,
+          "raw_content": null,
+          "published_date": "Fri, 05 Dec 2025 15:00:00 GMT",
+          "id": "b1332f-03"
+        }
+      ],
+      "response_time": 1.66,
+      "request_id": "5e87fab2-fa8a-4f31-8c80-8ee9a807f6b5"
+    }
+  }
+}

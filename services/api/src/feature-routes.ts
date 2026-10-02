@@ -11,6 +11,7 @@ import type { ServerAnalytics } from './obs/analytics';
 import type { startApiObservability } from './obs';
 import type { createRedisClient } from './redis-client';
 import { registerCmdResultsRoute } from './routes/cmd-results';
+import { registerConfigRoutesFromEnv } from './routes/config';
 import { registerCommandRoute } from './routes/cmd';
 import { registerLocationRouteFromEnv } from './routes/loc';
 import { registerLiveMapRoutes } from './routes/live-map';
@@ -32,11 +33,13 @@ import { registerLinkRoutes } from './routes/links';
 import { registerActionKeyRoutes } from './routes/action-keys';
 import { registerActionsRoute } from './routes/actions';
 import { registerNotificationRoutes } from './routes/notifications';
+import { registerWidgetSnapshotRoute } from './routes/widgets-snapshot';
 import { registerInternalRtRoutes } from './routes/internal-rt';
 import { registerBilling } from './billing/register';
 import { registerGuideRoutes } from './routes/guide';
 import { registerSupplierRoutes } from './suppliers/register';
 import { registerTripDay } from './commands/trip-day';
+import { registerDisruptions } from './commands/disruptions';
 import { registerExplore } from './explore/register';
 import { registerProposals } from './routes/proposals';
 import { registerCritters } from './commands/critters';
@@ -45,6 +48,7 @@ import { registerTripLifecycle } from './commands/trips/lifecycle';
 import { registerLiveActivities } from './commands/live-activities';
 import { guardClosedAccounts } from './account/closed-guard';
 import { registerAccount } from './account/register';
+import { registerSafety } from './commands/safety';
 
 /** The command doors as the api boots them: its own Redis client and logger. */
 export interface ApiCommandDoors extends CommandDoorDeps {
@@ -80,11 +84,13 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerAiRoutes(app, doors, env, logger);
   registerGuideRoutes(app, doors, env, keyring);
   registerTripDay(doors);
+  registerDisruptions(app, doors);
   registerProposals(app, doors, env, keyring);
   registerCritters(doors);
   registerQuests(doors);
   registerTripLifecycle(doors);
   registerLiveActivities(doors);
+  registerSafety(app, doors, env, keyring);
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
   registerTravelDataRoutes(app, doors);
   if (env.MEDIA_PUBLIC_BASE_URL) {
@@ -96,6 +102,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerExplore(app, doors);
   registerSetupRoutes(app, { ...doors, store: redis, env: process.env });
   registerReceiptRoutesFromEnv(app, doors, process.env);
+  registerConfigRoutesFromEnv(app, doors, process.env);
   registerGeoRoutesFromEnv(app, doors, env.GEOIP_CITY_MMDB, logger);
   registerDevRoutesFromEnv(app, { ...doors, logger }, env);
   registerLinkRoutes(app, {
@@ -104,6 +111,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
     webProxySecret: env.LINKS_WEB_PROXY_SECRET,
     analytics: deps.analytics,
   });
+  registerWidgetSnapshotRoute(app, { ...doors, ...(keyring ? { keyring } : {}) });
   // Device action keys and the doors they open (docs/api-contracts-async.md §5): keys are stored
   // envelope-encrypted, so every route here needs the field-encryption keyring.
   if (keyring) {

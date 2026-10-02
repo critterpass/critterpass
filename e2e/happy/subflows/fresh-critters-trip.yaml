@@ -43,6 +43,20 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'pitch-result-0'
+# The guide's pitch is written live. When it does not come through, the sheet says so and offers
+# TRY AGAIN: captured, then asked once more, as a traveller would.
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote|pitch-error'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-error'
+    commands:
+      - takeScreenshot: fresh-critters-02b-pitch-did-not-come-through
+      - tapOn:
+          id: 'pitch-retry'
 - extendedWaitUntil:
     visible:
       id: 'pitch-quote'
@@ -82,7 +96,7 @@ appId: app.critterpass.dev
     timeout: 20000
 # Today in Vietnam, three days (today → today+2): the first day tapped in the picker's heatmap,
 # the length taken down to three, and the lock's own label checked before it is tapped.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); output.pickLabel = months[d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickColumn = (d.getUTCDay() + 6) % 7; output.pickRow = Math.floor((((first.getUTCDay() + 6) % 7) + d.getUTCDate() - 1) / 7); output.pickTry = 0}
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickDate = d.toISOString().slice(0, 10)}
 - scrollUntilVisible:
     element:
       id: 'when-pick-week'
@@ -95,41 +109,11 @@ appId: app.critterpass.dev
       id: 'picker-shorter'
     timeout: 10000
 - waitForAnimationToEnd
-# iOS finds the day's cell by its spoken label: the sheet's own when the step under it shows the
-# same day (the second match), else the only one.
+# The day's own cell, on its own month.
 - runFlow:
-    when:
-      platform: iOS
-    commands:
-      - tapOn:
-          text: ${output.pickLabel}
-          index: 1
-          optional: true
-      - runFlow:
-          when:
-            notVisible:
-              id: 'picker-lock'
-          commands:
-            - tapOn:
-                text: ${output.pickLabel}
-# On Android the sheet's cells carry no id or label of their own (only the step under it does), so
-# the cell is tapped where the sheet draws it on the runner's Pixel 7: its weekday column, and a
-# few heights around its week's row until the lock names the day.
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - repeat:
-          while:
-            notVisible:
-              id: 'picker-lock'
-              text: ${output.lockLabel}
-          times: 9
-          commands:
-            - tapOn:
-                point: ${Math.round(8.26 + (output.pickColumn + 0.5) * 11.925) + '%, ' + Math.round(40 + output.pickRow * 5.25 + output.pickTry * 2) + '%'}
-            - evalScript: ${output.pickTry = output.pickTry + 1}
-            - waitForAnimationToEnd
+    file: pick-week-day.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
 - extendedWaitUntil:
     visible:
       id: 'picker-lock'

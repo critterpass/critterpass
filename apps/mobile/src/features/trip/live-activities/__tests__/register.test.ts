@@ -39,6 +39,7 @@ function fakeModule(enabled = true) {
   };
   const port = {
     authorization: () => auth,
+    drawnKinds: () => null,
     onPushToStartToken: (l: Listener<{ kind: 'leave_by'; token: string }>) =>
       sub(listeners.start, l),
     onUpdateToken: (l: Listener<LaDeviceActivity & { token: string }>) => sub(listeners.update, l),

@@ -1,7 +1,7 @@
 /**
  * The proposal area's routes and the design screen ids the navigation registry knows them by:
- * the builder (3f-1), a member's own version (3f-3), slide to board (3f-5) and the organiser's
- * RSVP tracker (3f-6). A proposal opens by its id (`/proposal/{id}`, as its push links it); the
+ * the builder (3f-1), the trailer (3f-2), a member's own version (3f-3), slide to board (3f-5) and the organiser's
+ * RSVP tracker (3f-6) with a dropout's change list (3f-7). A proposal opens by its id (`/proposal/{id}`, as its push links it); the
  * builder by its trip.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
@@ -17,6 +17,19 @@ export const proposalRoutes = {
     pathname: '/proposal/[id]/board',
     params:
       options.length === 0 ? { id: proposalId } : { id: proposalId, options: options.join(',') },
+  }),
+  /** The pass opened on "Tell the crew you can't make it?", for a member who already said IN. */
+  decline: (proposalId: string): Href => ({
+    pathname: '/proposal/[id]/board',
+    params: { id: proposalId, decline: '1' },
+  }),
+  trailer: (proposalId: string): Href => ({
+    pathname: '/proposal/[id]/trailer',
+    params: { id: proposalId },
+  }),
+  dropout: (proposalId: string, uid: string): Href => ({
+    pathname: '/proposal/[id]/dropout',
+    params: { id: proposalId, uid },
   }),
   preview: (proposalId: string, uid: string): Href => ({
     pathname: '/proposal/[id]',
@@ -38,8 +51,10 @@ export function registerProposalScreens(): void {
     params['proposalId'] ?? params['id'] ?? '';
   registerScreens({
     '3f-1': (params) => proposalRoutes.build(params['tripId'] ?? ''),
+    '3f-2': (params) => proposalRoutes.trailer(id(params)),
     '3f-3': (params) => proposalRoutes.open(id(params)),
     '3f-5': (params) => proposalRoutes.board(id(params)),
     '3f-6': (params) => proposalRoutes.tracker(id(params)),
+    '3f-7': (params) => proposalRoutes.dropout(id(params), params['uid'] ?? ''),
   });
 }

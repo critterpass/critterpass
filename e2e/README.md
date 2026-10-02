@@ -67,6 +67,17 @@ same flows on the same branch again cancels the older run. When no e2e-test buil
 native fingerprint the prepare job stops (it never falls back to another build) and names the
 latest build's URL to pass as `build_url` if its native code still fits.
 
+Scheduled runs (the nightly sweep and the daily release gate) have no `build_url` input. While no
+Android e2e-test build matches the native fingerprint, set the repo variable
+`DEVICE_SCHEDULED_ANDROID_BUILD_URL` to the `.apk` URL lanes pass by hand
+(`gh variable set DEVICE_SCHEDULED_ANDROID_BUILD_URL --body <url>`): scheduled runs then install it.
+The prepare job says so every time, as a notice and in the step summary ("scheduled run uses the
+build in DEVICE_SCHEDULED_ANDROID_BUILD_URL: <url>"). Manual and pull-request runs ignore it. When
+the variable is empty, scheduled runs behave as above. Clear it as soon as a new e2e-test build
+matches the fingerprint (`gh variable delete DEVICE_SCHEDULED_ANDROID_BUILD_URL`), so scheduled
+runs go back to the matching build. iOS needs no such variable: its fingerprint lookup still finds
+a build.
+
 The workflow needs the `EXPO_TOKEN` secret (build lookup by fingerprint, and the EAS
 `development` environment's `EXPO_PUBLIC_*` values for the bundle) and `OTP_TEST_CODE`
 (`e2e/onboarding/save-phone.yaml`). Builds come from EAS; the workflow never starts one.
@@ -175,6 +186,12 @@ staging's AI, so those flows allow a few minutes for them.
 | `fresh-join-code-vi` | the same friend, reading the app in Vietnamese from the splash on |
 | `critters`       | fresh account → PASS Critterdex synced → FOUND empty → a set page → Explore at home kept after a relaunch |
 | `fresh-setup-vnd` | no seed: crew of one from Ho Chi Minh City (VND) → Đà Nẵng locked in → dates from tomorrow, 3 days → budget in ₫ locks first time → rooms |
+| `fresh-join-under-way` | no seed, four accounts: a trip from today confirmed → one joins with the crew code → on the trip (plan, split three ways); one who joined before the lock and never answered → JOIN THE TRIP on Home |
+| `fresh-trip-under-way` | no seed: crew of one from Ho Chi Minh City → Đà Nẵng from today, 3 days, budget in ₫ → draft → LOCK IT IN alone → Home and the TRIPS hub show the trip as on |
+| `fresh-trip-bookings` | on that trip: paste the flight and a stay → READY TO ADD → the forward address → a flight and an activity typed in by hand → wallet, details in airport time, hub count → delete leaves no card |
+| `fresh-trip-money` | on that trip: three typed expenses in ₫ → SPENT SO FAR, LATEST, history, detail, the budget on day 1 of 3 |
+| `fresh-trip-day` | on that trip: hub on day 1 of 3 → day-of screen (tomorrow's, then back to today) → pack list → background and reopen → relaunch → the briefing settles |
+| `fresh-trip-landing` | no seed: a trip from tomorrow, its flight today typed in by hand → I LANDED → Home turns to the trip being on |
 | `fresh-join-under-way` | no seed, three accounts: a trip from today confirmed → a third joins with the crew code → on the trip (plan, split three ways) |
 
 The `happy` preset records every flow on video (`screenrecord` in three-minute segments on Android,

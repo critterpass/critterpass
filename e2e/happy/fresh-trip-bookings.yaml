@@ -1,0 +1,315 @@
+appId: app.critterpass.dev
+---
+# Release gate: a brand-new traveller's bookings on a trip that is on today, with no demo world
+# (subflows/trip-under-way.yaml). The wallet starts empty with the three ways in. The morning
+# flight (9G 956, Ho Chi Minh City 07:05 to Đà Nẵng 08:30, today) and a two-night stay go in by
+# pasting their confirmations, which the guide reads into candidates headed READY TO ADD; Add a
+# booking shows the crew's forward address whole. The flight home and a cable car ride are typed
+# in by hand. The morning flight reads 07:05 → 08:30 (the airports' own time) in its details, in
+# the stack or under past bookings once it landed more than six hours ago; the stay shows its
+# dates and price in đồng; the flight home shows when it leaves and lands; the trip hub counts
+# all four. Deleting the cable car ride takes it out of the wallet at once, with nothing left
+# behind and no error, and the hub counts three.
+- runFlow:
+    file: subflows/trip-under-way.yaml
+    env:
+      SHOTS: bookings
+      # A long crew name makes a long forward address.
+      CREW_NAME: 'The head still didnt look so goo'
+- runFlow: subflows/wait-for-trip-start.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 60000
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- tapOn: 'BOOKINGS'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-empty'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: bookings-wallet-empty
+# Today and the day after tomorrow in Vietnam, and whether the flight landed over six hours ago.
+- evalScript: ${var now = new Date(Date.now() + 7 * 3600000); output.day = now.toISOString().slice(0, 10); output.nextDay = new Date(now.getTime() + 86400000).toISOString().slice(0, 10); output.lastDay = new Date(now.getTime() + 2 * 86400000).toISOString().slice(0, 10); output.flightPast = now.getUTCHours() * 60 + now.getUTCMinutes() >= 14 * 60 + 30}
+- evalScript: ${output.paste = 'Flight booking confirmed. Booking reference K7Q2PX. Passenger WINSTON. Flight 9G 956 from Ho Chi Minh City (SGN) to Da Nang (DAD) on ' + output.day + ', departs 07:05, arrives 08:30.'}
+- evalScript: ${output.pasteEnd = '.*arrives 08:30.*'}
+# The empty wallet's PASTE tile opens Add a booking on its paste sheet.
+- tapOn: 'PASTE.*'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-paste-field'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: bookings-paste-sheet
+- runFlow: subflows/paste-booking.yaml
+- assertVisible: '.*9G ?956.*'
+- assertVisible: '(?i)ready to add.*'
+- assertNotVisible: '(?i)found in your crew.*'
+- waitForAnimationToEnd
+- takeScreenshot: bookings-flight-candidate
+- tapOn:
+    id: 'bookings-candidate-.*-add'
+- extendedWaitUntil:
+    notVisible:
+      id: 'bookings-candidate-.*-add'
+    timeout: 20000
+# The crew's forward address, on the staging mail domain: the crew's part and the domain each
+# on a line of their own, and a tap on it copies.
+- assertVisible:
+    id: 'bookings-address'
+- assertVisible: '.*@in\.staging\.critterpass\.app.*'
+- assertVisible:
+    id: 'bookings-address-copy'
+- waitForAnimationToEnd
+- takeScreenshot: bookings-add
+# The stay.
+- evalScript: ${output.paste = 'Hotel booking confirmed. Sala Danang Beach Hotel, 36 Lam Hoanh, Da Nang. Confirmation number 4821907. Guest WINSTON. Check-in ' + output.day + ' from 14:00, check-out ' + output.lastDay + ' until 12:00. Total VND 2,400,000.'}
+- evalScript: ${output.pasteEnd = '.*Total VND 2,400,000.*'}
+- tapOn: 'PASTE.*'
+- runFlow: subflows/paste-booking.yaml
+- assertVisible: '(?i).*sala danang.*'
+- waitForAnimationToEnd
+- takeScreenshot: bookings-stay-candidate
+- tapOn:
+    id: 'bookings-candidate-.*-add'
+- extendedWaitUntil:
+    notVisible:
+      id: 'bookings-candidate-.*-add'
+    timeout: 20000
+# The flight home, typed in by hand: it leaves on the last day at 19:40 and lands at 21:05.
+- runFlow:
+    file: subflows/add-flight-by-hand.yaml
+    env:
+      FLIGHT: '9G 957'
+      FROM: 'DAD'
+      TO: 'SGN'
+      DAY: ${output.lastDay}
+      DEPARTS: '19:40'
+      LANDS: '21:05'
+      SHOT: bookings-form-flight
+- extendedWaitUntil:
+    visible: '.*9G ?957.*'
+    timeout: 30000
+# A cable car ride tomorrow, typed in by hand.
+- scrollUntilVisible:
+    element:
+      id: 'bookings-add'
+    direction: DOWN
+    timeout: 15000
+    # Clear of the tab bar's guide button, which sits over the foot of the page.
+    centerElement: true
+- tapOn:
+    id: 'bookings-add'
+- scrollUntilVisible:
+    element:
+      id: 'bookings-add-by-hand'
+    direction: DOWN
+    timeout: 15000
+    # Clear of the tab bar's guide button, which sits over the foot of the page.
+    centerElement: true
+- tapOn:
+    id: 'bookings-add-by-hand'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-form-add'
+    timeout: 15000
+- tapOn:
+    id: 'bookings-form-kind-activity'
+- tapOn:
+    id: 'bookings-form-title'
+- inputText: 'Ba Na cable car'
+- scrollUntilVisible:
+    element:
+      id: 'bookings-form-date'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
+- tapOn:
+    id: 'bookings-form-date'
+- inputText: ${output.nextDay}
+- tapOn:
+    id: 'bookings-form-time'
+- inputText: '09:00'
+- waitForAnimationToEnd
+- takeScreenshot: bookings-form-activity
+- tapOn:
+    id: 'bookings-form-save'
+# The wallet: the stay, the ride and the flight home are in the stack, in đồng.
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-stack'
+    timeout: 30000
+# A booking typed in by hand is in the wallet at once, before the server has answered.
+- extendedWaitUntil:
+    visible: '(?i).*ba na cable car.*'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: bookings-wallet
+- assertVisible: '(?i).*sala danang.*'
+- assertVisible: '.*9G ?957.*'
+- assertNotVisible: '.*\$.*'
+# The flight: in the stack with the airports' own times, or under past bookings once it has been
+# down for six hours.
+- runFlow:
+    when:
+      true: ${output.flightPast != true}
+    commands:
+      - assertVisible:
+          id: 'bookings-flight'
+      - assertVisible: '07:05'
+      - assertVisible: '08:30'
+- runFlow:
+    when:
+      true: ${output.flightPast == true}
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'bookings-archive-link'
+          direction: DOWN
+          timeout: 15000
+      - tapOn:
+          id: 'bookings-archive-link'
+      - extendedWaitUntil:
+          visible:
+            id: 'bookings-archive'
+          timeout: 15000
+      - assertVisible: '.*9G ?956.*'
+      - tapOn:
+          id: 'bookings-archive-.*'
+          index: 0
+      - extendedWaitUntil:
+          visible:
+            id: 'bookings-detail'
+          timeout: 15000
+      - waitForAnimationToEnd
+      - takeScreenshot: bookings-flight-detail
+      - assertVisible: '.*K7Q2PX.*'
+      - assertVisible: '.*07:05.*08:30.*'
+      - runFlow: ../onboarding/subflows/back.yaml
+      - runFlow: ../onboarding/subflows/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'bookings-stack'
+          timeout: 15000
+# The flight home at the front of the stack: when it leaves and when it lands.
+- tapOn: '.*9G ?957.*'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-flight'
+    timeout: 15000
+- assertVisible: '19:40'
+- assertVisible: '21:05'
+- waitForAnimationToEnd
+- takeScreenshot: bookings-wallet-flight-home
+# The stay's details.
+- tapOn: '(?i).*sala danang.*'
+- waitForAnimationToEnd
+- tapOn:
+    id: 'bookings-open-details'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: bookings-stay-detail
+- assertVisible: '.*4821907.*'
+- assertVisible: '.*₫ ?2,400,000.*'
+- runFlow: ../onboarding/subflows/back.yaml
+# The trip hub counts the bookings, and the plan and the day show them.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-bookings'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
+- waitForAnimationToEnd
+- takeScreenshot: bookings-hub
+- assertVisible:
+    id: 'trip-hub-tile-bookings'
+    text: '(?i).*4 saved.*'
+- tapOn:
+    id: 'trip-hub-tile-plan'
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: bookings-plan
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: subflows/dismiss-visit-offer.yaml
+# Deleting the cable car ride: it leaves the wallet at once, with no card left behind.
+- tapOn:
+    id: 'tab-wallet'
+- runFlow:
+    when:
+      notVisible:
+        id: 'bookings-wallet-.*'
+    commands:
+      - tapOn: 'BOOKINGS'
+- extendedWaitUntil:
+    visible: '(?i).*ba na cable car.*'
+    timeout: 30000
+- tapOn: '(?i).*ba na cable car.*'
+- waitForAnimationToEnd
+- tapOn:
+    id: 'bookings-open-details'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-detail'
+    timeout: 15000
+- assertVisible: '(?i).*ba na cable car.*'
+- scrollUntilVisible:
+    element:
+      id: 'bookings-detail-delete'
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 100
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'bookings-detail-delete'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-delete-confirm'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: bookings-delete-confirm
+- tapOn: '(?i)delete booking'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-.*'
+    timeout: 20000
+- assertNotVisible: '(?i).*ba na cable car.*'
+- waitForAnimationToEnd
+- takeScreenshot: bookings-after-delete
+- tapOn:
+    id: 'tab-trips'
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-bookings'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-tile-bookings'
+      text: '(?i).*3 saved.*'
+    timeout: 30000
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-wallet-.*'
+    timeout: 20000
+- assertNotVisible: '(?i).*ba na cable car.*'
+- assertNotVisible: '(?i).*(didn.t go through|not in the wallet).*'
+- waitForAnimationToEnd
+- takeScreenshot: bookings-after-delete-settled

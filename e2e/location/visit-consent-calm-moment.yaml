@@ -1,0 +1,189 @@
+appId: app.critterpass.dev
+---
+# The visit consent sheet at its calm moment, for someone alone on a trip that is under way. A
+# fresh account starts a crew of one, pitches Da Nang, sets the trip up from today and locks it
+# in; from noon in Da Nang the trip is under way and its trip-day session runs. Nothing is decided
+# about remembering places yet.
+# 1. On the wallet's PASTE A BOOKING sheet, with a confirmation code typed, the offer does not
+#    rise however long the sheet stays up (it is not the trip's own screen, a sheet is open and a
+#    text field has focus).
+# 2. On the TRIPS tab, once the hub has rested a few seconds, it rises; NOT NOW puts it away and
+#    it does not come back.
+# Run it after noon in Da Nang (UTC+7): before that the trip has not started and nothing rises.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); output.pickDate = d.toISOString().slice(0, 10); output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
+- runFlow: ../happy/subflows/fresh-account.yaml
+- openLink: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Crew Of One'
+# START THE CREW rides on top of the keyboard.
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- runFlow:
+    file: ../happy/subflows/pitch-place.yaml
+    env:
+      QUERY: 'da nang'
+- openLink: critterpass-dev://
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+# The dates: a week that starts today, picked by hand (the crew's best window aims at the place's
+# season, weeks away). The lock button names the week, which proves the tap.
+- extendedWaitUntil:
+    visible:
+      id: 'when-pick-week'
+    timeout: 30000
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-shorter'
+    timeout: 10000
+- waitForAnimationToEnd
+- runFlow:
+    file: ../happy/subflows/pick-week-day.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- waitForAnimationToEnd
+- assertVisible: ${output.lockToday}
+- tapOn:
+    id: 'picker-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'budget-lock'
+    timeout: 30000
+- runFlow: ../proposal/subflows/setup-to-draft.yaml
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- tapOn:
+    id: 'draft-propose'
+# Nobody to pitch it to: lock it in.
+- extendedWaitUntil:
+    visible:
+      id: 'build-lock-alone'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'build-lock-alone'
+# Confirmed, and past noon of its first day: the trip starts within the lifecycle job's interval.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-in_trip'
+    timeout: 660000
+
+# 1. The wallet's paste sheet, a code typed into its field, left up for longer than the offer
+# waits on the trip's own screen.
+- openLink: critterpass-dev://wallet/bookings/add
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-add'
+    timeout: 20000
+# Android shows the tile's title; iOS reads the tile whole ("PASTE, A link or code").
+- tapOn: 'PASTE.*'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-paste-field'
+    timeout: 10000
+- tapOn:
+    id: 'bookings-paste-field'
+- inputText: 'K7Q2PX'
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-accept'
+    timeout: 12000
+    optional: true
+- assertNotVisible:
+    id: 'visit-consent-accept'
+- assertVisible:
+    id: 'bookings-paste-send'
+- takeScreenshot: en-visit-consent-not-over-paste-sheet
+# Leave the sheet and its screen (the keyboard first on iOS).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'bookings-paste-field'
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'tab-trips'
+    timeout: 30000
+
+# 2. The trip's own screen: the offer rises once the hub has rested, is answered NOT NOW, and
+# stays away.
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-accept'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: en-visit-consent-on-trip-hub
+- tapOn:
+    id: 'visit-consent-decline'
+- extendedWaitUntil:
+    notVisible:
+      id: 'visit-consent-accept'
+    timeout: 10000
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-accept'
+    timeout: 12000
+    optional: true
+- assertNotVisible:
+    id: 'visit-consent-accept'
+- takeScreenshot: en-visit-consent-after-not-now

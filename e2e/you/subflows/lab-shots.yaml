@@ -1,0 +1,90 @@
+appId: app.critterpass.dev
+---
+# Every profile lab scene (apps/mobile/src/features/you/dev/lab-scenes.tsx), from the splash of a
+# fresh install: the profile for a seasoned traveller (3n-1), a minute after onboarding, and while
+# loading, then Settings (3n-2). ${LANG} prefixes the screenshots so compare mode pairs each with
+# its render.
+- runFlow:
+    file: open-scene.yaml
+    env:
+      SCENE: '3n-1-profile'
+      ROOT: 'you-profile'
+- takeScreenshot: ${LANG}-3n-1-profile
+- runFlow: ../../screens/sweep/subflows/back.yaml
+- tapOn:
+    id: 'you-lab-3n-1-fresh'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-no-trips'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${LANG}-3n-1-fresh
+- runFlow: ../../screens/sweep/subflows/back.yaml
+- tapOn:
+    id: 'you-lab-3n-2-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${LANG}-3n-2-settings
+# Signing out (a saved pass, then the warning an unsaved one gets), deleting the account (3n-9, the
+# hold of 3n-10) and the closed page (3n-11: just closed, then signed back in to restore).
+- runFlow: ../../screens/sweep/subflows/back.yaml
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: 'sign-out-saved'
+      ROOT: 'you-sign-out-confirm'
+      SHOT: ${LANG}-sign-out-saved
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: 'sign-out-unsaved'
+      ROOT: 'you-sign-out-warning'
+      SHOT: ${LANG}-sign-out-unsaved
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-9-delete'
+      ROOT: 'you-delete-continue'
+      SHOT: ${LANG}-3n-9-delete
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-10-hold'
+      ROOT: 'you-delete-hold-step'
+      SHOT: ${LANG}-3n-10-hold
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-11-closed'
+      ROOT: 'you-closed-closed'
+      SHOT: ${LANG}-3n-11-closed
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-11-restore'
+      ROOT: 'you-closed-restore'
+      SHOT: ${LANG}-3n-11-restore
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-8-language'
+      ROOT: 'you-language'
+      SHOT: ${LANG}-3n-8-language
+# A crew and a chat after one member's account was erased: "Former member", never a blank.
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: 'former-member-crew'
+      ROOT: 'you-profile'
+      SHOT: ${LANG}-former-member-crew
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: 'former-member-chat'
+      ROOT: 'you-former-chat'
+      SHOT: ${LANG}-former-member-chat

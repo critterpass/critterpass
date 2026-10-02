@@ -6,3 +6,948 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#. placeholder {0}: props.matchCount
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.matches"
+msgstr "{0, plural, other {# lượt trùng}}"
+
+#. placeholder {0}: groups.unknown
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.unknown"
+msgstr "{0, plural, other {# địa điểm đã lưu nữa sẽ hiện ra khi điểm đến của chúng được mở trên điện thoại này.}}"
+
+#. placeholder {0}: line.count
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whySaved"
+msgstr "{0, plural, other {# người trong nhóm đã lưu nơi này.}}"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
+msgstr "{0} đang chọn thẻ"
+
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.writing"
+msgstr "{0} vẫn đang viết về {1}: các gợi ý và độ đông theo tháng sẽ nằm ở đây. Các địa điểm đã có trên bản đồ."
+
+#. placeholder {0}: card.name
+#. placeholder {1}: card.guide.name
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.card"
+msgstr "{0}, cùng {1}"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.picks.title"
+msgstr "Gợi ý của {0} cho lần đầu đến"
+
+#. placeholder {0}: guide.name
+#. placeholder {1}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.unavailable"
+msgstr "Ghi chú của {0} về {1} chưa tải được. Chúng sẽ hiện ra khi điện thoại có mạng trở lại."
+
+#: ../../apps/mobile/src/features/explore/components/pin-cluster.tsx
+msgid "explore.map.cluster"
+msgstr "{count} địa điểm ở đây. Chạm để tách ra."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedCount"
+msgstr "{count} mục đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.progress"
+msgstr "{done}/{total} · {matches}"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesMore"
+msgstr "{first} + {second} + {more} đã đồng ý"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesTwo"
+msgstr "{first} + {second} đã đồng ý"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesOne"
+msgstr "{first} đã đồng ý"
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.body"
+msgstr "{guideName} sẽ lên kế hoạch cùng bạn. Không bỏ phiếu, không cần xác nhận tham gia. Chuyến đi một mình không dùng chuyến miễn phí đầu tiên của nhóm."
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.guidePick"
+msgstr "{guideName} chọn"
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.hoursFrom"
+msgstr "{hours} giờ bay từ {origin}"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.fromStay"
+msgstr "{minutes} phút từ chỗ ở"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.fromStay"
+msgstr "{minutes} phút từ chỗ ở"
+
+#: ../../apps/mobile/src/features/explore/components/month-bars.tsx
+msgid "explore.months.cheapest"
+msgstr "{month} rẻ nhất"
+
+#: ../../apps/mobile/src/features/explore/components/month-bars.tsx
+msgid "explore.months.barCheapest"
+msgstr "{month}, rẻ nhất"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-saved-place.ts
+msgid "explore.save.toast"
+msgstr "Đã lưu {name}"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.proposed"
+msgstr "Đã đề xuất {name} cho Ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.shareText"
+msgstr "{name}, {where}. Đáng ghé không?"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.done"
+msgstr "{name} đã vào kế hoạch Ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keenMore"
+msgstr "{names} và {more} người nữa thích nơi này."
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keen"
+msgstr "{names} thích nơi này."
+
+#: ../../apps/mobile/src/features/explore/components/crew-row.tsx
+msgid "explore.crew.keenOne"
+msgstr "{names} thích nơi này."
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.crewCount"
+msgstr "{others} người trong nhóm"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.paid"
+msgstr "{partner} đã trả tiền cho vị trí này trong danh sách. Nó được ghi rõ ĐƯỢC TÀI TRỢ để bạn phân biệt với gợi ý của chính hướng dẫn viên."
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastMatch"
+msgstr "{place} đã trùng"
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastSuggested"
+msgstr "Đã đề xuất {place} cho Ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.ready"
+msgstr "{place} dùng được khi không có mạng"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readySize"
+msgstr "{place} dùng được khi không có mạng · {size} MB"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchUnslotted"
+msgstr "{placeName} đã trùng. Kế hoạch chưa có chỗ trống cho nơi này."
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchSuggested"
+msgstr "{placeName} được đề xuất cho Ngày {dayNo}. Trưởng nhóm sẽ duyệt."
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.stopsFrom"
+msgstr "{transfers, plural, other {# điểm dừng từ {origin}}}"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneCount"
+msgstr "{yesCount, plural, other {Bạn đã đồng ý với # địa điểm.}}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.newList"
+msgstr "+ Danh sách mới"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.moreCount"
+msgstr "+{others}"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.each"
+msgstr "~{amount} mỗi người"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.live"
+msgstr "● {liveCount} đang quẹt"
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.save"
+msgstr "♡ Lưu"
+
+#: ../../apps/mobile/src/features/explore/components/save-button.tsx
+msgid "explore.save.saved"
+msgstr "♥ Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.steady"
+msgstr "Tháng đông vừa phải."
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.listNew"
+msgstr "Một danh sách mới"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.planAdd"
+msgstr "Một địa điểm thêm vào kế hoạch"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.proposal"
+msgstr "Một địa điểm chờ nhóm đồng ý"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.save"
+msgstr "Một địa điểm đã lưu"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipe"
+msgstr "Một lượt quẹt"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.toDay"
+msgstr "Thêm vào ngày {day} · {time}"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.noAirport"
+msgstr "Thêm sân bay gần nhà để xem giá vé từ nơi bạn sống."
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.reason"
+msgstr "Thêm {name} từ Khám phá"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.offline"
+msgstr "Cần có mạng để thêm"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.all"
+msgstr "Tất cả"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.chat"
+msgstr "Hỏi {0} về nơi này"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.backToPlan"
+msgstr "Về kế hoạch"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.beach"
+msgstr "Bãi biển"
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.best"
+msgstr "Đẹp nhất: {months}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.cancel"
+msgstr "Hủy"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.footnote"
+msgstr "Giá vé khứ hồi rẻ nhất đã thấy, từ từng sân bay gần nhà."
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.loading"
+msgstr "Đang xem giá vé"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.closedNow"
+msgstr "đang đóng cửa"
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.closed"
+msgstr "Đóng cửa ngày {day}. Chọn ngày khác cho nơi này nhé."
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.sardiLine"
+msgstr "Đến vì cá mòi nướng. Ở lại cũng vì cá mòi nướng."
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.create"
+msgstr "Tạo danh sách"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.crew"
+msgstr "Nhóm chọn"
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.picks.crewPlans"
+msgstr "Kế hoạch của các nhóm ›"
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.months.subtitle"
+msgstr "Độ đông theo tháng"
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.title"
+msgstr "Độ đông ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDay"
+msgstr "Ngày {dayNo}"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.planDayTime"
+msgstr "Ngày {dayNo} · {time}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.deleteList"
+msgstr "Xóa danh sách"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.listDelete"
+msgstr "Xóa một danh sách"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.destination"
+msgstr "Cẩm nang điểm đến"
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.hero.directFrom"
+msgstr "Bay thẳng từ {origin}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.done"
+msgstr "Xong"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.download"
+msgstr "Tải về để dùng ngoại tuyến"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.downloading"
+msgstr "Đang tải {place}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.edit"
+msgstr "Sửa"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+#: ../../apps/mobile/src/features/explore/dev/destination-scenes.tsx
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.hero.back"
+msgstr "Khám phá"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.title"
+msgstr "Khám phá"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.explore"
+msgstr "Khám phá"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.loading"
+msgstr "Đang lấy các địa điểm ở {place}"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.food"
+msgstr "Ăn uống"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.food"
+msgstr "Ăn uống"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.place.free"
+msgstr "miễn phí"
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingLine"
+msgstr "Chờ một chút, hoặc mở lại từ trang điểm đến."
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.after"
+msgstr "Đi sau {time}"
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.around"
+msgstr "Đi khoảng {time}"
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.before"
+msgstr "Đi trước {time}"
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyClose"
+msgstr "Đã hiểu"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
+msgid "explore.hero.guestGuide"
+msgstr "Hướng dẫn viên khách mời: {0}"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.health"
+msgstr "Y tế"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.back"
+msgstr "Trang chủ"
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.offlineLine"
+msgstr "Lần đầu mình cần có mạng. Sau đó mình ở đây cả khi không có mạng."
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingOffline"
+msgstr "Lần đầu mình cần có mạng. Sau đó nơi này có sẵn cả khi không có mạng."
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.inDay"
+msgstr "Trong ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTaste"
+msgstr "Hợp với sở thích của nhóm: {tag}."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNear"
+msgstr "Cách chỗ ở khoảng {minutes} phút đi bộ."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyMustSee"
+msgstr "Đây là một trong những nơi phải đến của {guideName}."
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyNone"
+msgstr "Đây là một trong những nơi {guideName} giữ cho điểm đến này."
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.title"
+msgstr "Chỉ mình bạn, {placeName}"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchDismiss"
+msgstr "Quẹt tiếp"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.loading"
+msgstr "Đang tải các điểm đến"
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.loading"
+msgstr "Đang tải cẩm nang"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationOff"
+msgstr "Vị trí đang tắt nên bản đồ không hiện bạn."
+
+#. placeholder {0}: hero.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.map"
+msgstr "Bản đồ {0}"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.market"
+msgstr "Chợ"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.match"
+msgstr "Trùng"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowUnslotted"
+msgstr "Trùng · chưa có chỗ trống"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRow"
+msgstr "Trùng · đề xuất cho Ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.move"
+msgstr "Chuyển"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.move"
+msgstr "Chuyển một địa điểm đã lưu"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.museum"
+msgstr "Bảo tàng"
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.mustDo"
+msgstr "Phải đi · {mustDoOwner}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.newName"
+msgstr "Đặt tên cho danh sách mới"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.nature"
+msgstr "Thiên nhiên"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.nightlife"
+msgstr "Về đêm"
+
+#: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
+msgid "explore.crowd.none"
+msgstr "Chưa có dữ liệu độ đông cho nơi này. Đi sớm hoặc muộn là chắc nhất."
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.noFare"
+msgstr "Chưa thấy giá vé"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.unavailable"
+msgstr "Hiện chưa có giá vé cho {month}. Thử lại sau ít phút nhé."
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.full"
+msgstr "Kế hoạch hết chỗ trống"
+
+#. placeholder {0}: hero.name
+#. placeholder {1}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.limited.body"
+msgstr "Chưa có hướng dẫn viên nào sống ở {0}, nên độ đông theo tháng và các gợi ý chưa được viết. Chuyến bay, tiền tệ và những tháng đẹp nhất thì đã có, và {1} vẫn lên kế hoạch cho chuyến đi."
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.noMatches"
+msgstr "Chưa có lượt trùng nào. Chúng sẽ hiện ở đây khi cả nhóm quẹt xong."
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.noPlan"
+msgstr "Chưa có kế hoạch để thêm"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.no"
+msgstr "Không chọn nơi này"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
+msgid "explore.solo.refusedBody"
+msgstr "Chưa có chuyến đi nào được tạo. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.guestLine"
+msgstr "Không phải đảo của mình, nhưng mình đã tìm hiểu kỹ rồi."
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.cancel"
+msgstr "Để sau"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyList"
+msgstr "Danh sách này chưa có gì"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+#: ../../apps/mobile/src/features/explore/screens/explore-list-screen.tsx
+msgid "explore.map.noResults"
+msgstr "Không có gì khớp. Thử bớt bộ lọc hoặc từ khác."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedNone"
+msgstr "Chưa lưu gì"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyTitle"
+msgstr "Chưa lưu gì"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.offline"
+msgstr "Cần có mạng để xem ưu đãi."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.offlineBadge"
+msgstr "Ngoại tuyến"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.busy"
+msgstr "Một trong những tháng đông nhất."
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.quiet"
+msgstr "Một trong những tháng vắng hơn."
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.open24"
+msgstr "mở cửa 24 giờ"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.openNow"
+msgstr "đang mở cửa"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.open"
+msgstr "Đang mở cửa"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.passPlus"
+msgstr "Pass+ và các chuyến đi đã Boost không có gợi ý được tài trợ."
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.cta.pitch"
+msgstr "Giới thiệu cho nhóm"
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.noCrew"
+msgstr "Muốn giới thiệu thì cần có nhóm. Tạo nhóm từ Trang chủ, hoặc đi chuyến này một mình."
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.other"
+msgstr "Địa điểm"
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.dest.mapBody"
+msgstr "Địa điểm, tìm kiếm và nơi đang mở cửa"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.remove"
+msgstr "Bỏ lưu"
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.unsave"
+msgstr "Bỏ lưu"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.remove"
+msgstr "Xóa khỏi điện thoại này"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.unsave"
+msgstr "Bỏ lưu một địa điểm"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.rename"
+msgstr "Đổi tên"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.renameList"
+msgstr "Đổi tên danh sách"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.renameName"
+msgstr "Đổi tên danh sách này"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.save"
+msgstr "Lưu cho chuyến đi"
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.save"
+msgstr "Lưu nơi này"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.saved"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedBadge"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/filter-chips.tsx
+msgid "explore.map.saved"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.defaultList"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.title"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.saved"
+msgstr "Địa điểm đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.search"
+msgstr "Tìm ở {place}"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.offer"
+msgstr "Tìm kiếm và bản đồ dùng được khi không có mạng một khi {place} đã ở trên điện thoại này."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.search"
+msgstr "Tìm thành phố hoặc quốc gia bất kỳ"
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.map"
+msgstr "Xem trên bản đồ"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.open"
+msgstr "Xem ưu đãi"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.seePassPlus"
+msgstr "Xem Pass+"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.body"
+msgstr "Xem các đối tác đặt chỗ của chúng tôi có gì cho {placeName}, theo lời của chính họ."
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.seen"
+msgstr "thấy {seen}"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.setAirport"
+msgstr "Chọn sân bay gần nhà"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.locationSettings"
+msgstr "Cài đặt"
+
+#: ../../apps/mobile/src/features/explore/components/place-view.tsx
+msgid "explore.place.share"
+msgstr "Chia sẻ nơi này"
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.ponLine"
+msgstr "Cởi giày, cất điện thoại, ngẩng đầu lên."
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.shopping"
+msgstr "Mua sắm"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showList"
+msgstr "Xem dạng danh sách"
+
+#: ../../apps/mobile/src/features/explore/components/explore-map-view.tsx
+msgid "explore.map.showMap"
+msgstr "Xem bản đồ"
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.cta.solo"
+msgstr "Đi một mình"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
+msgid "explore.solo.started"
+msgstr "Đã bắt đầu chuyến đi một mình đến {placeName}."
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.tag"
+msgstr "Tài trợ"
+
+#. placeholder {0}: pick.name
+#. placeholder {1}: categoryLabel(pick.category)
+#: ../../apps/mobile/src/features/explore/components/picks-row.tsx
+msgid "explore.sponsored.cardLabel"
+msgstr "Được tài trợ: {0}, {1}"
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.solo.start"
+msgstr "Bắt đầu chuyến đi một mình"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.swipeStart"
+msgstr "Bắt đầu một phiên quẹt"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.stay"
+msgstr "Chỗ ở"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.suggest"
+msgstr "Đề xuất cho ngày {day} · {time}"
+
+#: ../../apps/mobile/src/features/explore/components/add-to-day-button.tsx
+msgid "explore.add.suggested"
+msgstr "Đã đề xuất cho ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
+msgid "explore.swipe.cardActions"
+msgstr "Quẹt phải để đồng ý, quẹt trái để bỏ qua"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.title"
+msgstr "Quẹt cùng nhau"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyLine"
+msgstr "Chạm vào trái tim ở một địa điểm hay điểm đến, nó sẽ nằm ở đây."
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchTap"
+msgstr "Chạm để quẹt tiếp"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.temple"
+msgstr "Đền chùa"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.refused"
+msgstr "Chưa thực hiện được"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-solo-trip.ts
+msgid "explore.solo.refused"
+msgstr "Chưa thực hiện được"
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.title"
+msgstr "Nơi này chưa có trong cẩm nang"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneTitle"
+msgstr "Hết bộ thẻ rồi"
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.proposedBody"
+msgstr "Nhóm sẽ quyết định có đồng ý không."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.empty"
+msgstr "Các điểm đến chưa về tới điện thoại này. Chúng sẽ tải khi có mạng."
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.failed"
+msgstr "Tải về chưa xong. Kiểm tra kết nối rồi thử lại."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.neutral"
+msgstr "Gợi ý của hướng dẫn viên không bao giờ được xếp hạng theo số tiền đối tác trả. Chúng tôi có thể nhận hoa hồng nếu bạn đặt chỗ qua đối tác."
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.readyBody"
+msgstr "Bản đồ và tìm kiếm đã ở trên điện thoại này."
+
+#: ../../apps/mobile/src/features/explore/hooks/use-add-to-day.ts
+msgid "explore.add.refusedBody"
+msgstr "Kế hoạch không thay đổi. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.offlineTitle"
+msgstr "Cẩm nang này chưa tải xong"
+
+#: ../../apps/mobile/src/features/explore/screens/place-screen.tsx
+msgid "explore.place.missingTitle"
+msgstr "Nơi này chưa tải xong"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.endedTitle"
+msgstr "Phiên này đã kết thúc"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.title"
+msgstr "Vé và tour"
+
+#: ../../apps/mobile/src/features/explore/category.ts
+msgid "explore.category.transit"
+msgstr "Di chuyển"
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.trip"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/explore/components/region-pack-card.tsx
+msgid "explore.pack.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/explore/screens/destination-screen.tsx
+msgid "explore.missing.line"
+msgstr "Thử tìm kiếm xem. Mình biết hầu hết mọi nơi."
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.undo"
+msgstr "Hoàn tác lượt quẹt vừa rồi"
+
+#: ../../apps/mobile/src/features/explore/components/supplier-card.tsx
+msgid "explore.offers.disclosure"
+msgstr "Chúng tôi có thể nhận hoa hồng nếu bạn đặt chỗ. Điều đó không bao giờ thay đổi thứ hạng chúng tôi xếp."
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.limited.title"
+msgstr "Những gì {0} biết đến lúc này"
+
+#: ../../apps/mobile/src/features/explore/components/destination-view.tsx
+msgid "explore.months.title"
+msgstr "Nên đi khi nào"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.guides"
+msgstr "Nơi các hướng dẫn viên sống"
+
+#: ../../apps/mobile/src/features/explore/components/destination-actions.tsx
+msgid "explore.pitch.whichCrew"
+msgstr "Giới thiệu cho nhóm nào?"
+
+#: ../../apps/mobile/src/features/explore/components/why-this-sheet.tsx
+msgid "explore.swipe.whyTitle"
+msgstr "Vì sao là {placeName}?"
+
+#: ../../apps/mobile/src/features/explore/components/sponsored-card.tsx
+msgid "explore.sponsored.why"
+msgstr "Vì sao tôi thấy mục này?"
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.sheetTitle"
+msgstr "Vì sao tôi thấy mục này?"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.why"
+msgstr "Vì sao?"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.yes"
+msgstr "Chọn nơi này"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.you"
+msgstr "Bạn"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.nameTaken"
+msgstr "Bạn đã có danh sách tên này rồi."
+
+#: ../../apps/mobile/src/features/explore/components/why-sponsored-sheet.tsx
+msgid "explore.sponsored.contextual"
+msgstr "Bạn thấy nó vì bạn đang xem {place}. Nó không được chọn dựa trên bất cứ điều gì về bạn, và chúng tôi không theo dõi bạn vì nó."
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.away"
+msgstr "Bạn cách {place} {km} km"
+
+#: ../../apps/mobile/src/features/explore/components/month-panel.tsx
+msgid "explore.panel.offline"
+msgstr "Bạn đang ngoại tuyến. Đây là giá gần nhất điện thoại này đã thấy."
+
+#: ../../apps/mobile/src/features/explore/guide-copy.ts
+msgid "explore.guide.homeLine"
+msgstr "Hướng dẫn viên của bạn ở {place}."
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/dest-hero.tsx
+msgid "explore.hero.yourGuide"
+msgstr "Hướng dẫn viên: {0}"
+
+#: ../../apps/mobile/src/features/explore/commands.ts
+msgid "explore.queued.trip"
+msgstr "Chuyến đi mới của bạn"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.offline"
+msgstr "Các lượt quẹt được giữ lại và gửi đi khi bạn có mạng. Lúc đó lượt trùng sẽ hiện ra."

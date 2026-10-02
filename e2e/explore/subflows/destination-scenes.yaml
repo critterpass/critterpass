@@ -1,0 +1,96 @@
+appId: app.critterpass.dev
+---
+# The destination guide (3d-1), a month priced for the crew and each of its states, a Vietnamese
+# crew's Đà Nẵng in đồng and the guest guide's page (3b-8), prefixed `${PREFIX}`.
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: destination, READY: explore-months, SHOT: '${PREFIX}-3d-1-destination' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: destination-month, READY: explore-month-prices, SHOT: '${PREFIX}-3d-1-month-priced' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-month-loading,
+        READY: explore-month-loading,
+        SHOT: '${PREFIX}-3d-1-month-loading',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-no-airport,
+        READY: explore-month-no-airport,
+        SHOT: '${PREFIX}-3d-1-month-no-home-airport',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-prices-unavailable,
+        READY: explore-month-unavailable,
+        SHOT: '${PREFIX}-3d-1-month-unavailable',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-saved-offline,
+        READY: explore-offline,
+        SHOT: '${PREFIX}-3d-1-saved-offline',
+      }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: destination-loading, READY: explore-loading, SHOT: '${PREFIX}-3d-1-loading' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-unavailable,
+        READY: explore-unavailable,
+        SHOT: '${PREFIX}-3d-1-unavailable',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-da-nang,
+        READY: explore-month-prices,
+        SHOT: '${PREFIX}-3d-1-da-nang-vnd',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: destination-writing, READY: explore-writing, SHOT: '${PREFIX}-3d-1-being-written' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: destination-guest, READY: explore-limited, SHOT: '${PREFIX}-3b-8-guest-guide' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: destination-pick-crew, READY: explore-pitch-crews, SHOT: '${PREFIX}-3d-1-pick-crew' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: destination-no-crew, READY: explore-pitch-no-crew, SHOT: '${PREFIX}-3d-1-no-crew' }
+- runFlow:
+    file: scene.yaml
+    env: { SCENE: destination-solo, READY: explore-solo-confirm, SHOT: '${PREFIX}-3d-1-solo' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-sponsored,
+        READY: explore-sponsored-tag,
+        SHOT: '${PREFIX}-3d-1-sponsored-pick',
+      }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: destination-sponsored-why,
+        READY: explore-sponsored-sheet,
+        SHOT: '${PREFIX}-explore-sponsored-why',
+      }

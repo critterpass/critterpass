@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# Screenshots of mail held from an address nobody in the crew has linked: on the wallet and on Add
+# a booking, once with a code that was emailed (ENTER THE CODE) and once with none sent (PASTE THE
+# EMAIL), in the lab list's order.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow: subflows/open-lab.yaml
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: wallet-held-mail, READY: bookings-held-mail, SHOT: en-bookings-wallet-held-mail }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      {
+        SCENE: wallet-held-mail-no-code,
+        READY: bookings-held-mail-no-code,
+        SHOT: en-bookings-wallet-held-mail-no-code,
+      }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: add-held-mail, READY: bookings-held-mail, SHOT: en-bookings-add-held-mail }
+- runFlow:
+    file: subflows/scene.yaml
+    env:
+      {
+        SCENE: add-held-mail-no-code,
+        READY: bookings-held-mail-no-code,
+        SHOT: en-bookings-add-held-mail-no-code,
+      }

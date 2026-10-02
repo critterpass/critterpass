@@ -7,6 +7,8 @@
  */
 import type { ClosureRecord, Hours } from '@cp/domain';
 
+import type { WishTime } from './wish-time';
+
 export interface DraftPoi {
   readonly id: string;
   readonly name: string;
@@ -17,6 +19,8 @@ export interface DraftPoi {
   /** The place's own zone, else the destination's. */
   readonly tz: string;
   readonly hours: Hours | null;
+  /** The hours are the usual ones of places of its kind, not the place's own (./open-data). */
+  readonly hoursGuessed?: boolean;
   /** 0 (free) to 4 (splurge); null = unknown. */
   readonly priceLevel: number | null;
   readonly tags: readonly string[];
@@ -25,6 +29,11 @@ export interface DraftPoi {
   /** Curated by our editors (synced to phones); open-data places stay server-side. */
   readonly editorial: boolean;
   readonly mustSee: boolean;
+  /** How much the row says about the place (filled editorial fields, known hours); 0 = bare. */
+  readonly detail?: number;
+  /** What our editors wrote: why go, and the best time to (`editorial.why_go`, `best_time`). */
+  readonly whyGo?: string | null;
+  readonly bestTime?: string | null;
 }
 
 export interface DraftMustDo {
@@ -33,6 +42,8 @@ export interface DraftMustDo {
   /** Null for a freeform must-do (no place to schedule). */
   readonly poiId: string | null;
   readonly title: string;
+  /** When in the day it should happen: the member's own words, else the guide's answer. */
+  readonly when?: WishTime | null;
 }
 
 export type Chronotype = 'early_bird' | 'night_owl';
@@ -67,6 +78,8 @@ export interface DayChoice {
   readonly kind: 'activity' | 'meal';
   readonly mustDoId: string | null;
   readonly note: string | null;
+  /** A must-do held to its time of day (see ./wish-time). */
+  readonly when?: WishTime | null;
 }
 
 /** The destination's cost bands (`destination_cost_indices`) in the trip currency. */
@@ -78,4 +91,10 @@ export interface CostBands {
 export interface DayWindow {
   readonly startMin: number;
   readonly endMin: number;
+  /**
+   * The hard edges a must-do held to its time of day may use instead (landing and take-off on
+   * the first and last day, else the small hours); the usual day otherwise.
+   */
+  readonly earliestMin?: number;
+  readonly latestMin?: number;
 }

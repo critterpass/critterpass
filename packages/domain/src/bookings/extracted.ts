@@ -9,8 +9,11 @@ import { z } from 'zod';
 import { bookingDetailsSchema, flightSegmentInputSchema } from './booking-schema';
 import { bookingKindSchema, bookingSupplierSchema } from './kinds';
 
-/** Where the fields came from: schema.org markup, the model's read, or a boarding pass barcode. */
-export const EXTRACTION_SOURCES = ['jsonld', 'microdata', 'model', 'bcbp'] as const;
+/**
+ * Where the fields came from: schema.org markup, the model's read, a boarding pass barcode, or the
+ * flight's published schedule (a flight number pasted on its own).
+ */
+export const EXTRACTION_SOURCES = ['jsonld', 'microdata', 'model', 'bcbp', 'schedule'] as const;
 
 export const extractedBookingSchema = z.object({
   kind: bookingKindSchema,

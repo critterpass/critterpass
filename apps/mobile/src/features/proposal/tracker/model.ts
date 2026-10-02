@@ -53,6 +53,8 @@ export type LockState =
       readonly silent: number;
     }
   | { readonly kind: 'nobody_in' }
+  /** Every recipient said they can't make it: the organiser can lock in alone. */
+  | { readonly kind: 'alone' }
   | { readonly kind: 'locked' }
   | { readonly kind: 'not_sent' };
 
@@ -60,7 +62,10 @@ export function lockState(proposalStatus: string, recipients: readonly CrewPerso
   if (proposalStatus === 'locked') return { kind: 'locked' };
   if (proposalStatus !== 'sent') return { kind: 'not_sent' };
   const going = recipients.filter((p) => p.rsvp === 'in').length;
-  if (going === 0) return { kind: 'nobody_in' };
+  if (going === 0) {
+    const allOut = recipients.length > 0 && recipients.every((p) => p.rsvp === 'out');
+    return allOut ? { kind: 'alone' } : { kind: 'nobody_in' };
+  }
   return {
     kind: 'ready',
     going,

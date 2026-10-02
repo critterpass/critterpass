@@ -27,7 +27,9 @@ import {
   writeVersion,
   type ObjectionInput,
   type SuggestionInput,
+  REASON_LABEL_MAX,
   type VersionContext,
+  type VersionReply,
 } from '../../src/routes/proposal';
 import type { EvalMode } from '../lib/provider';
 import type { CaseReport, SuiteReport } from '../lib/runner';
@@ -45,6 +47,8 @@ const caseSchema = z.object({
   input: z.unknown(),
   forbid: z.array(z.string()).default([]),
   expect_lead: z.string().optional(),
+  /** Every pick carries its own short label, in the reader's language. */
+  expect_labels: z.boolean().default(false),
   expect_intent: z.string().nullable().optional(),
   seeded_reply: z.unknown().optional(),
 });
@@ -86,12 +90,43 @@ function transport(c: ProposalCase, options: ProposalSuiteOptions): typeof fetch
   };
 }
 
-/** Whole-word matches ("Rin" is not in "drink"); symbols such as "$" match anywhere. */
+/**
+ * Every pick kept a label (one the writer did not drop as too long, numbered or naming someone),
+ * and a reader in another language reads it in theirs: for Vietnamese, a letter only Vietnamese
+ * writes; never the English tag's own words.
+ */
+function labelFailures(reply: VersionReply, context: VersionContext): string[] {
+  const failures: string[] = [];
+  if (reply.highlights.length === 0) failures.push('no picks');
+  for (const pick of reply.highlights) {
+    const label = pick.reason_label;
+    if (label === undefined) {
+      failures.push(`label missing: ${pick.item_id}`);
+      continue;
+    }
+    if (label.length > REASON_LABEL_MAX) failures.push(`label too long: "${label}"`);
+    if (context.locale === 'vi' && !VIETNAMESE_LETTER.test(label)) {
+      failures.push(`label not in Vietnamese: "${label}"`);
+    }
+  }
+  return failures;
+}
+
+const VIETNAMESE_LETTER = /[ăâđêôơưàáảãạằắẳẵặầấẩẫậèéẻẽẹềếểễệìíỉĩịòóỏõọồốổỗộờớởỡợùúủũụừứửữựỳýỷỹỵ]/iu;
+
+/**
+ * Whole-word matches ("Rin" is not in "drink"); symbols such as "$" match anywhere. A name (an
+ * entry starting with a capital) matches only as written: in Vietnamese "bình minh" is sunrise,
+ * not the crewmate Minh. Other words match in any case.
+ */
 function forbidden(text: string, words: readonly string[]): string[] {
   return words
     .filter((word) =>
       /^\w/u.test(word)
-        ? new RegExp(`\\b${word.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&')}\\b`, 'iu').test(text)
+        ? new RegExp(
+            `\\b${word.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&')}\\b`,
+            /^\p{Lu}/u.test(word) ? 'u' : 'iu',
+          ).test(text)
         : text.includes(word),
     )
     .map((word) => `"${word}"`);
@@ -124,6 +159,7 @@ async function grade(
     if (c.expect_lead !== undefined && result.reply.lead_item_id !== c.expect_lead) {
       failures.push(`lead ${result.reply.lead_item_id}`);
     }
+    if (c.expect_labels) failures.push(...labelFailures(result.reply, context));
     return { failures, output: text };
   }
   if (c.kind === 'objection') {

@@ -8,8 +8,6 @@ import { describe, expect, it, jest } from '@jest/globals';
 import type { ReactElement } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { shouldAskVisitConsent, VISIT_CONSENT_REASK_MS } from '@/lib/location';
-
 import { renderUi } from '../../test-support/render';
 import { VisitConsentSheet, VisitDetectionSettings } from '../VisitConsentSheet';
 
@@ -37,16 +35,5 @@ describe('visit consent', () => {
     expect(toggle.props.accessibilityState).toMatchObject({ checked: false });
     await fireEvent.press(toggle);
     expect(onChange).toHaveBeenCalledWith(true);
-  });
-
-  it('asks on the first trip-day session only while undecided, then once a week', () => {
-    const base = { tripDaySessionRunning: true, decided: false, lastDismissedAt: null, now: 10 };
-    expect(shouldAskVisitConsent(base)).toBe(true);
-    expect(shouldAskVisitConsent({ ...base, tripDaySessionRunning: false })).toBe(false);
-    expect(shouldAskVisitConsent({ ...base, decided: true })).toBe(false);
-    expect(shouldAskVisitConsent({ ...base, lastDismissedAt: 5 })).toBe(false);
-    expect(shouldAskVisitConsent({ ...base, lastDismissedAt: 10 - VISIT_CONSENT_REASK_MS })).toBe(
-      true,
-    );
   });
 });

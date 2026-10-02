@@ -59,6 +59,8 @@ import * as schema from './schema';
  * the server (a hash lookup); a client sees its own `code_redemptions`, never a code row.
  * `affiliate_clicks` (packages/db/src/schema/suppliers.ts) is "S": clicks are written by the api
  * and read only by the conversions import and the ops console, never by a client.
+ * `journey_checks` (packages/db/src/schema/disruptions.ts) is C2: the latest running-late ETA per
+ * member and item, answered over HTTP and never synced.
  * `swipe_votes` (packages/db/src/schema/explore.ts) is owner-read and holds every "no": the crew
  * syncs `swipe_yes_votes`, the trigger-kept yes-only mirror, and replication never sees a verdict.
  * `place_qna_summaries` is trip-visible (C1) but served by the place context route only.
@@ -69,6 +71,9 @@ import * as schema from './schema';
  * `la_push_to_start_tokens`, `device_activities`, `broadcast_channels` and `la_object_states`
  * (packages/db/src/schema/live-activities.ts) stay server-side: Live Activity tokens and frames
  * are the phone's own truth plus the orchestrator's, never synced.
+ * `widget_push_tokens`, `installed_widgets` and `widget_push_ledger`
+ * (packages/db/src/schema/widgets.ts) stay server-side too: the phone reports its widget token and
+ * installed widgets, the worker reads them to push, and no client reads them back.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -85,6 +90,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'fare_cells',
   'flight_watches',
   'install_attributions',
+  'journey_checks',
   'la_object_states',
   'la_push_to_start_tokens',
   'media_assets',
@@ -102,6 +108,9 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'sponsored_event_counts',
   'sponsored_placements',
   'swipe_votes',
+  'installed_widgets',
+  'widget_push_ledger',
+  'widget_push_tokens',
 ]);
 
 /** Every table this schema declares that the `powersync` publication should carry. */

@@ -28,6 +28,7 @@ import { PLAN_EVENT_PAYLOADS, PLAN_EVENT_TYPES } from '../plan/events';
 import { GUIDE_EVENT_PAYLOADS, GUIDE_EVENT_TYPES } from '../guide/events';
 import { SUPPLIER_EVENT_PAYLOADS, SUPPLIER_EVENT_TYPES } from '../suppliers/events';
 import { TRIP_DAY_EVENT_PAYLOADS, TRIP_DAY_EVENT_TYPES } from '../trip-day/events';
+import { DISRUPTION_EVENT_PAYLOADS, DISRUPTION_EVENT_TYPES } from '../disruptions/events';
 import { EXPLORE_EVENT_PAYLOADS, EXPLORE_EVENT_TYPES } from '../explore/events';
 import { PROPOSAL_EVENT_PAYLOADS, PROPOSAL_EVENT_TYPES } from '../proposal/events';
 import { CRITTER_EVENT_PAYLOADS, CRITTER_EVENT_TYPES } from '../critters/events';
@@ -36,6 +37,7 @@ import { LA_EVENT_PAYLOADS, LA_EVENT_TYPES } from '../surfaces/la-events';
 import { YOU_EVENT_PAYLOADS, YOU_EVENT_TYPES } from '../you/events';
 import { ACCOUNT_EVENT_PAYLOADS, ACCOUNT_EVENT_TYPES } from '../account/events';
 import { PROFILE_FIELDS } from '../you/profile';
+import { SAFETY_EVENT_PAYLOADS, SAFETY_EVENT_TYPES } from '../safety/events';
 
 export const DOMAIN_EVENT_TYPES = [
   'crew.member_joined',
@@ -79,12 +81,14 @@ export const DOMAIN_EVENT_TYPES = [
   ...GUIDE_EVENT_TYPES,
   ...SUPPLIER_EVENT_TYPES,
   ...TRIP_DAY_EVENT_TYPES,
+  ...DISRUPTION_EVENT_TYPES,
   ...EXPLORE_EVENT_TYPES,
   ...PROPOSAL_EVENT_TYPES,
   ...CRITTER_EVENT_TYPES,
   ...QUEST_EVENT_TYPES,
   ...LA_EVENT_TYPES,
   ...YOU_EVENT_TYPES,
+  ...SAFETY_EVENT_TYPES,
   ...ACCOUNT_EVENT_TYPES,
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
@@ -193,12 +197,14 @@ const DOMAIN_EVENT_CATALOGUE = {
   ...GUIDE_EVENT_PAYLOADS,
   ...SUPPLIER_EVENT_PAYLOADS,
   ...TRIP_DAY_EVENT_PAYLOADS,
+  ...DISRUPTION_EVENT_PAYLOADS,
   ...EXPLORE_EVENT_PAYLOADS,
   ...PROPOSAL_EVENT_PAYLOADS,
   ...CRITTER_EVENT_PAYLOADS,
   ...QUEST_EVENT_PAYLOADS,
   ...LA_EVENT_PAYLOADS,
   ...YOU_EVENT_PAYLOADS,
+  ...SAFETY_EVENT_PAYLOADS,
   ...ACCOUNT_EVENT_PAYLOADS,
 } as const satisfies Record<DomainEventType, z.ZodType>;
 

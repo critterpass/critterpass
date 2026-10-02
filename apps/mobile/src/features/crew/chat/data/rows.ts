@@ -5,6 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import type { MessageType, StoredAttachment } from '@cp/domain';
+import { memberName } from '@/ui/people/member-name';
 
 const UUID = /^[0-9a-f-]{36}$/iu;
 
@@ -107,7 +108,11 @@ export function fromRow(row: MessageRow): ChatMessage {
     seq: Number(row.seq),
     senderKind: row.sender_kind,
     senderId: row.sender_id,
-    senderName: row.sender_name,
+    // Someone whose account was erased keeps their messages' place under "Former member".
+    senderName:
+      row.sender_kind === 'user' && row.sender_id !== null
+        ? memberName(row.sender_name)
+        : row.sender_name,
     refName: row.ref_name,
     guideId: row.guide_id,
     type: row.type,

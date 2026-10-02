@@ -39,6 +39,7 @@ export function useDayOverlays(plan: TripPlan, day: DaySlot, items: readonly Day
     date: day.date === '' ? null : day.date,
     rain,
     guide: guideOf(plan.trip?.guide_slug ?? null),
+    currentVersionId: plan.trip?.current_version_id ?? null,
   });
   return { rain, ...suggestion };
 }

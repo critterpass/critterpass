@@ -11,12 +11,14 @@ import { SUPPLIER_EVENT_TYPES } from '../../src/suppliers/events';
 import { PLAN_EVENT_TYPES } from '../../src/plan/events';
 import { GUIDE_EVENT_TYPES } from '../../src/guide/events';
 import { TRIP_DAY_EVENT_TYPES } from '../../src/trip-day/events';
+import { DISRUPTION_EVENT_TYPES } from '../../src/disruptions/events';
 import { EXPLORE_EVENT_TYPES } from '../../src/explore/events';
 import { PROPOSAL_EVENT_TYPES } from '../../src/proposal/events';
 import { CRITTER_EVENT_TYPES } from '../../src/critters/events';
 import { QUEST_EVENT_TYPES } from '../../src/quests/events';
 import { LA_EVENT_TYPES } from '../../src/surfaces/la-events';
 import { YOU_EVENT_TYPES } from '../../src/you/events';
+import { SAFETY_EVENT_TYPES } from '../../src/safety/events';
 import { ACCOUNT_EVENT_TYPES } from '../../src/account/events';
 
 /**
@@ -125,6 +127,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   // The guide speaks in its own threads and in crew chat, never through the ticker.
   ...GUIDE_EVENT_TYPES,
   ...TRIP_DAY_EVENT_TYPES,
+  // Disruptions speak through their own screens, the crew chat card and pushes.
+  ...DISRUPTION_EVENT_TYPES,
   // Swiping is live on its own channel; a match reaches the crew as a plan suggestion.
   ...EXPLORE_EVENT_TYPES,
   // A proposal speaks through its story, tracker and pushes; RSVPs reach the ticker as
@@ -137,6 +141,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   ...LA_EVENT_TYPES,
   // Settings, icons and past trips concern one account only.
   ...YOU_EVENT_TYPES,
+  // Help and SOS speak through the takeover, the push and the session itself, never the ticker.
+  ...SAFETY_EVENT_TYPES,
   // Closing, restoring and purging an account are private to it; an organiser hand-over reaches
   // the crew as the trip's own rows.
   ...ACCOUNT_EVENT_TYPES,

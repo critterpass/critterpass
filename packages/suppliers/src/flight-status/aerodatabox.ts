@@ -1,13 +1,14 @@
 /**
  * AeroDataBox (flight status by number and local date; server-only): the schedule checks at T−24 h,
- * T−6 h and T−3 h, and the whole status source when AeroAPI is not configured. The key travels in
+ * T−6 h and T−3 h, the whole status source when AeroAPI is not configured, and the schedule of a
+ * flight number pasted on its own (one call over a range of local departure dates). The key travels in
  * the `X-RapidAPI-Key` header. Audited through the supplier client like every supplier call. Each
  * request is billed against a small monthly plan, so a failed read is never retried here: the
  * caller decides whether another call is worth spending.
  */
 import { z } from 'zod';
 
-import type { SupplierHttp } from '../core/http';
+import { SupplierHttpError, type SupplierHttp } from '../core/http';
 import type { FlightSnapshot } from './types';
 
 export const AERODATABOX_SUPPLIER = 'aerodatabox';
@@ -25,7 +26,10 @@ const time = z
   .nullable()
   .optional();
 const movement = z.object({
-  airport: z.object({ iata: z.string().nullable().optional() }).nullable().optional(),
+  airport: z
+    .object({ iata: z.string().nullable().optional(), timeZone: z.string().nullable().optional() })
+    .nullable()
+    .optional(),
   scheduledTime: time,
   revisedTime: time,
   predictedTime: time,
@@ -107,12 +111,21 @@ export function snapshotFromAdb(flight: AdbFlight): FlightSnapshot | null {
     status,
     delayMin,
     boardingAt: null,
+    depTz: flight.departure.airport?.timeZone ?? null,
+    arrTz: flight.arrival.airport?.timeZone ?? null,
   };
 }
 
 export interface AeroDataBoxClient {
   /** Flights with this number on a local departure date (`YYYY-MM-DD`). */
   flightsOn(carrier: string, number: string, localDate: string): Promise<FlightSnapshot[]>;
+  /** Flights with this number departing between two local dates (`YYYY-MM-DD`, at most 7 days). */
+  flightsDeparting(
+    carrier: string,
+    number: string,
+    fromDate: string,
+    toDate: string,
+  ): Promise<FlightSnapshot[]>;
 }
 
 export function createAeroDataBoxClient(
@@ -120,13 +133,12 @@ export function createAeroDataBoxClient(
   config: AeroDataBoxConfig,
 ): AeroDataBoxClient {
   const base = (config.baseUrl ?? DEFAULT_BASE_URL).replace(/\/$/u, '');
-  return {
-    async flightsOn(carrier, number, localDate) {
-      const url = `${base}/flights/number/${encodeURIComponent(`${carrier}${number}`)}/${localDate}?withAircraftImage=false&withLocation=false`;
-      const flights = await http.getJson(
+  const read = async (endpoint: string, url: string) => {
+    const flights = await http
+      .getJson(
         {
           supplier: AERODATABOX_SUPPLIER,
-          endpoint: 'flights_by_number',
+          endpoint,
           url,
           headers: {
             'X-RapidAPI-Key': config.apiKey,
@@ -136,10 +148,28 @@ export function createAeroDataBoxClient(
           retries: 0,
         },
         z.array(adbFlightSchema),
-      );
-      return flights
-        .map(snapshotFromAdb)
-        .filter((snapshot): snapshot is FlightSnapshot => snapshot !== null);
-    },
+      )
+      .catch((error: unknown) => {
+        // A number that flies on none of the dates answers 204 with no body.
+        if (error instanceof SupplierHttpError && error.status === 204) return [];
+        throw error;
+      });
+    return flights
+      .map(snapshotFromAdb)
+      .filter((snapshot): snapshot is FlightSnapshot => snapshot !== null);
+  };
+  const path = (carrier: string, number: string) =>
+    `${base}/flights/number/${encodeURIComponent(`${carrier}${number}`)}`;
+  return {
+    flightsOn: (carrier, number, localDate) =>
+      read(
+        'flights_by_number',
+        `${path(carrier, number)}/${localDate}?withAircraftImage=false&withLocation=false`,
+      ),
+    flightsDeparting: (carrier, number, fromDate, toDate) =>
+      read(
+        'flights_by_number_range',
+        `${path(carrier, number)}/${fromDate}/${toDate}?dateLocalRole=Departure&withAircraftImage=false&withLocation=false`,
+      ),
   };
 }

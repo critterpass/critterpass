@@ -28,6 +28,7 @@ import { TypeLinesScreen } from './TypeLinesScreen';
 import { useReceiptQueueDrain } from './receipt-queue';
 import { useReviewScene } from './use-review-scene';
 import { useScan } from './use-scan';
+import { WalletGuideProvider } from '@/features/bookings';
 
 export function ScanScreen() {
   const services = useMoneyServices();
@@ -111,55 +112,57 @@ export function ScanScreen() {
       : null;
   const pickerLine = scene.parsed?.lines.find((line) => line.line_id === picker) ?? null;
   return (
-    <>
-      <ScanView
-        scene={scene.build({
-          onCommit: () => void onCommit(),
-          onEven: () => void onEven(),
-          locale,
-        })}
-        autoSplit={autoSplit}
-        photo={
-          photoUri === null ? null : (
-            <Image
-              source={{ uri: photoUri }}
-              style={{ width: '100%', aspectRatio: 0.7 }}
-              resizeMode="contain"
-            />
-          )
-        }
-        lines={scene.sweepLines}
-        onAutoSplit={() => setAutoSplit((on) => !on)}
-        onClose={() => router.back()}
-        onScan={() => void scan.scan()}
-        onPick={() => void scan.pick()}
-        onType={() => router.replace(MONEY_ROUTES.add)}
-        onSettings={() => void Linking.openSettings()}
-      />
-      {picker === 'payer' ? (
-        <MemberPicker
-          title={t({ id: 'money.scan.whoPaid', message: 'Who paid?' })}
-          members={ctx.splitMembers}
-          selected={[scene.payerId]}
-          onDone={(next) => {
-            const id = next?.[0];
-            if (id !== undefined) scene.setPayer(id);
-            setPicker(null);
-          }}
-          onClose={() => setPicker(null)}
+    <WalletGuideProvider tripId={ctx.trip?.id ?? null}>
+      <>
+        <ScanView
+          scene={scene.build({
+            onCommit: () => void onCommit(),
+            onEven: () => void onEven(),
+            locale,
+          })}
+          autoSplit={autoSplit}
+          photo={
+            photoUri === null ? null : (
+              <Image
+                source={{ uri: photoUri }}
+                style={{ width: '100%', aspectRatio: 0.7 }}
+                resizeMode="contain"
+              />
+            )
+          }
+          lines={scene.sweepLines}
+          onAutoSplit={() => setAutoSplit((on) => !on)}
+          onClose={() => router.back()}
+          onScan={() => void scan.scan()}
+          onPick={() => void scan.pick()}
+          onType={() => router.replace(MONEY_ROUTES.add)}
+          onSettings={() => void Linking.openSettings()}
         />
-      ) : pickerLine !== null ? (
-        <MemberPicker
-          title={pickerLine.label}
-          members={ctx.splitMembers}
-          selected={scene.assignments[pickerLine.line_id] ?? null}
-          onDone={(next) => {
-            scene.assign(pickerLine.line_id, next);
-            setPicker(null);
-          }}
-          onClose={() => setPicker(null)}
-        />
-      ) : null}
-    </>
+        {picker === 'payer' ? (
+          <MemberPicker
+            title={t({ id: 'money.scan.whoPaid', message: 'Who paid?' })}
+            members={ctx.splitMembers}
+            selected={[scene.payerId]}
+            onDone={(next) => {
+              const id = next?.[0];
+              if (id !== undefined) scene.setPayer(id);
+              setPicker(null);
+            }}
+            onClose={() => setPicker(null)}
+          />
+        ) : pickerLine !== null ? (
+          <MemberPicker
+            title={pickerLine.label}
+            members={ctx.splitMembers}
+            selected={scene.assignments[pickerLine.line_id] ?? null}
+            onDone={(next) => {
+              scene.assign(pickerLine.line_id, next);
+              setPicker(null);
+            }}
+            onClose={() => setPicker(null)}
+          />
+        ) : null}
+      </>
+    </WalletGuideProvider>
   );
 }

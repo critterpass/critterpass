@@ -100,6 +100,7 @@ export function GuideSheetView(props: GuideSheetViewProps) {
             {...(props.onMic === undefined
               ? {}
               : { onMicTap: props.onMic, onHoldStart: props.onMic })}
+            onRaised
             testID="guide-composer"
           />
         )}

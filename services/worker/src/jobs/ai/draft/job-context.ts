@@ -3,15 +3,26 @@
  * resumed step on another worker plans from the same facts), the job's model, the live step rows
  * on the drafting screen, and giving the trip back to setup when the draft finally fails.
  */
-import type { DraftModel, DraftPlanInput, UsageContext } from '@cp/ai';
+import {
+  withWishAnswers,
+  type DraftModel,
+  type DraftPlanInput,
+  type SkeletonPlan,
+  type UsageContext,
+} from '@cp/ai';
 import { emitEvent, withSystem } from '@cp/db';
 import type { DraftStepId, DraftStepLabel } from '@cp/domain';
+import { destinationPhrases, resolveWishes } from '@cp/planner';
 import type pg from 'pg';
+import { z } from 'zod';
 
 import type { AgentStepContext } from '../../../ai/job-runner';
-import { loadDraftPlaces, loadDraftTrip, type DraftTripData } from './load';
+
+import { loadDraftTrip, type DraftTripData } from './load';
+import { loadDraftPlaces, loadWishCandidates } from './load-places';
 import { buildPlanInput } from './plan-input';
 import type { PrefetchResult } from './prefetch';
+import { savedWishAnswers } from './redraft-store';
 import { skeletonRoute } from './skeleton';
 import { publishDone, publishStep } from './steps';
 
@@ -22,6 +33,9 @@ export interface Loaded {
   readonly input: DraftPlanInput;
 }
 
+/** A redraft job's input names the version it redrafts. */
+const redraftBaseSchema = z.object({ base_version: z.uuid() });
+
 export async function load(
   ctx: AgentStepContext,
   closures: PrefetchResult['closures'] = [],
@@ -30,17 +44,42 @@ export async function load(
   if (tripId === null || userId === null) throw new Error('draft job without a trip or organiser');
   const trip = await loadDraftTrip(ctx.pool, tripId, userId);
   if (trip === null) throw new Error('trip_not_ready');
-  const places = await loadDraftPlaces(
-    ctx.pool,
-    trip.destinationId,
-    trip.mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
+  // Hand-typed must-dos are matched to places first, so the place a wish names is always on the
+  // guide's list. The match is for this draft only; the must-do row keeps its text.
+  const ignoreNames = destinationPhrases(trip.destination);
+  const wishes = trip.mustDos.filter((m) => m.poiId === null);
+  const wished = resolveWishes(
+    wishes.map((m) => ({ id: m.id, text: m.title })),
+    wishes.length === 0
+      ? []
+      : await loadWishCandidates(
+          ctx.pool,
+          trip.destinationId,
+          wishes.map((m) => m.title),
+          ignoreNames,
+        ),
+    ignoreNames,
   );
-  const input = buildPlanInput(trip, places, {
+  const places = await loadDraftPlaces(ctx.pool, trip.destinationId, [
+    ...trip.mustDos.flatMap((m) => (m.poiId === null ? [] : [m.poiId])),
+    ...wished.places.values(),
+    ...wished.offered,
+  ]);
+  const asked = buildPlanInput(trip, places, {
     jobId: ctx.agentJob.id,
     skeletonRoute: await skeletonRoute(ctx.pool),
     closures,
+    wished,
+    ignoreNames,
   });
-  return { trip, input };
+  // Once the outline has run, every later step plans with the guide's answers to the wishes. A
+  // redraft has no outline of its own: it plans with the answers saved with the version it redoes.
+  const outline = (ctx.results.skeleton as { skeleton?: SkeletonPlan } | undefined)?.skeleton;
+  const base = redraftBaseSchema.safeParse(ctx.input);
+  const answers =
+    outline?.wishAnswers ??
+    (base.success ? await savedWishAnswers(ctx.pool, tripId, base.data.base_version) : []);
+  return { trip, input: withWishAnswers(asked, answers) };
 }
 
 export function modelFor(

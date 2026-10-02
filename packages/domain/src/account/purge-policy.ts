@@ -98,7 +98,12 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.share_calcs', ['user_id', del]),
   ...rules('public.participant_dietary_flags', ['user_id', del]),
   ...rules('public.crew_contact_cards', ['user_id', del]),
+  // Help and SOS: the user's incidents go with their sealed notes and thread (both cascade), ahead
+  // of the location share an incident points at; so do their words in other people's incidents.
+  ...rules('public.help_session_messages', ['sender_id', del]),
+  ...rules('public.help_sessions', ['user_id', del], ['resolved_by', nul]),
   ...rules('public.member_etas', ['user_id', del]),
+  ...rules('public.journey_checks', ['user_id', del]),
   ...rules('public.location_shares', ['user_id', del]),
   ...rules('public.invite_opens', ['inviter_id', del]),
   ...rules('public.affiliate_clicks', ['user_id', del]),
@@ -132,6 +137,8 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.engagement_events', ['user_id', del]),
   ...rules('public.device_activities', ['user_id', del]),
   ...rules('public.la_push_to_start_tokens', ['user_id', del]),
+  ...rules('public.widget_push_tokens', ['user_id', del]),
+  ...rules('public.installed_widgets', ['user_id', del]),
   // Server-only rows: the object store purge works from them and removes each as its object goes.
   ...rules('public.media_objects', ['owner_id', keep('the stored objects still to erase')]),
   ...rules('public.devices', ['user_id', del]),
@@ -169,6 +176,7 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.trip_share_totals', ['user_id', keep(MONEY)]),
   ...rules('public.ballots', ['user_id', keep('vote tallies')]),
   ...rules('public.polls', ['created_by', keep(CREW)]),
+  ...rules('public.disruptions', ['chosen_by', keep(CREW)]),
   ...rules('public.poll_options', ['proposed_by', keep(CREW)]),
   ...rules('public.pitches', ['pitched_by', keep(CREW)]),
   ...rules('public.comments', ['author_id', keep(CREW)]),

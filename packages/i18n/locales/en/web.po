@@ -364,6 +364,10 @@ msgid "web.comingSoon.features.askReply"
 msgstr "Cooking class at 2pm. Beach moves to Friday."
 
 #: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copiedCode"
+msgstr "Copied"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copied"
 msgstr "Copied"
 
@@ -374,6 +378,10 @@ msgstr "Copied"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.joined.copied"
 msgstr "COPIED ✓"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.copyCode"
+msgstr "Copy"
 
 #: ../../apps/web/src/components/site/copy/invite.ts
 msgid "web.referral.copy"
@@ -426,6 +434,14 @@ msgstr "CritterPass is a group trip planner coming soon to iOS and Android. The 
 #: ../../apps/web/src/components/site/copy/home.ts
 msgid "web.home.pageDescription"
 msgstr "CritterPass is a group trip planner for iPhone and Android. Swipe, vote, plan and split with your crew, guided by a local who happens to be an animal."
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTesting"
+msgstr "CritterPass is in testing. Ask {inviter} for the TestFlight invite, then join with this code:"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.inTestingNoName"
+msgstr "CritterPass is in testing. Ask whoever invited you for the TestFlight invite, then join with this code:"
 
 #: ../../apps/web/src/components/site/copy/tips.ts
 msgid "web.tips.rssTitle"
@@ -626,6 +642,10 @@ msgstr "GATE ✦ ANYWHERE"
 #: ../../apps/web/src/components/site/copy/coming-soon.ts
 msgid "web.comingSoon.pass.gateOpensIn"
 msgstr "GATE OPENS IN"
+
+#: ../../apps/web/src/components/site/copy/invite.ts
+msgid "web.invite.testFlight"
+msgstr "Get CritterPass on TestFlight"
 
 #: ../../apps/web/src/components/site/copy/shell.ts
 msgid "web.shell.googlePlayBadge"

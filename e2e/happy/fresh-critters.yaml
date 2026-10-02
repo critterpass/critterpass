@@ -49,6 +49,12 @@ appId: app.critterpass.dev
     timeout: 780000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-08-pass-egg
+# Arriving hatches the egg through the phone's own position, and the app reads positions only
+# inside the trip-day window (05:00 to midnight where the trip is). Before 05:00 in Vietnam a trip
+# that starts today cannot hatch by arriving, so the run says so here instead of waiting it out.
+- assertTrue:
+    condition: ${new Date(Date.now() + 7 * 3600000).getUTCHours() >= 5}
+    label: 'before 05:00 in Vietnam the app reads no position, so arriving cannot hatch the egg'
 # Arriving: the phone is at Đà Nẵng airport. A traveller who allowed location expects the egg to
 # hatch without touching anything: the ceremony opens by itself on a tab.
 - setLocation:
@@ -74,6 +80,16 @@ appId: app.critterpass.dev
       id: 'critters-hatch'
     timeout: 120000
     optional: true
+# When the ceremony opened by itself, let it play to the reveal: mid-pop the stage is empty.
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch'
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-hatched'
+          timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-10-after-arriving
 # If arriving did not hatch it, the traveller's own way: HATCH IT (it needs the trip under way).
@@ -93,6 +109,20 @@ appId: app.critterpass.dev
           commands:
             - tapOn:
                 id: 'critters-egg-hatch'
+      - runFlow:
+          when:
+            visible:
+              id: 'critters-egg-meet'
+          commands:
+            - tapOn:
+                id: 'critters-egg-meet'
+      # What HATCH IT led to, a few seconds on (the ceremony, its loading page, or neither).
+      - extendedWaitUntil:
+          visible:
+            id: 'critters-hatch'
+          timeout: 8000
+          optional: true
+      - takeScreenshot: fresh-critters-10b-after-hatch-it
       - runFlow:
           when:
             visible:
@@ -173,8 +203,10 @@ appId: app.critterpass.dev
           visible:
             id: 'critters-encounter-scene'
           timeout: 20000
-      - waitForAnimationToEnd
+      - waitForAnimationToEnd:
+          timeout: 4000
       - takeScreenshot: fresh-critters-15-encounter
+      - runFlow: ../onboarding/subflows/back.yaml
 # The trip's quests: Home → the trip → QUESTS.
 - runFlow:
     file: ../screens/sweep/subflows/open-link.yaml
@@ -199,18 +231,19 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'home-in-trip'
 - waitForAnimationToEnd
-# The Home card's tap has not always opened the trip; the TRIPS tab is the other way there.
+# The Home card's tap has not always opened the trip; the TRIPS tab is the other way there. The
+# hub is found by its header (the screen's own root id is not in Android's tree).
 - runFlow:
     when:
       notVisible:
-        id: 'trip-hub'
+        id: 'trip-hub-header-.*'
     commands:
       - takeScreenshot: fresh-critters-15c-home-tap-did-nothing
       - tapOn:
           id: 'tab-trips'
 - extendedWaitUntil:
     visible:
-      id: 'trip-hub'
+      id: 'trip-hub-header-.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-16-trip-hub
@@ -221,11 +254,52 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-17-trip-hub-tiles
+# Once the hub has rested, the visit offer rises over it (a tap under the sheet only closes it):
+# a traveller who wants visit quests turns it on first.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - takeScreenshot: fresh-critters-17b-visit-offer
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-quests'
+    direction: DOWN
+    timeout: 30000
 - tapOn:
     id: 'trip-hub-tile-quests'
+- waitForAnimationToEnd
+# The offer can still rise in the moment before the tap: then turn it on and open the quests again.
+- runFlow:
+    when:
+      notVisible:
+        id: 'quests-list|quests-empty-.*|quests-loading'
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'visit-consent-accept'
+          commands:
+            - tapOn:
+                id: 'visit-consent-accept'
+            - waitForAnimationToEnd
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-quests'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'trip-hub-tile-quests'
+          optional: true
+# The screen's root id is not in Android's tree; its content is.
 - extendedWaitUntil:
     visible:
-      id: 'quests-screen'
+      id: 'quests-list|quests-empty-.*|quests-loading'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-18-quests
