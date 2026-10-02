@@ -6,8 +6,8 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and wire values, never copy. */
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { isGuideStickerId, type GuideStickerId as GuideId } from '@/ui/avatar/guides';
+import { memberFirstName } from '@/ui/people/member-name';
 
-import { firstName } from './format';
 import { useLiveRows } from './rows';
 
 export type RsvpStatus = 'unopened' | 'opened' | 'maybe' | 'in' | 'out' | 'waitlisted';
@@ -91,7 +91,7 @@ export function toPerson(row: PersonRow, joinIndex: number): CrewPerson {
   const fullName = row.display_name?.trim() ?? '';
   return {
     uid: row.user_id,
-    name: firstName(fullName),
+    name: memberFirstName(fullName),
     fullName,
     joinIndex,
     organiser: row.role === 'organiser',

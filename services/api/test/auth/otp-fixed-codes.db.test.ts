@@ -12,12 +12,14 @@ import {
   type StartedRedisContainer,
 } from '@cp/db/testing';
 import { runMigrations } from '@cp/db';
+import { Hono } from 'hono';
 import pg from 'pg';
 import { createClient, type RedisClientType } from 'redis';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { createAuthModule, type AuthModule } from '../../src/auth';
 import { fixedCodeNumbersFromEnv, type FixedCodeEnv } from '../../src/auth/otp/fixed-codes';
+import { registerReturningPhoneSignInRoute } from '../../src/routes/auth-extra';
 import { disabledAttestationConfig } from './test-attestation-config';
 
 const TEST_NUMBER = '+6591234567';
@@ -180,6 +182,43 @@ describe('fixed-code phone numbers', { timeout: 60_000 }, () => {
     expect((await sendAndVerify(authModule, review, '135790')).verify.status).toBe(200);
     const taken = await sendAndVerify(authModule, review, '135790');
     expect(taken.verify.status).toBe(409);
+  });
+
+  it('signs a returning test number in to the pass that saved it, and leaves the number there', async () => {
+    authModule = buildModule(STAGING);
+    const module = authModule;
+    const app = new Hono<{ Variables: object }>();
+    registerReturningPhoneSignInRoute(app, {
+      auth: module.auth,
+      redis,
+      secret: 'test-secret-at-least-32-characters-long',
+    });
+    app.on(['GET', 'POST'], '/api/auth/*', (c) => module.handler(c.req.raw));
+    const saved = await sendAndVerify(module, TEST_NUMBER, '246810');
+    expect(saved.verify.status).toBe(200);
+    // Signed out: a new anonymous pass, then "I already have a pass" with the same number.
+    const fresh = await anonymous(module);
+    expect(
+      (await post(module, '/phone-number/send-otp', { phoneNumber: TEST_NUMBER }, fresh.cookie))
+        .status,
+    ).toBe(200);
+
+    const response = await app.request('http://localhost:8787/api/auth/sign-in/phone-number', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', cookie: fresh.cookie },
+      body: JSON.stringify({ phoneNumber: TEST_NUMBER, code: '246810' }),
+    });
+
+    expect(response.status).toBe(200);
+    expect(((await response.json()) as { user: { id: string } }).user.id).toBe(saved.uid);
+    const { rows } = await pool.query<{ id: string; phone: string | null }>(
+      'SELECT id::text AS id, phone_number AS phone FROM auth."user" WHERE id::text = ANY ($1::text[])',
+      [[saved.uid, fresh.uid]],
+    );
+    expect(Object.fromEntries(rows.map((row) => [row.id, row.phone]))).toEqual({
+      [saved.uid]: TEST_NUMBER,
+      [fresh.uid]: null,
+    });
   });
 
   it('delivers a random code to every other number', async () => {

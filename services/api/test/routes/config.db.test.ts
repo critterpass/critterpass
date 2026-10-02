@@ -99,14 +99,17 @@ describe('GET /v1/config/bootstrap', () => {
 
     expect(answered.status).toBe(200);
     expect(answered.headers.get('cache-control')).toBe('private, no-store');
-    expect(await answered.json()).toEqual({ flags: { ...DEFAULTS, 'money.receipts': true } });
+    expect(await answered.json()).toEqual({
+      flags: { ...DEFAULTS, 'money.receipts': true },
+      source: 'evaluated',
+    });
     // Definitions only: nothing about the caller is sent to PostHog.
     expect(urls.length).toBeGreaterThan(0);
     expect(urls.every((url) => url.includes('/flags/definitions'))).toBe(true);
     expect(urls.some((url) => url.includes(session.uid))).toBe(false);
   });
 
-  it('answers the catalog defaults with a 200 when PostHog is failing', async () => {
+  it('answers the catalog defaults with a 200, named as defaults, when PostHog is failing', async () => {
     const session = await harness.signInAnonymously();
     const down = bootstrapWith(() => Promise.reject(new Error('ECONNREFUSED')), {
       pidSalt: PID_SALT,
@@ -120,7 +123,7 @@ describe('GET /v1/config/bootstrap', () => {
     for (const bootstrap of [down, erroring]) {
       const answered = await bootstrap(session.cookie);
       expect(answered.status).toBe(200);
-      expect(await answered.json()).toEqual({ flags: DEFAULTS });
+      expect(await answered.json()).toEqual({ flags: DEFAULTS, source: 'defaults' });
     }
   });
 
@@ -131,7 +134,7 @@ describe('GET /v1/config/bootstrap', () => {
     const answered = await bootstrap(session.cookie);
 
     expect(answered.status).toBe(200);
-    expect(await answered.json()).toEqual({ flags: DEFAULTS });
+    expect(await answered.json()).toEqual({ flags: DEFAULTS, source: 'defaults' });
   });
 
   it('refuses a request without a session', async () => {

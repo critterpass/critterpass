@@ -1,0 +1,391 @@
+appId: app.critterpass.dev
+---
+# One ADD is one expense, and the scanner leaves no keypad behind. A brand-new traveller with a
+# trip on today and no demo world (the steps of ../happy/subflows/trip-under-way.yaml, with the
+# week sheet's day picked by its id) opens Money, taps ADD, types ₫135,000 and taps ADD: the keypad
+# is gone, Money shows the one expense in LATEST and ₫135,000 spent, and the history lists exactly
+# one row. Then SCAN opens the scanner (receipts are on): its ✕ goes back to Money, and "Type it in
+# instead" swaps to the keypad, whose way back is Money too. Nothing was added on the way.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      HOME_IATA: SGN
+      HOME_QUERY: 'Ho Chi'
+- runFlow:
+    file: ../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'Da Nang crew'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-done'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- extendedWaitUntil:
+    visible:
+      id: 'home-no-trip'
+    timeout: 30000
+- tapOn:
+    id: 'home-pitch'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-search'
+    timeout: 15000
+- tapOn:
+    id: 'pitch-search'
+- inputText: 'da nang'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-result-0'
+    timeout: 20000
+- tapOn:
+    id: 'pitch-result-0'
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'pitch-add'
+- waitForAnimationToEnd
+# The sheet usually closes onto Home by itself; back out only if it is still open.
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-add'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'destination-board'
+    timeout: 30000
+# One place on the board: the organiser locks it in, and it wins.
+- scrollUntilVisible:
+    element:
+      id: 'board-lock-in'
+    timeout: 30000
+    centerElement: true
+- waitForAnimationToEnd
+- tapOn:
+    id: 'board-lock-in'
+- extendedWaitUntil:
+    visible:
+      id: 'reveal-set-up'
+    timeout: 60000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'reveal-set-up'
+- extendedWaitUntil:
+    visible:
+      id: 'setup-step-when'
+    timeout: 20000
+# The dates: today in Vietnam as the first day, three days long, picked in the week sheet by the
+# day's own id; the lock's label is checked before it is tapped.
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickDate = d.toISOString().slice(0, 10)}
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-shorter'
+    timeout: 10000
+- waitForAnimationToEnd
+# The sheet opens on the suggested week's month, and the dates step under it has a month title and
+# arrows of its own: page the sheet's own month (inside `week-picker-panel`) to the day's, then tap
+# the day's cell by its id.
+- evalScript: ${var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.pickWeekMonth = '(?i)' + months[Number(output.pickDate.slice(5, 7)) - 1] + ' ' + output.pickDate.slice(0, 4); output.pickWeekCell = 'heat-pick-' + output.pickDate}
+- repeat:
+    while:
+      notVisible:
+        text: ${output.pickWeekMonth}
+        childOf:
+          id: 'week-picker-panel'
+    times: 6
+    commands:
+      - tapOn:
+          id: 'heatmap-prev'
+          childOf:
+            id: 'week-picker-panel'
+      - waitForAnimationToEnd
+- repeat:
+    while:
+      notVisible:
+        text: ${output.pickWeekMonth}
+        childOf:
+          id: 'week-picker-panel'
+    times: 12
+    commands:
+      - tapOn:
+          id: 'heatmap-next'
+          childOf:
+            id: 'week-picker-panel'
+      - waitForAnimationToEnd
+- assertVisible:
+    text: ${output.pickWeekMonth}
+    childOf:
+      id: 'week-picker-panel'
+- tapOn:
+    id: ${output.pickWeekCell}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- repeat:
+    while:
+      notVisible: '3 days'
+    times: 30
+    commands:
+      - tapOn:
+          id: 'picker-shorter'
+- assertVisible: '3 days'
+- assertVisible:
+    id: 'picker-lock'
+    text: ${output.lockLabel}
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-dates-today
+- tapOn:
+    id: 'picker-lock'
+# The budget, in đồng, locked as the guide suggests it.
+- extendedWaitUntil:
+    visible:
+      id: 'budget-track'
+    timeout: 45000
+- extendedWaitUntil:
+    visible:
+      id: 'budget-bars|budget-bars-missing'
+    timeout: 30000
+- assertVisible:
+    id: 'budget-track'
+    text: '.*₫.*'
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-budget
+- tapOn:
+    id: 'budget-lock'
+# Rooms: LOOKS GOOD accepts the rooms as offered (one room for a crew of one, split evenly).
+- extendedWaitUntil:
+    visible:
+      id: 'setup-rooms-lock'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-rooms
+- scrollUntilVisible:
+    element:
+      id: 'setup-rooms-lock'
+    timeout: 10000
+- tapOn:
+    id: 'setup-rooms-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'must-dos-add'
+    timeout: 30000
+- tapOn:
+    id: 'must-dos-add'
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-field'
+    timeout: 10000
+- tapOn:
+    id: 'add-must-do-field'
+- inputText: 'Mi Quang for breakfast'
+# Kept as typed, once the place search has answered (places, or none) and the row stops moving.
+- extendedWaitUntil:
+    visible:
+      id: 'add-must-do-place-.*|add-must-do-none'
+    timeout: 20000
+    optional: true
+- tapOn:
+    id: 'add-must-do-keep'
+- extendedWaitUntil:
+    visible:
+      text: '(?i)mi quang for breakfast.*'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'must-dos-draft'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-must-dos
+- tapOn:
+    id: 'must-dos-draft'
+- extendedWaitUntil:
+    visible:
+      id: 'drafting-screen'
+    timeout: 30000
+# The draft job (outline, every day, checks) takes a few minutes on staging.
+- extendedWaitUntil:
+    visible:
+      id: 'draft-review'
+    timeout: 600000
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-draft-review
+- scrollUntilVisible:
+    element:
+      id: 'draft-propose'
+    timeout: 15000
+- tapOn:
+    id: 'draft-propose'
+# Nobody to pitch it to: lock it in alone.
+- extendedWaitUntil:
+    visible:
+      id: 'build-lock-alone'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-lock-alone
+- tapOn:
+    id: 'build-lock-alone'
+- extendedWaitUntil:
+    notVisible:
+      id: 'build-lock-alone'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 60000
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- extendedWaitUntil:
+    visible:
+      text: 'VND'
+      id: 'money-currency-chip'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-empty
+# ₫135,000 on the keypad, and one tap on ADD.
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add-keypad'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'money-add-keypad-key-1'
+- tapOn:
+    id: 'money-add-keypad-key-3'
+- tapOn:
+    id: 'money-add-keypad-key-5'
+- tapOn:
+    id: 'money-add-keypad-key-000'
+- assertVisible: '.*135,000.*'
+- takeScreenshot: money-add-once-keypad
+- tapOn:
+    id: 'money-add-submit'
+# ADD leaves the keypad for Money: there is nothing left to tap a second time.
+- extendedWaitUntil:
+    notVisible:
+      id: 'money-add'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 15000
+- extendedWaitUntil:
+    visible: '(?i).*₫ ?135,000 spent.*'
+    timeout: 90000
+- scrollUntilVisible:
+    element:
+      id: 'money-latest-row'
+    direction: DOWN
+    timeout: 30000
+- assertNotVisible: '.*\$.*'
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-added
+# The history lists the one expense, once (asserted, not shot: a one-row history is mostly bare).
+- tapOn:
+    id: 'money-history-link'
+- extendedWaitUntil:
+    visible:
+      id: 'money-history'
+    timeout: 15000
+- assertVisible:
+    id: 'money-history-row-.*'
+    index: 0
+- assertNotVisible:
+    id: 'money-history-row-.*'
+    index: 1
+- assertVisible: '.*135,000.*'
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 15000
+# SCAN opens the scanner; its ✕ goes back to Money, with no keypad on the way.
+- scrollUntilVisible:
+    element: 'SCAN'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn: 'SCAN'
+- extendedWaitUntil:
+    visible:
+      id: 'money-scan-aim'
+    timeout: 30000
+- assertNotVisible:
+    id: 'money-add-keypad'
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-scanner
+- tapOn:
+    id: 'money-scan-close'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 15000
+- assertNotVisible:
+    id: 'money-add'
+# "Type it in instead" swaps the scanner for the keypad; one step back from it is Money.
+- scrollUntilVisible:
+    element: 'SCAN'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd
+- tapOn: 'SCAN'
+- extendedWaitUntil:
+    visible:
+      id: 'money-scan-type'
+    timeout: 30000
+- tapOn:
+    id: 'money-scan-type'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-type-instead
+- tapOn:
+    id: 'back-eyebrow'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 15000
+- assertNotVisible:
+    id: 'money-add'
+- assertNotVisible:
+    id: 'money-scan'
+# Still the one expense.
+- assertVisible: '(?i).*₫ ?135,000 spent.*'
+- waitForAnimationToEnd
+- takeScreenshot: money-add-once-after-scan

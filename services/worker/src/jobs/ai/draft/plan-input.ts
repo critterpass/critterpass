@@ -10,6 +10,7 @@ import {
   candidatePools,
   datesOf,
   straightLineMatrix,
+  timeWords,
   type Chronotype,
   type DraftPoi,
   type ResolvedWishes,
@@ -81,6 +82,10 @@ export function buildPlanInput(
       ownerId: m.ownerId,
       poiId: m.poiId ?? options.wished?.places.get(m.id) ?? null,
       title: m.title,
+      // The member's own words for when ("at sunrise"), read only from a must-do they typed: a
+      // place picked from search has its name as its title ("Morning Glory"), which says nothing
+      // about when. The guide may add a time for a typed one.
+      when: m.poiId === null ? timeWords(m.title) : null,
     })),
     closures: options.closures,
   };
@@ -101,7 +106,9 @@ export function buildPlanInput(
     travel: straightLineMatrix(pois),
     stayType: trip.rooms?.stays[0]?.stayType ?? null,
     names: Object.fromEntries(trip.members.map((m) => [m.uid, m.name])),
-    wishes: trip.mustDos.filter((m) => m.poiId === null).map((m) => ({ id: m.id, text: m.title })),
+    wishes: trip.mustDos
+      .filter((m) => m.poiId === null)
+      .map((m) => ({ id: m.id, text: m.title, options: options.wished?.options.get(m.id) ?? [] })),
     idFor: (key) => derivedUuid(`${options.jobId}:${key}`),
     skeletonRoute: options.skeletonRoute,
   };

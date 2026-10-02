@@ -10,7 +10,7 @@ import {
   type StartedPostgreSqlContainer,
   type StartedRedisContainer,
 } from '@cp/db/testing';
-import { runMigrations } from '@cp/db';
+import { runMigrations, withSystem } from '@cp/db';
 import { Hono } from 'hono';
 import pg from 'pg';
 import { createClient, type RedisClientType } from 'redis';
@@ -119,6 +119,44 @@ async function sendReturningOtp(phoneNumber: string): Promise<string> {
   return code;
 }
 
+async function anonymousSession(): Promise<{ cookie: string; uid: string }> {
+  const signIn = await authRequest('/api/auth/sign-in/anonymous', { method: 'POST', body: '{}' });
+  const cookie = /better-auth\.session_token=[^;]+/.exec(
+    signIn.headers.get('set-cookie') ?? '',
+  )?.[0];
+  const { user } = (await signIn.json()) as { user: { id: string } };
+  if (!cookie) throw new Error('no anonymous session cookie');
+  return { cookie, uid: user.id };
+}
+
+/**
+ * "I already have a pass" on a phone whose app has made a new anonymous pass after sign-out, from
+ * its own address and number range (the lockout case below trips the shared ones).
+ */
+async function returningFrom(cookie: string, phoneNumber: string, ip: string): Promise<Response> {
+  capturedCodes.delete(phoneNumber);
+  const sent = await authRequest('/api/auth/phone-number/send-otp', {
+    method: 'POST',
+    headers: { cookie, 'x-real-ip': ip },
+    body: JSON.stringify({ phoneNumber }),
+  });
+  const code = capturedCodes.get(phoneNumber);
+  if (!code) throw new Error(`no code sent to ${phoneNumber}: ${sent.status}`);
+  return authRequest('/api/auth/sign-in/phone-number', {
+    method: 'POST',
+    headers: { cookie, 'x-real-ip': ip },
+    body: JSON.stringify({ phoneNumber, code }),
+  });
+}
+
+async function phonesOf(uids: string[]): Promise<Record<string, string | null>> {
+  const { rows } = await pool.query<{ id: string; phone: string | null }>(
+    'SELECT id::text AS id, phone_number AS phone FROM auth."user" WHERE id::text = ANY ($1::text[])',
+    [uids],
+  );
+  return Object.fromEntries(rows.map((row) => [row.id, row.phone]));
+}
+
 describe('returning sign-in: phone', () => {
   it('lands a fresh install (no anonymous session) directly on the existing uid', async () => {
     const uid = await registerExistingUser(PHONE);
@@ -185,5 +223,144 @@ describe('returning sign-in: phone', () => {
     };
     expect(body.error.code).toBe('RATE_LIMITED');
     expect(body.error.detail.retry_after_s).toBeGreaterThan(0);
+  });
+});
+
+describe('returning sign-in after signing out', () => {
+  it('brings back the pass saved with the phone, with its crew, and moves the number nowhere', async () => {
+    const phone = '+6581230101';
+    const saved = await registerExistingUser(phone);
+    const crewId = await withSystem(pool, async (tx) => {
+      const crew = await tx.query<{ id: string }>(
+        `INSERT INTO crews (name, created_by) VALUES ('CP Test Sign-out', $1) RETURNING id`,
+        [saved],
+      );
+      await tx.query(
+        `INSERT INTO crew_members (crew_id, user_id, role, status, joined_epoch)
+         VALUES ($1, $2, 'organiser', 'active', 0)`,
+        [crew.rows[0]!.id, saved],
+      );
+      return crew.rows[0]!.id;
+    });
+    // Signed out: the app starts again on a new anonymous pass, then "I already have a pass".
+    const fresh = await anonymousSession();
+
+    const response = await returningFrom(fresh.cookie, phone, '203.0.113.101');
+
+    expect(response.status).toBe(200);
+    const body = (await response.json()) as { user: { id: string }; linked?: boolean };
+    expect(body).toEqual({ token: expect.any(String) as string, user: { id: saved } });
+    const cookie = /better-auth\.session_token=[^;]+/.exec(
+      response.headers.get('set-cookie') ?? '',
+    )?.[0];
+    const session = await authRequest('/api/auth/get-session', {
+      headers: { cookie: cookie ?? '' },
+    });
+    expect(((await session.json()) as { user: { id: string } }).user.id).toBe(saved);
+    const { rows } = await pool.query<{ user_id: string }>(
+      `SELECT user_id::text FROM crew_members WHERE crew_id = $1 AND status = 'active'`,
+      [crewId],
+    );
+    expect(rows).toEqual([{ user_id: saved }]);
+    expect(await phonesOf([saved, fresh.uid])).toEqual({ [saved]: phone, [fresh.uid]: null });
+  });
+
+  it('saves a number nobody holds to the pass the phone is on, which goes on to be made', async () => {
+    const phone = '+6581230102';
+    const fresh = await anonymousSession();
+
+    const response = await returningFrom(fresh.cookie, phone, '203.0.113.102');
+
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ linked: true, user: { id: fresh.uid } });
+    expect(response.headers.get('set-cookie')).toBeNull();
+    expect(await phonesOf([fresh.uid])).toEqual({ [fresh.uid]: phone });
+  });
+});
+
+describe('returning sign-in on an https deployment', () => {
+  it('hands back the session under the cookie name the server reads', async () => {
+    const secure = createAuthModule({
+      appPool: pool,
+      authDatabaseUrl: postgres.getConnectionUri(),
+      redis,
+      secret: SECRET,
+      baseUrl: 'https://api.example.test/api/auth',
+      trustedOrigins: ['app.critterpass://'],
+      otpAdapters: { whatsapp: fakeWhatsAppAdapter() },
+      rateLimit: {
+        customRules: {
+          '/sign-in/*': { window: 1, max: 1000 },
+          '/phone-number/*': { window: 1, max: 1000 },
+        },
+      },
+      attestation: disabledAttestationConfig(),
+    });
+    try {
+      const secureApp = new Hono<{ Variables: object }>();
+      registerReturningPhoneSignInRoute(secureApp, { auth: secure.auth, redis, secret: SECRET });
+      secureApp.on(['GET', 'POST'], '/api/auth/*', (c) => secure.handler(c.req.raw));
+      const call = (path: string, init: RequestInit = {}) =>
+        secureApp.request(`https://api.example.test${path}`, {
+          ...init,
+          headers: {
+            'content-type': 'application/json',
+            'x-real-ip': '203.0.113.103',
+            ...init.headers,
+          },
+        });
+      const phone = '+6581230103';
+      // A pass saved with the phone, then a new anonymous pass on the same phone (signed out).
+      const sessionOf = async () => {
+        const signIn = await call('/api/auth/sign-in/anonymous', { method: 'POST', body: '{}' });
+        const cookie = /__Secure-better-auth\.session_token=[^;]+/.exec(
+          signIn.headers.get('set-cookie') ?? '',
+        )?.[0];
+        const { user } = (await signIn.json()) as { user: { id: string } };
+        if (!cookie) throw new Error('no secure session cookie');
+        return { cookie, uid: user.id };
+      };
+      const saved = await sessionOf();
+      await call('/api/auth/phone-number/send-otp', {
+        method: 'POST',
+        headers: { cookie: saved.cookie },
+        body: JSON.stringify({ phoneNumber: phone }),
+      });
+      const save = await call('/api/auth/phone-number/verify', {
+        method: 'POST',
+        headers: { cookie: saved.cookie },
+        body: JSON.stringify({
+          phoneNumber: phone,
+          code: capturedCodes.get(phone),
+          updatePhoneNumber: true,
+        }),
+      });
+      expect(save.status).toBe(200);
+      const fresh = await sessionOf();
+      capturedCodes.delete(phone);
+      await call('/api/auth/phone-number/send-otp', {
+        method: 'POST',
+        headers: { cookie: fresh.cookie },
+        body: JSON.stringify({ phoneNumber: phone }),
+      });
+
+      const response = await call('/api/auth/sign-in/phone-number', {
+        method: 'POST',
+        headers: { cookie: fresh.cookie },
+        body: JSON.stringify({ phoneNumber: phone, code: capturedCodes.get(phone) }),
+      });
+
+      expect(response.status).toBe(200);
+      const setCookie = response.headers.get('set-cookie') ?? '';
+      expect(setCookie).toMatch(
+        /^__Secure-better-auth\.session_token=[^;]+; Path=\/; HttpOnly; Secure/u,
+      );
+      // What the phone holds next: the new cookie replaces the old one under the same name.
+      const kept = /__Secure-better-auth\.session_token=[^;]+/.exec(setCookie)?.[0] ?? '';
+      const session = await call('/api/auth/get-session', { headers: { cookie: kept } });
+      expect(((await session.json()) as { user: { id: string } } | null)?.user.id).toBe(saved.uid);
+    } finally {
+      await secure.close();
+    }
   });
 });

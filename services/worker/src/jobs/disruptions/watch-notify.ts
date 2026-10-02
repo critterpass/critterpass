@@ -77,7 +77,7 @@ export function registerWatchNotifications(): void {
         sender: DEFAULT_SETUP_GUIDE,
         crewId: item.crew_id,
         tripId: str(routed, 'trip_id') ?? null,
-        deepLink: `/trip/${str(routed, 'trip_id') ?? ''}/forecast`,
+        deepLink: `/forecast/${str(routed, 'trip_id') ?? ''}`,
         classContext: { planChanging: routed.payload['plan_changing'] === true },
       };
     },

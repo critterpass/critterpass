@@ -9,5 +9,6 @@
     "calendar.oauth_microsoft": false,
     "money.receipts": true,
     "setup.budget_dots": false
-  }
+  },
+  "source": "evaluated"
 }

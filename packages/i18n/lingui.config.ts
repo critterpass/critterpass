@@ -112,6 +112,10 @@ const tripSubAreas = {
     `${tripRoot}/live-activities/**`,
     `${repoRootPrefix}/apps/mobile/src/app/(trip)/lock-screen-offer.tsx`,
   ],
+  disruptions: [
+    `${tripRoot}/disruptions/**`,
+    `${repoRootPrefix}/apps/mobile/src/app/(trip)/{disruption,forecast,storm,late}/**`,
+  ],
   offline: [
     `${tripRoot}/offline/**`,
     `${tripRoot}/bundle/**`,
