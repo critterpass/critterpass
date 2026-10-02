@@ -65,6 +65,7 @@ export type BlockHandlers = Pick<
 
 const useStyles = makeStyles((th) => ({
   frame: { position: 'absolute', padding: th.space['2'] },
+  fill: { flex: 1 },
   face: {
     flex: 1,
     borderRadius: th.radius.md + th.space['2'],
@@ -233,49 +234,53 @@ export function TimelineBlock({
   });
   return (
     <GestureDetector gesture={gestures.drag}>
-      <Animated.View
-        testID={`timeline-block-${block.id}`}
-        accessible
-        accessibilityRole={editable && !block.fixed ? 'adjustable' : 'button'}
-        accessibilityLabel={[block.title, block.meta].filter(Boolean).join(', ')}
-        accessibilityValue={{ text: range }}
-        accessibilityActions={actions}
-        onAccessibilityAction={onAction}
-        style={[styles.frame, frameStyle, gestures.liftStyle]}
-      >
-        <GestureDetector gesture={gestures.tap}>
-          <View
-            style={[
-              styles.face,
-              { paddingVertical: padding },
-              struck ? styles.struck : { backgroundColor: block.color },
-              block.pending && !struck ? styles.pending : null,
-            ]}
-          >
-            <View>
-              <Text
-                variant="title"
-                color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
-                style={struck ? styles.strike : null}
-                numberOfLines={1}
-                onLayout={measure('title')}
-              >
-                {upper(block.title, locale)}
-              </Text>
-              {showMeta ? (
+      {/* The screen-reader element is the block's face; the resize handles sit beside it in the
+          frame, since iOS folds an accessible view's children into it and they would be lost. */}
+      <Animated.View style={[styles.frame, frameStyle, gestures.liftStyle]}>
+        <View
+          testID={`timeline-block-${block.id}`}
+          accessible
+          accessibilityRole={editable && !block.fixed ? 'adjustable' : 'button'}
+          accessibilityLabel={[block.title, block.meta].filter(Boolean).join(', ')}
+          accessibilityValue={{ text: range }}
+          accessibilityActions={actions}
+          onAccessibilityAction={onAction}
+          style={styles.fill}
+        >
+          <GestureDetector gesture={gestures.tap}>
+            <View
+              style={[
+                styles.face,
+                { paddingVertical: padding },
+                struck ? styles.struck : { backgroundColor: block.color },
+                block.pending && !struck ? styles.pending : null,
+              ]}
+            >
+              <View>
                 <Text
-                  variant="bodySm"
+                  variant="title"
                   color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
                   style={struck ? styles.strike : null}
                   numberOfLines={1}
-                  onLayout={measure('meta')}
+                  onLayout={measure('title')}
                 >
-                  {block.meta}
+                  {upper(block.title, locale)}
                 </Text>
-              ) : null}
+                {showMeta ? (
+                  <Text
+                    variant="bodySm"
+                    color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
+                    style={struck ? styles.strike : null}
+                    numberOfLines={1}
+                    onLayout={measure('meta')}
+                  >
+                    {block.meta}
+                  </Text>
+                ) : null}
+              </View>
             </View>
-          </View>
-        </GestureDetector>
+          </GestureDetector>
+        </View>
         {editable && !block.fixed ? (
           <>
             <GestureDetector gesture={gestures.topHandle}>
