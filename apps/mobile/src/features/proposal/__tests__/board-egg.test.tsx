@@ -16,12 +16,24 @@ jest.mock('react-native-reanimated', () => {
 
 import { screen } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { renderUi } from '@/ui/test-support/render';
 
 import { BoardView, type BoardViewProps } from '../board/board-view';
 
 const noop = () => undefined;
+
+const METRICS = {
+  frame: { x: 0, y: 0, width: 390, height: 844 },
+  insets: { top: 47, left: 0, right: 0, bottom: 34 },
+};
+
+const onScreen = (props: BoardViewProps) => (
+  <SafeAreaProvider initialMetrics={METRICS}>
+    <BoardView {...props} />
+  </SafeAreaProvider>
+);
 
 const pass = (boarded: boolean): BoardViewProps => ({
   guide: 'chava',
@@ -51,16 +63,16 @@ const eggEntering = (): unknown =>
 
 describe('the egg on the boarding pass', () => {
   it('is drawn at once, with no entering animation, on a pass opened already boarded', async () => {
-    await renderUi(<BoardView {...pass(true)} />);
+    await renderUi(onScreen(pass(true)));
     expect(screen.getByTestId('board-egg')).toBeTruthy();
     expect(eggEntering()).toBeUndefined();
   });
 
   it('drops in when boarding happens on this screen', async () => {
-    const view = await renderUi(<BoardView {...pass(false)} />);
+    const view = await renderUi(onScreen(pass(false)));
     expect(screen.queryByTestId('board-egg')).toBeNull();
 
-    await view.rerender(<BoardView {...pass(true)} />);
+    await view.rerender(onScreen(pass(true)));
     expect(eggEntering()).toBeDefined();
   });
 });
