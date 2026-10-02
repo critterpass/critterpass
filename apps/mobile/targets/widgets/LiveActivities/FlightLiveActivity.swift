@@ -61,8 +61,10 @@ struct FlightLockScreen: View {
     var body: some View {
         let tint = Self.tint(state.colour)
         VStack(alignment: .leading, spacing: 10) {
-            HStack {
+            HStack(spacing: 6) {
                 FlightEyebrow(attributes: attributes, state: state, tint: tint)
+                // The flight is free to follow; finding it in the mailbox is the Pass+ part (C37).
+                if attributes.fromEmail { LAPill(tier: .passPlus) }
                 Spacer(minLength: 6)
                 if attributes.fromEmail {
                     Text("from your email")
@@ -98,11 +100,16 @@ struct FlightLockScreen: View {
                         .foregroundStyle(LAPalette.paper)
                         .lineLimit(2)
                 }
+            } else if state.grabCta, state.phase == .landed || state.phase == .pickup {
+                FlightRideHint(tint: tint)
             } else {
                 FlightFacts(state: state, tint: tint)
             }
         }
         .padding(16)
+        .widgetURL(
+            state.grabCta && state.pickup == nil
+                ? LADeepLink.url(route: "getting-around") : nil)
     }
 }
 
@@ -185,5 +192,24 @@ private struct FlightCompactTime: View {
         }
         .font(.system(size: 14, weight: .heavy).monospacedDigit())
         .foregroundStyle(tint)
+    }
+}
+
+/// Landed with no pickup booked: where to get a ride (the tap opens Getting around, which books
+/// it in Grab).
+struct FlightRideHint: View {
+    let tint: Color
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text("NO PICKUP BOOKED")
+                .font(.laLabel)
+                .tracking(0.8)
+                .foregroundStyle(LAPalette.muted)
+            Text("Tap for a Grab from the arrivals hall.")
+                .font(.system(size: 15, weight: .heavy))
+                .foregroundStyle(tint)
+                .lineLimit(2)
+        }
     }
 }
