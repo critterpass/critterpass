@@ -32,6 +32,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import type { SendResult } from '@/data/commands/client';
 import { LocalFirstProvider } from '@/data/powersync/local-first-context';
+import { AnalyticsProvider, type AnalyticsClient } from '@/lib/analytics';
 import {
   openTestLocalFirst,
   type TestLocalFirst,
@@ -66,6 +67,12 @@ afterEach(async () => {
   }
 });
 
+/** PostHog is the network boundary: no flag is on and nothing is sent. */
+const analytics = new Proxy(
+  { posthog: { getFeatureFlag: () => undefined, onFeatureFlags: () => () => undefined } },
+  { get: (target, key) => (key in target ? target[key as keyof typeof target] : () => undefined) },
+) as unknown as AnalyticsClient;
+
 async function show(ui: ReactElement, stack?: TestLocalFirst) {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
   const inner = <ScreenJoltProvider>{ui}</ScreenJoltProvider>;
@@ -73,7 +80,9 @@ async function show(ui: ReactElement, stack?: TestLocalFirst) {
     <I18nProvider i18n={i18n}>
       <SafeAreaProvider initialMetrics={METRICS}>
         <GestureHandlerRootView>
-          {stack ? <LocalFirstProvider value={stack.value}>{inner}</LocalFirstProvider> : inner}
+          <AnalyticsProvider client={analytics}>
+            {stack ? <LocalFirstProvider value={stack.value}>{inner}</LocalFirstProvider> : inner}
+          </AnalyticsProvider>
         </GestureHandlerRootView>
       </SafeAreaProvider>
     </I18nProvider>,
@@ -262,13 +271,14 @@ describe('settings account section', () => {
   ])('is not drawn when %s', async (_name, read) => {
     await show(
       <SettingsScreen services={services({ readAccount: () => Promise.resolve(read) })} />,
+      await openStack(),
     );
     await waitFor(() => expect(screen.getByTestId('you-settings-app')).toBeTruthy());
     expect(screen.queryByTestId('you-settings-account')).toBeNull();
   });
 
   it('is drawn once the server has answered for the account', async () => {
-    await show(<SettingsScreen services={services()} />);
+    await show(<SettingsScreen services={services()} />, await openStack());
     await waitFor(() => expect(screen.getByTestId('you-settings-account')).toBeTruthy());
   });
 });
