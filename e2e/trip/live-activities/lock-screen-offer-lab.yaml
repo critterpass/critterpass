@@ -2,7 +2,8 @@ appId: app.critterpass.dev
 ---
 # The crew lock-screen sheet (5a-6) in its states, in English then Vietnamese: the trip day lab's
 # fixed-data scenes (apps/mobile/src/app/(dev)/trip-day-lab.tsx), named `<lang>-<design id>-<state>`
-# so compare mode pairs each with its render.
+# so compare mode pairs each with its render. The scenes are the last in the lab's list, which
+# cannot scroll far enough to centre them, so the flow only scrolls them into view.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -26,7 +27,6 @@ appId: app.critterpass.dev
     element:
       id: 'trip-day-lab-5a-6-offer'
     direction: DOWN
-    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'trip-day-lab-5a-6-offer'
@@ -77,7 +77,6 @@ appId: app.critterpass.dev
     element:
       id: 'trip-day-lab-5a-6-offer-no-paywall'
     direction: DOWN
-    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'trip-day-lab-5a-6-offer-no-paywall'
@@ -128,7 +127,6 @@ appId: app.critterpass.dev
     element:
       id: 'trip-day-lab-5a-6-started'
     direction: DOWN
-    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'trip-day-lab-5a-6-started'
@@ -179,7 +177,6 @@ appId: app.critterpass.dev
     element:
       id: 'trip-day-lab-5a-6-no-meetup'
     direction: DOWN
-    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'trip-day-lab-5a-6-no-meetup'
@@ -281,7 +278,6 @@ appId: app.critterpass.dev
     element:
       id: 'trip-day-lab-5a-6-offer'
     direction: DOWN
-    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'trip-day-lab-5a-6-offer'
@@ -332,7 +328,6 @@ appId: app.critterpass.dev
     element:
       id: 'trip-day-lab-5a-6-offer-no-paywall'
     direction: DOWN
-    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'trip-day-lab-5a-6-offer-no-paywall'
@@ -383,7 +378,6 @@ appId: app.critterpass.dev
     element:
       id: 'trip-day-lab-5a-6-started'
     direction: DOWN
-    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'trip-day-lab-5a-6-started'
@@ -434,7 +428,6 @@ appId: app.critterpass.dev
     element:
       id: 'trip-day-lab-5a-6-no-meetup'
     direction: DOWN
-    centerElement: true
     timeout: 20000
 - tapOn:
     id: 'trip-day-lab-5a-6-no-meetup'
