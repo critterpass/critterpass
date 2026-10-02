@@ -139,16 +139,24 @@ appId: app.critterpass.dev
     env:
       SCREEN: permissions
       READY: dev-permissions
+# The trip's own screens may already have asked for location earlier in the run; then the primer
+# has nothing to ask and stays down.
 - tapOn:
     id: 'dev-permission-location-primer'
 - extendedWaitUntil:
     visible:
       id: 'primer-sheet-accept'
-    timeout: 10000
-- tapOn:
-    id: 'primer-sheet-accept'
-- tapOn:
-    text: '(Allow While Using App|While using the app)'
+    timeout: 5000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'primer-sheet-accept'
+    commands:
+      - tapOn:
+          id: 'primer-sheet-accept'
+      - tapOn:
+          text: '(Allow While Using App|While using the app)'
 - runFlow:
     when:
       visible:
@@ -159,14 +167,20 @@ appId: app.critterpass.dev
       - extendedWaitUntil:
           visible:
             id: 'primer-sheet-accept'
-          timeout: 10000
-      - tapOn:
-          id: 'primer-sheet-accept'
+          timeout: 5000
+          optional: true
       - runFlow:
           when:
-            visible: '(Allow|ALLOW)'
+            visible:
+              id: 'primer-sheet-accept'
           commands:
-            - tapOn: '(Allow|ALLOW)'
+            - tapOn:
+                id: 'primer-sheet-accept'
+            - runFlow:
+                when:
+                  visible: '(Allow|ALLOW)'
+                commands:
+                  - tapOn: '(Allow|ALLOW)'
 - back
 - extendedWaitUntil:
     visible:
