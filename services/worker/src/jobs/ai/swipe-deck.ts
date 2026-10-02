@@ -97,7 +97,7 @@ export async function crewTaste(
      )
      SELECT lower(t.tag) AS tag, count(DISTINCT tp.user_id)::int AS n,
             (SELECT count(*)::int FROM crew) AS size
-       FROM crew LEFT JOIN taste_profiles tp ON tp.user_id = crew.user_id
+       FROM crew LEFT JOIN taste_profiles tp ON tp.user_id = crew.user_id AND tp.visibility = 'crew'
        LEFT JOIN LATERAL unnest(tp.tags) AS t (tag) ON true
       GROUP BY 1`,
     [tripId],
