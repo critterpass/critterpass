@@ -33,6 +33,7 @@ export interface DrawRequest<T> {
 
 export class CancelledDraw extends Error {
   constructor() {
+    // eslint-disable-next-line lingui/no-unlocalized-strings -- an error for logs, never shown.
     super('sticker draw cancelled');
   }
 }

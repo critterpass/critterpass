@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Animated } from 'react-native';
 
 import { tokens } from '@cp/design-tokens';
@@ -17,7 +17,7 @@ export function StickerImage({
 }) {
   const [motionMode] = useMotionMode();
   const animate = fade && motionMode === 'full';
-  const opacity = useRef(new Animated.Value(animate ? 0 : 1)).current;
+  const [opacity] = useState(() => new Animated.Value(animate ? 0 : 1));
   useEffect(() => {
     if (!animate) return undefined;
     const fadeIn = Animated.timing(opacity, {
