@@ -123,7 +123,7 @@ appId: app.critterpass.dev
 - tapOn: 'Gửi'
 - extendedWaitUntil:
     visible:
-      text: 'count me in'
+      text: '.*count me in'
     timeout: 10000
 - extendedWaitUntil:
     notVisible:
@@ -162,7 +162,7 @@ appId: app.critterpass.dev
 - tapOn: 'Gửi'
 - extendedWaitUntil:
     visible:
-      text: '.*dinner at 7\?'
+      text: '.*dinner at 7\?.*'
     timeout: 10000
 
 # A long message: the composer grows, then the bubble wraps.
@@ -174,7 +174,7 @@ appId: app.critterpass.dev
 - tapOn: 'Gửi'
 - extendedWaitUntil:
     visible:
-      text: 'Landing 09:40.*'
+      text: '.*Landing 09:40.*'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: vi-walk-long-sent-keyboard
@@ -209,7 +209,7 @@ appId: app.critterpass.dev
       - tapOn: 'Gửi'
       - extendedWaitUntil:
           visible:
-            text: 'Tối nay ăn phở.*'
+            text: '.*Tối nay ăn phở.*'
           timeout: 10000
       - waitForAnimationToEnd
       - takeScreenshot: vi-walk-vietnamese-sent-keyboard

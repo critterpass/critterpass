@@ -130,13 +130,24 @@ appId: app.critterpass.dev
       - tapOn: 'Show me around later'
       - waitForAnimationToEnd
 - runFlow: subflows/dismiss-visit-offer.yaml
-# Home: the trip is on.
+# Home: the trip is on. The welcome page can come up only now, once the trip has turned on; it
+# covers Home until it is passed.
 - tapOn:
     id: 'tab-home'
 - extendedWaitUntil:
     visible:
-      id: 'home-in-trip'
+      id: 'home-in-trip|critters-hatch-later'
     timeout: 120000
+- runFlow:
+    when:
+      visible:
+        id: 'critters-hatch-later'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: landing-welcome
+      - tapOn:
+          id: 'critters-hatch-later'
+      - waitForAnimationToEnd
 - runFlow: subflows/dismiss-visit-offer.yaml
 - runFlow:
     when:
