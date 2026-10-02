@@ -11,7 +11,7 @@ import { memberFirstName } from '@/ui/people/member-name';
 import { ClosedView, type ClosedMode } from '../account/closed-view';
 import { DeleteView, type DeleteStep } from '../account/delete-view';
 import { SignOutView } from '../account/sign-out-view';
-import { languageChoices } from '../language/language-names';
+import { featuredLanguages, languageChoices } from '../language/language-names';
 import { LanguageView } from '../language/language-view';
 import type { ProfileModel } from '../profile/profile-model';
 import { ProfileView } from '../profile/profile-view';
@@ -182,11 +182,15 @@ function SignOut({ saved }: { readonly saved: boolean }) {
 }
 
 /** In the language the lab runs in, as the real screen is: current first, names in that language. */
-function Language() {
+function Language({ open = false }: { readonly open?: boolean }) {
   const locale = useLocale();
+  const { featured, more } = featuredLanguages(languageChoices(locale), ['zh-Hans', 'id', 'ja']);
   return (
     <LanguageView
-      choices={languageChoices(locale)}
+      featured={featured}
+      more={more}
+      showMore={open}
+      onShowMore={noop}
       current={locale}
       switching={null}
       onPick={noop}
@@ -259,6 +263,7 @@ export const YOU_SCENES: Readonly<Record<string, () => ReactNode>> = {
   ...EDIT_SCENES,
   '3n-2-settings': () => <Settings />,
   '3n-8-language': () => <Language />,
+  '3n-8-language-all': () => <Language open />,
   'former-member-crew': () => <Profile model={withFormer()} />,
   'former-member-chat': () => <FormerMemberChat />,
   'sign-out-saved': () => <SignOut saved />,

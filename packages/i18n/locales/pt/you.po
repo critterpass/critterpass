@@ -41,6 +41,10 @@ msgstr ""
 msgid "you.profile.stat.trips"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.more"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.inDays"
 msgstr ""
@@ -499,16 +503,16 @@ msgstr ""
 msgid "you.delete.reason.privacy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
-msgid "you.edit.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
 msgid "you.stamps.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
+msgid "you.edit.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx

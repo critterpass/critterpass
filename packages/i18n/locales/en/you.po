@@ -41,6 +41,10 @@ msgstr "{count, plural, one {Critter} other {Critters}}"
 msgid "you.profile.stat.trips"
 msgstr "{count, plural, one {Trip} other {Trips}}"
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.more"
+msgstr "{count} more"
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.inDays"
 msgstr "{days, plural, one {{place} in # day} other {{place} in # days}}"
@@ -499,16 +503,16 @@ msgstr "Privacy"
 msgid "you.delete.reason.privacy"
 msgstr "Privacy"
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
-msgid "you.edit.back"
-msgstr "Profile"
-
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.back"
 msgstr "Profile"
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
 msgid "you.stamps.back"
+msgstr "Profile"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
+msgid "you.edit.back"
 msgstr "Profile"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx

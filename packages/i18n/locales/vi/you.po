@@ -41,6 +41,10 @@ msgstr "{count, plural, other {Critter}}"
 msgid "you.profile.stat.trips"
 msgstr "{count, plural, other {Chuyến đi}}"
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.more"
+msgstr "{count} ngôn ngữ khác"
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.inDays"
 msgstr "{days, plural, other {{place} sau # ngày nữa}}"
@@ -499,16 +503,16 @@ msgstr "Riêng tư"
 msgid "you.delete.reason.privacy"
 msgstr "Quyền riêng tư"
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
-msgid "you.edit.back"
-msgstr "Hồ sơ"
-
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.back"
 msgstr "Hồ sơ"
 
 #: ../../apps/mobile/src/features/you/history/stamps-view.tsx
 msgid "you.stamps.back"
+msgstr "Hồ sơ"
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
+msgid "you.edit.back"
 msgstr "Hồ sơ"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
