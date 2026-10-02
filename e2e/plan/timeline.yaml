@@ -203,7 +203,7 @@ appId: app.critterpass.dev
     duration: 1500
 - extendedWaitUntil:
     visible:
-      text: 'Ridge walk 840-.*'
+      text: 'Ridge walk 780-.*'
     timeout: 10000
 - waitForAnimationToEnd:
     timeout: 3000
