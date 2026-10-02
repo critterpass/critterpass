@@ -6,7 +6,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { useEffect, useRef, useState } from 'react';
-import type { AccessibilityActionEvent } from 'react-native';
+import type { AccessibilityActionEvent, LayoutChangeEvent } from 'react-native';
 import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -25,19 +25,14 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { clockRange } from '../day/format';
+import { blockFit } from './block-fit';
 import { GHOST_ACCEPT } from './guide-ghost';
 import { useTimelineDrag, type TimelineDragOptions } from './use-timeline-drag';
 
 const SOFT = isPhysicalSpring(tokens.motion.spring.soft)
   ? springConfig(tokens.motion.spring.soft)
   : undefined;
-/** Blocks shorter than this show the title only. */
-const META_MIN_HEIGHT = 40;
 const HANDLE_HEIGHT = 12;
-/** The frame's and the face's vertical padding (theme space 2 and 8; 4 when tightened). */
-const FRAME_PAD = 2;
-const FACE_PAD = 8;
-const FACE_PAD_TIGHT = 4;
 
 export interface TimelineBlockModel {
   readonly id: string;
@@ -223,16 +218,19 @@ export function TimelineBlock({
         break;
     }
   };
-  // The words must fit the block at its height. When a language's lines run taller (stacked
-  // marks) the face first tightens its padding; only if the meta line still would be cut is it
-  // left out, never drawn in half.
-  const [fit, setFit] = useState<{ key: string; step: 1 | 2 } | null>(null);
-  const fitKey = `${frame.height}|${block.meta}|${block.title}`;
-  const step = fit?.key === fitKey ? fit.step : 0;
-  const showMeta = frame.height >= META_MIN_HEIGHT && block.meta !== '' && step < 2;
-  const padding = step === 0 ? FACE_PAD : FACE_PAD_TIGHT;
-  // The face clips at its border, not its padding: words may run into the far side's padding.
-  const inner = frame.height - FRAME_PAD * 2 - padding;
+  // Line heights depend on the language's font, not the frame: measured once, the fit follows
+  // every height the block takes (a move, a resize, an accepted ghost) without a new layout pass.
+  const [lines, setLines] = useState({ title: 0, meta: 0 });
+  const measure = (key: 'title' | 'meta') => (event: LayoutChangeEvent) => {
+    const next = event.nativeEvent.layout.height;
+    setLines((now) => (Math.abs(now[key] - next) < 0.5 ? now : { ...now, [key]: next }));
+  };
+  const { padding, showMeta } = blockFit({
+    height: frame.height,
+    titleHeight: lines.title,
+    metaHeight: lines.meta,
+    hasMeta: block.meta !== '',
+  });
   return (
     <GestureDetector gesture={gestures.drag}>
       <Animated.View
@@ -254,18 +252,13 @@ export function TimelineBlock({
               block.pending && !struck ? styles.pending : null,
             ]}
           >
-            <View
-              onLayout={(event) => {
-                if (showMeta && event.nativeEvent.layout.height > inner + 0.5) {
-                  setFit({ key: fitKey, step: step === 0 ? 1 : 2 });
-                }
-              }}
-            >
+            <View>
               <Text
                 variant="title"
                 color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
                 style={struck ? styles.strike : null}
                 numberOfLines={1}
+                onLayout={measure('title')}
               >
                 {upper(block.title, locale)}
               </Text>
@@ -275,6 +268,7 @@ export function TimelineBlock({
                   color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
                   style={struck ? styles.strike : null}
                   numberOfLines={1}
+                  onLayout={measure('meta')}
                 >
                   {block.meta}
                 </Text>

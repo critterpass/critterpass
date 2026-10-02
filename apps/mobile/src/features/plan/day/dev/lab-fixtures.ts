@@ -74,8 +74,8 @@ export const LUNCH = item({
 export const WALK = item({
   stableId: 'i-walk',
   title: 'Ridge walk',
-  start: 14 * 60,
-  end: 15 * 60 + 30,
+  start: 13 * 60,
+  end: 15 * 60,
   category: 'hike',
   place: { lat: -8.5031, lng: 115.2543 },
 });
