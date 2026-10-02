@@ -45,11 +45,20 @@ appId: app.critterpass.dev
     id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-list'
+      id: 'plan-day-1'
     timeout: 60000
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: en-fresh-day-list
+# The overview shows a card per day; its first day opens the day's stops.
+- tapOn:
+    id: 'plan-day-1'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-row-.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-fresh-day-stops
 - tapOn:
     id: 'plan-day-row-.*'
     index: 0
