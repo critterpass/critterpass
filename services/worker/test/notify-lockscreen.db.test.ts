@@ -32,6 +32,7 @@ const deps = { renderer: createCopyRenderer(), now: () => new Date('2026-09-27T0
 
 beforeAll(async () => {
   db = await startNotifyDb();
+  await db.startBoss();
 }, 240_000);
 
 afterAll(async () => {
