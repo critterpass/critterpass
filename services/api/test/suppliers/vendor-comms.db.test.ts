@@ -95,10 +95,15 @@ afterAll(async () => {
 
 const members = () => crew.members as [SignedIn, SignedIn, SignedIn];
 
-async function deskSwitch(on: boolean): Promise<void> {
+async function deskSwitch(on: boolean, staffed = on): Promise<void> {
   await harness.pool.query(
     "UPDATE ops.partner_adapters SET enabled = $1 WHERE partner = 'whatsapp_business'",
     [on],
+  );
+  await harness.pool.query(
+    `INSERT INTO ops.ops_config (key, value, is_public) VALUES ('safety.ops_desk', $1::jsonb, true)
+     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
+    [JSON.stringify(staffed)],
   );
 }
 
@@ -143,6 +148,19 @@ describe('while the desk number is off', () => {
       code: 'STATE_INVALID',
       detail: { reason: 'self_send' },
     });
+    await expect(send(payload.draft_id)).rejects.toMatchObject({ code: 'APPROVAL_REQUIRED' });
+  });
+});
+
+describe('with the desk number on but nobody at the desk', () => {
+  it('still hands the traveller the text to send themselves', async () => {
+    await deskSwitch(true, false);
+    const payload = request();
+    const draft = resultOf<RequestVendorMessageResult>(
+      await harness.run(members()[0], 'request_vendor_message', payload),
+    );
+    expect(draft).toMatchObject({ channel: 'self_send', status: 'draft' });
+    expect(draft.share?.wa_link).toBe(`https://wa.me/?text=${encodeURIComponent(TEXT)}`);
     await expect(send(payload.draft_id)).rejects.toMatchObject({ code: 'APPROVAL_REQUIRED' });
   });
 });
