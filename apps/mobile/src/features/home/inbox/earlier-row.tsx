@@ -1,6 +1,8 @@
 /**
  * One row of the quiet EARLIER list (3b-4): who (a crewmate's avatar, or the guide's sticker), the
  * line, UNDO while the guide's change can still be undone, a check once settled, and the age.
+ * The row opens the item and UNDO sits beside it as its own button, not inside it: iOS folds a
+ * button's children into one element, and VoiceOver could not reach a nested UNDO.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -31,6 +33,7 @@ const useStyles = makeStyles((t) => ({
     borderBottomWidth: 1,
     borderBottomColor: t.color.divider,
   },
+  open: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: t.space['12'] },
   line: { flex: 1 },
   undo: { minHeight: MIN_TOUCH_TARGET, justifyContent: 'center', paddingHorizontal: t.space['4'] },
 }));
@@ -61,17 +64,19 @@ export function EarlierRow({ item, renderer, ctx, onUndo, onOpen }: EarlierRowPr
       <Avatar name={item.actorName} joinIndex={item.actorJoinIndex} size="lg" decorative />
     );
   return (
-    <Pressable
-      testID={`inbox-row-${item.id}`}
-      accessibilityRole="button"
-      accessibilityLabel={line}
-      onPress={() => onOpen(item)}
-      style={styles.row}
-    >
-      <View>{lead}</View>
-      <Text variant="body" style={styles.line} numberOfLines={2}>
-        {line}
-      </Text>
+    <View style={styles.row}>
+      <Pressable
+        testID={`inbox-row-${item.id}`}
+        accessibilityRole="button"
+        accessibilityLabel={line}
+        onPress={() => onOpen(item)}
+        style={styles.open}
+      >
+        <View>{lead}</View>
+        <Text variant="body" style={styles.line} numberOfLines={2}>
+          {line}
+        </Text>
+      </Pressable>
       {canUndo ? (
         <Pressable
           testID={`inbox-undo-${item.id}`}
@@ -94,6 +99,6 @@ export function EarlierRow({ item, renderer, ctx, onUndo, onOpen }: EarlierRowPr
       <Text variant="caption" color={theme.semantic.text.secondary}>
         {shortAge(item.createdAt, ctx.now)}
       </Text>
-    </Pressable>
+    </View>
   );
 }
