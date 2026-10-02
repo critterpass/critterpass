@@ -58,6 +58,7 @@ appId: app.critterpass.dev
     file: subflows/type-expense-name.yaml
     env:
       NAME: 'Lunch'
+      SHOT: money-add-details-keyboard
 - takeScreenshot: money-add-lunch
 - assertVisible: '(?i)lunch'
 - assertVisible: '.*350,000.*'
