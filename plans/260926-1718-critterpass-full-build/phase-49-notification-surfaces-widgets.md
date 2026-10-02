@@ -1,7 +1,7 @@
 ---
 phase: 49
 title: Actionable notifications, ping settings, widgets
-status: pending
+status: in_progress
 depends_on: [5, 11, 12, 26, 48]
 wave: 20
 features: [F-176, F-177, F-178, F-179, F-180]
