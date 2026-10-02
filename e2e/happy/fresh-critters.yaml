@@ -231,6 +231,24 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'home-in-trip'
 - waitForAnimationToEnd
+# The visit offer can rise over the hub as soon as it opens. On iOS nothing under the sheet is in
+# the tree (not even the hub's header), so the offer is answered first: this traveller turns visit
+# quests on, as further down.
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*|visit-consent-accept'
+    timeout: 15000
+    optional: true
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-15d-visit-offer-on-hub
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
 # The Home card's tap has not always opened the trip; the TRIPS tab is the other way there. The
 # hub is found by its header (the screen's own root id is not in Android's tree).
 - runFlow:
