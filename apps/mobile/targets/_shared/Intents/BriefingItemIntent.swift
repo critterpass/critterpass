@@ -28,7 +28,7 @@ struct BriefingItemIntent: AppIntent {
     func perform() async throws -> some IntentResult {
         let root = AppGroupContainer.url
         try PendingActionsOutbox.append(.briefing(itemId: itemId, action: action), root: root)
-        try? PendingTodayItems.record(itemId: itemId, at: Date(), root: root)
+        try? WidgetTaps.record(key: itemId, at: Date(), root: root)
         WidgetCenter.shared.reloadTimelines(ofKind: "CPTodayWidget")
         return .result()
     }

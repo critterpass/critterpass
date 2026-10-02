@@ -87,11 +87,9 @@ struct CrewLine: View {
                     .foregroundStyle(LAPalette.yellow)
                     .position(x: geo.size.width - 6, y: mid - 8)
                 ForEach(face.dots, id: \.index) { dot in
-                    Circle()
-                        .fill(LATone.colour(dot.index).opacity(dot.known ? 1 : 0.35))
-                        .overlay(Circle().strokeBorder(LAPalette.card, lineWidth: 1.5))
-                        .frame(width: 16, height: 16)
-                        .position(x: 8 + (width - 16) * dot.x, y: mid + CGFloat(dot.row) * 9)
+                    LAMemberDot(initial: dot.initial, tone: dot.index, size: 20)
+                        .opacity(dot.known ? 1 : 0.4)
+                        .position(x: 10 + (width - 20) * dot.x, y: mid + CGFloat(dot.row) * 10)
                 }
             }
         }

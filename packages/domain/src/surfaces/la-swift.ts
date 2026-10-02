@@ -70,8 +70,8 @@ const singular = (wire: string): string => {
 interface Emitter {
   readonly nested: string[];
   /**
-   * Enums as plain `String`: a reader that must keep working when the writer adds a value (the
-   * widget snapshot) cannot have its whole decode fail on one unknown case.
+   * Reader mode (the widget snapshot): enums as plain `String`, so one unknown value never fails
+   * the whole decode, and defaulted fields optional, so a file written before they existed reads.
    */
   readonly lenientEnums?: boolean;
 }
@@ -82,8 +82,12 @@ function swiftType(schema: z.ZodType, prefix: string, field: string, out: Emitte
     case 'nullable':
     case 'optional':
       return `${swiftType(def.innerType as z.ZodType, prefix, field, out)}?`;
-    case 'default':
-      return swiftType(def.innerType as z.ZodType, prefix, field, out);
+    case 'default': {
+      // A reader of a file a newer writer extends may meet a file written before the field
+      // existed: the field is optional there.
+      const inner = swiftType(def.innerType as z.ZodType, prefix, field, out);
+      return out.lenientEnums === true && !inner.endsWith('?') ? `${inner}?` : inner;
+    }
     case 'string':
       return 'String';
     case 'boolean':

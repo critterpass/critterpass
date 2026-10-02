@@ -3,30 +3,101 @@ import Foundation
 // What the trip widgets (5c-2), the lock-screen accessories (5c-3) and the StandBy pair (5c-4)
 // show for a snapshot, kept free of SwiftUI and WidgetKit so the host tests run it.
 
-/// The Today widget: the day's briefing items in order, finished ones struck through.
+/// The Today widget (5c-2): the day's plan with times, a stop struck through once the next one
+/// has begun, the packing still to tick, and the forecast line. Without plan rows it falls back
+/// to the day's briefing (its DONE and NUDGE items).
 struct TodayFace: Equatable {
     struct Row: Equatable {
         let id: String
+        /// The plan row's start, nil for a briefing line.
+        let at: Date?
         let text: String
-        /// Done, nudged, set or opened: struck through and faded.
+        /// A stop under way or behind; a briefing item done, nudged, set or opened.
         let finished: Bool
-        /// The item's own action when it can be acted on from the widget (`done` or `nudge`).
+        /// The briefing item's own action when it can be acted on from the widget.
         let action: String?
     }
 
-    let rows: [Row]
-    /// Items beyond what the widget shows.
-    let more: Int
+    struct Pack: Equatable {
+        let id: String
+        let label: String
+        let checked: Bool
+    }
 
-    /// Up to `limit` rows; a tap made on this phone (`acted`) counts as finished at once.
-    static func make(today: WSToday?, acted: Set<String> = [], limit: Int = 5) -> TodayFace? {
-        guard let today, !today.items.isEmpty else { return nil }
-        let rows = today.items.prefix(limit).map { item -> Row in
-            let finished = item.status != "open" || acted.contains(item.id)
-            let actionable = !finished && (item.action == "done" || item.action == "nudge")
-            return Row(id: item.id, text: item.text, finished: finished, action: actionable ? item.action : nil)
+    let rows: [Row]
+    /// Rows beyond what the widget shows.
+    let more: Int
+    let packing: [Pack]
+    let forecast: Forecast?
+
+    /// A stop counts as behind once the next has started, or two hours after the last began.
+    static let lastStopLasts: TimeInterval = 2 * 3600
+
+    /// Up to `limit` rows; taps made on this phone (`acted`, `WidgetTaps` keys) count at once.
+    static func make(
+        today: WSToday?, now: Date, acted: Set<String> = [], limit: Int = 5
+    ) -> TodayFace? {
+        guard let today else { return nil }
+        let plan = (today.plan ?? []).compactMap { row in
+            WidgetDate.parse(row.startsAt).map { (row, $0) }
         }
-        return TodayFace(rows: rows, more: max(0, today.items.count - limit))
+        let rows: [Row]
+        let total: Int
+        if !plan.isEmpty {
+            rows = plan.prefix(limit).enumerated().map { index, entry in
+                let next = index + 1 < plan.count ? plan[index + 1].1 : entry.1.addingTimeInterval(lastStopLasts)
+                return Row(id: entry.0.id, at: entry.1, text: entry.0.title, finished: next <= now, action: nil)
+            }
+            total = plan.count
+        } else {
+            rows = today.items.prefix(limit).map { item in
+                let finished = item.status != "open" || acted.contains(item.id)
+                let actionable = !finished && (item.action == "done" || item.action == "nudge")
+                return Row(id: item.id, at: nil, text: item.text, finished: finished, action: actionable ? item.action : nil)
+            }
+            total = today.items.count
+        }
+        let packing = (today.packing ?? []).map { item in
+            Pack(id: item.id, label: item.label, checked: item.checked || acted.contains(WidgetTaps.packing(item.id)))
+        }
+        if rows.isEmpty && packing.isEmpty && today.forecast == nil { return nil }
+        return TodayFace(
+            rows: rows, more: max(0, total - limit), packing: packing,
+            forecast: today.forecast.flatMap { Forecast(snapshot: $0, now: now) })
+    }
+
+    /// Times at which a stop becomes behind (timeline entries).
+    static func changes(today: WSToday?, after now: Date) -> [Date] {
+        let starts = (today?.plan ?? []).compactMap { WidgetDate.parse($0.startsAt) }
+        let ends = starts.dropFirst() + starts.suffix(1).map { $0.addingTimeInterval(lastStopLasts) }
+        return Array(Set(ends.filter { $0 > now })).sorted()
+    }
+}
+
+/// The forecast line: the day's high and what the sky does next.
+struct Forecast: Equatable {
+    enum Line: Equatable {
+        case rainFrom(Date)
+        case rainNow
+        case storm
+        case dry
+        case cloudy
+    }
+
+    let highC: Int
+    let line: Line
+
+    init?(snapshot: WSForecast, now: Date) {
+        highC = snapshot.tempMaxC
+        if snapshot.condition == "storm" {
+            line = .storm
+        } else if let from = WidgetDate.parse(snapshot.rainFrom) {
+            line = from > now ? .rainFrom(from) : .rainNow
+        } else if snapshot.condition == "rain" {
+            line = .rainNow
+        } else {
+            line = snapshot.condition == "cloudy" ? .cloudy : .dry
+        }
     }
 }
 
@@ -41,6 +112,22 @@ enum BalanceFace: Equatable {
         if balances.netMinor == 0 { return .settled }
         let text = MoneyText.format(minor: abs(balances.netMinor), currency: balances.currency, locale: locale)
         return balances.netMinor > 0 ? .owed(text) : .owes(text)
+    }
+}
+
+/// NUDGE <NAME> on the balances widget: who, and whether it can go now.
+struct NudgeFace: Equatable {
+    let userId: String
+    let firstName: String
+    /// A nudge already went within the last day (from here or the app): "sent earlier".
+    let sentEarlier: Bool
+
+    static func make(_ balances: WSBalances?, now: Date, acted: Set<String> = []) -> NudgeFace? {
+        guard let balances, balances.netMinor > 0, let nudge = balances.nudge else { return nil }
+        let cooling = WidgetDate.parse(nudge.availableAt).map { $0 > now } ?? false
+        return NudgeFace(
+            userId: nudge.userId, firstName: nudge.firstName,
+            sentEarlier: cooling || acted.contains(WidgetTaps.nudge(nudge.userId)))
     }
 }
 
@@ -69,6 +156,7 @@ struct CrewFace: Equatable {
     struct Dot: Equatable {
         /// The member's place in the snapshot (their colour slot).
         let index: Int
+        let initial: String
         /// 0 (far) to 1 (at the flag); members not sharing sit at the far end, dimmed.
         let x: Double
         let row: Int
@@ -95,7 +183,9 @@ struct CrewFace: Equatable {
             let stacked = taken[x, default: 0]
             taken[x] = stacked + 1
             let row = stacked == 0 ? 0 : (stacked % 2 == 1 ? -1 : 1) * ((stacked + 1) / 2)
-            return Dot(index: index, x: x, row: row, known: member.bucket != "unknown")
+            return Dot(
+                index: index, initial: member.initial ?? "?", x: x, row: row,
+                known: member.bucket != "unknown")
         }
         return CrewFace(
             place: crew.meetup?.placeName, meetAt: WidgetDate.parse(crew.meetup?.meetAt),

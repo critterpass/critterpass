@@ -11,10 +11,12 @@ import { describe, expect, it } from '@jest/globals';
 
 import {
   castBallotPayloadSchema,
+  checkPackingItemPayloadSchema,
   pingAllPayloadSchema,
   readPendingActions,
   reportRunningLatePayloadSchema,
   respondSosPayloadSchema,
+  sendNudgePayloadSchema,
   setReadinessPayloadSchema,
   triggerSosPayloadSchema,
 } from '@cp/domain';
@@ -29,6 +31,8 @@ const PAYLOADS = {
   trigger_sos: triggerSosPayloadSchema,
   respond_sos: respondSosPayloadSchema,
   cast_ballot: castBallotPayloadSchema,
+  send_nudge: sendNudgePayloadSchema,
+  check_packing_item: checkPackingItemPayloadSchema,
 } as const;
 
 describe('what the lock-screen buttons queue', () => {
@@ -47,6 +51,8 @@ describe('what the lock-screen buttons queue', () => {
       ['respond_sos', 'la_intent'],
       ['cast_ballot', 'la_intent'],
       ['cast_ballot', 'widget'],
+      ['send_nudge', 'widget'],
+      ['check_packing_item', 'widget'],
     ]);
   });
 

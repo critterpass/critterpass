@@ -83,23 +83,79 @@ public struct WSItem: Codable, Hashable, Sendable {
     }
 }
 
+public struct WSPlan: Codable, Hashable, Sendable {
+    public var id: String
+    public var startsAt: String
+    public var title: String
+
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case startsAt = "starts_at"
+        case title = "title"
+    }
+}
+
+public struct WSPacking: Codable, Hashable, Sendable {
+    public var id: String
+    public var label: String
+    public var checked: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case label = "label"
+        case checked = "checked"
+    }
+}
+
+public struct WSForecast: Codable, Hashable, Sendable {
+    public var tempMaxC: Int
+    public var condition: String
+    public var rainFrom: String?
+
+    enum CodingKeys: String, CodingKey {
+        case tempMaxC = "temp_max_c"
+        case condition = "condition"
+        case rainFrom = "rain_from"
+    }
+}
+
 public struct WSToday: Codable, Hashable, Sendable {
     public var localDate: String
     public var items: [WSItem]
+    public var plan: [WSPlan]?
+    public var packing: [WSPacking]?
+    public var forecast: WSForecast?
 
     enum CodingKeys: String, CodingKey {
         case localDate = "local_date"
         case items = "items"
+        case plan = "plan"
+        case packing = "packing"
+        case forecast = "forecast"
+    }
+}
+
+public struct WSNudge: Codable, Hashable, Sendable {
+    public var userId: String
+    public var firstName: String
+    public var availableAt: String?
+
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+        case firstName = "first_name"
+        case availableAt = "available_at"
     }
 }
 
 public struct WSBalances: Codable, Hashable, Sendable {
     public var currency: String
     public var netMinor: Int
+    public var nudge: WSNudge?
 
     enum CodingKeys: String, CodingKey {
         case currency = "currency"
         case netMinor = "net_minor"
+        case nudge = "nudge"
     }
 }
 
@@ -116,10 +172,12 @@ public struct WSMeetup: Codable, Hashable, Sendable {
 public struct WSMember: Codable, Hashable, Sendable {
     public var userId: String
     public var bucket: String
+    public var initial: String?
 
     enum CodingKeys: String, CodingKey {
         case userId = "user_id"
         case bucket = "bucket"
+        case initial = "initial"
     }
 }
 

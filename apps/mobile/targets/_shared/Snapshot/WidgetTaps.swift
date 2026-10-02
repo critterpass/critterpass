@@ -1,31 +1,34 @@
 import Foundation
 
-/// Today items acted on from the Today widget that the snapshot does not show as finished yet
-/// (`state/widgets/today-acted.json`): the widget strikes them through at once, the queued
-/// `act_briefing_item` reaches the server when the app drains its outbox, and the next snapshot
-/// carries the real state.
-struct PendingTodayItems: Codable, Equatable, Sendable {
-    static let relativePath = "state/widgets/today-acted.json"
+/// Taps on the trip widgets that the snapshot does not show yet (`state/widgets/taps.json`): a
+/// Today item done or nudged, a packing item ticked, a nudge sent from Balances. The widget shows
+/// each at once; the queued command reaches the server when the app drains its outbox, and the
+/// next snapshot carries the real state.
+struct WidgetTaps: Codable, Equatable, Sendable {
+    static let relativePath = "state/widgets/taps.json"
     /// Older than this, a tap is assumed lost and no longer shown.
     static let shownFor: TimeInterval = 6 * 3600
 
     var acted: [String: Date]
 
-    /// Item ids still within their window.
+    static func packing(_ itemId: String) -> String { "pack:\(itemId)" }
+    static func nudge(_ userId: String) -> String { "nudge:\(userId)" }
+
+    /// Keys still within their window.
     func ids(at now: Date) -> Set<String> {
         Set(acted.filter { now.timeIntervalSince($0.value) < Self.shownFor }.keys)
     }
 
-    static func read(root: URL?) -> PendingTodayItems {
+    static func read(root: URL?) -> WidgetTaps {
         guard let root,
               let data = try? Data(contentsOf: root.appendingPathComponent(relativePath)),
-              let file = try? decoder.decode(PendingTodayItems.self, from: data)
-        else { return PendingTodayItems(acted: [:]) }
+              let file = try? decoder.decode(WidgetTaps.self, from: data)
+        else { return WidgetTaps(acted: [:]) }
         return file
     }
 
-    /// Records one tap, dropping taps past their window.
-    static func record(itemId: String, at now: Date, root: URL?) throws {
+    /// Records one tap (a briefing item id, or a `packing` / `nudge` key), dropping old ones.
+    static func record(key itemId: String, at now: Date, root: URL?) throws {
         guard let root else { return }
         var file = read(root: root)
         file.acted = file.acted.filter { now.timeIntervalSince($0.value) < shownFor }

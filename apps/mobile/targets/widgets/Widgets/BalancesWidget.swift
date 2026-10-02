@@ -34,9 +34,8 @@ struct BalancesView: View {
     }
 
     var body: some View {
-        if entry.file == nil {
-            HomeWidgetSignedOut()
-        } else {
+        if let file = entry.file {
+            let acted = WidgetTaps.read(root: AppGroupContainer.url).ids(at: entry.date)
             let face = Self.face(entry)
             let ink = face == nil || face == .settled ? LAPalette.paper : LAPalette.night
             VStack(alignment: .leading, spacing: 2) {
@@ -63,15 +62,30 @@ struct BalancesView: View {
                 .minimumScaleFactor(0.5)
                 .contentTransition(.numericText())
                 Spacer(minLength: 0)
-                Text("SEE WHO")
-                    .font(.system(size: 12, weight: .heavy))
-                    .tracking(0.8)
-                    .foregroundStyle(face == nil || face == .settled ? LAPalette.night : LAPalette.paper)
-                    .frame(maxWidth: .infinity, minHeight: 32)
-                    .background(face == nil || face == .settled ? LAPalette.yellow : LAPalette.card, in: Capsule())
+                if let nudge = NudgeFace.make(file.snapshot.balances, now: entry.date, acted: acted),
+                   let tripId = file.snapshot.trip?.id
+                {
+                    if nudge.sentEarlier {
+                        Text("NUDGED \(nudge.firstName.uppercased())")
+                            .modifier(BalancesPill(ink: LAPalette.paper.opacity(0.7), fill: LAPalette.card.opacity(0.6)))
+                    } else {
+                        Button(intent: NudgeIntent(userId: nudge.userId, tripId: tripId)) {
+                            Text("NUDGE \(nudge.firstName.uppercased())")
+                                .modifier(BalancesPill(ink: LAPalette.paper, fill: LAPalette.card))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                } else {
+                    Text("SEE WHO")
+                        .modifier(BalancesPill(
+                            ink: face == nil || face == .settled ? LAPalette.night : LAPalette.paper,
+                            fill: face == nil || face == .settled ? LAPalette.yellow : LAPalette.card))
+                }
                 HomeWidgetStaleLine(entry: entry, ink: ink.opacity(0.7))
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        } else {
+            HomeWidgetSignedOut()
         }
     }
 
@@ -81,5 +95,22 @@ struct BalancesView: View {
         case .owes: return "YOU OWE"
         case .settled, .none: return "BALANCES"
         }
+    }
+}
+
+/// The capsule at the foot of the balances widget.
+struct BalancesPill: ViewModifier {
+    let ink: Color
+    let fill: Color
+
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: 12, weight: .heavy))
+            .tracking(0.8)
+            .foregroundStyle(ink)
+            .lineLimit(1)
+            .minimumScaleFactor(0.7)
+            .frame(maxWidth: .infinity, minHeight: 32)
+            .background(fill, in: Capsule())
     }
 }

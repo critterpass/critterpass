@@ -55,6 +55,8 @@ final class LockScreenOutboxTests: XCTestCase {
             .coming(sosId: Self.sos, opId: op(5), now: now),
             .ballot(pollId: Self.poll, optionId: Self.option, via: .laIntent, opId: op(6), now: now),
             .ballot(pollId: Self.poll, optionId: Self.option, via: .widget, opId: op(7), now: now),
+            .paymentNudge(targetUid: Self.sos, tripId: Self.trip, opId: op(8), now: now),
+            .packingCheck(itemId: Self.poll, checked: true, opId: op(9), now: now),
         ]
         for action in actions {
             try PendingActionsOutbox.append(action, root: root, now: now)
@@ -66,7 +68,7 @@ final class LockScreenOutboxTests: XCTestCase {
         let older = try XCTUnwrap(try json(fixture("im-up-pending-actions.json"))["actions"] as? [NSDictionary])
         let kept = try XCTUnwrap(written["actions"] as? [NSDictionary])
         XCTAssertEqual(kept.first, older.first)
-        XCTAssertEqual(kept.count, 8)
+        XCTAssertEqual(kept.count, 10)
     }
 
     func testATodayTapQueuesTheBriefingCommandFromTheWidget() throws {
@@ -76,6 +78,19 @@ final class LockScreenOutboxTests: XCTestCase {
         XCTAssertEqual(entry["scope"] as? String, "trip_day")
         XCTAssertEqual(
             entry["payload"] as? [String: String], ["item_id": Self.trip, "action": "nudge"])
+    }
+
+    func testANudgeAndAPackingTickQueueTheirCommandsFromTheWidget() throws {
+        let nudge = PendingAction.paymentNudge(targetUid: Self.sos, tripId: Self.trip).entry
+        XCTAssertEqual(nudge["cmd"] as? String, "send_nudge")
+        XCTAssertEqual(nudge["scope"] as? String, "money_nudge")
+        let payload = try XCTUnwrap(nudge["payload"] as? [String: Any])
+        XCTAssertEqual(payload["reason"] as? String, "payment")
+        XCTAssertEqual(payload["context"] as? [String: String], ["kind": "trip", "id": Self.trip])
+        let pack = PendingAction.packingCheck(itemId: Self.poll, checked: true).entry
+        XCTAssertEqual(pack["cmd"] as? String, "check_packing_item")
+        XCTAssertEqual((pack["payload"] as? [String: Any])?["checked"] as? Bool, true)
+        XCTAssertTrue(JSONSerialization.isValidJSONObject(nudge))
     }
 
     func testMinutesTravelAsANumberAndIdsAsText() throws {

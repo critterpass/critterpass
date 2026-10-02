@@ -115,6 +115,29 @@ struct PendingAction: Hashable, Sendable {
         )
     }
 
+    /// NUDGE <NAME> on the Balances widget: `send_nudge{target_uid, reason: payment, context}`.
+    static func paymentNudge(
+        targetUid: String, tripId: String, opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "send_nudge", via: .widget, scope: "money_nudge", clientTs: now,
+            payload: [
+                "target_uid": .text(targetUid), "reason": "payment",
+                "context": .fields(["kind": "trip", "id": tripId]),
+            ]
+        )
+    }
+
+    /// A packing item ticked on the Today widget: `check_packing_item{item_id, checked}`.
+    static func packingCheck(
+        itemId: String, checked: Bool, opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "check_packing_item", via: .widget, scope: "trip_day", clientTs: now,
+            payload: ["item_id": .text(itemId), "checked": .flag(checked)]
+        )
+    }
+
     /// A time-ordered UUIDv7 (RFC 9562): the server only accepts v7 `op_id`s.
     static func uuidV7(now: Date = Date()) -> String {
         var bytes = [UInt8](repeating: 0, count: 16)
@@ -135,11 +158,14 @@ struct PendingAction: Hashable, Sendable {
     }
 }
 
-/// One payload value. The commands these surfaces queue carry text and whole numbers only; the
-/// file itself may hold any JSON (entries written by other builds are kept exactly as they are).
+/// One payload value: text, a whole number, a flag or an object of text values. The file itself
+/// may hold any JSON (entries written by other builds are kept exactly as they are).
 enum PendingActionValue: Hashable, Sendable, ExpressibleByStringLiteral {
     case text(String)
     case number(Int)
+    case flag(Bool)
+    /// A nested object of text values (`send_nudge`'s `context`).
+    case fields([String: String])
 
     init(stringLiteral value: String) { self = .text(value) }
 
@@ -147,6 +173,8 @@ enum PendingActionValue: Hashable, Sendable, ExpressibleByStringLiteral {
         switch self {
         case .text(let value): return value
         case .number(let value): return value
+        case .flag(let value): return value
+        case .fields(let value): return value
         }
     }
 }

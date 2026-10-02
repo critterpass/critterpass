@@ -15,7 +15,7 @@ final class TripWidgetModelsTests: XCTestCase {
             item("a", status: "done"), item("b"), item("c", action: "open"), item("d", action: "nudge"),
             item("e", status: "nudged", action: "nudge"), item("f"), item("g"),
         ])
-        let face = try XCTUnwrap(TodayFace.make(today: today, limit: 5))
+        let face = try XCTUnwrap(TodayFace.make(today: today, now: Date(), limit: 5))
         XCTAssertEqual(face.rows.map(\.finished), [true, false, false, false, true])
         XCTAssertEqual(face.rows.map(\.action), [nil, "done", nil, "nudge", nil])
         XCTAssertEqual(face.more, 2)
@@ -23,10 +23,66 @@ final class TripWidgetModelsTests: XCTestCase {
 
     func testATapOnTodayCountsAtOnce() throws {
         let today = WSToday(localDate: "2026-10-15", items: [item("a"), item("b")])
-        let face = try XCTUnwrap(TodayFace.make(today: today, acted: ["b"]))
+        let face = try XCTUnwrap(TodayFace.make(today: today, now: Date(), acted: ["b"]))
         XCTAssertEqual(face.rows.map(\.finished), [false, true])
-        XCTAssertNil(TodayFace.make(today: WSToday(localDate: "2026-10-15", items: [])))
-        XCTAssertNil(TodayFace.make(today: nil))
+        XCTAssertNil(TodayFace.make(today: WSToday(localDate: "2026-10-15", items: []), now: Date()))
+        XCTAssertNil(TodayFace.make(today: nil, now: Date()))
+    }
+
+    private func plan(_ id: String, _ at: String) -> WSPlan {
+        WSPlan(id: id, startsAt: at, title: "Stop \(id)")
+    }
+
+    func testThePlanStrikesAStopOnceTheNextHasBegun() throws {
+        var today = WSToday(localDate: "2026-10-15", items: [item("brief")])
+        today.plan = [
+            plan("summit", "2026-10-14T22:02:00Z"), plan("breakfast", "2026-10-15T01:30:00Z"),
+            plan("springs", "2026-10-15T05:00:00Z"),
+        ]
+        let face = try XCTUnwrap(TodayFace.make(today: today, now: try at("2026-10-15T02:00:00Z")))
+        XCTAssertEqual(face.rows.map(\.text), ["Stop summit", "Stop breakfast", "Stop springs"])
+        XCTAssertEqual(face.rows.map(\.finished), [true, false, false])
+        XCTAssertEqual(face.rows.first?.at, try at("2026-10-14T22:02:00Z"))
+        // The last stop is behind two hours after it began.
+        let late = try XCTUnwrap(TodayFace.make(today: today, now: try at("2026-10-15T07:01:00Z")))
+        XCTAssertEqual(late.rows.map(\.finished), [true, true, true])
+        XCTAssertEqual(
+            TodayFace.changes(today: today, after: try at("2026-10-15T02:00:00Z")),
+            [try at("2026-10-15T05:00:00Z"), try at("2026-10-15T07:00:00Z")])
+    }
+
+    func testPackingTicksAtOnceAndTheForecastReadsAhead() throws {
+        var today = WSToday(localDate: "2026-10-15", items: [])
+        today.packing = [
+            WSPacking(id: "hat", label: "Hat", checked: false),
+            WSPacking(id: "fins", label: "Fins", checked: true),
+        ]
+        today.forecast = WSForecast(tempMaxC: 31, condition: "rain", rainFrom: "2026-10-15T06:00:00Z")
+        let now = try at("2026-10-15T02:00:00Z")
+        let face = try XCTUnwrap(TodayFace.make(today: today, now: now, acted: [WidgetTaps.packing("hat")]))
+        XCTAssertEqual(face.packing.map(\.checked), [true, true])
+        XCTAssertEqual(face.forecast, Forecast(snapshot: today.forecast!, now: now))
+        XCTAssertEqual(face.forecast?.highC, 31)
+        XCTAssertEqual(face.forecast?.line, .rainFrom(try at("2026-10-15T06:00:00Z")))
+        XCTAssertEqual(Forecast(snapshot: today.forecast!, now: try at("2026-10-15T07:00:00Z"))?.line, .rainNow)
+        let dry = WSForecast(tempMaxC: 29, condition: "clear", rainFrom: nil)
+        XCTAssertEqual(Forecast(snapshot: dry, now: now)?.line, .dry)
+        XCTAssertEqual(Forecast(snapshot: WSForecast(tempMaxC: 25, condition: "storm", rainFrom: nil), now: now)?.line, .storm)
+    }
+
+    func testANudgeGoesToTheOneWhoOwesUntilItHasGone() throws {
+        let now = try at("2026-10-15T02:00:00Z")
+        var owed = WSBalances(currency: "USD", netMinor: 18600)
+        owed.nudge = WSNudge(userId: "dev", firstName: "Dev", availableAt: nil)
+        XCTAssertEqual(NudgeFace.make(owed, now: now), NudgeFace(userId: "dev", firstName: "Dev", sentEarlier: false))
+        XCTAssertEqual(NudgeFace.make(owed, now: now, acted: [WidgetTaps.nudge("dev")])?.sentEarlier, true)
+        owed.nudge?.availableAt = "2026-10-15T20:00:00Z"
+        XCTAssertEqual(NudgeFace.make(owed, now: now)?.sentEarlier, true)
+        XCTAssertEqual(NudgeFace.make(owed, now: try at("2026-10-15T21:00:00Z"))?.sentEarlier, false)
+        var owing = owed
+        owing.netMinor = -500
+        XCTAssertNil(NudgeFace.make(owing, now: now))
+        XCTAssertNil(NudgeFace.make(WSBalances(currency: "USD", netMinor: 900), now: now))
     }
 
     func testBalancesReadTheirSideAndCurrency() {
@@ -42,7 +98,7 @@ final class TripWidgetModelsTests: XCTestCase {
         let crew = WSCrew(
             meetup: WSMeetup(placeName: "Campuhan Ridge", meetAt: "2026-10-17T09:00:00.000Z"),
             members: [
-                WSMember(userId: "m", bucket: "here"), WSMember(userId: "r", bucket: "here"),
+                WSMember(userId: "m", bucket: "here", initial: "M"), WSMember(userId: "r", bucket: "here"),
                 WSMember(userId: "a", bucket: "close"), WSMember(userId: "j", bucket: "on_way"),
                 WSMember(userId: "d", bucket: "unknown"),
             ])
@@ -53,6 +109,8 @@ final class TripWidgetModelsTests: XCTestCase {
         let xs = face.dots.map(\.x)
         XCTAssertTrue(xs[0] > xs[2] && xs[2] > xs[3] && xs[3] > xs[4])
         XCTAssertFalse(face.dots[4].known)
+        // An older snapshot has no initials: the dot shows a question mark.
+        XCTAssertEqual(face.dots.map(\.initial).prefix(2), ["M", "?"])
         XCTAssertEqual(face.meetAt, try at("2026-10-17T09:00:00Z"))
     }
 
@@ -122,15 +180,15 @@ final class TripWidgetModelsTests: XCTestCase {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent("today-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: root) }
         let morning = try at("2026-10-15T00:00:00Z")
-        try PendingTodayItems.record(itemId: "a", at: morning, root: root)
-        try PendingTodayItems.record(itemId: "b", at: morning.addingTimeInterval(5 * 3600), root: root)
-        let file = PendingTodayItems.read(root: root)
+        try WidgetTaps.record(key: "a", at: morning, root: root)
+        try WidgetTaps.record(key: "b", at: morning.addingTimeInterval(5 * 3600), root: root)
+        let file = WidgetTaps.read(root: root)
         XCTAssertEqual(file.ids(at: morning.addingTimeInterval(5.5 * 3600)), ["a", "b"])
         XCTAssertEqual(file.ids(at: morning.addingTimeInterval(7 * 3600)), ["b"])
         // A later tap drops what has expired from the file.
-        try PendingTodayItems.record(itemId: "c", at: morning.addingTimeInterval(7 * 3600), root: root)
-        XCTAssertEqual(Set(PendingTodayItems.read(root: root).acted.keys), ["b", "c"])
-        XCTAssertTrue(PendingTodayItems.read(root: nil).acted.isEmpty)
+        try WidgetTaps.record(key: "c", at: morning.addingTimeInterval(7 * 3600), root: root)
+        XCTAssertEqual(Set(WidgetTaps.read(root: root).acted.keys), ["b", "c"])
+        XCTAssertTrue(WidgetTaps.read(root: nil).acted.isEmpty)
     }
 }
 #endif
