@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-09-30.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "4372f77e-92da-4075-8ca8-2d3201d0d088",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Batur is on alert, so keep one eye on the volcano and the other on your boots.\",\"detail\":\"\",\"items\":[{\"id\":\"batur:title\",\"text\":\"Mount Batur sunrise · volcano level 3\"},{\"id\":\"batur:detail\",\"text\":\"Forecast shows volcano alert level 3. Worth a plan B.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 722,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 76,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

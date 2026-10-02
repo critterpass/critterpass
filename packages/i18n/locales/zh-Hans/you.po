@@ -63,6 +63,10 @@ msgstr ""
 msgid "you.settings.app"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.appLanguage"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.offlineTripsLine"
 msgstr ""
@@ -172,6 +176,14 @@ msgstr ""
 msgid "you.delete.keep"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.language"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lastCheck"
 msgstr ""
@@ -246,6 +258,10 @@ msgstr ""
 msgid "you.profile.settings"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.back"
 msgstr ""
@@ -314,6 +330,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.hapticsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.note"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx

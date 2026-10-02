@@ -36,6 +36,26 @@ export const TRIPS_SQL = `SELECT t.id, t.status, t.start_date, t.end_date,
   WHERE t.crew_id = ? AND t.status <> 'cancelled'`;
 export const TRIPS_TABLES = ['trips', 'destinations', 'guides', 'trip_participants'];
 
+/**
+ * The crew's trip that is locked in (confirmed or under way) with no seat for the viewer: they
+ * have no participant row (they joined the crew after the proposal went out) or said out. The one
+ * under way comes first, then the next to start.
+ */
+export const OPEN_TRIP_SQL = `SELECT t.id, t.status, d.name AS destination_name
+  FROM trips t
+  LEFT JOIN destinations d ON d.id = t.destination_id
+  LEFT JOIN trip_participants p ON p.trip_id = t.id AND p.user_id = ?
+  WHERE t.crew_id = ? AND t.status IN ('confirmed', 'pre_trip', 'in_trip')
+    AND (p.user_id IS NULL OR p.rsvp = 'out')
+  ORDER BY (t.status = 'in_trip') DESC, t.start_date, t.id LIMIT 1`;
+export const OPEN_TRIP_TABLES = ['trips', 'destinations', 'trip_participants'];
+
+export interface OpenTripRow {
+  readonly id: string;
+  readonly status: string;
+  readonly destination_name: string | null;
+}
+
 export const TIP_SQL = `SELECT h.id, h.text, h.kind, h.place_id, g.slug AS guide_slug
   FROM home_tips h LEFT JOIN guides g ON g.id = h.guide_id
   WHERE h.crew_id = ? AND h.status = 'active' AND julianday(h.valid_until) > julianday(?)

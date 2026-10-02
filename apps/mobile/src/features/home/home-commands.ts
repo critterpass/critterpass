@@ -1,7 +1,7 @@
 /**
  * Client specs for Home's commands. Inbox actions, mark-read, tip dismissal and app-open counts may
  * wait in the offline queue; a nudge is sent online so the sender learns at once when it lands
- * (or that the share sheet is theirs to use).
+ * (or that the share sheet is theirs to use), and so is joining a trip that is already locked in.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type {
@@ -41,5 +41,11 @@ export const recordAppOpenCommand = defineClientCommand<RecordAppOpenPayload>({
 
 export const sendNudgeCommand = defineClientCommand<SendNudgePayload>({
   name: 'send_nudge',
+  offline: false,
+});
+
+/** Online only: the seat (or the waitlist place) is the server's to give. */
+export const joinTripCommand = defineClientCommand<{ trip_id: string }>({
+  name: 'join_trip',
   offline: false,
 });

@@ -226,7 +226,7 @@ Phase owns the migration that creates the table (later phases may add columns vi
 | 34 Bookings wallet, imports, flights | `bookings`, `booking_attachments`, `flight_segments`, `flight_watches`, `import_candidates`, `inbound_emails`, `crew_inbound_addresses`, `inbound_sender_links` (doc delta), `mailbox_connections`, `insurance_policies` |
 | 35 Supplier layer, rides, vendor comms | `supplier_orders`, `supplier_order_items`, `affiliate_clicks`, `affiliate_conversions`, `ride_quotes`, `rides`, `providers`, `ops.vendor_threads`, `ops.vendor_messages` |
 | 36 Trip hub, day-of, leave-by | `briefings`, `briefing_items`, `packing_items`, `leave_bys`, `readiness`, `alarms`, `offline_bundles` (doc delta) |
-| 37 Disruptions | `disruptions`, `watch_items` |
+| 37 Disruptions | `disruptions`, `watch_items` (trip stream); `journey_checks` (doc delta: C2, HTTP only, not published) |
 | 38 Help & SOS | `help_sessions`, `help_session_private`, `help_session_messages` (doc delta); `ops_config` keys `sos.stale_after_min` (10) and public `android_fsi_sos` (false); Help auto-share consent uses `consents.purpose = help_auto_share` |
 | 39 Crew live map | `meetups` |
 | 40 Critters | `eggs`, `encounters`, `encounter_samples`, `collection_entries` (and new `stickers` kinds) |

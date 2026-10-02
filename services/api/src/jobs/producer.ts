@@ -13,6 +13,7 @@ import {
   AVATAR_MODERATE_QUEUE,
   AVATAR_RENDER_QUEUE,
   BILLING_QUEUES,
+  DISRUPTION_QUEUES,
   CHAT_PHOTO_THUMBNAIL_QUEUE,
   CHAT_VOICE_TRANSCODE_QUEUE,
   COUNTDOWN_RECOMPUTE_QUEUE,
@@ -116,6 +117,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ACCOUNT_QUEUES.purge,
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
+      DISRUPTION_QUEUES.react,
     ]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });

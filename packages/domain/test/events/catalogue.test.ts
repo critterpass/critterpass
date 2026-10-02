@@ -26,6 +26,7 @@ const BOOST = {
 const CHANGE_SET = { trip_id: crypto.randomUUID(), change_set_id: crypto.randomUUID() };
 const COMMENT = { trip_id: crypto.randomUUID(), comment_id: crypto.randomUUID() };
 const ORDER = { trip_id: crypto.randomUUID(), order_id: crypto.randomUUID() };
+const DISRUPTION = { trip_id: crypto.randomUUID(), disruption_id: crypto.randomUUID() };
 const VENDOR_MSG = {
   trip_id: crypto.randomUUID(),
   thread_id: crypto.randomUUID(),
@@ -853,6 +854,38 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     must_do_id: crypto.randomUUID(),
     participants: 3,
   },
+  'disruption.detected': {
+    ...DISRUPTION,
+    kind: 'flight_delay',
+    cause: 'delay',
+    version: 1,
+    done: 3,
+    needs_yes: 1,
+  },
+  'disruption.needs_yes': { ...DISRUPTION, action_id: crypto.randomUUID(), affected: 3 },
+  'disruption.updated': { ...DISRUPTION, version: 2 },
+  'disruption.resolved': { ...DISRUPTION, status: 'resolved' },
+  'disruption.action_decided': { ...DISRUPTION, action_id: crypto.randomUUID(), decision: 'keep' },
+  'disruption.action_undone': { ...DISRUPTION, action_id: 'all', undone: 3, compensations: 1 },
+  'disruption.announced': { ...DISRUPTION, message_id: crypto.randomUUID() },
+  'running_late.detected': { ...DISRUPTION, plan_item_id: crypto.randomUUID(), late_min: 25 },
+  'late_option.chosen': { ...DISRUPTION, option: 'push' },
+  'watch.escalated': {
+    trip_id: crypto.randomUUID(),
+    watch_item_id: crypto.randomUUID(),
+    status: 'plan_b',
+    plan_changing: true,
+  },
+  'weather.suggested': {
+    trip_id: crypto.randomUUID(),
+    change_set_id: crypto.randomUUID(),
+    plan_item_id: crypto.randomUUID(),
+  },
+  'weather.suggestion_dismissed': {
+    trip_id: crypto.randomUUID(),
+    change_set_id: crypto.randomUUID(),
+  },
+  'storm.decided': { ...DISRUPTION, poll_id: crypto.randomUUID(), option: 'swap' },
   'settings.changed': { user_id: crypto.randomUUID(), keys: ['chattiness', 'audio'] },
   'profile.icon_changed': { user_id: crypto.randomUUID(), icon_id: 'stamp' },
   'profile.icon_unlocked': { user_id: crypto.randomUUID(), icon_id: 'pon', source: 'form_found' },

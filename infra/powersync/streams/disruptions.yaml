@@ -1,0 +1,15 @@
+# Disruption streams (docs/data-model-sync-and-privacy.md §4). Filters mirror each table's RLS
+# SELECT policy: a trip's disruptions and its forecast watch list ride the trip stream to its crew.
+# Every subquery is bound by the subscribed trip id. journey_checks is never synced.
+
+streams:
+  trip:
+    queries:
+      - |
+        SELECT * FROM disruptions
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |
+        SELECT * FROM watch_items
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)

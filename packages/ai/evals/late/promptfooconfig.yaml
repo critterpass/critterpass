@@ -1,0 +1,11 @@
+# Running late: the planner's options and times → the guide's line and one line per option.
+# Numbers only from the facts; no closure, procession or accident without a cited source; nobody
+# "said yes" before they did. Cases live in cases.yaml and run through the real writeLateCopy
+# (suite.ts).
+# Run: pnpm --filter @cp/ai eval late
+description: Running-late options worded from the planner's facts
+prompts:
+  - '{{rows}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

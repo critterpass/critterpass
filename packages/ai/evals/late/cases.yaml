@@ -1,0 +1,281 @@
+# Running-late cases: the sheet as the planner works it out (one item per offered option, ids are
+# the option ids). Numbers only from the facts; no closure without a cited source; nobody "said
+# yes" before they did; no refund the booking does not show.
+- id: late-01
+  description: two late for the spa, the others waiting, split push or skip
+  guide: tokek
+  input:
+    facts: { title: Karsa Spa, names: Wes and Jordan, late_min: 25, start: '14:00', eta: '14:25' }
+    headlineTemplate: Running 25 min late
+    detailTemplate: Traffic is heavy on the way to Karsa Spa.
+    items:
+      - {
+          id: push,
+          kind: push,
+          facts: { title: Karsa Spa, from: '14:00', to: '14:25', minutes: 25 },
+          template: 'The others start at 14:00. You slot in at 14:25.',
+        }
+      - {
+          id: skip,
+          kind: skip,
+          facts: { title: Karsa Spa },
+          template: The others go ahead without you.,
+        }
+  must: ['25']
+  forbid: [closed, procession, said yes, refund]
+- id: late-02
+  description: the walk beats the ride
+  guide: pon
+  input:
+    facts: { title: Nishiki Market, names: Rin, late_min: 18, start: '11:00', eta: '11:18' }
+    headlineTemplate: Running 18 min late
+    detailTemplate: Traffic is heavy on the way to Nishiki Market.
+    items:
+      - {
+          id: push,
+          kind: push,
+          facts: { title: Nishiki Market, from: '11:00', to: '11:20', minutes: 20 },
+          template: Nishiki Market moves to 11:20.,
+        }
+      - {
+          id: walk,
+          kind: walk,
+          facts: { title: Nishiki Market, walk_min: 9, saves_min: 12, arrive: '11:06' },
+          template: 9 min on foot from here. There about 11:06.,
+        }
+      - {
+          id: skip,
+          kind: skip,
+          facts: { title: Nishiki Market },
+          template: Nishiki Market comes off the plan.,
+        }
+  must: ['9']
+  forbid: [closed, accident]
+- id: late-03
+  description: on a scooter with no ride, a car is offered
+  guide: lundi
+  input:
+    facts: { title: Chatuchak Market, names: Maya, late_min: 14, start: '10:00', eta: '10:14' }
+    headlineTemplate: Running 14 min late
+    detailTemplate: Traffic is heavy on the way to Chatuchak Market.
+    items:
+      - {
+          id: push,
+          kind: push,
+          facts: { title: Chatuchak Market, from: '10:00', to: '10:15', minutes: 15 },
+          template: Chatuchak Market moves to 10:15.,
+        }
+      - {
+          id: skip,
+          kind: skip,
+          facts: { title: Chatuchak Market },
+          template: Chatuchak Market comes off the plan.,
+        }
+      - {
+          id: car,
+          kind: car,
+          facts: { title: Chatuchak Market },
+          template: Fare and pickup time from Grab.,
+        }
+  must: ['14']
+  forbid: [closed, guaranteed]
+- id: late-04
+  description: the spa has not been asked yet
+  guide: ajo
+  input:
+    facts: { title: Karsa Spa, names: Wes, late_min: 25, start: '14:00', eta: '14:25' }
+    headlineTemplate: Running 25 min late
+    detailTemplate: Traffic is heavy on the way to Karsa Spa.
+    items:
+      - {
+          id: push,
+          kind: push,
+          facts:
+            {
+              title: Karsa Spa,
+              from: '14:00',
+              to: '14:25',
+              minutes: 25,
+              vendor: Karsa,
+              vendor_status: not_asked,
+            },
+          template: Karsa Spa moves to 14:25.,
+        }
+      - {
+          id: skip,
+          kind: skip,
+          facts: { title: Karsa Spa, vendor: Karsa },
+          template: Karsa Spa comes off the plan.,
+        }
+  must: ['14:25']
+  forbid: [said yes, confirmed, agreed]
+- id: late-05
+  description: the spa answered yes
+  guide: sardi
+  input:
+    facts: { title: Karsa Spa, names: Wes, late_min: 25, start: '14:00', eta: '14:25' }
+    headlineTemplate: Running 25 min late
+    detailTemplate: Traffic is heavy on the way to Karsa Spa.
+    items:
+      - {
+          id: push,
+          kind: push,
+          facts:
+            {
+              title: Karsa Spa,
+              from: '14:00',
+              to: '14:25',
+              minutes: 25,
+              vendor: Karsa,
+              vendor_status: confirmed,
+            },
+          template: Karsa confirmed 14:25.,
+        }
+      - {
+          id: skip,
+          kind: skip,
+          facts: { title: Karsa Spa, vendor: Karsa },
+          template: Karsa Spa comes off the plan.,
+        }
+  must: ['14:25', Karsa]
+  forbid: [refund]
+- id: late-06
+  description: a sourced closure may be named
+  guide: paco
+  input:
+    facts:
+      {
+        title: Karsa Spa,
+        names: Wes and Jordan,
+        late_min: 25,
+        start: '14:00',
+        eta: '14:25',
+        road: Jalan Raya Ubud,
+        closed_until: '15:00',
+        source: Bali Post,
+      }
+    headlineTemplate: Running 25 min late
+    detailTemplate: 'Jalan Raya Ubud is closed until 15:00, reported by Bali Post.'
+    items:
+      - {
+          id: push,
+          kind: push,
+          facts: { title: Karsa Spa, from: '14:00', to: '14:25', minutes: 25 },
+          template: 'The others start at 14:00. You slot in at 14:25.',
+        }
+      - {
+          id: skip,
+          kind: skip,
+          facts: { title: Karsa Spa },
+          template: The others go ahead without you.,
+        }
+  must: [Jalan Raya]
+  forbid: [accident]
+- id: late-07
+  description: no source, so only heavy traffic
+  guide: chava
+  input:
+    facts: { title: Chợ Hàn, names: Khánh, late_min: 12, start: '09:00', eta: '09:12' }
+    headlineTemplate: Running 12 min late
+    detailTemplate: Traffic is heavy on the way to Chợ Hàn.
+    items:
+      - {
+          id: push,
+          kind: push,
+          facts: { title: Chợ Hàn, from: '09:00', to: '09:15', minutes: 15 },
+          template: Chợ Hàn moves to 09:15.,
+        }
+      - { id: skip, kind: skip, facts: { title: Chợ Hàn }, template: Chợ Hàn comes off the plan. }
+  must: ['12']
+  forbid: [closed, closure, procession, accident]
+- id: late-08
+  description: a booked tour with a quoted refund
+  guide: tokek
+  input:
+    facts:
+      { title: Mount Batur sunrise, names: Dev and Rin, late_min: 30, start: '04:00', eta: '04:30' }
+    headlineTemplate: Running 30 min late
+    detailTemplate: Traffic is heavy on the way to Mount Batur sunrise.
+    items:
+      - {
+          id: skip,
+          kind: skip,
+          facts: { title: Mount Batur sunrise, refund: part of it comes back },
+          template: Part of it comes back.,
+        }
+      - {
+          id: car,
+          kind: car,
+          facts: { title: Mount Batur sunrise },
+          template: Fare and pickup time from Grab.,
+        }
+  must: ['30']
+  forbid: [guaranteed, full refund]
+- id: late-09
+  description: seeded slip, an invented arrival time
+  guide: tokek
+  seeded: true
+  expect_fallback: true
+  input:
+    facts: { title: Karsa Spa, names: Wes, late_min: 25, start: '14:00', eta: '14:25' }
+    headlineTemplate: Running 25 min late
+    detailTemplate: Traffic is heavy on the way to Karsa Spa.
+    items:
+      - {
+          id: push,
+          kind: push,
+          facts: { title: Karsa Spa, from: '14:00', to: '14:25', minutes: 25 },
+          template: Karsa Spa moves to 14:25.,
+        }
+  reply:
+    headline: Running 25 min late
+    detail: Traffic is heavy on the way to Karsa Spa.
+    items: [{ id: push, text: 'Karsa Spa moves to 14:40.' }]
+- id: late-10
+  description: seeded slip, the spa said yes before anyone asked
+  guide: tokek
+  seeded: true
+  expect_fallback: true
+  input:
+    facts: { title: Karsa Spa, names: Wes, late_min: 25, start: '14:00', eta: '14:25' }
+    headlineTemplate: Running 25 min late
+    detailTemplate: Traffic is heavy on the way to Karsa Spa.
+    items:
+      - {
+          id: push,
+          kind: push,
+          facts:
+            {
+              title: Karsa Spa,
+              from: '14:00',
+              to: '14:25',
+              minutes: 25,
+              vendor: Karsa,
+              vendor_status: not_asked,
+            },
+          template: Karsa Spa moves to 14:25.,
+        }
+  reply:
+    headline: Running 25 min late
+    detail: Traffic is heavy on the way to Karsa Spa.
+    items: [{ id: push, text: 'Karsa said yes to 14:25.' }]
+- id: late-11
+  description: seeded slip, a procession nobody reported
+  guide: tokek
+  seeded: true
+  expect_fallback: true
+  input:
+    facts: { title: Karsa Spa, names: Wes, late_min: 25, start: '14:00', eta: '14:25' }
+    headlineTemplate: Running 25 min late
+    detailTemplate: Traffic is heavy on the way to Karsa Spa.
+    items:
+      - {
+          id: skip,
+          kind: skip,
+          facts: { title: Karsa Spa },
+          template: Karsa Spa comes off the plan.,
+        }
+  reply:
+    headline: Running 25 min late
+    detail: A temple procession closed Jalan Raya until 15:00.
+    items: []

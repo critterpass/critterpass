@@ -175,6 +175,7 @@ staging's AI, so those flows allow a few minutes for them.
 | `fresh-join-code-vi` | the same friend, reading the app in Vietnamese from the splash on |
 | `critters`       | fresh account → PASS Critterdex synced → FOUND empty → a set page → Explore at home kept after a relaunch |
 | `fresh-setup-vnd` | no seed: crew of one from Ho Chi Minh City (VND) → Đà Nẵng locked in → dates from tomorrow, 3 days → budget in ₫ locks first time → rooms |
+| `fresh-join-under-way` | no seed, four accounts: a trip from today confirmed → one joins with the crew code → on the trip (plan, split three ways); one who joined before the lock and never answered → JOIN THE TRIP on Home |
 | `fresh-trip-under-way` | no seed: crew of one from Ho Chi Minh City → Đà Nẵng from today, 3 days, budget in ₫ → draft → LOCK IT IN alone → Home and the TRIPS hub show the trip as on |
 | `fresh-trip-bookings` | on that trip: paste the flight and a stay → READY TO ADD → the forward address → a flight and an activity typed in by hand → wallet, details in airport time, hub count → delete leaves no card |
 | `fresh-trip-money` | on that trip: three typed expenses in ₫ → SPENT SO FAR, LATEST, history, detail, the budget on day 1 of 3 |

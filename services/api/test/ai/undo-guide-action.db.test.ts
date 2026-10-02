@@ -139,7 +139,13 @@ describe('undo_guide_action', () => {
   });
 
   it('undoes everything of one disruption, newest first', async () => {
-    const disruptionId = randomUUID();
+    // guide_actions.disruption_id references a real disruption row.
+    const { rows: opened } = await harness.pool.query<{ id: string }>(
+      `INSERT INTO disruptions (trip_id, kind, cause, dedupe_key)
+       VALUES ($1, 'flight_delay', 'delay', $2) RETURNING id`,
+      [trip.tripId, `flight:${randomUUID()}`],
+    );
+    const disruptionId = opened[0]?.id as string;
     const older = await seedAppliedAction(harness.pool, trip, {
       affected: [rin.uid],
       undoUntil: inAnHour(),

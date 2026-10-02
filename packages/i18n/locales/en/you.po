@@ -63,6 +63,10 @@ msgstr "All of it. Sign in again and everything comes back."
 msgid "you.settings.app"
 msgstr "App"
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.appLanguage"
+msgstr "App language"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.offlineTripsLine"
 msgstr "Bookings, maps and phrases on this phone"
@@ -172,6 +176,14 @@ msgstr "How you travel"
 msgid "you.delete.keep"
 msgstr "Keep my account"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.language"
+msgstr "Language"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.title"
+msgstr "Language"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lastCheck"
 msgstr "Last check"
@@ -246,6 +258,10 @@ msgstr "Settings"
 msgid "you.profile.settings"
 msgstr "Settings"
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.back"
+msgstr "Settings"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.back"
 msgstr "Settings"
@@ -315,6 +331,10 @@ msgstr "Sticker slaps, stamps, pops"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.hapticsLine"
 msgstr "Taps and thuds you can feel"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.note"
+msgstr "The app, your guide’s replies and your notifications switch together. Places keep their local names."
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps"
