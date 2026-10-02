@@ -32,6 +32,21 @@ appId: app.critterpass.dev
       - tapOn:
           id: 'trailer-quick'
           optional: true
+      # With the quick replies open the story holds: well past a five-second slide, and past the
+      # last one, the reader is still on the trailer with the replies up.
+      - runFlow:
+          when:
+            visible:
+              id: 'trailer-react-okay_wow'
+          commands:
+            - extendedWaitUntil:
+                visible:
+                  id: 'proposal-version'
+                timeout: 12000
+                optional: true
+            - assertVisible:
+                id: 'trailer-react-okay_wow'
+            - takeScreenshot: en-3f-2-trailer-reply-held
       - tapOn:
           id: 'trailer-react-okay_wow'
           optional: true
