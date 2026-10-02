@@ -1,7 +1,8 @@
 /**
  * The trip egg's state for the PASS tab and the hatch ceremony (3l-1): waiting for landing,
  * ready to hatch by hand (the trip is under way and it is the start date or later on this phone,
- * or the trip's first day has come and the phone is at the destination),
+ * or the trip's first day has begun in the destination's own time zone, at any hour: no position
+ * is needed, since none is read overnight),
  * or hatched with the ceremony still unseen on this device. Which ceremonies were seen is kept
  * per device, so a second phone still plays it once; the hatch itself is idempotent server-side.
  */
@@ -44,8 +45,6 @@ export function eggCardFor(
   now: Date,
   seen: (eggId: string) => boolean,
   tz?: string,
-  /** The phone is inside this trip's destination right now. */
-  here: (trip: TripRow) => boolean = () => false,
 ): EggCard | null {
   for (const trip of trips) {
     if (trip.egg_id === null) continue;
@@ -65,8 +64,9 @@ export function eggCardFor(
       continue;
     }
     if (canHatchByHand(trip, now, tz)) return { ...base, kind: 'ready', trigger: 'manual' };
-    // Arrival day, at the destination, before the trip is marked under way: no waiting for that.
-    if (tripHasStarted(trip, now, tz ?? deviceTimeZone()) && here(trip)) {
+    // The first day has begun at the destination, before the trip is marked under way: HATCH IT
+    // is offered as an arrival at any hour, without waiting for a position.
+    if (tripHasStarted(trip, now, tz ?? deviceTimeZone())) {
       return { ...base, kind: 'ready', trigger: 'arrived' };
     }
     return { ...base, kind: 'waiting' };
