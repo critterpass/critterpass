@@ -256,9 +256,29 @@ appId: app.critterpass.dev
 - takeScreenshot: fresh-critters-17-trip-hub-tiles
 - tapOn:
     id: 'trip-hub-tile-quests'
+# Once the hub has rested, the visit offer can rise over it and take the tap: a traveller who
+# wants visit quests turns it on, then opens the quests again.
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-accept'
+    commands:
+      - waitForAnimationToEnd
+      - takeScreenshot: fresh-critters-17b-visit-offer
+      - tapOn:
+          id: 'visit-consent-accept'
+      - waitForAnimationToEnd
+      - runFlow:
+          when:
+            visible:
+              id: 'trip-hub-tile-quests'
+          commands:
+            - tapOn:
+                id: 'trip-hub-tile-quests'
+# The screen's root id is not in Android's tree; its content is.
 - extendedWaitUntil:
     visible:
-      id: 'quests-screen'
+      id: 'quests-list|quests-empty-.*|quests-loading'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-18-quests
