@@ -55,6 +55,7 @@ appId: app.critterpass.dev
     element:
       text: 'Crew chat.*'
     direction: UP
+    centerElement: true
     timeout: 15000
 - tapOn:
     text: 'Crew chat.*'
