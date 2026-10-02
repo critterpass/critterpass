@@ -1,0 +1,130 @@
+appId: app.critterpass.dev
+---
+# Settings for real (en): a brand-new account opens Settings from its profile (PASS tab → its face),
+# turns on the Help share and hides its critters from crews, picks "Mentions only" for crew chat,
+# leaves and comes back to find all three kept, then scrolls to Tokek and the version line (3n-6).
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+# Long crew names on the profile wrap between words or shrink, never clip.
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3n-1-long-crews'
+      ROOT: 'you-profile'
+- scrollUntilVisible:
+    element:
+      id: 'you-profile-mrz'
+    direction: DOWN
+    timeout: 15000
+- takeScreenshot: en-3n-1-long-crews
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 15000
+- runFlow: ../home/subflows/onboard.yaml
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings-guide'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-2-real
+- scrollUntilVisible:
+    element:
+      text: 'Share where I am from Help, For an hour.*'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    text: 'Share where I am from Help, For an hour.*'
+- scrollUntilVisible:
+    element:
+      text: 'Hide my critters, Crews stop seeing.*'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    text: 'Hide my critters, Crews stop seeing.*'
+- scrollUntilVisible:
+    element:
+      text: 'Share where I am from Help, For an hour.*'
+    direction: UP
+    timeout: 15000
+- assertVisible:
+    text: 'Share where I am from Help, For an hour.*'
+    checked: true
+- scrollUntilVisible:
+    element:
+      text: 'Crew chat.*'
+    direction: UP
+    centerElement: true
+    timeout: 15000
+- tapOn:
+    text: 'Crew chat.*'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings-crew-chat-sheet-mentions'
+    timeout: 10000
+- tapOn:
+    id: 'you-settings-crew-chat-sheet-mentions'
+- extendedWaitUntil:
+    visible:
+      text: 'Crew chat, Mentions only.*'
+    timeout: 10000
+# Leave Settings and come back: what was changed is still there.
+- tapOn:
+    id: 'you-settings-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 15000
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      text: 'Crew chat, Mentions only.*'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      text: 'Share where I am from Help, For an hour.*'
+    direction: DOWN
+    timeout: 15000
+- assertVisible:
+    text: 'Share where I am from Help, For an hour.*'
+    checked: true
+- scrollUntilVisible:
+    element:
+      text: 'Hide my critters, Crews stop seeing.*'
+    direction: DOWN
+    timeout: 15000
+- assertVisible:
+    text: 'Hide my critters, Crews stop seeing.*'
+    checked: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-2-privacy-kept
+- scrollUntilVisible:
+    element:
+      id: 'you-settings-version'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-6-real

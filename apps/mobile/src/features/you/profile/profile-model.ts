@@ -18,6 +18,7 @@ import {
   type TravelHistory,
 } from '@cp/domain';
 
+import { daysBetween, orderStamps, visibleStamps, type ProfileStamp } from '../history/stamp-book';
 import type {
   CrewMemberRow,
   CrewRow,
@@ -29,28 +30,17 @@ import type {
 } from './profile-queries';
 import { memberFirstName } from '@/ui/people/member-name';
 
-/** Stamps on the profile row before "ALL n ›" takes over. */
-export const STAMPS_SHOWN = 5;
 /** Travel style tags shown, as designed; the quiz can give many more. */
 export const TAGS_SHOWN = 5;
 /** Faces on a crew row. */
 export const CREW_FACES = 4;
 
+export { daysBetween, STAMPS_SHOWN, type ProfileStamp } from '../history/stamp-book';
+
+export type AvatarRing = 'rare' | 'epic' | 'legendary';
+
 export type ProfileAvatar =
   { readonly kind: 'initials' } | { readonly kind: 'guide'; readonly guide: OnboardingGuide };
-
-export interface ProfileStamp {
-  readonly id: string;
-  readonly kind: 'home' | 'trip' | 'upcoming';
-  /** The place's name, or the home airport's code. */
-  readonly title: string;
-  /** First day of the trip (`YYYY-MM-DD`), when known. */
-  readonly date: string | null;
-  /** Whole days until an upcoming trip starts; null when it has no date yet. */
-  readonly daysUntil: number | null;
-  /** The destination's own ink, when it has one. */
-  readonly ink: string | null;
-}
 
 export type CrewLine =
   | { readonly kind: 'upcoming'; readonly place: string; readonly days: number }
@@ -74,6 +64,8 @@ export interface ProfileModel {
   readonly username: string | null;
   readonly homeCity: string | null;
   readonly avatar: ProfileAvatar;
+  /** The rarity ring of the critter worn as the avatar, when it has one. */
+  readonly ring: AvatarRing | null;
   readonly passPlus: boolean;
   readonly stats: Pick<TravelHistory, 'trips' | 'countries' | 'critters'>;
   readonly stamps: readonly ProfileStamp[];
@@ -99,17 +91,6 @@ export interface ProfileInput {
   readonly today: string;
 }
 
-const DAY_MS = 86_400_000;
-
-function day(value: string): number {
-  return Date.parse(`${value.slice(0, 10)}T00:00:00Z`);
-}
-
-/** Whole days from `today` to `date`; negative once it has passed. */
-export function daysBetween(today: string, date: string): number {
-  return Math.round((day(date) - day(today)) / DAY_MS);
-}
-
 function parseTags(raw: string | null): TasteTag[] {
   if (raw === null) return [];
   try {
@@ -122,47 +103,8 @@ function parseTags(raw: string | null): TasteTag[] {
   }
 }
 
-/** The first day of a `[2024-06-01,2024-06-09)` range. */
-function rangeStart(range: string | null): string | null {
-  return range === null ? null : (/\d{4}-\d{2}-\d{2}/.exec(range)?.[0] ?? null);
-}
-
-function stampOf(row: StampRow, today: string): ProfileStamp | null {
-  if (row.kind === 'home') {
-    if (row.iata === null) return null;
-    return { id: row.id, kind: 'home', title: row.iata, date: null, daysUntil: null, ink: null };
-  }
-  const title = row.destination_name;
-  if (title === null) return null;
-  const date = rangeStart(row.dates) ?? row.trip_start ?? row.stamped_at?.slice(0, 10) ?? null;
-  const ink = row.ink_colour ?? row.destination_colour;
-  if (row.status === 'upcoming') {
-    const daysUntil = date === null ? null : Math.max(0, daysBetween(today, date));
-    return { id: row.id, kind: 'upcoming', title, date, daysUntil, ink };
-  }
-  return { id: row.id, kind: 'trip', title, date, daysUntil: null, ink };
-}
-
-/** Newest first, the home stamp after the trips, and what is still to come last (soonest first). */
-function orderStamps(stamps: readonly ProfileStamp[]): ProfileStamp[] {
-  const byDateDesc = (a: ProfileStamp, b: ProfileStamp) =>
-    (b.date ?? '').localeCompare(a.date ?? '');
-  const trips = stamps.filter((stamp) => stamp.kind === 'trip').sort(byDateDesc);
-  const home = stamps.filter((stamp) => stamp.kind === 'home');
-  const upcoming = stamps
-    .filter((stamp) => stamp.kind === 'upcoming')
-    .sort((a, b) => (a.date ?? '9999').localeCompare(b.date ?? '9999'));
-  return [...trips, ...home, ...upcoming];
-}
-
-/** At most `STAMPS_SHOWN`, always keeping the next trip's dashed stamp in view. */
-function visibleStamps(ordered: readonly ProfileStamp[]): ProfileStamp[] {
-  if (ordered.length <= STAMPS_SHOWN) return [...ordered];
-  const next = ordered.find((stamp) => stamp.kind === 'upcoming');
-  const rest = ordered.filter((stamp) => stamp !== next);
-  return next === undefined
-    ? rest.slice(0, STAMPS_SHOWN)
-    : [...rest.slice(0, STAMPS_SHOWN - 1), next];
+function ringOf(raw: string | null): AvatarRing | null {
+  return raw === 'rare' || raw === 'epic' || raw === 'legendary' ? raw : null;
 }
 
 function crewLine(trips: readonly CrewTripRow[], today: string): CrewLine {
@@ -210,12 +152,7 @@ export function buildProfile(input: ProfileInput): ProfileModel {
     critters: input.critters,
     memberSince: me?.member_since ?? today,
   });
-  const ordered = orderStamps(
-    input.stamps.flatMap((row) => {
-      const stamp = stampOf(row, today);
-      return stamp === null ? [] : [stamp];
-    }),
-  );
+  const ordered = orderStamps(input.stamps, input.pastTrips, today);
   const crews = input.crews.map((crew): ProfileCrew => {
     const members = input.crewMembers
       .filter((member) => member.crew_id === crew.id)
@@ -239,6 +176,7 @@ export function buildProfile(input: ProfileInput): ProfileModel {
     username: me?.username ?? null,
     homeCity: home?.city ?? null,
     avatar: guide === null ? { kind: 'initials' } : { kind: 'guide', guide },
+    ring: ringOf(me?.avatar_ring ?? null),
     passPlus: me?.pass_plus === 1,
     stats: { trips: history.trips, countries: history.countries, critters: history.critters },
     stamps: visibleStamps(ordered),

@@ -7,6 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: when(stamp.date, locale)
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReportedWhen"
+msgstr "{0} · Tự khai"
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.selfLabel"
+msgstr "{0}, {1}, tự khai"
+
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.past"
@@ -42,13 +53,25 @@ msgstr "{days, plural, other {# ngày nữa}}"
 msgid "you.profile.crew.today"
 msgstr "{place} hôm nay"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
 msgstr "Tài khoản"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.erasedTitle"
 msgstr "Tài khoản đã đóng"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.title"
+msgstr "Thêm chuyến đi cũ"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.addPastTrip"
+msgstr "Thêm chuyến đi cũ"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.allYears"
+msgstr "Tất cả"
 
 #. placeholder {0}: model.stampTotal
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
@@ -59,7 +82,11 @@ msgstr "Tất cả {0} ›"
 msgid "you.signOut.stays.all"
 msgstr "Tất cả. Đăng nhập lại là mọi thứ trở về."
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.always"
+msgstr "Luôn luôn"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.app"
 msgstr "Ứng dụng"
 
@@ -67,9 +94,21 @@ msgstr "Ứng dụng"
 msgid "you.language.appLanguage"
 msgstr "Ngôn ngữ ứng dụng"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.ask"
+msgstr "Hỏi"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offlineTripsLine"
 msgstr "Đặt chỗ, bản đồ và câu giao tiếp trên máy này"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.budgetMax"
+msgstr "Ngân sách tối đa"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.chatty.chatty"
+msgstr "Nói nhiều"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.zhHans"
@@ -95,11 +134,24 @@ msgstr "Đang đóng tài khoản…"
 msgid "you.delete.continue"
 msgstr "Tiếp tục"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.country"
+msgstr "Quốc gia"
+
+#: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.pings.crewChat"
+msgstr "Trò chuyện của hội"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.moved"
 msgstr "Nhóm chuyển app khác"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideCollectionLine"
+msgstr "Hội không còn thấy bộ sưu tập của bạn"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
 msgstr "Xoá tài khoản"
 
@@ -115,6 +167,10 @@ msgstr "Xoá tài khoản của bạn?"
 msgid "you.closed.departures"
 msgstr "DEPARTURES · DÉPARTS"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.trips"
+msgstr "Trong chuyến đi"
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.edit"
 msgstr "Sửa"
@@ -127,6 +183,11 @@ msgstr "Tiếng Anh"
 msgid "you.closed.entry"
 msgstr "ENTRY · ENTRÉE"
 
+#: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.pings.crewChat.all"
+msgstr "Mọi tin nhắn"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.exit"
 msgstr "EXIT · SORTIE"
@@ -135,15 +196,27 @@ msgstr "EXIT · SORTIE"
 msgid "you.delete.keeps.expenses"
 msgstr "Các khoản chi bạn đã thêm, để Số dư vẫn khớp"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpShareLine"
+msgstr "Trong một giờ với cả hội, khi mình mở Trợ giúp"
+
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.mailboxForward"
+msgstr "Chuyển tiếp xác nhận đến địa chỉ của hội"
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.fr"
 msgstr "Tiếng Pháp"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.getPassPlus"
+msgstr "Lấy Pass+"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes"
 msgstr "Sẽ mất"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.haptics"
 msgstr "Rung phản hồi"
 
@@ -154,6 +227,10 @@ msgstr "Chào lại nhé"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lede"
 msgstr "Đây là những gì đi cùng bạn, và những gì nhóm giữ lại."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideCollection"
+msgstr "Ẩn critter của mình"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.hold"
@@ -175,10 +252,18 @@ msgstr "Nhà"
 msgid "you.profile.back"
 msgstr "Trang chủ"
 
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.home"
+msgstr "Nơi ở"
+
 #. placeholder {0}: stamp.title
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.stamp.homeLabel"
 msgstr "Con dấu nhà, {0}"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.howChatty"
+msgstr "Nói nhiều cỡ nào"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.howYouTravel"
@@ -200,7 +285,7 @@ msgstr "Giữ tài khoản"
 msgid "you.language.name.ko"
 msgstr "Tiếng Hàn"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.language"
 msgstr "Ngôn ngữ"
 
@@ -224,16 +309,46 @@ msgstr "Cứ để đóng"
 msgid "you.signOut.leaves"
 msgstr "Rời khỏi điện thoại này"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location"
+msgstr "Vị trí"
+
+#: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.pings.crewChat.mentions"
+msgstr "Chỉ khi được nhắc tên"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.budgetMaxLine"
+msgstr "Không bao giờ hiện cho ai, kể cả hướng dẫn viên"
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.none"
 msgstr "Chưa có chuyến nào"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.chatty.normal"
+msgstr "Vừa phải"
 
 #. placeholder {0}: until ?? ''
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.body"
 msgstr "Chưa có gì bị xoá cho đến {0}. Đăng nhập trước ngày đó thì pass, critter và các nhóm của bạn trở lại như cũ."
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.notifications"
+msgstr "Thông báo"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.off"
+msgstr "Tắt"
+
+#: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.pings.crewChat.off"
+msgstr "Tắt"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offline"
 msgstr "Ngoại tuyến"
 
@@ -244,6 +359,10 @@ msgstr "Pass"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.passPlus"
 msgstr "Pass+ được tính tiền qua cửa hàng nơi bạn mua. Xoá tài khoản không huỷ gói, nên hãy huỷ ở đó nữa."
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.editTitle"
+msgstr "Chuyến đi cũ"
 
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
@@ -262,6 +381,10 @@ msgstr "Kế hoạch bạn góp phần lập, hiện là “thành viên cũ”"
 msgid "you.language.name.pt"
 msgstr "Tiếng Bồ Đào Nha"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.privacy"
+msgstr "Riêng tư"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.privacy"
 msgstr "Quyền riêng tư"
@@ -270,17 +393,49 @@ msgstr "Quyền riêng tư"
 msgid "you.settings.back"
 msgstr "Hồ sơ"
 
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.back"
+msgstr "Hồ sơ"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.chatty.quiet"
+msgstr "Ít nói"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.remove"
+msgstr "Xoá chuyến này"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restore"
 msgstr "Khôi phục tài khoản"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.retake"
+msgstr "Làm lại"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.savePass"
 msgstr "Lưu pass trước đã"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.save"
+msgstr "Lưu chuyến đi"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.searchCountry"
+msgstr "Tìm quốc gia"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.stamp"
 msgstr "Hẹn gặp lại"
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.selfReported"
+msgstr "Tự khai"
+
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReported"
+msgstr "Tự khai"
 
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.title"
@@ -302,7 +457,11 @@ msgstr "Cài đặt"
 msgid "you.signOut.back"
 msgstr "Cài đặt"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpShare"
+msgstr "Chia sẻ vị trí khi mở Trợ giúp"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.signOut"
 msgstr "Đăng xuất"
 
@@ -340,7 +499,7 @@ msgstr "Lý do khác"
 msgid "you.profile.stamp.soon"
 msgstr "Sắp tới"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.soundEffects"
 msgstr "Hiệu ứng âm thanh"
 
@@ -352,7 +511,15 @@ msgstr "Tiếng Tây Ban Nha"
 msgid "you.profile.stamps"
 msgstr "Con dấu"
 
-#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.back"
+msgstr "Con dấu"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.title"
+msgstr "Con dấu"
+
+#: ../../apps/mobile/src/features/you/profile/crew-rows.tsx
 msgid "you.profile.startCrew"
 msgstr "Lập một nhóm"
 
@@ -360,11 +527,15 @@ msgstr "Lập một nhóm"
 msgid "you.signOut.stays"
 msgstr "Vẫn còn trong tài khoản"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.soundEffectsLine"
 msgstr "Tiếng dán sticker, đóng dấu, bật nảy"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.talkOutLoud"
+msgstr "Nói thành tiếng"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hapticsLine"
 msgstr "Những cú chạm và rung bạn cảm nhận được"
 
@@ -379,6 +550,10 @@ msgstr "Ứng dụng, câu trả lời của hướng dẫn viên và thông bá
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps"
 msgstr "Nhóm giữ lại"
+
+#: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
+msgid "you.profile.retakeTitle"
+msgstr "Cái này hay cái kia"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.unsavedTitle"
@@ -397,6 +572,10 @@ msgstr "Điện thoại đã được xoá sạch. Hãy đóng ứng dụng rồ
 msgid "you.profile.stamp.today"
 msgstr "Hôm nay"
 
+#: ../../apps/mobile/src/features/you/settings/tokek-footer.tsx
+msgid "you.settings.tokek"
+msgstr "Tokek, hướng dẫn viên của bạn"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.pings"
 msgstr "Quá nhiều thông báo"
@@ -405,11 +584,15 @@ msgstr "Quá nhiều thông báo"
 msgid "you.delete.reason.tripsOver"
 msgstr "Đi xong rồi"
 
-#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+#: ../../apps/mobile/src/features/you/profile/crew-rows.tsx
 msgid "you.profile.startCrewLine"
 msgstr "Đi cùng hội của mình mới vui."
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.lead"
+msgstr "Những chuyến đi trước khi có CritterPass. Chúng được tính vào số chuyến đi và quốc gia, và con dấu ghi là tự khai."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offlineTrips"
 msgstr "Chuyến đi đã lưu ngoại tuyến"
 
@@ -425,6 +608,10 @@ msgstr "Hoàn tác, giữ tài khoản"
 msgid "you.language.name.vi"
 msgstr "Tiếng Việt"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.talkOutLoudLine"
+msgstr "Trả lời bằng giọng nói khi bạn nói trước"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.notClosed"
 msgstr "Chưa đóng được tài khoản nên điện thoại này chưa bị thay đổi gì. Hãy thử lại sau giây lát."
@@ -436,6 +623,10 @@ msgstr "Chưa khôi phục được tài khoản. Kiểm tra kết nối rồi t
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restoreTitle"
 msgstr "Mừng bạn trở lại"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.when"
+msgstr "Khi nào"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.why"
@@ -461,6 +652,10 @@ msgstr "Nhóm của bạn"
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.noTrips"
 msgstr "Chuyến đầu tiên sẽ tự đóng dấu ở đây khi bạn hạ cánh."
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.guide"
+msgstr "Hướng dẫn viên của bạn"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes.pass"
