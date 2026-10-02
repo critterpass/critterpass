@@ -1,14 +1,16 @@
 appId: app.critterpass.dev
 ---
 # A trip confirmed on its first day turns "in trip" on the worker's ten-minute sweep, from noon in
-# Vietnam, and the visit history offer then rises over whatever is open (it has come up over the
-# paste sheet mid-typing). Wait for it here and put it away, so the steps after are not interrupted.
+# Vietnam, and Home then shows it as on without a relaunch. Wait for that here, so the steps after
+# see the trip under way. The visit history offer rises only on the trip's own screen (see
+# answer-visit-offer.yaml), never over Home.
 - runFlow:
     when:
       true: ${new Date(Date.now() + 7 * 3600000).getUTCHours() >= 12}
     commands:
       - extendedWaitUntil:
-          visible: 'NOT NOW'
-          timeout: 780000
-          optional: true
-- runFlow: dismiss-visit-offer.yaml
+          visible:
+            id: 'home-in-trip'
+          timeout: 900000
+- assertVisible:
+    id: 'home-next-up|home-in-trip'
