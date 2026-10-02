@@ -14,6 +14,7 @@ import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { GuideLine } from '@/ui/people/GuideLine';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
 import { Stack } from '@/ui/layout/Stack';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
@@ -82,6 +83,8 @@ export function ScanView(props: ScanViewProps) {
   const guide = useWalletGuide();
   const tokek = GUIDE_STICKERS[guide.id];
   const { scene } = props;
+  // The camera's ✕ is drawn in every scene, so the screen always has its way back.
+  useBackAffordance();
   const issue = scene.kind === 'failure' ? scene.failure.issue : null;
   const chipText =
     issue === 'crumpled'
