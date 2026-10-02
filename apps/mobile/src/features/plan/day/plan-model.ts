@@ -16,6 +16,8 @@ import {
 
 import { guideText } from '@/lib/i18n/guide-text';
 
+import { kindTitle, stopName } from '../stop-name';
+
 export interface PlanDayRow {
   readonly day_no: number;
   readonly date: string | null;
@@ -183,12 +185,16 @@ export interface ItemDisplay {
  * Display fields the plan state does not carry (a place's name and position, the guide's note in
  * the app's language), by stable id. The state keeps the note as written: edits replay on that.
  */
-export function displayOf(rows: readonly PlanItemRow[], locale = 'en'): Map<string, ItemDisplay> {
+export function displayOf(
+  rows: readonly PlanItemRow[],
+  locale = 'en',
+  places: ReadonlyMap<string, string> = new Map(),
+): Map<string, ItemDisplay> {
   return new Map(
     rows.map((row) => [
       row.stable_id,
       {
-        title: row.poi_name ?? guideText('plan_item', row, 'notes', locale),
+        title: stopName(row, places),
         notes: guideText('plan_item', row, 'notes', locale),
         place:
           row.poi_lat === null || row.poi_lng === null
@@ -235,7 +241,12 @@ export function dayItems(
       return {
         stableId: item.stable_id,
         dayNo,
-        title: shown?.title ?? item.notes ?? item.category ?? '',
+        // An item not synced yet (a person's own, just added) is named by what they typed.
+        title:
+          shown?.title ??
+          (item.poi_id == null && item.created_by_kind !== 'guide' && item.notes
+            ? item.notes
+            : kindTitle(item.category ?? null)),
         category: item.category ?? null,
         start,
         end: end ?? (start === null ? null : start + 60),
@@ -260,3 +271,5 @@ export function dayItems(
         a.stableId.localeCompare(b.stableId),
     );
 }
+
+export { placeNamesOf } from '../stop-name';
