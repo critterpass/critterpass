@@ -63,7 +63,7 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
       {
         testId: 'dev-nav-disruption-lab',
         href: '/(dev)/disruption-lab',
-        label: 'Disruptions (3k-5, 3k-9 scenes)',
+        label: 'Disruptions (3k-5, 3k-7, 3k-8, 3k-9 scenes)',
       },
       {
         testId: 'dev-nav-critters-lab',
