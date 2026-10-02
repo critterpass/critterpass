@@ -48,6 +48,20 @@ export function withDesk(steps: readonly ChecklistStep[], desk: boolean): Checkl
   return desk ? [...steps] : steps.filter((step) => step.kind !== 'ops_clinic');
 }
 
+/**
+ * A phrase card helps a traveller say something in a language they don't speak; for a reader whose
+ * app language is the phrase's (a Vietnamese traveller in Vietnam) it adds nothing, so it is left out.
+ */
+export function readsPhraseLanguage(appLocale: string, phraseLanguage: string): boolean {
+  const base = (tag: string) => tag.toLowerCase().split(/[-_]/u)[0] ?? '';
+  return base(appLocale) === base(phraseLanguage);
+}
+
+/** Without the phrase card, the checklist's "show them" step goes too. */
+export function withPhrase(steps: readonly ChecklistStep[], shown: boolean): ChecklistStep[] {
+  return shown ? [...steps] : steps.filter((step) => step.kind !== 'phrase');
+}
+
 export function checklistPhrase(model: HubModel, problem: HelpProblem): HelpPhrase | null {
   return problemPhrase(model, problem);
 }
