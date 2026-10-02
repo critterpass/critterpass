@@ -11,6 +11,7 @@ import type { ServerAnalytics } from './obs/analytics';
 import type { startApiObservability } from './obs';
 import type { createRedisClient } from './redis-client';
 import { registerCmdResultsRoute } from './routes/cmd-results';
+import { registerConfigRoutesFromEnv } from './routes/config';
 import { registerCommandRoute } from './routes/cmd';
 import { registerLocationRouteFromEnv } from './routes/loc';
 import { registerLiveMapRoutes } from './routes/live-map';
@@ -100,6 +101,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerExplore(app, doors);
   registerSetupRoutes(app, { ...doors, store: redis, env: process.env });
   registerReceiptRoutesFromEnv(app, doors, process.env);
+  registerConfigRoutesFromEnv(app, doors, process.env);
   registerGeoRoutesFromEnv(app, doors, env.GEOIP_CITY_MMDB, logger);
   registerDevRoutesFromEnv(app, { ...doors, logger }, env);
   registerLinkRoutes(app, {
