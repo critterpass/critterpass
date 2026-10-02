@@ -193,11 +193,14 @@ export function ProfileStampFace({
   stamp,
   index,
   size = STAMP,
+  bare = false,
   testID,
 }: {
   readonly stamp: ProfileStamp;
   readonly index: number;
   readonly size?: number;
+  /** Only the place, for small faces where the curved lines cannot fit. */
+  readonly bare?: boolean;
   readonly testID?: string;
 }) {
   const { t } = useLingui();
@@ -213,8 +216,8 @@ export function ProfileStampFace({
   return (
     <Stamp
       title={upper(stampTitle(stamp, locale), locale)}
-      {...(top === undefined ? {} : { top: upper(top, locale) })}
-      {...(bottom === undefined ? {} : { bottom: upper(bottom, locale) })}
+      {...(top === undefined || bare ? {} : { top: upper(top, locale) })}
+      {...(bottom === undefined || bare ? {} : { bottom: upper(bottom, locale) })}
       ink={inkOf(stamp, index, theme)}
       shape={stamp.kind === 'upcoming' || stamp.kind === 'self' ? 'pending' : 'round'}
       size={size}

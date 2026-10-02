@@ -36,8 +36,18 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     text: 'Share where I am from Help, For an hour.*'
+- scrollUntilVisible:
+    element:
+      text: 'Hide details on the lock screen, Pings.*'
+    direction: DOWN
+    timeout: 15000
 - tapOn:
     text: 'Hide details on the lock screen, Pings.*'
+- scrollUntilVisible:
+    element:
+      text: 'Share where I am from Help, For an hour.*'
+    direction: UP
+    timeout: 15000
 - assertVisible:
     text: 'Share where I am from Help, For an hour.*'
     checked: true
@@ -82,6 +92,11 @@ appId: app.critterpass.dev
 - assertVisible:
     text: 'Share where I am from Help, For an hour.*'
     checked: true
+- scrollUntilVisible:
+    element:
+      text: 'Hide details on the lock screen, Pings.*'
+    direction: DOWN
+    timeout: 15000
 - assertVisible:
     text: 'Hide details on the lock screen, Pings.*'
     checked: true

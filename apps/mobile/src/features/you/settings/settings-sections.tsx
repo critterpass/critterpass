@@ -5,6 +5,7 @@
  */
 import type { Chattiness } from '@cp/domain';
 import { useLingui } from '@lingui/react/macro';
+import { View, type ViewStyle } from 'react-native';
 
 import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Segmented } from '@/ui/inputs/Segmented';
@@ -14,6 +15,8 @@ import type { CrewChatMode } from '../ping-settings/ping-prefs';
 import { SETTINGS_REGISTRY, SETTINGS_SECTIONS, type SettingsSectionId } from './registry';
 import type { SyncedSettings } from './synced-settings';
 import type { SettingsSection } from './settings-view';
+
+const CHATTY_TRACK: ViewStyle = { flexShrink: 1, maxWidth: '64%' };
 
 export interface SettingsValues extends SyncedSettings {
   readonly crewChat: CrewChatMode;
@@ -77,14 +80,17 @@ export function useSettingsSections(
       key: 'chattiness',
       kind: 'custom',
       title: t({ id: 'you.settings.howChatty', message: 'How chatty' }),
+      // Bounded, so the title keeps its words whole beside the three options.
       trailing: (
-        <Segmented
-          segments={chattiness}
-          value={values.chattiness}
-          onChange={(next) => handlers.onSynced({ chattiness: next })}
-          label={t({ id: 'you.settings.howChatty', message: 'How chatty' })}
-          testID="you-settings-chattiness"
-        />
+        <View style={CHATTY_TRACK}>
+          <Segmented
+            segments={chattiness}
+            value={values.chattiness}
+            onChange={(next) => handlers.onSynced({ chattiness: next })}
+            label={t({ id: 'you.settings.howChatty', message: 'How chatty' })}
+            testID="you-settings-chattiness"
+          />
+        </View>
       ),
     },
     'talk-out-loud': toggle(

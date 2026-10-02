@@ -96,7 +96,7 @@ export function StampsView(props: StampsViewProps) {
                 subtitle={stampLine(stamp, locale)}
                 leading={
                   <View style={styles.face} accessibilityLabel={stampLabel(stamp, locale)}>
-                    <ProfileStampFace stamp={stamp} index={index} size={FACE} />
+                    <ProfileStampFace stamp={stamp} index={index} size={FACE} bare />
                   </View>
                 }
                 {...(open === undefined ? { chevron: false } : { onPress: open })}

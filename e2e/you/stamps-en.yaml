@@ -71,7 +71,10 @@ appId: app.critterpass.dev
 - inputText: 'Portugal'
 - tapOn:
     id: 'you-past-trip-country-PT'
-- hideKeyboard
+- extendedWaitUntil:
+    visible:
+      id: 'you-past-trip-country-picked'
+    timeout: 10000
 - tapOn:
     id: 'you-past-trip-year-2025'
 - tapOn:

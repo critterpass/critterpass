@@ -6,6 +6,7 @@
 import { airportDataset } from '@cp/content/airports';
 import { router } from 'expo-router';
 import { useMemo, useState } from 'react';
+import { Keyboard } from 'react-native';
 
 import { regionName } from '@/features/onboarding';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -68,6 +69,7 @@ export function PastTripScreen({
       onCountry={(option) => {
         setPicked(option);
         setQuery('');
+        Keyboard.dismiss();
       }}
       years={pastTripYears(today)}
       year={shownYear}
