@@ -19,6 +19,10 @@ msgstr "{hours}h"
 msgid "trip.disruptions.flight.delayBoth"
 msgstr "{hours}h {minutes}m"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.walk"
+msgstr "{minutes} min on foot from here. There about {arrive}."
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.delayMinutes"
 msgstr "{minutes}m"
@@ -35,13 +39,33 @@ msgstr "{name} kept {from}"
 msgid "trip.disruptions.flight.keptBy"
 msgstr "{name} kept the plan"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.vendor.declined"
+msgstr "{name} said no"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.vendor.agreed"
+msgstr "{name} said yes"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.retime"
 msgstr "{title} {from} → {to}"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.skip"
+msgstr "{title} goes on without you."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.push"
+msgstr "{title} moves to {to}."
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.skip"
 msgstr "{title} off the plan"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.waitingLine"
+msgstr "{title} starts {start} for you."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.question"
@@ -55,6 +79,14 @@ msgstr "{vendor} confirmed {to}"
 msgid "trip.disruptions.flight.row.vendorDeclined"
 msgstr "{vendor} said no"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.waitingTitle"
+msgstr "{who}: {minutes} min late"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.chip"
+msgstr "+{minutes} min"
+
 #: ../../apps/mobile/src/features/trip/disruptions/commands.ts
 msgid "trip.disruptions.queued.announce"
 msgstr "A note to the crew"
@@ -62,6 +94,10 @@ msgstr "A note to the crew"
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.briefing"
 msgstr "Added to your briefing"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.missingTitle"
+msgstr "All sorted"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.missingTitle"
@@ -83,9 +119,21 @@ msgstr "Answer by {time}"
 msgid "trip.disruptions.flight.approve"
 msgstr "Approve"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.vendor.ask"
+msgstr "Ask {name}"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.vendorAsk"
 msgstr "Ask {vendor} for {to}?"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.vendor.asked"
+msgstr "Asked {name}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.backAction"
+msgstr "Back"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.back"
@@ -94,6 +142,10 @@ msgstr "Back"
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.undone"
 msgstr "Back to the plan from before the delay."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.option.car"
+msgstr "Call a car"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.cancelled"
@@ -111,6 +163,14 @@ msgstr "Delayed"
 msgid "trip.disruptions.flight.diverted"
 msgstr "Diverted"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.eta"
+msgstr "ETA {eta}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.car"
+msgstr "Fare and pickup time from Grab."
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.liveActivity"
 msgstr "Flight updated on your lock screen"
@@ -126,6 +186,10 @@ msgstr "Keep the plan"
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.landed"
 msgstr "Landed. Everything here is settled."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.etaStale"
+msgstr "Last ETA {eta}"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.leaveBy"
@@ -147,6 +211,14 @@ msgstr "Needs a yes"
 msgid "trip.disruptions.flight.row.vendorNoAnswer"
 msgstr "No answer from {vendor}. Call them?"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.offlineMap"
+msgstr "No map offline. Your pick goes out when you're back."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.missing"
+msgstr "Nothing to sort here any more."
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.missing"
 msgstr "Nothing to sort here any more."
@@ -154,6 +226,10 @@ msgstr "Nothing to sort here any more."
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.working"
 msgstr "On its way"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.cta.none"
+msgstr "Pick one"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.pickup"
@@ -163,9 +239,29 @@ msgstr "Pickup {from} → {to}"
 msgid "trip.disruptions.flight.toldCrew"
 msgstr "Posted in crew chat."
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.option.push"
+msgstr "Push the slot"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.cta.push"
+msgstr "Push to {to}"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.rebook"
 msgstr "Rebook on {carrier}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.title"
+msgstr "Running {minutes} min late"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.chosen"
+msgstr "Sent"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.option.skip"
+msgstr "Skip it"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.vendorCancel"
@@ -175,9 +271,21 @@ msgstr "Tell {vendor} the flight won't land today?"
 msgid "trip.disruptions.flight.tellCrew"
 msgstr "Tell the crew"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.split"
+msgstr "The others start at {from}. You slot in at {to}."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.back"
+msgstr "Today"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.row.unaffected"
 msgstr "Told the others nothing changes for them"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.told"
+msgstr "Told whoever's waiting."
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.backTo"
@@ -199,6 +307,18 @@ msgstr "Undoing the guide's changes"
 msgid "trip.disruptions.flight.waitingOn"
 msgstr "Waiting on {list}"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.option.walk"
+msgstr "Walk the last bit"
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.lateOption"
+msgstr "What to do about running late"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.offline"
 msgstr "You're offline. Answers go out when you're back."
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.onTime"
+msgstr "You're on time again."

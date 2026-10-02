@@ -1,20 +1,20 @@
 appId: app.critterpass.dev
 ---
-# The flight-delayed screen (3k-5). First the real route as a brand-new account sees it (a real
+# The running-late screen (3k-9). First the real route as a brand-new account sees it (a real
 # onboarding, no demo seed): no disruption of theirs exists, so the screen says there is nothing
-# to sort. Then every state from
-# the disruptions lab's fixed data (apps/mobile/src/app/(dev)/disruption-lab.tsx), in English and
-# in Vietnamese, named `<lang>-3k-5-<state>` so compare mode pairs each with its render.
+# to sort. Then every state from the disruptions lab's fixed data
+# (apps/mobile/src/app/(dev)/disruption-lab.tsx), in English and in Vietnamese, named
+# `<lang>-3k-9-<state>` so compare mode pairs each with its render.
 - runFlow: ../../happy/subflows/fresh-account.yaml
 - runFlow:
     file: ../../screens/sweep/subflows/open-link.yaml
     env:
-      URL: critterpass-dev://disruption/0190f0a0-0000-7000-8000-00000000dead
+      URL: critterpass-dev://late/0190f0a0-0000-7000-8000-00000000dead
 - extendedWaitUntil:
     visible:
-      id: 'disruption-missing'
+      id: 'late-missing'
     timeout: 30000
-- takeScreenshot: en-3k-5-missing-fresh
+- takeScreenshot: en-3k-9-missing-fresh
 - runFlow: ../../onboarding/subflows/back.yaml
 - runFlow:
     when:
@@ -43,75 +43,69 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5'
-      SHOT: 'en-3k-5'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9'
+      SHOT: 'en-3k-9'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-decided-by-other'
-      SHOT: 'en-3k-5-decided-by-other'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-vendor-said-yes'
+      SHOT: 'en-3k-9-vendor-said-yes'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-other-member'
-      SHOT: 'en-3k-5-other-member'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-walk'
+      SHOT: 'en-3k-9-walk'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-in-progress'
-      SHOT: 'en-3k-5-in-progress'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-no-ride'
+      SHOT: 'en-3k-9-no-ride'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-no-answer'
-      SHOT: 'en-3k-5-no-answer'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-chosen'
+      SHOT: 'en-3k-9-chosen'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-cancelled'
-      SHOT: 'en-3k-5-cancelled'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-stale'
+      SHOT: 'en-3k-9-stale'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-diverted'
-      SHOT: 'en-3k-5-diverted'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-waiting-crew'
+      SHOT: 'en-3k-9-waiting-crew'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-landed'
-      SHOT: 'en-3k-5-landed'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-on-time'
+      SHOT: 'en-3k-9-on-time'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-undone'
-      SHOT: 'en-3k-5-undone'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-no-map'
+      SHOT: 'en-3k-9-no-map'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-offline'
-      SHOT: 'en-3k-5-offline'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-loading'
+      SHOT: 'en-3k-9-loading'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-loading'
-      SHOT: 'en-3k-5-loading'
-- runFlow:
-    file: subflows/lab-scene.yaml
-    env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-missing'
-      SHOT: 'en-3k-5-missing'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-missing'
+      SHOT: 'en-3k-9-missing'
 # The same states in Vietnamese: the dev gallery switches the running app's language.
 - runFlow: ../../onboarding/subflows/back.yaml
 - runFlow:
@@ -163,72 +157,66 @@ appId: app.critterpass.dev
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5'
-      SHOT: 'vi-3k-5'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9'
+      SHOT: 'vi-3k-9'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-decided-by-other'
-      SHOT: 'vi-3k-5-decided-by-other'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-vendor-said-yes'
+      SHOT: 'vi-3k-9-vendor-said-yes'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-other-member'
-      SHOT: 'vi-3k-5-other-member'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-walk'
+      SHOT: 'vi-3k-9-walk'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-in-progress'
-      SHOT: 'vi-3k-5-in-progress'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-no-ride'
+      SHOT: 'vi-3k-9-no-ride'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-no-answer'
-      SHOT: 'vi-3k-5-no-answer'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-chosen'
+      SHOT: 'vi-3k-9-chosen'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-cancelled'
-      SHOT: 'vi-3k-5-cancelled'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-stale'
+      SHOT: 'vi-3k-9-stale'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-diverted'
-      SHOT: 'vi-3k-5-diverted'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-waiting-crew'
+      SHOT: 'vi-3k-9-waiting-crew'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-landed'
-      SHOT: 'vi-3k-5-landed'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-on-time'
+      SHOT: 'vi-3k-9-on-time'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-undone'
-      SHOT: 'vi-3k-5-undone'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-no-map'
+      SHOT: 'vi-3k-9-no-map'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-offline'
-      SHOT: 'vi-3k-5-offline'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-loading'
+      SHOT: 'vi-3k-9-loading'
 - runFlow:
     file: subflows/lab-scene.yaml
     env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-loading'
-      SHOT: 'vi-3k-5-loading'
-- runFlow:
-    file: subflows/lab-scene.yaml
-    env:
-      SCREEN: 'disruption-screen'
-      SCENE: '3k-5-missing'
-      SHOT: 'vi-3k-5-missing'
+      SCREEN: 'late-screen'
+      SCENE: '3k-9-missing'
+      SHOT: 'vi-3k-9-missing'

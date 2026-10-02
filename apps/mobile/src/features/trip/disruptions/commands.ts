@@ -5,6 +5,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type {
   AnnounceDisruptionPayload,
+  ChooseLateOptionPayload,
   DecideDisruptionActionPayload,
   UndoDisruptionActionPayload,
 } from '@cp/domain';
@@ -29,4 +30,11 @@ export const announceDisruptionCommand = defineClientCommand<AnnounceDisruptionP
   name: 'announce_disruption',
   offline: true,
   summarize: () => msg({ id: 'trip.disruptions.queued.announce', message: 'A note to the crew' }),
+});
+
+export const chooseLateOptionCommand = defineClientCommand<ChooseLateOptionPayload>({
+  name: 'choose_late_option',
+  offline: true,
+  summarize: () =>
+    msg({ id: 'trip.disruptions.queued.lateOption', message: 'What to do about running late' }),
 });
