@@ -22,7 +22,9 @@ describe('visit consent', () => {
   it('says what is kept (places, never a trail) and records the answer', async () => {
     const onAnswer = jest.fn();
     await renderWithInsets(<VisitConsentSheet onAnswer={onAnswer} />);
-    expect(screen.getByText(/never a trail of coordinates/)).toBeTruthy();
+    expect(
+      screen.getByText(/places on your plan that you actually reach, never a trail of coordinates/),
+    ).toBeTruthy();
     await fireEvent.press(screen.getByTestId('visit-consent-accept'));
     await fireEvent.press(screen.getByTestId('visit-consent-decline'));
     expect(onAnswer.mock.calls).toEqual([[true], [false]]);
