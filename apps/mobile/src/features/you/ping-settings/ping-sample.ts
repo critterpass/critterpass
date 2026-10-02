@@ -6,7 +6,7 @@
  */
 import { requireOptionalNativeModule } from 'expo';
 import type * as SpeechModule from 'expo-speech';
-import { t } from '@lingui/core/macro';
+import { plural, t } from '@lingui/core/macro';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type SampleBand = 'quiet' | 'steady' | 'chatty';
@@ -22,23 +22,21 @@ export function sampleLine(budget: number): string {
     case 'quiet':
       return t({
         id: 'you.pings.sample.quiet',
-        message:
-          '{budget, plural, one {About # ping a day.} other {About # pings a day.}} Only the big moments: a vote closing, a plan that changed. Everything else waits for the roundup.',
-        values: { budget },
+        message: plural(budget, {
+          one: 'About # ping a day. Only the big moments: a vote closing, a plan that changed. Everything else waits for the roundup.',
+          other:
+            'About # pings a day. Only the big moments: a vote closing, a plan that changed. Everything else waits for the roundup.',
+        }),
       });
     case 'steady':
       return t({
         id: 'you.pings.sample.steady',
-        message:
-          'About {budget} pings a day. Votes, plan changes and who paid what, as they happen. The small stuff waits for the roundup.',
-        values: { budget },
+        message: `About ${budget} pings a day. Votes, plan changes and who paid what, as they happen. The small stuff waits for the roundup.`,
       });
     case 'chatty':
       return t({
         id: 'you.pings.sample.chatty',
-        message:
-          'About {budget} pings a day. Votes, plans, money, crew news and a critter or two, as they happen.',
-        values: { budget },
+        message: `About ${budget} pings a day. Votes, plans, money, crew news and a critter or two, as they happen.`,
       });
   }
 }

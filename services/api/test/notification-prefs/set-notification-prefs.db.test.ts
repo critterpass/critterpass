@@ -105,7 +105,7 @@ describe('set_notification_prefs', () => {
     ['an empty patch', {}],
   ])('refuses %s', async (_name, payload) => {
     const response = await set(maya, payload);
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(422);
     expect(response.body).toMatchObject({ error: { code: 'VALIDATION' } });
     expect(await prefs(maya.uid)).toMatchObject({ budget_per_day: 3 });
   });

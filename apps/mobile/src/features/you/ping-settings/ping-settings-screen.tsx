@@ -16,11 +16,9 @@ import { clampBudget, type CrewChatMode, usePingPrefs } from './ping-prefs';
 import { usePingSample } from './ping-sample';
 import { PingSettingsView } from './ping-settings-view';
 
-/* eslint-disable lingui/no-unlocalized-strings -- clock values and keys, never copy. */
 const ROUNDUP_TIMES = ['17:00', '18:00', '19:00', '20:00', '21:00', '22:00'] as const;
 const QUIET_WINDOWS = ['21:00–06:00', '22:00–07:00', '23:00–07:00', '00:00–08:00'] as const;
 const QUIET_OFF = 'off';
-/* eslint-enable lingui/no-unlocalized-strings */
 
 type Picker = 'roundup' | 'crew-chat' | 'quiet' | null;
 
