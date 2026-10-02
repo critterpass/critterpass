@@ -1,0 +1,29 @@
+appId: app.critterpass.dev
+---
+# The dates step's "Pick a week" sheet, as organiser: a week starting three weeks from today
+# (Vietnam time), far enough out that a proposal can still be answered. The sheet opens on the
+# month of the suggested week, which can be another one; the shared pick-week-day subflow pages it
+# to the day's month and taps the day by its id.
+- scrollUntilVisible:
+    element:
+      id: 'when-pick-week'
+    timeout: 30000
+- waitForAnimationToEnd
+- tapOn:
+    id: 'when-pick-week'
+- extendedWaitUntil:
+    visible:
+      id: 'picker-shorter'
+    timeout: 10000
+- waitForAnimationToEnd
+- evalScript: ${output.pickDate = new Date(Date.now() + 7 * 3600000 + 21 * 86400000).toISOString().slice(0, 10)}
+- runFlow:
+    file: ../../happy/subflows/pick-week-day.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
+- extendedWaitUntil:
+    visible:
+      id: 'picker-lock'
+    timeout: 10000
+- tapOn:
+    id: 'picker-lock'

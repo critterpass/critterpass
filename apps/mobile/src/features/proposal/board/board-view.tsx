@@ -2,11 +2,13 @@
  * SLIDE TO BOARD (3f-5) as a pure view: "{PLACE} · {DATES}" with the crew already in and the
  * counter, the boarding pass, and the slider (its screen-reader action boards the same way). On
  * boarding the pass thumps, the guide's egg drops in under it and the counter flips; reduced
- * motion keeps the pass still and only the success haptic plays. Below the slider: MAYBE and "I can't make it".
+ * motion keeps the pass still and only the success haptic plays. A pass opened already boarded
+ * draws the egg plainly: an entering animation on a view that mounts with its screen can fail to
+ * start, and it would stay invisible. Below the slider: MAYBE and "I can't make it".
  */
 import { tokens } from '@cp/design-tokens';
 import { t } from '@lingui/core/macro';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import Animated, {
   FadeInDown,
@@ -81,6 +83,9 @@ export function BoardView(props: BoardViewProps) {
   // The pass is drawn without a back control (3f-5); the system back still leaves it.
   useNoBackByDesign();
   const info = GUIDE_STICKERS[props.guide];
+  // The egg drops in only when boarding happens on this screen, not when it opens boarded.
+  const [openedBoarded] = useState(props.boarded);
+  const eggDropsIn = !reduced && !openedBoarded;
   const thump = useSharedValue(1);
   useEffect(() => {
     if (!props.boarded || reduced) return;
@@ -151,7 +156,7 @@ export function BoardView(props: BoardViewProps) {
         {props.boarded ? (
           <Animated.View
             style={styles.egg}
-            {...(reduced ? {} : { entering: FadeInDown.delay(500).springify() })}
+            {...(eggDropsIn ? { entering: FadeInDown.delay(500).springify() } : {})}
             testID="board-egg"
           >
             <Egg state="wobbling" color={theme.guide[props.guide]} size={64} />

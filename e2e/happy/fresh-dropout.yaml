@@ -1,0 +1,157 @@
+appId: app.critterpass.dev
+---
+# A friend drops out of a real proposal, between two brand-new accounts on one phone. After the
+# organiser sends it, the friend boards, then says from their version that they can't make it after
+# all. The organiser's
+# tracker then shows them as out, with the change list the guide worked out; APPLY CHANGES resolves
+# it and the trip is re-priced without them.
+- runFlow: subflows/proposal-sent.yaml
+
+# The friend opens the proposal from crew chat and declines from the boarding pass.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-1'
+- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-trailer|proposal-version'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'proposal-trailer'
+    commands:
+      - tapOn:
+          id: 'trailer-maybe'
+- extendedWaitUntil:
+    visible:
+      id: 'version-in'
+    timeout: 60000
+# The friend says IN first: a dropout is someone who had a seat.
+- tapOn:
+    id: 'version-in'
+- extendedWaitUntil:
+    visible:
+      id: 'board-slide'
+    timeout: 30000
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          from:
+            id: 'board-knob'
+          direction: RIGHT
+          duration: 1200
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 12%, 86%
+          end: 96%, 86%
+          duration: 1200
+- extendedWaitUntil:
+    visible:
+      id: 'board-egg'
+    timeout: 30000
+- tapOn:
+    id: 'board-done'
+# Later, from their version: "I can't make it after all" opens the pass on the question.
+- scrollUntilVisible:
+    element:
+      id: 'version-out'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-3-in-with-way-out
+- tapOn:
+    id: 'version-out'
+- extendedWaitUntil:
+    visible:
+      id: 'board-out-confirm'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-5-cant-make-it
+# The sheet's own button. Android's hierarchy leaves the sheet's window out, so the tap goes where
+# the sheet draws its button (above CANCEL); iOS finds the button by its words.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          point: 50%, 76%
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          text: '(?i)I can.t make it'
+          index: 1
+# The reply is sent and the friend is back on their version, which says so.
+- extendedWaitUntil:
+    visible:
+      text: '(?i)you said you can.t make it.*'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-3-after-declining
+
+# The organiser: the tracker shows the friend as out, with the re-split to look at.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+- runFlow: ../proposal/subflows/open-proposal-card.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-tracker'
+    timeout: 60000
+# The worker builds the re-split after the reply; the row turns into its link when it syncs.
+- extendedWaitUntil:
+    visible:
+      text: '(?i).*see what changes.*'
+    timeout: 180000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-6-friend-out
+- tapOn:
+    text: '(?i).*see what changes.*'
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-dropout'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      id: 'dropout-changes'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-7-real-change-list
+- tapOn:
+    id: 'dropout-apply'
+- extendedWaitUntil:
+    visible:
+      id: 'dropout-applied'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-7-real-applied
+
+# What the organiser is left with: the tracker, then Home.
+- runFlow: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'proposal-tracker'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-6-after-apply
+- openLink: critterpass-dev://
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-screen'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3b-2-home-after-dropout

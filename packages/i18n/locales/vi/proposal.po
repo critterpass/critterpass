@@ -7,8 +7,8 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#. placeholder {0}: p.name
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#. placeholder {0}: person.name
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.you"
 msgstr "{0} (bạn)"
 
@@ -83,7 +83,7 @@ msgid "proposal.trailer.presents"
 msgstr "{0} giới thiệu"
 
 #. placeholder {0}: trip.destination
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.back"
 msgstr "Đề xuất {0}"
 
@@ -136,7 +136,7 @@ msgstr "Trứng của {0} sẽ nở khi bạn hạ cánh"
 msgid "proposal.dropout.seatsAfter"
 msgstr "{after}, hủy trong đơn đặt khi bạn áp dụng"
 
-#: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.build.eachAmount"
 msgstr "{amount} mỗi người"
 
@@ -172,7 +172,7 @@ msgstr "{name} không đi được"
 msgid "proposal.dropout.chip"
 msgstr "{name} đã trả lời"
 
-#: ../../apps/mobile/src/features/proposal/dropout/dropout-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.dropout.reply"
 msgstr "{name} báo với nhóm là không đi được · {when}"
 
@@ -265,7 +265,7 @@ msgstr "Về lại đề xuất"
 msgid "proposal.board.action"
 msgstr "Lên máy bay"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.boarded"
 msgstr "Đã lên máy bay {at}"
 
@@ -297,7 +297,7 @@ msgstr "Hoạt động đã đặt"
 msgid "proposal.crowd.boost"
 msgstr "Boost {destination}"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.cantMake"
 msgstr "Không đi được"
 
@@ -317,7 +317,7 @@ msgstr "Kiểm tra kết nối rồi thử lại nhé."
 msgid "proposal.alone.failedSub"
 msgstr "Kiểm tra kết nối rồi thử lại."
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.confirmed"
 msgstr "Đã xác nhận"
 
@@ -349,9 +349,9 @@ msgstr "CritterPass Air"
 msgid "proposal.board.dates"
 msgstr "Ngày đi"
 
-#. placeholder {0}: pick.dayNo
 #. placeholder {0}: stop.dayNo
-#: ../../apps/mobile/src/features/proposal/trailer/trailer-screen.tsx
+#. placeholder {0}: why.dayNo
+#: ../../apps/mobile/src/features/proposal/labels.ts
 #: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
 msgid "proposal.version.day"
 msgstr "Ngày {0}"
@@ -380,13 +380,13 @@ msgstr "Mọi bản đã viết xong và gửi đi."
 msgid "proposal.dropout.share"
 msgstr "Phần của mỗi người"
 
-#. placeholder {0}: instantDate(locale, proposal.freeCancelUntil)
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+#. placeholder {0}: instantDate(locale, freeCancelUntil)
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.version.freeCancel"
 msgstr "Hủy miễn phí đến {0}"
 
-#. placeholder {0}: instantDate(locale, deadline)
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#. placeholder {0}: instantDate(locale, freeCancelUntil)
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.freeCancel"
 msgstr "Hủy miễn phí đến {0}"
 
@@ -441,6 +441,10 @@ msgstr "Mình không đi được"
 #: ../../apps/mobile/src/features/proposal/board/board-view.tsx
 msgid "proposal.board.out"
 msgstr "Mình không đi được"
+
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.out.cta"
+msgstr "Rốt cuộc tôi không đi được"
 
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.failed"
@@ -528,7 +532,7 @@ msgstr "Đang tải đề xuất"
 msgid "proposal.loading"
 msgstr "Đang tải đề xuất"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.cta"
 msgstr "Chốt luôn"
 
@@ -544,12 +548,12 @@ msgstr "Chốt danh sách nhóm?"
 msgid "proposal.alone.title"
 msgstr "Chốt kế hoạch nhé?"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.done"
+#: ../../apps/mobile/src/features/proposal/labels.ts
+msgid "proposal.lock.locked"
 msgstr "Đã chốt. Chuyến đi được xác nhận."
 
 #: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
-msgid "proposal.lock.locked"
+msgid "proposal.lock.done"
 msgstr "Đã chốt. Chuyến đi được xác nhận."
 
 #: ../../apps/mobile/src/features/proposal/builder/builder-screen.tsx
@@ -580,7 +584,7 @@ msgstr "Chưa trả lời"
 msgid "proposal.suggest.dismiss"
 msgstr "Để sau"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.notSent"
 msgstr "Chưa gửi"
 
@@ -616,7 +620,7 @@ msgstr "Cháy quá"
 msgid "proposal.reason.onThePlan"
 msgstr "Có trong kế hoạch"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.waitlisted"
 msgstr "Trong danh sách chờ"
 
@@ -701,13 +705,13 @@ msgstr "Hạn trả lời"
 msgid "proposal.replyBy.title"
 msgstr "Hạn trả lời"
 
-#. placeholder {0}: instantDate(locale, deadline)
-#: ../../apps/mobile/src/features/proposal/your-version/your-version-screen.tsx
+#. placeholder {0}: instantDate(locale, replyBy)
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.version.replyBy"
 msgstr "Trả lời trước {0}"
 
-#. placeholder {0}: instantDate(locale, deadline)
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#. placeholder {0}: instantDate(locale, replyBy)
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.replyBy"
 msgstr "Trả lời trước {0}"
 
@@ -723,7 +727,7 @@ msgstr "Phòng {room}"
 msgid "proposal.dropout.moveTo"
 msgstr "phòng {to}"
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.saidMaybe"
 msgstr "Nói là có thể"
 
@@ -755,8 +759,8 @@ msgstr "Đang gửi đề xuất"
 msgid "proposal.sent.stamped"
 msgstr "Đã gửi"
 
-#. placeholder {0}: instantDate(locale, proposal.sentAt)
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#. placeholder {0}: instantDate(locale, sentAt)
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.tracker.sent"
 msgstr "Đã gửi {0}"
 
@@ -914,7 +918,7 @@ msgstr "Ừ, chốt luôn"
 msgid "proposal.why.mustDo"
 msgstr "Bạn đã thêm mục này vào việc phải làm lúc chuẩn bị."
 
-#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.lock.nobody"
 msgstr "Có người nói đi thì bạn mới chốt chuyến được."
 
