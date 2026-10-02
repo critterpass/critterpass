@@ -149,31 +149,45 @@ export function TrackerScreen({ proposalId }: { readonly proposalId: string }) {
         onBack={() => (router.canGoBack() ? router.back() : router.replace('/'))}
         onLock={() => setAsking(true)}
       />
-      {asking && state.kind === 'ready' ? (
+      {asking && (state.kind === 'ready' || state.kind === 'alone') ? (
         <ProposalConfirm
-          title={t({ id: 'proposal.lock.title', message: 'Lock the crew in?' })}
-          consequences={[
-            t({
-              id: 'proposal.lock.going',
-              message: `${state.going + 1} going, the trip is confirmed.`,
-            }),
-            ...(state.maybes > 0
+          title={
+            state.kind === 'alone'
+              ? t({ id: 'proposal.alone.title', message: 'Lock the plan in?' })
+              : t({ id: 'proposal.lock.title', message: 'Lock the crew in?' })
+          }
+          consequences={
+            state.kind === 'alone'
               ? [
                   t({
-                    id: 'proposal.lock.maybes',
-                    message: `${state.maybes} maybe go on the waitlist for a freed seat.`,
+                    id: 'proposal.lock.alone',
+                    message:
+                      'Everyone else said they can’t make it, so it’s just you. The trip is confirmed, and friends who join later land on this plan.',
                   }),
                 ]
-              : []),
-            ...(state.silent > 0
-              ? [
+              : [
                   t({
-                    id: 'proposal.lock.silent',
-                    message: `${state.silent} who haven’t answered are out.`,
+                    id: 'proposal.lock.going',
+                    message: `${state.going + 1} going, the trip is confirmed.`,
                   }),
+                  ...(state.maybes > 0
+                    ? [
+                        t({
+                          id: 'proposal.lock.maybes',
+                          message: `${state.maybes} maybe go on the waitlist for a freed seat.`,
+                        }),
+                      ]
+                    : []),
+                  ...(state.silent > 0
+                    ? [
+                        t({
+                          id: 'proposal.lock.silent',
+                          message: `${state.silent} who haven’t answered are out.`,
+                        }),
+                      ]
+                    : []),
                 ]
-              : []),
-          ]}
+          }
           confirmLabel={t({ id: 'proposal.lock.confirmYes', message: 'Yes, lock it in' })}
           mode="button"
           onConfirm={() => void onLock()}

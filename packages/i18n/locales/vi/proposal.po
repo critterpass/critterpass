@@ -380,6 +380,10 @@ msgstr "Hết chỗ rồi."
 msgid "proposal.sent.done"
 msgstr "Mọi bản đã viết xong và gửi đi."
 
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.lock.alone"
+msgstr "Mọi người khác đều báo không đi được, nên chỉ còn mình bạn. Chuyến đi được chốt, và bạn bè vào sau sẽ theo kế hoạch này."
+
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.share"
 msgstr "Phần của mỗi người"
@@ -541,6 +545,7 @@ msgid "proposal.lock.cta"
 msgstr "Chốt luôn"
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.alone.lock"
 msgstr "Chốt kế hoạch"
 
@@ -549,6 +554,7 @@ msgid "proposal.lock.title"
 msgstr "Chốt danh sách nhóm?"
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.alone.title"
 msgstr "Chốt kế hoạch nhé?"
 

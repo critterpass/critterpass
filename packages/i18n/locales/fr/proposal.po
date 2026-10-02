@@ -380,6 +380,10 @@ msgstr ""
 msgid "proposal.sent.done"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
+msgid "proposal.lock.alone"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/dropout/dropout-view.tsx
 msgid "proposal.dropout.share"
 msgstr ""
@@ -541,6 +545,7 @@ msgid "proposal.lock.cta"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/labels.ts
 msgid "proposal.alone.lock"
 msgstr ""
 
@@ -549,6 +554,7 @@ msgid "proposal.lock.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/proposal/builder/alone-view.tsx
+#: ../../apps/mobile/src/features/proposal/tracker/tracker-screen.tsx
 msgid "proposal.alone.title"
 msgstr ""
 

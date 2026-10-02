@@ -130,6 +130,8 @@ export function lockCopy(state: LockState): {
   switch (state.kind) {
     case 'ready':
       return { label: t({ id: 'proposal.lock.cta', message: 'Lock it in' }), note: null };
+    case 'alone':
+      return { label: t({ id: 'proposal.alone.lock', message: 'Lock it in' }), note: null };
     case 'nobody_in':
       return {
         label: null,

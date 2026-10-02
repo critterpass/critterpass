@@ -2,12 +2,12 @@ appId: app.critterpass.dev
 ---
 # A friend drops out of a real proposal, between two brand-new accounts on one phone. After the
 # organiser sends it, the friend boards, then says from their version that they can't make it after
-# all. The organiser's
-# tracker then shows them as out, with the change list the guide worked out; APPLY CHANGES resolves
-# it and the trip is re-priced without them.
+# all. The organiser's tracker then shows them as out, with the change list the guide worked out;
+# APPLY CHANGES resolves it and the trip is re-priced without them. With nobody else left, the
+# organiser locks the plan in alone.
 - runFlow: subflows/proposal-sent.yaml
 
-# The friend opens the proposal from crew chat and declines from the boarding pass.
+# The friend opens the proposal from crew chat, boards, then declines from their version.
 - runFlow:
     file: ../proposal/subflows/switch-account.yaml
     env:
@@ -135,14 +135,38 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-7-real-applied
 
-# What the organiser is left with: the tracker, then Home.
+# What the organiser is left with: the tracker, locked in alone, then Home.
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
       id: 'proposal-tracker'
     timeout: 30000
 - waitForAnimationToEnd
+# Everyone else is out: the organiser locks the plan in alone.
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-lock'
+    timeout: 30000
 - takeScreenshot: en-3f-6-after-apply
+- tapOn:
+    id: 'tracker-lock'
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-lock-confirm'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-6-lock-alone
+- tapOn: '(?i)yes, lock it in'
+- extendedWaitUntil:
+    visible:
+      id: 'tracker-confirmed'
+    timeout: 30000
+- extendedWaitUntil:
+    notVisible:
+      id: 'tracker-lock'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3f-6-locked-alone
 - openLink: critterpass-dev://
 - runFlow:
     when:
