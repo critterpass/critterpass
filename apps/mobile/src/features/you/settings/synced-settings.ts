@@ -9,6 +9,9 @@ import type { Chattiness, SettingsPatch } from '@cp/domain';
 export interface SyncedSettings {
   readonly chattiness: Chattiness;
   readonly talkOutLoud: boolean;
+  readonly leaveByThroughDnd: boolean;
+  readonly hideTasteTags: boolean;
+  readonly hideLockscreenDetails: boolean;
   readonly hideCollection: boolean;
 }
 
@@ -16,16 +19,22 @@ export interface SyncedSettings {
 export const DEFAULT_SYNCED_SETTINGS: SyncedSettings = {
   chattiness: 'normal',
   talkOutLoud: false,
+  leaveByThroughDnd: true,
+  hideTasteTags: false,
+  hideLockscreenDetails: false,
   hideCollection: false,
 };
 
-export const SYNCED_SETTINGS_SQL = `SELECT chattiness, talk_out_loud, hide_collection
-  FROM user_settings WHERE user_id = ?`;
+export const SYNCED_SETTINGS_SQL = `SELECT chattiness, talk_out_loud, leave_by_through_dnd,
+  hide_taste_tags, hide_lockscreen_details, hide_collection FROM user_settings WHERE user_id = ?`;
 export const SYNCED_SETTINGS_TABLES = ['user_settings'];
 
 export interface SyncedSettingsRow {
   readonly chattiness: string | null;
   readonly talk_out_loud: number | null;
+  readonly leave_by_through_dnd: number | null;
+  readonly hide_taste_tags: number | null;
+  readonly hide_lockscreen_details: number | null;
   readonly hide_collection: number | null;
 }
 
@@ -33,6 +42,9 @@ export interface SyncedSettingsRow {
 const COLUMN: Readonly<Record<keyof SyncedSettings, keyof SettingsPatch>> = {
   chattiness: 'chattiness',
   talkOutLoud: 'talk_out_loud',
+  leaveByThroughDnd: 'leave_by_through_dnd',
+  hideTasteTags: 'hide_taste_tags',
+  hideLockscreenDetails: 'hide_lockscreen_details',
   hideCollection: 'hide_collection',
 };
 
@@ -55,6 +67,9 @@ export function settingsFromRow(row: SyncedSettingsRow | undefined): SyncedSetti
   return {
     chattiness: chattinessOf(row?.chattiness),
     talkOutLoud: flag(row?.talk_out_loud, d.talkOutLoud),
+    leaveByThroughDnd: flag(row?.leave_by_through_dnd, d.leaveByThroughDnd),
+    hideTasteTags: flag(row?.hide_taste_tags, d.hideTasteTags),
+    hideLockscreenDetails: flag(row?.hide_lockscreen_details, d.hideLockscreenDetails),
     hideCollection: flag(row?.hide_collection, d.hideCollection),
   };
 }

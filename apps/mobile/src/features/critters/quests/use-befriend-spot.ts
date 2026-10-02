@@ -15,7 +15,7 @@ import {
   type SpawnSqlRow,
 } from '../data/spawn-rows';
 import { useLatestPosition } from '../hatch/arrival';
-import { nearestBefriendSpot, type BefriendSpot } from './befriend-spot';
+import { distanceUnitOf, nearestBefriendSpot, type BefriendSpot } from './befriend-spot';
 import { useLiveRows, useOwnerUid } from './live-rows';
 
 const TRIP_SQL = 'SELECT destination_id FROM trips WHERE id = ?';
@@ -66,6 +66,6 @@ export function useBefriendSpot(
   );
   return {
     spot: watching ? spot : null,
-    unit: unit.rows[0]?.distance_unit === 'imperial' ? 'imperial' : 'metric',
+    unit: distanceUnitOf(unit.rows[0]?.distance_unit),
   };
 }

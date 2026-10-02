@@ -262,9 +262,12 @@ appId: app.critterpass.dev
     maxRetries: 3
     commands:
       - waitForAnimationToEnd
-      - tapOn: '1'
-      - tapOn: '2'
-      - tapOn: '5'
+      - tapOn:
+          id: 'money-add-keypad-key-1'
+      - tapOn:
+          id: 'money-add-keypad-key-2'
+      - tapOn:
+          id: 'money-add-keypad-key-5'
       - tapOn:
           id: 'money-add-submit'
       - extendedWaitUntil:
