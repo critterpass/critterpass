@@ -47,13 +47,27 @@ export function stampLineInset(innerWidth: number, round: boolean): number {
   return round ? Math.round(innerWidth * 0.1) : 4;
 }
 
+/**
+ * The most a round stamp's small lines may be set at: an eighth of its diameter, never above the
+ * label size. A short line ("6/2024") does not trigger shrink-to-fit, and at the full label size
+ * it ran into the ring of a small stamp. Stamps of 85 pt and up are unchanged.
+ */
+export function stampLineMaxSize(size: number, labelSize: number): number {
+  return Math.min(labelSize, Math.round(size * 0.13 * 10) / 10);
+}
+
 function Face({ title, top, bottom, ink, shape = 'round', size = 96, tilt = -8 }: StampProps) {
   const styles = useStyles();
   const theme = useTheme();
   const round = shape !== 'rect';
   const width = round ? size : size * 1.6;
   const radius = round ? size / 2 : theme.radius.sm;
-  const edge = { marginHorizontal: stampLineInset(width - 16, round) };
+  const labelSize = theme.type.label.fontSize ?? 11;
+  const lineSize = round ? stampLineMaxSize(size, labelSize) : labelSize;
+  const edge = {
+    marginHorizontal: stampLineInset(width - 16, round),
+    ...(lineSize < labelSize ? { fontSize: lineSize, lineHeight: lineSize * 1.4 } : {}),
+  };
   return (
     <View
       style={[
