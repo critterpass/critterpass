@@ -7,17 +7,13 @@
 import { generateUuidV7 } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import {
-  envelope,
-  startAccountHarness,
-  type AccountHarness,
-  type Session,
-} from '../account/account-harness';
+import { envelope, type AccountHarness, type Session } from '../account/account-harness';
+import { startHelpHarness } from './help-harness';
 
 let h: AccountHarness;
 
 beforeAll(async () => {
-  h = await startAccountHarness();
+  h = await startHelpHarness();
 }, 240_000);
 
 afterAll(async () => {

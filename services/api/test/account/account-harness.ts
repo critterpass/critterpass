@@ -23,7 +23,10 @@ import { guardClosedAccounts } from '../../src/account/closed-guard';
 import { createApp } from '../../src/app';
 import { createAuthModule, type AuthModule } from '../../src/auth';
 import type { CommandDoorDeps } from '../../src/commands/_framework/doors';
-import { createCommandRegistry } from '../../src/commands/_framework/registry';
+import {
+  createCommandRegistry,
+  type CommandRegistry,
+} from '../../src/commands/_framework/registry';
 import { betterAuthSessionResolver } from '../../src/commands/_framework/session';
 import {
   createRequestAccountDeletionCommand,
@@ -82,7 +85,11 @@ export function envelope(uid: string, cmd: string, payload: unknown, opId = gene
 export interface AccountHarnessOptions {
   /** The deployment tier the api believes it runs in. @default 'staging' */
   readonly appEnv?: 'local' | 'staging' | 'production';
+  /** More commands and routes another area's suite needs on the same app (its own doors). */
+  readonly extend?: (registry: CommandRegistry, app: AppForExtend, deps: CommandDoorDeps) => void;
 }
+
+type AppForExtend = ReturnType<typeof createApp>;
 
 export async function startAccountHarness(
   options: AccountHarnessOptions = {},
@@ -148,6 +155,7 @@ export async function startAccountHarness(
   registerCmdResultsRoute(app, deps);
   registerMeAccountRoutes(app, { ...deps, control, appEnv: options.appEnv ?? 'staging' });
   registerReturningPhoneSignInRoute(app, { auth: authModule.auth, redis, secret: SECRET });
+  options.extend?.(base, app, deps);
   app.on(['GET', 'POST'], '/api/auth/*', (c) => authModule.handler(c.req.raw));
 
   const { connectionString } = (pool as unknown as { options: { connectionString: string } })
