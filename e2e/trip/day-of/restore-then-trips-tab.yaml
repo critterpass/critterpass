@@ -1,0 +1,64 @@
+appId: app.critterpass.dev
+---
+# Back to the hub from a restored day-of screen, three times. On Android with animations off (the
+# CI emulators, and anyone who removes animations) the hub used to stay slid 30% off to the left;
+# the screenshot shows where it landed (the element bounds Maestro reads do not move with it). The app was left on a trip's day-of
+# screen and comes back on it after a cold start; TRIPS then pops back to the hub, which must land
+# fully on screen and answer a tap at once: its PLAN tile opens the plan within 3 seconds.
+- runFlow:
+    file: ../../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-next'
+    timeout: 30000
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          id: 'trip-hub-next'
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-day'
+          timeout: 20000
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - stopApp
+      - launchApp:
+          stopApp: false
+      - retry:
+          maxRetries: 2
+          commands:
+            - extendedWaitUntil:
+                visible:
+                  id: 'tab-trips'
+                timeout: 60000
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-day'
+          timeout: 30000
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - tapOn:
+          id: 'tab-trips'
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-hub-tile-plan'
+          timeout: 10000
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: restore-trips-tab-hub
+      - tapOn:
+          id: 'trip-hub-tile-plan'
+      - extendedWaitUntil:
+          visible:
+            id: 'plan-day-1|plan-overview.*'
+          timeout: 3000
+      - runFlow: ../../onboarding/subflows/back.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'trip-hub-next'
+          timeout: 10000

@@ -52,6 +52,24 @@ describe('useMotionMode', () => {
     expect(result.current[0]).toBe('reduced');
   });
 
+  it('starts a screen mounted after the OS setting was read on that setting, not on full motion', async () => {
+    isReduceMotionEnabledSpy.mockResolvedValue(true);
+    const first = await renderHook(() => useMotionMode());
+    await act(async () => {
+      await Promise.resolve();
+    });
+    expect(first.result.current[0]).toBe('reduced');
+    // A navigator mounted later (a stack pushed inside a tab) picks its transitions on its first
+    // render: starting on full motion and switching after mount leaves a covered screen offset.
+    const seen: string[] = [];
+    await renderHook(() => {
+      const [mode] = useMotionMode();
+      seen.push(mode);
+      return mode;
+    });
+    expect(seen[0]).toBe('reduced');
+  });
+
   it('persists an in-app override through the returned setter', async () => {
     const { result, rerender } = await renderHook(() => useMotionMode());
     await act(() => {
