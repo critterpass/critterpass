@@ -126,12 +126,25 @@ export function bookingsJobs(
           secretAccessKey: env.R2_SECRET_ACCESS_KEY,
         })
       : undefined;
+  const flights = flightProvidersFromEnv(process.env, pool);
+  const { adb, adbGate } = flights;
   return [
     mailboxScanJob(mailboxDepsFromEnv(process.env, reader)),
     deadlineReminderJob(),
     mailParseJob({ ...reader, store }),
-    importParseJob({ ...reader, fetch: nodeFetchDeps }),
-    ...flightJobs(flightProvidersFromEnv(process.env, pool)),
+    importParseJob({
+      ...reader,
+      fetch: nodeFetchDeps,
+      // A pasted flight number's schedule, inside the same AeroDataBox budget as the status checks.
+      schedule:
+        adb === undefined
+          ? undefined
+          : (carrier, number, from, to) => {
+              const call = () => adb.flightsDeparting(carrier, number, from, to);
+              return adbGate === undefined ? call() : adbGate.run(call);
+            },
+    }),
+    ...flightJobs(flights),
   ];
 }
 

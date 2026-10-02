@@ -26,6 +26,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { CandidateCard } from '../candidates/CandidateCard';
+import { HeldMailCard } from '../link-code/HeldMailCard';
 import type { CandidateView } from '../candidates/candidate-model';
 import type { ScanState } from '../scan/use-booking-scan';
 import { AddressPill, ImportTiles, type ImportChannel } from './ImportTiles';
@@ -59,6 +60,8 @@ export interface AddBookingViewProps {
   readonly onMailbox: () => void;
   /** Enter the code an unknown forwarding address was emailed. */
   readonly onLinkCode: () => void;
+  /** Mail the crew address holds from an unlinked address: the card replaces the quiet link. */
+  readonly heldMail?: number;
 }
 
 export function AddBookingView(props: AddBookingViewProps) {
@@ -96,7 +99,9 @@ export function AddBookingView(props: AddBookingViewProps) {
         {props.address === null ? null : (
           <AddressPill address={props.address} onCopy={props.onCopy} />
         )}
-        {props.address === null ? null : (
+        {(props.heldMail ?? 0) > 0 ? (
+          <HeldMailCard count={props.heldMail ?? 0} onLink={props.onLinkCode} />
+        ) : props.address === null ? null : (
           <TextLink
             label={t({ id: 'bookings.add.linkCode', message: 'Got a code? Link your email' })}
             onPress={props.onLinkCode}

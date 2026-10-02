@@ -10,6 +10,7 @@ import { z } from 'zod';
 
 import { checkRateLimit, type RateLimitRedisClient } from '../../abuse/rate-limits';
 import { asSystemRole } from '../../admin/command';
+import { refreshHeldMail } from '../../bookings/held-mail';
 import { linkCodeHash } from '../../routes/webhooks/inbound-email';
 import { defineCommand } from '../_framework/define-command';
 import { requireActiveMember } from '../crews/shared';
@@ -67,6 +68,7 @@ export function createVerifySenderEmailCommand(deps: VerifySenderDeps) {
             RETURNING id`,
           [payload.crew_id, rows.map((row) => row.sender_hash), ctx.uid],
         );
+        await refreshHeldMail(tx, payload.crew_id);
         return released.rows.map((row) => row.id);
       });
       if (linked === null) throw new DomainError('CODE_INVALID', { reason: 'link_code' });
