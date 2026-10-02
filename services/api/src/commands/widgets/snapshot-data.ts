@@ -8,12 +8,15 @@ import {
   buildWidgetSnapshot,
   DomainError,
   etaBucket,
+  widgetInitial,
   type WidgetSnapshot,
   type WidgetSnapshotInput,
 } from '@cp/domain';
 import type pg from 'pg';
 
-type Trip = NonNullable<WidgetSnapshotInput['trip']>;
+import { loadBalance, loadToday } from './snapshot-today';
+
+export type Trip = NonNullable<WidgetSnapshotInput['trip']>;
 
 const TRIP_COLUMNS = `t.id, d.name AS destination, t.status, t.start_date::text AS start_date,
   t.end_date::text AS end_date, coalesce(t.tz, d.tz) AS tz`;
@@ -89,51 +92,21 @@ async function loadVote(tx: pg.PoolClient, uid: string, tripId: string) {
   };
 }
 
-async function loadToday(tx: pg.PoolClient, uid: string, trip: Trip, now: Date) {
-  const localDate = now.toLocaleDateString('en-CA', { timeZone: trip.tz ?? 'UTC' });
-  const { rows } = await tx.query<{
-    id: string;
-    icon: string;
-    text: string;
-    action: string;
-    status: string;
-    deep_link: string | null;
-  }>(
-    `SELECT i.id, i.icon, i.text, i.action, i.status, i.deep_link
-       FROM briefings b JOIN briefing_items i ON i.briefing_id = b.id
-      WHERE b.trip_id = $1 AND b.user_id = $2 AND b.local_date = $3::date
-      ORDER BY i.position LIMIT 6`,
-    [trip.id, uid, localDate],
-  );
-  return rows.length === 0 ? null : { local_date: localDate, items: rows };
-}
-
-async function loadBalance(tx: pg.PoolClient, uid: string, tripId: string) {
-  const { rows } = await tx.query<{ currency: string; net: string }>(
-    `SELECT l.currency, sum(CASE WHEN l.creditor_id = $2 THEN l.amount_minor
-                                 ELSE -l.amount_minor END)::text AS net
-       FROM ledger_entries l
-       JOIN trips t ON t.id = l.trip_id
-       LEFT JOIN crews c ON c.id = t.crew_id
-      WHERE l.trip_id = $1 AND $2 IN (l.creditor_id, l.debtor_id)
-      GROUP BY l.currency, c.settlement_currency
-      ORDER BY (l.currency = c.settlement_currency) DESC NULLS LAST, count(*) DESC
-      LIMIT 1`,
-    [tripId, uid],
-  );
-  const row = rows[0];
-  return row === undefined ? null : { currency: row.currency, net_minor: Number(row.net) };
-}
-
 async function loadCrew(tx: pg.PoolClient, tripId: string) {
   const meetup = await tx.query<{ id: string; place_name: string; meet_at: Date }>(
     `SELECT id, place_name, meet_at FROM meetups
       WHERE trip_id = $1 AND status = 'active' ORDER BY meet_at LIMIT 1`,
     [tripId],
   );
-  const etas = await tx.query<{ user_id: string; eta_min: number | null; progress: number | null }>(
-    `SELECT user_id, eta_min, progress FROM member_etas
-      WHERE trip_id = $1 AND sharing <> 'off' ORDER BY user_id`,
+  const etas = await tx.query<{
+    user_id: string;
+    eta_min: number | null;
+    progress: number | null;
+    name: string | null;
+  }>(
+    `SELECT e.user_id, e.eta_min, e.progress, u.display_name AS name
+       FROM member_etas e LEFT JOIN users u ON u.id = e.user_id
+      WHERE e.trip_id = $1 AND e.sharing <> 'off' ORDER BY e.user_id`,
     [tripId],
   );
   const at = meetup.rows[0];
@@ -143,6 +116,7 @@ async function loadCrew(tx: pg.PoolClient, tripId: string) {
     members: etas.rows.map((row) => ({
       user_id: row.user_id,
       bucket: etaBucket(row.eta_min, row.progress),
+      initial: widgetInitial(row.name),
     })),
   };
 }
@@ -236,7 +210,7 @@ export async function loadWidgetSnapshot(
     countdownTargetAt: countdown,
     vote: trip === null ? null : await loadVote(tx, uid, trip.id),
     today: trip === null ? null : await loadToday(tx, uid, trip, now),
-    balances: trip === null ? null : await loadBalance(tx, uid, trip.id),
+    balances: trip === null ? null : await loadBalance(tx, uid, trip.id, now),
     crew: trip !== null && boostActive ? await loadCrew(tx, trip.id) : null,
     critterdex: dex.rows[0] ?? { found: 0, total: 0 },
     nextFlight: passPlus ? await loadNextFlight(tx, uid) : null,
