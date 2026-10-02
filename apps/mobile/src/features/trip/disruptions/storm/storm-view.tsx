@@ -77,6 +77,8 @@ const useStyles = makeStyles((th) => ({
   guide: { position: 'absolute', end: th.space['16'], bottom: th.space['20'], opacity: 0.5 },
   body: { paddingHorizontal: th.size.gutter, paddingTop: th.space['20'], gap: th.space['12'] },
   flex: { flex: 1 },
+  // The hero's words never run under the guide: auto-fit and wrapping read this padding.
+  words: { paddingEnd: GUIDE_SIZE },
 }));
 
 export function StormView(props: StormViewProps) {
@@ -153,7 +155,13 @@ export function StormView(props: StormViewProps) {
         </View>
         <Card tone="blue" halftone radius="cardBig" style={styles.hero} testID="storm-hero">
           <Stack gap="10">
-            <Text variant="displayHero" color={ink} singleLine={false} accessibilityRole="header">
+            <Text
+              variant="displayHero"
+              color={ink}
+              singleLine={false}
+              accessibilityRole="header"
+              style={styles.words}
+            >
               {props.title.toLocaleUpperCase(locale)}
             </Text>
             <Row gap="6" wrap>
@@ -162,7 +170,7 @@ export function StormView(props: StormViewProps) {
               ))}
             </Row>
             {props.line === '' ? null : (
-              <Text variant="voice" color={ink} singleLine={false}>
+              <Text variant="voice" color={ink} singleLine={false} style={styles.words}>
                 {props.line}
               </Text>
             )}
