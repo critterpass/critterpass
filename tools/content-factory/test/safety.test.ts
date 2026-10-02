@@ -105,12 +105,16 @@ describe('safety records keep only what their source states', () => {
     expect(suppliersNamed('Book it on Booking.com or plan a trip')).toEqual(['booking.com']);
   });
 
-  it('commit sourced, unverified records for review', () => {
+  it('commit sourced records, verified only after they were read', () => {
     const numbers = committedItems('emergency');
     expect(numbers.length).toBeGreaterThanOrEqual(55);
-    expect(
-      numbers.every((n) => n.verified_at === null && n.source_url.startsWith('https://')),
-    ).toBe(true);
+    for (const n of numbers) {
+      expect(n.source_url.startsWith('https://'), n.country).toBe(true);
+      // A person verifies a record against its source: never before the source was read.
+      if (n.verified_at !== null) {
+        expect(n.verified_at.slice(0, 10) >= n.retrieved_on, n.country).toBe(true);
+      }
+    }
     const facilities = committedItems('facilities');
     for (const city of ['bali', 'kyoto', 'iceland', 'mexico-city', 'lisbon', 'cusco', 'da-nang']) {
       expect(
