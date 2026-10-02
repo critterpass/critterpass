@@ -11,6 +11,7 @@ import { currentAppEnvironment } from '@/data/app-session/endpoints';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
+import { linkCodeWasSent } from '../link-code/link-code-model';
 import { inboundAddress } from './inbound-domain';
 import { useLiveRows } from './live-rows';
 import {
@@ -54,6 +55,8 @@ export interface WalletContext {
   readonly inboundAddress: string | null;
   /** Forwarded mail the crew address holds from addresses nobody in the crew has linked yet. */
   readonly heldMail: number;
+  /** A link code for the held mail was emailed and has not expired: the app may ask for it. */
+  readonly heldMailCodeSent: boolean;
   readonly passPlus: boolean;
 }
 
@@ -112,11 +115,11 @@ export function useWalletContext(): WalletContext {
   const byCrew = crew === null ? null : [crew.id];
   const members = useLiveRows<MemberRow>(MEMBERS_SQL, byCrew, MEMBERS_TABLES);
   const trips = useLiveRows<TripRow>(TRIPS_SQL, byCrew, TRIPS_TABLES);
-  const inbound = useLiveRows<{ local_part: string; held_count: number | null }>(
-    INBOUND_SQL,
-    byCrew,
-    INBOUND_TABLES,
-  );
+  const inbound = useLiveRows<{
+    local_part: string;
+    held_count: number | null;
+    held_code_until: string | null;
+  }>(INBOUND_SQL, byCrew, INBOUND_TABLES);
   const passPlus = useLiveRows<{ pass_plus: number }>(PASS_PLUS_SQL, byUid, PASS_PLUS_TABLES);
   const trip = pickTrip(trips.rows);
   const participants = useLiveRows<{ user_id: string }>(
@@ -144,6 +147,7 @@ export function useWalletContext(): WalletContext {
       inboundAddress:
         localPart === null ? null : inboundAddress(localPart, currentAppEnvironment()),
       heldMail: Math.max(0, Number(inbound.rows[0]?.held_count ?? 0)),
+      heldMailCodeSent: linkCodeWasSent(inbound.rows[0]?.held_code_until, new Date()),
       passPlus: (passPlus.rows[0]?.pass_plus ?? 0) === 1,
     };
   }, [

@@ -123,8 +123,12 @@ export function WalletScreen() {
           context.heldMail > 0 ? (
             <HeldMailCard
               count={context.heldMail}
+              codeSent={context.heldMailCodeSent}
               onLink={() =>
                 router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'link' } })
+              }
+              onPaste={() =>
+                router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'paste' } })
               }
             />
           ) : null

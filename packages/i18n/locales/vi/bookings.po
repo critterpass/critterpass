@@ -590,6 +590,10 @@ msgstr "Email này không có thẻ lên máy bay — quét nó lúc làm thủ 
 msgid "bookings.pass.missing"
 msgstr "Máy này chưa có thẻ lên máy bay. Quét nó lúc làm thủ tục là nó nằm ở đây."
 
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.noCodeLine"
+msgstr "Chưa có mã nào được gửi cho thư này, nên chưa đọc được. Dán email vào đây, hoặc chuyển tiếp lại từ địa chỉ bạn dùng để đăng nhập."
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.deniedTitle"
 msgstr "Chưa kết nối"
@@ -682,6 +686,10 @@ msgstr "Dán một đặt chỗ"
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.fromClipboard"
 msgstr "Dán từ bộ nhớ tạm"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.paste"
+msgstr "Dán email"
 
 #: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
 msgid "bookings.date.pick"
