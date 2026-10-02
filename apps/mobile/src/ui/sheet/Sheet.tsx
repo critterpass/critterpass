@@ -35,6 +35,16 @@ export function detentHeights(
 }
 
 /**
+ * Whether a fit sheet's content shrinks to the panel. Only content that has reached the large
+ * detent does: there a scroll view inside it gets a bounded height and a foot after it stays on
+ * screen. Shorter content keeps its natural height, so its measurement can still grow the sheet (a
+ * keyboard's padding) and never reads a squeezed size back as the fit. 1 pt absorbs layout rounding.
+ */
+export function fitContentShrinks(fitHeight: number | null, screenHeight: number): boolean {
+  return fitHeight !== null && fitHeight >= screenHeight * DETENT_FRACTION.large - 1;
+}
+
+/**
  * How much of its foot a sheet's content keeps clear: the home indicator, or the keyboard while it
  * is up. The sheet runs to the bottom edge of the screen. iOS gives the keyboard's height from that
  * edge; Android gives it from the top of the navigation bar, so there the bar's inset is added, or
@@ -206,7 +216,11 @@ export function Sheet({
                   style={[
                     styles.content,
                     hasHeader ? styles.contentUnderHeader : null,
-                    fitOnly ? null : { flex: 1 },
+                    fitOnly
+                      ? fitContentShrinks(fitHeight, screenHeight)
+                        ? { flexShrink: 1 }
+                        : null
+                      : { flex: 1 },
                     {
                       paddingBottom: sheetFootClearance(Platform.OS, insets.bottom, keyboardInset),
                     },

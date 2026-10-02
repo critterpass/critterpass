@@ -2,15 +2,17 @@
  * Money lab scenes for the receipt scan (3i-3, 3i-4) and the steps around it, over the drawn Ibu
  * Oka receipt: aiming, the camera refused, reading, saved offline, the itemised review with the
  * design's suggestions, the review whose lines miss the total (one line to check), the three ways
- * forward, and typing the lines.
+ * forward, typing the lines, and who had a line for a crew too big for one screen.
  */
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { formatAmount } from '../format';
+import { MemberPicker } from '../receipt/MemberPicker';
 import { initialAssignments, type Assignments, type ParsedReceipt } from '../receipt/review-model';
 import { resultParts, reviewRows, type ReviewCopy } from '../receipt/review-rows';
 import type { SweepLine } from '../receipt/ScanSweep';
@@ -21,6 +23,7 @@ import {
   IBU_OKA,
   IBU_OKA_SUGGESTIONS,
   IBU_OKA_TOTAL_ONLY,
+  LAB_CROWD,
   LAB_FX,
   LAB_MEMBERS,
 } from './lab-fixtures';
@@ -188,6 +191,23 @@ function TypeLines() {
   );
 }
 
+/** Who had a line, for a crew of 48: the avatars scroll and DONE stays at the sheet's foot. */
+function AssignCrowd() {
+  const { t } = useLingui();
+  return (
+    <>
+      <Review />
+      <MemberPicker
+        title={t({ id: 'money.typeLines.who', message: 'Who had it?' })}
+        members={LAB_CROWD}
+        selected={null}
+        onDone={() => router.back()}
+        onClose={() => router.back()}
+      />
+    </>
+  );
+}
+
 export const SCAN_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'scan-aim': () => <Scene scene={{ kind: 'aim' }} photo={false} />,
   'scan-denied': () => <Scene scene={{ kind: 'denied' }} photo={false} />,
@@ -197,4 +217,5 @@ export const SCAN_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'scan-check-lines': () => <Review parsed={IBU_OKA_MISREAD} />,
   'scan-failure': () => <Failure />,
   'scan-type-lines': () => <TypeLines />,
+  'scan-assign-crowd': () => <AssignCrowd />,
 };
