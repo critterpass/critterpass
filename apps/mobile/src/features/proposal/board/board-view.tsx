@@ -8,7 +8,7 @@
  */
 import { tokens } from '@cp/design-tokens';
 import { t } from '@lingui/core/macro';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import Animated, {
   FadeInDown,
@@ -84,7 +84,7 @@ export function BoardView(props: BoardViewProps) {
   useNoBackByDesign();
   const info = GUIDE_STICKERS[props.guide];
   // The egg drops in only when boarding happens on this screen, not when it opens boarded.
-  const openedBoarded = useRef(props.boarded).current;
+  const [openedBoarded] = useState(props.boarded);
   const eggDropsIn = !reduced && !openedBoarded;
   const thump = useSharedValue(1);
   useEffect(() => {

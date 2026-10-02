@@ -2,9 +2,18 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
+// This package's reanimated stand-in has no layout-animation builders; the pass needs one. The
+// builder is an inert marker, and the stand-in's `Animated.View` is a plain `View`, so a view's
+// `entering` prop shows whether it was given an entering animation.
+jest.mock('react-native-reanimated', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
+  const standIn = require('@/motion/test-support/reanimated-mock') as Record<string, unknown>;
+  const builder = { springify: () => builder };
+  return { ...standIn, __esModule: true, FadeInDown: { delay: () => builder } };
+});
+
 import { screen } from '@testing-library/react-native';
-import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { FadeInDown } from 'react-native-reanimated';
+import { describe, expect, it, jest } from '@jest/globals';
 
 import { renderUi } from '@/ui/test-support/render';
 
@@ -35,26 +44,21 @@ const pass = (boarded: boolean): BoardViewProps => ({
   onDone: noop,
 });
 
-afterEach(() => {
-  jest.restoreAllMocks();
-});
+const eggEntering = (): unknown =>
+  (screen.getByTestId('board-egg').props as { entering?: unknown }).entering;
 
 describe('the egg on the boarding pass', () => {
   it('is drawn at once, with no entering animation, on a pass opened already boarded', async () => {
-    const entering = jest.spyOn(FadeInDown, 'delay');
     await renderUi(<BoardView {...pass(true)} />);
     expect(screen.getByTestId('board-egg')).toBeTruthy();
-    expect(entering).not.toHaveBeenCalled();
+    expect(eggEntering()).toBeUndefined();
   });
 
   it('drops in when boarding happens on this screen', async () => {
-    const entering = jest.spyOn(FadeInDown, 'delay');
     const view = await renderUi(<BoardView {...pass(false)} />);
     expect(screen.queryByTestId('board-egg')).toBeNull();
-    expect(entering).not.toHaveBeenCalled();
 
     await view.rerender(<BoardView {...pass(true)} />);
-    expect(screen.getByTestId('board-egg')).toBeTruthy();
-    expect(entering).toHaveBeenCalled();
+    expect(eggEntering()).toBeDefined();
   });
 });
