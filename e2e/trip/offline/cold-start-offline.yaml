@@ -52,6 +52,9 @@ appId: app.critterpass.dev
           notVisible:
             id: 'trip-offline-card'
           timeout: 60000
+      - waitForAnimationToEnd:
+          timeout: 5000
+      - takeScreenshot: en-3k-1-hub-back-online
       - tapOn:
           id: 'tab-home'
 # Back online: a change made on the server reaches this phone.
