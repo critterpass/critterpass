@@ -15,7 +15,6 @@ import type { DoodleName } from '@/ui/icons/generated';
 import { Icon } from '@/ui/icons/Icon';
 import { SegmentBudget } from '@/ui/inputs/SegmentBudget';
 import { Toggle } from '@/ui/inputs/Toggle';
-import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { DeniedRow } from '@/ui/permission-primer/DeniedRow';
 import { PressScale } from '@/ui/press/PressScale';
@@ -48,6 +47,16 @@ const TILE = 40;
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['32'], gap: t.space['14'] },
   budget: { padding: t.size.cardInner.max, gap: t.space['10'] },
+  budgetHead: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    columnGap: t.space['12'],
+    rowGap: t.space['4'],
+  },
+  budgetLabel: { flexShrink: 0 },
+  budgetLevel: { flexShrink: 1, maxWidth: '100%' },
   group: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, overflow: 'hidden' },
   row: {
     minHeight: MIN_TOUCH_TARGET + t.space['12'],
@@ -232,17 +241,25 @@ export function PingSettingsView(props: PingSettingsViewProps) {
         </View>
         <View style={styles.content}>
           <Card style={styles.budget} testID="you-pings-budget">
-            <Row gap="12" align="center" justify="space-between">
-              <Text variant="rowTitle">
+            {/* The level keeps its words whole: beside the label while they fit, under it when a
+                longer number or language needs the room, shrinking only as a last resort. */}
+            <View style={styles.budgetHead}>
+              <Text variant="rowTitle" style={styles.budgetLabel}>
                 {t({ id: 'you.pings.budget', message: 'Ping budget' })}
               </Text>
-              <Text variant="h3" color={theme.semantic.action.primary} testID="you-pings-level">
+              <Text
+                variant="h3"
+                color={theme.semantic.action.primary}
+                autoFit
+                style={styles.budgetLevel}
+                testID="you-pings-level"
+              >
                 {upper(
                   t({ id: 'you.pings.level', message: `About ${prefs.budget} a day` }),
                   i18n.locale,
                 )}
               </Text>
-            </Row>
+            </View>
             <SegmentBudget
               value={prefs.budget}
               onChange={props.onBudget}
