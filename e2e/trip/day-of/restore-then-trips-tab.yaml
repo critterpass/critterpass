@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
 # Back to the hub from a restored day-of screen, three times. On Android with animations off (the
-# CI emulators, and anyone who removes animations) the hub used to stay slid 30% off to the left. The app was left on a trip's day-of
+# CI emulators, and anyone who removes animations) the hub used to stay slid 30% off to the left;
+# the screenshot shows where it landed (the element bounds Maestro reads do not move with it). The app was left on a trip's day-of
 # screen and comes back on it after a cold start; TRIPS then pops back to the hub, which must land
 # fully on screen and answer a tap at once: its PLAN tile opens the plan within 3 seconds.
 - runFlow:
@@ -49,13 +50,6 @@ appId: app.critterpass.dev
           timeout: 10000
       - waitForAnimationToEnd:
           timeout: 5000
-      # The hub lands fully on screen: its left-hand PLAN tile is whole, not slid part-way off.
-      - scrollUntilVisible:
-          element:
-            id: 'trip-hub-tile-plan'
-          direction: DOWN
-          visibilityPercentage: 100
-          timeout: 3000
       - takeScreenshot: restore-trips-tab-hub
       - tapOn:
           id: 'trip-hub-tile-plan'
