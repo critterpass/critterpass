@@ -237,3 +237,6 @@ export function widgetSnapshotContent(
   const { generated_at: _generatedAt, ...content } = snapshot;
   return content;
 }
+
+// The pure helpers the server fills the smaller fields with (forecast, first names, initials).
+export * from './widget-snapshot-fields';
