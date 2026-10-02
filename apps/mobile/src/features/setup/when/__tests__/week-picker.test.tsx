@@ -42,10 +42,10 @@ describe('week picker paging', () => {
       />,
     );
     expect(screen.getByText(/november 2026/iu)).toBeTruthy();
-    fireEvent.press(screen.getByLabelText('Previous month'));
+    await fireEvent.press(screen.getByLabelText('Previous month'));
     expect(await screen.findByText(/october 2026/iu)).toBeTruthy();
-    fireEvent.press(screen.getByTestId('heat-pick-2026-10-02'));
-    fireEvent.press(await screen.findByTestId('picker-lock'));
+    await fireEvent.press(screen.getByTestId('heat-pick-2026-10-02'));
+    await fireEvent.press(await screen.findByTestId('picker-lock'));
     await waitFor(() => expect(onLock).toHaveBeenCalledWith('2026-10-02', '2026-10-04'));
   });
 });
