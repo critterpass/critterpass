@@ -8,6 +8,7 @@ import { i18n } from '@lingui/core';
 import type { StackMember } from '@/ui/people/AvatarStack';
 
 import type { DayItem } from '../plan-model';
+import type { PlaceRow } from '../queries';
 import type { PlanMember } from '../use-trip-plan';
 
 export const LAB_DATE = '2026-10-14';
@@ -128,3 +129,29 @@ export function labMeta(item: DayItem): string {
 export function labGhostDetail(): string {
   return i18n.locale.startsWith('vi') ? '17:00 · giờ vàng' : '17:00 · golden hour';
 }
+
+const TEMPLES = [
+  'Pura Batukaru',
+  'Pura Besakih',
+  'Pura Dalem Ubud',
+  'Pura Desa Ubud',
+  'Pura Goa Gajah',
+  'Pura Gunung Kawi',
+  'Pura Gunung Lebah',
+  'Pura Lempuyang',
+  'Pura Luhur Uluwatu',
+  'Pura Tanah Lot',
+  'Pura Taman Ayun',
+  'Pura Taman Saraswati',
+  'Pura Tirta Empul',
+  'Pura Ulun Danu Bratan',
+];
+
+/** The add sheet's catalogue: enough temples that a search for "pura" runs past the sheet. */
+export const LAB_PLACES: readonly PlaceRow[] = TEMPLES.map((name, index) => ({
+  id: `p-pura-${index + 1}`,
+  name,
+  category: 'temple',
+  lat: null,
+  lng: null,
+}));

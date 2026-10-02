@@ -1,16 +1,17 @@
 /**
  * Plan lab scenes for the day view (3e-2 list mode) and its states: the day as drawn, a queued
  * offline edit and a member's change waiting for the crew, a free day, loading, the item sheet
- * (organiser and member), a booked item's warning, an item someone else removed, and add.
+ * (organiser and member), a booked item's warning, an item someone else removed, and add
+ * (a search over the lab's temples).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import { toast } from '@/motion/island-toast';
 
-import { AddItemSheet } from '../add-item-sheet';
+import { AddItemSheetView, type AddSource } from '../add-item-sheet';
 import type { DayRowState } from '../day-list';
 import { DayView, type DayViewProps } from '../day-view';
 import { ItemDetailSheet } from '../item-detail-sheet';
@@ -22,6 +23,7 @@ import {
   LAB_ITEMS,
   LAB_MEMBERS,
   labMeta,
+  LAB_PLACES,
   LAB_TZ,
   TERRACES,
   WALK,
@@ -97,6 +99,39 @@ function sheet(item: DayItem, canApply = true): ReactNode {
   );
 }
 
+/** Add to the day over the lab's temples: a search matches by name, the first three are saved. */
+function AddItem() {
+  const [source, setSource] = useState<AddSource>('search');
+  const [query, setQuery] = useState('');
+  const needle = query.trim().toLowerCase();
+  const rows =
+    source === 'saved'
+      ? LAB_PLACES.slice(0, 3)
+      : needle === ''
+        ? []
+        : LAB_PLACES.filter((place) => place.name.toLowerCase().includes(needle));
+  return (
+    <>
+      {labDay()}
+      <AddItemSheetView
+        date={LAB_DATE}
+        items={LAB_ITEMS}
+        tz={LAB_TZ}
+        members={LAB_MEMBERS.map((member) => member.uid)}
+        canApply
+        warningText={() => ''}
+        onAdd={noop}
+        onClose={closeScene}
+        source={source}
+        onSource={setSource}
+        query={query}
+        onQuery={setQuery}
+        places={{ rows, loaded: true }}
+      />
+    </>
+  );
+}
+
 const pending = new Map<string, DayRowState>([
   ['i-walk', { queued: true, proposed: false, warning: null }],
   ['i-spa', { queued: false, proposed: true, warning: null }],
@@ -113,20 +148,5 @@ export const DAY_SCENES: Readonly<Record<string, () => ReactNode>> = {
   'item-sheet-member': () => sheet(WALK, false),
   'item-sheet-booked': () => sheet(DINNER),
   'item-gone': () => <ItemGone />,
-  'add-item': () => (
-    <>
-      {labDay()}
-      <AddItemSheet
-        destinationId={null}
-        date={LAB_DATE}
-        items={LAB_ITEMS}
-        tz={LAB_TZ}
-        members={LAB_MEMBERS.map((member) => member.uid)}
-        canApply
-        warningText={() => ''}
-        onAdd={noop}
-        onClose={closeScene}
-      />
-    </>
-  ),
+  'add-item': () => <AddItem />,
 };
