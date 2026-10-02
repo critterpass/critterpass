@@ -4,7 +4,7 @@
  * its editor, the keypad and ADD RP 450K. Pure: the screen owns the draft and the command.
  */
 import { tokens } from '@cp/design-tokens';
-import { upper } from '@cp/i18n';
+import { format, upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect, useRef, useState, type ComponentRef } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
@@ -104,6 +104,15 @@ export function AddExpenseView(props: AddExpenseViewProps) {
   const { t } = useLingui();
   const categoryLabel = useCategoryLabel();
   const shake = useShake(props.shake);
+  const detailsName =
+    props.draft.description === ''
+      ? t({ id: 'money.add.detailsTitle', message: 'What was it?' })
+      : props.draft.description;
+  const detailsCategory = categoryLabel(props.draft.category);
+  const detailsDay =
+    props.draft.spentAt === null
+      ? t({ id: 'money.add.today', message: 'Today' })
+      : format.date(locale, new Date(props.draft.spentAt), { weekday: 'short', day: 'numeric' });
   // EVENLY splits between everyone; tapping EVENLY again shows who is in, to leave someone out.
   const [showWho, setShowWho] = useState(false);
   // BY SHARE and CUSTOM list a row per member under the split control: the page scrolls the
@@ -154,10 +163,16 @@ export function AddExpenseView(props: AddExpenseViewProps) {
             testID="money-add-amount"
           />
         </Animated.View>
+        {/* Read as what it holds ("Lunch, Food, Today"), so a screen reader hears what was typed;
+            the hint says the row opens the name, category and day. */}
         <Pressable
           onPress={props.onDetails}
           accessibilityRole="button"
-          accessibilityLabel={t({ id: 'money.add.detailsA11y', message: 'Name, category and day' })}
+          accessibilityLabel={t({
+            id: 'money.add.detailsLabel',
+            message: `${detailsName}, ${detailsCategory}, ${detailsDay}`,
+          })}
+          accessibilityHint={t({ id: 'money.add.detailsA11y', message: 'Name, category and day' })}
           testID="money-add-details-row"
         >
           <Row style={styles.details}>
@@ -168,12 +183,10 @@ export function AddExpenseView(props: AddExpenseViewProps) {
               style={styles.detailsText}
               color={draft.description === '' ? theme.semantic.text.secondary : undefined}
             >
-              {draft.description === ''
-                ? t({ id: 'money.add.detailsTitle', message: 'What was it?' })
-                : draft.description}
+              {detailsName}
             </Text>
             <Text variant="label" color={theme.semantic.text.secondary}>
-              {upper(categoryLabel(draft.category), locale)}
+              {upper(detailsCategory, locale)}
             </Text>
           </Row>
         </Pressable>
