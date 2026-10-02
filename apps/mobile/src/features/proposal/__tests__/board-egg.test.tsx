@@ -18,6 +18,7 @@ import { screen } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { renderUi } from '@/ui/test-support/render';
 
 import { BoardView, type BoardViewProps } from '../board/board-view';
@@ -31,7 +32,9 @@ const METRICS = {
 
 const onScreen = (props: BoardViewProps) => (
   <SafeAreaProvider initialMetrics={METRICS}>
-    <BoardView {...props} />
+    <ScreenJoltProvider>
+      <BoardView {...props} />
+    </ScreenJoltProvider>
   </SafeAreaProvider>
 );
 
