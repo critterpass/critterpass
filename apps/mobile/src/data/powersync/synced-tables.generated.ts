@@ -79,6 +79,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'slug name country coverage colour currency best_months tz geofence critter_set_id created_at updated_at',
   devices:
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
+  disruptions:
+    'trip_id kind cause status version:integer dedupe_key ref_kind ref_id title summary affected facts actions options source_snapshot change_set_id decision_poll_id chosen_option_id chosen_by detected_at resolved_at i18n created_at updated_at',
   eggs: 'user_id trip_id form_id granted_at hatched_at trigger created_at updated_at',
   emergency_numbers:
     'country numbers source_url retrieved_on verified_at release_id created_at updated_at',
@@ -272,6 +274,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer explore_at_home:integer active_crew_id muted_uids audio home_currency_override created_at updated_at',
   users:
     'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at languages username_changed_at created_at updated_at',
+  watch_items:
+    'trip_id kind target_ref plan_item_stable_id day status score:integer impact title detail sources disruption_id escalated_at checked_at resolved_at i18n created_at updated_at',
   weather_snapshots:
     'destination_id point_key lat:real lng:real elevation_m:integer date hourly marine marine_fetched_at source fetched_at checked_at created_at updated_at',
   xp_ledger: 'user_id crew_id trip_id amount:integer source_kind source_id granted_at created_at',

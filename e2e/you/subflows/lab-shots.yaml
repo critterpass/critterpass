@@ -69,3 +69,9 @@ appId: app.critterpass.dev
       SCENE: '3n-11-restore'
       ROOT: 'you-closed-restore'
       SHOT: ${LANG}-3n-11-restore
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-8-language'
+      ROOT: 'you-language'
+      SHOT: ${LANG}-3n-8-language

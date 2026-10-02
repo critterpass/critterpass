@@ -1,6 +1,6 @@
 # Critterpass API contracts: trip day-of
 
-Companion to [api-contracts.md](./api-contracts.md) — leave-bys, readiness tracking, briefings, packing, disruptions, help, SOS, location sharing, and crew meetups. Real-time channels and offline bundle manifest structure.
+Companion to [api-contracts.md](./api-contracts.md) (disruptions in full: [api-contracts-disruptions.md](./api-contracts-disruptions.md)) — leave-bys, readiness tracking, briefings, packing, disruptions, help, SOS, location sharing, and crew meetups. Real-time channels and offline bundle manifest structure.
 
 Status: contract for day-of, disruptions, help, map (P36–P39). Stack: Hono + Zod openapi + Centrifugo.
 
@@ -16,7 +16,10 @@ Status: contract for day-of, disruptions, help, map (P36–P39). Stack: Hono + Z
 | `ping_all` | `{trip_id, kind: on_my_way\|ping}` | participant | `boostActive(t)` | `crew.pinged` (N-23) | A, L, I | 39 | – |
 | `decide_disruption_action` | `{disruption_id, action_id, decision}` | affected member (money/others → needs yes) | – | `disruption.action_decided` | A, N | 37 | – |
 | `undo_disruption_action` | `{disruption_id, action_id}` | approver | reversible only | `disruption.action_undone` | A, N | 37 | – |
-| `announce_disruption` | `{disruption_id}` | organiser | – | `disruption.announced` | A | 37 | – |
+| `announce_disruption` | `{disruption_id}` | organiser or a disrupted traveller | – | `disruption.announced` | A | 37 | – |
+| `choose_late_option` (doc delta) | `{disruption_id, option_id: push\|walk\|skip\|car}` | member of the late party | – | `late_option.chosen` + chat line to whoever waits | A, O | 37 | – |
+| `dismiss_weather_suggestion` (doc delta) | `{changeset_id}` | participant | – | `weather.suggestion_dismissed` | A, O | 37 | – |
+| `hold_storm_seats` (doc delta) | `{disruption_id, hold_id}` | the original booker | – | as `hold_activity` | A | 37 | – |
 | `start_help_share` | `{trip_id, reason: help, ttl_min?, session_id?, place_label?}` (detail: [api-contracts-safety.md](./api-contracts-safety.md) §2) | participant | – (free) | `help_share.started` (N-25) | A, O | 38 | – |
 | `stop_help_share` / `extend_help_share` | `{share_id, ttl_min?}` (+1 h, capped 3 h ahead) | owner | – | `help_share.stopped/extended` (`help_share.expired` from the timer) | A, O, N | 38 | – |
 | `request_ops_clinic_call` (doc delta) | `{trip_id, session_id?, facility_id?, share_insurance, text_shown}` → human ops desk task (`clinic_handoff`) | participant (own session) | – | `concierge.requested`, `help.clinic_requested` | A, O | 38 | – |
