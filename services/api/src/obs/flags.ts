@@ -30,8 +30,13 @@ export interface FlagSubject {
   readonly platform?: 'ios' | 'android' | 'web';
 }
 
+export interface EvaluateOptions {
+  /** This call's bound on the first definitions load, in place of the service's own. */
+  readonly readyTimeoutMs?: number;
+}
+
 export interface FlagService<C extends FlagCatalog> {
-  readonly evaluate: (subject: FlagSubject) => Promise<FlagValues<C>>;
+  readonly evaluate: (subject: FlagSubject, options?: EvaluateOptions) => Promise<FlagValues<C>>;
   readonly shutdown: () => Promise<void>;
 }
 
@@ -55,9 +60,11 @@ export function createFlagService<C extends FlagCatalog = typeof FLAG_CATALOG>(
   const readyTimeoutMs = options.readyTimeoutMs ?? 500;
 
   return {
-    async evaluate(subject) {
+    async evaluate(subject, call) {
       try {
-        const ready = await client.waitForLocalEvaluationReady(readyTimeoutMs);
+        const ready = await client.waitForLocalEvaluationReady(
+          call?.readyTimeoutMs ?? readyTimeoutMs,
+        );
         if (!ready) return defaults();
         const evaluated = await client.getAllFlags(subject.distinctId, {
           onlyEvaluateLocally: true,
@@ -74,4 +81,21 @@ export function createFlagService<C extends FlagCatalog = typeof FLAG_CATALOG>(
     },
     shutdown: () => client.shutdown(),
   };
+}
+
+let processService: FlagService<typeof FLAG_CATALOG> | undefined;
+
+/**
+ * The process's one flag service: a single definitions poller, created on first use from the
+ * PostHog variables and shared by every caller after that.
+ */
+export function processFlagService(
+  env: Readonly<Record<string, string | undefined>>,
+): FlagService<typeof FLAG_CATALOG> {
+  processService ??= createFlagService({
+    projectApiKey: env['POSTHOG_PROJECT_API_KEY'],
+    flagsSecretKey: env['POSTHOG_PROJECT_SECRET_KEY'],
+    host: env['POSTHOG_HOST'],
+  });
+  return processService;
 }

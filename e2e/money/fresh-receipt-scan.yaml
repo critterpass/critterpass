@@ -1,0 +1,51 @@
+appId: app.critterpass.dev
+---
+# A brand-new traveller opens the receipt scanner, with no demo world and no analytics consent: a
+# fresh account on a trip that is on today (../happy/subflows/trip-under-way.yaml) opens Money,
+# starts an expense and taps SCAN INSTEAD. The scanner's first step shows (scan, pick a photo or
+# type it in), not the keypad it falls back to when the `money.receipts` flag is off. The flag
+# comes from the api (`GET /v1/config/bootstrap`), so this needs the rollout on in PostHog. The
+# camera itself is not opened: an emulator has no receipt to show it.
+- runFlow:
+    file: ../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: receipt
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 60000
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 60000
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add-keypad'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- waitForAnimationToEnd
+- takeScreenshot: receipt-add-expense
+- tapOn:
+    id: 'money-add-scan-instead'
+- extendedWaitUntil:
+    visible:
+      id: 'money-scan-aim'
+    timeout: 30000
+- assertVisible:
+    id: 'money-scan-start'
+- assertVisible:
+    id: 'money-scan-pick'
+- assertNotVisible:
+    id: 'money-add-keypad'
+- waitForAnimationToEnd
+- takeScreenshot: receipt-scan-open
