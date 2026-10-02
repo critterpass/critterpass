@@ -55,6 +55,9 @@ function Avatar({ tab }: { readonly tab: AvatarTab }) {
       onTab={noop}
       guide={guide ? 'tokek' : null}
       onGuide={noop}
+      forms={[]}
+      form={null}
+      onForm={noop}
       onPhoto={noop}
       photoPending={false}
       canDone

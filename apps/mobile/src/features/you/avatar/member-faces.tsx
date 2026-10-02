@@ -11,6 +11,7 @@ import { useCallback, useContext, useEffect, useSyncExternalStore, type ReactNod
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import { FormSticker } from '@/features/critters';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import type { AvatarSize } from '@/ui/people/Avatar';
 import { Sticker } from '@/ui/sticker/Sticker';
@@ -164,6 +165,9 @@ export function facePropsOf(face: MemberFace, url: string | null, diameter: numb
       };
     }
     case 'form':
+      return {
+        critter: <FormSticker form={face.formId} size={Math.round(diameter * STICKER_FILL)} />,
+      };
     case 'initials':
       return {};
   }

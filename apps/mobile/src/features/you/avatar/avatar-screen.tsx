@@ -20,7 +20,8 @@ import { useOwnerUid } from '../data/live-rows';
 import { ProfileFace } from '../profile/profile-parts';
 import { useProfile } from '../profile/use-profile';
 import { facePropsOf, useMemberFaces } from './member-faces';
-import type { MemberFace } from './member-face';
+import type { AvatarRing, MemberFace } from './member-face';
+import { useOwnedForms } from './owned-forms';
 import { AvatarView, type AvatarTab } from './avatar-view';
 
 export const setAvatarCommand = defineClientCommand<SetAvatarPayload>({
@@ -33,6 +34,7 @@ type PhotoServices = Parameters<typeof useRealPhoto>[0]['photos'];
 type Choice =
   | { readonly kind: 'initials' }
   | { readonly kind: 'guide'; readonly guide: GuideAvatarId }
+  | { readonly kind: 'form'; readonly formId: string; readonly ring: AvatarRing | null }
   | { readonly kind: 'photo'; readonly mediaKey: string; readonly uri: string };
 
 function wireChoice(choice: Choice): AvatarChoice {
@@ -41,6 +43,8 @@ function wireChoice(choice: Choice): AvatarChoice {
       return { kind: 'initials' };
     case 'guide':
       return { kind: 'critter', form_id: guideFormId(choice.guide) };
+    case 'form':
+      return { kind: 'critter', form_id: choice.formId };
     case 'photo':
       return { kind: 'photo', media_key: choice.mediaKey };
   }
@@ -61,6 +65,7 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
   const [choice, setChoice] = useState<Choice | null>(null);
   const [tab, setTab] = useState<AvatarTab | null>(null);
   const { send } = useCommand(setAvatarCommand);
+  const forms = useOwnedForms();
   const real = useRealPhoto({
     photos,
     requestCamera: () => requestWithPrimer('camera', 'real_photo'),
@@ -72,9 +77,11 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
       ? current
       : choice.kind === 'guide'
         ? { kind: 'guide', guide: choice.guide, ring: null }
-        : choice.kind === 'photo'
-          ? { kind: 'photo', mediaKey: choice.mediaKey }
-          : { kind: 'initials' };
+        : choice.kind === 'form'
+          ? { kind: 'form', formId: choice.formId, ring: choice.ring }
+          : choice.kind === 'photo'
+            ? { kind: 'photo', mediaKey: choice.mediaKey }
+            : { kind: 'initials' };
   const shownUri = choice?.kind === 'photo' ? choice.uri : choice === null ? currentUri : null;
   const name = model?.name ?? '';
   const diameter = sizeToken(theme.size.avatar, 'sm');
@@ -86,10 +93,20 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
         preview={
           <ProfileFace
             avatar={
-              shown.kind === 'guide' ? { kind: 'guide', guide: shown.guide } : { kind: 'initials' }
+              shown.kind === 'guide'
+                ? { kind: 'guide', guide: shown.guide }
+                : shown.kind === 'form'
+                  ? { kind: 'form', formId: shown.formId }
+                  : { kind: 'initials' }
             }
             name={name}
-            ring={choice === null ? (model?.ring ?? null) : null}
+            ring={
+              choice === null
+                ? (model?.ring ?? null)
+                : shown.kind === 'form' || shown.kind === 'guide'
+                  ? shown.ring
+                  : null
+            }
             photoUri={shown.kind === 'photo' ? shownUri : null}
           />
         }
@@ -98,6 +115,15 @@ export function AvatarScreen({ photos }: { readonly photos: PhotoServices }) {
         onTab={setTab}
         guide={shown.kind === 'guide' ? shown.guide : null}
         onGuide={(guide) => setChoice({ kind: 'guide', guide })}
+        forms={forms}
+        form={shown.kind === 'form' ? shown.formId : null}
+        onForm={(key) =>
+          setChoice({
+            kind: 'form',
+            formId: key,
+            ring: forms.find((form) => form.key === key)?.ring ?? null,
+          })
+        }
         onPhoto={photos === null ? null : real.open}
         photoPending={choice?.kind === 'photo'}
         canDone={choice !== null}

@@ -143,7 +143,9 @@ export function EditProfileScreen() {
             ? t({ id: 'you.edit.avatarPhoto', message: 'Photo' })
             : avatar.kind === 'guide'
               ? GUIDE_STICKERS[avatar.guide].name
-              : t({ id: 'you.edit.avatarInitials', message: 'Initials' })
+              : avatar.kind === 'form'
+                ? t({ id: 'you.edit.avatarCritter', message: 'From your Critterdex' })
+                : t({ id: 'you.edit.avatarInitials', message: 'Initials' })
         }
         avatarLine={null}
         onChangeAvatar={() => router.push(YOU_ROUTES.avatar)}
@@ -158,7 +160,10 @@ export function EditProfileScreen() {
           {
             key: 'username',
             label: t({ id: 'you.edit.username', message: 'Username' }),
-            value: draft === null || draft.username === '' ? '' : `@${draft.username}`,
+            value:
+              draft === null || draft.username === ''
+                ? t({ id: 'you.edit.username.none', message: 'Pick a username' })
+                : `@${draft.username}`,
             note: usernameText(username, locale),
             onPress: () => setEditing('username'),
           },

@@ -8,6 +8,7 @@ import { Image, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { tagWords } from '@/features/onboarding';
+import { FormSticker } from '@/features/critters';
 import { regionName } from '@/features/onboarding';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
@@ -76,6 +77,20 @@ export function ProfileFace({
           accessibilityLabel={name}
           accessibilityIgnoresInvertColors
         />
+      </View>
+    );
+  }
+  if (avatar.kind === 'form') {
+    return (
+      <View
+        style={[
+          styles.ring,
+          { backgroundColor: theme.color.paper.base },
+          ring === null ? null : { borderColor: theme.tier[ring].color },
+        ]}
+        testID="you-profile-face"
+      >
+        <FormSticker form={avatar.formId} size={AVATAR - 16} />
       </View>
     );
   }

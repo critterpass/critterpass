@@ -12,6 +12,11 @@ msgstr ""
 msgid "you.stamps.selfReportedWhen"
 msgstr ""
 
+#. placeholder {0}: props.forms.length
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.unlocked"
+msgstr ""
+
 #. placeholder {0}: stamp.title
 #. placeholder {1}: bottom ?? ''
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
@@ -207,6 +212,11 @@ msgstr ""
 msgid "you.avatar.tab.critter"
 msgstr ""
 
+#. placeholder {0}: index + 1
+#: ../../apps/mobile/src/features/you/avatar/form-grid.tsx
+msgid "you.avatar.formLabel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
 msgstr ""
@@ -282,6 +292,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.fr"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+msgid "you.edit.avatarCritter"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.fromDex"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
@@ -499,6 +517,10 @@ msgstr ""
 msgid "you.export.tooSoon"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.initialsTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.backPass"
 msgstr ""
@@ -521,6 +543,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.photoLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
+msgid "you.edit.username.none"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -556,10 +582,6 @@ msgstr ""
 msgid "you.delete.reason.privacy"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
-msgid "you.edit.back"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.back"
 msgstr ""
@@ -568,8 +590,16 @@ msgstr ""
 msgid "you.stamps.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/edit-profile/edit-profile-view.tsx
+msgid "you.edit.back"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.quiet"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
+msgid "you.avatar.ringsLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/export/export-copy.ts

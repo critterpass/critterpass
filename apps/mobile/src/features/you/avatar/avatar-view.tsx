@@ -21,9 +21,14 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { FormGrid } from './form-grid';
 import type { FaceProps } from './member-faces';
+import type { OwnedForm } from './owned-forms';
 
 export type AvatarTab = 'initials' | 'critter' | 'photo';
+
+/** The first crew colours, to show the initial as different crews draw it. */
+const CREW_COLOURS = [0, 1, 2, 3, 4, 5];
 
 export interface AvatarViewProps {
   readonly name: string;
@@ -35,6 +40,10 @@ export interface AvatarViewProps {
   readonly onTab: (tab: AvatarTab) => void;
   readonly guide: GuideAvatarId | null;
   readonly onGuide: (guide: GuideAvatarId) => void;
+  /** Forms from the person's Critterdex they may wear. */
+  readonly forms: readonly OwnedForm[];
+  readonly form: string | null;
+  readonly onForm: (key: string) => void;
   /** Null when this build has no photo picker. */
   readonly onPhoto: (() => void) | null;
   /** The photo waits for its check before crewmates see it. */
@@ -125,15 +134,51 @@ export function AvatarView(props: AvatarViewProps) {
               {t({ id: 'you.avatar.guides', message: 'Your guides' })}
             </Text>
             <AvatarPicker selected={props.guide} onPick={props.onGuide} testID="you-avatar-guide" />
+            {props.forms.length > 0 ? (
+              <>
+                <Row justify="space-between">
+                  <Text variant="eyebrow" accessibilityRole="header">
+                    {t({ id: 'you.avatar.fromDex', message: 'From your Critterdex' })}
+                  </Text>
+                  <Text variant="eyebrow" color={theme.semantic.text.secondary}>
+                    {t({ id: 'you.avatar.unlocked', message: `${props.forms.length} unlocked` })}
+                  </Text>
+                </Row>
+                <FormGrid forms={props.forms} selected={props.form} onPick={props.onForm} />
+                <Text variant="bodySm" color={theme.semantic.text.secondary}>
+                  {t({
+                    id: 'you.avatar.ringsLine',
+                    message:
+                      'Rare forms and up keep their coloured ring wherever your avatar shows up. Legendary rings are gold.',
+                  })}
+                </Text>
+              </>
+            ) : null}
           </Stack>
         ) : null}
         {props.tab === 'initials' ? (
-          <Text variant="body" color={theme.semantic.text.secondary} testID="you-avatar-initials">
-            {t({
-              id: 'you.avatar.initialsLine',
-              message: 'Your first letter in your crew colour. Each crew keeps its own colour.',
-            })}
-          </Text>
+          <Stack gap="14" testID="you-avatar-initials">
+            <Text variant="eyebrow" accessibilityRole="header">
+              {t({ id: 'you.avatar.initialsTitle', message: 'One letter, every crew’s colour' })}
+            </Text>
+            <Row gap="12" wrap>
+              {CREW_COLOURS.map((joinIndex) => (
+                <Avatar
+                  key={joinIndex}
+                  name={props.name}
+                  joinIndex={joinIndex}
+                  size="xl"
+                  decorative
+                />
+              ))}
+            </Row>
+            <Text variant="body" color={theme.semantic.text.secondary}>
+              {t({
+                id: 'you.avatar.initialsLine',
+                message: 'Your first letter in your crew colour. Each crew keeps its own colour.',
+              })}
+            </Text>
+          </Stack>
         ) : null}
         {props.tab === 'photo' ? (
           <Stack gap="12">
