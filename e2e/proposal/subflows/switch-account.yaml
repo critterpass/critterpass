@@ -4,10 +4,19 @@ appId: app.critterpass.dev
 # one (dev-accounts-new) or signs a kept one back in (dev-accounts-switch-<n>, in the order they
 # were kept). The app clears its local data and restarts on the new session.
 - runFlow: ../../home/subflows/open-dev-tools.yaml
+# The list can open scrolled down (it keeps its place): back to its top, then down to the row,
+# centred, so the tap lands on it and not on the edge of the screen.
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 15000
 - scrollUntilVisible:
     element:
       id: 'dev-nav-accounts'
     timeout: 15000
+    speed: 20
+    centerElement: true
 - tapOn:
     id: 'dev-nav-accounts'
 - extendedWaitUntil:

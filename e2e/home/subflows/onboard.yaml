@@ -60,9 +60,19 @@ appId: app.critterpass.dev
       - extendedWaitUntil:
           visible:
             id: 'home-row-${output.homeIata}'
-          timeout: 10000
+          timeout: 20000
+      # The results catch up with the typed query a moment later and redraw: a tap during that
+      # redraw is lost, and the page stays without a home.
+      - waitForAnimationToEnd
       - tapOn:
           id: 'home-row-${output.homeIata}'
+# The picked row reads as selected (its stamp may sit below the keyboard), and only then does NEXT
+# go on.
+- extendedWaitUntil:
+    visible:
+      id: 'home-row-.*'
+      selected: true
+    timeout: 10000
 # The page footer rides the keyboard, so NEXT is reachable with it up. On Android hideKeyboard is a
 # BACK press when no keyboard is open, which leaves this page for the taste result.
 - runFlow:

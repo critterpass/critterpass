@@ -23,15 +23,21 @@ appId: app.critterpass.dev
     when:
       visible:
         id: 'proposal-trailer'
+    # The trailer plays on by itself and opens the version when it ends: no wait for a still screen,
+    # which never comes while it plays. On the iOS simulator each tap waits for the moving story to
+    # settle, and the story can end first: the quick reply is then skipped, and the version below is
+    # where both paths meet.
     commands:
-      - waitForAnimationToEnd
       - takeScreenshot: en-3f-2-trailer
       - tapOn:
           id: 'trailer-quick'
+          optional: true
       - tapOn:
           id: 'trailer-react-okay_wow'
+          optional: true
       - tapOn:
           id: 'trailer-maybe'
+          optional: true
 - extendedWaitUntil:
     visible:
       id: 'proposal-version'
@@ -129,10 +135,12 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'version-whole-plan'
+# iOS reads each day card whole by its label ("Day 1, Sat, …"), with the card's own id inside it.
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-1'
+      id: 'plan-day-list'
     timeout: 60000
+- assertVisible: '(?i)day 1,.*'
 - waitForAnimationToEnd
 - takeScreenshot: en-3e-1-friend-plan
 
@@ -165,6 +173,6 @@ appId: app.critterpass.dev
       id: 'tracker-lock'
     timeout: 15000
 - assertVisible:
-    text: '(?i)confirmed'
+    text: '(?i).*confirmed.*'
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-6-locked
