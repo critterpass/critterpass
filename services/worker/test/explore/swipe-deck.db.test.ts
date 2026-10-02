@@ -2,17 +2,21 @@
  * The swipe deck against a migrated Postgres: places already in the plan never appear, the stay's
  * neighbour and the crew's saved place rank up, the guide's notes attach by card while the model
  * sees only short card ids and our own place data (no database ids), a rejected note leaves its
- * card bare, the session goes live once, and a rebuild of a live session does nothing.
+ * card bare, the session goes live once, and a rebuild of a live session does nothing. A member who
+ * hid their taste tags adds nothing to the crew's taste the deck ranks and explains cards by.
  */
 import { createGateway } from '@cp/ai';
+import { withSystem } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { buildSwipeDeck } from '../../src/jobs/ai/swipe-deck';
+import { buildSwipeDeck, crewTaste } from '../../src/jobs/ai/swipe-deck';
 import { fakeModel } from '../guide/guide-fixtures';
 import { insertCrew, insertUser, startNotifyDb, type NotifyDb } from '../notify-fixtures';
 
 let db: NotifyDb;
 let sessionId: string;
+let tripId: string;
+let members: [string, string];
 const ids: Record<string, string> = {};
 
 async function poi(
@@ -34,6 +38,7 @@ async function poi(
 beforeAll(async () => {
   db = await startNotifyDb();
   const [a, b] = [await insertUser(db.pool), await insertUser(db.pool)];
+  members = [a, b];
   const crewId = await insertCrew(db.pool, [a, b]);
   const { rows: dest } = await db.pool.query<{ id: string }>(
     "INSERT INTO destinations (slug, name, coverage) VALUES ('deck-kyoto', 'Kyoto', 'live') RETURNING id",
@@ -49,7 +54,7 @@ beforeAll(async () => {
      RETURNING id`,
     [crewId, destinationId],
   );
-  const tripId = trip[0]!.id;
+  tripId = trip[0]!.id;
   for (const [uid, role] of [
     [a, 'organiser'],
     [b, 'member'],
@@ -138,5 +143,31 @@ describe('ai.swipe_deck', () => {
     );
     expect(result.outcome).toBe('not_building');
     expect(model.requests).toHaveLength(0);
+  });
+});
+
+describe("the crew's taste", () => {
+  it('leaves out the tags of a member who hid them', async () => {
+    const [a, b] = members;
+    for (const [uid, tags] of [
+      [a, '{museums}'],
+      [b, '{nightlife}'],
+    ] as const) {
+      await db.pool.query(
+        `INSERT INTO taste_profiles (user_id, tags) VALUES ($1, $2)
+         ON CONFLICT (user_id) DO UPDATE SET tags = EXCLUDED.tags`,
+        [uid, tags],
+      );
+    }
+    const before = await withSystem(db.pool, (tx) => crewTaste(tx, tripId));
+    expect(before.taste).toEqual({ museums: 1, nightlife: 1 });
+    await db.pool.query(
+      `INSERT INTO user_settings (user_id, hide_taste_tags) VALUES ($1, true)
+       ON CONFLICT (user_id) DO UPDATE SET hide_taste_tags = true`,
+      [b],
+    );
+    const after = await withSystem(db.pool, (tx) => crewTaste(tx, tripId));
+    expect(after.taste).toEqual({ museums: 1 });
+    expect(after.size).toBe(2);
   });
 });

@@ -41,7 +41,7 @@ function distanceLine(metres: number | null): string | null {
   return metres >= 1000 ? `${(metres / 1000).toFixed(1)} km` : `${Math.round(metres / 50) * 50} m`;
 }
 
-export const meetUpLoader: LaLoader = async ({ tx, refId, now }) => {
+export const meetUpLoader: LaLoader = async ({ tx, refId, now, redact = false }) => {
   const { rows } = await tx.query<MeetUpRow>(
     `SELECT m.id, m.trip_id, m.place_name, m.meet_at, m.status, m.arrived, t.tz,
             coalesce(e.boost_active, false) AS boosted
@@ -65,7 +65,8 @@ export const meetUpLoader: LaLoader = async ({ tx, refId, now }) => {
   const input: MeetUpLaInput = {
     meetupId: row.id,
     tripId: row.trip_id,
-    placeName: row.place_name,
+    // Hiding details on the lock screen: the meet-up's time and the crew show, never its place.
+    placeName: redact ? '' : row.place_name,
     meetAt: row.meet_at,
     members: members.rows.map((m, i) => ({
       uid: m.user_id,
