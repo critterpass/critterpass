@@ -15,6 +15,7 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { Card } from '@/ui/cards/Card';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { RadioCard } from '@/ui/inputs/RadioCard';
+import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { AvatarStack } from '@/ui/people/AvatarStack';
@@ -130,7 +131,7 @@ export function StormView(props: StormViewProps) {
   const seatDate = longDate(model.seatDate ?? model.options[0]?.swap_day ?? null, locale);
   return (
     <Scaffold variant="dark" edges={[]} testID="storm-screen">
-      <ScrollView contentContainerStyle={{ paddingBottom: insets.bottom + theme.space['24'] }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: theme.space['24'] }}>
         <View
           style={{
             paddingTop: insets.top + theme.space['8'],
@@ -259,35 +260,35 @@ export function StormView(props: StormViewProps) {
                   {closesLine(model.closesAt, props.tz, locale)}
                 </Text>
               )}
-              {model.canVote ? (
-                <PillButton
-                  label={
-                    settled && model.myVote !== null
-                      ? votedLabel(model.myVote)
-                      : ctaLabel(option, locale)
-                  }
-                  block
-                  flap
-                  disabled={option === null || settled}
-                  loading={props.sending}
-                  onPress={() => {
-                    if (option !== null && !settled) props.onVote(option.id);
-                  }}
-                  testID="storm-vote"
-                />
-              ) : (
-                <Text
-                  variant="bodySm"
-                  color={theme.semantic.text.secondary}
-                  testID="storm-not-voting"
-                >
-                  {lines.notVoting}
-                </Text>
-              )}
             </>
           ) : null}
         </Stack>
       </ScrollView>
+      {voting ? (
+        <KeyboardFooter testID="storm-footer">
+          {model.canVote ? (
+            <PillButton
+              label={
+                settled && model.myVote !== null
+                  ? votedLabel(model.myVote)
+                  : ctaLabel(option, locale)
+              }
+              block
+              flap
+              disabled={option === null || settled}
+              loading={props.sending}
+              onPress={() => {
+                if (option !== null && !settled) props.onVote(option.id);
+              }}
+              testID="storm-vote"
+            />
+          ) : (
+            <Text variant="bodySm" color={theme.semantic.text.secondary} testID="storm-not-voting">
+              {lines.notVoting}
+            </Text>
+          )}
+        </KeyboardFooter>
+      ) : null}
     </Scaffold>
   );
 }
