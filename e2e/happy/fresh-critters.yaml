@@ -254,27 +254,48 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-17-trip-hub-tiles
-- tapOn:
-    id: 'trip-hub-tile-quests'
-# Once the hub has rested, the visit offer can rise over it and take the tap: a traveller who
-# wants visit quests turns it on, then opens the quests again.
+# Once the hub has rested, the visit offer rises over it (a tap under the sheet only closes it):
+# a traveller who wants visit quests turns it on first.
 - runFlow:
     when:
       visible:
         id: 'visit-consent-accept'
     commands:
-      - waitForAnimationToEnd
       - takeScreenshot: fresh-critters-17b-visit-offer
       - tapOn:
           id: 'visit-consent-accept'
       - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      id: 'trip-hub-tile-quests'
+    direction: DOWN
+    timeout: 30000
+- tapOn:
+    id: 'trip-hub-tile-quests'
+- waitForAnimationToEnd
+# The offer can still rise in the moment before the tap: then turn it on and open the quests again.
+- runFlow:
+    when:
+      notVisible:
+        id: 'quests-list|quests-empty-.*|quests-loading'
+    commands:
       - runFlow:
           when:
             visible:
-              id: 'trip-hub-tile-quests'
+              id: 'visit-consent-accept'
           commands:
             - tapOn:
-                id: 'trip-hub-tile-quests'
+                id: 'visit-consent-accept'
+            - waitForAnimationToEnd
+      - scrollUntilVisible:
+          element:
+            id: 'trip-hub-tile-quests'
+          direction: DOWN
+          timeout: 10000
+          optional: true
+      - tapOn:
+          id: 'trip-hub-tile-quests'
+          optional: true
 # The screen's root id is not in Android's tree; its content is.
 - extendedWaitUntil:
     visible:
