@@ -198,3 +198,13 @@ export {
 export { crewXp, questProgress, quests, questSignups, xpLedger } from './quests';
 export { appIconUnlocks, dataExports, pastTrips } from './you';
 export { installedWidgets, widgetPushLedger, widgetPushTokens } from './widgets';
+export {
+  anniversaries,
+  memories,
+  memoryReactions,
+  recapAwards,
+  recapMvpVotes,
+  recaps,
+  recapViews,
+  stampSignatures,
+} from './recap';

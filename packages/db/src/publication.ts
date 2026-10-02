@@ -74,10 +74,13 @@ import * as schema from './schema';
  * `widget_push_tokens`, `installed_widgets` and `widget_push_ledger`
  * (packages/db/src/schema/widgets.ts) stay server-side too: the phone reports its widget token and
  * installed widgets, the worker reads them to push, and no client reads them back.
+ * `anniversaries` (packages/db/src/schema/recap.ts) is "S": the anniversary scan's own timers;
+ * travellers see the memory it makes, never the schedule.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'affiliate_clicks',
+  'anniversaries',
   'app_open_hours',
   'broadcast_channels',
   'cities',
