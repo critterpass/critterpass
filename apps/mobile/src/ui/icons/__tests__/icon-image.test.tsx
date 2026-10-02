@@ -1,7 +1,8 @@
 /**
- * An icon is drawn once per size, colours, density and direction and shown as a plain image: a new
- * colour (a theme, a pressed state) is a new picture at once, never the old one, and the same icon
- * again reuses its image. Skia's raster surface is native, so it is stood in for at that boundary:
+ * An icon is drawn once per size, colours, density and direction and shown as a plain image. A new
+ * icon shows live (never blank) until its picture is drawn after the frame, then swaps to it; a new
+ * colour (a theme, a pressed state) never shows the old picture, and the same icon again reuses its
+ * image at once. Skia's raster surface is native, so it is stood in for at that boundary:
  * the stand-in's "PNG" names the pixel size, the colours and the transform it was drawn with.
  */
 jest.mock('@shopify/react-native-skia', () => {
@@ -50,16 +51,21 @@ jest.mock('@shopify/react-native-skia', () => {
 });
 
 import { describe, expect, it, jest } from '@jest/globals';
-import { render, screen } from '@testing-library/react-native';
+import { render, screen, waitFor } from '@testing-library/react-native';
 
 import { tokens } from '@cp/design-tokens';
 
 import { renderUi } from '../../test-support/render';
 import { Icon } from '../Icon';
 
-function shownUri(): string {
-  const image = screen.getByTestId('icon-image', { includeHiddenElements: true });
+async function shownUri(): Promise<string> {
+  const image = await screen.findByTestId('icon-image', { includeHiddenElements: true });
   return (image.props as { source: { uri: string } }).source.uri;
+}
+
+function uriNow(): string | null {
+  const image = screen.queryByTestId('icon-image', { includeHiddenElements: true });
+  return image === null ? null : (image.props as { source: { uri: string } }).source.uri;
 }
 
 describe('icon as an image', () => {
@@ -67,21 +73,25 @@ describe('icon as an image', () => {
     const pink = tokens.color.pink;
     const ink = tokens.color.paper.base;
     const view = await renderUi(<Icon name="bell" size={24} color={pink} decorative />);
-    const first = shownUri();
+    // First frame: the live icon, not a blank one; the picture follows.
+    expect(uriNow()).toBeNull();
+    const first = await shownUri();
     expect(first).toContain(`fill:${pink}`);
     await view.rerender(<Icon name="bell" size={24} color={ink} decorative />);
-    const second = shownUri();
-    expect(second).toContain(`fill:${ink}`);
-    expect(second).not.toContain(`fill:${pink}`);
-    // Back to the first colour: the same picture as before, from the cache.
+    // Never the old colour while the new picture is drawn.
+    expect(uriNow()).toBeNull();
+    await waitFor(() => expect(uriNow()).toContain(`fill:${ink}`));
+    expect(uriNow()).not.toContain(`fill:${pink}`);
+    // Back to the first colour: the same picture as before, from the cache, in the same render.
     await view.rerender(<Icon name="bell" size={24} color={pink} decorative />);
-    expect(shownUri()).toBe(first);
+    expect(uriNow()).toBe(first);
   });
 
   it('draws a new picture for a new size', async () => {
     await render(<Icon name="pin" size={24} color={tokens.color.pink} decorative />);
-    const small = shownUri();
+    const small = await shownUri();
     await screen.rerender(<Icon name="pin" size={40} color={tokens.color.pink} decorative />);
-    expect(shownUri()).not.toBe(small);
+    await waitFor(() => expect(uriNow()).not.toBeNull());
+    expect(uriNow()).not.toBe(small);
   });
 });

@@ -1,4 +1,5 @@
 import { Canvas, Group, Path } from '@shopify/react-native-skia';
+import { useEffect, useState } from 'react';
 import { I18nManager, Image, PixelRatio, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 
@@ -8,7 +9,7 @@ import type { Theme } from '../theme';
 import { useTheme } from '../theme';
 import { DOODLES } from './generated';
 import type { DoodleName } from './generated';
-import { iconImage } from './icon-image';
+import { cachedIconImage, iconImageKey, requestIconImage } from './icon-image';
 import { DOODLE_A11Y } from './labels';
 import { checkIconDraws } from '../qa/icon-check';
 
@@ -95,7 +96,7 @@ export function Icon({
     name,
     def.layers.map((layer, index) => ({ fill: fills[index], opacity: layer.opacity })),
   );
-  const uri = iconImage({
+  const imageInput = {
     name,
     layers: def.layers,
     fills,
@@ -104,7 +105,17 @@ export function Icon({
     height,
     mirror,
     scale: PixelRatio.get(),
-  });
+  };
+  const imageKey = iconImageKey(imageInput);
+  const cached = cachedIconImage(imageInput);
+  const [, drawn] = useState(0);
+  useEffect(() => {
+    if (cached !== undefined) return undefined;
+    // Drawn after this frame; until then the icon shows live, never blank.
+    return requestIconImage(imageInput, () => drawn((n) => n + 1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `imageKey` is everything the picture depends on
+  }, [imageKey, cached === undefined]);
+  const uri = cached ?? null;
 
   return (
     <View
