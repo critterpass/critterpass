@@ -12,6 +12,7 @@ import { Stack } from '@/ui/layout/Stack';
 import { Avatar } from '@/ui/people/Avatar';
 import { memberFirstName, memberName } from '@/ui/people/member-name';
 import { Scaffold } from '@/ui/surface/Scaffold';
+import { Text } from '@/ui/text/Text';
 
 import { ClosedView, type ClosedMode } from '../account/closed-view';
 import { DeleteView, type DeleteStep } from '../account/delete-view';
@@ -207,24 +208,31 @@ function FormerMemberChat() {
           <ChatMessage kind="divider" text="Today" />
           {lines.map((line, index) => {
             const name = line.who ?? gone;
+            const first = line.mine !== true && lines[index - 1]?.who !== line.who;
             return (
-              <ChatMessage
-                key={`${index}-${name}`}
-                kind={line.mine === true ? 'mine' : 'theirs'}
-                text={line.text}
-                {...(line.mine === true
-                  ? {}
-                  : {
-                      author: name,
-                      avatar: (
-                        <Avatar
-                          name={name}
-                          joinIndex={Math.max(0, faces.indexOf(name))}
-                          size="sm"
-                        />
-                      ),
-                    })}
-              />
+              <Stack key={`${index}-${name}`} gap="4">
+                {first ? (
+                  <Text variant="caption" style={{ marginStart: 44 }}>
+                    {name}
+                  </Text>
+                ) : null}
+                <ChatMessage
+                  kind={line.mine === true ? 'mine' : 'theirs'}
+                  text={line.text}
+                  {...(line.mine === true
+                    ? {}
+                    : {
+                        author: name,
+                        avatar: (
+                          <Avatar
+                            name={name}
+                            joinIndex={Math.max(0, faces.indexOf(name))}
+                            size="sm"
+                          />
+                        ),
+                      })}
+                />
+              </Stack>
             );
           })}
         </Stack>
