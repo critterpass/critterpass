@@ -29,7 +29,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { airportDataset } from '../content';
-import { completeOnboarding, markOnboardingComplete } from '../flow-controller/completion';
+import { markOnboardingComplete } from '../flow-controller/completion';
 import { readDraft, updateDraft } from '../flow-controller/draft-store';
 import { ONBOARDING_ROUTES } from '../flow-controller/steps';
 import { useTrackStep } from '../flow-controller/track';
@@ -119,10 +119,12 @@ export function PhoneScreen() {
       return () => clearTimeout(timer);
     }
     if (state.kind === 'switched') {
-      void completeOnboarding().then((href) => router.replace(href));
+      // "Use my old pass": the app starts again on that account, like a returning sign-in.
+      markOnboardingComplete();
+      services.restart();
     }
     return undefined;
-  }, [flow.state, returning, analytics]);
+  }, [flow.state, returning, analytics, services]);
 
   const lundi = GUIDE_STICKERS.lundi;
   return (
