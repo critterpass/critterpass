@@ -10,8 +10,10 @@ const definitions = readFileSync(
   'utf8',
 );
 
-/** Every catalog flag at its default; the fixture's definitions only cover `analytics.replay`. */
+/** Every catalog flag at its default. */
 const DEFAULTS = resolveFlags(undefined);
+/** The fixture's definitions: `money.receipts` on for everyone, `analytics.replay` on for iOS. */
+const EVALUATED = { ...DEFAULTS, 'money.receipts': true };
 
 type Fetch = NonNullable<Parameters<typeof createFlagService>[0]['fetch']>;
 
@@ -47,11 +49,11 @@ describe('server flags', () => {
       return response(200, definitions);
     });
     expect(await flags.evaluate({ distinctId: 'pid-1', platform: 'ios' })).toEqual({
-      ...DEFAULTS,
+      ...EVALUATED,
       'analytics.replay': true,
     });
     expect(await flags.evaluate({ distinctId: 'pid-2', platform: 'android' })).toEqual({
-      ...DEFAULTS,
+      ...EVALUATED,
       'analytics.replay': false,
     });
     expect(urls.every((url) => url.startsWith('https://eu.i.posthog.com/flags/definitions'))).toBe(
@@ -72,6 +74,38 @@ describe('server flags', () => {
     expect(await flags.evaluate({ distinctId: 'pid-1', platform: 'ios' })).toEqual({
       ...DEFAULTS,
       'analytics.replay': false,
+    });
+  });
+
+  it('waits for the first definitions load as long as the call allows', async () => {
+    const flags = serviceWith(async () => {
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      return response(200, definitions);
+    });
+    expect(await flags.evaluate({ distinctId: 'pid-1' })).toEqual(DEFAULTS);
+    expect(await flags.evaluate({ distinctId: 'pid-1' }, { readyTimeoutMs: 2_000 })).toEqual(
+      EVALUATED,
+    );
+  });
+
+  it('says whether an answer was evaluated or is the defaults', async () => {
+    const loaded = serviceWith(() => response(200, definitions));
+    expect(await loaded.answer({ distinctId: 'pid-1' })).toEqual({
+      flags: EVALUATED,
+      source: 'evaluated',
+    });
+    await loaded.shutdown();
+
+    const down = serviceWith(() => Promise.reject(new Error('ECONNREFUSED')));
+    expect(await down.answer({ distinctId: 'pid-1' })).toEqual({
+      flags: DEFAULTS,
+      source: 'defaults',
+    });
+
+    const unset = createFlagService({ projectApiKey: undefined, flagsSecretKey: undefined });
+    expect(await unset.answer({ distinctId: 'pid-1' })).toEqual({
+      flags: DEFAULTS,
+      source: 'defaults',
     });
   });
 

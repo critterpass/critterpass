@@ -10,6 +10,7 @@ import { watchRows } from '@/data/status/watch-rows';
 
 import type { CrewLastMessage } from '../../crews-sheet/badge-slot';
 import { quoted } from './rows';
+import { memberFirstName } from '@/ui/people/member-name';
 
 const TABLES = ['messages', 'users', 'guides'];
 
@@ -39,7 +40,7 @@ export function useLastMessage(crewId: string): CrewLastMessage | null {
           row === undefined
             ? null
             : {
-                sender: row.sender_name?.trim().split(/\s+/u)[0] ?? '',
+                sender: memberFirstName(row.sender_name),
                 kind: row.type,
                 body: row.body ?? '',
               },

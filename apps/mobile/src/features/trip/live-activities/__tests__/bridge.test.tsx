@@ -21,7 +21,7 @@ import {
   LocalFirstContext,
   type LocalFirstContextValue,
 } from '../../../../data/powersync/local-first-context';
-import { useLiveActivityRegistration } from '../bridge';
+import { drawsCrewLive, useLiveActivityRegistration } from '../bridge';
 import type { NearbySnapshot } from '../critter-nearby';
 import type { LaPort } from '../la-port';
 
@@ -119,5 +119,14 @@ describe('useLiveActivityRegistration', () => {
       attributes: { place_name: 'Tirta Empul' },
       state: { state: 'dwelling', ring: 5, distance_band: 'close', remain_min: 5 },
     });
+  });
+
+  it('offers the crew lock screen only in a build that draws the crew-live activity', () => {
+    const says = (kinds: readonly string[] | null) => drawsCrewLive({ drawnKinds: () => kinds });
+    expect(drawsCrewLive(null)).toBe(false);
+    // Builds from before the kinds were reported, and builds that draw only the first two.
+    expect(says(null)).toBe(false);
+    expect(says(['leave_by', 'flight'])).toBe(false);
+    expect(says(['leave_by', 'flight', 'meet_up'])).toBe(true);
   });
 });

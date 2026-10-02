@@ -170,14 +170,23 @@ export function AddBookingScreen({ start }: { readonly start?: string | undefine
           onByHand={(id) => {
             const view = views.find((item) => item.id === id);
             const booking = view?.booking ?? null;
+            // A flight number that matched no schedule opens the flight form.
+            const flightOnly = view?.failureReason === 'flight_not_found';
             router.push(
-              addByHandRoute(booking === null ? {} : { kind: booking.kind, title: booking.title }),
+              addByHandRoute(
+                booking !== null
+                  ? { kind: booking.kind, title: booking.title }
+                  : flightOnly
+                    ? { kind: 'flight' }
+                    : {},
+              ),
             );
             if (view !== undefined) onIgnore(id);
           }}
           onTypeIn={() => router.push(addByHandRoute())}
           onMailbox={() => setSheet('mailbox')}
           onLinkCode={() => setSheet('link')}
+          heldMail={context.heldMail}
         />
         {sheet === 'paste' ? <PasteFlow tripId={tripId} onDone={() => setSheet(null)} /> : null}
         {sheet === 'link' ? (

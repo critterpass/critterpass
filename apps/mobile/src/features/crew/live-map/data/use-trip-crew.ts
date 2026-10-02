@@ -14,6 +14,7 @@ import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { watchRows } from '@/data/status/watch-rows';
 
 import { quoted } from '../../chat/data/rows';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface CrewMate {
   readonly uid: string;
@@ -144,7 +145,7 @@ export async function loadTripCrew(
     boosted: row.boost_active === 1,
     members: members.map((member, index) => ({
       uid: member.user_id,
-      name: member.display_name?.trim().split(/\s+/u)[0] ?? '',
+      name: memberFirstName(member.display_name),
       joinIndex: index,
       phone: member.phone,
     })),

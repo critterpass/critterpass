@@ -49,6 +49,12 @@ appId: app.critterpass.dev
     timeout: 780000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-08-pass-egg
+# Arriving hatches the egg through the phone's own position, and the app reads positions only
+# inside the trip-day window (05:00 to midnight where the trip is). Before 05:00 in Vietnam a trip
+# that starts today cannot hatch by arriving, so the run says so here instead of waiting it out.
+- assertTrue:
+    condition: ${new Date(Date.now() + 7 * 3600000).getUTCHours() >= 5}
+    label: 'before 05:00 in Vietnam the app reads no position, so arriving cannot hatch the egg'
 # Arriving: the phone is at Đà Nẵng airport. A traveller who allowed location expects the egg to
 # hatch without touching anything: the ceremony opens by itself on a tab.
 - setLocation:

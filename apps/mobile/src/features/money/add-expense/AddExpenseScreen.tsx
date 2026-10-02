@@ -1,7 +1,8 @@
 /**
- * Add (or edit) an expense. ADD queues `add_expense` (it works in airplane mode), goes back to
+ * Add (or edit) an expense. ADD queues `add_expense` (it works in airplane mode), lands on
  * Balances and toasts "Added Rp 450.000, US$4.74 each."; a refused ADD shakes the amount and
- * buzzes. SCAN INSTEAD swaps to the receipt scan in place.
+ * buzzes. ADD sends once: a tap while it is going out, or after, does nothing. SCAN INSTEAD swaps
+ * to the receipt scan in place.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
@@ -20,6 +21,15 @@ import { DetailsSheet, shiftDays } from './DetailsSheet';
 import { amountMinorOf, draftProblem, sharesByMember } from './draft';
 import { useAddLabels } from './labels';
 import { useExpenseDraft } from './useExpenseDraft';
+
+/**
+ * Where the keypad leaves to. A new expense lands on Balances whatever opened the keypad, so no
+ * keypad is left on screen to add it again; an edit goes back to the expense it came from.
+ */
+function leave(editing: boolean): void {
+  if (editing && router.canGoBack()) router.back();
+  else router.dismissTo(MONEY_ROUTES.balances);
+}
 
 export function AddExpenseScreen({
   editId,
@@ -50,8 +60,10 @@ export function AddExpenseScreen({
       return;
     }
     const result = await state.submit();
+    // The tap that sent it finishes the screen.
+    if (result === 'already') return;
     if (result === null) {
-      if (state.editing) router.back();
+      if (state.editing) leave(true);
       return;
     }
     if (result.kind === 'rejected' || result.kind === 'unavailable') {
@@ -69,7 +81,7 @@ export function AddExpenseScreen({
           ? t({ id: 'money.add.addedToast', message: `Added ${full}.` })
           : t({ id: 'money.add.addedEachToast', message: `Added ${full}, ${each} each.` }),
     });
-    router.back();
+    leave(state.editing);
   }
 
   return (
@@ -82,7 +94,7 @@ export function AddExpenseScreen({
         approx={approx}
         perMember={sharesByMember(draft)}
         ctaLabel={ctaLabel}
-        ctaDisabled={amountMinor === 0n}
+        ctaDisabled={amountMinor === 0n || state.sent}
         shake={shake}
         submitting={state.pending}
         onKey={(key) => state.dispatch({ type: 'key', key })}

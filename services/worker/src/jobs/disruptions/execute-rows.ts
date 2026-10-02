@@ -126,7 +126,7 @@ async function runSystemRow(
             icon: 'plane',
             text: ctx.headline.slice(0, 120),
             action: 'open',
-            deep_link: `/trip/${ctx.tripId}/disruption/${ctx.disruptionId}`,
+            deep_link: `/disruption/${ctx.disruptionId}`,
           },
           ctx.now,
         );
@@ -143,7 +143,7 @@ async function runSystemRow(
             icon: 'plane',
             text: row.label.slice(0, 120),
             action: 'open',
-            deep_link: `/trip/${ctx.tripId}/disruption/${ctx.disruptionId}`,
+            deep_link: `/disruption/${ctx.disruptionId}`,
           },
           ctx.now,
         );

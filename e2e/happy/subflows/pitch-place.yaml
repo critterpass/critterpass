@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # Pitches a place to the account's crew from search: ${QUERY} is typed, the first result opens its
-# guide page, PITCH TO THE CREW streams the guide's pitch and ADD TO THE VOTE puts it on the board.
+# page, PITCH TO THE CREW streams the guide's pitch and ADD TO THE VOTE puts it on the board.
 - openLink: critterpass-dev://places/search
 - extendedWaitUntil:
     visible:
@@ -16,22 +16,55 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'place-result-.*'
     index: 0
+# A place with a guide opens its Explore page (PITCH TO THE CREW is `explore-pitch`); any other
+# place opens the guest guide's page (`guest-pitch`). Either button opens the pitch.
 - scrollUntilVisible:
     element:
-      id: 'guest-pitch'
+      id: 'explore-pitch|guest-pitch'
     direction: DOWN
     timeout: 30000
-- tapOn:
-    id: 'guest-pitch'
-# Until the new crew has synced the page asks which crew to pitch to; pick it there.
 - runFlow:
     when:
       visible:
-        id: 'crew-picker'
+        id: 'explore-pitch'
     commands:
       - tapOn:
-          id: 'crew-pick-.*'
-          index: 0
+          id: 'explore-pitch'
+      # With one crew the pitch opens at once; with more, or before the new crew has synced,
+      # the page asks which crew gets it (and says there is none until the crew arrives).
+      - runFlow:
+          when:
+            visible:
+              id: 'explore-pitch-no-crew'
+          commands:
+            - extendedWaitUntil:
+                visible:
+                  id: 'explore-pitch-crews'
+                timeout: 30000
+      - runFlow:
+          when:
+            visible:
+              id: 'explore-pitch-crews'
+          commands:
+            - tapOn:
+                id: 'explore-pitch-crew-.*'
+                index: 0
+- runFlow:
+    when:
+      visible:
+        id: 'guest-pitch'
+    commands:
+      - tapOn:
+          id: 'guest-pitch'
+      # Until the new crew has synced the page asks which crew to pitch to; pick it there.
+      - runFlow:
+          when:
+            visible:
+              id: 'crew-picker'
+          commands:
+            - tapOn:
+                id: 'crew-pick-.*'
+                index: 0
 # The sheet's root id isn't in iOS's accessibility tree; the pitch's quote is.
 - extendedWaitUntil:
     visible:

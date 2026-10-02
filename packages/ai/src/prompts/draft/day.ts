@@ -12,8 +12,8 @@ import {
   minuteOfDate,
   visitOrder,
   type DayChoice,
-  type DayWindow,
   type RepairReason,
+  type WishTime,
 } from '@cp/planner';
 
 import type { GatewayInput } from '../../client';
@@ -31,7 +31,11 @@ import {
 } from './context';
 import { DAY_FORMAT, dayReplySchema, proseProblem, type StopReply } from './schema';
 import { stopBudget } from './budget';
-import { mealsIn, type SkeletonDay } from './skeleton';
+import { type SkeletonDay } from './skeleton';
+import { whenOf } from './wish-answers';
+import { withinCapacity } from './day-capacity';
+
+export { withinCapacity } from './day-capacity';
 
 export const DAY_PROMPT_VERSION = 'draft-day@1';
 
@@ -50,6 +54,8 @@ const TASK = [
   '  and leave out what does not fit.',
   '- Stay within the stop limit and keep neighbouring stops close together.',
   '- Each note is one short line in your voice about that stop, words only: no numbers, times, prices, digits or links.',
+  '- A must-do marked with a time of day (sunrise, night, full day) is held to it by the planner:',
+  '  put a sunrise one first, a night one last, and plan the rest of the day around it.',
 ].join('\n');
 
 export interface DayRepair {
@@ -62,6 +68,11 @@ export interface DayContext {
   readonly day: SkeletonDay;
   /** Activity ids used on other days (never offered here). */
   readonly usedElsewhere: ReadonlySet<string>;
+}
+
+function timeNote(when: WishTime | null): string {
+  if (when === null || when === 'any') return '';
+  return ` | at ${when.replaceAll('_', ' ')}`;
 }
 
 function lists(input: DraftPlanInput, context: DayContext): string[] {
@@ -93,7 +104,7 @@ function lists(input: DraftPlanInput, context: DayContext): string[] {
     return poi === undefined
       ? []
       : [
-          `- must_do_id ${aliases(input).mustDo(mustDoId)} → ${placeLine(input, poi, day.date).slice(2)}`,
+          `- must_do_id ${aliases(input).mustDo(mustDoId)} → ${placeLine(input, poi, day.date).slice(2)}${timeNote(whenOf(input, mustDoId))}`,
         ];
   });
   const planned = new Set(day.poiIds);
@@ -245,41 +256,6 @@ export function withMustDos(
   return [...choices, ...missing];
 }
 
-/**
- * The day's capacity, as the reply was told it: no more activities than the outline planned
- * (spares only stand in for planned ones) and no more meals than the day runs through. Extras are
- * cut, spares first, before the planner times the day.
- */
-export function withinCapacity(
-  day: SkeletonDay,
-  window: DayWindow,
-  choices: readonly DayChoice[],
-): DayChoice[] {
-  const planned = new Set(day.poiIds);
-  let activities = choices.filter((c) => c.kind === 'activity' && c.mustDoId === null).length;
-  let meals = choices.filter((c) => c.kind === 'meal' && c.mustDoId === null).length;
-  const mealRoom = mealsIn(window);
-  const cut = new Set<number>();
-  const order = choices
-    .map((choice, index) => ({ choice, index }))
-    .filter(({ choice }) => choice.mustDoId === null)
-    .sort(
-      (a, b) =>
-        Number(planned.has(a.choice.poiId)) - Number(planned.has(b.choice.poiId)) ||
-        b.index - a.index,
-    );
-  for (const { choice, index } of order) {
-    if (choice.kind === 'activity' && activities > day.poiIds.length) {
-      cut.add(index);
-      activities -= 1;
-    } else if (choice.kind === 'meal' && meals > mealRoom) {
-      cut.add(index);
-      meals -= 1;
-    }
-  }
-  return choices.filter((_, index) => !cut.has(index));
-}
-
 export function scheduleChoices(
   input: DraftPlanInput,
   day: SkeletonDay,
@@ -287,7 +263,9 @@ export function scheduleChoices(
   attempt: string,
 ): DraftDay {
   const window = dayWindow(input.frame, day.dayNo - 1);
-  const choices = withMustDos(input, day, withinCapacity(day, window, picked));
+  const choices = withMustDos(input, day, withinCapacity(day, window, picked)).map((choice) =>
+    choice.mustDoId === null ? choice : { ...choice, when: whenOf(input, choice.mustDoId) },
+  );
   const order = visitOrder({
     date: day.date,
     choices,

@@ -24,6 +24,15 @@ export {
 export { readFlag, useFlag } from './flags';
 export { routeNameFromSegments, useScreenTracking } from './screen-tracking';
 export {
+  applyServerFlags,
+  clearServerFlags,
+  refreshServerFlags,
+  SERVER_FLAGS_PATH,
+  serverFlag,
+  startServerFlags,
+  type ServerFlagsFetch,
+} from './server-flags';
+export {
   AnalyticsProvider,
   deviceCommonProps,
   useAnalytics,

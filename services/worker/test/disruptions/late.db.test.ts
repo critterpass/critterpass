@@ -342,7 +342,7 @@ describe('running late with others waiting and someone running the place', () =>
         title: DISRUPTION_PUSH.lateTitle,
         body: DISRUPTION_PUSH.lateBodyYou,
         vars: { place: 'Dinner', minutes: 18 },
-        deepLink: `/trip/${fx.tripId}/late/${id}`,
+        deepLink: `/late/${id}`,
       });
       const waiting = await registration.compose(tx, routed, fx.mayaId);
       expect(waiting).toMatchObject({

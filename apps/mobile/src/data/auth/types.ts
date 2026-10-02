@@ -34,6 +34,8 @@ export type VerifyOtpOutcome =
 /** Returning-user sign-in outcomes (services/api/src/routes/auth-extra.ts's `/api/auth/sign-in/phone-number`, or `/sign-in/social`). */
 export type ReturningSignInOutcome =
   | { readonly kind: 'signed_in'; readonly userId: string }
+  /** Nobody held the number: it is now on the pass this phone is on, which goes on to be made. */
+  | { readonly kind: 'linked' }
   | { readonly kind: 'no_account' }
   | { readonly kind: 'invalid_code' }
   | { readonly kind: 'rate_limited'; readonly retryAfterS?: number }

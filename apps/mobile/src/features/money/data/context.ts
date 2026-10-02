@@ -5,6 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import type { CrewRow, MemberRow, TripRow } from './queries';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface MoneyMember {
   readonly userId: string;
@@ -75,7 +76,7 @@ export function tripDays(trip: Pick<TripRow, 'start_date' | 'end_date' | 'trip_l
 export function toMembers(rows: readonly MemberRow[]): MoneyMember[] {
   return rows.map((row, index) => ({
     userId: row.user_id,
-    name: firstName(row.display_name),
+    name: memberFirstName(row.display_name),
     joinIndex: index,
     active: row.status === 'active',
   }));

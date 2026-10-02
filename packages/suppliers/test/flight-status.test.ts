@@ -109,6 +109,57 @@ describe('AeroDataBox', () => {
     });
   });
 
+  it('reads a number over a range of departure dates, with each airport zone', async () => {
+    const { http, urls } = stub(200, [
+      {
+        number: '9G 956',
+        status: 'Expected',
+        airline: { iata: '9G', name: '9G Rail' },
+        departure: {
+          airport: { iata: 'SGN', timeZone: 'Asia/Ho_Chi_Minh' },
+          scheduledTime: { utc: '2026-10-03 00:05Z', local: '2026-10-03 07:05+07:00' },
+        },
+        arrival: {
+          airport: { iata: 'DAD', timeZone: 'Asia/Ho_Chi_Minh' },
+          scheduledTime: { utc: '2026-10-03 01:30Z', local: '2026-10-03 08:30+07:00' },
+        },
+      },
+    ]);
+    const [flight] = await createAeroDataBoxClient(http, { apiKey: 'k' }).flightsDeparting(
+      '9G',
+      '956',
+      '2026-10-02',
+      '2026-10-04',
+    );
+    expect(urls[0]).toContain(
+      '/flights/number/9G956/2026-10-02/2026-10-04?dateLocalRole=Departure',
+    );
+    expect(flight).toMatchObject({
+      carrier: '9G',
+      flightNo: '956',
+      depAirport: 'SGN',
+      arrAirport: 'DAD',
+      schedDepAt: '2026-10-03T00:05:00.000Z',
+      schedArrAt: '2026-10-03T01:30:00.000Z',
+      depTz: 'Asia/Ho_Chi_Minh',
+      arrTz: 'Asia/Ho_Chi_Minh',
+    });
+  });
+
+  it('reads no flights from an empty answer, and still refuses a broken one', async () => {
+    const empty = createSupplierHttp({
+      audit: () => Promise.resolve(),
+      fetch: () => Promise.resolve(new Response(null, { status: 204 })),
+      sleep: () => Promise.resolve(),
+    });
+    const client = createAeroDataBoxClient(empty, { apiKey: 'k' });
+    expect(await client.flightsDeparting('9G', '999', '2026-10-02', '2026-10-04')).toEqual([]);
+    const broken = stub(200, { flights: 'nope' });
+    await expect(
+      createAeroDataBoxClient(broken.http, { apiKey: 'k' }).flightsOn('9G', '956', '2026-10-02'),
+    ).rejects.toBeInstanceOf(SupplierHttpError);
+  });
+
   it('splits an ident into carrier and number', () => {
     expect(splitIdent('SQ 0938')).toEqual({ carrier: 'SQ', number: '938' });
     expect(splitIdent('3K521')).toEqual({ carrier: '3K', number: '521' });

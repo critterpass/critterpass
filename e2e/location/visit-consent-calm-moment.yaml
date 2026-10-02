@@ -10,7 +10,7 @@ appId: app.critterpass.dev
 # 2. On the TRIPS tab, once the hub has rested a few seconds, it rises; NOT NOW puts it away and
 #    it does not come back.
 # Run it after noon in Da Nang (UTC+7): before that the trip has not started and nothing rises.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1)); var blanks = (first.getUTCDay() + 6) % 7; var col = (d.getUTCDay() + 6) % 7; var row = Math.floor((blanks + d.getUTCDate() - 1) / 7); output.todayPoint = Math.round(14.6 + 11.93 * col) + '%, ' + Math.round(45 + 5.69 * row) + '%'; output.todayLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'; output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); output.pickDate = d.toISOString().slice(0, 10); output.lockToday = '(?i)lock \\S+ ' + d.getUTCDate() + '\\D.*'; output.afterNoon = d.getUTCHours() >= 12}
 - runFlow: ../happy/subflows/fresh-account.yaml
 - openLink: critterpass-dev://crew/new
 - extendedWaitUntil:
@@ -54,9 +54,7 @@ appId: app.critterpass.dev
       id: 'setup-step-when'
     timeout: 20000
 # The dates: a week that starts today, picked by hand (the crew's best window aims at the place's
-# season, weeks away). The picker opens on the month of that window, which is this month here. On
-# Android the sheet's cells carry no id or label of their own, so today's cell is tapped where the
-# sheet draws it; iOS finds it by its label. The lock button names the week, which proves the tap.
+# season, weeks away). The lock button names the week, which proves the tap.
 - extendedWaitUntil:
     visible:
       id: 'when-pick-week'
@@ -69,26 +67,9 @@ appId: app.critterpass.dev
     timeout: 10000
 - waitForAnimationToEnd
 - runFlow:
-    when:
-      platform: Android
-    commands:
-      - tapOn:
-          point: ${output.todayPoint}
-- runFlow:
-    when:
-      platform: iOS
-    commands:
-      - tapOn:
-          text: ${output.todayLabel}
-          index: 1
-          optional: true
-      - runFlow:
-          when:
-            notVisible:
-              id: 'picker-lock'
-          commands:
-            - tapOn:
-                text: ${output.todayLabel}
+    file: ../happy/subflows/pick-week-day.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
 - extendedWaitUntil:
     visible:
       id: 'picker-lock'
