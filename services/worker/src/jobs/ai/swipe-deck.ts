@@ -86,7 +86,8 @@ async function candidates(tx: pg.PoolClient, facts: SessionFacts): Promise<Place
   return rows;
 }
 
-async function crewTaste(
+/** How many of the going crew hold each taste tag; tags a member hid from the crew never count. */
+export async function crewTaste(
   tx: pg.PoolClient,
   tripId: string,
 ): Promise<{ taste: CrewTaste; size: number }> {
