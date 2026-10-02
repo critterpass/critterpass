@@ -10,6 +10,7 @@ import type { DraftModel, DraftPlanInput } from './context';
 import { draftOneDay } from './day';
 import { validateAndRepair, type RepairOutcome } from './repair';
 import { runSkeleton, type SkeletonDay, type SkeletonPlan } from './skeleton';
+import { withWishAnswers } from './wish-answers';
 
 export interface DraftedDays {
   readonly itinerary: Itinerary;
@@ -47,6 +48,8 @@ export async function draftDays(
 
 export interface DraftPlanResult extends RepairOutcome {
   readonly skeleton: SkeletonPlan;
+  /** The input with the guide's wish answers applied: what the days were planned and checked on. */
+  readonly input: DraftPlanInput;
   /** Invented ids across every reply (all dropped before anything is saved). */
   readonly unknownIdsTotal: number;
   readonly proseRejectedTotal: number;
@@ -54,14 +57,16 @@ export interface DraftPlanResult extends RepairOutcome {
 
 export async function runDraftPlan(
   model: DraftModel,
-  input: DraftPlanInput,
+  asked: DraftPlanInput,
 ): Promise<DraftPlanResult> {
-  const skeleton = await runSkeleton(model, input);
+  const skeleton = await runSkeleton(model, asked);
+  const input = withWishAnswers(asked, skeleton.wishAnswers);
   const drafted = await draftDays(model, input, skeleton);
   const repaired = await validateAndRepair(model, input, skeleton, drafted.itinerary);
   return {
     ...repaired,
     skeleton,
+    input,
     unknownIdsTotal: skeleton.unknownIds + drafted.unknownIds + repaired.unknownIds,
     proseRejectedTotal: skeleton.proseRejected + drafted.proseRejected + repaired.proseRejected,
   };

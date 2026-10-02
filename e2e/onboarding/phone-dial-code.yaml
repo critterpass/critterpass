@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# 3a-8 from the splash ("I already have a pass", where the country is this phone's region): a
+# number typed one key at a time with its dial code ("+65 9123 4567") switches the country to
+# Singapore and keeps the national number. Nothing is sent.
+- runFlow: ../happy/subflows/fresh-install.yaml
+- tapOn:
+    id: 'onboarding-sign-in'
+- extendedWaitUntil:
+    visible:
+      id: 'phone-number'
+    timeout: 10000
+- tapOn:
+    id: 'phone-number'
+- inputText: '+6591234567'
+- extendedWaitUntil:
+    visible:
+      text: '.*9123 4567.*'
+    timeout: 10000
+- assertVisible:
+    text: '.*\+65.*'
+- hideKeyboard
+- waitForAnimationToEnd
+- takeScreenshot: en-3a-8-dial-code-typed

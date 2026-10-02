@@ -57,6 +57,13 @@ export function buildCritterpassDarkStyle(): StyleSpecification {
     glyphs: `${TILES_PUBLIC_BASE_URL}/fonts/{fontstack}/{range}.pbf`,
     sprite: `${TILES_PUBLIC_BASE_URL}/sprite/sprite`,
     layers: [
+      // A solid base in the app's own surface colour, so a map whose sprite or tiles have not
+      // loaded (slow network, none) never clears to black; the grid pattern draws over it.
+      {
+        id: 'background-base',
+        type: 'background',
+        paint: { 'background-color': tokens.semantic.bg.base },
+      },
       { id: 'background', type: 'background', paint: { 'background-pattern': 'grid-tile' } },
 
       // --- world (Protomaps Basemap schema): low-zoom fallback everywhere, z0-8 only ---

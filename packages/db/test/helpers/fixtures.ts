@@ -103,6 +103,16 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       [organiserDevice, organiser],
     );
     await tx.query(
+      `INSERT INTO widget_push_tokens (device_id, user_id, token, env)
+       VALUES ($1, $2, 'abcdef0123456789', 'sandbox')`,
+      [organiserDevice, organiser],
+    );
+    await tx.query(
+      `INSERT INTO installed_widgets (device_id, user_id, kind, family)
+       VALUES ($1, $2, 'countdown', 'system_small')`,
+      [organiserDevice, organiser],
+    );
+    await tx.query(
       `INSERT INTO device_activities (device_id, user_id, kind, ref_id, started_via, state)
        VALUES ($1, $2, 'flight', $3, 'push_to_start', 'active')`,
       [organiserDevice, organiser, crypto.randomUUID()],

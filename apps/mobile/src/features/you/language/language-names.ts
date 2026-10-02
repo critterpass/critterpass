@@ -1,5 +1,9 @@
-/** The languages a person can pick, each named in its own script and in the app's current one. */
-import { shippedLocales, type LocaleEntry } from '@cp/i18n';
+/**
+ * The languages a person can pick. Each is named twice: in its own script (data, from the locale
+ * registry) and in the app's current language (copy, so a Vietnamese phone reads "Tiếng Nhật").
+ */
+import { shippedLocales } from '@cp/i18n';
+import { t } from '@lingui/core/macro';
 
 export interface LanguageChoice {
   readonly code: string;
@@ -9,13 +13,31 @@ export interface LanguageChoice {
   readonly localName: string;
 }
 
-function nameIn(displayLocale: string, entry: LocaleEntry): string {
-  try {
-    const names = new Intl.DisplayNames([displayLocale], { type: 'language' });
-    return names.of(entry.code) ?? entry.englishName;
-  } catch {
-    // Engines without Intl.DisplayNames: the English name still says which language it is.
-    return entry.englishName;
+/** A language's name in the app's current language; the registry's English name if it is new. */
+export function localLanguageName(code: string, englishName: string): string {
+  switch (code) {
+    case 'en':
+      return t({ id: 'you.language.name.en', message: 'English' });
+    case 'zh-Hans':
+      return t({ id: 'you.language.name.zhHans', message: 'Chinese, simplified' });
+    case 'id':
+      return t({ id: 'you.language.name.id', message: 'Indonesian' });
+    case 'ja':
+      return t({ id: 'you.language.name.ja', message: 'Japanese' });
+    case 'es':
+      return t({ id: 'you.language.name.es', message: 'Spanish' });
+    case 'pt':
+      return t({ id: 'you.language.name.pt', message: 'Portuguese' });
+    case 'fr':
+      return t({ id: 'you.language.name.fr', message: 'French' });
+    case 'ko':
+      return t({ id: 'you.language.name.ko', message: 'Korean' });
+    case 'th':
+      return t({ id: 'you.language.name.th', message: 'Thai' });
+    case 'vi':
+      return t({ id: 'you.language.name.vi', message: 'Vietnamese' });
+    default:
+      return englishName;
   }
 }
 
@@ -26,7 +48,7 @@ export function languageChoices(current: string): readonly LanguageChoice[] {
     .map((entry) => ({
       code: entry.code,
       nativeName: entry.nativeName,
-      localName: nameIn(current, entry),
+      localName: localLanguageName(entry.code, entry.englishName),
     }));
   const first = choices.filter((choice) => choice.code === current);
   return [...first, ...choices.filter((choice) => choice.code !== current)];

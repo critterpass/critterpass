@@ -5,6 +5,7 @@
  * of prose passes before it reaches a crew: no digits (numbers come from code), no links.
  */
 import type Anthropic from '@anthropic-ai/sdk';
+import { WISH_TIMES } from '@cp/planner';
 import { z } from 'zod';
 
 const id = z.string().min(1).max(64);
@@ -24,8 +25,23 @@ export const skeletonReplySchema = z.object({
       }),
     )
     .min(1),
+  // Answers to the must-dos members typed by hand, read one by one in ./wish-answers.ts: a reply
+  // without the list, or with entries that do not hold up, still gives a draft.
+  wishes: z.array(z.unknown()).catch([]),
 });
 export type SkeletonReply = z.infer<typeof skeletonReplySchema>;
+
+/**
+ * One wish answer as the reply gave it. Only the wish it answers is required: any other field that
+ * does not hold up is read as empty (no place, no day, any time, any weekday).
+ */
+export const wishAnswerReplySchema = z.object({
+  wish_id: id,
+  poi_id: z.string().nullable().catch(null),
+  day_no: z.number().int().nullable().catch(null),
+  when: z.string().catch('any'),
+  weekdays: z.array(z.unknown()).catch([]),
+});
 
 export const stopReplySchema = z.object({
   poi_id: id,
@@ -62,9 +78,27 @@ export const SKELETON_FORMAT: Anthropic.Messages.JSONOutputFormat = {
   schema: {
     type: 'object',
     additionalProperties: false,
-    required: ['stay_area', 'days'],
+    required: ['stay_area', 'days', 'wishes'],
     properties: {
       stay_area: { type: 'string', maxLength: 60 },
+      wishes: {
+        type: 'array',
+        items: {
+          type: 'object',
+          additionalProperties: false,
+          required: ['wish_id', 'poi_id', 'day_no', 'when', 'weekdays'],
+          properties: {
+            wish_id: { type: 'string' },
+            poi_id: { type: ['string', 'null'] },
+            day_no: { type: ['integer', 'null'] },
+            when: { type: 'string', enum: [...WISH_TIMES] },
+            weekdays: {
+              type: 'array',
+              items: { type: 'string', enum: ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'] },
+            },
+          },
+        },
+      },
       days: {
         type: 'array',
         items: {

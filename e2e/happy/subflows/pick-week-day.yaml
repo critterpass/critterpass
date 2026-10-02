@@ -1,0 +1,49 @@
+appId: app.critterpass.dev
+---
+# Taps the first day ${PICK_DATE} (YYYY-MM-DD) in the open "Pick a week" sheet.
+#
+# The sheet opens on the month of the suggested week, which can be another month than the day's,
+# and the dates step under the sheet has a month title and arrows of its own, which a plain id or
+# text match finds first. So: the month title and the arrows are looked up inside the sheet
+# (`childOf: week-picker-panel`), the sheet is paged to the day's month, and the cell is tapped by
+# its id (`heat-pick-<date>`, which only the sheet's cells carry), never by position.
+#
+# Use it from any flow, after `picker-shorter` is visible:
+#   - runFlow:
+#       file: ../happy/subflows/pick-week-day.yaml
+#       env:
+#         PICK_DATE: ${output.pickDate}
+# then check `picker-lock` names the day before tapping it.
+- evalScript: ${var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.pickWeekMonth = '(?i)' + months[Number(PICK_DATE.slice(5, 7)) - 1] + ' ' + PICK_DATE.slice(0, 4); output.pickWeekCell = 'heat-pick-' + PICK_DATE}
+- repeat:
+    while:
+      notVisible:
+        text: ${output.pickWeekMonth}
+        childOf:
+          id: 'week-picker-panel'
+    times: 6
+    commands:
+      - tapOn:
+          id: 'heatmap-prev'
+          childOf:
+            id: 'week-picker-panel'
+      - waitForAnimationToEnd
+- repeat:
+    while:
+      notVisible:
+        text: ${output.pickWeekMonth}
+        childOf:
+          id: 'week-picker-panel'
+    times: 12
+    commands:
+      - tapOn:
+          id: 'heatmap-next'
+          childOf:
+            id: 'week-picker-panel'
+      - waitForAnimationToEnd
+- assertVisible:
+    text: ${output.pickWeekMonth}
+    childOf:
+      id: 'week-picker-panel'
+- tapOn:
+    id: ${output.pickWeekCell}

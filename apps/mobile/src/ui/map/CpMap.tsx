@@ -175,7 +175,7 @@ export function CpMap({
   }
 
   return (
-    <View style={styles.fill}>
+    <View style={styles.canvas}>
       <MapLibreMap
         key={offlineUnavailable ? 'offline-unavailable' : (regionSourceUrl ?? 'world-only')}
         style={styles.fill}
@@ -268,15 +268,23 @@ export function CpMap({
         </Text>
       ) : null}
 
-      <Pressable accessibilityRole="button" onPress={onRequestListView} style={styles.toggleButton}>
-        <Text style={styles.toggleButtonText}>{listViewLabel}</Text>
-      </Pressable>
+      {onRequestListView === undefined ? null : (
+        <Pressable
+          accessibilityRole="button"
+          onPress={onRequestListView}
+          style={styles.toggleButton}
+        >
+          <Text style={styles.toggleButtonText}>{listViewLabel}</Text>
+        </Pressable>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   fill: { flex: 1 },
+  // Until tiles draw (slow network, or none), the map shows the app's own surface, never black.
+  canvas: { flex: 1, backgroundColor: tokens.semantic.bg.base },
   youRow: { flexDirection: 'row', alignItems: 'center' },
   banner: {
     position: 'absolute',

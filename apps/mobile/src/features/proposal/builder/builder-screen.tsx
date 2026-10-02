@@ -17,11 +17,12 @@ import { feedback, toast } from '@/motion';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 
 import { createProposalCommand, lockInPlanCommand, sendProposalCommand } from '../data/commands';
-import { dayRange, instantDate, instantDateTime, wholeMoney } from '../data/format';
+import { instantDate, instantDateTime } from '../data/format';
 import { useCurrentProposal, useVersions } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
 import { ProposalLoading } from '../proposal-loading';
+import { eachPrice, tripDates } from '../labels';
 import { proposalRoutes } from '../routes';
 import { AloneView } from './alone-view';
 import { BuilderView } from './builder-view';
@@ -133,7 +134,7 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       <AloneView
         guide={trip.guide}
         destination={trip.destination}
-        dates={trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : ''}
+        dates={tripDates(locale, trip.startDate, trip.endDate)}
         offline={offline}
         locking={lockAlone.pending}
         onBack={back}
@@ -252,13 +253,6 @@ export function BuilderScreen({ tripId }: { readonly tripId: string }) {
       ) : null}
     </>
   );
-}
-
-/** "$1,310 each", or null before the trip is priced. */
-function eachPrice(locale: string, shareMinor: number | null, currency: string | null) {
-  if (shareMinor === null || currency === null) return null;
-  const amount = wholeMoney(locale, shareMinor, currency);
-  return t({ id: 'proposal.build.eachAmount', message: `${amount} each` });
 }
 
 function proposalIdOf(result: unknown): string | null {

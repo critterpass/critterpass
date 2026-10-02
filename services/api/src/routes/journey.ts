@@ -206,10 +206,21 @@ export function registerJourneyRoutes(app: OpenAPIHono<AppEnv>, deps: JourneyRou
       if (!limit.allowed) {
         throw new DomainError('RATE_LIMITED', { retry_after_s: limit.retryAfterS });
       }
-      const item = await withUser(deps.pool, session.uid, '', (tx) =>
-        lateItem(tx, tripId, body.item_id),
-      );
+      const { item, onTrip } = await withUser(deps.pool, session.uid, '', async (tx) => {
+        const travelling = await tx.query<{ on_trip: boolean }>(
+          `SELECT EXISTS (SELECT 1 FROM trip_participants
+                           WHERE trip_id = $1 AND user_id = $2
+                             AND rsvp NOT IN ('out', 'waitlisted')) AS on_trip`,
+          [tripId, session.uid],
+        );
+        return {
+          item: await lateItem(tx, tripId, body.item_id),
+          onTrip: travelling.rows[0]?.on_trip === true,
+        };
+      });
       if (item === undefined) throw new DomainError('NOT_FOUND', { reason: 'item' });
+      // Only a traveller on the trip, and only for an item they are going to.
+      if (!onTrip) throw new DomainError('NOT_ELIGIBLE', { reason: 'not_on_trip' });
       if (!item.attendee_ids.includes(session.uid)) {
         throw new DomainError('NOT_ELIGIBLE', { reason: 'not_attending' });
       }

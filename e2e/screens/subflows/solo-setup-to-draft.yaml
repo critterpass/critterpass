@@ -15,34 +15,12 @@ appId: app.critterpass.dev
             id: 'picker-shorter'
           timeout: 10000
       - waitForAnimationToEnd
-      # The first day: a day in the second week of next month. On Android the sheet's cells
-      # carry no id or label of their own (only the screen under it does), so the month arrow and
-      # the cell are tapped where the sheet draws them; iOS finds the sheet's cell by its label.
+      # The first day: three weeks from today, on its own month, by its date.
+      - evalScript: ${output.pickDate = new Date(Date.now() + 21 * 86400000).toISOString().slice(0, 10)}
       - runFlow:
-          when:
-            platform: Android
-          commands:
-            - tapOn:
-                point: 74%, 37%
-            - waitForAnimationToEnd
-            - tapOn:
-                point: 50%, 53%
-      - runFlow:
-          when:
-            platform: iOS
-          commands:
-            - evalScript: ${var d = new Date(Date.now() + 21 * 86400000); output.pickLabel = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getUTCMonth()] + ' ' + d.getUTCDate() + ', .*'}
-            - tapOn:
-                text: ${output.pickLabel}
-                index: 1
-                optional: true
-            - runFlow:
-                when:
-                  notVisible:
-                    id: 'picker-lock'
-                commands:
-                  - tapOn:
-                      text: ${output.pickLabel}
+          file: ../../happy/subflows/pick-week-day.yaml
+          env:
+            PICK_DATE: ${output.pickDate}
       - extendedWaitUntil:
           visible:
             id: 'picker-lock'

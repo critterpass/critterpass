@@ -1,6 +1,7 @@
 /**
  * CREW HYPE (3f-3): the crew-level hype percentage and one line built only from what people chose
- * to post: the latest public reply ("Jordan replied “6AM??”") and how many reacted. Nobody's
+ * to post: the latest public reply ("Jordan replied “6AM??”"), how many boarded and how many
+ * reacted (the bar is the share of recipients who did either; it is left out at 0%). Nobody's
  * opens or views are ever shown.
  */
 import { t } from '@lingui/core/macro';
@@ -56,10 +57,15 @@ export function HypeBar({ hype, latest }: HypeBarProps) {
     const words = reactionWords(latest.kind);
     parts.push(t({ id: 'proposal.hype.replied', message: `${latest.name} replied “${words}”.` }));
   }
+  // The bar measures who boarded or reacted, so the line says those, never opens.
   if (hype !== null && hype.recipients > 0) {
-    const reacted = hype.reacted;
+    const boarded = hype.boarded;
     const recipients = hype.recipients;
-    parts.push(t({ id: 'proposal.hype.count', message: `${reacted} of ${recipients} reacted.` }));
+    parts.push(t({ id: 'proposal.hype.boarded', message: `${boarded} of ${recipients} boarded.` }));
+    if (hype.reacted > 0) {
+      const reacted = hype.reacted;
+      parts.push(t({ id: 'proposal.hype.reacted', message: `${reacted} reacted.` }));
+    }
   }
   return (
     <View style={styles.wrap} testID="version-hype">
@@ -72,9 +78,11 @@ export function HypeBar({ hype, latest }: HypeBarProps) {
           {t({ id: 'proposal.hype.pct', message: `${pct}%` })}
         </Text>
       </View>
-      <View style={styles.track}>
-        <GrowBar fraction={pct / 100} color={theme.color.pink} />
-      </View>
+      {pct === 0 ? null : (
+        <View style={styles.track} testID="version-hype-bar">
+          <GrowBar fraction={pct / 100} color={theme.color.pink} />
+        </View>
+      )}
       {parts.length === 0 ? null : (
         <Text variant="bodySm" color={theme.semantic.text.secondary}>
           {parts.join(' ')}

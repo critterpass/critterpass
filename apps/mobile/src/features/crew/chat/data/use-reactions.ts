@@ -12,6 +12,7 @@ import { watchRows } from '@/data/status/watch-rows';
 
 import { reactMessageCommand } from './chat-commands';
 import { quoted } from './rows';
+import { memberName } from '@/ui/people/member-name';
 
 export interface ReactionGroup {
   readonly emoji: string;
@@ -44,7 +45,7 @@ export function groupReactions(
       byMessage.get(row.message_id) ?? new Map<string, { uid: string; name: string | null }[]>();
     emojis.set(row.emoji, [
       ...(emojis.get(row.emoji) ?? []),
-      { uid: row.user_id, name: row.display_name },
+      { uid: row.user_id, name: memberName(row.display_name) },
     ]);
     byMessage.set(row.message_id, emojis);
   }

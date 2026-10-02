@@ -71,6 +71,10 @@ msgstr "Ngôn ngữ ứng dụng"
 msgid "you.settings.offlineTripsLine"
 msgstr "Đặt chỗ, bản đồ và câu giao tiếp trên máy này"
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.zhHans"
+msgstr "Tiếng Trung giản thể"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.close"
 msgstr "Đóng"
@@ -115,6 +119,10 @@ msgstr "DEPARTURES · DÉPARTS"
 msgid "you.profile.edit"
 msgstr "Sửa"
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.en"
+msgstr "Tiếng Anh"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.entry"
 msgstr "ENTRY · ENTRÉE"
@@ -126,6 +134,10 @@ msgstr "EXIT · SORTIE"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps.expenses"
 msgstr "Các khoản chi bạn đã thêm, để Số dư vẫn khớp"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.fr"
+msgstr "Tiếng Pháp"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes"
@@ -172,9 +184,21 @@ msgstr "Con dấu nhà, {0}"
 msgid "you.profile.howYouTravel"
 msgstr "Phong cách đi của bạn"
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.id"
+msgstr "Tiếng Indonesia"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.ja"
+msgstr "Tiếng Nhật"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keep"
 msgstr "Giữ tài khoản"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.ko"
+msgstr "Tiếng Hàn"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.language"
@@ -233,6 +257,10 @@ msgstr "Đang lên kế hoạch"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps.plans"
 msgstr "Kế hoạch bạn góp phần lập, hiện là “thành viên cũ”"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.pt"
+msgstr "Tiếng Bồ Đào Nha"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.privacy"
@@ -316,6 +344,10 @@ msgstr "Sắp tới"
 msgid "you.settings.soundEffects"
 msgstr "Hiệu ứng âm thanh"
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.es"
+msgstr "Tiếng Tây Ban Nha"
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.stamps"
 msgstr "Con dấu"
@@ -335,6 +367,10 @@ msgstr "Tiếng dán sticker, đóng dấu, bật nảy"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.hapticsLine"
 msgstr "Những cú chạm và rung bạn cảm nhận được"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.th"
+msgstr "Tiếng Thái"
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
 msgid "you.language.note"
@@ -384,6 +420,10 @@ msgstr "Chuyến đi đã lưu ngoại tuyến, lời nhắc và báo thức"
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.keep"
 msgstr "Hoàn tác, giữ tài khoản"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.vi"
+msgstr "Tiếng Việt"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.notClosed"

@@ -80,7 +80,7 @@ export function PicksList({ picks, when, onOpen }: PicksListProps) {
   return (
     <View style={styles.list} testID="version-picks">
       {picks.map((pick, index) => {
-        const tag = reasonLabel(pick.reasonTag, pick.dayNo);
+        const tag = pick.reasonLabel ?? reasonLabel(pick.reasonTag, pick.dayNo);
         const line = when(pick);
         return (
           <Animated.View

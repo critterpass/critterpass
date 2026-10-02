@@ -18,13 +18,25 @@ export interface GhostSuggestion {
 
 const OPEN = new Set(['draft', 'proposed', 'voting']);
 
+/**
+ * The day's open weather suggestion, if any. A suggestion made on an older plan version is stale
+ * (the plan changed since; the server withdraws it) and is never drawn, nor is one dismissed here.
+ */
 export function ghostFor(
   changesets: readonly ChangesetRow[],
   items: readonly DayItem[],
   date: string,
+  options: {
+    readonly currentVersionId?: string | null;
+    readonly dismissed?: ReadonlySet<string>;
+  } = {},
 ): GhostSuggestion | null {
   for (const set of changesets) {
     if (set.trigger !== 'weather' || !OPEN.has(set.status) || set.ops === null) continue;
+    if (options.dismissed?.has(set.id) === true) continue;
+    const current = options.currentVersionId ?? null;
+    if (current !== null && set.base_version_id !== null && set.base_version_id !== current)
+      continue;
     let ops: ChangeSetOp[];
     try {
       ops = JSON.parse(set.ops) as ChangeSetOp[];

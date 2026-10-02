@@ -1,7 +1,8 @@
 /**
  * `lock_proposal` (docs/api-contracts-proposal.md): the organiser locks the crew in once at least
- * one recipient is IN, before reply-by. Under the trip's seat lock: every MAYBE becomes a waitlist
- * place (first in line for a freed seat), every recipient who never answered is out, the open
+ * one recipient is IN (or alone, once every recipient has said they can't make it), before
+ * reply-by. Under the trip's seat lock: every MAYBE becomes a waitlist place (first in line for a
+ * freed seat), every recipient who never answered is out, the open
  * activity holds of the people now off the trip are released (the IN members' holds stay for the
  * booking flow to convert), the proposed plan version becomes `current`, the proposal locks and the
  * trip moves `proposed → confirmed` through the one lock path the reply-by job shares. A proposal
@@ -51,6 +52,22 @@ async function recipients(tx: pg.PoolClient, proposal: ProposalRow): Promise<Rec
     [proposal.id],
   );
   return rows;
+}
+
+/**
+ * Every recipient has a participant row and it is out. A recipient who never answered may have no
+ * row yet; they count as unanswered, not out.
+ */
+async function everyoneOut(tx: pg.PoolClient, proposal: ProposalRow): Promise<boolean> {
+  const { rows } = await tx.query<{ total: number; out: number }>(
+    `SELECT count(*)::int AS total, count(*) FILTER (WHERE tp.rsvp = 'out')::int AS out
+       FROM proposal_versions v
+       LEFT JOIN trip_participants tp ON tp.trip_id = v.trip_id AND tp.user_id = v.recipient_id
+      WHERE v.proposal_id = $1`,
+    [proposal.id],
+  );
+  const counts = rows[0];
+  return counts !== undefined && counts.total > 0 && counts.out === counts.total;
 }
 
 async function move(
@@ -152,7 +169,11 @@ export const lockProposalCommand = defineCommand({
           out: people.filter((p) => p.rsvp === 'out').length,
         };
       }
-      if (inCount === 0) throw new DomainError('STATE_INVALID', { reason: 'nobody_in' });
+      // Nobody IN is refused, unless every recipient has said they can't make it: then the
+      // organiser locks in alone and nobody is moved.
+      if (inCount === 0 && !(await everyoneOut(tx, proposal))) {
+        throw new DomainError('STATE_INVALID', { reason: 'nobody_in' });
+      }
       const maybe = people.filter((p) => p.rsvp === 'maybe').map((p) => p.user_id);
       const unanswered = people
         .filter((p) => p.rsvp === 'unopened' || p.rsvp === 'opened')

@@ -17,7 +17,7 @@ import {
   LAB_DATE,
   LAB_ITEMS,
   LAB_MEMBERS,
-  LAB_META,
+  labMeta,
   LAB_TZ,
   LUNCH,
   SPA,
@@ -34,17 +34,13 @@ import type { Preview } from '../timeline-model';
 const noop = () => undefined;
 const DAY = { dayNo: 3, date: LAB_DATE };
 
-function metaOf(item: DayItem): string {
-  return LAB_META[item.stableId] ?? '';
-}
-
 export function labTimeline(overrides: Partial<TimelineEditorProps> = {}): ReactNode {
   return (
     <TimelineEditor
       items={LAB_ITEMS}
       day={DAY}
       members={LAB_MEMBERS.map((member) => member.uid)}
-      meta={metaOf}
+      meta={labMeta}
       pending={() => false}
       editable
       onOpen={noop}
@@ -110,7 +106,7 @@ function Sandbox() {
           items,
           day: DAY,
           members: [],
-          meta: metaOf,
+          meta: labMeta,
           pending: () => false,
           editable: true,
           onOpen: noop,
@@ -181,6 +177,7 @@ const banner = () => (
       message: `Rain till ${'15:00'}. Move ${'Ridge walk'}?`,
     })}
     onAccept={noop}
+    onDismiss={noop}
   />
 );
 

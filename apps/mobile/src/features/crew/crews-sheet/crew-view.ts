@@ -5,6 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- row discriminants and dates, never copy. */
 import type { CrewsSnapshot, InviteRow, TripHeader } from './crew-data';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface CrewCardView {
   readonly id: string;
@@ -23,7 +24,7 @@ export interface InviteCardView {
 }
 
 function firstName(name: string | null): string {
-  return name?.trim().split(/\s+/u)[0] ?? '?';
+  return memberFirstName(name);
 }
 
 const DAY_MS = 86_400_000;

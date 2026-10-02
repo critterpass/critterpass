@@ -137,6 +137,8 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.engagement_events', ['user_id', del]),
   ...rules('public.device_activities', ['user_id', del]),
   ...rules('public.la_push_to_start_tokens', ['user_id', del]),
+  ...rules('public.widget_push_tokens', ['user_id', del]),
+  ...rules('public.installed_widgets', ['user_id', del]),
   // Server-only rows: the object store purge works from them and removes each as its object goes.
   ...rules('public.media_objects', ['owner_id', keep('the stored objects still to erase')]),
   ...rules('public.devices', ['user_id', del]),

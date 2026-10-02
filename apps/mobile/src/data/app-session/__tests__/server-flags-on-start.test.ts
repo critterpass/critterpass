@@ -103,7 +103,10 @@ describe('server flags on app start', () => {
     await harness.start();
     await waitUntil(() => serverFlag('money.receipts') === true);
 
-    answer = { flags: { ...bootstrap.flags, 'money.receipts': false, 'setup.budget_dots': true } };
+    answer = {
+      ...bootstrap,
+      flags: { ...bootstrap.flags, 'money.receipts': false, 'setup.budget_dots': true },
+    };
     await runOnSignOutHooks();
 
     await waitUntil(() => serverFlag('setup.budget_dots') === true);

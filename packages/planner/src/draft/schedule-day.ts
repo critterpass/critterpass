@@ -8,6 +8,8 @@
 import { localSchedule, nextOpen, openAt, type DraftDay, type DraftItem } from '@cp/domain';
 
 import { localMinute } from '../feasibility/grid';
+import { ceilGrid } from './day-minutes';
+import { heldWindow, timedDuration, timeWindow, type WishTime } from './wish-time';
 import type {
   Chronotype,
   CostBands,
@@ -18,7 +20,7 @@ import type {
   TripFrame,
 } from './types';
 
-export const GRID_MIN = 15;
+export { ceilGrid, GRID_MIN } from './day-minutes';
 export const LUNCH = { startMin: 11 * 60 + 30, endMin: 14 * 60 + 30 } as const;
 export const DINNER = { startMin: 18 * 60, endMin: 21 * 60 + 30 } as const;
 /** First-day plans start this long after landing; last-day plans end this long before take-off. */
@@ -50,8 +52,6 @@ export function mealSlotAt(startMin: number, lunched: boolean): typeof LUNCH | t
 export function defaultDurationMin(category: string): number {
   return DEFAULT_DURATION[category] ?? 90;
 }
-
-export const ceilGrid = (minute: number): number => Math.ceil(minute / GRID_MIN) * GRID_MIN;
 
 function addDays(date: string, days: number): string {
   const at = new Date(`${date}T00:00:00Z`);
@@ -89,19 +89,49 @@ export function baseWindow(frame: TripFrame): DayWindow {
   return { startMin, endMin: 22 * 60 };
 }
 
+/** A timed stop may start this early (a sunrise) and end this late (a night show). */
+const EARLIEST_TIMED_MIN = 4 * 60 + 30;
+const LATEST_TIMED_MIN = 24 * 60;
+
 /** The usable part of day `dayIndex` (0-based): the base day, cut by arrival and departure. */
 export function dayWindow(frame: TripFrame, dayIndex: number): DayWindow {
   const base = baseWindow(frame);
   let { startMin, endMin } = base;
+  let earliestMin = EARLIEST_TIMED_MIN;
+  let latestMin = LATEST_TIMED_MIN;
   if (dayIndex === 0) {
     const landed = frame.arrivalMin ?? DEFAULT_ARRIVAL_MIN;
     startMin = Math.max(startMin, ceilGrid(landed + ARRIVAL_BUFFER_MIN));
+    earliestMin = Math.max(earliestMin, ceilGrid(landed + ARRIVAL_BUFFER_MIN));
   }
   if (dayIndex === frame.dates.length - 1) {
     const leaves = frame.departureMin ?? DEFAULT_DEPARTURE_MIN;
     endMin = Math.min(endMin, leaves - DEPARTURE_BUFFER_MIN);
+    latestMin = Math.min(latestMin, leaves - DEPARTURE_BUFFER_MIN);
   }
-  return { startMin, endMin: Math.max(startMin, endMin) };
+  return { startMin, endMin: Math.max(startMin, endMin), earliestMin, latestMin };
+}
+
+/**
+ * Whether a stop held to `when` can happen on day `dayIndex` at all: a sunrise needs the crew
+ * landed by then, a night show needs them not yet at the airport, a full day needs the morning,
+ * and the place's own hours must leave a start for it that day (see `heldWindow`).
+ */
+export function timeFitsDay(
+  frame: TripFrame,
+  dayIndex: number,
+  when: WishTime | null | undefined,
+  poi: DraftPoi,
+): boolean {
+  if (timeWindow(when) === null) return true;
+  const held = heldWindow(poi, frame.dates[dayIndex] ?? '', when);
+  if (held === null) return false;
+  const window = dayWindow(frame, dayIndex);
+  const start = Math.max(held.fromMin, window.earliestMin ?? window.startMin);
+  return (
+    start <= held.toMin &&
+    start + ceilGrid(timedDuration(poi, when)) <= (window.latestMin ?? window.endMin)
+  );
 }
 
 const LEVEL_FACTOR = [0, 0.6, 1, 1.6, 2.4] as const;
@@ -159,9 +189,21 @@ export function scheduleDay(input: ScheduleDayInput): DraftDay {
       if (meal === LUNCH) lunched = true;
       start = Math.max(start, meal.startMin);
     }
-    if (poi !== undefined) start = openFrom(poi, input.date, start);
+    // A stop held to its time of day waits for it, and may open the day earlier than usual.
+    // Nothing else starts before the usual day, even after an early held stop.
+    const held = poi === undefined ? null : heldWindow(poi, input.date, choice.when);
+    if (held === null) start = Math.max(start, input.window.startMin);
+    else if (previous === null || start < held.fromMin) {
+      start = Math.max(held.fromMin, input.window.earliestMin ?? input.window.startMin);
+    }
+    // Hours that are only a guess never move a held stop.
+    if (poi !== undefined && !(held !== null && poi.hoursGuessed === true)) {
+      start = openFrom(poi, input.date, start);
+    }
     const duration = ceilGrid(
-      poi?.durationMin ?? defaultDurationMin(choice.kind === 'meal' ? 'food' : 'other'),
+      poi === undefined
+        ? defaultDurationMin(choice.kind === 'meal' ? 'food' : 'other')
+        : timedDuration(poi, choice.when),
     );
     const end = start + duration;
     const tz = poi?.tz ?? input.tz;

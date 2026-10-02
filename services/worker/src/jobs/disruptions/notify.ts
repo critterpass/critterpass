@@ -74,8 +74,7 @@ export function registerDisruptionNotifications(): void {
         poll === undefined ? undefined : { affected_user_ids: poll.voters, label: poll.question },
     };
   };
-  const deepLink = (routed: RoutedEvent) =>
-    `/trip/${str(routed, 'trip_id') ?? ''}/disruption/${str(routed, 'disruption_id') ?? ''}`;
+  const deepLink = (routed: RoutedEvent) => `/disruption/${str(routed, 'disruption_id') ?? ''}`;
   registerNotification({
     key: 'disruption_update',
     event: 'disruption.needs_yes',
