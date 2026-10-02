@@ -8,7 +8,7 @@ import { tokens } from '@cp/design-tokens';
 import { useState, type ReactNode } from 'react';
 
 import { buildDex, type DexFilter, type DexInput } from '../dex/dex-model';
-import { DexView } from '../dex/dex-view';
+import { DexView, type DexProfileEntry } from '../dex/dex-view';
 import { SetView } from '../dex/set-view';
 import type { EggCard } from '../hatch/hatch-model';
 import { HatchView, type HatchViewProps } from '../hatch/hatch-view';
@@ -53,7 +53,9 @@ function Pass({
   near = new Set<string>(),
   state = 'ready',
   explore = false,
+  profile,
 }: {
+  readonly profile?: DexProfileEntry;
   readonly input?: Partial<DexInput>;
   readonly filter?: DexFilter;
   readonly query?: string;
@@ -83,6 +85,7 @@ function Pass({
       onOpenSet={noop}
       onOpenCritter={noop}
       onOpenLegendaries={noop}
+      profile={profile}
     />
   );
 }
@@ -124,6 +127,11 @@ const TOKEK_HATCH: HatchViewProps = {
 
 export const DEX_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3l-2-pass': () => <Pass />,
+  // The person's own face at the end of the title line: the guide they wear, or their initial.
+  '3l-2-profile-entry': () => <Pass profile={{ name: 'Winston', guide: 'tokek', onOpen: noop }} />,
+  '3l-2-profile-entry-initial': () => (
+    <Pass profile={{ name: 'Khánh', guide: null, onOpen: noop }} />
+  ),
   '3l-2-legendary-on-dates': () => (
     <Pass input={{ trips: [labTrip({ start_date: '2027-04-01', end_date: '2027-04-08' })] }} />
   ),

@@ -1,0 +1,61 @@
+appId: app.critterpass.dev
+---
+# The way to the profile for a person with no crew (en). First the lab scene of the PASS tab with
+# the person's face at the end of the title line (3l-2). Then for real: a brand-new account with
+# no crew and no trip opens the PASS tab, taps its own face, lands on its profile, and reaches
+# Settings from there.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: subflows/critters-scene.yaml
+    env:
+      SCENE: '3l-2-profile-entry'
+      SHOT: en-3l-2-profile-entry
+- runFlow: ../screens/sweep/subflows/back.yaml
+- tapOn:
+    id: 'critters-lab-3l-2-profile-entry-initial'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-2-profile-entry-initial
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 15000
+
+# A real new account: no crew, so Home has no header. The PASS tab is the way in.
+- runFlow: ../home/subflows/onboard.yaml
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-2-no-crew
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-name'
+    timeout: 20000
+- assertVisible:
+    id: 'you-profile-start-crew'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-1-no-crew
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 15000
