@@ -1,0 +1,204 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-02 01:26+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.affected"
+msgstr "{count, plural, other {# người bị ảnh hưởng}}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.delayHours"
+msgstr "{hours} giờ"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.delayBoth"
+msgstr "{hours} giờ {minutes} phút"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.delayMinutes"
+msgstr "{minutes} phút"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.approvedBy"
+msgstr "{name} đã đồng ý"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.keptFromBy"
+msgstr "{name} giữ {from}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.keptBy"
+msgstr "{name} giữ kế hoạch cũ"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.retime"
+msgstr "{title} {from} → {to}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.skip"
+msgstr "Bỏ {title} khỏi lịch"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.question"
+msgstr "{title}: {from} → {to}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorConfirmed"
+msgstr "{vendor} đã xác nhận {to}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorDeclined"
+msgstr "{vendor} đã từ chối"
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.announce"
+msgstr "Một lời nhắn cho cả nhóm"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.briefing"
+msgstr "Đã thêm vào bản tin sáng của bạn"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.missingTitle"
+msgstr "Đã ổn cả"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.done"
+msgstr "Đã xong"
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.decide"
+msgstr "Một câu trả lời cho hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.answerBy"
+msgstr "Trả lời trước {time}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.approve"
+msgstr "Đồng ý"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorAsk"
+msgstr "Hỏi {vendor} đổi sang {to}?"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.back"
+msgstr "Quay lại"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.undone"
+msgstr "Đã quay lại kế hoạch trước khi trễ."
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.cancelled"
+msgstr "Đã huỷ"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.missed"
+msgstr "Lỡ chuyến nối"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.delayed"
+msgstr "Trễ"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.diverted"
+msgstr "Đổi hướng"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.liveActivity"
+msgstr "Đã cập nhật chuyến bay trên màn hình khoá"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.keep"
+msgstr "Giữ {from}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.keepPlan"
+msgstr "Giữ kế hoạch"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.landed"
+msgstr "Đã hạ cánh. Mọi thứ ở đây đã xong."
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.leaveBy"
+msgstr "Đã cập nhật giờ xuất phát"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorSent"
+msgstr "Tin nhắn cho {vendor} đã sẵn sàng"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.problem"
+msgstr "Cần xem lại"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.needsYes"
+msgstr "Cần bạn đồng ý"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorNoAnswer"
+msgstr "{vendor} chưa trả lời. Gọi cho họ?"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.missing"
+msgstr "Không còn gì cần xử lý ở đây."
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.working"
+msgstr "Đang xử lý"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.pickup"
+msgstr "Đón {from} → {to}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.toldCrew"
+msgstr "Đã đăng trong nhóm chat."
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.rebook"
+msgstr "Đặt lại với {carrier}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorCancel"
+msgstr "Báo {vendor} rằng hôm nay chuyến bay không hạ cánh?"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.tellCrew"
+msgstr "Báo cả nhóm"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.unaffected"
+msgstr "Đã báo những người khác là không có gì thay đổi"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.backTo"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.undid"
+msgstr "Đã hoàn tác thay đổi của {guide}."
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.undoAll"
+msgstr "Hoàn tác tất cả"
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.undo"
+msgstr "Đang hoàn tác thay đổi của hướng dẫn viên"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.waitingOn"
+msgstr "Đang chờ {list}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.offline"
+msgstr "Bạn đang ngoại tuyến. Câu trả lời sẽ được gửi khi có mạng."
