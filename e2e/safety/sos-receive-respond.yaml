@@ -1,0 +1,138 @@
+appId: app.critterpass.dev
+---
+# A crew SOS between two brand-new accounts on one phone, no demo world. The organiser locks in a
+# Đà Nẵng trip a week out (../happy/subflows/trip-under-way.yaml keeps the crew's code); a friend
+# joins with the code, which puts them on the trip, and sends an SOS from Help ("I fell").
+# Back as the organiser, the SOS takes over the screen from its synced row (3k-10): I'M GOING,
+# "See {name} on the map" (the session map, free on any trip), and "{name} is safe" ends it for
+# everyone.
+- runFlow:
+    file: ../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: sos-crew
+      START_OFFSET_DAYS: '7'
+- extendedWaitUntil:
+    visible:
+      id: 'home-mode-.*'
+    timeout: 60000
+- runFlow: ../happy/subflows/dismiss-visit-offer.yaml
+# The friend: a second new account on this phone joins with the crew code.
+- runFlow:
+    file: ../happy/subflows/join-by-code.yaml
+    env:
+      PREFIX: en
+- runFlow:
+    when:
+      visible:
+        id: 'visit-consent-decline'
+    commands:
+      - tapOn:
+          id: 'visit-consent-decline'
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'guide-fab'
+    timeout: 60000
+- runFlow: ../happy/subflows/dismiss-visit-offer.yaml
+# Help: the consent asks first; the friend leaves it off (the SOS shares where they are anyway).
+- longPressOn:
+    id: 'guide-fab'
+- extendedWaitUntil:
+    visible:
+      id: 'help-consent-sheet'
+    timeout: 20000
+- tapOn:
+    id: 'help-consent-done'
+- extendedWaitUntil:
+    visible: '(?i)call 115'
+    timeout: 30000
+- scrollUntilVisible:
+    element:
+      id: 'help-sos'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'help-sos'
+- extendedWaitUntil:
+    visible:
+      id: 'sos-send-screen'
+    timeout: 15000
+- tapOn:
+    id: 'sos-preset-fell'
+- runFlow: subflows/slide-sos.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'sos-screen'
+    timeout: 30000
+# Sent: the crew has been told (the first step ticks once the fan-out ran).
+- extendedWaitUntil:
+    visible:
+      id: 'sos-ok'
+    timeout: 15000
+- extendedWaitUntil:
+    visible: '(?i)sos sent to all 1 of you'
+    timeout: 60000
+- waitForAnimationToEnd
+- takeScreenshot: en-sos-sender-sent
+# Back to the organiser: the SOS takes over as soon as its row syncs.
+- runFlow:
+    file: ../proposal/subflows/switch-account.yaml
+    env:
+      TARGET: 'dev-accounts-switch-0'
+- extendedWaitUntil:
+    visible:
+      id: 'sos-screen'
+    timeout: 90000
+- extendedWaitUntil:
+    visible:
+      id: 'sos-going'
+    timeout: 15000
+- assertVisible: '(?i)mai needs help'
+- assertVisible: '(?i)i fell'
+- waitForAnimationToEnd
+- takeScreenshot: en-3k-10-sos-takeover
+- tapOn:
+    id: 'sos-going'
+- extendedWaitUntil:
+    visible: '(?i)going ✓'
+    timeout: 30000
+- waitForAnimationToEnd
+- takeScreenshot: en-3k-10-sos-going
+# The session map: where Mai is and the way there on foot.
+- scrollUntilVisible:
+    element:
+      id: 'sos-map-link'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'sos-map-link'
+- extendedWaitUntil:
+    visible:
+      id: 'sos-map-card'
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: en-sos-session-map
+- tapOn:
+    id: 'sos-map-back'
+# "Mai is safe": the SOS ends for everyone.
+- scrollUntilVisible:
+    element:
+      id: 'sos-safe'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'sos-safe'
+- extendedWaitUntil:
+    visible:
+      id: 'sos-resolved'
+    timeout: 30000
+- assertVisible: '(?i)mai is safe\.'
+- waitForAnimationToEnd
+- takeScreenshot: en-sos-resolved-crew
