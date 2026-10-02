@@ -10,12 +10,17 @@ import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { GUIDE_STICKERS, type GuideStickerId } from '@/ui/avatar/guides';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { RadioCard } from '@/ui/inputs/RadioCard';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
+import { useBackAffordance } from '@/ui/qa/back-affordance';
+import { BackEyebrow } from '@/ui/shell/BackEyebrow';
+import { EmptyState } from '@/ui/states/EmptyState';
 import { Skeleton } from '@/ui/states/Skeleton';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
@@ -45,10 +50,14 @@ export interface LateViewProps {
   readonly lateNames: readonly string[];
   /** The map, or null when there is none to show (offline with no tiles). */
   readonly map: ReactNode | null;
+  readonly guide: GuideStickerId;
+  readonly guideName: string;
   readonly sending: boolean;
   readonly onBack: () => void;
   readonly onChoose: (option: LateOptionKind) => void;
 }
+
+const EMPTY_STICKER = 120;
 
 const useStyles = makeStyles((th) => ({
   fill: { flex: 1 },
@@ -93,6 +102,20 @@ function Options(props: {
   );
 }
 
+/** The map screen's back pill is its way back (the pill, not the eyebrow, sits on a map). */
+function BackPill({ onBack }: { readonly onBack: () => void }) {
+  useBackAffordance();
+  return (
+    <PillButton
+      label={`← ${backLabel()}`}
+      variant="secondary"
+      size="sm"
+      onPress={onBack}
+      testID="late-back"
+    />
+  );
+}
+
 export function LateView(props: LateViewProps) {
   const styles = useStyles();
   const theme = useTheme();
@@ -104,13 +127,27 @@ export function LateView(props: LateViewProps) {
   if (props.state !== 'ready' || model === null) {
     return (
       <Scaffold testID="late-screen">
-        <Stack gap="16" style={{ padding: theme.size.gutter, paddingTop: insets.top + 48 }}>
+        <Stack gap="16" style={{ padding: theme.size.gutter }}>
+          <BackEyebrow label={backLabel()} onPress={props.onBack} testID="late-back" />
           {props.state === 'loading' ? (
             <Skeleton preset="card" testID="late-loading" />
           ) : (
-            <Text variant="body" color={theme.semantic.text.secondary} testID="late-missing">
-              {lines.missing}
-            </Text>
+            <EmptyState
+              guide={props.guide}
+              guideName={props.guideName}
+              sticker={
+                <Sticker
+                  kind={GUIDE_STICKERS[props.guide].kind}
+                  name={GUIDE_STICKERS[props.guide].name}
+                  pose="sleep"
+                  size={EMPTY_STICKER}
+                />
+              }
+              title={lines.missingTitle}
+              line={lines.missing}
+              action={{ label: lines.backAction, onPress: props.onBack }}
+              testID="late-missing"
+            />
           )}
         </Stack>
       </Scaffold>
@@ -126,13 +163,7 @@ export function LateView(props: LateViewProps) {
         justify="space-between"
         style={[styles.header, { paddingTop: insets.top + theme.space['8'] }]}
       >
-        <PillButton
-          label={`← ${backLabel()}`}
-          variant="secondary"
-          size="sm"
-          onPress={props.onBack}
-          testID="late-back"
-        />
+        <BackPill onBack={props.onBack} />
         {model.open ? (
           <InfoPill testID="late-eta">{etaPill(model.eta, model.stale, locale)}</InfoPill>
         ) : null}

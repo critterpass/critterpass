@@ -95,6 +95,10 @@ msgstr "A note to the crew"
 msgid "trip.disruptions.flight.row.briefing"
 msgstr "Added to your briefing"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.missingTitle"
+msgstr "All sorted"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.missingTitle"
 msgstr "All sorted"
@@ -126,6 +130,10 @@ msgstr "Ask {vendor} for {to}?"
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.vendor.asked"
 msgstr "Asked {name}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.backAction"
+msgstr "Back"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.back"

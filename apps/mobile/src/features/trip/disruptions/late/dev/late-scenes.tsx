@@ -112,6 +112,8 @@ export function lateScenes(map: () => ReactNode): Readonly<Record<string, () => 
         reason={data.summary}
         lateNames={['Wes', 'Jordan']}
         map={map()}
+        guide="tokek"
+        guideName="Tokek"
         sending={false}
         onBack={noop}
         onChoose={noop}

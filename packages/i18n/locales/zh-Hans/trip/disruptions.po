@@ -95,6 +95,10 @@ msgstr ""
 msgid "trip.disruptions.flight.row.briefing"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.missingTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.missingTitle"
 msgstr ""
@@ -125,6 +129,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.vendor.asked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.backAction"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts

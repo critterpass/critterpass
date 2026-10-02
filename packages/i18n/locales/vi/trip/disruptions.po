@@ -95,6 +95,10 @@ msgstr "Một lời nhắn cho cả nhóm"
 msgid "trip.disruptions.flight.row.briefing"
 msgstr "Đã thêm vào bản tin sáng của bạn"
 
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.missingTitle"
+msgstr "Đã ổn cả"
+
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.missingTitle"
 msgstr "Đã ổn cả"
@@ -126,6 +130,10 @@ msgstr "Hỏi {vendor} đổi sang {to}?"
 #: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
 msgid "trip.disruptions.late.vendor.asked"
 msgstr "Đã hỏi {name}"
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.backAction"
+msgstr "Quay lại"
 
 #: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
 msgid "trip.disruptions.flight.back"

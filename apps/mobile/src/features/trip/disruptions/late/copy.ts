@@ -147,5 +147,7 @@ export const lateLines = () => ({
     id: 'trip.disruptions.late.offlineMap',
     message: "No map offline. Your pick goes out when you're back.",
   }),
+  missingTitle: t({ id: 'trip.disruptions.late.missingTitle', message: 'All sorted' }),
   missing: t({ id: 'trip.disruptions.late.missing', message: 'Nothing to sort here any more.' }),
+  backAction: t({ id: 'trip.disruptions.late.backAction', message: 'Back' }),
 });
