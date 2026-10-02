@@ -18,6 +18,7 @@ import { useSurfaceTone } from '../surface/Scaffold';
 import type { Theme } from '../theme';
 import { useTheme } from '../theme';
 import { ADVANCE_RATIO, AUTO_FIT_MIN_SCALE, horizontalInset, useAutoFit } from './auto-fit';
+import { displayAdvance } from './display-advance';
 import { glyphRoomStyle, lineBoxEm } from './glyph-room';
 import { useWrappedLeading } from './line-box';
 
@@ -207,6 +208,7 @@ export function Text({
     ),
     maxLines: lineLimit ?? Number.POSITIVE_INFINITY,
     advanceRatio: token.condensed ? ADVANCE_RATIO.condensed : ADVANCE_RATIO.regular,
+    advanceOf: displayAdvance(font.fontFamily),
     letterSpacingEm: token.letterSpacing ?? 0,
   });
 
