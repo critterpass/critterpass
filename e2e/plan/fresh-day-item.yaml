@@ -47,9 +47,16 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'gallery-locale-vi'
-- openLink:
-    link: critterpass-dev://
-    optional: true
+# Back out of the gallery and the developer tools to Home (a link to Home keeps the tools open).
+- repeat:
+    while:
+      notVisible:
+        id: 'home-header-chat'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 3000
 - extendedWaitUntil:
     visible:
       id: 'home-header-chat'
