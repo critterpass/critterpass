@@ -252,6 +252,13 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-ghost-accepted
+# A second look a moment later: the same frame when the accepted move has settled.
+- extendedWaitUntil:
+    visible:
+      id: 'plan-timeline-not-a-screen'
+    timeout: 1500
+    optional: true
+- takeScreenshot: en-3e-2-ghost-accepted-later
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:

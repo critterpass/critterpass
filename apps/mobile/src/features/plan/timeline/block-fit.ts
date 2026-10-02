@@ -1,8 +1,8 @@
 /**
  * How a timeline block's words fit its height. The title always shows whole, at the top: the face
  * keeps its full padding when the words fit with it, tightens when that is what it takes, and the
- * meta line is left out (never drawn in half) when it would still be cut. The face clips at its
- * border, not its padding, so the words may run into the bottom padding.
+ * meta line is left out (never drawn in half) when it would still be cut. The words are clipped
+ * at the face's padding edge on Android, so they must fit inside the padding on both sides.
  */
 
 /** The frame's and the face's vertical padding (theme space 2 and 8; 4 when tightened). */
@@ -28,7 +28,7 @@ export interface BlockFit {
 
 export function blockFit({ height, titleHeight, metaHeight, hasMeta }: BlockFitInput): BlockFit {
   const face = height - FRAME_PAD * 2;
-  const fits = (padding: number, words: number) => padding + words <= face + 0.5;
+  const fits = (padding: number, words: number) => padding * 2 + words <= face + 0.5;
   if (hasMeta && height >= META_MIN_HEIGHT) {
     const words = titleHeight + metaHeight;
     if (fits(FACE_PAD, words)) return { padding: FACE_PAD, showMeta: true };
