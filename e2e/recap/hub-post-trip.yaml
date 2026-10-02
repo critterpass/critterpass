@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# The trip hub after the trip (3k-1 post-trip): the row into the recap under the header.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-trip-day-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-trip-day-lab'
+- scrollUntilVisible:
+    element:
+      id: 'trip-day-lab-3k-1-post-trip'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'trip-day-lab-3k-1-post-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-recap'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3k-1-post-trip-recap

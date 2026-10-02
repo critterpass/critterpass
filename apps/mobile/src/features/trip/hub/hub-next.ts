@@ -2,7 +2,7 @@
  * What the hub's entry rows show in each phase (3k-1): the first day and its pack list before the
  * trip, my flight on a travel day, and during the trip today's leave-by or next stop. Once nothing
  * of today is ahead, a row still opens today's page, and the next stop on another day follows it,
- * labelled with its day and opening that day.
+ * labelled with its day and opening that day. After the trip, a row opens its recap.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and icon names, never copy. */
 import { t } from '@lingui/core/macro';
@@ -25,8 +25,28 @@ export function hubEntries(input: {
   readonly today: string;
   readonly tz: string;
   readonly locale: string;
+  /** Opens the trip's recap once the trip is over; undefined until the recap screen exists. */
+  readonly recap?: (() => void) | undefined;
 }): HubNext[] {
   const { header, tripId, tz, locale } = input;
+  if (header.phase === 'post') {
+    return input.recap === undefined
+      ? []
+      : [
+          {
+            icon: 'spark',
+            label: null,
+            title: t({ id: 'trip.hub.recap', message: 'See the recap' }),
+            detail: t({
+              id: 'trip.hub.recapDetail',
+              message: 'The numbers, the awards and the one that got away',
+            }),
+            tone: 'pink',
+            testID: 'trip-hub-recap',
+            onPress: input.recap,
+          },
+        ];
+  }
   if (header.phase === 'travel') {
     const { flight } = header;
     return [

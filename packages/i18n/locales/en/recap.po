@@ -6,3 +6,287 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.after"
+msgstr "{after, plural, one {settled # day after} other {settled # days after}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.value"
+msgstr "{amount} owed"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.photos.value"
+msgstr "{count, plural, one {# photo} other {# photos}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.days.value"
+msgstr "{days, plural, one {# day} other {# days}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.early"
+msgstr "{days, plural, one {settled # day early} other {settled # days early}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.meals.caption"
+msgstr "{each} each, all in"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.finds.value"
+msgstr "{forms, plural, one {# find} other {# finds}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.foundCount"
+msgstr "{found} found"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.ofCount"
+msgstr "{found} of {total} found"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.writing.title"
+msgstr "{guideName} is writing your recap"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.meals.value"
+msgstr "{meals, plural, one {# meal} other {# meals}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.named"
+msgstr "{name} got away."
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.photos.top"
+msgstr "{name} took {taken} of them"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.time"
+msgstr "{name}, up at {time}"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.place"
+msgstr "{name}: {poi}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.named"
+msgstr "{name}'s forms"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.finds.caption"
+msgstr "{newCritters, plural, =0 {all old friends} one {# new local} other {# new locals}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.title"
+msgstr "{place}, the recap"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.seen"
+msgstr "{sightings, plural, one {Seen once, befriended by nobody.} other {Seen # times, befriended by nobody.}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.distance.stops"
+msgstr "{stops, plural, one {between # stop} other {between # stops}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.days.crew"
+msgstr "{travellers} of you, start to finish"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.expenses"
+msgstr "{value, plural, one {{name}, # expense logged} other {{name}, # expenses logged}}"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.finds"
+msgstr "{value, plural, one {{name}, # find} other {{name}, # finds}}"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.photos"
+msgstr "{value, plural, one {{name}, # photo} other {{name}, # photos}}"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.places"
+msgstr "{value, plural, one {{name}, # place} other {{name}, # places}}"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.edits"
+msgstr "{value, plural, one {{name}, # plan edit} other {{name}, # plan edits}}"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.rides"
+msgstr "{value, plural, one {{name}, # ride sorted} other {{name}, # rides sorted}}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.goldUnnamed"
+msgstr "A golden one got away."
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.unnamed"
+msgstr "A rare one got away."
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.distance.about"
+msgstr "about {distance}"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.retrying"
+msgstr "Asking again…"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.bestFind"
+msgstr "Best find"
+
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.retry"
+msgstr "Building the recap again"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.failed"
+msgstr "Couldn't ask for it again"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.writing.line"
+msgstr "Counting the kilometres and the photos. I'll ping you when it's ready."
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.critterWhisperer"
+msgstr "Critter whisperer"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.distance.driver"
+msgstr "driven, mostly by {name}"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.earlyRiser"
+msgstr "Earliest riser"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.square"
+msgstr "everyone square"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.goodCompany"
+msgstr "Good company"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.humanCamera"
+msgstr "Human camera"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.photos.crew"
+msgstr "in the crew album"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.justYou"
+msgstr "Just you"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.days.solo"
+msgstr "just you, on your own clock"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.loading"
+msgstr "Loading your recap"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.offline"
+msgstr "Needs signal to try again"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.finds"
+msgstr "New locals"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.offline"
+msgstr "No signal"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.lastDay"
+msgstr "settled on the last day"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.share"
+msgstr "Share recap"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.line"
+msgstr "Something went wrong on my side. Nothing from the trip is lost. Try again?"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.sunrise.caption"
+msgstr "started at {localTime}, before sunrise"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.open"
+msgstr "still to settle up"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.provider.taxi"
+msgstr "taxi"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.explorer"
+msgstr "The explorer"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.gold"
+msgstr "The Golden {name} got away."
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.navigator"
+msgstr "The navigator"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.unnamed"
+msgstr "The one that got away"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.planner"
+msgstr "The planner"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.titleNoPlace"
+msgstr "The recap"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.title"
+msgstr "The recap didn't come together"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.provider.transfer"
+msgstr "the transfer"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.treasurer"
+msgstr "The treasurer"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.retry"
+msgstr "Try again"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.updated.other"
+msgstr "Updated with late additions"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.updated.expenses"
+msgstr "Updated with late expenses"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.whereNext"
+msgstr "Where next? →"
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.you"
+msgstr "You"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.dropout"
+msgstr "You sat this one out"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.photos.mine"
+msgstr "you took {taken} of them"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.provider.driver"
+msgstr "your driver"

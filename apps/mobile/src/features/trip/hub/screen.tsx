@@ -87,6 +87,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
   const bookingsOffline = savedToday !== undefined && todayComplete(savedToday.data);
   const registered = useRegisteredHubTiles();
   const swipeHref = useScreenHref('3d-2', { tripId });
+  const recapHref = useScreenHref('3m-1', { tripId });
   const exploreHref = useScreenHref('3d-1', { placeId: rows.trip?.destination_id ?? '', tripId });
   const myTrips = useLiveRows<{ n: number }>(
     MY_TRIP_COUNT_SQL,
@@ -139,6 +140,7 @@ export function TripHubScreen({ tripId, onSwitch }: TripHubScreenProps) {
     today,
     tz,
     locale,
+    recap: go(recapHref),
   });
 
   const start = trip?.start_date ?? null;
