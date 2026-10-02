@@ -9,6 +9,7 @@ import { Redirect, router } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { Image, Linking } from 'react-native';
 
+import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useFlag } from '@/lib/analytics/flags';
@@ -27,8 +28,17 @@ import { ScanView } from './ScanView';
 import { TypeLinesScreen } from './TypeLinesScreen';
 import { useReceiptQueueDrain } from './receipt-queue';
 import { useReviewScene } from './use-review-scene';
-import { useScan } from './use-scan';
+import { useScan, useWaitedTooLong } from './use-scan';
 import { WalletGuideProvider } from '@/features/bookings';
+
+/** The receipt was already turned into its expense (an earlier SPLIT IT whose answer was lost). */
+function alreadyCommitted(result: SendResult): boolean {
+  return (
+    result.kind === 'rejected' &&
+    result.code === 'STATE_INVALID' &&
+    (result.detail as { state?: unknown } | undefined)?.state === 'committed'
+  );
+}
 
 export function ScanScreen() {
   const services = useMoneyServices();
@@ -46,15 +56,24 @@ export function ScanScreen() {
   const [autoSplit, setAutoSplit] = useState(true);
   const [picker, setPicker] = useState<string | null>(null);
   const view = useMemo(() => receiptView(scan.receipt), [scan.receipt]);
-  const scene = useReviewScene({ ctx, scan, view, autoSplit, onPicker: setPicker });
+  const slow = useWaitedTooLong(
+    scan.state.step === 'waiting' && view.kind === 'waiting' ? scan.state.receiptId : null,
+  );
+  // One receipt is one expense: its id is made once, and SPLIT IT is held while it goes out (a
+  // repeat whose first answer was lost is refused as committed, which counts as done).
+  const [expenseId] = useState(() => generateUuidV7());
+  const scene = useReviewScene({
+    ctx,
+    scan,
+    view,
+    autoSplit,
+    slow,
+    committing: commit.pending,
+    onPicker: setPicker,
+  });
 
   if (!enabled || services.reader === null) return <Redirect href={MONEY_ROUTES.add} />;
   if (ctx.status === 'loading' || ctx.uid === null) return <MoneyLoading />;
-  if (view.kind === 'unreadable' && scan.state.step === 'waiting') {
-    return (
-      <Redirect href={{ pathname: MONEY_ROUTES.add, params: { name: view.merchant ?? '' } }} />
-    );
-  }
   if (scan.state.step === 'typing') {
     return <TypeLinesScreen ctx={ctx} parsed={scene.parsed} receiptId={scan.state.receiptId} />;
   }
@@ -62,24 +81,52 @@ export function ScanScreen() {
   const done = (title: string) => {
     feedback.emit('success');
     toast.show({ id: 'money-receipt', title });
-    router.back();
+    router.dismissTo(MONEY_ROUTES.balances);
   };
 
+  // A step that did not go through says so, and what to do next; the screen stays as it was.
+  const failed = (title: string) => {
+    feedback.emit('error');
+    toast.show({ id: 'money-receipt-failed', title });
+  };
+
+  // Typing it in starts from what the server read of the shop's name.
+  const typeItIn = () =>
+    router.replace(
+      view.kind === 'unreadable' && view.merchant !== null
+        ? { pathname: MONEY_ROUTES.add, params: { name: view.merchant } }
+        : MONEY_ROUTES.add,
+    );
+
   async function onCommit() {
-    if (scene.parsed === null || scan.receipt === null) return;
+    if (scene.parsed === null || scan.receipt === null || commit.pending) return;
     const result = await commit.send(
       toCommitPayload({
         receiptId: scan.receipt.id,
-        expenseId: generateUuidV7(),
+        expenseId,
         payerId: scene.payerId,
         parsed: scene.parsed,
         assignments: scene.assignments,
         keepTotal: scene.keepTotal,
       }),
     );
-    if (result.kind === 'applied') {
+    if (result.kind === 'applied' || alreadyCommitted(result)) {
       done(t({ id: 'money.scan.committed', message: 'Split. Balances re-count.' }));
-    } else feedback.emit('error');
+    } else if (result.kind === 'unavailable') {
+      failed(
+        t({
+          id: 'money.scan.commitOffline',
+          message: "Couldn't reach CritterPass. Try SPLIT IT again when you're online.",
+        }),
+      );
+    } else {
+      failed(
+        t({
+          id: 'money.scan.commitRefused',
+          message: "That split didn't go through. Try again, or type it in.",
+        }),
+      );
+    }
   }
 
   async function onEven() {
@@ -101,7 +148,14 @@ export function ScanScreen() {
     });
     if (result.kind === 'queued' || result.kind === 'applied') {
       done(t({ id: 'money.scan.splitEven', message: 'Split evenly. Balances re-count.' }));
-    } else feedback.emit('error');
+    } else {
+      failed(
+        t({
+          id: 'money.scan.evenRefused',
+          message: "That didn't go through. Try again, or type it in.",
+        }),
+      );
+    }
   }
 
   const photoUri =
@@ -135,7 +189,8 @@ export function ScanScreen() {
           onClose={() => router.back()}
           onScan={() => void scan.scan()}
           onPick={() => void scan.pick()}
-          onType={() => router.replace(MONEY_ROUTES.add)}
+          onType={typeItIn}
+          onRetake={scan.retake}
           onSettings={() => void Linking.openSettings()}
         />
         {picker === 'payer' ? (

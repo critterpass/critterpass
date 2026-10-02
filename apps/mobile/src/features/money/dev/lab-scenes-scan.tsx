@@ -84,6 +84,7 @@ function Scene({
       onScan={noop}
       onPick={noop}
       onType={noop}
+      onRetake={noop}
       onSettings={noop}
     />
   );

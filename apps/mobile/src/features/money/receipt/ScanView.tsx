@@ -41,9 +41,12 @@ const useStyles = makeStyles((t) => ({
 export type ScanScene =
   | { readonly kind: 'aim' }
   | { readonly kind: 'denied' }
-  | { readonly kind: 'reading'; readonly waiting: boolean }
+  | { readonly kind: 'reading'; readonly waiting: boolean; readonly slow?: boolean }
   | { readonly kind: 'offline' }
   | { readonly kind: 'upload_failed' }
+  | { readonly kind: 'pick_failed' }
+  /** The server could not read it: the manual paths, said plainly. */
+  | { readonly kind: 'unreadable' }
   | { readonly kind: 'review'; readonly review: LineAssignSheetProps }
   | { readonly kind: 'failure'; readonly failure: FailureSheetProps };
 
@@ -57,6 +60,7 @@ export interface ScanViewProps {
   readonly onScan: () => void;
   readonly onPick: () => void;
   readonly onType: () => void;
+  readonly onRetake: () => void;
   readonly onSettings: () => void;
 }
 
@@ -162,6 +166,69 @@ export function ScanView(props: ScanViewProps) {
               ? t({ id: 'money.scan.waiting', message: 'Adding it up. Who had what comes next.' })
               : t({ id: 'money.scan.reading', message: 'Reading the lines…' })
           }
+        />
+        {scene.slow === true ? (
+          <>
+            <Text variant="body" color={theme.semantic.text.secondary} testID="money-scan-slow">
+              {t({
+                id: 'money.scan.slowLine',
+                message: 'This is taking longer than usual. Keep waiting, or type it in.',
+              })}
+            </Text>
+            <PillButton
+              label={upper(t({ id: 'money.scan.typeIt', message: 'Type it in' }), locale)}
+              onPress={props.onType}
+              variant="secondary"
+              block
+              testID="money-scan-slow-type"
+            />
+          </>
+        ) : null}
+      </Panel>
+    );
+  } else if (scene.kind === 'pick_failed') {
+    panel = (
+      <Panel testID="money-scan-pick_failed">
+        <Stack gap="8">
+          <Text variant="h3" accessibilityRole="header">
+            {t({ id: 'money.scan.pickFailedTitle', message: "Couldn't open that photo" })}
+          </Text>
+          <Text variant="body" color={theme.semantic.text.secondary}>
+            {t({
+              id: 'money.scan.pickFailedLine',
+              message: 'Scan the receipt, pick another photo, or type it in. Nothing was added.',
+            })}
+          </Text>
+        </Stack>
+        {scanButtons}
+      </Panel>
+    );
+  } else if (scene.kind === 'unreadable') {
+    panel = (
+      <Panel testID="money-scan-unreadable">
+        <Stack gap="8">
+          <Text variant="h3" accessibilityRole="header">
+            {t({ id: 'money.scan.unreadableTitle', message: "Couldn't read that one" })}
+          </Text>
+          <Text variant="body" color={theme.semantic.text.secondary}>
+            {t({
+              id: 'money.scan.unreadableLine',
+              message: 'Type it in, or retake it flat and in good light. Nothing was added.',
+            })}
+          </Text>
+        </Stack>
+        <PillButton
+          label={upper(t({ id: 'money.scan.typeIt', message: 'Type it in' }), locale)}
+          onPress={props.onType}
+          block
+          testID="money-scan-unreadable-type"
+        />
+        <PillButton
+          label={upper(t({ id: 'money.scan.retake', message: 'Retake' }), locale)}
+          onPress={props.onRetake}
+          variant="secondary"
+          block
+          testID="money-scan-retake"
         />
       </Panel>
     );
