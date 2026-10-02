@@ -21,6 +21,8 @@ export interface Pick {
   readonly tz: string | null;
   readonly category: string | null;
   readonly reasonTag: string;
+  /** The guide's own words for the card's tag ("YOU PICKED STREET FOOD"), when it wrote any. */
+  readonly reasonLabel: string | null;
   /** What the guide wrote about the stop and its day, as this person reads them. */
   readonly note: string | null;
   readonly dayTheme: string | null;
@@ -61,6 +63,14 @@ const REASON_LABELS: Readonly<Record<ProposalReasonTag, () => string>> = {
   good_value: () => t({ id: 'proposal.reason.value', message: 'Good value' }),
   only_here: () => t({ id: 'proposal.reason.onlyHere', message: 'Only here' }),
 };
+
+/** Longest guide-written tag the card shows; a longer one falls back to the reason tag's label. */
+const CARD_LABEL_MAX = 24;
+
+export function cardLabel(label: string | undefined): string | null {
+  const line = label?.trim() ?? '';
+  return line === '' || line.length > CARD_LABEL_MAX ? null : line;
+}
 
 export function reasonLabel(tag: string, dayNo: number | null = null): string {
   if (tag === GROUP_TAG_MUST_DO)
@@ -117,6 +127,7 @@ export function usePicks(
         tz: row?.tz ?? null,
         category: row?.category ?? null,
         reasonTag: h.reason_tag,
+        reasonLabel: cardLabel(h.reason_label),
         note:
           row === undefined
             ? null
@@ -181,6 +192,7 @@ export function groupPicks(rows: readonly PlanRow[], limit = 5): Pick[] {
     tz: row.tz,
     category: row.category,
     reasonTag,
+    reasonLabel: null,
     note: null,
     dayTheme: null,
   });

@@ -316,7 +316,7 @@ Group `group.app.critterpass`; written by the app (`modules/cp-app-group`) and b
 
 | Path | Writer | Reader | Content |
 |---|---|---|---|
-| `snapshot/widgets.json` | app, widget push handler (fetch `/v1/widgets/snapshot`) | widgets, LA | countdown, active trip, vote summary, balances (net only), today items, crew ETA line, next flight (Pass+) |
+| `snapshot/widgets.json` | app, widget push handler (fetch `/v1/widgets/snapshot`) | widgets, LA | `packages/domain/src/surfaces/widget-snapshot.ts` (`schema` 1): countdown, active trip, vote summary, balances (the viewer's own net, plus the crewmate who owes them most by first name and when a nudge may next go), today (briefing items, the day's plan rows as start time and a 60-character title, up to 4 packing items, the rest of the day's forecast as high, condition and first rain hour), crew (Boost: meet-up and each member's ETA bucket and initial, never a name), Critterdex, next flight (Pass+), next leave-by; newer fields carry defaults so an older writer's file still reads |
 | `snapshot/entitlements.json` | app | widgets, LA, NSE | `{passPlus, boostedTripIds[], boostExpiresAt, generatedAt}` (locked-state rendering) |
 | `snapshot/prefs.json` | app | NSE, content ext | chattiness, voice readout, per-category mode, quiet hours |
 | `snapshot/crews.json` | app | NSE, intents | crew ids → names, member first names + avatar keys (for INPerson) |

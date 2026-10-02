@@ -5,6 +5,7 @@
 # in / maybe / out / question. `seeded_reply` cases grade a validator on a deliberate slip.
 - id: proposal-version-01
   kind: version
+  expect_labels: true
   description: Rin's Kyoto version leads with her must-do and names nobody else
   forbid: [Maya, Dev, Alex, Jordan, held, hold the, '2,400', afford]
   expect_lead: 0199a0f2-0000-7000-8000-00000000f001
@@ -48,6 +49,7 @@
         }
 - id: proposal-version-02
   kind: version
+  expect_labels: true
   description: cost hidden, so the version writes no price at all
   forbid: [$, Maya, Rin, held]
   input:
@@ -83,6 +85,7 @@
         }
 - id: proposal-version-03
   kind: version
+  expect_labels: true
   description: a guest guide, a must-do and a saving on offer
   forbid: [Sam, Ines, held, reserved rooms]
   expect_lead: 0199a0f2-0000-7000-8000-00000000f023
@@ -195,6 +198,7 @@
     lead_item_id: 0199a0f2-0000-7000-8000-00000000ffff
 - id: proposal-version-08
   kind: version
+  expect_labels: true
   description: Linh reads Vietnamese, so her Đà Nẵng version is written in it with the amounts as given
   forbid: [Minh, Trang, Khoa, held, giữ phòng, đã giữ]
   expect_lead: 0199a0f2-0000-7000-8000-00000000d001
@@ -239,6 +243,7 @@
         }
 - id: proposal-version-09
   kind: version
+  expect_labels: true
   description: a Vietnamese reader with cost hidden gets no price, in Vietnamese
   forbid: ['₫', VND, Minh, held, giữ phòng]
   input:
@@ -456,3 +461,48 @@
     expect_intent: out,
     input: { text: "Drop me from this one, money's tight." },
   }
+- id: proposal-version-10
+  kind: version
+  expect_labels: true
+  description: each pick's own label is short and in the reader's language (Vietnamese)
+  # "bình minh" (sunrise) must not count as the crewmate Minh: names match as written.
+  forbid: [Minh, Trang, held, giữ phòng]
+  input:
+    guide: chava
+    locale: vi
+    recipientFirstName: Linh
+    destination: Hoi An
+    dates: 2026-10-03 to 2026-10-05
+    tasteTags: [street_food, early_riser, slow_pace]
+    share: '3.100.000 ₫'
+    savings: []
+    otherNames: [Minh, Trang]
+    items:
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000e001,
+          title: Cao lầu at Thanh Market,
+          day: 1,
+          category: food,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000e002,
+          title: An Bang Beach at sunrise,
+          day: 2,
+          category: beach,
+          must_do: false,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000e003,
+          title: Lantern-lit old town walk,
+          day: 1,
+          category: culture,
+          must_do: true,
+        }
+      - {
+          id: 0199a0f2-0000-7000-8000-00000000e004,
+          title: A free afternoon,
+          day: 3,
+          category: rest,
+          must_do: false,
+        }

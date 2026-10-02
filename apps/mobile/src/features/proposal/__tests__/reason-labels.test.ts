@@ -6,7 +6,7 @@ import { PROPOSAL_REASON_TAGS } from '@cp/domain';
 import { i18n } from '@lingui/core';
 import { beforeAll, describe, expect, it } from '@jest/globals';
 
-import { reasonLabel, reasonWhy } from '../data/picks';
+import { cardLabel, reasonLabel, reasonWhy } from '../data/picks';
 
 beforeAll(() => {
   i18n.loadAndActivate({ locale: 'en', messages: {} });
@@ -26,6 +26,13 @@ describe('reason labels', () => {
       'only_here',
     ]);
     expect(reasonLabel('a_new_tag')).toBe(onlyHere);
+  });
+
+  it('shows the guide’s own short label, and the tag’s label when it wrote none or too long', () => {
+    expect(cardLabel(' BẠN MÊ ĐỒ ĂN VỈA HÈ ')).toBe('BẠN MÊ ĐỒ ĂN VỈA HÈ');
+    expect(cardLabel(undefined)).toBeNull();
+    expect(cardLabel('   ')).toBeNull();
+    expect(cardLabel('A LABEL FAR TOO LONG FOR A CARD')).toBeNull();
   });
 
   it('explains every shared reason tag', () => {
