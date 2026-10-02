@@ -44,9 +44,10 @@ appId: app.critterpass.dev
 # Help: the consent asks first; the friend leaves it off (the SOS shares where they are anyway).
 - longPressOn:
     id: 'guide-fab'
+# The sheet's own id is not exposed on iOS; its controls are.
 - extendedWaitUntil:
     visible:
-      id: 'help-consent-sheet'
+      id: 'help-consent-done'
     timeout: 20000
 - tapOn:
     id: 'help-consent-done'
@@ -95,7 +96,9 @@ appId: app.critterpass.dev
       id: 'sos-going'
     timeout: 15000
 - assertVisible: '(?i)mai needs help'
-- assertVisible: '(?i)i fell'
+# What happened: the guide's summary when it came in time, else Mai's own words ("I fell").
+- assertVisible:
+    id: 'sos-words'
 - waitForAnimationToEnd
 - takeScreenshot: en-3k-10-sos-takeover
 - tapOn:

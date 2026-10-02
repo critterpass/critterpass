@@ -21,9 +21,10 @@ appId: app.critterpass.dev
 - runFlow: ../happy/subflows/dismiss-visit-offer.yaml
 - longPressOn:
     id: 'guide-fab'
+# The sheet's own id is not exposed on iOS; its controls are.
 - extendedWaitUntil:
     visible:
-      id: 'help-consent-sheet'
+      id: 'help-consent-done'
     timeout: 20000
 - waitForAnimationToEnd
 - takeScreenshot: en-help-consent
