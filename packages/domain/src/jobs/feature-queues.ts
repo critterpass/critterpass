@@ -21,7 +21,7 @@ import { QUEST_QUEUE_DESCRIPTIONS, questQueueSpecs } from '../quests/queues';
 import { TRIP_LIFECYCLE_QUEUE_DESCRIPTIONS, tripLifecycleQueueSpecs } from '../trips/lifecycle';
 import { LA_QUEUE_DESCRIPTIONS, laQueueSpecs } from '../surfaces/la-queues';
 import { SAFETY_QUEUE_DESCRIPTIONS, safetyQueueSpecs } from '../safety/queues';
-import { WIDGET_QUEUE_DESCRIPTIONS, widgetQueueSpecs } from '../surfaces/widget-snapshot';
+import { WIDGET_QUEUE_DESCRIPTIONS, widgetQueueSpecs } from '../surfaces/widget-refresh';
 
 export function featureQueueSpecs(defaults: QueueSpec) {
   return {

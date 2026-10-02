@@ -260,6 +260,8 @@ export {
 export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } from './state/trip';
 export * from './surfaces/entitlements';
 export * from './surfaces/widget-snapshot';
+export * from './surfaces/widget-refresh';
+export * from './surfaces/widget-snapshot-fields';
 export * from './live-activities';
 export * from './time/local-schedule';
 export * from './links';

@@ -8,12 +8,9 @@
  * balance only. No coordinates, no budget, nobody else's balance. A perk the viewer lacks is listed
  * in `locked` and its section is null, so a widget shows its locked state and offer, never data.
  *
- * Also here: the widget commands' payloads and the refresh queue the worker runs, so the api, the
- * worker and the app share one vocabulary.
+ * The widget commands and the refresh queue are in ./widget-refresh.ts.
  */
 import { z } from 'zod';
-
-import type { QueueSpec } from '../jobs/catalogue';
 
 export const WIDGET_SNAPSHOT_SCHEMA_VERSION = 1;
 
@@ -45,6 +42,11 @@ export const widgetFamilySchema = z.enum(WIDGET_FAMILIES);
 /** Widgets a perk gates, and the offer their locked state opens. */
 export const LOCKABLE_WIDGETS = { crew: 'boost', next_flight: 'pass_plus' } as const;
 export type LockableWidget = keyof typeof LOCKABLE_WIDGETS;
+
+/** Plan rows and packing items the Today widget draws, at most. */
+export const WIDGET_TODAY_PLAN_MAX = 8;
+export const WIDGET_TODAY_PACKING_MAX = 4;
+export const WIDGET_FORECAST_CONDITIONS = ['clear', 'cloudy', 'rain', 'storm'] as const;
 
 const instant = z.iso.datetime({ offset: true });
 const localDate = z.iso.date();
@@ -80,6 +82,7 @@ export const widgetSnapshotSchema = z.object({
   today: z
     .object({
       local_date: localDate,
+      /** The viewer's briefing for the day (actions the Today widget can take). */
       items: z.array(
         z.object({
           id: z.uuid(),
@@ -90,15 +93,57 @@ export const widgetSnapshotSchema = z.object({
           deep_link: z.string().nullable(),
         }),
       ),
+      /** The day's plan as the Today widget lists it: start time and a short title. */
+      plan: z
+        .array(z.object({ id: z.uuid(), starts_at: instant, title: z.string().max(60) }))
+        .max(WIDGET_TODAY_PLAN_MAX)
+        .default([]),
+      /** The viewer's own and the crew's shared packing for the day, unchecked first. */
+      packing: z
+        .array(z.object({ id: z.uuid(), label: z.string().max(60), checked: z.boolean() }))
+        .max(WIDGET_TODAY_PACKING_MAX)
+        .default([]),
+      /** The rest of the day's weather at the destination, for the widget's forecast line. */
+      forecast: z
+        .object({
+          temp_max_c: z.number().int(),
+          condition: z.enum(WIDGET_FORECAST_CONDITIONS),
+          /** The first hour rain is likely, when it is still ahead. */
+          rain_from: instant.nullable(),
+        })
+        .nullable()
+        .default(null),
     })
     .nullable(),
   /** The viewer's own net only; widgets mark it `privacySensitive`. */
-  balances: z.object({ currency: z.string(), net_minor: z.number().int() }).nullable(),
+  balances: z
+    .object({
+      currency: z.string(),
+      net_minor: z.number().int(),
+      /**
+       * Who the viewer may nudge about it: the crewmate who owes them most, by first name only
+       * (a lock screen never shows a full name), and when a nudge may next go (null: now).
+       */
+      nudge: z
+        .object({
+          user_id: z.uuid(),
+          first_name: z.string().max(24),
+          available_at: instant.nullable(),
+        })
+        .nullable()
+        .default(null),
+    })
+    .nullable(),
   crew: z
     .object({
       meetup: z.object({ place_name: z.string(), meet_at: instant }).nullable(),
       members: z.array(
-        z.object({ user_id: z.uuid(), bucket: z.enum(['here', 'close', 'on_way', 'unknown']) }),
+        z.object({
+          user_id: z.uuid(),
+          bucket: z.enum(['here', 'close', 'on_way', 'unknown']),
+          /** The member's initial, for their dot; never a name. */
+          initial: z.string().max(2).default('?'),
+        }),
       ),
     })
     .nullable(),
@@ -192,105 +237,3 @@ export function widgetSnapshotContent(
   const { generated_at: _generatedAt, ...content } = snapshot;
   return content;
 }
-
-// ---------------------------------------------------------------------------------------------
-// Commands (docs/api-contracts.md `register_widget_token`, `sync_installed_widgets`).
-
-export const registerWidgetTokenPayloadSchema = z.object({
-  /** `all`: iOS hands one token to the whole widget extension. */
-  widget_kind: z.union([z.literal('all'), widgetKindSchema]).default('all'),
-  token: z
-    .string()
-    .regex(/^[0-9a-fA-F]{16,512}$/)
-    .transform((token) => token.toLowerCase()),
-  apns_env: z.enum(['sandbox', 'prod']).default('prod'),
-});
-export type RegisterWidgetTokenPayload = z.infer<typeof registerWidgetTokenPayloadSchema>;
-
-export const installedWidgetSchema = z.object({
-  kind: widgetKindSchema,
-  family: widgetFamilySchema,
-  trip_id: z.uuid().optional(),
-  crew_id: z.uuid().optional(),
-});
-
-/** Everything the phone shows right now; the server's list for this install becomes exactly this. */
-export const syncInstalledWidgetsPayloadSchema = z.object({
-  widgets: z.array(installedWidgetSchema).max(64),
-});
-export type SyncInstalledWidgetsPayload = z.infer<typeof syncInstalledWidgetsPayloadSchema>;
-
-// ---------------------------------------------------------------------------------------------
-// Refresh pipeline (docs/api-contracts-async.md §2.2 `widgets.refresh`, §3.1 `widgets` push).
-
-export const WIDGET_QUEUES = { refresh: 'widgets.refresh', push: 'widgets.push' } as const;
-
-/** Routine pushes to one install are at least this far apart. */
-export const WIDGET_DEBOUNCE_MS = 15 * 60_000;
-/** Pushes per install per UTC day; priority pushes go out past it. */
-export const WIDGET_DAILY_CAP = 40;
-
-/** A vote closing or its tally moving is what the vote widget exists for: never held back. */
-const PRIORITY_EVENTS: ReadonlySet<string> = new Set([
-  'poll.closed',
-  'poll.cancelled',
-  'ballot.cast',
-  'ballot.changed',
-  'ballot.retracted',
-]);
-
-const ROUTINE_PREFIXES = [
-  'poll.',
-  'expense.',
-  'payment.',
-  'leave_by.',
-  'readiness.',
-  'trip.',
-  'entitlement.',
-  'boost.',
-  'subscription.',
-  'critter.',
-  'flight.',
-  'booking.flight_',
-  'briefing.',
-  'packing.',
-  'meetup.',
-  'rsvp.',
-];
-
-/** Whether an event moves something a widget shows, and how urgently. */
-export function widgetRefreshPriority(eventType: string): 'priority' | 'routine' | null {
-  if (PRIORITY_EVENTS.has(eventType)) return 'priority';
-  return ROUTINE_PREFIXES.some((prefix) => eventType.startsWith(prefix)) ? 'routine' : null;
-}
-
-export const widgetsRefreshJobSchema = z.object({ event_id: z.uuid() });
-export type WidgetsRefreshJob = z.infer<typeof widgetsRefreshJobSchema>;
-
-/** One install's own push: the trailing one after a debounce window, or a retried priority one. */
-export const widgetsPushJobSchema = z.object({
-  device_id: z.uuid(),
-  priority: z.boolean().default(false),
-});
-export type WidgetsPushJob = z.infer<typeof widgetsPushJobSchema>;
-
-const WIDGET_QUEUE_SPECS = {
-  'widgets.refresh': { policy: 'exclusive', retryLimit: 3, retryDelay: 5, expireInSeconds: 120 },
-  'widgets.push': { policy: 'exclusive', retryLimit: 3, retryDelay: 30, expireInSeconds: 120 },
-} as const satisfies Record<string, Partial<QueueSpec>>;
-
-export function widgetQueueSpecs(
-  defaults: QueueSpec,
-): Readonly<Record<keyof typeof WIDGET_QUEUE_SPECS, QueueSpec>> {
-  return {
-    'widgets.refresh': { ...defaults, ...WIDGET_QUEUE_SPECS['widgets.refresh'] },
-    'widgets.push': { ...defaults, ...WIDGET_QUEUE_SPECS['widgets.push'] },
-  };
-}
-
-export const WIDGET_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof WIDGET_QUEUE_SPECS, string>> =
-  {
-    'widgets.refresh':
-      "Tells the phones showing an event's widgets to refresh, within their budget",
-    'widgets.push': 'Sends one install its held widget refresh once the debounce window ends',
-  };
