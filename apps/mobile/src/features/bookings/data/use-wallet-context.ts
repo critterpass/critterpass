@@ -34,6 +34,7 @@ import {
   type MemberRow,
   type TripRow,
 } from './queries';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface WalletMember {
   readonly userId: string;
@@ -137,7 +138,7 @@ export function useWalletContext(): WalletContext {
       trip,
       members: members.rows.map((row) => ({
         userId: row.user_id,
-        name: firstName(row.display_name),
+        name: memberFirstName(row.display_name),
       })),
       travellerIds: participants.rows.map((row) => row.user_id),
       inboundAddress:

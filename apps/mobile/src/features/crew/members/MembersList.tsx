@@ -14,6 +14,7 @@ import { ConfirmSheet } from '@/ui/states/ConfirmSheet';
 
 import { rowId } from '../crews-sheet/crew-commands';
 import type { CrewMemberRow } from '../crews-sheet/crew-data';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface MembersListProps {
   readonly members: readonly CrewMemberRow[];
@@ -24,7 +25,7 @@ export interface MembersListProps {
 }
 
 function firstName(name: string | null): string {
-  return name?.trim().split(/\s+/u)[0] ?? '?';
+  return memberFirstName(name);
 }
 
 export function ringLabel(colour: string | null): string {

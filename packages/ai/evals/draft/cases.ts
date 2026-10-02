@@ -12,8 +12,12 @@ import type { Itinerary } from '@cp/domain';
 import {
   candidatePools,
   dayWindow,
+  destinationPhrases,
+  resolveWishes,
   scheduleDay,
   straightLineMatrix,
+  timeWords,
+  withOpenDataDefaults,
   type DayChoice,
   type DraftPoi,
   type TripFrame,
@@ -50,6 +54,8 @@ const citySchema = z.object({
       tags: z.array(z.string()),
       must_see: z.boolean(),
       editorial: z.boolean(),
+      why_go: z.string().optional(),
+      best_time: z.string().optional(),
     }),
   ),
 });
@@ -73,6 +79,22 @@ export const crewCaseSchema = z.object({
   stay_type: z.string().nullable(),
   must_dos: z.array(z.object({ poi_id: z.uuid(), owner: z.int() })),
   wishes: z.array(z.string()),
+  /** What the draft must do with a typed wish (by its index in `wishes`). */
+  expect_wishes: z
+    .array(
+      z.object({
+        wish: z.int().min(0),
+        /** The place the wish must land on, by any of these ids (rows of one place). */
+        place_ids: z.array(z.uuid()).min(1),
+        /** Local "HH:MM" bounds on the stop's start and end. */
+        start_before: z.string().optional(),
+        start_from: z.string().optional(),
+        start_by: z.string().optional(),
+        end_after: z.string().optional(),
+        weekdays: z.array(z.enum(['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'])).optional(),
+      }),
+    )
+    .default([]),
 });
 export type CrewCase = z.infer<typeof crewCaseSchema>;
 
@@ -96,6 +118,11 @@ export const CITIES = load('cities.json', z.record(z.string(), citySchema));
 export const CREWS = load('crews.json', z.array(crewCaseSchema));
 export const INJECTION_DRAFTS = load('injection-drafts.json', z.array(crewCaseSchema));
 export const REDRAFTS = load('redrafts.json', z.array(redraftCaseSchema));
+
+/** The id a case's `i`th typed wish has (also its must-do id). */
+export function wishId(crew: Pick<CrewCase, 'id'>, i: number): string {
+  return derivedUuid(`${crew.id}:wish:${i}`);
+}
 
 function datesFrom(start: string, days: number): string[] {
   return Array.from({ length: days }, (_, i) => {
@@ -127,10 +154,16 @@ export function planInput(
         durationMin: p.duration_min,
         editorial: p.editorial,
         mustSee: p.must_see,
+        whyGo: p.why_go ?? null,
+        bestTime: p.best_time ?? null,
       },
     ]),
   );
+  for (const [poiId, poi] of pois) pois.set(poiId, withOpenDataDefaults(poi));
   const members = crew.members.map((_, i) => derivedUuid(`${crew.id}:member:${i}`));
+  const ignore = destinationPhrases(city.destination);
+  const wishes = crew.wishes.map((text, i) => ({ id: wishId(crew, i), text }));
+  const wished = resolveWishes(wishes, [...pois.values()], ignore);
   const frame: TripFrame = {
     tz: city.tz,
     currency: 'USD',
@@ -145,12 +178,22 @@ export function planInput(
     arrivalMin: crew.arrival_min,
     departureMin: crew.departure_min,
     budgetPpMinor: crew.budget_days_pp_minor,
-    mustDos: crew.must_dos.map((m, i) => ({
-      id: derivedUuid(`${crew.id}:must_do:${i}`),
-      ownerId: members[m.owner] ?? (members[0] as string),
-      poiId: m.poi_id,
-      title: pois.get(m.poi_id)?.name ?? 'must-do',
-    })),
+    mustDos: [
+      ...crew.must_dos.map((m, i) => ({
+        id: derivedUuid(`${crew.id}:must_do:${i}`),
+        ownerId: members[m.owner] ?? (members[0] as string),
+        poiId: m.poi_id,
+        title: pois.get(m.poi_id)?.name ?? 'must-do',
+      })),
+      // Typed must-dos, matched to places the way the draft job does.
+      ...wishes.map((wish) => ({
+        id: wish.id,
+        ownerId: members[0] as string,
+        poiId: wished.places.get(wish.id) ?? null,
+        title: wish.text,
+        when: timeWords(wish.text),
+      })),
+    ],
     closures: [],
   };
   const tastes: Record<string, number> = {};
@@ -162,7 +205,13 @@ export function planInput(
     destination: city.destination,
     frame,
     pois,
-    pools: candidatePools({ pois: [...pois.values()], frame, tastes }),
+    pools: candidatePools({
+      pois: [...pois.values()],
+      frame,
+      tastes,
+      include: wished.offered,
+      ignoreNames: ignore,
+    }),
     tastes,
     bands: {
       foodPpDayMinor: city.bands.food_pp_day_minor,
@@ -173,7 +222,7 @@ export function planInput(
     names: Object.fromEntries(
       crew.members.map((m, i): [string, string] => [members[i] as string, m.name]),
     ),
-    wishes: crew.wishes.map((text, i) => ({ id: derivedUuid(`${crew.id}:wish:${i}`), text })),
+    wishes: wishes.map((wish) => ({ ...wish, options: wished.options.get(wish.id) ?? [] })),
     idFor: (key) => derivedUuid(`${crew.id}:${key}`),
     skeletonRoute,
   };

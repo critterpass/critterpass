@@ -91,6 +91,10 @@ msgstr ""
 msgid "common.avatar.pending"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/people/member-name.ts
+msgid "common.member.former"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/people/AvatarStack.tsx
 msgid "common.avatarStack.more"
 msgstr ""
