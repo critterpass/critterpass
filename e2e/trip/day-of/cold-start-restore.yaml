@@ -25,10 +25,22 @@ appId: app.critterpass.dev
 - stopApp
 - launchApp:
     stopApp: false
+# The first look is taken once the app has drawn its shell (the tab bar): the views exist a moment
+# before the first frame is on screen.
+# A slow iOS simulator can still be bringing the process up when launchApp returns, and Maestro
+# takes an app it cannot read yet for a crash. The wait for the first screen is looked at again
+# rather than the app launched again: an app that really died stays down and still fails here.
+- retry:
+    maxRetries: 2
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'tab-trips'
+          timeout: 60000
 - extendedWaitUntil:
     visible:
-      id: 'trip-waiting|trip-day'
-    timeout: 60000
+      id: 'trip-waiting|trip-day-loading|trip-day'
+    timeout: 30000
 - takeScreenshot: en-3k-2-day-restored-first-look
 - extendedWaitUntil:
     visible:

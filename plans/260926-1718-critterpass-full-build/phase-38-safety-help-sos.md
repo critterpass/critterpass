@@ -121,6 +121,8 @@ Help and SOS are "tell your crew" features; copy never says we contact emergency
 - Tests: `pnpm --filter @cp/mobile test -- features/safety/help`
 - Done when: RNTL covers each state; offline render uses only local data (network mocked off); consent toggle renders OFF on first open and no `start_help_share` is queued until the user turns it on.
 
+- Status: done — 5711cf36 (tile→page transform: plain push; states logged in `docs/undesigned-states.md`)
+
 ### T4 — SOS backend: commands, orchestrator, escalation, responder ETAs
 - Files: `services/api/src/commands/safety/{trigger-sos,respond-sos,send-sos-message,resolve-sos}.ts`, `services/worker/src/jobs/safety/{sos-orchestrate,sos-escalate,sos-responder-eta}.ts`, `packages/ai/src/routes/sos/**`, `packages/ai/evals/sos/**`, `services/api/test/safety/sos.test.ts`, `services/worker/test/safety/sos-latency.test.ts`.
 - Steps: 1. Incident + share(sos) + outbox in one tx. 2. Fan-out push (ALWAYS, bypass budget/quiet hours) + channel events before any AI. 3. Summary with 3 s timeout, fallback. 4. Escalation timer, responder ETAs, arrival. 5. Resolve → N-48, share end.
@@ -135,11 +137,15 @@ Help and SOS are "tell your crew" features; copy never says we contact emergency
 - Tests: `pnpm --filter @cp/mobile test -- features/safety/sos/sender`
 - Done when: cancel within 5 s sends nothing (command queue empty); SMS fallback opens when offline.
 
+- Status: done — 276bd741 (stale prompt and I'M OK live on the SOS screen, 1a9b5efe)
+
 ### T6 — SOS receiver takeover and session map
 - Files: `apps/mobile/src/features/safety/sos/receiver/{takeover-host,sos-screen,steps-card,responder-row,im-going,long-buzz}.tsx|ts`, `apps/mobile/src/features/safety/session-map/{session-map,walking-route,use-session-map}.tsx|ts`.
 - Steps: 1. Root-level takeover host listening to `user:#uid` `sos.takeover` + push open. 2. Screen per design (blink until responded). 3. I'M GOING → walking route; CALL; map link. 4. Session map reusing phase-39 layers with gate bypass; governor suppressed.
 - Tests: `pnpm --filter @cp/mobile test -- features/safety/sos/receiver features/safety/session-map`
 - Done when: takeover appears over any route in RNTL navigation test; unboosted trip still renders session map.
+
+- Status: done — 1a9b5efe, 64a0b159 (takeover in `runtime.tsx` with its rule under test; the session map draws a straight line and hands the walking route to the maps app, since the routing layer returns no path)
 
 ### T7 — Notification actions and e2e
 - Files: `apps/mobile/src/features/safety/notification-actions.ts`, `e2e/safety/{help-share.yaml,help-offline.yaml,sos-send-cancel.yaml,sos-receive-respond.yaml,sos-resolve.yaml}`, `tools/scripts/seed-sos-crew.ts`.

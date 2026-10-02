@@ -1,0 +1,38 @@
+appId: app.critterpass.dev
+---
+# Picks ${DAY} (YYYY-MM-DD) for the booking form's day (`bookings-form-date`, on screen). The day is
+# a month grid in a sheet that opens on the picked day's month, else the trip's, which can be
+# another month than ${DAY}'s: the sheet is paged to that month and the day tapped by its id. The
+# sheet closes on the pick.
+- evalScript: ${var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.bookingDayMonth = '(?i)' + months[Number(DAY.slice(5, 7)) - 1] + ' ' + DAY.slice(0, 4)}
+- tapOn:
+    id: 'bookings-form-date'
+- extendedWaitUntil:
+    visible:
+      id: 'bookings-date-month'
+    timeout: 10000
+- waitForAnimationToEnd
+- repeat:
+    while:
+      notVisible:
+        id: 'bookings-date-month'
+        text: ${output.bookingDayMonth}
+    times: 2
+    commands:
+      - tapOn:
+          id: 'bookings-date-previous'
+- repeat:
+    while:
+      notVisible:
+        id: 'bookings-date-month'
+        text: ${output.bookingDayMonth}
+    times: 12
+    commands:
+      - tapOn:
+          id: 'bookings-date-next'
+- tapOn:
+    id: 'bookings-date-${DAY}'
+- extendedWaitUntil:
+    notVisible:
+      id: 'bookings-date-sheet'
+    timeout: 10000

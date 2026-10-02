@@ -57,6 +57,7 @@ import '@/features/setup/register';
 import '@/features/plan/overview/register';
 import { TripDayRuntime } from '@/features/trip/hub/register';
 import { CritterRuntime } from '@/features/critters/register';
+import { SafetyRuntime } from '@/features/safety/register';
 import '@/features/bookings/supplier/register';
 import '@/features/you/routes';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
@@ -171,6 +172,7 @@ function SessionBridges() {
       <ChangesetNotificationActions />
       <TripDayRuntime alarmPort={getAlarmPort()} />
       <CritterRuntime writeSnapshot={writeSnapshot} />
+      <SafetyRuntime />
     </>
   );
 }
@@ -340,8 +342,5 @@ export default function RootLayout() {
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
-  prewarm: {
-    position: 'absolute',
-    opacity: 0,
-  },
+  prewarm: { position: 'absolute', opacity: 0 },
 });

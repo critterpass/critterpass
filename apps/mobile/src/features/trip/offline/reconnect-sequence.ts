@@ -30,6 +30,19 @@ export interface ReconnectState {
   readonly acked: readonly string[];
 }
 
+/**
+ * What the traveller did, out of everything queued: the ops whose feature describes them (a
+ * stored summary from the catalogs: "Expense: Dinner at Bé Mặn", "Your vote: Nusa Penida").
+ * Bookkeeping the app sends by itself (app opens, permission and device registration, Live
+ * Activity tokens and state) has no summary, so it is listed under its own command name, and
+ * never shows here.
+ */
+export function travellerActions<T extends Pick<QueueSnapshotItem, 'cmd' | 'summary'>>(
+  queue: readonly T[],
+): T[] {
+  return queue.filter((op) => op.summary.id !== op.cmd);
+}
+
 export const INITIAL_RECONNECT: ReconnectState = { phase: 'online', items: [], acked: [] };
 
 export function stepReconnect(
@@ -51,7 +64,9 @@ export function stepReconnect(
     };
   }
   if (state.phase === 'online') return state;
-  if (state.phase === 'back') return queue.length === 0 ? state : { ...state, phase: 'online' };
+  // "Back online" holds until the card lifts; only losing the network again ends it. The ops it
+  // ticked leave the queue as their results sync down, and that must not cut the hold short.
+  if (state.phase === 'back') return state;
   const waiting = new Map(queue.filter((op) => op.status !== 'done').map((op) => [op.opId, op]));
   const acked = [...state.acked];
   let batch = 0;

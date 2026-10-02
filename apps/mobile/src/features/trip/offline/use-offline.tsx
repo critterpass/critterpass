@@ -8,7 +8,7 @@
 import { toLocalWallTime } from '@cp/domain';
 import { msg, plural, t } from '@lingui/core/macro';
 import { router } from 'expo-router';
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 import { useQueuedCommands } from '@/data/status/use-queued-commands';
@@ -36,7 +36,7 @@ import { stillWorksLines } from './offline-copy';
 import type { OfflineViewProps } from './offline-view';
 import { cancelQueued, editQueuedMessage, queuedMessageBody, SEND_MESSAGE } from './queue-actions';
 import { QueuedItemSheet } from './queued-item-sheet';
-import { INITIAL_RECONNECT, stepReconnect } from './reconnect-sequence';
+import { INITIAL_RECONNECT, stepReconnect, travellerActions } from './reconnect-sequence';
 
 /** "Back online" stays up while the last ticks and SENT flaps land, then the banner lifts. */
 const BACK_HOLD_MS = 1400;
@@ -50,7 +50,8 @@ export function useOffline(
   const locale = useLocale();
   const { db } = useLocalFirst();
   const sync = useSyncStatus();
-  const queue = useQueuedCommands();
+  const queued = useQueuedCommands();
+  const queue = useMemo(() => travellerActions(queued), [queued]);
   const { items: rejected } = useRejectedCommands();
   const offline = sync.phase === 'offline';
   const [state, step] = useReducer(

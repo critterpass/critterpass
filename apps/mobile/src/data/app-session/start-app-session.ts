@@ -9,6 +9,13 @@
  * 6. the link router's state checks (the resolver) and local membership lookups;
  * 7. the account's flag values from the api, now and on every return to the foreground.
  *
+ * A returning install (a stored last uid) does 3–7 for that uid at once and asks the server whose
+ * session this is alongside, so what is on the phone shows without waiting on the network. When
+ * the answer names someone else, or no one (revoked, signed out elsewhere, merged), the phone
+ * stops being that uid the way a sign-out does (the hooks wipe its local data) and the app
+ * restarts. A failed or unanswered check changes nothing: the server still refuses a revoked
+ * session at the upload door and the sync token. A first launch keeps the order above.
+ *
  * Every native and network dependency is passed in (./device-session.ts wires the real ones), so
  * the whole sequence runs under Jest on a real database.
  */
@@ -37,12 +44,25 @@ import {
 } from '../realtime/client';
 import type { RecoveryStore } from '../realtime/recovery-store';
 import { watchLinkMembership } from './link-membership';
+import {
+  confirmStillUid,
+  type SessionAnswer,
+  type SessionCheckPolicy,
+} from './returning-session-check';
+
+export type { SessionAnswer, SessionCheckPolicy } from './returning-session-check';
 
 export interface AppSessionAuth extends LocalFirstAuth {
   /** Idempotent: reuses the stored session, else creates the anonymous one. */
   ensureAnonymous(): Promise<{ readonly userId: string }>;
   /** `aud=rt` token for Centrifugo. */
   getRealtimeToken(): Promise<string>;
+  /**
+   * The auth client's `GET /api/auth/get-session`, which never creates a session: the server's
+   * answer as the client decodes it (`error` set for any non-2xx), or a rejection when no answer
+   * came at all (offline, DNS, a dropped connection).
+   */
+  getSession(): Promise<SessionAnswer>;
 }
 
 /** The uid the app last started for, so an offline launch still opens its local data. */
@@ -73,6 +93,10 @@ export interface AppSessionDeps {
   };
   /** Background failures (a drain, a write) are reported, never thrown into the UI. */
   readonly onError: (error: unknown) => void;
+  /** Restarts the app's JavaScript, so it starts again on the session now in storage. */
+  readonly restart: () => void;
+  /** The returning install's session check timing; `SESSION_CHECK` unless a test shortens it. */
+  readonly sessionCheck?: SessionCheckPolicy;
 }
 
 export interface AppSession {
@@ -105,7 +129,8 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
   }
 
   const { auth } = deps;
-  const uid = await resolveUid(auth, deps.lastUid);
+  const returning = deps.lastUid.read();
+  const uid = returning ?? (await resolveUid(auth, deps.lastUid));
   const localFirst = await deps.startLocalFirst(
     { getSyncToken: () => auth.getSyncToken(), sessionHeaders: () => auth.sessionHeaders() },
     uid,
@@ -149,11 +174,15 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
     flags.refresh();
   });
 
+  const halt = new AbortController();
+  if (returning !== null) void confirmStillUid(deps, returning, localFirst, halt.signal);
+
   return {
     uid,
     localFirst,
     realtime,
     stop() {
+      halt.abort();
       stopDrain();
       detachPolicy();
       realtime.disconnect();
