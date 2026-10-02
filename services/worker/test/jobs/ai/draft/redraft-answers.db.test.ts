@@ -137,7 +137,7 @@ describe('a redraft of a draft with an answered wish', () => {
       expect(coverage.wish_answers).toEqual([
         { must_do_id: wish, poi_id: stage, day_no: 2, when: 'night', weekdays: [] },
       ]);
-      expect(coverage.must_dos.untimed).toEqual([]);
+      expect(coverage.untimed_must_dos).toEqual([]);
       expect(coverage.must_dos.missing.map((m) => m.must_do_id)).not.toContain(wish);
 
       // The redraft has no outline of its own: its input names the version it redoes.

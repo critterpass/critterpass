@@ -71,7 +71,6 @@ export function draftCoverage(save: DraftToSave): DraftCoverage {
       total: input.frame.mustDos.length,
       made: input.frame.mustDos.length - missing.length,
       missing,
-      untimed: (input.untimed ?? []).map((u) => ({ must_do_id: u.mustDoId, reason: u.reason })),
     },
     flags,
     closures: [...save.closures],
@@ -91,6 +90,10 @@ export function draftCoverage(save: DraftToSave): DraftCoverage {
       day_no: answer.dayNo,
       when: answer.when,
       weekdays: [...answer.weekdays],
+    })),
+    untimed_must_dos: (input.untimed ?? []).map((entry) => ({
+      must_do_id: entry.mustDoId,
+      reason: entry.reason,
     })),
   };
 }

@@ -150,10 +150,6 @@ export const draftCoverageSchema = z.object({
     missing: z.array(
       z.object({ must_do_id: uuid, owner_id: uuid, reason: mustDoMissReasonSchema }),
     ),
-    /** Must-dos that are planned, but not at the time or on the show day wished for them. */
-    untimed: z
-      .array(z.object({ must_do_id: uuid, reason: z.enum(UNTIMED_MUST_DO_REASONS) }))
-      .optional(),
   }),
   flags: z.array(z.object({ stable_id: uuid, flag: draftItemFlagSchema })),
   closures: z.array(closureRecordSchema),
@@ -162,6 +158,10 @@ export const draftCoverageSchema = z.object({
   setup: setupFingerprintSchema,
   /** The guide's answers to the must-dos typed by hand that this version was planned with. */
   wish_answers: z.array(wishAnswerSchema).optional(),
+  /** Must-dos that are planned, but not at the time or on the show day wished for them. */
+  untimed_must_dos: z
+    .array(z.object({ must_do_id: uuid, reason: z.enum(UNTIMED_MUST_DO_REASONS) }))
+    .optional(),
 });
 export type DraftCoverage = z.infer<typeof draftCoverageSchema>;
 

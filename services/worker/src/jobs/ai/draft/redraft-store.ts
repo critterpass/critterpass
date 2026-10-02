@@ -144,7 +144,7 @@ export async function savedWishAnswers(
 /**
  * The candidate's coverage: the base version's, with the candidate's places added and its must-dos
  * counted from the candidate's own items. A must-do the redraft lost shows as missing (dropped),
- * one it gained no longer does, and the saved wish answers carry over.
+ * one it gained no longer does, and the saved wish answers and untimed must-dos carry over.
  */
 export async function candidateCoverage(
   tx: pg.PoolClient,
@@ -197,7 +197,6 @@ export async function candidateCoverage(
       reason: 'dropped' as const,
     })),
   ];
-  const untimed = base.must_dos.untimed?.filter((entry) => placed.has(entry.must_do_id));
   return {
     ...base,
     places,
@@ -205,7 +204,6 @@ export async function candidateCoverage(
       total: base.must_dos.total,
       made: Math.max(0, base.must_dos.total - missing.length),
       missing,
-      ...(untimed === undefined ? {} : { untimed }),
     },
   };
 }
