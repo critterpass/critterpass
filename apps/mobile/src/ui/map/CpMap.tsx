@@ -78,6 +78,8 @@ export interface CpMapProps {
    * screen is popped; a screen that is pushed and popped often opts in.
    */
   readonly androidTexture?: boolean;
+  /** Lifts the MapLibre logo and attribution above a card the caller lays over the map's foot. */
+  readonly ornamentBottom?: number;
 }
 
 const DEFAULT_ZOOM = 14;
@@ -103,6 +105,7 @@ export function CpMap({
   onRequestMapView,
   flyTo,
   androidTexture = false,
+  ornamentBottom,
 }: CpMapProps) {
   const { t } = useLingui();
   const [expandedClusterIds, setExpandedClusterIds] = useState<ReadonlySet<string>>(new Set());
@@ -188,6 +191,12 @@ export function CpMap({
         style={styles.fill}
         mapStyle={style}
         {...(androidTexture ? { androidView: 'texture' as const } : {})}
+        {...(ornamentBottom === undefined
+          ? {}
+          : {
+              logoPosition: { bottom: ornamentBottom, left: 12 },
+              attributionPosition: { bottom: ornamentBottom, right: 12 },
+            })}
       >
         <Camera
           {...(flyTo !== undefined ? { ref: flyTo.cameraRef } : {})}

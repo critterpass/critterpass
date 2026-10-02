@@ -136,10 +136,11 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
+# The list is longer than the iPhone's screen: scroll to the gallery before tapping it.
+- scrollUntilVisible:
+    element:
       id: 'dev-nav-gallery'
-    timeout: 10000
+    timeout: 15000
 - tapOn:
     id: 'dev-nav-gallery'
 - extendedWaitUntil:

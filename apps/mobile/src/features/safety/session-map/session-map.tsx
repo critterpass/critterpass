@@ -6,6 +6,7 @@
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { router, useLocalSearchParams } from 'expo-router';
+import { useState } from 'react';
 import { Linking, Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -32,6 +33,7 @@ export function SessionMapScreen() {
   const params = useLocalSearchParams<{ id?: string }>();
   const sosId = typeof params.id === 'string' && params.id !== '' ? params.id : null;
   const map = useSessionMap(sosId);
+  const [cardHeight, setCardHeight] = useState(0);
   const close = () => (router.canGoBack() ? router.back() : router.replace('/'));
   const name = map.model?.senderName ?? '';
   const sender = map.sender;
@@ -73,6 +75,7 @@ export function SessionMapScreen() {
             }
             zoom={map.zoom}
             androidTexture
+            ornamentBottom={cardHeight + 8}
             initialCenter={[map.centre.lng, map.centre.lat]}
             {...(map.regionSourceUrl === undefined ? {} : { regionSourceUrl: map.regionSourceUrl })}
             {...(map.here === null
@@ -90,6 +93,7 @@ export function SessionMapScreen() {
         <BackButton onPress={close} testID="sos-map-back" />
       </View>
       <View
+        onLayout={(event) => setCardHeight(event.nativeEvent.layout.height)}
         style={[
           styles.card,
           { padding: theme.size.gutter, paddingBottom: insets.bottom + theme.space['16'] },
