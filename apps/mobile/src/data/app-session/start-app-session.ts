@@ -6,7 +6,8 @@
  * 3. the local-first database, uploads and sync for that uid;
  * 4. the App Group outbox drain, now and on every return to the foreground;
  * 5. the realtime connection with its background policy;
- * 6. the link router's state checks (the resolver) and local membership lookups.
+ * 6. the link router's state checks (the resolver) and local membership lookups;
+ * 7. the account's flag values from the api, now and on every return to the foreground.
  *
  * Every native and network dependency is passed in (./device-session.ts wires the real ones), so
  * the whole sequence runs under Jest on a real database.
@@ -19,6 +20,11 @@ import {
   startExtensionOutboxDrain,
   type ExtensionOutbox,
 } from '../commands/drain-extension-outbox';
+import {
+  clearServerFlags,
+  startServerFlags,
+  type ServerFlagsFetch,
+} from '../../lib/analytics/server-flags';
 import { createLinkResolverClient, type LinksHttp } from '../../lib/links/resolver-client';
 import { configureLinkRouter } from '../../lib/links/router';
 import type { LocalFirstAuth } from '../powersync/db';
@@ -58,6 +64,8 @@ export interface AppSessionDeps {
   readonly appState: AppStateSource;
   /** Signed-in HTTP for the link endpoints (previews for the router's state check). */
   readonly linksHttp: LinksHttp;
+  /** Signed-in `GET /v1/config/bootstrap`: the flags the api evaluated for this account. */
+  readonly fetchServerFlags: ServerFlagsFetch;
   readonly realtime: {
     readonly url: string;
     readonly positions: RecoveryStore;
@@ -71,7 +79,7 @@ export interface AppSession {
   readonly uid: string;
   readonly localFirst: LocalFirstContextValue;
   readonly realtime: RealtimeClient;
-  /** Stops the outbox drain, the realtime connection and the link router's lookups. */
+  /** Stops the outbox drain, the realtime connection, the link lookups and the flag refresh. */
   stop(): void;
 }
 
@@ -129,6 +137,18 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
   configureLinkRouter({ resolver: createLinkResolverClient(deps.linksHttp) });
   const stopMembership = watchLinkMembership(localFirst.db, uid, deps.onError);
 
+  const flags = startServerFlags({
+    fetchFlags: deps.fetchServerFlags,
+    appState: deps.appState,
+    onError: deps.onError,
+  });
+  // The next account on this phone never starts with this one's flags. An account switch has its
+  // own session by now, so it gets its own values; after a sign-out the api answers nothing.
+  registerOnSignOut(() => {
+    clearServerFlags();
+    flags.refresh();
+  });
+
   return {
     uid,
     localFirst,
@@ -138,6 +158,7 @@ export async function startAppSession(deps: AppSessionDeps): Promise<AppSession>
       detachPolicy();
       realtime.disconnect();
       stopMembership();
+      flags.stop();
       configureLinkRouter({ resolver: null });
     },
   };

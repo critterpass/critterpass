@@ -11,6 +11,7 @@ import { outbox, withSystem } from '@cp/db';
 import { channelName, joinNames, lateOptionsSchema, type JourneyMode } from '@cp/domain';
 import { lateOptions, type LateBooking, type LateInput } from '@cp/planner';
 import type pg from 'pg';
+import { translateDisruptionWords } from './guide-words';
 
 export type LateWriter = (
   guide: string | null,
@@ -246,6 +247,7 @@ export async function workLateOptions(
       action_id: 'late_options',
       state: 'ready',
     });
+    await translateDisruptionWords(tx, world.tripId);
     return 1;
   });
 }

@@ -27,6 +27,7 @@ import type {
   PastTripRow,
   StampRow,
 } from './profile-queries';
+import { memberFirstName } from '@/ui/people/member-name';
 
 /** Stamps on the profile row before "ALL n ›" takes over. */
 export const STAMPS_SHOWN = 5;
@@ -220,7 +221,7 @@ export function buildProfile(input: ProfileInput): ProfileModel {
       .filter((member) => member.crew_id === crew.id)
       .map((member, joinIndex) => ({
         id: member.user_id,
-        name: member.display_name?.trim() ?? '',
+        name: memberFirstName(member.display_name),
         joinIndex,
       }));
     return {

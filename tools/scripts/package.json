@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/pg": "catalog:",
+    "geo-tz": "catalog:",
     "zod": "catalog:"
   }
 }

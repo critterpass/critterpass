@@ -1,7 +1,7 @@
 /**
- * The caller's place on full trips, on top of the crews sheet: "You're next for a seat" (or their
- * number in line) while they wait, and, once a seat frees up, the offer with the time left and
- * TAKE THE SEAT. An offer is never a join: nothing happens until they take it, and an unanswered
+ * The caller's place on full trips, on top of the crews sheet and on Home (the Home crew's trips
+ * only): "You're next for a seat" (or their number in line) while they wait, and, once a seat
+ * frees up, the offer with the time left and TAKE THE SEAT. An offer is never a join: nothing happens until they take it, and an unanswered
  * one passes on after a day. Undesigned; built from the card and pill patterns.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- the SQL below; copy goes through t. */
@@ -40,10 +40,11 @@ const HOUR_MS = 3_600_000;
 function watchPlaces(
   db: AbstractPowerSyncDatabase,
   uid: string,
+  crewId: string | null,
   now: string,
   onRows: (rows: PlaceRow[]) => void,
 ) {
-  if (!UUID.test(uid)) return () => undefined;
+  if (!UUID.test(uid) || (crewId !== null && !UUID.test(crewId))) return () => undefined;
   return watchRows<PlaceRow>(
     db,
     `SELECT tp.trip_id, d.name AS place, tp.waitlist_position,
@@ -54,6 +55,7 @@ function watchPlaces(
        LEFT JOIN seat_waitlist_offers o ON o.trip_id = tp.trip_id AND o.user_id = tp.user_id
             AND o.status = 'offered' AND o.expires_at > '${now}'
       WHERE tp.user_id = '${uid}' AND tp.rsvp = 'waitlisted'
+        ${crewId === null ? '' : `AND t.crew_id = '${crewId}'`}
       ORDER BY tp.waitlist_position`,
     ['trip_participants', 'trips', 'destinations', 'seat_waitlist_offers'],
     onRows,
@@ -70,11 +72,14 @@ export function WaitlistCards({
   uid,
   commands,
   now,
+  crewId = null,
 }: {
   readonly db: AbstractPowerSyncDatabase | null;
   readonly uid: string | null;
   readonly commands: Pick<CommandClient, 'send'> | null;
   readonly now: Date;
+  /** Only this crew's trips (Home is crew-scoped); every crew's when absent (the crews sheet). */
+  readonly crewId?: string | null;
 }) {
   const styles = useStyles();
   const [rows, setRows] = useState<readonly PlaceRow[]>([]);
@@ -82,8 +87,8 @@ export function WaitlistCards({
   const nowIso = now.toISOString().slice(0, 16);
   useEffect(() => {
     if (db === null || uid === null) return undefined;
-    return watchPlaces(db, uid, nowIso, setRows);
-  }, [db, uid, nowIso]);
+    return watchPlaces(db, uid, crewId, nowIso, setRows);
+  }, [db, uid, crewId, nowIso]);
 
   const take = (offerId: string, place: string) => {
     if (commands === null) return;

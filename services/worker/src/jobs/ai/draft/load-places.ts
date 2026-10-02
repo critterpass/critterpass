@@ -6,7 +6,7 @@
  */
 import { withSystem } from '@cp/db';
 import { hoursSchema } from '@cp/domain';
-import { defaultDurationMin, nameTokens, type DraftPoi } from '@cp/planner';
+import { defaultDurationMin, nameTokens, withOpenDataDefaults, type DraftPoi } from '@cp/planner';
 import type pg from 'pg';
 
 /**
@@ -60,13 +60,20 @@ export async function loadDraftPlaces(
 }
 
 function toDraftPoi(row: PoiRow): DraftPoi {
-  const editorial = (row.editorial ?? {}) as { time_needed_min?: unknown; must_see?: unknown };
+  const editorial = (row.editorial ?? {}) as {
+    time_needed_min?: unknown;
+    must_see?: unknown;
+    why_go?: unknown;
+    best_time?: unknown;
+  };
+  const text = (value: unknown) =>
+    typeof value === 'string' && value.trim().length > 0 ? value.trim().slice(0, 160) : null;
   const hours = hoursSchema.safeParse(row.hours);
   const known = hours.success && Object.keys(hours.data.weekly).length > 0;
   const filled = Object.values(row.editorial ?? {}).filter(
     (value) => value !== null && value !== '',
   ).length;
-  return {
+  return withOpenDataDefaults({
     id: row.id,
     name: row.name,
     category: row.category,
@@ -84,7 +91,9 @@ function toDraftPoi(row: PoiRow): DraftPoi {
     editorial: row.curation === 'editorial',
     mustSee: editorial.must_see === true,
     detail: filled + (known ? 1 : 0),
-  };
+    whyGo: text(editorial.why_go),
+    bestTime: text(editorial.best_time),
+  });
 }
 
 /**

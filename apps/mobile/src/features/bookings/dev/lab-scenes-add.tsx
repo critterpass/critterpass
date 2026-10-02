@@ -16,9 +16,40 @@ import { MailboxSheet } from '../mailbox/MailboxSheet';
 import type { MailboxStatus } from '../mailbox/use-mailbox';
 import { PasteSheet } from '../paste/PasteSheet';
 import type { ScanState } from '../scan/use-booking-scan';
-import { LAB_CANDIDATES, LAB_MEMBERS, LAB_TZ, LAB_UID, labCandidate } from './lab-fixtures';
+import {
+  extracted,
+  LAB_CANDIDATES,
+  LAB_MEMBERS,
+  LAB_TZ,
+  LAB_UID,
+  labCandidate,
+} from './lab-fixtures';
 
 const noop = () => undefined;
+
+const PASTED_FLIGHT = {
+  user_id: LAB_UID,
+  source: 'paste',
+  crew_visible: 0,
+  extracted: extracted({
+    kind: 'flight',
+    title: '9G 956 · SGN → DAD',
+    starts_at: '2026-10-02T00:05:00.000Z',
+    ends_at: '2026-10-02T01:30:00.000Z',
+    tz: 'Asia/Ho_Chi_Minh',
+    segments: [
+      {
+        carrier: '9G',
+        flight_no: '956',
+        dep_airport: 'SGN',
+        arr_airport: 'DAD',
+        sched_dep_at: '2026-10-02T00:05:00.000Z',
+        sched_arr_at: '2026-10-02T01:30:00.000Z',
+      },
+    ],
+    extracted_by: 'schedule',
+  }),
+} as const;
 const copy = () => Promise.resolve();
 const ADDRESS = 'bali-six@in.critterpass.app';
 
@@ -37,7 +68,7 @@ function views(rows: readonly CandidateRow[]): CandidateView[] {
 
 function add(
   rows: readonly CandidateRow[],
-  options: { scan?: ScanState; connected?: boolean; assemble?: boolean } = {},
+  options: { scan?: ScanState; connected?: boolean; assemble?: boolean; held?: number } = {},
 ): ReactNode {
   const list = views(rows);
   return (
@@ -61,6 +92,7 @@ function add(
       onTypeIn={noop}
       onMailbox={noop}
       onLinkCode={noop}
+      heldMail={options.held ?? 0}
     />
   );
 }
@@ -165,6 +197,18 @@ export const ADD_SCENES: Readonly<Record<string, () => ReactNode>> = {
       }),
     ]),
   'add-scan-denied': () => add(LAB_CANDIDATES, { scan: 'denied' }),
+  'add-held-mail': () => add([], { held: 1 }),
+  // A flight number pasted on its own: found in the schedule, and not found.
+  'add-flight-found': () => add([labCandidate('c-9g956', PASTED_FLIGHT)]),
+  'add-flight-not-found': () =>
+    add([
+      labCandidate('c-9g999', {
+        user_id: LAB_UID,
+        source: 'paste',
+        status: 'failed',
+        failure_reason: 'flight_not_found',
+      }),
+    ]),
   paste: () => (
     <WithSheet
       sheet={(close) => (

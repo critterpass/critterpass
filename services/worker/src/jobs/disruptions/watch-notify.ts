@@ -4,7 +4,7 @@
  * come from the guide (route `watch.copy`), templates otherwise.
  */
 import { personaIdSchema, writeWatchCopy, type Gateway } from '@cp/ai';
-import { DISRUPTION_PUSH, registerNotificationTrigger } from '@cp/domain';
+import { DISRUPTION_PUSH, guideText, registerNotificationTrigger } from '@cp/domain';
 
 import { registerNotification } from '../notify/register';
 import { DEFAULT_SETUP_GUIDE, str } from '../setup/facts';
@@ -50,18 +50,30 @@ export function registerWatchNotifications(): void {
       );
       return rows.map((row) => row.user_id);
     },
-    async compose(tx, routed) {
-      const { rows } = await tx.query<{ title: string; detail: string; crew_id: string }>(
-        `SELECT w.title, w.detail, t.crew_id FROM watch_items w JOIN trips t ON t.id = w.trip_id
+    async compose(tx, routed, uid) {
+      const { rows } = await tx.query<{
+        title: string;
+        detail: string;
+        i18n: unknown;
+        crew_id: string;
+        locale: string;
+      }>(
+        `SELECT w.title, w.detail, w.i18n, t.crew_id, app.user_locale($2) AS locale
+           FROM watch_items w JOIN trips t ON t.id = w.trip_id
           WHERE w.id = $1`,
-        [str(routed, 'watch_item_id')],
+        [str(routed, 'watch_item_id'), uid],
       );
       const item = rows[0];
       if (item === undefined) return null;
+      // The row's words in the recipient's language once the sweep has them; English until then.
+      const source = { title: item.title, detail: item.detail };
       return {
         title: DISRUPTION_PUSH.watchTitle,
         body: DISRUPTION_PUSH.watchBody,
-        vars: { title: item.title, detail: item.detail },
+        vars: {
+          title: guideText('watch_item', source, item.i18n, 'title', item.locale) ?? item.title,
+          detail: guideText('watch_item', source, item.i18n, 'detail', item.locale) ?? item.detail,
+        },
         sender: DEFAULT_SETUP_GUIDE,
         crewId: item.crew_id,
         tripId: str(routed, 'trip_id') ?? null,

@@ -251,3 +251,23 @@
     - { id: t1, reason: added_aside }
     - { id: t2, reason: too_long }
     - { id: t3, reason: missing }
+
+- id: translate-15
+  description: a flight delay and a rough-seas watch row, Vietnamese reader, times and numbers intact
+  guide: chava
+  locale: vi
+  lines:
+    - { kind: disruption, field: title, text: 'VN 123 lands at 19:30' }
+    - {
+        kind: disruption,
+        field: summary,
+        text: 'Two of you land at 19:30. I moved the surf lesson and need a yes on dinner.',
+      }
+    - { kind: watch_item, field: title, text: 'Cham Island boat · waves 2.5 m' }
+    - {
+        kind: watch_item,
+        field: detail,
+        text: 'Forecast shows waves 2.5 m, wind 35 km/h. The harbour might close.',
+      }
+  must: ['19:30', '2.5', '35']
+  keep: ['VN 123']

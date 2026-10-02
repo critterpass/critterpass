@@ -23,7 +23,7 @@ import {
   createDisconnectMailboxCommand,
 } from '../commands/bookings/connect-mailbox';
 import type { OAuthStateStore } from '../calendar-oauth/state';
-import { createFlagService } from '../obs/flags';
+import { processFlagService } from '../obs/flags';
 import { mailboxFlag, userPid } from '@cp/domain';
 import { mailboxOAuthConfigFromEnv } from './mailbox-client';
 import { registerBookedCosts } from './booked-costs';
@@ -105,11 +105,7 @@ export function registerBookings(
 
 /** The `mailbox.<provider>` flag for one user (PostHog; off when unreachable or unset). */
 function mailboxGate(env: BookingsEnv): MailboxGate {
-  const flags = createFlagService({
-    projectApiKey: env['POSTHOG_PROJECT_API_KEY'],
-    flagsSecretKey: env['POSTHOG_PROJECT_SECRET_KEY'],
-    host: env['POSTHOG_HOST'],
-  });
+  const flags = processFlagService(env);
   const salt = env['ANALYTICS_PID_SALT'];
   return async (provider, uid) => {
     if (salt === undefined || salt.length < 16) return false;

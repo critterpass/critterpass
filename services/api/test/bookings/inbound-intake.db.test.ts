@@ -6,7 +6,7 @@
  * waiting mail; failed sender authentication is kept without a reply; a repeated Message-ID is a
  * duplicate; and after an organiser rotates the address, the old one is refused.
  */
-import { crypto as dbCrypto, withSystem } from '@cp/db';
+import { crypto as dbCrypto, withSystem, withUser } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { AccountLookup } from '../../src/bookings/sender-allow-list';
@@ -160,6 +160,19 @@ describe('linking an unknown sender', () => {
   let code: string | undefined;
   let first: ReturnType<typeof report>;
 
+  /** The held-mail count a crew member reads on the crew's address row. */
+  const held = async () => {
+    const maya = crew.members[1] as SignedIn;
+    return withUser(harness.pool, maya.uid, 'test', async (tx) => {
+      const { rows } = await tx.query<{ held_count: number; held: boolean }>(
+        `SELECT held_count, held_at IS NOT NULL AS held FROM crew_inbound_addresses
+          WHERE crew_id = $1 AND status = 'active'`,
+        [crew.crewId],
+      );
+      return rows[0];
+    });
+  };
+
   it('quarantines the mail and replies with one code', async () => {
     first = report('bookings@partner.example');
     const second = report('bookings@partner.example');
@@ -173,6 +186,8 @@ describe('linking an unknown sender', () => {
       status: 'quarantined',
       quarantine_reason: 'unknown_sender',
     });
+    // The crew sees that mail is waiting, and nothing about it.
+    expect(await held()).toEqual({ held_count: 2, held: true });
   });
 
   it('refuses a wrong code, and links and releases the mail with the right one', async () => {
@@ -193,6 +208,7 @@ describe('linking an unknown sender', () => {
       user_id: organiser.uid,
     });
     expect(await parseJobs()).toBe(before + 2);
+    expect(await held()).toEqual({ held_count: 0, held: false });
     const later = report('bookings@partner.example');
     expect((await post(later)).body).toEqual({ action: 'accepted' });
   });

@@ -15,6 +15,7 @@ import { getCalendars, getLocales } from 'expo-localization';
 import { AppState, Platform } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
+import { SERVER_FLAGS_PATH } from '../../lib/analytics/server-flags';
 import { activeLocale, onLocaleChanged } from '../../lib/i18n/set-locale';
 import { createLinkResolverClient, type ClaimDevice } from '../../lib/links/resolver-client';
 import type { FixUpload } from '../../lib/location';
@@ -110,6 +111,7 @@ function createSession(): Promise<AppSession> {
     return Promise.reject(new Error('configureDeviceAppGroup must run before the session starts'));
   }
   const auth = deviceAuth();
+  const signedInHttp = createLinksHttp({ baseUrl: resolveApiBaseUrl(), sessionHeaders });
   return startAppSession({
     writeEndpoints: () =>
       group.writeEndpointsConfig(
@@ -136,7 +138,8 @@ function createSession(): Promise<AppSession> {
     outbox: group.outbox,
     device: deviceResolver,
     appState: deviceAppState,
-    linksHttp: createLinksHttp({ baseUrl: resolveApiBaseUrl(), sessionHeaders }),
+    linksHttp: signedInHttp,
+    fetchServerFlags: () => signedInHttp.request({ method: 'GET', path: SERVER_FLAGS_PATH }),
     realtime: { url: resolveRealtimeUrl(), positions: createDeviceRecoveryStore() },
     onError: reportAppSessionError,
   }).then((session) => {

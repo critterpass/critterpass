@@ -1,10 +1,13 @@
 /**
  * The bundled airport dataset file (`airports.json`, written by tools/scripts/build-airports.ts
  * from OurAirports, public domain) and the hand-kept metro groups. Rows are tuples to keep the
- * app bundle small; `parseAirportDataset` turns them into the domain's `AirportDataset`.
+ * app bundle small; `parseAirportDataset` turns them into the domain's `AirportDataset`. Each row
+ * ends with the airport's IANA time zone (from its coordinates when the file is built), so a
+ * flight's times are read on the clock of the airport they happen at.
  */
 import {
   airportCountrySchema,
+  CANONICAL_TZ_PATTERN,
   airportRankSchema,
   airportSchema,
   iataSchema,
@@ -14,7 +17,18 @@ import {
 } from '@cp/domain';
 import { z } from 'zod';
 
-/** [iata, name, city, country, lat, lng, rank] */
+/** A zone every runtime can format: canonical IANA form, and known to this runtime's Intl. */
+export function isFormattableZone(tz: string): boolean {
+  if (!CANONICAL_TZ_PATTERN.test(tz)) return false;
+  try {
+    new Intl.DateTimeFormat(undefined, { timeZone: tz });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** [iata, name, city, country, lat, lng, rank, tz] */
 export const airportRowSchema = z.tuple([
   iataSchema,
   z.string(),
@@ -23,6 +37,7 @@ export const airportRowSchema = z.tuple([
   z.number(),
   z.number(),
   airportRankSchema,
+  z.string().refine(isFormattableZone, 'must be a canonical IANA zone this runtime can format'),
 ]);
 
 export const airportsFileSchema = z
@@ -69,6 +84,11 @@ export function parseAirportDataset(file: unknown, metros: unknown): AirportData
  * The app's fast path: the file is validated in CI (`parseAirportDataset` in this package's tests
  * and `build-airports.ts --check`), so at runtime rows are only reshaped, never re-parsed.
  */
+/** Each airport's IANA time zone by IATA code (rows were validated when the file was built). */
+export function airportZonesFromTrustedFile(file: AirportsFile): ReadonlyMap<string, string> {
+  return new Map(file.airports.map((row) => [row[0], row[7]]));
+}
+
 export function airportDatasetFromTrustedFile(
   file: AirportsFile,
   metros: AirportDataset['metros'],

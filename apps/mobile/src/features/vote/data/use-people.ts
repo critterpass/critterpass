@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 
 import { useLiveRows } from './live-rows';
 import { PEOPLE_SQL, PEOPLE_TABLES } from './poll-queries';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface Person {
   readonly id: string;
@@ -21,7 +22,7 @@ export function usePeople(crewId: string | null): ReadonlyMap<string, Person> {
       new Map(
         rows.map((row, index) => [
           row.id,
-          { id: row.id, name: row.display_name ?? '', joinIndex: index },
+          { id: row.id, name: memberFirstName(row.display_name), joinIndex: index },
         ]),
       ),
     [rows],

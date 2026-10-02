@@ -22,6 +22,7 @@ import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
 import { readPointForecast } from '../../travel-data/forecast-watch';
+import { translateDisruptionWords } from './guide-words';
 
 export type ReplanWriter = (
   guide: string | null,
@@ -191,6 +192,8 @@ export async function runReplan(
       rain_from: suggestion.rainFrom,
       rain_to: suggestion.rainTo,
     });
+    // The suggestion's line in each reader's language.
+    await translateDisruptionWords(tx, item.trip_id);
     return 'suggested';
   });
 }

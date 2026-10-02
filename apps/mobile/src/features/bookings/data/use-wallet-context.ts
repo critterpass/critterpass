@@ -34,6 +34,7 @@ import {
   type MemberRow,
   type TripRow,
 } from './queries';
+import { memberFirstName } from '@/ui/people/member-name';
 
 export interface WalletMember {
   readonly userId: string;
@@ -51,6 +52,8 @@ export interface WalletContext {
   readonly travellerIds: readonly string[];
   /** `{crew-slug}@{inbound domain}` (staging builds use the staging domain), once the crew's address has synced. */
   readonly inboundAddress: string | null;
+  /** Forwarded mail the crew address holds from addresses nobody in the crew has linked yet. */
+  readonly heldMail: number;
   readonly passPlus: boolean;
 }
 
@@ -109,7 +112,11 @@ export function useWalletContext(): WalletContext {
   const byCrew = crew === null ? null : [crew.id];
   const members = useLiveRows<MemberRow>(MEMBERS_SQL, byCrew, MEMBERS_TABLES);
   const trips = useLiveRows<TripRow>(TRIPS_SQL, byCrew, TRIPS_TABLES);
-  const inbound = useLiveRows<{ local_part: string }>(INBOUND_SQL, byCrew, INBOUND_TABLES);
+  const inbound = useLiveRows<{ local_part: string; held_count: number | null }>(
+    INBOUND_SQL,
+    byCrew,
+    INBOUND_TABLES,
+  );
   const passPlus = useLiveRows<{ pass_plus: number }>(PASS_PLUS_SQL, byUid, PASS_PLUS_TABLES);
   const trip = pickTrip(trips.rows);
   const participants = useLiveRows<{ user_id: string }>(
@@ -131,11 +138,12 @@ export function useWalletContext(): WalletContext {
       trip,
       members: members.rows.map((row) => ({
         userId: row.user_id,
-        name: firstName(row.display_name),
+        name: memberFirstName(row.display_name),
       })),
       travellerIds: participants.rows.map((row) => row.user_id),
       inboundAddress:
         localPart === null ? null : inboundAddress(localPart, currentAppEnvironment()),
+      heldMail: Math.max(0, Number(inbound.rows[0]?.held_count ?? 0)),
       passPlus: (passPlus.rows[0]?.pass_plus ?? 0) === 1,
     };
   }, [
