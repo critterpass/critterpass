@@ -22,6 +22,7 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-hub-header-.*'
     timeout: 30000
+- runFlow: subflows/hub-visit-offer.yaml
 - waitForAnimationToEnd
 - takeScreenshot: day-hub
 - assertVisible:
@@ -162,6 +163,7 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-hub-next|trip-day'
     timeout: 30000
+- runFlow: subflows/hub-visit-offer.yaml
 - runFlow:
     when:
       visible:

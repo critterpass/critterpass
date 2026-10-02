@@ -227,6 +227,7 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-hub-header-.*'
     timeout: 30000
+- runFlow: subflows/hub-visit-offer.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-bookings'
@@ -292,6 +293,11 @@ appId: app.critterpass.dev
 - takeScreenshot: bookings-after-delete
 - tapOn:
     id: 'tab-trips'
+- extendedWaitUntil:
+    visible:
+      id: 'trip-hub-header-.*'
+    timeout: 30000
+- runFlow: subflows/hub-visit-offer.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-bookings'
