@@ -19,8 +19,7 @@ import { useScreenHref } from '@/lib/navigation/screen-registry';
 
 import { hatchEggCommand, setExploreAtHomeCommand } from '../data/commands';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
-import { atDestination, awaitsArrival, useLatestPosition } from '../hatch/arrival';
-import { deviceTimeZone, eggCardFor, hatchSeen, useHatchSeenVersion } from '../hatch/hatch-model';
+import { eggCardFor, hatchSeen, useHatchSeenVersion } from '../hatch/hatch-model';
 import { useEncounter } from '../engine/use-encounter';
 import { critterRoute, encounterRoute, hatchRoute, LEGENDARIES_ROUTE, setRoute } from '../routes';
 import type { DexFilter } from './dex-model';
@@ -57,11 +56,7 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
   const explore = useCommand(setExploreAtHomeCommand);
   const exploreOn = useExploreAtHome();
   useHatchSeenVersion();
-  const awaiting = data.input.trips.some((t) => awaitsArrival(t, now(), deviceTimeZone()));
-  const position = useLatestPosition(awaiting);
-  const egg = eggCardFor(data.input.trips, now(), hatchSeen, undefined, (trip) =>
-    atDestination(trip, position),
-  );
+  const egg = eggCardFor(data.input.trips, now(), hatchSeen);
   const { snapshot } = useEncounter();
   const live = LIVE.has(snapshot.phase) && snapshot.encounterId !== null;
   const encounterId = snapshot.encounterId;
