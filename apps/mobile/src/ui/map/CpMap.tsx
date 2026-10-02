@@ -72,6 +72,12 @@ export interface CpMapProps {
   readonly onRequestListView?: () => void;
   readonly onRequestMapView?: () => void;
   readonly flyTo?: ReturnType<typeof useFlyTo>;
+  /**
+   * Android only: draw the map in a TextureView instead of a GLSurfaceView. A SurfaceView composites
+   * outside the view tree and can leave black bands on the screen underneath once a pushed map
+   * screen is popped; a screen that is pushed and popped often opts in.
+   */
+  readonly androidTexture?: boolean;
 }
 
 const DEFAULT_ZOOM = 14;
@@ -96,6 +102,7 @@ export function CpMap({
   onRequestListView,
   onRequestMapView,
   flyTo,
+  androidTexture = false,
 }: CpMapProps) {
   const { t } = useLingui();
   const [expandedClusterIds, setExpandedClusterIds] = useState<ReadonlySet<string>>(new Set());
@@ -180,6 +187,7 @@ export function CpMap({
         key={offlineUnavailable ? 'offline-unavailable' : (regionSourceUrl ?? 'world-only')}
         style={styles.fill}
         mapStyle={style}
+        {...(androidTexture ? { androidView: 'texture' as const } : {})}
       >
         <Camera
           {...(flyTo !== undefined ? { ref: flyTo.cameraRef } : {})}

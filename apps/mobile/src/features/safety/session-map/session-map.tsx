@@ -72,6 +72,7 @@ export function SessionMapScreen() {
                   ]
             }
             zoom={map.zoom}
+            androidTexture
             initialCenter={[map.centre.lng, map.centre.lat]}
             {...(map.regionSourceUrl === undefined ? {} : { regionSourceUrl: map.regionSourceUrl })}
             {...(map.here === null

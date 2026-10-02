@@ -1,15 +1,14 @@
 appId: app.critterpass.dev
 ---
 # A trip confirmed on its first day turns "in trip" on the worker's ten-minute sweep, from noon in
-# Vietnam. Wait for Home to show it (TODAY · DAY 1). The visit history offer that follows rises on
-# the trip hub only: flows answer it there (hub-visit-offer.yaml) right after landing on the hub.
+# Vietnam, and the visit history offer then rises over whatever is open (it has come up over the
+# paste sheet mid-typing). Wait for it here and put it away, so the steps after are not interrupted.
 - runFlow:
     when:
       true: ${new Date(Date.now() + 7 * 3600000).getUTCHours() >= 12}
     commands:
       - extendedWaitUntil:
-          visible:
-            id: 'home-in-trip'
+          visible: 'NOT NOW'
           timeout: 780000
           optional: true
 - runFlow: dismiss-visit-offer.yaml

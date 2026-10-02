@@ -223,7 +223,6 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-hub-header-.*'
     timeout: 30000
-- runFlow: subflows/hub-visit-offer.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-money'
