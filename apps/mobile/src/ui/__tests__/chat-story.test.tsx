@@ -172,6 +172,27 @@ describe('story', () => {
     expect(screen.getByRole('adjustable', { name: 'Slide 2 of 2. Bamboo' })).toBeTruthy();
   });
 
+  it('holds while the screen holds it, then carries on from where it stopped', async () => {
+    jest.useFakeTimers();
+    const onIndexChange = jest.fn();
+    const ui = (held: boolean) => (
+      <StoryPlayer segments={segments} held={held} onIndexChange={onIndexChange} />
+    );
+    const { rerender } = await renderUi(ui(false));
+    await act(() => jest.advanceTimersByTime(2000));
+
+    await rerender(ui(true));
+    await act(() => jest.advanceTimersByTime(20_000));
+    expect(onIndexChange).not.toHaveBeenCalled();
+
+    // Let go, the slide has the three seconds it had left, not a jump to the next one.
+    await rerender(ui(false));
+    await act(() => jest.advanceTimersByTime(2500));
+    expect(onIndexChange).not.toHaveBeenCalled();
+    await act(() => jest.advanceTimersByTime(1000));
+    expect(onIndexChange).toHaveBeenCalledWith(1);
+  });
+
   it('steps slides with adjustable actions and finishes after the last', async () => {
     const onFinished = jest.fn();
     await renderUi(<StoryPlayer segments={segments} onFinished={onFinished} />);
