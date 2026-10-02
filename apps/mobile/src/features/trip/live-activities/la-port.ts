@@ -5,6 +5,8 @@
  */
 import { requireOptionalNativeModule } from 'expo';
 
+import type { NearbyPort } from './critter-nearby';
+
 export type LaDeviceState = 'active' | 'stale' | 'ended' | 'dismissed';
 
 export interface LaDeviceActivity {
@@ -15,7 +17,7 @@ export interface LaDeviceActivity {
   readonly attributes: Readonly<Record<string, unknown>>;
 }
 
-export interface LaPort {
+export interface LaPort extends Pick<NearbyPort, 'start' | 'update' | 'end'> {
   authorization(): { readonly enabled: boolean; readonly frequent: boolean };
   /**
    * The kinds this build's widget extension draws, or `null` in a build that does not say (the
@@ -33,7 +35,7 @@ export interface LaPort {
   ): { remove(): void };
 }
 
-interface NativeLaModule {
+interface NativeLaModule extends Pick<NearbyPort, 'start' | 'update' | 'end'> {
   authorization(): { readonly enabled: boolean; readonly frequent: boolean };
   drawnKinds?(): string[];
   addListener(event: string, listener: (event: never) => void): { remove(): void };
@@ -51,6 +53,9 @@ export function installedLaPort(): LaPort | null {
       : {
           authorization: () => native.authorization(),
           drawnKinds: () => (typeof native.drawnKinds === 'function' ? native.drawnKinds() : null),
+          start: (request) => native.start(request),
+          update: (request) => native.update(request),
+          end: (request) => native.end(request),
           onPushToStartToken: (listener) => native.addListener('onPushToStartToken', listener),
           onUpdateToken: (listener) => native.addListener('onUpdateToken', listener),
           onActivityState: (listener) => native.addListener('onActivityState', listener),
