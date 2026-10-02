@@ -28,18 +28,33 @@ appId: app.critterpass.dev
       visible:
         id: 'visit-consent-decline'
     file: ../../location/subflows/visit-consent-not-now.yaml
-- runFlow:
-    when:
-      visible:
-        id: 'tab-home'
+# A HOME tap while the link's TRIPS screen is still opening can be undone by it (the app stays on
+# TRIPS): HOME is tapped again until the entry shows.
+- repeat:
+    while:
+      notVisible:
+        id: 'dev-tools-entry'
+    times: 3
     commands:
-      - tapOn:
-          id: 'tab-home'
-- runFlow:
-    when:
-      visible:
-        id: 'visit-consent-decline'
-    file: ../../location/subflows/visit-consent-not-now.yaml
+      - runFlow:
+          when:
+            visible:
+              id: 'tab-home'
+          commands:
+            - waitForAnimationToEnd:
+                timeout: 5000
+            - tapOn:
+                id: 'tab-home'
+      - runFlow:
+          when:
+            visible:
+              id: 'visit-consent-decline'
+          file: ../../location/subflows/visit-consent-not-now.yaml
+      - extendedWaitUntil:
+          visible:
+            id: 'dev-tools-entry'
+          timeout: 10000
+          optional: true
 - extendedWaitUntil:
     visible:
       id: 'dev-tools-entry'
