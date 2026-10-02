@@ -61,6 +61,28 @@ export function getDefaultSkiaEngine(): SkiaEngine {
   return defaultEngine;
 }
 
+let rasterEngine: SkiaEngine | undefined;
+
+/**
+ * The engine finished stickers are drawn with: the default engine on CPU raster surfaces
+ * (`Surface.Make`) instead of GPU offscreen ones. A finished sticker is read back to PNG bytes
+ * straight away, so the GPU only added its context start-up (over a second for the session's first
+ * sticker) and a read-back sync for every layer; the hatch and icons already draw this way.
+ */
+export function getRasterSkiaEngine(): SkiaEngine {
+  if (!rasterEngine) {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, lingui/no-unlocalized-strings -- lazy native-module load, see getDefaultSkiaEngine
+    const { Skia } = require('@shopify/react-native-skia') as typeof RNSkiaModule;
+    rasterEngine = {
+      ...getDefaultSkiaEngine(),
+      Surface: {
+        MakeOffscreen: (width: number, height: number) => Skia.Surface.Make(width, height),
+      },
+    };
+  }
+  return rasterEngine;
+}
+
 let defaultCache: StickerCache | undefined;
 
 /** Lazily builds the on-device cache over `expo-file-system`'s cache directory — see the doc comment on `getDefaultSkiaEngine` for why this is lazy. Exported for the sticker lab's cache-size readout, which reports on this same default instance's `memoryBytes` rather than a private grid-only copy. */

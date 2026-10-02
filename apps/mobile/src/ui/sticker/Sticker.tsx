@@ -20,6 +20,7 @@ import { specKey } from './spec-key';
 import {
   getDefaultSkiaCache,
   getDefaultSkiaEngine,
+  getRasterSkiaEngine,
   pngUri,
   pngUris,
   stickerDrawQueue,
@@ -114,6 +115,8 @@ function buildRenderSpec(props: StickerProps): RenderSpec {
 export function Sticker(props: StickerProps): React.JSX.Element {
   const { size, closedEyes = false, drawProgress, onPress, name, pose } = props;
   const engine = props.engine ?? getDefaultSkiaEngine();
+  // Finished stickers draw on the CPU (see getRasterSkiaEngine); a live draw-on stays as it was.
+  const pngEngine = props.engine ?? getRasterSkiaEngine();
   const cache = props.cache ?? getDefaultSkiaCache();
   const deviceScale = props.deviceScale ?? PixelRatio.get();
   const artVersion = props.artVersion ?? DEFAULT_ART_VERSION;
@@ -169,7 +172,7 @@ export function Sticker(props: StickerProps): React.JSX.Element {
     let unmounted = false;
     const draw = () => {
       const started = UI_QA_ENABLED ? performance.now() : 0;
-      const bytes = renderStickerPng(spec, bucketPt, deviceScale, engine);
+      const bytes = renderStickerPng(spec, bucketPt, deviceScale, pngEngine);
       if (UI_QA_ENABLED) {
         // Read by the device shards: what drawing new stickers costs the JS thread.
         // eslint-disable-next-line lingui/no-unlocalized-strings -- a log tag, never copy.
