@@ -36,14 +36,13 @@ export async function remindHelpShareEnding(
     if (share?.ends_at == null || share.session_id === null) return { reminded: false };
     if (share.ends_at.getTime() !== Date.parse(endsAt)) return { reminded: false };
     if (share.ends_at.getTime() <= now.getTime()) return { reminded: false };
-    // A retried job reminds once per end.
-    const already = await tx.query(
-      `SELECT 1 FROM domain_events
-        WHERE type = 'help_share.ending' AND payload->>'share_id' = $1
-          AND (payload->>'ends_at')::timestamptz = $2`,
-      [shareId, share.ends_at],
+    // Claimed on the session itself, so a retried job reminds once per end.
+    const claimed = await tx.query(
+      `UPDATE help_sessions SET steps = steps || jsonb_build_object('share_ending', $2::text)
+        WHERE id = $1 AND (steps->>'share_ending') IS DISTINCT FROM $2::text`,
+      [share.session_id, share.ends_at.toISOString()],
     );
-    if ((already.rowCount ?? 0) > 0) return { reminded: false };
+    if ((claimed.rowCount ?? 0) === 0) return { reminded: false };
     await appendDomainEvent(tx, {
       type: 'help_share.ending',
       aggregateKind: 'help_session',
