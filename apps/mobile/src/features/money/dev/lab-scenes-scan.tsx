@@ -191,7 +191,7 @@ function TypeLines() {
   );
 }
 
-/** Who had a line, for a crew of 28: the avatars scroll and DONE stays at the sheet's foot. */
+/** Who had a line, for a crew of 48: the avatars scroll and DONE stays at the sheet's foot. */
 function AssignCrowd() {
   const { t } = useLingui();
   return (
