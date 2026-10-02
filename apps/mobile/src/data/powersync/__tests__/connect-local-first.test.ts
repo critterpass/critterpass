@@ -4,12 +4,16 @@
  * connection having settled, whether it hangs or fails. The only stand-in is the sync connection
  * itself (the network).
  */
+import http from 'node:http';
+import type { AddressInfo } from 'node:net';
+
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { AbstractPowerSyncDatabase } from '@powersync/common';
 
 import { connectLocalFirst } from '../local-first';
 import { OWNER_UID_KEY } from '../local-tables';
-import { bindLocalOwner } from '../reset';
+import { createNetworkState } from '../../status/network';
+import { bindLocalOwner, resetLocalData } from '../reset';
 import { buildAppSchema } from '../schema';
 import {
   installKey,
@@ -134,5 +138,138 @@ describe('starting local-first for a uid', () => {
     expect(warned).toHaveBeenCalledTimes(1);
     await expect(owner()).resolves.toBe(UID);
     expect(uploads.schedule).toHaveBeenCalledTimes(1);
+  });
+});
+
+/**
+ * A stand-in for the PowerSync service on loopback: `/sync/stream` answers with an empty, complete
+ * checkpoint and stays open. `holdFirstStream` leaves the first request without any answer, as a
+ * request made while the network comes back can be left on a phone.
+ */
+async function syncService(options: { holdFirstStream: boolean }) {
+  const streams: http.ServerResponse[] = [];
+  const server = http.createServer((req, res) => {
+    if (req.method !== 'POST' || !req.url?.startsWith('/sync/stream')) {
+      res.writeHead(404).end();
+      return;
+    }
+    req.resume();
+    streams.push(res);
+    if (options.holdFirstStream && streams.length === 1) return;
+    res.writeHead(200, { 'content-type': 'application/x-ndjson' });
+    res.write(`${JSON.stringify({ checkpoint: { last_op_id: '0', buckets: [] } })}\n`);
+    res.write(`${JSON.stringify({ checkpoint_complete: { last_op_id: '0' } })}\n`);
+  });
+  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
+  const { port } = server.address() as AddressInfo;
+  return {
+    url: `http://127.0.0.1:${port}`,
+    requests: () => streams.length,
+    close: () =>
+      new Promise<void>((resolve) => {
+        server.closeAllConnections();
+        server.close(() => resolve());
+      }),
+  };
+}
+
+/** Sync token requests: the first `hung` of them never answer; later ones answer at once. */
+function syncTokens(hung: number) {
+  let calls = 0;
+  const release: (() => void)[] = [];
+  return {
+    calls: () => calls,
+    getSyncToken: () => {
+      calls += 1;
+      if (calls > hung) return Promise.resolve('sync-token');
+      return new Promise<string>((_resolve, reject) => {
+        release.push(() => reject(new Error('released by the test')));
+      });
+    },
+    /** Lets the test close the database: a request left hanging would hold its disconnect. */
+    releaseAll: () => release.splice(0).forEach((fail) => fail()),
+  };
+}
+
+async function eventually(check: () => boolean, timeoutMs = 10_000): Promise<boolean> {
+  const deadline = Date.now() + timeoutMs;
+  while (!check()) {
+    if (Date.now() > deadline) return false;
+    await new Promise((resolve) => setTimeout(resolve, 50));
+  }
+  return true;
+}
+
+describe('syncing again when the network comes back', () => {
+  let close: (() => Promise<void>)[] = [];
+
+  afterEach(async () => {
+    for (const step of close.reverse()) await step();
+    close = [];
+  });
+
+  it.each([
+    ['the sync token request', { hungTokens: 1, holdFirstStream: false }],
+    ['the sync stream request', { hungTokens: 0, holdFirstStream: true }],
+  ])(
+    'connects once back online even when %s made as it came back never answers',
+    async (_request, setup) => {
+      const service = await syncService({ holdFirstStream: setup.holdFirstStream });
+      const tokens = syncTokens(setup.hungTokens);
+      close.push(service.close, async () => {
+        tokens.releaseAll();
+        await db.disconnect();
+      });
+      const network = createNetworkState(false);
+
+      await connectLocalFirst(
+        { db, queue: queue() as never, network },
+        { uid: UID, endpoint: service.url, getSyncToken: tokens.getSyncToken },
+      );
+      // The attempt made as the link came up is stuck before the phone reports being online.
+      const stuck =
+        setup.hungTokens > 0 ? () => tokens.calls() === 1 : () => service.requests() === 1;
+      await expect(eventually(stuck)).resolves.toBe(true);
+      network.set(true);
+
+      await expect(eventually(() => db.currentStatus.connected)).resolves.toBe(true);
+    },
+  );
+
+  it('leaves a working connection alone when the network flaps', async () => {
+    const service = await syncService({ holdFirstStream: false });
+    close.push(service.close, () => db.disconnect());
+    const network = createNetworkState(true);
+    await connectLocalFirst(
+      { db, queue: queue() as never, network },
+      { uid: UID, endpoint: service.url, getSyncToken: () => Promise.resolve('sync-token') },
+    );
+    await expect(eventually(() => db.currentStatus.connected)).resolves.toBe(true);
+
+    network.set(false);
+    network.set(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    expect(service.requests()).toBe(1);
+    expect(db.currentStatus.connected).toBe(true);
+  });
+
+  it('does not connect again for a uid the phone has stopped being', async () => {
+    const service = await syncService({ holdFirstStream: true });
+    close.push(service.close, () => db.disconnect());
+    const network = createNetworkState(false);
+    await connectLocalFirst(
+      { db, queue: queue() as never, network },
+      { uid: UID, endpoint: service.url, getSyncToken: () => Promise.resolve('sync-token') },
+    );
+    await expect(eventually(() => service.requests() === 1)).resolves.toBe(true);
+
+    // Signed out (or revoked): the hooks wipe the database, its owner included.
+    await resetLocalData(db, null);
+    network.set(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    expect(service.requests()).toBe(1);
+    expect(db.currentStatus.connected).toBe(false);
   });
 });
