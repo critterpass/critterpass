@@ -121,7 +121,7 @@ msgstr "Bốc thăm"
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.noResults"
-msgstr "Không có nơi nào ở {place} khớp. Giữ lời của bạn ở dưới nhé."
+msgstr "Không có nơi nào ở {place} khớp. Giữ nguyên lời của bạn nhé."
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.offline"
