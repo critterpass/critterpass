@@ -32,7 +32,7 @@ export const SESSION_CHECK: SessionCheckPolicy = {
 
 type SessionCheckDeps = Pick<
   AppSessionDeps,
-  'lastUid' | 'outbox' | 'onError' | 'restart' | 'sessionCheck'
+  'lastUid' | 'outbox' | 'onError' | 'restart' | 'sessionCheck' | 'onSessionLost'
 > & { readonly auth: Pick<AppSessionAuth, 'getSession'> };
 
 type SessionHolder = { readonly userId: string } | null;
@@ -134,6 +134,7 @@ export async function confirmStillUid(
     await stopSyncing(localFirst.db);
     await localFirst.queue.stop();
     deps.onError(new Error('no session, but unsent changes on this phone: local data kept'));
+    deps.onSessionLost?.();
     return;
   }
   try {

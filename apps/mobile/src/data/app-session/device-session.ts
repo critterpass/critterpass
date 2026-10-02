@@ -36,6 +36,7 @@ import { authClient, sessionHeaders } from './auth-client';
 import { appEnvironment, endpointsConfigJson, resolveRealtimeUrl } from './endpoints';
 import { createLinksHttp } from './links-http';
 import { deviceLastUid } from './last-uid-store';
+import { sessionLost } from './session-lost';
 import { startAppSession, type AppSession } from './start-app-session';
 import { startOnce } from './start-once';
 
@@ -148,6 +149,7 @@ function createSession(): Promise<AppSession> {
     realtime: { url: resolveRealtimeUrl(), positions: createDeviceRecoveryStore() },
     onError: reportAppSessionError,
     restart: restartApp,
+    onSessionLost: () => sessionLost.set(),
   }).then((session) => {
     // The server learns the language this app is in (and every later switch) for as long as the
     // process lives, like the session itself.
