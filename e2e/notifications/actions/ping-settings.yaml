@@ -1,0 +1,106 @@
+appId: app.critterpass.dev
+---
+# A brand-new account (en) starts a crew, opens its profile and Settings, and finds "Pings" there:
+# "How much we ping" (5b-4) opens with the product defaults, a switch and the crew chat choice
+# change in place, and back returns to Settings.
+- runFlow:
+    file: ../../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow: ../../home/subflows/onboard.yaml
+# Home shows its header ("HEY {NAME} ›") once the account has a crew: start one, nothing else.
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://crew/new
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-name'
+    timeout: 15000
+- tapOn:
+    id: 'start-crew-name'
+- inputText: 'The Bali Six'
+- hideKeyboard
+- tapOn:
+    id: 'start-crew-create'
+- extendedWaitUntil:
+    visible:
+      id: 'start-crew-code'
+    timeout: 30000
+- tapOn:
+    id: 'start-crew-done'
+- runFlow: ../../screens/sweep/subflows/home.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-profile'
+    timeout: 30000
+- tapOn:
+    id: 'home-header-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-name'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'you-profile-mrz'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'you-profile-settings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 15000
+- assertVisible: 'Pings'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-2-pings-row
+- tapOn: 'Pings'
+- extendedWaitUntil:
+    visible:
+      id: 'you-pings-budget'
+    timeout: 15000
+- assertVisible: 'ABOUT 10 A DAY'
+- assertVisible: 'Every message'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-5b-4-how-much-we-ping
+# A switch flips in place.
+- tapOn:
+    id: 'you-pings-money-toggle'
+# Crew chat opens its choices; picking one closes the sheet and shows on the row.
+- tapOn:
+    id: 'you-pings-crew-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'you-pings-chat-sheet-mentions'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-5b-4-crew-chat-sheet
+- tapOn:
+    id: 'you-pings-chat-sheet-mentions'
+- extendedWaitUntil:
+    notVisible:
+      id: 'you-pings-chat-sheet-mentions'
+    timeout: 15000
+- assertVisible: 'Mentions only'
+- scrollUntilVisible:
+    element:
+      id: 'you-pings-always'
+    direction: DOWN
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-5b-4-changed
+- scrollUntilVisible:
+    element:
+      id: 'you-pings-back'
+    direction: UP
+    timeout: 15000
+- tapOn:
+    id: 'you-pings-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings'
+    timeout: 15000

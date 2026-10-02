@@ -45,6 +45,16 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
   [
     '3f-6-after-apply',
     "render 3f-6 Who's in: crew of two with the friend out: two rows and the lock note, honest and complete",
+    '3k-9-on-time',
+    'undesigned-states 3k-9 "The map": the map fills the screen behind the sheet; tiles do not load on the CI emulator',
+  ],
+  [
+    '3k-9-waiting-crew',
+    'undesigned-states 3k-9 "The map": the map fills the screen behind the sheet; tiles do not load on the CI emulator',
+  ],
+  [
+    '3k-9-loading',
+    'the standard loading skeleton (ui/states/Skeleton card preset) under the back control while the running-late row syncs',
   ],
 ]);
 

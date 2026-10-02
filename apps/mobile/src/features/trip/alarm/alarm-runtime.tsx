@@ -27,6 +27,7 @@ import { dueAlarm } from './alarm-plan';
 import { alarmStore, useAlarmState } from './alarm-store';
 import { InAppAlarm } from './in-app-alarm';
 import { useAlarmSync } from './use-alarm-sync';
+import { useJourneyCheck } from '../disruptions/late/use-journey-check';
 
 export const SNOOZE_MS = 5 * 60 * 1000;
 const RING_EVERY_MS = 6000;
@@ -91,6 +92,7 @@ export function TripDayRuntime({ alarmPort }: { readonly alarmPort: AlarmPort | 
   const me = useOwnerUid();
   const locale = useLocale();
   const { views, guideFor } = useAlarmSync(me);
+  useJourneyCheck();
   const { status, snoozedUntil, silenced } = useAlarmState();
   const { send: sendReadiness } = useCommand(setReadinessCommand);
   const { send: sendSnooze } = useCommand(snoozeLeaveByCommand);

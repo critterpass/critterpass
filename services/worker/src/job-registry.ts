@@ -120,6 +120,12 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
       switches: aiSwitches,
       defaultBundleId: defaultBundleId(env.APP_ENV),
     }),
+    ...(await import('./jobs/widgets')).widgetJobs({
+      ...(deps.pushProviders.apns === undefined ? {} : { apns: deps.pushProviders.apns }),
+      ...(deps.pushProviders.fcm === undefined ? {} : { fcm: deps.pushProviders.fcm }),
+      switches: aiSwitches,
+      defaultBundleId: defaultBundleId(env.APP_ENV),
+    }),
   ];
 
   const backupStore =

@@ -2,9 +2,11 @@
  * The add/edit expense screen's state: the draft reducer seeded from the trip (payer = you, split
  * between the trip's members, the trip's local currency), the FX run on the device for the live
  * "≈" line, a category suggestion from the plan, and submit through the offline command queue.
+ * One draft is one expense: its id is made with the draft and its command is sent once, however
+ * often ADD is tapped.
  */
 import { generateUuidV7 } from '@cp/domain';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import type { SendResult } from '@/data/commands/client';
 import { useCommand } from '@/data/commands/use-command';
@@ -32,6 +34,12 @@ import {
 } from './preview';
 import { suggestFromPlan } from './suggest';
 
+/**
+ * What a tap on ADD or SAVE did: the command's answer, `null` when there was nothing to send, or
+ * `'already'` when this draft's command is on its way or sent, so the tap sent nothing.
+ */
+export type SubmitOutcome = SendResult | null | 'already';
+
 export interface ExpenseDraftState {
   readonly ctx: MoneyContext;
   readonly ready: boolean;
@@ -42,8 +50,10 @@ export interface ExpenseDraftState {
   /** Currencies to offer: the trip's local one, the crew's, your home one, then recent ones. */
   readonly currencies: readonly string[];
   readonly editing: boolean;
-  readonly submit: () => Promise<SendResult | null>;
+  readonly submit: () => Promise<SubmitOutcome>;
   readonly pending: boolean;
+  /** The draft's command went out: it cannot be sent again. */
+  readonly sent: boolean;
 }
 
 const EMPTY = newDraft({ currency: 'USD', payerId: '', memberIds: [] });
@@ -112,7 +122,28 @@ export function useExpenseDraft(
     ];
   }, [rows.expenses, ctx.trip, ctx.homeCurrency, crewCurrency, draft.currency]);
 
-  async function submit(): Promise<SendResult | null> {
+  // The new expense's id belongs to the draft, not to a tap: a repeated send could only name the
+  // same expense, which the server refuses.
+  const [expenseId] = useState(() => generateUuidV7());
+  // Taken by the first tap and kept once its command is out; a tap that sent nothing gives it back.
+  const taken = useRef(false);
+  const [sent, setSent] = useState(false);
+
+  async function submit(): Promise<SubmitOutcome> {
+    if (taken.current) return 'already';
+    taken.current = true;
+    let out = false;
+    try {
+      const result = await send();
+      out = result !== null && (result.kind === 'queued' || result.kind === 'applied');
+      return result;
+    } finally {
+      if (out) setSent(true);
+      else taken.current = false;
+    }
+  }
+
+  async function send(): Promise<SendResult | null> {
     if (ctx.trip === null) return null;
     const fxSnapshotId = draft.currency === crewCurrency ? null : (fx?.snapshotId ?? null);
     if (editId !== null && editRow !== null && seed !== null) {
@@ -124,7 +155,7 @@ export function useExpenseDraft(
       );
     }
     const payload = toAddPayload(draft, {
-      expenseId: generateUuidV7(),
+      expenseId,
       tripId: ctx.trip.id,
       fxSnapshotId,
     });
@@ -142,5 +173,6 @@ export function useExpenseDraft(
     editing: editId !== null,
     submit,
     pending: add.pending || edit.pending,
+    sent,
   };
 }

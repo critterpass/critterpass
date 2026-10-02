@@ -27,6 +27,7 @@ import { registerActionKeyRoutes } from '../../src/routes/action-keys';
 import { registerActionsRoute } from '../../src/routes/actions';
 import { registerCommandRoute } from '../../src/routes/cmd';
 import { registerNotificationRoutes } from '../../src/routes/notifications';
+import { registerWidgetSnapshotRoute } from '../../src/routes/widgets-snapshot';
 import { disabledAttestationConfig } from '../auth/test-attestation-config';
 
 export interface SignedIn {
@@ -137,6 +138,7 @@ export async function startActionDoors(): Promise<ActionDoorsHarness> {
   registerActionKeyRoutes(app, deps);
   registerActionsRoute(app, deps);
   registerNotificationRoutes(app, deps);
+  registerWidgetSnapshotRoute(app, deps);
   app.on(['GET', 'POST'], '/api/auth/*', (c) => authModule.handler(c.req.raw));
 
   const request = (path: string, init: RequestInit = {}): Promise<Response> => {

@@ -1,0 +1,173 @@
+appId: app.critterpass.dev
+---
+# The forecast screen (3k-7). First the real route as a brand-new account sees it (a real onboarding, no demo
+# seed): with no such trip of theirs the screen has no forecast and says all is clear. Then every state from the disruptions lab's fixed data
+# (apps/mobile/src/app/(dev)/disruption-lab.tsx), in English and in Vietnamese, named
+# `<lang>-3k-7-<state>` so compare mode pairs each with its render.
+- runFlow: ../../happy/subflows/fresh-account.yaml
+- runFlow:
+    file: ../../screens/sweep/subflows/open-link.yaml
+    env:
+      URL: critterpass-dev://forecast/0190f0a0-0000-7000-8000-00000000dead
+- extendedWaitUntil:
+    visible:
+      id: 'forecast-no-days'
+    timeout: 30000
+- takeScreenshot: en-3k-7-no-trip-fresh
+- runFlow: ../../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'tab-home'
+    commands:
+      - tapOn:
+          id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-disruption-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-disruption-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'disruption-lab-3k-5'
+    timeout: 15000
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7'
+      SHOT: 'en-3k-7'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-all-clear'
+      SHOT: 'en-3k-7-all-clear'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-stale'
+      SHOT: 'en-3k-7-stale'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-offline'
+      SHOT: 'en-3k-7-offline'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-no-forecast'
+      SHOT: 'en-3k-7-no-forecast'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-long-trip'
+      SHOT: 'en-3k-7-long-trip'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-loading'
+      SHOT: 'en-3k-7-loading'
+# The same states in Vietnamese: the dev gallery switches the running app's language.
+- runFlow: ../../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-disruption-lab'
+    file: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 20000
+- tapOn:
+    id: 'dev-tools-entry'
+- extendedWaitUntil:
+    visible:
+      id: 'dev-nav-gallery'
+    timeout: 10000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      visible:
+        id: 'dev-nav-gallery'
+    file: ../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-disruption-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-disruption-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'disruption-lab-3k-5'
+    timeout: 15000
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7'
+      SHOT: 'vi-3k-7'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-all-clear'
+      SHOT: 'vi-3k-7-all-clear'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-stale'
+      SHOT: 'vi-3k-7-stale'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-offline'
+      SHOT: 'vi-3k-7-offline'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-no-forecast'
+      SHOT: 'vi-3k-7-no-forecast'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-long-trip'
+      SHOT: 'vi-3k-7-long-trip'
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCREEN: 'forecast-screen'
+      SCENE: '3k-7-loading'
+      SHOT: 'vi-3k-7-loading'

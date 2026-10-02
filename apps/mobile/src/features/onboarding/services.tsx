@@ -13,7 +13,13 @@ import type { PhotoServices } from './photo/photo-pipeline';
 
 export type OnboardingAuth = Pick<
   AuthDataLayer,
-  'linkApple' | 'linkGoogle' | 'sendOtp' | 'verifyOtp' | 'startMerge' | 'confirmMerge'
+  | 'linkApple'
+  | 'linkGoogle'
+  | 'sendOtp'
+  | 'verifyOtp'
+  | 'signInReturningPhone'
+  | 'startMerge'
+  | 'confirmMerge'
 >;
 
 export interface OnboardingServices {
@@ -25,6 +31,8 @@ export interface OnboardingServices {
   readonly geoHint: () => Promise<GeoHint | null>;
   /** Null in a build without the photo picker: the real-photo option is not offered. */
   readonly photos: PhotoServices | null;
+  /** Restarts the app's JavaScript, so it starts again on the session now in storage. */
+  readonly restart: () => void;
 }
 
 export const OnboardingServicesContext = createContext<OnboardingServices | null>(null);
