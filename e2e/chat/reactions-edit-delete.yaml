@@ -20,7 +20,8 @@ appId: app.critterpass.dev
 - longPressOn: 'sunset at 6?'
 - extendedWaitUntil:
     visible:
-      id: 'chat-actions'
+      # The sheet's panel: iOS leaves the sheet's full-screen root out of its hierarchy.
+      id: 'chat-actions-panel'
     timeout: 5000
 - takeScreenshot: chat-actions-sheet
 - tapOn: 'React with 🔥'

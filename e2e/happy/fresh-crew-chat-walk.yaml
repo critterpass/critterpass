@@ -105,7 +105,8 @@ appId: app.critterpass.dev
 - longPressOn: '.*Fushimi Inari at sunrise.*'
 - extendedWaitUntil:
     visible:
-      id: 'chat-actions'
+      # The sheet's panel: iOS leaves the sheet's full-screen root out of its hierarchy.
+      id: 'chat-actions-panel'
     timeout: 10000
 - waitForAnimationToEnd
 - takeScreenshot: vi-walk-message-actions

@@ -24,15 +24,20 @@ appId: app.critterpass.dev
       visible:
         id: 'proposal-trailer'
     # The trailer plays on by itself and opens the version when it ends: no wait for a still screen,
-    # which never comes while it plays.
+    # which never comes while it plays. On the iOS simulator each tap waits for the moving story to
+    # settle, and the story can end first: the quick reply is then skipped, and the version below is
+    # where both paths meet.
     commands:
       - takeScreenshot: en-3f-2-trailer
       - tapOn:
           id: 'trailer-quick'
+          optional: true
       - tapOn:
           id: 'trailer-react-okay_wow'
+          optional: true
       - tapOn:
           id: 'trailer-maybe'
+          optional: true
 - extendedWaitUntil:
     visible:
       id: 'proposal-version'

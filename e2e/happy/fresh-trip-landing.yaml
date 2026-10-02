@@ -2,10 +2,12 @@ appId: app.critterpass.dev
 ---
 # Release gate: landing starts the trip, with no demo world. A fresh account confirms a trip to
 # Đà Nẵng that starts tomorrow (subflows/trip-under-way.yaml) and types its flight in by hand:
-# 9G 956, Ho Chi Minh City 07:05 to Đà Nẵng 08:30, today (the day before the first day, which
-# still counts as flying in). Home shows the trip as next up. With no flight status from a
-# provider, the scheduled arrival passing changes nothing; the traveller's own I LANDED on the
-# flight's details does: the flight reads LANDED and Home turns to the trip being on.
+# 9G 956, Ho Chi Minh City 00:05 to Đà Nẵng 00:35, today (the day before the first day, which
+# still counts as flying in). Just after midnight, so it has left by the time the flow looks at
+# any hour: I LANDED is only offered once the flight should have left. Home shows the trip as next
+# up. With no flight status from a provider, the scheduled arrival passing changes nothing; the
+# traveller's own I LANDED on the flight's details does: the flight reads LANDED and Home turns to
+# the trip being on.
 - runFlow:
     file: subflows/trip-under-way.yaml
     env:
@@ -42,8 +44,8 @@ appId: app.critterpass.dev
       FROM: 'SGN'
       TO: 'DAD'
       DAY: ${output.day}
-      DEPARTS: '07:05'
-      LANDS: '08:30'
+      DEPARTS: '00:05'
+      LANDS: '00:35'
       SHOT: landing-form-flight
 # A confirmed trip turns "pre trip" on the worker's ten-minute sweep, and only a trip in that state
 # starts on a landing: give the sweep its time, then look at Home before the landing.
@@ -82,8 +84,8 @@ appId: app.critterpass.dev
     commands:
       - waitForAnimationToEnd
       - takeScreenshot: landing-wallet-flight
-      - assertVisible: '07:05'
-      - assertVisible: '08:30'
+      - assertVisible: '00:05'
+      - assertVisible: '00:35'
       - tapOn:
           id: 'bookings-open-details'
 - runFlow:
@@ -104,7 +106,7 @@ appId: app.critterpass.dev
     visible:
       id: 'bookings-detail'
     timeout: 15000
-- assertVisible: '.*07:05.*08:30.*'
+- assertVisible: '.*00:05.*00:35.*'
 - assertVisible:
     id: 'bookings-detail-landed'
 - waitForAnimationToEnd
