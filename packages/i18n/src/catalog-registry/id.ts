@@ -49,6 +49,7 @@ export const catalogs: Record<string, () => Promise<Messages>> = {
   "trip/alarm": () => import('../../locales/id/trip/alarm').then((m) => m.messages),
   "trip/day-of": () => import('../../locales/id/trip/day-of').then((m) => m.messages),
   "trip/hub": () => import('../../locales/id/trip/hub').then((m) => m.messages),
+  "trip/live-activities": () => import('../../locales/id/trip/live-activities').then((m) => m.messages),
   "trip/offline": () => import('../../locales/id/trip/offline').then((m) => m.messages),
   "vote": () => import('../../locales/id/vote').then((m) => m.messages),
   "web": () => import('../../locales/id/web').then((m) => m.messages),

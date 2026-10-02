@@ -17,6 +17,11 @@ export interface LaDeviceActivity {
 
 export interface LaPort {
   authorization(): { readonly enabled: boolean; readonly frequent: boolean };
+  /**
+   * The kinds this build's widget extension draws, or `null` in a build that does not say (the
+   * server then starts only the kinds every build draws).
+   */
+  drawnKinds(): readonly string[] | null;
   onPushToStartToken(
     listener: (event: { readonly kind: string; readonly token: string }) => void,
   ): { remove(): void };
@@ -30,6 +35,7 @@ export interface LaPort {
 
 interface NativeLaModule {
   authorization(): { readonly enabled: boolean; readonly frequent: boolean };
+  drawnKinds?(): string[];
   addListener(event: string, listener: (event: never) => void): { remove(): void };
 }
 
@@ -44,6 +50,7 @@ export function installedLaPort(): LaPort | null {
       ? null
       : {
           authorization: () => native.authorization(),
+          drawnKinds: () => (typeof native.drawnKinds === 'function' ? native.drawnKinds() : null),
           onPushToStartToken: (listener) => native.addListener('onPushToStartToken', listener),
           onUpdateToken: (listener) => native.addListener('onUpdateToken', listener),
           onActivityState: (listener) => native.addListener('onActivityState', listener),
