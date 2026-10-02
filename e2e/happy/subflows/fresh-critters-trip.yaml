@@ -43,6 +43,20 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'pitch-result-0'
+# The guide's pitch is written live. When it does not come through, the sheet says so and offers
+# TRY AGAIN: captured, then asked once more, as a traveller would.
+- extendedWaitUntil:
+    visible:
+      id: 'pitch-quote|pitch-error'
+    timeout: 60000
+- runFlow:
+    when:
+      visible:
+        id: 'pitch-error'
+    commands:
+      - takeScreenshot: fresh-critters-02b-pitch-did-not-come-through
+      - tapOn:
+          id: 'pitch-retry'
 - extendedWaitUntil:
     visible:
       id: 'pitch-quote'
@@ -82,7 +96,7 @@ appId: app.critterpass.dev
     timeout: 20000
 # Today in Vietnam, three days (today → today+2): the first day tapped in the picker's heatmap,
 # the length taken down to three, and the lock's own label checked before it is tapped.
-- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.monthLabel = '(?i)' + months[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); output.pickId = 'heat-pick-' + d.toISOString().slice(0, 10)}
+- evalScript: ${var d = new Date(Date.now() + 7 * 3600000); var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.lockLabel = '(?i)lock ' + months[d.getUTCMonth()].slice(0, 3) + ' ' + d.getUTCDate() + '\\D.*'; output.pickDate = d.toISOString().slice(0, 10)}
 - scrollUntilVisible:
     element:
       id: 'when-pick-week'
@@ -95,42 +109,11 @@ appId: app.critterpass.dev
       id: 'picker-shorter'
     timeout: 10000
 - waitForAnimationToEnd
-# The sheet opens on the month of the suggested week, which can be another one: page to the
-# day's month first. The dates step under the sheet has its own month and arrows, so both are
-# looked up inside the sheet.
-- repeat:
-    while:
-      notVisible:
-        text: ${output.monthLabel}
-        childOf:
-          id: 'week-picker-panel'
-    times: 6
-    commands:
-      - tapOn:
-          id: 'heatmap-prev'
-          childOf:
-            id: 'week-picker-panel'
-      - waitForAnimationToEnd
-- repeat:
-    while:
-      notVisible:
-        text: ${output.monthLabel}
-        childOf:
-          id: 'week-picker-panel'
-    times: 6
-    commands:
-      - tapOn:
-          id: 'heatmap-next'
-          childOf:
-            id: 'week-picker-panel'
-      - waitForAnimationToEnd
-- assertVisible:
-    text: ${output.monthLabel}
-    childOf:
-      id: 'week-picker-panel'
-# The sheet's own cell for the day, by its date.
-- tapOn:
-    id: ${output.pickId}
+# The day's own cell, on its own month.
+- runFlow:
+    file: pick-week-day.yaml
+    env:
+      PICK_DATE: ${output.pickDate}
 - extendedWaitUntil:
     visible:
       id: 'picker-lock'
