@@ -22,9 +22,9 @@ function consentTitle(): string {
 
 function consentBody(): string {
   return t({
-    id: 'permissions.visits.body',
+    id: 'permissions.visits.bodyReached',
     message:
-      'Places you checked in at, never a trail of coordinates. They power quests, awards and your trip rating, and are deleted 30 days after the trip ends.',
+      'The places on your plan that you actually reach, never a trail of coordinates. They power quests, awards and your trip rating, and are deleted 30 days after the trip ends.',
   });
 }
 
@@ -96,8 +96,9 @@ export function VisitDetectionSettings({
           kind: 'toggle',
           title: consentTitle(),
           subtitle: t({
-            id: 'permissions.visits.subtitle',
-            message: 'Places you checked in at, never a trail of coordinates.',
+            id: 'permissions.visits.subtitleReached',
+            message:
+              'The places on your plan that you actually reach, never a trail of coordinates.',
           }),
           value: granted,
           onChange,

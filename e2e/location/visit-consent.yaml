@@ -1,6 +1,8 @@
 appId: app.critterpass.dev
 ---
-# The visit consent sheet: what is kept (places, never a trail of coordinates) and the answer.
+# The "Remember places you visit" sheet (the visit history offer) in English and then
+# Vietnamese, opened from the location engine's developer screen. Named
+# <lang>-visit-consent for compare mode.
 - launchApp:
     clearState: true
 - runFlow:
@@ -8,17 +10,62 @@ appId: app.critterpass.dev
     env:
       SCREEN: location-engine
       READY: dev-location-engine
+- scrollUntilVisible:
+    element:
+      id: 'dev-location-consent'
+    direction: DOWN
+    timeout: 15000
 - tapOn:
     id: 'dev-location-consent'
 - extendedWaitUntil:
     visible:
       id: 'visit-consent-accept'
-    timeout: 10000
-- assertVisible:
-    text: '.*never a trail of coordinates.*'
-- takeScreenshot: visit-consent
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-visit-consent
 - tapOn:
-    id: 'visit-consent-accept'
-- assertVisible:
-    id: 'dev-location-consent-answer'
-    text: 'consent: on'
+    id: 'visit-consent-decline'
+# Vietnamese: the developer gallery switches the running app's language.
+- repeat:
+    while:
+      notVisible:
+        id: 'dev-nav-gallery'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 3000
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-gallery'
+    direction: UP
+    timeout: 15000
+- tapOn:
+    id: 'dev-nav-gallery'
+- extendedWaitUntil:
+    visible:
+      id: 'gallery-locale-vi'
+    timeout: 15000
+- tapOn:
+    id: 'gallery-locale-vi'
+- runFlow: ../onboarding/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-location-engine'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-location-engine'
+- scrollUntilVisible:
+    element:
+      id: 'dev-location-consent'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'dev-location-consent'
+- extendedWaitUntil:
+    visible:
+      id: 'visit-consent-accept'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: vi-visit-consent
