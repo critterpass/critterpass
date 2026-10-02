@@ -112,6 +112,10 @@ msgstr "Hỏi hướng dẫn viên"
 msgid "safety.queued.clinic"
 msgstr "Đang nhờ bộ phận trực gọi phòng khám"
 
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.call"
+msgstr "Gọi"
+
 #: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
 msgid "safety.action.call"
 msgstr "Gọi"
@@ -220,6 +224,10 @@ msgstr "Bị thương hoặc ốm"
 msgid "safety.preset.fell"
 msgstr "Tôi bị ngã"
 
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.coming"
+msgstr "Tôi tới đây"
+
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.imGoing"
 msgstr "Tôi tới đây"
@@ -306,6 +314,10 @@ msgstr "Chưa có bảo hiểm · thêm"
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.noAnswer"
 msgstr "Chưa ai trả lời. Gọi {general} nhé?"
+
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.open"
+msgstr "Mở"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 msgid "safety.desk.title"

@@ -112,6 +112,10 @@ msgstr "Ask the guide"
 msgid "safety.queued.clinic"
 msgstr "Asking the ops desk to call the clinic"
 
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.call"
+msgstr "Call"
+
 #: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
 msgid "safety.action.call"
 msgstr "Call"
@@ -220,6 +224,10 @@ msgstr "Hurt or sick"
 msgid "safety.preset.fell"
 msgstr "I fell"
 
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.coming"
+msgstr "I'm going"
+
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.imGoing"
 msgstr "I'm going"
@@ -306,6 +314,10 @@ msgstr "No insurance on file · add"
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.noAnswer"
 msgstr "No one's answered yet. Call {general}?"
+
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.open"
+msgstr "Open"
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx
 msgid "safety.desk.title"

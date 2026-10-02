@@ -112,6 +112,10 @@ msgstr ""
 msgid "safety.queued.clinic"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.call"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/use-step-actions.ts
 msgid "safety.action.call"
 msgstr ""
@@ -220,6 +224,10 @@ msgstr ""
 msgid "safety.preset.fell"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.coming"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.imGoing"
 msgstr ""
@@ -305,6 +313,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.noAnswer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.open"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/checklist-screen.tsx

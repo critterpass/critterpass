@@ -14,14 +14,12 @@ import { Vibration } from 'react-native';
 import { useChannel, useRealtimeClient } from '@/data/realtime/use-channel';
 
 import { useLiveRows, useOwnerUid } from './data/live-rows';
+import { useSosNotificationActions } from './notification-actions';
 import { safetyRoutes } from './routes';
-import { responsesOf } from './sos/sos-model';
+import { takeoverTargets, type OpenSosRow } from './sos/takeover-rule';
 
 /** A long, insistent buzz (ms on/off), once. */
 export const SOS_BUZZ = [0, 700, 250, 700, 250, 1200] as const;
-/** An SOS older than this when its row syncs is not pushed over the screen any more. */
-const TAKEOVER_WINDOW_MS = 30 * 60_000;
-
 const OPEN_SOS_SQL = `
   SELECT id, user_id, opened_at, responses FROM help_sessions
    WHERE kind = 'sos' AND status IN ('open', 'responding') AND user_id <> ?
@@ -31,6 +29,7 @@ export function SafetyRuntime() {
   const uid = useOwnerUid();
   const client = useRealtimeClient();
   const taken = useRef(new Set<string>());
+  useSosNotificationActions();
 
   const takeOver = (sosId: string) => {
     if (taken.current.has(sosId)) return;
@@ -48,20 +47,12 @@ export function SafetyRuntime() {
     },
   });
 
-  const open = useLiveRows<{ id: string; user_id: string; opened_at: string; responses: unknown }>(
-    OPEN_SOS_SQL,
-    uid === null ? null : [uid],
-    ['help_sessions'],
-  );
+  const open = useLiveRows<OpenSosRow>(OPEN_SOS_SQL, uid === null ? null : [uid], [
+    'help_sessions',
+  ]);
   useEffect(() => {
     if (!open.loaded) return;
-    const now = Date.now();
-    for (const row of open.rows) {
-      if (now - Date.parse(row.opened_at) > TAKEOVER_WINDOW_MS) continue;
-      // Already seen or answered on some phone of theirs: no second takeover.
-      if (uid !== null && responsesOf(row).has(uid)) continue;
-      takeOver(row.id);
-    }
+    for (const id of takeoverTargets(open.rows, uid, Date.now())) takeOver(id);
     // `takeOver` only reads refs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open.loaded, open.rows]);

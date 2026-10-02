@@ -60,7 +60,7 @@ export function SessionMapScreen() {
                     {
                       id: 'sos-sender',
                       name,
-                       
+
                       iconKey: 'pin',
                       categoryLabel: t({ id: 'safety.map.needsHelp', message: 'Needs help' }),
                       lat: sender.lat,
@@ -78,7 +78,7 @@ export function SessionMapScreen() {
               ? {}
               : {
                   youLocation: [map.here.lng, map.here.lat] as [number, number],
-                   
+
                   locationStatus: 'granted-in-destination' as const,
                 })}
             {...(map.line === null ? {} : { routeCoordinates: map.line })}
