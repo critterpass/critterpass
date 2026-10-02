@@ -82,8 +82,10 @@ export function buildPlanInput(
       ownerId: m.ownerId,
       poiId: m.poiId ?? options.wished?.places.get(m.id) ?? null,
       title: m.title,
-      // The member's own words for when ("at sunrise"); the guide may add one for a wish.
-      when: timeWords(m.title),
+      // The member's own words for when ("at sunrise"), read only from a must-do they typed: a
+      // place picked from search has its name as its title ("Morning Glory"), which says nothing
+      // about when. The guide may add a time for a typed one.
+      when: m.poiId === null ? timeWords(m.title) : null,
     })),
     closures: options.closures,
   };
