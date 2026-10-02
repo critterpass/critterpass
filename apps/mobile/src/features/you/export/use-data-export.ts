@@ -26,7 +26,7 @@ export const requestDataExportCommand = defineClientCommand<RequestDataExportPay
   offline: false,
 });
 
-export type ExportProblem = 'offline' | 'too_soon' | 'link_failed' | null;
+export type ExportProblem = 'offline' | 'too_soon' | 'refused' | 'link_failed' | null;
 
 export async function fetchExportLink(id: string): Promise<string | null> {
   try {
@@ -67,7 +67,9 @@ export function useDataExport(now: () => Date = () => new Date()): {
     void send({ export_id: generateUuidV7() })
       .then((result) => {
         if (result.kind === 'unavailable') setProblem('offline');
-        if (result.kind === 'rejected') setProblem('too_soon');
+        if (result.kind === 'rejected') {
+          setProblem(result.code === 'STATE_INVALID' ? 'too_soon' : 'refused');
+        }
       })
       .catch(() => setProblem('offline'))
       .finally(() => setBusy(false));

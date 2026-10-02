@@ -14,6 +14,12 @@ export function exportLine(state: ExportState, problem: ExportProblem, locale: s
   if (problem === 'too_soon') {
     return t({ id: 'you.export.tooSoon', message: 'One export a day. Try again tomorrow.' });
   }
+  if (problem === 'refused') {
+    return t({
+      id: 'you.export.refused',
+      message: 'Couldn’t ask for it just now. Try again later.',
+    });
+  }
   if (problem === 'link_failed') {
     return t({ id: 'you.export.linkFailed', message: 'Couldn’t open it. Try again.' });
   }
