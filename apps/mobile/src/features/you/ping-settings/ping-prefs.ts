@@ -1,16 +1,10 @@
 /**
- * How much the app pings this person: the synced `notification_prefs` row read locally (so the
- * screen opens with no signal), the product defaults while the row does not exist yet, and the
- * patch `set_notification_prefs` takes. A change shows at once and waits in the offline queue.
+ * How much the app pings this person, as plain data: the synced `notification_prefs` row mapped
+ * to what the screen shows, the product defaults while the row does not exist yet, and the patch
+ * `set_notification_prefs` takes.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, command and column names, never copy. */
 import { DEFAULT_BUDGET_PER_DAY } from '@cp/domain';
-import { useCallback, useState } from 'react';
-
-import { defineClientCommand } from '@/data/commands/summaries';
-import { useCommand } from '@/data/commands/use-command';
-
-import { useLiveRows, useOwnerUid } from '../data/live-rows';
 
 export const CREW_CHAT_MODES = ['all', 'mentions', 'off'] as const;
 export type CrewChatMode = (typeof CREW_CHAT_MODES)[number];
@@ -53,9 +47,9 @@ export interface PingPrefsRow {
   readonly critters_nearby: number | null;
 }
 
-const PREFS_SQL = `SELECT budget_per_day, roundup_time, quiet_from, quiet_to, guide_tips,
+export const PREFS_SQL = `SELECT budget_per_day, roundup_time, quiet_from, quiet_to, guide_tips,
   crew_chat_mode, money, critters_nearby FROM notification_prefs WHERE user_id = ?`;
-const PREFS_TABLES = ['notification_prefs'];
+export const PREFS_TABLES = ['notification_prefs'];
 
 /** Postgres `time` syncs as `HH:MM:SS`; the screen and the command speak `HH:MM`. */
 const clock = (value: string | null, fallback: string) =>
@@ -94,11 +88,6 @@ export interface SetNotificationPrefsPayload {
   readonly critters_nearby?: boolean;
 }
 
-export const setNotificationPrefsCommand = defineClientCommand<SetNotificationPrefsPayload>({
-  name: 'set_notification_prefs',
-  offline: true,
-});
-
 /** The patch for a change, given what is shown now (quiet hours always travel as a pair). */
 export function payloadFor(
   change: Partial<PingPrefs>,
@@ -120,45 +109,4 @@ export function payloadFor(
     ...(change.money !== undefined ? { money: change.money } : {}),
     ...(change.crittersNearby !== undefined ? { critters_nearby: change.crittersNearby } : {}),
   };
-}
-
-export interface PingPrefsControls {
-  readonly prefs: PingPrefs;
-  readonly loaded: boolean;
-  readonly change: (change: Partial<PingPrefs>) => void;
-}
-
-/** The person's ping settings, with their own unsynced changes on top. */
-export function usePingPrefs(): PingPrefsControls {
-  const uid = useOwnerUid();
-  const { rows, loaded } = useLiveRows<PingPrefsRow>(
-    PREFS_SQL,
-    uid === null ? null : [uid],
-    PREFS_TABLES,
-  );
-  const { send } = useCommand(setNotificationPrefsCommand);
-  // What this screen changed, shown until the server's row says the same.
-  const [edits, setEdits] = useState<Partial<PingPrefs>>({});
-  const prefs = { ...prefsFromRow(rows[0]), ...edits };
-
-  const change = useCallback(
-    (next: Partial<PingPrefs>) => {
-      const payload = payloadFor(next, prefs);
-      if (Object.keys(payload).length === 0) return;
-      setEdits((previous) => ({ ...previous, ...next }));
-      void send(payload).catch(() => {
-        // Refused or unsendable: the queue reports it; the screen falls back to the stored row.
-        setEdits((previous) => {
-          const rest = { ...previous };
-          for (const key of Object.keys(next) as (keyof PingPrefs)[]) delete rest[key];
-          return rest;
-        });
-      });
-    },
-    // `prefs` is rebuilt every render; its fields only matter for the quiet-hours pair.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [send, prefs.quietFrom, prefs.quietTo],
-  );
-
-  return { prefs, loaded, change };
 }
