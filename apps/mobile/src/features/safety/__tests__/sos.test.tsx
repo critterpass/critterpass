@@ -129,3 +129,23 @@ describe('SOS with no data', () => {
     expect(smsUrl(draft, 'android')).toBe('sms:+84901234567;+6568123456?body=SOS%3A%20here');
   });
 });
+
+describe('SOS that reached nobody', () => {
+  const sent = (n: number) => JSON.stringify({ sent: { state: 'done', n } });
+
+  it('says so to a sender alone on the trip, and never counts "all 0 of you"', () => {
+    const alone = buildSosModel(row({ steps: sent(0), alerted_count: 0 }), SENDER, names);
+    expect(alone.reachedNobody).toBe(true);
+    expect(alone.steps[0]).toMatchObject({ key: 'sent', done: true, n: 0 });
+  });
+
+  it('counts one crewmate and more as reached, and waits while the fan-out runs', () => {
+    expect(
+      buildSosModel(row({ steps: sent(1), alerted_count: 1 }), SENDER, names).reachedNobody,
+    ).toBe(false);
+    expect(buildSosModel(row({ steps: sent(5) }), SENDER, names).reachedNobody).toBe(false);
+    expect(buildSosModel(row({ steps: '{}', alerted_count: 0 }), SENDER, names).reachedNobody).toBe(
+      false,
+    );
+  });
+});

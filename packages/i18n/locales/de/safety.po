@@ -35,6 +35,10 @@ msgstr ""
 msgid "safety.map.distance"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepSent"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.open24"
 msgstr ""
@@ -315,6 +319,18 @@ msgstr ""
 msgid "safety.sos.noAnswer"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.youAlone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.nobody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepSentNobody"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.open"
 msgstr ""
@@ -425,10 +441,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.sentAt"
-msgstr ""
-
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
-msgid "safety.sos.stepSent"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx

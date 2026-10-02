@@ -110,15 +110,16 @@ function Actions(props: SosViewProps) {
     );
   }
   if (model.role === 'sender') {
-    return (
-      <Pair
-        primary={ok}
-        secondary={{
-          label: t({ id: 'safety.sos.callGeneral', message: `Call ${general}` }),
-          onPress: props.onCallGeneral,
-          testID: 'sos-call-general',
-        }}
-      />
+    const call: Cta = {
+      label: t({ id: 'safety.sos.callGeneral', message: `Call ${general}` }),
+      onPress: props.onCallGeneral,
+      testID: 'sos-call-general',
+    };
+    // Alone on the trip, the local number comes first.
+    return model.reachedNobody ? (
+      <Pair primary={call} secondary={ok} />
+    ) : (
+      <Pair primary={ok} secondary={call} />
     );
   }
   const going = model.myResponse === 'coming';
@@ -177,7 +178,7 @@ export function SosView(props: SosViewProps) {
               </Text>
             </Card>
           ) : null}
-          {model.role === 'sender' && model.escalated ? (
+          {model.role === 'sender' && model.escalated && !model.reachedNobody ? (
             <Card tone="raised" testID="sos-escalated">
               <Text variant="title">
                 {t({
@@ -188,7 +189,17 @@ export function SosView(props: SosViewProps) {
             </Card>
           ) : null}
           {model.state === 'stale' ? null : <SosSteps model={model} {...props.steps} />}
-          {model.role === 'sender' && model.state === 'open' ? (
+          {model.role === 'sender' && model.state === 'open' && model.reachedNobody ? (
+            <Card tone="raised" testID="sos-nobody">
+              <Text variant="title">
+                {t({
+                  id: 'safety.sos.nobody',
+                  message: `Nobody else is in your crew yet. Call ${general} now.`,
+                })}
+              </Text>
+            </Card>
+          ) : null}
+          {model.role === 'sender' && model.state === 'open' && !model.reachedNobody ? (
             <SecondaryText testID="sos-seen">
               {t({ id: 'safety.sos.seen', message: `Crew alerted · ${seen} seen` })}
             </SecondaryText>

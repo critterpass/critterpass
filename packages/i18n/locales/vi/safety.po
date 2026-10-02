@@ -35,6 +35,10 @@ msgstr "Cách bạn {km} km"
 msgid "safety.map.distance"
 msgstr "Cách bạn {km} km theo đường thẳng."
 
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepSent"
+msgstr "{n, plural, one {Đã gửi SOS cho người bạn đồng hành duy nhất} other {Đã gửi SOS cho cả # người}}"
+
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.open24"
 msgstr "{name} · Mở cửa 24/7"
@@ -315,6 +319,18 @@ msgstr "Chưa có bảo hiểm · thêm"
 msgid "safety.sos.noAnswer"
 msgstr "Chưa ai trả lời. Gọi {general} nhé?"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.youAlone"
+msgstr "Chưa ai nhận được SOS này"
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.nobody"
+msgstr "Chưa có ai khác trong nhóm. Gọi {general} ngay."
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepSentNobody"
+msgstr "Không có ai khác trong chuyến đi để báo"
+
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.open"
 msgstr "Mở"
@@ -426,10 +442,6 @@ msgstr "SOS · {time}"
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.sentAt"
 msgstr "Đã gửi SOS · {time}"
-
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
-msgid "safety.sos.stepSent"
-msgstr "Đã gửi SOS cho cả {n} người"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.sos"

@@ -78,7 +78,9 @@ export function SosHero({ model, words, message, distanceM }: SosHeroProps) {
   const km = distanceM === null ? null : (distanceM / 1000).toFixed(1);
   const title =
     model.role === 'sender'
-      ? t({ id: 'safety.sos.youTitle', message: 'Your crew is on it' })
+      ? model.reachedNobody
+        ? t({ id: 'safety.sos.youAlone', message: 'Nobody else got this' })
+        : t({ id: 'safety.sos.youTitle', message: 'Your crew is on it' })
       : t({ id: 'safety.sos.title', message: `${name} needs help` });
   return (
     <HeroPanel tone="pink" style={{ paddingTop: insets.top + theme.space['8'] }} testID="sos-hero">

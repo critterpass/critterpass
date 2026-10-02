@@ -62,6 +62,11 @@ export interface SosModel {
   readonly responders: readonly SosResponder[];
   readonly seen: number;
   readonly myResponse: SosResponse['state'] | null;
+  /**
+   * The SOS went out and reached nobody: the sender is alone on the trip (a crew of one, or nobody
+   * else travelling). The sender is told so plainly and offered the local number first.
+   */
+  readonly reachedNobody: boolean;
 }
 
 function json(value: unknown): unknown {
@@ -115,6 +120,13 @@ function stepViews(row: SosRow, steps: ReadonlyMap<string, SosStep>): SosStepVie
   return out;
 }
 
+/** The fan-out ran (or the incident was counted) and alerted nobody. */
+function reachedNobody(row: SosRow, steps: ReadonlyMap<string, SosStep>): boolean {
+  const sent = steps.get('sent');
+  if (sent?.state === 'done') return (sent.n ?? row.alerted_count) === 0;
+  return false;
+}
+
 export function buildSosModel(
   row: SosRow,
   me: string | null,
@@ -152,5 +164,6 @@ export function buildSosModel(
     responders,
     seen,
     myResponse: me === null ? null : (responses.get(me)?.state ?? null),
+    reachedNobody: reachedNobody(row, stepsOf(row)),
   };
 }

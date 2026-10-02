@@ -35,6 +35,10 @@ msgstr "{km} km from you"
 msgid "safety.map.distance"
 msgstr "{km} km from you, in a straight line."
 
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepSent"
+msgstr "{n, plural, one {SOS sent to your one crewmate} other {SOS sent to all # of you}}"
+
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.open24"
 msgstr "{name} · Open 24h"
@@ -315,6 +319,18 @@ msgstr "No insurance on file · add"
 msgid "safety.sos.noAnswer"
 msgstr "No one's answered yet. Call {general}?"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.youAlone"
+msgstr "Nobody else got this"
+
+#: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
+msgid "safety.sos.nobody"
+msgstr "Nobody else is in your crew yet. Call {general} now."
+
+#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
+msgid "safety.sos.stepSentNobody"
+msgstr "Nobody else is on this trip to alert"
+
 #: ../../apps/mobile/src/features/safety/notification-actions.ts
 msgid "safety.push.open"
 msgstr "Open"
@@ -426,10 +442,6 @@ msgstr "SOS · {time}"
 #: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
 msgid "safety.sos.sentAt"
 msgstr "SOS sent · {time}"
-
-#: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
-msgid "safety.sos.stepSent"
-msgstr "SOS sent to all {n} of you"
 
 #: ../../apps/mobile/src/features/safety/help/help-view.tsx
 msgid "safety.help.sos"

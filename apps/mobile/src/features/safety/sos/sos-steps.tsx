@@ -5,6 +5,7 @@
  * coming and how far away they are on foot.
  */
 import { upper } from '@cp/i18n';
+import { plural } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
@@ -74,9 +75,18 @@ export function SosSteps({ model, guideName, guideSticker }: SosStepsProps) {
     switch (step.key) {
       case 'sent': {
         const n = step.n ?? 0;
-        return step.done
-          ? t({ id: 'safety.sos.stepSent', message: `SOS sent to all ${n} of you` })
-          : t({ id: 'safety.sos.stepSending', message: 'Sending the SOS to the crew' });
+        if (!step.done) {
+          return t({ id: 'safety.sos.stepSending', message: 'Sending the SOS to the crew' });
+        }
+        return n === 0
+          ? t({ id: 'safety.sos.stepSentNobody', message: 'Nobody else is on this trip to alert' })
+          : t({
+              id: 'safety.sos.stepSent',
+              message: plural(n, {
+                one: 'SOS sent to your one crewmate',
+                other: 'SOS sent to all # of you',
+              }),
+            });
       }
       case 'location_live':
         return model.role === 'sender'
