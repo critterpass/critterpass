@@ -89,9 +89,15 @@ appId: app.critterpass.dev
 # The account is kept: a relaunch opens Home again, not the splash.
 - stopApp
 - launchApp
-- extendedWaitUntil:
-    visible:
-      id: 'home-first-run'
-    timeout: 30000
+# A slow iOS simulator can still be bringing the process up when launchApp returns, and Maestro
+# takes an app it cannot read yet for a crash. The wait for the first screen is looked at again
+# rather than the app launched again: an app that really died stays down and still fails here.
+- retry:
+    maxRetries: 2
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: 'home-first-run'
+          timeout: 30000
 - assertNotVisible:
     id: 'onboarding-open'
