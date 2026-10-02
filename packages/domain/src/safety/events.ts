@@ -12,6 +12,7 @@ export const SAFETY_EVENT_TYPES = [
   'help_share.stopped',
   'help_share.extended',
   'help_share.expired',
+  'help_share.ending',
   'sos.triggered',
   'sos.stale',
   'sos.escalated',
@@ -34,6 +35,8 @@ export const SAFETY_EVENT_PAYLOADS = {
   'help_share.stopped': share,
   'help_share.extended': share.extend({ ends_at: z.iso.datetime({ offset: true }) }),
   'help_share.expired': share,
+  // Ten minutes before a Help share ends: the sharer may stop it or keep sharing for longer.
+  'help_share.ending': share.extend({ ends_at: z.iso.datetime({ offset: true }) }),
   'sos.triggered': sos.extend({ crew_count: z.number().int().min(0) }),
   'sos.stale': sos.extend({ age_min: z.number().int().min(0) }),
   'sos.escalated': sos,

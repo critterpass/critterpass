@@ -4,7 +4,9 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { NotificationResponse } from 'expo-notifications';
 
 import {
+  handleShareReply,
   handleSosReply,
+  shareReplyOf,
   resetSosRepliesForTests,
   sosReplyOf,
   type SosReplyDeps,
@@ -35,7 +37,11 @@ describe('SOS takeover from synced rows', () => {
   });
 });
 
-function response(action: string, category = 'cp.sos'): NotificationResponse {
+function response(
+  action: string,
+  category = 'cp.sos',
+  ctx: Record<string, string> = { sos_id: 'sos-1', trip_id: 'trip-1', sender_id: 'u-jordan' },
+): NotificationResponse {
   return {
     actionIdentifier: action,
     notification: {
@@ -43,7 +49,7 @@ function response(action: string, category = 'cp.sos'): NotificationResponse {
       request: {
         identifier: 'n-1',
         trigger: {
-          payload: { cp: { ctx: { sos_id: 'sos-1', trip_id: 'trip-1', sender_id: 'u-jordan' } } },
+          payload: { cp: { ctx } },
         },
         content: { categoryIdentifier: category, data: {} },
       },
@@ -85,5 +91,38 @@ describe('SOS push actions', () => {
     await handleSosReply(sosReplyOf(response('CALL')), deps);
     expect(deps.open).toHaveBeenCalledWith('sos-1');
     expect(deps.respond).not.toHaveBeenCalled();
+  });
+});
+
+describe('location share reminder actions', () => {
+  const ctx = { share_id: 'share-1', trip_id: 'trip-1', sharer_id: ME };
+
+  it('acts only for the person whose share it is', () => {
+    expect(shareReplyOf(response('STOP_SHARE', 'cp.help', ctx), ME)).toMatchObject({
+      action: 'STOP_SHARE',
+      shareId: 'share-1',
+    });
+    expect(shareReplyOf(response('STOP_SHARE', 'cp.help', ctx), 'u-other')).toBeNull();
+    expect(shareReplyOf(response('STOP_SHARE', 'cp.help', ctx), null)).toBeNull();
+    expect(shareReplyOf(response('STOP_SHARE', 'cp.sos', ctx), ME)).toBeNull();
+  });
+
+  it('stops or extends once, however often the reply is seen', async () => {
+    resetSosRepliesForTests();
+    const stop = jest
+      .fn<(p: { share_id: string }) => Promise<unknown>>()
+      .mockResolvedValue(undefined);
+    const extend = jest
+      .fn<(p: { share_id: string }) => Promise<unknown>>()
+      .mockResolvedValue(undefined);
+    const stopReply = shareReplyOf(response('STOP_SHARE', 'cp.help', ctx), ME);
+    await handleShareReply(stopReply, { stop, extend });
+    await handleShareReply(stopReply, { stop, extend });
+    await handleShareReply(shareReplyOf(response('EXTEND_SHARE', 'cp.help', ctx), ME), {
+      stop,
+      extend,
+    });
+    expect(stop.mock.calls).toEqual([[{ share_id: 'share-1' }]]);
+    expect(extend.mock.calls).toEqual([[{ share_id: 'share-1' }]]);
   });
 });

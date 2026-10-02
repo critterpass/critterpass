@@ -275,7 +275,7 @@ Category ids shared iOS (`UNNotificationCategory`) / Android (action set). Backg
 | `cp.invite` | N-42 | `JOIN` fg → `accept_invite`; `LATER` → `defer_invite` | – |
 | `cp.import` | N-13 | `ADD_ALL` → `resolve_import_candidate{add}` × n | – |
 | `cp.briefing` | morning briefing | `DONE` → `act_briefing_item{done}`; `NUDGE` → `act_briefing_item{nudge}` | – |
-| `cp.help` | N-25 | `STOP_SHARE` → `stop_help_share` | – |
+| `cp.help` | N-25, `location_share_ending` | `STOP_SHARE` → `stop_help_share`, `EXTEND_SHARE` → `extend_help_share`: on `location_share_ending` only, for the sharer (`ctx.sharer_id`) | – |
 | `cp.memory` | N-35 | `REACT` → `react_memory` | – |
 | `cp.setup_ask` | N-05 | `freed` / `not_movable` fg → `answer_availability_ask{answer}` (opens the ask sheet, which confirms) | – |
 | `cp.generic` | all others | `OPEN` fg | – |

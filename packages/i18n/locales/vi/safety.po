@@ -84,6 +84,10 @@ msgstr "{who} đang tới. Còn {eta} phút đi bộ."
 msgid "safety.sos.arrived"
 msgstr "{who} đã tới nơi."
 
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.extendShare"
+msgstr "+1 giờ"
+
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.extend"
 msgstr "+1 giờ"
@@ -491,6 +495,10 @@ msgstr "Sẽ bắt đầu ngay khi có sóng"
 #: ../../apps/mobile/src/features/safety/help/checklist-copy.ts
 msgid "safety.step.stayPut"
 msgstr "Ở yên tại chỗ, nơi an toàn và dễ thấy."
+
+#: ../../apps/mobile/src/features/safety/notification-actions.ts
+msgid "safety.push.stopShare"
+msgstr "Dừng"
 
 #: ../../apps/mobile/src/features/safety/help/share-controls.tsx
 msgid "safety.share.stop"

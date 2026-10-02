@@ -16,7 +16,7 @@ import { Linking } from 'react-native';
 import { useCommand } from '@/data/commands/use-command';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
-import { respondSosCommand } from './commands';
+import { extendHelpShareCommand, respondSosCommand, stopHelpShareCommand } from './commands';
 import { telUrl } from './format';
 import { safetyRoutes } from './routes';
 
@@ -110,15 +110,87 @@ export async function handleSosReply(reply: SosReply | null, deps: SosReplyDeps)
   deps.open(reply.sosId);
 }
 
+export const HELP_CATEGORY = 'cp.help';
+export const HELP_ACTIONS = ['STOP_SHARE', 'EXTEND_SHARE'] as const;
+export type HelpAction = (typeof HELP_ACTIONS)[number];
+
+export interface ShareReply {
+  readonly key: string;
+  readonly action: HelpAction;
+  readonly shareId: string;
+}
+
+/**
+ * STOP or +1 H on the location share reminder, only for the person whose share it is: a push that
+ * names someone else as the sharer (or none) is not theirs to act on.
+ */
+export function shareReplyOf(
+  response: Notifications.NotificationResponse,
+  me: string | null,
+): ShareReply | null {
+  const action = HELP_ACTIONS.find((id) => id === response.actionIdentifier);
+  if (action === undefined || me === null) return null;
+  const request = response.notification.request;
+  if (request.content.categoryIdentifier !== HELP_CATEGORY) return null;
+  const ctx = record(cpBlock(request)?.['ctx']);
+  const shareId = text(ctx?.['share_id']);
+  if (shareId === null || text(ctx?.['sharer_id']) !== me) return null;
+  return { key: `${request.identifier}:${action}`, action, shareId };
+}
+
+export interface ShareReplyDeps {
+  readonly stop: (payload: { share_id: string }) => Promise<unknown>;
+  readonly extend: (payload: { share_id: string }) => Promise<unknown>;
+}
+
+/** Acts on one reply once (the live listener and the cold-start read may both see it). */
+export async function handleShareReply(
+  reply: ShareReply | null,
+  deps: ShareReplyDeps,
+): Promise<void> {
+  if (reply === null || handled.has(reply.key)) return;
+  handled.add(reply.key);
+  if (reply.action === 'STOP_SHARE') await deps.stop({ share_id: reply.shareId });
+  else await deps.extend({ share_id: reply.shareId });
+}
+
 const PHONE_SQL = `
   SELECT cc.phone_display FROM crew_contact_cards cc JOIN trips t ON t.crew_id = cc.crew_id
    WHERE t.id = ? AND cc.user_id = ? AND cc.phone_display IS NOT NULL LIMIT 1`;
 
 /** Mounted once inside the signed-in session: the category's titles and the reply handler. */
-export function useSosNotificationActions(): void {
+export function useSosNotificationActions(uid: string | null): void {
   const { t, i18n } = useLingui();
   const { db } = useLocalFirst();
   const { send } = useCommand(respondSosCommand);
+  const stop = useCommand(stopHelpShareCommand).send;
+  const extend = useCommand(extendHelpShareCommand).send;
+
+  useEffect(() => {
+    Notifications.setNotificationCategoryAsync(HELP_CATEGORY, [
+      {
+        identifier: 'STOP_SHARE',
+        buttonTitle: t({ id: 'safety.push.stopShare', message: 'Stop' }),
+        options: { opensAppToForeground: false },
+      },
+      {
+        identifier: 'EXTEND_SHARE',
+        buttonTitle: t({ id: 'safety.push.extendShare', message: '+1 h' }),
+        options: { opensAppToForeground: false },
+      },
+    ]).catch(() => undefined);
+  }, [t, i18n.locale]);
+
+  useEffect(() => {
+    const deps: ShareReplyDeps = { stop, extend };
+    const onResponse = (response: Notifications.NotificationResponse | null) => {
+      if (response === null) return;
+      void handleShareReply(shareReplyOf(response, uid), deps);
+    };
+    const subscription = Notifications.addNotificationResponseReceivedListener(onResponse);
+    Notifications.getLastNotificationResponseAsync().then(onResponse, () => undefined);
+    return () => subscription.remove();
+  }, [uid, stop, extend]);
 
   useEffect(() => {
     Notifications.setNotificationCategoryAsync(SOS_CATEGORY, [

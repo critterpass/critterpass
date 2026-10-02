@@ -10,6 +10,7 @@ import { SOS_SUMMARY_TIMEOUT_MS } from '@cp/domain';
 import type { AnyJobDefinition } from '../../boss';
 import { createCopyRenderer } from '../../push';
 import { straightLineRouter, valhallaRouter } from '../live-map/meetup-router';
+import { helpShareEndingJob } from './help-share-ending';
 import { helpShareExpireJob } from './help-share-expire';
 import { registerSafetyNotifications } from './notify';
 import { safetyRetentionJob } from './safety-retention';
@@ -66,6 +67,7 @@ export function safetyJobs(
     sosEscalateJob(),
     sosResponderEtaJob(router),
     helpShareExpireJob(),
+    helpShareEndingJob(),
     safetyRetentionJob(),
   ];
 }
