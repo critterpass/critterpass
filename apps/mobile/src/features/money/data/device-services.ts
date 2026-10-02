@@ -15,9 +15,11 @@ import { Linking } from 'react-native';
 import { sessionHeaders } from '@/data/app-session/device-session';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
+import { shrinkReceiptPhoto } from './receipt-photo';
 import type { HttpOutcome, MoneyServices, PickOutcome, ReceiptReader } from './services';
+import { skiaPhotoCodec } from './skia-photo-codec';
 
-/** Receipt photos are JPEGs from the scanner or the picker; the api takes up to 5 MiB in one upload. */
+/** Receipt photos are JPEGs from the scanner or the picker, shrunk to fit the api's upload. */
 const RECEIPT_QUALITY = 0.8;
 
 function hex(buffer: ArrayBuffer): string {
@@ -78,6 +80,12 @@ async function uploadReceiptPhoto(uri: string): Promise<HttpOutcome<string>> {
     bytes = await new File(uri).bytes();
   } catch {
     return { kind: 'error', code: 'UNREADABLE_PHOTO' };
+  }
+  try {
+    bytes = shrinkReceiptPhoto(bytes, skiaPhotoCodec);
+  } catch (error) {
+    // The photo goes up as taken; a large one is refused at presign and the read lines still go.
+    console.warn('[receipt-scan] photo shrink', error);
   }
   const sha256 = hex(await digest(CryptoDigestAlgorithm.SHA256, new Uint8Array(bytes)));
   const presign = await request<{
