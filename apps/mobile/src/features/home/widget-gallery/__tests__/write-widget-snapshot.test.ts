@@ -7,14 +7,14 @@ import path from 'node:path';
 
 import { describe, expect, it } from '@jest/globals';
 
-import { createWidgetSnapshotWriter, type WidgetSnapshotDocument } from '..';
+import { createWidgetSnapshotWriter, type WidgetSnapshotDocument } from '../write-widget-snapshot';
 
 const fixture = (): WidgetSnapshotDocument =>
   JSON.parse(
     readFileSync(
       path.resolve(
         __dirname,
-        '../../../../../../targets/_shared/Snapshot/Tests/Fixtures/widgets.json',
+        '../../../../../targets/_shared/Snapshot/Tests/Fixtures/widgets.json',
       ),
       'utf8',
     ),

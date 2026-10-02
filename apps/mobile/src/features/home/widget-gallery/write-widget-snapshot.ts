@@ -8,8 +8,8 @@
  */
 
 /**
- * The parts of the snapshot (packages/domain `WidgetSnapshot`) the writer itself reads. The caller
- * validates the body against the domain's schema first: native modules do not depend on it.
+ * The parts of the snapshot (packages/domain `WidgetSnapshot`) the writer itself reads; the caller
+ * has validated the body against the domain's schema.
  */
 export interface WidgetSnapshotDocument {
   readonly schema: number;
@@ -22,7 +22,7 @@ export const WIDGETS_SNAPSHOT_KEY = 'widgets';
 export const ENTITLEMENTS_SNAPSHOT_KEY = 'entitlements';
 export const ENTITLEMENTS_SCHEMA_VERSION = 1;
 
-/** What the writer needs from cp-app-group and cp-widgets. */
+/** What the writer needs from the cp-app-group module (./widget-ports.ts). */
 export interface WidgetSnapshotSink {
   writeSnapshot(key: string, json: string): void;
   reloadWidgets(): void;
