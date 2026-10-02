@@ -22,6 +22,7 @@ import {
 import type pg from 'pg';
 
 import { defineJob, type JobDefinition } from '../../boss';
+import { lockscreenCopy } from '../../push/lockscreen-copy';
 import type { CopyRenderer } from '../../push/render';
 import { loadRecipient } from './audience';
 import { decide, localClock, type Decision } from './policy';
@@ -170,9 +171,18 @@ async function routeRecipient(
   }
 
   const vars = composed.vars ?? {};
-  const title = await deps.renderer.render(recipient.locale, composed.title, vars);
-  let body = await deps.renderer.render(recipient.locale, composed.body, vars);
-  if (deps.rewriter !== undefined && composed.sender.kind === 'guide') {
+  // Someone who hides details on the lock screen reads each template's sibling without amounts or
+  // exact places; the guide's rewrite is skipped for those, since it would put them back.
+  const hide = recipient.hideLockscreenDetails;
+  const titleCopy = lockscreenCopy(composed.title, hide);
+  const bodyCopy = lockscreenCopy(composed.body, hide);
+  const title = await deps.renderer.render(recipient.locale, titleCopy, vars);
+  let body = await deps.renderer.render(recipient.locale, bodyCopy, vars);
+  if (
+    deps.rewriter !== undefined &&
+    composed.sender.kind === 'guide' &&
+    bodyCopy === composed.body
+  ) {
     body = await deps.rewriter({
       key: spec.key,
       templateId: composed.body.id,
