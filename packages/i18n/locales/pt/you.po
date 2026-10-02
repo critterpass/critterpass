@@ -7,6 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: pt\n"
 
+#. placeholder {0}: when(stamp.date, locale)
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReportedWhen"
+msgstr ""
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.selfLabel"
+msgstr ""
+
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.past"
@@ -48,6 +59,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.erasedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.addPastTrip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.allYears"
 msgstr ""
 
 #. placeholder {0}: model.stampTotal
@@ -95,6 +118,10 @@ msgstr ""
 msgid "you.delete.continue"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.country"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.moved"
 msgstr ""
@@ -139,6 +166,10 @@ msgstr ""
 msgid "you.language.name.fr"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.getPassPlus"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes"
 msgstr ""
@@ -173,6 +204,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.home"
 msgstr ""
 
 #. placeholder {0}: stamp.title
@@ -245,6 +280,10 @@ msgstr ""
 msgid "you.delete.passPlus"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.editTitle"
+msgstr ""
+
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.planningPlace"
@@ -270,16 +309,44 @@ msgstr ""
 msgid "you.settings.back"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.remove"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restore"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.retake"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.savePass"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.save"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.searchCountry"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.stamp"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.selfReported"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReported"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
@@ -352,6 +419,14 @@ msgstr ""
 msgid "you.profile.stamps"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.startCrew"
 msgstr ""
@@ -378,6 +453,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
+msgid "you.profile.retakeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
@@ -409,6 +488,10 @@ msgstr ""
 msgid "you.profile.startCrewLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.lead"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.offlineTrips"
 msgstr ""
@@ -435,6 +518,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restoreTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.when"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx

@@ -7,6 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: when(stamp.date, locale)
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReportedWhen"
+msgstr "{0} · Self-reported"
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.selfLabel"
+msgstr "{0}, {1}, self-reported"
+
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.past"
@@ -49,6 +60,18 @@ msgstr "Account"
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.erasedTitle"
 msgstr "Account closed"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.title"
+msgstr "Add a past trip"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.addPastTrip"
+msgstr "Add a past trip"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.allYears"
+msgstr "All"
 
 #. placeholder {0}: model.stampTotal
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
@@ -95,6 +118,10 @@ msgstr "Closing your account…"
 msgid "you.delete.continue"
 msgstr "Continue"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.country"
+msgstr "Country"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.moved"
 msgstr "Crew moved apps"
@@ -139,6 +166,10 @@ msgstr "Expenses you added, so Balances still add up"
 msgid "you.language.name.fr"
 msgstr "French"
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.getPassPlus"
+msgstr "Get Pass+"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes"
 msgstr "Goes"
@@ -174,6 +205,10 @@ msgstr "Home"
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.back"
 msgstr "Home"
+
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.home"
+msgstr "Home base"
 
 #. placeholder {0}: stamp.title
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
@@ -245,6 +280,10 @@ msgstr "Pass"
 msgid "you.delete.passPlus"
 msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.editTitle"
+msgstr "Past trip"
+
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.planningPlace"
@@ -270,17 +309,45 @@ msgstr "Privacy"
 msgid "you.settings.back"
 msgstr "Profile"
 
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.back"
+msgstr "Profile"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.remove"
+msgstr "Remove this trip"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restore"
 msgstr "Restore my account"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.retake"
+msgstr "Retake"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.savePass"
 msgstr "Save my pass first"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.save"
+msgstr "Save trip"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.searchCountry"
+msgstr "Search countries"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.stamp"
 msgstr "See you"
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.selfReported"
+msgstr "Self-reported"
+
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReported"
+msgstr "Self-reported"
 
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.title"
@@ -352,6 +419,14 @@ msgstr "Spanish"
 msgid "you.profile.stamps"
 msgstr "Stamps"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.back"
+msgstr "Stamps"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.title"
+msgstr "Stamps"
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.startCrew"
 msgstr "Start a crew"
@@ -379,6 +454,10 @@ msgstr "The app, your guide’s replies and your notifications switch together. 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps"
 msgstr "The crew keeps"
+
+#: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
+msgid "you.profile.retakeTitle"
+msgstr "This or that"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.unsavedTitle"
@@ -409,6 +488,10 @@ msgstr "Trip’s over"
 msgid "you.profile.startCrewLine"
 msgstr "Trips are better with your people."
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.lead"
+msgstr "Trips from before CritterPass. They count toward your trips and countries, and their stamp says self-reported."
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.offlineTrips"
 msgstr "Trips saved offline"
@@ -436,6 +519,10 @@ msgstr "We couldn’t restore your account. Check your connection and try again.
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restoreTitle"
 msgstr "Welcome back"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.when"
+msgstr "When"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.why"

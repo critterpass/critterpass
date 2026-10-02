@@ -7,6 +7,17 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#. placeholder {0}: when(stamp.date, locale)
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReportedWhen"
+msgstr "{0} · Tự khai"
+
+#. placeholder {0}: stamp.title
+#. placeholder {1}: bottom ?? ''
+#: ../../apps/mobile/src/features/you/profile/profile-copy.ts
+msgid "you.profile.stamp.selfLabel"
+msgstr "{0}, {1}, tự khai"
+
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.past"
@@ -49,6 +60,18 @@ msgstr "Tài khoản"
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.erasedTitle"
 msgstr "Tài khoản đã đóng"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.title"
+msgstr "Thêm chuyến đi cũ"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.addPastTrip"
+msgstr "Thêm chuyến đi cũ"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.allYears"
+msgstr "Tất cả"
 
 #. placeholder {0}: model.stampTotal
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
@@ -95,6 +118,10 @@ msgstr "Đang đóng tài khoản…"
 msgid "you.delete.continue"
 msgstr "Tiếp tục"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.country"
+msgstr "Quốc gia"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.moved"
 msgstr "Nhóm chuyển app khác"
@@ -139,6 +166,10 @@ msgstr "Các khoản chi bạn đã thêm, để Số dư vẫn khớp"
 msgid "you.language.name.fr"
 msgstr "Tiếng Pháp"
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.getPassPlus"
+msgstr "Lấy Pass+"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes"
 msgstr "Sẽ mất"
@@ -174,6 +205,10 @@ msgstr "Nhà"
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.back"
 msgstr "Trang chủ"
+
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.home"
+msgstr "Nơi ở"
 
 #. placeholder {0}: stamp.title
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
@@ -245,6 +280,10 @@ msgstr "Pass"
 msgid "you.delete.passPlus"
 msgstr "Pass+ được tính tiền qua cửa hàng nơi bạn mua. Xoá tài khoản không huỷ gói, nên hãy huỷ ở đó nữa."
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.editTitle"
+msgstr "Chuyến đi cũ"
+
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.planningPlace"
@@ -270,17 +309,45 @@ msgstr "Quyền riêng tư"
 msgid "you.settings.back"
 msgstr "Hồ sơ"
 
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.back"
+msgstr "Hồ sơ"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.remove"
+msgstr "Xoá chuyến này"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restore"
 msgstr "Khôi phục tài khoản"
+
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.retake"
+msgstr "Làm lại"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.savePass"
 msgstr "Lưu pass trước đã"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.save"
+msgstr "Lưu chuyến đi"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.searchCountry"
+msgstr "Tìm quốc gia"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.stamp"
 msgstr "Hẹn gặp lại"
+
+#: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
+msgid "you.profile.stamp.selfReported"
+msgstr "Tự khai"
+
+#: ../../apps/mobile/src/features/you/history/stamps-copy.ts
+msgid "you.stamps.selfReported"
+msgstr "Tự khai"
 
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.title"
@@ -352,6 +419,14 @@ msgstr "Tiếng Tây Ban Nha"
 msgid "you.profile.stamps"
 msgstr "Con dấu"
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.back"
+msgstr "Con dấu"
+
+#: ../../apps/mobile/src/features/you/history/stamps-view.tsx
+msgid "you.stamps.title"
+msgstr "Con dấu"
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.startCrew"
 msgstr "Lập một nhóm"
@@ -379,6 +454,10 @@ msgstr "Ứng dụng, câu trả lời của hướng dẫn viên và thông bá
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps"
 msgstr "Nhóm giữ lại"
+
+#: ../../apps/mobile/src/features/you/profile/retake-sheet.tsx
+msgid "you.profile.retakeTitle"
+msgstr "Cái này hay cái kia"
 
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.unsavedTitle"
@@ -409,6 +488,10 @@ msgstr "Đi xong rồi"
 msgid "you.profile.startCrewLine"
 msgstr "Đi cùng hội của mình mới vui."
 
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.lead"
+msgstr "Những chuyến đi trước khi có CritterPass. Chúng được tính vào số chuyến đi và quốc gia, và con dấu ghi là tự khai."
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.offlineTrips"
 msgstr "Chuyến đi đã lưu ngoại tuyến"
@@ -436,6 +519,10 @@ msgstr "Chưa khôi phục được tài khoản. Kiểm tra kết nối rồi t
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.restoreTitle"
 msgstr "Mừng bạn trở lại"
+
+#: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
+msgid "you.pastTrip.when"
+msgstr "Khi nào"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.why"

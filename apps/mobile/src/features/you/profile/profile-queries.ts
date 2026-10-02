@@ -31,7 +31,7 @@ export interface MeRow {
 }
 
 export const STAMPS_SQL = `SELECT s.id, s.kind, s.seq_no, s.iata, s.country, s.ink_colour, s.status,
-    s.stamped_at, s.dates, d.name AS destination_name, d.colour AS destination_colour,
+    s.stamped_at, s.dates, s.trip_id, d.name AS destination_name, d.colour AS destination_colour,
     t.start_date AS trip_start
   FROM stamps s
   LEFT JOIN destinations d ON d.id = s.destination_id
@@ -51,6 +51,7 @@ export interface StampRow {
   readonly stamped_at: string | null;
   /** A Postgres daterange as text: `[2024-06-01,2024-06-09)`. */
   readonly dates: string | null;
+  readonly trip_id?: string | null;
   readonly destination_name: string | null;
   readonly destination_colour: string | null;
   readonly trip_start: string | null;

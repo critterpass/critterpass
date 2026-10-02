@@ -1,0 +1,99 @@
+appId: app.critterpass.dev
+---
+# Travel history (en). First the lab scenes: a profile with a self-reported stamp (3n-1), the
+# stamps list and the past-trip form. Then for real: a brand-new account opens its profile from the
+# PASS tab, opens ALL stamps, adds a trip to Portugal in June 2025, and the profile counts it as a trip
+# and a country (never a critter) with a dashed SELF-REPORTED stamp.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- runFlow:
+    file: subflows/open-scene.yaml
+    env:
+      SCENE: '3n-1-self-reported'
+      ROOT: 'you-profile'
+- takeScreenshot: en-3n-1-self-reported
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 'stamps-all'
+      ROOT: 'you-stamps'
+      SHOT: en-stamps-all
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 'past-trip-add'
+      ROOT: 'you-past-trip'
+      SHOT: en-past-trip-add
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env:
+      SCENE: 'past-trip-edit'
+      ROOT: 'you-past-trip'
+      SHOT: en-past-trip-edit
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 15000
+
+# A real new account: PASS tab → its face → profile → ALL → add a past trip.
+- runFlow: ../home/subflows/onboard.yaml
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-name'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-all-stamps'
+- extendedWaitUntil:
+    visible:
+      id: 'you-stamps'
+    timeout: 15000
+- tapOn:
+    id: 'you-stamps-add-past-trip'
+- extendedWaitUntil:
+    visible:
+      id: 'you-past-trip'
+    timeout: 15000
+- tapOn:
+    id: 'you-past-trip-search'
+- inputText: 'Portugal'
+- tapOn:
+    id: 'you-past-trip-country-PT'
+- hideKeyboard
+- tapOn:
+    id: 'you-past-trip-year-2025'
+- tapOn:
+    id: 'you-past-trip-month-6'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-past-trip-filled
+- tapOn:
+    id: 'you-past-trip-save'
+- extendedWaitUntil:
+    visible:
+      id: 'you-stamps-row-self'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-stamps-after-add
+- tapOn:
+    id: 'you-stamps-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-stamp-self'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-1-after-past-trip

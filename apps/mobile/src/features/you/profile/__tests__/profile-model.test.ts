@@ -92,7 +92,7 @@ describe('buildProfile', () => {
       sinceYear: 2026,
     });
     expect(model.stamps).toEqual([
-      { id: 'h', kind: 'home', title: 'SGN', date: null, daysUntil: null, ink: null },
+      { id: 'h', kind: 'home', title: 'SGN', date: null, daysUntil: null, ink: null, tripId: null },
     ]);
     expect(model.mrz).toBe('P<VNMKHANH<<CP0012');
   });
@@ -112,6 +112,31 @@ describe('buildProfile', () => {
     );
     expect(model.stats).toEqual({ trips: 2, countries: 3, critters: 3 });
     expect(model.sinceYear).toBe(2019);
+  });
+
+  it('stamps a self-reported trip dashed among the trips, by its month', () => {
+    const model = buildProfile(
+      input({
+        stamps: [
+          stamp({ id: 'h', kind: 'home', seq_no: 1, iata: 'SGN' }),
+          stamp({ id: 'lis', dates: '[2024-06-01,2024-06-09)', trip_id: 'trip-lis' }),
+        ],
+        pastTrips: [{ id: 'p1', country: 'PT', month: '2025-01-01', place_id: null }],
+      }),
+    );
+    expect(model.stamps.map((s) => [s.id, s.kind])).toEqual([
+      ['p1', 'self'],
+      ['lis', 'trip'],
+      ['h', 'home'],
+    ]);
+    expect(model.stamps[0]).toMatchObject({ title: 'PT', date: '2025-01-01', tripId: null });
+    expect(model.stamps[1]?.tripId).toBe('trip-lis');
+    expect(model.stats.critters).toBe(0);
+  });
+
+  it('rings a worn critter by its rarity and ignores an unknown ring', () => {
+    expect(buildProfile(input({ me: { ...ME, avatar_ring: 'epic' } })).ring).toBe('epic');
+    expect(buildProfile(input({ me: { ...ME, avatar_ring: 'mythic' } })).ring).toBeNull();
   });
 
   it('orders stamps newest first, home after the trips, and keeps the next trip in view', () => {

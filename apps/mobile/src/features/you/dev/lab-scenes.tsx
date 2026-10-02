@@ -4,15 +4,9 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture names, places and ids, never shipped copy. */
 import type { ReactNode } from 'react';
-import { ScrollView } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { ChatMessage } from '@/ui/chat/ChatMessage';
-import { Stack } from '@/ui/layout/Stack';
-import { Avatar } from '@/ui/people/Avatar';
-import { memberFirstName, memberName } from '@/ui/people/member-name';
-import { Scaffold } from '@/ui/surface/Scaffold';
-import { Text } from '@/ui/text/Text';
+import { memberFirstName } from '@/ui/people/member-name';
 
 import { ClosedView, type ClosedMode } from '../account/closed-view';
 import { DeleteView, type DeleteStep } from '../account/delete-view';
@@ -21,8 +15,9 @@ import { languageChoices } from '../language/language-names';
 import { LanguageView } from '../language/language-view';
 import type { ProfileModel } from '../profile/profile-model';
 import { ProfileView } from '../profile/profile-view';
-import { useSettingsSections } from '../settings/settings-sections';
-import { SettingsView } from '../settings/settings-view';
+import { FormerMemberChat } from './lab-scenes-former';
+import { HISTORY_SCENES } from './lab-scenes-history';
+import { Settings } from './lab-scenes-settings';
 
 const noop = () => undefined;
 
@@ -31,14 +26,55 @@ const SEASONED: ProfileModel = {
   username: 'winston',
   homeCity: 'Singapore',
   avatar: { kind: 'guide', guide: 'tokek' },
+  ring: 'rare',
   passPlus: true,
   stats: { trips: 7, countries: 12, critters: 8 },
   stamps: [
-    { id: 's1', kind: 'trip', title: 'Lisbon', date: '2024-06-03', daysUntil: null, ink: null },
-    { id: 's2', kind: 'trip', title: 'Hà Nội', date: '2024-02-10', daysUntil: null, ink: null },
-    { id: 's3', kind: 'trip', title: 'Seoul', date: '2023-10-21', daysUntil: null, ink: null },
-    { id: 's4', kind: 'trip', title: 'CDMX', date: '2023-03-05', daysUntil: null, ink: null },
-    { id: 's5', kind: 'upcoming', title: 'Bali', date: '2026-10-18', daysUntil: 17, ink: null },
+    {
+      id: 's1',
+      kind: 'trip',
+      title: 'Lisbon',
+      date: '2024-06-03',
+      daysUntil: null,
+      ink: null,
+      tripId: null,
+    },
+    {
+      id: 's2',
+      kind: 'trip',
+      title: 'Hà Nội',
+      date: '2024-02-10',
+      daysUntil: null,
+      ink: null,
+      tripId: null,
+    },
+    {
+      id: 's3',
+      kind: 'trip',
+      title: 'Seoul',
+      date: '2023-10-21',
+      daysUntil: null,
+      ink: null,
+      tripId: null,
+    },
+    {
+      id: 's4',
+      kind: 'trip',
+      title: 'CDMX',
+      date: '2023-03-05',
+      daysUntil: null,
+      ink: null,
+      tripId: null,
+    },
+    {
+      id: 's5',
+      kind: 'upcoming',
+      title: 'Bali',
+      date: '2026-10-18',
+      daysUntil: 17,
+      ink: null,
+      tripId: null,
+    },
   ],
   stampTotal: 12,
   tags: ['early_starts', 'street_food', 'museums', 'photo_spots', 'easy_pace'],
@@ -70,9 +106,12 @@ const FRESH: ProfileModel = {
   username: null,
   homeCity: 'Hồ Chí Minh City',
   avatar: { kind: 'initials' },
+  ring: null,
   passPlus: false,
   stats: { trips: 0, countries: 1, critters: 0 },
-  stamps: [{ id: 'h', kind: 'home', title: 'SGN', date: null, daysUntil: null, ink: null }],
+  stamps: [
+    { id: 'h', kind: 'home', title: 'SGN', date: null, daysUntil: null, ink: null, tripId: null },
+  ],
   stampTotal: 1,
   tags: ['street_food', 'coffee', 'easy_pace'],
   crews: [],
@@ -88,26 +127,12 @@ function Profile({ model }: { readonly model: ProfileModel | null }) {
       onEdit={noop}
       onSettings={noop}
       onAllStamps={noop}
+      onRetake={noop}
+      {...(model?.passPlus === false ? { onGetPassPlus: noop } : {})}
       onOpenCrew={noop}
       onStartCrew={noop}
     />
   );
-}
-
-function Settings() {
-  const sections = useSettingsSections(
-    { soundEffects: true, haptics: true, account: true, language: 'English' },
-    {
-      onOfflineTrips: noop,
-      onPings: noop,
-      onSoundEffects: noop,
-      onHaptics: noop,
-      onLanguage: noop,
-      onSignOut: noop,
-      onDeleteAccount: noop,
-    },
-  );
-  return <SettingsView sections={sections} version="CRITTERPASS 1.0 (214)" onBack={noop} />;
 }
 
 function Delete({ step, online = true }: { readonly step: DeleteStep; readonly online?: boolean }) {
@@ -169,6 +194,24 @@ function Language() {
   );
 }
 
+/** A seasoned pass with two trips reported from before the app. */
+const withSelfReported = (): ProfileModel => ({
+  ...SEASONED,
+  stamps: [
+    ...SEASONED.stamps.slice(0, 2),
+    {
+      id: 'p1',
+      kind: 'self' as const,
+      title: 'JP',
+      date: '2022-04-01',
+      daysUntil: null,
+      ink: null,
+      tripId: null,
+    },
+    ...SEASONED.stamps.slice(2),
+  ].slice(0, 5),
+});
+
 /** A crew after one member's account was erased (named at render, in the lab's language). */
 const withFormer = (): ProfileModel => ({
   ...SEASONED,
@@ -186,66 +229,12 @@ const withFormer = (): ProfileModel => ({
   ],
 });
 
-/** A crew thread a week after one member's account was erased: their lines stay, emptied. */
-function FormerMemberChat() {
-  const gone = memberName(null);
-  const lines: readonly { who: string | null; text: string; mine?: boolean }[] = [
-    { who: 'Maya', text: "who's up for the spa on day 3?" },
-    { who: null, text: 'Message deleted' },
-    { who: 'Jordan', text: 'in. morning slot?' },
-    { who: 'Maya', text: 'booking the 10:00, six of us' },
-    { who: null, text: 'Message deleted' },
-    { who: 'Winston', text: 'five now, I will fix the booking', mine: true },
-    { who: 'Jordan', text: 'thanks. dinner after at the warung?' },
-    { who: 'Maya', text: 'yes. I will ask them for the big table' },
-    { who: null, text: 'Message deleted' },
-    { who: 'Winston', text: 'see you all at the gate', mine: true },
-  ];
-  const faces = ['Maya', 'Jordan'];
-  return (
-    <Scaffold variant="dark" edges={['top']} testID="you-former-chat">
-      <ScrollView contentContainerStyle={{ padding: 20, paddingTop: 64 }}>
-        <Stack gap="12">
-          <ChatMessage kind="divider" text="Today" />
-          {lines.map((line, index) => {
-            const name = line.who ?? gone;
-            const first = line.mine !== true && lines[index - 1]?.who !== line.who;
-            return (
-              <Stack key={`${index}-${name}`} gap="4">
-                {first ? (
-                  <Text variant="caption" style={{ marginStart: 44 }}>
-                    {name}
-                  </Text>
-                ) : null}
-                <ChatMessage
-                  kind={line.mine === true ? 'mine' : 'theirs'}
-                  text={line.text}
-                  {...(line.mine === true
-                    ? {}
-                    : {
-                        author: name,
-                        avatar: (
-                          <Avatar
-                            name={name}
-                            joinIndex={Math.max(0, faces.indexOf(name))}
-                            size="sm"
-                          />
-                        ),
-                      })}
-                />
-              </Stack>
-            );
-          })}
-        </Stack>
-      </ScrollView>
-    </Scaffold>
-  );
-}
-
 export const YOU_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3n-1-profile': () => <Profile model={SEASONED} />,
   '3n-1-fresh': () => <Profile model={FRESH} />,
   '3n-1-loading': () => <Profile model={null} />,
+  '3n-1-self-reported': () => <Profile model={withSelfReported()} />,
+  ...HISTORY_SCENES,
   '3n-2-settings': () => <Settings />,
   '3n-8-language': () => <Language />,
   'former-member-crew': () => <Profile model={withFormer()} />,

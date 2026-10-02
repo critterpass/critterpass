@@ -3,6 +3,7 @@ import { airportDataset } from '@cp/content/airports';
 import { useMemo } from 'react';
 
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
+import { usePastTrips } from '../history/past-trips';
 import { localToday } from '../history/use-travel-history';
 import { buildProfile, type ProfileModel } from './profile-model';
 import {
@@ -18,8 +19,6 @@ import {
   HISTORY_TRIPS_TABLES,
   ME_SQL,
   ME_TABLES,
-  PAST_TRIPS_SQL,
-  PAST_TRIPS_TABLES,
   STAMPS_SQL,
   STAMPS_TABLES,
   type CrewMemberRow,
@@ -27,7 +26,6 @@ import {
   type CrewTripRow,
   type HistoryTripRow,
   type MeRow,
-  type PastTripRow,
   type StampRow,
 } from './profile-queries';
 
@@ -39,7 +37,7 @@ export function useProfile(now: () => Date = () => new Date()): {
   const me = useLiveRows<MeRow>(ME_SQL, mine, ME_TABLES);
   const stamps = useLiveRows<StampRow>(STAMPS_SQL, mine, STAMPS_TABLES);
   const trips = useLiveRows<HistoryTripRow>(HISTORY_TRIPS_SQL, mine, HISTORY_TRIPS_TABLES);
-  const pastTrips = useLiveRows<PastTripRow>(PAST_TRIPS_SQL, mine, PAST_TRIPS_TABLES);
+  const pastTrips = usePastTrips();
   const critters = useLiveRows<{ n: number }>(CRITTERS_SQL, mine, CRITTERS_TABLES);
   const crews = useLiveRows<CrewRow>(CREWS_SQL, mine, CREWS_TABLES);
   const crewMembers = useLiveRows<CrewMemberRow>(CREW_MEMBERS_SQL, mine, CREW_MEMBERS_TABLES);
