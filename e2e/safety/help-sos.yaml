@@ -65,9 +65,10 @@ appId: app.critterpass.dev
 # Maestro's back is Android only: the screen's own back control works on both.
 - tapOn:
     id: 'back-eyebrow'
+# Back on the hub where it was scrolled to (the tiles), so the next step scrolls to SOS from there.
 - extendedWaitUntil:
     visible:
-      id: 'help-back'
+      id: 'help-tiles'
     timeout: 10000
 # SOS: slide, cancel within five seconds (nothing sent), slide again and let it go.
 - scrollUntilVisible:
