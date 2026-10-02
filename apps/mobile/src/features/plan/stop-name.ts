@@ -9,7 +9,7 @@ import { t } from '@lingui/core/macro';
 
 /** The plan version's own place names, by place id (`itinerary_versions.coverage.places`). */
 export function placeNamesOf(coverage: string | null): ReadonlyMap<string, string> {
-  let parsed: unknown = null;
+  let parsed: unknown;
   try {
     parsed = JSON.parse(coverage ?? 'null') as unknown;
   } catch {
