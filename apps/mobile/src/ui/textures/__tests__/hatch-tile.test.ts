@@ -5,6 +5,8 @@
  */
 import { describe, expect, it } from '@jest/globals';
 
+import { tokens } from '@cp/design-tokens';
+
 import { hatchTileGeometry, tilesSquare, type HatchTileLine } from '../hatch-tile';
 
 function distance(x: number, y: number, line: HatchTileLine): number {
@@ -27,8 +29,8 @@ describe('hatch tile', () => {
           angleDeg,
           stripePt: 2,
           gapPt: 6,
-          color: '#fff',
-          base: '#000',
+          color: tokens.color.paper.base,
+          base: tokens.color.ink['930'],
           scale,
         });
         expect(Number.isInteger(tile.sizePx)).toBe(true);
@@ -50,8 +52,8 @@ describe('hatch tile', () => {
         angleDeg: 135,
         stripePt: 2,
         gapPt: 6,
-        color: '#fff',
-        base: '#000',
+        color: tokens.color.paper.base,
+        base: tokens.color.ink['930'],
         scale,
       });
       const [a, b] = tile.lines;

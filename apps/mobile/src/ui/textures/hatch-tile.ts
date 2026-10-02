@@ -81,6 +81,8 @@ export function hatchTile(input: HatchTileInput): HatchTile | null {
   if (known !== undefined) return known;
   let tile: HatchTile | null = null;
   try {
+    // Loaded here, not at import: the tile is optional and Jest suites stand Skia in.
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- see above.
     const { Skia, PaintStyle } = require('@shopify/react-native-skia') as typeof RNSkiaModule;
     const geometry = hatchTileGeometry(input);
     const surface = Skia.Surface.Make(geometry.sizePx, geometry.sizePx);
