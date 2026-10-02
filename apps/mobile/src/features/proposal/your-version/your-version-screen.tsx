@@ -162,6 +162,9 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         }}
         onIn={() => board(chosen)}
         onAsk={() => setAsking(true)}
+        onOut={
+          person?.rsvp === 'in' ? () => router.push(proposalRoutes.decline(props.proposalId)) : null
+        }
       />
       {why === null ? null : (
         <Sheet title={why.title} detents={['medium']} onDismiss={() => setWhy(null)}>

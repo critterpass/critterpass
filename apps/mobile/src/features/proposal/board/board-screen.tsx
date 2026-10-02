@@ -2,7 +2,8 @@
  * Slide to board wired to the phone. Boarding sends `set_rsvp{in}` with the savings the member
  * took; online it waits for the seat answer (a full trip keeps the reply as a waitlist place and
  * says so), offline it queues and the pass shows as pending. MAYBE answers at once; "I can't make
- * it" asks first, since going out frees the seat and starts the crew's re-split.
+ * it" asks first, since going out frees the seat and starts the crew's re-split. A member who is
+ * already in reaches the same question from their version, through `decline=1`.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { t } from '@lingui/core/macro';
@@ -35,6 +36,8 @@ const EXTRA_SQL = `SELECT c.name AS crew_name, u.home_airport FROM trips t
 export function BoardScreen(props: {
   readonly proposalId: string;
   readonly options: readonly string[];
+  /** Opens on the decline question (a member who already said IN). */
+  readonly decline?: boolean;
 }) {
   const proposal = useProposal(props.proposalId);
   useFindProposalTrip(proposal);
@@ -51,7 +54,7 @@ export function BoardScreen(props: {
   const now = useCommand(setRsvpCommand);
   const queued = useCommand(setRsvpQueuedCommand);
   const [outcome, setOutcome] = useState<BoardOutcome | null>(null);
-  const [confirmOut, setConfirmOut] = useState(false);
+  const [confirmOut, setConfirmOut] = useState(props.decline === true);
 
   if (proposal == null || trip == null) return <ProposalLoading testID="board-loading" />;
   const me = trip.people.find((p) => p.uid === trip.me);

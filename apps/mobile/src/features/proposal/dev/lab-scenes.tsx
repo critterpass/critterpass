@@ -126,6 +126,7 @@ const version = (locale: string, sheet: ReactNode = null, group = false) => (
       onPick={noop}
       onIn={noop}
       onAsk={noop}
+      onOut={null}
     />
     {sheet}
   </>

@@ -1,7 +1,8 @@
 appId: app.critterpass.dev
 ---
 # A friend drops out of a real proposal, between two brand-new accounts on one phone. After the
-# organiser sends it, the friend opens the proposal and says they can't make it. The organiser's
+# organiser sends it, the friend boards, then says from their version that they can't make it after
+# all. The organiser's
 # tracker then shows them as out, with the change list the guide worked out; APPLY CHANGES resolves
 # it and the trip is re-priced without them.
 - runFlow: subflows/proposal-sent.yaml
@@ -27,23 +28,52 @@ appId: app.critterpass.dev
     visible:
       id: 'version-in'
     timeout: 60000
+# The friend says IN first: a dropout is someone who had a seat.
 - tapOn:
     id: 'version-in'
 - extendedWaitUntil:
     visible:
-      id: 'board-out'
+      id: 'board-slide'
+    timeout: 30000
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - swipe:
+          from:
+            id: 'board-knob'
+          direction: RIGHT
+          duration: 1200
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 12%, 86%
+          end: 96%, 86%
+          duration: 1200
+- extendedWaitUntil:
+    visible:
+      id: 'board-egg'
     timeout: 30000
 - tapOn:
-    id: 'board-out'
+    id: 'board-done'
+# Later, from their version: "I can't make it after all" opens the pass on the question.
+- scrollUntilVisible:
+    element:
+      id: 'version-out'
+    timeout: 30000
+- tapOn:
+    id: 'version-out'
 - extendedWaitUntil:
     visible:
       id: 'board-out-confirm'
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-5-cant-make-it
-# The sheet's own button. Android's hierarchy here lists only the pass's link of the same words,
-# which sits behind the sheet, so the tap goes where the sheet draws its button (above CANCEL);
-# iOS finds the button by its words.
+# The sheet's own button. Android's hierarchy leaves the sheet's window out, so the tap goes where
+# the sheet draws its button (above CANCEL); iOS finds the button by its words.
 - runFlow:
     when:
       platform: Android
@@ -57,10 +87,10 @@ appId: app.critterpass.dev
       - tapOn:
           text: '(?i)I can.t make it'
           index: 1
-# The reply is sent and the friend is back on their version.
+# The reply is sent and the friend is back on their version, which says so.
 - extendedWaitUntil:
     visible:
-      id: 'proposal-version'
+      text: '(?i)you said you can.t make it.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-3-after-declining
