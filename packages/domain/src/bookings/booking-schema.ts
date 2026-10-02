@@ -63,6 +63,36 @@ export const bookingDetailsSchema = z
   .strict();
 export type BookingDetails = z.infer<typeof bookingDetailsSchema>;
 
+/**
+ * Where a transfer collects the crew, as the server placed its pickup text (`from_text`): on one of
+ * the destination's own POIs or a Mapbox address, or `unresolved` when nothing was certain enough,
+ * so the same text is never looked up twice. Written by the server only; a client echoes it back.
+ */
+export const pickupPointSchema = z.union([
+  z
+    .object({
+      from_text: z.string().max(300),
+      lat: z.number().min(-90).max(90),
+      lng: z.number().min(-180).max(180),
+      label: z.string().max(300),
+      source: z.enum(['poi', 'mapbox']),
+      poi_id: z.uuid().optional(),
+    })
+    .strict(),
+  z.object({ from_text: z.string().max(300), unresolved: z.literal(true) }).strict(),
+]);
+export type PickupPoint = z.infer<typeof pickupPointSchema>;
+
+/**
+ * A booking's details as stored and as a command carries them: what the card shows plus the
+ * server's `pickup_point`. Kept apart from `bookingDetailsSchema`, which is also what an import is
+ * extracted into, so nothing read from an email can claim a pickup point.
+ */
+export const storedBookingDetailsSchema = bookingDetailsSchema.extend({
+  pickup_point: pickupPointSchema.optional(),
+});
+export type StoredBookingDetails = z.infer<typeof storedBookingDetailsSchema>;
+
 const priceSchema = z.object({
   amount_minor: z.int().nonnegative().max(Number.MAX_SAFE_INTEGER),
   currency,
@@ -111,7 +141,7 @@ const bookingFields = {
   supplier_ref: z.string().trim().min(1).max(64).optional(),
   free_cancel_until: instant.optional(),
   cancel_policy_text: z.string().trim().max(2000).optional(),
-  details: bookingDetailsSchema.optional(),
+  details: storedBookingDetailsSchema.optional(),
   barcode: barcodeInputSchema.optional(),
 };
 

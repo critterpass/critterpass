@@ -424,3 +424,64 @@ describe('no longer late, and a late report without a journey', () => {
     expect(after[1]?.facts['late_min']).toBe(20);
   });
 });
+
+describe('POST /v1/trips/{id}/journey-check to a transfer booked by hand', () => {
+  const VILLA = { lat: -8.5069, lng: 115.2625 };
+  let transferItemId: string;
+  let bookingId: string;
+  const point = () => ({ ...VILLA, lat: VILLA.lat + 0.03, at: new Date('2026-10-15T07:30:00Z') });
+
+  beforeAll(async () => {
+    const pool = harness.pool;
+    bookingId = (
+      await pool.query<{ id: string }>(
+        `INSERT INTO bookings (trip_id, owner_id, type, title, starts_at, tz, location, source,
+           visibility)
+         VALUES ($1, $2, 'transfer', 'Airport run', '2026-10-15T08:00:00Z', 'Asia/Makassar',
+           'Pickup at Villa Kayu Manis', 'manual', 'crew') RETURNING id`,
+        [tripId, rin.uid],
+      )
+    ).rows[0]?.id as string;
+    transferItemId = (
+      await pool.query<{ id: string }>(
+        `INSERT INTO plan_items (version_id, day_id, trip_id, starts_at, tz, category, booking_id,
+           notes, status, locked_reason, created_by_kind)
+         SELECT version_id, day_id, trip_id, '2026-10-15T08:00:00Z', 'Asia/Makassar', 'transfer',
+                $2, 'Airport run', 'confirmed', 'booking', 'user'
+           FROM plan_items WHERE id = $1 RETURNING id`,
+        [itemId, bookingId],
+      )
+    ).rows[0]?.id as string;
+  });
+
+  const setPickupPoint = (point: unknown) =>
+    harness.pool.query(
+      "UPDATE bookings SET details = jsonb_set(details, '{pickup_point}', $2::jsonb) WHERE id = $1",
+      [bookingId, JSON.stringify(point)],
+    );
+
+  it('has no place to route to until its pickup is placed', async () => {
+    const before = await check(wes, point(), transferItemId);
+    expect(before.status).toBe(403);
+    expect(before.body).toMatchObject({ error: { code: 'NOT_ELIGIBLE' } });
+    await setPickupPoint({ from_text: 'Pickup at Villa Kayu Manis', unresolved: true });
+    expect((await check(wes, point(), transferItemId)).status).toBe(403);
+  });
+
+  it("routes to the booking's pickup point while it matches the pickup text", async () => {
+    await setPickupPoint({
+      from_text: 'Pickup at Villa Kayu Manis',
+      ...VILLA,
+      label: 'Villa Kayu Manis',
+      source: 'poi',
+    });
+    const placed = await check(wes, point(), transferItemId);
+    expect(placed.status).toBe(200);
+    expect(placed.body).toMatchObject({ status: 'on_time' });
+    // The traveller changed the pickup text: the old point no longer says where they are collected.
+    await harness.pool.query("UPDATE bookings SET location = 'Hotel lobby' WHERE id = $1", [
+      bookingId,
+    ]);
+    expect((await check(wes, point(), transferItemId)).status).toBe(403);
+  });
+});
