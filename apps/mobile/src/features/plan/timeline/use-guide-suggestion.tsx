@@ -3,11 +3,14 @@
  * the banner line under the timeline ("Rain till 15:00. Move Ridge walk?"). Accepting glides the
  * item into the ghost's place (560 ms), fades the ghost, says so, and 1.3 s later opens the change
  * review (3e-3) on that change set, where it is sent or applied; nothing changes the plan here.
+ * The banner speaks the guide's own line when the replan wrote one (in the app's language), and
+ * NOT NOW turns the suggestion down. A suggestion made on an older plan version is not shown.
  */
 import { useLingui } from '@lingui/react/macro';
 import { router } from 'expo-router';
 import { useEffect, useState, type ReactNode } from 'react';
 
+import { useCommand } from '@/data/commands/use-command';
 import { impact } from '@/motion/feedback';
 import { toast } from '@/motion/island-toast';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -21,6 +24,7 @@ import { GHOST_ACCEPT } from './guide-ghost';
 import { GuideBanner } from './guide-banner';
 import type { TimelineGhost } from './timeline-editor';
 import type { RainForecast } from './weather';
+import { dismissWeatherSuggestionCommand, useWeatherHeadlines } from './weather-suggestion-data';
 
 export function useGuideSuggestion({
   tripId,
@@ -29,8 +33,10 @@ export function useGuideSuggestion({
   date,
   rain,
   guide,
+  currentVersionId = null,
 }: {
   readonly tripId: string;
+  readonly currentVersionId?: string | null;
   readonly changesets: readonly ChangesetRow[];
   readonly items: readonly DayItem[];
   readonly date: string | null;
@@ -40,7 +46,11 @@ export function useGuideSuggestion({
   const { t } = useLingui();
   const locale = useLocale();
   const [accepted, setAccepted] = useState<string | null>(null);
-  const suggestion = date === null ? null : ghostFor(changesets, items, date);
+  const [dismissed, setDismissed] = useState<ReadonlySet<string>>(new Set());
+  const headlines = useWeatherHeadlines(tripId === '' ? null : tripId);
+  const dismiss = useCommand(dismissWeatherSuggestionCommand);
+  const suggestion =
+    date === null ? null : ghostFor(changesets, items, date, { currentVersionId, dismissed });
 
   useEffect(() => {
     if (accepted === null) return undefined;
@@ -69,13 +79,18 @@ export function useGuideSuggestion({
       }),
     });
   };
+  const decline = () => {
+    setDismissed((was) => new Set([...was, suggestion.changesetId]));
+    void dismiss.send({ changeset_id: suggestion.changesetId });
+  };
   const line =
-    rain.kind === 'rain'
+    headlines.get(suggestion.changesetId) ??
+    (rain.kind === 'rain'
       ? t({
           id: 'plan.timeline.bannerRain',
           message: `Rain till ${clock(locale, rain.end)}. Move ${suggestion.item.title}?`,
         })
-      : t({ id: 'plan.timeline.bannerMove', message: `Move ${suggestion.item.title}?` });
+      : t({ id: 'plan.timeline.bannerMove', message: `Move ${suggestion.item.title}?` }));
   return {
     ghost: {
       itemId: suggestion.item.stableId,
@@ -85,6 +100,8 @@ export function useGuideSuggestion({
       accepted: isAccepted,
       onAccept: accept,
     },
-    banner: isAccepted ? null : <GuideBanner guide={guide} line={line} onAccept={accept} />,
+    banner: isAccepted ? null : (
+      <GuideBanner guide={guide} line={line} onAccept={accept} onDismiss={decline} />
+    ),
   };
 }
