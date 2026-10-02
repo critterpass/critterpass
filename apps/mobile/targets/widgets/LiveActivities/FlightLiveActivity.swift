@@ -63,7 +63,7 @@ struct FlightLockScreen: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 6) {
                 FlightEyebrow(attributes: attributes, state: state, tint: tint)
-                // The flight is free to follow; finding it in the mailbox is the Pass+ part (C37).
+                // The flight is free to follow; finding it in the mailbox is the Pass+ part.
                 if attributes.fromEmail { LAPill(tier: .passPlus) }
                 Spacer(minLength: 6)
                 if attributes.fromEmail {
