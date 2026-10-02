@@ -53,36 +53,42 @@ export function cachedIconImage(input: IconImageInput): string | null | undefine
 }
 
 const queue = new Map<string, { input: IconImageInput; ready: Set<() => void> }>();
-let draining = false;
+let pending: ReturnType<typeof setTimeout> | null = null;
+
+function schedule(): void {
+  pending = queue.size === 0 ? null : setTimeout(drainOne, 0);
+}
 
 function drainOne(): void {
+  pending = null;
   const next = queue.entries().next();
-  if (next.done === true) {
-    draining = false;
-    return;
-  }
+  if (next.done === true) return;
   const [key, job] = next.value;
   queue.delete(key);
   iconImage(job.input);
   for (const ready of job.ready) ready();
-  setTimeout(drainOne, 0);
+  schedule();
 }
 
 /**
  * Draws the icon's picture in a later task (one icon per task, so a screen's new icons never land
- * in one frame) and calls `ready` once it is cached; returns a cancel for an unmounted icon.
+ * in one frame) and calls `ready` once it is cached. Returns a cancel for an unmounted icon: an
+ * icon nobody shows any more is never drawn, and once nothing is waiting no task stays queued.
  */
 export function requestIconImage(input: IconImageInput, ready: () => void): () => void {
   const key = iconImageKey(input);
   const job = queue.get(key) ?? { input, ready: new Set<() => void>() };
   job.ready.add(ready);
   queue.set(key, job);
-  if (!draining) {
-    draining = true;
-    setTimeout(drainOne, 0);
-  }
+  if (pending === null) schedule();
   return () => {
     job.ready.delete(ready);
+    if (job.ready.size > 0 || queue.get(key) !== job) return;
+    queue.delete(key);
+    if (queue.size === 0 && pending !== null) {
+      clearTimeout(pending);
+      pending = null;
+    }
   };
 }
 
