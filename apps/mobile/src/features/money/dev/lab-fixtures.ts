@@ -166,3 +166,37 @@ export const IBU_OKA_SUGGESTIONS: ReceiptSuggestions = {
     },
   ],
 };
+
+/** A crew too big for one screen of the "who had it" picker: the Bali Six and 22 friends. */
+export const LAB_CROWD: readonly MoneyMember[] = [
+  ...LAB_MEMBERS,
+  ...[
+    'Ana',
+    'Ben',
+    'Chi',
+    'Duc',
+    'Eli',
+    'Fay',
+    'Gus',
+    'Hoa',
+    'Ivy',
+    'Jun',
+    'Kai',
+    'Lan',
+    'Mo',
+    'Nia',
+    'Oli',
+    'Pia',
+    'Quy',
+    'Ravi',
+    'Sol',
+    'Tam',
+    'Uma',
+    'Vy',
+  ].map((name, index) => ({
+    userId: `u-crowd-${index + 1}`,
+    name,
+    joinIndex: LAB_MEMBERS.length + index,
+    active: true,
+  })),
+];
