@@ -98,19 +98,32 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           id: 'plan-time-start-earlier'
-- scrollUntilVisible:
-    element:
-      id: 'plan-item-save'
-    direction: DOWN
-    timeout: 10000
-- tapOn:
-    id: 'plan-item-save'
+# A changed time shows SAVE at the foot of the sheet's details, below the notes and MOVE TO; an
+# item already at that time has nothing to save, and the sheet is closed instead.
 - runFlow:
     when:
-      visible:
-        id: 'plan-item-confirm'
+      true: ${output.later + output.earlier > 0}
     commands:
-      - tapOn: 'Change it anyway'
+      - scrollUntilVisible:
+          element:
+            id: 'plan-item-save'
+          direction: DOWN
+          timeout: 15000
+          centerElement: true
+      - tapOn:
+          id: 'plan-item-save'
+      - runFlow:
+          when:
+            visible:
+              id: 'plan-item-confirm'
+          commands:
+            - tapOn: 'Change it anyway'
+- runFlow:
+    when:
+      true: ${output.later + output.earlier === 0}
+    commands:
+      - tapOn:
+          id: 'plan-item-sheet-close'
 - extendedWaitUntil:
     notVisible:
       id: 'plan-item-sheet'
