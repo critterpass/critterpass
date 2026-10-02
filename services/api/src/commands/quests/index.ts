@@ -3,7 +3,7 @@
  * `quest.evaluate` for the events this process appends that a quest or an XP source reads
  * (visits, expenses, settling up).
  */
-import { onEventAppended, sendInTx } from '@cp/db';
+import { onEventAppended, queueQuestsOnTripStart, sendInTx } from '@cp/db';
 import { QUEST_INPUT_EVENTS, QUEST_QUEUES } from '@cp/domain';
 import type pg from 'pg';
 
@@ -32,4 +32,6 @@ export function registerQuests(doors: { readonly registry: CommandRegistry }): v
   if (hooked) return;
   hooked = true;
   onEventAppended(questEventHook);
+  // A trip that turns in_trip gets its day's quests at once, not at the next hourly sweep.
+  onEventAppended(queueQuestsOnTripStart);
 }
