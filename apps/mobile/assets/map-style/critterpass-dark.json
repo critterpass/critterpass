@@ -15,6 +15,13 @@
   "sprite": "https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev/sprite/sprite",
   "layers": [
     {
+      "id": "background-base",
+      "type": "background",
+      "paint": {
+        "background-color": "#17142a"
+      }
+    },
+    {
       "id": "background",
       "type": "background",
       "paint": {
