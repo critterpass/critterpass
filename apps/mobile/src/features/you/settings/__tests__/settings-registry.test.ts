@@ -48,8 +48,17 @@ describe('synced settings', () => {
   it('reads the column defaults before the row syncs, and the row once it has', () => {
     expect(settingsFromRow(undefined)).toEqual(DEFAULT_SYNCED_SETTINGS);
     expect(
-      settingsFromRow({ chattiness: 'chatty', talk_out_loud: 1, hide_collection: null }),
-    ).toEqual({ chattiness: 'chatty', talkOutLoud: true, hideCollection: false });
+      settingsFromRow({ ...rowOf(), chattiness: 'chatty', talk_out_loud: 1, hide_taste_tags: 1 }),
+    ).toEqual({
+      chattiness: 'chatty',
+      talkOutLoud: true,
+      leaveByThroughDnd: true,
+      hideTasteTags: true,
+      hideLockscreenDetails: false,
+      hideCollection: false,
+    });
+    // The leave-by alarm rings through Do Not Disturb unless switched off.
+    expect(settingsFromRow({ ...rowOf(), leave_by_through_dnd: 0 }).leaveByThroughDnd).toBe(false);
     expect(settingsFromRow({ ...rowOf(), chattiness: 'loud' }).chattiness).toBe('normal');
   });
 
@@ -57,6 +66,12 @@ describe('synced settings', () => {
     expect(
       settingsPatch({ hideCollection: true, chattiness: 'normal' }, DEFAULT_SYNCED_SETTINGS),
     ).toEqual({ hide_collection: true });
+    expect(
+      settingsPatch(
+        { hideLockscreenDetails: true, leaveByThroughDnd: false },
+        DEFAULT_SYNCED_SETTINGS,
+      ),
+    ).toEqual({ hide_lockscreen_details: true, leave_by_through_dnd: false });
     expect(settingsPatch({ chattiness: 'normal' }, DEFAULT_SYNCED_SETTINGS)).toBeNull();
   });
 });
@@ -108,6 +123,9 @@ function rowOf() {
   return {
     chattiness: null,
     talk_out_loud: null,
+    leave_by_through_dnd: null,
+    hide_taste_tags: null,
+    hide_lockscreen_details: null,
     hide_collection: null,
   };
 }

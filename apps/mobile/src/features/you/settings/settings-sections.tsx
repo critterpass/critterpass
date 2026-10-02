@@ -110,6 +110,13 @@ export function useSettingsSections(
       values.talkOutLoud,
       (next) => handlers.onSynced({ talkOutLoud: next }),
     ),
+    'leave-by-alarms': toggle(
+      'leave-by-alarms',
+      t({ id: 'you.settings.leaveByAlarms', message: 'Leave-by alarms' }),
+      t({ id: 'you.settings.leaveByAlarmsLine', message: 'Can ring through Do Not Disturb' }),
+      values.leaveByThroughDnd,
+      (next) => handlers.onSynced({ leaveByThroughDnd: next }),
+    ),
     'crew-chat': {
       key: 'crew-chat',
       kind: 'value',
@@ -168,6 +175,23 @@ export function useSettingsSections(
       t({ id: 'you.settings.hideCollectionLine', message: 'Crews stop seeing your collection' }),
       values.hideCollection,
       (next) => handlers.onSynced({ hideCollection: next }),
+    ),
+    'hide-travel-style': toggle(
+      'hide-travel-style',
+      t({ id: 'you.settings.hideTravelStyle', message: 'Hide my travel style' }),
+      t({ id: 'you.settings.hideTravelStyleLine', message: 'Crews stop seeing your taste tags' }),
+      values.hideTasteTags,
+      (next) => handlers.onSynced({ hideTasteTags: next }),
+    ),
+    'hide-lockscreen': toggle(
+      'hide-lockscreen',
+      t({ id: 'you.settings.hideLockscreen', message: 'Hide details on the lock screen' }),
+      t({
+        id: 'you.settings.hideLockscreenLine',
+        message: 'Pings and live trips show no amounts or places',
+      }),
+      values.hideLockscreenDetails,
+      (next) => handlers.onSynced({ hideLockscreenDetails: next }),
     ),
     'offline-trips': {
       key: 'offline-trips',
