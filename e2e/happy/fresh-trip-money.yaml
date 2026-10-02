@@ -224,12 +224,13 @@ appId: app.critterpass.dev
       id: 'trip-hub-header-.*'
     timeout: 30000
 - runFlow: subflows/answer-visit-offer.yaml
+# Not centred: the tiles sit near the foot of the hub, which cannot scroll them to the middle of
+# an iPhone's screen, and a centring scroll that cannot get there fails.
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-money'
     direction: DOWN
     timeout: 10000
-    centerElement: true
 - waitForAnimationToEnd
 - takeScreenshot: money-hub
 - assertNotVisible: '.*\$.*'
