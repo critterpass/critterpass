@@ -34,6 +34,10 @@ export function useReviewScene(input: {
   readonly scan: ScanControls;
   readonly view: ReceiptView;
   readonly autoSplit: boolean;
+  /** The parse has kept the member waiting longer than it should. */
+  readonly slow: boolean;
+  /** The commit is on its way: SPLIT IT is held. */
+  readonly committing: boolean;
   readonly onPicker: (id: string | null) => void;
 }) {
   const { ctx, scan, view } = input;
@@ -106,8 +110,13 @@ export function useReviewScene(input: {
     if (step === 'denied') return { kind: 'denied' };
     if (step === 'saved_offline') return { kind: 'offline' };
     if (step === 'upload_failed') return { kind: 'upload_failed' };
+    if (step === 'waiting' && view.kind === 'unreadable') return { kind: 'unreadable' };
     if (parsed === null || step !== 'waiting') {
-      return { kind: 'reading', waiting: step === 'waiting' };
+      return {
+        kind: 'reading',
+        waiting: step === 'waiting',
+        slow: step === 'waiting' && input.slow,
+      };
     }
     const payerName = members.find((member) => member.userId === payerId)?.name ?? '';
     if (view.kind === 'total_only') {
@@ -172,7 +181,7 @@ export function useReviewScene(input: {
                 keep: keepTotal,
               },
         onFix: scan.typeLines,
-        committing: false,
+        committing: input.committing,
         onLine: (lineId) => input.onPicker(lineId),
         onKeepTotal: setKeepTotal,
         onPayer: () => input.onPicker('payer'),

@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, never copy. */
 import { generateUuidV7 } from '@cp/domain';
-import { useCallback, useReducer } from 'react';
+import { useCallback, useEffect, useReducer, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
@@ -31,6 +31,20 @@ const CURRENCY_LANGUAGES: Readonly<Record<string, readonly string[]>> = {
 
 export function languagesFor(currency: string | null): readonly string[] {
   return (currency === null ? undefined : CURRENCY_LANGUAGES[currency]) ?? ['en'];
+}
+
+/** How long a parse may take before the screen offers a way out (it keeps waiting meanwhile). */
+export const SLOW_PARSE_MS = 45_000;
+
+/** True once `key` (the receipt being parsed) has been waited on for `ms`; a new key starts over. */
+export function useWaitedTooLong(key: string | null, ms: number = SLOW_PARSE_MS): boolean {
+  const [late, setLate] = useState<string | null>(null);
+  useEffect(() => {
+    if (key === null) return undefined;
+    const timer = setTimeout(() => setLate(key), ms);
+    return () => clearTimeout(timer);
+  }, [key, ms]);
+  return key !== null && late === key;
 }
 
 export interface ScanControls {
