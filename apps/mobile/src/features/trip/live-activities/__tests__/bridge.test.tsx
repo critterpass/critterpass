@@ -47,6 +47,7 @@ describe('useLiveActivityRegistration', () => {
     const none = () => ({ remove: () => undefined });
     const port: LaPort = {
       authorization: () => ({ enabled: true, frequent: false }),
+      drawnKinds: () => null,
       onPushToStartToken: (listener) => (listeners.push(listener), none()),
       onUpdateToken: none,
       onActivityState: none,

@@ -24,7 +24,7 @@ const TOKEN = 'ab'.repeat(32);
 
 type Listener<E> = (event: E) => void;
 
-function fakeModule(enabled = true) {
+function fakeModule(enabled = true, drawn: readonly string[] | null = null) {
   const listeners = {
     start: [] as Listener<{ kind: 'leave_by'; token: string }>[],
     update: [] as Listener<LaDeviceActivity & { token: string }>[],
@@ -39,6 +39,7 @@ function fakeModule(enabled = true) {
   };
   const port = {
     authorization: () => auth,
+    drawnKinds: () => drawn,
     onPushToStartToken: (l: Listener<{ kind: 'leave_by'; token: string }>) =>
       sub(listeners.start, l),
     onUpdateToken: (l: Listener<LaDeviceActivity & { token: string }>) => sub(listeners.update, l),
@@ -54,9 +55,14 @@ const leaveBy: LaDeviceActivity = {
 };
 
 function harness(
-  options: { enabled?: boolean; outcome?: string; store?: Map<string, string> } = {},
+  options: {
+    enabled?: boolean;
+    outcome?: string;
+    store?: Map<string, string>;
+    drawn?: readonly string[];
+  } = {},
 ) {
-  const module = fakeModule(options.enabled ?? true);
+  const module = fakeModule(options.enabled ?? true, options.drawn ?? null);
   const tokens: RegisterLaTokenPayload[] = [];
   const states: ReportLaStatePayload[] = [];
   const store = options.store ?? new Map<string, string>();
@@ -116,6 +122,15 @@ afterEach(() => {
 });
 
 describe('Live Activity registration', () => {
+  it('lists the kinds the build draws with each push-to-start token, and nothing it does not know', async () => {
+    const h = harness({ drawn: ['leave_by', 'flight', 'meet_up', 'hologram'] });
+    h.emitStart(TOKEN);
+    await h.settle();
+    expect(h.tokens).toEqual([
+      { ...startPayload(TOKEN), la_kinds: ['leave_by', 'meet_up', 'flight'] },
+    ]);
+  });
+
   it('sends a push-to-start token once until something calls for it again', async () => {
     const h = harness();
     h.emitStart(TOKEN);
