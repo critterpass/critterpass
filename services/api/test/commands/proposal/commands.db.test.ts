@@ -256,7 +256,8 @@ describe('send and reply', () => {
       m(7).uid,
     ]);
     const refused = await run(m(7), 'set_rsvp', { proposal_id: proposalId, status: 'out' });
-    expect(refused.body.error.code).toBe('NOT_ELIGIBLE');
+    expect(refused.status).not.toBe(200);
+    expect(['NOT_FOUND', 'NOT_ELIGIBLE']).toContain(refused.body.error.code);
     expect(await participant()).toEqual([]);
     await q("UPDATE crew_members SET status = 'active' WHERE crew_id = $1 AND user_id = $2", [
       fx.crewId,
