@@ -197,6 +197,8 @@ describe('a returning install the server says has no session', () => {
     expect(wiped).not.toHaveBeenCalled();
     expect(h.restarts).toEqual([]);
     expect(lastUid.current).toBe('uid-before');
+    // The app offers the sign-in that gets this account back.
+    expect(h.sessionLost()).toBe(1);
     await expect(session.localFirst.db.getAll('SELECT id, status FROM commands')).resolves.toEqual([
       { id: opId, status: 'queued' },
     ]);
@@ -236,6 +238,7 @@ describe('a returning install the server says has no session', () => {
 
     expect(wiped).toHaveBeenCalledTimes(1);
     expect(h.restarts).toEqual([null]);
+    expect(h.sessionLost()).toBe(0);
   });
 });
 

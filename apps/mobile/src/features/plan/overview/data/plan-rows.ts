@@ -94,6 +94,10 @@ export const ITEMS_SQL = `SELECT pi.id, pi.stable_id, d.day_no, pi.starts_at, pi
   ORDER BY d.day_no, pi.starts_at, pi.stable_id`;
 export const ITEMS_TABLES = ['plan_items', 'plan_days', 'pois', 'bookings'];
 
+/** The version's own record of the places it plans (their names, for stops to go by). */
+export const VERSION_PLACES_SQL = 'SELECT coverage FROM itinerary_versions WHERE id = ?';
+export const VERSION_PLACES_TABLES = ['itinerary_versions'];
+
 export interface OpenPollRow {
   readonly id: string;
   readonly ref_id: string | null;

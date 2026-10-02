@@ -6,3 +6,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/plan/stop-name.ts
+msgid "plan.day.item.kindActivity"
+msgstr "Activity"
+
+#: ../../apps/mobile/src/features/plan/stop-name.ts
+msgid "plan.day.item.kindMeal"
+msgstr "Meal"

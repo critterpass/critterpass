@@ -1,7 +1,8 @@
 /**
  * What the expense was and when (undesigned; opened from the description row): the name, the
  * category chips (stays / food / transit / fun / other) and the day it was spent (today, or one of
- * the trip's days so far), keeping the time of day.
+ * the trip's days so far), keeping the time of day. The fields scroll and DONE stays at the foot,
+ * which the sheet keeps above the keyboard while the name is typed.
  */
 import type { ExpenseCategory } from '@cp/domain';
 import { format, upper } from '@cp/i18n';
@@ -15,6 +16,7 @@ import { TextField } from '@/ui/inputs/TextField';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { Sheet } from '@/ui/sheet/Sheet';
+import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
 import { makeStyles } from '@/ui/theme';
 
@@ -22,6 +24,7 @@ import { CATEGORY_ORDER, useCategoryLabel } from '../components/category';
 
 const useStyles = makeStyles((t) => ({
   body: { padding: t.space['16'], gap: t.space['16'] },
+  foot: { paddingHorizontal: t.space['16'], paddingTop: t.space['8'] },
   chips: { gap: t.space['8'], flexWrap: 'wrap' },
   days: { gap: t.space['8'] },
 }));
@@ -66,7 +69,11 @@ export function DetailsSheet({
       accessibilityLabel={title}
       testID="money-add-details"
     >
-      <View style={styles.body}>
+      <SheetScrollView
+        contentContainerStyle={styles.body}
+        keyboardShouldPersistTaps="handled"
+        testID="money-add-details-scroll"
+      >
         <TextField
           label={t({ id: 'money.add.name', message: 'Name' })}
           value={description}
@@ -121,6 +128,8 @@ export function DetailsSheet({
             </Row>
           </ScrollView>
         </Stack>
+      </SheetScrollView>
+      <View style={styles.foot}>
         <PillButton
           label={upper(t({ id: 'money.add.done', message: 'Done' }), locale)}
           onPress={onClose}

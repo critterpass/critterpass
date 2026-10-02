@@ -239,9 +239,16 @@ export function Sticker(props: StickerProps): React.JSX.Element {
     if (isLive) return;
     let cancelled = false;
     void cache
-      .getOrRender(key, () =>
-        Promise.resolve(renderStickerPng(spec, bucketPt, deviceScale, engine)),
-      )
+      .getOrRender(key, () => {
+        const started = UI_QA_ENABLED ? performance.now() : 0;
+        const bytes = renderStickerPng(spec, bucketPt, deviceScale, engine);
+        if (UI_QA_ENABLED) {
+          // Read by the device shards: what drawing new stickers costs the JS thread.
+          // eslint-disable-next-line lingui/no-unlocalized-strings -- a log tag, never copy.
+          console.info(`[sticker-encode] ${(performance.now() - started).toFixed(2)}`);
+        }
+        return Promise.resolve(bytes);
+      })
       .then((bytes) => {
         if (cancelled) return;
         setUri(pngUri(key, bytes));

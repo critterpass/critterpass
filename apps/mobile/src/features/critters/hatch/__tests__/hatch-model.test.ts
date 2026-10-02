@@ -115,16 +115,31 @@ describe('arriving at the destination', () => {
     // A plan just locked in (not yet about to start) shows the egg waiting and takes no arrival.
     const locked = trip({ status: 'confirmed' });
     expect(awaitsArrival(locked, morning, TZ)).toBe(false);
-    expect(eggCardFor([locked], morning, never, TZ, () => true)?.kind).toBe('waiting');
-    // The PASS card offers HATCH IT there and then, as an arrival; elsewhere it still waits.
-    expect(eggCardFor([preTrip], morning, never, TZ, () => true)).toMatchObject({
+    expect(eggCardFor([locked], morning, never, TZ)?.kind).toBe('waiting');
+    // The PASS card offers HATCH IT as an arrival once the first day has begun there.
+    expect(eggCardFor([preTrip], morning, never, TZ)).toMatchObject({
       kind: 'ready',
       trigger: 'arrived',
     });
-    expect(eggCardFor([preTrip], morning, never, TZ, () => false)?.kind).toBe('waiting');
     expect(eggCardFor([trip()], morning, never, TZ)).toMatchObject({
       kind: 'ready',
       trigger: 'manual',
     });
+  });
+
+  it('offers HATCH IT at 01:30 on the first day, with no position read overnight', () => {
+    const preTrip = trip({ status: 'pre_trip' });
+    // 01:30 in Vietnam on the start date (2 Oct), when the location session is off.
+    const overnight = at('2026-10-01T18:30:00Z');
+    expect(eggCardFor([preTrip], overnight, never, TZ)).toMatchObject({
+      kind: 'ready',
+      trigger: 'arrived',
+    });
+  });
+
+  it('keeps the egg waiting the day before the trip, at any hour', () => {
+    const preTrip = trip({ status: 'pre_trip' });
+    // 23:59 in Vietnam on 1 Oct, the day before the start date.
+    expect(eggCardFor([preTrip], at('2026-10-01T16:59:00Z'), never, TZ)?.kind).toBe('waiting');
   });
 });

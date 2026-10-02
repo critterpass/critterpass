@@ -4,7 +4,7 @@
  * upcoming item on the trip's current plan that needs a leave-by (an early start, a transfer or
  * flight, or a long trip there) gets one, computed from the route (Mapbox traffic when configured,
  * flagged as an estimate otherwise), its pickup when a transfer booking collects the crew, and its
- * buffer. A leave-by that moved re-arms its timers and tells the crew once; one that no longer has
+ * buffer. A transfer booked without a place routes to its booking's placed pickup point. A leave-by that moved re-arms its timers and tells the crew once; one that no longer has
  * an item is cancelled. Running it again with nothing changed changes nothing.
  */
 import { appendDomainEvent, cancelScheduledEvent, outbox, scheduleEvent, withSystem } from '@cp/db';
@@ -31,9 +31,9 @@ import type pg from 'pg';
 import { defineJob, type JobDefinition } from '../../boss';
 import { armTripBriefings } from './briefing-schedule';
 import { armDayBundles } from './daybundle-triggers';
+import { travelFor } from './leave-by-travel';
+import { withPickupPlaces, type PickupGeocoder } from './pickup-placing';
 import { loadPlanItems, type PlanItemRow } from './plan-items';
-
-const MINUTE = 60_000;
 
 interface ExistingLeaveBy {
   id: string;
@@ -42,53 +42,6 @@ interface ExistingLeaveBy {
   buffer_min: number;
   state: LeaveByState;
   version: number;
-}
-
-async function travelFor(
-  router: RouteEtaProvider,
-  item: PlanItemRow,
-  arriveEarly: number,
-): Promise<LeaveByLeg> {
-  if (item.pickup_at !== null) {
-    return {
-      kind: 'pickup',
-      minutes: 0,
-      distance_m: null,
-      mode: null,
-      source: 'pickup',
-      traffic: false,
-      estimate: false,
-    };
-  }
-  if (item.origin === null || item.lat === null || item.lng === null) {
-    return {
-      kind: 'none',
-      minutes: 0,
-      distance_m: null,
-      mode: null,
-      source: 'none',
-      traffic: false,
-      estimate: true,
-    };
-  }
-  const eta = await router.eta({
-    originLat: item.origin.lat,
-    originLng: item.origin.lng,
-    destLat: item.lat,
-    destLng: item.lng,
-    mode: 'auto',
-    // A first guess of when the crew sets off, so predicted traffic is for the right hour.
-    departAt: new Date(item.starts_at.getTime() - (arriveEarly + 60) * MINUTE),
-  });
-  return {
-    kind: 'route',
-    minutes: eta.minutes,
-    distance_m: eta.distanceM,
-    mode: eta.mode,
-    source: eta.source,
-    traffic: eta.traffic,
-    estimate: eta.estimate,
-  };
 }
 
 async function armTimers(
@@ -250,14 +203,22 @@ export async function recomputeLeaveBys(
   tripId: string,
   router: RouteEtaProvider,
   now: Date = new Date(),
+  geocoder?: PickupGeocoder,
 ): Promise<RecomputeResult> {
-  const items = await withSystem(pool, (tx) => loadPlanItems(tx, tripId, now));
+  const loaded = await withSystem(pool, (tx) => loadPlanItems(tx, tripId, now));
+  // A transfer booked by hand routes to its booking's pickup, placed once per pickup text.
+  const items = await withPickupPlaces(pool, tripId, loaded, geocoder);
   // Routing runs outside any transaction; storing is one short transaction.
   const eligible: { item: PlanItemRow; leg: LeaveByLeg }[] = [];
   for (const item of items) {
     const leg = await travelFor(router, item, arriveEarlyMinutes(item.category));
     const travel = leg.kind === 'route' ? leg.minutes : null;
-    if (isLeaveByEligible({ ...item, startsAt: item.starts_at }, travel)) {
+    const place = {
+      category: item.place_category,
+      name: item.place_name,
+      nameLocal: item.place_name_local,
+    };
+    if (isLeaveByEligible({ ...item, startsAt: item.starts_at, place }, travel)) {
       eligible.push({ item, leg });
     }
   }
@@ -311,8 +272,9 @@ export async function refreshTripDay(
   tripId: string,
   router: RouteEtaProvider,
   now: Date = new Date(),
+  geocoder?: PickupGeocoder,
 ): Promise<TripDayRefresh> {
-  const result = await recomputeLeaveBys(pool, tripId, router, now);
+  const result = await recomputeLeaveBys(pool, tripId, router, now, geocoder);
   const armed = await withSystem(pool, async (tx) => ({
     briefings: await armTripBriefings(tx, tripId, now),
     bundles: await armDayBundles(tx, tripId, now),
@@ -320,13 +282,16 @@ export async function refreshTripDay(
   return { ...result, ...armed };
 }
 
-export function leaveByRecomputeJob(router: RouteEtaProvider): JobDefinition<LeaveByRecomputeJob> {
+export function leaveByRecomputeJob(
+  router: RouteEtaProvider,
+  geocoder?: PickupGeocoder,
+): JobDefinition<LeaveByRecomputeJob> {
   return defineJob({
     queue: TRIP_DAY_QUEUES.leaveByRecompute,
     schema: leaveByRecomputeJobSchema,
     singletonKey: (data: LeaveByRecomputeJob) => data.trip_id,
     handler: async (data, ctx) => ({
-      ...(await refreshTripDay(ctx.pool, data.trip_id, router)),
+      ...(await refreshTripDay(ctx.pool, data.trip_id, router, new Date(), geocoder)),
     }),
   });
 }

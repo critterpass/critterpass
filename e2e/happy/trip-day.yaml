@@ -3,9 +3,9 @@ appId: app.critterpass.dev
 # Release gate: the trip day. A fresh account takes the staging demo crew (a confirmed Bali trip
 # three weeks out). The TRIPS tab opens the trip's hub, counting down to wheels up; the first
 # day's card opens the day-of screen, where the account adds "Sunscreen" to its pack list and
-# ticks it, both through the api. After a relaunch the tick is still there. On Android the phone
-# then loses its signal: the hub turns to the offline card with nothing left to send (the pack
-# list reached the server), and comes back when the signal does.
+# ticks it, both through the api. A relaunch comes back on that day-of screen with the tick still
+# there. On Android the phone then loses its signal: the hub turns to the offline card with
+# nothing left to send (the pack list reached the server), and comes back when the signal does.
 - runFlow:
     file: subflows/fresh-account.yaml
     env:
@@ -46,19 +46,12 @@ appId: app.critterpass.dev
 # Give the upload queue a moment, then relaunch: the ticked row comes back from the database.
 - waitForAnimationToEnd:
     timeout: 5000
+# A cold start comes back on the screen the app was left on: the day-of screen, with no tap.
 - launchApp
 - extendedWaitUntil:
     visible:
-      id: 'tab-trips'
+      id: 'trip-day'
     timeout: 60000
-- tapOn:
-    id: 'tab-trips'
-- extendedWaitUntil:
-    visible:
-      id: 'trip-hub-next'
-    timeout: 30000
-- tapOn:
-    id: 'trip-hub-next'
 - scrollUntilVisible:
     element:
       text: 'SUNSCREEN|Sunscreen, just you'

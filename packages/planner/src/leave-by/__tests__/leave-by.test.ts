@@ -3,11 +3,13 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 
 import {
+  AIRPORT_WORDS,
   arriveEarlyMinutes,
   computeLeaveBy,
   isLeaveByEligible,
   joinNames,
   knockReason,
+  leaveByCategory,
   leaveByTimers,
   nextLeaveByState,
   ringRemaining,
@@ -90,6 +92,76 @@ describe('isLeaveByEligible', () => {
     expect(isLeaveByEligible(at('2026-10-15T02:00:00Z', 'transfer'), 10)).toBe(true);
     expect(isLeaveByEligible(at('2026-10-15T02:00:00Z'), 50)).toBe(true);
     expect(isLeaveByEligible({ ...at('2026-10-15T02:00:00Z'), flaggedEarly: true }, 5)).toBe(true);
+  });
+
+  it('treats an item at an airport picked from place search as an airport run', () => {
+    const midday = at('2026-10-15T02:00:00Z', 'transit');
+    const place = (name: string, nameLocal: string | null = null) => ({
+      category: 'transit',
+      name,
+      nameLocal,
+    });
+    expect(
+      isLeaveByEligible({ ...midday, place: place('Da Nang International Airport') }, 20),
+    ).toBe(true);
+    expect(
+      isLeaveByEligible({ ...midday, place: place('DAD Terminal 2', 'Sân bay Đà Nẵng') }, 20),
+    ).toBe(true);
+    expect(isLeaveByEligible({ ...midday, place: place('Bến xe Trung tâm') }, 20)).toBe(false);
+    // Only a transit place counts: a café called "Airport Coffee" is still a café.
+    expect(
+      isLeaveByEligible(
+        {
+          ...at('2026-10-15T02:00:00Z', 'food'),
+          place: { ...place('Airport Coffee'), category: 'food' },
+        },
+        20,
+      ),
+    ).toBe(false);
+  });
+
+  it.each([
+    ['en', 'Da Nang International Airport'],
+    ['es', 'Aeropuerto de Málaga'],
+    ['pt', 'Aeroporto de Lisboa'],
+    ['it', 'Aeroporto di Roma-Fiumicino'],
+    ['fr', 'Aéroport de Nice Côte d’Azur'],
+    ['de', 'Flughafen München'],
+    ['nl', 'Luchthaven Schiphol'],
+    ['id', 'Bandar Udara Internasional I Gusti Ngurah Rai'],
+    ['ms', 'Lapangan Terbang Antarabangsa Kuala Lumpur'],
+    ['tl', 'Paliparan ng Ninoy Aquino'],
+    ['vi', 'Sân bay Quốc tế Đà Nẵng'],
+    ['vi', 'Cảng hàng không Quốc tế Cam Ranh'],
+    ['id', 'Bandara Komodo'],
+    ['th', 'สนามบินดอนเมือง'],
+    ['ja', '那覇空港'],
+    ['zh-Hans', '上海浦东国际机场'],
+    ['zh-Hant', '臺灣桃園國際機場'],
+    ['ko', '인천국제공항'],
+    ['th', 'ท่าอากาศยานสุวรรณภูมิ'],
+  ])('names an airport in %s: %s', (lang, name) => {
+    expect(AIRPORT_WORDS[lang]).toBeDefined();
+    const item = { ...at('2026-10-15T02:00:00Z', 'transit') };
+    const place = { category: 'transit', name: 'DAD', nameLocal: name };
+    expect(leaveByCategory({ ...item, place })).toBe('airport');
+  });
+
+  it('matches airport words as whole words only', () => {
+    const item = { ...at('2026-10-15T02:00:00Z', 'transit') };
+    const place = (name: string) => ({ category: 'transit', name, nameLocal: null });
+    expect(leaveByCategory({ ...item, place: place('Airportstraße Bus Stop') })).toBe('transit');
+    expect(leaveByCategory({ ...item, place: place('Hasan Bay Ferry') })).toBe('transit');
+    expect(leaveByCategory({ ...item, place: place('AIRPORT shuttle stop') })).toBe('airport');
+  });
+
+  it('keeps the item category when it already says what the item is', () => {
+    const flight = { ...at('2026-10-15T02:00:00Z', 'flight') };
+    const place = { category: 'transit', name: 'Ngurah Rai Airport', nameLocal: null };
+    expect(leaveByCategory({ ...flight, place })).toBe('flight');
+    expect(leaveByCategory({ ...at('2026-10-15T02:00:00Z', 'transit'), place })).toBe('airport');
+    expect(leaveByCategory({ ...at('2026-10-15T02:00:00Z', null), place })).toBe('airport');
+    expect(leaveByCategory(at('2026-10-15T02:00:00Z', 'transit'))).toBe('transit');
   });
 });
 

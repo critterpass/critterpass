@@ -1,0 +1,1412 @@
+{
+  "kind": "emergency",
+  "version": 3,
+  "items": [
+    {
+      "country": "AE",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "999",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "998",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "997",
+          "label": "Fire department (civil defence)"
+        }
+      ],
+      "source_url": "https://travel.gc.ca/destinations/united-arab-emirates",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "AL",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "127",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "128",
+          "label": "Fire brigade"
+        },
+        {
+          "service": "police",
+          "number": "129",
+          "label": "Rescue police"
+        },
+        {
+          "service": "police",
+          "number": "126",
+          "label": "Traffic police"
+        }
+      ],
+      "source_url": "https://tirana.embassy.qa/en/republic-of-albania/important-phones",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "AR",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "911",
+          "label": "Police"
+        },
+        {
+          "service": "police",
+          "number": "101",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "107",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "100",
+          "label": "Fire"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/argentina/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "AT",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "144",
+          "label": "Ambulance or rescue"
+        },
+        {
+          "service": "fire",
+          "number": "122",
+          "label": "Fire"
+        },
+        {
+          "service": "police",
+          "number": "133",
+          "label": "Police"
+        },
+        {
+          "service": "general",
+          "number": "112",
+          "label": "European emergency number"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/austria/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "AU",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "000",
+          "label": "Emergency"
+        }
+      ],
+      "source_url": "https://travel.gc.ca/destinations/australia",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "BE",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "European emergency call"
+        },
+        {
+          "service": "fire",
+          "number": "100",
+          "label": "Fire brigades and ambulance"
+        },
+        {
+          "service": "police",
+          "number": "101",
+          "label": "Federal police"
+        }
+      ],
+      "source_url": "https://www.brussels.be/emergency-services",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "BR",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "190",
+          "label": "Military police"
+        },
+        {
+          "service": "ambulance",
+          "number": "192",
+          "label": "Medical assistance (SAMU)"
+        },
+        {
+          "service": "fire",
+          "number": "193",
+          "label": "Fire department"
+        },
+        {
+          "service": "police",
+          "number": "911",
+          "label": "Military police (from a mobile phone)"
+        }
+      ],
+      "source_url": "https://www.gov.br/anatel/pt-br/regulado/numeracao/codigos-nacionais/servicos-de-utilidade-publica-e-de-emergencia",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "CA",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "911",
+          "label": "Police, fire, ambulance"
+        }
+      ],
+      "source_url": "https://crtc.gc.ca/eng/phone/911/can.htm",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "CH",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "European emergency number"
+        },
+        {
+          "service": "police",
+          "number": "117",
+          "label": "Police"
+        },
+        {
+          "service": "fire",
+          "number": "118",
+          "label": "Fire service"
+        },
+        {
+          "service": "ambulance",
+          "number": "144",
+          "label": "Ambulance"
+        }
+      ],
+      "source_url": "https://www.ch.ch/en/safety-and-justice/emergencies-and-danger",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "CL",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "131",
+          "label": "Medical emergency (SAMU)"
+        },
+        {
+          "service": "fire",
+          "number": "132",
+          "label": "Fire department"
+        },
+        {
+          "service": "police",
+          "number": "133",
+          "label": "Police (Carabineros)"
+        },
+        {
+          "service": "police",
+          "number": "134",
+          "label": "Investigative police (PDI)"
+        },
+        {
+          "service": "other",
+          "number": "136",
+          "label": "Mountain rescue"
+        },
+        {
+          "service": "coast_guard",
+          "number": "137",
+          "label": "Maritime search and rescue"
+        },
+        {
+          "service": "other",
+          "number": "138",
+          "label": "Air search and rescue"
+        },
+        {
+          "service": "other",
+          "number": "139",
+          "label": "Police information"
+        }
+      ],
+      "source_url": "https://www.chile.gob.cl/chile/sobre-chile/informacion-turistica/condiciones-de-seguridad/condiciones-de-seguridad",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "CN",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "110",
+          "label": "Police"
+        },
+        {
+          "service": "fire",
+          "number": "119",
+          "label": "Fire"
+        },
+        {
+          "service": "ambulance",
+          "number": "120",
+          "label": "Medical emergencies"
+        }
+      ],
+      "source_url": "https://english.shanghai.gov.cn/en-EmergencyNumbers/20241210/cbc5280b9f96440a93234bfc5e0c1023.html",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "CO",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "123",
+          "label": "National emergency line"
+        }
+      ],
+      "source_url": "https://www1.funcionpublica.gov.co/preguntas-frecuentes/-/asset_publisher/sqxafjubsrEu/content/linea-unica-de-emergencias-nacional-123/28585938",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "CR",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "911",
+          "label": "All emergencies (police, fire, ambulance"
+        },
+        {
+          "service": "ambulance",
+          "number": "128",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "118",
+          "label": "Fire service"
+        },
+        {
+          "service": "police",
+          "number": "2221-5337",
+          "label": "Police investigative service"
+        }
+      ],
+      "source_url": "https://www.ireland.ie/en/dfa/overseas-travel/advice/costa-rica",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "CU",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "104",
+          "label": "Ambulance"
+        }
+      ],
+      "source_url": "https://www.ireland.ie/en/dfa/overseas-travel/advice/cuba",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "CZ",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "European emergency number (police, fire,"
+        },
+        {
+          "service": "police",
+          "number": "158",
+          "label": "Police"
+        },
+        {
+          "service": "police",
+          "number": "156",
+          "label": "Municipal police"
+        },
+        {
+          "service": "fire",
+          "number": "150",
+          "label": "Fire and rescue service"
+        },
+        {
+          "service": "ambulance",
+          "number": "155",
+          "label": "Emergency medical service"
+        }
+      ],
+      "source_url": "https://mv.gov.cz/mvcren/article/emergency-numbers.aspx",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "DE",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "110",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "112",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "112",
+          "label": "Fire"
+        }
+      ],
+      "source_url": "https://travel.gc.ca/destinations/germany",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "DO",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "911",
+          "label": "Ambulance, fire, police"
+        },
+        {
+          "service": "police",
+          "number": "+1 809 200 3500",
+          "label": "Police in an emergency"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/dominican-republic/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "EG",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "123",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "180",
+          "label": "Fire"
+        },
+        {
+          "service": "police",
+          "number": "122",
+          "label": "Police"
+        },
+        {
+          "service": "tourist_police",
+          "number": "126",
+          "label": "Tourist police"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/egypt/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "ES",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "General emergency"
+        }
+      ],
+      "source_url": "https://administracion.gob.es/en/tu-espacio-europeo/derechos-obligaciones/ciudadanos/asistencia-sanitaria/numeros-urgencia",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "FR",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "General emergency (all services)"
+        },
+        {
+          "service": "police",
+          "number": "17",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "15",
+          "label": "Ambulance (SAMU)"
+        },
+        {
+          "service": "fire",
+          "number": "18",
+          "label": "Fire brigade"
+        }
+      ],
+      "source_url": "https://fr.usembassy.gov/services/medical-assistance/emergency-services-in-france",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "GB",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "999",
+          "label": "Police, ambulance, fire, coastguard"
+        }
+      ],
+      "source_url": "https://join.humber.nhs.uk/international-welcome-hub/emergency-contacts",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "GE",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "Emergency services"
+        }
+      ],
+      "source_url": "https://www.ireland.ie/en/dfa/overseas-travel/advice/georgia",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "GR",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "EU emergency number"
+        },
+        {
+          "service": "police",
+          "number": "100",
+          "label": "Police"
+        },
+        {
+          "service": "fire",
+          "number": "199",
+          "label": "Fire brigade"
+        },
+        {
+          "service": "ambulance",
+          "number": "166",
+          "label": "Ambulance"
+        },
+        {
+          "service": "coast_guard",
+          "number": "108",
+          "label": "Coast guard"
+        }
+      ],
+      "source_url": "https://www.ireland.ie/en/dfa/overseas-travel/advice/greece",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "HK",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "999",
+          "label": "Emergency medical services"
+        }
+      ],
+      "source_url": "https://travel.state.gov/en/international-travel/travel-advisories/hong-kong.html",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "HR",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "General emergency"
+        },
+        {
+          "service": "police",
+          "number": "192",
+          "label": "Police"
+        },
+        {
+          "service": "fire",
+          "number": "193",
+          "label": "Fire department"
+        },
+        {
+          "service": "ambulance",
+          "number": "194",
+          "label": "Ambulance"
+        },
+        {
+          "service": "coast_guard",
+          "number": "195",
+          "label": "Maritime search and rescue"
+        }
+      ],
+      "source_url": "https://vlada.gov.hr/need-emergency-help/16125",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "HU",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "General emergency"
+        },
+        {
+          "service": "police",
+          "number": "107",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "104",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "105",
+          "label": "Fire"
+        }
+      ],
+      "source_url": "https://studyinhungary.hu/living-in-hungary/menu/emergency-numbers.html",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "ID",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "General emergency"
+        },
+        {
+          "service": "police",
+          "number": "110",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "118",
+          "label": "Ambulance and medical emergencies"
+        },
+        {
+          "service": "ambulance",
+          "number": "119",
+          "label": "Ambulance and medical emergencies"
+        },
+        {
+          "service": "fire",
+          "number": "113",
+          "label": "Firefighter"
+        }
+      ],
+      "source_url": "https://www.indonesia.travel/gb/en/general-information/staying-safe-in-indonesia",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "IE",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "All emergencies (police, fire, ambulance"
+        },
+        {
+          "service": "general",
+          "number": "999",
+          "label": "All emergencies (police, fire, ambulance"
+        }
+      ],
+      "source_url": "https://www2.hse.ie/emergencies/when-to-call-112-or-999",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "IN",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "National emergency number"
+        },
+        {
+          "service": "tourist_police",
+          "number": "1363",
+          "label": "Tourist helpline"
+        },
+        {
+          "service": "police",
+          "number": "100",
+          "label": "Police"
+        },
+        {
+          "service": "fire",
+          "number": "101",
+          "label": "Fire"
+        },
+        {
+          "service": "ambulance",
+          "number": "102",
+          "label": "Ambulance"
+        },
+        {
+          "service": "other",
+          "number": "1073",
+          "label": "Road accident"
+        },
+        {
+          "service": "other",
+          "number": "108",
+          "label": "Disaster management"
+        },
+        {
+          "service": "other",
+          "number": "1071",
+          "label": "Air accident"
+        },
+        {
+          "service": "other",
+          "number": "1091",
+          "label": "Women in distress"
+        },
+        {
+          "service": "other",
+          "number": "104",
+          "label": "Medical helpline"
+        },
+        {
+          "service": "other",
+          "number": "1322",
+          "label": "Indian Railway Security Helpline"
+        },
+        {
+          "service": "other",
+          "number": "1092",
+          "label": "Earthquake helpline"
+        }
+      ],
+      "source_url": "https://www.incredibleindia.gov.in/en/emergency",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "IS",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "Police, fire, ambulance and rescue servi"
+        }
+      ],
+      "source_url": "https://is.usembassy.gov/emergency-contact-information-for-u-s-citizens",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "IT",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "General emergency"
+        },
+        {
+          "service": "police",
+          "number": "113",
+          "label": "State Police"
+        },
+        {
+          "service": "fire",
+          "number": "115",
+          "label": "Fire brigade"
+        },
+        {
+          "service": "ambulance",
+          "number": "118",
+          "label": "Urgent medical attention"
+        }
+      ],
+      "source_url": "https://www.italia.it/en/italy/practical-information/emergency-and-assistance",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "JO",
+      "numbers": [
+        {
+          "service": "fire",
+          "number": "199",
+          "label": "Fire department"
+        },
+        {
+          "service": "tourist_police",
+          "number": "+962 79 550 5755",
+          "label": "Tourist police hotline"
+        },
+        {
+          "service": "ambulance",
+          "number": "911",
+          "label": "Emergency medical services / ambulance"
+        }
+      ],
+      "source_url": "https://jordan.gov.jo/EN/Pages/Essential_Contact_Numbers",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "JP",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "119",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "119",
+          "label": "Fire"
+        },
+        {
+          "service": "police",
+          "number": "110",
+          "label": "Police"
+        }
+      ],
+      "source_url": "https://jp.usembassy.gov/services/calling-for-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "KE",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "999",
+          "label": "Emergency"
+        }
+      ],
+      "source_url": "https://travel.state.gov/content/dam/students-abroad/pdfs/911_ABROAD.pdf",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "KH",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "117",
+          "label": "Police"
+        },
+        {
+          "service": "fire",
+          "number": "118",
+          "label": "Fire"
+        },
+        {
+          "service": "ambulance",
+          "number": "119",
+          "label": "Ambulance"
+        }
+      ],
+      "source_url": "https://trc.gov.kh/en/resources/emergency-numbers",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "KR",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "119",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "119",
+          "label": "Fire"
+        },
+        {
+          "service": "police",
+          "number": "112",
+          "label": "Police"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/south-korea/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "LA",
+      "numbers": [
+        {
+          "service": "fire",
+          "number": "1190",
+          "label": "Fire"
+        },
+        {
+          "service": "police",
+          "number": "1191",
+          "label": "Police"
+        },
+        {
+          "service": "tourist_police",
+          "number": "021 251 128",
+          "label": "Tourist police (Vientiane)"
+        },
+        {
+          "service": "ambulance",
+          "number": "1195",
+          "label": "Ambulance"
+        },
+        {
+          "service": "ambulance",
+          "number": "030 525 7239",
+          "label": "Ambulance (alternative)"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/laos/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "MA",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "150",
+          "label": "Medical assistance and fire"
+        },
+        {
+          "service": "fire",
+          "number": "150",
+          "label": "Firefighters"
+        },
+        {
+          "service": "police",
+          "number": "190",
+          "label": "Police"
+        }
+      ],
+      "source_url": "https://travel.gc.ca/destinations/morocco",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "MX",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "911",
+          "label": "Ambulance, fire, police"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/mexico/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "MY",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "999",
+          "label": "Police, fire, ambulance"
+        }
+      ],
+      "source_url": "https://www.malaysia.gov.my/en/categories/safety-and-community/public-safety/mers-999-emergency-line",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "NL",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "Police, fire brigade, ambulance"
+        }
+      ],
+      "source_url": "https://www.government.nl/topics/emergency-number-112",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "NO",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "112",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "113",
+          "label": "Medical assistance"
+        },
+        {
+          "service": "fire",
+          "number": "110",
+          "label": "Firefighters"
+        }
+      ],
+      "source_url": "https://travel.gc.ca/destinations/norway",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "NZ",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "111",
+          "label": "Police, Fire, Ambulance"
+        }
+      ],
+      "source_url": "https://www.immigration.govt.nz/live/staying-safe-and-knowing-your-rights/police-emergency-services-and-natural-disasters",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "OM",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "9999",
+          "label": "Emergency (Royal Oman Police)"
+        }
+      ],
+      "source_url": "https://gov.om/en/royal-oman-police",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "PE",
+      "numbers": [
+        {
+          "service": "ambulance",
+          "number": "106",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "116",
+          "label": "Fire"
+        },
+        {
+          "service": "police",
+          "number": "105",
+          "label": "Police"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/peru/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "PH",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "911",
+          "label": "National emergency hotline"
+        },
+        {
+          "service": "police",
+          "number": "117",
+          "label": "Philippine National Police"
+        },
+        {
+          "service": "other",
+          "number": "143",
+          "label": "Philippine Red Cross"
+        }
+      ],
+      "source_url": "https://ehotlines.e.gov.ph",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "PL",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "Emergency services"
+        },
+        {
+          "service": "police",
+          "number": "997",
+          "label": "Police"
+        },
+        {
+          "service": "fire",
+          "number": "998",
+          "label": "Fire brigade"
+        },
+        {
+          "service": "ambulance",
+          "number": "999",
+          "label": "Ambulance"
+        }
+      ],
+      "source_url": "https://www.ireland.ie/en/dfa/overseas-travel/advice/poland",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "PT",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "National emergency number"
+        }
+      ],
+      "source_url": "https://pt.usembassy.gov/emergency-assistance",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "QA",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "999",
+          "label": "Emergency services"
+        }
+      ],
+      "source_url": "https://www.ireland.ie/en/dfa/overseas-travel/advice/qatar",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "SA",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "911",
+          "label": "Ambulance, fire, police"
+        },
+        {
+          "service": "general",
+          "number": "112",
+          "label": "Emergency (if no Saudi SIM card)"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/saudi-arabia/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "SE",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "Ambulance, police, fire"
+        }
+      ],
+      "source_url": "https://www.sosalarm.se/en/112-and-other-important-numbers/important-phone-numbers/112--swedens-emergency-number-for-urgent-assistance",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "SG",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "999",
+          "label": "Police emergency"
+        },
+        {
+          "service": "police",
+          "number": "70999",
+          "label": "Police emergency SMS"
+        },
+        {
+          "service": "police",
+          "number": "1800 255 0000",
+          "label": "Police hotline"
+        },
+        {
+          "service": "ambulance",
+          "number": "995",
+          "label": "SCDF Ambulance and Fire"
+        },
+        {
+          "service": "fire",
+          "number": "995",
+          "label": "SCDF Ambulance and Fire"
+        },
+        {
+          "service": "ambulance",
+          "number": "1777",
+          "label": "Non-emergency ambulance"
+        },
+        {
+          "service": "police",
+          "number": "6547 0000",
+          "label": "Traffic police hotline"
+        }
+      ],
+      "source_url": "https://www.gov.sg/contact-us",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "TH",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "191",
+          "label": "Ambulance, fire, police"
+        },
+        {
+          "service": "ambulance",
+          "number": "1669",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "199",
+          "label": "Fire"
+        },
+        {
+          "service": "tourist_police",
+          "number": "1155",
+          "label": "Tourist police"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/thailand/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "TN",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "197",
+          "label": "Police"
+        },
+        {
+          "service": "police",
+          "number": "193",
+          "label": "National Guard"
+        },
+        {
+          "service": "ambulance",
+          "number": "190",
+          "label": "Medical assistance"
+        },
+        {
+          "service": "fire",
+          "number": "198",
+          "label": "Firefighters"
+        }
+      ],
+      "source_url": "https://travel.gc.ca/destinations/tunisia",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "TR",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "Ambulance, fire, police"
+        }
+      ],
+      "source_url": "https://www.gov.uk/foreign-travel-advice/turkey/getting-help",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "TW",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "110",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "119",
+          "label": "Medical assistance and fire"
+        },
+        {
+          "service": "fire",
+          "number": "119",
+          "label": "Firefighters"
+        }
+      ],
+      "source_url": "https://travel.gc.ca/destinations/taiwan",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "TZ",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "Emergency assistance"
+        }
+      ],
+      "source_url": "https://travel.gc.ca/destinations/tanzania",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "US",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "911",
+          "label": "Police, fire, ambulance"
+        }
+      ],
+      "source_url": "https://travel.state.gov/content/dam/students-abroad/pdfs/911_ABROAD.pdf",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "UZ",
+      "numbers": [
+        {
+          "service": "general",
+          "number": "112",
+          "label": "General emergency"
+        },
+        {
+          "service": "fire",
+          "number": "101",
+          "label": "Fire department"
+        },
+        {
+          "service": "police",
+          "number": "102",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "103",
+          "label": "Ambulance"
+        }
+      ],
+      "source_url": "https://www.gazeta.uz/en/2025/03/26/112",
+      "retrieved_on": "2026-09-28",
+      "verified_at": "2026-09-29T12:14:19.028Z"
+    },
+    {
+      "country": "VN",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "113",
+          "label": "Police"
+        },
+        {
+          "service": "ambulance",
+          "number": "115",
+          "label": "Ambulance"
+        },
+        {
+          "service": "fire",
+          "number": "114",
+          "label": "Fire and rescue"
+        },
+        {
+          "service": "other",
+          "number": "112",
+          "label": "Incidents and disasters"
+        }
+      ],
+      "source_url": "https://vov.gov.vn/new-emergency-hotline-launched-to-receive-disaster-related-information-dtnew-1113530",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    },
+    {
+      "country": "ZA",
+      "numbers": [
+        {
+          "service": "police",
+          "number": "10111",
+          "label": "Police Flying Squad"
+        },
+        {
+          "service": "ambulance",
+          "number": "10177",
+          "label": "Ambulance"
+        },
+        {
+          "service": "general",
+          "number": "112",
+          "label": "Emergency from a mobile phone"
+        },
+        {
+          "service": "other",
+          "number": "107",
+          "label": "City of Cape Town fire (mobile)"
+        }
+      ],
+      "source_url": "https://www.westerncape.gov.za/know-who-you-can-call-emergency",
+      "retrieved_on": "2026-10-02",
+      "verified_at": "2026-10-02T16:00:00.000Z"
+    }
+  ],
+  "generated_by": {
+    "batch_key": "2026-10-02-emergency-01",
+    "route": null,
+    "model": null,
+    "generated_at": "2026-10-02T16:00:00.000Z"
+  },
+  "approved_by": null,
+  "checksum": "f41585c080981acbaf4da10be5f9e9091cc9fc0369ce72381c4eabeca74486da"
+}

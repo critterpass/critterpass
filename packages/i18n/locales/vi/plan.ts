@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"plan.day.item.kindActivity\":[\"Hoạt động\"],\"plan.day.item.kindMeal\":[\"Bữa ăn\"]}")as Messages;

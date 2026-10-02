@@ -107,3 +107,10 @@ export {
   type RideQuote,
   type RideQuoteRequest,
 } from './rides/quote';
+export {
+  geocodeForwardMapbox,
+  type MapboxForwardOptions,
+  type MapboxForwardResult,
+  type MapboxGeocoderConfig,
+  type MapboxHttpClient,
+} from './mapbox/geocode';
