@@ -231,18 +231,19 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'home-in-trip'
 - waitForAnimationToEnd
-# The Home card's tap has not always opened the trip; the TRIPS tab is the other way there.
+# The Home card's tap has not always opened the trip; the TRIPS tab is the other way there. The
+# hub is found by its header (the screen's own root id is not in Android's tree).
 - runFlow:
     when:
       notVisible:
-        id: 'trip-hub'
+        id: 'trip-hub-header-.*'
     commands:
       - takeScreenshot: fresh-critters-15c-home-tap-did-nothing
       - tapOn:
           id: 'tab-trips'
 - extendedWaitUntil:
     visible:
-      id: 'trip-hub'
+      id: 'trip-hub-header-.*'
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: fresh-critters-16-trip-hub
