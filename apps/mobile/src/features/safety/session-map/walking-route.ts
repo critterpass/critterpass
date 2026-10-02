@@ -25,15 +25,21 @@ export function straightLine(
 
 /**
  * Where the session map looks before anything else: both people when both are known, else the
- * person who needs help, else this phone, else the trip's city (never an empty screen).
+ * person who needs help, else this phone when it is in the trip's city, else the city (never an
+ * empty screen: the map's detail exists for the trip's city, not for wherever this phone is).
  */
+/** How far from the trip city's middle this phone still counts as in the city. */
+const IN_CITY_M = 40_000;
+
 export function mapCentre(
   sender: Point | null,
   here: Point | null,
   city: Point | null,
 ): { centre: Point; zoom: number } | null {
   if (sender !== null) return frame(here, sender);
-  if (here !== null) return { centre: here, zoom: 15 };
+  if (here !== null && (city === null || distanceM(here, city) <= IN_CITY_M)) {
+    return { centre: here, zoom: 15 };
+  }
   return city === null ? null : { centre: city, zoom: 12 };
 }
 

@@ -40,6 +40,8 @@ describe('where the session map looks', () => {
     expect(mapCentre(sender, me, city)).toEqual(frame(me, sender));
     expect(mapCentre(sender, null, city)).toEqual({ centre: sender, zoom: 15 });
     expect(mapCentre(null, me, city)).toEqual({ centre: me, zoom: 15 });
+    const elsewhere = { lat: 37.422, lng: -122.084 };
+    expect(mapCentre(null, elsewhere, city)).toEqual({ centre: city, zoom: 12 });
     expect(mapCentre(null, null, city)).toEqual({ centre: city, zoom: 12 });
   });
 

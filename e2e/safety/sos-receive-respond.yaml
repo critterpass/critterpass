@@ -141,5 +141,7 @@ appId: app.critterpass.dev
       id: 'sos-resolved'
     timeout: 30000
 - assertVisible: '(?i)mai is safe\.'
+# The visit-history offer rises over any screen about ten minutes into a trip.
+- runFlow: ../happy/subflows/dismiss-visit-offer.yaml
 - waitForAnimationToEnd
 - takeScreenshot: en-sos-resolved-crew

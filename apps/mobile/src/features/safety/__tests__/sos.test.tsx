@@ -85,6 +85,7 @@ describe('SOS model', () => {
       false_alarm: 1,
       resolved_at: '2026-10-02T09:50:00Z',
     });
+    expect(buildSosModel(resolved, MAYA, names).steps.map((s) => s.key)).toEqual(['sent']);
     expect(buildSosModel(resolved, MAYA, names)).toMatchObject({
       state: 'resolved',
       falseAlarm: true,

@@ -121,10 +121,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'sos-close'
 # Vietnamese: the dev gallery switches the running app's language.
-- extendedWaitUntil:
-    visible:
+# Back on the hub, scrolled down to where SOS was: its back control is at the top.
+- scrollUntilVisible:
+    element:
       id: 'help-back'
-    timeout: 10000
+    direction: UP
+    timeout: 15000
 - tapOn:
     id: 'help-back'
 - extendedWaitUntil:

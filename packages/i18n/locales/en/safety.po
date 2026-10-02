@@ -43,6 +43,10 @@ msgstr "{n, plural, one {SOS sent to your one crewmate} other {SOS sent to all #
 msgid "safety.help.open24"
 msgstr "{name} · Open 24h"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.safeTitle"
+msgstr "{name} is safe"
+
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.theyAreSafe"
 msgstr "{name} is safe"
@@ -499,6 +503,10 @@ msgstr "Stopping your Help share"
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.resolve"
 msgstr "Telling the crew you are OK"
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.youSafeTitle"
+msgstr "The crew knows you are OK"
 
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.straight"

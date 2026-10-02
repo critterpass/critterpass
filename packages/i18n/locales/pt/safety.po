@@ -43,6 +43,10 @@ msgstr ""
 msgid "safety.help.open24"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.safeTitle"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.theyAreSafe"
 msgstr ""
@@ -498,6 +502,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.resolve"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.youSafeTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx

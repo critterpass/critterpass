@@ -43,6 +43,10 @@ msgstr "{n, plural, one {Đã gửi SOS cho người bạn đồng hành duy nh�
 msgid "safety.help.open24"
 msgstr "{name} · Mở cửa 24/7"
 
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.safeTitle"
+msgstr "{name} đã an toàn"
+
 #: ../../apps/mobile/src/features/safety/sos/sos-view.tsx
 msgid "safety.sos.theyAreSafe"
 msgstr "{name} đã an toàn"
@@ -499,6 +503,10 @@ msgstr "Đang dừng chia sẻ Trợ giúp"
 #: ../../apps/mobile/src/features/safety/commands.ts
 msgid "safety.queued.resolve"
 msgstr "Đang báo cả nhóm là bạn ổn"
+
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.youSafeTitle"
+msgstr "Cả nhóm đã biết bạn ổn"
 
 #: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
 msgid "safety.map.straight"

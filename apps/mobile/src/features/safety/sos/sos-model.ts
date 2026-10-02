@@ -110,11 +110,10 @@ function stepViews(row: SosRow, steps: ReadonlyMap<string, SosStep>, desk: boole
     return { key, done: step?.state === 'done', n: step?.n ?? null };
   };
   const out = [view('sent')];
-  out.push({
-    key: 'location_live',
-    done: row.status === 'open' || row.status === 'responding',
-    n: null,
-  });
+  // The live location is a step only while the SOS is on; once it is over the share has ended.
+  if (row.status === 'open' || row.status === 'responding') {
+    out.push({ key: 'location_live', done: true, n: null });
+  }
   // The desk call and the insurance hand-off are a person's work: shown only where one staffs it.
   if (desk && steps.has('ops_clinic')) out.push(view('ops_clinic'));
   if (desk && steps.has('insurance')) out.push(view('insurance'));
