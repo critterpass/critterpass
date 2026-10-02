@@ -1,5 +1,6 @@
 import { Canvas, Group, Path } from '@shopify/react-native-skia';
-import { I18nManager, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { I18nManager, Image, PixelRatio, View } from 'react-native';
 import type { StyleProp, ViewStyle } from 'react-native';
 
 import { useSurfaceTone } from '../surface/Scaffold';
@@ -8,6 +9,7 @@ import type { Theme } from '../theme';
 import { useTheme } from '../theme';
 import { DOODLES } from './generated';
 import type { DoodleName } from './generated';
+import { cachedIconImage, iconImageKey, requestIconImage } from './icon-image';
 import { DOODLE_A11Y } from './labels';
 import { checkIconDraws } from '../qa/icon-check';
 
@@ -51,7 +53,11 @@ export function tokenColor(theme: Theme, tokenPath: string): string | undefined 
   return undefined;
 }
 
-/** A hand-drawn doodle icon (design/doodles.js), vector-drawn with Skia at any size. */
+/**
+ * A hand-drawn doodle icon (design/doodles.js) at any size: drawn once per size, colours and
+ * density as a plain image (no GL surface per icon); a build without Skia's raster surface draws
+ * it live.
+ */
 export function Icon({
   name,
   size = 24,
@@ -85,10 +91,31 @@ export function Icon({
     if (paint === 'accent') return accentColor;
     return tokenColor(theme, paint);
   };
+  const fills = def.layers.map((layer) => paintFor(layer.paint));
   checkIconDraws(
     name,
-    def.layers.map((layer) => ({ fill: paintFor(layer.paint), opacity: layer.opacity })),
+    def.layers.map((layer, index) => ({ fill: fills[index], opacity: layer.opacity })),
   );
+  const imageInput = {
+    name,
+    layers: def.layers,
+    fills,
+    viewBoxWidth: vbWidth,
+    width: size,
+    height,
+    mirror,
+    scale: PixelRatio.get(),
+  };
+  const imageKey = iconImageKey(imageInput);
+  const cached = cachedIconImage(imageInput);
+  const [, drawn] = useState(0);
+  useEffect(() => {
+    if (cached !== undefined) return undefined;
+    // Drawn after this frame; until then the icon shows live, never blank.
+    return requestIconImage(imageInput, () => drawn((n) => n + 1));
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `imageKey` is everything the picture depends on
+  }, [imageKey, cached === undefined]);
+  const uri = cached ?? null;
 
   return (
     <View
@@ -107,27 +134,37 @@ export function Icon({
             accessibilityLabel: resolvedLabel,
           })}
     >
-      <Canvas style={{ width: size, height }}>
-        <Group
-          transform={
-            mirror ? [{ translateX: size }, { scaleX: -scale }, { scaleY: scale }] : [{ scale }]
-          }
-        >
-          {def.layers.map((layer, index) => {
-            const fill = paintFor(layer.paint);
-            if (fill === undefined) return null;
-            return (
-              <Path
-                key={index}
-                path={layer.d}
-                color={fill}
-                opacity={layer.opacity ?? 1}
-                {...(layer.multiply ? { blendMode: 'multiply' as const } : {})}
-              />
-            );
-          })}
-        </Group>
-      </Canvas>
+      {uri !== null ? (
+        <Image
+          source={{ uri }}
+          style={{ width: size, height }}
+          fadeDuration={0}
+          accessible={false}
+          testID="icon-image"
+        />
+      ) : (
+        <Canvas style={{ width: size, height }}>
+          <Group
+            transform={
+              mirror ? [{ translateX: size }, { scaleX: -scale }, { scaleY: scale }] : [{ scale }]
+            }
+          >
+            {def.layers.map((layer, index) => {
+              const fill = paintFor(layer.paint);
+              if (fill === undefined) return null;
+              return (
+                <Path
+                  key={index}
+                  path={layer.d}
+                  color={fill}
+                  opacity={layer.opacity ?? 1}
+                  {...(layer.multiply ? { blendMode: 'multiply' as const } : {})}
+                />
+              );
+            })}
+          </Group>
+        </Canvas>
+      )}
     </View>
   );
 }
