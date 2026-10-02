@@ -6,8 +6,10 @@ jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-do
 // builder is an inert marker, and the stand-in's `Animated.View` is a plain `View`, so a view's
 // `entering` prop shows whether it was given an entering animation.
 jest.mock('react-native-reanimated', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports -- jest.mock factories cannot close over module-scope imports
-  const standIn = require('@/motion/test-support/reanimated-mock') as Record<string, unknown>;
+  // The module name maps to the stand-in's file, so the real file is asked for by name here.
+  const standIn = jest.requireActual<Record<string, unknown>>(
+    '@/motion/test-support/reanimated-mock',
+  );
   const builder = { springify: () => builder };
   return { ...standIn, __esModule: true, FadeInDown: { delay: () => builder } };
 });
