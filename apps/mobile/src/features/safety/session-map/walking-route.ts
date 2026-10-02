@@ -23,6 +23,20 @@ export function straightLine(
   ];
 }
 
+/**
+ * Where the session map looks before anything else: both people when both are known, else the
+ * person who needs help, else this phone, else the trip's city (never an empty screen).
+ */
+export function mapCentre(
+  sender: Point | null,
+  here: Point | null,
+  city: Point | null,
+): { centre: Point; zoom: number } | null {
+  if (sender !== null) return frame(here, sender);
+  if (here !== null) return { centre: here, zoom: 15 };
+  return city === null ? null : { centre: city, zoom: 12 };
+}
+
 /** The point halfway, and a zoom that keeps both ends on a phone screen. */
 export function frame(from: Point | null, to: Point): { centre: Point; zoom: number } {
   if (from === null) return { centre: to, zoom: 15 };

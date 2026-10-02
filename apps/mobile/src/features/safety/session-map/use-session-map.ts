@@ -9,7 +9,7 @@ import criterpassDarkStyleJson from '../../../../assets/map-style/critterpass-da
 import { useLiveRows } from '../data/live-rows';
 import type { SosModel } from '../sos/sos-model';
 import { useSos } from '../sos/use-sos';
-import { frame, straightLine, type Point } from './walking-route';
+import { mapCentre, straightLine, type Point } from './walking-route';
 
 const WORLD_URL = (
   (criterpassDarkStyleJson as { sources: Record<string, { url?: string }> }).sources['world']
@@ -17,7 +17,14 @@ const WORLD_URL = (
 ).replace(/^pmtiles:\/\//u, '');
 
 const SLUG_SQL = `
-  SELECT d.slug FROM trips t JOIN destinations d ON d.id = t.destination_id WHERE t.id = ?`;
+  SELECT d.slug, t.destination_id FROM trips t JOIN destinations d ON d.id = t.destination_id
+   WHERE t.id = ?`;
+/** The trip's city: the middle of its synced places, else of its curated facilities. */
+const CITY_SQL = `
+  SELECT coalesce((SELECT avg(lat) FROM pois WHERE destination_id = ?1),
+                  (SELECT avg(lat) FROM facilities WHERE destination_id = ?1)) AS lat,
+         coalesce((SELECT avg(lng) FROM pois WHERE destination_id = ?1),
+                  (SELECT avg(lng) FROM facilities WHERE destination_id = ?1)) AS lng`;
 
 export interface SessionMap {
   readonly loaded: boolean;
@@ -37,21 +44,29 @@ export interface SessionMap {
 
 export function useSessionMap(sosId: string | null): SessionMap {
   const sos = useSos(sosId);
-  const slug =
-    useLiveRows<{ slug: string | null }>(SLUG_SQL, sos.row === null ? null : [sos.row.trip_id], [
-      'trips',
-      'destinations',
-    ]).rows[0]?.slug ?? null;
+  const dest = useLiveRows<{ slug: string | null; destination_id: string | null }>(
+    SLUG_SQL,
+    sos.row === null ? null : [sos.row.trip_id],
+    ['trips', 'destinations'],
+  ).rows[0];
+  const slug = dest?.slug ?? null;
+  const cityRow = useLiveRows<{ lat: number | null; lng: number | null }>(
+    CITY_SQL,
+    dest?.destination_id == null ? null : [dest.destination_id],
+    ['pois', 'facilities'],
+  ).rows[0];
+  const city =
+    cityRow?.lat == null || cityRow.lng == null ? null : { lat: cityRow.lat, lng: cityRow.lng };
   const model = sos.model;
   const me = model?.responders.find((responder) => responder.uid === sos.uid) ?? null;
-  const framed = sos.senderAt === null ? null : frame(sos.here, sos.senderAt);
+  const framed = mapCentre(sos.senderAt, sos.here, city);
   return {
     loaded: sos.loaded,
     model,
     sender: sos.senderAt,
     here: sos.here,
     line: straightLine(sos.here, sos.senderAt),
-    centre: framed?.centre ?? sos.here,
+    centre: framed?.centre ?? null,
     zoom: framed?.zoom ?? 15,
     etaMin: me?.etaMin ?? null,
     distanceM: sos.distanceM,

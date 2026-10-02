@@ -1,5 +1,6 @@
 appId: app.critterpass.dev
 ---
+# Waits are on controls, not screen roots: iOS does not expose a screen root's id.
 # A crew SOS between two brand-new accounts on one phone, no demo world. The organiser locks in a
 # Đà Nẵng trip a week out (../happy/subflows/trip-under-way.yaml keeps the crew's code); a friend
 # joins with the code, which puts them on the trip, and sends an SOS from Help ("I fell").
@@ -63,7 +64,7 @@ appId: app.critterpass.dev
     id: 'help-sos'
 - extendedWaitUntil:
     visible:
-      id: 'sos-send-screen'
+      id: 'sos-slide'
     timeout: 15000
 - tapOn:
     id: 'sos-preset-fell'

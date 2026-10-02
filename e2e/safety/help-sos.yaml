@@ -1,5 +1,6 @@
 appId: app.critterpass.dev
 ---
+# Waits are on controls, not screen roots: iOS does not expose a screen root's id.
 # Help and SOS as a brand-new traveller, no demo world: a fresh account from Ho Chi Minh City locks
 # in a Đà Nẵng trip (../happy/subflows/trip-under-way.yaml). A long-press on the
 # guide button opens Help (3k-6): the share consent asks first with the toggle off; turned on, the
@@ -57,14 +58,14 @@ appId: app.critterpass.dev
 - tapOn: '(?i)hurt or sick'
 - extendedWaitUntil:
     visible:
-      id: 'help-checklist-hurt'
+      id: 'checklist-action-call_number'
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: en-help-checklist-hurt
 - back
 - extendedWaitUntil:
     visible:
-      id: 'help-screen'
+      id: 'help-back'
     timeout: 10000
 # SOS: slide, cancel within five seconds (nothing sent), slide again and let it go.
 - scrollUntilVisible:
@@ -76,7 +77,7 @@ appId: app.critterpass.dev
     id: 'help-sos'
 - extendedWaitUntil:
     visible:
-      id: 'sos-send-screen'
+      id: 'sos-slide'
     timeout: 15000
 - tapOn:
     id: 'sos-preset-fell'
@@ -94,7 +95,7 @@ appId: app.critterpass.dev
 - assertVisible:
     id: 'sos-slide'
 - assertNotVisible:
-    id: 'sos-screen'
+    id: 'sos-ok'
 - runFlow: subflows/slide-sos.yaml
 # The incident row syncs back from the server; until then the screen says it is sending.
 - extendedWaitUntil:
@@ -120,7 +121,7 @@ appId: app.critterpass.dev
 # Vietnamese: the dev gallery switches the running app's language.
 - extendedWaitUntil:
     visible:
-      id: 'help-screen'
+      id: 'help-back'
     timeout: 10000
 - back
 - extendedWaitUntil:
@@ -158,7 +159,7 @@ appId: app.critterpass.dev
 - tapOn: '(?i)bị thương hoặc ốm'
 - extendedWaitUntil:
     visible:
-      id: 'help-checklist-hurt'
+      id: 'checklist-action-call_number'
     timeout: 15000
 - waitForAnimationToEnd
 - takeScreenshot: vi-help-checklist-hurt

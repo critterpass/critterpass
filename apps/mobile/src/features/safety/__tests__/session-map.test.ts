@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { frame, straightLine, walkingDirectionsUrl } from '../session-map/walking-route';
+import { frame, mapCentre, straightLine, walkingDirectionsUrl } from '../session-map/walking-route';
 
 const sender = { lat: 16.0611, lng: 108.2272 };
 const me = { lat: 16.0678, lng: 108.2208 };
@@ -30,5 +30,20 @@ describe('SOS session map', () => {
     expect(walkingDirectionsUrl(sender, 'android')).toBe(
       'https://www.google.com/maps/dir/?api=1&destination=16.061100,108.227200&travelmode=walking',
     );
+  });
+});
+
+describe('where the session map looks', () => {
+  const city = { lat: 16.0544, lng: 108.2022 };
+
+  it('frames both people, else the sender, else this phone, else the trip city', () => {
+    expect(mapCentre(sender, me, city)).toEqual(frame(me, sender));
+    expect(mapCentre(sender, null, city)).toEqual({ centre: sender, zoom: 15 });
+    expect(mapCentre(null, me, city)).toEqual({ centre: me, zoom: 15 });
+    expect(mapCentre(null, null, city)).toEqual({ centre: city, zoom: 12 });
+  });
+
+  it('has nothing to centre on only when the trip has no places at all', () => {
+    expect(mapCentre(null, null, null)).toBeNull();
   });
 });
