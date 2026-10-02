@@ -66,6 +66,8 @@ const expectSchema = z.object({
    */
   amounts: z.array(amountSchema).nullable().optional(),
   rejected: z.array(z.string()).default([]),
+  /** The shop's name as it should come back (null: none, such as a bill headed by its columns). */
+  merchant: z.string().nullable().optional(),
   /** The lines named for review when the lines still miss the total. */
   review: z.array(z.string()).optional(),
 });
@@ -168,6 +170,9 @@ function grade(result: ParsedReceipt, expected: z.infer<typeof expectSchema>): G
   }
   if (expected.total_minor !== undefined && result.total_minor !== expected.total_minor) {
     failures.push(`total ${String(result.total_minor)}, want ${String(expected.total_minor)}`);
+  }
+  if (expected.merchant !== undefined && result.merchant !== expected.merchant) {
+    failures.push(`merchant ${String(result.merchant)}, want ${String(expected.merchant)}`);
   }
   if (expected.matches_total !== undefined && result.matches_total !== expected.matches_total) {
     failures.push(`lines ${result.matches_total ? 'match' : 'miss'} the total`);

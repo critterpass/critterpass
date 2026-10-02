@@ -413,6 +413,99 @@
       - { kind: item, amount_minor: 69000 }
       - { kind: item, amount_minor: 119000 }
       - { kind: discount, amount_minor: 99000 }
+- description: the same bill with a free dish taken off, as the iPhone reads it (column headings first, KM1 in the table, the promo again under it with a dot for its minus)
+  fixture: receipt-parse-photo-vi-restaurant-promo-iphone
+  photo: vi-restaurant-promo.jpg
+  country: vietnam
+  currency_hint: VND
+  lines:
+    - { id: l0, text: 'TT' }
+    - { id: l1, text: 'Lạc rang húng' }
+    - { id: l2, text: 'llu.' }
+    - { id: l3, text: '20.000' }
+    - { id: l4, text: '20.000' }
+    - { id: l5, text: '2' }
+    - { id: l6, text: 'Ba hội Hà Nội' }
+    - { id: l7, text: '126.000' }
+    - { id: l8, text: '378,000' }
+    - { id: l9, text: '3' }
+    - { id: l10, text: 'Chả ốc Tràng' }
+    - { id: l11, text: 'Aв...' }
+    - { id: l12, text: '119,000' }
+    - { id: l13, text: '119.000' }
+    - { id: l14, text: 'Đậu hũ chiên' }
+    - { id: l15, text: 'giòn' }
+    - { id: l16, text: '69.000' }
+    - { id: l17, text: '68.000' }
+    - { id: l18, text: 'Rau củ luộc' }
+    - { id: l19, text: '5' }
+    - { id: l20, text: 'chấm muối' }
+    - { id: l21, text: 'vừng' }
+    - { id: l22, text: '89.000' }
+    - { id: l23, text: '89.000' }
+    - { id: l24, text: '7' }
+    - { id: l25, text: '6' }
+    - { id: l26, text: 'Tôm Sông' }
+    - { id: l27, text: 'Trâu Gác Bếp' }
+    - { id: l28, text: '139,000' }
+    - { id: l29, text: '139.000' }
+    - { id: l30, text: 'Cuốn' }
+    - { id: l31, text: '99.000' }
+    - { id: l32, text: '99.000' }
+    - { id: l33, text: 'KM1' }
+    - { id: l34, text: '7/' }
+    - { id: l35, text: '99.000' }
+    - { id: l36, text: 'Còn lại' }
+    - { id: l37, text: '99.000' }
+    - { id: l38, text: '8' }
+    - { id: l39, text: 'Cơm chiên hải' }
+    - { id: l40, text: '0' }
+    - { id: l41, text: '9' }
+    - { id: l42, text: 'sản' }
+    - { id: l43, text: 'Ech rang muối' }
+    - { id: l44, text: '119.000' }
+    - { id: l45, text: '119.000' }
+    - { id: l46, text: '10' }
+    - { id: l47, text: 'Đậu hũ lướt' }
+    - { id: l48, text: '139.000' }
+    - { id: l49, text: '139.000' }
+    - { id: l50, text: 'vàn' }
+    - { id: l51, text: '11' }
+    - { id: l52, text: 'Đồi sụn Tràng' }
+    - { id: l53, text: 'An' }
+    - { id: l54, text: '69.000' }
+    - { id: l55, text: '69,000' }
+    - { id: l56, text: '119.000' }
+    - { id: l57, text: 'Tiền hàng' }
+    - { id: l58, text: '119.000' }
+    - { id: l59, text: 'Khuyến mại' }
+    - { id: l60, text: '1.359.000đ' }
+    - { id: l61, text: 'Tổng thanh toán' }
+    - { id: l62, text: '•99.000d' }
+    - { id: l63, text: 'Còn phải thu' }
+    - { id: l64, text: '1.260.000đ' }
+    - { id: l65, text: 'HĐ đã được KM:' }
+    - { id: l66, text: '1.260.000đ' }
+    - { id: l67, text: 'Món mời (món mời)' }
+    - { id: l68, text: 'Vui lòng kiểm tra kỹ lại nội dung trước khi thanh' }
+    - { id: l69, text: 'Hóa đơn chưa bao gồm VAT.' }
+  expect:
+    currency: VND
+    total_minor: 1260000
+    merchant: null
+    amounts:
+      - { kind: item, amount_minor: 20000 }
+      - { kind: item, amount_minor: 378000 }
+      - { kind: item, amount_minor: 119000 }
+      - { kind: item, amount_minor: 69000 }
+      - { kind: item, amount_minor: 89000 }
+      - { kind: item, amount_minor: 139000 }
+      - { kind: item, amount_minor: 99000 }
+      - { kind: item, amount_minor: 119000 }
+      - { kind: item, amount_minor: 139000 }
+      - { kind: item, amount_minor: 69000 }
+      - { kind: item, amount_minor: 119000 }
+      - { kind: discount, amount_minor: 99000 }
 - description: a long souvenir shop receipt, unit price under each name
   fixture: receipt-parse-photo-vi-souvenir-shop-long
   photo: vi-souvenir-shop-long.jpg

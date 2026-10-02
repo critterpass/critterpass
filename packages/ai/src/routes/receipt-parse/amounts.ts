@@ -11,7 +11,7 @@ import type { OcrLine } from './schema';
  * Returns `null` for anything that is not a plain amount.
  */
 export function parsePrintedAmount(printed: string, exponent: number): bigint | null {
-  const trimmed = printed.trim();
+  const trimmed = readAlike(printed.trim());
   const negative = /^[-−(]/u.test(trimmed);
   // A currency mark and a sign may surround the number; anything else (an OCR "?", a letter in
   // the digits) means the amount was not read cleanly.
@@ -45,7 +45,16 @@ export function parsePrintedAmount(printed: string, exponent: number): bigint | 
   return negative ? -minor : minor;
 }
 
-export const squash = (text: string) => text.replace(/\s+/gu, '');
+/**
+ * What a recogniser reads in place of a receipt's minus sign and đồng mark: a bullet, a middle
+ * dot or a dash for "-" before the digits ("•99.000d" for "-99.000đ"), and a plain "d" for "đ"
+ * after them. Read as the receipt prints them, so the amount compares and parses as printed.
+ */
+export function readAlike(text: string): string {
+  return text.replace(/(^|\s)[•·‐‑‒–—~](?=\s*\d)/gu, '$1-').replace(/(\d)d(?![\p{L}\d])/gu, '$1đ');
+}
+
+export const squash = (text: string) => readAlike(text).replace(/\s+/gu, '');
 
 /** The amount as printed on `line`, or `null` when the line does not carry it. */
 export function amountOnLine(line: OcrLine | undefined, printed: string, exponent: number) {
@@ -67,5 +76,5 @@ export function spacedAmount(line: OcrLine | undefined, printed: string, exponen
 /** A line that prints nothing but one amount (a currency mark or a trailing `x` aside). */
 export const isPriceOnly = (text: string) =>
   /^[-−(]?\s*(?:rp|rm|us\$|s\$|[$¥€£฿₫₩]|vnd|idr|thb|jpy|sgd|myr)?\s*\d[\d.,\s]*\s*(?:đ|₫|vnd|円|บาท|x)?\)?$/iu.test(
-    text.trim(),
+    readAlike(text.trim()),
   );
