@@ -5,7 +5,7 @@
  */
 import { z } from 'zod';
 
-import { laKindSchema } from './la-common';
+import { LA_KINDS, laKindSchema } from './la-common';
 
 /** APNs tokens are hex; ActivityKit's are 32+ bytes. */
 const apnsTokenSchema = z
@@ -25,6 +25,11 @@ export const registerLaTokenPayloadSchema = z.discriminatedUnion('kind', [
     activity_type: laKindSchema,
     token: apnsTokenSchema,
     apns_env: z.enum(['sandbox', 'prod']).default('prod'),
+    /**
+     * Every kind this build's widget extension draws. Absent (older builds): only the baseline
+     * kinds (`LA_BASELINE_IOS_KINDS`) are ever push-started on the phone.
+     */
+    la_kinds: z.array(laKindSchema).max(LA_KINDS.length).optional(),
   }),
   z.object({
     kind: z.literal('update'),

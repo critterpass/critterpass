@@ -46,6 +46,10 @@ export const LA_EVENT_TARGETS: Readonly<Record<string, (payload: Payload) => LaT
   'ballot.cast': on('vote', 'poll_id'),
   'ballot.changed': on('vote', 'poll_id'),
   'ballot.retracted': on('vote', 'poll_id'),
+  'sos.triggered': on('sos', 'sos_id'),
+  'sos.escalated': on('sos', 'sos_id'),
+  'sos.responded': on('sos', 'sos_id'),
+  'sos.resolved': on('sos', 'sos_id'),
 };
 
 /** Boost events re-run the trip's live meet-up activities (a lapsed boost ends them). */

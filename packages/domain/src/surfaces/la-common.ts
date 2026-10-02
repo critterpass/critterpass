@@ -24,6 +24,14 @@ export const LA_KINDS = [
 export const laKindSchema = z.enum(LA_KINDS);
 export type LaKind = z.infer<typeof laKindSchema>;
 
+/**
+ * The kinds every shipped iPhone build draws. iOS issues a push-to-start token for each kind the
+ * app declares, including kinds its widget extension has no view for, and a push-start of such a
+ * kind shows a blank activity. So a build lists the kinds it draws (`la_kinds` on its push-to-start
+ * registration) and the server push-starts any other kind only on phones that listed it.
+ */
+export const LA_BASELINE_IOS_KINDS: readonly LaKind[] = ['leave_by', 'flight', 'alarm'];
+
 /** The attributes field naming the object an activity shows (its `ref_id` on the server). */
 export const LA_REF_KEYS: Readonly<Record<LaKind, string>> = {
   leave_by: 'leave_by_id',

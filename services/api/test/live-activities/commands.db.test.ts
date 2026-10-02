@@ -163,6 +163,50 @@ describe('register_la_token', () => {
     expect(rows).toEqual([{ token: 'b'.repeat(64) }]);
   });
 
+  it('records on every token of the install which kinds its build draws', async () => {
+    const phone = randomUUID();
+    await run(
+      rin,
+      'register_device',
+      { platform: 'ios', tz: 'Asia/Ho_Chi_Minh', locale: 'en', app_version: '1.0.0' },
+      phone,
+    );
+    const drawn = async () =>
+      q<{ activity_type: string; drawn: boolean }>(
+        `SELECT activity_type, drawn FROM la_push_to_start_tokens WHERE device_id = $1
+          ORDER BY activity_type`,
+        [phone],
+      );
+    const register = (activityType: string, laKinds?: string[]) =>
+      run(
+        rin,
+        'register_la_token',
+        {
+          kind: 'push_to_start',
+          activity_type: activityType,
+          token: TOKEN,
+          ...(laKinds === undefined ? {} : { la_kinds: laKinds }),
+        },
+        phone,
+      );
+    // An older build lists nothing: its meet-up token is never one the phone can draw.
+    await register('meet_up');
+    expect(await drawn()).toEqual([{ activity_type: 'meet_up', drawn: false }]);
+    // The next build lists what it draws, which covers the token it registered earlier too.
+    expect((await register('vote', ['leave_by', 'flight', 'meet_up', 'vote'])).status).toBe(200);
+    expect(await drawn()).toEqual([
+      { activity_type: 'meet_up', drawn: true },
+      { activity_type: 'vote', drawn: true },
+    ]);
+    // Back on an older build: nothing beyond the baseline again.
+    await register('sos');
+    expect(await drawn()).toEqual([
+      { activity_type: 'meet_up', drawn: false },
+      { activity_type: 'sos', drawn: false },
+      { activity_type: 'vote', drawn: false },
+    ]);
+  });
+
   it('refuses a token for someone else’s install', async () => {
     const response = await run(
       rin,

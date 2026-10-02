@@ -1,6 +1,7 @@
 /**
  * The crew-live (meet-up) activity against a migrated Postgres and the recorded fake APNs server:
- * a boosted trip's meet-up half an hour out push-starts on every member's phone that can show it,
+ * never on a phone whose build has no meet-up view; a boosted trip's meet-up half an hour out
+ * push-starts on every member's phone that can show it,
  * with no coordinates in any payload; a straggler's new ETA is one broadcast; a lapsed Boost ends it
  * everywhere with "boost ended" as the final frame and never starts it again.
  */
@@ -61,6 +62,19 @@ afterAll(async () => {
 });
 
 describe('la.orchestrate meet-up', { timeout: 60_000 }, () => {
+  it('never push-starts on a phone whose build did not list the kind', async () => {
+    expect(await world.orchestrate('meet_up', meetupId)).toMatchObject({
+      outcome: 'sent',
+      sends: 0,
+      fallbacks: 4,
+    });
+    expect(world.drain()).toHaveLength(0);
+    // The phones move to a build that draws it (`la_kinds` on their next registration).
+    await world.q(
+      "UPDATE la_push_to_start_tokens SET drawn = true WHERE activity_type = 'meet_up'",
+    );
+  });
+
   it('push-starts the crew on a boosted trip, without a coordinate in sight', async () => {
     const result = await world.orchestrate('meet_up', meetupId);
     expect(result).toMatchObject({ outcome: 'sent', sends: 3, fallbacks: 1 });
