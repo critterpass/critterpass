@@ -88,12 +88,19 @@ appId: app.critterpass.dev
     visible:
       id: 'onboarding-sign-in'
     timeout: 60000
-- tapOn:
-    id: 'onboarding-sign-in'
-- extendedWaitUntil:
-    visible:
-      id: 'phone-number'
-    timeout: 10000
+# The splash is still settling after the account switch's restart: a tap while it lands can be
+# lost (seen on iOS), so the tap is made again until the sign-in page is up.
+- waitForAnimationToEnd:
+    timeout: 5000
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          id: 'onboarding-sign-in'
+      - extendedWaitUntil:
+          visible:
+            id: 'phone-number'
+          timeout: 10000
 # A new pass has no home yet, so the country is this phone's region: Singapore is picked by hand.
 - tapOn:
     id: 'phone-country'
