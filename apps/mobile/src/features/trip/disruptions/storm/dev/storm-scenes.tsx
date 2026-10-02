@@ -6,7 +6,11 @@
  * are the scene ids the device sheets pair with renders.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { guideTextSourceHash } from '@cp/domain';
 import type { ReactNode } from 'react';
+
+import { guideText } from '@/lib/i18n/guide-text';
+import { useLocale } from '@/lib/i18n/use-locale';
 
 import {
   stormModel,
@@ -40,7 +44,7 @@ const option = (
   per_person_minor: 0,
   currency: 'USD',
   supplier: 'none',
-  facts: { title: 'the boat', from: 'Friday', to: 'Saturday', day: 'Friday' },
+  facts: { title: 'Nusa Penida boat', from: 'Friday', to: 'Saturday', day: 'Friday' },
   note: null,
   poll_option_id: `option-${fields.id}`,
   swap_day: '2026-10-17',
@@ -62,19 +66,30 @@ const FOUR_SWAP: BallotRowData[] = [MAYA, ALEX, JORDAN, WINSTON].map((uid) => ({
   option_id: 'option-swap',
 }));
 
+const TITLE = 'Rough seas Friday';
+const SUMMARY = 'Saturday is flat calm. Swap the days and nobody spends Friday seasick.';
+/** The guide's words as the server stores them: English, plus the Vietnamese the sweep adds. */
+const I18N = JSON.stringify({
+  _src: guideTextSourceHash('disruption', { title: TITLE, summary: SUMMARY }),
+  vi: {
+    title: 'Biển động thứ Sáu',
+    summary: 'Thứ Bảy biển êm. Đổi hai ngày là không ai say sóng hôm thứ Sáu.',
+  },
+});
+
 function row(options: StormOptionData[], fields: Partial<StormRowData> = {}): StormRowData {
   return {
     id: 'penida-storm',
     trip_id: 'bali-trip',
     status: 'open',
     cause: 'rough_seas',
-    title: 'Rough seas Friday',
-    summary: 'Saturday is flat calm. Swap the days and nobody spends Friday seasick.',
+    title: TITLE,
+    summary: SUMMARY,
     facts: JSON.stringify({ title: 'Nusa Penida boat', waves_m: 2.5, wind_kmh: 35 }),
     options: JSON.stringify(options),
     source_snapshot: JSON.stringify({ day: '2026-10-16' }),
     chosen_option_id: null,
-    i18n: null,
+    i18n: I18N,
     ...fields,
   };
 }
@@ -87,6 +102,17 @@ const POLL: PollRowData = {
   winner_option_id: null,
 };
 
+function Scene(props: {
+  readonly data: StormRowData;
+  readonly children: (title: string, line: string) => ReactNode;
+}) {
+  const locale = useLocale();
+  return props.children(
+    guideText('disruption', props.data, 'title', locale) ?? props.data.title,
+    guideText('disruption', props.data, 'summary', locale) ?? props.data.summary,
+  );
+}
+
 function scene(input: {
   options?: StormOptionData[];
   fields?: Partial<StormRowData>;
@@ -97,28 +123,32 @@ function scene(input: {
 }) {
   const data = row(input.options ?? [SWAP, KEEP, SKIP], input.fields);
   return (
-    <StormView
-      state="ready"
-      model={stormModel(
-        data,
-        { ...POLL, ...input.poll },
-        input.ballots ?? FOUR_SWAP,
-        input.me ?? DEV,
+    <Scene data={data}>
+      {(title, line) => (
+        <StormView
+          state="ready"
+          model={stormModel(
+            data,
+            { ...POLL, ...input.poll },
+            input.ballots ?? FOUR_SWAP,
+            input.me ?? DEV,
+          )}
+          title={title}
+          line={line}
+          tz="Asia/Makassar"
+          guide="tokek"
+          guideName="Tokek"
+          offline={false}
+          people={PEOPLE}
+          booker={null}
+          sending={false}
+          onBack={noop}
+          onVote={noop}
+          onConfirmPay={noop}
+          {...input.view}
+        />
       )}
-      title={data.title}
-      line={data.summary}
-      tz="Asia/Makassar"
-      guide="tokek"
-      guideName="Tokek"
-      offline={false}
-      people={PEOPLE}
-      booker={null}
-      sending={false}
-      onBack={noop}
-      onVote={noop}
-      onConfirmPay={noop}
-      {...input.view}
-    />
+    </Scene>
   );
 }
 

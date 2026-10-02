@@ -13,6 +13,24 @@ import type { SeatState, StormModel, StormOptionData, StormOptionId } from './mo
 
 const fact = (option: StormOptionData, key: string) => String(option.facts[key] ?? '');
 
+/**
+ * A day's weekday in the reader's language ("Thứ Sáu", "Friday"), from its date. The planner's own
+ * day labels are English, so they are only the fallback when an option carries no date.
+ */
+export function weekdayName(
+  date: string | null | undefined,
+  fallback: string,
+  locale: string,
+): string {
+  if (date === null || date === undefined || date === '') return fallback;
+  return format.date(locale, new Date(`${date}T12:00:00Z`), { timeZone: 'UTC', weekday: 'long' });
+}
+
+const stormDayName = (option: StormOptionData, locale: string) =>
+  weekdayName(option.storm_day, fact(option, 'from') || fact(option, 'day'), locale);
+const swapDayName = (option: StormOptionData, locale: string) =>
+  weekdayName(option.swap_day, fact(option, 'to'), locale);
+
 export function chips(model: StormModel, locale: string): string[] {
   const out: string[] = [];
   const waves = model.facts['waves_m'];
@@ -51,15 +69,15 @@ export function optionTitle(option: StormOptionData, locale: string): string {
   const title = fact(option, 'title');
   switch (option.id) {
     case 'swap': {
-      const from = fact(option, 'from');
-      const to = fact(option, 'to');
+      const from = stormDayName(option, locale);
+      const to = swapDayName(option, locale);
       return upper(
         t({ id: 'trip.disruptions.storm.option.swap', message: `Swap ${from} and ${to}` }),
         locale,
       );
     }
     case 'keep': {
-      const day = fact(option, 'day');
+      const day = stormDayName(option, locale);
       return upper(t({ id: 'trip.disruptions.storm.option.keep', message: `Keep ${day}` }), locale);
     }
     case 'skip':
@@ -85,7 +103,7 @@ function moneyLine(option: StormOptionData, locale: string): string | null {
 export function optionDetail(option: StormOptionData, locale: string): string {
   const parts: string[] = [];
   const title = fact(option, 'title');
-  const to = fact(option, 'to');
+  const to = swapDayName(option, locale);
   if (option.id === 'swap') {
     parts.push(
       t({ id: 'trip.disruptions.storm.detail.swap', message: `${title} moves to ${to}.` }),

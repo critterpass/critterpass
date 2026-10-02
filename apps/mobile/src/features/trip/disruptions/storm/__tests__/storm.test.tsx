@@ -17,14 +17,15 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { STORM_SCENES } from '../dev/storm-scenes';
-import { stormModel } from '../model';
+import { optionTitle, weekdayName } from '../copy';
+import { stormModel, type StormOptionData } from '../model';
 import { StormView } from '../storm-view';
 
 const METRICS = {
@@ -45,8 +46,16 @@ async function show(node: ReactNode) {
   );
 }
 const scene = (name: string) => show((STORM_SCENES[name] as () => ReactNode)());
-const propsOf = (name: string) =>
-  (STORM_SCENES[name] as () => { props: Parameters<typeof StormView>[0] })().props;
+type ViewProps = Parameters<typeof StormView>[0];
+/** A scene's StormView props (the scene wraps the view to read the guide's words). */
+const propsOf = (name: string): ViewProps => {
+  const scene = (
+    STORM_SCENES[name] as () => ReactElement<{
+      children: (title: string, line: string) => ReactElement<ViewProps>;
+    }>
+  )();
+  return scene.props.children('Rough seas Friday', 'Saturday is flat calm.').props;
+};
 
 describe('storm screen', () => {
   it('shows the numbers, the options and the count, and sends the option picked', async () => {
@@ -119,5 +128,35 @@ describe('stormModel', () => {
     expect(model).toMatchObject({ phase: 'decided', chosen: 'keep', canVote: false, myVote: null });
     expect(model.options.map((o) => o.id)).toEqual(['keep']);
     expect(model.tally).toEqual([]);
+  });
+});
+
+describe('storm weekdays', () => {
+  const swap: StormOptionData = {
+    id: 'swap',
+    label: 'Swap Friday and Saturday',
+    recommended: true,
+    per_person_minor: 0,
+    currency: 'USD',
+    supplier: 'none',
+    facts: { title: 'Nusa Penida boat', from: 'Friday', to: 'Saturday' },
+    note: null,
+    poll_option_id: 'option-swap',
+    swap_day: '2026-10-17',
+    storm_day: '2026-10-16',
+  };
+
+  it('names the days in the reader language from their dates, not the planner English labels', () => {
+    expect(weekdayName('2026-10-16', 'Friday', 'vi')).toBe('Thứ Sáu');
+    expect(weekdayName('2026-10-17', 'Saturday', 'en')).toBe('Saturday');
+    i18n.loadAndActivate({ locale: 'vi', messages: {} });
+    const title = optionTitle(swap, 'vi');
+    expect(title).toContain('THỨ SÁU');
+    expect(title).toContain('THỨ BẢY');
+    expect(title).not.toContain('FRIDAY');
+  });
+
+  it('falls back to the label only when an option has no date', () => {
+    expect(weekdayName(null, 'Friday', 'vi')).toBe('Friday');
   });
 });

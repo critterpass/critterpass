@@ -25,6 +25,8 @@ export interface StormOptionData {
   readonly note: string | null;
   readonly poll_option_id: string;
   readonly swap_day: string | null;
+  /** The stormy day itself (the disruption's), set by `stormModel` so copy can name both days. */
+  readonly storm_day?: string | null;
   readonly supplier_move?: { readonly state?: string; readonly new_date?: string };
 }
 
@@ -102,9 +104,10 @@ export function stormModel(
   me: string | null,
 ): StormModel {
   const rawOptions = parse<unknown>(row.options, []);
-  const options = (Array.isArray(rawOptions) ? (rawOptions as StormOptionData[]) : []).filter(
-    (option) => typeof option === 'object' && IDS.has(option.id),
-  );
+  const snapshot = parse<{ day?: string }>(row.source_snapshot, {});
+  const options = (Array.isArray(rawOptions) ? (rawOptions as StormOptionData[]) : [])
+    .filter((option) => typeof option === 'object' && IDS.has(option.id))
+    .map((option) => ({ ...option, storm_day: snapshot.day ?? null }));
   const byPollOption = new Map(options.map((option) => [option.poll_option_id, option.id]));
   const voterIds = parse<unknown>(poll?.eligible_voter_ids ?? null, []);
   const voters = Array.isArray(voterIds) ? (voterIds as string[]) : [];
@@ -122,7 +125,6 @@ export function stormModel(
   const move = options.find((option) => option.supplier_move !== undefined)?.supplier_move;
   const seat =
     move?.state !== undefined && SEATS.has(move.state) ? (move.state as SeatState) : null;
-  const snapshot = parse<{ day?: string }>(row.source_snapshot, {});
   return {
     facts: parse<Record<string, string | number>>(row.facts, {}),
     day: snapshot.day ?? null,
