@@ -24,6 +24,7 @@ export function Settings() {
       soundEffects: true,
       haptics: true,
       account: true,
+      dataExport: { line: 'Plans, photos and chat as a zip', enabled: true },
       language: 'English',
     },
     {
@@ -38,6 +39,7 @@ export function Settings() {
       onHaptics: noop,
       onLanguage: noop,
       onSignOut: noop,
+      onDataExport: noop,
       onDeleteAccount: noop,
     },
   );

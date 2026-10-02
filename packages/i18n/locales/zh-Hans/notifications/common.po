@@ -791,6 +791,14 @@ msgstr ""
 msgid "notifications.proposal.resend_title"
 msgstr ""
 
+#: ../domain/src/account/templates.ts
+msgid "notifications.account.export_ready_body"
+msgstr ""
+
+#: ../domain/src/account/templates.ts
+msgid "notifications.account.export_ready_title"
+msgstr ""
+
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.hatched.title"
 msgstr ""

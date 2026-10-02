@@ -791,6 +791,14 @@ msgstr "Bản tin hôm nay đã sẵn sàng."
 msgid "notifications.proposal.resend_title"
 msgstr "Nhóm bạn đã lên kế hoạch {place}"
 
+#: ../domain/src/account/templates.ts
+msgid "notifications.account.export_ready_body"
+msgstr "Bản xuất CritterPass của bạn tải về được trong 7 ngày. Mở Cài đặt › Tải dữ liệu của tôi."
+
+#: ../domain/src/account/templates.ts
+msgid "notifications.account.export_ready_title"
+msgstr "Dữ liệu của bạn đã sẵn sàng"
+
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.hatched.title"
 msgstr "Trứng của bạn đã nở!"
