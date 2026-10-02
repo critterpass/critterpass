@@ -40,11 +40,12 @@ function message(overrides: Partial<{ to: string; rawSize: number; auth: string 
   return { value, rejected };
 }
 
-function world(answer: unknown, status = 200) {
+function world(answer: unknown, status = 200, options: { replyError?: Error } = {}) {
   const stored: string[] = [];
   const posts: { url: string; headers: Headers; body: string }[] = [];
   const replies: string[] = [];
   const forwards: string[] = [];
+  const logs: Record<string, unknown>[] = [];
   const env: InboundEnv = {
     RAW_MAIL: {
       put: (key: string) => {
@@ -61,13 +62,18 @@ function world(answer: unknown, status = 200) {
   const deps = {
     fetch: (url: string, init: RequestInit & { body: string }) => {
       posts.push({ url, headers: new Headers(init.headers), body: init.body });
+      if (url.endsWith('/reply')) return Promise.resolve(new Response('{}', { status: 200 }));
       return Promise.resolve(new Response(JSON.stringify(answer), { status }));
     },
     now: () => new Date('2026-09-30T03:00:00Z'),
     newId: () => `id-${(id += 1)}`,
     reply: (raw: string) => {
+      if (options.replyError !== undefined) return Promise.reject(options.replyError);
       replies.push(raw);
       return Promise.resolve();
+    },
+    log: (entry: Record<string, unknown>) => {
+      logs.push(entry);
     },
     forward: (to: string) => {
       forwards.push(to);
@@ -81,8 +87,18 @@ function world(answer: unknown, status = 200) {
     posts,
     replies,
     forwards,
+    logs,
   };
 }
+
+const LINK_REPLY = {
+  action: 'quarantined',
+  reply: {
+    subject: 'Link this email to CritterPass',
+    text: 'Enter 482913 in the app.',
+    link_id: '0199a1b2-c3d4-7e5f-8a9b-0c1d2e3f4a5b',
+  },
+};
 
 describe('inbound email', () => {
   it('stores the raw mail and posts signed metadata, never the body', async () => {
@@ -174,5 +190,65 @@ describe('inbound email', () => {
     expect(
       senderVerdicts(new Headers({ 'authentication-results': 'x; dkim=temperror; spf=temperror' })),
     ).toEqual({ dkim: 'fail', spf: 'none' });
+  });
+
+  it('reports a sent link code to the api, signed, and logs no address or code', async () => {
+    const { env, deps, replies, posts, logs } = world(LINK_REPLY);
+    expect(await handleInbound(message().value, env, deps)).toBe('quarantined');
+    expect(replies).toHaveLength(1);
+    const callback = posts[1];
+    expect(callback?.url).toBe('https://api.test/webhooks/inbound-email/reply');
+    expect(JSON.parse(callback?.body ?? '{}')).toEqual({
+      link_id: LINK_REPLY.reply.link_id,
+      delivery: 'sent',
+    });
+    const timestamp = callback?.headers.get('x-cp-timestamp') ?? '';
+    expect(callback?.headers.get('x-cp-signature')).toBe(
+      await signBody(env.INBOUND_EMAIL_HMAC_SECRET, timestamp, callback?.body ?? ''),
+    );
+    expect(logs).toEqual([
+      {
+        event: 'inbound_email',
+        outcome: 'quarantined',
+        dkim: 'pass',
+        spf: 'pass',
+        dmarc: 'pass',
+        link_code: true,
+      },
+      { event: 'link_code_reply', delivery: 'sent', dmarc: 'pass', error: null, reported: 200 },
+    ]);
+    expect(JSON.stringify(logs)).not.toMatch(/@|482913|booking is confirmed/u);
+  });
+
+  it('reports a refused reply as failed and logs Cloudflare’s reason without addresses', async () => {
+    const refused = new Error('Reply failed: maya@example.com did not pass DMARC');
+    const { env, deps, posts, logs } = world(LINK_REPLY, 200, { replyError: refused });
+    const { value, rejected } = message({
+      auth: 'mx.cloudflare.net; dkim=pass; spf=none; dmarc=fail',
+    });
+    expect(await handleInbound(value, env, deps)).toBe('quarantined');
+    expect(rejected).toEqual([]);
+    expect(JSON.parse(posts[1]?.body ?? '{}')).toEqual({
+      link_id: LINK_REPLY.reply.link_id,
+      delivery: 'failed',
+    });
+    expect(logs[1]).toEqual({
+      event: 'link_code_reply',
+      delivery: 'failed',
+      dmarc: 'fail',
+      error: 'Reply failed: [address] did not pass DMARC',
+      reported: 200,
+    });
+    expect(JSON.stringify(logs)).not.toContain('@');
+  });
+
+  it('still sends the reply when the api names no sender link, without a report', async () => {
+    const { env, deps, replies, posts } = world({
+      action: 'quarantined',
+      reply: { subject: 'Link this email to CritterPass', text: 'Enter 482913 in the app.' },
+    });
+    expect(await handleInbound(message().value, env, deps)).toBe('quarantined');
+    expect(replies).toHaveLength(1);
+    expect(posts).toHaveLength(1);
   });
 });

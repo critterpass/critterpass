@@ -7,10 +7,22 @@
  * raw message in R2 (the bucket's lifecycle deletes it after 7 days), read the sender verdicts
  * Cloudflare stamped on it, and post signed metadata (never the body) to the api. The api answers
  * whether the mail was accepted, quarantined (an unknown sender, who then gets the "Link this
- * email?" reply with a 6-digit code) or refused.
+ * email?" reply with a 6-digit code, whose delivery is reported back: ./link-code-reply) or refused.
+ * Every crew message logs one line with its outcome and the DKIM/SPF/DMARC verdicts, never an
+ * address, subject or body.
  *
  * Bindings and the network are injected, so this runs under Node in tests.
  */
+
+import {
+  deliverLinkCode,
+  dmarcVerdict,
+  postSigned,
+  type InboundLog,
+  type LinkCodeReplyDeps,
+} from './link-code-reply';
+
+export { signBody } from './link-code-reply';
 
 /** Messages larger than this are bounced (confirmations with a PDF are well under it). */
 export const MAX_RAW_BYTES = 10 * 1024 * 1024;
@@ -32,12 +44,8 @@ export type InboundMessage = Pick<
   'from' | 'to' | 'headers' | 'raw' | 'rawSize' | 'setReject'
 >;
 
-export interface InboundDeps {
-  readonly fetch: typeof fetch;
-  readonly now: () => Date;
+export interface InboundDeps extends LinkCodeReplyDeps {
   readonly newId: () => string;
-  /** Sends a raw MIME reply to the message's sender (Cloudflare `message.reply`). */
-  readonly reply: (raw: string) => Promise<void>;
   /** Forwards the message unchanged (Cloudflare `message.forward`). */
   readonly forward: (to: string) => Promise<void>;
 }
@@ -81,23 +89,6 @@ export function senderVerdicts(headers: Headers): {
         : 'fail',
     spf: (SPF as readonly string[]).includes(spf) ? (spf as (typeof SPF)[number]) : 'none',
   };
-}
-
-async function hmacHex(secret: string, text: string): Promise<string> {
-  const key = await crypto.subtle.importKey(
-    'raw',
-    new TextEncoder().encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign'],
-  );
-  const signature = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(text));
-  return [...new Uint8Array(signature)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
-}
-
-/** `timestamp.body` signed with the shared secret: the api's `/webhooks/inbound-email` check. */
-export function signBody(secret: string, timestamp: string, body: string): Promise<string> {
-  return hmacHex(secret, `${timestamp}.${body}`);
 }
 
 function utf8Base64(text: string): string {
@@ -144,7 +135,11 @@ export function replyMime(input: {
 interface ApiAnswer {
   readonly action?: string;
   readonly reason?: string;
-  readonly reply?: { readonly subject: string; readonly text: string };
+  readonly reply?: {
+    readonly subject: string;
+    readonly text: string;
+    readonly link_id?: string;
+  };
 }
 
 export async function handleInbound(
@@ -172,6 +167,8 @@ export async function handleInbound(
   const r2Key = `inbound/${now.toISOString().slice(0, 10)}/${deps.newId()}.eml`;
   await env.RAW_MAIL.put(r2Key, raw, { httpMetadata: { contentType: 'message/rfc822' } });
   const messageId = message.headers.get('message-id');
+  const { dkim, spf } = senderVerdicts(message.headers);
+  const verdicts = { dkim, spf, dmarc: dmarcVerdict(message.headers) };
   const body = JSON.stringify({
     local_part: localPart,
     from: message.from,
@@ -179,42 +176,52 @@ export async function handleInbound(
     subject_present: message.headers.has('subject'),
     size_bytes: raw.byteLength,
     r2_key: r2Key,
-    ...senderVerdicts(message.headers),
+    dkim,
+    spf,
     received_at: now.toISOString(),
   });
-  const timestamp = String(Math.floor(now.getTime() / 1000));
+  const log = (outcome: InboundOutcome, extra: InboundLog = {}): InboundOutcome => {
+    deps.log({ event: 'inbound_email', outcome, ...verdicts, ...extra });
+    return outcome;
+  };
+  const response = await postSigned(
+    deps,
+    `${env.API_BASE_URL.replace(/\/$/u, '')}/webhooks/inbound-email`,
+    env.INBOUND_EMAIL_HMAC_SECRET,
+    body,
+  );
   let answer: ApiAnswer;
   try {
-    const response = await deps.fetch(
-      `${env.API_BASE_URL.replace(/\/$/u, '')}/webhooks/inbound-email`,
-      {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'x-cp-timestamp': timestamp,
-          'x-cp-signature': await signBody(env.INBOUND_EMAIL_HMAC_SECRET, timestamp, body),
-        },
-        body,
-      },
-    );
-    if (!response.ok) return reject('unavailable', 'unavailable');
+    if (response === null || !response.ok) throw new Error('api unavailable');
     answer = await response.json<ApiAnswer>();
   } catch {
-    return reject('unavailable', 'unavailable');
+    return log(reject('unavailable', 'unavailable'), { api_status: response?.status ?? 0 });
   }
-  if (answer.action === 'accepted' || answer.action === 'duplicate') return answer.action;
-  if (answer.action !== 'quarantined') return reject(answer.reason ?? 'unavailable', 'rejected');
+  if (answer.action === 'accepted' || answer.action === 'duplicate') return log(answer.action);
+  if (answer.action !== 'quarantined') {
+    return log(reject(answer.reason ?? 'unavailable', 'rejected'), {
+      reason: answer.reason ?? null,
+    });
+  }
+  log('quarantined', { link_code: answer.reply !== undefined });
   if (answer.reply !== undefined) {
-    await deps.reply(
-      replyMime({
-        from: message.to,
-        to: message.from,
-        subject: answer.reply.subject,
-        text: answer.reply.text,
-        inReplyTo: messageId,
-        messageId: `<${deps.newId()}@${env.INBOUND_DOMAIN}>`,
-        date: now,
-      }),
+    await deliverLinkCode(
+      {
+        raw: replyMime({
+          from: message.to,
+          to: message.from,
+          subject: answer.reply.subject,
+          text: answer.reply.text,
+          inReplyTo: messageId,
+          messageId: `<${deps.newId()}@${env.INBOUND_DOMAIN}>`,
+          date: now,
+        }),
+        linkId: answer.reply.link_id ?? null,
+        dmarc: verdicts.dmarc,
+        apiBaseUrl: env.API_BASE_URL,
+        secret: env.INBOUND_EMAIL_HMAC_SECRET,
+      },
+      deps,
     );
   }
   return 'quarantined';
