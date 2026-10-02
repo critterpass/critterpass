@@ -8,6 +8,7 @@
 import type { BookingKind } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
+import { useState } from 'react';
 import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -23,7 +24,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { DateField } from './DatePickerSheet';
+import { DateField, DatePickerSheet } from './DatePickerSheet';
 import type { BookingDraft, DraftProblem } from './form-model';
 import { useKindLabel } from './labels';
 
@@ -72,6 +73,8 @@ export function BookingFormView(props: BookingFormViewProps) {
   const { t } = useLingui();
   const kindLabel = useKindLabel();
   const { draft } = props;
+  // The day or check-out day whose month grid is up: presented over the whole screen.
+  const [picking, setPicking] = useState<'date' | 'endDate' | null>(null);
   const problem = (key: DraftProblem, message: string) =>
     props.showProblems && props.problems.includes(key)
       ? ({ status: 'error', message } as const)
@@ -84,7 +87,7 @@ export function BookingFormView(props: BookingFormViewProps) {
     props.showProblems && props.problems.includes(key) ? message : undefined;
   return (
     <Scaffold variant="dark" testID={`bookings-form-${props.mode}`}>
-      <KeyboardScrollView contentContainerStyle={styles.content}>
+      <KeyboardScrollView contentContainerStyle={styles.content} testID="bookings-form-scroll">
         <BackEyebrow label={upper(t({ id: 'bookings.back', message: 'Bookings' }), locale)} />
         <Text variant="h1" accessibilityRole="header">
           {upper(
@@ -168,12 +171,11 @@ export function BookingFormView(props: BookingFormViewProps) {
             <DateField
               label={t({ id: 'bookings.form.day', message: 'Day' })}
               value={draft.date}
-              trip={props.trip}
               problem={problemText(
                 'date',
                 t({ id: 'bookings.form.dayProblem', message: 'Pick the day' }),
               )}
-              onChange={(date) => props.onChange({ date })}
+              onOpen={() => setPicking('date')}
               testID="bookings-form-date"
             />
           </View>
@@ -193,8 +195,7 @@ export function BookingFormView(props: BookingFormViewProps) {
           <DateField
             label={t({ id: 'bookings.form.checkOut', message: 'Check-out day' })}
             value={draft.endDate}
-            trip={props.trip}
-            onChange={(endDate) => props.onChange({ endDate })}
+            onOpen={() => setPicking('endDate')}
             testID="bookings-form-end"
           />
         ) : null}
@@ -261,6 +262,22 @@ export function BookingFormView(props: BookingFormViewProps) {
           testID="bookings-form-save"
         />
       </KeyboardFooter>
+      {picking === null ? null : (
+        <DatePickerSheet
+          value={draft[picking]}
+          trip={props.trip}
+          title={
+            picking === 'date'
+              ? t({ id: 'bookings.form.day', message: 'Day' })
+              : t({ id: 'bookings.form.checkOut', message: 'Check-out day' })
+          }
+          onPick={(day) => {
+            props.onChange(picking === 'date' ? { date: day } : { endDate: day });
+            setPicking(null);
+          }}
+          onDismiss={() => setPicking(null)}
+        />
+      )}
     </Scaffold>
   );
 }
