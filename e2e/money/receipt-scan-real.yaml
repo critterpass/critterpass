@@ -54,9 +54,18 @@ appId: app.critterpass.dev
     timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: receipt-real-picker
+# iOS may show its "Private Access to Photos" note above the grid, which moves the grid down.
 - runFlow:
     when:
       platform: iOS
+      visible: '(?i)private access to photos'
+    commands:
+      - tapOn:
+          point: '16%,43%'
+- runFlow:
+    when:
+      platform: iOS
+      notVisible: '(?i)private access to photos'
     commands:
       - tapOn:
           point: '16%,25%'
