@@ -14,7 +14,6 @@ import { useTheme } from '@/ui/theme';
 
 import { modeLabel, rustled } from '../encounter/encounter-copy';
 
-// eslint-disable-next-line lingui/no-unlocalized-strings -- a width reference, never shown.
 const WIDEST = '100%';
 
 const styles = StyleSheet.create({

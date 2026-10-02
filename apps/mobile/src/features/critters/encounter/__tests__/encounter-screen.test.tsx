@@ -1,6 +1,9 @@
 /**
  * The encounter screen over the real local-first stack: with an encounter under way it shows the
- * live scene for that spawn's form (read from synced rows), not the "nothing nearby" state.
+ * live scene for that spawn's form (read from synced rows), not the "nothing nearby" state; and
+ * with the live camera switched on but unable to run (no back camera, a package that throws as
+ * it loads, a preview that never starts) the illustrated scene and the critter still show, and
+ * the camera is let go. The camera package is the native boundary, stood in for per case.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -12,6 +15,9 @@ jest.mock(
     jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
       .powersyncCommon,
 );
+jest.mock('react-native-nitro-modules', () => ({
+  NitroModules: { hasHybridObject: () => true },
+}));
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => true },
@@ -21,6 +27,8 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { configure, render, screen, waitFor } from '@testing-library/react-native';
+import { useEffect } from 'react';
+import { View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
@@ -44,6 +52,7 @@ import {
   TRIP,
 } from '../../test-support/seed-critters';
 import { EncounterScreen } from '../encounter-screen';
+import { CAMERA_START_TIMEOUT_MS, resetVisionCameraForTests } from '../live-camera';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -168,5 +177,90 @@ describe('encounter screen', () => {
     await renderScreen(stack);
     await waitFor(() => expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy());
     expect(screen.getByText('SOMEONE IS HERE')).toBeTruthy();
+  });
+
+  describe('with the live camera switched on', () => {
+    let held = 0;
+    let previews = 0;
+
+    function cameraThat(device: { id: string } | null) {
+      return {
+        useCameraPermission: () => ({
+          hasPermission: true,
+          canRequestPermission: false,
+          status: 'granted',
+          requestPermission: () => Promise.resolve(true),
+        }),
+        useCameraDevice: () => {
+          useEffect(() => {
+            held += 1;
+            return () => {
+              held -= 1;
+            };
+          }, []);
+          return device ?? undefined;
+        },
+        // A preview that never reports it started.
+        Camera: () => {
+          previews += 1;
+          return <View testID="camera-preview" />;
+        },
+      };
+    }
+
+    afterEach(() => {
+      resetVisionCameraForTests();
+      held = 0;
+      previews = 0;
+    });
+
+    async function showWithCamera() {
+      const stack = await openTestLocalFirst({ holdUploads: true });
+      stacks.push(stack);
+      await seedCritters(stack.db, stack.uid);
+      await stack.db.execute('INSERT INTO client_config (id, key, value) VALUES (?, ?, ?)', [
+        'critters.live_camera',
+        'critters.live_camera',
+        'true',
+      ]);
+      setEncounterEngine(engineAt(SNAPSHOT));
+      await renderScreen(stack);
+      await waitFor(() => expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy());
+      await waitFor(() => expect(screen.getByText('TOKEK IS HERE')).toBeTruthy());
+    }
+
+    const settle = { timeout: CAMERA_START_TIMEOUT_MS + 2000 };
+
+    it('keeps the scene and the critter when there is no back camera, and lets it go', async () => {
+      resetVisionCameraForTests(() => cameraThat(null) as never);
+      await showWithCamera();
+      await waitFor(() => expect(held).toBe(1));
+      await waitFor(() => expect(held).toBe(0), settle);
+      expect(previews).toBe(0);
+      expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy();
+      expect(screen.getAllByLabelText(/tokek/iu).length).toBeGreaterThan(0);
+    });
+
+    it('keeps the scene when the camera package throws as it loads', async () => {
+      let tried = 0;
+      resetVisionCameraForTests(() => {
+        tried += 1;
+        throw new Error('native camera failed to initialise');
+      });
+      await showWithCamera();
+      await waitFor(() => expect(tried).toBe(1));
+      expect(screen.queryByTestId('camera-preview')).toBeNull();
+      expect(screen.getAllByLabelText(/tokek/iu).length).toBeGreaterThan(0);
+    });
+
+    it('drops a preview that never starts, and the scene stays', async () => {
+      resetVisionCameraForTests(() => cameraThat({ id: 'back' }) as never);
+      await showWithCamera();
+      await waitFor(() => expect(previews).toBeGreaterThan(0), settle);
+      await waitFor(() => expect(held).toBe(0), settle);
+      expect(screen.queryByTestId('camera-preview')).toBeNull();
+      expect(screen.getByTestId('critters-encounter-scene')).toBeTruthy();
+      expect(screen.getAllByLabelText(/tokek/iu).length).toBeGreaterThan(0);
+    });
   });
 });
