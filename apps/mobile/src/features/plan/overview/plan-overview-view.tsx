@@ -11,12 +11,14 @@ import { ScrollView, View } from 'react-native';
 import { upper } from '@cp/i18n';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+import { GUIDE_STICKERS, isGuideStickerId } from '@/ui/avatar/guides';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { AvatarStack, type StackMember } from '@/ui/people/AvatarStack';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { EmptyState } from '@/ui/states/EmptyState';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { OfflinePill } from '@/ui/states/OfflinePill';
 import { Skeleton } from '@/ui/states/Skeleton';
 import { StaleCaption } from '@/ui/states/StaleCaption';
@@ -65,6 +67,9 @@ export interface PlanOverviewViewProps {
   /** Extra rows under the list (the personal plan's clash cards). */
   readonly footer?: ReactNode;
 }
+
+/** The guide's size on the empty plan, as the empty state's fixture draws it. */
+const EMPTY_GUIDE_PT = 120;
 
 const useStyles = makeStyles((th) => ({
   content: {
@@ -127,6 +132,17 @@ function Body(props: PlanOverviewViewProps & { readonly onDragging: (on: boolean
       <EmptyState
         guide={props.guide.id}
         guideName={props.guide.name}
+        // The guide waiting on the days, as the empty state draws it everywhere else.
+        sticker={
+          isGuideStickerId(props.guide.id) ? (
+            <Sticker
+              kind={GUIDE_STICKERS[props.guide.id].kind}
+              name={props.guide.name}
+              pose="sleep"
+              size={EMPTY_GUIDE_PT}
+            />
+          ) : undefined
+        }
         title={t({ id: 'plan.overview.empty.title', message: 'No plan yet' })}
         line={
           state.onSetup === null
