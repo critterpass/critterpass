@@ -8,13 +8,12 @@ struct CountdownWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: CountdownProvider()) { entry in
-            CountdownView(entry: entry)
-                .containerBackground(for: .widget) { LAPalette.yellow }
+            CountdownFamilyView(entry: entry)
                 .widgetURL(LADeepLink.url(route: CountdownView.route(entry)))
         }
         .configurationDisplayName("Countdown")
         .description("Days until the trip, on your home screen.")
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemSmall, .accessoryInline, .accessoryCircular])
     }
 }
 
@@ -39,6 +38,24 @@ struct CountdownProvider: TimelineProvider {
     }
 }
 
+/// The home-screen card, or the lock-screen line and ring.
+struct CountdownFamilyView: View {
+    let entry: HomeWidgetEntry
+    @Environment(\.widgetFamily) private var family
+
+    var body: some View {
+        if family == .systemSmall {
+            CountdownView(entry: entry)
+                .containerBackground(for: .widget) {
+                    entry.file == nil ? LAPalette.card : LAPalette.yellow
+                }
+        } else {
+            CountdownAccessoryView(entry: entry, family: family)
+                .containerBackground(for: .widget) { Color.clear }
+        }
+    }
+}
+
 struct CountdownView: View {
     let entry: HomeWidgetEntry
 
@@ -51,7 +68,6 @@ struct CountdownView: View {
             face(CountdownModel.face(snapshot: file.snapshot, now: entry.date))
         } else {
             HomeWidgetSignedOut()
-                .containerBackground(for: .widget) { LAPalette.card }
         }
     }
 

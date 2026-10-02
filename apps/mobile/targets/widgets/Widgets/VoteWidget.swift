@@ -10,13 +10,29 @@ struct VoteWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: HomeSnapshotProvider()) { entry in
-            VoteWidgetView(entry: entry)
-                .containerBackground(for: .widget) { LAPalette.card }
+            VoteFamilyView(entry: entry)
         }
         .configurationDisplayName("The vote")
         .description("Your crew's vote. Tap a side to vote.")
-        .supportedFamilies([.systemMedium])
+        .supportedFamilies([.systemMedium, .accessoryCircular])
         .contentMarginsDisabled()
+    }
+}
+
+/// The home-screen showdown, or the lock-screen score.
+struct VoteFamilyView: View {
+    let entry: HomeWidgetEntry
+    @Environment(\.widgetFamily) private var family
+
+    var body: some View {
+        if family == .accessoryCircular {
+            VoteScoreAccessory(entry: entry)
+                .containerBackground(for: .widget) { Color.clear }
+                .widgetURL(LADeepLink.url(route: entry.file?.snapshot.vote.map { "vote/\($0.pollId)" } ?? "trips"))
+        } else {
+            VoteWidgetView(entry: entry)
+                .containerBackground(for: .widget) { LAPalette.card }
+        }
     }
 }
 

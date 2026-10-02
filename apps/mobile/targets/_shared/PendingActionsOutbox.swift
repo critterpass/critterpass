@@ -105,6 +105,16 @@ struct PendingAction: Hashable, Sendable {
         )
     }
 
+    /// DONE or NUDGE on a Today widget item: `act_briefing_item{item_id, action}`.
+    static func briefing(
+        itemId: String, action: String, opId: String = PendingAction.uuidV7(), now: Date = Date()
+    ) -> PendingAction {
+        PendingAction(
+            opId: opId, cmd: "act_briefing_item", via: .widget, scope: "trip_day", clientTs: now,
+            payload: ["item_id": .text(itemId), "action": .text(action)]
+        )
+    }
+
     /// A time-ordered UUIDv7 (RFC 9562): the server only accepts v7 `op_id`s.
     static func uuidV7(now: Date = Date()) -> String {
         var bytes = [UInt8](repeating: 0, count: 16)

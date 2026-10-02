@@ -69,6 +69,15 @@ final class LockScreenOutboxTests: XCTestCase {
         XCTAssertEqual(kept.count, 8)
     }
 
+    func testATodayTapQueuesTheBriefingCommandFromTheWidget() throws {
+        let entry = PendingAction.briefing(itemId: Self.trip, action: "nudge").entry
+        XCTAssertEqual(entry["cmd"] as? String, "act_briefing_item")
+        XCTAssertEqual(entry["via"] as? String, "widget")
+        XCTAssertEqual(entry["scope"] as? String, "trip_day")
+        XCTAssertEqual(
+            entry["payload"] as? [String: String], ["item_id": Self.trip, "action": "nudge"])
+    }
+
     func testMinutesTravelAsANumberAndIdsAsText() throws {
         let entry = PendingAction.runningLate(tripId: Self.trip, meetupId: Self.meetup).entry
         let payload = try XCTUnwrap(entry["payload"] as? [String: Any])

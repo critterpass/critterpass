@@ -8,13 +8,12 @@ struct CritterdexWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: HomeSnapshotProvider()) { entry in
-            CritterdexView(entry: entry)
-                .containerBackground(for: .widget) { LAPalette.card }
+            CritterdexFamilyView(entry: entry)
                 .widgetURL(LADeepLink.url(route: "pass"))
         }
         .configurationDisplayName("Critterdex")
         .description("How many critters you have found.")
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemSmall, .accessoryRectangular])
     }
 }
 
@@ -33,6 +32,22 @@ struct HomeSnapshotProvider: TimelineProvider {
         // Look again after the snapshot would count as stale, so the "Updated" line appears.
         let later = entry.file.map { $0.generatedAt.addingTimeInterval(WidgetSnapshotFile.staleAfter + 60) }
         completion(Timeline(entries: [entry], policy: later.map { .after($0) } ?? .never))
+    }
+}
+
+/// The home-screen card, or the lock-screen bar.
+struct CritterdexFamilyView: View {
+    let entry: HomeWidgetEntry
+    @Environment(\.widgetFamily) private var family
+
+    var body: some View {
+        if family == .accessoryRectangular {
+            CritterdexAccessory(entry: entry)
+                .containerBackground(for: .widget) { Color.clear }
+        } else {
+            CritterdexView(entry: entry)
+                .containerBackground(for: .widget) { LAPalette.card }
+        }
     }
 }
 

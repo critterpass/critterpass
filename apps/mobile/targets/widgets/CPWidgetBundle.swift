@@ -18,5 +18,11 @@ struct CPWidgetBundle: WidgetBundle {
         CountdownWidget()
         VoteWidget()
         CritterdexWidget()
+        TodayWidget()
+        BalancesWidget()
+        CrewWidget()
+        NextFlightWidget()
+        NextLeaveByWidget()
+        SleepyClockWidget()
     }
 }
