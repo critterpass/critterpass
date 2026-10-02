@@ -15,6 +15,7 @@ import { defineClientCommand } from '../../../data/commands/summaries';
 import { useCommand } from '../../../data/commands/use-command';
 import { expoPushNative } from '../../../data/push/expo-native';
 import { toApnsEnv } from '../../../data/push/tokens';
+import { startCritterNearbyActivity, type NearbyPort, type NearbySource } from './critter-nearby';
 import { installedLaPort, type LaPort } from './la-port';
 import { startLaRegistration } from './register';
 
@@ -57,4 +58,25 @@ export function useLiveActivityRegistration(port: LaPort | null = installedLaPor
       onForeground,
     });
   }, [port, registerToken, reportState]);
+}
+
+export interface CritterNearbyRuntimeProps {
+  /** The Live Activity module (modules/cp-live-activity `getLiveActivityPort()`), or null without it. */
+  readonly port: NearbyPort | null;
+  /** The session's encounter engine (features/critters `encounterEngine`). */
+  readonly source: () => NearbySource;
+}
+
+/**
+ * Keeps the critter-nearby activity (the one kind the app starts itself, while an encounter's ring
+ * fills) in step with the encounter engine for as long as it is mounted. The root route mounts it
+ * with the module and the engine, which features may not reach across to themselves. Without the
+ * module, or on a build that does not draw the kind, it does nothing.
+ */
+export function CritterNearbyRuntime({ port, source }: CritterNearbyRuntimeProps): null {
+  useEffect(() => {
+    if (port === null) return undefined;
+    return startCritterNearbyActivity({ source: source(), port });
+  }, [port, source]);
+  return null;
 }

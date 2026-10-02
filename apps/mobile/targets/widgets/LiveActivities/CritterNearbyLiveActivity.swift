@@ -112,7 +112,7 @@ struct CritterNearbyHeadline: View {
         case .draining: return "COME BACK"
         case .dwelling:
             if let minutes = state.remainMin { return "STAY \(minutes) MORE MIN" }
-            return "STAY CLOSE"
+            return state.ring >= CritterRing.steps ? "IT'S RIGHT HERE" : "STAY CLOSE"
         }
     }
 }
@@ -135,6 +135,9 @@ struct CritterNearbyAdvice: View {
         case .expired: return "It wandered off. It will be back another time."
         case .draining: return "You wandered off. The ring drains slowly, so there is still time."
         case .dwelling:
+            if state.ring >= CritterRing.steps {
+                return "Open CritterPass and hold still to befriend it."
+            }
             if let place = attributes.placeName {
                 return "Phone in your pocket is fine. Stay within 50 m of \(place)."
             }
