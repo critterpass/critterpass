@@ -11,7 +11,7 @@ import {
   LocalFirstContext,
   type LocalFirstContextValue,
 } from '../../../../data/powersync/local-first-context';
-import { useLiveActivityRegistration } from '../bridge';
+import { drawsCrewLive, useLiveActivityRegistration } from '../bridge';
 import type { LaPort } from '../la-port';
 
 function session() {
@@ -47,6 +47,7 @@ describe('useLiveActivityRegistration', () => {
     const none = () => ({ remove: () => undefined });
     const port: LaPort = {
       authorization: () => ({ enabled: true, frequent: false }),
+      drawnKinds: () => null,
       onPushToStartToken: (listener) => (listeners.push(listener), none()),
       onUpdateToken: none,
       onActivityState: none,
@@ -61,5 +62,14 @@ describe('useLiveActivityRegistration', () => {
       { kind: 'push_to_start', activity_type: 'flight', token: 'ab'.repeat(32), apns_env: 'prod' },
       undefined,
     ]);
+  });
+
+  it('offers the crew lock screen only in a build that draws the crew-live activity', () => {
+    const says = (kinds: readonly string[] | null) => drawsCrewLive({ drawnKinds: () => kinds });
+    expect(drawsCrewLive(null)).toBe(false);
+    // Builds from before the kinds were reported, and builds that draw only the first two.
+    expect(says(null)).toBe(false);
+    expect(says(['leave_by', 'flight'])).toBe(false);
+    expect(says(['leave_by', 'flight', 'meet_up'])).toBe(true);
   });
 });

@@ -38,6 +38,18 @@ export const SPARSE_BY_DESIGN: ReadonlyMap<string, string> = new Map([
     'walk-guide-asked',
     'render 3j-1 Guide chat: a thread a moment after its first question is the header, the question and the answer starting to type',
   ],
+  [
+    '3k-9-on-time',
+    'undesigned-states 3k-9 "The map": the map fills the screen behind the sheet; tiles do not load on the CI emulator',
+  ],
+  [
+    '3k-9-waiting-crew',
+    'undesigned-states 3k-9 "The map": the map fills the screen behind the sheet; tiles do not load on the CI emulator',
+  ],
+  [
+    '3k-9-loading',
+    'the standard loading skeleton (ui/states/Skeleton card preset) under the back control while the running-late row syncs',
+  ],
 ]);
 
 export function isSparseByDesign(shot: string): boolean {

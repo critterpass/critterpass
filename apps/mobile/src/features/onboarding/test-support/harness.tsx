@@ -40,6 +40,8 @@ export function fakeServices(overrides: Partial<OnboardingServices> = {}): Onboa
       linkGoogle: () => Promise.resolve({ kind: 'linked' }),
       sendOtp: () => Promise.resolve({ kind: 'sent', channel: 'whatsapp' }),
       verifyOtp: () => Promise.resolve({ kind: 'verified' }),
+      // eslint-disable-next-line lingui/no-unlocalized-strings -- a test uid, never copy.
+      signInReturningPhone: () => Promise.resolve({ kind: 'signed_in', userId: 'u-existing' }),
       startMerge: () => Promise.resolve({ kind: 'preview', crews: [], trips: [] }),
       confirmMerge: () => Promise.resolve({ kind: 'merged', userId: 'u-existing' }),
     },
@@ -47,6 +49,7 @@ export function fakeServices(overrides: Partial<OnboardingServices> = {}): Onboa
     google: { requestIdToken: () => Promise.resolve({ idToken: 'google-token', nonce: '' }) },
     geoHint: () => Promise.resolve(null),
     photos: null,
+    restart: () => undefined,
     ...overrides,
   };
 }

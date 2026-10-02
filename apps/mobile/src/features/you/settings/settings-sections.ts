@@ -4,6 +4,7 @@
  */
 import { useLingui } from '@lingui/react/macro';
 
+import { PINGS_ROW_LINE, PINGS_ROW_TITLE } from '../ping-settings/copy';
 import type { SettingsSection } from './settings-view';
 
 export interface SettingsValues {
@@ -17,6 +18,7 @@ export interface SettingsValues {
 
 export interface SettingsHandlers {
   readonly onOfflineTrips: () => void;
+  readonly onPings: () => void;
   readonly onSoundEffects: (next: boolean) => void;
   readonly onHaptics: (next: boolean) => void;
   readonly onLanguage: () => void;
@@ -51,6 +53,14 @@ export function useSettingsSections(
       id: 'app',
       title: t({ id: 'you.settings.app', message: 'App' }),
       rows: [
+        {
+          key: 'pings',
+          kind: 'value',
+          title: t(PINGS_ROW_TITLE),
+          subtitle: t(PINGS_ROW_LINE),
+          value: '',
+          onPress: handlers.onPings,
+        },
         {
           key: 'sound-effects',
           kind: 'toggle',

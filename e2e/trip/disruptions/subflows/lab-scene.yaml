@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# From the disruptions lab's list: opens ${SCENE}, waits for the screen ${SCREEN}, takes the
+# screenshot ${SHOT} and goes back.
+- scrollUntilVisible:
+    element:
+      id: 'disruption-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 30000
+- tapOn:
+    id: 'disruption-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: '${SCREEN}'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow: ../../../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'disruption-lab-${SCENE}'
+    timeout: 15000

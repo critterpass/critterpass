@@ -1,0 +1,324 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-02 01:26+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: fr\n"
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.affected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.delayHours"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.delayBoth"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.delayMinutes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.approvedBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.keptFromBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.keptBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.vendor.declined"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.vendor.agreed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.retime"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.push"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.waitingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.question"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorConfirmed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorDeclined"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.waitingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.chip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.announce"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.briefing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.missingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.missingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.decide"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.answerBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.approve"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.vendor.ask"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorAsk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.vendor.asked"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.backAction"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.undone"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.option.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.cancelled"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.missed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.delayed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.diverted"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.eta"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.car"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.liveActivity"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.keepPlan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.landed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.etaStale"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.leaveBy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorSent"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.problem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.needsYes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorNoAnswer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.offlineMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.missing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.working"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.cta.none"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.pickup"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.toldCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.option.push"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.cta.push"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.rebook"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.chosen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.option.skip"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.vendorCancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.tellCrew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.detail.split"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.row.unaffected"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.told"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.backTo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.undid"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.undoAll"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.waitingOn"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.option.walk"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/commands.ts
+msgid "trip.disruptions.queued.lateOption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/flight/copy.ts
+msgid "trip.disruptions.flight.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/disruptions/late/copy.ts
+msgid "trip.disruptions.late.onTime"
+msgstr ""

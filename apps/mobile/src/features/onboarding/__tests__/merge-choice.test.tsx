@@ -35,8 +35,10 @@ const flush = () =>
 /** A Google account already saved to an older pass: link-social answers with a merge ticket. */
 function googleWithOldPass(confirmMerge = jest.fn(() => Promise.resolve(merged))) {
   const base = fakeServices();
+  const restart = jest.fn();
   const services: OnboardingServices = {
     ...base,
+    restart,
     auth: {
       ...base.auth,
       linkGoogle: () => Promise.resolve({ kind: 'merge_required', ticket: 't-1' }),
@@ -52,7 +54,17 @@ function googleWithOldPass(confirmMerge = jest.fn(() => Promise.resolve(merged))
       confirmMerge,
     },
   };
-  return { services, confirmMerge };
+  return { services, confirmMerge, restart };
+}
+
+/**
+ * "Use my old pass" took this phone to the existing account: the app starts again on it (its
+ * session, its local data, Home) instead of carrying on in the anonymous pass's session.
+ */
+function expectRestartedOnTheOldPass(restart: jest.Mock) {
+  expect(isOnboardingComplete()).toBe(true);
+  expect(restart).toHaveBeenCalledTimes(1);
+  expect(router.replace).not.toHaveBeenCalledWith('/');
 }
 const merged = { kind: 'merged' as const, userId: 'u-old' };
 
@@ -73,19 +85,18 @@ beforeEach(() => {
 
 describe('save sheet: a sign-in that already has a pass', () => {
   it('leads with switching to the old pass, and switching signs in to it', async () => {
-    const { services, confirmMerge } = googleWithOldPass();
+    const { services, confirmMerge, restart } = googleWithOldPass();
     await renderOnboarding(<SaveScreen />, { services });
     await activate(screen.getByTestId('save-google'));
     await flush();
     await activate(screen.getByTestId('merge-use-existing'));
     await flush();
     expect(confirmMerge).toHaveBeenCalledWith('t-1');
-    expect(isOnboardingComplete()).toBe(true);
-    expect(router.replace).toHaveBeenCalledWith('/');
+    expectRestartedOnTheOldPass(restart);
   });
 
   it('says what keeping the new pass means, then still offers the switch', async () => {
-    const { services, confirmMerge } = googleWithOldPass();
+    const { services, confirmMerge, restart } = googleWithOldPass();
     await renderOnboarding(<SaveScreen />, { services });
     await activate(screen.getByTestId('save-google'));
     await flush();
@@ -98,13 +109,13 @@ describe('save sheet: a sign-in that already has a pass', () => {
     await activate(screen.getByTestId('merge-use-existing'));
     await flush();
     expect(confirmMerge).toHaveBeenCalledWith('t-1');
-    expect(router.replace).toHaveBeenCalledWith('/');
+    expectRestartedOnTheOldPass(restart);
   });
 });
 
 describe('phone page: a sign-in that already has a pass', () => {
   it('asks in its own sheet, not under "Your number"', async () => {
-    const { services, confirmMerge } = googleWithOldPass();
+    const { services, confirmMerge, restart } = googleWithOldPass();
     await renderOnboarding(<PhoneScreen />, { services });
     await activate(screen.getByTestId('phone-google'));
     await flush();
@@ -112,7 +123,7 @@ describe('phone page: a sign-in that already has a pass', () => {
     await activate(screen.getByTestId('merge-use-existing'));
     await flush();
     expect(confirmMerge).toHaveBeenCalledWith('t-1');
-    expect(router.replace).toHaveBeenCalledWith('/');
+    expectRestartedOnTheOldPass(restart);
   });
 
   it('switches straight from the "kept" explanation', async () => {

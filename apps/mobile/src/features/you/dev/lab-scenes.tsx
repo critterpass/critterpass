@@ -99,6 +99,7 @@ function Settings() {
     { soundEffects: true, haptics: true, account: true, language: 'English' },
     {
       onOfflineTrips: noop,
+      onPings: noop,
       onSoundEffects: noop,
       onHaptics: noop,
       onLanguage: noop,
