@@ -442,6 +442,10 @@ msgstr "I can’t make it"
 msgid "proposal.board.out"
 msgstr "I can’t make it"
 
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.out.cta"
+msgstr "I can’t make it after all"
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.failed"
 msgstr "I couldn’t reach the plan just now. Try again in a moment."

@@ -442,6 +442,10 @@ msgstr "Mình không đi được"
 msgid "proposal.board.out"
 msgstr "Mình không đi được"
 
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.out.cta"
+msgstr "Rốt cuộc tôi không đi được"
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.failed"
 msgstr "Mình chưa xem được kế hoạch lúc này. Thử lại sau chút nhé."

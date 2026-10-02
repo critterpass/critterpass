@@ -442,6 +442,10 @@ msgstr ""
 msgid "proposal.board.out"
 msgstr ""
 
+#: ../../apps/mobile/src/features/proposal/your-version/your-version-view.tsx
+msgid "proposal.version.out.cta"
+msgstr ""
+
 #: ../../apps/mobile/src/features/proposal/objection/objection-sheet.tsx
 msgid "proposal.objection.failed"
 msgstr ""
