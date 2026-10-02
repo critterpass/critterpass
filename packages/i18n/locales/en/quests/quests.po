@@ -62,6 +62,10 @@ msgstr "Day one"
 msgid "quests.card.done"
 msgstr "Done ✓"
 
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.go"
+msgstr "Go"
+
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.join"
 msgstr "I'm in"
@@ -77,6 +81,14 @@ msgstr "Level {next} unlocks a crew sticker"
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.card.missed"
 msgstr "Missed"
+
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.nearest"
+msgstr "Nearest: {name}"
+
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.nearestAway"
+msgstr "Nearest: {name} · {away}"
 
 #: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
 msgid "quests.empty.overLine"
@@ -106,6 +118,10 @@ msgstr "Reward · legendary critter"
 #: ../../apps/mobile/src/features/critters/quests/quest-card-view.tsx
 msgid "quests.reward.settled"
 msgstr "Reward · Settled Tokek"
+
+#: ../../apps/mobile/src/features/critters/quests/befriend-where.tsx
+msgid "quests.befriend.how"
+msgstr "Stay about 5 minutes nearby with CritterPass open."
 
 #: ../../apps/mobile/src/features/critters/quests/quests-view.tsx
 msgid "quests.empty.overTitle"

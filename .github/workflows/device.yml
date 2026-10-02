@@ -136,6 +136,9 @@ jobs:
           IN_APPEARANCE: ${{ inputs.appearance }}
           IN_PRESET: ${{ inputs.preset }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          # A scheduled run has no build_url input. While no Android e2e-test build matches the
+          # native fingerprint, this repo variable names the APK it installs (e2e/README.md).
+          SCHEDULED_ANDROID_BUILD_URL: ${{ vars.DEVICE_SCHEDULED_ANDROID_BUILD_URL }}
         run: |
           # iOS shards share a handful of macOS runners; Android shards run on Linux (KVM) runners,
           # so everything that isn't iOS-specific runs on Android.
@@ -154,6 +157,12 @@ jobs:
           else
             platform=$IN_PLATFORM flows=$IN_FLOWS mode=$IN_MODE pr=$IN_PR build_url=$IN_BUILD_URL
             shards=$IN_SHARDS appearance=$IN_APPEARANCE preset=$IN_PRESET
+          fi
+          if [ "$EVENT" = schedule ] && [ -n "$SCHEDULED_ANDROID_BUILD_URL" ]; then
+            build_url=$SCHEDULED_ANDROID_BUILD_URL
+            line="scheduled run uses the build in DEVICE_SCHEDULED_ANDROID_BUILD_URL: $build_url"
+            echo "::notice::$line"
+            echo "$line" >> "$GITHUB_STEP_SUMMARY"
           fi
           if [ "$preset" = sweep ]; then
             # Every screen in both languages; sheets unless screenshots alone were asked for.

@@ -67,6 +67,17 @@ same flows on the same branch again cancels the older run. When no e2e-test buil
 native fingerprint the prepare job stops (it never falls back to another build) and names the
 latest build's URL to pass as `build_url` if its native code still fits.
 
+Scheduled runs (the nightly sweep and the daily release gate) have no `build_url` input. While no
+Android e2e-test build matches the native fingerprint, set the repo variable
+`DEVICE_SCHEDULED_ANDROID_BUILD_URL` to the `.apk` URL lanes pass by hand
+(`gh variable set DEVICE_SCHEDULED_ANDROID_BUILD_URL --body <url>`): scheduled runs then install it.
+The prepare job says so every time, as a notice and in the step summary ("scheduled run uses the
+build in DEVICE_SCHEDULED_ANDROID_BUILD_URL: <url>"). Manual and pull-request runs ignore it. When
+the variable is empty, scheduled runs behave as above. Clear it as soon as a new e2e-test build
+matches the fingerprint (`gh variable delete DEVICE_SCHEDULED_ANDROID_BUILD_URL`), so scheduled
+runs go back to the matching build. iOS needs no such variable: its fingerprint lookup still finds
+a build.
+
 The workflow needs the `EXPO_TOKEN` secret (build lookup by fingerprint, and the EAS
 `development` environment's `EXPO_PUBLIC_*` values for the bundle) and `OTP_TEST_CODE`
 (`e2e/onboarding/save-phone.yaml`). Builds come from EAS; the workflow never starts one.

@@ -17,6 +17,7 @@ import {
   LAB_DATE,
   LAB_ITEMS,
   LAB_MEMBERS,
+  labGhostDetail,
   labMeta,
   LAB_TZ,
   LUNCH,
@@ -148,7 +149,7 @@ const ghost = (accepted = false) => ({
   itemId: WALK.stableId,
   start: 17 * 60,
   end: 18 * 60,
-  detail: '17:00 · golden hour',
+  detail: labGhostDetail(),
   accepted,
   onAccept: noop,
 });

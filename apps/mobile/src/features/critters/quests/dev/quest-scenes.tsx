@@ -16,6 +16,7 @@ import type { ShelfItem } from '../../stickers/sticker-model';
 import { StickerShelfView } from '../../stickers/sticker-shelf-view';
 import { buildQuestsModel, type QuestRow, type QuestsInput } from '../quests-model';
 import { QuestsView } from '../quests-view';
+import type { BefriendPlace } from '../use-befriend-spot';
 
 const noop = () => undefined;
 const NOW = new Date('2026-10-03T02:00:00Z');
@@ -93,6 +94,12 @@ const DAY: readonly QuestRow[] = [
   }),
 ].map(translated);
 
+// The befriend quest's nearest spot, 1.2 km off.
+const DRAGON_BRIDGE: BefriendPlace = {
+  spot: { name: 'Dragon Bridge', lat: 16.0611, lng: 108.2277, distanceM: 1200 },
+  unit: 'metric',
+};
+
 const MEMBERS = ['Wren', 'Maya', 'Alex', 'Jordan', 'Dev', 'Rin'].map((name, index) => ({
   userId: `u${index}`,
   name,
@@ -138,6 +145,7 @@ function Quests({
       model={buildQuestsModel({ ...input(changes), text })}
       offline={offline}
       reveals={new Map(revealed.map((id) => [id, 'static' as const]))}
+      befriendPlace={DRAGON_BRIDGE}
       onSignUp={noop}
     />
   );

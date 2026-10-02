@@ -22,6 +22,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { QuestCardView } from './quest-card-view';
+import type { BefriendPlace } from './use-befriend-spot';
 import { QuestsHeader } from './quests-header';
 import type { QuestsModel, QuestsScreenState } from './quests-model';
 import type { RevealMode } from './server-clock';
@@ -86,6 +87,8 @@ export interface QuestsViewProps {
   readonly offline: boolean;
   /** Quest id → how its reward shows once revealed. */
   readonly reveals: ReadonlyMap<string, RevealMode>;
+  /** Where today's "befriend" quest can be done. */
+  readonly befriendPlace?: BefriendPlace | undefined;
   readonly onSignUp: (questId: string) => void;
 }
 
@@ -95,6 +98,7 @@ export function QuestsView({
   model,
   offline,
   reveals,
+  befriendPlace,
   onSignUp,
 }: QuestsViewProps) {
   const styles = useStyles();
@@ -137,6 +141,7 @@ export function QuestsView({
                   card={card}
                   guide={art}
                   {...(reveal === undefined ? {} : { reveal })}
+                  befriendPlace={befriendPlace}
                   onSignUp={onSignUp}
                 />
               );

@@ -66,16 +66,16 @@ export const TERRACES = item({
 export const LUNCH = item({
   stableId: 'i-lunch',
   title: 'Lunch · Biah Biah',
-  start: 11 * 60 + 30,
-  end: 12 * 60 + 45,
+  start: 11 * 60,
+  end: 12 * 60 + 30,
   category: 'food',
   status: 'voting',
 });
 export const WALK = item({
   stableId: 'i-walk',
   title: 'Ridge walk',
-  start: 14 * 60,
-  end: 15 * 60 + 15,
+  start: 13 * 60,
+  end: 15 * 60,
   category: 'hike',
   place: { lat: -8.5031, lng: 115.2543 },
 });
@@ -122,4 +122,9 @@ const LAB_META_VI: Readonly<Record<string, string>> = {
 export function labMeta(item: DayItem): string {
   const meta = i18n.locale.startsWith('vi') ? LAB_META_VI : LAB_META;
   return meta[item.stableId] ?? '';
+}
+
+/** The moved walk's line in the guide's suggestion, in the lab's current language. */
+export function labGhostDetail(): string {
+  return i18n.locale.startsWith('vi') ? '17:00 · giờ vàng' : '17:00 · golden hour';
 }
