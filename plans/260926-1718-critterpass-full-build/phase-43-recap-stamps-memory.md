@@ -1,7 +1,7 @@
 ---
 phase: 43
 title: Recap pipeline, story, awards, stamps, anniversary
-status: pending
+status: in-progress
 depends_on: [26, 31, 33, 40]
 wave: 19
 features: [F-131, F-132, F-133, F-134, F-139]
@@ -110,6 +110,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Tables incl. deltas. 2. RLS, grants, publication. 3. Fixtures for a 6-member trip.
 - Tests: `pnpm --filter @cp/db test -- permissions/recaps permissions/recap-awards permissions/recap-views permissions/stamp-signatures permissions/anniversaries permissions/memories`
 - Done when: non-participants read nothing; one MVP vote per member enforced by constraint.
+- Status: done — 134d9014b
 
 ### T2 — Deterministic recap builder
 - Goal: aggregates + contributors + versioning.
@@ -117,6 +118,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Recap zod schema. 2. Contributors + registry. 3. Award evidence scoring (one per member, deterministic tie-break). 4. Got-away selection. 5. Versioned re-run with debounce; stamps → `stamped`.
 - Tests: `pnpm --filter @cp/worker test -- recap/build`
 - Done when: fixture trip numbers match expected JSON exactly; no GPS table is read; late expense produces version 2.
+- Status: done — abad76458
 
 ### T3 — AI-34 recap copy + evals
 - Goal: guide-written copy with number guard and tone rules.
