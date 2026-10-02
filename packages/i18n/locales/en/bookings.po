@@ -49,6 +49,10 @@ msgstr "{count, plural, one {Found # booking in {member}'s inbox that wasn't her
 msgid "bookings.banner.mine"
 msgstr "{count, plural, one {Found # booking in your inbox that wasn't here yet.} other {Found # bookings in your inbox that weren't here yet.}}"
 
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.title"
+msgstr "{count, plural, one {Mail is waiting} other {# emails are waiting}}"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 msgid "bookings.mailbox.lockedLine"
 msgstr "{guideName} checks your inbox for new confirmations every morning with Pass+."
@@ -109,14 +113,6 @@ msgstr "09:05"
 msgid "bookings.form.arriveExample"
 msgstr "11:55"
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.dateExample"
-msgstr "2026-10-12"
-
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.endExample"
-msgstr "2026-10-17"
-
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
 msgid "bookings.candidate.untitled"
 msgstr "A booking"
@@ -172,6 +168,10 @@ msgstr "Add by hand"
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
 msgid "bookings.candidate.byHand"
 msgstr "Add by hand"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.flightNotFound"
+msgstr "Add the date and route, or add it by hand."
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.add"
@@ -327,8 +327,8 @@ msgid "bookings.detail.shareFlight"
 msgstr "Crew sees this flight"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.date"
-msgstr "Day (YYYY-MM-DD)"
+msgid "bookings.form.day"
+msgstr "Day"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.delayed"
@@ -390,6 +390,10 @@ msgstr "Edit"
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.editTitle"
 msgstr "Edit booking"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.enter"
+msgstr "Enter the code"
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
@@ -521,10 +525,6 @@ msgstr "Lands at"
 msgid "bookings.form.timeProblem"
 msgstr "Like 09:05"
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.dateProblem"
-msgstr "Like 2026-10-12"
-
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
 msgid "bookings.linkCode.link"
 msgstr "Link"
@@ -573,6 +573,10 @@ msgstr "Money"
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.docPending"
 msgstr "Needs signal"
+
+#: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
+msgid "bookings.date.next"
+msgstr "Next month"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.deniedLine"
@@ -679,6 +683,14 @@ msgstr "Paste a booking"
 msgid "bookings.paste.fromClipboard"
 msgstr "Paste from clipboard"
 
+#: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
+msgid "bookings.date.pick"
+msgstr "Pick a day"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.dayProblem"
+msgstr "Pick the day"
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.policyNo"
 msgstr "Policy no."
@@ -690,6 +702,10 @@ msgstr "Policy number"
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.docAttached"
 msgstr "Policy page kept with it."
+
+#: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
+msgid "bookings.date.previous"
+msgstr "Previous month"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.price"
@@ -793,12 +809,12 @@ msgstr "Stay"
 msgid "bookings.linkCode.wrong"
 msgstr "That code doesn’t match, or it has expired. Codes last a day; use the newest one."
 
-#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
-msgid "bookings.linkCode.failed"
-msgstr "That didn't go through. Try again."
-
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.failed"
+msgstr "That didn't go through. Try again."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.failed"
 msgstr "That didn't go through. Try again."
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
@@ -878,6 +894,10 @@ msgstr "Try connecting again from Add a booking."
 msgid "bookings.form.zone"
 msgstr "Type both times as {zoneCity} time ({zoneOffset})."
 
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.zones"
+msgstr "Type the departure as {zoneCity} time ({zoneOffset}) and the landing as {arrCity} time ({arrOffset})."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.voucher"
 msgstr "Voucher code"
@@ -889,6 +909,10 @@ msgstr "Voucher code, open full screen"
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 msgid "bookings.switch.label"
 msgstr "Wallet"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.line"
+msgstr "We emailed the address it came from a 6-digit code. Enter it to link that address and read the mail."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.landedToast"

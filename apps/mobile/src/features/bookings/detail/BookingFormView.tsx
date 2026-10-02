@@ -1,9 +1,9 @@
 /**
  * Adding a booking by hand or correcting one (undesigned; settings type scale and text fields):
- * the kind (when adding), what it is, the day and time as the confirmation prints them, where,
- * the confirmation code, a flight's number, airports, landing time and seat (with the one zone
- * both of its times are read in), and notes. SAVE stays off until
- * the required fields read.
+ * the kind (when adding), what it is, the day (picked on a month grid) and time as the
+ * confirmation prints them, where, the confirmation code, a flight's number, airports, landing
+ * time and seat (with the zones its times are read in: the departure airport's and the arrival
+ * airport's), and notes. SAVE stays off until the required fields read.
  */
 import type { BookingKind } from '@cp/domain';
 import { upper } from '@cp/i18n';
@@ -23,6 +23,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
+import { DateField } from './DatePickerSheet';
 import type { BookingDraft, DraftProblem } from './form-model';
 import { useKindLabel } from './labels';
 
@@ -53,8 +54,13 @@ export interface BookingFormViewProps {
   /** Problems show once the traveller tried to save. */
   readonly showProblems: boolean;
   readonly saving: boolean;
-  /** The one zone a flight's two times are read in ("Ho Chi Minh", "GMT+7"). */
-  readonly zone: { readonly city: string; readonly offset: string };
+  /** The zones a flight's departure and landing are read in ("Ho Chi Minh", "GMT+7"). */
+  readonly zones: {
+    readonly dep: { readonly city: string; readonly offset: string };
+    readonly arr: { readonly city: string; readonly offset: string };
+  };
+  /** The trip's days, tinted on the day picker. */
+  readonly trip: { readonly start: string; readonly end: string } | null;
   readonly onChange: (patch: Partial<BookingDraft>) => void;
   readonly onSave: () => void;
 }
@@ -71,7 +77,11 @@ export function BookingFormView(props: BookingFormViewProps) {
       ? ({ status: 'error', message } as const)
       : {};
   const flight = draft.kind === 'flight';
-  const { city: zoneCity, offset: zoneOffset } = props.zone;
+  const { city: zoneCity, offset: zoneOffset } = props.zones.dep;
+  const { city: arrCity, offset: arrOffset } = props.zones.arr;
+  const oneZone = zoneCity === arrCity && zoneOffset === arrOffset;
+  const problemText = (key: DraftProblem, message: string) =>
+    props.showProblems && props.problems.includes(key) ? message : undefined;
   return (
     <Scaffold variant="dark" testID={`bookings-form-${props.mode}`}>
       <KeyboardScrollView contentContainerStyle={styles.content}>
@@ -155,16 +165,15 @@ export function BookingFormView(props: BookingFormViewProps) {
         )}
         <Row gap="12">
           <View style={styles.day}>
-            <TextField
-              label={t({ id: 'bookings.form.date', message: 'Day (YYYY-MM-DD)' })}
-              placeholder={t({ id: 'bookings.form.dateExample', message: '2026-10-12' })}
-              keyboardType="numbers-and-punctuation"
+            <DateField
+              label={t({ id: 'bookings.form.day', message: 'Day' })}
               value={draft.date}
-              onChangeText={(date) => props.onChange({ date })}
-              {...problem(
+              trip={props.trip}
+              problem={problemText(
                 'date',
-                t({ id: 'bookings.form.dateProblem', message: 'Like 2026-10-12' }),
+                t({ id: 'bookings.form.dayProblem', message: 'Pick the day' }),
               )}
+              onChange={(date) => props.onChange({ date })}
               testID="bookings-form-date"
             />
           </View>
@@ -181,12 +190,11 @@ export function BookingFormView(props: BookingFormViewProps) {
           </View>
         </Row>
         {draft.kind === 'stay' ? (
-          <TextField
+          <DateField
             label={t({ id: 'bookings.form.checkOut', message: 'Check-out day' })}
-            placeholder={t({ id: 'bookings.form.endExample', message: '2026-10-17' })}
-            keyboardType="numbers-and-punctuation"
             value={draft.endDate}
-            onChangeText={(endDate) => props.onChange({ endDate })}
+            trip={props.trip}
+            onChange={(endDate) => props.onChange({ endDate })}
             testID="bookings-form-end"
           />
         ) : null}
@@ -203,10 +211,15 @@ export function BookingFormView(props: BookingFormViewProps) {
         ) : null}
         {flight ? (
           <Text variant="bodySm" color={theme.semantic.text.secondary} testID="bookings-form-zone">
-            {t({
-              id: 'bookings.form.zone',
-              message: `Type both times as ${zoneCity} time (${zoneOffset}).`,
-            })}
+            {oneZone
+              ? t({
+                  id: 'bookings.form.zone',
+                  message: `Type both times as ${zoneCity} time (${zoneOffset}).`,
+                })
+              : t({
+                  id: 'bookings.form.zones',
+                  message: `Type the departure as ${zoneCity} time (${zoneOffset}) and the landing as ${arrCity} time (${arrOffset}).`,
+                })}
           </Text>
         ) : null}
         {flight ? (

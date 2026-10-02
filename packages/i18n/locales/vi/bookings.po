@@ -49,6 +49,10 @@ msgstr "{count, plural, other {Tìm thấy # đặt chỗ trong hộp thư của
 msgid "bookings.banner.mine"
 msgstr "{count, plural, other {Tìm thấy # đặt chỗ trong hộp thư của bạn mà ví chưa có.}}"
 
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.title"
+msgstr "{count, plural, other {Có # email đang chờ}}"
+
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
 msgid "bookings.mailbox.lockedLine"
 msgstr "Với Pass+, {guideName} kiểm tra hộp thư của bạn mỗi sáng để tìm xác nhận mới."
@@ -109,14 +113,6 @@ msgstr "09:05"
 msgid "bookings.form.arriveExample"
 msgstr "11:55"
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.dateExample"
-msgstr "2026-10-12"
-
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.endExample"
-msgstr "2026-10-17"
-
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
 msgid "bookings.candidate.untitled"
 msgstr "Một đặt chỗ"
@@ -172,6 +168,10 @@ msgstr "Tự nhập"
 #: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
 msgid "bookings.candidate.byHand"
 msgstr "Tự nhập"
+
+#: ../../apps/mobile/src/features/bookings/candidates/CandidateCard.tsx
+msgid "bookings.candidate.flightNotFound"
+msgstr "Thêm ngày và chặng bay, hoặc tự nhập."
 
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.add"
@@ -327,8 +327,8 @@ msgid "bookings.detail.shareFlight"
 msgstr "Cả nhóm thấy chuyến bay này"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.date"
-msgstr "Ngày (YYYY-MM-DD)"
+msgid "bookings.form.day"
+msgstr "Ngày"
 
 #: ../../apps/mobile/src/features/bookings/flight-card/labels.ts
 msgid "bookings.flight.delayed"
@@ -390,6 +390,10 @@ msgstr "Sửa"
 #: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
 msgid "bookings.form.editTitle"
 msgstr "Sửa đặt chỗ"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.enter"
+msgstr "Nhập mã"
 
 #: ../../apps/mobile/src/features/bookings/add/AddBookingView.tsx
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxSheet.tsx
@@ -521,10 +525,6 @@ msgstr "Hạ cánh lúc"
 msgid "bookings.form.timeProblem"
 msgstr "Ví dụ 09:05"
 
-#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
-msgid "bookings.form.dateProblem"
-msgstr "Ví dụ 2026-10-12"
-
 #: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
 msgid "bookings.linkCode.link"
 msgstr "Liên kết"
@@ -573,6 +573,10 @@ msgstr "Tiền"
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.docPending"
 msgstr "Cần có sóng"
+
+#: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
+msgid "bookings.date.next"
+msgstr "Tháng sau"
 
 #: ../../apps/mobile/src/features/bookings/mailbox/MailboxConnectedScreen.tsx
 msgid "bookings.mailboxDone.deniedLine"
@@ -679,6 +683,14 @@ msgstr "Dán một đặt chỗ"
 msgid "bookings.paste.fromClipboard"
 msgstr "Dán từ bộ nhớ tạm"
 
+#: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
+msgid "bookings.date.pick"
+msgstr "Chọn ngày"
+
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.dayProblem"
+msgstr "Chọn ngày"
+
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceCard.tsx
 msgid "bookings.insurance.policyNo"
 msgstr "Số hợp đồng"
@@ -690,6 +702,10 @@ msgstr "Số hợp đồng"
 #: ../../apps/mobile/src/features/bookings/insurance/InsuranceFormView.tsx
 msgid "bookings.insurance.docAttached"
 msgstr "Đã lưu trang hợp đồng kèm theo."
+
+#: ../../apps/mobile/src/features/bookings/detail/DatePickerSheet.tsx
+msgid "bookings.date.previous"
+msgstr "Tháng trước"
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.price"
@@ -793,12 +809,12 @@ msgstr "Chỗ ở"
 msgid "bookings.linkCode.wrong"
 msgstr "Mã không khớp hoặc đã hết hạn. Mã có hiệu lực một ngày; hãy dùng mã mới nhất."
 
-#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
-msgid "bookings.linkCode.failed"
-msgstr "Chưa gửi được. Thử lại nhé."
-
 #: ../../apps/mobile/src/features/bookings/paste/PasteSheet.tsx
 msgid "bookings.paste.failed"
+msgstr "Chưa gửi được. Thử lại nhé."
+
+#: ../../apps/mobile/src/features/bookings/link-code/LinkCodeSheet.tsx
+msgid "bookings.linkCode.failed"
 msgstr "Chưa gửi được. Thử lại nhé."
 
 #: ../../apps/mobile/src/features/bookings/add/scan-line.ts
@@ -878,6 +894,10 @@ msgstr "Thử kết nối lại từ Thêm đặt chỗ."
 msgid "bookings.form.zone"
 msgstr "Nhập cả hai giờ theo giờ {zoneCity} ({zoneOffset})."
 
+#: ../../apps/mobile/src/features/bookings/detail/BookingFormView.tsx
+msgid "bookings.form.zones"
+msgstr "Nhập giờ cất cánh theo giờ {zoneCity} ({zoneOffset}) và giờ hạ cánh theo giờ {arrCity} ({arrOffset})."
+
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailView.tsx
 msgid "bookings.detail.voucher"
 msgstr "Mã phiếu"
@@ -889,6 +909,10 @@ msgstr "Mã phiếu, mở toàn màn hình"
 #: ../../apps/mobile/src/features/bookings/stack/WalletSwitch.tsx
 msgid "bookings.switch.label"
 msgstr "Ví"
+
+#: ../../apps/mobile/src/features/bookings/link-code/HeldMailCard.tsx
+msgid "bookings.heldMail.line"
+msgstr "Chúng tôi đã gửi tới địa chỉ gửi thư một mã 6 số. Nhập mã để liên kết địa chỉ đó và đọc thư."
 
 #: ../../apps/mobile/src/features/bookings/detail/BookingDetailScreen.tsx
 msgid "bookings.detail.landedToast"

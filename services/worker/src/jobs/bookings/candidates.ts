@@ -56,7 +56,8 @@ export type ReadResult =
     }
   | {
       readonly status: 'failed';
-      readonly reason: 'unreadable' | 'no_booking' | 'empty' | 'unsupported_attachment';
+      readonly reason:
+        'unreadable' | 'no_booking' | 'empty' | 'unsupported_attachment' | 'flight_not_found';
     };
 
 export async function readConfirmation(
@@ -255,7 +256,8 @@ export async function writeFailedCandidate(
     | 'empty'
     | 'unsupported_attachment'
     | 'fetch_failed'
-    | 'blocked_url',
+    | 'blocked_url'
+    | 'flight_not_found',
 ): Promise<string> {
   const id = target.candidateId ?? generateUuidV7();
   await upsertCandidate(

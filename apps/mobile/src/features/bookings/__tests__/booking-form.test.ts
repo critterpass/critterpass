@@ -88,6 +88,57 @@ describe('adding by hand', () => {
     expect(untimed?.segments?.[0]).not.toHaveProperty('sched_arr_at');
   });
 
+  it('reads the landing on the arrival airport clock, whatever zone the trip is in', () => {
+    const ids = { bookingId: 'b4', tripId: 't1' };
+    // DPS 12:55 (Bali) to SIN 15:35 (Singapore): same offset, one hour gap read as shown.
+    const home = {
+      ...emptyDraft('flight'),
+      date: '2026-10-19',
+      time: '12:55',
+      arrive: '15:35',
+      flight: 'SQ 943',
+      from: 'DPS',
+      to: 'SIN',
+    };
+    expect(toAddPayload(home, ids, 'Asia/Ho_Chi_Minh')).toMatchObject({
+      tz: 'Asia/Makassar',
+      starts_at: '2026-10-19T12:55:00+08:00',
+      ends_at: '2026-10-19T15:35:00+08:00',
+    });
+    // Saigon 23:50 to Tokyo 07:30 next morning: two hours ahead, so 5h40 in the air, not 7h40.
+    const east = {
+      ...home,
+      flight: 'VN 300',
+      from: 'SGN',
+      to: 'NRT',
+      time: '23:50',
+      arrive: '07:30',
+    };
+    expect(toAddPayload(east, ids, 'Asia/Ho_Chi_Minh')?.segments?.[0]).toMatchObject({
+      sched_dep_at: '2026-10-19T23:50:00+07:00',
+      sched_arr_at: '2026-10-20T07:30:00+09:00',
+    });
+    // Sydney 10:00 to Los Angeles 06:30 the same calendar day, across the date line.
+    const dateLine = {
+      ...home,
+      flight: 'QF 11',
+      from: 'SYD',
+      to: 'LAX',
+      time: '10:00',
+      arrive: '06:30',
+    };
+    expect(toAddPayload(dateLine, ids, 'Australia/Sydney')?.segments?.[0]).toMatchObject({
+      sched_dep_at: '2026-10-19T10:00:00+11:00',
+      sched_arr_at: '2026-10-19T06:30:00-07:00',
+    });
+  });
+
+  it('shows a saved flight on each airport clock again', () => {
+    const flight = toWalletBooking(LAB_FLIGHT, LAB_SEGMENTS, LAB_UID);
+    const draft = draftOf(flight, 'Europe/London');
+    expect(draftOf(flight, BALI)).toEqual(draft);
+  });
+
   it('adds a stay with its check-out day and no time', () => {
     const payload = toAddPayload(
       { ...emptyDraft('stay', 'Villa Kayu Manis'), date: '2026-10-12', endDate: '2026-10-17' },

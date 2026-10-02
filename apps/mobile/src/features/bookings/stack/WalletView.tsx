@@ -49,6 +49,8 @@ export interface WalletViewProps {
   readonly archiveCount: number;
   /** The insurance card slot. */
   readonly insurance?: ReactNode;
+  /** "Mail is waiting" when the crew address holds mail from an unlinked address. */
+  readonly heldMail?: ReactNode;
   readonly onSelect: (id: string) => void;
   readonly onOpenDetail: () => void;
   readonly onReview: () => void;
@@ -86,6 +88,7 @@ export function WalletView(props: WalletViewProps) {
       >
         <WalletSwitch current="bookings" />
         <Title offlineCount={props.offlineCount} />
+        {props.heldMail ?? null}
         {props.state === 'loading' ? (
           <Stack gap="8" testID="bookings-loading">
             <Skeleton
