@@ -44,6 +44,18 @@ export interface PingSettingsViewProps {
 
 const TILE = 40;
 
+/**
+ * The budget level ("ABOUT 10 A DAY") never shrinks into the label's line: it wraps under the
+ * label instead, and grows to the end of whichever line it is on. A box the size of its own
+ * measured text cuts the last word on Android, where the drawn text runs a little wider.
+ */
+export const BUDGET_LEVEL_STYLE = {
+  flexShrink: 0,
+  flexGrow: 1,
+  maxWidth: '100%',
+  textAlign: 'right',
+} as const;
+
 const useStyles = makeStyles((t) => ({
   content: { paddingHorizontal: t.size.gutter, paddingBottom: t.space['32'], gap: t.space['14'] },
   budget: { padding: t.size.cardInner.max, gap: t.space['10'] },
@@ -56,7 +68,7 @@ const useStyles = makeStyles((t) => ({
     rowGap: t.space['4'],
   },
   budgetLabel: { flexShrink: 0 },
-  budgetLevel: { flexShrink: 1, maxWidth: '100%' },
+  budgetLevel: BUDGET_LEVEL_STYLE,
   group: { backgroundColor: t.semantic.bg.raised, borderRadius: t.radius.lg, overflow: 'hidden' },
   row: {
     minHeight: MIN_TOUCH_TARGET + t.space['12'],
@@ -242,7 +254,8 @@ export function PingSettingsView(props: PingSettingsViewProps) {
         <View style={styles.content}>
           <Card style={styles.budget} testID="you-pings-budget">
             {/* The level keeps its words whole: beside the label while they fit, under it when a
-                longer number or language needs the room, shrinking only as a last resort. */}
+                longer number or language needs the room. It is never fitted to one line: its box
+                fills the rest of its line, so the platform has room to set the last word. */}
             <View style={styles.budgetHead}>
               <Text variant="rowTitle" style={styles.budgetLabel}>
                 {t({ id: 'you.pings.budget', message: 'Ping budget' })}
@@ -250,8 +263,8 @@ export function PingSettingsView(props: PingSettingsViewProps) {
               <Text
                 variant="h3"
                 color={theme.semantic.action.primary}
-                autoFit
                 style={styles.budgetLevel}
+                textBreakStrategy="simple"
                 testID="you-pings-level"
               >
                 {upper(
