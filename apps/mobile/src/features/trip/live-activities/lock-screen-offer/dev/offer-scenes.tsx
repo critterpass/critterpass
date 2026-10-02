@@ -4,7 +4,7 @@
  * confirmation on a boosted one, and the trip with no meet-up yet.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- lab fixtures: sample names, places and times. */
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
 
 import { makeStyles } from '@/ui/theme';
@@ -22,21 +22,25 @@ const useStyles = makeStyles((th) => ({
   map: { flex: 1, backgroundColor: th.color.map.base },
 }));
 
+/** The sheet closes for real (back, the grabber), so a second back leaves the scene. */
 function Scene({ phase, priced }: { readonly phase: OfferPhase; readonly priced: boolean }) {
   const styles = useStyles();
+  const [open, setOpen] = useState(true);
   const nothing = () => undefined;
   return (
     <View style={styles.map}>
-      <LockScreenOfferSheet
-        facts={FACTS}
-        phase={phase}
-        clock="16:38"
-        meetTime="17:00"
-        startsTime={phase.kind === 'started' ? '16:30' : null}
-        boost={priced ? { price: '$12', onPress: nothing } : null}
-        onRetry={nothing}
-        onClose={nothing}
-      />
+      {open ? (
+        <LockScreenOfferSheet
+          facts={FACTS}
+          phase={phase}
+          clock="16:38"
+          meetTime="17:00"
+          startsTime={phase.kind === 'started' ? '16:30' : null}
+          boost={priced ? { price: '$12', onPress: nothing } : null}
+          onRetry={nothing}
+          onClose={() => setOpen(false)}
+        />
+      ) : null}
     </View>
   );
 }

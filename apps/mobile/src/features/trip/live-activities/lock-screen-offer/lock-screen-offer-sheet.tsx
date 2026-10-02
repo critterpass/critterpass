@@ -17,7 +17,7 @@ import { CrewLivePreview } from './crew-live-preview';
 import type { OfferFacts, OfferPhase } from './offer-model';
 
 const useStyles = makeStyles((th) => ({
-  body: { gap: th.space['16'], paddingBottom: th.space['8'] },
+  body: { gap: th.space['16'], paddingBottom: th.space['8'], paddingHorizontal: th.size.gutter },
   head: { gap: th.space['4'] },
   foot: { gap: th.space['12'], alignItems: 'center' },
 }));
