@@ -13,6 +13,8 @@ appId: app.critterpass.dev
       id: 'dev-nav-gallery'
     direction: DOWN
     timeout: 20000
+    # Slow, or iOS flings past it.
+    speed: 20
     centerElement: true
 - tapOn:
     id: 'dev-nav-gallery'
