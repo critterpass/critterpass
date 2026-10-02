@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { AccessibilityInfo } from 'react-native';
-import { useSharedValue, withTiming, type SharedValue } from 'react-native-reanimated';
+import {
+  cancelAnimation,
+  useSharedValue,
+  withTiming,
+  type SharedValue,
+} from 'react-native-reanimated';
 
 import { tokens } from '@cp/design-tokens';
 
@@ -35,15 +40,20 @@ export function useStoryProgress({
 }: UseStoryProgressOptions): { readonly progress: SharedValue<number> } {
   const progress = useSharedValue(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Time this segment has played, kept on the JS clock: a pause stops the bar where it is, and the
+  // resume runs only what was left, never the full story again nor a jump to the next segment.
+  const playedRef = useRef(0);
 
   useEffect(() => {
+    if (!active) playedRef.current = 0;
     if (!active || paused) {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      if (paused) cancelAnimation(progress);
       return;
     }
 
-    const remainingFraction = 1 - progress.value;
-    const remainingMs = Math.max(0, remainingFraction * STORY_MS);
+    const startedAt = Date.now();
+    const remainingMs = Math.max(0, STORY_MS - playedRef.current);
 
     timeoutRef.current = setTimeout(() => {
       if (completionAnnouncement)
@@ -55,6 +65,7 @@ export function useStoryProgress({
 
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      playedRef.current = Math.min(STORY_MS, playedRef.current + Date.now() - startedAt);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- progress is a stable shared value ref; onComplete/completionAnnouncement are read fresh via closure each run.
   }, [active, paused]);
