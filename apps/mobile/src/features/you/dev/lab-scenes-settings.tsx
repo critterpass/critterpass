@@ -10,6 +10,9 @@ export function Settings() {
     {
       chattiness: 'normal',
       talkOutLoud: true,
+      leaveByThroughDnd: true,
+      hideTasteTags: false,
+      hideLockscreenDetails: false,
       crewChat: 'mentions',
       location: 'trips',
       mailbox: {

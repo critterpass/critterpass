@@ -1,8 +1,10 @@
 appId: app.critterpass.dev
 ---
 # Settings for real (en): a brand-new account opens Settings from its profile (PASS tab → its face),
-# turns on the Help share and hides its critters from crews, picks "Mentions only" for crew chat,
-# leaves and comes back to find all three kept, then scrolls to Tokek and the version line (3n-6).
+# finds the leave-by alarm switch on (it rings through Do Not Disturb by default), turns on the Help
+# share and hides its critters from crews, picks "Mentions only" for crew chat, leaves and comes back
+# to find all three kept, sees the travel-style and lock-screen switches off, then scrolls to Tokek
+# and the version line (3n-6).
 - runFlow:
     file: ../screens/sweep/subflows/start.yaml
     env:
@@ -48,6 +50,14 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3n-2-real
+- scrollUntilVisible:
+    element:
+      text: 'Leave-by alarms, Can ring through Do Not Disturb.*'
+    direction: DOWN
+    timeout: 15000
+- assertVisible:
+    text: 'Leave-by alarms, Can ring through Do Not Disturb.*'
+    checked: true
 - scrollUntilVisible:
     element:
       text: 'Share where I am from Help, For an hour.*'
@@ -120,6 +130,20 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3n-2-privacy-kept
+- scrollUntilVisible:
+    element:
+      text: 'Hide details on the lock screen, Pings and live trips.*'
+    direction: DOWN
+    timeout: 15000
+- assertVisible:
+    text: 'Hide my travel style, Crews stop seeing your taste tags.*'
+    checked: false
+- assertVisible:
+    text: 'Hide details on the lock screen, Pings and live trips.*'
+    checked: false
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-2-privacy-switches
 - scrollUntilVisible:
     element:
       id: 'you-settings-version'

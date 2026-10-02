@@ -40,6 +40,12 @@ export const SETTINGS_SECTIONS: readonly SettingsSectionId[] = [
 export const SETTINGS_REGISTRY: readonly SettingDef[] = [
   { key: 'chattiness', section: 'guide', scope: synced('chattiness'), owner: 'guide' },
   { key: 'talk-out-loud', section: 'guide', scope: synced('talk_out_loud'), owner: 'guide' },
+  {
+    key: 'leave-by-alarms',
+    section: 'notifications',
+    scope: synced('leave_by_through_dnd'),
+    owner: 'trip-day',
+  },
   { key: 'crew-chat', section: 'notifications', scope: link, owner: 'notifications' },
   { key: 'pings', section: 'notifications', scope: link, owner: 'notifications' },
   { key: 'location', section: 'privacy', scope: link, owner: 'permissions' },
@@ -56,6 +62,18 @@ export const SETTINGS_REGISTRY: readonly SettingDef[] = [
     section: 'privacy',
     scope: synced('hide_collection'),
     owner: 'critters',
+  },
+  {
+    key: 'hide-travel-style',
+    section: 'privacy',
+    scope: synced('hide_taste_tags'),
+    owner: 'onboarding',
+  },
+  {
+    key: 'hide-lockscreen',
+    section: 'privacy',
+    scope: synced('hide_lockscreen_details'),
+    owner: 'notifications',
   },
   { key: 'offline-trips', section: 'offline', scope: link, owner: 'trip-day' },
   { key: 'sound-effects', section: 'app', scope: device, owner: 'motion' },

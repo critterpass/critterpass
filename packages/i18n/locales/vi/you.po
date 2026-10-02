@@ -107,6 +107,10 @@ msgid "you.settings.budgetMax"
 msgstr "Ngân sách tối đa"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.leaveByAlarmsLine"
+msgstr "Có thể reo xuyên qua chế độ Không làm phiền"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.chatty"
 msgstr "Nói nhiều"
 
@@ -150,6 +154,10 @@ msgstr "Nhóm chuyển app khác"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideCollectionLine"
 msgstr "Hội không còn thấy bộ sưu tập của bạn"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideTravelStyleLine"
+msgstr "Hội không còn thấy sở thích của bạn"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
@@ -229,8 +237,16 @@ msgid "you.delete.lede"
 msgstr "Đây là những gì đi cùng bạn, và những gì nhóm giữ lại."
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideLockscreen"
+msgstr "Ẩn chi tiết trên màn hình khóa"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideCollection"
 msgstr "Ẩn critter của mình"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideTravelStyle"
+msgstr "Ẩn phong cách du lịch của mình"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.hold"
@@ -305,6 +321,10 @@ msgstr "TRANG CUỐI"
 msgid "you.closed.leave"
 msgstr "Cứ để đóng"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.leaveByAlarms"
+msgstr "Báo thức giờ xuất phát"
+
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.leaves"
 msgstr "Rời khỏi điện thoại này"
@@ -339,13 +359,13 @@ msgstr "Chưa có gì bị xoá cho đến {0}. Đăng nhập trước ngày đ�
 msgid "you.settings.notifications"
 msgstr "Thông báo"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.location.off"
-msgstr "Tắt"
-
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.off"
+msgstr "Tắt"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.off"
 msgstr "Tắt"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -363,6 +383,10 @@ msgstr "Pass+ được tính tiền qua cửa hàng nơi bạn mua. Xoá tài kh
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.editTitle"
 msgstr "Chuyến đi cũ"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideLockscreenLine"
+msgstr "Thông báo và chuyến đi trực tiếp không hiện số tiền hay địa điểm"
 
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts

@@ -107,6 +107,10 @@ msgid "you.settings.budgetMax"
 msgstr "Budget max"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.leaveByAlarmsLine"
+msgstr "Can ring through Do Not Disturb"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.chatty.chatty"
 msgstr "Chatty"
 
@@ -150,6 +154,10 @@ msgstr "Crew moved apps"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideCollectionLine"
 msgstr "Crews stop seeing your collection"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideTravelStyleLine"
+msgstr "Crews stop seeing your taste tags"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
@@ -229,8 +237,16 @@ msgid "you.delete.lede"
 msgstr "Here’s what goes with you, and what the crew keeps."
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideLockscreen"
+msgstr "Hide details on the lock screen"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideCollection"
 msgstr "Hide my critters"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideTravelStyle"
+msgstr "Hide my travel style"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.hold"
@@ -305,6 +321,10 @@ msgstr "LAST PAGE"
 msgid "you.closed.leave"
 msgstr "Leave it closed"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.leaveByAlarms"
+msgstr "Leave-by alarms"
+
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.signOut.leaves"
 msgstr "Leaves this phone"
@@ -339,13 +359,13 @@ msgstr "Nothing is erased until {0}. Sign in before then and your pass, critters
 msgid "you.settings.notifications"
 msgstr "Notifications"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.location.off"
-msgstr "Off"
-
 #: ../../apps/mobile/src/features/you/settings/crew-chat-sheet.tsx
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.off"
+msgstr "Off"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.location.off"
 msgstr "Off"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
@@ -363,6 +383,10 @@ msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t canc
 #: ../../apps/mobile/src/features/you/history/past-trip-view.tsx
 msgid "you.pastTrip.editTitle"
 msgstr "Past trip"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.hideLockscreenLine"
+msgstr "Pings and live trips show no amounts or places"
 
 #. placeholder {0}: line.place
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
