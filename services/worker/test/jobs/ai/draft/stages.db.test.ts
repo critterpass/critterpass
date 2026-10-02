@@ -76,7 +76,9 @@ describe('ai.draft', () => {
     });
     const coverage = draftCoverageSchema.parse(version?.coverage);
     const metrics = draftMetricsSchema.parse(version?.metrics);
-    expect(coverage.must_dos).toMatchObject({ total: 4, made: 4, missing: [] });
+    expect(coverage.must_dos).toMatchObject({ total: 4, made: 4, missing: [], untimed: [] });
+    // No must-do was typed by hand, so the guide answered none: saved as such for a redraft.
+    expect(coverage.wish_answers).toEqual([]);
     expect(metrics.validation.first_pass_clean).toBe(true);
     const { rows: items } = await harness.pool.query<{ poi_id: string; created_by_kind: string }>(
       'SELECT poi_id, created_by_kind FROM plan_items WHERE version_id = $1',

@@ -123,6 +123,26 @@ export const setupFingerprintSchema = z.object({
 });
 export type SetupFingerprint = z.infer<typeof setupFingerprintSchema>;
 
+/**
+ * The guide's answer to a must-do a member typed by hand: the place it means, the day and the time
+ * of day (`sunrise`, `night`, `full_day`, …) and, for a weekly show, the weekdays it runs on. Saved
+ * with the version so a redraft plans from the same answers.
+ */
+export const wishAnswerSchema = z.object({
+  must_do_id: uuid,
+  poi_id: uuid.nullable(),
+  day_no: z.number().int().positive().nullable(),
+  when: z.string().min(1).max(20),
+  weekdays: z.array(z.string().min(2).max(2)).max(7),
+});
+export type SavedWishAnswer = z.infer<typeof wishAnswerSchema>;
+
+/**
+ * Why a must-do is planned without the time of day or the show day wished for it: the trip has no
+ * day its show runs on, or no day can hold it at its time.
+ */
+export const UNTIMED_MUST_DO_REASONS = ['no_show_day', 'no_day_fits'] as const;
+
 export const draftCoverageSchema = z.object({
   must_dos: z.object({
     total: z.number().int().nonnegative(),
@@ -130,12 +150,18 @@ export const draftCoverageSchema = z.object({
     missing: z.array(
       z.object({ must_do_id: uuid, owner_id: uuid, reason: mustDoMissReasonSchema }),
     ),
+    /** Must-dos that are planned, but not at the time or on the show day wished for them. */
+    untimed: z
+      .array(z.object({ must_do_id: uuid, reason: z.enum(UNTIMED_MUST_DO_REASONS) }))
+      .optional(),
   }),
   flags: z.array(z.object({ stable_id: uuid, flag: draftItemFlagSchema })),
   closures: z.array(closureRecordSchema),
   stays: z.array(stayRowSchema),
   places: z.record(z.string(), draftPlaceSchema),
   setup: setupFingerprintSchema,
+  /** The guide's answers to the must-dos typed by hand that this version was planned with. */
+  wish_answers: z.array(wishAnswerSchema).optional(),
 });
 export type DraftCoverage = z.infer<typeof draftCoverageSchema>;
 

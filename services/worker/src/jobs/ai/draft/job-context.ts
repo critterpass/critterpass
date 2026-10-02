@@ -12,15 +12,17 @@ import {
 } from '@cp/ai';
 import { emitEvent, withSystem } from '@cp/db';
 import type { DraftStepId, DraftStepLabel } from '@cp/domain';
+import { destinationPhrases, resolveWishes } from '@cp/planner';
 import type pg from 'pg';
+import { z } from 'zod';
 
 import type { AgentStepContext } from '../../../ai/job-runner';
-import { destinationPhrases, resolveWishes } from '@cp/planner';
 
 import { loadDraftTrip, type DraftTripData } from './load';
 import { loadDraftPlaces, loadWishCandidates } from './load-places';
 import { buildPlanInput } from './plan-input';
 import type { PrefetchResult } from './prefetch';
+import { savedWishAnswers } from './redraft-store';
 import { skeletonRoute } from './skeleton';
 import { publishDone, publishStep } from './steps';
 
@@ -30,6 +32,9 @@ export interface Loaded {
   readonly trip: DraftTripData;
   readonly input: DraftPlanInput;
 }
+
+/** A redraft job's input names the version it redrafts. */
+const redraftBaseSchema = z.object({ base_version: z.uuid() });
 
 export async function load(
   ctx: AgentStepContext,
@@ -67,10 +72,14 @@ export async function load(
     wished,
     ignoreNames,
   });
-  // Once the outline has run, every later step plans with the guide's answers to the wishes.
+  // Once the outline has run, every later step plans with the guide's answers to the wishes. A
+  // redraft has no outline of its own: it plans with the answers saved with the version it redoes.
   const outline = (ctx.results.skeleton as { skeleton?: SkeletonPlan } | undefined)?.skeleton;
-  const input = withWishAnswers(asked, outline?.wishAnswers ?? []);
-  return { trip, input };
+  const base = redraftBaseSchema.safeParse(ctx.input);
+  const answers =
+    outline?.wishAnswers ??
+    (base.success ? await savedWishAnswers(ctx.pool, tripId, base.data.base_version) : []);
+  return { trip, input: withWishAnswers(asked, answers) };
 }
 
 export function modelFor(

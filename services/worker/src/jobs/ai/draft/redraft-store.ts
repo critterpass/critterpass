@@ -3,10 +3,11 @@
  * (`llm.plan_items`, which shows an organiser draft only to its organisers) and the crew's recent
  * chat through `llm.chat_window` (text messages only, member-written ones kept); the candidate is
  * saved as a whole new private version (status `drafting`, one per job) with the redrafted day, so
- * keeping it is a pointer move and reverting it touches nothing else.
+ * keeping it is a pointer move and reverting it touches nothing else. The guide's answers to the
+ * typed must-dos are saved with every version, so a redraft plans from the same answers.
  */
-import type { ChatLine } from '@cp/ai';
-import { withGuideReader } from '@cp/db';
+import type { ChatLine, WishAnswer } from '@cp/ai';
+import { withGuideReader, withSystem } from '@cp/db';
 import {
   draftCoverageSchema,
   type DraftCoverage,
@@ -15,7 +16,7 @@ import {
   type DraftMetrics,
   type Itinerary,
 } from '@cp/domain';
-import type { DraftPoi, TravelMatrix } from '@cp/planner';
+import { WISH_TIMES, type DraftPoi, type TravelMatrix, type WishTime } from '@cp/planner';
 import type pg from 'pg';
 
 import { insertDays } from './persist';
@@ -115,7 +116,36 @@ export async function loadBaseDraft(
   });
 }
 
-/** The base version's coverage with the candidate's places added and its must-dos recounted. */
+/** The guide's wish answers saved with a version of the trip; none when it holds none. */
+export async function savedWishAnswers(
+  pool: pg.Pool,
+  tripId: string,
+  versionId: string,
+): Promise<WishAnswer[]> {
+  const { rows } = await withSystem(pool, (tx) =>
+    tx.query<{ coverage: unknown }>(
+      'SELECT coverage FROM itinerary_versions WHERE id = $1 AND trip_id = $2',
+      [versionId, tripId],
+    ),
+  );
+  const parsed = draftCoverageSchema.safeParse(rows[0]?.coverage);
+  if (!parsed.success) return [];
+  return (parsed.data.wish_answers ?? []).map((answer) => ({
+    wishId: answer.must_do_id,
+    poiId: answer.poi_id,
+    dayNo: answer.day_no,
+    when: (WISH_TIMES as readonly string[]).includes(answer.when)
+      ? (answer.when as WishTime)
+      : 'any',
+    weekdays: answer.weekdays,
+  }));
+}
+
+/**
+ * The candidate's coverage: the base version's, with the candidate's places added and its must-dos
+ * counted from the candidate's own items. A must-do the redraft lost shows as missing (dropped),
+ * one it gained no longer does, and the saved wish answers carry over.
+ */
 export async function candidateCoverage(
   tx: pg.PoolClient,
   baseVersionId: string,
@@ -146,11 +176,37 @@ export async function candidateCoverage(
       }
     }
   }
-  const missing = base.must_dos.missing.filter((m) => !placed.has(m.must_do_id));
+  const stillMissing = base.must_dos.missing.filter((m) => !placed.has(m.must_do_id));
+  const known = new Set(base.must_dos.missing.map((m) => m.must_do_id));
+  const lostIds = base.setup.must_do_ids.filter((id) => !placed.has(id) && !known.has(id));
+  const lost =
+    lostIds.length === 0
+      ? []
+      : (
+          await tx.query<{ id: string; owner_id: string }>(
+            `SELECT id, owner_id FROM must_dos
+              WHERE id = ANY($1::uuid[]) AND deleted_at IS NULL ORDER BY created_at, id`,
+            [lostIds],
+          )
+        ).rows;
+  const missing = [
+    ...stillMissing,
+    ...lost.map((row) => ({
+      must_do_id: row.id,
+      owner_id: row.owner_id,
+      reason: 'dropped' as const,
+    })),
+  ];
+  const untimed = base.must_dos.untimed?.filter((entry) => placed.has(entry.must_do_id));
   return {
     ...base,
     places,
-    must_dos: { ...base.must_dos, made: base.must_dos.total - missing.length, missing },
+    must_dos: {
+      total: base.must_dos.total,
+      made: Math.max(0, base.must_dos.total - missing.length),
+      missing,
+      ...(untimed === undefined ? {} : { untimed }),
+    },
   };
 }
 
