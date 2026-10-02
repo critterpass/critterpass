@@ -1,0 +1,97 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-02 12:48+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.eyebrow"
+msgstr "{trip} · Live Activity"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/crew-live-preview.tsx
+msgid "trip.lockScreen.preview.boost"
+msgstr "Boost"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.offer.boost"
+msgstr "Boost {trip}"
+
+#. placeholder {0}: boost.price
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.offer.boostPrice"
+msgstr "Boost {trip} · {0}"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.asking"
+msgstr "Đang kiểm tra"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.done"
+msgstr "Đã hiểu"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.offer.quiet"
+msgstr "Chỉ báo thức giờ xuất phát của riêng tôi"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/crew-live-preview.tsx
+msgid "trip.lockScreen.preview.meetUp"
+msgstr "Điểm hẹn"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/crew-live-preview.tsx
+msgid "trip.lockScreen.preview.meetUpAt"
+msgstr "Điểm hẹn · {meetTime}"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.unavailable.title"
+msgstr "Chưa được lúc này"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.offer.line"
+msgstr "Với chuyến đi đã Boost, điểm hẹn, giờ đến dự kiến và SOS hiện trên cả {count} màn hình khóa và trong Dynamic Island. Tự tắt lúc nửa đêm ngày cuối."
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.started.title"
+msgstr "Trên mọi màn hình khóa"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.offer.title"
+msgstr "Trên mọi màn hình khóa"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.noMeetup.title"
+msgstr "Hãy đặt điểm hẹn trước"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.unavailable.failed"
+msgstr "Chưa gửi được. Thử lại sau giây lát."
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.unavailable.switchedOff"
+msgstr "Màn hình khóa của nhóm đang tạm tắt. Bản đồ nhóm vẫn dùng được."
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.noMeetup.line"
+msgstr "Màn hình khóa đi theo một điểm hẹn. Đặt điểm hẹn trên bản đồ nhóm, nó sẽ hiện trên mọi điện thoại trước giờ hẹn nửa tiếng."
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.started.later"
+msgstr "Điểm hẹn tại {place} sẽ hiện trên cả {count} màn hình khóa lúc {startsTime}, trước giờ hẹn nửa tiếng. Nó tự kết thúc khi mọi người đã đến."
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.started.now"
+msgstr "Điểm hẹn tại {place} đang được đưa lên cả {count} màn hình khóa. Nó tự kết thúc khi mọi người đã đến."
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.thisTrip"
+msgstr "Chuyến đi này"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.retry"
+msgstr "Thử lại"
+
+#: ../../apps/mobile/src/features/trip/live-activities/lock-screen-offer/lock-screen-offer-sheet.tsx
+msgid "trip.lockScreen.unavailable.offline"
+msgstr "Bạn đang ngoại tuyến nên chưa gửi được tới điện thoại của nhóm. Thử lại khi có mạng."
