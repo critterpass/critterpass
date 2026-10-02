@@ -4,10 +4,11 @@
  * commits, so a clash or a too-short drive is seen first. An organiser adds it; a member suggests it.
  * Everything above the button scrolls inside the sheet, so a long list of places never pushes the
  * times off screen, and the button stays at the foot, which the sheet keeps above the keyboard.
- * Picking a place lets the keyboard down and scrolls the times into view.
+ * Picking a place lets the keyboard down and folds the list to that place, ticked, with the times
+ * right under it; tapping it or the search brings the list back, and a new search drops the pick.
  */
 import { useLingui } from '@lingui/react/macro';
-import { useRef, useState } from 'react';
+import { useReducer, useRef, useState } from 'react';
 import { Keyboard, View, type ScrollViewInstance } from 'react-native';
 
 import { generateStableId } from '@cp/domain';
@@ -15,6 +16,7 @@ import { generateStableId } from '@cp/domain';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ListCard } from '@/ui/cards/ListCard';
 import { InfoPill } from '@/ui/chips/InfoPill';
+import { Icon } from '@/ui/icons/Icon';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { SearchField } from '@/ui/inputs/SearchField';
 import { TextField } from '@/ui/inputs/TextField';
@@ -22,11 +24,12 @@ import { Stack } from '@/ui/layout/Stack';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { SheetScrollView } from '@/ui/sheet/SheetScrollView';
 import { Text } from '@/ui/text/Text';
-import { makeStyles } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import { dayFit, type FitWarning } from './fit-check';
 import { useLiveRows, type LiveRows } from './live-rows';
 import type { DayItem } from './plan-model';
+import { NO_PICK, pickStep, shownPlaces } from './add-pick';
 import { PLACE_SEARCH_SQL, PLACES_TABLES, SAVED_PLACES_SQL, type PlaceRow } from './queries';
 import { TimeRangeField } from './time-range-field';
 
@@ -46,16 +49,6 @@ const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['16'], gap: th.space['12'] },
   foot: { paddingHorizontal: th.size.gutter, paddingTop: th.space['8'] },
 }));
-
-/**
- * Where to scroll so a block ending at `bottom` shows in full above the foot of a `viewport` tall
- * scroll view now at `offset`, or null when it already does.
- */
-export function revealOffset(offset: number, viewport: number, bottom: number): number | null {
-  if (viewport <= 0) return null;
-  const hidden = bottom - (offset + viewport);
-  return hidden > 0 ? offset + hidden : null;
-}
 
 /** The first free hour after the day's last timed item (10:00 on an empty day). */
 export function nextFreeStart(items: readonly DayItem[]): number {
@@ -130,14 +123,13 @@ export function AddItemSheetView({
   const styles = useStyles();
   const { t } = useLingui();
   const [own, setOwn] = useState('');
-  const [place, setPlace] = useState<PlaceRow | null>(null);
+  const theme = useTheme();
+  const [pick, dispatch] = useReducer(pickStep, NO_PICK);
+  const place = pick.place;
   const first = nextFreeStart(items);
   const [times, setTimes] = useState({ start: first, end: first + 60 });
   const [stableId] = useState(generateStableId);
   const scroll = useRef<ScrollViewInstance>(null);
-  const scrollY = useRef(0);
-  const viewport = useRef(0);
-  const timesBottom = useRef(0);
   const title = source === 'own' ? own.trim() : (place?.name ?? '');
   const candidate: DayItem | null =
     title === ''
@@ -173,12 +165,12 @@ export function AddItemSheetView({
       : dayFit(withCandidate, date, members)
           .filter((w) => w.stableId === stableId || w.relatedId === stableId)
           .map((w) => warningText(w, withCandidate));
-  const places = found.rows;
-  const pick = (row: PlaceRow) => {
-    setPlace(row);
+  const places = shownPlaces(found.rows, pick);
+  const folded = place !== null && !pick.browsing;
+  const choose = (row: PlaceRow) => {
+    dispatch({ type: 'pick', place: row });
     Keyboard.dismiss();
-    const to = revealOffset(scrollY.current, viewport.current, timesBottom.current);
-    if (to !== null) scroll.current?.scrollTo({ y: to, animated: true });
+    scroll.current?.scrollTo({ y: 0, animated: true });
   };
 
   return (
@@ -192,12 +184,6 @@ export function AddItemSheetView({
         ref={scroll}
         contentContainerStyle={styles.body}
         keyboardShouldPersistTaps="handled"
-        onScroll={(event) => {
-          scrollY.current = event.nativeEvent.contentOffset.y;
-        }}
-        onLayout={(event) => {
-          viewport.current = event.nativeEvent.layout.height;
-        }}
         testID="plan-add-scroll"
       >
         <Segmented<Source>
@@ -205,7 +191,7 @@ export function AddItemSheetView({
           value={source}
           onChange={(next) => {
             onSource(next);
-            setPlace(null);
+            dispatch({ type: 'clear' });
           }}
           segments={[
             { value: 'search', label: t({ id: 'plan.day.add.search', message: 'Search' }) },
@@ -215,7 +201,17 @@ export function AddItemSheetView({
           testID="plan-add-source"
         />
         {source === 'search' ? (
-          <SearchField value={query} onChangeText={onQuery} testID="plan-add-query" />
+          // A touch on the field opens the list again; a new search drops the pick.
+          <View onTouchStart={() => dispatch({ type: 'browse' })}>
+            <SearchField
+              value={query}
+              onChangeText={(next) => {
+                onQuery(next);
+                dispatch({ type: 'clear' });
+              }}
+              testID="plan-add-query"
+            />
+          </View>
         ) : null}
         {source === 'own' ? (
           <TextField
@@ -227,16 +223,32 @@ export function AddItemSheetView({
           />
         ) : (
           <Stack gap="6">
-            {places.map((row) => (
-              <ListCard
-                key={row.id}
-                title={row.name}
-                {...(row.category === null ? {} : { subtitle: row.category })}
-                tone={place?.id === row.id ? 'yellow' : 'raised'}
-                onPress={() => pick(row)}
-                testID={`plan-add-place-${row.id}`}
-              />
-            ))}
+            {places.map((row) => {
+              const chosen = place?.id === row.id;
+              return (
+                <ListCard
+                  key={row.id}
+                  title={row.name}
+                  {...(row.category === null ? {} : { subtitle: row.category })}
+                  tone={chosen ? 'yellow' : 'raised'}
+                  chevron={!chosen}
+                  {...(chosen
+                    ? {
+                        trailing: (
+                          <Icon
+                            name="check"
+                            size={18}
+                            color={theme.semantic.text.onAccent}
+                            decorative
+                          />
+                        ),
+                      }
+                    : {})}
+                  onPress={() => (folded ? dispatch({ type: 'browse' }) : choose(row))}
+                  testID={`plan-add-place-${row.id}`}
+                />
+              );
+            })}
             {source === 'saved' && found.loaded && places.length === 0 ? (
               <Text variant="bodySm">
                 {t({ id: 'plan.day.add.noSaved', message: 'No saved places here yet.' })}
@@ -244,18 +256,11 @@ export function AddItemSheetView({
             ) : null}
           </Stack>
         )}
-        <View
-          onLayout={(event) => {
-            const { y, height } = event.nativeEvent.layout;
-            timesBottom.current = y + height;
-          }}
-        >
-          <TimeRangeField
-            start={times.start}
-            end={times.end}
-            onChange={(start, end) => setTimes({ start, end })}
-          />
-        </View>
+        <TimeRangeField
+          start={times.start}
+          end={times.end}
+          onChange={(start, end) => setTimes({ start, end })}
+        />
         {warnings.map((warning) => (
           <InfoPill key={warning} icon="flame">
             {warning}

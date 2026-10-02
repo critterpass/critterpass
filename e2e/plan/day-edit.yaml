@@ -270,7 +270,7 @@ appId: app.critterpass.dev
 - takeScreenshot: en-3e-2-add-item
 # A search that finds more places than the sheet holds: the list scrolls inside the sheet and the
 # button stays at its foot, with the keyboard up and with it down. Picking a place lets the keyboard
-# down and scrolls the times into view.
+# down and folds the list to that place, ticked, with the times right under it.
 - tapOn:
     id: 'plan-add-query'
 - inputText: 'pura'
@@ -296,11 +296,25 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - assertVisible:
+    id: 'plan-add-place-p-pura-3'
+- assertNotVisible:
+    id: 'plan-add-place-p-pura-1'
+- assertVisible:
     id: 'plan-time-start-later'
 - assertVisible:
     id: 'plan-add-confirm'
     enabled: true
 - takeScreenshot: en-3e-2-add-item-picked
+# Tapping the picked place opens the list again to change it, the pick still marked.
+- tapOn:
+    id: 'plan-add-place-p-pura-3'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-place-p-pura-1'
+    timeout: 5000
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-3e-2-add-item-change
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
