@@ -39,6 +39,7 @@ import {
   type NotifyRouteJob,
   CRITTER_QUEUES,
   QUEST_QUEUES,
+  RECAP_QUEUES,
 } from '@cp/domain';
 import type pg from 'pg';
 import { PgBoss } from 'pg-boss';
@@ -113,6 +114,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       ...Object.values(PROPOSAL_QUEUES),
       ...Object.values(CRITTER_QUEUES),
       ...Object.values(QUEST_QUEUES),
+      ...Object.values(RECAP_QUEUES),
       LA_QUEUES.orchestrate,
       WIDGET_QUEUES.refresh,
       ...Object.values(SAFETY_QUEUES),
