@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# From the splash or Home (no relaunch, so a language picked in the gallery stays): opens the
+# critters lab scene ${SCENE} through the developer tools list, waits for the Critterdex and takes
+# ${SHOT}.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-critters-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-critters-lab'
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}

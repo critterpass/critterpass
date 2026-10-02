@@ -4,10 +4,21 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture names, places and ids, never shipped copy. */
 import type { ReactNode } from 'react';
+import { ScrollView } from 'react-native';
+
+import { useLocale } from '@/lib/i18n/use-locale';
+import { ChatMessage } from '@/ui/chat/ChatMessage';
+import { Stack } from '@/ui/layout/Stack';
+import { Avatar } from '@/ui/people/Avatar';
+import { memberFirstName, memberName } from '@/ui/people/member-name';
+import { Scaffold } from '@/ui/surface/Scaffold';
+import { Text } from '@/ui/text/Text';
 
 import { ClosedView, type ClosedMode } from '../account/closed-view';
 import { DeleteView, type DeleteStep } from '../account/delete-view';
 import { SignOutView } from '../account/sign-out-view';
+import { languageChoices } from '../language/language-names';
+import { LanguageView } from '../language/language-view';
 import type { ProfileModel } from '../profile/profile-model';
 import { ProfileView } from '../profile/profile-view';
 import { useSettingsSections } from '../settings/settings-sections';
@@ -85,11 +96,13 @@ function Profile({ model }: { readonly model: ProfileModel | null }) {
 
 function Settings() {
   const sections = useSettingsSections(
-    { soundEffects: true, haptics: true, account: true },
+    { soundEffects: true, haptics: true, account: true, language: 'English' },
     {
       onOfflineTrips: noop,
+      onPings: noop,
       onSoundEffects: noop,
       onHaptics: noop,
+      onLanguage: noop,
       onSignOut: noop,
       onDeleteAccount: noop,
     },
@@ -142,11 +155,101 @@ function SignOut({ saved }: { readonly saved: boolean }) {
   );
 }
 
+/** In the language the lab runs in, as the real screen is: current first, names in that language. */
+function Language() {
+  const locale = useLocale();
+  return (
+    <LanguageView
+      choices={languageChoices(locale)}
+      current={locale}
+      switching={null}
+      onPick={noop}
+      onBack={noop}
+    />
+  );
+}
+
+/** A crew after one member's account was erased (named at render, in the lab's language). */
+const withFormer = (): ProfileModel => ({
+  ...SEASONED,
+  crews: [
+    {
+      id: 'c1',
+      name: 'The Bali Six',
+      members: [
+        { id: 'maya', name: memberFirstName('Maya Tan'), joinIndex: 0 },
+        { id: 'gone', name: memberFirstName(null), joinIndex: 1 },
+        { id: 'jordan', name: memberFirstName('Jordan'), joinIndex: 2 },
+      ],
+      line: { kind: 'upcoming', place: 'Bali', days: 17 },
+    },
+  ],
+});
+
+/** A crew thread a week after one member's account was erased: their lines stay, emptied. */
+function FormerMemberChat() {
+  const gone = memberName(null);
+  const lines: readonly { who: string | null; text: string; mine?: boolean }[] = [
+    { who: 'Maya', text: "who's up for the spa on day 3?" },
+    { who: null, text: 'Message deleted' },
+    { who: 'Jordan', text: 'in. morning slot?' },
+    { who: 'Maya', text: 'booking the 10:00, six of us' },
+    { who: null, text: 'Message deleted' },
+    { who: 'Winston', text: 'five now, I will fix the booking', mine: true },
+    { who: 'Jordan', text: 'thanks. dinner after at the warung?' },
+    { who: 'Maya', text: 'yes. I will ask them for the big table' },
+    { who: null, text: 'Message deleted' },
+    { who: 'Winston', text: 'see you all at the gate', mine: true },
+  ];
+  const faces = ['Maya', 'Jordan'];
+  return (
+    <Scaffold variant="dark" edges={['top']} testID="you-former-chat">
+      <ScrollView contentContainerStyle={{ padding: 20, paddingTop: 64 }}>
+        <Stack gap="12">
+          <ChatMessage kind="divider" text="Today" />
+          {lines.map((line, index) => {
+            const name = line.who ?? gone;
+            const first = line.mine !== true && lines[index - 1]?.who !== line.who;
+            return (
+              <Stack key={`${index}-${name}`} gap="4">
+                {first ? (
+                  <Text variant="caption" style={{ marginStart: 44 }}>
+                    {name}
+                  </Text>
+                ) : null}
+                <ChatMessage
+                  kind={line.mine === true ? 'mine' : 'theirs'}
+                  text={line.text}
+                  {...(line.mine === true
+                    ? {}
+                    : {
+                        author: name,
+                        avatar: (
+                          <Avatar
+                            name={name}
+                            joinIndex={Math.max(0, faces.indexOf(name))}
+                            size="sm"
+                          />
+                        ),
+                      })}
+                />
+              </Stack>
+            );
+          })}
+        </Stack>
+      </ScrollView>
+    </Scaffold>
+  );
+}
+
 export const YOU_SCENES: Readonly<Record<string, () => ReactNode>> = {
   '3n-1-profile': () => <Profile model={SEASONED} />,
   '3n-1-fresh': () => <Profile model={FRESH} />,
   '3n-1-loading': () => <Profile model={null} />,
   '3n-2-settings': () => <Settings />,
+  '3n-8-language': () => <Language />,
+  'former-member-crew': () => <Profile model={withFormer()} />,
+  'former-member-chat': () => <FormerMemberChat />,
   'sign-out-saved': () => <SignOut saved />,
   'sign-out-unsaved': () => <SignOut saved={false} />,
   '3n-9-delete': () => <Delete step="review" />,

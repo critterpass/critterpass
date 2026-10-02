@@ -574,3 +574,7 @@ msgstr "Your guide is back to the classic look"
 #: ../../apps/mobile/src/features/critters/data/commands.ts
 msgid "critters.queued.skin"
 msgstr "Your guide's look"
+
+#: ../../apps/mobile/src/features/critters/dex/dex-view.tsx
+msgid "critters.dex.openProfile"
+msgstr "Your profile"

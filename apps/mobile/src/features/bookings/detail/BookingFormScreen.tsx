@@ -19,6 +19,7 @@ import { BookingMissing } from './BookingMissing';
 import {
   draftOf,
   emptyDraft,
+  flightZones,
   problemsOf,
   toAddPayload,
   toEditPayload,
@@ -59,6 +60,9 @@ export function BookingFormScreen({
       ? emptyDraft(kind === undefined ? 'activity' : kindOf(kind), title ?? '')
       : draftOf(booking, tz));
   const problems = problemsOf(current, tz);
+  const zones = flightZones(current, tz);
+  const start = context.trip?.start_date ?? null;
+  const trip = start === null ? null : { start, end: context.trip?.end_date ?? start };
   const save = async () => {
     setTried(true);
     if (booking !== undefined) {
@@ -86,7 +90,11 @@ export function BookingFormScreen({
       problems={problems}
       showProblems={tried}
       saving={add.pending || edit.pending}
-      zone={zoneName(tz, openedAt)}
+      zones={{
+        dep: zoneName(zones.dep, openedAt),
+        arr: zoneName(zones.arr, openedAt),
+      }}
+      trip={trip}
       onChange={(patch) => setDraft({ ...current, ...patch })}
       onSave={() => void save()}
     />

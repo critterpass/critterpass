@@ -24,6 +24,8 @@ export function nationalDigits(input: string): string {
 }
 
 export function toE164(country: string, input: string): string | null {
+  // An international number whose country is not known yet is never sent under this country.
+  if (input.trimStart().startsWith('+')) return null;
   const code = DIAL_CODES[country];
   const digits = nationalDigits(input);
   if (code === undefined) return null;
@@ -46,7 +48,8 @@ export function formatNational(country: string, input: string): string {
 
 /**
  * The field's next value after an edit, formatted as the user types: a pasted or typed
- * international number ("+84 949 840 370") switches the country and keeps its national part;
+ * international number ("+84 949 840 370", or "+", "6", "5"… one key at a time) switches the
+ * country and keeps its national part;
  * deleting only a space takes the digit before it with it (otherwise the space comes straight
  * back and the delete key seems to do nothing).
  */
@@ -63,6 +66,9 @@ export function typedNumber(
     if (found !== undefined && national !== undefined && DIAL_CODES[found] !== undefined) {
       return { country: found, number: formatNational(found, national) };
     }
+    // Typed one key at a time, "+", "+6", "+65…" does not name a country yet: it stays as typed
+    // until it does, instead of losing its "+" and becoming a national number.
+    return { country, number: `+${next.replace(/\D/gu, '')}` };
   }
   let digits = next.replace(/\D/gu, '');
   if (next.length < previous.length && digits === previous.replace(/\D/gu, '')) {

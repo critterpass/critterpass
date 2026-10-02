@@ -6,6 +6,7 @@
 import { isValidLine } from '../../prompts/invite-tags/schema';
 import {
   MAX_SLIDES,
+  REASON_LABEL_MAX,
   SLIDE_BODY_MAX,
   SLIDE_HEADLINE_MAX,
   type VersionContext,
@@ -95,6 +96,28 @@ export function versionNumberSources(context: VersionContext): string[] {
     ...context.items.flatMap((item) => [item.title, item.day === null ? '' : String(item.day)]),
     context.destination,
   ];
+}
+
+/**
+ * The picks with only the labels that hold up: a pick's label is kept when it is one short line of
+ * at most REASON_LABEL_MAX characters, with no number and no other member's name, and dropped
+ * otherwise (the app then shows the reason tag's own label). A bad label never costs the version.
+ */
+export function keepGoodLabels(reply: VersionReply, context: VersionContext): VersionReply {
+  const otherLanguage = context.locale !== undefined && context.locale !== 'en';
+  return {
+    ...reply,
+    highlights: reply.highlights.map((pick) => {
+      const { reason_label: label, ...rest } = pick;
+      if (label === undefined) return rest;
+      const line = label.trim();
+      const good =
+        isValidLine(line, REASON_LABEL_MAX) &&
+        numbersIn(line).length === 0 &&
+        namesIn(line, context.otherNames, otherLanguage).length === 0;
+      return good ? { ...rest, reason_label: line } : rest;
+    }),
+  };
 }
 
 export function validateVersion(reply: VersionReply, context: VersionContext): Verdict {

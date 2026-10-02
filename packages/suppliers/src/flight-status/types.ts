@@ -27,6 +27,9 @@ export interface FlightSnapshot {
   readonly delayMin: number | null;
   /** The airline's boarding time, when the provider publishes one. */
   readonly boardingAt: string | null;
+  /** The departure and arrival airports' IANA zones, when the provider names them. */
+  readonly depTz?: string | null;
+  readonly arrTz?: string | null;
 }
 
 /** "SQ938" / "SQ 938" → `{ carrier, number }`, or null. */

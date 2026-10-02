@@ -43,6 +43,8 @@ interface WireErrorShape {
 
 export interface ReturningPhoneSignInResponse {
   readonly user: { readonly id: string };
+  /** Nobody held the number: it was saved to the caller's own pass instead of signing in. */
+  readonly linked?: boolean;
 }
 
 export interface ReturningPhoneSignInClient {
@@ -52,14 +54,19 @@ export interface ReturningPhoneSignInClient {
   ): Promise<{ data: ReturningPhoneSignInResponse | null; error: WireErrorShape | null }>;
 }
 
-/** `POST /api/auth/sign-in/phone-number` (services/api/src/routes/auth-extra.ts): never called from an anonymous session — the caller runs `decideReturningFlow` first. */
+/**
+ * `POST /api/auth/sign-in/phone-number` (services/api/src/routes/auth-extra.ts): "I already have a
+ * pass" with a phone. Signs in to the account that holds the number (the number stays there); a
+ * number nobody holds is saved to the pass the caller is on (`linked`).
+ */
 export async function signInReturningPhone(
   input: { phoneNumber: string; code: string },
   client: ReturningPhoneSignInClient,
 ): Promise<ReturningSignInOutcome> {
   const { data, error } = await client.post('/api/auth/sign-in/phone-number', input);
   if (!error) {
-    return data ? { kind: 'signed_in', userId: data.user.id } : { kind: 'error', code: 'UNKNOWN' };
+    if (!data) return { kind: 'error', code: 'UNKNOWN' };
+    return data.linked === true ? { kind: 'linked' } : { kind: 'signed_in', userId: data.user.id };
   }
   if (error.status === 404) return { kind: 'no_account' };
   if (error.status === 429) {

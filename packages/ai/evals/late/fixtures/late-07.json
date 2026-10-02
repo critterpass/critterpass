@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "604492ac-47b2-42ad-8723-99ae3873dc9c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Khánh 12 min late for Chợ Hàn\",\"detail\":\"Traffic is heavy on the way to chợ Hàn (Hàn market, the central market by the river), so you land at 09:12 instead of 09:00.\",\"items\":[{\"id\":\"push\",\"text\":\"Chợ Hàn moves from 09:00 to 09:15.\"},{\"id\":\"skip\",\"text\":\"Chợ Hàn comes off the plan.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 665,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 768,
+        "output_tokens": 106,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

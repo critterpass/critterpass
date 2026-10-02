@@ -5,8 +5,8 @@
  * the same moves as actions: 15 minutes earlier or later, extend or shorten by 15, next lane.
  */
 import { t } from '@lingui/core/macro';
-import { useEffect, useRef } from 'react';
-import type { AccessibilityActionEvent } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import type { AccessibilityActionEvent, LayoutChangeEvent } from 'react-native';
 import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -25,14 +25,13 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { clockRange } from '../day/format';
+import { blockFit } from './block-fit';
 import { GHOST_ACCEPT } from './guide-ghost';
 import { useTimelineDrag, type TimelineDragOptions } from './use-timeline-drag';
 
 const SOFT = isPhysicalSpring(tokens.motion.spring.soft)
   ? springConfig(tokens.motion.spring.soft)
   : undefined;
-/** Blocks shorter than this show the title only. */
-const META_MIN_HEIGHT = 40;
 const HANDLE_HEIGHT = 12;
 
 export interface TimelineBlockModel {
@@ -219,7 +218,19 @@ export function TimelineBlock({
         break;
     }
   };
-  const showMeta = frame.height >= META_MIN_HEIGHT && block.meta !== '';
+  // Line heights depend on the language's font, not the frame: measured once, the fit follows
+  // every height the block takes (a move, a resize, an accepted ghost) without a new layout pass.
+  const [lines, setLines] = useState({ title: 0, meta: 0 });
+  const measure = (key: 'title' | 'meta') => (event: LayoutChangeEvent) => {
+    const next = event.nativeEvent.layout.height;
+    setLines((now) => (Math.abs(now[key] - next) < 0.5 ? now : { ...now, [key]: next }));
+  };
+  const { padding, showMeta } = blockFit({
+    height: frame.height,
+    titleHeight: lines.title,
+    metaHeight: lines.meta,
+    hasMeta: block.meta !== '',
+  });
   return (
     <GestureDetector gesture={gestures.drag}>
       <Animated.View
@@ -236,28 +247,33 @@ export function TimelineBlock({
           <View
             style={[
               styles.face,
+              { paddingVertical: padding },
               struck ? styles.struck : { backgroundColor: block.color },
               block.pending && !struck ? styles.pending : null,
             ]}
           >
-            <Text
-              variant="title"
-              color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
-              style={struck ? styles.strike : null}
-              numberOfLines={1}
-            >
-              {upper(block.title, locale)}
-            </Text>
-            {showMeta ? (
+            <View>
               <Text
-                variant="bodySm"
+                variant="title"
                 color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
                 style={struck ? styles.strike : null}
                 numberOfLines={1}
+                onLayout={measure('title')}
               >
-                {block.meta}
+                {upper(block.title, locale)}
               </Text>
-            ) : null}
+              {showMeta ? (
+                <Text
+                  variant="bodySm"
+                  color={struck ? theme.semantic.text.secondary : theme.semantic.text.onAccent}
+                  style={struck ? styles.strike : null}
+                  numberOfLines={1}
+                  onLayout={measure('meta')}
+                >
+                  {block.meta}
+                </Text>
+              ) : null}
+            </View>
           </View>
         </GestureDetector>
         {editable && !block.fixed ? (

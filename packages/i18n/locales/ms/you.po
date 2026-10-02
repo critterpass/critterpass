@@ -63,8 +63,16 @@ msgstr ""
 msgid "you.settings.app"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.appLanguage"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.offlineTripsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.zhHans"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
@@ -111,6 +119,10 @@ msgstr ""
 msgid "you.profile.edit"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.en"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.entry"
 msgstr ""
@@ -121,6 +133,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps.expenses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.fr"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -168,8 +184,28 @@ msgstr ""
 msgid "you.profile.howYouTravel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.id"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.ja"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.ko"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.language"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -201,6 +237,10 @@ msgstr ""
 msgid "you.settings.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.backPass"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.passPlus"
 msgstr ""
@@ -216,6 +256,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps.plans"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.pt"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -244,6 +288,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.settings"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.back"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -296,6 +344,10 @@ msgstr ""
 msgid "you.settings.soundEffects"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.es"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.stamps"
 msgstr ""
@@ -314,6 +366,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.hapticsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.th"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.note"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -359,6 +419,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.vi"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx

@@ -29,6 +29,8 @@ import { ProfileFace, SectionHead, StampRow, StatTile, Tags } from './profile-pa
 export interface ProfileViewProps {
   /** Null while the first read is still out. */
   readonly model: ProfileModel | null;
+  /** Which screen the back control names. @default 'home' */
+  readonly from?: 'home' | 'pass';
   readonly onBack?: () => void;
   readonly onEdit?: () => void;
   readonly onSettings?: () => void;
@@ -58,7 +60,11 @@ export function ProfileView(props: ProfileViewProps) {
   const header = (
     <Row justify="space-between">
       <BackEyebrow
-        label={t({ id: 'you.profile.back', message: 'Home' })}
+        label={
+          props.from === 'pass'
+            ? t({ id: 'you.profile.backPass', message: 'Pass' })
+            : t({ id: 'you.profile.back', message: 'Home' })
+        }
         onPress={props.onBack}
         testID="you-profile-back"
       />

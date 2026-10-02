@@ -69,3 +69,22 @@ appId: app.critterpass.dev
       SCENE: '3n-11-restore'
       ROOT: 'you-closed-restore'
       SHOT: ${LANG}-3n-11-restore
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: '3n-8-language'
+      ROOT: 'you-language'
+      SHOT: ${LANG}-3n-8-language
+# A crew and a chat after one member's account was erased: "Former member", never a blank.
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: 'former-member-crew'
+      ROOT: 'you-profile'
+      SHOT: ${LANG}-former-member-crew
+- runFlow:
+    file: lab-scene.yaml
+    env:
+      SCENE: 'former-member-chat'
+      ROOT: 'you-former-chat'
+      SHOT: ${LANG}-former-member-chat

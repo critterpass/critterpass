@@ -5,9 +5,11 @@
  *
  * It is off unless the server switches it on (`client_config` `critters.live_camera`). Anything
  * short of a working camera leaves the illustrated scene in place: a build without the
- * native module, a refused (or not yet granted) permission, no back camera, or any camera error.
+ * native module, an emulator or simulator, a refused (or not yet granted) permission, no back
+ * camera, a camera that does not start within a moment, or any camera error.
  */
 /* eslint-disable @typescript-eslint/no-require-imports -- the native module loads lazily, so a build without it keeps working. */
+import { isDevice } from 'expo-device';
 import { useIsFocused } from 'expo-router';
 import { Component, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
@@ -48,21 +50,27 @@ function nativeCameraPresent(): boolean {
 /** The camera module, or null when this build has no camera (or it fails to start). */
 export function visionCamera(): VisionCamera | null {
   if (loaded !== undefined) return loaded;
-  if (!nativeCameraPresent()) {
+  // Emulators and simulators have no camera to show, and on the Android emulator loading the
+  // camera stalled the whole app (frames of several seconds, taps lost): never load it there.
+  if (!isDevice || !nativeCameraPresent()) {
     loaded = null;
     return loaded;
   }
   try {
-    loaded = require('react-native-vision-camera') as VisionCamera;
+    loaded = loadPackage();
   } catch {
     loaded = null;
   }
   return loaded;
 }
 
-/** Tests reset the cached module between cases. */
-export function resetVisionCameraForTests(): void {
+const requirePackage = () => require('react-native-vision-camera') as VisionCamera;
+let loadPackage: () => VisionCamera = requirePackage;
+
+/** Tests reset the cached module between cases, and may stand in for the package's loading. */
+export function resetVisionCameraForTests(load?: () => VisionCamera): void {
   loaded = undefined;
+  loadPackage = load ?? requirePackage;
 }
 
 class CameraBoundary extends Component<
@@ -84,6 +92,13 @@ class CameraBoundary extends Component<
   }
 }
 
+/**
+ * How long the camera gets to find its back camera and then to show a preview. Past either, the
+ * illustrated scene stays and the camera is released: a camera that never starts (no device, a
+ * device list that never loads) must not hold the screen, or the app, waiting.
+ */
+export const CAMERA_START_TIMEOUT_MS = 2000;
+
 function Preview({
   camera,
   onError,
@@ -95,12 +110,24 @@ function Preview({
   const front = useInFront();
   const permission = camera.useCameraPermission();
   const device = camera.useCameraDevice('back');
-  const { canRequestPermission, requestPermission } = permission;
+  const [started, setStarted] = useState(false);
+  const { canRequestPermission, requestPermission, hasPermission } = permission;
   useEffect(() => {
     // Asked here, in context: the traveller has just opened an encounter.
     if (canRequestPermission) void requestPermission().catch(onError);
   }, [canRequestPermission, requestPermission, onError]);
-  if (!permission.hasPermission || device === undefined) return null;
+  // Refused for good (nothing left to ask): the illustration, and the camera let go.
+  const refused = !hasPermission && !canRequestPermission;
+  useEffect(() => {
+    if (refused) onError();
+  }, [refused, onError]);
+  // Once allowed, the back camera and then its preview each get a short time to appear.
+  useEffect(() => {
+    if (!hasPermission || started) return undefined;
+    const timer = setTimeout(onError, CAMERA_START_TIMEOUT_MS);
+    return () => clearTimeout(timer);
+  }, [hasPermission, device, started, onError]);
+  if (!hasPermission || device === undefined) return null;
   return (
     <camera.Camera
       style={StyleSheet.absoluteFill}
@@ -108,6 +135,7 @@ function Preview({
       isActive={focused && front}
       outputs={[]}
       onError={onError}
+      onPreviewStarted={() => setStarted(true)}
     />
   );
 }
@@ -142,7 +170,15 @@ export function LiveCamera({ enabled }: { readonly enabled?: boolean }) {
   const [failed, setFailed] = useState(false);
   const onError = useCallback(() => setFailed(true), []);
   const switchedOn = useLiveCameraSwitch();
-  if (!(enabled ?? switchedOn) || failed) return null;
+  const on = (enabled ?? switchedOn) && !failed;
+  // The package loads after the scene's first frame, never inside it.
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    if (!on) return undefined;
+    const frame = requestAnimationFrame(() => setSettled(true));
+    return () => cancelAnimationFrame(frame);
+  }, [on]);
+  if (!on || !settled) return null;
   const camera = visionCamera();
   if (camera === null) return null;
   return (

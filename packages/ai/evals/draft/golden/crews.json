@@ -1441,5 +1441,106 @@
       }
     ],
     "wishes": []
+  },
+  {
+    "id": "danang-1",
+    "city": "da-nang",
+    "start": "2026-10-02",
+    "days": 3,
+    "arrival_min": 600,
+    "departure_min": 1200,
+    "members": [
+      {
+        "name": "Khánh",
+        "tastes": ["photo_spots", "street_food"],
+        "chronotype": null
+      },
+      {
+        "name": "Lan",
+        "tastes": ["temples", "beach"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": "hotel",
+    "must_dos": [],
+    "wishes": ["Marble Mountains at sunrise", "Bà Nà Hills", "cầu rồng phun lửa"],
+    "expect_wishes": [
+      {
+        "wish": 0,
+        "place_ids": [
+          "0199b000-0007-7000-8000-000000000001",
+          "0199b000-0007-7000-8000-000000000002"
+        ],
+        "start_before": "07:00"
+      },
+      {
+        "wish": 1,
+        "place_ids": [
+          "0199b000-0007-7000-8000-000000000019",
+          "0199b000-0007-7000-8000-000000000020"
+        ],
+        "start_by": "10:00",
+        "end_after": "14:00"
+      },
+      {
+        "wish": 2,
+        "place_ids": [
+          "0199b000-0007-7000-8000-000000000003",
+          "0199b000-0007-7000-8000-000000000004"
+        ],
+        "start_from": "20:45",
+        "start_by": "21:15",
+        "weekdays": ["sa", "su"]
+      }
+    ]
+  },
+  {
+    "id": "danang-2",
+    "city": "da-nang",
+    "start": "2026-10-07",
+    "days": 5,
+    "arrival_min": 600,
+    "departure_min": 1320,
+    "members": [
+      {
+        "name": "Minh",
+        "tastes": ["nightlife", "street_food"],
+        "chronotype": "night_owl"
+      },
+      {
+        "name": "Hà",
+        "tastes": ["markets"],
+        "chronotype": null
+      },
+      {
+        "name": "Tú",
+        "tastes": ["museums", "history"],
+        "chronotype": null
+      }
+    ],
+    "diets": [],
+    "budget_days_pp_minor": null,
+    "stay_type": "hotel",
+    "must_dos": [
+      {
+        "poi_id": "0199b000-0007-7000-8000-000000000010",
+        "owner": 2
+      }
+    ],
+    "wishes": ["cầu rồng phun lửa"],
+    "expect_wishes": [
+      {
+        "wish": 0,
+        "place_ids": [
+          "0199b000-0007-7000-8000-000000000003",
+          "0199b000-0007-7000-8000-000000000004"
+        ],
+        "start_from": "20:45",
+        "start_by": "21:15",
+        "weekdays": ["sa", "su"]
+      }
+    ]
   }
 ]

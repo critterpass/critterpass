@@ -167,3 +167,60 @@ describe('decideAutonomy properties', { timeout: 60_000 }, () => {
     );
   });
 });
+
+describe('decideAutonomy for a disruption owner group', { timeout: 60_000 }, () => {
+  const delayed: AutonomyAction = {
+    kind: 'retime_item',
+    reversible: true,
+    costDeltaMinor: 0,
+    bookingImpact: false,
+    affectedUserIds: [RIN, MAYA],
+    requesterId: null,
+    ownerIds: [RIN, MAYA],
+    timeCritical: true,
+  };
+
+  it('runs a free, reversible change to items only the delayed travellers attend', () => {
+    expect(decideAutonomy(delayed, { now: NOW, inTrip: true })).toEqual({ outcome: 'auto' });
+  });
+
+  it('asks for a yes once anyone else attends, money moves or a vendor is involved', () => {
+    const inTrip = { now: NOW, inTrip: true };
+    expect(
+      decideAutonomy({ ...delayed, affectedUserIds: [RIN, MAYA, ALEX] }, inTrip),
+    ).toMatchObject({ outcome: 'needs_yes', decider_policy: 'any_affected' });
+    expect(decideAutonomy({ ...delayed, bookingImpact: true }, inTrip)).toMatchObject({
+      outcome: 'needs_yes',
+      reason: 'money',
+    });
+    expect(decideAutonomy({ ...delayed, kind: 'contact_vendor' }, inTrip)).toEqual({
+      outcome: 'forbidden',
+      reason: 'forbidden_kind',
+    });
+  });
+
+  it('decides exactly as before when no owners are given', () => {
+    fc.assert(
+      fc.property(actionArb, fc.boolean(), (action, inTrip) => {
+        const context = { now: NOW, inTrip };
+        expect(decideAutonomy({ ...action, ownerIds: [] }, context)).toEqual(
+          decideAutonomy(action, context),
+        );
+      }),
+      { numRuns: 1000 },
+    );
+  });
+
+  it('never auto-runs anything touching a member outside the owners and the requester', () => {
+    fc.assert(
+      fc.property(actionArb, fc.array(uid, { maxLength: 4 }), (action, ownerIds) => {
+        const decision = decideAutonomy({ ...action, ownerIds }, { now: NOW, inTrip: true });
+        const owners = new Set([...ownerIds, ...(action.requesterId ? [action.requesterId] : [])]);
+        const outsider = action.affectedUserIds.some((id) => !owners.has(id));
+        const money = action.costDeltaMinor !== 0 || action.bookingImpact;
+        if (outsider || money || !action.reversible) expect(decision.outcome).not.toBe('auto');
+      }),
+      { numRuns: 2000 },
+    );
+  });
+});

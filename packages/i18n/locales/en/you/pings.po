@@ -1,0 +1,154 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-02 12:25+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-sample.ts
+msgid "you.pings.sample.quiet"
+msgstr "{budget, plural, one {About # ping a day. Only the big moments: a vote closing, a plan that changed. Everything else waits for the roundup.} other {About # pings a day. Only the big moments: a vote closing, a plan that changed. Everything else waits for the roundup.}}"
+
+#. placeholder {0}: prefs.budget
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.level"
+msgstr "About {0} a day"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-sample.ts
+msgid "you.pings.sample.steady"
+msgstr "About {budget} pings a day. Votes, plan changes and who paid what, as they happen. The small stuff waits for the roundup."
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-sample.ts
+msgid "you.pings.sample.chatty"
+msgstr "About {budget} pings a day. Votes, plans, money, crew news and a critter or two, as they happen."
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.always"
+msgstr "Always gets through"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+msgid "you.pings.crewChat.offLine"
+msgstr "Chat waits in the app"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.crewChat"
+msgstr "Crew chat"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.critters"
+msgstr "Critters nearby"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.roundup"
+msgstr "Evening roundup"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.crewChat.all"
+msgstr "Every message"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.guideTipsLine"
+msgstr "From Tokek, Pon and the rest"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.guideTips"
+msgstr "Guide tips"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.title"
+msgstr "How much we ping"
+
+#: ../../apps/mobile/src/features/you/ping-settings/copy.ts
+msgid "you.pings.settingsRowLine"
+msgstr "How much we ping, and when"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.alwaysLine"
+msgstr "Leave-by alarms, SOS, flight changes and anything that costs money if you miss it."
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.crewChat.mentions"
+msgstr "Mentions only"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.money"
+msgstr "Money"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.notificationsOff"
+msgstr "Notifications are off, so nothing reaches your lock screen."
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.crewChat.off"
+msgstr "Off"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.quietOff"
+msgstr "Off"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+msgid "you.pings.crewChat.allLine"
+msgstr "One banner per crew, however busy it gets"
+
+#. placeholder {0}: prefs.roundupTime
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.roundupLine"
+msgstr "One card at {0} with the small stuff"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+msgid "you.pings.crewChat.mentionsLine"
+msgstr "Only when someone names you"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.crittersLine"
+msgstr "Only when you’re already there"
+
+#. placeholder {0}: prefs.roundupTime
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.overBudget"
+msgstr "Over budget, the rest waits for the {0} roundup."
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.budget"
+msgstr "Ping budget"
+
+#: ../../apps/mobile/src/features/you/ping-settings/copy.ts
+msgid "you.pings.settingsRow"
+msgstr "Pings"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.quietOffLine"
+msgstr "Pings arrive at any hour"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.budgetLabel"
+msgstr "Pings per day"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.quietLine"
+msgstr "Pings wait until you’re up"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.quiet"
+msgstr "Quiet hours"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-screen.tsx
+msgid "you.pings.roundupSheet"
+msgstr "Roundup time"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.back"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/ping-settings/ping-settings-view.tsx
+msgid "you.pings.moneyLine"
+msgstr "When someone pays or owes you"

@@ -4,22 +4,19 @@
  * the lead item. The model names plan items and options by id; every number is injected.
  */
 import type Anthropic from '@anthropic-ai/sdk';
+import { PROPOSAL_REASON_TAGS, type ProposalReasonTag } from '@cp/domain';
 import { z } from 'zod';
 
 import type { PersonaId } from '../../persona/schema';
 
-export const REASON_TAGS = [
-  'your_must_do',
-  'matches_taste',
-  'crew_favourite',
-  'good_value',
-  'only_here',
-] as const;
-export type ReasonTag = (typeof REASON_TAGS)[number];
+export const REASON_TAGS = PROPOSAL_REASON_TAGS;
+export type ReasonTag = ProposalReasonTag;
 
 export const MAX_SLIDES = 6;
 export const SLIDE_HEADLINE_MAX = 60;
 export const SLIDE_BODY_MAX = 200;
+/** A pick's own tag on its card ("YOU PICKED STREET FOOD"), in the reader's language. */
+export const REASON_LABEL_MAX = 24;
 
 export const versionReplySchema = z.object({
   slides: z
@@ -34,7 +31,16 @@ export const versionReplySchema = z.object({
     .max(MAX_SLIDES),
   poster: z.object({ title: z.string() }),
   postcard: z.object({ message: z.string() }),
-  highlights: z.array(z.object({ item_id: z.string(), reason_tag: z.enum(REASON_TAGS) })).max(5),
+  highlights: z
+    .array(
+      z.object({
+        item_id: z.string(),
+        reason_tag: z.enum(REASON_TAGS),
+        // Missing from versions written before the label existed; the app shows the tag then.
+        reason_label: z.string().optional(),
+      }),
+    )
+    .max(5),
   savings: z.array(z.object({ option_id: z.string() })).max(3),
   lead_item_id: z.string(),
 });
@@ -80,10 +86,11 @@ export const VERSION_FORMAT: Anthropic.Messages.JSONOutputFormat = {
         items: {
           type: 'object',
           additionalProperties: false,
-          required: ['item_id', 'reason_tag'],
+          required: ['item_id', 'reason_tag', 'reason_label'],
           properties: {
             item_id: { type: 'string' },
             reason_tag: { type: 'string', enum: [...REASON_TAGS] },
+            reason_label: { type: 'string' },
           },
         },
       },

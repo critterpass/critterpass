@@ -7,24 +7,39 @@ import { View } from 'react-native';
 import { CrowdSheet } from '../crowd/crowd-sheet';
 import type { RsvpStatus } from '../data/trip';
 import { DropoutView } from '../dropout/dropout-view';
+import { changeRows, type DropoutOp } from '../dropout/model';
+import { dropoutReplyLine, dropoutShare, stopWhen } from '../labels';
 import { TrailerSlide } from '../trailer/trailer-slide';
 import { LAB_PEOPLE } from './lab-fixtures';
 import { Dismissable } from './dismissable';
 
 const noop = () => undefined;
 
-const dropout = (resolved: boolean) => (
+const NAMES: Readonly<Record<string, string>> = { 'u-minh': 'Minh', 'u-an': 'An' };
+const LABELS: Readonly<Record<string, string>> = {
+  stay: 'Hội An homestay',
+  tickets: 'Bà Nà Hills tickets',
+};
+/** The re-split as the worker stores it; the wording comes from the dropout model. */
+const OPS: readonly DropoutOp[] = [
+  { op: 'release_room_bed', room_key: '2', occupants_before: ['u-minh', 'u-an'] },
+  { op: 'resplit_component', component_id: 'stay', ways_before: 4, ways_after: 3 },
+  { op: 'withdraw_reminder_entry', component_id: 'tickets', uid: 'u-an' },
+];
+
+const dropout = (locale: string, resolved: boolean) => (
   <DropoutView
     name="An"
     joinIndex={3}
+    guide="chava"
     guideName="Chà Vá"
-    replyLine="An told the crew they can’t make it · Oct 1, 10:05"
-    rows={[
-      { key: 'r1', title: 'Room 2', before: 'Minh, An', after: 'released' },
-      { key: 'r2', title: 'Hội An homestay', before: 'split 4 ways', after: 'split 3' },
-      { key: 'r3', title: 'Bà Nà Hills tickets', before: null, after: 'An’s entry is withdrawn' },
-    ]}
-    share={{ after: '₫4,550,000', before: '₫4,200,000', each: '+₫350,000' }}
+    replyLine={dropoutReplyLine(locale, 'An', '2026-10-01T10:05:00.000Z')}
+    rows={changeRows(
+      OPS,
+      (uid) => NAMES[uid] ?? '',
+      (id) => LABELS[id] ?? id,
+    )}
+    share={dropoutShare(locale, { before: 4_200_000, after: 4_550_000, delta: 350_000 }, 'VND')}
     keepInChat
     resolved={resolved}
     onBack={noop}
@@ -56,19 +71,23 @@ const waiting = {
   repliedAt: null,
 };
 
-export const DROPOUT_SCENES: Readonly<Record<string, () => ReactNode>> = {
-  'trailer-slide': () => (
+export const DROPOUT_SCENES: Readonly<Record<string, (locale: string) => ReactNode>> = {
+  'trailer-slide': (locale) => (
     <View style={{ flex: 1 }} testID="lab-trailer-slide">
       <TrailerSlide
         guide="chava"
-        eyebrow="Day 1 · 07:30"
+        eyebrow={stopWhen(locale, {
+          dayNo: 1,
+          startsAt: '2026-10-02T00:30:00.000Z',
+          tz: 'Asia/Ho_Chi_Minh',
+        })}
         headline="Bà Nà before the crowds."
         body="First cable car up, and the Golden Bridge to ourselves."
       />
     </View>
   ),
-  dropout: () => dropout(false),
-  'dropout-applied': () => dropout(true),
+  dropout: (locale) => dropout(locale, false),
+  'dropout-applied': (locale) => dropout(locale, true),
   crowd: () => (
     <Dismissable>
       {(close) => (

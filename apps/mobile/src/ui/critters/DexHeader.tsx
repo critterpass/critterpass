@@ -1,4 +1,5 @@
 import { t } from '@lingui/core/macro';
+import type { ReactNode } from 'react';
 
 import { Row } from '../layout/Row';
 import { Stack } from '../layout/Stack';
@@ -22,6 +23,11 @@ export interface DexHeaderProps<Value extends string> {
   readonly filters: readonly DexFilterOption<Value>[];
   readonly filter: Value;
   readonly onFilter: (value: Value) => void;
+  /**
+   * A small control at the end of the title line (the person's own avatar, to their profile).
+   * Without it the header is unchanged.
+   */
+  readonly end?: ReactNode;
   readonly testID?: string;
 }
 
@@ -46,6 +52,7 @@ export function DexHeader<Value extends string>({
   filters,
   filter,
   onFilter,
+  end,
   testID,
 }: DexHeaderProps<Value>) {
   const styles = useStyles();
@@ -54,13 +61,21 @@ export function DexHeader<Value extends string>({
     id: 'common.critter.dexCount',
     message: `${found} of ${total} critters found`,
   });
+  const title = (
+    <Text variant="eyebrow">{t({ id: 'common.critter.yourDex', message: 'Your Critterdex' })}</Text>
+  );
   return (
     <Stack gap="12" testID={testID}>
+      {/* With an end control the title gets its own line, so the control sits opposite it. */}
+      {end ? (
+        <Row justify="space-between" align="center">
+          {title}
+          {end}
+        </Row>
+      ) : null}
       <Row justify="space-between" align="flex-end">
         <Stack accessible accessibilityRole="header" accessibilityLabel={spoken}>
-          <Text variant="eyebrow">
-            {t({ id: 'common.critter.yourDex', message: 'Your Critterdex' })}
-          </Text>
+          {end ? null : title}
           {/* One number, as the design sets it: the found count, then the total dimmed, at the
               same size (each fitted on its own would shrink the total). */}
           <Row align="baseline">

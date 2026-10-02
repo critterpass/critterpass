@@ -63,9 +63,17 @@ msgstr "All of it. Sign in again and everything comes back."
 msgid "you.settings.app"
 msgstr "App"
 
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.appLanguage"
+msgstr "App language"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.offlineTripsLine"
 msgstr "Bookings, maps and phrases on this phone"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.zhHans"
+msgstr "Chinese, simplified"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.close"
@@ -111,6 +119,10 @@ msgstr "DEPARTURES · DÉPARTS"
 msgid "you.profile.edit"
 msgstr "Edit"
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.en"
+msgstr "English"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.entry"
 msgstr "ENTRY · ENTRÉE"
@@ -122,6 +134,10 @@ msgstr "EXIT · SORTIE"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps.expenses"
 msgstr "Expenses you added, so Balances still add up"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.fr"
+msgstr "French"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes"
@@ -168,9 +184,29 @@ msgstr "Home stamp, {0}"
 msgid "you.profile.howYouTravel"
 msgstr "How you travel"
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.id"
+msgstr "Indonesian"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.ja"
+msgstr "Japanese"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keep"
 msgstr "Keep my account"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.ko"
+msgstr "Korean"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.ts
+msgid "you.settings.language"
+msgstr "Language"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.title"
+msgstr "Language"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lastCheck"
@@ -201,6 +237,10 @@ msgstr "Nothing is erased until {0}. Sign in before then and your pass, critters
 msgid "you.settings.offline"
 msgstr "Offline"
 
+#: ../../apps/mobile/src/features/you/profile/profile-view.tsx
+msgid "you.profile.backPass"
+msgstr "Pass"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.passPlus"
 msgstr "Pass+ is billed by the store you bought it from. Deleting doesn’t cancel it, so cancel it there too."
@@ -217,6 +257,10 @@ msgstr "Planning a trip"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps.plans"
 msgstr "Plans you helped make, shown as “former member”"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.pt"
+msgstr "Portuguese"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.reason.privacy"
@@ -244,6 +288,10 @@ msgstr "Settings"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.settings"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.back"
 msgstr "Settings"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
@@ -296,6 +344,10 @@ msgstr "Soon"
 msgid "you.settings.soundEffects"
 msgstr "Sound effects"
 
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.es"
+msgstr "Spanish"
+
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.stamps"
 msgstr "Stamps"
@@ -315,6 +367,14 @@ msgstr "Sticker slaps, stamps, pops"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.ts
 msgid "you.settings.hapticsLine"
 msgstr "Taps and thuds you can feel"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.th"
+msgstr "Thai"
+
+#: ../../apps/mobile/src/features/you/language/language-view.tsx
+msgid "you.language.note"
+msgstr "The app, your guide’s replies and your notifications switch together. Places keep their local names."
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keeps"
@@ -360,6 +420,10 @@ msgstr "Trips saved offline, reminders and alarms"
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.keep"
 msgstr "Undo, keep my account"
+
+#: ../../apps/mobile/src/features/you/language/language-names.ts
+msgid "you.language.name.vi"
+msgstr "Vietnamese"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.notClosed"

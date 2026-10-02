@@ -18,6 +18,7 @@ import { flightView } from '../flight-card/flight-model';
 import { gateChanged } from '../flight-card/gate-memory';
 import { zoneOf } from '../format';
 import { InsuranceCard } from '../insurance/InsuranceCard';
+import { HeldMailCard } from '../link-code/HeldMailCard';
 import { pickPolicy, useInsurancePolicies } from '../insurance/insurance-data';
 import { bookingRoute, BOOKINGS_ROUTES, boardingPassRoute } from '../routes';
 import { bannerOf } from './banner';
@@ -118,6 +119,16 @@ export function WalletScreen() {
         }
         banner={bannerOf(candidates.rows, context.uid, names)}
         archiveCount={wallet.past.length}
+        heldMail={
+          context.heldMail > 0 ? (
+            <HeldMailCard
+              count={context.heldMail}
+              onLink={() =>
+                router.push({ pathname: BOOKINGS_ROUTES.add, params: { start: 'link' } })
+              }
+            />
+          ) : null
+        }
         insurance={
           insurance.loaded ? (
             <InsuranceCard

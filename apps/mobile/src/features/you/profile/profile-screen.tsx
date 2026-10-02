@@ -15,13 +15,21 @@ const EDIT_SCREEN = '3n-3';
 const CREWS_SCREEN = '3g-3';
 /* eslint-enable lingui/no-unlocalized-strings */
 
-export function ProfileScreen({ now }: { readonly now?: () => Date }) {
+export function ProfileScreen({
+  now,
+  from = 'home',
+}: {
+  readonly now?: () => Date;
+  /** Where the person came from, which the back control names. */
+  readonly from?: 'home' | 'pass';
+}) {
   const { model } = useProfile(now);
   const edit = useScreenHref(EDIT_SCREEN);
   const crews = useScreenHref(CREWS_SCREEN);
   return (
     <ProfileView
       model={model}
+      from={from}
       onSettings={() => router.push(YOU_ROUTES.settings)}
       {...(edit === undefined ? {} : { onEdit: () => router.push(edit) })}
       {...(crews === undefined

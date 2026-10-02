@@ -40,6 +40,9 @@ export const LAB_PICKS: readonly Pick[] = [
     tz: null,
     category: 'sight',
     reasonTag: 'your_must_do',
+    reasonLabel: null,
+    note: null,
+    dayTheme: null,
   },
   {
     itemId: 'i2',
@@ -49,6 +52,9 @@ export const LAB_PICKS: readonly Pick[] = [
     tz: null,
     category: 'food',
     reasonTag: 'matches_taste',
+    reasonLabel: 'YOU PICKED STREET FOOD',
+    note: null,
+    dayTheme: null,
   },
   {
     itemId: 'i3',
@@ -58,6 +64,9 @@ export const LAB_PICKS: readonly Pick[] = [
     tz: null,
     category: 'beach',
     reasonTag: 'good_value',
+    reasonLabel: null,
+    note: null,
+    dayTheme: null,
   },
 ];
 
@@ -65,6 +74,7 @@ export const LAB_PICKS: readonly Pick[] = [
 export const LAB_GROUP_PICKS: readonly Pick[] = LAB_PICKS.map((pick, index) => ({
   ...pick,
   reasonTag: index === 0 ? 'group_must_do' : 'group_day',
+  reasonLabel: null,
 }));
 
 export const LAB_SAVINGS: readonly Saving[] = [

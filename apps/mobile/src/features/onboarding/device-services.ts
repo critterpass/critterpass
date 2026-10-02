@@ -13,7 +13,8 @@ import {
 } from '@react-native-google-signin/google-signin';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import * as Crypto from 'expo-crypto';
-import { Platform } from 'react-native';
+import * as Updates from 'expo-updates';
+import { DevSettings, Platform } from 'react-native';
 
 import { geoHintSchema, type GeoHint } from '@cp/domain';
 
@@ -104,6 +105,15 @@ async function geoHint(): Promise<GeoHint | null> {
   }
 }
 
+/** Restarts the JS so the app boots on the session now in storage. */
+function restartApp(): void {
+  if (__DEV__) {
+    DevSettings.reload();
+    return;
+  }
+  void Updates.reloadAsync();
+}
+
 let services: OnboardingServices | null = null;
 
 /** `lifter`: the on-device subject lift, or null in a binary built without it. */
@@ -114,6 +124,7 @@ export function deviceOnboardingServices(lifter: AvatarLifter | null): Onboardin
     google: googleProvider,
     geoHint,
     photos: devicePhotoServices(lifter),
+    restart: restartApp,
   };
   return services;
 }

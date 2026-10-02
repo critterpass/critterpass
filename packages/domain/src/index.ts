@@ -259,6 +259,7 @@ export {
 } from './state/machine';
 export { canTransitionTrip, deriveTripPhase, transitionTrip, tripStateMachine } from './state/trip';
 export * from './surfaces/entitlements';
+export * from './surfaces/widget-snapshot';
 export * from './live-activities';
 export * from './time/local-schedule';
 export * from './links';
@@ -285,6 +286,7 @@ export * from './suppliers';
 export * from './billing';
 export * from './paywall';
 export * from './trip-day';
+export * from './disruptions';
 export * from './explore';
 export * from './proposal';
 export * from './critters';

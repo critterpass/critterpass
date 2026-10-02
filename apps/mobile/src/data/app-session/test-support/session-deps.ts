@@ -1,7 +1,8 @@
 /**
  * `startAppSession` dependencies for tests: a real encrypted database per start, the App Group
  * outbox on a real directory, persisted realtime positions, and an in-memory api session (the
- * network boundary). Realtime dials a port nothing listens on.
+ * network boundary). Realtime dials a port nothing listens on. The api's flags are its recorded
+ * `GET /v1/config/bootstrap` answer online, and no response offline.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- test support; literals are wire values. */
 import type { LocalFirstAuth } from '../../powersync/db';
@@ -12,6 +13,8 @@ import {
 } from '../../powersync/test-support/local-first-fixture';
 import { removeDir, tempDatabaseDir } from '../../powersync/test-support/open-node-database';
 import { fileOutbox, type FileOutbox } from '../../commands/test-support/file-outbox';
+import type { ServerFlagsFetch } from '../../../lib/analytics/server-flags';
+import bootstrap from '../../../lib/analytics/test-support/config-bootstrap.json';
 import { fakeLinksHttp, standardRoutes } from '../../../lib/links/test-support/fake-links-http';
 import { createDeviceRecoveryStore } from '../../realtime/device-recovery-store';
 import { lifecycle, type Lifecycle } from '../../realtime/test-support/lifecycle';
@@ -52,6 +55,8 @@ export interface SessionHarness {
   readonly errors: unknown[];
   /** Every request to the link endpoints, answered from recorded fixtures. */
   readonly linkRequests: { method: string; path: string; body?: unknown }[];
+  /** One entry per `GET /v1/config/bootstrap` the session made. */
+  readonly flagRequests: string[];
   readonly start: () => Promise<AppSession>;
   readonly close: () => Promise<void>;
 }
@@ -59,6 +64,8 @@ export interface SessionHarness {
 export function sessionHarness(options: {
   online: boolean;
   lastUid?: MemoryLastUid;
+  /** The api's answer to `GET /v1/config/bootstrap`, in place of the recorded one. */
+  serverFlags?: ServerFlagsFetch;
 }): SessionHarness {
   const opened: { uid: string; auth: LocalFirstAuth }[] = [];
   const stacks: TestLocalFirst[] = [];
@@ -70,6 +77,7 @@ export function sessionHarness(options: {
   const appState = lifecycle();
   const lastUid = options.lastUid ?? memoryLastUid();
   const links = fakeLinksHttp(standardRoutes);
+  const flagRequests: string[] = [];
   const value: AppSessionDeps = {
     writeEndpoints: () => endpointWrites.push('config/endpoints.json'),
     auth: {
@@ -92,6 +100,13 @@ export function sessionHarness(options: {
     device: () => Promise.resolve(TEST_DEVICE),
     appState,
     linksHttp: links.http,
+    fetchServerFlags: () => {
+      flagRequests.push('/v1/config/bootstrap');
+      if (options.serverFlags !== undefined) return options.serverFlags();
+      return options.online
+        ? Promise.resolve({ status: 200, body: bootstrap })
+        : Promise.reject(new Error('Network request failed'));
+    },
     realtime: { url: UNREACHABLE_WS, positions: createDeviceRecoveryStore() },
     onError: (error) => errors.push(error),
   };
@@ -104,6 +119,7 @@ export function sessionHarness(options: {
     endpointWrites,
     errors,
     linkRequests: links.requests,
+    flagRequests,
     start: async () => {
       const session = await startAppSession(value);
       sessions.push(session);

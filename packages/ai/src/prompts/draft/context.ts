@@ -7,13 +7,40 @@
  */
 import type Anthropic from '@anthropic-ai/sdk';
 import { WEEKDAYS, type Hours } from '@cp/domain';
-import type { CandidatePools, CostBands, DraftPoi, TravelMatrix, TripFrame } from '@cp/planner';
+import type {
+  CandidatePools,
+  CostBands,
+  DraftPoi,
+  TravelMatrix,
+  TripFrame,
+  WishTime,
+} from '@cp/planner';
 
 import type { Gateway, GatewayInput, GatewayResult } from '../../client';
 import { renderPersonaBlock } from '../../persona/layering';
 import { REPO_PACKS } from '../../persona/loader';
 import type { PersonaId } from '../../persona/schema';
 import type { UsageContext } from '../../usage';
+
+/** The guide's answer to a must-do typed by hand, as code holds it (./wish-answers.ts). */
+export interface WishAnswer {
+  readonly wishId: string;
+  /** The place the guide says the wish means; null when none of the offered places fits. */
+  readonly poiId: string | null;
+  readonly dayNo: number | null;
+  readonly when: WishTime;
+  /** Weekdays the wished thing happens on at all (`sa`, `su`; empty = any day), e.g. a weekly show. */
+  readonly weekdays: readonly string[];
+}
+
+/**
+ * A must-do planned without the time of day or the show day wished for it: the trip has no day
+ * its show runs on (`no_show_day`), or no day can hold it at its time (`no_day_fits`).
+ */
+export interface UntimedMustDo {
+  readonly mustDoId: string;
+  readonly reason: 'no_show_day' | 'no_day_fits';
+}
 
 export interface DraftPlanInput {
   readonly guide: PersonaId;
@@ -30,8 +57,19 @@ export interface DraftPlanInput {
   readonly stayType: string | null;
   /** Members' first names by uid (as the trip context shows them). */
   readonly names: Readonly<Record<string, string>>;
-  /** Must-dos a member wrote without a place: flavour only, never scheduled. */
-  readonly wishes: readonly { readonly id: string; readonly text: string }[];
+  /**
+   * Must-dos a member wrote without a place, with the places each may mean (`options`); the guide
+   * answers each one (./wish-answers.ts).
+   */
+  readonly wishes: readonly {
+    readonly id: string;
+    readonly text: string;
+    readonly options?: readonly string[];
+  }[];
+  /** The guide's answers this input was built with (set by `withWishAnswers`). */
+  readonly wishAnswers?: readonly WishAnswer[];
+  /** Must-dos planned without their time of day or show day (set by `withWishAnswers`). */
+  readonly untimed?: readonly UntimedMustDo[];
   /** Stable ids for scheduled stops; the same key always gives the same id. */
   readonly idFor: (key: string) => string;
   readonly skeletonRoute: 'draft.skeleton' | 'draft.skeleton_fast';
@@ -154,7 +192,17 @@ export function placeLine(
     parts.push(poi.priceLevel === 0 ? 'free' : `price ${'$'.repeat(poi.priceLevel)}`);
   const tags = poi.tags.filter((tag) => !tag.startsWith('book_ahead') && tag !== 'free');
   if (tags.length > 0) parts.push(tags.slice(0, 4).join(' '));
+  if (!poi.editorial) parts.push('uncurated: not checked by our editors, hours are a guess');
   return `- ${parts.join(' | ')}`;
+}
+
+/** What our editors wrote about a place (why go, best time), for the lines about a wish. */
+export function editorsNote(poi: DraftPoi): string {
+  const parts = [
+    poi.whyGo ?? null,
+    poi.bestTime === null || poi.bestTime === undefined ? null : `best time: ${poi.bestTime}`,
+  ].filter((part): part is string => part !== null);
+  return parts.length === 0 ? '' : `; our editors: ${parts.join('; ')}`;
 }
 
 export function crewLine(input: DraftPlanInput): string {

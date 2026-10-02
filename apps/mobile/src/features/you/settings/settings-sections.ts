@@ -4,19 +4,24 @@
  */
 import { useLingui } from '@lingui/react/macro';
 
+import { PINGS_ROW_LINE, PINGS_ROW_TITLE } from '../ping-settings/copy';
 import type { SettingsSection } from './settings-view';
 
 export interface SettingsValues {
   readonly soundEffects: boolean;
   readonly haptics: boolean;
+  /** The app's language, in its own script ("Tiếng Việt"). */
+  readonly language: string;
   /** The server answered for this account: only then are the account rows offered. */
   readonly account: boolean;
 }
 
 export interface SettingsHandlers {
   readonly onOfflineTrips: () => void;
+  readonly onPings: () => void;
   readonly onSoundEffects: (next: boolean) => void;
   readonly onHaptics: (next: boolean) => void;
+  readonly onLanguage: () => void;
   readonly onSignOut: () => void;
   readonly onDeleteAccount: () => void;
 }
@@ -49,6 +54,14 @@ export function useSettingsSections(
       title: t({ id: 'you.settings.app', message: 'App' }),
       rows: [
         {
+          key: 'pings',
+          kind: 'value',
+          title: t(PINGS_ROW_TITLE),
+          subtitle: t(PINGS_ROW_LINE),
+          value: '',
+          onPress: handlers.onPings,
+        },
+        {
           key: 'sound-effects',
           kind: 'toggle',
           title: t({ id: 'you.settings.soundEffects', message: 'Sound effects' }),
@@ -66,6 +79,13 @@ export function useSettingsSections(
           subtitle: t({ id: 'you.settings.hapticsLine', message: 'Taps and thuds you can feel' }),
           value: values.haptics,
           onChange: handlers.onHaptics,
+        },
+        {
+          key: 'language',
+          kind: 'value',
+          title: t({ id: 'you.settings.language', message: 'Language' }),
+          value: values.language,
+          onPress: handlers.onLanguage,
         },
       ],
     },

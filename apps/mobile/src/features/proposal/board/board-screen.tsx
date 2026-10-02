@@ -2,7 +2,8 @@
  * Slide to board wired to the phone. Boarding sends `set_rsvp{in}` with the savings the member
  * took; online it waits for the seat answer (a full trip keeps the reply as a waitlist place and
  * says so), offline it queues and the pass shows as pending. MAYBE answers at once; "I can't make
- * it" asks first, since going out frees the seat and starts the crew's re-split.
+ * it" asks first, since going out frees the seat and starts the crew's re-split. A member who is
+ * already in reaches the same question from their version, through `decline=1`.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { t } from '@lingui/core/macro';
@@ -15,12 +16,13 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { feedback, toast } from '@/motion';
 
 import { setRsvpCommand, setRsvpQueuedCommand } from '../data/commands';
-import { dayRange, wholeMoney } from '../data/format';
+import { wholeMoney } from '../data/format';
 import { useFindProposalTrip, useProposal, useVersions } from '../data/proposal';
 import { useLiveRows } from '../data/rows';
 import { useProposalTrip } from '../data/trip';
 import { ProposalConfirm } from '../confirm-sheet';
 import { ProposalLoading } from '../proposal-loading';
+import { tripDates, tripLine } from '../labels';
 import { proposalRoutes } from '../routes';
 import { boardOutcome, arrivalCode, type BoardOutcome } from './model';
 import { BoardView } from './board-view';
@@ -34,6 +36,8 @@ const EXTRA_SQL = `SELECT c.name AS crew_name, u.home_airport FROM trips t
 export function BoardScreen(props: {
   readonly proposalId: string;
   readonly options: readonly string[];
+  /** Opens on the decline question (a member who already said IN). */
+  readonly decline?: boolean;
 }) {
   const proposal = useProposal(props.proposalId);
   useFindProposalTrip(proposal);
@@ -50,7 +54,7 @@ export function BoardScreen(props: {
   const now = useCommand(setRsvpCommand);
   const queued = useCommand(setRsvpQueuedCommand);
   const [outcome, setOutcome] = useState<BoardOutcome | null>(null);
-  const [confirmOut, setConfirmOut] = useState(false);
+  const [confirmOut, setConfirmOut] = useState(props.decline === true);
 
   if (proposal == null || trip == null) return <ProposalLoading testID="board-loading" />;
   const me = trip.people.find((p) => p.uid === trip.me);
@@ -93,12 +97,7 @@ export function BoardScreen(props: {
     <>
       <BoardView
         guide={trip.guide}
-        eyebrow={[
-          trip.destination,
-          trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : null,
-        ]
-          .filter(Boolean)
-          .join(' · ')}
+        eyebrow={tripLine(locale, trip.destination, trip.startDate, trip.endDate)}
         name={me?.name ?? ''}
         crewIn={trip.people
           .filter((p) => p.rsvp === 'in')
@@ -110,8 +109,7 @@ export function BoardScreen(props: {
           from: row?.home_airport?.toUpperCase() ?? '—',
           to: arrivalCode(trip.destinationSlug, trip.destination),
           passenger: me?.fullName ?? '',
-          dates:
-            trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : '',
+          dates: tripDates(locale, trip.startDate, trip.endDate),
           share:
             share === null || currency === null || !proposal.showCost
               ? null

@@ -1430,6 +1430,13 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: OWNER_READ,
   },
+  // Widgets: the owner reads their own token and installs; the worker owns the rest.
+  widget_push_tokens: { selectProbe: ownRowProbe('widget_push_tokens'), expectations: OWNER_READ },
+  installed_widgets: { selectProbe: ownRowProbe('installed_widgets'), expectations: OWNER_READ },
+  widget_push_ledger: {
+    selectProbe: { sql: 'SELECT 1 FROM widget_push_ledger LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
   broadcast_channels: {
     selectProbe: { sql: 'SELECT 1 FROM broadcast_channels LIMIT 1', params: () => [] },
     expectations: SYSTEM_ONLY,
@@ -1742,6 +1749,29 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   xp_ledger: { selectProbe: ownRowProbe('xp_ledger'), expectations: OWNER_READ },
   crew_xp: {
     selectProbe: { sql: 'SELECT 1 FROM crew_xp WHERE crew_id = $1', params: (f) => [f.crewId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  disruptions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM disruptions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  watch_items: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM watch_items WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  // The fixture item has no attendee list (everyone goes), so every active member reads the
+  // organiser's check; the attendee-scoped case is in permissions/journey-checks.test.ts.
+  journey_checks: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM journey_checks WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
     expectations: CREW_VISIBLE_READ,
   },
   offline_bundles: {

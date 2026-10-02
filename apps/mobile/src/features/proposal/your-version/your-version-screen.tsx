@@ -15,9 +15,10 @@ import { hrefFor } from '@/lib/navigation/screen-registry';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
+import { useTheme } from '@/ui/theme';
 
 import { recordProposalOpenCommand } from '../data/commands';
-import { clock, dayRange, instantDate } from '../data/format';
+import { instantDate } from '../data/format';
 import { reasonWhy, type Pick } from '../data/picks';
 import { useGroupPicks, usePicks } from '../data/picks';
 import {
@@ -31,6 +32,7 @@ import { useSavings } from '../data/savings';
 import { useProposalTrip } from '../data/trip';
 import { ObjectionSheet } from '../objection/objection-sheet';
 import { ProposalLoading } from '../proposal-loading';
+import { stopWhen, tripLine, versionChip } from '../labels';
 import { proposalRoutes } from '../routes';
 import { HypeBar } from './hype-bar';
 import { ShareCard } from './share-card';
@@ -48,6 +50,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
   const locale = useLocale();
   const open = useCommand(recordProposalOpenCommand);
   const [chosen, setChosen] = useState<readonly string[]>([]);
+  const theme = useTheme();
   const [why, setWhy] = useState<Pick | null>(null);
   const [asking, setAsking] = useState(false);
   const opened = useRef(false);
@@ -90,19 +93,7 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
   const latest = reactions[0];
   const reactor =
     latest === undefined ? undefined : trip.people.find((p) => p.uid === latest.userId);
-  const deadline = proposal.freeCancelUntil ?? proposal.replyBy;
-  const chip =
-    proposal.freeCancelUntil !== null
-      ? t({
-          id: 'proposal.version.freeCancel',
-          message: `Free cancel till ${instantDate(locale, proposal.freeCancelUntil)}`,
-        })
-      : deadline === null
-        ? null
-        : t({
-            id: 'proposal.version.replyBy',
-            message: `Reply by ${instantDate(locale, deadline)}`,
-          });
+  const chip = versionChip(locale, proposal.freeCancelUntil, proposal.replyBy);
   const base = version?.shareMinor ?? trip.shareMinor;
   const currency = version?.currency ?? trip.currency;
   const answered =
@@ -129,19 +120,10 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         pending={version === null || version.status === 'pending'}
         fallbackNote={version?.fallbackNote ?? null}
         group={group}
-        tripLine={[
-          trip.destination,
-          trip.startDate && trip.endDate ? dayRange(locale, trip.startDate, trip.endDate) : null,
-        ]
-          .filter(Boolean)
-          .join(' · ')}
+        tripLine={tripLine(locale, trip.destination, trip.startDate, trip.endDate)}
         onPlan={planHref === undefined ? undefined : () => router.push(planHref)}
         picks={picks}
-        when={(pick) => {
-          if (pick.dayNo === null) return '';
-          const day = t({ id: 'proposal.version.day', message: `Day ${pick.dayNo}` });
-          return pick.startsAt === null ? day : `${day} · ${clock(locale, pick.startsAt, pick.tz)}`;
-        }}
+        when={(pick) => stopWhen(locale, pick)}
         share={
           base === null || currency === null || !proposal.showCost ? null : (
             <ShareCard
@@ -180,10 +162,25 @@ export function YourVersionScreen(props: { readonly proposalId: string; readonly
         }}
         onIn={() => board(chosen)}
         onAsk={() => setAsking(true)}
+        onOut={
+          person?.rsvp === 'in' ? () => router.push(proposalRoutes.decline(props.proposalId)) : null
+        }
       />
       {why === null ? null : (
         <Sheet title={why.title} detents={['medium']} onDismiss={() => setWhy(null)}>
+          {why.dayNo === null ? null : (
+            <Text variant="caption" color={theme.semantic.text.secondary}>
+              {[t({ id: 'proposal.version.day', message: `Day ${why.dayNo}` }), why.dayTheme]
+                .filter(Boolean)
+                .join(' · ')}
+            </Text>
+          )}
           <Text variant="body">{reasonWhy(why.reasonTag, guideName)}</Text>
+          {why.note === null || why.note === '' ? null : (
+            <Text variant="voice" color={theme.semantic.action.primary}>
+              {why.note}
+            </Text>
+          )}
         </Sheet>
       )}
       {asking ? (

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-01.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "23246884-28a0-4ca9-9cf7-800348ec8985",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"headline\":\"Maya running 14 min late\",\"detail\":\"Traffic is heavy on the way to Chatuchak Market, so you will land at 10:14. I would keep the plan and let the market wait for you.\",\"items\":[{\"id\":\"push\",\"text\":\"Chatuchak Market moves to 10:15.\"},{\"id\":\"skip\",\"text\":\"Chatuchak Market comes off the plan.\"},{\"id\":\"car\",\"text\":\"Fare and pickup time from Grab.\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 806,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 104,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

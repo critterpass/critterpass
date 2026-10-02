@@ -20,6 +20,20 @@
         "payloads": {},
         "multivariate": null
       }
+    },
+    {
+      "id": 102,
+      "team_id": 1,
+      "name": "Receipt scan and itemised split",
+      "key": "money-receipts",
+      "active": true,
+      "deleted": false,
+      "ensure_experience_continuity": false,
+      "filters": {
+        "groups": [{ "properties": [], "rollout_percentage": 100 }],
+        "payloads": {},
+        "multivariate": null
+      }
     }
   ],
   "group_type_mapping": {},

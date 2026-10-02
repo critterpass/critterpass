@@ -140,6 +140,9 @@ export const crewInboundAddresses = pgTable('crew_inbound_addresses', {
   localPart: text('local_part').notNull().unique(),
   status: text('status').notNull().default('active'),
   rotatedAt: at('rotated_at'),
+  /** Forwarded mail held from addresses nobody in the crew has linked yet, and the newest's time. */
+  heldCount: integer('held_count').notNull().default(0),
+  heldAt: at('held_at'),
   createdAt: createdAt(),
 });
 
