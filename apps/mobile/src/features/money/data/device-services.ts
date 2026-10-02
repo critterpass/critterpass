@@ -17,7 +17,7 @@ import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 
 import type { HttpOutcome, MoneyServices, PickOutcome, ReceiptReader } from './services';
 
-/** Receipt photos are JPEGs from the scanner or the picker; the api caps them at 10 MB. */
+/** Receipt photos are JPEGs from the scanner or the picker; the api takes up to 5 MiB in one upload. */
 const RECEIPT_QUALITY = 0.8;
 
 function hex(buffer: ArrayBuffer): string {

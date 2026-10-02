@@ -94,6 +94,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'money-review-line-.*'
     index: 0
+- takeScreenshot: receipt-real-line-tapped
 - extendedWaitUntil:
     visible:
       id: 'money-member-picker'

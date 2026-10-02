@@ -335,6 +335,14 @@ describe('a scanned receipt', () => {
     await until(() => screen.queryByTestId('money-review-commit') !== null);
     expect(screen.getByText(/^Bia hơi Hà Nội/)).toBeTruthy();
 
+    // Who had the beer: the picker over the review, and back to it.
+    await press('money-review-line-l0');
+    await until(() => screen.queryByTestId('money-member-picker') !== null);
+    expect(app.getPathname()).toBe(MONEY_ROUTES.scan);
+    await press('money-member-done');
+    await until(() => screen.queryByTestId('money-member-picker') === null);
+    expect(app.getPathname()).toBe(MONEY_ROUTES.scan);
+
     const commit = screen.getByTestId('money-review-commit');
     for (let tap = 0; tap < 3; tap += 1) await fireEvent.press(commit);
     await until(() => app.getPathname() === MONEY_ROUTES.balances);
