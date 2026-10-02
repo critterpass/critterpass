@@ -29,6 +29,7 @@ appId: app.critterpass.dev
     visible:
       id: 'trip-hub'
     timeout: 30000
+- runFlow: ../../happy/subflows/dismiss-visit-offer.yaml
 - scrollUntilVisible:
     element:
       id: 'trip-hub-tile-plan'
@@ -36,6 +37,16 @@ appId: app.critterpass.dev
     timeout: 15000
 - tapOn:
     id: 'trip-hub-tile-plan'
+# The visit history offer can rise over the hub just as the tile is tapped, and the tap only
+# closes it: put it away and open the plan again.
+- runFlow:
+    when:
+      visible: 'NOT NOW'
+    commands:
+      - tapOn: 'NOT NOW'
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'trip-hub-tile-plan'
 - extendedWaitUntil:
     visible:
       id: 'plan-day-1'
