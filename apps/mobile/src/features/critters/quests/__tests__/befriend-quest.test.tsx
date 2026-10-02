@@ -17,7 +17,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import type { SpawnPoiRow, SpawnSqlRow } from '../../data/spawn-rows';
-import { directionsUrl, nearestBefriendSpot } from '../befriend-spot';
+import { directionsUrl, distanceUnitOf, nearestBefriendSpot } from '../befriend-spot';
 import { QuestCardView } from '../quest-card-view';
 import { buildQuestsModel, type QuestRow } from '../quests-model';
 import type { BefriendPlace } from '../use-befriend-spot';
@@ -100,6 +100,13 @@ describe('nearest befriend spot', () => {
     const base = { pois: POIS, setId: null, position: HERE };
     expect(nearestBefriendSpot({ ...base, rules: RULES, destinationId: null })).toBeNull();
     expect(nearestBefriendSpot({ ...base, rules: [], destinationId: DANANG })).toBeNull();
+  });
+
+  it("reads the reader's distance unit as the settings store it ('km' or 'mi')", () => {
+    expect(distanceUnitOf('mi')).toBe('imperial');
+    expect(distanceUnitOf('km')).toBe('metric');
+    expect(distanceUnitOf(null)).toBe('metric');
+    expect(distanceUnitOf(undefined)).toBe('metric');
   });
 
   it('walks to a near spot and drives to a far one', () => {
