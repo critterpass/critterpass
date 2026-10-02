@@ -9,6 +9,12 @@
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
 jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
+let mockRealDevice = true;
+jest.mock('expo-device', () => ({
+  get isDevice() {
+    return mockRealDevice;
+  },
+}));
 jest.mock(
   '@powersync/common',
   () =>

@@ -5,6 +5,12 @@
  * a native boundary Jest can't run, so it is stood in for per case.
  */
 jest.mock('expo-router', () => ({ useIsFocused: () => true }));
+let mockRealDevice = true;
+jest.mock('expo-device', () => ({
+  get isDevice() {
+    return mockRealDevice;
+  },
+}));
 jest.mock(
   '@powersync/common',
   () =>
@@ -66,6 +72,7 @@ function standIn(
 }
 
 beforeEach(() => {
+  mockRealDevice = true;
   cameraProps = null;
   held = 0;
   requestPermission.mockClear();
@@ -184,5 +191,19 @@ describe('live camera', () => {
     expect(view.toJSON()).toBeNull();
     expect(held).toBe(0);
     expect(requestPermission).not.toHaveBeenCalled();
+  });
+
+  it('never loads the camera package on an emulator or simulator', async () => {
+    mockRealDevice = false;
+    const loaded = jest.fn();
+    nativeRegistry(CAMERA_HYBRID_OBJECTS);
+    jest.doMock('react-native-vision-camera', () => {
+      loaded();
+      return standIn({ hasPermission: true, canRequestPermission: false });
+    });
+    const view = await render(<LiveCamera enabled />);
+    await act(() => new Promise((resolve) => setTimeout(resolve, 50)));
+    expect(view.toJSON()).toBeNull();
+    expect(loaded).not.toHaveBeenCalled();
   });
 });

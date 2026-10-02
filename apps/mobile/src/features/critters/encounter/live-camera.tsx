@@ -5,9 +5,11 @@
  *
  * It is off unless the server switches it on (`client_config` `critters.live_camera`). Anything
  * short of a working camera leaves the illustrated scene in place: a build without the
- * native module, a refused (or not yet granted) permission, no back camera, or any camera error.
+ * native module, an emulator or simulator, a refused (or not yet granted) permission, no back
+ * camera, a camera that does not start within a moment, or any camera error.
  */
 /* eslint-disable @typescript-eslint/no-require-imports -- the native module loads lazily, so a build without it keeps working. */
+import { isDevice } from 'expo-device';
 import { useIsFocused } from 'expo-router';
 import { Component, useCallback, useContext, useEffect, useState, type ReactNode } from 'react';
 import { StyleSheet } from 'react-native';
@@ -48,7 +50,9 @@ function nativeCameraPresent(): boolean {
 /** The camera module, or null when this build has no camera (or it fails to start). */
 export function visionCamera(): VisionCamera | null {
   if (loaded !== undefined) return loaded;
-  if (!nativeCameraPresent()) {
+  // Emulators and simulators have no camera to show, and on the Android emulator loading the
+  // camera stalled the whole app (frames of several seconds, taps lost): never load it there.
+  if (!isDevice || !nativeCameraPresent()) {
     loaded = null;
     return loaded;
   }
