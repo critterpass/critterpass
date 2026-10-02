@@ -123,3 +123,8 @@ export function labMeta(item: DayItem): string {
   const meta = i18n.locale.startsWith('vi') ? LAB_META_VI : LAB_META;
   return meta[item.stableId] ?? '';
 }
+
+/** The moved walk's line in the guide's suggestion, in the lab's current language. */
+export function labGhostDetail(): string {
+  return i18n.locale.startsWith('vi') ? '17:00 · giờ vàng' : '17:00 · golden hour';
+}

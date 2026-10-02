@@ -231,7 +231,8 @@ export function TimelineBlock({
   const step = fit?.key === fitKey ? fit.step : 0;
   const showMeta = frame.height >= META_MIN_HEIGHT && block.meta !== '' && step < 2;
   const padding = step === 0 ? FACE_PAD : FACE_PAD_TIGHT;
-  const inner = frame.height - FRAME_PAD * 2 - padding * 2;
+  // The face clips at its border, not its padding: words may run into the far side's padding.
+  const inner = frame.height - FRAME_PAD * 2 - padding;
   return (
     <GestureDetector gesture={gestures.drag}>
       <Animated.View
