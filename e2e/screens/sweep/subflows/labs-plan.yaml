@@ -1,0 +1,67 @@
+appId: app.critterpass.dev
+---
+# Lab scenes for the plan, in ${LANG}: drafting (3c-8), changing a day (3c-11), the redraft (3c-12),
+# the overview (3e-1), the day and its timeline (3e-2) and review (3e-3). The scenes render the real
+# screens from fixtures, so the sweep compares screens no seed scenario reaches with their renders.
+# Android: the nightly iPhone shard keeps to the seed scenarios.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - runFlow:
+          file: open-dev-lab.yaml
+          env:
+            NAV: dev-nav-draft
+            LIST: draft-scene-list
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: draft-scene-3c-8-drafting
+            READY: drafting-screen
+            SHOT: ${LANG}-3c-8-drafting
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: draft-scene-3c-11-change-a-day
+            READY: change-day
+            SHOT: ${LANG}-3c-11-change-a-day
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: draft-scene-3c-12-redraft
+            READY: redraft-diff
+            SHOT: ${LANG}-3c-12-redraft
+      - runFlow:
+          file: open-dev-lab.yaml
+          env:
+            NAV: dev-nav-plan-views-lab
+            LIST: plan-views-lab-overview
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-views-lab-overview
+            READY: plan-overview
+            SHOT: ${LANG}-3e-1-plan
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-views-lab-review
+            READY: plan-review-chips
+            SHOT: ${LANG}-3e-3-review
+      - runFlow:
+          file: open-dev-lab.yaml
+          env:
+            NAV: dev-nav-plan-edit-lab
+            LIST: plan-edit-lab-day
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-edit-lab-day
+            READY: plan-day-list
+            SHOT: ${LANG}-3e-2-list
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: plan-edit-lab-planning
+            READY: plan-timeline
+            SHOT: ${LANG}-3e-2-planning
