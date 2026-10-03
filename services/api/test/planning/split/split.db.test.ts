@@ -83,7 +83,7 @@ beforeAll(async () => {
       `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, tz, category, cost_model,
          amount_minor, currency)
        SELECT d.version_id, d.id, d.trip_id, gen_random_uuid(), 'Asia/Makassar', 'driver',
-              'per_group', 450000, 'IDR'
+              'group', 450000, 'IDR'
          FROM plan_days d WHERE d.version_id = $1`,
       [plan.versionId],
     );
