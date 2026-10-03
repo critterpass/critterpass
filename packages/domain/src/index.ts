@@ -162,13 +162,7 @@ export {
   type WeeklySpans,
 } from './places/hours';
 export { closesSoon, nextOpen, openAt } from './places/open-at';
-export {
-  OSM_POI_KEYS,
-  classifyOsmTags,
-  type OsmClassification,
-  type OsmTags,
-} from './places/osm-categories';
-export { parseOsmOpeningHours } from './places/osm-opening-hours';
+export * from './places/osm';
 export * from './places/foursquare';
 export * from './places/foursquare-match';
 export * from './places/queues';

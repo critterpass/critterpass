@@ -12,6 +12,8 @@ CREATE UNIQUE INDEX pois_source_osm_uidx ON pois (((source_ids ->> 'osm'))) WHER
 
 ALTER TABLE pois ADD COLUMN hours_source text
   CONSTRAINT pois_hours_source_check CHECK (hours_source IN ('osm', 'editorial', 'research'));
+-- The ops console reads every place column (C0).
+GRANT SELECT (hours_source) ON pois TO admin_reader;
 
 -- Live place search (`GET /v1/places/search/live`) is a third kind of counted call under the same
 -- monthly cap as place details and id matching.

@@ -221,7 +221,12 @@ describe('GET /v1/places/search/live/resolve', () => {
     );
     const links = await withSystem(
       pool,
-      async (tx) => (await tx.query('SELECT poi_id, fsq_place_id FROM poi_foursquare_ids')).rows,
+      async (tx) =>
+        (
+          await tx.query<{ poi_id: string; fsq_place_id: string }>(
+            'SELECT poi_id, fsq_place_id FROM poi_foursquare_ids',
+          )
+        ).rows,
     );
     expect(links).toEqual([{ poi_id: overturePoiId, fsq_place_id: '55b47f4b498e095b065c6e60' }]);
     // The second pick finds the link and calls nothing.
