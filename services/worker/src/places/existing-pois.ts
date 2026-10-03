@@ -63,3 +63,22 @@ export function lookupExisting(
   if (byFsq !== undefined) return byFsq;
   return sourceIds.overture !== undefined ? byKey.get(`overture:${sourceIds.overture}`) : undefined;
 }
+
+/**
+ * The source ids a stored row may take from a POI: an id another stored row already holds is left
+ * out. Conflation can pair this row's FSQ place with an Overture place stored on its own row; the
+ * per-source unique indexes allow one row per source id, so the other row keeps its id.
+ */
+export function idsForStoredRow(
+  byKey: ReadonlyMap<string, ExistingPoi>,
+  sourceIds: ConflatedPoi['sourceIds'],
+  storedId: string,
+): ConflatedPoi['sourceIds'] {
+  const kept: Record<string, string> = {};
+  for (const [source, id] of Object.entries(sourceIds)) {
+    if (id === undefined) continue;
+    const holder = byKey.get(`${source}:${id}`);
+    if (holder === undefined || holder.id === storedId) kept[source] = id;
+  }
+  return kept;
+}
