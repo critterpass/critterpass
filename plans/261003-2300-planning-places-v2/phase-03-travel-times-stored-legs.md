@@ -81,7 +81,7 @@ Reuse / extend / new: reuse `RoutingProvider`, `estimateStraightLineEta`, the sp
 - Steps: 1. Port the spike's zod client (`tools/spikes/src/valhalla/client.ts`): `/route`, `/sources_to_targets`, `/optimized_route`, `/locate`. 2. Timeouts (route 2 s, matrix 6 s), one retry, circuit breaker. 3. Recorded responses for Bali, Kyoto, Đà Nẵng fixtures.
 - Tests: `pnpm --filter @cp/suppliers test -- valhalla` (recorded-response contract + timeout/off-graph mapping)
 - Done when: off-graph and timeout map to typed errors; matrix chunking ≤ 25 × 25.
-- Status: done — 2038cbf7b
+- Status: done — 21fcc2321 (#599)
 
 ### T2 — Tiles pipeline and serving service
 - Goal: Valhalla serving every destination box, rebuilt without this Mac.
@@ -89,7 +89,7 @@ Reuse / extend / new: reuse `RoutingProvider`, `estimateStraightLineEta`, the sp
 - Steps: 1. Box list from `destinations` (live + active-trip destinations), buffered 30 km. 2. `osmium extract` per box → `osmium merge` → `valhalla_build_tiles` (3.8.3) → tar → R2 with a manifest (build id, boxes, OSM date). 3. Serving image downloads the newest manifest at boot, health on `/status`. 4. Railway service creation is a founder-approved infra step (record size and cost in the PR).
 - Tests: workflow dry run on two boxes (Đà Nẵng, Bali) in CI; `/status` and one Bali route from the bench script.
 - Done when: staging Valhalla answers a Bali and a Kyoto route; build ≤ 60 min on the runner; serving memory recorded.
-- Status: in progress — pipeline and image in f7e89f6aa (dry run green on Đà Nẵng + Bali); staging service after the first publish
+- Status: in progress — pipeline and image in 21fcc2321 (#599; dry run green on Đà Nẵng + Bali); first publish run and the staging `valhalla` service pending
 
 ### T3 — Planning routing provider, route cache, modes
 - Goal: storable travel minutes for planning, Mapbox untouched for live ETAs.
@@ -97,7 +97,7 @@ Reuse / extend / new: reuse `RoutingProvider`, `estimateStraightLineEta`, the sp
 - Steps: 1. Purpose-typed providers so a `planning` caller cannot receive a Mapbox result (type-level `storable: true`). 2. Read-through cache. 3. Mode rule (walk ≤ 1.2 km and ≤ 15 min; driver when assigned; else drive) × `drive_factor`. 4. Straight-line fallback marked `approx`.
 - Tests: `pnpm --filter @cp/api test -- routing/planning-provider routing/route-cache`; `pnpm test:remote @cp/api -- routing/route-cache.db`
 - Done when: a test asserts no code path writes a Mapbox result to `route_cache`, `plan_legs` or any table (provider type + grep test over `services/**` for the Mapbox client in planning modules).
-- Status: done — 51ece7056, 1ee615564
+- Status: done — 21fcc2321 (#599)
 
 ### T4 — The trip's stay
 - Goal: "from the villa" has a real anchor.
@@ -105,7 +105,7 @@ Reuse / extend / new: reuse `RoutingProvider`, `estimateStraightLineEta`, the sp
 - Steps: 1. `tripStay` per night (booked stay point → plan stay item → setup area). 2. Replace the `resolveTripLodging` stub so place detail's lodging ETA runs. 3. Export for fit (phase 4) and legs.
 - Tests: `pnpm test:remote @cp/api -- planning/stay.db` (booked stay wins; two stays across nights; none → null)
 - Done when: `GET /v1/places/{id}?trip_id` returns a lodging ETA for a trip with a booked stay.
-- Status: done — c434b631a
+- Status: done — 21fcc2321 (#599); query shared from `@cp/db` in #602
 
 ### T5 — Legs per plan version
 - Goal: `plan_legs` for crew and draft versions, synced and offline.
@@ -113,7 +113,7 @@ Reuse / extend / new: reuse `RoutingProvider`, `estimateStraightLineEta`, the sp
 - Steps: 1. Event hook (api and worker) on the four events → `plan.legs` singleton per trip. 2. Order stops per day by `starts_at`, pairs incl. stay; batch matrix per day; write rows for the version; keep rows of older versions until the version is superseded (stream shows the version the phone reads). 3. Emit `plan.legs_updated` + `legs.updated` hint. 4. Backfill command for trips in planning/pre/in phases.
 - Tests: `pnpm test:remote @cp/worker -- planning/legs.db` (pairs incl. stay, attendee subsets ignored for order, approx fallback, idempotent replay)
 - Done when: on staging, an edit writes legs within 60 s p95 and both phones show them in airplane mode.
-- Status: todo
+- Status: done — #602 (worker job, api and worker hooks, backfill, route_cache retention); staging timing and airplane-mode check after `VALHALLA_URL` and the backfill
 
 ### T6 — Wire travel into fit, AI and the existing Valhalla users
 - Goal: one planning travel source everywhere.
@@ -121,7 +121,7 @@ Reuse / extend / new: reuse `RoutingProvider`, `estimateStraightLineEta`, the sp
 - Steps: 1. `route_eta` executor for C/D callers. 2. Fit context reads `plan_legs` for stop pairs and the planning provider for place insertions (replacing phase 4's straight-line source). 3. Live map, SOS responder ETA and recap use the shared client (each only after its full-build phase is done).
 - Tests: `pnpm --filter @cp/ai eval -- guide` (route_eta cases); `pnpm --filter @cp/api test -- planning/fit` (travel source)
 - Done when: the guide answers "how long from the villa to X" with planning minutes; fit uses stored legs when present.
-- Status: todo
+- Status: in progress — #602: `route_eta` on planning travel, live map / recap / SOS on the shared client; fit context reads stored legs once phase 4 lands
 
 ## If the founder picks another option
 
