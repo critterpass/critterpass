@@ -1,6 +1,7 @@
 import { defineConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
 
+import { exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
 import { localeCodes, sourceLocale } from './src/locales';
 
 /**
@@ -155,87 +156,6 @@ const pingSources = [
   `${repoRootPrefix}/apps/mobile/src/features/you/ping-settings/**`,
   `${repoRootPrefix}/apps/mobile/src/app/you/pings.tsx`,
 ];
-
-// The explore area keeps one nested catalog per surface (`explore/<sub>`), so the explore and
-// planning lanes never extract into the same file: the destination guide, a place, the map, swipe
-// together, saved places, Explore home and sponsored picks (split by file, the area's code being
-// flat), and the section 7 folders: places map and list, search, crew split, explore in a trip.
-const exploreRoot = `${repoRootPrefix}/apps/mobile/src/features/explore`;
-const exploreApp = `${repoRootPrefix}/apps/mobile/src/app/explore`;
-const exploreSubAreas = {
-  destination: [
-    `${exploreRoot}/{destination-model,guide-copy}.ts`,
-    `${exploreRoot}/components/{dest-hero,destination-actions,destination-view,month-bars,month-panel,picks-row,crowd-chart}.tsx`,
-    `${exploreRoot}/screens/destination-screen.tsx`,
-    `${exploreRoot}/data/use-explore-destination.ts`,
-    `${exploreRoot}/dev/destination-scenes.tsx`,
-    `${exploreApp}/*destination*.tsx`,
-  ],
-  place: [
-    `${exploreRoot}/place-*.ts`,
-    `${exploreRoot}/components/{place-live-details,place-view,add-to-day-button,crew-row,save-button,supplier-card,why-this-sheet,generic-photo-label}.tsx`,
-    `${exploreRoot}/screens/place-screen.tsx`,
-    `${exploreRoot}/data/{use-place-context,use-place-live}.ts`,
-    `${exploreRoot}/hooks/{use-add-to-day,use-place-photos,use-saved-place}.ts`,
-    `${exploreRoot}/dev/{place-scenes.tsx,lab-place-media.ts}`,
-    `${exploreApp}/place/**`,
-  ],
-  map: [
-    `${exploreRoot}/map-*.ts`,
-    `${exploreRoot}/components/{explore-map-canvas,explore-map-view,doodle-pin,pin-cluster,guide-sprite,place-carousel,region-pack-card,filter-chips}.tsx`,
-    `${exploreRoot}/screens/{explore-map-screen,explore-list-screen}.tsx`,
-    `${exploreRoot}/data/use-offline-pack.ts`,
-    `${exploreRoot}/hooks/use-my-position.ts`,
-    `${exploreRoot}/dev/map-scenes.tsx`,
-    `${exploreApp}/map.tsx`,
-  ],
-  swipe: [
-    `${exploreRoot}/swipe-*.ts`,
-    `${exploreRoot}/components/{swipe-card,swipe-controls,swipe-view,deck-summary,match-stamp}.tsx`,
-    `${exploreRoot}/screens/swipe-screen.tsx`,
-    `${exploreRoot}/hooks/use-swipe-session.ts`,
-    `${exploreRoot}/dev/swipe-scenes.tsx`,
-  ],
-  saved: [
-    `${exploreRoot}/saved-*.{ts,tsx}`,
-    `${exploreRoot}/components/{saved-list-editor,saved-view}.tsx`,
-    `${exploreRoot}/screens/saved-screen.tsx`,
-    `${exploreRoot}/dev/saved-scenes.tsx`,
-    `${exploreApp}/saved.tsx`,
-  ],
-  home: [
-    `${exploreRoot}/home-model.ts`,
-    `${exploreRoot}/components/explore-home-view.tsx`,
-    `${exploreRoot}/screens/explore-home-screen.tsx`,
-    `${exploreApp}/index.tsx`,
-  ],
-  sponsored: [
-    `${exploreRoot}/sponsored-model.ts`,
-    `${exploreRoot}/components/{sponsored-card,why-sponsored-sheet}.tsx`,
-    `${exploreRoot}/screens/why-sponsored-screen.tsx`,
-    `${exploreRoot}/data/use-sponsored-slot.ts`,
-    `${exploreRoot}/hooks/use-sponsored-events.ts`,
-    `${exploreApp}/why-sponsored.tsx`,
-  ],
-  places: [`${exploreRoot}/places/**`],
-  search: [`${exploreRoot}/search/**`],
-  split: [`${exploreRoot}/split/**`],
-  'trip-explore': [`${exploreRoot}/trip-explore/**`],
-} as const;
-
-// The section 7 planning kit keeps its own catalogs: `planning/kit` for the shared planning
-// components, the map sheet and the planning map layers, `planning/fit` for the lines that say when
-// a place fits, so the planning lanes never extract into `common`.
-const mobileRoot = `${repoRootPrefix}/apps/mobile/src`;
-const planningCatalogs = {
-  kit: [
-    `${mobileRoot}/ui/planning/**`,
-    `${mobileRoot}/ui/map/planning/**`,
-    `${mobileRoot}/ui/sheet/map-sheet.tsx`,
-    `${mobileRoot}/app/(dev)/planning-map-lab.tsx`,
-  ],
-  fit: [`${mobileRoot}/data/fit/**`],
-} as const;
 
 const notificationSources = [
   {
