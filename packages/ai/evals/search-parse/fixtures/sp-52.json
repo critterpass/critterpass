@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 713,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "658f7d6b-b128-4f52-9362-8b2af9c7d2ad",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"text\":\"heo quay babi guling\",\"categories\":[\"food\"],\"meal\":null,\"attributes\":[],\"open_past\":null,\"near\":null,\"exclude_days\":[],\"price_max\":null}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 203,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 48,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

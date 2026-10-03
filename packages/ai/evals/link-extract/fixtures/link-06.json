@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 1154,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "31128d61-8f63-45c4-afcb-b9113aba80af",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Hải sản Bé Mặn\",\"kind_hint\":\"food\",\"area_hint\":\"Mỹ Khê\",\"quote\":\"Ăn gì ở Đà Nẵng? 🦀 Hải sản Bé Mặn ở Mỹ Khê, bún chả cá Bà Lữ, chè Liên.\"},{\"label\":\"bún chả cá Bà Lữ\",\"kind_hint\":\"food\",\"area_hint\":null,\"quote\":\"Ăn gì ở Đà Nẵng? 🦀 Hải sản Bé Mặn ở Mỹ Khê, bún chả cá Bà Lữ, chè Liên.\"},{\"label\":\"chè Liên\",\"kind_hint\":\"food\",\"area_hint\":null,\"quote\":\"Ăn gì ở Đà Nẵng? 🦀 Hải sản Bé Mặn ở Mỹ Khê, bún chả cá Bà Lữ, chè Liên.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 375,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 224,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

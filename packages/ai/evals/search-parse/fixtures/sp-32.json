@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 970,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "1877fdc2-8172-4001-8d71-50c83a9f8642",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"text\":\"mì Quảng\",\"categories\":[],\"meal\":null,\"attributes\":[],\"open_past\":null,\"near\":null,\"exclude_days\":[],\"price_max\":null}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 175,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 42,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -17,6 +17,11 @@
  * Jev (https://docs.typesafe.ai/models, read 2026-09-27): $0.042 per MTok input, output free, no
  * cache pricing or peak hours, so a decision call costs its input tokens only.
  *
+ * Gemini 3.8 Flash (https://ai.google.dev/gemini-api/docs/pricing, read 2026-10-04), the vision
+ * fallback, per million tokens of text, image or video: $0.75 input, $0.075 cached input, $3.75
+ * output (thinking included) through 2026-12-31, then $1.50 / $0.15 / $7.50 from 2027-01-01. No
+ * peak hours.
+ *
  * A rate of N USD/MTok is N micros per token, so rates are stored as micros per million tokens and
  * divided once at the end to keep the arithmetic integral.
  */
@@ -50,7 +55,16 @@ export const PRICES: Readonly<Record<AiTier, TierPrice>> = {
     peak: { input: 1_320_000, cacheRead: 44_000, output: 3_960_000 },
   },
   jev: flat({ input: 42_000, cacheRead: 0, output: 0 }),
+  gemini: flat({ input: 750_000, cacheRead: 75_000, output: 3_750_000 }),
 };
+
+/** Gemini's price from 2027-01-01 (UTC), double the launch rate. */
+export const GEMINI_PRICE_FROM_2027: TierPrice = flat({
+  input: 1_500_000,
+  cacheRead: 150_000,
+  output: 7_500_000,
+});
+const GEMINI_2027 = Date.UTC(2027, 0, 1);
 
 /** UTC hour ranges `[from, to)` billed at the peak rate, Monday to Friday. */
 export const PEAK_WINDOWS_UTC: readonly (readonly [number, number])[] = [
@@ -77,7 +91,9 @@ export interface TokenUsage {
 }
 
 export function computeCostMicros(tier: AiTier, usage: TokenUsage, at: Date): number {
-  const price = isPeakTime(at) ? PRICES[tier].peak : PRICES[tier].offPeak;
+  const tierPrice =
+    tier === 'gemini' && at.getTime() >= GEMINI_2027 ? GEMINI_PRICE_FROM_2027 : PRICES[tier];
+  const price = isPeakTime(at) ? tierPrice.peak : tierPrice.offPeak;
   const weighted =
     (usage.inputTokens + usage.cacheWriteTokens) * price.input +
     usage.cacheReadTokens * price.cacheRead +

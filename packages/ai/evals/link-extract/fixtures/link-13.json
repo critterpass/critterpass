@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 934,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "2d1ff646-d984-4381-a866-cd55fcc81f6a",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Bà Nà Hills\",\"kind_hint\":\"other\",\"area_hint\":null,\"quote\":\"Bà Nà Hills\"},{\"label\":\"Chợ Hàn\",\"kind_hint\":\"market\",\"area_hint\":null,\"quote\":\"Chợ Hàn\"},{\"label\":\"Cầu Rồng\",\"kind_hint\":\"other\",\"area_hint\":null,\"quote\":\"Cầu Rồng\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 365,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 97,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}
