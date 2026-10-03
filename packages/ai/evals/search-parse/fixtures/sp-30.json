@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 635,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "55ffda52-06e5-4d02-b1b2-eba58bb469fb",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"text\":\"\",\"categories\":[\"food\"],\"meal\":null,\"attributes\":[\"vegetarian\"],\"open_past\":null,\"near\":null,\"exclude_days\":[],\"price_max\":null}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 173,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 43,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

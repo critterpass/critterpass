@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 1229,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "ce7eb377-4a41-4a91-9126-882cb3ea4fd6",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Chùa Eikan-dō\",\"kind_hint\":\"temple_shrine\",\"area_hint\":null,\"quote\":\"Kyoto mùa thu 🍁 Chùa Eikan-dō đẹp nhất, sau đó đi bộ dọc Philosopher’s Path.\"},{\"label\":\"Philosopher’s Path\",\"kind_hint\":\"nature\",\"area_hint\":null,\"quote\":\"Kyoto mùa thu 🍁 Chùa Eikan-dō đẹp nhất, sau đó đi bộ dọc Philosopher’s Path.\"},{\"label\":\"Pontocho Robin\",\"kind_hint\":\"food\",\"area_hint\":\"Pontocho\",\"quote\":\"Ăn tối ở Pontocho Robin.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 341,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 166,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

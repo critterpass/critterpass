@@ -10,6 +10,7 @@ import {
   bestWindow,
   DomainError,
   hoursSchema,
+  pickCrowdCurve,
   WEEKDAYS,
   type BestWindow,
   type SeasonColourRole,
@@ -71,12 +72,21 @@ export async function readCrowds(
   ).rows[0];
   if (poi === undefined) throw new DomainError('NOT_FOUND');
 
-  const pattern = (
-    await tx.query<{ hourly: number[]; source: string; fetched_at: Date }>(
-      'SELECT hourly, source, fetched_at FROM crowd_forecasts WHERE poi_id = $1 AND dow = $2',
-      [poiId, dayOfWeek(date)],
-    )
-  ).rows[0];
+  const pattern =
+    pickCrowdCurve(
+      (
+        await tx.query<{
+          hourly: number[];
+          source: string;
+          fetched_at: Date;
+          approved_at: Date | null;
+        }>(
+          `SELECT hourly, source, fetched_at, approved_at FROM crowd_forecasts
+            WHERE poi_id = $1 AND dow = $2`,
+          [poiId, dayOfWeek(date)],
+        )
+      ).rows,
+    ) ?? undefined;
 
   const curveRows =
     poi.destination_id === null

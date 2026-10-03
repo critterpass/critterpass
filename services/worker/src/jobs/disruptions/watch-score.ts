@@ -8,6 +8,7 @@ import {
   CENTROID_POINT_KEY,
   gridPointKey,
   isMarineCategory,
+  pickCrowdCurve,
   toLocalWallTime,
   type WatchStatus,
 } from '@cp/domain';
@@ -126,10 +127,15 @@ async function crowdAt(
   const local = toLocalWallTime(at, tz);
   const dow = new Date(`${local.date}T00:00:00Z`).getUTCDay();
   const hour = Number(local.time.slice(0, 2));
-  const { rows } = await tx.query<{ level: number | null }>(
-    `SELECT hourly[$3 + 1]::int AS level FROM crowd_forecasts
-      WHERE poi_id = $1 AND dow = $2 AND fetched_at > now() - interval '90 days'`,
+  const { rows } = await tx.query<{
+    level: number | null;
+    source: string;
+    approved_at: Date | null;
+  }>(
+    `SELECT hourly[$3 + 1]::int AS level, source, approved_at FROM crowd_forecasts
+      WHERE poi_id = $1 AND dow = $2
+        AND (source = 'editorial' OR fetched_at > now() - interval '90 days')`,
     [poiId, dow, hour],
   );
-  return rows[0]?.level ?? null;
+  return pickCrowdCurve(rows)?.level ?? null;
 }

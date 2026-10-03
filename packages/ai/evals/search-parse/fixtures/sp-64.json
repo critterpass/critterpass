@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 1068,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "37b7ffa5-fc00-4ad5-82f5-25d26a3de8cc",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"text\":\"bánh mì\",\"categories\":[\"food\"],\"meal\":null,\"attributes\":[],\"open_past\":null,\"near\":{\"from\":\"stay\",\"ref\":null,\"minutes\":15},\"exclude_days\":[],\"price_max\":null}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 182,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 896,
+          "output_tokens": 56,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

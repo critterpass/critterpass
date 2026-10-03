@@ -1,0 +1,35 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 14548,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "1fa596fd-2f84-476d-a7e6-22534e1762c4",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-v4-pro",
+        "content": [
+          {
+            "type": "thinking",
+            "thinking": "We need answer in JSON only. Need pick two candidate_ids where both halves get something. Stances: Ken wants it (sunrise), Mio wants it (before tour buses), Sara rather not (not getting up at 5), Lee rather not no note. Candidates:\n- dawn-pair: split group, Ken and Mio go 05:30, back 08:30, rest meet at Nishiki Market at 10:00. This gives want side sunrise/early, rather-not side sleep in and meet later. Both get something. Good.\n- late-light: everyone at 16:00-18:30, quieter after 16:00, lower gates for short walk. But Ken/Mio wanted sunrise/before buses; late light may not satisfy them fully? It says quieter after 16:00, but not empty gates at sunrise. Some want side might get quieter, not sunrise. Sara not getting up at 5 satisfied. Both halves? Ken specifically empty gates at sunrise that's the shot, Mio before tour buses. late-light at 16:00 may still have some but facts say quieter after 16:00. It's a compromise but maybe not fully both. Need prefer options that answer what rather-not side wrote: Sara says not getting up at 5, Lee no note. dawn-pair answers that: they don't go at 5. late-light also answers that. Need two candidates. Could choose dawn-pair and late-light? But check \"Prefer options that answer what the rather-not side wrote.\" Both answer. Also candidate all-dawn everyone up at 5 would not answer Sara, bad. So two likely dawn-pair and late-light. Need word each in my voice as Tokek. No emoji etc. titles <=20 chars? maxLength 24 in schema, but instruction title at most 20 characters? Actually says title: at most 20 characters, but JSON schema maxLength 24, follow instruction 20. Body max 140 but instruction at most 120, follow instruction 120. Need ensure.\n\nCandidate dawn-pair: title maybe \"KEEN ONES GO EARLY\" length 16? K E E N (4) space 5 O N E S 9 space 10 G O 12 space 13 E A R L Y 18. Good. Body: Ken and Mio catch sunrise at 05:30; the rest meet them at Nishiki Market at 10:00. Check times exactly \"05:30\" and \"10:00\" from candidate facts? Candidate fields start 05:30, back_by 08:30, facts \"the rest meet them at Nishiki Market at 10:00\" yes. Body mention \"Ken and Mio\" names from stances/candidate going. \"the rest\" okay. 120 chars? Count: \"Ken and Mio catch sunrise at 05:30; the rest meet them at Nishiki Market at 10:00.\" Let's count: Ken(3)+space1=4, and3=7? Need quick: \"Ken and Mio catch sunrise at 05:30; the rest meet them at Nishiki Market at 10:00.\" characters ~88 maybe okay.\n\nCandidate late-light: title \"LATE LIGHT\" length 9? Or \"SUNSET STROLL\" maybe 12. Need answer rather-not. Body: Everyone goes at 16:00; quieter after 16:00, with the lower gates only for a short walk. Check mention \"lower gates only\" from facts exactly \"the lower gates only for anyone who wants a short walk\". Could write: Everyone gets a lie-in and goes at 16:00; the lower gates only for anyone who wants a short walk. This addresses Sara. Need keep \"16:00\" exactly. Body maybe \"Everyone sleeps in and goes at 16:00; the lower gates only for anyone who wants a short walk.\" Count length likely <120. Good.\n\nNeed ensure no extra. Output JSON only. Candidate IDs exactly \"dawn-pair\" and \"late-light\". Choose order maybe dawn-pair first then late-light. Voice: add playful? But body limited; can include \"Rise and shine\" maybe but title? Need not overdo. The instructions say stay in character, warmth. Maybe titles can be in voice. \"KEEN ONES GO EARLY\" is fine. \"LATE LIGHT\" maybe less voice. Could use \"SUN WON'T WAIT\" but that's known line? They said lines use sparingly, never twice in a row. Could use one line in title/body? Better avoid known lines perhaps, but voice. Body for late-light: \"Sara and Lee, you can sleep in; everyone heads out at 16:00 for a quieter climb, lower gates only for a short walk.\" But need name only people stances name; Sara and Lee yes. But \"everyone\" includes? The candidate going everyone. Body: \"Sara and Lee keep the lie-in; everyone goes at 16:00, lower gates only for anyone who wants a short walk.\" This is good. Check \"lie-in\" word maybe okay. No emoji. Count: Sara(4)+space1=5 and3? Let's count approximate under 120.\n\nNeed ensure title <=20 characters, body <=120. Let's finalize.\n\nOption 1 candidate dawn-pair: title \"KEEN ONES GO EARLY\" body \"Ken and Mio catch sunrise at 05:30; the rest meet them at Nishiki Market at 10:00.\" Check body length: K e n space a n d space M i o space c a t c h space s u n r i s e space a t space 0 5 : 3 0 ; space t h e space r e s t space m e e t space t h e m space a t space N i s h i k i space M a r k e t space a t space 1 0 : 0 0 . Let's count: \"Ken\"3, space1=4, \"and\"3=7, space1=8, \"Mio\"3=11, space1=12, \"catch\"5=17, space1=18, \"sunrise\"7=25, space1=26, \"at\"2=28, space1=29, \"05:30\"5=34, \";\"1=35, space1=36, \"the\"3=39, space1=40, \"rest\"4=44, space1=45, \"meet\"4=49, space1=50, \"them\"4=54, space1=55, \"at\"2=57, space1=58, \"Nishiki\"7=65, space1=66, \"Market\"6=72, space1=73, \"at\"2=75, space1=76, \"10:00\"5=81, \".\"1=82. Good.\n\nOption 2 candidate late-light: title \"LATE LIGHT\" body \"Sara and Lee keep the lie-in; everyone goes at 16:00, lower gates only for anyone who wants a short walk.\" Count: Sara4 space1=5 and3 space1=9 Lee3=12 space1=13 keep4=17 space1=18 the3=21 space1=22 lie-in5=27 ;1=28 space1=29 everyone8=37 space1=38 goes4=42 space1=43 at2=45 space1=46 16:005=51 ,1=52 space1=53 lower5=58 space1=59 gates5=64 space1=65 only4=69 space1=70 for3=73 space1=74 anyone6=80 space1=81 who3=84 space1=85 wants5=90 space1=91 a1=92 space1=93 short5=98 space1=99 walk4=103 .1=104. Good.\n\nNeed ensure JSON valid. No code fences. Final.",
+            "signature": "1fa596fd-2f84-476d-a7e6-22534e1762c4"
+          },
+          {
+            "type": "text",
+            "text": "{\"options\":[{\"candidate_id\":\"dawn-pair\",\"title\":\"KEEN ONES GO EARLY\",\"body\":\"Ken and Mio catch sunrise at 05:30; the rest meet them at Nishiki Market at 10:00.\"},{\"candidate_id\":\"late-light\",\"title\":\"LATE LIGHT\",\"body\":\"Sara and Lee keep the lie-in; everyone goes at 16:00, lower gates only for anyone who wants a short walk.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 865,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 1799,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

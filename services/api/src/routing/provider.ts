@@ -5,6 +5,7 @@
  * `estimate: true` with the reason.
  */
 import type { RouteEtaInput, RouteEtaProvider, RouteEtaResult, TravelMode } from '@cp/domain';
+import type { PlanningTravel } from '@cp/suppliers';
 
 /** Why a result is an estimate (`@cp/domain` routing types). */
 export type EstimateReason = NonNullable<RouteEtaResult['estimateReason']>;
@@ -55,4 +56,15 @@ export interface LeaveByResult {
 export interface RoutingProvider extends RouteEtaProvider {
   matrix(input: MatrixInput): Promise<MatrixResult>;
   leaveBy(input: LeaveByInput): Promise<LeaveByResult>;
+}
+
+/**
+ * Routing by purpose. `live` answers a person looking now (Mapbox with traffic when configured):
+ * shown and dropped, never stored. `planning` answers what plans keep, sync and reuse in jobs
+ * (`planning-provider.ts`: Valhalla or straight-line, never a Navigation API). A planning caller
+ * takes `planning`, whose results carry `storable: true` and no Mapbox source.
+ */
+export interface RoutingByPurpose {
+  readonly live: RoutingProvider;
+  readonly planning: PlanningTravel;
 }
