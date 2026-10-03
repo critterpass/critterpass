@@ -29,9 +29,11 @@ export function placeTags(facts: PlaceTagFacts): string[] {
 
 export interface PlaceMetaFacts {
   readonly category: string;
-  /** 0 is free; unknown says nothing. */
+  /** 0 is free, 1–4 the price tier; unknown says nothing. */
   readonly priceLevel: number | null;
   readonly open: OpenState;
+  /** A place that has shut for good says so instead of its hours. */
+  readonly closedPermanently?: boolean;
   /** Minutes on foot from the trip's stay, when there is a trip with one. */
   readonly stayMinutes: number | null;
 }
@@ -39,7 +41,13 @@ export interface PlaceMetaFacts {
 export function placeMeta(facts: PlaceMetaFacts): string[] {
   const parts = [categoryLabel(facts.category)];
   if (facts.priceLevel === 0) parts.push(t({ id: 'explore.place.free', message: 'free' }));
-  if (facts.open === 'always') parts.push(t({ id: 'explore.place.open24', message: 'open 24h' }));
+  else if (facts.priceLevel !== null && facts.priceLevel >= 1 && facts.priceLevel <= 4) {
+    parts.push('$'.repeat(Math.round(facts.priceLevel)));
+  }
+  if (facts.closedPermanently === true) {
+    parts.push(t({ id: 'explore.place.closedForGood', message: 'closed permanently' }));
+  } else if (facts.open === 'always')
+    parts.push(t({ id: 'explore.place.open24', message: 'open 24h' }));
   else if (facts.open === 'open')
     parts.push(t({ id: 'explore.place.openNow', message: 'open now' }));
   else if (facts.open === 'closed')

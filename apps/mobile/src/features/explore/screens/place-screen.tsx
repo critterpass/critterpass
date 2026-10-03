@@ -25,6 +25,7 @@ import { PlaceView } from '../components/place-view';
 import { guideWritten } from '../data/guide-text';
 import { useExploreStream } from '../data/use-explore-stream';
 import { usePlaceContext } from '../data/use-place-context';
+import { usePlaceLive } from '../data/use-place-live';
 import { guideFor, poiSubject } from '../format';
 import { useAddToDay } from '../hooks/use-add-to-day';
 import { useSavedPlace } from '../hooks/use-saved-place';
@@ -38,6 +39,7 @@ import {
   pageDate,
   windowHours,
 } from '../place-model';
+import { liveFacts } from '../place-live';
 import { usePlaceTip, usePoi, useTripCrew, useTripFacts } from '../place-queries';
 import { exploreRoutes } from '../routes';
 
@@ -76,7 +78,8 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
   const today = toLocalWallTime(now, tz ?? 'UTC');
   const date = pageDate(context, today.date);
   const crowds = dataOf(useCrowds({ poiId: row === null ? null : placeId, date }));
-  const hours = useMemo(() => parseJson(row?.hours), [row?.hours]);
+  const live = usePlaceLive(row === null ? null : placeId);
+  const ownHours = useMemo(() => parseJson(row?.hours), [row?.hours]);
   const editorial = useMemo(
     () => parseJson(row?.editorial) as { why_go?: unknown; must_see?: unknown } | null,
     [row?.editorial],
@@ -86,6 +89,16 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
   const guide = guideFor(row?.guide_slug);
   const { saved, toggle } = useSavedPlace(row === null ? null : placeId, 'poi', name);
   const photo = heroAt(useSubjectMedia(row === null ? null : poiSubject(placeId)).items);
+  const pageFacts = useMemo(
+    () =>
+      liveFacts(live, {
+        hours: ownHours,
+        priceLevel: row?.price_level ?? null,
+        hasPhoto: photo !== null,
+      }),
+    [live, ownHours, row?.price_level, photo],
+  );
+  const hours = pageFacts.hours;
   const adding = useAddToDay({
     context,
     place:
@@ -201,6 +214,8 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
       category={row.category}
       guide={guide}
       photo={photo}
+      heroUrl={pageFacts.heroUrl}
+      live={pageFacts.details}
       tags={placeTags({
         guideName: guide.name,
         guidePick: editorial?.must_see === true,
@@ -208,8 +223,14 @@ export function PlaceScreen({ placeId, destinationId, tripId }: PlaceScreenProps
       })}
       meta={placeMeta({
         category: row.category,
-        priceLevel: row.price_level,
-        open: openState(hours, tz, now),
+        priceLevel: pageFacts.priceLevel,
+        open:
+          pageFacts.openNow === null
+            ? openState(hours, tz, now)
+            : pageFacts.openNow
+              ? 'open'
+              : 'closed',
+        closedPermanently: pageFacts.closedPermanently,
         stayMinutes: context?.stay?.minutes ?? null,
       })}
       offline={offline}
