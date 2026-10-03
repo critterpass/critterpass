@@ -13,7 +13,7 @@ import type { WebResult } from '../../tools/web-search';
 import { HOURS_RESEARCH_FORMAT } from './schema';
 
 export const HOURS_RESEARCH_ROUTE = 'hours.research' as const;
-export const HOURS_RESEARCH_PROMPT_VERSION = 'hours-research@1';
+export const HOURS_RESEARCH_PROMPT_VERSION = 'hours-research@2';
 
 export interface HoursResearchPlace {
   readonly name: string;
@@ -49,6 +49,10 @@ const TASK = [
   '- A span runs from opening to closing time: when a page gives a last entry or last order',
   '  before closing ("8:45-17:00, last entry 16:00"), the span ends at closing (17:00).',
   '- source_url is the one result URL whose text states every time you give.',
+  '- When a page lists several branches or sections, use only the lines for this place (its name',
+  "  and address), never another branch's hours or a garden, palace or shop inside it.",
+  '- Open a day only when the text says so: it names the day, says daily, or names the closing',
+  '  days. Hours without days ("Open 9:00-17:00") are not enough; decline.',
   '- Days the page says are closed get an empty list. Two openings in one day (a lunch break) are',
   '  two spans. A span past midnight ends at its closing time on the next day ("18:00"-"02:00").',
   '- always_open is true only when a result says the place is open 24 hours every day; then give',

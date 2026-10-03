@@ -1,6 +1,6 @@
 {
   "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
-  "recorded_at": "2026-10-03T15:07:20.652Z",
+  "recorded_at": "2026-10-03T16:15:47.671Z",
   "search": {
     "status": 200,
     "body": {
@@ -16,7 +16,7 @@
           "score": 0.91988057,
           "raw_content": null,
           "published_date": "Thu, 27 Jun 2024 20:25:19 GMT",
-          "id": "1de449-00"
+          "id": "268aaa-00"
         },
         {
           "url": "https://nijo-jocastle.city.kyoto.lg.jp/guide/annai",
@@ -25,7 +25,7 @@
           "score": 0.9061314,
           "raw_content": null,
           "published_date": null,
-          "id": "0828e9-01"
+          "id": "aef8a3-01"
         },
         {
           "url": "https://kyotopian.com/ktp/map/spots/nijojo.html",
@@ -34,7 +34,7 @@
           "score": 0.86136365,
           "raw_content": null,
           "published_date": null,
-          "id": "905e24-02"
+          "id": "b14bb5-02"
         },
         {
           "url": "https://nijo-jocastle.city.kyoto.lg.jp",
@@ -43,7 +43,7 @@
           "score": 0.7915799,
           "raw_content": null,
           "published_date": "Thu, 01 Oct 2026 07:00:00 GMT",
-          "id": "22d59e-03"
+          "id": "735aa4-03"
         },
         {
           "url": "https://www.japan-guide.com/e/e3918.html",
@@ -52,33 +52,33 @@
           "score": 0.7644879,
           "raw_content": null,
           "published_date": "Thu, 12 Feb 2026 00:00:00 GMT",
-          "id": "eae025-04"
+          "id": "fa7854-04"
         }
       ],
       "response_time": 0,
-      "request_id": "af60875e-3096-4af6-93a0-b8c8f6984fe6"
+      "request_id": "7f96d69f-a6c8-48cf-aa07-f50710a689e0"
     }
   },
   "model": {
     "status": 200,
     "body": {
-      "id": "94056491-8fbc-41e3-9d8a-8fc92cfba4b0",
+      "id": "fadb0388-f4b1-4b80-b769-4a8d1172cd25",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "{\"decision\":\"propose\",\"reason\":\"Multiple results state the castle is open daily 8:45-17:00 with last entry at 16:00, closed December 29-31.\",\"source_url\":\"https://nijo-jocastle.city.kyoto.lg.jp/guide/annai\",\"confidence\":0.9,\"always_open\":false,\"weekly\":{\"mo\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"tu\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"we\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"th\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"fr\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"sa\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"su\":[{\"start\":\"08:45\",\"end\":\"17:00\"}]}}"
+          "text": "{\"decision\":\"propose\",\"reason\":\"The official Nijo-jo Castle page states opening hours 8:45-16:00 (castle closes 17:00) and closed December 29-31, with no day-of-week variation for the castle itself.\",\"source_url\":\"https://nijo-jocastle.city.kyoto.lg.jp\",\"confidence\":0.8,\"always_open\":false,\"weekly\":{\"mo\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"tu\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"we\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"th\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"fr\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"sa\":[{\"start\":\"08:45\",\"end\":\"17:00\"}],\"su\":[{\"start\":\"08:45\",\"end\":\"17:00\"}]}}"
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 3429,
+        "input_tokens": 3388,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 896,
-        "output_tokens": 191,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 200,
         "service_tier": "standard"
       }
     }

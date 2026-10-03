@@ -1,6 +1,6 @@
 {
   "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
-  "recorded_at": "2026-10-03T15:07:22.631Z",
+  "recorded_at": "2026-10-03T16:15:49.192Z",
   "search": {
     "status": 200,
     "body": {
@@ -16,7 +16,7 @@
           "score": 0.8506799,
           "raw_content": null,
           "published_date": "Thu, 30 Jul 2026 14:07:52 GMT",
-          "id": "d504c2-00"
+          "id": "d6ef0f-00"
         },
         {
           "url": "https://www.travelcaffeine.com/fushimi-inari-shrine-night-kyoto",
@@ -25,7 +25,7 @@
           "score": 0.82220376,
           "raw_content": null,
           "published_date": "Fri, 22 Dec 2023 17:00:29 GMT",
-          "id": "83129b-01"
+          "id": "36a2f8-01"
         },
         {
           "url": "https://www.accessible-japan.com/places/japan/kyoto/kyoto/attractions/fushimi-inari-shrine",
@@ -34,7 +34,7 @@
           "score": 0.7785319,
           "raw_content": null,
           "published_date": "Fri, 07 Sep 2018 03:35:03 GMT",
-          "id": "4f142f-02"
+          "id": "25ce61-02"
         },
         {
           "url": "https://www.hikemasterjapan.com/complete-guide-to-fushimi-inari",
@@ -43,7 +43,7 @@
           "score": 0.6811549,
           "raw_content": null,
           "published_date": "Mon, 01 Dec 2025 05:35:27 GMT",
-          "id": "7cf377-03"
+          "id": "64987e-03"
         },
         {
           "url": "https://www.japan-guide.com/e/e3915.html",
@@ -52,17 +52,17 @@
           "score": 0.6530611,
           "raw_content": null,
           "published_date": "Tue, 10 Feb 2026 00:00:00 GMT",
-          "id": "0ba0f2-04"
+          "id": "376d36-04"
         }
       ],
-      "response_time": 0,
-      "request_id": "4aa4bf83-b8e1-468a-95bb-617cb56450be"
+      "response_time": 1.51,
+      "request_id": "b30256a0-6f9a-48bd-9645-122be3430fce"
     }
   },
   "model": {
     "status": 200,
     "body": {
-      "id": "4997859a-44c5-4012-b497-df600dcf3671",
+      "id": "c0bfd82d-787d-4b14-a301-0f4342209edc",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
@@ -75,9 +75,9 @@
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 2370,
+        "input_tokens": 2329,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 896,
+        "cache_read_input_tokens": 1024,
         "output_tokens": 172,
         "service_tier": "standard"
       }

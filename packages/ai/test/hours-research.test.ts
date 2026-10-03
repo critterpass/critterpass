@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { checkHoursReply, hoursResearchQuery, timesInText, type WebResult } from '../src';
+import {
+  checkHoursReply,
+  closedDays,
+  hoursResearchQuery,
+  timesInText,
+  type WebResult,
+} from '../src';
 
 const NOW = new Date('2026-10-03T12:00:00Z');
 const at = (h: number, m = 0) => h * 60 + m;
@@ -137,5 +143,37 @@ describe('hoursResearchQuery', () => {
       category: 'food',
     });
     expect(long.length).toBeLessThanOrEqual(200);
+  });
+});
+
+describe('the days a page speaks for', () => {
+  const daily = (start: string, end: string) =>
+    Object.fromEntries(
+      ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'].map((d) => [d, [{ start, end }]]),
+    );
+
+  it('reads closing days in English and Japanese, never from dates', () => {
+    expect(closedDays('Open: 9:00 - 17:00 Closed: Sundays, Irregular')).toEqual(new Set(['su']));
+    expect(closedDays('営業時間 9:00〜17:00 定休日：水・日・祝日')).toEqual(new Set(['we', 'su']));
+    expect(closedDays('定休日 毎週火曜日')).toEqual(new Set(['tu']));
+    expect(closedDays('開城時間 8時45分～16時 休城日 12月29日～12月31日')).toEqual(new Set());
+    expect(closedDays('Closed: no closing days')).toEqual(new Set());
+  });
+
+  it('declines a week the extract never states, and a day it calls closed', () => {
+    const hoursOnly = [page('Kyoto Shibori Museum. Open: 9:00 - 17:00. Admission free.')];
+    expect(checkHoursReply(reply(daily('09:00', '17:00')), hoursOnly, NOW)).toEqual({
+      ok: false,
+      reason: 'days_not_in_source',
+    });
+    const sundaysOff = [page('Open: 9:00 - 17:00 Closed: Sundays, Irregular')];
+    expect(checkHoursReply(reply(daily('09:00', '17:00')), sundaysOff, NOW)).toEqual({
+      ok: false,
+      reason: 'closed_day_opened',
+    });
+    const datesOnly = [
+      page('開城時間 午前８時４５分～午後４時（閉城午後５時） 休城日 12月29日～12月31日'),
+    ];
+    expect(checkHoursReply(reply(daily('08:45', '17:00')), datesOnly, NOW).ok).toBe(true);
   });
 });
