@@ -1,23 +1,19 @@
 appId: app.critterpass.dev
 ---
-# One lab scene from its lab's list (Android): the row ${ITEM} (looked for up the list, then down,
+# One lab scene from its lab's list (Android): the row ${ITEM} (looked for down the list, then up,
 # since the list keeps its place), the scene ready on ${READY}, the screenshot ${SHOT}, and back to
 # the list.
-- runFlow:
-    when:
-      notVisible:
-        id: '${ITEM}'
-    commands:
-      - scrollUntilVisible:
-          element:
-            id: '${ITEM}'
-          direction: UP
-          timeout: 10000
-          optional: true
 - scrollUntilVisible:
     element:
       id: '${ITEM}'
     direction: DOWN
+    centerElement: true
+    timeout: 20000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: '${ITEM}'
+    direction: UP
     centerElement: true
     timeout: 20000
 - tapOn:
