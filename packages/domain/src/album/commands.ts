@@ -23,7 +23,7 @@ export const registerPhotoPayloadSchema = z.strictObject({
   width: z.int().positive().max(20_000).optional(),
   height: z.int().positive().max(20_000).optional(),
   quality: photoQualitySchema.optional(),
-  /** The device removed the GPS tags before upload (C25); the server checks again. */
+  /** The device removed the GPS tags before upload; the server checks again. */
   exif_gps_stripped: z.boolean().default(false),
   faces_opt_in: z.boolean().default(false),
 });
