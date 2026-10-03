@@ -130,9 +130,18 @@ function optionOf(
   };
 }
 
+/**
+ * The split view. With `optionIds` (posting a decision), the options are exactly those, from the
+ * cache when it still holds them, else rebuilt by code and worded from templates without a model
+ * call; an id no candidate has is left out.
+ */
 export async function readSplit(
   tx: pg.PoolClient,
-  input: { readonly tripId: string; readonly poiId: string },
+  input: {
+    readonly tripId: string;
+    readonly poiId: string;
+    readonly optionIds?: readonly string[];
+  },
   deps: SplitDeps,
 ): Promise<SplitView> {
   const trip = await tripFitFacts(tx, input.tripId);
@@ -156,7 +165,10 @@ export async function readSplit(
     locale: facts.locale,
   });
   const cached = await readCached<SplitOption[]>(deps.redis, key);
-  if (cached !== null) return { ...view, options: cached };
+  const wanted = input.optionIds;
+  if (cached !== null && wanted === undefined) return { ...view, options: cached };
+  const hits = wanted?.flatMap((id) => cached?.filter((o) => o.option_id === id) ?? []) ?? [];
+  if (wanted !== undefined && hits.length === wanted.length) return { ...view, options: hits };
   const candidates = await buildCandidates(tx, {
     tripId: trip.id,
     destinationId: trip.destinationId,
@@ -165,6 +177,15 @@ export async function readSplit(
     people: { crew, want: summary.want, names: facts.names },
   });
   const byId = new Map(candidates.map((candidate) => [candidate.id, candidate]));
+  if (wanted !== undefined) {
+    const picked = wanted.flatMap((id) => {
+      const candidate = byId.get(id);
+      return candidate === undefined
+        ? []
+        : [optionOf(candidate, templateWords(candidate, facts.locale), 'template')];
+    });
+    return { ...view, options: picked };
+  }
   const worded =
     deps.gateway !== undefined && candidates.length >= 2 && (await underFairUse(tx))
       ? await writePlaceCompromise(
