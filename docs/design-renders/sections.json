@@ -2,8 +2,8 @@
  "3a": "Onboarding. The first thing you make is your pass. New here (3a-1 to 3a-9, about 45 seconds): name, a guide as your photo, this or that, home base, all filling in a passport page that’s issued and stamped before we ask for an account, a phone sign-in if you skip Apple and Google, then permissions with a live demo. Invited (3a-10 to 3a-13, about 15 seconds): a crew ticket with your name on it, or a typed code, a pass in three taps with what the inviter knows prefilled, and the crew manifest.",
  "3b": "Home. A first-run board of guides, then the everyday home: the trip coming up, the argument about the next one, and an inbox of things that need you, including what it looks like once nothing does. Once two places are left, Home shows the final. Somewhere else plans a place no guide lives in yet.",
  "3c": "Next trip: vote and setup. A place wins, then dates (and what happens when no week fits), budget, rooms and must-dos. The guide drafts the plan and you check it before anyone else sees it. Each person adds their must-do from a prompt, and any day of the draft can go back to Pon.",
- "3d": "Explore. Destination guides, swiping as a group, place pages with crowd forecasts, and a map your guide walks around.",
- "3e": "Plan. The trip day by day, a drag-to-plan day view, and a review step for every change the guide proposes.",
+ "3d": "Explore. Replaced by section 7.",
+ "3e": "Plan. Replaced by section 7.",
  "3f": "Proposal. The organiser builds it, each friend gets their own version, and replies are tracked with the guide suggesting nudges. A maybe gets a private word with the guide, and a dropout gets the plan re-split around them.",
  "3g": "Crew. A group chat the guide lives in, and live voting with cursors and comments. The crew pill on Home opens the chat, the crew name switches crews, and during a trip the chat’s MAP shows where everyone is.",
  "3h": "Bookings and getting around. One wallet for every booking, imports from email, and rides with a phrase card for the driver.",
@@ -34,5 +34,14 @@
  "6h": "Claim page (web). Where the driver confirms his details and consents (6h-1). He can pause or remove the listing from the same link (6h-2).",
  "6i": "Share with your driver. A second tab on the plan’s SHARE sheet: link, WhatsApp, PDF, expiry and revoke (6i-1).",
  "6j": "Driver plan page (web). No login, built for a cheap Android. Day by day with pickup pins (6j-1). The driver can quote, reorder and add tips (6j-2). Includes the switched-off link (6j-3).",
- "6k": "Driver replied. The quote and changes arrive as a proposal on the existing approval poll (6k-1)."
+ "6k": "Driver replied. The quote and changes arrive as a proposal on the existing approval poll (6k-1).",
+ "7a": "Trip map. Every place the crew cares about on one map, with a sheet that runs from one day (7a-2) to the whole trip with pace bars and what Tokek found (7a-3).",
+ "7b": "Day plan. The day is the home screen: a stop timeline with a live mini-map that redraws as you reorder, the map opened full with a stop strip (7b-2), and all days side by side for dragging a stop from one day to another (7b-3).",
+ "7c": "Places. The trip’s places on a map with no labels until you tap, filters that fade rather than remove, a carousel nearest first (7c-2), and the same places as a list grouped by saved, planned and Tokek’s picks, each saying when it would fit (7c-3).",
+ "7d": "Search. One field from the map, the plan or a place: plain words read back as chips you can fix (7d-2), places pulled from a pasted link into Ideas (7d-3), and no results that say what each way out would give (7d-4).",
+ "7e": "Place. A place page that says when it fits your days from hours, crowds and the plan, what is next and nearby (7e-2), and where the crew splits on it, each stance in their own words with Tokek’s compromises (7e-3).",
+ "7f": "Add to plan and Ideas. One sheet for every add, with each day marked by how well it fits, and Ideas: everything saved but not placed, dragged onto a day (7f-2).",
+ "7g": "Explore. A destination inside a trip with picks for your gaps, swiping together where matches drop into Ideas (7g-2), and the destination guide outside a trip (7g-3).",
+ "7h": "Plan check. Runs whenever the plan changes and deals in problems worst first, each with its fixer: fill a gap, less driving, rain and crowds, balance the crew (7h-2 to 7h-5), placing ideas for you (7h-6), and every change reviewed before the crew votes on it (7h-7).",
+ "7i": "Empty and offline. A trip with nothing saved yet and the ways in (7i-1), and a day with no signal where search falls back to what is saved and questions wait for the first bar (7i-2)."
 }
