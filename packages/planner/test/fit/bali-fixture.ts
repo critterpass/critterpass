@@ -70,6 +70,7 @@ const LEGS: Readonly<Record<string, FitLeg>> = {
   [`${TERRACES}>${TIRTA_EMPUL}`]: { minutes: 75, mode: 'drive', approx: false },
   [`${COOKING}>${DINNER}`]: { minutes: 30, mode: 'drive', approx: false },
   [`${TERRACES}>${LUNCH}`]: { minutes: 5, mode: 'walk', approx: false },
+  [`${COFFEE}>${MARKET}`]: { minutes: 5, mode: 'walk', approx: false },
 };
 
 export const fixtureTravel: FitTravel = (from, to) => {

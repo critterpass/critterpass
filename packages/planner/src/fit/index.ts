@@ -156,3 +156,5 @@ export {
   type MealWindows,
   type WeatherSource,
 } from './context';
+export { dayGaps, findGaps, type DayGap } from './gaps';
+export { gapIdeas, type GapCandidate } from './gap-ideas';
