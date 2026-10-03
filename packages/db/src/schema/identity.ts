@@ -78,6 +78,8 @@ export const userSettings = pgTable('user_settings', {
   audio: jsonb('audio').notNull().default({}),
   /** ISO 4217; overrides the home airport's currency for prices (3n-8). */
   homeCurrencyOverride: text('home_currency_override'),
+  /** The signature stroke (a `media_objects` key, purpose signature) the traveller signs stamps with. */
+  signatureMediaKey: text('signature_media_key'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

@@ -4,7 +4,8 @@
  * over one draft (plan, rides, ledger, critters, visits), deals the awards and picks the best day,
  * validates the result against the `@cp/domain` recap schemas and writes it as a new version, but
  * only when something changed: a re-run over the same data bumps nothing. The first build also
- * stamps every traveller's passport with the trip.
+ * stamps every traveller's passport with the trip. Then the guide words the new version (./copy.ts),
+ * which turns the recap `ready`.
  *
  * The recap row shows progress (`queued` → `building` → `ready`), an `agent_jobs(kind=recap)` row
  * records the run, and a build whose last attempt fails leaves the recap `failed` (a re-run that
@@ -28,6 +29,7 @@ import type pg from 'pg';
 
 import { defineJob, type AnyJobDefinition } from '../../boss/define-job';
 import { recapContributors, type RecapDeps, type RecapDraft, type RecapTrip } from './contributors';
+import { writeCopyForRecap, type RecapCopyOutcome, type RecapCopyWriter } from './copy';
 import {
   changedSections,
   contentHash,
@@ -46,7 +48,13 @@ export type RecapBuildOutcome =
       readonly recap_id: string;
       readonly version: number;
       readonly bumped: boolean;
+      readonly copy: RecapCopyOutcome;
     };
+
+export interface RecapBuildDeps extends RecapDeps {
+  /** The guide's words; without it the template copy stands in. */
+  readonly writer?: RecapCopyWriter | undefined;
+}
 
 const ENDED_STATUSES = new Set(['post_trip', 'archived']);
 
@@ -180,7 +188,7 @@ const stepJson = (status: 'running' | 'done' | 'failed', error: string | null = 
 export async function buildRecap(
   pool: pg.Pool,
   job: RecapBuildJob,
-  deps: RecapDeps,
+  deps: RecapBuildDeps,
   now: Date = new Date(),
 ): Promise<RecapBuildOutcome> {
   const start = await withSystem(pool, async (tx) => {
@@ -213,7 +221,7 @@ export async function buildRecap(
       const members = await loadTravellers(tx, job.trip_id);
       const content = await aggregateRecap(tx, trip, members, deps);
       const hash = contentHash(content);
-      if (recap.status === 'ready' && recap.content_hash === hash) {
+      if (recap.version > 0 && recap.content_hash === hash) {
         await addViewers(tx, recap.id, trip.id, members);
         return { recapId: recap.id, version: recap.version, bumped: false };
       }
@@ -228,11 +236,13 @@ export async function buildRecap(
         stepJson('done'),
       ]),
     );
+    const copy = await writeCopyForRecap(pool, job.trip_id, deps.writer, now);
     return {
       outcome: 'built',
       recap_id: outcome.recapId,
       version: outcome.version,
       bumped: outcome.bumped,
+      copy,
     };
   } catch (error) {
     const message = (error instanceof Error ? error.message : String(error)).slice(0, 200);
@@ -257,7 +267,7 @@ export async function failRecap(pool: pg.Pool, tripId: string, reason: string): 
   );
 }
 
-export function recapBuildJob(deps: RecapDeps): AnyJobDefinition {
+export function recapBuildJob(deps: RecapBuildDeps): AnyJobDefinition {
   return defineJob({
     queue: RECAP_QUEUES.build,
     schema: recapBuildJobSchema,
