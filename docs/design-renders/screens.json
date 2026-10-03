@@ -1,5 +1,507 @@
 [
  {
+  "label": "7a-1 Trip map",
+  "screenText": "SAYAN\nUBUD\nTEGALLALANG\nPELIATAN\nPENESTANAN\n12\n9\n23\n1\n2\n3\n4\n2\n3\n4\n5\n1\n← JATILUWIH\n9:41\n5G\nSearch Bali, or ask Tokek\n≡ LIST\nDAY 3 · WED\nSAVED 14\nCREW PICKS\nFOOD\nTEMPLES\n1\nMON\n2\nTUE\n3\nWED\n4\nTHU\n5\nFRI\n6\nSAT\n7\nSUN\n8\nMON\nWED OCT 14 · DAY 3 OF 8\nSLOW UBUD\nM\nA\nJ\nR\nD\n5 stops · 2h40 in the car\nThree things to fix before Oct 12.\nCHECK\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Markers land collapsed and sized by how much each place matters to the crew, so 86 places read as dots, not labels. Day 3’s stops are numbered in its blue; other days sit back at half strength. Drag the sheet up for the day (7a-2), further for the whole trip (7a-3). A day chip redraws the route as a line tracing out from the villa.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "temple",
+   "food",
+   "wave",
+   "camera",
+   "spark",
+   "ticket",
+   "bed",
+   "gecko",
+   "pin",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7a-2 Trip map, one day",
+  "screenText": "12\n9\n23\n1\n2\n3\n4\n2\n4\n5\n1\n← JATILUWIH\n3\nCAMPUHAN RIDGE\nSTOP 3 · 14:00 · RAIN LIKELY\n9:41\n5G\nSearch Bali, or ask Tokek\n≡ LIST\nDAY 3 · WED\nSAVED 14\nCREW PICKS\nFOOD\nTEMPLES\nWED OCT 14 · 5 STOPS · 2H40 IN THE CAR\nSLOW UBUD\nALL DAYS\n09:00\n3H30\n1\nJATILUWIH TERRACES\nMade drives · 1h10 each way\nCAR · 1H10\n13:00\n1H\n2\nLUNCH · BIAH BIAH\n4 of 6 voted · Rp 60k each\nVOTE\nCAR · 12 MIN\n14:00\n1H30\n3\nCAMPUHAN RIDGE WALK\nRain likely 13–15\nSWAP?\nWALK · 20 MIN\n16:00\n2H\n4\nKARSA SPA\nMaya and Rin\nM\nR\n16:00\nFOUR OF YOU ARE FREE\nAlex, Jordan, Dev and you, till dinner\nFILL IT\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION The sheet settles at half and the map zooms out to fit the day above it, so Tokek’s dots step aside and only saved places and stops stay. Tapping a stop opens its marker, the only label on the map. Legs say how you get there; the dashed slot is time some of you have free. SWAP? opens the rain swap (7h-4), FILL IT the ideas for the gap (7h-2).",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "temple",
+   "food",
+   "wave",
+   "camera",
+   "spark",
+   "ticket",
+   "bed",
+   "gecko",
+   "pin",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "ping"
+  ]
+ },
+ {
+  "label": "7a-3 Trip map, all days",
+  "screenText": "BALI\n9:41\n5G\nTHE BALI SIX · OCT 12–19\nSHARE\nTHE WHOLE TRIP\n17 days to go\n3 things to fix, 2 to know.\nChecked against opening hours, drives, bookings and everyone’s saves.\nSEE\n1\nMON\nARRIVE + POOL\nMade at 11:40 · villa from 15:00\nBOOKED\n2\nTUE\nUBUD CENTRE\nCooking class · Monkey Forest · market\nCLASH\n3\nWED\nSLOW UBUD\nTerraces · ridge walk · spa\nRAIN\n4\nTHU\nBATUR SUNRISE\nPickup 03:30 · hot springs · nap\nBOOKED\n5\nFRI\nBOAT DAY\nNusa Penida or Gili T\nVOTE\n6\nSAT\nFREE DAY\nNothing yet, on purpose\n7\nSUN\nULUWATU\nTemple at sunset · kecak\nTOO FAR\n8\nMON\nFLY HOME\nOut by 11:00 · DPS 15:20\n8 saved places aren’t in a day yet\nIDEAS ›",
+  "caption": "MOTION Pulled all the way up, the sheet becomes the whole trip and the map shrinks to the island with each day’s stops as coloured dots. Pace bars fill to show how full each day is, and the flags are what Tokek found. SEE opens the plan check (7h-1). IDEAS opens what’s saved but not placed (7f-2).",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7b-1 Day plan",
+  "screenText": "9:41\n5G\n← TRIP\nALL DAYS\nSHARE\n1\nMON\n2\nTUE\n3\nWED\n4\nTHU\n5\nFRI\n6\nSAT\n7\nSUN\n8\nMON\nSLOW UBUD\nWED OCT 14\nRAIN LIKELY 13–15\n2\n3\n4\n5\n1\n← JATILUWIH\n⤢\n5 STOPS · 2H40 IN THE CAR\n09:00\n3H30\n1\nJATILUWIH TERRACES\nMade drives · 1h10 each way\nCAR · 1H10\n13:00\n1H\n2\nLUNCH · BIAH BIAH\n4 of 6 voted · Rp 60k each\nVOTE\nCAR · 12 MIN\n14:00\n1H30\n3\nCAMPUHAN RIDGE WALK\nRain likely 13–15\nRain at 1, right on the ridge. Swap it with the spa?\nSEE\nWALK · 20 MIN\n16:00\n2H\n4\nKARSA SPA\nMaya and Rin\nM\nR\n+\nAdd a place, or paste a link\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION The day is the home screen, with a live mini-map that redraws as you drag a stop up or down the timeline. Every add starts from the bar at the bottom: a name, plain words or a pasted link (7d). Tokek’s notes sit right under the stop they’re about. Tapping the mini-map opens it (7b-2); ALL DAYS zooms out (7b-3).",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "bed",
+   "gecko",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7b-2 Day plan, map open",
+  "screenText": "SAYAN\nUBUD\nTEGALLALANG\nPELIATAN\nPENESTANAN\n12\n9\n23\n1\n2\n3\n4\n2\n4\n5\n1\n← JATILUWIH\nON THE WAY · +3 MIN\n3\nCAMPUHAN RIDGE\nSTOP 3 · 14:00 · RAIN LIKELY\n9:41\n5G\n←\nWED 14 · SLOW UBUD\n▾\nSAVED 14 ✓\nTOKEK’S PICKS\nOTHER DAYS\nFOOD\n2\n13:00\nBIAH BIAH\nLunch · 4 of 6 voted\n20 MIN\n3\n14:00\nCAMPUHAN RIDGE\nRain likely 13–15\nWALK\n4\n16:00\nKARSA SPA\nMaya and Rin\n15 MIN\n5\n19:30\nLOCAVORE NXT\nTable for 6",
+  "caption": "MOTION Pulling the mini-map down fills the screen with it. The day’s stops become a strip along the bottom, and swiping the strip moves the one label from stop to stop. With SAVED on, saved places near the route say how far off it they are, like Dev’s coffee place, three minutes from the ridge.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "temple",
+   "food",
+   "wave",
+   "camera",
+   "spark",
+   "ticket",
+   "bed"
+  ],
+  "motion": [
+   "ping"
+  ]
+ },
+ {
+  "label": "7b-3 All days",
+  "screenText": "9:41\n5G\n← WED 14\nSHARE\nBALI, 8 DAYS\n3 things to fix, 2 to know.\nChecked against opening hours, drives and bookings.\nSEE\n1 · MON\nARRIVE + POOL\nMade at 11:40\nBOOKED\n2 · TUE\nUBUD CENTRE\nClass, forest\nCLASH\n3 · WED\nSLOW UBUD\nTerraces, ridge\nRAIN\n4 · THU\nBATUR SUNRISE\nPickup 03:30\nBOOKED\n5 · FRI\nBOAT DAY\nPenida or Gili T\nVOTE\nnothing yet\n6 · SAT\nFREE DAY\nIdeas fit here\n7 · SUN\nULUWATU\nSunset, kecak\nFAR\n8 · MON\nFLY HOME\nOut by 11:00",
+  "caption": "MOTION Pinching out from a day shows all eight. Each card redraws its route small, and its pace bar says how full it is. Hold a stop on one day and drag it onto another: Tokek reroutes both and shows the change before it sticks.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7c-1 Places map",
+  "screenText": "SAYAN\nUBUD\nTEGALLALANG\nPELIATAN\nPENESTANAN\n12\n9\n23\n1\n2\n3\n4\n2\n3\n4\n5\n1\n← JATILUWIH\n9:41\n5G\nSearch Bali, or ask Tokek\n≡ LIST\nALL 86\nSAVED 14\nIN THE PLAN 22\nFOOD\nTEMPLES\nWATERFALLS\n86 PLACES IN VIEW\nBiggest first: what fits your days\n≡ LIST\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION 86 places and not one label until you tap. Clusters split as you zoom in; saved icons arrive at town zoom and Tokek’s dots at street zoom. A filter fades everything else to 20% rather than removing it, so nothing jumps. Tapping a dot opens its label in place (7c-2).",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "temple",
+   "food",
+   "wave",
+   "camera",
+   "spark",
+   "ticket",
+   "bed",
+   "gecko",
+   "pin",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7c-2 Place picked",
+  "screenText": "SAYAN\nUBUD\nTEGALLALANG\nPELIATAN\nPENESTANAN\n12\n9\n1\n2\n3\n4\n2\n3\n4\n5\n7\nTIRTA EMPUL\nSAVED BY ALEX + RIN\n9:41\n5G\nSearch Bali, or ask Tokek\n≡ LIST\nALL 86\nSAVED 14\nIN THE PLAN 22\nFOOD\nTEMPLES\n1 OF 9 IN VIEW · NEAREST FIRST\n≡ LIST\nphoto\nTIRTA EMPUL\nA\nR\nWater temple · 45 min from the villa\nOpen 08:00–17:00 · Rp 75k\nFITS SAT · 08:00\n+\nphoto\nGUNUNG KAWI\nTombs cut into a ravine · 10 min on\n300 steps down · Rp 50k\nNEXT DOOR\n+\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Tapping a dot opens its label with a small pop, and the map eases so the place sits above the cards. Swiping the carousel moves the label to the next place; nearest first. + opens Add to plan (7f-1); the card opens the place (7e-1).",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "temple",
+   "food",
+   "wave",
+   "camera",
+   "spark",
+   "ticket",
+   "bed",
+   "gecko",
+   "pin",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "ping"
+  ]
+ },
+ {
+  "label": "7c-3 Places list",
+  "screenText": "9:41\n5G\nSearch Bali, or ask Tokek\n◎ MAP\nALL 86\nSAVED 14\nIN THE PLAN 22\nFOOD\nTEMPLES\nSORTED BY FIT FOR YOUR DAYS ▾\n86\nSAVED, NOT IN A DAY · 8\nTIRTA EMPUL\nWater temple · 45 min · Rp 75k\nA\nR\nFits Sat at 08:00\n+\nSENIMAN COFFEE\nCoffee roasters · 6 min from the villa\nD\nOn the way, Wed 16:00\n+\nPURA LEMPUYANG\nGates of Heaven · 2h20 · photo queue\nM\nJ\nThe crew is split 2–2\nSPLIT\nIN THE PLAN · 22\n1\n2\n3\nJatiluwih, Biah Biah, Karsa Spa and 19 more\n›\nTOKEK SUGGESTS · 64\nTUKAD CEPUNG\nWaterfall in a cave · 50 min · Rp 15k\nLight beams 09–10 · fits Sat\n+\nMURNI’S WARUNG\nBalinese, since 1974 · 9 min\nOpen late · fits Mon night\n+\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION The same places as rows, grouped by where they stand: saved but not placed, in the plan, and Tokek’s picks. Each row says when it would fit. Swipe a row right to save it, left to hide it. MAP goes back with the same filters on.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "temple",
+   "food",
+   "wave",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7d-1 Search",
+  "screenText": "9:41\n5G\nSearch Bali, or ask Tokek\nCancel\n♪\nFROM YOUR CLIPBOARD\ntiktok.com/@balibites/video/7419…\nLooks like three waterfalls\nADD FROM IT\nASK IN PLAIN WORDS\n“somewhere quiet for dinner near the villa, open late”\n↗\n“a waterfall without the crowds, Saturday”\n↗\n“what to do in Ubud when it rains”\n↗\nOR BROWSE\nFOOD\nTEMPLES\nWATERFALLS\nBEACHES\nCOFFEE\nSPA\nq\nw\ne\nr\nt\ny\nu\ni\no\np\na\ns\nd\nf\ng\nh\nj\nk\nl\n⇧\nz\nx\nc\nv\nb\nn\nm\n⌫\n123\nspace\nsearch",
+  "caption": "MOTION The same field opens from the map, the plan’s add bar or a place, already scoped to where you came from. A link on the clipboard shows up on top before you type. The examples are typed out by Tokek one after another, then sit still.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "gecko",
+   "food",
+   "temple",
+   "wave",
+   "sun",
+   "spark"
+  ],
+  "motion": [
+   "blink"
+  ]
+ },
+ {
+  "label": "7d-2 Ask in plain words",
+  "screenText": "9:41\n5G\nquiet dinner near the villa, open late\n×\nCancel\nTOKEK READ IT AS\nDINNER\n×\nQUIET\n×\n≤ 15 MIN FROM THE VILLA\n×\nOPEN PAST 22:00\n×\nNOT WED\n×\nWednesday’s already Locavore, so I looked at your other nights.\n6 PLACES\nLIST\nMAP\nSAYAN HOUSE\nM\nValley view · Japanese-Latin · 8 min\nOpen till 23:00 · quiet after 21:00\nFits Mon, your first night\n+\nBRIDGES\nBy the Campuhan bridge · 12 min\nOpen till 23:00 · river view\nFits Thu, after the nap\n+\nMURNI’S WARUNG\nBalinese, since 1974 · 10 min\nOpen till 22:30 · Rp 120k each\nFits Sat · the cheapest of the six\n+\n3 more, louder or further\n›",
+  "caption": "MOTION Tokek’s reading of the question lands as chips before the results, so a wrong guess is one tap to fix. Removing a chip reruns the search and the list reshuffles in place. The plan is part of the question: Wednesday is skipped because dinner is already booked.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "food"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7d-3 Add from a link",
+  "screenText": "9:41\n5G\nFROM A TIKTOK\n✕\nvideo\n▶\n3 WATERFALLS NOBODY TELLS YOU ABOUT\n@balibites · 1.2M views · 0:48\nI watched it. Two I’m sure of, one I need you for.\nTOKEK FOUND\nTUKAD CEPUNG\nWaterfall in a cave · 50 min · light beams 09–10\nSAVE ✓\nTIBUMANA\nWaterfall · 25 min · quiet before 10\nSAVE ✓\n?\n“THE SWING WITH THE VIEW”\nCould be one of 3 swings near Tegallalang\nPICK ONE\nLight beams only show 9 to 10 on a clear morning. Your free Saturday works.\nSAVE 2 TO IDEAS\nOr put them on Sat 17\nWORKS WITH INSTAGRAM, MAPS, YOUTUBE AND SCREENSHOTS",
+  "caption": "MOTION The sheet rises with the video’s cover while Tokek “watches”; places tick in one by one as he matches them. One he can’t pin stays orange and asks. SAVE drops the two into Ideas with a small hop on the Ideas count.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "check",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7d-4 No results",
+  "screenText": "9:41\n5G\nomakase sushi in ubud\n×\nCancel\nNOTHING LIKE\nTHAT NEAR UBUD\nNo omakase within 30 minutes that crews rate. The closest good one is in Seminyak, 1h10 away.\nWIDEN TO 1H30\n3 places, all in Seminyak or Canggu\n›\nTRY JAPANESE INSTEAD\n4 places in Ubud, 2 open late\n›\nDROP A PIN\nAdd a place Tokek doesn’t know yet\n›\nOr ask me. I’ll check what crews who’ve been ate.\nASK",
+  "caption": "MOTION Tokek floats in thinking while the empty result settles. Each way out says what you’d get before you tap it, so nobody widens a search into nothing twice. ASK hands the question to Tokek as a chat that reads crew plans.",
+  "customEls": [
+   "doodle-art",
+   "tg-motion"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": [
+   "float"
+  ]
+ },
+ {
+  "label": "7e-1 Place detail",
+  "screenText": "photo · Tirta Empul spring pools\n9:41\n5G\n←\n↗\nWATER TEMPLE\nSAVED BY ALEX + RIN\nTIRTA EMPUL\nTampaksiring · 45 min from the villa · since 962\nOPEN\n08–17\nENTRY\nRP 75K\nTAKES\n1H30\nWEAR\nSARONG\nWHEN IT FITS\nSAT 17 AT 08:00\nOther days ›\nYour free day, and the tour buses get there around 10. Thursday after the springs works too.\n08\n11\n14\n17\nA\nR\nJ\nAlex and Rin saved it. Jordan asked if he has to get in the water. He doesn’t.\nADD TO SAT · 08:00",
+  "caption": "MOTION The card from the map grows into this page and the photo pushes in as the sheet rises over it. WHEN IT FITS is worked out from opening hours, crowds and your days; the bars draw left to right with 08:00 lit. The button always says where it would go, so adding is one tap.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "heart",
+   "gecko",
+   "chat"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7e-2 Place detail, further down",
+  "screenText": "9:41\n5G\n←\nTIRTA EMPUL\nStart at the left pool and work right. Skip the last two spouts, they’re for funerals.\nKNOW BEFORE YOU GO\nSarongs are lent at the gate\nFree, leave a small donation\nBring dry clothes\nLockers by the pools, Rp 5k\nPhotos yes, drones no\nNEXT, NEARBY\nBY TOKEK\nGUNUNG KAWI\n10 MIN ON\nSEBATU\n15 MIN ON\nTEGALLALANG\n20 MIN ON\nIF YOU LIKE THIS\nTAMAN SARASWATI\nLotus temple in Ubud · 40 min\n+\nTIRTA GANGGA\nWater palace · 2h, East Bali\n+\n“Go at 8. By 10 there’s a queue for every spout.”\nTHE JAKARTA FIVE · AUG 2026 · ★ 4.6\nADD TO SAT · 08:00",
+  "caption": "MOTION Scrolling collapses the photo into a slim header with the name. NEXT, NEARBY is ordered by the drive from here, so it doubles as what to do after; + on any card adds it right after this stop. IF YOU LIKE THIS is the same idea somewhere else.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "heart",
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7e-3 Crew can't agree",
+  "screenText": "photo · the Gates of Heaven\n9:41\n5G\n←\nCREW SPLIT 2–2\nPURA LEMPUYANG\nEast Bali · 2h20 from the villa · photo queue up to 3 hours\nWANT IT\nRATHER NOT\nM\nJ\nA\nD\nRin and you haven’t said\nM\nIt’s the one photo my mum asked for.\nA\nFive hours in a car for a queue?\nJ\nI’ll queue. I’m built for queues.\nD\nOnly if there’s breakfast after.\nTwo ways nobody loses:\nKEEN ONES GO EARLY\nMaya and Jordan leave Sat at 04:30 with Made and are back by 13:00. Everyone else sleeps in.\nRP 450K, THE CAR\n2 GOING\nTIRTA GANGGA INSTEAD\nSame drive, a water palace, no queue. Everyone goes Sunday morning.\nALL 6\nSUGGEST THE FIRST ONE\nPut it to a vote instead",
+  "caption": "MOTION Opens from any place the crew has split on. The bar fills from both ends as people say where they stand, and each line is what they actually wrote. Tokek’s options are ways for both halves to get something; picking one posts it to the crew chat as a two-option vote.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7f-1 Add to plan",
+  "screenText": "9:41\n5G\nADD TO THE PLAN\n✕\nTIRTA EMPUL\nTokek picked the day and time. Change anything.\n1\nMON\n2\nTUE\n3\nWED\n4\nTHU\n5\nFRI\n6\nSAT\n7\nSUN\n8\nMON\nSAT 17 · FREE DAY\n07:15 · LEAVE THE VILLA · CAR 45 MIN\n08:00\n1H30\n+\nTIRTA EMPUL\nNew · quiet till about 10\n09:45\nGunung Kawi is 10 min on. Add it too?\n+\nWHY 08:00\nOpens at 08:00\nBusy from 10\n45 min, Grab works\nDry mornings in Oct\nWHO’S GOING\nW\nM\nA\nJ\nR\nD\nEveryone ›\nADD TO SAT 17 · 08:00\nJust save it for later",
+  "caption": "MOTION One sheet for every add, from the map, a card, search or a place. The dot on each day says how well it fits: green good, orange possible, grey no. Picking another day moves the block and redoes the reasons. ADD drops the block into the day with a bounce and the map draws the new leg.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "cal",
+   "flame",
+   "car",
+   "sun"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7f-2 Ideas",
+  "screenText": "9:41\n5G\n← TRIP\n◎ MAP\nIDEAS\nEight saved places that aren’t in a day yet. Drag one onto a day, or let Tokek place them.\nDROP ON A DAY\n1\nMON\n2\nTUE\n3\nWED\n4\nTHU\n5\nFRI\n6\nSAT\n7\nSUN\n8\nMON\nPLACE THEM FOR ME\nSix fit without moving anything booked. Two need the crew.\n→\nTIRTA EMPUL\nFits Sat 08:00\nA\nR\n⋮⋮\nSENIMAN COFFEE\nOn the way, Wed 16:00\nD\n⋮⋮\nTIBUMANA\nFits Sat, after Tirta Empul\nW\n⋮⋮\nGOA GAJAH\nFits Thu 16:30, after the nap\nR\n⋮⋮\nGIANYAR NIGHT MARKET\nFits Fri, after the boat\nD\n⋮⋮\nSINGLE FIN\nFits Sun, after the kecak\nJ\n⋮⋮\nPURA LEMPUYANG\nThe crew is split 2–2\nM\nJ\n⋮⋮\nSARI ORGANIK\nOnly fits if Wed lunch moves\nM\n⋮⋮",
+  "caption": "MOTION Everything saved but not placed, from search, links, swipes and the map. Each row already says where it would fit. Holding a row lifts it; the day chips light up green, orange or grey as it passes over them, and dropping it opens Add to plan on that day.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "temple",
+   "food",
+   "wave"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7g-1 Explore Bali",
+  "screenText": "9:41\n5G\n← TRIP\n♡ 14 SAVED\nBALI\nYOUR GUIDE: TOKEK\nSlow mornings, early temples, late dinners.\nSearch Bali, or ask Tokek\nFOR YOUR GAPS\nBY TOKEK\nWED 16:00–19:00\nFour of you are free while the spa runs\nFILL IT\nSENIMAN\nARMA\nPOOL\nTOKEK’S FIRST-TIMER PICKS\n86 ›\nTIRTA EMPUL\n♥ SAVED\nCAMPUHAN RIDGE\nIN DAY 3\nTEGALLALANG\n+\nSWIPE TOGETHER\nCan’t agree? 30 places, everyone swipes, matches go to Ideas.\n4 LIVE\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Tokek walks in from the edge and sits on the hero; the search bar docks under it and pins to the top on scroll. FOR YOUR GAPS is built from the plan, so it changes as the days fill. Every card shows where it stands: saved, in a day, or one tap to add.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "bob"
+  ]
+ },
+ {
+  "label": "7g-2 Swipe together",
+  "screenText": "9:41\n5G\nBALI · OCT 12–19\nSWIPE\nTOGETHER\n4 LIVE\nM\nA\nJ\nW\n12/30 · 3 matches\nphoto · Tirta Empul spring pools\nYES\nALEX + RIN SAID YES\nTIRTA EMPUL\nWater temple · 45 min from the villa · Rp 75k\nSarongs needed. I'll bring a spare for Jordan.\n✕\nWHY THIS?\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION Cards fling left or right with a slight spin. When the crew says yes to the same place, MATCH stamps on and the card drops into Ideas with everyone who said yes. Tokek finds it a day later, so nothing lands in the plan unannounced.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "heart",
+   "pin",
+   "ticket",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "blink",
+   "0:r-1.5 tx0;.5:r-.5 tx6;1:r-1.5 tx0"
+  ]
+ },
+ {
+  "label": "7g-3 Destination guide",
+  "screenText": "9:41\n5G\n← EXPLORE\n♡ SAVE\nKYOTO\nYOUR GUIDE: PON\nShoes off, phone down, eyes up.\n7H FROM SIN\n¥1,000 ≈ $6.70\nBEST: APR · NOV\nWHEN TO GO\nCROWDS BY MONTH\nJ\nF\nM\nA\nM\nJ\nJ\nA\nS\nO\nN\nD\nAPR BLOSSOMS\nNOV LEAVES\nJAN CHEAPEST\nPON'S FIRST-TIMER PICKS\n1,240 CREW PLANS ›\nphoto ·\nFUSHIMI INARI\nphoto ·\nNISHIKI MARKET\nphoto ·\nARASHIYAMA\nPITCH TO THE CREW\nSOLO TRIP",
+  "caption": "MOTION Pon walks in from the edge and sits on the hero. The month bars grow from zero when the section scrolls into view, and tapping a month re-prices the whole page for your crew's airports.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "tanuki"
+  ],
+  "motion": [
+   "bob",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow",
+   "grow"
+  ]
+ },
+ {
+  "label": "7h-1 Plan check",
+  "screenText": "9:41\n5G\n← TRIP\nCHECKED JUST NOW\n3 TO FIX,\n2 TO KNOW\nOpening hours, drives, bookings and everyone’s saves, against all 8 days. Nothing changes until you say so.\nCLASH\nTUE 13\nCOOKING CLASS RUNS INTO MONKEY FOREST\nThe class ends at 13:00. Monkey Forest is booked for 12:00.\n→ Forest at 14:30, and 1h05 less driving\nFIX\nTOO FAR\nSUN 18\nFOUR HOURS IN THE CAR\nUluwatu at sunset, then dinner back in Ubud. Two hours each way.\n→ Dinner in Jimbaran on the way back\nFIX\nRAIN\nWED 14\nRIDGE WALK IN THE RAIN\nOctober afternoons on the ridge are usually wet from 1 to 3.\n→ Swap it with the spa\nFIX\nTO KNOW\nTuesday has six stops in nine hours. It works, just.\nLocavore NXT holds your table until Oct 1.\nFIX ALL 3 · REVIEW FIRST",
+  "caption": "MOTION Runs by itself whenever the plan changes and shows up as a count on the trip. Issues deal in one by one, worst first. Each FIX opens its own screen (7h-3, 7h-4) or applies a one-liner with an undo; FIX ALL gathers everything into one review (7h-7).",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7h-2 Fill a gap",
+  "screenText": "9:41\n5G\nWED 14 · 16:00–19:00\n✕\nFOUR OF YOU\nARE FREE\nA\nJ\nD\nW\nMaya and Rin are at the spa till 18:00. Dinner is at 19:30.\nTOKEK HAS THREE IDEAS\nCOFFEE, THEN THE MARKET\nSeniman Coffee, Dev’s save, then the art market before it shuts at 18:00.\n12 MIN\nRP 60K EACH\nDEV’S SAVE\nARMA MUSEUM\nBalinese painting, a garden, and a café that stays quiet.\n15 MIN\nRP 100K\nBACK TO THE POOL\nFree. Jordan already voted for this one.\nFREE\nADD COFFEE + MARKET\nSomething else",
+  "caption": "MOTION Opens from any dashed slot. Tokek builds the options from saves first, then from what fits the time, the weather and who’s free. Picking one draws its little route on the map behind the sheet; the button changes to match.",
+  "customEls": [],
+  "doodles": [],
+  "motion": []
+ },
+ {
+  "label": "7h-3 Less driving",
+  "screenText": "9:41\n5G\n← TUE 13\nONLY YOU SEE THIS\nSAME DAY,\nLESS DRIVING\n2H10\n→\n1H05\nin the car\nBEFORE\n1\n2\n3\n4\n5\nAFTER\n1\n2\n3\n4\n5\n1\n09:00\nCOOKING CLASS · PAON BALI\nBOOKED\n2\n14:30\nMONKEY FOREST\nWAS 12:00\n3\n16:15\nUBUD MARKET\nWAS 4TH\n4\n17:30\nTAMAN SARASWATI\nWAS 5TH\n5\n19:00\nDINNER · WARUNG PONDOK\nWAS 3RD\nUSE THIS ORDER\nSend it to the crew first",
+  "caption": "MOTION The old route draws first, then untangles into the new one while the drive time counts down from 2h10 to 1h05. Booked stops show a lock and never move. The list re-sorts with a spring, and each row says where it used to be.",
+  "customEls": [],
+  "doodles": [],
+  "motion": []
+ },
+ {
+  "label": "7h-4 Rain and crowds",
+  "screenText": "9:41\n5G\n← WED 14\nRECHECKS OCT 11\nRAIN AT 1,\nBUSES AT 10\nCrowds are what crews saw here in October. Rain is October’s usual afternoon shower; Tokek checks the real forecast three days out.\nRAIN\nCROWDS\nNOW\nSWAPPED\n07\n09\n11\n13\n15\n17\n19\nJATILUWIH\n09:00\n→ 07:00\nTour buses from 10. You get the top terraces.\nRIDGE WALK\n14:00\n→ 16:30\nDry by 3, and off the ridge before dark.\nKARSA SPA\n16:00\n→ 14:00\nIndoors while it rains. Free to move.\nUSE ALL 3\nSend to the crew first",
+  "caption": "MOTION The rain band drifts in over the day’s blocks, and the clash on the ridge walk pulses pink. Ticking a swap slides its block from the NOW lane into place on SWAPPED. Three days out the band firms up from the real forecast and Tokek says if anything changed.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7h-5 Balance the crew",
+  "screenText": "9:41\n5G\n← TRIP\nONLY YOU SEE THIS\nWHOSE PICKS\nMADE IT\nEveryone’s must-do is in. Saves are uneven.\nW\nWinston (you)\nMust-do: Locavore NXT ✓\n4 OF 4 SAVES IN\nM\nMaya\nMust-do: Karsa Spa ✓\n5 OF 6 SAVES IN\nA\nAlex\nMust-do: Nusa Penida ✓\n3 OF 4 SAVES IN\nJ\nJordan\nMust-do: Batur sunrise ✓\n3 OF 5 SAVES IN\nR\nRin\nMust-do: Cooking class ✓\n2 OF 3 SAVES IN\nD\nDev\nMust-do: Babi guling ✓\n0 OF 3 SAVES IN\nDev’s three saves all missed. Two fit without moving anything.\nD\nSENIMAN COFFEE\nWed 16:00, while the spa runs\nD\nGIANYAR NIGHT MARKET\nFri 19:00, after the boat\nADD BOTH\nASK DEV FIRST",
+  "caption": "MOTION Only the organiser sees this, and nobody is named in the chat. The squares fill in each person’s colour as their saves land in days. When someone’s at zero, Tokek looks for their saves that fit without moving anything and offers those first.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7h-6 Tokek is placing them",
+  "screenText": "9:41\n5G\nIDEAS\nKeep browsing\n1\n4\n3\n2\nPLACING\n8 IDEAS\nOpening hours for all 8\nNothing booked moves\nRouting Saturday and Wednesday\nLeaving the split one for you\nAbout ten seconds. Leave if you like, Tokek will ping you.",
+  "caption": "MOTION Cream saved pins slide across the map and pop into numbered stops in their day’s colour while Tokek hops about in the middle. Each line ticks when it’s done. Leaving doesn’t cancel it: the review waits as a card on the trip and a quiet ping.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "temple",
+   "food",
+   "wave",
+   "gecko",
+   "check"
+  ],
+  "motion": [
+   "0:tx0 ty0 o1;.3:tx0 ty0 o1;.55:tx-60 ty90 o1 e=io;.62:tx-60 ty90 o0;1:tx-60 ty90 o0",
+   "0:s.3 o0;.56:s.3 o0;.66:s1.2 o1 e=back;.74:s1 o1;1:s1 o1",
+   "0:tx0 ty0 o1;.3:tx0 ty0 o1;.55:tx60 ty-30 o1 e=io;.62:tx60 ty-30 o0;1:tx60 ty-30 o0",
+   "0:s.3 o0;.56:s.3 o0;.66:s1.2 o1 e=back;.74:s1 o1;1:s1 o1",
+   "0:tx0 ty0 o1;.3:tx0 ty0 o1;.55:tx-50 ty30 o1 e=io;.62:tx-50 ty30 o0;1:tx-50 ty30 o0",
+   "0:s.3 o0;.56:s.3 o0;.66:s1.2 o1 e=back;.74:s1 o1;1:s1 o1",
+   "0:tx0 ty0 o1;.3:tx0 ty0 o1;.55:tx40 ty60 o1 e=io;.62:tx40 ty60 o0;1:tx40 ty60 o0",
+   "0:s.3 o0;.56:s.3 o0;.66:s1.2 o1 e=back;.74:s1 o1;1:s1 o1",
+   "hop",
+   "pulse"
+  ]
+ },
+ {
+  "label": "7h-7 Review changes",
+  "screenText": "9:41\n5G\n← IDEAS\nONLY YOU SEE THIS\n6 PLACED,\n2 FOR YOU\nEverything lands in a gap. Nothing booked and nobody’s must-do moved.\nSAT\n+ TIRTA EMPUL\n08:00 · before the buses\nSAT\n+ TIBUMANA\n10:15 · on the way back\nWED\n+ SENIMAN COFFEE\n16:00 · Dev’s, while the spa runs\nTHU\n+ GOA GAJAH\n16:30 · Rin’s, after the nap\nFRI\n+ GIANYAR NIGHT MARKET\n19:00 · Dev’s, after the boat\nSUN\n+ SINGLE FIN\n19:15 · Jordan’s, after the kecak\nNEEDS YOU\nPURA LEMPUYANG\nThe crew is split 2–2\nSEE\nSARI ORGANIK\nOnly fits if Wednesday’s lunch moves\nSEE\n+RP 210K EACH\n+1H20 DRIVING\n0 BOOKINGS MOVED\nSEND TO CREW · NEEDS 3 YESES\nApply to my plan only",
+  "caption": "MOTION Every change Tokek makes lands here first, from a fix, a swap or placing ideas. Rows deal in like cards; unticking one strikes it through and the totals recount. Sending puts the whole set to the crew as one vote, the same way the old review did.",
+  "customEls": [
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "check"
+  ],
+  "motion": []
+ },
+ {
+  "label": "7i-1 Nothing saved yet",
+  "screenText": "SAYAN\nUBUD\nTEGALLALANG\nPELIATAN\nPENESTANAN\n9:41\n5G\nSearch Bali, or ask Tokek\nBALI · OCT 12–19 · 6 GOING\nNOTHING SAVED YET\nFour ways to start. Most crews mix two.\nLET TOKEK DRAFT IT\nA day-by-day plan from your must-dos, in about a minute.\n→\nPASTE WHAT YOU SAVED\nTikToks, posts, screenshots\nSWIPE TOGETHER\nMatches stay\nCOPY A CREW’S PLAN\n860 for Bali\nHOME\nTRIPS\nWALLET\nPASS",
+  "caption": "MOTION What the Bali Six saw the day Bali won. The map is empty apart from Tokek, who floats where the villa will go. Each way in lands in the same places: a draft fills the days, the other three fill Ideas.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "camera",
+   "heart",
+   "ticket",
+   "pin",
+   "wallet",
+   "egg"
+  ],
+  "motion": [
+   "float"
+  ]
+ },
+ {
+  "label": "7i-2 Offline",
+  "screenText": "10:12\n—\nNO SIGNAL · WORKING FROM WHAT’S SAVED\ncoffee near the terraces\n×\nCancel\nOFFLINE RESULTS · 3\nJATILUWIH\nFrom your 14 saved places and the 306 Tokek saved for Bali on Oct 11.\nBILLY’S TERRACE CAFE\n4 min walk · open, as of Oct 11\nSAVED\nWARUNG DAPUR DESA\n9 min walk · cash only\nSAVED\nKOPI SAWAH\n12 min walk · rice field view\nSAVED\nPlain words need signal. Tokek kept your question and answers at the first bar.\nQUEUED · 1\nWORKS OFFLINE\n✓ THE PLAN\n✓ MAPS: UBUD + JATILUWIH\n✓ BOOKINGS\n✓ 306 PLACES\nTOKEK’S CHANGES WAIT",
+  "caption": "MOTION Day 3 at the terraces, no bars. Search falls back to name and category over everything saved, and Tokek greys out instead of disappearing. The queued question sends itself at the first bar and the answer arrives as a ping; the banner flips green with BACK ONLINE.",
+  "customEls": [
+   "tg-motion",
+   "doodle-art"
+  ],
+  "doodles": [
+   "gecko",
+   "food"
+  ],
+  "motion": [
+   "blink"
+  ]
+ },
+ {
   "label": "6a-1 Trip plan, a leg needs a driver",
   "screenText": "9:41\n5G\n← TRIPS\nM\nA\nSHARE\nBALI, DAY\nBY DAY\nLIST\nMAP\nCALENDAR\n1\nMON\nARRIVE + POOL\nDriver 11:40 · villa check-in 15:00\nBOOKED\n2\nTUE\nUBUD CENTRE\nMonkey Forest · cooking class\n1 VOTE\n3\nWED\nSLOW UBUD\nTerraces 7am · spa · ridge walk\nNO RIDE\nNEED A DRIVER HERE?\nGrab won’t pick up at Jatiluwih, and Ubud’s local drivers block app pickups in the centre. Most crews hire a driver for the day.\nFIND A DRIVER\nNOT NOW\n4\nTHU\nBATUR SUNRISE\nPickup 03:30 · Ketut · hot springs\nBOOKED\nHOME\nTRIPS\nWALLET\nPASS",
   "caption": "MOTION Opens under a leg when Tokek sees the route has no app pickup (Jatiluwih, Ubud centre after 18:00, Amed). The card unfolds out of the day row like a ticket stub. NOT NOW folds it into a small NO RIDE flag; the same card also sits at the top of Getting around for that day.",
@@ -898,138 +1400,6 @@
   "doodles": [
    "lock",
    "tanuki",
-   "check"
-  ],
-  "motion": []
- },
- {
-  "label": "3d-1 Destination guide",
-  "screenText": "9:41\n5G\n← EXPLORE\n♡ SAVE\nKYOTO\nYOUR GUIDE: PON\nShoes off, phone down, eyes up.\n7H FROM SIN\n¥1,000 ≈ $6.70\nBEST: APR · NOV\nWHEN TO GO\nCROWDS BY MONTH\nJ\nF\nM\nA\nM\nJ\nJ\nA\nS\nO\nN\nD\nAPR BLOSSOMS\nNOV LEAVES\nJAN CHEAPEST\nPON'S FIRST-TIMER PICKS\n1,240 CREW PLANS ›\nphoto ·\nFUSHIMI INARI\nphoto ·\nNISHIKI MARKET\nphoto ·\nARASHIYAMA\nPITCH TO THE CREW\nSOLO TRIP",
-  "caption": "MOTION Pon walks in from the edge and sits on the hero. The month bars grow from zero when the section scrolls into view, and tapping a month re-prices the whole page for your crew's airports.",
-  "customEls": [
-   "tg-motion",
-   "doodle-art"
-  ],
-  "doodles": [
-   "tanuki"
-  ],
-  "motion": [
-   "bob",
-   "grow",
-   "grow",
-   "grow",
-   "grow",
-   "grow",
-   "grow",
-   "grow",
-   "grow",
-   "grow",
-   "grow",
-   "grow"
-  ]
- },
- {
-  "label": "3d-2 Swipe together",
-  "screenText": "9:41\n5G\nBALI · OCT 12–19\nSWIPE\nTOGETHER\n4 LIVE\nM\nA\nJ\nW\n12/30 · 3 matches\nphoto · Tirta Empul spring pools\nYES\nALEX + RIN SAID YES\nTIRTA EMPUL\nWater temple · 45 min from the villa · Rp 75k\nSarongs needed. I'll bring a spare for Jordan.\n✕\nWHY THIS?\nHOME\nTRIPS\nWALLET\nPASS",
-  "caption": "MOTION Cards fling left or right with a slight spin. When two friends say yes to the same place, the match stamp slams on and the card flies into the plan.",
-  "customEls": [
-   "tg-motion",
-   "doodle-art"
-  ],
-  "doodles": [
-   "gecko",
-   "heart",
-   "pin",
-   "ticket",
-   "wallet",
-   "egg"
-  ],
-  "motion": [
-   "blink",
-   "0:r-1.5 tx0;.5:r-.5 tx6;1:r-1.5 tx0"
-  ]
- },
- {
-  "label": "3d-3 Place detail",
-  "screenText": "photo · Fushimi Inari gates\n9:41\n5G\n←\n↗\nPON'S PICK\nMUST-DO · RIN\nFUSHIMI\nINARI\nShrine · free · open 24h · 18 min from the ryokan\nCROWDS ON APR 3\nGO BEFORE 7:30\n6am\n10\n2pm\n6\n8pm\nKeep going past the Yotsutsuji viewpoint. Most people turn back there.\nM\nJ\nR\nJordan asked about stairs. The first 30 minutes are gentle; it gets steep after.\nADD TO DAY 2 · 06:00",
-  "caption": "MOTION The photo pushes in slowly as the sheet rises over it. Crowd bars draw left to right, and the now-marker pulses. ADD TO DAY 2 drops a copy of the card into that day with a small bounce.",
-  "customEls": [
-   "doodle-art"
-  ],
-  "doodles": [
-   "heart",
-   "tanuki",
-   "chat"
-  ],
-  "motion": []
- },
- {
-  "label": "3d-4 Map",
-  "screenText": "map · central Kyoto\n9:41\n5G\nSearch Kyoto\n≡\nSAVED 14\nCREW PICKS\nFOOD\nOPEN NOW\nARASHIYAMA\nR\nGION\nNISHIKI\nM\nJ\n+9\nFUSHIMI INARI\nM\nJ\nR\nphoto ·\nFUSHIMI INARI\n18 min by train · open now\nM\nJ\nR\nDAY 2 · 06:00\nphoto ·\nHOME\nTRIPS\nWALLET\nPASS",
-  "caption": "MOTION Pins drop in with a bounce when filters change, and your guide walks beside the you-dot. Swiping the bottom cards flies the map to each place.",
-  "customEls": [
-   "doodle-art",
-   "tg-motion"
-  ],
-  "doodles": [
-   "pin",
-   "temple",
-   "food",
-   "tanuki",
-   "ticket",
-   "gecko",
-   "wallet",
-   "egg"
-  ],
-  "motion": [
-   "ping",
-   "hop"
-  ]
- },
- {
-  "label": "3e-1 Trip plan",
-  "screenText": "9:41\n5G\n← TRIPS\nM\nA\nSHARE\nBALI, DAY\nBY DAY\nLIST\nMAP\nCALENDAR\n1\nMON\nARRIVE + POOL\nDriver 11:40 · villa check-in 15:00\nBOOKED\n2\nTUE\nUBUD CENTRE\nMonkey Forest · cooking class\n1 VOTE\n3\nWED\nSLOW UBUD\nTerraces 7am · spa · ridge walk\n4\nTHU\nBATUR SUNRISE\nPickup 03:30 · hot springs\nBOOKED\n5\nFRI\nBOAT DAY\nNusa Penida or Gili T?\nVOTE\n6\nSAT\nFREE DAY\nNothing booked. On purpose.\n7\nSUN\nULUWATU\nBeach clubs · kecak at sunset\nHOME\nTRIPS\nWALLET\nPASS",
-  "caption": "MOTION Days re-sort with a spring when someone drags one. Open votes pulse softly, and a day Tokek has touched gets a brief highlight sweep.",
-  "customEls": [
-   "doodle-art"
-  ],
-  "doodles": [
-   "rain",
-   "sun",
-   "wave",
-   "pin",
-   "ticket",
-   "gecko",
-   "wallet",
-   "egg"
-  ],
-  "motion": []
- },
- {
-  "label": "3e-2 Day planning",
-  "screenText": "9:41\n5G\n← DAY 3 / 8\nM\nA\nSLOW\nUBUD\nPLANNING MODE\nWed Oct 14 · rain 13–15h\n07\n09\n11\n13\n15\n17\n19\nRAIN\nJATILUWIH TERRACES\n07:00–11:00 · driver Made\nLUNCH · BIAH BIAH\n4 of 6 voted\nRIDGE WALK\n14:00 · in the rain\nKARSA SPA\nMaya, Rin\nRIDGE WALK\n17:00 · golden hour\nDINNER · LOCAVORE NXT\n19:30 · table held\nMAYA\nRain till three. Move the walk?\nDrag it, or tap to accept\nMOVE IT",
-  "caption": "MOTION Blocks snap to 15-minute rows while dragging and the others shuffle out of the way. The rain band drifts as the forecast updates, and Tokek's suggestion ghost pulses where the walk could go.",
-  "customEls": [
-   "tg-motion",
-   "doodle-art"
-  ],
-  "doodles": [
-   "gecko"
-  ],
-  "motion": [
-   "0:ty0;.5:ty8;1:ty0",
-   "pulse"
-  ]
- },
- {
-  "label": "3e-3 Review changes",
-  "screenText": "9:41\n5G\n← DAY 3–4\nRAIN FORECAST\n4 CHANGES\nFOR THE RAIN\nTokek rearranged Wednesday afternoon and one dinner. Nothing anyone marked as a must-do was touched.\n14:00 Ridge walk\n17:00 RIDGE WALK\nRain clears by 3. Golden hour.\nM\nA\nJ\n14:00 Free time\n14:00 KARSA SPA\nMaya and Rin asked for it.\nM\nR\nWed 16:30 Monkey Forest\nTHU 10:00 MONKEY FOREST\nDry morning, fewer crowds.\nW\nA\nD\n✕\n19:30 Locavore NXT\n20:30 LOCAVORE NXT\nOnly needed if the walk runs late.\nM\nA\nJ\nR\nD\nW\n+$22 EACH\n1 BOOKING MOVED\n0 MUST-DOS TOUCHED\nSEND TO CREW · NEEDS 3 YESES\nApply to my plan only",
-  "caption": "MOTION Changes fan in like cards being dealt. Ticking or crossing one flips its check, and the total at the bottom re-counts as you go.",
-  "customEls": [
-   "doodle-art"
-  ],
-  "doodles": [
-   "gecko",
    "check"
   ],
   "motion": []
