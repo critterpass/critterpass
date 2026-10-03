@@ -23,6 +23,10 @@ msgstr "{count, plural, other {{names} đang trễ {minutes} phút.}}"
 msgid "notifications.changeset.needs_yes.body"
 msgstr "{count, plural, other {# thay đổi}} cho {crew}. Đồng ý hay từ chối?"
 
+#: ../domain/src/planning/templates.ts
+msgid "notifications.ideas.placed.body"
+msgstr "{count, plural, other {# điểm dừng đã sẵn sàng để bạn xem lại.}} Hiện chỉ mình bạn xem được."
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.ready.body"
 msgstr "Có {count} nhiệm vụ cho {place}."
@@ -94,6 +98,10 @@ msgstr "{flight} đang lên máy bay"
 #: ../domain/src/guide/templates.ts
 msgid "notifications.guide.queued_answer.title"
 msgstr "{guide} đã trả lời câu hỏi của bạn"
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.ideas.placed.title"
+msgstr "{guide} đã xếp các ý tưởng của bạn"
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.version_title"
@@ -356,6 +364,7 @@ msgid "notifications.sos.need_ride"
 msgstr "{sender} cần một chuyến xe."
 
 #: ../../services/worker/src/jobs/safety/notify.ts
+#: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.sos.title"
 msgstr "{sender} cần giúp đỡ"
 
@@ -364,6 +373,7 @@ msgid "notifications.help_share.started"
 msgstr "{sender} đã mở Trợ giúp và đang chia sẻ vị trí trong một giờ."
 
 #: ../../services/worker/src/jobs/safety/notify.ts
+#: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.sos.plain"
 msgstr "{sender} đã gửi SOS cho cả nhóm."
 
@@ -610,6 +620,10 @@ msgstr "{crew} chưa đủ phiếu đồng ý, nên không có gì thay đổi."
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.meet_up_late_body"
 msgstr "Chưa đủ mọi người."
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.ideas.placed.none_body"
+msgstr "Không có chỗ nào vừa mà không phải dời gì cả. Xem những việc cần bạn nhé."
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.on_my_way"

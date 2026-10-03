@@ -1,6 +1,6 @@
 /**
  * Ideas in the worker: the `ideas.seed` job and the hook that queues it when a trip gets its
- * destination or a member joins in a worker transaction.
+ * destination or a member joins in a worker transaction, and Tokek placing ideas on days.
  */
 import { onEventAppended } from '@cp/db';
 import {
@@ -11,9 +11,17 @@ import {
 } from '@cp/domain';
 
 import { defineJob, type AnyJobDefinition } from '../../../boss';
+import { placeIdeasJob } from './place-ideas';
+import { registerPlacementPush } from './placement-push';
 import { ideasSeedEventHook, ideasSeedKey, runIdeasSeed } from './seed';
 
 export { ideasSeedEventHook, ideasSeedKey, runIdeasSeed, seedTripIdeas } from './seed';
+export {
+  PLACE_IDEAS_STEP_IDS,
+  placeIdeasJob,
+  placedStableId,
+  type RoutingResult,
+} from './place-ideas';
 
 export function ideasSeedJob(): AnyJobDefinition {
   return defineJob({
@@ -35,6 +43,7 @@ export function ideasJobs(): readonly AnyJobDefinition[] {
   if (!hooked) {
     hooked = true;
     onEventAppended(ideasSeedEventHook);
+    registerPlacementPush();
   }
-  return [ideasSeedJob()];
+  return [ideasSeedJob(), placeIdeasJob()];
 }

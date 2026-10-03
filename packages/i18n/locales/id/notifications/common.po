@@ -23,6 +23,10 @@ msgstr ""
 msgid "notifications.changeset.needs_yes.body"
 msgstr ""
 
+#: ../domain/src/planning/templates.ts
+msgid "notifications.ideas.placed.body"
+msgstr ""
+
 #: ../domain/src/quests/realtime.ts
 msgid "notifications.quests.ready.body"
 msgstr ""
@@ -93,6 +97,10 @@ msgstr ""
 
 #: ../domain/src/guide/templates.ts
 msgid "notifications.guide.queued_answer.title"
+msgstr ""
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.ideas.placed.title"
 msgstr ""
 
 #: ../../services/worker/src/jobs/proposal/notify.ts
@@ -356,6 +364,7 @@ msgid "notifications.sos.need_ride"
 msgstr ""
 
 #: ../../services/worker/src/jobs/safety/notify.ts
+#: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.sos.title"
 msgstr ""
 
@@ -364,6 +373,7 @@ msgid "notifications.help_share.started"
 msgstr ""
 
 #: ../../services/worker/src/jobs/safety/notify.ts
+#: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.sos.plain"
 msgstr ""
 
@@ -609,6 +619,10 @@ msgstr ""
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.meet_up_late_body"
+msgstr ""
+
+#: ../domain/src/planning/templates.ts
+msgid "notifications.ideas.placed.none_body"
 msgstr ""
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
