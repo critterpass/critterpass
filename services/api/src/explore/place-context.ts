@@ -122,27 +122,18 @@ export async function readPlaceContext(
     [trip.id, input.poiId],
   );
   const planning = await planningExtras(tx, { trip, place, poiId: input.poiId, date });
-  const fitted = planning.when_it_fits?.best ?? null;
-  const suggested: SuggestedSlot | null =
+  // Installed builds read this field: it keeps the slot finder's answer, unchanged; the planning
+  // page reads `when_it_fits` instead.
+  const suggested =
     plan.inPlan !== null
       ? null
-      : fitted !== null
-        ? {
-            day_no: fitted.day_no,
-            date: fitted.date,
-            starts_at: fitted.starts_at,
-            ends_at: fitted.ends_at,
-            reason: fitted.reasons.some((r) => r.code === 'quiet_until')
-              ? 'quiet_window'
-              : 'free_gap',
-          }
-        : suggestSlot({
-            days: plan.days,
-            tz,
-            hours: knownHours(place.hours),
-            quietStart: crowd.best_window?.start ?? null,
-            durationMin: place.timeNeededMin ?? DEFAULT_VISIT_MIN,
-          });
+      : suggestSlot({
+          days: plan.days,
+          tz,
+          hours: knownHours(place.hours),
+          quietStart: crowd.best_window?.start ?? null,
+          durationMin: place.timeNeededMin ?? DEFAULT_VISIT_MIN,
+        });
   return {
     poi_id: input.poiId,
     trip_id: trip.id,

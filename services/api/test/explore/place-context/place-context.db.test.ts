@@ -3,10 +3,15 @@
  * opening, before the approved crowd curve's rush, with the bars lit over that slot), fact tiles
  * from our own hours and approved editorial facts only (missing ones omitted), nearby and similar
  * places, and where the crew stands. An outsider gets NOT_FOUND, and nothing live from a third
- * party or a supplier reaches the payload.
+ * party or a supplier reaches the payload. The fields installed builds read answer as before.
  */
-import { withSystem } from '@cp/db';
+import { withSystem, withUser } from '@cp/db';
+import { knownHours } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+
+import { loadSlotDays, placeFacts, tripFacts } from '../../../src/explore/plan-read';
+import { suggestSlot } from '../../../src/explore/slot-suggest';
+import { readCrowds } from '../../../src/travel-data/crowds-route';
 
 import { startExploreWorld, type ExploreWorld } from '../explore-world';
 
@@ -97,7 +102,42 @@ describe('place context for the planning page', () => {
     expect(fits.best!.reasons.map((r) => r.code)).toContain('busy_from');
     expect(fits.bars).toMatchObject({ from: 8, to: 17, lit: { from: 8, to: 10 } });
     expect(fits.bars.hourly).toEqual(rushFromTen.slice(8, 17));
-    expect(body['suggested_slot']).toMatchObject({ day_no: 3 });
+  });
+
+  it('answers the fields installed builds read exactly as the slot finder did', async () => {
+    const { body } = await context(spring);
+    const legacy = await withUser(
+      world.harness.pool,
+      world.a.organiser.uid,
+      'unknown',
+      async (tx) => {
+        const trip = await tripFacts(tx, world.a.tripId);
+        const place = await placeFacts(tx, spring);
+        const plan = await loadSlotDays(tx, trip, spring, 'Asia/Tokyo');
+        const crowd = await readCrowds(tx, spring, plan.firstDate ?? '');
+        return suggestSlot({
+          days: plan.days,
+          tz: 'Asia/Tokyo',
+          hours: knownHours(place.hours),
+          quietStart: crowd.best_window?.start ?? null,
+          durationMin: place.timeNeededMin ?? 90,
+        });
+      },
+    );
+    expect(body['suggested_slot']).toEqual(legacy);
+    for (const key of [
+      'poi_id',
+      'trip_id',
+      'stay',
+      'crowd',
+      'crew',
+      'qna',
+      'in_plan',
+      'add_mode',
+    ]) {
+      expect(body).toHaveProperty(key);
+    }
+    expect(body['add_mode']).toBe('apply');
   });
 
   it('gives fact tiles, the tip and what to know only from our own data', async () => {
