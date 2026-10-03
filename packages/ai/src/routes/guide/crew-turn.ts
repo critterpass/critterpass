@@ -13,6 +13,7 @@ import type { Gateway } from '../../client';
 import { buildContext, type RunAsGuideReader } from '../../context/build';
 import type { MeterHandle } from '../../runner/meter';
 import type { TurnEvent } from '../../runner/sse';
+import type { ToolMarkupEvent } from '../../runner/tool-markup';
 import { runTurn } from '../../runner/turn';
 import type { ToolRegistry } from '../../tools/registry';
 import type { RunAsSystem, SqlClient } from '../../usage';
@@ -49,6 +50,8 @@ export interface CrewTurnPorts {
   readonly inputCheck?: (text: string) => Promise<ComplianceResult>;
   /** Token flush interval to the crew (default 300 ms). */
   readonly flushMs?: number;
+  /** An answer came back with tool-call markup (logged as a typed event by the caller). */
+  readonly onToolMarkup?: (event: ToolMarkupEvent) => void;
 }
 
 export interface MentionClaim {
@@ -138,7 +141,12 @@ async function* mentionEvents(
       usage,
       ...(ports.inputCheck === undefined ? {} : { inputCheck: ports.inputCheck(claim.body) }),
     },
-    { gateway: ports.gateway, registry: ports.registry, meter },
+    {
+      gateway: ports.gateway,
+      registry: ports.registry,
+      meter,
+      ...(ports.onToolMarkup === undefined ? {} : { hooks: { onToolMarkup: ports.onToolMarkup } }),
+    },
   );
 
   let text = '';
