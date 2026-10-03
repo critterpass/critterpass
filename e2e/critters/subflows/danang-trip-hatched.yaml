@@ -59,6 +59,13 @@ appId: app.critterpass.dev
     label: 'before 05:00 in Vietnam the app reads no position, so arriving cannot hatch the egg'
 # Arriving: the phone is at Đà Nẵng airport. A traveller who allowed location expects the egg to
 # hatch without touching anything: the ceremony opens by itself on a tab.
+# Arriving starts the trip only once it has started on the server's clock (pre_trip on its first
+# day): the egg card then says it is ready. Arriving before that hatches nothing and the trip
+# stays waiting for noon, with no encounters, so wait for it here.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-egg-ready|critters-egg-unseen'
+    timeout: 780000
 - setLocation:
     latitude: 16.0439
     longitude: 108.1994
@@ -66,7 +73,6 @@ appId: app.critterpass.dev
     visible:
       id: 'critters-hatch|visit-consent-accept'
     timeout: 240000
-    optional: true
 - runFlow:
     when:
       visible:
@@ -94,44 +100,7 @@ appId: app.critterpass.dev
           timeout: 30000
 - waitForAnimationToEnd
 - takeScreenshot: ${SHOTS}-10-after-arriving
-# If arriving did not hatch it, the traveller's own way: HATCH IT (it needs the trip under way).
-- runFlow:
-    when:
-      notVisible:
-        id: 'critters-hatch'
-    commands:
-      - extendedWaitUntil:
-          visible:
-            id: 'critters-egg-hatch|critters-egg-meet'
-          timeout: 780000
-      - runFlow:
-          when:
-            visible:
-              id: 'critters-egg-hatch'
-          commands:
-            - tapOn:
-                id: 'critters-egg-hatch'
-      - runFlow:
-          when:
-            visible:
-              id: 'critters-egg-meet'
-          commands:
-            - tapOn:
-                id: 'critters-egg-meet'
-      # What HATCH IT led to, a few seconds on (the ceremony, its loading page, or neither).
-      - extendedWaitUntil:
-          visible:
-            id: 'critters-hatch'
-          timeout: 8000
-          optional: true
-      - takeScreenshot: ${SHOTS}-10b-after-hatch-it
-      - runFlow:
-          when:
-            visible:
-              id: 'critters-egg-meet'
-          commands:
-            - tapOn:
-                id: 'critters-egg-meet'
+# Arriving hatched the egg and started the trip under way (the arrival signal): encounters need it.
 - extendedWaitUntil:
     visible:
       id: 'critters-hatch'
