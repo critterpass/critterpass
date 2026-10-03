@@ -1,7 +1,8 @@
 /**
  * Swipe together for a trip: joins the open session (or starts one), shows the deck the guide
- * ranked, sends each swipe, and stamps a match when enough of the crew said yes. The verdicts this
- * phone gave are kept on the phone; everyone's yes votes and the matches come from the synced trip.
+ * ranked with each place's own photo, sends each swipe, and stamps a match when enough of the crew
+ * said yes. The verdicts this phone gave are kept on the phone; everyone's yes votes and the
+ * matches come from the synced trip.
  */
 import { format } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
@@ -13,6 +14,7 @@ import { toast } from '@/motion';
 
 import { SwipeView, type SwipeStage } from '../components/swipe-view';
 import { guideFor, noonUtc } from '../format';
+import { usePlacePhotos } from '../hooks/use-place-photos';
 import { useSwipeSession } from '../hooks/use-swipe-session';
 import { usePlannedPlaces } from '../map-queries';
 import { useTripCrew } from '../place-queries';
@@ -35,6 +37,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
   const [whyOpen, setWhyOpen] = useState(false);
   const [stamped, setStamped] = useState<ReadonlySet<string>>(new Set());
   const { row, deck, places, swiped, matches } = session;
+  const photos = usePlacePhotos(deck.map((card) => card.poi_id));
 
   const inPlan = useMemo(() => new Set(planned.keys()), [planned]);
   const state = useMemo(() => deckState(deck, swiped, inPlan), [deck, swiped, inPlan]);
@@ -79,6 +82,7 @@ export function SwipeScreen({ tripId, sessionId }: SwipeScreenProps) {
       meta: swipeMeta(place.category, place.price_level, card.reasons),
       note: card.note,
       social: socialPill(yesNames.filter((name) => name !== '')),
+      photo: photos.get(card.poi_id) ?? null,
     };
   };
   const top = face(0);

@@ -1,9 +1,12 @@
 /**
- * One card of the swipe deck: the photo slot in the deck's colour, who else already said yes, the
+ * One card of the swipe deck: the place's own photo (tinted, with its credit where the licence
+ * asks; a generic stock one says it is not this place), else its category's doodle on the deck's
+ * colour; who else already said yes, the
  * guide's note in a bubble with their sticker, and the yellow footer with the place's name and a
  * line of facts. The card on top follows the finger and flings past 110 pt (right is yes, left is
  * no); the one under it waits a little smaller.
  */
+import type { MediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
@@ -12,6 +15,7 @@ import Animated from 'react-native-reanimated';
 
 import { gestures, useLoop } from '@/motion';
 import { Icon } from '@/ui/icons/Icon';
+import { MediaLayer } from '@/ui/media/MediaLayer';
 import { Sticker } from '@/ui/sticker/Sticker';
 import { SurfaceToneProvider } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
@@ -22,6 +26,7 @@ import { categoryIcon } from '../category';
 import { guideWritten } from '../data/guide-text';
 import type { GuideFacts } from '../format';
 import type { Verdict } from '../swipe-model';
+import { GenericPhotoLabel } from './generic-photo-label';
 
 const NOTE_STICKER = 52;
 const NAME_FLOOR = 20;
@@ -36,6 +41,8 @@ export interface SwipeCardFace {
   readonly note: string | null;
   /** Already worded: "Alex + Rin said yes"; null when nobody else has. */
   readonly social: string | null;
+  /** The place's own photo; null draws the category's doodle (never the destination's photo). */
+  readonly photo: MediaAsset | null;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -86,12 +93,22 @@ function Face({ face, guide }: { readonly face: SwipeCardFace; readonly guide: G
     <View style={styles.card}>
       <View style={styles.photo}>
         <Halftone variant="dark" />
-        <Icon
-          name={categoryIcon(face.category)}
-          size={84}
-          color={theme.semantic.text.secondary}
-          decorative
+        <MediaLayer
+          media={face.photo}
+          surface="dark"
+          accent={guide.colour}
+          dots={false}
+          testID="explore-swipe-photo"
         />
+        {face.photo === null ? (
+          <Icon
+            name={categoryIcon(face.category)}
+            size={84}
+            color={theme.semantic.text.secondary}
+            decorative
+          />
+        ) : null}
+        <GenericPhotoLabel photo={face.photo} />
         {face.social === null ? null : (
           <View style={styles.social} testID="explore-swipe-social">
             <Text variant="label" color={theme.semantic.text.onAccent} singleLine={false}>

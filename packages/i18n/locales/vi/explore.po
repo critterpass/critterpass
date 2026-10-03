@@ -553,6 +553,10 @@ msgstr "Không phải đảo của mình, nhưng mình đã tìm hiểu kỹ r�
 msgid "explore.solo.cancel"
 msgstr "Để sau"
 
+#: ../../apps/mobile/src/features/explore/components/generic-photo-label.tsx
+msgid "explore.photo.notThisPlace"
+msgstr "Ảnh minh hoạ"
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.emptyList"
 msgstr "Danh sách này chưa có gì"
