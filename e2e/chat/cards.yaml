@@ -64,12 +64,12 @@ appId: app.critterpass.dev
     commands:
       - tapOn:
           point: '16%,34%'
-# Some pickers ask to confirm the choice.
+# The library picker allows several photos, so it asks to confirm ("Add (1)", "Add", "Done").
 - runFlow:
     when:
-      visible: '(?i)^(add|done|select)$'
+      visible: '(?i)^(add( \(\d+\))?|done|select)$'
     commands:
-      - tapOn: '(?i)^(add|done|select)$'
+      - tapOn: '(?i)^(add( \(\d+\))?|done|select)$'
 - extendedWaitUntil:
     visible:
       id: 'chat-photo-.*'
