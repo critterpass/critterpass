@@ -214,6 +214,7 @@ export async function streamThreadTurn(
     question: body.text,
     documents: context.documents,
     directives: { chattiness: context.prefs.chattiness, locale },
+    now: { at: new Date(), tz: request.deviceTz },
   });
 
   const abort = new AbortController();
@@ -223,7 +224,8 @@ export async function streamThreadTurn(
       route: GUIDE_CHAT_ROUTE,
       system: request_.system,
       messages: request_.messages,
-      tool: { uid, tripId: thread.tripId, caller: 'C' },
+      // The thread's trip and crew: the guide never asks the traveller which trip this is.
+      tool: { uid, tripId: thread.tripId, crewId: thread.crewId, caller: 'C' },
       usage,
       inputCheck,
       signal: abort.signal,

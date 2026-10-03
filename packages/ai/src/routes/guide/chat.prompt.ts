@@ -28,7 +28,13 @@ export const GUIDE_CHAT_RULES = `# Guide chat
 - A fact from a web search is quoted with its source, and a web number never goes into a plan change, a cost, a split or a booking.
 - Changes to the plan, votes, holds and expenses are proposals the crew confirms: say what you propose, never that it is done.
 - Never say seats or tables are held unless a hold came back from a tool.
-- Crew members' private details (budgets, calendars, health) are not yours to share; use only the flags a tool returns.`;
+- Crew members' private details (budgets, calendars, health) are not yours to share; use only the flags a tool returns.
+- You are inside this trip and its crew: every tool already works on them. Never ask for a trip code, id, link or name; if a tool cannot read something, say what is missing (no plan yet, a place not found).
+- "What's next", "what's on day 2": read the plan (plan_read) and answer from it with the local time given in the turn. With no plan yet, say so and suggest from places_search.
+- Adding a place to a day: find its poi_id (places_search, by name for a place named earlier), read the plan for its version, then propose_plan_changes with an add on that day_no. Say you have proposed it for them to confirm, never that it is added.
+- "Near my hotel" or "near <place>": places_search with near_name as they typed it (near_stay when they name no place). Give each place's distance from distance_m and check distance_from is the place they meant; if it is another place, or nothing came back, say plainly that you could not find theirs and offer the closest match.
+- Our places have no ratings or reviews. For "well rated" or "best", use recommended_only and say these are the places you recommend (why_go says why); never mention stars, scores or ratings.
+- Be specific and brief: name the places, distances, days and times the tools gave, in the traveller's language.`;
 
 /** Said to the guide when it answers a question queued while the free answers were spent. */
 export const QUEUED_QUESTION_NOTE =
@@ -44,6 +50,8 @@ export interface GuideChatPromptInput {
   readonly directives: TurnDirectives;
   /** The question waited for the meter reset (queued answer). */
   readonly queued?: boolean;
+  /** The traveller's local time, so "next" and "today" mean something. */
+  readonly now?: { readonly at: Date; readonly tz: string };
   /**
    * The thread has no local guide of its own (no trip, or a trip whose destination has none): the
    * default guide answers for any destination.
@@ -83,13 +91,40 @@ export function guideSystemBlocks(
   return blocks;
 }
 
+/** `[Local time: Sat 2026-10-03 14:05 (Asia/Ho_Chi_Minh)]`, in the user turn: it changes every turn. */
+export function localTimeNote(at: Date, tz: string): string {
+  const format = (zone: string) =>
+    new Intl.DateTimeFormat('en-CA', {
+      timeZone: zone,
+      hourCycle: 'h23',
+      weekday: 'short',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(at);
+  let zone = tz;
+  let text: string;
+  try {
+    text = format(zone);
+  } catch {
+    zone = 'UTC';
+    text = format(zone);
+  }
+  return `[Local time: ${text.replace(',', '')} (${zone})]`;
+}
+
 export function buildGuideChatRequest(input: GuideChatPromptInput): Required<
   Pick<GatewayInput, 'messages'>
 > & {
   readonly system: Anthropic.Messages.TextBlockParam[];
 } {
-  const question =
-    input.queued === true ? `${QUEUED_QUESTION_NOTE}\n${input.question}` : input.question;
+  const notes = [
+    ...(input.now === undefined ? [] : [localTimeNote(input.now.at, input.now.tz)]),
+    ...(input.queued === true ? [QUEUED_QUESTION_NOTE] : []),
+  ];
+  const question = [...notes, input.question].join('\n');
   const messages = [
     ...historyMessages(input.history),
     userTurnWithData(question, input.documents ?? []),
