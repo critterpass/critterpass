@@ -17,7 +17,7 @@ import { useStoryClock } from '@/ui/story/story-clock';
 import { StoryPlayer } from '@/ui/story/StoryPlayer';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { makeStyles } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import type { StoryCardSpec } from './story-cards';
 import { presents, storyHint } from './story-copy';
@@ -57,10 +57,13 @@ export interface StoryViewProps {
 
 export function StoryView(props: StoryViewProps) {
   const styles = useStyles();
+  const theme = useTheme();
   const { t } = useLingui();
   const [index, setIndex] = useState(props.initialIndex ?? 0);
   const art = GUIDE_STICKERS[props.guide];
   const playing = props.cards[index];
+  // The stamp card is paper: the header is set in ink over it.
+  const ink = playing?.card === 'stamp' ? theme.color.paper.ink : undefined;
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="recap-story">
       <StoryPlayer
@@ -78,8 +81,10 @@ export function StoryView(props: StoryViewProps) {
           <View style={styles.header}>
             <Sticker kind={art.kind} name={props.guideName} size={36} />
             <View style={styles.grow}>
-              <Text variant="title">{presents(props.guideName)}</Text>
-              <Text variant="caption" numberOfLines={1}>
+              <Text variant="title" color={ink}>
+                {presents(props.guideName)}
+              </Text>
+              <Text variant="caption" color={ink} numberOfLines={1}>
                 {props.subtitle}
               </Text>
             </View>
