@@ -7,6 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/ui/text/display-titles.fixtures.tsx
+msgid "home.nextUp.eyebrow"
+msgstr "home.nextUp.eyebrow"
+
+#: ../../apps/mobile/src/ui/text/display-titles.fixtures.tsx
+msgid "home.countdown.today"
+msgstr "home.countdown.today"
+
 #: ../../apps/mobile/src/ui/states/PendingSync.tsx
 msgid "common.pending.sending"
 msgstr "{accessibilityLabel}, sending"
@@ -31,6 +39,7 @@ msgstr "{count} places here, tap to expand"
 msgid "common.home.switchCrew"
 msgstr "{crewName}, switch crew"
 
+#: ../../apps/mobile/src/ui/critters/QuestCard.tsx
 #: ../../apps/mobile/src/ui/data/SegmentedProgress.tsx
 msgid "common.data.nOfTotalDone"
 msgstr "{filled} of {total} done"
@@ -90,10 +99,6 @@ msgstr "{name}, {pose}"
 #: ../../apps/mobile/src/ui/people/Avatar.tsx
 msgid "common.avatar.pending"
 msgstr "{name}, invited"
-
-#: ../../apps/mobile/src/ui/people/member-name.ts
-msgid "common.member.former"
-msgstr "Former member"
 
 #: ../../apps/mobile/src/ui/people/AvatarStack.tsx
 msgid "common.avatarStack.more"
@@ -383,6 +388,10 @@ msgstr "Flips the postcard"
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.food"
 msgstr "Food"
+
+#: ../../apps/mobile/src/ui/people/member-name.ts
+msgid "common.member.former"
+msgstr "Former member"
 
 #: ../../apps/mobile/src/ui/chips/StatusChip.tsx
 msgid "common.status.free"

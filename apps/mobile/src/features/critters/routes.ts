@@ -22,6 +22,11 @@ export function critterRoute(critterId: string): Href {
   return { pathname: '/critters/[critterId]', params: { critterId } };
 }
 
+/** Where, when and how to meet one form: its spots on a map and the steps (an undesigned screen). */
+export function whereRoute(formId: string): Href {
+  return { pathname: '/critters/where/[formId]', params: { formId } };
+}
+
 export const LEGENDARIES_ROUTE: Href = '/critters/legendaries';
 
 export function hatchRoute(tripId: string): Href {

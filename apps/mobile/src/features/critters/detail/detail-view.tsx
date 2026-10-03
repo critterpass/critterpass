@@ -17,7 +17,7 @@ import { PillButton, type PillTone } from '@/ui/buttons/PillButton';
 import type { CardTone } from '@/ui/cards/tone';
 import { CritterDetail } from '@/ui/critters/CritterDetail';
 import { FormSelector } from '@/ui/critters/FormSelector';
-import type { Tier } from '@/ui/critters/tier';
+import { tierWord, type Tier } from '@/ui/critters/tier';
 import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { Row } from '@/ui/layout/Row';
 import { Avatar } from '@/ui/people/Avatar';
@@ -60,6 +60,8 @@ export interface DetailViewProps {
   readonly skinFormId: string | null;
   readonly onSkin: (formId: string | null) => void;
   readonly onShare: (form: DetailForm) => void;
+  /** Where to find a form not found yet (its places, window and steps). */
+  readonly onWhere?: (formId: string) => void;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -106,6 +108,8 @@ export function DetailView(props: DetailViewProps) {
   };
 
   const isSkin = form !== undefined && props.skinFormId === form.id;
+  // Locked forms only shake when tapped: where to find the next one sits under the picker.
+  const nextUnfound = model.forms.find((f) => !f.found);
   const owners = [props.me, ...props.crew].filter(Boolean).slice(0, 3);
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-detail">
@@ -187,6 +191,17 @@ export function DetailView(props: DetailViewProps) {
             }))}
             testID="critters-detail-forms"
           />
+          {nextUnfound === undefined || props.onWhere === undefined ? null : (
+            <PillButton
+              label={copy.whereToFind(tierWord(nextUnfound.rarity))}
+              variant="secondary"
+              size="sm"
+              block={false}
+              tone={PILL[nextUnfound.rarity]}
+              onPress={() => props.onWhere?.(nextUnfound.id)}
+              testID="critters-detail-where"
+            />
+          )}
         </View>
       </ScrollView>
       <View style={styles.footer}>

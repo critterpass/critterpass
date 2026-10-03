@@ -593,7 +593,7 @@ msgstr ""
 msgid "onboarding.tag.nightlife.short"
 msgstr ""
 
-#. placeholder {0}: query.trim()
+#. placeholder {0}: searched.trim()
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.noResults"
 msgstr ""

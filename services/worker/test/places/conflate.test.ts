@@ -4,6 +4,7 @@ import {
   categoriesCompatible,
   conflatePlaces,
   haversineDistanceM,
+  mergeOpenDataFields,
   trigramSimilarity,
   type ConflationCandidate,
 } from '../../src/places/conflate';
@@ -216,5 +217,43 @@ describe('conflatePlaces', () => {
       result.every((poi) => poi.sourceIds.fsq_os?.slice(4) === poi.sourceIds.overture?.slice(9)),
     ).toBe(true);
     expect(performance.now() - started).toBeLessThan(30_000);
+  });
+});
+
+describe('mergeOpenDataFields', () => {
+  const base = { name: 'Morning Glory', categoryLabels: [], lat: 15.877, lng: 108.328 };
+
+  it("prefers FSQ's contact details and fills each gap from Overture", () => {
+    const fsq: ConflationCandidate = { ...base, sourceId: 'fsq', phone: '+84 235 1' };
+    const overture: ConflationCandidate = {
+      ...base,
+      sourceId: 'ov',
+      confidence: 0.77,
+      website: 'https://morning-glory.example',
+      phone: '+84 235 2',
+      brand: 'Morning Glory',
+    };
+    expect(mergeOpenDataFields(fsq, overture)).toEqual({
+      confidence: 0.77,
+      website: 'https://morning-glory.example',
+      phone: '+84 235 1',
+      brand: 'Morning Glory',
+    });
+  });
+
+  it('carries the fields through conflation for matched and unmatched rows', () => {
+    const fsq: ConflationCandidate = { ...base, sourceId: 'fsq', website: 'https://fsq.example' };
+    const overture: ConflationCandidate = { ...base, sourceId: 'ov', confidence: 0.6 };
+    const lone: ConflationCandidate = {
+      ...base,
+      sourceId: 'ov-2',
+      name: 'Hoi An Night Market',
+      lat: 15.875,
+      confidence: 0.9,
+      phone: '+84 3',
+    };
+    const [matched, unmatched] = conflatePlaces([fsq], [overture, lone]);
+    expect(matched).toMatchObject({ confidence: 0.6, website: 'https://fsq.example' });
+    expect(unmatched).toMatchObject({ confidence: 0.9, phone: '+84 3' });
   });
 });

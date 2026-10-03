@@ -7,6 +7,11 @@
  * inserting a duplicate. Without an overlay this run, an existing row's
  * editorial/tags/hours/curation are left exactly as they were: a later plain re-ingest must never
  * erase a previous editorial pass.
+ *
+ * A new Overture-only place below `MIN_INSERT_CONFIDENCE` is not inserted: sampled in Hội An,
+ * Mexico City and London, rows under 0.3 are mostly online-only sellers, home services and
+ * mislabelled pages. A row already stored is still updated (its score lands, and search ranks it
+ * last), and nothing is ever deleted, since trips, must-dos, spawns and editorial reference POI ids.
  */
 import {
   canonicalTz,
@@ -19,7 +24,9 @@ import {
 import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
+import { buildValuesClause } from './batch-sql';
 import type { ConflatedPoi } from './conflate';
+import { findExistingPois, lookupExisting } from './existing-pois';
 
 export interface EditorialOverlayInput {
   readonly editorial?: EditorialOverlay;
@@ -64,64 +71,19 @@ function preparePoiRow(
   };
 }
 
-/**
- * Builds a parameterised multi-row `VALUES (...), (...)` clause: `casts[i]` (when set) is appended to
- * every row's column `i`. Used to batch what used to be one round trip per POI into one round trip
- * per chunk (docs/code-standards.md §13 "parameterised only" — every value is still a bound param,
- * only the placeholder count grows).
- */
-function buildValuesClause(
-  rows: readonly (readonly unknown[])[],
-  casts: readonly (string | undefined)[],
-): { readonly clause: string; readonly params: unknown[] } {
-  const params: unknown[] = [];
-  const rowClauses = rows.map((row) => {
-    const cells = row.map((value, columnIndex) => {
-      params.push(value);
-      const cast = casts[columnIndex];
-      return cast !== undefined ? `$${params.length}::${cast}` : `$${params.length}`;
-    });
-    return `(${cells.join(', ')})`;
-  });
-  return { clause: rowClauses.join(', '), params };
+export const MIN_INSERT_CONFIDENCE = 0.3;
+
+/** Whether a POI with no stored row yet is worth inserting (see file header). */
+export function worthInserting(row: Pick<PreparedPoiRow, 'poi' | 'hasOverlay'>): boolean {
+  if (row.hasOverlay || row.poi.sourceIds.fsq_os !== undefined) return true;
+  return row.poi.confidence === undefined || row.poi.confidence >= MIN_INSERT_CONFIDENCE;
 }
 
-/** One query per chunk instead of one per POI: matches a POI to an existing row by either source id. */
-async function findExistingPoiIds(
-  tx: pg.PoolClient,
-  rows: readonly PreparedPoiRow[],
-): Promise<ReadonlyMap<string, string>> {
-  const fsqIds = rows
-    .map((row) => row.poi.sourceIds.fsq_os)
-    .filter((id): id is string => id !== undefined);
-  const overtureIds = rows
-    .map((row) => row.poi.sourceIds.overture)
-    .filter((id): id is string => id !== undefined);
-  if (fsqIds.length === 0 && overtureIds.length === 0) return new Map();
-
-  const { rows: existing } = await tx.query<{ id: string; source_ids: ConflatedPoi['sourceIds'] }>(
-    `SELECT id, source_ids FROM pois
-     WHERE (source_ids ->> 'fsq_os') = ANY($1::text[]) OR (source_ids ->> 'overture') = ANY($2::text[])`,
-    [fsqIds, overtureIds],
-  );
-  const byKey = new Map<string, string>();
-  for (const row of existing) {
-    if (row.source_ids.fsq_os !== undefined) byKey.set(`fsq_os:${row.source_ids.fsq_os}`, row.id);
-    if (row.source_ids.overture !== undefined)
-      byKey.set(`overture:${row.source_ids.overture}`, row.id);
-  }
-  return byKey;
+/** The open-data columns in insert/update order: confidence, website, phone, brand. */
+function openDataValues(poi: ConflatedPoi): unknown[] {
+  return [poi.confidence ?? null, poi.website ?? null, poi.phone ?? null, poi.brand ?? null];
 }
-
-function lookupExistingId(
-  byKey: ReadonlyMap<string, string>,
-  sourceIds: ConflatedPoi['sourceIds'],
-): string | undefined {
-  const byFsq =
-    sourceIds.fsq_os !== undefined ? byKey.get(`fsq_os:${sourceIds.fsq_os}`) : undefined;
-  if (byFsq !== undefined) return byFsq;
-  return sourceIds.overture !== undefined ? byKey.get(`overture:${sourceIds.overture}`) : undefined;
-}
+const OPEN_DATA_CASTS = ['real', undefined, undefined, undefined] as const;
 
 const INSERT_CASTS = [
   'uuid',
@@ -138,6 +100,7 @@ const INSERT_CASTS = [
   undefined,
   'integer',
   undefined,
+  ...OPEN_DATA_CASTS,
 ] as const;
 
 async function insertPoiRows(
@@ -163,13 +126,15 @@ async function insertPoiRows(
       row.curation,
       row.visitRadiusM,
       timezone === undefined ? null : canonicalTz(timezone),
+      ...openDataValues(row.poi),
     ]),
     INSERT_CASTS,
   );
   await tx.query(
     `INSERT INTO pois
        (destination_id, name, category, lat, lng, address, source_ids, editorial, tags,
-        hours, hours_verified_at, curation, visit_radius_m, timezone)
+        hours, hours_verified_at, curation, visit_radius_m, timezone,
+        confidence, website, phone, brand)
      VALUES ${clause}`,
     params,
   );
@@ -189,6 +154,7 @@ const UPDATE_CASTS = [
   'jsonb',
   'timestamptz',
   undefined,
+  ...OPEN_DATA_CASTS,
 ] as const;
 
 async function updatePoiRows(
@@ -211,6 +177,7 @@ async function updatePoiRows(
       JSON.stringify(row.hours),
       row.hoursVerifiedAt,
       row.curation,
+      ...openDataValues(row.poi),
     ]),
     UPDATE_CASTS,
   );
@@ -222,10 +189,11 @@ async function updatePoiRows(
        tags = CASE WHEN v.has_overlay THEN v.tags ELSE p.tags END,
        hours = CASE WHEN v.has_overlay THEN v.hours ELSE p.hours END,
        hours_verified_at = CASE WHEN v.has_overlay THEN v.hours_verified_at ELSE p.hours_verified_at END,
-       curation = CASE WHEN v.has_overlay THEN v.curation ELSE p.curation END
+       curation = CASE WHEN v.has_overlay THEN v.curation ELSE p.curation END,
+       confidence = v.confidence, website = v.website, phone = v.phone, brand = v.brand
      FROM (VALUES ${clause})
        AS v(id, name, category, lat, lng, address, source_ids, has_overlay, editorial, tags, hours,
-            hours_verified_at, curation)
+            hours_verified_at, curation, confidence, website, phone, brand)
      WHERE p.id = v.id`,
     params,
   );
@@ -233,12 +201,13 @@ async function updatePoiRows(
 
 export const INGEST_BATCH_SIZE = 500;
 
-export function chunk<T>(items: readonly T[], size: number): readonly (readonly T[])[] {
-  const chunks: T[][] = [];
-  for (let index = 0; index < items.length; index += size) {
-    chunks.push(items.slice(index, index + size));
-  }
-  return chunks;
+export interface BatchUpsertCounts {
+  readonly inserted: number;
+  readonly updated: number;
+  /** New low-confidence places left out (see `worthInserting`). */
+  readonly skipped: number;
+  /** Places another destination owns, left untouched (`./existing-pois.ts`). */
+  readonly ownedElsewhere: number;
 }
 
 /**
@@ -251,21 +220,33 @@ export async function batchUpsertConflatedPois(
   timezone: string | undefined,
   pois: readonly ConflatedPoi[],
   editorialBySourceKey: ReadonlyMap<string, EditorialOverlayInput> | undefined,
-): Promise<void> {
+): Promise<BatchUpsertCounts> {
   const prepared = pois.map((poi) =>
     preparePoiRow(poi, editorialBySourceKey?.get(editorialOverlayKey(poi))),
   );
 
-  await withSystem(pool, async (tx) => {
-    const existingByKey = await findExistingPoiIds(tx, prepared);
+  return withSystem(pool, async (tx) => {
+    const existingByKey = await findExistingPois(tx, pois);
     const toInsert: PreparedPoiRow[] = [];
     const toUpdate: (PreparedPoiRow & { existingId: string })[] = [];
+    let ownedElsewhere = 0;
     for (const row of prepared) {
-      const existingId = lookupExistingId(existingByKey, row.poi.sourceIds);
-      if (existingId === undefined) toInsert.push(row);
-      else toUpdate.push({ ...row, existingId });
+      const existing = lookupExisting(existingByKey, row.poi.sourceIds);
+      if (existing === undefined) {
+        if (worthInserting(row)) toInsert.push(row);
+      } else if (existing.destinationId === destinationId) {
+        toUpdate.push({ ...row, existingId: existing.id });
+      } else {
+        ownedElsewhere += 1;
+      }
     }
     await insertPoiRows(tx, destinationId, timezone, toInsert);
     await updatePoiRows(tx, toUpdate);
+    return {
+      inserted: toInsert.length,
+      updated: toUpdate.length,
+      skipped: prepared.length - toInsert.length - toUpdate.length - ownedElsewhere,
+      ownedElsewhere,
+    };
   });
 }

@@ -3,6 +3,7 @@
  * GUIDE queues `set_guide_skin`, shows at once and offers Undo), and the share card for a found
  * form. Crewmates who have it come from the crew's live finds this session.
  */
+import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { toast } from '@/motion';
@@ -14,6 +15,7 @@ import { unknownName } from '../critters-copy';
 import { useCrewSightings } from '../data/crew-sightings';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import type { EntryRow } from '../data/queries';
+import { whereRoute } from '../routes';
 import { shareAlt, shareLine, skinReverted, skinToast, undo } from './detail-copy';
 import {
   buildDetail,
@@ -77,6 +79,7 @@ export function DetailScreen({ critterId }: { readonly critterId: string }) {
         skinFormId={skin.current}
         onSkin={onSkin}
         onShare={setSharing}
+        onWhere={(formId) => router.push(whereRoute(formId))}
       />
       {sharing === null ? null : (
         <ShareImageSheet

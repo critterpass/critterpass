@@ -1,6 +1,7 @@
 /**
  * The here-now card (3l-2): the local critter of the place you're in, its four forms (found ones
- * in colour, the rest as silhouettes) and where the next one lives, never its name.
+ * in colour, the rest as silhouettes) and where the next one lives, never its name. Each form is a
+ * button: a found one opens the critter's page, the rest where to find them.
  */
 import { upper } from '@cp/i18n';
 
@@ -22,9 +23,12 @@ const FORM_ART = 48;
 export function HereNowCard({
   here,
   onOpen,
+  onWhere,
 }: {
   readonly here: HereNowModel;
   readonly onOpen: (critterId: string) => void;
+  /** A form not found yet opens where to find it; a found one opens the critter's page. */
+  readonly onWhere?: (formId: string) => void;
 }) {
   const locale = useLocale();
   const { critter, forms, nextForm } = here;
@@ -63,6 +67,16 @@ export function HereNowCard({
       {...(nextForm?.requirement == null
         ? {}
         : { hint: nextFormHint(tierWord(nextForm.rarity), nextForm.requirement) })}
+      {...(onWhere === undefined
+        ? {}
+        : {
+            onPressForm: (index: number) => {
+              const form = forms[index];
+              if (form === undefined) return;
+              if (form.found) onOpen(critter.id);
+              else onWhere(form.formId);
+            },
+          })}
       testID="critters-here-now"
     />
   );

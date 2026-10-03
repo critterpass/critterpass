@@ -11,6 +11,21 @@ msgstr ""
 msgid "critters.unknownName"
 msgstr ""
 
+#. placeholder {0}: step.n
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.setFirst"
+msgstr ""
+
+#. placeholder {0}: step.n
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.places"
+msgstr ""
+
+#. placeholder {0}: step.minutes
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.stay"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.landedAt"
 msgstr ""
@@ -115,6 +130,10 @@ msgstr ""
 msgid "critters.detail.shareLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.eyebrow"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
 msgid "critters.slipped.eyebrowTier"
 msgstr ""
@@ -167,6 +186,10 @@ msgstr ""
 msgid "critters.dex.filterAll"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.allFound"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.alsoHas"
 msgstr ""
@@ -181,6 +204,19 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.backToDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.dark"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.sunrise"
+msgstr ""
+
+#. placeholder {0}: step.members
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.together"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
@@ -225,6 +261,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.directions"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
@@ -283,6 +323,18 @@ msgstr ""
 msgid "critters.detail.fieldNotes"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.go"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.goAny"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.goNearest"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.hatchIt"
 msgstr ""
@@ -307,12 +359,25 @@ msgstr ""
 msgid "critters.queued.samples"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.steps"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.waitingBody"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.dayAny"
+msgstr ""
+
+#. placeholder {0}: step.placeLine
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.day"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
@@ -367,6 +432,14 @@ msgstr ""
 msgid "critters.dex.filterNear"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.nearest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.nearestAway"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyNearBody"
 msgstr ""
@@ -381,6 +454,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptySearchTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.none"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
@@ -543,6 +620,18 @@ msgstr ""
 msgid "critters.detail.where"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.nearMap"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.whereToFindTier"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.youMadeIt"
 msgstr ""
@@ -603,6 +692,6 @@ msgstr ""
 msgid "critters.queued.skin"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/dex/dex-view.tsx
+#: ../../apps/mobile/src/features/critters/dex/profile-entry.tsx
 msgid "critters.dex.openProfile"
 msgstr ""
