@@ -20,6 +20,7 @@ import { placeContextTravel } from '../explore/place-context';
 import { ideasModule } from './ideas/register';
 import { searchModule } from './search';
 import { importsModule } from './imports';
+import { placesHubModule } from './hub';
 
 export interface PlanningDeps {
   readonly app: OpenAPIHono<AppEnv>;
@@ -42,6 +43,7 @@ const PLANNING_MODULES: readonly PlanningModule[] = [
   routePreviewModule,
   searchModule,
   importsModule,
+  placesHubModule,
 ];
 
 export function registerPlanning(
