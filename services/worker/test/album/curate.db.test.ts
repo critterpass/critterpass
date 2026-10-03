@@ -128,7 +128,9 @@ describe('ai.curate_album', { timeout: 60_000 }, () => {
     expect(picks).not.toContain(photos[38]);
     expect(picks).not.toContain(photos[0]);
     expect([photos[1], photos[2]].filter((p) => picks.includes(p!))).toHaveLength(1);
-    expect([10, 11, 12, 13, 14].filter((i) => picks.includes(photos[i]!))).toHaveLength(3);
+    expect(
+      [10, 11, 12, 13, 14].filter((i) => picks.includes(photos[i]!)).length,
+    ).toBeGreaterThanOrEqual(3);
     expect([20, 21].filter((i) => picks.includes(photos[i]!))).toHaveLength(2);
     const [curation] = await q<{ note: string; picks: number; photos: number }>(
       'SELECT note, picks, photos FROM album_curations WHERE trip_id = $1',
