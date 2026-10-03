@@ -42,6 +42,7 @@ import { registerSupplierRoutes } from './suppliers/register';
 import { registerTripDay } from './commands/trip-day';
 import { registerDisruptions } from './commands/disruptions';
 import { registerExplore } from './explore/register';
+import { registerPlanning } from './planning/register';
 import { registerProposals } from './routes/proposals';
 import { registerCritters } from './commands/critters';
 import { registerQuests } from './commands/quests';
@@ -106,6 +107,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerPlanRoutes(app, doors);
   registerSupplierRoutes(app, doors);
   registerExplore(app, doors);
+  registerPlanning(app, doors, env);
   registerSetupRoutes(app, { ...doors, store: redis, env: process.env });
   registerReceiptRoutesFromEnv(app, doors, process.env);
   registerConfigRoutesFromEnv(app, doors, process.env);

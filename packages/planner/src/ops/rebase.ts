@@ -40,7 +40,7 @@ export function changedSince(base: PlanState, latest: PlanState): Set<string> {
 function canonical(item: PlanStateItem): string {
   const entries = Object.entries(item)
     .filter(([, value]) => value !== undefined && value !== null)
-    .map(([key, value]) => [
+    .map(([key, value]): [string, unknown] => [
       key,
       (key === 'starts_at' || key === 'ends_at') && typeof value === 'string'
         ? new Date(value).toISOString()
@@ -48,7 +48,7 @@ function canonical(item: PlanStateItem): string {
           ? [...(value as unknown[])].sort()
           : value,
     ])
-    .sort(([a], [b]) => String(a).localeCompare(String(b)));
+    .sort(([a], [b]) => a.localeCompare(b));
   return JSON.stringify(entries);
 }
 
