@@ -38,15 +38,33 @@ function assetOf(face: BundledFace): number {
 
 const loaded = new Map<BundledFace, Promise<SkTypeface | null>>();
 
-/** The face as a Skia typeface; null when its asset cannot be read (the caller draws without it). */
+/** How long a face may take to read before the card draws in the system face instead. */
+const LOAD_TIMEOUT_MS = 4000;
+
+const WEIGHTS: Readonly<Record<BundledFace, number>> = {
+  'Archivo-W70-900': 900,
+  'Archivo-W100-900': 900,
+  'Geist-500': 500,
+  'Geist-600': 600,
+  'GeistMono-500': 500,
+  'Borel-400': 400,
+};
+
+/**
+ * The face as a Skia typeface. When its asset cannot be read in time (a build whose JS shipped
+ * without the font file), the system sans-serif at the face's weight stands in, so text never
+ * draws blank; null only when neither is there.
+ */
 export function bundledTypeface(face: BundledFace): Promise<SkTypeface | null> {
   const cached = loaded.get(face);
   if (cached !== undefined) return cached;
   const { Skia } = require('@shopify/react-native-skia') as typeof RNSkiaModule;
   const { Asset } = require('expo-asset') as typeof ExpoAssetModule;
   const { File } = require('expo-file-system') as typeof ExpoFileSystemModule;
+  const system = () =>
+    Skia.FontMgr.System().matchFamilyStyle('sans-serif', { weight: WEIGHTS[face] }) ?? null;
   // The asset copied to a local file first: a bundled asset's own URI is not a file Skia can read.
-  const typeface = Asset.fromModule(assetOf(face))
+  const bundled = Asset.fromModule(assetOf(face))
     .downloadAsync()
     .then(async (asset) => {
       if (asset.localUri === null) return null;
@@ -54,6 +72,8 @@ export function bundledTypeface(face: BundledFace): Promise<SkTypeface | null> {
       return Skia.Typeface.MakeFreeTypeFaceFromData(Skia.Data.fromBytes(bytes));
     })
     .catch(() => null);
+  const late = new Promise<null>((resolve) => setTimeout(() => resolve(null), LOAD_TIMEOUT_MS));
+  const typeface = Promise.race([bundled, late]).then((found) => found ?? system());
   loaded.set(face, typeface);
   return typeface;
 }
