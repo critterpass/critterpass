@@ -1,0 +1,36 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "96be7c41-fc91-476f-be0b-8ef362e75011",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I'll check what's near your hotel."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_hTxJAi1ed5v4bXQsJbEJ2275",
+          "name": "places_search",
+          "input": {
+            "near_name": "Avatar hotel",
+            "recommended_only": true
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 351,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10112,
+        "output_tokens": 65,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

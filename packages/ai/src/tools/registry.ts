@@ -70,12 +70,34 @@ export function toStrictJsonSchema(schema: z.ZodType): Anthropic.Messages.Tool.I
   return json as Anthropic.Messages.Tool.InputSchema;
 }
 
+/**
+ * Input keys the turn fills, never the model: the trip and crew the thread belongs to. The prompt
+ * carries no ids, so a schema asking for one leaves the model nothing to send but a question back
+ * to the traveller; and a value the model did send could name someone else's trip.
+ */
+export const CONTEXT_BOUND_KEYS = ['trip_id', 'crew_id'] as const;
+type ContextBoundKey = (typeof CONTEXT_BOUND_KEYS)[number];
+
+function boundKeys(name: ToolName): ContextBoundKey[] {
+  const shape = TOOL_SPECS[name].input.shape as Record<string, unknown>;
+  return CONTEXT_BOUND_KEYS.filter((key) => key in shape);
+}
+
+function withoutBoundKeys(schema: Anthropic.Messages.Tool.InputSchema) {
+  const bound = new Set<string>(CONTEXT_BOUND_KEYS);
+  const properties = Object.fromEntries(
+    Object.entries(schema.properties ?? {}).filter(([key]) => !bound.has(key)),
+  );
+  const required = (schema.required ?? []).filter((key) => !bound.has(key));
+  return { ...schema, properties, required };
+}
+
 export function toolDefinition(name: ToolName): Anthropic.Messages.Tool {
   const tool = TOOL_SPECS[name];
   return {
     name,
     description: tool.description,
-    input_schema: toStrictJsonSchema(tool.input),
+    input_schema: withoutBoundKeys(toStrictJsonSchema(tool.input)),
     strict: true,
   };
 }
@@ -95,6 +117,8 @@ export function routeTools(route: RouteConfig): Anthropic.Messages.Tool[] {
 export interface ToolContext {
   readonly uid: string;
   readonly tripId: string | null;
+  /** The crew the turn speaks in; crew-bound tools are unavailable without one. */
+  readonly crewId?: string | null;
   readonly caller: AiCaller;
   readonly route: AiRoute;
   readonly signal?: AbortSignal;
@@ -199,7 +223,15 @@ export function createToolRegistry(
       }
       const name = call.name;
       const tool = TOOL_SPECS[name];
-      const input = tool.input.safeParse(call.input);
+      const bound: Partial<Record<ContextBoundKey, string | null>> = {};
+      for (const key of boundKeys(name))
+        bound[key] = key === 'trip_id' ? context.tripId : (context.crewId ?? null);
+      // A trip or crew tool outside a trip or crew cannot check anything.
+      if (Object.values(bound).some((value) => value === null))
+        return failed(call, 'TOOL_UNAVAILABLE');
+      const given = call.input;
+      const isObject = typeof given === 'object' && given !== null && !Array.isArray(given);
+      const input = tool.input.safeParse(isObject ? { ...given, ...bound } : given);
       if (!input.success) return failed(call, 'TOOL_INPUT_INVALID');
       const executor = executors.get(name);
       if (executor === undefined) return failed(call, 'TOOL_UNAVAILABLE');

@@ -134,7 +134,7 @@ async function* mentionEvents(
       route: CREW_MENTION_ROUTE,
       system: request.system,
       messages: request.messages,
-      tool: { uid: claim.askerId, tripId: claim.tripId, caller: 'G' },
+      tool: { uid: claim.askerId, tripId: claim.tripId, crewId: claim.crewId, caller: 'G' },
       usage,
       ...(ports.inputCheck === undefined ? {} : { inputCheck: ports.inputCheck(claim.body) }),
     },

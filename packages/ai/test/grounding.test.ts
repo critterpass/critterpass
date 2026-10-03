@@ -94,6 +94,15 @@ describe('free-text grounding', () => {
     expect(unverifiedTextNumbers(text, grounding)).toEqual([]);
   });
 
+  it('passes a distance worded in km, in either decimal mark, and nothing else near it', () => {
+    const grounding = collectGrounding([[{ distance_m: 4130 }, { distance_m: 650 }]]);
+    expect(unverifiedTextNumbers('Sen Spa là 4,1 km, Mộc Spa 650 m.', grounding)).toEqual([]);
+    expect(unverifiedTextNumbers('about 4.1 km away', grounding)).toEqual([]);
+    expect(unverifiedTextNumbers('about 4.3 km away', grounding)).toEqual([
+      { kind: 'unverified_number', path: 'text', value: '4.3' },
+    ]);
+  });
+
   it('flags numbers, times and ids no tool produced', () => {
     const text = `Boats run until 23:00 and cost 350,000 each. Try ${OTHER_POI}.`;
     expect(unverifiedTextNumbers(text, grounding)).toEqual([

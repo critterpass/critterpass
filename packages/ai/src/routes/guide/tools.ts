@@ -34,6 +34,12 @@ interface PlanRow {
   readonly category: string | null;
 }
 
+interface TripDatesRow {
+  readonly start_date: string | null;
+  readonly end_date: string | null;
+  readonly tz: string | null;
+}
+
 type PlanDay = {
   day_no: number;
   date: string | null;
@@ -64,37 +70,87 @@ export async function readCrewProfiles(read: RunAsGuideReader, context: ToolCont
   });
 }
 
+/** An instant as the trip's wall clock with its offset (`2026-10-03T14:00:00+07:00`). */
+export function tripLocalInstant(at: Date, tz: string | null): string {
+  if (tz === null) return at.toISOString();
+  try {
+    const parts = Object.fromEntries(
+      new Intl.DateTimeFormat('en-CA', {
+        timeZone: tz,
+        hourCycle: 'h23',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        timeZoneName: 'longOffset',
+      })
+        .formatToParts(at)
+        .map((part) => [part.type, part.value]),
+    );
+    const offset = /([+-]\d{2}:\d{2})/u.exec(parts.timeZoneName ?? '')?.[1] ?? '+00:00';
+    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}${offset}`;
+  } catch {
+    return at.toISOString();
+  }
+}
+
+function addDays(date: string, days: number): string {
+  const at = new Date(`${date}T00:00:00Z`);
+  at.setUTCDate(at.getUTCDate() + days);
+  return at.toISOString().slice(0, 10);
+}
+
+/** Longest trip the plan lists day by day before any item is planned. */
+const MAX_TRIP_DAYS = 60;
+
+/**
+ * The trip's days, each with its crew plan items in the trip's local time. A day with nothing
+ * planned is still listed (from the trip's dates), and a trip with no plan yet answers with
+ * `version: null` instead of failing, so the guide can say so rather than call the plan unreadable.
+ */
 export async function readPlan(
   read: RunAsGuideReader,
   context: ToolContext,
   day: number | undefined,
 ) {
   return read(context.uid, tripOf(context), async (tx) => {
+    const trip = await tx.query<TripDatesRow>(
+      'SELECT start_date::text AS start_date, end_date::text AS end_date, tz FROM llm.trip_context',
+    );
+    const { start_date: start = null, end_date: end = null, tz = null } = trip.rows[0] ?? {};
     const { rows } = await tx.query<PlanRow>(
       `SELECT version_id, day_no, date::text AS date, stable_id,
               coalesce(poi_name, notes, category, 'Plan item') AS title,
               poi_id, starts_at, ends_at, category
          FROM llm.plan_items
-        WHERE visibility = 'crew' AND ($1::int IS NULL OR day_no = $1)
+        WHERE visibility = 'crew'
         ORDER BY day_no, starts_at NULLS LAST, stable_id`,
-      [day ?? null],
     );
-    const version = rows[0]?.version_id;
-    if (version === undefined) throw new Error('the trip has no crew plan yet');
     const days = new Map<number, PlanDay>();
+    if (start !== null && end !== null) {
+      const count = Math.round((Date.parse(end) - Date.parse(start)) / 86_400_000) + 1;
+      for (let n = 1; n <= Math.min(count, MAX_TRIP_DAYS); n += 1)
+        days.set(n, { day_no: n, date: addDays(start, n - 1), items: [] });
+    }
     for (const row of rows) {
       const entry = days.get(row.day_no) ?? { day_no: row.day_no, date: row.date, items: [] };
       entry.items.push({
         item_id: row.stable_id,
         title: row.title,
         poi_id: row.poi_id,
-        starts_at: row.starts_at?.toISOString() ?? null,
-        ends_at: row.ends_at?.toISOString() ?? null,
+        starts_at: row.starts_at === null ? null : tripLocalInstant(row.starts_at, tz),
+        ends_at: row.ends_at === null ? null : tripLocalInstant(row.ends_at, tz),
         category: row.category,
       });
       days.set(row.day_no, entry);
     }
-    return { version, days: [...days.values()] };
+    const listed = [...days.values()].sort((a, b) => a.day_no - b.day_no);
+    return {
+      version: rows[0]?.version_id ?? null,
+      days: day === undefined ? listed : listed.filter((entry) => entry.day_no === day),
+    };
   });
 }
 

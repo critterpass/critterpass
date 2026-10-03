@@ -1,0 +1,43 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "cd1bf39d-5956-4a52-989e-cc57f24fe272",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I'll check where that sits relative to your stay."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_zfzz3SJmI3kvFcHhTvnf0477",
+          "name": "places_search",
+          "input": {
+            "query": "Sheraton Grand Danang"
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01_bLnNV9R5tYW82nwJxahK7969",
+          "name": "places_search",
+          "input": {
+            "near_stay": true
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 347,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10112,
+        "output_tokens": 81,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

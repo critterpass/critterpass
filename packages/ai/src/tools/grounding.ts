@@ -58,6 +58,8 @@ export function collectGrounding(outputs: readonly unknown[]): GroundingSet {
       numbers.add(node);
       // Minor units are also worded in major units (1250 minor = 12.50).
       numbers.add(node / 100);
+      // A distance in metres is also worded in km, to one decimal (4130 m = 4.1 km).
+      if (/(^|_)distance_m$/u.test(key)) numbers.add(Math.round(node / 100) / 10);
     } else if (typeof node === 'string') {
       if (ID_KEYS.test(key)) ids.add(node);
       for (const id of node.match(UUID) ?? []) ids.add(id.toLowerCase());
