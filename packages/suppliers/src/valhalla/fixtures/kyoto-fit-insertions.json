@@ -1,0 +1,354 @@
+[
+  {
+    "path": "/sources_to_targets",
+    "request": {
+      "sources": [
+        {
+          "lat": 34.9858,
+          "lon": 135.7588
+        }
+      ],
+      "targets": [
+        {
+          "lat": 34.9949,
+          "lon": 135.785
+        },
+        {
+          "lat": 34.9671,
+          "lon": 135.7727
+        },
+        {
+          "lat": 35.0037,
+          "lon": 135.7788
+        }
+      ],
+      "costing": "pedestrian",
+      "units": "kilometers"
+    },
+    "status": 200,
+    "response": {
+      "sources_to_targets": [
+        [
+          {
+            "from_index": 0,
+            "to_index": 0,
+            "time": 2676,
+            "distance": 3.467,
+            "cost": 2955.883
+          },
+          {
+            "from_index": 0,
+            "to_index": 1,
+            "time": 2328,
+            "distance": 3.208,
+            "cost": 2399.749
+          },
+          {
+            "from_index": 0,
+            "to_index": 2,
+            "time": 2557,
+            "distance": 3.529,
+            "cost": 2683.673
+          }
+        ]
+      ],
+      "sources": [
+        {
+          "lat": 34.985795,
+          "lon": 135.758291
+        }
+      ],
+      "targets": [
+        {
+          "lat": 34.99487,
+          "lon": 135.785181
+        },
+        {
+          "lat": 34.967135,
+          "lon": 135.772714
+        },
+        {
+          "lat": 35.00374,
+          "lon": 135.77881
+        }
+      ],
+      "units": "kilometers",
+      "algorithm": "timedistancematrix"
+    }
+  },
+  {
+    "path": "/sources_to_targets",
+    "request": {
+      "sources": [
+        {
+          "lat": 34.9949,
+          "lon": 135.785
+        },
+        {
+          "lat": 34.9671,
+          "lon": 135.7727
+        },
+        {
+          "lat": 35.0037,
+          "lon": 135.7788
+        }
+      ],
+      "targets": [
+        {
+          "lat": 34.9858,
+          "lon": 135.7588
+        }
+      ],
+      "costing": "pedestrian",
+      "units": "kilometers"
+    },
+    "status": 200,
+    "response": {
+      "sources_to_targets": [
+        [
+          {
+            "from_index": 0,
+            "to_index": 0,
+            "time": 2521,
+            "distance": 3.511,
+            "cost": 2677.708
+          }
+        ],
+        [
+          {
+            "from_index": 1,
+            "to_index": 0,
+            "time": 2253,
+            "distance": 3.2,
+            "cost": 2298.911
+          }
+        ],
+        [
+          {
+            "from_index": 2,
+            "to_index": 0,
+            "time": 2541,
+            "distance": 3.551,
+            "cost": 2664.226
+          }
+        ]
+      ],
+      "sources": [
+        {
+          "lat": 34.99487,
+          "lon": 135.785181
+        },
+        {
+          "lat": 34.967135,
+          "lon": 135.772714
+        },
+        {
+          "lat": 35.00374,
+          "lon": 135.77881
+        }
+      ],
+      "targets": [
+        {
+          "lat": 34.985795,
+          "lon": 135.758291
+        }
+      ],
+      "units": "kilometers",
+      "algorithm": "timedistancematrix"
+    }
+  },
+  {
+    "path": "/sources_to_targets",
+    "request": {
+      "sources": [
+        {
+          "lat": 34.9858,
+          "lon": 135.7588
+        }
+      ],
+      "targets": [
+        {
+          "lat": 34.9949,
+          "lon": 135.785
+        },
+        {
+          "lat": 34.9671,
+          "lon": 135.7727
+        },
+        {
+          "lat": 35.0037,
+          "lon": 135.7788
+        }
+      ],
+      "costing": "auto",
+      "units": "kilometers"
+    },
+    "status": 200,
+    "response": {
+      "sources_to_targets": [
+        [
+          {
+            "from_index": 0,
+            "to_index": 0,
+            "time": 761,
+            "distance": 3.891,
+            "cost": 1803.927,
+            "begin_heading": 251.5,
+            "end_heading": 167.6,
+            "begin_lat": 34.9865,
+            "begin_lon": 135.759685,
+            "end_lat": 34.99533,
+            "end_lon": 135.784651
+          },
+          {
+            "from_index": 0,
+            "to_index": 1,
+            "time": 774,
+            "distance": 5.294,
+            "cost": 1738.225,
+            "begin_heading": 251.5,
+            "end_heading": 5.7,
+            "begin_lat": 34.9865,
+            "begin_lon": 135.759685,
+            "end_lat": 34.966961,
+            "end_lon": 135.772954
+          },
+          {
+            "from_index": 0,
+            "to_index": 2,
+            "time": 633,
+            "distance": 3.486,
+            "cost": 1086.432,
+            "begin_heading": 251.5,
+            "end_heading": 201.3,
+            "begin_lat": 34.9865,
+            "begin_lon": 135.759685,
+            "end_lat": 35.003982,
+            "end_lon": 135.779149
+          }
+        ]
+      ],
+      "sources": [
+        {
+          "lat": 34.9865,
+          "lon": 135.759685
+        }
+      ],
+      "targets": [
+        {
+          "lat": 34.99533,
+          "lon": 135.784651
+        },
+        {
+          "lat": 34.966961,
+          "lon": 135.772954
+        },
+        {
+          "lat": 35.003982,
+          "lon": 135.779149
+        }
+      ],
+      "units": "kilometers",
+      "algorithm": "costmatrix"
+    }
+  },
+  {
+    "path": "/sources_to_targets",
+    "request": {
+      "sources": [
+        {
+          "lat": 34.9949,
+          "lon": 135.785
+        },
+        {
+          "lat": 34.9671,
+          "lon": 135.7727
+        },
+        {
+          "lat": 35.0037,
+          "lon": 135.7788
+        }
+      ],
+      "targets": [
+        {
+          "lat": 34.9858,
+          "lon": 135.7588
+        }
+      ],
+      "costing": "auto",
+      "units": "kilometers"
+    },
+    "status": 200,
+    "response": {
+      "sources_to_targets": [
+        [
+          {
+            "from_index": 0,
+            "to_index": 0,
+            "time": 839,
+            "distance": 4.596,
+            "cost": 31169.597,
+            "begin_heading": 347.6,
+            "end_heading": 45.6,
+            "begin_lat": 34.99533,
+            "begin_lon": 135.784651,
+            "end_lat": 34.98621,
+            "end_lon": 135.757529
+          }
+        ],
+        [
+          {
+            "from_index": 1,
+            "to_index": 0,
+            "time": 709,
+            "distance": 4.674,
+            "cost": 30689.695,
+            "begin_heading": 185.7,
+            "end_heading": 45.6,
+            "begin_lat": 34.966961,
+            "begin_lon": 135.772954,
+            "end_lat": 34.98621,
+            "end_lon": 135.757529
+          }
+        ],
+        [
+          {
+            "from_index": 2,
+            "to_index": 0,
+            "time": 729,
+            "distance": 4.52,
+            "cost": 30456.9,
+            "begin_heading": 21.3,
+            "end_heading": 45.6,
+            "begin_lat": 35.003982,
+            "begin_lon": 135.779149,
+            "end_lat": 34.98621,
+            "end_lon": 135.757529
+          }
+        ]
+      ],
+      "sources": [
+        {
+          "lat": 34.99533,
+          "lon": 135.784651
+        },
+        {
+          "lat": 34.966961,
+          "lon": 135.772954
+        },
+        {
+          "lat": 35.003982,
+          "lon": 135.779149
+        }
+      ],
+      "targets": [
+        {
+          "lat": 34.9865,
+          "lon": 135.759685
+        }
+      ],
+      "units": "kilometers",
+      "algorithm": "costmatrix"
+    }
+  }
+]

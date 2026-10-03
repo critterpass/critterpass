@@ -7,6 +7,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
+import type { ToolContext, ToolRegistry } from '@cp/ai';
 import type { RouteEtaResult } from '@cp/domain';
 import {
   chooseLegMode,
@@ -15,7 +16,11 @@ import {
   type PlanningTravelResult,
   type ValhallaPoint,
 } from '@cp/suppliers';
+import type pg from 'pg';
 import { describe, expect, it } from 'vitest';
+
+import { registerRouteEtaExecutor, type RouteEtaAnswer } from '../../src/routing/tool-executor';
+import { planningFitTravel } from '../../src/routing/travel-modes';
 
 import {
   jsonResponse,
@@ -112,6 +117,76 @@ describe('chooseLegMode', () => {
   });
 });
 
+describe('fit travel', () => {
+  it('asks one row out and one column back per mode for places tried after a stop', async () => {
+    const { calls, fetch } = replayValhalla('kyoto-fit-insertions');
+    const travel = createPlanningTravel({
+      valhalla: createValhallaClient({ baseUrl: 'http://valhalla.test:8002', fetch, retries: 0 }),
+    });
+    const station = { key: 'stay', lat: 34.9858, lng: 135.7588 };
+    const places = [
+      { key: 'kiyomizu', lat: 34.9949, lng: 135.785 },
+      { key: 'fushimi', lat: 34.9671, lng: 135.7727 },
+      { key: 'gion', lat: 35.0037, lng: 135.7788 },
+    ];
+    const legs = await planningFitTravel(travel)(1.2, 1200).legs(
+      places.flatMap((place) => [
+        { from: station, to: place },
+        { from: place, to: station },
+      ]),
+    );
+    expect(calls).toHaveLength(4);
+    expect(legs.size).toBe(6);
+    expect([...legs.values()].every((leg) => !leg.approx && leg.mode === 'drive')).toBe(true);
+  });
+});
+
+describe('route_eta', () => {
+  type Input = {
+    origins: { lat: number; lng: number }[];
+    dest: { lat: number; lng: number };
+    mode: 'walk' | 'drive' | 'ride' | 'transit' | 'bike';
+  };
+  let executor: ((input: Input, context: ToolContext) => Promise<RouteEtaAnswer>) | undefined;
+  const registry = {
+    registerToolExecutor: (_name: string, fn: typeof executor) => {
+      executor = fn;
+    },
+  } as unknown as ToolRegistry;
+  const travel = createPlanningTravel({ valhalla: null });
+  // No trip on the turn: no drive factor to read, so the pool is never touched.
+  registerRouteEtaExecutor(registry, {} as pg.Pool, travel);
+  const context = { uid: 'u', tripId: null } as unknown as ToolContext;
+  const ask = (input: Input) => {
+    if (executor === undefined) throw new Error('route_eta not registered');
+    return executor(input, context);
+  };
+
+  it('answers for the slowest origin, without traffic', async () => {
+    const near = await ask({ origins: [P.hanMarket], dest: P.dragonBridge, mode: 'drive' });
+    const both = await ask({
+      origins: [P.hanMarket, P.marble],
+      dest: P.dragonBridge,
+      mode: 'drive',
+    });
+    const far = await travel.travel(P.marble, P.dragonBridge, 'drive');
+    expect(both).toEqual({ minutes: far.minutes, distance_m: far.meters, traffic: false });
+    expect(both.minutes).toBeGreaterThan(near.minutes);
+  });
+
+  it('rides a bike over the walking route and estimates transit', async () => {
+    const walk = await travel.travel(P.marble, P.dragonBridge, 'walk');
+    const bike = await ask({ origins: [P.marble], dest: P.dragonBridge, mode: 'bike' });
+    expect(bike).toEqual({
+      minutes: Math.round(walk.meters / 250),
+      distance_m: walk.meters,
+      traffic: false,
+    });
+    const transit = await ask({ origins: [P.marble], dest: P.dragonBridge, mode: 'transit' });
+    expect(transit.minutes).toBeLessThan(walk.minutes);
+  });
+});
+
 describe('no Navigation API result is stored', () => {
   it('has no Mapbox source in the planning result type', () => {
     const mapbox = { source: 'mapbox' } as const satisfies Pick<RouteEtaResult, 'source'>;
@@ -132,7 +207,7 @@ describe('no Navigation API result is stored', () => {
       (dir) => walk(join(root, dir)),
     );
     const storing = files.filter((file) =>
-      /route_cache|plan_legs|createPlanningTravel|planning-provider/.test(
+      /route_cache|plan_legs|createPlanningTravel|planning-provider|route_eta/.test(
         readFileSync(file, 'utf8'),
       ),
     );

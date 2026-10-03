@@ -4,6 +4,10 @@
 # Variables (names only): ROUTING_TILES_MANIFEST_URL (the `routing-tiles` release's manifest.json),
 # PORT=8002 (Railway health-checks PORT), VALHALLA_THREADS (default 2), DATA_DIR=/data with a
 # volume mounted at /data so a restart serves the tiles on disk without downloading them again.
+# Deploying with `railway up` from a scratch folder: Railway ignores this file at the upload root and
+# builds with Railpack unless the folder has a root `Dockerfile`, so copy valhalla.Dockerfile there
+# (with tools/routing-tiles/serve.sh at its repo path). The health check settings below then apply
+# only once this file is set as the service's config-as-code path.
 
 [build]
 builder = "DOCKERFILE"

@@ -7,6 +7,8 @@
  */
 import { z } from 'zod';
 
+import { PLAN_LEGS_DEBOUNCE_SECONDS, PLANNING_QUEUES } from './queues';
+
 export const LEG_MODES = ['walk', 'drive', 'ride', 'driver'] as const;
 export const legModeSchema = z.enum(LEG_MODES);
 export type LegMode = z.infer<typeof legModeSchema>;
@@ -38,3 +40,30 @@ export const planLegSchema = z.object({
   computed_at: z.iso.datetime({ offset: true }),
 });
 export type PlanLeg = z.infer<typeof planLegSchema>;
+
+/**
+ * Events after which a trip's legs may be stale: a new or edited plan version moves stops, and a
+ * stay booking added, edited, removed or shared moves the night's anchor. Bursts of edits fold
+ * into one run per trip after `PLAN_LEGS_DEBOUNCE_SECONDS`.
+ */
+export const LEGS_TRIGGER_EVENTS: ReadonlySet<string> = new Set([
+  'plan.version_created',
+  'plan.ops_applied',
+  'change_set.applied',
+  'booking.added',
+  'booking.edited',
+  'booking.deleted',
+  'booking.visibility_changed',
+]);
+
+/** The `plan.legs` send an appended event asks for, or `null` when it can't move a leg. */
+export function legsJobFor(event: { readonly type: string; readonly tripId: string | null }): {
+  readonly queue: typeof PLANNING_QUEUES.legs;
+  readonly options: { readonly singletonKey: string; readonly startAfter: number };
+} | null {
+  if (event.tripId === null || !LEGS_TRIGGER_EVENTS.has(event.type)) return null;
+  return {
+    queue: PLANNING_QUEUES.legs,
+    options: { singletonKey: `legs:${event.tripId}`, startAfter: PLAN_LEGS_DEBOUNCE_SECONDS },
+  };
+}

@@ -4,7 +4,7 @@
  * without it, or when it fails, every cell is a straight-line estimate labelled "about".
  */
 import { estimateStraightLineEta, type TravelMode } from '@cp/domain';
-import { z } from 'zod';
+import { createValhallaClient, type FetchLike, type ValhallaCosting } from '@cp/suppliers';
 
 export interface RoutePoint {
   readonly lat: number;
@@ -25,19 +25,13 @@ export interface MeetupRouter {
   ): Promise<readonly MatrixCell[]>;
 }
 
-const COSTING: Readonly<Record<TravelMode, string>> = {
+const COSTING: Readonly<Record<TravelMode, ValhallaCosting>> = {
   pedestrian: 'pedestrian',
   motor_scooter: 'motor_scooter',
   auto: 'auto',
   // Valhalla's multimodal needs transit tiles we do not build; walk instead.
   multimodal: 'pedestrian',
 };
-
-const valhallaMatrixSchema = z.object({
-  sources_to_targets: z.array(
-    z.array(z.object({ time: z.number().nullable(), distance: z.number().nullable() })),
-  ),
-});
 
 function straightLine(mode: TravelMode, source: RoutePoint, target: RoutePoint): MatrixCell {
   const eta = estimateStraightLineEta(
@@ -58,40 +52,35 @@ export const straightLineRouter: MeetupRouter = {
     Promise.resolve(sources.map((source) => straightLine(mode, source, target))),
 };
 
-/** Valhalla with a straight-line fallback per call (timeout, HTTP error, unroutable cell). */
+/**
+ * Valhalla (the shared client: deadline, circuit breaker, off-graph points left out) with a
+ * straight-line fallback per call (timeout, HTTP error, router down) and per unroutable cell. Live
+ * surfaces don't retry: a second attempt would only make the "about" answer later.
+ */
 export function valhallaRouter(options: {
   readonly baseUrl: string;
   readonly timeoutMs?: number;
-  readonly fetch?: typeof fetch;
+  readonly fetch?: FetchLike;
   readonly onError?: (error: unknown) => void;
 }): MeetupRouter {
-  const base = options.baseUrl.replace(/\/+$/, '');
-  const doFetch = options.fetch ?? fetch;
+  const client = createValhallaClient({
+    baseUrl: options.baseUrl,
+    matrixTimeoutMs: options.timeoutMs ?? 3000,
+    retries: 0,
+    ...(options.fetch === undefined ? {} : { fetch: options.fetch }),
+  });
   return {
     async matrix(mode, sources, target) {
       if (sources.length === 0) return [];
       try {
-        const response = await doFetch(`${base}/sources_to_targets`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({
-            sources: sources.map((p) => ({ lat: p.lat, lon: p.lng })),
-            targets: [{ lat: target.lat, lon: target.lng }],
-            costing: COSTING[mode],
-            units: 'kilometers',
-          }),
-          signal: AbortSignal.timeout(options.timeoutMs ?? 3000),
-        });
-        if (!response.ok) throw new Error(`valhalla sources_to_targets: HTTP ${response.status}`);
-        const rows = valhallaMatrixSchema.parse(await response.json()).sources_to_targets;
+        const cells = await client.matrix(sources, [target], COSTING[mode]);
         return sources.map((source, index) => {
-          const cell = rows[index]?.[0];
-          if (cell?.time == null || cell.distance == null) {
-            return straightLine(mode, source, target);
-          }
+          const seconds = cells.seconds[index]?.[0];
+          const meters = cells.meters[index]?.[0];
+          if (seconds == null || meters == null) return straightLine(mode, source, target);
           return {
-            minutes: Math.max(0, Math.round(cell.time / 60)),
-            distanceM: Math.round(cell.distance * 1000),
+            minutes: Math.max(0, Math.round(seconds / 60)),
+            distanceM: meters,
             estimate: false,
           };
         });
