@@ -10,6 +10,7 @@ import { format, upper } from '@cp/i18n';
 import { plural, t } from '@lingui/core/macro';
 
 import type { SeatState, StormModel, StormOptionData, StormOptionId } from './model';
+import { clockOption } from '@/lib/i18n/formats';
 
 const fact = (option: StormOptionData, key: string) => String(option.facts[key] ?? '');
 
@@ -267,6 +268,7 @@ export function closesLine(closesAt: string, tz: string, locale: string): string
     weekday: 'short',
     hourCycle: 'h23',
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
   });
   return t({ id: 'trip.disruptions.storm.closes', message: `Vote closes ${time}.` });

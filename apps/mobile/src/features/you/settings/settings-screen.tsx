@@ -8,8 +8,10 @@ import { useLingui } from '@lingui/react/macro';
 import * as Application from 'expo-application';
 import { router } from 'expo-router';
 import { useState } from 'react';
+import { Linking, Platform } from 'react-native';
 
 import { BOOKINGS_ROUTES, useMailboxSettingsRow } from '@/features/bookings';
+import { feedbackHref, HELP_ROUTES, storeReviewUrl, useIdeasToVote } from '@/features/help';
 import { useMoneyDisplay } from '@/data/money';
 import { useFlag } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -58,6 +60,8 @@ export function SettingsScreen({
   const mailbox = useMailboxSettingsRow();
   const location = useLocationRow();
   const money = useMoneyDisplay();
+  const ideasToVote = useIdeasToVote();
+  const reviewUrl = storeReviewUrl(Platform.OS, Application.applicationId);
   const dataExport = useDataExport();
   // Reading the inbox needs a provider switched on for this build; until then the row offers the
   // crew's forward address, which works today.
@@ -82,6 +86,11 @@ export function SettingsScreen({
       haptics: prefs.hapticsEnabled,
       account: account?.kind === 'ok',
       language: languageLine(nativeNameOf(locale), money),
+      ideasToVote,
+      storeName:
+        Platform.OS === 'ios'
+          ? t({ id: 'you.settings.rateIos', message: 'On the App Store' })
+          : t({ id: 'you.settings.rateAndroid', message: 'On Google Play' }),
       dataExport: {
         line: exportLine(dataExport.state, dataExport.problem, locale),
         enabled:
@@ -102,6 +111,11 @@ export function SettingsScreen({
       onHaptics: prefs.setHapticsEnabled,
       onLanguage: () => router.push(YOU_ROUTES.language),
       onSignOut: () => router.push(YOU_ROUTES.signOut),
+      onRate: reviewUrl === null ? null : () => void Linking.openURL(reviewUrl),
+      onFeedback: () => router.push(feedbackHref({ mode: 'feedback', context: 'settings' })),
+      onIdea: () => router.push(feedbackHref({ mode: 'idea', context: 'settings' })),
+      onHelpCentre: () =>
+        router.push({ pathname: HELP_ROUTES.hub, params: { context: 'settings' } }),
       onDataExport: () =>
         dataExport.state.kind === 'ready' ? dataExport.open() : dataExport.request(),
       onDeleteAccount: () => router.push(YOU_ROUTES.deleteAccount),

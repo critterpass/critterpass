@@ -146,12 +146,15 @@ export function useTripPlan(tripId: string | null): TripPlan {
     version === null ? null : [version],
     ITEMS_TABLES,
   );
-  const coverage = useLiveRows<{ coverage: string | null }>(
+  const coverage = useLiveRows<{ coverage: string | null; picked: string | null }>(
     VERSION_PLACES_SQL,
     version === null ? null : [version],
     VERSION_PLACES_TABLES,
   );
-  const places = useMemo(() => placeNamesOf(coverage.rows[0]?.coverage ?? null), [coverage.rows]);
+  const places = useMemo(
+    () => placeNamesOf(coverage.rows[0]?.coverage ?? null, coverage.rows[0]?.picked ?? null),
+    [coverage.rows],
+  );
   const queued = useLiveRows<QueuedRow>(QUEUED_PLAN_SQL, [], QUEUED_PLAN_TABLES);
   const locale = useActiveLocale();
   const changesets = useLiveRows<ChangesetRow>(

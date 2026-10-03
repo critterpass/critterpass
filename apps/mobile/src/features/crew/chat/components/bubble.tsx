@@ -27,6 +27,7 @@ import { timeOf } from './format';
 import { tidyGuideText } from './guide-text';
 import { useRise } from './rise';
 import { useSwipeToReply } from './swipe-reply';
+import { useFormats } from '@/lib/i18n/formats';
 
 export interface BubbleProps {
   readonly message: ChatMessage;
@@ -78,6 +79,7 @@ export function Bubble(props: BubbleProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
+  useFormats();
   const rise = useRise(animate);
 
   const swipe = useSwipeToReply(

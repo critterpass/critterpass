@@ -5,6 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- date patterns and zone ids, never copy. */
 import { airportZone } from '@cp/content/airports';
+import { clockOption } from '@/lib/i18n/formats';
 
 const DATE = /^(\d{4})-(\d{2})-(\d{2})$/u;
 const TIME = /^([01]?\d|2[0-3])[:.]([0-5]\d)$/u;
@@ -27,6 +28,7 @@ export function offsetMinutes(tz: string, utcMs: number): number {
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
     second: '2-digit',
   }).formatToParts(new Date(utcMs));

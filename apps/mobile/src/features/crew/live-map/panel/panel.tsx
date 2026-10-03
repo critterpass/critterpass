@@ -17,6 +17,7 @@ import { CAPSULE_RADIUS } from '../map/capsule';
 
 import { MemberRow, type RowModel } from './member-row';
 import { PingActions } from './ping-actions';
+import { useFormats } from '@/lib/i18n/formats';
 
 const useStyles = makeStyles((th) => ({
   panel: {
@@ -61,6 +62,7 @@ export interface PanelProps {
 }
 
 export function Panel(props: PanelProps) {
+  useFormats();
   const styles = useStyles();
   const theme = useTheme();
   const { meetup } = props;

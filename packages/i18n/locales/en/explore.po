@@ -966,6 +966,10 @@ msgstr "You see it because you're looking at {place}. It isn't chosen from anyth
 msgid "explore.map.away"
 msgstr "You're {km} km from {place}"
 
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.awayMiles"
+msgstr "You're {km} mi from {place}"
+
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.offline"
 msgstr "You're offline. These are the last prices this phone saw."

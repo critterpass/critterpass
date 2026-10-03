@@ -25,6 +25,10 @@ msgid "liveMap.status.withDistanceOut"
 msgstr "{line}, {distance} out"
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.miles"
+msgstr "{mi} mi"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.a11y.minutesAway"
 msgstr "{minutes} minutes away"
 

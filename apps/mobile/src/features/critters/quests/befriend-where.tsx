@@ -16,6 +16,7 @@ import { useTheme } from '@/ui/theme';
 
 import { directionsUrl } from './befriend-spot';
 import type { BefriendPlace } from './use-befriend-spot';
+import { currentFormats } from '@/lib/i18n/formats';
 
 export function BefriendWhere({
   id,
@@ -44,7 +45,9 @@ export function BefriendWhere({
     );
   }
   const name = spot.name;
-  const away = spot.distanceM === null ? null : format.distance(locale, spot.distanceM, place.unit);
+  // Settings' km/mi (the spot's own unit field read a value the setting never takes).
+  const unit = currentFormats().distance === 'mi' ? 'imperial' : 'metric';
+  const away = spot.distanceM === null ? null : format.distance(locale, spot.distanceM, unit);
   const nearest =
     away === null
       ? t({ id: 'quests.befriend.nearest', message: `Nearest: ${name}` })

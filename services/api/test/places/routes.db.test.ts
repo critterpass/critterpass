@@ -137,6 +137,35 @@ describe('GET /v1/places/search', () => {
     expect(body.results.map((r) => r.id)).toEqual([river.rows[0]!.id, street.rows[0]!.id]);
   });
 
+  it('ranks a place named after the query above curated places that only share its address', async () => {
+    const insert = `INSERT INTO pois (destination_id, name, name_local, category, lat, lng, address, curation)
+      VALUES ($1, $2, $3, $4, 35.0, 135.76, $5, $6) RETURNING id`;
+    const bar = await pool.query<{ id: string }>(insert, [
+      destinationId,
+      'Billabong Bar',
+      null,
+      'nightlife',
+      'Mỹ An, Sơn Trà',
+      'editorial',
+    ]);
+    const sanctuary = await pool.query<{ id: string }>(insert, [
+      destinationId,
+      'Di sản Văn hóa Thế Giới Mỹ Sơn',
+      'Thánh địa Mỹ Sơn',
+      'other',
+      'Duy Phú, Duy Xuyên',
+      'auto',
+    ]);
+    const app = buildTestApp();
+    const response = await app.request(
+      `/v1/places/search?q=${encodeURIComponent('My Son')}&destination_id=${destinationId}`,
+    );
+    const body = (await response.json()) as { results: { id: string }[] };
+    const ids = body.results.map((r) => r.id);
+    expect(ids[0]).toBe(sanctuary.rows[0]!.id);
+    expect(ids.indexOf(bar.rows[0]!.id)).toBeGreaterThan(0);
+  });
+
   it('rejects an unauthenticated request', async () => {
     const app = new OpenAPIHono<AppEnv>();
     registerPlacesRoutes(app, { pool });

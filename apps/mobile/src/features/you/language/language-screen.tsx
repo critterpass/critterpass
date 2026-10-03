@@ -5,12 +5,14 @@
  * currency part writes `price_display` and `home_currency_override` with `set_settings` (queued
  * offline) and shows the change everywhere at once.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- format values, never copy. */
 import type { PriceDisplayMode } from '@cp/domain';
 import { getLocales } from 'expo-localization';
 import { useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { applyMoneyDisplay, useMoneyDisplay } from '@/data/money';
+import { useFormats, type DistanceUnit, type TimeFormat } from '@/lib/i18n/formats';
 import { setLocale } from '@/lib/i18n/set-locale';
 import { useLocale } from '@/lib/i18n/use-locale';
 
@@ -18,6 +20,7 @@ import { setSettingsCommand } from '../settings/use-synced-settings';
 import { currencyLines } from './currency-model';
 import { CurrencySection } from './currency-section';
 import { CurrencySheet } from './currency-sheet';
+import { FormatsSection, FormatsSheet } from './formats-section';
 import { featuredLanguages, languageChoices } from './language-names';
 import { LanguageView } from './language-view';
 
@@ -34,6 +37,14 @@ export function LanguageScreen({
   const [switching, setSwitching] = useState<string | null>(null);
   const [showMore, setShowMore] = useState(false);
   const [picking, setPicking] = useState(false);
+  const [formatting, setFormatting] = useState(false);
+  const formats = useFormats();
+  // Until one is chosen the clock follows the language: show which that is.
+  const time: TimeFormat =
+    formats.time ??
+    (new Intl.DateTimeFormat(current, { hour: 'numeric' }).resolvedOptions().hour12 === true
+      ? '12h'
+      : '24h');
   const display = useMoneyDisplay();
   const { send } = useCommand(setSettingsCommand);
   const { featured, more } = featuredLanguages(languageChoices(current), deviceLanguages);
@@ -50,6 +61,14 @@ export function LanguageScreen({
     if (mode === display.mode) return;
     applyMoneyDisplay({ mode });
     void send({ patch: { price_display: mode } }).catch(() => undefined);
+  };
+  const setTime = (value: TimeFormat) => {
+    applyMoneyDisplay({ timeFormat: value });
+    void send({ patch: { time_format: value } }).catch(() => undefined);
+  };
+  const setDistance = (value: DistanceUnit) => {
+    applyMoneyDisplay({ distanceUnit: value });
+    void send({ patch: { distance_unit: value } }).catch(() => undefined);
   };
   const setHome = (code: string | null) => {
     setPicking(false);
@@ -77,6 +96,11 @@ export function LanguageScreen({
           sample={lines.sample}
           ratesLine={lines.ratesLine}
         />
+        <FormatsSection
+          time={time}
+          distance={formats.distance}
+          onOpen={() => setFormatting(true)}
+        />
       </LanguageView>
       {picking ? (
         <CurrencySheet
@@ -84,6 +108,15 @@ export function LanguageScreen({
           chosen={display.homeFromAirport ? null : display.homeCurrency}
           onPick={setHome}
           onClose={() => setPicking(false)}
+        />
+      ) : null}
+      {formatting ? (
+        <FormatsSheet
+          time={time}
+          distance={formats.distance}
+          onTime={setTime}
+          onDistance={setDistance}
+          onClose={() => setFormatting(false)}
         />
       ) : null}
     </>

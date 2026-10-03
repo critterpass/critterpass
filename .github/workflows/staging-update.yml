@@ -1,0 +1,134 @@
+name: staging-update
+
+# Publishes one ref's JS as an EAS Update to the `staging` channel, for each installed staging build
+# whose native fingerprint that ref matches; a build it does not match needs a new build instead.
+# Runs on GitHub's network, so a slow uplink on the founder's Mac never stalls an update.
+#   gh workflow run staging-update.yml -f ref=main -f ios_build_id=<id> [-f android_build_id=<id>] -f message="..."
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag or commit to publish (main, release/build-17, a sha)
+        required: true
+        default: main
+      ios_build_id:
+        description: EAS build id of the installed iOS staging build
+        required: true
+      android_build_id:
+        description: EAS build id of the installed Android staging build (leave empty to skip Android)
+        required: false
+        default: ''
+      message:
+        description: Update message
+        required: false
+        default: Staging update
+
+# Two publishes of one ref never overlap; a second one waits for the first.
+concurrency:
+  group: staging-update-${{ inputs.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  EAS_CLI: eas-cli@24.8.0
+
+jobs:
+  publish:
+    name: publish ${{ inputs.ref }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: pnpm/action-setup@v6
+      # The Node version EAS builds the app with.
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Compare fingerprints and publish
+        working-directory: apps/mobile
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          # Android's fingerprint hashes the Firebase config's contents, and the EAS `preview`
+          # environment keeps it as a sensitive file variable the CLI does not hand to local
+          # commands, so the Android leg writes it from this secret. iOS does not read the file.
+          GOOGLE_SERVICES_JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+          REF: ${{ inputs.ref }}
+          IOS_BUILD: ${{ inputs.ios_build_id }}
+          ANDROID_BUILD: ${{ inputs.android_build_id }}
+          MESSAGE: ${{ inputs.message }}
+        run: |
+          set -uo pipefail
+          [ -n "$EXPO_TOKEN" ] || { echo "::error::EXPO_TOKEN secret is missing"; exit 1; }
+          commit=$(git rev-parse --short=12 HEAD)
+          summary=$GITHUB_STEP_SUMMARY
+          {
+            echo "### Staging update: \`$REF\` at \`$commit\`"
+            echo
+            echo "| Platform | Build | Fingerprint | Update group |"
+            echo "| --- | --- | --- | --- |"
+          } >> "$summary"
+          gsj=$RUNNER_TEMP/google-services.json
+          if [ -n "$GOOGLE_SERVICES_JSON_CONTENT" ]; then
+            printf '%s' "$GOOGLE_SERVICES_JSON_CONTENT" > "$gsj"
+          fi
+
+          # 0 = same fingerprint, 1 = a real difference, 2 = no verdict after three tries.
+          compare() {
+            local out i
+            for i in 1 2 3; do
+              out=$(APP_VARIANT=staging npx --yes "$EAS_CLI" fingerprint:compare --build-id "$1" \
+                --environment preview --non-interactive 2>&1)
+              echo "::group::fingerprint:compare $1 (try $i)"; echo "$out"; echo "::endgroup::"
+              grep -q "matches" <<< "$out" && return 0
+              grep -q "from local directory" <<< "$out" && return 1
+              sleep 20
+            done
+            return 2
+          }
+
+          failed=0
+          for pair in "ios:$IOS_BUILD" "android:$ANDROID_BUILD"; do
+            platform=${pair%%:*}; build=${pair#*:}
+            [ -n "$build" ] || continue
+            if [ "$platform" = android ]; then
+              if [ ! -s "$gsj" ]; then
+                echo "::error::android not published: the GOOGLE_SERVICES_JSON_CONTENT secret is missing, so its fingerprint cannot match"
+                echo "| android | \`$build\` | not compared (no Firebase config secret) | none |" >> "$summary"
+                failed=1; continue
+              fi
+              export GOOGLE_SERVICES_JSON=$gsj
+            else
+              unset GOOGLE_SERVICES_JSON
+            fi
+            compare "$build"; verdict=$?
+            if [ "$verdict" = 1 ]; then
+              echo "::error::$platform MISMATCH: $REF ($commit) differs natively from build $build; a new build is needed"
+              echo "| $platform | \`$build\` | mismatch: a new build is needed | none |" >> "$summary"
+              failed=1; continue
+            fi
+            if [ "$verdict" = 2 ]; then
+              echo "::error::$platform COMPARE FAILED: no fingerprint verdict for build $build after three tries; not published"
+              echo "| $platform | \`$build\` | no verdict (EAS trouble) | none |" >> "$summary"
+              failed=1; continue
+            fi
+            # The commit is inlined so Developer tools can show which commit an installed update carries.
+            out=$(APP_VARIANT=staging EXPO_PUBLIC_JS_COMMIT="$commit" npx --yes "$EAS_CLI" update \
+              --channel staging --environment preview --platform "$platform" --message "$MESSAGE" \
+              --non-interactive --json 2> "$RUNNER_TEMP/update-$platform.log")
+            status=$?
+            echo "::group::eas update $platform"; cat "$RUNNER_TEMP/update-$platform.log"; echo "$out"; echo "::endgroup::"
+            group=$(echo "$out" | jq -r '(if type == "array" then .[0] else . end) | .group // empty' 2>/dev/null)
+            if [ "$status" != 0 ] || [ -z "$group" ]; then
+              echo "::error::$platform update failed after a fingerprint match (exit $status)"
+              echo "| $platform | \`$build\` | matches | publish failed |" >> "$summary"
+              failed=1; continue
+            fi
+            echo "$platform published: update group $group"
+            echo "| $platform | \`$build\` | matches | \`$group\` |" >> "$summary"
+          done
+          rm -f "$gsj"
+          exit "$failed"

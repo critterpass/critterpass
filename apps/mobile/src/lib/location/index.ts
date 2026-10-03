@@ -31,6 +31,7 @@ export {
   type TripRow,
   type VisitCandidate,
 } from './bridge-inputs';
+export { type FetchedPlace, type PlaceFetcher } from './quest-places';
 export { getExploreAtHome, setExploreAtHome, useExploreAtHome } from './prefs';
 export {
   useLocationEngineBridge,

@@ -6,6 +6,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire codes, reasons and Intl option values, never copy. */
 import type { RequestCrewLockScreenResult } from '@cp/domain';
+import { clockOption } from '@/lib/i18n/formats';
 
 export type OfferPhase =
   | { readonly kind: 'asking' }
@@ -87,6 +88,7 @@ export function previewDots(crew: OfferFacts['crew'], max = 8): PreviewDot[] {
 export function clockTime(at: Date, locale: string, tz: string | null): string {
   return new Intl.DateTimeFormat(locale, {
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
     hourCycle: 'h23',
     ...(tz === null ? {} : { timeZone: tz }),
