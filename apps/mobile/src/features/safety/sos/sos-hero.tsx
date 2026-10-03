@@ -28,6 +28,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 import { clockTime } from '../format';
 import type { SosMessage } from './use-sos';
 import type { SosModel } from './sos-model';
+import { distanceIn } from '@/lib/i18n/formats';
 
 const BLINK_MS = 900;
 
@@ -75,7 +76,8 @@ export function SosHero({ model, words, message, distanceM }: SosHeroProps) {
     model.role === 'sender'
       ? t({ id: 'safety.sos.sentAt', message: `SOS sent · ${time}` })
       : t({ id: 'safety.sos.at', message: `SOS · ${time}` });
-  const km = distanceM === null ? null : (distanceM / 1000).toFixed(1);
+  const away = distanceM === null ? null : distanceIn(distanceM);
+  const km = away === null ? null : away.value.toFixed(1);
   const title =
     model.state === 'resolved'
       ? model.role === 'sender'
@@ -100,7 +102,12 @@ export function SosHero({ model, words, message, distanceM }: SosHeroProps) {
             <View />
           ) : (
             <Text variant="label" color={ink} testID="sos-distance">
-              {upper(t({ id: 'safety.sos.away', message: `${km} km from you` }), locale)}
+              {upper(
+                away?.unit === 'mi'
+                  ? t({ id: 'safety.sos.awayMiles', message: `${km} mi from you` })
+                  : t({ id: 'safety.sos.away', message: `${km} km from you` }),
+                locale,
+              )}
             </Text>
           )}
         </Row>

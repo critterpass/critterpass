@@ -45,6 +45,7 @@ import {
 import { EncounterView } from './encounter-view';
 import { LiveCamera } from './live-camera';
 import { REMIND_BEFORE_MS, scheduleQuietReminder } from './quiet-reminder';
+import { clockOption } from '@/lib/i18n/formats';
 
 const LEGENDARY_KINDS = new Set(['window', 'co_presence']);
 
@@ -76,7 +77,12 @@ export function EncounterScreen({ tz = deviceTimeZone() }: { readonly tz?: strin
   const hourLabel = (hour: number) =>
     format.date(locale, new Date(Date.UTC(2026, 0, 1, hour)), { hour: 'numeric', timeZone: 'UTC' });
   const time = (ms: number) =>
-    format.date(locale, new Date(ms), { hour: '2-digit', minute: '2-digit', timeZone: tz });
+    format.date(locale, new Date(ms), {
+      hour: '2-digit',
+      minute: '2-digit',
+      ...clockOption(),
+      timeZone: tz,
+    });
 
   if (snapshot.phase === 'befriended') {
     const crewHref = hrefFor('3g-1', {});

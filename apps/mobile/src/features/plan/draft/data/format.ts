@@ -9,6 +9,7 @@
 const DAY: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', timeZone: 'UTC' };
 
 import { formatNarrowCurrency, isKnownCurrency, roundEstimate } from '@cp/cost-engine';
+import { clockOption } from '@/lib/i18n/formats';
 
 function utcNoon(date: string): Date {
   return new Date(`${date.slice(0, 10)}T12:00:00Z`);
@@ -47,6 +48,7 @@ export function clock(locale: string, instant: string, tz: string): string {
   try {
     return new Intl.DateTimeFormat(locale, {
       hour: '2-digit',
+      ...clockOption(),
       minute: '2-digit',
       hourCycle: 'h23',
       timeZone: tz,

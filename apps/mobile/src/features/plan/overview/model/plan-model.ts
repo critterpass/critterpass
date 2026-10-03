@@ -19,6 +19,7 @@ import {
   type PlanItemRow,
   type WeatherRow,
 } from '../data/plan-rows';
+import { clockOption } from '@/lib/i18n/formats';
 
 export interface PlanDay {
   readonly dayNo: number;
@@ -144,6 +145,7 @@ export function localTime(at: string | null, tz: string | null): string | null {
   if (Number.isNaN(date.getTime())) return null;
   return new Intl.DateTimeFormat('en-GB', {
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
     hourCycle: 'h23',
     ...(tz === null ? {} : { timeZone: tz }),

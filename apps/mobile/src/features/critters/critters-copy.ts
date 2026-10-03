@@ -4,6 +4,7 @@
  */
 import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
+import { clockOption } from '@/lib/i18n/formats';
 
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 
@@ -24,6 +25,7 @@ export function foundAt(iso: string, locale: string): string {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
   });
 }
