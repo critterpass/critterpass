@@ -153,6 +153,8 @@ export interface LoadedContext {
   /** Stored legs of the version, by `from>to` key. */
   readonly storedLegs: ReadonlyMap<string, FitLeg>;
   readonly thresholds: FitThresholds;
+  /** The first night's stay, else the destination's centre: where "near" means near. */
+  readonly anchor: FitPoint | null;
 }
 
 export async function loadFitContext(
@@ -240,5 +242,5 @@ export async function loadFitContext(
   const inPlan = new Map(
     items.flatMap((item) => (item.poi_id === null ? [] : [[item.poi_id, item.stable_id] as const])),
   );
-  return { context, inPlan, storedLegs, thresholds };
+  return { context, inPlan, storedLegs, thresholds, anchor: point };
 }

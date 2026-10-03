@@ -86,7 +86,7 @@ export async function ideasForGap(
     holding.sort((a, b) => b.gap.who_free.length - a.gap.who_free.length)[0];
   if (entry === undefined) throw new DomainError('NOT_FOUND', { reason: 'gap' });
   const near = entry.prev?.point ?? day.stay;
-  const pool = await candidatePlaces(tx, trip.id, trip.destinationId, near);
+  const pool = await candidatePlaces(tx, trip.id, trip.destinationId, near ?? loaded.anchor);
   const ideaIds = pool.ideas.map((row) => row.poi_id);
   const facts = await readFitPlaces(tx, trip.id, [...ideaIds, ...pool.curated], loaded.inPlan);
   const byId = new Map(pool.ideas.map((row) => [row.poi_id, row]));
