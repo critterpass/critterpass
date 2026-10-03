@@ -60,6 +60,7 @@ import { CritterRuntime } from '@/features/critters/register';
 import { SafetyRuntime } from '@/features/safety/register';
 import '@/features/bookings/supplier/register';
 import '@/features/you/routes';
+import '@/features/recap/routes';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { useCommand } from '@/data/commands/use-command';
