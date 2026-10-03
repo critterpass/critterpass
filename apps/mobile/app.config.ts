@@ -255,7 +255,20 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => ({
         ios: { deploymentTarget: '26.0' },
         // Expo SDK 58 modules compile against API 37 (also needed to reference MetricStyle behind an
         // SDK_INT check); runtime behaviour still targets API 36.
-        android: { compileSdkVersion: 37, targetSdkVersion: 36 },
+        android: {
+          compileSdkVersion: 37,
+          targetSdkVersion: 36,
+          // The release build is shrunk by R8. Expo modules' option records (`@OptimizedRecord`,
+          // new in SDK 58) are read through converters generated at build time, which R8 renamed
+          // or removed: the photo picker failed to start with ExceptionInInitializerError, so
+          // PICK A PHOTO (receipts, chat photos) returned nothing on Android. Keep Expo's module
+          // classes whole, with the attributes Kotlin reflection reads.
+          extraProguardRules: [
+            '-keepattributes *Annotation*, Signature, InnerClasses, EnclosingMethod',
+            '-keep @expo.modules.kotlin.types.OptimizedRecord class * { *; }',
+            '-keep class expo.modules.** { *; }',
+          ].join('\n'),
+        },
       },
     ],
     // Every directory under targets/ is an Apple target; the App Clip only in APP_CLIP_VARIANTS.
