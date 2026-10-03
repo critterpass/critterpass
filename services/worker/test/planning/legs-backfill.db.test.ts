@@ -1,7 +1,7 @@
 /**
  * The legs backfill on the real schema: it queues one `plan.legs` run per trip with a live plan,
  * spread over time behind the usual debounce, routes nothing itself, counts a trip whose run is
- * already waiting instead of queueing it twice, and a dry run writes nothing.
+ * already waiting instead of queueing it twice, and a dry run sends nothing.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -70,13 +70,10 @@ afterAll(async () => {
 });
 
 describe('legs backfill', () => {
-  it('counts the trips on a dry run and writes nothing', async () => {
-    const result = await queueLegsBackfill(harness.pool, { dryRun: true });
-    expect(result).toMatchObject({ trips: 3, queued: 0, alreadyQueued: 0 });
-    const { rows } = await harness.pool.query<{ n: number }>(
-      "SELECT count(*)::int AS n FROM pgboss.job WHERE name = 'plan.legs'",
-    );
-    expect(rows[0]?.n).toBe(0);
+  it('counts the trips on a dry run and sends nothing', async () => {
+    // No job producer is registered yet: a send would throw.
+    const result = await queueLegsBackfill(harness.pool, { dryRun: true, perMinute: 2 });
+    expect(result).toEqual({ trips: 3, queued: 0, alreadyQueued: 0, lastStartsIn: 90 });
   });
 
   it('queues one spread-out run per trip for the worker and routes nothing itself', async () => {
@@ -103,7 +100,13 @@ describe('legs backfill', () => {
     );
     expect(legs.rows[0]?.n).toBe(0);
 
+    const dry = await queueLegsBackfill(harness.pool, { dryRun: true });
+    expect(dry).toMatchObject({ trips: 3, queued: 0, alreadyQueued: 3 });
     const again = await queueLegsBackfill(harness.pool, { perMinute: 2 });
     expect(again).toMatchObject({ trips: 3, queued: 0, alreadyQueued: 3 });
+    const { rows: jobs } = await harness.pool.query<{ n: number }>(
+      "SELECT count(*)::int AS n FROM pgboss.job WHERE name = 'plan.legs'",
+    );
+    expect(jobs[0]?.n).toBe(3);
   });
 });
