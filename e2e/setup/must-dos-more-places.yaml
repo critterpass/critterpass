@@ -1,0 +1,18 @@
+appId: app.critterpass.dev
+---
+# The add sheet's "More places" section (live Foursquare results under the guide's own, with the
+# attribution) and a pick that cannot be saved, drawn by the real views from fixed scenes
+# (developer tools, no backend).
+- launchApp:
+    clearState: true
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: setup
+      READY: setup-scene-3c-3-when
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: add-must-do-more-places, PREFIX: en }
+- runFlow:
+    file: subflows/scene.yaml
+    env: { SCENE: add-must-do-more-unsaved, PREFIX: en }
