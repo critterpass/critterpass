@@ -71,12 +71,15 @@ const SERVER_DEVICE: CommandDevice = {
   tz: 'UTC',
 };
 
-/** Runs `register_media_upload` through the system door for `uid`; throws on any reject. */
+/**
+ * Runs `register_media_upload` through the system door for `uid`; throws on any reject. Resolves to
+ * the `media_objects` id (a command that needs a stored object, e.g. `save_signature`, names it).
+ */
 export async function registerMediaUpload(
   deps: { readonly pool: pg.Pool; readonly registry: CommandRegistry },
   uid: string,
   payload: RegisterMediaUploadPayload,
-): Promise<void> {
+): Promise<string | null> {
   const outcome = await executeCommand(
     {
       op_id: generateUuidV7(),
@@ -95,4 +98,7 @@ export async function registerMediaUpload(
     },
   );
   if (outcome.status === 'rejected') throw new DomainError(outcome.code, outcome.detail);
+  if (outcome.status !== 'applied') return null;
+  const result = outcome.result as { readonly media_id?: unknown } | null | undefined;
+  return typeof result?.media_id === 'string' ? result.media_id : null;
 }

@@ -15,6 +15,13 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
   alarms:
     'user_id device_id leave_by_id trip_id fire_at os_alarm_id state sync_version:integer created_at updated_at',
+  album_curations:
+    'trip_id note picks:integer photos:integer note_fallback:integer curated_at created_at updated_at',
+  album_exports:
+    'trip_id user_id status media_key photos:integer bytes:integer expires_at created_at updated_at',
+  album_picks:
+    'trip_id photo_id picked:integer picked_by picker_id rank:integer created_at updated_at',
+  album_prefs: 'trip_id user_id auto_ingest:integer created_at updated_at',
   anonymous_suggestions: 'trip_id proposal_id topic text created_at',
   app_icon_unlocks: 'user_id icon_key source unlocked_at seen_at created_at updated_at',
   availability_summaries:
@@ -94,6 +101,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'crew_id trip_id payer_id amount_minor:integer currency fx_snapshot_id crew_amount_minor:integer crew_currency split_mode category description merchant local_date trip_day:integer spent_at poi_id booking_id ride_id boost_id receipt_id source created_by deleted_at deleted_by version:integer created_at updated_at',
   facilities:
     'key destination_id kind name lat:real lng:real address phone open_24h:integer source_url retrieved_on verified_at release_id created_at updated_at',
+  feedback_tickets:
+    'user_id ticket_no:integer mood category body include_device_info:integer device_info context trip_id media_ids source status reply_channel reply_due_at severity triage_summary duplicate_of duplicate_score:real tracker_issue_id fixed_in_version idea_id app_version sent_at created_at updated_at',
   flight_segments:
     'booking_id trip_id owner_id crew_visible:integer segment_no:integer carrier flight_no dep_airport arr_airport sched_dep_at sched_arr_at est_dep_at est_arr_at act_dep_at act_arr_at boarding_at boarding_estimated:integer gate terminal status delay_min:integer status_source status_at la_phase version:integer created_at updated_at',
   ftf_grants:
@@ -120,6 +129,9 @@ export const SYNCED_TABLE_COLUMNS = {
     'crew_id guide_id kind text facts place_id dedupe_key valid_until status dismissed_by dismissed_at created_at updated_at',
   hype_aggregates:
     'proposal_id trip_id hype_pct:integer reacted_count:integer boarded_count:integer recipients:integer updated_at',
+  idea_votes: 'idea_id user_id month_key created_at',
+  ideas:
+    'author_id title description locale status team_note fixed_in_version merged_into_id votes_count:integer embedding status_changed_at created_at updated_at',
   import_candidates:
     'user_id crew_id trip_id source extracted confidence:real dedupe_key status crew_visible:integer needs_confirm:integer failure_reason duplicate_of_id booking_id inbound_email_id resolved_by resolved_at created_at updated_at',
   inbox_items:
@@ -170,6 +182,9 @@ export const SYNCED_TABLE_COLUMNS = {
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
   personal_plan_ops:
     'trip_id user_id change_set_id base_version_id ops status created_at updated_at',
+  photo_people: 'photo_id trip_id user_id source created_at',
+  photos:
+    'trip_id uploader_id media_key thumb_key display_key taken_at local_date sha256 phash width:integer height:integer quality exif_gps_stripped:integer upload_state is_pick:integer faces_opt_in:integer deleted_at created_at updated_at',
   phrase_cards:
     'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
   phrase_progress:
@@ -188,6 +203,10 @@ export const SYNCED_TABLE_COLUMNS = {
   poll_reveals: 'poll_id user_id seen_at created_at updated_at',
   polls:
     'crew_id trip_id kind stage status question created_by eligible_voter_ids decider_policy threshold:integer closes_at allow_change:integer tie_rule winner_option_id result close_reason closed_at stage_changed_at version:integer created_at updated_at',
+  postcard_mailings:
+    'postcard_id trip_id payer_id recipient_ids vendor vendor_ref status tracking created_at updated_at',
+  postcards:
+    'trip_id photo_id note format created_by sent_at deleted_at version:integer created_at updated_at',
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',
@@ -204,14 +223,15 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id local_date slot:integer template params metric target:integer reward title body scope status source starts_at ends_at completed_at reveal_at created_at updated_at i18n',
   queued_guide_questions:
     'user_id thread_id trip_id text tz queued_for queued_at answer_after status answer_message_id answered_at updated_at',
+  rating_prompts: 'user_id trip_id shown:integer shown_at created_at',
   readiness:
     'leave_by_id trip_id user_id state source snooze_count:integer knock_sent_at changed_at created_at updated_at',
   recap_awards:
-    'recap_id trip_id user_id kind metric value:integer evidence title line opted_out:integer mvp_votes:integer is_mvp:integer created_at updated_at',
+    'recap_id trip_id user_id kind metric value:integer evidence title line opted_out:integer mvp_votes:integer is_mvp:integer i18n created_at updated_at',
   recap_mvp_votes: 'recap_id trip_id voter_id award_id created_at updated_at',
   recap_views: 'recap_id trip_id user_id opened_at completed_at seen_at created_at updated_at',
   recaps:
-    'trip_id crew_id status version:integer ended_on stats route receipt got_away cards content_hash copy_version:integer copy_fallback:integer narration changed_sections agent_job_id failure_reason built_at ready_at mvp_closes_at mvp_closed_at created_at updated_at',
+    'trip_id crew_id status version:integer ended_on stats route receipt got_away cards content_hash copy_version:integer copy_fallback:integer narration i18n changed_sections agent_job_id failure_reason built_at ready_at mvp_closes_at mvp_closed_at created_at updated_at',
   receipts:
     'user_id trip_id crew_id expense_id media_key status quality_issue ocr_source ocr_lines parsed suggestions failure_reason parsed_at created_at updated_at',
   redraft_reservations:

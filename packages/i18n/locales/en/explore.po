@@ -553,6 +553,10 @@ msgstr "Not my island, but I've done my homework."
 msgid "explore.solo.cancel"
 msgstr "Not now"
 
+#: ../../apps/mobile/src/features/explore/components/generic-photo-label.tsx
+msgid "explore.photo.notThisPlace"
+msgstr "Not this place"
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.emptyList"
 msgstr "Nothing in this list yet"

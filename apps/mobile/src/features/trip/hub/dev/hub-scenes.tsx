@@ -93,6 +93,7 @@ function Hub({
     today,
     tz: TZ,
     locale,
+    recap: noop,
   });
   const destination = overrides.destination ?? 'Bali';
   const props: HubViewProps = {

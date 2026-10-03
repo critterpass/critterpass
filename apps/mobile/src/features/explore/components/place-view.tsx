@@ -36,6 +36,7 @@ import type { GuideFacts } from '../format';
 import { AddToDayButton, type AddToDayButtonProps } from './add-to-day-button';
 import { CrewRow, type CrewRowProps } from './crew-row';
 import { CrowdChart, type CrowdChartProps } from './crowd-chart';
+import { GenericPhotoLabel } from './generic-photo-label';
 import { SupplierCard, type SupplierCardProps } from './supplier-card';
 
 const PHOTO_HEIGHT = 320;
@@ -118,6 +119,7 @@ function Photo({
     <Animated.View style={[styles.fill, push]}>
       <Hatch />
       <MediaLayer media={photo} surface="dark" accent={accent} dots={false} creditAt="top" />
+      <GenericPhotoLabel photo={photo} at="top" />
       {photo === null ? (
         <View style={[styles.fill, styles.doodle]}>
           <Icon

@@ -247,7 +247,11 @@ function turnInput(text: string, inputCheck?: Promise<ComplianceResult>) {
     route: 'guide.chat' as const,
     system: buildSystemBlocks({ pack: REPO_PACKS.tokek }),
     messages: [{ role: 'user' as const, content: text }],
-    tool: { uid: '0190f0a0-0000-7000-8000-00000000d001', tripId: null, caller: 'C' as const },
+    tool: {
+      uid: '0190f0a0-0000-7000-8000-00000000d001',
+      tripId: '0190f0a0-0000-7000-8000-00000000d002',
+      caller: 'C' as const,
+    },
     ...(inputCheck === undefined ? {} : { inputCheck }),
   };
 }

@@ -35,6 +35,7 @@ import {
 import type pg from 'pg';
 
 import { scheduleAnniversaries } from '../anniversary/schedule';
+import { enqueueGuideTextTranslation } from '../i18n/enqueue';
 
 /** A gateway per run, reporting usage; absent when no model key is configured. */
 export type RecapCopyWriter = (
@@ -169,6 +170,8 @@ async function store(
     );
   }
   await scheduleAnniversaries(tx, source.recapId);
+  // Each reader's language, then the guide's voice in it (the translation queues narration again).
+  await enqueueGuideTextTranslation(tx, { tripId: source.tripId });
   if (source.firstReady) {
     await sendInTx(
       tx,

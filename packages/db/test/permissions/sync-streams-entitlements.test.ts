@@ -134,4 +134,17 @@ describe('fx stream', () => {
       expect(idsByTable(await harness.rows('fx', actor))['fx_snapshots']).toEqual([fx.usd]);
     }
   });
+
+  it('syncs the home currency someone chose in Settings, to them alone', async () => {
+    await withSystem(harness.db.pool, (tx) =>
+      tx.query(
+        `INSERT INTO user_settings (user_id, home_currency_override) VALUES ($1, 'CHF')
+         ON CONFLICT (user_id) DO UPDATE SET home_currency_override = 'CHF'`,
+        [harness.fixture.actors.organiser],
+      ),
+    );
+    const chf = await insertRate('CHF');
+    expect(idsByTable(await harness.rows('fx', 'organiser'))['fx_snapshots']).toContain(chf);
+    expect(idsByTable(await harness.rows('fx', 'member'))['fx_snapshots']).not.toContain(chf);
+  });
 });

@@ -4,6 +4,14 @@
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
+jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
+jest.mock(
+  '@powersync/common',
+  () =>
+    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
+      .powersyncCommon,
+);
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   usePathname: () => '/you/language',
@@ -11,19 +19,67 @@ jest.mock('expo-router', () => ({
 }));
 
 import { shippedLocales } from '@cp/i18n';
-import { describe, expect, it, jest } from '@jest/globals';
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { configure, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { clearMoneyDisplayOverride } from '@/data/money/use-money-display';
+import { LocalFirstProvider } from '@/data/powersync/local-first-context';
+import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
+import {
+  openTestLocalFirst,
+  type TestLocalFirst,
+} from '@/data/powersync/test-support/local-first-fixture';
+import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { setLocale } from '@/lib/i18n/set-locale';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { featuredLanguages, languageChoices, localLanguageName } from '../language-names';
 import { LanguageScreen } from '../language-screen';
+
+configure({ asyncUtilTimeout: 5000 });
+
+const stacks: TestLocalFirst[] = [];
+afterEach(async () => {
+  clearMoneyDisplayOverride();
+  for (const stack of stacks.splice(0)) {
+    await stack.close().catch(() => undefined);
+    removeDir(stack.dir);
+  }
+});
+
+/** A signed-in phone whose home airport is in Singapore, with the newest rates synced. */
+async function openStack(): Promise<TestLocalFirst> {
+  const stack = await openTestLocalFirst({ holdUploads: true });
+  stacks.push(stack);
+  const x = (sql: string, params: unknown[] = []) => stack.db.execute(sql, params);
+  await x('INSERT OR REPLACE INTO local_state (id, value) VALUES (?, ?)', [
+    OWNER_UID_KEY,
+    stack.uid,
+  ]);
+  await x("INSERT INTO users (id, display_name, home_country) VALUES (?, 'Khanh', 'SG')", [
+    stack.uid,
+  ]);
+  await x(
+    `INSERT INTO fx_snapshots (id, base, quote, rate, as_of, source) VALUES
+       ('fx1', 'USD', 'IDR', '16000', '2026-10-02', 'ecb'),
+       ('fx2', 'USD', 'SGD', '1.3653', '2026-10-02', 'ecb')`,
+  );
+  return stack;
+}
+
+async function queuedPatches(stack: TestLocalFirst): Promise<unknown[]> {
+  const rows = await stack.db.getAll<{ envelope: string }>(
+    "SELECT envelope FROM commands WHERE cmd = 'set_settings' ORDER BY seq",
+  );
+  return rows.map(
+    (row) => (JSON.parse(row.envelope) as { payload: { patch: unknown } }).payload.patch,
+  );
+}
 
 const METRICS = {
   frame: { x: 0, y: 0, width: 390, height: 844 },
@@ -65,23 +121,57 @@ describe('language', () => {
         <SafeAreaProvider initialMetrics={METRICS}>
           <GestureHandlerRootView>
             <ScreenJoltProvider>
-              <LanguageScreen switchTo={switchTo} deviceLanguages={['en-SG']} />
+              <LocalFirstProvider value={(await openStack()).value}>
+                <LanguageScreen switchTo={switchTo} deviceLanguages={['en-SG']} />
+              </LocalFirstProvider>
             </ScreenJoltProvider>
           </GestureHandlerRootView>
         </SafeAreaProvider>
       </I18nProvider>,
     );
-    expect(screen.getByText('LANGUAGE')).toBeTruthy();
+    expect(screen.getByText('LANGUAGE AND CURRENCY')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('you-language-en'));
     expect(switchTo).not.toHaveBeenCalled();
     // Vietnamese is not among the four shown first on an English phone: "N more" opens the rest.
     expect(screen.queryByTestId('you-language-vi')).toBeNull();
     await fireEvent.press(screen.getByTestId('you-language-more'));
     await fireEvent.press(screen.getByTestId('you-language-vi'));
-    await waitFor(() => expect(screen.getByText('NGÔN NGỮ')).toBeTruthy());
+    await waitFor(() =>
+      expect(screen.getByTestId('you-language-title').props.children).not.toBe(
+        'Language and currency',
+      ),
+    );
     expect(switchTo).toHaveBeenCalledWith('vi');
     expect(router.push).not.toHaveBeenCalled();
     expect(router.replace).not.toHaveBeenCalled();
     await setLocale('en', { persist: false });
+  });
+
+  it('shows prices in the chosen mode at once, with the home currency from the home airport', async () => {
+    await setLocale('en', { persist: false });
+    const stack = await openStack();
+    await render(
+      <I18nProvider i18n={i18n}>
+        <SafeAreaProvider initialMetrics={METRICS}>
+          <GestureHandlerRootView>
+            <ScreenJoltProvider>
+              <LocalFirstProvider value={stack.value}>
+                <LanguageScreen
+                  deviceLanguages={['en-SG']}
+                  now={() => new Date('2026-10-03T09:00:00Z')}
+                />
+              </LocalFirstProvider>
+            </ScreenJoltProvider>
+          </GestureHandlerRootView>
+        </SafeAreaProvider>
+      </I18nProvider>,
+    );
+    await waitFor(() => expect(screen.getByText('SGD · from your home airport')).toBeTruthy());
+    expect(screen.getByText(/^Rp.75,000$/u)).toBeTruthy();
+    await fireEvent.press(screen.getByText('BOTH'));
+    await waitFor(() => expect(screen.getByText(/^Rp.75,000 ≈ S\$\s?6\.40$/u)).toBeTruthy());
+    await waitFor(async () =>
+      expect(await queuedPatches(stack)).toEqual([{ price_display: 'both' }]),
+    );
   });
 });

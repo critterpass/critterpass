@@ -5,12 +5,14 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 
-export const TRIP_SQL = `SELECT t.id, t.crew_id, t.tz, t.current_version_id, t.destination_id,
-    t.start_date, t.status, p.role, g.slug AS guide_slug
+/** The trip's zone is its own, else its destination's (most trips leave their own empty). */
+export const TRIP_SQL = `SELECT t.id, t.crew_id, coalesce(t.tz, d.tz) AS tz, t.current_version_id,
+    t.destination_id, t.start_date, t.status, p.role, g.slug AS guide_slug
   FROM trips t LEFT JOIN trip_participants p ON p.trip_id = t.id AND p.user_id = ?
   LEFT JOIN guides g ON g.id = t.guide_id
+  LEFT JOIN destinations d ON d.id = t.destination_id
   WHERE t.id = ?`;
-export const TRIP_TABLES = ['trips', 'trip_participants', 'guides'];
+export const TRIP_TABLES = ['trips', 'trip_participants', 'guides', 'destinations'];
 
 export interface TripRow {
   readonly id: string;

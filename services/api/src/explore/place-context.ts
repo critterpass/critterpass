@@ -53,9 +53,10 @@ export interface PlaceContext {
 
 async function tripFacts(tx: pg.PoolClient, tripId: string): Promise<TripFacts> {
   const { rows } = await tx.query<TripFacts>(
-    `SELECT t.id, t.tz, t.destination_id, t.current_version_id, t.start_date::text AS start_date,
-            app.is_trip_organiser(t.id) AS organiser
-       FROM trips t WHERE t.id = $1 AND app.is_trip_member(t.id)`,
+    `SELECT t.id, coalesce(t.tz, d.tz) AS tz, t.destination_id, t.current_version_id,
+            t.start_date::text AS start_date, app.is_trip_organiser(t.id) AS organiser
+       FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
+      WHERE t.id = $1 AND app.is_trip_member(t.id)`,
     [tripId],
   );
   const trip = rows[0];

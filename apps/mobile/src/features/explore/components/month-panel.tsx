@@ -4,6 +4,7 @@
  * line on how busy the month is. Says so plainly while prices load, when none were seen, when the
  * viewer has no home airport yet, and when the prices on screen are a saved copy.
  */
+import { displayWithHome, useMoneyDisplay } from '@/data/money';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
@@ -70,6 +71,7 @@ export function MonthPanel(props: MonthPanelProps) {
   const theme = useTheme();
   const { t, i18n } = useLingui();
   const locale = i18n.locale;
+  useMoneyDisplay();
   const who = useWho();
   const now = props.now ?? new Date();
   const month = monthName(locale, props.month, 'long');
@@ -122,7 +124,14 @@ export function MonthPanel(props: MonthPanelProps) {
           {prices.rows.map((row) => {
             const seen = row.seenAt === null ? null : formatSeen(row.seenAt, now, locale);
             const amount =
-              row.price === null ? null : estimateText(locale, row.price.minor, row.price.currency);
+              row.price === null
+                ? null
+                : displayWithHome(
+                    estimateText(locale, row.price.minor, row.price.currency),
+                    row.price.minor,
+                    row.price.currency,
+                    locale,
+                  );
             return (
               <View key={row.origin} style={styles.fare}>
                 <Text variant="rowTitle">{who(row)}</Text>

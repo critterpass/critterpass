@@ -1,8 +1,6 @@
 /**
- * `places_search` and `place_details` AI tool executors (docs/api-contracts.md §6). Exported as
- * plain typed functions rather than registered via `registerToolExecutor`: the AI tool registry does
- * not exist yet. Whichever work builds it imports these and registers them unchanged — the
- * input/output shapes here already match the documented tool contract exactly.
+ * `places_search` and `place_details` AI tool executors (docs/api-contracts.md §6), registered with
+ * the gateway's tool registry by src/ai/tool-executors.ts.
  *
  * Both run as `guide_reader` against `llm.pois` only (docs/api-contracts.md §6 global rule: "tools
  * run server-side... C3 data excluded (tools run as guide_reader)"), never `public.pois` directly,
@@ -13,6 +11,9 @@ import { withGuideReader } from '@cp/db';
 import type pg from 'pg';
 import { z } from 'zod';
 
+import { parseGuidePlaceQuery } from './guide-place-query';
+import { RECOMMENDED, resolveReference, tripDestination } from './guide-place-reference';
+
 const NEAR_SCHEMA = z.object({ lat: z.number(), lng: z.number() });
 
 export const placesSearchToolInputSchema = z
@@ -20,6 +21,9 @@ export const placesSearchToolInputSchema = z
     query: z.string().min(1).optional(),
     near: NEAR_SCHEMA.optional(),
     place_id: z.uuid().optional(),
+    near_name: z.string().min(1).optional(),
+    near_stay: z.boolean().optional(),
+    recommended_only: z.boolean().optional(),
     category: z.string().optional(),
     open_at: z.iso.datetime({ offset: true }).optional(),
     limit: z.number().int().positive().max(20).optional(),
@@ -35,6 +39,10 @@ export interface PlacesSearchToolResultItem {
   readonly open_now: boolean | null;
   readonly price_level: number | null;
   readonly tags: readonly string[];
+  readonly distance_from: string | null;
+  readonly match: 'exact' | 'close' | null;
+  readonly recommended: boolean;
+  readonly why_go: string | null;
 }
 
 interface ToolPoiRow {
@@ -47,13 +55,19 @@ interface ToolPoiRow {
   readonly timezone: string | null;
   readonly is_open_now: boolean | null;
   readonly distance_m: number | null;
+  readonly exact: boolean | null;
+  readonly recommended: boolean;
+  readonly why_go: string | null;
 }
 
 const DEFAULT_TOOL_LIMIT = 10;
 
 /**
  * `places_search` (docs/api-contracts.md §6): "only returned `poi_id`s may be named" — the guide
- * must not describe a place this tool did not return.
+ * must not describe a place this tool did not return. Searches stay in the trip's destination; a
+ * name is matched however it was typed (./guide-place-query.ts), and distances are measured from a
+ * point, a place, a place named as typed, or the trip's stay. The catalogue has no ratings, so
+ * `recommended` (curated by the content factory) and `why_go` are the only quality it reports.
  */
 export async function placesSearchTool(
   pool: pg.Pool,
@@ -67,47 +81,62 @@ export async function placesSearchTool(
   const limit = input.limit ?? DEFAULT_TOOL_LIMIT;
 
   return withGuideReader(pool, uid, tripId, async (tx) => {
-    let near = input.near;
-    if (near === undefined && input.place_id !== undefined) {
-      const { rows } = await tx.query<{ lat: number; lng: number }>(
-        'SELECT lat, lng FROM llm.pois WHERE id = $1',
-        [input.place_id],
-      );
-      near = rows[0];
-    }
+    const trip = await tripDestination(tx);
+    const reference = await resolveReference(tx, trip, tripId, input);
+    // A place named as the reference that is not in the catalogue: nothing to measure from.
+    if (reference === null) return [];
+    const text =
+      input.query === undefined ? undefined : parseGuidePlaceQuery(input.query, trip?.name);
 
-    const conditions: string[] = ['true'];
     const params: unknown[] = [];
-    if (category !== undefined) {
-      params.push(category);
-      conditions.push(`category = $${params.length}`);
-    }
-    if (input.query !== undefined) {
-      params.push(input.query);
-      conditions.push(`(name % $${params.length} OR name ILIKE '%' || $${params.length} || '%')`);
+    const param = (value: unknown) => {
+      params.push(value);
+      return `$${params.length}`;
+    };
+    const conditions: string[] = ['true'];
+    if (trip !== undefined) conditions.push(`destination_id = ${param(trip.id)}`);
+    const kind = category ?? (text?.words.length === 0 ? text.kind : undefined);
+    if (kind !== undefined) conditions.push(`category = ${param(kind)}`);
+    if (input.recommended_only === true) conditions.push(RECOMMENDED);
+    // The place distances are measured from is not one of its own neighbours.
+    if (reference?.id != null && input.place_id === undefined)
+      conditions.push(`id <> ${param(reference.id)}`);
+
+    let exact = 'NULL::boolean';
+    const ranks: string[] = [];
+    if (text !== undefined && text.any !== null && text.all !== null) {
+      const any = `to_tsquery('simple', ${param(text.any)})`;
+      const raw = param(input.query);
+      exact = `fts @@ to_tsquery('simple', ${param(text.all)})`;
+      conditions.push(`(fts @@ ${any} OR name % ${raw})`);
+      ranks.push('exact DESC');
+      if (text.kind !== undefined) ranks.push(`(category = ${param(text.kind)}) DESC`);
+      if (reference === undefined)
+        ranks.push(
+          `${RECOMMENDED} DESC`,
+          `ts_rank(fts, ${any}) DESC`,
+          `similarity(name, ${raw}) DESC`,
+        );
     }
 
-    let distanceSelect = 'NULL::double precision AS distance_m';
-    let orderExpression = 'name ASC';
-    if (near !== undefined) {
-      params.push(near.lng, near.lat);
-      const lngParam = params.length - 1;
-      const latParam = params.length;
-      // llm.pois is a plain view without the PostGIS `location` generated column, so distance is
-      // computed straight from its lat/lng columns (identical geography cast the base table uses).
-      distanceSelect = `ST_Distance(ST_SetSRID(ST_MakePoint(lng, lat), 4326)::geography, ST_SetSRID(ST_MakePoint($${lngParam}, $${latParam}), 4326)::geography) AS distance_m`;
-      orderExpression = 'distance_m ASC';
+    let distance = 'NULL::double precision';
+    if (reference !== undefined) {
+      // llm.pois is a plain view without the PostGIS `location` column, so distance is computed
+      // from its lat/lng (the same geography cast the base table uses).
+      distance = `ST_Distance(ST_SetSRID(ST_MakePoint(lng, lat), 4326)::geography, ST_SetSRID(ST_MakePoint(${param(reference.lng)}, ${param(reference.lat)}), 4326)::geography)`;
+      ranks.push('distance_m ASC');
+    } else if (text === undefined) {
+      ranks.push(`${RECOMMENDED} DESC`);
     }
-
-    params.push(limit * (input.open_at !== undefined ? 5 : 1));
-    const limitParam = params.length;
+    ranks.push('name ASC');
 
     const { rows } = await tx.query<ToolPoiRow>(
-      `SELECT id, name, category, price_level, tags, hours, timezone, is_open_now, ${distanceSelect}
-       FROM llm.pois
-       WHERE ${conditions.join(' AND ')}
-       ORDER BY ${orderExpression}
-       LIMIT $${limitParam}`,
+      `SELECT id, name, category, price_level, tags, hours, timezone, is_open_now, why_go,
+              ${RECOMMENDED} AS recommended, ${exact} AS exact, ${distance} AS distance_m
+         FROM llm.pois
+        WHERE ${conditions.join(' AND ')}
+        ORDER BY ${ranks.join(', ')}
+        LIMIT ${param(limit * (input.open_at !== undefined ? 5 : 1))}`,
       params,
     );
 
@@ -127,10 +156,14 @@ export async function placesSearchTool(
       poi_id: row.id,
       name: row.name,
       category: poiCategorySchema.parse(row.category),
-      distance_m: row.distance_m,
+      distance_m: row.distance_m === null ? null : Math.round(row.distance_m),
       open_now: row.is_open_now,
       price_level: row.price_level,
       tags: row.tags,
+      distance_from: reference?.name ?? null,
+      match: row.exact === null ? null : row.exact ? 'exact' : 'close',
+      recommended: row.recommended,
+      why_go: row.why_go,
     }));
   });
 }

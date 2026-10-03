@@ -104,9 +104,8 @@ export const mediaObjects = pgTable('media_objects', {
   id: uuid('id')
     .primaryKey()
     .default(sql`uuidv7()`),
-  ownerId: uuid('owner_id')
-    .notNull()
-    .references(() => users.id),
+  /** Null only for trip media the crew shares (recap narration), never one traveller's. */
+  ownerId: uuid('owner_id').references(() => users.id),
   r2Key: text('r2_key').notNull(),
   kind: text('kind').notNull(),
   bytes: bigint('bytes', { mode: 'number' }).notNull(),

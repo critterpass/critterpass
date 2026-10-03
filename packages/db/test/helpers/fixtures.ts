@@ -25,6 +25,7 @@ import { seedMoneyRows } from './money-fixture';
 import { seedBookingRows } from './bookings-fixture';
 import { seedSupplierRows } from './suppliers-fixture';
 import { seedBillingRows } from './billing-fixture';
+import { seedHelpRows } from './help-fixture';
 import { seedPollRows } from './poll-fixture';
 import { seedGuideChat } from './guide-fixture';
 import { seedTripDayRows } from './trip-day-fixture';
@@ -34,6 +35,7 @@ import { seedProposalRows } from './proposal-fixture';
 import { seedCritterRows } from './critters-fixture';
 import { seedQuestRows } from './quests-fixture';
 import { seedRecapRows } from './recap-fixture';
+import { seedAlbumRows } from './album-fixture';
 import { seedSetupRows } from './setup-fixture';
 import {
   insertChangeSet,
@@ -370,6 +372,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await seedBookingRows(tx, { crewId, tripId, organiser, member });
     await seedSupplierRows(tx, { tripId, organiser, member });
     await seedBillingRows(tx, { crewId, tripId, organiser, member });
+    await seedHelpRows(tx, { tripId, organiser, member });
 
     const versionId = await insertItineraryVersion(tx, {
       tripId,
@@ -476,6 +479,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await seedCritterRows(tx, { tripId, organiser, member });
     await seedQuestRows(tx, { tripId, crewId, organiser });
     await seedRecapRows(tx, { tripId, crewId, organiser, coOrganiser, member });
+    await seedAlbumRows(tx, { tripId, organiser, member });
 
     const opId = crypto.randomUUID();
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });

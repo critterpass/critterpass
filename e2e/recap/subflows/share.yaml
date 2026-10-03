@@ -1,0 +1,26 @@
+appId: app.critterpass.dev
+---
+# SHARE RECAP from the recap scene: the card drawn on the phone shows in the share sheet (its
+# preview image reads "Đà Nẵng, the recap, …"), then Close. English only: the sheet's labels are
+# matched by text.
+- scrollUntilVisible:
+    element:
+      id: 'recap-lab-3m-1-recap'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'recap-lab-3m-1-recap'
+- scrollUntilVisible:
+    element:
+      id: 'recap-share'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'recap-share'
+- extendedWaitUntil:
+    visible: '.*the recap, .*'
+    timeout: 30000
+- takeScreenshot: en-3m-1-share
+- tapOn: 'Close'
+- runFlow: ../../screens/sweep/subflows/back.yaml

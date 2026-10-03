@@ -1,0 +1,11 @@
+# Album note: the facts about the guide's picks (computed by code) → one line in the guide's voice.
+# Every number must be one the facts hold, "everyone's in" only when it is true, else the template's
+# line. Cases live in cases/*.yaml and run through the real writeAlbumNote (see suite.ts); seeded
+# cases grade the note guard and the score validator on deliberate slips.
+# Run: pnpm --filter @cp/ai eval album
+description: Album note worded from the picks' facts
+prompts:
+  - '{{facts}}'
+providers:
+  - id: file://../lib/provider.ts
+tests: []

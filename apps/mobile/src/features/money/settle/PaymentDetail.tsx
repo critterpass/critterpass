@@ -24,7 +24,9 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { formatAmount } from '../format';
+import { useMoneyDisplay } from '@/data/money';
+
+import { formatAmount, formatAmountShown } from '../format';
 import type { SettleRowModel } from './model';
 import { useStatusLabel } from './PaymentRow';
 import { usePayoutKindLabel } from './payout-labels';
@@ -77,6 +79,7 @@ function Method({
 }) {
   const theme = useTheme();
   const locale = useLocale();
+  useMoneyDisplay();
   const { t } = useLingui();
   const kindLabel = usePayoutKindLabel();
   const label = kindLabel(method.kind);
@@ -133,6 +136,7 @@ export function PaymentDetail(props: PaymentDetailProps) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const locale = useLocale();
+  useMoneyDisplay();
   const { t } = useLingui();
   const statusLabel = useStatusLabel();
   const kindLabel = usePayoutKindLabel();
@@ -167,7 +171,7 @@ export function PaymentDetail(props: PaymentDetailProps) {
         </Text>
         <Row gap="12" align="center">
           <Text variant="displayXl" testID="money-payment-amount">
-            {formatAmount(row.amountMinor, row.currency, locale)}
+            {formatAmountShown(row.amountMinor, row.currency, locale)}
           </Text>
           <Text variant="label" color={theme.semantic.text.secondary}>
             {statusLabel(row)}

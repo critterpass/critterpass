@@ -279,6 +279,10 @@ msgstr ""
 msgid "trip.hub.cta.plan"
 msgstr ""
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.recap"
+msgstr ""
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.sent"
 msgstr ""
@@ -407,6 +411,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.recapDetail"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx

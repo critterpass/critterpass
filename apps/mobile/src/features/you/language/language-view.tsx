@@ -4,7 +4,7 @@
  * one switches the whole app in place, with no restart and no navigation.
  */
 import { useLingui } from '@lingui/react/macro';
-import { Fragment } from 'react';
+import { Fragment, type ReactNode } from 'react';
 import { I18nManager, ScrollView, View } from 'react-native';
 
 import { SecondaryText } from '@/ui/cards/SecondaryText';
@@ -29,6 +29,8 @@ export interface LanguageViewProps {
   readonly switching: string | null;
   readonly onPick: (code: string) => void;
   readonly onBack?: () => void;
+  /** The CURRENCY section, under the languages. */
+  readonly children?: ReactNode;
 }
 
 const useStyles = makeStyles((t) => ({
@@ -59,7 +61,7 @@ export function LanguageView(props: LanguageViewProps) {
           testID="you-language-back"
         />
         <Text variant="h1" accessibilityRole="header" testID="you-language-title">
-          {t({ id: 'you.language.title', message: 'Language' })}
+          {t({ id: 'you.language.titleCurrency', message: 'Language and currency' })}
         </Text>
         <Stack gap="8">
           <Text variant="eyebrow" accessibilityRole="header">
@@ -110,6 +112,7 @@ export function LanguageView(props: LanguageViewProps) {
               'The app, your guide’s replies and your notifications switch together. Places keep their local names.',
           })}
         </Text>
+        {props.children}
       </ScrollView>
     </Scaffold>
   );

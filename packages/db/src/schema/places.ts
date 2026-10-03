@@ -154,6 +154,10 @@ export const llmPois = llm.table('pois', {
   isOpenNow: boolean('is_open_now'),
   closedPermanently: boolean('closed_permanently'),
   liveCheckedAt: timestamp('live_checked_at', { withTimezone: true, mode: 'date' }),
+  /** The content factory's signals, the only quality the guide may cite (there are no ratings). */
+  curation: text('curation').notNull(),
+  mustSee: boolean('must_see').notNull(),
+  whyGo: text('why_go'),
 });
 
 registerTablePrivacy('pois', { class: 'C0' });

@@ -125,7 +125,9 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `critter.verify` | `befriend_critter` | plausibility (speed, flight continuity, attestation, mock flags, skew) → verify/revoke | 3 | encounter id | 40 |
 | `reward.fanout` | reward events | stamps, icon unlocks, XP; same server ts | 3 | event id | 40 |
 | `media.process` | `register_photo`, avatar | thumbnails (sharp), hash dedupe, moderation, avatar PNG sizes for push/LA/widgets | 3 | media key | 44, 45 |
-| `ai.curate_album` | photos added (debounced 10 min) / trip end | AI-35 picks[24] + note (prefiltered) | 2 | `(trip_id, photo_set_hash)` | 44 |
+| `album.process_photo` (doc delta) | `register_photo` | EXIF GPS check (a position still there is removed), 480 px thumbnail + 1600 px display copy as trip media, `trip_album` `photo.added` | 4 | photo id | 44 |
+| `album.export` (doc delta) | `request_album_export` | zip of the live originals streamed to R2 (multipart), the asker's own key, 7 d | 2 | export id | 44 |
+| `ai.curate_album` | photos added or deleted (debounced 10 min) / trip status change | candidates by code (sharp, best of each near-duplicate cluster, never a traveller's take-out), up to 60 thumbnails scored by the guide (`photo.picks`, vision), picks[24] by code (everyone tagged in 3 where possible, every day once), note (`micro.line`) from computed facts with number and "everyone" guards; `album_curations`, `trip_album` `curation.done` (doc delta) | 2 | `album:{trip_id}` (stately) | 44 |
 | `community.prepare` | `publish_shared_plan` | PII scrub, face blur derivative, title/tags (AI-36), match vectors | 2 / DLQ | shared plan id | 52 |
 | `postcard.fulfil` | `mail_postcard` | vendor order, status sync, failure refund of quota | 5 | postcard id | 44 |
 | `billing.apply` | RevenueCat webhook | refetch subscriber → fulfil/revoke; boost activation + IOUs; N-34/N-37 | 5 / DLQ | RC event id | 46 |

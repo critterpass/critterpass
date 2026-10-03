@@ -8,7 +8,7 @@
 import { withSystem, withUser } from '@cp/db';
 import type pg from 'pg';
 
-import { readableKeyOwner } from './purposes';
+import { readableKeyOwner, tripMediaKeyTrip } from './purposes';
 
 /**
  * Whether every key is an approved photo avatar (or one of its rendered variants) the caller can
@@ -75,6 +75,36 @@ async function visibleSignatureMedia(
 }
 
 /**
+ * Trip media the crew shares (recap narration, owned by no traveller): readable by the recap's
+ * viewers still in the crew, the same people who read the recap it narrates.
+ */
+async function visibleTripMedia(
+  pool: pg.Pool,
+  uid: string,
+  keys: readonly string[],
+): Promise<boolean> {
+  const rows = await withSystem(pool, async (tx) => {
+    const result = await tx.query<{ r2_key: string; trip_id: string }>(
+      `SELECT r2_key, trip_id FROM media_objects
+        WHERE owner_id IS NULL AND r2_key = ANY($1::text[])`,
+      [keys],
+    );
+    return result.rows;
+  });
+  if (rows.length !== new Set(keys).size) return false;
+  if (rows.some((row) => row.trip_id !== tripMediaKeyTrip(row.r2_key))) return false;
+  const tripIds = [...new Set(rows.map((row) => row.trip_id))];
+  const visible = await withUser(pool, uid, '', async (tx) => {
+    const result = await tx.query<{ trip_id: string }>(
+      'SELECT t AS trip_id FROM unnest($1::uuid[]) AS t WHERE app.is_recap_viewer(t)',
+      [tripIds],
+    );
+    return new Set(result.rows.map((row) => row.trip_id));
+  });
+  return tripIds.every((tripId) => visible.has(tripId));
+}
+
+/**
  * Keys the caller may read: own objects, media attached to a crew chat message they can read, objects attached to a trip they belong to, or a
  * crewmate's approved avatar photo and its variants.
  */
@@ -83,6 +113,12 @@ export async function authorizeReads(
   uid: string,
   keys: readonly string[],
 ): Promise<boolean> {
+  const tripKeys = keys.filter((key) => tripMediaKeyTrip(key) !== undefined);
+  if (tripKeys.length > 0) {
+    if (!(await visibleTripMedia(pool, uid, tripKeys))) return false;
+    const rest = keys.filter((key) => tripMediaKeyTrip(key) === undefined);
+    return rest.length === 0 || authorizeReads(pool, uid, rest);
+  }
   const owners = keys.map((key) => readableKeyOwner(key));
   if (owners.some((owner) => owner === undefined)) return false;
 

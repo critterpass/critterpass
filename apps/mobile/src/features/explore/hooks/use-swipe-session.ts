@@ -44,7 +44,7 @@ function readSwiped(sessionId: string): Swiped {
 }
 
 const SESSION_SQL = `SELECT s.id, s.status, s.deck, s.started_by, s.match_rule,
-    t.tz, t.start_date, t.end_date, d.name AS destination_name,
+    coalesce(t.tz, d.tz) AS tz, t.start_date, t.end_date, d.name AS destination_name,
     (SELECT g.slug FROM guides g WHERE g.id = t.guide_id) AS guide_slug
   FROM swipe_sessions s JOIN trips t ON t.id = s.trip_id
     LEFT JOIN destinations d ON d.id = s.destination_id

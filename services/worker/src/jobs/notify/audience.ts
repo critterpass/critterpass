@@ -59,10 +59,15 @@ interface RecipientRow {
   hide_lockscreen_details: boolean | null;
 }
 
-/** Trip zone of a trip under way the user is travelling on (not dropped out of). */
+/**
+ * Zone of a trip under way the user is travelling on (not dropped out of): the trip's own, else its
+ * destination's.
+ */
 export const ON_TRIP_TZ_SQL = `
-  SELECT t.tz FROM trip_participants tp JOIN trips t ON t.id = tp.trip_id
-  WHERE tp.user_id = u.id AND tp.rsvp <> 'out' AND t.status = 'in_trip' AND t.tz IS NOT NULL
+  SELECT coalesce(t.tz, dest.tz) FROM trip_participants tp JOIN trips t ON t.id = tp.trip_id
+    LEFT JOIN destinations dest ON dest.id = t.destination_id
+  WHERE tp.user_id = u.id AND tp.rsvp <> 'out' AND t.status = 'in_trip'
+    AND coalesce(t.tz, dest.tz) IS NOT NULL
   ORDER BY t.start_date DESC NULLS LAST LIMIT 1`;
 
 /** Loads one recipient; `undefined` when the user no longer exists. */

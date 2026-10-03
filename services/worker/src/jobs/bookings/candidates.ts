@@ -110,9 +110,9 @@ export async function tripForBooking(
   const { rows } = await tx.query<{ id: string; fits: boolean }>(
     `SELECT t.id,
             ($2::timestamptz IS NOT NULL AND t.start_date IS NOT NULL AND t.end_date IS NOT NULL
-             AND ($2::timestamptz AT TIME ZONE coalesce(t.tz, 'UTC'))::date
+             AND ($2::timestamptz AT TIME ZONE coalesce(t.tz, d.tz, 'UTC'))::date
                  BETWEEN t.start_date - 2 AND t.end_date + 1) AS fits
-       FROM trips t
+       FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
       WHERE t.crew_id = $1 AND t.status NOT IN ('archived', 'cancelled')
       ORDER BY fits DESC, t.start_date NULLS LAST, t.created_at`,
     [crewId, startsAt],
