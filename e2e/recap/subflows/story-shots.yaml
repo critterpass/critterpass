@@ -18,7 +18,13 @@ appId: app.critterpass.dev
     env: { SCENE: '3m-5-awards', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-5-awards' }
 - runFlow:
     file: sheet-scene.yaml
-    env: { SCENE: '3m-5-mvp-vote', ROOT: 'recap-mvp-panel', SHOT: '${LANG}-3m-5-mvp-vote' }
+    env:
+      {
+        SCENE: '3m-5-mvp-vote',
+        ROOT: 'recap-mvp-panel',
+        CLOSE: 'recap-mvp-close',
+        SHOT: '${LANG}-3m-5-mvp-vote',
+      }
 - runFlow:
     file: lab-scene.yaml
     env: { SCENE: '3m-6-receipt', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-6-receipt' }
@@ -30,4 +36,10 @@ appId: app.critterpass.dev
     env: { SCENE: '3m-8-stamp', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-8-stamp' }
 - runFlow:
     file: sheet-scene.yaml
-    env: { SCENE: '3m-8-signature', ROOT: 'recap-signature-panel', SHOT: '${LANG}-3m-8-signature' }
+    env:
+      {
+        SCENE: '3m-8-signature',
+        ROOT: 'recap-signature-panel',
+        CLOSE: 'recap-signature-close',
+        SHOT: '${LANG}-3m-8-signature',
+      }
