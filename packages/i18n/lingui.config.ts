@@ -90,6 +90,13 @@ const planSubAreas = [
   'overlay',
   'views',
   'collab',
+  // The section 7 plan surfaces: trip map, day plan, all days, add to plan, Ideas, plan check.
+  'trip-map',
+  'day-plan',
+  'all-days',
+  'add',
+  'ideas',
+  'check',
 ] as const;
 const planSubSources = (sub: string) => [
   `${repoRootPrefix}/apps/mobile/src/features/plan/${sub}/**`,
@@ -148,6 +155,73 @@ const pingSources = [
   `${repoRootPrefix}/apps/mobile/src/features/you/ping-settings/**`,
   `${repoRootPrefix}/apps/mobile/src/app/you/pings.tsx`,
 ];
+
+// The explore area keeps one nested catalog per surface (`explore/<sub>`), so the explore and
+// planning lanes never extract into the same file: the destination guide, a place, the map, swipe
+// together, saved places, Explore home and sponsored picks (split by file, the area's code being
+// flat), and the section 7 folders: places map and list, search, crew split, explore in a trip.
+const exploreRoot = `${repoRootPrefix}/apps/mobile/src/features/explore`;
+const exploreApp = `${repoRootPrefix}/apps/mobile/src/app/explore`;
+const exploreSubAreas = {
+  destination: [
+    `${exploreRoot}/{destination-model,guide-copy}.ts`,
+    `${exploreRoot}/components/{dest-hero,destination-actions,destination-view,month-bars,month-panel,picks-row,crowd-chart}.tsx`,
+    `${exploreRoot}/screens/destination-screen.tsx`,
+    `${exploreRoot}/data/use-explore-destination.ts`,
+    `${exploreRoot}/dev/destination-scenes.tsx`,
+    `${exploreApp}/*destination*.tsx`,
+  ],
+  place: [
+    `${exploreRoot}/place-*.ts`,
+    `${exploreRoot}/components/{place-live-details,place-view,add-to-day-button,crew-row,save-button,supplier-card,why-this-sheet,generic-photo-label}.tsx`,
+    `${exploreRoot}/screens/place-screen.tsx`,
+    `${exploreRoot}/data/{use-place-context,use-place-live}.ts`,
+    `${exploreRoot}/hooks/{use-add-to-day,use-place-photos,use-saved-place}.ts`,
+    `${exploreRoot}/dev/{place-scenes.tsx,lab-place-media.ts}`,
+    `${exploreApp}/place/**`,
+  ],
+  map: [
+    `${exploreRoot}/map-*.ts`,
+    `${exploreRoot}/components/{explore-map-canvas,explore-map-view,doodle-pin,pin-cluster,guide-sprite,place-carousel,region-pack-card,filter-chips}.tsx`,
+    `${exploreRoot}/screens/{explore-map-screen,explore-list-screen}.tsx`,
+    `${exploreRoot}/data/use-offline-pack.ts`,
+    `${exploreRoot}/hooks/use-my-position.ts`,
+    `${exploreRoot}/dev/map-scenes.tsx`,
+    `${exploreApp}/map.tsx`,
+  ],
+  swipe: [
+    `${exploreRoot}/swipe-*.ts`,
+    `${exploreRoot}/components/{swipe-card,swipe-controls,swipe-view,deck-summary,match-stamp}.tsx`,
+    `${exploreRoot}/screens/swipe-screen.tsx`,
+    `${exploreRoot}/hooks/use-swipe-session.ts`,
+    `${exploreRoot}/dev/swipe-scenes.tsx`,
+  ],
+  saved: [
+    `${exploreRoot}/saved-*.{ts,tsx}`,
+    `${exploreRoot}/components/{saved-list-editor,saved-view}.tsx`,
+    `${exploreRoot}/screens/saved-screen.tsx`,
+    `${exploreRoot}/dev/saved-scenes.tsx`,
+    `${exploreApp}/saved.tsx`,
+  ],
+  home: [
+    `${exploreRoot}/home-model.ts`,
+    `${exploreRoot}/components/explore-home-view.tsx`,
+    `${exploreRoot}/screens/explore-home-screen.tsx`,
+    `${exploreApp}/index.tsx`,
+  ],
+  sponsored: [
+    `${exploreRoot}/sponsored-model.ts`,
+    `${exploreRoot}/components/{sponsored-card,why-sponsored-sheet}.tsx`,
+    `${exploreRoot}/screens/why-sponsored-screen.tsx`,
+    `${exploreRoot}/data/use-sponsored-slot.ts`,
+    `${exploreRoot}/hooks/use-sponsored-events.ts`,
+    `${exploreApp}/why-sponsored.tsx`,
+  ],
+  places: [`${exploreRoot}/places/**`],
+  search: [`${exploreRoot}/search/**`],
+  split: [`${exploreRoot}/split/**`],
+  'trip-explore': [`${exploreRoot}/trip-explore/**`],
+} as const;
 
 // The section 7 planning kit keeps its own catalogs: `planning/kit` for the shared planning
 // components, the map sheet and the planning map layers, `planning/fit` for the lines that say when
@@ -234,17 +308,19 @@ export default defineConfig({
           ? [...testFileExcludes, ...chatSources, ...liveMapSources]
           : area === 'setup'
             ? [...testFileExcludes, ...setupSubAreas.flatMap(setupSubSources)]
-            : area === 'plan'
-              ? [...testFileExcludes, `${draftRoot}/**`, ...planSubAreas.flatMap(planSubSources)]
-              : area === 'trip'
-                ? [...testFileExcludes, ...Object.values(tripSubAreas).flat()]
-                : area === 'bookings'
-                  ? [...testFileExcludes, ...supplierSources]
-                  : area === 'critters'
-                    ? [...testFileExcludes, ...questSources, ...stickerSources]
-                    : area === 'you'
-                      ? [...testFileExcludes, ...pingSources]
-                      : testFileExcludes,
+            : area === 'explore'
+              ? [...testFileExcludes, ...Object.values(exploreSubAreas).flat()]
+              : area === 'plan'
+                ? [...testFileExcludes, `${draftRoot}/**`, ...planSubAreas.flatMap(planSubSources)]
+                : area === 'trip'
+                  ? [...testFileExcludes, ...Object.values(tripSubAreas).flat()]
+                  : area === 'bookings'
+                    ? [...testFileExcludes, ...supplierSources]
+                    : area === 'critters'
+                      ? [...testFileExcludes, ...questSources, ...stickerSources]
+                      : area === 'you'
+                        ? [...testFileExcludes, ...pingSources]
+                        : testFileExcludes,
     })),
     {
       name: 'you/pings',
@@ -303,6 +379,12 @@ export default defineConfig({
     ...Object.entries(tripSubAreas).map(([sub, include]) => ({
       name: `trip/${sub}`,
       path: `locales/{locale}/trip/${sub}`,
+      include: [...include],
+      exclude: testFileExcludes,
+    })),
+    ...Object.entries(exploreSubAreas).map(([sub, include]) => ({
+      name: `explore/${sub}`,
+      path: `locales/{locale}/explore/${sub}`,
       include: [...include],
       exclude: testFileExcludes,
     })),

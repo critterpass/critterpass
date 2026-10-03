@@ -7,6 +7,13 @@
 /** Element classification; nested mobile layers are listed before the app that contains them. */
 export const boundaryElements = [
   { type: 'mobile-route', pattern: 'apps/mobile/src/app' },
+  // The planning screens' register aggregator sits beside the feature folders; it is a feature.
+  {
+    type: 'mobile-feature',
+    pattern: 'apps/mobile/src/features/planning-register.ts',
+    mode: 'file',
+    capture: ['feature'],
+  },
   { type: 'mobile-feature', pattern: 'apps/mobile/src/features/*', capture: ['feature'] },
   { type: 'mobile-ui', pattern: 'apps/mobile/src/ui' },
   { type: 'mobile-motion', pattern: 'apps/mobile/src/motion' },

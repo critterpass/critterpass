@@ -1,0 +1,101 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#. placeholder {0}: groups.unknown
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.unknown"
+msgstr "{0, plural, other {# địa điểm đã lưu nữa sẽ hiện ra khi điểm đến của chúng được mở trên điện thoại này.}}"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.newList"
+msgstr "+ Danh sách mới"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.all"
+msgstr "Tất cả"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.cancel"
+msgstr "Hủy"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.create"
+msgstr "Tạo danh sách"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.deleteList"
+msgstr "Xóa danh sách"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.destination"
+msgstr "Cẩm nang điểm đến"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.done"
+msgstr "Xong"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.edit"
+msgstr "Sửa"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.hero.back"
+msgstr "Khám phá"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.explore"
+msgstr "Khám phá"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.move"
+msgstr "Chuyển"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.newName"
+msgstr "Đặt tên cho danh sách mới"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyList"
+msgstr "Danh sách này chưa có gì"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyTitle"
+msgstr "Chưa lưu gì"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.remove"
+msgstr "Bỏ lưu"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.rename"
+msgstr "Đổi tên"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.renameList"
+msgstr "Đổi tên danh sách"
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.renameName"
+msgstr "Đổi tên danh sách này"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.defaultList"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.title"
+msgstr "Đã lưu"
+
+#: ../../apps/mobile/src/features/explore/components/saved-view.tsx
+msgid "explore.saved.emptyLine"
+msgstr "Chạm vào trái tim ở một địa điểm hay điểm đến, nó sẽ nằm ở đây."
+
+#: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
+msgid "explore.saved.nameTaken"
+msgstr "Bạn đã có danh sách tên này rồi."

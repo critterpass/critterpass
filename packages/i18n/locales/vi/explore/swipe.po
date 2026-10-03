@@ -1,0 +1,134 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: vi\n"
+
+#. placeholder {0}: props.matchCount
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.matches"
+msgstr "{0, plural, other {# lượt trùng}}"
+
+#. placeholder {0}: guide.name
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.building"
+msgstr "{0} đang chọn thẻ"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.progress"
+msgstr "{done}/{total} · {matches}"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesMore"
+msgstr "{first} + {second} + {more} đã đồng ý"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesTwo"
+msgstr "{first} + {second} đã đồng ý"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.saidYesOne"
+msgstr "{first} đã đồng ý"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.swipe.fromStay"
+msgstr "{minutes} phút từ chỗ ở"
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastMatch"
+msgstr "{place} đã trùng"
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.toastSuggested"
+msgstr "Đã đề xuất {place} cho Ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchUnslotted"
+msgstr "{placeName} đã trùng. Kế hoạch chưa có chỗ trống cho nơi này."
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchSuggested"
+msgstr "{placeName} được đề xuất cho Ngày {dayNo}. Trưởng nhóm sẽ duyệt."
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneCount"
+msgstr "{yesCount, plural, other {Bạn đã đồng ý với # địa điểm.}}"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.live"
+msgstr "● {liveCount} đang quẹt"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.backToPlan"
+msgstr "Về kế hoạch"
+
+#: ../../apps/mobile/src/features/explore/swipe-copy.ts
+msgid "explore.place.free"
+msgstr "miễn phí"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchDismiss"
+msgstr "Quẹt tiếp"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.match"
+msgstr "Trùng"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRowUnslotted"
+msgstr "Trùng · chưa có chỗ trống"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.matchRow"
+msgstr "Trùng · đề xuất cho Ngày {day}"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.noMatches"
+msgstr "Chưa có lượt trùng nào. Chúng sẽ hiện ở đây khi cả nhóm quẹt xong."
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.no"
+msgstr "Không chọn nơi này"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-card.tsx
+msgid "explore.swipe.cardActions"
+msgstr "Quẹt phải để đồng ý, quẹt trái để bỏ qua"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.title"
+msgstr "Quẹt cùng nhau"
+
+#: ../../apps/mobile/src/features/explore/components/match-stamp.tsx
+msgid "explore.swipe.matchTap"
+msgstr "Chạm để quẹt tiếp"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.doneTitle"
+msgstr "Hết bộ thẻ rồi"
+
+#: ../../apps/mobile/src/features/explore/components/deck-summary.tsx
+msgid "explore.swipe.endedTitle"
+msgstr "Phiên này đã kết thúc"
+
+#: ../../apps/mobile/src/features/explore/screens/swipe-screen.tsx
+msgid "explore.swipe.trip"
+msgstr "Chuyến đi"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.undo"
+msgstr "Hoàn tác lượt quẹt vừa rồi"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.why"
+msgstr "Vì sao?"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-controls.tsx
+msgid "explore.swipe.yes"
+msgstr "Chọn nơi này"
+
+#: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
+msgid "explore.swipe.offline"
+msgstr "Các lượt quẹt được giữ lại và gửi đi khi bạn có mạng. Lúc đó lượt trùng sẽ hiện ra."

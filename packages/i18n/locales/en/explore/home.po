@@ -1,0 +1,58 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-04 03:53+0700\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+#. placeholder {0}: card.name
+#. placeholder {1}: card.guide.name
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.card"
+msgstr "{0}, with {1}"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedCount"
+msgstr "{count} saved"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.title"
+msgstr "Explore"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.back"
+msgstr "Home"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.loading"
+msgstr "Loading destinations"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedNone"
+msgstr "Nothing saved yet"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.offlineBadge"
+msgstr "Offline ready"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.savedBadge"
+msgstr "Saved"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.saved"
+msgstr "Saved places"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.search"
+msgstr "Search any city or country"
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.empty"
+msgstr "The destinations haven't reached this phone yet. They load once it's online."
+
+#: ../../apps/mobile/src/features/explore/components/explore-home-view.tsx
+msgid "explore.home.guides"
+msgstr "Where the guides live"
