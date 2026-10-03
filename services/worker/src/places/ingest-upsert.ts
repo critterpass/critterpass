@@ -6,7 +6,8 @@
  * bbox). Idempotent: a rerun with the same source id(s) updates the existing row rather than
  * inserting a duplicate. Without an overlay this run, an existing row's
  * editorial/tags/hours/curation are left exactly as they were: a later plain re-ingest must never
- * erase a previous editorial pass.
+ * erase a previous editorial pass, and a rerun that misses one source (FSQ OS unavailable) keeps the
+ * source ids it already had.
  *
  * A new Overture-only place below `MIN_INSERT_CONFIDENCE` is not inserted: sampled in Hội An,
  * Mexico City and London, rows under 0.3 are mostly online-only sellers, home services and
@@ -184,7 +185,7 @@ async function updatePoiRows(
   await tx.query(
     `UPDATE pois AS p SET
        name = v.name, category = v.category, lat = v.lat, lng = v.lng, address = v.address,
-       source_ids = v.source_ids,
+       source_ids = p.source_ids || v.source_ids,
        editorial = CASE WHEN v.has_overlay THEN v.editorial ELSE p.editorial END,
        tags = CASE WHEN v.has_overlay THEN v.tags ELSE p.tags END,
        hours = CASE WHEN v.has_overlay THEN v.hours ELSE p.hours END,
