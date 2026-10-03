@@ -63,6 +63,28 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# iOS's back gesture can carry past the lab's list: come back to it from wherever it landed.
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'planning-map-lab-trip-map'
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-planning-map-lab'
+          direction: DOWN
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-planning-map-lab'
 - extendedWaitUntil:
     visible:
       id: 'planning-map-lab-trip-map'
@@ -145,6 +167,15 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
 # Back on the developer tools list: the app in Vietnamese for the components again.
 - scrollUntilVisible:
     element:
@@ -224,6 +255,28 @@ appId: app.critterpass.dev
       - swipe:
           start: 2%, 50%
           end: 90%, 50%
+# iOS's back gesture can carry past the lab's list: come back to it from wherever it landed.
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      notVisible:
+        id: 'planning-map-lab-perf'
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'dev-tools-entry'
+          commands:
+            - tapOn:
+                id: 'dev-tools-entry'
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-planning-map-lab'
+          direction: DOWN
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-planning-map-lab'
 - extendedWaitUntil:
     visible:
       id: 'planning-map-lab-perf'
