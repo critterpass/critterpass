@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-27T08:05:09.175Z",
+  "generatedAt": "2026-10-03T00:43:15.578Z",
   "sampleRate": 48000,
   "sfx": [
     {
@@ -397,6 +397,18 @@
         "caf": "sfx/notify-paco.caf",
         "ogg": "sfx/notify-paco.ogg"
       }
+    },
+    {
+      "guideId": "chava",
+      "assetBasename": "notify-chava",
+      "durationSec": 1.35,
+      "loudnessLufs": -16.042218012126096,
+      "truePeakDb": -1.344144087652523,
+      "pcmHash": "e318c759bfc36f37bbcfda90b47ebcd5bdecc62d6eabab297c7f6447d6769c93",
+      "files": {
+        "caf": "sfx/notify-chava.caf",
+        "ogg": "sfx/notify-chava.ogg"
+      }
     }
   ],
   "music": [
@@ -500,6 +512,23 @@
       "files": {
         "loop": "music/paco.m4a",
         "preview": "music/paco-preview.m4a"
+      }
+    },
+    {
+      "guideId": "chava",
+      "title": "Chà Vá — đàn bầu lo-fi (proposal)",
+      "styleDescription": "Đà Nẵng, Sơn Trà: a bending đàn bầu-like monochord melody in the Vietnamese điệu Bắc pentatonic over rolling đàn tranh plucks, a soft pluck bass, a light wooden mõ knock and faint distant surf; warm, curious and unhurried.",
+      "proposalPendingApproval": true,
+      "durationSec": 80,
+      "loudnessLufs": -15.998260829497418,
+      "truePeakDb": -1.9761889964375743,
+      "loopStartSample": 0,
+      "loopEndSample": 3840000,
+      "pcmHash": "2316e78aded1aa06c32a8442618775f4857dd7545b54833b9961dfb720fc85da",
+      "previewPcmHash": "d52f7e42aac632d172fde6b9cea013a6c11b685332f9bf52b228dd74bf4de591",
+      "files": {
+        "loop": "music/chava.m4a",
+        "preview": "music/chava-preview.m4a"
       }
     }
   ]

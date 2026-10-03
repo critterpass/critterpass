@@ -11,7 +11,8 @@ export type ScaleName =
   | 'minorPentatonic'
   | 'aeolian'
   | 'mixolydian'
-  | 'dorian';
+  | 'dorian'
+  | 'vietBac';
 
 const CENTS_PER_OCTAVE = 1200;
 
@@ -27,6 +28,8 @@ export const SCALES: Readonly<Record<ScaleName, readonly number[]>> = {
   aeolian: [0, 200, 300, 500, 700, 800, 1000],
   mixolydian: [0, 200, 400, 500, 700, 900, 1000],
   dorian: [0, 200, 300, 500, 700, 900, 1000],
+  // Vietnamese "điệu Bắc" pentatonic (hò, xự, xang, xê, cống): bright and open, no semitones.
+  vietBac: [0, 200, 500, 700, 900],
 };
 
 /**
