@@ -89,7 +89,7 @@ Reuse / extend / new: reuse `RoutingProvider`, `estimateStraightLineEta`, the sp
 - Steps: 1. Box list from `destinations` (live + active-trip destinations), buffered 30 km. 2. `osmium extract` per box → `osmium merge` → `valhalla_build_tiles` (3.8.3) → tar → R2 with a manifest (build id, boxes, OSM date). 3. Serving image downloads the newest manifest at boot, health on `/status`. 4. Railway service creation is a founder-approved infra step (record size and cost in the PR).
 - Tests: workflow dry run on two boxes (Đà Nẵng, Bali) in CI; `/status` and one Bali route from the bench script.
 - Done when: staging Valhalla answers a Bali and a Kyoto route; build ≤ 60 min on the runner; serving memory recorded.
-- Status: in progress — pipeline and image in 21fcc2321 (#599; dry run green on Đà Nẵng + Bali); first publish run and the staging `valhalla` service pending
+- Status: done — 21fcc2321 (#599), smoke fix in #602; first publish 2026-10-03 (30 boxes: run 23 min, tile build 8 min, peak about 6.3 GiB, tar 2.0 GB / 742 MB gzip, serving 123 MiB); staging `valhalla` answers Bali (Seminyak → Ubud 52 min) and Kyoto (station → Kiyomizu-dera walk 41 min)
 
 ### T3 — Planning routing provider, route cache, modes
 - Goal: storable travel minutes for planning, Mapbox untouched for live ETAs.
