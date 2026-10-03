@@ -1,7 +1,8 @@
 /**
  * Lab scenes for the place page (3d-3): as designed inside a trip, a member's suggestion, already
- * in the plan, with no trip, closed on the day, with no crowd data, offline and a long Vietnamese
- * name. Save and the main action work; nothing is sent.
+ * in the plan, with no trip, closed on the day, with no crowd data, offline, a long Vietnamese
+ * name, and a Đà Nẵng place with no photo of its own filled in by Foursquare's live facts. Save and
+ * the main action work; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
@@ -12,6 +13,7 @@ import type { CrowdChartProps } from '../components/crowd-chart';
 import { PlaceView } from '../components/place-view';
 import { guideFor } from '../format';
 import { placeMeta, placeTags, type PlaceMetaFacts } from '../place-copy';
+import { liveFacts, type PlaceLive } from '../place-live';
 import { crowdColumns, goAdvice, type AddState } from '../place-model';
 
 const HOURLY = [
@@ -49,7 +51,34 @@ interface SceneSpec {
   readonly offline?: boolean;
   readonly saved?: boolean;
   readonly offers?: boolean;
+  /** Foursquare's live answer for the place. */
+  readonly live?: PlaceLive;
 }
+
+const COMMONS =
+  'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/My_Khe_Beach%2C_Da_Nang%2C_Vietnam.jpg';
+const LIVE_PHOTOS = [960, 640, 480].map((w) => ({
+  url: `${COMMONS}/${String(w)}px-My_Khe_Beach%2C_Da_Nang%2C_Vietnam.jpg`,
+  width: 1920,
+  height: 1255,
+}));
+
+const MY_KHE_LIVE: PlaceLive = {
+  available: true,
+  openNow: true,
+  closedPermanently: false,
+  hours: null,
+  priceLevel: 2,
+  rating: 8.6,
+  photos: LIVE_PHOTOS,
+  tips: [
+    { text: 'Go at sunrise: the sand is cool and the fishing boats are coming in.', createdAt: '' },
+    { text: 'Loungers are 50k for the day, and the showers behind them are free.', createdAt: '' },
+  ],
+  website: 'https://danangfantasticity.com',
+  phone: '+84 236 3550 111',
+  attribution: { name: 'Foursquare', url: 'https://foursquare.com' },
+};
 
 const FUSHIMI: SceneSpec = {
   name: 'Fushimi Inari',
@@ -141,6 +170,17 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     proposedOnAdd: true,
     offers: true,
   },
+  'place-foursquare': {
+    name: 'Mỹ Khê Beach',
+    guide: 'chava',
+    category: 'beach',
+    guidePick: true,
+    meta: { priceLevel: null, open: 'unknown', stayMinutes: 12 },
+    crowd: { kind: 'none', date: DATE },
+    tip: null,
+    add: null,
+    live: MY_KHE_LIVE,
+  },
 };
 
 function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
@@ -149,6 +189,11 @@ function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
   const [saved, setSaved] = useState(spec.saved ?? false);
   const [added, setAdded] = useState<number | null>(null);
   const guide = guideFor(spec.guide);
+  const live = liveFacts(spec.live, {
+    hours: null,
+    priceLevel: spec.meta.priceLevel,
+    hasPhoto: false,
+  });
   const state: AddState | null =
     spec.add === null ? null : added === null ? spec.add : { kind: 'planned', dayNo: added };
   return (
@@ -157,12 +202,19 @@ function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
       category={spec.category}
       guide={guide}
       photo={null}
+      heroUrl={live.heroUrl}
+      live={live.details}
       tags={placeTags({
         guideName: guide.name,
         guidePick: spec.guidePick ?? false,
         mustDoOwner: spec.mustDoOwner ?? null,
       })}
-      meta={placeMeta({ category: spec.category, ...spec.meta })}
+      meta={placeMeta({
+        category: spec.category,
+        ...spec.meta,
+        priceLevel: live.priceLevel,
+        open: live.openNow === null ? spec.meta.open : live.openNow ? 'open' : 'closed',
+      })}
       offline={spec.offline ?? false}
       saved={saved}
       onBack={() => undefined}
