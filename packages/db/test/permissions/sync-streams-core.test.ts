@@ -52,6 +52,8 @@ beforeAll(async () => {
       authorId: fixture.actors.organiser,
       ops: [],
     });
+    // Proposed: an unsent draft would reach its author alone (change-set-drafts.test.ts).
+    await tx.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [changeSetId]);
     // The removed ex-member still holds an organiser seat: the crew check alone must lock them out.
     await insertTripParticipant(tx, {
       tripId: fixture.tripId,
@@ -235,6 +237,7 @@ describe('trip_draft stream', () => {
         plan_days: [draft.dayId],
         plan_items: [draft.itemId],
         change_sets: [draft.changeSetId],
+        plan_legs: [],
         redraft_reservations: [harness.fixture.redraftReservationId],
       });
     },

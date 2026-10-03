@@ -63,6 +63,7 @@ export const INVERSE_REGISTRY: Readonly<Record<PlanActionKind, InverseBuilder>> 
   add_item: invertChangeSet,
   remove_item: irreversible,
   reschedule_pickup: invertChangeSet,
+  check_fix: invertChangeSet,
 };
 
 /** The registered inverse of `kind` applied to `ops`; null = the action is irreversible. */

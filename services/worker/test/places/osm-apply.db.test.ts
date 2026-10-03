@@ -189,4 +189,46 @@ describe('applyOsmPlaces', () => {
     );
     expect(count).toEqual([{ n: 3 }]);
   });
+
+  it("leaves another destination's places alone where boxes overlap", async () => {
+    const ubud = (
+      await pool.query<{ id: string }>(
+        "INSERT INTO destinations (slug, name, coverage, tz) VALUES ('id-ubud', 'Ubud', 'live', 'Asia/Makassar') RETURNING id",
+      )
+    ).rows[0]!.id;
+    await pool.query(
+      `INSERT INTO pois (destination_id, name, category, lat, lng, source_ids)
+       VALUES ($1, 'Goa Gajah', 'temple_shrine', -8.5234, 115.2875, '{"overture": "ov-3"}')`,
+      [bali],
+    );
+    const before = await pool.query(
+      'SELECT id, source_ids, hours, website, updated_at FROM pois WHERE destination_id = $1 ORDER BY id',
+      [bali],
+    );
+    const fresh = osm(
+      'w500',
+      {
+        amenity: 'place_of_worship',
+        name: 'Goa Gajah',
+        opening_hours: 'Mo-Su 08:00-17:00',
+        website: 'https://goagajah.example',
+      },
+      -8.5235,
+      115.2876,
+    );
+
+    // Bali's linked elements, an element matching a Bali place, and the viewpoint Bali added.
+    const result = await applyOsmPlaces(pool, ubud, 'Asia/Makassar', [...ELEMENTS, fresh]);
+
+    expect(result).toEqual({ read: 5, inserted: 0, linked: 0, hoursFilled: 0 });
+    const after = await pool.query(
+      'SELECT id, source_ids, hours, website, updated_at FROM pois WHERE destination_id = $1 ORDER BY id',
+      [bali],
+    );
+    expect(after.rows).toEqual(before.rows);
+    const { rows: ubudRows } = await pool.query('SELECT 1 FROM pois WHERE destination_id = $1', [
+      ubud,
+    ]);
+    expect(ubudRows).toEqual([]);
+  });
 });

@@ -29,7 +29,7 @@ critical_path_tasks: 35
 | # | Phase | Screens | Tasks | Depends on | Wave | Status |
 |---|---|---|---|---|---|---|
 | 1 | [Design import, screen ids and back targets](./phase-01-design-import-screen-ids.md) | all 7x (ids, parents) | 5 | – | 1 | done (#593) |
-| 2 | [Planning data, contracts and wiring](./phase-02-planning-data-contracts.md) | – | 6 | – | 1 | pending |
+| 2 | [Planning data, contracts and wiring](./phase-02-planning-data-contracts.md) | – | 6 | – | 1 | done |
 | 3 | [Travel times and stored legs](./phase-03-travel-times-stored-legs.md) | legs for 7a, 7b, 7i-2 | 6 | 2 | 2 | pending |
 | 4 | [Fit engine, place signals and the plan check job](./phase-04-fit-engine-plan-analysis.md) | fit/gaps/check data | 7 | 2 | 2 | pending |
 | 5 | [Planning UI kit, map layers and shared app data](./phase-05-planning-ui-kit-shared-data.md) | kit for all | 6 | 2 | 2 | pending |

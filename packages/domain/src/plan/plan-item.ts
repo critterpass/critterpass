@@ -8,6 +8,7 @@ import { z } from 'zod';
 
 import { generateUuidV7 } from '../ids';
 import { PLAN_ITEM_COST_MODELS, PLAN_ITEM_STATUSES } from '../enums/plan';
+import { customPlaceSchema } from '../planning/ideas';
 import { timeZoneIdSchema } from '../time/canonical-tz';
 
 /** A fresh stable_id for a plan item created outside `apply_change_set` (e.g. an `add` op's target). */
@@ -24,6 +25,8 @@ export const planItemSnapshotSchema = z.object({
   lane: z.string().min(1).optional(),
   attendee_ids: z.array(z.uuid()).optional(),
   poi_id: z.uuid().nullable().optional(),
+  /** A stop on a dropped pin, which has no `pois` row. */
+  custom_place: customPlaceSchema.nullable().optional(),
   provider_id: z.uuid().nullable().optional(),
   booking_id: z.uuid().nullable().optional(),
   must_do_id: z.uuid().nullable().optional(),

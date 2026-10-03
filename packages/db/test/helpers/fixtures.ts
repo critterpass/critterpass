@@ -36,6 +36,7 @@ import { seedCritterRows } from './critters-fixture';
 import { seedQuestRows } from './quests-fixture';
 import { seedRecapRows } from './recap-fixture';
 import { seedAlbumRows } from './album-fixture';
+import { seedPlanningRows } from './planning-fixture';
 import { seedSetupRows } from './setup-fixture';
 import {
   insertChangeSet,
@@ -387,6 +388,8 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
       authorId: member,
       ops: [],
     });
+    // Sent to the crew: an unsent draft is its author's alone (change-set-drafts.test.ts).
+    await tx.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [changeSetId]);
     // Plan collaboration: the organiser's comment (with the member's +1), personal ops and feed token.
     const { rows: commentRows } = await tx.query<{ id: string }>(
       `INSERT INTO comments (trip_id, anchor_kind, anchor_id, author_id, body)
@@ -480,6 +483,15 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await seedQuestRows(tx, { tripId, crewId, organiser });
     await seedRecapRows(tx, { tripId, crewId, organiser, coOrganiser, member });
     await seedAlbumRows(tx, { tripId, organiser, member });
+    await seedPlanningRows(tx, {
+      tripId,
+      versionId,
+      dayId,
+      destinationId: matrixProbeDestinationId,
+      poiId: matrixProbePoiId,
+      organiser,
+      member,
+    });
 
     const opId = crypto.randomUUID();
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });

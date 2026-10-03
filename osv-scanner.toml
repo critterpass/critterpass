@@ -9,3 +9,18 @@ reason = "decode-uri-component 0.2.2 via expo-router > query-string 7 (Expo SDK 
 id = "GHSA-w5hq-g745-h8pq"
 ignoreUntil = 2026-10-31T00:00:00Z
 reason = "uuid 7.0.3 via @expo/config-plugins > xcode: build-time only, generates v4 ids without a buffer; the flaw needs v3/v5/v6 called with buf. Re-check when Expo SDK 58 stable ships."
+
+[[IgnoredVulns]]
+id = "GHSA-vfj7-8cjw-p6xm"
+ignoreUntil = 2026-11-04T00:00:00Z
+reason = "braces 3.0.3 (CVE-2026-93687, stack exhaustion on deeply nested patterns): no patched release exists (3.0.3 is the latest, micromatch 4.0.8 pins ^3.0.3). Reached only through micromatch in dev tooling (jest, eslint-plugin-boundaries, eslint-plugin-lingui, @lingui/cli, metro and @expo file maps), which expands glob patterns from our own config; no service or app bundle passes user input to braces. Override to the fix once braces ships one."
+
+[[IgnoredVulns]]
+id = "GHSA-ch52-4w7c-c8xp"
+ignoreUntil = 2026-11-04T00:00:00Z
+reason = "http-cache-semantics 4.2.0 (CVE-2026-93748, cross-user disclosure from a shared cache via max-stale): no patched release exists (4.2.0 is the latest). Used only by astro's remote-image fetch cache during the static web site compile (output: 'static', imageService: 'compile'); nothing serves a shared HTTP cache to users through it. Override to the fix once one ships."
+
+[[IgnoredVulns]]
+id = "GHSA-86w9-cpqp-85rv"
+ignoreUntil = 2026-11-04T00:00:00Z
+reason = "node-forge 1.4.0 (CVE-2026-85393, RSA PKCS#1 v1.5 signature forgery in verify): no patched release exists (1.4.0 is the latest). @parse/node-apn uses it only to parse certificate/p12 credentials, and the worker authenticates to APNs with token (p8) auth, so forge never verifies a signature at runtime; @expo/cli and @expo/code-signing-certificates use it on the developer machine to create and self-check our own dev certificates. Override to the fix once node-forge ships one."

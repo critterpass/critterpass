@@ -13,6 +13,7 @@ import { GUIDE_EVENT_TYPES } from '../../src/guide/events';
 import { TRIP_DAY_EVENT_TYPES } from '../../src/trip-day/events';
 import { DISRUPTION_EVENT_TYPES } from '../../src/disruptions/events';
 import { EXPLORE_EVENT_TYPES } from '../../src/explore/events';
+import { PLANNING_EVENT_TYPES } from '../../src/planning/events';
 import { PROPOSAL_EVENT_TYPES } from '../../src/proposal/events';
 import { CRITTER_EVENT_TYPES } from '../../src/critters/events';
 import { QUEST_EVENT_TYPES } from '../../src/quests/events';
@@ -109,6 +110,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   'pitch.queued',
   'place.saved',
   'place.unsaved',
+  // Ideas, stances and legs show where they live (Ideas, the place, the day plan), not in the ticker.
+  ...PLANNING_EVENT_TYPES,
   // Setup progress shows on the wizard itself (live on its realtime channel); availability, asks,
   // budget counts and calendar nudges are private to the member they concern.
   ...SETUP_EVENT_TYPES,

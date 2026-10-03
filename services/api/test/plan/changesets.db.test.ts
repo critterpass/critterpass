@@ -102,10 +102,8 @@ describe('change set lifecycle', () => {
 
     const first = await draft(m1, plan.walk, 14);
     const clash = await draft(m2, plan.walk, 16);
-    expect(errorOf(await send(m2, first))).toMatchObject({
-      code: 'FORBIDDEN',
-      detail: { reason: 'author_only' },
-    });
+    // An unsent draft is its author's alone: another member cannot even find it.
+    expect(errorOf(await send(m2, first)).code).toBe('NOT_FOUND');
     expect(
       errorOf(
         await harness.run(m2, 'set_changeset_item', {
@@ -114,7 +112,7 @@ describe('change set lifecycle', () => {
           accepted: false,
         }),
       ).code,
-    ).toBe('FORBIDDEN');
+    ).toBe('NOT_FOUND');
 
     const sent = resultOf<ChangesetOutcome>(await send(m1, first));
     expect(sent).toMatchObject({ status: 'voting', needed: 3, eligible: 4, yes: 0 });
