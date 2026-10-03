@@ -284,6 +284,8 @@ describe('meet-up, vote and critter activities', () => {
         {
           spawnId: uid(500),
           silhouetteKey: 's',
+          placeName: 'Tirta Empul',
+          dwellTargetS: 600,
           state: 'dwelling',
           distanceBand: 'here',
           dwellFraction: i / 10,
@@ -295,6 +297,8 @@ describe('meet-up, vote and critter activities', () => {
     expect(rings.map((r) => r.ring)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect(rings[0]?.blur_stage).toBe(3);
     expect(rings[10]?.blur_stage).toBe(0);
+    // Ten minutes to stay, counted down in whole minutes; nothing left to say once it is full.
+    expect(rings.map((r) => r.remain_min)).toEqual([10, 9, 8, 7, 6, 5, 4, 3, 2, 1, null]);
   });
 });
 

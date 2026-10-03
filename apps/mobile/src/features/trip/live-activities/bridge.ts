@@ -12,12 +12,16 @@ import { useEffect } from 'react';
 import { AppState } from 'react-native';
 import { createMMKV } from 'react-native-mmkv';
 
+import { encounterEngine } from '@/features/critters';
+import { useWidgetSync } from '@/features/home';
 import type * as CrewArea from '@/features/crew';
 
 import { defineClientCommand } from '../../../data/commands/summaries';
 import { useCommand } from '../../../data/commands/use-command';
 import { expoPushNative } from '../../../data/push/expo-native';
 import { toApnsEnv } from '../../../data/push/tokens';
+
+import { startCritterNearbyActivity, type NearbySource } from './critter-nearby';
 import { installedLaPort, type LaPort } from './la-port';
 import { startLaRegistration } from './register';
 
@@ -53,10 +57,21 @@ export function drawsCrewLive(port: Pick<LaPort, 'drawnKinds'> | null): boolean 
 
 /**
  * Registers this phone's Live Activity tokens and states for as long as the caller is mounted,
- * and gives the crew map its lock-screen sheet (5a-6) when this build can show the activity.
- * Call it from a component inside the signed-in session; without the native module it does nothing.
+ * keeps the one activity the app starts itself (critter nearby, while an encounter's ring fills)
+ * in step with the session's encounter engine, and gives the crew map its lock-screen sheet (5a-6)
+ * when this build can show the activity. Call it from a component inside the signed-in session;
+ * without the native module it does nothing.
  */
-export function useLiveActivityRegistration(port: LaPort | null = installedLaPort()): void {
+export function useLiveActivityRegistration(
+  port: LaPort | null = installedLaPort(),
+  encounters: () => NearbySource = encounterEngine,
+): void {
+  // The home and lock screen widgets refresh with the same session (snapshot and placed widgets).
+  useWidgetSync();
+  useEffect(() => {
+    if (port === null) return undefined;
+    return startCritterNearbyActivity({ source: encounters(), port });
+  }, [port, encounters]);
   useEffect(() => {
     if (!drawsCrewLive(port)) return undefined;
     // Loaded here, not at the top: the crew area's surface brings its chat and map with it, and

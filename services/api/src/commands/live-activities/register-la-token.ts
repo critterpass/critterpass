@@ -1,6 +1,7 @@
 /**
  * `register_la_token` (docs/api-contracts.md §4.1): the phone hands over an ActivityKit token.
- * - `push_to_start`: one per (device, activity type); it rotates, and the newest wins.
+ * - `push_to_start`: one per (device, activity type); it rotates, and the newest wins. It carries
+ *   the kinds the build draws (`la_kinds`), recorded on every token of the install.
  * - `update`: one activity's own token; it binds to the server's row for that activity (matched by
  *   the phone's `activity_id`, else by the pending row a push-to-start created for the same object),
  *   or records an activity the app started itself.
@@ -95,6 +96,13 @@ export const registerLaTokenCommand = defineCommand({
              SET token = EXCLUDED.token, env = EXCLUDED.env, user_id = EXCLUDED.user_id,
                  invalid_at = NULL, invalid_reason = NULL`,
           [deviceId, ctx.uid, payload.activity_type, payload.token, payload.apns_env],
+        );
+        // What this install's build draws, on every token it holds: a build that lists nothing
+        // (older builds) only ever gets the baseline kinds push-started.
+        await tx.query(
+          `UPDATE la_push_to_start_tokens SET drawn = activity_type = ANY($2::text[])
+            WHERE device_id = $1 AND drawn IS DISTINCT FROM (activity_type = ANY($2::text[]))`,
+          [deviceId, payload.la_kinds ?? []],
         );
       } else {
         activityRowId = await bindUpdateToken(tx, payload, deviceId, ctx.uid);

@@ -415,6 +415,7 @@ public struct CritterNearbyActivityAttributes: ActivityAttributes, Hashable, Sen
         public var ring: Int
         public var blurStage: Int
         public var foundKey: String?
+        public var remainMin: Int?
 
         enum CodingKeys: String, CodingKey {
             case seq = "seq"
@@ -423,14 +424,17 @@ public struct CritterNearbyActivityAttributes: ActivityAttributes, Hashable, Sen
             case ring = "ring"
             case blurStage = "blur_stage"
             case foundKey = "found_key"
+            case remainMin = "remain_min"
         }
     }
 
     public var spawnId: String
     public var silhouetteKey: String
+    public var placeName: String?
 
     enum CodingKeys: String, CodingKey {
         case spawnId = "spawn_id"
         case silhouetteKey = "silhouette_key"
+        case placeName = "place_name"
     }
 }

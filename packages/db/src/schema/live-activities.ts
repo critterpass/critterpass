@@ -7,6 +7,7 @@
 import { registerTablePrivacy } from '@cp/domain';
 import { sql } from 'drizzle-orm';
 import {
+  boolean,
   integer,
   jsonb,
   pgTable,
@@ -46,6 +47,8 @@ export const laPushToStartTokens = pgTable('la_push_to_start_tokens', {
   activityType: text('activity_type').notNull(),
   token: text('token').notNull(),
   env: text('env').notNull(),
+  /** The registering build draws this kind (it listed it in `la_kinds`). */
+  drawn: boolean('drawn').notNull().default(false),
   invalidAt: at('invalid_at'),
   invalidReason: text('invalid_reason'),
   createdAt: createdAt(),

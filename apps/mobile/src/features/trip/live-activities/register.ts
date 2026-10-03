@@ -9,7 +9,8 @@
  * more a minute later (the first launch can run ahead of the device's own registration) and when
  * the app returns to the foreground, at most every ten minutes; update tokens and states seen this
  * launch go out again with them. The server's upserts make the repeats harmless. Nothing is sent
- * while Live Activities are off for the app.
+ * while Live Activities are off for the app. Each push-to-start registration also lists the kinds
+ * this build's widget extension draws (`la_kinds`), so the server never starts one it cannot show.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- non-UI data layer: storage keys and wire values. */
 import {
@@ -18,6 +19,7 @@ import {
   laRefId,
   registerLaTokenPayloadSchema,
   reportLaStatePayloadSchema,
+  type LaKind,
   type RegisterLaTokenPayload,
   type ReportLaStatePayload,
 } from '@cp/domain';
@@ -87,17 +89,26 @@ export function startLaRegistration(deps: LaRegistrationDeps): () => void {
     }
   }
 
+  /** Known kinds among those the build says its widget extension draws; `undefined` if it does not say. */
+  function drawnKinds(): LaKind[] | undefined {
+    const drawn = port.drawnKinds();
+    if (drawn === null) return undefined;
+    return LA_KINDS.filter((kind) => drawn.includes(kind));
+  }
+
   const sendStartToken = (kind: string, token: string) =>
-    deliver(startKey(kind), token, async () =>
-      deps.registerToken(
+    deliver(startKey(kind), token, async () => {
+      const laKinds = drawnKinds();
+      return deps.registerToken(
         registerLaTokenPayloadSchema.parse({
           kind: 'push_to_start',
           activity_type: kind,
           token,
           apns_env: await deps.apnsEnv(),
+          ...(laKinds === undefined ? {} : { la_kinds: laKinds }),
         }),
-      ),
-    );
+      );
+    });
 
   /** Sends every token and state this phone knows again, whatever was sent before. */
   function round(): void {
