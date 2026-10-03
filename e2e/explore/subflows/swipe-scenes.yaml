@@ -1,8 +1,9 @@
 appId: app.critterpass.dev
 ---
 # Swipe together (3d-2): the deck, WHY THIS?, the match stamp, a solo traveller, the deck being
-# built, the finished summary, an ended session, offline and long Vietnamese names, prefixed
-# `${PREFIX}`.
+# built, the finished summary, an ended session, offline, long Vietnamese names (no photos: the
+# category doodles), a place's own photo with its licence credit, and a generic stock photo
+# labelled as not the place, prefixed `${PREFIX}`.
 - runFlow:
     file: scene.yaml
     env: { SCENE: swipe, READY: explore-swipe-card, SHOT: '${PREFIX}-3d-2-swipe' }
@@ -32,3 +33,15 @@ appId: app.critterpass.dev
     file: scene.yaml
     env:
       { SCENE: swipe-da-nang, READY: explore-swipe-card, SHOT: '${PREFIX}-3d-2-da-nang-long-names' }
+- runFlow:
+    file: scene.yaml
+    env:
+      { SCENE: swipe-photo, READY: explore-swipe-photo-credit, SHOT: '${PREFIX}-3d-2-place-photo' }
+- runFlow:
+    file: scene.yaml
+    env:
+      {
+        SCENE: swipe-photo-generic,
+        READY: explore-photo-generic,
+        SHOT: '${PREFIX}-3d-2-generic-photo',
+      }

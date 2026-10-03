@@ -553,6 +553,10 @@ msgstr ""
 msgid "explore.solo.cancel"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/generic-photo-label.tsx
+msgid "explore.photo.notThisPlace"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.emptyList"
 msgstr ""

@@ -1,11 +1,12 @@
 /**
  * Lab scenes for Swipe together (3d-2): the deck as designed with others' yes votes and the
  * guide's note, WHY THIS? open, the match stamp, a solo traveller, the deck being built, the
- * finished summary, an ended session, offline, and Đà Nẵng with long names. Swipes, the buttons
- * and undo work over the fixtures; nothing is sent.
+ * finished summary, an ended session, offline, Đà Nẵng with long names, and Đà Nẵng cards with a
+ * place's own photo, a labelled generic one and none (the doodle). Swipes, the buttons and undo
+ * work over the fixtures; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
-import type { DeckReason } from '@cp/domain';
+import type { DeckReason, MediaAsset } from '@cp/domain';
 import { useState, type ReactNode } from 'react';
 
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -14,6 +15,7 @@ import { SwipeView, type SwipeStage } from '../components/swipe-view';
 import { guideFor } from '../format';
 import { socialPill, swipeMeta } from '../swipe-copy';
 import { whyLines } from '../swipe-model';
+import { BEACH_GENERIC, MY_KHE_OWN } from './lab-place-media';
 
 interface Fixture {
   readonly poiId: string;
@@ -22,6 +24,7 @@ interface Fixture {
   readonly reasons: readonly DeckReason[];
   readonly note: string | null;
   readonly yes: readonly string[];
+  readonly photo?: MediaAsset;
 }
 
 const BALI: readonly Fixture[] = [
@@ -65,6 +68,34 @@ const DA_NANG: readonly Fixture[] = [
   },
   { poiId: 'my-khe', name: 'Bãi biển Mỹ Khê', category: 'beach', reasons: [], note: null, yes: [] },
 ];
+const DA_NANG_PHOTOS: readonly Fixture[] = [
+  {
+    poiId: 'my-khe',
+    name: 'My Khe Beach',
+    category: 'beach',
+    reasons: [{ code: 'near_stay', value: 700 }],
+    note: 'Sunrise swim, then bánh mì.',
+    yes: ['Minh'],
+    photo: MY_KHE_OWN,
+  },
+  {
+    poiId: 'pham-van-dong',
+    name: 'Bãi Biển Phạm Văn Đồng',
+    category: 'beach',
+    reasons: [],
+    note: null,
+    yes: [],
+    photo: BEACH_GENERIC,
+  },
+  {
+    poiId: 'chua-my-khe',
+    name: 'Chùa Mỹ Khê',
+    category: 'temple_shrine',
+    reasons: [],
+    note: null,
+    yes: [],
+  },
+];
 const CREW = [
   { key: 'm', name: 'Maya', joinIndex: 0 },
   { key: 'a', name: 'Alex', joinIndex: 4 },
@@ -85,6 +116,16 @@ interface SwipeSpec {
   readonly offline?: boolean;
   readonly stage?: 'building' | 'summary' | 'ended';
 }
+
+const PHOTOS: SwipeSpec = {
+  eyebrow: 'Đà Nẵng · Oct 2 – 4',
+  guide: 'chava',
+  cards: DA_NANG_PHOTOS,
+  live: 3,
+  done: 6,
+  total: 30,
+  matchCount: 1,
+};
 
 const BASE: SwipeSpec = {
   eyebrow: 'Bali · Oct 12 – 19',
@@ -114,6 +155,8 @@ const SPECS: Readonly<Record<string, SwipeSpec>> = {
     total: 28,
     matchCount: 1,
   },
+  'swipe-photo': PHOTOS,
+  'swipe-photo-generic': { ...PHOTOS, cards: DA_NANG_PHOTOS.slice(1), done: 7 },
 };
 
 function SwipeScene({ spec }: { readonly spec: SwipeSpec }) {
@@ -132,6 +175,7 @@ function SwipeScene({ spec }: { readonly spec: SwipeSpec }) {
           meta: swipeMeta(card.category, null, card.reasons),
           note: card.note,
           social: socialPill(card.yes),
+          photo: card.photo ?? null,
         };
   };
   const top = face(at);

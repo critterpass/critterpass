@@ -3,7 +3,7 @@
  * per subject with every candidate numbered by rank and labelled with its id, kind and credit, so
  * a reviewer can pick at a glance before keeping or rejecting items in the ops console.
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 import type { ContentItem } from '@cp/content';
@@ -17,9 +17,17 @@ const THUMB_H = 300;
 const LABEL_H = 54;
 const COLUMNS = 4;
 
+/** A preview's bytes, or null when the source does not answer (the sheet shows its label alone). */
 async function download(url: string, fetchImpl: typeof fetch): Promise<Buffer | null> {
-  const response = await fetchImpl(url, { headers: { 'user-agent': USER_AGENT } });
-  return response.ok ? Buffer.from(await response.arrayBuffer()) : null;
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    try {
+      const response = await fetchImpl(url, { headers: { 'user-agent': USER_AGENT } });
+      return response.ok ? Buffer.from(await response.arrayBuffer()) : null;
+    } catch {
+      // A dropped connection gets one more try.
+    }
+  }
+  return null;
 }
 
 export async function renderMediaSheets(
@@ -31,10 +39,14 @@ export async function renderMediaSheets(
   const rendered: RenderedItem[] = [];
   const previews = new Map<string, Buffer>();
   for (const item of items) {
-    const bytes = await download(item.preview_url, fetchImpl);
-    if (bytes === null) continue;
     const file = `${item.id}.jpg`;
-    writeFileSync(path.join(outDir, file), bytes);
+    const saved = path.join(outDir, file);
+    // A re-run keeps the previews it already has.
+    const bytes = existsSync(saved)
+      ? readFileSync(saved)
+      : await download(item.preview_url, fetchImpl);
+    if (bytes === null) continue;
+    writeFileSync(saved, bytes);
     previews.set(item.id, bytes);
     rendered.push({ ref: item.id, file });
   }
