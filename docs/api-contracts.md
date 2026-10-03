@@ -388,8 +388,8 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | `save_signature` (doc delta) | `{media_id}` (an upload with purpose `signature`, `application/json` stroke vector ≤ 256 KB; fills the stamps already signed) | self | – | – | A, O | 43 |
 | `opt_out_award` (doc delta) | `{award_id, opted_out = true}` (hides the caller's own award for everyone; `false` brings it back) | self | – | `recap.award_opted_out` | A, O | 43 |
 | `retry_recap` (doc delta) | `{trip_id}` (a traveller of an ended trip whose recap failed or never built; queues `recap.build`) | participant | – | – | A | 43 |
-| `react_memory` | `{memory_id, reaction}` | crew | – | `memory.reacted` | A, O, N | 43 |
-| `start_reunion` | `{memory_id}` → poll with destination pre-pitched | crew | – | `poll.created` | A | 43 |
+| `react_memory` | `{memory_id, emoji?, text?}` (doc delta: an emoji, a line ≤ 40 characters or both; one per traveller, replaced; published on `memory:{id}`; a traveller who left the crew keeps theirs) | traveller | – | `memory.reacted` | A, O, N | 43 |
+| `start_reunion` | `{memory_id, trip_id?}` → poll with destination pre-pitched (doc delta: the same pitch as from search: the open board, a new vote under the app's `trip_id`, or the queue) | crew | – | `poll.created` | A | 43 |
 | `register_photo` | `{trip_id, media_key, sha256, taken_at, dims, faces_opt_in}` (after presigned PUT) | participant | – | `photo.added` → thumbnails/curation | A, O | 44 |
 | `delete_photo` | `{photo_id}` | owner / organiser | – | `photo.deleted` | A, O | 44 |
 | `set_album_pick` | `{photo_id, picked}` | participant | – | `album.pick_changed` | A, O | 44 |
