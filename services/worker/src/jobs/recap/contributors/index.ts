@@ -2,8 +2,10 @@
  * The recap contributor registry: the builder runs every contributor here, in order, over one
  * draft. A later area (the album's photo counts, say) adds its data by registering a contributor,
  * without touching the builder. Order matters only where a contributor reads another's output:
- * rides annotate the plan's legs, visits count travellers at the plan's before-sunrise stops.
+ * rides annotate the plan's legs, visits count travellers at the plan's before-sunrise stops; the
+ * album counts photos.
  */
+import { albumContributor } from './album';
 import { crittersContributor } from './critters';
 import { ledgerContributor } from './ledger';
 import { planContributor } from './plan';
@@ -17,6 +19,7 @@ const contributors: RecapContributor[] = [
   ledgerContributor,
   crittersContributor,
   visitsContributor,
+  albumContributor,
 ];
 
 /** Adds a contributor after the built-in ones; a name registers once. */
