@@ -45,6 +45,7 @@ export interface TripCrew {
 
 const TABLES = [
   'trips',
+  'destinations',
   'crews',
   'crew_members',
   'users',
@@ -103,8 +104,8 @@ export async function loadTripCrew(
 ): Promise<TripCrew | null> {
   const trip = quoted(tripId);
   const row = await db.getOptional<TripRow>(
-    `SELECT t.crew_id, t.destination_id, d.slug AS destination_slug, c.name AS crew_name, t.status, t.start_date, t.end_date, t.tz,
-            e.boost_active
+    `SELECT t.crew_id, t.destination_id, d.slug AS destination_slug, c.name AS crew_name, t.status, t.start_date, t.end_date,
+            coalesce(t.tz, d.tz) AS tz, e.boost_active
        FROM trips t LEFT JOIN crews c ON c.id = t.crew_id
        LEFT JOIN destinations d ON d.id = t.destination_id
        LEFT JOIN trip_entitlements e ON e.trip_id = t.id
