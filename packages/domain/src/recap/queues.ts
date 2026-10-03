@@ -12,6 +12,7 @@ export const RECAP_QUEUES = {
   build: 'recap.build',
   mvpClose: 'recap.mvp_close',
   narrate: 'recap.narrate',
+  anniversaryScan: 'anniversary.scan',
 } as const;
 
 export const RECAP_QUEUE_SPECS = {
@@ -24,6 +25,11 @@ export const RECAP_QUEUE_SPECS = {
     notify: true,
   },
   'recap.mvp_close': { policy: 'exclusive', retryLimit: 5 },
+  'anniversary.scan': {
+    policy: 'singleton',
+    retryLimit: 2,
+    cron: { expr: '7 * * * *', tz: 'UTC' },
+  },
   'recap.narrate': {
     policy: 'stately',
     retryLimit: 3,
@@ -50,6 +56,7 @@ export const RECAP_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof RECAP_QUEUE_
     'Closes the MVP vote when its time is up or everyone voted, and crowns the winner',
   'recap.narrate':
     "Records the guide's voice over each story card, per crew locale, when it changed",
+  'anniversary.scan': "Brings back a trip's best day a year on, in each traveller's own morning",
 };
 
 export const recapMvpCloseJobSchema = z.object({ recap_id: z.uuid() });
