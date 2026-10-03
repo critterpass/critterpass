@@ -7,10 +7,66 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
-#: ../../apps/mobile/src/features/plan/stop-name.ts
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.plusOne"
+msgstr "Một lượt +1"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.proposal"
+msgstr "Một thay đổi chờ cả nhóm đồng ý"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.comment"
+msgstr "Một bình luận"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "explore.queued.planAdd"
+msgstr "Một địa điểm thêm vào kế hoạch"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "explore.queued.proposal"
+msgstr "Một địa điểm chờ nhóm đồng ý"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.edit"
+msgstr "Một chỉnh sửa lịch trình"
+
+#: ../../apps/mobile/src/data/plan/stop-name.ts
 msgid "plan.day.item.kindActivity"
 msgstr "Hoạt động"
 
-#: ../../apps/mobile/src/features/plan/stop-name.ts
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.apply"
+msgstr "Áp dụng lựa chọn thắng"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.send"
+msgstr "Đang hỏi cả nhóm"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.review.queued.toggle"
+msgstr "Giữ hoặc bỏ một thay đổi"
+
+#: ../../apps/mobile/src/data/plan/stop-name.ts
 msgid "plan.day.item.kindMeal"
 msgstr "Bữa ăn"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.overview.queued.reorder"
+msgstr "Thứ tự ngày mới"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.undo"
+msgstr "Hoàn tác thay đổi của hướng dẫn viên"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.review.queued.no"
+msgstr "Bạn không đồng ý một thay đổi"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.vote"
+msgstr "Phiếu của bạn"
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.review.queued.yes"
+msgstr "Bạn đồng ý một thay đổi"

@@ -20,9 +20,9 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Text } from '@/ui/text/Text';
 import { degrees, makeStyles, useTheme } from '@/ui/theme';
 
-import type { PlanMember } from '../day/use-trip-plan';
 import { PT_PER_MINUTE } from './geometry';
 import type { BlockFrame } from './timeline-block';
+import { type PlanMember } from '@/data/plan/use-trip-plan';
 
 const IDLE_FADE_MS = 3000;
 const GLIDE_MS = tokens.motion.duration.fast;

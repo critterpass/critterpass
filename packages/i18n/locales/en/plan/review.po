@@ -81,10 +81,6 @@ msgstr "Approved"
 msgid "plan.review.notice.applying"
 msgstr "Approved. Putting it into the plan now."
 
-#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
-msgid "plan.review.queued.toggle"
-msgstr "Change kept or dropped"
-
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.backDay"
 msgstr "Day {first}"
@@ -268,11 +264,3 @@ msgstr "You said not this."
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedYes"
 msgstr "You said yes."
-
-#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
-msgid "plan.review.queued.no"
-msgstr "Your no to a plan change"
-
-#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
-msgid "plan.review.queued.yes"
-msgstr "Your yes to a plan change"

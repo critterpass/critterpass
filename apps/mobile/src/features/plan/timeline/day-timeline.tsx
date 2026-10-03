@@ -10,15 +10,15 @@ import { useMotionMode } from '@/motion/motion-mode';
 import { GUIDE_STICKERS, isGuideStickerId } from '@/ui/avatar/guides';
 
 import { itemAnchor, type PlanPresence } from '../collab/use-presence';
-import type { DayItem } from '../day/plan-model';
-import type { DaySlot } from '../day/plan-ops';
-import type { TripPlan } from '../day/use-trip-plan';
 import { RainBand } from './rain-band';
 import { placeCursors, RemoteCursors } from './remote-cursors';
 import { TimelineEditor, type TimelineGhost } from './timeline-editor';
 import { useGuideSuggestion } from './use-guide-suggestion';
 import { useRainWindow } from './use-rain-window';
 import type { RainForecast } from './weather';
+import { type DayItem } from '@/data/plan/plan-model';
+import { type DaySlot } from '@/data/plan/plan-ops';
+import { type TripPlan } from '@/data/plan/use-trip-plan';
 
 export function guideOf(slug: string | null) {
   return GUIDE_STICKERS[isGuideStickerId(slug) ? slug : 'tokek'];

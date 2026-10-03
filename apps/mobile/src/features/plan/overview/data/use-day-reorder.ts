@@ -13,10 +13,9 @@ import { generateUuidV7, type PlanState } from '@cp/domain';
 
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 
-import { CREATE_CHANGESET } from '../../review/data/changeset-commands';
 import { reorderChangeSetOps, reorderPlanOp } from '../model/reorder';
 import { useLiveRows } from './live-rows';
-import { APPLY_PLAN_OPS } from './plan-commands';
+import { applyPlanOpsCommand, createChangesetOnline } from '@/data/plan/commands';
 
 const PENDING_SQL = `SELECT id, envelope FROM commands
   WHERE cmd = 'apply_plan_ops' AND status <> 'done'
@@ -91,7 +90,7 @@ export function useDayReorder(input: {
   const send = useCallback(
     async (order: readonly number[], retried: boolean) => {
       if (commands === null || tripId === null || versionId === null) return null;
-      const result = await commands.send(APPLY_PLAN_OPS, {
+      const result = await commands.send(applyPlanOpsCommand, {
         trip_id: tripId,
         base_version: versionId,
         ops: [reorderPlanOp(order)],
@@ -142,7 +141,7 @@ export function useDayReorder(input: {
       );
       if (ops.length === 0) return { kind: 'failed' };
       const changesetId = generateUuidV7();
-      const created = await commands.send(CREATE_CHANGESET, {
+      const created = await commands.send(createChangesetOnline, {
         changeset_id: changesetId,
         trip_id: tripId,
         base_version: versionId,

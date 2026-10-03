@@ -4,8 +4,7 @@
  * means the forecast is unavailable (too far out, or offline before it ever synced).
  */
 import type { WeatherHour } from '@cp/domain';
-
-import { minutesOnDay } from '../day/plan-model';
+import { minutesOnDay } from '@/data/plan/plan-model';
 
 const WET_CHANCE = 60;
 const WET_MM = 1;

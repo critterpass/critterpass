@@ -21,8 +21,8 @@ import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import type { PlanMember } from '../day/use-trip-plan';
 import type { ThreadComment } from './decision-model';
+import { type PlanMember } from '@/data/plan/use-trip-plan';
 
 const GUIDE_STICKER = 40;
 

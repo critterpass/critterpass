@@ -81,10 +81,6 @@ msgstr "Đã duyệt"
 msgid "plan.review.notice.applying"
 msgstr "Đã duyệt. Đang đưa vào kế hoạch."
 
-#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
-msgid "plan.review.queued.toggle"
-msgstr "Giữ hoặc bỏ một thay đổi"
-
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.backDay"
 msgstr "Ngày {first}"
@@ -268,11 +264,3 @@ msgstr "Bạn đã nói không."
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedYes"
 msgstr "Bạn đã đồng ý."
-
-#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
-msgid "plan.review.queued.no"
-msgstr "Bạn không đồng ý một thay đổi"
-
-#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
-msgid "plan.review.queued.yes"
-msgstr "Bạn đồng ý một thay đổi"

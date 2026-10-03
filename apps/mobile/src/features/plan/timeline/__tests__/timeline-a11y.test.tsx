@@ -14,8 +14,8 @@ import type { PlanOp } from '@cp/domain';
 import { renderUi } from '@/ui/test-support/render';
 
 import { DINNER, LAB_DATE, LAB_TZ, WALK as LAB_WALK } from '../../day/dev/lab-fixtures';
-import { instantOnDay, type DayItem } from '../../day/plan-model';
 import { TimelineEditor } from '../timeline-editor';
+import { type DayItem, instantOnDay } from '@/data/plan/plan-model';
 
 // A 75-minute walk right before a coffee that starts as it ends.
 const WALK: DayItem = { ...LAB_WALK, start: 14 * 60, end: 15 * 60 + 15 };

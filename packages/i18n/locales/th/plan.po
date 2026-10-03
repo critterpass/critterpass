@@ -7,10 +7,66 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
 
-#: ../../apps/mobile/src/features/plan/stop-name.ts
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.plusOne"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.proposal"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.comment"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "explore.queued.planAdd"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "explore.queued.proposal"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.edit"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/stop-name.ts
 msgid "plan.day.item.kindActivity"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/stop-name.ts
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.apply"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.send"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.review.queued.toggle"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/stop-name.ts
 msgid "plan.day.item.kindMeal"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.overview.queued.reorder"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.undo"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.review.queued.no"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.day.queued.vote"
+msgstr ""
+
+#: ../../apps/mobile/src/data/plan/commands.ts
+msgid "plan.review.queued.yes"
 msgstr ""

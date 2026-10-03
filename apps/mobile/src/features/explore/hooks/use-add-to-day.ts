@@ -11,8 +11,12 @@ import { useCallback, useState } from 'react';
 import { useCommand } from '@/data/commands/use-command';
 import { impact, toast } from '@/motion';
 
-import { applyPlanOpsCommand, createChangesetCommand, sendChangesetCommand } from '../commands';
 import { addChangeSetOp, addPlanOp, type PlaceToAdd } from '../place-model';
+import {
+  addPlaceToPlanCommand,
+  proposePlaceCommand,
+  sendChangesetCommand,
+} from '@/data/plan/commands';
 
 export interface AddToDay {
   /** The day this screen added (or proposed) the place for; null until it has. */
@@ -31,8 +35,8 @@ export function useAddToDay(input: {
 }): AddToDay {
   const { t } = useLingui();
   const { context, place, crew } = input;
-  const apply = useCommand(applyPlanOpsCommand);
-  const create = useCommand(createChangesetCommand);
+  const apply = useCommand(addPlaceToPlanCommand);
+  const create = useCommand(proposePlaceCommand);
   const send = useCommand(sendChangesetCommand);
   const [added, setAdded] = useState<{ day: number; proposed: boolean } | null>(null);
 

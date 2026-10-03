@@ -10,8 +10,8 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
-import { useLiveRows } from './live-rows';
 import { DESTINATION_PLACES_SQL, PLACES_TABLES, type PlaceRow } from './queries';
+import { useLiveRows } from '@/data/plan/live-rows';
 
 export interface PlaceSearch {
   readonly rows: readonly PlaceRow[];

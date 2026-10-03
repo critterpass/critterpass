@@ -92,10 +92,6 @@ msgstr "Move down"
 msgid "plan.overview.moveUp"
 msgstr "Move up"
 
-#: ../../apps/mobile/src/features/plan/overview/data/plan-commands.ts
-msgid "plan.overview.queued.reorder"
-msgstr "New day order"
-
 #: ../../apps/mobile/src/features/plan/overview/plan-overview-view.tsx
 msgid "plan.overview.empty.title"
 msgstr "No plan yet"

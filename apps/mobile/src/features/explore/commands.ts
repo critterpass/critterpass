@@ -1,11 +1,10 @@
 /**
- * Client specs for the commands Explore sends. Saves, a solo trip and adding a place to the plan
- * may wait in the offline queue (a queued save shows at once from the queue).
+ * Client specs for the commands Explore sends. Saves and a solo trip may wait in the offline queue
+ * (a queued save shows at once from the queue); adding a place to the plan goes through the plan's
+ * own commands (`@/data/plan`).
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
 import type {
-  ApplyPlanOpsPayload,
-  CreateChangesetPayload,
   CreateTripPayload,
   RecordSponsoredEventPayload,
   StartSwipeSessionPayload,
@@ -34,25 +33,6 @@ export const createTripCommand = defineClientCommand<CreateTripPayload>({
   name: 'create_trip',
   offline: true,
   summarize: () => msg({ id: 'explore.queued.trip', message: 'Your new trip' }),
-});
-
-/** The organiser adds a place straight to the plan. */
-export const applyPlanOpsCommand = defineClientCommand<ApplyPlanOpsPayload>({
-  name: 'apply_plan_ops',
-  offline: true,
-  summarize: () => msg({ id: 'explore.queued.planAdd', message: 'A place added to the plan' }),
-});
-
-/** A member proposes it: the change set, then the crew is asked. */
-export const createChangesetCommand = defineClientCommand<CreateChangesetPayload>({
-  name: 'create_changeset',
-  offline: true,
-  summarize: () => msg({ id: 'explore.queued.proposal', message: 'A place for the crew to okay' }),
-});
-
-export const sendChangesetCommand = defineClientCommand<{ changeset_id: string }>({
-  name: 'send_changeset',
-  offline: true,
 });
 
 export const createSavedListCommand = defineClientCommand<{ list_id: string; name: string }>({

@@ -10,8 +10,7 @@ import { msg } from '@lingui/core/macro';
 
 import { defineClientCommand } from '@/data/commands/summaries';
 import { useGuideText } from '@/lib/i18n/guide-text';
-
-import { useLiveRows } from '../day/live-rows';
+import { useLiveRows } from '@/data/plan/live-rows';
 
 const SUGGESTION_SQL = `SELECT change_set_id, title, summary, i18n FROM disruptions
   WHERE trip_id = ? AND kind = 'weather' AND status = 'open' AND change_set_id IS NOT NULL`;

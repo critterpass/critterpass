@@ -7,13 +7,6 @@ import { useCallback, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 
-import {
-  addCommentCommand,
-  plusOneCommentCommand,
-  unPlusOneCommentCommand,
-  undoGuideActionCommand,
-} from '../day/commands';
-import { useLiveRows } from '../day/live-rows';
 import { buildThread, guideReplies, type Anchor, type ThreadComment } from './decision-model';
 import {
   COMMENTS_SQL,
@@ -28,6 +21,13 @@ import {
   type PlusOneRow,
   type QueuedCollabRow,
 } from './queries';
+import {
+  addCommentCommand,
+  plusOneCommentCommand,
+  undoGuideActionCommand,
+  unPlusOneCommentCommand,
+} from '@/data/plan/commands';
+import { useLiveRows } from '@/data/plan/live-rows';
 
 export function useComments(tripId: string | null, uid: string | null) {
   const params = tripId === null ? null : [tripId];

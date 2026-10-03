@@ -8,16 +8,16 @@ import { i18n as lingui } from '@lingui/core';
 import { beforeAll, describe, expect, it } from '@jest/globals';
 
 import { toPlanDays, toPlanItems } from '../../overview/model/plan-model';
-import type { PlanItemRow as OverviewItemRow } from '../../overview/data/plan-rows';
 import {
   dayItems,
   displayOf,
+  type ModelDayRow as PlanDayRow,
+  type ModelItemRow as PlanItemRow,
   placeNamesOf,
   themesAsRead,
   toPlanState,
-  type PlanDayRow,
-  type PlanItemRow,
-} from '../plan-model';
+} from '@/data/plan/plan-model';
+import { type PlanItemRow as OverviewItemRow } from '@/data/plan/queries';
 
 beforeAll(() => {
   lingui.loadAndActivate({ locale: 'en', messages: {} });

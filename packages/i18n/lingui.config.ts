@@ -1,6 +1,7 @@
 import { defineConfig } from '@lingui/conf';
 import { formatter } from '@lingui/format-po';
 
+import { exploreSubAreas, planningCatalogs } from './lingui-sub-areas';
 import { localeCodes, sourceLocale } from './src/locales';
 
 /**
@@ -90,6 +91,13 @@ const planSubAreas = [
   'overlay',
   'views',
   'collab',
+  // The section 7 plan surfaces: trip map, day plan, all days, add to plan, Ideas, plan check.
+  'trip-map',
+  'day-plan',
+  'all-days',
+  'add',
+  'ideas',
+  'check',
 ] as const;
 const planSubSources = (sub: string) => [
   `${repoRootPrefix}/apps/mobile/src/features/plan/${sub}/**`,
@@ -193,7 +201,11 @@ export default defineConfig({
         `${repoRootPrefix}/apps/mobile/src/app/*.{ts,tsx}`,
         `${repoRootPrefix}/apps/mobile/src/app/(dev)/**`,
       ],
-      exclude: [...testFileExcludes, `${repoRootPrefix}/apps/mobile/src/ui/permission-primer/**`],
+      exclude: [
+        ...testFileExcludes,
+        `${repoRootPrefix}/apps/mobile/src/ui/permission-primer/**`,
+        ...planningCatalogs.kit,
+      ],
     },
     // Permission primers, just-in-time sheets, denied states and the location consent sheets.
     {
@@ -208,23 +220,27 @@ export default defineConfig({
       include: [
         `${repoRootPrefix}/apps/mobile/src/app/${area}/**`,
         `${repoRootPrefix}/apps/mobile/src/features/${area}/**`,
+        // The plan's shared reader, editor and commands word the outbox and stop names.
+        ...(area === 'plan' ? [`${repoRootPrefix}/apps/mobile/src/data/plan/**`] : []),
       ],
       exclude:
         area === 'crew'
           ? [...testFileExcludes, ...chatSources, ...liveMapSources]
           : area === 'setup'
             ? [...testFileExcludes, ...setupSubAreas.flatMap(setupSubSources)]
-            : area === 'plan'
-              ? [...testFileExcludes, `${draftRoot}/**`, ...planSubAreas.flatMap(planSubSources)]
-              : area === 'trip'
-                ? [...testFileExcludes, ...Object.values(tripSubAreas).flat()]
-                : area === 'bookings'
-                  ? [...testFileExcludes, ...supplierSources]
-                  : area === 'critters'
-                    ? [...testFileExcludes, ...questSources, ...stickerSources]
-                    : area === 'you'
-                      ? [...testFileExcludes, ...pingSources]
-                      : testFileExcludes,
+            : area === 'explore'
+              ? [...testFileExcludes, ...Object.values(exploreSubAreas).flat()]
+              : area === 'plan'
+                ? [...testFileExcludes, `${draftRoot}/**`, ...planSubAreas.flatMap(planSubSources)]
+                : area === 'trip'
+                  ? [...testFileExcludes, ...Object.values(tripSubAreas).flat()]
+                  : area === 'bookings'
+                    ? [...testFileExcludes, ...supplierSources]
+                    : area === 'critters'
+                      ? [...testFileExcludes, ...questSources, ...stickerSources]
+                      : area === 'you'
+                        ? [...testFileExcludes, ...pingSources]
+                        : testFileExcludes,
     })),
     {
       name: 'you/pings',
@@ -283,6 +299,18 @@ export default defineConfig({
     ...Object.entries(tripSubAreas).map(([sub, include]) => ({
       name: `trip/${sub}`,
       path: `locales/{locale}/trip/${sub}`,
+      include: [...include],
+      exclude: testFileExcludes,
+    })),
+    ...Object.entries(exploreSubAreas).map(([sub, include]) => ({
+      name: `explore/${sub}`,
+      path: `locales/{locale}/explore/${sub}`,
+      include: [...include],
+      exclude: testFileExcludes,
+    })),
+    ...Object.entries(planningCatalogs).map(([sub, include]) => ({
+      name: `planning/${sub}`,
+      path: `locales/{locale}/planning/${sub}`,
       include: [...include],
       exclude: testFileExcludes,
     })),

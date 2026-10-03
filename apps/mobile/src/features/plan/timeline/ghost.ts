@@ -4,9 +4,8 @@
  * (the guide proposes it; nothing is applied until the review screen sends or applies it).
  */
 import type { ChangeSetOp } from '@cp/domain';
-
-import { minutesOnDay, type DayItem } from '../day/plan-model';
-import type { ChangesetRow } from '../day/queries';
+import { type DayItem, minutesOnDay } from '@/data/plan/plan-model';
+import { type ChangesetRow } from '@/data/plan/queries';
 
 export interface GhostSuggestion {
   readonly changesetId: string;

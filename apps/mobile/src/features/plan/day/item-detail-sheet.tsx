@@ -26,9 +26,9 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { money } from './format';
-import type { DayItem } from './plan-model';
 import { TimeRangeField } from './time-range-field';
-import type { PlanMember } from './use-trip-plan';
+import { type DayItem } from '@/data/plan/plan-model';
+import { type PlanMember } from '@/data/plan/use-trip-plan';
 
 const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, paddingBottom: th.space['24'], gap: th.space['16'] },

@@ -19,16 +19,16 @@ import { DayView } from './day-view';
 import { dayFit, type FitWarning } from './fit-check';
 import { clockRange } from './format';
 import { ItemDetailSheet } from './item-detail-sheet';
-import { dayItems, type DayItem } from './plan-model';
-import { addOp, moveToDayOp, removeOp, resizeOp, type DaySlot } from './plan-ops';
 import { mapsUrl, placeRoute } from './routes';
 import { DayTimeline, guideOf, useDayOverlays } from '../timeline/day-timeline';
 import { ItemComments } from '../collab/item-comments';
 import { itemAnchor, usePlanPresence } from '../collab/use-presence';
 import { useDayEditing } from './use-day-editing';
-import type { EditOutcome } from './use-plan-editor';
-import { useTripPlan } from './use-trip-plan';
 import { useFormats } from '@/lib/i18n/formats';
+import { type DayItem, dayItems } from '@/data/plan/plan-model';
+import { addOp, type DaySlot, moveToDayOp, removeOp, resizeOp } from '@/data/plan/plan-ops';
+import { type EditOutcome } from '@/data/plan/use-plan-editor';
+import { useTripPlan } from '@/data/plan/use-trip-plan';
 
 function openInMaps(item: DayItem): void {
   if (item.place === null) return;

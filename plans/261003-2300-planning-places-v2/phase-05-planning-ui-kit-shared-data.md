@@ -1,7 +1,7 @@
 ---
 phase: 5
 title: Planning UI kit, map layers and shared app data
-status: pending
+status: done
 depends_on: [2]
 wave: 2
 screens: [7a-1, 7a-2, 7a-3, 7b-1, 7b-2, 7b-3, 7c-1, 7c-2, 7c-3, 7f-1, 7f-2]
@@ -81,7 +81,7 @@ Reuse / extend / new: reuse tokens, motion presets, feedback bus, gesture kit, `
 - Steps: 1. Pure `resolveSnap(position, velocity, points)`. 2. Gesture Handler 3 + Reanimated worklets; map gestures pass through above the sheet. 3. Scroll handoff at full; Android back; a11y actions; reduce motion.
 - Tests: `pnpm --filter @cp/mobile test -- ui/sheet/__tests__/map-sheet-snap` (thresholds, fling up/down, boundaries)
 - Done when: on the lab screen the sheet snaps on both platforms with the map pannable above it.
-- Status: todo
+- Status: done — f7f17262c
 
 ### T2 — Planning map canvas and layers
 - Goal: dots, clusters, routes and one label without view annotations per pin.
@@ -89,7 +89,7 @@ Reuse / extend / new: reuse tokens, motion presets, feedback bus, gesture kit, `
 - Steps: 1. Canvas with tiles, stay marker, camera helpers. 2. `PlaceDotsLayer` (native clustering, zoom tiers, size expression, 20 % fade via data-driven opacity, category sprites). 3. `StopRouteLayer` (numbered symbols, half strength, trace-out). 4. `MapLabel` + `EdgeIndicator`. 5. Lab with 500 places from the Bali dev fixture.
 - Tests: `gh workflow run device.yml --ref <branch> -f platform=android -f build_url=<e2e-test APK> -f flows="e2e/plan/planning-map-perf.yaml" -f shards=1`
 - Done when: dropped frames within the existing map pan budget on the Android CI emulator; tapping a dot shows exactly one label.
-- Status: todo
+- Status: done — c5d28cd72
 
 ### T3 — Planning components
 - Goal: the presentational pieces in the renders.
@@ -97,7 +97,7 @@ Reuse / extend / new: reuse tokens, motion presets, feedback bus, gesture kit, `
 - Steps: 1. Components listed above, tokens only, shared `Text`/`Sticker` (ui-qa guards). 2. Drop-target state on `DayChips` driven by props (the drag itself lives in phases 7 and 10). 3. Lab scenes for each.
 - Tests: none beyond typecheck (no render/snapshot tests, §17); lab screenshots in the PR.
 - Done when: every component renders in the lab in EN and VI with no `[ui-qa]` report.
-- Status: todo
+- Status: done — aca1a0fe5
 
 ### T4 — One plan reader, one editor, one command set
 - Goal: every planning screen reads and edits the plan the same way.
@@ -105,7 +105,7 @@ Reuse / extend / new: reuse tokens, motion presets, feedback bus, gesture kit, `
 - Steps: 1. Merge `usePlanData` and `useTripPlan` (draft flag, queued-edit replay). 2. Move `usePlanEditor`, `plan-ops.ts`, `stopName`. 3. One command module; align offline flags with the server's sync-eligible commands. 4. Point old call sites at `data/plan`; delete the duplicates.
 - Tests: `pnpm --filter @cp/mobile test -- data/plan` (existing reader/editor tests move with the code); `gh workflow run device.yml … -f flows="e2e/plan/overview.yaml,e2e/plan/day-edit.yaml,e2e/plan/review.yaml"` stays green
 - Done when: `grep -rn "name: 'apply_plan_ops'" apps/mobile/src` returns one definition; old screens behave as before on device.
-- Status: todo
+- Status: done — 3e69925b4
 
 ### T5 — Shared planning hooks
 - Goal: fit, ideas, checks, legs and pending reviews in one place.
@@ -113,7 +113,7 @@ Reuse / extend / new: reuse tokens, motion presets, feedback bus, gesture kit, `
 - Steps: 1. `useFit` over `useTravelRead`; `useLocalFit` with `@cp/planner` fit. 2. `fitLine` from reason codes (Lingui, guide voice). 3. Ideas, checks, legs, pending-review live queries; the map preview store. 4. Run phase 4's fit fixtures in the app's Jest to prove parity.
 - Tests: `pnpm --filter @cp/mobile test -- data/fit data/ideas` (local re-evaluation matches the fixtures; placed and hidden ideas are excluded)
 - Done when: parity fixtures pass in Jest.
-- Status: todo
+- Status: done — a4fe941bd
 
 ### T6 — Wiring: registration, rollout switch, plan hub, catalogs, design system
 - Goal: later phases register screens and read the switch without touching shared files.
@@ -121,7 +121,7 @@ Reuse / extend / new: reuse tokens, motion presets, feedback bus, gesture kit, `
 - Steps: 1. Aggregator imported once from `_layout.tsx`, after every feature register, so its registrations win; re-pointing an old id (3d-*, 3e-*) is always a switch-aware function route registered from a planning register module, never an edit to the old registration file. 2. `planningRedesign()` / `planHub()` from the flag values the api already hands the app (#480). 3. Lingui sub-areas for every folder named in this plan, and split the single `explore.po` into per-area catalogs (`explore/{destination,place,map,swipe,saved,home,sponsored}`) with the existing EN and VI messages moved, so wave-3 and wave-4 phases never extract into the same catalog. 4. Design-system section for the planning kit.
 - Tests: `pnpm --filter @cp/mobile test -- lib/navigation` (switch read falls back to off when config is missing)
 - Done when: toggling `planning.redesign` on staging changes nothing yet (no 7x screen registered), the app still boots offline, and `pnpm --filter @cp/i18n run extract` leaves every VI translation in place after the explore split.
-- Status: todo
+- Status: done — 7244e7a45
 
 ## Device flows
 

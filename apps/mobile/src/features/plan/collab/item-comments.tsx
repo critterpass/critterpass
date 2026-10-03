@@ -12,11 +12,11 @@ import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
 import { ActionPill } from '@/ui/plan/ActionPill';
 
-import type { DayItem } from '../day/plan-model';
-import type { PlanMember } from '../day/use-trip-plan';
 import { CommentThread } from './comment-thread';
 import { useComments } from './use-comments';
 import { PRESENCE_NAMESPACE } from './use-presence';
+import { type DayItem } from '@/data/plan/plan-model';
+import { type PlanMember } from '@/data/plan/use-trip-plan';
 
 export function ItemComments({
   tripId,

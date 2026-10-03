@@ -5,8 +5,7 @@
  */
 import { estimateStraightLineEta } from '@cp/domain';
 import { checkFeasibility, type FeasibilityItem, type Violation } from '@cp/planner';
-
-import { instantOnDay, type DayItem } from './plan-model';
+import { type DayItem, instantOnDay } from '@/data/plan/plan-model';
 
 export type FitWarning = Violation & { readonly code: 'OVERLAP' | 'TRAVEL_TOO_LONG' };
 

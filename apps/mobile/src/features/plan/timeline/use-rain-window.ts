@@ -1,7 +1,7 @@
 /** The rain window for one trip day, live from the synced forecast. */
-import { useLiveRows } from '../day/live-rows';
 import { WEATHER_SQL, WEATHER_TABLES } from '../day/queries';
 import { rainWindow, type RainForecast } from './weather';
+import { useLiveRows } from '@/data/plan/live-rows';
 
 export function useRainWindow(
   destinationId: string | null,

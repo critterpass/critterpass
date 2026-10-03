@@ -9,17 +9,10 @@ import { weatherSnapshotBodySchema, type PlanState, type PlanStateItem } from '@
 
 import { guideText } from '@/lib/i18n/guide-text';
 
-import { stopName } from '../../stop-name';
-
-import {
-  idArray,
-  jsonArray,
-  type OpenPollRow,
-  type PlanDayRow,
-  type PlanItemRow,
-  type WeatherRow,
-} from '../data/plan-rows';
+import { idArray, jsonArray, type OpenPollRow, type WeatherRow } from '../data/plan-rows';
 import { clockOption } from '@/lib/i18n/formats';
+import { type PlanDayRow, type PlanItemRow } from '@/data/plan/queries';
+import { stopName } from '@/data/plan/stop-name';
 
 export interface PlanDay {
   readonly dayNo: number;
