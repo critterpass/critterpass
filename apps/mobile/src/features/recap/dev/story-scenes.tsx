@@ -164,7 +164,12 @@ function Scene({
           />
         )}
       />
-      {settled ? <View testID="recap-lab-settled" /> : null}
+      {settled ? (
+        <View
+          testID="recap-lab-settled"
+          style={{ position: 'absolute', bottom: 0, start: 0, width: 2, height: 2 }}
+        />
+      ) : null}
       {open === 'mvp' ? (
         <MvpSheet
           choices={data.awards.map((award) => ({

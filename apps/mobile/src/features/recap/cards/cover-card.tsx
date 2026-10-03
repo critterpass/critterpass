@@ -24,11 +24,11 @@ import { useCardTimeline } from '../story/use-card-timeline';
 
 /** Where the stickers land, as fractions of the card, and their size. */
 const SPOTS = [
-  { x: 0.56, y: 0.16, size: 120 },
-  { x: 0.06, y: 0.22, size: 88 },
-  { x: 0.12, y: 0.66, size: 84 },
-  { x: 0.66, y: 0.64, size: 92 },
-  { x: 0.74, y: 0.2, size: 72 },
+  { x: 0.58, y: 0.1, size: 120 },
+  { x: 0.06, y: 0.14, size: 88 },
+  { x: 0.1, y: 0.72, size: 84 },
+  { x: 0.66, y: 0.7, size: 92 },
+  { x: 0.36, y: 0.8, size: 72 },
 ] as const;
 const SLAP_GAP_MS = 300;
 
@@ -104,7 +104,12 @@ export function CoverCard({ guide, ground, eyebrow, place, chips, forms }: Cover
         <View style={styles.centre} pointerEvents="none">
           <Text variant="eyebrow">{eyebrow}</Text>
           <Animated.View style={slam}>
-            <Text variant="displayMega" accessibilityRole="header">
+            <Text
+              variant="displayMega"
+              accessibilityRole="header"
+              numberOfLines={1}
+              adjustsFontSizeToFit
+            >
               {place}
             </Text>
           </Animated.View>
