@@ -2,8 +2,8 @@
  * The tiled place ingest end to end on real Postgres and pg-boss: a destination job plans tiles
  * from its stored FSQ OS rows, the tile jobs write each place once (a pair split by a tile edge and
  * a place on the edge included), and the run's finish reads OpenStreetMap once for the whole box,
- * releases the stored rows and reports the active count. Overture and OSM are the network
- * boundary, faked by readers that honour the bbox they are given.
+ * releases the stored rows and reports the active count. Overture, FSQ OS and OSM are read through
+ * fake readers that honour the bbox they are given (the network boundary).
  */
 import type { PgBoss } from 'pg-boss';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
@@ -96,12 +96,23 @@ describe('tiled places ingest', { timeout: 180_000 }, () => {
     const westTile = planned.find((tile) => tile.maxLng < BOX.maxLng)!;
     const edge = westTile.maxLng;
     const lat = (westTile.minLat + westTile.maxLat) / 2;
-    await insertFsqRows(fsqRunId, slug, [
-      { id: 'fsq-nishiki', name: 'Nishiki Market', labels: ['Market'], lat, lng: edge - OFFSET },
-    ]);
-    expect(await planDestinationTiles(harness.pool, target, fsqRunId, MAX_TILE_ROWS)).toEqual(
-      planned,
-    );
+    // The stored rows set the tiles; the FSQ reader adds Nishiki where those tiles meet.
+    const fsq: PlaceSourceRow[] = [
+      ...cafes.map((cafe) => ({
+        sourceId: cafe.id,
+        name: cafe.name,
+        categoryLabels: cafe.labels,
+        lat: cafe.lat,
+        lng: cafe.lng,
+      })),
+      {
+        sourceId: 'fsq-nishiki',
+        name: 'Nishiki Market',
+        categoryLabels: ['Market'],
+        lat,
+        lng: edge - OFFSET,
+      },
+    ];
 
     const overture: PlaceSourceRow[] = [
       {
@@ -126,6 +137,7 @@ describe('tiled places ingest', { timeout: 180_000 }, () => {
       placesJobs({
         sources: {
           readOverturePlaces: (box) => Promise.resolve(overture.filter((row) => inBox(row, box))),
+          readFsqOsPlaces: (box) => Promise.resolve(fsq.filter((row) => inBox(row, box))),
           readOsmPlaces: (box) => {
             osmReads.push(box);
             return Promise.resolve([]);
