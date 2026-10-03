@@ -9,13 +9,17 @@
  * than via MapLibre's native `GeoJSONSource` cluster support: pins are rich React overlays
  * (avatar stacks, category doodles, entrance motion), not simple symbol-layer icons, so the
  * cluster/expand decision has to happen before anything reaches the native map anyway.
+ *
+ * Pins are `Marker`s: live React views on the map. On iOS that is the same `ViewAnnotation`; on
+ * Android a `ViewAnnotation` is a bitmap snapshot added to the style, which the style swap when
+ * the destination's tiles arrive drops, so no pin showed there.
  */
 import { tokens } from '@cp/design-tokens';
 import { useLingui } from '@lingui/react/macro';
 import {
   Camera,
   Map as MapLibreMap,
-  ViewAnnotation,
+  Marker,
   type LngLat,
   type LngLatBounds,
   type StyleSpecification,
@@ -215,7 +219,7 @@ export function CpMap({
             return cluster.places.map((place) => {
               const selected = place.id === selectedPlaceId;
               return (
-                <ViewAnnotation key={place.id} lngLat={[place.lng, place.lat]}>
+                <Marker key={place.id} lngLat={[place.lng, place.lat]}>
                   {place.members !== undefined && place.members.length > 0 ? (
                     <AvatarStackPin
                       members={place.members}
@@ -231,12 +235,12 @@ export function CpMap({
                       onPress={() => onSelectPlace?.(place.id)}
                     />
                   )}
-                </ViewAnnotation>
+                </Marker>
               );
             });
           }
           return (
-            <ViewAnnotation key={cluster.id} lngLat={[cluster.lng, cluster.lat]}>
+            <Marker key={cluster.id} lngLat={[cluster.lng, cluster.lat]}>
               <ClusterBubble
                 count={cluster.places.length}
                 onPress={() => {
@@ -244,14 +248,14 @@ export function CpMap({
                   flyTo?.fitToBounds(clusterBounds(cluster));
                 }}
               />
-            </ViewAnnotation>
+            </Marker>
           );
         })}
 
         {locationStatus === 'granted-in-destination' &&
         youLocation !== undefined &&
         !youNotInDestination ? (
-          <ViewAnnotation lngLat={youLocation}>
+          <Marker lngLat={youLocation}>
             {guideSprite !== undefined ? (
               <View style={styles.youRow}>
                 <YouDot />
@@ -260,7 +264,7 @@ export function CpMap({
             ) : (
               <YouDot />
             )}
-          </ViewAnnotation>
+          </Marker>
         ) : null}
       </MapLibreMap>
 
