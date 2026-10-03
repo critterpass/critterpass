@@ -83,7 +83,7 @@ export function SummaryView(props: SummaryViewProps) {
         contentContainerStyle={[
           styles.content,
           {
-            paddingTop: insets.top + theme.space['16'],
+            paddingTop: theme.space['12'],
             paddingBottom: insets.bottom + theme.space['24'],
           },
         ]}

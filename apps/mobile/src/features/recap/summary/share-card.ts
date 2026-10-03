@@ -11,7 +11,7 @@ import type * as RNSkiaModule from '@shopify/react-native-skia';
 import type * as ExpoFileSystemModule from 'expo-file-system';
 import type * as MediaLibraryModule from 'expo-media-library';
 import type * as SharingModule from 'expo-sharing';
-import { Linking } from 'react-native';
+import { Image, Linking } from 'react-native';
 
 import type { ShareFormat } from '@/ui/share-image/ShareImageSheet';
 import type { ShareActionsDeps } from '@/ui/share-image/share-actions';
@@ -34,11 +34,40 @@ const SIZE: Readonly<Record<ShareFormat, { readonly w: number; readonly h: numbe
 const MARGIN = 90;
 const STICKER_PT = 280;
 
-export function renderRecapCard(card: RecapShareCard, format: ShareFormat): Promise<Uint8Array> {
+type SkTypeface = NonNullable<
+  ReturnType<typeof RNSkiaModule.Skia.Typeface.MakeFreeTypeFaceFromData>
+>;
+
+/** The bundled faces the card draws in; the system font manager does not know them on Android. */
+const FACES = {
+  heavy: require('../../../../assets/fonts/Archivo-W70-900.ttf') as number,
+  label: require('../../../../assets/fonts/Geist-600.ttf') as number,
+  body: require('../../../../assets/fonts/Geist-500.ttf') as number,
+};
+let faces: Promise<Record<keyof typeof FACES, SkTypeface | null>> | null = null;
+
+function loadFaces(): Promise<Record<keyof typeof FACES, SkTypeface | null>> {
   const { Skia } = require('@shopify/react-native-skia') as typeof RNSkiaModule;
+  const load = async (asset: number) => {
+    const uri = Image.resolveAssetSource(asset)?.uri;
+    if (uri === undefined) return null;
+    return Skia.Typeface.MakeFreeTypeFaceFromData(await Skia.Data.fromURI(uri));
+  };
+  faces ??= Promise.all([load(FACES.heavy), load(FACES.label), load(FACES.body)]).then(
+    ([heavy, label, body]) => ({ heavy, label, body }),
+  );
+  return faces;
+}
+
+export async function renderRecapCard(
+  card: RecapShareCard,
+  format: ShareFormat,
+): Promise<Uint8Array> {
+  const { Skia } = require('@shopify/react-native-skia') as typeof RNSkiaModule;
+  const face = await loadFaces();
   const { w, h } = SIZE[format];
   const surface = Skia.Surface.MakeOffscreen(w, h) ?? Skia.Surface.Make(w, h);
-  if (surface === null) return Promise.reject(new Error('recap card: no surface'));
+  if (surface === null) throw new Error('recap card: no surface');
   const canvas = surface.getCanvas();
   const paper = Skia.Paint();
   paper.setColor(Skia.Color(tokens.color.paper.base));
@@ -58,9 +87,8 @@ export function renderRecapCard(card: RecapShareCard, format: ShareFormat): Prom
     Skia.Paint(),
   );
 
-  const fonts = Skia.FontMgr.System();
-  const eyebrow = Skia.Font(fonts.matchFamilyStyle('Geist-600', { weight: 600 }), 34);
-  const heavy = fonts.matchFamilyStyle('Archivo-W70-900', { weight: 900 });
+  const eyebrow = Skia.Font(face.label ?? undefined, 34);
+  const heavy = face.heavy ?? undefined;
   // The largest size up to `size` at which `text` fits the card's width.
   const fitted = (text: string, size: number) => {
     let font = Skia.Font(heavy, size);
@@ -70,7 +98,7 @@ export function renderRecapCard(card: RecapShareCard, format: ShareFormat): Prom
     }
     return font;
   };
-  const caption = Skia.Font(fonts.matchFamilyStyle('Geist-500', { weight: 500 }), 36);
+  const caption = Skia.Font(face.body ?? undefined, 36);
   const ink = Skia.Paint();
   ink.setColor(Skia.Color(tokens.color.paper.ink));
   const muted = Skia.Paint();
@@ -92,9 +120,8 @@ export function renderRecapCard(card: RecapShareCard, format: ShareFormat): Prom
 
   surface.flush();
   const bytes = surface.makeImageSnapshot().encodeToBytes();
-  return bytes === null
-    ? Promise.reject(new Error('recap card: the image did not encode'))
-    : Promise.resolve(bytes);
+  if (bytes === null) throw new Error('recap card: the image did not encode');
+  return bytes;
 }
 
 let deps: ShareActionsDeps | null = null;
