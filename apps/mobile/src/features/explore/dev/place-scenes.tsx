@@ -55,12 +55,12 @@ interface SceneSpec {
   readonly live?: PlaceLive;
 }
 
-const COMMONS =
-  'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/My_Khe_Beach%2C_Da_Nang%2C_Vietnam.jpg';
-const LIVE_PHOTOS = [960, 640, 480].map((w) => ({
-  url: `${COMMONS}/${String(w)}px-My_Khe_Beach%2C_Da_Nang%2C_Vietnam.jpg`,
-  width: 1920,
-  height: 1255,
+// A staging stock photo of a Đà Nẵng beach: Wikimedia refuses Android's image loader.
+const STOCK = 'https://media.staging.critterpass.app/c/media/01a0f4a2-e2d1-7495-adc0-1b6fc321be89';
+const LIVE_PHOTOS = [1242, 828, 480].map((w) => ({
+  url: `${STOCK}/${String(w)}.webp`,
+  width: 5881,
+  height: 3975,
 }));
 
 const MY_KHE_LIVE: PlaceLive = {
@@ -171,7 +171,7 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     offers: true,
   },
   'place-foursquare': {
-    name: 'Mỹ Khê Beach',
+    name: 'Phạm Văn Đồng Beach',
     guide: 'chava',
     category: 'beach',
     guidePick: true,
