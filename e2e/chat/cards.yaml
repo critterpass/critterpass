@@ -206,10 +206,11 @@ appId: app.critterpass.dev
     visible: '(?i)delete this expense\?'
     timeout: 10000
 - waitForAnimationToEnd
-# The sheet's DELETE, under its question (the page's own DELETE sits behind the sheet).
+# The sheet's DELETE (the page's own DELETE sits behind the sheet, under its scrim).
 - tapOn:
     text: '(?i)^delete$'
-    below: '(?i)delete this expense\?'
+    childOf:
+      id: 'money-delete-confirm'
 - extendedWaitUntil:
     notVisible: '(?i)delete this expense\?'
     timeout: 15000
