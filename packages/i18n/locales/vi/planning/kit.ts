@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"kit.mapSheet.collapse\":[\"Thu gọn\"],\"kit.mapSheet.expand\":[\"Mở rộng\"]}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"kit.edgeIndicator.label\":[\"Điểm dừng \",[\"0\"],\", \",[\"1\"],\", nằm ngoài bản đồ. Xem điểm này\"],\"kit.mapSheet.collapse\":[\"Thu gọn\"],\"kit.mapSheet.expand\":[\"Mở rộng\"],\"kit.stayMarker.label\":[\"Nơi bạn ở\"]}")as Messages;

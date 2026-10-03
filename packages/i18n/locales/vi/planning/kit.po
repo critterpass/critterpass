@@ -14,3 +14,13 @@ msgstr "Thu gọn"
 #: ../../apps/mobile/src/ui/sheet/map-sheet.tsx
 msgid "kit.mapSheet.expand"
 msgstr "Mở rộng"
+
+#. placeholder {0}: stop.n
+#. placeholder {1}: stop.name
+#: ../../apps/mobile/src/ui/map/planning/edge-indicator.tsx
+msgid "kit.edgeIndicator.label"
+msgstr "Điểm dừng {0}, {1}, nằm ngoài bản đồ. Xem điểm này"
+
+#: ../../apps/mobile/src/ui/map/planning/stay-marker.tsx
+msgid "kit.stayMarker.label"
+msgstr "Nơi bạn ở"

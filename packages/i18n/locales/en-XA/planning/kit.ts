@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"kit.mapSheet.collapse\":[\" Ćōĺĺàƥśē \"],\"kit.mapSheet.expand\":[\" Ēxƥàńď \"]}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"kit.edgeIndicator.label\":[\" Śţōƥ  \",[\"0\"],\", \",[\"1\"],\"    , ōƒƒ ţĥē ḿàƥ. Śĥōŵ ĩţ    \"],\"kit.mapSheet.collapse\":[\" Ćōĺĺàƥśē \"],\"kit.mapSheet.expand\":[\" Ēxƥàńď \"],\"kit.stayMarker.label\":[\"  Ŵĥēŕē ŷōũ śţàŷ  \"]}")as Messages;

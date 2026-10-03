@@ -14,3 +14,13 @@ msgstr ""
 #: ../../apps/mobile/src/ui/sheet/map-sheet.tsx
 msgid "kit.mapSheet.expand"
 msgstr ""
+
+#. placeholder {0}: stop.n
+#. placeholder {1}: stop.name
+#: ../../apps/mobile/src/ui/map/planning/edge-indicator.tsx
+msgid "kit.edgeIndicator.label"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/map/planning/stay-marker.tsx
+msgid "kit.stayMarker.label"
+msgstr ""

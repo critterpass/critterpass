@@ -1,1 +1,1 @@
-import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"kit.mapSheet.collapse\":[\"Collapse\"],\"kit.mapSheet.expand\":[\"Expand\"]}")as Messages;
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"kit.edgeIndicator.label\":[\"Stop \",[\"0\"],\", \",[\"1\"],\", off the map. Show it\"],\"kit.mapSheet.collapse\":[\"Collapse\"],\"kit.mapSheet.expand\":[\"Expand\"],\"kit.stayMarker.label\":[\"Where you stay\"]}")as Messages;
