@@ -1,0 +1,36 @@
+appId: app.critterpass.dev
+---
+# Wandering off (3l-4 → 3l-5), on a fresh traveller's Đà Nẵng trip: the phone stands on the Dragon
+# Bridge until the ring has started to fill, then walks two kilometres away. After the grace period
+# the ring drains (a third of its fill speed) and the encounter ends as wandered off.
+- runFlow:
+    file: subflows/danang-trip-hatched.yaml
+    env:
+      SHOTS: encounter-wander
+- setLocation:
+    latitude: 16.0611
+    longitude: 108.2277
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-banner'
+    timeout: 180000
+- tapOn:
+    id: 'critters-encounter-banner'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-scene'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: encounter-wander-12-filling
+# Away from the spot: 2 km north along the river.
+- setLocation:
+    latitude: 16.0791
+    longitude: 108.2277
+- extendedWaitUntil:
+    visible:
+      id: 'critters-wandered-back'
+    timeout: 420000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: encounter-wander-13-wandered
