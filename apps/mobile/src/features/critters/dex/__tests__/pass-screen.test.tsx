@@ -15,6 +15,18 @@ jest.mock(
     jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
       .powersyncCommon,
 );
+// The map is a native view: NEAR ME's map renders its pins without it.
+jest.mock('@maplibre/maplibre-react-native', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
+  const { View } = require('react-native');
+  return {
+    Map: ({ children }: { children: unknown }) => <View testID="maplibre-map">{children}</View>,
+    Camera: () => null,
+    ViewAnnotation: ({ children }: { children: unknown }) => <View>{children}</View>,
+    GeoJSONSource: ({ children }: { children: unknown }) => <View>{children}</View>,
+    Layer: () => null,
+  };
+});
 let mockFocused = true;
 jest.mock('expo-router', () => ({
   useIsFocused: () => mockFocused,
@@ -39,7 +51,12 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
 import { PassScreen } from '../pass-screen';
-import { seedCritters, TRIP, type CritterSeedOptions } from '../../test-support/seed-critters';
+import {
+  seedCritters,
+  TOKEK_RARE,
+  TRIP,
+  type CritterSeedOptions,
+} from '../../test-support/seed-critters';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -135,6 +152,16 @@ describe('PASS tab Critterdex', () => {
     expect(router.push).toHaveBeenCalledWith({
       pathname: '/(modal)/hatch/[tripId]',
       params: { tripId: TRIP },
+    });
+  });
+
+  it('opens where to find a form not found yet from its silhouette in HERE NOW', async () => {
+    await renderPass();
+    await waitFor(() => expect(screen.getByTestId('critters-here-now-form-rare')).toBeTruthy());
+    await fireEvent.press(screen.getByTestId('critters-here-now-form-rare'));
+    expect(router.push).toHaveBeenCalledWith({
+      pathname: '/critters/where/[formId]',
+      params: { formId: TOKEK_RARE },
     });
   });
 

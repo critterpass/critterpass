@@ -60,6 +60,8 @@ export interface DetailViewProps {
   readonly skinFormId: string | null;
   readonly onSkin: (formId: string | null) => void;
   readonly onShare: (form: DetailForm) => void;
+  /** Where to find a form not found yet (its places, window and steps). */
+  readonly onWhere?: (formId: string) => void;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -190,7 +192,16 @@ export function DetailView(props: DetailViewProps) {
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        {model.guide === null || form?.found !== true ? (
+        {form !== undefined && !form.found && props.onWhere !== undefined ? (
+          <View style={{ flex: 1 }}>
+            <PillButton
+              label={copy.whereToFind}
+              tone={PILL[form.rarity]}
+              onPress={() => props.onWhere?.(form.id)}
+              testID="critters-detail-where"
+            />
+          </View>
+        ) : model.guide === null || form?.found !== true ? (
           <View style={{ flex: 1 }} />
         ) : (
           <View style={{ flex: 1 }}>

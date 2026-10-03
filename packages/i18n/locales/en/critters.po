@@ -11,6 +11,21 @@ msgstr ""
 msgid "critters.unknownName"
 msgstr "???"
 
+#. placeholder {0}: step.n
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.setFirst"
+msgstr "{0, plural, one {First befriend # critter from this set.} other {First befriend # critters from this set.}}"
+
+#. placeholder {0}: step.n
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.places"
+msgstr "{0, plural, one {Spend time at one of the places on the map.} other {Spend time at # different places on the map. They can be on different days.}}"
+
+#. placeholder {0}: step.minutes
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.stay"
+msgstr "{0, plural, one {Stay about # minute there, with CritterPass open.} other {Stay about # minutes there, with CritterPass open.}}"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.landedAt"
 msgstr "{airport} · {time} · You landed"
@@ -111,6 +126,10 @@ msgstr "{placeLine}, {span}"
 msgid "critters.detail.shareLine"
 msgstr "{tier} · found in {city}"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.eyebrow"
+msgstr "{tier} form"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.formEyebrow"
 msgstr "{tier} form · {no} of {total}"
@@ -159,6 +178,10 @@ msgstr "Add to your pass"
 msgid "critters.dex.filterAll"
 msgstr "All"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.allFound"
+msgstr "All found"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.alsoHas"
 msgstr "Also has it"
@@ -174,6 +197,19 @@ msgstr "Back to the classic look"
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.backToDay"
 msgstr "Back to the day"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.dark"
+msgstr "Be there after dark."
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.sunrise"
+msgstr "Be there around sunrise: from an hour before until just after."
+
+#. placeholder {0}: step.members
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.together"
+msgstr "Be there together, at least {0} of your crew at once."
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.befriend"
@@ -218,6 +254,10 @@ msgstr "Critters only show up where they live. Your first one hatches when you l
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.day"
 msgstr "Day"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.directions"
+msgstr "Directions"
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.early"
@@ -275,6 +315,18 @@ msgstr "From {guideName}'s field notes"
 msgid "critters.detail.fieldNotes"
 msgstr "From the field notes"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.go"
+msgstr "Go to {nearest}."
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.goAny"
+msgstr "Go to one of the places on the map."
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.goNearest"
+msgstr "Go to one of the places on the map. {nearest} is the nearest."
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.hatchIt"
 msgstr "Hatch it"
@@ -299,6 +351,10 @@ msgstr "Home set"
 msgid "critters.queued.samples"
 msgstr "How long you stayed"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.steps"
+msgstr "How to meet it"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.waitingBody"
 msgstr "It hatches when you land in {place}."
@@ -306,6 +362,15 @@ msgstr "It hatches when you land in {place}."
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryBody"
 msgstr "It only comes out now, and only for those who stay. Keep still and it'll settle."
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.dayAny"
+msgstr "It only comes out on its day of the year."
+
+#. placeholder {0}: step.placeLine
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.day"
+msgstr "It only comes out on its day: {0}."
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.wandered"
@@ -358,6 +423,14 @@ msgstr "Mid"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterNear"
 msgstr "Near me"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.nearest"
+msgstr "Nearest: {name}"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.nearestAway"
+msgstr "Nearest: {name} · {away}"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyNearBody"
@@ -487,6 +560,10 @@ msgstr "The whole crew was there. It’s on everyone’s pass."
 msgid "critters.legendary.emptyBody"
 msgstr "They arrive with the places they live in. Check back after your next update."
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.none"
+msgstr "This form doesn't live anywhere on your trip. Its place shows once you're travelling there."
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr "Today, {time}"
@@ -514,6 +591,18 @@ msgstr "Welcome to {place}"
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.where"
 msgstr "Where"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.nearMap"
+msgstr "Where critters live here"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.title"
+msgstr "Where to find it"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.whereToFind"
+msgstr "Where to find it"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.youMadeIt"

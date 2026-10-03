@@ -11,6 +11,21 @@ msgstr ""
 msgid "critters.unknownName"
 msgstr "???"
 
+#. placeholder {0}: step.n
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.setFirst"
+msgstr "{0, plural, other {Trước tiên hãy kết bạn với # bạn nhỏ trong bộ này.}}"
+
+#. placeholder {0}: step.n
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.places"
+msgstr "{0, plural, one {Dành thời gian ở một trong các địa điểm trên bản đồ.} other {Dành thời gian ở # địa điểm khác nhau trên bản đồ. Có thể vào những ngày khác nhau.}}"
+
+#. placeholder {0}: step.minutes
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.stay"
+msgstr "{0, plural, other {Ở lại khoảng # phút, mở CritterPass.}}"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.landedAt"
 msgstr "{airport} · {time} · Bạn đã hạ cánh"
@@ -111,6 +126,10 @@ msgstr "{placeLine}, {span}"
 msgid "critters.detail.shareLine"
 msgstr "{tier} · gặp ở {city}"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.eyebrow"
+msgstr "Dạng {tier}"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.formEyebrow"
 msgstr "Dạng {tier} · {no} trên {total}"
@@ -159,6 +178,10 @@ msgstr "Thêm vào thẻ của bạn"
 msgid "critters.dex.filterAll"
 msgstr "Tất cả"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.allFound"
+msgstr "Đã tìm hết"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.alsoHas"
 msgstr "Cũng có"
@@ -174,6 +197,19 @@ msgstr "Về lại diện mạo cũ"
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.backToDay"
 msgstr "Về lịch hôm nay"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.dark"
+msgstr "Đến đó sau khi trời tối."
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.sunrise"
+msgstr "Đến đó lúc bình minh: từ một tiếng trước cho đến ngay sau đó."
+
+#. placeholder {0}: step.members
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.together"
+msgstr "Đến đó cùng nhau, ít nhất {0} người trong nhóm cùng lúc."
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.befriend"
@@ -218,6 +254,10 @@ msgstr "Bạn nhỏ chỉ xuất hiện ở nơi chúng sống. Bạn đầu ti�
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.day"
 msgstr "Bất kỳ"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.directions"
+msgstr "Chỉ đường"
 
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.early"
@@ -275,6 +315,18 @@ msgstr "Trích sổ tay thực địa của {guideName}"
 msgid "critters.detail.fieldNotes"
 msgstr "Trích sổ tay thực địa"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.go"
+msgstr "Đến {nearest}."
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.goAny"
+msgstr "Đến một trong các địa điểm trên bản đồ."
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.goNearest"
+msgstr "Đến một trong các địa điểm trên bản đồ. {nearest} là gần nhất."
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.hatchIt"
 msgstr "Cho nở"
@@ -299,6 +351,10 @@ msgstr "Bộ quê nhà"
 msgid "critters.queued.samples"
 msgstr "Thời gian bạn ở lại"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.steps"
+msgstr "Cách gặp nó"
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.egg.waitingBody"
 msgstr "Trứng sẽ nở khi bạn hạ cánh ở {place}."
@@ -306,6 +362,15 @@ msgstr "Trứng sẽ nở khi bạn hạ cánh ở {place}."
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.legendaryBody"
 msgstr "Bạn ấy chỉ xuất hiện lúc này, và chỉ với ai chịu ở lại. Đứng yên, bạn ấy sẽ lại gần."
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.dayAny"
+msgstr "Nó chỉ xuất hiện vào ngày của nó trong năm."
+
+#. placeholder {0}: step.placeLine
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.step.day"
+msgstr "Nó chỉ xuất hiện vào ngày của nó: {0}."
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.wandered"
@@ -358,6 +423,14 @@ msgstr "Giữa tháng"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.filterNear"
 msgstr "Gần tôi"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.nearest"
+msgstr "Gần nhất: {name}"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.nearestAway"
+msgstr "Gần nhất: {name} · {away}"
 
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.emptyNearBody"
@@ -487,6 +560,10 @@ msgstr "Cả nhóm đã có mặt. Bạn ấy đã vào thẻ của mọi ngư�
 msgid "critters.legendary.emptyBody"
 msgstr "Chúng đến cùng những nơi chúng sống. Hãy xem lại sau lần cập nhật tới."
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.none"
+msgstr "Dạng này không sống ở đâu trong chuyến đi của bạn. Nơi ở của nó sẽ hiện khi bạn đi đến đó."
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr "Hôm nay, {time}"
@@ -514,6 +591,18 @@ msgstr "Chào mừng đến {place}"
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.where"
 msgstr "Ở đâu"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.nearMap"
+msgstr "Nơi các bạn nhỏ sống ở đây"
+
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.title"
+msgstr "Tìm nó ở đâu"
+
+#: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
+msgid "critters.detail.whereToFind"
+msgstr "Tìm nó ở đâu"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.youMadeIt"

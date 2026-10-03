@@ -22,7 +22,15 @@ import { hatchEggCommand, setExploreAtHomeCommand } from '../data/commands';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { eggCardFor, hatchSeen, useHatchSeenVersion } from '../hatch/hatch-model';
 import { useEncounter } from '../engine/use-encounter';
-import { critterRoute, encounterRoute, hatchRoute, LEGENDARIES_ROUTE, setRoute } from '../routes';
+import {
+  critterRoute,
+  encounterRoute,
+  hatchRoute,
+  LEGENDARIES_ROUTE,
+  setRoute,
+  whereRoute,
+} from '../routes';
+import { NearMap } from '../where/near-map';
 import type { DexFilter } from './dex-model';
 import { DexView } from './dex-view';
 import { useDexRows } from './use-dex';
@@ -94,6 +102,8 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
       }}
       onOpenSet={(id) => router.push(setRoute(id))}
       onOpenCritter={(id) => router.push(critterRoute(id))}
+      onOpenWhere={(formId) => router.push(whereRoute(formId))}
+      nearMap={<NearMap watching={filter === 'near'} />}
       onOpenLegendaries={() => router.push(LEGENDARIES_ROUTE)}
       profile={
         profileHref === undefined || me === undefined

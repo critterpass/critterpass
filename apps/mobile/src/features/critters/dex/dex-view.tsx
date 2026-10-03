@@ -66,7 +66,11 @@ export interface DexViewProps {
   readonly onExploreAtHome: (on: boolean) => void;
   readonly onOpenSet: (setId: string) => void;
   readonly onOpenCritter: (critterId: string) => void;
+  /** Where to find a form not found yet: its places, window and steps. */
+  readonly onOpenWhere?: (formId: string) => void;
   readonly onOpenLegendaries: () => void;
+  /** NEAR ME's map of the trip's critter spots, above the matching sets. */
+  readonly nearMap?: ReactNode;
   /** An encounter under way, with a way back into it. */
   readonly encounter?: EncounterBannerModel | null;
   /**
@@ -209,6 +213,7 @@ export function DexView(props: DexViewProps) {
         returnKeyType="search"
         testID="critters-dex-search"
       />
+      {filter === 'near' ? props.nearMap : null}
       {narrowed ? null : (
         <>
           {props.encounter == null ? null : <EncounterBanner banner={props.encounter} />}
@@ -221,7 +226,11 @@ export function DexView(props: DexViewProps) {
             />
           )}
           {model.hereNow === null ? null : (
-            <HereNowCard here={model.hereNow} onOpen={props.onOpenCritter} />
+            <HereNowCard
+              here={model.hereNow}
+              onOpen={props.onOpenCritter}
+              {...(props.onOpenWhere === undefined ? {} : { onWhere: props.onOpenWhere })}
+            />
           )}
           {legendary === null ? null : (
             <LegendaryBanner

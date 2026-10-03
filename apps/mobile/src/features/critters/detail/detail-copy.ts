@@ -22,6 +22,7 @@ export function detailCopy(
         ? t({ id: 'critters.detail.fieldNotes', message: 'From the field notes' })
         : t({ id: 'critters.detail.guideNotes', message: `From ${guideName}'s field notes` }),
     makeGuide: t({ id: 'critters.detail.makeGuide', message: 'Make it my guide' }),
+    whereToFind: t({ id: 'critters.detail.whereToFind', message: 'Where to find it' }),
     classicLook: t({ id: 'critters.detail.classicLook', message: 'Back to the classic look' }),
     share: t({ id: 'critters.detail.share', message: 'Share' }),
     facts: (when: string | null): CritterFact[] => [
