@@ -23,3 +23,5 @@ export type { TextProps, TextVariant } from './text/Text';
 export { Text, TEXT_VARIANTS } from './text/Text';
 export type { Theme } from './theme';
 export { degrees, makeStyles, MIN_TOUCH_TARGET, sizeToken, useTheme } from './theme';
+export type { BundledFace } from './share-image/bundled-typefaces';
+export { bundledTypeface } from './share-image/bundled-typefaces';

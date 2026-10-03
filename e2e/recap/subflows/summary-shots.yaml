@@ -1,0 +1,34 @@
+appId: app.critterpass.dev
+---
+# Every recap page scene (apps/mobile/src/features/recap/dev/recap-scenes.tsx): ready with and
+# without the guide's words, the guide writing, failed, a late re-run, a dropout, a solo trip, a
+# trip with no photos, expenses or kilometres, and offline. ${LANG} prefixes the screenshots so
+# compare mode pairs each with the 3m-1 render.
+- runFlow: open-lab.yaml
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-1-recap', ROOT: 'recap-tiles', SHOT: '${LANG}-3m-1-recap' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-1-no-copy', ROOT: 'recap-tiles', SHOT: '${LANG}-3m-1-no-copy' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-1-writing', ROOT: 'recap-writing', SHOT: '${LANG}-3m-1-writing' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-1-failed', ROOT: 'recap-failed', SHOT: '${LANG}-3m-1-failed' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-1-late-expenses', ROOT: 'recap-updated', SHOT: '${LANG}-3m-1-late-expenses' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-1-dropout', ROOT: 'recap-dropout', SHOT: '${LANG}-3m-1-dropout' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-1-solo', ROOT: 'recap-tiles', SHOT: '${LANG}-3m-1-solo' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-1-partial', ROOT: 'recap-tiles', SHOT: '${LANG}-3m-1-partial' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-1-offline', ROOT: 'recap-tiles', SHOT: '${LANG}-3m-1-offline' }

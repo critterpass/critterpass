@@ -279,6 +279,10 @@ msgstr "saved in your wallet"
 msgid "trip.hub.cta.plan"
 msgstr "See the plan"
 
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.recap"
+msgstr "See the recap"
+
 #: ../../apps/mobile/src/features/trip/briefing/briefing-row.tsx
 msgid "trip.briefing.sent"
 msgstr "Sent"
@@ -408,6 +412,10 @@ msgstr "Your briefing"
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
 msgstr "Your flight"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.recapDetail"
+msgstr "Your trip in numbers and awards"
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.title"

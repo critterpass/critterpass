@@ -80,4 +80,14 @@ describe('hub entry rows', () => {
       'Be at the airport by · 05:05',
     );
   });
+
+  it('opens the recap from the row after the trip, and draws no row before its screen exists', () => {
+    const recap = jest.fn();
+    const post = { header: { phase: 'post', homeSince: '2026-10-04' } } as const;
+    const rows = entries('2026-10-05', { ...post, recap });
+    expect(rows.map((entry) => entry.testID)).toEqual(['trip-hub-recap']);
+    rows[0]?.onPress();
+    expect(recap).toHaveBeenCalledTimes(1);
+    expect(entries('2026-10-05', post)).toEqual([]);
+  });
 });
