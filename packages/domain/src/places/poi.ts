@@ -31,6 +31,11 @@ export const poiSourceIdsSchema = z
   .object({
     fsq_os: z.string().min(1).optional(),
     overture: z.string().min(1).optional(),
+    /** OpenStreetMap element, `n<id>`, `w<id>` or `r<id>` (node, way, relation). */
+    osm: z
+      .string()
+      .regex(/^[nwr]\d+$/)
+      .optional(),
     editorial: z.string().min(1).optional(),
   })
   .strict();
