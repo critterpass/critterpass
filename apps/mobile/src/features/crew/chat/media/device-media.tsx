@@ -118,7 +118,8 @@ async function pickPhotos(source: 'library' | 'camera'): Promise<PickOutcome> {
         ...(asset.fileSize === undefined ? {} : { bytes: asset.fileSize }),
       })),
     };
-  } catch {
+  } catch (error) {
+    console.warn('[chat-media] photo picker', error);
     return { kind: 'denied' };
   }
 }
