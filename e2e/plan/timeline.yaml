@@ -345,23 +345,20 @@ appId: app.critterpass.dev
     visible:
       id: 'plan-edit-lab-planning-conflict'
     timeout: 10000
-# Vietnamese: switch the app language in the component gallery, then the same scenes.
+# Vietnamese: switch the app language in the component gallery, then the same scenes. On iOS the
+# lab has no back of its own and the edge swipe can close the whole developer stack, back to the
+# splash: from there its entry opens the list again.
 - runFlow: ../onboarding/subflows/back.yaml
-- scrollUntilVisible:
-    element:
-      id: 'dev-nav-gallery'
-    direction: DOWN
-    timeout: 20000
-- tapOn:
-    id: 'dev-nav-gallery'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-locale-vi'
-    timeout: 15000
-- tapOn:
-    id: 'gallery-locale-vi'
+- runFlow:
+    file: subflows/dev-tools-again.yaml
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
 - runFlow: ../onboarding/subflows/back.yaml
 - waitForAnimationToEnd
+- runFlow:
+    file: subflows/dev-tools-again.yaml
 - scrollUntilVisible:
     element:
       id: 'dev-nav-plan-edit-lab'
