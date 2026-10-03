@@ -18,7 +18,7 @@ export const WEATHER_SOURCES = ['weatherapi'] as const;
 export const weatherSourceSchema = z.enum(WEATHER_SOURCES);
 export type WeatherSource = z.infer<typeof weatherSourceSchema>;
 
-export const CROWD_SOURCES = ['besttime'] as const;
+export const CROWD_SOURCES = ['besttime', 'editorial', 'visits'] as const;
 export const crowdSourceSchema = z.enum(CROWD_SOURCES);
 
 export const SEASON_COLOUR_ROLES = ['cheapest', 'peak', 'normal'] as const;
