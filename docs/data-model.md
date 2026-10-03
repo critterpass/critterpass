@@ -421,7 +421,7 @@ original row above.
 | `redraft_reservations` | trip_id, agent_job_id (uk; the redraft's job), status (reserved/committed/released; settled once), free_reason (late_must_do), quota_period_key, settled_at; view `redrafts` (doc delta, security_invoker) = `agent_jobs(kind=redraft)` + reservation + `candidate_version_id`, so `redraft_id` is the agent job id | (trip_id, status) | sys (redraft commands and the worker, as app_system) | T organiser-only (doc delta) | trip_draft (doc delta) | C1 | life |
 | `fair_use_counters` | user_id, metric (guide_tokens/voice_seconds/vision_calls/redrafts), window_start, count, cap | uk (user_id, metric, window_start) | sys | S (silent; never shown) | — | C2 | 30 d |
 | `paywall_impressions` | user_id, trip_id?, entry_point, shown_at, outcome (purchased_pass/purchased_boost/dismissed/quiet_no), suppressed_until | (user_id, shown_at) | sys | O | me | C2 | 1 y |
-| `rating_prompts` | user_id, shown_at, outcome | user_id | sys | O | me | C2 | 1 y |
+| `rating_prompts` | user_id, trip_id?, shown (asked the store, or held back), shown_at | (user_id, shown_at) | sys | O | me | C2 | 1 y |
 
 ### 3.15 Community, feedback, help
 
@@ -430,9 +430,9 @@ original row above.
 | `shared_plans` | trip_id, version_id, share_token_hash, toggles jsonb (names_off, cost_rounded, photos_blurred, no_chat), projection jsonb (materialised public copy), status (draft/pending_consent/published/unpublished), published_by, consent_ids uuid[] | uk share_token_hash | org + `CONSENT(multi_member_publish)` from each named member | R when published; T when draft | community (param) | C0 | until unpublished |
 | `shared_plan_copies` | shared_plan_id, copied_by, new_trip_id | shared_plan_id | any | O | — | C2 | acct |
 | `ratings` | shared_plan_id?, poi_id?, user_id, stars, text, moderation_status | uk (target, user_id) | any | R (author anonymised) | community | C0 | acct → anonymised |
-| `ideas` | title, body, status (open/planned/building/shipped), embedding, votes_count | — | adm curate; any submit | R | help | C0 | forever |
-| `idea_votes` | idea_id, user_id | uk | self | O | me | C2 | acct |
-| `feedback_tickets` | user_id, ticket_no, mood, category, body, device_info jsonb (opt-in), screenshot_key, status | (status) | self create | O | me | C2 | 2 y |
+| `ideas` | author_id?, title (8–80), description?, locale, status (pending_review/open/planned/building/shipped/declined/merged), team_note, fixed_in_version, merged_into_id, votes_count (trigger on `idea_votes`), embedding vector(1024) (never granted to app_user or synced), status_changed_at | (status, votes_count); trgm on title; HNSW on embedding | adm curate; any submit (lands `pending_review`) | R for published statuses; the author reads their own pending idea | help (published, no author or embedding); me (own pending) | C0 | forever |
+| `idea_votes` | idea_id, user_id, month_key (`YYYY-MM` on the voter's calendar) | uk (idea_id, user_id); (user_id, month_key) | self through `app.vote_idea` (10 per month, serialised per voter) | O | me | C2 | acct |
+| `feedback_tickets` | user_id, ticket_no (sequence from 10001), mood?, category?, body, include_device_info, device_info jsonb (opt-in), context jsonb (screen, trip_id, article_slug), trip_id?, media_ids uuid[] (≤ 3, `feedback` uploads), source (settings/help/article/shake), status (new/replied/in_tracker/closed), reply_channel (email/inbox), reply_due_at, severity?, triage_summary?, duplicate_of?, duplicate_score?, tracker_issue_id?, fixed_in_version?, idea_id?, app_version, sent_at | (user_id, created_at); open by reply_due_at | self create | O (triage, device and duplicate columns not granted) | me (without those columns) | C2 | 2 y |
 | `moderation_reports` | reporter_id? (null only for `source = compliance`), source (user/compliance), target_kind, target_id, reason, status, report_count, last_reported_at, verdict, decided_by, decided_at, author_id? (the kind handler's author at intake), assignee_admin_id?, due_at (first filing + `moderation.sla_hours`, default 24), reason_counts jsonb (filings per reason) | (status, last_reported_at); open rows by (target_kind, target_id); author_id; open rows by due_at | any | S | — | C2 | 1 y |
 
 ### 3.16 Ops, concierge, vendor messaging (`ops` schema)
@@ -480,6 +480,6 @@ Client-only (PowerSync local, never replicated up as tables): `commands` insert-
 1. Better Auth stores `phone_number` plaintext in `auth.user`; encrypt via a custom adapter hook, or accept schema isolation (`auth` not granted to `app_user`)?
 2. Crew chat sync depth: full history per crew (current choice; ≤16 members) vs a rolling window + API pagination if payload size hurts first sync.
 3. Former members (`status='former'`, `keep_in_chat`) — which trip tables remain readable (plans/expenses they were part of)? Current rule: chat + ledger rows naming them.
-4. Embedding dimension 1024 assumes the chosen embedding model; confirm model (Claude has no embedding model — Voyage vs self-hosted) in the AI phase.
+4. Embedding dimension 1024 assumes the chosen embedding model. **Pending the vendor decision:** no embedding vendor is configured (DeepSeek, the AI provider, has none), so every `embedding` column stays empty and the jobs that fill them are no-ops. Help search ranks on full text and trigram with context boosting, and its vector branch (`EmbeddingVendor`) switches on only once a vendor is configured; search quality must not depend on it.
 5. `trip_participants` vs crew-level visibility of a trip the user opted out of (`rsvp='out'`): still crew-visible (current) or hidden?
 6. Retention for C5 (7 y) assumes Singapore tax rules; counsel to confirm.

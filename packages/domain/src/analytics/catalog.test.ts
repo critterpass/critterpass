@@ -59,6 +59,7 @@ const TAXONOMY = [
   'offline_session',
   'disruption_resolved',
   'help_opened',
+  'help_article_rated',
   'sos_triggered',
   'sos_resolved',
   'egg_hatched',

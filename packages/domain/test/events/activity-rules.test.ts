@@ -20,6 +20,7 @@ import { LA_EVENT_TYPES } from '../../src/surfaces/la-events';
 import { YOU_EVENT_TYPES } from '../../src/you/events';
 import { SAFETY_EVENT_TYPES } from '../../src/safety/events';
 import { ACCOUNT_EVENT_TYPES } from '../../src/account/events';
+import { HELP_EVENT_TYPES } from '../../src/help/events';
 import { RECAP_EVENT_TYPES } from '../../src/recap/events';
 import { ALBUM_EVENT_TYPES } from '../../src/album/events';
 
@@ -148,6 +149,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   // Closing, restoring and purging an account are private to it; an organiser hand-over reaches
   // the crew as the trip's own rows.
   ...ACCOUNT_EVENT_TYPES,
+  // Feedback, idea votes and rating prompts belong to one traveller and the support team.
+  ...HELP_EVENT_TYPES,
   // The recap speaks through its own story, the push and its live channel.
   ...RECAP_EVENT_TYPES,
   // The album speaks through its own live channel and the evening roundup, never the ticker.

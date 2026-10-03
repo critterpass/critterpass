@@ -429,9 +429,9 @@ Store purchase itself: StoreKit 2 / Play Billing via RevenueCat SDK; `appAccount
 | `update_shared_plan` / `unpublish_shared_plan` | `{shared_plan_id, toggles?}` | organiser | – | `shared_plan.updated/unpublished` | A | 52 |
 | `create_plan_link` / `revoke_plan_link` | `{trip_id}` / `{link_id}` | organiser | – | `plan_link.created/revoked` | A | 52 |
 | `save_shared_plan` / `unsave_shared_plan` | `{shared_plan_id}` | self | – | `shared_plan.saved` | A, O | 52 |
-| `submit_feedback` | `{category, text, context{screen, trip_id?, app_version}, media_ids[]}` → ticket no. | self | – | `feedback.submitted` → tracker | A, O | 47 |
-| `submit_idea` / `vote_idea` / `unvote_idea` | `{text}` / `{idea_id}` | self | vote budget → `STATE_INVALID{over_budget}` | `idea.submitted/voted` | A, O | 47 |
-| `record_rating_prompt` | `{trip_id, shown}` | self | – | `rating.prompted` | A, O | 47 |
+| `submit_feedback` | `{id, mood?, category?, text, include_device_info, device_info?, context{screen?, trip_id?, article_slug?}, media_keys[] (≤ 3, own `feedback` uploads), source}`; text ≥ 3 characters or a mood and a category; `device_info` only when `include_device_info` → `{ticket_id, ticket_no}` (a replay of the same id returns the same number) | self (anonymous allowed) | – | `feedback.submitted` → tracker | A, O | 47 |
+| `submit_idea` / `vote_idea` / `unvote_idea` | `{id, title, description?, locale}` (contact details, links or a blocked word → `CONTENT_REJECTED`; lands `pending_review`) / `{idea_id}` → `{idea_id, votes_left, votes_count}` | self (anonymous allowed) | 10 votes per calendar month on the voter's calendar → `STATE_INVALID{over_budget}`; an idea not taking votes → `STATE_INVALID{idea_closed}`; a pending idea of someone else → `NOT_FOUND` | `idea.submitted/voted/unvoted` | A, O | 47 |
+| `record_rating_prompt` | `{id, trip_id?, shown}` | self | – | `rating.prompted` | A, O | 47 |
 
 ### 4.17 Ops console and content factory (P17, P18)
 
@@ -567,7 +567,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/shared-plans?dest&days&month&crew_size&max_cost&tags&sort` | S | community + match score | 5 min |
 | `GET /v1/shared-plans/{id}/guide-note?trip_id` | S | AI-36 cached per (plan, draft version) | cached |
 | `GET /v1/ideas?tab` / `POST /v1/ideas/similar` | S | idea board / pgvector (<300 ms) | – |
-| `GET /v1/help/articles?q&locale&context` | P | MDX content | CDN |
+| `GET /v1/help/articles?q&locale&context&limit` | A | `{articles[{slug, locale, category, title, summary}], locale, fallback}`: published help articles (the content factory's `help` release, Markdown bodies) ranked by full text (title, summary, body; each word a prefix) plus title trigram, the `context`'s categories lifted (`HELP_CENTRE_CONTEXT_CATEGORIES`); without `q`, the context's articles for the hub; a locale with no articles falls back to English (`fallback: true`); the vector branch joins only when an embedding vendor is configured; 120/min/uid | private, 60 s |
 | `GET /v1/me/deletion/preflight` | S | balances, organiser roles, subscription source | – |
 | `GET /v1/me/rating-eligibility?trip_id` | S | heuristic flag | – |
 | `GET /v1/me/export/{id}` | S | signed URL | – |
