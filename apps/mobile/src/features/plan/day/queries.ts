@@ -94,9 +94,12 @@ export const WEATHER_SQL = `SELECT hourly, fetched_at FROM weather_snapshots
 export const WEATHER_TABLES = ['weather_snapshots'];
 
 /** Places for "add to the day": curated places of the destination matching the query. */
-export const PLACE_SEARCH_SQL = `SELECT id, name, category, lat, lng FROM pois
-  WHERE destination_id = ?1 AND status = 'active' AND (name LIKE ?2 OR name_local LIKE ?2)
-  ORDER BY name LIMIT 20`;
+/**
+ * The destination's places on the phone, for the add sheet to search: matched in code, so a place
+ * typed without its accents ("My Son") still finds "Mỹ Sơn Sanctuary".
+ */
+export const DESTINATION_PLACES_SQL = `SELECT id, name, name_local, category, lat, lng FROM pois
+  WHERE destination_id = ? AND status = 'active'`;
 export const SAVED_PLACES_SQL = `SELECT p.id, p.name, p.category, p.lat, p.lng
   FROM saved_items s JOIN pois p ON p.id = s.ref_id
   WHERE s.kind = 'place' AND p.destination_id = ? ORDER BY s.created_at DESC LIMIT 30`;

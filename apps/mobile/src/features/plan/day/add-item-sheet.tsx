@@ -30,7 +30,9 @@ import { dayFit, type FitWarning } from './fit-check';
 import { useLiveRows, type LiveRows } from './live-rows';
 import type { DayItem } from './plan-model';
 import { NO_PICK, pickStep, shownPlaces } from './add-pick';
-import { PLACE_SEARCH_SQL, PLACES_TABLES, SAVED_PLACES_SQL, type PlaceRow } from './queries';
+import { usePlaceSearch } from './place-search';
+import { SearchStates } from './search-states';
+import { PLACES_TABLES, SAVED_PLACES_SQL, type PlaceRow } from './queries';
 import { TimeRangeField } from './time-range-field';
 
 export type AddSource = 'search' | 'saved' | 'own';
@@ -74,13 +76,7 @@ export function AddItemSheet(props: AddItemSheetProps) {
   const { destinationId } = props;
   const [source, setSource] = useState<Source>('search');
   const [query, setQuery] = useState('');
-  const search = useLiveRows<PlaceRow>(
-    PLACE_SEARCH_SQL,
-    destinationId === null || source !== 'search' || query.trim() === ''
-      ? null
-      : [destinationId, `%${query.trim()}%`],
-    PLACES_TABLES,
-  );
+  const search = usePlaceSearch(source === 'search' ? destinationId : null, query);
   const saved = useLiveRows<PlaceRow>(
     SAVED_PLACES_SQL,
     destinationId === null || source !== 'saved' ? null : [destinationId],
@@ -118,7 +114,7 @@ export function AddItemSheetView({
   readonly onSource: (next: AddSource) => void;
   readonly query: string;
   readonly onQuery: (next: string) => void;
-  readonly places: LiveRows<PlaceRow>;
+  readonly places: LiveRows<PlaceRow> & { readonly arriving?: boolean };
 }) {
   const styles = useStyles();
   const { t } = useLingui();
@@ -166,6 +162,7 @@ export function AddItemSheetView({
           .filter((w) => w.stableId === stableId || w.relatedId === stableId)
           .map((w) => warningText(w, withCandidate));
   const places = shownPlaces(found.rows, pick);
+  const arriving = found.arriving === true;
   const folded = place !== null && !pick.browsing;
   const choose = (row: PlaceRow) => {
     dispatch({ type: 'pick', place: row });
@@ -249,6 +246,19 @@ export function AddItemSheetView({
                 />
               );
             })}
+            {source === 'search' ? (
+              <SearchStates
+                query={query}
+                loaded={found.loaded}
+                arriving={arriving}
+                found={places.length}
+                onUseOwnWords={() => {
+                  setOwn(query.trim());
+                  onSource('own');
+                  dispatch({ type: 'clear' });
+                }}
+              />
+            ) : null}
             {source === 'saved' && found.loaded && places.length === 0 ? (
               <Text variant="bodySm">
                 {t({ id: 'plan.day.add.noSaved', message: 'No saved places here yet.' })}

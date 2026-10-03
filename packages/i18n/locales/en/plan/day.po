@@ -52,6 +52,10 @@ msgstr "A plan edit"
 msgid "plan.day.add.from"
 msgstr "Add from"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.useOwnWords"
+msgstr "Add it in your own words"
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.addAction"
 msgstr "Add something"
@@ -152,6 +156,10 @@ msgstr "Later by 15 minutes"
 msgid "plan.day.loading"
 msgstr "Loading the day"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searching"
+msgstr "Looking for places…"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"
 msgstr "Move to"
@@ -175,6 +183,10 @@ msgstr "No saved places here yet."
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.notes"
 msgstr "Notes"
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.noResults"
+msgstr "Nothing found for “{typed}”."
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.freeLine"
@@ -304,6 +316,10 @@ msgstr "This one is booked"
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneTitle"
 msgstr "This one’s off the plan"
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.arriving"
+msgstr "This trip’s places are still arriving. They show here as they land."
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.bookingLine"

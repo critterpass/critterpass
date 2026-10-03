@@ -52,6 +52,10 @@ msgstr "Một chỉnh sửa lịch trình"
 msgid "plan.day.add.from"
 msgstr "Thêm từ"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.useOwnWords"
+msgstr "Thêm bằng lời của bạn"
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.addAction"
 msgstr "Thêm gì đó"
@@ -152,6 +156,10 @@ msgstr "Muộn hơn 15 phút"
 msgid "plan.day.loading"
 msgstr "Đang tải ngày"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searching"
+msgstr "Đang tìm địa điểm…"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"
 msgstr "Chuyển sang"
@@ -175,6 +183,10 @@ msgstr "Chưa có địa điểm đã lưu ở đây."
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.notes"
 msgstr "Ghi chú"
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.noResults"
+msgstr "Không tìm thấy “{typed}”."
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.freeLine"
@@ -304,6 +316,10 @@ msgstr "Mục này đã được đặt"
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneTitle"
 msgstr "Mục này không còn trong lịch"
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.arriving"
+msgstr "Các địa điểm của chuyến đi vẫn đang tải về. Chúng sẽ hiện ở đây khi tải xong."
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.bookingLine"

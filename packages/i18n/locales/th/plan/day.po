@@ -52,6 +52,10 @@ msgstr ""
 msgid "plan.day.add.from"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.useOwnWords"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.addAction"
 msgstr ""
@@ -152,6 +156,10 @@ msgstr ""
 msgid "plan.day.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searching"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"
 msgstr ""
@@ -174,6 +182,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.notes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.noResults"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
@@ -303,6 +315,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/plan/day/day-screen.tsx
 #: ../../apps/mobile/src/features/plan/day/dev/lab-scenes-day.tsx
 msgid "plan.day.item.goneTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.arriving"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx

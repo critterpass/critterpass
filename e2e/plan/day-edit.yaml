@@ -315,6 +315,19 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: en-3e-2-add-item-change
+# A word none of the places has says so, with a way to add it in the traveller's own words.
+- tapOn:
+    id: 'plan-add-query'
+- eraseText: 20
+- inputText: 'karaoke'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-none'
+    timeout: 10000
+- hideKeyboard
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-3e-2-add-item-none
 - runFlow: ../onboarding/subflows/back.yaml
 - extendedWaitUntil:
     visible:
