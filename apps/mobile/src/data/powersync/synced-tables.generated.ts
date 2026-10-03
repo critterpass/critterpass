@@ -15,6 +15,11 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
   alarms:
     'user_id device_id leave_by_id trip_id fire_at os_alarm_id state sync_version:integer created_at updated_at',
+  album_exports:
+    'trip_id user_id status media_key photos:integer bytes:integer expires_at created_at updated_at',
+  album_picks:
+    'trip_id photo_id picked:integer picked_by picker_id rank:integer created_at updated_at',
+  album_prefs: 'trip_id user_id auto_ingest:integer created_at updated_at',
   anonymous_suggestions: 'trip_id proposal_id topic text created_at',
   app_icon_unlocks: 'user_id icon_key source unlocked_at seen_at created_at updated_at',
   availability_summaries:
@@ -170,6 +175,9 @@ export const SYNCED_TABLE_COLUMNS = {
   perks: 'key tier copy_key is_shipped:integer sort:integer created_at updated_at',
   personal_plan_ops:
     'trip_id user_id change_set_id base_version_id ops status created_at updated_at',
+  photo_people: 'photo_id trip_id user_id source created_at',
+  photos:
+    'trip_id uploader_id media_key thumb_key display_key taken_at local_date sha256 phash width:integer height:integer quality exif_gps_stripped:integer upload_state is_pick:integer faces_opt_in:integer deleted_at created_at updated_at',
   phrase_cards:
     'key language context text romanisation gloss audio_key audio_status native_reviewed_on release_id created_at updated_at',
   phrase_progress:
@@ -188,6 +196,10 @@ export const SYNCED_TABLE_COLUMNS = {
   poll_reveals: 'poll_id user_id seen_at created_at updated_at',
   polls:
     'crew_id trip_id kind stage status question created_by eligible_voter_ids decider_policy threshold:integer closes_at allow_change:integer tie_rule winner_option_id result close_reason closed_at stage_changed_at version:integer created_at updated_at',
+  postcard_mailings:
+    'postcard_id trip_id payer_id recipient_ids vendor vendor_ref status tracking created_at updated_at',
+  postcards:
+    'trip_id photo_id note format created_by sent_at deleted_at version:integer created_at updated_at',
   price_quotes:
     'trip_id kind origin destination_id dates amount_minor:integer currency source fetched_at frozen_at version:integer created_at updated_at',
   products: 'key store_ids type grants created_at updated_at',

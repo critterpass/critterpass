@@ -1943,7 +1943,37 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   anniversaries: {
     selectProbe: { sql: 'SELECT 1 FROM anniversaries LIMIT 1', params: () => [] },
     expectations: SYSTEM_ONLY,
+  }, // Album: the crew reads the album and its postcards; settings, exports and addresses are the
+  // owner's.
+  photos: {
+    selectProbe: { sql: 'SELECT 1 FROM photos WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
   },
+  album_picks: {
+    selectProbe: { sql: 'SELECT 1 FROM album_picks WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  photo_people: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM photo_people WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  postcards: {
+    selectProbe: { sql: 'SELECT 1 FROM postcards WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  postcard_mailings: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM postcard_mailings WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  album_prefs: { selectProbe: ownRowProbe('album_prefs'), expectations: OWNER_READ },
+  album_exports: { selectProbe: ownRowProbe('album_exports'), expectations: OWNER_READ },
+  mailing_addresses: { selectProbe: ownRowProbe('mailing_addresses'), expectations: OWNER_READ },
 };
 
 /**

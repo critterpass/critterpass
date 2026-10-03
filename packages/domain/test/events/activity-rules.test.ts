@@ -21,6 +21,7 @@ import { YOU_EVENT_TYPES } from '../../src/you/events';
 import { SAFETY_EVENT_TYPES } from '../../src/safety/events';
 import { ACCOUNT_EVENT_TYPES } from '../../src/account/events';
 import { RECAP_EVENT_TYPES } from '../../src/recap/events';
+import { ALBUM_EVENT_TYPES } from '../../src/album/events';
 
 /**
  * Events with no business belonging in a crew/trip activity ticker (activity-rules.ts's own
@@ -149,6 +150,8 @@ const PRIVATE_EVENT_TYPES: ReadonlySet<DomainEventType> = new Set([
   ...ACCOUNT_EVENT_TYPES,
   // The recap speaks through its own story, the push and its live channel.
   ...RECAP_EVENT_TYPES,
+  // The album speaks through its own live channel and the evening roundup, never the ticker.
+  ...ALBUM_EVENT_TYPES,
 ]);
 
 function publicEventTypes(): readonly DomainEventType[] {

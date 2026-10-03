@@ -46,6 +46,7 @@ import { registerCritters } from './commands/critters';
 import { registerQuests } from './commands/quests';
 import { registerTripLifecycle } from './commands/trips/lifecycle';
 import { registerRecap } from './commands/recap';
+import { registerAlbum } from './commands/album';
 import { registerLiveActivities } from './commands/live-activities';
 import { guardClosedAccounts } from './account/closed-guard';
 import { registerAccount } from './account/register';
@@ -91,6 +92,7 @@ export function registerFeatureRoutes(app: OpenAPIHono<AppEnv>, deps: FeatureRou
   registerQuests(doors);
   registerTripLifecycle(doors);
   registerRecap(doors);
+  registerAlbum(doors);
   registerLiveActivities(doors);
   registerSafety(app, doors, env, keyring);
   registerVoteRoutesFromEnv(app, { ...doors, cache: redis }, env);
