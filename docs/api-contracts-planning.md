@@ -81,6 +81,14 @@ Plain-words questions asked from no results, and those queued offline, are guide
 | `climate.normals` | monthly (`0 3 1 * *` UTC), a destination added | WeatherAPI history sampled per 0.1° cell (10 days × month × 3 years) → `climate_normals` | exclusive, retry 2 |
 | `ai.place_ideas` | `start_idea_placement` (agent job kind `place_ideas`) | hours → locks → routing on touched days → needs-you; writes a draft change set (trigger `ideas`, author = requester); emits `ideas.placed` → one quiet push and an inbox row to the requester | exclusive, retry 1; system jobs cap per trip |
 
+How the plan check runs:
+- **Sweep.** `plan.check.sweep` (hourly at :05 UTC, exclusive) queues the daily run at 06:00 in each active trip's own time. It also queues a run for any active trip whose check is missing or behind its current version, which backfills existing trips.
+- **Debounce.** Every trigger waits 45 s, with one queued run per trip per 45 s slot.
+- **Issues.** A run keeps an issue's row id while its fingerprint holds, and deletes issues of superseded versions.
+- **Packed days.** A day counts as packed at six stops per nine hours or more ("It works, just.").
+- **Booking notes.** They come only from crew-visible bookings (`free_cancel_until`) and holding supplier orders (`hold_valid_until`).
+- **Idea fits.** The run writes every live idea's fit (`trip_ideas.fit`, `fit_version_id`) against the same context.
+
 ## Config
 
 | Key | Default | Public | Meaning |
