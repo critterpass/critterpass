@@ -190,7 +190,12 @@ function Scene({
         />
       ) : null}
       {open === 'signature' ? (
-        <SignatureSheet name="Winston" onClose={closeSheet} upload={() => Promise.resolve(null)} />
+        <SignatureSheet
+          name="Winston"
+          onClose={closeSheet}
+          onSaved={() => Promise.resolve()}
+          upload={() => Promise.resolve(null)}
+        />
       ) : null}
     </>
   );

@@ -7,7 +7,6 @@ import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { View } from 'react-native';
 
-import { useCommand } from '@/data/commands/use-command';
 import { feedback, toast } from '@/motion';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
@@ -16,7 +15,6 @@ import { Stack } from '@/ui/layout/Stack';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { Text } from '@/ui/text/Text';
 
-import { saveSignatureCommand } from '../commands';
 import { uploadStroke } from './upload';
 
 const PAD_HEIGHT = 160;
@@ -24,12 +22,18 @@ const PAD_HEIGHT = 160;
 export interface SignatureSheetProps {
   readonly name: string;
   readonly onClose: () => void;
+  /** Saves the uploaded stroke as the traveller's signature (`save_signature`). */
+  readonly onSaved: (mediaId: string) => Promise<unknown>;
   readonly upload?: typeof uploadStroke;
 }
 
-export function SignatureSheet({ name, onClose, upload = uploadStroke }: SignatureSheetProps) {
+export function SignatureSheet({
+  name,
+  onClose,
+  onSaved,
+  upload = uploadStroke,
+}: SignatureSheetProps) {
   const { t } = useLingui();
-  const save = useCommand(saveSignatureCommand);
   const [value, setValue] = useState<Signature | null>(null);
   const [width, setWidth] = useState(0);
   const [saving, setSaving] = useState(false);
@@ -54,7 +58,7 @@ export function SignatureSheet({ name, onClose, upload = uploadStroke }: Signatu
       });
       return;
     }
-    await save.send({ media_id: mediaId });
+    await onSaved(mediaId);
     feedback.emit('success');
     onClose();
   }

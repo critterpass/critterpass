@@ -24,6 +24,7 @@ import { SessionWaiting } from '@/ui/states/SessionWaiting';
 import {
   castMvpVoteCommand,
   recordRecapViewCommand,
+  saveSignatureCommand,
   setLegendaryReminderCommand,
 } from '../commands';
 import { useLiveRows } from '../data/live-rows';
@@ -61,6 +62,7 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
   const recordView = useCommand(recordRecapViewCommand);
   const vote = useCommand(castMvpVoteCommand);
   const remind = useCommand(setLegendaryReminderCommand);
+  const sign = useCommand(saveSignatureCommand);
   const [voice, setVoice] = useState<boolean | null>(null);
   const [sheet, setSheet] = useState<'mvp' | 'signature' | null>(null);
   const guide = guideOf(data.trip?.guide_slug);
@@ -164,6 +166,7 @@ function RecapStory({ tripId }: { readonly tripId: string }) {
             t({ id: 'recap.signature.me', message: 'Me' })
           }
           onClose={() => setSheet(null)}
+          onSaved={(mediaId) => sign.send({ media_id: mediaId })}
         />
       ) : null}
     </>
