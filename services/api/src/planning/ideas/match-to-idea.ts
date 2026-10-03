@@ -1,7 +1,7 @@
 /**
- * A swipe match drops into the trip's Ideas with everyone who said yes as a backer (founder
- * decision on Q-24, docs/product-decisions.md). Only while `planning.redesign` is on: with it off
- * the match keeps becoming a ChangeSet suggestion, so installed apps get the answer they know.
+ * A swipe match drops into the trip's Ideas with everyone who said yes as a backer (the founder's
+ * group swiping decision, docs/product-decisions.md). Only while `planning.redesign` is on: with it
+ * off the match keeps becoming a ChangeSet suggestion, so installed apps get the answer they know.
  */
 import { DomainError, PLANNING_CONFIG_DEFAULTS } from '@cp/domain';
 import type pg from 'pg';
