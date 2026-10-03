@@ -1,0 +1,5402 @@
+{
+  "2023-10-01": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-01",
+          "hour": [
+            {
+              "time_epoch": 1696089600,
+              "time": "2023-10-01 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696093200,
+              "time": "2023-10-01 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696096800,
+              "time": "2023-10-01 02:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696100400,
+              "time": "2023-10-01 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696104000,
+              "time": "2023-10-01 04:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696107600,
+              "time": "2023-10-01 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696111200,
+              "time": "2023-10-01 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696114800,
+              "time": "2023-10-01 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696118400,
+              "time": "2023-10-01 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696122000,
+              "time": "2023-10-01 09:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696125600,
+              "time": "2023-10-01 10:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696129200,
+              "time": "2023-10-01 11:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696132800,
+              "time": "2023-10-01 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696136400,
+              "time": "2023-10-01 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696140000,
+              "time": "2023-10-01 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696143600,
+              "time": "2023-10-01 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696147200,
+              "time": "2023-10-01 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696150800,
+              "time": "2023-10-01 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696154400,
+              "time": "2023-10-01 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696158000,
+              "time": "2023-10-01 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696161600,
+              "time": "2023-10-01 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696165200,
+              "time": "2023-10-01 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696168800,
+              "time": "2023-10-01 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696172400,
+              "time": "2023-10-01 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2023-10-04": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-04",
+          "hour": [
+            {
+              "time_epoch": 1696348800,
+              "time": "2023-10-04 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696352400,
+              "time": "2023-10-04 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696356000,
+              "time": "2023-10-04 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696359600,
+              "time": "2023-10-04 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696363200,
+              "time": "2023-10-04 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696366800,
+              "time": "2023-10-04 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696370400,
+              "time": "2023-10-04 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696374000,
+              "time": "2023-10-04 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696377600,
+              "time": "2023-10-04 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696381200,
+              "time": "2023-10-04 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696384800,
+              "time": "2023-10-04 10:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696388400,
+              "time": "2023-10-04 11:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696392000,
+              "time": "2023-10-04 12:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696395600,
+              "time": "2023-10-04 13:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696399200,
+              "time": "2023-10-04 14:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696402800,
+              "time": "2023-10-04 15:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696406400,
+              "time": "2023-10-04 16:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696410000,
+              "time": "2023-10-04 17:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696413600,
+              "time": "2023-10-04 18:00",
+              "precip_mm": 0.5,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696417200,
+              "time": "2023-10-04 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696420800,
+              "time": "2023-10-04 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696424400,
+              "time": "2023-10-04 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696428000,
+              "time": "2023-10-04 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696431600,
+              "time": "2023-10-04 23:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2023-10-07": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-07",
+          "hour": [
+            {
+              "time_epoch": 1696608000,
+              "time": "2023-10-07 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696611600,
+              "time": "2023-10-07 01:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696615200,
+              "time": "2023-10-07 02:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696618800,
+              "time": "2023-10-07 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696622400,
+              "time": "2023-10-07 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696626000,
+              "time": "2023-10-07 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696629600,
+              "time": "2023-10-07 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696633200,
+              "time": "2023-10-07 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696636800,
+              "time": "2023-10-07 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696640400,
+              "time": "2023-10-07 09:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696644000,
+              "time": "2023-10-07 10:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696647600,
+              "time": "2023-10-07 11:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696651200,
+              "time": "2023-10-07 12:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696654800,
+              "time": "2023-10-07 13:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696658400,
+              "time": "2023-10-07 14:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696662000,
+              "time": "2023-10-07 15:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696665600,
+              "time": "2023-10-07 16:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696669200,
+              "time": "2023-10-07 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696672800,
+              "time": "2023-10-07 18:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696676400,
+              "time": "2023-10-07 19:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696680000,
+              "time": "2023-10-07 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696683600,
+              "time": "2023-10-07 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696687200,
+              "time": "2023-10-07 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696690800,
+              "time": "2023-10-07 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2023-10-10": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-10",
+          "hour": [
+            {
+              "time_epoch": 1696867200,
+              "time": "2023-10-10 00:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696870800,
+              "time": "2023-10-10 01:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696874400,
+              "time": "2023-10-10 02:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696878000,
+              "time": "2023-10-10 03:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696881600,
+              "time": "2023-10-10 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696885200,
+              "time": "2023-10-10 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696888800,
+              "time": "2023-10-10 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696892400,
+              "time": "2023-10-10 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696896000,
+              "time": "2023-10-10 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696899600,
+              "time": "2023-10-10 09:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696903200,
+              "time": "2023-10-10 10:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696906800,
+              "time": "2023-10-10 11:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696910400,
+              "time": "2023-10-10 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696914000,
+              "time": "2023-10-10 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696917600,
+              "time": "2023-10-10 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696921200,
+              "time": "2023-10-10 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696924800,
+              "time": "2023-10-10 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696928400,
+              "time": "2023-10-10 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696932000,
+              "time": "2023-10-10 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1696935600,
+              "time": "2023-10-10 19:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696939200,
+              "time": "2023-10-10 20:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696942800,
+              "time": "2023-10-10 21:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696946400,
+              "time": "2023-10-10 22:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1696950000,
+              "time": "2023-10-10 23:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2023-10-13": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-13",
+          "hour": [
+            {
+              "time_epoch": 1697126400,
+              "time": "2023-10-13 00:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697130000,
+              "time": "2023-10-13 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697133600,
+              "time": "2023-10-13 02:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697137200,
+              "time": "2023-10-13 03:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697140800,
+              "time": "2023-10-13 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697144400,
+              "time": "2023-10-13 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697148000,
+              "time": "2023-10-13 06:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697151600,
+              "time": "2023-10-13 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697155200,
+              "time": "2023-10-13 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697158800,
+              "time": "2023-10-13 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697162400,
+              "time": "2023-10-13 10:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697166000,
+              "time": "2023-10-13 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697169600,
+              "time": "2023-10-13 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697173200,
+              "time": "2023-10-13 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697176800,
+              "time": "2023-10-13 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697180400,
+              "time": "2023-10-13 15:00",
+              "precip_mm": 0.8,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697184000,
+              "time": "2023-10-13 16:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697187600,
+              "time": "2023-10-13 17:00",
+              "precip_mm": 1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697191200,
+              "time": "2023-10-13 18:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697194800,
+              "time": "2023-10-13 19:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697198400,
+              "time": "2023-10-13 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697202000,
+              "time": "2023-10-13 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697205600,
+              "time": "2023-10-13 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697209200,
+              "time": "2023-10-13 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2023-10-16": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-16",
+          "hour": [
+            {
+              "time_epoch": 1697385600,
+              "time": "2023-10-16 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697389200,
+              "time": "2023-10-16 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697392800,
+              "time": "2023-10-16 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697396400,
+              "time": "2023-10-16 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697400000,
+              "time": "2023-10-16 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697403600,
+              "time": "2023-10-16 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697407200,
+              "time": "2023-10-16 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697410800,
+              "time": "2023-10-16 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697414400,
+              "time": "2023-10-16 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697418000,
+              "time": "2023-10-16 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697421600,
+              "time": "2023-10-16 10:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697425200,
+              "time": "2023-10-16 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697428800,
+              "time": "2023-10-16 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697432400,
+              "time": "2023-10-16 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697436000,
+              "time": "2023-10-16 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697439600,
+              "time": "2023-10-16 15:00",
+              "precip_mm": 0.9,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697443200,
+              "time": "2023-10-16 16:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697446800,
+              "time": "2023-10-16 17:00",
+              "precip_mm": 0.9,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697450400,
+              "time": "2023-10-16 18:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697454000,
+              "time": "2023-10-16 19:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697457600,
+              "time": "2023-10-16 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697461200,
+              "time": "2023-10-16 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697464800,
+              "time": "2023-10-16 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697468400,
+              "time": "2023-10-16 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2023-10-19": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-19",
+          "hour": [
+            {
+              "time_epoch": 1697644800,
+              "time": "2023-10-19 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697648400,
+              "time": "2023-10-19 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697652000,
+              "time": "2023-10-19 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697655600,
+              "time": "2023-10-19 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697659200,
+              "time": "2023-10-19 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697662800,
+              "time": "2023-10-19 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697666400,
+              "time": "2023-10-19 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697670000,
+              "time": "2023-10-19 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697673600,
+              "time": "2023-10-19 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697677200,
+              "time": "2023-10-19 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697680800,
+              "time": "2023-10-19 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697684400,
+              "time": "2023-10-19 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697688000,
+              "time": "2023-10-19 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697691600,
+              "time": "2023-10-19 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697695200,
+              "time": "2023-10-19 14:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697698800,
+              "time": "2023-10-19 15:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697702400,
+              "time": "2023-10-19 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697706000,
+              "time": "2023-10-19 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697709600,
+              "time": "2023-10-19 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697713200,
+              "time": "2023-10-19 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697716800,
+              "time": "2023-10-19 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697720400,
+              "time": "2023-10-19 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697724000,
+              "time": "2023-10-19 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697727600,
+              "time": "2023-10-19 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2023-10-22": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-22",
+          "hour": [
+            {
+              "time_epoch": 1697904000,
+              "time": "2023-10-22 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697907600,
+              "time": "2023-10-22 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697911200,
+              "time": "2023-10-22 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697914800,
+              "time": "2023-10-22 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697918400,
+              "time": "2023-10-22 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697922000,
+              "time": "2023-10-22 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697925600,
+              "time": "2023-10-22 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697929200,
+              "time": "2023-10-22 07:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697932800,
+              "time": "2023-10-22 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697936400,
+              "time": "2023-10-22 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697940000,
+              "time": "2023-10-22 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697943600,
+              "time": "2023-10-22 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697947200,
+              "time": "2023-10-22 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697950800,
+              "time": "2023-10-22 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697954400,
+              "time": "2023-10-22 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697958000,
+              "time": "2023-10-22 15:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1697961600,
+              "time": "2023-10-22 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697965200,
+              "time": "2023-10-22 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697968800,
+              "time": "2023-10-22 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697972400,
+              "time": "2023-10-22 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697976000,
+              "time": "2023-10-22 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697979600,
+              "time": "2023-10-22 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697983200,
+              "time": "2023-10-22 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1697986800,
+              "time": "2023-10-22 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2023-10-25": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-25",
+          "hour": [
+            {
+              "time_epoch": 1698163200,
+              "time": "2023-10-25 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698166800,
+              "time": "2023-10-25 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698170400,
+              "time": "2023-10-25 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698174000,
+              "time": "2023-10-25 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698177600,
+              "time": "2023-10-25 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698181200,
+              "time": "2023-10-25 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698184800,
+              "time": "2023-10-25 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698188400,
+              "time": "2023-10-25 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698192000,
+              "time": "2023-10-25 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698195600,
+              "time": "2023-10-25 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698199200,
+              "time": "2023-10-25 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698202800,
+              "time": "2023-10-25 11:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1698206400,
+              "time": "2023-10-25 12:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1698210000,
+              "time": "2023-10-25 13:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1698213600,
+              "time": "2023-10-25 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698217200,
+              "time": "2023-10-25 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698220800,
+              "time": "2023-10-25 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698224400,
+              "time": "2023-10-25 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698228000,
+              "time": "2023-10-25 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698231600,
+              "time": "2023-10-25 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698235200,
+              "time": "2023-10-25 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698238800,
+              "time": "2023-10-25 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698242400,
+              "time": "2023-10-25 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698246000,
+              "time": "2023-10-25 23:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2023-10-28": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2023-10-28",
+          "hour": [
+            {
+              "time_epoch": 1698422400,
+              "time": "2023-10-28 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698426000,
+              "time": "2023-10-28 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698429600,
+              "time": "2023-10-28 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698433200,
+              "time": "2023-10-28 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698436800,
+              "time": "2023-10-28 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698440400,
+              "time": "2023-10-28 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698444000,
+              "time": "2023-10-28 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698447600,
+              "time": "2023-10-28 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698451200,
+              "time": "2023-10-28 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698454800,
+              "time": "2023-10-28 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698458400,
+              "time": "2023-10-28 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698462000,
+              "time": "2023-10-28 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698465600,
+              "time": "2023-10-28 12:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1698469200,
+              "time": "2023-10-28 13:00",
+              "precip_mm": 1.8,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1698472800,
+              "time": "2023-10-28 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698476400,
+              "time": "2023-10-28 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698480000,
+              "time": "2023-10-28 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698483600,
+              "time": "2023-10-28 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698487200,
+              "time": "2023-10-28 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698490800,
+              "time": "2023-10-28 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698494400,
+              "time": "2023-10-28 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1698498000,
+              "time": "2023-10-28 21:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1698501600,
+              "time": "2023-10-28 22:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1698505200,
+              "time": "2023-10-28 23:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-01": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-01",
+          "hour": [
+            {
+              "time_epoch": 1727712000,
+              "time": "2024-10-01 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727715600,
+              "time": "2024-10-01 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727719200,
+              "time": "2024-10-01 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727722800,
+              "time": "2024-10-01 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727726400,
+              "time": "2024-10-01 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727730000,
+              "time": "2024-10-01 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727733600,
+              "time": "2024-10-01 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727737200,
+              "time": "2024-10-01 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727740800,
+              "time": "2024-10-01 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727744400,
+              "time": "2024-10-01 09:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1727748000,
+              "time": "2024-10-01 10:00",
+              "precip_mm": 0.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1727751600,
+              "time": "2024-10-01 11:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1727755200,
+              "time": "2024-10-01 12:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1727758800,
+              "time": "2024-10-01 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727762400,
+              "time": "2024-10-01 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727766000,
+              "time": "2024-10-01 15:00",
+              "precip_mm": 0.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1727769600,
+              "time": "2024-10-01 16:00",
+              "precip_mm": 1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1727773200,
+              "time": "2024-10-01 17:00",
+              "precip_mm": 1.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1727776800,
+              "time": "2024-10-01 18:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1727780400,
+              "time": "2024-10-01 19:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1727784000,
+              "time": "2024-10-01 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727787600,
+              "time": "2024-10-01 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727791200,
+              "time": "2024-10-01 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727794800,
+              "time": "2024-10-01 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-04": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-04",
+          "hour": [
+            {
+              "time_epoch": 1727971200,
+              "time": "2024-10-04 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727974800,
+              "time": "2024-10-04 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727978400,
+              "time": "2024-10-04 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727982000,
+              "time": "2024-10-04 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727985600,
+              "time": "2024-10-04 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727989200,
+              "time": "2024-10-04 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727992800,
+              "time": "2024-10-04 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1727996400,
+              "time": "2024-10-04 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728000000,
+              "time": "2024-10-04 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728003600,
+              "time": "2024-10-04 09:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728007200,
+              "time": "2024-10-04 10:00",
+              "precip_mm": 0.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728010800,
+              "time": "2024-10-04 11:00",
+              "precip_mm": 0.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728014400,
+              "time": "2024-10-04 12:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728018000,
+              "time": "2024-10-04 13:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728021600,
+              "time": "2024-10-04 14:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728025200,
+              "time": "2024-10-04 15:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728028800,
+              "time": "2024-10-04 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728032400,
+              "time": "2024-10-04 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728036000,
+              "time": "2024-10-04 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728039600,
+              "time": "2024-10-04 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728043200,
+              "time": "2024-10-04 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728046800,
+              "time": "2024-10-04 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728050400,
+              "time": "2024-10-04 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728054000,
+              "time": "2024-10-04 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-07": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-07",
+          "hour": [
+            {
+              "time_epoch": 1728230400,
+              "time": "2024-10-07 00:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728234000,
+              "time": "2024-10-07 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728237600,
+              "time": "2024-10-07 02:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728241200,
+              "time": "2024-10-07 03:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728244800,
+              "time": "2024-10-07 04:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728248400,
+              "time": "2024-10-07 05:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728252000,
+              "time": "2024-10-07 06:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728255600,
+              "time": "2024-10-07 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728259200,
+              "time": "2024-10-07 08:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728262800,
+              "time": "2024-10-07 09:00",
+              "precip_mm": 0.5,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728266400,
+              "time": "2024-10-07 10:00",
+              "precip_mm": 0.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728270000,
+              "time": "2024-10-07 11:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728273600,
+              "time": "2024-10-07 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728277200,
+              "time": "2024-10-07 13:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728280800,
+              "time": "2024-10-07 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728284400,
+              "time": "2024-10-07 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728288000,
+              "time": "2024-10-07 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728291600,
+              "time": "2024-10-07 17:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728295200,
+              "time": "2024-10-07 18:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728298800,
+              "time": "2024-10-07 19:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728302400,
+              "time": "2024-10-07 20:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728306000,
+              "time": "2024-10-07 21:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728309600,
+              "time": "2024-10-07 22:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728313200,
+              "time": "2024-10-07 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-10": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-10",
+          "hour": [
+            {
+              "time_epoch": 1728489600,
+              "time": "2024-10-10 00:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728493200,
+              "time": "2024-10-10 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728496800,
+              "time": "2024-10-10 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728500400,
+              "time": "2024-10-10 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728504000,
+              "time": "2024-10-10 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728507600,
+              "time": "2024-10-10 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728511200,
+              "time": "2024-10-10 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728514800,
+              "time": "2024-10-10 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728518400,
+              "time": "2024-10-10 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728522000,
+              "time": "2024-10-10 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728525600,
+              "time": "2024-10-10 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728529200,
+              "time": "2024-10-10 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728532800,
+              "time": "2024-10-10 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728536400,
+              "time": "2024-10-10 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728540000,
+              "time": "2024-10-10 14:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728543600,
+              "time": "2024-10-10 15:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728547200,
+              "time": "2024-10-10 16:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728550800,
+              "time": "2024-10-10 17:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728554400,
+              "time": "2024-10-10 18:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728558000,
+              "time": "2024-10-10 19:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728561600,
+              "time": "2024-10-10 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728565200,
+              "time": "2024-10-10 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728568800,
+              "time": "2024-10-10 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728572400,
+              "time": "2024-10-10 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-13": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-13",
+          "hour": [
+            {
+              "time_epoch": 1728748800,
+              "time": "2024-10-13 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728752400,
+              "time": "2024-10-13 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728756000,
+              "time": "2024-10-13 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728759600,
+              "time": "2024-10-13 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728763200,
+              "time": "2024-10-13 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728766800,
+              "time": "2024-10-13 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728770400,
+              "time": "2024-10-13 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728774000,
+              "time": "2024-10-13 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728777600,
+              "time": "2024-10-13 08:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728781200,
+              "time": "2024-10-13 09:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728784800,
+              "time": "2024-10-13 10:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728788400,
+              "time": "2024-10-13 11:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728792000,
+              "time": "2024-10-13 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728795600,
+              "time": "2024-10-13 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728799200,
+              "time": "2024-10-13 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728802800,
+              "time": "2024-10-13 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728806400,
+              "time": "2024-10-13 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728810000,
+              "time": "2024-10-13 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728813600,
+              "time": "2024-10-13 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728817200,
+              "time": "2024-10-13 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728820800,
+              "time": "2024-10-13 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1728824400,
+              "time": "2024-10-13 21:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728828000,
+              "time": "2024-10-13 22:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1728831600,
+              "time": "2024-10-13 23:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-16": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-16",
+          "hour": [
+            {
+              "time_epoch": 1729008000,
+              "time": "2024-10-16 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729011600,
+              "time": "2024-10-16 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729015200,
+              "time": "2024-10-16 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729018800,
+              "time": "2024-10-16 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729022400,
+              "time": "2024-10-16 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729026000,
+              "time": "2024-10-16 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729029600,
+              "time": "2024-10-16 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729033200,
+              "time": "2024-10-16 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729036800,
+              "time": "2024-10-16 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729040400,
+              "time": "2024-10-16 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729044000,
+              "time": "2024-10-16 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729047600,
+              "time": "2024-10-16 11:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729051200,
+              "time": "2024-10-16 12:00",
+              "precip_mm": 1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729054800,
+              "time": "2024-10-16 13:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729058400,
+              "time": "2024-10-16 14:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729062000,
+              "time": "2024-10-16 15:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729065600,
+              "time": "2024-10-16 16:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729069200,
+              "time": "2024-10-16 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729072800,
+              "time": "2024-10-16 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729076400,
+              "time": "2024-10-16 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729080000,
+              "time": "2024-10-16 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729083600,
+              "time": "2024-10-16 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729087200,
+              "time": "2024-10-16 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729090800,
+              "time": "2024-10-16 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-19": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-19",
+          "hour": [
+            {
+              "time_epoch": 1729267200,
+              "time": "2024-10-19 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729270800,
+              "time": "2024-10-19 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729274400,
+              "time": "2024-10-19 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729278000,
+              "time": "2024-10-19 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729281600,
+              "time": "2024-10-19 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729285200,
+              "time": "2024-10-19 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729288800,
+              "time": "2024-10-19 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729292400,
+              "time": "2024-10-19 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729296000,
+              "time": "2024-10-19 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729299600,
+              "time": "2024-10-19 09:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729303200,
+              "time": "2024-10-19 10:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729306800,
+              "time": "2024-10-19 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729310400,
+              "time": "2024-10-19 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729314000,
+              "time": "2024-10-19 13:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729317600,
+              "time": "2024-10-19 14:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729321200,
+              "time": "2024-10-19 15:00",
+              "precip_mm": 2.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729324800,
+              "time": "2024-10-19 16:00",
+              "precip_mm": 1.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729328400,
+              "time": "2024-10-19 17:00",
+              "precip_mm": 1.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729332000,
+              "time": "2024-10-19 18:00",
+              "precip_mm": 0.5,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729335600,
+              "time": "2024-10-19 19:00",
+              "precip_mm": 0.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729339200,
+              "time": "2024-10-19 20:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729342800,
+              "time": "2024-10-19 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729346400,
+              "time": "2024-10-19 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729350000,
+              "time": "2024-10-19 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-22": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-22",
+          "hour": [
+            {
+              "time_epoch": 1729526400,
+              "time": "2024-10-22 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729530000,
+              "time": "2024-10-22 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729533600,
+              "time": "2024-10-22 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729537200,
+              "time": "2024-10-22 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729540800,
+              "time": "2024-10-22 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729544400,
+              "time": "2024-10-22 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729548000,
+              "time": "2024-10-22 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729551600,
+              "time": "2024-10-22 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729555200,
+              "time": "2024-10-22 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729558800,
+              "time": "2024-10-22 09:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729562400,
+              "time": "2024-10-22 10:00",
+              "precip_mm": 0.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729566000,
+              "time": "2024-10-22 11:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729569600,
+              "time": "2024-10-22 12:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729573200,
+              "time": "2024-10-22 13:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729576800,
+              "time": "2024-10-22 14:00",
+              "precip_mm": 1.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729580400,
+              "time": "2024-10-22 15:00",
+              "precip_mm": 1.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729584000,
+              "time": "2024-10-22 16:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729587600,
+              "time": "2024-10-22 17:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729591200,
+              "time": "2024-10-22 18:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729594800,
+              "time": "2024-10-22 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729598400,
+              "time": "2024-10-22 20:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729602000,
+              "time": "2024-10-22 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729605600,
+              "time": "2024-10-22 22:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729609200,
+              "time": "2024-10-22 23:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-25": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-25",
+          "hour": [
+            {
+              "time_epoch": 1729785600,
+              "time": "2024-10-25 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729789200,
+              "time": "2024-10-25 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729792800,
+              "time": "2024-10-25 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729796400,
+              "time": "2024-10-25 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729800000,
+              "time": "2024-10-25 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729803600,
+              "time": "2024-10-25 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729807200,
+              "time": "2024-10-25 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729810800,
+              "time": "2024-10-25 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729814400,
+              "time": "2024-10-25 08:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729818000,
+              "time": "2024-10-25 09:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729821600,
+              "time": "2024-10-25 10:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729825200,
+              "time": "2024-10-25 11:00",
+              "precip_mm": 0.9,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729828800,
+              "time": "2024-10-25 12:00",
+              "precip_mm": 1.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729832400,
+              "time": "2024-10-25 13:00",
+              "precip_mm": 1.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729836000,
+              "time": "2024-10-25 14:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729839600,
+              "time": "2024-10-25 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729843200,
+              "time": "2024-10-25 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729846800,
+              "time": "2024-10-25 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729850400,
+              "time": "2024-10-25 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729854000,
+              "time": "2024-10-25 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729857600,
+              "time": "2024-10-25 20:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729861200,
+              "time": "2024-10-25 21:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1729864800,
+              "time": "2024-10-25 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1729868400,
+              "time": "2024-10-25 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2024-10-28": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2024-10-28",
+          "hour": [
+            {
+              "time_epoch": 1730044800,
+              "time": "2024-10-28 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730048400,
+              "time": "2024-10-28 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730052000,
+              "time": "2024-10-28 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730055600,
+              "time": "2024-10-28 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730059200,
+              "time": "2024-10-28 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730062800,
+              "time": "2024-10-28 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730066400,
+              "time": "2024-10-28 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730070000,
+              "time": "2024-10-28 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730073600,
+              "time": "2024-10-28 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730077200,
+              "time": "2024-10-28 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730080800,
+              "time": "2024-10-28 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730084400,
+              "time": "2024-10-28 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730088000,
+              "time": "2024-10-28 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730091600,
+              "time": "2024-10-28 13:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1730095200,
+              "time": "2024-10-28 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730098800,
+              "time": "2024-10-28 15:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1730102400,
+              "time": "2024-10-28 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730106000,
+              "time": "2024-10-28 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730109600,
+              "time": "2024-10-28 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1730113200,
+              "time": "2024-10-28 19:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1730116800,
+              "time": "2024-10-28 20:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1730120400,
+              "time": "2024-10-28 21:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1730124000,
+              "time": "2024-10-28 22:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1730127600,
+              "time": "2024-10-28 23:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-01": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-01",
+          "hour": [
+            {
+              "time_epoch": 1759248000,
+              "time": "2025-10-01 00:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759251600,
+              "time": "2025-10-01 01:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759255200,
+              "time": "2025-10-01 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759258800,
+              "time": "2025-10-01 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759262400,
+              "time": "2025-10-01 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759266000,
+              "time": "2025-10-01 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759269600,
+              "time": "2025-10-01 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759273200,
+              "time": "2025-10-01 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759276800,
+              "time": "2025-10-01 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759280400,
+              "time": "2025-10-01 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759284000,
+              "time": "2025-10-01 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759287600,
+              "time": "2025-10-01 11:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759291200,
+              "time": "2025-10-01 12:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759294800,
+              "time": "2025-10-01 13:00",
+              "precip_mm": 0.5,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759298400,
+              "time": "2025-10-01 14:00",
+              "precip_mm": 1.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759302000,
+              "time": "2025-10-01 15:00",
+              "precip_mm": 1.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759305600,
+              "time": "2025-10-01 16:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759309200,
+              "time": "2025-10-01 17:00",
+              "precip_mm": 0.9,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759312800,
+              "time": "2025-10-01 18:00",
+              "precip_mm": 1.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759316400,
+              "time": "2025-10-01 19:00",
+              "precip_mm": 1.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759320000,
+              "time": "2025-10-01 20:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759323600,
+              "time": "2025-10-01 21:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1759327200,
+              "time": "2025-10-01 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759330800,
+              "time": "2025-10-01 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-04": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-04",
+          "hour": [
+            {
+              "time_epoch": 1759507200,
+              "time": "2025-10-04 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759510800,
+              "time": "2025-10-04 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759514400,
+              "time": "2025-10-04 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759518000,
+              "time": "2025-10-04 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759521600,
+              "time": "2025-10-04 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759525200,
+              "time": "2025-10-04 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759528800,
+              "time": "2025-10-04 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759532400,
+              "time": "2025-10-04 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759536000,
+              "time": "2025-10-04 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759539600,
+              "time": "2025-10-04 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759543200,
+              "time": "2025-10-04 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759546800,
+              "time": "2025-10-04 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759550400,
+              "time": "2025-10-04 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759554000,
+              "time": "2025-10-04 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759557600,
+              "time": "2025-10-04 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759561200,
+              "time": "2025-10-04 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759564800,
+              "time": "2025-10-04 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759568400,
+              "time": "2025-10-04 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759572000,
+              "time": "2025-10-04 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759575600,
+              "time": "2025-10-04 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759579200,
+              "time": "2025-10-04 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759582800,
+              "time": "2025-10-04 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759586400,
+              "time": "2025-10-04 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759590000,
+              "time": "2025-10-04 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-07": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-07",
+          "hour": [
+            {
+              "time_epoch": 1759766400,
+              "time": "2025-10-07 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759770000,
+              "time": "2025-10-07 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759773600,
+              "time": "2025-10-07 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759777200,
+              "time": "2025-10-07 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759780800,
+              "time": "2025-10-07 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759784400,
+              "time": "2025-10-07 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759788000,
+              "time": "2025-10-07 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759791600,
+              "time": "2025-10-07 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759795200,
+              "time": "2025-10-07 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759798800,
+              "time": "2025-10-07 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759802400,
+              "time": "2025-10-07 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759806000,
+              "time": "2025-10-07 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759809600,
+              "time": "2025-10-07 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759813200,
+              "time": "2025-10-07 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759816800,
+              "time": "2025-10-07 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759820400,
+              "time": "2025-10-07 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759824000,
+              "time": "2025-10-07 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759827600,
+              "time": "2025-10-07 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759831200,
+              "time": "2025-10-07 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759834800,
+              "time": "2025-10-07 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759838400,
+              "time": "2025-10-07 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759842000,
+              "time": "2025-10-07 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759845600,
+              "time": "2025-10-07 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1759849200,
+              "time": "2025-10-07 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-10": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-10",
+          "hour": [
+            {
+              "time_epoch": 1760025600,
+              "time": "2025-10-10 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760029200,
+              "time": "2025-10-10 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760032800,
+              "time": "2025-10-10 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760036400,
+              "time": "2025-10-10 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760040000,
+              "time": "2025-10-10 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760043600,
+              "time": "2025-10-10 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760047200,
+              "time": "2025-10-10 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760050800,
+              "time": "2025-10-10 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760054400,
+              "time": "2025-10-10 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760058000,
+              "time": "2025-10-10 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760061600,
+              "time": "2025-10-10 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760065200,
+              "time": "2025-10-10 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760068800,
+              "time": "2025-10-10 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760072400,
+              "time": "2025-10-10 13:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760076000,
+              "time": "2025-10-10 14:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760079600,
+              "time": "2025-10-10 15:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760083200,
+              "time": "2025-10-10 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760086800,
+              "time": "2025-10-10 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760090400,
+              "time": "2025-10-10 18:00",
+              "precip_mm": 0.5,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760094000,
+              "time": "2025-10-10 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760097600,
+              "time": "2025-10-10 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760101200,
+              "time": "2025-10-10 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760104800,
+              "time": "2025-10-10 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760108400,
+              "time": "2025-10-10 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-13": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-13",
+          "hour": [
+            {
+              "time_epoch": 1760284800,
+              "time": "2025-10-13 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760288400,
+              "time": "2025-10-13 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760292000,
+              "time": "2025-10-13 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760295600,
+              "time": "2025-10-13 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760299200,
+              "time": "2025-10-13 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760302800,
+              "time": "2025-10-13 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760306400,
+              "time": "2025-10-13 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760310000,
+              "time": "2025-10-13 07:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760313600,
+              "time": "2025-10-13 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760317200,
+              "time": "2025-10-13 09:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760320800,
+              "time": "2025-10-13 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760324400,
+              "time": "2025-10-13 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760328000,
+              "time": "2025-10-13 12:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760331600,
+              "time": "2025-10-13 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760335200,
+              "time": "2025-10-13 14:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760338800,
+              "time": "2025-10-13 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760342400,
+              "time": "2025-10-13 16:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760346000,
+              "time": "2025-10-13 17:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760349600,
+              "time": "2025-10-13 18:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760353200,
+              "time": "2025-10-13 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760356800,
+              "time": "2025-10-13 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760360400,
+              "time": "2025-10-13 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760364000,
+              "time": "2025-10-13 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760367600,
+              "time": "2025-10-13 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-16": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-16",
+          "hour": [
+            {
+              "time_epoch": 1760544000,
+              "time": "2025-10-16 00:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760547600,
+              "time": "2025-10-16 01:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760551200,
+              "time": "2025-10-16 02:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760554800,
+              "time": "2025-10-16 03:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760558400,
+              "time": "2025-10-16 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760562000,
+              "time": "2025-10-16 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760565600,
+              "time": "2025-10-16 06:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760569200,
+              "time": "2025-10-16 07:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760572800,
+              "time": "2025-10-16 08:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760576400,
+              "time": "2025-10-16 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760580000,
+              "time": "2025-10-16 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760583600,
+              "time": "2025-10-16 11:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760587200,
+              "time": "2025-10-16 12:00",
+              "precip_mm": 0.5,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760590800,
+              "time": "2025-10-16 13:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760594400,
+              "time": "2025-10-16 14:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760598000,
+              "time": "2025-10-16 15:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760601600,
+              "time": "2025-10-16 16:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760605200,
+              "time": "2025-10-16 17:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760608800,
+              "time": "2025-10-16 18:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760612400,
+              "time": "2025-10-16 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760616000,
+              "time": "2025-10-16 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760619600,
+              "time": "2025-10-16 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760623200,
+              "time": "2025-10-16 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760626800,
+              "time": "2025-10-16 23:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-19": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-19",
+          "hour": [
+            {
+              "time_epoch": 1760803200,
+              "time": "2025-10-19 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760806800,
+              "time": "2025-10-19 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760810400,
+              "time": "2025-10-19 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760814000,
+              "time": "2025-10-19 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760817600,
+              "time": "2025-10-19 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760821200,
+              "time": "2025-10-19 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760824800,
+              "time": "2025-10-19 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760828400,
+              "time": "2025-10-19 07:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760832000,
+              "time": "2025-10-19 08:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760835600,
+              "time": "2025-10-19 09:00",
+              "precip_mm": 0.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760839200,
+              "time": "2025-10-19 10:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760842800,
+              "time": "2025-10-19 11:00",
+              "precip_mm": 1.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760846400,
+              "time": "2025-10-19 12:00",
+              "precip_mm": 3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760850000,
+              "time": "2025-10-19 13:00",
+              "precip_mm": 2.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760853600,
+              "time": "2025-10-19 14:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760857200,
+              "time": "2025-10-19 15:00",
+              "precip_mm": 2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760860800,
+              "time": "2025-10-19 16:00",
+              "precip_mm": 1.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760864400,
+              "time": "2025-10-19 17:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760868000,
+              "time": "2025-10-19 18:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760871600,
+              "time": "2025-10-19 19:00",
+              "precip_mm": 1.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1760875200,
+              "time": "2025-10-19 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760878800,
+              "time": "2025-10-19 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760882400,
+              "time": "2025-10-19 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1760886000,
+              "time": "2025-10-19 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-22": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-22",
+          "hour": [
+            {
+              "time_epoch": 1761062400,
+              "time": "2025-10-22 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761066000,
+              "time": "2025-10-22 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761069600,
+              "time": "2025-10-22 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761073200,
+              "time": "2025-10-22 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761076800,
+              "time": "2025-10-22 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761080400,
+              "time": "2025-10-22 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761084000,
+              "time": "2025-10-22 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761087600,
+              "time": "2025-10-22 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761091200,
+              "time": "2025-10-22 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761094800,
+              "time": "2025-10-22 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761098400,
+              "time": "2025-10-22 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761102000,
+              "time": "2025-10-22 11:00",
+              "precip_mm": 1.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761105600,
+              "time": "2025-10-22 12:00",
+              "precip_mm": 1.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761109200,
+              "time": "2025-10-22 13:00",
+              "precip_mm": 2.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761112800,
+              "time": "2025-10-22 14:00",
+              "precip_mm": 1.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761116400,
+              "time": "2025-10-22 15:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761120000,
+              "time": "2025-10-22 16:00",
+              "precip_mm": 1.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761123600,
+              "time": "2025-10-22 17:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761127200,
+              "time": "2025-10-22 18:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761130800,
+              "time": "2025-10-22 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761134400,
+              "time": "2025-10-22 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761138000,
+              "time": "2025-10-22 21:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761141600,
+              "time": "2025-10-22 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761145200,
+              "time": "2025-10-22 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-25": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-25",
+          "hour": [
+            {
+              "time_epoch": 1761321600,
+              "time": "2025-10-25 00:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761325200,
+              "time": "2025-10-25 01:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761328800,
+              "time": "2025-10-25 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761332400,
+              "time": "2025-10-25 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761336000,
+              "time": "2025-10-25 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761339600,
+              "time": "2025-10-25 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761343200,
+              "time": "2025-10-25 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761346800,
+              "time": "2025-10-25 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761350400,
+              "time": "2025-10-25 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761354000,
+              "time": "2025-10-25 09:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761357600,
+              "time": "2025-10-25 10:00",
+              "precip_mm": 0.7,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761361200,
+              "time": "2025-10-25 11:00",
+              "precip_mm": 0.5,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761364800,
+              "time": "2025-10-25 12:00",
+              "precip_mm": 1.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761368400,
+              "time": "2025-10-25 13:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761372000,
+              "time": "2025-10-25 14:00",
+              "precip_mm": 0.8,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761375600,
+              "time": "2025-10-25 15:00",
+              "precip_mm": 0.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761379200,
+              "time": "2025-10-25 16:00",
+              "precip_mm": 0.3,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761382800,
+              "time": "2025-10-25 17:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761386400,
+              "time": "2025-10-25 18:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761390000,
+              "time": "2025-10-25 19:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761393600,
+              "time": "2025-10-25 20:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761397200,
+              "time": "2025-10-25 21:00",
+              "precip_mm": 0.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761400800,
+              "time": "2025-10-25 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761404400,
+              "time": "2025-10-25 23:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "2025-10-28": {
+    "location": { "lat": -8.507, "lon": 115.263, "tz_id": "Asia/Makassar" },
+    "forecast": {
+      "forecastday": [
+        {
+          "date": "2025-10-28",
+          "hour": [
+            {
+              "time_epoch": 1761580800,
+              "time": "2025-10-28 00:00",
+              "precip_mm": 0.9,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761584400,
+              "time": "2025-10-28 01:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761588000,
+              "time": "2025-10-28 02:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761591600,
+              "time": "2025-10-28 03:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761595200,
+              "time": "2025-10-28 04:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761598800,
+              "time": "2025-10-28 05:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761602400,
+              "time": "2025-10-28 06:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761606000,
+              "time": "2025-10-28 07:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761609600,
+              "time": "2025-10-28 08:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761613200,
+              "time": "2025-10-28 09:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761616800,
+              "time": "2025-10-28 10:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761620400,
+              "time": "2025-10-28 11:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761624000,
+              "time": "2025-10-28 12:00",
+              "precip_mm": 0.8,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761627600,
+              "time": "2025-10-28 13:00",
+              "precip_mm": 0.8,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761631200,
+              "time": "2025-10-28 14:00",
+              "precip_mm": 1.6,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761634800,
+              "time": "2025-10-28 15:00",
+              "precip_mm": 1.1,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761638400,
+              "time": "2025-10-28 16:00",
+              "precip_mm": 0.4,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761642000,
+              "time": "2025-10-28 17:00",
+              "precip_mm": 0.8,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761645600,
+              "time": "2025-10-28 18:00",
+              "precip_mm": 0.8,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            },
+            {
+              "time_epoch": 1761649200,
+              "time": "2025-10-28 19:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761652800,
+              "time": "2025-10-28 20:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761656400,
+              "time": "2025-10-28 21:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761660000,
+              "time": "2025-10-28 22:00",
+              "precip_mm": 0,
+              "will_it_rain": 0,
+              "chance_of_rain": 0
+            },
+            {
+              "time_epoch": 1761663600,
+              "time": "2025-10-28 23:00",
+              "precip_mm": 0.2,
+              "will_it_rain": 1,
+              "chance_of_rain": 100
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

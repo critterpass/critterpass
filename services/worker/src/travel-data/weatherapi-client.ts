@@ -242,3 +242,55 @@ export async function fetchMarine(
   });
   return mapMarine(JSON.parse(response.body));
 }
+
+const historyResponseSchema = z.object({
+  location: z.object({ tz_id: z.string() }),
+  forecast: z.object({
+    forecastday: z.array(
+      z.object({
+        date: z.iso.date(),
+        hour: z.array(z.object({ time: z.string(), precip_mm: z.number() })),
+      }),
+    ),
+  }),
+});
+
+/** An hour of a past day counts as wet from this much rain. */
+export const WET_HOUR_MM = 0.1;
+
+export interface HistoryDay {
+  readonly date: string;
+  /** Whether it rained, for each local hour of the day (index = hour). */
+  readonly wet: readonly boolean[];
+}
+
+export function mapHistory(raw: unknown): HistoryDay | null {
+  const day = historyResponseSchema.parse(raw).forecast.forecastday[0];
+  if (day === undefined) return null;
+  const wet = Array.from({ length: 24 }, () => false);
+  for (const hour of day.hour) {
+    const local = Number(hour.time.slice(11, 13));
+    if (local >= 0 && local < 24) wet[local] = hour.precip_mm >= WET_HOUR_MM;
+  }
+  return { date: day.date, wet };
+}
+
+/** What one past local day was like at a point (`history.json`, one date per call). */
+export async function fetchHistory(
+  http: SupplierHttp,
+  config: WeatherApiConfig,
+  query: { readonly lat: number; readonly lng: number; readonly date: string },
+  signal?: AbortSignal,
+): Promise<HistoryDay | null> {
+  const response = await http.request({
+    supplier: WEATHERAPI_SUPPLIER,
+    endpoint: 'history',
+    url: url('/v1/history.json', config, {
+      q: `${query.lat.toFixed(4)},${query.lng.toFixed(4)}`,
+      dt: query.date,
+    }),
+    timeoutMs: 20_000,
+    ...(signal !== undefined ? { signal } : {}),
+  });
+  return mapHistory(JSON.parse(response.body));
+}
