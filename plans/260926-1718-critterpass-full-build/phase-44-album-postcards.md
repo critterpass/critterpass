@@ -144,6 +144,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Candidate preselect. 2. Sonnet vision scoring on thumbnails. 3. Coverage-constrained pick (code). 4. Note from computed facts only. 5. Debounce + trip-end run.
 - Tests: `pnpm --filter @cp/worker test -- album/curate`; `pnpm --filter @cp/ai eval -- album`
 - Done when: coverage test passes; note never claims "everyone's in at least three" unless true.
+- Status: done — d4f958cf4
 
 ### T6 — Album UI + viewer
 - Goal: 3m-2 + undesigned viewer and states.
@@ -158,6 +159,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Flip card. 2. Composer with photo pick, note regenerate, 3 formats, save. 3. Send to crew. 4. Recap album contributor + memory photo provider.
 - Tests: `pnpm --filter @cp/mobile test -- features/album/postcard`; `pnpm --filter @cp/api test -- postcards`
 - Done when: sent postcard appears for each recipient; recap shows photo count from contributor.
+- Status: recap album contributor and memory photo done — afd0b23db; postcard commands and composer remain
 
 ### T8 — Printed mailing
 - Goal: F-136 with vendor adapter.
