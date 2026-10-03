@@ -213,11 +213,11 @@ export const SYNCED_TABLE_COLUMNS = {
   readiness:
     'leave_by_id trip_id user_id state source snooze_count:integer knock_sent_at changed_at created_at updated_at',
   recap_awards:
-    'recap_id trip_id user_id kind metric value:integer evidence title line opted_out:integer mvp_votes:integer is_mvp:integer created_at updated_at',
+    'recap_id trip_id user_id kind metric value:integer evidence title line opted_out:integer mvp_votes:integer is_mvp:integer i18n created_at updated_at',
   recap_mvp_votes: 'recap_id trip_id voter_id award_id created_at updated_at',
   recap_views: 'recap_id trip_id user_id opened_at completed_at seen_at created_at updated_at',
   recaps:
-    'trip_id crew_id status version:integer ended_on stats route receipt got_away cards content_hash copy_version:integer copy_fallback:integer narration changed_sections agent_job_id failure_reason built_at ready_at mvp_closes_at mvp_closed_at created_at updated_at',
+    'trip_id crew_id status version:integer ended_on stats route receipt got_away cards content_hash copy_version:integer copy_fallback:integer narration i18n changed_sections agent_job_id failure_reason built_at ready_at mvp_closes_at mvp_closed_at created_at updated_at',
   receipts:
     'user_id trip_id crew_id expense_id media_key status quality_issue ocr_source ocr_lines parsed suggestions failure_reason parsed_at created_at updated_at',
   redraft_reservations:

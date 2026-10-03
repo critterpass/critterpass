@@ -54,6 +54,8 @@ export const presignRoute = createRoute({
       'PUT the exact bytes to put_url with the returned headers',
       z.object({
         media_key: z.string(),
+        /** The registered `media_objects` row, for commands that name a stored object. */
+        media_id: z.uuid().nullable(),
         put_url: z.string(),
         headers: z.record(z.string(), z.string()),
         expires_at: z.string(),
@@ -135,7 +137,14 @@ export const multipartCompleteRoute = createRoute({
     ),
   },
   responses: {
-    200: jsonResponse('Registered', z.object({ media_key: z.string(), bytes: z.number().int() })),
+    200: jsonResponse(
+      'Registered',
+      z.object({
+        media_key: z.string(),
+        media_id: z.uuid().nullable(),
+        bytes: z.number().int(),
+      }),
+    ),
     ...commonErrors,
   },
 });

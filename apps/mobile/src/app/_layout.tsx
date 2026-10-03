@@ -59,6 +59,7 @@ import { SafetyRuntime } from '@/features/safety/register';
 import '@/features/bookings/supplier/register';
 import '@/features/you/routes';
 import '@/features/help/routes';
+import '@/features/recap/routes';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';

@@ -185,7 +185,7 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `recap.build` | trip turns `post_trip` (last-day local midnight or return landing) + re-run 10 min after the first late `expense.*`, `booking.*`, `ride.logged`, `payment.confirmed`, `trip.settled`, `critter.befriended`/`revoked` or `photo.added`, for 14 d after the last day (stately on `recap:{trip_id}`; doc delta) | AI-34, share renders, N-32 | 43 |
 | `recap.mvp_close` (doc delta) | 72 h after the recap is first ready, or the last vote | `mvp.result`, `recap.mvp_closed` | 43 |
 | `recap.narrate` (doc delta) | after each new copy version | ElevenLabs per changed card (`en`), R2 `recap_audio` media on the trip; no call when the words did not change | 43 |
-| `anniversary.scan` | `0 1 * * *` per tz bucket | N-35 | 43 |
+| `anniversary.scan` | hourly `7 * * * *` (doc delta: each traveller's anniversary fires at 10:00 on the best day a year on in their own zone, armed when the recap's words are written) | the trip's memory (once), `memory.surfaced` → N-35 | 43 |
 | `ftf.ending` | FTF end −3 d local | N-33 (governed) | 46 |
 | `billing.reconcile` | `0 5 * * *` | RevenueCat REST drift check, grace expiry (server 7 d) | 46 |
 | `billing.intent_expiry` (doc delta) | intent timer (15 min) | lapses an open boost intent, frees the trip lock | 46 |

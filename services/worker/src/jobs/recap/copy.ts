@@ -3,7 +3,8 @@
  * cards and words each award from the facts code computed (AI-34, `writeRecapCopy`); with no model
  * configured, or when the guide's reply fails the number guard or the tone rules, the template copy
  * stands in. The words land with the version they describe; the first time, the recap turns `ready`
- * and `recap.ready` goes out (N-32 once per recap; a re-run never sends it again).
+ * and `recap.ready` goes out (N-32 once per recap; a re-run never sends it again). Every version
+ * also (re)arms the travellers' year-later memories on the trip's best day.
  */
 import {
   personaIdSchema,
@@ -32,6 +33,9 @@ import {
   type RecapCard,
 } from '@cp/domain';
 import type pg from 'pg';
+
+import { scheduleAnniversaries } from '../anniversary/schedule';
+import { enqueueGuideTextTranslation } from '../i18n/enqueue';
 
 /** A gateway per run, reporting usage; absent when no model key is configured. */
 export type RecapCopyWriter = (
@@ -165,6 +169,9 @@ async function store(
       [source.recapId, award.user_id, award.title, award.line],
     );
   }
+  await scheduleAnniversaries(tx, source.recapId);
+  // Each reader's language, then the guide's voice in it (the translation queues narration again).
+  await enqueueGuideTextTranslation(tx, { tripId: source.tripId });
   if (source.firstReady) {
     await sendInTx(
       tx,

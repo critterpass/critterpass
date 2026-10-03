@@ -12,6 +12,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerRecapCommands } from '../../src/commands/recap';
 import { startJobProducer } from '../../src/jobs/producer';
+import { authorizeReads } from '../../src/media/read-access';
 import { runCommand } from '../location/location-fixture';
 import {
   startCommandDoors,
@@ -270,5 +271,20 @@ describe('retry_recap', () => {
       "SELECT data FROM pgboss.job WHERE name = 'recap.build'",
     );
     expect(rows).toEqual([{ data: { trip_id: tripId, reason: 'retry' } }]);
+  });
+});
+
+describe('recap narration media', () => {
+  it('is readable by the recap’s viewers and nobody else, though no traveller owns it', async () => {
+    const key = `t/${tripId}/recap_audio/${generateUuidV7()}`;
+    await q(
+      `INSERT INTO media_objects (owner_id, r2_key, kind, bytes, sha256, purpose, trip_id)
+       VALUES (NULL, $1, 'audio/mpeg', 3, repeat('b', 64), 'recap_audio', $2)`,
+      [key, tripId],
+    );
+    expect(await authorizeReads(harness.pool, ben.uid, [key])).toBe(true);
+    expect(await authorizeReads(harness.pool, homebody.uid, [key])).toBe(false);
+    const forged = `t/${generateUuidV7()}/recap_audio/${generateUuidV7()}`;
+    expect(await authorizeReads(harness.pool, ben.uid, [forged])).toBe(false);
   });
 });

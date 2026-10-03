@@ -18,6 +18,8 @@ import { PermissionsSection } from '@/ui/permission-primer/PermissionsSection';
 import { usePingPrefs } from '../ping-settings/use-ping-prefs';
 import { deviceAccountServices, type AccountServices } from '../account/account-services';
 import { useAccountRead } from '../account/use-account';
+import { exportLine } from '../export/export-copy';
+import { useDataExport } from '../export/use-data-export';
 import { nativeNameOf } from '../language/language-names';
 import { YOU_ROUTES } from '../routes';
 import { CrewChatSheet } from './crew-chat-sheet';
@@ -53,6 +55,7 @@ export function SettingsScreen({
   const pings = usePingPrefs();
   const mailbox = useMailboxSettingsRow();
   const location = useLocationRow();
+  const dataExport = useDataExport();
   // Reading the inbox needs a provider switched on for this build; until then the row offers the
   // crew's forward address, which works today.
   /* eslint-disable lingui/no-unlocalized-strings -- feature flag keys, never copy. */
@@ -76,6 +79,13 @@ export function SettingsScreen({
       haptics: prefs.hapticsEnabled,
       account: account?.kind === 'ok',
       language: nativeNameOf(locale),
+      dataExport: {
+        line: exportLine(dataExport.state, dataExport.problem, locale),
+        enabled:
+          !dataExport.busy &&
+          dataExport.state.kind !== 'building' &&
+          !(dataExport.state.kind === 'expired' && dataExport.state.askAgainAt !== null),
+      },
     },
     {
       onSynced: synced.change,
@@ -89,6 +99,8 @@ export function SettingsScreen({
       onHaptics: prefs.setHapticsEnabled,
       onLanguage: () => router.push(YOU_ROUTES.language),
       onSignOut: () => router.push(YOU_ROUTES.signOut),
+      onDataExport: () =>
+        dataExport.state.kind === 'ready' ? dataExport.open() : dataExport.request(),
       onDeleteAccount: () => router.push(YOU_ROUTES.deleteAccount),
     },
   );

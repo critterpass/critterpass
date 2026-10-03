@@ -976,6 +976,8 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
     to_id: null,
     reason: 'account_closed',
   },
+  'data_export.requested': { user_id: crypto.randomUUID(), export_id: crypto.randomUUID() },
+  'data_export.ready': { user_id: crypto.randomUUID(), export_id: crypto.randomUUID() },
 };
 
 describe.each(DOMAIN_EVENT_TYPES)('%s payload schema', (type) => {

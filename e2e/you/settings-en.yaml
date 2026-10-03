@@ -152,3 +152,19 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3n-6-real
+# Download my data: asking for it shows it on its way, then ready once the worker has built it.
+- tapOn:
+    text: 'Download my data.*'
+- extendedWaitUntil:
+    visible:
+      text: 'Download my data, (Getting it ready|Ready to download).*'
+    timeout: 30000
+    optional: true
+- extendedWaitUntil:
+    visible:
+      text: 'Download my data, Ready to download.*'
+    timeout: 120000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-6-download-data

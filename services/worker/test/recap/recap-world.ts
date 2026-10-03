@@ -9,7 +9,7 @@
 import { randomUUID } from 'node:crypto';
 
 import { withSystem } from '@cp/db';
-import { RECAP_QUEUES } from '@cp/domain';
+import { GUIDE_QUEUES, RECAP_QUEUES } from '@cp/domain';
 
 import { startJobsHarness, type JobsHarness } from '../helpers/jobs-harness';
 
@@ -73,7 +73,7 @@ export async function startRecapWorld(): Promise<RecapWorld> {
   const harness = await startJobsHarness();
   // A producer for the jobs the build queues (the MVP close timer, narration).
   const boss = await harness.startRuntime([]);
-  for (const queue of Object.values(RECAP_QUEUES)) {
+  for (const queue of [...Object.values(RECAP_QUEUES), GUIDE_QUEUES.translate]) {
     if ((await boss.getQueue(queue)) === null) await boss.createQueue(queue, { policy: 'stately' });
   }
   const q = async <T>(sql: string, params: readonly unknown[] = []): Promise<T[]> =>

@@ -1,0 +1,21 @@
+appId: app.critterpass.dev
+---
+# Opens the recap lab (apps/mobile/src/app/(dev)/recap-lab.tsx) from the developer tools list.
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-recap-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-recap-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'recap-lab-3m-1-recap'
+    timeout: 15000

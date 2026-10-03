@@ -51,8 +51,10 @@ async function lateFacts(tx: pg.PoolClient, view: DisruptionView): Promise<LateF
                    WHERE u.id = ANY($2::uuid[]) ORDER BY array_position($2::uuid[], u.id)) AS names,
             coalesce((d.facts ->> 'late_min')::int, 0) AS late_min,
             coalesce(d.facts ->> 'title', '') AS item_title,
-            coalesce(t.tz, 'UTC') AS tz
-       FROM disruptions d JOIN trips t ON t.id = d.trip_id WHERE d.id = $1`,
+            coalesce(t.tz, dest.tz, 'UTC') AS tz
+       FROM disruptions d JOIN trips t ON t.id = d.trip_id
+       LEFT JOIN destinations dest ON dest.id = t.destination_id
+      WHERE d.id = $1`,
     [view.id, view.traveller_ids],
   );
   const facts = rows[0];

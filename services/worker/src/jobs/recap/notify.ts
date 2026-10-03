@@ -1,7 +1,8 @@
 /**
  * Recap pushes: N-32 to every viewer when the trip's recap is first ready (once per recap: a
  * re-run never appends `recap.ready` again, and the dedupe key is the recap's), from the trip's
- * guide, opening the recap. Registered from the worker entry, like the other feature pushes.
+ * guide, opening the recap; N-35 a year later to each traveller on their own morning, quietly,
+ * opening the memory. Registered from the worker entry, like the other feature pushes.
  */
 import { RECAP_PUSH } from '@cp/domain';
 import type pg from 'pg';
@@ -63,5 +64,24 @@ export function registerRecapPushes(): void {
       };
     },
     dedupeKey: (event, uid) => `recap_ready:${str(event, 'recap_id') ?? event.id}:${uid}`,
+  });
+  registerNotification({
+    key: 'anniversary_memory',
+    event: 'memory.surfaced',
+    audience: (_tx, event) => Promise.resolve([str(event, 'user_id')].filter((u) => u !== null)),
+    async compose(tx, event) {
+      const { sender, place } = await tripVoice(tx, event.tripId);
+      const memoryId = str(event, 'memory_id');
+      return {
+        title: RECAP_PUSH.anniversaryTitle,
+        body: RECAP_PUSH.anniversaryBody,
+        vars: { place },
+        sender,
+        tripId: event.tripId,
+        deepLink: `/memory/${memoryId ?? ''}`,
+        ctx: { memory_id: memoryId },
+      };
+    },
+    dedupeKey: (event, uid) => `anniversary_memory:${str(event, 'memory_id') ?? event.id}:${uid}`,
   });
 }

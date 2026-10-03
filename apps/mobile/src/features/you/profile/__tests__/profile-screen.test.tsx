@@ -115,8 +115,9 @@ describe('the profile for a fresh account', () => {
     expect(screen.getByTestId('you-profile-no-trips')).toBeTruthy();
     expect(screen.getByTestId('you-profile-start-crew')).toBeTruthy();
     expect(screen.getByTestId('you-profile-mrz').props.children).toBe('P<VNMKHANH<<CP0012');
-    // Edit profile has no screen yet, so its pill is not drawn.
-    expect(screen.queryByTestId('you-profile-edit')).toBeNull();
+    // EDIT opens Edit profile, registered under its design id.
+    await fireEvent.press(screen.getByTestId('you-profile-edit'));
+    expect(router.push).toHaveBeenCalledWith(YOU_ROUTES.edit);
     expect(screen.queryByTestId('you-profile-pass-plus')).toBeNull();
   });
 

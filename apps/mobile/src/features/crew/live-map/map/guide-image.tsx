@@ -2,7 +2,8 @@
  * The guide beside the meet-up pin, drawn as a plain image. A Skia canvas inside a native map
  * annotation does not always get a surface (it drew on some captures and not others), so the
  * sticker is rendered once to PNG through the same renderer and cache as `<Sticker>` (paper edge
- * included) and shown with `Image`, which annotations always draw.
+ * included) and shown with `Image`, which annotations always draw. The drawn picture is the
+ * accessible element, named after the guide: inside an accessible wrapper iOS would fold it away.
  */
 import { useEffect, useState } from 'react';
 import { Image, PixelRatio, View } from 'react-native';
@@ -64,18 +65,15 @@ export function GuideImage({
     };
   }, [guide.kind, size, render]);
   return (
-    <View
-      style={{ width: size, height: size }}
-      accessible
-      accessibilityRole="image"
-      accessibilityLabel={guide.name}
-      testID={`live-guide-${guide.id}`}
-    >
+    <View style={{ width: size, height: size }} testID={`live-guide-${guide.id}`}>
       {uri === null ? null : (
         <Image
           source={{ uri }}
           style={{ width: size, height: size }}
           resizeMode="contain"
+          accessible
+          accessibilityRole="image"
+          accessibilityLabel={guide.name}
           testID={`live-guide-${guide.id}-image`}
         />
       )}

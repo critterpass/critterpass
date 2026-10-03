@@ -43,9 +43,10 @@ function distanceLine(metres: number | null): string | null {
 
 export const meetUpLoader: LaLoader = async ({ tx, refId, now, redact = false }) => {
   const { rows } = await tx.query<MeetUpRow>(
-    `SELECT m.id, m.trip_id, m.place_name, m.meet_at, m.status, m.arrived, t.tz,
-            coalesce(e.boost_active, false) AS boosted
+    `SELECT m.id, m.trip_id, m.place_name, m.meet_at, m.status, m.arrived,
+            coalesce(t.tz, d.tz) AS tz, coalesce(e.boost_active, false) AS boosted
        FROM meetups m JOIN trips t ON t.id = m.trip_id
+       LEFT JOIN destinations d ON d.id = t.destination_id
        LEFT JOIN trip_entitlements e ON e.trip_id = m.trip_id
       WHERE m.id = $1`,
     [refId],

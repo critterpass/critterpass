@@ -82,12 +82,13 @@ export function useTripCrew(tripId: string | null): readonly CrewMember[] {
   }));
 }
 
-const TRIP_SQL = `SELECT t.tz, t.destination_id,
+export const PLACE_TRIP_SQL = `SELECT coalesce(t.tz, (SELECT d.tz FROM destinations d WHERE d.id = t.destination_id)) AS tz,
+    t.destination_id,
     (SELECT u.display_name FROM must_dos m LEFT JOIN users u ON u.id = m.owner_id
       WHERE m.trip_id = t.id AND m.poi_id = ? AND m.deleted_at IS NULL
       ORDER BY m.created_at LIMIT 1) AS must_do_owner
   FROM trips t WHERE t.id = ?`;
-const TRIP_TABLES = ['trips', 'must_dos', 'users'];
+const TRIP_TABLES = ['trips', 'must_dos', 'users', 'destinations'];
 
 export interface TripFacts {
   readonly tz: string | null;
@@ -101,7 +102,7 @@ export function useTripFacts(tripId: string | null, poiId: string | null): TripF
     tz: string | null;
     destination_id: string | null;
     must_do_owner: string | null;
-  }>(TRIP_SQL, tripId === null ? null : [poiId ?? '', tripId], TRIP_TABLES).rows[0];
+  }>(PLACE_TRIP_SQL, tripId === null ? null : [poiId ?? '', tripId], TRIP_TABLES).rows[0];
   return {
     tz: row?.tz ?? null,
     destinationId: row?.destination_id ?? null,

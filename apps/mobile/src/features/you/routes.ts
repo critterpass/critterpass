@@ -15,6 +15,8 @@ export const YOU_ROUTES = {
   signOut: '/you/sign-out',
   language: '/you/language',
   stamps: '/you/stamps',
+  edit: '/you/edit',
+  avatar: '/you/avatar',
   pastTrip: '/you/past-trip',
   deleteAccount: '/you/delete',
   /** Settings > Offline lives with the trip screens. */
@@ -24,6 +26,8 @@ export const YOU_ROUTES = {
 export const YOU_SCREENS: Readonly<Record<string, Href>> = {
   '3n-1': YOU_ROUTES.profile,
   '3n-2': YOU_ROUTES.settings,
+  '3n-3': YOU_ROUTES.edit,
+  '3n-4': YOU_ROUTES.avatar,
   '3n-6': YOU_ROUTES.settings,
   '5b-4': YOU_ROUTES.pings,
   '3n-8': YOU_ROUTES.language,

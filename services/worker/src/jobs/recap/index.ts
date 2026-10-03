@@ -9,6 +9,7 @@ import { createGateway, type AssertRouteOn, type Telemetry } from '@cp/ai';
 import { onEventAppended } from '@cp/db';
 
 import type { AnyJobDefinition } from '../../boss';
+import { anniversaryScanJob } from '../anniversary/scan';
 import { createAvatarMediaStore } from '../avatar/media-store';
 import { createElevenLabs } from '../guide/elevenlabs';
 import { straightLineRouter, valhallaRouter } from '../live-map/meetup-router';
@@ -86,5 +87,6 @@ export function recapJobs(env: RecapJobsEnv, deps: RecapJobsDeps): AnyJobDefinit
     recapBuildJob({ router, writer: copyWriter(env, deps) }),
     recapMvpCloseJob(),
     recapNarrateJob(recapVoice(env)),
+    anniversaryScanJob(),
   ];
 }

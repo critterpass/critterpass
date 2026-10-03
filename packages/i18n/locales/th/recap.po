@@ -6,3 +6,287 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: th\n"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.after"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.value"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.photos.value"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.days.value"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.early"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.meals.caption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.finds.value"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.foundCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.ofCount"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.writing.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.meals.value"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.named"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.photos.top"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.time"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.place"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.named"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.finds.caption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.seen"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.distance.stops"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.days.crew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.expenses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.finds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.photos"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.places"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.edits"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.detail.rides"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.goldUnnamed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.unnamed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.distance.about"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.retrying"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.bestFind"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.writing.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.critterWhisperer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.distance.driver"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.earlyRiser"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.square"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.goodCompany"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.humanCamera"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.photos.crew"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.justYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.days.solo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
+msgid "recap.summary.retry.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.finds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.offline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.lastDay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.share"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.line"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.sunrise.caption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.owed.open"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.provider.taxi"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.explorer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.gotAway.gold"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.navigator"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.unnamed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.planner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.titleNoPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.provider.transfer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.treasurer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
+msgid "recap.summary.failed.retry"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.updated.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.updated.expenses"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.whereNext"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/award-copy.ts
+msgid "recap.award.you"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.dropout"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.photos.mine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.provider.driver"
+msgstr ""
