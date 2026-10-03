@@ -30,6 +30,12 @@ export interface SearchTrip {
   readonly days: readonly SearchDay[];
   readonly versionId: string | null;
   readonly organiser: boolean;
+  /** The trip's zone, for fit lines. */
+  readonly tz: string;
+  /** A plan stop's title ("Locavore") by stable id. */
+  readonly itemTitles: ReadonlyMap<string, string>;
+  /** The plan's place names by place id ("≤ 15 min from Tanah Lot"). */
+  readonly placeNames: ReadonlyMap<string, string>;
 }
 
 function guideOf(slug: string | null | undefined): GuideId {
@@ -62,6 +68,16 @@ export function useSearchTrip(tripId: string): SearchTrip {
         })),
     [plan.dayRows, locale],
   );
+  const itemTitles = useMemo(
+    () =>
+      new Map(
+        plan.itemRows.flatMap((item) => {
+          const title = item.booking_title ?? item.poi_name;
+          return title === null ? [] : [[item.stable_id, title] as const];
+        }),
+      ),
+    [plan.itemRows],
+  );
   return {
     loaded: plan.loaded,
     destinationId: plan.trip?.destination_id ?? null,
@@ -71,6 +87,9 @@ export function useSearchTrip(tripId: string): SearchTrip {
     days,
     versionId: plan.versionId,
     organiser: plan.organiser,
+    tz: plan.trip?.tz ?? 'UTC',
+    itemTitles,
+    placeNames: plan.places,
   };
 }
 

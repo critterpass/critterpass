@@ -24,6 +24,7 @@ import { ClipboardCard } from './clipboard-card';
 import type { ClipboardLink } from './clipboard';
 import { useSearchServices } from './data/search-services';
 import { NameResults } from './name-results';
+import { PlainBlock } from './plain-block';
 import { searchRoutes, type SearchParams } from './routes';
 import { SearchView } from './search-view';
 import { plainExamples, TypedExamples } from './typed-examples';
@@ -67,12 +68,38 @@ function scopeLabel(
   }
 }
 
+/** A search row for a place known only by its id. */
+function poiRef(poiId: string): PlaceCandidate {
+  return {
+    id: poiId,
+    poiId,
+    name: '',
+    nameLocal: null,
+    category: null,
+    lat: null,
+    lng: null,
+    tags: [],
+    source: 'server',
+  };
+}
+
 export function SearchScreen(props: SearchScreenProps) {
   const { tripId } = props;
   const services = useSearchServices();
   const trip = useSearchTrip(tripId);
   const place = useScopePlace(props.scope === 'place' ? (props.poiId ?? null) : null);
   const [query, setQuery] = useState(props.q ?? '');
+  const [asked, setAsked] = useState<string | null>(props.q ?? null);
+  const type = (text: string) => {
+    setQuery(text);
+    setAsked(null);
+  };
+  const ask = (question: string) => {
+    const trimmed = question.trim();
+    if (trimmed === '') return;
+    setQuery(trimmed);
+    setAsked(trimmed);
+  };
   const near =
     parseNear(props.near) ??
     (place !== null && place.lat !== null && place.lng !== null
@@ -107,24 +134,12 @@ export function SearchScreen(props: SearchScreenProps) {
   const pickLive = (picked: LivePlace) => {
     if (trip.destinationId === null) return;
     void resolveLivePlace(services.getJson, trip.destinationId, picked).then((pick) => {
-      if (pick.kind === 'ready') {
-        openPlace({
-          id: pick.poiId,
-          poiId: pick.poiId,
-          name: pick.name,
-          nameLocal: null,
-          category: null,
-          lat: null,
-          lng: null,
-          tags: [],
-          source: 'server',
-        });
-      }
+      if (pick.kind === 'ready') openPlace(poiRef(pick.poiId));
     });
   };
   const browse = (tile: BrowseTile) => {
     const list = hrefFor('7c-3', { tripId, category: tile.category });
-    if (list === undefined) setQuery(tile.word);
+    if (list === undefined) type(tile.word);
     else router.push(list);
   };
   const addFromLink = (link: ClipboardLink) =>
@@ -135,8 +150,8 @@ export function SearchScreen(props: SearchScreenProps) {
     <SearchView
       header={{
         value: query,
-        onChangeText: setQuery,
-        onSubmit: () => undefined,
+        onChangeText: type,
+        onSubmit: () => ask(query),
         onCancel: () => router.back(),
         destination: trip.destination,
         guide: trip.guide,
@@ -144,7 +159,16 @@ export function SearchScreen(props: SearchScreenProps) {
       }}
       scope={scopeLabel(props, trip, place?.name ?? null)}
     >
-      {typed === '' ? (
+      {asked !== null ? (
+        <PlainBlock
+          key={asked}
+          question={asked}
+          tripId={tripId}
+          trip={trip}
+          onOpen={(poiId) => openPlace(poiRef(poiId))}
+          onAdd={(poiId) => addPlace(poiRef(poiId))}
+        />
+      ) : typed === '' ? (
         <>
           <ClipboardCard
             state={clipboard.state}
@@ -153,7 +177,7 @@ export function SearchScreen(props: SearchScreenProps) {
           />
           <TypedExamples
             examples={plainExamples({ destination: trip.destination, freeWeekday })}
-            onAsk={setQuery}
+            onAsk={ask}
           />
           <BrowseGrid onBrowse={browse} />
         </>

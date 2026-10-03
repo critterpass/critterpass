@@ -7,11 +7,64 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.count"
+msgstr "{count, plural, one {# place} other {# places}}"
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.softMisses"
+msgstr "{count} more, louder or further"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.mealNoTitle"
+msgstr "{day} already has that meal, so I looked at your other days."
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.travel"
+msgstr "{day} is a travel day, so I looked at your other days."
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.meal"
+msgstr "{day}’s already {title}, so I looked at your other nights."
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.exclude.full"
+msgstr "{day}’s full, so I looked at your other days."
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chips.eyebrow"
+msgstr "{guideName} read it as"
+
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+msgid "search.plain.drive"
+msgstr "{minutes} min"
+
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+msgid "search.plain.walk"
+msgstr "{minutes} min walk"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.fromPlace"
+msgstr "≤ {minutes} min from {place}"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.fromStay"
+msgstr "≤ {minutes} min from the stay"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.fromRoute"
+msgstr "≤ {minutes} min off the day's route"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.view"
+msgstr "A view"
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.crowds"
 msgstr "a waterfall without the crowds, {day}"
 
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
 msgid "search.row.add"
 msgstr "Add {0}"
 
@@ -27,9 +80,21 @@ msgstr "Ask in plain words"
 msgid "search.browse.beaches"
 msgstr "Beaches"
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.beach"
+msgstr "Beaches"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.breakfast"
+msgstr "Breakfast"
+
 #: ../../apps/mobile/src/features/explore/search/search-header.tsx
 msgid "search.field.cancel"
 msgstr "Cancel"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.cheap"
+msgstr "Cheap"
 
 #: ../../apps/mobile/src/features/explore/search/search-header.tsx
 msgid "search.field.clear"
@@ -39,8 +104,24 @@ msgstr "Clear"
 msgid "search.browse.coffee"
 msgstr "Coffee"
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.coffee"
+msgstr "Coffee"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.dinner"
+msgstr "Dinner"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.drinks"
+msgstr "Drinks"
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.food"
+msgstr "Food"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.food"
 msgstr "Food"
 
 #: ../../apps/mobile/src/features/explore/search/search-screen.tsx
@@ -55,6 +136,10 @@ msgstr "For day {no} · {0}"
 msgid "search.clipboard.eyebrow"
 msgstr "From your clipboard"
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.kids"
+msgstr "Good with kids"
+
 #: ../../apps/mobile/src/features/explore/search/search-screen.tsx
 msgid "search.scope.map"
 msgstr "In this area"
@@ -63,25 +148,89 @@ msgstr "In this area"
 msgid "search.row.saved"
 msgstr "In your Ideas"
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.indoor"
+msgstr "Indoors"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.late"
+msgstr "Late"
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.list"
+msgstr "List"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.local"
+msgstr "Local"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.meal.lunch"
+msgstr "Lunch"
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.map"
+msgstr "Map"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.market"
+msgstr "Markets"
+
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
 msgid "search.more.eyebrow"
 msgstr "More places"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.museum"
+msgstr "Museums"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.nature"
+msgstr "Nature"
 
 #: ../../apps/mobile/src/features/explore/search/search-screen.tsx
 msgid "search.scope.place"
 msgstr "Near {place}"
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.nightlife"
+msgstr "Nightlife"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.notDays"
+msgstr "Not {days}"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.openPast"
+msgstr "Open past {time}"
+
+#: ../../apps/mobile/src/features/explore/search/plain-section.tsx
+msgid "search.plain.openTill"
+msgstr "Open till {time}"
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.eyebrow"
 msgstr "Or browse"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.outdoor"
+msgstr "Outdoors"
 
 #: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
 msgid "search.clipboard.pasteLine"
 msgstr "Paste the link to add its places."
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.other"
+msgstr "Places"
+
 #: ../../apps/mobile/src/features/explore/search/name-results.tsx
 msgid "search.more.attribution"
 msgstr "Powered by Foursquare"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.quiet"
+msgstr "Quiet"
 
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.saturday"
@@ -91,6 +240,14 @@ msgstr "Saturday"
 msgid "search.field.placeholder"
 msgstr "Search {destination}, or ask {guideName}"
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.shopping"
+msgstr "Shopping"
+
+#: ../../apps/mobile/src/features/explore/search/plain-results.tsx
+msgid "search.plain.view"
+msgstr "Show as"
+
 #: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
 msgid "search.examples.dinner"
 msgstr "somewhere quiet for dinner near the stay, open late"
@@ -99,9 +256,29 @@ msgstr "somewhere quiet for dinner near the stay, open late"
 msgid "search.browse.spa"
 msgstr "Spa"
 
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.health"
+msgstr "Spa and wellness"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.sunset"
+msgstr "Sunset"
+
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.temples"
 msgstr "Temples"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.category.temple"
+msgstr "Temples"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.price"
+msgstr "Up to {level}"
+
+#: ../../apps/mobile/src/features/explore/search/chip-row.tsx
+msgid "search.chip.attr.vegetarian"
+msgstr "Vegetarian"
 
 #: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
 msgid "search.browse.waterfalls"
