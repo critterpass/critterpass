@@ -66,13 +66,19 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'plan-add-query'
 - inputText: 'My Son'
-# Mỹ Sơn must be among the destination's places; nothing else will do.
+# Mỹ Sơn must be among the destination's places; nothing else will do. The results scroll inside
+# the sheet, and with the keyboard up only the first rows show, so close it and scroll to the row.
 - extendedWaitUntil:
     visible:
       id: 'plan-add-place-.*'
-      text: '(?i).*m[ỹy] s[ơo]n.*'
     timeout: 20000
 - hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'plan-add-place-.*'
+      text: '(?i).*m[ỹy] s[ơo]n.*'
+    direction: DOWN
+    timeout: 20000
 - tapOn:
     id: 'plan-add-place-.*'
     text: '(?i).*m[ỹy] s[ơo]n.*'
