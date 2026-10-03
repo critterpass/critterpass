@@ -10,6 +10,7 @@ import {
   buildGuideChatRequest,
   GUIDE_CHAT_ROUTE,
   hasOwnGuide,
+  logToolMarkup,
   packFor,
   runTurn,
   type GuideHistoryTurn,
@@ -23,7 +24,7 @@ import {
   queuedAnswerJobSchema,
 } from '@cp/domain';
 
-import { defineJob } from '../../boss';
+import { defineJob, type JobLogger } from '../../boss';
 import { privacyRedactionKeys } from '../../obs/logger';
 import { registerNotification } from '../notify/register';
 import { reserveGuideAnswer } from './meter';
@@ -87,6 +88,7 @@ export async function answerQueuedQuestion(
   runtime: GuideRuntime,
   q: DueQuestion,
   now: Date,
+  logger?: Pick<JobLogger, 'warn'>,
 ): Promise<Outcome> {
   let meter;
   try {
@@ -134,7 +136,12 @@ export async function answerQueuedQuestion(
       tool: { uid: q.user_id, tripId: q.trip_id, crewId: q.crew_id, caller: 'C' },
       usage: { userId: q.user_id, tripId: q.trip_id },
     },
-    { gateway: runtime.gateway, registry: runtime.registry, meter },
+    {
+      gateway: runtime.gateway,
+      registry: runtime.registry,
+      meter,
+      ...(logger === undefined ? {} : { hooks: { onToolMarkup: logToolMarkup(logger) } }),
+    },
   )) {
     if (event.type === 'token') text += event.text;
     if (event.type === 'done') {
@@ -232,11 +239,11 @@ export function queuedAnswerJob(runtime: GuideRuntime, clock: () => Date = () =>
   return defineJob({
     queue: GUIDE_QUEUES.queuedAnswer,
     schema: queuedAnswerJobSchema,
-    async handler() {
+    async handler(_data, ctx) {
       const now = clock();
       const counts: Record<Outcome, number> = { answered: 0, waiting: 0, failed: 0 };
       for (const question of await dueQuestions(runtime, now)) {
-        counts[await answerQueuedQuestion(runtime, question, now)] += 1;
+        counts[await answerQueuedQuestion(runtime, question, now, ctx.logger)] += 1;
       }
       return counts;
     },

@@ -16,7 +16,7 @@ export function guideMentionJob(runtime: GuideRuntime) {
     queue: GUIDE_QUEUES.mention,
     schema: guideMentionJobSchema,
     singletonKey: (data) => data.event_id,
-    async handler(data) {
+    async handler(data, ctx) {
       const { rows } = await withSystem(runtime.pool, (tx) =>
         tx.query<{ message_id: string | null }>(
           "SELECT payload->>'message_id' AS message_id FROM app.domain_event_for_routing($1)",
@@ -28,7 +28,7 @@ export function guideMentionJob(runtime: GuideRuntime) {
       try {
         await runtime.assertRouteOn('guide.crew_mention');
         const prepared = await prepareCrewMention(
-          crewTurnPorts(runtime),
+          crewTurnPorts(runtime, ctx.logger),
           messageId,
           generateUuidV7(),
         );
