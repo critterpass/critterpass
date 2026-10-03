@@ -23,7 +23,7 @@ export const mediaPurposeSchema = z.enum(MEDIA_PURPOSES);
  * audio and recap narration. Their keys use the same layout and `media_objects` rows, so read URLs
  * follow the same rules.
  */
-export const SERVER_MEDIA_PURPOSES = ['phrase_audio', 'recap_audio'] as const;
+export const SERVER_MEDIA_PURPOSES = ['phrase_audio', 'recap_audio', 'album_export'] as const;
 export type MediaPurpose = z.infer<typeof mediaPurposeSchema>;
 
 const MiB = 1024 * 1024;

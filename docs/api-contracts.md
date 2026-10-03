@@ -390,10 +390,12 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 | `retry_recap` (doc delta) | `{trip_id}` (a traveller of an ended trip whose recap failed or never built; queues `recap.build`) | participant | – | – | A | 43 |
 | `react_memory` | `{memory_id, emoji?, text?}` (doc delta: an emoji, a line ≤ 40 characters or both; one per traveller, replaced; published on `memory:{id}`; a traveller who left the crew keeps theirs) | traveller | – | `memory.reacted` | A, O, N | 43 |
 | `start_reunion` | `{memory_id, trip_id?}` → poll with destination pre-pitched (doc delta: the same pitch as from search: the open board, a new vote under the app's `trip_id`, or the queue) | crew | – | `poll.created` | A | 43 |
-| `register_photo` | `{trip_id, media_key, sha256, taken_at, dims, faces_opt_in}` (after presigned PUT) | participant | – | `photo.added` → thumbnails/curation | A, O | 44 |
+| `register_photo` | `{photo_id, trip_id, media_key, sha256, phash?, taken_at?, width?, height?, quality?, exif_gps_stripped, faces_opt_in}` (after presigned PUT; doc delta: the app's own `photo_id`; the caller's own `photo` upload only; the same SHA-256 in a trip registers once and answers `duplicate_of`) | traveller | – | `photo.added` → `album.process_photo`, recap re-run | A, O | 44 |
 | `delete_photo` | `{photo_id}` | owner / organiser | – | `photo.deleted` | A, O | 44 |
-| `set_album_pick` | `{photo_id, picked}` | participant | – | `album.pick_changed` | A, O | 44 |
-| `request_album_export` | `{trip_id}` | participant | – | `album.export_requested` | A | 44 |
+| `set_album_pick` | `{photo_id, picked}` (doc delta: overrides the guide's pick either way; `trip_album` `photo.picked`) | participant | – | `album.pick_changed` | A, O | 44 |
+| `tag_self_in_photo` (doc delta) | `{photo_id, on, source: manual\|self_match}` (the caller only; no face data) | participant | – | – | A, O | 44 |
+| `set_album_auto_ingest` (doc delta) | `{trip_id, on}` | participant | – | – | A, O | 44 |
+| `request_album_export` | `{trip_id, export_id}` (doc delta: the app's export id; the zip is the caller's own media, 7 d, on `album_exports`) | participant | – | `album.export_requested` → `album.export` | A | 44 |
 | `create_postcard` / `edit_postcard` | `{trip_id, format, photo_id, note}` / `{postcard_id, patch}` | participant | – | `postcard.saved` | A, O | 44 |
 | `send_postcard` (digital) | `{postcard_id, to_uids[]}` | participant | – | `postcard.sent` | A | 44 |
 | `mail_postcard` (print) | `{postcard_id}` (addresses from C3, crew consent) | participant | Pass+, 1/trip quota | `postcard.ordered` → print job | A | 44 |

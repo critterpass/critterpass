@@ -292,3 +292,4 @@ export * from './you';
 export * from './safety';
 export * from './account';
 export * from './recap';
+export * from './album';

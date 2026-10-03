@@ -34,6 +34,7 @@ import { seedProposalRows } from './proposal-fixture';
 import { seedCritterRows } from './critters-fixture';
 import { seedQuestRows } from './quests-fixture';
 import { seedRecapRows } from './recap-fixture';
+import { seedAlbumRows } from './album-fixture';
 import { seedSetupRows } from './setup-fixture';
 import {
   insertChangeSet,
@@ -476,6 +477,7 @@ export async function buildPermissionFixture(pool: pg.Pool): Promise<PermissionF
     await seedCritterRows(tx, { tripId, organiser, member });
     await seedQuestRows(tx, { tripId, crewId, organiser });
     await seedRecapRows(tx, { tripId, crewId, organiser, coOrganiser, member });
+    await seedAlbumRows(tx, { tripId, organiser, member });
 
     const opId = crypto.randomUUID();
     await claimOpId(tx, { opId, uid: member, cmd: 'matrix_probe', payloadHash: 'h' });

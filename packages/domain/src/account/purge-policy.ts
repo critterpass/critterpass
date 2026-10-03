@@ -124,6 +124,14 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.stamp_signatures', ['signer_id', del]),
   ...rules('public.anniversaries', ['user_id', del]),
   ...rules('public.stamps', ['user_id', del]),
+  // Album: the uploader's photos go (their bytes with the media manifest), with their picks and tags;
+  // their own tags, settings, exports and address go too.
+  ...rules('public.album_picks', ['picker_id', nul]),
+  ...rules('public.photo_people', ['user_id', del]),
+  ...rules('public.photos', ['uploader_id', del]),
+  ...rules('public.album_prefs', ['user_id', del]),
+  ...rules('public.album_exports', ['user_id', del]),
+  ...rules('public.mailing_addresses', ['user_id', del]),
   ...rules('public.taste_profiles', ['user_id', del]),
   ...rules('public.passes', ['user_id', del]),
   ...rules('public.avatars', ['user_id', del]),
@@ -215,6 +223,8 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.readiness', ['user_id', keep(CREW)]),
   // A recap award (counts only, no personal data) and a memory or reaction stay crew history.
   ...rules('public.recap_awards', ['user_id', keep(CREW)]),
+  ...rules('public.postcards', ['created_by', keep(CREW)]),
+  ...rules('public.postcard_mailings', ['payer_id', keep(BILLING)]),
   ...rules('public.memories', ['author_id', keep(CREW)]),
   ...rules('public.memory_reactions', ['user_id', keep(CREW)]),
   ...rules(

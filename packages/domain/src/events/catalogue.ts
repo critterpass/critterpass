@@ -39,6 +39,7 @@ import { ACCOUNT_EVENT_PAYLOADS, ACCOUNT_EVENT_TYPES } from '../account/events';
 import { PROFILE_FIELDS } from '../you/profile';
 import { SAFETY_EVENT_PAYLOADS, SAFETY_EVENT_TYPES } from '../safety/events';
 import { RECAP_EVENT_PAYLOADS, RECAP_EVENT_TYPES } from '../recap/events';
+import { ALBUM_EVENT_PAYLOADS, ALBUM_EVENT_TYPES } from '../album/events';
 
 export const DOMAIN_EVENT_TYPES = [
   'crew.member_joined',
@@ -92,6 +93,7 @@ export const DOMAIN_EVENT_TYPES = [
   ...SAFETY_EVENT_TYPES,
   ...ACCOUNT_EVENT_TYPES,
   ...RECAP_EVENT_TYPES,
+  ...ALBUM_EVENT_TYPES,
 ] as const;
 export const domainEventTypeSchema = z.enum(DOMAIN_EVENT_TYPES);
 export type DomainEventType = z.infer<typeof domainEventTypeSchema>;
@@ -209,6 +211,7 @@ const DOMAIN_EVENT_CATALOGUE = {
   ...SAFETY_EVENT_PAYLOADS,
   ...ACCOUNT_EVENT_PAYLOADS,
   ...RECAP_EVENT_PAYLOADS,
+  ...ALBUM_EVENT_PAYLOADS,
 } as const satisfies Record<DomainEventType, z.ZodType>;
 
 export function getDomainEventPayloadSchema(type: DomainEventType): z.ZodType {

@@ -208,3 +208,13 @@ export {
   recapViews,
   stampSignatures,
 } from './recap';
+export {
+  albumExports,
+  albumPicks,
+  albumPrefs,
+  mailingAddresses,
+  photoPeople,
+  photos,
+  postcardMailings,
+  postcards,
+} from './album';
