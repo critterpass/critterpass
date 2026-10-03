@@ -80,7 +80,7 @@ describe('useTripIdeas', () => {
     );
     await s.db.execute(
       `INSERT INTO plan_items (id, version_id, day_id, trip_id, stable_id, poi_id, custom_place)
-       VALUES ('pi-1', ?, 'd1', ?, 's1', ?, NULL), ('pi-2', ?, 'd1', ?, 's2', NULL, ?)`,
+       VALUES ('pi-1', ?, 'day-one', ?, 'stop-one', ?, NULL), ('pi-2', ?, 'day-one', ?, 'stop-two', NULL, ?)`,
       [
         V1,
         TRIP,
