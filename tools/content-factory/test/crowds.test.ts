@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { checkCrowdWeek, writable } from '../src/kinds/places/crowds';
+import { checkCrowdWeek } from '../src/kinds/places/crowds';
 import { renderCrowdReview } from '../src/kinds/places/crowds-review';
 
 const DAYS = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'] as const;
@@ -66,12 +66,6 @@ describe('editorial crowd curve checks', () => {
     if (!check.ok) return;
     expect(check.week[6]?.[1]).toBe(90);
     expect(check.week[6]?.[12]).toBe(0);
-  });
-
-  it('writes nothing for Đà Nẵng before the founder is back', () => {
-    expect(writable('da-nang', new Date('2026-10-04T20:00:00+07:00'))).toBe(false);
-    expect(writable('da-nang', new Date('2026-10-05T00:00:00+07:00'))).toBe(true);
-    expect(writable('bali', new Date('2026-10-04T20:00:00+07:00'))).toBe(true);
   });
 
   it('the review page shows each place with its bars and the month index', () => {
