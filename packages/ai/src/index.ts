@@ -295,3 +295,4 @@ export * from './routes/sos';
 export * from './routes/hours-research';
 export * from './routes/search-parse';
 export * from './routes/link-extract';
+export * from './routes/place-compromise';

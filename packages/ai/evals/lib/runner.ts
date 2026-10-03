@@ -34,6 +34,7 @@ import { HELP_SUITE, runHelpSuite } from '../help/suite';
 import { SOS_SUITE, runSosSuite } from '../sos/suite';
 import { HOURS_RESEARCH_SUITE, runHoursResearchSuite } from '../hours-research/suite';
 import { LINK_EXTRACT_SUITE, runLinkExtractSuite } from '../link-extract/suite';
+import { PLACE_COMPROMISE_SUITE, runPlaceCompromiseSuite } from '../place-compromise/suite';
 import { runSearchParseSuite, SEARCH_PARSE_SUITE } from '../search-parse/suite';
 import { runCase, type EvalMode, type EvalOutput, type Pipeline } from './provider';
 import { EVALS_DIR, loadSuite, type Assertion, type CaseVars, type EvalCase } from './suite';
@@ -272,6 +273,7 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
   if (name === HOURS_RESEARCH_SUITE) return runHoursResearchSuite(options, threshold);
   if (name === SEARCH_PARSE_SUITE) return runSearchParseSuite(options, threshold);
   if (name === LINK_EXTRACT_SUITE) return runLinkExtractSuite(options, threshold);
+  if (name === PLACE_COMPROMISE_SUITE) return runPlaceCompromiseSuite(options, threshold);
   if (name === DRAFT_SUITE) {
     return runDraftSuite(
       {

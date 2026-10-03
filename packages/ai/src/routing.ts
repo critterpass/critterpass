@@ -259,6 +259,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'search.parse': fast(null, 400, { output: 'structured', temperature: 0 }),
   // Planning: up to ten place mentions read from a post's text or a screenshot's OCR lines.
   'links.extract_places': fast(null, 1536, { output: 'structured', temperature: 0 }),
+  // Planning: the guide picks and words two of code's options for a crew split on a place.
+  'places.compromise': pro(null, 4096, 'low', { output: 'structured', cacheLayers: PLAIN_LAYERS }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
