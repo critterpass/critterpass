@@ -4,7 +4,7 @@ import * as audio from 'expo-audio';
 import { currentAudioSessionCategory, resetAudioSessionForTests } from '@/motion/feedback';
 import type { MockAudioPlayer } from '@/motion/test-support/expo-audio-mock';
 
-import { deviceVoicePlayer } from '../voice-player';
+import { deviceVoicePlayer, voiceFileName } from '../voice-player';
 
 function created(): { player: MockAudioPlayer; restore: () => void } {
   const real = audio.createAudioPlayer;
@@ -51,5 +51,28 @@ describe('voice note playback on the device', () => {
     voice.release();
     expect(currentAudioSessionCategory()).toBe('ambient');
     probe.restore();
+  });
+
+  it('starts a note over from the beginning once it has played to the end', async () => {
+    const probe = created();
+    const voice = deviceVoicePlayer('file:///cache/chat_voice/note.m4a');
+    voice.play();
+    probe.player.currentTime = 4.2;
+    probe.player.pause();
+    probe.player.emit('playbackStatusUpdate', { didJustFinish: true });
+    voice.play();
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(probe.player.currentTime).toBe(0);
+    expect(probe.player.playing).toBe(true);
+    expect(currentAudioSessionCategory()).toBe('playback');
+    voice.release();
+    probe.restore();
+  });
+
+  it('keeps one flat cache file per media key, named as MPEG-4 audio', () => {
+    expect(voiceFileName('u/0192f000-0000-7000-8000-0000000000a1/voice/01J9')).toBe(
+      'u_0192f000-0000-7000-8000-0000000000a1_voice_01J9.m4a',
+    );
   });
 });

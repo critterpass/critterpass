@@ -68,7 +68,16 @@ export interface ChatMediaServices {
   readonly sha256: (bytes: Uint8Array) => Promise<string>;
   readonly http: MediaHttp;
   readonly recorder: VoiceRecorderPort;
-  readonly createPlayer: (url: string) => PlayerPort;
+  /**
+   * A voice note's audio as a local file: the saved copy, else downloaded once from the signed URL
+   * `signedUrl` mints; null when it cannot be fetched.
+   */
+  readonly audioFile: (
+    key: string,
+    signedUrl: () => Promise<string | null>,
+  ) => Promise<string | null>;
+  /** A player for a local audio file. */
+  readonly createPlayer: (uri: string) => PlayerPort;
   readonly openSettings: () => void;
 }
 

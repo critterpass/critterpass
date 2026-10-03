@@ -15,6 +15,8 @@ export interface RecordedMediaApi {
   /** Media keys minted, in order. */
   readonly keys: string[];
   refusePresign: boolean;
+  /** Read URLs answer 404, as for a key the caller may not read. */
+  refuseReads: boolean;
   readUrlFor(key: string): string;
 }
 
@@ -25,6 +27,7 @@ export function recordedMediaApi(): RecordedMediaApi {
     calls,
     keys,
     refusePresign: false,
+    refuseReads: false,
     readUrlFor: (key) => `https://media.test/r/${encodeURIComponent(key)}?sig=abc`,
     http: {
       postJson(path, body) {
@@ -71,6 +74,12 @@ export function recordedMediaApi(): RecordedMediaApi {
           return Promise.resolve({ status: 200, body: { media_key: keys.at(-1), bytes: 1 } });
         }
         if (path === '/v1/media/read-urls') {
+          if (api.refuseReads) {
+            return Promise.resolve({
+              status: 404,
+              body: { error: { code: 'NOT_FOUND', message: 'not found', retryable: false } },
+            });
+          }
           const requested = (body as { media_keys: string[] }).media_keys;
           return Promise.resolve({
             status: 200,
@@ -97,9 +106,22 @@ export function recordedMediaApi(): RecordedMediaApi {
   return api;
 }
 
+/** A player the double made: what it plays and where it stands (a test moves `at`). */
+export interface PlayerDouble {
+  url: string;
+  rate: number;
+  playing: boolean;
+  /** Seconds played. */
+  at: number;
+  /** Seconds long; 0 until "loaded". */
+  duration: number;
+}
+
 export interface DeviceDouble extends ChatMediaServices {
   readonly picked: string[];
-  readonly players: { url: string; rate: number; playing: boolean }[];
+  readonly players: PlayerDouble[];
+  /** Signed URLs voice notes were downloaded from, in order. */
+  readonly downloads: string[];
 }
 
 export function deviceDouble(
@@ -107,11 +129,14 @@ export function deviceDouble(
   options: { readonly camera?: 'denied'; readonly mic?: 'denied' } = {},
 ): DeviceDouble {
   const picked: string[] = [];
-  const players: { url: string; rate: number; playing: boolean }[] = [];
+  const players: PlayerDouble[] = [];
+  const downloads: string[] = [];
+  const saved = new Set<string>();
   let recording = false;
   return {
     picked,
     players,
+    downloads,
     http: api.http,
     pickPhotos(source): Promise<PickOutcome> {
       picked.push(source);
@@ -140,8 +165,17 @@ export function deviceDouble(
       },
       level: () => (recording ? 0.6 : 0),
     },
+    async audioFile(key, signedUrl) {
+      const file = `file:///cache/chat_voice/${key.replace(/\//gu, '_')}.m4a`;
+      if (saved.has(key)) return file;
+      const url = await signedUrl();
+      if (url === null) return null;
+      downloads.push(url);
+      saved.add(key);
+      return file;
+    },
     createPlayer(url) {
-      const state = { url, rate: 1, playing: false };
+      const state: PlayerDouble = { url, rate: 1, playing: false, at: 0, duration: NOTE_SECONDS };
       players.push(state);
       return {
         play: () => {
@@ -153,7 +187,7 @@ export function deviceDouble(
         setRate: (rate) => {
           state.rate = rate;
         },
-        position: () => ({ current: 0, duration: NOTE_SECONDS }),
+        position: () => ({ current: state.at, duration: state.duration }),
         playing: () => state.playing,
         release: () => undefined,
       };
