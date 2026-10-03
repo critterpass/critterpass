@@ -1,7 +1,7 @@
 ---
 phase: 3
 title: Travel times and stored legs
-status: in progress
+status: done
 depends_on: [2]
 wave: 2
 screens: [7a-1, 7a-2, 7b-1, 7b-2, 7i-2]
@@ -121,7 +121,7 @@ Reuse / extend / new: reuse `RoutingProvider`, `estimateStraightLineEta`, the sp
 - Steps: 1. `route_eta` executor for C/D callers. 2. Fit context reads `plan_legs` for stop pairs and the planning provider for place insertions (replacing phase 4's straight-line source). 3. Live map, SOS responder ETA and recap use the shared client (each only after its full-build phase is done).
 - Tests: `pnpm --filter @cp/ai eval -- guide` (route_eta cases); `pnpm --filter @cp/api test -- planning/fit` (travel source)
 - Done when: the guide answers "how long from the villa to X" with planning minutes; fit uses stored legs when present.
-- Status: in progress — #602: `route_eta` on planning travel, live map / recap / SOS on the shared client; fit context reads stored legs once phase 4 lands
+- Status: done — #602 (`route_eta` on planning travel; fit reads stored legs and tries places on planning travel with the booked-stay rule; the plan check, live map, recap and SOS share the stay rule or the Valhalla client)
 
 ## If the founder picks another option
 
