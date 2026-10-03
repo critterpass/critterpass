@@ -87,21 +87,38 @@ async function chatWithNote(attachment: object): Promise<{ id: string; media: De
   return { id, media };
 }
 
+/**
+ * Whether a screen reader can land on `node`: an `accessible` ancestor would fold it into one
+ * element, hidden from VoiceOver, TalkBack and iOS UI automation.
+ */
+interface Rendered {
+  readonly parent: Rendered | null;
+  readonly props: { readonly accessible?: boolean };
+}
+
+function reachable(node: Rendered): boolean {
+  for (let up = node.parent; up !== null; up = up.parent) {
+    if (up.props.accessible === true) return false;
+  }
+  return true;
+}
+
 describe('voice note playback', () => {
   it('plays a local copy of the signed URL and shows its progress', async () => {
-    const { id, media } = await chatWithNote(foundersNote);
-    await fireEvent.press(await screen.findByTestId(`chat-voice-play-${id}`));
+    const { media } = await chatWithNote(foundersNote);
+    // Reached the way a screen reader (and iOS UI automation) reaches it: its own button.
+    const play = await screen.findByRole('button', { name: 'Play voice note' });
+    expect(reachable(play as unknown as Rendered)).toBe(true);
+    await fireEvent.press(play);
     await waitFor(() => expect(media.players[0]?.playing).toBe(true));
     expect(media.downloads).toEqual([api.readUrlFor(ORIGINAL)]);
     expect(media.players[0]?.url).toMatch(/^file:\/\/\/.*\.m4a$/u);
-    expect(screen.getByLabelText('Pause voice note')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Pause voice note' })).toBeTruthy();
     const player = media.players[0];
     if (player === undefined) throw new Error('no player');
     // 1.2 s into the 4.2 s note: the player's length stands in for the attachment's, 3 s left.
     player.at = 1.2;
-    await waitFor(() =>
-      expect(screen.getByTestId(`chat-voice-time-${id}`)).toHaveTextContent('0:03'),
-    );
+    await waitFor(() => expect(screen.getByText('0:03')).toBeTruthy());
   });
 
   it('starts over once the note has played to the end', async () => {

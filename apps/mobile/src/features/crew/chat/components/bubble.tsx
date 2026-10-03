@@ -7,7 +7,7 @@
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
-import { useWindowDimensions, View } from 'react-native';
+import { useWindowDimensions, View, type AccessibilityActionEvent } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -19,7 +19,7 @@ import { Avatar } from '@/ui/people/Avatar';
 import { Row, Stack, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
-import { cardLabel, renderCard } from '../cards/registry';
+import { renderCard } from '../cards/registry';
 import { SystemCard } from '../cards/system-card';
 import type { ChatMessage } from '../data/rows';
 import { firstName } from '../data/use-typing';
@@ -127,7 +127,6 @@ export function Bubble(props: BubbleProps) {
   const custom = card
     ? (props.renderBody ?? ((m: ChatMessage) => renderCard(m, mine)))(message)
     : null;
-  const label = card ? (cardLabel(message) ?? spoken) : spoken;
   const a11yActions = [
     ...(props.onReply === undefined
       ? []
@@ -175,15 +174,23 @@ export function Bubble(props: BubbleProps) {
             <Animated.View style={swipe.style}>
               <GestureDetector gesture={longPress.gesture}>
                 <View
-                  style={custom === null ? undefined : [styles.cardSlot, { width: cardWidth }]}
-                  {...(custom === null ? {} : { testID: `chat-card-slot-${message.id}` })}
-                  accessible
-                  accessibilityLabel={label}
-                  accessibilityActions={a11yActions}
-                  onAccessibilityAction={(event) => {
-                    if (event.nativeEvent.actionName === 'reply') props.onReply?.();
-                    if (event.nativeEvent.actionName === 'actions') props.onActions?.();
-                  }}
+                  {...(custom === null
+                    ? {
+                        // A text bubble reads as one line: who, when and what, with its actions.
+                        accessible: true,
+                        accessibilityLabel: spoken,
+                        accessibilityActions: a11yActions,
+                        onAccessibilityAction: (event: AccessibilityActionEvent) => {
+                          if (event.nativeEvent.actionName === 'reply') props.onReply?.();
+                          if (event.nativeEvent.actionName === 'actions') props.onActions?.();
+                        },
+                      }
+                    : {
+                        // A card keeps its own controls (play, VIEW, vote) reachable: grouping it
+                        // into one element would hide them from VoiceOver and TalkBack.
+                        style: [styles.cardSlot, { width: cardWidth }],
+                        testID: `chat-card-slot-${message.id}`,
+                      })}
                 >
                   {custom ?? (
                     <Stack

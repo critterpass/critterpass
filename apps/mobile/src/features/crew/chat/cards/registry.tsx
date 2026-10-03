@@ -60,8 +60,3 @@ export function renderCard(message: ChatMessage, mine: boolean): ReactNode {
   if (renderer === undefined) return createElement(UnknownCard, { message });
   return createElement(renderer.Component, { message, mine });
 }
-
-/** The screen-reader line for a non-text message. */
-export function cardLabel(message: ChatMessage): string | null {
-  return chatCard(message.type)?.a11yLabel(message) ?? null;
-}
