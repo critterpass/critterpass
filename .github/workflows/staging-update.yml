@@ -5,6 +5,8 @@ name: staging-update
 # Runs on GitHub's network, so a slow uplink on the founder's Mac never stalls an update.
 #   gh workflow run staging-update.yml -f ref=main -f ios_build_id=<id> [-f android_build_id=<id>] -f message="..."
 on:
+  push:
+    branches: [ci/staging-update-from-actions]
   workflow_dispatch:
     inputs:
       ref:
@@ -37,6 +39,7 @@ env:
 jobs:
   publish:
     name: publish ${{ inputs.ref }}
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
