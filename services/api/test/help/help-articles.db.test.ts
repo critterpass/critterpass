@@ -87,10 +87,10 @@ beforeAll(async () => {
   const releaseId = generateUuidV7();
   await h.rows(
     `INSERT INTO content_releases (id, kind, version, batch_key, title, status, stage, checksum,
-       artifact, item_count)
+       artifact, item_count, approved_by, approved_at, published_at)
      VALUES ($1, 'help', 1, 'help-search-test', 'Help', 'published', 'publish', repeat('0', 64),
-       '{}', $2)`,
-    [releaseId, ARTICLES.length],
+       '{}', $2, $3, now(), now())`,
+    [releaseId, ARTICLES.length, me.uid],
   );
   for (const article of ARTICLES) {
     await h.rows(
