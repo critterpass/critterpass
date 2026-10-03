@@ -122,8 +122,12 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'new-poll-option-1'
 - inputText: 'Ramen'
-# POST sits under the keyboard: return closes it (iOS keeps it up through hideKeyboard here).
-- pressKey: Enter
+# POST sits under the keyboard: return closes it on iOS (it keeps it up through hideKeyboard).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - pressKey: Enter
 - runFlow:
     when:
       platform: Android
