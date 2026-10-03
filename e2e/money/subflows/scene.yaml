@@ -2,6 +2,19 @@ appId: app.critterpass.dev
 ---
 # Opens one money lab scene (apps/mobile/src/app/(dev)/money-lab.tsx), waits for `${READY}`, takes
 # `${SHOT}` and goes back to the list (Android back; iOS drags back from the edge or reopens the lab).
+# The list keeps its place between scenes, and a scene can sit above the last one opened (scan-aim
+# is listed before scan-failure): look up first, then down.
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-lab-${SCENE}'
+    commands:
+      - scrollUntilVisible:
+          element:
+            id: 'money-lab-${SCENE}'
+          direction: UP
+          timeout: 10000
+          optional: true
 - scrollUntilVisible:
     element:
       id: 'money-lab-${SCENE}'
