@@ -86,6 +86,10 @@ async function isApplied(client: pg.PoolClient, filename: string): Promise<boole
 
 async function applyMigration(client: pg.PoolClient, migrationsDir: string, filename: string) {
   const sql = await readFile(path.join(migrationsDir, filename), 'utf8');
+  if (sql.split('\n', 1)[0]?.trim() === NO_TRANSACTION_MARKER) {
+    await applyWithoutTransaction(client, sql, filename);
+    return;
+  }
   await client.query('BEGIN');
   try {
     // A pooled connection (PgBouncer transaction mode) can carry a session-level search_path set by
@@ -100,9 +104,72 @@ async function applyMigration(client: pg.PoolClient, migrationsDir: string, file
   }
 }
 
+/** First line of a migration that must run outside a transaction (`CREATE INDEX CONCURRENTLY`). */
+const NO_TRANSACTION_MARKER = '-- migrate:no-transaction';
+const CONCURRENT_INDEX =
+  /^CREATE\s+(?:UNIQUE\s+)?INDEX\s+CONCURRENTLY\s+IF\s+NOT\s+EXISTS\s+(\w+)\s/iu;
+
+/**
+ * Splits a no-transaction migration into its statements: full-line `--` comments are dropped and a
+ * statement ends with a `;` at the end of a line. Dollar-quoted bodies are refused rather than
+ * split wrongly; they belong in an ordinary (transactional) migration.
+ */
+export function splitMigrationStatements(sql: string): string[] {
+  if (sql.includes('$$')) {
+    throw new Error('a no-transaction migration cannot contain dollar-quoted bodies');
+  }
+  const body = sql
+    .split('\n')
+    .filter((line) => !line.trimStart().startsWith('--'))
+    .join('\n');
+  return body
+    .split(/;[ \t]*(?:\n|$)/u)
+    .map((statement) => statement.trim())
+    .filter((statement) => statement !== '');
+}
+
+/**
+ * A failed `CREATE INDEX CONCURRENTLY` leaves an INVALID index behind, which `IF NOT EXISTS` would
+ * then skip: drop it (concurrently, so writes carry on) so the retry builds it again.
+ */
+async function dropInvalidIndex(client: pg.PoolClient, statement: string): Promise<void> {
+  const name = CONCURRENT_INDEX.exec(statement)?.[1];
+  if (name === undefined) return;
+  const { rowCount } = await client.query(
+    `SELECT 1 FROM pg_index i JOIN pg_class c ON c.oid = i.indexrelid
+     JOIN pg_namespace n ON n.oid = c.relnamespace
+     WHERE n.nspname = 'public' AND c.relname = $1 AND NOT i.indisvalid`,
+    [name],
+  );
+  if ((rowCount ?? 0) > 0) {
+    await client.query(`DROP INDEX CONCURRENTLY IF EXISTS public.${client.escapeIdentifier(name)}`);
+  }
+}
+
+/**
+ * Runs each statement on its own (autocommit) and records the file only once all of them succeed,
+ * so a failed run is retried from the top: every statement must be idempotent (`IF NOT EXISTS`).
+ */
+async function applyWithoutTransaction(client: pg.PoolClient, sql: string, filename: string) {
+  // Session-level here (no transaction to scope `SET LOCAL`); reset before the client goes back.
+  await client.query('SET search_path TO public');
+  try {
+    for (const statement of splitMigrationStatements(sql)) {
+      await dropInvalidIndex(client, statement);
+      await client.query(statement);
+    }
+    await client.query(`INSERT INTO ${MIGRATIONS_TABLE} (filename) VALUES ($1)`, [filename]);
+  } catch (error) {
+    throw new Error(`migration "${filename}" failed: ${String(error)}`, { cause: error });
+  } finally {
+    await client.query('RESET search_path').catch(() => undefined);
+  }
+}
+
 /**
  * Applies every `packages/db/migrations/*.sql` file not yet recorded in `_migrations`, one
- * transaction per file, in filename order. Re-running is a no-op once every file is recorded:
+ * transaction per file (or, for a file starting with `-- migrate:no-transaction`, one autocommit
+ * statement at a time), in filename order. Re-running is a no-op once every file is recorded:
  * that is what "idempotent" means for this runner, not that every individual statement inside a
  * migration is idempotent (some intentionally are, e.g. the guarded publication DO block).
  */
