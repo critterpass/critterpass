@@ -125,3 +125,19 @@ describe('gap ideas', () => {
     ]);
   });
 });
+
+describe('gap ideas wait for opening time', () => {
+  it('a place that opens after the window starts is visited from its opening', () => {
+    const saturday = dayGaps(BALI, BALI.days[4]!)[0]!;
+    const late: GapCandidate = {
+      place: place(MARKET, POINTS.market, ['10:00', '18:00'], 60),
+      source: 'curated',
+      costEachMinor: null,
+      currency: null,
+      saverId: null,
+      votedBy: [],
+    };
+    const [idea] = gapIdeas(BALI, saturday, [late]);
+    expect(idea).toMatchObject({ kind: 'single', poi_ids: [MARKET], minutes: 60 });
+  });
+});

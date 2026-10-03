@@ -4,7 +4,7 @@
  * is open for the whole visit, the travel from where the people are and on to the next item fits,
  * and rain is not likely over an outdoor visit.
  */
-import { openSpans, openThrough, visitMinutes, type FitReason, type GapIdea } from '@cp/domain';
+import { openSpans, visitMinutes, type FitReason, type GapIdea } from '@cp/domain';
 
 import { ceilGrid } from '../draft/day-minutes';
 import { usualHours } from '../draft/open-data';
@@ -57,14 +57,17 @@ function visit(
   const { place } = candidate;
   const here = placeStop(place);
   const legIn = from === null ? null : travel(from, here);
-  const start = ceilGrid(earliest + (legIn?.minutes ?? 0));
-  const end =
-    start + visitMinutes({ category: place.category, timeNeededMin: place.timeNeededMin ?? null });
-  const span = openThrough(
-    openSpans(place.hours ?? usualHours(place.category), entry.model.day.date),
-    start,
-    end,
-  );
+  const arrives = ceilGrid(earliest + (legIn?.minutes ?? 0));
+  const length = visitMinutes({
+    category: place.category,
+    timeNeededMin: place.timeNeededMin ?? null,
+  });
+  const spans = openSpans(place.hours ?? usualHours(place.category), entry.model.day.date);
+  // The first opening at or after arrival that holds the whole visit.
+  const span =
+    spans.find((open) => Math.max(arrives, ceilGrid(open.start)) + length <= open.end) ?? null;
+  const start = span === null ? arrives : Math.max(arrives, ceilGrid(span.start));
+  const end = start + length;
   if (span === null || end > limit) return null;
   const rain = rainCheck(
     entry.model.day.rain,
