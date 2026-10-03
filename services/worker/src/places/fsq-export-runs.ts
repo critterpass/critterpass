@@ -20,8 +20,10 @@ import {
   attachFsqCatalog,
   FSQ_ICEBERG_TABLE,
   FSQ_OS_ROW_FILTER,
+  optionalText,
   sqlString,
   withDuckDb,
+  withoutNul,
   type BoundingBox,
   type PlaceSourceReader,
   type PlaceSourceRow,
@@ -123,16 +125,16 @@ export async function readRowsForTargets(
   );
   return reader.getRowObjectsJson().map((row) => ({
     slug: String(row['slug'] as string),
-    sourceId: String(row['id'] as string),
-    name: String(row['name'] as string),
+    sourceId: withoutNul(String(row['id'] as string)),
+    name: withoutNul(String(row['name'] as string)),
     categoryLabels: Array.isArray(row['category_labels'])
       ? (row['category_labels'] as string[])
       : [],
     lat: Number(row['lat']),
     lng: Number(row['lng']),
-    address: typeof row['address'] === 'string' ? row['address'] : undefined,
-    website: typeof row['website'] === 'string' ? row['website'] : undefined,
-    phone: typeof row['phone'] === 'string' ? row['phone'] : undefined,
+    address: optionalText(row['address']),
+    website: optionalText(row['website']),
+    phone: optionalText(row['phone']),
   }));
 }
 

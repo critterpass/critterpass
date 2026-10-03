@@ -33,6 +33,7 @@ beforeAll(async () => {
           ('fsq-kyoto-2', 'Fushimi Inari Taisha', 34.9671, 135.7727, 'Fukakusa Yabunouchicho 68', ['Shrine'], NULL, NULL, NULL, [], strftime(current_date - 200, '%Y-%m-%d')),
           ('fsq-kyoto-3', 'Closed Ramen Shop', 35.01, 135.76, 'Somewhere', ['Ramen Restaurant'], '2024-01-01', NULL, NULL, NULL, strftime(current_date - 30, '%Y-%m-%d')),
           ('fsq-kyoto-4', 'Flagged Duplicate', 35.01, 135.76, 'Somewhere', ['Cafe'], NULL, NULL, NULL, ['duplicate'], strftime(current_date - 30, '%Y-%m-%d')),
+          ('fsq-kyoto-6', 'Tea' || chr(0) || 'house', 35.02, 135.77, 'Gion' || chr(0), ['Tea Room'], NULL, NULL, NULL, NULL, strftime(current_date - 30, '%Y-%m-%d')),
           ('fsq-kyoto-5', 'Stale Teahouse', 35.01, 135.76, 'Somewhere', ['Tea Room'], NULL, NULL, NULL, NULL, strftime(current_date - 400, '%Y-%m-%d'))
         ) AS t(fsq_place_id, name, latitude, longitude, address, fsq_category_labels, date_closed,
                website, tel, unresolved_flags, date_refreshed)
@@ -84,7 +85,16 @@ describe('readFsqOsPlaces', { timeout: 60_000 }, () => {
       ]),
     );
     // Closed, flagged and stale rows are excluded even though they fall inside the bbox.
-    expect(rows.map((row) => row.sourceId).sort()).toEqual(['fsq-kyoto-1', 'fsq-kyoto-2']);
+    expect(rows.map((row) => row.sourceId).sort()).toEqual([
+      'fsq-kyoto-1',
+      'fsq-kyoto-2',
+      'fsq-kyoto-6',
+    ]);
+    // Postgres text cannot hold NUL, which open data occasionally carries.
+    expect(rows.find((row) => row.sourceId === 'fsq-kyoto-6')).toMatchObject({
+      name: 'Teahouse',
+      address: 'Gion',
+    });
   });
 
   it('excludes rows outside the requested bbox', async () => {
