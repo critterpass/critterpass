@@ -24,7 +24,7 @@ jest.mock('expo-router', () => ({
 }));
 
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { fireEvent, screen, within } from '@testing-library/react-native';
 import { router } from 'expo-router';
 
 import {
@@ -175,6 +175,11 @@ describe('inbox', () => {
     const { moved } = await seedEarlier(s);
     await renderHome(<InboxScreen />, s);
     await until(() => screen.queryByTestId(`inbox-undo-${moved}`) !== null);
+    // UNDO is its own button beside the row's, never inside it: iOS folds a button's children
+    // into one element, which left UNDO out of reach of VoiceOver.
+    expect(
+      within(screen.getByTestId(`inbox-row-${moved}`)).queryByTestId(`inbox-undo-${moved}`),
+    ).toBeNull();
     await fireEvent.press(screen.getByTestId(`inbox-undo-${moved}`));
     await until(() => toastQueue.getCurrent() !== null);
     expect(await queued(s, 'act_inbox_item')).toEqual([{ item_id: moved, action: 'undo' }]);

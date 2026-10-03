@@ -70,8 +70,9 @@ export async function emitForecastChanges(
 ): Promise<number> {
   const { rows } = await tx.query<ItemRow>(
     `SELECT t.id AS trip_id, t.crew_id, pi.stable_id, pi.starts_at, pi.ends_at,
-            coalesce(pi.tz, t.tz) AS tz, pi.is_outdoor, pi.category, p.lat, p.lng
+            coalesce(pi.tz, t.tz, d.tz) AS tz, pi.is_outdoor, pi.category, p.lat, p.lng
        FROM trips t
+       JOIN destinations d ON d.id = t.destination_id
        JOIN plan_items pi ON pi.trip_id = t.id AND pi.version_id = t.current_version_id
        LEFT JOIN pois p ON p.id = pi.poi_id
       WHERE t.destination_id = $1 AND t.status IN ('confirmed', 'pre_trip', 'in_trip')

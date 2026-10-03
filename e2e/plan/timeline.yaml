@@ -7,6 +7,8 @@ appId: app.critterpass.dev
 # A drag is hard to catch in a still, so lifted, dragging and dropped are fixed scenes; the sandbox scene
 # then proves a real drag on device: a swipe on a block's bottom edge resizes it in 15-minute steps and
 # the commit is read back. Screenshots are named <lang>-<design id>-<state> for compare mode.
+# Each scene goes back to the lab by its own back eyebrow: an edge swipe on iOS could take the whole
+# developer stack with it, back to the splash.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -43,7 +45,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-planning
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning'
@@ -65,7 +68,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-planning-lifted
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-lifted'
@@ -87,7 +91,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-planning-dragging
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-dragging'
@@ -109,7 +114,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-planning-dropped
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-dropped'
@@ -131,7 +137,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-planning-clash
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-clash'
@@ -153,7 +160,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-planning-read-only
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-read-only'
@@ -175,7 +183,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-planning-overnight
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-overnight'
@@ -208,7 +217,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: en-3e-2-planning-real-drag
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-sandbox'
@@ -230,7 +240,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-as-drawn
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-rain-ghost'
@@ -259,7 +270,8 @@ appId: app.critterpass.dev
     timeout: 1500
     optional: true
 - takeScreenshot: en-3e-2-ghost-accepted-later
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-ghost-accepted'
@@ -281,7 +293,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-remote-cursors
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-cursors'
@@ -303,7 +316,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-no-forecast
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-no-forecast'
@@ -325,28 +339,26 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3e-2-concurrent-conflict
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-conflict'
     timeout: 10000
-# Vietnamese: switch the app language in the component gallery, then the same scenes.
+# Vietnamese: switch the app language in the component gallery, then the same scenes. On iOS the
+# lab has no back of its own and the edge swipe can close the whole developer stack, back to the
+# splash: from there its entry opens the list again.
 - runFlow: ../onboarding/subflows/back.yaml
-- scrollUntilVisible:
-    element:
-      id: 'dev-nav-gallery'
-    direction: DOWN
-    timeout: 20000
-- tapOn:
-    id: 'dev-nav-gallery'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-locale-vi'
-    timeout: 15000
-- tapOn:
-    id: 'gallery-locale-vi'
+- runFlow:
+    file: subflows/dev-tools-again.yaml
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
 - runFlow: ../onboarding/subflows/back.yaml
 - waitForAnimationToEnd
+- runFlow:
+    file: subflows/dev-tools-again.yaml
 - scrollUntilVisible:
     element:
       id: 'dev-nav-plan-edit-lab'
@@ -375,7 +387,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-planning
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning'
@@ -397,7 +410,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-planning-lifted
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-lifted'
@@ -419,7 +433,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-planning-dragging
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-dragging'
@@ -441,7 +456,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-planning-dropped
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-dropped'
@@ -463,7 +479,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-planning-clash
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-clash'
@@ -485,7 +502,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-planning-read-only
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-read-only'
@@ -507,7 +525,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-planning-overnight
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-overnight'
@@ -529,7 +548,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-as-drawn
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-rain-ghost'
@@ -551,7 +571,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-ghost-accepted
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-ghost-accepted'
@@ -573,7 +594,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-remote-cursors
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-cursors'
@@ -595,7 +617,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-no-forecast
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-no-forecast'
@@ -617,7 +640,8 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: vi-3e-2-concurrent-conflict
-- runFlow: ../onboarding/subflows/back.yaml
+- tapOn:
+    id: 'back-eyebrow'
 - extendedWaitUntil:
     visible:
       id: 'plan-edit-lab-planning-conflict'

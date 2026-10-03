@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { useLiveRows } from '../../hub/data/live-rows';
 import type { OfferFacts } from './offer-model';
 
-const TRIP_SQL = `SELECT d.name AS destination, t.tz
+export const TRIP_SQL = `SELECT d.name AS destination, coalesce(t.tz, d.tz) AS tz
   FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = ?`;
 const TRIP_TABLES = ['trips', 'destinations'] as const;
 

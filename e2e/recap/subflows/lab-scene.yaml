@@ -1,0 +1,24 @@
+appId: app.critterpass.dev
+---
+# From the recap lab list: opens ${SCENE}, waits for ${ROOT}, takes ${SHOT}, and goes back.
+- scrollUntilVisible:
+    element:
+      id: 'recap-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'recap-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: ${ROOT}
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow: ../../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'recap-lab-${SCENE}'
+    timeout: 10000
+    optional: true

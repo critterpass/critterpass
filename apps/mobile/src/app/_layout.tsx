@@ -9,7 +9,7 @@ import {
 import { Stack } from 'expo-router/js-stack';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-restricted-imports -- the font preload draws each bundled family raw, before any theme or locale exists
 import { Platform, StyleSheet, Text as RNText, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -30,13 +30,11 @@ import { AppSessionRoot } from '@/data/app-session/AppSessionRoot';
 import {
   configureDeviceAppGroup,
   deviceAppState,
-  deviceSessionUid,
   deviceLinkClaims,
   devicePush,
   reportAppSessionError,
   sessionHeaders,
   startDeviceAppSession,
-  uploadLocationFixes,
 } from '@/data/app-session/device-session';
 import { createTravelDataReader, TravelDataReaderProvider } from '@/data/travel-data/client';
 import { DeferredLinkGate, deferredLinkPrimitives } from '@/features/launch/DeferredLinkGate';
@@ -60,12 +58,12 @@ import { CritterRuntime } from '@/features/critters/register';
 import { SafetyRuntime } from '@/features/safety/register';
 import '@/features/bookings/supplier/register';
 import '@/features/you/routes';
+import '@/features/help/routes';
+import '@/features/recap/routes';
 import { ChangesetNotificationActions } from '@/features/plan/review/notification-actions';
 import { registerOnSignOut } from '@/data/auth/sign-out-hooks';
-import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { usePushNotifications } from '@/data/push/use-push-notifications';
-import { watchRows } from '@/data/status/watch-rows';
 import {
   AnalyticsProvider,
   createAnalyticsClient,
@@ -76,33 +74,12 @@ import {
 import { DevToolsShake } from '@/lib/dev-tools/DevToolsShake';
 import { BUNDLED_FONT_FAMILIES, useFontsReady } from '@/lib/fonts';
 import { I18nRoot, useI18nReady } from '@/lib/i18n/I18nRoot';
-import {
-  bindTempleMute,
-  configureAlwaysUpgrade,
-  countryOf,
-  RECORD_VISIT,
-  readLocationFlags,
-  SET_CONSENT,
-  trackLocationSession,
-  trackVisitRecorded,
-  useAppActive,
-  useExploreAtHome,
-  useLocationEngineBridge,
-  useVisitBridge,
-  useVisitConsentRows,
-  visitConsentGranted,
-  visitConsentPayload,
-  type RowWatcher,
-} from '@/lib/location';
+import { bindTempleMute, configureAlwaysUpgrade, readLocationFlags } from '@/lib/location';
 import { useNavigationPersistence } from '@/lib/navigation/restore';
 import {
   configurePermissions,
   sendMirrorThroughSession,
   trackPermissionEvent,
-  UPDATE_DEVICE_PERMISSIONS,
-  usePermission,
-  usePermissionsBridge,
-  type DevicePermissionState,
 } from '@/lib/permissions';
 import { modalGroupOptions, pushTransition } from '@/lib/navigation/transitions';
 import { analyticsViolationBreadcrumb, initAppSentry, sentryDsnFromEnv } from '@/lib/observability';
@@ -115,9 +92,11 @@ import { OverlayHost } from '@/motion/overlay/OverlayHost';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 import { SharedGrowHost } from '@/ui/transitions/SharedGrow';
 import { Text, useTheme } from '@/ui';
-import { PrimerSheetHost, VisitConsentHost } from '@/ui/permission-primer';
+import { PrimerSheetHost } from '@/ui/permission-primer';
 import { useNoBackAffordanceGuard } from '@/ui/qa/back-affordance';
 import { RootErrorBoundary } from '@/ui/shell/RootErrorBoundary';
+import { FeedbackRuntime } from '@/features/help/feedback/device-outbox';
+import { LocationBridge, PermissionsBridge } from '@/features/session-bridges';
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -166,66 +145,19 @@ function SessionBridges() {
   if (localFirst === null) return null;
   return (
     <>
-      <PermissionsBridge />
-      <LocationBridge db={localFirst.db} />
+      <PermissionsBridge permissions={getPermissions()} />
+      <LocationBridge db={localFirst.db} session={getLocationNative()} analytics={analytics} />
       <SetupNotificationActions />
       <ChangesetNotificationActions />
       <TripDayRuntime alarmPort={getAlarmPort()} />
       <CritterRuntime writeSnapshot={writeSnapshot} />
       <SafetyRuntime />
+      <FeedbackRuntime />
     </>
   );
 }
 
-/** The trip-day location engine over the native session, fed from synced rows. */
-function LocationBridge({ db }: { readonly db: Parameters<typeof watchRows>[0] }) {
-  const [uid, setUid] = useState<string | null>(null);
-  useEffect(() => void deviceSessionUid().then(setUid, () => setUid(null)), []);
-  const watch = useCallback<RowWatcher>(
-    (sql, tables, onRows) => watchRows(db, sql, tables, onRows),
-    [db],
-  );
-  const location = usePermission('location').report;
-  const { engine, plan } = useLocationEngineBridge({
-    session: getLocationNative(),
-    upload: uploadLocationFixes,
-    platform: Platform.OS === 'android' ? 'android' : 'ios',
-    watch,
-    uid,
-    level: location?.status === 'granted' ? (location.level ?? 'none') : 'none',
-    appActive: useAppActive(),
-    deviceTz: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    exploreAtHome: useExploreAtHome(),
-    androidBackgroundGeofences: readLocationFlags(analytics).androidBackgroundGeofences,
-    countryOf,
-    onSessionEnded: (summary) => trackLocationSession(analytics, summary),
-  });
-  const consentRows = useVisitConsentRows(watch);
-  const { send: sendVisit } = useCommand(RECORD_VISIT);
-  const { send: sendConsent } = useCommand(SET_CONSENT);
-  useVisitBridge({
-    engine,
-    plan,
-    consentGranted: visitConsentGranted(consentRows),
-    send: sendVisit,
-    track: (source) => trackVisitRecorded(analytics, source),
-  });
-  return (
-    <VisitConsentHost
-      decided={consentRows.length > 0}
-      onAnswer={(granted) => void sendConsent(visitConsentPayload(granted))}
-    />
-  );
-}
-
 bindTempleMute(feedback.setContextMute);
-
-function PermissionsBridge() {
-  const { send } = useCommand(UPDATE_DEVICE_PERMISSIONS);
-  const sendMirror = useCallback((perms: DevicePermissionState) => send({ perms }), [send]);
-  usePermissionsBridge(getPermissions(), sendMirror);
-  return null;
-}
 
 /** Saved navigation is only restored into the same JS build it was saved from. */
 const BUILD = `${Constants.expoConfig?.version ?? ''}:${Updates.updateId ?? 'embedded'}`;

@@ -61,10 +61,13 @@ export async function armMeetupEtas(
   await scheduleEvent(tx, { kind: ETA_MEETUPS_QUEUE, refId: meetupId, tz, at: new Date() });
 }
 
+/** The trip's zone: its own, else its destination's. */
 export async function tripZone(tx: pg.PoolClient, tripId: string): Promise<string> {
-  const { rows } = await tx.query<{ tz: string | null }>('SELECT tz FROM trips WHERE id = $1', [
-    tripId,
-  ]);
+  const { rows } = await tx.query<{ tz: string | null }>(
+    `SELECT coalesce(t.tz, d.tz) AS tz
+       FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = $1`,
+    [tripId],
+  );
   return rows[0]?.tz ?? 'UTC';
 }
 

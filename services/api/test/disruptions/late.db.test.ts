@@ -382,6 +382,37 @@ describe('choose_late_option', () => {
     // One event per real change of mind: the repeated pick appended nothing.
     expect(await eventCount('late_option.chosen')).toBe(2);
   });
+
+  it("says the arrival on the destination's clock when the trip has no zone of its own", async () => {
+    // Most trips leave `trips.tz` empty and keep the destination's zone.
+    await harness.pool.query('UPDATE trips SET tz = NULL WHERE id = $1', [tripId]);
+    await harness.pool.query(
+      `UPDATE destinations SET tz = 'Asia/Ho_Chi_Minh'
+        WHERE id = (SELECT destination_id FROM trips WHERE id = $1)`,
+      [tripId],
+    );
+    const [late] = await lateDisruptions();
+    const id = late?.id as string;
+    const { rows } = await harness.pool.query<{ options: { id: string }[] }>(
+      'SELECT options FROM disruptions WHERE id = $1',
+      [id],
+    );
+    // The routed walk gets there at 06:20 UTC: 13:20 in Đà Nẵng.
+    const options = (rows[0]?.options ?? []).map((option) =>
+      option.id === 'walk'
+        ? { ...option, offered: true, arrive_at: '2026-10-15T06:20:00.000Z' }
+        : option,
+    );
+    await harness.pool.query('UPDATE disruptions SET options = $2::jsonb WHERE id = $1', [
+      id,
+      JSON.stringify(options),
+    ]);
+    const walked = await run(wes, 'choose_late_option', { disruption_id: id, option_id: 'walk' });
+    expect(walked.body['result']).toMatchObject({ chosen: true, option: 'walk' });
+    expect((await chatLines()).at(-1)).toEqual({
+      body: 'Update: Wes is walking the last bit to Karsa Spa, there about 13:20.',
+    });
+  });
 });
 
 describe('no longer late, and a late report without a journey', () => {

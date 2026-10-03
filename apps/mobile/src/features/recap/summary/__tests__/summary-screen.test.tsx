@@ -1,0 +1,166 @@
+/**
+ * The recap page over the real local-first stack: the guide writing while the recap is queued or
+ * building, the numbers once the row turns ready (every one from the row, the guide's words when
+ * written), a late re-run's badge, a dropout's note, a failed build's retry without signal, and
+ * WHERE NEXT? back to Home with the crew in front.
+ */
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
+jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- see the double's header
+jest.mock('@/ui/sticker/Sticker', () => require('@/ui/avatar/test-support/sticker-double'));
+jest.mock('@/motion/use-loop', () => ({ useLoop: () => ({}) }));
+jest.mock(
+  '@powersync/common',
+  () =>
+    jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
+      .powersyncCommon,
+);
+jest.mock('expo-router', () => ({
+  useIsFocused: () => true,
+  router: { push: jest.fn(), navigate: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },
+  useLocalSearchParams: jest.fn(() => ({})),
+}));
+
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
+import { fireEvent, screen } from '@testing-library/react-native';
+import { router } from 'expo-router';
+
+import {
+  openTestLocalFirst,
+  type TestLocalFirst,
+} from '@/data/powersync/test-support/local-first-fixture';
+import { removeDir } from '@/data/powersync/test-support/open-node-database';
+import { toastQueue } from '@/motion';
+
+import { awardRows, CARDS, CREW, RECEIPT, recapRow, STATS, TRIP } from '../../dev/recap-fixtures';
+import {
+  renderRecap,
+  seedAwards,
+  seedRecap,
+  seedTrip,
+  until,
+  type SeedTrip,
+} from '../../test-support/recap-harness';
+import { RecapSummaryScreen } from '../summary-screen';
+
+let stack: TestLocalFirst | null = null;
+
+async function open(options?: SeedTrip): Promise<TestLocalFirst> {
+  stack = await openTestLocalFirst({ holdUploads: true });
+  await seedTrip(stack, options);
+  return stack;
+}
+
+const visible = (testID: string) => screen.queryByTestId(testID) !== null;
+
+afterEach(async () => {
+  (router.navigate as jest.Mock).mockClear();
+  toastQueue.dismiss();
+  await stack?.close();
+  if (stack) removeDir(stack.dir);
+  stack = null;
+});
+
+describe('recap page', () => {
+  it('shows the guide writing until the row turns ready, then the numbers the row holds', async () => {
+    const s = await open();
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-writing'));
+    expect(screen.getByText('CHÀ VÁ IS WRITING YOUR RECAP')).toBeTruthy();
+    await seedRecap(s, recapRow({ status: 'building' }));
+    await until(() => visible('recap-writing'));
+
+    await seedRecap(s, recapRow());
+    await seedAwards(s);
+    await until(() => visible('recap-tiles'));
+    expect(screen.getByTestId('recap-title')).toHaveTextContent('ĐÀ NẴNG, THE RECAP');
+    expect(screen.getByTestId('recap-eyebrow')).toHaveTextContent(
+      /^OCT 2\s*–\s*4 · THE ĐÀ NẴNG FOUR$/u,
+    );
+    expect(screen.getByTestId('recap-tile-distance')).toHaveTextContent(
+      '214 KMdriven, mostly by Anh Tuấn',
+    );
+    expect(screen.getByTestId('recap-tile-sunrise')).toHaveTextContent(
+      'SƠN TRÀstarted at 05:10, before sunrise',
+    );
+    expect(screen.getByTestId('recap-tile-photos')).toHaveTextContent(
+      '312 PHOTOSMaya took 140 of them',
+    );
+    expect(screen.getByTestId('recap-tile-owed')).toHaveTextContent('$0 OWEDsettled 2 days early');
+    expect(screen.getByTestId('recap-forms')).toHaveTextContent(/CHÀ VÁ'S FORMS3 OF 4 FOUND/u);
+    // The guide has not written the got-away line yet: the sightings stand in.
+    expect(screen.getByTestId('recap-got-away-line')).toHaveTextContent(
+      'The Golden Chà Vá got away. Seen 2 times, befriended by nobody.',
+    );
+    // The MVP first, then the viewer's own award, each with its own number.
+    expect(screen.getByTestId('recap-awards')).toHaveTextContent(
+      'Earliest riserJordan, up at 05:10The treasurerYou, 23 expenses logged',
+    );
+  });
+
+  it("uses the guide's words once written, and badges a late re-run of the receipt", async () => {
+    const s = await open();
+    const rows = awardRows(s.uid).map((row) =>
+      row.kind === 'early_riser' ? { ...row, title: 'Up before the sun' } : row,
+    );
+    await seedRecap(
+      s,
+      recapRow({
+        version: 2,
+        changed_sections: '["receipt"]',
+        cards: CARDS,
+        receipt: { ...RECEIPT, outstanding_minor: 4_200, settled: false, settled_on: null },
+      }),
+    );
+    await seedAwards(s, rows);
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-tiles'));
+    expect(screen.getByTestId('recap-updated')).toHaveTextContent('UPDATED WITH LATE EXPENSES');
+    expect(screen.getByTestId('recap-tile-owed')).toHaveTextContent('$42 OWEDstill to settle up');
+    expect(screen.getByTestId('recap-got-away-line')).toHaveTextContent(
+      'The Golden Chà Vá got away. Jordan slept through the second one.',
+    );
+    expect(screen.getByTestId('recap-awards')).toHaveTextContent(/^Up before the sunJordan/u);
+  });
+
+  it('notes a viewer who dropped out before the trip', async () => {
+    const s = await open({ rsvp: 'out' });
+    await seedRecap(s, recapRow());
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-tiles'));
+    expect(screen.getByTestId('recap-dropout')).toHaveTextContent('YOU SAT THIS ONE OUT');
+  });
+
+  it('keeps no money tile or crew name on a solo trip', async () => {
+    const s = await open({ solo: true });
+    await seedRecap(s, recapRow({ stats: { ...STATS, travellers: 1 } }));
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-tiles'));
+    expect(screen.queryByTestId('recap-tile-owed')).toBeNull();
+    expect(screen.getByTestId('recap-tile-days')).toHaveTextContent(
+      '3 DAYSjust you, on your own clock',
+    );
+    expect(screen.getByTestId('recap-eyebrow')).toHaveTextContent(/^OCT 2\s*–\s*4 · JUST YOU$/u);
+    expect(screen.queryByTestId('recap-dropout')).toBeNull();
+  });
+
+  it('offers a retry when the build failed, and says it needs signal when offline', async () => {
+    const s = await open();
+    await seedRecap(s, recapRow({ status: 'failed', failure_reason: 'build_error' }));
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-failed'));
+    expect(screen.queryByTestId('recap-tiles')).toBeNull();
+    await fireEvent.press(screen.getByText('TRY AGAIN'));
+    await until(() => toastQueue.getCurrent() !== null);
+    expect(toastQueue.getCurrent()?.title).toBe('Needs signal to try again');
+  });
+
+  it("WHERE NEXT? goes back to Home with the trip's crew in front", async () => {
+    const s = await open();
+    await seedRecap(s, recapRow());
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-where-next'));
+    await fireEvent.press(screen.getByTestId('recap-where-next'));
+    expect(router.navigate).toHaveBeenCalledWith({ pathname: '/', params: { crewId: CREW } });
+  });
+});

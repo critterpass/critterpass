@@ -1,7 +1,7 @@
 ---
 phase: 44
 title: Shared album, curation, postcards, printed mail
-status: pending
+status: in-progress
 depends_on: [10, 12, 13, 43]
 wave: 20
 features: [F-135, F-136, F-137, F-138]
@@ -114,6 +114,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Tables + deltas. 2. RLS/grants/publication (address fields excluded everywhere). 3. Status view for mailings.
 - Tests: `pnpm --filter @cp/db test -- permissions/photos permissions/album-picks permissions/photo-people permissions/postcards permissions/postcard-mailings permissions/mailing-addresses`
 - Done when: crew cannot read addresses; non-members cannot read photos; publication check passes.
+- Status: done — 08737ba6d
 
 ### T2 — Native background upload module
 - Goal: `cp-media-upload` iOS + Android.
@@ -128,6 +129,7 @@ Done when: 12 photos picked offline upload after reconnect via background transf
 - Steps: 1. Local pending rows + queue. 2. Handlers + events + `trip_album`. 3. Thumbnails, dedupe, moderation, manifest. 4. Export zip.
 - Tests: `pnpm --filter @cp/api test -- album`; `pnpm --filter @cp/worker test -- album/process`
 - Done when: duplicate sha256 in one trip registers once; read-URL mint refuses non-members.
+- Status: server half done — 75deaab94 (register, delete, picks, self tags, auto-ingest switch, processing, export); the app's upload queue waits for the native uploader
 
 ### T4 — On-device analysis + self-recognition consent
 - Goal: `cp-photo-analysis` + consent UX.
