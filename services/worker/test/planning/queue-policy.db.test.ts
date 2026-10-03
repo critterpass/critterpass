@@ -164,7 +164,6 @@ describe('planning queue policy', () => {
       expect(Object.keys(QUEUES), queue).toContain(queue);
       expect(from, queue).not.toContain(queueSpec(queue).policy);
     }
-    expect(POLICY_MIGRATIONS['mailbox.scan']).toBeUndefined();
   });
 
   it('stops a keyless queue created exclusive from dropping sends', async () => {

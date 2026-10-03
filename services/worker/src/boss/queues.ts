@@ -49,9 +49,6 @@ function queueOptions(name: string, entry: QueueSpec): Omit<Queue, 'name' | 'pol
  *   `exclusive` allows one waiting-or-running job per key, and one per queue for jobs sent without a key
  *   (crons, `disruption.react`), so sends were being dropped. Every job listed here
  *   recomputes from state, sweeps, or handles one event behind row locks.
- * - `mailbox.scan` is left out: its catalogue says `standard`, but overlapping hourly sweeps would scan
- *   the same due mailboxes twice, so its `exclusive` drift is the safer policy until the catalogue
- *   decides.
  */
 const FROM_EXCLUSIVE = [
   'account.purge',
