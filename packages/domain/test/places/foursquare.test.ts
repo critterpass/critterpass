@@ -14,7 +14,6 @@ import {
 // A real Place Details response (Fushimi Inari Taisha, Kyoto), recorded 2026-10-03.
 import recorded from './fixtures/foursquare-place-details.json' with { type: 'json' };
 
-
 describe('mapFoursquareDetails', () => {
   it('maps a recorded Place Details response into the live shape', () => {
     const live = mapFoursquareDetails(recorded);
