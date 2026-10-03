@@ -10,6 +10,7 @@ import type { OpenAPIHono } from '@hono/zod-openapi';
 import type { AppEnv } from '../app';
 import type { ApiEnv } from '../env';
 import type { ApiCommandDoors } from '../feature-routes';
+import { registerPlanLegs } from './legs';
 
 export interface PlanningDeps {
   readonly app: OpenAPIHono<AppEnv>;
@@ -22,6 +23,7 @@ export type PlanningModule = (deps: PlanningDeps) => void;
 
 const PLANNING_MODULES: readonly PlanningModule[] = [
   // One entry per planning module.
+  registerPlanLegs,
 ];
 
 export function registerPlanning(
