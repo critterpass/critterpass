@@ -1,0 +1,35 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "2015cd02-c878-4aca-bb6c-9831ac85b4d8",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Let me peek at the plan for today."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_52KMO84v2QMjon5B7wN55729",
+          "name": "plan_read",
+          "input": {
+            "day": 3
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 343,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10112,
+        "output_tokens": 45,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a47a2752-f765-47b8-ac6e-a25f885904e9",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Bây giờ 14:05, 15:00 hai bạn đã có chợ Hàn (Hàn market, the central market by the river) rồi, nên tôi tìm quanh đó một chỗ ngồi nghỉ trước khi ghé nhé."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_FEJyZmUTMO4CY8t2ll2C5064",
+          "name": "places_search",
+          "input": {
+            "near_name": "Chợ Hàn",
+            "recommended_only": true
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 520,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10496,
+        "output_tokens": 123,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

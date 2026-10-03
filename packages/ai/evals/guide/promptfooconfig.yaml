@@ -11,3 +11,4 @@ tests:
   - file://proactive.yaml
   - file://queued.yaml
   - file://home-guide.yaml
+  - file://trip-context.yaml

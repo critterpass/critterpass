@@ -650,11 +650,13 @@ Later areas plug in with `defineAdminArea` (`services/api/src/admin/registry.ts`
 
 Global rules: tools run server-side; numbers come from tool output or `packages/cost-engine` / `packages/planner`, never from the model; C3 data excluded (tools run as `guide_reader`); supplier content never enters prompts (supplier tools return opaque `offer_ref` + code-computed fields only; UI renders supplier cards); email/OCR/web text wrapped as documents; write tools produce proposals only; action policy in code: auto-apply only if reversible, free, and touches only the requester's own items.
 
+Trip and crew (doc delta): `trip_id` and `crew_id` are never part of the schema the model fills; the registry binds them from the turn (the thread's trip and crew) and overwrites any value the model sends, and a trip or crew tool outside a trip or crew answers `TOOL_UNAVAILABLE`. The prompt carries no ids, so the guide never asks a person which trip they mean.
+
 Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** drafting/redraft jobs · **R** replan/disruption/watch jobs · **B** briefing/roundup/quests/recap jobs · **M** camera/receipt/email parsers (no tools; structured output only).
 
 | Tool | Input | Output | Source | Grounding rule | Callers |
 |---|---|---|---|---|---|
-| `places_search` | `{query, near{lat,lng}\|place_id, category?, open_at?, dietary?, limit}` | `[{poi_id, name, category, distance_m, open_now, price_level, tags}]` | curated POI DB | only returned `poi_id`s may be named | C G D R |
+| `places_search` | `{query, near{lat,lng}\|place_id\|near_name\|near_stay, category?, open_at?, dietary?, recommended_only?, limit}` (doc delta: `near_name` is a place as the traveller typed it, `near_stay` the trip's stay, `recommended_only` curated places only) | `[{poi_id, name, category, distance_m, open_now, price_level, tags, distance_from?, match?: exact\|close, recommended?, why_go?}]` | curated POI DB, in the trip's destination; names match without accents, in any word order, with "hotel"/"khách sạn" read as a kind | only returned `poi_id`s may be named; no ratings exist, so quality is only `recommended` (curation) and `why_go` | C G D R |
 | `place_details` | `{poi_id, fields[]}` | `{hours[], price_level, booking_notes, indoor, accessibility, verified_at}` | POI DB + Foursquare live check | hours quoted only with `verified_at` | C G D R |
 | `crowd_forecast` | `{poi_id, date}` | `{hourly[24], best_window}` | BestTime | – | C D R |
 | `weather` / `marine` | `{lat, lng, from, to}` | hourly series + alerts | Open-Meteo | times/temps copied verbatim | C G R B |
@@ -663,7 +665,7 @@ Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** 
 | `flight_status` | `{flight_no, date}` | `{status, sched, est, gate, source, at}` | AeroDataBox / AeroAPI | cite source + time | C R B |
 | `fx` | `{amount_minor, from, to}` | `{amount_minor, rate, snapshot_id}` | Frankfurter | – | C G |
 | `crew_profiles` | `{trip_id}` | `[{uid, first_name, taste_tags, dietary_flags, pace, chronotype}]` (redacted) | DB via `guide_reader` | no budget maxes, no private threads | C G D R |
-| `plan_read` | `{trip_id, day?}` | `{version, days[{items[]}]}` | DB | changes must cite `base_version` | C G D R B |
+| `plan_read` | `{trip_id, day?}` | `{version\|null, days[{day_no, date, items[]}]}` (doc delta: every trip day, item times in the trip's local offset, `version: null` before a plan exists) | DB | changes must cite `base_version` | C G D R B |
 | `bookings_read` | `{trip_id}` | `[{booking_id, kind, when, where, cancel_deadline?, status}]` | DB | deadlines verbatim | C G R B |
 | `balances_read` | `{trip_id}` | `{per_member_net[], settle_plan[]}` | cost-engine | amounts from engine | C G B |
 | `cost_quote` | `{trip_id, ops[]}` | `{delta_per_person_minor, currency}` | cost-engine | model words the number only | C G D R |
