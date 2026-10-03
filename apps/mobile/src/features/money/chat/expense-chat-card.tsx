@@ -37,6 +37,9 @@ export const CHAT_EXPENSE_SHARES_SQL = `SELECT computed_minor FROM expense_share
 export const CHAT_EXPENSE_REMOVED_SQL = `SELECT ed.editor_id, u.display_name AS editor_name
   FROM expense_edits ed LEFT JOIN users u ON u.id = ed.editor_id
   WHERE ed.expense_id = ? AND ed.kind = 'deleted' ORDER BY ed.at DESC LIMIT 1`;
+/** A delete of this expense still in this device's queue (or sent, its synced result not in yet). */
+export const CHAT_EXPENSE_QUEUED_DELETE_SQL = `SELECT 1 AS queued FROM commands
+  WHERE cmd = 'delete_expense' AND json_extract(envelope, '$.payload.expense_id') = ? LIMIT 1`;
 const TABLES = ['expenses', 'users', 'expense_shares'];
 const EDIT_TABLES = ['expense_edits', 'users'];
 
@@ -95,11 +98,18 @@ export function ExpenseChatCard({ message }: ChatCardProps) {
     TABLES,
   );
   const removal = useLiveRows<RemovedRow>(CHAT_EXPENSE_REMOVED_SQL, params, EDIT_TABLES);
+  const queuedDelete = useLiveRows<{ queued: number }>(CHAT_EXPENSE_QUEUED_DELETE_SQL, params, [
+    'commands',
+  ]);
   const trip = useExpenseTrip(message.id);
   const uid = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], UID_TABLES).rows[0]?.value;
   const row = expense.rows[0];
-  const removedBy = removal.rows[0];
+  // The viewer's own delete shows at once, offline too, before the synced rows catch up.
+  const deletedHere = queuedDelete.rows.length > 0;
+  const removedBy: RemovedRow | undefined =
+    removal.rows[0] ?? (deletedHere ? { editor_id: uid ?? null, editor_name: null } : undefined);
   const gone =
+    deletedHere ||
     message.refId === null ||
     (row !== undefined && row.deleted_at !== null) ||
     (row === undefined && (removedBy !== undefined || trip.synced));

@@ -29,6 +29,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
+import { deleteExpenseCommand } from '../../data/commands';
 import { ExpenseChatCard } from '../expense-chat-card';
 
 const CREW = '0192f000-0000-7000-8000-00000000c1e0';
@@ -220,5 +221,17 @@ describe('expense card in crew chat', () => {
       stack,
     );
     expect(await screen.findByText('This expense was deleted')).toBeTruthy();
+  });
+
+  it('shows the viewer’s own delete at once, while it is still queued', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedCrew(stack);
+    await seedExpense(stack, { payer: MAYA, description: 'lunch', splitMode: 'equal' });
+    await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
+    expect(await screen.findByText(/^Maya Tran paid .*900.* for lunch$/u)).toBeTruthy();
+    // Offline: the delete waits in the queue and the synced expense is still there.
+    await stack.value.commands.send(deleteExpenseCommand, { expense_id: EXPENSE });
+    expect(await screen.findByText('You deleted this expense')).toBeTruthy();
+    expect(screen.queryByTestId(`chat-expense-view-${EXPENSE}`)).toBeNull();
   });
 });
