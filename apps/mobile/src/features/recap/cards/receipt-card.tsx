@@ -79,7 +79,6 @@ export function ReceiptCard(props: ReceiptCardProps) {
               <Text variant="monoData">{props.subtitle}</Text>
             </View>
           }
-          title=""
           sections={sections}
           {...(done ? { note: props.note } : {})}
           footer={props.footer}

@@ -11,7 +11,7 @@ import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { Text } from 'react-native';
 
 import { useStoryClock } from '@/ui/story/story-clock';
-import { StoryPlayer } from '@/ui/story/StoryPlayer';
+import { pushInScale, StoryPlayer } from '@/ui/story/StoryPlayer';
 import { renderUi } from '@/ui/test-support/render';
 
 import { stepsReached, useCardTimeline } from '../use-card-timeline';
@@ -38,6 +38,12 @@ afterEach(() => {
 });
 
 describe('recap story clock', () => {
+  it('keeps a laid-out card at its own size, where a photo slide pushes in', () => {
+    expect(pushInScale({ pushIn: false }, false)).toBe(1);
+    expect(pushInScale({}, false)).toBeGreaterThan(1);
+    expect(pushInScale({}, true)).toBe(1);
+  });
+
   it('counts the steps a card has reached at a played time', () => {
     expect(stepsReached(STEPS, 0)).toBe(0);
     expect(stepsReached(STEPS, 3000)).toBe(2);

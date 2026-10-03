@@ -74,6 +74,9 @@ export function StoryView(props: StoryViewProps) {
           id: spec.card,
           label: spec.label,
           durationMs: spec.durationMs,
+          // A card is laid out to the gutter: the photo push-in would carry it off the edges.
+          pushIn: false,
+          barTone: spec.card === 'stamp' ? 'ink' : 'light',
           ...(spec.caption === null ? {} : { caption: spec.caption }),
           content: <CardHost spec={spec} voiceOn={props.voiceOn} />,
         }))}

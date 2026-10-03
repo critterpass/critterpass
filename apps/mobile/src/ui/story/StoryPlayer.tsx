@@ -15,12 +15,15 @@ import { scheduleOnRN } from 'react-native-worklets';
 import { tokens } from '@cp/design-tokens';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { useStoryProgress, type StoryProgress } from '@/motion/patterns/story-progress';
+import type { StoryProgress } from '@/motion/patterns/story-progress';
 
 import { Stack } from '../layout/Stack';
 import { Text } from '../text/Text';
 import { makeStyles } from '../theme';
 import { StoryClockContext, type StoryClock } from './story-clock';
+import { ProgressBar } from './story-progress-bar';
+
+const PUSH_IN_SCALE = 1.08;
 
 export interface StorySegment {
   readonly id: string;
@@ -32,6 +35,21 @@ export interface StorySegment {
   readonly label: string;
   /** How long the slide plays; the story token (5 s) by default. */
   readonly durationMs?: number;
+  /**
+   * The slow push-in over the slide's length. On for photo slides; a laid-out card turns it off,
+   * since scaling it pushes its content toward the screen's edges. @default true
+   */
+  readonly pushIn?: boolean;
+  /** The progress bars' ink: light over dark and photo slides, ink over a paper slide. @default 'light' */
+  readonly barTone?: 'light' | 'ink';
+}
+
+/** The scale a slide grows to over its length: none for a card or under Reduce Motion. */
+export function pushInScale(
+  segment: Pick<StorySegment, 'pushIn'> | undefined,
+  reduced: boolean,
+): number {
+  return reduced || segment?.pushIn === false ? 1 : PUSH_IN_SCALE;
 }
 
 export interface StoryPlayerProps {
@@ -57,7 +75,6 @@ export interface StoryPlayerProps {
   readonly testID?: string;
 }
 
-const PUSH_IN_SCALE = 1.08;
 const HOLD_MS = 200;
 
 const useStyles = makeStyles((th) => ({
@@ -69,57 +86,10 @@ const useStyles = makeStyles((th) => ({
     paddingHorizontal: th.space['12'],
     paddingTop: th.space['8'],
   },
-  track: {
-    flex: 1,
-    height: th.space['2'] + 1,
-    borderRadius: th.radius.xs,
-    backgroundColor: th.semantic.bg.control,
-    overflow: 'hidden',
-  },
-  fill: { height: '100%', backgroundColor: th.semantic.text.primary, transformOrigin: 'left' },
   chrome: { position: 'absolute', top: 0, start: 0, end: 0 },
   bottom: { position: 'absolute', bottom: 0, start: 0, end: 0, padding: th.space['16'] },
   side: { position: 'absolute', end: th.space['16'], bottom: '35%' },
 }));
-
-function ProgressBar({
-  state,
-  paused,
-  onComplete,
-  announcement,
-  durationMs,
-  onClock,
-}: {
-  readonly state: 'past' | 'active' | 'future';
-  readonly paused: boolean;
-  readonly onComplete: () => void;
-  readonly announcement: string;
-  readonly durationMs: number | undefined;
-  /** The active bar hands its clock to the player, for the slide content. */
-  readonly onClock: (clock: StoryProgress) => void;
-}) {
-  const styles = useStyles();
-  const clock = useStoryProgress({
-    active: state === 'active',
-    paused,
-    onComplete,
-    completionAnnouncement: announcement,
-    ...(durationMs === undefined ? {} : { durationMs }),
-  });
-  const { progress } = clock;
-  useEffect(() => {
-    if (state === 'active') onClock(clock);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- the clock's parts are stable refs.
-  }, [state]);
-  const style = useAnimatedStyle(() => ({
-    transform: [{ scaleX: state === 'past' ? 1 : state === 'future' ? 0 : progress.value }],
-  }));
-  return (
-    <View style={styles.track}>
-      <Animated.View style={[styles.fill, style]} />
-    </View>
-  );
-}
 
 /**
  * One gesture per native view: on iOS every handler on one view spends a shared attach-retry
@@ -195,8 +165,9 @@ export function StoryPlayer({
 
   useEffect(() => {
     scale.value = 1;
-    if (reduced) return;
-    scale.value = withTiming(PUSH_IN_SCALE, {
+    const target = pushInScale(segment, reduced);
+    if (target === 1) return;
+    scale.value = withTiming(target, {
       duration: segment?.durationMs ?? tokens.motion.duration.story,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- scale is a stable shared value ref.
@@ -278,6 +249,7 @@ export function StoryPlayer({
               onComplete={() => go(i + 1)}
               announcement={segments[i + 1]?.label ?? ''}
               durationMs={item.durationMs}
+              tone={segment?.barTone ?? 'light'}
               onClock={(clock) => onClock(i, clock)}
             />
           ))}
