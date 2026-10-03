@@ -126,6 +126,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Persona-voiced copy per card, award lines, got-away line, postcard note, memory line. 2. Number guard. 3. Tone evals (no shaming). 4. Fallback template copy on failure. 5. `recap.narrate`: ElevenLabs Flash (P6 guide voice id) per card × member locale → R2, keyed by recap version + copy hash; failure leaves text-only narration.
 - Tests: `pnpm --filter @cp/ai eval -- recap`; `pnpm --filter @cp/worker test -- recap/copy recap/narrate`
 - Done when: number guard rejects invented numbers in tests; eval tone pass rate ≥ 98 %; narrate re-run with unchanged copy makes zero TTS calls; TTS failure yields text-only recap, still `ready`.
+- Status: done — cf77f6b55 (server: copy, evals, narration; app playback is the app lane's)
 
 ### T4 — Commands, realtime, push
 - Goal: views, signatures, votes, opt-out, retry.
@@ -133,6 +134,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Handlers + policies. 2. Signature fan-out to all copies + `recap:` publish. 3. MVP close + result. 4. N-32 once.
 - Tests: `pnpm --filter @cp/api test -- recap`
 - Done when: offline replays idempotent; opt-out hides award for every member.
+- Status: done — 1c52f0a2d
 
 ### T5 — Recap summary page
 - Goal: 3m-1 + states.
