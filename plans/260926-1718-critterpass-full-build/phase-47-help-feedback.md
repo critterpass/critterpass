@@ -123,6 +123,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Steps: 1. Tables + trigger + vote fn. 2. RLS + grants + publication entries. 3. Handlers (idempotent, sync-door rejects as `cmd_results`).
 - Tests: `pnpm --filter @cp/db test -- permissions/ideas permissions/idea-votes permissions/feedback-tickets`; `pnpm --filter @cp/api test -- help/commands`.
 - Done when: 11th vote in a month rejected; concurrent votes never exceed budget; pending ideas invisible to other users.
+- Status: done — ae5f7c0f9
 
 ### T2 — Help content, embeddings, articles API, hub 3p-1, reader, search
 - Goal: searchable localised help.
@@ -132,6 +133,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Steps: 1. Hybrid ranking endpoint + context boosting + English fallback. 2. Hub + reader + search in place, offline search over the synced articles. 3. Translation hand-off keys to Tolgee.
 - Tests: `pnpm --filter @cp/api test -- help-articles`; `pnpm --filter @cp/mobile test -- help/hub help/reader help/search`; `maestro test e2e/help/hub-search.yaml`.
 - Done when: "refund" query ranks the billing article first; airplane-mode search returns local results; missing translation shows English chip.
+- Status: done — 9757148a5
 
 ### T3 — `cp-shake` + screenshot capture with privacy masking
 - Goal: shake anywhere → problem report with safe screenshot.
@@ -146,6 +148,7 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 - Steps: 1. Mood/category/text/attachments/device info. 2. Upload via presign `purpose=feedback` + retry queue. 3. Queue command offline; queued 3p-3 variant. 4. Motion (hop, peel, sweep, fold-fly, stamp slam, confetti).
 - Tests: `pnpm --filter @cp/mobile test -- help/feedback`; `maestro test e2e/help/feedback-offline.yaml`.
 - Done when: offline send shows queued state and the ticket number appears after reconnect; screenshot removal works.
+- Status: done — 9757148a5
 
 ### T5 — Feedback triage → tracker, replies, fix-shipped loop
 - Goal: closed loop to humans and back.
