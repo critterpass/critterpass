@@ -71,23 +71,42 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
 
 ## 3. Places
 
-1. Export FSQ OS Places for the bounds from the Places Portal Iceberg catalog. This needs
-   `FSQ_PLACES_PORTAL_TOKEN` on staging; the S3 bucket is gone. Use DuckDB's `iceberg` extension:
-   `ATTACH 'places' AS fsq (TYPE iceberg, SECRET fsq, ENDPOINT 'https://catalog.h3-hub.foursquare.com/iceberg')`.
-   Filter as FSQ recommends: `date_closed IS NULL`, no `unresolved_flags`, refreshed within 365
-   days. Write the result to a local parquet file. Đà Nẵng returned 5,546 rows in about a minute.
-2. Ingest from Overture and the FSQ file into staging. This takes a few minutes. Delete the parquet
-   file afterwards.
+1. Give the destination its place box. `destinations.place_bounds` is the box the ingest reads and
+   the area place search covers; it is separate from `geofence`, which drives arrival on the
+   device. The backfill fills only missing boxes: from the geofence, else the region-pack bounds
+   in `tools/maps/destinations.ts`, else the Overture locality with the destination's name in its
+   country, boxed by population (8 km a side for a town up to 30 km for a metro). It lists the
+   destinations it could not resolve; give those a box by hand (`UPDATE destinations SET
+   place_bounds = ST_MakeEnvelope(minLon, minLat, maxLon, maxLat, 4326)::geography`).
 
    ```sh
-   FSQ_OS_PLACES_PARQUET_URI=<file.parquet> OVERTURE_RELEASE=2026-09-23.1 \
    railway run --service api --environment staging -- pnpm --dir <worktree> --filter @cp/maps \
-     ingest -- --slug da-nang --min-lng 107.95 --min-lat 15.84 --max-lng 108.36 --max-lat 16.21 \
-     --tz Asia/Ho_Chi_Minh
+     ingest -- --backfill-bounds
    ```
 
-   Đà Nẵng ingested 80,479 active POIs. The attribution NOTICE lands in the git-ignored
-   `tools/maps/attribution/`.
+2. Ingest from Overture and FSQ OS Places. With `FSQ_PLACES_PORTAL_TOKEN` set (staging worker and
+   `.env`), FSQ OS is read from the Places Portal Iceberg catalog (`fsq.datasets.places_os`) with
+   Foursquare's filters: not closed, no `unresolved_flags`, refreshed within 365 days. The table is
+   not partitioned, so every read scans all of it (about 219M rows): from a laptop outside the US
+   one bbox takes over 25 minutes, so run ingests on the worker. One destination, on the worker:
+
+   ```sh
+   # from a worktree at the merged main, enqueue on the staging worker
+   railway run --service api --environment staging -- pnpm --dir <worktree> --filter @cp/maps \
+     ingest -- --enqueue --only da-nang
+   ```
+
+   A single destination can also run here (`ingest -- --slug da-nang`); it reads its box from
+   `place_bounds` (or `--min-lng … --max-lat`) and writes the attribution NOTICE to the git-ignored
+   `tools/maps/attribution/`. `FSQ_OS_PLACES_PARQUET_URI` (a parquet export with the catalog's
+   columns) replaces the catalog when no token is set; with neither, the ingest is Overture-only.
+
+   What the ingest keeps: name, category, point, first address, Overture `confidence`, first
+   website and phone (FSQ's on a match) and brand. Permanently closed Overture places are skipped,
+   and a new Overture-only place under 0.3 confidence is not inserted. A place another destination
+   already owns (overlapping boxes: Hội An inside Đà Nẵng's) is left untouched; search finds it
+   through the box. Nothing is ever deactivated or deleted. Đà Nẵng ingested 80,479 active POIs.
+
 3. Pin the places the curated set must hold, by open-data name and a point at the real place:
    `tools/content-factory/src/data/pinned-places.ts`. Find the names on staging first, because
    open data repeats names at wrong positions. Pinned stays, transit and markets are kept even
@@ -103,6 +122,22 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
 5. Review the gray-band duplicate pairs and approve the batch in the console. Publishing marks the
    POIs `curation = 'editorial'`. Place search and detail read every active POI, so they work
    before the approval.
+
+### Every destination, monthly
+
+The worker's `places.ingest` job runs on the 1st of each month at 02:00 UTC. Its first run fills
+missing place boxes, exports FSQ OS once for every destination's box (one scan, one parquet
+directory per destination), then queues one job per destination; the queue runs one at a time.
+To start it by hand, or to hold destinations back (a crew on a trip there):
+
+```sh
+railway run --service api --environment staging -- pnpm --dir <worktree> --filter @cp/maps \
+  ingest -- --enqueue --except da-nang
+```
+
+`ingest -- --all [--except …]` runs the same steps on this machine, one destination at a time.
+Watch progress in the console's jobs panel (`places.ingest`) or the worker logs
+(`places ingest finished`, with inserted, updated, skipped and active counts).
 
 ## 4. Ride tariffs
 
