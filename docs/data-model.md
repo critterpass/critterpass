@@ -294,19 +294,20 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 
 | Table | Key columns | Relations / indexes | Authz | RLS | Stream | Class | Ret |
 |---|---|---|---|---|---|---|---|
-| `recaps` | trip_id, status (queued/building/ready/failed), version, stats jsonb, route_legs jsonb (simplified from plan stops + ride legs; C25), receipt jsonb, cards jsonb, agent_job_id | uk (trip_id, version) | sys | T | trip | C1 | life |
-| `recap_awards` | recap_id, user_id, kind, text, opted_out | recap_id | sys; self opt-out | T | trip | C1 | life |
-| `recap_views` | recap_id, user_id, seen_at | uk | self | O | me | C2 | life |
-| `stamps` | pass_id, user_id, kind (home/issued/trip/referral), seq_no, destination_id, dates daterange, iata, country, ink_colour, status (upcoming/stamped), stamped_at, trip_id (home stamp = No. 1; doc delta) | (user_id, seq_no) | sys | read shares-crew | me, crew_people | C1 | acct |
-| `stamp_signatures` | stamp_id, signer_id, stroke_media_key | uk (stamp_id, signer_id) | self | T | trip | C1 | acct |
+| `recaps` | trip_id, crew_id, status (queued/building/ready/failed), version (bumped in place when the aggregates change; doc delta: one row per trip, so award ids, views, votes and signatures survive a re-run), ended_on, stats jsonb, route jsonb (stops and legs from plan stops + ride legs; C25), receipt jsonb, got_away jsonb, cards jsonb, content_hash, changed_sections text[] (doc delta), agent_job_id, failure_reason, built_at, ready_at, mvp_closes_at, mvp_closed_at (doc delta); jsonb shapes in `packages/domain/src/recap/schema.ts` | uk trip_id | sys | T (viewers in the crew: `app.is_recap_viewer`) | trip | C1 | life |
+| `recap_awards` | recap_id, trip_id, user_id, kind, metric, value, evidence jsonb, title, line, opted_out, mvp_votes, is_mvp (doc delta: title/line replace text; tallies kept here) | uk (recap_id, user_id) | sys; self opt-out | T (viewers in the crew) | trip | C1 | life |
+| `recap_views` | recap_id, trip_id, user_id, opened_at, completed_at, seen_at (doc delta: one row per viewer written by the builder; the recap's viewer list) | uk (recap_id, user_id) | self | O | me | C2 | life |
+| `stamps` | pass_id, user_id, kind (home/issued/trip/referral), seq_no, destination_id, dates daterange, iata, country, ink_colour, status (upcoming/stamped), stamped_at, trip_id (home stamp = No. 1; doc delta) | (user_id, seq_no); uk (user_id, trip_id) for trip stamps, stamped by the recap build (doc delta) | sys | read shares-crew | me, crew_people | C1 | acct |
+| `stamp_signatures` | stamp_id, trip_id, recap_id, signer_id, stroke_media_key, signed_at (doc delta: trip_id/recap_id) | uk (stamp_id, signer_id) | self | T (viewers in the crew) | trip | C1 | acct |
+| `recap_mvp_votes` (doc delta) | recap_id, trip_id, voter_id, award_id | uk (recap_id, voter_id) | self (insert once, change until close) | O (+ self insert while a viewer) | trip_me | C2 | life |
 | `photos` | trip_id, uploader_id, media_key, thumb_key, taken_at, sha256, phash, width, height, quality, exif_gps_stripped bool, upload_state (pending/uploaded/failed), is_pick, faces_opt_in bool (detection on device only; no face data stored, C4) | (trip_id, taken_at) | self upload; mem read | T | trip (metadata; bytes via media-worker HMAC URLs) | C1 | trip album lifetime; uploader deletion removes |
 | `album_picks` | trip_id, photo_id, picked_by (user/guide), rank | uk (trip_id, photo_id) | mem | T | trip | C1 | life |
-| `memories` | trip_id, anchor_kind, anchor_id, author_id, text | trip_id | mem | T | trip | C1 | life |
-| `memory_reactions` | memory_id, user_id, emoji | uk | self | T | trip | C1 | life |
+| `memories` | trip_id, anchor_kind (anniversary), anchor_id, author_id (null = guide), text, local_date, photo_media_key (doc delta: created by the recap area) | uk (trip_id, anchor_kind, anchor_id) | sys; mem | T (every viewer, crew or not: `app.was_recap_viewer`) | trip | C1 | life |
+| `memory_reactions` | memory_id, trip_id, user_id, emoji, text ≤ 40 (doc delta) | uk (memory_id, user_id) | self | T (every viewer) | trip | C1 | life |
 | `postcards` | trip_id, photo_id, note, format, created_by | trip_id | mem | T | trip | C1 | life |
 | `postcard_mailings` | postcard_id, recipient_ids uuid[], vendor (print-on-demand), vendor_ref, status (queued/sent/printed/shipped/failed), tracking | postcard_id | sys | T (status only) | trip | C2 | 2 y |
 | `mailing_addresses` | user_id, fields_enc, country | user_id | self | X (never shown to crew) | — | C3 | acct |
-| `anniversaries` | trip_id, fire_at (end + 365 d), status | (fire_at) | sys | S | — | C2 | life |
+| `anniversaries` | trip_id, recap_id, user_id, fire_on (best day + 365 d), tz, fire_at, status (scheduled/fired/cancelled), memory_id, fired_at (doc delta: one per traveller, in their zone) | uk (trip_id, user_id); (fire_at) WHERE scheduled | sys | S | — | C2 | life |
 | `media_objects` | owner_id, r2_key, kind, bytes, sha256, trip_id?, purpose | (owner_id) manifest for export/deletion | sys | S | — | C2 | acct |
 
 ### 3.11 Notifications, devices, surfaces, alarms, action keys

@@ -171,10 +171,7 @@ export function DayCard({ card, sweep = false, onSwept, shake = 0 }: DayCardProp
   const dayNo = card.dayNo;
   return (
     <Animated.View style={shakeStyle}>
-      <View
-        style={[styles.card, card.when === 'today' ? styles.today : null]}
-        testID={`plan-day-${dayNo}`}
-      >
+      <View style={[styles.card, card.when === 'today' ? styles.today : null]}>
         <View style={[styles.tile, { backgroundColor: dayTileColour(dayNo) }]}>
           <Text variant="h3" color={theme.semantic.text.onAccent}>
             {String(dayNo)}

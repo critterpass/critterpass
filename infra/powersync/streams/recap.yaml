@@ -1,0 +1,45 @@
+# Recap streams (docs/data-model-sync-and-privacy.md §4). Filters mirror each table's RLS SELECT
+# policy: the recap, its awards (with the MVP tallies) and the stamp signatures ride the trip stream
+# to its viewers (a `recap_views` row) who are still in the crew; the trip's memories and their
+# reactions ride it to every viewer, crew or not, so a traveller who left keeps them; a traveller's
+# own MVP vote rides trip_me and their viewer rows ride me.
+
+streams:
+  me:
+    auto_subscribe: true
+    queries:
+      - SELECT * FROM recap_views WHERE user_id = auth.user_id()
+
+  trip_me:
+    queries:
+      - |
+        SELECT * FROM recap_mvp_votes
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND voter_id = auth.user_id()
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+
+  trip:
+    queries:
+      - |
+        SELECT * FROM recaps
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT trip_id FROM recap_views WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id())
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |
+        SELECT * FROM recap_awards
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT trip_id FROM recap_views WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id())
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |
+        SELECT * FROM stamp_signatures
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT trip_id FROM recap_views WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id())
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |
+        SELECT * FROM memories
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT trip_id FROM recap_views WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id())
+      - |
+        SELECT * FROM memory_reactions
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT trip_id FROM recap_views WHERE trip_id = subscription.parameter('trip_id') AND user_id = auth.user_id())

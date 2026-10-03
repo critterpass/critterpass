@@ -1,0 +1,203 @@
+{
+  "stats": {
+    "start_date": "2026-10-02",
+    "end_date": "2026-10-04",
+    "days": 3,
+    "travellers": 5,
+    "distance_m": 132400,
+    "distance_estimated": false,
+    "superlatives": [
+      {
+        "kind": "before_sunrise",
+        "poi_id": "@poi:marble",
+        "name": "Marble Mountains",
+        "category": "nature",
+        "day_no": 2,
+        "local_date": "2026-10-03",
+        "local_time": "04:30",
+        "visited_by": 2
+      }
+    ],
+    "photos": null,
+    "critters": { "forms_found": 2, "new_critters": 2, "form_ids": "@sorted:form_801,form_802" },
+    "best_day": { "day_no": 2, "local_date": "2026-10-03", "score": 7 }
+  },
+  "route": {
+    "stops": [
+      {
+        "poi_id": "@poi:hotel",
+        "name": "Riverside Hotel",
+        "category": "stay",
+        "day_from": 1,
+        "day_to": 1,
+        "local_time": "14:00",
+        "before_sunrise": false
+      },
+      {
+        "poi_id": "@poi:bridge",
+        "name": "Dragon Bridge",
+        "category": "other",
+        "day_from": 1,
+        "day_to": 1,
+        "local_time": "21:00",
+        "before_sunrise": false
+      },
+      {
+        "poi_id": "@poi:marble",
+        "name": "Marble Mountains",
+        "category": "nature",
+        "day_from": 2,
+        "day_to": 2,
+        "local_time": "04:30",
+        "before_sunrise": true
+      },
+      {
+        "poi_id": "@poi:hotel",
+        "name": "Riverside Hotel",
+        "category": "stay",
+        "day_from": 2,
+        "day_to": 2,
+        "local_time": "12:00",
+        "before_sunrise": false
+      },
+      {
+        "poi_id": "@poi:hoian",
+        "name": "Hoi An Old Town",
+        "category": "market",
+        "day_from": 2,
+        "day_to": 2,
+        "local_time": "16:00",
+        "before_sunrise": false
+      },
+      {
+        "poi_id": "@poi:bana",
+        "name": "Ba Na Hills",
+        "category": "nature",
+        "day_from": 3,
+        "day_to": 3,
+        "local_time": "08:00",
+        "before_sunrise": false
+      },
+      {
+        "poi_id": "@poi:hotel",
+        "name": "Riverside Hotel",
+        "category": "stay",
+        "day_from": 3,
+        "day_to": 3,
+        "local_time": "18:00",
+        "before_sunrise": false
+      }
+    ],
+    "legs": [
+      { "from": 0, "to": 1, "distance_m": 3100, "minutes": 9, "estimate": false, "ride": null },
+      {
+        "from": 1,
+        "to": 2,
+        "distance_m": 9400,
+        "minutes": 18,
+        "estimate": false,
+        "ride": { "provider": "driver", "provider_id": "@driver", "provider_name": "Anh Tuấn" }
+      },
+      { "from": 2, "to": 3, "distance_m": 10200, "minutes": 20, "estimate": false, "ride": null },
+      {
+        "from": 3,
+        "to": 4,
+        "distance_m": 29600,
+        "minutes": 45,
+        "estimate": false,
+        "ride": { "provider": "grab", "provider_id": null, "provider_name": null }
+      },
+      {
+        "from": 4,
+        "to": 5,
+        "distance_m": 52300,
+        "minutes": 70,
+        "estimate": false,
+        "ride": { "provider": "driver", "provider_id": "@driver", "provider_name": "Anh Tuấn" }
+      },
+      { "from": 5, "to": 6, "distance_m": 27800, "minutes": 47, "estimate": false, "ride": null }
+    ],
+    "total_m": 132400,
+    "estimated": false,
+    "longest_leg": 4,
+    "ridden_m": 91300,
+    "rides": 3,
+    "top_driver": {
+      "provider": "driver",
+      "provider_id": "@driver",
+      "provider_name": "Anh Tuấn",
+      "distance_m": 61700,
+      "rides": 2
+    }
+  },
+  "receipt": {
+    "currency": "VND",
+    "lines": [
+      { "category": "stays", "total_minor": 3000000, "count": 1 },
+      { "category": "food", "total_minor": 1000000, "count": 2 },
+      { "category": "transit", "total_minor": 500000, "count": 1 },
+      { "category": "fun", "total_minor": 1200000, "count": 1 }
+    ],
+    "total_minor": 5700000,
+    "expenses": 5,
+    "meals": 2,
+    "travellers": 5,
+    "each_minor": 1140000,
+    "planned_each_minor": 1500000,
+    "planned_total_minor": 7500000,
+    "under_minor": 1800000,
+    "priciest": {
+      "expense_id": "@stays",
+      "description": "Riverside Hotel",
+      "amount_minor": 3000000
+    },
+    "cheapest_day": { "day_no": 2, "local_date": "2026-10-03", "each_minor": 220000 },
+    "outstanding_minor": 500000,
+    "settled": false,
+    "settled_on": null,
+    "settled_days_after_end": null
+  },
+  "got_away": {
+    "form_id": "@form_803",
+    "critter_id": "@critter_803",
+    "critter_key": "cp-803",
+    "rarity": "epic",
+    "sightings": 2,
+    "wandered_off": 1,
+    "seen_by": "@sorted:user:cora,user:dev",
+    "forms_found": 0,
+    "forms_total": 1,
+    "next_window": null
+  },
+  "awards": [
+    {
+      "user_id": "@user:anna",
+      "kind": "planner",
+      "metric": "plan_edits",
+      "value": 2,
+      "evidence": { "crew_total": 2, "share_pct": 100 }
+    },
+    {
+      "user_id": "@user:ben",
+      "kind": "treasurer",
+      "metric": "expenses_logged",
+      "value": 3,
+      "evidence": { "crew_total": 5, "share_pct": 60 }
+    },
+    {
+      "user_id": "@user:cora",
+      "kind": "critter_whisperer",
+      "metric": "finds",
+      "value": 1,
+      "evidence": { "crew_total": 3, "share_pct": 33 }
+    },
+    {
+      "user_id": "@user:dev",
+      "kind": "explorer",
+      "metric": "places_visited",
+      "value": 2,
+      "evidence": { "crew_total": 3, "share_pct": 67 }
+    },
+    { "user_id": "@user:eli", "kind": "good_company", "metric": "none", "value": 0, "evidence": {} }
+  ]
+}

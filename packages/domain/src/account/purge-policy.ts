@@ -117,6 +117,12 @@ export const PURGE_RULES: readonly PurgeRule[] = [
     { kind: 'via', fn: 'merge_drop_fair_use_counters' },
   ]),
   ...rules('public.stickers', ['user_id', del]),
+  // Recap: the user's own viewing, vote, signature strokes and year-later timers go; their stamps
+  // (and every signature on them) go with the pass.
+  ...rules('public.recap_views', ['user_id', del]),
+  ...rules('public.recap_mvp_votes', ['voter_id', del]),
+  ...rules('public.stamp_signatures', ['signer_id', del]),
+  ...rules('public.anniversaries', ['user_id', del]),
   ...rules('public.stamps', ['user_id', del]),
   ...rules('public.taste_profiles', ['user_id', del]),
   ...rules('public.passes', ['user_id', del]),
@@ -207,6 +213,10 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.home_tips', ['dismissed_by', keep(CREW)]),
   ...rules('public.meetups', ['created_by', keep(CREW)]),
   ...rules('public.readiness', ['user_id', keep(CREW)]),
+  // A recap award (counts only, no personal data) and a memory or reaction stay crew history.
+  ...rules('public.recap_awards', ['user_id', keep(CREW)]),
+  ...rules('public.memories', ['author_id', keep(CREW)]),
+  ...rules('public.memory_reactions', ['user_id', keep(CREW)]),
   ...rules(
     'public.packing_items',
     ['owner_id', keep(CREW)],
