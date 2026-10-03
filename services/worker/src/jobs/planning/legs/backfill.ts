@@ -1,52 +1,54 @@
 /**
- * Backfills stored legs for every trip in planning, pre or in that has a live plan version, one
- * trip at a time, with the same code the `plan.legs` job runs. Writes `plan_legs` and
- * `route_cache`; run it once per environment after the Valhalla service is up:
+ * Backfills stored legs: queues one `plan.legs` run per trip in planning, pre or in with a live
+ * plan, spread over time, for the deployed worker to route inside the private network. Run it
+ * from anywhere that reaches the database (it never calls Valhalla itself):
  *
  *   railway run --service worker --environment staging -- \
- *     pnpm --filter @cp/worker exec tsx src/jobs/planning/legs/backfill.ts [--dry-run]
+ *     pnpm --filter @cp/worker exec tsx src/jobs/planning/legs/backfill.ts [--dry-run] [--per-minute 60]
  *
- * `--dry-run` lists the trips it would refresh and writes nothing.
+ * `--dry-run` counts the trips and writes nothing.
  */
-import { createPool, withSystem } from '@cp/db';
+import { createPool, registerJobProducer } from '@cp/db';
+import { PgBoss } from 'pg-boss';
 
-import { workerPlanningTravel } from './index';
-import { refreshTripLegs } from './job';
-import { LIVE_VERSION_STATUSES } from './load';
+import { BOSS_SCHEMA } from '../../../boss/boss';
+import { queueLegsBackfill } from './backfill-queue';
+
+function flag(name: string): string | undefined {
+  const index = process.argv.indexOf(`--${name}`);
+  return index === -1 ? undefined : process.argv[index + 1];
+}
 
 async function main(): Promise<void> {
-  const connectionString = process.env['DATABASE_URL'];
+  // pg-boss takes advisory locks while it starts: a direct connection when one is configured.
+  const connectionString = process.env['DATABASE_DIRECT_URL'] ?? process.env['DATABASE_URL'];
   if (connectionString === undefined) throw new Error('DATABASE_URL is required');
+  const dryRun = process.argv.includes('--dry-run');
+  const perMinute = Number(flag('per-minute') ?? 60);
   const pool = createPool({ connectionString, max: 2 });
+  const boss = new PgBoss({
+    connectionString,
+    schema: BOSS_SCHEMA,
+    createSchema: false,
+    options: '-c role=app_system',
+    application_name: 'cp-legs-backfill',
+    max: 1,
+    supervise: false,
+    schedule: false,
+  });
   try {
-    const trips = await withSystem(pool, async (tx) => {
-      const { rows } = await tx.query<{ id: string }>(
-        `SELECT t.id FROM trips t
-          WHERE t.phase IN ('planning', 'pre', 'in')
-            AND EXISTS (SELECT 1 FROM itinerary_versions v
-                         WHERE v.trip_id = t.id AND v.status = ANY($1::text[]))
-          ORDER BY t.id`,
-        [LIVE_VERSION_STATUSES],
-      );
-      return rows.map((row) => row.id);
-    });
-    console.log(`trips with a live plan: ${trips.length}`);
-    if (process.argv.includes('--dry-run')) return;
-    let fallbacks = 0;
-    const travel = workerPlanningTravel(pool, process.env['VALHALLA_URL'], () => {
-      fallbacks += 1;
-    });
-    const totals = { legs: 0, changed: 0, approx: 0 };
-    for (const tripId of trips) {
-      const result = await refreshTripLegs(pool, travel, tripId);
-      totals.legs += result.legs;
-      totals.changed += result.changed;
-      totals.approx += result.approx;
+    if (!dryRun) {
+      await boss.start();
+      registerJobProducer(boss);
     }
+    const result = await queueLegsBackfill(pool, { dryRun, perMinute });
     console.log(
-      `legs ${totals.legs}, rows changed ${totals.changed}, about ${totals.approx}, router fallbacks ${fallbacks}`,
+      `trips with a live plan: ${result.trips}; queued ${result.queued}, already queued ${result.alreadyQueued}` +
+        (dryRun ? ' (dry run, nothing written)' : '') +
+        `; last run starts in ${Math.ceil(result.lastStartsIn / 60)} min`,
     );
   } finally {
+    if (!dryRun) await boss.stop({ graceful: false }).catch(() => undefined);
     await pool.end();
   }
 }
