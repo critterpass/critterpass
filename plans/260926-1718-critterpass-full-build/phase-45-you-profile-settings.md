@@ -180,7 +180,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: device check: podcast keeps playing while theme plays; silent switch mutes music; quiet rules unit-tested across tz boundaries.
 
 ### T6 — Language & currency 3n-8 (in-place switch)
-- Status: blocked — language list done (6a6591320); currency, price mode and formats wait until every price and clock time formats through the settings-backed formatter
+- Status: blocked — language list and currency done; FORMATS (12/24-hour, km/mi) waits until every clock time and distance follows it, after the trip time-zone audit
 - Goal: switch locale and price mode without restart.
 - Files: `apps/mobile/src/app/you/language.tsx`, `apps/mobile/src/features/you/language/*`, `apps/mobile/src/features/you/language/__tests__/*.test.tsx`, `e2e/you/language-currency.yaml`.
 - Steps: 1. Locale list + in-place `activate` + persist + App Group write. 2. RTL restart state. 3. Voice line playback. 4. Currency picker, price mode segmented with odometer sample, formats pickers. 5. Stale FX label.

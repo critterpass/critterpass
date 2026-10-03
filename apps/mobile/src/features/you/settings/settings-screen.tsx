@@ -10,6 +10,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 
 import { BOOKINGS_ROUTES, useMailboxSettingsRow } from '@/features/bookings';
+import { useMoneyDisplay } from '@/data/money';
 import { useFlag } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { useFeedbackPrefs } from '@/motion/feedback/prefs';
@@ -20,6 +21,7 @@ import { deviceAccountServices, type AccountServices } from '../account/account-
 import { useAccountRead } from '../account/use-account';
 import { exportLine } from '../export/export-copy';
 import { useDataExport } from '../export/use-data-export';
+import { languageLine } from '../language/currency-model';
 import { nativeNameOf } from '../language/language-names';
 import { YOU_ROUTES } from '../routes';
 import { CrewChatSheet } from './crew-chat-sheet';
@@ -55,6 +57,7 @@ export function SettingsScreen({
   const pings = usePingPrefs();
   const mailbox = useMailboxSettingsRow();
   const location = useLocationRow();
+  const money = useMoneyDisplay();
   const dataExport = useDataExport();
   // Reading the inbox needs a provider switched on for this build; until then the row offers the
   // crew's forward address, which works today.
@@ -78,7 +81,7 @@ export function SettingsScreen({
       soundEffects: prefs.categoryEnabled[STICKER_SOUNDS],
       haptics: prefs.hapticsEnabled,
       account: account?.kind === 'ok',
-      language: nativeNameOf(locale),
+      language: languageLine(nativeNameOf(locale), money),
       dataExport: {
         line: exportLine(dataExport.state, dataExport.problem, locale),
         enabled:

@@ -28,7 +28,7 @@ export interface SettingsValues extends SyncedSettings {
   readonly helpShare: boolean;
   readonly soundEffects: boolean;
   readonly haptics: boolean;
-  /** The app's language, in its own script ("Tiếng Việt"). */
+  /** The app's language in its own script and how prices show ("English · prices in S$ and local"). */
   readonly language: string;
   /** The server answered for this account: only then are the account rows offered. */
   readonly account: boolean;
@@ -224,8 +224,9 @@ export function useSettingsSections(
     language: {
       key: 'language',
       kind: 'value',
-      title: t({ id: 'you.settings.language', message: 'Language' }),
-      value: values.language,
+      title: t({ id: 'you.settings.languageCurrency', message: 'Language and currency' }),
+      subtitle: values.language,
+      value: '',
       onPress: handlers.onLanguage,
     },
     'download-data': values.account
