@@ -218,4 +218,20 @@ describe('ingest open-data fields', () => {
       },
     ]);
   });
+
+  it('keeps a stored FSQ link when a rerun reads Overture only', async () => {
+    const fsqBridge: PlaceSourceRow = { ...japaneseBridge, sourceId: 'fsq-bridge' };
+    await ingestDestination(
+      pool,
+      { destinationId, bbox: HOI_AN_BBOX },
+      readers([japaneseBridge], [fsqBridge]),
+    );
+    await ingestDestination(pool, { destinationId, bbox: HOI_AN_BBOX }, readers([japaneseBridge]));
+
+    const { rows } = await pool.query<{ source_ids: Record<string, string> }>(
+      'SELECT source_ids FROM pois WHERE destination_id = $1',
+      [destinationId],
+    );
+    expect(rows).toEqual([{ source_ids: { fsq_os: 'fsq-bridge', overture: 'overture-bridge' } }]);
+  });
 });

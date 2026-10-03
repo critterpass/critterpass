@@ -98,7 +98,7 @@ function placesSql(): string {
 const KIND_PREFIX: Readonly<Record<string, string>> = { node: 'n', way: 'w', relation: 'r' };
 
 function text(tags: OsmTags, key: string): string | undefined {
-  const value = tags[key]?.trim();
+  const value = tags[key]?.replaceAll('\u0000', '').trim();
   return value === undefined || value.length === 0 ? undefined : value;
 }
 

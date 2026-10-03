@@ -94,13 +94,18 @@ function bboxParams(bbox: BoundingBox): number[] {
 }
 
 /** `getRowObjectsJson()` types every cell as the `Json` union; source id/name are always scalar. */
-function asString(value: unknown): string {
-  return typeof value === 'string' || typeof value === 'number' ? String(value) : '';
+/** Open data holds the odd NUL character, which Postgres text cannot store. */
+export function withoutNul(value: string): string {
+  return value.includes('\u0000') ? value.replaceAll('\u0000', '') : value;
 }
 
-function optionalText(value: unknown): string | undefined {
+function asString(value: unknown): string {
+  return typeof value === 'string' || typeof value === 'number' ? withoutNul(String(value)) : '';
+}
+
+export function optionalText(value: unknown): string | undefined {
   if (typeof value !== 'string') return undefined;
-  const trimmed = value.trim();
+  const trimmed = withoutNul(value).trim();
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
