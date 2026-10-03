@@ -107,8 +107,9 @@ const MAX_TRIP_DAYS = 60;
 
 /**
  * The trip's days, each with its crew plan items in the trip's local time. A day with nothing
- * planned is still listed (from the trip's dates), and a trip with no plan yet answers with
- * `version: null` instead of failing, so the guide can say so rather than call the plan unreadable.
+ * planned is still listed (from the plan's days, else the trip's dates), a plan with no items still
+ * gives its version so the guide can propose the first one, and a trip with no plan yet answers
+ * with `version: null` instead of failing, so the guide can say how the plan starts.
  */
 export async function readPlan(
   read: RunAsGuideReader,
@@ -128,11 +129,24 @@ export async function readPlan(
         WHERE visibility = 'crew'
         ORDER BY day_no, starts_at NULLS LAST, stable_id`,
     );
+    // The plan's own days, even with nothing on them: an empty plan is still a plan to add to.
+    const plan = await tx.query<{ version_id: string; day_no: number | null; date: string | null }>(
+      `SELECT version_id, day_no, date::text AS date FROM llm.plan_version_days
+        ORDER BY day_no NULLS FIRST`,
+    );
     const days = new Map<number, PlanDay>();
     if (start !== null && end !== null) {
       const count = Math.round((Date.parse(end) - Date.parse(start)) / 86_400_000) + 1;
       for (let n = 1; n <= Math.min(count, MAX_TRIP_DAYS); n += 1)
         days.set(n, { day_no: n, date: addDays(start, n - 1), items: [] });
+    }
+    for (const row of plan.rows) {
+      if (row.day_no === null) continue;
+      days.set(row.day_no, {
+        day_no: row.day_no,
+        date: row.date ?? days.get(row.day_no)?.date ?? null,
+        items: [],
+      });
     }
     for (const row of rows) {
       const entry = days.get(row.day_no) ?? { day_no: row.day_no, date: row.date, items: [] };
@@ -148,7 +162,7 @@ export async function readPlan(
     }
     const listed = [...days.values()].sort((a, b) => a.day_no - b.day_no);
     return {
-      version: rows[0]?.version_id ?? null,
+      version: plan.rows[0]?.version_id ?? rows[0]?.version_id ?? null,
       days: day === undefined ? listed : listed.filter((entry) => entry.day_no === day),
     };
   });

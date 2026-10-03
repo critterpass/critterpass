@@ -33,6 +33,7 @@ Crew-visibility matrix (master §10.4, C36) maps to: `users`/`avatars`/`passes`/
 |---|---|---|
 | `llm.trip_context` | trip header, dates, tz, destination, participants (display name, taste tags unless hidden, RSVP), seat cap, budget **band** | budget maxes, calendars, engagement |
 | `llm.plan_items` | current + (for organiser jobs) draft version items, POI refs, costs from `cost-engine` outputs | — |
+| `llm.plan_version_days` (doc delta) | the current crew plan's version and its days (`day_no`, `date`), empty days included, so a plan with no items is still a plan the guide can propose to | organiser drafts |
 | `llm.pois` | curated POI DB (`pois`, `poi_live_checks` flags), plus the content factory's quality signals `curation`, `must_see` and `why_go` and the unaccented search vector `fts` (doc delta; the catalogue has no ratings) | supplier content, `source_ids`, the rest of `editorial`, `merged_into_id`, `geofence` |
 | `llm.bookings` | type, title, location, times, tz, status, free_cancel_until, cancel_policy_text; visibility=crew only (doc delta: title, location, policy text) | barcodes, attachments, prices, confirmation codes, personal bookings (own included) |
 | `llm.money_summary` | per-member net balances, category totals | payout methods |

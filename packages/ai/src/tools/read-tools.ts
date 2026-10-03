@@ -162,7 +162,7 @@ export const READ_TOOL_SPECS = {
     ),
   ),
   plan_read: spec(
-    "The trip's days and current plan. Any change must cite its version as base_version; version is null while the trip has no plan yet.",
+    "The trip's days and current plan. Any change must cite its version as base_version; version is null while the trip has no plan yet (it starts when setup is finished and the guide drafts it); a plan with empty days has a version.",
     'CGDRB',
     'read',
     z.object({ trip_id: id, day: z.number().int().optional() }),

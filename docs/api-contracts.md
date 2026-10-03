@@ -665,7 +665,7 @@ Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** 
 | `flight_status` | `{flight_no, date}` | `{status, sched, est, gate, source, at}` | AeroDataBox / AeroAPI | cite source + time | C R B |
 | `fx` | `{amount_minor, from, to}` | `{amount_minor, rate, snapshot_id}` | Frankfurter | – | C G |
 | `crew_profiles` | `{trip_id}` | `[{uid, first_name, taste_tags, dietary_flags, pace, chronotype}]` (redacted) | DB via `guide_reader` | no budget maxes, no private threads | C G D R |
-| `plan_read` | `{trip_id, day?}` | `{version\|null, days[{day_no, date, items[]}]}` (doc delta: every trip day, item times in the trip's local offset, `version: null` before a plan exists) | DB | changes must cite `base_version` | C G D R B |
+| `plan_read` | `{trip_id, day?}` | `{version\|null, days[{day_no, date, items[]}]}` (doc delta: every trip day, item times in the trip's local offset; a plan with empty days still gives its `version`; `version: null` only before a plan exists, when nothing can be proposed and the guide says the plan starts once setup is finished and it drafts the trip) | DB | changes must cite `base_version` | C G D R B |
 | `bookings_read` | `{trip_id}` | `[{booking_id, kind, when, where, cancel_deadline?, status}]` | DB | deadlines verbatim | C G R B |
 | `balances_read` | `{trip_id}` | `{per_member_net[], settle_plan[]}` | cost-engine | amounts from engine | C G B |
 | `cost_quote` | `{trip_id, ops[]}` | `{delta_per_person_minor, currency}` | cost-engine | model words the number only | C G D R |

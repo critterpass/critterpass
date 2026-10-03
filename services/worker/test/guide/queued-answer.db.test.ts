@@ -9,7 +9,7 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { queuedAnswerJob } from '../../src/jobs/guide/queued-answer';
 import { insertUser, startNotifyDb, type NotifyDb } from '../notify-fixtures';
-import { fakeModel, jobContext, testRuntime } from './guide-fixtures';
+import { crewTrip, fakeModel, jobContext, testRuntime } from './guide-fixtures';
 
 let db: NotifyDb;
 
@@ -86,5 +86,45 @@ describe('ai.queued_answer', () => {
 
     // Answered once: the next run finds nothing due.
     expect(await job.handler({}, jobContext)).toEqual({ answered: 0, waiting: 0, failed: 0 });
+  });
+
+  it("answers in the thread's trip and crew, knowing the asker's local time", async () => {
+    const uid = await insertUser(db.pool);
+    const { crewId, tripId } = await crewTrip(db.pool, [uid]);
+    const threadId = randomUUID();
+    await db.pool.query(
+      "INSERT INTO guide_threads (id, user_id, mode, trip_id) VALUES ($1, $2, 'private', $3)",
+      [threadId, uid, tripId],
+    );
+    await db.pool.query(
+      `INSERT INTO queued_guide_questions (user_id, thread_id, trip_id, text, tz, queued_for, answer_after, queued_at)
+       VALUES ($1, $2, $3, 'Beach or market tomorrow? Ask the crew.', 'Asia/Saigon', '2026-10-01', $4, $5)`,
+      [uid, threadId, tripId, SAIGON_MIDNIGHT, new Date('2026-10-01T15:30:00Z')],
+    );
+    const model = fakeModel((body) =>
+      body.messages.length === 1
+        ? {
+            tool: 'create_vote_draft',
+            input: {
+              question: 'Beach or market tomorrow?',
+              options: ['Beach', 'Market'],
+              closes_at: '2026-10-02T12:00:00+07:00',
+            },
+          }
+        : 'I drafted a vote for the crew: beach or market.',
+    );
+    const runtime = testRuntime(db.pool, model);
+    const crews: string[] = [];
+    runtime.registry.registerToolExecutor('create_vote_draft', (input) => {
+      crews.push(input.crew_id);
+      return Promise.resolve({ draft_id: randomUUID() });
+    });
+
+    const job = queuedAnswerJob(runtime, () => SAIGON_MIDNIGHT);
+    expect(await job.handler({}, jobContext)).toMatchObject({ answered: 1 });
+    expect(JSON.stringify(model.requests[0])).toContain(
+      '[Local time: Fri 2026-10-02, 00:00 (Asia/Saigon)]',
+    );
+    expect(crews).toEqual([crewId]);
   });
 });

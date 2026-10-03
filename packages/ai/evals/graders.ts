@@ -92,6 +92,17 @@ export const GRADERS: Readonly<Record<string, Grader>> = {
       : fail(`never called ${missing.join(', ')} (called ${[...called].join(', ') || 'nothing'})`);
   },
 
+  avoids_forbidden_tools: (output, vars) => {
+    const forbidden = (vars as { forbid_tools?: unknown }).forbid_tools;
+    if (!Array.isArray(forbidden)) return fail('the case names no forbid_tools');
+    const called = output.toolCalls
+      .map((call) => call.name)
+      .filter((name) => forbidden.includes(name));
+    return called.length === 0
+      ? ok('called none of the forbidden tools')
+      : fail(`called ${called.join(', ')}`);
+  },
+
   no_invented_rating: (output) => {
     const score = INVENTED_RATING.exec(output.answer);
     return score === null ? ok('no rating the data does not have') : fail(`cites "${score[0]}"`);
