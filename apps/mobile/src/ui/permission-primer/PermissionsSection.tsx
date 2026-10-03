@@ -71,6 +71,8 @@ async function fix(kind: PermissionKind, report: PermissionReport | undefined): 
 }
 
 export interface PermissionsSectionProps {
+  /** Kinds a screen already shows elsewhere (Settings has Location under PRIVACY). */
+  readonly exclude?: readonly PermissionKind[];
   readonly testID?: string;
 }
 
@@ -78,9 +80,13 @@ export interface PermissionsSectionProps {
  * Settings (3n-2 / 3n-6) "Permissions": every kind with its state and the one action that
  * improves it — ask again while the OS will still prompt, else open Settings.
  */
-export function PermissionsSection({ testID = 'permissions-section' }: PermissionsSectionProps) {
+export function PermissionsSection({
+  exclude = [],
+  testID = 'permissions-section',
+}: PermissionsSectionProps) {
   const state = usePermissionsState();
-  const rows: SettingsRow[] = SETTINGS_PERMISSION_KINDS.map((kind) => ({
+  const kinds = SETTINGS_PERMISSION_KINDS.filter((kind) => !exclude.includes(kind));
+  const rows: SettingsRow[] = kinds.map((kind) => ({
     key: kind,
     kind: 'value',
     title: primerCopy(kind).title,

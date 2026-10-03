@@ -14,14 +14,16 @@ export const MEDIA_PURPOSES = [
   'booking_doc',
   'feedback',
   'voice',
+  'signature',
 ] as const;
 export const mediaPurposeSchema = z.enum(MEDIA_PURPOSES);
 
 /**
  * Purposes only the worker writes (never presigned for an upload): the guide's recorded phrase
- * audio. Their keys use the same layout and `media_objects` rows, so read URLs follow the same rules.
+ * audio and recap narration. Their keys use the same layout and `media_objects` rows, so read URLs
+ * follow the same rules.
  */
-export const SERVER_MEDIA_PURPOSES = ['phrase_audio'] as const;
+export const SERVER_MEDIA_PURPOSES = ['phrase_audio', 'recap_audio'] as const;
 export type MediaPurpose = z.infer<typeof mediaPurposeSchema>;
 
 const MiB = 1024 * 1024;
@@ -52,6 +54,8 @@ const PURPOSE_RULES: Record<MediaPurpose, PurposeRule> = {
   feedback: { contentTypes: [...IMAGES, 'video/mp4', 'video/quicktime'], maxBytes: 50 * MiB },
   // A two-minute crew chat voice note at the recorder's 64 kbps is about 1 MB.
   voice: { contentTypes: VOICE, maxBytes: 5 * MiB },
+  // The stroke a traveller signs stamps with: the vector JSON the signature sheet records.
+  signature: { contentTypes: ['application/json'], maxBytes: 256 * 1024 },
 };
 
 export function purposeRule(purpose: MediaPurpose): PurposeRule {
@@ -91,6 +95,13 @@ const MEDIA_KEY_PATTERN = new RegExp(`^u/(${UUID})/(${MEDIA_PURPOSES.join('|')})
 const READABLE_KEY_PATTERN = new RegExp(
   `^u/(${UUID})/(${[...MEDIA_PURPOSES, ...SERVER_MEDIA_PURPOSES].join('|')})/(${UUID})$`,
 );
+
+const TRIP_MEDIA_KEY_PATTERN = new RegExp(`^t/(${UUID})/recap_audio/(${UUID})$`);
+
+/** The trip of a trip-owned key (recap narration the crew shares, owned by no traveller). */
+export function tripMediaKeyTrip(key: string): string | undefined {
+  return TRIP_MEDIA_KEY_PATTERN.exec(key)?.[1];
+}
 
 /** The owner of any key a read URL may be minted for (uploaded or worker-written); else `undefined`. */
 export function readableKeyOwner(key: string): string | undefined {

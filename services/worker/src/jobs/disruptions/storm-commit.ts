@@ -39,12 +39,13 @@ interface DayItem {
 async function dayItems(tx: pg.PoolClient, tripId: string, date: string): Promise<DayItem[]> {
   const { rows } = await tx.query<DayItem>(
     `SELECT pi.stable_id, pi.starts_at, pi.ends_at, pi.attendee_ids, pi.booking_id, d.day_no,
-            (pi.starts_at AT TIME ZONE coalesce(pi.tz, t.tz, 'UTC'))::date::text AS local_date
+            (pi.starts_at AT TIME ZONE coalesce(pi.tz, t.tz, dest.tz, 'UTC'))::date::text AS local_date
        FROM plan_items pi
        JOIN trips t ON t.id = pi.trip_id AND t.current_version_id = pi.version_id
+       LEFT JOIN destinations dest ON dest.id = t.destination_id
        JOIN plan_days d ON d.id = pi.day_id
       WHERE t.id = $1 AND pi.starts_at IS NOT NULL
-        AND (pi.starts_at AT TIME ZONE coalesce(pi.tz, t.tz, 'UTC'))::date = $2::date
+        AND (pi.starts_at AT TIME ZONE coalesce(pi.tz, t.tz, dest.tz, 'UTC'))::date = $2::date
       ORDER BY pi.starts_at`,
     [tripId, date],
   );

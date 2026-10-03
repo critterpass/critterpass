@@ -55,10 +55,12 @@ const LANDED_LINGER_MS = 15 * 60_000;
 export const flightLoader: LaLoader = async ({ tx, refId, now }) => {
   const { rows } = await tx.query<SegmentRow>(
     `SELECT s.id, s.booking_id, s.trip_id, s.owner_id, b.traveller_ids, b.source,
-            b.details ->> 'seat' AS seat, coalesce(b.tz, t.tz) AS tz, s.carrier, s.flight_no, s.dep_airport,
+            b.details ->> 'seat' AS seat, coalesce(b.tz, t.tz, d.tz) AS tz, s.carrier, s.flight_no,
+            s.dep_airport,
             s.arr_airport, s.status, s.sched_dep_at, s.est_dep_at, s.act_dep_at, s.sched_arr_at,
             s.est_arr_at, s.act_arr_at, s.boarding_at, s.gate, s.terminal, s.delay_min
        FROM flight_segments s JOIN bookings b ON b.id = s.booking_id JOIN trips t ON t.id = s.trip_id
+       LEFT JOIN destinations d ON d.id = t.destination_id
       WHERE s.id = $1 AND b.deleted_at IS NULL`,
     [refId],
   );

@@ -5,18 +5,19 @@
  * nearest `cities` locality.
  */
 import { DomainError } from '@cp/domain';
-import { withUser } from '@cp/db';
+import { geocodeForwardLocal, withUser, type GeocodeResult } from '@cp/db';
+import { geocodeForwardMapbox, type MapboxHttpClient } from '@cp/suppliers';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
 import { z } from 'zod';
 
 import type { AppEnv } from '../app';
 
-import { geocodeForwardMapbox } from './mapbox';
-
 export interface GeocodingRouteDeps {
   readonly pool: pg.Pool;
   readonly mapboxToken?: string;
+  /** Mapbox's HTTP boundary; the global `fetch` unless a test replays recorded answers. */
+  readonly mapboxHttp?: MapboxHttpClient;
 }
 
 interface RequestActor {
@@ -29,56 +30,10 @@ function requireActor(c: { var: { uid?: string; device?: string } }): RequestAct
   return { uid: c.var.uid, device: c.var.device ?? 'unknown' };
 }
 
-export interface GeocodeResult {
-  readonly source: 'poi' | 'city' | 'mapbox';
-  readonly label: string;
-  readonly lat: number;
-  readonly lng: number;
-  readonly poiId?: string;
-  readonly cityId?: string;
-}
-
-const LOCAL_MATCH_LIMIT = 5;
 /** Reverse-geocode search radius: nearest POI within 60 m (visit-detection radius, not the venue's own footprint). */
 const REVERSE_POI_RADIUS_M = 60;
 /** Beyond this, "nearest city" stops being a meaningful locality answer for a reverse lookup. */
 const REVERSE_CITY_RADIUS_M = 100_000;
-
-async function geocodeForwardLocal(
-  tx: pg.PoolClient,
-  query: string,
-): Promise<readonly GeocodeResult[]> {
-  const [pois, cities] = await Promise.all([
-    tx.query<{ id: string; name: string; address: string | null; lat: number; lng: number }>(
-      `SELECT id, name, address, lat, lng FROM pois
-       WHERE status = 'active' AND (fts @@ websearch_to_tsquery('simple', app.unaccent_immutable($1)) OR name % $1)
-       ORDER BY similarity(name, $1) DESC LIMIT $2`,
-      [query, LOCAL_MATCH_LIMIT],
-    ),
-    tx.query<{ id: string; name: string; country: string; lat: number; lng: number }>(
-      `SELECT id, name, country, lat, lng FROM cities WHERE name % $1
-       ORDER BY similarity(name, $1) DESC LIMIT $2`,
-      [query, LOCAL_MATCH_LIMIT],
-    ),
-  ]);
-
-  return [
-    ...pois.rows.map((row) => ({
-      source: 'poi' as const,
-      label: row.address !== null ? `${row.name}, ${row.address}` : row.name,
-      lat: row.lat,
-      lng: row.lng,
-      poiId: row.id,
-    })),
-    ...cities.rows.map((row) => ({
-      source: 'city' as const,
-      label: `${row.name}, ${row.country}`,
-      lat: row.lat,
-      lng: row.lng,
-      cityId: row.id,
-    })),
-  ];
-}
 
 export interface ReverseGeocodeResult {
   readonly source: 'poi' | 'city' | 'none';
@@ -142,7 +97,11 @@ export function registerGeocodingRoutes(app: OpenAPIHono<AppEnv>, deps: Geocodin
       return c.json({ results: localResults });
     }
 
-    const mapboxResults = await geocodeForwardMapbox(query, { accessToken: deps.mapboxToken });
+    const mapboxResults = await geocodeForwardMapbox(
+      query,
+      { accessToken: deps.mapboxToken },
+      deps.mapboxHttp,
+    );
     return c.json({
       results: mapboxResults.map((result): GeocodeResult => ({
         source: 'mapbox',

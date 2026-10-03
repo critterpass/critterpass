@@ -21,6 +21,7 @@ import { APPLY_PLAN_OPS } from './commands';
 import { useLiveRows } from './live-rows';
 import {
   displayOf,
+  placeNamesOf,
   themesAsRead,
   toPlanState,
   type ItemDisplay,
@@ -38,6 +39,8 @@ import {
   MEMBERS_TABLES,
   OPEN_CHANGESETS_SQL,
   QUEUED_PLAN_SQL,
+  VERSION_PLACES_SQL,
+  VERSION_PLACES_TABLES,
   QUEUED_PLAN_TABLES,
   TRIP_SQL,
   TRIP_TABLES,
@@ -143,6 +146,12 @@ export function useTripPlan(tripId: string | null): TripPlan {
     version === null ? null : [version],
     ITEMS_TABLES,
   );
+  const coverage = useLiveRows<{ coverage: string | null }>(
+    VERSION_PLACES_SQL,
+    version === null ? null : [version],
+    VERSION_PLACES_TABLES,
+  );
+  const places = useMemo(() => placeNamesOf(coverage.rows[0]?.coverage ?? null), [coverage.rows]);
   const queued = useLiveRows<QueuedRow>(QUEUED_PLAN_SQL, [], QUEUED_PLAN_TABLES);
   const locale = useActiveLocale();
   const changesets = useLiveRows<ChangesetRow>(
@@ -175,7 +184,7 @@ export function useTripPlan(tripId: string | null): TripPlan {
       })),
       synced,
       state: replay?.state ?? synced,
-      display: displayOf(items.rows, locale),
+      display: displayOf(items.rows, locale, places),
       themes: themesAsRead(days.rows, locale),
       queued: replay?.touched ?? new Set<string>(),
       proposed,
@@ -195,5 +204,6 @@ export function useTripPlan(tripId: string | null): TripPlan {
     queued.rows,
     changesets.rows,
     locale,
+    places,
   ]);
 }

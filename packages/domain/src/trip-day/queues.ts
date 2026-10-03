@@ -51,11 +51,15 @@ export type LeaveByRecomputeJob = z.infer<typeof leaveByRecomputeJobSchema>;
 export const dayBundleJobSchema = z.object({ trip_id: z.uuid(), local_date: z.iso.date() });
 export type DayBundleJob = z.infer<typeof dayBundleJobSchema>;
 
-/** Events after which a trip's leave-bys are recomputed (the plan, a flight or the trip moved). */
+/**
+ * Events after which a trip's leave-bys are recomputed: the plan, a flight or the trip moved, or a
+ * booking was edited (a transfer's pickup text is placed once per text, on the next recompute).
+ */
 export const LEAVE_BY_INPUT_EVENTS: ReadonlySet<string> = new Set([
   'plan.version_created',
   'plan.ops_applied',
   'change_set.applied',
   'flight.status_changed',
   'trip.status_changed',
+  'booking.edited',
 ]);

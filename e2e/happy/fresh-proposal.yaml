@@ -24,10 +24,28 @@ appId: app.critterpass.dev
       visible:
         id: 'proposal-trailer'
     commands:
-      - waitForAnimationToEnd
       - takeScreenshot: en-3f-2-trailer
+# Android: a quick reply, then MAYBE. iOS leaves the trailer alone: the simulator lands each tap only
+# once the playing story is still, which is after it has handed over to the version, so the tap hits
+# the version (ASK SARDI) instead. The story ends on the version by itself.
+- runFlow:
+    when:
+      platform: Android
+      visible:
+        id: 'proposal-trailer'
+    commands:
       - tapOn:
           id: 'trailer-quick'
+      # With the quick replies open the story holds: well past a five-second slide, and past the
+      # last one, the reader is still on the trailer with the replies up.
+      - extendedWaitUntil:
+          visible:
+            id: 'proposal-version'
+          timeout: 12000
+          optional: true
+      - assertVisible:
+          id: 'trailer-react-okay_wow'
+      - takeScreenshot: en-3f-2-trailer-reply-held
       - tapOn:
           id: 'trailer-react-okay_wow'
       - tapOn:
@@ -129,10 +147,12 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'version-whole-plan'
+# iOS reads each day card whole by its label ("Day 1, Sat, …"), with the card's own id inside it.
 - extendedWaitUntil:
     visible:
-      id: 'plan-day-1'
+      id: 'plan-day-list'
     timeout: 60000
+- assertVisible: '(?i)day 1,.*'
 - waitForAnimationToEnd
 - takeScreenshot: en-3e-1-friend-plan
 
@@ -165,6 +185,6 @@ appId: app.critterpass.dev
       id: 'tracker-lock'
     timeout: 15000
 - assertVisible:
-    text: '(?i)confirmed'
+    text: '(?i).*confirmed.*'
 - waitForAnimationToEnd
 - takeScreenshot: en-3f-6-locked

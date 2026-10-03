@@ -228,6 +228,19 @@ some of the flows.
 3. Run it: `gh workflow run device.yml -f preset=happy -f platform=android -f flows=e2e/happy/<journey>.yaml`.
 4. Add it to the table above.
 
+### Writing flows that pass on iOS
+
+- A plain `View`'s id inside an `accessible` parent (a day card, a chat bubble) is not in iOS's
+  hierarchy: find it by the parent's label, or put the id on the accessible view.
+- iOS reads a grouped element as one label ("Winston, 17:07: Fushimi Inari at sunrise", "Day 1,
+  Sat, …", an address with its copy hint): match text with `'.*…'` on both sides.
+- A `Sheet`'s root id is not in iOS's hierarchy: wait on `<id>-panel`.
+- An element behind a footer, a keyboard or below the fold still counts as visible: hide the
+  keyboard and `scrollUntilVisible` before tapping, and never trust an unscrolled tap on a long
+  list (the dev gallery: `e2e/home/subflows/pick-gallery-locale.yaml`).
+- Once a trip turns on, its welcome page (`critters-hatch-later`) can come up over Home at any
+  later step: wait for Home or the page, and pass it.
+
 ## UI review gate
 
 `.github/workflows/ui-review.yml` adds the `ui-reviewed` check to every pull request. When the pull

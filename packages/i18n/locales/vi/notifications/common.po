@@ -219,17 +219,37 @@ msgstr "{name} ơi, lịch của bạn chưa đồng bộ hơn {days} ngày rồ
 msgid "notifications.money.requested"
 msgstr "{payee} nhờ bạn trả {amount}."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.requested"
+msgstr "{payee} nhờ bạn thanh toán."
+
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.confirmed"
 msgstr "{payee} đã nhận {amount} của bạn. Xong xuôi."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.confirmed"
+msgstr "{payee} đã nhận khoản của bạn. Xong xuôi."
 
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.disputed"
 msgstr "{payee} chưa thấy khoản {amount} của bạn. Kiểm tra lại giao dịch nhé?"
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.disputed"
+msgstr "{payee} chưa thấy khoản của bạn. Kiểm tra lại giao dịch nhé?"
+
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.nudged"
 msgstr "{payee} nhắc nhẹ bạn về khoản {amount}."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.nudged"
+msgstr "{payee} nhắc nhẹ bạn về một khoản tiền."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.expense_added"
+msgstr "{payer} đã thêm một khoản chi bạn cùng chia."
 
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.expense_added"
@@ -238,6 +258,10 @@ msgstr "{payer} đã trả {amount} cho {what}. Phần của bạn là {share}."
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.marked_paid"
 msgstr "{payer} báo đã trả bạn {amount}. Bạn nhận được chưa?"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.marked_paid"
+msgstr "{payer} báo đã trả bạn. Bạn nhận được chưa?"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.meet_up_start_title"
@@ -275,6 +299,14 @@ msgstr "Một tháng nữa {place} mở. Lên kế hoạch quanh dịp này nhé
 msgid "notifications.vote.winner.body"
 msgstr "{place} thắng với {score}. Vào xem kết quả nào."
 
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.anniversary.body"
+msgstr ""
+
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.ready.title"
+msgstr ""
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.vote_start_body"
 msgstr "{question}"
@@ -311,6 +343,10 @@ msgstr "{sender} bị lạc và cần giúp một tay."
 msgid "notifications.sos_resolved.safe"
 msgstr "{sender} đã an toàn. Cảm ơn mọi người đã có mặt."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.meetup_changed.moved"
+msgstr "{sender} đã dời điểm hẹn sang {time}."
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.moved"
 msgstr "{sender} đã đổi điểm hẹn: {place}, {time}."
@@ -330,6 +366,10 @@ msgstr "{sender} đã mở Trợ giúp và đang chia sẻ vị trí trong một
 #: ../../services/worker/src/jobs/safety/notify.ts
 msgid "notifications.sos.plain"
 msgstr "{sender} đã gửi SOS cho cả nhóm."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.meetup_changed.created"
+msgstr "{sender} đã đặt điểm hẹn lúc {time}."
 
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.created"
@@ -363,9 +403,17 @@ msgstr "{up}/{total} người đã dậy."
 msgid "notifications.quests.done.body"
 msgstr "+{xp} XP cho cả nhóm."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.bookings.deadline_body"
+msgstr "Một đặt chỗ được hủy miễn phí đến {deadline}. Sau đó áp dụng điều khoản của đặt chỗ."
+
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.legendary.title"
 msgstr "Sắp có huyền thoại xuất hiện"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.needs_yes_title"
+msgstr "Một thay đổi kế hoạch cần bạn đồng ý"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.seat_opened.title"
@@ -386,6 +434,22 @@ msgstr "Có mặt ở {place} trước {time}"
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.leave_by_be_there_start_title"
 msgstr "Có mặt ở {place} trước {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_be_at"
+msgstr "Có mặt"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.alarm_title_be_there"
+msgstr "Có mặt trước {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.knock_title_be_there"
+msgstr "Có mặt trước {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_be_there_start_title"
+msgstr "Có mặt trước {time}"
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.boarding_body"
@@ -427,17 +491,33 @@ msgstr "Ai cũng nhận Tokek Sòng Phẳng."
 msgid "notifications.la.meet_up_arrived_title"
 msgstr "Mọi người đã tới {place}"
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.meet_up_arrived_title"
+msgstr "Mọi người đã tới điểm hẹn"
+
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.meetup_changed.crew_close"
 msgstr "Cả nhóm sắp đến {place} rồi."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.meetup_changed.crew_close"
+msgstr "Cả nhóm sắp đến điểm hẹn rồi."
 
 #: ../../services/worker/src/jobs/safety/notify.ts
 msgid "notifications.sos_resolved.false_alarm"
 msgstr "Báo động nhầm: {sender} vẫn ổn."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.watch_title"
+msgstr "Theo dõi thời tiết"
+
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.found_body"
 msgstr "Tìm thấy một đặt chỗ trong email của {member}: {title}. Thêm vào ví nhé?"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.bookings.found_body"
+msgstr "Tìm thấy một đặt chỗ trong email của {member}. Thêm vào ví nhé?"
 
 #: ../domain/src/bookings/templates.ts
 msgid "notifications.bookings.deadline_title"
@@ -467,6 +547,18 @@ msgstr "Chốt rồi: {place}, {dates}"
 msgid "notifications.crew_invite.body"
 msgstr "Tham gia ngay, hoặc để dành sau."
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.alarm_title"
+msgstr "Đi trước {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.knock_title"
+msgstr "Đi trước {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_start_title"
+msgstr "Đi trước {time}"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_title"
 msgstr "Đi trước {time} · {place}"
@@ -490,6 +582,18 @@ msgstr "Chia sẻ vị trí"
 #: ../../services/worker/src/jobs/live-map/notify.ts
 msgid "notifications.crew_ping.ping_meetup"
 msgstr "Gặp ở {place}, {time}."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.meet_up_start_title"
+msgstr "Điểm hẹn · {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.meet_up_late_title"
+msgstr "Điểm hẹn · {time}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.crew_ping.ping_meetup"
+msgstr "Gặp nhau lúc {time}."
 
 #: ../domain/src/setup/templates.ts
 msgid "notifications.setup.ask.timed_out"
@@ -515,6 +619,22 @@ msgstr "Đang tới đây."
 msgid "notifications.crew_ping.on_my_way_eta"
 msgstr "Đang tới đây. Còn {minutes} phút."
 
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.anniversary.title"
+msgstr ""
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.needs_yes_body"
+msgstr "Mở chuyến đi để quyết định."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.watch_body"
+msgstr "Mở chuyến đi để xem dự báo."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.done_body"
+msgstr "Mở chuyến đi để xem thay đổi."
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.pickup"
 msgstr "Điểm đón"
@@ -530,6 +650,14 @@ msgstr "Hỏi nhanh {name} nè: lịch {dates} của bạn đang ghi là có th�
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.reply_by_title"
 msgstr "Trả lời trước ngày mai · {place}"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_late_title"
+msgstr "Đang trễ"
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.late_title"
+msgstr "Đang trễ · +{minutes} phút"
 
 #: ../../services/worker/src/jobs/invites/notifications.ts
 msgid "notifications.member_joined.body"
@@ -554,6 +682,10 @@ msgstr "Đã gửi bạn một thứ. Mở ra xem nhé."
 #: ../domain/src/money/templates.ts
 msgid "notifications.money.reminded"
 msgstr "Đến lúc thanh toán: bạn nợ {payee} {amount}."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.money.reminded"
+msgstr "Đến lúc thanh toán: bạn nợ {payee}."
 
 #: ../domain/src/bookings/templates.ts
 msgid "email.bookings.link_body"
@@ -607,9 +739,17 @@ msgstr "Có một khoản thanh toán đang chờ bạn trong {crew}. Hai chạm
 msgid "notifications.la.leave_by_be_there_go_title"
 msgstr "Đến giờ có mặt ở {place}"
 
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_be_there_go_title"
+msgstr "Đến giờ có mặt"
+
 #: ../domain/src/trip-day/templates.ts
 msgid "notifications.trip_day.alarm_body"
 msgstr "Dậy thôi. Dậy rồi thì chạm nhé."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.la.leave_by_go_title"
+msgstr "Đến giờ đi"
 
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.leave_by_go_title"
@@ -655,9 +795,25 @@ msgstr "Bạn là người tiếp theo cho chuyến của {crew}. Chỗ là củ
 msgid "notifications.draft.ready.body"
 msgstr "Bản nháp {place} của bạn đã xong. Hiện chỉ mình bạn xem được."
 
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.ready.body"
+msgstr ""
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.trip_day.briefing_body"
+msgstr "Bản tin hôm nay đã sẵn sàng."
+
 #: ../../services/worker/src/jobs/proposal/notify.ts
 msgid "notifications.proposal.resend_title"
 msgstr "Nhóm bạn đã lên kế hoạch {place}"
+
+#: ../domain/src/account/templates.ts
+msgid "notifications.account.export_ready_body"
+msgstr "Bản xuất CritterPass của bạn tải về được trong 7 ngày. Mở Cài đặt › Tải dữ liệu của tôi."
+
+#: ../domain/src/account/templates.ts
+msgid "notifications.account.export_ready_title"
+msgstr "Dữ liệu của bạn đã sẵn sàng"
 
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.hatched.title"
@@ -666,3 +822,7 @@ msgstr "Trứng của bạn đã nở!"
 #: ../../services/worker/src/jobs/safety/notify.ts
 msgid "notifications.location_share.ending"
 msgstr "Việc chia sẻ vị trí với cả nhóm sẽ dừng sau 10 phút."
+
+#: ../../services/worker/src/push/lockscreen-copy.ts
+msgid "notifications.lockscreen.disruption.done_title"
+msgstr "Kế hoạch đã thay đổi"

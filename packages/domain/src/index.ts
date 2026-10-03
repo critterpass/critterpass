@@ -37,14 +37,7 @@ export {
 } from './entitlements/product-keys';
 export * from './commands';
 export * from './countries';
-export {
-  DESTINATION_COVERAGES,
-  GUIDE_COLOURS,
-  destinationCoverageSchema,
-  guideColourSchema,
-  type DestinationCoverage,
-  type GuideColour,
-} from './enums/catalogue';
+export * from './enums/catalogue';
 export {
   CREW_MEMBER_ROLES,
   CREW_MEMBER_STATUSES,
@@ -298,3 +291,4 @@ export * from './locale/guide-text';
 export * from './you';
 export * from './safety';
 export * from './account';
+export * from './recap';

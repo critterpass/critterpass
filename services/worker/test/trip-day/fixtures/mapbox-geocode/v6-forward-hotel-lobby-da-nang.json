@@ -1,0 +1,65 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "address.7854412270206844",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [108.14389, 16.094279]
+      },
+      "properties": {
+        "mapbox_id": "address.7854412270206844",
+        "feature_type": "street",
+        "full_address": "Lobby, Hòa Hiệp Nam, 50600, Hải Vân, Da Nang, Vietnam",
+        "name": "Lobby",
+        "name_preferred": "Lobby",
+        "coordinates": {
+          "longitude": 108.14389,
+          "latitude": 16.094279
+        },
+        "place_formatted": "Hòa Hiệp Nam, 50600, Hải Vân, Da Nang, Vietnam",
+        "context": {
+          "street": {
+            "mapbox_id": "address.7854412270206844",
+            "name": "Lobby"
+          },
+          "neighborhood": {
+            "mapbox_id": "dXJuOm1ieHBsYzpLRXow",
+            "name": "Hòa Hiệp Nam",
+            "wikidata_id": "Q10770954"
+          },
+          "postcode": {
+            "mapbox_id": "dXJuOm1ieHBsYzpBZFB1OUE",
+            "name": "50600"
+          },
+          "locality": {
+            "mapbox_id": "dXJuOm1ieHBsYzpCYzJxOUE",
+            "name": "Hải Vân"
+          },
+          "place": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "short_code": "VN-DN"
+          },
+          "region": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "region_code": "DN",
+            "region_code_full": "VN-DN"
+          },
+          "country": {
+            "mapbox_id": "dXJuOm1ieHBsYzpJdlE",
+            "name": "Vietnam",
+            "wikidata_id": "Q881",
+            "country_code": "VN",
+            "country_code_alpha_3": "VNM"
+          }
+        }
+      }
+    }
+  ],
+  "attribution": "© 2026 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service. (https://www.mapbox.com/about/maps/)"
+}

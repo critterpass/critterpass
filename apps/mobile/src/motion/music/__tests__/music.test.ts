@@ -11,7 +11,7 @@ import {
 import { crossfadeFraction, musicEngine } from '../crossfade';
 import { musicLevel, resetMusicLevelForTests, updateMusicLevelFromSample } from '../levels';
 import { music } from '../index';
-import { themeFor } from '../themes';
+import { MUSIC_ASSET_MODULES, themeFor } from '../themes';
 
 beforeEach(async () => {
   await resetFeedbackPrefsForTests();
@@ -40,6 +40,28 @@ describe('crossfadeFraction', () => {
 describe('themes', () => {
   it('returns undefined for an unrecognised guide id', () => {
     expect(themeFor('not-a-guide')).toBeUndefined();
+  });
+
+  it("resolves Chà Vá's bundled theme, so a Đà Nẵng trip's moments play music", () => {
+    const theme = themeFor('chava');
+    expect(theme?.available).toBe(true);
+    expect(theme?.asset).toBeDefined();
+    expect(theme?.sampleAsset).toBeDefined();
+    music.play('chava');
+    expect(musicEngine.playingGuideId).toBe('chava');
+  });
+
+  it('falls back to silence for a guide whose theme file is not bundled', () => {
+    const bundled = MUSIC_ASSET_MODULES.chava;
+    delete MUSIC_ASSET_MODULES.chava;
+    try {
+      expect(themeFor('chava')?.available).toBe(false);
+      music.play('tokek');
+      music.play('chava');
+      expect(musicEngine.playingGuideId).toBeNull();
+    } finally {
+      if (bundled !== undefined) MUSIC_ASSET_MODULES.chava = bundled;
+    }
   });
 });
 

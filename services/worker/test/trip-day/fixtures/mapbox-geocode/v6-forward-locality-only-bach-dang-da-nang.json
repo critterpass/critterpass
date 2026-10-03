@@ -1,0 +1,53 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "dXJuOm1ieHBsYzpCWVJLOUE",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [108.22095, 16.058285]
+      },
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpCWVJLOUE",
+        "feature_type": "locality",
+        "full_address": "Hải Châu, Da Nang, Vietnam",
+        "name": "Hai Chau",
+        "name_preferred": "Hải Châu",
+        "coordinates": {
+          "longitude": 108.22095,
+          "latitude": 16.058285
+        },
+        "place_formatted": "Da Nang, Vietnam",
+        "bbox": [108.184319, 16.055891, 108.2271, 16.10941],
+        "context": {
+          "place": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "short_code": "VN-DN"
+          },
+          "region": {
+            "mapbox_id": "dXJuOm1ieHBsYzp4UFE",
+            "name": "Da Nang",
+            "wikidata_id": "Q25282",
+            "region_code": "DN",
+            "region_code_full": "VN-DN"
+          },
+          "country": {
+            "mapbox_id": "dXJuOm1ieHBsYzpJdlE",
+            "name": "Vietnam",
+            "wikidata_id": "Q881",
+            "country_code": "VN",
+            "country_code_alpha_3": "VNM"
+          },
+          "locality": {
+            "mapbox_id": "dXJuOm1ieHBsYzpCWVJLOUE",
+            "name": "Hải Châu"
+          }
+        }
+      }
+    }
+  ],
+  "attribution": "© 2026 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service. (https://www.mapbox.com/about/maps/)"
+}

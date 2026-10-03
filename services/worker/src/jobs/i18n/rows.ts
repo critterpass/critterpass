@@ -4,7 +4,8 @@
  * A trip sweep covers the trip's live plan versions (every version not superseded, organiser-only
  * drafts included, so a plan is already translated when it is published), its members' briefings
  * from yesterday on, its quests still open or just ended, its disruptions open or closed within a
- * day, and its forecast watch rows still ahead. A crew sweep covers the crew's
+ * day, its forecast watch rows still ahead, and its recap's card copy and award words. A crew
+ * sweep covers the crew's
  * pitches still in play. Shared rows are read by everyone on the trip (travellers not out, and the
  * crew's active members); a briefing line is read by its owner alone.
  *
@@ -21,6 +22,7 @@ import {
   parseGuideTextI18n,
   pitchGuideTextSource,
   pitchSectionsSchema,
+  recapGuideTextSource,
   SOURCE_APP_LOCALE,
   type GuideTextI18n,
   type GuideTextKind,
@@ -45,6 +47,8 @@ export const GUIDE_TEXT_TABLES: Readonly<Record<GuideTextKind, string>> = {
   pitch: 'pitches',
   disruption: 'disruptions',
   watch_item: 'watch_items',
+  recap: 'recaps',
+  recap_award: 'recap_awards',
 };
 
 interface Raw {
@@ -66,7 +70,9 @@ function toRow(kind: GuideTextKind, raw: Raw): GuideTextRow {
   const source =
     kind === 'pitch'
       ? pitchGuideTextSource(pitchSectionsSchema.partial().catch({}).parse(sections))
-      : columns();
+      : kind === 'recap'
+        ? recapGuideTextSource(raw['cards'])
+        : columns();
   return {
     kind,
     id: raw.id,
@@ -143,6 +149,18 @@ export async function loadTripSweep(tx: pg.PoolClient, tripId: string): Promise<
       ORDER BY w.day, w.id`,
     [tripId],
   );
+  // The recap once the guide has worded it, and the awards' words (the copy is never typed by a
+  // person, so every version is translated).
+  const recap = await tx.query<Raw>(
+    'SELECT r.id, r.cards, r.i18n FROM recaps r WHERE r.trip_id = $1 AND r.copy_version > 0',
+    [tripId],
+  );
+  const awards = await tx.query<Raw>(
+    `SELECT a.id, a.title, a.line, a.i18n FROM recap_awards a JOIN recaps r ON r.id = a.recap_id
+      WHERE a.trip_id = $1 AND r.copy_version > 0 AND a.title IS NOT NULL
+      ORDER BY a.user_id`,
+    [tripId],
+  );
   return {
     guideSlug: trip.rows[0].guide_slug,
     readerUid: audience.rows[0]?.user_id ?? null,
@@ -159,6 +177,8 @@ export async function loadTripSweep(tx: pg.PoolClient, tripId: string): Promise<
       ...quests.rows.map((raw) => toRow('quest', raw)),
       ...disruptions.rows.map((raw) => toRow('disruption', raw)),
       ...watch.rows.map((raw) => toRow('watch_item', raw)),
+      ...recap.rows.map((raw) => toRow('recap', raw)),
+      ...awards.rows.map((raw) => toRow('recap_award', raw)),
     ],
   };
 }

@@ -8,10 +8,9 @@ import { runMigrations } from '@cp/db';
 import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import pg from 'pg';
-import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { AppEnv } from '../../src/app';
-import * as mapboxModule from '../../src/geocoding/mapbox';
 import { registerGeocodingRoutes } from '../../src/geocoding/routes';
 
 let postgres: StartedPostgreSqlContainer;
@@ -21,14 +20,32 @@ let poiId: string;
 
 const TEST_UID = '00000000-0000-7000-8000-000000000002';
 
-function buildTestApp(mapboxToken?: string) {
+/** Mapbox's HTTP boundary: answers every forward geocode with `features` and counts the calls. */
+function fakeMapbox(features: unknown[]) {
+  const calls: string[] = [];
+  return {
+    calls,
+    http: {
+      fetch: (input: string) => {
+        calls.push(input);
+        return Promise.resolve(Response.json({ type: 'FeatureCollection', features }));
+      },
+    },
+  };
+}
+
+function buildTestApp(mapboxToken?: string, mapbox = fakeMapbox([])) {
   const app = new OpenAPIHono<AppEnv>();
   app.use('*', async (c, next) => {
     c.set('uid', TEST_UID);
     c.set('device', 'test-device');
     await next();
   });
-  registerGeocodingRoutes(app, { pool, ...(mapboxToken !== undefined ? { mapboxToken } : {}) });
+  registerGeocodingRoutes(app, {
+    pool,
+    mapboxHttp: mapbox.http,
+    ...(mapboxToken !== undefined ? { mapboxToken } : {}),
+  });
   app.onError((error, c) => {
     const anyError = error as { http?: number; toResponseBody?: () => unknown };
     if (typeof anyError.toResponseBody === 'function')
@@ -89,31 +106,30 @@ describe('GET /v1/geocode', () => {
   });
 
   it('falls back to Mapbox when neither local source matches and a token is configured', async () => {
-    const spy = vi.spyOn(mapboxModule, 'geocodeForwardMapbox').mockResolvedValue([
+    const mapbox = fakeMapbox([
       {
-        lat: 34.9546,
-        lng: 135.7684,
-        formattedAddress: '伏見区, 京都市, Kyoto, Japan',
-        placeFormatted: '京都市, Kyoto, Japan',
-        country: 'Japan',
+        geometry: { coordinates: [135.7684, 34.9546] },
+        properties: {
+          full_address: '伏見区, 京都市, Kyoto, Japan',
+          place_formatted: '京都市, Kyoto, Japan',
+          context: { country: { name: 'Japan' } },
+        },
       },
     ]);
-    const app = buildTestApp('fake-token');
+    const app = buildTestApp('fake-token', mapbox);
     const response = await app.request('/v1/geocode?q=some+address+with+no+local+match+at+all');
     const body = (await response.json()) as { results: { source: string }[] };
     expect(body.results).toEqual([expect.objectContaining({ source: 'mapbox' })]);
-    expect(spy).toHaveBeenCalled();
-    spy.mockRestore();
+    expect(mapbox.calls).toHaveLength(1);
   });
 
   it('returns no results (no Mapbox call) when neither local source matches and no token is configured', async () => {
-    const spy = vi.spyOn(mapboxModule, 'geocodeForwardMapbox');
-    const app = buildTestApp();
+    const mapbox = fakeMapbox([]);
+    const app = buildTestApp(undefined, mapbox);
     const response = await app.request('/v1/geocode?q=some+address+with+no+local+match+at+all');
     const body = (await response.json()) as { results: unknown[] };
     expect(body.results).toEqual([]);
-    expect(spy).not.toHaveBeenCalled();
-    spy.mockRestore();
+    expect(mapbox.calls).toHaveLength(0);
   });
 });
 

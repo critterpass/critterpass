@@ -1,7 +1,7 @@
 ---
 phase: 43
 title: Recap pipeline, story, awards, stamps, anniversary
-status: pending
+status: in-progress
 depends_on: [26, 31, 33, 40]
 wave: 19
 features: [F-131, F-132, F-133, F-134, F-139]
@@ -110,6 +110,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Tables incl. deltas. 2. RLS, grants, publication. 3. Fixtures for a 6-member trip.
 - Tests: `pnpm --filter @cp/db test -- permissions/recaps permissions/recap-awards permissions/recap-views permissions/stamp-signatures permissions/anniversaries permissions/memories`
 - Done when: non-participants read nothing; one MVP vote per member enforced by constraint.
+- Status: done — 134d9014b
 
 ### T2 — Deterministic recap builder
 - Goal: aggregates + contributors + versioning.
@@ -117,6 +118,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Recap zod schema. 2. Contributors + registry. 3. Award evidence scoring (one per member, deterministic tie-break). 4. Got-away selection. 5. Versioned re-run with debounce; stamps → `stamped`.
 - Tests: `pnpm --filter @cp/worker test -- recap/build`
 - Done when: fixture trip numbers match expected JSON exactly; no GPS table is read; late expense produces version 2.
+- Status: done — abad76458
 
 ### T3 — AI-34 recap copy + evals
 - Goal: guide-written copy with number guard and tone rules.
@@ -124,6 +126,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Persona-voiced copy per card, award lines, got-away line, postcard note, memory line. 2. Number guard. 3. Tone evals (no shaming). 4. Fallback template copy on failure. 5. `recap.narrate`: ElevenLabs Flash (P6 guide voice id) per card × member locale → R2, keyed by recap version + copy hash; failure leaves text-only narration.
 - Tests: `pnpm --filter @cp/ai eval -- recap`; `pnpm --filter @cp/worker test -- recap/copy recap/narrate`
 - Done when: number guard rejects invented numbers in tests; eval tone pass rate ≥ 98 %; narrate re-run with unchanged copy makes zero TTS calls; TTS failure yields text-only recap, still `ready`.
+- Status: done — cf77f6b55 (server: copy, evals, narration; app playback is the app lane's)
 
 ### T4 — Commands, realtime, push
 - Goal: views, signatures, votes, opt-out, retry.
@@ -131,6 +134,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Handlers + policies. 2. Signature fan-out to all copies + `recap:` publish. 3. MVP close + result. 4. N-32 once.
 - Tests: `pnpm --filter @cp/api test -- recap`
 - Done when: offline replays idempotent; opt-out hides award for every member.
+- Status: done — 1c52f0a2d
 
 ### T5 — Recap summary page
 - Goal: 3m-1 + states.
@@ -159,6 +163,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Schedule at recap ready; scan per tz bucket; build memory (photo provider interface + fallback). 2. N-35 passive. 3. Screen + reactions composer + share. 4. Reunion → P26 poll with place pitched.
 - Tests: `pnpm --filter @cp/worker test -- recap/anniversary`; `pnpm --filter @cp/mobile test -- features/recap/memory`
 - Done when: time-travel test fires exactly once at best-day + 365 d in each member tz; reunion creates a destination poll.
+- Status: server half done — c84b3a444 (scan, memory, react_memory, start_reunion); the memory screen is the app lane's
 
 ### T9 — Share renders + end-to-end
 - Goal: share images and Maestro coverage.

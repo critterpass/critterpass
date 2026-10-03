@@ -21,9 +21,12 @@ read in full for the clauses below.
 | §2.12 Mapbox Traffic Data | Restricts the raw road-speed dataset product (§3.42). | Not used. `driving-traffic` routing results fall under §2.10, not §2.12. |
 | §2.11 Studio styles | Studio styles may only be used on a Mapbox Map. | Not used. Our map is MapLibre with our own style; route results carry no style. |
 
-Nothing in the terms forbids showing Directions results on a MapLibre/OSM map. The geocoding
-client (`../geocoding/mapbox.ts`) is separate: it uses `permanent=true` geocodes, which §2.7.3
-allows us to store.
+Nothing in the terms forbids showing Directions results on a MapLibre/OSM map. The geocoding client
+(`@cp/suppliers`, `packages/suppliers/src/mapbox/geocode.ts`) is separate: it uses `permanent=true`
+geocodes, which §2.7.3 allows us to store. The worker uses it to place a hand-booked transfer's
+pickup text once per text, in the leave-by recompute that a booking add or edit (or another plan,
+flight or trip change) queues; the leave-by traffic timers never geocode. The answer, placed or not,
+is kept in the booking's `details.pickup_point`, so the same text is never sent twice.
 
 ## Modes
 

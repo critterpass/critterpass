@@ -40,6 +40,12 @@ export interface StoryPlayerProps {
   /** After the last segment finishes. */
   readonly onFinished?: () => void;
   readonly initialIndex?: number;
+  /**
+   * The screen holds the story (a reply panel is open): the slide stays and its bar stops, as
+   * under a hold, and it carries on from where it stopped once let go.
+   * @default false
+   */
+  readonly held?: boolean;
   readonly testID?: string;
 }
 
@@ -126,6 +132,7 @@ export function StoryPlayer({
   onIndexChange,
   onFinished,
   initialIndex = 0,
+  held = false,
   testID,
 }: StoryPlayerProps) {
   const styles = useStyles();
@@ -222,7 +229,7 @@ export function StoryPlayer({
             <ProgressBar
               key={item.id}
               state={i < index ? 'past' : i === index ? 'active' : 'future'}
-              paused={paused}
+              paused={paused || held}
               onComplete={() => go(i + 1)}
               announcement={segments[i + 1]?.label ?? ''}
             />

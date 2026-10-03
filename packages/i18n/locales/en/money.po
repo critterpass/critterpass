@@ -609,6 +609,10 @@ msgid "money.payout.field.name"
 msgstr "Name the payer sees"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.detailsLabel"
+msgstr "{detailsName}, {detailsCategory}, {detailsDay}"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.detailsA11y"
 msgstr "Name, category and day"
 

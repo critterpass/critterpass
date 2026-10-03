@@ -29,6 +29,7 @@ import { parseArgs } from 'node:util';
 import { flowScreenshotNames, planCopies, type FlowScreens } from '../capture-flow-shots';
 import { failOnUiQa, pullUiQaLog, recordFlowUiQa, scanUiQa, type UiQaReport } from '../ui-qa-scan';
 import type { DevicePlatform } from './plan-shards';
+import { recordFlowMeasurements } from './encode-totals';
 import { appBackground, scanScreenshots, SCREEN_CHECKS_LOG, writeFindings } from './screen-scan';
 import { startScreenRecorder } from './screen-video';
 
@@ -174,7 +175,7 @@ export function runShard(options: ShardOptions): {
       recordFlowUiQa(uiQa, flow, (appId) => pullUiQaLog(options.device, appId));
     } else {
       uiQa.set(label, scanUiQa(adb(options.device, ['logcat', '-d', '-s', 'ReactNativeJS:V'])));
-      recordSkiaSurfaces(options, slug);
+      recordFlowMeasurements(options.out, slug, (args) => adb(options.device, args));
     }
     summary(`| ${passed ? 'pass' : '**fail**'} | \`${label}\` | ${String(seconds)}s |`);
     // With --test-output-dir, `takeScreenshot` writes to its `screenshots/` folder; Maestro's own
@@ -188,47 +189,6 @@ export function runShard(options: ShardOptions): {
     if (existsSync(from)) copyFileSync(from, to);
   }
   return { failed, uiQa };
-}
-
-/**
- * How many Skia surfaces (one Android TextureView per live canvas) a flow created and released.
- * React Native Skia 2.11 logs only the creation; `destroyed` counts from a version that logs both.
- */
-export function countSkiaSurfaces(log: string): {
-  created: number;
-  destroyed: number;
-  /** Created surfaces by pixel size ("89x90"), to tell icons from stickers and scenes. */
-  sizes: Record<string, number>;
-} {
-  let created = 0;
-  let destroyed = 0;
-  const sizes: Record<string, number> = {};
-  for (const line of log.split('\n')) {
-    const available = /onSurfaceTextureAvailable:\s*(\d+x\d+)?/.exec(line);
-    if (available !== null) {
-      created += 1;
-      const size = available[1] ?? '?';
-      sizes[size] = (sizes[size] ?? 0) + 1;
-    } else if (line.includes('onSurfaceTextureDestroyed')) destroyed += 1;
-  }
-  return { created, destroyed, sizes };
-}
-
-/**
- * Every Android flow, passed or failed, leaves `<out>/skia-surfaces/<flow>.json`: the Skia
- * surfaces it created and destroyed, read from the log cleared at the flow's start (a long flow
- * can roll the oldest lines out of the device's log buffer, so it is a floor). Best effort: a
- * failure here never touches the flow's result.
- */
-function recordSkiaSurfaces(options: ShardOptions, slug: string): void {
-  try {
-    const log = adb(options.device, ['logcat', '-d', '-s', 'SkiaTextureView:V']);
-    const dir = path.join(options.out, 'skia-surfaces');
-    mkdirSync(dir, { recursive: true });
-    writeFileSync(path.join(dir, `${slug}.json`), JSON.stringify(countSkiaSurfaces(log)));
-  } catch {
-    // A count is a measurement, never a reason to fail the shard.
-  }
 }
 
 /** The device's screen and the app's recent log after a failed flow, into `<out>/failures/`. */

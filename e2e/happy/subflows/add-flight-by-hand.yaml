@@ -40,6 +40,13 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'bookings-form-time'
 - inputText: ${DEPARTS}
+# With the keyboard up the form's scroll ends above the SAVE footer, and a field behind the footer
+# still counts as visible: the tap would save the form instead. The keyboard goes first on iOS.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
 - scrollUntilVisible:
     element:
       id: 'bookings-form-arrive'

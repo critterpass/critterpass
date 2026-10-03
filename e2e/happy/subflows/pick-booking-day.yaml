@@ -1,10 +1,24 @@
 appId: app.critterpass.dev
 ---
-# Picks ${DAY} (YYYY-MM-DD) for the booking form's day (`bookings-form-date`, on screen). The day is
+# Picks ${DAY} (YYYY-MM-DD) for the booking form's day (`bookings-form-date`). On iOS the keyboard
+# left up by the field typed before is put away first: with it up the form's scroll ends above the
+# SAVE footer, and a Day field behind the footer still counts as visible to Maestro, so the tap
+# landed on the footer. The field is then scrolled to the middle of the form. The day is
 # a month grid in a sheet that opens on the picked day's month, else the trip's, which can be
 # another month than ${DAY}'s: the sheet is paged to that month and the day tapped by its id. The
 # sheet closes on the pick.
 - evalScript: ${var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; output.bookingDayMonth = '(?i)' + months[Number(DAY.slice(5, 7)) - 1] + ' ' + DAY.slice(0, 4)}
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'bookings-form-date'
+    direction: DOWN
+    timeout: 10000
+    centerElement: true
 - tapOn:
     id: 'bookings-form-date'
 - extendedWaitUntil:

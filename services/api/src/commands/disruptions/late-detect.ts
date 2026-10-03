@@ -7,7 +7,7 @@
  */
 import { appendDomainEvent, outbox } from '@cp/db';
 import { channelName, joinNames, type JourneyMode } from '@cp/domain';
-import { arriveEarlyMinutes, localTime } from '@cp/planner';
+import { arriveEarlyMinutes, currentPickupPoint, localTime } from '@cp/planner';
 import type pg from 'pg';
 
 const MIN = 60_000;
@@ -23,20 +23,31 @@ export interface LateItem {
   readonly tz: string;
   readonly starts_at: Date;
   readonly category: string | null;
-  /** The place's position, when the item has one. */
+  /** The place's position, else a transfer's placed pickup point, when there is one. */
   readonly lat: number | null;
   readonly lng: number | null;
   /** Who goes: the item's own list, or everyone on the trip. */
   readonly attendee_ids: string[];
 }
 
-/** The item on the trip's current plan, as the caller may read it (RLS: a trip member). */
+interface LateItemRow extends LateItem {
+  readonly transfer: {
+    readonly location: string | null;
+    readonly details: Record<string, unknown> | null;
+  } | null;
+}
+
+/**
+ * The item on the trip's current plan, as the caller may read it (RLS: a trip member). A transfer
+ * booked without a place is at its booking's pickup point, while that was placed from the pickup
+ * text the booking has now.
+ */
 export async function lateItem(
   tx: pg.PoolClient,
   tripId: string,
   itemId: string,
 ): Promise<LateItem | undefined> {
-  const { rows } = await tx.query<LateItem>(
+  const { rows } = await tx.query<LateItemRow>(
     `SELECT i.id, i.stable_id, i.trip_id, t.crew_id, i.starts_at, i.category, p.lat, p.lng,
             left(coalesce(p.name, i.notes, initcap(i.category), 'Plan'), 60) AS title,
             coalesce(i.tz, t.tz, d.tz, 'UTC') AS tz,
@@ -44,7 +55,11 @@ export async function lateItem(
                  ELSE ARRAY(SELECT tp.user_id FROM trip_participants tp
                              WHERE tp.trip_id = t.id AND tp.rsvp NOT IN ('out', 'waitlisted')
                              ORDER BY tp.user_id)
-            END AS attendee_ids
+            END AS attendee_ids,
+            (SELECT json_build_object('location', b.location, 'details', b.details)
+               FROM bookings b
+              WHERE b.id = i.booking_id AND b.type = 'transfer' AND b.deleted_at IS NULL)
+              AS transfer
        FROM plan_items i
        JOIN trips t ON t.id = i.trip_id AND t.current_version_id = i.version_id
        LEFT JOIN destinations d ON d.id = t.destination_id
@@ -52,7 +67,12 @@ export async function lateItem(
       WHERE i.id = $1 AND i.trip_id = $2 AND i.starts_at IS NOT NULL`,
     [itemId, tripId],
   );
-  return rows[0];
+  const row = rows[0];
+  if (row === undefined) return undefined;
+  const { transfer, ...item } = row;
+  if (item.lat !== null && item.lng !== null) return item;
+  const pickup = transfer === null ? null : currentPickupPoint(transfer);
+  return pickup === null ? item : { ...item, lat: pickup.lat, lng: pickup.lng };
 }
 
 /** When to be there: the start, or check-in time for a flight. */

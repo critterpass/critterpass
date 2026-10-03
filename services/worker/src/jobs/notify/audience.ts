@@ -33,6 +33,8 @@ export interface Recipient {
   /** The zone the evening roundup is scheduled in. */
   readonly roundupTz: string;
   readonly inForeground: boolean;
+  /** Pushes leave out money amounts and exact places (`user_settings.hide_lockscreen_details`). */
+  readonly hideLockscreenDetails: boolean;
   readonly prefs: RecipientPrefs;
 }
 
@@ -54,12 +56,18 @@ interface RecipientRow {
   crew_chat_mode: string | null;
   per_category: Record<string, boolean> | null;
   voice_readout: boolean | null;
+  hide_lockscreen_details: boolean | null;
 }
 
-/** Trip zone of a trip under way the user is travelling on (not dropped out of). */
+/**
+ * Zone of a trip under way the user is travelling on (not dropped out of): the trip's own, else its
+ * destination's.
+ */
 export const ON_TRIP_TZ_SQL = `
-  SELECT t.tz FROM trip_participants tp JOIN trips t ON t.id = tp.trip_id
-  WHERE tp.user_id = u.id AND tp.rsvp <> 'out' AND t.status = 'in_trip' AND t.tz IS NOT NULL
+  SELECT coalesce(t.tz, dest.tz) FROM trip_participants tp JOIN trips t ON t.id = tp.trip_id
+    LEFT JOIN destinations dest ON dest.id = t.destination_id
+  WHERE tp.user_id = u.id AND tp.rsvp <> 'out' AND t.status = 'in_trip'
+    AND coalesce(t.tz, dest.tz) IS NOT NULL
   ORDER BY t.start_date DESC NULLS LAST LIMIT 1`;
 
 /** Loads one recipient; `undefined` when the user no longer exists. */
@@ -73,7 +81,9 @@ export async function loadRecipient(
        d.tz AS device_tz, d.foreground, d.last_seen_at,
        p.budget_per_day, p.roundup_time::text, p.roundup_tz, p.quiet_from::text,
        p.quiet_to::text, p.guide_tips, p.money, p.critters_nearby, p.crew_chat_mode,
-       p.per_category, p.voice_readout
+       p.per_category, p.voice_readout,
+       (SELECT s.hide_lockscreen_details FROM user_settings s WHERE s.user_id = u.id)
+         AS hide_lockscreen_details
      FROM users u
      LEFT JOIN LATERAL (
        SELECT tz, foreground, last_seen_at FROM devices
@@ -97,6 +107,7 @@ export async function loadRecipient(
       row.foreground === true &&
       row.last_seen_at !== null &&
       now.getTime() - row.last_seen_at.getTime() < FOREGROUND_FRESH_MS,
+    hideLockscreenDetails: row.hide_lockscreen_details === true,
     prefs: {
       budgetPerDay: row.budget_per_day ?? DEFAULT_BUDGET_PER_DAY,
       roundupMinutes: clockMinutes(row.roundup_time ?? '20:00'),

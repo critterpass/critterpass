@@ -9,12 +9,10 @@ import { Pressable, ScrollView, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
-import { ListCard } from '@/ui/cards/ListCard';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { StatusChip } from '@/ui/chips/StatusChip';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
-import { AvatarStack } from '@/ui/people/AvatarStack';
 import { BackEyebrow } from '@/ui/shell/BackEyebrow';
 import { HeaderPill, HeaderPills } from '@/ui/shell/HeaderPills';
 import { Skeleton } from '@/ui/states/Skeleton';
@@ -22,8 +20,10 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { crewLineText, statLabel } from './profile-copy';
-import { CREW_FACES, type ProfileModel } from './profile-model';
+import { statLabel } from './profile-copy';
+import type { ProfileModel } from './profile-model';
+import type { FaceProps } from '../avatar/member-faces';
+import { CrewRows } from './crew-rows';
 import { ProfileFace, SectionHead, StampRow, StatTile, Tags } from './profile-parts';
 
 export interface ProfileViewProps {
@@ -35,6 +35,14 @@ export interface ProfileViewProps {
   readonly onEdit?: () => void;
   readonly onSettings?: () => void;
   readonly onAllStamps?: () => void;
+  /** HOW YOU TRAVEL's RETAKE: the this-or-that quiz again. */
+  readonly onRetake?: () => void;
+  /** GET PASS+ for a free pass: opens the plans screen. */
+  readonly onGetPassPlus?: () => void;
+  /** The person's own photo link, when they wear a photo. */
+  readonly photoUri?: string | null;
+  /** Crewmates' faces, as `Avatar` props. */
+  readonly faceFor?: (uid: string) => FaceProps;
   readonly onOpenCrew?: (crewId: string) => void;
   readonly onStartCrew?: () => void;
 }
@@ -111,7 +119,12 @@ export function ProfileView(props: ProfileViewProps) {
         {header}
 
         <Row gap="14">
-          <ProfileFace avatar={model.avatar} name={model.name} />
+          <ProfileFace
+            avatar={model.avatar}
+            name={model.name}
+            ring={model.ring}
+            photoUri={props.photoUri ?? null}
+          />
           <View style={styles.identity}>
             <Text variant="h1" accessibilityRole="header" testID="you-profile-name">
               {model.name}
@@ -125,10 +138,21 @@ export function ProfileView(props: ProfileViewProps) {
                 {handle}
               </Text>
             ) : null}
-            {model.passPlus || guideName !== null ? (
+            {model.passPlus || guideName !== null || props.onGetPassPlus ? (
               <Row gap="8" wrap>
                 {model.passPlus ? (
                   <StatusChip status="passPlus" testID="you-profile-pass-plus" />
+                ) : props.onGetPassPlus ? (
+                  <Pressable
+                    onPress={props.onGetPassPlus}
+                    accessibilityRole="button"
+                    hitSlop={theme.space['8']}
+                    testID="you-profile-get-pass-plus"
+                  >
+                    <InfoPill variant="outline" oneLine>
+                      {upper(t({ id: 'you.profile.getPassPlus', message: 'Get Pass+' }), locale)}
+                    </InfoPill>
+                  </Pressable>
                 ) : null}
                 {guideName !== null ? (
                   <InfoPill variant="outline" oneLine>
@@ -165,7 +189,7 @@ export function ProfileView(props: ProfileViewProps) {
           <SectionHead
             title={t({ id: 'you.profile.stamps', message: 'Stamps' })}
             action={
-              props.onAllStamps && model.stampTotal > model.stamps.length ? (
+              props.onAllStamps ? (
                 <Pressable
                   onPress={props.onAllStamps}
                   accessibilityRole="button"
@@ -194,47 +218,37 @@ export function ProfileView(props: ProfileViewProps) {
           ) : null}
         </Stack>
 
-        {model.tags.length > 0 ? (
+        {model.tags.length > 0 || props.onRetake ? (
           <Stack gap="10">
-            <SectionHead title={t({ id: 'you.profile.howYouTravel', message: 'How you travel' })} />
+            <SectionHead
+              title={t({ id: 'you.profile.howYouTravel', message: 'How you travel' })}
+              action={
+                props.onRetake ? (
+                  <Pressable
+                    onPress={props.onRetake}
+                    accessibilityRole="button"
+                    hitSlop={theme.space['12']}
+                    testID="you-profile-retake"
+                  >
+                    <Text variant="label" color={theme.semantic.action.primary}>
+                      {t({ id: 'you.profile.retake', message: 'Retake' })}
+                    </Text>
+                  </Pressable>
+                ) : undefined
+              }
+            />
             <Tags tags={model.tags} />
           </Stack>
         ) : null}
 
         <Stack gap="10">
           <SectionHead title={t({ id: 'you.profile.yourCrews', message: 'Your crews' })} />
-          {model.crews.map((crew) => (
-            <ListCard
-              key={crew.id}
-              title={crew.name}
-              subtitle={crewLineText(crew.line, locale)}
-              leading={
-                <AvatarStack
-                  members={crew.members.map((member) => ({
-                    key: member.id,
-                    name: member.name,
-                    joinIndex: member.joinIndex,
-                  }))}
-                  max={CREW_FACES}
-                />
-              }
-              {...(props.onOpenCrew
-                ? { onPress: () => props.onOpenCrew?.(crew.id) }
-                : { chevron: false })}
-              testID={`you-profile-crew-${crew.id}`}
-            />
-          ))}
-          {model.crews.length === 0 ? (
-            <ListCard
-              title={t({ id: 'you.profile.startCrew', message: 'Start a crew' })}
-              subtitle={t({
-                id: 'you.profile.startCrewLine',
-                message: 'Trips are better with your people.',
-              })}
-              {...(props.onStartCrew ? { onPress: props.onStartCrew } : { chevron: false })}
-              testID="you-profile-start-crew"
-            />
-          ) : null}
+          <CrewRows
+            crews={model.crews}
+            onOpenCrew={props.onOpenCrew}
+            onStartCrew={props.onStartCrew}
+            faceFor={props.faceFor}
+          />
         </Stack>
 
         <Row justify="space-between" style={styles.footer}>

@@ -18,6 +18,7 @@ import {
   type PlanDay,
   type PlanItem,
 } from '../model/plan-model';
+import { placeNamesOf } from '../../stop-name';
 import { useLiveRows } from './live-rows';
 import {
   DAYS_SQL,
@@ -26,6 +27,8 @@ import {
   GUIDE_CHANGES_TABLES,
   ITEMS_SQL,
   ITEMS_TABLES,
+  VERSION_PLACES_SQL,
+  VERSION_PLACES_TABLES,
   MEMBERS_SQL,
   MEMBERS_TABLES,
   POLLS_SQL,
@@ -124,7 +127,16 @@ export function usePlanData(tripId: string | null): PlanData {
 
   const locale = useActiveLocale();
   const planDays = useMemo(() => toPlanDays(days.rows, locale), [days.rows, locale]);
-  const planItems = useMemo(() => toPlanItems(items.rows, locale), [items.rows, locale]);
+  const coverage = useLiveRows<{ coverage: string | null }>(
+    VERSION_PLACES_SQL,
+    versionId === null ? null : [versionId],
+    VERSION_PLACES_TABLES,
+  );
+  const places = useMemo(() => placeNamesOf(coverage.rows[0]?.coverage ?? null), [coverage.rows]);
+  const planItems = useMemo(
+    () => toPlanItems(items.rows, locale, places),
+    [items.rows, locale, places],
+  );
   const status: PlanData['status'] =
     !uidRows.loaded || !tripRows.loaded
       ? 'loading'

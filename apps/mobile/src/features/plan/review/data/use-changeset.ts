@@ -25,8 +25,11 @@ import {
   jsonArray,
   type PlanDayRow,
   type PlanItemRow,
+  VERSION_PLACES_SQL,
+  VERSION_PLACES_TABLES,
 } from '../../overview/data/plan-rows';
 import { usePlanData, type PlanData } from '../../overview/data/use-plan-data';
+import { placeNamesOf } from '../../stop-name';
 import {
   toPlanDays,
   toPlanItems,
@@ -165,9 +168,16 @@ export function useChangeset(tripId: string | null, changesetId: string | null):
   const pois = useLiveRows<{ id: string; name: string }>(POIS_SQL, [poiIds], ['pois']);
 
   const locale = useActiveLocale();
+  // The base version's own place names, so a stop is named here as in the plan itself.
+  const coverage = useLiveRows<{ coverage: string | null }>(
+    VERSION_PLACES_SQL,
+    row ? [row.base_version_id] : null,
+    VERSION_PLACES_TABLES,
+  );
+  const places = useMemo(() => placeNamesOf(coverage.rows[0]?.coverage ?? null), [coverage.rows]);
   const baseItems = useMemo(
-    () => toPlanItems(baseItemRows.rows, locale),
-    [baseItemRows.rows, locale],
+    () => toPlanItems(baseItemRows.rows, locale, places),
+    [baseItemRows.rows, locale, places],
   );
   const days = useMemo(
     () => (baseDays.rows.length > 0 ? toPlanDays(baseDays.rows, locale) : plan.days),

@@ -609,6 +609,10 @@ msgid "money.payout.field.name"
 msgstr "Tên người trả thấy"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.detailsLabel"
+msgstr "{detailsName}, {detailsCategory}, {detailsDay}"
+
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.detailsA11y"
 msgstr "Tên, danh mục và ngày"
 

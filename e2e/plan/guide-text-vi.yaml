@@ -62,18 +62,10 @@ appId: app.critterpass.dev
     timeout: 30000
 - tapOn:
     id: 'dev-tools-entry'
-- extendedWaitUntil:
-    visible:
-      id: 'dev-nav-gallery'
-    timeout: 10000
-- tapOn:
-    id: 'dev-nav-gallery'
-- extendedWaitUntil:
-    visible:
-      id: 'gallery-locale-vi'
-    timeout: 15000
-- tapOn:
-    id: 'gallery-locale-vi'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
 # The language report goes up, the sweep translates the plan (one model call) and the rows sync
 # back: nothing on screen marks the moment, so this waits out a fixed minute.
 - extendedWaitUntil:

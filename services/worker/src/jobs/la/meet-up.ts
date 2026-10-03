@@ -41,11 +41,12 @@ function distanceLine(metres: number | null): string | null {
   return metres >= 1000 ? `${(metres / 1000).toFixed(1)} km` : `${Math.round(metres / 50) * 50} m`;
 }
 
-export const meetUpLoader: LaLoader = async ({ tx, refId, now }) => {
+export const meetUpLoader: LaLoader = async ({ tx, refId, now, redact = false }) => {
   const { rows } = await tx.query<MeetUpRow>(
-    `SELECT m.id, m.trip_id, m.place_name, m.meet_at, m.status, m.arrived, t.tz,
-            coalesce(e.boost_active, false) AS boosted
+    `SELECT m.id, m.trip_id, m.place_name, m.meet_at, m.status, m.arrived,
+            coalesce(t.tz, d.tz) AS tz, coalesce(e.boost_active, false) AS boosted
        FROM meetups m JOIN trips t ON t.id = m.trip_id
+       LEFT JOIN destinations d ON d.id = t.destination_id
        LEFT JOIN trip_entitlements e ON e.trip_id = m.trip_id
       WHERE m.id = $1`,
     [refId],
@@ -65,7 +66,8 @@ export const meetUpLoader: LaLoader = async ({ tx, refId, now }) => {
   const input: MeetUpLaInput = {
     meetupId: row.id,
     tripId: row.trip_id,
-    placeName: row.place_name,
+    // Hiding details on the lock screen: the meet-up's time and the crew show, never its place.
+    placeName: redact ? '' : row.place_name,
     meetAt: row.meet_at,
     members: members.rows.map((m, i) => ({
       uid: m.user_id,

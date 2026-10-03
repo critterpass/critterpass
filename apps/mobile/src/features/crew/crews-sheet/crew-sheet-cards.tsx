@@ -13,6 +13,7 @@ import { upper } from '@cp/i18n';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { watchRows } from '@/data/status/watch-rows';
 import { useHomeVote } from '@/features/home';
+import { useMemberFaces } from '@/features/you';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { Card } from '@/ui/cards/Card';
 import { Icon } from '@/ui/icons/Icon';
@@ -160,7 +161,7 @@ export interface CrewSheetCardProps {
   readonly crewId: string;
   readonly name: string;
   readonly detail: string;
-  readonly members: readonly { readonly name: string }[];
+  readonly members: readonly { readonly userId?: string; readonly name: string }[];
   readonly active: boolean;
   readonly onPress: () => void;
 }
@@ -176,6 +177,7 @@ export function CrewSheetCard({
   const styles = useStyles();
   const theme = useTheme();
   const { unread, last } = useChat(crewId);
+  const faces = useMemberFaces();
   const vote = useVoteLine(crewId);
   const line = vote === null ? detail : `${detail} · ${vote}`;
   const membersLabel = t({ id: 'crew.sheet.members', message: `${members.length} members` });
@@ -192,7 +194,12 @@ export function CrewSheetCard({
     >
       <View style={styles.top}>
         <AvatarStack
-          members={members.map((m, index) => ({ key: `${index}`, name: m.name, joinIndex: index }))}
+          members={members.map((m, index) => ({
+            key: `${index}`,
+            name: m.name,
+            joinIndex: index,
+            ...(m.userId === undefined ? {} : faces.faceProps(m.userId, 'sm')),
+          }))}
           max={6}
           size="sm"
         />

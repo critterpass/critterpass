@@ -77,6 +77,12 @@ export function stampLabel(stamp: ProfileStamp, locale: string): string {
       message: `${stamp.title}, not stamped yet. ${bottom ?? ''}`,
     });
   }
+  if (stamp.kind === 'self') {
+    return t({
+      id: 'you.profile.stamp.selfLabel',
+      message: `${stamp.title}, ${bottom ?? ''}, self-reported`,
+    });
+  }
   return bottom === undefined ? stamp.title : `${stamp.title}, ${bottom}`;
 }
 

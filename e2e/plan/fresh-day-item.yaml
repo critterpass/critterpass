@@ -1,0 +1,59 @@
+appId: app.critterpass.dev
+---
+# A fresh trip's plan as its traveller reads it, in English and then Vietnamese: a brand-new account locks in a Đà Nẵng trip for
+# today (../happy/subflows/trip-under-way.yaml), opens the trip's plan and one of the guide's
+# stops. Each stop is named by its place (the plan's own record of it when the phone's place
+# catalogue has none), never by the guide's sentence about it, which sits under Notes.
+- runFlow:
+    file: ../happy/subflows/trip-under-way.yaml
+    env:
+      SHOTS: fresh-day
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- runFlow: ../happy/subflows/dismiss-visit-offer.yaml
+- runFlow:
+    file: subflows/fresh-plan-walk.yaml
+    env:
+      LANG: en
+# The same in Vietnamese: the developer gallery switches the running app's language.
+- openLink:
+    link: critterpass-dev://
+    optional: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 30000
+- tapOn:
+    id: 'dev-tools-entry'
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+# Back out of the gallery and the developer tools to Home (a link to Home keeps the tools open).
+- repeat:
+    while:
+      notVisible:
+        id: 'home-header-chat'
+    times: 4
+    commands:
+      - runFlow: ../onboarding/subflows/back.yaml
+      - waitForAnimationToEnd:
+          timeout: 3000
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 60000
+- runFlow:
+    file: subflows/fresh-plan-walk.yaml
+    env:
+      LANG: vi

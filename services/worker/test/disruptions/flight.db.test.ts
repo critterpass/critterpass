@@ -90,6 +90,11 @@ beforeAll(async () => {
   await harness.pool.query(
     "UPDATE ops.partner_adapters SET enabled = true WHERE partner = 'whatsapp_business'",
   );
+  // A person staffs the desk, so an approved draft goes to the desk to send.
+  await harness.pool.query(
+    `INSERT INTO ops.ops_config (key, value) VALUES ('safety.ops_desk', 'true'::jsonb)
+     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value`,
+  );
   onEventAppended(disruptionEventHook);
   await harness.startRuntime([
     flightDisruptionJob(disruptionWriter(undefined)),

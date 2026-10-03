@@ -39,10 +39,12 @@ export const TRIP_TABLES = ['trips', 'trip_participants', 'destinations', 'critt
 /**
  * The trip the engine follows: in_trip first, else the next pre_trip, the user seated on it. The
  * destination's country is its place's ISO code (`critter_sets.country`); `destinations.country`
- * holds the place's name and is only the fallback for a destination with no place yet.
+ * holds the place's name and is only the fallback for a destination with no place yet. The zone is
+ * the trip's own, else its destination's: a trip keeps `tz` null until someone sets it, and the
+ * trip-day window must follow the destination's clock, not the phone's.
  */
 export function tripSql(uid: string): string {
-  return `SELECT t.id, t.status, t.start_date, t.end_date, t.tz,
+  return `SELECT t.id, t.status, t.start_date, t.end_date, coalesce(t.tz, d.tz) AS tz,
       COALESCE(s.country, d.country) AS destination_country
     FROM trips t
     JOIN trip_participants p ON p.trip_id = t.id AND p.user_id = '${uuid(uid)}'

@@ -56,12 +56,27 @@ export function vendorDepsFromEnv(env: SupplierEnv, http: SupplierHttp): VendorD
   };
 }
 
-/** Whether approved drafts go to the desk (true) or back to the traveller to send themselves. */
+/** Whether a person staffs the ops desk (`safety.ops_desk`, off unless switched on). */
+export async function deskStaffed(tx: pg.PoolClient): Promise<boolean> {
+  const { rows } = await tx.query<{ on: boolean }>(
+    "SELECT (value #>> '{}') = 'true' AS on FROM ops.ops_config WHERE key = 'safety.ops_desk'",
+  );
+  return rows[0]?.on === true;
+}
+
+/**
+ * Whether approved drafts go to the desk (true) or back to the traveller to send themselves: only
+ * with the desk's WhatsApp number live and a person at the desk to send them.
+ */
 export async function deskSends(tx: pg.PoolClient, deps: VendorDeps): Promise<boolean> {
   if (deps.whatsapp === undefined || deps.keyring === undefined || deps.pepper === undefined) {
     return false;
   }
-  return isPartnerEnabled((sql, params) => tx.query(sql, [...params]), WHATSAPP_BUSINESS_PARTNER);
+  const live = await isPartnerEnabled(
+    (sql, params) => tx.query(sql, [...params]),
+    WHATSAPP_BUSINESS_PARTNER,
+  );
+  return live && (await deskStaffed(tx));
 }
 
 export async function deskHours(tx: pg.PoolClient): Promise<DeskHours> {

@@ -142,6 +142,8 @@ export function GettingAroundView(props: GettingAroundViewProps) {
           {props.journey ? <JourneyProgress {...props.journey} /> : null}
           {props.phrase ? (
             <Pressable
+              // On the accessible view itself: iOS hides the ids of the card inside it.
+              testID="getting-around-phrase"
               accessibilityRole="button"
               accessibilityHint={t({
                 id: 'suppliers.around.showHint',
@@ -161,7 +163,6 @@ export function GettingAroundView(props: GettingAroundViewProps) {
                 lang={props.phrase.lang}
                 translation={`“${props.phrase.gloss}”`}
                 eyebrow={props.phrase.eyebrow}
-                testID="getting-around-phrase"
               />
             </Pressable>
           ) : null}

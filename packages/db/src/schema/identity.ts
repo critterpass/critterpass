@@ -55,7 +55,7 @@ export const userSettings = pgTable('user_settings', {
     .references(() => users.id),
   chattiness: text('chattiness'),
   talkOutLoud: boolean('talk_out_loud').notNull().default(false),
-  leaveByThroughDnd: boolean('leave_by_through_dnd').notNull().default(false),
+  leaveByThroughDnd: boolean('leave_by_through_dnd').notNull().default(true),
   crewChatMode: text('crew_chat_mode'),
   locationMode: text('location_mode'),
   emailImport: boolean('email_import').notNull().default(false),
@@ -78,6 +78,8 @@ export const userSettings = pgTable('user_settings', {
   audio: jsonb('audio').notNull().default({}),
   /** ISO 4217; overrides the home airport's currency for prices (3n-8). */
   homeCurrencyOverride: text('home_currency_override'),
+  /** The signature stroke (a `media_objects` key, purpose signature) the traveller signs stamps with. */
+  signatureMediaKey: text('signature_media_key'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });
@@ -102,9 +104,8 @@ export const mediaObjects = pgTable('media_objects', {
   id: uuid('id')
     .primaryKey()
     .default(sql`uuidv7()`),
-  ownerId: uuid('owner_id')
-    .notNull()
-    .references(() => users.id),
+  /** Null only for trip media the crew shares (recap narration), never one traveller's. */
+  ownerId: uuid('owner_id').references(() => users.id),
   r2Key: text('r2_key').notNull(),
   kind: text('kind').notNull(),
   bytes: bigint('bytes', { mode: 'number' }).notNull(),

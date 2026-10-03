@@ -171,14 +171,6 @@ msgid "permissions.visits.section"
 msgstr "Địa điểm"
 
 #: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
-msgid "permissions.visits.subtitle"
-msgstr "Những nơi bạn đã check-in, không bao giờ lưu dấu vết tọa độ."
-
-#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
-msgid "permissions.visits.body"
-msgstr "Những nơi bạn đã check-in, không bao giờ lưu dấu vết tọa độ. Chúng dùng cho nhiệm vụ, giải thưởng và đánh giá chuyến đi, và bị xóa 30 ngày sau khi chuyến đi kết thúc."
-
-#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
 msgid "permissions.visits.row"
 msgstr "Những nơi bạn ghé trong chuyến này chưa được ghi nhớ."
 
@@ -225,6 +217,14 @@ msgstr "Để hướng dẫn viên tìm được một tuần cả nhóm cùng r
 #: ../../apps/mobile/src/ui/permission-primer/copy.ts
 msgid "permissions.microphone.title"
 msgstr "Nói chuyện với hướng dẫn viên"
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.subtitleReached"
+msgstr "Những nơi trong kế hoạch mà bạn thực sự đến, không bao giờ lưu dấu vết tọa độ."
+
+#: ../../apps/mobile/src/ui/permission-primer/VisitConsentSheet.tsx
+msgid "permissions.visits.bodyReached"
+msgstr "Những nơi trong kế hoạch mà bạn thực sự đến, không bao giờ lưu dấu vết tọa độ. Chúng dùng cho nhiệm vụ, giải thưởng và đánh giá chuyến đi, và bị xóa 30 ngày sau khi chuyến đi kết thúc."
 
 #: ../../apps/mobile/src/ui/permission-primer/PermissionsPrimer.tsx
 msgid "permissions.primer.title"

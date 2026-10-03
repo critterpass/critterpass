@@ -61,3 +61,11 @@ export function directionsUrl(
     ? `https://maps.apple.com/?daddr=${at}&dirflg=${walking ? 'w' : 'd'}`
     : `https://www.google.com/maps/dir/?api=1&destination=${at}&travelmode=${walking ? 'walking' : 'driving'}`;
 }
+
+/**
+ * The reader's distance unit as the formatter takes it, from `user_settings.distance_unit`, which
+ * stores 'km' or 'mi' (unset reads as kilometres).
+ */
+export function distanceUnitOf(setting: string | null | undefined): 'metric' | 'imperial' {
+  return setting === 'mi' ? 'imperial' : 'metric';
+}

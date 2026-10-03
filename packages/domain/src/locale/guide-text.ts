@@ -22,6 +22,8 @@ export const GUIDE_TEXT_KINDS = [
   'pitch',
   'disruption',
   'watch_item',
+  'recap',
+  'recap_award',
 ] as const;
 export type GuideTextKind = (typeof GUIDE_TEXT_KINDS)[number];
 
@@ -60,6 +62,25 @@ export function guideTextLimit(field: GuideTextFieldSpec, source: string): numbe
   return Math.max(field.max, Math.ceil(source.length * GUIDE_TEXT_GROWTH));
 }
 
+/** The story cards, in play order (`RECAP_CARDS`; repeated here so the locale module stands alone). */
+const RECAP_GUIDE_TEXT_CARDS = [
+  'cover',
+  'critters',
+  'route',
+  'awards',
+  'receipt',
+  'got_away',
+  'stamp',
+  'postcard',
+] as const;
+
+/** `<card>_narration`, `<card>_headline` and `<card>_line` for every card, in play order. */
+const RECAP_GUIDE_TEXT_FIELDS = RECAP_GUIDE_TEXT_CARDS.flatMap((card) => [
+  { name: `${card}_narration`, max: 240 },
+  { name: `${card}_headline`, max: 60, title: true },
+  { name: `${card}_line`, max: 160 },
+]) as readonly GuideTextFieldSpec[];
+
 /**
  * The translatable fields of each kind, in hash order. A pitch's fields are read out of
  * `pitches.sections` (`pitchGuideTextSource`); the others are columns of the row.
@@ -87,6 +108,13 @@ export const GUIDE_TEXT_FIELDS = {
   watch_item: [
     { name: 'title', max: 140, title: true },
     { name: 'detail', max: 140 },
+  ],
+  // A recap's card copy, read out of `recaps.cards` (`recapGuideTextSource`), and an award's words;
+  // the limits are the recap copy route's (packages/domain/src/recap/schema.ts).
+  recap: RECAP_GUIDE_TEXT_FIELDS,
+  recap_award: [
+    { name: 'title', max: 40, title: true },
+    { name: 'line', max: 140 },
   ],
 } as const satisfies Record<GuideTextKind, readonly GuideTextFieldSpec[]>;
 
@@ -197,6 +225,23 @@ export function pitchGuideTextSource(sections: {
     reason_2: reasons[2]?.text ?? null,
     quote: sections.quote ?? null,
   };
+}
+
+/** A recap's translatable text, read out of `recaps.cards` (card copy keyed by card). */
+export function recapGuideTextSource(cards: unknown): GuideTextSource {
+  const source: Record<string, string | null> = {};
+  const byCard =
+    typeof cards === 'object' && cards !== null ? (cards as Record<string, unknown>) : {};
+  for (const card of RECAP_GUIDE_TEXT_CARDS) {
+    const copy = byCard[card];
+    const words =
+      typeof copy === 'object' && copy !== null ? (copy as Record<string, unknown>) : {};
+    for (const part of ['narration', 'headline', 'line'] as const) {
+      const text = words[part];
+      source[`${card}_${part}`] = typeof text === 'string' ? text : null;
+    }
+  }
+  return source;
 }
 
 /**

@@ -2,8 +2,8 @@
  * A disruption's messages to a driver, villa or restaurant through the ops desk threads
  * (docs/api-contracts.md §4.11). The guide only ever drafts: a draft is sent by a person at the
  * desk once a member said yes to its exact text (an `ops.approvals` row as that member), or, while
- * the desk's WhatsApp number is not live, the member sends it from their own WhatsApp and we never
- * claim it was sent.
+ * the desk's WhatsApp number is not live or nobody staffs the desk (`safety.ops_desk`), the member
+ * sends it from their own WhatsApp and we never claim it was sent.
  */
 import { createHash } from 'node:crypto';
 
@@ -24,15 +24,27 @@ export interface VendorDraftInput {
   readonly body: string;
 }
 
-export async function createVendorDraft(
-  tx: pg.PoolClient,
-  input: VendorDraftInput,
-): Promise<{ messageId: string; threadId: string; channel: string }> {
+/**
+ * Whether the desk sends approved drafts: only with its WhatsApp number live and a person staffing
+ * it (`safety.ops_desk`, off unless switched on), the same rule the api's booking messages follow.
+ */
+async function deskSends(tx: pg.PoolClient): Promise<boolean> {
   const live = await isPartnerEnabled(
     (sql, params) => tx.query(sql, [...params]),
     WHATSAPP_BUSINESS,
   );
-  const channel = live ? 'whatsapp_business' : 'self_send';
+  if (!live) return false;
+  const { rows } = await tx.query<{ on: boolean }>(
+    "SELECT (value #>> '{}') = 'true' AS on FROM ops.ops_config WHERE key = 'safety.ops_desk'",
+  );
+  return rows[0]?.on === true;
+}
+
+export async function createVendorDraft(
+  tx: pg.PoolClient,
+  input: VendorDraftInput,
+): Promise<{ messageId: string; threadId: string; channel: string }> {
+  const channel = (await deskSends(tx)) ? 'whatsapp_business' : 'self_send';
   const open = await tx.query<{ id: string }>(
     `SELECT id FROM ops.vendor_threads
       WHERE trip_id = $1 AND requested_by = $2 AND provider_id = $3 AND status <> 'closed'

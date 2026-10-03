@@ -3,3 +3,4 @@ export * from './compute';
 export * from './escalation';
 export * from './readiness-summary';
 export * from './window';
+export * from './pickup-point';

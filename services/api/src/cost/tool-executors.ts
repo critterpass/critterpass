@@ -48,8 +48,9 @@ async function checkFit(tx: pg.PoolClient, input: FitInput): Promise<FitOutput> 
     tz: string | null;
     current_version_id: string | null;
   }>(
-    `SELECT start_date::text AS start_date, end_date::text AS end_date, tz, current_version_id
-       FROM trips WHERE id = $1`,
+    `SELECT t.start_date::text AS start_date, t.end_date::text AS end_date,
+            coalesce(t.tz, d.tz) AS tz, t.current_version_id
+       FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = $1`,
     [input.trip_id],
   );
   const t = trip.rows[0];

@@ -45,7 +45,7 @@ response = {
 ```
 
 - The phone calls it once a minute while it is on the way to a plan item (a leave-by journey or a transfer). The server drives nothing: `eta.running_late` only does upkeep (§5).
-- Errors: `NOT_FOUND item` (not on the trip's current plan, or not the caller's trip), `NOT_ELIGIBLE not_attending` / `no_place` (the item has no place to route to).
+- Errors: `NOT_FOUND item` (not on the trip's current plan, or not the caller's trip), `NOT_ELIGIBLE not_attending` / `no_place` (the item has no place to route to). A transfer booked without a place routes to its booking's placed pickup point (`details.pickup_point`, while it was placed from the booking's current pickup text; doc delta, 3 Oct 2026); `no_place` stays for an item with neither.
 - Routing: Mapbox with traffic when configured, else the flagged straight-line estimate. A late ride (not a walk) is also measured on foot; the walk is offered as an option only when it was really routed and beats the ride.
 - Hysteresis: `late_min ≥ 10` on two checks in a row opens the item's running-late disruption (or joins the open one); `late_min ≤ 3` on two checks in a row takes the member out of it, and the disruption resolves when nobody is left. Anything between resets both runs and changes nothing.
 - Kept: one `journey_checks` row per member and item (ETA, minutes late, the two runs, mode). Never a coordinate.
