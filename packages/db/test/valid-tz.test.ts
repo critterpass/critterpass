@@ -204,8 +204,11 @@ describe('tz columns store canonical ids', () => {
         },
       ],
     });
+    // Its author sends it (a draft is theirs alone); the organiser approves and applies it.
+    await withUser(db.pool, fx.memberId, anonymousActor().device, (tx) =>
+      tx.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [changeSetId]),
+    );
     await withUser(db.pool, fx.organiserId, anonymousActor().device, async (tx) => {
-      await tx.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [changeSetId]);
       await tx.query("UPDATE change_sets SET status = 'approved' WHERE id = $1", [changeSetId]);
       await tx.query('SELECT app.apply_change_set($1)', [changeSetId]);
     });

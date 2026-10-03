@@ -30,5 +30,9 @@ streams:
       - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
       - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
       # By the copied destination, never through the destination's POI ids: one parameter result
-      # per POI would pass PowerSync's per-connection limit and fail the whole sync request.
-      - SELECT * FROM crowd_forecasts WHERE destination_id IN trip_destination
+      # per POI would pass PowerSync's per-connection limit and fail the whole sync request. An
+      # editorial curve syncs only once ops approved it, as its RLS shows it.
+      - |
+        SELECT * FROM crowd_forecasts
+        WHERE destination_id IN trip_destination
+          AND (source <> 'editorial' OR approved_at IS NOT NULL)

@@ -254,4 +254,63 @@ describe('apply_plan_ops', () => {
       editorial: false,
     });
   });
+
+  it("carries a dropped pin's own place and the plan's place names through a later edit", async () => {
+    const pin = '00000000-0000-4000-8000-0000000000c1';
+    const customPlace = { name: 'Bánh mì cart by the bridge', lat: 16.0614, lng: 108.2272 };
+    const added = await harness.run(crew.organiser, 'apply_plan_ops', {
+      trip_id: crew.tripId,
+      base_version: await current(),
+      ops: [
+        {
+          op: 'add',
+          item: pin,
+          new: {
+            day_no: 2,
+            starts_at: tokyo(plan.dates[1] as string, 18),
+            ends_at: tokyo(plan.dates[1] as string, 19),
+            tz: 'Asia/Tokyo',
+            status: 'confirmed',
+            category: 'food',
+            custom_place: customPlace,
+          },
+        },
+      ],
+    });
+    expect(added.status).toBe(200);
+    const before = await harness.pool.query<{ places: Record<string, unknown> }>(
+      "SELECT coverage->'places' AS places FROM itinerary_versions WHERE id = $1",
+      [await current()],
+    );
+    const names = before.rows[0]?.places ?? {};
+    expect(Object.keys(names).length).toBeGreaterThan(0);
+
+    // Another edit makes another version: the pin and the plan's place names both carry over.
+    const moved = await harness.run(crew.organiser, 'apply_plan_ops', {
+      trip_id: crew.tripId,
+      base_version: await current(),
+      ops: [
+        {
+          op: 'move',
+          item: pin,
+          new: {
+            starts_at: tokyo(plan.dates[1] as string, 20),
+            ends_at: tokyo(plan.dates[1] as string, 21),
+          },
+        },
+      ],
+    });
+    expect(moved.status).toBe(200);
+    const next = await current();
+    const { rows } = await harness.pool.query<{ custom_place: unknown; poi_id: string | null }>(
+      'SELECT custom_place, poi_id FROM plan_items WHERE version_id = $1 AND stable_id = $2',
+      [next, pin],
+    );
+    expect(rows).toEqual([{ custom_place: customPlace, poi_id: null }]);
+    const after = await harness.pool.query<{ places: Record<string, unknown> }>(
+      "SELECT coverage->'places' AS places FROM itinerary_versions WHERE id = $1",
+      [next],
+    );
+    expect(after.rows[0]?.places).toEqual(names);
+  });
 });

@@ -27,7 +27,7 @@ import type pg from 'pg';
 
 import { buildValuesClause } from './batch-sql';
 import type { ConflatedPoi } from './conflate';
-import { findExistingPois, lookupExisting } from './existing-pois';
+import { findExistingPois, idsForStoredRow, lookupExisting } from './existing-pois';
 
 export interface EditorialOverlayInput {
   readonly editorial?: EditorialOverlay;
@@ -236,7 +236,8 @@ export async function batchUpsertConflatedPois(
       if (existing === undefined) {
         if (worthInserting(row)) toInsert.push(row);
       } else if (existing.destinationId === destinationId) {
-        toUpdate.push({ ...row, existingId: existing.id });
+        const sourceIds = idsForStoredRow(existingByKey, row.poi.sourceIds, existing.id);
+        toUpdate.push({ ...row, poi: { ...row.poi, sourceIds }, existingId: existing.id });
       } else {
         ownedElsewhere += 1;
       }

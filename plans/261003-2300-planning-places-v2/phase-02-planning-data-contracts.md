@@ -1,7 +1,7 @@
 ---
 phase: 2
 title: Planning data, contracts and wiring
-status: pending
+status: done
 depends_on: []
 wave: 1
 screens: []
@@ -143,7 +143,7 @@ Each later phase adds one import line and one call/spread line; no other edits.
 - Steps: 1. Zod schemas above; reason codes carry params, never words. 2. Command contracts with result and error codes (reuse `VALIDATION`, `STATE_INVALID{reason}`, `FORBIDDEN{reason}`, `NOT_FOUND`; no new codes). 3. Config keys + seeds. 4. `trigger` values, `custom_place`, `place_ideas`.
 - Tests: `pnpm --filter @cp/domain test -- planning` (schema round-trips for each issue kind's params and each SSE event; rejects unknown reason codes)
 - Done when: `pnpm --filter @cp/domain typecheck` passes; every contract has a zod input and result.
-- Status: todo
+- Status: done — df1450e9a
 
 ### T2 — Tables, column deltas, views and grants
 - Goal: schema for the redesign, forward-only.
@@ -151,7 +151,7 @@ Each later phase adds one import line and one call/spread line; no other edits.
 - Steps: 1. Tables + indexes for every FK and policy predicate. 2. ENABLE + FORCE RLS; policies for app_user via `app.is_trip_participant()`; `place_hides` owner-only; `member_asks` readable by `asked_by` and `member_id` only; `route_cache` no app_user grant. 3. CHECK expansions (crowd source, change_set trigger, agent job kind, fair-use metrics); `crowd_forecasts` unique swap as expand (new index) → contract (drop old) in the second file. 4. `change_sets` SELECT policy: drafts author-only. 5. LLM views + guide_reader grants. 6. Publication: guarded `DO` block per table; exceptions for `route_cache`, `climate_normals`. 7. Privacy registrations in `planning.ts`. Migration timestamps generated after rebasing on `main`.
 - Tests: `pnpm test:remote @cp/db -- publication`
 - Done when: migrations apply on a fresh database and replay idempotently; publication test lists exactly the new C1/C2 tables.
-- Status: todo
+- Status: done — ec1c1e235
 
 ### T3 — Streams and the mobile synced schema
 - Goal: phones receive the new rows, nobody receives what they should not.
@@ -159,7 +159,7 @@ Each later phase adds one import line and one call/spread line; no other edits.
 - Steps: 1. Stream queries per the table above, `plan_legs` filtered by version visibility like `plan_items`. 2. `change_sets` queries in `trip` and `trip_draft` add `AND (status <> 'draft' OR author_id = auth.user_id())`. 3. Audit every draft producer (`match-to-changeset.ts`, `propose-plan-changes.ts`, `weather-replan.ts`, member edits in `use-plan-editor.ts:94`) and record in the PR which ones send at once and which stay drafts. 4. `pnpm --filter @cp/mobile exec tsx src/data/powersync/test-support/synced-schema-source.ts --write`.
 - Tests: `pnpm --filter @cp/mobile test -- data/powersync/synced-schema`
 - Done when: build-config output contains the new queries; the synced schema test passes.
-- Status: todo
+- Status: done — d3e329719
 
 ### T4 — Permission and stream tests
 - Goal: every new table proven per actor.
@@ -167,7 +167,7 @@ Each later phase adds one import line and one call/spread line; no other edits.
 - Steps: 1. Outsider, ex-member, member, organiser for each table (read, write via app_user). 2. Stream harness: member sees ideas/stances/legs/checks; outsider sees none; a peer never sees another member's `place_hides`; a `member_asks` row reaches only its asker and its member; a member never sees another member's draft change set; an organiser sees legs of a private draft only through `trip_draft`. 3. guide_reader reads the three views and nothing from the base tables.
 - Tests: `pnpm test:remote @cp/db -- permissions/trip-ideas permissions/place-hides permissions/member-asks permissions/change-set-drafts permissions/sync-streams-planning`
 - Done when: all listed suites pass on the remote runner.
-- Status: todo
+- Status: done — f97c82248
 
 ### T5 — Server wiring aggregators
 - Goal: later phases register routes, commands, hooks and jobs without sharing files.
@@ -175,7 +175,7 @@ Each later phase adds one import line and one call/spread line; no other edits.
 - Steps: 1. `registerPlanning(app, doors)` and `planningJobs(deps)` mounted once. 2. `.gitattributes`: `merge=union` for both aggregators, `apps/mobile/src/features/planning-register.ts` and `docs/api-contracts-planning.md`. 3. A short header comment in each aggregator: one import + one line per module, no logic.
 - Tests: `pnpm --filter @cp/worker test -- job-registry` (registry-wide rules still hold)
 - Done when: api and worker boot with the aggregators in place.
-- Status: todo
+- Status: done — 1635b997d
 
 ### T6 — Doc deltas
 - Goal: the contracts are written down where agents look.
@@ -183,7 +183,7 @@ Each later phase adds one import line and one call/spread line; no other edits.
 - Steps: 1. Rows above in §3.3/§3.13 style with `(doc delta: …)` for column changes. 2. §4 stream rows, §6 retention, §7 table → creating plan. 3. `api-contracts-planning.md`: Commands, Routes, AI routes, Realtime, Jobs sections with every row from this plan's phases (each phase refines its own rows). 4. Async: queues `plan.legs`, `plan.check`, `ideas.seed`, `climate.normals`, agent job `ai.place_ideas`; `trip_plan:` events.
 - Tests: `pnpm format:check` on the docs.
 - Done when: every table, stream, queue, channel event, command, route and AI route in this plan has a doc row.
-- Status: todo
+- Status: done — d879d1fc0
 
 ## Device flows
 

@@ -53,6 +53,10 @@ export const CHANGE_SET_TRIGGERS = [
   'chat',
   'redraft',
   'swap',
+  'check',
+  'ideas',
+  'gap',
+  'split',
 ] as const;
 export const changeSetTriggerSchema = z.enum(CHANGE_SET_TRIGGERS);
 export type ChangeSetTrigger = z.infer<typeof changeSetTriggerSchema>;

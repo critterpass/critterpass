@@ -16,6 +16,8 @@ export const PLAN_ACTION_KINDS = [
   'add_item',
   'remove_item',
   'reschedule_pickup',
+  /** A plan check fix applied by an organiser in one tap; undone from the trip feed. */
+  'check_fix',
 ] as const;
 export type PlanActionKind = (typeof PLAN_ACTION_KINDS)[number];
 
@@ -49,6 +51,7 @@ export const PLAN_ACTION_OPS: Readonly<Record<PlanActionKind, readonly ChangeSet
   add_item: ['add'],
   remove_item: ['remove'],
   reschedule_pickup: ['retime', 'move'],
+  check_fix: ['retime', 'move', 'swap', 'add', 'remove'],
 };
 
 /** The approval sources a change set may have, plus `self` for a personal change. */

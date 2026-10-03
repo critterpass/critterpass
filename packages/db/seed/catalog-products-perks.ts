@@ -135,6 +135,9 @@ const OPS_CONFIG: readonly SeedOpsConfig[] = [
   { key: 'fair_use.crew_chat_per_crew_day', value: 400, isPublic: false },
   { key: 'fair_use.redrafts_per_trip_day', value: 20, isPublic: false },
   { key: 'fair_use.system_jobs_per_trip_day', value: 40, isPublic: false },
+  { key: 'fair_use.search_parse_per_day', value: 100, isPublic: false },
+  { key: 'fair_use.link_import_per_day', value: 30, isPublic: false },
+  { key: 'fair_use.place_compromise_per_day', value: 20, isPublic: false },
 ];
 
 async function seedProducts(tx: pg.PoolClient): Promise<void> {

@@ -60,9 +60,9 @@ describe('change_sets RLS', () => {
     expect(await selectChangeSets(fixture.outsiderId)).toHaveLength(0);
   });
 
-  it('is visible to any crew member once proposed against a crew-visible version', async () => {
+  it('keeps an unsent draft to its author, even from the organiser', async () => {
     expect(await selectChangeSets(fixture.memberId)).toHaveLength(1);
-    expect(await selectChangeSets(fixture.organiserId)).toHaveLength(1);
+    expect(await selectChangeSets(fixture.organiserId)).toHaveLength(0);
   });
 
   it('starts in draft, set by the guard trigger default path', async () => {
@@ -70,7 +70,7 @@ describe('change_sets RLS', () => {
     expect(rows[0]).toMatchObject({ status: 'draft' });
   });
 
-  it('lets any crew member propose a change set for a version they can see', async () => {
+  it('lets any crew member draft a change set for a version they can see', async () => {
     await withUser(db.pool, fixture.organiserId, anonymousActor().device, async (tx) => {
       await tx.query(
         `INSERT INTO change_sets (trip_id, base_version_id, trigger, author_kind, author_id, ops)
@@ -78,15 +78,18 @@ describe('change_sets RLS', () => {
         [fixture.tripId, fixture.versionId, fixture.organiserId, JSON.stringify(NOOP_OPS)],
       );
     });
-    expect(await selectChangeSets(fixture.memberId)).toHaveLength(2);
+    expect(await selectChangeSets(fixture.organiserId)).toHaveLength(1);
+    expect(await selectChangeSets(fixture.memberId)).toHaveLength(1);
   });
 
-  it('lets the author move their own draft to proposed', async () => {
+  it('lets the author move their own draft to proposed, and the crew then sees it', async () => {
     await withUser(db.pool, fixture.memberId, anonymousActor().device, async (tx) => {
       await tx.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [changeSetId]);
     });
     const rows = await selectChangeSets(fixture.memberId);
     expect(rows.find((r) => r.id === changeSetId)).toMatchObject({ status: 'proposed' });
+    const organiser = await selectChangeSets(fixture.organiserId);
+    expect(organiser.map((r) => r.id)).toContain(changeSetId);
   });
 
   it('rejects an illegal status transition (state machine backstop)', async () => {
@@ -120,6 +123,8 @@ describe('change_sets RLS', () => {
         authorId: fx.memberId,
         ops: NOOP_OPS,
       });
+      // Proposed, so the organiser can see it to decide it.
+      await isolated.pool.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [csId]);
       await expect(
         withUser(isolated.pool, fx.organiserId, anonymousActor().device, async (tx) => {
           await tx.query("UPDATE change_sets SET approved_by_kind = 'policy' WHERE id = $1", [

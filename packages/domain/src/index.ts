@@ -16,17 +16,7 @@ export * from './travel-data';
 export * from './media';
 export * from './entitlements/capability-keys';
 export * from './entitlements/errors';
-export {
-  ENTITLEMENT_SUBJECT_KINDS,
-  entitlementSubjectKindSchema,
-  FAIR_USE_METRICS,
-  fairUseMetricSchema,
-  USAGE_METRICS,
-  usageMetricSchema,
-  type EntitlementSubjectKind,
-  type FairUseMetric,
-  type UsageMetric,
-} from './entitlements/metrics';
+export * from './entitlements/metrics';
 export {
   PRODUCT_KEYS,
   PRODUCT_TYPES,
@@ -287,6 +277,7 @@ export * from './help';
 export * from './trip-day';
 export * from './disruptions';
 export * from './explore';
+export * from './planning';
 export * from './proposal';
 export * from './critters';
 export * from './trips/lifecycle';
