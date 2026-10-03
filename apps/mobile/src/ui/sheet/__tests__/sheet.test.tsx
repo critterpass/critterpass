@@ -2,9 +2,9 @@ import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { act, fireEvent, render, renderHook, within } from '@testing-library/react-native';
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { cloneElement } from 'react';
+import { cloneElement, useEffect } from 'react';
 import type { ContextType, ReactElement } from 'react';
-import { BackHandler, StyleSheet, Text } from 'react-native';
+import { BackHandler, Keyboard, StyleSheet, Text, TextInput } from 'react-native';
 import type { ViewStyle } from 'react-native';
 import { NavigationContext } from 'expo-router/react-navigation';
 import { GestureHandlerRootView, State } from 'react-native-gesture-handler';
@@ -136,6 +136,32 @@ function ScreenUnderSheet() {
   );
 }
 
+/**
+ * Which field holds focus, as React Native's focus bookkeeping reports it. Jest's TextInput has no
+ * native side to focus, so the field a test focuses is set here.
+ */
+let focusedField: object | null = null;
+
+/** A field that takes focus as it mounts, as a sheet's own autofocused input does. */
+function FocusedOnMount() {
+  useEffect(() => {
+    focusedField = { field: 'own' };
+  }, []);
+  return <TextInput testID="own-field" />;
+}
+
+/** A composer's field with a sheet that opens over it (holding a field of its own, or not). */
+function ComposerUnder({ open, own }: { readonly open: boolean; readonly own: boolean }) {
+  return (
+    <>
+      <TextInput testID="composer-field" />
+      {open ? (
+        <Sheet onDismiss={() => {}}>{own ? <FocusedOnMount /> : <Text>attach</Text>}</Sheet>
+      ) : null}
+    </>
+  );
+}
+
 describe('Sheet', () => {
   beforeEach(async () => {
     resetPresenterForTests();
@@ -144,6 +170,50 @@ describe('Sheet', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
+    focusedField = null;
+  });
+
+  it('puts the keyboard down before it rises over a focused field', async () => {
+    // A composer mid-message: its field holds focus (and the keyboard) as "+" opens a sheet.
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+    const screen = await render(tree(<ComposerUnder open={false} own={false} />));
+    await screen.rerender(tree(<ComposerUnder open={false} own={false} />));
+    jest
+      .spyOn(TextInput.State, 'currentlyFocusedInput')
+      .mockImplementation(() => focusedField as never);
+    focusedField = { field: 'composer' };
+    const progressAtDismiss: number[] = [];
+    jest.spyOn(Keyboard, 'dismiss').mockImplementation(() => {
+      progressAtDismiss.push(presenterProgress.value);
+    });
+    await screen.rerender(tree(<ComposerUnder open own={false} />));
+    await screen.rerender(tree(<ComposerUnder open own={false} />));
+    expect(progressAtDismiss).toEqual([0]);
+    expect(presenterProgress.value).toBe(1);
+  });
+
+  it('leaves the keyboard up for a field of its own that takes focus as it opens', async () => {
+    i18n.loadAndActivate({ locale: 'en', messages: {} });
+    const screen = await render(tree(<ComposerUnder open={false} own />));
+    await screen.rerender(tree(<ComposerUnder open={false} own />));
+    jest
+      .spyOn(TextInput.State, 'currentlyFocusedInput')
+      .mockImplementation(() => focusedField as never);
+    focusedField = { field: 'composer' };
+    const dismiss = jest.spyOn(Keyboard, 'dismiss').mockImplementation(() => undefined);
+    await screen.rerender(tree(<ComposerUnder open own />));
+    expect(screen.getByTestId('own-field')).toBeTruthy();
+    expect(dismiss).not.toHaveBeenCalled();
+  });
+
+  it('does not touch the keyboard when no field is focused', async () => {
+    const dismiss = jest.spyOn(Keyboard, 'dismiss').mockImplementation(() => undefined);
+    await renderModal(
+      <Sheet onDismiss={() => {}}>
+        <Text>attach</Text>
+      </Sheet>,
+    );
+    expect(dismiss).not.toHaveBeenCalled();
   });
 
   it('rises to its detent and scales the presenter to .93', async () => {
