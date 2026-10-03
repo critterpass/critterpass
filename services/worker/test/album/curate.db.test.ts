@@ -52,12 +52,16 @@ beforeAll(async () => {
     const id = randomUUID();
     const thumb = `u/${people.ana}/photo/${randomUUID()}`;
     objects.set(thumb, new Uint8Array([0xff, 0xd8, i]));
+    // Photo 0 is blurry; photos 1 and 2 are near-copies, 1 the sharper (it wins its cluster and,
+    // the sharpest of all, makes the picks).
     const quality =
       i === 0
         ? { blur: 10 }
-        : i === 1 || i === 2
-          ? { blur: 300, dup_cluster: 'pair' }
-          : { blur: 300 };
+        : i === 1
+          ? { blur: 900, dup_cluster: 'pair' }
+          : i === 2
+            ? { blur: 800, dup_cluster: 'pair' }
+            : { blur: 300 };
     await q(
       `INSERT INTO photos (id, trip_id, uploader_id, media_key, thumb_key, sha256, local_date,
          quality, upload_state)
@@ -127,7 +131,8 @@ describe('ai.curate_album', { timeout: 60_000 }, () => {
     expect(picks).toContain(photos[39]);
     expect(picks).not.toContain(photos[38]);
     expect(picks).not.toContain(photos[0]);
-    expect([photos[1], photos[2]].filter((p) => picks.includes(p!))).toHaveLength(1);
+    expect(picks).toContain(photos[1]);
+    expect(picks).not.toContain(photos[2]);
     expect(
       [10, 11, 12, 13, 14].filter((i) => picks.includes(photos[i]!)).length,
     ).toBeGreaterThanOrEqual(3);
