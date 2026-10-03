@@ -24,6 +24,9 @@ function regionTiles(slug: string): string {
   return WORLD_URL.replace('/world/', `/${slug}/`);
 }
 
+/** A phone-wide map inside the page gutters, for framing (the narrowest phones are about this). */
+const MAP_WIDTH = 340;
+
 export interface MapSpot {
   readonly key: string;
   readonly name: string;
@@ -50,7 +53,7 @@ export function SpotMap({
   readonly testID?: string;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
-  const framing = mapFraming(spots, position);
+  const framing = mapFraming(spots, position, { width: MAP_WIDTH, height });
   if (framing === null) return null;
   const places: MapPlace[] = spots.map((spot) => ({
     id: spot.key,

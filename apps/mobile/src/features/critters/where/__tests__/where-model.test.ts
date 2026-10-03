@@ -216,8 +216,9 @@ describe('where the map opens', () => {
       null,
     );
     expect(spread?.center.lat).toBeCloseTo(16.08985, 4);
-    expect(spread?.zoom).toBeGreaterThanOrEqual(11);
-    expect(spread?.zoom).toBeLessThan(13);
+    // 6.4 km north to south over 200 points of map, 4.9 km east to west over 180: about 10.8.
+    expect(spread?.zoom).toBeGreaterThanOrEqual(10.5);
+    expect(spread?.zoom).toBeLessThan(11.2);
     // A phone at home, far away, does not drag the map out to the whole country.
     expect(mapFraming([BRIDGE], { lat: 10.776, lng: 106.7 })).toEqual(lone);
     expect(mapFraming([], null)).toBeNull();

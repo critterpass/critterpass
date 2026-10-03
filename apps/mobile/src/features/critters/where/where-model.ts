@@ -175,13 +175,18 @@ export function destinationSpots(input: {
     .sort(bySpotDistance);
 }
 
+/** Metres per point at zoom 0 on MapLibre's 512-point tiles, at the equator. */
+const METRES_PER_POINT_Z0 = 78_271.5;
+
 /**
  * Where the map opens: the middle of the spots (and the phone, when it is near enough to matter),
- * zoomed so they all fit on a phone-wide map; a lone spot opens at street level.
+ * zoomed so every pin and its label fit inside a `width` × `height` point map; a lone spot opens
+ * at street level.
  */
 export function mapFraming(
   spots: readonly Pick<WhereSpot, 'lat' | 'lng'>[],
   position: LatLng | null,
+  size: { readonly width: number; readonly height: number } = { width: 340, height: 280 },
 ): { readonly center: LatLng; readonly zoom: number } | null {
   const near = position !== null && spots.some((s) => distanceM(position, s) <= 10_000);
   const points: LatLng[] = [...spots, ...(near && position !== null ? [position] : [])];
@@ -192,8 +197,15 @@ export function mapFraming(
     lat: (Math.min(...lats) + Math.max(...lats)) / 2,
     lng: (Math.min(...lngs) + Math.max(...lngs)) / 2,
   };
-  const span = Math.max(...points.map((p) => distanceM(center, p)));
-  // About 800 m from the middle to the edge fits at 14; every doubling of the span is one level out.
-  const zoom = span < 400 ? 15 : 14 - Math.log2(span / 800);
-  return { center, zoom: Math.min(15, Math.max(9, Math.round(zoom * 10) / 10)) };
+  const cos = Math.cos((center.lat * Math.PI) / 180);
+  const halfNorthM = ((Math.max(...lats) - Math.min(...lats)) / 2) * 111_320;
+  const halfEastM = ((Math.max(...lngs) - Math.min(...lngs)) / 2) * 111_320 * cos;
+  // Room for a pin's label on each side: a pill about 140 points wide and 40 tall.
+  const perPoint = Math.max(
+    halfNorthM / Math.max(1, size.height / 2 - 40),
+    halfEastM / Math.max(1, size.width / 2 - 80),
+  );
+  if (perPoint === 0) return { center, zoom: 15 };
+  const zoom = Math.log2((METRES_PER_POINT_Z0 * cos) / perPoint);
+  return { center, zoom: Math.min(15, Math.max(8, Math.floor(zoom * 10) / 10)) };
 }
