@@ -18,7 +18,7 @@ import { File } from 'expo-file-system';
 import type * as ImagePickerModule from 'expo-image-picker';
 import { useMemo, type ReactNode } from 'react';
 import * as Sentry from '@sentry/react-native';
-import { Linking, Platform } from 'react-native';
+import { Linking } from 'react-native';
 
 import { sessionHeaders } from '@/data/app-session/device-session';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
@@ -39,13 +39,8 @@ const VOICE: RecordingOptions = {
   bitRate: 64_000,
   isMeteringEnabled: true,
 };
-/**
- * Picker JPEG quality: phone originals shrink several times over with no visible loss in chat. On
- * Android the picker's re-encode fails in builds whose shrinker stripped its native classes
- * (ExceptionInInitializerError after the pick), so there the photo is sent as picked and the media
- * worker makes the chat's thumbnail.
- */
-const PHOTO_QUALITY = Platform.OS === 'android' ? 1 : 0.7;
+/** Picker JPEG quality: phone originals shrink several times over with no visible loss in chat. */
+const PHOTO_QUALITY = 0.7;
 const SILENCE_DB = -60;
 
 /**

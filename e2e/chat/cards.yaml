@@ -41,51 +41,67 @@ appId: app.critterpass.dev
 - assertVisible: 'Poll'
 - takeScreenshot: chat-3g-1-attach-while-typing
 # A photo: the system picker opens on the newest photos first, the corgi in its first cell.
-- tapOn: 'Photo library'
-- runFlow:
-    when:
-      visible: '(?i)allow.*|ok|allow full access'
-    commands:
-      - tapOn: '(?i)allow full access|allow.*|ok'
-- extendedWaitUntil:
-    notVisible:
-      id: 'chat-attach-panel'
-    timeout: 15000
-- waitForAnimationToEnd
-# iOS may show its "Private Access to Photos" note above the grid, which moves the grid down.
+# iOS only: the Android e2e APK's picker fails natively on every pick (ExceptionInInitializerError
+# in ExponentImagePicker, the shrinker-stripped classes), and the chat says so honestly.
 - runFlow:
     when:
       platform: iOS
-      visible: '(?i)private access to photos'
     commands:
-      - tapOn:
-          point: '16%,43%'
-- runFlow:
-    when:
-      platform: iOS
-      notVisible: '(?i)private access to photos'
-    commands:
-      - tapOn:
-          point: '16%,25%'
+      - tapOn: 'Photo library'
+      - runFlow:
+          when:
+            visible: '(?i)allow.*|ok|allow full access'
+          commands:
+            - tapOn: '(?i)allow full access|allow.*|ok'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'chat-attach-panel'
+          timeout: 15000
+      - waitForAnimationToEnd
+      # iOS may show its "Private Access to Photos" note above the grid, which moves the grid down.
+      - runFlow:
+          when:
+            platform: iOS
+            visible: '(?i)private access to photos'
+          commands:
+            - tapOn:
+                point: '16%,43%'
+      - runFlow:
+          when:
+            platform: iOS
+            notVisible: '(?i)private access to photos'
+          commands:
+            - tapOn:
+                point: '16%,25%'
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - tapOn:
+                point: '16%,34%'
+      # The library picker allows several photos, so it asks to confirm ("Add (1)", "Add", "Done").
+      - runFlow:
+          when:
+            visible: '(?i)^(add( \(\d+\))?|done|select)$'
+          commands:
+            - tapOn: '(?i)^(add( \(\d+\))?|done|select)$'
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-photo-.*'
+          timeout: 60000
+      - extendedWaitUntil:
+          visible: 'Open photo'
+          timeout: 30000
+# Android: the menu from the typing check is still up; system back closes it.
 - runFlow:
     when:
       platform: Android
     commands:
-      - tapOn:
-          point: '16%,34%'
-# The library picker allows several photos, so it asks to confirm ("Add (1)", "Add", "Done").
-- runFlow:
-    when:
-      visible: '(?i)^(add( \(\d+\))?|done|select)$'
-    commands:
-      - tapOn: '(?i)^(add( \(\d+\))?|done|select)$'
-- extendedWaitUntil:
-    visible:
-      id: 'chat-photo-.*'
-    timeout: 60000
-- extendedWaitUntil:
-    visible: 'Open photo'
-    timeout: 30000
+      - back
+      - extendedWaitUntil:
+          notVisible:
+            id: 'chat-attach-panel'
+          timeout: 5000
 # A poll.
 - tapOn: 'Add attachment'
 - extendedWaitUntil:
