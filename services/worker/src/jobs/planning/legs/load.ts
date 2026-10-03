@@ -67,10 +67,10 @@ export async function loadTripLegsInput(
   );
 
   const stays = new Map<string, LegPoint | null>();
-  const stayOn = async (date: string | null): Promise<LegPoint | null> => {
-    const key = date ?? '';
+  const stayOn = async (versionId: string, date: string | null): Promise<LegPoint | null> => {
+    const key = `${versionId}:${date ?? ''}`;
     if (!stays.has(key)) {
-      const stay = await tripStay(tx, tripId, date ?? undefined);
+      const stay = await tripStay(tx, tripId, date ?? undefined, versionId);
       stays.set(key, stay === null ? null : { lat: stay.lat, lng: stay.lng });
     }
     return stays.get(key) ?? null;
@@ -88,7 +88,7 @@ export async function loadTripLegsInput(
     for (const day of days.filter((row) => row.version_id === versionId)) {
       planned.push({
         dayId: day.id,
-        stay: await stayOn(day.date),
+        stay: await stayOn(versionId, day.date),
         stops: stopsByDay.get(day.id) ?? [],
       });
     }

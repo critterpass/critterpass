@@ -51,10 +51,12 @@ async function bookedStays(
   tx: pg.PoolClient,
   tripId: string,
   date: string | null,
+  versionId: string | null,
 ): Promise<BookedStayRow[]> {
   const { rows } = await tx.query<BookedStayRow>(
     `WITH trip AS (
-       SELECT t.current_version_id, t.destination_id, coalesce(t.tz, d.tz, 'UTC') AS tz
+       SELECT coalesce($3::uuid, t.current_version_id) AS version_id, t.destination_id,
+              coalesce(t.tz, d.tz, 'UTC') AS tz
          FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id
         WHERE t.id = $1
      )
@@ -70,7 +72,7 @@ async function bookedStays(
            FROM (
              SELECT 0 AS rank, p.id, p.name, p.lat, p.lng
                FROM plan_items i JOIN pois p ON p.id = i.poi_id
-              WHERE i.version_id = trip.current_version_id AND i.booking_id = b.id
+              WHERE i.version_id = trip.version_id AND i.booking_id = b.id
              UNION ALL
              SELECT 1, p.id, p.name, p.lat, p.lng
                FROM pois p
@@ -84,22 +86,26 @@ async function bookedStays(
       WHERE b.trip_id = $1 AND b.type = 'stay' AND b.status = 'booked'
         AND b.deleted_at IS NULL AND b.visibility = 'crew' AND b.starts_at IS NOT NULL
       ORDER BY b.starts_at, b.id`,
-    [tripId, date],
+    [tripId, date, versionId],
   );
   return rows;
 }
 
 /** Stay places in the current plan, in day order. */
-async function plannedStays(tx: pg.PoolClient, tripId: string): Promise<PlannedStayRow[]> {
+async function plannedStays(
+  tx: pg.PoolClient,
+  tripId: string,
+  versionId: string | null,
+): Promise<PlannedStayRow[]> {
   const { rows } = await tx.query<PlannedStayRow>(
     `SELECT p.id AS poi_id, p.name, p.lat, p.lng, to_char(d.date, 'YYYY-MM-DD') AS date
        FROM trips t
-       JOIN plan_items i ON i.version_id = t.current_version_id
+       JOIN plan_items i ON i.version_id = coalesce($2::uuid, t.current_version_id)
        JOIN plan_days d ON d.id = i.day_id
        JOIN pois p ON p.id = i.poi_id
       WHERE t.id = $1 AND p.category = 'stay' AND i.status IS DISTINCT FROM 'cancelled'
       ORDER BY d.day_no, i.starts_at NULLS LAST, i.stable_id`,
-    [tripId],
+    [tripId, versionId],
   );
   return rows;
 }
@@ -115,19 +121,22 @@ function plannedFor(
 
 /**
  * The trip's stay for the night of `date` (`YYYY-MM-DD`, the trip's local day); without a date,
- * the first stay of the trip.
+ * the first stay of the trip. Plan stays come from `versionId` (a draft or proposal being read),
+ * else the current plan.
  */
 export async function tripStay(
   tx: pg.PoolClient,
   tripId: string,
   date?: string,
+  versionId?: string,
 ): Promise<TripStay | null> {
   if (date !== undefined && !DATE.test(date)) throw new Error(`tripStay: bad date ${date}`);
   const night = date ?? null;
-  const booked = await bookedStays(tx, tripId, night);
+  const version = versionId ?? null;
+  const booked = await bookedStays(tx, tripId, night, version);
   const covering = night === null ? booked[0] : booked.find((row) => row.covers);
   if (covering !== undefined) return toStay(covering, 'booking');
-  const planned = plannedFor(await plannedStays(tx, tripId), night);
+  const planned = plannedFor(await plannedStays(tx, tripId, version), night);
   if (planned !== undefined) return toStay(planned, 'plan');
   const anyBooked = booked[0];
   return anyBooked === undefined ? null : toStay(anyBooked, 'booking');

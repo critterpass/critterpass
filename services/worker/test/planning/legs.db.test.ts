@@ -3,7 +3,8 @@
  * stay starts and ends the day, stops go in time order whoever attends them, a short hop is a
  * walk and the rest are drives scaled by the destination's drive factor; with no router every leg
  * is an "about" estimate; a replay writes nothing; legs leave with a superseded version; and a
- * plan event queues one debounced run per trip.
+ * plan event queues one debounced run per trip. A stay that is booked but not on the plan anchors
+ * the legs and the plan check alike.
  */
 import { randomUUID } from 'node:crypto';
 
@@ -12,6 +13,7 @@ import { createPlanningTravel, createValhallaClient } from '@cp/suppliers';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 
 import { replayValhalla } from '../../../../packages/suppliers/src/valhalla/fixtures/replay';
+import { loadCheck, readCheckTrip } from '../../src/jobs/planning/check/context';
 import { legsEventHook } from '../../src/jobs/planning/legs';
 import { planLegsJob, refreshTripLegs } from '../../src/jobs/planning/legs/job';
 import { startJobsHarness, type JobsHarness } from '../helpers/jobs-harness';
@@ -213,5 +215,19 @@ describe('plan.legs', () => {
         later: true,
       },
     ]);
+  });
+
+  it('anchors the legs and the plan check on a booked stay the plan does not have', async () => {
+    const day = await seedDay();
+    await refreshTripLegs(harness.pool, createPlanningTravel({ valhalla: null }), day.tripId);
+    const fromStay = (await legsOf(day.versionId)).filter((leg) => leg.from_key === 'stay');
+    expect(fromStay.map((leg) => leg.to_key)).toEqual([day.stops.temple]);
+
+    const check = await withSystem(harness.pool, async (tx) => {
+      const trip = await readCheckTrip(tx, day.tripId);
+      if (trip === null) throw new Error('no trip');
+      return loadCheck(tx, trip, new Date('2026-10-20T00:00:00Z'));
+    });
+    expect(check.context.days[0]?.stay).toEqual({ lat: -8.5069, lng: 115.2625 });
   });
 });

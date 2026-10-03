@@ -31,6 +31,7 @@ import {
   type FitPoint,
   type FitRain,
 } from '@cp/planner';
+import { tripStay } from '@cp/db';
 import type pg from 'pg';
 
 export interface CheckTrip {
@@ -95,20 +96,15 @@ async function participants(tx: pg.PoolClient, trip: CheckTrip): Promise<string[
   return seats.length > 1 ? seats : rows.map((row) => row.user_id);
 }
 
+/** The night's stay by the one rule fit and the stored legs use: a booked crew stay wins. */
 async function stayFor(
   tx: pg.PoolClient,
+  tripId: string,
   versionId: string,
   date: string,
 ): Promise<FitPoint | null> {
-  const { rows } = await tx.query<{ lat: number; lng: number }>(
-    `SELECT p.lat, p.lng FROM plan_items i
-       JOIN plan_days d ON d.id = i.day_id JOIN pois p ON p.id = i.poi_id
-      WHERE i.version_id = $1 AND p.category = 'stay' AND i.status IS DISTINCT FROM 'cancelled'
-      ORDER BY (d.date <= $2::date) DESC, CASE WHEN d.date <= $2::date THEN -d.day_no ELSE d.day_no END
-      LIMIT 1`,
-    [versionId, date],
-  );
-  return rows[0] ?? null;
+  const stay = await tripStay(tx, tripId, date, versionId);
+  return stay === null ? null : { lat: stay.lat, lng: stay.lng };
 }
 
 async function rainByDate(tx: pg.PoolClient, trip: CheckTrip, dates: readonly string[], now: Date) {
@@ -230,7 +226,7 @@ export async function loadCheck(
   const dates = days.flatMap((day) => (day.date === null ? [] : [day.date]));
   const stays = new Map<string, FitPoint>();
   for (const date of dates) {
-    const stay = versionId === null ? null : await stayFor(tx, versionId, date);
+    const stay = versionId === null ? null : await stayFor(tx, trip.id, versionId, date);
     if (stay !== null) stays.set(date, stay);
   }
   const stored = new Map<string, FitLeg>(
