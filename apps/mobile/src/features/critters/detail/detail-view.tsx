@@ -17,7 +17,7 @@ import { PillButton, type PillTone } from '@/ui/buttons/PillButton';
 import type { CardTone } from '@/ui/cards/tone';
 import { CritterDetail } from '@/ui/critters/CritterDetail';
 import { FormSelector } from '@/ui/critters/FormSelector';
-import type { Tier } from '@/ui/critters/tier';
+import { tierWord, type Tier } from '@/ui/critters/tier';
 import { StraightArrow } from '@/ui/icons/StraightArrow';
 import { Row } from '@/ui/layout/Row';
 import { Avatar } from '@/ui/people/Avatar';
@@ -108,6 +108,8 @@ export function DetailView(props: DetailViewProps) {
   };
 
   const isSkin = form !== undefined && props.skinFormId === form.id;
+  // Locked forms only shake when tapped: where to find the next one sits under the picker.
+  const nextUnfound = model.forms.find((f) => !f.found);
   const owners = [props.me, ...props.crew].filter(Boolean).slice(0, 3);
   return (
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="critters-detail">
@@ -189,19 +191,21 @@ export function DetailView(props: DetailViewProps) {
             }))}
             testID="critters-detail-forms"
           />
+          {nextUnfound === undefined || props.onWhere === undefined ? null : (
+            <PillButton
+              label={copy.whereToFind(tierWord(nextUnfound.rarity))}
+              variant="secondary"
+              size="sm"
+              block={false}
+              tone={PILL[nextUnfound.rarity]}
+              onPress={() => props.onWhere?.(nextUnfound.id)}
+              testID="critters-detail-where"
+            />
+          )}
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        {form !== undefined && !form.found && props.onWhere !== undefined ? (
-          <View style={{ flex: 1 }}>
-            <PillButton
-              label={copy.whereToFind}
-              tone={PILL[form.rarity]}
-              onPress={() => props.onWhere?.(form.id)}
-              testID="critters-detail-where"
-            />
-          </View>
-        ) : model.guide === null || form?.found !== true ? (
+        {model.guide === null || form?.found !== true ? (
           <View style={{ flex: 1 }} />
         ) : (
           <View style={{ flex: 1 }}>

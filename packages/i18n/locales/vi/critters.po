@@ -629,8 +629,8 @@ msgid "critters.where.title"
 msgstr "Tìm nó ở đâu"
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.whereToFind"
-msgstr "Tìm nó ở đâu"
+msgid "critters.detail.whereToFindTier"
+msgstr "Tìm dạng {tier} ở đâu"
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.youMadeIt"

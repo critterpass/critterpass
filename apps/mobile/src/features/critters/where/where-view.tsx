@@ -36,6 +36,7 @@ import type { FormWhere } from './where-model';
 
 const ART = 96;
 const MAP_HEIGHT = 280;
+const NO_MAP_ART = 120;
 
 export interface WhereViewProps {
   readonly where: FormWhere | null;
@@ -53,6 +54,14 @@ const useStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.size.gutter, gap: th.space['14'], paddingBottom: th.space['24'] },
   footer: { paddingHorizontal: th.size.gutter, paddingVertical: th.space['12'] },
   stepNo: { width: th.space['24'] },
+  noMap: {
+    height: MAP_HEIGHT,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: th.space['24'],
+    borderRadius: th.radius.lg,
+    backgroundColor: th.semantic.bg.raised,
+  },
 }));
 
 export function WhereView(props: WhereViewProps) {
@@ -96,9 +105,31 @@ export function WhereView(props: WhereViewProps) {
             </Text>
           )}
           {where === null || where.spots.length === 0 ? (
-            <Text variant="body" color={theme.semantic.text.secondary} testID="critters-where-none">
-              {noSpots()}
-            </Text>
+            // No place to show: the map's slot holds the form's silhouette and why, not a blank.
+            <Stack gap="12" style={styles.noMap} testID="critters-where-none">
+              {props.critter === null ? null : (
+                <SilhouetteSlot
+                  kind={artKind(props.critter.key)}
+                  city={props.critter.city}
+                  size={NO_MAP_ART}
+                  seed={props.critter.seed}
+                  maskColor={
+                    tier === 'legendary'
+                      ? tokens.tier.locked.legendary.silhouette
+                      : tokens.tier.locked.default
+                  }
+                  glyphColor={tokens.tier[tier].color}
+                />
+              )}
+              <Text
+                variant="body"
+                color={theme.semantic.text.secondary}
+                singleLine={false}
+                style={{ textAlign: 'center' }}
+              >
+                {noSpots()}
+              </Text>
+            </Stack>
           ) : (
             <>
               <SpotMap

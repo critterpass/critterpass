@@ -36,3 +36,23 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3l-2-near-map
+# The way in from a critter's page: under the forms, where to find the next one not found yet.
+- runFlow:
+    file: ../subflows/open-scene.yaml
+    env:
+      SCENE: '3l-3-detail'
+- scrollUntilVisible:
+    element:
+      id: 'critters-detail-where'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-3-detail-where
+- tapOn:
+    id: 'critters-detail-where'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-where-steps'
+    timeout: 20000

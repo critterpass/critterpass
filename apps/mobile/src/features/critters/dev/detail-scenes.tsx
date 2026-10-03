@@ -2,9 +2,11 @@
  * Lab scenes for critter detail (3l-3): Tokek with its common and rare forms found (the guide's
  * own critter, so MAKE IT MY GUIDE shows), the same wearing its rare look, all four forms found,
  * and a local (Chép) with no guide button. The form picker and SHARE work (the share sheet draws
- * the real card); the other handlers are no-ops.
+ * the real card), and WHERE TO FIND opens the where-to-find lab scenes; the other handlers are
+ * no-ops.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
+import { router } from 'expo-router';
 import { useState, type ReactNode } from 'react';
 
 import { tierWord } from '@/ui/critters/tier';
@@ -101,6 +103,14 @@ function Detail({
         skinFormId={skinFormId}
         onSkin={setSkin}
         onShare={setSharing}
+        onWhere={(formId) =>
+          router.push({
+            pathname: '/(dev)/critters-scene',
+            params: {
+              scene: formId.endsWith('-legendary') ? '3l-3-where-legendary' : '3l-3-where-rare',
+            },
+          })
+        }
       />
       {sharing === null ? null : (
         <ShareImageSheet

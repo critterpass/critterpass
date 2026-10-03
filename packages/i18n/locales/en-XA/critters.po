@@ -629,7 +629,7 @@ msgid "critters.where.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
-msgid "critters.detail.whereToFind"
+msgid "critters.detail.whereToFindTier"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts

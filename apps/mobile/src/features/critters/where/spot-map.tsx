@@ -4,7 +4,7 @@
  * spot fits. The destination's region tiles when the trip has a place, the world tiles otherwise.
  */
 import { tokens } from '@cp/design-tokens';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { tierWord, type Tier } from '@/ui/critters/tier';
@@ -26,6 +26,9 @@ function regionTiles(slug: string): string {
 
 /** A phone-wide map inside the page gutters, for framing (the narrowest phones are about this). */
 const MAP_WIDTH = 340;
+
+/** A little longer than the push transition's 480 ms enter. */
+const PUSH_SETTLE_MS = 520;
 
 export interface MapSpot {
   readonly key: string;
@@ -53,6 +56,12 @@ export function SpotMap({
   readonly testID?: string;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
+  // On Android a map in a pushed screen mounted mid-slide drew nothing: it waits out the push.
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setSettled(true), PUSH_SETTLE_MS);
+    return () => clearTimeout(timer);
+  }, []);
   const framing = mapFraming(spots, position, { width: MAP_WIDTH, height });
   if (framing === null) return null;
   const places: MapPlace[] = spots.map((spot) => ({
@@ -65,21 +74,23 @@ export function SpotMap({
   }));
   return (
     <View style={[styles.frame, { height }]} testID={testID}>
-      <CpMap
-        places={places}
-        zoom={framing.zoom}
-        initialCenter={[framing.center.lng, framing.center.lat]}
-        androidTexture
-        onSelectPlace={setSelected}
-        {...(selected === null ? {} : { selectedPlaceId: selected })}
-        {...(slug === null || WORLD_URL === '' ? {} : { regionSourceUrl: regionTiles(slug) })}
-        {...(position === null
-          ? {}
-          : {
-              youLocation: [position.lng, position.lat] as [number, number],
-              locationStatus: 'granted-in-destination' as const,
-            })}
-      />
+      {settled ? (
+        <CpMap
+          places={places}
+          zoom={framing.zoom}
+          initialCenter={[framing.center.lng, framing.center.lat]}
+          androidTexture
+          onSelectPlace={setSelected}
+          {...(selected === null ? {} : { selectedPlaceId: selected })}
+          {...(slug === null || WORLD_URL === '' ? {} : { regionSourceUrl: regionTiles(slug) })}
+          {...(position === null
+            ? {}
+            : {
+                youLocation: [position.lng, position.lat] as [number, number],
+                locationStatus: 'granted-in-destination' as const,
+              })}
+        />
+      ) : null}
     </View>
   );
 }
@@ -89,5 +100,6 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     overflow: 'hidden',
     borderRadius: tokens.radius.lg,
+    backgroundColor: tokens.semantic.bg.raised,
   },
 });
