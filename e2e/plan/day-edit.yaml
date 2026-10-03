@@ -18,6 +18,9 @@ appId: app.critterpass.dev
       id: 'dev-nav-plan-edit-lab'
     direction: DOWN
     timeout: 20000
+# A list still settling from the scroll takes a tap as a stop: let it settle first.
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'dev-nav-plan-edit-lab'
 - extendedWaitUntil:
@@ -355,6 +358,9 @@ appId: app.critterpass.dev
       id: 'dev-nav-plan-edit-lab'
     direction: DOWN
     timeout: 20000
+# A list still settling from the scroll takes a tap as a stop: let it settle first.
+- waitForAnimationToEnd:
+    timeout: 3000
 - tapOn:
     id: 'dev-nav-plan-edit-lab'
 - extendedWaitUntil:
