@@ -10,6 +10,7 @@ import { View, type ViewStyle } from 'react-native';
 import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Segmented } from '@/ui/inputs/Segmented';
 
+import { helpRows } from './help-rows';
 import { PINGS_ROW_LINE, PINGS_ROW_TITLE } from '../ping-settings/copy';
 import type { CrewChatMode } from '../ping-settings/ping-prefs';
 import type { LocationValue } from './location-row';
@@ -32,6 +33,8 @@ export interface SettingsValues extends SyncedSettings {
   readonly language: string;
   /** "On the App Store" / "On Google Play", under Rate CritterPass. */
   readonly storeName: string;
+  /** Ideas open to votes on the idea board, from its synced rows; null until known. */
+  readonly ideasToVote: number | null;
   /** The server answered for this account: only then are the account rows offered. */
   readonly account: boolean;
   /** Download my data: its line, and whether a tap does something now. */
@@ -235,40 +238,7 @@ export function useSettingsSections(
       value: '',
       onPress: handlers.onLanguage,
     },
-    rate:
-      handlers.onRate === null
-        ? null
-        : {
-            key: 'rate',
-            kind: 'value',
-            title: t({ id: 'you.settings.rate', message: 'Rate CritterPass' }),
-            subtitle: values.storeName,
-            value: '',
-            onPress: handlers.onRate,
-          },
-    feedback: {
-      key: 'feedback',
-      kind: 'value',
-      title: t({ id: 'you.settings.feedback', message: 'Send feedback' }),
-      subtitle: t({ id: 'you.settings.feedbackLine', message: 'Straight to the team' }),
-      value: '',
-      onPress: handlers.onFeedback,
-    },
-    idea: {
-      key: 'idea',
-      kind: 'value',
-      title: t({ id: 'you.settings.idea', message: 'Suggest a feature' }),
-      subtitle: t({ id: 'you.settings.ideaLine', message: 'Tell us what you’d add' }),
-      value: '',
-      onPress: handlers.onIdea,
-    },
-    'help-centre': {
-      key: 'help-centre',
-      kind: 'value',
-      title: t({ id: 'you.settings.helpCentre', message: 'Help centre' }),
-      value: '',
-      onPress: handlers.onHelpCentre,
-    },
+    ...helpRows(values, handlers),
     'download-data': values.account
       ? {
           key: 'download-data',

@@ -66,6 +66,10 @@ msgstr ""
 msgid "you.currency.homeAirportLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.ideasToVote"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.settings.languageHome"
 msgstr ""
@@ -399,7 +403,7 @@ msgstr ""
 msgid "you.settings.helpFeedback"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.helpCentre"
 msgstr ""
 
@@ -736,7 +740,7 @@ msgstr ""
 msgid "you.avatar.ringsLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.rate"
 msgstr ""
 
@@ -792,7 +796,7 @@ msgstr ""
 msgid "you.stamps.selfReported"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.feedback"
 msgstr ""
 
@@ -902,11 +906,11 @@ msgstr ""
 msgid "you.settings.soundEffectsLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.feedbackLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.idea"
 msgstr ""
 
@@ -918,7 +922,7 @@ msgstr ""
 msgid "you.settings.hapticsLine"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.ideaLine"
 msgstr ""
 

@@ -27,6 +27,7 @@ export function Settings() {
       dataExport: { line: 'Plans, photos and chat as a zip', enabled: true },
       language: 'English · prices in S$ and local',
       storeName: 'On the App Store',
+      ideasToVote: 48,
     },
     {
       onSynced: noop,

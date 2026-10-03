@@ -11,7 +11,7 @@ import { useState } from 'react';
 import { Linking, Platform } from 'react-native';
 
 import { BOOKINGS_ROUTES, useMailboxSettingsRow } from '@/features/bookings';
-import { feedbackHref, HELP_ROUTES, storeReviewUrl } from '@/features/help';
+import { feedbackHref, HELP_ROUTES, storeReviewUrl, useIdeasToVote } from '@/features/help';
 import { useMoneyDisplay } from '@/data/money';
 import { useFlag } from '@/lib/analytics';
 import { useLocale } from '@/lib/i18n/use-locale';
@@ -60,6 +60,7 @@ export function SettingsScreen({
   const mailbox = useMailboxSettingsRow();
   const location = useLocationRow();
   const money = useMoneyDisplay();
+  const ideasToVote = useIdeasToVote();
   const reviewUrl = storeReviewUrl(Platform.OS, Application.applicationId);
   const dataExport = useDataExport();
   // Reading the inbox needs a provider switched on for this build; until then the row offers the
@@ -85,6 +86,7 @@ export function SettingsScreen({
       haptics: prefs.hapticsEnabled,
       account: account?.kind === 'ok',
       language: languageLine(nativeNameOf(locale), money),
+      ideasToVote,
       storeName:
         Platform.OS === 'ios'
           ? t({ id: 'you.settings.rateIos', message: 'On the App Store' })

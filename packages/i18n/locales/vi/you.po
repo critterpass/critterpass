@@ -66,6 +66,10 @@ msgstr "{home} · bạn đã chọn"
 msgid "you.currency.homeAirportLine"
 msgstr "{home} · theo sân bay nhà"
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.ideasToVote"
+msgstr "{ideas} ý tưởng đang chờ bình chọn"
+
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.settings.languageHome"
 msgstr "{language} · giá theo {symbol}"
@@ -399,7 +403,7 @@ msgstr "Chào lại nhé"
 msgid "you.settings.helpFeedback"
 msgstr "Trợ giúp và góp ý"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.helpCentre"
 msgstr "Trung tâm trợ giúp"
 
@@ -736,7 +740,7 @@ msgstr "Dạng hiếm"
 msgid "you.avatar.ringsLine"
 msgstr "Các dạng hiếm trở lên giữ vòng màu của chúng ở mọi nơi ảnh đại diện hiện ra. Vòng huyền thoại màu vàng."
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.rate"
 msgstr "Đánh giá CritterPass"
 
@@ -792,7 +796,7 @@ msgstr "Tự khai"
 msgid "you.stamps.selfReported"
 msgstr "Tự khai"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.feedback"
 msgstr "Gửi góp ý"
 
@@ -902,11 +906,11 @@ msgstr "Vẫn còn trong tài khoản"
 msgid "you.settings.soundEffectsLine"
 msgstr "Tiếng dán sticker, đóng dấu, bật nảy"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.feedbackLine"
 msgstr "Gửi thẳng đến đội ngũ"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.idea"
 msgstr "Đề xuất tính năng"
 
@@ -918,7 +922,7 @@ msgstr "Nói thành tiếng"
 msgid "you.settings.hapticsLine"
 msgstr "Những cú chạm và rung bạn cảm nhận được"
 
-#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
 msgid "you.settings.ideaLine"
 msgstr "Bạn muốn thêm gì, hãy cho chúng tôi biết"
 
