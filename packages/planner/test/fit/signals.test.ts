@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { forecastByDate, rainFor } from '../../../src/planning/fit/signals/climate';
-import { crowdWeeks, monthFactors } from '../../../src/planning/fit/signals/crowds';
+import { crowdWeeks, forecastByDate, monthFactors, rainFor } from '../../src/fit/index';
 
 const flat = (level: number) => Array.from({ length: 24 }, () => level);
 const POI = '00000000-0000-4000-8000-000000000301';

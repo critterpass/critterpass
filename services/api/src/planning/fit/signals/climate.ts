@@ -1,50 +1,15 @@
 /**
- * Rain for fit: the hourly chance of rain from the stored forecast for dates inside the forecast
- * horizon (three days by default), else the destination's usual chance for the month
- * (`climate_normals`). Each day says which one it used, so copy can say "forecast" or "usually".
+ * Rain for fit: the stored forecast for dates inside the forecast horizon, else the destination's
+ * usual chance for the month (`climate_normals`). Each day says which one it used, so copy can say
+ * "forecast" or "usually".
  */
-import { localSchedule, toLocalWallTime, type WeatherHour } from '@cp/domain';
-import type { FitRain } from '@cp/planner';
+import { localSchedule, toLocalWallTime } from '@cp/domain';
+import { FORECAST_HORIZON_DAYS, forecastByDate, rainFor, type FitRain } from '@cp/planner';
 import type pg from 'pg';
 
 import { readWeather } from '../../../travel-data/weather-read';
 
-export const FORECAST_HORIZON_DAYS = 3;
-
-/** Forecast hours grouped into 24 local hours per date (dates with all 24 only). */
-export function forecastByDate(hours: readonly WeatherHour[], tz: string): Map<string, number[]> {
-  const byDate = new Map<string, (number | undefined)[]>();
-  for (const hour of hours) {
-    const local = toLocalWallTime(new Date(hour.at), tz);
-    const slots = byDate.get(local.date) ?? Array.from({ length: 24 }, () => undefined);
-    slots[Number(local.time.slice(0, 2))] = hour.chance_of_rain;
-    byDate.set(local.date, slots);
-  }
-  const full = new Map<string, number[]>();
-  for (const [date, slots] of byDate) {
-    if (slots.every((value) => value !== undefined)) full.set(date, slots);
-  }
-  return full;
-}
-
 const DAY_MS = 86_400_000;
-
-/** The rain a date is judged on: the forecast inside the horizon when there is one, else normals. */
-export function rainFor(
-  date: string,
-  today: string,
-  forecast: ReadonlyMap<string, readonly number[]>,
-  normals: ReadonlyMap<number, readonly number[]>,
-  horizonDays = FORECAST_HORIZON_DAYS,
-): FitRain | null {
-  const ahead = (Date.parse(`${date}T00:00:00Z`) - Date.parse(`${today}T00:00:00Z`)) / DAY_MS;
-  const forecastDay = forecast.get(date);
-  if (ahead >= 0 && ahead < horizonDays && forecastDay !== undefined) {
-    return { hourly: forecastDay, source: 'forecast' };
-  }
-  const usual = normals.get(Number(date.slice(5, 7)));
-  return usual === undefined ? null : { hourly: usual, source: 'normals' };
-}
 
 export async function readNormals(
   tx: pg.PoolClient,

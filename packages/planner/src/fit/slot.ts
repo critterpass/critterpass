@@ -35,6 +35,8 @@ export interface SlotSearch {
   readonly spans: readonly OpenSpan[];
   readonly visitMin: number;
   readonly travel: FitTravel;
+  /** Judge only this start (local minute), e.g. a time someone typed. */
+  readonly onlyStart?: number;
 }
 
 const stopOf = (item: ModelItem): FitStop | null =>
@@ -95,11 +97,9 @@ export function candidates(search: SlotSearch): Candidate[] {
   const { model, spans, visitMin } = search;
   const found: Candidate[] = [];
   const need = minFree(model.everyone);
-  for (
-    let start = ceilGrid(model.day.fromMin);
-    start + visitMin <= model.day.toMin;
-    start += GRID_MIN
-  ) {
+  const first = search.onlyStart ?? ceilGrid(model.day.fromMin);
+  const last = search.onlyStart ?? model.day.toMin - visitMin;
+  for (let start = first; start <= last && start + visitMin <= model.day.toMin; start += GRID_MIN) {
     const end = start + visitMin;
     const span = openThrough(spans, start, end);
     if (span === null) continue;

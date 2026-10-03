@@ -7,6 +7,7 @@
  */
 import {
   openSpans,
+  toLocalWallTime,
   visitMinutes,
   type DayFit,
   type FitGrade,
@@ -15,7 +16,7 @@ import {
 } from '@cp/domain';
 
 import { usualHours } from '../draft/open-data';
-import { instantAt } from '../draft/schedule-day';
+import { instantAt, minuteOfDate } from '../draft/schedule-day';
 import {
   DEFAULT_MEAL_WINDOWS,
   thresholdsOf,
@@ -45,7 +46,7 @@ function noReasons(day: FitDay, opens: boolean): FitReason[] {
   return [{ code: 'no_window', params: { day_no: day.dayNo } }];
 }
 
-function fitDay(context: FitContext, place: FitPlace, day: FitDay): DayResult {
+function fitDay(context: FitContext, place: FitPlace, day: FitDay, onlyStart?: number): DayResult {
   const thresholds = thresholdsOf(context);
   const model = buildDayModel(day, context.participants, context.tz, place.stableId);
   const guessed = place.hours === null;
@@ -54,7 +55,14 @@ function fitDay(context: FitContext, place: FitPlace, day: FitDay): DayResult {
     category: place.category,
     timeNeededMin: place.timeNeededMin ?? null,
   });
-  const search = { model, place, spans, visitMin, travel: travelOf(context) };
+  const search = {
+    model,
+    place,
+    spans,
+    visitMin,
+    travel: travelOf(context),
+    ...(onlyStart === undefined ? {} : { onlyStart }),
+  };
   const crowd = crowdDay(place, day.date, day.crowdFactor);
   const input = {
     model,
@@ -129,8 +137,19 @@ function bestOf(results: readonly DayResult[]): PlaceFit['best'] {
   };
 }
 
-export function fitPlace(context: FitContext, place: FitPlace): PlaceFit {
-  const results = context.days.map((day) => fitDay(context, place, day));
+export interface FitOptions {
+  /** Judge only this start: the day holding it is the only day returned. */
+  readonly at?: Date;
+}
+
+export function fitPlace(context: FitContext, place: FitPlace, options: FitOptions = {}): PlaceFit {
+  const at = options.at;
+  const results =
+    at === undefined
+      ? context.days.map((day) => fitDay(context, place, day))
+      : context.days
+          .filter((day) => toLocalWallTime(at, context.tz).date === day.date)
+          .map((day) => fitDay(context, place, day, minuteOfDate(at, day.date, context.tz)));
   return { poi_id: place.poiId, best: bestOf(results), days: results.map((r) => r.fit) };
 }
 
@@ -138,6 +157,8 @@ export {
   DEFAULT_FIT_THRESHOLDS,
   DEFAULT_MEAL_WINDOWS,
   isOutdoorCategory,
+  layeredTravel,
+  legKey,
   straightLineTravel,
   type CrowdSource,
   type FitContext,
@@ -158,3 +179,17 @@ export {
 } from './context';
 export { dayGaps, findGaps, type DayGap } from './gaps';
 export { gapIdeas, type GapCandidate } from './gap-ideas';
+export {
+  assembleFitContext,
+  type FitContextRows,
+  type FitDayRow,
+  type FitItemRow,
+} from './assemble';
+export {
+  crowdWeeks,
+  FORECAST_HORIZON_DAYS,
+  forecastByDate,
+  monthFactors,
+  rainFor,
+  type CrowdCurveRow,
+} from './signals';

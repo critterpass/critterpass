@@ -49,6 +49,8 @@ Error reasons by code (`PLANNING_ERROR_REASONS`): `VALIDATION` outside_destinati
 | `POST /v1/trips/{id}/check/fix-all` | S | `{issue_ids[]}` → `{change_set_id}` (a draft, the caller's alone, trigger `check`) | no-store |
 | `POST /v1/trips/{id}/costs/preview` (delta) | S | adds `driving_delta_min` (planning travel over the set's ops) | as today |
 
+Fit, nearby and gap ideas answer as follows. `POST …/fit` returns `{fits: PlaceFit[], context}`; `context` is non-null only when one place was asked with `include_context`, and holds the fit context (days, items, stays, rain, crowd factors) plus the `legs[{from, to, minutes, mode, approx}]` it used, so the phone can fit that place again locally. Only each place's two best insertions are routed (one batched travel call per request), and every other leg uses stored legs or straight-line "about" minutes. `…/nearby` returns `{places[{poi_id, name, category, minutes, mode, approx}]}`, leaving out the caller's hidden places. `…/gaps/ideas` fills the free window that holds `start`. An unapproved editorial crowd curve never shapes a fit.
+
 ## AI routes
 
 | Route | Class | Input → output | Metering |

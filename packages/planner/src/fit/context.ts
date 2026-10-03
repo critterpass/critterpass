@@ -172,3 +172,20 @@ export function thresholdsOf(context: FitContext): FitThresholds {
 export function travelOf(context: FitContext): FitTravel {
   return context.travel ?? straightLineTravel(context.driveFactor, thresholdsOf(context).walkMaxM);
 }
+
+export const legKey = (from: string, to: string): string => `${from}>${to}`;
+
+/**
+ * Known minutes first (stored legs, routed insertions), either direction, then `fallback` (the
+ * straight-line "about" minutes) for any pair nobody routed.
+ */
+export function layeredTravel(known: ReadonlyMap<string, FitLeg>, fallback: FitTravel): FitTravel {
+  return (from, to) => {
+    if (from.key === to.key) return { minutes: 0, mode: 'walk', approx: false };
+    return (
+      known.get(legKey(from.key, to.key)) ??
+      known.get(legKey(to.key, from.key)) ??
+      fallback(from, to)
+    );
+  };
+}

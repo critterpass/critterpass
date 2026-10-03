@@ -130,3 +130,14 @@ describe('shared place helpers', () => {
     expect(far?.minutes).toBeGreaterThan(30);
   });
 });
+
+describe('judging one start', () => {
+  it('returns only the day of that start, graded at that time', () => {
+    const at10 = fitPlace(BALI, TIRTA, { at: at(17, '10:00') });
+    expect(at10.days.map((day) => day.day_no)).toEqual([5]);
+    expect(at10.days[0]?.grade).toBe('possible');
+    expect(at10.days[0]?.slot?.starts_at).toBe(at(17, '10:00').toISOString());
+    const early = fitPlace(BALI, TIRTA, { at: at(17, '06:00') });
+    expect(early.days[0]?.grade).toBe('no');
+  });
+});
