@@ -45,7 +45,11 @@ export const reactMemoryPayloadSchema = z
   });
 export type ReactMemoryPayload = z.infer<typeof reactMemoryPayloadSchema>;
 
-export const startReunionPayloadSchema = z.strictObject({ memory_id: z.uuid() });
+/** `trip_id`: the id for the voting trip a new vote creates (the app's, so a replay finds it). */
+export const startReunionPayloadSchema = z.strictObject({
+  memory_id: z.uuid(),
+  trip_id: z.uuid().optional(),
+});
 export type StartReunionPayload = z.infer<typeof startReunionPayloadSchema>;
 
 export interface RecordRecapViewResult {

@@ -1,9 +1,10 @@
 /**
  * The recap's api mount: its commands (views and signatures, the MVP vote, opting out of an award,
- * retrying a failed build), the live channels `recap:{id}` and `memory:{id}` for the travellers
- * who may read them, and the hook that queues a recap build for the events this process appends (a
- * trip ended here, or a late expense, booking, ride or payment on a trip that already ended), the
- * same hook the worker registers for its own events.
+ * retrying a failed build, reacting to a year-later memory and starting a reunion vote), the live
+ * channels `recap:{id}` and `memory:{id}` for the travellers who may read them, and the hook that
+ * queues a recap build for the events this process appends (a trip ended here, or a late expense,
+ * booking, ride or payment on a trip that already ended), the same hook the worker registers for
+ * its own events.
  */
 import { onEventAppended, sendInTx } from '@cp/db';
 import {
@@ -18,9 +19,11 @@ import { aclForSql, getNamespace, registerNamespace } from '../../realtime/names
 import type { CommandRegistry } from '../_framework/registry';
 import { castMvpVoteCommand } from './cast-mvp-vote';
 import { optOutAwardCommand } from './opt-out-award';
+import { reactMemoryCommand } from './react-memory';
 import { recordRecapViewCommand } from './record-recap-view';
 import { retryRecapCommand } from './retry-recap';
 import { saveSignatureCommand } from './save-signature';
+import { startReunionCommand } from './start-reunion';
 
 export async function recapEventHook(
   tx: pg.PoolClient,
@@ -39,6 +42,8 @@ export function registerRecapCommands(registry: CommandRegistry): void {
   registry.register(castMvpVoteCommand);
   registry.register(optOutAwardCommand);
   registry.register(retryRecapCommand);
+  registry.register(reactMemoryCommand);
+  registry.register(startReunionCommand);
 }
 
 /** Row security decides: a recap or memory the caller can read is a channel they may join. */
