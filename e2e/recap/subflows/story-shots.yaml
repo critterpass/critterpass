@@ -17,7 +17,7 @@ appId: app.critterpass.dev
     file: lab-scene.yaml
     env: { SCENE: '3m-5-awards', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-5-awards' }
 - runFlow:
-    file: lab-scene.yaml
+    file: sheet-scene.yaml
     env: { SCENE: '3m-5-mvp-vote', ROOT: 'recap-mvp-panel', SHOT: '${LANG}-3m-5-mvp-vote' }
 - runFlow:
     file: lab-scene.yaml
@@ -29,5 +29,5 @@ appId: app.critterpass.dev
     file: lab-scene.yaml
     env: { SCENE: '3m-8-stamp', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-8-stamp' }
 - runFlow:
-    file: lab-scene.yaml
+    file: sheet-scene.yaml
     env: { SCENE: '3m-8-signature', ROOT: 'recap-signature-panel', SHOT: '${LANG}-3m-8-signature' }
