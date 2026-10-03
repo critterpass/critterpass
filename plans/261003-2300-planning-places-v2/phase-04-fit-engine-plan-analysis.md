@@ -1,7 +1,7 @@
 ---
 phase: 4
 title: Fit engine, place signals and the plan check job
-status: pending
+status: done
 depends_on: [2]
 wave: 2
 screens: [7e-1, 7f-1, 7f-2, 7c-2, 7c-3, 7d-2, 7a-2, 7g-1, 7h-1, 7h-2]
@@ -106,7 +106,7 @@ Reuse / extend / new: reuse `checkFeasibility`, `timelineViolations`, `scheduleD
 - Steps: 1. `openSpans` on Temporal (one implementation; the four duplicates switch over in phase 14). 2. Day model from items + attendees + locks + stay + meal windows. 3. Slot search on a 15-minute grid with travel insertion (prev/next) and detour. 4. Crowd, weather, split modifiers. 5. Grade + reasons with params.
 - Tests: `pnpm --filter @cp/planner test -- fit` (Vitest; property tests `{ timeout: 60_000 }`: never overlaps a locked item, never outside open spans, never schedules into another attendee's item, more travel never upgrades a grade)
 - Done when: fixtures reproduce the render facts (Tirta Empul good on Sat 08:00 with `opens_at`, `busy_from 10`, `drive_minutes 45`, `dry_mornings`; Wed no because the terraces take the morning).
-- Status: todo
+- Status: done — 9df857374
 
 ### T2 — Gaps and who's free
 - Goal: dashed free slots and their context lines.
@@ -114,7 +114,7 @@ Reuse / extend / new: reuse `checkFeasibility`, `timelineViolations`, `scheduleD
 - Steps: 1. Free windows ≥ 60 min per subset ≥ 2. 2. Context (who is where until when; next item). 3. Gap idea ranking: ideas → curated → pairs → stay.
 - Tests: `pnpm --filter @cp/planner test -- fit/gaps`
 - Done when: the Bali fixture yields "Wed 16:00–19:00, four free, Maya and Rin at the spa till 18:00, dinner 19:30".
-- Status: todo
+- Status: done — 2315630bb
 
 ### T3 — Place signals: crowds and climate normals
 - Goal: hourly crowd curves and rain normals the engine can read.
@@ -122,7 +122,7 @@ Reuse / extend / new: reuse `checkFeasibility`, `timelineViolations`, `scheduleD
 - Steps: 1. Crowd reader with source precedence and month factor. 2. `fetchHistory` in the WeatherAPI client; `climate.normals` job per destination cell (sampled; recorded fixtures). 3. Weather reader: forecast inside the horizon, else normals; reason flags which one.
 - Tests: `pnpm test:remote @cp/worker -- planning/climate.db`; `pnpm --filter @cp/api test -- planning/fit/signals`
 - Done when: Bali October normals show the afternoon peak; a forecast inside 3 days overrides the normal.
-- Status: todo
+- Status: done — 56f2c5ab5 (crowd source rule and purge fix bd1cddafa)
 
 ### T4 — Editorial crowd curves (after the crowd decision)
 - Goal: curated places get a typical week the founder approved.
@@ -130,7 +130,7 @@ Reuse / extend / new: reuse `checkFeasibility`, `timelineViolations`, `scheduleD
 - Steps: 1. Kind mirrors `kinds/places/hours.ts`: one structured call per place from our open data and editorial fields, validated (24 values 0–100 × 7 days, plausibility rules: closed hours = 0). 2. Proposals into `ops.content_reviews`; approval writes `approved_at`. 3. No `da-nang` writes before 2026-10-05 00:00 +07.
 - Tests: `pnpm --filter @cp/content-factory test -- places/crowds` (validator cases)
 - Done when: Bali's curated places have approved curves on staging; unapproved rows never reach phones (stream filter from phase 2).
-- Status: todo
+- Status: done — e03856b2a (approving Bali's curves on staging waits for the founder: `pnpm content places crowds`, then `--opt approve=<batch>`)
 
 ### T5 — Fit service and routes
 - Goal: fit, nearby and gap ideas over HTTP.
@@ -138,7 +138,7 @@ Reuse / extend / new: reuse `checkFeasibility`, `timelineViolations`, `scheduleD
 - Steps: 1. Context assembler (crew version; organiser draft only for organisers), `TravelSource` and `StaySource` interfaces. 2. Batch fit: routing only for each place's two best insertions, straight-line prefilter for the rest. 3. Nearby: straight-line top 25 → planning matrix 1 × 25. 4. Gap ideas from T2.
 - Tests: `pnpm test:remote @cp/api -- planning/fit/routes.db` (participant vs outsider; organiser draft hidden from members; 50-place budget)
 - Done when: 50 places p95 < 800 ms on staging; outsiders get `NOT_FOUND`.
-- Status: todo
+- Status: done — fcd2475bb (fixes c4d251e0e, c0ff6dd6b; staging p95 measured after deploy)
 
 ### T6 — Plan check rules
 - Goal: issues with params and one-liner fixes, ranked.
@@ -146,7 +146,7 @@ Reuse / extend / new: reuse `checkFeasibility`, `timelineViolations`, `scheduleD
 - Steps: 1. Rules table above on top of `checkFeasibility` + fit signals. 2. One-liner fixes (clash retime, closed move) as planner ops that pass lock rules. 3. Rank + fingerprint. 4. A fixer registry interface that phase 13 fills for `too_far`, `rain_crowds`, `less_driving`.
 - Tests: `pnpm --filter @cp/planner test -- check` (Bali fixture: 3 to fix, 2 to know, in the render's order)
 - Done when: one-liner ops never move a booked item (property test, 60 s budget).
-- Status: todo
+- Status: done — fd8000a54
 
 ### T7 — Plan check job
 - Goal: issues and idea fits refresh themselves after every change.
@@ -154,7 +154,7 @@ Reuse / extend / new: reuse `checkFeasibility`, `timelineViolations`, `scheduleD
 - Steps: 1. Event hooks (api + worker) and the daily schedule. 2. Assemble context once per run; rules; idea fits; write in one transaction; `check.updated`. 3. Daily run cap. 4. Backfill command for active trips. 5. A test asserts the job module graph has no `@cp/ai` gateway import.
 - Tests: `pnpm test:remote @cp/worker -- planning/check.db`
 - Done when: an edit that creates a clash shows as a fix issue within 60 s p95 on staging; a reverted edit clears it.
-- Status: todo
+- Status: done — df160e0d3 (staging 60 s p95 measured after deploy)
 
 ## Device flows
 
