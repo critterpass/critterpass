@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T15:07:27.920Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "Le Petit Mec OIKE Kyoto opening hours",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.enprimeurclub.com/restaurants/le-petitmec-oike-ten",
+          "title": "Le Petitmec Oike ten Restaurant, Kyoto",
+          "content": "Current opening hours. Monday: 9 AM–6 PM. Tuesday: 9 AM–6 PM. Wednesday: 9 AM–6 PM. Thursday: 9 AM–6 PM. Friday: 9 AM–6 PM. Saturday: 9 AM–6 PM.",
+          "score": 0.926683,
+          "raw_content": null,
+          "published_date": "Sun, 14 Jun 2026 00:00:00 GMT",
+          "id": "39fd68-00"
+        },
+        {
+          "url": "https://www.deepkyoto.com/le-petit-mec",
+          "title": "Le Petit Mec",
+          "content": "Open: 8:00~18:00. Oike Branch (Koromonodana Dori) Tel: 075-212-7735. Open: 9:00~18:00. Filed Under: Bakery, Cafes Tagged With: French bread",
+          "score": 0.9184877,
+          "raw_content": null,
+          "published_date": "Wed, 29 Oct 2008 00:00:00 GMT",
+          "id": "aefb84-01"
+        },
+        {
+          "url": "http://openkyoto.com/kyoto-bakeries",
+          "title": "Kyoto Bakeries: Le Petit Mec, Hunaudieres - OpenKyoto",
+          "content": "business hours: open 8am to 8pm. Closed Mon-Thurs, only open Fri, Sat and Sun! tel: 075-432-1444 … is open 6 days a week. tel: 075-212-7735",
+          "score": 0.87681407,
+          "raw_content": null,
+          "published_date": "Fri, 17 Apr 2009 00:00:00 GMT",
+          "id": "e9667a-02"
+        },
+        {
+          "url": "https://tabelog.com/en/kyoto/A2601/A260202/26005029",
+          "title": "Le Petitmec Oike ten - Karasuma Oike/Bread",
+          "content": "Business hours Mon, Tue, Wed, Thu, Fri, Sat, Sun 9:00 AM - 6:00 PM. Phone number +81-75-212-7735",
+          "score": 0.8184036,
+          "raw_content": null,
+          "published_date": null,
+          "id": "0bb9fb-03"
+        },
+        {
+          "url": "https://www.leafkyoto.net/en/store/june-9-2022-kyoto-le-petit-mecoike",
+          "title": "Le Petit Mec OIKE in Karasuma offers a rich selection of ...",
+          "content": "7 days a week. Please contact each store or facility directly for the latest information. please let us know at info@leafkyoto.co.jp.",
+          "score": 0.61834323,
+          "raw_content": null,
+          "published_date": null,
+          "id": "e61ded-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "e000e553-fbe8-4aa4-9632-e13486c4888b"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "eefb4c28-8451-485b-a134-b401b14d5b48",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"propose\",\"reason\":\"Tabelog lists the Oike ten as open every day 9:00 AM–6:00 PM, matching the current-hours result.\",\"source_url\":\"https://tabelog.com/en/kyoto/A2601/A260202/26005029\",\"confidence\":0.9,\"always_open\":false,\"weekly\":{\"mo\":[{\"start\":\"09:00\",\"end\":\"18:00\"}],\"tu\":[{\"start\":\"09:00\",\"end\":\"18:00\"}],\"we\":[{\"start\":\"09:00\",\"end\":\"18:00\"}],\"th\":[{\"start\":\"09:00\",\"end\":\"18:00\"}],\"fr\":[{\"start\":\"09:00\",\"end\":\"18:00\"}],\"sa\":[{\"start\":\"09:00\",\"end\":\"18:00\"}],\"su\":[{\"start\":\"09:00\",\"end\":\"18:00\"}]}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1169,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 188,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

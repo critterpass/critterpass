@@ -35,6 +35,7 @@ export const SUITES = [
   'translate',
   'help',
   'sos',
+  'hours-research',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -70,6 +71,8 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/routes|evals)\/translate\//u, ['translate']],
   [/^packages\/ai\/(src\/routes|evals)\/help\//u, ['help', 'sos']],
   [/^packages\/ai\/(src\/routes|evals)\/sos\//u, ['sos']],
+  [/^packages\/ai\/(src\/routes|evals)\/hours-research\//u, ['hours-research']],
+  [/^packages\/domain\/src\/places\/hours/u, ['hours-research']],
   [/^packages\/domain\/src\/safety\//u, ['help', 'sos']],
   [/^packages\/planner\/src\/draft\//u, ['draft']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],

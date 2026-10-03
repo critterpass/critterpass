@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T15:07:42.599Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "室町和久傳 Kyoto opening hours",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://www.yelp.com/biz/%E5%AE%A4%E7%94%BA-%E5%92%8C%E4%B9%85%E5%82%B3-%E4%BA%AC%E9%83%BD%E5%B8%82",
+          "title": "室町 和久傳 - Updated August 2026 - 63 Photos",
+          "content": "室町和久傳opens at 11:30 AM on Monday, Wednesday, Thursday, Friday, Saturday and Sunday. opens at 5 :30 PM - 10:00 PMTue Closed",
+          "score": 0.8016413,
+          "raw_content": null,
+          "published_date": null,
+          "id": "ac0b39-00"
+        },
+        {
+          "url": "https://autoreserve.com/en/restaurants/wNhrL3DAvcC26ZTqzf4U",
+          "title": "Muromachi Wakuden - Kyoto・Kaiseki",
+          "content": "Closed Opens at 11:30 Open. September 6 to October 3, 2026. Phone number +81 75-223-3200 Address 679",
+          "score": 0.796562,
+          "raw_content": null,
+          "published_date": null,
+          "id": "34f9f9-01"
+        },
+        {
+          "url": "https://omakase.in/en/r/ro378358",
+          "title": "Muromachi Wakuden's Reservation",
+          "content": "Phone 075-223-3200. Operation hours 11:30～, 17:30～ Regular holiday Irregular holidays. *The restaurant may be temporarily open or temporarily closed. Next",
+          "score": 0.74363416,
+          "raw_content": null,
+          "published_date": null,
+          "id": "b5cfae-02"
+        },
+        {
+          "url": "https://tabelog.com/en/kyoto/A2601/A260202/26000621",
+          "title": "Muromachi Wakuden - Karasuma Oike/Japanese Cuisine",
+          "content": "Business hours Mon, Tue, Thu, Fri, Sat, Sun, Public Holiday, 12:00 PM - 3:00 PM L.O. Food 1:00 PM 6:00 PM - 10:00 PM L.O. Food 7:00 PM Wed Closed",
+          "score": 0.6977124,
+          "raw_content": null,
+          "published_date": null,
+          "id": "ea3a78-03"
+        },
+        {
+          "url": "https://www.instagram.com/p/Da-nemnGLRw",
+          "title": "Muromachi Wakuden (室町 和久傳) 🇯🇵. Where legends are born. ...",
+          "content": "⚠️ Opening hours may change. Please check before visiting. Ever wondered what Kyoto families actually eat at home? That's obanzai — everyday dishes passed",
+          "score": 0.572078,
+          "raw_content": null,
+          "published_date": null,
+          "id": "bde660-04"
+        }
+      ],
+      "response_time": 1.2,
+      "request_id": "7d43e17f-1123-4cdd-837e-0763c0b9cd76"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "f7c0effd-947e-4a9d-9ec6-0419374e1b40",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"decline\",\"reason\":\"The results disagree on opening times and closing days, and some only give partial or irregular hours.\",\"source_url\":\"\",\"confidence\":0.2,\"always_open\":false,\"weekly\":{\"mo\":[],\"tu\":[],\"we\":[],\"th\":[],\"fr\":[],\"sa\":[],\"su\":[]}}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 1062,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1024,
+        "output_tokens": 73,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

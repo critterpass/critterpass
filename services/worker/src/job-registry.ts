@@ -110,6 +110,12 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger, aiSwitches, processEnv),
     ...(await import('./jobs/trip-day')).tripDayJobs(processEnv, aiSwitches, llmObservability),
     ...(await import('./jobs/place-details')).placeDetailsJobs(env, logger),
+    ...(await import('./jobs/hours-research')).hoursResearchJobs(
+      { ...processEnv, ...env },
+      pool,
+      logger,
+      assertRouteOn,
+    ),
     ...(await import('./jobs/disruptions')).disruptionJobs(
       processEnv,
       aiSwitches,

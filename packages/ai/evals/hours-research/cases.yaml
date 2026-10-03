@@ -1,0 +1,151 @@
+# Opening-hours research cases: one curated place each → a weekly schedule copied from one cited
+# page, or no proposal. `weekly` is the schedule a proposal must carry (days left out are closed);
+# a case without `weekly` must end with no proposal (`reason`, when given, is the reason it must
+# give). `seeded` cases reuse another case's recorded search (`search_from`) with an inline model
+# slip the validator must reject.
+- id: hours-01
+  description: temple whose cited page dates from 2019 and lacks the times the model gives
+  place:
+    name: 鹿苑寺 (金閣寺) (Kinkaku-Ji Temple)
+    address: 北区金閣寺町1
+    city: Kyoto, Japan
+    category: temple_shrine
+  reason: stale_source
+- id: hours-02
+  description: confectioner whose pages disagree on hours and closing days
+  place:
+    name: 亀末廣
+    address: 中京区車屋町251
+    city: Kyoto, Japan
+    category: food
+  reason: declined
+- id: hours-03
+  description: castle with clear daily hours and a last entry an hour before closing
+  place:
+    name: 元離宮二条城
+    address: 中京区二条城町541
+    city: Kyoto, Japan
+    category: museum
+  weekly:
+    mo: [{ start: '08:45', end: '17:00' }]
+    tu: [{ start: '08:45', end: '17:00' }]
+    we: [{ start: '08:45', end: '17:00' }]
+    th: [{ start: '08:45', end: '17:00' }]
+    fr: [{ start: '08:45', end: '17:00' }]
+    sa: [{ start: '08:45', end: '17:00' }]
+    su: [{ start: '08:45', end: '17:00' }]
+- id: hours-04
+  description: shrine grounds open 24 hours
+  place:
+    name: Fushimi Inari Taisha
+    local_name: 伏見稲荷大社
+    address: 伏見区深草藪之内町68
+    city: Kyoto, Japan
+    category: temple_shrine
+  weekly:
+    mo: [{ start: '00:00', end: '24:00' }]
+    tu: [{ start: '00:00', end: '24:00' }]
+    we: [{ start: '00:00', end: '24:00' }]
+    th: [{ start: '00:00', end: '24:00' }]
+    fr: [{ start: '00:00', end: '24:00' }]
+    sa: [{ start: '00:00', end: '24:00' }]
+    su: [{ start: '00:00', end: '24:00' }]
+- id: hours-05
+  description: temple with seasonal hours
+  place:
+    name: 南禅寺 (Nanzen-ji Temple)
+    address: 左京区南禅寺福地町86
+    city: Kyoto, Japan
+    category: temple_shrine
+  reason: declined
+- id: hours-06
+  description: bakery cafe open every day
+  place:
+    name: Le Petit Mec OIKE
+    address: 中京区下妙覚寺町186
+    city: Kyoto, Japan
+    category: food
+  weekly:
+    mo: [{ start: '09:00', end: '18:00' }]
+    tu: [{ start: '09:00', end: '18:00' }]
+    we: [{ start: '09:00', end: '18:00' }]
+    th: [{ start: '09:00', end: '18:00' }]
+    fr: [{ start: '09:00', end: '18:00' }]
+    sa: [{ start: '09:00', end: '18:00' }]
+    su: [{ start: '09:00', end: '18:00' }]
+- id: hours-07
+  description: kaiseki restaurant whose pages disagree on the closing day
+  place:
+    name: 室町和久傳
+    address: 中京区丸木材木町679
+    city: Kyoto, Japan
+    category: food
+  reason: declined
+- id: hours-08
+  description: tea house whose results are about another branch
+  place:
+    name: 福寿園嵐山茶屋
+    address: 右京区嵯峨天龍寺芒ノ馬場町40-8
+    city: Kyoto, Japan
+    category: food
+  reason: declined
+- id: hours-09
+  description: beach without opening hours, skipped before any call
+  place:
+    name: My Khe Beach
+    city: Da Nang, Vietnam
+    category: beach
+  reason: no_hours_category
+- id: hours-10
+  description: seeded slip, a schedule with times no result writes
+  place:
+    name: Le Petit Mec OIKE
+    address: 中京区下妙覚寺町186
+    city: Kyoto, Japan
+    category: food
+  seeded: true
+  search_from: hours-06
+  reason: time_not_in_source
+  reply:
+    decision: propose
+    reason: invented
+    source_url: https://tabelog.com/en/kyoto/A2601/A260202/26005029
+    confidence: 0.9
+    always_open: false
+    weekly:
+      { mo: [{ start: '07:30', end: '19:00' }], tu: [], we: [], th: [], fr: [], sa: [], su: [] }
+- id: hours-11
+  description: seeded slip, a source URL the search never returned
+  place:
+    name: Le Petit Mec OIKE
+    address: 中京区下妙覚寺町186
+    city: Kyoto, Japan
+    category: food
+  seeded: true
+  search_from: hours-06
+  reason: unknown_source
+  reply:
+    decision: propose
+    reason: invented
+    source_url: https://example.com/le-petit-mec
+    confidence: 0.9
+    always_open: false
+    weekly:
+      { mo: [{ start: '09:00', end: '18:00' }], tu: [], we: [], th: [], fr: [], sa: [], su: [] }
+- id: hours-12
+  description: seeded slip, always open without a page saying so
+  place:
+    name: Le Petit Mec OIKE
+    address: 中京区下妙覚寺町186
+    city: Kyoto, Japan
+    category: food
+  seeded: true
+  search_from: hours-06
+  reason: time_not_in_source
+  reply:
+    decision: propose
+    reason: invented
+    source_url: https://tabelog.com/en/kyoto/A2601/A260202/26005029
+    confidence: 0.9
+    always_open: true
+    weekly: { mo: [], tu: [], we: [], th: [], fr: [], sa: [], su: [] }

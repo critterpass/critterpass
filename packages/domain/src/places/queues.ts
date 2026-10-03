@@ -7,6 +7,9 @@ import { z } from 'zod';
 
 import type { QueueSpec } from '../jobs/catalogue';
 
+/** The weekly opening-hours research queue lives beside its payload and skip list. */
+export * from './hours-research';
+
 export const PLACES_QUEUES = {
   foursquareMatch: 'places.fsq_match',
 } as const;

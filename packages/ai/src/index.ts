@@ -292,3 +292,4 @@ export * from './routes/recap';
 export * from './routes/album';
 export * from './routes/help';
 export * from './routes/sos';
+export * from './routes/hours-research';

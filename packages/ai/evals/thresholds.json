@@ -31,7 +31,8 @@
     "album": 1,
     "translate": 1,
     "help": 1,
-    "sos": 1
+    "sos": 1,
+    "hours-research": 1
   },
   "live": {
     "chat": 0.9,
@@ -65,7 +66,8 @@
     "album": 0.95,
     "translate": 0.9,
     "help": 0.95,
-    "sos": 0.95
+    "sos": 0.95,
+    "hours-research": 0.8
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

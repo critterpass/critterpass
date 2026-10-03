@@ -25,6 +25,10 @@ import { WIDGET_QUEUE_DESCRIPTIONS, widgetQueueSpecs } from '../surfaces/widget-
 import { RECAP_QUEUE_DESCRIPTIONS, recapQueueSpecs } from '../recap/queues';
 import { ALBUM_QUEUE_DESCRIPTIONS, albumQueueSpecs } from '../album/queues';
 import { PLACES_QUEUE_DESCRIPTIONS, placesQueueSpecs } from '../places/queues';
+import {
+  HOURS_RESEARCH_QUEUE_DESCRIPTIONS,
+  hoursResearchQueueSpecs,
+} from '../places/hours-research';
 
 export function featureQueueSpecs(defaults: QueueSpec) {
   return {
@@ -50,6 +54,7 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...recapQueueSpecs(defaults),
     ...albumQueueSpecs(defaults),
     ...placesQueueSpecs(defaults),
+    ...hoursResearchQueueSpecs(defaults),
   } as const;
 }
 
@@ -76,4 +81,5 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...RECAP_QUEUE_DESCRIPTIONS,
   ...ALBUM_QUEUE_DESCRIPTIONS,
   ...PLACES_QUEUE_DESCRIPTIONS,
+  ...HOURS_RESEARCH_QUEUE_DESCRIPTIONS,
 } as const;
