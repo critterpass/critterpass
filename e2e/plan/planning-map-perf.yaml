@@ -78,12 +78,17 @@ appId: app.critterpass.dev
     timeout: 8000
 - takeScreenshot: en-planning-kit-trip-map-peek
 # The camera opens on a saved place in the middle of the map: a tap there shows its one label.
-- tapOn:
-    point: '50%,50%'
-- extendedWaitUntil:
-    visible:
-      id: 'map-label'
-    timeout: 10000
+- retry:
+    maxRetries: 2
+    commands:
+      - tapOn:
+          point: '50%,50%'
+      - extendedWaitUntil:
+          visible:
+            id: 'planning-map-lab-picked'
+          timeout: 8000
+- waitForAnimationToEnd:
+    timeout: 3000
 - takeScreenshot: en-planning-kit-place-picked
 # A drag on the map above the sheet pans the map and leaves the sheet where it was.
 - swipe:

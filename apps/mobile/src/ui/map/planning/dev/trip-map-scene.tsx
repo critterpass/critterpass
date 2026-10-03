@@ -132,6 +132,11 @@ export function TripMapScene({ children }: TripMapSceneProps) {
             {day === undefined ? 'The whole trip' : day.title}
           </Text>
           <Text variant="eyebrow" testID={`planning-map-lab-snap-${snap}`}>{`Sheet: ${snap}`}</Text>
+          {place === undefined && stop === undefined ? null : (
+            <Text variant="bodySm" testID="planning-map-lab-picked">
+              {`Picked: ${place?.name ?? stop?.name ?? ''}`}
+            </Text>
+          )}
           <Row gap="8" wrap>
             {LAB_DAYS.map((entry) => (
               <PillButton
