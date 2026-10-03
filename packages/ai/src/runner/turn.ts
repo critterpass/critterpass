@@ -46,7 +46,14 @@ import {
   within,
 } from './input-screen';
 import { BRIEF_ANSWER_DIRECTIVE, degradedRoute, settleOnce, type MeterHandle } from './meter';
+import { streamRound } from './round';
 import type { ToolCard, TurnEvent } from './sse';
+import {
+  hasWords,
+  withPlainAnswerNote,
+  type ToolMarkupEvent,
+  type ToolMarkupOutcome,
+} from './tool-markup';
 
 type MessageParam = Anthropic.Messages.MessageParam;
 type ContentBlock = Anthropic.Messages.ContentBlock;
@@ -74,6 +81,8 @@ export interface TurnHooks {
   readonly onSettled?: (outcome: 'committed' | 'released', cause?: unknown) => void;
   /** The input check's verdict, once known (flags are logged by the caller). */
   readonly onInputScreened?: (result: ComplianceResult) => void;
+  /** An answer came back with tool-call markup as text (the caller logs and counts it). */
+  readonly onToolMarkup?: (event: ToolMarkupEvent) => void;
 }
 
 export interface RunTurnDeps {
@@ -84,19 +93,9 @@ export interface RunTurnDeps {
 }
 
 export const DEFAULT_TOOL_ROUNDS = 3;
-function streamEvent(event: Anthropic.Messages.RawMessageStreamEvent): TurnEvent | undefined {
-  if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-    return { type: 'token', text: event.delta.text };
-  }
-  if (event.type === 'content_block_start') {
-    const block = event.content_block;
-    if (block.type === 'tool_use') {
-      return { type: 'tool_start', tool: block.name, id: block.id };
-    }
-  }
-  return undefined;
-}
 
+/** Callers log the guard's typed event with this hook. */
+export { logToolMarkup, type ToolMarkupEvent } from './tool-markup';
 function isEmpty(output: unknown): boolean {
   if (Array.isArray(output)) return output.length === 0;
   if (output !== null && typeof output === 'object') {
@@ -129,9 +128,6 @@ function withDirective(messages: readonly MessageParam[], directive: string): Me
 function asParams(content: readonly ContentBlock[]): Anthropic.Messages.ContentBlockParam[] {
   return content as unknown as Anthropic.Messages.ContentBlockParam[];
 }
-
-const textOf = (content: readonly ContentBlock[]): string =>
-  content.flatMap((block) => (block.type === 'text' ? [block.text] : [])).join('');
 
 export async function* runTurn(
   input: RunTurnInput,
@@ -173,9 +169,10 @@ export async function* runTurn(
 
     for (let round = 0; ; round += 1) {
       const lastRound = round >= maxRounds;
-      let message: Anthropic.Messages.Message | undefined;
       const tools = readOnly() ? allTools.filter((tool) => !isWriteTool(toolName(tool))) : allTools;
-      const stream = deps.gateway.streamModel(
+      const signal = input.signal === undefined ? {} : { signal: input.signal };
+      const streamed = yield* streamRound(
+        deps.gateway,
         routeId,
         {
           system: input.system,
@@ -183,27 +180,42 @@ export async function* runTurn(
           ...(tools.length === 0 ? {} : { tools }),
           ...(lastRound && tools.length > 0 ? { toolChoice: { type: 'none' } as const } : {}),
           ...(round === 0 && !lastRound && first !== undefined ? { toolChoice: first } : {}),
-          ...(input.signal === undefined ? {} : { signal: input.signal }),
+          ...signal,
         },
         input.usage ?? {},
+        joiner,
       );
-      for await (const part of stream) {
-        if (part.kind === 'done') {
-          message = part.result.message;
-        } else {
-          const event = streamEvent(part.event);
-          if (event?.type === 'token') {
-            yield { type: 'token', text: joiner.token(event.text) };
-          } else if (event !== undefined) {
-            if (event.type === 'tool_start') joiner.toolCall();
-            yield event;
-          }
+      const { message } = streamed;
+      const answering = message.stop_reason !== 'tool_use' || lastRound;
+      let answer = streamed;
+      let markup: ToolMarkupOutcome | undefined = streamed.markup ? 'stripped' : undefined;
+      // An answer that was only tool-call markup: once more without tools, in plain words.
+      if (answering && streamed.markup && !hasWords(streamed.text + streamed.tail)) {
+        const request = {
+          system: input.system,
+          messages: withPlainAnswerNote(messages),
+          ...signal,
+        };
+        answer = yield* streamRound(deps.gateway, routeId, request, input.usage ?? {}, joiner);
+        markup = 'retried';
+        if (!hasWords(answer.text + answer.tail)) {
+          hooks.onToolMarkup?.({
+            route: input.route,
+            round,
+            forced: lastRound,
+            outcome: 'fallback',
+          });
+          await release('tool_markup');
+          yield { type: 'error', code: 'AI_UNAVAILABLE', retryable: true };
+          return;
         }
       }
-      if (message === undefined) throw new Error('model stream ended without a message');
+      if (answer.tail !== '') yield { type: 'token', text: joiner.token(answer.tail) };
+      if (markup !== undefined)
+        hooks.onToolMarkup?.({ route: input.route, round, forced: lastRound, outcome: markup });
 
-      if (message.stop_reason !== 'tool_use' || lastRound) {
-        finalText = textOf(message.content);
+      if (answering) {
+        finalText = answer.text + answer.tail;
         break;
       }
 
