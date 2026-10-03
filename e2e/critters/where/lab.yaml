@@ -1,0 +1,38 @@
+appId: app.critterpass.dev
+---
+# Where to find a form (undesigned): the critters lab's fixed-data scenes for Tokek's rare form
+# (three temples on the map, its steps), its legendary (its day, the crew it needs, no place) and
+# NEAR ME's map of Bali's critter places, named `en-<scene>`.
+- runFlow:
+    file: ../subflows/open-scene.yaml
+    env:
+      SCENE: '3l-3-where-rare'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-where-map'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-3-where-rare
+- runFlow:
+    file: ../subflows/open-scene.yaml
+    env:
+      SCENE: '3l-3-where-legendary'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-where-steps'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-3-where-legendary
+- runFlow:
+    file: ../subflows/open-scene.yaml
+    env:
+      SCENE: '3l-2-near-map'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-near-map'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3l-2-near-map

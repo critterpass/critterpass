@@ -1,0 +1,50 @@
+appId: app.critterpass.dev
+---
+# Where to find a form, as a fresh traveller meets it on staging's Đà Nẵng trip: with the egg
+# hatched and the trip under way, the rare silhouette in HERE NOW opens its places on the map, what
+# it takes and the steps; NEAR ME then shows every critter place on the trip on a map.
+- runFlow:
+    file: subflows/danang-trip-hatched.yaml
+    env:
+      SHOTS: where-to-find
+- extendedWaitUntil:
+    visible:
+      id: 'critters-here-now-form-rare'
+    timeout: 60000
+- tapOn:
+    id: 'critters-here-now-form-rare'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-where-steps'
+    timeout: 20000
+- extendedWaitUntil:
+    visible:
+      id: 'critters-where-map'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: where-to-find-20-rare
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 20000
+- tapOn: 'NEAR ME'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-near-map'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: where-to-find-21-near-me

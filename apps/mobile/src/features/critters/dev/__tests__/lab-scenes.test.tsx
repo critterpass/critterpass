@@ -14,6 +14,18 @@ jest.mock(
     jest.requireActual<{ powersyncCommon: unknown }>('@/data/powersync/test-support/node-realm')
       .powersyncCommon,
 );
+// The map is a native view: the where-to-find scenes render their pins without it.
+jest.mock('@maplibre/maplibre-react-native', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-assignment
+  const { View } = require('react-native');
+  return {
+    Map: ({ children }: { children: unknown }) => <View testID="maplibre-map">{children}</View>,
+    Camera: () => null,
+    ViewAnnotation: ({ children }: { children: unknown }) => <View>{children}</View>,
+    GeoJSONSource: ({ children }: { children: unknown }) => <View>{children}</View>,
+    Layer: () => null,
+  };
+});
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
   usePathname: () => '/critters-scene',
