@@ -7,7 +7,7 @@
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
 
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { fireEvent, screen, within } from '@testing-library/react-native';
 
 import type { PlanOp } from '@cp/domain';
 
@@ -88,6 +88,14 @@ describe('timeline screen-reader actions', () => {
         new: { starts_at: at(15 * 60 + 15), ends_at: at(15 * 60 + 45) },
       },
     ]);
+  });
+
+  it("keeps a block's resize handles beside its screen-reader element, not inside it", async () => {
+    await timeline(() => undefined);
+    // iOS folds an accessible view's children into it: handles inside would be out of reach.
+    const walk = screen.getByTestId('timeline-block-i-walk');
+    expect(within(walk).queryByTestId('timeline-block-i-walk-bottom')).toBeNull();
+    expect(screen.getByTestId('timeline-block-i-walk-bottom')).toBeTruthy();
   });
 
   it('offers no moves on a booked block', async () => {

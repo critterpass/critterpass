@@ -61,10 +61,11 @@ async function meetupFacts(
     sender: string | null;
     avatar: string | null;
   }>(
-    `SELECT m.place_name AS place, m.meet_at, t.tz, c.name AS crew, u.display_name AS sender,
-            a.variant_keys->>'120' AS avatar
+    `SELECT m.place_name AS place, m.meet_at, coalesce(t.tz, d.tz) AS tz, c.name AS crew,
+            u.display_name AS sender, a.variant_keys->>'120' AS avatar
        FROM trips t
        JOIN crews c ON c.id = t.crew_id
+       LEFT JOIN destinations d ON d.id = t.destination_id
        LEFT JOIN meetups m ON m.id = $2
        LEFT JOIN users u ON u.id = $3
        LEFT JOIN avatars a ON a.id = u.avatar_id AND a.moderation_status = 'approved'

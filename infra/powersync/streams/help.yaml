@@ -1,0 +1,27 @@
+# Feedback and idea-board streams (docs/data-model-sync-and-privacy.md §4): a member's own tickets,
+# votes and rating-prompt log ride me, and so do the ideas they suggested that still wait for
+# review. The published board rides help next to the articles (subscribed while the help centre is
+# open). Idea authors, embeddings and the triage columns of a ticket never sync.
+
+streams:
+  me:
+    auto_subscribe: true
+    queries:
+      - |
+        SELECT id, user_id, ticket_no, mood, category, body, include_device_info, context, trip_id,
+          media_ids, source, status, reply_channel, fixed_in_version, sent_at, created_at, updated_at
+        FROM feedback_tickets WHERE user_id = auth.user_id()
+      - SELECT * FROM idea_votes WHERE user_id = auth.user_id()
+      - SELECT * FROM rating_prompts WHERE user_id = auth.user_id()
+      - |
+        SELECT id, title, description, locale, status, team_note, fixed_in_version, merged_into_id,
+          votes_count, status_changed_at, created_at, updated_at
+        FROM ideas WHERE author_id = auth.user_id() AND status = 'pending_review'
+
+  help:
+    accept_potentially_dangerous_queries: true
+    queries:
+      - |
+        SELECT id, title, description, locale, status, team_note, fixed_in_version, merged_into_id,
+          votes_count, status_changed_at, created_at, updated_at
+        FROM ideas WHERE status <> 'pending_review'

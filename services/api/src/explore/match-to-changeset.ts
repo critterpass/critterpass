@@ -43,7 +43,8 @@ export async function matchToChangeSet(tx: pg.PoolClient, input: MatchInput): Pr
     const head = await lockTripPlan(tx, input.tripId);
     if (head.currentVersionId === null) return { change_set_id: null, day_no: null };
     const { rows } = await tx.query<{ tz: string | null; guide_id: string | null }>(
-      'SELECT tz, guide_id FROM trips WHERE id = $1',
+      `SELECT coalesce(t.tz, d.tz) AS tz, t.guide_id
+         FROM trips t LEFT JOIN destinations d ON d.id = t.destination_id WHERE t.id = $1`,
       [input.tripId],
     );
     const place = await placeFacts(tx, input.poiId);

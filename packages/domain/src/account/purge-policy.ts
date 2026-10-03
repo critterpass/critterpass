@@ -94,6 +94,11 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.private_guide_threads', ['owner_id', del]),
   ...rules('public.import_candidates', ['user_id', del], ['resolved_by', nul]),
   ...rules('public.paywall_impressions', ['user_id', del]),
+  // Feedback and votes go with the account; an idea stays on the board without its author.
+  ...rules('public.feedback_tickets', ['user_id', del]),
+  ...rules('public.idea_votes', ['user_id', del]),
+  ...rules('public.rating_prompts', ['user_id', del]),
+  ...rules('public.ideas', ['author_id', nul]),
   ...rules('public.user_entitlements', ['user_id', del]),
   ...rules('public.share_calcs', ['user_id', del]),
   ...rules('public.participant_dietary_flags', ['user_id', del]),
@@ -124,6 +129,14 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.stamp_signatures', ['signer_id', del]),
   ...rules('public.anniversaries', ['user_id', del]),
   ...rules('public.stamps', ['user_id', del]),
+  // Album: the uploader's photos go (their bytes with the media manifest), with their picks and tags;
+  // their own tags, settings, exports and address go too.
+  ...rules('public.album_picks', ['picker_id', nul]),
+  ...rules('public.photo_people', ['user_id', del]),
+  ...rules('public.photos', ['uploader_id', del]),
+  ...rules('public.album_prefs', ['user_id', del]),
+  ...rules('public.album_exports', ['user_id', del]),
+  ...rules('public.mailing_addresses', ['user_id', del]),
   ...rules('public.taste_profiles', ['user_id', del]),
   ...rules('public.passes', ['user_id', del]),
   ...rules('public.avatars', ['user_id', del]),
@@ -215,6 +228,8 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.readiness', ['user_id', keep(CREW)]),
   // A recap award (counts only, no personal data) and a memory or reaction stay crew history.
   ...rules('public.recap_awards', ['user_id', keep(CREW)]),
+  ...rules('public.postcards', ['created_by', keep(CREW)]),
+  ...rules('public.postcard_mailings', ['payer_id', keep(BILLING)]),
   ...rules('public.memories', ['author_id', keep(CREW)]),
   ...rules('public.memory_reactions', ['user_id', keep(CREW)]),
   ...rules(
