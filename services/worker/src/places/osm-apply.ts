@@ -11,6 +11,9 @@
  * - else a sight (`kind: 'place'`) becomes a new POI of this destination; a business
  *   (`hours_only`) is dropped, so OSM never duplicates the open-data copy of a shop or restaurant.
  *
+ * A linked or matched POI another destination owns (overlapping boxes, Hội An inside Đà Nẵng's)
+ * is left to that destination's own ingest: neither updated nor added again.
+ *
  * Hours are written only where the POI has none or they came from OSM before
  * (`hours_source = 'osm'`), so editorial and researched hours always win. Nothing is deactivated
  * or deleted.
@@ -76,13 +79,14 @@ const NO_HOURS = `(p.hours = '{}'::jsonb OR coalesce(p.hours->'weekly', '{}'::js
 /** Each element with the POI it is linked to, or the one it matches, or neither. */
 const RESOLVE_SQL = `
   SELECT v.source_id, linked.id AS linked_id, matched.id AS matched_id,
+         coalesce(linked.destination_id, matched.destination_id) AS owner_id,
          coalesce(linked.no_hours, matched.no_hours, false) AS no_hours
   FROM ${RECORDS}
   LEFT JOIN LATERAL (
-    SELECT p.id, ${NO_HOURS} AS no_hours FROM pois p WHERE p.source_ids->>'osm' = v.source_id
+    SELECT p.id, p.destination_id, ${NO_HOURS} AS no_hours FROM pois p WHERE p.source_ids->>'osm' = v.source_id
   ) linked ON true
   LEFT JOIN LATERAL (
-    SELECT p.id, ${NO_HOURS} AS no_hours FROM pois p
+    SELECT p.id, p.destination_id, ${NO_HOURS} AS no_hours FROM pois p
     WHERE linked.id IS NULL
       AND p.status = 'active' AND p.merged_into_id IS NULL AND NOT (p.source_ids ? 'osm')
       AND ST_DWithin(p.location, ST_SetSRID(ST_MakePoint(v.lng, v.lat), 4326)::geography, $2)
@@ -105,16 +109,24 @@ async function applyChunk(
     source_id: string;
     linked_id: string | null;
     matched_id: string | null;
+    owner_id: string | null;
     no_hours: boolean;
   }>(RESOLVE_SQL, [json, MATCH_DISTANCE_M, NAME_SIMILARITY]);
   const target = new Map<string, string>();
   const fresh = new Set<string>();
   const claimed = new Set<string>();
   const empty = new Set<string>();
+  const ownedElsewhere = new Set<string>();
   for (const row of rows) {
     const id = row.linked_id ?? row.matched_id;
     // Two elements matching one POI: the first keeps it, the other is treated as unmatched.
     if (id === null || (row.linked_id === null && claimed.has(id))) continue;
+    // A place another destination owns (overlapping boxes) is that destination's to update; it is
+    // neither changed nor added again here.
+    if (row.owner_id !== destinationId) {
+      ownedElsewhere.add(row.source_id);
+      continue;
+    }
     claimed.add(id);
     target.set(row.source_id, id);
     if (row.linked_id === null) fresh.add(row.source_id);
@@ -125,7 +137,10 @@ async function applyChunk(
     return id === undefined ? [] : [{ ...record, id, link: fresh.has(record.source_id) }];
   });
   const inserts = records.filter(
-    (record) => record.kind === 'place' && !target.has(record.source_id),
+    (record) =>
+      record.kind === 'place' &&
+      !target.has(record.source_id) &&
+      !ownedElsewhere.has(record.source_id),
   );
 
   let hoursFilled = updates.filter(
