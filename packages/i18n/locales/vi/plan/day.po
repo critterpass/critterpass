@@ -164,6 +164,10 @@ msgstr "Đang tải ngày"
 msgid "plan.day.add.searching"
 msgstr "Đang tìm địa điểm…"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.moreArriving"
+msgstr "Các địa điểm khác của chuyến đi vẫn đang tải về."
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"
 msgstr "Chuyển sang"

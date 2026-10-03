@@ -61,6 +61,8 @@ export function nextFreeStart(items: readonly DayItem[]): number {
 
 export interface AddItemSheetProps {
   readonly destinationId: string | null;
+  /** The trip whose place pack the search waits on. */
+  readonly tripId?: string | null;
   readonly date: string;
   readonly items: readonly DayItem[];
   readonly tz: string;
@@ -76,7 +78,12 @@ export function AddItemSheet(props: AddItemSheetProps) {
   const { destinationId } = props;
   const [source, setSource] = useState<Source>('search');
   const [query, setQuery] = useState('');
-  const search = usePlaceSearch(source === 'search' ? destinationId : null, query);
+  const search = usePlaceSearch(
+    source === 'search' ? destinationId : null,
+    query,
+    undefined,
+    props.tripId ?? null,
+  );
   const saved = useLiveRows<PlaceRow>(
     SAVED_PLACES_SQL,
     destinationId === null || source !== 'saved' ? null : [destinationId],

@@ -70,7 +70,7 @@ describe('place search in the add sheet', () => {
     expect(result.current.rows.map((row) => row.name)).toEqual(['Mỹ Sơn Sanctuary']);
   });
 
-  it('matches the local name and words anywhere in it', async () => {
+  it('matches the local name, word by word from the start of each word', async () => {
     const stack = await withPlaces();
     const { result } = await renderHook(() => usePlaceSearch(DANANG, 'ngu hanh'), {
       wrapper: stack.wrapper,

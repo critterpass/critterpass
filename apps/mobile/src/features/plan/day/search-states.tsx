@@ -28,7 +28,18 @@ export function SearchStates({
 }) {
   const { t } = useLingui();
   const typed = query.trim();
-  if (typed === '' || found > 0) return null;
+  if (typed === '') return null;
+  if (found > 0) {
+    // Rows found while the trip's places are still landing: more may come.
+    return arriving ? (
+      <Text variant="bodySm" testID="plan-add-more-arriving">
+        {t({
+          id: 'plan.day.add.moreArriving',
+          message: 'More of this trip’s places are still arriving.',
+        })}
+      </Text>
+    ) : null;
+  }
   if (failed) {
     return (
       <Stack gap="8" testID="plan-add-search-failed">

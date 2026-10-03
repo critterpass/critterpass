@@ -164,6 +164,10 @@ msgstr "Loading the day"
 msgid "plan.day.add.searching"
 msgstr "Looking for places…"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.moreArriving"
+msgstr "More of this trip’s places are still arriving."
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"
 msgstr "Move to"
