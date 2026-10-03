@@ -106,11 +106,8 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'new-poll-option-1'
 - inputText: 'Ramen'
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - hideKeyboard
+# POST sits under the keyboard.
+- hideKeyboard
 - scrollUntilVisible:
     element:
       id: 'new-poll-post'
