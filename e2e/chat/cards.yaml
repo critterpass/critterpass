@@ -6,14 +6,15 @@ appId: app.critterpass.dev
 # deleted it. The demo crew's members joining are its system lines.
 #
 # Data: a fresh account onboards, then the staging demo seed gives it Bali Demo Crew and its trip.
-- launchApp:
-    clearState: true
-# A photo in the library to send (the simulator's photo service can be slow the first time).
+# A photo in the library to send (the simulator's photo service can be slow the first time),
+# added before the app starts: on iOS the import can bring the Photos service forward.
 - retry:
     maxRetries: 2
     commands:
       - addMedia:
           - '../../apps/mobile/modules/cp-subject-lift/ios/Tests/Fixtures/corgi.jpg'
+- launchApp:
+    clearState: true
 - runFlow: ../home/subflows/onboard.yaml
 - runFlow:
     file: ../_shared/seed-demo.yaml
