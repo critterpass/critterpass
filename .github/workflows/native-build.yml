@@ -1,0 +1,118 @@
+name: native-build
+
+# Starts EAS native builds from GitHub's network: `eas build` uploads the whole project archive, which
+# a slow uplink cannot carry. The builds run on EAS with its remote credentials; this job only starts
+# them (`--no-wait`) and lists their ids and pages in the summary.
+#   gh workflow run native-build.yml -f ref=main -f profile=staging -f platform=ios
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag or commit to build
+        required: true
+        default: main
+      profile:
+        description: eas.json build profile
+        required: true
+        type: choice
+        options: [staging, e2e-test]
+      platform:
+        description: Platform
+        required: true
+        type: choice
+        options: [ios, android, all]
+
+# One start per ref, profile and platform at a time: a second dispatch waits instead of doubling up.
+concurrency:
+  group: native-build-${{ inputs.ref }}-${{ inputs.profile }}-${{ inputs.platform }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  EAS_CLI: eas-cli@24.8.0
+  # The app's EAS owner and slug (apps/mobile/app.config.ts), for the build page links.
+  EAS_BUILDS_URL: https://expo.dev/accounts/critterpass/projects/critterpass/builds
+
+jobs:
+  start:
+    name: ${{ inputs.profile }} ${{ inputs.platform }} at ${{ inputs.ref }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: pnpm/action-setup@v6
+      # The Node version EAS builds the app with.
+      - uses: actions/setup-node@v7
+        with: { node-version: 24, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Start the builds
+        working-directory: apps/mobile
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          # Android's runtime version (the native fingerprint) hashes the Firebase config's contents.
+          # EAS gives the build its own copy, but eas-cli computes the runtime version here, where the
+          # EAS file variable is not readable, so it is written from this secret: the same contents
+          # the staging-update workflow compares against.
+          GOOGLE_SERVICES_JSON_CONTENT: ${{ secrets.GOOGLE_SERVICES_JSON_CONTENT }}
+          # App Store Connect API key, so eas-cli can sync capabilities and provisioning profiles
+          # for iOS store builds; without it the build uses the stored profile as it is.
+          ASC_API_KEY_P8: ${{ secrets.EXPO_ASC_API_KEY_P8 }}
+          EXPO_ASC_KEY_ID: ${{ secrets.EXPO_ASC_KEY_ID }}
+          EXPO_ASC_ISSUER_ID: ${{ secrets.EXPO_ASC_ISSUER_ID }}
+          REF: ${{ inputs.ref }}
+          PROFILE: ${{ inputs.profile }}
+          PLATFORM: ${{ inputs.platform }}
+        run: |
+          set -uo pipefail
+          [ -n "$EXPO_TOKEN" ] || { echo "::error::EXPO_TOKEN secret is missing"; exit 1; }
+          commit=$(git rev-parse --short=12 HEAD)
+          summary=$GITHUB_STEP_SUMMARY
+          echo "### Native build: \`$PROFILE\` $PLATFORM at \`$REF\` (\`$commit\`)" >> "$summary"
+          echo >> "$summary"
+
+          if [ "$PLATFORM" != ios ]; then
+            if [ -n "$GOOGLE_SERVICES_JSON_CONTENT" ]; then
+              printf '%s' "$GOOGLE_SERVICES_JSON_CONTENT" > "$RUNNER_TEMP/google-services.json"
+              export GOOGLE_SERVICES_JSON=$RUNNER_TEMP/google-services.json
+            elif [ "$PROFILE" = staging ]; then
+              echo "::error::the GOOGLE_SERVICES_JSON_CONTENT secret is missing: an Android staging build started here would carry a runtime version no staging update can match"
+              echo "Not started: the Android runtime version needs the GOOGLE_SERVICES_JSON_CONTENT secret." >> "$summary"
+              exit 1
+            else
+              # Device runs swap their own JS bundle into e2e-test builds, with updates off.
+              echo "::warning::no GOOGLE_SERVICES_JSON_CONTENT secret: the Android runtime version is computed without the Firebase config"
+            fi
+          fi
+          if [ "$PLATFORM" != android ] && [ "$PROFILE" = staging ]; then
+            if [ -n "$ASC_API_KEY_P8" ] && [ -n "$EXPO_ASC_KEY_ID" ] && [ -n "$EXPO_ASC_ISSUER_ID" ]; then
+              printf '%s' "$ASC_API_KEY_P8" > "$RUNNER_TEMP/asc-api-key.p8"
+              export EXPO_ASC_API_KEY_PATH=$RUNNER_TEMP/asc-api-key.p8
+              export EXPO_APPLE_TEAM_ID=YFND2EEW8S EXPO_APPLE_TEAM_TYPE=INDIVIDUAL
+            else
+              echo "::warning::no App Store Connect API key secrets: capabilities and provisioning profiles are not synced, the stored profile is used as it is"
+            fi
+          fi
+
+          out=$(npx --yes "$EAS_CLI" build --profile "$PROFILE" --platform "$PLATFORM" \
+            --non-interactive --no-wait --json 2> "$RUNNER_TEMP/eas-build.log")
+          status=$?
+          rm -f "$RUNNER_TEMP/google-services.json" "$RUNNER_TEMP/asc-api-key.p8"
+          echo "::group::eas build"; cat "$RUNNER_TEMP/eas-build.log"; echo "$out"; echo "::endgroup::"
+          builds=$(echo "$out" | jq -r '(if type == "array" then .[] else . end) | "\(.platform) \(.id)"' 2>/dev/null)
+          if [ "$status" != 0 ] || [ -z "$builds" ]; then
+            echo "::error::eas build did not start (exit $status); see the eas build log group"
+            echo "Not started: eas build exited $status." >> "$summary"
+            exit 1
+          fi
+          {
+            echo "| Platform | Build id | Page |"
+            echo "| --- | --- | --- |"
+          } >> "$summary"
+          while read -r platform id; do
+            echo "$platform build started: $id $EAS_BUILDS_URL/$id"
+            echo "| $platform | \`$id\` | $EAS_BUILDS_URL/$id |" >> "$summary"
+          done <<< "$builds"
