@@ -38,6 +38,7 @@ import { createObjectStore } from './jobs/ops/object-store';
 import { pitchJobs } from './jobs/pitches';
 import { planJobs } from './jobs/plan';
 import { placesJobs } from './jobs/places';
+import { planningJobs } from './jobs/planning';
 import { pollBoardAdvanceJob, pollCloseJob, pollRemindJob } from './jobs/polls';
 import { pushSendJob } from './jobs/push/send';
 import { roundupBuildJob, roundupScanJob } from './jobs/roundup/build';
@@ -106,6 +107,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...bookingsJobs(env, pool, assertRouteOn, llmObservability),
     ...billingJobs(processEnv, logger, deps.metrics),
     ...planJobs(),
+    ...planningJobs(deps),
     ...guideJobs({ ...processEnv, ...env }, pool, assertRouteOn, llmObservability),
     ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger, aiSwitches, processEnv),
     ...(await import('./jobs/trip-day')).tripDayJobs(processEnv, aiSwitches, llmObservability),
