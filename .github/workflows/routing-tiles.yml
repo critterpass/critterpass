@@ -1,0 +1,137 @@
+name: routing tiles
+
+# Builds Valhalla 3.8.3 routing tiles for every box in tools/routing-tiles/boxes.json (each
+# destination's place box widened by 30 km), on this runner instead of any laptop: download each
+# Geofabrik extract once, cut the boxes with osmium, merge them into one PBF (Valhalla must never be
+# fed several extracts), build tiles in the public valhalla-scripted image, boot the serving image
+# on them and route one drive inside every box. Weekly and on demand it publishes the gzip tile tar
+# and manifest.json on the `routing-tiles` prerelease, which the private `valhalla` Railway service
+# reads at boot (ROUTING_TILES_MANIFEST_URL). Pull requests that touch the pipeline run a dry run
+# on two boxes and publish nothing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: comma-separated destination slugs (empty = every box)
+        default: ''
+      publish:
+        description: publish the tiles to the routing-tiles release
+        type: boolean
+        default: true
+  schedule:
+    - cron: '0 19 * * 1' # Tuesday 02:00 in Vietnam
+  pull_request:
+    paths:
+      - tools/routing-tiles/**
+      - infra/railway/valhalla.Dockerfile
+      - .github/workflows/routing-tiles.yml
+
+concurrency:
+  group: routing-tiles-${{ github.event_name == 'pull_request' && github.head_ref || 'publish' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+env:
+  VALHALLA_IMAGE: ghcr.io/valhalla/valhalla-scripted:3.8.3
+  RELEASE_TAG: routing-tiles
+  ONLY: ${{ github.event_name == 'pull_request' && 'da-nang,bali' || inputs.only || '' }}
+  PUBLISH: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.publish) }}
+
+jobs:
+  tiles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    permissions:
+      contents: write # release assets; pull requests never publish
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with: { node-version: 26, cache: pnpm }
+      - run: pnpm install --frozen-lockfile --filter @cp/routing-tiles...
+      - name: Install osmium
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq osmium-tool
+      - name: Plan
+        run: |
+          echo "WORK=$RUNNER_TEMP/routing" >> "$GITHUB_ENV"
+          mkdir -p "$RUNNER_TEMP/routing/boxes" "$RUNNER_TEMP/routing/valhalla"
+          echo "TILES_BUILD=$(date -u +%Y%m%dT%H%M%SZ)" >> "$GITHUB_ENV"
+          pnpm --filter @cp/routing-tiles tiles plan --out "$RUNNER_TEMP/routing/plan.json" --only "$ONLY"
+      - name: Cut the boxes from each extract
+        run: |
+          echo '{}' > "$WORK/osm.json"
+          for region in $(jq -r '.regions[].region' "$WORK/plan.json"); do
+            url=$(jq -r --arg r "$region" '.regions[] | select(.region == $r) | .url' "$WORK/plan.json")
+            curl -fsSL --retry 5 --retry-delay 10 -o "$WORK/region.osm.pbf" "$url"
+            stamp=$(osmium fileinfo -g header.option.osmosis_replication_timestamp "$WORK/region.osm.pbf")
+            jq --arg r "$region" --arg t "$stamp" '.[$r] = $t' "$WORK/osm.json" > "$WORK/osm.next" && mv "$WORK/osm.next" "$WORK/osm.json"
+            jq -r --arg r "$region" '.regions[] | select(.region == $r) | .boxes[] | "\(.slug) \(.osmium)"' "$WORK/plan.json" |
+              while read -r slug box; do
+                osmium extract --bbox "$box" --strategy complete_ways --overwrite -o "$WORK/boxes/$slug.osm.pbf" "$WORK/region.osm.pbf"
+                echo "$region $slug $(du -h "$WORK/boxes/$slug.osm.pbf" | cut -f1)"
+              done
+            rm -f "$WORK/region.osm.pbf"
+          done
+          osmium merge --overwrite -o "$WORK/valhalla/merged.osm.pbf" "$WORK"/boxes/*.osm.pbf
+          rm -rf "$WORK/boxes"
+          echo "merged PBF: $(du -h "$WORK/valhalla/merged.osm.pbf" | cut -f1)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Build the tiles
+        run: |
+          docker pull -q "$VALHALLA_IMAGE"
+          started=$(date +%s)
+          ( while sleep 10; do docker stats --no-stream --format '{{.MemUsage}}' valhalla-tiles 2>/dev/null | cut -d/ -f1; done ) > "$WORK/memory.log" &
+          sampler=$!
+          docker run --rm --name valhalla-tiles -v "$WORK/valhalla:/custom_files" \
+            -e serve_tiles=False -e build_tar=True -e build_admins=True -e build_time_zones=True \
+            -e build_elevation=False -e use_default_speeds_config=True -e server_threads="$(nproc)" \
+            "$VALHALLA_IMAGE"
+          kill "$sampler" || true
+          test -s "$WORK/valhalla/valhalla_tiles.tar"
+          gzip -c "$WORK/valhalla/valhalla_tiles.tar" > "$WORK/tiles.tar.gz"
+          {
+            echo "tile build: $(( ($(date +%s) - started) / 60 )) min on $(nproc) cores"
+            echo "peak memory (sampled): $(sort -h "$WORK/memory.log" | tail -1)"
+            echo "tile tar: $(du -h "$WORK/valhalla/valhalla_tiles.tar" | cut -f1), gzip: $(du -h "$WORK/tiles.tar.gz" | cut -f1)"
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          size=$(stat -c %s "$WORK/tiles.tar.gz")
+          if [ "$size" -ge 2000000000 ]; then echo "tile archive is over the 2 GB release asset limit" >&2; exit 1; fi
+      - name: Boot the serving image on the new tiles and route in every box
+        run: |
+          mkdir -p "$WORK/site" "$WORK/context/tools/routing-tiles" "$WORK/context/infra/railway"
+          cp "$WORK/tiles.tar.gz" "$WORK/site/tiles.tar.gz"
+          pnpm --filter @cp/routing-tiles tiles manifest --build "$TILES_BUILD" --plan "$WORK/plan.json" \
+            --osm "$WORK/osm.json" --tiles "$WORK/tiles.tar.gz" --url "http://127.0.0.1:8090/tiles.tar.gz" --out "$WORK/site/manifest.json"
+          (cd "$WORK/site" && python3 -m http.server 8090 --bind 127.0.0.1 > /dev/null 2>&1 &)
+          cp tools/routing-tiles/serve.sh "$WORK/context/tools/routing-tiles/"
+          cp infra/railway/valhalla.Dockerfile "$WORK/context/infra/railway/"
+          docker build -q -t cp-valhalla -f "$WORK/context/infra/railway/valhalla.Dockerfile" "$WORK/context"
+          docker run -d --name valhalla-serve --network host -e DATA_DIR=/data \
+            -e ROUTING_TILES_MANIFEST_URL=http://127.0.0.1:8090/manifest.json cp-valhalla
+          for _ in $(seq 1 60); do curl -fs http://127.0.0.1:8002/status > /dev/null && break; sleep 5; done
+          docker logs valhalla-serve 2>&1 | tail -5
+          curl -fsS http://127.0.0.1:8002/status
+          echo
+          echo "serving memory: $(docker stats --no-stream --format '{{.MemUsage}}' valhalla-serve)" | tee -a "$GITHUB_STEP_SUMMARY"
+          pnpm --filter @cp/routing-tiles tiles smoke --url http://127.0.0.1:8002 --plan "$WORK/plan.json" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Publish
+        if: env.PUBLISH == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          asset="valhalla-tiles-$TILES_BUILD.tar.gz"
+          url="https://github.com/${GITHUB_REPOSITORY}/releases/download/$RELEASE_TAG/$asset"
+          notes="Valhalla 3.8.3 routing tiles for CritterPass destinations, rebuilt weekly by routing-tiles.yml. Routing tiles built from OpenStreetMap data © OpenStreetMap contributors, available under the Open Database License (ODbL) 1.0: https://www.openstreetmap.org/copyright"
+          gh release view "$RELEASE_TAG" > /dev/null 2>&1 ||
+            gh release create "$RELEASE_TAG" --prerelease --title "Routing tiles" --notes "$notes"
+          mv "$WORK/tiles.tar.gz" "$WORK/$asset"
+          gh release upload "$RELEASE_TAG" "$WORK/$asset"
+          pnpm --filter @cp/routing-tiles tiles manifest --build "$TILES_BUILD" --plan "$WORK/plan.json" \
+            --osm "$WORK/osm.json" --tiles "$WORK/$asset" --url "$url" --out "$WORK/manifest.json"
+          gh release upload "$RELEASE_TAG" "$WORK/manifest.json" --clobber
+          # Keep this build and the one before it, so a service mid-download never loses its file.
+          gh release view "$RELEASE_TAG" --json assets --jq '.assets[].name' | grep '^valhalla-tiles-' | sort |
+            head -n -2 | xargs -r -n1 gh release delete-asset "$RELEASE_TAG" -y
+          echo "published $asset" | tee -a "$GITHUB_STEP_SUMMARY"
