@@ -10,7 +10,7 @@ import { readFileSync, statSync, writeFileSync } from 'node:fs';
 
 import { createValhallaClient, type ValhallaPoint } from '@cp/suppliers';
 
-import { readBoxes, samplePoints } from './boxes';
+import { innerPoints, readBoxes } from './boxes';
 import { createManifest } from './manifest';
 import { buildPlan, type TilePlan } from './plan';
 
@@ -36,7 +36,11 @@ function plan(argv: readonly string[]): void {
   }
 }
 
-/** Snaps sample points of each box to the road graph and routes a drive between two of them. */
+/**
+ * Drives inside every box: snaps the box's centre and inner points to the road graph and routes
+ * from the centre to the first inner point it can reach (an island or a peninsula can leave some
+ * inner points on another, unconnected shore).
+ */
 async function smoke(argv: readonly string[]): Promise<void> {
   const client = createValhallaClient({
     baseUrl: required(argv, 'url'),
@@ -45,21 +49,21 @@ async function smoke(argv: readonly string[]): Promise<void> {
   });
   const failures: string[] = [];
   for (const box of readPlan(required(argv, 'plan')).regions.flatMap((region) => region.boxes)) {
-    const points = samplePoints(box.bbox).map(([lng, lat]): ValhallaPoint => ({ lat, lng }));
-    try {
-      const snapped = (await client.locate(points, 'auto')).flatMap((location) =>
-        location.snapped === undefined ? [] : [location.snapped],
-      );
-      const [from, to] = [snapped.at(-1), snapped[0]];
-      if (from === undefined || to === undefined || snapped.length < 2) {
-        throw new Error('fewer than two sample points reach a road');
+    const points = innerPoints(box.bbox).map(([lng, lat]): ValhallaPoint => ({ lat, lng }));
+    const [centre, ...others] = (await client.locate(points, 'auto').catch(() => [])).flatMap(
+      (location) => (location.snapped === undefined ? [] : [location.snapped]),
+    );
+    let answer: string | null = null;
+    for (const other of others) {
+      if (centre === undefined) break;
+      const route = await client.route([centre, other], 'auto').catch(() => null);
+      if (route !== null && route.meters > 0) {
+        answer = `${Math.round(route.seconds / 60)} min, ${route.meters} m`;
+        break;
       }
-      const route = await client.route([from, to], 'auto');
-      console.log(`${box.slug}: ${Math.round(route.seconds / 60)} min, ${route.meters} m`);
-    } catch (error) {
-      failures.push(box.slug);
-      console.error(`${box.slug}: ${error instanceof Error ? error.message : String(error)}`);
     }
+    if (answer === null) failures.push(box.slug);
+    console.log(`${box.slug}: ${answer ?? 'no route between inner points'}`);
   }
   if (failures.length > 0) throw new Error(`no route in ${failures.join(', ')}`);
 }
