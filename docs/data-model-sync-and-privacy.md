@@ -33,7 +33,7 @@ Crew-visibility matrix (master §10.4, C36) maps to: `users`/`avatars`/`passes`/
 |---|---|---|
 | `llm.trip_context` | trip header, dates, tz, destination, participants (display name, taste tags unless hidden, RSVP), seat cap, budget **band** | budget maxes, calendars, engagement |
 | `llm.plan_items` | current + (for organiser jobs) draft version items, POI refs, costs from `cost-engine` outputs | — |
-| `llm.pois` | curated POI DB (`pois`, `poi_live_checks` flags) | supplier content |
+| `llm.pois` | curated POI DB (`pois`, `poi_live_checks` flags), plus the content factory's quality signals `curation`, `must_see` and `why_go` and the unaccented search vector `fts` (doc delta; the catalogue has no ratings) | supplier content, `source_ids`, the rest of `editorial`, `merged_into_id`, `geofence` |
 | `llm.bookings` | type, title, location, times, tz, status, free_cancel_until, cancel_policy_text; visibility=crew only (doc delta: title, location, policy text) | barcodes, attachments, prices, confirmation codes, personal bookings (own included) |
 | `llm.money_summary` | per-member net balances, category totals | payout methods |
 | `llm.chat_window` view + `llm.chat_window(crew, n)` (last n ≤200, oldest first) | seq, author kind (member/guide), author display name, type, body of visible `text` rows of crews the asker is an active member of; callers wrap rows as untrusted user data | attachments, every card payload (poll, expense, supplier_order, proposal, changeset, boost_card, meetup), system rows, hidden and deleted rows, private guide threads |
