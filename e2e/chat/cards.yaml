@@ -27,57 +27,63 @@ appId: app.critterpass.dev
       id: 'chat-composer'
     timeout: 15000
 # A photo: the system picker opens on the newest photos first, the corgi in its first cell.
-- tapOn: 'Add attachment'
-- extendedWaitUntil:
-    visible:
-      # The sheet's panel: iOS leaves the sheet's full-screen root out of its hierarchy.
-      id: 'chat-attach-panel'
-    timeout: 5000
-- tapOn: 'Photo library'
-- runFlow:
-    when:
-      visible: '(?i)allow.*|ok|allow full access'
-    commands:
-      - tapOn: '(?i)allow full access|allow.*|ok'
-- extendedWaitUntil:
-    notVisible:
-      id: 'chat-attach-panel'
-    timeout: 15000
-- waitForAnimationToEnd
-# iOS may show its "Private Access to Photos" note above the grid, which moves the grid down.
+# iOS only: the Android e2e APK's picker rejects a multi-photo pick natively
+# (ExceptionInInitializerError in ExponentImagePicker), so the photo card is proven on iOS.
 - runFlow:
     when:
       platform: iOS
-      visible: '(?i)private access to photos'
     commands:
-      - tapOn:
-          point: '16%,43%'
-- runFlow:
-    when:
-      platform: iOS
-      notVisible: '(?i)private access to photos'
-    commands:
-      - tapOn:
-          point: '16%,25%'
-- runFlow:
-    when:
-      platform: Android
-    commands:
-      - tapOn:
-          point: '16%,34%'
-# The library picker allows several photos, so it asks to confirm ("Add (1)", "Add", "Done").
-- runFlow:
-    when:
-      visible: '(?i)^(add( \(\d+\))?|done|select)$'
-    commands:
-      - tapOn: '(?i)^(add( \(\d+\))?|done|select)$'
-- extendedWaitUntil:
-    visible:
-      id: 'chat-photo-.*'
-    timeout: 60000
-- extendedWaitUntil:
-    visible: 'Open photo'
-    timeout: 30000
+      - tapOn: 'Add attachment'
+      - extendedWaitUntil:
+          visible:
+            # The sheet's panel: iOS leaves the sheet's full-screen root out of its hierarchy.
+            id: 'chat-attach-panel'
+          timeout: 5000
+      - tapOn: 'Photo library'
+      - runFlow:
+          when:
+            visible: '(?i)allow.*|ok|allow full access'
+          commands:
+            - tapOn: '(?i)allow full access|allow.*|ok'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'chat-attach-panel'
+          timeout: 15000
+      - waitForAnimationToEnd
+      # iOS may show its "Private Access to Photos" note above the grid, which moves the grid down.
+      - runFlow:
+          when:
+            platform: iOS
+            visible: '(?i)private access to photos'
+          commands:
+            - tapOn:
+                point: '16%,43%'
+      - runFlow:
+          when:
+            platform: iOS
+            notVisible: '(?i)private access to photos'
+          commands:
+            - tapOn:
+                point: '16%,25%'
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - tapOn:
+                point: '16%,34%'
+      # The library picker allows several photos, so it asks to confirm ("Add (1)", "Add", "Done").
+      - runFlow:
+          when:
+            visible: '(?i)^(add( \(\d+\))?|done|select)$'
+          commands:
+            - tapOn: '(?i)^(add( \(\d+\))?|done|select)$'
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-photo-.*'
+          timeout: 60000
+      - extendedWaitUntil:
+          visible: 'Open photo'
+          timeout: 30000
 # A poll.
 - tapOn: 'Add attachment'
 - extendedWaitUntil:
@@ -87,7 +93,7 @@ appId: app.critterpass.dev
 - tapOn: 'Poll'
 - extendedWaitUntil:
     visible:
-      id: 'new-poll'
+      id: 'new-poll-panel'
     timeout: 10000
 - tapOn:
     id: 'new-poll-question'

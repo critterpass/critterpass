@@ -41,12 +41,12 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://crew
 - extendedWaitUntil:
     visible:
-      id: 'crews-sheet'
+      id: 'crews-sheet-panel'
     timeout: 10000
 - tapOn: 'Quiet Crew'
 - extendedWaitUntil:
     notVisible:
-      id: 'crews-sheet'
+      id: 'crews-sheet-panel'
     timeout: 10000
 - extendedWaitUntil:
     visible:
