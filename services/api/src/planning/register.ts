@@ -14,6 +14,7 @@ import { registerPlanLegs } from './legs';
 import { fitModule } from './fit';
 import { planCheckHooks } from './fit/check-hook';
 import { stanceCommands } from '../commands/stances';
+import { splitModule } from './split';
 
 export interface PlanningDeps {
   readonly app: OpenAPIHono<AppEnv>;
@@ -30,6 +31,7 @@ const PLANNING_MODULES: readonly PlanningModule[] = [
   fitModule,
   planCheckHooks,
   stanceCommands,
+  splitModule,
 ];
 
 export function registerPlanning(
