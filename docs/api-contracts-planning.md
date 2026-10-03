@@ -49,6 +49,8 @@ Error reasons by code (`PLANNING_ERROR_REASONS`): `VALIDATION` outside_destinati
 | `POST /v1/trips/{id}/check/fix-all` | S | `{issue_ids[]}` → `{change_set_id}` (a draft, the caller's alone, trigger `check`) | no-store |
 | `POST /v1/trips/{id}/costs/preview` (delta) | S | adds `driving_delta_min` (planning travel over the set's ops) | as today |
 
+Fit, nearby and gap ideas answer as follows. `POST …/fit` returns `{fits: PlaceFit[], context}`; `context` is non-null only when one place was asked with `include_context`, and holds the fit context (days, items, stays, rain, crowd factors) plus the `legs[{from, to, minutes, mode, approx}]` it used, so the phone can fit that place again locally. Only each place's two best insertions are routed (one batched travel call per request), and every other leg uses stored legs or straight-line "about" minutes. `…/nearby` returns `{places[{poi_id, name, category, minutes, mode, approx}]}`, leaving out the caller's hidden places. `…/gaps/ideas` fills the free window that holds `start`. An unapproved editorial crowd curve never shapes a fit.
+
 ## AI routes
 
 | Route | Class | Input → output | Metering |
@@ -78,6 +80,14 @@ Plain-words questions asked from no results, and those queued offline, are guide
 | `ideas.seed` | trip destination set, a member joining, a one-off backfill | participants' saved POIs inside the destination and unslotted swipe matches → `trip_ideas` | exclusive, retry 3 |
 | `climate.normals` | monthly (`0 3 1 * *` UTC), a destination added | WeatherAPI history sampled per 0.1° cell (10 days × month × 3 years) → `climate_normals` | exclusive, retry 2 |
 | `ai.place_ideas` | `start_idea_placement` (agent job kind `place_ideas`) | hours → locks → routing on touched days → needs-you; writes a draft change set (trigger `ideas`, author = requester); emits `ideas.placed` → one quiet push and an inbox row to the requester | exclusive, retry 1; system jobs cap per trip |
+
+How the plan check runs:
+- **Sweep.** `plan.check.sweep` (hourly at :05 UTC, exclusive) queues the daily run at 06:00 in each active trip's own time. It also queues a run for any active trip whose check is missing or behind its current version, which backfills existing trips.
+- **Debounce.** Every trigger waits 45 s, with one queued run per trip per 45 s slot.
+- **Issues.** A run keeps an issue's row id while its fingerprint holds, and deletes issues of superseded versions.
+- **Packed days.** A day counts as packed at six stops per nine hours or more ("It works, just.").
+- **Booking notes.** They come only from crew-visible bookings (`free_cancel_until`) and holding supplier orders (`hold_valid_until`).
+- **Idea fits.** The run writes every live idea's fit (`trip_ideas.fit`, `fit_version_id`) against the same context.
 
 ## Config
 

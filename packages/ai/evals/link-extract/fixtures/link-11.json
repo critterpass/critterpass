@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 1039,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "15ed5501-0b3f-4a1c-b649-d2b8e5d25b00",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Ichiran Kyoto Kawaramachi\",\"kind_hint\":\"food\",\"area_hint\":null,\"quote\":\"Ichiran Kyoto Kawaramachi\"},{\"label\":\"Kurasu Kyoto Stand\",\"kind_hint\":\"food\",\"area_hint\":null,\"quote\":\"Kurasu Kyoto Stand\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 334,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 70,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

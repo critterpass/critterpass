@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 728,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "542e14de-9ab3-4ac9-a182-6961f6a388c4",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Locavore\",\"kind_hint\":\"food\",\"area_hint\":\"Ubud\",\"quote\":\"Locavore\"},{\"label\":\"Sayan House\",\"kind_hint\":\"food\",\"area_hint\":\"Ubud\",\"quote\":\"Sayan House\"},{\"label\":\"Warung Babi Guling Ibu Oka\",\"kind_hint\":\"food\",\"area_hint\":\"Ubud\",\"quote\":\"Warung Babi Guling Ibu Oka\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 383,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 102,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

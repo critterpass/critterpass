@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 1290,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "0168dc79-ec1b-4307-8113-50895fb7da46",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Fushimi Inari\",\"kind_hint\":\"temple_shrine\",\"area_hint\":null,\"quote\":\"1:12 Fushimi Inari at sunrise\"},{\"label\":\"Kiyomizu-dera\",\"kind_hint\":\"temple_shrine\",\"area_hint\":null,\"quote\":\"4:30 Kiyomizu-dera\"},{\"label\":\"Nishiki Market\",\"kind_hint\":\"market\",\"area_hint\":null,\"quote\":\"7:45 Nishiki Market street food\"},{\"label\":\"Arashiyama Bamboo Grove\",\"kind_hint\":\"nature\",\"area_hint\":\"Arashiyama\",\"quote\":\"10:02 Arashiyama Bamboo Grove\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 374,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 151,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

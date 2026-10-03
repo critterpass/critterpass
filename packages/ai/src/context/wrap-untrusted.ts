@@ -1,11 +1,12 @@
 /**
  * Injection defence (docs/code-standards.md §15, docs/api-contracts.md §6 global rules): text the
  * guide did not write and the user did not type as their question (crew messages, OCR, email
- * bodies, web results, place tips) reaches the model only inside an `<untrusted_data>` block with
- * its provenance and a standing reminder, never as instruction text. The global rules tell the
- * model that anything inside such a block is data. The blocks are plain text blocks (the provider
- * accepts no document or search-result blocks), so the fence is enforced here: text inside cannot
- * open or close a fence of its own. These helpers are the only way such text enters a request.
+ * bodies, web results, place tips, social posts) reaches the model only inside an
+ * `<untrusted_data>` block with its provenance and a standing reminder, never as instruction text.
+ * The global rules tell the model that anything inside such a block is data. The blocks are plain
+ * text blocks (the provider accepts no document or search-result blocks), so the fence is enforced
+ * here: text inside cannot open or close a fence of its own. These helpers are the only way such
+ * text enters a request.
  */
 import type Anthropic from '@anthropic-ai/sdk';
 
@@ -15,6 +16,7 @@ export const UNTRUSTED_KINDS = [
   'email_body',
   'web_result',
   'place_tip',
+  'social_post',
 ] as const;
 export type UntrustedKind = (typeof UNTRUSTED_KINDS)[number];
 
@@ -38,6 +40,7 @@ const KIND_TITLES: Readonly<Record<UntrustedKind, string>> = {
   email_body: 'Email body',
   web_result: 'Web result',
   place_tip: 'Place tip',
+  social_post: 'Social post',
 };
 
 /** The standing reminder carried at the top of every data block. */

@@ -1,0 +1,86 @@
+{
+  "source": "Live recording from Tavily's search API and DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "recorded_at": "2026-10-03T19:29:04.835Z",
+  "search": {
+    "status": 200,
+    "body": {
+      "query": "Fushimi Inari Taisha 伏見稲荷大社 Kyoto entrance fee dress code visitor tips",
+      "follow_up_questions": null,
+      "answer": null,
+      "images": [],
+      "results": [
+        {
+          "url": "https://mybibimbaplife.com/blog/fushimi-inari-taisha-japan",
+          "title": "Japan’s Fushimi Inari Taisha & Its 10,000 Torii Gates",
+          "content": "Admission | Free to enter; donations encouraged at the main shrine. Some peripheral museum or special exhibitions may charge a fee.\n\nPhotography Tips | Shoot early for fewer people and warmer light; use a narrow aperture for depth in gate-lined corridors; respect worshipers and avoid tripods in busy areas.\n\nWhat to Wear | Comfortable walking shoes for stone paths and slopes; light layers in cooler months, sun protection in summer. [...] Private Tour or Shuttle | Many guided tours include transport from central Kyoto hotels or pick-up points. Prices vary widely depending on inclusions, typically ¥3,000–¥8,000 ($22–$58 USD) per person for half-day group tours. Private shuttles or hotel transfers will cost more but offer a tailored schedule.\n\nPractical Tips [...] _MG_9505_edit.jpg\n\nEntry is free; when I arrived a small ceremony was underway in the reception area. Clusters of people stood quietly, captivated as women in kimonos completed their graceful performance. I did notice, though, that the onlookers were kindly requested not to take photos.",
+          "score": 0.6847074,
+          "raw_content": null,
+          "published_date": "Mon, 28 Aug 2023 23:41:48 GMT",
+          "id": "237b9e-00"
+        },
+        {
+          "url": "https://www.youcouldtravel.com/travel-blog/how-to-have-the-best-experience-at-fushimi-inari-shrine",
+          "title": "Guide to Fushimi Inari Shrine",
+          "content": "There is no strict dress code for visiting Fushimi Inari Shrine, although the shrine specifically prohibits walking around the grounds in",
+          "score": 0.6601948,
+          "raw_content": null,
+          "published_date": "Thu, 18 Apr 2024 00:00:00 GMT",
+          "id": "3e6889-01"
+        },
+        {
+          "url": "https://inari.jp/en/request",
+          "title": "Request for All Visitors | Fushimi Inari Taisha",
+          "content": "14. Walking around the grounds in wedding dresses or other costumes that are inappropriate for worship\n15. Reporting or handing out questionnaires without permission\n16. Preventing worshippers from passing by taking photographs/filming on narrow paths\n17. Other behavior deemed inappropriate by Fushimi Inari Taisha [...] 8. Eating or drinking other than in marked areas (free restareas), including eating while walking or standing\n9. Discarding rubbish, bottles, cans, etc.\n10. Parking in shrine parking lots (including Parking Lots 1 and 4, and others) if you are not here to visit the shrine\n11. Approaching or feeding wild birds and animals\n12. Bringing pets for walks or visits (excluding guide dogs and other necessary animals)\n13. Photography for commercial purposes or in prohibited areas [...] 1. Smoking or fires\n2. Entering restricted areas without permission (including the Main Hall (Honden), the other buildings (Shaden), beyond the fences (Tamagaki), etc.)\n3. Flying drones or other aircraft\n4. Any act that damages buildings, torii gates, trees, or similar property\n5. Putting anything on top of lanterns (Toro) or other installations\n6. Leaving strollers unattended other than in marked areas\n7. Shouting, sitting on the ground, or other actions that cause issues for worshippers",
+          "score": 0.62742686,
+          "raw_content": null,
+          "published_date": "Sat, 01 Jan 2022 00:00:00 GMT",
+          "id": "e0411c-02"
+        },
+        {
+          "url": "https://inari.jp/en",
+          "title": "Fushimi Inari Taisha",
+          "content": "In the 1300 years since its establishment in 711AD, people have gathered here to pray for bountiful harvests, business prosperity, the safety of their home and family and the fulfillment of all kinds of other wishes.\n\nIn recent years, the shrine’s Japanese worshippers have been joined by overseas visitors coming to pray or tour the shrine. Fushimi Inari Taisha is now known worldwide as one of the most iconic sights in Kyoto, and in Japan as a whole.\n\nThe Head Priest [...] The whole of Inariyama, the mountain where Fushimi Inari Taisha rests, is considered a precinct of the shrine. Smaller shrines (hokora), sites of former shrines where deities remain (shinseki), worshiping stones engraved with deities’ names (otsuka), shrine gateways (torii) and other features can be found throughout this holy area. [...] Traditional festivals and rituals are held at Fushimi Inari Taisha throughout the seasons.  \n Many are seasonal hallmarks that evoke Kyoto’s history as the old capital of Japan, with throngs of worshippers in the shrine precinct.\n\nNext\n\n## FAQ",
+          "score": 0.25111058,
+          "raw_content": null,
+          "published_date": null,
+          "id": "cb7b89-03"
+        },
+        {
+          "url": "https://www.facebook.com/groups/destinationjapan/posts/4199807240238682",
+          "title": "Visit Inari shrine before 9am to have a peaceful morning ...",
+          "content": "Visit Inari shrine before 9am to have a peaceful morning walk... Don't stop at the first flight of Torii gates and keep moving up ! simply keep",
+          "score": 0.16043726,
+          "raw_content": null,
+          "published_date": "Fri, 03 Oct 2025 19:00:00 GMT",
+          "id": "b24e78-04"
+        }
+      ],
+      "response_time": 0,
+      "request_id": "e0290db9-27a6-434a-af5c-06146289f28a"
+    }
+  },
+  "model": {
+    "status": 200,
+    "body": {
+      "id": "8ca433c8-e85c-4062-b46c-3785894073bc",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"decision\":\"propose\",\"reason\":\"Pages state entry is free, there is no strict dress code, and give practical visiting tips for Fushimi Inari Taisha.\",\"confidence\":0.7,\"entry\":{\"value\":\"Free\",\"source_url\":\"https://mybibimbaplife.com/blog/fushimi-inari-taisha-japan\",\"quote\":\"Admission | Free to enter; donations encouraged at the main shrine.\"},\"dress\":{\"value\":\"No strict dress code\",\"source_url\":\"https://www.youcouldtravel.com/travel-blog/how-to-have-the-best-experience-at-fushimi-inari-shrine\",\"quote\":\"There is no strict dress code for visiting Fushimi Inari Shrine, although the shrine specifically prohibits walking around the grounds in\"},\"know_before\":[{\"value\":\"Walking around the grounds in wedding dresses or other inappropriate costumes is prohibited\",\"source_url\":\"https://inari.jp/en/request\",\"quote\":\"14. Walking around the grounds in wedding dresses or other costumes that are inappropriate for worship\"},{\"value\":\"Do not block worshippers by taking photographs or filming on narrow paths\",\"source_url\":\"https://inari.jp/en/request\",\"quote\":\"16. Preventing worshippers from passing by taking photographs/filming on narrow paths\"},{\"value\":\"Visit before 9am for a peaceful morning walk\",\"source_url\":\"https://www.facebook.com/groups/destinationjapan/posts/4199807240238682\",\"quote\":\"Visit Inari shrine before 9am to have a peaceful morning walk...\"}]}"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 708,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 1536,
+        "output_tokens": 319,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

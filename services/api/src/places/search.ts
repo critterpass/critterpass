@@ -23,14 +23,18 @@ const OPEN_AT_CANDIDATE_MULTIPLIER = 5;
 /** Overture confidence under which an auto row FSQ does not also list counts as low quality. */
 export const LOW_CONFIDENCE = 0.5;
 
-/** True for an auto-curated, Overture-only row whose confidence is under `LOW_CONFIDENCE`. */
-const LOW_QUALITY = `(p.curation <> 'editorial' AND NOT (p.source_ids ? 'fsq_os') AND coalesce(p.confidence < ${LOW_CONFIDENCE}, false))`;
+/**
+ * True for an auto-curated, Overture-only row whose confidence is under `LOW_CONFIDENCE`. This and
+ * `QUALITY_SCORE` are repeated verbatim in the `pois_destination_browse_idx` migration: the planner
+ * uses that index for a no-query browse only while the texts match.
+ */
+export const LOW_QUALITY = `(p.curation <> 'editorial' AND NOT (p.source_ids ? 'fsq_os') AND coalesce(p.confidence < ${LOW_CONFIDENCE}, false))`;
 
 /**
  * Non-editorial quality in about [0, 4]: listed by FSQ OS, by both sources, a mapped category, and
  * Overture's confidence (an unknown score counts as middling).
  */
-const QUALITY_SCORE = `((p.source_ids ? 'fsq_os')::int + (p.source_ids ? 'fsq_os' AND p.source_ids ? 'overture')::int + (p.category <> 'other')::int + coalesce(p.confidence, 0.5))`;
+export const QUALITY_SCORE = `((p.source_ids ? 'fsq_os')::int + (p.source_ids ? 'fsq_os' AND p.source_ids ? 'overture')::int + (p.category <> 'other')::int + coalesce(p.confidence, 0.5))`;
 
 /** Weight of `QUALITY_SCORE` next to text relevance: a tie-breaker, never louder than the match. */
 const QUALITY_WEIGHT_WITH_QUERY = 0.05;
@@ -178,8 +182,11 @@ export async function searchPlaces(
     params.push(filters.near.lng, filters.near.lat);
     const lngParam = params.length - 1;
     const latParam = params.length;
-    distanceSelect = `ST_Distance(p.location, ST_SetSRID(ST_MakePoint($${lngParam}, $${latParam}), 4326)::geography) AS distance_m`;
-    if (!hasQuery) orderExpression = 'distance_m ASC';
+    const point = `ST_SetSRID(ST_MakePoint($${lngParam}, $${latParam}), 4326)::geography`;
+    distanceSelect = `ST_Distance(p.location, ${point}) AS distance_m`;
+    // `<->` walks the location GiST index nearest-first, so a browse reads only the rows it returns
+    // instead of measuring and sorting every row in the destination.
+    if (!hasQuery) orderExpression = `p.location <-> ${point}`;
   }
 
   params.push(fetchLimit);

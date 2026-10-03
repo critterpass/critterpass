@@ -293,3 +293,8 @@ export * from './routes/album';
 export * from './routes/help';
 export * from './routes/sos';
 export * from './routes/hours-research';
+export * from './routes/facts-research';
+export * from './routes/search-parse';
+export * from './routes/link-extract';
+export * from './routes/place-compromise';
+export * from './providers/gemini';

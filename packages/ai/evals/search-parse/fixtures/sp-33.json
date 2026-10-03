@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 723,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "11032b5a-54a8-4e85-9cbb-6fa1112633a0",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"text\":\"fado\",\"categories\":[\"nightlife\"],\"meal\":null,\"attributes\":[],\"open_past\":\"22:00\",\"near\":null,\"exclude_days\":[],\"price_max\":null}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 264,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 768,
+          "output_tokens": 45,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

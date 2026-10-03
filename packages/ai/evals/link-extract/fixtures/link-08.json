@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 960,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "85cedfee-b689-42a4-bfed-744ca34cc371",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Clear Café\",\"kind_hint\":\"food\",\"area_hint\":\"Ubud\",\"quote\":\"Anyway, my fave lunch this week was Clear Café in Ubud 🥗 #ubud\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 340,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 52,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

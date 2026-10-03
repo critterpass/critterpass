@@ -9,7 +9,7 @@
  * "guard OK" status.
  */
 import { AI_COST_GUARD_STATE_KEY, withSystem } from '@cp/db';
-import { AI_TIERS, GENERATION_TIERS } from '@cp/domain';
+import { AI_TIERS, CAPPED_TIERS } from '@cp/domain';
 import type pg from 'pg';
 import { z } from 'zod';
 
@@ -99,7 +99,7 @@ export async function runAiCostGuard(
     const checks: { cap: string; spent: number; tiers: string[] }[] = [
       { cap: 'ai.cap.daily_usd', spent: total, tiers: ['all'] },
       { cap: 'spend.month_budget_usd', spent: monthUsd, tiers: ['all'] },
-      ...GENERATION_TIERS.map((tier) => ({
+      ...CAPPED_TIERS.map((tier) => ({
         cap: `ai.cap.${tier}.daily_usd`,
         spent: perTier[tier] ?? 0,
         tiers: [tier],
