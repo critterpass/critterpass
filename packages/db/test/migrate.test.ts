@@ -39,17 +39,17 @@ describe('no-transaction migrations', () => {
     const dir = await mkdtemp(path.join(tmpdir(), 'migrations-'));
     try {
       await writeFile(
-        path.join(dir, '20000101000000_codes.sql'),
-        "CREATE TABLE codes (code text);\nINSERT INTO codes VALUES ('a'), ('a'), ('b');\n",
+        path.join(dir, '20000101000000_runner_probe.sql'),
+        "CREATE TABLE runner_probe (code text);\nINSERT INTO runner_probe VALUES ('a'), ('a'), ('b');\n",
       );
       await writeFile(
-        path.join(dir, '20000101000100_codes_unique.sql'),
+        path.join(dir, '20000101000100_runner_probe_unique.sql'),
         [
           '-- migrate:no-transaction',
           '-- One code per row; the build fails while duplicates remain.',
-          'CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS codes_code_uidx ON codes (code);',
-          'CREATE INDEX CONCURRENTLY IF NOT EXISTS codes_upper_idx',
-          '  ON codes (upper(code));',
+          'CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS runner_probe_code_uidx ON runner_probe (code);',
+          'CREATE INDEX CONCURRENTLY IF NOT EXISTS runner_probe_upper_idx',
+          '  ON runner_probe (upper(code));',
         ].join('\n'),
       );
       const isValid = async (name: string) =>
@@ -62,21 +62,21 @@ describe('no-transaction migrations', () => {
         ).rows[0]?.valid;
 
       await expect(runMigrations(pool, { migrationsDir: dir })).rejects.toThrow(
-        /20000101000100_codes_unique\.sql/u,
+        /20000101000100_runner_probe_unique\.sql/u,
       );
-      expect(await isValid('codes_code_uidx')).toBe(false);
+      expect(await isValid('runner_probe_code_uidx')).toBe(false);
       const recorded = await pool.query(
-        `SELECT 1 FROM public._migrations WHERE filename = '20000101000100_codes_unique.sql'`,
+        `SELECT 1 FROM public._migrations WHERE filename = '20000101000100_runner_probe_unique.sql'`,
       );
       expect(recorded.rowCount).toBe(0);
 
       await pool.query(
-        `DELETE FROM codes WHERE ctid = (SELECT max(ctid) FROM codes WHERE code = 'a')`,
+        `DELETE FROM runner_probe WHERE ctid = (SELECT max(ctid) FROM runner_probe WHERE code = 'a')`,
       );
       const retry = await runMigrations(pool, { migrationsDir: dir });
-      expect(retry.applied).toEqual(['20000101000100_codes_unique.sql']);
-      expect(await isValid('codes_code_uidx')).toBe(true);
-      expect(await isValid('codes_upper_idx')).toBe(true);
+      expect(retry.applied).toEqual(['20000101000100_runner_probe_unique.sql']);
+      expect(await isValid('runner_probe_code_uidx')).toBe(true);
+      expect(await isValid('runner_probe_upper_idx')).toBe(true);
     } finally {
       await rm(dir, { recursive: true, force: true });
       await pool.end();
