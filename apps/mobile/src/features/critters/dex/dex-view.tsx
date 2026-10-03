@@ -4,26 +4,22 @@
  * FOUND, NEAR ME and a place search narrow the sets; the lab scenes render it with fixed data.
  */
 import { upper } from '@cp/i18n';
-import { t } from '@lingui/core/macro';
 import { FlashList } from '@shopify/flash-list';
 import type { ReactNode } from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
-import { GUIDE_STICKERS, type GuideAvatarId } from '@/ui/avatar/guides';
 import { DexHeader } from '@/ui/critters/DexHeader';
 import { LegendaryBanner } from '@/ui/critters/LegendaryBanner';
 import { SearchField } from '@/ui/inputs/SearchField';
 import { SettingsGroup } from '@/ui/inputs/SettingsGroup';
 import { Stack } from '@/ui/layout/Stack';
-import { Avatar } from '@/ui/people/Avatar';
 import { useNoBackByDesign } from '@/ui/qa/back-affordance';
 import { useTabBarInset } from '@/ui/shell/TabBar';
 import { Skeleton } from '@/ui/states/Skeleton';
-import { Sticker } from '@/ui/sticker/Sticker';
 import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
-import { makeStyles, touchSlop, useTheme } from '@/ui/theme';
+import { makeStyles, useTheme } from '@/ui/theme';
 
 import { spanLabel } from '../critters-copy';
 import { EggCard } from '../hatch/egg-card';
@@ -45,7 +41,10 @@ import {
 import { filterSets, type DexFilter, type DexModel, type SetModel } from './dex-model';
 import { EncounterBanner, type EncounterBannerModel } from './encounter-banner';
 import { HereNowCard } from './here-now';
+import { ProfileEntry, type DexProfileEntry } from './profile-entry';
 import { HomeSetCard, PlaceRow } from './set-rows';
+
+export type { DexProfileEntry } from './profile-entry';
 
 export interface DexViewProps {
   /** The sticker shelf, under the home set (stickers sit outside the dex grid). */
@@ -111,42 +110,6 @@ function withGroups(sets: readonly SetModel[], grouped: boolean): Item[] {
     items.push({ kind: 'set', key: set.id, set });
   }
   return items;
-}
-
-export interface DexProfileEntry {
-  readonly name: string;
-  /** The guide sticker worn as an avatar, when one was picked. */
-  readonly guide: GuideAvatarId | null;
-  /** The face the person wears (a photo, a guide), drawn in place of the guide or the initial. */
-  readonly face?: { readonly photo?: { readonly uri: string }; readonly critter?: ReactNode };
-  readonly onOpen: () => void;
-}
-
-const PROFILE_FACE = 32;
-
-/** A 32 pt face with a full-size touch target around it, so the title line keeps its height. */
-function ProfileEntry({ entry }: { readonly entry: DexProfileEntry }) {
-  const guide = entry.guide === null ? null : GUIDE_STICKERS[entry.guide];
-  return (
-    <Pressable
-      onPress={entry.onOpen}
-      hitSlop={touchSlop(PROFILE_FACE, PROFILE_FACE)}
-      accessibilityRole="button"
-      accessibilityLabel={t({ id: 'critters.dex.openProfile', message: 'Your profile' })}
-      testID="critters-dex-profile"
-    >
-      <Avatar
-        name={entry.name}
-        size="lg"
-        decorative
-        {...(entry.face !== undefined && (entry.face.photo ?? entry.face.critter) !== undefined
-          ? entry.face
-          : guide === null
-            ? {}
-            : { critter: <Sticker kind={guide.kind} name={guide.name} size={PROFILE_FACE - 6} /> })}
-      />
-    </Pressable>
-  );
 }
 
 function Empty({ copy }: { readonly copy: { title: string; body: string } }) {

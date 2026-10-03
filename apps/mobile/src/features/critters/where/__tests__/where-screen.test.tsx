@@ -29,6 +29,7 @@ jest.mock('expo-router', () => ({
   router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: () => false },
 }));
 
+import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { configure, render, screen, waitFor } from '@testing-library/react-native';
