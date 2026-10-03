@@ -237,6 +237,7 @@ describe('trip_draft stream', () => {
         plan_days: [draft.dayId],
         plan_items: [draft.itemId],
         change_sets: [draft.changeSetId],
+        plan_legs: [],
         redraft_reservations: [harness.fixture.redraftReservationId],
       });
     },
