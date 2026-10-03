@@ -163,6 +163,7 @@ Done when: a seeded completed trip produces a `ready` recap whose every number m
 - Steps: 1. Schedule at recap ready; scan per tz bucket; build memory (photo provider interface + fallback). 2. N-35 passive. 3. Screen + reactions composer + share. 4. Reunion → P26 poll with place pitched.
 - Tests: `pnpm --filter @cp/worker test -- recap/anniversary`; `pnpm --filter @cp/mobile test -- features/recap/memory`
 - Done when: time-travel test fires exactly once at best-day + 365 d in each member tz; reunion creates a destination poll.
+- Status: server half done — c84b3a444 (scan, memory, react_memory, start_reunion); the memory screen is the app lane's
 
 ### T9 — Share renders + end-to-end
 - Goal: share images and Maestro coverage.
