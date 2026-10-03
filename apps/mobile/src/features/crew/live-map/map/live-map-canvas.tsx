@@ -2,6 +2,11 @@
  * The hand-drawn map under the crew: the CritterPass dark style with the destination's tiles,
  * trails, the dashed line from you to the meet-up, the meet-up pin, crewmates' gliding pins and
  * bunches, and your own blue dot. An approximate fix draws its 1 km circle.
+ *
+ * Pins are live React views (`Marker`). On iOS that is the same `ViewAnnotation` as before. On
+ * Android a `ViewAnnotation` is a bitmap snapshot of its view added to the map style: it never
+ * redraws when an avatar loads or a pin glides, and the style swap when the destination's tiles
+ * arrive drops every snapshot, so nothing showed. `Marker` places real views on the map there.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- MapLibre ids and a pmtiles URL, never copy. */
 import { tokens } from '@cp/design-tokens';
@@ -9,11 +14,12 @@ import {
   Camera,
   type CameraRef,
   Map as MapLibreMap,
+  Marker,
   ViewAnnotation,
   type StyleSpecification,
 } from '@maplibre/maplibre-react-native';
 import { useEffect, useMemo, useRef, type ReactElement } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 
 import { RouteLine } from '@/ui/map/RouteLine';
 import { YouDot } from '@/ui/map/YouDot';
@@ -44,13 +50,13 @@ export interface CanvasPin {
 function GlidingPin({ pin }: { readonly pin: CanvasPin }) {
   const lngLat = useGlide(pin.target);
   return (
-    <ViewAnnotation
+    <Marker
       lngLat={lngLat}
       anchor={pin.flip === true ? 'bottom-right' : 'bottom-left'}
       offset={pin.offset ?? [0, 0]}
     >
       {pin.node}
-    </ViewAnnotation>
+    </Marker>
   );
 }
 
@@ -147,7 +153,17 @@ export function LiveMapCanvas({
             dashed
           />
         ) : null}
-        {meetup === null ? null : (
+        {meetup === null ? null : Platform.OS === 'android' ? (
+          // Android markers are live views without dragging; the meet-up moves from its sheet.
+          <Marker
+            id="live-meetup"
+            lngLat={[meetup.lngLat[0], meetup.lngLat[1]]}
+            anchor={meetup.flip === true ? 'bottom-right' : 'bottom-left'}
+            offset={meetup.offset ?? [0, 0]}
+          >
+            {meetup.node}
+          </Marker>
+        ) : (
           <ViewAnnotation
             id="live-meetup"
             lngLat={[meetup.lngLat[0], meetup.lngLat[1]]}
@@ -167,12 +183,12 @@ export function LiveMapCanvas({
           <GlidingPin key={pin.key} pin={pin} />
         ))}
         {you === null ? null : (
-          <ViewAnnotation lngLat={[you[0], you[1]]}>
+          <Marker lngLat={[you[0], you[1]]}>
             <View>
               {approximateYou ? <View style={styles.approximate} /> : null}
               <YouDot />
             </View>
-          </ViewAnnotation>
+          </Marker>
         )}
       </MapLibreMap>
     </View>
