@@ -165,7 +165,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: avatar change appears in crew chat on a second device; locked tile shake + hint; photo upload offline retries.
 
 ### T4 — Settings framework 3n-2 / 3n-6, sign-out, voice samples
-- Status: blocked — registry, rows and sign-out done (722c8a5f7); chattiness voice samples wait for the owned ElevenLabs voices, and the plan chip, sound, help-and-feedback and export rows wait for their screens
+- Status: blocked — registry, rows and sign-out done (722c8a5f7), help-and-feedback rows done (a56f269a1); chattiness voice samples wait for the owned ElevenLabs voices, and the plan chip and sound rows wait for their screens
 - Goal: one registry-driven settings screen.
 - Files: `apps/mobile/src/app/you/settings/index.tsx`, `apps/mobile/src/features/you/settings/{registry,rows,device-prefs,sign-out}/*`, `tools/scripts/render-settings-voice-samples.ts`, `packages/content/voice-samples/settings/manifest.json`, tests, `e2e/you/settings.yaml`.
 - Steps: 1. Registry + synced/device storage. 2. Rows from render; rows owned by P20/P34/P36/P46/P47/P49 import those phases' public APIs (all precede this phase: P47 `features/help/settings-rows.tsx`, P49 `/you/pings` + `/you/widgets` routes; hence wave 18). 3. Chattiness sample playback. 4. Sign-out flows incl. anonymous warning + full local clear. 5. Collapsing header, easter egg.
@@ -180,7 +180,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: device check: podcast keeps playing while theme plays; silent switch mutes music; quiet rules unit-tested across tz boundaries.
 
 ### T6 — Language & currency 3n-8 (in-place switch)
-- Status: blocked — language list and currency done; FORMATS (12/24-hour, km/mi) waits until every clock time and distance follows it, after the trip time-zone audit
+- Status: done — e454c62a3
 - Goal: switch locale and price mode without restart.
 - Files: `apps/mobile/src/app/you/language.tsx`, `apps/mobile/src/features/you/language/*`, `apps/mobile/src/features/you/language/__tests__/*.test.tsx`, `e2e/you/language-currency.yaml`.
 - Steps: 1. Locale list + in-place `activate` + persist + App Group write. 2. RTL restart state. 3. Voice line playback. 4. Currency picker, price mode segmented with odometer sample, formats pickers. 5. Stale FX label.
