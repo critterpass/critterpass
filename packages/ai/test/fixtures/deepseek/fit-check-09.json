@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "073d8b2c-cf55-4afa-8ad4-e4e252e2a633",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Gion Corner fits day 2 nicely, 18:00 to 19:00, and it's about an 8 minute walk from your other stop. Want me to draft it into the plan for the crew to approve?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 338,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 47,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

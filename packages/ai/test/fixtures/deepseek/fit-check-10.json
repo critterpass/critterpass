@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "1c47e5c3-d61b-4f1a-8a96-954d4d8c441a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Được nhé, ngày 2 chợ Nishiki xếp vừa đẹp vào khoảng 15:30 đến 16:30, vì chợ đóng lúc 17:00. Đi tầm đó thì vừa kịp ăn vặt mà không phải chen lấn, terima kasih (cảm ơn) vì đã hỏi trước."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 335,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 99,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

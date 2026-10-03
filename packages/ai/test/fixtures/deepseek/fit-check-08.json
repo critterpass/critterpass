@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "b59f6f71-7263-4b17-9aa4-8f5df5b5e037",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I checked, and honestly the Railway Museum doesn't fit — it's closed on day one, day two has no free window, and day five is your travel day. Want me to draft a swap or a reshuffle so it can squeeze in somewhere?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 361,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 51,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5e796336-056e-40fd-bd36-7721c556c193",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Ngày 1 thì chưa ổn đâu, bảo tàng đường sắt đóng cửa hôm đó. Để mình xem ngày nào trong chuyến đi hợp nhất nhé?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 333,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 50,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

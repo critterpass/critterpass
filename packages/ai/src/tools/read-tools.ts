@@ -1,5 +1,5 @@
 /** Read tools (docs/api-contracts.md §6): data from code-owned sources, never written by the model. */
-import { POI_CATEGORIES } from '@cp/domain';
+import { clockTimeSchema, fitGradeSchema, fitReasonSchema, POI_CATEGORIES } from '@cp/domain';
 import { z } from 'zod';
 
 import {
@@ -221,14 +221,16 @@ export const READ_TOOL_SPECS = {
     costDelta,
   ),
   fit_check: spec(
-    'Whether a place fits the plan on a day.',
+    'When a place fits the plan: the asked day (or the best one), its slot in local time and the reasons. Quote the day and times exactly as returned; never work out your own.',
     'CD',
     'read',
     z.object({ trip_id: id, poi_id: id, day: z.number().int().optional() }),
     z.object({
-      status: z.enum(['fits', 'tight', 'no']),
-      day: z.number().int().nullable(),
-      reason_code: z.string(),
+      grade: fitGradeSchema,
+      day_no: z.number().int().nullable(),
+      starts_at: clockTimeSchema.nullable(),
+      ends_at: clockTimeSchema.nullable(),
+      reasons: z.array(fitReasonSchema).max(12),
     }),
   ),
   bookable_activity: spec(

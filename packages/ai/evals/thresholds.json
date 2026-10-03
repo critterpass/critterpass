@@ -36,7 +36,8 @@
     "search-parse": 1,
     "link-extract": 1,
     "place-compromise": 1,
-    "facts-research": 1
+    "facts-research": 1,
+    "fit-check": 1
   },
   "live": {
     "chat": 0.9,
@@ -75,7 +76,8 @@
     "search-parse": 0.9,
     "link-extract": 0.85,
     "place-compromise": 0.85,
-    "facts-research": 0.85
+    "facts-research": 0.85,
+    "fit-check": 0.9
   },
   "compliance_metrics": {
     "reject_precision": 0.95,

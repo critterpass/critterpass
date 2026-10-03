@@ -674,7 +674,7 @@ Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** 
 | `bookings_read` | `{trip_id}` | `[{booking_id, kind, when, where, cancel_deadline?, status}]` | DB | deadlines verbatim | C G R B |
 | `balances_read` | `{trip_id}` | `{per_member_net[], settle_plan[]}` | cost-engine | amounts from engine | C G B |
 | `cost_quote` | `{trip_id, ops[]}` | `{delta_per_person_minor, currency}` | cost-engine | model words the number only | C G D R |
-| `fit_check` | `{trip_id, poi_id, day?}` | `{status: fits\|tight\|no, day, reason_code}` | planner | – | C D |
+| `fit_check` | `{trip_id, poi_id, day?}` | `{grade: good\|possible\|no, day_no, starts_at, ends_at, reasons[{code, params}]}` (doc delta: the planning fit engine; docs/api-contracts-planning.md) | planner | – | C D |
 | `bookable_activity` | `{poi_id, date, pax}` | `{offers[{offer_ref, supplier, price_from_minor, hold_supported}]}` (no supplier text) | suppliers (§7) | copy per truthful table; never "held" unless hold returned | C G |
 | `ride_quote` | `{from, to}` | `{provider, fare_range_minor, eta_min, deep_link_ref}` | Grab Farefeed | never claim a car is booked | C G |
 | `phrase_card` | `{purpose, language, register, address?}` | `{text, gloss, audio_ref}` | content DB + TTS | curated first | C G B |

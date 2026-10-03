@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "937234ab-2926-40b5-a00e-f93d18a9cb91",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Bảo tàng Đường sắt Kyoto chưa vào được ngày nào trong lịch hiện tại: ngày đầu đóng cửa, ngày thứ hai thì không còn khung giờ trống. Nhưng bảo tàng này đang nằm trong danh sách chỗ đã lưu của nhóm, nên nếu muốn, mình soạn một đề xuất đổi lịch để mọi người duyệt nhé — terima kasih (cảm ơn) vì đã hỏi sớm."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 347,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 134,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
