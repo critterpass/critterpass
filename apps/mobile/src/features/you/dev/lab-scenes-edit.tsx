@@ -55,6 +55,7 @@ function Edit({ note = null }: { readonly note?: string | null }) {
           value: 'SIN · Singapore Changi',
           onPress: noop,
         },
+        { key: 'languages', label: 'Languages', value: 'English, Mandarin', onPress: noop },
       ]}
       canSave={note === null}
       saving={false}
