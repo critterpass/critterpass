@@ -4,6 +4,7 @@
  * minutes, by sunrise or after dark, on its day, with the crew, after enough of the set). Never a
  * name the traveller hasn't found: unfound forms read as their tier, as the hint line does.
  */
+/* eslint-disable lingui/no-unlocalized-strings -- step and rule kinds, never copy. */
 import {
   DEFAULT_ENCOUNTER_CONFIG,
   distanceM,

@@ -18,6 +18,12 @@ const WORLD_URL = (
     ?.url ?? ''
 ).replace(/^pmtiles:\/\//u, '');
 
+/** The destination's region tiles beside the world tiles (`<base>/<slug>/tiles-v1`). */
+function regionTiles(slug: string): string {
+  // eslint-disable-next-line lingui/no-unlocalized-strings -- a URL path, never copy.
+  return WORLD_URL.replace('/world/', `/${slug}/`);
+}
+
 export interface MapSpot {
   readonly key: string;
   readonly name: string;
@@ -63,9 +69,7 @@ export function SpotMap({
         androidTexture
         onSelectPlace={setSelected}
         {...(selected === null ? {} : { selectedPlaceId: selected })}
-        {...(slug === null || WORLD_URL === ''
-          ? {}
-          : { regionSourceUrl: WORLD_URL.replace('/world/', `/${slug}/`) })}
+        {...(slug === null || WORLD_URL === '' ? {} : { regionSourceUrl: regionTiles(slug) })}
         {...(position === null
           ? {}
           : {
