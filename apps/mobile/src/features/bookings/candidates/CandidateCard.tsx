@@ -23,6 +23,8 @@ import { Skeleton } from '@/ui/states/Skeleton';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, sizeToken, useTheme } from '@/ui/theme';
 
+import { displayWithHome, useMoneyDisplay } from '@/data/money';
+
 import { clock, dayDate, price as formatPrice, zoneOf } from '../format';
 import { candidateIcon, type CandidateView } from './candidate-model';
 import { useWalletGuide } from '../data/wallet-guide';
@@ -60,6 +62,7 @@ export interface CandidateCardProps {
 
 function useLine(view: CandidateView, tz: string | undefined): string {
   const locale = useLocale();
+  useMoneyDisplay();
   const { t } = useLingui();
   const booking = view.booking;
   if (booking === null) return '';
@@ -88,7 +91,12 @@ function useLine(view: CandidateView, tz: string | undefined): string {
       : '',
     booking.price === null
       ? ''
-      : formatPrice(locale, booking.price.amount_minor, booking.price.currency),
+      : displayWithHome(
+          formatPrice(locale, booking.price.amount_minor, booking.price.currency),
+          booking.price.amount_minor,
+          booking.price.currency,
+          locale,
+        ),
   ]
     .filter((part) => part !== '')
     .join(' · ');
@@ -98,6 +106,7 @@ export function CandidateCard(props: CandidateCardProps) {
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
+  useMoneyDisplay();
   const { t } = useLingui();
   const { name: guideName } = useWalletGuide();
   const [motionMode] = useMotionMode();
