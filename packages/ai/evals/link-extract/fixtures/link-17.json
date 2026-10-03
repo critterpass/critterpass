@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 668,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "1287c13e-d7ae-46cf-beb3-bed7b21a384f",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"% Arabica Arashiyama\",\"kind_hint\":\"food\",\"area_hint\":\"Arashiyama\",\"quote\":\"- % Arabica Arashiyama\"},{\"label\":\"Weekenders Coffee\",\"kind_hint\":\"food\",\"area_hint\":null,\"quote\":\"- Weekenders Coffee\"},{\"label\":\"Walden Woods Kyoto\",\"kind_hint\":\"food\",\"area_hint\":null,\"quote\":\"- Walden Woods Kyoto\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 338,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 98,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

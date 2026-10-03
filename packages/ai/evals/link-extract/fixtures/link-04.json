@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 1087,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "6a9e2a4e-36b1-484e-9d62-7b218c8b8ec0",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"Mì Quảng Bà Mua\",\"kind_hint\":\"food\",\"area_hint\":null,\"quote\":\"Đà Nẵng food crawl 🍜 Mì Quảng Bà Mua, Bánh xèo Bà Dưỡng, then sunset at Sơn Trà peninsula.\"},{\"label\":\"Bánh xèo Bà Dưỡng\",\"kind_hint\":\"food\",\"area_hint\":null,\"quote\":\"Đà Nẵng food crawl 🍜 Mì Quảng Bà Mua, Bánh xèo Bà Dưỡng, then sunset at Sơn Trà peninsula.\"},{\"label\":\"Sơn Trà peninsula\",\"kind_hint\":\"nature\",\"area_hint\":\"Sơn Trà\",\"quote\":\"Đà Nẵng food crawl 🍜 Mì Quảng Bà Mua, Bánh xèo Bà Dưỡng, then sunset at Sơn Trà peninsula.\"},{\"label\":\"Nhớ Một Người\",\"kind_hint\":\"food\",\"area_hint\":null,\"quote\":\"Coffee at Nhớ Một Người.\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 368,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 251,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

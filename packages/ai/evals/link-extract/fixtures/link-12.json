@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 1048,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "efd4a9aa-9e1a-469e-abd8-d2a605e9f9c4",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"padangpadangbeach\",\"kind_hint\":\"beach\",\"area_hint\":null,\"quote\":\"POV: your Bali week 🌴 #padangpadangbeach #singlefin #balitravel #fyp\"},{\"label\":\"singlefin\",\"kind_hint\":\"nightlife\",\"area_hint\":null,\"quote\":\"POV: your Bali week 🌴 #padangpadangbeach #singlefin #balitravel #fyp\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 333,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 108,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

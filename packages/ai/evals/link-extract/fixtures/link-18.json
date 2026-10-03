@@ -1,0 +1,30 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "latency_ms": 718,
+  "responses": [
+    {
+      "status": 200,
+      "body": {
+        "id": "4e1f2690-f01a-4e7f-a312-81e2f62f1eb2",
+        "type": "message",
+        "role": "assistant",
+        "model": "deepseek-flash",
+        "content": [
+          {
+            "type": "text",
+            "text": "{\"destination\":\"this\",\"mentions\":[{\"label\":\"LX Factory\",\"kind_hint\":\"shopping\",\"area_hint\":null,\"quote\":\"Lisbon có gì chơi? 🇵🇹 ghé LX Factory buổi chiều, tối nghe fado ở Tasca do Chico 🎶 #lisbon #bồđàonha\"},{\"label\":\"Tasca do Chico\",\"kind_hint\":\"nightlife\",\"area_hint\":null,\"quote\":\"Lisbon có gì chơi? 🇵🇹 ghé LX Factory buổi chiều, tối nghe fado ở Tasca do Chico 🎶 #lisbon #bồđàonha\"}]}"
+          }
+        ],
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "usage": {
+          "input_tokens": 346,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 384,
+          "output_tokens": 151,
+          "service_tier": "standard"
+        }
+      }
+    }
+  ]
+}

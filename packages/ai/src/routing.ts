@@ -257,6 +257,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   'sos.summary': fast(null, 256, { output: 'structured', temperature: 0.2 }),
   // Planning: words into search filters, while the screen already shows name results.
   'search.parse': fast(null, 400, { output: 'structured', temperature: 0 }),
+  // Planning: up to ten place mentions read from a post's text or a screenshot's OCR lines.
+  'links.extract_places': fast(null, 1536, { output: 'structured', temperature: 0 }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {

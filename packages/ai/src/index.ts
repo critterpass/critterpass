@@ -294,3 +294,4 @@ export * from './routes/help';
 export * from './routes/sos';
 export * from './routes/hours-research';
 export * from './routes/search-parse';
+export * from './routes/link-extract';
