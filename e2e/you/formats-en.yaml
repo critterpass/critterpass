@@ -104,7 +104,7 @@ appId: app.critterpass.dev
     id: 'you-formats-sheet-close'
 - extendedWaitUntil:
     visible:
-      text: '24-hour · mi'
+      text: '.*24-hour · mi.*'
     timeout: 10000
 - waitForAnimationToEnd:
     timeout: 4000
