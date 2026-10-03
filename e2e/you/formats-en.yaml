@@ -96,7 +96,7 @@ appId: app.critterpass.dev
 - tapOn:
     id: 'you-formats-distance-mi'
 - tapOn:
-    id: 'you-formats-sheet-scrim'
+    id: 'you-formats-sheet-close'
 - extendedWaitUntil:
     visible:
       text: '24-hour · mi'
