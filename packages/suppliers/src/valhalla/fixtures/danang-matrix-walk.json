@@ -1,0 +1,110 @@
+[
+  {
+    "path": "/sources_to_targets",
+    "request": {
+      "sources": [
+        {
+          "lat": 16.0611,
+          "lon": 108.2272
+        },
+        {
+          "lat": 16.0682,
+          "lon": 108.2242
+        }
+      ],
+      "targets": [
+        {
+          "lat": 16.0544,
+          "lon": 108.247
+        },
+        {
+          "lat": 16.0039,
+          "lon": 108.2633
+        },
+        {
+          "lat": 16.0682,
+          "lon": 108.2242
+        }
+      ],
+      "costing": "pedestrian",
+      "units": "kilometers"
+    },
+    "status": 200,
+    "response": {
+      "sources_to_targets": [
+        [
+          {
+            "from_index": 0,
+            "to_index": 0,
+            "time": 2150,
+            "distance": 3.004,
+            "cost": 2221.966
+          },
+          {
+            "from_index": 0,
+            "to_index": 1,
+            "time": 6394,
+            "distance": 8.51,
+            "cost": 6967.334
+          },
+          {
+            "from_index": 0,
+            "to_index": 2,
+            "time": 915,
+            "distance": 1.255,
+            "cost": 957.271
+          }
+        ],
+        [
+          {
+            "from_index": 1,
+            "to_index": 0,
+            "time": 3005,
+            "distance": 4.186,
+            "cost": 3111.576
+          },
+          {
+            "from_index": 1,
+            "to_index": 1,
+            "time": 7248,
+            "distance": 9.693,
+            "cost": 7857.478
+          },
+          {
+            "from_index": 1,
+            "to_index": 2,
+            "time": 0,
+            "distance": 0,
+            "cost": 0
+          }
+        ]
+      ],
+      "sources": [
+        {
+          "lat": 16.06107,
+          "lon": 108.227201
+        },
+        {
+          "lat": 16.067954,
+          "lon": 108.224152
+        }
+      ],
+      "targets": [
+        {
+          "lat": 16.054209,
+          "lon": 108.247177
+        },
+        {
+          "lat": 16.003845,
+          "lon": 108.263308
+        },
+        {
+          "lat": 16.067954,
+          "lon": 108.224152
+        }
+      ],
+      "units": "kilometers",
+      "algorithm": "timedistancematrix"
+    }
+  }
+]

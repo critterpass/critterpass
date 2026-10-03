@@ -1,0 +1,150 @@
+[
+  {
+    "path": "/sources_to_targets",
+    "request": {
+      "sources": [
+        {
+          "lat": 16.0611,
+          "lon": 108.2272
+        },
+        {
+          "lat": 15.5,
+          "lon": 109.5
+        }
+      ],
+      "targets": [
+        {
+          "lat": 16.0544,
+          "lon": 108.247
+        }
+      ],
+      "costing": "auto",
+      "units": "kilometers"
+    },
+    "status": 400,
+    "response": {
+      "error_code": 170,
+      "error": "Locations are in unconnected regions. Go check/edit the map at osm.org",
+      "status_code": 400,
+      "status": "Bad Request"
+    }
+  },
+  {
+    "path": "/locate",
+    "request": {
+      "locations": [
+        {
+          "lat": 16.0611,
+          "lon": 108.2272
+        },
+        {
+          "lat": 15.5,
+          "lon": 109.5
+        },
+        {
+          "lat": 16.0544,
+          "lon": 108.247
+        }
+      ],
+      "costing": "auto",
+      "verbose": false
+    },
+    "status": 200,
+    "response": [
+      {
+        "input_lat": 16.0611,
+        "input_lon": 108.2272,
+        "edges": [
+          {
+            "way_id": 199383481,
+            "correlated_lat": 16.06107,
+            "correlated_lon": 108.227201,
+            "side_of_street": "neither",
+            "percent_along": 0.40165
+          }
+        ],
+        "nodes": []
+      },
+      {
+        "input_lat": 15.5,
+        "input_lon": 109.5,
+        "edges": [],
+        "nodes": []
+      },
+      {
+        "input_lat": 16.0544,
+        "input_lon": 108.247,
+        "edges": [
+          {
+            "way_id": 1534526590,
+            "correlated_lat": 16.054209,
+            "correlated_lon": 108.247177,
+            "side_of_street": "neither",
+            "percent_along": 0.53778
+          },
+          {
+            "way_id": 1534526590,
+            "correlated_lat": 16.054209,
+            "correlated_lon": 108.247177,
+            "side_of_street": "neither",
+            "percent_along": 0.46221
+          }
+        ],
+        "nodes": []
+      }
+    ]
+  },
+  {
+    "path": "/sources_to_targets",
+    "request": {
+      "sources": [
+        {
+          "lat": 16.0611,
+          "lon": 108.2272
+        }
+      ],
+      "targets": [
+        {
+          "lat": 16.0544,
+          "lon": 108.247
+        }
+      ],
+      "costing": "auto",
+      "units": "kilometers"
+    },
+    "status": 200,
+    "response": {
+      "sources_to_targets": [
+        [
+          {
+            "from_index": 0,
+            "to_index": 0,
+            "time": 405,
+            "distance": 3.168,
+            "cost": 665.37,
+            "begin_heading": 88.1,
+            "end_heading": 128.7,
+            "begin_lat": 16.06107,
+            "begin_lon": 108.227201,
+            "end_lat": 16.054209,
+            "end_lon": 108.247177
+          }
+        ]
+      ],
+      "sources": [
+        {
+          "lat": 16.06107,
+          "lon": 108.227201
+        }
+      ],
+      "targets": [
+        {
+          "lat": 16.054209,
+          "lon": 108.247177
+        }
+      ],
+      "units": "kilometers",
+      "algorithm": "costmatrix"
+    }
+  }
+]

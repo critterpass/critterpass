@@ -1,0 +1,158 @@
+[
+  {
+    "path": "/optimized_route",
+    "request": {
+      "locations": [
+        {
+          "lat": 34.9858,
+          "lon": 135.7588
+        },
+        {
+          "lat": 34.9949,
+          "lon": 135.785
+        },
+        {
+          "lat": 34.9671,
+          "lon": 135.7727
+        },
+        {
+          "lat": 35.0037,
+          "lon": 135.7788
+        },
+        {
+          "lat": 34.9858,
+          "lon": 135.7588
+        }
+      ],
+      "costing": "pedestrian",
+      "units": "kilometers",
+      "directions_type": "none"
+    },
+    "status": 200,
+    "response": {
+      "trip": {
+        "locations": [
+          {
+            "type": "break",
+            "lat": 34.9858,
+            "lon": 135.7588,
+            "side_of_street": "right",
+            "original_index": 0
+          },
+          {
+            "type": "break",
+            "lat": 35.0037,
+            "lon": 135.7788,
+            "original_index": 3
+          },
+          {
+            "type": "break",
+            "lat": 34.9949,
+            "lon": 135.785,
+            "original_index": 1
+          },
+          {
+            "type": "break",
+            "lat": 34.9671,
+            "lon": 135.7727,
+            "original_index": 2
+          },
+          {
+            "type": "break",
+            "lat": 34.9858,
+            "lon": 135.7588,
+            "side_of_street": "right",
+            "original_index": 4
+          }
+        ],
+        "legs": [
+          {
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 34.985795,
+              "min_lon": 135.758284,
+              "max_lat": 35.004267,
+              "max_lon": 135.77881,
+              "time": 2557.634,
+              "length": 3.53,
+              "cost": 2683.673
+            },
+            "shape": "gsjvaAg|_}aGgZJwEBc@?AcHAuB|CAAwEjA?r@ACcJAcGEeSsIBcA@kGB_SFyA@wC@CqKg@?aB@AgD?uD?cD?mC?mB?gA?gDA{B~@??_GAkC?oBAkO@O@ODMBMDKFMFIFKHGHI^WcCkEgAqBImMqAkCUe@i@@y@k@e@[WOYQuCkBNc@@kAaA_jAQwAKq@s@kAo@m@JuAD_DBkCHe@gVk@BcFPcXFuHiBK}@IuEwBiG{E_Bk@eA]y@CuAJiNW{GoBgJuCq@QeOz@uDHmAIuAFAyJcDESf@uDuEoBu@ms@g@i@Lu@A]@cA?Q?YUykBHBc@DkDFeDBeAiDSc@Oi@Mo@OMBeH{AoSeIq@c@q@a@y@_@w@Kq@Ww{@q]_@OeAk@|AeDsCmDiU_\\cLyQsDwF}GaKMQoDoFQYkF}HsLgQmB}GwHeC_Do@uAWg@E{BOmAKFuJDiAFqAjF}k@H}@^oEVuCg@MgGyAyJcCcQcFy]yKcz@}YyiA_^}Bs@yCcAczAej@i]_N}]uOqSeJqLgFqDmAiEuAoZmLoKaFkHuB}Ae@kHwBiD_AaGqA}NiCoLuAqAI?sCAaEEcUCkRAmG?kFEqhA?y`@AcH@oIoDCDuMTkh@?}Nj@oPTuGVqH_GsNp@}DPgAf@uCmAu@mAmAaEcA{@gBu@{A_EgIp@_CzAwOdDb@jAWpH_CMu@pDmBbAe@NyEOAp@aWpAyA"
+          },
+          {
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 34.994676,
+              "min_lon": 135.778496,
+              "max_lat": 35.00374,
+              "max_lon": 135.785212,
+              "time": 1270.772,
+              "length": 1.544,
+              "cost": 1513.691
+            },
+            "shape": "wtmwaAs~g~aG??FiCX_BnLh@~BxBHNK~FvClHHdAHDjGWfC^F@fFTj@EdMJh@@R@|@DnLYjPe@|ACjIOjMy@nHc@nJQn]qAvDUl@Cb@G|ScCb@UjI_AzCE`@y@vCAbRKlBC\\]b[f@tCDhi@l@ZuL|@wBdBD|AcCd@}GdAmNjAsOT}@`@q@j@u@r@eAj@mApFwOXuAXoB`AwQj@eFJq@Lu@Nm@Pk@bCeF\\i@f@o@n@k@j@c@rAq@f@Qj@MxBMnBItHIfa@dAhB@~IDxBHlJrCnFtB`HzC|@`@~GsXVcAZgAZ_ApKqW`CyFZq@^m@l@aA`B{Bj@y@h@}@b@aA`@cAZgATkAPkALmAFoABoAWed@CaD@i@@gAFi@bD^~C}FLWnAiEf@oB~Br@|@_F~@cFhAeGHc@Lo@eBk@VkCn@}CZgBtFfB~BkMb@{BfBkEtCcEDi@K{D?MUaKQiC`Cg@SuC`C]uAkSmH|@"
+          },
+          {
+            "summary": {
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 34.967135,
+              "min_lon": 135.770445,
+              "max_lat": 34.996201,
+              "max_lon": 135.785212,
+              "time": 3191.249,
+              "length": 4.418,
+              "cost": 3345.057
+            },
+            "shape": "kj|vaAylt~aGlH}@tAjSaC\\RtCaCf@{K|ASzHsDy@mJoB{AFiCZqDz@}@j@KpOOxDg@jGIbAS|BmAhMh@tHAfAI`AyAtIqDvM|FlFPLRHRFTDT?bA@B`DVdd@CnAGnAMlAQjAUjA[fAa@bAc@`Ai@|@k@x@aBzBm@`A_@l@[p@aCxFqKpW[~@[fAWbA_HrXm@`Cb@zBrA|GpAzGhBfJ~DpS|Jh[jApDdAbDbA|Cj@xB|DvMv@lDfBxHh@`CxAzGjHjRzKpRzBzDdGtKhEjOZhAzFhTj@tBvA`FlCvOVzAt@dCr@lC|AzGtJ|HtFdD`EfC~XpQjKbIz[|TbGfChA^fCl@dFTB?da@dC|ZlBrId@jDRlF\\dAFto@xDti@`C|CLvDPtRx@jGVnGXdm@|BrDPpOp@jU~ApDZbDXlWhBdDTnDT`DTrYhB~@F|Nf@dA@dLRb@@vHJnCDpDD|[^zb@r@`CHtGb@^BrMfAzLfAhDXpCTxIp@~CVlJt@`OrA`AN|Dh@zCpAxB~@pD~Bj@`@pFlFbCpDvAtBpPdV`F~GrJ`NfAtAzCjE~QrWnKdO`CfD~AfChBhFtGRhBHvA~_@nAn\\P~D`g@wCpE_@`Om@rLWtFOtQmBjRaAfr@gBb@AfDIhQe@|f@cBzCKdBChJShAAzNGjLGrZT~BBxf@TxC@tk@W~AA|NEzRKrNFpB@vAWp\\u@jSQvKSz@Ahd@i@pGItMO`HIlLMt_@_BjED`]\\vQBx`@Drn@CW}Bt@eQbDqZb@aNhAyAv@_C`H}HtLgKGwIp@}@b@dAPeBrDkLHnElDKDdC"
+          },
+          {
+            "summary": {
+              "level_changes": [
+                [148, 0],
+                [157, 1]
+              ],
+              "has_time_restrictions": false,
+              "has_toll": false,
+              "has_highway": false,
+              "has_ferry": false,
+              "min_lat": 34.967135,
+              "min_lon": 135.758291,
+              "max_lat": 34.985795,
+              "max_lon": 135.772879,
+              "time": 2302.014,
+              "length": 3.201,
+              "cost": 2358.202
+            },
+            "shape": "}dfuaAsa|}aGEeCmDJIoEsDjLQdBc@eAq@|@FvIuLfKaH|Hw@~BiAxAc@`NcDpZu@dQV|BN~C@rVGbBExAG|AaBxKAPi@lEo@`EaD|MwChL_C|F}BfEc@bAa@lCe@vC}d@OwAhASvFU~DaAtQIrBCvA_@vPWpMOpHMtFAzAS|YAfDVjVBbBDpBdAfg@PvJa@~aACpGA|@DbDc@faBkWqCcd@wGkG^uEVgDb@iDtAud@t\\kE|CgE|BeGjDwHbB{PtDcMhDwJlCgSpEaVfBqIJa@?kEFsF@_@?qn@HeE?iNBmRBoO@{@AsHKyHMaT[_SYySY_LQ{S[{KO}MQsA?qDDkCXsBVuEjAe@LcD~@kG`CyCfBwOjJoCfAkGdC_EjAgHvAwB^sEn@c@FsUlCm@DuKz@{ETiKBs@?kXHaZHm@?cd@p@_FDuOFeFBeC@_CAgAABfC}l@{@QdXGfJQ`UM|OwNOAzACtDAhCqBHgA@sA@yEAk]GmEAaBJ?dAkEnA_ARcE|@_BZgAV^dEB`Dj@vNDlNU?@tAA|@Nn@BdKQ|@?hK_B?oB?wA?eA?iF?}CDgC@sEB}PFuDBsB@{DBeGBmFBmEFyB?uE@"
+          }
+        ],
+        "summary": {
+          "has_time_restrictions": false,
+          "has_toll": false,
+          "has_highway": false,
+          "has_ferry": false,
+          "min_lat": 34.967135,
+          "min_lon": 135.758284,
+          "max_lat": 35.004267,
+          "max_lon": 135.785212,
+          "time": 9321.67,
+          "length": 12.694,
+          "cost": 9900.625
+        },
+        "status_message": "Found route between points",
+        "status": 0,
+        "units": "kilometers",
+        "language": "en-US"
+      }
+    }
+  }
+]
