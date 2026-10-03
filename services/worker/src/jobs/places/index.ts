@@ -6,12 +6,13 @@
  * one `places.fsq_export_chunk` job per group of the catalog's data files. Each chunk lands its rows
  * durably, so a worker restart costs one chunk; the chunk that completes the run queues one
  * `places.ingest` job per destination with the run id. Without the catalog it queues the
- * destinations at once. Both queues keep one job active at a time (`singleton`), so destinations
- * run one after another with DuckDB's memory capped. A destination job ingests its bounds
- * (`src/places/ingest-all.ts#ingestPlaceDestination`). An operator can enqueue the fan-out with
- * `except` to hold destinations back, or one destination by `slug`; a pitch or a trip in a sparse
- * destination queues its `slug` on demand (services/api/src/places/on-demand-ingest.ts), and a
- * destination without a place box gets one before it is ingested.
+ * destinations at once. A destination job (`slug`) plans its ingest as tiles and queues them on
+ * `places.ingest_tile` (`./ingest-tile.ts`), which does the reading and writing one tile at a time.
+ * Every queue here keeps one job active at a time (`singleton`), so DuckDB's memory stays capped.
+ * An operator can enqueue the fan-out with `except` to hold destinations back, or one destination
+ * by `slug`; a pitch or a trip in a sparse destination queues its `slug` on demand
+ * (services/api/src/places/on-demand-ingest.ts), and a destination without a place box gets one
+ * before it is planned.
  */
 import { DEFAULT_QUEUE_SPEC, type QueueSpec } from '@cp/domain';
 import type { PgBoss } from 'pg-boss';
@@ -25,9 +26,11 @@ import {
   runSlugs,
   startFsqExportRun,
 } from '../../places/fsq-export-runs';
-import { ingestPlaceDestination, ingestTargets } from '../../places/ingest-all';
+import { ingestTargets } from '../../places/ingest-all';
+import { planDestinationTiles, type TileRunSources } from '../../places/ingest-tile-run';
 import { backfillPlaceBounds } from '../../places/place-bounds';
 import { fsqOsSource } from '../../places/source-readers';
+import { placesIngestTileJob, queueTileRun } from './ingest-tile';
 
 export const PLACES_INGEST_QUEUE = 'places.ingest';
 export const PLACES_FSQ_EXPORT_CHUNK_QUEUE = 'places.fsq_export_chunk';
@@ -37,10 +40,10 @@ const HOUR = 3_600;
 export const PLACES_INGEST_SPEC: QueueSpec = {
   ...DEFAULT_QUEUE_SPEC,
   policy: 'singleton',
-  retryLimit: 1,
-  retryDelay: 600,
-  // A metro of half a million places takes tens of minutes.
-  expireInSeconds: 3 * HOUR,
+  retryLimit: 3,
+  retryDelay: 60,
+  // A destination job only plans its tiles; the fan-out also fills missing place boxes.
+  expireInSeconds: HOUR,
   cron: { expr: '0 2 1 * *', tz: 'UTC' },
 };
 
@@ -57,7 +60,6 @@ const payloadSchema = z
   .object({
     slug: z.string().min(1).optional(),
     except: z.array(z.string().min(1)).optional(),
-    fsqExportDir: z.string().min(1).optional(),
     fsqRunId: z.uuid().optional(),
   })
   .nullish();
@@ -77,12 +79,18 @@ async function queueDestinations(
   }
 }
 
-export function placesIngestJob(): AnyJobDefinition {
+/** Test overrides: the tile readers and the FSQ rows a tile may hold. */
+export interface PlacesJobsOptions {
+  readonly sources?: TileRunSources;
+  readonly maxTileFsqRows?: number;
+}
+
+export function placesIngestJob(options: PlacesJobsOptions = {}): AnyJobDefinition {
   const job: JobDefinition<PlacesIngestPayload> = defineJob({
     queue: PLACES_INGEST_QUEUE,
     spec: PLACES_INGEST_SPEC,
     schema: payloadSchema,
-    async handler(data, { pool, boss, logger }) {
+    async handler(data, { pool, boss, logger, job }) {
       const slug = data?.slug;
       if (slug !== undefined) {
         let [target] = await ingestTargets(pool, { slugs: [slug] });
@@ -95,12 +103,23 @@ export function placesIngestJob(): AnyJobDefinition {
           logger.warn({ slug }, 'places ingest skipped: destination has no place bounds');
           return { slug, skipped: 'no_place_bounds' };
         }
-        const result = await ingestPlaceDestination(pool, target, {
-          exportDir: data?.fsqExportDir,
-          runId: data?.fsqRunId,
+        const tiles = await planDestinationTiles(
+          pool,
+          target,
+          data?.fsqRunId,
+          options.maxTileFsqRows,
+        );
+        const [self] = await boss.findJobs(PLACES_INGEST_QUEUE, { id: job.id });
+        const queued = await queueTileRun(boss, {
+          runId: job.id,
+          slug,
+          tiles,
+          fsqRunId: data?.fsqRunId,
+          priority: self?.priority ?? 0,
+          startedAt: self?.startedOn ?? new Date(),
         });
-        logger.info({ slug, ...result }, 'places ingest finished');
-        return { slug, ...result };
+        logger.info({ slug, runId: job.id, tiles: queued }, 'places ingest tiles queued');
+        return { slug, runId: job.id, tiles: queued };
       }
 
       const bounds = await backfillPlaceBounds(pool);
@@ -152,7 +171,11 @@ export function placesFsqExportChunkJob(): AnyJobDefinition {
   });
 }
 
-/** Both places queues, for the job registry. */
-export function placesJobs(): AnyJobDefinition[] {
-  return [placesIngestJob(), placesFsqExportChunkJob()];
+/** The places queues, for the job registry. */
+export function placesJobs(options: PlacesJobsOptions = {}): AnyJobDefinition[] {
+  return [
+    placesIngestJob(options),
+    placesIngestTileJob(options.sources),
+    placesFsqExportChunkJob(),
+  ];
 }

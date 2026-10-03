@@ -12,7 +12,7 @@ import { withSystem } from '@cp/db';
 import type pg from 'pg';
 
 import { chunk } from './batch-sql';
-import { conflatePlaces, type ConflationCandidate } from './conflate';
+import { conflatePlaces, type ConflatedPoi, type ConflationCandidate } from './conflate';
 import { applyOsmPlaces, type OsmApplyResult } from './osm-apply';
 import { readOsmPlaces, type OsmPlaceRow } from './osm-reader';
 import {
@@ -39,7 +39,7 @@ export {
   type PlaceSourceRow,
 } from './source-readers';
 
-function toCandidate(row: PlaceSourceRow): ConflationCandidate {
+export function toCandidate(row: PlaceSourceRow): ConflationCandidate {
   return {
     sourceId: row.sourceId,
     name: row.name,
@@ -54,7 +54,23 @@ function toCandidate(row: PlaceSourceRow): ConflationCandidate {
   };
 }
 
-const SPARSE_COVERAGE_THRESHOLD = 50;
+/**
+ * The first row of each source id: a source that lists one place twice would otherwise yield two
+ * POIs with the same id, and the second insert would break the per-source unique index.
+ */
+export function uniqueBySourceId<Row extends { readonly sourceId: string }>(
+  rows: readonly Row[],
+): Row[] {
+  const seen = new Set<string>();
+  return rows.filter((row) => {
+    if (seen.has(row.sourceId)) return false;
+    seen.add(row.sourceId);
+    return true;
+  });
+}
+
+/** Below this many active POIs a destination shows the "no curated places yet" state. */
+export const SPARSE_COVERAGE_THRESHOLD = 50;
 
 export interface IngestDestinationInput {
   readonly destinationId: string;
@@ -92,23 +108,19 @@ export interface IngestDestinationResult {
   readonly sparseCoverage: boolean;
 }
 
-/** Ingests one destination bbox: reads both sources, conflates, and upserts (see file header). */
-export async function ingestDestination(
+export interface UpsertCounts {
+  readonly inserted: number;
+  readonly updated: number;
+  readonly skipped: number;
+  readonly ownedElsewhere: number;
+}
+
+/** Upserts conflated POIs for a destination in `INGEST_BATCH_SIZE` chunks; returns the summed counts. */
+export async function upsertConflated(
   pool: pg.Pool,
   input: IngestDestinationInput,
-  sources: IngestSources = {},
-): Promise<IngestDestinationResult> {
-  const readOverture = sources.readOverturePlaces ?? readOverturePlaces;
-  const readFsq = sources.readFsqOsPlaces ?? readFsqOsPlaces;
-  const usingRealFsqReader = sources.readFsqOsPlaces === undefined;
-
-  // One source at a time: each read holds its own DuckDB instance and memory budget.
-  const overtureRows = await readOverture(input.bbox);
-  const fsqRows = await readFsq(input.bbox);
-  const fsqOsGated = usingRealFsqReader && fsqRows.length === 0 && fsqOsSource() === 'none';
-
-  const conflated = conflatePlaces(fsqRows.map(toCandidate), overtureRows.map(toCandidate));
-
+  conflated: readonly ConflatedPoi[],
+): Promise<UpsertCounts> {
   const counts = { inserted: 0, updated: 0, skipped: 0, ownedElsewhere: 0 };
   for (const batch of chunk(conflated, INGEST_BATCH_SIZE)) {
     const batchCounts = await batchUpsertConflatedPois(
@@ -123,6 +135,38 @@ export async function ingestDestination(
     counts.skipped += batchCounts.skipped;
     counts.ownedElsewhere += batchCounts.ownedElsewhere;
   }
+  return counts;
+}
+
+/** The destination's active POIs. */
+export async function countActivePois(pool: pg.Pool, destinationId: string): Promise<number> {
+  return withSystem(pool, async (tx) => {
+    const { rows } = await tx.query<{ count: string }>(
+      "SELECT count(*) FROM pois WHERE destination_id = $1 AND status = 'active'",
+      [destinationId],
+    );
+    return Number(rows[0]?.count ?? 0);
+  });
+}
+
+/** Ingests one destination bbox: reads both sources, conflates, and upserts (see file header). */
+export async function ingestDestination(
+  pool: pg.Pool,
+  input: IngestDestinationInput,
+  sources: IngestSources = {},
+): Promise<IngestDestinationResult> {
+  const readOverture = sources.readOverturePlaces ?? readOverturePlaces;
+  const readFsq = sources.readFsqOsPlaces ?? readFsqOsPlaces;
+  const usingRealFsqReader = sources.readFsqOsPlaces === undefined;
+
+  // One source at a time: each read holds its own DuckDB instance and memory budget.
+  const overtureRows = uniqueBySourceId(await readOverture(input.bbox));
+  const fsqRows = uniqueBySourceId(await readFsq(input.bbox));
+  const fsqOsGated = usingRealFsqReader && fsqRows.length === 0 && fsqOsSource() === 'none';
+
+  const conflated = conflatePlaces(fsqRows.map(toCandidate), overtureRows.map(toCandidate));
+
+  const counts = await upsertConflated(pool, input, conflated);
 
   const readOsm =
     sources.readOsmPlaces ?? (sources.readOverturePlaces === undefined ? readOsmPlaces : undefined);
@@ -136,13 +180,7 @@ export async function ingestDestination(
           await readOsm(input.bbox),
         );
 
-  const activeCount = await withSystem(pool, async (tx) => {
-    const { rows } = await tx.query<{ count: string }>(
-      "SELECT count(*) FROM pois WHERE destination_id = $1 AND status = 'active'",
-      [input.destinationId],
-    );
-    return Number(rows[0]?.count ?? 0);
-  });
+  const activeCount = await countActivePois(pool, input.destinationId);
 
   return {
     overtureRows: overtureRows.length,
