@@ -52,8 +52,10 @@ export const recaps = pgTable('recaps', {
   copyVersion: integer('copy_version').notNull().default(0),
   /** The template wrote the copy (the model failed or answered out of bounds). */
   copyFallback: boolean('copy_fallback').notNull().default(false),
-  /** Recorded narration per locale and card (`recapNarrationSchema`). */
+  /** Recorded narration per locale and card: media key and the hash of the words it reads. */
   narration: jsonb('narration').notNull().default({}),
+  /** Translations of the card copy, per language (`@cp/domain` guide-text kind `recap`). */
+  i18n: jsonb('i18n'),
   /** Sections the last version bump changed: `stats`, `route`, `receipt`, `got_away`, `awards`. */
   changedSections: text('changed_sections')
     .array()
@@ -102,6 +104,8 @@ export const recapAwards = pgTable('recap_awards', {
   optedOut: boolean('opted_out').notNull().default(false),
   mvpVotes: integer('mvp_votes').notNull().default(0),
   isMvp: boolean('is_mvp').notNull().default(false),
+  /** Translations of the title and line, per language (`@cp/domain` guide-text kind `recap_award`). */
+  i18n: jsonb('i18n'),
   ...stamps(),
 });
 
