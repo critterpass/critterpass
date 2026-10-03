@@ -180,9 +180,10 @@ describe('plan overview', () => {
       </I18nProvider>,
     );
     await screen.findByTestId('plan-day-3-just-you');
-    expect(screen.getByLabelText(/^Day 3, .*Surf lesson/u)).toBeTruthy();
+    // The place names arrive on their own local query, after the day cards.
+    expect(await screen.findByLabelText(/^Day 3, .*Surf lesson/u)).toBeTruthy();
     // The kecak dance I skip is gone from my week.
-    expect(screen.getByLabelText(/^Day 7, .*Beach clubs, Beach weather/u)).toBeTruthy();
+    expect(await screen.findByLabelText(/^Day 7, .*Beach clubs, Beach weather/u)).toBeTruthy();
     expect(screen.queryByLabelText(/Kecak/u)).toBeNull();
     await fireEvent.press(await screen.findByTestId(/^plan-clash-keep-/u));
     await waitFor(async () => {

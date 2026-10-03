@@ -5,7 +5,8 @@
  * every 15 minutes. Fine dwell (50 m rings, visits) runs on the live fix stream inside those
  * regions, never on the OS callback itself.
  *
- * Sources register by name. This module registers plan POIs and the stay; spawn spots register
+ * Sources register by name. This module registers plan POIs, the stay and the places today's open
+ * quests name (watched whether or not they are on the plan); spawn spots register
  * their own source (`registerGeofenceSource('spawns', fn)`) where they are built.
  */
 import { distanceM, type LatLng } from './geo';
@@ -35,6 +36,8 @@ export interface GeofenceSourceContext {
   readonly planPois: readonly PlanPoi[];
   /** Where the user sleeps tonight, when booked. */
   readonly stay: PlanPoi | null;
+  /** Places today's open quests name; a quest's place counts even when it is off the plan. */
+  readonly questPois?: readonly PlanPoi[];
 }
 
 export type GeofenceSource = (ctx: GeofenceSourceContext) => readonly GeofenceCandidate[];
@@ -89,11 +92,49 @@ const withRadius = (poi: PlanPoi): GeofenceCandidate => ({
 export const planPoisSource: GeofenceSource = (ctx) => ctx.planPois.map(withRadius);
 export const staySource: GeofenceSource = (ctx) =>
   ctx.stay === null ? [] : [withRadius(ctx.stay)];
+/** Quest places the plan and the stay do not already watch. */
+export const questPoisSource: GeofenceSource = (ctx) => {
+  const watched = new Set([
+    ...ctx.planPois.map((poi) => poi.id),
+    ...(ctx.stay ? [ctx.stay.id] : []),
+  ]);
+  return (ctx.questPois ?? []).filter((poi) => !watched.has(poi.id)).map(withRadius);
+};
+
+export interface QuestPlaceRefs {
+  readonly poiIds: readonly string[];
+  /** Plan items (stable ids) whose POI is the quest's place, e.g. an early start. */
+  readonly planItemIds: readonly string[];
+}
+
+/**
+ * The places a quest's params name, whatever its template: `poi_id`, `poi_ids` and
+ * `plan_item_id`. Params arrive as an object from the server or as JSON text from the synced row.
+ */
+export function questPlaceRefs(params: unknown): QuestPlaceRefs {
+  let value = params;
+  if (typeof value === 'string') {
+    try {
+      value = JSON.parse(value) as unknown;
+    } catch {
+      value = null;
+    }
+  }
+  if (value === null || typeof value !== 'object') return { poiIds: [], planItemIds: [] };
+  const record = value as Record<string, unknown>;
+  const text = (v: unknown): v is string => typeof v === 'string' && v.length > 0;
+  const many = Array.isArray(record['poi_ids']) ? (record['poi_ids'] as unknown[]) : [];
+  return {
+    poiIds: [record['poi_id'], ...many].filter(text),
+    planItemIds: [record['plan_item_id']].filter(text),
+  };
+}
 
 /** The app-wide registry the location engine plans from. */
 export const geofenceSources: GeofenceSourceRegistry = createGeofenceSourceRegistry();
 geofenceSources.register('plan_pois', planPoisSource);
 geofenceSources.register('stay', staySource);
+geofenceSources.register('quests', questPoisSource);
 
 export function registerGeofenceSource(name: string, source: GeofenceSource): () => void {
   return geofenceSources.register(name, source);

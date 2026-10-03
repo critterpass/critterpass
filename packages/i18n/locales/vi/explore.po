@@ -22,6 +22,11 @@ msgstr "{0, plural, other {# địa điểm đã lưu nữa sẽ hiện ra khi �
 msgid "explore.swipe.whySaved"
 msgstr "{0, plural, other {# người trong nhóm đã lưu nơi này.}}"
 
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.rating"
+msgstr "{0} / 10"
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
 msgid "explore.swipe.building"
@@ -260,6 +265,10 @@ msgstr "Bãi biển"
 msgid "explore.hero.best"
 msgstr "Đẹp nhất: {months}"
 
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.call"
+msgstr "Gọi"
+
 #: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.cancel"
 msgstr "Hủy"
@@ -280,6 +289,10 @@ msgstr "đang đóng cửa"
 #: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
 msgid "explore.crowd.closed"
 msgstr "Đóng cửa ngày {day}. Chọn ngày khác cho nơi này nhé."
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.closedForGood"
+msgstr "đã đóng cửa vĩnh viễn"
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.sardiLine"
@@ -624,6 +637,16 @@ msgstr "Địa điểm"
 msgid "explore.dest.mapBody"
 msgstr "Địa điểm, tìm kiếm và nơi đang mở cửa"
 
+#. placeholder {0}: attribution.name
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.poweredBy"
+msgstr "Cung cấp bởi {0}"
+
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.ratingLabel"
+msgstr "Được chấm {0} trên 10"
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.remove"
 msgstr "Bỏ lưu"
@@ -882,10 +905,18 @@ msgstr "Hoàn tác lượt quẹt vừa rồi"
 msgid "explore.offers.disclosure"
 msgstr "Chúng tôi có thể nhận hoa hồng nếu bạn đặt chỗ. Điều đó không bao giờ thay đổi thứ hạng chúng tôi xếp."
 
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.website"
+msgstr "Trang web"
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.limited.title"
 msgstr "Những gì {0} biết đến lúc này"
+
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.visitorTips"
+msgstr "Du khách nói gì"
 
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.months.title"
@@ -934,6 +965,10 @@ msgstr "Bạn thấy nó vì bạn đang xem {place}. Nó không được chọn
 #: ../../apps/mobile/src/features/explore/map-copy.ts
 msgid "explore.map.away"
 msgstr "Bạn cách {place} {km} km"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.awayMiles"
+msgstr "Bạn cách {place} {km} dặm"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.offline"

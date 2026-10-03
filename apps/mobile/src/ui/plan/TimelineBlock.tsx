@@ -13,6 +13,7 @@ import { useLocale } from '@/lib/i18n/use-locale';
 
 import { Text } from '../text/Text';
 import { makeStyles, touchSlop, useTheme } from '../theme';
+import { clockOption, useFormats } from '../../lib/i18n/formats';
 
 export interface TimelineBlock {
   readonly id: string;
@@ -51,7 +52,7 @@ export function laneStyle(lane: TimelineBlock['lane']) {
 }
 
 export const clockOf = (locale: string, minutes: number) =>
-  format.time(locale, new Date(2000, 0, 1, Math.floor(minutes / 60), minutes % 60));
+  format.time(locale, new Date(2000, 0, 1, Math.floor(minutes / 60), minutes % 60), clockOption());
 
 /**
  * One gesture per native view: on iOS every handler on one view spends a shared attach-retry
@@ -91,6 +92,7 @@ export function MovableBlock({
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
+  useFormats();
   const range = `${clockOf(locale, block.start)}–${clockOf(locale, block.end)}`;
   const label = [block.title, range, block.detail].filter(Boolean).join(', ');
   const duration = block.end - block.start;

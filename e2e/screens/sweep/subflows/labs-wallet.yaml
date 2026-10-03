@@ -1,0 +1,48 @@
+appId: app.critterpass.dev
+---
+# Lab scenes for the wallet, in ${LANG}: bookings (3h-1, 3h-2), getting around and estimates (3h-3)
+# and money (3i-1 to 3i-6). The scenes render the real screens from fixtures, so the sweep compares
+# screens no seed scenario reaches with their renders. Android: the nightly iPhone shard keeps to
+# the seed scenarios.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - runFlow: back-to-dev-tools.yaml
+      - runFlow: ../../../bookings/subflows/open-lab.yaml
+      - runFlow:
+          file: ../../../bookings/subflows/wallet-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow:
+          file: ../../../bookings/subflows/add-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow: back-to-dev-tools.yaml
+      - runFlow: ../../../suppliers/subflows/open-lab.yaml
+      - runFlow:
+          file: ../../../suppliers/subflows/around-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow:
+          file: ../../../suppliers/subflows/estimate-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow: back-to-dev-tools.yaml
+      - runFlow: ../../../money/subflows/open-lab.yaml
+      - runFlow:
+          file: ../../../money/subflows/home-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow:
+          file: ../../../money/subflows/scan-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow:
+          file: ../../../money/subflows/settle-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow:
+          file: ../../../money/subflows/budget-scenes.yaml
+          env:
+            PREFIX: ${LANG}

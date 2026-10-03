@@ -3,6 +3,7 @@
 import { format, upper } from '@cp/i18n';
 import type { WatchStatus } from '@cp/domain';
 import { t } from '@lingui/core/macro';
+import { clockOption } from '@/lib/i18n/formats';
 
 export function titleLines(locale: string): readonly [string, string] {
   return [
@@ -25,6 +26,7 @@ export function checkedLabel(at: Date | null, tz: string, stale: boolean, locale
     timeZone: tz,
     hourCycle: 'h23',
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
   });
   return upper(
@@ -56,6 +58,7 @@ export function hourLabel(at: string, tz: string, locale: string): string {
     timeZone: tz,
     hourCycle: 'h23',
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
   });
 }

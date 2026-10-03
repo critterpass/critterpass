@@ -165,6 +165,14 @@ msgid "setup.rooms.unplaced.member"
 msgstr "Not in a room yet."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.noStaysLine"
+msgstr "Once a stay is booked, {guide} splits the rooms. Until then everyone shares evenly."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.noStaysTitle"
+msgstr "Rooms come with a stay"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.evenSplit"
 msgstr "One room for everyone, so the stay splits evenly. You can skip this step."
 

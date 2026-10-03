@@ -10,6 +10,7 @@ import { format } from '@cp/i18n';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 
+import { clockOption } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { music } from '@/motion';
@@ -158,6 +159,7 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
           : format.date(locale, new Date(row.landed_at), {
               hour: '2-digit',
               minute: '2-digit',
+              ...clockOption(),
               ...(row.tz === null ? {} : { timeZone: row.tz }),
             })
       }

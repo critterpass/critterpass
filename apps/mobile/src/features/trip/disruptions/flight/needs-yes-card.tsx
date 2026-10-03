@@ -38,6 +38,7 @@ import {
   waitingOn,
 } from './copy';
 import type { Question } from './model';
+import { clockOption } from '@/lib/i18n/formats';
 
 export interface NeedsYesCardProps {
   readonly question: Question;
@@ -93,6 +94,7 @@ export function NeedsYesCard({ question, tz, joinIndex, onAnswer }: NeedsYesCard
           timeZone: tz,
           hourCycle: 'h23',
           hour: '2-digit',
+          ...clockOption(),
           minute: '2-digit',
         });
   return (

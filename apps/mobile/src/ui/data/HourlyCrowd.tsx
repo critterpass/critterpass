@@ -10,6 +10,7 @@ import { Row } from '../layout/Row';
 import { Text } from '../text/Text';
 import { makeStyles, useTheme } from '../theme';
 import { Columns } from './MonthBars';
+import { clockOption, useFormats } from '../../lib/i18n/formats';
 
 export interface CrowdHour {
   /** Hour of day, 0 to 23. */
@@ -49,7 +50,7 @@ const useStyles = makeStyles((th) => ({
 }));
 
 const hourLabel = (locale: string, hour: number) =>
-  format.date(locale, new Date(2000, 0, 1, hour), { hour: 'numeric' });
+  format.date(locale, new Date(2000, 0, 1, hour), { hour: 'numeric', ...clockOption() });
 
 /** Busy-by-hour columns (place detail) with the now-marker; summary names quietest and busiest hours. */
 export function HourlyCrowd({
@@ -64,6 +65,7 @@ export function HourlyCrowd({
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
+  useFormats();
   const quietest = hours.reduce<CrowdHour | undefined>(
     (min, hour) => (min === undefined || hour.level < min.level ? hour : min),
     undefined,

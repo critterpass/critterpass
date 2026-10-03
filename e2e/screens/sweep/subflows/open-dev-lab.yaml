@@ -1,0 +1,17 @@
+appId: app.critterpass.dev
+---
+# From any lab back to the developer tools list, then into the lab whose entry is ${NAV} and whose
+# list shows ${LIST} (Android).
+- runFlow: back-to-dev-tools.yaml
+- scrollUntilVisible:
+    element:
+      id: '${NAV}'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- tapOn:
+    id: '${NAV}'
+- extendedWaitUntil:
+    visible:
+      id: '${LIST}'
+    timeout: 20000

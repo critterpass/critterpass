@@ -28,6 +28,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { ExpenseListRow } from '../components/ExpenseListRow';
 
 import { applyMoneyDisplay, clearMoneyDisplayOverride } from '@/data/money/use-money-display';
+import { currentFormats } from '@/lib/i18n/formats';
 
 configure({ asyncUtilTimeout: 5000 });
 
@@ -123,5 +124,17 @@ describe('price display on the Wallet tab', () => {
     await waitFor(() => expect(label()).toContain('Warung lunch'));
     await act(() => applyMoneyDisplay({ mode: 'both' }));
     await waitFor(() => expect(label()).toMatch(/≈ S\$\s?6\.40/));
+  });
+
+  it('writes clocks and distances as the synced setting says', async () => {
+    const stack = await open();
+    await show(stack);
+    await waitFor(() => expect(label()).toContain('Warung lunch'));
+    expect(currentFormats()).toEqual({ time: null, distance: 'km' });
+    await stack.db.execute(
+      "UPDATE user_settings SET time_format = '12h', distance_unit = 'mi' WHERE user_id = ?",
+      [stack.uid],
+    );
+    await waitFor(() => expect(currentFormats()).toEqual({ time: '12h', distance: 'mi' }));
   });
 });

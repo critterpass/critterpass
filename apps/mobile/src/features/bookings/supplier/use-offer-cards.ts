@@ -13,6 +13,7 @@ import type { WireOffer } from './data/api';
 import type { PartnerLinkOutcome } from './data/partner-link';
 import type { OfferCardProps } from './OfferCard';
 import { SUPPLIER_NAMES } from './suppliers';
+import { clockOption } from '@/lib/i18n/formats';
 
 export type Card = OfferCardProps & { readonly key: string };
 export type LinkReason = 'off' | 'offline' | 'down';
@@ -69,7 +70,11 @@ export function useOfferCards() {
   };
 
   const offerCard = ({ offer, note, onBook }: OfferCardInput): Card => {
-    const time = i18n.date(new Date(offer.seenAt), { hour: '2-digit', minute: '2-digit' });
+    const time = i18n.date(new Date(offer.seenAt), {
+      hour: '2-digit',
+      minute: '2-digit',
+      ...clockOption(),
+    });
     const price = offer.priceFrom
       ? i18n.number(offer.priceFrom.amount, {
           style: 'currency',

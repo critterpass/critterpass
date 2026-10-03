@@ -34,6 +34,7 @@ import { BookingDetailView, type DetailDoc } from './BookingDetailView';
 import { BookingMissing } from './BookingMissing';
 import { WalletGuideProvider } from '../data/wallet-guide';
 import { useTripGuide } from '../supplier/data/use-trip-guide';
+import { useFormats } from '@/lib/i18n/formats';
 
 const useConfirmStyles = makeStyles((th) => ({
   body: { paddingHorizontal: th.space['20'], paddingBottom: th.space['24'] },
@@ -57,6 +58,7 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
   const wallet = useWallet(context.trip?.id ?? null, context.uid);
   const services = useBookingsServices();
   const locale = useLocale();
+  useFormats();
   useMoneyDisplay();
   const { t } = useLingui();
   const chipLabel = useChipLabel();

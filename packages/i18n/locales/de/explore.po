@@ -22,6 +22,11 @@ msgstr ""
 msgid "explore.swipe.whySaved"
 msgstr ""
 
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.rating"
+msgstr ""
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
 msgid "explore.swipe.building"
@@ -260,6 +265,10 @@ msgstr ""
 msgid "explore.hero.best"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.call"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.cancel"
 msgstr ""
@@ -279,6 +288,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
 msgid "explore.crowd.closed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.closedForGood"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
@@ -624,6 +637,16 @@ msgstr ""
 msgid "explore.dest.mapBody"
 msgstr ""
 
+#. placeholder {0}: attribution.name
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.poweredBy"
+msgstr ""
+
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.ratingLabel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.remove"
 msgstr ""
@@ -882,9 +905,17 @@ msgstr ""
 msgid "explore.offers.disclosure"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.website"
+msgstr ""
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.limited.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.visitorTips"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
@@ -933,6 +964,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/explore/map-copy.ts
 msgid "explore.map.away"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.awayMiles"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx

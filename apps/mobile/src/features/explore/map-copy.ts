@@ -5,6 +5,7 @@ import { format } from '@cp/i18n';
 
 import { categoryLabel } from './category';
 import type { OpenState } from './place-model';
+import { distanceIn } from '@/lib/i18n/formats';
 
 /** "Temple · open now". */
 export function cardMeta(category: string, open: OpenState): string {
@@ -26,8 +27,11 @@ export function planChip(dayNo: number, startsAt: string | null, tz: string | nu
   return t({ id: 'explore.map.planDayTime', message: `Day ${dayNo} · ${time}` });
 }
 
-/** "You're 607 km away": whole kilometres, worded by the catalogue (no unit formatter). */
+/** "You're 607 km away": whole kilometres (or miles), worded by the catalogue (no unit formatter). */
 export function awayLine(locale: string, meters: number, place: string): string {
-  const km = format.number(locale, Math.max(1, Math.round(meters / 1000)));
-  return t({ id: 'explore.map.away', message: `You're ${km} km from ${place}` });
+  const away = distanceIn(meters);
+  const km = format.number(locale, Math.max(1, Math.round(away.value)));
+  return away.unit === 'mi'
+    ? t({ id: 'explore.map.awayMiles', message: `You're ${km} mi from ${place}` })
+    : t({ id: 'explore.map.away', message: `You're ${km} km from ${place}` });
 }

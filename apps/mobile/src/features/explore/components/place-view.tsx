@@ -9,7 +9,7 @@ import type { MediaAsset } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import { useEffect } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -32,11 +32,13 @@ import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryIcon } from '../category';
+import type { LiveDetails } from '../place-live';
 import type { GuideFacts } from '../format';
 import { AddToDayButton, type AddToDayButtonProps } from './add-to-day-button';
 import { CrewRow, type CrewRowProps } from './crew-row';
 import { CrowdChart, type CrowdChartProps } from './crowd-chart';
 import { GenericPhotoLabel } from './generic-photo-label';
+import { PlaceLiveDetails } from './place-live-details';
 import { SupplierCard, type SupplierCardProps } from './supplier-card';
 
 const PHOTO_HEIGHT = 320;
@@ -49,6 +51,10 @@ export interface PlaceViewProps {
   readonly category: string;
   readonly guide: GuideFacts;
   readonly photo: MediaAsset | null;
+  /** A live photo for the hero when the place has none of its own; loaded, never saved. */
+  readonly heroUrl?: string | null | undefined;
+  /** Foursquare's rating, photos, tips, call, website and attribution, when it has any. */
+  readonly live?: LiveDetails | null | undefined;
   /** Already worded, in display order: the guide's pick, whose must-do it is. */
   readonly tags: readonly string[];
   /** Already worded facts, joined with a dot: category, admission, hours, the walk from the stay. */
@@ -101,9 +107,10 @@ const useStyles = makeStyles((t) => ({
 
 function Photo({
   photo,
+  heroUrl,
   category,
   accent,
-}: Pick<PlaceViewProps, 'photo' | 'category'> & { readonly accent: string }) {
+}: Pick<PlaceViewProps, 'photo' | 'heroUrl' | 'category'> & { readonly accent: string }) {
   const styles = useStyles();
   const theme = useTheme();
   const reduced = useReducedImpactMotion();
@@ -120,7 +127,15 @@ function Photo({
       <Hatch />
       <MediaLayer media={photo} surface="dark" accent={accent} dots={false} creditAt="top" />
       <GenericPhotoLabel photo={photo} at="top" />
-      {photo === null ? (
+      {photo === null && heroUrl ? (
+        <Image
+          source={{ uri: heroUrl }}
+          style={styles.fill}
+          resizeMode="cover"
+          accessibilityIgnoresInvertColors
+          testID="explore-place-hero-live"
+        />
+      ) : photo === null ? (
         <View style={[styles.fill, styles.doodle]}>
           <Icon
             name={categoryIcon(category)}
@@ -158,7 +173,12 @@ export function PlaceView(props: PlaceViewProps) {
     <Scaffold edges={[]} testID="explore-place">
       <ScrollView contentContainerStyle={{ paddingBottom: FOOTER_FADE_PT + theme.space['8'] }}>
         <View style={styles.photo}>
-          <Photo photo={props.photo} category={props.category} accent={guide.colour} />
+          <Photo
+            photo={props.photo}
+            heroUrl={props.heroUrl}
+            category={props.category}
+            accent={guide.colour}
+          />
           <View style={styles.tags} testID="explore-place-tags">
             {props.tags.map((tag, index) => (
               <View
@@ -252,6 +272,7 @@ export function PlaceView(props: PlaceViewProps) {
               </View>
             </Row>
           )}
+          {props.live ? <PlaceLiveDetails {...props.live} /> : null}
           {props.crew === null ? null : <CrewRow {...props.crew} />}
           {props.offers === null ? null : <SupplierCard {...props.offers} />}
         </View>

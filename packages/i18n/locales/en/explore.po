@@ -22,6 +22,11 @@ msgstr "{0, plural, one {# more saved place shows once its destination has been 
 msgid "explore.swipe.whySaved"
 msgstr "{0, plural, one {# of the crew saved it.} other {# of the crew saved it.}}"
 
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.rating"
+msgstr "{0} / 10"
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/swipe-view.tsx
 msgid "explore.swipe.building"
@@ -260,6 +265,10 @@ msgstr "Beach"
 msgid "explore.hero.best"
 msgstr "Best: {months}"
 
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.call"
+msgstr "Call"
+
 #: ../../apps/mobile/src/features/explore/components/saved-list-editor.tsx
 msgid "explore.saved.cancel"
 msgstr "Cancel"
@@ -280,6 +289,10 @@ msgstr "closed now"
 #: ../../apps/mobile/src/features/explore/components/crowd-chart.tsx
 msgid "explore.crowd.closed"
 msgstr "Closed on {day}. Pick another day for this one."
+
+#: ../../apps/mobile/src/features/explore/place-copy.ts
+msgid "explore.place.closedForGood"
+msgstr "closed permanently"
 
 #: ../../apps/mobile/src/features/explore/guide-copy.ts
 msgid "explore.guide.sardiLine"
@@ -624,6 +637,16 @@ msgstr "Place"
 msgid "explore.dest.mapBody"
 msgstr "Places, search and what is open now"
 
+#. placeholder {0}: attribution.name
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.poweredBy"
+msgstr "Powered by {0}"
+
+#. placeholder {0}: rating.toFixed(1)
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.ratingLabel"
+msgstr "Rated {0} out of 10"
+
 #: ../../apps/mobile/src/features/explore/components/saved-view.tsx
 msgid "explore.saved.remove"
 msgstr "Remove"
@@ -882,10 +905,18 @@ msgstr "Undo last swipe"
 msgid "explore.offers.disclosure"
 msgstr "We may earn a commission if you book. It never changes what we rank first."
 
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.website"
+msgstr "Website"
+
 #. placeholder {0}: guide.name
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.limited.title"
 msgstr "What {0} knows so far"
+
+#: ../../apps/mobile/src/features/explore/components/place-live-details.tsx
+msgid "explore.place.visitorTips"
+msgstr "What visitors say"
 
 #: ../../apps/mobile/src/features/explore/components/destination-view.tsx
 msgid "explore.months.title"
@@ -934,6 +965,10 @@ msgstr "You see it because you're looking at {place}. It isn't chosen from anyth
 #: ../../apps/mobile/src/features/explore/map-copy.ts
 msgid "explore.map.away"
 msgstr "You're {km} km from {place}"
+
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.awayMiles"
+msgstr "You're {km} mi from {place}"
 
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.offline"

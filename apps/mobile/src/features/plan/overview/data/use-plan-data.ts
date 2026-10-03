@@ -127,12 +127,15 @@ export function usePlanData(tripId: string | null): PlanData {
 
   const locale = useActiveLocale();
   const planDays = useMemo(() => toPlanDays(days.rows, locale), [days.rows, locale]);
-  const coverage = useLiveRows<{ coverage: string | null }>(
+  const coverage = useLiveRows<{ coverage: string | null; picked: string | null }>(
     VERSION_PLACES_SQL,
     versionId === null ? null : [versionId],
     VERSION_PLACES_TABLES,
   );
-  const places = useMemo(() => placeNamesOf(coverage.rows[0]?.coverage ?? null), [coverage.rows]);
+  const places = useMemo(
+    () => placeNamesOf(coverage.rows[0]?.coverage ?? null, coverage.rows[0]?.picked ?? null),
+    [coverage.rows],
+  );
   const planItems = useMemo(
     () => toPlanItems(items.rows, locale, places),
     [items.rows, locale, places],

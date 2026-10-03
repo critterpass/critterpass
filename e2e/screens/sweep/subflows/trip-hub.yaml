@@ -1,0 +1,9 @@
+appId: app.critterpass.dev
+---
+# The trip hub's header (3k-1) over the trip's real photo, for an account with the demo crew's
+# confirmed trip: the hub area's own steps, in ${LANG}. Android: the nightly iPhone shard keeps to
+# the seed scenarios.
+- runFlow:
+    when:
+      platform: Android
+    file: ../../../trip/hub/subflows/photo.yaml
