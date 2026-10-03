@@ -71,11 +71,16 @@ appId: app.critterpass.dev
     visible:
       id: 'you-settings-help'
     timeout: 10000
-# Language and currency › FORMATS: the 24-hour clock and miles.
+# Language and currency › FORMATS: the 24-hour clock and miles. Settings opens again at the top: a
+# row scrolled back up can sit under the sticky header, where a tap misses it.
+- runFlow: ../screens/sweep/subflows/back.yaml
+- tapOn:
+    id: 'you-profile-settings'
 - scrollUntilVisible:
     element:
       text: 'Language and currency.*'
-    direction: UP
+    direction: DOWN
+    centerElement: true
     timeout: 20000
 - tapOn:
     text: 'Language and currency.*'
