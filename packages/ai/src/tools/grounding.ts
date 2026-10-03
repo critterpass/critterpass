@@ -150,9 +150,17 @@ export function validateStructured(output: unknown, grounding: GroundingSet): Gr
 const TEXT_NUMBER = /(?<![\w.,])(\d{1,3}(?:[.,]\d{3})+|\d+(?:[.,]\d+)?)(?![\w])/gu;
 const TEXT_CLOCK = /\b(\d{1,2}):(\d{2})\s*(am|pm)?\b|\b(\d{1,2})\s*(am|pm)\b/giu;
 
-/** Clock times written in text ("20:30", "8:30 pm", "9am"), as minutes after midnight. */
+/**
+ * Vietnamese clock times: "15 giờ", "15h30", "lúc 9 giờ", "3 giờ chiều". A bare "3 giờ" is also
+ * a duration ("đi 3 giờ"), so it is a clock only after "lúc", with minutes, with a part of the day,
+ * or past 12.
+ */
+const VI_CLOCK =
+  /(lúc\s+)?(?<!\d)(\d{1,2})\s*(?:giờ|h)(?:\s*(\d{2}))?(?:\s+(sáng|trưa|chiều|tối))?(?![\p{L}\d])/giu;
+
+/** Clock times written in text ("20:30", "8:30 pm", "9am", "15 giờ"), as minutes after midnight. */
 function textClocks(text: string): { readonly whole: string; readonly minutes: number }[] {
-  return [...text.matchAll(TEXT_CLOCK)].map((match) => {
+  const clocks = [...text.matchAll(TEXT_CLOCK)].map((match) => {
     const [whole, h1, m1, ap1, h2, ap2] = match;
     let hours = Number(h1 ?? h2);
     const half = (ap1 ?? ap2)?.toLowerCase();
@@ -160,6 +168,14 @@ function textClocks(text: string): { readonly whole: string; readonly minutes: n
     if (half === 'am' && hours === 12) hours = 0;
     return { whole, minutes: hours * 60 + Number(m1 ?? 0) };
   });
+  for (const match of text.matchAll(VI_CLOCK)) {
+    const [whole, at, h, m, part] = match;
+    let hours = Number(h);
+    if (at === undefined && m === undefined && part === undefined && hours <= 12) continue;
+    if ((part === 'chiều' || part === 'tối') && hours < 12) hours += 12;
+    clocks.push({ whole, minutes: hours * 60 + Number(m ?? 0) });
+  }
+  return clocks;
 }
 
 /** Readings of one number as written: "65.000" and "65,000" are 65000, "12.50" is 12.5. */

@@ -3,23 +3,23 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "5a590775-855f-4022-b0a5-11156a9fdf45",
+      "id": "91f3cf22-240f-4b58-8e54-6ddc03d3ca2a",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "text",
-          "text": "Ngày 1 (2/10) hiện vẫn trống trơn, vì chuyến này chưa có lịch chính thức — mình sẽ nháp cả hành trình khi phần thiết lập xong. Trong lúc chờ, để mình gợi ý vài chỗ quanh Đà Nẵng nhé, tính cả mì Quảng (mì vàng với thịt heo, tôm và bánh tráng mè) cho bữa sáng không?"
+          "text": "Found it — Bánh Mì Bà Lan, the crew-favourite bánh mì spot, 260 m from Avatar Danang Hotel — but the trip has no plan yet, so there's nothing to add it to just yet. The plan starts once setup is finished and I draft the whole trip, and then I'll happily slot it in for you."
         }
       ],
       "stop_reason": "end_turn",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 148,
+        "input_tokens": 398,
         "cache_creation_input_tokens": 0,
         "cache_read_input_tokens": 10496,
-        "output_tokens": 121,
+        "output_tokens": 76,
         "service_tier": "standard"
       }
     }

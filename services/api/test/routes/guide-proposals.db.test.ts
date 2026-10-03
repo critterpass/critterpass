@@ -5,6 +5,8 @@
  */
 import { randomUUID } from 'node:crypto';
 
+import { readPlan, type RunAsGuideReader } from '@cp/ai';
+import { withGuideReader } from '@cp/db';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import type { CommandRegistry } from '../../src/commands/_framework/registry';
@@ -92,5 +94,45 @@ describe('propose_plan_changes', () => {
     ).rejects.toMatchObject({
       code: 'PLAN_VERSION_CONFLICT',
     });
+  });
+
+  it('reads a plan with no items as a plan, and adds a place to its day 1', async () => {
+    const me = await harness.signInAnonymously();
+    const { tripId } = await seedGuideTrip(harness.pool, { organiser: me.uid, members: [] });
+    const read: RunAsGuideReader = (uid, trip, fn) =>
+      withGuideReader(harness.pool, uid, trip ?? '', fn);
+    const context = { uid: me.uid, tripId, caller: 'C' as const, route: 'guide.chat' as const };
+    const { rows: head } = await harness.pool.query<{ current_version_id: string }>(
+      'SELECT current_version_id FROM trips WHERE id = $1',
+      [tripId],
+    );
+
+    const plan = await readPlan(read, context, undefined);
+    expect(plan).toEqual({
+      version: head[0]!.current_version_id,
+      days: [{ day_no: 1, date: null, items: [] }],
+    });
+
+    const proposal = await proposePlanChanges(
+      { pool: harness.pool, commands },
+      {
+        trip_id: tripId,
+        base_version: plan.version!,
+        ops: [
+          {
+            op: 'add',
+            new: { day_no: 1, category: 'food', notes: 'Bánh Mì Bà Lan' },
+            reason: 'A bánh mì by the beach to start the trip.',
+            source_ids: [],
+          },
+        ],
+      },
+      context,
+    );
+    const { rows } = await harness.pool.query<{ status: string; base_version_id: string }>(
+      'SELECT status, base_version_id FROM change_sets WHERE id = $1',
+      [proposal.changeset_id],
+    );
+    expect(rows).toEqual([{ status: 'draft', base_version_id: plan.version }]);
   });
 });
