@@ -1,0 +1,33 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "bfc546de-9ea8-4c23-a02e-9a2c5899b920",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Để tôi xem hôm nay đang có gì trên lịch đã nhé."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_8wRUVW6JI8koeg5M9kjZ2603",
+          "name": "plan_read",
+          "input": {}
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 350,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10112,
+        "output_tokens": 43,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

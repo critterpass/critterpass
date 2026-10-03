@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "a994c4cd-1639-4123-8a37-25ce4e3ab4a2",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I've drafted a coffee stop at Cộng Cà Phê Sân Bay for day 1, 10:30 to 11:15, for you both to confirm. It's a free change and you can undo it if it doesn't suit."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 223,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11264,
+        "output_tokens": 54,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

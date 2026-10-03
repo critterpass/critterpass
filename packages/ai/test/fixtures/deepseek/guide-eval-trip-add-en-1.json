@@ -1,0 +1,44 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "961f711f-f112-45d1-886e-e6b66f8f5bcb",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Let me check the plan and find that coffee spot properly first."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_GljfSsXH3KA9stDLXyAC7092",
+          "name": "places_search",
+          "input": {
+            "query": "Cộng Cà Phê Sân Bay",
+            "near_name": "da nang airport"
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01_IqcwjuGn0e6a3LNc47bF5603",
+          "name": "plan_read",
+          "input": {
+            "day": 1
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 384,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10112,
+        "output_tokens": 106,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
