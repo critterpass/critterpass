@@ -55,6 +55,8 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
+  // Source ids are unique across destinations; each test starts from an empty table.
+  await pool.query('DELETE FROM pois');
   const { rows } = await pool.query<{ id: string }>(
     "INSERT INTO destinations (slug, name, coverage) VALUES ($1, 'Hội An', 'live') RETURNING id",
     [`hoi-an-${Date.now()}-${Math.random().toString(36).slice(2)}`],

@@ -76,8 +76,14 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
    device. The backfill fills only missing boxes: from the geofence, else the region-pack bounds
    in `tools/maps/destinations.ts`, else the Overture locality with the destination's name in its
    country, boxed by population (8 km a side for a town up to 30 km for a metro). It lists the
-   destinations it could not resolve; give those a box by hand (`UPDATE destinations SET
-   place_bounds = ST_MakeEnvelope(minLon, minLat, maxLon, maxLat, 4326)::geography`).
+   destinations it could not resolve (natural areas such as the Lake District, Loch Ness or the
+   Mekong). Check the ones it did resolve too, since a name can match the wrong place (Bohol
+   matched a village on Palawan). Set or correct a box by hand; this replaces any value:
+
+   ```sh
+   railway run --service api --environment staging -- pnpm --dir <worktree> --filter @cp/maps \
+     ingest -- --set-bounds "vn-ha-long:106.95,20.88,107.15,21.00;gb-loch-ness:-4.75,57.10,-4.15,57.50"
+   ```
 
    ```sh
    railway run --service api --environment staging -- pnpm --dir <worktree> --filter @cp/maps \

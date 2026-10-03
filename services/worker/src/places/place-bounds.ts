@@ -100,6 +100,25 @@ interface MissingRow {
   readonly has_geofence: boolean;
 }
 
+/**
+ * Sets a destination's place box, replacing any value: the operator's correction when the
+ * backfill found no locality or the wrong one. Returns false when the slug does not exist.
+ */
+export async function setPlaceBounds(
+  pool: pg.Pool,
+  slug: string,
+  box: BoundingBox,
+): Promise<boolean> {
+  const { rowCount } = await withSystem(pool, (tx) =>
+    tx.query(
+      `UPDATE destinations SET place_bounds = ST_MakeEnvelope($2, $3, $4, $5, 4326)::geography
+       WHERE slug = $1`,
+      [slug, box.minLng, box.minLat, box.maxLng, box.maxLat],
+    ),
+  );
+  return (rowCount ?? 0) > 0;
+}
+
 async function writeBox(pool: pg.Pool, id: string, box: BoundingBox): Promise<void> {
   await withSystem(pool, (tx) =>
     tx.query(

@@ -24,5 +24,7 @@ ALTER TABLE pois ADD CONSTRAINT pois_confidence_check
 -- destination to ingest it owns the row; search matches a destination's own rows or any row inside
 -- its box. Kept apart from `geofence`, which drives arrival on the device. Filled by the ingest
 -- CLI's bounds backfill from the geofence, the region-pack bounds or the Overture locality point
--- sized by population. Covered by the table's existing grants and RLS.
+-- sized by population. Covered by the table's existing grants and RLS; the ops console's reader
+-- sees it like the geofence.
 ALTER TABLE destinations ADD COLUMN place_bounds geography(Polygon, 4326);
+GRANT SELECT (place_bounds) ON destinations TO admin_reader;

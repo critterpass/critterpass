@@ -6,6 +6,7 @@
  *   pnpm --filter @cp/maps ingest -- --slug kyoto --min-lat 34.90 --max-lat 35.10 \
  *     --min-lng 135.60 --max-lng 135.85 [--tz Asia/Tokyo]       # one destination, an explicit box
  *   pnpm --filter @cp/maps ingest -- --backfill-bounds           # fill missing place_bounds
+ *   pnpm --filter @cp/maps ingest -- --set-bounds "slug:minLon,minLat,maxLon,maxLat;…"  # correct
  *   pnpm --filter @cp/maps ingest -- --all [--except da-nang]    # every destination, here, in turn
  *   pnpm --filter @cp/maps ingest -- --enqueue [--except da-nang]
  *     # the worker's `places.ingest` fan-out: one FSQ OS export, then one job per destination
@@ -33,6 +34,7 @@ import { ingestAllDestinations } from '../../services/worker/src/places/ingest-a
 import {
   backfillPlaceBounds,
   loadPlaceBounds,
+  setPlaceBounds,
 } from '../../services/worker/src/places/place-bounds';
 import { DEFAULT_OVERTURE_RELEASE } from '../../services/worker/src/places/source-readers';
 import { GUIDE_DESTINATION_EXTRACTS } from './destinations';
@@ -85,6 +87,22 @@ function listValue(values: ReadonlyMap<string, string>, name: string): string[] 
     .split(',')
     .map((part) => part.trim())
     .filter((part) => part.length > 0);
+}
+
+/** `--set-bounds "slug:minLon,minLat,maxLon,maxLat;slug2:…"` as slug → box. */
+export function parseSetBounds(value: string | undefined): Map<string, BoundingBox> {
+  const boxes = new Map<string, BoundingBox>();
+  for (const entry of (value ?? '').split(';').map((part) => part.trim())) {
+    if (entry.length === 0) continue;
+    const [slug, coords] = entry.split(':');
+    const numbers = (coords ?? '').split(',').map(Number);
+    if (slug === undefined || numbers.length !== 4 || numbers.some((n) => !Number.isFinite(n)))
+      throw new Error(`--set-bounds entry "${entry}" is not slug:minLon,minLat,maxLon,maxLat`);
+    const [minLng, minLat, maxLng, maxLat] = numbers as [number, number, number, number];
+    if (minLng >= maxLng || minLat >= maxLat) throw new Error(`--set-bounds "${entry}" is empty`);
+    boxes.set(slug, { minLat, maxLat, minLng, maxLng });
+  }
+  return boxes;
 }
 
 /** The region-pack bounds (`minLon,minLat,maxLon,maxLat`) for the guide destinations. */
@@ -176,6 +194,10 @@ async function main(): Promise<void> {
 
   const pool = createPool({ connectionString, max: 2 });
   try {
+    for (const [slug, box] of parseSetBounds(values.get('set-bounds'))) {
+      if (!(await setPlaceBounds(pool, slug, box))) throw new Error(`no destination "${slug}"`);
+      console.log(JSON.stringify({ slug, placeBounds: box }));
+    }
     if (flags.has('backfill-bounds')) {
       console.log(JSON.stringify(await backfillPlaceBounds(pool, guideBounds()), null, 2));
     }
@@ -192,8 +214,9 @@ async function main(): Promise<void> {
     }
     const slug = values.get('slug');
     if (slug !== undefined) await ingestOne(pool, slug, explicitBox(values), values.get('tz'));
-    if (slug === undefined && !flags.has('all') && !flags.has('backfill-bounds')) {
-      throw new Error('give --slug <slug>, --all, --backfill-bounds or --enqueue');
+    const acted = ['all', 'backfill-bounds'].some((flag) => flags.has(flag));
+    if (slug === undefined && !acted && !values.has('set-bounds')) {
+      throw new Error('give --slug <slug>, --all, --backfill-bounds, --set-bounds or --enqueue');
     }
   } finally {
     await pool.end();
