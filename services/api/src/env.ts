@@ -156,6 +156,12 @@ export const apiEnvSchema = z.object({
    *  attached — infra/cloudflare/tiles/wrangler.toml) serves PMTiles/fonts/sprite from; read by
    *  src/places/map-regions.ts to build the manifest's `url`. */
   TILES_BASE_URL: z.url().default('https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev'),
+  /** Foursquare Places API key for live place details (src/places/live.ts); unset =
+   *  `/v1/places/{id}/live` always answers `available: false`. */
+  FOURSQUARE_API_KEY: optionalString,
+  /** Foursquare calls per UTC month across the api and the worker (Premium details ≈ $18.75 per
+   *  1K); at the cap live details read as unavailable. Same value on both services. */
+  FOURSQUARE_MONTHLY_CALL_CAP: z.coerce.number().int().positive().default(4000),
 
   // --- Realtime (Centrifugo proxies, docs/api-contracts.md §5.7) ---
   /** Shared header value Centrifugo sends on subscribe/publish proxy calls (its

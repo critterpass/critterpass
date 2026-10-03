@@ -21,6 +21,13 @@ appId: app.critterpass.dev
 - runFlow:
     file: scene.yaml
     env: { SCENE: scan-failure, READY: money-failure, SHOT: '${PREFIX}-3i-4-cant-read' }
+# The scenes from here are listed above the ones before: back to the top of the list first, since
+# it keeps its place (a downward scroll from scan-failure never reaches scan-aim).
+- scrollUntilVisible:
+    element:
+      id: 'money-lab-balances'
+    direction: UP
+    timeout: 20000
 - runFlow:
     file: scene.yaml
     env: { SCENE: scan-aim, READY: money-scan-aim, SHOT: '${PREFIX}-money-scan-aim' }

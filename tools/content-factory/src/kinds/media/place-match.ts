@@ -16,18 +16,22 @@ export interface PlaceForMatch {
   readonly lng: number;
 }
 
-export interface WikidataPlace {
+/** A Wikidata item with a point and its English and local labels. */
+export interface WikidataPoint {
   /** `Q123` */
   readonly id: string;
   readonly labels: readonly string[];
   readonly lat: number;
   readonly lng: number;
+}
+
+export interface WikidataPlace extends WikidataPoint {
   /** The item's image (P18) as a Commons `File:` title. */
   readonly file: string;
 }
 
-export interface PlaceMatch {
-  readonly item: WikidataPlace;
+export interface PlaceMatch<T extends WikidataPoint = WikidataPlace> {
+  readonly item: T;
   readonly label: string;
   readonly score: number;
   readonly distanceM: number;
@@ -101,6 +105,11 @@ export function words(text: string): string[] {
     .filter(Boolean);
 }
 
+/** The words of `text` that set a place apart: not a place type, not the region, not filler. */
+export function tellingWords(text: string): string[] {
+  return words(text).filter((word) => !PLAIN.has(word) && !TYPE_WORDS.has(word));
+}
+
 function typesOf(tokens: readonly string[]): Set<string> {
   const joined = ` ${tokens.join(' ')} `;
   const found = new Set<string>();
@@ -116,7 +125,10 @@ export function nameVariants(name: string): string[] {
   return [...new Set([name, ...parts].map((part) => part.trim()).filter(Boolean))];
 }
 
-function distanceM(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
+export function distanceM(
+  a: { lat: number; lng: number },
+  b: { lat: number; lng: number },
+): number {
   const rad = Math.PI / 180;
   const dLat = (b.lat - a.lat) * rad;
   const dLng = (b.lng - a.lng) * rad;
@@ -155,17 +167,26 @@ export function nameScore(
   return sharedTelling / [...new Set([...a, ...b])].filter(telling).length;
 }
 
-/** The item this place most likely is, or null. */
-export function matchPlace(
+/**
+ * The item this place most likely is, or null. `wholeName` only matches on the name or on a part
+ * of it that keeps every word setting the name apart ("Chùa Cầu" of "Chùa Cầu - Hội An", not
+ * "Bà Nà" of "Thích Ca Phật Đài - Bà Nà").
+ */
+export function matchPlace<T extends WikidataPoint>(
   place: PlaceForMatch,
-  items: readonly WikidataPlace[],
-): PlaceMatch | null {
+  items: readonly T[],
+  wholeName = false,
+): PlaceMatch<T> | null {
   const exactOnly = EXACT_ONLY.has(place.category);
-  let best: PlaceMatch | null = null;
+  const telling = tellingWords(place.name);
+  const variants = nameVariants(place.name).filter(
+    (variant) => !wholeName || telling.every((word) => tellingWords(variant).includes(word)),
+  );
+  let best: PlaceMatch<T> | null = null;
   for (const item of items) {
     const distance = Math.round(distanceM(place, item));
     if (distance > (WIDE.has(place.category) ? WIDE_DISTANCE_M : MAX_DISTANCE_M)) continue;
-    for (const variant of nameVariants(place.name)) {
+    for (const variant of variants) {
       for (const label of item.labels) {
         const score = nameScore(place.name, variant, label, exactOnly, item.labels);
         if (score < MIN_SCORE) continue;

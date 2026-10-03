@@ -622,6 +622,29 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // Foursquare bookkeeping (server-only, class S): the id match and the monthly call counts.
+  poi_foursquare_ids: {
+    selectProbe: { sql: 'SELECT 1 FROM poi_foursquare_ids LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  foursquare_api_usage: {
+    selectProbe: { sql: 'SELECT 1 FROM foursquare_api_usage LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   poi_live_checks: {
     selectProbe: { sql: 'SELECT 1 FROM poi_live_checks LIMIT 1', params: () => [] },
     expectations: {

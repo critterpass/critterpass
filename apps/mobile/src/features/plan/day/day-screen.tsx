@@ -233,6 +233,7 @@ export function DayScreen({
       {adding && day?.date != null ? (
         <AddItemSheet
           destinationId={plan.trip?.destination_id ?? null}
+          tripId={plan.trip?.id ?? null}
           date={day.date}
           items={items}
           tz={tz}

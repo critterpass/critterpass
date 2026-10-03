@@ -52,6 +52,10 @@ msgstr ""
 msgid "plan.day.add.from"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.useOwnWords"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.addAction"
 msgstr ""
@@ -98,6 +102,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.cost"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searchFailed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
@@ -152,6 +160,10 @@ msgstr ""
 msgid "plan.day.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searching"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"
 msgstr ""
@@ -174,6 +186,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.notes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.noResults"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
@@ -229,6 +245,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searchingMore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
@@ -305,8 +325,16 @@ msgstr ""
 msgid "plan.day.item.goneTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.arriving"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.bookingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.tryAgain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/commands.ts

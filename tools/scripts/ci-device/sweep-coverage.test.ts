@@ -37,6 +37,11 @@ describe('UI sweep', () => {
     expect(appRoutes(ROOT)).toContain('crew/new');
     expect(appRoutes(ROOT).some((route) => route.includes('(dev)'))).toBe(false);
     expect(sweepShots(ROOT)).toContain('3c-1-showdown');
+    // Shots of the area subflows a lab scenario runs with the language: taken directly
+    // (`${PREFIX}-…`), named by a scene opener's SHOT, or by its SCENE.
+    expect(sweepShots(ROOT)).toEqual(
+      expect.arrayContaining(['3f-1-build', '3i-4-cant-read', '3c-10-add-must-do', '3e-1-plan']),
+    );
     expect(designIdOf('3c-1-showdown')).toBe('3c-1');
     expect(designIdOf('crew-new-code')).toBeUndefined();
   });

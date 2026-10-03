@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# The place page with Foursquare's live facts, from the Explore lab: a Đà Nẵng beach with no photo
+# of its own shows Foursquare's photo in the hero, its price and open-now in the facts line, then
+# (scrolled) the rating, more photos, visitors' tips, call and website rows and the
+# "Powered by Foursquare" line.
+- runFlow: subflows/lab-en.yaml
+- scrollUntilVisible:
+    element:
+      id: 'explore-lab-place-foursquare'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'explore-lab-place-foursquare'
+- extendedWaitUntil:
+    visible:
+      id: 'explore-place-hero-live'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3d-3-foursquare
+- scrollUntilVisible:
+    element:
+      id: 'explore-place-attribution'
+    direction: DOWN
+    timeout: 20000
+- assertVisible:
+    id: 'explore-place-rating'
+- assertVisible:
+    id: 'explore-place-website'
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-3d-3-foursquare-details

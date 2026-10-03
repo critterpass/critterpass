@@ -165,6 +165,14 @@ msgid "setup.rooms.unplaced.member"
 msgstr "Chưa có phòng."
 
 #: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.noStaysLine"
+msgstr "Đặt chỗ ở xong, {guide} sẽ chia phòng. Tạm thời mọi người chia đều."
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
+msgid "setup.rooms.noStaysTitle"
+msgstr "Phòng đi kèm chỗ ở"
+
+#: ../../apps/mobile/src/features/setup/rooms/rooms-view.tsx
 msgid "setup.rooms.evenSplit"
 msgstr "Cả nhóm một phòng nên chia đều. Bạn có thể bỏ qua bước này."
 

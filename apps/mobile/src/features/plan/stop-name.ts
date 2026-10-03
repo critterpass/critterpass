@@ -7,22 +7,43 @@
  */
 import { t } from '@lingui/core/macro';
 
-/** The plan version's own place names, by place id (`itinerary_versions.coverage.places`). */
-export function placeNamesOf(coverage: string | null): ReadonlyMap<string, string> {
-  let parsed: unknown;
+function parse(json: string | null | undefined): unknown {
   try {
-    parsed = JSON.parse(coverage ?? 'null') as unknown;
+    return JSON.parse(json ?? 'null') as unknown;
   } catch {
-    return new Map();
+    return null;
   }
-  const places = (parsed as { places?: unknown } | null)?.places;
-  if (typeof places !== 'object' || places === null) return new Map();
-  return new Map(
-    Object.entries(places as Record<string, unknown>).flatMap(([id, place]) => {
-      const name = (place as { name?: unknown } | null)?.name;
-      return typeof name === 'string' && name.trim() !== '' ? [[id, name.trim()] as const] : [];
-    }),
+}
+
+function named(entries: [string, unknown][]): [string, string][] {
+  return entries.flatMap(([id, name]) =>
+    typeof name === 'string' && name.trim() !== '' ? [[id, name.trim()] as [string, string]] : [],
   );
+}
+
+/**
+ * The plan version's own place names, by place id (`itinerary_versions.coverage.places`), with the
+ * names of places this phone picked in the add sheet (`picked`, id → name) behind them: a place
+ * found on the server is never in the phone's catalogue, and the plan's record of it arrives with
+ * the next version.
+ */
+export function placeNamesOf(
+  coverage: string | null,
+  picked?: string | null,
+): ReadonlyMap<string, string> {
+  const places = (parse(coverage) as { places?: unknown } | null)?.places;
+  const own =
+    typeof places === 'object' && places !== null
+      ? named(
+          Object.entries(places as Record<string, unknown>).map(([id, place]) => [
+            id,
+            (place as { name?: unknown } | null)?.name,
+          ]),
+        )
+      : [];
+  const local = parse(picked);
+  const fromPhone = typeof local === 'object' && local !== null ? named(Object.entries(local)) : [];
+  return new Map([...fromPhone, ...own]);
 }
 
 /** A stop's kind as a name, for a stop with nothing better to go by. */

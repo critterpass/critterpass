@@ -26,6 +26,7 @@ const source: Record<string, string> = {
   WEATHERAPI_KEY: 'registry-test-secret-value',
   ANTHROPIC_API_KEY: 'registry-test-secret-value',
   TAVILY_API_KEY: 'registry-test-secret-value',
+  FOURSQUARE_API_KEY: 'registry-test-secret-value',
 };
 
 const env = loadWorkerEnv(source);

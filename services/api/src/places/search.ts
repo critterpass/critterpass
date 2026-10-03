@@ -110,8 +110,18 @@ export async function searchPlaces(
     conditions.push(
       `(p.fts @@ websearch_to_tsquery('simple', app.unaccent_immutable($${qParam})) OR p.name % $${qParam})`,
     );
-    // Curated places first: a query also matches every business on a street named after a sight.
-    orderExpression = `(p.curation = 'editorial') DESC, ts_rank(p.fts, websearch_to_tsquery('simple', app.unaccent_immutable($${qParam}))) DESC, similarity(p.name, $${qParam}) DESC`;
+    const words = (filters.q ?? '')
+      .toLowerCase()
+      .split(/\s+/u)
+      .filter((word) => word !== '');
+    params.push(words);
+    const wordsParam = params.length;
+    // A place whose own name has a word starting with each typed word comes before one that matches only by its
+    // address or tags ("My Son" is the sanctuary, not every bar in Mỹ An, Sơn Trà). Within each,
+    // curated places first: a query also matches every business on a street named after a sight.
+    const nameMatch = `(SELECT bool_and(app.unaccent_immutable(lower(p.name || ' ' || coalesce(p.name_local, '')))
+        ~ ('(^|[^[:alnum:]])' || app.unaccent_immutable(w))) FROM unnest($${wordsParam}::text[]) AS w)`;
+    orderExpression = `coalesce(${nameMatch}, false) DESC, (p.curation = 'editorial') DESC, ts_rank(p.fts, websearch_to_tsquery('simple', app.unaccent_immutable($${qParam}))) DESC, similarity(p.name, $${qParam}) DESC`;
   }
 
   let distanceSelect = 'NULL::double precision AS distance_m';

@@ -5,8 +5,28 @@ appId: app.critterpass.dev
     visible:
       id: 'onboarding-open'
     timeout: 60000
-- tapOn:
-    id: 'onboarding-open'
+# Right after a cold launch on a busy simulator the splash can still be settling and drop the tap
+# (the button presses, the page stays): OPEN YOUR PASS is tapped again while the splash is up.
+- repeat:
+    while:
+      notVisible:
+        id: 'onboarding-name-field'
+    times: 3
+    commands:
+      - runFlow:
+          when:
+            visible:
+              id: 'onboarding-open'
+          commands:
+            - waitForAnimationToEnd:
+                timeout: 3000
+            - tapOn:
+                id: 'onboarding-open'
+      - extendedWaitUntil:
+          visible:
+            id: 'onboarding-name-field'
+          timeout: 10000
+          optional: true
 - extendedWaitUntil:
     visible:
       id: 'onboarding-name-field'

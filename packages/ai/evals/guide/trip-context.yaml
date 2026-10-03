@@ -386,7 +386,7 @@
     - type: javascript
       value: file://../graders.ts:replies_in_locale
     - type: llm-rubric
-      value: Says plainly there is no plan for day 1 yet and offers a concrete suggestion or two; never asks for a trip code or link.
+      value: Says plainly there is no plan yet, that it starts once the trip's setup is finished and the guide drafts the trip, and offers a concrete suggestion or two; never asks for a trip code or link.
 
 - description: Says plainly a hotel is not among its places and offers the closest match (EN)
   vars:
@@ -422,3 +422,84 @@
       value: file://../graders.ts:replies_in_locale
     - type: llm-rubric
       value: Says it could not find Sheraton Grand Danang among its places and offers Four Points by Sheraton Danang as the closest name; does not claim the Sheraton Grand is nearby or give it a distance.
+
+- description: Adds a place to day 1 of a plan whose days are still empty, as a proposal (VI)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: vi
+    now: '2026-10-01T21:00:00+07:00'
+    trip_context: *trip
+    question: thêm Bánh Mì Bà Lan vào ngày 1
+    expect_tools: [plan_read, propose_plan_changes]
+    tool_results:
+      - tool: places_search
+        output: *recommended_places
+      - tool: plan_read
+        output:
+          version: 0199a000-0000-7000-8000-0000000000a2
+          days:
+            - { day_no: 1, date: '2026-10-02', items: [] }
+            - { day_no: 2, date: '2026-10-03', items: [] }
+            - { day_no: 3, date: '2026-10-04', items: [] }
+      - tool: propose_plan_changes
+        output:
+          changeset_id: 0199a000-0000-7000-8000-0000000000d2
+          violations: []
+          cost_delta: null
+    replay:
+      fixtures:
+        [
+          guide-eval-trip-emptyplan-vi-1,
+          guide-eval-trip-emptyplan-vi-2,
+          guide-eval-trip-emptyplan-vi-3,
+        ]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:no_trip_ids_from_model
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: not-icontains-any
+      value: ['đã thêm', 'đã được thêm', 'chưa có kế hoạch', 'chưa có lịch']
+    - type: llm-rubric
+      value: Says it has proposed Bánh Mì Bà Lan for day 1 for the traveller to confirm; does not say the trip has no plan or that it cannot add it.
+
+- description: With no plan yet, says how the plan starts instead of adding (EN)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: en
+    now: '2026-09-30T21:00:00+07:00'
+    trip_context: *trip
+    question: add Bánh Mì Bà Lan to day 1
+    expect_tools: [plan_read]
+    forbid_tools: [propose_plan_changes]
+    tool_results:
+      - tool: places_search
+        output: *recommended_places
+      - tool: plan_read
+        output:
+          version: null
+          days:
+            - { day_no: 1, date: '2026-10-02', items: [] }
+            - { day_no: 2, date: '2026-10-03', items: [] }
+            - { day_no: 3, date: '2026-10-04', items: [] }
+    replay:
+      fixtures: [guide-eval-trip-noplan-add-en-1, guide-eval-trip-noplan-add-en-2]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:avoids_forbidden_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: not-icontains-any
+      value: ["i've proposed", "i've added", 'i have added', 'i have proposed', 'is now on day']
+    - type: llm-rubric
+      value: Says the trip has no plan yet so it cannot add Bánh Mì Bà Lan now, says the plan starts once setup is finished and the guide drafts the trip, and may keep the place in mind; never asks for a trip code.

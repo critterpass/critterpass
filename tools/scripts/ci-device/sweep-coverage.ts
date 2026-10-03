@@ -61,6 +61,20 @@ export const SCENARIOS: readonly Scenario[] = [
     seed: 'dev-seed-demo-vote-final',
     summary: "the demo crew's destination vote in its final",
   },
+  { name: 'trip-hub', onboard: false, summary: "the trip hub's header over the trip's photo" },
+  {
+    name: 'labs-planning',
+    onboard: false,
+    summary: 'lab scenes for trip setup, the draft and the proposal',
+  },
+  {
+    name: 'labs-wallet',
+    onboard: false,
+    summary: 'lab scenes for bookings, getting around and money',
+  },
+  { name: 'labs-guide', onboard: false, summary: "lab scenes for the guide's sheet" },
+  { name: 'labs-plan', onboard: false, summary: 'lab scenes for the draft, the plan and its days' },
+  { name: 'labs-trip', onboard: false, summary: 'lab scenes for the trip day and critters' },
 ];
 
 /**
@@ -98,6 +112,7 @@ export const ROUTE_SHOTS: Readonly<Record<string, readonly string[] | { unreacha
   'vote/new-poll': ['3g-1-new-poll', '3g-1-new-poll-keyboard'],
   'vote/[pollId]/index': ['3c-1-showdown'],
   'vote/[pollId]/reveal': ['3c-2-reveal'],
+  '(tabs)/trips/[tripId]/index': ['3k-1-photo'],
   '(trip)/map/[tripId]': ['3g-4-live-map'],
   '(trip)/map/crew/[crewId]': ['3g-4-live-map'],
   '+not-found': ['not-found'],
@@ -134,13 +149,42 @@ export function sweepFlows(): { file: string; text: string }[] {
   );
 }
 
-/** Screenshot names the sweep subflows take, without their `${LANG}-` prefix. */
+/**
+ * Screenshot names the sweep takes, without their language prefix: the sweep subflows' own
+ * (`${LANG}-…`) and those of the area subflows they run with the language passed on (`${PREFIX}-…`,
+ * taken directly, handed to a scene opener as `SHOT`, or a `SCENE` handed to an opener that names
+ * its shot `${PREFIX}-${SCENE}`), following `runFlow` files.
+ */
 export function sweepShots(root: string): string[] {
   const names = new Set<string>();
-  for (const file of globSync(`${SWEEP_DIR}/subflows/*.yaml`, { cwd: root })) {
-    for (const match of readFileSync(path.join(root, file), 'utf8').matchAll(
-      /takeScreenshot:\s*\$\{LANG\}-(\S+)/g,
+  const texts = new Map<string, string>();
+  const refs = new Map<string, string[]>();
+  const visit = (file: string) => {
+    if (texts.has(file)) return;
+    let text: string;
+    try {
+      text = readFileSync(path.join(root, file), 'utf8');
+    } catch {
+      return;
+    }
+    texts.set(file, text);
+    refs.set(file, []);
+    for (const match of text.matchAll(
+      /(?:takeScreenshot|SHOT):\s*['"]?\$\{(?:LANG|PREFIX)\}-([\w-]+)/g,
     ))
+      names.add(match[1] ?? '');
+    for (const match of text.matchAll(/(?:runFlow|file):\s*([\w./-]+\.yaml)/g)) {
+      const ref = path.normalize(path.join(path.dirname(file), match[1] ?? ''));
+      refs.get(file)?.push(ref);
+      visit(ref);
+    }
+  };
+  for (const file of globSync(`${SWEEP_DIR}/subflows/*.yaml`, { cwd: root })) visit(file);
+  const namesScenes = (file: string) =>
+    /takeScreenshot:\s*['"]?\$\{PREFIX\}-\$\{SCENE\}/.test(texts.get(file) ?? '');
+  for (const [file, text] of texts) {
+    if (!(refs.get(file) ?? []).some(namesScenes)) continue;
+    for (const match of text.matchAll(/SCENE:\s*['"]?(\d+[a-z]-\d+[\w-]*)/g))
       names.add(match[1] ?? '');
   }
   return [...names].sort();

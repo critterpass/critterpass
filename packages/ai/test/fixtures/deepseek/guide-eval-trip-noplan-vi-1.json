@@ -3,14 +3,14 @@
   "response": {
     "status": 200,
     "body": {
-      "id": "00baaccb-4303-4708-9625-0d69dabc4d4a",
+      "id": "e0fa8ed9-f5ea-42ae-bf79-400fe443c402",
       "type": "message",
       "role": "assistant",
       "model": "deepseek-flash",
       "content": [
         {
           "type": "tool_use",
-          "id": "call_00_9JEn3paHVyqjPoE1woYu1211",
+          "id": "call_00_LXLlEsj3kmXv9pYrMsCk6582",
           "name": "plan_read",
           "input": {
             "day": 1
@@ -20,9 +20,9 @@
       "stop_reason": "tool_use",
       "stop_sequence": null,
       "usage": {
-        "input_tokens": 344,
+        "input_tokens": 4133,
         "cache_creation_input_tokens": 0,
-        "cache_read_input_tokens": 10112,
+        "cache_read_input_tokens": 6400,
         "output_tokens": 37,
         "service_tier": "standard"
       }

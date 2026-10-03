@@ -1,7 +1,8 @@
 /**
  * Lab scenes for the place page (3d-3): as designed inside a trip, a member's suggestion, already
- * in the plan, with no trip, closed on the day, with no crowd data, offline and a long Vietnamese
- * name. Save and the main action work; nothing is sent.
+ * in the plan, with no trip, closed on the day, with no crowd data, offline, a long Vietnamese
+ * name, and a Đà Nẵng place with no photo of its own filled in by Foursquare's live facts. Save and
+ * the main action work; nothing is sent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
@@ -12,6 +13,7 @@ import type { CrowdChartProps } from '../components/crowd-chart';
 import { PlaceView } from '../components/place-view';
 import { guideFor } from '../format';
 import { placeMeta, placeTags, type PlaceMetaFacts } from '../place-copy';
+import { liveFacts, type PlaceLive } from '../place-live';
 import { crowdColumns, goAdvice, type AddState } from '../place-model';
 
 const HOURLY = [
@@ -49,7 +51,39 @@ interface SceneSpec {
   readonly offline?: boolean;
   readonly saved?: boolean;
   readonly offers?: boolean;
+  /** Foursquare's live answer for the place. */
+  readonly live?: PlaceLive;
 }
+
+// Staging stock photos of Đà Nẵng, one per photo: Wikimedia refuses Android's image loader.
+const STOCK = 'https://media.staging.critterpass.app/c/media';
+const LIVE_PHOTOS = [
+  '01a0f4a2-e2d1-7495-adc0-1b6fc321be89',
+  '01a0f4a2-e2c8-7be5-a86b-7c1df14c1f4b',
+  '01a0f4a2-e2cd-76ae-bac3-790439413f56',
+  '01a0f4a2-e2d4-7bb3-8b51-0913d642c105',
+].map((id, index) => ({
+  url: `${STOCK}/${id}/${index === 0 ? '1242' : '480'}.webp`,
+  width: 3,
+  height: 2,
+}));
+
+const MY_KHE_LIVE: PlaceLive = {
+  available: true,
+  openNow: true,
+  closedPermanently: false,
+  hours: null,
+  priceLevel: 2,
+  rating: 8.6,
+  photos: LIVE_PHOTOS,
+  tips: [
+    { text: 'Go at sunrise: the sand is cool and the fishing boats are coming in.', createdAt: '' },
+    { text: 'Loungers are 50k for the day, and the showers behind them are free.', createdAt: '' },
+  ],
+  website: 'https://danangfantasticity.com',
+  phone: '+84 236 3550 111',
+  attribution: { name: 'Foursquare', url: 'https://foursquare.com' },
+};
 
 const FUSHIMI: SceneSpec = {
   name: 'Fushimi Inari',
@@ -141,6 +175,17 @@ const SPECS: Readonly<Record<string, SceneSpec>> = {
     proposedOnAdd: true,
     offers: true,
   },
+  'place-foursquare': {
+    name: 'Phạm Văn Đồng Beach',
+    guide: 'chava',
+    category: 'beach',
+    guidePick: true,
+    meta: { priceLevel: null, open: 'unknown', stayMinutes: 12 },
+    crowd: { kind: 'none', date: DATE },
+    tip: null,
+    add: null,
+    live: MY_KHE_LIVE,
+  },
 };
 
 function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
@@ -149,6 +194,11 @@ function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
   const [saved, setSaved] = useState(spec.saved ?? false);
   const [added, setAdded] = useState<number | null>(null);
   const guide = guideFor(spec.guide);
+  const live = liveFacts(spec.live, {
+    hours: null,
+    priceLevel: spec.meta.priceLevel,
+    hasPhoto: false,
+  });
   const state: AddState | null =
     spec.add === null ? null : added === null ? spec.add : { kind: 'planned', dayNo: added };
   return (
@@ -157,12 +207,19 @@ function PlaceScene({ spec }: { readonly spec: SceneSpec }) {
       category={spec.category}
       guide={guide}
       photo={null}
+      heroUrl={live.heroUrl}
+      live={live.details}
       tags={placeTags({
         guideName: guide.name,
         guidePick: spec.guidePick ?? false,
         mustDoOwner: spec.mustDoOwner ?? null,
       })}
-      meta={placeMeta({ category: spec.category, ...spec.meta })}
+      meta={placeMeta({
+        category: spec.category,
+        ...spec.meta,
+        priceLevel: live.priceLevel,
+        open: live.openNow === null ? spec.meta.open : live.openNow ? 'open' : 'closed',
+      })}
       offline={spec.offline ?? false}
       saved={saved}
       onBack={() => undefined}
