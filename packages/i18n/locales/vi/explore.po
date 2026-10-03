@@ -935,6 +935,10 @@ msgstr "Bạn thấy nó vì bạn đang xem {place}. Nó không được chọn
 msgid "explore.map.away"
 msgstr "Bạn cách {place} {km} km"
 
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.awayMiles"
+msgstr "Bạn cách {place} {km} dặm"
+
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.offline"
 msgstr "Bạn đang ngoại tuyến. Đây là giá gần nhất điện thoại này đã thấy."

@@ -1,0 +1,169 @@
+appId: app.critterpass.dev
+---
+# Settings' HELP AND FEEDBACK rows (3n-6) and FORMATS (3n-8) against the staging api. A fresh account
+# takes the demo crew and reads the chat's times in the phone's own clock. Settings shows the help
+# rows; Send feedback and Help centre open their screens. Under Language and currency it picks the
+# 24-hour clock and miles. The chat's times, a day timeline (the plan editing lab) and the live
+# map's distances (its lab) then follow that choice.
+- runFlow:
+    file: ../happy/subflows/fresh-account.yaml
+    env:
+      SEED: dev-seed-demo
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      text: '.*Rin still has to say if they are in.*'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-chat-times-phone-clock
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'dev-tools-entry'
+    file: ../onboarding/subflows/back.yaml
+# Settings, from the profile behind the PASS tab's face.
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-settings'
+- scrollUntilVisible:
+    element:
+      id: 'you-settings-help'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-3n-6-help-and-feedback
+- tapOn: 'Send feedback'
+- extendedWaitUntil:
+    visible:
+      id: 'help-feedback'
+    timeout: 15000
+- takeScreenshot: en-3n-6-send-feedback
+- tapOn:
+    id: 'help-feedback-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings-help'
+    timeout: 10000
+- tapOn: 'Help centre'
+- extendedWaitUntil:
+    visible:
+      id: 'help-hub'
+    timeout: 15000
+- tapOn:
+    id: 'help-hub-back'
+- extendedWaitUntil:
+    visible:
+      id: 'you-settings-help'
+    timeout: 10000
+# Language and currency › FORMATS: the 24-hour clock and miles.
+- scrollUntilVisible:
+    element:
+      text: 'Language and currency.*'
+    direction: UP
+    timeout: 20000
+- tapOn:
+    text: 'Language and currency.*'
+- scrollUntilVisible:
+    element:
+      id: 'you-formats-row'
+    direction: DOWN
+    centerElement: true
+    timeout: 15000
+- tapOn:
+    id: 'you-formats-row'
+- extendedWaitUntil:
+    visible:
+      id: 'you-formats-sheet'
+    timeout: 10000
+- tapOn:
+    id: 'you-formats-time-24h'
+- tapOn:
+    id: 'you-formats-distance-mi'
+- tapOn:
+    id: 'you-formats-sheet-scrim'
+- extendedWaitUntil:
+    visible:
+      text: '24-hour · mi'
+    timeout: 10000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-3n-8-formats
+# Back to Home: the chat's times now read on the 24-hour clock.
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 20000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      text: '.*Rin still has to say if they are in.*'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-chat-times-24h
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'dev-tools-entry'
+    file: ../onboarding/subflows/back.yaml
+# A day timeline, from the plan editing lab.
+- runFlow:
+    file: ../permissions/subflows/open-dev-screen.yaml
+    env:
+      SCREEN: plan-edit-lab
+      READY: plan-edit-lab-day
+- scrollUntilVisible:
+    element:
+      id: 'plan-edit-lab-day'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'plan-edit-lab-day'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-day-list'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3e-2-24h
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow: ../onboarding/subflows/back.yaml
+# The live map's distances, from its lab.
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-live-map'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-live-map'
+- extendedWaitUntil:
+    visible:
+      id: 'live-map-scene-live'
+    timeout: 20000
+- runFlow:
+    file: ../crew/live-map/subflows/scene.yaml
+    env: { SCENE: live, SHOT: 'en-3g-4-miles', READY: live-map-screen }

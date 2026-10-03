@@ -82,6 +82,14 @@ msgstr "{place} today"
 msgid "you.edit.form.found"
 msgstr "{tier} · found {when}"
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.twelveHour"
+msgstr "12-hour"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.twentyFourHour"
+msgstr "24-hour"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
 msgstr "Account"
@@ -187,6 +195,10 @@ msgstr "Chinese, simplified"
 msgid "you.edit.airportSearch"
 msgstr "City or airport code"
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.clock"
+msgstr "Clock"
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.close"
 msgstr "Close"
@@ -277,6 +289,10 @@ msgstr "Delete your account?"
 msgid "you.closed.departures"
 msgstr "DEPARTURES · DÉPARTS"
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.distance"
+msgstr "Distance"
+
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.done"
 msgstr "Done"
@@ -334,6 +350,10 @@ msgstr "Expenses you added, so Balances still add up"
 msgid "you.settings.helpShareLine"
 msgstr "For an hour with the crew, when I open Help"
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.title"
+msgstr "Formats"
+
 #: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
 msgid "you.settings.mailboxForward"
 msgstr "Forward confirmations to your crew’s address"
@@ -375,6 +395,14 @@ msgstr "Haptics"
 msgid "you.closed.stampBack"
 msgstr "Hello again"
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpFeedback"
+msgstr "Help and feedback"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpCentre"
+msgstr "Help centre"
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lede"
 msgstr "Here’s what goes with you, and what the crew keeps."
@@ -403,16 +431,16 @@ msgstr "Hold for 3 seconds"
 msgid "you.delete.holdTitle"
 msgstr "Hold to delete"
 
-#: ../../apps/mobile/src/features/you/language/currency-section.tsx
-msgid "you.currency.mode.home"
-msgstr "Home"
-
 #: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
 msgid "you.profile.stamp.home"
 msgstr "Home"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.back"
+msgstr "Home"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.home"
 msgstr "Home"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
@@ -469,6 +497,14 @@ msgstr "Japanese"
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keep"
 msgstr "Keep my account"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.kmLong"
+msgstr "Kilometres"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.km"
+msgstr "km"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.ko"
@@ -536,6 +572,14 @@ msgstr "Location"
 msgid "you.pings.crewChat.mentions"
 msgstr "Mentions only"
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.mi"
+msgstr "mi"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.miLong"
+msgstr "Miles"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.name"
@@ -583,9 +627,17 @@ msgstr "Off"
 msgid "you.settings.offline"
 msgstr "Offline"
 
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.rateAndroid"
+msgstr "On Google Play"
+
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.sampleLine"
 msgstr "on my way!"
+
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.rateIos"
+msgstr "On the App Store"
 
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
 msgid "you.export.tooSoon"
@@ -684,6 +736,10 @@ msgstr "Rare form"
 msgid "you.avatar.ringsLine"
 msgstr "Rare forms and up keep their coloured ring wherever your avatar shows up. Legendary rings are gold."
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.rate"
+msgstr "Rate CritterPass"
+
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.currency.ratesNone"
 msgstr "Rates come with your next sync."
@@ -735,6 +791,10 @@ msgstr "Self-reported"
 #: ../../apps/mobile/src/features/you/history/stamps-copy.ts
 msgid "you.stamps.selfReported"
 msgstr "Self-reported"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.feedback"
+msgstr "Send feedback"
 
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.title"
@@ -843,12 +903,24 @@ msgid "you.settings.soundEffectsLine"
 msgstr "Sticker slaps, stamps, pops"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.feedbackLine"
+msgstr "Straight to the team"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.idea"
+msgstr "Suggest a feature"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.talkOutLoud"
 msgstr "Talk out loud"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hapticsLine"
 msgstr "Taps and thuds you can feel"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.ideaLine"
+msgstr "Tell us what you’d add"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.th"
@@ -898,6 +970,10 @@ msgstr "This pass wasn’t saved, so there is nothing to sign back into. It is b
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.account.restartFailed"
 msgstr "This phone is cleared. Close the app and open it again."
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.row"
+msgstr "Time and distance"
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
 msgid "you.currency.samplePlace"

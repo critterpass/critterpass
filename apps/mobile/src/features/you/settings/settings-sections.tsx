@@ -30,6 +30,8 @@ export interface SettingsValues extends SyncedSettings {
   readonly haptics: boolean;
   /** The app's language in its own script and how prices show ("English · prices in S$ and local"). */
   readonly language: string;
+  /** "On the App Store" / "On Google Play", under Rate CritterPass. */
+  readonly storeName: string;
   /** The server answered for this account: only then are the account rows offered. */
   readonly account: boolean;
   /** Download my data: its line, and whether a tap does something now. */
@@ -48,6 +50,10 @@ export interface SettingsHandlers {
   readonly onHaptics: (next: boolean) => void;
   readonly onLanguage: () => void;
   readonly onSignOut: () => void;
+  readonly onRate: (() => void) | null;
+  readonly onFeedback: () => void;
+  readonly onIdea: () => void;
+  readonly onHelpCentre: () => void;
   readonly onDataExport: () => void;
   readonly onDeleteAccount: () => void;
 }
@@ -229,6 +235,40 @@ export function useSettingsSections(
       value: '',
       onPress: handlers.onLanguage,
     },
+    rate:
+      handlers.onRate === null
+        ? null
+        : {
+            key: 'rate',
+            kind: 'value',
+            title: t({ id: 'you.settings.rate', message: 'Rate CritterPass' }),
+            subtitle: values.storeName,
+            value: '',
+            onPress: handlers.onRate,
+          },
+    feedback: {
+      key: 'feedback',
+      kind: 'value',
+      title: t({ id: 'you.settings.feedback', message: 'Send feedback' }),
+      subtitle: t({ id: 'you.settings.feedbackLine', message: 'Straight to the team' }),
+      value: '',
+      onPress: handlers.onFeedback,
+    },
+    idea: {
+      key: 'idea',
+      kind: 'value',
+      title: t({ id: 'you.settings.idea', message: 'Suggest a feature' }),
+      subtitle: t({ id: 'you.settings.ideaLine', message: 'Tell us what you’d add' }),
+      value: '',
+      onPress: handlers.onIdea,
+    },
+    'help-centre': {
+      key: 'help-centre',
+      kind: 'value',
+      title: t({ id: 'you.settings.helpCentre', message: 'Help centre' }),
+      value: '',
+      onPress: handlers.onHelpCentre,
+    },
     'download-data': values.account
       ? {
           key: 'download-data',
@@ -265,6 +305,7 @@ export function useSettingsSections(
     privacy: t({ id: 'you.settings.privacy', message: 'Privacy' }),
     offline: t({ id: 'you.settings.offline', message: 'Offline' }),
     app: t({ id: 'you.settings.app', message: 'App' }),
+    help: t({ id: 'you.settings.helpFeedback', message: 'Help and feedback' }),
     account: t({ id: 'you.settings.account', message: 'Account' }),
   };
 

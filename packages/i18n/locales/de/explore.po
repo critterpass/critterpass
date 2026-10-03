@@ -935,6 +935,10 @@ msgstr ""
 msgid "explore.map.away"
 msgstr ""
 
+#: ../../apps/mobile/src/features/explore/map-copy.ts
+msgid "explore.map.awayMiles"
+msgstr ""
+
 #: ../../apps/mobile/src/features/explore/components/month-panel.tsx
 msgid "explore.panel.offline"
 msgstr ""

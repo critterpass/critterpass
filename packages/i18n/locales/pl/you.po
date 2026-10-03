@@ -82,6 +82,14 @@ msgstr ""
 msgid "you.edit.form.found"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.twelveHour"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.twentyFourHour"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
 msgstr ""
@@ -187,6 +195,10 @@ msgstr ""
 msgid "you.edit.airportSearch"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.clock"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.close"
 msgstr ""
@@ -277,6 +289,10 @@ msgstr ""
 msgid "you.closed.departures"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.distance"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.done"
 msgstr ""
@@ -334,6 +350,10 @@ msgstr ""
 msgid "you.settings.helpShareLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.title"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
 msgid "you.settings.mailboxForward"
 msgstr ""
@@ -375,6 +395,14 @@ msgstr ""
 msgid "you.closed.stampBack"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpFeedback"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpCentre"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lede"
 msgstr ""
@@ -403,16 +431,16 @@ msgstr ""
 msgid "you.delete.holdTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/language/currency-section.tsx
-msgid "you.currency.mode.home"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
 msgid "you.profile.stamp.home"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.home"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
@@ -468,6 +496,14 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.keep"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.kmLong"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.km"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -536,6 +572,14 @@ msgstr ""
 msgid "you.pings.crewChat.mentions"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.mi"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.miLong"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.name"
@@ -583,8 +627,16 @@ msgstr ""
 msgid "you.settings.offline"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.rateAndroid"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.sampleLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.rateIos"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
@@ -684,6 +736,10 @@ msgstr ""
 msgid "you.avatar.ringsLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.rate"
+msgstr ""
+
 #: ../../apps/mobile/src/features/you/language/currency-model.ts
 msgid "you.currency.ratesNone"
 msgstr ""
@@ -734,6 +790,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/you/history/stamps-copy.ts
 msgid "you.stamps.selfReported"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.feedback"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
@@ -843,11 +903,23 @@ msgid "you.settings.soundEffectsLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.feedbackLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.idea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.talkOutLoud"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hapticsLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.ideaLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
@@ -897,6 +969,10 @@ msgstr ""
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.account.restartFailed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.row"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/language/currency-section.tsx
