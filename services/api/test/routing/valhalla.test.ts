@@ -4,9 +4,6 @@
  * callers branch on, matrix chunking, and the timeout, retry and circuit-breaker behaviour.
  * Timeouts and HTTP failures are simulated at the fetch boundary only.
  */
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-
 import {
   createCircuitBreaker,
   createValhallaClient,
@@ -16,40 +13,13 @@ import {
 } from '@cp/suppliers';
 import { describe, expect, it } from 'vitest';
 
-interface Exchange {
-  readonly path: string;
-  readonly request: unknown;
-  readonly status: number;
-  readonly response: unknown;
-}
+import {
+  jsonResponse as json,
+  loadValhallaScenario as load,
+  replayValhalla as replay,
+} from '../../../../packages/suppliers/src/valhalla/fixtures/replay';
 
-const FIXTURES = join(import.meta.dirname, '../../../../packages/suppliers/src/valhalla/fixtures');
 const BASE = 'http://valhalla.test:8002';
-
-const load = (scenario: string) =>
-  JSON.parse(readFileSync(join(FIXTURES, `${scenario}.json`), 'utf8')) as Exchange[];
-
-const json = (status: number, body: unknown) =>
-  new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
-
-/** Replays a scenario by path + request body; an unrecorded request fails the test. */
-function replay(scenario: string) {
-  const exchanges = load(scenario);
-  const calls: string[] = [];
-  const fetch = (input: string | URL, init?: RequestInit) => {
-    const path = new URL(input).pathname;
-    calls.push(path);
-    const body = typeof init?.body === 'string' ? (JSON.parse(init.body) as unknown) : null;
-    const match = exchanges.find(
-      (exchange) =>
-        exchange.path === path && JSON.stringify(exchange.request) === JSON.stringify(body),
-    );
-    if (match === undefined)
-      return Promise.reject(new Error(`unrecorded ${path} ${JSON.stringify(body)}`));
-    return Promise.resolve(json(match.status, match.response));
-  };
-  return { exchanges, calls, fetch };
-}
 
 function client(
   fetch: NonNullable<ValhallaClientOptions['fetch']>,
