@@ -219,11 +219,11 @@ Done when: a GPX replay at a seeded POI on iOS and Android produces `accruing �
 
 ### T11 — End-to-end flows
 - Goal: Maestro coverage on both platforms.
-- Files: `e2e/critters/{hatch,dex-filters,encounter-dwell,encounter-wander,encounter-accessible,legendary-reminder,copresence}.yaml`, `services/api/test/critters/e2e-sync.test.ts`
+- Files: `e2e/critters/{hatch,dex-filters,encounter-dwell,encounter-wander,encounter-accessible,legendary-reminder,copresence}.yaml`, `e2e/critters/subflows/danang-trip-hatched.yaml`; offline sync in two halves: the api's offline batch landing pending with `critter.verify` queued in `services/api/test/critters/commands.db.test.ts`, and the worker's verification of those rows to verified with names in `services/worker/test/critters/e2e-sync.db.test.ts`; the PASS tab's slipped-away note for a revoked find (`apps/mobile/src/features/critters/dex/slipped-away*`)
 - Steps: 1. Simulator/emulator GPX injection per flow. 2. Seeded content fixture (P18 test release). 3. Sync e2e: offline befriend → upload → verified.
 - Tests: `maestro test e2e/critters`; `pnpm --filter @cp/api test -- critters/e2e-sync`
 - Done when: all flows pass on iOS 26 simulator and Android API 36 emulator.
-- Status: blocked — lab and functional flows plus e2e/happy/critters.yaml are in (3d72fb627, d60714f92); the GPX-driven encounter flows need a staging trip seed with spawn rules at a real POI, and the api e2e-sync suite belongs to the server side
+- Status: blocked — copresence.yaml needs a second member's verified co-presence dwell (dev seed or second device); server and card are covered by copresence.db.test and Jest. Encounter dwell and wander flows on a real Đà Nẵng trip, the slipped-away note and the worker e2e-sync are in (fb506fabc, 0cba9f96a, dcd91ef8d)
 
 ## Phase acceptance criteria
 - [ ] Every §3.4 encounter transition covered by domain tests; grace/drain constants come from server config
