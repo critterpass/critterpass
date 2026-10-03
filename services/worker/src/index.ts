@@ -26,6 +26,7 @@ import { registerPitchTipCandidates } from './jobs/pitches';
 import { registerSetupPushes } from './jobs/setup';
 import { registerMoneyPushes } from './jobs/money';
 import { registerCritterPushes } from './jobs/critters/pushes';
+import { registerRecapPushes } from './jobs/recap/notify';
 import { startWorkerHeartbeat } from './boss/heartbeat';
 import { createShutdown, STOP_JOB_TIMEOUT_MS } from './shutdown';
 import { registerInviteNotifications } from './jobs/invites';
@@ -125,6 +126,7 @@ registerLiveMapNotifications();
 registerSetupPushes();
 registerMoneyPushes();
 registerCritterPushes();
+registerRecapPushes();
 
 // Domain events → PostHog (consent-gated, idempotent on the event id).
 let analyticsExport: ExportLoop | undefined;
