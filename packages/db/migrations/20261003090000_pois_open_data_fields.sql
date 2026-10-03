@@ -17,6 +17,7 @@ ALTER TABLE pois
 
 ALTER TABLE pois ADD CONSTRAINT pois_confidence_check
   CHECK (confidence IS NULL OR confidence BETWEEN 0 AND 1);
+GRANT SELECT (confidence, website, phone, brand) ON pois TO admin_reader;
 
 -- `destinations.place_bounds` is the box the POI ingest reads open data for, and the area place
 -- search covers for that destination. A source place is stored once (the per-source unique
