@@ -118,6 +118,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. Lock-screen trail with leg markers, baked Tokek poses by leg, pips row. 2. Compact/minimal/expanded island. 3. Intent: optimistic App Group state + signed `/v1/actions`; offline → `pending-actions.json`. 4. T0 alert config.
 - Tests: `xcodebuild test -scheme CPWidgets` (snapshot tests of each state, light/dark/tinted); Maestro `e2e/trip/live-activities/leave-by.yaml` (two simulators, second observes pip).
 - Done when: snapshots match renders within tolerance; I'M UP updates other simulator's LA ≤5 s.
+- Status: done — 899f04d04 (views and island), f9dfcc5a9 (I'M UP runs in the app), 40e60378c (outbox shape). Not built: SnoozeIntent, the FREE pill, ASK TOKEK in the expanded island, an optimistic "sending" pip; no snapshot or two-simulator run exists.
 
 ### T6 — Flight-day LA → pickup
 - Goal: 5a-3 for any wallet flight.
@@ -125,6 +126,7 @@ Rules: ContentState ≤4 KB, ETA/text/enums only, never coordinates or budget va
 - Steps: 1. T−3 h push-to-start from `flight_segments` for each traveller device. 2. Phase transitions from `flight.event`; orange at T−10 boarding (timer-based style switch via `Text(timerInterval:)` + scheduled update). 3. Landed → pickup variant with booked transfer name or Grab CTA.
 - Tests: `pnpm --filter @cp/worker test -- la/flight` (AeroAPI fixture timeline); `xcodebuild test -scheme CPWidgets -only-testing:FlightSnapshots`.
 - Done when: manual-entry flight starts an LA; source badge only on mailbox imports; landed event flips to pickup.
+- Status: done — 899f04d04 (view), 9c410cf65 (server), 7a0c3f737 (ends by schedule). Not built: the PASS+ pill beside "from your email", the Grab hint when no pickup is booked (`grab_cta` is sent, the view ignores it), the guide holding the pickup sign.
 
 ### T7 — Critter-nearby LA
 - Goal: 5a-4 dwell ring with locked phone.

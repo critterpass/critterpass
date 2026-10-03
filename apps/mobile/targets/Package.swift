@@ -61,5 +61,34 @@ let package = Package(
       path: "app-clip/Tests",
       swiftSettings: testSettings
     ),
+    .target(
+      name: "WidgetSnapshotCore",
+      path: "_shared",
+      exclude: ["ActionKey", "PushPayload", "ActivityAttributes", "Intents", "Snapshot/Tests"],
+      sources: [
+        "Snapshot/WidgetSnapshot.swift", "Snapshot/WidgetSnapshotReader.swift",
+        "Snapshot/HomeWidgetModels.swift", "Snapshot/PendingVote.swift",
+        "Snapshot/TripWidgetModels.swift", "Snapshot/WidgetTaps.swift",
+      ]
+    ),
+    .testTarget(
+      name: "WidgetSnapshotTests",
+      dependencies: ["WidgetSnapshotCore"],
+      path: "_shared/Snapshot/Tests",
+      exclude: ["Fixtures"],
+      swiftSettings: testSettings
+    ),
+    .target(
+      name: "LiveActivityLogicCore",
+      path: "_shared/ActivityAttributes",
+      exclude: ["CPActivityAttributes.swift", "Tests"],
+      sources: ["LiveActivityLogic.swift"]
+    ),
+    .testTarget(
+      name: "LiveActivityLogicTests",
+      dependencies: ["LiveActivityLogicCore"],
+      path: "_shared/ActivityAttributes/Tests",
+      swiftSettings: testSettings
+    ),
   ]
 )

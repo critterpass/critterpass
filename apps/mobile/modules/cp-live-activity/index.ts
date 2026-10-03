@@ -28,6 +28,8 @@ export type {
 
 export interface LiveActivityPort {
   authorization(): NativeLaAuthorization;
+  /** The kinds this build's widget extension draws; `null` in a build that does not say. */
+  drawnKinds(): readonly NativeLaKind[] | null;
   start(request: NativeLaStartRequest): Promise<string>;
   update(request: NativeLaUpdateRequest): Promise<void>;
   end(request: NativeLaEndRequest): Promise<void>;
@@ -51,6 +53,7 @@ export function getLiveActivityPort(): LiveActivityPort | null {
   if (native === null) return null;
   port ??= {
     authorization: () => native.authorization(),
+    drawnKinds: () => (typeof native.drawnKinds === 'function' ? native.drawnKinds() : null),
     start: (request) => native.start(request),
     update: (request) => native.update(request),
     end: (request) => native.end(request),

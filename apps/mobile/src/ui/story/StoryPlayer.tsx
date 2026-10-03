@@ -1,20 +1,29 @@
 import { t } from '@lingui/core/macro';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import type { GestureType } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  type SharedValue,
+} from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { tokens } from '@cp/design-tokens';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { useStoryProgress } from '@/motion/patterns/story-progress';
+import type { StoryProgress } from '@/motion/patterns/story-progress';
 
 import { Stack } from '../layout/Stack';
 import { Text } from '../text/Text';
 import { makeStyles } from '../theme';
+import { StoryClockContext, type StoryClock } from './story-clock';
+import { ProgressBar } from './story-progress-bar';
+
+const PUSH_IN_SCALE = 1.08;
 
 export interface StorySegment {
   readonly id: string;
@@ -24,6 +33,23 @@ export interface StorySegment {
   readonly caption?: string;
   /** Spoken summary of the slide. */
   readonly label: string;
+  /** How long the slide plays; the story token (5 s) by default. */
+  readonly durationMs?: number;
+  /**
+   * The slow push-in over the slide's length. On for photo slides; a laid-out card turns it off,
+   * since scaling it pushes its content toward the screen's edges. @default true
+   */
+  readonly pushIn?: boolean;
+  /** The progress bars' ink: light over dark and photo slides, ink over a paper slide. @default 'light' */
+  readonly barTone?: 'light' | 'ink';
+}
+
+/** The scale a slide grows to over its length: none for a card or under Reduce Motion. */
+export function pushInScale(
+  segment: Pick<StorySegment, 'pushIn'> | undefined,
+  reduced: boolean,
+): number {
+  return reduced || segment?.pushIn === false ? 1 : PUSH_IN_SCALE;
 }
 
 export interface StoryPlayerProps {
@@ -49,7 +75,6 @@ export interface StoryPlayerProps {
   readonly testID?: string;
 }
 
-const PUSH_IN_SCALE = 1.08;
 const HOLD_MS = 200;
 
 const useStyles = makeStyles((th) => ({
@@ -61,46 +86,10 @@ const useStyles = makeStyles((th) => ({
     paddingHorizontal: th.space['12'],
     paddingTop: th.space['8'],
   },
-  track: {
-    flex: 1,
-    height: th.space['2'] + 1,
-    borderRadius: th.radius.xs,
-    backgroundColor: th.semantic.bg.control,
-    overflow: 'hidden',
-  },
-  fill: { height: '100%', backgroundColor: th.semantic.text.primary, transformOrigin: 'left' },
   chrome: { position: 'absolute', top: 0, start: 0, end: 0 },
   bottom: { position: 'absolute', bottom: 0, start: 0, end: 0, padding: th.space['16'] },
   side: { position: 'absolute', end: th.space['16'], bottom: '35%' },
 }));
-
-function ProgressBar({
-  state,
-  paused,
-  onComplete,
-  announcement,
-}: {
-  readonly state: 'past' | 'active' | 'future';
-  readonly paused: boolean;
-  readonly onComplete: () => void;
-  readonly announcement: string;
-}) {
-  const styles = useStyles();
-  const { progress } = useStoryProgress({
-    active: state === 'active',
-    paused,
-    onComplete,
-    completionAnnouncement: announcement,
-  });
-  const style = useAnimatedStyle(() => ({
-    transform: [{ scaleX: state === 'past' ? 1 : state === 'future' ? 0 : progress.value }],
-  }));
-  return (
-    <View style={styles.track}>
-      <Animated.View style={[styles.fill, style]} />
-    </View>
-  );
-}
 
 /**
  * One gesture per native view: on iOS every handler on one view spends a shared attach-retry
@@ -143,6 +132,26 @@ export function StoryPlayer({
   const scale = useSharedValue(1);
   const segment = segments[index];
   const total = segments.length;
+  // The active bar's clock, tagged with its slide: a new slide's content can read the clock before
+  // its bar has handed it over, and then it has played nothing yet.
+  const activeClock = useRef<{ index: number; clock: StoryProgress } | null>(null);
+  const [activeProgress, setActiveProgress] = useState<SharedValue<number> | null>(null);
+  const onClock = (at: number, clock: StoryProgress) => {
+    activeClock.current = { index: at, clock };
+    setActiveProgress(clock.progress);
+  };
+  const stopped = paused || held;
+  const storyClock = useMemo<StoryClock>(
+    () => ({
+      index,
+      paused: stopped,
+      durationMs: segment?.durationMs ?? tokens.motion.duration.story,
+      progress: activeProgress,
+      playedMs: () =>
+        activeClock.current?.index === index ? activeClock.current.clock.playedMs() : 0,
+    }),
+    [index, stopped, segment?.durationMs, activeProgress],
+  );
 
   const go = (next: number) => {
     if (next >= total) {
@@ -156,8 +165,11 @@ export function StoryPlayer({
 
   useEffect(() => {
     scale.value = 1;
-    if (reduced) return;
-    scale.value = withTiming(PUSH_IN_SCALE, { duration: tokens.motion.duration.story });
+    const target = pushInScale(segment, reduced);
+    if (target === 1) return;
+    scale.value = withTiming(target, {
+      duration: segment?.durationMs ?? tokens.motion.duration.story,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- scale is a stable shared value ref.
   }, [index, reduced]);
   const pushIn = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
@@ -219,7 +231,11 @@ export function StoryPlayer({
           }}
         >
           <GestureDetector gesture={gestures.tapArea}>
-            <View style={styles.stage}>{segment?.content}</View>
+            <View style={styles.stage}>
+              <StoryClockContext.Provider value={storyClock}>
+                {segment?.content}
+              </StoryClockContext.Provider>
+            </View>
           </GestureDetector>
         </Animated.View>
       </GestureDetector>
@@ -229,9 +245,12 @@ export function StoryPlayer({
             <ProgressBar
               key={item.id}
               state={i < index ? 'past' : i === index ? 'active' : 'future'}
-              paused={paused || held}
+              paused={stopped}
               onComplete={() => go(i + 1)}
               announcement={segments[i + 1]?.label ?? ''}
+              durationMs={item.durationMs}
+              tone={segment?.barTone ?? 'light'}
+              onClock={(clock) => onClock(i, clock)}
             />
           ))}
         </View>

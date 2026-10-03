@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "generated_at": "2026-09-25T02:41:00.000Z",
+  "trip": {
+    "id": "0199a3c0-0000-7000-8000-00000000a001",
+    "destination": "Bali",
+    "status": "won",
+    "start_date": "2026-10-12",
+    "end_date": "2026-10-19",
+    "tz": "Asia/Makassar"
+  },
+  "countdown": {
+    "target_at": "2026-10-12T01:40:00.000Z"
+  },
+  "vote": {
+    "poll_id": "0199a3c0-0000-7000-8000-00000000c001",
+    "question": null,
+    "status": "open",
+    "closes_at": "2026-09-26T12:00:00.000Z",
+    "options": [
+      {
+        "id": "0199a3c0-0000-7000-8000-00000000c101",
+        "label": "Kyoto",
+        "votes": 4
+      },
+      {
+        "id": "0199a3c0-0000-7000-8000-00000000c102",
+        "label": "Lisbon",
+        "votes": 2
+      }
+    ],
+    "voted": 6,
+    "eligible": 6,
+    "my_option_id": "0199a3c0-0000-7000-8000-00000000c101",
+    "winner_option_id": null
+  },
+  "today": null,
+  "balances": {
+    "currency": "USD",
+    "net_minor": 18600
+  },
+  "crew": null,
+  "critterdex": {
+    "found": 9,
+    "total": 150
+  },
+  "next_flight": null,
+  "next_leave_by": null,
+  "entitlements": {
+    "pass_plus": false,
+    "boost_active": false
+  },
+  "locked": ["crew", "next_flight"],
+  "headline_of_a_newer_build": {
+    "text": "a field this reader never heard of"
+  }
+}

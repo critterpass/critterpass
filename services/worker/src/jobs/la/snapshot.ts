@@ -28,6 +28,11 @@ export interface LaSnapshot {
   readonly live: boolean;
   /** Users who get the activity. */
   readonly audience: readonly string[];
+  /**
+   * Users the server may push-start it for; absent = the whole audience. An SOS sender starts
+   * their own activity on the phone, so the server only keeps it updated.
+   */
+  readonly startAudience?: readonly string[];
   /** The static attributes for a push-to-start (rendered in the device's language). */
   readonly attributes: (locale: string) => Promise<Record<string, unknown>>;
   /** The shared ContentState at content version `seq`. */

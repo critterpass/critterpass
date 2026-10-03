@@ -35,6 +35,12 @@ public class CpLiveActivityModule: Module {
             return ["enabled": info.areActivitiesEnabled, "frequent": info.frequentPushesEnabled]
         }
 
+        // Every kind here has a view in the widget extension of the same build (a test holds the
+        // two together), so the server may push-start exactly these on this phone.
+        Function("drawnKinds") { () -> [String] in
+            LiveActivityKinds.all.map(\.kind)
+        }
+
         AsyncFunction("start") { (request: [String: Any]) throws -> String in
             let bridge = try LiveActivityKinds.named(try Self.string(request, "kind"))
             return try bridge.start(

@@ -1,6 +1,6 @@
 /**
  * The recap area's routes and the design ids the navigation registry knows them by: the recap page
- * (3m-1), opened from Home's post-trip card, the trip hub after the trip, the passport stamps and
+ * (3m-1) and its story (3m-3…3m-8), opened from Home's post-trip card, the trip hub after the trip, the passport stamps and
  * the recap-ready push (`/recap/<tripId>`). Imported once by the root layout.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- route paths and design ids, never copy. */
@@ -9,7 +9,12 @@ import type { Href } from 'expo-router';
 import { registerScreens } from '@/lib/navigation/screen-registry';
 
 export const recapRoutes = {
-  summary: (tripId: string): Href => ({ pathname: '/recap/[tripId]', params: { tripId } }),
+  /** `ended`: the story just finished, so the page hosts the story's end. */
+  summary: (tripId: string, ended = false): Href => ({
+    pathname: '/recap/[tripId]',
+    params: ended ? { tripId, ended: '1' } : { tripId },
+  }),
+  story: (tripId: string): Href => ({ pathname: '/recap/[tripId]/story', params: { tripId } }),
 };
 
 registerScreens({

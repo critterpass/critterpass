@@ -12,6 +12,7 @@ import { readAward, readRecap, type RecapRow } from '../data/recap-rows';
 import { buildSummaryModel, type SummaryInput } from '../summary/summary-model';
 import { RecapShareSheet } from '../summary/share-sheet';
 import { SummaryView } from '../summary/summary-view';
+import { STORY_SCENES } from './story-scenes';
 import { awardRows, CARDS, FORM_ROWS, MAYA, ME, RECEIPT, recapRow, STATS } from './recap-fixtures';
 
 const noop = () => undefined;
@@ -71,6 +72,7 @@ function Scene({
 }
 
 export const RECAP_SCENES: Readonly<Record<string, () => ReactNode>> = {
+  ...STORY_SCENES,
   '3m-1-recap': () => <Scene />,
   '3m-1-no-copy': () => <Scene row={recapRow()} />,
   '3m-1-writing': () => <Scene row={null} />,

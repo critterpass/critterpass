@@ -1,0 +1,131 @@
+{
+  "actions": [
+    {
+      "client_ts": "2026-10-02T05:40:12.250Z",
+      "cmd": "set_readiness",
+      "op_id": "019a9f3c-8a3a-7c21-9d4e-5b6f7a8b9c0d",
+      "payload": {
+        "leave_by_id": "5f0c8e2a-3b1d-4c6e-9a7f-2d4b6c8e0a1f",
+        "source": "la",
+        "state": "up"
+      },
+      "scope": "readiness",
+      "v": 1,
+      "via": "la_intent"
+    },
+    {
+      "client_ts": "2026-10-03T09:41:05.500Z",
+      "cmd": "report_running_late",
+      "op_id": "019aa4b2-1c3d-7e4f-8a5b-6c7d8e9f0a01",
+      "payload": {
+        "meetup_id": "3a9d8c7b-6e5f-4d3c-9b2a-1f0e9d8c7b6a",
+        "minutes": 10,
+        "trip_id": "7c1e4d2a-9b3f-4a5c-8d6e-1f2a3b4c5d6e"
+      },
+      "scope": "trip_day",
+      "v": 1,
+      "via": "la_intent"
+    },
+    {
+      "client_ts": "2026-10-03T09:41:05.500Z",
+      "cmd": "ping_all",
+      "op_id": "019aa4b2-1c3d-7e4f-8a5b-6c7d8e9f0a02",
+      "payload": {
+        "kind": "on_my_way",
+        "trip_id": "7c1e4d2a-9b3f-4a5c-8d6e-1f2a3b4c5d6e"
+      },
+      "scope": "trip_day",
+      "v": 1,
+      "via": "la_intent"
+    },
+    {
+      "client_ts": "2026-10-03T09:41:05.500Z",
+      "cmd": "ping_all",
+      "op_id": "019aa4b2-1c3d-7e4f-8a5b-6c7d8e9f0a03",
+      "payload": {
+        "kind": "ping",
+        "trip_id": "7c1e4d2a-9b3f-4a5c-8d6e-1f2a3b4c5d6e"
+      },
+      "scope": "trip_day",
+      "v": 1,
+      "via": "la_intent"
+    },
+    {
+      "client_ts": "2026-10-03T09:41:05.500Z",
+      "cmd": "trigger_sos",
+      "op_id": "019aa4b2-1c3d-7e4f-8a5b-6c7d8e9f0a04",
+      "payload": {
+        "trip_id": "7c1e4d2a-9b3f-4a5c-8d6e-1f2a3b4c5d6e"
+      },
+      "scope": "sos",
+      "v": 1,
+      "via": "la_intent"
+    },
+    {
+      "client_ts": "2026-10-03T09:41:05.500Z",
+      "cmd": "respond_sos",
+      "op_id": "019aa4b2-1c3d-7e4f-8a5b-6c7d8e9f0a05",
+      "payload": {
+        "sos_id": "2b4d6f80-1a3c-4e5f-8a7b-9c0d1e2f3a4b",
+        "state": "coming"
+      },
+      "scope": "sos",
+      "v": 1,
+      "via": "la_intent"
+    },
+    {
+      "client_ts": "2026-10-03T09:41:05.500Z",
+      "cmd": "cast_ballot",
+      "op_id": "019aa4b2-1c3d-7e4f-8a5b-6c7d8e9f0a06",
+      "payload": {
+        "option_id": "4f3e2d1c-0b9a-4876-9543-210fedcba987",
+        "poll_id": "9e8d7c6b-5a4f-4e3d-8c2b-1a0f9e8d7c6b"
+      },
+      "scope": "ballot",
+      "v": 1,
+      "via": "la_intent"
+    },
+    {
+      "client_ts": "2026-10-03T09:41:05.500Z",
+      "cmd": "cast_ballot",
+      "op_id": "019aa4b2-1c3d-7e4f-8a5b-6c7d8e9f0a07",
+      "payload": {
+        "option_id": "4f3e2d1c-0b9a-4876-9543-210fedcba987",
+        "poll_id": "9e8d7c6b-5a4f-4e3d-8c2b-1a0f9e8d7c6b"
+      },
+      "scope": "ballot",
+      "v": 1,
+      "via": "widget"
+    },
+    {
+      "client_ts": "2026-10-03T09:41:05.500Z",
+      "cmd": "send_nudge",
+      "op_id": "019aa4b2-1c3d-7e4f-8a5b-6c7d8e9f0a08",
+      "payload": {
+        "context": {
+          "id": "7c1e4d2a-9b3f-4a5c-8d6e-1f2a3b4c5d6e",
+          "kind": "trip"
+        },
+        "reason": "payment",
+        "target_uid": "2b4d6f80-1a3c-4e5f-8a7b-9c0d1e2f3a4b"
+      },
+      "scope": "money_nudge",
+      "v": 1,
+      "via": "widget"
+    },
+    {
+      "client_ts": "2026-10-03T09:41:05.500Z",
+      "cmd": "check_packing_item",
+      "op_id": "019aa4b2-1c3d-7e4f-8a5b-6c7d8e9f0a09",
+      "payload": {
+        "checked": true,
+        "item_id": "9e8d7c6b-5a4f-4e3d-8c2b-1a0f9e8d7c6b"
+      },
+      "scope": "trip_day",
+      "v": 1,
+      "via": "widget"
+    }
+  ],
+  "generated_at": "2026-10-03T09:41:05.500Z",
+  "schema": 1
+}

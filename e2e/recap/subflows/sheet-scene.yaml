@@ -1,0 +1,27 @@
+appId: app.critterpass.dev
+---
+# Like lab-scene.yaml for a scene that opens a sheet over its card: the sheet's ✕ closes it, then
+# back leaves the scene.
+- scrollUntilVisible:
+    element:
+      id: 'recap-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'recap-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: ${ROOT}
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- tapOn:
+    id: ${CLOSE}
+- waitForAnimationToEnd
+- runFlow: back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'recap-lab-${SCENE}'
+    timeout: 10000

@@ -1,0 +1,16 @@
+appId: app.critterpass.dev
+---
+# One step back from a recap lab scene: the scene's invisible back target on iOS (an edge swipe
+# over a full-bleed story is taken by the story), the system back on Android.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          id: 'recap-scene-back'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- waitForAnimationToEnd
