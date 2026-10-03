@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "11be4c73-f76b-40dc-b76e-ef0bfef0bfc0",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I picked 24 keepers from 210. All 5 of you are in the best 3."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 158,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 896,
+        "output_tokens": 22,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

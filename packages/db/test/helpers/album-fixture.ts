@@ -45,6 +45,10 @@ export async function seedAlbumRows(
     [postcardId, f.tripId, f.organiser, f.member],
   );
   await tx.query(
+    `INSERT INTO album_curations (trip_id, note, picks, photos) VALUES ($1, 'I picked 1 keeper.', 1, 1)`,
+    [f.tripId],
+  );
+  await tx.query(
     `INSERT INTO mailing_addresses (user_id, fields_enc, country) VALUES ($1, 'v1:matrix-probe', 'SG')`,
     [f.organiser],
   );

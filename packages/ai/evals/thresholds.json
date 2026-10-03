@@ -28,6 +28,7 @@
     "proposal": 1,
     "quests": 1,
     "recap": 1,
+    "album": 1,
     "translate": 1,
     "help": 1,
     "sos": 1
@@ -61,6 +62,7 @@
     "proposal": 0.9,
     "quests": 0.95,
     "recap": 0.98,
+    "album": 0.95,
     "translate": 0.9,
     "help": 0.95,
     "sos": 0.95
