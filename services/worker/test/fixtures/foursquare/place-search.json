@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "fsq_place_id": "4b6e5cddf964a52034ba2ce3",
+      "distance": 47,
+      "name": "Fushimi Inari Taisha (伏見稲荷大社)"
+    },
+    {
+      "fsq_place_id": "5a4c4a8c58aa7f179b8b56cd",
+      "distance": 115,
+      "name": "Inari Saryo (稲荷茶寮)"
+    },
+    {
+      "fsq_place_id": "67ebb8ddaac985755d149261",
+      "distance": 108,
+      "name": "Niku No Odakichi Fushimiinari"
+    },
+    {
+      "fsq_place_id": "4b7bfa11f964a520b1762fe3",
+      "distance": 182,
+      "name": "Inari Station (稲荷駅)"
+    },
+    {
+      "fsq_place_id": "5c0f62abc0af57002c925686",
+      "distance": 150,
+      "name": "Kafe Inari"
+    }
+  ],
+  "context": {
+    "geo_bounds": {
+      "circle": {
+        "center": {
+          "latitude": 34.9671,
+          "longitude": 135.7727
+        },
+        "radius": 200
+      }
+    }
+  }
+}
