@@ -1,4 +1,5 @@
 export * from './best-window';
+export * from './crowd-curve';
 export * from './destinations';
 export * from './events';
 export * from './fares';

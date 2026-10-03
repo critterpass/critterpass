@@ -7,12 +7,16 @@
  */
 import type { AnyJobDefinition } from '../../boss';
 import type { JobRegistryDeps } from '../../job-registry';
+import { planCheckJobs } from './check';
+import { climateJobs } from './climate';
 
 /** One planning module's jobs, built from the registry's dependencies. */
 export type PlanningJobFamily = (deps: JobRegistryDeps) => readonly AnyJobDefinition[];
 
 const PLANNING_JOB_FAMILIES: readonly PlanningJobFamily[] = [
   // One entry per planning module.
+  climateJobs,
+  planCheckJobs,
 ];
 
 export function planningJobs(deps: JobRegistryDeps): AnyJobDefinition[] {
