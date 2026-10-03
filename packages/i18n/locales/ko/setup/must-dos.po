@@ -107,6 +107,10 @@ msgstr ""
 msgid "setup.mustDos.pill.fitsDay"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.resolving"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
 msgid "setup.addMustDo.keep"
 msgstr ""
@@ -115,8 +119,16 @@ msgstr ""
 msgid "setup.addMustDo.loading"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.searching"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.lottery"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.title"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/add-sheet-view.tsx
@@ -131,12 +143,20 @@ msgstr ""
 msgid "setup.addMustDo.offlineSaved"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.offline"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.line.empty"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-dos-view.tsx
 msgid "setup.mustDos.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.attribution"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
@@ -155,10 +175,18 @@ msgstr ""
 msgid "setup.mustDos.doneLine"
 msgstr ""
 
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.unavailable"
+msgstr ""
+
 #: ../../apps/mobile/src/features/setup/must-dos/lines.ts
 msgid "setup.mustDos.pill.tight"
 msgstr ""
 
 #: ../../apps/mobile/src/features/setup/must-dos/must-do-row.tsx
 msgid "setup.mustDos.row.pendingA11y"
+msgstr ""
+
+#: ../../apps/mobile/src/features/setup/must-dos/more-places-section.tsx
+msgid "setup.addMustDo.more.loading"
 msgstr ""

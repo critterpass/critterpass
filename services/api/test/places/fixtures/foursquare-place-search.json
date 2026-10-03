@@ -1,0 +1,71 @@
+{
+  "results": [
+    {
+      "fsq_place_id": "5688c451498e3181bd093eeb",
+      "latitude": -8.44097782657731,
+      "longitude": 115.38770884699558,
+      "categories": [
+        {
+          "fsq_category_id": "56aa371be4b08b9a8d573560",
+          "name": "Waterfall",
+          "short_name": "Waterfall",
+          "plural_name": "Waterfalls"
+        }
+      ],
+      "distance": 15590,
+      "location": {
+        "locality": "Undisan",
+        "region": "Bali",
+        "postcode": "",
+        "country": "ID",
+        "formatted_address": "Undisan, Bali"
+      },
+      "name": "Tukad Cepung Waterfall"
+    },
+    {
+      "fsq_place_id": "55b47f4b498e095b065c6e60",
+      "latitude": -8.507279,
+      "longitude": 115.331979,
+      "categories": [
+        {
+          "fsq_category_id": "56aa371be4b08b9a8d573560",
+          "name": "Waterfall",
+          "short_name": "Waterfall",
+          "plural_name": "Waterfalls"
+        }
+      ],
+      "distance": 7636,
+      "location": {
+        "locality": "Bangli",
+        "region": "Bali",
+        "postcode": "",
+        "country": "ID",
+        "formatted_address": "Bangli, Bali"
+      },
+      "name": "Tibumana Waterfall"
+    },
+    {
+      "fsq_place_id": "55c82944498ebead02fa4d39",
+      "latitude": -8.532111245613487,
+      "longitude": 115.33267360622605,
+      "categories": [
+        {
+          "fsq_category_id": "56aa371be4b08b9a8d573560",
+          "name": "Waterfall",
+          "short_name": "Waterfall",
+          "plural_name": "Waterfalls"
+        }
+      ],
+      "distance": 8205,
+      "location": {
+        "address": "Banjar Kelod Kangin, Desa Beng, Gianyar",
+        "locality": "Gianyar",
+        "region": "Bali",
+        "postcode": "80511",
+        "country": "ID",
+        "formatted_address": "Banjar Kelod Kangin, Desa Beng, Gianyar (Jalan Raya Beng-Gianyar), Gianyar, Bali 80511"
+      },
+      "name": "Kanto Lampo Waterfall"
+    }
+  ]
+}

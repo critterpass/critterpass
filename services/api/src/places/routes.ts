@@ -14,6 +14,7 @@ import type { AppEnv } from '../app';
 
 import { getPlaceDetail } from './detail';
 import { getPlaceLive, type FoursquareLiveConfig } from './live';
+import { registerLiveSearchRoutes } from './live-search-routes';
 import { getMapRegionManifest } from './map-regions';
 import { searchPlaces, type PlaceSearchFilters } from './search';
 
@@ -60,6 +61,8 @@ const searchQuerySchema = z.object({
 });
 
 export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRouteDeps): void {
+  // First: `/v1/places/:id/live` would otherwise take `/v1/places/search/live` for a place id.
+  registerLiveSearchRoutes(app, deps);
   app.get('/v1/places/search', async (c) => {
     const actor = requireActor(c);
     const query = searchQuerySchema.parse(c.req.query());
