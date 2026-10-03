@@ -39,7 +39,7 @@ export function hubEntries(input: {
             title: t({ id: 'trip.hub.recap', message: 'See the recap' }),
             detail: t({
               id: 'trip.hub.recapDetail',
-              message: 'The numbers, the awards and the one that got away',
+              message: 'Your trip in numbers and awards',
             }),
             tone: 'pink',
             testID: 'trip-hub-recap',

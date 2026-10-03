@@ -77,7 +77,7 @@ msgstr "{newCritters, plural, =0 {all old friends} one {# new local} other {# ne
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.title"
-msgstr "{place}, the recap"
+msgstr "{place},\nthe recap"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.gotAway.seen"

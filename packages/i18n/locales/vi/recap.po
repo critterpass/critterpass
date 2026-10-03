@@ -77,7 +77,7 @@ msgstr "{newCritters, plural, =0 {toàn bạn cũ} other {# bạn địa phươn
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.title"
-msgstr "{place}, tổng kết"
+msgstr "{place},\ntổng kết"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.gotAway.seen"

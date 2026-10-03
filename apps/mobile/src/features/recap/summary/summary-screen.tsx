@@ -12,19 +12,16 @@ import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useTripStreams } from '@/data/powersync/use-trip-streams';
 import { useSyncStatus } from '@/data/status/use-sync-status';
-import { useLocale } from '@/lib/i18n/use-locale';
 import { useScreenHref } from '@/lib/navigation/screen-registry';
 import { feedback, toast } from '@/motion';
 import { GUIDE_STICKERS, isGuideStickerId } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
-import { ShareImageSheet } from '@/ui/share-image/ShareImageSheet';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { retryRecapCommand } from '../commands';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { useRecapSummary } from '../data/use-recap-summary';
-import { deviceShareDeps, renderRecapCard } from './share-card';
-import { headerEyebrow, headerTitle, tileCopy } from './summary-copy';
+import { RecapShareSheet } from './share-sheet';
 import { SummaryView } from './summary-view';
 
 const UNIT_SQL = 'SELECT distance_unit FROM user_settings WHERE user_id = ?';
@@ -41,7 +38,6 @@ export function whereNextHref(crewId: string | null): Href {
 function RecapSummary({ tripId }: { readonly tripId: string }) {
   useTripStreams(tripId);
   const { t } = useLingui();
-  const locale = useLocale();
   const me = useOwnerUid();
   const sync = useSyncStatus();
   const data = useRecapSummary(tripId);
@@ -90,23 +86,11 @@ function RecapSummary({ tripId }: { readonly tripId: string }) {
         onGotAway={legendaryHref === undefined ? undefined : () => router.push(legendaryHref)}
       />
       {sharing ? (
-        <ShareImageSheet
-          visible
+        <RecapShareSheet
+          model={model}
+          guide={guide}
+          unit={unit}
           onClose={() => setSharing(false)}
-          altText={`${headerTitle(model)}, ${headerEyebrow(model, locale)}`}
-          formats={['story', 'post']}
-          render={(format) =>
-            renderRecapCard(
-              {
-                guideKind: GUIDE_STICKERS[guide].kind,
-                title: headerTitle(model),
-                eyebrow: headerEyebrow(model, locale),
-                tiles: model.tiles.map((tile) => tileCopy(tile, locale, unit)),
-              },
-              format,
-            )
-          }
-          deps={deviceShareDeps()}
         />
       ) : null}
     </>

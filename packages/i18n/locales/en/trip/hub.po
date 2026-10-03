@@ -324,10 +324,6 @@ msgstr "Take off in"
 msgid "trip.hub.ticker.status.review"
 msgstr "The draft is ready to review"
 
-#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
-msgid "trip.hub.recapDetail"
-msgstr "The numbers, the awards and the one that got away"
-
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.won"
 msgstr "The place is picked"
@@ -416,6 +412,10 @@ msgstr "Your briefing"
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
 msgstr "Your flight"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.recapDetail"
+msgstr "Your trip in numbers and awards"
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.title"

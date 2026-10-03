@@ -324,10 +324,6 @@ msgstr "Cất cánh sau"
 msgid "trip.hub.ticker.status.review"
 msgstr "Bản nháp đã sẵn sàng để xem"
 
-#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
-msgid "trip.hub.recapDetail"
-msgstr "Các con số, giải thưởng và bé đã trốn mất"
-
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.won"
 msgstr "Đã chọn được điểm đến"
@@ -416,6 +412,10 @@ msgstr "Bản tin của bạn"
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
 msgstr "Chuyến bay của bạn"
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.recapDetail"
+msgstr "Chuyến đi qua những con số và giải thưởng"
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx
 msgid "trip.list.title"

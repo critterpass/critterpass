@@ -324,10 +324,6 @@ msgstr ""
 msgid "trip.hub.ticker.status.review"
 msgstr ""
 
-#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
-msgid "trip.hub.recapDetail"
-msgstr ""
-
 #: ../../apps/mobile/src/features/trip/hub/hub-copy.ts
 msgid "trip.hub.ticker.status.won"
 msgstr ""
@@ -415,6 +411,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/trip/hub/hub-next.ts
 msgid "trip.hub.flight"
+msgstr ""
+
+#: ../../apps/mobile/src/features/trip/hub/hub-next.ts
+msgid "trip.hub.recapDetail"
 msgstr ""
 
 #: ../../apps/mobile/src/features/trip/trip-list/trip-list-view.tsx

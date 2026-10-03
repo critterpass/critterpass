@@ -44,8 +44,9 @@ const SHADOW_SIZE = 96;
 
 const useStyles = makeStyles((th) => ({
   content: { paddingHorizontal: th.size.gutter, gap: th.space['16'] },
-  header: { flexDirection: 'row', alignItems: 'flex-start', gap: th.space['8'] },
-  title: { flex: 1, gap: th.space['6'] },
+  header: { gap: th.space['6'] },
+  // The guide's shadow sits behind the title's end, as the design draws it.
+  shadow: { position: 'absolute', top: th.space['4'], end: 0 },
   ctas: { flexDirection: 'row', gap: th.space['10'] },
   cta: { flex: 1 },
 }));
@@ -88,22 +89,22 @@ export function SummaryView(props: SummaryViewProps) {
         ]}
       >
         <View style={styles.header}>
-          <View style={styles.title}>
-            <Text variant="eyebrow" testID="recap-eyebrow">
-              {headerEyebrow(model, locale)}
-            </Text>
-            <Text variant="h1" accessibilityRole="header" testID="recap-title">
-              {headerTitle(model)}
-            </Text>
+          <View style={styles.shadow}>
+            <Sticker
+              kind={shadow.kind}
+              name={guideName}
+              size={SHADOW_SIZE}
+              variant="mask"
+              maskColor={theme.semantic.bg.raised}
+              pose="idle"
+            />
           </View>
-          <Sticker
-            kind={shadow.kind}
-            name={guideName}
-            size={SHADOW_SIZE}
-            variant="mask"
-            maskColor={theme.semantic.bg.raised}
-            pose="idle"
-          />
+          <Text variant="eyebrow" testID="recap-eyebrow">
+            {headerEyebrow(model, locale)}
+          </Text>
+          <Text variant="h1" accessibilityRole="header" testID="recap-title">
+            {headerTitle(model)}
+          </Text>
         </View>
         {offline || model.updated !== null || model.dropout ? (
           <Row gap="8" wrap>

@@ -204,7 +204,7 @@ export function headerTitle(model: SummaryModel): string {
   const place = model.place;
   return place === null
     ? t({ id: 'recap.summary.titleNoPlace', message: 'The recap' })
-    : t({ id: 'recap.summary.title', message: `${place}, the recap` });
+    : t({ id: 'recap.summary.title', message: `${place},\nthe recap` });
 }
 
 /** "The Golden Tokek got away." then the guide's line, or the sightings while it is unwritten. */
