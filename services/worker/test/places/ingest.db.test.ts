@@ -2,7 +2,8 @@
  * Ingest orchestration against real Postgres (Testcontainers): upsert idempotency, curation
  * defaults, sparse-coverage flagging and the editorial-overlay path. Both source readers are faked
  * here (network boundary) except where a test specifically exercises the real FSQ gating logic,
- * which never touches the network when `FSQ_OS_PLACES_PARQUET_URI` is unset (see `ingest.ts`).
+ * which never touches the network when neither `FSQ_PLACES_PORTAL_TOKEN` nor
+ * `FSQ_OS_PLACES_PARQUET_URI` is set (see `source-readers.ts`).
  */
 import { runMigrations } from '@cp/db';
 import { startPostgres, type StartedPostgreSqlContainer } from '@cp/db/testing';
@@ -245,6 +246,7 @@ describe('ingestDestination', () => {
 
   it('reports the real FSQ OS Places gate without touching the network (no readFsqOsPlaces override)', async () => {
     delete process.env['FSQ_OS_PLACES_PARQUET_URI'];
+    delete process.env['FSQ_PLACES_PORTAL_TOKEN'];
     const result = await ingestDestination(
       pool,
       { destinationId, bbox: KYOTO_BBOX },
