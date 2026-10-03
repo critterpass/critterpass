@@ -95,6 +95,27 @@ describe('architecture import rules', () => {
     expect(publicApi).toEqual([]);
   });
 
+  it('lets the planning register import a feature register module and nothing else', async () => {
+    const at = 'apps/mobile/src/features/planning-register.ts';
+    const registers = await lintAt(
+      at,
+      "import '../features/alpha/register';\nimport './alpha/places/register';\n",
+    );
+    expect(registers).toEqual([]);
+
+    const internal = await lintAt(
+      at,
+      "import { alphaHelper } from './alpha/internal';\nexport const x = alphaHelper;\n",
+    );
+    expect(internal.some((error) => error.startsWith('boundaries/dependencies'))).toBe(true);
+
+    const otherFeature = await lintAt(
+      'apps/mobile/src/features/beta/probe.ts',
+      "import '../alpha/register';\n",
+    );
+    expect(otherFeature.some((error) => error.startsWith('boundaries/dependencies'))).toBe(true);
+  });
+
   it('allows npm dependencies and node built-ins', async () => {
     const errors = await lintAt(
       'packages/domain/src/probe.ts',
