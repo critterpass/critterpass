@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "e275055a-695e-4ca3-be4c-ffaad3301054",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "From what Tokek knows so far, I picked 20 keepers. Nothing blurry."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 166,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 384,
+        "output_tokens": 19,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
