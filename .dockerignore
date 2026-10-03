@@ -21,3 +21,11 @@ apps/mobile
 !apps/mobile/assets/fonts/Borel-400.ttf
 e2e
 **/*.md
+# Nothing the api or worker builds or reads at runtime (kept in step with .railwayignore).
+apps/web
+apps/admin
+tools
+packages/sound-art
+packages/critter-bake
+# Translation sources: the services import the compiled catalogs next to them.
+packages/i18n/locales/**/*.po
