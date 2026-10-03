@@ -103,12 +103,13 @@ export function validateRecapCopy(reply: RecapCopyReply, input: RecapCopyInput):
     }
     const title = tidy(copy.title);
     const line = tidy(copy.line);
-    let problem: string | null = null;
-    if (title.length === 0 || title.length > RECAP_AWARD_TITLE_MAX) problem = 'length:award:title';
-    else if (line.length === 0 || line.length > RECAP_AWARD_LINE_MAX) problem = 'length:award:line';
-    else
-      problem =
-        check(`award:${award.award}`, title, true) ?? check(`award:${award.award}`, line, true);
+    const problem =
+      title.length === 0 || title.length > RECAP_AWARD_TITLE_MAX
+        ? 'length:award:title'
+        : line.length === 0 || line.length > RECAP_AWARD_LINE_MAX
+          ? 'length:award:line'
+          : (check(`award:${award.award}`, title, true) ??
+            check(`award:${award.award}`, line, true));
     if (problem === null) awards.push({ user_id: award.user_id, title, line });
     else problems.push(problem);
   }
@@ -116,7 +117,7 @@ export function validateRecapCopy(reply: RecapCopyReply, input: RecapCopyInput):
     ok: problems.length === 0,
     ...(problems[0] === undefined ? {} : { reason: problems[0] }),
     problems,
-    cards: cards as RecapCardsCopy,
+    cards: cards,
     awards,
   };
 }
@@ -131,7 +132,7 @@ export function mergeRecapCopy(verdict: RecapCopyVerdict, input: RecapCopyInput)
   }
   const byUser = new Map(verdict.awards.map((award) => [award.user_id, award]));
   return {
-    cards: cards as RecapCardsCopy,
+    cards: cards,
     awards: template.awards.map((award) => byUser.get(award.user_id) ?? award),
     fallbackUsed: !verdict.ok,
     ...(verdict.reason === undefined ? {} : { rejected: verdict.reason }),

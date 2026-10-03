@@ -96,3 +96,6 @@ BEGIN
   RETURN new_id;
 END;
 $$;
+
+-- The ops console reads every non-C3 user setting, the signature stroke's key included.
+GRANT SELECT (signature_media_key) ON user_settings TO admin_reader;
