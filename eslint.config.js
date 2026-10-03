@@ -116,6 +116,9 @@ export default defineConfig([
 
   { files: defaultExportAllowed, rules: { 'no-restricted-syntax': 'off' } },
 
+  // Generator output (e.g. the app's synced-table schema) grows with the schema it mirrors.
+  { files: ['**/*.generated.ts'], rules: { 'max-lines': 'off' } },
+
   {
     files: testFiles,
     rules: {
