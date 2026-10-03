@@ -71,6 +71,7 @@ export const DEV_SECTIONS: readonly DevScreenSection[] = [
         label: 'Critters (3l scenes)',
       },
       { testId: 'dev-nav-you-lab', href: '/(dev)/you-lab', label: 'You (3n scenes)' },
+      { testId: 'dev-nav-help-lab', href: '/(dev)/help-lab', label: 'Help (3p scenes)' },
       {
         testId: 'dev-nav-live-map',
         href: '/(dev)/live-map',

@@ -562,7 +562,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/shared-plans?dest&days&month&crew_size&max_cost&tags&sort` | S | community + match score | 5 min |
 | `GET /v1/shared-plans/{id}/guide-note?trip_id` | S | AI-36 cached per (plan, draft version) | cached |
 | `GET /v1/ideas?tab` / `POST /v1/ideas/similar` | S | idea board / pgvector (<300 ms) | – |
-| `GET /v1/help/articles?q&locale&context` | P | MDX content | CDN |
+| `GET /v1/help/articles?q&locale&context&limit` | A | `{articles[{slug, locale, category, title, summary}], locale, fallback}`: published help articles (the content factory's `help` release, Markdown bodies) ranked by full text (title, summary, body; each word a prefix) plus title trigram, the `context`'s categories lifted (`HELP_CENTRE_CONTEXT_CATEGORIES`); without `q`, the context's articles for the hub; a locale with no articles falls back to English (`fallback: true`); the vector branch joins only when an embedding vendor is configured; 120/min/uid | private, 60 s |
 | `GET /v1/me/deletion/preflight` | S | balances, organiser roles, subscription source | – |
 | `GET /v1/me/rating-eligibility?trip_id` | S | heuristic flag | – |
 | `GET /v1/me/export/{id}` | S | signed URL | – |

@@ -126,8 +126,10 @@ Build this phase's console panel to its render (`design/Ops - Feedback.dc.html`,
 
 ### T2 — Help content, embeddings, articles API, hub 3p-1, reader, search
 - Goal: searchable localised help.
-- Files: `packages/content/help/en/*.mdx` (launch set: offline maps, splitting, Trip Boost split, Pass+ billing & restore, deleting your account, why critters can't be bought, location & privacy, notifications, SOS/Help limits, supplier bookings & cancellations), `packages/content/help/schema.ts`, `services/api/src/routes/help-articles.ts`, `services/worker/src/jobs/help/embed.ts`, `apps/mobile/src/app/help/{index,article/[slug],search}.tsx`, `apps/mobile/src/features/help/{hub,reader,search}/*`, tests, `e2e/help/hub-search.yaml`.
-- Steps: 1. MDX schema + validator (links resolve to registered routes). 2. Embedding via P14 client. 3. Hybrid ranking endpoint + context boosting. 4. Hub + reader + search UI, offline FTS fallback. 5. Translation hand-off keys to Tolgee.
+- Content: no separate MDX source. The articles are the content factory's `help` release (`tools/content-factory`, kind `help`, Markdown bodies), published into `help_articles` and synced by the `help` stream per locale; the launch-set gaps (notifications, SOS and Help limits, one Pass+ billing and restore article) and translations go through a factory batch the founder approves.
+- Embeddings: pending the vendor decision. The vector branch is written against `EmbeddingVendor` and stays off; ranking stands on full text plus trigram with context boosting, tested on that alone.
+- Files: `services/api/src/routes/help-articles.ts`, `packages/domain/src/help/contexts.ts`, `apps/mobile/src/app/help-centre/{_layout,index,article/[slug]}.tsx` (`/help` is the trip's Help and SOS screen), `apps/mobile/src/features/help/{data,hub,reader,dev}/*` (search runs in place on the hub), `apps/mobile/src/app/(dev)/help-{lab,scene}.tsx`, tests, `e2e/help/screens.yaml`.
+- Steps: 1. Hybrid ranking endpoint + context boosting + English fallback. 2. Hub + reader + search in place, offline search over the synced articles. 3. Translation hand-off keys to Tolgee.
 - Tests: `pnpm --filter @cp/api test -- help-articles`; `pnpm --filter @cp/mobile test -- help/hub help/reader help/search`; `maestro test e2e/help/hub-search.yaml`.
 - Done when: "refund" query ranks the billing article first; airplane-mode search returns local results; missing translation shows English chip.
 

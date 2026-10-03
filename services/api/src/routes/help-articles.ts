@@ -8,7 +8,7 @@
  * English and says so. Without `q` it lists the context's articles for the hub.
  */
 import { withUser } from '@cp/db';
-import { DomainError } from '@cp/domain';
+import { DomainError, helpCentreContextCategories } from '@cp/domain';
 import type { OpenAPIHono } from '@hono/zod-openapi';
 import type pg from 'pg';
 import { z } from 'zod';
@@ -47,19 +47,6 @@ export interface HelpSearchResult {
   readonly locale: string;
   readonly fallback: boolean;
 }
-
-/** Where the traveller opened help from, and the categories that answer it first. */
-export const HELP_CONTEXT_CATEGORIES: Readonly<Record<string, readonly string[]>> = {
-  settings: ['passes_and_boosts', 'critters'],
-  money: ['splitting_money', 'refunds', 'passes_and_boosts'],
-  plan: ['trips_and_crews', 'getting_started', 'offline_and_maps'],
-  trip: ['offline_and_maps', 'safety', 'bookings'],
-  bookings: ['bookings', 'refunds'],
-  critters: ['critters'],
-  crew: ['trips_and_crews'],
-  account: ['privacy_and_account', 'passes_and_boosts'],
-  safety: ['safety', 'insurance'],
-};
 
 const querySchema = z.object({
   q: z.string().trim().max(120).optional(),
@@ -110,7 +97,7 @@ export async function searchHelpArticles(
     : base !== input.locale && (await hasArticles(tx, base))
       ? base
       : 'en';
-  const boosted = HELP_CONTEXT_CATEGORIES[input.context ?? ''] ?? [];
+  const boosted = helpCentreContextCategories(input.context);
   const tsq = input.q === null ? null : prefixTsQuery(input.q);
   const vector =
     input.embedding === undefined || input.embedding === null

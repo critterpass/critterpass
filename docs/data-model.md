@@ -476,6 +476,6 @@ Client-only (PowerSync local, never replicated up as tables): `commands` insert-
 1. Better Auth stores `phone_number` plaintext in `auth.user`; encrypt via a custom adapter hook, or accept schema isolation (`auth` not granted to `app_user`)?
 2. Crew chat sync depth: full history per crew (current choice; ≤16 members) vs a rolling window + API pagination if payload size hurts first sync.
 3. Former members (`status='former'`, `keep_in_chat`) — which trip tables remain readable (plans/expenses they were part of)? Current rule: chat + ledger rows naming them.
-4. Embedding dimension 1024 assumes the chosen embedding model; confirm model (Claude has no embedding model — Voyage vs self-hosted) in the AI phase.
+4. Embedding dimension 1024 assumes the chosen embedding model. **Pending the vendor decision:** no embedding vendor is configured (DeepSeek, the AI provider, has none), so every `embedding` column stays empty and the jobs that fill them are no-ops. Help search ranks on full text and trigram with context boosting, and its vector branch (`EmbeddingVendor`) switches on only once a vendor is configured; search quality must not depend on it.
 5. `trip_participants` vs crew-level visibility of a trip the user opted out of (`rsvp='out'`): still crew-visible (current) or hidden?
 6. Retention for C5 (7 y) assumes Singapore tax rules; counsel to confirm.

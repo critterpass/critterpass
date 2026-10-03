@@ -11,6 +11,10 @@ export const FEEDBACK_MOODS = ['grr', 'meh', 'okay', 'good', 'love'] as const;
 export const feedbackMoodSchema = z.enum(FEEDBACK_MOODS);
 export type FeedbackMood = z.infer<typeof feedbackMoodSchema>;
 
+export function isFeedbackMood(value: unknown): value is FeedbackMood {
+  return feedbackMoodSchema.safeParse(value).success;
+}
+
 /** ABOUT chips on 3p-2; `bug` is added (and preselected) when the sheet opens as a problem report. */
 export const FEEDBACK_CATEGORIES = [
   'planning',
@@ -22,6 +26,10 @@ export const FEEDBACK_CATEGORIES = [
 ] as const;
 export const feedbackCategorySchema = z.enum(FEEDBACK_CATEGORIES);
 export type FeedbackCategory = z.infer<typeof feedbackCategorySchema>;
+
+export function isFeedbackCategory(value: unknown): value is FeedbackCategory {
+  return feedbackCategorySchema.safeParse(value).success;
+}
 
 export const FEEDBACK_SOURCES = ['settings', 'help', 'article', 'shake'] as const;
 export const feedbackSourceSchema = z.enum(FEEDBACK_SOURCES);
