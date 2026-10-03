@@ -1,11 +1,12 @@
 /**
  * The critter's share card, drawn on the phone with Skia: the post (1080×1350) or 9:16 story
  * (1080×1920) on paper, the found form's sticker, its name and "{tier} · found in {city}", in the
- * app's bundled faces from the system font manager. Only found forms are shared, so a name on the
+ * app's bundled faces, read from the font assets (Android's system font manager does not know
+ * them, so text drawn through it comes out blank). Only found forms are shared, so a name on the
  * card is always the viewer's own. Also the phone's share hand-offs (share sheet, save to Photos).
  */
 /* eslint-disable @typescript-eslint/no-require-imports -- native modules load lazily, so importing this never forces them under Jest. */
-/* eslint-disable lingui/no-unlocalized-strings -- font names and file extensions, never copy. */
+/* eslint-disable lingui/no-unlocalized-strings -- file extensions, never copy. */
 import type { FormSpec } from '@cp/critter-art';
 import { tokens } from '@cp/design-tokens';
 import type * as RNSkiaModule from '@shopify/react-native-skia';
@@ -14,6 +15,7 @@ import type * as MediaLibraryModule from 'expo-media-library';
 import type * as SharingModule from 'expo-sharing';
 import { Linking } from 'react-native';
 
+import { bundledTypeface } from '@/ui/share-image/bundled-typefaces';
 import type { ShareFormat } from '@/ui/share-image/ShareImageSheet';
 import type { ShareActionsDeps } from '@/ui/share-image/share-actions';
 import { renderStickerImage } from '@/ui/sticker/export-png';
@@ -32,11 +34,18 @@ const SIZE: Readonly<Record<ShareFormat, { readonly w: number; readonly h: numbe
   story: { w: 1080, h: 1920 },
 };
 
-export function renderCritterCard(card: CritterCard, format: ShareFormat): Promise<Uint8Array> {
+export async function renderCritterCard(
+  card: CritterCard,
+  format: ShareFormat,
+): Promise<Uint8Array> {
   const { Skia } = require('@shopify/react-native-skia') as typeof RNSkiaModule;
+  const [titleFace, lineFace] = await Promise.all([
+    bundledTypeface('Archivo-W100-900'),
+    bundledTypeface('Geist-600'),
+  ]);
   const { w, h } = SIZE[format];
   const surface = Skia.Surface.MakeOffscreen(w, h) ?? Skia.Surface.Make(w, h);
-  if (surface === null) return Promise.reject(new Error('critter card: no surface'));
+  if (surface === null) throw new Error('critter card: no surface');
   const canvas = surface.getCanvas();
   const paint = Skia.Paint();
   paint.setColor(Skia.Color(tokens.color.paper.base));
@@ -57,9 +66,8 @@ export function renderCritterCard(card: CritterCard, format: ShareFormat): Promi
     Skia.Paint(),
   );
 
-  const fonts = Skia.FontMgr.System();
-  const title = Skia.Font(fonts.matchFamilyStyle('Archivo-W100-900', { weight: 900 }), 88);
-  const line = Skia.Font(fonts.matchFamilyStyle('Geist-600', { weight: 600 }), 40);
+  const title = Skia.Font(titleFace ?? undefined, 88);
+  const line = Skia.Font(lineFace ?? undefined, 40);
   const ink = Skia.Paint();
   ink.setColor(Skia.Color(tokens.color.paper.ink));
   const name = card.name.toLocaleUpperCase();
@@ -69,9 +77,8 @@ export function renderCritterCard(card: CritterCard, format: ShareFormat): Promi
 
   surface.flush();
   const bytes = surface.makeImageSnapshot().encodeToBytes();
-  return bytes === null
-    ? Promise.reject(new Error('critter card: the image did not encode'))
-    : Promise.resolve(bytes);
+  if (bytes === null) throw new Error('critter card: the image did not encode');
+  return bytes;
 }
 
 let deps: ShareActionsDeps | null = null;

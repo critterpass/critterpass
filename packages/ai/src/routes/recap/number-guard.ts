@@ -38,17 +38,10 @@ function collect(value: unknown, into: string[]): void {
   }
 }
 
-/** Every number the copy may carry: each one in the facts, whole and by part. */
-export function allowedRecapNumbers(
-  facts: RecapCopyFacts,
-  awards: readonly RecapCopyAward[],
-): ReadonlySet<string> {
+/** Every number a guide line may carry: each one in `facts` (any JSON shape), whole and by part. */
+export function allowedNumbersIn(...facts: readonly unknown[]): ReadonlySet<string> {
   const sources: string[] = [];
-  collect(facts, sources);
-  collect(
-    awards.map((award) => ({ value: award.value, evidence: award.evidence })),
-    sources,
-  );
+  for (const value of facts) collect(value, sources);
   // "1" is the digit of "one", which is always free ("1 island", "the one that got away").
   const allowed = new Set<string>(['1']);
   // A number word the facts themselves carry ("The Six", a crew name) may be repeated.
@@ -64,6 +57,17 @@ export function allowedRecapNumbers(
     }
   }
   return allowed;
+}
+
+/** Every number the recap copy may carry: each one in the facts and the awards' numbers. */
+export function allowedRecapNumbers(
+  facts: RecapCopyFacts,
+  awards: readonly RecapCopyAward[],
+): ReadonlySet<string> {
+  return allowedNumbersIn(
+    facts,
+    awards.map((award) => ({ value: award.value, evidence: award.evidence })),
+  );
 }
 
 /** The numbers in `text` the facts do not vouch for, number words included. */
