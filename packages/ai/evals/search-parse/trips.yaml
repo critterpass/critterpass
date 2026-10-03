@@ -1,0 +1,84 @@
+# Trip digests the search-parse cases ask about. Ids are fixed so recordings stay stable; the model
+# only ever sees the refs (day1, place1) the prompt gives them.
+bali:
+  destination: Bali, Indonesia
+  stay_name: Villa Sayan
+  guide_name: Tokek
+  days:
+    - { id: 00000000-0000-4000-8000-00000000b001, date: '2026-11-16', weekday: mo }
+    - { id: 00000000-0000-4000-8000-00000000b002, date: '2026-11-17', weekday: tu }
+    - id: 00000000-0000-4000-8000-00000000b003
+      date: '2026-11-18'
+      weekday: we
+      meals: [{ meal: dinner, title: Locavore, stable_id: 00000000-0000-4000-8000-00000000b103 }]
+    - { id: 00000000-0000-4000-8000-00000000b004, date: '2026-11-19', weekday: th }
+    - id: 00000000-0000-4000-8000-00000000b005
+      date: '2026-11-20'
+      weekday: fr
+      meals: [{ meal: lunch, title: Sari Organik, stable_id: 00000000-0000-4000-8000-00000000b105 }]
+    - { id: 00000000-0000-4000-8000-00000000b006, date: '2026-11-21', weekday: sa, full: true }
+    - { id: 00000000-0000-4000-8000-00000000b007, date: '2026-11-22', weekday: su, travel: true }
+  places:
+    - { id: 00000000-0000-4000-8000-00000000b201, name: Tanah Lot }
+    - { id: 00000000-0000-4000-8000-00000000b202, name: Tegallalang Rice Terraces }
+    - { id: 00000000-0000-4000-8000-00000000b203, name: Ubud Monkey Forest }
+kyoto:
+  destination: Kyoto, Japan
+  stay_name: Hotel Kanra Kyoto
+  guide_name: Tokek
+  days:
+    - { id: 00000000-0000-4000-8000-00000000c001, date: '2026-11-20', weekday: fr }
+    - id: 00000000-0000-4000-8000-00000000c002
+      date: '2026-11-21'
+      weekday: sa
+      meals: [{ meal: dinner, title: Gion Karyo, stable_id: 00000000-0000-4000-8000-00000000c102 }]
+    - { id: 00000000-0000-4000-8000-00000000c003, date: '2026-11-22', weekday: su }
+    - { id: 00000000-0000-4000-8000-00000000c004, date: '2026-11-23', weekday: mo, full: true }
+    - { id: 00000000-0000-4000-8000-00000000c005, date: '2026-11-24', weekday: tu, travel: true }
+  places:
+    - { id: 00000000-0000-4000-8000-00000000c201, name: Fushimi Inari Taisha }
+    - { id: 00000000-0000-4000-8000-00000000c202, name: Kinkaku-ji }
+    - { id: 00000000-0000-4000-8000-00000000c203, name: Nishiki Market }
+danang:
+  destination: Đà Nẵng, Vietnam
+  stay_name: Fusion Suites Đà Nẵng
+  guide_name: Tokek
+  days:
+    - { id: 00000000-0000-4000-8000-00000000d001, date: '2026-12-03', weekday: th }
+    - id: 00000000-0000-4000-8000-00000000d002
+      date: '2026-12-04'
+      weekday: fr
+      meals:
+        [{ meal: lunch, title: Bánh xèo Bà Dưỡng, stable_id: 00000000-0000-4000-8000-00000000d102 }]
+    - id: 00000000-0000-4000-8000-00000000d003
+      date: '2026-12-05'
+      weekday: sa
+      meals:
+        [{ meal: dinner, title: Hải sản Bé Mặn, stable_id: 00000000-0000-4000-8000-00000000d103 }]
+    - { id: 00000000-0000-4000-8000-00000000d004, date: '2026-12-06', weekday: su }
+  places:
+    - { id: 00000000-0000-4000-8000-00000000d201, name: Bà Nà Hills }
+    - { id: 00000000-0000-4000-8000-00000000d202, name: Marble Mountains }
+    - { id: 00000000-0000-4000-8000-00000000d203, name: Dragon Bridge }
+lisbon:
+  destination: Lisbon, Portugal
+  stay_name: null
+  guide_name: Tokek
+  days:
+    - id: 00000000-0000-4000-8000-00000000e001
+      date: '2027-03-10'
+      weekday: we
+      meals:
+        [
+          {
+            meal: dinner,
+            title: Taberna da Rua das Flores,
+            stable_id: 00000000-0000-4000-8000-00000000e101,
+          },
+        ]
+    - { id: 00000000-0000-4000-8000-00000000e002, date: '2027-03-11', weekday: th }
+    - { id: 00000000-0000-4000-8000-00000000e003, date: '2027-03-12', weekday: fr }
+    - { id: 00000000-0000-4000-8000-00000000e004, date: '2027-03-13', weekday: sa }
+  places:
+    - { id: 00000000-0000-4000-8000-00000000e201, name: Belém Tower }
+    - { id: 00000000-0000-4000-8000-00000000e202, name: LX Factory }

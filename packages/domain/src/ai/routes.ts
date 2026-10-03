@@ -65,6 +65,8 @@ export const AI_ROUTES = [
   // Help checklist wording and the crew SOS summary: words only, every fact from curated data.
   'help.checklist',
   'sos.summary',
+  // Planning: plain words into search chips.
+  'search.parse',
   // Jev 1.13 typed decisions, each with a fast-tier twin.
   'guide.chime_in_classifier',
   'help.intent_classifier',

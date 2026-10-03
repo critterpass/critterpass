@@ -33,6 +33,7 @@ import { runTranslateSuite, TRANSLATE_SUITE } from '../translate/suite';
 import { HELP_SUITE, runHelpSuite } from '../help/suite';
 import { SOS_SUITE, runSosSuite } from '../sos/suite';
 import { HOURS_RESEARCH_SUITE, runHoursResearchSuite } from '../hours-research/suite';
+import { runSearchParseSuite, SEARCH_PARSE_SUITE } from '../search-parse/suite';
 import { runCase, type EvalMode, type EvalOutput, type Pipeline } from './provider';
 import { EVALS_DIR, loadSuite, type Assertion, type CaseVars, type EvalCase } from './suite';
 
@@ -268,6 +269,7 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
   if (name === HELP_SUITE) return runHelpSuite(options, threshold);
   if (name === SOS_SUITE) return runSosSuite(options, threshold);
   if (name === HOURS_RESEARCH_SUITE) return runHoursResearchSuite(options, threshold);
+  if (name === SEARCH_PARSE_SUITE) return runSearchParseSuite(options, threshold);
   if (name === DRAFT_SUITE) {
     return runDraftSuite(
       {

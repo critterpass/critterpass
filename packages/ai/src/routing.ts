@@ -255,6 +255,8 @@ const GENERATION_SPECS: Readonly<Record<Exclude<AiRoute, DecisionRoute>, RouteSp
   }),
   'help.checklist': fast(null, 1024, { output: 'structured', temperature: 0.3 }),
   'sos.summary': fast(null, 256, { output: 'structured', temperature: 0.2 }),
+  // Planning: words into search filters, while the screen already shows name results.
+  'search.parse': fast(null, 400, { output: 'structured', temperature: 0 }),
 };
 
 const DECISION_SPECS: Readonly<Record<DecisionRoute, RouteSpec>> = {
