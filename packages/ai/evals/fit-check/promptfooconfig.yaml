@@ -1,0 +1,10 @@
+# Fit check: the guide asks the fit engine when a place fits (`fit_check`) and words the answer.
+# Each case serves the tool's output; a reply passes when it names the day and times exactly as
+# the tool returned them and invents none. Run: pnpm --filter @cp/ai eval fit-check
+description: The guide quotes the fit engine's day and times unchanged
+prompts:
+  - '{{question}}'
+providers:
+  - id: file://../lib/provider.ts
+tests:
+  - file://cases.yaml

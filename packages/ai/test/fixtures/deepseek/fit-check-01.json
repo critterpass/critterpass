@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "2888e3fb-73e0-478b-a745-28847515e40b",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Rise and shine — day 3 works nicely for Tegallalang: a 08:30 to 10:30 slot, and it's only about a 25-minute drive from the villa. It opens at 08:00, so you'd be in before the crowds thicken. Want me to draft it into the plan?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3913,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 5632,
+        "output_tokens": 70,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

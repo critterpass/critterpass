@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "c4b71492-54cf-4d48-be2a-c45959e2899e",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tirta Gangga fits best on day 5, 13:00 to 15:00 — it's about 95 minutes from the villa, and crowds build from 10:00 so the afternoon slot dodges the worst of it. Want me to draft that as a plan change for the crew?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 338,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 64,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

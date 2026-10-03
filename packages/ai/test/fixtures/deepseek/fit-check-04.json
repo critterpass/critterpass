@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3feb6be1-63cb-4d7a-b835-f924954e5851",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Yes — day 2 works, with a slot from 15:30 to 16:30, though it gets busy from 12:00 and closes at 17:00. Want me to draft it into the plan, terima kasih (thank you) for asking?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 358,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 58,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

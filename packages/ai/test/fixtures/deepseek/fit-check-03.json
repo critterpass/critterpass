@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "0539a1e2-88b4-4956-b178-a72bf81466b1",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Ah, sorry — the Railway Museum is closed on day 1, so it won't fit there. Want me to check which day it does fit?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3912,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 5632,
+        "output_tokens": 31,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,284 @@
+# The trip contexts name no dates: the harness grounds a reply on the tool's output alone, so the
+# day and times the guide may say are the ones `fit_check` returned.
+- description: A good slot on the asked day, quoted as given
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Does Tegallalang fit on day 3?
+    trip_context: &bali >-
+      Trip id 0190f0a0-0000-7000-8000-0000000b0001: Bali, a week in November, before the trip.
+      Crew: Rin (organiser), Maya, Dev. Stay: Villa Sayan, Ubud. Saved places: Tegallalang Rice
+      Terraces (poi 0190f0a0-0000-7000-8000-0000000b0101), Tirta Gangga (poi
+      0190f0a0-0000-7000-8000-0000000b0102). The fit check for the place asked about has already
+      run this turn.
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: good
+          day_no: 3
+          starts_at: '08:30'
+          ends_at: '10:30'
+          reasons:
+            - { code: opens_at, params: { time: '08:00' } }
+            - { code: drive_minutes, params: { minutes: 25, from: stay, approx: true } }
+    replay: { fixtures: [fit-check-01] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: icontains-any
+      value: ['08:30', '8:30', '8:30 am', '8:30am', '8h30', '8 giờ 30']
+- description: No asked day, the best day the tool picked
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: When could we fit Tirta Gangga in?
+    trip_context: *bali
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: possible
+          day_no: 5
+          starts_at: '13:00'
+          ends_at: '15:00'
+          reasons:
+            - { code: drive_minutes, params: { minutes: 95, from: stay, approx: false } }
+            - { code: busy_from, params: { time: '10:00', level: 80, source: editorial } }
+    replay: { fixtures: [fit-check-02] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: icontains-any
+      value: ['13:00', '1pm', '1 pm', '1:00 pm', '1:00pm', '13h', '13 giờ']
+    - type: icontains
+      value: 'day 5'
+- description: Closed on the asked day, said plainly with no invented time
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Can we do the Railway Museum on day 1?
+    trip_context: &kyoto >-
+      Trip id 0190f0a0-0000-7000-8000-0000000c0001: Kyoto, five days in November, before the trip.
+      Crew: Ken (organiser), Sara, Mio. Stay: Hotel Kanra Kyoto. Saved places: Kyoto Railway Museum
+      (poi 0190f0a0-0000-7000-8000-0000000c0101), Nishiki Market (poi
+      0190f0a0-0000-7000-8000-0000000c0102), Gion Corner (poi 0190f0a0-0000-7000-8000-0000000c0103).
+      The fit check for the place asked about has already run this turn.
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: 'no'
+          day_no: 1
+          starts_at: null
+          ends_at: null
+          reasons:
+            - { code: closed_that_day, params: { day_no: 1 } }
+    replay: { fixtures: [fit-check-03] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: icontains-any
+      value: ['closed', 'shut']
+- description: A tight evening slot, with the busy time from the reasons
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Is Nishiki Market doable on day 2?
+    trip_context: *kyoto
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: possible
+          day_no: 2
+          starts_at: '15:30'
+          ends_at: '16:30'
+          reasons:
+            - { code: closes_at, params: { time: '17:00' } }
+            - { code: busy_from, params: { time: '12:00', level: 90, source: editorial } }
+    replay: { fixtures: [fit-check-04] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: icontains-any
+      value: ['15:30', '3:30 pm', '3:30pm', '15h30', '15 giờ 30']
+- description: Vietnamese, a good slot on the asked day
+  vars:
+    route: guide.chat
+    persona: tokek
+    locale: vi
+    question: Tegallalang có vừa vào ngày 3 không?
+    trip_context: *bali
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: good
+          day_no: 3
+          starts_at: '08:30'
+          ends_at: '10:30'
+          reasons:
+            - { code: opens_at, params: { time: '08:00' } }
+    replay: { fixtures: [fit-check-05] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: icontains-any
+      value: ['08:30', '8:30', '8:30 am', '8:30am', '8h30', '8 giờ 30']
+- description: Vietnamese, the best day the tool picked
+  vars:
+    route: guide.chat
+    persona: tokek
+    locale: vi
+    question: Khi nào mình đi Tirta Gangga được?
+    trip_context: *bali
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: possible
+          day_no: 5
+          starts_at: '13:00'
+          ends_at: '15:00'
+          reasons:
+            - { code: drive_minutes, params: { minutes: 95, from: stay, approx: false } }
+    replay: { fixtures: [fit-check-06] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: icontains-any
+      value: ['13:00', '1pm', '1 pm', '1:00 pm', '1:00pm', '13h', '13 giờ']
+- description: Vietnamese, closed on the asked day
+  vars:
+    route: guide.chat
+    persona: tokek
+    locale: vi
+    question: Ngày 1 đi bảo tàng đường sắt được không?
+    trip_context: *kyoto
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: 'no'
+          day_no: 1
+          starts_at: null
+          ends_at: null
+          reasons:
+            - { code: closed_that_day, params: { day_no: 1 } }
+    replay: { fixtures: [fit-check-07] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: icontains-any
+      value: ['đóng cửa', 'nghỉ']
+- description: No day works anywhere, with each day's reason
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Can we squeeze in the Kyoto Railway Museum at all?
+    trip_context: *kyoto
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: 'no'
+          day_no: null
+          starts_at: null
+          ends_at: null
+          reasons:
+            - { code: closed_that_day, params: { day_no: 1 } }
+            - { code: no_window, params: { day_no: 2 } }
+            - { code: travel_day, params: { day_no: 5, kind: departure } }
+    replay: { fixtures: [fit-check-08] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: not-icontains-any
+      value: ['fits on day', 'works on day']
+- description: A short walk from the item before, on the asked day
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Could we add Gion Corner on day 2?
+    trip_context: *kyoto
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: good
+          day_no: 2
+          starts_at: '18:00'
+          ends_at: '19:00'
+          reasons:
+            - { code: walk_minutes, params: { minutes: 8, from: item, approx: true } }
+    replay: { fixtures: [fit-check-09] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: icontains-any
+      value: ['18:00', '6pm', '6 pm', '6:00 pm', '6:00pm', '18h', '18 giờ']
+- description: Vietnamese, a tight afternoon slot before closing
+  vars:
+    route: guide.chat
+    persona: tokek
+    locale: vi
+    question: Ngày 2 đi chợ Nishiki được không?
+    trip_context: *kyoto
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: possible
+          day_no: 2
+          starts_at: '15:30'
+          ends_at: '16:30'
+          reasons:
+            - { code: closes_at, params: { time: '17:00' } }
+    replay: { fixtures: [fit-check-10] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: icontains-any
+      value: ['15:30', '3:30 pm', '3:30pm', '15h30', '15 giờ 30']
+- description: Vietnamese, no day works anywhere
+  vars:
+    route: guide.chat
+    persona: tokek
+    locale: vi
+    question: Có ngày nào đi bảo tàng đường sắt được không?
+    trip_context: *kyoto
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: 'no'
+          day_no: null
+          starts_at: null
+          ends_at: null
+          reasons:
+            - { code: closed_that_day, params: { day_no: 1 } }
+            - { code: no_window, params: { day_no: 2 } }
+    replay: { fixtures: [fit-check-11] }
+  assert:
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+- description: A reply that moves the slot to a time the tool never gave is caught
+  vars:
+    route: guide.chat
+    persona: tokek
+    question: Does Tegallalang fit on day 3?
+    trip_context: *bali
+    tool_results:
+      - tool: fit_check
+        output:
+          grade: good
+          day_no: 3
+          starts_at: '08:30'
+          ends_at: '10:30'
+          reasons: []
+    seeded: true
+    replay:
+      text: Day 3 works. Head out at 07:15 and you're done by 10:30.
+  assert:
+    - type: javascript
+      value: file://../graders.ts:flags_unverified_time
