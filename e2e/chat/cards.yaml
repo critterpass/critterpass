@@ -222,8 +222,8 @@ appId: app.critterpass.dev
 # The sheet's DELETE (the page's own DELETE sits behind the sheet, under its scrim).
 - tapOn:
     text: '(?i)^delete$'
-    childOf:
-      id: 'money-delete-confirm'
+    below: '(?i).*still sees it in the history.*'
+    above: '(?i)^cancel$'
 - extendedWaitUntil:
     notVisible: '(?i)delete this expense\?'
     timeout: 15000
