@@ -19,6 +19,7 @@ import type { SourceCandidate } from './pexels';
 import { pexelsPhotos } from './pexels';
 import { pixabayPhotos } from './pixabay';
 import { placePhotos, type MediaPlace } from './places';
+import { REJECTED_GENERIC } from './rejected';
 
 export interface StockKeys {
   readonly pexelsKey: string | undefined;
@@ -115,6 +116,7 @@ export async function genericPhotos(
         if (
           candidate !== undefined &&
           !taken.has(candidate.id) &&
+          REJECTED_GENERIC[candidate.id] === undefined &&
           Math.max(candidate.width, candidate.height) >= MIN_PX
         ) {
           found.push(candidate);
