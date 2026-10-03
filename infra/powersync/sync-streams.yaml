@@ -79,6 +79,15 @@ streams:
       - SELECT * FROM stamps WHERE user_id = auth.user_id()
       - SELECT * FROM taste_profiles WHERE user_id = auth.user_id()
       - SELECT * FROM avatars WHERE user_id = auth.user_id()
+      - SELECT * FROM place_hides WHERE user_id = auth.user_id()
+      - |-
+        SELECT * FROM member_asks
+        WHERE asked_by = auth.user_id()
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
+      - |-
+        SELECT * FROM member_asks
+        WHERE member_id = auth.user_id()
+          AND trip_id IN (SELECT id FROM trips WHERE crew_id IN my_crews)
       - SELECT * FROM poll_reveals WHERE user_id = auth.user_id()
       - SELECT * FROM xp_ledger WHERE user_id = auth.user_id()
       - SELECT * FROM recap_views WHERE user_id = auth.user_id()
@@ -197,6 +206,7 @@ streams:
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
           AND base_version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
+          AND (status <> 'draft' OR author_id = auth.user_id())
       - |-
         SELECT * FROM guide_actions
         WHERE trip_id = subscription.parameter('trip_id')
@@ -295,6 +305,29 @@ streams:
         SELECT * FROM comment_plus_ones
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM trip_ideas
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND deleted_at IS NULL
+      - |-
+        SELECT * FROM place_stances
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT *, trip_id AS id FROM plan_checks
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM plan_check_issues
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
+      - |-
+        SELECT * FROM plan_legs
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
       - |-
         SELECT * FROM polls
         WHERE trip_id = subscription.parameter('trip_id')
@@ -497,11 +530,26 @@ streams:
           AND trip_id IN organised_trips
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
           AND base_version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser')
+          AND (status <> 'draft' OR author_id = auth.user_id() OR author_kind = 'guide')
       - |-
         SELECT * FROM redraft_reservations
         WHERE trip_id = subscription.parameter('trip_id')
           AND trip_id IN organised_trips
           AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+      - |-
+        SELECT * FROM plan_legs
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN organised_trips
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'organiser')
+      - |-
+        SELECT * FROM change_sets
+        WHERE trip_id = subscription.parameter('trip_id')
+          AND trip_id IN organised_trips
+          AND trip_id IN (SELECT id FROM trips WHERE id = subscription.parameter('trip_id') AND crew_id IN my_crews)
+          AND base_version_id IN (SELECT id FROM itinerary_versions WHERE trip_id = subscription.parameter('trip_id') AND visibility = 'crew')
+          AND status = 'draft'
+          AND author_kind = 'guide'
       - |-
         SELECT * FROM proposals
         WHERE trip_id = subscription.parameter('trip_id')
@@ -629,7 +677,10 @@ streams:
       - SELECT * FROM map_regions WHERE destination_id IN trip_destination
       - SELECT * FROM weather_snapshots WHERE destination_id IN trip_destination
       - SELECT * FROM hazard_alerts WHERE destination_id IN trip_destination
-      - SELECT * FROM crowd_forecasts WHERE destination_id IN trip_destination
+      - |-
+        SELECT * FROM crowd_forecasts
+        WHERE destination_id IN trip_destination
+          AND (source <> 'editorial' OR approved_at IS NOT NULL)
   help:
     accept_potentially_dangerous_queries: true
     queries:

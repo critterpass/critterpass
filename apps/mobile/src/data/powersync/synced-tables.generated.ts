@@ -74,7 +74,7 @@ export const SYNCED_TABLE_COLUMNS = {
   critters:
     'key set_id no:integer city species art_params canonical_seed:integer note release_id created_at updated_at',
   crowd_forecasts:
-    'poi_id destination_id dow:integer hourly source fetched_at created_at updated_at',
+    'poi_id destination_id dow:integer hourly source fetched_at approved_at crew_count:integer created_at updated_at',
   custom_phrase_cards:
     'user_id trip_id guide_id purpose language register address text romanisation gloss audio_key audio_status created_at updated_at',
   data_exports:
@@ -84,7 +84,7 @@ export const SYNCED_TABLE_COLUMNS = {
   destination_cost_indices:
     'destination_id stay_type nightly_minor_low:integer nightly_minor_high:integer food_pp_day_minor:integer fun_pp_day_minor:integer currency source source_url sourced_on reviewed_at created_at updated_at',
   destinations:
-    'slug name country coverage colour currency best_months tz geofence critter_set_id created_at updated_at',
+    'slug name country coverage colour currency best_months tz geofence critter_set_id drive_factor:real created_at updated_at',
   devices:
     'user_id platform bundle_id os_version app_version locale tz permission_state attribution capabilities la_enabled:integer la_frequent:integer foreground:integer last_seen_at created_at updated_at',
   disruptions:
@@ -154,6 +154,7 @@ export const SYNCED_TABLE_COLUMNS = {
   map_regions: 'destination_id pmtiles_key bytes:integer version created_at updated_at',
   meetups:
     'trip_id poi_id place_name lat:real lng:real meet_at created_by status arrived all_close_at created_at updated_at',
+  member_asks: 'trip_id asked_by member_id idea_ids ops status created_at updated_at answered_at',
   memories:
     'trip_id anchor_kind anchor_id author_id text local_date photo_media_key created_at updated_at',
   memory_reactions: 'memory_id trip_id user_id emoji text created_at updated_at',
@@ -193,10 +194,18 @@ export const SYNCED_TABLE_COLUMNS = {
     'user_id local_date sent_budgeted:integer sent_always:integer sent_local:integer paywall_sent:integer queued:integer created_at updated_at',
   pitches:
     'crew_id trip_id destination_id pitched_by month:integer sections quote_ids model prompt_version cache_key fare_snapshot_id status created_at updated_at i18n',
+  place_hides: 'user_id poi_id created_at',
+  place_stances: 'trip_id poi_id user_id stance note created_at updated_at',
   place_tips: 'poi_id destination_id author_id text lang moderation_status created_at updated_at',
+  plan_check_issues:
+    'trip_id version_id kind severity day_id stable_ids params fix rank:integer fingerprint created_at updated_at',
+  plan_checks:
+    'trip_id version_id status checked_at fix_count:integer know_count:integer runs_on runs_today:integer created_at updated_at',
   plan_days: 'version_id trip_id day_no:integer date theme weather_ref created_at updated_at i18n',
   plan_items:
-    'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason i18n',
+    'version_id day_id trip_id stable_id starts_at ends_at tz lane attendee_ids poi_id custom_place provider_id booking_id must_do_id category cost_model amount_minor:integer currency status flexibility is_outdoor:integer created_by_kind notes created_at updated_at locked_reason i18n',
+  plan_legs:
+    'trip_id version_id day_id from_key to_key mode minutes:integer meters:integer source approx:integer computed_at created_at updated_at',
   pois: 'destination_id name name_local category lat:real lng:real location address hours hours_verified_at hours_source price_level:integer source_ids editorial tags fts status curation merged_into_id geofence visit_radius_m:integer timezone last_live_check_at confidence:real website phone brand created_at updated_at',
   poll_options:
     'poll_id crew_id trip_id kind ref_id label frozen_quote_id pitch_id proposed_by position:integer eliminated_at created_at updated_at',
@@ -292,6 +301,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id ops members cost_delta_minor:integer resolved_at resolved_by created_at',
   trip_entitlements:
     'trip_id boost_active:integer seat_cap:integer redraft_limit:integer live_map:integer sponsored:integer computed_at',
+  trip_ideas:
+    'trip_id poi_id name name_local category lat:real lng:real backer_ids sources source_url fit fit_version_id created_by created_at updated_at deleted_at',
   trip_participants:
     'trip_id user_id role rsvp holds_seat:integer waitlist_position:integer chosen_options landed_at countdown_target_at egg_id created_at updated_at',
   trip_share_totals:
