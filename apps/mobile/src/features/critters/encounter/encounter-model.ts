@@ -5,7 +5,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import type { FormSpec } from '@cp/critter-art';
-import type { Rarity } from '@cp/domain';
+import { pickCrowdCurve, type Rarity } from '@cp/domain';
 
 import { parseJson } from '../data/queries';
 import type { SpawnSqlRow } from '../data/spawn-rows';
@@ -99,13 +99,16 @@ export function spawnArt(rule: SpawnSqlRow, row: SpawnFormRow | undefined): Spaw
   };
 }
 
-export const FORECAST_SQL = `SELECT dow, hourly FROM crowd_forecasts WHERE poi_id = ?`;
+export const FORECAST_SQL = `SELECT dow, hourly, source, approved_at FROM crowd_forecasts WHERE poi_id = ?`;
 export const FORECAST_TABLES = ['crowd_forecasts'];
 
 export interface ForecastRow {
   readonly dow: number;
   /** JSON: 24 crowd levels, one per local hour (0 empty … 100 packed). */
   readonly hourly: string | null;
+  /** Which source the curve came from; one is shown per weekday (`pickCrowdCurve`). */
+  readonly source: string;
+  readonly approved_at?: string | null;
 }
 
 export interface QuietWindow {
@@ -135,7 +138,10 @@ export function nextQuietWindow(
   let best: (QuietWindow & { readonly level: number }) | null = null;
   for (const dayOffset of [0, 1]) {
     const day = new Date(local.getTime() + dayOffset * 86_400_000);
-    const hourly = parseJson<number[]>(rows.find((r) => r.dow === day.getUTCDay())?.hourly, []);
+    const hourly = parseJson<number[]>(
+      pickCrowdCurve(rows.filter((r) => r.dow === day.getUTCDay()))?.hourly,
+      [],
+    );
     if (hourly.length < 24) continue;
     const midnight = Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate());
     for (let h = FIRST_HOUR; h <= LAST_HOUR; h += 1) {

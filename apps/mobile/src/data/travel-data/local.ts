@@ -13,6 +13,7 @@ import {
   isWeatherStale,
   MARINE_POINT_RADIUS_KM,
   marineSnapshotBodySchema,
+  pickCrowdCurve,
   TRAVEL_DESTINATIONS,
   WEATHER_ATTRIBUTION,
   WEATHER_POINT_RADIUS_KM,
@@ -218,9 +219,16 @@ export async function readLocalCrowds(
   );
   if (poi === null) return null;
   const dow = new Date(`${date}T00:00:00Z`).getUTCDay();
-  const pattern = await db.getOptional<{ hourly: string; source: string; fetched_at: string }>(
-    'SELECT hourly, source, fetched_at FROM crowd_forecasts WHERE poi_id = ? AND dow = ?',
-    [poiId, dow],
+  const pattern = pickCrowdCurve(
+    await db.getAll<{
+      hourly: string;
+      source: string;
+      fetched_at: string;
+      approved_at: string | null;
+    }>(
+      'SELECT hourly, source, fetched_at, approved_at FROM crowd_forecasts WHERE poi_id = ? AND dow = ?',
+      [poiId, dow],
+    ),
   );
   const curveRows =
     poi.destination_id === null

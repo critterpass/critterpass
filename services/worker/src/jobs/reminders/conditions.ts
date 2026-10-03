@@ -6,6 +6,7 @@
  */
 import {
   nextWindowSpan,
+  pickCrowdCurve,
   toLocalWallTime,
   windowRuleSchema,
   type ReminderCondition,
@@ -64,9 +65,13 @@ registerReminderCondition('window_active_not_found', async (tx, condition, ctx) 
 });
 
 registerReminderCondition('quiet_window', async (tx, condition) => {
-  const { rows } = await tx.query<{ busyness: number | null }>(
+  const { rows } = await tx.query<{
+    busyness: number | null;
+    source: string;
+    approved_at: Date | null;
+  }>(
     `SELECT f.hourly[extract(hour FROM $2::timestamptz AT TIME ZONE coalesce(d.tz, 'UTC'))::int + 1]
-              AS busyness
+              AS busyness, f.source, f.approved_at
        FROM pois p
        JOIN destinations d ON d.id = p.destination_id
        JOIN crowd_forecasts f ON f.poi_id = p.id
@@ -74,7 +79,7 @@ registerReminderCondition('quiet_window', async (tx, condition) => {
       WHERE p.id = $1`,
     [condition.poi_id, condition.at],
   );
-  const busyness = rows[0]?.busyness;
+  const busyness = pickCrowdCurve(rows)?.busyness;
   return busyness !== null && busyness !== undefined && busyness <= QUIET_BUSYNESS_MAX;
 });
 
