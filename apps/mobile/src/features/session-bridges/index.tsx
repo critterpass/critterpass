@@ -34,6 +34,8 @@ import {
 } from '@/lib/permissions';
 import { VisitConsentHost } from '@/ui/permission-primer';
 
+import { fetchQuestPlace } from './fetch-quest-place';
+
 type LocationSessionPort = Parameters<typeof useLocationEngineBridge>[0]['session'];
 type PermissionsPort = Parameters<typeof usePermissionsBridge>[0];
 
@@ -66,6 +68,7 @@ export function LocationBridge({
     exploreAtHome: useExploreAtHome(),
     androidBackgroundGeofences: readLocationFlags(analytics).androidBackgroundGeofences,
     countryOf,
+    fetchPlace: fetchQuestPlace,
     onSessionEnded: (summary) => trackLocationSession(analytics, summary),
   });
   const consentRows = useVisitConsentRows(watch);
