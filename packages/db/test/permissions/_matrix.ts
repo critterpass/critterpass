@@ -1979,6 +1979,13 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  album_curations: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM album_curations WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
   album_prefs: { selectProbe: ownRowProbe('album_prefs'), expectations: OWNER_READ },
   album_exports: { selectProbe: ownRowProbe('album_exports'), expectations: OWNER_READ },
   mailing_addresses: { selectProbe: ownRowProbe('mailing_addresses'), expectations: OWNER_READ },

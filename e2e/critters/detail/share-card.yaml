@@ -1,0 +1,53 @@
+appId: app.critterpass.dev
+---
+# The critter share card (3l-3 SHARE) from the critters lab's Tokek detail: the sheet draws the
+# real card on the phone, post then story. The name and the "{tier} · found in {city}" line must
+# read in the app's own faces (Archivo, Geist), never blank.
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: 'dev-tools-entry'
+    timeout: 60000
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-critters-lab'
+    direction: DOWN
+    visibilityPercentage: 100
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-critters-lab'
+- scrollUntilVisible:
+    element:
+      id: 'critters-lab-3l-3-detail'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'critters-lab-3l-3-detail'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-detail-share'
+    timeout: 20000
+- tapOn:
+    id: 'critters-detail-share'
+- extendedWaitUntil:
+    visible:
+      text: 'Story'
+    timeout: 10000
+- extendedWaitUntil:
+    notVisible:
+      text: 'Rendering share image'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3l-3-share-post
+- tapOn:
+    text: 'Story'
+- extendedWaitUntil:
+    notVisible:
+      text: 'Rendering share image'
+    timeout: 15000
+- waitForAnimationToEnd
+- takeScreenshot: en-3l-3-share-story

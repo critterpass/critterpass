@@ -15,6 +15,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
   alarms:
     'user_id device_id leave_by_id trip_id fire_at os_alarm_id state sync_version:integer created_at updated_at',
+  album_curations:
+    'trip_id note picks:integer photos:integer note_fallback:integer curated_at created_at updated_at',
   album_exports:
     'trip_id user_id status media_key photos:integer bytes:integer expires_at created_at updated_at',
   album_picks:
