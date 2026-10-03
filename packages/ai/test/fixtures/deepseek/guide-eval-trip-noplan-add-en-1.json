@@ -1,0 +1,41 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "1ce2a4c5-5b9c-427e-ba9d-aa2471a44d98",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I'll look for that one and check the plan."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_aGgu9Alk8ZPHp4A4ihYB6504",
+          "name": "places_search",
+          "input": {
+            "query": "Bánh Mì Bà Lan"
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01_JaN2x0uBXnUtlC2u3Jtl9845",
+          "name": "plan_read",
+          "input": {}
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 299,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10240,
+        "output_tokens": 66,
+        "service_tier": "standard"
+      }
+    }
+  }
+}
