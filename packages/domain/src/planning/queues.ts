@@ -21,9 +21,13 @@ export const PLAN_CHECK_DEBOUNCE_SECONDS = 45;
 /** Seconds a plan change waits before its legs are worked out. */
 export const PLAN_LEGS_DEBOUNCE_SECONDS = 30;
 
+/**
+ * `plan.legs` and `plan.check` are `stately`: per trip key at most one run waiting and one running,
+ * so a burst of edits folds into the waiting run (`singleton` would only cap the running one).
+ */
 export const PLANNING_QUEUE_SPECS = {
-  'plan.legs': { policy: 'singleton', retryLimit: 3, deadLetter: true, expireInSeconds: 5 * 60 },
-  'plan.check': { policy: 'singleton', retryLimit: 2, deadLetter: true, expireInSeconds: 2 * 60 },
+  'plan.legs': { policy: 'stately', retryLimit: 3, deadLetter: true, expireInSeconds: 5 * 60 },
+  'plan.check': { policy: 'stately', retryLimit: 2, deadLetter: true, expireInSeconds: 2 * 60 },
   'ideas.seed': { policy: 'exclusive', retryLimit: 3, expireInSeconds: 5 * 60 },
   'climate.normals': {
     policy: 'exclusive',

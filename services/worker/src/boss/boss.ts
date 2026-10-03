@@ -63,10 +63,13 @@ export interface StartJobRuntimeOptions {
 export async function startJobRuntime(options: StartJobRuntimeOptions): Promise<PgBoss> {
   const { boss, jobs } = options;
   await boss.start();
-  await ensureQueues(
+  const drifted = await ensureQueues(
     boss,
     jobs.map((job) => [job.queue, job.spec] as const),
   );
+  if (drifted.length > 0) {
+    options.deps.logger.warn({ queues: drifted }, 'queue policy differs from the catalogue');
+  }
   registerJobProducer(boss);
   const deps: WorkerDeps = { ...options.deps, boss };
   for (const job of jobs) {
