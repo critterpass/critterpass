@@ -21,6 +21,7 @@ import {
   jsonb,
   pgSchema,
   pgTable,
+  real,
   text,
   timestamp,
   uuid,
@@ -74,6 +75,12 @@ export const pois = pgTable('pois', {
   visitRadiusM: integer('visit_radius_m'),
   timezone: text('timezone'),
   lastLiveCheckAt: timestamp('last_live_check_at', { withTimezone: true, mode: 'date' }),
+  /** Overture's existence score in [0, 1]; null for FSQ-only and editorial-only places. */
+  confidence: real('confidence'),
+  website: text('website'),
+  phone: text('phone'),
+  /** Overture brand name for chain places. */
+  brand: text('brand'),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

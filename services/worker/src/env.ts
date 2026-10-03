@@ -48,9 +48,12 @@ export const workerEnvSchema = z.object({
   WEATHERAPI_FORECAST_DAYS: z.coerce.number().int().min(1).max(14).default(3),
   /** Marine forecast days the plan allows (free 1, Starter 3, Pro+ 5). */
   WEATHERAPI_MARINE_DAYS: z.coerce.number().int().min(1).max(7).default(1),
-  /** Overrides the Overture release path in src/places/ingest.ts. */
+  /** Overrides the Overture release path in src/places/source-readers.ts. */
   OVERTURE_RELEASE: optionalString,
-  /** A parquet export standing in for FSQ OS Places' gated Iceberg catalog; unset = Overture-only ingest. */
+  /** Foursquare Places Portal token: the POI ingest reads FSQ OS Places from its Iceberg catalog. */
+  FSQ_PLACES_PORTAL_TOKEN: optionalString,
+  /** A parquet export with the catalog's columns, read when no portal token is set; with neither,
+   *  the POI ingest is Overture-only. */
   FSQ_OS_PLACES_PARQUET_URI: optionalString,
   /** Centrifugo HTTP server API base (private network, e.g. `http://centrifugo.railway.internal:9000`);
    *  with CENTRIFUGO_HTTP_API_KEY enables the rt_outbox relay (src/rt-relay). Unset = no relay runs

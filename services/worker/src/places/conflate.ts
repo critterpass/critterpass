@@ -21,9 +21,22 @@ export interface ConflationCandidate {
   readonly lat: number;
   readonly lng: number;
   readonly address?: string | undefined;
+  /** Overture's existence score in [0, 1]; FSQ OS has none. */
+  readonly confidence?: number | undefined;
+  readonly website?: string | undefined;
+  readonly phone?: string | undefined;
+  readonly brand?: string | undefined;
 }
 
-export interface ConflatedPoi {
+/** The open-data detail fields a conflated POI carries, merged per field. */
+export interface PoiOpenDataFields {
+  readonly confidence?: number | undefined;
+  readonly website?: string | undefined;
+  readonly phone?: string | undefined;
+  readonly brand?: string | undefined;
+}
+
+export interface ConflatedPoi extends PoiOpenDataFields {
   readonly name: string;
   readonly category: PoiCategory;
   readonly lat: number;
@@ -95,11 +108,37 @@ function cellSizes(rows: readonly ConflationCandidate[]): { lat: number; lng: nu
   return { lat: CELL_LAT_DEG, lng: CELL_LAT_DEG / cos };
 }
 
+function openDataFields(row: ConflationCandidate): PoiOpenDataFields {
+  return {
+    confidence: row.confidence,
+    website: row.website,
+    phone: row.phone,
+    brand: row.brand,
+  };
+}
+
+/**
+ * Best value per field for a matched pair: FSQ's contact details win (its export is filtered to
+ * places refreshed within a year), Overture fills what FSQ left blank and is the only source of a
+ * confidence score and a brand.
+ */
+export function mergeOpenDataFields(
+  fsq: ConflationCandidate,
+  overture: ConflationCandidate,
+): PoiOpenDataFields {
+  return {
+    confidence: overture.confidence ?? fsq.confidence,
+    website: fsq.website ?? overture.website,
+    phone: fsq.phone ?? overture.phone,
+    brand: overture.brand ?? fsq.brand,
+  };
+}
+
 /**
  * Matches FSQ OS Places rows against Overture rows for the same bbox and merges every matched pair
  * into one conflated POI carrying both source ids; unmatched rows from either source become their
  * own conflated POI with a single source id. FSQ's name/address win on a match; Overture only fills
- * a gap FSQ left blank.
+ * a gap FSQ left blank (`mergeOpenDataFields` for the contact fields).
  */
 export function conflatePlaces(
   fsqCandidates: readonly ConflationCandidate[],
@@ -158,6 +197,7 @@ export function conflatePlaces(
         lat: fsq.lat,
         lng: fsq.lng,
         address: fsq.address,
+        ...openDataFields(fsq),
         sourceIds: { fsq_os: fsq.sourceId },
       });
       continue;
@@ -172,6 +212,7 @@ export function conflatePlaces(
       lat: fsq.lat,
       lng: fsq.lng,
       address: fsq.address ?? overture.address,
+      ...mergeOpenDataFields(fsq, overture),
       sourceIds: { fsq_os: fsq.sourceId, overture: overture.sourceId },
     });
   }
@@ -184,6 +225,7 @@ export function conflatePlaces(
       lat: overture.lat,
       lng: overture.lng,
       address: overture.address,
+      ...openDataFields(overture),
       sourceIds: { overture: overture.sourceId },
     });
   });

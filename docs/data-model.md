@@ -372,7 +372,7 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 
 | Table | Key columns | Relations / indexes | Authz | RLS | Stream | Class | Ret |
 |---|---|---|---|---|---|---|---|
-| `pois` | destination_id, name, name_local, category, lat/lng double precision, location geography(Point,4326) (generated from lat/lng), address, hours jsonb, hours_verified_at, price_level, source_ids jsonb (fsq_os/overture/editorial), editorial jsonb, tags text[], fts tsvector, status, curation (auto/editorial), merged_into_id, geofence geography(Polygon,4326), visit_radius_m, timezone, last_live_check_at | GIST `location`; GIN fts, trgm name; partial unique on source_ids->>fsq_os / ->>overture | adm / content pipeline | R | trip_pack (trip destinations), explore (param) | C0 | content |
+| `pois` | destination_id, name, name_local, category, lat/lng double precision, location geography(Point,4326) (generated from lat/lng), address, hours jsonb, hours_verified_at, price_level, source_ids jsonb (fsq_os/overture/editorial), editorial jsonb, tags text[], fts tsvector, status, curation (auto/editorial), merged_into_id, geofence geography(Polygon,4326), visit_radius_m, timezone, last_live_check_at, confidence real (Overture, 0–1), website, phone, brand | GIST `location`; GIN fts, trgm name; partial unique on source_ids->>fsq_os / ->>overture | adm / content pipeline | R | trip_pack (trip destinations), explore (param) | C0 | content |
 | `poi_embeddings` | poi_id, model, embedding vector(1024) | HNSW | sys | S (server search) | — | C0 | content |
 | `poi_live_checks` | poi_id, is_open_now, closed_permanently, checked_at (Foursquare live flags only; no FSQ content) | uk poi_id | sys | R | — | C0 | 7 d |
 | `poi_foursquare_ids` (doc delta) | poi_id, fsq_place_id (null = searched, no confident match), confidence (0–1, ours), matched_at: the Foursquare id of a curated POI that open data did not link; only the id is kept (Foursquare allows no other stored attribute, D24); `source_ids` stays the ingest key | uk poi_id; misses retried after 90 d by `places.fsq_match` | sys | S | — | C0 | content |
@@ -400,6 +400,16 @@ instead; `pois.geofence` and `destinations.geofence` (§3.3) are `geography(Poly
 `geography(MultiPolygon,4326)`, per the architecture. `pois.curation`, `hours_verified_at`,
 `merged_into_id`, `geofence`, `visit_radius_m` and `timezone` are additive columns beyond the
 original row above.
+
+`pois` open-data fields and place bounds (doc delta): the ingest keeps Overture's `confidence`
+(null for FSQ-only places), the first website and phone (FSQ's on a match) and Overture's brand
+name. A new Overture-only place under 0.3 confidence is not inserted; place search ranks auto rows
+under 0.5 that FSQ does not also list after every other match and leaves them out of a no-query
+browse. Nothing is deactivated or deleted for quality. `destinations.place_bounds
+geography(Polygon,4326)` is the box a destination's places are ingested from and the area search
+covers for it (`destination_id` match or inside the box), kept apart from `geofence`, which drives
+arrival on the device. A source place is stored once: where boxes overlap, the first destination
+ingested owns the row and later ones leave it untouched.
 
 ### 3.14 Entitlements, purchases, boosts, codes, meters
 
