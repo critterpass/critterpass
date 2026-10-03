@@ -64,6 +64,11 @@ const TASK = [
   UNTRUSTED_CONTEXT,
 ].join('\n');
 
+/** The task text, shared with the Gemini variant for screenshots and videos (./media.ts). */
+export function linkExtractTask(): string {
+  return TASK;
+}
+
 function sourceBlock(source: LinkSource) {
   if (source.kind === 'screenshot') {
     return wrapUntrusted({

@@ -5,7 +5,7 @@
  */
 import { z } from 'zod';
 
-import { AI_ROUTES, GENERATION_TIERS } from '../ai/routes';
+import { AI_ROUTES, CAPPED_TIERS } from '../ai/routes';
 import { DomainError } from '../errors';
 import type { ConfigKeyDefinition } from './config-keys';
 import type { AdminRole } from './roles';
@@ -74,7 +74,7 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
       AI_ROUTES.map((route) => [`ai.${route}.enabled`, killSwitch(`AI route ${route}`)]),
     ),
     ...Object.fromEntries(
-      GENERATION_TIERS.map((tier) => [
+      CAPPED_TIERS.map((tier) => [
         `ai.tier.${tier}.enabled`,
         killSwitch(`Every AI route on the ${tier} tier`, OWNER_ONLY),
       ]),
@@ -103,6 +103,11 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
       'Guide offers a crew may get in crew chat per day',
       'Default 3',
     ),
+    'ai.gemini_vision': opsSetting(
+      z.boolean(),
+      'Read text-less screenshots and public YouTube videos with Gemini when adding from a link',
+      'Default off; needs GEMINI_API_KEY and the provider terms checked',
+    ),
     'ai.draft.skeleton_model': opsSetting(
       z.enum(['pro', 'fast']),
       'Tier that outlines a trip draft (the day plans always run on the pro tier)',
@@ -116,7 +121,7 @@ export function serviceKeys(): Record<string, ConfigKeyDefinition> {
     'android.fsi.enabled': killSwitch('Android full-screen intent alerts'),
     'ai.cap.daily_usd': spendCap('AI spend cap per day, every tier (USD)'),
     ...Object.fromEntries(
-      GENERATION_TIERS.map((tier) => [
+      CAPPED_TIERS.map((tier) => [
         `ai.cap.${tier}.daily_usd`,
         spendCap(`AI spend cap per day on the ${tier} tier (USD)`),
       ]),

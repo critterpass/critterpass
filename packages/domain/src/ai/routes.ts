@@ -105,12 +105,20 @@ export function isDecisionRoute(route: AiRoute): route is DecisionRoute {
 export const GENERATION_TIERS = ['fast', 'pro'] as const;
 export type GenerationTier = (typeof GENERATION_TIERS)[number];
 
-/** Billing tier of one model call (`ai_usage.tier`): a generation tier or the Jev decision model. */
-export const AI_TIERS = [...GENERATION_TIERS, 'jev'] as const;
+/**
+ * Billing tier of one model call (`ai_usage.tier`): a generation tier, the Jev decision model, or
+ * Gemini, the vision fallback that reads text-less screenshots and public videos behind the
+ * `ai.gemini_vision` switch (off by default).
+ */
+export const AI_TIERS = [...GENERATION_TIERS, 'jev', 'gemini'] as const;
 export const aiTierSchema = z.enum(AI_TIERS);
 export type AiTier = z.infer<typeof aiTierSchema>;
 
-export const AI_PROVIDERS = ['deepseek', 'jev'] as const;
+/** Tiers with their own switch (`ai.tier.<tier>.enabled`) and daily spend cap. */
+export const CAPPED_TIERS = [...GENERATION_TIERS, 'gemini'] as const;
+export type CappedTier = (typeof CAPPED_TIERS)[number];
+
+export const AI_PROVIDERS = ['deepseek', 'jev', 'gemini'] as const;
 export type AiProvider = (typeof AI_PROVIDERS)[number];
 
 /** Which model answered a decision: Jev, or the route's fast-tier twin on fallback. */

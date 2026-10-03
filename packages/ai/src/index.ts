@@ -297,3 +297,4 @@ export * from './routes/facts-research';
 export * from './routes/search-parse';
 export * from './routes/link-extract';
 export * from './routes/place-compromise';
+export * from './providers/gemini';

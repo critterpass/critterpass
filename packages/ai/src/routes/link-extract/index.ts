@@ -18,6 +18,7 @@ import {
 import type { LinkExtractResult } from './schema';
 import { checkLinkExtractReply } from './validate';
 
+export * from './media';
 export * from './prompt';
 export * from './schema';
 export * from './validate';
