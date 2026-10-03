@@ -56,7 +56,6 @@ function Inlines({
   readonly inlines: readonly Inline[];
   readonly onOpenArticle: (slug: string) => void;
 }) {
-  const theme = useTheme();
   return (
     <Text variant="body">
       {inlines.map((inline, index) => {
@@ -74,7 +73,7 @@ function Inlines({
             <Text
               key={index}
               variant="body"
-              color={theme.semantic.action.primary}
+              style={{ textDecorationLine: 'underline', fontWeight: '700' }}
               accessibilityRole="link"
               onPress={() => onOpenArticle(slug)}
             >
@@ -122,7 +121,7 @@ export function ReaderView(props: ReaderViewProps) {
                 {t({ id: 'help.article.english', message: 'Shown in English for now' })}
               </InfoPill>
             ) : null}
-            <Text variant="bodyLg" color={theme.semantic.text.secondary}>
+            <Text variant="bodyLg" color={theme.color.paper.muted}>
               {article.summary}
             </Text>
             {parseMarkdown(article.body_md).map((block, index) => {
@@ -190,8 +189,7 @@ export function ReaderView(props: ReaderViewProps) {
                 {t({ id: 'help.article.stuck', message: 'Still stuck?' })}
               </Text>
               <PillButton
-                variant="secondary"
-                label={t({ id: 'help.article.askHuman', message: 'Ask a human' })}
+                label={t({ id: 'help.article.askHuman', message: 'Ask a human' }).toUpperCase()}
                 onPress={props.onAskHuman}
                 testID="help-article-ask"
               />
