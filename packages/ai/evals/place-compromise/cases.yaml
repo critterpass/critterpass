@@ -146,8 +146,7 @@ cases:
       id: compromise-01,
       split: lempuyang,
       locale: en,
-      description: Pura Lempuyang,
-      two want it and two would rather not,
+      description: 'Pura Lempuyang, two want it and two would rather not',
       expect: { ids: [keen-early, tirta-gangga], forbid_ids: [all-dawn] },
     }
   - {
