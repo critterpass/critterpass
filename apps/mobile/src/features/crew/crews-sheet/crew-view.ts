@@ -10,7 +10,11 @@ import { memberFirstName } from '@/ui/people/member-name';
 export interface CrewCardView {
   readonly id: string;
   readonly name: string;
-  readonly members: readonly { readonly name: string; readonly colour: string | null }[];
+  readonly members: readonly {
+    readonly userId: string;
+    readonly name: string;
+    readonly colour: string | null;
+  }[];
   readonly nextTrip: TripHeader | null;
   readonly active: boolean;
 }
@@ -59,7 +63,7 @@ export function crewCards(snapshot: CrewsSnapshot): CrewCardView[] {
       name: crew.name,
       members: snapshot.members
         .filter((m) => m.crew_id === crew.id)
-        .map((m) => ({ name: firstName(m.display_name), colour: m.colour })),
+        .map((m) => ({ userId: m.user_id, name: firstName(m.display_name), colour: m.colour })),
       nextTrip: nextTrip(snapshot.trips.filter((trip) => trip.crew_id === crew.id)),
       active: snapshot.activeCrewId === crew.id,
     }));

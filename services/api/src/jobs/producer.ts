@@ -119,6 +119,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       WIDGET_QUEUES.refresh,
       ...Object.values(SAFETY_QUEUES),
       ACCOUNT_QUEUES.purge,
+      ACCOUNT_QUEUES.exportBuild,
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
       DISRUPTION_QUEUES.react,

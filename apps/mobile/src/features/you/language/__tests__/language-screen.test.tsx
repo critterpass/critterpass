@@ -22,7 +22,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { setLocale } from '@/lib/i18n/set-locale';
 import { ScreenJoltProvider } from '@/motion/patterns/thud';
 
-import { languageChoices, localLanguageName } from '../language-names';
+import { featuredLanguages, languageChoices, localLanguageName } from '../language-names';
 import { LanguageScreen } from '../language-screen';
 
 const METRICS = {
@@ -47,6 +47,16 @@ describe('language', () => {
     }
   });
 
+  it("shows the current language, the phone's own and English first, and the rest under more", () => {
+    const choices = languageChoices('ja');
+    const { featured, more } = featuredLanguages(choices, ['vi-VN', 'ja-JP']);
+    expect(featured.map((choice) => choice.code)).toEqual(['ja', 'vi', 'en', featured[3]?.code]);
+    expect(featured).toHaveLength(4);
+    expect([...featured, ...more].map((c) => c.code).sort()).toEqual(
+      choices.map((c) => c.code).sort(),
+    );
+  });
+
   it('redraws in the picked language in place, with no navigation', async () => {
     await setLocale('en', { persist: false });
     const switchTo = jest.fn((code: string) => setLocale(code, { persist: false }));
@@ -55,7 +65,7 @@ describe('language', () => {
         <SafeAreaProvider initialMetrics={METRICS}>
           <GestureHandlerRootView>
             <ScreenJoltProvider>
-              <LanguageScreen switchTo={switchTo} />
+              <LanguageScreen switchTo={switchTo} deviceLanguages={['en-SG']} />
             </ScreenJoltProvider>
           </GestureHandlerRootView>
         </SafeAreaProvider>
@@ -64,6 +74,9 @@ describe('language', () => {
     expect(screen.getByText('LANGUAGE')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('you-language-en'));
     expect(switchTo).not.toHaveBeenCalled();
+    // Vietnamese is not among the four shown first on an English phone: "N more" opens the rest.
+    expect(screen.queryByTestId('you-language-vi')).toBeNull();
+    await fireEvent.press(screen.getByTestId('you-language-more'));
     await fireEvent.press(screen.getByTestId('you-language-vi'));
     await waitFor(() => expect(screen.getByText('NGÔN NGỮ')).toBeTruthy());
     expect(switchTo).toHaveBeenCalledWith('vi');

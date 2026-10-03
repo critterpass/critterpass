@@ -113,6 +113,8 @@ export interface DexProfileEntry {
   readonly name: string;
   /** The guide sticker worn as an avatar, when one was picked. */
   readonly guide: GuideAvatarId | null;
+  /** The face the person wears (a photo, a guide), drawn in place of the guide or the initial. */
+  readonly face?: { readonly photo?: { readonly uri: string }; readonly critter?: ReactNode };
   readonly onOpen: () => void;
 }
 
@@ -133,9 +135,11 @@ function ProfileEntry({ entry }: { readonly entry: DexProfileEntry }) {
         name={entry.name}
         size="lg"
         decorative
-        {...(guide === null
-          ? {}
-          : { critter: <Sticker kind={guide.kind} name={guide.name} size={PROFILE_FACE - 6} /> })}
+        {...(entry.face !== undefined && (entry.face.photo ?? entry.face.critter) !== undefined
+          ? entry.face
+          : guide === null
+            ? {}
+            : { critter: <Sticker kind={guide.kind} name={guide.name} size={PROFILE_FACE - 6} /> })}
       />
     </Pressable>
   );
