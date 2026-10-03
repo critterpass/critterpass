@@ -163,7 +163,7 @@ describe('runHoursResearch', () => {
     const rows = await proposals();
     expect(rows.map((row) => [row.name, row.source_url, row.status])).toEqual([
       ['Fushimi Inari Taisha', 'https://www.japan-guide.com/e/e3915.html', 'proposed'],
-      ['元離宮二条城', 'https://nijo-jocastle.city.kyoto.lg.jp/guide/annai', 'proposed'],
+      ['元離宮二条城', 'https://nijo-jocastle.city.kyoto.lg.jp', 'proposed'],
     ]);
     expect(rows[0]?.hours.weekly['su']).toEqual([{ start: '00:00', end: '24:00' }]);
     expect(rows[1]?.hours.weekly['mo']).toEqual([{ start: '08:45', end: '17:00' }]);
