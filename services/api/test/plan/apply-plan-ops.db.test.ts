@@ -186,4 +186,72 @@ describe('apply_plan_ops', () => {
       item.rows.map((row) => guideText('plan_item', { notes: row.notes }, row.i18n, 'notes', 'vi')),
     ).toEqual([noteVi]);
   });
+
+  it("keeps the plan's own place names, and adds the name of a place a new stop points at", async () => {
+    const base = await current();
+    const kept = '00000000-0000-4000-8000-0000000000a1';
+    const { rows: dest } = await harness.pool.query<{ destination_id: string | null }>(
+      'SELECT destination_id FROM trips WHERE id = $1',
+      [crew.tripId],
+    );
+    const placeId = await withSystem(harness.pool, async (tx) => {
+      const destinationId =
+        dest[0]?.destination_id ??
+        (
+          await tx.query<{ id: string }>(
+            "INSERT INTO destinations (slug, name, tz) VALUES ('coverage-test', 'Coverage test', 'Asia/Ho_Chi_Minh') RETURNING id",
+          )
+        ).rows[0]!.id;
+      // An open-data place, which phones never carry in their catalogue.
+      const { rows } = await tx.query<{ id: string }>(
+        `INSERT INTO pois (destination_id, name, category, lat, lng, curation)
+         VALUES ($1, 'Di sản Văn hóa Thế Giới Mỹ Sơn', 'other', 15.76, 108.12, 'auto') RETURNING id`,
+        [destinationId],
+      );
+      await tx.query('UPDATE itinerary_versions SET coverage = $2 WHERE id = $1', [
+        base,
+        {
+          places: {
+            [kept]: {
+              name: 'Fushimi Inari',
+              category: 'sight',
+              lat: 35,
+              lng: 135,
+              editorial: true,
+            },
+          },
+        },
+      ]);
+      return rows[0]!.id;
+    });
+    const added = await harness.run(crew.organiser, 'apply_plan_ops', {
+      trip_id: crew.tripId,
+      base_version: base,
+      ops: [
+        {
+          op: 'add',
+          item: '00000000-0000-4000-8000-0000000000b1',
+          new: {
+            day_no: 2,
+            starts_at: tokyo(plan.dates[1] as string, 15),
+            ends_at: tokyo(plan.dates[1] as string, 17),
+            tz: 'Asia/Tokyo',
+            status: 'confirmed',
+            poi_id: placeId,
+            category: 'other',
+          },
+        },
+      ],
+    });
+    expect(added.status).toBe(200);
+    const { rows } = await harness.pool.query<{ places: Record<string, { name: string }> }>(
+      "SELECT coverage->'places' AS places FROM itinerary_versions WHERE id = $1",
+      [await current()],
+    );
+    expect(rows[0]?.places[kept]?.name).toBe('Fushimi Inari');
+    expect(rows[0]?.places[placeId]).toMatchObject({
+      name: 'Di sản Văn hóa Thế Giới Mỹ Sơn',
+      editorial: false,
+    });
+  });
 });
