@@ -7,7 +7,16 @@ import type { Rng } from '../core/prng';
 import { applyGain, mixInto, createBuffer } from '../core/signal';
 
 export type InstrumentId =
-  'gamelanMetallophone' | 'koto' | 'reed' | 'marimba' | 'guitarPluck' | 'panFlute' | 'charango';
+  | 'gamelanMetallophone'
+  | 'koto'
+  | 'reed'
+  | 'marimba'
+  | 'guitarPluck'
+  | 'panFlute'
+  | 'charango'
+  | 'danBau'
+  | 'danTranh'
+  | 'woodBlock';
 
 export interface NoteContext {
   readonly freqHz: number;
@@ -26,6 +35,12 @@ const METALLOPHONE_PARTIALS: readonly Partial[] = [
 ];
 
 // A marimba bar's fundamental plus its characteristic ~4x and ~10x tube-reinforced overtones.
+// A small hollow wooden slit drum (mõ): a short knock with one inharmonic overtone.
+const WOOD_BLOCK_PARTIALS: readonly Partial[] = [
+  { ratio: 1, amplitude: 1, decaySec: 0.045 },
+  { ratio: 2.71, amplitude: 0.3, decaySec: 0.02 },
+];
+
 const MARIMBA_PARTIALS: readonly Partial[] = [
   { ratio: 1, amplitude: 1, decaySec: 0.5 },
   { ratio: 3.93, amplitude: 0.35, decaySec: 0.22 },
@@ -94,6 +109,47 @@ function renderPanFlute(ctx: NoteContext): Float32Array {
   return out;
 }
 
+/**
+ * A đàn bầu-like monochord voice: the instrument's flute-pure harmonic tone (a sine with a touch of
+ * 2nd/3rd harmonic), sliding into each note from a seeded bend above or below the way the player
+ * flexes the rod, then a slow vibrato that blooms as the note sustains.
+ */
+function renderDanBau(ctx: NoteContext): Float32Array {
+  const bendRoll = ctx.rng();
+  const bendCents = bendRoll < 0.6 ? -160 : bendRoll < 0.85 ? 90 : 0;
+  const glideSec = 0.14;
+  const vibratoDelaySec = 0.35;
+  const freqAt = (t: number): number => {
+    const glide = t < glideSec ? 1 - t / glideSec : 0;
+    const bend = bendCents * glide * glide;
+    const depth = t < vibratoDelaySec ? 0 : Math.min(1, (t - vibratoDelaySec) / 0.5) * 22;
+    const vibrato = depth * Math.sin(2 * Math.PI * 5.2 * (t - vibratoDelaySec));
+    return ctx.freqHz * Math.pow(2, (bend + vibrato) / 1200);
+  };
+  const out = createBuffer(ctx.durationSec);
+  mixInto(out, renderOscillator(ctx.durationSec, freqAt, 'sine'), 0.8);
+  mixInto(
+    out,
+    renderOscillator(ctx.durationSec, (t) => freqAt(t) * 2, 'sine'),
+    0.16,
+  );
+  mixInto(
+    out,
+    renderOscillator(ctx.durationSec, (t) => freqAt(t) * 3, 'sine'),
+    0.05,
+  );
+  const attack = Math.min(0.015, ctx.durationSec * 0.2);
+  const release = Math.min(0.1, ctx.durationSec * 0.3);
+  for (let i = 0; i < out.length; i += 1) {
+    const t = i / 48000;
+    const shape = t < attack ? t / attack : Math.exp(-(t - attack) / 1.6);
+    const tail = t > ctx.durationSec - release ? Math.max(0, (ctx.durationSec - t) / release) : 1;
+    out[i] = (out[i] ?? 0) * shape * tail;
+  }
+  applyGain(out, ctx.velocity * 0.85);
+  return out;
+}
+
 /** Renders one note for the given instrument. Every instrument is built from the shared DSP core. */
 export function renderNote(instrument: InstrumentId, ctx: NoteContext): Float32Array {
   switch (instrument) {
@@ -107,6 +163,12 @@ export function renderNote(instrument: InstrumentId, ctx: NoteContext): Float32A
       return renderPluckLike(ctx, { decay: 0.996, damping: 0.28 });
     case 'charango':
       return renderPluckLike(ctx, { decay: 0.992, damping: 0.15 });
+    case 'danTranh':
+      return renderPluckLike(ctx, { decay: 0.995, damping: 0.22 });
+    case 'danBau':
+      return renderDanBau(ctx);
+    case 'woodBlock':
+      return renderMetallophoneLike(ctx, WOOD_BLOCK_PARTIALS);
     case 'reed':
       return renderReed(ctx);
     case 'panFlute':

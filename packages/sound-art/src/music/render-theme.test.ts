@@ -84,8 +84,8 @@ describe('music themes', () => {
     RENDER_BUDGET_MS,
   );
 
-  it('marks exactly the 3 proposed themes as pending founder approval', () => {
+  it('marks exactly the proposed themes as pending founder approval', () => {
     const pending = themes.filter((t) => t.proposalPendingApproval).map((t) => t.guideId);
-    expect(pending.sort()).toEqual(['ajo', 'paco', 'sardi']);
+    expect(pending.sort()).toEqual(['ajo', 'chava', 'paco', 'sardi']);
   });
 });
