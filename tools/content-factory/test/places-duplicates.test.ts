@@ -6,7 +6,11 @@
 import { describe, expect, it } from 'vitest';
 
 import type { WikidataPoint } from '../src/kinds/media/place-match';
-import { longFeatureDuplicates, type DuplicatePlace } from '../src/kinds/places/duplicates';
+import {
+  farNamesakes,
+  longFeatureDuplicates,
+  type DuplicatePlace,
+} from '../src/kinds/places/duplicates';
 
 const place = (
   ref: string,
@@ -64,5 +68,44 @@ describe('duplicates of long features', () => {
     expect(merges).toEqual([]);
     expect(pairs.map((p) => [p.a.ref, p.b.ref])).toEqual([['overture:my-khe', 'overture:st-mk']]);
     expect(pairs[0]?.distanceM).toBeGreaterThan(900);
+  });
+});
+
+describe('a curated place named after a landmark but far from it', () => {
+  const pass: WikidataPoint = {
+    id: 'Q1477078',
+    labels: ['Hai Van Pass', 'Đèo Hải Vân', 'Hải Vân'],
+    lat: 16.1875,
+    lng: 108.1308,
+  };
+  const top = place('overture:top', 'Đỉnh đèo Hải Vân', 16.1872, 108.1308, 'nature');
+  const sonTra: WikidataPoint = {
+    id: 'Q7560606',
+    labels: ['Sơn Trà Mountain', 'Núi Sơn Trà', 'bán đảo Sơn Trà'],
+    lat: 16.1239,
+    lng: 108.2786,
+  };
+  const peak = place('fsq_os:peak', 'Đỉnh Bàn Cờ-Núi Sơn Trà', 16.1189, 108.2721, 'nature');
+
+  it("merges into the landmark's place, unless pinned or on the landmark's ground", () => {
+    const merges = farNamesakes(
+      [
+        top,
+        peak,
+        // An open-data record of the pass with a point in the city, 13 km away.
+        place('fsq_os:city-pass', 'Hải Vân pass', 16.0711, 108.2091, 'nature'),
+        // The peninsula's west coast, 3.6 km from the mountain's point.
+        place('overture:west', 'Bán đảo Sơn Trà - Đà Nẵng', 16.1057, 108.2466, 'museum'),
+        // A pagoda on the Marble Mountains whose name ends in Sơn Trà is not the mountain.
+        place('overture:pagoda', 'Chùa Linh Ứng – Sơn Trà', 16.0041, 108.2643, 'temple_shrine'),
+        place('overture:pinned-pass', 'Hai Van Pass', 16.0711, 108.2091, 'museum'),
+      ],
+      [
+        { item: pass, ref: 'overture:top' },
+        { item: sonTra, ref: 'fsq_os:peak' },
+      ],
+      new Set(['overture:pinned-pass']),
+    );
+    expect(merges).toEqual([{ from: 'fsq_os:city-pass', into: 'overture:top' }]);
   });
 });

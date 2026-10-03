@@ -14,6 +14,7 @@ import type { Brief, GenerationUnit } from '../types';
 import { defaultHttp } from '../media/http';
 import {
   decideDuplicates,
+  farNamesakes,
   longFeatureDuplicates,
   nearbyDifferentNames,
   type DuplicatePair,
@@ -194,14 +195,17 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
          ORDER BY p.name`,
         [destination.slug, curated],
       );
+      const refOf = new Map<string, string>();
       const open: PoiSource[] = rows.flatMap((row) => {
         const source = (['editorial', 'fsq_os', 'overture'] as const).find(
           (s) => row.source_ids[s] !== undefined,
         );
         if (source === undefined) return [];
+        const ref = `${source}:${row.source_ids[source]}`;
+        refOf.set(row.id, ref);
         return [
           {
-            ref: `${source}:${row.source_ids[source]}`,
+            ref,
             destination: destination.slug,
             code: destination.code,
             name: row.name,
@@ -220,7 +224,16 @@ export async function poisBrief(options: Readonly<Record<string, string>>): Prom
       const long = longFeatureDuplicates(open, landmarks);
       const pairs = [...(await nearbyDifferentNames(pool, destinationId, curated)), ...long.pairs];
       const verdicts = await decideDuplicates(client, pairs);
-      const duplicateOf = duplicatesOf(long.merges, pairs, verdicts);
+      const landmarkRefs = [
+        ...matched.flatMap((m) => {
+          const ref = refOf.get(m.poiId);
+          return ref === undefined ? [] : [{ item: m.landmark, ref }];
+        }),
+        ...outside.map((l) => ({ item: l, ref: landmarkSource(l, destination).ref })),
+      ];
+      const pinnedRefs = new Set(pinned.flatMap((id) => refOf.get(id) ?? []));
+      const far = farNamesakes(open, landmarkRefs, pinnedRefs);
+      const duplicateOf = duplicatesOf([...long.merges, ...far], pairs, verdicts);
       const sources = open.map((source) => ({
         ...source,
         duplicate: duplicateOf.get(source.ref) ?? null,

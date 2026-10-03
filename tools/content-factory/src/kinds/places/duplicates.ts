@@ -214,3 +214,31 @@ export async function decideDuplicates(
   }
   return verdicts;
 }
+
+/**
+ * Further than this from its landmark, a record using the landmark's name has a wrong point or is
+ * another place: Sơn Trà's own coast lies 3–4 km from the mountain's Wikidata point.
+ */
+export const FAR_NAMESAKE_M = 5000;
+
+/**
+ * Curated records that name a landmark in full but lie far from it (the open data puts a "Hải Vân
+ * pass" in the city, 13 km from the pass): each merges into the landmark's own place. Pinned
+ * places keep their hand-checked points.
+ */
+export function farNamesakes(
+  places: readonly DuplicatePlace[],
+  landmarks: readonly { readonly item: WikidataPoint; readonly ref: string }[],
+  pinned: ReadonlySet<string>,
+): { from: string; into: string }[] {
+  return places.flatMap((place) => {
+    if (pinned.has(place.ref)) return [];
+    const landmark = landmarks.find(
+      ({ item, ref }) =>
+        ref !== place.ref &&
+        distanceM(place, item) > FAR_NAMESAKE_M &&
+        matchPlace({ ...place, lat: item.lat, lng: item.lng }, [item], true) !== null,
+    );
+    return landmark === undefined ? [] : [{ from: place.ref, into: landmark.ref }];
+  });
+}
