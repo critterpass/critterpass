@@ -17,7 +17,10 @@ export interface PickedPhoto {
 export type PickOutcome =
   | { readonly kind: 'picked'; readonly photos: readonly PickedPhoto[] }
   | { readonly kind: 'cancelled' }
-  | { readonly kind: 'denied' };
+  /** The system refused access (camera permission). */
+  | { readonly kind: 'denied' }
+  /** The picker itself failed: not a refusal, so trying again may work. */
+  | { readonly kind: 'failed' };
 
 export interface MediaHttpResponse {
   readonly status: number;

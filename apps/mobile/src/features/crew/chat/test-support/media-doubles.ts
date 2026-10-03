@@ -126,13 +126,19 @@ export interface DeviceDouble extends ChatMediaServices {
 
 export function deviceDouble(
   api: RecordedMediaApi,
-  options: { readonly camera?: 'denied'; readonly mic?: 'denied' } = {},
+  options: {
+    readonly camera?: 'denied';
+    readonly mic?: 'denied';
+    /** The library picker throws on its first pick (a native failure, not a refusal). */
+    readonly library?: 'fails-once';
+  } = {},
 ): DeviceDouble {
   const picked: string[] = [];
   const players: PlayerDouble[] = [];
   const downloads: string[] = [];
   const saved = new Set<string>();
   let recording = false;
+  let libraryFailures = options.library === 'fails-once' ? 1 : 0;
   return {
     picked,
     players,
@@ -142,6 +148,10 @@ export function deviceDouble(
       picked.push(source);
       if (source === 'camera' && options.camera === 'denied')
         return Promise.resolve({ kind: 'denied' });
+      if (source === 'library' && libraryFailures > 0) {
+        libraryFailures -= 1;
+        return Promise.resolve({ kind: 'failed' });
+      }
       return Promise.resolve({
         kind: 'picked',
         photos: [{ uri: `file:///${source}-1.jpg`, width: 1200, height: 900 }],

@@ -1,11 +1,13 @@
 /**
  * The composer's "+" menu: Photo library, Camera and Voice note, then entries other features
  * register (poll, expense, location). A denied camera or library shows the way to Settings with
- * the other source as the fallback.
+ * the other source as the fallback; a picker that failed (not a refusal) says so, and the same row
+ * tries again.
  */
 import { t } from '@lingui/core/macro';
 import { View } from 'react-native';
 
+import { Text, useTheme } from '@/ui';
 import { SettingsGroup, type SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Sheet } from '@/ui/sheet/Sheet';
 import { PermissionCard } from '@/ui/states/PermissionCard';
@@ -34,6 +36,7 @@ const useStyles = makeStyles((th) => ({ body: { padding: th.space['16'], gap: th
 export function AttachMenu({
   crewId,
   denied,
+  failed = false,
   onChoose,
   onOpenSettings,
   onClose,
@@ -41,11 +44,14 @@ export function AttachMenu({
   readonly crewId: string;
   /** The source the system refused, if the last pick was denied. */
   readonly denied: 'library' | 'camera' | null;
+  /** The last pick failed for a reason other than a refusal. */
+  readonly failed?: boolean;
   readonly onChoose: (choice: AttachChoice) => void;
   readonly onOpenSettings: () => void;
   readonly onClose: () => void;
 }) {
   const styles = useStyles();
+  const theme = useTheme();
   const rows: SettingsRow[] = [
     {
       key: 'library',
@@ -113,6 +119,16 @@ export function AttachMenu({
             testID="chat-attach-denied"
           />
         )}
+        {failed ? (
+          <Text
+            variant="caption"
+            color={theme.semantic.state.urgent}
+            accessibilityLiveRegion="polite"
+            testID="chat-attach-failed"
+          >
+            {t({ id: 'chat.attach.failed', message: 'Couldn’t open your photos. Try again.' })}
+          </Text>
+        ) : null}
         <SettingsGroup rows={rows} testID="chat-attach-list" />
       </View>
     </Sheet>

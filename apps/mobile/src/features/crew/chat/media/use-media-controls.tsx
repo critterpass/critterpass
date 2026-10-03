@@ -37,6 +37,7 @@ export function useMediaControls(crewId: string, online: boolean): MediaControls
   const { items, queue, add } = useUploadQueue(crewId, media);
   const [menu, setMenu] = useState(false);
   const [denied, setDenied] = useState<'library' | 'camera' | null>(null);
+  const [failed, setFailed] = useState(false);
 
   const onFinished = useCallback(
     (note: FinishedNote) =>
@@ -66,10 +67,17 @@ export function useMediaControls(crewId: string, online: boolean): MediaControls
     const outcome = await media.pickPhotos(choice);
     if (outcome.kind === 'denied') {
       setDenied(choice);
+      setFailed(false);
+      return;
+    }
+    if (outcome.kind === 'failed') {
+      setDenied(null);
+      setFailed(true);
       return;
     }
     setMenu(false);
     setDenied(null);
+    setFailed(false);
     if (outcome.kind !== 'picked' || outcome.photos.length === 0) return;
     await add({
       body: '',
@@ -117,11 +125,13 @@ export function useMediaControls(crewId: string, online: boolean): MediaControls
       <AttachMenu
         crewId={crewId}
         denied={denied}
+        failed={failed}
         onChoose={(choice) => void choose(choice)}
         onOpenSettings={media.openSettings}
         onClose={() => {
           setMenu(false);
           setDenied(null);
+          setFailed(false);
         }}
       />
     ) : null,

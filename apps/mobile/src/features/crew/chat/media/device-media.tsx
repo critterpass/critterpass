@@ -17,7 +17,8 @@ import { CryptoDigestAlgorithm, digest } from 'expo-crypto';
 import { File } from 'expo-file-system';
 import type * as ImagePickerModule from 'expo-image-picker';
 import { useMemo, type ReactNode } from 'react';
-import { Linking } from 'react-native';
+import * as Sentry from '@sentry/react-native';
+import { Linking, Platform } from 'react-native';
 
 import { sessionHeaders } from '@/data/app-session/device-session';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
@@ -40,6 +41,12 @@ const VOICE: RecordingOptions = {
 };
 /** Picker JPEG quality: phone originals shrink several times over with no visible loss in chat. */
 const PHOTO_QUALITY = 0.7;
+/**
+ * Several photos at once. Android's multi-photo result fails to load in builds whose shrinker
+ * stripped the picker's native classes (ExceptionInInitializerError after the pick), while a single
+ * pick, as receipts make, works; Android picks one photo at a time while that holds.
+ */
+const MULTI_PICK = Platform.OS !== 'android';
 const SILENCE_DB = -60;
 
 /**
@@ -96,7 +103,7 @@ async function pickPhotos(source: 'library' | 'camera'): Promise<PickOutcome> {
     mediaTypes: ['images'],
     quality: PHOTO_QUALITY,
     exif: false,
-    allowsMultipleSelection: source === 'library',
+    allowsMultipleSelection: MULTI_PICK && source === 'library',
     selectionLimit: 10,
   };
   try {
@@ -119,8 +126,9 @@ async function pickPhotos(source: 'library' | 'camera'): Promise<PickOutcome> {
       })),
     };
   } catch (error) {
-    console.warn('[chat-media] photo picker', error);
-    return { kind: 'denied' };
+    // The picker failing is not a refusal: say so honestly and let the person try again.
+    Sentry.captureException(error, { tags: { 'chat.media': 'photo_picker', source } });
+    return { kind: 'failed' };
   }
 }
 

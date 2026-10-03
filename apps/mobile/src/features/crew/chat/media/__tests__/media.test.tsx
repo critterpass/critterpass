@@ -219,6 +219,22 @@ describe('in the chat', () => {
     await waitFor(() => expect(media.picked).toEqual(['camera', 'library']));
   });
 
+  it('says the photo picker failed, not that access is off, and picks on a retry', async () => {
+    const s = await open();
+    await seedCrew(s);
+    await seedMessage(s, { seq: 1, sender: MAYA, body: 'pics?' });
+    s.network.set(false);
+    const media = await renderWithMedia(s, deviceDouble(api, { library: 'fails-once' }));
+    await fireEvent.press(await screen.findByLabelText('Add attachment'));
+    await fireEvent.press(await screen.findByText('Photo library'));
+    expect(await screen.findByText('Couldn’t open your photos. Try again.')).toBeTruthy();
+    expect(screen.queryByText(/^photo access is off$/iu)).toBeNull();
+    await fireEvent.press(screen.getByText('Photo library'));
+    await waitFor(() => expect(media.picked).toEqual(['library', 'library']));
+    await waitFor(() => expect(screen.queryByTestId('chat-attach-failed')).toBeNull());
+    await waitFor(async () => expect(await listUploads(s.db)).toHaveLength(1));
+  });
+
   it('records a hands-free voice note and queues its upload with peaks', async () => {
     const s = await open();
     await seedCrew(s);
