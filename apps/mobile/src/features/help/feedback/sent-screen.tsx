@@ -15,7 +15,7 @@ import { useLiveRows } from '../data/live-rows';
 import { useFeedbackLabels } from './labels';
 import { SentView } from './SentView';
 
-const TICKET_SQL = 'SELECT ticket_no FROM feedback_tickets WHERE id = ?';
+const TICKET_SQL = 'SELECT ticket_no, sent_at FROM feedback_tickets WHERE id = ?';
 const NAME_SQL = `SELECT u.display_name AS name FROM users u
   JOIN local_state s ON s.id = 'owner_uid' AND s.value = u.id`;
 
@@ -31,13 +31,16 @@ export function SentScreen() {
   const [online, setOnline] = useState(network.isOnline());
   useEffect(() => network.subscribe(setOnline), [network]);
   const { moods, topics } = useFeedbackLabels();
-  const ticket = useLiveRows<{ ticket_no: number | null }>(
+  const ticket = useLiveRows<{ ticket_no: number | null; sent_at: string | null }>(
     TICKET_SQL,
     [params.ticket ?? ''],
     ['feedback_tickets'],
   );
   const me = useLiveRows<{ name: string | null }>(NAME_SQL, [], ['users', 'local_state']);
   const ticketNo = ticket.rows[0]?.ticket_no ?? null;
+  // The stamp carries the day the ticket was sent; until it syncs, today (it was sent just now).
+  const sentAt = ticket.rows[0]?.sent_at;
+  const sentOn = sentAt ? new Date(sentAt) : new Date();
   const heading = [
     isFeedbackCategory(params.topic) ? topics[params.topic] : null,
     isFeedbackMood(params.mood) ? moods[params.mood] : null,
@@ -51,7 +54,7 @@ export function SentScreen() {
       heading={heading}
       note={typeof params.note === 'string' ? params.note : ''}
       name={me.rows[0]?.name?.split(' ')[0] ?? null}
-      receivedOn={format.date(locale, new Date(), {
+      receivedOn={format.date(locale, sentOn, {
         day: 'numeric',
         month: 'short',
         year: 'numeric',
