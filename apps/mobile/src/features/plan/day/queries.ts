@@ -54,8 +54,10 @@ export const ITEMS_SQL = `SELECT i.stable_id, d.day_no, i.starts_at, i.ends_at, 
 export const ITEMS_TABLES = ['plan_items', 'plan_days', 'pois'];
 
 /** The version's own record of the places it plans (their names, for items to go by). */
-export const VERSION_PLACES_SQL = 'SELECT coverage FROM itinerary_versions WHERE id = ?';
-export const VERSION_PLACES_TABLES = ['itinerary_versions'];
+export const VERSION_PLACES_SQL = `SELECT coverage, (SELECT json_group_object(substr(id, 12),
+    json_extract(value, '$.name')) FROM local_state WHERE id LIKE 'plan_place:%') AS picked
+  FROM itinerary_versions WHERE id = ?`;
+export const VERSION_PLACES_TABLES = ['itinerary_versions', 'local_state'];
 
 /** Plan edits and proposals still in the local queue, oldest first. */
 export const QUEUED_PLAN_SQL = `SELECT id, cmd, envelope, status FROM commands

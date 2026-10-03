@@ -164,10 +164,6 @@ msgstr ""
 msgid "plan.day.add.searching"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/day/search-states.tsx
-msgid "plan.day.add.moreArriving"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"
 msgstr ""
@@ -249,6 +245,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searchingMore"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx

@@ -2,9 +2,9 @@ appId: app.critterpass.dev
 ---
 # Searching a real place to add to a fresh trip's day, on staging: a brand-new account locks in a
 # Đà Nẵng trip for today (../happy/subflows/trip-under-way.yaml), opens day 1 and adds a stop by
-# search. "My Son" is typed the way a keyboard writes it and finds the places named with or without
-# their accents. While the trip's places are still syncing, the sheet says so instead of showing an
-# empty list. A word no place has says "Nothing found".
+# search. "My Son" is typed the way a keyboard writes it: the phone's curated places answer first
+# and the server's open-data places follow, so the Mỹ Sơn sanctuary (open data) is found, added and
+# shown by its own name with its times. A word no place has says "Nothing found".
 - runFlow:
     file: ../happy/subflows/trip-under-way.yaml
     env:
@@ -82,16 +82,50 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: en-fresh-add-search-my-son
+# The sanctuary is an open-data place the phone does not carry: its row comes from the server.
 - hideKeyboard
 - scrollUntilVisible:
     element:
+      text: '(?i)m[ỹy] s[ơo]n(, .*)?'
+    direction: DOWN
+    timeout: 30000
+- takeScreenshot: en-fresh-add-search-server-row
+- tapOn:
+    text: '(?i)m[ỹy] s[ơo]n(, .*)?'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-confirm'
+      enabled: true
+    timeout: 10000
+- takeScreenshot: en-fresh-add-search-picked
+- tapOn:
+    id: 'plan-add-confirm'
+# The new stop is named by its place, on this phone before the plan's record of it arrives and
+# after.
+- extendedWaitUntil:
+    visible:
       text: '(?i).*m[ỹy] s[ơo]n.*'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: en-fresh-add-stop-added
+# A word no place has, on the phone or the server, says so.
+- scrollUntilVisible:
+    element:
+      id: 'plan-day-add'
     direction: DOWN
     timeout: 15000
-- eraseText: 20
+- tapOn:
+    id: 'plan-day-add'
+- extendedWaitUntil:
+    visible:
+      id: 'plan-add-query'
+    timeout: 15000
+- tapOn:
+    id: 'plan-add-query'
 - inputText: 'zzqx'
 - extendedWaitUntil:
     visible:
       id: 'plan-add-none'
-    timeout: 15000
+    timeout: 20000
 - takeScreenshot: en-fresh-add-search-none

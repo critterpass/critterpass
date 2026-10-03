@@ -9,38 +9,33 @@ import { PillButton } from '@/ui/buttons/PillButton';
 import { Stack } from '@/ui/layout/Stack';
 import { Text } from '@/ui/text/Text';
 
+import type { SearchState } from './server-place-search';
+
 export function SearchStates({
   query,
-  loaded,
-  failed,
-  arriving,
-  found,
+  state,
+  more,
   onRetry,
   onUseOwnWords,
 }: {
   readonly query: string;
-  readonly loaded: boolean;
-  readonly failed: boolean;
+  readonly state: SearchState;
+  /** Rows show while more places are still being searched on the server. */
+  readonly more: boolean;
   readonly onRetry: () => void;
-  readonly arriving: boolean;
-  readonly found: number;
   readonly onUseOwnWords: () => void;
 }) {
   const { t } = useLingui();
   const typed = query.trim();
   if (typed === '') return null;
-  if (found > 0) {
-    // Rows found while the trip's places are still landing: more may come.
-    return arriving ? (
-      <Text variant="bodySm" testID="plan-add-more-arriving">
-        {t({
-          id: 'plan.day.add.moreArriving',
-          message: 'More of this trip’s places are still arriving.',
-        })}
+  if (state === 'results') {
+    return more ? (
+      <Text variant="bodySm" testID="plan-add-searching-more">
+        {t({ id: 'plan.day.add.searchingMore', message: 'Searching more places…' })}
       </Text>
     ) : null;
   }
-  if (failed) {
+  if (state === 'failed') {
     return (
       <Stack gap="8" testID="plan-add-search-failed">
         <Text variant="bodySm">
@@ -55,10 +50,10 @@ export function SearchStates({
       </Stack>
     );
   }
-  if (!loaded || arriving) {
+  if (state === 'searching' || state === 'arriving') {
     return (
       <Text variant="bodySm" testID="plan-add-searching">
-        {arriving
+        {state === 'arriving'
           ? t({
               id: 'plan.day.add.arriving',
               message: 'This trip’s places are still arriving. They show here as they land.',
