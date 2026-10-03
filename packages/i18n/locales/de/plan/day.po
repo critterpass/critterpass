@@ -7,12 +7,12 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
 
-#. placeholder {0}: money(locale, item.amountMinor, item.currency)
+#. placeholder {0}: shown(item.amountMinor, item.currency)
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.costEach"
 msgstr ""
 
-#. placeholder {0}: money(locale, item.amountMinor, item.currency)
+#. placeholder {0}: shown(item.amountMinor, item.currency)
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.costGroup"
 msgstr ""

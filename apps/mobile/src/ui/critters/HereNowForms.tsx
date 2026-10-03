@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 
 import { SecondaryText } from '../cards/SecondaryText';
 import { Row } from '../layout/Row';
+import { PressScale } from '../press/PressScale';
 import { Stack } from '../layout/Stack';
 import { Text } from '../text/Text';
 import { makeStyles, useTheme } from '../theme';
@@ -24,6 +25,8 @@ export interface HereNowFormsProps {
   readonly forms: readonly HereNowForm[];
   /** "Epic is tomorrow: summit Batur by sunrise." */
   readonly hint?: string;
+  /** Makes each form a button (the form's index in `forms`); without it the forms are images. */
+  readonly onPressForm?: (index: number) => void;
   readonly testID?: string;
 }
 
@@ -37,6 +40,7 @@ const useStyles = makeStyles((th) => ({
     gap: th.space['12'],
   },
   cell: { flex: 1, alignItems: 'center', gap: th.space['6'] },
+  cellInner: { alignItems: 'center', gap: th.space['6'] },
   header: { columnGap: th.space['12'], rowGap: th.space['4'] },
   title: { flexShrink: 1 },
 }));
@@ -49,7 +53,14 @@ export function formLabel(tier: Tier, found: boolean): string {
 }
 
 /** The local critter's four forms for where you are now, found ones in colour, with a hint. */
-export function HereNowForms({ title, subtitle, forms, hint, testID }: HereNowFormsProps) {
+export function HereNowForms({
+  title,
+  subtitle,
+  forms,
+  hint,
+  onPressForm,
+  testID,
+}: HereNowFormsProps) {
   const styles = useStyles();
   const theme = useTheme();
   return (
@@ -74,18 +85,36 @@ export function HereNowForms({ title, subtitle, forms, hint, testID }: HereNowFo
         ) : null}
       </Row>
       <Row gap="8">
-        {forms.map((form) => (
-          <Stack
-            key={form.tier}
-            style={styles.cell}
-            accessible
-            accessibilityRole="image"
-            accessibilityLabel={formLabel(form.tier, form.found)}
-          >
-            {form.sticker}
-            <TierWord tier={form.tier} glyph={false} fit />
-          </Stack>
-        ))}
+        {forms.map((form, index) => {
+          const cell = (
+            <>
+              {form.sticker}
+              <TierWord tier={form.tier} glyph={false} fit />
+            </>
+          );
+          return onPressForm === undefined ? (
+            <Stack
+              key={form.tier}
+              style={styles.cell}
+              accessible
+              accessibilityRole="image"
+              accessibilityLabel={formLabel(form.tier, form.found)}
+            >
+              {cell}
+            </Stack>
+          ) : (
+            <PressScale
+              key={form.tier}
+              style={styles.cell}
+              onPress={() => onPressForm(index)}
+              accessibilityRole="button"
+              accessibilityLabel={formLabel(form.tier, form.found)}
+              {...(testID === undefined ? {} : { testID: `${testID}-form-${form.tier}` })}
+            >
+              <Stack style={styles.cellInner}>{cell}</Stack>
+            </PressScale>
+          );
+        })}
       </Row>
       {hint ? <SecondaryText>{hint}</SecondaryText> : null}
     </Stack>
