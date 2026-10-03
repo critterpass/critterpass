@@ -171,9 +171,9 @@ export async function readOsmFile(file: string, bbox: BoundingBox): Promise<OsmP
     for (const row of reader.getRowObjectsJson()) {
       const place = toOsmPlaceRow(
         {
-          kind: String(row['kind']),
+          kind: typeof row['kind'] === 'string' ? row['kind'] : '',
           id: row['id'],
-          tags: String(row['tags']),
+          tags: typeof row['tags'] === 'string' ? row['tags'] : '{}',
           lat: row['lat'],
           lon: row['lon'],
         },
