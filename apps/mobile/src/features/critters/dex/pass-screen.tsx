@@ -33,6 +33,15 @@ import {
 import { NearMap } from '../where/near-map';
 import type { DexFilter } from './dex-model';
 import { DexView } from './dex-view';
+import {
+  dismissSlipped,
+  SLIPPED_SQL,
+  SLIPPED_TABLES,
+  slippedAwayFor,
+  slippedDismissed,
+  useSlippedVersion,
+  type SlippedRow,
+} from './slipped-away';
 import { useDexRows } from './use-dex';
 import { StickerShelf } from '../stickers';
 
@@ -68,6 +77,9 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
   useHatchSeenVersion();
   const egg = eggCardFor(data.input.trips, now(), hatchSeen);
   const { snapshot } = useEncounter();
+  useSlippedVersion();
+  const slipped = useLiveRows<SlippedRow>(SLIPPED_SQL, uid === null ? null : [uid], SLIPPED_TABLES);
+  const slippedAway = slippedAwayFor(slipped.rows, now(), slippedDismissed);
   const live = LIVE.has(snapshot.phase) && snapshot.encounterId !== null;
   const encounterId = snapshot.encounterId;
 
@@ -122,6 +134,8 @@ export function PassScreen({ now = () => new Date() }: { readonly now?: () => Da
                 ),
             }
       }
+      slippedAway={slippedAway}
+      onDismissSlipped={() => slippedAway !== null && dismissSlipped(slippedAway.encounterId)}
       encounter={
         live && encounterId !== null
           ? {

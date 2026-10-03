@@ -593,7 +593,7 @@ msgstr "Cú đêm"
 msgid "onboarding.tag.nightlife.short"
 msgstr "Cú đêm"
 
-#. placeholder {0}: query.trim()
+#. placeholder {0}: searched.trim()
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.noResults"
 msgstr "Không có sân bay nào tên “{0}”. Thử tên thành phố hoặc mã ba chữ cái."

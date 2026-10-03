@@ -7,6 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: es\n"
 
+#: ../../apps/mobile/src/ui/text/display-titles.fixtures.tsx
+msgid "home.nextUp.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/text/display-titles.fixtures.tsx
+msgid "home.countdown.today"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/states/PendingSync.tsx
 msgid "common.pending.sending"
 msgstr ""
@@ -31,6 +39,7 @@ msgstr ""
 msgid "common.home.switchCrew"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/critters/QuestCard.tsx
 #: ../../apps/mobile/src/ui/data/SegmentedProgress.tsx
 msgid "common.data.nOfTotalDone"
 msgstr ""
@@ -89,10 +98,6 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/people/Avatar.tsx
 msgid "common.avatar.pending"
-msgstr ""
-
-#: ../../apps/mobile/src/ui/people/member-name.ts
-msgid "common.member.former"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/people/AvatarStack.tsx
@@ -382,6 +387,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.food"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/people/member-name.ts
+msgid "common.member.former"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/chips/StatusChip.tsx

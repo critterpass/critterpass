@@ -10,6 +10,7 @@ import {
   GUIDE_CHAT_ROUTE,
   LATEST_APPROVED_PERSONA_SQL,
   loadPersonaPack,
+  logToolMarkup,
   personaIdSchema,
   runTurn,
   SSE_HEADERS,
@@ -240,6 +241,7 @@ export async function streamThreadTurn(
             log.info({ tool: result.name, failure: result.failure }, 'guide tool failed');
         },
         onSettled: (outcome) => log.info({ outcome }, 'guide meter settled'),
+        onToolMarkup: logToolMarkup(log),
       },
     },
   );

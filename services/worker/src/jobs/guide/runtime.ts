@@ -9,6 +9,7 @@ import {
   createToolRegistry,
   createWebSearchExecutor,
   crewNameTerms,
+  logToolMarkup,
   recordUsage,
   registerGuideToolExecutors,
   searchProviderFromEnv,
@@ -23,6 +24,7 @@ import {
 import { outbox, withGuideReader, withSystem } from '@cp/db';
 import type pg from 'pg';
 
+import type { JobLogger } from '../../boss';
 import { privacyRedactionKeys } from '../../obs/logger';
 import { reserveGuideAnswer } from './meter';
 
@@ -93,7 +95,10 @@ export async function askerTz(pool: pg.Pool, uid: string): Promise<string> {
   return rows[0]?.tz ?? 'UTC';
 }
 
-export function crewTurnPorts(runtime: GuideRuntime): CrewTurnPorts {
+export function crewTurnPorts(
+  runtime: GuideRuntime,
+  logger?: Pick<JobLogger, 'warn'>,
+): CrewTurnPorts {
   const { pool } = runtime;
   return {
     gateway: runtime.gateway,
@@ -112,5 +117,6 @@ export function crewTurnPorts(runtime: GuideRuntime): CrewTurnPorts {
         isCrewChat: true,
         crewPassHolders: input.crewPassHolders,
       }),
+    ...(logger === undefined ? {} : { onToolMarkup: logToolMarkup(logger) }),
   };
 }

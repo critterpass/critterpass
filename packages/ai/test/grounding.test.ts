@@ -103,6 +103,17 @@ describe('free-text grounding', () => {
     ]);
   });
 
+  it('reads Vietnamese clock times, and leaves a bare short duration alone', () => {
+    const grounding = collectGrounding([{ starts_at: '2026-10-03T15:00:00+07:00' }]);
+    expect(unverifiedTextNumbers('Ghé chợ Hàn lúc 15 giờ, hay 3 giờ chiều.', grounding)).toEqual(
+      [],
+    );
+    expect(unverifiedTextNumbers('Đi bộ 3 giờ là tới.', grounding)).toEqual([]);
+    expect(unverifiedTextNumbers('Cầu Rồng phun lửa lúc 21h.', grounding)).toEqual([
+      { kind: 'unverified_time', path: 'text', value: 'lúc 21h' },
+    ]);
+  });
+
   it('flags numbers, times and ids no tool produced', () => {
     const text = `Boats run until 23:00 and cost 350,000 each. Try ${OTHER_POI}.`;
     expect(unverifiedTextNumbers(text, grounding)).toEqual([

@@ -403,10 +403,6 @@ msgstr "Giữ trong 3 giây"
 msgid "you.delete.holdTitle"
 msgstr "Giữ để xoá"
 
-#: ../../apps/mobile/src/features/you/language/currency-section.tsx
-msgid "you.currency.mode.home"
-msgstr "Nhà"
-
 #: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
 msgid "you.profile.stamp.home"
 msgstr "Nhà"
@@ -414,6 +410,10 @@ msgstr "Nhà"
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.back"
 msgstr "Trang chủ"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.home"
+msgstr "Nhà"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx

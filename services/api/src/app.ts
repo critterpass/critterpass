@@ -12,6 +12,7 @@ import type { SessionResolver } from './commands/_framework/session';
 import { registerGeocodingRoutes } from './geocoding/routes';
 import { NOOP_ERROR_REPORTER, type ErrorReporter } from './obs/sentry';
 import { redactLinkPath } from './links/redact';
+import type { FoursquareLiveConfig } from './places/live';
 import { registerPlacesRoutes } from './places/routes';
 import { straightLineRoutingProvider } from './routing/eta';
 import type { RoutingProvider } from './routing/provider';
@@ -36,6 +37,8 @@ export interface AppDeps {
   /** Public base URL `cp-tiles` serves PMTiles/fonts/sprite from (env.ts `TILES_BASE_URL`); used
    *  by the `/v1/map/regions/{destination_id}` manifest route. */
   tilesBaseUrl?: string;
+  /** Foursquare Places API for live place details (`/v1/places/{id}/live`); absent = unavailable. */
+  foursquare?: FoursquareLiveConfig;
   /** Sentry: unexpected errors are reported and `INTERNAL` carries `detail.event_id`. */
   errors?: ErrorReporter;
   /** The signed-in session behind a request; the places, map and geocoding routes need one. */
@@ -139,6 +142,7 @@ export function createApp(deps: AppDeps) {
       pool,
       routeEtaProvider: routing,
       tilesBaseUrl: deps.tilesBaseUrl ?? DEFAULT_TILES_BASE_URL,
+      ...(deps.foursquare !== undefined ? { foursquare: deps.foursquare } : {}),
     });
     registerGeocodingRoutes(app, {
       pool,

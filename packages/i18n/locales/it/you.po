@@ -403,16 +403,16 @@ msgstr ""
 msgid "you.delete.holdTitle"
 msgstr ""
 
-#: ../../apps/mobile/src/features/you/language/currency-section.tsx
-msgid "you.currency.mode.home"
-msgstr ""
-
 #: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
 msgid "you.profile.stamp.home"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.home"
 msgstr ""
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx

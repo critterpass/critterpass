@@ -3,6 +3,13 @@
  * barely overlap (trigram similarity under 0.6, e.g. "Chùa Cầu" and "Japanese Covered Bridge") are
  * put to the `poi.duplicate_tiebreak` decision, many pairs per call. A sure yes merges them on
  * publish; the gray band goes to the reviewer; a no leaves both. Answers are cached per pair.
+ *
+ * Long features (beaches, mountains, parks) run for a kilometre or more, and each source drops its
+ * point somewhere along them: Mỹ Khê's three records lie up to 1.4 km apart. Within 1.5 km, two
+ * such places whose names say the same once accents, place types ("beach", "bãi biển") and the
+ * city are dropped are one place and merge without a decision; two that match the same Wikidata
+ * item under other names go to the decision. Neighbouring beaches are kept apart by their own
+ * names (Phạm Văn Đồng, Non Nước), not by the radius.
  */
 import path from 'node:path';
 
@@ -12,6 +19,7 @@ import { sha256Hex } from '@cp/content';
 import type pg from 'pg';
 
 import { FACTORY_DIR, readJsonIfExists, writeJson } from '../../work';
+import { distanceM, matchPlace, tellingWords, type WikidataPoint } from '../media/place-match';
 
 export const DUPLICATE_DISTANCE_M = 60;
 export const DUPLICATE_MAX_NAME_SIMILARITY = 0.6;
@@ -31,6 +39,68 @@ export interface DuplicatePair {
 }
 
 export type DuplicateVerdict = 'merge' | 'review' | 'distinct';
+
+export const LONG_FEATURE_DISTANCE_M = 1500;
+const LONG_FEATURES = new Set(['beach', 'nature']);
+
+export interface DuplicatePlace extends PoiPairSide {
+  readonly lat: number;
+  readonly lng: number;
+}
+
+/**
+ * The long-feature duplicates among `places`: `merges` (same name, folded) point each record at
+ * the group's shortest-named one; `pairs` (same Wikidata item, other names) need a decision.
+ */
+export function longFeatureDuplicates(
+  places: readonly DuplicatePlace[],
+  items: readonly WikidataPoint[],
+): { merges: { from: string; into: string }[]; pairs: DuplicatePair[] } {
+  const long = places.filter((p) => LONG_FEATURES.has(p.category));
+  const core = new Map(
+    long.map((p) => [p.ref, [...new Set(tellingWords(p.name))].sort().join(' ')]),
+  );
+  const item = new Map(long.map((p) => [p.ref, matchPlace(p, items)?.item.id ?? null]));
+  const group = new Map(long.map((p) => [p.ref, p]));
+  const root = (place: DuplicatePlace): DuplicatePlace => {
+    const parent = group.get(place.ref) ?? place;
+    return parent.ref === place.ref ? place : root(parent);
+  };
+  const shorter = (a: DuplicatePlace, b: DuplicatePlace) =>
+    a.name.length < b.name.length || (a.name.length === b.name.length && a.ref < b.ref);
+  const near: [DuplicatePlace, DuplicatePlace, number][] = [];
+  long.forEach((a, i) => {
+    for (const b of long.slice(i + 1)) {
+      const distance = Math.round(distanceM(a, b));
+      if (distance <= LONG_FEATURE_DISTANCE_M) near.push([a, b, distance]);
+    }
+  });
+  for (const [a, b] of near) {
+    const name = core.get(a.ref) ?? '';
+    if (name === '' || name !== core.get(b.ref)) continue;
+    const [ra, rb] = [root(a), root(b)];
+    if (ra.ref === rb.ref) continue;
+    if (shorter(ra, rb)) group.set(rb.ref, ra);
+    else group.set(ra.ref, rb);
+  }
+  const merges = long.flatMap((p) => {
+    const into = root(p);
+    return into.ref === p.ref ? [] : [{ from: p.ref, into: into.ref }];
+  });
+  const side = (p: DuplicatePlace): PoiPairSide => ({
+    ref: p.ref,
+    name: p.name,
+    nameLocal: p.nameLocal,
+    category: p.category,
+  });
+  const pairs = near
+    .filter(([a, b]) => {
+      const id = item.get(a.ref) ?? null;
+      return id !== null && id === item.get(b.ref) && root(a).ref !== root(b).ref;
+    })
+    .map(([a, b, distance]) => ({ a: side(a), b: side(b), distanceM: distance }));
+  return { merges, pairs };
+}
 
 const refOf = (sourceIds: Record<string, string>): string => {
   for (const source of ['editorial', 'fsq_os', 'overture'] as const) {
@@ -143,4 +213,32 @@ export async function decideDuplicates(
     });
   }
   return verdicts;
+}
+
+/**
+ * Further than this from its landmark, a record using the landmark's name has a wrong point or is
+ * another place: Sơn Trà's own coast lies 3–4 km from the mountain's Wikidata point.
+ */
+export const FAR_NAMESAKE_M = 5000;
+
+/**
+ * Curated records that name a landmark in full but lie far from it (the open data puts a "Hải Vân
+ * pass" in the city, 13 km from the pass): each merges into the landmark's own place. Pinned
+ * places keep their hand-checked points.
+ */
+export function farNamesakes(
+  places: readonly DuplicatePlace[],
+  landmarks: readonly { readonly item: WikidataPoint; readonly ref: string }[],
+  pinned: ReadonlySet<string>,
+): { from: string; into: string }[] {
+  return places.flatMap((place) => {
+    if (pinned.has(place.ref)) return [];
+    const landmark = landmarks.find(
+      ({ item, ref }) =>
+        ref !== place.ref &&
+        distanceM(place, item) > FAR_NAMESAKE_M &&
+        matchPlace({ ...place, lat: item.lat, lng: item.lng }, [item], true) !== null,
+    );
+    return landmark === undefined ? [] : [{ from: place.ref, into: landmark.ref }];
+  });
 }

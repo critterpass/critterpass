@@ -23,6 +23,8 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { spanLabel } from '../critters-copy';
 import { EggCard } from '../hatch/egg-card';
+import type { SlippedAway } from './slipped-away';
+import { SlippedAwayCard } from './slipped-away-card';
 import type { EggCard as EggCardModel } from '../hatch/hatch-model';
 import { CellArt } from './cell-art';
 import {
@@ -72,6 +74,9 @@ export interface DexViewProps {
   readonly nearMap?: ReactNode;
   /** An encounter under way, with a way back into it. */
   readonly encounter?: EncounterBannerModel | null;
+  /** A find the server could not confirm, told once until dismissed. */
+  readonly slippedAway?: SlippedAway | null;
+  readonly onDismissSlipped?: () => void;
   /**
    * The person's own face at the end of the title line, opening their profile: the way to the
    * profile and Settings that works before they have a crew. Left out while no profile screen
@@ -179,6 +184,12 @@ export function DexView(props: DexViewProps) {
       {filter === 'near' ? props.nearMap : null}
       {narrowed ? null : (
         <>
+          {props.slippedAway == null ? null : (
+            <SlippedAwayCard
+              slipped={props.slippedAway}
+              onDismiss={props.onDismissSlipped ?? (() => undefined)}
+            />
+          )}
           {props.encounter == null ? null : <EncounterBanner banner={props.encounter} />}
           {props.egg === null ? null : (
             <EggCard

@@ -7,6 +7,14 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
 
+#: ../../apps/mobile/src/ui/text/display-titles.fixtures.tsx
+msgid "home.nextUp.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/text/display-titles.fixtures.tsx
+msgid "home.countdown.today"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/states/PendingSync.tsx
 msgid "common.pending.sending"
 msgstr "{accessibilityLabel}, đang gửi"
@@ -31,6 +39,7 @@ msgstr "{count} địa điểm ở đây, chạm để mở rộng"
 msgid "common.home.switchCrew"
 msgstr "{crewName}, đổi nhóm"
 
+#: ../../apps/mobile/src/ui/critters/QuestCard.tsx
 #: ../../apps/mobile/src/ui/data/SegmentedProgress.tsx
 msgid "common.data.nOfTotalDone"
 msgstr "Xong {filled}/{total}"
@@ -90,10 +99,6 @@ msgstr "{name}, {pose}"
 #: ../../apps/mobile/src/ui/people/Avatar.tsx
 msgid "common.avatar.pending"
 msgstr "{name}, đã mời"
-
-#: ../../apps/mobile/src/ui/people/member-name.ts
-msgid "common.member.former"
-msgstr "Thành viên cũ"
 
 #: ../../apps/mobile/src/ui/people/AvatarStack.tsx
 msgid "common.avatarStack.more"
@@ -383,6 +388,10 @@ msgstr "Lật bưu thiếp"
 #: ../../apps/mobile/src/ui/icons/labels.ts
 msgid "common.icon.food"
 msgstr "Ăn uống"
+
+#: ../../apps/mobile/src/ui/people/member-name.ts
+msgid "common.member.former"
+msgstr "Thành viên cũ"
 
 #: ../../apps/mobile/src/ui/chips/StatusChip.tsx
 msgid "common.status.free"

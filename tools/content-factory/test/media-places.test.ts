@@ -9,12 +9,14 @@ import path from 'node:path';
 import { buildRelease, poiRefOfSubject, poiRefSubject, type ContentItem } from '@cp/content';
 import { describe, expect, it } from 'vitest';
 
+import { committedItems } from '../src/committed';
 import { mediaKind } from '../src/kinds/media';
 import type { SourceHttp } from '../src/kinds/media/http';
 import { GENERIC_TITLE, genericSubjectFor } from '../src/kinds/media/generic';
 import { carriedItems, curatedPlaces } from '../src/kinds/media/place-batch';
 import { matchPlace, nameScore, type WikidataPlace } from '../src/kinds/media/place-match';
 import { placePhotos, sourceAllowedFor } from '../src/kinds/media/places';
+import { REJECTED_GENERIC } from '../src/kinds/media/rejected';
 import { runValidators } from '../src/validators/registry';
 import {
   CATHEDRAL,
@@ -196,5 +198,17 @@ describe('media sources and the release', { timeout: 60_000 }, () => {
     expect(carried.map((c) => c.id)).toEqual(['pexels-photo-26550067']);
     const whole = runValidators('media', [...photos, ...carried], mediaKind.validators);
     expect(whole.severity).not.toBe('fail');
+  });
+});
+
+describe('the committed place media batches', () => {
+  it('hold no generic photo a reviewer turned down, and carry the destination media', () => {
+    const items = committedItems('media');
+    expect(items.filter((item) => REJECTED_GENERIC[item.id] !== undefined)).toEqual([]);
+    const report = runValidators('media', items, mediaKind.validators);
+    expect(report.severity).not.toBe('fail');
+    expect(items.some((item) => item.subjects.some((s) => s.startsWith('destination:')))).toBe(
+      true,
+    );
   });
 });

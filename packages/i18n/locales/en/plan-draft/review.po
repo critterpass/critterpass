@@ -88,6 +88,10 @@ msgstr "Back"
 msgid "planDraft.member.back"
 msgstr "Back to the trip"
 
+#: ../../apps/mobile/src/features/plan/draft/review/draft-day-row.tsx
+msgid "plan.overview.chip.booked"
+msgstr "Booked"
+
 #: ../../apps/mobile/src/features/plan/draft/review/draft-review-view.tsx
 msgid "planDraft.review.propose"
 msgstr "Build the proposal"

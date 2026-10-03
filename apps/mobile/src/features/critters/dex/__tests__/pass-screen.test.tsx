@@ -202,4 +202,20 @@ describe('PASS tab Critterdex', () => {
     expect(screen.getByTestId('critters-dex')).toBeTruthy();
     expect(screen.getByText('HERE NOW · BALI')).toBeTruthy();
   });
+
+  it('says a find slipped away once the server revoked it, until OK', async () => {
+    const stack = await renderPass();
+    await waitFor(() => expect(screen.getByText('HERE NOW · BALI')).toBeTruthy());
+    expect(screen.queryByTestId('critters-slipped-away')).toBeNull();
+    await stack.db.execute(
+      `INSERT INTO encounters (id, user_id, trip_id, form_id, state, verification, verified_at)
+       VALUES ('enc-slipped', ?, ?, ?, 'befriended', 'revoked', ?)`,
+      [stack.uid, TRIP, TOKEK_RARE, new Date().toISOString()],
+    );
+    await waitFor(() => expect(screen.getByTestId('critters-slipped-away')).toBeTruthy());
+    expect(screen.getByText('THIS ONE SLIPPED AWAY')).toBeTruthy();
+    expect(screen.getByText('RARE FORM')).toBeTruthy();
+    await fireEvent.press(screen.getByTestId('critters-slipped-away-ok'));
+    await waitFor(() => expect(screen.queryByTestId('critters-slipped-away')).toBeNull());
+  });
 });

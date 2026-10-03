@@ -19,7 +19,7 @@ msgid "vote.pitch.nearby"
 msgstr "{0} · gần đó"
 
 #. placeholder {0}: money(locale, chip.amount_minor, chip.currency)
-#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+#: ../../apps/mobile/src/features/vote/final/showdown-facts.tsx
 msgid "vote.showdown.each"
 msgstr "{0} mỗi người"
 
@@ -71,6 +71,7 @@ msgstr "{0} phiếu"
 
 #. placeholder {0}: option.votes
 #: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+#: ../../apps/mobile/src/features/vote/final/winner-reveal.tsx
 msgid "vote.showdown.votes"
 msgstr "{0} phiếu"
 
@@ -89,7 +90,7 @@ msgstr "{0} phiếu"
 msgid "vote.board.votes"
 msgstr "{0} phiếu"
 
-#. placeholder {0}: poll.votedCount
+#. placeholder {0}: second.votes
 #. placeholder {1}: lines.toGo ?? ''
 #: ../../apps/mobile/src/features/vote/final/showdown-screen.tsx
 msgid "vote.showdown.tally"
@@ -101,7 +102,7 @@ msgid "vote.result.won"
 msgstr "{0} thắng {score}"
 
 #. placeholder {0}: flightHours(chip.minutes)
-#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+#: ../../apps/mobile/src/features/vote/final/showdown-facts.tsx
 msgid "vote.showdown.flight"
 msgstr "Bay {0} tiếng"
 
@@ -256,7 +257,7 @@ msgid "vote.guest.back"
 msgstr "Quay lại"
 
 #. placeholder {0}: chip.months.map((m) => monthShort(locale, m)).join(' · ')
-#: ../../apps/mobile/src/features/vote/final/showdown-half.tsx
+#: ../../apps/mobile/src/features/vote/final/showdown-facts.tsx
 msgid "vote.showdown.best"
 msgstr "Đẹp nhất {0}"
 

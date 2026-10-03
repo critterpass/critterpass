@@ -7,6 +7,7 @@
  * the meter with `STATE_INVALID switched_off`. A client that disconnects aborts the model call and releases the reserved unit.
  */
 import {
+  logToolMarkup,
   runTurn,
   SSE_HEADERS,
   sseStream,
@@ -76,6 +77,7 @@ export async function streamGuideTurn(
             cause instanceof Error ? cause.name : typeof cause === 'string' ? cause : undefined;
           log.info({ outcome, cause: code }, 'guide meter settled');
         },
+        onToolMarkup: logToolMarkup(log),
       },
     },
   );

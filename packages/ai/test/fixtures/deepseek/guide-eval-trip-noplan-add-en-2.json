@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "91f3cf22-240f-4b58-8e54-6ddc03d3ca2a",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Found it — Bánh Mì Bà Lan, the crew-favourite bánh mì spot, 260 m from Avatar Danang Hotel — but the trip has no plan yet, so there's nothing to add it to just yet. The plan starts once setup is finished and I draft the whole trip, and then I'll happily slot it in for you."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 398,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10496,
+        "output_tokens": 76,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

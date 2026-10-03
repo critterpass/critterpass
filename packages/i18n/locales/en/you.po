@@ -403,16 +403,16 @@ msgstr "Hold for 3 seconds"
 msgid "you.delete.holdTitle"
 msgstr "Hold to delete"
 
-#: ../../apps/mobile/src/features/you/language/currency-section.tsx
-msgid "you.currency.mode.home"
-msgstr "Home"
-
 #: ../../apps/mobile/src/features/you/profile/profile-parts.tsx
 msgid "you.profile.stamp.home"
 msgstr "Home"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.back"
+msgstr "Home"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.home"
 msgstr "Home"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx

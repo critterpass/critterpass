@@ -593,7 +593,7 @@ msgstr "Night owl"
 msgid "onboarding.tag.nightlife.short"
 msgstr "Night owl"
 
-#. placeholder {0}: query.trim()
+#. placeholder {0}: searched.trim()
 #: ../../apps/mobile/src/features/onboarding/home/HomeScreen.tsx
 msgid "onboarding.home.noResults"
 msgstr "No airport called “{0}”. Try a city or a three-letter code."
