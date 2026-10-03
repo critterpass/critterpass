@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5dfba817-6167-4218-b208-293037a337e8",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Two I'd recommend right by you: Bánh Mì Bà Lan, about 260 m away and open now, crisp and loaded, and Bãi biển Mỹ Khê, 420 m, best at sunrise before the heat. For dinner tonight I'd take the bánh mì, or wander to chợ Hàn (Hàn market, the central market by the river) if you want to sit down."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 251,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10496,
+        "output_tokens": 93,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

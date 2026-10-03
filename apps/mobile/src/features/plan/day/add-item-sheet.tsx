@@ -15,7 +15,6 @@ import { generateStableId } from '@cp/domain';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ListCard } from '@/ui/cards/ListCard';
-import { InfoPill } from '@/ui/chips/InfoPill';
 import { Icon } from '@/ui/icons/Icon';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { SearchField } from '@/ui/inputs/SearchField';
@@ -27,10 +26,16 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { dayFit, type FitWarning } from './fit-check';
+import { FitWarningPill } from './fit-warning-pill';
 import { useLiveRows, type LiveRows } from './live-rows';
 import type { DayItem } from './plan-model';
 import { NO_PICK, pickStep, shownPlaces } from './add-pick';
-import { PLACE_SEARCH_SQL, PLACES_TABLES, SAVED_PLACES_SQL, type PlaceRow } from './queries';
+import type { SearchState } from './server-place-search';
+import { useAddSheetSearch } from './use-add-search';
+import { rememberPickedPlace } from './picked-places';
+import { useLocalFirst } from '@/data/powersync/local-first-context';
+import { SearchStates } from './search-states';
+import { PLACES_TABLES, SAVED_PLACES_SQL, type PlaceRow } from './queries';
 import { TimeRangeField } from './time-range-field';
 
 export type AddSource = 'search' | 'saved' | 'own';
@@ -59,6 +64,8 @@ export function nextFreeStart(items: readonly DayItem[]): number {
 
 export interface AddItemSheetProps {
   readonly destinationId: string | null;
+  /** The trip whose place pack the search waits on. */
+  readonly tripId?: string | null;
   readonly date: string;
   readonly items: readonly DayItem[];
   readonly tz: string;
@@ -74,21 +81,26 @@ export function AddItemSheet(props: AddItemSheetProps) {
   const { destinationId } = props;
   const [source, setSource] = useState<Source>('search');
   const [query, setQuery] = useState('');
-  const search = useLiveRows<PlaceRow>(
-    PLACE_SEARCH_SQL,
-    destinationId === null || source !== 'search' || query.trim() === ''
-      ? null
-      : [destinationId, `%${query.trim()}%`],
-    PLACES_TABLES,
+  const search = useAddSheetSearch(
+    source === 'search' ? destinationId : null,
+    props.tripId ?? null,
+    query,
   );
   const saved = useLiveRows<PlaceRow>(
     SAVED_PLACES_SQL,
     destinationId === null || source !== 'saved' ? null : [destinationId],
     PLACES_TABLES,
   );
+  const { db } = useLocalFirst();
+  // A server-found place keeps its name on this phone until the plan's record of it arrives.
+  const add = (draft: NewItemDraft) => {
+    if (draft.poiId !== null) void rememberPickedPlace(db, draft.poiId, draft.title);
+    props.onAdd(draft);
+  };
   return (
     <AddItemSheetView
       {...props}
+      onAdd={add}
       source={source}
       onSource={setSource}
       query={query}
@@ -118,7 +130,12 @@ export function AddItemSheetView({
   readonly onSource: (next: AddSource) => void;
   readonly query: string;
   readonly onQuery: (next: string) => void;
-  readonly places: LiveRows<PlaceRow>;
+  readonly places: LiveRows<PlaceRow> & {
+    /** What the search says when it has no rows (search only). */
+    readonly state?: SearchState;
+    /** The server is still answering below the rows already shown. */
+    readonly more?: boolean;
+  };
 }) {
   const styles = useStyles();
   const { t } = useLingui();
@@ -249,6 +266,19 @@ export function AddItemSheetView({
                 />
               );
             })}
+            {source === 'search' ? (
+              <SearchStates
+                query={query}
+                state={found.state ?? 'searching'}
+                more={found.more === true}
+                onRetry={() => found.retry?.()}
+                onUseOwnWords={() => {
+                  setOwn(query.trim());
+                  onSource('own');
+                  dispatch({ type: 'clear' });
+                }}
+              />
+            ) : null}
             {source === 'saved' && found.loaded && places.length === 0 ? (
               <Text variant="bodySm">
                 {t({ id: 'plan.day.add.noSaved', message: 'No saved places here yet.' })}
@@ -262,9 +292,7 @@ export function AddItemSheetView({
           onChange={(start, end) => setTimes({ start, end })}
         />
         {warnings.map((warning) => (
-          <InfoPill key={warning} icon="flame">
-            {warning}
-          </InfoPill>
+          <FitWarningPill key={warning}>{warning}</FitWarningPill>
         ))}
       </SheetScrollView>
       <View style={styles.foot}>

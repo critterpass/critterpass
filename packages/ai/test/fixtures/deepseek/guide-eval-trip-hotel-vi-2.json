@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "3edf14c4-163a-4d63-90e3-75ce12c85d38",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tìm thấy rồi nhé: Avatar Danang Hotel, cách biển Mỹ Khê vài phút đi bộ, có hồ bơi trên sân thượng nhìn ra thành phố. Bạn muốn mình xem chi tiết hay tìm quán ăn gần đó không?"
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 245,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10368,
+        "output_tokens": 74,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

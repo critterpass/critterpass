@@ -7,12 +7,14 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
 import { useMemo } from 'react';
 
+import { useActiveLocale } from '@/lib/i18n/use-locale';
+
 import { buildSummaryModel, type SummaryModel } from '../summary/summary-model';
 import { guideNameOf } from './critter-art';
 import { useLiveRows, useOwnerUid } from './live-rows';
 import { readAward, readRecap, type AwardRow, type FormRow, type RecapRow } from './recap-rows';
 
-interface TripRow {
+export interface TripRow {
   readonly crew_id: string;
   readonly status: string;
   readonly is_solo: number | null;
@@ -20,27 +22,30 @@ interface TripRow {
   readonly end_date: string | null;
   readonly crew_name: string | null;
   readonly place: string | null;
+  /** The destination's country (ISO 3166-1 alpha-2), for its local words. */
+  readonly country?: string | null;
   readonly guide_slug: string | null;
   readonly guide_name: string | null;
 }
 
-const TRIP_SQL = `
+export const TRIP_SQL = `
   SELECT t.crew_id, t.status, t.is_solo, t.start_date, t.end_date, c.name AS crew_name,
-         d.name AS place, g.slug AS guide_slug, g.name AS guide_name
+         d.name AS place, d.country, g.slug AS guide_slug, g.name AS guide_name
     FROM trips t
     LEFT JOIN crews c ON c.id = t.crew_id
     LEFT JOIN destinations d ON d.id = t.destination_id
     LEFT JOIN guides g ON g.id = t.guide_id
    WHERE t.id = ?`;
-const RECAP_SQL = `
+export const RECAP_SQL = `
   SELECT id, status, version, stats, route, receipt, got_away, cards, changed_sections,
-         failure_reason
+         failure_reason, i18n, narration, mvp_closed_at
     FROM recaps WHERE trip_id = ?`;
-const AWARDS_SQL = `
+export const AWARDS_SQL = `
   SELECT a.id, a.user_id, a.kind, a.value, a.evidence, a.title, a.line, a.opted_out, a.is_mvp,
-         u.display_name AS name
+         a.i18n, u.display_name AS name
     FROM recap_awards a LEFT JOIN users u ON u.id = a.user_id
    WHERE a.trip_id = ?`;
+const MY_VIEW_SQL = 'SELECT completed_at FROM recap_views WHERE trip_id = ? AND user_id = ?';
 const ME_IN_SQL = `
   SELECT rsvp FROM trip_participants WHERE trip_id = ? AND user_id = ?`;
 const NAMES_SQL = `SELECT id, display_name FROM users WHERE id IN (SELECT value FROM json_each(?))`;
@@ -66,6 +71,10 @@ export interface RecapSummaryData {
   readonly crewId: string | null;
   readonly guideSlug: string | null;
   readonly guideName: string | null;
+  readonly recapId: string | null;
+  /** The viewer has watched the story to its end (on any phone). */
+  readonly watched: boolean;
+  readonly viewLoaded: boolean;
 }
 
 export function useRecapSummary(tripId: string | null): RecapSummaryData {
@@ -79,9 +88,18 @@ export function useRecapSummary(tripId: string | null): RecapSummaryData {
     tripId === null || me === null ? null : [tripId, me],
     ['trip_participants'],
   );
+  const myView = useLiveRows<{ completed_at: string | null }>(
+    MY_VIEW_SQL,
+    tripId === null || me === null ? null : [tripId, me],
+    ['recap_views'],
+  );
   const tripRow = trip.rows[0] ?? null;
   const recapRow = recapRows.rows[0] ?? null;
-  const recap = useMemo(() => (recapRow === null ? null : readRecap(recapRow)), [recapRow]);
+  const locale = useActiveLocale();
+  const recap = useMemo(
+    () => (recapRow === null ? null : readRecap(recapRow, locale)),
+    [recapRow, locale],
+  );
   const gotAway = recap?.gotAway ?? null;
   const topUploader = recap?.stats?.photos?.top_uploader?.user_id ?? null;
   const names = useLiveRows<{ id: string; display_name: string | null }>(
@@ -121,7 +139,7 @@ export function useRecapSummary(tripId: string | null): RecapSummaryData {
                 place: tripRow.place,
               },
         recap,
-        awards: awardRows.rows.map(readAward).filter((award) => award !== null),
+        awards: awardRows.rows.flatMap((row) => readAward(row, locale) ?? []),
         names: new Map(names.rows.map((row) => [row.id, row.display_name ?? ''])),
         forms: forms.rows,
         gotAwayName:
@@ -140,12 +158,16 @@ export function useRecapSummary(tripId: string | null): RecapSummaryData {
       gotAway,
       awardRows.rows,
       names.rows,
+      locale,
       forms.rows,
       critterName.rows,
     ],
   );
   return {
     model,
+    recapId: recapRow?.id ?? null,
+    watched: myView.loaded && (myView.rows[0]?.completed_at ?? null) !== null,
+    viewLoaded: myView.loaded,
     crewId: tripRow?.crew_id ?? null,
     guideSlug: tripRow?.guide_slug ?? null,
     guideName: tripRow?.guide_name ?? null,

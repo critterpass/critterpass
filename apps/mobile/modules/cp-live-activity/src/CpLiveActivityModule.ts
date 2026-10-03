@@ -56,6 +56,8 @@ export declare class NativeCpLiveActivityModule extends NativeModule<{
   onActivityState: (event: NativeLaActivity & { readonly state: NativeLaState }) => void;
 }> {
   authorization(): NativeLaAuthorization;
+  /** The kinds this build's widget extension draws; absent in builds before it was reported. */
+  drawnKinds?(): NativeLaKind[];
   /** Resolves with the new activity's id. */
   start(request: NativeLaStartRequest): Promise<string>;
   update(request: NativeLaUpdateRequest): Promise<void>;

@@ -1,12 +1,17 @@
 /** Wall-clock, day and cost labels for the plan screens, in the reader's locale. */
 import { format } from '@cp/i18n';
+import { clockOption } from '@/lib/i18n/formats';
 
 const MINUTES_PER_DAY = 24 * 60;
 
 /** "07:00" for minutes after local midnight (an overnight minute wraps to the next morning). */
 export function clock(locale: string, minutes: number): string {
   const inDay = ((minutes % MINUTES_PER_DAY) + MINUTES_PER_DAY) % MINUTES_PER_DAY;
-  return format.time(locale, new Date(2000, 0, 1, Math.floor(inDay / 60), inDay % 60));
+  return format.time(
+    locale,
+    new Date(2000, 0, 1, Math.floor(inDay / 60), inDay % 60),
+    clockOption(),
+  );
 }
 
 export function clockRange(locale: string, start: number, end: number): string {

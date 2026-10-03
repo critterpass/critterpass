@@ -287,7 +287,7 @@ export function buildSummaryModel(input: SummaryInput): SummaryModel {
             name: input.gotAwayName,
             rarity: gotAway.rarity,
             sightings: gotAway.sightings,
-            line: recap.cards.got_away?.line ?? null,
+            line: recap.copy.got_away?.line ?? null,
           },
     awards: chipsOf(input),
     updated:

@@ -39,6 +39,7 @@ import { ShowIt } from './show-it';
 import { onOpen, pendingShare, shareView, type PendingShare } from './share-policy';
 import { useHelpHub } from './use-help-hub';
 import { useNow } from './use-now';
+import { useFormats } from '@/lib/i18n/formats';
 
 const GUIDE_IDS = Object.keys(GUIDE_STICKERS);
 
@@ -74,6 +75,7 @@ export function HelpScreen() {
     : GUIDE_STICKERS.tokek;
   const guideName = hub.trip?.guide_name ?? guide.name;
   const locale = useLocale();
+  useFormats();
   const found = hub.model.phrase;
   const phrase = found !== null && readsPhraseLanguage(locale, found.language) ? null : found;
   const speech = useSpeech(phrase?.text ?? null, phrase?.language ?? null);

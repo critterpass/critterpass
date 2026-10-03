@@ -16,6 +16,7 @@ import { resolveRoute } from '../../src/routing';
 import {
   buildCrewMentionRequest,
   buildGuideChatRequest,
+  tripLocalInstant,
   writeGuideOffer,
   type OfferFacts,
 } from '../../src/routes/guide';
@@ -46,6 +47,9 @@ interface GuideVars extends CaseVars {
   readonly offer?: OfferFacts;
   /** The thread has no trip (or its trip no guide of its own): the default guide answers. */
   readonly no_trip?: boolean;
+  /** The traveller's local time for the turn (ISO with offset) and its zone. */
+  readonly now?: string;
+  readonly tz?: string;
 }
 
 function request(vars: GuideVars, pack: PersonaPack): GatewayInput {
@@ -81,6 +85,9 @@ function request(vars: GuideVars, pack: PersonaPack): GatewayInput {
           ),
           directives,
           queued: surface === 'queued',
+          ...(vars.now === undefined
+            ? {}
+            : { now: { at: new Date(vars.now), tz: vars.tz ?? 'Asia/Ho_Chi_Minh' } }),
         });
   const tools = routeTools(resolveRoute(vars.route));
   return { ...built, ...(tools.length === 0 ? {} : { tools }) };
@@ -196,6 +203,12 @@ export async function runGuideCase(vars: GuideVars, options: RunCaseOptions): Pr
     collectGrounding((vars.tool_results ?? []).map((result) => result.output)),
     collectCitedGrounding(turn.outputs),
     collectGrounding(vars.trip_context === undefined ? [] : [vars.trip_context]),
+    // The turn's local time is a source too: "it's 14:05, so next is…".
+    collectGrounding(
+      vars.now === undefined
+        ? []
+        : [tripLocalInstant(new Date(vars.now), vars.tz ?? 'Asia/Ho_Chi_Minh')],
+    ),
   );
   return {
     ...base,

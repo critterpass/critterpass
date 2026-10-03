@@ -24,6 +24,7 @@ import { deviceSupplierApi, type SupplierApi } from './data/api';
 import { bookActivityCommand, holdActivityCommand, releaseHoldCommand } from './data/commands';
 import { usePartnerLink } from './data/use-partner-link';
 import { paymentPageUrl, PaymentWebView, type PaymentResult } from './PaymentWebView';
+import { clockOption } from '@/lib/i18n/formats';
 
 const VIATOR_ON = { viator_booking: true, agoda_demand: false, klook_activity_api: false };
 const ORDER_SQL = `SELECT status, supplier_booking_ref FROM supplier_orders WHERE id = ?`;
@@ -78,7 +79,8 @@ export function BookingScreen({
     ORDER_TABLES,
   ).rows[0];
 
-  const time = (iso: string) => i18n.date(new Date(iso), { hour: '2-digit', minute: '2-digit' });
+  const time = (iso: string) =>
+    i18n.date(new Date(iso), { hour: '2-digit', minute: '2-digit', ...clockOption() });
   const retryLater = t({
     id: 'suppliers.book.retry',
     message: 'That didn’t go through. Try again in a moment.',

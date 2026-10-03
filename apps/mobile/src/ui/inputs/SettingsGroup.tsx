@@ -5,6 +5,7 @@ import { I18nManager, View } from 'react-native';
 
 import { SecondaryText } from '../cards/SecondaryText';
 import { Icon } from '../icons/Icon';
+import type { DoodleName } from '../icons/generated';
 import { Row } from '../layout/Row';
 import { Stack } from '../layout/Stack';
 import { PressScale } from '../press/PressScale';
@@ -12,15 +13,28 @@ import { Text } from '../text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '../theme';
 import { Toggle } from './Toggle';
 
+/** A coloured icon tile before a row's title (3n-6 HELP AND FEEDBACK). */
+export interface SettingsLeading {
+  readonly icon: DoodleName;
+  readonly tint: 'pink' | 'yellow' | 'blue' | 'green';
+}
+
 interface RowBase {
   readonly key: string;
+  readonly leading?: SettingsLeading;
   readonly title: string;
   readonly subtitle?: string;
   readonly disabled?: boolean;
 }
 
 export type SettingsRow =
-  | (RowBase & { readonly kind: 'value'; readonly value: string; readonly onPress: () => void })
+  | (RowBase & {
+      readonly kind: 'value';
+      readonly value: string;
+      readonly onPress: () => void;
+      /** Drawn in place of the value and chevron (Rate's star). */
+      readonly valueIcon?: DoodleName;
+    })
   | (RowBase & {
       readonly kind: 'toggle';
       readonly value: boolean;
@@ -59,7 +73,25 @@ const useStyles = makeStyles((t) => ({
     justifyContent: 'center',
     backgroundColor: t.semantic.state.success,
   },
+  leading: {
+    width: 36,
+    height: 36,
+    borderRadius: t.radius.md,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
+
+function LeadingTile({ leading, rowKey }: { leading: SettingsLeading; rowKey: string }) {
+  const styles = useStyles();
+  const theme = useTheme();
+  const tint = leading.tint === 'green' ? theme.color.green.base : theme.color[leading.tint];
+  return (
+    <View style={[styles.leading, { backgroundColor: tint }]} testID={`settings-leading-${rowKey}`}>
+      <Icon name={leading.icon} size={20} color={theme.semantic.text.onAccent} decorative />
+    </View>
+  );
+}
 
 function Titles({
   title,
@@ -90,6 +122,7 @@ function SettingsRowView({ row }: { readonly row: SettingsRow }) {
     case 'toggle':
       return (
         <Row gap="12" style={[styles.row, dim]}>
+          {row.leading ? <LeadingTile leading={row.leading} rowKey={row.key} /> : null}
           <Titles title={row.title} {...(row.subtitle ? { subtitle: row.subtitle } : {})} />
           <Toggle
             value={row.value}
@@ -102,6 +135,7 @@ function SettingsRowView({ row }: { readonly row: SettingsRow }) {
     case 'custom':
       return (
         <Row gap="12" style={[styles.row, dim]}>
+          {row.leading ? <LeadingTile leading={row.leading} rowKey={row.key} /> : null}
           <Titles title={row.title} {...(row.subtitle ? { subtitle: row.subtitle } : {})} />
           {row.trailing}
         </Row>
@@ -118,7 +152,9 @@ function SettingsRowView({ row }: { readonly row: SettingsRow }) {
             ? described(privateWord)
             : described();
       const trailing =
-        row.kind === 'value' ? (
+        row.kind === 'value' && row.valueIcon !== undefined ? (
+          <Icon name={row.valueIcon} size={20} color={theme.color.yellow} decorative />
+        ) : row.kind === 'value' ? (
           <Text variant="rowTitle" color={theme.semantic.action.primary}>
             {`${row.value} ${chevron}`}
           </Text>
@@ -138,6 +174,7 @@ function SettingsRowView({ row }: { readonly row: SettingsRow }) {
         ) : null;
       const content = (
         <>
+          {row.leading ? <LeadingTile leading={row.leading} rowKey={row.key} /> : null}
           <Titles
             title={row.title}
             {...(row.subtitle ? { subtitle: row.subtitle } : {})}

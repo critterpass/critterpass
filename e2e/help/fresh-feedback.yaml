@@ -1,0 +1,58 @@
+appId: app.critterpass.dev
+---
+# A real note to the humans, end to end on staging: a fresh account opens the real help centre
+# from the help lab, sends feedback (a mood, a topic, a few words), and the sent page shows the
+# ticket number the server gave it once the ticket syncs back, stamped with the day it was sent.
+# Needs the help commands on staging's api.
+- runFlow: ../happy/subflows/fresh-account.yaml
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-help-lab'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-help-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'help-lab-live'
+    timeout: 15000
+- tapOn:
+    id: 'help-lab-live'
+- extendedWaitUntil:
+    visible:
+      id: 'help-search'
+    timeout: 30000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3p-1-live
+- tapOn: '(?i)send feedback.*'
+- extendedWaitUntil:
+    visible:
+      id: 'feedback-send'
+    timeout: 15000
+- tapOn:
+    id: 'feedback-mood-good'
+- tapOn:
+    id: 'feedback-topic-planning'
+- tapOn:
+    id: 'feedback-text'
+- inputText: 'Sent from the help centre flow on a fresh account'
+- hideKeyboard
+- tapOn:
+    id: 'feedback-send'
+- extendedWaitUntil:
+    visible:
+      id: 'feedback-sent-done'
+    timeout: 20000
+# The number arrives with the ticket's own row through sync.
+- extendedWaitUntil:
+    visible:
+      text: '#CP-[0-9]+'
+    timeout: 90000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3p-3-live

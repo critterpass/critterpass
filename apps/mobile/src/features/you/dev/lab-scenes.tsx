@@ -12,6 +12,7 @@ import { ClosedView, type ClosedMode } from '../account/closed-view';
 import { DeleteView, type DeleteStep } from '../account/delete-view';
 import { SignOutView } from '../account/sign-out-view';
 import { featuredLanguages, languageChoices } from '../language/language-names';
+import { CurrencySection } from '../language/currency-section';
 import { LanguageView } from '../language/language-view';
 import type { ProfileModel } from '../profile/profile-model';
 import { ProfileView } from '../profile/profile-view';
@@ -195,7 +196,17 @@ function Language({ open = false }: { readonly open?: boolean }) {
       switching={null}
       onPick={noop}
       onBack={noop}
-    />
+    >
+      <CurrencySection
+        homeLine="SGD · from your home airport"
+        homeSymbol="S$"
+        onHomeCurrency={noop}
+        mode="both"
+        onMode={noop}
+        sample="Rp 75.000 ≈ S$6.40"
+        ratesLine={null}
+      />
+    </LanguageView>
   );
 }
 

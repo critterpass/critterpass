@@ -58,31 +58,33 @@ export const STATS: RecapStats = {
   best_day: { day_no: 2, local_date: '2026-10-03', score: 9 },
 };
 
+const stop = (poi: string, name: string, day: number, time: string | null, early = false) => ({
+  poi_id: poi,
+  name,
+  category: 'nature',
+  day_from: day,
+  day_to: day,
+  local_time: time,
+  before_sunrise: early,
+});
+
 export const ROUTE: RecapRoute = {
   stops: [
-    {
-      poi_id: SON_TRA,
-      name: 'Sơn Trà',
-      category: 'nature',
-      day_from: 2,
-      day_to: 2,
-      local_time: '05:10',
-      before_sunrise: true,
-    },
-    {
-      poi_id: HOI_AN,
-      name: 'Hội An',
-      category: 'culture',
-      day_from: 3,
-      day_to: 3,
-      local_time: '16:00',
-      before_sunrise: false,
-    },
+    stop('0192f000-0000-7000-8000-000000000511', 'Mỹ Khê', 1, '16:00'),
+    stop(SON_TRA, 'Sơn Trà', 2, '05:10', true),
+    stop('0192f000-0000-7000-8000-000000000512', 'Bà Nà', 2, '10:30'),
+    stop('0192f000-0000-7000-8000-000000000513', 'Ngũ Hành Sơn', 3, '08:00'),
+    stop(HOI_AN, 'Hội An', 3, '16:00'),
   ],
-  legs: [],
+  legs: [
+    { from: 0, to: 1, distance_m: 14_000, minutes: 25, estimate: false, ride: null },
+    { from: 1, to: 2, distance_m: 48_000, minutes: 70, estimate: false, ride: null },
+    { from: 2, to: 3, distance_m: 32_000, minutes: 45, estimate: false, ride: null },
+    { from: 3, to: 4, distance_m: 120_000, minutes: 35, estimate: false, ride: null },
+  ],
   total_m: 214_000,
   estimated: false,
-  longest_leg: null,
+  longest_leg: 1,
   ridden_m: 180_000,
   rides: 5,
   top_driver: {
@@ -154,6 +156,8 @@ export function recapRow(
     cards: JSON.stringify(changes.cards ?? {}),
     changed_sections: changes.changed_sections ?? '[]',
     failure_reason: changes.failure_reason ?? null,
+    i18n: changes.i18n ?? null,
+    narration: changes.narration ?? null,
   };
 }
 

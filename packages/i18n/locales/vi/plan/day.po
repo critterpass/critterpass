@@ -52,6 +52,10 @@ msgstr "Một chỉnh sửa lịch trình"
 msgid "plan.day.add.from"
 msgstr "Thêm từ"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.useOwnWords"
+msgstr "Thêm bằng lời của bạn"
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.addAction"
 msgstr "Thêm gì đó"
@@ -99,6 +103,10 @@ msgstr "Vẫn đổi"
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.cost"
 msgstr "Chi phí"
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searchFailed"
+msgstr "Chưa tìm được lúc này."
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.untitled"
@@ -152,6 +160,10 @@ msgstr "Muộn hơn 15 phút"
 msgid "plan.day.loading"
 msgstr "Đang tải ngày"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searching"
+msgstr "Đang tìm địa điểm…"
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.moveTo"
 msgstr "Chuyển sang"
@@ -175,6 +187,10 @@ msgstr "Chưa có địa điểm đã lưu ở đây."
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.notes"
 msgstr "Ghi chú"
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.noResults"
+msgstr "Không tìm thấy “{typed}”."
 
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.freeLine"
@@ -230,6 +246,10 @@ msgstr "Đã lưu"
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.search"
 msgstr "Tìm"
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searchingMore"
+msgstr "Đang tìm thêm địa điểm…"
 
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.queued"
@@ -305,9 +325,17 @@ msgstr "Mục này đã được đặt"
 msgid "plan.day.item.goneTitle"
 msgstr "Mục này không còn trong lịch"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.arriving"
+msgstr "Các địa điểm của chuyến đi vẫn đang tải về. Chúng sẽ hiện ở đây khi tải xong."
+
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.bookingLine"
 msgstr "Vé và phiếu nằm trong mục Đặt chỗ."
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.tryAgain"
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/plan/day/commands.ts
 msgid "plan.day.queued.undo"

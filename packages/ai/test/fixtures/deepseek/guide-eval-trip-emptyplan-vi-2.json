@@ -1,0 +1,52 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "6a4fa6e6-c9ff-468e-b974-6b10c6dd7075",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Để tôi đề xuất thêm Bánh Mì Bà Lan vào ngày 1 nhé — quán bánh mì được cả nhóm ưa thích, cách Avatar Danang Hotel 260 m."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_4mEYJmcLiQpfPd4BJfoJ4269",
+          "name": "propose_plan_changes",
+          "input": {
+            "base_version": "0199a000-0000-7000-8000-0000000000a2",
+            "ops": [
+              {
+                "op": "add",
+                "reason": "Quán bánh mì được cả nhóm ưa thích, cách khách sạn 260 m",
+                "source_ids": ["0199a000-0000-7000-8000-0000000000c9"],
+                "new": {
+                  "day_no": 1,
+                  "poi_id": "0199a000-0000-7000-8000-0000000000c9",
+                  "category": "food",
+                  "starts_at": "2026-10-02T07:00:00+07:00",
+                  "ends_at": "2026-10-02T07:45:00+07:00",
+                  "lane": "food",
+                  "is_outdoor": false,
+                  "notes": "Bánh mì buổi sáng gần khách sạn"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 409,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10496,
+        "output_tokens": 312,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

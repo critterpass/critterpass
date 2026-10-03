@@ -6,7 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- SQL and route paths, never copy. */
 import { useLingui } from '@lingui/react/macro';
 import { router, type Href } from 'expo-router';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { useCommand } from '@/data/commands/use-command';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
@@ -19,6 +19,9 @@ import type { GuideId } from '@/ui/people/GuideLine';
 import { SessionWaiting } from '@/ui/states/SessionWaiting';
 
 import { retryRecapCommand } from '../commands';
+import { recapRoutes } from '../routes';
+import { RecapEndSlot } from '../story/RecapEndSlot';
+import { storySession } from '../story/story-session';
 import { useLiveRows, useOwnerUid } from '../data/live-rows';
 import { useRecapSummary } from '../data/use-recap-summary';
 import { RecapShareSheet } from './share-sheet';
@@ -35,7 +38,7 @@ export function whereNextHref(crewId: string | null): Href {
   return crewId === null ? '/' : { pathname: '/', params: { crewId } };
 }
 
-function RecapSummary({ tripId }: { readonly tripId: string }) {
+function RecapSummary({ tripId, ended }: { readonly tripId: string; readonly ended: boolean }) {
   useTripStreams(tripId);
   const { t } = useLingui();
   const me = useOwnerUid();
@@ -53,6 +56,19 @@ function RecapSummary({ tripId }: { readonly tripId: string }) {
   const guideName = data.guideName ?? GUIDE_STICKERS[guide].name;
   const legendaryHref = useScreenHref('3l-9');
   const { model } = data;
+  const recapId = data.recapId;
+
+  // A ready recap plays as a story first: once per session, until it has been watched to the end.
+  const autoplay =
+    !ended &&
+    model.phase === 'ready' &&
+    recapId !== null &&
+    data.viewLoaded &&
+    !data.watched &&
+    !storySession.played(recapId);
+  useEffect(() => {
+    if (autoplay) router.replace(recapRoutes.story(tripId));
+  }, [autoplay, tripId]);
 
   async function onRetry() {
     if (retry.pending) return;
@@ -84,7 +100,9 @@ function RecapSummary({ tripId }: { readonly tripId: string }) {
         onShare={() => setSharing(true)}
         onWhereNext={() => router.navigate(whereNextHref(data.crewId))}
         onGotAway={legendaryHref === undefined ? undefined : () => router.push(legendaryHref)}
+        onWatch={model.phase === 'ready' ? () => router.push(recapRoutes.story(tripId)) : undefined}
       />
+      {ended && recapId !== null ? <RecapEndSlot recapId={recapId} /> : null}
       {sharing ? (
         <RecapShareSheet
           model={model}
@@ -97,8 +115,14 @@ function RecapSummary({ tripId }: { readonly tripId: string }) {
   );
 }
 
-export function RecapSummaryScreen({ tripId }: { readonly tripId: string }) {
+export function RecapSummaryScreen({
+  tripId,
+  ended = false,
+}: {
+  readonly tripId: string;
+  readonly ended?: boolean;
+}) {
   const localFirst = useContext(LocalFirstContext);
   if (localFirst === null) return <SessionWaiting testID="recap-waiting" />;
-  return <RecapSummary tripId={tripId} />;
+  return <RecapSummary tripId={tripId} ended={ended} />;
 }

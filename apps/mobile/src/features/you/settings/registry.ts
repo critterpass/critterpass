@@ -8,7 +8,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- keys, sections and owners, never copy. */
 
 export type SettingsSectionId =
-  'guide' | 'notifications' | 'privacy' | 'offline' | 'app' | 'account';
+  'help' | 'guide' | 'notifications' | 'privacy' | 'offline' | 'app' | 'account';
 
 export type SettingScope =
   | { readonly kind: 'synced'; readonly column: string }
@@ -34,6 +34,7 @@ export const SETTINGS_SECTIONS: readonly SettingsSectionId[] = [
   'privacy',
   'offline',
   'app',
+  'help',
   'account',
 ];
 
@@ -79,6 +80,10 @@ export const SETTINGS_REGISTRY: readonly SettingDef[] = [
   { key: 'sound-effects', section: 'app', scope: device, owner: 'motion' },
   { key: 'haptics', section: 'app', scope: device, owner: 'motion' },
   { key: 'language', section: 'app', scope: link, owner: 'you' },
+  { key: 'rate', section: 'help', scope: link, owner: 'help' },
+  { key: 'feedback', section: 'help', scope: link, owner: 'help' },
+  { key: 'idea', section: 'help', scope: link, owner: 'help' },
+  { key: 'help-centre', section: 'help', scope: link, owner: 'help' },
   { key: 'download-data', section: 'account', scope: link, owner: 'you' },
   { key: 'sign-out', section: 'account', scope: link, owner: 'you' },
   { key: 'delete-account', section: 'account', scope: link, owner: 'you' },

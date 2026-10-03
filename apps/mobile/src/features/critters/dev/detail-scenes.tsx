@@ -1,17 +1,27 @@
 /**
  * Lab scenes for critter detail (3l-3): Tokek with its common and rare forms found (the guide's
  * own critter, so MAKE IT MY GUIDE shows), the same wearing its rare look, all four forms found,
- * and a local (Chép) with no guide button. Handlers are no-ops except the form picker.
+ * and a local (Chép) with no guide button. The form picker and SHARE work (the share sheet draws
+ * the real card); the other handlers are no-ops.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- fixture values, only in the (dev) lab. */
 import { useState, type ReactNode } from 'react';
 
-import type { EntryRow } from '../data/queries';
-import { buildDetail, type CritterDetailRow, type DetailFormRow } from '../detail/detail-model';
-import { DetailView } from '../detail/detail-view';
-import { LAB_ENTRIES, LAB_FORMS } from './dex-fixtures';
+import { tierWord } from '@/ui/critters/tier';
+import { ShareImageSheet } from '@/ui/share-image/ShareImageSheet';
 
-const noop = () => undefined;
+import { artKind } from '../art-kind';
+import type { EntryRow } from '../data/queries';
+import { shareAlt, shareLine } from '../detail/detail-copy';
+import {
+  buildDetail,
+  type CritterDetailRow,
+  type DetailForm,
+  type DetailFormRow,
+} from '../detail/detail-model';
+import { DetailView } from '../detail/detail-view';
+import { deviceShareDeps, renderCritterCard } from '../detail/share-card';
+import { LAB_ENTRIES, LAB_FORMS } from './dex-fixtures';
 
 const TOKEK: CritterDetailRow = {
   id: 'cp-112',
@@ -78,17 +88,42 @@ function Detail({
   readonly skin?: string | null;
 }) {
   const [skinFormId, setSkin] = useState<string | null>(skin);
+  const [sharing, setSharing] = useState<DetailForm | null>(null);
   const model = buildDetail(critter, forms(critter.id), entries(critter.id, all));
+  const name = sharing === null ? '' : (sharing.name ?? model.name ?? '');
   return (
-    <DetailView
-      model={model}
-      me="Winston"
-      crew={critter.id === 'cp-112' ? ['Maya'] : []}
-      guideName={critter.guide_name ?? 'Tokek'}
-      skinFormId={skinFormId}
-      onSkin={setSkin}
-      onShare={noop}
-    />
+    <>
+      <DetailView
+        model={model}
+        me="Winston"
+        crew={critter.id === 'cp-112' ? ['Maya'] : []}
+        guideName={critter.guide_name ?? 'Tokek'}
+        skinFormId={skinFormId}
+        onSkin={setSkin}
+        onShare={setSharing}
+      />
+      {sharing === null ? null : (
+        <ShareImageSheet
+          visible
+          onClose={() => setSharing(null)}
+          altText={shareAlt(name, model.city)}
+          formats={['post', 'story']}
+          render={(format) =>
+            renderCritterCard(
+              {
+                kind: artKind(model.key),
+                seed: model.seed,
+                form: sharing.spec,
+                name,
+                line: shareLine(tierWord(sharing.rarity), model.city),
+              },
+              format,
+            )
+          }
+          deps={deviceShareDeps()}
+        />
+      )}
+    </>
   );
 }
 

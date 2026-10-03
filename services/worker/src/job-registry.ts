@@ -107,6 +107,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...guideJobs({ ...processEnv, ...env }, pool, assertRouteOn, llmObservability),
     ...(await import('./jobs/suppliers')).supplierJobs(env, pool, logger, aiSwitches, processEnv),
     ...(await import('./jobs/trip-day')).tripDayJobs(processEnv, aiSwitches, llmObservability),
+    ...(await import('./jobs/place-details')).placeDetailsJobs(env, logger),
     ...(await import('./jobs/disruptions')).disruptionJobs(
       processEnv,
       aiSwitches,
@@ -116,7 +117,10 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...(await import('./jobs/critters')).critterJobs(),
     ...(await import('./jobs/quests')).questJobs(processEnv, aiSwitches, llmObservability),
     ...(await import('./jobs/trips/lifecycle-jobs')).tripLifecycleJobs(),
-    ...(await import('./jobs/album')).albumJobs({ ...processEnv, ...env }),
+    ...(await import('./jobs/album')).albumJobs(
+      { ...processEnv, ...env },
+      { assertRouteOn, telemetry: llmObservability },
+    ),
     ...(await import('./jobs/recap')).recapJobs(
       { ...processEnv, ...env },
       {

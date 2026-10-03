@@ -15,33 +15,27 @@ import {
   proposedOp,
   costDelta,
   spec,
+  placeResult,
 } from './tool-parts';
 
 export const READ_TOOL_SPECS = {
   places_search: spec(
-    'Search curated places near a point or place. Name only places this returns.',
+    'Search curated places in the trip\'s destination by name (accents, word order and words like "hotel" or "khách sạn" do not matter) or near a point, a place_id, a place named in near_name (e.g. the hotel as the traveller typed it) or the trip\'s stay (near_stay). Name only places this returns. There are no ratings: recommended marks places the guide recommends (recommended_only keeps only those), with why_go.',
     'CGDR',
     'read',
     z.object({
       query: z.string().optional(),
       near: latLng.optional(),
       place_id: id.optional(),
+      near_name: z.string().optional(),
+      near_stay: z.boolean().optional(),
+      recommended_only: z.boolean().optional(),
       category: z.enum(POI_CATEGORIES).optional(),
       open_at: isoInstant.optional(),
       dietary: z.array(z.string()).optional(),
       limit: z.number().int().max(20).optional(),
     }),
-    z.array(
-      z.object({
-        poi_id: id,
-        name: z.string(),
-        category: z.enum(POI_CATEGORIES),
-        distance_m: z.number().nullable(),
-        open_now: z.boolean().nullable(),
-        price_level: z.number().int().nullable(),
-        tags: z.array(z.string()),
-      }),
-    ),
+    z.array(placeResult),
   ),
   place_details: spec(
     'Details of one place. Quote hours only when verified_at is set.',
@@ -168,12 +162,12 @@ export const READ_TOOL_SPECS = {
     ),
   ),
   plan_read: spec(
-    'The current plan. Any change must cite its version as base_version.',
+    "The trip's days and current plan. Any change must cite its version as base_version; version is null while the trip has no plan yet (it starts when setup is finished and the guide drafts it); a plan with empty days has a version.",
     'CGDRB',
     'read',
     z.object({ trip_id: id, day: z.number().int().optional() }),
     z.object({
-      version: id,
+      version: id.nullable(),
       days: z.array(
         z.object({
           day_no: z.number().int(),

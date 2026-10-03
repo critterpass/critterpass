@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "70d12180-c106-4c8b-a55d-4d3073563275",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I can't find a Sheraton Grand Danang in our places — the closest match is Four Points by Sheraton Danang, and it came back without a distance from your stay, so I can't say how close it is. If you mean that one, tell me and I'll try again from a place you name."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 226,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10496,
+        "output_tokens": 66,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

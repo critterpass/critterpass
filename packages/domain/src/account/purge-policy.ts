@@ -94,6 +94,11 @@ export const PURGE_RULES: readonly PurgeRule[] = [
   ...rules('public.private_guide_threads', ['owner_id', del]),
   ...rules('public.import_candidates', ['user_id', del], ['resolved_by', nul]),
   ...rules('public.paywall_impressions', ['user_id', del]),
+  // Feedback and votes go with the account; an idea stays on the board without its author.
+  ...rules('public.feedback_tickets', ['user_id', del]),
+  ...rules('public.idea_votes', ['user_id', del]),
+  ...rules('public.rating_prompts', ['user_id', del]),
+  ...rules('public.ideas', ['author_id', nul]),
   ...rules('public.user_entitlements', ['user_id', del]),
   ...rules('public.share_calcs', ['user_id', del]),
   ...rules('public.participant_dietary_flags', ['user_id', del]),

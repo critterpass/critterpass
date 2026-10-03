@@ -15,6 +15,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id kind status steps partial input_hash base_version_id result_ref model tokens_in:integer tokens_out:integer cost_micros:integer pgboss_job_id created_at updated_at',
   alarms:
     'user_id device_id leave_by_id trip_id fire_at os_alarm_id state sync_version:integer created_at updated_at',
+  album_curations:
+    'trip_id note picks:integer photos:integer note_fallback:integer curated_at created_at updated_at',
   album_exports:
     'trip_id user_id status media_key photos:integer bytes:integer expires_at created_at updated_at',
   album_picks:
@@ -99,6 +101,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'crew_id trip_id payer_id amount_minor:integer currency fx_snapshot_id crew_amount_minor:integer crew_currency split_mode category description merchant local_date trip_day:integer spent_at poi_id booking_id ride_id boost_id receipt_id source created_by deleted_at deleted_by version:integer created_at updated_at',
   facilities:
     'key destination_id kind name lat:real lng:real address phone open_24h:integer source_url retrieved_on verified_at release_id created_at updated_at',
+  feedback_tickets:
+    'user_id ticket_no:integer mood category body include_device_info:integer device_info context trip_id media_ids source status reply_channel reply_due_at severity triage_summary duplicate_of duplicate_score:real tracker_issue_id fixed_in_version idea_id app_version sent_at created_at updated_at',
   flight_segments:
     'booking_id trip_id owner_id crew_visible:integer segment_no:integer carrier flight_no dep_airport arr_airport sched_dep_at sched_arr_at est_dep_at est_arr_at act_dep_at act_arr_at boarding_at boarding_estimated:integer gate terminal status delay_min:integer status_source status_at la_phase version:integer created_at updated_at',
   ftf_grants:
@@ -125,6 +129,9 @@ export const SYNCED_TABLE_COLUMNS = {
     'crew_id guide_id kind text facts place_id dedupe_key valid_until status dismissed_by dismissed_at created_at updated_at',
   hype_aggregates:
     'proposal_id trip_id hype_pct:integer reacted_count:integer boarded_count:integer recipients:integer updated_at',
+  idea_votes: 'idea_id user_id month_key created_at',
+  ideas:
+    'author_id title description locale status team_note fixed_in_version merged_into_id votes_count:integer embedding status_changed_at created_at updated_at',
   import_candidates:
     'user_id crew_id trip_id source extracted confidence:real dedupe_key status crew_visible:integer needs_confirm:integer failure_reason duplicate_of_id booking_id inbound_email_id resolved_by resolved_at created_at updated_at',
   inbox_items:
@@ -216,6 +223,7 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id local_date slot:integer template params metric target:integer reward title body scope status source starts_at ends_at completed_at reveal_at created_at updated_at i18n',
   queued_guide_questions:
     'user_id thread_id trip_id text tz queued_for queued_at answer_after status answer_message_id answered_at updated_at',
+  rating_prompts: 'user_id trip_id shown:integer shown_at created_at',
   readiness:
     'leave_by_id trip_id user_id state source snooze_count:integer knock_sent_at changed_at created_at updated_at',
   recap_awards:

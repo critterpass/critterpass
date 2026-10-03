@@ -23,6 +23,7 @@ import { PhraseCard } from '@/ui/trip/PhraseCard';
 import { HelpHero, type HelpHeroProps } from './help-hero';
 import type { HubFacility, HubModel } from './help-model';
 import { ShareControls, type ShareControlsProps } from './share-controls';
+import { distanceIn } from '@/lib/i18n/formats';
 
 export interface HelpViewProps {
   readonly hero: HelpHeroProps;
@@ -53,8 +54,11 @@ function facilityDetail(facility: HubFacility, t: ReturnType<typeof useLingui>['
     return t({ id: 'safety.help.byCar', message: `${minutes} min by car` });
   }
   if (facility.distanceM !== null) {
-    const km = (facility.distanceM / 1000).toFixed(1);
-    return t({ id: 'safety.help.away', message: `${km} km away` });
+    const away = distanceIn(facility.distanceM);
+    const n = away.value.toFixed(1);
+    return away.unit === 'mi'
+      ? t({ id: 'safety.help.awayMiles', message: `${n} mi away` })
+      : t({ id: 'safety.help.away', message: `${n} km away` });
   }
   return facility.phone ?? '';
 }

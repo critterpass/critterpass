@@ -69,6 +69,11 @@ const singular = (wire: string): string => {
 
 interface Emitter {
   readonly nested: string[];
+  /**
+   * Reader mode (the widget snapshot): enums as plain `String`, so one unknown value never fails
+   * the whole decode, and defaulted fields optional, so a file written before they existed reads.
+   */
+  readonly lenientEnums?: boolean;
 }
 
 function swiftType(schema: z.ZodType, prefix: string, field: string, out: Emitter): string {
@@ -77,15 +82,27 @@ function swiftType(schema: z.ZodType, prefix: string, field: string, out: Emitte
     case 'nullable':
     case 'optional':
       return `${swiftType(def.innerType as z.ZodType, prefix, field, out)}?`;
-    case 'default':
-      return swiftType(def.innerType as z.ZodType, prefix, field, out);
+    case 'default': {
+      // A reader of a file a newer writer extends may meet a file written before the field
+      // existed: the field is optional there.
+      const inner = swiftType(def.innerType as z.ZodType, prefix, field, out);
+      return out.lenientEnums === true && !inner.endsWith('?') ? `${inner}?` : inner;
+    }
     case 'string':
       return 'String';
     case 'boolean':
       return 'Bool';
     case 'number':
       return (schema as unknown as { isInt?: boolean }).isInt === true ? 'Int' : 'Double';
+    case 'literal': {
+      const values = (def as unknown as { values: readonly unknown[] }).values;
+      const first = values[0];
+      if (typeof first === 'number') return Number.isInteger(first) ? 'Int' : 'Double';
+      if (typeof first === 'boolean') return 'Bool';
+      return 'String';
+    }
     case 'enum': {
+      if (out.lenientEnums === true) return 'String';
       const name = `${prefix}${pascal(field)}`;
       const cases = Object.values(def.entries ?? {}).map(
         (value) => `    case ${ident(swiftCamel(value))} = "${value}"`,
@@ -158,4 +175,21 @@ export function renderLaSwift(types: readonly LaSwiftType[], header: string): st
   return [header, '', 'import ActivityKit', 'import Foundation', '', blocks.join('\n\n'), ''].join(
     '\n',
   );
+}
+
+/**
+ * One Swift file declaring a plain `Decodable` document type (and its nested types) from a zod
+ * object, for App Group files an extension only reads. Enums decode as `String`, and a field the
+ * Swift type does not name is ignored by `JSONDecoder`, so a newer writer never breaks an older
+ * reader.
+ */
+export function renderSwiftDocument(
+  name: string,
+  schema: z.ZodType,
+  prefix: string,
+  header: string,
+): string {
+  const out: Emitter = { nested: [], lenientEnums: true };
+  const root = renderStruct(name, schema, prefix, out, '', 'Codable, Hashable, Sendable');
+  return [header, '', 'import Foundation', '', [...out.nested, root].join('\n\n'), ''].join('\n');
 }

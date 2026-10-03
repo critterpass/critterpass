@@ -87,4 +87,10 @@ export const LA_COPY = {
     message: 'Vote closes {time}',
   },
   voteStartBody: /*i18n*/ { id: 'notifications.la.vote_start_body', message: '{question}' },
+  // The SOS push's own words: the activity starts with the same alert the crew already knows.
+  sosStartTitle: /*i18n*/ { id: 'notifications.sos.title', message: '{sender} needs help' },
+  sosStartBody: /*i18n*/ {
+    id: 'notifications.sos.plain',
+    message: '{sender} sent an SOS to the crew.',
+  },
 } as const satisfies Record<string, LaCopy>;

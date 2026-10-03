@@ -1,0 +1,126 @@
+appId: app.critterpass.dev
+---
+# Language and currency (3n-8) against the staging api: a fresh account takes the demo crew, adds
+# an expense, picks US dollars as its home currency and turns Show prices in to BOTH: the sample and the
+# Wallet's expense row and balances gain the home amount.
+- launchApp:
+    clearState: true
+- runFlow:
+    when:
+      visible: 'Open'
+    commands:
+      - tapOn: 'Open'
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-open'
+    timeout: 60000
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo-caught-up
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn:
+    id: 'money-empty'
+    optional: true
+- runFlow:
+    when:
+      notVisible:
+        id: 'money-add'
+    commands:
+      - tapOn: 'ADD'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- tapOn:
+    id: 'money-add-keypad-key-4'
+- tapOn:
+    id: 'money-add-keypad-key-5'
+- tapOn:
+    id: 'money-add-keypad-key-0'
+- tapOn: '000'
+- tapOn:
+    id: 'money-add-submit'
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3i-1-prices-local
+# Settings › Language and currency, from the profile behind the PASS tab's face.
+- tapOn:
+    id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-profile'
+    timeout: 30000
+- tapOn:
+    id: 'critters-dex-profile'
+- extendedWaitUntil:
+    visible:
+      id: 'you-profile-settings'
+    timeout: 20000
+- tapOn:
+    id: 'you-profile-settings'
+- scrollUntilVisible:
+    element:
+      text: 'Language and currency.*'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    text: 'Language and currency.*'
+- extendedWaitUntil:
+    visible:
+      id: 'you-currency'
+    timeout: 15000
+- scrollUntilVisible:
+    element:
+      id: 'you-currency-mode'
+    direction: DOWN
+    timeout: 15000
+- takeScreenshot: en-3n-8-real
+# The demo crew spends in S$, the home airport's currency too: pick US dollars as the home currency so
+# the crew's prices have a home amount to show.
+- tapOn:
+    id: 'you-currency-home'
+- extendedWaitUntil:
+    visible:
+      id: 'you-currency-sheet'
+    timeout: 10000
+- tapOn:
+    id: 'you-currency-search'
+- inputText: 'USD'
+- tapOn:
+    id: 'you-currency-USD'
+- extendedWaitUntil:
+    visible:
+      text: 'USD · chosen by you'
+    timeout: 10000
+- tapOn: 'BOTH'
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3n-8-real-both
+# Back on the Wallet, the expense row and the hero show the home amount.
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- runFlow: ../screens/sweep/subflows/back.yaml
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-latest-row'
+    timeout: 30000
+- extendedWaitUntil:
+    visible:
+      text: '.*≈.*'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: en-3i-1-prices-both

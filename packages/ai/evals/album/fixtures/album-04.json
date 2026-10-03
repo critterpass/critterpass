@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "03be8997-bf4c-481a-aaed-b219e198cb4b",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "I picked 9 keepers for you two, 3 each from 2 days. Everyone's in."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 149,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 256,
+        "output_tokens": 22,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

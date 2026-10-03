@@ -49,3 +49,28 @@ describe('pickCurated', () => {
     expect(picked).toEqual(['b', 'c']);
   });
 });
+
+describe("a destination's landmarks", () => {
+  it('enter the curated set whatever their bucket share or score', () => {
+    const food = [c('f1'), c('f2'), c('f3')];
+    const sights = [c('s1'), c('s2'), c('my-son', { category: 'other' })];
+    const scores = new Map([
+      ['f1', 3],
+      ['f2', 3],
+      ['f3', 3],
+      ['s1', 3],
+      ['s2', 2],
+    ]);
+    const picked = pickCurated(
+      [
+        { share: 0.5, candidates: food },
+        { share: 0.5, candidates: sights },
+      ],
+      scores,
+      4,
+      ['my-son'],
+    );
+    expect(picked).toContain('my-son');
+    expect(picked).toHaveLength(4);
+  });
+});

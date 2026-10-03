@@ -28,6 +28,7 @@ import { itemAnchor, usePlanPresence } from '../collab/use-presence';
 import { useDayEditing } from './use-day-editing';
 import type { EditOutcome } from './use-plan-editor';
 import { useTripPlan } from './use-trip-plan';
+import { useFormats } from '@/lib/i18n/formats';
 
 function openInMaps(item: DayItem): void {
   if (item.place === null) return;
@@ -46,6 +47,7 @@ export function DayScreen({
 }) {
   const { t } = useLingui();
   const locale = useLocale();
+  useFormats();
   const plan = useTripPlan(tripId);
   const editor = useDayEditing(plan);
   const sync = useSyncStatus();
@@ -231,6 +233,7 @@ export function DayScreen({
       {adding && day?.date != null ? (
         <AddItemSheet
           destinationId={plan.trip?.destination_id ?? null}
+          tripId={plan.trip?.id ?? null}
           date={day.date}
           items={items}
           tz={tz}

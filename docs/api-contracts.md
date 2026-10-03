@@ -146,7 +146,7 @@ Every command also emits the generic `cmd.applied` metric; listed events are dom
 | `set_app_locale` (doc delta) | `{locale}`: one of the ten shipped languages (anything else → `VALIDATION`) → `{app_locale}`. The app sends the UI language it resolved (the person's choice, else the phone's preference among the shipped languages, else `en`) once per change; stored on `user_settings.app_locale`, read first by `app.user_locale(uid)` | self | – | – | A, O | 45 |
 | `update_device_permissions` | `{perms{notifications, alarms, location, calendar, camera, microphone, speech, photos_add, photos_read, live_activities: not_determined\|denied\|restricted\|limited\|provisional\|granted; location_level: none\|wiu\|always, location_precise, notifications_time_sensitive, exact_alarm, full_screen_intent, la_enabled, la_frequent}}` (all optional; stored on `devices.permission_state`; unchanged = no-op; contacts need no prompt) | self | – | `device.permissions_changed` (derived capability only: push alert/quiet/inbox, can_ring, live_activities, encounters) | A, O | 20 |
 | `set_consent` | `{purpose: visit_detection\|analytics\|marketing\|dietary_visibility, granted, copy_version?}` (one `consents` row per purpose; withdrawal keeps `granted_at`, stamps `revoked_at`; doc delta: `dietary_visibility`) | self | – | – | A, O | 20 |
-| `register_la_token` | `{activity_type, activity_id?, kind: push_to_start\|update, token}` | self | – | `la.token_registered` | A, L | 48 |
+| `register_la_token` | `{activity_type, activity_id?, kind: push_to_start\|update, token, la_kinds?[]}` (`la_kinds` on `push_to_start`: every kind the build's widget extension draws, recorded on all of the install's tokens; an install that lists nothing is only ever push-started leave_by and flight) | self | – | `la.token_registered` | A, L | 48 |
 | `report_la_state` | `{activity_id, kind, ref_id, state: active\|stale\|ended\|dismissed, started_via?: local\|scheduled\|push_to_start}` (a dismissal is final: that object's activity is never started on that phone again) | self | – | `la.state_reported` | A, L | 48 |
 | `request_crew_lock_screen` | `{trip_id, meetup_id?}` → starts the meet-up's crew-live activity on every member's phone (now, or 30 min before the meet-up); unboosted trip → `ENTITLEMENT_REQUIRED {perk: boost_active, offers}`; switched off → `STATE_INVALID {reason: switched_off}` | trip member | Boost | `la.crew_requested` | A | 48 |
 | `end_la` | `{activity_id}` | self | – | `la.ended` | A, L | 48 |
@@ -429,9 +429,9 @@ Store purchase itself: StoreKit 2 / Play Billing via RevenueCat SDK; `appAccount
 | `update_shared_plan` / `unpublish_shared_plan` | `{shared_plan_id, toggles?}` | organiser | – | `shared_plan.updated/unpublished` | A | 52 |
 | `create_plan_link` / `revoke_plan_link` | `{trip_id}` / `{link_id}` | organiser | – | `plan_link.created/revoked` | A | 52 |
 | `save_shared_plan` / `unsave_shared_plan` | `{shared_plan_id}` | self | – | `shared_plan.saved` | A, O | 52 |
-| `submit_feedback` | `{category, text, context{screen, trip_id?, app_version}, media_ids[]}` → ticket no. | self | – | `feedback.submitted` → tracker | A, O | 47 |
-| `submit_idea` / `vote_idea` / `unvote_idea` | `{text}` / `{idea_id}` | self | vote budget → `STATE_INVALID{over_budget}` | `idea.submitted/voted` | A, O | 47 |
-| `record_rating_prompt` | `{trip_id, shown}` | self | – | `rating.prompted` | A, O | 47 |
+| `submit_feedback` | `{id, mood?, category?, text, include_device_info, device_info?, context{screen?, trip_id?, article_slug?}, media_keys[] (≤ 3, own `feedback` uploads), source}`; text ≥ 3 characters or a mood and a category; `device_info` only when `include_device_info` → `{ticket_id, ticket_no}` (a replay of the same id returns the same number) | self (anonymous allowed) | – | `feedback.submitted` → tracker | A, O | 47 |
+| `submit_idea` / `vote_idea` / `unvote_idea` | `{id, title, description?, locale}` (contact details, links or a blocked word → `CONTENT_REJECTED`; lands `pending_review`) / `{idea_id}` → `{idea_id, votes_left, votes_count}` | self (anonymous allowed) | 10 votes per calendar month on the voter's calendar → `STATE_INVALID{over_budget}`; an idea not taking votes → `STATE_INVALID{idea_closed}`; a pending idea of someone else → `NOT_FOUND` | `idea.submitted/voted/unvoted` | A, O | 47 |
+| `record_rating_prompt` | `{id, trip_id?, shown}` | self | – | `rating.prompted` | A, O | 47 |
 
 ### 4.17 Ops console and content factory (P17, P18)
 
@@ -536,6 +536,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/places/search?q&near&filters` | S | curated POI DB (FTS + trgm + pgvector) | 1 h |
 | `GET /v1/places?q&limit` (doc delta) | S | destination search for 3b-7 over every destination of the place index (the guide destinations and each city of the 61 places) and the places' country names, unaccent + pg_trgm (typo-tolerant); rows `{place_id, name, country, country_code, coverage, guide, locals[]}` with locals as silhouette ids (critter keys), never names; 120/min/uid | 60 s private |
 | `GET /v1/places/{id}?trip_id` | S | POI DB + Foursquare live check (hours) | 15 min |
+| `GET /v1/places/{id}/live` (doc delta) | S | One live Foursquare Place Details call (`fields=date_closed,hours,rating,price,photos,tips,website,tel`, Premium-billed), passed through and never stored (D24): `{available, openNow, closedPermanently, hours (domain Hours from FSQ hours.regular) \| null, priceLevel 1–4 \| null, rating 0–10 \| null, photos[{url, width, height}] ≤5 (sized to a 1080 px long edge), tips[{text, createdAt}] ≤3, website, phone, popularity: null (a Foursquare calculated score, internal-only under its EULA §2.3), attribution {name: "Foursquare", url} \| null}`. The POI's id is `source_ids.fsq_os`, else its curated match (`poi_foursquare_ids`). Always 200: `available: false` with every field empty when the POI has no Foursquare id, the key is unset, the monthly cap (`FOURSQUARE_MONTHLY_CALL_CAP`, default 4,000, shared with the worker's id match) is reached, or Foursquare errs or takes over 2.5 s; 404 only for an unknown POI. The app asks it in parallel with `GET /v1/places/{id}`, shows "Powered by Foursquare" wherever these fields appear, and keeps them in memory only (no persisted query cache, no PowerSync, no offline bundle) | no-store |
 | `GET /v1/places/{id}/crowds?date` | S | `crowd_forecasts` when a weekly pattern exists, else `hourly: null` + the destination's reviewed month level (no hourly source contracted) | 24 h |
 | `GET /v1/media?subjects` (doc delta) | S | ready `media_assets` for up to 20 subject keys (`destination:<slug>`, `poi:<ref>`), rank order (0 = hero): `{items[{id, kind, subjects, rank, width, height, duration_ms, colour, blurhash, images[{url,w,h}], videos[{url,w,h,bytes}], credit, attribution_required, author, source, source_url, licence, licence_url}]}`; URLs are the media Worker's public immutable `c/` prefix (no signature, byte ranges for video) | 1 h private |
 | `GET /v1/geocode?q` (doc delta) | S | our `pois` + `cities` first (trigram), Mapbox Geocoding v6 permanent-mode fallback for addresses when neither matches and a token is configured | none |
@@ -567,7 +568,7 @@ Synced by PowerSync (local-first, no HTTP read): crews, members, chat, polls/bal
 | `GET /v1/shared-plans?dest&days&month&crew_size&max_cost&tags&sort` | S | community + match score | 5 min |
 | `GET /v1/shared-plans/{id}/guide-note?trip_id` | S | AI-36 cached per (plan, draft version) | cached |
 | `GET /v1/ideas?tab` / `POST /v1/ideas/similar` | S | idea board / pgvector (<300 ms) | – |
-| `GET /v1/help/articles?q&locale&context` | P | MDX content | CDN |
+| `GET /v1/help/articles?q&locale&context&limit` | A | `{articles[{slug, locale, category, title, summary}], locale, fallback}`: published help articles (the content factory's `help` release, Markdown bodies) ranked by full text (title, summary, body; each word a prefix) plus title trigram, the `context`'s categories lifted (`HELP_CENTRE_CONTEXT_CATEGORIES`); without `q`, the context's articles for the hub; a locale with no articles falls back to English (`fallback: true`); the vector branch joins only when an embedding vendor is configured; 120/min/uid | private, 60 s |
 | `GET /v1/me/deletion/preflight` | S | balances, organiser roles, subscription source | – |
 | `GET /v1/me/rating-eligibility?trip_id` | S | heuristic flag | – |
 | `GET /v1/me/export/{id}` | S | signed URL | – |
@@ -650,11 +651,13 @@ Later areas plug in with `defineAdminArea` (`services/api/src/admin/registry.ts`
 
 Global rules: tools run server-side; numbers come from tool output or `packages/cost-engine` / `packages/planner`, never from the model; C3 data excluded (tools run as `guide_reader`); supplier content never enters prompts (supplier tools return opaque `offer_ref` + code-computed fields only; UI renders supplier cards); email/OCR/web text wrapped as documents; write tools produce proposals only; action policy in code: auto-apply only if reversible, free, and touches only the requester's own items.
 
+Trip and crew (doc delta): `trip_id` and `crew_id` are never part of the schema the model fills; the registry binds them from the turn (the thread's trip and crew) and overwrites any value the model sends, and a trip or crew tool outside a trip or crew answers `TOOL_UNAVAILABLE`. The prompt carries no ids, so the guide never asks a person which trip they mean.
+
 Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** drafting/redraft jobs · **R** replan/disruption/watch jobs · **B** briefing/roundup/quests/recap jobs · **M** camera/receipt/email parsers (no tools; structured output only).
 
 | Tool | Input | Output | Source | Grounding rule | Callers |
 |---|---|---|---|---|---|
-| `places_search` | `{query, near{lat,lng}\|place_id, category?, open_at?, dietary?, limit}` | `[{poi_id, name, category, distance_m, open_now, price_level, tags}]` | curated POI DB | only returned `poi_id`s may be named | C G D R |
+| `places_search` | `{query, near{lat,lng}\|place_id\|near_name\|near_stay, category?, open_at?, dietary?, recommended_only?, limit}` (doc delta: `near_name` is a place as the traveller typed it, `near_stay` the trip's stay, `recommended_only` curated places only) | `[{poi_id, name, category, distance_m, open_now, price_level, tags, distance_from?, match?: exact\|close, recommended?, why_go?}]` | curated POI DB, in the trip's destination; names match without accents, in any word order, with "hotel"/"khách sạn" read as a kind | only returned `poi_id`s may be named; no ratings exist, so quality is only `recommended` (curation) and `why_go` | C G D R |
 | `place_details` | `{poi_id, fields[]}` | `{hours[], price_level, booking_notes, indoor, accessibility, verified_at}` | POI DB + Foursquare live check | hours quoted only with `verified_at` | C G D R |
 | `crowd_forecast` | `{poi_id, date}` | `{hourly[24], best_window}` | BestTime | – | C D R |
 | `weather` / `marine` | `{lat, lng, from, to}` | hourly series + alerts | Open-Meteo | times/temps copied verbatim | C G R B |
@@ -663,7 +666,7 @@ Callers: **C** guide chat 1:1 (text/voice) · **G** guide in crew chat · **D** 
 | `flight_status` | `{flight_no, date}` | `{status, sched, est, gate, source, at}` | AeroDataBox / AeroAPI | cite source + time | C R B |
 | `fx` | `{amount_minor, from, to}` | `{amount_minor, rate, snapshot_id}` | Frankfurter | – | C G |
 | `crew_profiles` | `{trip_id}` | `[{uid, first_name, taste_tags, dietary_flags, pace, chronotype}]` (redacted) | DB via `guide_reader` | no budget maxes, no private threads | C G D R |
-| `plan_read` | `{trip_id, day?}` | `{version, days[{items[]}]}` | DB | changes must cite `base_version` | C G D R B |
+| `plan_read` | `{trip_id, day?}` | `{version\|null, days[{day_no, date, items[]}]}` (doc delta: every trip day, item times in the trip's local offset; a plan with empty days still gives its `version`; `version: null` only before a plan exists, when nothing can be proposed and the guide says the plan starts once setup is finished and it drafts the trip) | DB | changes must cite `base_version` | C G D R B |
 | `bookings_read` | `{trip_id}` | `[{booking_id, kind, when, where, cancel_deadline?, status}]` | DB | deadlines verbatim | C G R B |
 | `balances_read` | `{trip_id}` | `{per_member_net[], settle_plan[]}` | cost-engine | amounts from engine | C G B |
 | `cost_quote` | `{trip_id, ops[]}` | `{delta_per_person_minor, currency}` | cost-engine | model words the number only | C G D R |

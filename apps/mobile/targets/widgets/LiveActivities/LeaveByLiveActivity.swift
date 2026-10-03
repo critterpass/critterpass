@@ -28,7 +28,7 @@ struct LeaveByLockScreen: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .center, spacing: 10) {
                 LeaveByBadge(guide: guide, state: state.state, size: 40)
-                LeaveByHeadline(state: state, tint: guide.tint, timeSize: 24)
+                LeaveByHeadline(state: state, tint: guide.tint, timeSize: 24, showsTier: true)
                 Spacer(minLength: 8)
                 LeaveByCountdown(state: state, tint: guide.tint)
             }
@@ -64,15 +64,20 @@ struct LeaveByHeadline: View {
     let state: LeaveByActivityAttributes.ContentState
     let tint: Color
     let timeSize: CGFloat
+    /// The FREE pill beside the eyebrow (5a-1); the Dynamic Island has no room for it.
+    var showsTier = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 1) {
-            Text(eyebrow)
-                .font(.laEyebrow)
-                .tracking(1.2)
-                .foregroundStyle(state.state == .late ? LAPalette.orange : tint)
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
+            HStack(spacing: 6) {
+                Text(eyebrow)
+                    .font(.laEyebrow)
+                    .tracking(1.2)
+                    .foregroundStyle(state.state == .late ? LAPalette.orange : tint)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.6)
+                if showsTier { LAPill(tier: .free) }
+            }
             Text(state.leaveAt.laDate, format: .dateTime.hour().minute())
                 .font(.system(size: timeSize, weight: .black).monospacedDigit())
                 .foregroundStyle(LAPalette.paper)

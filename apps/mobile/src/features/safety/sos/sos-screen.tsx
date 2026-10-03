@@ -24,6 +24,7 @@ import { SosPending } from './sos-pending';
 import { SosView } from './sos-view';
 import { senderBubble } from './sos-model';
 import { useSos } from './use-sos';
+import { useFormats } from '@/lib/i18n/formats';
 
 const GUIDE_IDS = Object.keys(GUIDE_STICKERS);
 
@@ -46,6 +47,7 @@ function presetWords(preset: string | null, t: ReturnType<typeof useLingui>['t']
 }
 
 export function SosScreen() {
+  useFormats();
   const { t } = useLingui();
   const params = useLocalSearchParams<{ id?: string; sent?: string }>();
   const sosId = typeof params.id === 'string' && params.id !== '' ? params.id : null;

@@ -14,10 +14,11 @@ let meetupId: string;
 
 beforeAll(async () => {
   world = await startLaWorld();
+  // Every phone runs a build that draws the meet-up activity (it listed the kind in `la_kinds`).
   for (const [i, device] of world.devices.entries()) {
     await world.q(
-      `INSERT INTO la_push_to_start_tokens (device_id, user_id, activity_type, token, env)
-       VALUES ($1, $2, 'meet_up', $3, 'sandbox')`,
+      `INSERT INTO la_push_to_start_tokens (device_id, user_id, activity_type, token, env, drawn)
+       VALUES ($1, $2, 'meet_up', $3, 'sandbox', true)`,
       [device, world.trip.members[i], randomBytes(32).toString('hex')],
     );
   }

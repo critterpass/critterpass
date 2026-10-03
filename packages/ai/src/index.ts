@@ -216,13 +216,7 @@ export {
   type UsageSnapshot,
 } from './runner/sse';
 export { DEFAULT_INPUT_CHECK_BUDGET_MS } from './runner/input-screen';
-export {
-  DEFAULT_TOOL_ROUNDS,
-  runTurn,
-  type RunTurnDeps,
-  type RunTurnInput,
-  type TurnHooks,
-} from './runner/turn';
+export * from './runner/turn';
 export {
   checkBatchRequests,
   DEFAULT_BATCH_CONCURRENCY,
@@ -295,5 +289,6 @@ export * from './routes/explore';
 export * from './routes/proposal';
 export * from './routes/quests';
 export * from './routes/recap';
+export * from './routes/album';
 export * from './routes/help';
 export * from './routes/sos';

@@ -24,6 +24,7 @@ import { useTheme } from '@/ui/theme';
 import { PLATFORM } from '../sos/send-queries';
 import { useSessionMap } from './use-session-map';
 import { walkingDirectionsUrl } from './walking-route';
+import { distanceIn } from '@/lib/i18n/formats';
 
 export function SessionMapScreen() {
   const { t } = useLingui();
@@ -38,7 +39,8 @@ export function SessionMapScreen() {
   const name = map.model?.senderName ?? '';
   const sender = map.sender;
   const eta = map.etaMin;
-  const km = map.distanceM === null ? null : (map.distanceM / 1000).toFixed(1);
+  const away = map.distanceM === null ? null : distanceIn(map.distanceM);
+  const km = away === null ? null : away.value.toFixed(1);
 
   const line = map.ended
     ? t({ id: 'safety.map.ended', message: 'This SOS is over. The location share has stopped.' })
@@ -46,9 +48,11 @@ export function SessionMapScreen() {
       ? t({ id: 'safety.map.waiting', message: `Waiting for ${name}'s location.` })
       : eta !== null
         ? t({ id: 'safety.map.eta', message: `${eta} minutes away on foot.` })
-        : km !== null
-          ? t({ id: 'safety.map.distance', message: `${km} km from you, in a straight line.` })
-          : t({ id: 'safety.map.live', message: `${name}'s location is live.` });
+        : km !== null && away?.unit === 'mi'
+          ? t({ id: 'safety.map.distanceMiles', message: `${km} mi from you, in a straight line.` })
+          : km !== null
+            ? t({ id: 'safety.map.distance', message: `${km} km from you, in a straight line.` })
+            : t({ id: 'safety.map.live', message: `${name}'s location is live.` });
 
   return (
     <Scaffold variant="dark" edges={[]} testID="sos-map-screen">

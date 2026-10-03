@@ -10,6 +10,7 @@ import { format } from '@cp/i18n';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 
+import { clockOption } from '@/lib/i18n/formats';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { hrefFor } from '@/lib/navigation/screen-registry';
 import { music } from '@/motion';
@@ -95,9 +96,10 @@ interface HatchRow {
   readonly verification: string | null;
 }
 
-function daysLeft(endDate: string | null, now: Date): number | null {
+/** Days left counting today, on the trip's clock (the phone's only for a trip with no zone). */
+function daysLeft(endDate: string | null, now: Date, tz: string | null): number | null {
   if (endDate === null) return null;
-  const today = toLocalWallTime(now, deviceTimeZone()).date;
+  const today = toLocalWallTime(now, tz ?? deviceTimeZone()).date;
   const days = Math.round((Date.parse(endDate) - Date.parse(today)) / 86_400_000) + 1;
   return days > 0 ? days : null;
 }
@@ -157,6 +159,7 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
           : format.date(locale, new Date(row.landed_at), {
               hour: '2-digit',
               minute: '2-digit',
+              ...clockOption(),
               ...(row.tz === null ? {} : { timeZone: row.tz }),
             })
       }
@@ -167,7 +170,7 @@ export function HatchScreen({ tripId }: { readonly tripId: string }) {
       form={form}
       name={verifiedName ?? (isGuide ? row.guide_name : null)}
       isGuide={isGuide && row.guide_name !== null}
-      days={daysLeft(row.end_date, new Date())}
+      days={daysLeft(row.end_date, new Date(), row.tz)}
       no={row.set_no === 0 ? null : row.set_no}
       setName={row.set_name ?? row.place ?? ''}
       pending={row.hatched_at === null || row.verification !== 'verified'}

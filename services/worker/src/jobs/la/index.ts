@@ -23,6 +23,8 @@ import { laChannelsJob } from './channels';
 import { flightLoader } from './flight';
 import { leaveByLoader } from './leave-by';
 import { meetUpLoader } from './meet-up';
+import { sosLoader } from './sos';
+import { voteLoader } from './vote';
 import { laLifecycleJob } from './lifecycle';
 import { laOrchestrateJob, type LaDeps } from './orchestrate';
 import type { LaLoaders } from './snapshot';
@@ -34,6 +36,8 @@ export const LA_LOADERS: LaLoaders = {
   leave_by: leaveByLoader,
   meet_up: meetUpLoader,
   flight: flightLoader,
+  vote: voteLoader,
+  sos: sosLoader,
 };
 
 /** Queues `la.orchestrate` for the object an event this process appended moves (same tx). */

@@ -16,7 +16,7 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: ${SHOT}
-- runFlow: ../../screens/sweep/subflows/back.yaml
+- runFlow: back.yaml
 - extendedWaitUntil:
     visible:
       id: 'recap-lab-${SCENE}'

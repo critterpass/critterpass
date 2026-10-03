@@ -27,13 +27,12 @@ import {
 import { createLocationEngine, type LocationEngine, type SessionSummary } from './engine';
 import { coarsePosition } from './geocode';
 import type { FixUploader, LocationSessionPort } from './ports';
+import { withQuestPlaces, type PlaceFetcher } from './quest-places';
 import { setLocationEngine } from './use-location-status';
+import { useQuestPlaces } from './use-quest-places';
+import { useRows, type RowWatcher } from './use-rows';
 
-export type RowWatcher = <Row>(
-  sql: string,
-  tables: readonly string[],
-  onRows: (rows: Row[]) => void,
-) => () => void;
+export type { RowWatcher } from './use-rows';
 
 export interface EngineBridgeDeps {
   readonly session: LocationSessionPort;
@@ -52,23 +51,8 @@ export interface EngineBridgeDeps {
   readonly highAccuracyCapMs?: number;
   readonly onSessionEnded?: (summary: SessionSummary) => void;
   readonly now?: () => number;
-}
-
-const NO_ROWS: never[] = [];
-
-function useRows<Row>(watch: RowWatcher, sql: string | null, tables: readonly string[]): Row[] {
-  const [state, setState] = useState<{ readonly sql: string | null; readonly rows: Row[] }>({
-    sql: null,
-    rows: [],
-  });
-  useEffect(() => {
-    if (sql === null) return undefined;
-    return watch<Row>(sql, tables, (rows) => setState({ sql, rows }));
-    // `tables` is a module constant at every call site; the query identity is `sql`.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watch, sql]);
-  // Rows of an earlier query (another trip, a signed-out user) never leak into the next one.
-  return sql !== null && state.sql === sql ? state.rows : NO_ROWS;
+  /** A place's point from the server, for a quest place the phone has no copy of. */
+  readonly fetchPlace?: PlaceFetcher;
 }
 
 export function useLocationEngineBridge(deps: EngineBridgeDeps): {
@@ -116,11 +100,21 @@ export function useLocationEngineBridge(deps: EngineBridgeDeps): {
     PLAN_POI_TABLES,
   );
 
+  const tz = tripRow?.tz ?? deps.deviceTz;
+  const questPlaces = useQuestPlaces({
+    watch: deps.watch,
+    tripId: tripRow?.id ?? null,
+    tz,
+    now,
+    tick,
+    ...(deps.fetchPlace ? { fetchPlace: deps.fetchPlace } : {}),
+  });
+
   const plan = useMemo(
-    () => (tripRow ? dayPlan(tripRow.id, planRows, now(), tripRow.tz ?? deps.deviceTz) : null),
+    () => (tripRow ? withQuestPlaces(dayPlan(tripRow.id, planRows, now(), tz), questPlaces) : null),
     // `tick` re-derives today's plan when the local day turns.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [tripRow, planRows, deps.deviceTz, tick],
+    [tripRow, planRows, tz, questPlaces, tick],
   );
 
   useEffect(() => {

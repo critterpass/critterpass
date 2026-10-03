@@ -7,21 +7,58 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
 
+#. placeholder {0}: stamp.iata
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.arrived"
+msgstr "{0} · Arrived"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.after"
 msgstr "{after, plural, one {settled # day after} other {settled # days after}}"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.receipt.total"
+msgstr "{amount} all in"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.receipt.over"
+msgstr "{amount} over"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.value"
 msgstr "{amount} owed"
 
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.receipt.under"
+msgstr "{amount} under"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.critters.title"
+msgstr "{count, plural, =0 {Old friends only} one {# new local} other {# new locals}}"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.photos.value"
 msgstr "{count, plural, one {# photo} other {# photos}}"
 
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.sunrise"
+msgstr "{count, plural, one {# sunrise start} other {# sunrise starts}}"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.awards.title"
+msgstr "{count, plural, one {Just you, one award} other {# of you, # awards}}"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.days.value"
 msgstr "{days, plural, one {# day} other {# days}}"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.days"
+msgstr "{days, plural, one {# day} other {# days}}"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.settledIn"
+msgstr "{days, plural, one {In # day} other {In # days}}"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.early"
@@ -35,9 +72,17 @@ msgstr "{each} each, all in"
 msgid "recap.summary.finds.value"
 msgstr "{forms, plural, one {# find} other {# finds}}"
 
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.critters.line"
+msgstr "{forms, plural, one {One form found on the trip.} other {# forms found on the trip.}}"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.foundCount"
 msgstr "{found} found"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.forms"
+msgstr "{found} of {total} forms"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.ofCount"
@@ -47,9 +92,21 @@ msgstr "{found} of {total} found"
 msgid "recap.summary.writing.title"
 msgstr "{guideName} is writing your recap"
 
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.presents"
+msgstr "{guideName} presents"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.meals.value"
 msgstr "{meals, plural, one {# meal} other {# meals}}"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.food"
+msgstr "{meals, plural, one {Food · # meal} other {Food · # meals}}"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.route.driver"
+msgstr "{name} drove {km} of them."
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.gotAway.named"
@@ -75,10 +132,26 @@ msgstr "{name}'s forms"
 msgid "recap.summary.finds.caption"
 msgstr "{newCritters, plural, =0 {all old friends} one {# new local} other {# new locals}}"
 
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.owed"
+msgstr "{owed} still to settle across the crew."
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.stamp.captionNoSeq"
+msgstr "{place} is stamped"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.title"
 msgstr "{place},\n"
 "the recap"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.subtitle"
+msgstr "{place}, the recap"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.gotAway.seen"
+msgstr "{sightings, plural, =0 {Out there all trip, befriended by nobody.} one {Seen once, befriended by nobody.} other {Seen # times, befriended by nobody.}}"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.gotAway.seen"
@@ -87,6 +160,18 @@ msgstr "{sightings, plural, one {Seen once, befriended by nobody.} other {Seen #
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.distance.stops"
 msgstr "{stops, plural, one {between # stop} other {between # stops}}"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.route.stops"
+msgstr "{stops, plural, one {One stop on the trail.} other {# stops on the trail.}}"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.subtitle"
+msgstr "{travellers, plural, one {{dates} · # guest} other {{dates} · # guests}}"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.travellers"
+msgstr "{travellers, plural, one {# of you} other {# of you}}"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.days.crew"
@@ -116,6 +201,14 @@ msgstr "{value, plural, one {{name}, # plan edit} other {{name}, # plan edits}}"
 msgid "recap.award.detail.rides"
 msgstr "{value, plural, one {{name}, # ride sorted} other {{name}, # rides sorted}}"
 
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.votes"
+msgstr "{votes} votes"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.unnamed"
+msgstr "A golden one"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.gotAway.goldUnnamed"
 msgstr "A golden one got away."
@@ -124,13 +217,29 @@ msgstr "A golden one got away."
 msgid "recap.summary.gotAway.unnamed"
 msgstr "A rare one got away."
 
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.remind"
+msgstr "A reminder for the one that got away"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.distance.about"
 msgstr "about {distance}"
 
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.arrivedNoCode"
+msgstr "Arrived"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.retrying"
 msgstr "Asking again…"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paidTop"
+msgstr "Balances"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.settledEarly"
+msgstr "Before home"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.bestFind"
@@ -140,9 +249,17 @@ msgstr "Best find"
 msgid "recap.queued.retry"
 msgstr "Building the recap again"
 
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.cheapest"
+msgstr "Cheapest day"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
 msgid "recap.summary.retry.failed"
 msgstr "Couldn't ask for it again"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.failed"
+msgstr "Couldn't send your signature. Try again with signal."
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.writing.line"
@@ -152,25 +269,81 @@ msgstr "Counting the kilometres and the photos. I'll ping you when it's ready."
 msgid "recap.award.critterWhisperer"
 msgstr "Critter whisperer"
 
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.cheapestValue"
+msgstr "D{day} · {each} each"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.theme.chava"
+msgstr "đàn bầu lo-fi"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.route.day"
+msgstr "Day {from}"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.route.days"
+msgstr "Days {from}–{to}"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.distance.driver"
 msgstr "driven, mostly by {name}"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.each"
+msgstr "Each"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.earlyRiser"
 msgstr "Earliest riser"
 
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.chrome"
+msgstr "Entries · Entrées"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.square"
 msgstr "everyone square"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.square"
+msgstr "Everyone's square. Nobody owes anybody."
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.theme.sardi"
+msgstr "fado guitar waltz"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.fun"
+msgstr "Fun"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.theme.tokek"
+msgstr "gamelan lo-fi"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.golden"
+msgstr "Golden {name}"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.goodCompany"
 msgstr "Good company"
 
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.voiceOn"
+msgstr "Hear the guide"
+
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.humanCamera"
 msgstr "Human camera"
+
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.reminded"
+msgstr "I'll remind you"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paidBottom"
+msgstr "In full"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.photos.crew"
@@ -180,25 +353,113 @@ msgstr "in the crew album"
 msgid "recap.summary.justYou"
 msgstr "Just you"
 
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.solo"
+msgstr "Just you"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.days.solo"
 msgstr "just you, on your own clock"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.later"
+msgstr "Keep my name"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.theme.pon"
+msgstr "koto and rain"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.loading"
 msgstr "Loading your recap"
 
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.route.longest"
+msgstr "Longest leg: {from} to {to}, {minutes} min."
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.theme.ajo"
+msgstr "marimba lo-fi"
+
+#: ../../apps/mobile/src/features/recap/story/story-screen.tsx
+msgid "recap.signature.me"
+msgstr "Me"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.eyebrow"
+msgstr "Money, wrapped"
+
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.winner"
+msgstr "MVP · {votes} votes"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-screen.tsx
 msgid "recap.summary.retry.offline"
 msgstr "Needs signal to try again"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.critters.eyebrow"
+msgstr "New friends"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.finds"
 msgstr "New locals"
 
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.critters"
+msgstr "New locals"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.offline"
 msgstr "No signal"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.line"
+msgstr "Once, and it signs every stamp you share with the crew, in your colour."
+
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.open"
+msgstr "One tap. You can change it until everyone has voted."
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.other"
+msgstr "Other"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.page"
+msgstr "Page {seq}"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.receipt.paid"
+msgstr "Paid"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.theme.paco"
+msgstr "pan flute and charango"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.planned"
+msgstr "Planned"
+
+#: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
+msgid "recap.summary.watch"
+msgstr "Play the story again"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.priciest"
+msgstr "Priciest"
+
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.remind"
+msgstr "Remind me"
+
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.remindIn"
+msgstr "Remind me in {month}"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.settled"
+msgstr "Settled"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.lastDay"
@@ -208,21 +469,77 @@ msgstr "settled on the last day"
 msgid "recap.summary.share"
 msgstr "Share recap"
 
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.sign"
+msgstr "Sign it"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.save"
+msgstr "Sign it"
+
+#: ../../apps/mobile/src/features/recap/signature/signature-sheet.tsx
+msgid "recap.signature.title"
+msgstr "Sign the crew stamp"
+
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.open"
+msgstr "Signing the crew stamp"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.theme.lundi"
+msgstr "slow sea shanty"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.line"
 msgstr "Something went wrong on my side. Nothing from the trip is lost. Try again?"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.stamp.caption"
+msgstr "Stamp {seq} is {place}"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.sunrise.caption"
 msgstr "started at {localTime}, before sunrise"
 
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.stays"
+msgstr "Stays"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.owed.open"
 msgstr "still to settle up"
 
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.hint"
+msgstr "Tap to start · hold to pause"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.provider.taxi"
 msgstr "taxi"
+
+#: ../../apps/mobile/src/features/recap/story/story-view.tsx
+msgid "recap.story.voiceOff"
+msgstr "Text only"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.story.receipt.thanks"
+msgstr "Thank you"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.cover"
+msgstr "The cover"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.awards.eyebrow"
+msgstr "The crew awards"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.awards"
+msgstr "The crew awards"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.stamp.detail"
+msgstr "The crew signed it. It's on your profile now."
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.explorer"
@@ -240,17 +557,49 @@ msgstr "The navigator"
 msgid "recap.summary.forms.unnamed"
 msgstr "The one that got away"
 
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.gotAway.eyebrow"
+msgstr "The one that got away"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.gotAway"
+msgstr "The one that got away"
+
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.planner"
 msgstr "The planner"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.postcard"
+msgstr "The postcard"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.titleNoPlace"
 msgstr "The recap"
 
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.subtitleNoPlace"
+msgstr "The recap"
+
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.title"
 msgstr "The recap didn't come together"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.receipt"
+msgstr "The receipt"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.route.eyebrow"
+msgstr "The route"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.route"
+msgstr "The route"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.stamp"
+msgstr "The stamp"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.provider.transfer"
@@ -259,6 +608,18 @@ msgstr "the transfer"
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
 msgid "recap.award.treasurer"
 msgstr "The treasurer"
+
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.closed"
+msgstr "The vote is closed. The gold edge is the MVP."
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.total"
+msgstr "Total"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.transit"
+msgstr "Transit"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx
 msgid "recap.summary.failed.retry"
@@ -271,6 +632,18 @@ msgstr "Updated with late additions"
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.updated.expenses"
 msgstr "Updated with late expenses"
+
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.title"
+msgstr "Vote for the MVP"
+
+#: ../../apps/mobile/src/features/recap/story/story-footer.tsx
+msgid "recap.story.voteMvp"
+msgstr "Vote for the MVP"
+
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.complete"
+msgstr "Watched the recap"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
 msgid "recap.summary.whereNext"
@@ -291,3 +664,23 @@ msgstr "you took {taken} of them"
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.provider.driver"
 msgstr "your driver"
+
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.mvp"
+msgstr "Your MVP vote"
+
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
+msgid "recap.receipt.yourShare"
+msgstr "Your share: {amount}"
+
+#: ../../apps/mobile/src/features/recap/commands.ts
+msgid "recap.queued.signature"
+msgstr "Your signature"
+
+#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+msgid "recap.story.yourTrip"
+msgstr "Your trip"
+
+#: ../../apps/mobile/src/features/recap/story/mvp-sheet.tsx
+msgid "recap.mvp.yours"
+msgstr "Your vote · {votes} votes"

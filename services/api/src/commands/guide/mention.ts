@@ -6,6 +6,7 @@
  * claims it first answers.
  */
 import {
+  logToolMarkup,
   prepareCrewMention,
   SSE_HEADERS,
   sseStream,
@@ -16,6 +17,7 @@ import {
 import { outbox, sendInTx, withSystem, withUser, type KillSwitchReader } from '@cp/db';
 import { DomainError, generateUuidV7, GUIDE_QUEUES, type GuideMentionJob } from '@cp/domain';
 import type pg from 'pg';
+import type { Logger } from 'pino';
 
 import type { ApiCompliance } from '../../ai/compliance';
 import { guideReaderRunner, guideRedactionKeys } from '../../ai/context';
@@ -31,6 +33,8 @@ export interface CrewMentionDeps {
   readonly switches: Pick<KillSwitchReader, 'assertAiRoute'>;
   readonly compliance: Pick<ApiCompliance, 'startGuideInputCheck'>;
   readonly heartbeatMs?: number;
+  /** Logs the typed event when an answer comes back with tool-call markup. */
+  readonly logger?: Pick<Logger, 'warn'>;
 }
 
 export interface CrewMentionRequest {
@@ -62,6 +66,7 @@ function ports(deps: CrewMentionDeps, request: CrewMentionRequest): CrewTurnPort
       }),
     inputCheck: (text) =>
       deps.compliance.startGuideInputCheck(text, { userId: request.uid, crewId: request.crewId }),
+    ...(deps.logger === undefined ? {} : { onToolMarkup: logToolMarkup(deps.logger) }),
   };
 }
 

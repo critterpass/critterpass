@@ -218,6 +218,25 @@ export async function commitPlanVersion(tx: pg.PoolClient, input: CommitInput): 
          JOIN plan_days d ON d.version_id = $1 AND d.day_no = r.day_no`,
       [id, head.tripId, JSON.stringify(next.items), baseVersionId],
     );
+    // The plan's own record of its places travels with every version, and gains the name of any
+    // place a stop now points at, so a stop is named by its place on every phone, whether or not
+    // that place is in the phone's catalogue (open-data places never are).
+    await tx.query(
+      `UPDATE itinerary_versions v SET coverage = jsonb_set(
+           coalesce(b.coverage, '{}'::jsonb), '{places}',
+           coalesce(b.coverage->'places', '{}'::jsonb) || coalesce((
+             SELECT jsonb_object_agg(p.id::text, jsonb_build_object(
+                      'name', p.name, 'category', p.category, 'lat', p.lat, 'lng', p.lng,
+                      'editorial', p.curation = 'editorial'))
+               FROM pois p
+              WHERE p.id IN (SELECT i.poi_id FROM plan_items i
+                              WHERE i.version_id = $1 AND i.poi_id IS NOT NULL)
+                AND NOT (coalesce(b.coverage->'places', '{}'::jsonb) ? p.id::text)
+           ), '{}'::jsonb))
+         FROM itinerary_versions b
+        WHERE v.id = $1 AND b.id = $2`,
+      [id, baseVersionId],
+    );
     await tx.query('UPDATE trips SET current_version_id = $2 WHERE id = $1', [head.tripId, id]);
     return id;
   });

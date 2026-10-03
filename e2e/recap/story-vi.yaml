@@ -1,0 +1,11 @@
+appId: app.critterpass.dev
+---
+# The recap story's cards in vi.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: vi
+- runFlow:
+    file: subflows/story-shots.yaml
+    env:
+      LANG: vi

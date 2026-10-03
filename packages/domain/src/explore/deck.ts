@@ -6,6 +6,8 @@
  */
 import { z } from 'zod';
 
+import { distinctPlaces, type PlaceIdentity } from './place-dupes';
+
 export const DECK_SIZE = 30;
 export const DECK_NOTE_MAX = 140;
 
@@ -35,6 +37,8 @@ export interface DeckCandidate {
   readonly distance_m: number | null;
   readonly crew_saves: number;
   readonly in_plan: boolean;
+  /** Name, category and position: rows that are the same place reach the deck once. */
+  readonly place?: PlaceIdentity;
 }
 
 /** How many of the crew hold each taste tag. */
@@ -70,17 +74,32 @@ function score(candidate: DeckCandidate, taste: CrewTaste, crewSize: number) {
   return { total: Math.round(total * 1000) / 1000, reasons };
 }
 
-/** Ranks candidates into the deck: in-plan places out, best first, ties by id for stability. */
+/**
+ * Ranks candidates into the deck: best first, ties by id for stability, one card per place (a
+ * place's best row; none when the plan has it under any of its rows), in-plan places out.
+ */
 export function rankDeck(
   candidates: readonly DeckCandidate[],
   taste: CrewTaste,
   crewSize: number,
   size = DECK_SIZE,
+  destination = '',
 ): SwipeCard[] {
-  return candidates
-    .filter((candidate) => !candidate.in_plan)
+  const ranked = candidates
     .map((candidate) => ({ candidate, ...score(candidate, taste, crewSize) }))
-    .sort((a, b) => b.total - a.total || a.candidate.poi_id.localeCompare(b.candidate.poi_id))
+    .sort(
+      (a, b) =>
+        Number(b.candidate.in_plan) - Number(a.candidate.in_plan) ||
+        b.total - a.total ||
+        a.candidate.poi_id.localeCompare(b.candidate.poi_id),
+    );
+  const placed = ranked.flatMap(({ candidate, ...rest }) =>
+    candidate.place === undefined ? [] : [{ ...candidate.place, entry: { candidate, ...rest } }],
+  );
+  const kept = new Set(distinctPlaces(placed, destination).map((row) => row.entry.candidate));
+  return ranked
+    .filter((entry) => entry.candidate.place === undefined || kept.has(entry.candidate))
+    .filter((entry) => !entry.candidate.in_plan)
     .slice(0, size)
     .map((entry, index) => ({
       poi_id: entry.candidate.poi_id,
