@@ -155,6 +155,11 @@ export function RoomsView({
     !model.stayUnavailable &&
     model.stays.length === 0;
   if (noStays) {
+    // There is no stay to pick, so the line says what the step is instead.
+    line = t({
+      id: 'setup.rooms.evenSplit',
+      message: 'One room for everyone, so the stay splits evenly. You can skip this step.',
+    });
     const sticker = GUIDE_STICKERS[trip.guide];
     body = (
       <EmptyState
