@@ -48,12 +48,12 @@ msgstr "{count, plural, one {# sunrise start} other {# sunrise starts}}"
 msgid "recap.story.awards.title"
 msgstr "{count, plural, one {Just you, one award} other {# of you, # awards}}"
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.cover.days"
-msgstr "{days, plural, one {# day} other {# days}}"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.days.value"
+msgstr "{days, plural, one {# day} other {# days}}"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.days"
 msgstr "{days, plural, one {# day} other {# days}}"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
@@ -148,6 +148,10 @@ msgstr "{place},\n"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.subtitle"
 msgstr "{place}, the recap"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.gotAway.seen"
+msgstr "{sightings, plural, =0 {Out there all trip, befriended by nobody.} one {Seen once, befriended by nobody.} other {Seen # times, befriended by nobody.}}"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.gotAway.seen"
@@ -345,12 +349,12 @@ msgstr "In full"
 msgid "recap.summary.photos.crew"
 msgstr "in the crew album"
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.cover.solo"
-msgstr "Just you"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.justYou"
+msgstr "Just you"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.solo"
 msgstr "Just you"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
@@ -397,12 +401,12 @@ msgstr "Needs signal to try again"
 msgid "recap.story.critters.eyebrow"
 msgstr "New friends"
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.label.critters"
-msgstr "New locals"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.finds"
+msgstr "New locals"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.critters"
 msgstr "New locals"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
@@ -517,7 +521,7 @@ msgstr "taxi"
 msgid "recap.story.voiceOff"
 msgstr "Text only"
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.story.receipt.thanks"
 msgstr "Thank you"
 
@@ -549,16 +553,16 @@ msgstr "The Golden {name} got away."
 msgid "recap.award.navigator"
 msgstr "The navigator"
 
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.unnamed"
+msgstr "The one that got away"
+
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.gotAway.eyebrow"
 msgstr "The one that got away"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.gotAway"
-msgstr "The one that got away"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
-msgid "recap.summary.forms.unnamed"
 msgstr "The one that got away"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
@@ -569,12 +573,12 @@ msgstr "The planner"
 msgid "recap.story.label.postcard"
 msgstr "The postcard"
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.subtitleNoPlace"
-msgstr "The recap"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.titleNoPlace"
+msgstr "The recap"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.subtitleNoPlace"
 msgstr "The recap"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx

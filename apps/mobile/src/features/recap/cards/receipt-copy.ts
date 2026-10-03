@@ -115,3 +115,41 @@ export function yourShare(locale: string, minor: number, currency: string): stri
   const amount = wholeMoney(locale, minor, currency);
   return t({ id: 'recap.receipt.yourShare', message: `Your share: ${amount}` });
 }
+
+/** "Thank you" in the destination's own language, by its country; null when not known. */
+/* eslint-disable lingui/no-unlocalized-strings -- the place's own words, never translated. */
+const LOCAL_THANKS: Readonly<Record<string, string>> = {
+  VN: 'Cảm ơn',
+  ID: 'Terima kasih',
+  MY: 'Terima kasih',
+  TH: 'ขอบคุณ',
+  JP: 'ありがとう',
+  KR: '감사합니다',
+  CN: '谢谢',
+  TW: '謝謝',
+  PH: 'Salamat',
+  MX: 'Gracias',
+  ES: 'Gracias',
+  PE: 'Gracias',
+  AR: 'Gracias',
+  CO: 'Gracias',
+  CL: 'Gracias',
+  PT: 'Obrigado',
+  BR: 'Obrigado',
+  FR: 'Merci',
+  IT: 'Grazie',
+  DE: 'Danke',
+  AT: 'Danke',
+  NL: 'Dank je',
+  TR: 'Teşekkürler',
+  PL: 'Dziękuję',
+  GR: 'Ευχαριστώ',
+};
+/* eslint-enable lingui/no-unlocalized-strings */
+
+/** "THANK YOU · CẢM ƠN": the reader's thanks, then the place's own when it differs. */
+export function receiptFooter(country: string | null | undefined): string {
+  const thanks = t({ id: 'recap.story.receipt.thanks', message: 'Thank you' });
+  const local = country == null ? undefined : LOCAL_THANKS[country.toUpperCase()];
+  return local === undefined || local === thanks ? thanks : `${thanks} · ${local}`;
+}

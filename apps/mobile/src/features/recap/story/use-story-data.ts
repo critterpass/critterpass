@@ -62,6 +62,8 @@ export interface StoryData {
   readonly stamps: readonly StampRow[];
   readonly signatures: readonly SignatureRow[];
   readonly foundForms: readonly FormRow[];
+  /** The got-away legendary's critter's forms, in catalogue order. */
+  readonly gotAwayForms: readonly FormRow[];
   readonly gotAwayWindow: string | null;
   readonly reminderSet: boolean;
 }
@@ -92,6 +94,11 @@ const FOUND_FORMS_SQL = `
     FROM critter_forms f JOIN critters c ON c.id = f.critter_id
    WHERE f.id IN (SELECT value FROM json_each(?))
    ORDER BY c.no, f.id`;
+const CRITTER_FORMS_SQL = `
+  SELECT f.id, f.rarity, f.palette, f.pose, f.edge, c.key AS critter_key, c.city, c.canonical_seed
+    FROM critter_forms f JOIN critters c ON c.id = f.critter_id
+   WHERE f.critter_id = ?
+   ORDER BY f.created_at, f.id`;
 const WINDOW_SQL = 'SELECT id FROM legendary_windows WHERE form_id = ? LIMIT 1';
 const REMINDER_SQL = `SELECT id FROM reminders
   WHERE user_id = ? AND target_kind = 'legendary' AND target_id = ? AND status = 'pending'`;
@@ -137,6 +144,12 @@ export function useStoryData(tripId: string): StoryData {
     [JSON.stringify(recap?.stats?.critters.form_ids ?? [])],
     ['critter_forms', 'critters'],
   );
+  const critterId = recap?.gotAway?.critter_id ?? null;
+  const gotAwayForms = useLiveRows<FormRow>(
+    CRITTER_FORMS_SQL,
+    critterId === null ? null : [critterId],
+    ['critter_forms', 'critters'],
+  );
   const formId = recap?.gotAway?.form_id ?? null;
   const window = useLiveRows<{ id: string }>(WINDOW_SQL, formId === null ? null : [formId], [
     'legendary_windows',
@@ -172,6 +185,7 @@ export function useStoryData(tripId: string): StoryData {
       stamps: stamps.rows,
       signatures: signatures.rows,
       foundForms: foundForms.rows,
+      gotAwayForms: gotAwayForms.rows,
       gotAwayWindow: windowId,
       reminderSet: reminder.rows.length > 0,
     };
@@ -187,6 +201,7 @@ export function useStoryData(tripId: string): StoryData {
     stamps.rows,
     signatures.rows,
     foundForms.rows,
+    gotAwayForms.rows,
     windowId,
     reminder.rows,
     me,

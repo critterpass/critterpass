@@ -189,3 +189,15 @@ export function stampCaption(seq: number | null, place: string): string {
     ? t({ id: 'recap.story.stamp.captionNoSeq', message: `${place} is stamped` })
     : t({ id: 'recap.story.stamp.caption', message: `Stamp ${seq} is ${place}` });
 }
+
+/** "Seen twice on the trip, befriended by nobody." while the guide has not written the line. */
+export function seenLine(sightings: number): string {
+  return t({
+    id: 'recap.story.gotAway.seen',
+    message: plural(sightings, {
+      0: 'Out there all trip, befriended by nobody.',
+      one: 'Seen once, befriended by nobody.',
+      other: 'Seen # times, befriended by nobody.',
+    }),
+  });
+}

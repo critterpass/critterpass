@@ -22,13 +22,15 @@ export interface TripRow {
   readonly end_date: string | null;
   readonly crew_name: string | null;
   readonly place: string | null;
+  /** The destination's country (ISO 3166-1 alpha-2), for its local words. */
+  readonly country?: string | null;
   readonly guide_slug: string | null;
   readonly guide_name: string | null;
 }
 
 export const TRIP_SQL = `
   SELECT t.crew_id, t.status, t.is_solo, t.start_date, t.end_date, c.name AS crew_name,
-         d.name AS place, g.slug AS guide_slug, g.name AS guide_name
+         d.name AS place, d.country, g.slug AS guide_slug, g.name AS guide_name
     FROM trips t
     LEFT JOIN crews c ON c.id = t.crew_id
     LEFT JOIN destinations d ON d.id = t.destination_id

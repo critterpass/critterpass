@@ -48,12 +48,12 @@ msgstr ""
 msgid "recap.story.awards.title"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.cover.days"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.days.value"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.days"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
@@ -146,6 +146,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.subtitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.gotAway.seen"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
@@ -344,12 +348,12 @@ msgstr ""
 msgid "recap.summary.photos.crew"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.cover.solo"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.justYou"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.solo"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
@@ -396,12 +400,12 @@ msgstr ""
 msgid "recap.story.critters.eyebrow"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.label.critters"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.finds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.critters"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
@@ -516,7 +520,7 @@ msgstr ""
 msgid "recap.story.voiceOff"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.story.receipt.thanks"
 msgstr ""
 
@@ -548,16 +552,16 @@ msgstr ""
 msgid "recap.award.navigator"
 msgstr ""
 
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.unnamed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.gotAway.eyebrow"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.gotAway"
-msgstr ""
-
-#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
-msgid "recap.summary.forms.unnamed"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
@@ -568,12 +572,12 @@ msgstr ""
 msgid "recap.story.label.postcard"
 msgstr ""
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.subtitleNoPlace"
-msgstr ""
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.titleNoPlace"
+msgstr ""
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.subtitleNoPlace"
 msgstr ""
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx

@@ -48,12 +48,12 @@ msgstr "{count, plural, other {# lần đi trước bình minh}}"
 msgid "recap.story.awards.title"
 msgstr "{count, plural, one {Chỉ mình bạn, một giải} other {# người, # giải}}"
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.cover.days"
-msgstr "{days, plural, other {# ngày}}"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.days.value"
+msgstr "{days, plural, other {# ngày}}"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.days"
 msgstr "{days, plural, other {# ngày}}"
 
 #: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
@@ -148,6 +148,10 @@ msgstr "{place},\n"
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.subtitle"
 msgstr "{place}, tổng kết"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.gotAway.seen"
+msgstr "{sightings, plural, =0 {Quanh quẩn cả chuyến, chưa ai kết bạn được.} one {Gặp một lần, chưa ai kết bạn được.} other {Gặp # lần, chưa ai kết bạn được.}}"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.gotAway.seen"
@@ -345,12 +349,12 @@ msgstr "Đầy đủ"
 msgid "recap.summary.photos.crew"
 msgstr "trong album của nhóm"
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.cover.solo"
-msgstr "Chỉ mình bạn"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.justYou"
+msgstr "Chỉ mình bạn"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.cover.solo"
 msgstr "Chỉ mình bạn"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
@@ -397,12 +401,12 @@ msgstr "Cần có sóng để thử lại"
 msgid "recap.story.critters.eyebrow"
 msgstr "Bạn mới"
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.label.critters"
-msgstr "Bạn địa phương mới"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.forms.finds"
+msgstr "Bạn địa phương mới"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.label.critters"
 msgstr "Bạn địa phương mới"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-view.tsx
@@ -517,7 +521,7 @@ msgstr "taxi"
 msgid "recap.story.voiceOff"
 msgstr "Chỉ chữ"
 
-#: ../../apps/mobile/src/features/recap/story/story-cards.tsx
+#: ../../apps/mobile/src/features/recap/cards/receipt-copy.ts
 msgid "recap.story.receipt.thanks"
 msgstr "Cảm ơn"
 
@@ -549,16 +553,16 @@ msgstr "{name} Vàng đã trốn mất."
 msgid "recap.award.navigator"
 msgstr "Hoa tiêu"
 
+#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
+msgid "recap.summary.forms.unnamed"
+msgstr "Bé đã trốn mất"
+
 #: ../../apps/mobile/src/features/recap/story/story-cards.tsx
 msgid "recap.story.gotAway.eyebrow"
 msgstr "Bé đã trốn mất"
 
 #: ../../apps/mobile/src/features/recap/story/story-copy.ts
 msgid "recap.story.label.gotAway"
-msgstr "Bé đã trốn mất"
-
-#: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
-msgid "recap.summary.forms.unnamed"
 msgstr "Bé đã trốn mất"
 
 #: ../../apps/mobile/src/features/recap/summary/award-copy.ts
@@ -569,12 +573,12 @@ msgstr "Người lên kế hoạch"
 msgid "recap.story.label.postcard"
 msgstr "Bưu thiếp"
 
-#: ../../apps/mobile/src/features/recap/story/story-copy.ts
-msgid "recap.story.subtitleNoPlace"
-msgstr "Tổng kết"
-
 #: ../../apps/mobile/src/features/recap/summary/summary-copy.ts
 msgid "recap.summary.titleNoPlace"
+msgstr "Tổng kết"
+
+#: ../../apps/mobile/src/features/recap/story/story-copy.ts
+msgid "recap.story.subtitleNoPlace"
 msgstr "Tổng kết"
 
 #: ../../apps/mobile/src/features/recap/summary/summary-states.tsx

@@ -52,6 +52,7 @@ function storyData(): StoryData {
       end_date: '2026-10-04',
       crew_name: 'The Đà Nẵng Four',
       place: 'Đà Nẵng',
+      country: 'VN',
       guide_slug: 'chava',
       guide_name: 'Chà Vá',
     },
@@ -98,6 +99,7 @@ function storyData(): StoryData {
       signed_at: `2026-10-05T0${index}:00:00Z`,
     })),
     foundForms: FORM_ROWS.slice(0, 3),
+    gotAwayForms: FORM_ROWS,
     gotAwayWindow: 'lab-window',
     reminderSet: false,
   };

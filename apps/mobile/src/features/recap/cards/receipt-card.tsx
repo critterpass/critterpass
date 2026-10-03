@@ -13,6 +13,7 @@ import { Receipt, type ReceiptLine } from '@/ui/documents/Receipt';
 import { Stamp } from '@/ui/documents/Stamp';
 import type { GuideId } from '@/ui/people/GuideLine';
 import { Sticker } from '@/ui/sticker/Sticker';
+import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
 import { useCardTimeline } from '../story/use-card-timeline';
@@ -67,36 +68,44 @@ export function ReceiptCard(props: ReceiptCardProps) {
       headline={props.headline}
       testID="recap-card-receipt"
     >
-      <View>
+      <View style={{ marginTop: theme.space['16'] }}>
         <Receipt
-          art={<Sticker kind={art.kind} name={art.name} size={40} />}
-          title={props.title}
-          subtitle={props.subtitle}
+          art={
+            <View style={{ alignItems: 'center', gap: theme.space['4'] }}>
+              <Sticker kind={art.kind} name={art.name} size={40} />
+              <Text variant="title" testID="recap-receipt-title">
+                {props.title}
+              </Text>
+              <Text variant="monoData">{props.subtitle}</Text>
+            </View>
+          }
+          title=""
           sections={sections}
           {...(done ? { note: props.note } : {})}
           footer={props.footer}
           accessibilityLabel={[
             props.headline,
+            props.title,
             ...props.sections.flat().map((l) => `${l.label} ${l.amount}`),
           ].join(', ')}
-          {...(done && props.paidLabel !== null
-            ? {
-                stamp: (
-                  <Stamp
-                    title={props.paidLabel.title}
-                    top={props.paidLabel.top}
-                    bottom={props.paidLabel.bottom}
-                    ink={theme.color.green.deep}
-                    shape="round"
-                    size={110}
-                    tilt={-12}
-                    slam
-                  />
-                ),
-              }
-            : {})}
           testID="recap-receipt"
         />
+        {done && props.paidLabel !== null ? (
+          // Over the receipt's corner, clear of its title, as the render sets it.
+          <View style={{ position: 'absolute', top: -theme.space['24'], end: -theme.space['12'] }}>
+            <Stamp
+              title={props.paidLabel.title}
+              top={props.paidLabel.top}
+              bottom={props.paidLabel.bottom}
+              ink={theme.color.green.deep}
+              shape="round"
+              size={96}
+              tilt={-12}
+              slam
+              testID="recap-receipt-paid"
+            />
+          </View>
+        ) : null}
       </View>
       {done && props.share !== null ? (
         <InfoPill testID="recap-receipt-share">{props.share}</InfoPill>

@@ -9,19 +9,26 @@ import { format, type DistanceUnit } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
 
+import { GUIDE_STICKERS } from '@/ui/avatar/guides';
 import type { GuideId } from '@/ui/people/GuideLine';
 
 import { AwardsCard } from '../cards/awards-card';
 import { CoverCard } from '../cards/cover-card';
 import { CrittersCard } from '../cards/critters-card';
 import { GotAwayCard } from '../cards/got-away-card';
-import { receiptNote, receiptSections, receiptSubtitle, yourShare } from '../cards/receipt-copy';
+import {
+  receiptFooter,
+  receiptNote,
+  receiptSections,
+  receiptSubtitle,
+  yourShare,
+} from '../cards/receipt-copy';
 import { ReceiptCard } from '../cards/receipt-card';
 import { ROUTE_CARD_MS, RouteCard } from '../cards/route-card';
 import { StampCard } from '../cards/stamp-card';
 import { artKind } from '../data/critter-art';
 import type { StrokeFetch } from '../signature/stroke-store';
-import { gotAwayLine, headerEyebrow } from '../summary/summary-copy';
+import { headerEyebrow } from '../summary/summary-copy';
 import type { SummaryModel } from '../summary/summary-model';
 import {
   awardsTitle,
@@ -31,6 +38,7 @@ import {
   longestLegLine,
   newLocalsTitle,
   receiptHeadline,
+  seenLine,
   routeDriverLine,
   routeStopsLine,
   stampCaption,
@@ -82,12 +90,14 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
     content: ReactNode,
     fallback: string | null,
     durationMs = CARD_MS,
+    /** The card sets its narration itself (the got-away's story): no caption under it. */
+    inCard = false,
   ) =>
     cards.push({
       card,
       label: cardLabel(card),
       durationMs,
-      caption: words(card) ?? fallback,
+      caption: inCard ? null : (words(card) ?? fallback),
       narrationKey: recap.narration[card] ?? null,
       content,
     });
@@ -195,7 +205,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
         subtitle={receiptSubtitle(dates, receipt.travellers)}
         sections={receiptSections(receipt, locale)}
         note={copy.receipt?.line ?? receiptNote(receipt, locale)}
-        footer={t({ id: 'recap.story.receipt.thanks', message: 'Thank you' })}
+        footer={receiptFooter(data.trip?.country)}
         paidLabel={
           receipt.settled
             ? {
@@ -230,10 +240,19 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
               ? t({ id: 'recap.story.gotAway.golden', message: `Golden ${name}` })
               : name
         }
-        story={gotAwayLine(summary.gotAway)}
+        story={[copy.got_away?.narration ?? seenLine(gotAway.sightings), copy.got_away?.line]
+          .filter((part): part is string => typeof part === 'string' && part !== '')
+          .join(' ')}
+        forms={data.gotAwayForms.map((row) => ({
+          row,
+          found: stats.critters.form_ids.includes(row.id),
+          gotAway: row.id === gotAway.form_id,
+        }))}
         formsLabel={t({ id: 'recap.story.gotAway.forms', message: `${found} of ${total} forms` })}
       />,
       null,
+      CARD_MS,
+      true,
     );
   }
 
@@ -253,6 +272,7 @@ export function buildStoryCards(input: StoryCardsInput): StoryCardSpec[] {
         }
         bottom={tripDates(summary, locale)}
         ink={stamp.ink_colour ?? input.ground}
+        guideKind={GUIDE_STICKERS[guide].kind}
         older={data.stamps.slice(1).map((older) => ({
           id: older.id,
           title: older.place ?? '',
