@@ -50,7 +50,7 @@ const useStyles = makeStyles((t) => ({
     flexShrink: 1,
     paddingHorizontal: t.space['10'],
     paddingVertical: t.space['4'],
-    borderRadius: t.radius.pill,
+    borderRadius: t.radius.lg,
     backgroundColor: t.semantic.bg.control,
   },
   spacer: { flex: 1 },

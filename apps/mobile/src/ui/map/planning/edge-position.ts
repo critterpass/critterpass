@@ -60,3 +60,30 @@ export function edgePlacement(
   if (y < margin.top) return { side: 'top', along: clampX };
   return { side: 'bottom', along: clampX };
 }
+
+/**
+ * Pills on the same edge pushed apart so none overlaps the one before it (two stops beyond the same
+ * corner), keeping their order along the edge.
+ */
+export function spreadAlongEdges<T extends { readonly placement: EdgePlacement }>(
+  pills: readonly T[],
+  gapFor: (side: EdgeSide) => number,
+): T[] {
+  const sides = new Map<EdgeSide, T[]>();
+  for (const pill of pills) {
+    const side = sides.get(pill.placement.side) ?? [];
+    side.push(pill);
+    sides.set(pill.placement.side, side);
+  }
+  const spread: T[] = [];
+  for (const [edge, side] of sides) {
+    const gap = gapFor(edge);
+    let last = Number.NEGATIVE_INFINITY;
+    for (const pill of [...side].sort((a, b) => a.placement.along - b.placement.along)) {
+      const along = Math.max(pill.placement.along, last + gap);
+      last = along;
+      spread.push({ ...pill, placement: { ...pill.placement, along } });
+    }
+  }
+  return spread;
+}

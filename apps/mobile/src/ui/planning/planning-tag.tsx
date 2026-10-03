@@ -19,7 +19,7 @@ const useStyles = makeStyles((t) => ({
     alignSelf: 'flex-start',
     paddingHorizontal: t.space['10'],
     paddingVertical: t.space['4'],
-    borderRadius: t.radius.pill,
+    borderRadius: t.radius.lg,
   },
   quiet: { backgroundColor: t.semantic.bg.control },
 }));

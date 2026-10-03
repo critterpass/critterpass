@@ -146,6 +146,11 @@ appId: app.critterpass.dev
           start: 2%, 50%
           end: 90%, 50%
 # Back on the developer tools list: the app in Vietnamese for the components again.
+- scrollUntilVisible:
+    element:
+      id: 'dev-build-marker'
+    direction: UP
+    timeout: 20000
 - runFlow:
     file: ../home/subflows/pick-gallery-locale.yaml
     env:

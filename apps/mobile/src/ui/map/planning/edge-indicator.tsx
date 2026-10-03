@@ -10,7 +10,7 @@ import { Pressable, StyleSheet, View } from 'react-native';
 
 import { Text } from '../../text/Text';
 import { makeStyles } from '../../theme';
-import { edgePlacement, type EdgeSide, type ViewSize } from './edge-position';
+import { edgePlacement, spreadAlongEdges, type EdgeSide, type ViewSize } from './edge-position';
 
 export interface EdgeStop {
   readonly id: string;
@@ -35,6 +35,9 @@ export interface EdgeIndicatorProps {
 const ARROWS: Readonly<Record<EdgeSide, string>> = { left: '←', right: '→', top: '↑', bottom: '↓' };
 const PILL_HEIGHT = 32;
 const EDGE_GAP = tokens.space['8'];
+const PILL_GAP = tokens.space['6'];
+/** Room a pill on the top or bottom edge keeps beside the next one. */
+const PILL_ACROSS = 160;
 
 const useStyles = makeStyles((t) => ({
   anchor: { position: 'absolute', width: 0, height: 0, alignItems: 'center' },
@@ -73,13 +76,19 @@ export function EdgeIndicator({
   const margin = { top: coveredTop + PILL_HEIGHT, bottom: coveredBottom + PILL_HEIGHT, side: 80 };
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
-      {stops.map((stop) => {
-        const placement = edgePlacement(stop.lng, stop.lat, bounds, size, margin);
-        if (placement === null) return null;
+      {spreadAlongEdges(
+        stops.flatMap((stop) => {
+          const placement = edgePlacement(stop.lng, stop.lat, bounds, size, margin);
+          return placement === null ? [] : [{ stop, placement }];
+        }),
+        (side) => (side === 'left' || side === 'right' ? PILL_HEIGHT + PILL_GAP : PILL_ACROSS),
+      ).map(({ stop, placement }) => {
         const vertical = placement.side === 'left' || placement.side === 'right';
+        const covered =
+          placement.side === 'top' ? coveredTop : placement.side === 'bottom' ? coveredBottom : 0;
         const anchorStyle = vertical
           ? { top: placement.along, [placement.side]: EDGE_GAP + PILL_HEIGHT / 2 }
-          : { left: placement.along, [placement.side]: EDGE_GAP + PILL_HEIGHT / 2 };
+          : { left: placement.along, [placement.side]: covered + EDGE_GAP + PILL_HEIGHT / 2 };
         const pillStyle = vertical
           ? placement.side === 'left'
             ? { left: -PILL_HEIGHT / 2, top: -PILL_HEIGHT / 2 }

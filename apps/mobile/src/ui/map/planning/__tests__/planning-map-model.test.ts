@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 
-import { edgePlacement } from '../edge-position';
+import { edgePlacement, spreadAlongEdges } from '../edge-position';
 import { placeDotFeatures, pressedPlaceId, type PlaceDot } from '../place-dots';
 import { routeFeatures, traceLine, type Coord, type RouteDay } from '../route-trace';
 import { boundsOf } from '../use-planning-camera';
@@ -149,5 +149,21 @@ describe('place dots', () => {
     const single = boundsOf([[1, 2]]);
     expect(single?.[0]).toBeLessThan(1);
     expect(single?.[2]).toBeGreaterThan(1);
+  });
+});
+
+describe('spreadAlongEdges', () => {
+  it('pushes pills on one edge apart in their order and leaves other edges alone', () => {
+    const pills = [
+      { id: 'a', placement: { side: 'left' as const, along: 500 } },
+      { id: 'b', placement: { side: 'left' as const, along: 490 } },
+      { id: 'c', placement: { side: 'top' as const, along: 100 } },
+    ];
+    const spread = spreadAlongEdges(pills, () => 38);
+    expect(spread.map((pill) => [pill.id, pill.placement.along])).toEqual([
+      ['b', 490],
+      ['a', 528],
+      ['c', 100],
+    ]);
   });
 });

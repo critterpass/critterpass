@@ -25,6 +25,9 @@ const useStyles = makeStyles((t) => ({
   sheetBody: { paddingHorizontal: t.size.gutter, gap: t.space['12'], paddingBottom: t.space['24'] },
 }));
 
+/** The lab's map is covered by nothing at its head but the status bar. */
+const LAB_TOP = 56;
+
 type Picked = { readonly kind: 'place' | 'stop'; readonly id: string } | null;
 
 export interface TripMapSceneProps {
@@ -64,7 +67,7 @@ export function TripMapScene({ children }: TripMapSceneProps) {
     const points = (chosen?.stops ?? LAB_DAYS.flatMap((entry) => entry.stops)).map(
       (s): [number, number] => [s.lng, s.lat],
     );
-    camera.fitPoints([...points, VILLA], { bottom: size.height * 0.5 });
+    camera.fitPoints([...points, VILLA], { top: LAB_TOP, bottom: size.height * 0.55 });
   };
 
   return (
@@ -114,7 +117,7 @@ export function TripMapScene({ children }: TripMapSceneProps) {
         stops={(day?.stops ?? []).map((s) => ({ ...s, color: day?.color ?? '' }))}
         bounds={bounds}
         size={size}
-        coveredTop={120}
+        coveredTop={LAB_TOP}
         coveredBottom={size.height * 0.36}
         onPress={(id) => {
           const target = day?.stops.find((s) => s.id === id);
