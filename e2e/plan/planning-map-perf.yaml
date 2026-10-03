@@ -1,9 +1,10 @@
 appId: app.critterpass.dev
 ---
-# The planning map kit on a real device (apps/mobile/src/app/(dev)/planning-map-lab.tsx): the trip
-# map with 500 places drawn as map layers under the map sheet, then the frame budget run, which
-# pans and zooms the same camera script over today's 40-pin map and over the 500 places and
-# fails when the layers miss more frames than the pins do.
+# The planning kit on a real device (apps/mobile/src/app/(dev)/planning-map-lab.tsx): every kit
+# component in English, the trip map with 500 places drawn as map layers under the map sheet, the
+# components again in Vietnamese, then the frame budget run, which pans and zooms the same camera
+# script over today's 40-pin map and over the 500 places and fails when the layers miss more
+# frames than the pins do.
 - launchApp:
     clearState: true
 - extendedWaitUntil:
@@ -19,6 +20,49 @@ appId: app.critterpass.dev
     timeout: 20000
 - tapOn:
     id: 'dev-nav-planning-map-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'planning-map-lab-kit'
+    timeout: 15000
+- tapOn:
+    id: 'planning-map-lab-kit'
+- extendedWaitUntil:
+    visible:
+      id: 'planning-kit-scene'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-planning-kit-components-1
+- scrollUntilVisible:
+    element:
+      id: 'planning-kit-TokekNote'
+    direction: DOWN
+    timeout: 20000
+- takeScreenshot: en-planning-kit-components-2
+- scrollUntilVisible:
+    element:
+      id: 'planning-kit-ReasonGrid'
+    direction: DOWN
+    timeout: 20000
+- takeScreenshot: en-planning-kit-components-3
+- scrollUntilVisible:
+    element:
+      id: 'planning-kit-OptionRadioCard'
+    direction: DOWN
+    timeout: 20000
+- takeScreenshot: en-planning-kit-components-4
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
 - extendedWaitUntil:
     visible:
       id: 'planning-map-lab-trip-map'
@@ -76,6 +120,92 @@ appId: app.critterpass.dev
             id: 'planning-map-lab-snap-half'
           timeout: 10000
       - back
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+# Back on the developer tools list: the app in Vietnamese for the components again.
+- runFlow:
+    file: ../home/subflows/pick-gallery-locale.yaml
+    env:
+      LOCALE: vi
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - swipe:
+          start: 2%, 50%
+          end: 90%, 50%
+- runFlow:
+    when:
+      visible:
+        id: 'dev-tools-entry'
+    commands:
+      - tapOn:
+          id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-planning-map-lab'
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    id: 'dev-nav-planning-map-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'planning-map-lab-kit'
+    timeout: 15000
+- tapOn:
+    id: 'planning-map-lab-kit'
+- extendedWaitUntil:
+    visible:
+      id: 'planning-kit-scene'
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: vi-planning-kit-components-1
+- scrollUntilVisible:
+    element:
+      id: 'planning-kit-TokekNote'
+    direction: DOWN
+    timeout: 20000
+- takeScreenshot: vi-planning-kit-components-2
+- scrollUntilVisible:
+    element:
+      id: 'planning-kit-ReasonGrid'
+    direction: DOWN
+    timeout: 20000
+- takeScreenshot: vi-planning-kit-components-3
+- scrollUntilVisible:
+    element:
+      id: 'planning-kit-OptionRadioCard'
+    direction: DOWN
+    timeout: 20000
+- takeScreenshot: vi-planning-kit-components-4
+- runFlow:
+    when:
+      platform: Android
+    commands:
       - back
 - runFlow:
     when:

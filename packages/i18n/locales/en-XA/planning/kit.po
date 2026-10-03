@@ -7,6 +7,12 @@ msgstr ""
 "X-Generator: @lingui/cli\n"
 "Language: en-XA\n"
 
+#. placeholder {0}: String(want.length)
+#. placeholder {1}: String(ratherNot.length)
+#: ../../apps/mobile/src/ui/planning/stance-bar.tsx
+msgid "kit.stanceBar.summary"
+msgstr ""
+
 #: ../../apps/mobile/src/ui/sheet/map-sheet.tsx
 msgid "kit.mapSheet.collapse"
 msgstr ""
@@ -15,10 +21,23 @@ msgstr ""
 msgid "kit.mapSheet.expand"
 msgstr ""
 
+#: ../../apps/mobile/src/ui/planning/stance-bar.tsx
+msgid "kit.stanceBar.ratherNot"
+msgstr ""
+
+#. placeholder {0}: chip.label
+#: ../../apps/mobile/src/ui/planning/filter-chip-row.tsx
+msgid "kit.filterChipRow.remove"
+msgstr ""
+
 #. placeholder {0}: stop.n
 #. placeholder {1}: stop.name
 #: ../../apps/mobile/src/ui/map/planning/edge-indicator.tsx
 msgid "kit.edgeIndicator.label"
+msgstr ""
+
+#: ../../apps/mobile/src/ui/planning/stance-bar.tsx
+msgid "kit.stanceBar.want"
 msgstr ""
 
 #: ../../apps/mobile/src/ui/map/planning/stay-marker.tsx

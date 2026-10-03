@@ -8,11 +8,9 @@ import { useLingui } from '@lingui/react/macro';
 import { View } from 'react-native';
 
 import { Icon } from '../../icons/Icon';
-import { makeStyles } from '../../theme';
+import { degrees, makeStyles } from '../../theme';
 
 const SIDE = 26;
-// eslint-disable-next-line lingui/no-unlocalized-strings -- rotation values, never copy.
-const TURN = ['45deg', '-45deg'] as const;
 
 const useStyles = makeStyles((t) => ({
   diamond: {
@@ -24,9 +22,9 @@ const useStyles = makeStyles((t) => ({
     borderColor: t.color.ink[850],
     alignItems: 'center',
     justifyContent: 'center',
-    transform: [{ rotate: TURN[0] }],
+    transform: [{ rotate: degrees(45) }],
   },
-  upright: { transform: [{ rotate: TURN[1] }] },
+  upright: { transform: [{ rotate: degrees(-45) }] },
 }));
 
 export function StayMarker({ lngLat }: { readonly lngLat: LngLat }) {
