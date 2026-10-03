@@ -3,10 +3,11 @@
  * a traveller types a place the way their keyboard writes it, without the local accents.
  */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react-native';
+import { act, renderHook, waitFor } from '@testing-library/react-native';
 
 import {
   openTestLocalFirst,
+  testSchema,
   type TestLocalFirst,
 } from '@/data/powersync/test-support/local-first-fixture';
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
@@ -91,5 +92,27 @@ describe('place search in the add sheet', () => {
     });
     await waitFor(() => expect(known.current.loaded).toBe(true));
     expect([known.current.arriving, known.current.rows]).toEqual([false, []]);
+  });
+
+  it('tells a failed search apart from no match, reports it, and finds the place on retry', async () => {
+    const stack = await withPlaces();
+    const report = jest.fn<(error: unknown) => void>();
+    await stack.db.execute('DROP VIEW pois');
+    const { result } = await renderHook(() => usePlaceSearch(DANANG, 'My Son', report), {
+      wrapper: stack.wrapper,
+    });
+    await waitFor(() => expect(result.current.failed).toBe(true));
+    expect([result.current.loaded, result.current.arriving, result.current.rows]).toEqual([
+      true,
+      false,
+      [],
+    ]);
+    expect(report).toHaveBeenCalledTimes(1);
+    await stack.db.updateSchema(testSchema());
+    await act(() => result.current.retry());
+    await waitFor(() =>
+      expect(result.current.rows.map((row) => row.name)).toEqual(['Mỹ Sơn Sanctuary']),
+    );
+    expect(result.current.failed).toBe(false);
   });
 });

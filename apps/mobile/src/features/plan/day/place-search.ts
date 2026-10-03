@@ -4,7 +4,9 @@
  * Son" finds "Mỹ Sơn Sanctuary", "ngu hanh" finds "Ngũ Hành Sơn". Every word must match the name or
  * the local name; names that start with the query come first.
  */
-import { useMemo } from 'react';
+/* eslint-disable lingui/no-unlocalized-strings -- Sentry tags, never copy. */
+import * as Sentry from '@sentry/react-native';
+import { useEffect, useMemo } from 'react';
 
 import { useLiveRows } from './live-rows';
 import { DESTINATION_PLACES_SQL, PLACES_TABLES, type PlaceRow } from './queries';
@@ -18,6 +20,8 @@ export interface PlaceSearch {
    * empty result says nothing about the query.
    */
   readonly arriving: boolean;
+  /** Runs the search again after it failed. */
+  readonly retry: () => void;
 }
 
 interface PlaceCandidate extends PlaceRow {
@@ -61,19 +65,37 @@ export function matchPlaces(places: readonly PlaceCandidate[], query: string): P
     }));
 }
 
-export function usePlaceSearch(destinationId: string | null, query: string): PlaceSearch {
+/** Reports a failed read of the phone's places (Sentry, the app's error reporting). */
+export function reportPlaceSearchFailure(error: unknown): void {
+  Sentry.captureException(error, { tags: { area: 'plan.add_place_search' } });
+}
+
+export function usePlaceSearch(
+  destinationId: string | null,
+  query: string,
+  report: (error: unknown) => void = reportPlaceSearchFailure,
+): PlaceSearch {
   const places = useLiveRows<PlaceCandidate>(
     DESTINATION_PLACES_SQL,
     destinationId === null ? null : [destinationId],
     PLACES_TABLES,
   );
   const rows = useMemo(() => matchPlaces(places.rows, query), [places.rows, query]);
+  // A failed read of the phone's places is reported, never shown as "nothing found".
+  useEffect(() => {
+    if (places.failed !== true) return;
+    report(places.error);
+  }, [places.failed, places.error, report]);
+  const retry = places.retry ?? (() => undefined);
   // Without a destination there is nothing to search: answered at once, with nothing found.
-  if (destinationId === null) return { rows: [], loaded: true, failed: false, arriving: false };
+  if (destinationId === null) {
+    return { rows: [], loaded: true, failed: false, arriving: false, retry };
+  }
   return {
     rows,
     loaded: places.loaded,
     failed: places.failed === true,
-    arriving: places.loaded && places.rows.length === 0,
+    arriving: places.loaded && places.failed !== true && places.rows.length === 0,
+    retry,
   };
 }

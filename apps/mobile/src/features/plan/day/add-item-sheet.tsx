@@ -250,6 +250,8 @@ export function AddItemSheetView({
               <SearchStates
                 query={query}
                 loaded={found.loaded}
+                failed={found.failed === true}
+                onRetry={() => found.retry?.()}
                 arriving={arriving}
                 found={places.length}
                 onUseOwnWords={() => {

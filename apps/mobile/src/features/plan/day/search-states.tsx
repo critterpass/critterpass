@@ -1,7 +1,7 @@
 /**
  * What the add sheet says under a search with no rows: still looking, the trip's places still
- * arriving on the phone (so an empty list says nothing yet), or truly nothing found, with a way to
- * add it in the traveller's own words. Never a silent empty space.
+ * arriving on the phone (so an empty list says nothing yet), the search failing (with a retry), or
+ * truly nothing found, with a way to add it in the traveller's own words. Never a silent empty space.
  */
 import { useLingui } from '@lingui/react/macro';
 
@@ -12,12 +12,16 @@ import { Text } from '@/ui/text/Text';
 export function SearchStates({
   query,
   loaded,
+  failed,
   arriving,
   found,
+  onRetry,
   onUseOwnWords,
 }: {
   readonly query: string;
   readonly loaded: boolean;
+  readonly failed: boolean;
+  readonly onRetry: () => void;
   readonly arriving: boolean;
   readonly found: number;
   readonly onUseOwnWords: () => void;
@@ -25,6 +29,21 @@ export function SearchStates({
   const { t } = useLingui();
   const typed = query.trim();
   if (typed === '' || found > 0) return null;
+  if (failed) {
+    return (
+      <Stack gap="8" testID="plan-add-search-failed">
+        <Text variant="bodySm">
+          {t({ id: 'plan.day.add.searchFailed', message: 'Couldn’t search just now.' })}
+        </Text>
+        <PillButton
+          variant="secondary"
+          label={t({ id: 'plan.day.add.tryAgain', message: 'Try again' })}
+          onPress={onRetry}
+          testID="plan-add-search-retry"
+        />
+      </Stack>
+    );
+  }
   if (!loaded || arriving) {
     return (
       <Text variant="bodySm" testID="plan-add-searching">
