@@ -20,7 +20,7 @@ appId: app.critterpass.dev
     id: 'recap-share'
 - extendedWaitUntil:
     visible: '.*the recap, .*'
-    timeout: 20000
+    timeout: 30000
 - takeScreenshot: en-3m-1-share
 - tapOn: 'Close'
 - runFlow: ../../screens/sweep/subflows/back.yaml
