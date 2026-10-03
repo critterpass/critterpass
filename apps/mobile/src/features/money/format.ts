@@ -13,6 +13,8 @@ import {
 } from '@cp/cost-engine';
 import { format } from '@cp/i18n';
 
+import { displayWithHome } from '@/data/money/current-money-display';
+
 const MINUS = '−';
 
 function known(currency: string): boolean {
@@ -29,6 +31,19 @@ export function toMajor(amountMinor: bigint, currency: string): number {
 export function formatAmount(amountMinor: bigint, currency: string, locale: string): string {
   if (!known(currency)) return `${currency} ${String(toMajor(amountMinor, currency))}`;
   return formatMoney({ amountMinor, currency }, { locale, mode: 'local' });
+}
+
+/**
+ * A full amount as the person chose to see prices: "Rp 450.000", "S$38.40" or
+ * "Rp 450.000 ≈ S$38.40" (Settings › Language and currency).
+ */
+export function formatAmountShown(amountMinor: bigint, currency: string, locale: string): string {
+  return displayWithHome(
+    formatAmount(amountMinor, currency, locale),
+    amountMinor,
+    currency,
+    locale,
+  );
 }
 
 /** Amount without symbol: "186.40", "450.000". */

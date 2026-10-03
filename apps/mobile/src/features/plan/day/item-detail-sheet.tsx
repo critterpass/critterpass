@@ -4,6 +4,7 @@
  * remove, skip it just for me, and open in maps. Edits are held until SAVE (or SUGGEST for a
  * member, whose change goes to the crew); a booked or must-do item asks first.
  */
+import { displayWithHome, useMoneyDisplay } from '@/data/money';
 import { useLingui } from '@lingui/react/macro';
 import { useState, type ReactNode } from 'react';
 import { View } from 'react-native';
@@ -79,6 +80,9 @@ export function ItemDetailSheet({
 }) {
   const styles = useStyles();
   const locale = useLocale();
+  useMoneyDisplay();
+  const shown = (minor: number, currency: string) =>
+    displayWithHome(money(locale, minor, currency), minor, currency, locale);
   const { t } = useLingui();
   const [times, setTimes] = useState<{ start: number; end: number } | null>(null);
   const [confirming, setConfirming] = useState<Pending | null>(null);
@@ -107,11 +111,11 @@ export function ItemDetailSheet({
         : item.costModel === 'per_person'
           ? t({
               id: 'plan.day.item.costEach',
-              message: `${money(locale, item.amountMinor, item.currency)} each`,
+              message: `${shown(item.amountMinor, item.currency)} each`,
             })
           : t({
               id: 'plan.day.item.costGroup',
-              message: `${money(locale, item.amountMinor, item.currency)} for the group`,
+              message: `${shown(item.amountMinor, item.currency)} for the group`,
             });
   const saveLabel = canApply
     ? t({ id: 'plan.day.item.save', message: 'Save' })

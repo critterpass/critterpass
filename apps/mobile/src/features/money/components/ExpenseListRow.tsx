@@ -16,6 +16,8 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, MIN_TOUCH_TARGET, useTheme } from '@/ui/theme';
 
 import type { ExpenseItem } from '../data/expense-items';
+import { homeEquivalent, useMoneyDisplay } from '@/data/money';
+
 import { formatAmount, formatShort } from '../format';
 import { CATEGORY_ICON, useCategoryLabel } from './category';
 
@@ -35,6 +37,7 @@ export function ExpenseListRow({ item, crewCurrency, onPress, testID }: ExpenseL
   const styles = useStyles();
   const theme = useTheme();
   const locale = useLocale();
+  useMoneyDisplay();
   const { t } = useLingui();
   const categoryLabel = useCategoryLabel();
   const title = item.title === '' ? categoryLabel(item.category) : item.title;
@@ -42,6 +45,7 @@ export function ExpenseListRow({ item, crewCurrency, onPress, testID }: ExpenseL
   const names = item.leftOut.join(', ');
   const parts = [
     item.currency === crewCurrency ? null : formatShort(item.amountMinor, item.currency, locale),
+    homeEquivalent(item.amountMinor, item.currency, locale),
     payer === '' ? null : t({ id: 'money.row.paid', message: `${payer} paid` }),
     item.leftOut.length === 0
       ? null

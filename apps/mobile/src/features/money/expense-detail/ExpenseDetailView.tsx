@@ -22,7 +22,9 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { useCategoryLabel } from '../components/category';
 import type { ExpenseItem } from '../data/expense-items';
-import { calendarDate, formatAmount } from '../format';
+import { useMoneyDisplay } from '@/data/money';
+
+import { calendarDate, formatAmount, formatAmountShown } from '../format';
 import type { EditField, FxLine } from './model';
 
 const useStyles = makeStyles((t) => ({
@@ -80,6 +82,7 @@ export function ExpenseDetailView(props: ExpenseDetailViewProps) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const locale = useLocale();
+  useMoneyDisplay();
   const { t } = useLingui();
   const categoryLabel = useCategoryLabel();
   const fieldLabel = useFieldLabel();
@@ -139,7 +142,7 @@ export function ExpenseDetailView(props: ExpenseDetailViewProps) {
         </Text>
         <Stack gap="4">
           <Text variant="displayXl" testID="money-detail-amount">
-            {formatAmount(item.amountMinor, item.currency, locale)}
+            {formatAmountShown(item.amountMinor, item.currency, locale)}
           </Text>
           {converted === null ? null : (
             <Text variant="body" color={theme.semantic.text.secondary}>

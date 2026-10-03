@@ -26,6 +26,8 @@ import { useWallet } from '../data/use-wallet';
 import { useWalletContext } from '../data/use-wallet-context';
 import { canReportLanded, flightView } from '../flight-card/flight-model';
 import { useChipLabel, useSourceLine } from '../flight-card/labels';
+import { displayWithHome, useMoneyDisplay } from '@/data/money';
+
 import { clock, dayDate, price as formatPrice, shortDate, zoneOf } from '../format';
 import { boardingPassRoute, BOOKINGS_ROUTES, editBookingRoute } from '../routes';
 import { BookingDetailView, type DetailDoc } from './BookingDetailView';
@@ -55,6 +57,7 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
   const wallet = useWallet(context.trip?.id ?? null, context.uid);
   const services = useBookingsServices();
   const locale = useLocale();
+  useMoneyDisplay();
   const { t } = useLingui();
   const chipLabel = useChipLabel();
   const sourceLine = useSourceLine();
@@ -82,7 +85,12 @@ export function BookingDetailScreen({ bookingId }: { readonly bookingId: string 
   const amount =
     booking.priceMinor === null || booking.currency === null
       ? null
-      : formatPrice(locale, booking.priceMinor, booking.currency);
+      : displayWithHome(
+          formatPrice(locale, booking.priceMinor, booking.currency),
+          booking.priceMinor,
+          booking.currency,
+          locale,
+        );
   const price =
     amount === null
       ? null
