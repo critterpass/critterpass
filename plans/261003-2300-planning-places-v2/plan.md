@@ -32,7 +32,7 @@ critical_path_tasks: 35
 | 2 | [Planning data, contracts and wiring](./phase-02-planning-data-contracts.md) | – | 6 | – | 1 | done |
 | 3 | [Travel times and stored legs](./phase-03-travel-times-stored-legs.md) | legs for 7a, 7b, 7i-2 | 6 | 2 | 2 | pending |
 | 4 | [Fit engine, place signals and the plan check job](./phase-04-fit-engine-plan-analysis.md) | fit/gaps/check data | 7 | 2 | 2 | done |
-| 5 | [Planning UI kit, map layers and shared app data](./phase-05-planning-ui-kit-shared-data.md) | kit for all | 6 | 2 | 2 | pending |
+| 5 | [Planning UI kit, map layers and shared app data](./phase-05-planning-ui-kit-shared-data.md) | kit for all | 6 | 2 | 2 | done (#608) |
 | 6 | [Planning AI routes](./phase-06-planning-ai-routes.md) | 7d-2, 7d-3, 7e-1/7e-3 (routes) | 6 | 2 | 2 | pending |
 | 7 | [Add to plan, Ideas, placing them and the review](./phase-07-add-to-plan-ideas-review.md) | 7f-1, 7f-2, 7h-6, 7h-7 | 8 | 1, 3, 4, 5 | 3 | pending |
 | 8 | [Place detail and crew can't agree](./phase-08-place-detail-crew-split.md) | 7e-1, 7e-2, 7e-3 | 9 | 1, 3, 4, 5, 6 | 3 | pending |
