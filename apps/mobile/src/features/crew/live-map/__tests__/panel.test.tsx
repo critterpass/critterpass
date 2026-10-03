@@ -20,6 +20,7 @@ jest.mock('@maplibre/maplibre-react-native', () => {
     Map: ({ children }: { children: unknown }) => <View testID="maplibre-map">{children}</View>,
     Camera: () => null,
     ViewAnnotation: ({ children }: { children: unknown }) => <View>{children}</View>,
+    Marker: ({ children }: { children: unknown }) => <View>{children}</View>,
     GeoJSONSource: ({ children }: { children: unknown }) => <View>{children}</View>,
     Layer: () => null,
   };
