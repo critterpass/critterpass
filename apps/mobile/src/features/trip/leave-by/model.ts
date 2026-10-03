@@ -12,6 +12,7 @@ import {
   type ReadinessState,
 } from '@cp/domain';
 import { FLIGHT_ARRIVE_EARLY_MIN } from '@cp/planner';
+import { clockOption } from '@/lib/i18n/formats';
 
 /** The leave-by window: the ring drains over the last half hour. */
 export const LEAVE_BY_WINDOW_MS = 30 * 60 * 1000;
@@ -266,6 +267,7 @@ export function clockIn(at: Date, tz: string, locale: string): string {
   return new Intl.DateTimeFormat(locale, {
     timeZone: tz,
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
     hourCycle: 'h23',
   }).format(at);

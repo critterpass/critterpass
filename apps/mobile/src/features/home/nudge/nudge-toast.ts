@@ -11,6 +11,7 @@ import { format } from '@cp/i18n';
 import { toast } from '@/motion/island-toast';
 
 import type { NudgeOutcome } from './use-nudge';
+import { clockOption } from '@/lib/i18n/formats';
 
 export function nudgeToastTitle(i18n: I18n, outcome: NudgeOutcome): string | null {
   switch (outcome.kind) {
@@ -30,7 +31,7 @@ export function nudgeToastTitle(i18n: I18n, outcome: NudgeOutcome): string | nul
       );
     }
     case 'too_soon': {
-      const when = format.time(i18n.locale, outcome.nextAt);
+      const when = format.time(i18n.locale, outcome.nextAt, clockOption());
       return i18n._(
         msg({
           id: 'home.nudge.tooSoon',

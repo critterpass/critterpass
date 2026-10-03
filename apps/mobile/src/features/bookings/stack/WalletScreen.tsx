@@ -26,6 +26,7 @@ import { BookingBody } from './BookingBody';
 import { useDeckMeta } from './deck-meta';
 import { WalletView } from './WalletView';
 import { WalletGuideProvider } from '../data/wallet-guide';
+import { useFormats } from '@/lib/i18n/formats';
 
 export function OpenBody({
   booking,
@@ -80,6 +81,7 @@ export function telUrl(phone: string): string {
 }
 
 export function WalletScreen() {
+  useFormats();
   const context = useWalletContext();
   const services = useBookingsServices();
   const wallet = useWallet(context.trip?.id ?? null, context.uid);

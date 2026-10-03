@@ -144,6 +144,16 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: en-3n-2-privacy-switches
+# HELP AND FEEDBACK (3n-6): each row behind its coloured icon tile, Rate with its star.
+- scrollUntilVisible:
+    element:
+      id: 'you-settings-help'
+    direction: DOWN
+    centerElement: true
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: en-3n-6-help-and-feedback
 - scrollUntilVisible:
     element:
       id: 'you-settings-version'

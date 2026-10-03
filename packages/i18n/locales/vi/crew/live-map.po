@@ -25,6 +25,10 @@ msgid "liveMap.status.withDistanceOut"
 msgstr "{line}, còn {distance}"
 
 #: ../../apps/mobile/src/features/crew/live-map/copy.ts
+msgid "liveMap.distance.miles"
+msgstr "{mi} dặm"
+
+#: ../../apps/mobile/src/features/crew/live-map/copy.ts
 msgid "liveMap.a11y.minutesAway"
 msgstr "còn {minutes} phút"
 

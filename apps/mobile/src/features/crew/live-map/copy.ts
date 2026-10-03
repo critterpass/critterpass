@@ -6,12 +6,15 @@ import type { MemberEtaWire } from '@cp/domain';
 import { t } from '@lingui/core/macro';
 
 import type { PersonView } from './data/view-model';
+import { clockOption } from '@/lib/i18n/formats';
+import { distanceIn } from '@/lib/i18n/formats';
 
 /** "16:52" in the trip's zone (24-hour, as the map shows every clock). */
 export function clock(at: number, tz: string | null, locale: string): string {
   return new Intl.DateTimeFormat(locale, {
     // eslint-disable-next-line lingui/no-unlocalized-strings -- Intl options, never copy.
     hour: '2-digit',
+    ...clockOption(),
     // eslint-disable-next-line lingui/no-unlocalized-strings -- Intl options, never copy.
     minute: '2-digit',
     hourCycle: 'h23',
@@ -24,6 +27,13 @@ export function clock(at: number, tz: string | null, locale: string): string {
  * unit style converts to the locale's preferred units on some platforms (miles on en-US iOS).
  */
 export function distanceText(meters: number, locale: string): string {
+  const away = distanceIn(meters);
+  if (away.unit === 'mi') {
+    const mi = new Intl.NumberFormat(locale, {
+      maximumFractionDigits: away.value < 10 ? 1 : 0,
+    }).format(Math.max(0.1, away.value));
+    return t({ id: 'liveMap.distance.miles', message: `${mi} mi` });
+  }
   if (meters < 1000) {
     const rounded = new Intl.NumberFormat(locale).format(
       Math.max(10, Math.round(meters / 10) * 10),

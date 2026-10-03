@@ -35,6 +35,14 @@ msgstr "{km} km from you"
 msgid "safety.map.distance"
 msgstr "{km} km from you, in a straight line."
 
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.awayMiles"
+msgstr "{km} mi from you"
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.distanceMiles"
+msgstr "{km} mi from you, in a straight line."
+
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepSent"
 msgstr "{n, plural, one {SOS sent to your one crewmate} other {SOS sent to all # of you}}"

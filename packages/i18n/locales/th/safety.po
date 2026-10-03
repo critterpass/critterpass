@@ -35,6 +35,14 @@ msgstr ""
 msgid "safety.map.distance"
 msgstr ""
 
+#: ../../apps/mobile/src/features/safety/sos/sos-hero.tsx
+msgid "safety.sos.awayMiles"
+msgstr ""
+
+#: ../../apps/mobile/src/features/safety/session-map/session-map.tsx
+msgid "safety.map.distanceMiles"
+msgstr ""
+
 #: ../../apps/mobile/src/features/safety/sos/sos-steps.tsx
 msgid "safety.sos.stepSent"
 msgstr ""

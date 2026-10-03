@@ -14,6 +14,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { estimateMoney } from '../data/format';
 import type { HistoryEntry } from '../data/use-draft-version';
+import { clockOption } from '@/lib/i18n/formats';
 
 const useStyles = makeStyles((th) => ({
   list: { paddingHorizontal: th.size.gutter, gap: th.space['10'], paddingBottom: th.space['16'] },
@@ -35,6 +36,7 @@ function madeAt(locale: string, iso: string): string {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
     hourCycle: 'h23',
   }).format(at);
