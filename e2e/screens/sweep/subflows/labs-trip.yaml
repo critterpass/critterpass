@@ -1,0 +1,62 @@
+appId: app.critterpass.dev
+---
+# Lab scenes for the trip and critters, in ${LANG}: the trip day (3k-2), offline (3k-4), a hatch
+# (3l-1), a critter's page (3l-3), an encounter filling (3l-4), quests (3l-7) and a fresh set (3l-8).
+# The scenes render the real screens from fixtures, so the sweep compares screens no seed scenario
+# reaches with their renders. Android: the nightly iPhone shard keeps to the seed scenarios.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - runFlow:
+          file: open-dev-lab.yaml
+          env:
+            NAV: dev-nav-trip-day-lab
+            LIST: trip-day-lab-3k-1-pre-trip
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: trip-day-lab-3k-2-window
+            READY: trip-day
+            SHOT: ${LANG}-3k-2-window
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: trip-day-lab-3k-4-offline
+            READY: trip-offline-page
+            SHOT: ${LANG}-3k-4-offline
+      - runFlow:
+          file: open-dev-lab.yaml
+          env:
+            NAV: dev-nav-critters-lab
+            LIST: critters-lab-3l-2-pass
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: critters-lab-3l-1-hatch
+            READY: critters-hatched
+            SHOT: ${LANG}-3l-1-hatch
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: critters-lab-3l-3-detail
+            READY: critters-detail
+            SHOT: ${LANG}-3l-3-detail
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: critters-lab-3l-4-filling
+            READY: critters-encounter-accruing
+            SHOT: ${LANG}-3l-4-filling
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: critters-lab-3l-7-quests
+            READY: quests-list
+            SHOT: ${LANG}-3l-7-quests
+      - runFlow:
+          file: lab-scene.yaml
+          env:
+            ITEM: critters-lab-3l-8-fresh
+            READY: critters-set
+            SHOT: ${LANG}-3l-8-fresh

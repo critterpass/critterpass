@@ -1,0 +1,48 @@
+appId: app.critterpass.dev
+---
+# Lab scenes for planning a trip, in ${LANG}: trip setup (3c-3 to 3c-7, 3c-10), the guide's draft
+# (3c-9) and the proposal (3f-*). The scenes render the real screens from fixtures, so the sweep
+# compares screens no seed scenario reaches with their renders. Android: the nightly iPhone shard
+# keeps to the seed scenarios.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - runFlow: back-to-dev-tools.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-setup'
+          direction: DOWN
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-setup'
+      - extendedWaitUntil:
+          visible:
+            id: 'setup-scene-3c-3-when'
+          timeout: 20000
+      - runFlow:
+          file: ../../../setup/subflows/scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow: back-to-dev-tools.yaml
+      - scrollUntilVisible:
+          element:
+            id: 'dev-nav-draft'
+          direction: DOWN
+          timeout: 20000
+      - tapOn:
+          id: 'dev-nav-draft'
+      - extendedWaitUntil:
+          visible:
+            id: 'draft-scene-list'
+          timeout: 20000
+      - runFlow:
+          file: ../../../plan/subflows/draft-chava-scenes.yaml
+          env:
+            PREFIX: ${LANG}
+      - runFlow: back-to-dev-tools.yaml
+      - runFlow: ../../../proposal/subflows/open-lab.yaml
+      - runFlow:
+          file: ../../../proposal/subflows/scenes.yaml
+          env:
+            PREFIX: ${LANG}

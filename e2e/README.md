@@ -143,7 +143,10 @@ The scripts live in `tools/scripts/ci-device/`.
 `e2e/screens/sweep/` visits every user-facing screen and sheet the app can reach, in English and
 Vietnamese: one flow per demo seed scenario (`onboarding`, `first-run` for an account with no crew,
 then the `everyday`, `inbox`, `caught_up`, `vote` and `vote_final` seeds of
-`e2e/_shared/seed-demo.yaml`), with the keyboard up wherever a screen has a field. The steps live in
+`e2e/_shared/seed-demo.yaml`), with the keyboard up wherever a screen has a field. Screens no seed
+reaches are swept from their developer labs (`labs-*` scenarios, Android only): they run the areas'
+own `${PREFIX}` scene subflows, or `subflows/lab-scene.yaml` for one scene, with the sweep's
+language, and the coverage report follows those files for their screenshots. The steps live in
 `subflows/<scenario>.yaml` and name each screenshot `<lang>-<design id>-<state>` (or a route name
 for screens without a design), so `compare` mode pairs it with its render. The top-level flows are
 generated: after adding a scenario, run `pnpm tsx tools/scripts/ci-device/sweep-coverage.ts

@@ -1,0 +1,10 @@
+appId: app.critterpass.dev
+---
+# Out of a lab to the developer tools list: one back when a lab is up, then the list (reopened from
+# the splash when the back closed the whole developer stack) scrolled to its top.
+- runFlow:
+    when:
+      notVisible:
+        id: 'dev-build-marker|dev-tools-entry'
+    file: back.yaml
+- runFlow: ../../../plan/subflows/dev-tools-again.yaml
