@@ -76,6 +76,8 @@ import * as schema from './schema';
  * installed widgets, the worker reads them to push, and no client reads them back.
  * `anniversaries` (packages/db/src/schema/recap.ts) is "S": the anniversary scan's own timers;
  * travellers see the memory it makes, never the schedule.
+ * `poi_foursquare_ids` and `foursquare_api_usage` (packages/db/src/schema/places.ts) are "S": the
+ * Foursquare id match and the monthly call counts are server bookkeeping for live place details.
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -92,6 +94,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'fair_use_counters',
   'fare_cells',
   'flight_watches',
+  'foursquare_api_usage',
   'install_attributions',
   'journey_checks',
   'la_object_states',
@@ -103,6 +106,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'persona_packs',
   'place_qna_summaries',
   'poi_embeddings',
+  'poi_foursquare_ids',
   'poi_hours_proposals',
   'poi_live_checks',
   'proposal_followups',

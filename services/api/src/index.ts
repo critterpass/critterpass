@@ -74,6 +74,21 @@ const app = createApp({
   ...(env.MAPBOX_TOKEN !== undefined ? { mapboxToken: env.MAPBOX_TOKEN } : {}),
   ...(routing !== undefined ? { routing } : {}),
   tilesBaseUrl: env.TILES_BASE_URL,
+  ...(env.FOURSQUARE_API_KEY !== undefined
+    ? {
+        foursquare: {
+          apiKey: env.FOURSQUARE_API_KEY,
+          monthlyCallCap: env.FOURSQUARE_MONTHLY_CALL_CAP,
+          onCapReached: (poiId: string) =>
+            logger.warn(
+              { poiId, cap: env.FOURSQUARE_MONTHLY_CALL_CAP },
+              'foursquare monthly call cap reached: live place details unavailable',
+            ),
+          onError: (poiId: string, error: unknown) =>
+            logger.warn({ poiId, err: error }, 'foursquare place details failed'),
+        },
+      }
+    : {}),
   // Resolved per request, so the auth module created below is in place by then.
   sessions: (headers) => commandDoors.sessions(headers),
   readiness: {
