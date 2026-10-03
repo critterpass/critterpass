@@ -20,6 +20,7 @@ import type pg from 'pg';
 import { describe, expect, it } from 'vitest';
 
 import { registerRouteEtaExecutor, type RouteEtaAnswer } from '../../src/routing/tool-executor';
+import { planningFitTravel } from '../../src/routing/travel-modes';
 
 import {
   jsonResponse,
@@ -113,6 +114,30 @@ describe('chooseLegMode', () => {
         drive: leg(20, 9000, true),
       }),
     ).toEqual({ mode: 'driver', minutes: 20, meters: 9000, source: 'straight_line', approx: true });
+  });
+});
+
+describe('fit travel', () => {
+  it('asks one row out and one column back per mode for places tried after a stop', async () => {
+    const { calls, fetch } = replayValhalla('kyoto-fit-insertions');
+    const travel = createPlanningTravel({
+      valhalla: createValhallaClient({ baseUrl: 'http://valhalla.test:8002', fetch, retries: 0 }),
+    });
+    const station = { key: 'stay', lat: 34.9858, lng: 135.7588 };
+    const places = [
+      { key: 'kiyomizu', lat: 34.9949, lng: 135.785 },
+      { key: 'fushimi', lat: 34.9671, lng: 135.7727 },
+      { key: 'gion', lat: 35.0037, lng: 135.7788 },
+    ];
+    const legs = await planningFitTravel(travel)(1.2, 1200).legs(
+      places.flatMap((place) => [
+        { from: station, to: place },
+        { from: place, to: station },
+      ]),
+    );
+    expect(calls).toHaveLength(4);
+    expect(legs.size).toBe(6);
+    expect([...legs.values()].every((leg) => !leg.approx && leg.mode === 'drive')).toBe(true);
   });
 });
 

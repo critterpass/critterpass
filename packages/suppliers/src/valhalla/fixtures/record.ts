@@ -69,6 +69,14 @@ const SCENARIOS: Record<string, (client: ValhallaClient) => Promise<unknown>> = 
   'danang-matrix-off-graph': (c) =>
     c.matrix([p.danangDragonBridge, p.southChinaSea], [p.danangMyKhe], 'auto'),
   'route-over-limit': (c) => c.route([p.danangDragonBridge, p.baliUbud], 'auto'),
+  // Fit trying three Kyoto places after the station: one row out, one column back, walk and drive.
+  'kyoto-fit-insertions': async (c) => {
+    const places = [p.kyotoKiyomizu, p.kyotoFushimiInari, p.kyotoGion];
+    for (const costing of ['pedestrian', 'auto'] as const) {
+      await c.matrix([p.kyotoStation], places, costing);
+      await c.matrix(places, [p.kyotoStation], costing);
+    }
+  },
   // A planned Ubud day as the legs job asks for it: stay → temple → rice terraces → spring → stay.
   'bali-day-legs': async (c) => {
     const from = [p.ubudKomaneka, p.ubudSaraswati, p.baliTegallalang, p.baliTirtaEmpul];
