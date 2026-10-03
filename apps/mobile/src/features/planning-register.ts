@@ -9,3 +9,4 @@
 import { startPlanningSwitchFeed } from '@/data/plan/switch-feed';
 
 startPlanningSwitchFeed();
+import '@/features/explore/search/register';

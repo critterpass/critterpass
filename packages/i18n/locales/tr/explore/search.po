@@ -6,3 +6,107 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: tr\n"
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.crowds"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.row.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+msgid "search.clipboard.add"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.beaches"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.cancel"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.clear"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.coffee"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.food"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.dayNo"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.day"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+msgid "search.clipboard.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.map"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.row.saved"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.more.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-screen.tsx
+msgid "search.scope.place"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.eyebrow"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/clipboard-card.tsx
+msgid "search.clipboard.pasteLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/name-results.tsx
+msgid "search.more.attribution"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.saturday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/search-header.tsx
+msgid "search.field.placeholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.dinner"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.spa"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.temples"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/browse-grid.tsx
+msgid "search.browse.waterfalls"
+msgstr ""
+
+#: ../../apps/mobile/src/features/explore/search/typed-examples.tsx
+msgid "search.examples.rain"
+msgstr ""
