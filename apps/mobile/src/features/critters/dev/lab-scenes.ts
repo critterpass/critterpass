@@ -9,11 +9,12 @@ import { WHERE_SCENES } from './where-scenes';
 import { QUEST_SCENES } from '../quests/dev/quest-scenes';
 
 export const CRITTER_SCENES: Readonly<Record<string, () => ReactNode>> = {
+  // Listed first: the lab is long, and a scroll to its end can run out of time on iOS.
+  ...WHERE_SCENES,
   ...DEX_SCENES,
   ...DETAIL_SCENES,
   ...ENCOUNTER_SCENES,
   ...LEGENDARY_SCENES,
-  ...WHERE_SCENES,
   ...QUEST_SCENES,
 };
 
