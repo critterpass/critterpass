@@ -234,4 +234,31 @@ describe('ingest open-data fields', () => {
     );
     expect(rows).toEqual([{ source_ids: { fsq_os: 'fsq-bridge', overture: 'overture-bridge' } }]);
   });
+
+  it('pairs an FSQ place with an Overture place stored on another row without a collision', async () => {
+    const fsqOnly: PlaceSourceRow = {
+      ...japaneseBridge,
+      sourceId: 'fsq-bridge',
+      confidence: undefined,
+    };
+    await ingestDestination(pool, { destinationId, bbox: HOI_AN_BBOX }, readers([], [fsqOnly]));
+    await ingestDestination(pool, { destinationId, bbox: HOI_AN_BBOX }, readers([japaneseBridge]));
+
+    // Now both sources list the bridge and conflation pairs them across the two stored rows.
+    const result = await ingestDestination(
+      pool,
+      { destinationId, bbox: HOI_AN_BBOX },
+      readers([japaneseBridge], [fsqOnly]),
+    );
+
+    expect(result).toMatchObject({ inserted: 0, updated: 1 });
+    const { rows } = await pool.query<{ source_ids: Record<string, string> }>(
+      'SELECT source_ids FROM pois WHERE destination_id = $1 ORDER BY source_ids::text',
+      [destinationId],
+    );
+    expect(rows).toEqual([
+      { source_ids: { fsq_os: 'fsq-bridge' } },
+      { source_ids: { overture: 'overture-bridge' } },
+    ]);
+  });
 });
