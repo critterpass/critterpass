@@ -69,23 +69,35 @@ export function moneyDisplayOf(input: MoneyDisplayInput): MoneyDisplay {
   };
 }
 
-/** `amount` in `target` through the fx run: a direct pair, or two pairs sharing one base. */
+/** The other currency of a snapshot relating `currency`, or null. */
+function otherSide(snapshot: FxSnapshot, currency: string): CurrencyCode | null {
+  if (snapshot.base === currency) return snapshot.quote;
+  if (snapshot.quote === currency) return snapshot.base;
+  return null;
+}
+
+/**
+ * `amount` in `target` through the newest rates: a direct pair, else two pairs that meet in one
+ * currency (a shared base or a shared quote). Null when no such rates are on the phone.
+ */
 export function convertMoney(
   amount: Money,
   target: CurrencyCode,
   fx: readonly FxSnapshot[],
 ): Money | null {
   if (amount.currency === target) return amount;
-  const direct = fx.find(
-    (s) =>
-      (s.base === amount.currency && s.quote === target) ||
-      (s.base === target && s.quote === amount.currency),
-  );
   try {
+    const direct = fx.find((s) => otherSide(s, amount.currency) === target);
     if (direct !== undefined) return convert(amount, target, direct);
-    for (const from of fx.filter((s) => s.quote === amount.currency)) {
-      const to = fx.find((s) => s.base === from.base && s.quote === target);
-      if (to !== undefined) return convertViaBase(amount, target, from, to);
+    for (const first of fx) {
+      const middle = otherSide(first, amount.currency);
+      if (middle === null || middle === target) continue;
+      const second = fx.find((s) => s !== first && otherSide(s, middle) === target);
+      if (second === undefined) continue;
+      const shared = first.base === middle && second.base === middle;
+      return shared
+        ? convertViaBase(amount, target, first, second)
+        : convert(convert(amount, middle, first), target, second);
     }
   } catch {
     return null;
@@ -114,7 +126,7 @@ export function priceText(
   return formatMoney(amount, { locale, mode: display.mode, home, converted });
 }
 
-/** The fx run's date, and whether it is older than two days (prices then say "as of"). */
+/** The newest rate's date, and whether it is older than two days (prices then say "as of"). */
 export function fxAsOf(
   display: MoneyDisplay,
   now: Date,

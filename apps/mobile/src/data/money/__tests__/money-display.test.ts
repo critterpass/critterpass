@@ -105,6 +105,14 @@ describe('convertMoney', () => {
       currency: 'SGD',
     });
     expect(convertMoney({ amountMinor: 100n, currency: 'THB' }, 'SGD', FX)).toBeNull();
+    // Pairs that meet in a shared quote (each currency priced in euro).
+    const euro: FxSnapshot[] = [
+      { base: 'IDR', quote: 'EUR', rate: '0.0000575', asOf: '2026-10-02', source: 'x' },
+      { base: 'SGD', quote: 'EUR', rate: '0.69', asOf: '2026-10-02', source: 'x' },
+    ];
+    expect(convertMoney({ amountMinor: 7_500_000n, currency: 'IDR' }, 'SGD', euro)?.currency).toBe(
+      'SGD',
+    );
   });
 });
 

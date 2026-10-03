@@ -24,8 +24,10 @@ export const OWNER_UID_STATE_KEY = 'owner_uid';
 const ME_SQL = `SELECT s.price_display, s.home_currency_override, u.home_country
   FROM users u LEFT JOIN user_settings s ON s.user_id = u.id
   WHERE u.id = (SELECT value FROM local_state WHERE id = ?)`;
-const FX_SQL = `SELECT base, quote, rate, as_of, source FROM fx_snapshots
-  WHERE as_of = (SELECT max(as_of) FROM fx_snapshots) ORDER BY base, quote`;
+/** The newest rate of every pair on the phone (fx runs are synced per pair, not all at once). */
+const FX_SQL = `SELECT f.base, f.quote, f.rate, f.as_of, f.source FROM fx_snapshots f
+  WHERE f.as_of = (SELECT max(o.as_of) FROM fx_snapshots o WHERE o.base = f.base AND o.quote = f.quote)
+  ORDER BY f.as_of DESC, f.base, f.quote`;
 const TABLES = ['users', 'user_settings', 'fx_snapshots', 'local_state'];
 
 interface MeRow {
@@ -46,6 +48,12 @@ export interface MoneyDisplayOverride {
   readonly mode?: PriceDisplayMode;
   /** `null` goes back to the home airport's currency. */
   readonly homeCurrency?: string | null;
+}
+
+/** A stored rate as an exact decimal string (a REAL column may read back as 6.25e-5). */
+export function rateText(rate: string | number): string {
+  const text = String(rate);
+  return /e/iu.test(text) ? Number(text).toFixed(12).replace(/0+$/u, '').replace(/\.$/u, '') : text;
 }
 
 interface Store {
@@ -125,7 +133,7 @@ function start(db: AbstractPowerSyncDatabase, store: Store): void {
           fx: fx.map((row) => ({
             base: row.base,
             quote: row.quote,
-            rate: String(row.rate),
+            rate: rateText(row.rate),
             asOf: row.as_of.slice(0, 10),
             source: row.source,
           })),

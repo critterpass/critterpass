@@ -1,8 +1,8 @@
 appId: app.critterpass.dev
 ---
-# Language and currency (3n-8) against the staging api: a fresh account (home airport from
-# onboarding) takes the demo crew's Bali trip, adds Rp 450.000, then turns Show prices in to BOTH:
-# the sample and the Wallet's expense row and balances gain the home amount; LOCAL takes it away.
+# Language and currency (3n-8) against the staging api: a fresh account takes the demo crew, adds
+# an expense, picks đồng as its home currency and turns Show prices in to BOTH: the sample and the
+# Wallet's expense row and balances gain the home amount.
 - launchApp:
     clearState: true
 - runFlow:
@@ -86,6 +86,23 @@ appId: app.critterpass.dev
     direction: DOWN
     timeout: 15000
 - takeScreenshot: en-3n-8-real
+# The demo crew spends in S$, the home airport's currency too: pick đồng as the home currency so
+# the crew's prices have a home amount to show.
+- tapOn:
+    id: 'you-currency-home'
+- extendedWaitUntil:
+    visible:
+      id: 'you-currency-sheet'
+    timeout: 10000
+- tapOn:
+    id: 'you-currency-search'
+- inputText: 'VND'
+- tapOn:
+    id: 'you-currency-VND'
+- extendedWaitUntil:
+    visible:
+      text: 'VND · chosen by you'
+    timeout: 10000
 - tapOn: 'BOTH'
 - waitForAnimationToEnd:
     timeout: 6000
