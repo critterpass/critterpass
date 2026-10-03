@@ -12,7 +12,7 @@ import { Halftone } from '@/ui/textures/halftone';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 /** The story's bars and header over the card. */
-export const CHROME_PT = 84;
+export const CHROME_PT = 100;
 /** The narration line and a card action under it. */
 export const FOOTER_PT = 150;
 
