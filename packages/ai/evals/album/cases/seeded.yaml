@@ -1,0 +1,75 @@
+# Deliberate slips the album guards must refuse, in both replay and live mode.
+- id: album-21
+  description: a note with a count the facts do not hold
+  guide: tokek
+  facts:
+    picks: 24
+    photos: 312
+    per_person: 3
+    days: 8
+    blurry_skipped: 41
+    duplicates_skipped: 63
+    tagged_people: 6
+    people_in_three: 5
+    everyone_in_three: false
+  seeded: true
+  note: I picked 30 keepers from 312 photos.
+- id: album-22
+  description: a note claiming everyone's in when one traveller is not
+  guide: tokek
+  facts:
+    picks: 24
+    photos: 312
+    per_person: 3
+    days: 8
+    blurry_skipped: 41
+    duplicates_skipped: 63
+    tagged_people: 6
+    people_in_three: 5
+    everyone_in_three: false
+  seeded: true
+  note: I picked 24 keepers. Everyone's in at least 3.
+- id: album-23
+  description: a spelled-out count
+  guide: tokek
+  facts:
+    picks: 24
+    photos: 312
+    per_person: 3
+    days: 8
+    blurry_skipped: 41
+    duplicates_skipped: 63
+    tagged_people: 6
+    people_in_three: 5
+    everyone_in_three: false
+  seeded: true
+  note: Twenty-five keepers, all sharp.
+- id: album-24
+  description: a score reply with an invented id and a score out of range
+  guide: tokek
+  facts:
+    picks: 24
+    photos: 312
+    per_person: 3
+    days: 8
+    blurry_skipped: 41
+    duplicates_skipped: 63
+    tagged_people: 6
+    people_in_three: 5
+    everyone_in_three: false
+  seeded: true
+  photo_ids:
+    - p1
+    - p2
+  scores:
+    scores:
+      - photo_id: p1
+        score: 7
+      - photo_id: p9
+        score: 9
+      - photo_id: p2
+        score: 14
+      - photo_id: p1
+        score: 2
+  expect_scores:
+    p1: 7

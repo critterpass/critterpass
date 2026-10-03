@@ -305,6 +305,7 @@ No in-app money movement (C24). Boost split = IOU `ledger_entries(source_kind='b
 | `photo_people` (doc delta) | photo_id, trip_id, user_id, source (self_match/manual) | uk (photo_id, user_id); a traveller tags only themself; no face data | self | T | trip | C1 | life |
 | `album_prefs` (doc delta) | trip_id, user_id, auto_ingest | uk (trip_id, user_id) | self | O | trip_me | C2 | life |
 | `album_exports` (doc delta) | id (the app's), trip_id, user_id, status (queued/ready/failed/expired), media_key, photos, bytes, expires_at (7 d) | (user_id, trip_id) | self | O | me | C2 | 7 d |
+| `album_curations` (doc delta) | trip_id, note (the guide's line, from computed facts; the template's when the model's said more), picks, photos, note_fallback, curated_at | uk trip_id | sys (`ai.curate_album`) | T | trip | C1 | life |
 | `memories` | trip_id, anchor_kind (anniversary), anchor_id, author_id (null = guide), text, local_date, photo_media_key (doc delta: created by the recap area) | uk (trip_id, anchor_kind, anchor_id) | sys; mem | T (every viewer, crew or not: `app.was_recap_viewer`) | trip | C1 | life |
 | `memory_reactions` | memory_id, trip_id, user_id, emoji, text ≤ 40 (doc delta) | uk (memory_id, user_id) | self | T (every viewer) | trip | C1 | life |
 | `postcards` | id (the app's), trip_id, photo_id, note, format (classic/square/story), created_by, sent_at, deleted_at, version (doc delta) | trip_id | mem | T | trip | C1 | life |
