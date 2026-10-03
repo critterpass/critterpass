@@ -17,11 +17,12 @@ import {
   type TranslateLine,
   type TranslateRejection,
 } from '@cp/ai';
-import { withSystem } from '@cp/db';
+import { sendInTx, withSystem } from '@cp/db';
 import {
   GUIDE_QUEUES,
   GUIDE_TEXT_FIELDS,
   guideTextLimit,
+  RECAP_QUEUES,
   guideTextTranslateJobSchema,
   switchedOffKey,
   type GuideTextFieldSpec,
@@ -163,6 +164,10 @@ export async function translateGuideText(
           else stored[locale] = (stored[locale] ?? 0) + 1;
         }
         await storeTranslation(tx, row, locale, fields);
+        // A recap's narration follows its words into the new language.
+        if (row.kind === 'recap') {
+          await sendInTx(tx, RECAP_QUEUES.narrate, { recap_id: row.id }, { singletonKey: row.id });
+        }
       }
     });
   }

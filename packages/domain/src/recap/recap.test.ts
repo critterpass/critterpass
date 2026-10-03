@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { GUIDE_TEXT_FIELDS, recapGuideTextSource } from '../locale/guide-text';
 import { assignAwards } from './awards';
 import { recapBestDay } from './best-day';
 import { selectGotAway, type GotAwayCandidate } from './got-away';
@@ -166,5 +167,18 @@ describe('recapBuildForEvent', () => {
 describe('recapCardsCopySchema', () => {
   it('keys the copy by every story card, in play order', () => {
     expect(Object.keys(recapCardsCopySchema.shape)).toEqual([...RECAP_CARDS]);
+  });
+});
+
+describe('recap guide text', () => {
+  it('translates every card’s narration, headline and line, in play order', () => {
+    const fields = GUIDE_TEXT_FIELDS.recap.map((field) => field.name);
+    expect(fields).toEqual(
+      RECAP_CARDS.flatMap((card) => [`${card}_narration`, `${card}_headline`, `${card}_line`]),
+    );
+    expect(Object.keys(recapGuideTextSource({}))).toEqual(fields);
+    expect(recapGuideTextSource({ cover: { narration: 'Da Nang.' } })['cover_narration']).toBe(
+      'Da Nang.',
+    );
   });
 });

@@ -96,6 +96,13 @@ const READABLE_KEY_PATTERN = new RegExp(
   `^u/(${UUID})/(${[...MEDIA_PURPOSES, ...SERVER_MEDIA_PURPOSES].join('|')})/(${UUID})$`,
 );
 
+const TRIP_MEDIA_KEY_PATTERN = new RegExp(`^t/(${UUID})/recap_audio/(${UUID})$`);
+
+/** The trip of a trip-owned key (recap narration the crew shares, owned by no traveller). */
+export function tripMediaKeyTrip(key: string): string | undefined {
+  return TRIP_MEDIA_KEY_PATTERN.exec(key)?.[1];
+}
+
 /** The owner of any key a read URL may be minted for (uploaded or worker-written); else `undefined`. */
 export function readableKeyOwner(key: string): string | undefined {
   return READABLE_KEY_PATTERN.exec(key)?.[1];
