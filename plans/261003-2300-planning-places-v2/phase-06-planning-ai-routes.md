@@ -1,7 +1,7 @@
 ---
 phase: 6
 title: Planning AI routes
-status: in_progress
+status: done
 depends_on: [2]
 wave: 2
 screens: [7d-2, 7d-3, 7e-3]
@@ -98,7 +98,7 @@ Reuse / extend / new: reuse the route pattern (briefing), structured instruction
 - Steps: 1. Executor calls phase 4's fit service. 2. Spec output with best slot and reason codes. 3. Eval cases EN + VI.
 - Tests: `pnpm --filter @cp/ai eval -- fit-check`
 - Done when: eval at threshold; answers quote the tool's day and time unchanged.
-- Status: blocked — waits for phase 4 (fit engine) to merge
+- Status: done — 1b83aef6e
 
 ### T6 — Place facts research (gated by "Place facts")
 - Goal: sourced proposals for ENTRY, WEAR and KNOW BEFORE YOU GO on curated places.
