@@ -1,0 +1,1453 @@
+{
+  "at": 1791010800000,
+  "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fitem+%3Flat+%3Flng+%3Fimage+%28GROUP_CONCAT%28DISTINCT+%3Flabel%3B+separator%3D%22%7C%22%29+AS+%3Flabels%29+WHERE+%7B%0A++SERVICE+wikibase%3Aaround+%7B+%3Fitem+wdt%3AP625+%3Floc+.%0A++++bd%3AserviceParam+wikibase%3Acenter+%22Point%28108.2613+16.0233%29%22%5E%5Egeo%3AwktLiteral+.%0A++++bd%3AserviceParam+wikibase%3Aradius+%2220%22+.+%7D%0A++%3Fitem+wdt%3AP18+%3Fimage+.%0A++FILTER+NOT+EXISTS+%7B+%3Fitem+wdt%3AP31%2Fwdt%3AP279*+wd%3AQ56061+%7D%0A++OPTIONAL+%7B+%3Fitem+rdfs%3Alabel%7Cskos%3AaltLabel+%3Flabel+FILTER%28LANG%28%3Flabel%29+IN+%28%22en%22%2C+%22vi%22%29%29+%7D%0A++BIND%28geof%3Alatitude%28%3Floc%29+AS+%3Flat%29+BIND%28geof%3Alongitude%28%3Floc%29+AS+%3Flng%29%0A%7D+GROUP+BY+%3Fitem+%3Flat+%3Flng+%3Fimage",
+  "body": {
+    "head": {
+      "vars": ["item", "lat", "lng", "image", "labels"]
+    },
+    "results": {
+      "bindings": [
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q773330"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.043888888"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.199444444"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/DAD%20new%20terminal%202012%2002.JPG"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Da Nang International Airport|Sân bay quốc tế Đà Nẵng|DAD|VVDN|Cảng hàng không quốc tế Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10824826"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.13109"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.17705"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Da%20Nang%20from%20the%20sky%20%2844622547095%29.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Vịnh Tourane|Vũng Thùng|Baie de Tourane|Tourane Bay|Vịnh Hàn|Da Nang Bay|Vịnh Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10829180"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.032"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2213"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20%C4%90%C3%B4ng%20%C3%81.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Cao đẳng Đông Á|Đại học Đông Á|Đại học tư thục Đông Á|Đông Á University|Trường Đại học Đông Á"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q17068326"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.120502"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.306162"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/InterContinental-Danang-Sun-Peninsula-Resort-2026-05-03-4.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Intercontinental Sun Peninsula Resort|InterContinental Danang Sun Peninsula Resort"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q18164670"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0487"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.218"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/B%E1%BA%A3o%20T%C3%A0ng%20Khu%205%2C%20Zone%205%20Military%20Museum%2C%20Da%20Nang%2C%202016.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Zone 5 Military Museum, Danang|Zone 5 Military Museum|Bảo tàng Quân khu 5, Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q60853845"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0996"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2769"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Son-Tra-Peninsula%20Da-Nang%20Vietnam%20Statue-of-the-Bodhisattva-of-Mercy-01.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Lady Buddha|Lady Buddha Da Nang|Son Tra Guanyin"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q61931389"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.077332"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.22275"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Da%20Nang%20Administrative%20Center%20in%202015%2003.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "DISED|Da Nang Institute For Socio - Economic Development|VIỆN NGHIÊN CỨU PHÁT TRIỂN KINH TẾ - XÃ HỘI ĐÀ NẴNG"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q88640449"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.071944444"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.220555555"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Tr%C6%B0%E1%BB%9Dng%20THPT%20Phan%20Ch%C3%A2u%20Trinh%2C%20%C4%90%C3%A0%20N%E1%BA%B5ng.jpeg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Trường Trung học phổ thông Phan Châu Trinh, Đà Nẵng|Trường Trung học phổ thông Phan Châu Trinh|Phan Chau Trinh High School|Trường THPT Phan Châu Trinh"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q107985631"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.031083333"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.214194444"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Nguyen%20Khuyen%20middle%20school.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Trường phổ thông cấp 2 Chuyên Nguyễn Khuyến|Trường Trung học cơ sở Nguyễn Khuyến|Nguyen Khuyen middle school, Da Nang|Trường Trung học cơ sở – Trung học phổ thông Nguyễn Khuyến, Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q132483343"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.8787149"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.3304759"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/V%C4%83n%20ch%E1%BB%89%20Minh%20H%C6%B0%C6%A1ng%20%28H%E1%BB%99i%20An%29%202024%20-%20img%2001.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Văn chỉ Minh Hương (Hội An)|Minh Huong Temple of Literature, Hoi An"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q132484484"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.878328"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.3296411"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/R%E1%BA%A1p%20H%E1%BB%99i%20An%2001.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Hoi An Cinema|Rap Hoi An|Rạp Hội An"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q140915999"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.876450615"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.327810412"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Hoi%20An%20-%20Tan%20Ky%20Old%20House.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Tan Ky Ancient House|Tan Ky Old House"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q140932347"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.877420268"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.330016006"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Hoi%20quan%20Trung%20Hoa.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Duong Thuong Assembly Hall|Trung Hoa Assembly Hall"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q945839"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.070939"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.219435"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Dai%20Hoc%20Da%20Nang%20Sign.JPG"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "University of Da Nang|Đại học Đà Nẵng|University of Danang"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q1091054"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.87719"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.325968055"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/2024%20H%E1%BB%99i%20An%20-%20Japanese%20Covered%20Bridge%20%28Ch%C3%B9a%20C%E1%BA%A7u%29%20after%20renovation%20-%20img%2011.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Japanese Bridge|Chùa Cầu|Chùa Cầu|Japanese Covered Bridge|Lai Viễn|Lai Viễn Kiều"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q1320599"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.096944444"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.220277777"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Ban%20dao%20Son%20Tra.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Han River|Sông Hàn|Hàn|Sông Hàn|Hàn giang|Sông Cầu Đỏ|Sông Mỹ Lệ"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q1929402"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.8625"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.273611111"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/S%C3%B4ng%20Thu%20B%E1%BB%93n%2C%20Qu%E1%BA%A3ng%20Nam.JPG"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Thu Bon River|Sông Thu Bồn|Sông Thu Bồn"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q1929402"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.863"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.283"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/S%C3%B4ng%20Thu%20B%E1%BB%93n%2C%20Qu%E1%BA%A3ng%20Nam.JPG"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Thu Bon River|Sông Thu Bồn|Sông Thu Bồn"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q2636675"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.06666667"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2333333"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Overlooking%20Da%20Nang%20Port%20fixed.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Da Nang Port|Cảng Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q3096350"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0716"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2092"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Da%20Nang%20Train%20Stn%20Front.JPG"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Da Nang Railway Station|Ga Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5095075"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.069609"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.216475"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Chi%20Lang%20Stadium.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Chi Lang Stadium|Sân vận động Chi Lăng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5191806"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.123333333"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.125555555"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Cu%20%C4%90%C3%AA%20River%2C%20Da%20Nang.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Cu Đê River|Sông Cu Đê|Sông Cu Đê|Sông Trường Định"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5207271"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.073409"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.216292"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Da%20Nang%20Hospital.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Da Nang C Hospital"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5207272"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.072717"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.215678"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Da%20Nang%20Hospital.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Da Nang Hospital|Bệnh viện Đà Nẵng|Hôpital de Danan"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5207273"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.04777778"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.23916667"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/T%C3%B2a%20A%20-%20Tr%C6%B0%E1%BB%9Dng%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20Kinh%20t%E1%BA%BF%20-%20%C4%90%E1%BA%A1i%20h%E1%BB%8Dc%20%C4%90%C3%A0%20N%E1%BA%B5ng.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Da Nang University of Economics|Trường Đại học Kinh tế Đà Nẵng|Đại học Kinh tế Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5305270"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.06111111"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.22666667"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/C%E1%BA%A7u%20R%E1%BB%93ng.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Dragon River Bridge|Cầu Rồng|Dragon Bridge"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5317667"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0601"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.21"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Duy%20Tan%20University.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Duy Tan University|Trường Đại học Duy Tân|Đại học dân lập Duy Tân|Đại học Dân lập Duy Tân|Đại học Duy Tân|Đại học tư thục Duy Tân|Trường Đại học dân lập Duy Tân|Trường Đại học Dân lập Duy Tân"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q5361929"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.066666666"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.233333333"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/French%20ships%20at%20Danang%201858.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Siege of Tourane|Trận Đà Nẵng|Siege of Đà Nẵng|Liên quân tấn công Đà Nẵng lần thứ nhất"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q6755207"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.26"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Marble%20Mountains%20View%203.JPG"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Ngũ Hành Sơn|Ngũ Hành Sơn|Marble Mountains (Vietnam)|Ngu Hanh Son"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q6940790"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.059894"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.222641"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Le%20mus%C3%A9e%20Cham%20%28Da%20Nang%29%20%284395751687%29.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Museum of Cham Sculpture|Bảo tàng Nghệ thuật điêu khắc Chăm Đà Nẵng|Bảo tàng Chàm|Bảo tàng Chăm|Bảo tàng Nghệ thuật Điêu khăc Chămpa Đà Nẵng|Viện Bảo tàng Chàm"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q6941009"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.877005"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.326415"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Sa%20Huynh%20Museum%2C%20Hoi%20An.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Museum of Sa Huynh Culture|Bảo tàng Văn hóa Sa Huỳnh"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q6941034"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.877233"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.329677"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/H%E1%BB%99i%20An%2C%20Museum%20of%20Trade%20Ceramics%2C%202020-01%20CN-02.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Museum of Trade Ceramics|Bảo tàng Gốm sứ Mậu dịch"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q30744118"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.877233"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.334205"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Precious-Heritage-Museum-Vietnam-Hoian-Rehahn.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Precious Heritage Art Gallery Museum|Bảo tàng Nghệ thuật Di sản vô giá"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q32173911"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.117777777"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.273611111"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Ban%20dao%20Son%20Tra.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Bán Đảo Sơn Trà"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q56320631"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.87944"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.335"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Hoi%20An%20-%20Quan%20Cong%20Temple%202.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Quan Cong Temple"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q60363881"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.970555555"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.182777777"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Le%20Trach%20train%20station%2C%20Da%20Nang%2C%20Vietnam.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Lệ Trạch railway station|Ga Lệ Trạch"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q65164322"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.051056"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.228806"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/C%E1%BA%A7u%20Tr%E1%BA%A7n%20Th%E1%BB%8B%20L%C3%BD%20v%C3%A0%20c%E1%BA%A7u%20Nguy%E1%BB%85n%20V%C4%83n%20Tr%E1%BB%97i.jpeg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Nguyen Van Troi Bridge|Cầu Nguyễn Văn Trỗi"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q89576998"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.87875"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.323321"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/H%E1%BB%99i%20An%2C%20Evangelical%20Church%2C%202020-01%20CN-03.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Evangelical Church of Hội An"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q111862510"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.089275"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.24946"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/My%20Khe%20Beach%207.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "SEASHORE HOTEL - APARTMENT"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q111862514"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.09349"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.25136"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/The%20Code%20Hotel%20and%20Spa%20Da%20Nang%20Vietnam.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "The Code Hotel & Spa"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q113003348"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.880313174"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.334084922"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Hoi%20An%20Park.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Hoi An Park|Công viên Hội An"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q114397271"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.879"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.329"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Hoi%20An%20Museum%20main%20building.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Hoi An Museum|Bảo tàng Hội An"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q137734970"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.07708379"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.222692"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Da%20Nang%20Administrative%20Center%20in%202015%2003.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Sở Giáo dục và Đào tạo Đà Nẵng|Da Nang Department of Education and Training"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q7560606"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.12388889"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.27861111"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Ban%20dao%20Son%20Tra.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Sơn Trà|Son Tra Mountain|núi Khỉ|bán đảo Sơn Trà|Sơn Trà Mountain|Núi Sơn Trà"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q7560606"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.119722222"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.286666666"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Ban%20dao%20Son%20Tra.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Sơn Trà|Son Tra Mountain|núi Khỉ|bán đảo Sơn Trà|Sơn Trà Mountain|Núi Sơn Trà"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q7560606"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.1197"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2868"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Ban%20dao%20Son%20Tra.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Sơn Trà|Son Tra Mountain|núi Khỉ|bán đảo Sơn Trà|Sơn Trà Mountain|Núi Sơn Trà"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q7798648"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0919"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.222"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Thu%E1%BA%ADnPh%C6%B0%E1%BB%9Bc.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Thuan Phuoc Bridge|Thuận Phước Bridge|Cầu Thuận Phước"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10752400"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.07227778"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.22672222"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Han%20River%2C%20Da%20Nang%2C%20Vietnam%20%2815428173695%29.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Cầu sông Hàn|Han River Bridge|Cầu Sông Hàn"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10752410"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.035466"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.236068"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/S%C3%B4ng%20H%C3%A0n%201.JPG"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Tuyen Son Bridge|Tiên Sơn Bridge|Cầu Tiên Sơn"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10796763"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.070277777"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.246388888"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/My%20Khe%20Beach%2C%20Da%20Nang%2C%20Vietnam.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Bãi Tắm Mỹ Khê|My Khe Beach|Mỹ Khê"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10800905"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0666845"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2231498"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Nha%20Tho%20Con%20Ga%20Da%20Nang.JPG"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Nhà thờ Con Gà Đà Nẵng|Nhà thờ Thánh Tâm Chúa Giêsu|Da Nang Cathedral|Nhà thờ chính tòa Đà Nẵng"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10823005"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.8975"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.136944444"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/S%C3%B4ng%20Vu%20Gia%2C%20%C4%91o%E1%BA%A1n%20qua%20%C4%90i%E1%BB%87n%20B%C3%A0n%2C%20Qu%E1%BA%A3ng%20Nam.JPG"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Sông Đăk Mi|Vu Gia river|Sông Vu Gia"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q135913200"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.121635"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.222166"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Railways%20and%20Tramways%20of%20Vi%E1%BB%87t%20Nam%20-%20Annam%20-%20Tourane%2C%201906%2C%20Tramway%20Tourane-Faifo%20-%20Le%20Train%20en%20gare%2C%20Fonds%20Sallet%20%28Flickr%2050179298566%29.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": ""
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q7833322"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.050277777"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.229444444"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Tr%E1%BA%A7n%20Th%E1%BB%8B%20L%C3%BD%20Bridge%20at%20daytime.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Tran Thi Ly Bridge|Cầu Trần Thị Lý"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10752385"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.0157058"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.2137457"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/C%E1%BA%A7u%20NTP%2C%20Da%20Nang.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Cầu Nguyễn Tri Phương|Nguyen Tri Phuong Bridge"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q10831736"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.061944444"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.178888888"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/C%E1%BA%A7u%20v%C6%B0%E1%BB%A3t%20Ng%C3%A3%20ba%20Hu%E1%BA%BF%2C%20%C4%90%C3%A0%20N%E1%BA%B5ng.jpeg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Nga Ba Hue Overpass|Cầu vượt Ngã Ba Huế"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q16984144"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.92103611"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.1563889"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/A370787.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Hill 55"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q18277260"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.099"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.277"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Son-Tra-Peninsula%20Da-Nang%20Vietnam%20Linh-Ung-Pagoda-01.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Chùa Linh Ứng|Linh Ung Pagoda"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q18277260"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "16.099"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.277"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Lady%20Buddha%20Statue%20at%20Linh%20Ung%20Pagoda.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Chùa Linh Ứng|Linh Ung Pagoda"
+          }
+        },
+        {
+          "item": {
+            "type": "uri",
+            "value": "http://www.wikidata.org/entity/Q28197235"
+          },
+          "lat": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "15.999072"
+          },
+          "lng": {
+            "datatype": "http://www.w3.org/2001/XMLSchema#double",
+            "type": "literal",
+            "value": "108.222817"
+          },
+          "image": {
+            "type": "uri",
+            "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Hoa%20Xuan%20Stadium.jpg"
+          },
+          "labels": {
+            "type": "literal",
+            "value": "Hòa Xuân Stadium|Sân vận động Hòa Xuân"
+          }
+        }
+      ]
+    }
+  }
+}

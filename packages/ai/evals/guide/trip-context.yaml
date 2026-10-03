@@ -1,0 +1,424 @@
+# The guide inside a trip, from a traveller's first real Đà Nẵng trip: it works in the thread's trip
+# and never asks for a trip code; reads the plan for "what's next" and a day; adds a place to a day as
+# a proposal to confirm; finds the hotel however it was typed and measures from it; and, with no
+# ratings in the data, recommends from curation without inventing a score. Vietnamese and English.
+- description: Adds the café from the last answer to day 1 as a proposal, without asking for a trip code (VI)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: vi
+    now: '2026-10-02T10:20:00+07:00'
+    trip_context: &trip |
+      destination_name: Đà Nẵng
+      destination_country: VN
+      start_date: 2026-10-02
+      end_date: 2026-10-04
+      tz: Asia/Ho_Chi_Minh
+      local_currency: VND
+      status: active
+      phase: in_trip
+      is_solo: false
+      guide_slug: chava
+      participants (2):
+      - Khánh (organiser, rsvp in)
+      - Linh (member, rsvp in)
+    history:
+      - role: user
+        content: cà phê gần sân bay đà nẵng
+      - role: guide
+        content: Gần sân bay có Cộng Cà Phê Sân Bay, cách ga quốc nội chừng 450 m, cà phê dừa ngon lắm.
+    question: thêm vào lịch ngày 1
+    expect_tools: [plan_read, propose_plan_changes]
+    tool_results: &add_tools
+      - tool: places_search
+        output:
+          - poi_id: 0199a000-0000-7000-8000-0000000000c1
+            name: Cộng Cà Phê Sân Bay
+            category: food
+            distance_m: null
+            open_now: true
+            price_level: 1
+            tags: [coffee]
+            distance_from: null
+            match: exact
+            recommended: false
+            why_go: null
+      - tool: plan_read
+        output: &plan
+          version: 0199a000-0000-7000-8000-0000000000a1
+          days:
+            - day_no: 1
+              date: '2026-10-02'
+              items:
+                - item_id: 0199a000-0000-7000-8000-0000000000b1
+                  title: Bãi biển Mỹ Khê
+                  poi_id: 0199a000-0000-7000-8000-0000000000c2
+                  starts_at: '2026-10-02T16:00:00+07:00'
+                  ends_at: '2026-10-02T18:00:00+07:00'
+                  category: beach
+            - day_no: 2
+              date: '2026-10-03'
+              items:
+                - item_id: 0199a000-0000-7000-8000-0000000000b2
+                  title: Bà Nà Hills
+                  poi_id: 0199a000-0000-7000-8000-0000000000c3
+                  starts_at: '2026-10-03T08:30:00+07:00'
+                  ends_at: '2026-10-03T13:00:00+07:00'
+                  category: nature
+                - item_id: 0199a000-0000-7000-8000-0000000000b3
+                  title: Chợ Hàn
+                  poi_id: 0199a000-0000-7000-8000-0000000000c4
+                  starts_at: '2026-10-03T15:00:00+07:00'
+                  ends_at: '2026-10-03T16:30:00+07:00'
+                  category: market
+                - item_id: 0199a000-0000-7000-8000-0000000000b4
+                  title: Cầu Rồng
+                  poi_id: 0199a000-0000-7000-8000-0000000000c5
+                  starts_at: '2026-10-03T21:00:00+07:00'
+                  ends_at: '2026-10-03T21:30:00+07:00'
+                  category: other
+            - day_no: 3
+              date: '2026-10-04'
+              items: []
+      - tool: propose_plan_changes
+        output:
+          changeset_id: 0199a000-0000-7000-8000-0000000000d1
+          violations: []
+          cost_delta: null
+    replay:
+      fixtures: [guide-eval-trip-add-vi-1, guide-eval-trip-add-vi-2, guide-eval-trip-add-vi-3]
+  assert: &add_asserts
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:no_trip_ids_from_model
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: not-icontains-any
+      value: ['đã thêm', 'đã được thêm', "i've added", 'i have added', 'is now on day']
+    - type: llm-rubric
+      value: Says it has proposed Cộng Cà Phê Sân Bay for day 1 for the traveller to confirm, briefly; never asks for a trip code or says the plan cannot be opened.
+
+- description: Adds the café from the last answer to day 1 as a proposal, without asking for a trip code (EN)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: en
+    now: '2026-10-02T10:20:00+07:00'
+    trip_context: *trip
+    history:
+      - role: user
+        content: coffee near da nang airport
+      - role: guide
+        content: Cộng Cà Phê Sân Bay is about 450 m from the domestic terminal, and its coconut coffee is the one to get.
+    question: add it to day 1
+    expect_tools: [plan_read, propose_plan_changes]
+    tool_results: *add_tools
+    replay:
+      fixtures: [guide-eval-trip-add-en-1, guide-eval-trip-add-en-2, guide-eval-trip-add-en-3]
+  assert: *add_asserts
+
+- description: Suggests the next stop from the plan and the local time (VI)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: vi
+    now: '2026-10-03T14:05:00+07:00'
+    trip_context: *trip
+    question: Gợi ý cho tôi điểm đi tiếp theo
+    expect_tools: [plan_read]
+    tool_results: &plan_tools
+      - tool: plan_read
+        output: *plan
+    replay:
+      fixtures: [guide-eval-trip-next-vi-1, guide-eval-trip-next-vi-2]
+  assert: &next_asserts
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: icontains-any
+      value: ['Chợ Hàn', 'Han Market']
+
+- description: Answers what's next from the plan and the local time (EN)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: en
+    now: '2026-10-03T14:05:00+07:00'
+    trip_context: *trip
+    question: what's next for us today?
+    expect_tools: [plan_read]
+    tool_results: *plan_tools
+    replay:
+      fixtures: [guide-eval-trip-next-en-1, guide-eval-trip-next-en-2]
+  assert: *next_asserts
+
+- description: Finds the hotel typed with "khách sạn" and the city name (VI)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: vi
+    now: '2026-10-02T12:00:00+07:00'
+    trip_context: *trip
+    question: Khách sạn avatar đà nẵng
+    expect_tools: [places_search]
+    tool_results:
+      - tool: places_search
+        output:
+          - poi_id: 0199a000-0000-7000-8000-0000000000c6
+            name: Avatar Danang Hotel
+            category: stay
+            distance_m: null
+            open_now: null
+            price_level: 2
+            tags: [hotel]
+            distance_from: null
+            match: exact
+            recommended: true
+            why_go: A few minutes' walk to My Khe beach, with a rooftop pool over the city.
+    replay:
+      fixtures: [guide-eval-trip-hotel-vi-1, guide-eval-trip-hotel-vi-2]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: icontains
+      value: Avatar Danang Hotel
+    - type: not-icontains-any
+      value: ['không tìm thấy', 'không thấy khách sạn', "can't find", 'cannot find']
+
+- description: Lists massage near the hotel as typed, with distances from it (VI)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: vi
+    now: '2026-10-02T20:10:00+07:00'
+    trip_context: *trip
+    history:
+      - role: user
+        content: Khách sạn avatar đà nẵng
+      - role: guide
+        content: Avatar Danang Hotel đây, đi bộ vài phút là ra biển Mỹ Khê, trên nóc có hồ bơi nhìn ra thành phố.
+    question: massage gần ks avatar
+    expect_tools: [places_search]
+    tool_results:
+      - tool: places_search
+        output:
+          - poi_id: 0199a000-0000-7000-8000-0000000000c7
+            name: Herbal Spa
+            category: health
+            distance_m: 160
+            open_now: true
+            price_level: 2
+            tags: [massage, spa]
+            distance_from: Avatar Danang Hotel
+            match: exact
+            recommended: false
+            why_go: null
+          - poi_id: 0199a000-0000-7000-8000-0000000000c8
+            name: Sen Spa
+            category: health
+            distance_m: 4100
+            open_now: true
+            price_level: 3
+            tags: [massage, spa]
+            distance_from: Avatar Danang Hotel
+            match: exact
+            recommended: true
+            why_go: Vietnamese herbal massage in a quiet garden.
+    replay:
+      fixtures: [guide-eval-trip-massage-vi-1, guide-eval-trip-massage-vi-2]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: icontains
+      value: Herbal Spa
+    - type: javascript
+      value: file://../graders.ts:no_invented_rating
+
+- description: Recommends a close spa from curation, without inventing ratings (VI)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: vi
+    now: '2026-10-02T20:30:00+07:00'
+    trip_context: *trip
+    history:
+      - role: user
+        content: massage gần ks avatar
+      - role: guide
+        content: Herbal Spa cách khách sạn chừng 160 m, còn mở tối nay; Sen Spa xa hơn, chừng 4,1 km.
+    question: chỗ nào gần mà đánh giá cao
+    expect_tools: [places_search]
+    tool_results:
+      - tool: places_search
+        output:
+          - poi_id: 0199a000-0000-7000-8000-0000000000cb
+            name: Mộc Spa Mỹ Khê
+            category: health
+            distance_m: 650
+            open_now: true
+            price_level: 2
+            tags: [massage, spa]
+            distance_from: Avatar Danang Hotel
+            match: exact
+            recommended: true
+            why_go: Hot-stone and herbal massages by the beach, run by a family from Huế.
+          - poi_id: 0199a000-0000-7000-8000-0000000000c8
+            name: Sen Spa
+            category: health
+            distance_m: 4100
+            open_now: true
+            price_level: 3
+            tags: [massage, spa]
+            distance_from: Avatar Danang Hotel
+            match: exact
+            recommended: true
+            why_go: Vietnamese herbal massage in a quiet garden.
+    replay:
+      fixtures: [guide-eval-trip-rated-vi-1, guide-eval-trip-rated-vi-2]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: javascript
+      value: file://../graders.ts:no_invented_rating
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: llm-rubric
+      value: Recommends Mộc Spa Mỹ Khê (and possibly Sen Spa) with its distance from the hotel, and makes clear it is the guide's own recommendation rather than a rating; invents no star rating, score or review count.
+
+- description: Recommends close places without inventing ratings (EN)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: en
+    now: '2026-10-02T20:30:00+07:00'
+    trip_context: *trip
+    question: anything close by that's well rated? we're at the Avatar hotel
+    expect_tools: [places_search]
+    tool_results:
+      - tool: places_search
+        output: &recommended_places
+          - poi_id: 0199a000-0000-7000-8000-0000000000c9
+            name: Bánh Mì Bà Lan
+            category: food
+            distance_m: 260
+            open_now: true
+            price_level: 1
+            tags: [banh_mi]
+            distance_from: Avatar Danang Hotel
+            match: null
+            recommended: true
+            why_go: The crew-favourite bánh mì by the beach, crisp and loaded.
+          - poi_id: 0199a000-0000-7000-8000-0000000000c2
+            name: Bãi biển Mỹ Khê
+            category: beach
+            distance_m: 420
+            open_now: null
+            price_level: null
+            tags: [beach, sunrise]
+            distance_from: Avatar Danang Hotel
+            match: null
+            recommended: true
+            why_go: Wide, clean sand; go at sunrise before the heat.
+    replay:
+      fixtures: [guide-eval-trip-rated-en-1, guide-eval-trip-rated-en-2]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: javascript
+      value: file://../graders.ts:no_invented_rating
+    - type: javascript
+      value: file://../graders.ts:grounded
+    - type: llm-rubric
+      value: Recommends Bánh Mì Bà Lan and/or Mỹ Khê beach with their distances from the hotel, and makes clear these are the guide's own recommendations rather than ratings; invents no star rating, score or review count.
+
+- description: Says day 1 has no plan yet and suggests, without asking for a trip code (VI)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: vi
+    now: '2026-10-01T21:00:00+07:00'
+    trip_context: *trip
+    question: Ngày 1 có gì?
+    expect_tools: [plan_read]
+    tool_results:
+      - tool: plan_read
+        output:
+          version: null
+          days:
+            - { day_no: 1, date: '2026-10-02', items: [] }
+            - { day_no: 2, date: '2026-10-03', items: [] }
+            - { day_no: 3, date: '2026-10-04', items: [] }
+      - tool: places_search
+        output: *recommended_places
+    replay:
+      fixtures: [guide-eval-trip-noplan-vi-1, guide-eval-trip-noplan-vi-2]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: llm-rubric
+      value: Says plainly there is no plan for day 1 yet and offers a concrete suggestion or two; never asks for a trip code or link.
+
+- description: Says plainly a hotel is not among its places and offers the closest match (EN)
+  vars:
+    route: guide.chat
+    persona: chava
+    locale: en
+    now: '2026-10-02T12:00:00+07:00'
+    trip_context: *trip
+    question: is the Sheraton Grand Danang close to us?
+    expect_tools: [places_search]
+    tool_results:
+      - tool: places_search
+        output:
+          - poi_id: 0199a000-0000-7000-8000-0000000000ca
+            name: Four Points by Sheraton Danang
+            category: stay
+            distance_m: null
+            open_now: null
+            price_level: 3
+            tags: [hotel]
+            distance_from: null
+            match: close
+            recommended: false
+            why_go: null
+    replay:
+      fixtures: [guide-eval-trip-notfound-en-1, guide-eval-trip-notfound-en-2]
+  assert:
+    - type: javascript
+      value: file://../graders.ts:never_asks_for_trip
+    - type: javascript
+      value: file://../graders.ts:calls_expected_tools
+    - type: javascript
+      value: file://../graders.ts:replies_in_locale
+    - type: llm-rubric
+      value: Says it could not find Sheraton Grand Danang among its places and offers Four Points by Sheraton Danang as the closest name; does not claim the Sheraton Grand is nearby or give it a distance.

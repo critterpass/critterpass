@@ -1,0 +1,43 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "dfa4a57d-1f7a-434a-b781-eda9f97c428c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Để tớ tìm lại quán cà phê đó và đọc lịch ngày 1 đã nhé."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_UdZj8s7fvV9hXY5t0iAP2039",
+          "name": "places_search",
+          "input": {
+            "query": "cà phê sân bay Đà Nẵng"
+          }
+        },
+        {
+          "type": "tool_use",
+          "id": "call_01_c1FL80MiR9uOVP2MUT6A6166",
+          "name": "plan_read",
+          "input": {
+            "day": 1
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 3994,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 6528,
+        "output_tokens": 105,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "5771bc98-abe1-4a54-82c0-43cdd8c857a1",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Gần khách sạn Avatar có Herbal Spa, cách 160 m và đang mở, tiện ghé ngay. Xa hơn chút, Sen Spa cách 4,1 km, chỗ tớ hay giới thiệu vì có massage thảo mộc Việt trong khu vườn yên tĩnh. Đi muộn thì nhớ xem giờ đóng cửa trước khi ra khỏi cửa nhé."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 282,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10496,
+        "output_tokens": 108,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

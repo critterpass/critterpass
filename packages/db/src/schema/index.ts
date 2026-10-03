@@ -210,6 +210,7 @@ export {
   stampSignatures,
 } from './recap';
 export {
+  albumCurations,
   albumExports,
   albumPicks,
   albumPrefs,

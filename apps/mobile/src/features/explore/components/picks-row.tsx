@@ -15,6 +15,7 @@ import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { categoryIcon, categoryLabel } from '../category';
+import { GenericPhotoLabel } from './generic-photo-label';
 import { SponsoredTag, WhySponsoredLink } from './sponsored-card';
 
 const CARD_WIDTH = 136;
@@ -75,6 +76,7 @@ export function PicksRow({ picks, onOpen, accent }: PicksRowProps) {
               <View style={styles.photo}>
                 <Hatch />
                 <MediaLayer media={pick.photo} surface="dark" accent={accent} dots={false} />
+                <GenericPhotoLabel photo={pick.photo} />
                 {pick.photo === null ? (
                   <Icon
                     name={categoryIcon(pick.category)}

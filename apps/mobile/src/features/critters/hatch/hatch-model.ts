@@ -1,7 +1,8 @@
 /**
  * The trip egg's state for the PASS tab and the hatch ceremony (3l-1): waiting for landing,
- * ready to hatch by hand (the trip is under way and it is the start date or later on this phone,
- * or the trip's first day has begun in the destination's own time zone, at any hour: no position
+ * ready to hatch by hand (the trip is under way and it is the start date or later on the trip's
+ * clock, its own zone else its destination's; the phone's only when the trip has neither), or the
+ * trip's first day has begun in the destination's own time zone, at any hour: no position
  * is needed, since none is read overnight),
  * or hatched with the ceremony still unseen on this device. Which ceremonies were seen is kept
  * per device, so a second phone still plays it once; the hatch itself is idempotent server-side.
@@ -34,10 +35,18 @@ export function deviceTimeZone(): string {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
-/** `hatch_egg{trigger:manual}` is allowed: the trip is under way and today (here) ≥ its start. */
-export function canHatchByHand(trip: TripRow, now: Date, tz: string = deviceTimeZone()): boolean {
+/**
+ * `hatch_egg{trigger:manual}` is allowed: the trip is under way and today, on the trip's clock, is
+ * its start or later. `deviceTz` counts only for a trip with no zone at all, so a phone still on
+ * home time sees the right card on the first day.
+ */
+export function canHatchByHand(
+  trip: TripRow,
+  now: Date,
+  deviceTz: string = deviceTimeZone(),
+): boolean {
   if (trip.status !== 'in_trip' || trip.start_date === null) return false;
-  return toLocalWallTime(now, tz).date >= trip.start_date;
+  return toLocalWallTime(now, trip.tz ?? deviceTz).date >= trip.start_date;
 }
 
 export function eggCardFor(

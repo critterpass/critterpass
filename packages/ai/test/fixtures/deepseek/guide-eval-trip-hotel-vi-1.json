@@ -1,0 +1,31 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "d2761372-bd07-4344-b982-adfccd030dc7",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "tool_use",
+          "id": "call_00_Bw5jWxjjtFL17a3CemQh6742",
+          "name": "places_search",
+          "input": {
+            "query": "Avatar Đà Nẵng"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 348,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10112,
+        "output_tokens": 43,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

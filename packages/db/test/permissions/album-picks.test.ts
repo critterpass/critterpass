@@ -17,8 +17,8 @@ afterAll(async () => {
   await harness.stop();
 });
 
-describe('album_picks', () => {
+describe.each(['album_picks', 'album_curations'])('%s', (table) => {
   it('is read by the crew only, synced on the trip stream and never written by app_user', async () => {
-    await expectCrewReadOnly(harness, 'album_picks');
+    await expectCrewReadOnly(harness, table);
   });
 });
