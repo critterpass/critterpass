@@ -12,6 +12,7 @@ const row = (id: string, at: string | null, place: string | null = null): Slippe
   verified_at: at,
   resolved_at: null,
   place,
+  rarity: 'rare',
 });
 
 describe('slipped away', () => {
@@ -22,7 +23,7 @@ describe('slipped away', () => {
         NOW,
         () => false,
       ),
-    ).toEqual({ encounterId: 'a', place: 'Dragon Bridge' });
+    ).toEqual({ encounterId: 'a', place: 'Dragon Bridge', rarity: 'rare' });
   });
 
   it('skips one dismissed on this phone, and one older than a week', () => {

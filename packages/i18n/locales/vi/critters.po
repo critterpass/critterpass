@@ -107,9 +107,17 @@ msgstr "{place} đang yên dần"
 msgid "critters.dex.legendaryTitle"
 msgstr "{placeLine}, {span}"
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.eyebrowTierAt"
+msgstr "{tier} · {place}"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.shareLine"
 msgstr "{tier} · gặp ở {city}"
+
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.eyebrowTier"
+msgstr "Dạng {tier}"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.formEyebrow"

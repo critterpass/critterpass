@@ -107,8 +107,16 @@ msgstr ""
 msgid "critters.dex.legendaryTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.eyebrowTierAt"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.shareLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.eyebrowTier"
 msgstr ""
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts

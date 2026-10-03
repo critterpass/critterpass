@@ -192,6 +192,7 @@ describe('PASS tab Critterdex', () => {
     );
     await waitFor(() => expect(screen.getByTestId('critters-slipped-away')).toBeTruthy());
     expect(screen.getByText('THIS ONE SLIPPED AWAY')).toBeTruthy();
+    expect(screen.getByText('RARE FORM')).toBeTruthy();
     await fireEvent.press(screen.getByTestId('critters-slipped-away-ok'));
     await waitFor(() => expect(screen.queryByTestId('critters-slipped-away')).toBeNull());
   });
