@@ -11,10 +11,12 @@ import { sessionHeaders } from '@/data/app-session/auth-client';
 import { resolveApiBaseUrl } from '@/data/places/apiBaseUrl';
 import { useLocalFirst } from '@/data/powersync/local-first-context';
 
+import { foldPlaceText } from './place-search';
 import type { PlaceRow } from './queries';
 
 export const SERVER_SEARCH_DEBOUNCE_MS = 250;
-const SERVER_LIMIT = 20;
+// The most the api gives; its rows are re-ranked here so places named after the query come first.
+const SERVER_LIMIT = 50;
 
 export type FetchPlaces = (
   input: { readonly destinationId: string; readonly q: string },
@@ -24,6 +26,7 @@ export type FetchPlaces = (
 interface RawPlace {
   readonly id: string;
   readonly name: string;
+  readonly nameLocal?: string | null;
   readonly category: string | null;
   readonly lat: number | null;
   readonly lng: number | null;
@@ -41,7 +44,7 @@ export const fetchPlacesOnline: FetchPlaces = async ({ destinationId, q }, signa
   });
   if (!response.ok) throw new Error(`place search answered ${String(response.status)}`);
   const body = (await response.json()) as { results?: RawPlace[] };
-  return (body.results ?? []).map((place) => ({
+  return rankByName(body.results ?? [], q).map((place) => ({
     id: place.id,
     name: place.name,
     category: place.category ?? null,
@@ -49,6 +52,23 @@ export const fetchPlacesOnline: FetchPlaces = async ({ destinationId, q }, signa
     lng: place.lng ?? null,
   }));
 };
+
+/**
+ * Places whose name or local name has a word starting with each typed word first, the rest after
+ * in the api's own order: the api also matches by address and tags, so "My Son" brings every bar in
+ * Mỹ An, Sơn Trà along with the sanctuary.
+ */
+export function rankByName<T extends { readonly name: string; readonly nameLocal?: string | null }>(
+  places: readonly T[],
+  query: string,
+): T[] {
+  const words = foldPlaceText(query).split(' ').filter(Boolean);
+  const named = (place: T) => {
+    const tokens = foldPlaceText(`${place.name} ${place.nameLocal ?? ''}`).split(' ');
+    return words.every((word) => tokens.some((token) => token.startsWith(word)));
+  };
+  return [...places.filter(named), ...places.filter((place) => !named(place))];
+}
 
 export type ServerSearchStatus = 'idle' | 'offline' | 'loading' | 'ready' | 'failed';
 

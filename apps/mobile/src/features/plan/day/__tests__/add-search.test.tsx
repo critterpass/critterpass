@@ -16,6 +16,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import type { PlaceRow } from '../queries';
 import {
   mergePlaceRows,
+  rankByName,
   searchState,
   useServerPlaceSearch,
   type FetchPlaces,
@@ -56,6 +57,12 @@ describe('merging the phone and the server', () => {
       'p-cafe',
       'p-sanctuary',
     ]);
+  });
+
+  it('puts places named after the query before those matching only by address', () => {
+    const bar = { name: 'Billabong Bar', nameLocal: null };
+    const sanctuary = { name: 'Di sản Văn hóa Thế Giới Mỹ Sơn', nameLocal: 'Thánh địa Mỹ Sơn' };
+    expect(rankByName([bar, sanctuary], 'My Son')).toEqual([sanctuary, bar]);
   });
 
   it('says couldn’t search only when both fail, and keeps rows from whichever answered', () => {

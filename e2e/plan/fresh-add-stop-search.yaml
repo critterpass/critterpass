@@ -1,10 +1,16 @@
 appId: app.critterpass.dev
+env:
+  # An open-data record no curated name matches (the Japanese Covered Bridge in Hội An, a real
+  # drive from the centre); matched loosely, since the Chùa Cầu records may be merged later.
+  PLACE_QUERY: 'japanese bridge'
+  PLACE_TEXT: '(?i).*(japanese covered bridge|ch[ùu]a c[ầa]u).*'
 ---
 # Searching a real place to add to a fresh trip's day, on staging: a brand-new account locks in a
 # Đà Nẵng trip for today (../happy/subflows/trip-under-way.yaml), opens day 1 and adds a stop by
-# search. "My Son" is typed the way a keyboard writes it: the phone's curated places answer first
-# and the server's open-data places follow, so the Mỹ Sơn sanctuary (open data) is found, added and
-# shown by its own name with its times. A word no place has says "Nothing found".
+# search. "My Son" is typed the way a keyboard writes it and still finds places written with their
+# accents. Then a place only the server has (open data, ${PLACE_QUERY} → ${PLACE_TEXT}) is found
+# after the phone's own rows, added, and shown on the day by its own name. A word no place has
+# says "Nothing found".
 - runFlow:
     file: ../happy/subflows/trip-under-way.yaml
     env:
@@ -82,16 +88,24 @@ appId: app.critterpass.dev
 - waitForAnimationToEnd:
     timeout: 3000
 - takeScreenshot: en-fresh-add-search-my-son
-# The sanctuary is an open-data place the phone does not carry: its row comes from the server.
+# A place the phone does not carry (open data, ${PLACE_TEXT}): its row comes from the server.
+- tapOn:
+    id: 'plan-add-query'
+- eraseText: 20
+- inputText: ${PLACE_QUERY}
+- extendedWaitUntil:
+    visible:
+      text: ${PLACE_TEXT}
+    timeout: 30000
 - hideKeyboard
 - scrollUntilVisible:
     element:
-      text: '(?i)m[ỹy] s[ơo]n(, .*)?'
+      text: ${PLACE_TEXT}
     direction: DOWN
     timeout: 30000
 - takeScreenshot: en-fresh-add-search-server-row
 - tapOn:
-    text: '(?i)m[ỹy] s[ơo]n(, .*)?'
+    text: ${PLACE_TEXT}
 - extendedWaitUntil:
     visible:
       id: 'plan-add-confirm'
@@ -104,7 +118,7 @@ appId: app.critterpass.dev
 # after.
 - extendedWaitUntil:
     visible:
-      text: '(?i).*m[ỹy] s[ơo]n.*'
+      text: ${PLACE_TEXT}
     timeout: 30000
 - waitForAnimationToEnd:
     timeout: 5000
