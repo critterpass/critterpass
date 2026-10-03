@@ -681,6 +681,11 @@ streams:
         WHERE quote IN (SELECT home_currency FROM users WHERE id = auth.user_id())
       - |-
         SELECT * FROM fx_snapshots
+        WHERE quote IN (
+          SELECT home_currency_override FROM user_settings WHERE user_id = auth.user_id()
+        )
+      - |-
+        SELECT * FROM fx_snapshots
         WHERE quote IN (SELECT settlement_currency FROM crews WHERE id IN my_crews)
       - |-
         SELECT * FROM fx_snapshots

@@ -27,7 +27,7 @@ streams:
       - SELECT *, key AS id FROM products
       - SELECT *, key AS id FROM perks
 
-  # Rates the caller can need offline: their home currency, their crews' settlement currencies, their
+  # Rates the caller can need offline: their home currency (and the one they chose in Settings), their crews' settlement currencies, their
   # trips' local currencies (a trip's own, else its destination's: crew trips leave the column empty)
   # and USD, which every cost index, fare and the budget step is quoted in. Rates share one base, so
   # converting between two currencies needs both of their rows. Stream filters cannot compare against
@@ -40,6 +40,11 @@ streams:
       - |
         SELECT * FROM fx_snapshots
         WHERE quote IN (SELECT home_currency FROM users WHERE id = auth.user_id())
+      - |
+        SELECT * FROM fx_snapshots
+        WHERE quote IN (
+          SELECT home_currency_override FROM user_settings WHERE user_id = auth.user_id()
+        )
       - |
         SELECT * FROM fx_snapshots
         WHERE quote IN (SELECT settlement_currency FROM crews WHERE id IN my_crews)
