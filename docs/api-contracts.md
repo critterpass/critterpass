@@ -353,6 +353,8 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 
 **[api-contracts-suppliers.md](./api-contracts-suppliers.md):** section 4.11 commands for supplier clicks, activity holds/bookings, vendor messages, concierge; routes for affiliate bridge (`GET /v1/suppliers/r/{subId}`), payment sessions, offers, and cancel-quote; error codes for supplier operations.
 
+**[api-contracts-planning.md](./api-contracts-planning.md):** planning and places: `save_idea`, `remove_idea`, `hide_place`/`unhide_place`, `set_place_stance`/`clear_place_stance`, `start_idea_placement`, `post_place_decision`, `apply_check_fix`, `ask_member_about_saves`, `answer_member_ask`; fit, gaps, split, search parse, link import, suggest, reorder and swaps routes; the planning AI routes, realtime hints, jobs and config keys.
+
 **[api-contracts-explore.md](./api-contracts-explore.md):** Explore commands (saved lists, `undo_swipe`, `end_swipe_session`, `record_sponsored_event`, the full `save_place` and `swipe_vote` contracts), the explore reads (`/v1/explore/destinations/{id}`, `/v1/places/{id}/context`, `/v1/explore/sponsored`), the `swipe:` channel and the explore jobs.
 
 **[api-contracts-proposal.md](./api-contracts-proposal.md):** section 4.7 as built: reply-by bounds, the `SEAT_CAP_REACHED` waitlist result, `choose_private_option` and `resolve_dropout` (doc deltas), the private objection SSE route and the reply route, proposal realtime events, streams and jobs.

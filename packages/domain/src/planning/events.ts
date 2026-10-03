@@ -13,6 +13,7 @@ export const PLANNING_EVENT_TYPES = [
   'place.stance_set',
   'place.stance_cleared',
   'plan.legs_updated',
+  'ideas.placed',
 ] as const;
 export type PlanningEventType = (typeof PLANNING_EVENT_TYPES)[number];
 
@@ -25,4 +26,11 @@ export const PLANNING_EVENT_PAYLOADS = {
   'place.stance_set': stance.extend({ stance: placeStanceSchema }),
   'place.stance_cleared': stance,
   'plan.legs_updated': z.object({ trip_id: z.uuid(), version_id: z.uuid() }),
+  /** Tokek finished placing ideas for the person who asked: their draft is ready to review. */
+  'ideas.placed': z.object({
+    trip_id: z.uuid(),
+    job_id: z.uuid(),
+    user_id: z.uuid(),
+    change_set_id: z.uuid().nullable(),
+  }),
 } as const satisfies Record<PlanningEventType, z.ZodType>;

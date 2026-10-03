@@ -592,6 +592,12 @@ const VALID_PAYLOADS: Record<(typeof DOMAIN_EVENT_TYPES)[number], Record<string,
   'place.stance_set': { ...STANCE, stance: 'rather_not' },
   'place.stance_cleared': STANCE,
   'plan.legs_updated': { trip_id: IDEA.trip_id, version_id: crypto.randomUUID() },
+  'ideas.placed': {
+    trip_id: IDEA.trip_id,
+    job_id: crypto.randomUUID(),
+    user_id: IDEA.user_id,
+    change_set_id: null,
+  },
   'briefing.built': {
     trip_id: crypto.randomUUID(),
     user_id: crypto.randomUUID(),

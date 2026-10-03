@@ -188,6 +188,6 @@ SELECT pg_temp.widen_in_check('fair_use_counters', 'fair_use_counters_metric_che
 -- Domain events the planning commands and jobs append (packages/domain/src/planning/events.ts).
 SELECT pg_temp.widen_in_check('domain_events', 'domain_events_type_check', 'type', ARRAY[
   'trip_idea.saved', 'trip_idea.removed', 'place.stance_set', 'place.stance_cleared',
-  'plan.legs_updated']);
+  'plan.legs_updated', 'ideas.placed']);
 
 DROP FUNCTION pg_temp.widen_in_check(regclass, text, text, text[]);
