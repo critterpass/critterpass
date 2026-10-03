@@ -35,3 +35,14 @@ export const placeHideRowSchema = z.object({
   created_at: z.iso.datetime({ offset: true }),
 });
 export type PlaceHideRow = z.infer<typeof placeHideRowSchema>;
+
+/**
+ * The crew is split on a place when at least one person said WANT IT and at least one said RATHER
+ * NOT. Only explicit stances count: swipes and hidden places never feed this.
+ */
+export function isCrewSplit(counts: {
+  readonly want: number;
+  readonly ratherNot: number;
+}): boolean {
+  return counts.want >= 1 && counts.ratherNot >= 1;
+}
