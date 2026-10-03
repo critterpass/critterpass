@@ -113,6 +113,16 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
    already owns (overlapping boxes: Hội An inside Đà Nẵng's) is left untouched; search finds it
    through the box. Nothing is ever deactivated or deleted. Đà Nẵng ingested 80,479 active POIs.
 
+   OpenStreetMap runs last over the same box (D25, ODbL). The worker downloads the smallest
+   Geofabrik extract covering the box into its temp directory (Bali reads the 176 MB Nusa Tenggara
+   file; it is deleted when another extract is needed) and reads it with DuckDB's `spatial`
+   extension. Sights the other sources lack (viewpoints, peaks, waterfalls, beaches, temples,
+   ruins, parks, markets) become POIs under `source_ids.osm`. A business OSM holds only fills the
+   matched POI's empty hours, website and phone. `opening_hours` fills `pois.hours` where ours are
+   empty, with `hours_source = 'osm'`; editorial and researched hours are never replaced. The
+   worker log's `osm` block counts what was added, linked and given hours. An ingest that injects
+   its own Overture reader (the tests) reads OSM only when it injects an OSM reader too.
+
 3. Pin the places the curated set must hold, by open-data name and a point at the real place:
    `tools/content-factory/src/data/pinned-places.ts`. Find the names on staging first, because
    open data repeats names at wrong positions. Pinned stays, transit and markets are kept even
@@ -144,6 +154,10 @@ railway run --service api --environment staging -- pnpm --dir <worktree> --filte
 `ingest -- --all [--except …]` runs the same steps on this machine, one destination at a time.
 Watch progress in the console's jobs panel (`places.ingest`) or the worker logs
 (`places ingest finished`, with inserted, updated, skipped and active counts).
+
+A destination nobody ingested yet does not wait for the month: the first pitch or trip there,
+while it holds fewer than 50 active places, queues `places.ingest` for its slug (at most once a
+week). That job finds the place box first when the destination has none.
 
 ## 4. Ride tariffs
 

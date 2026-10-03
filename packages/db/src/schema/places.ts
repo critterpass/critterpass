@@ -62,6 +62,8 @@ export const pois = pgTable('pois', {
   address: text('address'),
   hours: jsonb('hours').notNull().default({}),
   hoursVerifiedAt: timestamp('hours_verified_at', { withTimezone: true, mode: 'date' }),
+  /** Where `hours` came from: `osm`, `editorial` or `research`; null for older rows. */
+  hoursSource: text('hours_source'),
   priceLevel: integer('price_level'),
   sourceIds: jsonb('source_ids').notNull().default({}),
   editorial: jsonb('editorial').notNull().default({}),
@@ -192,6 +194,7 @@ export const foursquareApiUsage = pgTable('foursquare_api_usage', {
   month: text('month').primaryKey(),
   detailsCalls: integer('details_calls').notNull().default(0),
   matchCalls: integer('match_calls').notNull().default(0),
+  searchCalls: integer('search_calls').notNull().default(0),
   refusedCalls: integer('refused_calls').notNull().default(0),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

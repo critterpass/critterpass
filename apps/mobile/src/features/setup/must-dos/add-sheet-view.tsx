@@ -41,6 +41,8 @@ export interface AddSheetViewProps {
   readonly onPickPlace: (place: PlaceResult) => void;
   readonly onKeepText: () => void;
   readonly onDismiss?: (() => void) | undefined;
+  /** Live results past the guide's own ("More places"), drawn under the list. */
+  readonly more?: ReactNode;
 }
 
 const useStyles = makeStyles((th) => ({
@@ -59,7 +61,7 @@ const useStyles = makeStyles((th) => ({
   text: { flex: 1, gap: th.space['2'] },
 }));
 
-function ResultRow({
+export function ResultRow({
   title,
   line,
   trailing,
@@ -115,6 +117,7 @@ export function AddSheetView({
   onPickPlace,
   onKeepText,
   onDismiss,
+  more,
 }: AddSheetViewProps) {
   const styles = useStyles();
   // 3c-10 draws no ✕: the grabber (and a swipe down) is the way back.
@@ -260,6 +263,7 @@ export function AddSheetView({
               })}
             </View>
           )}
+          {typed === '' ? null : more}
         </View>
       </SheetScrollView>
     </Sheet>

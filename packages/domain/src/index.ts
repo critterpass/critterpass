@@ -162,6 +162,7 @@ export {
   type WeeklySpans,
 } from './places/hours';
 export { closesSoon, nextOpen, openAt } from './places/open-at';
+export * from './places/osm';
 export * from './places/foursquare';
 export * from './places/foursquare-match';
 export * from './places/queues';

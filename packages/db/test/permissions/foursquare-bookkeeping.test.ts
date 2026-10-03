@@ -112,6 +112,19 @@ describe('app.reserve_foursquare_call: the shared monthly cap', () => {
     expect(results.filter(Boolean)).toHaveLength(5);
   });
 
+  it('counts live searches under the same cap', async () => {
+    const january = new Date('2027-01-15T00:00:00Z');
+    expect(await reserve('search', 2, january)).toBe(true);
+    expect(await reserve('details', 2, january)).toBe(true);
+    expect(await reserve('search', 2, january)).toBe(false);
+    const { rows } = await withSystem(db.pool, (tx) =>
+      tx.query(
+        "SELECT details_calls, search_calls, refused_calls FROM foursquare_api_usage WHERE month = '2027-01'",
+      ),
+    );
+    expect(rows).toEqual([{ details_calls: 1, search_calls: 1, refused_calls: 1 }]);
+  });
+
   it('rejects an unknown kind', async () => {
     await expect(reserve('photos', 5, new Date())).rejects.toThrow(/unknown foursquare call kind/);
   });

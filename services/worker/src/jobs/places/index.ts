@@ -6,7 +6,9 @@
  * the export directory. The queue's `singleton` policy keeps one job active at a time, so the
  * destinations run one after another, each with DuckDB's memory capped. A destination job ingests
  * its bounds (`src/places/ingest-all.ts#ingestPlaceDestination`). An operator can enqueue the
- * fan-out with `except` to hold destinations back, or one destination by `slug`.
+ * fan-out with `except` to hold destinations back, or one destination by `slug`; a pitch or a trip in
+ * a sparse destination queues its `slug` on demand (services/api/src/places/on-demand-ingest.ts),
+ * and a destination without a place box gets one before it is ingested.
  */
 import { DEFAULT_QUEUE_SPEC, type QueueSpec } from '@cp/domain';
 import { z } from 'zod';
@@ -47,7 +49,12 @@ export function placesIngestJob(): AnyJobDefinition {
     async handler(data, { pool, boss, logger }) {
       const slug = data?.slug;
       if (slug !== undefined) {
-        const [target] = await ingestTargets(pool, { slugs: [slug] });
+        let [target] = await ingestTargets(pool, { slugs: [slug] });
+        // Queued on demand for a destination nobody ingested yet: find its box first.
+        if (target === undefined) {
+          await backfillPlaceBounds(pool);
+          [target] = await ingestTargets(pool, { slugs: [slug] });
+        }
         if (target === undefined) {
           logger.warn({ slug }, 'places ingest skipped: destination has no place bounds');
           return { slug, skipped: 'no_place_bounds' };

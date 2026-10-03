@@ -51,6 +51,7 @@ import { enqueueCountdownRecompute } from '../commands/home';
 import { enqueueGuideMention } from '../commands/guide/mention';
 import { enqueueInboxFanout } from '../commands/inbox';
 import { queueSetupRecomputes } from '../commands/setup/membership-hook';
+import { onDemandIngestHook, PLACES_INGEST_QUEUE } from '../places/on-demand-ingest';
 
 export interface StartJobProducerOptions {
   /** A direct (non-PgBouncer) connection: pg-boss takes advisory locks while it starts. */
@@ -125,6 +126,7 @@ export async function startJobProducer(options: StartJobProducerOptions): Promis
       'cost.recompute',
       SUPPLIER_QUEUES.replyParse,
       DISRUPTION_QUEUES.react,
+      PLACES_INGEST_QUEUE,
     ]) {
       if ((await boss.getQueue(queue)) === null) {
         await boss.createQueue(queue, { policy: 'exclusive' });
@@ -153,4 +155,6 @@ export function routeNotificationsFromApiEvents(): void {
   onEventAppended(enqueueCountdownRecompute);
   onEventAppended(queueSetupRecomputes);
   onEventAppended(enqueueGuideMention);
+  // A pitch or a trip in a destination with few places queues that destination's ingest.
+  onEventAppended(onDemandIngestHook);
 }
