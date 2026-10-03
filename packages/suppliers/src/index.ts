@@ -114,3 +114,4 @@ export {
   type MapboxGeocoderConfig,
   type MapboxHttpClient,
 } from './mapbox/geocode';
+export * from './valhalla';
