@@ -21,7 +21,9 @@ export async function requireTripSeat(
   uid: string,
 ): Promise<TripSeat> {
   const { rows } = await tx.query<TripSeat & { on_trip: boolean }>(
-    `SELECT t.status, t.start_date::text, t.tz, t.destination_id,
+    `SELECT t.status, t.start_date::text,
+            coalesce(t.tz, (SELECT d.tz FROM destinations d WHERE d.id = t.destination_id)) AS tz,
+            t.destination_id,
             app.is_trip_member(t.id) AND EXISTS (
               SELECT 1 FROM trip_participants p
                WHERE p.trip_id = t.id AND p.user_id = $2 AND (p.rsvp <> 'out' OR p.role = 'organiser')
