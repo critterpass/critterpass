@@ -6,18 +6,18 @@
  * is booked are left out here, and the reason for left-out days is worked out from the digest, never
  * taken from the model.
  */
-import type { SearchParseDay, SearchParseDigest } from './prompt';
-import { dayRef, placeRef } from './prompt';
 import {
-  searchParseReplySchema,
-  SEARCH_TEXT_MAX,
+  searchParseResultSchema,
   type ExcludeReason,
   type MaxMinutes,
   type SearchChip,
   type SearchFilter,
-  type SearchParseReply,
   type SearchParseResult,
-} from './schema';
+} from '@cp/domain';
+
+import type { SearchParseDay, SearchParseDigest } from './prompt';
+import { dayRef, placeRef } from './prompt';
+import { searchParseReplySchema, SEARCH_TEXT_MAX, type SearchParseReply } from './schema';
 
 export type SearchParseCheck =
   | { readonly ok: true; readonly result: SearchParseResult }
@@ -158,12 +158,11 @@ export function checkSearchParseReply(
   // Nothing understood: search the whole question by name.
   if (Object.keys(filters).length === 0) return { ok: true, result: fallbackSearchParse(question) };
   const reason = days.length === 0 ? undefined : excludeReasonOf(days, reply.meal);
-  return {
-    ok: true,
-    result: {
-      filters,
-      chips: chipsOf(filters),
-      ...(reason === undefined ? {} : { exclude_reason: reason }),
-    },
-  };
+  // The contract's own schema has the last word: a result it would refuse is never sent.
+  const result = searchParseResultSchema.safeParse({
+    filters,
+    chips: chipsOf(filters),
+    ...(reason === undefined ? {} : { exclude_reason: reason }),
+  });
+  return result.success ? { ok: true, result: result.data } : { ok: false, reason: 'contract' };
 }

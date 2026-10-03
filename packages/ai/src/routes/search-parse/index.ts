@@ -5,11 +5,12 @@
  * decline, bad JSON, an unknown ref) is a plain name search over the question, so search never
  * waits on the model to work. Metered by its own silent fair-use cap, not the guide's.
  */
+import type { SearchParseResult } from '@cp/domain';
+
 import type { Gateway } from '../../client';
 import { isDeclined, parseStructuredText, textOf } from '../../structured';
 import type { UsageContext } from '../../usage';
 import { buildSearchParseRequest, SEARCH_PARSE_ROUTE, type SearchParseInput } from './prompt';
-import type { SearchParseResult } from './schema';
 import { checkSearchParseReply, fallbackSearchParse } from './validate';
 
 export * from './prompt';

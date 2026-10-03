@@ -4,22 +4,17 @@
  * short refs (`day1`, `place1`), never as ids, and the digest is built field by field, so nothing
  * beyond these fields (supplier content, place attributes, people) can enter the request.
  */
-import type { Weekday } from '@cp/domain';
+import type { SEARCH_MEALS, Weekday } from '@cp/domain';
 
 import type { GatewayInput } from '../../client';
-import {
-  SEARCH_MINUTES_MAX,
-  SEARCH_MINUTES_MIN,
-  SEARCH_PARSE_FORMAT,
-  type SearchMeal,
-} from './schema';
+import { SEARCH_MINUTES_MAX, SEARCH_MINUTES_MIN, SEARCH_PARSE_FORMAT } from './schema';
 
 export const SEARCH_PARSE_ROUTE = 'search.parse' as const;
 export const SEARCH_PARSE_PROMPT_VERSION = 'search-parse@1';
 export const SEARCH_QUESTION_MAX = 300;
 
 export interface SearchParseMeal {
-  readonly meal: SearchMeal;
+  readonly meal: (typeof SEARCH_MEALS)[number];
   /** The booked place or the item title ("Locavore"). */
   readonly title: string;
   /** The plan item's stable id, for the line under the chips. */

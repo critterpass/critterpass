@@ -4,6 +4,7 @@
  * can only choose among options code already worked out.
  */
 import type Anthropic from '@anthropic-ai/sdk';
+import type { PlaceStance } from '@cp/domain';
 import { z } from 'zod';
 
 import type { PersonaId } from '../../persona/schema';
@@ -40,7 +41,7 @@ export interface CompromiseCandidate {
 
 export interface CompromiseStance {
   readonly name: string;
-  readonly stance: 'want' | 'rather_not';
+  readonly stance: PlaceStance;
   /** What they wrote, as they wrote it; it reaches the model only as a crew message. */
   readonly note: string | null;
 }

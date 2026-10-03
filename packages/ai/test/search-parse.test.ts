@@ -13,22 +13,25 @@ import {
 
 const WED = '00000000-0000-4000-8000-00000000b003';
 const TANAH_LOT = '00000000-0000-4000-8000-00000000b201';
+const MON = '00000000-0000-4000-8000-00000000b001';
+const SAT = '00000000-0000-4000-8000-00000000b006';
+const LOCAVORE = '00000000-0000-4000-8000-00000000b103';
 
 const digest: SearchParseDigest = {
   destination: 'Bali, Indonesia',
   stayName: 'Villa Sayan',
   guideName: 'Tokek',
   days: [
-    { id: 'day-mon', date: '2026-11-16', weekday: 'mo', meals: [], full: false, travel: false },
+    { id: MON, date: '2026-11-16', weekday: 'mo', meals: [], full: false, travel: false },
     {
       id: WED,
       date: '2026-11-18',
       weekday: 'we',
-      meals: [{ meal: 'dinner', title: 'Locavore', stableId: 'item-locavore' }],
+      meals: [{ meal: 'dinner', title: 'Locavore', stableId: LOCAVORE }],
       full: false,
       travel: false,
     },
-    { id: 'day-sat', date: '2026-11-21', weekday: 'sa', meals: [], full: true, travel: false },
+    { id: SAT, date: '2026-11-21', weekday: 'sa', meals: [], full: true, travel: false },
   ],
   places: [{ id: TANAH_LOT, name: 'Tanah Lot' }],
 };
@@ -96,7 +99,7 @@ describe('checkSearchParseReply', () => {
         ],
         exclude_reason: {
           code: 'day_has_meal',
-          params: { day_ids: [WED], stable_id: 'item-locavore' },
+          params: { day_ids: [WED], stable_id: LOCAVORE },
         },
       },
     });
@@ -108,7 +111,7 @@ describe('checkSearchParseReply', () => {
       'dinner, not Monday',
       digest,
     );
-    expect(check.ok && check.result.filters.exclude_day_ids).toEqual(['day-mon', WED]);
+    expect(check.ok && check.result.filters.exclude_day_ids).toEqual([MON, WED]);
     expect(check.ok && check.result.exclude_reason).toBeUndefined();
   });
 

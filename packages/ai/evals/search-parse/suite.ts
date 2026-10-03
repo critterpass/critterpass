@@ -10,7 +10,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { WEEKDAYS } from '@cp/domain';
+import { SEARCH_MEALS, WEEKDAYS } from '@cp/domain';
 import { parse } from 'yaml';
 import { z } from 'zod';
 
@@ -21,7 +21,6 @@ import {
   foldText,
   parseSearch,
   placeRef,
-  SEARCH_MEALS,
   type SearchParseDigest,
   type SearchParseOutcome,
 } from '../../src/routes/search-parse';

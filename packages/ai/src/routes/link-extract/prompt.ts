@@ -4,6 +4,8 @@
  * screenshot inside one `ocr_text` block, plus the destination and its area names. Nothing else
  * goes in, and nothing from the post is kept after the request.
  */
+import type { ImportPlatform } from '@cp/domain';
+
 import type { GatewayInput } from '../../client';
 import { userTurnWithData, wrapUntrusted, UNTRUSTED_CONTEXT } from '../../context/wrap-untrusted';
 import { LINK_EXTRACT_FORMAT, LINK_MENTIONS_MAX } from './schema';
@@ -11,7 +13,13 @@ import { LINK_EXTRACT_FORMAT, LINK_MENTIONS_MAX } from './schema';
 export const LINK_EXTRACT_ROUTE = 'links.extract_places' as const;
 export const LINK_EXTRACT_PROMPT_VERSION = 'link-extract@1';
 
-export const LINK_PLATFORMS = ['tiktok', 'youtube', 'instagram', 'web'] as const;
+/** The platforms whose post text is read (maps links and screenshots need no model read of a post). */
+export const LINK_PLATFORMS = [
+  'tiktok',
+  'youtube',
+  'instagram',
+  'web',
+] as const satisfies readonly ImportPlatform[];
 export type LinkPlatform = (typeof LINK_PLATFORMS)[number];
 
 export type LinkSource =

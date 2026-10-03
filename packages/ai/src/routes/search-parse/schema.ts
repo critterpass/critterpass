@@ -1,32 +1,13 @@
 /**
  * The `search.parse` reply and result. The model fills a closed vocabulary and names days and
  * places by the digest's short refs (`day1`, `place1`); code maps refs back to ids, so no id the
- * trip does not hold can come out. The result is the search filter the screens show as chips
- * (docs/api-contracts-planning.md, search): a wrong guess is one chip to remove.
+ * trip does not hold can come out. The result is the planning contract's `SearchParseResult`
+ * (docs/api-contracts-planning.md, search): filters the screens show as chips, so a wrong guess is
+ * one chip to remove.
  */
 import type Anthropic from '@anthropic-ai/sdk';
-import { POI_CATEGORIES, type PoiCategory } from '@cp/domain';
+import { POI_CATEGORIES, SEARCH_ATTRIBUTES, SEARCH_MEALS } from '@cp/domain';
 import { z } from 'zod';
-
-export const SEARCH_MEALS = ['breakfast', 'lunch', 'dinner', 'coffee', 'drinks'] as const;
-export type SearchMeal = (typeof SEARCH_MEALS)[number];
-
-export const SEARCH_ATTRIBUTES = [
-  'quiet',
-  'view',
-  'late',
-  'outdoor',
-  'indoor',
-  'cheap',
-  'kid_friendly',
-  'vegetarian',
-  'local',
-  'sunset',
-] as const;
-export type SearchAttribute = (typeof SEARCH_ATTRIBUTES)[number];
-
-export const EXCLUDE_REASONS = ['day_has_meal', 'day_full', 'day_travel'] as const;
-export type ExcludeReasonCode = (typeof EXCLUDE_REASONS)[number];
 
 /** "≤ N min" is measured from the stay, a place in the plan, or the route of a day. */
 export const NEAR_FROM = ['stay', 'place', 'day'] as const;
@@ -91,44 +72,3 @@ export const searchParseReplySchema = z.strictObject({
   price_max: z.number().int().min(1).max(4).nullable(),
 });
 export type SearchParseReply = z.infer<typeof searchParseReplySchema>;
-
-export type MaxMinutes =
-  | { readonly from: 'stay'; readonly minutes: number }
-  | { readonly from: 'poi'; readonly poi_id: string; readonly minutes: number }
-  | { readonly from: 'day_route'; readonly day_id: string; readonly minutes: number };
-
-/** The search filter (the same shape as the planning contract's `SearchFilter`). */
-export interface SearchFilter {
-  readonly text?: string;
-  readonly categories?: readonly PoiCategory[];
-  readonly meal?: SearchMeal;
-  readonly attributes?: readonly SearchAttribute[];
-  readonly open_past?: string;
-  readonly max_minutes?: MaxMinutes;
-  readonly exclude_day_ids?: readonly string[];
-  readonly price_max?: number;
-}
-
-export type SearchChip =
-  | { readonly code: 'category'; readonly params: { readonly category: PoiCategory } }
-  | { readonly code: 'meal'; readonly params: { readonly meal: SearchMeal } }
-  | { readonly code: 'attribute'; readonly params: { readonly attribute: SearchAttribute } }
-  | { readonly code: 'open_past'; readonly params: { readonly time: string } }
-  | { readonly code: 'max_minutes'; readonly params: MaxMinutes }
-  | { readonly code: 'exclude_days'; readonly params: { readonly day_ids: readonly string[] } }
-  | { readonly code: 'price_max'; readonly params: { readonly level: number } };
-
-/**
- * Why days were left out, worked out by code from the digest (never by the model): the line under
- * the chips is a template on it ("Wednesday's already Locavore, so I looked at your other nights.").
- */
-export interface ExcludeReason {
-  readonly code: ExcludeReasonCode;
-  readonly params: { readonly day_ids: readonly string[]; readonly stable_id?: string };
-}
-
-export interface SearchParseResult {
-  readonly filters: SearchFilter;
-  readonly chips: readonly SearchChip[];
-  readonly exclude_reason?: ExcludeReason;
-}
