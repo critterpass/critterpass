@@ -93,7 +93,7 @@ const expected = () =>
 async function recapRow() {
   const [row] = await world.q<Record<string, unknown>>(
     `SELECT id, status, version, stats, route, receipt, got_away, changed_sections,
-            ended_on::text AS ended_on, mvp_closes_at, ready_at
+            ended_on::text AS ended_on, mvp_closes_at, ready_at, cards, copy_version, copy_fallback
        FROM recaps WHERE trip_id = $1`,
     [world.tripId],
   );
@@ -119,7 +119,12 @@ describe('recap.build', { timeout: 60_000 }, () => {
       { router },
       new Date('2026-10-04T17:05:00Z'),
     );
-    expect(outcome).toMatchObject({ outcome: 'built', version: 1, bumped: true });
+    expect(outcome).toMatchObject({
+      outcome: 'built',
+      version: 1,
+      bumped: true,
+      copy: { outcome: 'written', fallback: true },
+    });
 
     const want = expected();
     const row = await recapRow();
@@ -132,9 +137,43 @@ describe('recap.build', { timeout: 60_000 }, () => {
     expect(row['receipt']).toEqual(want['receipt']);
     expect(row['got_away']).toEqual(want['got_away']);
     expect((row['mvp_closes_at'] as Date).toISOString()).toBe('2026-10-07T17:05:00.000Z');
+    expect((row['ready_at'] as Date).toISOString()).toBe('2026-10-04T17:05:00.000Z');
     expect(byUser(await awards()).map(({ id: _id, ...award }) => award)).toEqual(
       byUser(want['awards'] as Record<string, unknown>[]),
     );
+  });
+
+  it('words every card and award from the facts, and says the recap is ready once', async () => {
+    const row = await recapRow();
+    expect(row['copy_version']).toBe(1);
+    expect(row['copy_fallback']).toBe(true);
+    expect(Object.keys(row['cards'] as object).sort()).toEqual(
+      ['cover', 'critters', 'route', 'awards', 'receipt', 'got_away', 'stamp', 'postcard'].sort(),
+    );
+    expect(row['cards']).toMatchObject({
+      cover: { narration: "3 days in Da Nang, 5 travellers. Here's how it went." },
+      route: { line: 'Longest leg: Hoi An Old Town to Ba Na Hills, 52.3 km.' },
+      receipt: { narration: 'VND 5,700,000 all in, VND 1,140,000 each.' },
+    });
+    const words = await world.q<{ user_id: string; title: string; line: string }>(
+      'SELECT user_id, title, line FROM recap_awards WHERE trip_id = $1 ORDER BY user_id',
+      [world.tripId],
+    );
+    expect(words.find((w) => w.user_id === world.users.ben)).toMatchObject({
+      title: 'The treasurer',
+      line: 'Logged 3 expenses.',
+    });
+    const ready = await world.harness.pool.query<{ payload: Record<string, unknown> }>(
+      "SELECT payload FROM domain_events WHERE type = 'recap.ready' AND trip_id = $1",
+      [world.tripId],
+    );
+    expect(ready.rows.map((r) => r.payload['version'])).toEqual([1]);
+    const timers = await world.harness.pool.query<{ start_after: Date }>(
+      "SELECT start_after FROM pgboss.job WHERE name = 'recap.mvp_close'",
+    );
+    expect(timers.rows.map((r) => r.start_after.toISOString())).toEqual([
+      '2026-10-07T17:05:00.000Z',
+    ]);
   });
 
   it('reads no table that holds a position', () => {
@@ -231,6 +270,12 @@ describe('recap.build', { timeout: 60_000 }, () => {
     });
     const after = await awards();
     expect(after.map((a) => a['id'])).toEqual(before.map((a) => a['id']));
+    expect(row['copy_version']).toBe(2);
+    const ready = await world.harness.pool.query(
+      "SELECT 1 FROM domain_events WHERE type = 'recap.ready' AND trip_id = $1",
+      [world.tripId],
+    );
+    expect(ready.rows).toHaveLength(1);
     const ben = after.find((a) => a['user_id'] === world.users.ben);
     expect(ben).toMatchObject({
       kind: 'treasurer',

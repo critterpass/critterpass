@@ -48,6 +48,12 @@ export const recaps = pgTable('recaps', {
   /** The guide's copy per card, keyed by card. */
   cards: jsonb('cards').notNull().default({}),
   contentHash: text('content_hash'),
+  /** The version the card copy and award words were written for. */
+  copyVersion: integer('copy_version').notNull().default(0),
+  /** The template wrote the copy (the model failed or answered out of bounds). */
+  copyFallback: boolean('copy_fallback').notNull().default(false),
+  /** Recorded narration per locale and card (`recapNarrationSchema`). */
+  narration: jsonb('narration').notNull().default({}),
   /** Sections the last version bump changed: `stats`, `route`, `receipt`, `got_away`, `awards`. */
   changedSections: text('changed_sections')
     .array()

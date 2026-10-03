@@ -30,6 +30,7 @@ export const SUITES = [
   'place-qna',
   'proposal',
   'quests',
+  'recap',
   'translate',
   'help',
   'sos',
@@ -63,6 +64,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/routes|evals)\/explore\//u, ['place-qna']],
   [/^packages\/ai\/(src\/routes|evals)\/proposal\//u, ['proposal']],
   [/^packages\/ai\/(src\/routes|evals)\/quests\//u, ['quests']],
+  [/^packages\/ai\/(src\/routes|evals)\/recap\//u, ['recap']],
   [/^packages\/ai\/(src\/routes|evals)\/translate\//u, ['translate']],
   [/^packages\/ai\/(src\/routes|evals)\/help\//u, ['help', 'sos']],
   [/^packages\/ai\/(src\/routes|evals)\/sos\//u, ['sos']],
@@ -86,6 +88,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/domain\/src\/trip-day\//u, ['briefing']],
   [/^packages\/domain\/src\/proposal\//u, ['proposal']],
   [/^packages\/domain\/src\/quests\//u, ['quests']],
+  [/^packages\/domain\/src\/recap\//u, ['recap']],
   [/^packages\/domain\/src\/locale\//u, ['translate']],
   [/^packages\/domain\/src\/ai\//u, ALL],
 ];

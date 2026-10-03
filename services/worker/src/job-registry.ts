@@ -116,8 +116,13 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     ...(await import('./jobs/critters')).critterJobs(),
     ...(await import('./jobs/quests')).questJobs(processEnv, aiSwitches, llmObservability),
     ...(await import('./jobs/trips/lifecycle-jobs')).tripLifecycleJobs(),
-    ...(await import('./jobs/recap')).recapJobs(env, (error) =>
-      logger.warn({ err: error }, 'valhalla route failed'),
+    ...(await import('./jobs/recap')).recapJobs(
+      { ...processEnv, ...env },
+      {
+        assertRouteOn,
+        telemetry: llmObservability,
+        onRouterError: (error) => logger.warn({ err: error }, 'valhalla route failed'),
+      },
     ),
     ...(await import('./jobs/safety')).safetyJobs(processEnv, aiSwitches, llmObservability),
     ...(await import('./jobs/la')).laJobs({

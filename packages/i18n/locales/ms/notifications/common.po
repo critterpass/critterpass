@@ -299,6 +299,14 @@ msgstr ""
 msgid "notifications.vote.winner.body"
 msgstr ""
 
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.anniversary.body"
+msgstr ""
+
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.ready.title"
+msgstr ""
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.vote_start_body"
 msgstr ""
@@ -611,6 +619,10 @@ msgstr ""
 msgid "notifications.crew_ping.on_my_way_eta"
 msgstr ""
 
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.anniversary.title"
+msgstr ""
+
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.needs_yes_body"
 msgstr ""
@@ -781,6 +793,10 @@ msgstr ""
 
 #: ../domain/src/itinerary/templates.ts
 msgid "notifications.draft.ready.body"
+msgstr ""
+
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.ready.body"
 msgstr ""
 
 #: ../../services/worker/src/push/lockscreen-copy.ts

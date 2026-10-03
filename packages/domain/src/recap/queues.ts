@@ -10,6 +10,8 @@ import type { QueueSpec } from '../jobs/catalogue';
 
 export const RECAP_QUEUES = {
   build: 'recap.build',
+  mvpClose: 'recap.mvp_close',
+  narrate: 'recap.narrate',
 } as const;
 
 export const RECAP_QUEUE_SPECS = {
@@ -20,6 +22,13 @@ export const RECAP_QUEUE_SPECS = {
     expireInSeconds: 10 * 60,
     deadLetter: true,
     notify: true,
+  },
+  'recap.mvp_close': { policy: 'exclusive', retryLimit: 5 },
+  'recap.narrate': {
+    policy: 'stately',
+    retryLimit: 3,
+    retryDelay: 120,
+    expireInSeconds: 15 * 60,
   },
 } as const satisfies Record<string, Partial<QueueSpec>>;
 
@@ -37,7 +46,17 @@ export function recapQueueSpecs(
 export const RECAP_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof RECAP_QUEUE_SPECS, string>> = {
   'recap.build':
     "Builds a trip's recap from its plan, rides, money and finds; re-runs on late data",
+  'recap.mvp_close':
+    'Closes the MVP vote when its time is up or everyone voted, and crowns the winner',
+  'recap.narrate':
+    "Records the guide's voice over each story card, per crew locale, when it changed",
 };
+
+export const recapMvpCloseJobSchema = z.object({ recap_id: z.uuid() });
+export type RecapMvpCloseJob = z.infer<typeof recapMvpCloseJobSchema>;
+
+export const recapNarrateJobSchema = z.object({ recap_id: z.uuid() });
+export type RecapNarrateJob = z.infer<typeof recapNarrateJobSchema>;
 
 /** Late data re-runs the recap for this many days after the trip's last day. */
 export const RECAP_RERUN_WINDOW_DAYS = 14;

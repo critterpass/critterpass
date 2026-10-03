@@ -383,8 +383,11 @@ Guide turns are streamed HTTP (§5.3), not commands. Writes the guide wants go t
 
 | Command | Payload | Authz | Ent | Events | Surfaces | Phase |
 |---|---|---|---|---|---|---|
-| `record_recap_view` | `{recap_id, kind: open\|complete}` | participant | – | `recap.signed` | A, O | 43 |
-| `cast_mvp_vote` | `{recap_id, award_id, uid}` | participant | – | `recap.mvp_voted` | A, O | 43 |
+| `record_recap_view` | `{recap_id, kind: open\|complete}` (doc delta: the first open signs every traveller's trip stamp with the caller's signature and publishes `recap:{id}` `signature`) | participant | – | `recap.signed` | A, O | 43 |
+| `cast_mvp_vote` | `{recap_id, award_id}` (doc delta: the voter is the caller; one vote each, changeable until the vote closes 72 h after the recap is ready or once everyone voted; `VOTE_CLOSED` after; an opted-out award is `NOT_FOUND`) | participant | – | `recap.mvp_voted` | A, O | 43 |
+| `save_signature` (doc delta) | `{media_id}` (an upload with purpose `signature`, `application/json` stroke vector ≤ 256 KB; fills the stamps already signed) | self | – | – | A, O | 43 |
+| `opt_out_award` (doc delta) | `{award_id, opted_out = true}` (hides the caller's own award for everyone; `false` brings it back) | self | – | `recap.award_opted_out` | A, O | 43 |
+| `retry_recap` (doc delta) | `{trip_id}` (a traveller of an ended trip whose recap failed or never built; queues `recap.build`) | participant | – | – | A | 43 |
 | `react_memory` | `{memory_id, reaction}` | crew | – | `memory.reacted` | A, O, N | 43 |
 | `start_reunion` | `{memory_id}` → poll with destination pre-pitched | crew | – | `poll.created` | A | 43 |
 | `register_photo` | `{trip_id, media_key, sha256, taken_at, dims, faces_opt_in}` (after presigned PUT) | participant | – | `photo.added` → thumbnails/curation | A, O | 44 |

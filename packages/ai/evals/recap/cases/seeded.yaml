@@ -1,0 +1,864 @@
+# Deliberate model slips on the first trip's facts: each must be rejected for `expect_reason` and
+# answered by the template copy, in both replay and live mode.
+- id: recap-21
+  description: an invented kilometre count
+  guide: chava
+  cards:
+    - cover
+    - critters
+    - route
+    - awards
+    - receipt
+    - got_away
+    - stamp
+    - postcard
+  facts:
+    place: Da Nang
+    crew: The Da Nang Four
+    dates: 2–4 Oct 2026
+    days: 3
+    travellers: 4
+    people:
+      - Anna
+      - Ben
+      - Cora
+      - Dev
+    critters:
+      forms_found: 2
+      new_critters: 1
+    route:
+      km: 132.4
+      estimated: false
+      stops:
+        - Riverside Hotel
+        - Dragon Bridge
+        - Marble Mountains
+        - Hoi An Old Town
+        - Ba Na Hills
+      longest_leg:
+        from: Hoi An Old Town
+        to: Ba Na Hills
+        km: 52.3
+        minutes: 70
+      driver:
+        name: Anh Tuấn
+        km: 61.7
+      before_sunrise:
+        place: Marble Mountains
+        time: 04:30
+        day: 2
+    receipt:
+      currency: VND
+      total: VND 5,700,000
+      each: VND 1,425,000
+      expenses: 5
+      meals: 2
+      planned_total: VND 6,000,000
+      under: VND 300,000
+      over: null
+      priciest:
+        what: Riverside Hotel
+        amount: VND 3,000,000
+      cheapest_day:
+        day: 2
+        each: VND 275,000
+      settled: true
+      still_owed: null
+      settled_days_after_end: 1
+    got_away:
+      rarity: epic
+      sightings: 2
+      missed_by:
+        - Cora
+        - Dev
+      forms_found: 0
+      forms_total: 1
+      comes_back: null
+    best_day:
+      day: 2
+      date: 3 Oct 2026
+  awards:
+    - user_id: 0199a0f2-0000-7000-8000-000000000001
+      name: Anna
+      award: planner
+      metric: plan_edits
+      value: 2
+      evidence:
+        crew_total: 2
+        share_pct: 100
+    - user_id: 0199a0f2-0000-7000-8000-000000000002
+      name: Ben
+      award: treasurer
+      metric: expenses_logged
+      value: 3
+      evidence:
+        crew_total: 5
+        share_pct: 60
+    - user_id: 0199a0f2-0000-7000-8000-000000000003
+      name: Cora
+      award: critter_whisperer
+      metric: finds
+      value: 1
+      evidence:
+        crew_total: 3
+        share_pct: 33
+    - user_id: 0199a0f2-0000-7000-8000-000000000004
+      name: Dev
+      award: explorer
+      metric: places_visited
+      value: 2
+      evidence:
+        crew_total: 3
+        share_pct: 67
+  seeded: true
+  expect_fallback: true
+  expect_reason: ungrounded:route
+  reply:
+    cards:
+      cover:
+        narration: cover card for Da Nang.
+      critters:
+        narration: critters card for Da Nang.
+      route:
+        narration: About 140 km of road in 3 days.
+      awards:
+        narration: awards card for Da Nang.
+      receipt:
+        narration: receipt card for Da Nang.
+      got_away:
+        narration: got_away card for Da Nang.
+      stamp:
+        narration: stamp card for Da Nang.
+      postcard:
+        narration: postcard card for Da Nang.
+    awards:
+      - user_id: 0199a0f2-0000-7000-8000-000000000001
+        title: Award
+        line: Anna was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000002
+        title: Award
+        line: Ben was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000003
+        title: Award
+        line: Cora was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000004
+        title: Award
+        line: Dev was there.
+- id: recap-22
+  description: a total the receipt never had
+  guide: chava
+  cards:
+    - cover
+    - critters
+    - route
+    - awards
+    - receipt
+    - got_away
+    - stamp
+    - postcard
+  facts:
+    place: Da Nang
+    crew: The Da Nang Four
+    dates: 2–4 Oct 2026
+    days: 3
+    travellers: 4
+    people:
+      - Anna
+      - Ben
+      - Cora
+      - Dev
+    critters:
+      forms_found: 2
+      new_critters: 1
+    route:
+      km: 132.4
+      estimated: false
+      stops:
+        - Riverside Hotel
+        - Dragon Bridge
+        - Marble Mountains
+        - Hoi An Old Town
+        - Ba Na Hills
+      longest_leg:
+        from: Hoi An Old Town
+        to: Ba Na Hills
+        km: 52.3
+        minutes: 70
+      driver:
+        name: Anh Tuấn
+        km: 61.7
+      before_sunrise:
+        place: Marble Mountains
+        time: 04:30
+        day: 2
+    receipt:
+      currency: VND
+      total: VND 5,700,000
+      each: VND 1,425,000
+      expenses: 5
+      meals: 2
+      planned_total: VND 6,000,000
+      under: VND 300,000
+      over: null
+      priciest:
+        what: Riverside Hotel
+        amount: VND 3,000,000
+      cheapest_day:
+        day: 2
+        each: VND 275,000
+      settled: true
+      still_owed: null
+      settled_days_after_end: 1
+    got_away:
+      rarity: epic
+      sightings: 2
+      missed_by:
+        - Cora
+        - Dev
+      forms_found: 0
+      forms_total: 1
+      comes_back: null
+    best_day:
+      day: 2
+      date: 3 Oct 2026
+  awards:
+    - user_id: 0199a0f2-0000-7000-8000-000000000001
+      name: Anna
+      award: planner
+      metric: plan_edits
+      value: 2
+      evidence:
+        crew_total: 2
+        share_pct: 100
+    - user_id: 0199a0f2-0000-7000-8000-000000000002
+      name: Ben
+      award: treasurer
+      metric: expenses_logged
+      value: 3
+      evidence:
+        crew_total: 5
+        share_pct: 60
+    - user_id: 0199a0f2-0000-7000-8000-000000000003
+      name: Cora
+      award: critter_whisperer
+      metric: finds
+      value: 1
+      evidence:
+        crew_total: 3
+        share_pct: 33
+    - user_id: 0199a0f2-0000-7000-8000-000000000004
+      name: Dev
+      award: explorer
+      metric: places_visited
+      value: 2
+      evidence:
+        crew_total: 3
+        share_pct: 67
+  seeded: true
+  expect_fallback: true
+  expect_reason: ungrounded:receipt
+  reply:
+    cards:
+      cover:
+        narration: cover card for Da Nang.
+      critters:
+        narration: critters card for Da Nang.
+      route:
+        narration: route card for Da Nang.
+      awards:
+        narration: awards card for Da Nang.
+      receipt:
+        narration: VND 6,200,000 all in.
+      got_away:
+        narration: got_away card for Da Nang.
+      stamp:
+        narration: stamp card for Da Nang.
+      postcard:
+        narration: postcard card for Da Nang.
+    awards:
+      - user_id: 0199a0f2-0000-7000-8000-000000000001
+        title: Award
+        line: Anna was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000002
+        title: Award
+        line: Ben was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000003
+        title: Award
+        line: Cora was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000004
+        title: Award
+        line: Dev was there.
+- id: recap-23
+  description: a count spelled out to dodge the guard
+  guide: chava
+  cards:
+    - cover
+    - critters
+    - route
+    - awards
+    - receipt
+    - got_away
+    - stamp
+    - postcard
+  facts:
+    place: Da Nang
+    crew: The Da Nang Four
+    dates: 2–4 Oct 2026
+    days: 3
+    travellers: 4
+    people:
+      - Anna
+      - Ben
+      - Cora
+      - Dev
+    critters:
+      forms_found: 2
+      new_critters: 1
+    route:
+      km: 132.4
+      estimated: false
+      stops:
+        - Riverside Hotel
+        - Dragon Bridge
+        - Marble Mountains
+        - Hoi An Old Town
+        - Ba Na Hills
+      longest_leg:
+        from: Hoi An Old Town
+        to: Ba Na Hills
+        km: 52.3
+        minutes: 70
+      driver:
+        name: Anh Tuấn
+        km: 61.7
+      before_sunrise:
+        place: Marble Mountains
+        time: 04:30
+        day: 2
+    receipt:
+      currency: VND
+      total: VND 5,700,000
+      each: VND 1,425,000
+      expenses: 5
+      meals: 2
+      planned_total: VND 6,000,000
+      under: VND 300,000
+      over: null
+      priciest:
+        what: Riverside Hotel
+        amount: VND 3,000,000
+      cheapest_day:
+        day: 2
+        each: VND 275,000
+      settled: true
+      still_owed: null
+      settled_days_after_end: 1
+    got_away:
+      rarity: epic
+      sightings: 2
+      missed_by:
+        - Cora
+        - Dev
+      forms_found: 0
+      forms_total: 1
+      comes_back: null
+    best_day:
+      day: 2
+      date: 3 Oct 2026
+  awards:
+    - user_id: 0199a0f2-0000-7000-8000-000000000001
+      name: Anna
+      award: planner
+      metric: plan_edits
+      value: 2
+      evidence:
+        crew_total: 2
+        share_pct: 100
+    - user_id: 0199a0f2-0000-7000-8000-000000000002
+      name: Ben
+      award: treasurer
+      metric: expenses_logged
+      value: 3
+      evidence:
+        crew_total: 5
+        share_pct: 60
+    - user_id: 0199a0f2-0000-7000-8000-000000000003
+      name: Cora
+      award: critter_whisperer
+      metric: finds
+      value: 1
+      evidence:
+        crew_total: 3
+        share_pct: 33
+    - user_id: 0199a0f2-0000-7000-8000-000000000004
+      name: Dev
+      award: explorer
+      metric: places_visited
+      value: 2
+      evidence:
+        crew_total: 3
+        share_pct: 67
+  seeded: true
+  expect_fallback: true
+  expect_reason: ungrounded:award
+  reply:
+    cards:
+      cover:
+        narration: cover card for Da Nang.
+      critters:
+        narration: critters card for Da Nang.
+      route:
+        narration: route card for Da Nang.
+      awards:
+        narration: awards card for Da Nang.
+      receipt:
+        narration: receipt card for Da Nang.
+      got_away:
+        narration: got_away card for Da Nang.
+      stamp:
+        narration: stamp card for Da Nang.
+      postcard:
+        narration: postcard card for Da Nang.
+    awards:
+      - user_id: 0199a0f2-0000-7000-8000-000000000001
+        title: Award
+        line: Anna was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000002
+        title: The treasurer
+        line: Logged twelve expenses.
+      - user_id: 0199a0f2-0000-7000-8000-000000000003
+        title: Award
+        line: Cora was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000004
+        title: Award
+        line: Dev was there.
+- id: recap-24
+  description: an award line that shames drinking
+  guide: chava
+  cards:
+    - cover
+    - critters
+    - route
+    - awards
+    - receipt
+    - got_away
+    - stamp
+    - postcard
+  facts:
+    place: Da Nang
+    crew: The Da Nang Four
+    dates: 2–4 Oct 2026
+    days: 3
+    travellers: 4
+    people:
+      - Anna
+      - Ben
+      - Cora
+      - Dev
+    critters:
+      forms_found: 2
+      new_critters: 1
+    route:
+      km: 132.4
+      estimated: false
+      stops:
+        - Riverside Hotel
+        - Dragon Bridge
+        - Marble Mountains
+        - Hoi An Old Town
+        - Ba Na Hills
+      longest_leg:
+        from: Hoi An Old Town
+        to: Ba Na Hills
+        km: 52.3
+        minutes: 70
+      driver:
+        name: Anh Tuấn
+        km: 61.7
+      before_sunrise:
+        place: Marble Mountains
+        time: 04:30
+        day: 2
+    receipt:
+      currency: VND
+      total: VND 5,700,000
+      each: VND 1,425,000
+      expenses: 5
+      meals: 2
+      planned_total: VND 6,000,000
+      under: VND 300,000
+      over: null
+      priciest:
+        what: Riverside Hotel
+        amount: VND 3,000,000
+      cheapest_day:
+        day: 2
+        each: VND 275,000
+      settled: true
+      still_owed: null
+      settled_days_after_end: 1
+    got_away:
+      rarity: epic
+      sightings: 2
+      missed_by:
+        - Cora
+        - Dev
+      forms_found: 0
+      forms_total: 1
+      comes_back: null
+    best_day:
+      day: 2
+      date: 3 Oct 2026
+  awards:
+    - user_id: 0199a0f2-0000-7000-8000-000000000001
+      name: Anna
+      award: planner
+      metric: plan_edits
+      value: 2
+      evidence:
+        crew_total: 2
+        share_pct: 100
+    - user_id: 0199a0f2-0000-7000-8000-000000000002
+      name: Ben
+      award: treasurer
+      metric: expenses_logged
+      value: 3
+      evidence:
+        crew_total: 5
+        share_pct: 60
+    - user_id: 0199a0f2-0000-7000-8000-000000000003
+      name: Cora
+      award: critter_whisperer
+      metric: finds
+      value: 1
+      evidence:
+        crew_total: 3
+        share_pct: 33
+    - user_id: 0199a0f2-0000-7000-8000-000000000004
+      name: Dev
+      award: explorer
+      metric: places_visited
+      value: 2
+      evidence:
+        crew_total: 3
+        share_pct: 67
+  seeded: true
+  expect_fallback: true
+  expect_reason: tone:award
+  reply:
+    cards:
+      cover:
+        narration: cover card for Da Nang.
+      critters:
+        narration: critters card for Da Nang.
+      route:
+        narration: route card for Da Nang.
+      awards:
+        narration: awards card for Da Nang.
+      receipt:
+        narration: receipt card for Da Nang.
+      got_away:
+        narration: got_away card for Da Nang.
+      stamp:
+        narration: stamp card for Da Nang.
+      postcard:
+        narration: postcard card for Da Nang.
+    awards:
+      - user_id: 0199a0f2-0000-7000-8000-000000000001
+        title: The planner
+        line: Planned it all, hangover and all.
+      - user_id: 0199a0f2-0000-7000-8000-000000000002
+        title: Award
+        line: Ben was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000003
+        title: Award
+        line: Cora was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000004
+        title: Award
+        line: Dev was there.
+- id: recap-25
+  description: a got-away line that mocks lateness
+  guide: chava
+  cards:
+    - cover
+    - critters
+    - route
+    - awards
+    - receipt
+    - got_away
+    - stamp
+    - postcard
+  facts:
+    place: Da Nang
+    crew: The Da Nang Four
+    dates: 2–4 Oct 2026
+    days: 3
+    travellers: 4
+    people:
+      - Anna
+      - Ben
+      - Cora
+      - Dev
+    critters:
+      forms_found: 2
+      new_critters: 1
+    route:
+      km: 132.4
+      estimated: false
+      stops:
+        - Riverside Hotel
+        - Dragon Bridge
+        - Marble Mountains
+        - Hoi An Old Town
+        - Ba Na Hills
+      longest_leg:
+        from: Hoi An Old Town
+        to: Ba Na Hills
+        km: 52.3
+        minutes: 70
+      driver:
+        name: Anh Tuấn
+        km: 61.7
+      before_sunrise:
+        place: Marble Mountains
+        time: 04:30
+        day: 2
+    receipt:
+      currency: VND
+      total: VND 5,700,000
+      each: VND 1,425,000
+      expenses: 5
+      meals: 2
+      planned_total: VND 6,000,000
+      under: VND 300,000
+      over: null
+      priciest:
+        what: Riverside Hotel
+        amount: VND 3,000,000
+      cheapest_day:
+        day: 2
+        each: VND 275,000
+      settled: true
+      still_owed: null
+      settled_days_after_end: 1
+    got_away:
+      rarity: epic
+      sightings: 2
+      missed_by:
+        - Cora
+        - Dev
+      forms_found: 0
+      forms_total: 1
+      comes_back: null
+    best_day:
+      day: 2
+      date: 3 Oct 2026
+  awards:
+    - user_id: 0199a0f2-0000-7000-8000-000000000001
+      name: Anna
+      award: planner
+      metric: plan_edits
+      value: 2
+      evidence:
+        crew_total: 2
+        share_pct: 100
+    - user_id: 0199a0f2-0000-7000-8000-000000000002
+      name: Ben
+      award: treasurer
+      metric: expenses_logged
+      value: 3
+      evidence:
+        crew_total: 5
+        share_pct: 60
+    - user_id: 0199a0f2-0000-7000-8000-000000000003
+      name: Cora
+      award: critter_whisperer
+      metric: finds
+      value: 1
+      evidence:
+        crew_total: 3
+        share_pct: 33
+    - user_id: 0199a0f2-0000-7000-8000-000000000004
+      name: Dev
+      award: explorer
+      metric: places_visited
+      value: 2
+      evidence:
+        crew_total: 3
+        share_pct: 67
+  seeded: true
+  expect_fallback: true
+  expect_reason: tone:got_away
+  reply:
+    cards:
+      cover:
+        narration: cover card for Da Nang.
+      critters:
+        narration: critters card for Da Nang.
+      route:
+        narration: route card for Da Nang.
+      awards:
+        narration: awards card for Da Nang.
+      receipt:
+        narration: receipt card for Da Nang.
+      got_away:
+        narration: Seen 2 times.
+        line: Cora was late again.
+      stamp:
+        narration: stamp card for Da Nang.
+      postcard:
+        narration: postcard card for Da Nang.
+    awards:
+      - user_id: 0199a0f2-0000-7000-8000-000000000001
+        title: Award
+        line: Anna was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000002
+        title: Award
+        line: Ben was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000003
+        title: Award
+        line: Cora was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000004
+        title: Award
+        line: Dev was there.
+- id: recap-26
+  description: an award left out
+  guide: chava
+  cards:
+    - cover
+    - critters
+    - route
+    - awards
+    - receipt
+    - got_away
+    - stamp
+    - postcard
+  facts:
+    place: Da Nang
+    crew: The Da Nang Four
+    dates: 2–4 Oct 2026
+    days: 3
+    travellers: 4
+    people:
+      - Anna
+      - Ben
+      - Cora
+      - Dev
+    critters:
+      forms_found: 2
+      new_critters: 1
+    route:
+      km: 132.4
+      estimated: false
+      stops:
+        - Riverside Hotel
+        - Dragon Bridge
+        - Marble Mountains
+        - Hoi An Old Town
+        - Ba Na Hills
+      longest_leg:
+        from: Hoi An Old Town
+        to: Ba Na Hills
+        km: 52.3
+        minutes: 70
+      driver:
+        name: Anh Tuấn
+        km: 61.7
+      before_sunrise:
+        place: Marble Mountains
+        time: 04:30
+        day: 2
+    receipt:
+      currency: VND
+      total: VND 5,700,000
+      each: VND 1,425,000
+      expenses: 5
+      meals: 2
+      planned_total: VND 6,000,000
+      under: VND 300,000
+      over: null
+      priciest:
+        what: Riverside Hotel
+        amount: VND 3,000,000
+      cheapest_day:
+        day: 2
+        each: VND 275,000
+      settled: true
+      still_owed: null
+      settled_days_after_end: 1
+    got_away:
+      rarity: epic
+      sightings: 2
+      missed_by:
+        - Cora
+        - Dev
+      forms_found: 0
+      forms_total: 1
+      comes_back: null
+    best_day:
+      day: 2
+      date: 3 Oct 2026
+  awards:
+    - user_id: 0199a0f2-0000-7000-8000-000000000001
+      name: Anna
+      award: planner
+      metric: plan_edits
+      value: 2
+      evidence:
+        crew_total: 2
+        share_pct: 100
+    - user_id: 0199a0f2-0000-7000-8000-000000000002
+      name: Ben
+      award: treasurer
+      metric: expenses_logged
+      value: 3
+      evidence:
+        crew_total: 5
+        share_pct: 60
+    - user_id: 0199a0f2-0000-7000-8000-000000000003
+      name: Cora
+      award: critter_whisperer
+      metric: finds
+      value: 1
+      evidence:
+        crew_total: 3
+        share_pct: 33
+    - user_id: 0199a0f2-0000-7000-8000-000000000004
+      name: Dev
+      award: explorer
+      metric: places_visited
+      value: 2
+      evidence:
+        crew_total: 3
+        share_pct: 67
+  seeded: true
+  expect_fallback: true
+  expect_reason: missing_award
+  reply:
+    cards:
+      cover:
+        narration: cover card for Da Nang.
+      critters:
+        narration: critters card for Da Nang.
+      route:
+        narration: route card for Da Nang.
+      awards:
+        narration: awards card for Da Nang.
+      receipt:
+        narration: receipt card for Da Nang.
+      got_away:
+        narration: got_away card for Da Nang.
+      stamp:
+        narration: stamp card for Da Nang.
+      postcard:
+        narration: postcard card for Da Nang.
+    awards:
+      - user_id: 0199a0f2-0000-7000-8000-000000000001
+        title: Award
+        line: Anna was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000002
+        title: Award
+        line: Ben was there.
+      - user_id: 0199a0f2-0000-7000-8000-000000000003
+        title: Award
+        line: Cora was there.

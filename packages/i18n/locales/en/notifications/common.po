@@ -299,6 +299,14 @@ msgstr "{place} opens in a month. Want to plan around it?"
 msgid "notifications.vote.winner.body"
 msgstr "{place} won {score}. Come see the reveal."
 
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.anniversary.body"
+msgstr "{place}, a year on. Remember this?"
+
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.ready.title"
+msgstr "{place}, the recap"
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.vote_start_body"
 msgstr "{question}"
@@ -611,6 +619,10 @@ msgstr "On my way."
 msgid "notifications.crew_ping.on_my_way_eta"
 msgstr "On my way. {minutes} min out."
 
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.anniversary.title"
+msgstr "One year ago today"
+
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.needs_yes_body"
 msgstr "Open the trip to decide."
@@ -782,6 +794,10 @@ msgstr "You're next on {crew}'s trip. The seat is yours if you take it within a 
 #: ../domain/src/itinerary/templates.ts
 msgid "notifications.draft.ready.body"
 msgstr "Your {place} draft is in. Only you can see it for now."
+
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.ready.body"
+msgstr "Your {place} recap is ready. Come and see what the crew got up to."
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.trip_day.briefing_body"

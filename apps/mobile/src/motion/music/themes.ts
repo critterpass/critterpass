@@ -13,9 +13,11 @@ import sardiM4a from '../../../assets/music/sardi.m4a';
 import sardiPreviewM4a from '../../../assets/music/sardi-preview.m4a';
 import pacoM4a from '../../../assets/music/paco.m4a';
 import pacoPreviewM4a from '../../../assets/music/paco-preview.m4a';
+import chavaM4a from '../../../assets/music/chava.m4a';
+import chavaPreviewM4a from '../../../assets/music/chava-preview.m4a';
 
 // Guide ids, mirroring sound.tokens.json's `music.<id>`/`voice.<id>` keys, never rendered copy.
-export const GUIDE_IDS = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco'] as const;
+export const GUIDE_IDS = ['tokek', 'pon', 'lundi', 'ajo', 'sardi', 'paco', 'chava'] as const;
 export type GuideId = (typeof GUIDE_IDS)[number];
 
 function isGuideId(value: string): value is GuideId {
@@ -23,12 +25,12 @@ function isGuideId(value: string): value is GuideId {
 }
 
 /**
- * Bundled guide theme loops, keyed by guide id: all 6 themes (Tokek, Pon, Lundi, Ajo, Sardi, Paco),
+ * Bundled guide theme loops, keyed by guide id: every theme (Tokek, Pon, Lundi, Ajo, Sardi, Paco, Chà Vá),
  * composed in-house and procedurally by `@cp/sound-art` (no licensed/third-party audio —
  * docs/decisions/20260927-in-house-procedural-audio.md). AAC (`.m4a`) plays natively on both iOS and
  * Android, so no per-platform branching is needed here (contrast `../feedback/sfx-pool.ts`'s SFX,
  * which pick a `.caf`/`.ogg` file per platform). `manifest.json`'s `available` flag (not just this
- * map) still gates `themeFor`/`availableThemes` — Ajo/Sardi/Paco stay pending a founder listening
+ * map) still gates `themeFor`/`availableThemes` — Ajo/Sardi/Paco/Chà Vá stay pending a founder listening
  * pass even though their files are already bundled.
  */
 export const MUSIC_ASSET_MODULES: Partial<Record<GuideId, AudioSource>> = {
@@ -38,6 +40,7 @@ export const MUSIC_ASSET_MODULES: Partial<Record<GuideId, AudioSource>> = {
   ajo: ajoM4a,
   sardi: sardiM4a,
   paco: pacoM4a,
+  chava: chavaM4a,
 };
 
 export const MUSIC_SAMPLE_MODULES: Partial<Record<GuideId, AudioSource>> = {
@@ -47,6 +50,7 @@ export const MUSIC_SAMPLE_MODULES: Partial<Record<GuideId, AudioSource>> = {
   ajo: ajoPreviewM4a,
   sardi: sardiPreviewM4a,
   paco: pacoPreviewM4a,
+  chava: chavaPreviewM4a,
 };
 
 export interface ThemeInfo {

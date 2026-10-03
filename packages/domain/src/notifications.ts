@@ -380,6 +380,9 @@ const NOTIFICATION_TRIGGERS: Readonly<Record<string, readonly NotificationKey[]>
   'legendary.reminder_due': ['critter_window_reminder'],
   // Account: a "Download my data" zip is ready, to its owner.
   'data_export.ready': ['data_export_ready'],
+  // The recap: ready once per trip; a year later, quietly.
+  'recap.ready': ['recap_ready'],
+  'memory.surfaced': ['anniversary_memory'],
 };
 
 const triggers = new Map<string, Set<NotificationKey>>(

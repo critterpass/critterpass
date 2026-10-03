@@ -49,7 +49,7 @@ History = size / TTL. Presence ✓ = Centrifugo presence + join/leave enabled.
 | `guide_thread:{thread_id}` | group thread: crew member; private: owner (prefer `user:#uid`) | `token`, `tool_event`, `proposal{changeset_id}` | streaming | ✓ (group) | 50 / 24 h | 32 |
 | `disruption:{disruption_id}` | affected participant | `step{action_id, status}`, `needs_yes` | per step | – | 50 / 72 h | 37 (doc delta: not used; disruption hints ride `trip_watch:` as `disruption.step` and `late.eta`, [api-contracts-disruptions.md](./api-contracts-disruptions.md) §5) |
 | `sos:{sos_id}` (fixes: `sos:{share_id}` of the SOS `location_shares` row) | crew of trip | `sender.fix`, `responder{uid, state}`, `step`, `message`, `resolved` | sub-second fixes | ✓ | 200 / 24 h | 38 |
-| `recap:{recap_id}` | participant | `signature`, `mvp.vote`, `mvp.result` | event | – | 50 / 14 d | 43 |
+| `recap:{recap_id}` | participant (a viewer still in the crew) | `signature` `{signer_id, stroke_media_key, signed_at}`, `mvp.vote` `{tallies, voters, viewers}`, `mvp.result` `{award_ids, tallies}` (doc delta: payloads in `packages/domain/src/recap/realtime.ts`) | event | – | 50 / 14 d | 43 |
 | `memory:{memory_id}` | crew | `reaction` | event | – | 50 / 14 d | 43 |
 
 Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
@@ -183,6 +183,8 @@ Off-app equivalents (APNs broadcast, widget push, FCM data) are in §3.
 | `trips.lifecycle` (doc delta) | `*/10 * * * *` UTC | the timed trip moves of data-model-sync-and-privacy §3.1 on the trip's clock (`trips.tz`, else the destination's, else UTC), in lifecycle order so a trip that fell behind catches up in one run: `proposed → confirmed` (sent proposal's `reply_by` passed, ≥ 1 IN), `confirmed → pre_trip` (00:00 on start − 14 d, at once when confirmed later), `pre_trip → in_trip` (12:00 on the first day, fallback), `in_trip → post_trip` (midnight after the last day), `post_trip → archived` (`app.boost_window_end`, last day + 7 d); each move is its own transaction with its `trip.status_changed` | 36 |
 | `trips.lifecycle_signal` (doc delta) | `flight.landed`, `egg.hatched` (trigger `arrived`) | an inbound final leg (not a connection within 24 h, not landing where the traveller's first leg on the trip left from, landing from the day before the first day) or a device arrival from 00:00 on the first day starts a `pre_trip` trip; a return landing home on or after the last day ends an `in_trip` trip; first signal wins | 36 |
 | `recap.build` | trip turns `post_trip` (last-day local midnight or return landing) + re-run 10 min after the first late `expense.*`, `booking.*`, `ride.logged`, `payment.confirmed`, `trip.settled`, `critter.befriended`/`revoked` or `photo.added`, for 14 d after the last day (stately on `recap:{trip_id}`; doc delta) | AI-34, share renders, N-32 | 43 |
+| `recap.mvp_close` (doc delta) | 72 h after the recap is first ready, or the last vote | `mvp.result`, `recap.mvp_closed` | 43 |
+| `recap.narrate` (doc delta) | after each new copy version | ElevenLabs per changed card (`en`), R2 `recap_audio` media on the trip; no call when the words did not change | 43 |
 | `anniversary.scan` | `0 1 * * *` per tz bucket | N-35 | 43 |
 | `ftf.ending` | FTF end −3 d local | N-33 (governed) | 46 |
 | `billing.reconcile` | `0 5 * * *` | RevenueCat REST drift check, grace expiry (server 7 d) | 46 |
