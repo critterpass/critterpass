@@ -16,6 +16,7 @@ export const setPlaceStanceCommand = defineCommand({
   v: 1,
   schema: setPlaceStancePayloadSchema,
   offline: true,
+  allowAnonymous: true,
   authorize: (tx, payload) =>
     requireStanceTaker(tx, { tripId: payload.trip_id, poiId: payload.poi_id }),
   handle: async (tx, payload, ctx): Promise<PlaceStanceResult> => {
