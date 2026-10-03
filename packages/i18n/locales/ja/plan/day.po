@@ -104,6 +104,10 @@ msgstr ""
 msgid "plan.day.item.cost"
 msgstr ""
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searchFailed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.untitled"
 msgstr ""
@@ -323,6 +327,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.bookingLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.tryAgain"
 msgstr ""
 
 #: ../../apps/mobile/src/features/plan/day/commands.ts

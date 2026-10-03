@@ -104,6 +104,10 @@ msgstr "Vẫn đổi"
 msgid "plan.day.item.cost"
 msgstr "Chi phí"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searchFailed"
+msgstr "Chưa tìm được lúc này."
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.untitled"
 msgstr "Ngày {dayNo}"
@@ -324,6 +328,10 @@ msgstr "Các địa điểm của chuyến đi vẫn đang tải về. Chúng s�
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.bookingLine"
 msgstr "Vé và phiếu nằm trong mục Đặt chỗ."
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.tryAgain"
+msgstr "Thử lại"
 
 #: ../../apps/mobile/src/features/plan/day/commands.ts
 msgid "plan.day.queued.undo"

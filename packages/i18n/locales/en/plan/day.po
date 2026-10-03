@@ -104,6 +104,10 @@ msgstr "Change it anyway"
 msgid "plan.day.item.cost"
 msgstr "Cost"
 
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.searchFailed"
+msgstr "Couldn’t search just now."
+
 #: ../../apps/mobile/src/features/plan/day/day-view.tsx
 msgid "plan.day.untitled"
 msgstr "Day {dayNo}"
@@ -324,6 +328,10 @@ msgstr "This trip’s places are still arriving. They show here as they land."
 #: ../../apps/mobile/src/features/plan/day/item-detail-sheet.tsx
 msgid "plan.day.item.bookingLine"
 msgstr "Tickets and voucher are in Bookings."
+
+#: ../../apps/mobile/src/features/plan/day/search-states.tsx
+msgid "plan.day.add.tryAgain"
+msgstr "Try again"
 
 #: ../../apps/mobile/src/features/plan/day/commands.ts
 msgid "plan.day.queued.undo"
