@@ -1,0 +1,44 @@
+/**
+ * Place job queues (docs/api-contracts-async.md §2.3): the Foursquare id match for curated POIs that
+ * open data did not link to Foursquare. Monthly for every destination (new curated POIs, and misses
+ * older than the retry window), or on demand for one destination from the console.
+ */
+import { z } from 'zod';
+
+import type { QueueSpec } from '../jobs/catalogue';
+
+export const PLACES_QUEUES = {
+  foursquareMatch: 'places.fsq_match',
+} as const;
+
+export const PLACES_QUEUE_SPECS = {
+  'places.fsq_match': {
+    policy: 'stately',
+    retryLimit: 2,
+    retryDelay: 600,
+    expireInSeconds: 2 * 60 * 60,
+    cron: { expr: '0 4 2 * *', tz: 'UTC' },
+  },
+} as const satisfies Record<string, Partial<QueueSpec>>;
+
+export function placesQueueSpecs(
+  defaults: QueueSpec,
+): Readonly<Record<keyof typeof PLACES_QUEUE_SPECS, QueueSpec>> {
+  return Object.fromEntries(
+    Object.entries<Partial<QueueSpec>>(PLACES_QUEUE_SPECS).map(([name, overrides]) => [
+      name,
+      { ...defaults, ...overrides },
+    ]),
+  ) as Record<keyof typeof PLACES_QUEUE_SPECS, QueueSpec>;
+}
+
+export const PLACES_QUEUE_DESCRIPTIONS: Readonly<Record<keyof typeof PLACES_QUEUE_SPECS, string>> =
+  {
+    'places.fsq_match': 'Links curated places to their Foursquare ids for live place details',
+  };
+
+export const foursquareMatchJobSchema = z.object({
+  /** One destination slug; unset = every destination with curated places. */
+  destination: z.string().min(1).optional(),
+});
+export type FoursquareMatchJob = z.infer<typeof foursquareMatchJobSchema>;
