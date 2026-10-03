@@ -645,6 +645,40 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // FSQ OS export staging for the POI ingest (server-only, class S).
+  fsq_os_export_runs: {
+    selectProbe: { sql: 'SELECT 1 FROM fsq_os_export_runs LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  fsq_os_export_chunks: {
+    selectProbe: { sql: 'SELECT 1 FROM fsq_os_export_chunks LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  fsq_os_export_rows: {
+    selectProbe: { sql: 'SELECT 1 FROM fsq_os_export_rows LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   poi_live_checks: {
     selectProbe: { sql: 'SELECT 1 FROM poi_live_checks LIMIT 1', params: () => [] },
     expectations: {

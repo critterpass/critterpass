@@ -37,7 +37,7 @@ import { backupJob } from './jobs/ops/backup';
 import { createObjectStore } from './jobs/ops/object-store';
 import { pitchJobs } from './jobs/pitches';
 import { planJobs } from './jobs/plan';
-import { placesIngestJob } from './jobs/places';
+import { placesJobs } from './jobs/places';
 import { pollBoardAdvanceJob, pollCloseJob, pollRemindJob } from './jobs/polls';
 import { pushSendJob } from './jobs/push/send';
 import { roundupBuildJob, roundupScanJob } from './jobs/roundup/build';
@@ -71,7 +71,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     purgeJob(),
     aiCostGuardJob(),
     anonGcJob(),
-    placesIngestJob(),
+    ...placesJobs(),
     accountPurgeJob(),
     ...accountExportJobs(env),
     fixesTtlJob(),

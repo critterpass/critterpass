@@ -10,9 +10,10 @@ import path from 'node:path';
 import type pg from 'pg';
 
 import { exportFsqOsForDestinations, fsqExportReader } from './fsq-export';
+import { fsqRunReader, releaseRunRows } from './fsq-export-runs';
 import { ingestDestination, type IngestDestinationResult } from './ingest';
 import { loadPlaceBounds, type DestinationPlaceBounds } from './place-bounds';
-import { DUCKDB_TEMP_DIR, fsqOsSource } from './source-readers';
+import { DUCKDB_TEMP_DIR, fsqOsSource, type PlaceSourceReader } from './source-readers';
 
 /** Where a multi-destination run keeps its FSQ OS export by default. */
 export const DEFAULT_FSQ_EXPORT_DIR = path.join(DUCKDB_TEMP_DIR, 'fsq-os-export');
@@ -50,26 +51,41 @@ export async function prepareFsqExport(
   return dir;
 }
 
+/** Where a destination's FSQ OS rows come from when a multi-destination run prepared them. */
+export interface PreparedFsqSource {
+  /** A local export directory (`./fsq-export.ts`, the CLI's `--all`). */
+  readonly exportDir?: string | undefined;
+  /** A stored export run (`./fsq-export-runs.ts`, the worker's monthly job). */
+  readonly runId?: string | undefined;
+}
+
 /**
- * Ingests one destination, reading FSQ OS from the export when it covers the destination (the
- * export can be gone after a worker restart; the destination then reads the catalog itself).
+ * Ingests one destination, reading FSQ OS from what the run prepared. A local export can be gone
+ * after a restart: the destination then reads the catalog itself. A stored run that a newer run
+ * replaced yields no FSQ rows this time rather than a whole-catalog scan for one destination.
  */
 export async function ingestPlaceDestination(
   pool: pg.Pool,
   target: DestinationPlaceBounds,
-  fsqExportDir?: string,
+  fsq: PreparedFsqSource = {},
 ): Promise<IngestDestinationResult> {
-  const exported =
-    fsqExportDir === undefined ? null : await fsqExportReader(fsqExportDir, target.slug);
-  return ingestDestination(
+  let readFsq: PlaceSourceReader | null = null;
+  if (fsq.runId !== undefined) {
+    readFsq = (await fsqRunReader(pool, fsq.runId, target.slug)) ?? (() => Promise.resolve([]));
+  } else if (fsq.exportDir !== undefined) {
+    readFsq = await fsqExportReader(fsq.exportDir, target.slug);
+  }
+  const result = await ingestDestination(
     pool,
     {
       destinationId: target.id,
       bbox: target.bbox,
       ...(target.tz !== null ? { timezone: target.tz } : {}),
     },
-    exported === null ? {} : { readFsqOsPlaces: exported },
+    readFsq === null ? {} : { readFsqOsPlaces: readFsq },
   );
+  if (fsq.runId !== undefined) await releaseRunRows(pool, fsq.runId, target.slug);
+  return result;
 }
 
 export interface IngestAllProgress {
@@ -91,7 +107,7 @@ export async function ingestAllDestinations(
     try {
       outcome = {
         slug: target.slug,
-        result: await ingestPlaceDestination(pool, target, fsqExportDir),
+        result: await ingestPlaceDestination(pool, target, { exportDir: fsqExportDir }),
       };
     } catch (error) {
       outcome = { slug: target.slug, error };
