@@ -136,7 +136,9 @@ function Scene({
     0,
     cards.findIndex((spec) => spec.card === card),
   );
-  const open = settled ? sheet : null;
+  const [dismissed, setDismissed] = useState(false);
+  const open = settled && !dismissed ? sheet : null;
+  const closeSheet = () => setDismissed(true);
   return (
     <>
       <StoryView
@@ -182,11 +184,11 @@ function Scene({
           myVote={null}
           closed={false}
           onVote={noop}
-          onClose={noop}
+          onClose={closeSheet}
         />
       ) : null}
       {open === 'signature' ? (
-        <SignatureSheet name="Winston" onClose={noop} upload={() => Promise.resolve(null)} />
+        <SignatureSheet name="Winston" onClose={closeSheet} upload={() => Promise.resolve(null)} />
       ) : null}
     </>
   );
