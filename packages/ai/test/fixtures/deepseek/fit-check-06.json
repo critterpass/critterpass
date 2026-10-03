@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "468a9530-feaa-4ce6-8bfc-04ef627ec327",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Ngày 5 là ổn nhất nhé, Tirta Gangga xếp được vào khoảng 13:00 đến 15:00, và đi từ chỗ nghỉ mất tầm 95 phút. Đây là gợi ý thôi, cả nhà muốn chốt thì mình soạn thay đổi để mọi người duyệt."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 315,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 9216,
+        "output_tokens": 87,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

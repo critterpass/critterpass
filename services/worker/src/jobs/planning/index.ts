@@ -7,6 +7,7 @@
  */
 import type { AnyJobDefinition } from '../../boss';
 import type { JobRegistryDeps } from '../../job-registry';
+import { planLegsJobs } from './legs';
 import { planCheckJobs } from './check';
 import { climateJobs } from './climate';
 
@@ -15,6 +16,7 @@ export type PlanningJobFamily = (deps: JobRegistryDeps) => readonly AnyJobDefini
 
 const PLANNING_JOB_FAMILIES: readonly PlanningJobFamily[] = [
   // One entry per planning module.
+  planLegsJobs,
   climateJobs,
   planCheckJobs,
 ];

@@ -1,0 +1,43 @@
+/**
+ * Stored legs on the api: plan edits, change sets and stay bookings are written in api
+ * transactions, so the api queues `plan.legs` for the trip in the same transaction (the worker
+ * runs it and registers the same hook for its own writes). One debounced run per trip.
+ */
+import { onEventAppended, sendInTx } from '@cp/db';
+import { legsJobFor } from '@cp/domain';
+import type pg from 'pg';
+
+import type { PlanningModule } from './register';
+
+/** Queues `plan.legs` for the trip's newest plan version after an event that can move a leg. */
+export async function legsEventHook(
+  tx: pg.PoolClient,
+  event: { readonly type: string; readonly tripId: string | null },
+): Promise<void> {
+  const request = legsJobFor(event);
+  if (request === null) return;
+  const { rows } = await tx.query<{ version_id: string | null }>(
+    `SELECT coalesce(t.current_version_id,
+                     (SELECT v.id FROM itinerary_versions v
+                       WHERE v.trip_id = t.id AND v.status IN ('draft', 'proposed')
+                       ORDER BY v.created_at DESC LIMIT 1)) AS version_id
+       FROM trips t WHERE t.id = $1`,
+    [event.tripId],
+  );
+  const versionId = rows[0]?.version_id;
+  if (versionId == null) return;
+  await sendInTx(
+    tx,
+    request.queue,
+    { trip_id: event.tripId, version_id: versionId },
+    request.options,
+  );
+}
+
+let hooked = false;
+
+export const registerPlanLegs: PlanningModule = () => {
+  if (hooked) return;
+  hooked = true;
+  onEventAppended(legsEventHook);
+};

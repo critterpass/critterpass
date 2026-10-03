@@ -40,6 +40,7 @@ export const SUITES = [
   'link-extract',
   'place-compromise',
   'facts-research',
+  'fit-check',
 ] as const;
 export type SuiteName = (typeof SUITES)[number];
 
@@ -87,6 +88,7 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   [/^packages\/ai\/(src\/routes|evals)\/link-extract\//u, ['link-extract', 'facts-research']],
   [/^packages\/ai\/(src\/routes|evals)\/place-compromise\//u, ['place-compromise']],
   [/^packages\/ai\/(src\/routes|evals)\/facts-research\//u, ['facts-research']],
+  [/^packages\/ai\/evals\/fit-check\//u, ['fit-check']],
   [/^packages\/domain\/src\/safety\//u, ['help', 'sos']],
   [/^packages\/planner\/src\/draft\//u, ['draft']],
   [/^packages\/ai\/evals\/lib\/guest-brief-suite\.ts$/u, ['guest-brief']],
@@ -97,6 +99,10 @@ const RULES: readonly (readonly [RegExp, readonly SuiteName[]])[] = [
   ],
   [/^packages\/ai\/evals\//u, ALL],
   [/^packages\/ai\/(personas\/|src\/(persona|prompts)\/)/u, ['chat', 'persona', 'autonomy']],
+  [
+    /^packages\/ai\/src\/tools\/read-tools\.ts$/u,
+    ['chat', 'grounding', 'injection', 'guide', 'fit-check'],
+  ],
   [/^packages\/ai\/src\/tools\//u, ['chat', 'grounding', 'injection', 'guide']],
   [/^packages\/ai\/src\/context\//u, ['injection', 'persona']],
   [/^packages\/ai\/src\/decide\//u, ['compliance']],

@@ -58,7 +58,9 @@ Fit, nearby and gap ideas answer as follows. `POST …/fit` returns `{fits: Plac
 | `search.parse` | C (fast, no thinking, temperature 0) | the question + a context digest (destination, stay name, day ids with date and weekday, booked meals per day, guide) → `SearchFilter` with chips and an `exclude_reason` code; ids only from the digest; unknown words stay in `text` | fair use `search_parse` (100/day), not the guide meter |
 | `links.extract_places` | M (fast, no thinking) | post text in an untrusted `social_post` block, or OCR lines in `ocr_text` → up to 10 mentions `{label, kind_hint, area_hint?, quote}`; every label and quote must appear in the source; matching is code | fair use `link_import` (30/day) |
 | `places.compromise` | G (pro, thinking low) | code-built candidates, stances with notes in `crew_message` blocks → two candidate ids with title (≤ 24) and body (≤ 140); number guard; decline → templates | fair use `place_compromise` (20/day) |
-| `fit_check` tool (delta) | – | output `{grade, day_no, starts_at, ends_at, reasons[{code, params}]}` from the fit engine | as the guide |
+| `facts.research` | system job (fast, temperature 0, no tools) | one code-built `web_search` per curated place (names, city, "entrance fee dress code visitor tips"; supplier pages screened) → `entry`, `dress` and up to 3 `know_before`, each `{value, source_url, quote}`; a fact survives only when its quote is on the cited page, a fee's amounts are in the quote and the page is fresh (fees 400 d, the rest 1,100 d); a proposal for console approval, never shown on its own | system job spend (no member meter) |
+| `links.extract_places` on Gemini (`ai.gemini_vision`) | M (`gemini-3.8-flash`, tier `gemini`) | a screenshot with no OCR text (inline) or a public YouTube video (canonical watch URL) → the same mentions; no source text to check against, so labels are kept by shape and matching is code; the only path where copy may say a video was watched; nothing kept after the request | fair use `link_import`; tier `gemini` switch and daily cap |
+| `fit_check` tool (delta) | – | `{trip_id, poi_id, day?}` → `{grade, day_no, starts_at, ends_at, reasons[{code, params}]}` from the fit engine the screens use: the asked day, else the best day; `starts_at`/`ends_at` are `HH:MM` in the trip's time; no day fits → `day_no` null with every day's reasons; before a plan exists → dates and hours only, `day_no` null | as the guide |
 | `route_eta` tool executor | – | planning provider minutes and mode only | as the guide |
 
 Plain-words questions asked from no results, and those queued offline, are guide questions (metered as today). The plan check makes no model call.
@@ -99,6 +101,7 @@ How the plan check runs:
 | `plan.check.thresholds` | `{too_far_day_min: 180, too_far_leg_min: 90, rain_pct: 50, normal_rain_pct: 40, busy_level: 70, pace_stops_per_9h: 6}` | no | when a day is too far, rainy, busy or packed |
 | `routing.walk_max_m` | 1200 | no | longest leg the plan suggests walking |
 | `fair_use.search_parse_per_day` / `link_import_per_day` / `place_compromise_per_day` | 100 / 30 / 20 | no | silent per-user caps |
+| `ai.gemini_vision` | unset (off) | no | lets text-less screenshots and public YouTube videos reach Gemini; off means no request leaves; needs `GEMINI_API_KEY`. With it, `ai.tier.gemini.enabled` and `ai.cap.gemini.daily_usd` work like the other tiers |
 | `imports.platforms` | `["tiktok","youtube","instagram","apple_maps","google_maps"]` | yes | link platforms Add from a link reads |
 
 Defaults are seeded by the planning tables migration and never overwritten by a later deploy.

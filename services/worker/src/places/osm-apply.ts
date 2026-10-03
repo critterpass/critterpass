@@ -76,14 +76,20 @@ const RECORDS = `jsonb_to_recordset($1::jsonb) AS v(
 /** Hours a POI has none of: the column default `{}` or an empty weekly schedule. */
 const NO_HOURS = `(p.hours = '{}'::jsonb OR coalesce(p.hours->'weekly', '{}'::jsonb) = '{}'::jsonb)`;
 
-/** Each element with the POI it is linked to, or the one it matches, or neither. */
+/**
+ * Each element with the POI it is linked to, or the one it matches, or neither. The linked lookup
+ * repeats `pois_source_osm_uidx`'s partial predicate (`source_ids ? 'osm'`): without it the planner
+ * hash-joins the chunk against a sequential scan of every POI, which at two million rows outlasts
+ * the statement timeout.
+ */
 const RESOLVE_SQL = `
   SELECT v.source_id, linked.id AS linked_id, matched.id AS matched_id,
          coalesce(linked.destination_id, matched.destination_id) AS owner_id,
          coalesce(linked.no_hours, matched.no_hours, false) AS no_hours
   FROM ${RECORDS}
   LEFT JOIN LATERAL (
-    SELECT p.id, p.destination_id, ${NO_HOURS} AS no_hours FROM pois p WHERE p.source_ids->>'osm' = v.source_id
+    SELECT p.id, p.destination_id, ${NO_HOURS} AS no_hours FROM pois p
+    WHERE p.source_ids ? 'osm' AND p.source_ids->>'osm' = v.source_id
   ) linked ON true
   LEFT JOIN LATERAL (
     SELECT p.id, p.destination_id, ${NO_HOURS} AS no_hours FROM pois p

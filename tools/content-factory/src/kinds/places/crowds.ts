@@ -18,11 +18,6 @@ import { z } from 'zod';
 import { FACTORY_ROUTE } from '../../stages/generate';
 import { FACTORY_DIR, readJsonIfExists, writeJson } from '../../work';
 
-/** Nothing is written for Đà Nẵng places before the founder is back from the trip. */
-export const PROTECTED_UNTIL: Readonly<Record<string, string>> = {
-  'da-nang': '2026-10-05T00:00:00+07:00',
-};
-
 export interface CrowdPlace {
   readonly id: string;
   readonly name: string;
@@ -101,11 +96,6 @@ export function checkCrowdWeek(hours: Hours, output: CrowdOutput): CrowdCheck {
   return { ok: true, week };
 }
 
-export function writable(destination: string, now: Date): boolean {
-  const until = PROTECTED_UNTIL[destination];
-  return until === undefined || now.getTime() >= Date.parse(until);
-}
-
 /** Curated, active places with known hours and no editorial curve yet. */
 export async function placesWithoutCurves(
   pool: pg.Pool,
@@ -176,7 +166,6 @@ export async function proposeCrowdCurves(
   const proposals: CrowdProposal[] = [];
   const rejected: { poiId: string; reason: string }[] = [];
   for (const place of places) {
-    if (!writable(place.destination, deps.now)) continue;
     const user = `${placeFacts(place)}\n\nReturn {"week": {"su": [24 levels], …, "sa": [24 levels]}}.`;
     const file = path.join(
       cacheDir,
@@ -240,7 +229,6 @@ export async function approveCrowdCurves(
     readonly now: Date;
   },
 ): Promise<number> {
-  const allowed = input.destinations.filter((slug) => writable(slug, input.now));
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -256,7 +244,7 @@ export async function approveCrowdCurves(
         WHERE f.poi_id = p.id AND d.slug = ANY($1) AND f.source = 'editorial'
           AND f.approved_at IS NULL
         RETURNING f.poi_id`,
-      [allowed, input.now],
+      [input.destinations, input.now],
     );
     const places = [...new Set(approved.rows.map((row) => row.poi_id))].sort();
     await client.query(
@@ -265,7 +253,11 @@ export async function approveCrowdCurves(
       [
         adminId,
         `editorial crowd curves ${input.batchKey}`,
-        JSON.stringify({ destinations: allowed, curves: approved.rowCount ?? 0, poi_ids: places }),
+        JSON.stringify({
+          destinations: input.destinations,
+          curves: approved.rowCount ?? 0,
+          poi_ids: places,
+        }),
         input.now,
       ],
     );

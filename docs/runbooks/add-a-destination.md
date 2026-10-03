@@ -146,8 +146,16 @@ missing place boxes, then starts an FSQ OS export run: the catalog's data files 
 `places.fsq_export_chunk` jobs (five files each), and each chunk stores the rows inside any
 destination's box in Postgres (`fsq_os_export_rows`) together with its progress, so a worker
 deploy mid-run costs one chunk, not the whole scan. The chunk that completes the run queues one
-`places.ingest` job per destination; each reads its stored rows, ingests, and deletes them. Both
-queues run one job at a time. A new run deletes the previous one.
+`places.ingest` job per destination. A destination job splits its box into tiles by where its
+stored FSQ OS rows are (at most 15,000 rows a tile, a few minutes each; a destination under that is
+one tile) and queues them on `places.ingest_tile`. Each tile ingests Overture and FSQ OS inside its
+own area, so a worker deploy mid-run costs one tile and the tile runs again (three retries). The
+last tile queues the run's finish, which applies OpenStreetMap to the whole box once, deletes the
+stored rows and logs `places ingest finished` with the run's totals, tile count, failed tiles,
+minutes and active count. A run with a failed tile keeps its stored rows, so enqueueing the
+destination again with the same `--fsq-run` redoes it. Every places queue runs one job at a time.
+A new export run deletes the previous one. A destination enqueued without a stored run reads FSQ
+OS from the catalog itself and stays one tile.
 To start it by hand, or to hold destinations back (a crew on a trip there):
 
 ```sh
@@ -156,8 +164,9 @@ railway run --service api --environment staging -- pnpm --dir <worktree> --filte
 ```
 
 `ingest -- --all [--except …]` runs the same steps on this machine, one destination at a time.
-Watch progress in the console's jobs panel (`places.ingest`) or the worker logs
-(`places ingest finished`, with inserted, updated, skipped and active counts).
+Watch progress in the console's jobs panel (`places.ingest`, `places.ingest_tile`) or the worker
+logs (`places ingest tiles queued`, then `places ingest finished` with inserted, updated, skipped
+and active counts).
 
 A destination nobody ingested yet does not wait for the month: the first pitch or trip there,
 while it holds fewer than 50 active places, queues `places.ingest` for its slug (at most once a

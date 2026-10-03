@@ -5,15 +5,27 @@
  * touched"; and tool outputs carry only engine numbers for the asking member.
  */
 import { createToolRegistry, type ToolRegistry } from '@cp/ai';
+import { withUser } from '@cp/db';
+import { toLocalWallTime, type FitGrade, type FitReason } from '@cp/domain';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { registerCostRoutes } from '../../src/cost/routes';
 import { registerCostToolExecutors } from '../../src/cost/tool-executors';
+import { DEFAULT_FIT_DEPS } from '../../src/planning/fit/routes';
+import { fitForTrip } from '../../src/planning/fit/service';
 import {
   startCommandDoors,
   type CommandDoorsHarness,
   type SignedIn,
 } from '../routes/command-doors-harness';
+
+interface FitOut {
+  readonly grade: FitGrade;
+  readonly day_no: number | null;
+  readonly starts_at: string | null;
+  readonly ends_at: string | null;
+  readonly reasons: readonly FitReason[];
+}
 
 let harness: CommandDoorsHarness;
 let registry: ToolRegistry;
@@ -63,6 +75,11 @@ async function seedTrip(withPlan: boolean): Promise<string> {
   const versionId = await one(
     "INSERT INTO itinerary_versions (trip_id, visibility, status) VALUES ($1, 'crew', 'current') RETURNING id",
     [trip],
+  );
+  // A Monday with nothing planned: the museum is closed that day.
+  await one(
+    "INSERT INTO plan_days (version_id, trip_id, day_no, date) VALUES ($1, $2, 1, '2027-04-05') RETURNING id",
+    [versionId, trip],
   );
   const day3 = await one(
     "INSERT INTO plan_days (version_id, trip_id, day_no, date) VALUES ($1, $2, 3, '2027-04-07') RETURNING id",
@@ -280,35 +297,61 @@ describe('guide tools', () => {
     expect(JSON.stringify(output)).not.toContain(String(ORGANISER_SECRET));
   });
 
-  it('fit_check: fits on a day with room, no on a Monday, and no day numbers before a plan exists', async () => {
-    const fits = await registry.execute(
+  it("fit_check: the fit engine's answer for the asked day, with local times and reasons", async () => {
+    const wednesday = await registry.execute(
       { id: 'f1', name: 'fit_check', input: { trip_id: tripId, poi_id: poiId, day: 3 } },
       context(member, tripId),
     );
-    expect(fits.ok && fits.output).toEqual({ status: 'fits', day: 3, reason_code: 'OK' });
+    const out = wednesday.ok ? (wednesday.output as FitOut) : null;
+    expect(out?.grade).not.toBe('no');
+    expect(out?.day_no).toBe(3);
+    // The museum opens 10:00 to 17:00, and the walk at 14:00 is already in the plan.
+    expect(out?.starts_at && out.starts_at >= '10:00' && out.starts_at < '17:00').toBe(true);
+    expect(out?.ends_at && out.ends_at <= '17:00').toBe(true);
+    // The same slot the planning screens get from the fit engine for that day.
+    const engine = await withUser(harness.pool, member.uid, 'test', (tx) =>
+      fitForTrip(tx, { tripId, poiIds: [poiId] }, DEFAULT_FIT_DEPS),
+    );
+    const day3 = engine.fits[0]?.days.find((day) => day.day_no === 3);
+    expect(day3?.grade).toBe(out?.grade);
+    expect(day3?.slot && toLocalWallTime(new Date(day3.slot.starts_at), 'Asia/Tokyo').time).toBe(
+      `${out?.starts_at}:00`,
+    );
+
     const monday = await registry.execute(
       { id: 'f2', name: 'fit_check', input: { trip_id: tripId, poi_id: poiId, day: 1 } },
       context(member, tripId),
     );
-    expect(monday.ok && monday.output).toEqual({
-      status: 'no',
-      day: null,
-      reason_code: 'CLOSED_AT_TIME',
+    expect(monday.ok && monday.output).toMatchObject({
+      grade: 'no',
+      day_no: 1,
+      starts_at: null,
+      ends_at: null,
+      reasons: [{ code: 'closed_that_day', params: { day_no: 1 } }],
     });
+
+    const best = await registry.execute(
+      { id: 'f3', name: 'fit_check', input: { trip_id: tripId, poi_id: poiId } },
+      context(member, tripId),
+    );
+    expect(best.ok && (best.output as FitOut).day_no).toBe(engine.fits[0]?.best?.day_no);
+
     const preDraft = await registry.execute(
-      { id: 'f3', name: 'fit_check', input: { trip_id: draftTripId, poi_id: poiId } },
+      { id: 'f4', name: 'fit_check', input: { trip_id: draftTripId, poi_id: poiId } },
       context(member, draftTripId),
     );
     expect(preDraft.ok && preDraft.output).toEqual({
-      status: 'fits',
-      day: null,
-      reason_code: 'OK',
+      grade: 'good',
+      day_no: null,
+      starts_at: null,
+      ends_at: null,
+      reasons: [],
     });
   });
 
   it('refuses an outsider', async () => {
     const result = await registry.execute(
-      { id: 'f4', name: 'fit_check', input: { trip_id: tripId, poi_id: poiId } },
+      { id: 'f5', name: 'fit_check', input: { trip_id: tripId, poi_id: poiId } },
       context(outsider, tripId),
     );
     expect(result.ok).toBe(false);

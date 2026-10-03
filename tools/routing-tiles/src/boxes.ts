@@ -61,15 +61,21 @@ export function bufferBbox(bbox: Bbox, km: number = BUFFER_KM): Bbox {
   ];
 }
 
-/** The box's four corners and centre, as `[lon, lat]`. */
-export function samplePoints(bbox: Bbox): [number, number][] {
+/**
+ * The box's centre, then the points halfway from it to each corner, as `[lon, lat]`: inside the
+ * destination rather than on the buffered edge, which is often sea.
+ */
+export function innerPoints(bbox: Bbox): [number, number][] {
   const [minLon, minLat, maxLon, maxLat] = bbox;
+  const lon = (minLon + maxLon) / 2;
+  const lat = (minLat + maxLat) / 2;
+  const half = (corner: number, centre: number) => (corner + centre) / 2;
   return [
-    [minLon, minLat],
-    [maxLon, minLat],
-    [maxLon, maxLat],
-    [minLon, maxLat],
-    [(minLon + maxLon) / 2, (minLat + maxLat) / 2],
+    [lon, lat],
+    [half(minLon, lon), half(minLat, lat)],
+    [half(maxLon, lon), half(minLat, lat)],
+    [half(maxLon, lon), half(maxLat, lat)],
+    [half(minLon, lon), half(maxLat, lat)],
   ];
 }
 

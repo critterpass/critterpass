@@ -44,6 +44,9 @@ jobs:
   tiles:
     runs-on: ubuntu-latest
     timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash # -eo pipefail: a failing step behind `| tee` fails the job
     permissions:
       contents: write # release assets; pull requests never publish
     steps:
