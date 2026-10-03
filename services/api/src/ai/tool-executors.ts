@@ -3,8 +3,8 @@
  * as `guide_reader` against `llm.pois` (src/places/tool-executors.ts); the travel-data tools read
  * the cached fare, weather, crowd and FX tables (src/travel-data/tool-executors.ts); the cost tools
  * price plan changes and check fits with the cost engine and planner (src/cost/tool-executors.ts);
- * and `web_search` runs through the configured search provider (`TAVILY_API_KEY`) with its supplier
- * screen. Tools whose owning module lives elsewhere register there; any tool left unregistered
+ * `route_eta` answers planning travel minutes (src/routing/tool-executor.ts); and `web_search` runs
+ * through the configured search provider (`TAVILY_API_KEY`) with its supplier screen. Tools whose owning module lives elsewhere register there; any tool left unregistered
  * answers `TOOL_UNAVAILABLE`.
  */
 import {
@@ -21,6 +21,8 @@ import { registerBookingToolExecutors } from '../bookings/tools';
 import { registerCostToolExecutors } from '../cost/tool-executors';
 import { registerMoneyToolExecutors } from '../money/tools';
 import { placeDetailsTool, placesSearchTool } from '../places/tool-executors';
+import { createPlanningProvider } from '../routing/planning-provider';
+import { registerRouteEtaExecutor } from '../routing/tool-executor';
 import { registerSupplierToolExecutors } from '../suppliers/tool-executors';
 import { registerTravelDataToolExecutors } from '../travel-data/tool-executors';
 
@@ -58,6 +60,8 @@ export interface ApiToolExecutorOptions {
   /** The web search provider (`searchProviderFromEnv()`); unset = web search is unavailable. */
   readonly search?: SearchProvider | undefined;
   readonly logger?: Pick<Logger, 'error'>;
+  /** `VALHALLA_URL`: `route_eta` answers planning minutes; unset = straight-line estimates. */
+  readonly valhallaUrl?: string | undefined;
 }
 
 export function registerApiToolExecutors(
@@ -89,6 +93,11 @@ export function registerApiToolExecutors(
   });
   registry.registerToolExecutor('place_details', (input, context) =>
     placeDetailsTool(pool, context.uid, tripOf(context), input),
+  );
+  registerRouteEtaExecutor(
+    registry,
+    pool,
+    createPlanningProvider({ valhallaUrl: options.valhallaUrl, pool }),
   );
   registerTravelDataToolExecutors(registry, pool);
   registerMoneyToolExecutors(registry, pool);

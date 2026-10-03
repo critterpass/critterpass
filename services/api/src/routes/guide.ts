@@ -115,7 +115,10 @@ export function registerGuideTurnRoute(app: OpenAPIHono<AppEnv>, deps: GuideRout
 export function registerGuideRoutes(
   app: OpenAPIHono<AppEnv>,
   doors: CommandDoorDeps & { readonly logger: GuideTurnDeps['logger'] },
-  env: Pick<ApiEnv, 'ANTHROPIC_API_KEY' | 'ANTHROPIC_BASE_URL' | 'TYPESAFE_API_KEY'>,
+  env: Pick<
+    ApiEnv,
+    'ANTHROPIC_API_KEY' | 'ANTHROPIC_BASE_URL' | 'TYPESAFE_API_KEY' | 'VALHALLA_URL'
+  >,
   keyring?: FieldKeyring,
 ): void {
   // The dietary profile's notes are sealed: without the keyring it cannot be stored or read back.
@@ -142,6 +145,7 @@ export function registerGuideRoutes(
   registerApiToolExecutors(registry, doors.pool, {
     search: searchProviderFromEnv(),
     logger: doors.logger,
+    valhallaUrl: env.VALHALLA_URL,
   });
   registerGuideToolExecutors(registry, guideReaderRunner(doors.pool));
   registerProposePlanChanges(registry, { pool: doors.pool, commands: doors.registry });

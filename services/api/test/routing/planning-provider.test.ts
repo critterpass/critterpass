@@ -7,6 +7,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
+import type { ToolContext, ToolRegistry } from '@cp/ai';
 import type { RouteEtaResult } from '@cp/domain';
 import {
   chooseLegMode,
@@ -15,7 +16,10 @@ import {
   type PlanningTravelResult,
   type ValhallaPoint,
 } from '@cp/suppliers';
+import type pg from 'pg';
 import { describe, expect, it } from 'vitest';
+
+import { registerRouteEtaExecutor, type RouteEtaAnswer } from '../../src/routing/tool-executor';
 
 import {
   jsonResponse,
@@ -112,6 +116,52 @@ describe('chooseLegMode', () => {
   });
 });
 
+describe('route_eta', () => {
+  type Input = {
+    origins: { lat: number; lng: number }[];
+    dest: { lat: number; lng: number };
+    mode: 'walk' | 'drive' | 'ride' | 'transit' | 'bike';
+  };
+  let executor: ((input: Input, context: ToolContext) => Promise<RouteEtaAnswer>) | undefined;
+  const registry = {
+    registerToolExecutor: (_name: string, fn: typeof executor) => {
+      executor = fn;
+    },
+  } as unknown as ToolRegistry;
+  const travel = createPlanningTravel({ valhalla: null });
+  // No trip on the turn: no drive factor to read, so the pool is never touched.
+  registerRouteEtaExecutor(registry, {} as pg.Pool, travel);
+  const context = { uid: 'u', tripId: null } as unknown as ToolContext;
+  const ask = (input: Input) => {
+    if (executor === undefined) throw new Error('route_eta not registered');
+    return executor(input, context);
+  };
+
+  it('answers for the slowest origin, without traffic', async () => {
+    const near = await ask({ origins: [P.hanMarket], dest: P.dragonBridge, mode: 'drive' });
+    const both = await ask({
+      origins: [P.hanMarket, P.marble],
+      dest: P.dragonBridge,
+      mode: 'drive',
+    });
+    const far = await travel.travel(P.marble, P.dragonBridge, 'drive');
+    expect(both).toEqual({ minutes: far.minutes, distance_m: far.meters, traffic: false });
+    expect(both.minutes).toBeGreaterThan(near.minutes);
+  });
+
+  it('rides a bike over the walking route and estimates transit', async () => {
+    const walk = await travel.travel(P.marble, P.dragonBridge, 'walk');
+    const bike = await ask({ origins: [P.marble], dest: P.dragonBridge, mode: 'bike' });
+    expect(bike).toEqual({
+      minutes: Math.round(walk.meters / 250),
+      distance_m: walk.meters,
+      traffic: false,
+    });
+    const transit = await ask({ origins: [P.marble], dest: P.dragonBridge, mode: 'transit' });
+    expect(transit.minutes).toBeLessThan(walk.minutes);
+  });
+});
+
 describe('no Navigation API result is stored', () => {
   it('has no Mapbox source in the planning result type', () => {
     const mapbox = { source: 'mapbox' } as const satisfies Pick<RouteEtaResult, 'source'>;
@@ -132,7 +182,7 @@ describe('no Navigation API result is stored', () => {
       (dir) => walk(join(root, dir)),
     );
     const storing = files.filter((file) =>
-      /route_cache|plan_legs|createPlanningTravel|planning-provider/.test(
+      /route_cache|plan_legs|createPlanningTravel|planning-provider|route_eta/.test(
         readFileSync(file, 'utf8'),
       ),
     );
