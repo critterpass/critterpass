@@ -1,20 +1,26 @@
 import { t } from '@lingui/core/macro';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import type { GestureType } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  type SharedValue,
+} from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { tokens } from '@cp/design-tokens';
 
 import { useReducedImpactMotion } from '@/motion/patterns/shared';
-import { useStoryProgress } from '@/motion/patterns/story-progress';
+import { useStoryProgress, type StoryProgress } from '@/motion/patterns/story-progress';
 
 import { Stack } from '../layout/Stack';
 import { Text } from '../text/Text';
 import { makeStyles } from '../theme';
+import { StoryClockContext, type StoryClock } from './story-clock';
 
 export interface StorySegment {
   readonly id: string;
@@ -24,6 +30,8 @@ export interface StorySegment {
   readonly caption?: string;
   /** Spoken summary of the slide. */
   readonly label: string;
+  /** How long the slide plays; the story token (5 s) by default. */
+  readonly durationMs?: number;
 }
 
 export interface StoryPlayerProps {
@@ -79,19 +87,30 @@ function ProgressBar({
   paused,
   onComplete,
   announcement,
+  durationMs,
+  onClock,
 }: {
   readonly state: 'past' | 'active' | 'future';
   readonly paused: boolean;
   readonly onComplete: () => void;
   readonly announcement: string;
+  readonly durationMs: number | undefined;
+  /** The active bar hands its clock to the player, for the slide content. */
+  readonly onClock: (clock: StoryProgress) => void;
 }) {
   const styles = useStyles();
-  const { progress } = useStoryProgress({
+  const clock = useStoryProgress({
     active: state === 'active',
     paused,
     onComplete,
     completionAnnouncement: announcement,
+    ...(durationMs === undefined ? {} : { durationMs }),
   });
+  const { progress } = clock;
+  useEffect(() => {
+    if (state === 'active') onClock(clock);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the clock's parts are stable refs.
+  }, [state]);
   const style = useAnimatedStyle(() => ({
     transform: [{ scaleX: state === 'past' ? 1 : state === 'future' ? 0 : progress.value }],
   }));
@@ -143,6 +162,26 @@ export function StoryPlayer({
   const scale = useSharedValue(1);
   const segment = segments[index];
   const total = segments.length;
+  // The active bar's clock, tagged with its slide: a new slide's content can read the clock before
+  // its bar has handed it over, and then it has played nothing yet.
+  const activeClock = useRef<{ index: number; clock: StoryProgress } | null>(null);
+  const [activeProgress, setActiveProgress] = useState<SharedValue<number> | null>(null);
+  const onClock = (at: number, clock: StoryProgress) => {
+    activeClock.current = { index: at, clock };
+    setActiveProgress(clock.progress);
+  };
+  const stopped = paused || held;
+  const storyClock = useMemo<StoryClock>(
+    () => ({
+      index,
+      paused: stopped,
+      durationMs: segment?.durationMs ?? tokens.motion.duration.story,
+      progress: activeProgress,
+      playedMs: () =>
+        activeClock.current?.index === index ? activeClock.current.clock.playedMs() : 0,
+    }),
+    [index, stopped, segment?.durationMs, activeProgress],
+  );
 
   const go = (next: number) => {
     if (next >= total) {
@@ -157,7 +196,9 @@ export function StoryPlayer({
   useEffect(() => {
     scale.value = 1;
     if (reduced) return;
-    scale.value = withTiming(PUSH_IN_SCALE, { duration: tokens.motion.duration.story });
+    scale.value = withTiming(PUSH_IN_SCALE, {
+      duration: segment?.durationMs ?? tokens.motion.duration.story,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- scale is a stable shared value ref.
   }, [index, reduced]);
   const pushIn = useAnimatedStyle(() => ({ transform: [{ scale: scale.value }] }));
@@ -219,7 +260,11 @@ export function StoryPlayer({
           }}
         >
           <GestureDetector gesture={gestures.tapArea}>
-            <View style={styles.stage}>{segment?.content}</View>
+            <View style={styles.stage}>
+              <StoryClockContext.Provider value={storyClock}>
+                {segment?.content}
+              </StoryClockContext.Provider>
+            </View>
           </GestureDetector>
         </Animated.View>
       </GestureDetector>
@@ -229,9 +274,11 @@ export function StoryPlayer({
             <ProgressBar
               key={item.id}
               state={i < index ? 'past' : i === index ? 'active' : 'future'}
-              paused={paused || held}
+              paused={stopped}
               onComplete={() => go(i + 1)}
               announcement={segments[i + 1]?.label ?? ''}
+              durationMs={item.durationMs}
+              onClock={(clock) => onClock(i, clock)}
             />
           ))}
         </View>

@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useLocale } from '@/lib/i18n/use-locale';
 import { PillButton } from '@/ui/buttons/PillButton';
+import { TextLink } from '@/ui/buttons/TextLink';
 import { InfoPill } from '@/ui/chips/InfoPill';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -49,6 +50,7 @@ const useStyles = makeStyles((th) => ({
   shadow: { position: 'absolute', top: th.space['4'], end: 0 },
   ctas: { flexDirection: 'row', gap: th.space['10'] },
   cta: { flex: 1 },
+  watch: { alignItems: 'center' },
 }));
 
 export interface SummaryViewProps {
@@ -63,6 +65,8 @@ export interface SummaryViewProps {
   readonly onWhereNext: () => void;
   /** Opens the legendary calendar from the forms card, once that screen exists. */
   readonly onGotAway?: (() => void) | undefined;
+  /** Plays the story again; absent while there is none to play. */
+  readonly onWatch?: (() => void) | undefined;
 }
 
 export function SummaryView(props: SummaryViewProps) {
@@ -173,6 +177,15 @@ export function SummaryView(props: SummaryViewProps) {
                 />
               </View>
             </View>
+            {props.onWatch === undefined ? null : (
+              <View style={styles.watch}>
+                <TextLink
+                  label={t({ id: 'recap.summary.watch', message: 'Play the story again' })}
+                  onPress={props.onWatch}
+                  testID="recap-watch"
+                />
+              </View>
+            )}
           </Stack>
         ) : (
           <SummaryState

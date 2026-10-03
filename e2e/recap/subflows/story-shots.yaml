@@ -1,0 +1,33 @@
+appId: app.critterpass.dev
+---
+# Every recap story card (apps/mobile/src/features/recap/dev/story-scenes.tsx): each scene starts
+# the story on its card and holds it once the choreography has played (recap-lab-settled), then the
+# MVP vote and the signature sheet over their cards. ${LANG} prefixes the shots for compare mode.
+- runFlow: open-lab.yaml
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-3-cover', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-3-cover' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: 'recap-critters', ROOT: 'recap-lab-settled', SHOT: '${LANG}-recap-critters' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-4-route', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-4-route' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-5-awards', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-5-awards' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-5-mvp-vote', ROOT: 'recap-mvp-panel', SHOT: '${LANG}-3m-5-mvp-vote' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-6-receipt', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-6-receipt' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-7-got-away', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-7-got-away' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-8-stamp', ROOT: 'recap-lab-settled', SHOT: '${LANG}-3m-8-stamp' }
+- runFlow:
+    file: lab-scene.yaml
+    env: { SCENE: '3m-8-signature', ROOT: 'recap-signature-panel', SHOT: '${LANG}-3m-8-signature' }

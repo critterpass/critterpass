@@ -154,6 +154,8 @@ export function recapRow(
     cards: JSON.stringify(changes.cards ?? {}),
     changed_sections: changes.changed_sections ?? '[]',
     failure_reason: changes.failure_reason ?? null,
+    i18n: changes.i18n ?? null,
+    narration: changes.narration ?? null,
   };
 }
 
