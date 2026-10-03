@@ -181,7 +181,10 @@ async function enqueueOnWorker(
     const run = fsqRunId !== undefined ? { fsqRunId } : {};
     const payloads = only.length > 0 ? only.map((slug) => ({ slug, ...run })) : [{ except }];
     for (const payload of payloads) {
-      const jobId = await boss.send(PLACES_INGEST_QUEUE, payload);
+      // Named destinations go ahead of a monthly fan-out already queued.
+      const jobId = await boss.send(PLACES_INGEST_QUEUE, payload, {
+        priority: 'slug' in payload ? 10 : 0,
+      });
       console.log(JSON.stringify({ queue: PLACES_INGEST_QUEUE, jobId, ...payload }));
     }
   } finally {
