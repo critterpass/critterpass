@@ -3,14 +3,16 @@
  * it cites a page the search returned, that page is no older than `HOURS_SOURCE_MAX_AGE_DAYS` when
  * its date is known, the confidence clears `HOURS_MIN_CONFIDENCE`, every span is well formed, and
  * every opening and closing time it uses is written on the cited page (a "24 hours" page for an
- * always-open place). Anything else is a decline, never a repair: hours are never invented.
+ * always-open place), that page says which days it speaks for, and no day it calls closed is open.
+ * Anything else is a decline, never a repair: hours are never invented.
  */
-import { hoursSchema, WEEKDAYS, type Hours, type TimeSpan } from '@cp/domain';
+import { hoursSchema, WEEKDAYS, type Hours, type TimeSpan, type Weekday } from '@cp/domain';
 
 import type { WebResult } from '../../tools/web-search';
+import { closedDays, statesDays } from './days';
 import { hoursResearchReplySchema } from './schema';
 
-export const HOURS_MIN_CONFIDENCE = 0.7;
+export const HOURS_MIN_CONFIDENCE = 0.8;
 /** Pages dated earlier than this are too old to trust for current hours. */
 export const HOURS_SOURCE_MAX_AGE_DAYS = 400;
 
@@ -131,6 +133,12 @@ export function checkHoursReply(
     if (used.some((time) => !written.has(norm(toMinutes(time))))) {
       return { ok: false, reason: 'time_not_in_source' };
     }
+  }
+  // An extract that names no days cannot say the place opens all seven; a closed day stays closed.
+  if (!statesDays(page)) return { ok: false, reason: 'days_not_in_source' };
+  const closed = closedDays(page);
+  if (Object.keys(weekly).some((day) => closed.has(day as Weekday))) {
+    return { ok: false, reason: 'closed_day_opened' };
   }
   return {
     ok: true,

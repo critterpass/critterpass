@@ -17,6 +17,7 @@ import { buildHoursResearchRequest, hoursResearchQuery, HOURS_RESEARCH_ROUTE } f
 import type { HoursResearchPlace } from './prompt';
 import { checkHoursReply, type HoursProposal } from './validate';
 
+export * from './days';
 export * from './prompt';
 export * from './schema';
 export * from './validate';
