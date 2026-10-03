@@ -15,7 +15,7 @@ import type { ReadableStream as WebReadableStream } from 'node:stream/web';
 
 import { z } from 'zod';
 
-import type { BoundingBox } from './ingest';
+import type { BoundingBox } from './source-readers';
 
 const INDEX_URL = 'https://download.geofabrik.de/index-v1.json';
 const DOWNLOAD_DIR = path.join(tmpdir(), 'critterpass-osm');

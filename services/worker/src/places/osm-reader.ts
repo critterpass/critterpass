@@ -17,7 +17,7 @@ import path from 'node:path';
 import { OSM_POI_KEYS, classifyOsmTags, type OsmClassification, type OsmTags } from '@cp/domain';
 import { DuckDBInstance, type DuckDBConnection } from '@duckdb/node-api';
 
-import type { BoundingBox } from './ingest';
+import type { BoundingBox } from './source-readers';
 import { withOsmExtract } from './osm-extract';
 
 export interface OsmPlaceRow {

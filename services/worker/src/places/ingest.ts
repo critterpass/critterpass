@@ -1,7 +1,9 @@
 /**
  * Curated POI ingest for one destination bbox: reads Overture places and FSQ OS Places
  * (`./source-readers.ts`), conflates them (`./conflate.ts`), and upserts into `pois` keyed by
- * source id so a rerun updates existing rows instead of creating new ones. Upserts are batched
+ * source id so a rerun updates existing rows instead of creating new ones. OpenStreetMap
+ * (`./osm-reader.ts`, `./osm-apply.ts`) runs last over the same bbox: it links to the rows just
+ * written, fills their empty hours, and adds the sights the other two lack. Upserts are batched
  * (`INGEST_BATCH_SIZE` conflated POIs per chunk, one transaction, one existing-id lookup plus one
  * multi-row `INSERT` and one multi-row `UPDATE`): a metro-wide bbox against a remote Postgres would
  * otherwise turn into tens of thousands of sequential round trips.
@@ -11,6 +13,8 @@ import type pg from 'pg';
 
 import { chunk } from './batch-sql';
 import { conflatePlaces, type ConflationCandidate } from './conflate';
+import { applyOsmPlaces, type OsmApplyResult } from './osm-apply';
+import { readOsmPlaces, type OsmPlaceRow } from './osm-reader';
 import {
   batchUpsertConflatedPois,
   INGEST_BATCH_SIZE,
@@ -63,6 +67,8 @@ export interface IngestDestinationInput {
 export interface IngestSources {
   readonly readOverturePlaces?: PlaceSourceReader;
   readonly readFsqOsPlaces?: PlaceSourceReader;
+  /** Defaults to the Geofabrik reader only when Overture is also read for real. */
+  readonly readOsmPlaces?: (bbox: BoundingBox) => Promise<readonly OsmPlaceRow[]>;
 }
 
 export interface IngestDestinationResult {
@@ -80,6 +86,8 @@ export interface IngestDestinationResult {
   readonly activeCount: number;
   /** True when the real FSQ OS Places source was used and returned nothing because it is gated. */
   readonly fsqOsGated: boolean;
+  /** What OpenStreetMap added and filled; null when it was not read. */
+  readonly osm: OsmApplyResult | null;
   /** Triggers the "no curated places yet" UI state: fewer than 50 active POIs after this ingest. */
   readonly sparseCoverage: boolean;
 }
@@ -116,6 +124,18 @@ export async function ingestDestination(
     counts.ownedElsewhere += batchCounts.ownedElsewhere;
   }
 
+  const readOsm =
+    sources.readOsmPlaces ?? (sources.readOverturePlaces === undefined ? readOsmPlaces : undefined);
+  const osm =
+    readOsm === undefined
+      ? null
+      : await applyOsmPlaces(
+          pool,
+          input.destinationId,
+          input.timezone ?? null,
+          await readOsm(input.bbox),
+        );
+
   const activeCount = await withSystem(pool, async (tx) => {
     const { rows } = await tx.query<{ count: string }>(
       "SELECT count(*) FROM pois WHERE destination_id = $1 AND status = 'active'",
@@ -131,6 +151,7 @@ export async function ingestDestination(
     ...counts,
     activeCount,
     fsqOsGated,
+    osm,
     sparseCoverage: activeCount < SPARSE_COVERAGE_THRESHOLD,
   };
 }
@@ -144,7 +165,7 @@ export interface AttributionNoticeInput {
 
 /**
  * NOTICE text for one destination's ingest: Apache-2.0 requires FSQ OS Places attribution when
- * included; CDLA-P-2.0 requires crediting Overture regardless.
+ * included; CDLA-P-2.0 requires crediting Overture and the ODbL OpenStreetMap regardless.
  */
 export function generateAttributionNotice(input: AttributionNoticeInput): string {
   const lines = [
@@ -154,6 +175,9 @@ export function generateAttributionNotice(input: AttributionNoticeInput): string
     '',
     `- Map data (c) OpenStreetMap contributors and Overture Maps Foundation, release ${input.overtureRelease}, licensed under CDLA-Permissive-2.0 (https://cdla.dev/permissive-2-0/).`,
   ];
+  lines.push(
+    '- Places and opening hours (c) OpenStreetMap contributors, from Geofabrik extracts of OpenStreetMap, available under the Open Database License (https://opendatacommons.org/licenses/odbl/1-0/). https://www.openstreetmap.org/copyright',
+  );
   if (input.fsqOsIncluded) {
     lines.push(
       '- Places data (c) Foursquare Labs, Inc., from FSQ OS Places, licensed under Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0). This product includes software developed by Foursquare Labs, Inc. (https://foursquare.com).',
