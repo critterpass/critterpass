@@ -24,7 +24,8 @@ export interface ReceiptLine {
 
 export interface ReceiptProps {
   readonly art?: ReactNode;
-  readonly title: string;
+  /** The receipt's header line; none when the caller sets its own header in `art`. */
+  readonly title?: string;
   readonly subtitle?: string;
   /** Sections separated by dashed rules. */
   readonly sections: readonly (readonly ReceiptLine[])[];
@@ -93,7 +94,7 @@ export function Receipt({
         <Stack style={styles.paper}>
           <Stack align="center" gap="4">
             {art}
-            <Text variant="h3">{title}</Text>
+            {title ? <Text variant="h3">{title}</Text> : null}
             {subtitle ? <Text variant="monoData">{subtitle}</Text> : null}
           </Stack>
           {sections.map((lines, index) => (

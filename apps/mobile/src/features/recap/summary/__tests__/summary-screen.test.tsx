@@ -17,7 +17,13 @@ jest.mock(
 );
 jest.mock('expo-router', () => ({
   useIsFocused: () => true,
-  router: { push: jest.fn(), navigate: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },
+  router: {
+    push: jest.fn(),
+    navigate: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    canGoBack: jest.fn(() => true),
+  },
   useLocalSearchParams: jest.fn(() => ({})),
 }));
 
@@ -32,7 +38,16 @@ import {
 import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { toastQueue } from '@/motion';
 
-import { awardRows, CARDS, CREW, RECEIPT, recapRow, STATS, TRIP } from '../../dev/recap-fixtures';
+import {
+  awardRows,
+  CARDS,
+  CREW,
+  RECAP,
+  RECEIPT,
+  recapRow,
+  STATS,
+  TRIP,
+} from '../../dev/recap-fixtures';
 import {
   renderRecap,
   seedAwards,
@@ -41,6 +56,7 @@ import {
   until,
   type SeedTrip,
 } from '../../test-support/recap-harness';
+import { storySession } from '../../story/story-session';
 import { RecapSummaryScreen } from '../summary-screen';
 
 let stack: TestLocalFirst | null = null;
@@ -55,6 +71,8 @@ const visible = (testID: string) => screen.queryByTestId(testID) !== null;
 
 afterEach(async () => {
   (router.navigate as jest.Mock).mockClear();
+  (router.replace as jest.Mock).mockClear();
+  storySession.reset();
   toastQueue.dismiss();
   await stack?.close();
   if (stack) removeDir(stack.dir);
@@ -162,5 +180,28 @@ describe('recap page', () => {
     await until(() => visible('recap-where-next'));
     await fireEvent.press(screen.getByTestId('recap-where-next'));
     expect(router.navigate).toHaveBeenCalledWith({ pathname: '/', params: { crewId: CREW } });
+  });
+
+  it('plays the story first until it has been watched, and opens on the page after that', async () => {
+    const s = await open();
+    await seedRecap(s, recapRow());
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => (router.replace as jest.Mock).mock.calls.length > 0);
+    expect(router.replace).toHaveBeenCalledWith({
+      pathname: '/recap/[tripId]/story',
+      params: { tripId: TRIP },
+    });
+
+    // Played to its end on another phone: the page stays the page.
+    (router.replace as jest.Mock).mockClear();
+    await s.db.execute(
+      `INSERT INTO recap_views (id, recap_id, trip_id, user_id, opened_at, completed_at)
+       VALUES ('rv-1', ?, ?, ?, '2026-10-05T01:00:00Z', '2026-10-05T01:02:00Z')`,
+      [RECAP, TRIP, s.uid],
+    );
+    storySession.reset();
+    await renderRecap(<RecapSummaryScreen tripId={TRIP} />, s);
+    await until(() => visible('recap-watch'));
+    expect(router.replace).not.toHaveBeenCalled();
   });
 });

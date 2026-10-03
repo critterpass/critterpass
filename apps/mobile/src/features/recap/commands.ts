@@ -1,18 +1,51 @@
 /**
- * Client spec for asking the server to build a failed recap again. Online only: a retry waiting in
- * the queue would leave the page saying it failed, so without signal the page says so instead.
+ * Client specs for the recap's commands. Opening and finishing the recap, the signature, the MVP
+ * vote and the got-away reminder may wait in the offline queue (the server replays them by id);
+ * asking for a failed build again is online only, so the page never says it failed while a retry
+ * waits unsent.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- command names, never copy. */
+import type {
+  CastMvpVotePayload,
+  RecordRecapViewPayload,
+  RetryRecapPayload,
+  SaveSignaturePayload,
+  SetLegendaryReminderPayload,
+} from '@cp/domain';
 import { msg } from '@lingui/core/macro';
 
 import { defineClientCommand } from '@/data/commands/summaries';
-
-export interface RetryRecapPayload {
-  readonly trip_id: string;
-}
 
 export const retryRecapCommand = defineClientCommand<RetryRecapPayload>({
   name: 'retry_recap',
   offline: false,
   summarize: () => msg({ id: 'recap.queued.retry', message: 'Building the recap again' }),
+});
+
+export const recordRecapViewCommand = defineClientCommand<RecordRecapViewPayload>({
+  name: 'record_recap_view',
+  offline: true,
+  summarize: ({ kind }) =>
+    kind === 'open'
+      ? msg({ id: 'recap.queued.open', message: 'Signing the crew stamp' })
+      : msg({ id: 'recap.queued.complete', message: 'Watched the recap' }),
+});
+
+export const saveSignatureCommand = defineClientCommand<SaveSignaturePayload>({
+  name: 'save_signature',
+  offline: true,
+  summarize: () => msg({ id: 'recap.queued.signature', message: 'Your signature' }),
+});
+
+export const castMvpVoteCommand = defineClientCommand<CastMvpVotePayload>({
+  name: 'cast_mvp_vote',
+  offline: true,
+  summarize: () => msg({ id: 'recap.queued.mvp', message: 'Your MVP vote' }),
+});
+
+export const setLegendaryReminderCommand = defineClientCommand<SetLegendaryReminderPayload>({
+  name: 'set_legendary_reminder',
+  offline: true,
+  summarize: () =>
+    msg({ id: 'recap.queued.remind', message: 'A reminder for the one that got away' }),
 });
