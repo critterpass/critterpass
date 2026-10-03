@@ -25,6 +25,10 @@ msgstr "{count, plural, one {{guideName} read # line} other {{guideName} read # 
 msgid "money.add.evenlyA11y"
 msgstr "{count} in the split"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.detailsLabel"
+msgstr "{detailsName}, {detailsCategory}, {detailsDay}"
+
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.each"
 msgstr "{each} each"
@@ -123,6 +127,10 @@ msgstr "{spent} spent of {0}"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.taps"
 msgstr "{taps, plural, one {Settle in # tap} other {Settle in # taps}}"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.deletedBy"
+msgstr "{who} deleted this expense"
 
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.approx"
@@ -304,6 +312,18 @@ msgstr "Copied"
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.copy"
 msgstr "Copy"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.pickFailedTitle"
+msgstr "Couldn't open that photo"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.commitOffline"
+msgstr "Couldn't reach CritterPass. Try SPLIT IT again when you're online."
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.unreadableTitle"
+msgstr "Couldn't read that one"
 
 #: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
 msgid "money.budget.target"
@@ -609,10 +629,6 @@ msgid "money.payout.field.name"
 msgstr "Name the payer sees"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
-msgid "money.add.detailsLabel"
-msgstr "{detailsName}, {detailsCategory}, {detailsDay}"
-
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.detailsA11y"
 msgstr "Name, category and day"
 
@@ -803,6 +819,10 @@ msgstr "Request it"
 msgid "money.settle.status.requested"
 msgstr "Requested"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.retake"
+msgstr "Retake"
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retake"
 msgstr "Retake, flatter"
@@ -839,6 +859,10 @@ msgstr "Scan instead"
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.scan"
 msgstr "Scan the receipt"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.pickFailedLine"
+msgstr "Scan the receipt, pick another photo, or type it in. Nothing was added."
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.all"
@@ -943,9 +967,17 @@ msgstr "Tap a line to change who had it."
 msgid "money.currency.error"
 msgstr "That didn't go through. Check your connection and try again."
 
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.evenRefused"
+msgstr "That didn't go through. Try again, or type it in."
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedTitle"
 msgstr "That didn't upload"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.commitRefused"
+msgstr "That split didn't go through. Try again, or type it in."
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.amount"
@@ -987,10 +1019,15 @@ msgstr "This expense is gone"
 msgid "money.chat.deleted"
 msgstr "This expense was deleted"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.slowLine"
+msgstr "This is taking longer than usual. Keep waiting, or type it in."
+
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.today"
 msgstr "Today"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.today"
 msgstr "Today"
@@ -1045,8 +1082,16 @@ msgid "money.pay.typeAmount"
 msgstr "Type {amount} in your bank app."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.typeIt"
+msgstr "Type it in"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
 msgstr "Type it in instead"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.unreadableLine"
+msgstr "Type it in, or retake it flat and in good light. Nothing was added."
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
@@ -1094,6 +1139,7 @@ msgstr "When"
 msgid "money.trips.title"
 msgstr "Which trip?"
 
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesScreen.tsx
 msgid "money.typeLines.who"
 msgstr "Who had it?"
@@ -1121,6 +1167,10 @@ msgstr "Wise link"
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.yesterday"
 msgstr "Yesterday"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.you"
+msgstr "You"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.you"

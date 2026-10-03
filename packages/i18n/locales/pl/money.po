@@ -25,6 +25,10 @@ msgstr ""
 msgid "money.add.evenlyA11y"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.detailsLabel"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.each"
 msgstr ""
@@ -122,6 +126,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.taps"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.deletedBy"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
@@ -303,6 +311,18 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.copy"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.pickFailedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.commitOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.unreadableTitle"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
@@ -609,10 +629,6 @@ msgid "money.payout.field.name"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
-msgid "money.add.detailsLabel"
-msgstr ""
-
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.detailsA11y"
 msgstr ""
 
@@ -803,6 +819,10 @@ msgstr ""
 msgid "money.settle.status.requested"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.retake"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retake"
 msgstr ""
@@ -838,6 +858,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.scan"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.pickFailedLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
@@ -943,8 +967,16 @@ msgstr ""
 msgid "money.currency.error"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.evenRefused"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.commitRefused"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
@@ -987,10 +1019,15 @@ msgstr ""
 msgid "money.chat.deleted"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.slowLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.today"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.today"
 msgstr ""
@@ -1045,7 +1082,15 @@ msgid "money.pay.typeAmount"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.typeIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.unreadableLine"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
@@ -1094,6 +1139,7 @@ msgstr ""
 msgid "money.trips.title"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesScreen.tsx
 msgid "money.typeLines.who"
 msgstr ""
@@ -1120,6 +1166,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.yesterday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.you"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx

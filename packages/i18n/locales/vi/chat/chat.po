@@ -128,6 +128,14 @@ msgstr "Đã chép"
 msgid "chat.action.copy"
 msgstr "Chép chữ"
 
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.failed"
+msgstr "Không tải được"
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.failed"
+msgstr "Không mở được ảnh của bạn. Thử lại nhé."
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.fallbackTitle"
 msgstr "Chat nhóm"
@@ -208,6 +216,10 @@ msgstr "Viết ngắn hơn {MESSAGE_BODY_MAX} ký tự nhé."
 #: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
 msgid "chat.loading"
 msgstr "Đang tải chat"
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.loading"
+msgstr "Đang tải tin nhắn thoại"
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.map"

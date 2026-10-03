@@ -128,6 +128,14 @@ msgstr ""
 msgid "chat.action.copy"
 msgstr ""
 
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.failed"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/media/attach-menu.tsx
+msgid "chat.attach.failed"
+msgstr ""
+
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx
 msgid "chat.header.fallbackTitle"
 msgstr ""
@@ -207,6 +215,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/skeleton.tsx
 msgid "chat.loading"
+msgstr ""
+
+#: ../../apps/mobile/src/features/crew/chat/media/voice-message.tsx
+msgid "chat.voice.loading"
 msgstr ""
 
 #: ../../apps/mobile/src/features/crew/chat/components/chat-header.tsx

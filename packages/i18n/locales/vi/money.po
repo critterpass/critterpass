@@ -25,6 +25,10 @@ msgstr "{count, plural, other {{guideName} đọc được # dòng}}"
 msgid "money.add.evenlyA11y"
 msgstr "{count} người trong phần chia"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
+msgid "money.add.detailsLabel"
+msgstr "{detailsName}, {detailsCategory}, {detailsDay}"
+
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.each"
 msgstr "{each} mỗi người"
@@ -123,6 +127,10 @@ msgstr "Đã chi {spent} trên {0}"
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.settle.taps"
 msgstr "{taps, plural, other {Thanh toán trong # chạm}}"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.deletedBy"
+msgstr "{who} đã xoá khoản chi này"
 
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.approx"
@@ -304,6 +312,18 @@ msgstr "Đã chép"
 #: ../../apps/mobile/src/features/money/settle/PaymentDetail.tsx
 msgid "money.pay.copy"
 msgstr "Chép"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.pickFailedTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.commitOffline"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.unreadableTitle"
+msgstr ""
 
 #: ../../apps/mobile/src/features/money/budget/BudgetScreen.tsx
 msgid "money.budget.target"
@@ -609,10 +629,6 @@ msgid "money.payout.field.name"
 msgstr "Tên người trả thấy"
 
 #: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
-msgid "money.add.detailsLabel"
-msgstr "{detailsName}, {detailsCategory}, {detailsDay}"
-
-#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 msgid "money.add.detailsA11y"
 msgstr "Tên, danh mục và ngày"
 
@@ -803,6 +819,10 @@ msgstr "Nhắc trả"
 msgid "money.settle.status.requested"
 msgstr "Đã nhắc"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.retake"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 msgid "money.failure.retake"
 msgstr "Chụp lại, phẳng hơn"
@@ -839,6 +859,10 @@ msgstr "Quét thay"
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.scan"
 msgstr "Quét hoá đơn"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.pickFailedLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.latest.all"
@@ -943,9 +967,17 @@ msgstr "Chạm vào một dòng để đổi người ăn."
 msgid "money.currency.error"
 msgstr "Chưa gửi được. Kiểm tra kết nối rồi thử lại."
 
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.evenRefused"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.failedTitle"
 msgstr "Chưa tải lên được"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanScreen.tsx
+msgid "money.scan.commitRefused"
+msgstr ""
 
 #: ../../apps/mobile/src/features/money/expense-detail/ExpenseDetailView.tsx
 msgid "money.detail.field.amount"
@@ -987,10 +1019,15 @@ msgstr "Khoản chi này không còn"
 msgid "money.chat.deleted"
 msgstr "Khoản chi này đã bị xoá"
 
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.slowLine"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/budget/BudgetView.tsx
 msgid "money.budget.today"
 msgstr "Hôm nay"
 
+#: ../../apps/mobile/src/features/money/add-expense/AddExpenseView.tsx
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.today"
 msgstr "Hôm nay"
@@ -1045,8 +1082,16 @@ msgid "money.pay.typeAmount"
 msgstr "Nhập {amount} trong ứng dụng ngân hàng."
 
 #: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.typeIt"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
 msgid "money.scan.typeInstead"
 msgstr "Tự gõ vào"
+
+#: ../../apps/mobile/src/features/money/receipt/ScanView.tsx
+msgid "money.scan.unreadableLine"
+msgstr ""
 
 #: ../../apps/mobile/src/features/money/receipt/FailureSheet.tsx
 #: ../../apps/mobile/src/features/money/receipt/LineAssignSheet.tsx
@@ -1094,6 +1139,7 @@ msgstr "Khi nào"
 msgid "money.trips.title"
 msgstr "Chuyến nào?"
 
+#: ../../apps/mobile/src/features/money/dev/lab-scenes-scan.tsx
 #: ../../apps/mobile/src/features/money/receipt/TypeLinesScreen.tsx
 msgid "money.typeLines.who"
 msgstr "Ai ăn?"
@@ -1121,6 +1167,10 @@ msgstr "Đường dẫn Wise"
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.yesterday"
 msgstr "Hôm qua"
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.you"
+msgstr "Bạn"
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx
 msgid "money.bars.you"
