@@ -1,10 +1,10 @@
 /**
  * A voice-note message: play and pause, the waveform (peaks from the worker, drawn as bars that
  * fill as it plays), the time left, and a 1× / 1.5× speed toggle. It plays the worker's normalised
- * AAC, or the recording itself until that exists.
+ * AAC, or the recording itself until that exists, from a local copy (./voice-playback). While the
+ * note downloads the play button dims; a note that cannot be fetched says so and plays on a retry.
  */
 import { t } from '@lingui/core/macro';
-import { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 
 import { PressScale } from '@/ui/press/PressScale';
@@ -12,11 +12,10 @@ import { Row, Text, useTheme } from '@/ui';
 import { makeStyles } from '@/ui/theme';
 
 import type { ChatCardProps } from '../cards/registry';
-import { useChatMedia, type PlayerPort } from './media-services';
-import { readUrl } from './read-urls';
+import { useChatMedia } from './media-services';
+import { useVoicePlayback } from './voice-playback';
 
 export const WAVEFORM_BARS = 32;
-const TICK_MS = 250;
 
 /** `peaks` resampled to `bars` bars (a flat line when there are none yet). */
 export function bars(peaks: readonly number[] | undefined, count = WAVEFORM_BARS): number[] {
@@ -44,6 +43,8 @@ const useStyles = makeStyles((th) => ({
   play: { width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center' },
   wave: { flexDirection: 'row', alignItems: 'center', gap: 2, height: 28, flex: 1 },
   bar: { width: 3, borderRadius: 2 },
+  // Undesigned: the play button dims while the note downloads.
+  loading: { opacity: 0.5 },
 }));
 
 /** Play triangle or pause bars, drawn from views (no glyph font dependency). */
@@ -78,47 +79,13 @@ export function VoiceMessage({ message, mine }: ChatCardProps) {
   const theme = useTheme();
   const media = useChatMedia();
   const voice = message.attachments.find((attachment) => attachment.kind === 'voice');
-  const player = useRef<PlayerPort | null>(null);
-  const [playing, setPlaying] = useState(false);
-  const [played, setPlayed] = useState(0);
-  const [rate, setRate] = useState<1 | 1.5>(1);
-  const durationMs = voice?.duration_ms ?? 0;
-
-  useEffect(() => () => player.current?.release(), []);
-  useEffect(() => {
-    if (!playing) return undefined;
-    const timer = setInterval(() => {
-      const current = player.current;
-      if (current === null) return;
-      const { current: at, duration } = current.position();
-      setPlayed(at * 1000);
-      if (!current.playing() && duration > 0 && at >= duration - 0.05) {
-        setPlaying(false);
-        setPlayed(0);
-      }
-    }, TICK_MS);
-    return () => clearInterval(timer);
-  }, [playing]);
-
-  const toggle = async () => {
-    if (media === null || voice === undefined) return;
-    if (playing) {
-      player.current?.pause();
-      setPlaying(false);
-      return;
-    }
-    if (player.current === null) {
-      const url = await readUrl(media.http, voice.derived_key ?? voice.media_key);
-      if (url === null) return;
-      player.current = media.createPlayer(url);
-      player.current.setRate(rate);
-    }
-    player.current.play();
-    setPlaying(true);
-  };
+  const { state, playedMs, durationMs, rate, toggle, cycleRate } = useVoicePlayback(media, voice);
+  const playing = state === 'playing';
+  const loading = state === 'loading';
+  const failed = state === 'failed';
 
   const ink = mine ? theme.semantic.text.onAccent : theme.semantic.text.primary;
-  const fill = durationMs > 0 ? played / durationMs : 0;
+  const fill = durationMs > 0 ? playedMs / durationMs : 0;
   const shape = bars(voice?.peaks);
   return (
     <Row
@@ -132,11 +99,15 @@ export function VoiceMessage({ message, mine }: ChatCardProps) {
         accessibilityLabel={
           playing
             ? t({ id: 'chat.voice.pause', message: 'Pause voice note' })
-            : t({ id: 'chat.voice.play', message: 'Play voice note' })
+            : loading
+              ? t({ id: 'chat.voice.loading', message: 'Loading voice note' })
+              : t({ id: 'chat.voice.play', message: 'Play voice note' })
         }
+        accessibilityState={{ busy: loading }}
         onPress={() => void toggle()}
         style={[
           styles.play,
+          loading ? styles.loading : null,
           { backgroundColor: mine ? theme.semantic.bg.base : theme.semantic.action.primary },
         ]}
         testID={`chat-voice-play-${message.id}`}
@@ -161,16 +132,14 @@ export function VoiceMessage({ message, mine }: ChatCardProps) {
           />
         ))}
       </View>
-      <Text variant="caption" color={ink}>
-        {clock(playing || played > 0 ? durationMs - played : durationMs)}
+      <Text variant="caption" color={ink} testID={`chat-voice-time-${message.id}`}>
+        {failed
+          ? t({ id: 'chat.voice.failed', message: 'Couldn’t load' })
+          : clock(playing || playedMs > 0 ? durationMs - playedMs : durationMs)}
       </Text>
       <PressScale
         accessibilityLabel={t({ id: 'chat.voice.speed', message: `Playback speed ${rate}×` })}
-        onPress={() => {
-          const next = rate === 1 ? 1.5 : 1;
-          setRate(next);
-          player.current?.setRate(next);
-        }}
+        onPress={cycleRate}
         testID={`chat-voice-speed-${message.id}`}
       >
         <Text variant="label" color={ink}>

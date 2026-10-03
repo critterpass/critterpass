@@ -3,8 +3,7 @@
  * recorded responses and the picker, microphone and player as device doubles: a photo queued
  * offline uploads and sends exactly once after reconnect (even when the queue runs twice, or the
  * app died between sending and clearing the upload), large files go multipart, voice notes record
- * from the mic (and a denied mic points to Settings), and play from their signed read URL at 1× or
- * 1.5×.
+ * from the mic (and a denied mic points to Settings). Playback lives in voice-message.test.
  */
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-unsafe-return -- jest.mock factories cannot close over module-scope imports
 jest.mock('@shopify/react-native-skia', () => require('@/ui/test-support/skia-double'));
@@ -220,6 +219,22 @@ describe('in the chat', () => {
     await waitFor(() => expect(media.picked).toEqual(['camera', 'library']));
   });
 
+  it('says the photo picker failed, not that access is off, and picks on a retry', async () => {
+    const s = await open();
+    await seedCrew(s);
+    await seedMessage(s, { seq: 1, sender: MAYA, body: 'pics?' });
+    s.network.set(false);
+    const media = await renderWithMedia(s, deviceDouble(api, { library: 'fails-once' }));
+    await fireEvent.press(await screen.findByLabelText('Add attachment'));
+    await fireEvent.press(await screen.findByText('Photo library'));
+    expect(await screen.findByText('Couldn’t open your photos. Try again.')).toBeTruthy();
+    expect(screen.queryByText(/^photo access is off$/iu)).toBeNull();
+    await fireEvent.press(screen.getByText('Photo library'));
+    await waitFor(() => expect(media.picked).toEqual(['library', 'library']));
+    await waitFor(() => expect(screen.queryByTestId('chat-attach-failed')).toBeNull());
+    await waitFor(async () => expect(await listUploads(s.db)).toHaveLength(1));
+  });
+
   it('records a hands-free voice note and queues its upload with peaks', async () => {
     const s = await open();
     await seedCrew(s);
@@ -250,36 +265,5 @@ describe('in the chat', () => {
       nativeEvent: { actionName: 'activate' },
     });
     expect(await screen.findByText(/^the microphone is off$/iu)).toBeTruthy();
-  });
-
-  it('plays a voice note from its signed read URL, at 1.5× on request', async () => {
-    const s = await open();
-    await seedCrew(s);
-    const id = await seedMessage(s, {
-      seq: 1,
-      sender: MAYA,
-      type: 'voice',
-      attachments: [
-        {
-          media_id: 'm-1',
-          media_key: `u/${MAYA}/voice/original`,
-          derived_key: `u/${MAYA}/voice/normalised`,
-          kind: 'voice',
-          w: null,
-          h: null,
-          duration_ms: 4200,
-          peaks: [0.2, 1, 0.5],
-        },
-      ],
-    });
-    const media = await renderWithMedia(s);
-    expect(await screen.findByLabelText('Voice note, 0:04')).toBeTruthy();
-    await fireEvent.press(screen.getByTestId(`chat-voice-play-${id}`));
-    await waitFor(() =>
-      expect(media.players[0]?.url).toBe(api.readUrlFor(`u/${MAYA}/voice/normalised`)),
-    );
-    expect(media.players[0]?.playing).toBe(true);
-    await fireEvent.press(screen.getByTestId(`chat-voice-speed-${id}`));
-    expect(media.players[0]?.rate).toBe(1.5);
   });
 });

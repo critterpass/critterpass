@@ -2,7 +2,7 @@
  * The device side of chat media: the system photo picker and camera (compressed on the way in),
  * file bytes and SHA-256 for the upload checksum, the media api (fetch for JSON, XMLHttpRequest for
  * the signed PUTs so they report progress), the microphone (mono AAC with metering, for the live
- * level), audio playback and the Settings page. Mounted by the chat route.
+ * level), voice notes saved to the cache and played from there, and the Settings page. Mounted by the chat route.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- wire values, module names and HTTP verbs, never copy. */
 import { requireOptionalNativeModule } from 'expo';
@@ -17,6 +17,7 @@ import { CryptoDigestAlgorithm, digest } from 'expo-crypto';
 import { File } from 'expo-file-system';
 import type * as ImagePickerModule from 'expo-image-picker';
 import { useMemo, type ReactNode } from 'react';
+import * as Sentry from '@sentry/react-native';
 import { Linking } from 'react-native';
 
 import { sessionHeaders } from '@/data/app-session/device-session';
@@ -30,7 +31,7 @@ import {
   type PickOutcome,
   type VoiceRecorderPort,
 } from './media-services';
-import { deviceVoicePlayer } from './voice-player';
+import { deviceVoiceFile, deviceVoicePlayer } from './voice-player';
 
 const VOICE: RecordingOptions = {
   ...RecordingPresets.HIGH_QUALITY,
@@ -118,8 +119,10 @@ async function pickPhotos(source: 'library' | 'camera'): Promise<PickOutcome> {
         ...(asset.fileSize === undefined ? {} : { bytes: asset.fileSize }),
       })),
     };
-  } catch {
-    return { kind: 'denied' };
+  } catch (error) {
+    // The picker failing is not a refusal: say so honestly and let the person try again.
+    Sentry.captureException(error, { tags: { 'chat.media': 'photo_picker', source } });
+    return { kind: 'failed' };
   }
 }
 
@@ -157,6 +160,7 @@ export function DeviceChatMediaProvider({ children }: { readonly children: React
         hex(await digest(CryptoDigestAlgorithm.SHA256, new Uint8Array(bytes))),
       http,
       recorder,
+      audioFile: deviceVoiceFile,
       createPlayer: deviceVoicePlayer,
       openSettings: () => void Linking.openSettings(),
     };

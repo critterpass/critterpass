@@ -44,7 +44,10 @@ const useStyles = makeStyles((t) => ({
     backgroundColor: t.semantic.bg.control,
     justifyContent: 'center',
   },
-  foot: { paddingHorizontal: t.size.gutter, paddingTop: t.space['8'], gap: t.space['12'] },
+  // The quick actions scroll edge to edge (their row insets its content); the composer keeps the
+  // crew chat's inset, so the two bars sit in the same place.
+  foot: { paddingTop: t.space['8'], gap: t.space['12'] },
+  composer: { paddingHorizontal: t.space['12'] },
 }));
 
 export function GuideSheetView(props: GuideSheetViewProps) {
@@ -91,18 +94,20 @@ export function GuideSheetView(props: GuideSheetViewProps) {
           </HorizontalScroll>
         )}
         {props.composerSlot ?? (
-          <Composer
-            value={props.draft}
-            onChangeText={props.onDraft}
-            onSend={props.onSend}
-            placeholder={t({ id: 'guide.composer.placeholder', message: 'Ask, or hold to talk' })}
-            {...(props.onAttach === undefined ? {} : { onAttach: props.onAttach })}
-            {...(props.onMic === undefined
-              ? {}
-              : { onMicTap: props.onMic, onHoldStart: props.onMic })}
-            onRaised
-            testID="guide-composer"
-          />
+          <Stack style={styles.composer}>
+            <Composer
+              value={props.draft}
+              onChangeText={props.onDraft}
+              onSend={props.onSend}
+              placeholder={t({ id: 'guide.composer.placeholder', message: 'Ask, or hold to talk' })}
+              {...(props.onAttach === undefined ? {} : { onAttach: props.onAttach })}
+              {...(props.onMic === undefined
+                ? {}
+                : { onMicTap: props.onMic, onHoldStart: props.onMic })}
+              onRaised
+              testID="guide-composer"
+            />
+          </Stack>
         )}
       </Stack>
     </Sheet>

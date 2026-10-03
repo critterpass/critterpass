@@ -22,7 +22,7 @@ import { proposalRoutes } from './routes';
 
 const TRIP_SQL = 'SELECT trip_id FROM messages WHERE id = ?';
 
-function ProposalMessageCard({ message }: ChatCardProps) {
+export function ProposalMessageCard({ message }: ChatCardProps) {
   const proposalId = message.refId ?? '';
   const { rows } = useLiveRows<{ trip_id: string | null }>(TRIP_SQL, [message.id], ['messages']);
   const tripId = rows[0]?.trip_id ?? null;

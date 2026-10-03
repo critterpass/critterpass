@@ -17,7 +17,10 @@ export interface PickedPhoto {
 export type PickOutcome =
   | { readonly kind: 'picked'; readonly photos: readonly PickedPhoto[] }
   | { readonly kind: 'cancelled' }
-  | { readonly kind: 'denied' };
+  /** The system refused access (camera permission). */
+  | { readonly kind: 'denied' }
+  /** The picker itself failed: not a refusal, so trying again may work. */
+  | { readonly kind: 'failed' };
 
 export interface MediaHttpResponse {
   readonly status: number;
@@ -68,7 +71,16 @@ export interface ChatMediaServices {
   readonly sha256: (bytes: Uint8Array) => Promise<string>;
   readonly http: MediaHttp;
   readonly recorder: VoiceRecorderPort;
-  readonly createPlayer: (url: string) => PlayerPort;
+  /**
+   * A voice note's audio as a local file: the saved copy, else downloaded once from the signed URL
+   * `signedUrl` mints; null when it cannot be fetched.
+   */
+  readonly audioFile: (
+    key: string,
+    signedUrl: () => Promise<string | null>,
+  ) => Promise<string | null>;
+  /** A player for a local audio file. */
+  readonly createPlayer: (uri: string) => PlayerPort;
   readonly openSettings: () => void;
 }
 

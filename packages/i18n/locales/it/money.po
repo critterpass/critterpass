@@ -128,6 +128,10 @@ msgstr ""
 msgid "money.settle.taps"
 msgstr ""
 
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.deletedBy"
+msgstr ""
+
 #: ../../apps/mobile/src/features/money/add-expense/labels.ts
 msgid "money.add.approx"
 msgstr ""
@@ -1162,6 +1166,10 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/money/add-expense/DetailsSheet.tsx
 msgid "money.add.yesterday"
+msgstr ""
+
+#: ../../apps/mobile/src/features/money/chat/expense-chat-card.tsx
+msgid "money.chat.you"
 msgstr ""
 
 #: ../../apps/mobile/src/features/money/balances/BalancesView.tsx

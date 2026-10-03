@@ -1,0 +1,267 @@
+appId: app.critterpass.dev
+---
+# 3g-1: every card a crew chat holds draws, never an empty bubble, made the way a member makes
+# them: a photo from the "+" menu, a poll from the "+" menu, an expense through Money (its card
+# posts to the chat), then the expense deleted from its detail, which leaves its card saying who
+# deleted it. The demo crew's members joining are its system lines.
+#
+# Data: a fresh account onboards, then the staging demo seed gives it Bali Demo Crew and its trip.
+# A photo in the library to send (the simulator's photo service can be slow the first time),
+# added before the app starts: on iOS the import can bring the Photos service forward.
+- retry:
+    maxRetries: 2
+    commands:
+      - addMedia:
+          - '../../apps/mobile/modules/cp-subject-lift/ios/Tests/Fixtures/corgi.jpg'
+- launchApp:
+    clearState: true
+- runFlow: ../home/subflows/onboard.yaml
+- runFlow:
+    file: ../_shared/seed-demo.yaml
+    env:
+      SEED: dev-seed-demo
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+# "+" while typing: the keyboard goes down before the menu rises, so every entry is in view.
+- tapOn:
+    text: 'Message.*'
+- inputText: 'one sec'
+- tapOn: 'Add attachment'
+- extendedWaitUntil:
+    visible:
+      # The sheet's panel: iOS leaves the sheet's full-screen root out of its hierarchy.
+      id: 'chat-attach-panel'
+    timeout: 5000
+- waitForAnimationToEnd
+- assertVisible: 'Photo library'
+- assertVisible: 'Poll'
+- takeScreenshot: chat-3g-1-attach-while-typing
+# A photo: the system picker opens on the newest photos first, the corgi in its first cell.
+# iOS only: the Android e2e APK's picker fails natively on every pick (ExceptionInInitializerError
+# in ExponentImagePicker, the shrinker-stripped classes), and the chat says so honestly.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn: 'Photo library'
+      - runFlow:
+          when:
+            visible: '(?i)allow.*|ok|allow full access'
+          commands:
+            - tapOn: '(?i)allow full access|allow.*|ok'
+      - extendedWaitUntil:
+          notVisible:
+            id: 'chat-attach-panel'
+          timeout: 15000
+      - waitForAnimationToEnd
+      # iOS may show its "Private Access to Photos" note above the grid, which moves the grid down.
+      - runFlow:
+          when:
+            platform: iOS
+            visible: '(?i)private access to photos'
+          commands:
+            - tapOn:
+                point: '16%,43%'
+      - runFlow:
+          when:
+            platform: iOS
+            notVisible: '(?i)private access to photos'
+          commands:
+            - tapOn:
+                point: '16%,25%'
+      - runFlow:
+          when:
+            platform: Android
+          commands:
+            - tapOn:
+                point: '16%,34%'
+      # The library picker allows several photos, so it asks to confirm ("Add (1)", "Add", "Done").
+      - runFlow:
+          when:
+            visible: '(?i)^(add( \(\d+\))?|done|select)$'
+          commands:
+            - tapOn: '(?i)^(add( \(\d+\))?|done|select)$'
+      - extendedWaitUntil:
+          visible:
+            id: 'chat-photo-.*'
+          timeout: 60000
+      - extendedWaitUntil:
+          visible: 'Open photo'
+          timeout: 30000
+# Android: the menu from the typing check is still up; system back closes it.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - back
+      - extendedWaitUntil:
+          notVisible:
+            id: 'chat-attach-panel'
+          timeout: 5000
+# A poll.
+- tapOn: 'Add attachment'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-attach-panel'
+    timeout: 5000
+- tapOn: 'Poll'
+- extendedWaitUntil:
+    visible:
+      id: 'new-poll-panel'
+    timeout: 10000
+- tapOn:
+    id: 'new-poll-question'
+- inputText: 'Dinner tonight?'
+- tapOn:
+    id: 'new-poll-option-0'
+- inputText: 'Tacos'
+- tapOn:
+    id: 'new-poll-option-1'
+- inputText: 'Ramen'
+# POST sits under the keyboard: return closes it on iOS (it keeps it up through hideKeyboard).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - pressKey: Enter
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: 'new-poll-post'
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: 'new-poll-post'
+- extendedWaitUntil:
+    visible:
+      id: 'poll-option-0'
+    timeout: 15000
+# Back to Home (on Android the first back may only close the keyboard).
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'tab-wallet'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'tab-wallet'
+    timeout: 15000
+# An expense through Money posts its card to the chat.
+- tapOn:
+    id: 'tab-wallet'
+- extendedWaitUntil:
+    visible:
+      id: 'money-balances'
+    timeout: 30000
+- tapOn: 'ADD AN EXPENSE'
+- extendedWaitUntil:
+    visible:
+      id: 'money-add-keypad'
+    timeout: 10000
+- retry:
+    maxRetries: 3
+    commands:
+      - waitForAnimationToEnd
+      - tapOn:
+          id: 'money-add-keypad-key-1'
+      - tapOn:
+          id: 'money-add-keypad-key-2'
+      - tapOn:
+          id: 'money-add-keypad-key-5'
+      - tapOn:
+          id: 'money-add-submit'
+      - extendedWaitUntil:
+          visible:
+            id: 'money-latest-row'
+          timeout: 15000
+- tapOn:
+    id: 'tab-home'
+- extendedWaitUntil:
+    visible:
+      id: 'home-header-chat'
+    timeout: 15000
+- tapOn:
+    id: 'home-header-chat'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-expense-view-.*'
+    timeout: 30000
+- assertNotVisible:
+    id: 'chat-unknown-.*'
+- waitForAnimationToEnd
+- takeScreenshot: chat-3g-1-cards
+- scrollUntilVisible:
+    element: '.*joined the crew'
+    direction: UP
+    timeout: 20000
+- waitForAnimationToEnd
+- takeScreenshot: chat-3g-1-cards-earlier
+- scrollUntilVisible:
+    element:
+      id: 'chat-expense-view-.*'
+    direction: DOWN
+    timeout: 20000
+# The expense deleted from its detail: its card stays, saying so.
+- tapOn:
+    id: 'chat-expense-view-.*'
+- extendedWaitUntil:
+    visible:
+      id: 'money-expense-detail'
+    timeout: 20000
+- scrollUntilVisible:
+    element:
+      id: 'money-detail-delete'
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: 'money-detail-delete'
+- extendedWaitUntil:
+    visible: '(?i)delete this expense\?'
+    timeout: 10000
+- waitForAnimationToEnd
+# The sheet's DELETE (the page's own DELETE sits behind the sheet, under its scrim).
+# On Android the page's own DELETE behind the sheet also sits between those lines, so the sheet's
+# pill is tapped where it draws (a fit sheet, its pill just above CANCEL at the foot).
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - tapOn:
+          text: '(?i)^delete$'
+          below: '(?i).*still sees it in the history.*'
+          above: '(?i)^cancel$'
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - tapOn:
+          point: '50%,83%'
+- extendedWaitUntil:
+    notVisible: '(?i)delete this expense\?'
+    timeout: 15000
+- runFlow:
+    when:
+      notVisible:
+        id: 'chat-composer'
+    file: ../onboarding/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'chat-composer'
+    timeout: 15000
+- extendedWaitUntil:
+    visible:
+      id: 'chat-expense-removed-.*'
+    timeout: 60000
+- assertNotVisible:
+    id: 'chat-expense-view-.*'
+- waitForAnimationToEnd
+- takeScreenshot: chat-3g-1-cards-expense-deleted

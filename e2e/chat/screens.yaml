@@ -14,6 +14,12 @@ appId: app.critterpass.dev
     timeout: 5000
 - takeScreenshot: chat-attach-menu
 - tapOn: 'Voice note'
+# The microphone prompt on a device that has not granted it yet.
+- runFlow:
+    when:
+      visible: 'Allow|OK|While using the app|Only this time'
+    commands:
+      - tapOn: 'Allow|OK|While using the app|Only this time'
 - extendedWaitUntil:
     visible:
       id: 'chat-recorder'
@@ -41,12 +47,13 @@ appId: app.critterpass.dev
 - openLink: critterpass-dev://crew
 - extendedWaitUntil:
     visible:
-      id: 'crews-sheet'
+      id: 'crews-sheet-panel'
     timeout: 10000
-- tapOn: 'Quiet Crew'
+# iOS reads a crew card as one line (its name, members and plans).
+- tapOn: '.*Quiet Crew.*'
 - extendedWaitUntil:
     notVisible:
-      id: 'crews-sheet'
+      id: 'crews-sheet-panel'
     timeout: 10000
 - extendedWaitUntil:
     visible:

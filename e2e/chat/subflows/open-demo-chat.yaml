@@ -17,5 +17,6 @@ appId: app.critterpass.dev
     timeout: 15000
 - extendedWaitUntil:
     visible:
-      text: 'Rin still has to say if they are in.*'
+      # iOS reads a bubble as one line ("Maya, 14:02: Rin still…").
+      text: '.*Rin still has to say if they are in.*'
     timeout: 20000

@@ -29,6 +29,7 @@ import { removeDir } from '@/data/powersync/test-support/open-node-database';
 import { LocalFirstProvider } from '@/data/powersync/local-first-context';
 import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 
+import { deleteExpenseCommand } from '../../data/commands';
 import { ExpenseChatCard } from '../expense-chat-card';
 
 const CREW = '0192f000-0000-7000-8000-00000000c1e0';
@@ -171,5 +172,66 @@ describe('expense card in crew chat', () => {
     });
     await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
     expect(await screen.findByText('This expense was deleted')).toBeTruthy();
+  });
+
+  it('says who deleted it when the expense left the stream and only its edit history stayed', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedCrew(stack);
+    // A crewmate deleted a duplicate: the expense row is gone, its 'deleted' edit synced.
+    await stack.db.execute(
+      `INSERT INTO expense_edits (id, expense_id, trip_id, editor_id, kind, at)
+       VALUES ('edit-1', ?, 't-1', ?, 'deleted', '2026-10-02T09:00:00Z')`,
+      [EXPENSE, LEO],
+    );
+    await renderChat(
+      <ExpenseChatCard message={{ ...message(EXPENSE), body: '' }} mine={false} />,
+      stack,
+    );
+    expect(await screen.findByText('Leo deleted this expense')).toBeTruthy();
+    expect(screen.queryByTestId(`chat-expense-view-${EXPENSE}`)).toBeNull();
+  });
+
+  it('names the viewer when they deleted it, and keeps what it was for', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedCrew(stack);
+    await stack.db.execute(
+      `INSERT INTO expense_edits (id, expense_id, trip_id, editor_id, kind, at)
+       VALUES ('edit-1', ?, 't-1', ?, 'deleted', '2026-10-02T09:00:00Z')`,
+      [EXPENSE, stack.uid],
+    );
+    await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine />, stack);
+    expect(await screen.findByText('You deleted this expense')).toBeTruthy();
+    expect(screen.getByText('lunch')).toBeTruthy();
+  });
+
+  it('holds a placeholder while the expense has not synced, then draws it', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedCrew(stack);
+    await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
+    expect(await screen.findByTestId('chat-expense-loading-m-1')).toBeTruthy();
+    await seedExpense(stack, { payer: MAYA, description: 'lunch', splitMode: 'equal' });
+    expect(await screen.findByText(/^Maya Tran paid .*900.* for lunch$/u)).toBeTruthy();
+  });
+
+  it('says it was deleted when the message points at no expense', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedCrew(stack);
+    await renderChat(
+      <ExpenseChatCard message={{ ...message(EXPENSE), refId: null, body: '' }} mine={false} />,
+      stack,
+    );
+    expect(await screen.findByText('This expense was deleted')).toBeTruthy();
+  });
+
+  it('shows the viewer’s own delete at once, while it is still queued', async () => {
+    stack = await openTestLocalFirst({ holdUploads: true });
+    await seedCrew(stack);
+    await seedExpense(stack, { payer: MAYA, description: 'lunch', splitMode: 'equal' });
+    await renderChat(<ExpenseChatCard message={message(EXPENSE)} mine={false} />, stack);
+    expect(await screen.findByText(/^Maya Tran paid .*900.* for lunch$/u)).toBeTruthy();
+    // Offline: the delete waits in the queue and the synced expense is still there.
+    await stack.value.commands.send(deleteExpenseCommand, { expense_id: EXPENSE });
+    expect(await screen.findByText('You deleted this expense')).toBeTruthy();
+    expect(screen.queryByTestId(`chat-expense-view-${EXPENSE}`)).toBeNull();
   });
 });

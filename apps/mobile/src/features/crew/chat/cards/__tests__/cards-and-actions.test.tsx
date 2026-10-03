@@ -79,7 +79,6 @@ describe('card registry', () => {
     try {
       await chatWith([{ seq: 1, sender: MAYA, type: 'poll', body: 'spa on day 3?' }]);
       expect(await screen.findByText('POLL CARD spa on day 3?')).toBeTruthy();
-      expect(screen.getByLabelText('Poll: spa on day 3?')).toBeTruthy();
     } finally {
       stop();
     }

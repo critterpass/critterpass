@@ -1,0 +1,60 @@
+appId: app.critterpass.dev
+---
+# 3g-1: a voice note is recorded, sent and played back. Playing fetches the note's signed link
+# into a local file first, so the pause control and the running time prove the note really plays
+# (the length counts down while it plays).
+#
+# Data: the demo crew's chat on staging.
+- runFlow: subflows/open-demo-chat.yaml
+- tapOn: 'Add attachment'
+- extendedWaitUntil:
+    visible:
+      # The sheet's panel: iOS leaves the sheet's full-screen root out of its hierarchy.
+      id: 'chat-attach-panel'
+    timeout: 5000
+- tapOn: 'Voice note'
+# The microphone prompt on a device that has not granted it yet.
+- runFlow:
+    when:
+      visible: 'Allow|OK|While using the app|Only this time'
+    commands:
+      - tapOn: 'Allow|OK|While using the app|Only this time'
+- extendedWaitUntil:
+    visible:
+      id: 'chat-recorder'
+    timeout: 10000
+# About three seconds of recording.
+- extendedWaitUntil:
+    visible:
+      id: 'voice-note-never-shown'
+    timeout: 3000
+    optional: true
+- tapOn: 'Send'
+- extendedWaitUntil:
+    notVisible:
+      id: 'chat-recorder'
+    timeout: 10000
+- extendedWaitUntil:
+    visible:
+      id: 'chat-voice-play-.*'
+    timeout: 60000
+- takeScreenshot: chat-3g-1-voice-sent
+- tapOn:
+    id: 'chat-voice-play-.*'
+    index: 0
+- extendedWaitUntil:
+    visible: 'Pause voice note'
+    timeout: 30000
+# A second in, so the shot shows the bars filling and the time counting down.
+- extendedWaitUntil:
+    visible:
+      id: 'voice-note-never-shown'
+    timeout: 1200
+    optional: true
+- takeScreenshot: chat-3g-1-voice-playing
+- assertNotVisible: 'Couldn’t load'
+# Played to the end, the note offers play again.
+- extendedWaitUntil:
+    visible: 'Play voice note'
+    timeout: 30000
+- takeScreenshot: chat-3g-1-voice-played

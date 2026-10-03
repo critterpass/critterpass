@@ -1,6 +1,6 @@
 import { NavigationContext } from 'expo-router/react-navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { BackHandler, Keyboard, Platform } from 'react-native';
+import { BackHandler, Keyboard, Platform, TextInput } from 'react-native';
 import type { KeyboardEvent } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
 import { useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
@@ -101,8 +101,21 @@ export function useModalPresentation({
 
   useHostedPresentation();
   useTabBarCover();
+  // The field focused behind the modal as it opens (a composer mid-message). Read on the first
+  // render, before the modal's own fields mount and may take focus.
+  const [focusedBehind] = useState(() => TextInput.State.currentlyFocusedInput());
 
   useEffect(() => {
+    // The keyboard goes down before the modal rises, or the modal's foot would sit behind it (a
+    // modal mounted under an open keyboard never hears it show). A field of the modal's own that
+    // took focus on mount keeps it.
+    if (
+      focusedBehind !== null &&
+      focusedBehind !== undefined &&
+      TextInput.State.currentlyFocusedInput() === focusedBehind
+    ) {
+      Keyboard.dismiss();
+    }
     const enterMs = reduced ? REDUCED_FADE_MS : ENTER_MS[variant];
     const delay = reduced || variant === 'sheet' ? 0 : RISE_DELAY_MS;
     presenterOpened(enterMs, reduced);
