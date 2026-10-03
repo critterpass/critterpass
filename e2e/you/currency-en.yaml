@@ -1,7 +1,7 @@
 appId: app.critterpass.dev
 ---
 # Language and currency (3n-8) against the staging api: a fresh account takes the demo crew, adds
-# an expense, picks đồng as its home currency and turns Show prices in to BOTH: the sample and the
+# an expense, picks US dollars as its home currency and turns Show prices in to BOTH: the sample and the
 # Wallet's expense row and balances gain the home amount.
 - launchApp:
     clearState: true
@@ -86,7 +86,7 @@ appId: app.critterpass.dev
     direction: DOWN
     timeout: 15000
 - takeScreenshot: en-3n-8-real
-# The demo crew spends in S$, the home airport's currency too: pick đồng as the home currency so
+# The demo crew spends in S$, the home airport's currency too: pick US dollars as the home currency so
 # the crew's prices have a home amount to show.
 - tapOn:
     id: 'you-currency-home'
@@ -96,12 +96,12 @@ appId: app.critterpass.dev
     timeout: 10000
 - tapOn:
     id: 'you-currency-search'
-- inputText: 'VND'
+- inputText: 'USD'
 - tapOn:
-    id: 'you-currency-VND'
+    id: 'you-currency-USD'
 - extendedWaitUntil:
     visible:
-      text: 'VND · chosen by you'
+      text: 'USD · chosen by you'
     timeout: 10000
 - tapOn: 'BOTH'
 - waitForAnimationToEnd:

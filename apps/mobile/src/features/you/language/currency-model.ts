@@ -3,11 +3,26 @@ import { ISO_CURRENCIES } from '@cp/cost-engine';
 import { format } from '@cp/i18n';
 import { t } from '@lingui/core/macro';
 
-import { fxAsOf, priceText, type MoneyDisplay } from '@/data/money/money-display';
+import { convertMoney, fxAsOf, priceText, type MoneyDisplay } from '@/data/money/money-display';
 
-/** The 3n-8 sample: Rp 75.000 at Tirta Empul, in the person's mode. */
+/**
+ * The 3n-8 sample: Rp 75.000 at Tirta Empul, in the person's mode; US$5.00 when the phone has no
+ * rupiah rate yet (every phone has dollar rates), so BOTH always shows a pair.
+ */
 export const SAMPLE_MINOR = 7_500_000n;
 export const SAMPLE_CURRENCY = 'IDR';
+const FALLBACK_MINOR = 500n;
+const FALLBACK_CURRENCY = 'USD';
+
+function sampleText(display: MoneyDisplay, locale: string): string {
+  const home = display.homeCurrency;
+  const rupiah = priceText(SAMPLE_MINOR, SAMPLE_CURRENCY, locale, display);
+  if (display.mode === 'local' || home === null || home === SAMPLE_CURRENCY) return rupiah;
+  if (convertMoney({ amountMinor: SAMPLE_MINOR, currency: SAMPLE_CURRENCY }, home, display.fx)) {
+    return rupiah;
+  }
+  return priceText(FALLBACK_MINOR, FALLBACK_CURRENCY, locale, display);
+}
 
 export function currencyLines(
   display: MoneyDisplay,
@@ -46,7 +61,7 @@ export function currencyLines(
   return {
     homeLine,
     homeSymbol: home === null ? null : (ISO_CURRENCIES[home]?.symbol ?? home),
-    sample: priceText(SAMPLE_MINOR, SAMPLE_CURRENCY, locale, display),
+    sample: sampleText(display, locale),
     ratesLine,
   };
 }
