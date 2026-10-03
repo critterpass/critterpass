@@ -133,6 +133,17 @@ describe('quest.evaluate', () => {
     expect((await state(id))?.status).toBe('active');
   });
 
+  it('completes a visit quest at a place that is no longer on the plan', async () => {
+    const offPlan = randomUUID();
+    await world.q(
+      "INSERT INTO pois (id, destination_id, name, category, lat, lng) VALUES ($1, $2, 'Esco Beach Bar', 'nightlife', 16.06593, 108.24588)",
+      [offPlan, world.ids['destination']],
+    );
+    const id = await quest('visit_poi', { poi_id: offPlan }, 1);
+    await evaluateEvent(world.harness.pool, await visited(world.members[2] as string, offPlan));
+    expect(await state(id)).toMatchObject({ status: 'completed', value: 1 });
+  });
+
   it('lowers a crew quest bar when a traveller drops out', async () => {
     const [a, b, c, d] = world.members as [string, string, string, string];
     const id = await quest('copresence', { poi_id: PLACES.han, by_time: '20:00' }, 4);
