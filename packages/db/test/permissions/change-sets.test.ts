@@ -41,8 +41,10 @@ beforeAll(async () => {
       visibility: 'organiser',
       status: 'draft',
     });
-    const guideSet = (baseVersionId: string) =>
-      insertChangeSet(tx, {
+    // Proposed, as the guide's plan actions are at once: an unsent guide draft reaches the
+    // organisers alone (change-set-drafts.test.ts).
+    const guideSet = async (baseVersionId: string) => {
+      const id = await insertChangeSet(tx, {
         tripId: fixture.tripId,
         baseVersionId,
         authorId: fixture.actors.organiser,
@@ -50,6 +52,9 @@ beforeAll(async () => {
         trigger: 'chat',
         ops: GUIDE_OPS,
       });
+      await tx.query("UPDATE change_sets SET status = 'proposed' WHERE id = $1", [id]);
+      return id;
+    };
     return [await guideSet(draftVersionId), await guideSet(fixture.versionId)] as const;
   });
 }, 180_000);

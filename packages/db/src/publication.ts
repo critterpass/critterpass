@@ -80,6 +80,9 @@ import * as schema from './schema';
  * Foursquare id match and the monthly call counts are server bookkeeping for live place details.
  * `fsq_os_export_runs`, `fsq_os_export_chunks` and `fsq_os_export_rows` (same file) are "S": the
  * ingest's staging copy of FSQ OS Places, read only by the worker.
+ * `climate_normals` (packages/db/src/schema/planning.ts) is RLS "R" but served over HTTP only: the
+ * usual rain by hour for every cell of every destination is reference data the fit routes read,
+ * not something a phone keeps. (`route_cache` in the same file is C4, so it never qualifies.)
  * Add a new entry here, with the same comment style, if a later table needs the same treatment.
  */
 const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
@@ -88,6 +91,7 @@ const PUBLISHABLE_CLASS_EXCEPTIONS: ReadonlySet<string> = new Set([
   'app_open_hours',
   'broadcast_channels',
   'cities',
+  'climate_normals',
   'codes',
   'content_releases',
   'device_activities',

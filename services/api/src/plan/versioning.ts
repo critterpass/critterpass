@@ -15,6 +15,7 @@ import {
   PLAN_QUEUES,
   PLAN_RT,
   PlanEditError,
+  type CustomPlace,
   type PlanEdit,
   type PlanOp,
   type PlanOpsHint,
@@ -39,6 +40,7 @@ interface ItemRow {
   lane: string | null;
   attendee_ids: string[] | null;
   poi_id: string | null;
+  custom_place: CustomPlace | null;
   provider_id: string | null;
   booking_id: string | null;
   must_do_id: string | null;
@@ -73,6 +75,7 @@ function toStateItem(row: ItemRow): PlanStateItem {
     day_no: row.day_no,
     lane: row.lane,
     poi_id: row.poi_id,
+    custom_place: row.custom_place,
     provider_id: row.provider_id,
     booking_id: row.booking_id,
     must_do_id: row.must_do_id,
@@ -95,7 +98,7 @@ export async function loadPlanState(tx: pg.PoolClient, versionId: string): Promi
     );
     const items = await tx.query<ItemRow>(
       `SELECT i.stable_id, d.day_no, i.starts_at, i.ends_at, i.tz, i.lane, i.attendee_ids, i.poi_id,
-              i.provider_id, i.booking_id, i.must_do_id, i.category, i.cost_model, i.amount_minor,
+              i.custom_place, i.provider_id, i.booking_id, i.must_do_id, i.category, i.cost_model, i.amount_minor,
               i.currency, i.status, i.flexibility, i.is_outdoor, i.created_by_kind, i.notes,
               i.locked_reason
          FROM plan_items i JOIN plan_days d ON d.id = i.day_id
@@ -199,11 +202,11 @@ export async function commitPlanVersion(tx: pg.PoolClient, input: CommitInput): 
     );
     await tx.query(
       `INSERT INTO plan_items (version_id, day_id, trip_id, stable_id, starts_at, ends_at, tz, lane,
-         attendee_ids, poi_id, provider_id, booking_id, must_do_id, category, cost_model,
-         amount_minor, currency, status, flexibility, is_outdoor, created_by_kind, notes,
-         locked_reason, i18n)
+         attendee_ids, poi_id, custom_place, provider_id, booking_id, must_do_id, category,
+         cost_model, amount_minor, currency, status, flexibility, is_outdoor, created_by_kind,
+         notes, locked_reason, i18n)
        SELECT $1, d.id, $2, r.stable_id, r.starts_at, r.ends_at, r.tz, r.lane, r.attendee_ids,
-              r.poi_id, r.provider_id, r.booking_id, r.must_do_id, r.category, r.cost_model,
+              r.poi_id, r.custom_place, r.provider_id, r.booking_id, r.must_do_id, r.category, r.cost_model,
               r.amount_minor, r.currency, coalesce(r.status, 'proposed'), r.flexibility,
               coalesce(r.is_outdoor, false), coalesce(r.created_by_kind, 'user'), r.notes,
               r.locked_reason,
@@ -211,7 +214,7 @@ export async function commitPlanVersion(tx: pg.PoolClient, input: CommitInput): 
                 WHERE old.version_id = $4 AND old.stable_id = r.stable_id LIMIT 1)
          FROM jsonb_to_recordset($3::jsonb) AS r(stable_id uuid, day_no int, starts_at timestamptz,
                 ends_at timestamptz, tz text, lane text, attendee_ids uuid[], poi_id uuid,
-                provider_id uuid, booking_id uuid, must_do_id uuid, category text,
+                custom_place jsonb, provider_id uuid, booking_id uuid, must_do_id uuid, category text,
                 cost_model text, amount_minor bigint, currency text, status text,
                 flexibility text, is_outdoor boolean, created_by_kind text, notes text,
                 locked_reason text)

@@ -12,6 +12,7 @@ import {
   integer,
   jsonb,
   pgTable,
+  real,
   text,
   timestamp,
   uuid,
@@ -46,6 +47,8 @@ export const destinations = pgTable('destinations', {
   geofence: geographyMultiPolygon('geofence'),
   /** The place (critter set) this destination belongs to; no FK here to keep the modules acyclic. */
   critterSetId: uuid('critter_set_id'),
+  /** Calibrates free-flow drive minutes to local traffic (editorial; 1.0 = none). */
+  driveFactor: real('drive_factor').notNull().default(1),
   createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
 });

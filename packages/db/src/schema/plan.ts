@@ -86,6 +86,8 @@ export const planItems = pgTable('plan_items', {
   attendeeIds: uuid('attendee_ids').array(),
   /** No FK yet: pois is created by a later phase. */
   poiId: uuid('poi_id'),
+  /** A stop on a dropped pin (`{name, lat, lng}`), which has no `pois` row. */
+  customPlace: jsonb('custom_place'),
   /** No FK yet: providers is created by a later phase. */
   providerId: uuid('provider_id'),
   /** No FK yet: bookings is created by a later phase. */

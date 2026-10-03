@@ -1,9 +1,9 @@
 /**
  * Where people stand on a place in a trip (docs/data-model.md §3.3 `place_stances`) and the places
  * a person hid (`place_hides`). A stance is an explicit, public ballot: the person chose WANT IT or
- * RATHER NOT and wrote their own words for the crew, so the crew sees who said it
- * (docs/product-decisions.md C28). A stance is never derived from a swipe "no" or a hidden place;
- * hides stay private to their owner, like every passive signal.
+ * RATHER NOT and wrote their own words for the crew, so the crew sees who said it (the crew
+ * visibility rules in docs/product-decisions.md). A stance is never derived from a swipe "no"
+ * or a hidden place; hides stay private to their owner, like every passive signal.
  */
 import { z } from 'zod';
 

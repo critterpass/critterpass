@@ -2,7 +2,7 @@
  * Stored travel between a day's stops (docs/data-model.md §3.3 `plan_legs`): one row per
  * consecutive pair of a plan version, the stay first and last. Only results we may keep are stored:
  * self-hosted routing or a straight-line estimate, never a Navigation API result
- * (docs/product-decisions.md D21). `approx` marks a straight-line estimate, which copy words as
+ * (docs/product-decisions.md, routing). `approx` marks a straight-line estimate, which copy words as
  * "about".
  */
 import { z } from 'zod';
