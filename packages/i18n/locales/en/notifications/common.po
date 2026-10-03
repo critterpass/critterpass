@@ -807,6 +807,14 @@ msgstr "Your briefing for today is ready."
 msgid "notifications.proposal.resend_title"
 msgstr "Your crew planned {place}"
 
+#: ../domain/src/account/templates.ts
+msgid "notifications.account.export_ready_body"
+msgstr "Your CritterPass export is ready to download for 7 days. Open Settings › Download my data."
+
+#: ../domain/src/account/templates.ts
+msgid "notifications.account.export_ready_title"
+msgstr "Your data is ready"
+
 #: ../domain/src/critters/realtime.ts
 msgid "notifications.critters.hatched.title"
 msgstr "Your egg hatched!"

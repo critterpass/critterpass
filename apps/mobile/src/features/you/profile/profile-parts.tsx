@@ -4,10 +4,11 @@ import type { TasteTag } from '@cp/domain';
 import { upper } from '@cp/i18n';
 import { useLingui } from '@lingui/react/macro';
 import type { ReactNode } from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 
 import { tagWords } from '@/features/onboarding';
+import { FormSticker } from '@/features/critters';
 import { regionName } from '@/features/onboarding';
 import { useLocale } from '@/lib/i18n/use-locale';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
@@ -55,33 +56,68 @@ export function ProfileFace({
   avatar,
   name,
   ring = null,
+  photoUri = null,
+  size = AVATAR,
 }: {
   readonly avatar: ProfileAvatar;
   readonly name: string;
   /** The worn critter's rarity ring (rare blue, epic pink, legendary gold). */
   readonly ring?: AvatarRing | null;
+  /** The person's own photo, once its link has been read. */
+  readonly photoUri?: string | null;
+  /** The circle's diameter (Edit profile and the avatar picker draw it larger). @default 84 */
+  readonly size?: number;
 }) {
   const styles = useStyles();
+  const circle = { width: size, height: size, borderRadius: size / 2 };
   const theme = useTheme();
   const locale = useLocale();
+  if (photoUri) {
+    return (
+      <View style={[styles.ring, circle]} testID="you-profile-face">
+        <Image
+          source={{ uri: photoUri }}
+          style={{ width: size, height: size }}
+          accessibilityLabel={name}
+          accessibilityIgnoresInvertColors
+        />
+      </View>
+    );
+  }
+  if (avatar.kind === 'form') {
+    return (
+      <View
+        style={[
+          styles.ring,
+          circle,
+          { backgroundColor: theme.color.paper.base },
+          ring === null ? null : { borderColor: theme.tier[ring].color },
+        ]}
+        testID="you-profile-face"
+      >
+        <FormSticker form={avatar.formId} size={size - 16} />
+      </View>
+    );
+  }
   if (avatar.kind === 'guide') {
     const guide = GUIDE_STICKERS[avatar.guide];
     return (
       <View
         style={[
           styles.ring,
+          circle,
           { backgroundColor: theme.color.paper.base },
           ring === null ? null : { borderColor: theme.tier[ring].color },
         ]}
         testID="you-profile-face"
       >
-        <Sticker kind={guide.kind} name={guide.name} size={AVATAR - 16} />
+        <Sticker kind={guide.kind} name={guide.name} size={size - 16} />
       </View>
     );
   }
   return (
     <View
-      style={[styles.ring, { backgroundColor: resolveMemberStyle(0).color }]}
+      style={[styles.ring, circle, { backgroundColor: resolveMemberStyle(0).color }]}
       accessible
       accessibilityRole="image"
       accessibilityLabel={name}

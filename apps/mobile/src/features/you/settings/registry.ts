@@ -79,6 +79,7 @@ export const SETTINGS_REGISTRY: readonly SettingDef[] = [
   { key: 'sound-effects', section: 'app', scope: device, owner: 'motion' },
   { key: 'haptics', section: 'app', scope: device, owner: 'motion' },
   { key: 'language', section: 'app', scope: link, owner: 'you' },
+  { key: 'download-data', section: 'account', scope: link, owner: 'you' },
   { key: 'sign-out', section: 'account', scope: link, owner: 'you' },
   { key: 'delete-account', section: 'account', scope: link, owner: 'you' },
 ];

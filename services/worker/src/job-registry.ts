@@ -25,6 +25,7 @@ import { inviteJobs } from './jobs/invites';
 import { liveMapJobs } from './jobs/live-map';
 import { fixesTtlJob } from './jobs/location/fixes-ttl';
 import { visitsTtlJob } from './jobs/location/visits-ttl';
+import { accountExportJobs } from './jobs/account';
 import { accountPurgeJob } from './jobs/account/purge';
 import { anonGcJob } from './jobs/maint/anon-gc';
 import { purgeJob } from './jobs/maint/purge';
@@ -70,6 +71,7 @@ export async function buildJobRegistry(deps: JobRegistryDeps): Promise<AnyJobDef
     aiCostGuardJob(),
     anonGcJob(),
     accountPurgeJob(),
+    ...accountExportJobs(env),
     fixesTtlJob(),
     visitsTtlJob(),
     ...inviteJobs(env),

@@ -40,7 +40,10 @@ export { daysBetween, STAMPS_SHOWN, type ProfileStamp } from '../history/stamp-b
 export type AvatarRing = 'rare' | 'epic' | 'legendary';
 
 export type ProfileAvatar =
-  { readonly kind: 'initials' } | { readonly kind: 'guide'; readonly guide: OnboardingGuide };
+  | { readonly kind: 'initials' }
+  | { readonly kind: 'guide'; readonly guide: OnboardingGuide }
+  /** A form from the person's Critterdex, by its catalogue key. */
+  | { readonly kind: 'form'; readonly formId: string };
 
 export type CrewLine =
   | { readonly kind: 'upcoming'; readonly place: string; readonly days: number }
@@ -175,7 +178,12 @@ export function buildProfile(input: ProfileInput): ProfileModel {
     name,
     username: me?.username ?? null,
     homeCity: home?.city ?? null,
-    avatar: guide === null ? { kind: 'initials' } : { kind: 'guide', guide },
+    avatar:
+      guide !== null
+        ? { kind: 'guide', guide }
+        : me?.avatar_kind === 'critter' && me.avatar_form_id !== null
+          ? { kind: 'form', formId: me.avatar_form_id }
+          : { kind: 'initials' },
     ring: ringOf(me?.avatar_ring ?? null),
     passPlus: me?.pass_plus === 1,
     stats: { trips: history.trips, countries: history.countries, critters: history.critters },

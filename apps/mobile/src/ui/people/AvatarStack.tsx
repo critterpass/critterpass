@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import { t } from '@lingui/core/macro';
 import type { ImageSourcePropType } from 'react-native';
 import { View } from 'react-native';
@@ -12,6 +13,8 @@ export interface StackMember {
   readonly name: string;
   readonly joinIndex: number;
   readonly photo?: ImageSourcePropType;
+  /** A sticker worn as the member's avatar (a guide), drawn inside the circle. */
+  readonly critter?: ReactNode;
   readonly pending?: boolean;
 }
 
@@ -69,6 +72,7 @@ export function AvatarStack({
             size={size}
             decorative
             {...(member.photo ? { photo: member.photo } : {})}
+            {...(member.critter ? { critter: member.critter } : {})}
             {...(member.pending ? { pending: true } : {})}
           />
         </View>

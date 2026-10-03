@@ -57,3 +57,31 @@ export function languageChoices(current: string): readonly LanguageChoice[] {
 export function nativeNameOf(code: string): string {
   return shippedLocales.find((entry) => entry.code === code)?.nativeName ?? code;
 }
+
+/** Languages listed before "N more" (3n-8 shows four). */
+export const FEATURED_LANGUAGES = 4;
+
+/**
+ * The few languages shown before "N more": the current one, then the phone's own preferred
+ * languages the app ships, then English; the rest follow in the usual order.
+ */
+export function featuredLanguages(
+  choices: readonly LanguageChoice[],
+  deviceLanguages: readonly string[],
+  count = FEATURED_LANGUAGES,
+): { readonly featured: readonly LanguageChoice[]; readonly more: readonly LanguageChoice[] } {
+  const base = (code: string) => code.split(/[-_]/u, 1)[0]?.toLowerCase() ?? '';
+  const picked: LanguageChoice[] = [];
+  const add = (choice: LanguageChoice | undefined) => {
+    if (choice !== undefined && !picked.includes(choice) && picked.length < count) {
+      picked.push(choice);
+    }
+  };
+  add(choices[0]);
+  for (const language of deviceLanguages) {
+    add(choices.find((choice) => base(choice.code) === base(language)));
+  }
+  add(choices.find((choice) => choice.code === 'en'));
+  for (const choice of choices) add(choice);
+  return { featured: picked, more: choices.filter((choice) => !picked.includes(choice)) };
+}

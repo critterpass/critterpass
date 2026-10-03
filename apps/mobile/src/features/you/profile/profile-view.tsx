@@ -22,6 +22,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { statLabel } from './profile-copy';
 import type { ProfileModel } from './profile-model';
+import type { FaceProps } from '../avatar/member-faces';
 import { CrewRows } from './crew-rows';
 import { ProfileFace, SectionHead, StampRow, StatTile, Tags } from './profile-parts';
 
@@ -38,6 +39,10 @@ export interface ProfileViewProps {
   readonly onRetake?: () => void;
   /** GET PASS+ for a free pass: opens the plans screen. */
   readonly onGetPassPlus?: () => void;
+  /** The person's own photo link, when they wear a photo. */
+  readonly photoUri?: string | null;
+  /** Crewmates' faces, as `Avatar` props. */
+  readonly faceFor?: (uid: string) => FaceProps;
   readonly onOpenCrew?: (crewId: string) => void;
   readonly onStartCrew?: () => void;
 }
@@ -114,7 +119,12 @@ export function ProfileView(props: ProfileViewProps) {
         {header}
 
         <Row gap="14">
-          <ProfileFace avatar={model.avatar} name={model.name} ring={model.ring} />
+          <ProfileFace
+            avatar={model.avatar}
+            name={model.name}
+            ring={model.ring}
+            photoUri={props.photoUri ?? null}
+          />
           <View style={styles.identity}>
             <Text variant="h1" accessibilityRole="header" testID="you-profile-name">
               {model.name}
@@ -237,6 +247,7 @@ export function ProfileView(props: ProfileViewProps) {
             crews={model.crews}
             onOpenCrew={props.onOpenCrew}
             onStartCrew={props.onStartCrew}
+            faceFor={props.faceFor}
           />
         </Stack>
 

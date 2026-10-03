@@ -157,6 +157,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: motion-freeze screenshot matches `3n-1_Profile.png` with fixture data; counts match a seeded Testcontainers scenario; self-reported stamps never add critters.
 
 ### T3 — Edit profile 3n-3 + avatar picker 3n-4
+- Status: done — 607ce39af
 - Goal: identity editing with all tabs.
 - Files: `apps/mobile/src/app/you/{edit,avatar}.tsx`, `apps/mobile/src/features/you/{edit-profile,avatar}/*`, tests, `e2e/you/edit-avatar.yaml`.
 - Steps: 1. In-place fields, availability check, unsaved guard. 2. Languages multi-select. 3. Avatar tabs (CRITTER from collection, INITIALS colour, PHOTO pick/crop/upload/moderation pending). 4. Crew preview minis. 5. `set_avatar` + PNG render trigger.
@@ -179,6 +180,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: device check: podcast keeps playing while theme plays; silent switch mutes music; quiet rules unit-tested across tz boundaries.
 
 ### T6 — Language & currency 3n-8 (in-place switch)
+- Status: blocked — language list done (6a6591320); currency, price mode and formats wait until every price and clock time formats through the settings-backed formatter
 - Goal: switch locale and price mode without restart.
 - Files: `apps/mobile/src/app/you/language.tsx`, `apps/mobile/src/features/you/language/*`, `apps/mobile/src/features/you/language/__tests__/*.test.tsx`, `e2e/you/language-currency.yaml`.
 - Steps: 1. Locale list + in-place `activate` + persist + App Group write. 2. RTL restart state. 3. Voice line playback. 4. Currency picker, price mode segmented with odometer sample, formats pickers. 5. Stale FX label.
@@ -193,6 +195,7 @@ Build this phase's console panel to its render (`design/Ops - Support.dc.html`, 
 - Done when: FACE/STICKER switch on both platforms; STAMP without Pass+ opens 4e-1; expired Pass+ reverts to PASSPORT; crew achievement unlocks the crew icon for every member.
 
 ### T8 — Data export pipeline + UI
+- Status: done — 8e3f8896d
 - Goal: downloadable zip of the user's data.
 - Files: `packages/db/migrations/<ts>_data_exports.sql`, `packages/db/test/permissions/data-exports.test.ts`, `services/api/src/commands/account/request-data-export.ts`, `services/worker/src/jobs/account/{export-build,export-sections}.ts`, `services/worker/test/account/export-build.test.ts`, `apps/mobile/src/features/you/export/*`.
 - Steps: 1. Table + RLS. 2. Section writers per domain using `withSystem` scoped to uid, own-authored only. 3. Streamed zip (archiver) to R2 multipart; signed link. 4. Notify N-40 (email/SMS/push). 5. UI row states.

@@ -32,6 +32,8 @@ export interface SettingsValues extends SyncedSettings {
   readonly language: string;
   /** The server answered for this account: only then are the account rows offered. */
   readonly account: boolean;
+  /** Download my data: its line, and whether a tap does something now. */
+  readonly dataExport: { readonly line: string; readonly enabled: boolean };
 }
 
 export interface SettingsHandlers {
@@ -46,6 +48,7 @@ export interface SettingsHandlers {
   readonly onHaptics: (next: boolean) => void;
   readonly onLanguage: () => void;
   readonly onSignOut: () => void;
+  readonly onDataExport: () => void;
   readonly onDeleteAccount: () => void;
 }
 
@@ -225,6 +228,17 @@ export function useSettingsSections(
       value: values.language,
       onPress: handlers.onLanguage,
     },
+    'download-data': values.account
+      ? {
+          key: 'download-data',
+          kind: 'value',
+          title: t({ id: 'you.settings.downloadData', message: 'Download my data' }),
+          subtitle: values.dataExport.line,
+          value: '',
+          disabled: !values.dataExport.enabled,
+          onPress: handlers.onDataExport,
+        }
+      : null,
     'sign-out': values.account
       ? {
           key: 'sign-out',

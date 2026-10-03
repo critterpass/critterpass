@@ -11,6 +11,12 @@ appId: app.critterpass.dev
       ROOT: 'you-profile'
 - takeScreenshot: ${LANG}-3n-1-profile
 - runFlow: ../../screens/sweep/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'you-lab-3n-1-fresh'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
 - tapOn:
     id: 'you-lab-3n-1-fresh'
 - extendedWaitUntil:
@@ -21,6 +27,12 @@ appId: app.critterpass.dev
     timeout: 6000
 - takeScreenshot: ${LANG}-3n-1-fresh
 - runFlow: ../../screens/sweep/subflows/back.yaml
+- scrollUntilVisible:
+    element:
+      id: 'you-lab-3n-2-settings'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
 - tapOn:
     id: 'you-lab-3n-2-settings'
 - extendedWaitUntil:

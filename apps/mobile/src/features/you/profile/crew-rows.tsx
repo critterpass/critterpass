@@ -9,6 +9,8 @@ import { Fragment, type ReactNode } from 'react';
 import { I18nManager, View } from 'react-native';
 
 import { useLocale } from '@/lib/i18n/use-locale';
+
+import type { FaceProps } from '../avatar/member-faces';
 import { SecondaryText } from '@/ui/cards/SecondaryText';
 import { Row } from '@/ui/layout/Row';
 import { Stack } from '@/ui/layout/Stack';
@@ -91,6 +93,8 @@ export function CrewRows(props: {
   readonly crews: readonly ProfileCrew[];
   readonly onOpenCrew?: ((crewId: string) => void) | undefined;
   readonly onStartCrew?: (() => void) | undefined;
+  /** The face a member wears, as `Avatar` props. */
+  readonly faceFor?: ((uid: string) => FaceProps) | undefined;
 }) {
   const { t } = useLingui();
   const styles = useStyles();
@@ -109,6 +113,7 @@ export function CrewRows(props: {
                   key: member.id,
                   name: member.name,
                   joinIndex: member.joinIndex,
+                  ...(props.faceFor?.(member.id) ?? {}),
                 }))}
                 max={CREW_FACES}
               />
