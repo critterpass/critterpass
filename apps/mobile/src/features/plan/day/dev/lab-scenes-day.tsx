@@ -31,6 +31,9 @@ import {
 
 const noop = () => undefined;
 
+/** A lab sheet's dismiss (Android back, ✕, drag) leaves the scene, as a real close would. */
+export const closeScene = () => router.back();
+
 export function labDay(overrides: Partial<DayViewProps> = {}): ReactNode {
   return (
     <DayView
@@ -50,14 +53,12 @@ export function labDay(overrides: Partial<DayViewProps> = {}): ReactNode {
       editable
       onOpen={noop}
       onAdd={noop}
-      onBack={noop}
+      // The day's back eyebrow returns to the lab's list, as it returns to the plan in the app.
+      onBack={closeScene}
       {...overrides}
     />
   );
 }
-
-/** A lab sheet's dismiss (Android back, ✕, drag) leaves the scene, as a real close would. */
-export const closeScene = () => router.back();
 
 const actions = {
   onSave: noop,
