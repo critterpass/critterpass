@@ -5,7 +5,7 @@
  */
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';
-import { Image, View } from 'react-native';
+import { Image, useWindowDimensions, View } from 'react-native';
 
 import { PressScale } from '@/ui/press/PressScale';
 import { Stack, Text, useTheme } from '@/ui';
@@ -16,8 +16,15 @@ import { useChatMedia } from './media-services';
 import { MediaViewer } from './media-viewer';
 import { useReadUrl } from './read-urls';
 
+/**
+ * The photos' share of the screen, narrower than the card slot they sit in (to the side of the
+ * sender); the tiles take point widths, as an image has no size of its own until it loads.
+ */
+const PHOTO_SHARE = 0.72;
+const GRID_GAP = 4;
+
 const useStyles = makeStyles((th) => ({
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: th.space['4'], maxWidth: '72%' },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: GRID_GAP },
   tile: { borderRadius: th.radius.lg, overflow: 'hidden', backgroundColor: th.semantic.bg.raised },
 }));
 
@@ -31,7 +38,7 @@ function Tile({
   readonly mediaKey: string;
   readonly thumbKey: string | null;
   readonly ratio: number;
-  readonly width: `${number}%`;
+  readonly width: number;
   readonly onOpen: () => void;
 }) {
   const styles = useStyles();
@@ -50,22 +57,28 @@ function Tile({
   );
 }
 
-export function PhotoMessage({ message }: ChatCardProps) {
+export function PhotoMessage({ message, mine }: ChatCardProps) {
   const styles = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState<string | null>(null);
   const photos = message.attachments.filter((attachment) => attachment.kind === 'photo');
   const single = photos.length === 1;
+  const gridWidth = Math.round(useWindowDimensions().width * PHOTO_SHARE);
+  const tileWidth = single ? gridWidth : Math.floor((gridWidth - GRID_GAP) / 2);
   return (
-    <Stack gap="6" testID={`chat-photo-${message.id}`}>
-      <View style={styles.grid}>
+    <Stack
+      gap="6"
+      style={{ alignItems: mine ? 'flex-end' : 'flex-start' }}
+      testID={`chat-photo-${message.id}`}
+    >
+      <View style={[styles.grid, { width: gridWidth }]}>
         {photos.map((photo) => (
           <Tile
             key={photo.media_key}
             mediaKey={photo.media_key}
             thumbKey={photo.derived_key ?? null}
             ratio={single && photo.w && photo.h ? photo.w / photo.h : 1}
-            width={single ? '100%' : '48%'}
+            width={tileWidth}
             onOpen={() => setOpen(photo.media_key)}
           />
         ))}

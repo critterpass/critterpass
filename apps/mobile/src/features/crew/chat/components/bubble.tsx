@@ -7,7 +7,7 @@
  */
 import { t } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
-import { View } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -53,12 +53,18 @@ export interface BubbleProps {
   readonly onDiscard?: () => void;
 }
 
+/** A card's share of the screen, the same cap as a text bubble's. */
+export const CARD_SHARE = 0.82;
+
 const useStyles = makeStyles((th) => ({
   bubble: { paddingHorizontal: th.space['14'], paddingVertical: th.space['10'] },
   // The width cap sits on the column, whose parent is the full-width row: a percentage on the
   // bubble itself resolves against its content-sized wrappers and squeezes short words apart.
   column: { flexShrink: 1 },
   textColumn: { maxWidth: '82%' },
+  // Cards get a slot of their own point width: inside the content-sized wrappers above, a card or
+  // placeholder sized by percentages would otherwise collapse to an empty bubble.
+  cardSlot: { maxWidth: '100%' },
   avatarSlot: { width: th.size.avatar.lg, alignItems: 'center' },
   system: {
     alignSelf: 'center',
@@ -79,6 +85,7 @@ export function Bubble(props: BubbleProps) {
   const theme = useTheme();
   const locale = useLocale();
   const rise = useRise(animate);
+  const cardWidth = Math.round(useWindowDimensions().width * CARD_SHARE);
 
   const swipe = useSwipeToReply(
     () => props.onReply?.(),
@@ -168,6 +175,8 @@ export function Bubble(props: BubbleProps) {
             <Animated.View style={swipe.style}>
               <GestureDetector gesture={longPress.gesture}>
                 <View
+                  style={custom === null ? undefined : [styles.cardSlot, { width: cardWidth }]}
+                  {...(custom === null ? {} : { testID: `chat-card-slot-${message.id}` })}
                   accessible
                   accessibilityLabel={label}
                   accessibilityActions={a11yActions}
