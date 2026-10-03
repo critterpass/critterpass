@@ -2,8 +2,8 @@
  * The proposal trailer (3f-2): the member's version as a story ({GUIDE} PRESENTS, the trip line,
  * ✕), five-second slides with the headline stamping in, the crew's public reactions floating up
  * the side as they sync, quick replies (OKAY WOW, 6AM??, I'M IN) that post a reaction, and
- * I'M IN (to boarding) or MAYBE (to the member's version, where they can ask the guide). With
- * no slides written yet it goes straight to the version.
+ * I'M IN (to boarding) or MAYBE (to the member's version, where they can ask the guide). The story
+ * holds while the quick replies are open. With no slides written yet it goes straight to the version.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- reaction kinds are wire values, never copy. */
 import type { ProposalReaction } from '@cp/domain';
@@ -35,6 +35,7 @@ import { ProposalLoading } from '../proposal-loading';
 import { stopWhen, tripLine } from '../labels';
 import { proposalRoutes } from '../routes';
 import { reactionWords } from '../your-version/hype-bar';
+import { replyPanelAfter, storyHeld } from './story-hold';
 import { TrailerSlide } from './trailer-slide';
 
 const QUICK: readonly ProposalReaction[] = ['okay_wow', 'six_am', 'im_in'];
@@ -89,6 +90,7 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
     <Scaffold variant="dark" edges={['top', 'bottom']} testID="proposal-trailer">
       <StoryPlayer
         testID="trailer-player"
+        held={storyHeld(quick)}
         segments={version.slides.map((slide, index) => ({
           id: `${index}`,
           label: `${slide.headline}. ${slide.body}`,
@@ -138,7 +140,7 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
                     key={kind}
                     label={reactionWords(kind)}
                     onPress={() => {
-                      setQuick(false);
+                      setQuick(replyPanelAfter(quick, 'sent'));
                       void react.send({ proposal_id: proposalId, reaction: kind });
                     }}
                     testID={`trailer-react-${kind}`}
@@ -164,7 +166,7 @@ export function TrailerScreen({ proposalId }: { readonly proposalId: string }) {
               <IconButton
                 icon="chat"
                 label={t({ id: 'proposal.trailer.react', message: 'Quick reply' })}
-                onPress={() => setQuick(!quick)}
+                onPress={() => setQuick(replyPanelAfter(quick, 'toggle'))}
                 testID="trailer-quick"
               />
             </View>

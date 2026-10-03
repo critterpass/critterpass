@@ -1901,6 +1901,57 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     },
     expectations: CREW_VISIBLE_READ,
   },
+  // Recap: the trip's viewers who are still in the crew read the recap, its awards and the stamp
+  // signatures; a viewer row and an MVP vote are their owner's; memories follow the viewers; the
+  // anniversary timers are the worker's.
+  recaps: {
+    selectProbe: { sql: 'SELECT 1 FROM recaps WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  recap_awards: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM recap_awards WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  stamp_signatures: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM stamp_signatures WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  recap_views: { selectProbe: ownRowProbe('recap_views'), expectations: OWNER_READ },
+  recap_mvp_votes: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM recap_mvp_votes WHERE voter_id = $1',
+      params: (f) => [f.actors.organiser],
+    },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: op(false, true, false),
+      coOrganiser: op(false, true, false),
+      organiser: op(true, true, false),
+    },
+  },
+  memories: {
+    selectProbe: { sql: 'SELECT 1 FROM memories WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  memory_reactions: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM memory_reactions WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  anniversaries: {
+    selectProbe: { sql: 'SELECT 1 FROM anniversaries LIMIT 1', params: () => [] },
+    expectations: SYSTEM_ONLY,
+  },
 };
 
 /**

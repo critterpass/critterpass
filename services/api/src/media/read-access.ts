@@ -56,6 +56,25 @@ async function visibleChatMedia(
 }
 
 /**
+ * Signature strokes on a stamp the caller can see signed (`stamp_signatures` RLS: the trip's
+ * travellers still in the crew), so each traveller's signature writes itself on the others' stamps.
+ */
+async function visibleSignatureMedia(
+  pool: pg.Pool,
+  uid: string,
+  keys: readonly string[],
+): Promise<Set<string>> {
+  return withUser(pool, uid, '', async (tx) => {
+    const result = await tx.query<{ key: string }>(
+      `SELECT k AS key FROM unnest($1::text[]) AS k
+        WHERE EXISTS (SELECT 1 FROM stamp_signatures s WHERE s.stroke_media_key = k)`,
+      [keys],
+    );
+    return new Set(result.rows.map((row) => row.key));
+  });
+}
+
+/**
  * Keys the caller may read: own objects, media attached to a crew chat message they can read, objects attached to a trip they belong to, or a
  * crewmate's approved avatar photo and its variants.
  */
@@ -89,7 +108,17 @@ export async function authorizeReads(
           uid,
           unowned.map((row) => row.r2_key),
         );
-  const foreign = unowned.filter((row) => !chatKeys.has(row.r2_key));
+  const signatureKeys =
+    unowned.length === 0
+      ? new Set<string>()
+      : await visibleSignatureMedia(
+          pool,
+          uid,
+          unowned.map((row) => row.r2_key),
+        );
+  const foreign = unowned.filter(
+    (row) => !chatKeys.has(row.r2_key) && !signatureKeys.has(row.r2_key),
+  );
   const avatarKeys = foreign.filter((row) => row.trip_id === null).map((row) => row.r2_key);
   if (avatarKeys.length > 0 && !(await visibleAvatarMedia(pool, uid, avatarKeys))) return false;
   const tripIds = [

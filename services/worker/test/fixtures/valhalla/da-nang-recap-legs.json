@@ -1,0 +1,23 @@
+{
+  "comment": "Valhalla /sources_to_targets answers (costing auto, units kilometers) for the recap fixture trip's legs, keyed by \"<from lat>,<from lng>><to lat>,<to lng>\".",
+  "legs": {
+    "16.0544,108.2022>16.0612,108.227": {
+      "sources_to_targets": [[{ "distance": 3.1, "time": 540 }]]
+    },
+    "16.0612,108.227>16.0036,108.2626": {
+      "sources_to_targets": [[{ "distance": 9.4, "time": 1080 }]]
+    },
+    "16.0036,108.2626>16.0544,108.2022": {
+      "sources_to_targets": [[{ "distance": 10.2, "time": 1200 }]]
+    },
+    "16.0544,108.2022>15.8801,108.338": {
+      "sources_to_targets": [[{ "distance": 29.6, "time": 2700 }]]
+    },
+    "15.8801,108.338>15.9977,107.9886": {
+      "sources_to_targets": [[{ "distance": 52.3, "time": 4200 }]]
+    },
+    "15.9977,107.9886>16.0544,108.2022": {
+      "sources_to_targets": [[{ "distance": 27.8, "time": 2820 }]]
+    }
+  }
+}

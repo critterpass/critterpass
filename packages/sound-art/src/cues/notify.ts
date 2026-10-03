@@ -66,6 +66,14 @@ const MOTIFS: Readonly<Record<GuideId, MotifSpec>> = {
     noteDurSec: 0.4,
     gapSec: 0.1,
   },
+  chava: {
+    instrument: 'danTranh',
+    scale: 'vietBac',
+    rootHz: 392,
+    degrees: [2, 3, 4],
+    noteDurSec: 0.32,
+    gapSec: 0.08,
+  },
 };
 
 /** Renders the ≤2s notification motif for a guide. */

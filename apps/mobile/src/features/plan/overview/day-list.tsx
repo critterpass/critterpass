@@ -231,6 +231,9 @@ function DraggableDay({
         accessibilityLabel={label}
         accessibilityActions={actions}
         onAccessibilityAction={onAction}
+        // On the accessible view itself: iOS folds an accessible view's children into it, so an id
+        // on the card inside never reaches the UI test hierarchy.
+        testID={`plan-day-${card.dayNo}`}
       >
         <GestureDetector gesture={press.gesture}>
           <Animated.View style={press.animatedStyle}>

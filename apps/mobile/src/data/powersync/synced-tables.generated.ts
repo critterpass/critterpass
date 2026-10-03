@@ -147,6 +147,9 @@ export const SYNCED_TABLE_COLUMNS = {
   map_regions: 'destination_id pmtiles_key bytes:integer version created_at updated_at',
   meetups:
     'trip_id poi_id place_name lat:real lng:real meet_at created_by status arrived all_close_at created_at updated_at',
+  memories:
+    'trip_id anchor_kind anchor_id author_id text local_date photo_media_key created_at updated_at',
+  memory_reactions: 'memory_id trip_id user_id emoji text created_at updated_at',
   message_reactions: 'message_id crew_id user_id emoji created_at',
   messages:
     'crew_id trip_id seq:integer sender_kind sender_id guide_id type body ref_kind ref_id reply_to_id mentions mentions_guide:integer attachments edited_at deleted_at hidden_at created_at updated_at',
@@ -209,6 +212,12 @@ export const SYNCED_TABLE_COLUMNS = {
   rating_prompts: 'user_id trip_id shown:integer shown_at created_at',
   readiness:
     'leave_by_id trip_id user_id state source snooze_count:integer knock_sent_at changed_at created_at updated_at',
+  recap_awards:
+    'recap_id trip_id user_id kind metric value:integer evidence title line opted_out:integer mvp_votes:integer is_mvp:integer created_at updated_at',
+  recap_mvp_votes: 'recap_id trip_id voter_id award_id created_at updated_at',
+  recap_views: 'recap_id trip_id user_id opened_at completed_at seen_at created_at updated_at',
+  recaps:
+    'trip_id crew_id status version:integer ended_on stats route receipt got_away cards content_hash copy_version:integer copy_fallback:integer narration changed_sections agent_job_id failure_reason built_at ready_at mvp_closes_at mvp_closed_at created_at updated_at',
   receipts:
     'user_id trip_id crew_id expense_id media_key status quality_issue ocr_source ocr_lines parsed suggestions failure_reason parsed_at created_at updated_at',
   redraft_reservations:
@@ -243,6 +252,8 @@ export const SYNCED_TABLE_COLUMNS = {
     'trip_id user_id version components personal_option_deltas total_minor:integer currency fx_snapshot_id is_missing:integer is_estimated_origin:integer is_stale:integer created_at updated_at',
   spawn_rules:
     'key form_id kind set_id destination_id poi_ids geofences n:integer dwell_s:integer hold_ms:integer window_id solar min_members:integer foreground_only:integer copy release_id created_at updated_at',
+  stamp_signatures:
+    'stamp_id trip_id recap_id signer_id stroke_media_key signed_at created_at updated_at',
   stamps:
     'pass_id user_id kind seq_no:integer destination_id trip_id dates iata country ink_colour status stamped_at created_at updated_at',
   stickers: 'user_id crew_id trip_id kind level:integer granted_at created_at',
@@ -278,7 +289,7 @@ export const SYNCED_TABLE_COLUMNS = {
   user_entitlements:
     'user_id pass_plus:integer sources expires_at guide_unlimited_global:integer icon_styles computed_at',
   user_settings:
-    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer explore_at_home:integer active_crew_id muted_uids audio home_currency_override created_at updated_at',
+    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer explore_at_home:integer active_crew_id muted_uids audio home_currency_override signature_media_key created_at updated_at',
   users:
     'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at languages username_changed_at created_at updated_at',
   watch_items:

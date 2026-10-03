@@ -27,6 +27,7 @@
     "place-qna": 1,
     "proposal": 1,
     "quests": 1,
+    "recap": 1,
     "translate": 1,
     "help": 1,
     "sos": 1
@@ -59,6 +60,7 @@
     "place-qna": 0.9,
     "proposal": 0.9,
     "quests": 0.95,
+    "recap": 0.98,
     "translate": 0.9,
     "help": 0.95,
     "sos": 0.95

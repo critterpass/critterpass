@@ -27,6 +27,7 @@ import { LATE_SUITE, runLateSuite } from '../late/suite';
 import { PLACE_QNA_SUITE, runPlaceQnaSuite } from '../explore/suite';
 import { PROPOSAL_SUITE, runProposalSuite } from '../proposal/suite';
 import { QUESTS_SUITE, runQuestsSuite } from '../quests/suite';
+import { RECAP_SUITE, runRecapSuite } from '../recap/suite';
 import { runTranslateSuite, TRANSLATE_SUITE } from '../translate/suite';
 import { HELP_SUITE, runHelpSuite } from '../help/suite';
 import { SOS_SUITE, runSosSuite } from '../sos/suite';
@@ -259,6 +260,7 @@ export async function runSuite(name: string, options: RunOptions): Promise<Suite
   if (name === PLACE_QNA_SUITE) return runPlaceQnaSuite(options, threshold);
   if (name === PROPOSAL_SUITE) return runProposalSuite(options, threshold);
   if (name === QUESTS_SUITE) return runQuestsSuite(options, threshold);
+  if (name === RECAP_SUITE) return runRecapSuite(options, threshold);
   if (name === TRANSLATE_SUITE) return runTranslateSuite(options, threshold);
   if (name === HELP_SUITE) return runHelpSuite(options, threshold);
   if (name === SOS_SUITE) return runSosSuite(options, threshold);
