@@ -6,3 +6,278 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: de\n"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.footerEmail"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.footerInbox"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.footer"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.about"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.addPhoto"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.askHuman"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.askHuman"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.done"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.bug"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.critters"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.device"
+msgstr ""
+
+#. placeholder {0}: props.articleTitle
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.fromArticle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.good"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.grr"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.guideChat"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.centre"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.howsItGoing"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.hq"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.includeDevice"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.missingBody"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.love"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.meh"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.money"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.no"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.noResults"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.okay"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.reportShake"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.other"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.pinned"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.queued"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.planning"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.post"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.rate"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.received"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.search"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.removePhoto"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.report"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.titleProblem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.feedback"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.title"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.send"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.back"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.english"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.english"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.guideLine"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.stuck"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.suggest"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.titleIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.rateCaption"
+msgstr ""
+
+#. placeholder {0}: props.name
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.thanks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.thanksNoName"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.thanks"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.tooBig"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.missingTitle"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.toHumans"
+msgstr ""
+
+#. placeholder {0}: props.ideasToVote
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.suggestCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.helpful"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.placeholderProblem"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.placeholderIdea"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.feedbackCaption"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.placeholder"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.yes"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.note"
+msgstr ""
+
+#: ../../apps/mobile/src/features/help/feedback/commands.ts
+msgid "help.queued.feedback"
+msgstr ""

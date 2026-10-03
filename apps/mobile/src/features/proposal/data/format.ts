@@ -6,6 +6,7 @@
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 
 import { formatNarrowCurrency } from '@cp/cost-engine';
+import { clockOption } from '@/lib/i18n/formats';
 
 /** The currency's minor-unit digits (2 for USD, 0 for VND). */
 function minorDigitsOf(currency: string): number {
@@ -55,6 +56,7 @@ export function instantDateTime(locale: string, instant: string): string {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
     hourCycle: 'h23',
   }).format(at);
@@ -86,6 +88,7 @@ export function clock(locale: string, instant: string, tz: string | null): strin
   try {
     return new Intl.DateTimeFormat(locale, {
       hour: '2-digit',
+      ...clockOption(),
       minute: '2-digit',
       hourCycle: 'h23',
       timeZone: tz ?? 'UTC',

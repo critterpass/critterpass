@@ -10,6 +10,7 @@ import {
   buildGuideChatRequest,
   GUIDE_CHAT_ROUTE,
   hasOwnGuide,
+  logToolMarkup,
   packFor,
   runTurn,
   type GuideHistoryTurn,
@@ -23,7 +24,7 @@ import {
   queuedAnswerJobSchema,
 } from '@cp/domain';
 
-import { defineJob } from '../../boss';
+import { defineJob, type JobLogger } from '../../boss';
 import { privacyRedactionKeys } from '../../obs/logger';
 import { registerNotification } from '../notify/register';
 import { reserveGuideAnswer } from './meter';
@@ -37,6 +38,8 @@ interface DueQuestion {
   readonly user_id: string;
   readonly thread_id: string;
   readonly trip_id: string | null;
+  /** The thread's crew, else its trip's: crew tools work in it, as in a live turn. */
+  readonly crew_id: string | null;
   readonly text: string;
   readonly tz: string;
   readonly queued_at: Date;
@@ -46,8 +49,10 @@ interface DueQuestion {
 async function dueQuestions(runtime: GuideRuntime, now: Date): Promise<DueQuestion[]> {
   const { rows } = await withSystem(runtime.pool, (tx) =>
     tx.query<DueQuestion>(
-      `SELECT q.id, q.user_id, q.thread_id, q.trip_id, q.text, q.tz, q.queued_at, g.slug AS guide_slug
+      `SELECT q.id, q.user_id, q.thread_id, q.trip_id, coalesce(th.crew_id, t.crew_id) AS crew_id,
+              q.text, q.tz, q.queued_at, g.slug AS guide_slug
          FROM queued_guide_questions q
+         JOIN guide_threads th ON th.id = q.thread_id
          LEFT JOIN trips t ON t.id = q.trip_id
          LEFT JOIN guides g ON g.id = t.guide_id
         WHERE q.status = 'queued' AND q.answer_after <= $1
@@ -83,6 +88,7 @@ export async function answerQueuedQuestion(
   runtime: GuideRuntime,
   q: DueQuestion,
   now: Date,
+  logger?: Pick<JobLogger, 'warn'>,
 ): Promise<Outcome> {
   let meter;
   try {
@@ -116,6 +122,8 @@ export async function answerQueuedQuestion(
     question: q.text,
     directives: { chattiness: context.prefs.chattiness, locale },
     queued: true,
+    // Answered in the morning: "today" and "next" are the asker's, in the zone they asked from.
+    now: { at: now, tz: q.tz },
   });
   let text = '';
   let sources: readonly string[] = [];
@@ -125,10 +133,15 @@ export async function answerQueuedQuestion(
       route: GUIDE_CHAT_ROUTE,
       system: request.system,
       messages: request.messages,
-      tool: { uid: q.user_id, tripId: q.trip_id, caller: 'C' },
+      tool: { uid: q.user_id, tripId: q.trip_id, crewId: q.crew_id, caller: 'C' },
       usage: { userId: q.user_id, tripId: q.trip_id },
     },
-    { gateway: runtime.gateway, registry: runtime.registry, meter },
+    {
+      gateway: runtime.gateway,
+      registry: runtime.registry,
+      meter,
+      ...(logger === undefined ? {} : { hooks: { onToolMarkup: logToolMarkup(logger) } }),
+    },
   )) {
     if (event.type === 'token') text += event.text;
     if (event.type === 'done') {
@@ -226,11 +239,11 @@ export function queuedAnswerJob(runtime: GuideRuntime, clock: () => Date = () =>
   return defineJob({
     queue: GUIDE_QUEUES.queuedAnswer,
     schema: queuedAnswerJobSchema,
-    async handler() {
+    async handler(_data, ctx) {
       const now = clock();
       const counts: Record<Outcome, number> = { answered: 0, waiting: 0, failed: 0 };
       for (const question of await dueQuestions(runtime, now)) {
-        counts[await answerQueuedQuestion(runtime, question, now)] += 1;
+        counts[await answerQueuedQuestion(runtime, question, now, ctx.logger)] += 1;
       }
       return counts;
     },

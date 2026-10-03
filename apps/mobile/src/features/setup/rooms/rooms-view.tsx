@@ -10,6 +10,8 @@ import type { ReactNode } from 'react';
 import { PillButton } from '@/ui/buttons/PillButton';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { GUIDE_STICKERS } from '@/ui/avatar/guides';
+import { EmptyState } from '@/ui/states/EmptyState';
+import { Sticker } from '@/ui/sticker/Sticker';
 import { Text } from '@/ui/text/Text';
 import { useTheme } from '@/ui/theme';
 
@@ -144,6 +146,35 @@ export function RoomsView({
   // With no rooms to lock and a step that may be skipped, the even split is the plan: LOOKS GOOD
   // accepts it (the same move as Skip rooms, which it then stands in for).
   const acceptsEvenSplit = plan === null && model.skippable;
+  // No stay on offer to pick (undesigned: 3c-6 draws the step with a stay): the guide says the rooms
+  // come with a stay and the even split stands until then, instead of an empty page.
+  const noStays =
+    editable &&
+    acceptsEvenSplit &&
+    trip.startDate !== null &&
+    !model.stayUnavailable &&
+    model.stays.length === 0;
+  if (noStays) {
+    // There is no stay to pick, so the line says what the step is instead.
+    line = t({
+      id: 'setup.rooms.evenSplit',
+      message: 'One room for everyone, so the stay splits evenly. You can skip this step.',
+    });
+    const sticker = GUIDE_STICKERS[trip.guide];
+    body = (
+      <EmptyState
+        guide={trip.guide}
+        guideName={sticker.name}
+        sticker={<Sticker kind={sticker.kind} name={sticker.name} pose="sleep" size={120} />}
+        title={t({ id: 'setup.rooms.noStaysTitle', message: 'Rooms come with a stay' })}
+        line={t({
+          id: 'setup.rooms.noStaysLine',
+          message: `Once a stay is booked, ${guide} splits the rooms. Until then everyone shares evenly.`,
+        })}
+        testID="setup-rooms-even"
+      />
+    );
+  }
 
   const footer = editable ? (
     <>
@@ -181,7 +212,7 @@ export function RoomsView({
       testID="setup-rooms"
     >
       {body}
-      {model.skippable && editable ? (
+      {model.skippable && editable && !noStays ? (
         <Text variant="bodySm" color={theme.semantic.text.secondary} testID="setup-rooms-even">
           {t({
             id: 'setup.rooms.evenSplit',

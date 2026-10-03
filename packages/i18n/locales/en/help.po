@@ -6,3 +6,278 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.footerEmail"
+msgstr "A human replies by email within two days."
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.footerInbox"
+msgstr "A human replies in your Inbox within two days."
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.footer"
+msgstr "A human replies within two days."
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.about"
+msgstr "About"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.addPhoto"
+msgstr "Add a picture"
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.askHuman"
+msgstr "Ask a human"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.askHuman"
+msgstr "Ask a human"
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.done"
+msgstr "Back to settings"
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.bug"
+msgstr "Bug"
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.critters"
+msgstr "Critters"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.device"
+msgstr "Device info"
+
+#. placeholder {0}: props.articleTitle
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.fromArticle"
+msgstr "From “{0}”"
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.good"
+msgstr "Good"
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.grr"
+msgstr "Grr"
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.guideChat"
+msgstr "Guide chat"
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.back"
+msgstr "Help"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.back"
+msgstr "Help"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.title"
+msgstr "Help and feedback"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.centre"
+msgstr "Help centre"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.howsItGoing"
+msgstr "How’s it going?"
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.hq"
+msgstr "HQ · Post"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.includeDevice"
+msgstr "Include device info"
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.missingBody"
+msgstr "It arrives with the help centre next time you’re online."
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.love"
+msgstr "Love it"
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.meh"
+msgstr "Meh"
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.money"
+msgstr "Money"
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.no"
+msgstr "No"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.noResults"
+msgstr "Nothing in the help centre matches that yet."
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.mood.okay"
+msgstr "Okay"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.reportShake"
+msgstr "Or shake any screen"
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.other"
+msgstr "Other"
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.pinned"
+msgstr "Pinned"
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.title"
+msgstr "Pinned to the board"
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.queued"
+msgstr "Pinned. It posts when you’re back online, and a human reads it then."
+
+#: ../../apps/mobile/src/features/help/feedback/labels.ts
+msgid "help.feedback.topic.planning"
+msgstr "Planning"
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.post"
+msgstr "Post · Courrier"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.rate"
+msgstr "Rate the app"
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.received"
+msgstr "Received"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.search"
+msgstr "Refunds, offline maps, splitting…"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.removePhoto"
+msgstr "Remove this picture"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.report"
+msgstr "Report a problem"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.titleProblem"
+msgstr "Report a problem"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.feedback"
+msgstr "Send feedback"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.title"
+msgstr "Send feedback"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.send"
+msgstr "Send it"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.back"
+msgstr "Settings"
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.english"
+msgstr "Shown in English for now"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.english"
+msgstr "Shown in English for now"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.guideLine"
+msgstr "Something broke, or something’s missing? Tell me. I pass it straight to the humans."
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.stuck"
+msgstr "Still stuck?"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.suggest"
+msgstr "Suggest a feature"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.titleIdea"
+msgstr "Suggest a feature"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.rateCaption"
+msgstr "Takes ten seconds"
+
+#. placeholder {0}: props.name
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.thanks"
+msgstr "Thanks, {0}. A human reads every one of these. If we need more we’ll ask, and Tokek will tell you when it’s fixed."
+
+#: ../../apps/mobile/src/features/help/feedback/SentView.tsx
+msgid "help.sent.thanksNoName"
+msgstr "Thanks. A human reads every one of these. If we need more we’ll ask, and Tokek will tell you when it’s fixed."
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.thanks"
+msgstr "Thanks. That helps us fix the words."
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.tooBig"
+msgstr "That picture is too big to send. Try a screenshot instead."
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.missingTitle"
+msgstr "This article isn’t here yet"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.toHumans"
+msgstr "To the humans"
+
+#. placeholder {0}: props.ideasToVote
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.suggestCaption"
+msgstr "Vote on {0} ideas"
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.helpful"
+msgstr "Was this helpful?"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.placeholderProblem"
+msgstr "What happened, and what did you expect?"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.placeholderIdea"
+msgstr "What should CritterPass do next?"
+
+#: ../../apps/mobile/src/features/help/hub/HubView.tsx
+msgid "help.hub.feedbackCaption"
+msgstr "What you love, what bugs you"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.placeholder"
+msgstr "What you love, what bugs you…"
+
+#: ../../apps/mobile/src/features/help/reader/ReaderView.tsx
+msgid "help.article.yes"
+msgstr "Yes"
+
+#: ../../apps/mobile/src/features/help/feedback/FeedbackView.tsx
+msgid "help.feedback.note"
+msgstr "Your note"
+
+#: ../../apps/mobile/src/features/help/feedback/commands.ts
+msgid "help.queued.feedback"
+msgstr "Your note to the humans"

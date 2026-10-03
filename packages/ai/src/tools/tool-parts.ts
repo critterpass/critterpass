@@ -3,7 +3,12 @@
  * op, and the `spec()` helper that keeps each tool's input and output types for `ToolInput<N>` /
  * `ToolOutput<N>`.
  */
-import { changeSetOpKindSchema, planItemSnapshotSchema, type AiCaller } from '@cp/domain';
+import {
+  changeSetOpKindSchema,
+  planItemSnapshotSchema,
+  POI_CATEGORIES,
+  type AiCaller,
+} from '@cp/domain';
 import { z } from 'zod';
 
 export const id = z.uuid();
@@ -51,6 +56,24 @@ export const proposedOp = z.object({
   source_ids: z.array(z.string()).describe('ids returned by tools that justify the change'),
 });
 export const costDelta = z.object({ delta_per_person_minor: minor, currency });
+
+/** One `places_search` result. The catalogue has no ratings; curation is its only quality signal. */
+export const placeResult = z.object({
+  poi_id: id,
+  name: z.string(),
+  category: z.enum(POI_CATEGORIES),
+  distance_m: z.number().nullable(),
+  open_now: z.boolean().nullable(),
+  price_level: z.number().int().nullable(),
+  tags: z.array(z.string()),
+  /** The place distances are measured from, when the search was near a named place. */
+  distance_from: z.string().nullable().optional(),
+  /** `exact`: every word of the query is in the place; `close`: the nearest names found. */
+  match: z.enum(['exact', 'close']).nullable().optional(),
+  /** Curated by the content factory (editorial or must-see). */
+  recommended: z.boolean().optional(),
+  why_go: z.string().nullable().optional(),
+});
 
 export type ToolEffect = 'read' | 'draft';
 

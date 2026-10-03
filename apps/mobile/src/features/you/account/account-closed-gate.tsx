@@ -6,6 +6,7 @@
 import { router } from 'expo-router';
 import { useContext, useEffect } from 'react';
 
+import { useMoneyDisplay } from '@/data/money/use-money-display';
 import { LocalFirstContext } from '@/data/powersync/local-first-context';
 
 import { deviceAccountServices, type AccountServices } from './account-services';
@@ -26,6 +27,9 @@ export function AccountClosedGate({
   resumeSignIn = takeResumeSignIn,
 }: AccountClosedGateProps) {
   const localFirst = useContext(LocalFirstContext);
+  // Mounted once for the whole session: keeps the price display and the clock and distance
+  // formats read, so every screen's times and prices follow Settings.
+  useMoneyDisplay();
 
   useEffect(() => {
     if (resumeSignIn()) router.push(RETURNING_SIGN_IN_ROUTE);

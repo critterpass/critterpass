@@ -10,6 +10,7 @@ import type { Rarity } from '@cp/domain';
 import { parseJson } from '../data/queries';
 import type { SpawnSqlRow } from '../data/spawn-rows';
 import { formSpec } from '../dex/dex-model';
+import { clockOption } from '@/lib/i18n/formats';
 
 export const SPAWN_FORM_SQL = `SELECT f.id, f.rarity, f.palette, f.pose, f.edge, f.xp,
     f.critter_id, c.key, c.no, c.canonical_seed, s.hero_critter_key, g.name AS guide_name,
@@ -164,6 +165,7 @@ export function zoneOffsetMin(tz: string, at: Date): number {
     month: '2-digit',
     day: '2-digit',
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
   }).formatToParts(at);
   const get = (type: string) => Number(parts.find((p) => p.type === type)?.value ?? 0);

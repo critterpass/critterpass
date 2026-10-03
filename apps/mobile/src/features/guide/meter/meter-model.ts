@@ -6,6 +6,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl format options, never copy. */
 import { GUIDE_FREE_DAILY_LIMIT } from '@cp/domain';
+import { clockOption } from '@/lib/i18n/formats';
 
 export type GuideMeter =
   | {
@@ -74,6 +75,7 @@ export function untilReset(resetAt: string, now: Date): { hours: number; minutes
 export function resetClock(resetAt: string, locale: string): string {
   return new Intl.DateTimeFormat(locale, {
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
     hourCycle: 'h23',
   }).format(new Date(resetAt));

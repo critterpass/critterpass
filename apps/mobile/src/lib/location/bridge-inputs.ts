@@ -128,6 +128,16 @@ export interface VisitCandidate extends PlanPoi {
   readonly category: PoiCategory;
 }
 
+export function toVisitCandidate(row: PlanPoiRow): VisitCandidate {
+  return {
+    id: row.id,
+    lat: row.lat,
+    lng: row.lng,
+    radiusM: row.radius,
+    category: poiCategorySchema.catch('other').parse(row.category),
+  };
+}
+
 export interface DayPlan {
   readonly context: GeofenceSourceContext;
   readonly candidates: readonly VisitCandidate[];
@@ -146,13 +156,7 @@ export function dayPlan(
   const today = toLocalWallTime(new Date(now), tz).date;
   const dateOf = (row: PlanPoiRow) =>
     row.starts_at === null ? null : toLocalWallTime(new Date(row.starts_at), tz).date;
-  const toCandidate = (row: PlanPoiRow): VisitCandidate => ({
-    id: row.id,
-    lat: row.lat,
-    lng: row.lng,
-    radiusM: row.radius,
-    category: poiCategorySchema.catch('other').parse(row.category),
-  });
+  const toCandidate = toVisitCandidate;
   const stays = rows.filter((row) => row.category === 'stay');
   const others = rows.filter((row) => row.category !== 'stay');
   const dated = others.some((row) => dateOf(row) !== null);

@@ -10,6 +10,7 @@ import { View, type ViewStyle } from 'react-native';
 import type { SettingsRow } from '@/ui/inputs/SettingsGroup';
 import { Segmented } from '@/ui/inputs/Segmented';
 
+import { helpRows } from './help-rows';
 import { PINGS_ROW_LINE, PINGS_ROW_TITLE } from '../ping-settings/copy';
 import type { CrewChatMode } from '../ping-settings/ping-prefs';
 import type { LocationValue } from './location-row';
@@ -28,8 +29,12 @@ export interface SettingsValues extends SyncedSettings {
   readonly helpShare: boolean;
   readonly soundEffects: boolean;
   readonly haptics: boolean;
-  /** The app's language, in its own script ("Tiếng Việt"). */
+  /** The app's language in its own script and how prices show ("English · prices in S$ and local"). */
   readonly language: string;
+  /** "On the App Store" / "On Google Play", under Rate CritterPass. */
+  readonly storeName: string;
+  /** Ideas open to votes on the idea board, from its synced rows; null until known. */
+  readonly ideasToVote: number | null;
   /** The server answered for this account: only then are the account rows offered. */
   readonly account: boolean;
   /** Download my data: its line, and whether a tap does something now. */
@@ -48,6 +53,10 @@ export interface SettingsHandlers {
   readonly onHaptics: (next: boolean) => void;
   readonly onLanguage: () => void;
   readonly onSignOut: () => void;
+  readonly onRate: (() => void) | null;
+  readonly onFeedback: () => void;
+  readonly onIdea: () => void;
+  readonly onHelpCentre: () => void;
   readonly onDataExport: () => void;
   readonly onDeleteAccount: () => void;
 }
@@ -224,10 +233,12 @@ export function useSettingsSections(
     language: {
       key: 'language',
       kind: 'value',
-      title: t({ id: 'you.settings.language', message: 'Language' }),
-      value: values.language,
+      title: t({ id: 'you.settings.languageCurrency', message: 'Language and currency' }),
+      subtitle: values.language,
+      value: '',
       onPress: handlers.onLanguage,
     },
+    ...helpRows(values, handlers),
     'download-data': values.account
       ? {
           key: 'download-data',
@@ -264,6 +275,7 @@ export function useSettingsSections(
     privacy: t({ id: 'you.settings.privacy', message: 'Privacy' }),
     offline: t({ id: 'you.settings.offline', message: 'Offline' }),
     app: t({ id: 'you.settings.app', message: 'App' }),
+    help: t({ id: 'you.settings.helpFeedback', message: 'Help and feedback' }),
     account: t({ id: 'you.settings.account', message: 'Account' }),
   };
 

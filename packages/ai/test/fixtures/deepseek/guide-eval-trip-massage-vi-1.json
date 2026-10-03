@@ -1,0 +1,36 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "f8540d51-e937-42a2-9702-f5b29ca9965c",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Để tớ tìm quanh khách sạn Avatar xem có chỗ massage nào nhé."
+        },
+        {
+          "type": "tool_use",
+          "id": "call_00_ArCUDkdu8LuYsZn5H9RK4118",
+          "name": "places_search",
+          "input": {
+            "near_name": "Avatar Danang Hotel",
+            "query": "massage"
+          }
+        }
+      ],
+      "stop_reason": "tool_use",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 398,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 10112,
+        "output_tokens": 80,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

@@ -13,11 +13,70 @@ import type pg from 'pg';
 import type { JobContext } from '../../src/boss';
 import { guideReader, type GuideRuntime } from '../../src/jobs/guide/runtime';
 
+/** A tool call the fake model makes instead of answering. */
+export interface ToolCallReply {
+  readonly tool: string;
+  readonly input: Record<string, unknown>;
+}
+
 export type Reply = (request: {
   system?: unknown;
   messages: unknown[];
   stream?: boolean;
-}) => string;
+}) => string | ToolCallReply;
+
+function sse(events: readonly { event: string; data: unknown }[]): string {
+  return events.map((e) => `event: ${e.event}\ndata: ${JSON.stringify(e.data)}\n\n`).join('');
+}
+
+const MESSAGE_START = {
+  event: 'message_start',
+  data: {
+    type: 'message_start',
+    message: {
+      id: 'msg_test',
+      type: 'message',
+      role: 'assistant',
+      model: 'deepseek-flash',
+      content: [],
+      stop_reason: null,
+      stop_sequence: null,
+      usage: { input_tokens: 1, output_tokens: 0 },
+    },
+  },
+};
+
+function toolStreamBody(call: ToolCallReply): string {
+  return sse([
+    MESSAGE_START,
+    {
+      event: 'content_block_start',
+      data: {
+        type: 'content_block_start',
+        index: 0,
+        content_block: { type: 'tool_use', id: 'toolu_test', name: call.tool, input: {} },
+      },
+    },
+    {
+      event: 'content_block_delta',
+      data: {
+        type: 'content_block_delta',
+        index: 0,
+        delta: { type: 'input_json_delta', partial_json: JSON.stringify(call.input) },
+      },
+    },
+    { event: 'content_block_stop', data: { type: 'content_block_stop', index: 0 } },
+    {
+      event: 'message_delta',
+      data: {
+        type: 'message_delta',
+        delta: { stop_reason: 'tool_use', stop_sequence: null },
+        usage: { output_tokens: 5 },
+      },
+    },
+    { event: 'message_stop', data: { type: 'message_stop' } },
+  ]);
+}
 
 function streamBody(text: string): string {
   const events = [
@@ -76,6 +135,12 @@ export function fakeModel(reply: Reply): FakeModel {
     };
     requests.push(body);
     const text = reply(body);
+    if (typeof text !== 'string') {
+      if (body.stream !== true) throw new Error('the fake model calls tools only when streaming');
+      return Promise.resolve(
+        new Response(toolStreamBody(text), { headers: { 'content-type': 'text/event-stream' } }),
+      );
+    }
     if (body.stream === true) {
       return Promise.resolve(
         new Response(streamBody(text), { headers: { 'content-type': 'text/event-stream' } }),

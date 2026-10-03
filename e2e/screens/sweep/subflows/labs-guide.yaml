@@ -1,0 +1,15 @@
+appId: app.critterpass.dev
+---
+# Lab scenes for the guide, in ${LANG}: the guide sheet (3j-1) and its states. The scenes render the
+# real screens from fixtures, so the sweep compares a screen no seed scenario reaches with its
+# render. Android: the nightly iPhone shard keeps to the seed scenarios.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - runFlow: back-to-dev-tools.yaml
+      - runFlow: ../../../guide/subflows/open-lab.yaml
+      - runFlow:
+          file: ../../../guide/subflows/chat-scenes.yaml
+          env:
+            PREFIX: ${LANG}

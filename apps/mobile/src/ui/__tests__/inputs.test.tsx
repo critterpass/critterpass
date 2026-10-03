@@ -21,6 +21,7 @@ import { RangePrivateMarkers } from '../inputs/RangePrivateMarkers';
 import { SearchField } from '../inputs/SearchField';
 import { Segmented } from '../inputs/Segmented';
 import { SegmentBudget } from '../inputs/SegmentBudget';
+import { SettingsGroup } from '../inputs/SettingsGroup';
 import { SlideToConfirm } from '../inputs/SlideToConfirm';
 import { Slider } from '../inputs/Slider';
 import { TextField } from '../inputs/TextField';
@@ -331,5 +332,32 @@ describe('inputs', () => {
     buttons[1]?.onPress?.();
     expect(onComplete).toHaveBeenCalledTimes(1);
     alert.mockRestore();
+  });
+});
+
+describe('settings group', () => {
+  it('draws a leading icon tile only on rows that ask for one, and still opens them', async () => {
+    const onRate = jest.fn();
+    await renderUi(
+      <SettingsGroup
+        title="Help and feedback"
+        rows={[
+          {
+            key: 'rate',
+            kind: 'value',
+            leading: { icon: 'heart', tint: 'pink' },
+            title: 'Rate CritterPass',
+            value: '',
+            valueIcon: 'star',
+            onPress: onRate,
+          },
+          { key: 'sign-out', kind: 'value', title: 'Sign out', value: '', onPress: jest.fn() },
+        ]}
+      />,
+    );
+    expect(screen.getByTestId('settings-leading-rate')).toBeTruthy();
+    expect(screen.queryByTestId('settings-leading-sign-out')).toBeNull();
+    await activate(screen.getByRole('button', { name: /Rate CritterPass/ }));
+    expect(onRate).toHaveBeenCalledTimes(1);
   });
 });

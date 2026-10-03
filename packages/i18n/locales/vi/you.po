@@ -58,6 +58,26 @@ msgstr "{days, plural, other {{place} sau # ngày nữa}}"
 msgid "you.profile.stamp.inDays"
 msgstr "{days, plural, other {# ngày nữa}}"
 
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.currency.homeChosenLine"
+msgstr "{home} · bạn đã chọn"
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.currency.homeAirportLine"
+msgstr "{home} · theo sân bay nhà"
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.ideasToVote"
+msgstr "{ideas} ý tưởng đang chờ bình chọn"
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.settings.languageHome"
+msgstr "{language} · giá theo {symbol}"
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.settings.languageBoth"
+msgstr "{language} · giá theo {symbol} và tiền địa phương"
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.today"
 msgstr "{place} hôm nay"
@@ -65,6 +85,14 @@ msgstr "{place} hôm nay"
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.form.found"
 msgstr "{tier} · tìm thấy {when}"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.twelveHour"
+msgstr "12 giờ"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.twentyFourHour"
+msgstr "24 giờ"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
@@ -127,9 +155,17 @@ msgstr "Nhiều nhất 20 ký tự."
 msgid "you.avatar.tabs"
 msgstr "Ảnh đại diện"
 
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.note"
+msgstr "Số dư chia theo tiền của hội. Tỷ giá dùng được khi không có mạng."
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offlineTripsLine"
 msgstr "Đặt chỗ, bản đồ và câu giao tiếp trên máy này"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.both"
+msgstr "Cả hai"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.budgetMax"
@@ -162,6 +198,10 @@ msgstr "Tiếng Trung giản thể"
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.airportSearch"
 msgstr "Thành phố hoặc mã sân bay"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.clock"
+msgstr "Đồng hồ"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.close"
@@ -229,6 +269,14 @@ msgstr "Critter"
 msgid "you.avatar.formLabel"
 msgstr "Critter {0}"
 
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.title"
+msgstr "Tiền tệ"
+
+#: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+msgid "you.currency.search"
+msgstr "Mã tiền tệ, ví dụ VND"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
 msgstr "Xoá tài khoản"
@@ -244,6 +292,10 @@ msgstr "Xoá tài khoản của bạn?"
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.departures"
 msgstr "DEPARTURES · DÉPARTS"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.distance"
+msgstr "Khoảng cách"
 
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.done"
@@ -302,6 +354,10 @@ msgstr "Các khoản chi bạn đã thêm, để Số dư vẫn khớp"
 msgid "you.settings.helpShareLine"
 msgstr "Trong một giờ với cả hội, khi mình mở Trợ giúp"
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.title"
+msgstr "Định dạng"
+
 #: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
 msgid "you.settings.mailboxForward"
 msgstr "Chuyển tiếp xác nhận đến địa chỉ của hội"
@@ -317,6 +373,10 @@ msgstr "Từ Critterdex của bạn"
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.fromDex"
 msgstr "Từ Critterdex của bạn"
+
+#: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+msgid "you.currency.fromAirport"
+msgstr "Theo sân bay nhà của bạn"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.getPassPlus"
@@ -338,6 +398,14 @@ msgstr "Rung phản hồi"
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.stampBack"
 msgstr "Chào lại nhé"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpFeedback"
+msgstr "Trợ giúp và góp ý"
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.helpCentre"
+msgstr "Trung tâm trợ giúp"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lede"
@@ -375,6 +443,10 @@ msgstr "Nhà"
 msgid "you.profile.back"
 msgstr "Trang chủ"
 
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.home"
+msgstr "Nhà"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.homeAirport"
@@ -383,6 +455,11 @@ msgstr "Sân bay nhà"
 #: ../../apps/mobile/src/features/you/history/stamps-copy.ts
 msgid "you.stamps.home"
 msgstr "Nơi ở"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+msgid "you.currency.home"
+msgstr "Tiền nhà"
 
 #. placeholder {0}: stamp.title
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
@@ -425,17 +502,25 @@ msgstr "Tiếng Nhật"
 msgid "you.delete.keep"
 msgstr "Giữ tài khoản"
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.kmLong"
+msgstr "Ki-lô-mét"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.km"
+msgstr "km"
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.ko"
 msgstr "Tiếng Hàn"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.language"
-msgstr "Ngôn ngữ"
+msgid "you.settings.languageCurrency"
+msgstr "Ngôn ngữ và tiền tệ"
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
-msgid "you.language.title"
-msgstr "Ngôn ngữ"
+msgid "you.language.titleCurrency"
+msgstr "Ngôn ngữ và tiền tệ"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
@@ -478,6 +563,10 @@ msgstr "Dạng huyền thoại"
 msgid "you.edit.username.chars"
 msgstr "Chỉ chữ, số, dấu chấm và gạch dưới."
 
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.local"
+msgstr "Địa phương"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location"
 msgstr "Vị trí"
@@ -486,6 +575,14 @@ msgstr "Vị trí"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.mentions"
 msgstr "Chỉ khi được nhắc tên"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.mi"
+msgstr "dặm"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.miLong"
+msgstr "Dặm"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
@@ -534,9 +631,17 @@ msgstr "Tắt"
 msgid "you.settings.offline"
 msgstr "Ngoại tuyến"
 
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.rateAndroid"
+msgstr "Trên Google Play"
+
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.sampleLine"
 msgstr "đang tới đây!"
+
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.rateIos"
+msgstr "Trên App Store"
 
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
 msgid "you.export.tooSoon"
@@ -573,6 +678,10 @@ msgstr "Ảnh chỉ hiện trong các hội của bạn."
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 msgid "you.edit.username.none"
 msgstr "Chọn tên người dùng"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.homeNone"
+msgstr "Chọn một loại, hoặc đặt sân bay nhà"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideLockscreenLine"
@@ -631,6 +740,18 @@ msgstr "Dạng hiếm"
 msgid "you.avatar.ringsLine"
 msgstr "Các dạng hiếm trở lên giữ vòng màu của chúng ở mọi nơi ảnh đại diện hiện ra. Vòng huyền thoại màu vàng."
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.rate"
+msgstr "Đánh giá CritterPass"
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.currency.ratesNone"
+msgstr "Tỷ giá sẽ về ở lần đồng bộ tới."
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.currency.ratesStale"
+msgstr "Tỷ giá ngày {day}"
+
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
 msgid "you.export.ready"
 msgstr "Tải về được đến {until}"
@@ -675,6 +796,10 @@ msgstr "Tự khai"
 msgid "you.stamps.selfReported"
 msgstr "Tự khai"
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.feedback"
+msgstr "Gửi góp ý"
+
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.title"
 msgstr "Cài đặt"
@@ -698,6 +823,10 @@ msgstr "Cài đặt"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.helpShare"
 msgstr "Chia sẻ vị trí khi mở Trợ giúp"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.showIn"
+msgstr "Hiện giá theo"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.signOut"
@@ -777,6 +906,14 @@ msgstr "Vẫn còn trong tài khoản"
 msgid "you.settings.soundEffectsLine"
 msgstr "Tiếng dán sticker, đóng dấu, bật nảy"
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.feedbackLine"
+msgstr "Gửi thẳng đến đội ngũ"
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.idea"
+msgstr "Đề xuất tính năng"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.talkOutLoud"
 msgstr "Nói thành tiếng"
@@ -784,6 +921,10 @@ msgstr "Nói thành tiếng"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hapticsLine"
 msgstr "Những cú chạm và rung bạn cảm nhận được"
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.ideaLine"
+msgstr "Bạn muốn thêm gì, hãy cho chúng tôi biết"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.th"
@@ -833,6 +974,14 @@ msgstr "Pass này chưa được lưu nên không có gì để đăng nhập l�
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.account.restartFailed"
 msgstr "Điện thoại đã được xoá sạch. Hãy đóng ứng dụng rồi mở lại."
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.row"
+msgstr "Giờ và khoảng cách"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.samplePlace"
+msgstr "Tirta Empul"
 
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.stamp.today"
@@ -971,6 +1120,10 @@ msgstr "Hướng dẫn viên của bạn"
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.guides"
 msgstr "Hướng dẫn viên của bạn"
+
+#: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+msgid "you.currency.chosen"
+msgstr "Tiền nhà hiện tại của bạn"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes.pass"

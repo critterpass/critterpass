@@ -6,7 +6,8 @@
  * first category comes first, so museums and monuments precede the catch-all, then places both
  * open datasets agree on), the model scores each candidate's interest to a visitor
  * from its name, category and address alone, and each bucket takes its share of the city target by
- * score. Scores are cached per request, so a rerun makes no model calls.
+ * score. Pinned places and the destination's landmarks (./landmarks) are in whatever their bucket
+ * or score. Scores are cached per request, so a rerun makes no model calls.
  */
 import path from 'node:path';
 
@@ -218,9 +219,11 @@ function parseJson(text: string): unknown {
 }
 
 /**
- * Fills the city target: each bucket takes its share by score (editorial first, then score, then
- * source agreement); unused share goes to the best remaining scored places of any bucket, then to
- * unscored ones so a thin city still reaches its target from what the open data holds.
+ * Fills the city target: the must-includes (pinned places, the destination's landmarks) first,
+ * whatever their bucket or score; then each bucket takes its share by score (editorial first, then
+ * score, then source agreement); unused share goes to the best remaining scored places of any
+ * bucket, then to unscored ones so a thin city still reaches its target from what the open data
+ * holds.
  */
 export function pickCurated(
   buckets: readonly {
@@ -229,6 +232,7 @@ export function pickCurated(
   }[],
   scores: ReadonlyMap<string, number>,
   target: number,
+  mustInclude: readonly string[] = [],
 ): string[] {
   const rank = (c: SelectionCandidate) =>
     (c.editorial ? 100 : 0) + (scores.get(c.id) ?? 0) * 10 + (c.corroborated ? 1 : 0);
@@ -236,10 +240,11 @@ export function pickCurated(
     share: bucket.share,
     list: [...bucket.candidates].sort((a, b) => rank(b) - rank(a)),
   }));
-  const chosen = new Set<string>();
-  const worth = (c: SelectionCandidate) => c.editorial || scores.has(c.id);
+  const chosen = new Set<string>(mustInclude);
+  const open = Math.max(0, target - chosen.size);
+  const worth = (c: SelectionCandidate) => !chosen.has(c.id) && (c.editorial || scores.has(c.id));
   for (const bucket of ranked) {
-    const quota = Math.floor(bucket.share * target);
+    const quota = Math.floor(bucket.share * open);
     for (const c of bucket.list.filter(worth).slice(0, quota)) chosen.add(c.id);
   }
   const rest = ranked
@@ -253,12 +258,13 @@ export function pickCurated(
   return [...chosen];
 }
 
-/** The curated POI ids of one destination. */
+/** The curated POI ids of one destination, `mustInclude` among them. */
 export async function selectCurated(
   pool: pg.Pool,
   destination: { readonly id: string; readonly slug: string },
   target: number,
   options: ScoreOptions,
+  mustInclude: readonly string[] = [],
 ): Promise<string[]> {
   const buckets = [];
   for (const bucket of CURATED_BUCKETS) {
@@ -268,11 +274,12 @@ export async function selectCurated(
     });
   }
   const all = buckets.flatMap((bucket) => bucket.candidates);
-  if (all.length <= target) return all.map((c) => c.id);
+  if (all.length + mustInclude.length <= target)
+    return [...new Set([...mustInclude, ...all.map((c) => c.id)])];
   const { scores } = await scoreCandidates(
     destination.slug,
     all.filter((c) => !c.editorial),
     options,
   );
-  return pickCurated(buckets, scores, target);
+  return pickCurated(buckets, scores, target, mustInclude);
 }

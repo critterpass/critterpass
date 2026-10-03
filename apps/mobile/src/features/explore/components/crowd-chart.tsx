@@ -14,6 +14,7 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { noonUtc } from '../format';
 import type { CrowdColumn, GoAdvice } from '../place-model';
+import { clockOption } from '@/lib/i18n/formats';
 
 export type CrowdChartProps = {
   /** `YYYY-MM-DD`, the place's local day. */
@@ -65,12 +66,12 @@ const useStyles = makeStyles((t) => ({
 /** "7:30" / "19:30" from local `HH:MM`, in the reader's clock style. */
 export function clockText(locale: string, time: string): string {
   const [hour, minute] = time.split(':').map(Number);
-  return format.time(locale, new Date(2001, 0, 1, hour ?? 0, minute ?? 0));
+  return format.time(locale, new Date(2001, 0, 1, hour ?? 0, minute ?? 0), clockOption());
 }
 
 /** "6 AM" / "18" for an hour of the day, in the reader's clock style. */
 function hourText(locale: string, hour: number): string {
-  return format.date(locale, new Date(2001, 0, 1, hour), { hour: 'numeric' });
+  return format.date(locale, new Date(2001, 0, 1, hour), { hour: 'numeric', ...clockOption() });
 }
 
 export function CrowdChart(props: CrowdChartProps) {

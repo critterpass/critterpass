@@ -4,7 +4,8 @@
  * runs the searches and every result becomes a candidate item. The owner keeps the picks in the
  * ops console (rejecting the rest); approval publishes them and the worker's ingest job stores the
  * files. `--opt subjects=da-nang,bali` limits the batch; `--opt lead=<id>,<id>` ranks those
- * candidates first, so a subject's hero is the first kept photo.
+ * candidates first, so a subject's hero is the first kept photo. `--opt places=da-nang` instead
+ * proposes each curated place's own photo from Wikimedia Commons (see place-batch.ts).
  */
 import { mediaItemSchema, type ContentItem } from '@cp/content';
 
@@ -14,6 +15,8 @@ import { renderMediaSheets } from './contact-sheet';
 import { defaultHttp, type SourceHttp } from './http';
 import { pexelsPhotos, pexelsVideos, type SourceCandidate } from './pexels';
 import { pixabayPhotos, pixabayVideos } from './pixabay';
+import { placeBatch } from './place-batch';
+import { sourceAllowedFor } from './places';
 import { subjectsFor, type MediaSubject } from './subjects';
 import { wikimediaPhotos } from './wikimedia';
 
@@ -105,10 +108,18 @@ const listOption = (ctx: KindContext, name: string) =>
 
 export const mediaKind: KindModule<'media'> = {
   kind: 'media',
-  title: (ctx) => `Media · ${ctx.options['subjects'] ?? 'every destination'}`,
+  title: (ctx) =>
+    ctx.options['places'] === undefined
+      ? `Media · ${ctx.options['subjects'] ?? 'every destination'}`
+      : `Media · places in ${ctx.options['places']}`,
   gate: 'owner_approval',
   async brief(ctx) {
     const deps = depsFromEnv();
+    if (ctx.options['places'] !== undefined) {
+      const batch = await placeBatch(deps.http, deps, ctx.options, (name) => listOption(ctx, name));
+      const units = batch.items.map((item) => ({ id: item.id, input: item }));
+      return { units, carried: batch.carried, options: ctx.options };
+    }
     if (deps.pexelsKey === undefined && deps.pixabayKey === undefined) {
       throw new Error('media search needs PEXELS_API_KEY or PIXABAY_API_KEY');
     }
@@ -121,9 +132,22 @@ export const mediaKind: KindModule<'media'> = {
     return { units, options: ctx.options };
   },
   assemble: (_ctx, brief) =>
-    Promise.resolve(brief.units.map((unit) => mediaItemSchema.parse(unit.input))),
+    Promise.resolve([
+      ...brief.units.map((unit) => mediaItemSchema.parse(unit.input)),
+      ...(brief.carried ?? []).map((item) => mediaItemSchema.parse(item)),
+    ]),
   validators: {
     items: [
+      {
+        id: 'only-its-own-photo-for-a-place',
+        severity: 'fail',
+        check: (item) =>
+          item.subjects
+            .filter((subject) => !sourceAllowedFor(item.source, subject, item.title))
+            .map(
+              (subject) => `${item.source} is stock: only a labelled generic photo of ${subject}`,
+            ),
+      },
       {
         id: 'resolution',
         severity: 'fail',
@@ -147,6 +171,23 @@ export const mediaKind: KindModule<'media'> = {
       },
     ],
     batch: [
+      {
+        id: 'keeps-the-destination-media',
+        severity: 'fail',
+        check: ({ items }) => {
+          const subjects = items.flatMap((i) => i.subjects);
+          return subjects.some((s) => s.startsWith('poi:')) &&
+            !subjects.some((s) => s.startsWith('destination:'))
+            ? [
+                {
+                  ref: null,
+                  message:
+                    'publishing replaces every media asset: carry the live destination media',
+                },
+              ]
+            : [];
+        },
+      },
       {
         id: 'every-subject-has-a-photo',
         severity: 'warn',

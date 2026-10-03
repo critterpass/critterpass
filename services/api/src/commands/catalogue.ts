@@ -17,6 +17,7 @@ import { registerAvatarCommands } from './avatar';
 import { registerChatCommands } from './chat';
 import { registerCrewCommands } from './crews';
 import { registerDeviceCommands } from './device';
+import { registerHelpCommands } from './help';
 import { registerHomeCommands } from './home';
 import { registerInboxCommands } from './inbox';
 import { registerLiveMapCommands } from './live-map';
@@ -60,6 +61,7 @@ export function createAppCommandRegistry(options: CommandRegistryOptions = {}): 
   registerWidgetCommands(commands);
   registerNotificationPrefsCommands(commands);
   registerAccountCommands(commands);
+  registerHelpCommands(commands);
   commands.register(undoGuideActionCommand);
   commands.register(reportContentCommand);
   commands.register(approveOpsActionCommand);

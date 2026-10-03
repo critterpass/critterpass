@@ -47,6 +47,7 @@ export const MMKV_STORES: readonly MmkvStore[] = [
   },
   { id: 'cp-app-session', cleared: true, why: 'the last signed-in uid and its reported language' },
   { id: 'cp-critters-hatch', cleared: true, why: 'which eggs this account has seen hatch' },
+  { id: 'cp-critters-slipped', cleared: true, why: 'which slipped-away finds were put away' },
   {
     id: 'cp-links',
     cleared: true,

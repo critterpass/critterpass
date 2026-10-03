@@ -1,0 +1,27 @@
+{
+  "source": "Live recording from DeepSeek (deepseek-flash) through its Anthropic-format API, 2026-10-03.",
+  "response": {
+    "status": 200,
+    "body": {
+      "id": "540d3171-2e90-46fa-b7fd-79753624e585",
+      "type": "message",
+      "role": "assistant",
+      "model": "deepseek-flash",
+      "content": [
+        {
+          "type": "text",
+          "text": "Đã soạn đề xuất thêm Bánh Mì Bà Lan vào ngày 1, 7:00–7:45 sáng, cách khách sạn 260 m — cả nhóm xác nhận là xong nhé. Mì Quảng hay bánh mì, sáng nào cũng ngon quá (so tasty)."
+        }
+      ],
+      "stop_reason": "end_turn",
+      "stop_sequence": null,
+      "usage": {
+        "input_tokens": 257,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 11008,
+        "output_tokens": 81,
+        "service_tier": "standard"
+      }
+    }
+  }
+}

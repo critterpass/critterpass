@@ -84,6 +84,21 @@ describe('destination guide', () => {
     expect(body.picks.map((entry) => entry.kind)).not.toContain('sponsored');
   });
 
+  it('picks a place once when several rows are the same place', async () => {
+    await setFlag(false);
+    await withSystem(world.harness.pool, (tx) =>
+      tx.query(
+        `INSERT INTO pois (destination_id, name, category, lat, lng, curation, editorial, tags)
+         VALUES ($1, 'Nishiki Market, Kyoto', 'market', 35.0051, 135.77, 'editorial', '{}', '{temples}')`,
+        [world.kyoto],
+      ),
+    );
+    const body = await picks();
+    const names = body.picks.map((entry) => (entry.item as { name?: string }).name);
+    expect(names.filter((name) => name?.startsWith('Nishiki Market'))).toHaveLength(1);
+    expect(JSON.stringify(body.picks)).not.toMatch(/"lat"|"lng"/u);
+  });
+
   it('gives a free user exactly one labelled slot, third, and none to Pass+ or a boosted trip', async () => {
     await setFlag(true);
     const free = await picks();

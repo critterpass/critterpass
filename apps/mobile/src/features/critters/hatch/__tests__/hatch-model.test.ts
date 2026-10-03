@@ -55,6 +55,25 @@ describe('the trip egg', () => {
     expect(eggCardFor([hatched], during, (id) => id === 'egg', TZ)).toBeNull();
   });
 
+  it("follows the trip's clock, not the phone's, on the first day", () => {
+    // 01:00 on 2 Oct in Đà Nẵng is still 1 Oct on a phone left on UTC: the egg hatches by hand.
+    const vnFirstHour = at('2026-10-01T18:00:00Z');
+    expect(canHatchByHand(trip(), vnFirstHour, 'UTC')).toBe(true);
+    expect(eggCardFor([trip()], vnFirstHour, never, 'UTC')).toMatchObject({
+      kind: 'ready',
+      trigger: 'manual',
+    });
+    // The reverse: a phone in Vietnam is on 2 Oct while a trip kept on UTC is still on 1 Oct.
+    const utcTrip = trip({ tz: 'UTC' });
+    expect(canHatchByHand(utcTrip, vnFirstHour, TZ)).toBe(false);
+    expect(eggCardFor([utcTrip], vnFirstHour, never, TZ)).toMatchObject({ trigger: 'arrived' });
+    expect(
+      eggCardFor([trip({ tz: 'UTC', status: 'pre_trip' })], vnFirstHour, never, TZ)?.kind,
+    ).toBe('waiting');
+    // A trip with no zone at all reads the phone's.
+    expect(canHatchByHand(trip({ tz: null }), vnFirstHour, TZ)).toBe(true);
+  });
+
   it('has no card without an egg (a dropout, or before boarding)', () => {
     expect(eggCardFor([trip({ egg_id: null })], at('2026-10-02T03:00:00Z'), never, TZ)).toBeNull();
   });

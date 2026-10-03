@@ -1,0 +1,42 @@
+appId: app.critterpass.dev
+---
+# One lab scene from its lab's list (Android): the row ${ITEM} (looked for down the list, then up,
+# since the list keeps its place), the scene ready on ${READY}, the screenshot ${SHOT}, and back to
+# the list.
+- scrollUntilVisible:
+    element:
+      id: '${ITEM}'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+    optional: true
+- scrollUntilVisible:
+    element:
+      id: '${ITEM}'
+    direction: UP
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: '${ITEM}'
+# A scene in a sheet can sit outside the hierarchy Android reports: the shot is taken either way.
+- extendedWaitUntil:
+    visible:
+      id: '${READY}'
+    timeout: 20000
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+# Back to the list: once, and again while the scene is still up (a sheet over a scene closes first).
+# The list keeps its place, so the row itself can be off screen there.
+- back
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible:
+        id: '${READY}'
+    commands:
+      - back
+      - waitForAnimationToEnd:
+          timeout: 3000

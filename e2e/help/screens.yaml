@@ -1,0 +1,85 @@
+appId: app.critterpass.dev
+---
+# The help centre from the help lab (apps/mobile/src/features/help/dev/lab-scenes.tsx), in English:
+# the hub (3p-1), search in place with the matched words marked, no match offering a human, a
+# language without articles yet, an article, send feedback (3p-2, filled and empty, a problem
+# report starting on BUG) and the sent page (3p-3, numbered and offline). Screenshots are named
+# <lang>-<design id or state> for compare mode.
+- runFlow:
+    file: ../screens/sweep/subflows/start.yaml
+    env:
+      LANG: en
+- tapOn:
+    id: 'dev-tools-entry'
+- scrollUntilVisible:
+    element:
+      id: 'dev-nav-help-lab'
+    direction: DOWN
+    timeout: 20000
+    speed: 20
+- waitForAnimationToEnd
+- tapOn:
+    id: 'dev-nav-help-lab'
+- extendedWaitUntil:
+    visible:
+      id: 'help-lab-live'
+    timeout: 15000
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: 3p-1-hub, ROOT: help-hub, SHOT: en-3p-1-hub }
+# Search lists the matching articles in place of the hub's rows, best first.
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: hub-search, ROOT: help-article-pass-plus-refunds, SHOT: en-3p-1-search }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: hub-no-match, ROOT: help-ask-human, SHOT: en-3p-1-no-match }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: hub-english, ROOT: help-english-note, SHOT: en-3p-1-english }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: article, ROOT: help-article-title, SHOT: en-help-article }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: 3p-2-feedback, ROOT: feedback-send, SHOT: en-3p-2-feedback }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: feedback-problem, ROOT: feedback-topic-bug, SHOT: en-3p-2-problem }
+# SEND IT stays off until a mood and a topic (or a few words) are in.
+- scrollUntilVisible:
+    element:
+      id: 'help-lab-feedback-empty'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'help-lab-feedback-empty'
+- extendedWaitUntil:
+    visible:
+      id: 'feedback-send'
+    timeout: 15000
+- assertVisible:
+    id: 'feedback-send'
+    enabled: false
+- tapOn:
+    id: 'feedback-mood-love'
+- tapOn:
+    id: 'feedback-topic-money'
+- assertVisible:
+    id: 'feedback-send'
+    enabled: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: en-3p-2-picked
+- runFlow: ../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'help-lab-live'
+    timeout: 10000
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: 3p-3-sent, ROOT: feedback-sent-done, SHOT: en-3p-3-sent }
+- runFlow:
+    file: subflows/lab-scene.yaml
+    env: { SCENE: sent-offline, ROOT: feedback-sent-done, SHOT: en-3p-3-offline }

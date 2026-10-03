@@ -162,6 +162,9 @@ export {
   type WeeklySpans,
 } from './places/hours';
 export { closesSoon, nextOpen, openAt } from './places/open-at';
+export * from './places/foursquare';
+export * from './places/foursquare-match';
+export * from './places/queues';
 export { CANONICAL_TZ_PATTERN, canonicalTz, timeZoneIdSchema } from './time/canonical-tz';
 export { TZ_ALIASES, TZDATA_VERSION } from './time/tz-aliases';
 export {
@@ -279,6 +282,7 @@ export * from './bookings';
 export * from './suppliers';
 export * from './billing';
 export * from './paywall';
+export * from './help';
 export * from './trip-day';
 export * from './disruptions';
 export * from './explore';
@@ -292,3 +296,4 @@ export * from './you';
 export * from './safety';
 export * from './account';
 export * from './recap';
+export * from './album';

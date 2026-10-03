@@ -127,7 +127,7 @@ function AddItem() {
         onSource={setSource}
         query={query}
         onQuery={setQuery}
-        places={{ rows, loaded: true }}
+        places={{ rows, loaded: true, state: rows.length > 0 ? 'results' : 'none', more: false }}
       />
     </>
   );

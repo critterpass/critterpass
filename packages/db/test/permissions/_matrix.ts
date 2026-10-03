@@ -622,6 +622,29 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
       organiser: F,
     },
   },
+  // Foursquare bookkeeping (server-only, class S): the id match and the monthly call counts.
+  poi_foursquare_ids: {
+    selectProbe: { sql: 'SELECT 1 FROM poi_foursquare_ids LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
+  foursquare_api_usage: {
+    selectProbe: { sql: 'SELECT 1 FROM foursquare_api_usage LIMIT 1', params: () => [] },
+    expectations: {
+      outsider: F,
+      exMember: F,
+      anonymous: F,
+      member: F,
+      coOrganiser: F,
+      organiser: F,
+    },
+  },
   poi_live_checks: {
     selectProbe: { sql: 'SELECT 1 FROM poi_live_checks LIMIT 1', params: () => [] },
     expectations: {
@@ -1587,6 +1610,14 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
     selectProbe: ownRowProbe('paywall_impressions'),
     expectations: OWNER_READ,
   },
+  feedback_tickets: { selectProbe: ownRowProbe('feedback_tickets'), expectations: OWNER_READ },
+  idea_votes: { selectProbe: ownRowProbe('idea_votes'), expectations: OWNER_READ },
+  rating_prompts: { selectProbe: ownRowProbe('rating_prompts'), expectations: OWNER_READ },
+  // A published idea, which everyone reads; nobody writes ideas directly.
+  ideas: {
+    selectProbe: { sql: "SELECT 1 FROM ideas WHERE status = 'open'", params: () => [] },
+    expectations: READ_ONLY_ALL,
+  },
   boost_intents: {
     selectProbe: {
       sql: 'SELECT 1 FROM boost_intents WHERE trip_id = $1 AND buyer_id = $2',
@@ -1943,7 +1974,44 @@ export const TABLE_MATRIX: Readonly<Record<string, TableMatrixEntry>> = {
   anniversaries: {
     selectProbe: { sql: 'SELECT 1 FROM anniversaries LIMIT 1', params: () => [] },
     expectations: SYSTEM_ONLY,
+  }, // Album: the crew reads the album and its postcards; settings, exports and addresses are the
+  // owner's.
+  photos: {
+    selectProbe: { sql: 'SELECT 1 FROM photos WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
   },
+  album_picks: {
+    selectProbe: { sql: 'SELECT 1 FROM album_picks WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  photo_people: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM photo_people WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  postcards: {
+    selectProbe: { sql: 'SELECT 1 FROM postcards WHERE trip_id = $1', params: (f) => [f.tripId] },
+    expectations: CREW_VISIBLE_READ,
+  },
+  postcard_mailings: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM postcard_mailings WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  album_curations: {
+    selectProbe: {
+      sql: 'SELECT 1 FROM album_curations WHERE trip_id = $1',
+      params: (f) => [f.tripId],
+    },
+    expectations: CREW_VISIBLE_READ,
+  },
+  album_prefs: { selectProbe: ownRowProbe('album_prefs'), expectations: OWNER_READ },
+  album_exports: { selectProbe: ownRowProbe('album_exports'), expectations: OWNER_READ },
+  mailing_addresses: { selectProbe: ownRowProbe('mailing_addresses'), expectations: OWNER_READ },
 };
 
 /**

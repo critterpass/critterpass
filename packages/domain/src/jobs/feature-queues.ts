@@ -23,6 +23,8 @@ import { LA_QUEUE_DESCRIPTIONS, laQueueSpecs } from '../surfaces/la-queues';
 import { SAFETY_QUEUE_DESCRIPTIONS, safetyQueueSpecs } from '../safety/queues';
 import { WIDGET_QUEUE_DESCRIPTIONS, widgetQueueSpecs } from '../surfaces/widget-refresh';
 import { RECAP_QUEUE_DESCRIPTIONS, recapQueueSpecs } from '../recap/queues';
+import { ALBUM_QUEUE_DESCRIPTIONS, albumQueueSpecs } from '../album/queues';
+import { PLACES_QUEUE_DESCRIPTIONS, placesQueueSpecs } from '../places/queues';
 
 export function featureQueueSpecs(defaults: QueueSpec) {
   return {
@@ -46,6 +48,8 @@ export function featureQueueSpecs(defaults: QueueSpec) {
     ...safetyQueueSpecs(defaults),
     ...widgetQueueSpecs(defaults),
     ...recapQueueSpecs(defaults),
+    ...albumQueueSpecs(defaults),
+    ...placesQueueSpecs(defaults),
   } as const;
 }
 
@@ -70,4 +74,6 @@ export const FEATURE_QUEUE_DESCRIPTIONS = {
   ...SAFETY_QUEUE_DESCRIPTIONS,
   ...WIDGET_QUEUE_DESCRIPTIONS,
   ...RECAP_QUEUE_DESCRIPTIONS,
+  ...ALBUM_QUEUE_DESCRIPTIONS,
+  ...PLACES_QUEUE_DESCRIPTIONS,
 } as const;

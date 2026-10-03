@@ -10,6 +10,7 @@ import {
   GUIDE_CHAT_ROUTE,
   LATEST_APPROVED_PERSONA_SQL,
   loadPersonaPack,
+  logToolMarkup,
   personaIdSchema,
   runTurn,
   SSE_HEADERS,
@@ -214,6 +215,7 @@ export async function streamThreadTurn(
     question: body.text,
     documents: context.documents,
     directives: { chattiness: context.prefs.chattiness, locale },
+    now: { at: new Date(), tz: request.deviceTz },
   });
 
   const abort = new AbortController();
@@ -223,7 +225,8 @@ export async function streamThreadTurn(
       route: GUIDE_CHAT_ROUTE,
       system: request_.system,
       messages: request_.messages,
-      tool: { uid, tripId: thread.tripId, caller: 'C' },
+      // The thread's trip and crew: the guide never asks the traveller which trip this is.
+      tool: { uid, tripId: thread.tripId, crewId: thread.crewId, caller: 'C' },
       usage,
       inputCheck,
       signal: abort.signal,
@@ -238,6 +241,7 @@ export async function streamThreadTurn(
             log.info({ tool: result.name, failure: result.failure }, 'guide tool failed');
         },
         onSettled: (outcome) => log.info({ outcome }, 'guide meter settled'),
+        onToolMarkup: logToolMarkup(log),
       },
     },
   );

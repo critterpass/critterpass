@@ -154,6 +154,10 @@ export const llmPois = llm.table('pois', {
   isOpenNow: boolean('is_open_now'),
   closedPermanently: boolean('closed_permanently'),
   liveCheckedAt: timestamp('live_checked_at', { withTimezone: true, mode: 'date' }),
+  /** The content factory's signals, the only quality the guide may cite (there are no ratings). */
+  curation: text('curation').notNull(),
+  mustSee: boolean('must_see').notNull(),
+  whyGo: text('why_go'),
 });
 
 registerTablePrivacy('pois', { class: 'C0' });
@@ -161,3 +165,29 @@ registerTablePrivacy('poi_embeddings', { class: 'C0' });
 registerTablePrivacy('poi_live_checks', { class: 'C0' });
 registerTablePrivacy('map_regions', { class: 'C0' });
 registerTablePrivacy('cities', { class: 'C0' });
+
+/**
+ * The Foursquare id of a curated POI that open data did not link (migration
+ * 20261003090100_poi_foursquare_details.sql). Only the id is kept: Foursquare's terms allow no other
+ * stored attribute. A null id records a search without a confident match.
+ */
+export const poiFoursquareIds = pgTable('poi_foursquare_ids', {
+  poiId: uuid('poi_id')
+    .primaryKey()
+    .references(() => pois.id, { onDelete: 'cascade' }),
+  fsqPlaceId: text('fsq_place_id'),
+  confidence: doublePrecision('confidence'),
+  matchedAt: timestamp('matched_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+/** Foursquare Places API calls per UTC month (`YYYY-MM`), counted by `app.reserve_foursquare_call`. */
+export const foursquareApiUsage = pgTable('foursquare_api_usage', {
+  month: text('month').primaryKey(),
+  detailsCalls: integer('details_calls').notNull().default(0),
+  matchCalls: integer('match_calls').notNull().default(0),
+  refusedCalls: integer('refused_calls').notNull().default(0),
+  updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+registerTablePrivacy('poi_foursquare_ids', { class: 'C0' });
+registerTablePrivacy('foursquare_api_usage', { class: 'C0' });

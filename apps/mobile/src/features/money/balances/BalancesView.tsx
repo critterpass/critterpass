@@ -33,6 +33,8 @@ import { useWalletGuide } from '@/features/bookings';
 
 import { ExpenseListRow } from '../components/ExpenseListRow';
 import type { ExpenseItem } from '../data/expense-items';
+import { homeEquivalent, useMoneyDisplay } from '@/data/money';
+
 import { formatSigned, formatWhole, heroParts, heroVariant } from '../format';
 import type { BalanceLine, HeroKind } from './model';
 
@@ -72,6 +74,8 @@ type HeroProps = BalancesViewProps['hero'] & { readonly currency: string; readon
 function Hero({ kind, amountMinor, currency, solo = false }: HeroProps) {
   const { t } = useLingui();
   const locale = useLocale();
+  useMoneyDisplay();
+  const home = homeEquivalent(amountMinor < 0n ? -amountMinor : amountMinor, currency, locale);
   const theme = useTheme();
   const styles = useStyles();
   const bob = useLoop('bob');
@@ -118,6 +122,11 @@ function Hero({ kind, amountMinor, currency, solo = false }: HeroProps) {
           />
         </Animated.View>
       </Row>
+      {home === null ? null : (
+        <Text variant="body" color={theme.semantic.text.secondary} testID="money-hero-home">
+          {home}
+        </Text>
+      )}
     </Stack>
   );
 }

@@ -6,6 +6,8 @@ import {
   IOS_MONITOR_LIMIT,
   planGeofences,
   planPoisSource,
+  questPlaceRefs,
+  questPoisSource,
   registerGeofenceSource,
   REPLAN_INTERVAL_MS,
   shouldReplan,
@@ -30,6 +32,42 @@ describe('geofence sources', () => {
     expect(geofenceSources.names()).toEqual(expect.arrayContaining(['plan_pois', 'stay']));
     expect(staySource({ ...ctx, stay: null })).toEqual([]);
     expect(planPoisSource(ctx).map((c) => c.radiusM)).toEqual([150, 60, 400]);
+  });
+
+  it('watches active quest places, never twice when the plan or the stay already holds them', () => {
+    expect(geofenceSources.names()).toContain('quests');
+    expect(questPoisSource(ctx)).toEqual([]);
+    const quests = questPoisSource({
+      ...ctx,
+      questPois: [
+        { id: 'esco', lat: center.lat + 0.003, lng: center.lng, radiusM: 25 },
+        { id: 'near', lat: center.lat + 0.001, lng: center.lng, radiusM: 60 },
+        { id: 'villa', lat: center.lat - 0.002, lng: center.lng, radiusM: null },
+      ],
+    });
+    expect(quests.map((c) => [c.id, c.radiusM])).toEqual([['esco', 25]]);
+    const plan = planGeofences(center, new Map([['quests', quests]]), 0, { max: 20 });
+    expect(plan.regions.map((r) => [r.id, r.radiusM])).toEqual([['quests:esco', 150]]);
+  });
+
+  it('reads the places a quest names from its params', () => {
+    expect(questPlaceRefs({ poi_id: 'a' })).toEqual({ poiIds: ['a'], planItemIds: [] });
+    expect(questPlaceRefs({ poi_id: 'a', by_time: '18:00' })).toEqual({
+      poiIds: ['a'],
+      planItemIds: [],
+    });
+    expect(questPlaceRefs({ poi_ids: ['a', 'b', 3], n: 2 })).toEqual({
+      poiIds: ['a', 'b'],
+      planItemIds: [],
+    });
+    expect(questPlaceRefs({ plan_item_id: 'i1', by_time: '09:00' })).toEqual({
+      poiIds: [],
+      planItemIds: ['i1'],
+    });
+    expect(questPlaceRefs({ n: 3 })).toEqual({ poiIds: [], planItemIds: [] });
+    expect(questPlaceRefs('{"poi_id":"a"}')).toEqual({ poiIds: ['a'], planItemIds: [] });
+    expect(questPlaceRefs('not json')).toEqual({ poiIds: [], planItemIds: [] });
+    expect(questPlaceRefs(null)).toEqual({ poiIds: [], planItemIds: [] });
   });
 
   it('lets a feature register its own source once and remove it', () => {

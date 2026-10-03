@@ -33,9 +33,11 @@ export const workerEnvSchema = z.object({
   /** HMAC key for the pseudonymous analytics `user_pid` (shared with the api). */
   ANALYTICS_PID_SALT: z.preprocess(emptyAsUndefined, z.string().min(16).optional()),
   COMMIT_SHA: z.preprocess(emptyAsUndefined, z.string().min(1).default('dev')),
-  /** Foursquare Places API key for live open/closed checks (src/places/live-check.ts); omitted =
-   *  live checks never run (no Foursquare Places API account configured). */
+  /** Foursquare Places API key for the curated id match (`places.fsq_match`,
+   *  src/places/foursquare-match.ts); unset = the job is not registered. */
   FOURSQUARE_API_KEY: optionalString,
+  /** Foursquare calls per UTC month across the api and the worker; same value on both services. */
+  FOURSQUARE_MONTHLY_CALL_CAP: z.coerce.number().int().positive().default(4000),
   /** Travelpayouts Data API token for the nightly `fares.refresh` (src/travel-data); unset = the
    *  job is not registered and every fare reads as "no recent price". */
   TRAVELPAYOUTS_TOKEN: optionalString,

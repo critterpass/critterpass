@@ -28,6 +28,7 @@ import { moveInOrder, movedFixedDay, reorderedPlan } from './model/reorder';
 import { PlanOverviewView, type PlanTab } from './plan-overview-view';
 import { planRoutes } from './routes';
 import { PlanShareSlot } from './share-slot';
+import { useFormats } from '@/lib/i18n/formats';
 
 export function guideOf(data: PlanData): { id: GuideId; name: string } {
   const slug = data.trip?.guide_slug ?? 'tokek';
@@ -42,6 +43,7 @@ export interface PlanOverviewScreenProps {
 }
 
 export function PlanOverviewScreen({ tripId }: PlanOverviewScreenProps) {
+  useFormats();
   const data = usePlanData(tripId);
   const groupCards = useDayCards(data);
   // My own plan: the crew's with my "just me" changes laid over it.

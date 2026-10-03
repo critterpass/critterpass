@@ -13,6 +13,7 @@ import { z } from 'zod';
 import type { AppEnv } from '../app';
 
 import { getPlaceDetail } from './detail';
+import { getPlaceLive, type FoursquareLiveConfig } from './live';
 import { getMapRegionManifest } from './map-regions';
 import { searchPlaces, type PlaceSearchFilters } from './search';
 
@@ -23,6 +24,9 @@ export interface PlacesRouteDeps {
    *  `/v1/map/regions/{destination_id}` manifest route. Defaults to the `cp-tiles` public bucket
    *  (env.ts `TILES_BASE_URL`'s own default) so callers that don't care about tiles can omit it. */
   readonly tilesBaseUrl?: string;
+  /** Foursquare Places API for `/v1/places/{id}/live`; absent = that route always answers
+   *  `available: false`. */
+  readonly foursquare?: FoursquareLiveConfig;
 }
 
 const DEFAULT_TILES_BASE_URL = 'https://pub-0cf3d04afb394624afbe8f117d1f198b.r2.dev';
@@ -90,6 +94,15 @@ export function registerPlacesRoutes(app: OpenAPIHono<AppEnv>, deps: PlacesRoute
       }),
     );
     return c.json(detail);
+  });
+
+  // Live Foursquare details, never stored (docs/product-decisions.md D24): `no-store` end to end.
+  app.get('/v1/places/:id/live', async (c) => {
+    requireActor(c);
+    const poiId = z.uuid().parse(c.req.param('id'));
+    const live = await getPlaceLive(deps.pool, poiId, deps.foursquare);
+    c.header('Cache-Control', 'no-store');
+    return c.json(live);
   });
 
   app.get('/v1/map/regions/:destination_id', async (c) => {

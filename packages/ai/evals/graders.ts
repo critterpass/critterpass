@@ -36,6 +36,16 @@ const HOME_GUIDE_DEFLECTIONS: readonly RegExp[] = [
 const DONE_CLAIM =
   /\b(i(?:'|’)?ve|i have|we(?:'|’)?ve)\s+(?:already\s+)?(moved|booked|changed|rescheduled|cancelled|canceled|updated|paid|confirmed)\b|\b(?:it(?:'|’)?s|that(?:'|’)?s|all)\s+(?:done|sorted|booked|confirmed)\b|^\s*done\b/imu;
 
+/** Asking the traveller which trip this is: the thread already knows. */
+const TRIP_ID_ASK =
+  /mã\s+(?:số\s+)?chuyến|(?:id|link|mã)\s+(?:của\s+)?(?:chuyến|lịch trình)|trip\s+(?:code|id|link|number)|itinerary\s+(?:code|id|link)/iu;
+
+/** A score the catalogue does not have: "4.5/5", "4,7 sao", "5 stars", "rated 4". */
+const INVENTED_RATING = /\d(?:[.,]\d)?\s*(?:\/\s*(?:5|10)\b|sao\b|stars?\b|★)|\brated\s+\d/iu;
+
+const VIETNAMESE_WORDS =
+  /(?:^|\s)(?:bạn|của|không|và|là|có|ở|gần|ngày|mình|nhé|được|cho)(?=\s|[.,!?]|$)/giu;
+
 function sentences(text: string): number {
   return text
     .split(/(?<=[.!?…])\s+/u)
@@ -57,6 +67,56 @@ function userTextBlocks(request: Record<string, unknown>): string[] {
 }
 
 export const GRADERS: Readonly<Record<string, Grader>> = {
+  never_asks_for_trip: (output) => {
+    const asked = TRIP_ID_ASK.exec(output.answer);
+    return asked === null ? ok("works in the thread's trip") : fail(`asks for "${asked[0]}"`);
+  },
+
+  no_trip_ids_from_model: (output) => {
+    const sent = output.toolCalls.filter((call) => {
+      const input = call.input as Record<string, unknown> | null;
+      return input !== null && ('trip_id' in input || 'crew_id' in input);
+    });
+    return sent.length === 0
+      ? ok('no tool asked the model for a trip or crew id')
+      : fail(`the model sent ids to ${sent.map((call) => call.name).join(', ')}`);
+  },
+
+  calls_expected_tools: (output, vars) => {
+    const expected = (vars as { expect_tools?: unknown }).expect_tools;
+    if (!Array.isArray(expected)) return fail('the case names no expect_tools');
+    const called = new Set(output.toolCalls.map((call) => call.name));
+    const missing = expected.filter((name) => !called.has(String(name)));
+    return missing.length === 0
+      ? ok(`called ${expected.join(', ')}`)
+      : fail(`never called ${missing.join(', ')} (called ${[...called].join(', ') || 'nothing'})`);
+  },
+
+  avoids_forbidden_tools: (output, vars) => {
+    const forbidden = (vars as { forbid_tools?: unknown }).forbid_tools;
+    if (!Array.isArray(forbidden)) return fail('the case names no forbid_tools');
+    const called = output.toolCalls
+      .map((call) => call.name)
+      .filter((name) => forbidden.includes(name));
+    return called.length === 0
+      ? ok('called none of the forbidden tools')
+      : fail(`called ${called.join(', ')}`);
+  },
+
+  no_invented_rating: (output) => {
+    const score = INVENTED_RATING.exec(output.answer);
+    return score === null ? ok('no rating the data does not have') : fail(`cites "${score[0]}"`);
+  },
+
+  replies_in_locale: (output, vars) => {
+    const words = output.answer.match(VIETNAMESE_WORDS)?.length ?? 0;
+    if (vars.locale === 'vi')
+      return words >= 2 ? ok('answers in Vietnamese') : fail('does not answer in Vietnamese');
+    return words <= 1 && /\b(?:the|you|is|and|to|at|on)\b/iu.test(output.answer)
+      ? ok('answers in English')
+      : fail('does not answer in English');
+  },
+
   grounded: (output) =>
     output.violations.length === 0
       ? ok('every id and number came from a tool')

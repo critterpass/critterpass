@@ -163,7 +163,7 @@ describe('pois RLS: catalogue (class C0, read-all)', () => {
     expect(rows.rows).toEqual([{ name: 'Nishiki Market', is_open_now: true }]);
   });
 
-  it('excludes ingest-internal columns from llm.pois (no source_ids/curation/merged_into_id)', async () => {
+  it('excludes ingest-internal columns from llm.pois but keeps the curation signals', async () => {
     const uid = await insertUser(db.pool);
     const rows = await withGuideReader(db.pool, uid, anonymousActor().uid, (tx) =>
       tx.query(
@@ -171,9 +171,9 @@ describe('pois RLS: catalogue (class C0, read-all)', () => {
       ),
     );
     const columns = rows.rows.map((row: { column_name: string }) => row.column_name);
-    expect(columns).not.toEqual(
-      expect.arrayContaining(['source_ids', 'curation', 'merged_into_id']),
-    );
+    for (const internal of ['source_ids', 'editorial', 'merged_into_id', 'geofence'])
+      expect(columns).not.toContain(internal);
+    expect(columns).toEqual(expect.arrayContaining(['curation', 'must_see', 'why_go', 'fts']));
   });
 
   it('never exposes a closed/hidden POI through llm.pois', async () => {

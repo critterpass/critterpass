@@ -4,6 +4,7 @@
  */
 /* eslint-disable lingui/no-unlocalized-strings -- Intl option values, never copy. */
 import { format } from '@cp/i18n';
+import { clockOption } from '@/lib/i18n/formats';
 
 export function zoneOf(...zones: readonly (string | null | undefined)[]): string | undefined {
   return zones.find((zone): zone is string => typeof zone === 'string' && zone !== '');
@@ -21,6 +22,7 @@ export function clock(locale: string, iso: string | null | undefined, tz?: strin
   if (at === null) return '';
   return format.date(locale, at, {
     hour: '2-digit',
+    ...clockOption(),
     minute: '2-digit',
     hourCycle: 'h23',
     ...(tz === undefined ? {} : { timeZone: tz }),

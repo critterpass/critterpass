@@ -132,6 +132,8 @@ const EVENT_PROPS = {
   offline_session: { duration: ms, queued_ops: count },
   disruption_resolved: { auto_actions: count, approvals: count },
   help_opened: { entry: z.string().regex(/^[a-z0-9_]{1,40}$/u) },
+  // Help centre: "Was this helpful?" under an article (the slug is public content, no PII).
+  help_article_rated: { article: z.string().regex(/^[a-z0-9-]{1,80}$/u), helpful: flag },
   sos_triggered: {},
   sos_resolved: { time_to_responder: ms },
   // Critters / after

@@ -48,6 +48,8 @@ beforeAll(async () => {
   const planned = await poi(destinationId, 'Kiyomizu-dera', 'temple_shrine', 34.995);
   await poi(destinationId, 'Far Temple', 'temple_shrine', 35.3);
   await poi(destinationId, 'Near Market', 'market', 35.004);
+  // The same market from another source: the deck offers it once.
+  await poi(destinationId, 'Kyoto Near Market', 'market', 35.0041);
   const saved = await poi(destinationId, 'Saved Garden', 'nature', 35.2);
   const { rows: trip } = await db.pool.query<{ id: string }>(
     `INSERT INTO trips (crew_id, status, destination_id, tz) VALUES ($1, 'setup', $2, 'Asia/Tokyo')
@@ -100,7 +102,7 @@ afterAll(async () => {
 });
 
 describe('ai.swipe_deck', () => {
-  it('ranks the curated places not yet in the plan and attaches the guide notes by card', async () => {
+  it('ranks the curated places not yet in the plan, once each, and attaches the guide notes', async () => {
     const model = fakeModel(() =>
       JSON.stringify({
         notes: [

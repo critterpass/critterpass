@@ -9,6 +9,7 @@ import { personaIdSchema, recordUsage, writeDeckNotes, type DeckNoteCard } from 
 import { appendDomainEvent, outbox, withSystem } from '@cp/db';
 import {
   channelName,
+  DECK_SIZE,
   EXPLORE_QUEUES,
   rankDeck,
   SWIPE_RT,
@@ -42,6 +43,8 @@ interface PlaceRow {
   readonly distance_m: number | null;
   readonly crew_saves: number;
   readonly in_plan: boolean;
+  readonly lat: number;
+  readonly lng: number;
 }
 
 async function sessionFacts(
@@ -69,7 +72,7 @@ async function candidates(tx: pg.PoolClient, facts: SessionFacts): Promise<Place
      crew AS (
        SELECT user_id FROM trip_participants WHERE trip_id = $3 AND rsvp IS DISTINCT FROM 'out'
      )
-     SELECT p.id AS poi_id, p.name, p.category, p.tags,
+     SELECT p.id AS poi_id, p.name, p.category, p.tags, p.lat, p.lng,
             coalesce((p.editorial->>'must_see')::boolean, false) AS must_see,
             p.editorial->>'why_go' AS why_go,
             (SELECT round(ST_Distance(p.location, ST_SetSRID(ST_MakePoint(s.lng, s.lat), 4326)::geography))::int
@@ -119,8 +122,12 @@ export async function buildSwipeDeck(
     if (facts === undefined || facts.status !== 'building') return { facts };
     const places = await candidates(tx, facts);
     const { taste, size } = await crewTaste(tx, facts.trip_id);
-    const input: DeckCandidate[] = places;
-    return { facts, places, deck: rankDeck(input, taste, size) };
+    // Rows that are one place (a beach under three sources) reach the deck once.
+    const input: DeckCandidate[] = places.map((place) => ({
+      ...place,
+      place: { name: place.name, category: place.category, lat: place.lat, lng: place.lng },
+    }));
+    return { facts, places, deck: rankDeck(input, taste, size, DECK_SIZE, facts.destination) };
   });
   const { facts } = loaded;
   if (facts === undefined) return { outcome: 'missing', cards: 0 };

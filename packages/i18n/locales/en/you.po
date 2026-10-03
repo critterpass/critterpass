@@ -58,6 +58,26 @@ msgstr "{days, plural, one {{place} in # day} other {{place} in # days}}"
 msgid "you.profile.stamp.inDays"
 msgstr "{days, plural, one {In # day} other {In # days}}"
 
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.currency.homeChosenLine"
+msgstr "{home} · chosen by you"
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.currency.homeAirportLine"
+msgstr "{home} · from your home airport"
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.ideasToVote"
+msgstr "{ideas} ideas to vote on"
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.settings.languageHome"
+msgstr "{language} · prices in {symbol}"
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.settings.languageBoth"
+msgstr "{language} · prices in {symbol} and local"
+
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.crew.today"
 msgstr "{place} today"
@@ -65,6 +85,14 @@ msgstr "{place} today"
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-copy.ts
 msgid "you.edit.form.found"
 msgstr "{tier} · found {when}"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.twelveHour"
+msgstr "12-hour"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.twentyFourHour"
+msgstr "24-hour"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.account"
@@ -127,9 +155,17 @@ msgstr "At most 20 characters."
 msgid "you.avatar.tabs"
 msgstr "Avatar"
 
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.note"
+msgstr "Balances split in the crew’s currency. Rates work offline."
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.offlineTripsLine"
 msgstr "Bookings, maps and phrases on this phone"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.both"
+msgstr "Both"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.budgetMax"
@@ -162,6 +198,10 @@ msgstr "Chinese, simplified"
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.airportSearch"
 msgstr "City or airport code"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.clock"
+msgstr "Clock"
 
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.close"
@@ -229,6 +269,14 @@ msgstr "Critter"
 msgid "you.avatar.formLabel"
 msgstr "Critter {0}"
 
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.title"
+msgstr "Currency"
+
+#: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+msgid "you.currency.search"
+msgstr "Currency code, like SGD"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.deleteAccount"
 msgstr "Delete account"
@@ -244,6 +292,10 @@ msgstr "Delete your account?"
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.departures"
 msgstr "DEPARTURES · DÉPARTS"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.distance"
+msgstr "Distance"
 
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.done"
@@ -302,6 +354,10 @@ msgstr "Expenses you added, so Balances still add up"
 msgid "you.settings.helpShareLine"
 msgstr "For an hour with the crew, when I open Help"
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.title"
+msgstr "Formats"
+
 #: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
 msgid "you.settings.mailboxForward"
 msgstr "Forward confirmations to your crew’s address"
@@ -317,6 +373,10 @@ msgstr "From your Critterdex"
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.fromDex"
 msgstr "From your Critterdex"
+
+#: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+msgid "you.currency.fromAirport"
+msgstr "From your home airport"
 
 #: ../../apps/mobile/src/features/you/profile/profile-view.tsx
 msgid "you.profile.getPassPlus"
@@ -338,6 +398,14 @@ msgstr "Haptics"
 #: ../../apps/mobile/src/features/you/account/closed-view.tsx
 msgid "you.closed.stampBack"
 msgstr "Hello again"
+
+#: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
+msgid "you.settings.helpFeedback"
+msgstr "Help and feedback"
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.helpCentre"
+msgstr "Help centre"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.lede"
@@ -375,6 +443,10 @@ msgstr "Home"
 msgid "you.profile.back"
 msgstr "Home"
 
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.home"
+msgstr "Home"
+
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
 msgid "you.edit.homeAirport"
@@ -383,6 +455,11 @@ msgstr "Home airport"
 #: ../../apps/mobile/src/features/you/history/stamps-copy.ts
 msgid "you.stamps.home"
 msgstr "Home base"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+#: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+msgid "you.currency.home"
+msgstr "Home currency"
 
 #. placeholder {0}: stamp.title
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
@@ -425,17 +502,25 @@ msgstr "Japanese"
 msgid "you.delete.keep"
 msgstr "Keep my account"
 
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.kmLong"
+msgstr "Kilometres"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.km"
+msgstr "km"
+
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.ko"
 msgstr "Korean"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
-msgid "you.settings.language"
-msgstr "Language"
+msgid "you.settings.languageCurrency"
+msgstr "Language and currency"
 
 #: ../../apps/mobile/src/features/you/language/language-view.tsx
-msgid "you.language.title"
-msgstr "Language"
+msgid "you.language.titleCurrency"
+msgstr "Language and currency"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
@@ -478,6 +563,10 @@ msgstr "Legendary form"
 msgid "you.edit.username.chars"
 msgstr "Letters, numbers, dots and underscores only."
 
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.mode.local"
+msgstr "Local"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.location"
 msgstr "Location"
@@ -486,6 +575,14 @@ msgstr "Location"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.pings.crewChat.mentions"
 msgstr "Mentions only"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.mi"
+msgstr "mi"
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.miLong"
+msgstr "Miles"
 
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 #: ../../apps/mobile/src/features/you/edit-profile/field-sheets.tsx
@@ -534,9 +631,17 @@ msgstr "Off"
 msgid "you.settings.offline"
 msgstr "Offline"
 
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.rateAndroid"
+msgstr "On Google Play"
+
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.sampleLine"
 msgstr "on my way!"
+
+#: ../../apps/mobile/src/features/you/settings/settings-screen.tsx
+msgid "you.settings.rateIos"
+msgstr "On the App Store"
 
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
 msgid "you.export.tooSoon"
@@ -573,6 +678,10 @@ msgstr "Photos only show inside your crews."
 #: ../../apps/mobile/src/features/you/edit-profile/edit-profile-screen.tsx
 msgid "you.edit.username.none"
 msgstr "Pick a username"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.homeNone"
+msgstr "Pick one, or set your home airport"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hideLockscreenLine"
@@ -631,6 +740,18 @@ msgstr "Rare form"
 msgid "you.avatar.ringsLine"
 msgstr "Rare forms and up keep their coloured ring wherever your avatar shows up. Legendary rings are gold."
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.rate"
+msgstr "Rate CritterPass"
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.currency.ratesNone"
+msgstr "Rates come with your next sync."
+
+#: ../../apps/mobile/src/features/you/language/currency-model.ts
+msgid "you.currency.ratesStale"
+msgstr "Rates from {day}"
+
 #: ../../apps/mobile/src/features/you/export/export-copy.ts
 msgid "you.export.ready"
 msgstr "Ready to download until {until}"
@@ -675,6 +796,10 @@ msgstr "Self-reported"
 msgid "you.stamps.selfReported"
 msgstr "Self-reported"
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.feedback"
+msgstr "Send feedback"
+
 #: ../../apps/mobile/src/features/you/settings/settings-view.tsx
 msgid "you.settings.title"
 msgstr "Settings"
@@ -698,6 +823,10 @@ msgstr "Settings"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.helpShare"
 msgstr "Share where I am from Help"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.showIn"
+msgstr "Show prices in"
 
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.signOut"
@@ -777,6 +906,14 @@ msgstr "Stays on your account"
 msgid "you.settings.soundEffectsLine"
 msgstr "Sticker slaps, stamps, pops"
 
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.feedbackLine"
+msgstr "Straight to the team"
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.idea"
+msgstr "Suggest a feature"
+
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.talkOutLoud"
 msgstr "Talk out loud"
@@ -784,6 +921,10 @@ msgstr "Talk out loud"
 #: ../../apps/mobile/src/features/you/settings/settings-sections.tsx
 msgid "you.settings.hapticsLine"
 msgstr "Taps and thuds you can feel"
+
+#: ../../apps/mobile/src/features/you/settings/help-rows.ts
+msgid "you.settings.ideaLine"
+msgstr "Tell us what you’d add"
 
 #: ../../apps/mobile/src/features/you/language/language-names.ts
 msgid "you.language.name.th"
@@ -833,6 +974,14 @@ msgstr "This pass wasn’t saved, so there is nothing to sign back into. It is b
 #: ../../apps/mobile/src/features/you/account/sign-out-view.tsx
 msgid "you.account.restartFailed"
 msgstr "This phone is cleared. Close the app and open it again."
+
+#: ../../apps/mobile/src/features/you/language/formats-section.tsx
+msgid "you.formats.row"
+msgstr "Time and distance"
+
+#: ../../apps/mobile/src/features/you/language/currency-section.tsx
+msgid "you.currency.samplePlace"
+msgstr "Tirta Empul"
 
 #: ../../apps/mobile/src/features/you/profile/profile-copy.ts
 msgid "you.profile.stamp.today"
@@ -971,6 +1120,10 @@ msgstr "Your guide"
 #: ../../apps/mobile/src/features/you/avatar/avatar-view.tsx
 msgid "you.avatar.guides"
 msgstr "Your guides"
+
+#: ../../apps/mobile/src/features/you/language/currency-sheet.tsx
+msgid "you.currency.chosen"
+msgstr "Your home currency now"
 
 #: ../../apps/mobile/src/features/you/account/delete-view.tsx
 msgid "you.delete.goes.pass"

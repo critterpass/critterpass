@@ -4,6 +4,7 @@
  * stale-setup banner, the days, then BUILD THE PROPOSAL, "Ask {guide} to change a day" and the
  * redraft counter. A redraft still waiting on the organiser shows as a banner that opens it.
  */
+import { displayWithHome, useMoneyDisplay } from '@/data/money';
 import { t } from '@lingui/core/macro';
 import { ScrollView, View } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -23,7 +24,7 @@ import { Scaffold } from '@/ui/surface/Scaffold';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
-import { estimateMoney, overBudgetMinor, wholeMoney } from '../data/format';
+import { estimateMinor, estimateMoney, overBudgetMinor, wholeMoney } from '../data/format';
 import type { RedraftQuota } from '../data/quota';
 import { counterLine } from '../data/quota-copy';
 import type { ReviewModel } from '../data/version';
@@ -89,6 +90,7 @@ export interface DraftReviewViewProps {
 
 export function DraftReviewView(props: DraftReviewViewProps) {
   const { guide, model, locale, quota, openRedraft } = props;
+  useMoneyDisplay();
   const styles = useStyles();
   const theme = useTheme();
   const bob = useLoop('bob');
@@ -96,7 +98,12 @@ export function DraftReviewView(props: DraftReviewViewProps) {
   const guideName = info.name;
   const destination = props.destination;
   const dates = props.dates;
-  const cost = estimateMoney(locale, model.costPpMinor, model.currency);
+  const cost = displayWithHome(
+    estimateMoney(locale, model.costPpMinor, model.currency),
+    estimateMinor(model.costPpMinor, model.currency),
+    model.currency,
+    locale,
+  );
   // The target is exact and the cost is shown rounded: the gap is taken from the shown figure.
   const overBy = overBudgetMinor(model.costPpMinor, model.overByMinor, model.currency);
   const counter = counterLine(quota);

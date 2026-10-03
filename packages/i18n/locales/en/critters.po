@@ -107,9 +107,17 @@ msgstr "{place} is going quiet"
 msgid "critters.dex.legendaryTitle"
 msgstr "{placeLine}, {span}"
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.eyebrowTierAt"
+msgstr "{tier} · {place}"
+
 #: ../../apps/mobile/src/features/critters/detail/detail-copy.ts
 msgid "critters.detail.shareLine"
 msgstr "{tier} · found in {city}"
+
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.eyebrowTier"
+msgstr "{tier} form"
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.formEyebrow"
@@ -399,6 +407,10 @@ msgstr "Notifications are off, so reminders will wait in your inbox."
 msgid "critters.encounter.reminderDenied"
 msgstr "Notifications are off, so we can’t nudge you. Turn them on in Settings."
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.ok"
+msgstr "OK"
+
 #: ../../apps/mobile/src/features/critters/legendary/legendary-copy.ts
 msgid "critters.legendary.onOneDay"
 msgstr "On one day"
@@ -455,6 +467,10 @@ msgstr "Share with the crew"
 msgid "critters.hatch.later"
 msgstr "Show me around later"
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.eyebrow"
+msgstr "Slipped away"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.someoneHere"
 msgstr "Someone is here"
@@ -487,6 +503,10 @@ msgstr "The whole crew was there. It’s on everyone’s pass."
 msgid "critters.legendary.emptyBody"
 msgstr "They arrive with the places they live in. Check back after your next update."
 
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.title"
+msgstr "This one slipped away"
+
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr "Today, {time}"
@@ -502,6 +522,14 @@ msgstr "Undo"
 #: ../../apps/mobile/src/features/critters/dex/dex-copy.ts
 msgid "critters.dex.locked"
 msgstr "Unknown local at {city}"
+
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.body"
+msgstr "We couldn't confirm that find, so it didn't stay. Come back and try again."
+
+#: ../../apps/mobile/src/features/critters/dex/slipped-away-card.tsx
+msgid "critters.slipped.bodyAt"
+msgstr "We couldn't confirm the find at {place}, so it didn't stay. Come back and try again."
 
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.reminderSet"

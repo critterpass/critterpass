@@ -1,0 +1,72 @@
+appId: app.critterpass.dev
+---
+# An encounter met in place (3l-4 → 3l-6), on a fresh traveller's Đà Nẵng trip: the phone stands
+# on the Dragon Bridge (a 150 m spot, 300 s of dwell), the PASS card opens the encounter, the ring
+# fills to ready, a hold befriends the critter, and the find shows as befriended.
+#
+# Then the server checks the find. The emulator's location is simulated (Maestro's setLocation),
+# and the verifier revokes any find with a simulated location, so the PASS tab then says the find
+# slipped away: on a real phone in the same place the find stays.
+- runFlow:
+    file: subflows/danang-trip-hatched.yaml
+    env:
+      SHOTS: encounter-dwell
+- setLocation:
+    latitude: 16.0611
+    longitude: 108.2277
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-banner'
+    timeout: 180000
+- tapOn:
+    id: 'critters-encounter-banner'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-scene'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: encounter-dwell-12-filling
+# Ready once 300 s of accurate fixes have counted; the befriend link shows only when ready.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-encounter-tap'
+    timeout: 480000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: encounter-dwell-13-ready
+- longPressOn:
+    id: 'critters-encounter-hold'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-befriended-title'
+    timeout: 20000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: encounter-dwell-14-befriended
+- runFlow: ../onboarding/subflows/back.yaml
+- runFlow:
+    when:
+      notVisible:
+        id: 'critters-dex-header'
+    commands:
+      - tapOn:
+          id: 'tab-pass'
+- extendedWaitUntil:
+    visible:
+      id: 'critters-dex-header'
+    timeout: 20000
+- takeScreenshot: encounter-dwell-15-pass-after
+# The verifier's answer reaches the phone with the next sync.
+- extendedWaitUntil:
+    visible:
+      id: 'critters-slipped-away'
+    timeout: 300000
+- waitForAnimationToEnd
+- takeScreenshot: encounter-dwell-16-slipped-away
+- tapOn:
+    id: 'critters-slipped-away-ok'
+- extendedWaitUntil:
+    notVisible:
+      id: 'critters-slipped-away'
+    timeout: 10000
