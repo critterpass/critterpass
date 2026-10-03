@@ -48,6 +48,16 @@ streams:
       - SELECT * FROM usage_counters WHERE subject_kind = 'user' AND subject_id = auth.user_id()
       - SELECT * FROM saved_lists WHERE user_id = auth.user_id()
       - SELECT * FROM phrase_progress WHERE user_id = auth.user_id()
+      - |-
+        SELECT id, user_id, ticket_no, mood, category, body, include_device_info, context, trip_id,
+          media_ids, source, status, reply_channel, fixed_in_version, sent_at, created_at, updated_at
+        FROM feedback_tickets WHERE user_id = auth.user_id()
+      - SELECT * FROM idea_votes WHERE user_id = auth.user_id()
+      - SELECT * FROM rating_prompts WHERE user_id = auth.user_id()
+      - |-
+        SELECT id, title, description, locale, status, team_note, fixed_in_version, merged_into_id,
+          votes_count, status_changed_at, created_at, updated_at
+        FROM ideas WHERE author_id = auth.user_id() AND status = 'pending_review'
       - SELECT * FROM saved_items WHERE user_id = auth.user_id()
       - SELECT * FROM reminders WHERE user_id = auth.user_id()
       - SELECT * FROM nudges WHERE sender_id = auth.user_id()
@@ -618,10 +628,15 @@ streams:
       - SELECT * FROM crowd_forecasts WHERE destination_id IN trip_destination
   help:
     accept_potentially_dangerous_queries: true
-    query: |-
-      SELECT id, slug, locale, category, title, summary, body_md, release_id, created_at, updated_at
-      FROM help_articles
-      WHERE locale = subscription.parameter('locale')
+    queries:
+      - |-
+        SELECT id, slug, locale, category, title, summary, body_md, release_id, created_at, updated_at
+        FROM help_articles
+        WHERE locale = subscription.parameter('locale')
+      - |-
+        SELECT id, title, description, locale, status, team_note, fixed_in_version, merged_into_id,
+          votes_count, status_changed_at, created_at, updated_at
+        FROM ideas WHERE status <> 'pending_review'
   crew_people:
     auto_subscribe: true
     queries:

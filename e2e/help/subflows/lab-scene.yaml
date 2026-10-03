@@ -1,0 +1,23 @@
+appId: app.critterpass.dev
+---
+# From the help lab list: opens ${SCENE}, waits for ${ROOT}, takes ${SHOT}, and goes back.
+- scrollUntilVisible:
+    element:
+      id: 'help-lab-${SCENE}'
+    direction: DOWN
+    centerElement: true
+    timeout: 20000
+- tapOn:
+    id: 'help-lab-${SCENE}'
+- extendedWaitUntil:
+    visible:
+      id: ${ROOT}
+    timeout: 15000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: ${SHOT}
+- runFlow: ../../screens/sweep/subflows/back.yaml
+- extendedWaitUntil:
+    visible:
+      id: 'help-lab-live'
+    timeout: 10000
