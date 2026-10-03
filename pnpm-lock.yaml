@@ -1662,6 +1662,25 @@ importers:
         specifier: 'catalog:'
         version: 5.0.2(@opentelemetry/api@1.9.1)(@types/node@26.6.3)(jsdom@20.0.3(supports-color@7.2.0))(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
 
+  tools/routing-tiles:
+    dependencies:
+      '@cp/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@cp/suppliers':
+        specifier: workspace:*
+        version: link:../../packages/suppliers
+      zod:
+        specifier: 'catalog:'
+        version: 4.6.5
+    devDependencies:
+      tsx:
+        specifier: 'catalog:'
+        version: 4.23.15
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.2(@opentelemetry/api@1.9.1)(@types/node@26.6.3)(jsdom@20.0.3(supports-color@10.2.2))(vite@8.3.1(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+
   tools/scripts:
     dependencies:
       '@cp/content':

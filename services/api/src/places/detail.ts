@@ -1,9 +1,8 @@
 /**
  * POI detail (docs/api-contracts.md §5.5 `GET /v1/places/{id}?trip_id`): current hours state,
- * Foursquare live-check flags (never raw content beyond the flags), and — when `trip_id` resolves to
- * a real lodging location — distance/time from it via the routing interface (a Valhalla-backed
- * provider will supply the real implementation later; the default here is the straight-line
- * fallback).
+ * Foursquare live-check flags (never raw content beyond the flags), and — when `trip_id` has a stay
+ * for tonight (`tripStay`) — walking distance and time from it via the routing provider the api
+ * mounts (a live answer for this view only, never stored; straight-line when none is mounted).
  */
 import {
   editorialOverlaySchema,
@@ -20,6 +19,8 @@ import {
   type RouteEtaProvider,
 } from '@cp/domain';
 import type pg from 'pg';
+
+import { tripLocalDate, tripStay } from '../planning/stay';
 
 export interface PlaceDetailResult {
   readonly id: string;
@@ -62,20 +63,6 @@ interface PlaceDetailRow {
   readonly is_open_now: boolean | null;
   readonly closed_permanently: boolean | null;
   readonly live_checked_at: Date | null;
-}
-
-/**
- * A trip's lodging location, once one exists: no table carries it yet (bookings/wallet, the
- * day-by-day plan and trip setup all still need to land), so this always returns `undefined` today.
- * `getPlaceDetail` already treats that as "omit the lodging fields", which is the correct behaviour,
- * not a placeholder that blocks correctness: once one of those lands, this function is the one place
- * to make it a real lookup.
- */
-function resolveTripLodging(
-  _tx: pg.PoolClient,
-  _tripId: string,
-): Promise<{ readonly lat: number; readonly lng: number } | undefined> {
-  return Promise.resolve(undefined);
 }
 
 export interface GetPlaceDetailOptions {
@@ -129,8 +116,8 @@ export async function getPlaceDetail(
   };
 
   if (options.tripId === undefined) return result;
-  const lodging = await resolveTripLodging(tx, options.tripId);
-  if (lodging === undefined) return result;
+  const lodging = await tripStay(tx, options.tripId, await tripLocalDate(tx, options.tripId, now));
+  if (lodging === null) return result;
 
   const provider = options.routeEtaProvider ?? straightLineEtaProvider;
   const eta = await provider.eta({
