@@ -41,6 +41,13 @@
       "asset": "music/paco.m4a",
       "sampleAsset": "music/paco-preview.m4a",
       "pendingFounderApproval": true
+    },
+    {
+      "guideId": "chava",
+      "available": true,
+      "asset": "music/chava.m4a",
+      "sampleAsset": "music/chava-preview.m4a",
+      "pendingFounderApproval": true
     }
   ]
 }
