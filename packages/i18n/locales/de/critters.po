@@ -448,6 +448,10 @@ msgstr ""
 msgid "critters.dex.emptySearchTitle"
 msgstr ""
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.none"
+msgstr ""
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.pending"
 msgstr ""
@@ -560,10 +564,6 @@ msgstr ""
 msgid "critters.legendary.emptyBody"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/where/where-copy.ts
-msgid "critters.where.none"
-msgstr ""
-
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr ""
@@ -664,6 +664,6 @@ msgstr ""
 msgid "critters.queued.skin"
 msgstr ""
 
-#: ../../apps/mobile/src/features/critters/dex/dex-view.tsx
+#: ../../apps/mobile/src/features/critters/dex/profile-entry.tsx
 msgid "critters.dex.openProfile"
 msgstr ""

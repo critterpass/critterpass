@@ -83,7 +83,9 @@ function stepsOf(rule: SpawnSqlRow, places: number, windows: readonly WhereWindo
   const steps: WhereStep[] = [];
   if (rule.kind === 'set_count') steps.push({ kind: 'set_first', n: Math.max(1, rule.n ?? 1) });
   const needed = placesNeeded(rule);
-  steps.push(needed > 1 ? { kind: 'places', n: needed } : { kind: 'go', places });
+  // A rule with no place of its own sends nobody anywhere: its other steps say it all.
+  if (needed > 1) steps.push({ kind: 'places', n: needed });
+  else if (places > 0) steps.push({ kind: 'go', places });
   if (rule.window_id !== null) {
     const window = windows.find((w) => w.id === rule.window_id);
     steps.push({

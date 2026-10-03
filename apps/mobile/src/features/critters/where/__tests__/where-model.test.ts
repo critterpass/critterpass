@@ -132,6 +132,17 @@ describe('where a form can be met', () => {
     });
   });
 
+  it('sends nobody anywhere for a rule with no place of its own', () => {
+    const crew = rule('crew', { form_id: 'form-crew', kind: 'co_presence', min_members: 6 });
+    const where = formWhere({ ...base, formId: 'form-crew', rules: [crew] });
+    expect(where?.spots).toEqual([]);
+    expect(where?.nearest).toBeNull();
+    expect(where?.steps).toEqual([
+      { kind: 'together', members: 6 },
+      { kind: 'stay', minutes: 5 },
+    ]);
+  });
+
   it("prefers the trip's destination, then the easiest rule; null when nothing gives it", () => {
     const hoian = rule('hoian', {
       form_id: 'form-x',

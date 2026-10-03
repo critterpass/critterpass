@@ -448,6 +448,10 @@ msgstr "No legendaries yet"
 msgid "critters.dex.emptySearchTitle"
 msgstr "No place called “{query}”"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.none"
+msgstr "No place on the map for this one. The steps below are what it takes."
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.pending"
 msgstr "No signal. It joins your pass once you’re back online."
@@ -560,10 +564,6 @@ msgstr "The whole crew was there. It’s on everyone’s pass."
 msgid "critters.legendary.emptyBody"
 msgstr "They arrive with the places they live in. Check back after your next update."
 
-#: ../../apps/mobile/src/features/critters/where/where-copy.ts
-msgid "critters.where.none"
-msgstr "This form doesn't live anywhere on your trip. Its place shows once you're travelling there."
-
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr "Today, {time}"
@@ -664,6 +664,6 @@ msgstr "Your guide is back to the classic look"
 msgid "critters.queued.skin"
 msgstr "Your guide's look"
 
-#: ../../apps/mobile/src/features/critters/dex/dex-view.tsx
+#: ../../apps/mobile/src/features/critters/dex/profile-entry.tsx
 msgid "critters.dex.openProfile"
 msgstr "Your profile"

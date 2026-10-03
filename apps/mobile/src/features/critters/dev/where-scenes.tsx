@@ -47,7 +47,6 @@ const LEGENDARY: FormWhere = {
   rarity: 'legendary',
   spots: [],
   steps: [
-    { kind: 'go', places: 0 },
     { kind: 'day', placeLine: 'Bali · all six on Batur by sunrise', challenge: null },
     { kind: 'together', members: 6 },
   ],

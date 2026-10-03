@@ -28,8 +28,7 @@ export function nearestSpot(name: string, away: string | null): string {
 export function noSpots(): string {
   return t({
     id: 'critters.where.none',
-    message:
-      "This form doesn't live anywhere on your trip. Its place shows once you're travelling there.",
+    message: 'No place on the map for this one. The steps below are what it takes.',
   });
 }
 

@@ -448,6 +448,10 @@ msgstr "Chưa có huyền thoại nào"
 msgid "critters.dex.emptySearchTitle"
 msgstr "Không có nơi nào tên “{query}”"
 
+#: ../../apps/mobile/src/features/critters/where/where-copy.ts
+msgid "critters.where.none"
+msgstr "Không có địa điểm trên bản đồ cho dạng này. Các bước bên dưới là những gì cần làm."
+
 #: ../../apps/mobile/src/features/critters/hatch/hatch-copy.ts
 msgid "critters.hatch.pending"
 msgstr "Không có sóng. Bạn nhỏ sẽ vào thẻ của bạn khi có mạng lại."
@@ -560,10 +564,6 @@ msgstr "Cả nhóm đã có mặt. Bạn ấy đã vào thẻ của mọi ngư�
 msgid "critters.legendary.emptyBody"
 msgstr "Chúng đến cùng những nơi chúng sống. Hãy xem lại sau lần cập nhật tới."
 
-#: ../../apps/mobile/src/features/critters/where/where-copy.ts
-msgid "critters.where.none"
-msgstr "Dạng này không sống ở đâu trong chuyến đi của bạn. Nơi ở của nó sẽ hiện khi bạn đi đến đó."
-
 #: ../../apps/mobile/src/features/critters/encounter/encounter-copy.ts
 msgid "critters.encounter.today"
 msgstr "Hôm nay, {time}"
@@ -664,6 +664,6 @@ msgstr "Hướng dẫn viên đã về lại diện mạo cũ"
 msgid "critters.queued.skin"
 msgstr "Diện mạo hướng dẫn viên của bạn"
 
-#: ../../apps/mobile/src/features/critters/dex/dex-view.tsx
+#: ../../apps/mobile/src/features/critters/dex/profile-entry.tsx
 msgid "critters.dex.openProfile"
 msgstr "Hồ sơ của bạn"
