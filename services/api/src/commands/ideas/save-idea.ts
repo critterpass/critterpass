@@ -1,0 +1,74 @@
+/**
+ * `save_idea` (docs/api-contracts-planning.md): a place goes into the trip's Ideas, from a save, a
+ * link, a swipe, search, the map, a dropped pin or the guide. Saving a place already in Ideas adds
+ * the caller as a backer, so two people saving one place make one idea with both faces. A POI is
+ * also kept in the caller's own saved places.
+ */
+import { appendDomainEvent } from '@cp/db';
+import {
+  DomainError,
+  saveIdeaPayloadSchema,
+  type SaveIdeaPayload,
+  type SaveIdeaResult,
+} from '@cp/domain';
+import type pg from 'pg';
+
+import { requireTripMember } from '../../plan/access';
+import { defineCommand } from '../_framework/define-command';
+import { backIdea, pinForTrip, poiForTrip, type IdeaPlace } from './store';
+
+async function tripCrew(tx: pg.PoolClient, tripId: string): Promise<string | null> {
+  const { rows } = await tx.query<{ crew_id: string }>('SELECT crew_id FROM trips WHERE id = $1', [
+    tripId,
+  ]);
+  return rows[0]?.crew_id ?? null;
+}
+
+/** The caller's own saved places get the POI too (the ♡ on the place page stays in step). */
+async function keepInSavedPlaces(tx: pg.PoolClient, uid: string, poiId: string): Promise<void> {
+  const { rowCount } = await tx.query(
+    `INSERT INTO saved_items (user_id, kind, ref_id) VALUES ($1, 'poi', $2)
+     ON CONFLICT (user_id, kind, ref_id) DO NOTHING`,
+    [uid, poiId],
+  );
+  if ((rowCount ?? 0) === 0) return;
+  await appendDomainEvent(tx, {
+    type: 'place.saved',
+    aggregateKind: 'user',
+    aggregateId: uid,
+    actorKind: 'user',
+    actorId: uid,
+    payload: { user_id: uid, place_id: poiId },
+  });
+}
+
+async function ideaPlace(tx: pg.PoolClient, payload: SaveIdeaPayload): Promise<IdeaPlace> {
+  if (payload.poi_id !== undefined) return poiForTrip(tx, payload.trip_id, payload.poi_id);
+  if (payload.pin !== undefined) return pinForTrip(tx, payload.trip_id, payload.pin);
+  throw new DomainError('VALIDATION', { reason: 'pin_or_poi' });
+}
+
+export const saveIdeaCommand = defineCommand({
+  name: 'save_idea',
+  v: 1,
+  schema: saveIdeaPayloadSchema,
+  offline: true,
+  allowAnonymous: true,
+  authorize: async (tx, payload) => {
+    await requireTripMember(tx, payload.trip_id);
+  },
+  handle: async (tx, payload, ctx): Promise<SaveIdeaResult> => {
+    const place = await ideaPlace(tx, payload);
+    const backed = await backIdea(tx, {
+      tripId: payload.trip_id,
+      crewId: await tripCrew(tx, payload.trip_id),
+      uid: ctx.uid,
+      place,
+      source: payload.source,
+      sourceUrl: payload.source_url,
+      ideaId: payload.idea_id,
+    });
+    if (place.poiId !== null) await keepInSavedPlaces(tx, ctx.uid, place.poiId);
+    return { idea_id: backed.ideaId, backer_ids: backed.backerIds };
+  },
+});
