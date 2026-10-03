@@ -163,7 +163,22 @@ export const mailingAddresses = pgTable('mailing_addresses', {
   ...stamps(),
 });
 
+export const albumCurations = pgTable('album_curations', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  tripId: tripRef().unique(),
+  /** The guide's line over its picks, from computed facts only. */
+  note: text('note').notNull(),
+  picks: integer('picks').notNull(),
+  photos: integer('photos').notNull(),
+  noteFallback: boolean('note_fallback').notNull().default(false),
+  curatedAt: instant('curated_at').notNull().defaultNow(),
+  ...stamps(),
+});
+
 registerTablePrivacy('photos', { class: 'C1' });
+registerTablePrivacy('album_curations', { class: 'C1' });
 registerTablePrivacy('album_picks', { class: 'C1' });
 registerTablePrivacy('photo_people', { class: 'C1' });
 registerTablePrivacy('album_prefs', { class: 'C2' });

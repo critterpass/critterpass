@@ -1,0 +1,120 @@
+# Albums after curation, as the facts code computed about the guide's picks.
+- id: album-01
+  description: 'Bali six: everyone tagged and in three'
+  guide: tokek
+  facts:
+    picks: 24
+    photos: 312
+    per_person: 3
+    days: 8
+    blurry_skipped: 41
+    duplicates_skipped: 63
+    tagged_people: 6
+    people_in_three: 6
+    everyone_in_three: true
+- id: album-02
+  description: one traveller tagged in only two picks
+  guide: tokek
+  facts:
+    picks: 24
+    photos: 180
+    per_person: 3
+    days: 5
+    blurry_skipped: 12
+    duplicates_skipped: 30
+    tagged_people: 4
+    people_in_three: 3
+    everyone_in_three: false
+- id: album-03
+  description: nobody tagged at all
+  guide: chava
+  facts:
+    picks: 24
+    photos: 96
+    per_person: 3
+    days: 3
+    blurry_skipped: 8
+    duplicates_skipped: 14
+    tagged_people: 0
+    people_in_three: 0
+    everyone_in_three: false
+- id: album-04
+  description: a small album, 9 picks of 9 sharp photos
+  guide: ajo
+  facts:
+    picks: 9
+    photos: 11
+    per_person: 3
+    days: 2
+    blurry_skipped: 2
+    duplicates_skipped: 0
+    tagged_people: 2
+    people_in_three: 2
+    everyone_in_three: true
+- id: album-05
+  description: a single-day trip with lots of near-copies
+  guide: pon
+  facts:
+    picks: 18
+    photos: 140
+    per_person: 3
+    days: 1
+    blurry_skipped: 5
+    duplicates_skipped: 77
+    tagged_people: 3
+    people_in_three: 1
+    everyone_in_three: false
+- id: album-06
+  description: solo traveller in every pick
+  guide: lundi
+  facts:
+    picks: 24
+    photos: 60
+    per_person: 3
+    days: 4
+    blurry_skipped: 3
+    duplicates_skipped: 9
+    tagged_people: 1
+    people_in_three: 1
+    everyone_in_three: true
+- id: album-07
+  description: eight travellers, three tagged in three
+  guide: paco
+  facts:
+    picks: 24
+    photos: 540
+    per_person: 3
+    days: 7
+    blurry_skipped: 60
+    duplicates_skipped: 120
+    tagged_people: 8
+    people_in_three: 3
+    everyone_in_three: false
+  forbid:
+    - everyone
+- id: album-08
+  description: Hanoi crew, everyone in three
+  guide: chava
+  facts:
+    picks: 24
+    photos: 210
+    per_person: 3
+    days: 4
+    blurry_skipped: 20
+    duplicates_skipped: 35
+    tagged_people: 5
+    people_in_three: 5
+    everyone_in_three: true
+- id: album-10
+  description: guest guide, plain album
+  guide: guest
+  facts:
+    picks: 20
+    photos: 20
+    per_person: 3
+    days: 3
+    blurry_skipped: 0
+    duplicates_skipped: 0
+    tagged_people: 0
+    people_in_three: 0
+    everyone_in_three: false
