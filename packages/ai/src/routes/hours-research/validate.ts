@@ -125,7 +125,9 @@ export function checkHoursReply(
     }
   } else {
     const written = timesInText(page);
-    const used = Object.values(weekly).flatMap((spans) => spans.flatMap((s) => [s.start, s.end]));
+    const used = Object.values(weekly).flatMap((spans) =>
+      (spans ?? []).flatMap((s) => [s.start, s.end]),
+    );
     if (used.some((time) => !written.has(norm(toMinutes(time))))) {
       return { ok: false, reason: 'time_not_in_source' };
     }
