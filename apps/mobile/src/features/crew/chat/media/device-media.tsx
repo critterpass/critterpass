@@ -39,14 +39,13 @@ const VOICE: RecordingOptions = {
   bitRate: 64_000,
   isMeteringEnabled: true,
 };
-/** Picker JPEG quality: phone originals shrink several times over with no visible loss in chat. */
-const PHOTO_QUALITY = 0.7;
 /**
- * Several photos at once. Android's multi-photo result fails to load in builds whose shrinker
- * stripped the picker's native classes (ExceptionInInitializerError after the pick), while a single
- * pick, as receipts make, works; Android picks one photo at a time while that holds.
+ * Picker JPEG quality: phone originals shrink several times over with no visible loss in chat. On
+ * Android the picker's re-encode fails in builds whose shrinker stripped its native classes
+ * (ExceptionInInitializerError after the pick), so there the photo is sent as picked and the media
+ * worker makes the chat's thumbnail.
  */
-const MULTI_PICK = Platform.OS !== 'android';
+const PHOTO_QUALITY = Platform.OS === 'android' ? 1 : 0.7;
 const SILENCE_DB = -60;
 
 /**
@@ -103,7 +102,7 @@ async function pickPhotos(source: 'library' | 'camera'): Promise<PickOutcome> {
     mediaTypes: ['images'],
     quality: PHOTO_QUALITY,
     exif: false,
-    allowsMultipleSelection: MULTI_PICK && source === 'library',
+    allowsMultipleSelection: source === 'library',
     selectionLimit: 10,
   };
   try {
