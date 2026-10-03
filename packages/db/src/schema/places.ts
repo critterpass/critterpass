@@ -21,6 +21,7 @@ import {
   jsonb,
   pgSchema,
   pgTable,
+  primaryKey,
   real,
   text,
   timestamp,
@@ -201,3 +202,55 @@ export const foursquareApiUsage = pgTable('foursquare_api_usage', {
 
 registerTablePrivacy('poi_foursquare_ids', { class: 'C0' });
 registerTablePrivacy('foursquare_api_usage', { class: 'C0' });
+
+/**
+ * FSQ OS Places export runs for the multi-destination ingest (migration
+ * 20261003170000_fsq_os_export_runs.sql): one catalog scan in chunk jobs, rows kept per destination
+ * until that destination is ingested. Server-only bookkeeping of open data.
+ */
+export const fsqOsExportRuns = pgTable('fsq_os_export_runs', {
+  id: uuid('id')
+    .primaryKey()
+    .default(sql`uuidv7()`),
+  targets: jsonb('targets').notNull(),
+  chunkCount: integer('chunk_count').notNull(),
+  fannedOutAt: timestamp('fanned_out_at', { withTimezone: true, mode: 'date' }),
+  createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().defaultNow(),
+});
+
+export const fsqOsExportChunks = pgTable(
+  'fsq_os_export_chunks',
+  {
+    runId: uuid('run_id')
+      .notNull()
+      .references(() => fsqOsExportRuns.id, { onDelete: 'cascade' }),
+    chunk: integer('chunk').notNull(),
+    files: text('files').array().notNull(),
+    rowCount: integer('row_count'),
+    doneAt: timestamp('done_at', { withTimezone: true, mode: 'date' }),
+  },
+  (table) => [primaryKey({ columns: [table.runId, table.chunk] })],
+);
+
+export const fsqOsExportRows = pgTable(
+  'fsq_os_export_rows',
+  {
+    runId: uuid('run_id')
+      .notNull()
+      .references(() => fsqOsExportRuns.id, { onDelete: 'cascade' }),
+    slug: text('slug').notNull(),
+    fsqPlaceId: text('fsq_place_id').notNull(),
+    name: text('name').notNull(),
+    categoryLabels: text('category_labels').array().notNull().default([]),
+    lat: doublePrecision('lat').notNull(),
+    lng: doublePrecision('lng').notNull(),
+    address: text('address'),
+    website: text('website'),
+    phone: text('phone'),
+  },
+  (table) => [primaryKey({ columns: [table.runId, table.slug, table.fsqPlaceId] })],
+);
+
+registerTablePrivacy('fsq_os_export_runs', { class: 'C0' });
+registerTablePrivacy('fsq_os_export_chunks', { class: 'C0' });
+registerTablePrivacy('fsq_os_export_rows', { class: 'C0' });

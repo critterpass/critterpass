@@ -142,8 +142,12 @@ the country code. `app.sync_place_destinations` then fills `destinations.critter
 ### Every destination, monthly
 
 The worker's `places.ingest` job runs on the 1st of each month at 02:00 UTC. Its first run fills
-missing place boxes, exports FSQ OS once for every destination's box (one scan, one parquet
-directory per destination), then queues one job per destination; the queue runs one at a time.
+missing place boxes, then starts an FSQ OS export run: the catalog's data files are split into
+`places.fsq_export_chunk` jobs (five files each), and each chunk stores the rows inside any
+destination's box in Postgres (`fsq_os_export_rows`) together with its progress, so a worker
+deploy mid-run costs one chunk, not the whole scan. The chunk that completes the run queues one
+`places.ingest` job per destination; each reads its stored rows, ingests, and deletes them. Both
+queues run one job at a time. A new run deletes the previous one.
 To start it by hand, or to hold destinations back (a crew on a trip there):
 
 ```sh
