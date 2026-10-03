@@ -16,41 +16,14 @@ import {
 
 import { guideText } from '@/lib/i18n/guide-text';
 
-import { kindTitle, stopName } from '../stop-name';
+import type { PlanDayRow, PlanItemRow } from './queries';
+import { kindTitle, stopName } from './stop-name';
 
-export interface PlanDayRow {
-  readonly day_no: number;
-  readonly date: string | null;
-  readonly theme: string | null;
-  /** The guide's text in other languages (JSON text); read through `guideText`. */
-  readonly i18n?: string | null;
-}
+/** A day as the day view reads it (any plan day row: the overview's carries its id too). */
+export type ModelDayRow = Omit<PlanDayRow, 'id'>;
 
-export interface PlanItemRow {
-  readonly stable_id: string;
-  readonly day_no: number;
-  readonly starts_at: string | null;
-  readonly ends_at: string | null;
-  readonly tz: string | null;
-  readonly lane: string | null;
-  readonly attendee_ids: string | null;
-  readonly poi_id: string | null;
-  readonly booking_id: string | null;
-  readonly must_do_id: string | null;
-  readonly category: string | null;
-  readonly cost_model: string | null;
-  readonly amount_minor: number | null;
-  readonly currency: string | null;
-  readonly status: string | null;
-  readonly is_outdoor: number | null;
-  readonly created_by_kind: string | null;
-  readonly notes: string | null;
-  readonly locked_reason: string | null;
-  readonly i18n?: string | null;
-  readonly poi_name: string | null;
-  readonly poi_lat: number | null;
-  readonly poi_lng: number | null;
-}
+/** An item as the day view reads it (any plan item row: the overview's carries more). */
+export type ModelItemRow = Omit<PlanItemRow, 'id' | 'lat' | 'lng' | 'booking_title'>;
 
 export type LockKind = 'booking' | 'must_do' | 'user';
 
@@ -111,7 +84,7 @@ function optional<T>(value: T | null): T | undefined {
   return value === null ? undefined : value;
 }
 
-export function toStateItem(row: PlanItemRow): PlanStateItem {
+export function toStateItem(row: ModelItemRow): PlanStateItem {
   const lock = lockOf(row);
   const entries = {
     starts_at: optional(row.starts_at),
@@ -141,7 +114,10 @@ export function toStateItem(row: PlanItemRow): PlanStateItem {
   };
 }
 
-export function toPlanState(days: readonly PlanDayRow[], items: readonly PlanItemRow[]): PlanState {
+export function toPlanState(
+  days: readonly ModelDayRow[],
+  items: readonly ModelItemRow[],
+): PlanState {
   const planDays: PlanStateDay[] = days.map((day) => ({
     day_no: day.day_no,
     date: day.date,
@@ -186,7 +162,7 @@ export interface ItemDisplay {
  * the app's language), by stable id. The state keeps the note as written: edits replay on that.
  */
 export function displayOf(
-  rows: readonly PlanItemRow[],
+  rows: readonly ModelItemRow[],
   locale = 'en',
   places: ReadonlyMap<string, string> = new Map(),
 ): Map<string, ItemDisplay> {
@@ -209,7 +185,7 @@ export function displayOf(
  * Each day theme as this person reads it, keyed by the theme as written (a reorder moves themes
  * between day numbers, so the text is the key that follows them).
  */
-export function themesAsRead(rows: readonly PlanDayRow[], locale: string): Map<string, string> {
+export function themesAsRead(rows: readonly ModelDayRow[], locale: string): Map<string, string> {
   const themes = new Map<string, string>();
   for (const row of rows) {
     const read = guideText('plan_day', row, 'theme', locale);
@@ -272,4 +248,4 @@ export function dayItems(
     );
 }
 
-export { placeNamesOf } from '../stop-name';
+export { placeNamesOf } from './stop-name';

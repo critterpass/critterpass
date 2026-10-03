@@ -18,13 +18,8 @@ import { useLocale } from '@/lib/i18n/use-locale';
 import { Composer } from '@/ui/chat/Composer';
 import { KeyboardFooter } from '@/ui/layout/KeyboardFooter';
 
-import { applyChangesetCommand, castDecisionBallotCommand } from '../day/commands';
 import { dayDate } from '../day/format';
-import { useLiveRows } from '../day/live-rows';
-import { dayItems } from '../day/plan-model';
-import { addOp, removeOp } from '../day/plan-ops';
 import { useDayEditing } from '../day/use-day-editing';
-import { useTripPlan, type PlanMember } from '../day/use-trip-plan';
 import { guideOf } from '../timeline/day-timeline';
 import { CommentThread } from './comment-thread';
 import { buildDecision } from './decision-model';
@@ -42,6 +37,11 @@ import {
 } from './queries';
 import { useComments } from './use-comments';
 import { optionAnchor, PRESENCE_NAMESPACE, usePlanPresence } from './use-presence';
+import { applyChangesetCommand, castDecisionBallotCommand } from '@/data/plan/commands';
+import { useLiveRows } from '@/data/plan/live-rows';
+import { dayItems } from '@/data/plan/plan-model';
+import { addOp, removeOp } from '@/data/plan/plan-ops';
+import { type PlanMember, useTripPlan } from '@/data/plan/use-trip-plan';
 
 export function DecideScreen({
   tripId,

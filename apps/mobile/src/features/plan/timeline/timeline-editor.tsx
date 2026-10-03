@@ -19,13 +19,13 @@ import { makeStyles, useTheme } from '@/ui/theme';
 
 import { blockColor } from '../day/category-color';
 import { dayFit } from '../day/fit-check';
-import type { DayItem } from '../day/plan-model';
-import type { DaySlot } from '../day/plan-ops';
 import type { Axis } from './geometry';
 import { GuideGhost } from './guide-ghost';
 import { TimelineBlock, type BlockFrame } from './timeline-block';
 import { TimelineGrid } from './timeline-grid';
 import { buildTimeline, opsFor, type Placed, type Preview } from './timeline-model';
+import { type DayItem } from '@/data/plan/plan-model';
+import { type DaySlot } from '@/data/plan/plan-ops';
 
 /** Committed positions wait this long for the synced plan before letting go. */
 const OVERRIDE_TTL_MS = 4000;

@@ -16,8 +16,6 @@ import { toast } from '@/motion/island-toast';
 import { useLocale } from '@/lib/i18n/use-locale';
 
 import { clock } from '../day/format';
-import type { DayItem } from '../day/plan-model';
-import type { ChangesetRow } from '../day/queries';
 import { reviewRoute } from '../day/routes';
 import { ghostFor } from './ghost';
 import { GHOST_ACCEPT } from './guide-ghost';
@@ -25,6 +23,8 @@ import { GuideBanner } from './guide-banner';
 import type { TimelineGhost } from './timeline-editor';
 import type { RainForecast } from './weather';
 import { dismissWeatherSuggestionCommand, useWeatherHeadlines } from './weather-suggestion-data';
+import { type DayItem } from '@/data/plan/plan-model';
+import { type ChangesetRow } from '@/data/plan/queries';
 
 export function useGuideSuggestion({
   tripId,

@@ -226,6 +226,8 @@ export default defineConfig({
       include: [
         `${repoRootPrefix}/apps/mobile/src/app/${area}/**`,
         `${repoRootPrefix}/apps/mobile/src/features/${area}/**`,
+        // The plan's shared reader, editor and commands word the outbox and stop names.
+        ...(area === 'plan' ? [`${repoRootPrefix}/apps/mobile/src/data/plan/**`] : []),
       ],
       exclude:
         area === 'crew'

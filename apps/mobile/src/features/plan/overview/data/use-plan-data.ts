@@ -1,13 +1,12 @@
 /**
- * `usePlanData(tripId)`: the trip's plan from the synced rows as every plan surface reads it:
- * who I am on the trip, which version I see (the crew's current one, or an organiser's private
- * draft before it is proposed), its days and labelled items, open decisions, the forecast and
+ * `usePlanData(tripId)`: the trip's plan as the overview reads it, from the one plan reader
+ * (`useTripPlan` in `@/data/plan`, which picks the crew's current version or an organiser's private
+ * draft before it is proposed), with its days and labelled items, open decisions, the forecast and
  * applied guide changes. Pure reads; the trip route layout holds the streams that fill them.
  */
 /* eslint-disable lingui/no-unlocalized-strings -- SQL, states and wire values, never copy. */
 import { useMemo } from 'react';
 
-import { OWNER_UID_KEY } from '@/data/powersync/local-tables';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
 
 import {
@@ -18,35 +17,20 @@ import {
   type PlanDay,
   type PlanItem,
 } from '../model/plan-model';
-import { placeNamesOf } from '../../stop-name';
 import { useLiveRows } from './live-rows';
 import {
-  DAYS_SQL,
-  DAYS_TABLES,
   GUIDE_CHANGES_SQL,
   GUIDE_CHANGES_TABLES,
-  ITEMS_SQL,
-  ITEMS_TABLES,
-  VERSION_PLACES_SQL,
-  VERSION_PLACES_TABLES,
-  MEMBERS_SQL,
-  MEMBERS_TABLES,
   POLLS_SQL,
   POLLS_TABLES,
-  TRIP_SQL,
-  TRIP_TABLES,
-  UID_SQL,
-  UID_TABLES,
   WEATHER_SQL,
   WEATHER_TABLES,
   type GuideChangeRow,
-  type MemberRow,
   type OpenPollRow,
-  type PlanDayRow,
-  type PlanItemRow,
-  type PlanTripRow,
   type WeatherRow,
 } from './plan-rows';
+import { type MemberRow, type PlanTripRow } from '@/data/plan/queries';
+import { useTripPlan } from '@/data/plan/use-trip-plan';
 
 export type PlanMode = 'group' | 'draft';
 
@@ -79,31 +63,8 @@ export function todayIn(tz: string | null, now: Date = new Date()): string {
 }
 
 export function usePlanData(tripId: string | null): PlanData {
-  const uidRows = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], UID_TABLES);
-  const uid = uidRows.rows[0]?.value ?? null;
-  const tripRows = useLiveRows<PlanTripRow>(
-    TRIP_SQL,
-    uid === null || tripId === null ? null : [uid, tripId],
-    TRIP_TABLES,
-  );
-  const trip = tripRows.rows[0] ?? null;
-  const organiser = trip?.my_role === 'organiser';
-  const mode: PlanMode =
-    trip !== null && trip.current_version_id === null && organiser && trip.draft_version_id
-      ? 'draft'
-      : 'group';
-  const versionId =
-    trip === null ? null : mode === 'draft' ? trip.draft_version_id : trip.current_version_id;
-  const days = useLiveRows<PlanDayRow>(
-    DAYS_SQL,
-    versionId === null ? null : [versionId],
-    DAYS_TABLES,
-  );
-  const items = useLiveRows<PlanItemRow>(
-    ITEMS_SQL,
-    versionId === null ? null : [versionId],
-    ITEMS_TABLES,
-  );
+  const plan = useTripPlan(tripId, { version: 'draft-or-current' });
+  const { trip, versionId } = plan;
   const polls = useLiveRows<OpenPollRow>(
     POLLS_SQL,
     tripId === null ? null : [tripId],
@@ -119,39 +80,21 @@ export function usePlanData(tripId: string | null): PlanData {
     tripId === null ? null : [tripId],
     GUIDE_CHANGES_TABLES,
   );
-  const members = useLiveRows<MemberRow>(
-    MEMBERS_SQL,
-    trip === null ? null : [trip.crew_id],
-    MEMBERS_TABLES,
-  );
 
   const locale = useActiveLocale();
-  const planDays = useMemo(() => toPlanDays(days.rows, locale), [days.rows, locale]);
-  const coverage = useLiveRows<{ coverage: string | null; picked: string | null }>(
-    VERSION_PLACES_SQL,
-    versionId === null ? null : [versionId],
-    VERSION_PLACES_TABLES,
-  );
-  const places = useMemo(
-    () => placeNamesOf(coverage.rows[0]?.coverage ?? null, coverage.rows[0]?.picked ?? null),
-    [coverage.rows],
-  );
+  const planDays = useMemo(() => toPlanDays(plan.dayRows, locale), [plan.dayRows, locale]);
   const planItems = useMemo(
-    () => toPlanItems(items.rows, locale, places),
-    [items.rows, locale, places],
+    () => toPlanItems(plan.itemRows, locale, plan.places),
+    [plan.itemRows, locale, plan.places],
   );
   const status: PlanData['status'] =
-    !uidRows.loaded || !tripRows.loaded
+    !plan.uidLoaded || !plan.loaded
       ? 'loading'
       : trip === null
         ? 'missing'
-        : versionId === null
+        : versionId === null || planDays.length === 0
           ? 'no_plan'
-          : !days.loaded || !items.loaded
-            ? 'loading'
-            : planDays.length === 0
-              ? 'no_plan'
-              : 'ready';
+          : 'ready';
   const readOnly =
     trip !== null &&
     (trip.phase === 'post' ||
@@ -161,18 +104,18 @@ export function usePlanData(tripId: string | null): PlanData {
 
   return {
     status,
-    uid,
+    uid: plan.uid,
     trip,
     versionId,
-    mode,
-    organiser,
+    mode: plan.mode,
+    organiser: plan.organiser,
     readOnly,
     days: planDays,
     items: planItems,
     polls: polls.rows,
     weather: weather.rows,
     guideChanges: guideChanges.rows,
-    members: members.rows,
+    members: plan.crew,
   };
 }
 

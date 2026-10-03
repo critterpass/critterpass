@@ -32,22 +32,6 @@ msgstr "Thiếu {0} phút để đi từ {1} tới đây"
 msgid "plan.day.conflict"
 msgstr "{by} cũng vừa dời mục này"
 
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.plusOne"
-msgstr "Một lượt +1"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.proposal"
-msgstr "Một thay đổi chờ cả nhóm đồng ý"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.comment"
-msgstr "Một bình luận"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.edit"
-msgstr "Một chỉnh sửa lịch trình"
-
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.from"
 msgstr "Thêm từ"
@@ -79,14 +63,6 @@ msgstr "Thêm vào ngày"
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.anyTime"
 msgstr "Lúc nào cũng được"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.apply"
-msgstr "Áp dụng lựa chọn thắng"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.send"
-msgstr "Đang hỏi cả nhóm"
 
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.booked"
@@ -337,10 +313,6 @@ msgstr "Vé và phiếu nằm trong mục Đặt chỗ."
 msgid "plan.day.add.tryAgain"
 msgstr "Thử lại"
 
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.undo"
-msgstr "Hoàn tác thay đổi của hướng dẫn viên"
-
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.waiting"
 msgstr "Chờ cả nhóm"
@@ -360,7 +332,3 @@ msgstr "Ai đi"
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.own"
 msgstr "Tự nhập"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.vote"
-msgstr "Phiếu của bạn"

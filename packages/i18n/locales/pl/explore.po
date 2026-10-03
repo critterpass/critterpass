@@ -208,14 +208,6 @@ msgid "explore.queued.listNew"
 msgstr ""
 
 #: ../../apps/mobile/src/features/explore/commands.ts
-msgid "explore.queued.planAdd"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/commands.ts
-msgid "explore.queued.proposal"
-msgstr ""
-
-#: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.save"
 msgstr ""
 

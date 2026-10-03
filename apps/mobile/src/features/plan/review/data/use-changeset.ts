@@ -16,20 +16,8 @@ import { LocalFirstContext } from '@/data/powersync/local-first-context';
 import { useActiveLocale } from '@/lib/i18n/use-locale';
 
 import { useLiveRows } from '../../overview/data/live-rows';
-import {
-  DAYS_SQL,
-  DAYS_TABLES,
-  ITEMS_SQL,
-  ITEMS_TABLES,
-  idArray,
-  jsonArray,
-  type PlanDayRow,
-  type PlanItemRow,
-  VERSION_PLACES_SQL,
-  VERSION_PLACES_TABLES,
-} from '../../overview/data/plan-rows';
+import { idArray, jsonArray } from '../../overview/data/plan-rows';
 import { usePlanData, type PlanData } from '../../overview/data/use-plan-data';
-import { placeNamesOf } from '../../stop-name';
 import {
   toPlanDays,
   toPlanItems,
@@ -49,11 +37,22 @@ import {
 } from '../model/review-model';
 import { reviewNumbers, type ReviewNumbers } from '../model/review-numbers';
 import {
-  APPLY_CHANGESET,
-  APPROVE_CHANGESET,
-  SEND_CHANGESET,
-  SET_CHANGESET_ITEM,
-} from './changeset-commands';
+  applyChangesetOnline,
+  approveChangesetCommand,
+  sendChangesetOnline,
+  setChangesetItemCommand,
+} from '@/data/plan/commands';
+import { placeNamesOf } from '@/data/plan/plan-model';
+import {
+  DAYS_SQL,
+  DAYS_TABLES,
+  ITEMS_SQL,
+  ITEMS_TABLES,
+  type PlanDayRow,
+  type PlanItemRow,
+  VERSION_PLACES_SQL,
+  VERSION_PLACES_TABLES,
+} from '@/data/plan/queries';
 
 export interface ChangesetRow {
   readonly id: string;
@@ -240,14 +239,14 @@ export function useChangesetActions(changesetId: string | null): ChangesetAction
         : commands.send(spec, payload(changesetId));
     return {
       toggle: (target: string, accepted: boolean) =>
-        send(SET_CHANGESET_ITEM, (id) => ({ changeset_id: id, change_id: target, accepted })),
-      send: () => send(SEND_CHANGESET, (id) => ({ changeset_id: id })),
+        send(setChangesetItemCommand, (id) => ({ changeset_id: id, change_id: target, accepted })),
+      send: () => send(sendChangesetOnline, (id) => ({ changeset_id: id })),
       applyPersonal: () =>
-        send(APPLY_CHANGESET, (id) => ({ changeset_id: id, scope: 'personal' as const })),
+        send(applyChangesetOnline, (id) => ({ changeset_id: id, scope: 'personal' as const })),
       applyGroup: () =>
-        send(APPLY_CHANGESET, (id) => ({ changeset_id: id, scope: 'group' as const })),
+        send(applyChangesetOnline, (id) => ({ changeset_id: id, scope: 'group' as const })),
       decide: (decision: 'yes' | 'no') =>
-        send(APPROVE_CHANGESET, (id) => ({ changeset_id: id, decision })),
+        send(approveChangesetCommand, (id) => ({ changeset_id: id, decision })),
     };
   }, [commands, changesetId]);
 }

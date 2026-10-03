@@ -208,14 +208,6 @@ msgid "explore.queued.listNew"
 msgstr "Một danh sách mới"
 
 #: ../../apps/mobile/src/features/explore/commands.ts
-msgid "explore.queued.planAdd"
-msgstr "Một địa điểm thêm vào kế hoạch"
-
-#: ../../apps/mobile/src/features/explore/commands.ts
-msgid "explore.queued.proposal"
-msgstr "Một địa điểm chờ nhóm đồng ý"
-
-#: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.save"
 msgstr "Một địa điểm đã lưu"
 

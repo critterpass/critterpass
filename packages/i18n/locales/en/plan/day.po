@@ -32,22 +32,6 @@ msgstr "{0} min short to get here from {1}"
 msgid "plan.day.conflict"
 msgstr "{by} moved this too"
 
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.plusOne"
-msgstr "A +1"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.proposal"
-msgstr "A change for the crew to okay"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.comment"
-msgstr "A comment"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.edit"
-msgstr "A plan edit"
-
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.from"
 msgstr "Add from"
@@ -79,14 +63,6 @@ msgstr "Added to the day"
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.anyTime"
 msgstr "Any time"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.apply"
-msgstr "Applying the winner"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.send"
-msgstr "Asking the crew"
 
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.booked"
@@ -337,10 +313,6 @@ msgstr "Tickets and voucher are in Bookings."
 msgid "plan.day.add.tryAgain"
 msgstr "Try again"
 
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.undo"
-msgstr "Undo the guide change"
-
 #: ../../apps/mobile/src/features/plan/day/day-list.tsx
 msgid "plan.day.waiting"
 msgstr "Waiting for the crew"
@@ -360,7 +332,3 @@ msgstr "Who’s going"
 #: ../../apps/mobile/src/features/plan/day/add-item-sheet.tsx
 msgid "plan.day.add.own"
 msgstr "Your own"
-
-#: ../../apps/mobile/src/features/plan/day/commands.ts
-msgid "plan.day.queued.vote"
-msgstr "Your vote"

@@ -3,8 +3,7 @@
  * pink, getting around orange, and anything booked in paper cream so the fixed points read apart.
  */
 import type { Theme } from '@/ui/theme';
-
-import type { DayItem } from './plan-model';
+import { type DayItem } from '@/data/plan/plan-model';
 
 const FOOD = [
   'food',

@@ -15,7 +15,6 @@ import { AddItemSheetView, type AddSource } from '../add-item-sheet';
 import type { DayRowState } from '../day-list';
 import { DayView, type DayViewProps } from '../day-view';
 import { ItemDetailSheet } from '../item-detail-sheet';
-import type { DayItem } from '../plan-model';
 import {
   DINNER,
   LAB_DATE,
@@ -28,6 +27,7 @@ import {
   TERRACES,
   WALK,
 } from './lab-fixtures';
+import { type DayItem } from '@/data/plan/plan-model';
 
 const noop = () => undefined;
 

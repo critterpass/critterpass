@@ -64,7 +64,10 @@ export const consumerDeps = {
   // 'cost-engine' added for the shared money formatter (apps/mobile/src/data/money): formatting is
   // pure presentation logic over synced/passed-in values, not I/O, so it stays a data-layer concern
   // rather than promoting the whole hook into a feature (docs/system-architecture.md §3).
-  'mobile-data': ['domain', 'cost-engine', 'entitlements'],
+  // 'planner' for the shared plan editor and fit (apps/mobile/src/data/plan, data/fit): the rebase
+  // of a queued edit and a place's fit are the same pure planner code the server runs, so the
+  // phone and the server agree on them.
+  'mobile-data': ['domain', 'cost-engine', 'entitlements', 'planner'],
   'mobile-lib': ['domain'],
   mobile: [...mobilePackages, 'content'],
   web: ['domain', 'design-tokens', 'critter-art', 'i18n', 'content'],

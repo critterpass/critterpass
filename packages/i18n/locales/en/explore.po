@@ -208,14 +208,6 @@ msgid "explore.queued.listNew"
 msgstr "A new list"
 
 #: ../../apps/mobile/src/features/explore/commands.ts
-msgid "explore.queued.planAdd"
-msgstr "A place added to the plan"
-
-#: ../../apps/mobile/src/features/explore/commands.ts
-msgid "explore.queued.proposal"
-msgstr "A place for the crew to okay"
-
-#: ../../apps/mobile/src/features/explore/commands.ts
 msgid "explore.queued.save"
 msgstr "A saved place"
 

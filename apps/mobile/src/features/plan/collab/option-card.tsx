@@ -28,8 +28,8 @@ import { Hatch } from '@/ui/textures/hatch';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { money } from '../day/format';
-import type { PlanMember } from '../day/use-trip-plan';
 import type { DecisionOption } from './decision-model';
+import { type PlanMember } from '@/data/plan/use-trip-plan';
 
 const FLOAT_PT = 28;
 const POP_SCALE = 1.15;

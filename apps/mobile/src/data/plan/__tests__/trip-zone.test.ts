@@ -1,5 +1,5 @@
 /**
- * The day plan's trip zone: most trips leave their own zone empty, so the plan reads the
+ * The plan's trip zone: most trips leave their own zone empty, so the plan reads the
  * destination's (Đà Nẵng, not UTC), and a trip that sets its own zone keeps it.
  */
 import { describe, expect, it } from '@jest/globals';
@@ -14,16 +14,19 @@ const OVERRIDE_TRIP = 'trip-override';
 function db() {
   const sqlite = new Database(':memory:');
   sqlite.exec(`
-    CREATE TABLE destinations (id TEXT, name TEXT, tz TEXT);
+    CREATE TABLE destinations (id TEXT, name TEXT, slug TEXT, tz TEXT);
     CREATE TABLE trips (id TEXT, crew_id TEXT, tz TEXT, current_version_id TEXT,
-      destination_id TEXT, start_date TEXT, status TEXT, guide_id TEXT);
-    CREATE TABLE trip_participants (trip_id TEXT, user_id TEXT, role TEXT);
-    CREATE TABLE guides (id TEXT, slug TEXT);
+      destination_id TEXT, start_date TEXT, status TEXT, guide_id TEXT, phase TEXT,
+      end_date TEXT, draft_version_id TEXT, local_currency TEXT);
+    CREATE TABLE trip_participants (trip_id TEXT, user_id TEXT, role TEXT, rsvp TEXT);
+    CREATE TABLE guides (id TEXT, slug TEXT, name TEXT);
     CREATE TABLE must_dos (trip_id TEXT, poi_id TEXT, owner_id TEXT, created_at TEXT, deleted_at TEXT);
     CREATE TABLE users (id TEXT, display_name TEXT);
-    INSERT INTO destinations VALUES ('dad', 'Đà Nẵng', 'Asia/Ho_Chi_Minh');
-    INSERT INTO trips VALUES ('${DA_NANG_TRIP}', 'crew', NULL, NULL, 'dad', '2026-10-02', 'in_trip', NULL);
-    INSERT INTO trips VALUES ('${OVERRIDE_TRIP}', 'crew', 'Asia/Tokyo', NULL, 'dad', '2026-10-02', 'in_trip', NULL);
+    INSERT INTO destinations VALUES ('dad', 'Đà Nẵng', 'da-nang', 'Asia/Ho_Chi_Minh');
+    INSERT INTO trips (id, crew_id, tz, destination_id, start_date, status)
+      VALUES ('${DA_NANG_TRIP}', 'crew', NULL, 'dad', '2026-10-02', 'in_trip');
+    INSERT INTO trips (id, crew_id, tz, destination_id, start_date, status)
+      VALUES ('${OVERRIDE_TRIP}', 'crew', 'Asia/Tokyo', 'dad', '2026-10-02', 'in_trip');
   `);
   return sqlite;
 }

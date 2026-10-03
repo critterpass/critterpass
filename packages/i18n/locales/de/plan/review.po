@@ -81,10 +81,6 @@ msgstr ""
 msgid "plan.review.notice.applying"
 msgstr ""
 
-#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
-msgid "plan.review.queued.toggle"
-msgstr ""
-
 #: ../../apps/mobile/src/features/plan/review/review-copy.ts
 msgid "plan.review.backDay"
 msgstr ""
@@ -267,12 +263,4 @@ msgstr ""
 
 #: ../../apps/mobile/src/features/plan/review/review-view.tsx
 msgid "plan.review.votedYes"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
-msgid "plan.review.queued.no"
-msgstr ""
-
-#: ../../apps/mobile/src/features/plan/review/data/changeset-commands.ts
-msgid "plan.review.queued.yes"
 msgstr ""

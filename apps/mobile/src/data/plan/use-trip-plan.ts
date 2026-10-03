@@ -1,7 +1,8 @@
 /**
- * One trip's group plan from the local database: the current version's days and items, with the
- * signed-in member's queued edits replayed on top (so a drag or an add shows at once, offline
- * too) and the items a queued edit or an open proposal touches marked. Replay is lenient: an edit
+ * One trip's plan from the local database, as every plan surface reads it: the trip with my role,
+ * the crew, the version's days and items (the crew's current version, or an organiser's draft
+ * before there is one), with the signed-in member's queued edits replayed on top (so a drag or an
+ * add shows at once, offline too) and the items a queued edit or an open proposal touches marked. Replay is lenient: an edit
  * the synced plan can no longer take (the item went) is skipped here and settled by the server.
  */
 import {
@@ -19,15 +20,7 @@ import { useActiveLocale } from '@/lib/i18n/use-locale';
 
 import { APPLY_PLAN_OPS } from './commands';
 import { useLiveRows } from './live-rows';
-import {
-  displayOf,
-  placeNamesOf,
-  themesAsRead,
-  toPlanState,
-  type ItemDisplay,
-  type PlanDayRow,
-  type PlanItemRow,
-} from './plan-model';
+import { displayOf, placeNamesOf, themesAsRead, toPlanState, type ItemDisplay } from './plan-model';
 import { opTargets } from './plan-ops';
 import {
   CHANGESETS_TABLES,
@@ -39,21 +32,20 @@ import {
   MEMBERS_TABLES,
   OPEN_CHANGESETS_SQL,
   QUEUED_PLAN_SQL,
-  VERSION_PLACES_SQL,
-  VERSION_PLACES_TABLES,
   QUEUED_PLAN_TABLES,
   TRIP_SQL,
   TRIP_TABLES,
+  UID_SQL,
+  UID_TABLES,
+  VERSION_PLACES_SQL,
+  VERSION_PLACES_TABLES,
   type ChangesetRow,
   type MemberRow,
+  type PlanDayRow,
+  type PlanItemRow,
+  type PlanTripRow,
   type QueuedRow,
-  type TripRow,
 } from './queries';
-
-/* eslint-disable lingui/no-unlocalized-strings -- SQL, never copy. */
-const UID_SQL = 'SELECT value FROM local_state WHERE id = ?';
-const UID_TABLES = ['local_state'];
-/* eslint-enable lingui/no-unlocalized-strings */
 
 export interface PlanMember {
   readonly uid: string;
@@ -61,13 +53,36 @@ export interface PlanMember {
   readonly joinIndex: number;
 }
 
+/**
+ * Which version to read: the crew's current one (the day view, editing), or, while there is none
+ * yet, an organiser's own unproposed draft (the overview shows it).
+ */
+export type PlanVersionChoice = 'current' | 'draft-or-current';
+
+export interface TripPlanOptions {
+  readonly version?: PlanVersionChoice;
+}
+
 export interface TripPlan {
   readonly loaded: boolean;
+  /** The signed-in uid has been read (it may still be null: signed out). */
+  readonly uidLoaded: boolean;
   readonly uid: string | null;
-  readonly trip: TripRow | null;
+  readonly trip: PlanTripRow | null;
+  /** The version read: the crew's current one, or (organisers only) the unproposed draft. */
+  readonly versionId: string | null;
+  readonly mode: 'group' | 'draft';
+  readonly organiser: boolean;
   /** Organisers edit directly; everyone else proposes a change set. */
   readonly canApply: boolean;
+  /** Active crew members in join order. */
   readonly members: readonly PlanMember[];
+  /** Every crew row in join order, active or not (colours follow the whole crew's join order). */
+  readonly crew: readonly MemberRow[];
+  readonly dayRows: readonly PlanDayRow[];
+  readonly itemRows: readonly PlanItemRow[];
+  /** The version's own place names, by place id. */
+  readonly places: ReadonlyMap<string, string>;
   /** The synced plan (what the server has). */
   readonly synced: PlanState;
   /** The synced plan with my queued edits replayed. */
@@ -125,17 +140,28 @@ export function replayQueued(
   return { state, touched };
 }
 
-export function useTripPlan(tripId: string | null): TripPlan {
+export function useTripPlan(tripId: string | null, options: TripPlanOptions = {}): TripPlan {
+  const choice = options.version ?? 'current';
   const uidRows = useLiveRows<{ value: string }>(UID_SQL, [OWNER_UID_KEY], UID_TABLES);
   const uid = uidRows.rows[0]?.value ?? null;
-  const tripRows = useLiveRows<TripRow>(
+  const tripRows = useLiveRows<PlanTripRow>(
     TRIP_SQL,
     tripId === null ? null : [uid ?? '', tripId],
     TRIP_TABLES,
   );
   const trip = tripRows.rows[0] ?? null;
-  const version = trip?.current_version_id ?? null;
-  const members = useLiveRows<MemberRow>(
+  const organiser = trip?.role === 'organiser';
+  const mode =
+    choice === 'draft-or-current' &&
+    trip !== null &&
+    trip.current_version_id === null &&
+    organiser &&
+    trip.draft_version_id !== null
+      ? 'draft'
+      : 'group';
+  const version =
+    trip === null ? null : mode === 'draft' ? trip.draft_version_id : trip.current_version_id;
+  const crew = useLiveRows<MemberRow>(
     MEMBERS_SQL,
     trip === null ? null : [trip.crew_id],
     MEMBERS_TABLES,
@@ -177,14 +203,20 @@ export function useTripPlan(tripId: string | null): TripPlan {
     }
     return {
       loaded: tripRows.loaded && (version === null || (days.loaded && items.loaded)),
+      uidLoaded: uidRows.loaded,
       uid,
       trip,
-      canApply: trip?.role === 'organiser',
-      members: members.rows.map((row, joinIndex) => ({
-        uid: row.user_id,
-        name: row.display_name ?? '',
-        joinIndex,
-      })),
+      versionId: version,
+      mode,
+      organiser,
+      canApply: organiser,
+      members: crew.rows
+        .filter((row) => row.status === 'active')
+        .map((row, joinIndex) => ({ uid: row.user_id, name: row.display_name ?? '', joinIndex })),
+      crew: crew.rows,
+      dayRows: days.rows,
+      itemRows: items.rows,
+      places,
       synced,
       state: replay?.state ?? synced,
       display: displayOf(items.rows, locale, places),
@@ -196,10 +228,13 @@ export function useTripPlan(tripId: string | null): TripPlan {
   }, [
     tripId,
     uid,
+    uidRows.loaded,
     trip,
     version,
+    mode,
+    organiser,
     tripRows.loaded,
-    members.rows,
+    crew.rows,
     days.rows,
     days.loaded,
     items.rows,

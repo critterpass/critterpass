@@ -27,7 +27,7 @@ import { degrees, makeStyles, useTheme } from '@/ui/theme';
 
 import { DayList, type DayRowState } from './day-list';
 import { clockRange, dayDate } from './format';
-import type { DayItem } from './plan-model';
+import { type DayItem } from '@/data/plan/plan-model';
 
 export interface DayViewProps {
   readonly dayNo: number;
