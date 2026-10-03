@@ -15,7 +15,6 @@ import { generateStableId } from '@cp/domain';
 
 import { PillButton } from '@/ui/buttons/PillButton';
 import { ListCard } from '@/ui/cards/ListCard';
-import { InfoPill } from '@/ui/chips/InfoPill';
 import { Icon } from '@/ui/icons/Icon';
 import { Segmented } from '@/ui/inputs/Segmented';
 import { SearchField } from '@/ui/inputs/SearchField';
@@ -27,6 +26,7 @@ import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
 import { dayFit, type FitWarning } from './fit-check';
+import { FitWarningPill } from './fit-warning-pill';
 import { useLiveRows, type LiveRows } from './live-rows';
 import type { DayItem } from './plan-model';
 import { NO_PICK, pickStep, shownPlaces } from './add-pick';
@@ -292,9 +292,7 @@ export function AddItemSheetView({
           onChange={(start, end) => setTimes({ start, end })}
         />
         {warnings.map((warning) => (
-          <InfoPill key={warning} icon="flame">
-            {warning}
-          </InfoPill>
+          <FitWarningPill key={warning}>{warning}</FitWarningPill>
         ))}
       </SheetScrollView>
       <View style={styles.foot}>
