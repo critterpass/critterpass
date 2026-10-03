@@ -1,0 +1,1 @@
+import type{Messages}from"@lingui/core";export const messages=JSON.parse("{\"kit.mapSheet.collapse\":[\"Thu gọn\"],\"kit.mapSheet.expand\":[\"Mở rộng\"]}")as Messages;

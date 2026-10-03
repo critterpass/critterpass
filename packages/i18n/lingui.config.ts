@@ -149,6 +149,20 @@ const pingSources = [
   `${repoRootPrefix}/apps/mobile/src/app/you/pings.tsx`,
 ];
 
+// The section 7 planning kit keeps its own catalogs: `planning/kit` for the shared planning
+// components, the map sheet and the planning map layers, `planning/fit` for the lines that say when
+// a place fits, so the planning lanes never extract into `common`.
+const mobileRoot = `${repoRootPrefix}/apps/mobile/src`;
+const planningCatalogs = {
+  kit: [
+    `${mobileRoot}/ui/planning/**`,
+    `${mobileRoot}/ui/map/planning/**`,
+    `${mobileRoot}/ui/sheet/map-sheet.tsx`,
+    `${mobileRoot}/app/(dev)/planning-map-lab.tsx`,
+  ],
+  fit: [`${mobileRoot}/data/fit/**`],
+} as const;
+
 const notificationSources = [
   {
     name: 'common',
@@ -193,7 +207,11 @@ export default defineConfig({
         `${repoRootPrefix}/apps/mobile/src/app/*.{ts,tsx}`,
         `${repoRootPrefix}/apps/mobile/src/app/(dev)/**`,
       ],
-      exclude: [...testFileExcludes, `${repoRootPrefix}/apps/mobile/src/ui/permission-primer/**`],
+      exclude: [
+        ...testFileExcludes,
+        `${repoRootPrefix}/apps/mobile/src/ui/permission-primer/**`,
+        ...planningCatalogs.kit,
+      ],
     },
     // Permission primers, just-in-time sheets, denied states and the location consent sheets.
     {
@@ -283,6 +301,12 @@ export default defineConfig({
     ...Object.entries(tripSubAreas).map(([sub, include]) => ({
       name: `trip/${sub}`,
       path: `locales/{locale}/trip/${sub}`,
+      include: [...include],
+      exclude: testFileExcludes,
+    })),
+    ...Object.entries(planningCatalogs).map(([sub, include]) => ({
+      name: `planning/${sub}`,
+      path: `locales/{locale}/planning/${sub}`,
       include: [...include],
       exclude: testFileExcludes,
     })),
