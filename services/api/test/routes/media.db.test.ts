@@ -250,15 +250,17 @@ describe('multipart uploads', () => {
       parts: etags,
     });
     expect(completed.status).toBe(200);
-    expect(await completed.json()).toEqual({
+    const body = (await completed.json()) as { media_id: string };
+    expect(body).toEqual({
       media_key: upload.media_key,
+      media_id: expect.any(String) as unknown,
       bytes: original.byteLength,
     });
-    const { rows } = await harness.pool.query<{ bytes: string }>(
-      'SELECT bytes FROM media_objects WHERE r2_key = $1',
+    const { rows } = await harness.pool.query<{ id: string; bytes: string }>(
+      'SELECT id, bytes FROM media_objects WHERE r2_key = $1',
       [upload.media_key],
     );
-    expect(rows).toEqual([{ bytes: String(original.byteLength) }]);
+    expect(rows).toEqual([{ id: body.media_id, bytes: String(original.byteLength) }]);
 
     const retried = await post(session, `/v1/media/multipart/${encodedKey}/complete`, {
       upload_id: upload.upload_id,
