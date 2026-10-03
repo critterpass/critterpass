@@ -88,6 +88,7 @@ function sha256Hex(bytes: Uint8Array): string {
 
 interface Presigned {
   media_key: string;
+  media_id: string | null;
   put_url: string;
   headers: Record<string, string>;
 }
@@ -145,11 +146,12 @@ describe('POST /v1/media/presign', () => {
     expect(uploaded.status).toBe(200);
 
     const { rows } = await harness.pool.query(
-      'SELECT owner_id, purpose, kind, bytes, sha256 FROM media_objects WHERE r2_key = $1',
+      'SELECT id, owner_id, purpose, kind, bytes, sha256 FROM media_objects WHERE r2_key = $1',
       [presigned.media_key],
     );
     expect(rows).toEqual([
       {
+        id: presigned.media_id,
         owner_id: session.uid,
         purpose: 'photo',
         kind: 'image/jpeg',

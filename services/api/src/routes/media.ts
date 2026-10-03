@@ -105,7 +105,7 @@ export function registerMediaRoutes(app: OpenAPIHono<AppEnv>, deps: MediaRouteDe
       });
       // Registered now: the signed length and checksum mean nothing but these bytes can ever
       // land at this key, and the client never has to call back after its PUT.
-      await registerMediaUpload(deps, uid, {
+      const mediaId = await registerMediaUpload(deps, uid, {
         media_key: mediaKey,
         content_type: body.content_type,
         bytes: body.bytes,
@@ -115,6 +115,7 @@ export function registerMediaRoutes(app: OpenAPIHono<AppEnv>, deps: MediaRouteDe
       return c.json(
         {
           media_key: mediaKey,
+          media_id: mediaId,
           put_url: putUrl,
           headers: {
             'content-type': body.content_type,
@@ -207,13 +208,13 @@ export function registerMediaRoutes(app: OpenAPIHono<AppEnv>, deps: MediaRouteDe
         throw error;
       }
 
-      await registerMediaUpload(deps, uid, {
+      const mediaId = await registerMediaUpload(deps, uid, {
         media_key: key,
         content_type: head.contentType ?? 'application/octet-stream',
         bytes: head.bytes,
         sha256: body.sha256,
       });
-      return c.json({ media_key: key, bytes: head.bytes }, 200);
+      return c.json({ media_key: key, media_id: mediaId, bytes: head.bytes }, 200);
     },
     validationHook,
   );

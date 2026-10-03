@@ -517,8 +517,8 @@ Auth column: **S** session bearer · **A** anonymous session allowed · **K** de
 
 | Route | Auth | Notes |
 |---|---|---|
-| `POST /v1/media/presign` | S | `{purpose: avatar\|photo\|receipt\|menu\|booking_doc\|feedback, content_type, bytes, sha256}` → `{media_key, put_url, expires_at}` (≤5 MB); `purpose: avatar` is limited to 5 an hour and 20 a day per uid + `x-cp-install-id` (`RATE_LIMITED`, anonymous included) |
-| `POST /v1/media/multipart` / `.../{key}/parts` / `.../{key}/complete` | S | >5 MB originals (parts ≥5 MiB) |
+| `POST /v1/media/presign` | S | `{purpose: avatar\|photo\|receipt\|menu\|booking_doc\|feedback\|voice\|signature, content_type, bytes, sha256}` → `{media_key, media_id, put_url, headers, expires_at}` (doc delta: `media_id` is the registered `media_objects` row, for commands that name a stored object, e.g. `save_signature`) (≤5 MB); `purpose: avatar` is limited to 5 an hour and 20 a day per uid + `x-cp-install-id` (`RATE_LIMITED`, anonymous included) |
+| `POST /v1/media/multipart` / `.../{key}/parts` / `.../{key}/complete` | S | >5 MB originals (parts ≥5 MiB); `complete` → `{media_key, media_id, bytes}` (doc delta: `media_id` as for presign) |
 | `POST /v1/media/read-urls` | S | `{media_keys[]}` → HMAC-signed `media.critterpass.app` URLs (membership checked when minting; TTL 15 min) |
 | media Worker `GET https://media.critterpass.app/{object_key}?v={variant}&exp={unix}&kid={key id}&sig={base64url}` | HMAC | `services/media-worker`; `sig = HMAC-SHA256(keys[kid], "{object_key}\|{variant}\|{exp}")` via `signMediaUrl`/`verifyMediaSignature` in `packages/domain`; key set `MEDIA_HMAC_KEYS` rotates by `kid`; GET/HEAD only; expired, tampered, unknown `kid` or malformed → 403, missing object → 404; `Cache-Control: private, max-age=min(exp − now, 3600)` |
 
