@@ -6,3 +6,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.none"
+msgstr "Doesn't fit your days yet"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.fitsDay"
+msgstr "Fits {weekday}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.fits"
+msgstr "Fits {weekday} at {time}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.after"
+msgstr "Fits {weekday}, after {afterName}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.onTheWay"
+msgstr "On the way, {weekday} {time}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.needsMove"
+msgstr "Only fits if {weekday} {moved} moves"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.needsMoveDay"
+msgstr "Only fits if something on {weekday} moves"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.openLate"
+msgstr "Open late · fits {weekday} night"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.split"
+msgstr "The crew is split {want}–{notWant}"

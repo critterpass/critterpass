@@ -6,3 +6,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: vi\n"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.none"
+msgstr "Chưa hợp ngày nào"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.fitsDay"
+msgstr "Hợp {weekday}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.fits"
+msgstr "Hợp {weekday} lúc {time}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.after"
+msgstr "Hợp {weekday}, sau {afterName}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.onTheWay"
+msgstr "Tiện đường, {weekday} {time}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.needsMove"
+msgstr "Chỉ hợp nếu dời {moved} {weekday}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.needsMoveDay"
+msgstr "Chỉ hợp nếu dời một việc ngày {weekday}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.openLate"
+msgstr "Mở muộn · hợp tối {weekday}"
+
+#: ../../apps/mobile/src/data/fit/fit-line.ts
+msgid "fit.line.split"
+msgstr "Cả nhóm chia đôi {want}–{notWant}"
