@@ -125,6 +125,13 @@ describe('what the page shows from it', () => {
     });
   });
 
+  it('never repeats the hero photo in the strip, and hides an empty strip', () => {
+    const [first, second] = FULL.photos;
+    const repeated = parsed({ ...FULL, photos: [first, first, second, second] });
+    expect(liveFacts(repeated, own).details?.photos).toEqual([second]);
+    expect(liveFacts(parsed({ ...FULL, photos: [first, first] }), own).details?.photos).toEqual([]);
+  });
+
   it('uses live open-now only when no hours are known', () => {
     expect(liveFacts(parsed({ ...FULL, hours: null }), own).openNow).toBe(true);
     expect(liveFacts(parsed(FULL), own).openNow).toBeNull();

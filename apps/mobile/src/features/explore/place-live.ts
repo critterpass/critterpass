@@ -163,7 +163,11 @@ export function liveFacts(
   const usesOpenNow = ownHours === null && live.hours === null && live.openNow !== null;
   const usesPrice = own.priceLevel === null && live.priceLevel !== null;
   const hero = own.hasPhoto ? null : (live.photos[0] ?? null);
-  const strip = hero === null ? live.photos : live.photos.slice(1);
+  // The strip never repeats the hero: it starts after a live hero, and skips its address.
+  const strip = (hero === null ? live.photos : live.photos.slice(1)).filter(
+    (photo, index, all) =>
+      photo.url !== hero?.url && all.findIndex((other) => other.url === photo.url) === index,
+  );
   const shown =
     usesHours ||
     usesOpenNow ||

@@ -10,7 +10,6 @@ import { Image, Linking, ScrollView, View } from 'react-native';
 import { ListCard } from '@/ui/cards/ListCard';
 import { TextLink } from '@/ui/buttons/TextLink';
 import { InfoPill } from '@/ui/chips/InfoPill';
-import { Icon } from '@/ui/icons/Icon';
 import { Text } from '@/ui/text/Text';
 import { makeStyles, useTheme } from '@/ui/theme';
 
@@ -103,7 +102,6 @@ export function PlaceLiveDetails(details: LiveDetails) {
         <ListCard
           title={t({ id: 'explore.place.call', message: 'Call' })}
           subtitle={phone}
-          leading={<Icon name="chat" size={24} decorative />}
           onPress={() => open(telLink(phone))}
           testID="explore-place-phone"
         />
@@ -112,7 +110,6 @@ export function PlaceLiveDetails(details: LiveDetails) {
         <ListCard
           title={t({ id: 'explore.place.website', message: 'Website' })}
           subtitle={hostOf(website)}
-          leading={<Icon name="arrow" size={24} decorative />}
           onPress={() => open(website)}
           testID="explore-place-website"
         />

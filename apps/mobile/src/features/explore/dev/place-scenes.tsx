@@ -55,12 +55,17 @@ interface SceneSpec {
   readonly live?: PlaceLive;
 }
 
-// A staging stock photo of a Đà Nẵng beach: Wikimedia refuses Android's image loader.
-const STOCK = 'https://media.staging.critterpass.app/c/media/01a0f4a2-e2d1-7495-adc0-1b6fc321be89';
-const LIVE_PHOTOS = [1242, 828, 480].map((w) => ({
-  url: `${STOCK}/${String(w)}.webp`,
-  width: 5881,
-  height: 3975,
+// Staging stock photos of Đà Nẵng, one per photo: Wikimedia refuses Android's image loader.
+const STOCK = 'https://media.staging.critterpass.app/c/media';
+const LIVE_PHOTOS = [
+  '01a0f4a2-e2d1-7495-adc0-1b6fc321be89',
+  '01a0f4a2-e2c8-7be5-a86b-7c1df14c1f4b',
+  '01a0f4a2-e2cd-76ae-bac3-790439413f56',
+  '01a0f4a2-e2d4-7bb3-8b51-0913d642c105',
+].map((id, index) => ({
+  url: `${STOCK}/${id}/${index === 0 ? '1242' : '480'}.webp`,
+  width: 3,
+  height: 2,
 }));
 
 const MY_KHE_LIVE: PlaceLive = {
