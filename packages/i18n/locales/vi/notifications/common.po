@@ -299,6 +299,14 @@ msgstr "Một tháng nữa {place} mở. Lên kế hoạch quanh dịp này nhé
 msgid "notifications.vote.winner.body"
 msgstr "{place} thắng với {score}. Vào xem kết quả nào."
 
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.anniversary.body"
+msgstr ""
+
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.ready.title"
+msgstr ""
+
 #: ../domain/src/surfaces/la-copy.ts
 msgid "notifications.la.vote_start_body"
 msgstr "{question}"
@@ -611,6 +619,10 @@ msgstr "Đang tới đây."
 msgid "notifications.crew_ping.on_my_way_eta"
 msgstr "Đang tới đây. Còn {minutes} phút."
 
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.anniversary.title"
+msgstr ""
+
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.disruption.needs_yes_body"
 msgstr "Mở chuyến đi để quyết định."
@@ -782,6 +794,10 @@ msgstr "Bạn là người tiếp theo cho chuyến của {crew}. Chỗ là củ
 #: ../domain/src/itinerary/templates.ts
 msgid "notifications.draft.ready.body"
 msgstr "Bản nháp {place} của bạn đã xong. Hiện chỉ mình bạn xem được."
+
+#: ../domain/src/recap/templates.ts
+msgid "notifications.recap.ready.body"
+msgstr ""
 
 #: ../../services/worker/src/push/lockscreen-copy.ts
 msgid "notifications.lockscreen.trip_day.briefing_body"

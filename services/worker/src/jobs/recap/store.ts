@@ -6,12 +6,7 @@
  */
 import { createHash } from 'node:crypto';
 
-import {
-  RECAP_MVP_VOTE_HOURS,
-  type RecapContent,
-  type RecapSection,
-  type RecapStatus,
-} from '@cp/domain';
+import { type RecapContent, type RecapSection, type RecapStatus } from '@cp/domain';
 import type pg from 'pg';
 
 import type { RecapTrip } from './contributors';
@@ -138,9 +133,9 @@ export async function writeVersion(tx: pg.PoolClient, input: WriteVersionInput):
   await tx.query(
     `UPDATE recaps
         SET stats = $2, route = $3, receipt = $4, got_away = $5, content_hash = $6,
-            version = $7, changed_sections = $8, ended_on = $9, status = 'ready',
-            failure_reason = NULL, built_at = $10, ready_at = coalesce(ready_at, $10),
-            mvp_closes_at = coalesce(mvp_closes_at, $10 + make_interval(hours => $11))
+            version = $7, changed_sections = $8, ended_on = $9,
+            status = CASE WHEN status = 'ready' THEN 'ready' ELSE 'building' END,
+            failure_reason = NULL, built_at = $10
       WHERE id = $1`,
     [
       recap.id,
@@ -153,7 +148,6 @@ export async function writeVersion(tx: pg.PoolClient, input: WriteVersionInput):
       input.changed,
       trip.endedOn,
       now,
-      RECAP_MVP_VOTE_HOURS,
     ],
   );
   for (const award of content.awards) {

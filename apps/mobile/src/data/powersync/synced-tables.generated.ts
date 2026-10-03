@@ -211,7 +211,7 @@ export const SYNCED_TABLE_COLUMNS = {
   recap_mvp_votes: 'recap_id trip_id voter_id award_id created_at updated_at',
   recap_views: 'recap_id trip_id user_id opened_at completed_at seen_at created_at updated_at',
   recaps:
-    'trip_id crew_id status version:integer ended_on stats route receipt got_away cards content_hash changed_sections agent_job_id failure_reason built_at ready_at mvp_closes_at mvp_closed_at created_at updated_at',
+    'trip_id crew_id status version:integer ended_on stats route receipt got_away cards content_hash copy_version:integer copy_fallback:integer narration changed_sections agent_job_id failure_reason built_at ready_at mvp_closes_at mvp_closed_at created_at updated_at',
   receipts:
     'user_id trip_id crew_id expense_id media_key status quality_issue ocr_source ocr_lines parsed suggestions failure_reason parsed_at created_at updated_at',
   redraft_reservations:
@@ -283,7 +283,7 @@ export const SYNCED_TABLE_COLUMNS = {
   user_entitlements:
     'user_id pass_plus:integer sources expires_at guide_unlimited_global:integer icon_styles computed_at',
   user_settings:
-    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer explore_at_home:integer active_crew_id muted_uids audio home_currency_override created_at updated_at',
+    'user_id chattiness talk_out_loud:integer leave_by_through_dnd:integer crew_chat_mode location_mode email_import:integer price_display time_format distance_unit app_locale hide_lockscreen_details:integer hide_taste_tags:integer hide_collection:integer explore_at_home:integer active_crew_id muted_uids audio home_currency_override signature_media_key created_at updated_at',
   users:
     'status display_name username home_airport home_country home_currency locale tz member_since avatar_id app_icon purge_at languages username_changed_at created_at updated_at',
   watch_items:
