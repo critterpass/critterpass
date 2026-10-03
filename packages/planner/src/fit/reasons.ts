@@ -6,7 +6,7 @@
  */
 import { openThrough, type FitReason, type OpenSpan } from '@cp/domain';
 
-import type { CrowdSource, FitPlace, FitRain, FitThresholds, WeatherSource } from './context';
+import type { CrowdSource, FitCrowds, FitRain, FitThresholds, WeatherSource } from './context';
 import { clockOf } from './day-model';
 
 export interface CrowdDay {
@@ -15,14 +15,18 @@ export interface CrowdDay {
 }
 
 /** The place's crowd level for each hour of `date`, or null with no curve. */
-export function crowdDay(place: FitPlace, date: string, factor: number): CrowdDay | null {
-  if (!place.crowds) return null;
+export function crowdDay(
+  crowds: FitCrowds | null | undefined,
+  date: string,
+  factor: number,
+): CrowdDay | null {
+  if (!crowds) return null;
   const dow = new Date(`${date}T00:00:00Z`).getUTCDay();
-  const curve = place.crowds.week[dow];
+  const curve = crowds.week[dow];
   if (!curve || curve.length !== 24) return null;
   return {
     levels: curve.map((level) => Math.max(0, Math.min(100, Math.round(level * factor)))),
-    source: place.crowds.source,
+    source: crowds.source,
   };
 }
 

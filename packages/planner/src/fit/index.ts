@@ -63,7 +63,7 @@ function fitDay(context: FitContext, place: FitPlace, day: FitDay, onlyStart?: n
     travel: travelOf(context),
     ...(onlyStart === undefined ? {} : { onlyStart }),
   };
-  const crowd = crowdDay(place, day.date, day.crowdFactor);
+  const crowd = crowdDay(place.crowds, day.date, day.crowdFactor);
   const input = {
     model,
     crowd,
